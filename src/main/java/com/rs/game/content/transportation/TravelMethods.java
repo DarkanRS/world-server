@@ -264,7 +264,7 @@ public class TravelMethods {
 						else if (tick == 3) {
 							player.getInterfaceManager().setFadingInterface(516);
 							player.getPackets().setBlockMinimapState(2);
-							player.getPackets().sendMusicEffect(172);
+							player.jingle(172);
 							player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
 							player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
 						} else if (tick == 11) {
@@ -289,7 +289,7 @@ public class TravelMethods {
 							player.getInterfaceManager().setFadingInterface(115);
 						else if (tick == 3) {
 							player.getPackets().setBlockMinimapState(2);
-							player.getPackets().sendMusicEffect(171);
+							player.jingle(171);
 							player.getInterfaceManager().sendInterface(TRAVEL_INTERFACE);
 							player.getPackets().setIFHidden(299, getComponentForMap(ship, returning), false);
 						} else if (tick == 7) {

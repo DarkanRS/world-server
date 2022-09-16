@@ -432,28 +432,21 @@ public class ShieldOfArrav extends QuestOutline {
                 p.getPackets().sendGameMessage("You find nothing of interest to you.");
             }
         }
-    };
+	};
 
-    public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(BOOK) {
-        @Override
-        public void handle(ItemClickEvent e) {
-            if (e.getOption().equalsIgnoreCase("read"))
-                BookShieldOfArrav.openBook(e.getPlayer());
-            if (e.getOption().equalsIgnoreCase("drop")) {
-                e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-                e.getPlayer().getPackets().sendSound(2739, 0, 1);
-            }
-        }
-    };
+	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { BOOK }, new String[] { "Read" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			BookShieldOfArrav.openBook(e.getPlayer());
+		}
+	};
 
-    public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(761) {
-        @Override
-        public void handle(ItemClickEvent e) {
-            if (e.getOption().equalsIgnoreCase("read"))
-                e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang");
-        }
-    };
+	public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(new Object[] { 761 }, new String[] { "Read" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang");
+		}
+	};
 
     public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[]{2397}) {
         @Override

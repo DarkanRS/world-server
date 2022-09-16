@@ -431,6 +431,7 @@ public abstract class Entity {
 					hit.getSource().applyHit(new Hit(player, (int) (hit.getDamage() * 0.1), HitLook.REFLECTED_DAMAGE));
 			if (player.getPrayer().hasPrayersOn())
 				if ((hitpoints < player.getMaxHitpoints() * 0.1) && player.getPrayer().active(Prayer.REDEMPTION)) {
+					player.soundEffect(2681);
 					setNextSpotAnim(new SpotAnim(436));
 					setHitpoints((int) (hitpoints + player.getSkills().getLevelForXp(Constants.PRAYER) * 2.5));
 					player.getPrayer().setPoints(0);

@@ -68,7 +68,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 					if (tick == 0)
 						player.getInterfaceManager().setFadingInterface(115);
 					else if (tick == 3) {// setup p2, move player
-                        player.getPackets().sendMusic(-1, 100, 255);
+                        player.musicTrack(-1);
 						player.getPackets().setBlockMinimapState(2);
 						player.setNextWorldTile(insideCrate);
 					} else if (tick == 4) {

@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.hunter.falconry;
 
 import java.util.Arrays;
+
 import com.rs.game.content.skills.hunter.falconry.Kebbit.KebbitType;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.player.Controller;

@@ -285,7 +285,7 @@ public abstract class Cutscene {
 	}
 	
 	public void music(int id, int delay) {
-		action(delay, () -> player.getPackets().sendMusic(id, 5, 255));
+		action(delay, () -> player.musicTrack(id, 5));
 	}
 	
 	public void music(int id) {

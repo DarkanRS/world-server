@@ -31,7 +31,7 @@ public class PlayerMusicEffectAction extends CutsceneAction {
 
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
-		player.getPackets().sendMusicEffect(id);
+		player.jingle(id);
 	}
 
 }

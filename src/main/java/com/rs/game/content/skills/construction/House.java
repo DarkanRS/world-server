@@ -1050,7 +1050,7 @@ public class House {
 		player.lock();
 		player.getInterfaceManager().setTopInterface(399, false);
 		player.getMusicsManager().playSongAndUnlock(454);
-		player.getPackets().sendMusicEffect(22);
+		player.jingle(22);
 	}
 
 	public void teleportPlayer(Player player) {

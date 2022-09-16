@@ -134,7 +134,7 @@ public class PestControlGameController extends Controller {
 					player.setNextWorldTile(control.getWorldTile(35 - Utils.random(4), 54 - (Utils.random(3))));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

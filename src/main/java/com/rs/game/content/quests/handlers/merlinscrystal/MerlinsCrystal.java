@@ -189,16 +189,10 @@ public class MerlinsCrystal extends QuestOutline {
 	final static int UNLIT_BLACK_CANDLE = 38;
 	final static int TINDERBOX = 590;
 
-	public static ItemClickHandler handleLitCandle = new ItemClickHandler(LIT_BLACK_CANDLE) {
+	public static ItemClickHandler handleLitCandle = new ItemClickHandler(new Object[] { LIT_BLACK_CANDLE }, new String[] { "Extinguish" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Extinguish"))
-				e.getPlayer().getInventory().replaceItem(UNLIT_BLACK_CANDLE, 1, e.getItem().getSlot());
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
-			}
+			e.getPlayer().getInventory().replaceItem(UNLIT_BLACK_CANDLE, 1, e.getItem().getSlot());
 		}
 	};
 

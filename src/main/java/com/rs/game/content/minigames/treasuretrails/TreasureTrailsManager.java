@@ -491,7 +491,7 @@ public class TreasureTrailsManager {
 		player.getInterfaceManager().sendInterface(364);
 		player.getPackets().sendInterSetItemsOptionsScript(364, 4, 141, 3, 4, "Examine");
 		final Item[] rewards = generateRewards(player, level);
-		player.getPackets().sendMusicEffect(193);
+		player.jingle(193);
 		player.getPackets().setIFRightClickOps(364, 4, 0, rewards.length, 0);
 		player.incrementCount(LEVEL[level] + " clues completed");
 		boolean banked = false;

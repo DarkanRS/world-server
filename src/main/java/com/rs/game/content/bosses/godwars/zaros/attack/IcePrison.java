@@ -36,7 +36,7 @@ public class IcePrison implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Die now, in a prison of ice!"));
-		nex.playSound(3308, 2);
+		nex.voiceEffect(3308);
 		nex.setNextAnimation(new Animation(6987));
 		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
 		final WorldTile base = new WorldTile(target.getX(), target.getY(), target.getPlane());

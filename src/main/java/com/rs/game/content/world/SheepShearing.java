@@ -36,12 +36,12 @@ public class SheepShearing {
 			final int npcId = e.getNPC().getId();
 			if (Utils.getRandomInclusive(2) == 0) {
 				e.getNPC().setNextForceTalk(new ForceTalk("Baa!"));
-				e.getNPC().playSound(756, 1);
+				e.getNPC().soundEffect(756);
 				e.getNPC().addWalkSteps(npcId, npcId, 4, true);
 				e.getNPC().setRun(true);
 				e.getPlayer().sendMessage("The sheep runs away from you.");
 			} else if (e.getPlayer().getInventory().containsItem(1735, 1)) {
-				e.getPlayer().playSound(761, 1);
+				e.getPlayer().soundEffect(761);
 				e.getPlayer().getInventory().addItem(1737, 1);
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));
@@ -58,12 +58,12 @@ public class SheepShearing {
 			final int npcId = e.getNPC().getId();
 			if (Utils.getRandomInclusive(2) == 0) {
 				e.getNPC().setNextForceTalk(new ForceTalk("Baa!"));
-				e.getNPC().playSound(756, 1);
+				e.getNPC().soundEffect(756);
 				e.getNPC().addWalkSteps(npcId, npcId, 4, true);
 				e.getNPC().setRun(true);
 				e.getPlayer().sendMessage("The sheep runs away from you.");
 			} else if (e.getPlayer().getInventory().containsItem(1735, 1)) {
-				e.getPlayer().playSound(761, 1);
+				e.getPlayer().soundEffect(761);
 				e.getPlayer().getInventory().addItem(1737, 1);
 				e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
 				e.getPlayer().setNextAnimation(new Animation(893));

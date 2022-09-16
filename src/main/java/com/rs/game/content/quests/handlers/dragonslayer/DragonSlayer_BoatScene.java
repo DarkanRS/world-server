@@ -82,7 +82,7 @@ public class DragonSlayer_BoatScene extends Controller {
 				public void run() {
 					if (tick == 0) {  //setup p1
 						player.getInterfaceManager().setFadingInterface(115); //for interfaces over interfaces do this
-						player.getPackets().sendMusic(HAPPY_TRAVEL_JINGLE, 5, 255);
+						player.musicTrack(HAPPY_TRAVEL_JINGLE, 5);
 					}
 					if (tick == 3) {
 						player.getInterfaceManager().setFadingInterface(516);
@@ -149,7 +149,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 
 					if(tick == 17) {
-						player.getPackets().sendMusic(360, 10, 255); //Elvarg's theme
+						player.musicTrack(360, 10); //Elvarg's theme
 						player.startConversation(new Conversation(player) {
 							{
 								addSimple("Clouds surround the ship.");
@@ -569,7 +569,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 53) {
-                        player.getPackets().sendMusic(170, 5, 255);//crandor music
+                        player.musicTrack(170, 5);//crandor music
 						player.setNextAnimation(new Animation(ANIM_PLAYER_GET_UP));
 						player.getInterfaceManager().setFadingInterface(170);
 					}

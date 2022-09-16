@@ -39,7 +39,7 @@ public class ShadowTraps implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Fear the Shadow!"));
-		nex.playSound(3314, 2);
+		nex.voiceEffect(3314);
 		nex.setNextAnimation(new Animation(6984));
 		nex.setNextSpotAnim(new SpotAnim(1215));
 		List<Entity> possibleTargets = nex.getPossibleTargets();

@@ -37,7 +37,7 @@ public class DestroyItem extends Conversation {
 			player.getInventory().deleteItem(slotId, item);
 			if (item.getDefinitions().isBinded())
 				player.getDungManager().unbind(item);
-			player.getPackets().sendSound(4500, 0, 1);
+			player.soundEffect(4500);
 		});
 		create();
 	}

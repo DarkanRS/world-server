@@ -66,7 +66,7 @@ public class Halloween2009Controller extends Controller {
 				} else if (loop == 4) {
 					if (player.getI(Halloween2009.STAGE_KEY) >= 10)
 						player.getControllerManager().forceStop();
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

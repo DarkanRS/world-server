@@ -1286,9 +1286,9 @@ public class PlayerCombat extends PlayerAction {
 	public static void playSound(int soundId, Player player, Entity target) {
 		if (soundId == -1)
 			return;
-		player.getPackets().sendSound(soundId, 0, 1);
+		player.soundEffect(soundId);
 		if (target instanceof Player p2)
-			p2.getPackets().sendSound(soundId, 0, 1);
+			p2.soundEffect(soundId);
 	}
 
 	public static int getSpecialAmmount(int weaponId) {
@@ -1845,7 +1845,7 @@ public class PlayerCombat extends PlayerAction {
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 			if (target instanceof NPC n)
-				World.playSound(n, n.getCombatDefinitions().getDefendSound(), 1);
+				n.soundEffect(n.getCombatDefinitions().getDefendSound());
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())

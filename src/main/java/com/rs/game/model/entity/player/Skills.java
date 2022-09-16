@@ -804,7 +804,7 @@ public final class Skills {
 		switchFlash(player, skill, true);
 		int musicEffect = SKILL_LEVEL_UP_MUSIC_EFFECTS[skill];
 		if (musicEffect != -1)
-			player.getPackets().sendMusicEffect(musicEffect);
+			player.jingle(musicEffect);
 		if (!player.hasRights(Rights.ADMIN) && (level == 99 || level == 120))
 			checkMaxedNotification(player, skill, level);
 	}

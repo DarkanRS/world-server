@@ -800,7 +800,7 @@ public final class Equipment {
 		
 		player.getAppearance().generateAppearanceData();
 		player.getPackets().sendVarc(779, player.getAppearance().getRenderEmote());
-		player.getPackets().sendSoundEffect(ItemConfig.get(item.getId()).getEquipSound());
+		player.soundEffect(ItemConfig.get(item.getId()).getEquipSound());
 		if (targetSlot == WEAPON)
 			player.getCombatDefinitions().drainSpec(0);
 		return true;

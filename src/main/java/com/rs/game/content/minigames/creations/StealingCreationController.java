@@ -417,7 +417,7 @@ public class StealingCreationController extends Controller {
 						} else
 							player.getPrayer().restorePrayer((int) (Math.floor(player.getSkills().getLevelForXp(Constants.PRAYER) * .5 + (superPotion ? 250 : 200))));
 						player.setNextAnimation(new Animation(829));
-						player.getPackets().sendSound(4580, 0, 1);
+						player.soundEffect(4580);
 					}
 					return false;
 				}
@@ -867,7 +867,7 @@ public class StealingCreationController extends Controller {
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					Helper.giveCape(player, getTeam());
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					player.resetWalkSteps();
 					stop();
 				}

@@ -40,43 +40,43 @@ public class CommanderZilyanaCombat extends CombatScript {
 			switch (Utils.getRandomInclusive(9)) {
 			case 0:
 				npc.setNextForceTalk(new ForceTalk("Death to the enemies of the light!"));
-				npc.playSound(3247, 2);
+				npc.voiceEffect(3247);
 				break;
 			case 1:
 				npc.setNextForceTalk(new ForceTalk("Slay the evil ones!"));
-				npc.playSound(3242, 2);
+				npc.voiceEffect(3242);
 				break;
 			case 2:
 				npc.setNextForceTalk(new ForceTalk("Saradomin lend me strength!"));
-				npc.playSound(3263, 2);
+				npc.voiceEffect(3263);
 				break;
 			case 3:
 				npc.setNextForceTalk(new ForceTalk("By the power of Saradomin!"));
-				npc.playSound(3262, 2);
+				npc.voiceEffect(3262);
 				break;
 			case 4:
 				npc.setNextForceTalk(new ForceTalk("May Saradomin be my sword."));
-				npc.playSound(3251, 2);
+				npc.voiceEffect(3251);
 				break;
 			case 5:
 				npc.setNextForceTalk(new ForceTalk("Good will always triumph!"));
-				npc.playSound(3260, 2);
+				npc.voiceEffect(3260);
 				break;
 			case 6:
 				npc.setNextForceTalk(new ForceTalk("Forward! Our allies are with us!"));
-				npc.playSound(3245, 2);
+				npc.voiceEffect(3245);
 				break;
 			case 7:
 				npc.setNextForceTalk(new ForceTalk("Saradomin is with us!"));
-				npc.playSound(3266, 2);
+				npc.voiceEffect(3266);
 				break;
 			case 8:
 				npc.setNextForceTalk(new ForceTalk("In the name of Saradomin!"));
-				npc.playSound(3250, 2);
+				npc.voiceEffect(3250);
 				break;
 			case 9:
 				npc.setNextForceTalk(new ForceTalk("Attack! Find the Godsword!"));
-				npc.playSound(3258, 2);
+				npc.voiceEffect(3258);
 				break;
 			}
 		if (Utils.getRandomInclusive(1) == 0) { // mage magical attack
