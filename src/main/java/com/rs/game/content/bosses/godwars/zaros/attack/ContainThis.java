@@ -37,7 +37,7 @@ public class ContainThis implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Contain this!"));
-		nex.playSound(3316, 2);
+		nex.voiceEffect(3316);
 		nex.setNextAnimation(new Animation(6984));
 		final WorldTile base = nex.transform(1, 1, 0);
 		nex.resetWalkSteps();

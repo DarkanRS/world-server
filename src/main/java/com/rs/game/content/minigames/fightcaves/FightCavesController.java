@@ -281,7 +281,7 @@ public class FightCavesController extends Controller {
 					exitCave(1);
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

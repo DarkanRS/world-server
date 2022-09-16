@@ -52,7 +52,7 @@ public class KrilTsutsaroth extends CombatScript {
 				break;
 			case 4:
 				npc.setNextForceTalk(new ForceTalk("The Dark One will have their souls!"));
-				npc.playSound(3229, 2);
+				npc.voiceEffect(3229);
 				break;
 			case 5:
 				npc.setNextForceTalk(new ForceTalk("Zamorak curse them!"));

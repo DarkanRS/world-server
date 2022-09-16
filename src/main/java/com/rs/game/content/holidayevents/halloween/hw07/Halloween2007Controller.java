@@ -92,7 +92,7 @@ public class Halloween2007Controller extends Controller {
 				} else if (loop == 4) {
 					if (player.getHw07Stage() >= 10)
 						player.getControllerManager().forceStop();
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

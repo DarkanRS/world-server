@@ -176,7 +176,7 @@ public class HeroesQuest extends QuestOutline {
 			if (e.getOption().equalsIgnoreCase("drop")) {
 				p.getInventory().removeItems(e.getItem());
 				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+				e.getPlayer().soundEffect(2739);
 				return;
 			}
 			p.sendMessage("You know... I'd really rather not.");

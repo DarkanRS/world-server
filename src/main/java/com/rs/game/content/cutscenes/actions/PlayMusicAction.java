@@ -32,10 +32,24 @@ public class PlayMusicAction extends CutsceneAction {
 		this.delay = delay;
 		this.volume = volume;
 	}
+	
+	public PlayMusicAction(int id, int delay, int actionDelay) {
+		super(null, actionDelay);
+		this.id = id;
+		this.delay = delay;
+		this.volume = 255;
+	}
+	
+	public PlayMusicAction(int id, int actionDelay) {
+		super(null, actionDelay);
+		this.id = id;
+		this.delay = 5;
+		this.volume = 255;
+	}
 
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
-		player.getPackets().sendMusic(id, delay, volume);
+		player.musicTrack(id, delay, volume);
 	}
 
 }

@@ -256,7 +256,10 @@ public class PrayerManager {
 			active.add(prayer);
 			if (isOverhead(prayer))
 				player.getAppearance().generateAppearanceData();
-			player.getPackets().sendSound(2662, 0, 1);
+			if (prayer.getActivateSound() != -1)
+				player.soundEffect(prayer.getActivateSound());
+			else
+				player.soundEffect(2662);
 		}
 		refresh();
 		return true;
@@ -309,7 +312,7 @@ public class PrayerManager {
 		active.remove(prayer);
 		if (isOverhead(prayer))
 			player.getAppearance().generateAppearanceData();
-		player.getPackets().sendSound(2663, 0, 1);
+		player.soundEffect(2663);
 		if (active.isEmpty())
 			setQuickPrayersOn(false);
 		refresh();
@@ -375,8 +378,10 @@ public class PrayerManager {
 		drain /= 1.0 + ((1.0/30.0) * player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		if (drain > 0) {
 			drainPrayer(drain);
-			if (!checkPrayer())
+			if (!checkPrayer()) {
 				closeAllPrayers();
+				player.soundEffect(2673);
+			}
 		}
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
 			if (player.getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat)
@@ -475,7 +480,7 @@ public class PrayerManager {
 
 	public boolean checkPrayer() {
 		if (points <= 0) {
-			player.getPackets().sendSound(2672, 0, 1);
+			player.soundEffect(2672);
 			player.sendMessage("Please recharge your prayer at the Lumbridge Church.");
 			return false;
 		}

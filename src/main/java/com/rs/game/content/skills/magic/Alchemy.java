@@ -110,7 +110,7 @@ public class Alchemy {
 				player.setNextSpotAnim(new SpotAnim(112));
 
 			}
-			World.playSound(player, 98, 1);
+			World.soundEffect(player, 98);
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addItem(995, def.getSellPrice());
 			player.getSkills().addXp(Constants.MAGIC, 31);
@@ -123,7 +123,7 @@ public class Alchemy {
 				player.setNextAnimation(new Animation(713));
 				player.setNextSpotAnim(new SpotAnim(113));
 			}
-			World.playSound(player, 98, 1); //low alch id... high alch doesnt match osrs... reeeee
+			World.soundEffect(player, 98); //low alch id... high alch doesnt match osrs... reeeee
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addItem(995, def.getHighAlchPrice());
 			player.getSkills().addXp(Constants.MAGIC, 65);

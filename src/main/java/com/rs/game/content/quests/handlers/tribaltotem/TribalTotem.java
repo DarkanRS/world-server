@@ -150,18 +150,12 @@ public class TribalTotem extends QuestOutline {
 		}
 	};
 
-    public static ItemClickHandler handleClickOnGuideBook = new ItemClickHandler(1856) { //Guide book for middle name
-        @Override
-        public void handle(ItemClickEvent e) {
-            if(e.getOption().equalsIgnoreCase("read"))
-                e.getPlayer().openBook(new RealEstateGuideBook());
-            if(e.getOption().equalsIgnoreCase("drop")) {
-                e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-                World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-                e.getPlayer().getPackets().sendSound(2739, 0, 1);
-            }
-        }
-    };
+	public static ItemClickHandler handleClickOnGuideBook = new ItemClickHandler(new Object[] { 1856 }, new String[] { "Read" }) { //Guide book for middle name
+		@Override
+		public void handle(ItemClickEvent e) {
+			e.getPlayer().openBook(new RealEstateGuideBook());
+		}
+	};
 
 	public static ObjectClickHandler handleTrapStairs = new ObjectClickHandler(new Object[] { 2711 }) {
 		@Override

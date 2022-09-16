@@ -162,7 +162,7 @@ public class NexArena {
 							nex.setNextForceTalk(new ForceTalk("AT LAST!"));
 							nex.setNextAnimation(new Animation(6355));
 							nex.setNextSpotAnim(new SpotAnim(1217));
-							nex.playSound(3295, 2);
+							nex.voiceEffect(3295);
 						} else if (count == 3) {
 							fumus = new NexMinion(NexArena.this, 13451, new WorldTile(2912, 5216, 0));
 							fumus.setFaceAngle(Utils.getAngleTo(1, -1));
@@ -170,7 +170,7 @@ public class NexArena {
 							nex.setNextForceTalk(new ForceTalk("Fumus!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(fumus, nex, 2244, 18, 18, 60, 30, 0, 0);
-							nex.playSound(3325, 2);
+							nex.voiceEffect(3325);
 						} else if (count == 5) {
 							umbra = new NexMinion(NexArena.this, 13452, new WorldTile(2937, 5216, 0));
 							umbra.setFaceAngle(Utils.getAngleTo(-1, -1));
@@ -178,7 +178,7 @@ public class NexArena {
 							nex.setNextForceTalk(new ForceTalk("Umbra!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(umbra, nex, 2244, 18, 18, 60, 30, 0, 0);
-							nex.playSound(3313, 2);
+							nex.voiceEffect(3313);
 						} else if (count == 7) {
 							cruor = new NexMinion(NexArena.this, 13453, new WorldTile(2937, 5190, 0));
 							cruor.setFaceAngle(Utils.getAngleTo(-1, 1));
@@ -186,7 +186,7 @@ public class NexArena {
 							nex.setNextForceTalk(new ForceTalk("Cruor!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(cruor, nex, 2244, 18, 18, 60, 30, 0, 0);
-							nex.playSound(3299, 2);
+							nex.voiceEffect(3299);
 						} else if (count == 9) {
 							glacies = new NexMinion(NexArena.this, 13454, new WorldTile(2912, 5190, 0));
 							glacies.setNextFaceWorldTile(new WorldTile(glacies.getCoordFaceX(glacies.getSize()), glacies.getCoordFaceY(glacies.getSize()), 0));
@@ -195,12 +195,12 @@ public class NexArena {
 							nex.setNextForceTalk(new ForceTalk("Glacies!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(glacies, nex, 2244, 18, 18, 60, 30, 0, 0);
-							nex.playSound(3304, 2);
+							nex.voiceEffect(3304);
 						} else if (count == 11) {
 							nex.setNextForceTalk(new ForceTalk("Fill my soul with smoke!"));
 							World.sendProjectile(fumus, nex, 2244, 18, 18, 60, 30, 0, 0);
 
-							nex.playSound(3310, 2);
+							nex.voiceEffect(3310);
 						} else if (count == 13) {
 							nex.setCantInteract(false);
 							stop();

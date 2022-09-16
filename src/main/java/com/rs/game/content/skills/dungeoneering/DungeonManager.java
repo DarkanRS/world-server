@@ -1598,7 +1598,7 @@ public class DungeonManager {
 		for (Player player : party.getTeam()) {
 			if (!isAtBossRoom(player.getTile()))
 				continue;
-			player.getPackets().sendMusicEffect(415);
+			player.jingle(415);
 			playMusic(player, reference);
 		}
 	}

@@ -832,7 +832,7 @@ public class Potions {
 				player.addPotionDelay(2);
 				effect.accept(player);
 				player.setNextAnimation(new Animation(829));
-				player.getPackets().sendSound(4580, 0, 1);
+				player.soundEffect(4580);
 				player.sendMessage("You drink some of your " + ItemDefinitions.getDefs(itemId).name.toLowerCase().replace(" (1)", "").replace(" (2)", "").replace(" (3)", "").replace(" (4)", "").replace(" (5)", "").replace(" (6)", "") + ".", true);
 			}
 		}

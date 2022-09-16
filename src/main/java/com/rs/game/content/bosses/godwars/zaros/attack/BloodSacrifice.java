@@ -35,7 +35,7 @@ public class BloodSacrifice implements NexAttack {
 		if (!(target instanceof Player))
 			return 0;
 		nex.setNextForceTalk(new ForceTalk("I demand a blood sacrifice!"));
-		nex.playSound(3293, 2);
+		nex.voiceEffect(3293);
 		final Player player = (Player) target;
 		player.getAppearance().setGlowRed(true);
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");

@@ -110,7 +110,7 @@ public final class FFAController extends Controller {
 				remove(true);
 				player.setNextAnimation(new Animation(-1));
 			} else if (loop == 4) {
-				player.getPackets().sendMusicEffect(90);
+				player.jingle(90);
 				return false;
 			}
 			return true;
