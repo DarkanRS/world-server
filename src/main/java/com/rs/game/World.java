@@ -35,7 +35,6 @@ import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
-import com.rs.game.content.skills.hunter.PuroPuroController;
 import com.rs.game.content.world.areas.dungeons.LivingRockCavern;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.WorldProjectile;
@@ -96,7 +95,6 @@ public final class World {
 		addRestoreShopItemsTask();
 		addBrewingProcessTask();
 		processPartyRoom();
-		PuroPuroController.initPuroImplings();
 		LivingRockCavern.init();
 	}
 

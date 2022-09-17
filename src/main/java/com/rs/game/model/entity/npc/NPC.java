@@ -142,10 +142,6 @@ public class NPC extends Entity {
 		BoxHunterType npc = BoxHunterType.forId(id);
 		if (npc != null)
 			setRandomWalk(true);
-		if (getName().contains("impling")) {
-			setRandomWalk(true);
-			setClipType(ClipType.FLYING);
-		}
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
 		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();
@@ -390,6 +386,7 @@ public class NPC extends Entity {
 		World.updateEntityRegion(this);
 		World.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
+		onFinish();
 	}
 
 	public void setRespawnTask() {
@@ -439,6 +436,10 @@ public class NPC extends Entity {
 
 	public void onRespawn() {
 
+	}
+	
+	public void onFinish() {
+		
 	}
 
 	public long timeSinceSpawned() {

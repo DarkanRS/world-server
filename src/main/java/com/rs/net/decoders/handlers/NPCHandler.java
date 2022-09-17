@@ -46,7 +46,6 @@ import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
 import com.rs.game.content.quests.handlers.restlessghost.FatherAereckD;
 import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.slayer.npcs.ConditionalDeath;
 import com.rs.game.content.skills.slayer.npcs.MutatedZygomite;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -224,8 +223,6 @@ public class NPCHandler {
 				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
 				player.startConversation(new TanningD(player, npc.getId() == 1041));
-			else if (npc.getName().toLowerCase().contains("impling"))
-				FlyingEntityHunter.captureFlyingEntity(player, npc);
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
 
 			} else if (npc instanceof Pet pet) {

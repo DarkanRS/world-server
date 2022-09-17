@@ -14,17 +14,18 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.skills.hunter;
+package com.rs.game.content.skills.hunter.puropuro;
 
 import com.rs.game.World;
+import com.rs.game.content.Effect;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -33,25 +34,35 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PuroPuroController extends Controller {
 
+	private WorldTile entranceTile;
+
 	private static final Item[][] REQUIRED = { { new Item(11238, 3), new Item(11240, 2), new Item(11242, 1) }, { new Item(11242, 3), new Item(11244, 2), new Item(11246, 1) }, { new Item(11246, 3), new Item(11248, 2), new Item(11250, 1) }, { null } };
 
 	private static final Item[] REWARD = { new Item(11262, 1), new Item(11259, 1), new Item(11258, 1), new Item(11260, 3) };
 
+	public PuroPuroController(WorldTile tile) {
+		this.entranceTile = tile;
+	}
+
 	@Override
 	public void start() {
 		player.getPackets().setBlockMinimapState(2);
+		player.getInterfaceManager().sendOverlay(169);
 	}
 
 	@Override
 	public void forceClose() {
 		player.getPackets().setBlockMinimapState(0);
+		player.getInterfaceManager().removeOverlay();
 	}
 
 	@Override
@@ -75,49 +86,60 @@ public class PuroPuroController extends Controller {
 		switch (object.getId()) {
 		case 25014:
 			player.getControllerManager().forceStop();
-			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT, null);
+			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile, 9, false, Magic.OBJECT_TELEPORT, null);
 			return true;
 		}
 		return true;
 	}
 
-	public static void pushThrough(final Player player, GameObject object) {
-		int objectX = object.getX();
-		int objectY = object.getY();
-		Direction direction = Direction.NORTH;
-		if (player.getX() == objectX && player.getY() < objectY) {
-			objectY = objectY + 1;
-			direction = Direction.NORTH;
-		} else if (player.getX() == objectX && player.getY() > objectY) {
-			objectY = objectY - 1;
-			direction = Direction.SOUTH;
-		} else if (player.getY() == objectY && player.getX() < objectX) {
-			objectX = objectX + 1;
-			direction = Direction.EAST;
-		} else if (player.getY() == objectY && player.getX() > objectX) {
-			objectX = objectX - 1;
-			direction = Direction.WEST;
-		} else {
-			objectY = objectY - 1;
-			objectX = objectX + 1;
-			direction = Direction.SOUTHEAST;
-		}
-		player.sendMessage(Utils.getRandomInclusive(2) == 0 ? "You use your strength to push through the wheat in the most efficient fashion." : "You use your strength to push through the wheat.");
-		player.setNextFaceWorldTile(object);
-		player.setNextAnimation(new Animation(6594));
-		player.lock();
-		final WorldTile tile = new WorldTile(objectX, objectY, 0);
-		player.setNextFaceWorldTile(object);
-		player.setNextForceMovement(new ForceMovement(tile, 6, direction));
-		WorldTasks.schedule(new WorldTask() {
+	public static ObjectClickHandler pushThrough = new ObjectClickHandler(new Object[] { "Magical wheat" }) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			if (e.isAtObject()) {
+				e.getPlayer().faceObject(e.getObject());
 
-			@Override
-			public void run() {
-				player.unlock();
-				player.setNextWorldTile(tile);
+				Direction dir = e.getPlayer().getDirection();
+				int speed = Utils.randomInclusive(0, 2) * 2;
+				int finalSpeed = e.getPlayer().hasEffect(Effect.FARMERS_AFFINITY) ? 3+speed : 6+speed;
+				WorldTile finalTile = e.getPlayer().getFrontfacingTile(2);
+
+				GameObject loc = World.getObject(finalTile);
+				if (loc != null && loc.getDefinitions(e.getPlayer()).getName().equals("Magical wheat")) {
+					e.getPlayer().sendMessage("The wheat here seems unusually stubborn. You cannot push through.");
+					return;
+				}
+
+				e.getPlayer().lock();
+				switch (speed) {
+					case 0 -> {
+						if (e.getPlayer().hasEffect(Effect.FARMERS_AFFINITY))
+							e.getPlayer().sendMessage("You use your strength to push through the wheat in the most efficient fashion.");
+						else
+							e.getPlayer().sendMessage("You use your strength to push through the wheat.");
+					}
+					case 2 -> e.getPlayer().sendMessage("You push through the wheat.");
+					case 4 -> e.getPlayer().sendMessage("You push through the wheat. It's hard work, though.");
+				}
+
+				WorldTasks.scheduleTimer(ticks -> {
+					if (ticks == 0) {
+						e.getPlayer().setNextForceMovement(new ForceMovement(finalTile, finalSpeed, dir));
+						e.getPlayer().setNextAnimation(new Animation(6593 + speed/2));
+					}
+					if (ticks == finalSpeed) {
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(finalTile);
+						if (e.getPlayer().getO("ppStrengthEnabled") == null)
+							e.getPlayer().save("ppStrengthEnabled", true);
+						if (e.getPlayer().getBool("ppStrengthEnabled"))
+							e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4-speed);
+						return false;
+					}
+					return true;
+				});
 			}
-		}, 6);
-	}
+		}
+	};
 
 	public static NPCClickHandler handleElnock = new NPCClickHandler(new Object[] { 6070 }) {
 		@Override
@@ -138,34 +160,14 @@ public class PuroPuroController extends Controller {
 		}
 	};
 
-	public static WorldTile getRandomTile() {
-		return new WorldTile(Utils.random(2558 + 3, 2626 - 3), Utils.random(4285 + 3, 4354 - 3), 0);
-	}
-
-	public static int getRandomImplingId() {
-		FlyingEntities[] implings = FlyingEntities.values();
-		int random = Utils.getRandomInclusive(1000);
-		if (random < 3)
-			return implings[Utils.random(10, 14)].getNpcId();
-		if (random < 80)
-			return implings[Utils.random(4, 10)].getNpcId();
-		if (random < 300)
-			return implings[Utils.random(7)].getNpcId();
-		return implings[Utils.getRandomInclusive(5)].getNpcId();
-	}
-
-	public static void initPuroImplings() {
-		for (int i = 0; i < 5; i++)
-			for (int index = 0; index < 11; index++) {
-				if (i > 2)
-					if (Utils.getRandomInclusive(1) == 0)
-						continue;
-				World.spawnNPC(PuroPuroController.getRandomImplingId(), PuroPuroController.getRandomTile(), -1, false);
-			}
+	public static boolean isRareImpling(int npcId) {
+		if (npcId == FlyingEntities.KINGLY_IMPLING_PP.getNpcId() || npcId == FlyingEntities.ZOMBIE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.DRAGON_IMPLING_PP.getNpcId() || npcId == FlyingEntities.PIRATE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.NINJA_IMPLING_PP.getNpcId() || npcId == FlyingEntities.MAGPIE_IMPLING_PP.getNpcId() || npcId == FlyingEntities.NATURE_IMPLING_PP.getNpcId())
+			return true;
+		return false;
 	}
 
 	public static void openPuroInterface(final Player player) {
-		player.getInterfaceManager().sendInterface(540); // puro puro
+		player.getInterfaceManager().sendInterface(540);
 		for (int component = 60; component < 64; component++)
 			player.getPackets().setIFHidden(540, component, false);
 		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeI("puro_slot"));
@@ -183,7 +185,7 @@ public class PuroPuroController extends Controller {
 		Item[] requriedItems = REQUIRED[slot];
 		if (slot == 3) {
 			requriedItems = null;
-			for (Item item : player.getInventory().getItems().array()) {
+			for (Item item : player.getInventory().getItems().getItemsNoNull()) {
 				if (item == null || FlyingEntities.forItem((short) item.getId()) == null)
 					continue;
 				requriedItems = new Item[] { item };

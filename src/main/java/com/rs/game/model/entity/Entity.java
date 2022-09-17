@@ -242,6 +242,21 @@ public abstract class Entity {
 		int[] backFaceDirs = Utils.getBackFace(faceAngle);
 		return transform(backFaceDirs[0], backFaceDirs[1], 0);
 	}
+	
+	public WorldTile getBackfacingTile(int distance) {
+		int[] backFaceDirs = Utils.getBackFace(faceAngle);
+		return transform(backFaceDirs[0] * distance, backFaceDirs[1] * distance, 0);
+	}
+
+	public WorldTile getFrontfacingTile() {
+		int[] frontFaceDirs = Utils.getFrontFace(faceAngle);
+		return transform(frontFaceDirs[0], frontFaceDirs[1], 0);
+	}
+
+	public WorldTile getFrontfacingTile(int distance) {
+		int[] frontFaceDirs = Utils.getFrontFace(faceAngle);
+		return transform(frontFaceDirs[0] * distance, frontFaceDirs[1] * distance, 0);
+	}
 
 	public boolean inArea(int a, int b, int c, int d) {
 		return getX() >= a && getY() >= b && getX() <= c && getY() <= d;

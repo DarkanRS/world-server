@@ -42,8 +42,6 @@ import com.rs.game.content.skills.fletching.FletchingD;
 import com.rs.game.content.skills.herblore.CoconutCracking;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.WeaponPoison;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Burying.Bone;
@@ -458,10 +456,7 @@ public class InventoryOptionsHandler {
 			Runecrafting.checkPouch(player, pouch);
 			return;
 		}
-		FlyingEntities impJar = FlyingEntities.forItem((short) itemId);
-		if (impJar != null)
-			FlyingEntityHunter.openJar(player, impJar, slotId);
-		else if (item.getDefinitions().containsOption("Teleport") && ItemTeleports.transportationDialogue(player, item))
+		if (item.getDefinitions().containsOption("Teleport") && ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (player.hasRights(Rights.DEVELOPER))
 			player.sendMessage("ItemOption3: item: " + itemId + ", slotId: " + slotId);
