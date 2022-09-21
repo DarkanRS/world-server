@@ -21,12 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
-import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.content.skills.hunter.puropuro.PuroPuroController;
 import com.rs.game.content.skills.hunter.puropuro.PuroPuroImpling;
-import com.rs.game.content.skills.magic.Rune;
-import com.rs.game.content.skills.magic.RuneSet;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -40,6 +36,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.IFOnNPCEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -51,6 +48,7 @@ import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
 
+@PluginEventHandler
 public class FlyingEntityHunter {
 
 	public static final Animation CAPTURE_ANIMATION = new Animation(6606);
@@ -206,7 +204,7 @@ public class FlyingEntityHunter {
     public static NPCClickHandler captureFlyingEntity = new NPCClickHandler(FlyingEntities.flyingEntitiesByNPC.keySet().toArray()) {
         @Override
         public void handle(NPCClickEvent e) {
-            if (!e.getOption().equals("Catch"))
+            if (!e.getOption().equals("Catch") || isCheckDistance())
                 return;
 
             final boolean isPuroPuro = e.getNPC() instanceof PuroPuroImpling;
@@ -251,6 +249,12 @@ public class FlyingEntityHunter {
                             if (PuroPuroController.isRareImpling(e.getNPCId())) {
                                 e.getNPC().transformIntoNPC(PuroPuroImpling.getRandomRareImplingId());
                                 e.getNPC().setRespawnTask(200); //Rare imps respawn every 2 minutes
+                                e.getNPC().setHidden(true);
+                                System.out.println(e.getNPC().getName() + " is invisible.");
+                                WorldTasks.schedule(200 + Ticks.fromMinutes(2), () -> {
+                                	e.getNPC().setHidden(false);
+                                	System.out.println(e.getNPC().getName() + " is visible " + e.getNPC().getX() + ", " + e.getNPC().getY());
+                                });
                             } else {
                                 e.getNPC().setRespawnTask(50); //Common imps respawn every 30 seconds
                             }
@@ -280,7 +284,7 @@ public class FlyingEntityHunter {
         }
     };
 
-    public static ItemClickHandler openJar = new ItemClickHandler(Arrays.toString(FlyingEntities.flyingEntitiesByReward.keySet().toArray()), new String[]{"Open", "Empty", "Release"}) {
+    public static ItemClickHandler openJar = new ItemClickHandler(Arrays.toString(FlyingEntities.flyingEntitiesByReward.keySet().toArray()), new String[]{"Open", "Loot", "Empty", "Release"}) {
         @Override
         public void handle(ItemClickEvent e) {
             FlyingEntities entity = FlyingEntities.forId(e.getItem().getId());

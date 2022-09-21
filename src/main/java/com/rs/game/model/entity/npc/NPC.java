@@ -424,6 +424,7 @@ public class NPC extends Entity {
 	}
 
 	public void spawn() {
+		System.out.println(this.getName() + " has spawned.");
 		timeLastSpawned = System.currentTimeMillis();
 		setFinished(false);
 		World.addNPC(this);
