@@ -27,7 +27,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -137,11 +136,7 @@ public class FalconryController extends Controller {
 	};
 
 	public static void beginFalconry(Player player) {
-		if (!player.hasRights(Rights.DEVELOPER)) {
-			player.sendMessage("Falconry is temporarily closed.");
-			return;
-		}
-		if ((player.getEquipment().getItem(3) != null && player.getEquipment().getItem(3).getId() == -1) || (player.getEquipment().getItem(5) != null && player.getEquipment().getItem(5).getId() == -1)) {
+		if (player.getEquipment().hasItemInSlot(Equipment.WEAPON, Equipment.SHIELD)) {
 			player.simpleDialogue("You need both hands free to use a falcon.");
 			return;
 		}
