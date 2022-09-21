@@ -150,6 +150,13 @@ public final class Equipment {
 				return true;
 		return false;
 	}
+	
+	public boolean hasItemInSlot(int... slots) {
+		for (int slot : slots)
+			if (getId(slot) != -1)
+				return true;
+		return false;
+	}
 
 	public boolean fullGuthansEquipped() {
 		int helmId = player.getEquipment().getHatId();
