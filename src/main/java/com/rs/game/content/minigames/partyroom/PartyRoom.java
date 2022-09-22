@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.minigames.partyroom;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -34,7 +32,6 @@ import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
@@ -43,7 +40,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -64,47 +60,6 @@ public class PartyRoom {
 	private static final int[] BALLOON_IDS = { 115, 116, 117, 118, 119, 120, 121, 122 };
 	private static String[] SONG = { "We're the knights of the party room", "We dance round and round like a loon", "Quite often we like to sing", "Unfortunately we make a din", "We're the knights of the party room",
 			"Do you like our helmet plumes?", "Everyone's happy now we can move", "Like a party animal in the groove" };
-
-	public static ItemsContainer<Item> store;
-	public static ItemsContainer<Item> drop;
-
-	@SuppressWarnings("unchecked")
-	@ServerStartupEvent
-	public static void loadStorage() throws ClassNotFoundException {
-		File storeFile = new File("./data/partyroom/store.json");
-		File dropFile = new File("./data/partyroom/drop.json");
-		if (!storeFile.exists())
-			store = new ItemsContainer<>(216, false);
-		else
-			try {
-				store = (ItemsContainer<Item>) JsonFileManager.loadJsonFile(storeFile, ItemsContainer.class);
-			} catch (Exception e) {
-				store = new ItemsContainer<>(216, false);
-			}
-		if (!dropFile.exists())
-			drop = new ItemsContainer<>(216, false);
-		else
-			try {
-				drop = (ItemsContainer<Item>) JsonFileManager.loadJsonFile(dropFile, ItemsContainer.class);
-			} catch (Exception e) {
-				drop = new ItemsContainer<>(216, false);
-			}
-	}
-
-	public static void save() {
-		try {
-			File storeFile = new File("./data/partyroom/store.json");
-			File dropFile = new File("./data/partyroom/drop.json");
-			if (store == null)
-				store = new ItemsContainer<>(216, false);
-			if (drop == null)
-				drop = new ItemsContainer<>(216, false);
-			JsonFileManager.saveJsonFile(store, storeFile);
-			JsonFileManager.saveJsonFile(drop, dropFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static void openChest(Player player) {
 		if (!player.getBank().checkPin())
@@ -137,15 +92,15 @@ public class PartyRoom {
 				player.sendMessage("Please wait for the previous party to end.");
 				return;
 			}
-			for (Item item : store.array()) {
+			for (Item item : World.getData().getPartyRoomStorage().array()) {
 				if (item == null)
 					continue;
-				if (drop.freeSlots() <= 0)
+				if (World.getData().getPartyRoomDrop().freeSlots() <= 0)
 					break;
-				drop.add(item);
-				store.remove(item);
+				World.getData().getPartyRoomDrop().add(item);
+				World.getData().getPartyRoomStorage().remove(item);
 			}
-			if (drop.getUsedSlots() < 5) {
+			if (World.getData().getPartyRoomDrop().getUsedSlots() < 5) {
 				player.sendMessage("Please deposit 5 or more items into the chest before starting.");
 				return;
 			}
@@ -190,13 +145,13 @@ public class PartyRoom {
 
 	public static Item getNextItem() {
 		ArrayList<Item> items = new ArrayList<>();
-		for (Item item : drop.array())
+		for (Item item : World.getData().getPartyRoomDrop().array())
 			if (item != null)
 				items.add(item);
 		if (items.isEmpty())
 			return null;
 		Item item = items.get(Utils.random(items.size()));
-		drop.remove(item);
+		World.getData().getPartyRoomDrop().remove(item);
 		return item;
 	}
 
@@ -278,20 +233,20 @@ public class PartyRoom {
 	}
 
 	public static void refreshItems(Player player) {
-		player.getPackets().sendItems(529, store);
-		player.getPackets().sendItems(91, drop);
+		player.getPackets().sendItems(529, World.getData().getPartyRoomStorage());
+		player.getPackets().sendItems(91, World.getData().getPartyRoomDrop());
 		player.getPackets().sendItems(92, player.partyDeposit);
 	}
 
 	public static void addToChest(Player player) {
 		for (Item item : player.partyDeposit.array())
 			if (item != null) {
-				if (store.freeSlots() <= 0) {
+				if (World.getData().getPartyRoomStorage().freeSlots() <= 0) {
 					player.sendMessage("There was not enough room in the chest for all those items.");
 					return;
 				}
 				player.partyDeposit.remove(item);
-				store.add(item);
+				World.getData().getPartyRoomStorage().add(item);
 			}
 		refreshItems(player);
 	}
@@ -349,7 +304,7 @@ public class PartyRoom {
 				} else if (e.getComponentId() == 21)
 					addToChest(e.getPlayer());
 				else if (e.getComponentId() == 23) {
-					Item item = store.get(e.getSlotId());
+					Item item = World.getData().getPartyRoomStorage().get(e.getSlotId());
 					if (item == null)
 						return;
 					if (e.getPacket() == ClientPacket.IF_OP1)
@@ -389,7 +344,7 @@ public class PartyRoom {
 
 	public static long getTotalCoins() {
 		long total = 0;
-		for (Item item : drop.array())
+		for (Item item : World.getData().getPartyRoomDrop().array())
 			if (item != null)
 				total += item.getDefinitions().getValue() * item.getAmount();
 		return total;

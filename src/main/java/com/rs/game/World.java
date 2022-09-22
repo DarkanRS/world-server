@@ -73,6 +73,7 @@ import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.AccountLimiter;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
+import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
 import com.rs.utils.shop.ShopsHandler;
@@ -147,7 +148,7 @@ public final class World {
 					continue;
 				WorldDB.getPlayers().save(player);
 			}
-			PartyRoom.save();
+			WorldPersistentData.save();
 		}, 0, Ticks.fromSeconds(30));
 	}
 
@@ -941,12 +942,16 @@ public final class World {
 					player.getPackets().sendLogout(true);
 					player.realFinish();
 				}
-				PartyRoom.save();
+				WorldPersistentData.save();
 				Launcher.shutdown();
 			} catch (Throwable e) {
 				Logger.handle(World.class, "safeShutdown", e);
 			}
 		}, delay);
+	}
+	
+	public static WorldPersistentData getData() {
+		return WorldPersistentData.get();
 	}
 
 	public static final boolean isSpawnedObject(GameObject object) {

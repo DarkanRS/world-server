@@ -24,15 +24,18 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class SandwichLady extends OwnedNPC {
 
+	private static final int DURATION = Ticks.fromMinutes(10);
 	private int ticks = 0;
 	private boolean claimed = false;
 
@@ -58,17 +61,9 @@ public class SandwichLady extends OwnedNPC {
 			setNextSpotAnim(new SpotAnim(1605));
 			forceTalk("Sandwich delivery for " + getOwner().getDisplayName() + "!");
 			setNextFaceEntity(getOwner());
-		} else if (ticks == 30)
-			forceTalk("All types of sandwiches, " + getOwner().getDisplayName() + ".");
-		else if (ticks == 60)
-			forceTalk("Come on " + getOwner().getDisplayName() + ", I made these specifically!!");
-		else if (ticks == 90)
-			forceTalk("You think I made these just for fun?!!?");
-		else if (ticks == 120)
-			forceTalk("You better start showing some manners young " + (getOwner().getAppearance().isMale() ? "man" : "lady") + "!!");
-		else if (ticks == 149)
+		} else if (ticks == DURATION-1)
 			forceTalk("Let's see how you like this!");
-		else if (ticks == 150) {
+		else if (ticks == DURATION) {
 			setNextAnimation(new Animation(3045));
 			final Player owner = getOwner();
 			owner.lock();
@@ -81,11 +76,22 @@ public class SandwichLady extends OwnedNPC {
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});
-		} else if (ticks == 153) {
+		} else if (ticks == DURATION+3) {
 			setNextSpotAnim(new SpotAnim(1605));
 			getOwner().setNextAnimation(new Animation(-1));
-		} else if (ticks == 155)
+		} else if (ticks == DURATION+5)
 			finish();
+		else if (ticks % 30 == 0)
+			forceTalk(randomQuote(getOwner()));
+	}
+	
+	private static final String randomQuote(Player player) {
+		return switch(Utils.randomInclusive(0, 8)) {
+		case 0 -> "All types of sandwiches, " + player.getDisplayName() + ".";
+		case 1 -> "Come on " + player.getDisplayName() + ", I made these specifically!!";
+		case 2 -> "You better start showing some manners young " + (player.getAppearance().isMale() ? "man" : "lady") + "!!";
+		default -> "You think I made these just for fun?!!?";
+		};
 	}
 
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }) {
