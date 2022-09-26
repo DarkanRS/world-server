@@ -1,6 +1,7 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
+import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.lib.game.WorldTile;
@@ -16,6 +17,11 @@ public class PuroPuroImpling extends NPC {
         super(id, tile);
         setRandomWalk(true);
         setClipType(ClipType.FLYING);
+    }
+
+    public void processNPC() {
+        if (Utils.random(500) == 0)
+            setNextForceTalk(new ForceTalk(Utils.random(2) == 0 ? "Tee hee!" : "Wheee!"));
     }
 
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6055, 6056, 6057, 6058, 6059, 6060, 7904, 6061, 6062, 6063, 7846, 6064, 7905, 7906 }) {

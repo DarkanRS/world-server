@@ -49,13 +49,13 @@ public enum BoxHunterType {
 //
 //	RACCOON(7272, new Item[] { new Item(12487) }, 27, 100, BoxTrapType.BOX, 19188, 19189, 19192, new Animation(7726), new Animation(7727)),
 
-	SWAMP_LIZARD(5117, "hunter_salam_swamp", 29, 152, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 110, 326),
+	SWAMP_LIZARD(5117, "hunter_salam_swamp", 29, 152, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), -96, 433),
 
-	ORANGE_SALAMANDER(5114, "hunter_salam_orange", 47, 224, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 110, 280),
+	ORANGE_SALAMANDER(5114, "hunter_salam_orange", 47, 224, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 17, 285),
 
-	RED_SALAMANDER(5115, "hunter_salam_red", 59, 272, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 110, 250),
+	RED_SALAMANDER(5115, "hunter_salam_red", 59, 272, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 0, 240),
 
-	BLACK_SALAMANDER(5116, "hunter_salam_black", 67, 319.2, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), 115, 228),
+	BLACK_SALAMANDER(5116, "hunter_salam_black", 67, 319.2, BoxTrapType.TREE_NET, -1, -1, -1, new Animation(-1), new Animation(-1), -2, 212),
 
 	CRIMSON_SWIFT(5073, "hunter_crimswift", 1, 34, BoxTrapType.BIRD_SNARE, 19179, 19180, 19174, new Animation(6775), new Animation(6774), 100, 420),
 

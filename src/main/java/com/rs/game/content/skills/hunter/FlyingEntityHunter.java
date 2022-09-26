@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
+import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.content.dialogue.statements.ItemStatement;
 import com.rs.game.content.skills.hunter.puropuro.PuroPuroController;
 import com.rs.game.content.skills.hunter.puropuro.PuroPuroImpling;
 import com.rs.game.model.entity.ForceTalk;
@@ -52,60 +54,64 @@ import com.rs.utils.drop.DropTable;
 public class FlyingEntityHunter {
 
 	public static final Animation CAPTURE_ANIMATION = new Animation(6606);
+	public static final Animation CAUGHT_ANIMATION = new Animation(6615);
+	public static final int BUTTERFLY_NET = 10010;
+	public static final int MAGIC_BUTTERFLY_NET = 11259;
+	public static final int IMPLING_JAR = 11260;
+	public static final int BUTTERFLY_JAR = 10012;
     public static final Item[] CHARMS = {new Item(12158, 1), new Item(12159, 1), new Item(12160, 1), new Item(12163, 1)};
 
     public enum FlyingEntities {
 
-        BABY_IMPLING(1028, 11238, 25, 17),
-        YOUNG_IMPLING(1029, 11240, 65, 22),
-        GOURMET_IMPLING(1030, 11242, 113, 28),
-        EARTH_IMPLING(1031, 11244, 177, 36),
-        ESSENCE_IMPLING(1032, 11246, 225, 42),
-        ECLECTIC_IMPLING(1033, 11248, 289, 50),
-        SPIRIT_IMPLING(7866, 15513, 321, 54) {
+        BABY_IMPLING(1028, 11238, 25, 17, 79, 400),
+        YOUNG_IMPLING(1029, 11240, 65, 22, 69, 349),
+        GOURMET_IMPLING(1030, 11242, 113, 28, 61, 324),
+        EARTH_IMPLING(1031, 11244, 177, 36, 51, 301),
+        ESSENCE_IMPLING(1032, 11246, 225, 42, 41, 275),
+        ECLECTIC_IMPLING(1033, 11248, 289, 50, 31, 250),
+        SPIRIT_IMPLING(7866, 15513, 321, 54, 24, 225) {
             @Override
             public void effect(Player player) {
                 if (Utils.random(2) == 0) {
                     Item charm = CHARMS[Utils.random(CHARMS.length)];
                     int charmAmount = Utils.random(charm.getAmount());
-//                    player.startConversation(new Dialogue())
-//                    player.getDialogueManager().execute(new ItemMessage(), "The impling was carrying a" + charm.getName().toLowerCase() + ".", charm.getId());
+                    player.startConversation(new Dialogue(new ItemStatement(charm.getId(), "The impling was carrying a " + charm.getName().toLowerCase() + ".")));
                     player.getInventory().addItem(charm.getId(), charmAmount, true);
                 }
             }
         },
-        NATURE_IMPLING(1034, 11250, 250, 58),
-        MAGPIE_IMPLING(1035, 11252, 289, 65),
-        NINJA_IMPLING(6053, 11254, 339, 74),
-        PIRATE_IMPLING(7845, 13337, 350, 76),
-        DRAGON_IMPLING(6054, 11256, 390, 83),
-        ZOMBIE_IMPLING(7902, 15515, 412, 87),
-        KINGLY_IMPLING(7903, 15517, 434, 91),
+        NATURE_IMPLING(1034, 11250, 250, 58, 20, 199),
+        MAGPIE_IMPLING(1035, 11252, 289, 65, 15, 176),
+        NINJA_IMPLING(6053, 11254, 339, 74, 10, 150),
+        PIRATE_IMPLING(7845, 13337, 350, 76, 8, 132),
+        DRAGON_IMPLING(6054, 11256, 390, 83, 5, 125),
+        ZOMBIE_IMPLING(7902, 15515, 412, 87, 8, 140),
+        KINGLY_IMPLING(7903, 15517, 434, 91, 3, 99),
 
-        BABY_IMPLING_PP(6055, 11238, 25, 17),
-        YOUNG_IMPLING_PP(6056, 11240, 65, 22),
-        GOURMET_IMPLING_PP(6057, 11242, 113, 28),
-        EARTH_IMPLING_PP(6058, 11244, 177, 36),
-        ESSENCE_IMPLING_PP(6059, 11246, 225, 42),
-        ECLECTIC_IMPLING_PP(6060, 11248, 289, 50),
-        SPIRIT_IMPLING_PP(7904, 15513, 321, 54) {
+        BABY_IMPLING_PP(6055, 11238, 25, 17, 79, 400),
+        YOUNG_IMPLING_PP(6056, 11240, 65, 22, 69, 349),
+        GOURMET_IMPLING_PP(6057, 11242, 113, 28, 61, 324),
+        EARTH_IMPLING_PP(6058, 11244, 177, 36, 51, 301),
+        ESSENCE_IMPLING_PP(6059, 11246, 225, 42, 41, 275),
+        ECLECTIC_IMPLING_PP(6060, 11248, 289, 50, 31, 250),
+        SPIRIT_IMPLING_PP(7904, 15513, 321, 54, 24, 225) {
             @Override
             public void effect(Player player) {
                 if (Utils.random(2) == 0) {
                     Item charm = CHARMS[Utils.random(CHARMS.length)];
                     int charmAmount = Utils.random(charm.getAmount());
-//                    player.getDialogueManager().execute(new ItemMessage(), "The impling was carrying a" + charm.getName().toLowerCase() + ".", charm.getId());
+                    player.startConversation(new Dialogue(new ItemStatement(charm.getId(), "The impling was carrying a " + charm.getName().toLowerCase() + ".")));
                     player.getInventory().addItem(charm.getId(), charmAmount, true);
                 }
             }
         },
-        NATURE_IMPLING_PP(6061, 11250, 353, 58),
-        MAGPIE_IMPLING_PP(6062, 11252, 409, 65),
-        NINJA_IMPLING_PP(6063, 11254, 481, 74),
-        PIRATE_IMPLING_PP(7846, 13337, 497, 76),
-        DRAGON_IMPLING_PP(6064, 11256, 553, 83),
-        ZOMBIE_IMPLING_PP(7905, 15515, 585, 87),
-        KINGLY_IMPLING_PP(7906, 15517, 617, 91),
+        NATURE_IMPLING_PP(6061, 11250, 353, 58, 20, 199),
+        MAGPIE_IMPLING_PP(6062, 11252, 409, 65, 15, 176),
+        NINJA_IMPLING_PP(6063, 11254, 481, 74, 10, 150),
+        PIRATE_IMPLING_PP(7846, 13337, 497, 76, 8, 132),
+        DRAGON_IMPLING_PP(6064, 11256, 553, 83, 5, 125),
+        ZOMBIE_IMPLING_PP(7905, 15515, 585, 87, 8, 140),
+        KINGLY_IMPLING_PP(7906, 15517, 617, 91, 3, 99),
 
         //		BUTTERFLYTEST(1, 1, 434, 617, 91, null, null, null, null) {
         //
@@ -138,21 +144,16 @@ public class FlyingEntityHunter {
 		private final int level;
 		private final int reward;
         private final double experience;
-        private SpotAnim graphics;
+        private final int rate1;
+        private final int rate99;
 
-        FlyingEntities(int npcId, int reward, double experience, int level, SpotAnim graphics) {
+        FlyingEntities(int npcId, int reward, double experience, int level, int rate1, int rate99) {
             this.npcId = npcId;
             this.reward = reward;
             this.experience = experience;
             this.level = level;
-            this.graphics = graphics;
-        }
-
-        FlyingEntities(int npcId, int reward, double experience, int level) {
-            this.npcId = npcId;
-            this.reward = reward;
-            this.experience = experience;
-            this.level = level;
+            this.rate1 = rate1;
+            this.rate99 = rate99;
         }
 
         public int getNpcId() {
@@ -170,9 +171,13 @@ public class FlyingEntityHunter {
         public double getExperience() {
             return experience;
         }
-
-        public SpotAnim getGraphics() {
-            return graphics;
+        
+        public int getRate1() {
+            return rate1;
+        }
+        
+        public int getRate99() {
+            return rate99;
         }
 
         public void effect(Player player) {
@@ -201,34 +206,35 @@ public class FlyingEntityHunter {
 		}
 	};
 
-    public static NPCClickHandler captureFlyingEntity = new NPCClickHandler(FlyingEntities.flyingEntitiesByNPC.keySet().toArray()) {
+    public static NPCClickHandler captureFlyingEntity = new NPCClickHandler(true, FlyingEntities.flyingEntitiesByNPC.keySet().toArray()) {
         @Override
         public void handle(NPCClickEvent e) {
-            if (!e.getOption().equals("Catch") || isCheckDistance())
+            if (!e.getOption().equals("Catch"))
                 return;
 
-            final boolean isPuroPuro = e.getNPC() instanceof PuroPuroImpling;
-            final boolean hasButterflyNet = (e.getPlayer().getEquipment().getWeaponId() == 11259 && e.getPlayer().getEquipment().getWeaponId() != 10010);
             final boolean isImpling = e.getNPC().getName().toLowerCase().contains("impling");
+            final boolean hasButterflyNet = e.getPlayer().getEquipment().getWeaponId() == BUTTERFLY_NET;
+            final boolean hasMagicButterflyNet = e.getPlayer().getEquipment().getWeaponId() == MAGIC_BUTTERFLY_NET;
+        	final boolean isPuroPuro = e.getNPC() instanceof PuroPuroImpling;
             final FlyingEntities entity = FlyingEntities.forNPC(e.getNPC().getId());
 
-            if (isPuroPuro && !hasButterflyNet) {
+            if (isPuroPuro && !(hasButterflyNet || hasMagicButterflyNet)) {
                 e.getPlayer().sendMessage("You need to have a butterfly net equipped in order to capture an impling.");
                 return;
             }
-
-            if (e.getPlayer().getSkills().getLevel(Constants.HUNTER) < entity.getLevel() && hasButterflyNet) {
-                e.getPlayer().sendMessage("You need a hunter level of " + entity.getLevel() + " to capture a " + e.getNPC().getName().toLowerCase() + ".");
-                return;
-            }
-
-            if (e.getPlayer().getSkills().getLevel(Constants.HUNTER) < entity.getLevel() + 10 && !hasButterflyNet) {
+            
+            if (hasButterflyNet || hasMagicButterflyNet) {
+                if (e.getPlayer().getSkills().getLevel(Constants.HUNTER) < entity.getLevel()) {
+                    e.getPlayer().sendMessage("You need a hunter level of " + entity.getLevel() + " to capture a " + e.getNPC().getName().toLowerCase() + ".");
+                    return;
+                }
+                
+                if (!e.getPlayer().getInventory().containsItem(isImpling ? IMPLING_JAR : BUTTERFLY_JAR, 1)) {
+                    e.getPlayer().sendMessage("You don't have an empty " + (isImpling ? "impling jar" : "butterfly jar") + " in which to keep " + (isImpling ? "an impling" : "a butterfly") + ".");
+                    return;
+                }
+            } else if (e.getPlayer().getSkills().getLevel(Constants.HUNTER) < entity.getLevel() + 10) {
                 e.getPlayer().sendMessage("You need a hunter level of " + entity.getLevel() + 10 + " in order to capture a " + e.getNPC().getName().toLowerCase() + " barehanded.");
-                return;
-            }
-
-            if (hasButterflyNet && !e.getPlayer().getInventory().containsItem(isImpling ? 11260 : 10012, 1)) {
-                e.getPlayer().sendMessage("You don't have an empty " + (isImpling ? "impling jar" : "butterfly jar") + " in which to keep " + (isImpling ? "an impling" : "a butterfly") + ".");
                 return;
             }
 
@@ -238,10 +244,10 @@ public class FlyingEntityHunter {
             WorldTasks.schedule(new WorldTask() {
                 @Override
                 public void run() {
-                    if (isSuccessful(e.getPlayer(), entity.getLevel())) {
-                        e.getNPC().setNextAnimation(new Animation(6615));
+                    if (rollSuccess(e.getPlayer(), entity, false)) {
+                        e.getNPC().setNextAnimation(CAUGHT_ANIMATION);
                         e.getPlayer().incrementCount(e.getNPC().getName() + " trapped");
-                        e.getPlayer().getInventory().deleteItem(11260, 1);
+                        e.getPlayer().getInventory().deleteItem(isImpling ? IMPLING_JAR : BUTTERFLY_JAR, 1);
                         e.getPlayer().getInventory().addItem(entity.getReward(), 1);
                         e.getPlayer().getSkills().addXp(Constants.HUNTER, entity.getExperience());
                         e.getPlayer().sendMessage("You manage to catch the " + e.getNPC().getName().toLowerCase() + " and squeeze it into a jar.");
@@ -262,22 +268,9 @@ public class FlyingEntityHunter {
                             e.getNPC().setRespawnTask(); //Not puro puro? Worry about spawn mechanics later.
                         return;
                     }
-                    if (isImpling) {
-                        e.getNPC().setNextForceTalk(new ForceTalk("Tehee, you missed me!"));
-                        WorldTasks.schedule(new WorldTask() {
-                            @Override
-                            public void run() {
-                                WorldTile teleTile = e.getNPC().getTile();
-                                for (int trycount = 0; trycount < 10; trycount++) {
-                                    teleTile = new WorldTile(e.getNPC().getTile(), 3);
-                                    if (World.floorAndWallsFree(teleTile, e.getPlayer().getSize()))
-                                        break;
-                                    teleTile = e.getNPC().getTile();
-                                }
-                                e.getNPC().setNextWorldTile(teleTile);
-                            }
-                        }, 2);
-                    }
+                    if (isImpling)
+                    	if (Utils.random(10) == 0)
+                    		e.getNPC().setNextForceTalk(new ForceTalk("Tee hee, you missed me!")); //Tee hee!
                     e.getPlayer().sendMessage("...you stumble and miss the " + e.getNPC().getName().toLowerCase());
                 }
             });
@@ -291,14 +284,14 @@ public class FlyingEntityHunter {
             boolean isImpling = entity.toString().toLowerCase().contains("impling");
 
             if (e.getOption().equals("Empty") || e.getOption().equals("Release")) {
-                e.getItem().setId(isImpling ? 11260 : 10012);
+                e.getItem().setId(isImpling ? IMPLING_JAR : BUTTERFLY_JAR);
                 return;
             }
 
             if (e.getOption() == "Open") {
                 if (isImpling) {
                     Item[] loot = DropTable.calculateDrops(e.getPlayer(), DropSets.getDropSet(entity.getNpcId()));
-                    e.getItem().setId(isImpling ? 11260 : 10012);
+                    e.getItem().setId(isImpling ? IMPLING_JAR : BUTTERFLY_JAR);
                     if (loot.length > 0)
                         for (Item item : loot)
                             if (item != null)
@@ -306,51 +299,17 @@ public class FlyingEntityHunter {
                 }
                 entity.effect(e.getPlayer());
                 if (Utils.random(10) == 0) {
-                    e.getPlayer().getInventory().deleteItem(new Item(isImpling ? 11260 : 10012));
+                    e.getPlayer().getInventory().deleteItem(new Item(isImpling ? IMPLING_JAR : BUTTERFLY_JAR));
                     e.getPlayer().sendMessage("You press too hard on the jar and the glass shatters in your hands.");
                     e.getPlayer().applyHit(new Hit(e.getPlayer(), 10, HitLook.TRUE_DAMAGE));
                 }
             }
         }
     };
-
-    public static boolean isSuccessful(Player player, int dataLevel) {
-
-        /*
-         * int hunterlevel = player.getSkills().getLevel(Constants.HUNTER); int
-         * increasedProbability = formula == null ? 1 :
-         * formula.getExtraProbablity(player); int level =
-         * Utils.random(hunterlevel + increasedProbability) + 1;
-         *
-         * int chance = level * 100 / (dataLevel * 2);
-         *
-         * if (Utils.random(100) > chance) return false;
-         */
-
-        if (player.getEquipment().getGlovesId() == 10075) // Falconry glove
-            return Utils.random(3) != 0;
-        if (player.getEquipment().getItem(3).getId() == 11259) // magic net
-            return Utils.random(3) != 0;
-        if (player.getEquipment().getItem(3).getId() == 10010) // regular net
-            return Utils.random(4) != 0;
-        return Utils.random(5) != 0; //barehanded
+    
+    public static boolean rollSuccess(Player player, FlyingEntities entity, boolean standardNet) {
+        return Utils.skillSuccess(entity.getLevel(), (standardNet ? 0 : 0.1) + player.getAuraManager().getHuntingMul(), entity.rate1, entity.rate99);
     }
-
-
-//	public static boolean isSuccessful(Player player, int dataLevel, DynamicFormula formula) {
-//		/*
-//		 * int hunterlevel = player.getSkills().getLevel(Constants.HUNTER); int
-//		 * increasedProbability = formula == null ? 1 :
-//		 * formula.getExtraProbablity(player); int level =
-//		 * Utils.random(hunterlevel + increasedProbability) + 1;
-//		 *
-//		 * int chance = level * 100 / (dataLevel * 2);
-//		 *
-//		 * if (Utils.random(100) > chance) return false;
-//		 */
-//
-//		return Utils.random(4) != 0;
-//	}
     
     
 //    1118: Teleport to Impetuous Implings Minigame - Wheat Field beam

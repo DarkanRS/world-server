@@ -525,6 +525,23 @@ public class AuraManager {
 			return 1.0;
 		}
 	}
+	
+	public double getHuntingMul() {
+		if (currAura == null)
+			return 1.0;
+		switch(currAura) {
+		case TRACKER:
+			return 1.03;
+		case GREATER_TRACKER:
+			return 1.05;
+		case MASTER_TRACKER:
+			return 1.07;
+		case SUPREME_TRACKER:
+			return 1.1;
+		default:
+			return 1.0;
+		}
+	}
 
 	public double getRangeAcc() {
 		if (currAura == null)
