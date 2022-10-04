@@ -16,6 +16,7 @@
 //
 package com.rs.utils.configuration;
 
+import java.lang.SuppressWarnings;
 /**
  * An exception thrown if the value of the configuration is not the appropriate
  * type

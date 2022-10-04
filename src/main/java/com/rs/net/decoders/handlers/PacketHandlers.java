@@ -19,6 +19,7 @@ package com.rs.net.decoders.handlers;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.SuppressWarnings;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

@@ -19,7 +19,6 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class LucienVarrockTempleOfIkov extends Conversation {
-	@SuppressWarnings("unused")
 	private static final int NPC = 8347;
 	public LucienVarrockTempleOfIkov(Player p) {
 		super(p);

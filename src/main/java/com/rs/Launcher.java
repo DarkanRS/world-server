@@ -32,7 +32,6 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
-import com.rs.game.content.minigames.partyroom.PartyRoom;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
@@ -50,6 +49,7 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
 import com.rs.utils.Ticks;
+import com.rs.utils.WorldPersistentData;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
 
@@ -162,7 +162,7 @@ public final class Launcher {
 				continue;
 			WorldDB.getPlayers().saveSync(player);
 		}
-		PartyRoom.save();
+		WorldPersistentData.save();
 	}
 
 	public static void cleanMemory(boolean force) {

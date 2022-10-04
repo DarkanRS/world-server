@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -39,7 +40,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
-
 
 public final class Commands {
 

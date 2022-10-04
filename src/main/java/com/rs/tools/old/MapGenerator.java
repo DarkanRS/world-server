@@ -31,6 +31,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import java.lang.SuppressWarnings;
 
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;

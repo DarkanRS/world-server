@@ -13,6 +13,8 @@ import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 
+import java.lang.SuppressWarnings;
+
 @PluginEventHandler
 public class GrailMaidenHolyGrailD extends Conversation {
 	@SuppressWarnings("unused")

@@ -16,7 +16,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class BrotherKojoClockTowerD extends Conversation {
-	@SuppressWarnings("unused")
 	private static final int NPC = 223;
 	public BrotherKojoClockTowerD(Player p) {
 		super(p);

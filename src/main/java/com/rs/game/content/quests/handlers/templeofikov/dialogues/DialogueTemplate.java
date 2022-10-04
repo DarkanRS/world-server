@@ -4,6 +4,7 @@ import static com.rs.game.content.quests.handlers.templeofikov.TempleOfIkov.HELP
 import static com.rs.game.content.quests.handlers.templeofikov.TempleOfIkov.NOT_STARTED;
 import static com.rs.game.content.quests.handlers.templeofikov.TempleOfIkov.QUEST_COMPLETE;
 
+import java.lang.SuppressWarnings;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
