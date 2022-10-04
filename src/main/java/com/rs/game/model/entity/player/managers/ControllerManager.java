@@ -16,6 +16,8 @@
 //
 package com.rs.game.model.entity.player.managers;
 
+import java.lang.SuppressWarnings;
+
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.Entity;

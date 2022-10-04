@@ -19,6 +19,8 @@ package com.rs.tools.old;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.util.Utils;
 
+import java.lang.SuppressWarnings;
+
 public class PotionCreator {
 
 	public static void main(String[] args) {

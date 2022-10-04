@@ -275,8 +275,8 @@ public class NPC extends Entity {
 		//Restore combat stats
 		if (getTickCounter() % 100 == 0)
 			restoreTick();
-		if (!combat.process() && routeEvent == null)
-			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE))
+		if (!combat.process() && routeEvent == null) {
+			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
 				if (!hasWalkSteps() && shouldRandomWalk()) {
 					boolean can = Math.random() > 0.9;
 					if (can) {
@@ -292,6 +292,8 @@ public class NPC extends Entity {
 							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
 					}
 				}
+			}
+		}
 		if (isForceWalking())
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
@@ -318,7 +320,7 @@ public class NPC extends Entity {
 			super.processEntity();
 			processNPC();
 		} catch (Throwable e) {
-			Logger.handle(NPC.class, "processEntity", e);
+			Logger.handle(NPC.class, "processEntityNPC", e);
 		}
 	}
 

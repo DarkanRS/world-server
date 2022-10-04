@@ -19,7 +19,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class WineldaWitchTempleOfIkov extends Conversation {
-	@SuppressWarnings("unused")
 	private static final int NPC = 276;
 	public WineldaWitchTempleOfIkov(Player p) {
 		super(p);

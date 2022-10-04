@@ -24,6 +24,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.SuppressWarnings;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

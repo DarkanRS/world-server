@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.firemaking;
 
+import com.rs.game.model.entity.TimerBar;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
@@ -26,21 +27,23 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class FireSpirit extends OwnedNPC {
 
-	private long createTime;
+	private int life;
 
 	public FireSpirit(WorldTile tile, Player target) {
 		super(target, 15451, tile, true);
-		createTime = System.currentTimeMillis();
+		life = Ticks.fromMinutes(1);
+		getNextHitBars().add(new TimerBar(life * 30));
 	}
 
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		if (createTime + 60000 < System.currentTimeMillis())
+		if (life-- <= 0)
 			finish();
 	}
 
