@@ -99,7 +99,7 @@ public class SandwichLady extends OwnedNPC {
 		public void handle(NPCClickEvent e) {
 			if (e.getNPC() instanceof SandwichLady) {
 				SandwichLady npc = (SandwichLady) e.getNPC();
-				if (npc.ticks >= 149)
+				if (npc.ticks >= DURATION)
 					return;
 				if (npc.getOwner() != e.getPlayer()) {
 					e.getPlayer().startConversation(new Conversation(new Dialogue()
@@ -110,7 +110,7 @@ public class SandwichLady extends OwnedNPC {
 					e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
 					e.getPlayer().getInventory().addItemDrop(1973, 1);
 					npc.forceTalk("Hope that fills you up!");
-					npc.ticks = 152;
+					npc.ticks = DURATION+4;
 					return;
 				}
 				e.getPlayer().startConversation(new Conversation(e.getPlayer())
@@ -137,11 +137,11 @@ public class SandwichLady extends OwnedNPC {
 					e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
 					e.getPlayer().getInventory().addItemDrop(1973, 1);
 					lady.forceTalk("Hope that fills you up!");
-					lady.ticks = 152;
+					lady.ticks = DURATION+4;
 				} else {
 					e.getPlayer().sendMessage("The sandwich lady knocks you out and you wake up somewhere.. different.");
 					lady.forceTalk("Hey, I didn't say you could have that!");
-					lady.ticks = 149;
+					lady.ticks = DURATION-1;
 				}
 				lady.claimed = true;
 			}
