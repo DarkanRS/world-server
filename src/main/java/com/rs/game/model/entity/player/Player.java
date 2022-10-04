@@ -18,6 +18,7 @@ package com.rs.game.model.entity.player;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.Clock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -591,7 +592,7 @@ public class Player extends Entity {
 		this.account = account;
 		username = account.getUsername();
 		setHitpoints(100);
-		dateJoined = new Date();
+		dateJoined = Date.from(Clock.systemUTC().instant());
 		house = new House();
 		chosenAccountType = false;
 		appearence = new Appearance();
@@ -1030,7 +1031,7 @@ public class Player extends Entity {
 			prayer.processPrayer();
 			controllerManager.process();
 		} catch (Throwable e) {
-			Logger.handle(Player.class, "processEntity", e);
+			Logger.handle(Player.class, "processEntity:Player", e);
 		}
 	}
 	

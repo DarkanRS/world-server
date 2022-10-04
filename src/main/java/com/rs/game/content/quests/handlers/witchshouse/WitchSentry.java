@@ -53,6 +53,8 @@ public class WitchSentry extends NPC {
 						if (playerIndexes != null)
 							for (int playerIndex : playerIndexes) {
 								player = World.getPlayers().get(playerIndex);
+								if (player == null)
+									continue;
 								if(lineOfSightTo(player, false)) {
 									resetWalkSteps();
 									faceEntity(player);

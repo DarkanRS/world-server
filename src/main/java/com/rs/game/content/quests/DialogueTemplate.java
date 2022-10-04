@@ -7,6 +7,7 @@ import static com.rs.game.content.quests.handlers.familycrest.FamilyCrest.TALK_T
 import static com.rs.game.content.quests.handlers.familycrest.FamilyCrest.TALK_TO_CALEB;
 import static com.rs.game.content.quests.handlers.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
 
+import java.lang.SuppressWarnings;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;

@@ -341,6 +341,8 @@ public class Trade {
 	}
 
 	public String getAcceptMessage(boolean firstStage) {
+		if (target == null)
+			return "";
 		if (accepted)
 			return "Waiting for other player...";
 		if (target.getTrade().accepted)

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.lang.SuppressWarnings;
 
 import com.google.gson.JsonIOException;
 import com.rs.cache.loaders.ItemDefinitions;

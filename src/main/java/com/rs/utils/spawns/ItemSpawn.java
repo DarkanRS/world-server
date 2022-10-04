@@ -19,6 +19,7 @@ package com.rs.utils.spawns;
 import com.rs.game.World;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import java.lang.SuppressWarnings;
 
 public class ItemSpawn {
 

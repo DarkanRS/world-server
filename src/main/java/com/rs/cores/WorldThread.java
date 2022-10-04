@@ -79,12 +79,20 @@ public final class WorldThread extends Thread {
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
-				player.processMovement();
+				try {
+					player.processMovement();
+				} catch(Throwable e) {
+					Logger.handle(WorldThread.class, "processPlayerMovement", e);
+				}
 			}
 			for (NPC npc : World.getNPCs()) {
 				if (npc == null || npc.hasFinished())
 					continue;
-				npc.processMovement();
+				try {
+					npc.processMovement();
+				} catch(Throwable e) {
+					Logger.handle(WorldThread.class, "processNPCMovement", e);
+				}
 			}
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())

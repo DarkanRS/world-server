@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import java.lang.SuppressWarnings;
 
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;

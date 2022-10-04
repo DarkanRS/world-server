@@ -320,7 +320,7 @@ public class NPC extends Entity {
 			super.processEntity();
 			processNPC();
 		} catch (Throwable e) {
-			Logger.handle(NPC.class, "processEntity", e);
+			Logger.handle(NPC.class, "processEntityNPC", e);
 		}
 	}
 
