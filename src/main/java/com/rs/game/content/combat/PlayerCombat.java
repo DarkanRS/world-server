@@ -1658,20 +1658,20 @@ public class PlayerCombat extends PlayerAction {
 		double str = player.getCombatDefinitions().getBonus(Bonus.MELEE_STR);
 		if (weaponId == -2)
 			str += 82;
-		double baseDamage = Math.floor(5 + lvl * (str + 64) / 64);
+		double baseDamage = 5 + lvl * (str + 64) / 64;
 
 		//int multiplier = PluginManager.handle()
 
 		switch (weaponId) {
-			case 11694:
-			case 23679:
-			case 11696:
-			case 23680:
-			case 11698:
-			case 23681:
-			case 11700:
-			case 23682:
-				baseDamage *= 1.1;
+//			case 11694:
+//			case 23679:
+//			case 11696:
+//			case 23680:
+//			case 11698:
+//			case 23681:
+//			case 11700:
+//			case 23682:
+//				baseDamage *= 1.1;
 			case 6523:
 			case 6525:
 			case 6527:
