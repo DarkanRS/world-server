@@ -1663,15 +1663,15 @@ public class PlayerCombat extends PlayerAction {
 		//int multiplier = PluginManager.handle()
 
 		switch (weaponId) {
-			case 11694:
-			case 23679:
-			case 11696:
-			case 23680:
-			case 11698:
-			case 23681:
-			case 11700:
-			case 23682:
-				baseDamage *= 1.1;
+//			case 11694:
+//			case 23679:
+//			case 11696:
+//			case 23680:
+//			case 11698:
+//			case 23681:
+//			case 11700:
+//			case 23682:
+//				baseDamage *= 1.1;
 			case 6523:
 			case 6525:
 			case 6527:
