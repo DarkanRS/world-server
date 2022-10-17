@@ -139,13 +139,8 @@ public final class NPCCombat {
 			distanceX = target.getX() - npc.getX();
 			distanceY = target.getY() - npc.getY();
 		}
-		// checks for no multi area :)
-		if (npc instanceof Familiar familiar && !familiar.canAttack(target))
+		if (!npc.canAttackMulti(target) || !target.canAttackMulti(npc))
 			return false;
-		if (!(npc instanceof Familiar f && f.getOwner().isForceMultiArea()) && !npc.isForceMultiAttacked())
-			if (!target.isAtMultiArea() || !npc.isAtMultiArea())
-				if ((npc.getAttackedBy() != target && npc.inCombat()) || (target.getAttackedBy() != npc && target.inCombat()))
-					return false;
 		int targetSize = target.getSize();
 		boolean colliding = WorldUtil.collides(npc.getX(), npc.getY(), size, target.getX(), target.getY(), targetSize);
 		if (!npc.isCantFollowUnderCombat()) {

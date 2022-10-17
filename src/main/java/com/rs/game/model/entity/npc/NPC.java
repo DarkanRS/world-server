@@ -480,6 +480,8 @@ public class NPC extends Entity {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		getInteractionManager().forceStop();
 		resetWalkSteps();
+		if (combat.getTarget() != null)
+			combat.getTarget().setAttackedByDelay(0);
 		combat.removeTarget();
 		if (source.getAttackedBy() == NPC.this) {
 			source.setAttackedBy(null);
