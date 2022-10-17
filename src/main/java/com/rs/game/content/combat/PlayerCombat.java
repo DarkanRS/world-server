@@ -2273,6 +2273,8 @@ public class PlayerCombat extends PlayerAction {
 	public boolean checkAll(Player player) {
 		if (target.isDead())
 			return false;
+		if (!player.canAttackMulti(target) || !target.canAttackMulti(player))
+			return false;
 		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;
@@ -2285,10 +2287,6 @@ public class PlayerCombat extends PlayerAction {
 					return false;
 			} else if (isAttackExeption(player, n))
 				return false;
-		}
-		if ((!(target instanceof NPC n && n.isForceMultiAttacked()) && !target.isAtMultiArea() || !player.isAtMultiArea()) && ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player) && target.inCombat())) {
-			//TODO possibly print here
-			return false;
 		}
 		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
 			player.getTempAttribs().setL("SOL_SPEC", 0);

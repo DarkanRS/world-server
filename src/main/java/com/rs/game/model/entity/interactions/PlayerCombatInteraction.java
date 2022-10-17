@@ -24,6 +24,6 @@ public class PlayerCombatInteraction extends PlayerEntityInteractionAction<Playe
 			return false;
 		setDistance(PlayerCombat.getAttackRange(player));
 		player.setNextFaceEntity(target);
-		return true;
+		return getAction().checkAll(player);
 	}
 }
