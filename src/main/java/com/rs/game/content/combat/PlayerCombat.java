@@ -1658,7 +1658,7 @@ public class PlayerCombat extends PlayerAction {
 		double str = player.getCombatDefinitions().getBonus(Bonus.MELEE_STR);
 		if (weaponId == -2)
 			str += 82;
-		double baseDamage = 5 + lvl * (str + 64) / 64;
+		double baseDamage = Math.floor(5 + lvl * (str + 64) / 64);
 
 		//int multiplier = PluginManager.handle()
 
