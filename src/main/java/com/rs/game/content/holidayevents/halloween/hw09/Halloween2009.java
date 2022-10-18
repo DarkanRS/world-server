@@ -37,6 +37,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -113,7 +114,7 @@ public class Halloween2009 {
 		WEBS.put(46713, new HashSet<>(Arrays.asList(46703)));
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPortal() {
 		if (ENABLED)
 			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
