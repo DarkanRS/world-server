@@ -37,6 +37,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -110,7 +111,7 @@ public class Halloween2007 {
 		SPRINGBOARD_PAIRS.put(t2, t1);
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPortal() {
 		if (ENABLED)
 			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
