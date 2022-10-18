@@ -51,7 +51,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 public class Halloween2007 {
 
 	public static String STAGE_KEY = "hw2022";
-	public static boolean ENABLED = false;
+	public static boolean ENABLED = true;
 
 	public static WorldTile START_LOCATION = new WorldTile(1697, 4814, 0);
 
