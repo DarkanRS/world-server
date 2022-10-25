@@ -18,20 +18,23 @@ package com.rs.game.tasks;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import com.rs.lib.util.Logger;
 
 public class WorldTasks {
 
-	private static final List<WorldTaskInformation> TASKS = Collections.synchronizedList(new ArrayList<>());
-	private static final Object LOCK = new Object();
+	private static final List<WorldTaskInformation> TASKS = new CopyOnWriteArrayList<>();
 
 	public static void processTasks() {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			List<WorldTaskInformation> toRemove = new ArrayList<>();
-			for (WorldTaskInformation task : TASKS) {
+			Iterator<WorldTaskInformation> iter = TASKS.iterator();
+			while(iter.hasNext()) {
+				WorldTaskInformation task = iter.next();
 				if (task == null)
 					continue;
 				try {
@@ -59,7 +62,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task, int startDelay, int loopDelay) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || startDelay < 0 || loopDelay < 0)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(task, startDelay, loopDelay);
@@ -69,7 +72,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task, int delayCount) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || delayCount < 0)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(task, delayCount, -1);
@@ -79,7 +82,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(task, 0, -1);
@@ -89,7 +92,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || startDelay < 0 || loopDelay < 0)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay);
@@ -99,7 +102,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(int startDelay, Runnable task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || startDelay < 0)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1);
@@ -109,7 +112,7 @@ public class WorldTasks {
 	}
 
 	public static WorldTaskInformation schedule(Runnable task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null)
 				return null;
 			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), 0, -1);
@@ -119,7 +122,7 @@ public class WorldTasks {
 	}
 
 	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || startDelay < 0 || loopDelay < 0)
 				return;
 			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
@@ -127,7 +130,7 @@ public class WorldTasks {
 	}
 
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null)
 				return;
 			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
@@ -135,7 +138,7 @@ public class WorldTasks {
 	}
 
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null || startDelay < 0)
 				return;
 			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
@@ -143,7 +146,7 @@ public class WorldTasks {
 	}
 	
 	public static void remove(WorldTaskInformation task) {
-		synchronized(LOCK) {
+		synchronized(TASKS) {
 			if (task == null)
 				return;
 			TASKS.remove(task);
