@@ -30,6 +30,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Rights;
+import com.rs.lib.util.Logger;
 
 public class HighscoresManager extends DBItemManager {
 
@@ -61,7 +62,7 @@ public class HighscoresManager extends DBItemManager {
 		try {
 			getDocs().findOneAndReplace(eq("username", player.getUsername()), Document.parse(JsonFileManager.toJson(new Highscore(player))), new FindOneAndReplaceOptions().upsert(true));
 		} catch (Exception e) {
-			e.printStackTrace();
+			Logger.handle(HighscoresManager.class, "saveSync", e);
 		}
 	}
 

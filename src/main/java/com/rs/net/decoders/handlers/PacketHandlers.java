@@ -64,7 +64,7 @@ public class PacketHandlers {
 			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Packet handlers loaded for " + handled + " packets...");
 			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Packets missing: " + missing);
 		} catch (ClassNotFoundException | IOException | IllegalArgumentException | SecurityException | InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-			e.printStackTrace();
+			Logger.handle(PacketHandlers.class, "loadHandlersFromPackage", e);
 		}
 	}
 
