@@ -234,7 +234,7 @@ public class DruidicRitual extends QuestOutline {
 			case 1:
 				addPlayer(HeadE.CALM_TALK, "Hello there.");
 				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", () -> {
-					player.getPackets().sendVoice(77263);
+					player.voiceEffect(77263);
 				});
 				addPlayer(HeadE.CALM_TALK, "I've been sent to assist you with the ritual to purify the Varrockian stone circle.", ()->{
 					player.getPackets().resetSounds();
@@ -283,7 +283,7 @@ public class DruidicRitual extends QuestOutline {
 				break;
 			default:
 				addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", ()->{
-					player.getPackets().sendVoice(77263);
+					player.voiceEffect(77263);
 				});
 				addPlayer(HeadE.CALM_TALK, "Nothing at the moment.", ()->{
 

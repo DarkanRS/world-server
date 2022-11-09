@@ -18,6 +18,7 @@ package com.rs.game.content.skills.slayer.npcs.combat;
 
 import com.rs.game.content.skills.slayer.Slayer;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -43,8 +44,9 @@ public class DustDevil extends CombatScript {
 				int currentLevel = targetPlayer.getSkills().getLevel(randomSkill);
 				targetPlayer.getSkills().set(randomSkill, currentLevel < 5 ? 0 : currentLevel - Utils.random(20));
 				targetPlayer.sendMessage("The dust devil's smoke suffocates you.");
+				npc.setNextForceTalk(new ForceTalk("*cough*"));
 			}
-			delayHit(npc, 1, target, getMeleeHit(npc, targetPlayer.getMaxHitpoints() / 4));
+			delayHit(npc, 1, target, getRegularHit(npc, targetPlayer.getMaxHitpoints() / 10));
 		} else
 			delayHit(npc, 1, target, getMeleeHit(npc, getMaxHit(npc, npc.getMaxHit(), def.getAttackStyle(), target)));
 		npc.setNextAnimation(new Animation(def.getAttackEmote()));

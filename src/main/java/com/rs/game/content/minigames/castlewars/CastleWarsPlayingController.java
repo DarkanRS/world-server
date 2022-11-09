@@ -214,7 +214,7 @@ public class CastleWarsPlayingController extends Controller {
 					player.setNextWorldTile(new WorldTile(team == CastleWars.ZAMORAK ? CastleWars.ZAMO_BASE : CastleWars.SARA_BASE, 1));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

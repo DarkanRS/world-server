@@ -93,10 +93,10 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 				@Override
 				public void run() {
 					if (tick == 0) {
-						player.getPackets().sendMusic(-1, 100, 255);
+						player.musicTrack(-1);
 						player.getInterfaceManager().setFadingInterface(115);
 					} else if (tick == 2) {// setup player
-						player.getPackets().sendMusic(195, 100, 255);
+						player.musicTrack(195);
 						player.getPackets().setBlockMinimapState(2);
 						player.getAppearance().transformIntoNPC(266);
 						player.setNextWorldTile(spawn);

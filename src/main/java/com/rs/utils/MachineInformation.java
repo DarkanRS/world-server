@@ -22,7 +22,6 @@ import java.util.Objects;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.io.InputStream;
 
-@SuppressWarnings("unused")
 public class MachineInformation {
 
 	public int operatingSystem;

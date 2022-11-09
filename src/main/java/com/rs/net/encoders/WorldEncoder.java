@@ -60,6 +60,7 @@ import com.rs.lib.net.packets.encoders.PlayerUpdate;
 import com.rs.lib.net.packets.encoders.RunEnergy;
 import com.rs.lib.net.packets.encoders.RunWeight;
 import com.rs.lib.net.packets.encoders.SetCursor;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.SystemUpdateTimer;
 import com.rs.lib.net.packets.encoders.UpdateGESlot;
 import com.rs.lib.net.packets.encoders.UpdateItemContainer;
@@ -97,10 +98,6 @@ import com.rs.lib.net.packets.encoders.social.QuickChatClan;
 import com.rs.lib.net.packets.encoders.social.QuickChatFriendsChat;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivate;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivateEcho;
-import com.rs.lib.net.packets.encoders.sound.MusicEffect;
-import com.rs.lib.net.packets.encoders.sound.MusicTrack;
-import com.rs.lib.net.packets.encoders.sound.SoundSynth;
-import com.rs.lib.net.packets.encoders.sound.SoundVorbisSpeech;
 import com.rs.lib.net.packets.encoders.updatezone.AddObject;
 import com.rs.lib.net.packets.encoders.updatezone.CreateGroundItem;
 import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject;
@@ -562,36 +559,12 @@ public class WorldEncoder extends Encoder {
 				player.getSession().getChannel().close();
 	}
 
-	public void sendSound(int id, int delay, int effectType) {
-		if (effectType == 1)
-			sendSoundSynth(id, delay);
-		else if (effectType == 2)
-			sendVorbisSpeechSound(id, delay);
-	}
-
-	public void sendVoice(int id) {
-		resetSounds();
-		sendSound(id, 0, 2);
+	public void sendSound(Sound sound) {
+		session.writeToQueue(sound);
 	}
 
 	public void resetSounds() {
 		session.writeToQueue(ServerPacket.RESET_SOUNDS);
-	}
-
-	public void sendSoundSynth(int id, int delay) {
-		session.writeToQueue(new SoundSynth(id, delay));
-	}
-
-	public void sendVorbisSpeechSound(int id, int delay) {
-		session.writeToQueue(new SoundVorbisSpeech(id, delay));
-	}
-
-	public void sendMusicEffect(int id) {
-		session.writeToQueue(new MusicEffect(id));
-	}
-
-	public void sendMusic(int id, int delay, int volume) {
-		session.writeToQueue(new MusicTrack(id, delay, volume));
 	}
 
 	public void updateStats(int... skills) {
@@ -620,10 +593,6 @@ public class WorldEncoder extends Encoder {
 		sendVar(2159, player.getAccount().getSocial().getFcStatus());
 		sendChatFilterSettings();
 		sendChatFilterSettingsPrivateChat();
-	}
-
-	public void sendMusic(int id) {
-		sendMusic(id, 100, 255);
 	}
 
 	public void sendInventoryMessage(int border, int slotId, String message) {

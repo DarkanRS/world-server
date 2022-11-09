@@ -310,7 +310,7 @@ public final class QueenBlackDragonController extends Controller {
 					end(0);
 					player.getControllerManager().startController(new DeathOfficeController(OUTSIDE, player.hasSkull()));
 				} else if (loop == 4) {
-					player.getPackets().sendMusicEffect(90);
+					player.jingle(90);
 					stop();
 				}
 				loop++;

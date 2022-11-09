@@ -22,12 +22,14 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Set;
+import java.lang.SuppressWarnings;
 
 import com.google.gson.JsonIOException;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class Areas {
@@ -38,7 +40,7 @@ public class Areas {
 	private static HashMap<String, Set<Integer>> AREAS = new HashMap<>();
 
 	@SuppressWarnings("unchecked")
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(Areas.class, "init", "Loading areas...");
 		File[] spawnFiles = new File(PATH).listFiles();

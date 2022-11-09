@@ -30,6 +30,7 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public final class ObjectSpawns {
@@ -40,7 +41,7 @@ public final class ObjectSpawns {
 	private static final ArrayList<ObjectSpawn> ALL_SPAWNS = new ArrayList<>();
 	private static final Map<Integer, List<ObjectSpawn>> OBJECT_SPAWNS = new HashMap<>();
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(ObjectSpawns.class, "init", "Loading map object spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();

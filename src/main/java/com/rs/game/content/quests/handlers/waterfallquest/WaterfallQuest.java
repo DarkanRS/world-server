@@ -142,6 +142,19 @@ public class WaterfallQuest extends QuestOutline {
 		}
 	};
 
+	public static ObjectClickHandler keyCrateSearch = new ObjectClickHandler(new Object[] { 31139 }, new WorldTile(2593, 9881, 0)) {
+		@Override
+		public void handle(ObjectClickEvent e) {
+			e.getPlayer().sendMessage("You search the crate.");
+			if (e.getPlayer().getInventory().containsItem(293, 1))
+				e.getPlayer().sendMessage("You find nothing of interest.");
+			else {
+				e.getPlayer().getInventory().addItem(293, 1);
+				e.getPlayer().sendMessage("You find an old key.");
+			}
+		}
+	};
+	
 	public static ObjectClickHandler onObjectClick = new ObjectClickHandler(new Object[] { 1987, 1990, 1757, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
@@ -196,14 +209,6 @@ public class WaterfallQuest extends QuestOutline {
 					e.getPlayer().sendMessage("A powerful rush of water floods out of the cave and sweeps you down river.");
 					e.getPlayer().setNextWorldTile(new WorldTile(2531, 3413, 0));
 					e.getPlayer().applyHit(new Hit(e.getPlayer(), Utils.random(20, 56), HitLook.TRUE_DAMAGE));
-				}
-			} else if (e.getObjectId() == 31139) {
-				e.getPlayer().sendMessage("You search the crate.");
-				if (e.getPlayer().getInventory().containsItem(293, 1))
-					e.getPlayer().sendMessage("You find nothing of interest.");
-				else {
-					e.getPlayer().getInventory().addItem(293, 1);
-					e.getPlayer().sendMessage("You find an old key.");
 				}
 			} else if (e.getObjectId() == 2002 || e.getObjectId() == 1991)
 				e.getPlayer().sendMessage("The door is locked.");

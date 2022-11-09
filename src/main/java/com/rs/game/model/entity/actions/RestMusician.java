@@ -82,7 +82,7 @@ public class RestMusician extends PlayerAction {
 	@Override
 	public boolean process(Player player) {
 		if(musicId != -1 && !player.getMusicsManager().isPlaying(musicId))
-			player.getPackets().sendMusic(musicId);
+			player.musicTrack(musicId);
 		if (player.getPoison().isPoisoned()) {
 			player.sendMessage("You can't rest while you're poisoned.");
 			return false;

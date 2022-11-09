@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
@@ -364,11 +365,17 @@ public class PlayerCombat extends PlayerAction {
 				@Override
 				public void run() {
 					if (hit > 0) {
-						if (spell.getHitSpotAnim() != null)
+						if (spell.getHitSpotAnim() != null) {
 							target.setNextSpotAnim(spell.getHitSpotAnim());
+							if (spell.landSound != -1)
+								playSound(spell.landSound, player, target);
+						}
 					} else {
 						target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-						playSound(227, player, target);
+						if (spell.splashSound != -1)
+							playSound(spell.landSound, player, target);
+						else
+							playSound(227, player, target);
 					}
 				}
 			}, delay);
@@ -411,15 +418,22 @@ public class PlayerCombat extends PlayerAction {
 							target.setNextSpotAnim(new SpotAnim(1677, 0, 96));
 						else
 							target.setNextSpotAnim(spell.getHitSpotAnim());
+						if (spell.landSound != -1)
+							playSound(spell.landSound, player, target);
 						break;
 					default:
 						if (spell.getHitSpotAnim() != null)
 							target.setNextSpotAnim(spell.getHitSpotAnim());
+						if (spell.landSound != -1)
+							playSound(spell.landSound, player, target);
 						break;
 				}
 			else {
 				target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-				playSound(227, player, target);
+				if (spell.splashSound != -1)
+					playSound(spell.landSound, player, target);
+				else
+					playSound(227, player, target);
 			}
 		}, () -> {
 			spell.onHit(player, target, hit);
@@ -1273,9 +1287,9 @@ public class PlayerCombat extends PlayerAction {
 	public static void playSound(int soundId, Player player, Entity target) {
 		if (soundId == -1)
 			return;
-		player.getPackets().sendSound(soundId, 0, 1);
+		player.soundEffect(soundId);
 		if (target instanceof Player p2)
-			p2.getPackets().sendSound(soundId, 0, 1);
+			p2.soundEffect(soundId);
 	}
 
 	public static int getSpecialAmmount(int weaponId) {
@@ -1649,15 +1663,15 @@ public class PlayerCombat extends PlayerAction {
 		//int multiplier = PluginManager.handle()
 
 		switch (weaponId) {
-			case 11694:
-			case 23679:
-			case 11696:
-			case 23680:
-			case 11698:
-			case 23681:
-			case 11700:
-			case 23682:
-				baseDamage *= 1.1;
+//			case 11694:
+//			case 23679:
+//			case 11696:
+//			case 23680:
+//			case 11698:
+//			case 23681:
+//			case 11700:
+//			case 23682:
+//				baseDamage *= 1.1;
 			case 6523:
 			case 6525:
 			case 6527:
@@ -1832,7 +1846,7 @@ public class PlayerCombat extends PlayerAction {
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 			if (target instanceof NPC n)
-				World.playSound(n, n.getCombatDefinitions().getDefendSound(), 1);
+				n.soundEffect(n.getCombatDefinitions().getDefendSound());
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())
@@ -2010,14 +2024,14 @@ public class PlayerCombat extends PlayerAction {
 
 	public static int getWeaponAttackEmote(int weaponId, AttackStyle attackStyle) {
 		if (weaponId != -1) {
-			if (weaponId == -2)
-				// punch/block:14393 kick:14307 spec:14417
+			if (weaponId == -2) {
 				switch (attackStyle.getIndex()) {
 					case 1:
 						return 14307;
 					default:
 						return 14393;
 				}
+			}
 			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
 			if (weaponName != null && !weaponName.equals("null")) {
 				if (weaponName.contains("boxing gloves"))
@@ -2259,6 +2273,8 @@ public class PlayerCombat extends PlayerAction {
 	public boolean checkAll(Player player) {
 		if (target.isDead())
 			return false;
+		if (!player.canAttackMulti(target) || !target.canAttackMulti(player))
+			return false;
 		if (target instanceof Player p2) {
 			if (!player.isCanPvp() || !p2.isCanPvp())
 				return false;
@@ -2271,10 +2287,6 @@ public class PlayerCombat extends PlayerAction {
 					return false;
 			} else if (isAttackExeption(player, n))
 				return false;
-		}
-		if ((!(target instanceof NPC n && n.isForceMultiAttacked()) && !target.isAtMultiArea() || !player.isAtMultiArea()) && ((player.getAttackedBy() != target && player.inCombat()) || (target.getAttackedBy() != player) && target.inCombat())) {
-			//TODO possibly print here
-			return false;
 		}
 		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
 			player.getTempAttribs().setL("SOL_SPEC", 0);

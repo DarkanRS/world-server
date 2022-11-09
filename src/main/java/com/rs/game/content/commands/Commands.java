@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -39,7 +40,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
-
 
 public final class Commands {
 
@@ -260,46 +260,6 @@ public final class Commands {
 					if (Utils.getDistance(npc.getTile(), p.getTile()) < 9)
 						npc.sendDeath(p);
 				}
-			return true;
-
-		case "voice":
-			p.getPackets().sendVoice(Integer.valueOf(args[1]));
-			return true;
-
-		case "sound":
-			if (args.length < 2) {
-				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid effecttype");
-				return true;
-			}
-			try {
-				p.getPackets().sendSound(Integer.valueOf(args[1]), 0, args.length > 2 ? Integer.valueOf(args[2]) : 1);
-			} catch (NumberFormatException e) {
-				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid");
-			}
-			return true;
-
-		case "music":
-			if (args.length < 2) {
-				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid effecttype");
-				return true;
-			}
-			try {
-				p.getPackets().sendMusic(Integer.valueOf(args[1]));
-			} catch (NumberFormatException e) {
-				p.getPackets().sendDevConsoleMessage("Use: ::sound soundid");
-			}
-			return true;
-
-		case "emusic":
-			if (args.length < 2) {
-				p.getPackets().sendDevConsoleMessage("Use: ::emusic soundid effecttype");
-				return true;
-			}
-			try {
-				p.getPackets().sendMusicEffect(Integer.valueOf(args[1]));
-			} catch (NumberFormatException e) {
-				p.getPackets().sendDevConsoleMessage("Use: ::emusic soundid");
-			}
 			return true;
 
 		case "cutscene":

@@ -16,6 +16,12 @@
 //
 package com.rs.game.content.world.areas;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.rs.cache.loaders.InventoryDefinitions;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
@@ -55,12 +61,15 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
+import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -330,6 +339,107 @@ public class Varrock {
 			if(e.getOption().equalsIgnoreCase("Climb-Down"))
 				if(obj.matches(new WorldTile(3237, 3458, 0)))
 					p.useStairs(833, new WorldTile(3237, 9858, 0), 1, 2);
+		}
+	};
+	
+	public static ButtonClickHandler furclothingShop = new ButtonClickHandler(477) {
+		enum FurItem {
+			POLAR_TOP(10065, 20, 2, 10117),
+			POLAR_BOT(10067, 20, 2, 10117),
+			WOODS_TOP(10053, 20, 2, 10121),
+			WOODS_BOT(10055, 20, 2, 10121),
+			FELDI_TOP(10057, 20, 2, 10119),
+			FELDI_BOT(10059, 20, 2, 10119),
+			DESER_TOP(10061, 20, 2, 10123),
+			DESER_BOT(10063, 20, 2, 10123),
+			LARUP_HAT(10045, 500, 1, 10095),
+			LARUP_TOP(10043, 100, 1, 10093, 10095),
+			LARUP_BOT(10041, 100, 1, 10093, 10095),
+			GRAAH_HAT(10051, 750, 1, 10099),
+			GRAAH_TOP(10049, 150, 1, 10097, 10099),
+			GRAAH_BOT(10047, 150, 1, 10097, 10099),
+			KYATT_HAT(10039, 1000, 1, 10103),
+			KYATT_TOP(10037, 200, 1, 10101, 10103),
+			KYATT_BOT(10035, 200, 1, 10101, 10103),
+			GLOVES_SI(10075, 600, 2, 10115),
+			SPOT_CAPE(10069, 400, 2, 10125),
+			SPOTICAPE(10071, 800, 2, 10127);
+			
+			private static Map<Integer, FurItem> BY_ITEMID = new HashMap<>();
+			
+			static {
+				for (FurItem item : FurItem.values())
+					BY_ITEMID.put(item.id, item);
+			}
+			
+			private final int id;
+			private final int gpCost;
+			private final int furCost;
+			private final int[] furIds;
+			
+			FurItem(int itemId, int gpCost, int furCost, int... furIds) {
+				this.id = itemId;
+				this.gpCost = gpCost;
+				this.furCost = furCost;
+				this.furIds = furIds;
+			}
+			
+			private static FurItem forId(int item) {
+				return BY_ITEMID.get(item);
+			}
+		}
+		
+		@Override
+		public void handle(ButtonClickEvent e) {
+			FurItem item = FurItem.forId(e.getSlotId2());
+			if (item == null)
+				return;
+			String name = ItemDefinitions.getDefs(e.getSlotId2()).name;
+			switch(e.getPacket()) {
+			case IF_OP1 -> e.getPlayer().sendMessage(name + " costs " + Utils.formatNumber(item.gpCost) + "gp and " + item.furCost + " " + ItemDefinitions.getDefs(item.furIds[0]).name.toLowerCase() + ".");
+			case IF_OP2 -> buy(e.getPlayer(), item, 1);
+			case IF_OP3 -> buy(e.getPlayer(), item, 5);
+			case IF_OP4 -> buy(e.getPlayer(), item, 10);
+			default -> {}
+			}
+		}
+
+		private void buy(Player player, FurItem item, int amount) {
+			player.sendOptionDialogue("Are you sure you'd like to buy " + amount + " " + ItemDefinitions.getDefs(item.id).name + "?", ops -> {
+				ops.add("Yes, I am sure ("+Utils.formatNumber(item.gpCost*amount) + " coins)", () -> {
+					if (item.furCost*amount > player.getInventory().getTotalNumberOf(item.furIds)) {
+						player.sendMessage("You don't have enough furs to exchange for that.");
+						return;
+					}
+					int paid = 0;
+					for (int i = 0;i < amount*2;i++) {
+						for (int furId : item.furIds) {
+							if (player.getInventory().containsItem(furId)) {
+								player.getInventory().deleteItem(furId, 1);
+								if (++paid == (item.furCost*amount))
+									break;
+							}
+						}
+					}
+					player.getInventory().addItemDrop(item.id, amount);
+				});
+				ops.add("No thanks.");
+			});
+		}
+	};
+	
+	public static NPCClickHandler fancyShopOwner = new NPCClickHandler(new Object[] { 554 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			switch(e.getOption()) {
+			case "Talk-to" -> e.getPlayer().sendMessage("Lmao you think I'm gonna write dialogue?");
+			case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "fancy_clothes_store");
+			case "Fur-shop" -> {
+				e.getPlayer().getPackets().sendItems(482, Arrays.stream(InventoryDefinitions.getContainer(482).ids).mapToObj(id -> new Item(id, 1)).toArray(Item[]::new));
+				e.getPlayer().getInterfaceManager().sendInterface(477);
+				e.getPlayer().getPackets().setIFRightClickOps(477, 26, 0, 20, 0, 1, 2, 3);
+			}
+			}
 		}
 	};
 

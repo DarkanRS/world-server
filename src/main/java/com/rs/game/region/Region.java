@@ -474,17 +474,17 @@ public class Region {
 					int localX = (location >> 6 & 0x3f);
 					int localY = (location & 0x3f);
 					int plane = location >> 12;
-			int objectData = landStream.readUnsignedByte();
-			int type = objectData >> 2;
-				int rotation = objectData & 0x3;
-				if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
-					continue;
-				int objectPlane = plane;
-				if (tileFlags != null && (tileFlags[1][localX][localY] & 0x2) != 0)
-					objectPlane--;
-				if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
-					continue;
-				spawnObject(new GameObject(objectId, ObjectType.forId(type), rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
+					int objectData = landStream.readUnsignedByte();
+					int type = objectData >> 2;
+					int rotation = objectData & 0x3;
+					if (localX < 0 || localX >= 64 || localY < 0 || localY >= 64)
+						continue;
+					int objectPlane = plane;
+					if (tileFlags != null && (tileFlags[1][localX][localY] & 0x2) != 0)
+						objectPlane--;
+					if (objectPlane < 0 || objectPlane >= 4 || plane < 0 || plane >= 4)
+						continue;
+					spawnObject(new GameObject(objectId, ObjectType.forId(type), rotation, localX + regionX, localY + regionY, objectPlane), objectPlane, localX, localY);
 				}
 			}
 		}

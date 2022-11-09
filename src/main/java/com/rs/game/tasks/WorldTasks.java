@@ -16,6 +16,9 @@
 //
 package com.rs.game.tasks;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
@@ -27,93 +30,127 @@ public class WorldTasks {
 	private static final List<WorldTaskInformation> TASKS = new CopyOnWriteArrayList<>();
 
 	public static void processTasks() {
-		for (WorldTaskInformation task : TASKS) {
-			if (task.currDelay > 0) {
-				task.currDelay--;
-				continue;
+		synchronized(TASKS) {
+			List<WorldTaskInformation> toRemove = new ArrayList<>();
+			Iterator<WorldTaskInformation> iter = TASKS.iterator();
+			while(iter.hasNext()) {
+				WorldTaskInformation task = iter.next();
+				if (task == null)
+					continue;
+				try {
+					if (task.currDelay > 0) {
+						task.currDelay--;
+						continue;
+					}
+					try {
+						task.getTask().run();
+					} catch (Throwable e) {
+						Logger.handle(WorldTasks.class, "processTasksRun:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+					}
+					if (task.getTask().needRemove)
+						toRemove.add(task);
+					else
+						task.currDelay = task.getLoopDelay();
+				} catch (Throwable e) {
+					Logger.handle(WorldTasks.class, "processTasks:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+				}
 			}
-			try {
-				task.getTask().run();
-			} catch (Throwable e) {
-				Logger.handle(WorldTasks.class, "processTasks:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
-			}
-			if (task.getTask().needRemove)
-				TASKS.remove(task);
-			else
-				task.currDelay = task.getLoopDelay();
+			for (WorldTaskInformation task : toRemove)
+				if (task != null)
+					TASKS.remove(task);
 		}
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task, int startDelay, int loopDelay) {
-		if (task == null || startDelay < 0 || loopDelay < 0)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(task, startDelay, loopDelay);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null || startDelay < 0 || loopDelay < 0)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(task, startDelay, loopDelay);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task, int delayCount) {
-		if (task == null || delayCount < 0)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(task, delayCount, -1);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null || delayCount < 0)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(task, delayCount, -1);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static WorldTaskInformation schedule(WorldTask task) {
-		if (task == null)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(task, 0, -1);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(task, 0, -1);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static WorldTaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-		if (task == null || startDelay < 0 || loopDelay < 0)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null || startDelay < 0 || loopDelay < 0)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static WorldTaskInformation schedule(int startDelay, Runnable task) {
-		if (task == null || startDelay < 0)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null || startDelay < 0)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static WorldTaskInformation schedule(Runnable task) {
-		if (task == null)
-			return null;
-		WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), 0, -1);
-		TASKS.add(taskInfo);
-		return taskInfo;
+		synchronized(TASKS) {
+			if (task == null)
+				return null;
+			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), 0, -1);
+			TASKS.add(taskInfo);
+			return taskInfo;
+		}
 	}
 
 	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
-		if (task == null || startDelay < 0 || loopDelay < 0)
-			return;
-		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
+		synchronized(TASKS) {
+			if (task == null || startDelay < 0 || loopDelay < 0)
+				return;
+			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
+		}
 	}
 
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
-		if (task == null)
-			return;
-		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
+		synchronized(TASKS) {
+			if (task == null)
+				return;
+			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
+		}
 	}
 
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
-		if (task == null || startDelay < 0)
-			return;
-		TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
+		synchronized(TASKS) {
+			if (task == null || startDelay < 0)
+				return;
+			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
+		}
 	}
 	
 	public static void remove(WorldTaskInformation task) {
-		if (task == null)
-			return;
-		TASKS.remove(task);
+		synchronized(TASKS) {
+			if (task == null)
+				return;
+			TASKS.remove(task);
+		}
 	}
 
 	private WorldTasks() {

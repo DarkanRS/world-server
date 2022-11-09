@@ -26,6 +26,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
@@ -105,7 +106,7 @@ public class Christmas2019 {
 		}
 	}
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadSnowyCupboard() {
 		if (!ACTIVE)
 			return;

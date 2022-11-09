@@ -438,8 +438,8 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id effectType]", "Plays a sound effect.", (p, args) -> {
-			p.getPackets().sendSound(Integer.valueOf(args[0]), 0, args.length > 1 ? Integer.valueOf(args[1]) : 1);
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) -> {
+			p.soundEffect(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
@@ -481,19 +481,19 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> {
 			World.allPlayers(target -> {
 				target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
-				target.getPackets().sendMusic(409, 100, 255);
+				target.musicTrack(409);
 			});
 		});
 
 		Commands.add(Rights.DEVELOPER, "musicall [id]", "Plays music to everyone on the server.", (p, args) -> {
 			World.allPlayers(target -> {
 				target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
-				target.getPackets().sendMusic(Integer.valueOf(args[0]), 100, 255);
+				target.musicTrack(Integer.valueOf(args[0]));
 			});
 		});
 
-		Commands.add(Rights.DEVELOPER, "musiceffect [id]", "plays music effects", (p, args) -> {
-			p.getPackets().sendMusicEffect(Integer.valueOf(args[0]));
+		Commands.add(Rights.DEVELOPER, "jingle [id]", "plays jingles", (p, args) -> {
+			p.jingle(Integer.valueOf(args[0]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
@@ -793,9 +793,7 @@ public class MiscTest {
 			p.getSkills().init();
 		});
 
-		Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> {
-			p.playSound(Integer.valueOf(args[0]), 2);
-		});
+		Commands.add(Rights.PLAYER, "voice, v [id]", "Plays voices.", (p, args) -> p.voiceEffect(Integer.valueOf(args[0])));
 
 		Commands.add(Rights.PLAYER, "playthroughvoices [start finish tick_delay]", "Gets player rights", (p, args) -> {
 			//		Voice[] voices = new Voice[3];
@@ -827,7 +825,7 @@ public class MiscTest {
 
 					if(!Voices.voicesMarked.contains(voiceID)) {
 						p.sendMessage("Playing voice " + voiceID);
-						p.getPackets().sendVoice(voiceID++);
+						p.voiceEffect(voiceID++);
 					}
 
 					if(voiceID > Integer.valueOf(args[1]))

@@ -187,71 +187,54 @@ public class HolyGrail extends QuestOutline {
 			if(e.getOption().equalsIgnoreCase("drop")) {
 				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
 				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
+				e.getPlayer().soundEffect(2739);
 			}
 		}
 	};
 
-	public static ItemClickHandler handleGrailBell = new ItemClickHandler(17) {
+	public static ItemClickHandler handleGrailBell = new ItemClickHandler(new Object[] { 17 }, new String[] { "Ring" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Ring")) {
-				if (e.getPlayer().getTile().withinDistance(new WorldTile(2762, 4694, 0), 1)) {
-					e.getPlayer().startConversation(new Dialogue()
-							.addSimple("Ting-a-ling!")
-							.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-							.addNext(() -> {
-								e.getPlayer().setNextWorldTile(new WorldTile(2762, 4692, 0));
-							})
-					);
-					return;
-				}
-				e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
+			if (e.getPlayer().getTile().withinDistance(new WorldTile(2762, 4694, 0), 1)) {
+				e.getPlayer().startConversation(new Dialogue()
+						.addSimple("Ting-a-ling!")
+						.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
+						.addNext(() -> e.getPlayer().setNextWorldTile(new WorldTile(2762, 4692, 0))));
+				return;
 			}
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
-			}
+			e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
 		}
 	};
 
-	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(18) {
+	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(new Object[] { 18 }, new String[] { "Blow-on" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Blow-on")) {
-				if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
-					e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
-					return;
-				}
-				WorldTile playerTile = e.getPlayer().getTile();
-				WorldTile percievalTile = new WorldTile(2961, 3505, 0);
-				int xDir = percievalTile.getX() - playerTile.getX();
-				int yDir = percievalTile.getY() - playerTile.getY();
-				if (xDir == 0 && yDir == 0)
-					e.getPlayer().sendMessage("The feather points down somewhere near here");
-				if (xDir == 0 && yDir > 0)
-					e.getPlayer().sendMessage("The feather points to the north");
-				if (xDir > 0 && yDir > 0)
-					e.getPlayer().sendMessage("The feather points to northeast");
-				if (xDir > 0 && yDir == 0)
-					e.getPlayer().sendMessage("The feather points to the east");
-				if (xDir > 0 && yDir < 0)
-					e.getPlayer().sendMessage("The feather points to the southeast");
-				if (xDir == 0 && yDir < 0)
-					e.getPlayer().sendMessage("The feather points to the south");
-				if (xDir < 0 && yDir < 0)
-					e.getPlayer().sendMessage("The feather points to the southwest");
-				if (xDir < 0 && yDir == 0)
-					e.getPlayer().sendMessage("The feather points to the west");
-				if (xDir < 0 && yDir > 0)
-					e.getPlayer().sendMessage("The feather points to the northwest");
+			if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
+				e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
+				return;
 			}
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().getPackets().sendSound(2739, 0, 1);
-			}
+			WorldTile playerTile = e.getPlayer().getTile();
+			WorldTile percievalTile = new WorldTile(2961, 3505, 0);
+			int xDir = percievalTile.getX() - playerTile.getX();
+			int yDir = percievalTile.getY() - playerTile.getY();
+			if (xDir == 0 && yDir == 0)
+				e.getPlayer().sendMessage("The feather points down somewhere near here");
+			if (xDir == 0 && yDir > 0)
+				e.getPlayer().sendMessage("The feather points to the north");
+			if (xDir > 0 && yDir > 0)
+				e.getPlayer().sendMessage("The feather points to northeast");
+			if (xDir > 0 && yDir == 0)
+				e.getPlayer().sendMessage("The feather points to the east");
+			if (xDir > 0 && yDir < 0)
+				e.getPlayer().sendMessage("The feather points to the southeast");
+			if (xDir == 0 && yDir < 0)
+				e.getPlayer().sendMessage("The feather points to the south");
+			if (xDir < 0 && yDir < 0)
+				e.getPlayer().sendMessage("The feather points to the southwest");
+			if (xDir < 0 && yDir == 0)
+				e.getPlayer().sendMessage("The feather points to the west");
+			if (xDir < 0 && yDir > 0)
+				e.getPlayer().sendMessage("The feather points to the northwest");
 		}
 	};
 

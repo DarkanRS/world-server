@@ -9,12 +9,13 @@ import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 @PluginEventHandler
 public class Voices {//set
 	public static Set<Integer> voicesMarked = new HashSet<>();
 	
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {
 		if(!Settings.getConfig().isDebug())
 			return;

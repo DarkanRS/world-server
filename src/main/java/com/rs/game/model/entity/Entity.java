@@ -116,6 +116,7 @@ public abstract class Entity {
 	private transient ActionManager actionManager;
 	private transient InteractionManager interactionManager;
 	private transient ClipType clipType = ClipType.NORMAL;
+	private transient long lockDelay; // used for doors and stuff like that
 
 	private transient BodyGlow nextBodyGlow;
 	private transient ConcurrentLinkedQueue<Hit> receivedHits;
@@ -347,6 +348,8 @@ public abstract class Entity {
 	}
 
 	public void processReceivedHits() {
+		if (lockDelay > World.getServerTicks())
+			return;
 		if (this instanceof Player p)
 			if (p.getEmotesManager().isAnimating())
 				return;
@@ -428,6 +431,7 @@ public abstract class Entity {
 					hit.getSource().applyHit(new Hit(player, (int) (hit.getDamage() * 0.1), HitLook.REFLECTED_DAMAGE));
 			if (player.getPrayer().hasPrayersOn())
 				if ((hitpoints < player.getMaxHitpoints() * 0.1) && player.getPrayer().active(Prayer.REDEMPTION)) {
+					player.soundEffect(2681);
 					setNextSpotAnim(new SpotAnim(436));
 					setHitpoints((int) (hitpoints + player.getSkills().getLevelForXp(Constants.PRAYER) * 2.5));
 					player.getPrayer().setPoints(0);
@@ -1126,6 +1130,14 @@ public abstract class Entity {
 	public int getLastFaceEntity() {
 		return lastFaceEntity;
 	}
+	
+	public void unfreeze() {
+		removeEffect(Effect.FREEZE);
+	}
+	
+	public void freeze() {
+		freeze(Integer.MAX_VALUE, false);
+	}
 
 	public void freeze(int ticks) {
 		freeze(ticks, false);
@@ -1774,5 +1786,26 @@ public abstract class Entity {
 	
 	public void setBasNoReset(int bas) {
 		this.bas = bas;
+	}
+	
+	public boolean isLocked() {
+		return lockDelay >= World.getServerTicks();
+	}
+
+	/**
+	 * You are invincible & cannot use your character until unlocked.
+	 * All hits are processed after unlocking.
+	 * If you use resetRecievedHits you lose those hits.
+	 */
+	public void lock() {
+		lockDelay = Long.MAX_VALUE;
+	}
+
+	public void lock(int ticks) {
+		lockDelay = World.getServerTicks() + ticks;
+	}
+
+	public void unlock() {
+		lockDelay = 0;
 	}
 }

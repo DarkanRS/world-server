@@ -552,7 +552,7 @@ public class Magic {
 		if (upGraphicId != -1)
 			player.setNextSpotAnim(new SpotAnim(upGraphicId));
 		if (teleType == MAGIC_TELEPORT)
-			player.getPackets().sendSound(5527, 0, 2);
+			player.voiceEffect(5527);
 		player.lock(3 + delay);
 		WorldTasks.schedule(new WorldTask() {
 
@@ -583,7 +583,7 @@ public class Magic {
 					if (downGraphicId != -1)
 						player.setNextSpotAnim(new SpotAnim(downGraphicId));
 					if (teleType == MAGIC_TELEPORT) {
-						player.getPackets().sendSound(5524, 0, 2);
+						player.voiceEffect(5524);
 						player.setNextFaceWorldTile(new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 						player.setFaceAngle(6);
 					}

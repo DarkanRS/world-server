@@ -18,6 +18,7 @@ package com.rs.game.content.miniquests;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -109,7 +110,7 @@ public enum Miniquest {
 			jingleNum = 318;
 		else
 			jingleNum+=152;
-		player.getPackets().sendMusicEffect(jingleNum);
+		player.jingle(jingleNum);
 
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);

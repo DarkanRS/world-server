@@ -60,6 +60,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.net.packets.encoders.Sound;
+import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -273,8 +275,8 @@ public class NPC extends Entity {
 		//Restore combat stats
 		if (getTickCounter() % 100 == 0)
 			restoreTick();
-		if (!combat.process() && routeEvent == null)
-			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE))
+		if (!combat.process() && routeEvent == null) {
+			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
 				if (!hasWalkSteps() && shouldRandomWalk()) {
 					boolean can = Math.random() > 0.9;
 					if (can) {
@@ -290,6 +292,8 @@ public class NPC extends Entity {
 							DumbRouteFinder.addDumbPathfinderSteps(this, respawnTile, getDefinitions().hasAttackOption() ? 7 : 3, getClipType());
 					}
 				}
+			}
+		}
 		if (isForceWalking())
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
@@ -316,7 +320,7 @@ public class NPC extends Entity {
 			super.processEntity();
 			processNPC();
 		} catch (Throwable e) {
-			Logger.handle(NPC.class, "processEntity", e);
+			Logger.handle(NPC.class, "processEntityNPC", e);
 		}
 	}
 
@@ -476,6 +480,8 @@ public class NPC extends Entity {
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		getInteractionManager().forceStop();
 		resetWalkSteps();
+		if (combat.getTarget() != null)
+			combat.getTarget().setAttackedByDelay(0);
 		combat.removeTarget();
 		if (source.getAttackedBy() == NPC.this) {
 			source.setAttackedBy(null);
@@ -487,7 +493,7 @@ public class NPC extends Entity {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
 				if (source instanceof Player p)
-					playSound(getCombatDefinitions().getDeathSound(), 1);
+					soundEffect(getCombatDefinitions().getDeathSound(), 1);
 			}
 			else if (loop >= defs.getDeathDelay()) {
 				if (source instanceof Player player)
@@ -1308,10 +1314,49 @@ public class NPC extends Entity {
 		this.ignoreNPCClipping = ignoreNPCClipping;
 	}
 	
-	public void playSound(int soundId, int type) {
-		if (soundId == -1)
-			return;
-		World.playSound(this, soundId, type);
+	private Sound playSound(Sound sound) {
+		World.playSound(this, sound);
+		return sound;
+	}
+	
+	private Sound playSound(int soundId, int delay, SoundType type) {
+		return playSound(new Sound(soundId, delay, type));
+	}
+	
+	public void jingle(int jingleId, int delay) {
+		playSound(jingleId, delay, SoundType.JINGLE);
+	}
+	
+	public void jingle(int jingleId) {
+		playSound(jingleId, 0, SoundType.JINGLE);
+	}
+	
+	public void musicTrack(int trackId, int delay, int volume) {
+		playSound(trackId, delay, SoundType.MUSIC).volume(volume);
+	}
+	
+	public void musicTrack(int trackId, int delay) {
+		playSound(trackId, delay, SoundType.MUSIC);
+	}
+	
+	public void musicTrack(int trackId) {
+		musicTrack(trackId, 100);
+	}
+	
+	public void soundEffect(int soundId, int delay) {
+		playSound(soundId, delay, SoundType.EFFECT);
+	}
+	
+	public void soundEffect(int soundId) {
+		soundEffect(soundId, 0);
+	}
+	
+	public void voiceEffect(int voiceId, int delay) {
+		playSound(voiceId, delay, SoundType.VOICE);
+	}
+	
+	public void voiceEffect(int voiceId) {
+		voiceEffect(voiceId, 0);
 	}
 
 	public NPCBodyMeshModifier getBodyMeshModifier() {

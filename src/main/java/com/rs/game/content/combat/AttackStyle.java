@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.combat;
 
+import java.lang.SuppressWarnings;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -187,6 +188,7 @@ public class AttackStyle {
 	private XPType xpType;
 
 	public AttackStyle(int index, String name, XPType xpType, AttackType attackType) {
+		this.index = index;
 		this.name = name;
 		this.xpType = xpType;
 		this.attackType = attackType;

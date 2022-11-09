@@ -21,6 +21,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -35,7 +36,7 @@ public class Christmas2020 {
 
 	private static boolean ACTIVE = false;
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void load() {
 		if (!ACTIVE)
 			return;

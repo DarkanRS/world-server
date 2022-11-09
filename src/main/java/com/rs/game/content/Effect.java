@@ -137,6 +137,7 @@ public enum Effect {
 						player.getSkills().set(Constants.RANGE, realLevel);
 					player.heal(500);
 				}
+				player.soundEffect(2607);
 				player.sendMessage("<col=480000>The effects of overload have worn off and you feel normal again.");
 			}
 		}

@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
+import java.lang.SuppressWarnings;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -1598,7 +1599,7 @@ public class DungeonManager {
 		for (Player player : party.getTeam()) {
 			if (!isAtBossRoom(player.getTile()))
 				continue;
-			player.getPackets().sendMusicEffect(415);
+			player.jingle(415);
 			playMusic(player, reference);
 		}
 	}

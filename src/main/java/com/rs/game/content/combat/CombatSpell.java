@@ -37,57 +37,57 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
 public enum CombatSpell {
-	WIND_RUSH(1, 2.7, 10, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(463), new RuneSet(Rune.AIR, 2)),
-	WIND_STRIKE(1, 5.5, 20, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(464), new RuneSet(Rune.AIR, 1, Rune.MIND, 1)),
-	WIND_BOLT(17, 13.5, 90, new Animation(10546), new SpotAnim(457), 459, new SpotAnim(2699), new RuneSet(Rune.AIR, 2, Rune.CHAOS, 1)) {
+	WIND_RUSH(1, 2.7, 10, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(463), 7866, 7867, new RuneSet(Rune.AIR, 2)),
+	WIND_STRIKE(1, 5.5, 20, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(464), 7866, 7867, new RuneSet(Rune.AIR, 1, Rune.MIND, 1)),
+	WIND_BOLT(17, 13.5, 90, new Animation(10546), new SpotAnim(457), 459, new SpotAnim(2699), 7866, 7867, new RuneSet(Rune.AIR, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 120 : baseDamage;
 		}
 	},
-	WIND_BLAST(41, 25.5, 130, new Animation(10546), new SpotAnim(457), 460, new SpotAnim(2699), new RuneSet(Rune.AIR, 3, Rune.DEATH, 1)),
-	WIND_WAVE(62, 36, 170, new Animation(10546), new SpotAnim(457), 461, new SpotAnim(2700), new RuneSet(Rune.AIR, 5, Rune.BLOOD, 1)),
-	WIND_SURGE(81, 75, 220, new Animation(10546), new SpotAnim(457), 462, new SpotAnim(2700), new RuneSet(Rune.AIR, 7, Rune.BLOOD, 1, Rune.DEATH, 1)),
+	WIND_BLAST(41, 25.5, 130, new Animation(10546), new SpotAnim(457), 460, new SpotAnim(2699), 7866, 7867, new RuneSet(Rune.AIR, 3, Rune.DEATH, 1)),
+	WIND_WAVE(62, 36, 170, new Animation(10546), new SpotAnim(457), 461, new SpotAnim(2700), 7866, 7867, new RuneSet(Rune.AIR, 5, Rune.BLOOD, 1)),
+	WIND_SURGE(81, 75, 220, new Animation(10546), new SpotAnim(457), 462, new SpotAnim(2700), 7866, 7867, new RuneSet(Rune.AIR, 7, Rune.BLOOD, 1, Rune.DEATH, 1)),
 
-	WATER_STRIKE(5, 7.5, 40, new Animation(14220), new SpotAnim(2701), 2703, new SpotAnim(2708), new RuneSet(Rune.AIR, 1, Rune.WATER, 1, Rune.MIND, 1)),
-	WATER_BOLT(23, 16.5, 100, new Animation(14220), new SpotAnim(2701), 2704, new SpotAnim(2709), new RuneSet(Rune.AIR, 2, Rune.WATER, 2, Rune.CHAOS, 1)) {
+	WATER_STRIKE(5, 7.5, 40, new Animation(14220), new SpotAnim(2701), 2703, new SpotAnim(2708), 7826, 7823, new RuneSet(Rune.AIR, 1, Rune.WATER, 1, Rune.MIND, 1)),
+	WATER_BOLT(23, 16.5, 100, new Animation(14220), new SpotAnim(2701), 2704, new SpotAnim(2709), 7834, 7823, new RuneSet(Rune.AIR, 2, Rune.WATER, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 130 : baseDamage;
 		}
 	},
-	WATER_BLAST(47, 28.5, 140, new Animation(14220), new SpotAnim(2701), 2705, new SpotAnim(2710), new RuneSet(Rune.AIR, 3, Rune.WATER, 3, Rune.DEATH, 1)),
-	WATER_WAVE(65, 37.5, 180, new Animation(14220), new SpotAnim(2701), 2706, new SpotAnim(2711), new RuneSet(Rune.AIR, 5, Rune.WATER, 7, Rune.BLOOD, 1)),
-	WATER_SURGE(85, 80, 240, new Animation(14220), new SpotAnim(2701), 2707, new SpotAnim(2712), new RuneSet(Rune.AIR, 7, Rune.WATER, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
+	WATER_BLAST(47, 28.5, 140, new Animation(14220), new SpotAnim(2701), 2705, new SpotAnim(2710), 7834, 7825, new RuneSet(Rune.AIR, 3, Rune.WATER, 3, Rune.DEATH, 1)),
+	WATER_WAVE(65, 37.5, 180, new Animation(14220), new SpotAnim(2701), 2706, new SpotAnim(2711), 7834, 7825, new RuneSet(Rune.AIR, 5, Rune.WATER, 7, Rune.BLOOD, 1)),
+	WATER_SURGE(85, 80, 240, new Animation(14220), new SpotAnim(2701), 2707, new SpotAnim(2712), 7834, 7822, new RuneSet(Rune.AIR, 7, Rune.WATER, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
 
-	EARTH_STRIKE(9, 9.5, 60, new Animation(14209), new SpotAnim(2713), 2718, new SpotAnim(2723), new RuneSet(Rune.AIR, 1, Rune.EARTH, 2, Rune.MIND, 1)),
-	EARTH_BOLT(29, 19.5, 110, new Animation(14209), new SpotAnim(2714), 2719, new SpotAnim(2724), new RuneSet(Rune.AIR, 2, Rune.EARTH, 3, Rune.CHAOS, 1)) {
+	EARTH_STRIKE(9, 9.5, 60, new Animation(14209), new SpotAnim(2713), 2718, new SpotAnim(2723), 7914, 7919, new RuneSet(Rune.AIR, 1, Rune.EARTH, 2, Rune.MIND, 1)),
+	EARTH_BOLT(29, 19.5, 110, new Animation(14209), new SpotAnim(2714), 2719, new SpotAnim(2724), 7914, 7919, new RuneSet(Rune.AIR, 2, Rune.EARTH, 3, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 140 : baseDamage;
 		}
 	},
-	EARTH_BLAST(53, 31.5, 150, new Animation(14209), new SpotAnim(2715), 2720, new SpotAnim(2725), new RuneSet(Rune.AIR, 3, Rune.EARTH, 4, Rune.DEATH, 1)),
-	EARTH_WAVE(70, 40, 190, new Animation(14209), new SpotAnim(2716), 2721, new SpotAnim(2726), new RuneSet(Rune.AIR, 5, Rune.EARTH, 7, Rune.BLOOD, 1)),
-	EARTH_SURGE(90, 85, 260, new Animation(14209), new SpotAnim(2717), 2722, new SpotAnim(2727), new RuneSet(Rune.AIR, 7, Rune.EARTH, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
+	EARTH_BLAST(53, 31.5, 150, new Animation(14209), new SpotAnim(2715), 2720, new SpotAnim(2725), 7914, 7919, new RuneSet(Rune.AIR, 3, Rune.EARTH, 4, Rune.DEATH, 1)),
+	EARTH_WAVE(70, 40, 190, new Animation(14209), new SpotAnim(2716), 2721, new SpotAnim(2726), 7914, 7919, new RuneSet(Rune.AIR, 5, Rune.EARTH, 7, Rune.BLOOD, 1)),
+	EARTH_SURGE(90, 85, 260, new Animation(14209), new SpotAnim(2717), 2722, new SpotAnim(2727), 7914, 7919, new RuneSet(Rune.AIR, 7, Rune.EARTH, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
 
-	FIRE_STRIKE(13, 11.5, 80, new Animation(2791), new SpotAnim(2728), 2729, new SpotAnim(2737), new RuneSet(Rune.AIR, 2, Rune.FIRE, 3, Rune.MIND, 1)),
-	FIRE_BOLT(35, 22.5, 120, new Animation(2791), new SpotAnim(2728), 2731, new SpotAnim(2738), new RuneSet(Rune.AIR, 3, Rune.FIRE, 4, Rune.CHAOS, 1)) {
+	FIRE_STRIKE(13, 11.5, 80, new Animation(2791), new SpotAnim(2728), 2729, new SpotAnim(2737), 7932, 7933, new RuneSet(Rune.AIR, 2, Rune.FIRE, 3, Rune.MIND, 1)),
+	FIRE_BOLT(35, 22.5, 120, new Animation(2791), new SpotAnim(2728), 2731, new SpotAnim(2738), 7932, 7933, new RuneSet(Rune.AIR, 3, Rune.FIRE, 4, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 150 : baseDamage;
 		}
 	},
-	FIRE_BLAST(59, 34.5, 160, new Animation(2791), new SpotAnim(2728), 2733, new SpotAnim(2739), new RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
-	FIRE_WAVE(75, 42.5, 200, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2740), new RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
-	FIRE_SURGE(95, 90, 280, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2741), new RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
+	FIRE_BLAST(59, 34.5, 160, new Animation(2791), new SpotAnim(2728), 2733, new SpotAnim(2739), 7932, 7933, new RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
+	FIRE_WAVE(75, 42.5, 200, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2740), 7932, 7933, new RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
+	FIRE_SURGE(95, 90, 280, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2741), 7932, 7933, new RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
 		@Override
 		public void onCast(Entity caster, Entity target) {
 			World.sendProjectile(caster, target, 2736, -25, 50, 1);
 			World.sendProjectile(caster, target, 2736, 25, 50, 1);
 		}
 	},
-	CRUMBLE_UNDEAD(39, 24.5, 150, new Animation(724), new SpotAnim(145, 0, 96), 146, new SpotAnim(147, 0, 96), new RuneSet(Rune.AIR, 2, Rune.EARTH, 2, Rune.CHAOS, 1)) {
+	CRUMBLE_UNDEAD(39, 24.5, 150, new Animation(724), new SpotAnim(145, 0, 96), 146, new SpotAnim(147, 0, 96), 122, 124, new RuneSet(Rune.AIR, 2, Rune.EARTH, 2, Rune.CHAOS, 1)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (!(target instanceof NPC n) || !n.getDefinitions().isUndead()) {
@@ -97,7 +97,7 @@ public enum CombatSpell {
 			return true;
 		}
 	},
-	IBAN_BLAST(50, 30, 250, new Animation(708), new SpotAnim(87, 0, 96), 88, new SpotAnim(89, 0, 96), new RuneSet(Rune.DEATH, 1, Rune.FIRE, 5)) {
+	IBAN_BLAST(50, 30, 250, new Animation(708), new SpotAnim(87, 0, 96), 88, new SpotAnim(89, 0, 96), 162, 1341, new RuneSet(Rune.DEATH, 1, Rune.FIRE, 5)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 1409) {
@@ -107,7 +107,7 @@ public enum CombatSpell {
 			return true;
 		}
 	},
-	MAGIC_DART(50, 31.5, 100, new Animation(1575), new SpotAnim(327, 0, 96), 328, new SpotAnim(329, 0, 96), new RuneSet(Rune.MIND, 4, Rune.DEATH, 1)) {
+	MAGIC_DART(50, 31.5, 100, new Animation(1575), new SpotAnim(327, 0, 96), 328, new SpotAnim(329, 0, 96), 1718, 174, new RuneSet(Rune.MIND, 4, Rune.DEATH, 1)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (!Magic.isSlayerStaff(caster.getEquipment().getWeaponId())) {
@@ -128,7 +128,7 @@ public enum CombatSpell {
 			return 100;
 		}
 	},
-	SARADOMIN_STRIKE(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(76, 0, 96), new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
+	SARADOMIN_STRIKE(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(76, 0, 96), 1659, -1, new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 2415) {
@@ -151,7 +151,7 @@ public enum CombatSpell {
 				p.getPrayer().drainPrayer(1.0);
 		}
 	},
-	CLAWS_OF_GUTHIX(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(77, 0, 96), new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
+	CLAWS_OF_GUTHIX(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(77, 0, 96), 1653, -1, new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 2416) {
@@ -173,7 +173,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.DEFENSE, 0.05, 0.0);
 		}
 	},
-	FLAMES_OF_ZAMORAK(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(78, 0, 96), new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
+	FLAMES_OF_ZAMORAK(50, 34.5, 200, new Animation(811), null, -1, new SpotAnim(78, 0, 96), 1655, -1, new RuneSet(Rune.AIR, 4, Rune.FIRE, 1, Rune.BLOOD, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 2417) {
@@ -195,7 +195,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.MAGIC, 0.05, 0.0);
 		}
 	},
-	STORM_OF_ARMADYL(77, 70, 160, new Animation(10546), new SpotAnim(457), 1019, new SpotAnim(1019), new RuneSet(Rune.ARMADYL, 1)) {
+	STORM_OF_ARMADYL(77, 70, 160, new Animation(10546), new SpotAnim(457), 1019, new SpotAnim(1019), 7866, 7867, new RuneSet(Rune.ARMADYL, 1)) {
 		@Override
 		public int getCombatDelay(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getWeaponId() == 21777 ? 3 : 4;
@@ -213,7 +213,7 @@ public enum CombatSpell {
 			return baseDamage;
 		}
 	},
-	CONFUSE(3, 13, -1, new Animation(711), new SpotAnim(102, 0, 96), 103, new SpotAnim(104, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
+	CONFUSE(3, 13, -1, new Animation(711), new SpotAnim(102, 0, 96), 103, new SpotAnim(104, 0, 96), 119, 121, new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -234,7 +234,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.ATTACK, 0.05, 0.95);
 		}
 	},
-	WEAKEN(11, 21, -1, new Animation(711), new SpotAnim(105, 0, 96), 106, new SpotAnim(107, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
+	WEAKEN(11, 21, -1, new Animation(711), new SpotAnim(105, 0, 96), 106, new SpotAnim(107, 0, 96), 3011, 3010, new RuneSet(Rune.BODY, 1, Rune.WATER, 3, Rune.EARTH, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -255,7 +255,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.STRENGTH, 0.05, 0.95);
 		}
 	},
-	CURSE(19, 29, -1, new Animation(711), new SpotAnim(108, 0, 96), 109, new SpotAnim(110, 0, 96), new RuneSet(Rune.BODY, 1, Rune.WATER, 2, Rune.EARTH, 3)) {
+	CURSE(19, 29, -1, new Animation(711), new SpotAnim(108, 0, 96), 109, new SpotAnim(110, 0, 96), 127, 126, new RuneSet(Rune.BODY, 1, Rune.WATER, 2, Rune.EARTH, 3)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -276,7 +276,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.DEFENSE, 0.05, 0.95);
 		}
 	},
-	VULNERABILITY(66, 76, -1, new Animation(711), new SpotAnim(167, 0, 96), 168, new SpotAnim(169, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 5, Rune.EARTH, 5)) {
+	VULNERABILITY(66, 76, -1, new Animation(711), new SpotAnim(167, 0, 96), 168, new SpotAnim(169, 0, 96), 3009, 3008, new RuneSet(Rune.SOUL, 1, Rune.WATER, 5, Rune.EARTH, 5)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -297,7 +297,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.DEFENSE, 0.1, 0.9);
 		}
 	},
-	ENFEEBLE(73, 83, -1, new Animation(711), new SpotAnim(170, 0, 96), 171, new SpotAnim(172, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 8, Rune.EARTH, 8)) {
+	ENFEEBLE(73, 83, -1, new Animation(711), new SpotAnim(170, 0, 96), 171, new SpotAnim(172, 0, 96), 148, 150, new RuneSet(Rune.SOUL, 1, Rune.WATER, 8, Rune.EARTH, 8)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -318,7 +318,7 @@ public enum CombatSpell {
 			target.lowerStat(Constants.STRENGTH, 0.1, 0.9);
 		}
 	},
-	STUN(80, 90, -1, new Animation(711), new SpotAnim(173, 0, 96), 174, new SpotAnim(245, 0, 96), new RuneSet(Rune.SOUL, 1, Rune.WATER, 12, Rune.EARTH, 12)) {
+	STUN(80, 90, -1, new Animation(711), new SpotAnim(173, 0, 96), 174, new SpotAnim(245, 0, 96), 3004, 3005, new RuneSet(Rune.SOUL, 1, Rune.WATER, 12, Rune.EARTH, 12)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (target instanceof NPC npc) {
@@ -339,25 +339,25 @@ public enum CombatSpell {
 			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
-	BIND(20, 30, 20, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(181, 0, 96), new RuneSet(Rune.NATURE, 2, Rune.WATER, 3, Rune.EARTH, 3)) {
+	BIND(20, 30, 20, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(181, 0, 96), 101, 99, new RuneSet(Rune.NATURE, 2, Rune.WATER, 3, Rune.EARTH, 3)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(5), true);
 		}
 	},
-	SNARE(50, 60, 30, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(180, 0, 96), new RuneSet(Rune.NATURE, 3, Rune.WATER, 4, Rune.EARTH, 4)) {
+	SNARE(50, 60, 30, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(180, 0, 96), 3003, 3002, new RuneSet(Rune.NATURE, 3, Rune.WATER, 4, Rune.EARTH, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(10), true);
 		}
 	},
-	ENTANGLE(79, 89, 50, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(179, 0, 96), new RuneSet(Rune.NATURE, 4, Rune.WATER, 5, Rune.EARTH, 5)) {
+	ENTANGLE(79, 89, 50, new Animation(710), new SpotAnim(177, 0, 96), 178, new SpotAnim(179, 0, 96), 151, 153, new RuneSet(Rune.NATURE, 4, Rune.WATER, 5, Rune.EARTH, 5)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(20), true);
 		}
 	},
-	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 178, new SpotAnim(1843), new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
+	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 178, new SpotAnim(1843), 202, 203, new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p2) {
@@ -383,107 +383,107 @@ public enum CombatSpell {
 		}
 	},
 
-	SMOKE_RUSH(50, 30, 130, new Animation(1978), null, 384, new SpotAnim(385, 0, 96), new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 2, Rune.FIRE, 1, Rune.AIR, 1)) {
+	SMOKE_RUSH(50, 30, 130, new Animation(1978), null, 384, new SpotAnim(385, 0, 96), 183, 185, new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 2, Rune.FIRE, 1, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (Utils.random(5) == 0)
 				target.getPoison().makePoisoned(20);
 		}
 	},
-	SMOKE_BURST(62, 36, 170, new Animation(1979), null, -1, new SpotAnim(389, 0, 96), new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 4, Rune.FIRE, 2, Rune.AIR, 2)) {
+	SMOKE_BURST(62, 36, 170, new Animation(1979), null, -1, new SpotAnim(389, 0, 96), 183, 182, new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 4, Rune.FIRE, 2, Rune.AIR, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (Utils.random(5) == 0)
 				target.getPoison().makePoisoned(20);
 		}
 	},
-	SMOKE_BLITZ(74, 42, 230, new Animation(1978), null, 386, new SpotAnim(387, 0, 96), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.FIRE, 2, Rune.AIR, 2)) {
+	SMOKE_BLITZ(74, 42, 230, new Animation(1978), null, 386, new SpotAnim(387, 0, 96), 183, 181, new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.FIRE, 2, Rune.AIR, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (Utils.random(5) == 0)
 				target.getPoison().makePoisoned(40);
 		}
 	},
-	SMOKE_BARRAGE(86, 48, 270, new Animation(1979), null, -1, new SpotAnim(391, 0, 96), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 4, Rune.FIRE, 4, Rune.AIR, 4)) {
+	SMOKE_BARRAGE(86, 48, 270, new Animation(1979), null, -1, new SpotAnim(391, 0, 96), 183, 180, new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 4, Rune.FIRE, 4, Rune.AIR, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (Utils.random(5) == 0)
 				target.getPoison().makePoisoned(40);
 		}
 	},
-	SHADOW_RUSH(52, 31, 140, new Animation(1978), null, 378, new SpotAnim(379), new RuneSet(Rune.SOUL, 1, Rune.DEATH, 2, Rune.CHAOS, 2, Rune.AIR, 1)) {
+	SHADOW_RUSH(52, 31, 140, new Animation(1978), null, 378, new SpotAnim(379), 178, 179, new RuneSet(Rune.SOUL, 1, Rune.DEATH, 2, Rune.CHAOS, 2, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
-	SHADOW_BURST(64, 37, 180, new Animation(1979), null, -1, new SpotAnim(382), new RuneSet(Rune.SOUL, 2, Rune.DEATH, 2, Rune.CHAOS, 4, Rune.AIR, 1)) {
+	SHADOW_BURST(64, 37, 180, new Animation(1979), null, -1, new SpotAnim(382), 178, 177, new RuneSet(Rune.SOUL, 2, Rune.DEATH, 2, Rune.CHAOS, 4, Rune.AIR, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.lowerStat(Constants.ATTACK, 0.1, 0.9);
 		}
 	},
-	SHADOW_BLITZ(76, 43, 240, new Animation(1978), null, 380, new SpotAnim(381), new RuneSet(Rune.SOUL, 2, Rune.BLOOD, 2, Rune.DEATH, 2, Rune.AIR, 2)) {
+	SHADOW_BLITZ(76, 43, 240, new Animation(1978), null, 380, new SpotAnim(381), 178, 176, new RuneSet(Rune.SOUL, 2, Rune.BLOOD, 2, Rune.DEATH, 2, Rune.AIR, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.lowerStat(Constants.ATTACK, 0.15, 0.85);
 		}
 	},
-	SHADOW_BARRAGE(88, 48, 280, new Animation(1979), null, -1, new SpotAnim(383), new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.DEATH, 4, Rune.AIR, 4)) {
+	SHADOW_BARRAGE(88, 48, 280, new Animation(1979), null, -1, new SpotAnim(383), 178, 175, new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.DEATH, 4, Rune.AIR, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.lowerStat(Constants.ATTACK, 0.15, 0.85);
 		}
 	},
-	BLOOD_RUSH(56, 33, 150, new Animation(1978), null, 374, new SpotAnim(373), new RuneSet(Rune.BLOOD, 1, Rune.DEATH, 2, Rune.CHAOS, 2)) {
+	BLOOD_RUSH(56, 33, 150, new Animation(1978), null, 374, new SpotAnim(373), 106, 110, new RuneSet(Rune.BLOOD, 1, Rune.DEATH, 2, Rune.CHAOS, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			caster.heal((int) (hit.getDamage() * 0.25));
 		}
 	},
-	BLOOD_BURST(68, 39, 210, new Animation(1979), null, -1, new SpotAnim(376), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.CHAOS, 4)) {
+	BLOOD_BURST(68, 39, 210, new Animation(1979), null, -1, new SpotAnim(376), 106, 105, new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.CHAOS, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			caster.heal((int) (hit.getDamage() * 0.25));
 		}
 	},
-	BLOOD_BLITZ(80, 45, 250, new Animation(1978), null, 374, new SpotAnim(375), new RuneSet(Rune.BLOOD, 4, Rune.DEATH, 2)) {
+	BLOOD_BLITZ(80, 45, 250, new Animation(1978), null, 374, new SpotAnim(375), 106, 104, new RuneSet(Rune.BLOOD, 4, Rune.DEATH, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			caster.heal((int) (hit.getDamage() * 0.25));
 		}
 	},
-	BLOOD_BARRAGE(92, 51, 290, new Animation(1979), null, -1, new SpotAnim(377), new RuneSet(Rune.SOUL, 1, Rune.BLOOD, 4, Rune.DEATH, 4)) {
+	BLOOD_BARRAGE(92, 51, 290, new Animation(1979), null, -1, new SpotAnim(377), 106, 102, new RuneSet(Rune.SOUL, 1, Rune.BLOOD, 4, Rune.DEATH, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			caster.heal((int) (hit.getDamage() * 0.25));
 		}
 	},
-	ICE_RUSH(58, 34, 160, new Animation(1978), null, 360, new SpotAnim(361), new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 2, Rune.WATER, 2)) {
+	ICE_RUSH(58, 34, 160, new Animation(1978), null, 360, new SpotAnim(361), 171, 173, new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 2, Rune.WATER, 2)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(5), true);
 		}
 	},
-	ICE_BURST(70, 40, 220, new Animation(1979), null, -1, new SpotAnim(363), new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 4, Rune.WATER, 4)) {
+	ICE_BURST(70, 40, 220, new Animation(1979), null, -1, new SpotAnim(363), 171, 170, new RuneSet(Rune.DEATH, 2, Rune.CHAOS, 4, Rune.WATER, 4)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(10), true);
 		}
 	},
-	ICE_BLITZ(82, 46, 260, new Animation(1978), new SpotAnim(366, 0, 96), 362, new SpotAnim(367), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.WATER, 3)) {
+	ICE_BLITZ(82, 46, 260, new Animation(1978), new SpotAnim(366, 0, 96), 362, new SpotAnim(367), 171, 169, new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 2, Rune.WATER, 3)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(15), true);
 		}
 	},
-	ICE_BARRAGE(94, 52, 300, new Animation(1979), new SpotAnim(368, 0, 96), -1, new SpotAnim(369), new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 4, Rune.WATER, 6)) {
+	ICE_BARRAGE(94, 52, 300, new Animation(1979), new SpotAnim(368, 0, 96), -1, new SpotAnim(369), 171, 168, new RuneSet(Rune.BLOOD, 2, Rune.DEATH, 4, Rune.WATER, 6)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			target.freeze(Ticks.fromSeconds(20), true);
 		}
 	},
-	MIASMIC_RUSH(61, 36, 180, new Animation(10513), new SpotAnim(1845), 1846, new SpotAnim(1847), new RuneSet(Rune.SOUL, 1, Rune.CHAOS, 2, Rune.EARTH, 1)) {
+	MIASMIC_RUSH(61, 36, 180, new Animation(10513), new SpotAnim(1845), 1846, new SpotAnim(1847), 5368, 5365, new RuneSet(Rune.SOUL, 1, Rune.CHAOS, 2, Rune.EARTH, 1)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 13867 && caster.getEquipment().getWeaponId() != 13869 && caster.getEquipment().getWeaponId() != 13941 && caster.getEquipment().getWeaponId() != 13943) {
@@ -499,7 +499,7 @@ public enum CombatSpell {
 				p.refreshMiasmicTimer(Ticks.fromSeconds(12));
 		}
 	},
-	MIASMIC_BURST(73, 42, 240, new Animation(10516), new SpotAnim(1848), -1, new SpotAnim(1849), new RuneSet(Rune.SOUL, 2, Rune.CHAOS, 4, Rune.EARTH, 2)) {
+	MIASMIC_BURST(73, 42, 240, new Animation(10516), new SpotAnim(1848), -1, new SpotAnim(1849), 5366, 5372, new RuneSet(Rune.SOUL, 2, Rune.CHAOS, 4, Rune.EARTH, 2)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 13867 && caster.getEquipment().getWeaponId() != 13869 && caster.getEquipment().getWeaponId() != 13941 && caster.getEquipment().getWeaponId() != 13943) {
@@ -515,7 +515,7 @@ public enum CombatSpell {
 				p.refreshMiasmicTimer(Ticks.fromSeconds(24));
 		}
 	},
-	MIASMIC_BLITZ(85, 48, 280, new Animation(10524), new SpotAnim(1850), 1852, new SpotAnim(1851), new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.EARTH, 1)) {
+	MIASMIC_BLITZ(85, 48, 280, new Animation(10524), new SpotAnim(1850), 1852, new SpotAnim(1851), 5370, 5367, new RuneSet(Rune.SOUL, 3, Rune.BLOOD, 2, Rune.EARTH, 1)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 13867 && caster.getEquipment().getWeaponId() != 13869 && caster.getEquipment().getWeaponId() != 13941 && caster.getEquipment().getWeaponId() != 13943) {
@@ -531,7 +531,7 @@ public enum CombatSpell {
 				p.refreshMiasmicTimer(Ticks.fromSeconds(36));
 		}
 	},
-	MIASMIC_BARRAGE(97, 54, 320, new Animation(10518), new SpotAnim(1853), -1, new SpotAnim(1854), new RuneSet(Rune.SOUL, 4, Rune.BLOOD, 4, Rune.EARTH, 4)) {
+	MIASMIC_BARRAGE(97, 54, 320, new Animation(10518), new SpotAnim(1853), -1, new SpotAnim(1854), 5371, 5369, new RuneSet(Rune.SOUL, 4, Rune.BLOOD, 4, Rune.EARTH, 4)) {
 		@Override
 		public boolean extraReqs(Player caster, Entity target) {
 			if (caster.getEquipment().getWeaponId() != 13867 && caster.getEquipment().getWeaponId() != 13869 && caster.getEquipment().getWeaponId() != 13941 && caster.getEquipment().getWeaponId() != 13943) {
@@ -663,14 +663,25 @@ public enum CombatSpell {
 
 	protected int req;
 	protected double splashXp;
+	protected int castSound;
+	protected int landSound;
+	protected int splashSound;
 	protected int baseDamage;
 	protected Animation castAnim;
 	protected SpotAnim castSpotAnim;
 	protected int projAnim;
 	protected SpotAnim hitSpotAnim;
 	protected RuneSet runes;
+	
+//	private CombatSpell(int req, double splashXp, int baseDamage, Animation castAnim, SpotAnim castSpotAnim, int projAnim, SpotAnim hitSpotAnim, RuneSet runes) {
+//		this(req, splashXp, baseDamage, castAnim, castSpotAnim, projAnim, hitSpotAnim, -1, -1, -1, runes);
+//	}
+	
+	private CombatSpell(int req, double splashXp, int baseDamage, Animation castAnim, SpotAnim castSpotAnim, int projAnim, SpotAnim hitSpotAnim, int castSound, int landSound, RuneSet runes) {
+		this(req, splashXp, baseDamage, castAnim, castSpotAnim, projAnim, hitSpotAnim, castSound, landSound, -1, runes);
+	}
 
-	private CombatSpell(int req, double splashXp, int baseDamage, Animation castAnim, SpotAnim castSpotAnim, int projAnim, SpotAnim hitSpotAnim, RuneSet runes) {
+	private CombatSpell(int req, double splashXp, int baseDamage, Animation castAnim, SpotAnim castSpotAnim, int projAnim, SpotAnim hitSpotAnim, int castSound, int landSound, int splashSound, RuneSet runes) {
 		this.req = req;
 		this.splashXp = splashXp;
 		this.baseDamage = baseDamage;
@@ -678,6 +689,9 @@ public enum CombatSpell {
 		this.castSpotAnim = castSpotAnim;
 		this.projAnim = projAnim;
 		this.hitSpotAnim = hitSpotAnim;
+		this.castSound = castSound;
+		this.landSound = landSound;
+		this.splashSound = splashSound;
 		this.runes = runes;
 	}
 
@@ -824,6 +838,8 @@ public enum CombatSpell {
 			caster.setNextAnimation(castAnim);
 		if (castSpotAnim != null)
 			caster.setNextSpotAnim(castSpotAnim);
+		if (castSound != -1 && caster instanceof Player player)
+			PlayerCombat.playSound(castSound, player, target);
 		onCast(caster, target);
 		return World.sendProjectile(caster, target, projAnim, castSpotAnim != null && castSpotAnim.getHeight() > 50 ? 20 : 0, 50, 1).getTaskDelay();
 	}

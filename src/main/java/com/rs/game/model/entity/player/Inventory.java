@@ -48,8 +48,7 @@ import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
-import com.rs.utils.ItemExamines;
-import com.rs.utils.ItemWeights;
+import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public final class Inventory {
@@ -489,7 +488,7 @@ public final class Inventory {
 		if (item == null)
 			return;
 		ItemDefinitions def = ItemDefinitions.getDefs(item.getId());
-		player.getPackets().sendInventoryMessage(0, slotId, ItemExamines.getExamine(item) + (ItemConstants.isTradeable(item) ? (" General store: " + Utils.formatTypicalInteger(item.getDefinitions().getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice())) : ""));
+		player.getPackets().sendInventoryMessage(0, slotId, ItemConfig.get(item.getId()).getExamine(item) + (ItemConstants.isTradeable(item) ? (" General store: " + Utils.formatTypicalInteger(item.getDefinitions().getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice())) : ""));
 		if (item.getMetaData("combatCharges") != null)
 			player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 		else if (item.getMetaData("brawlerCharges") != null)
@@ -540,7 +539,7 @@ public final class Inventory {
 		for (Item item : items.array()) {
 			if (item == null)
 				continue;
-			w += ItemWeights.getWeight(item, false);
+			w += ItemConfig.get(item.getId()).getWeight(false);
 		}
 		inventoryWeight = w;
 		player.getPackets().refreshWeight(player.getEquipment().getEquipmentWeight() + inventoryWeight);

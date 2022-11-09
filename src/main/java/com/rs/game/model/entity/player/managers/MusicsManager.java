@@ -396,13 +396,13 @@ public final class MusicsManager {
         playingMusicDelay = System.currentTimeMillis();
         if (musicId == NULL_SOUND_TRACK || Music.getSong(musicId) == null) {
             playingMusic = musicId;
-            player.getPackets().sendMusic(NULL_SOUND_TRACK);
+            player.musicTrack(NULL_SOUND_TRACK);
             player.getPackets().setIFText(187, 4, "");
             return;
         }
         Song song = Music.getSong(musicId);
         player.getPackets().setIFText(187, 4, song.getName() != null ? song.getName() : "");
-        player.getPackets().sendMusic(musicId, playingMusic == NULL_SOUND_TRACK ? 0 : 100, 255);
+        player.musicTrack(musicId, playingMusic == NULL_SOUND_TRACK ? 0 : 100);
         playingMusic = musicId;
     }
 
@@ -463,11 +463,11 @@ public final class MusicsManager {
         playingMusicDelay = System.currentTimeMillis();
         if (musicId == NULL_SOUND_TRACK) {
             playingMusic = musicId;
-            player.getPackets().sendMusic(NULL_SOUND_TRACK);
+            player.musicTrack(NULL_SOUND_TRACK);
             player.getPackets().setIFText(187, 4, "");
             return;
         }
-        player.getPackets().sendMusic(musicId, playingMusic == NULL_SOUND_TRACK ? 0 : 100, 255);
+        player.musicTrack(musicId, playingMusic == NULL_SOUND_TRACK ? 0 : 100);
         playingMusic = musicId;
         Song song = Music.getSong(musicId);
         if (song != null) {

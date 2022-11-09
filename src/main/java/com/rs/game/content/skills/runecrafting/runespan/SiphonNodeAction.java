@@ -18,6 +18,7 @@ package com.rs.game.content.skills.runecrafting.runespan;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.SuppressWarnings;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.runecrafting.Runecrafting;

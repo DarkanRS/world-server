@@ -40,7 +40,7 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public class GE {
@@ -234,7 +234,7 @@ public class GE {
 			return;
 		}
 		player.getVars().setVar(VAR_CURR_BOX, box);
-		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(offer.getItemId())));
+		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(offer.getItemId()).getExamine(new Item(offer.getItemId())));
 		player.getPackets().setIFEvents(new IFEvents(OFFER_SELECTION, 206, -1, 0).enableRightClickOptions(0,1));
 		player.getPackets().setIFEvents(new IFEvents(OFFER_SELECTION, 208, -1, 0).enableRightClickOptions(0,1));
 	}
@@ -278,9 +278,9 @@ public class GE {
 		player.getVars().setVar(VAR_ITEM_AMOUNT, amount);
 		player.getVars().setVar(VAR_FOR_PRICE_TEXT, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
 		player.getVars().setVar(VAR_MEDIAN_PRICE, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
-		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(itemId)));
+		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(itemId).getExamine(new Item(itemId)));
 		WorldDB.getGE().getBestOffer(itemId, player.getVars().getVar(VAR_IS_SELLING) == 1, offer -> {
-			player.getPackets().setIFText(OFFER_SELECTION, 143, ItemExamines.getExamine(new Item(itemId)) + "<br>" + "Best offer: " + (offer == null ? "None" : Utils.formatNumber(offer.getPrice())));
+			player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(itemId).getExamine(new Item(itemId)) + "<br>" + "Best offer: " + (offer == null ? "None" : Utils.formatNumber(offer.getPrice())));
 		});
 	}
 
@@ -405,11 +405,11 @@ public class GE {
 				if (diff)
 					if (player.getTempAttribs().getL("GENotificationTime") == 0) {
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.getPackets().sendSound(4042, 0, 1);
+						player.soundEffect(4042);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					} else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000*60*1) { //1 minute
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.getPackets().sendSound(4042, 0, 1);
+						player.soundEffect(4042);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					}
 			});

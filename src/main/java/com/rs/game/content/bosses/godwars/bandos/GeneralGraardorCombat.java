@@ -41,11 +41,11 @@ public class GeneralGraardorCombat extends CombatScript {
 			switch (Utils.getRandomInclusive(10)) {
 			case 0:
 				npc.setNextForceTalk(new ForceTalk("Death to our enemies!"));
-				npc.playSound(3219, 2);
+				npc.voiceEffect(3219);
 				break;
 			case 1:
 				npc.setNextForceTalk(new ForceTalk("Brargh!"));
-				npc.playSound(3209, 2);
+				npc.voiceEffect(3209);
 				break;
 			case 2:
 				npc.setNextForceTalk(new ForceTalk("Break their bones!"));
@@ -55,27 +55,27 @@ public class GeneralGraardorCombat extends CombatScript {
 				break;
 			case 4:
 				npc.setNextForceTalk(new ForceTalk("Split their skulls!"));
-				npc.playSound(3229, 2);
+				npc.voiceEffect(3229);
 				break;
 			case 5:
 				npc.setNextForceTalk(new ForceTalk("We feast on the bones of our enemies tonight!"));
-				npc.playSound(3206, 2);
+				npc.voiceEffect(3206);
 				break;
 			case 6:
 				npc.setNextForceTalk(new ForceTalk("CHAAARGE!"));
-				npc.playSound(3220, 2);
+				npc.voiceEffect(3220);
 				break;
 			case 7:
 				npc.setNextForceTalk(new ForceTalk("Crush them underfoot!"));
-				npc.playSound(3224, 2);
+				npc.voiceEffect(3224);
 				break;
 			case 8:
 				npc.setNextForceTalk(new ForceTalk("All glory to Bandos!"));
-				npc.playSound(3205, 2);
+				npc.voiceEffect(3205);
 				break;
 			case 9:
 				npc.setNextForceTalk(new ForceTalk("GRAAAAAAAAAR!"));
-				npc.playSound(3207, 2);
+				npc.voiceEffect(3207);
 				break;
 			case 10:
 				npc.setNextForceTalk(new ForceTalk("FOR THE GLORY OF THE BIG HIGH WAR GOD!"));

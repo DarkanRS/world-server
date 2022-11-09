@@ -35,7 +35,7 @@ import com.rs.lib.net.packets.decoders.GroundItemOp;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PickupItemEvent;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 
 public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> {
 
@@ -57,7 +57,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			ItemDefinitions def = ItemDefinitions.getDefs(item.getId());
 			if (item.getMetaData("combatCharges") != null)
 				player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
-			player.getPackets().sendGroundItemMessage(item, ItemExamines.getExamine(item) + " General store: " + Utils.formatTypicalInteger(def.getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice()));
+			player.getPackets().sendGroundItemMessage(item, ItemConfig.get(item.getId()).getExamine(item) + " General store: " + Utils.formatTypicalInteger(def.getSellPrice()) + " High Alchemy: " + Utils.formatTypicalInteger(def.getHighAlchPrice()));
 			return;
 		}
 		player.stopAll();

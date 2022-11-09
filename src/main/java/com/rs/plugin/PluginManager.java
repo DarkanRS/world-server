@@ -19,6 +19,7 @@ package com.rs.plugin;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.SuppressWarnings;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
@@ -157,6 +158,7 @@ public class PluginManager {
 	}
 
 	public static void executeStartupHooks() {
+		STARTUP_HOOKS.sort((m1, m2) -> m1.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal() - m2.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal());
 		for (Method m : STARTUP_HOOKS) {
 			long start = System.currentTimeMillis();
 			try {

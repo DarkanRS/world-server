@@ -18,7 +18,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class LucienArdougneTempleOfIkov extends Conversation {
-	@SuppressWarnings("unused")
 	private static final int NPC = 8345;
 
 	class QuestPrompt extends Conversation {

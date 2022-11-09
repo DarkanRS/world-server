@@ -30,7 +30,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.utils.ItemExamines;
+import com.rs.utils.ItemConfig;
 import com.rs.utils.shop.ShopItem;
 
 @PluginEventHandler
@@ -489,7 +489,7 @@ public class Shop {
 		ShopItem item = slotId >= mainStock.length ? generalStock[slotId - mainStock.length] : mainStock[slotId];
 		if (item == null)
 			return;
-		player.sendMessage(ItemExamines.getExamine(item.getItem()));
+		player.sendMessage(ItemConfig.get(item.getItem().getId()).getExamine(item.getItem()));
 	}
 
 	public void refreshShop() {

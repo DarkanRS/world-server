@@ -27,6 +27,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.ItemOnObjectEvent;
@@ -49,7 +50,7 @@ public class Easter2021 {
 
 	public static final boolean ENABLED = false;
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadSpawns() {
 		if (!ENABLED)
 			return;
