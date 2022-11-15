@@ -565,7 +565,7 @@ public final class Familiar extends NPC {
 			return;
 		}
 		if (!getCombat().process())
-			if (isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(25) == 0)
+			if (!getCombat().hasTarget() && isAgressive() && owner.getAttackedBy() != null && owner.inCombat() && canAttack(owner.getAttackedBy()) && Utils.getRandomInclusive(5) == 0)
 				getCombat().setTarget(owner.getAttackedBy());
 			else if (routeEvent == null && !isLocked() && !getActionManager().hasSkillWorking())
 				getActionManager().setAction(new EntityFollow(owner));
