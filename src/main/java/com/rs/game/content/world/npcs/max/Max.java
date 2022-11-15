@@ -21,6 +21,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.NPCClickEvent;
@@ -81,19 +82,23 @@ public class Max extends NPC {
 	private void updateName() {
 		try {
 			WorldDB.getHighscores().getPlayerAtPosition(rank, hs -> {
-				displayName = getRankColor() + hs.getDisplayName() + "</col><col=FFFFFF> (total: " + hs.getTotalLevel() + ")</col>";
-				cbLevel = getCombatLevel(
-						Skills.getLevelForXp(Skills.ATTACK, hs.getXp()[Skills.ATTACK]),
-						Skills.getLevelForXp(Skills.STRENGTH, hs.getXp()[Skills.STRENGTH]),
-						Skills.getLevelForXp(Skills.DEFENSE, hs.getXp()[Skills.DEFENSE]),
-						Skills.getLevelForXp(Skills.RANGE, hs.getXp()[Skills.RANGE]),
-						Skills.getLevelForXp(Skills.MAGIC, hs.getXp()[Skills.MAGIC]),
-						Skills.getLevelForXp(Skills.HITPOINTS, hs.getXp()[Skills.HITPOINTS]),
-						Skills.getLevelForXp(Skills.PRAYER, hs.getXp()[Skills.PRAYER]),
-						Skills.getLevelForXp(Skills.SUMMONING, hs.getXp()[Skills.SUMMONING]));
+				try {
+					displayName = getRankColor() + hs.getDisplayName() + "</col><col=FFFFFF> (total: " + hs.getTotalLevel() + ")</col>";
+					cbLevel = getCombatLevel(
+							Skills.getLevelForXp(Skills.ATTACK, hs.getXp()[Skills.ATTACK]),
+							Skills.getLevelForXp(Skills.STRENGTH, hs.getXp()[Skills.STRENGTH]),
+							Skills.getLevelForXp(Skills.DEFENSE, hs.getXp()[Skills.DEFENSE]),
+							Skills.getLevelForXp(Skills.RANGE, hs.getXp()[Skills.RANGE]),
+							Skills.getLevelForXp(Skills.MAGIC, hs.getXp()[Skills.MAGIC]),
+							Skills.getLevelForXp(Skills.HITPOINTS, hs.getXp()[Skills.HITPOINTS]),
+							Skills.getLevelForXp(Skills.PRAYER, hs.getXp()[Skills.PRAYER]),
+							Skills.getLevelForXp(Skills.SUMMONING, hs.getXp()[Skills.SUMMONING]));
+				} catch(Throwable e) {
+					Logger.warn(Max.class, "updateName", "Error updating Max name for rank " + rank + " player.");
+				}
 			});
 		} catch(Throwable e) {
-			e.printStackTrace();
+			Logger.warn(Max.class, "updateName", "Error updating Max name for rank " + rank + " player.");
 		}
 	}
 

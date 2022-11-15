@@ -102,10 +102,12 @@ public final class FFAController extends Controller {
 					killer.removeDamage(player);
 					killer.increaseKillCount(player);
 				}
-				player.sendItemsOnDeath(killer);
-				player.getEquipment().init();
-				player.getInventory().init();
-				player.reset();
+				if (dangerous) {
+					player.sendItemsOnDeath(killer);
+					player.getEquipment().init();
+					player.getInventory().init();
+					player.reset();
+				}
 				player.setNextWorldTile(new WorldTile(2993, 9679, 0));
 				remove(true);
 				player.setNextAnimation(new Animation(-1));
