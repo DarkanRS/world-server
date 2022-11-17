@@ -1055,10 +1055,12 @@ public class House {
 
 	public void teleportPlayer(Player player) {
 		player.setNextWorldTile(getPortal());
+		player.setLastNonDynamicTile(getLocation().getTile());
 	}
 
 	public void teleportPlayer(Player player, RoomReference room) {
 		player.setNextWorldTile(new WorldTile(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane));
+		player.setLastNonDynamicTile(getLocation().getTile());
 	}
 
 	public WorldTile getPortal() {
