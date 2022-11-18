@@ -21,6 +21,8 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Item;
 
 public class ServantHouseD extends Conversation {
 
@@ -100,8 +102,87 @@ public class ServantHouseD extends Conversation {
 				});
 			
 			if (servant.getServantData().isSawmill()) {
-				ops.add("Take something to the sawmill").
-					addNPC(servant.getId(), HeadE.CALM_TALK, "Give me some logs and I will return as fast as possible.");
+				ops.add("Take something to the sawmill")
+						.addNPC(servant.getId(), HeadE.CALM_TALK, "Give me some logs and I will return as fast as possible.")
+						.addOptions("Choose logs to send...", option ->{
+							if(player.getInventory().containsItem(1511))
+								option.add("Logs", new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Take these logs to the sawmill...", ()->{
+									int logAmount = player.getInventory().getAmountOf(1511);
+									int coinAmount = player.getInventory().getAmountOf(995);
+									int cost = logAmount*100;
+									if(coinAmount > cost) {
+										int previousID = player.getHouse().getServantInstance().getId();
+										player.getHouse().getServantInstance().transformIntoNPC(1957);
+										player.lock(10);
+										WorldTasks.schedule(9, () -> {
+											player.getHouse().getServantInstance().transformIntoNPC(previousID);
+											player.getInventory().removeItems(new Item(995, cost));
+											player.getInventory().removeItems(new Item(1511, logAmount));
+											player.getInventory().addItem(new Item(960, logAmount));
+										});
+										return;
+									}
+									player.sendMessage("You didn't have enough coins for your inventory!");
+								}));
+							if(player.getInventory().containsItem(1521))
+								option.add("Oak Logs", new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Take these oak logs to the sawmill...", ()->{
+									int logAmount = player.getInventory().getAmountOf(1521);
+									int coinAmount = player.getInventory().getAmountOf(995);
+									int cost = logAmount*250;
+									if(coinAmount > cost) {
+										int previousID = player.getHouse().getServantInstance().getId();
+										player.getHouse().getServantInstance().transformIntoNPC(1957);
+										player.lock(10);
+										WorldTasks.schedule(9, () -> {
+											player.getHouse().getServantInstance().transformIntoNPC(previousID);
+											player.getInventory().removeItems(new Item(995, cost));
+											player.getInventory().removeItems(new Item(1521, logAmount));
+											player.getInventory().addItem(new Item(8778, logAmount));
+										});
+										return;
+									}
+									player.sendMessage("You didn't have enough coins for your inventory!");
+								}));
+							if(player.getInventory().containsItem(6333))
+								option.add("Teak Logs", new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Take these teak logs to the sawmill...", ()->{
+									int logAmount = player.getInventory().getAmountOf(6333);
+									int coinAmount = player.getInventory().getAmountOf(995);
+									int cost = logAmount*500;
+									if(coinAmount > cost) {
+										int previousID = player.getHouse().getServantInstance().getId();
+										player.getHouse().getServantInstance().transformIntoNPC(1957);
+										player.lock(10);
+										WorldTasks.schedule(9, () -> {
+											player.getHouse().getServantInstance().transformIntoNPC(previousID);
+											player.getInventory().removeItems(new Item(995, cost));
+											player.getInventory().removeItems(new Item(6333, logAmount));
+											player.getInventory().addItem(new Item(8780, logAmount));
+										});
+										return;
+									}
+									player.sendMessage("You didn't have enough coins for your inventory!");
+								}));
+							if(player.getInventory().containsItem(6332))
+								option.add("Mahogany Logs", new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Take these mahogany logs to the sawmill...", ()->{
+									int logAmount = player.getInventory().getAmountOf(6332);
+									int coinAmount = player.getInventory().getAmountOf(995);
+									int cost = logAmount*1500;
+									if(coinAmount > cost) {
+										int previousID = player.getHouse().getServantInstance().getId();
+										player.getHouse().getServantInstance().transformIntoNPC(1957);
+										player.lock(10);
+										WorldTasks.schedule(9, () -> {
+											player.getHouse().getServantInstance().transformIntoNPC(previousID);
+											player.getInventory().removeItems(new Item(995, cost));
+											player.getInventory().removeItems(new Item(6332, logAmount));
+											player.getInventory().addItem(new Item(8782, logAmount));
+										});
+										return;
+									}
+									player.sendMessage("You didn't have enough coins for your inventory!");
+								}));
+							option.add("Nevermind", new Dialogue().addPlayer(HeadE.CALM_TALK, "Nevermind..."));
+						});
 			}
 		});
 	}
