@@ -37,7 +37,7 @@ public enum PouchMaterialList {
 	SPIRIT_KALPHITE_POUCH(12063, new Item[] { new Item(12183, 51), new Item(12163, 1), new Item(12155, 1), new Item(3138, 1) }),
 	HONEY_BADGER_POUCH(12065, new Item[] { new Item(12183, 84), new Item(12160, 1), new Item(12155, 1), new Item(12156, 1) }),
 	ALBINO_RAT_POUCH(12067, new Item[] { new Item(12183, 75), new Item(12163, 1), new Item(12155, 1), new Item(2134, 1) }),
-	GRANITE_LOBSTER_POUCH(12069, new Item[] { new Item(12183, 166), new Item(12160, 1), new Item(12155, 1), new Item(0, 1) }),
+	GRANITE_LOBSTER_POUCH(12069, new Item[] { new Item(12183, 166), new Item(12160, 1), new Item(12155, 1), new Item(6979, 1) }),
 	MACAW_POUCH(12071, new Item[] { new Item(12183, 78), new Item(12159, 1), new Item(12155, 1), new Item(249, 1) }),
 	BRONZE_MINOTAUR_POUCH(12073, new Item[] { new Item(12183, 102), new Item(12163, 1), new Item(12155, 1), new Item(2349, 1) }),
 	IRON_MINOTAUR_POUCH(12075, new Item[] { new Item(12183, 125), new Item(12163, 1), new Item(12155, 1), new Item(2351, 1) }),

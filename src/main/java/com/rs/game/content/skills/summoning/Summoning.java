@@ -158,7 +158,7 @@ public class Summoning {
 	}
 
 	public static ButtonClickHandler handleDungeoneeringPouchButtons = new ButtonClickHandler(672) {
-		static int getPouchID(int slot) {//From blank
+		static int getDungPouchID(int slot) {//From blank
 			slot = (slot+3)/5 + 5;
 			switch (slot % 6) {
 				case 0 -> {
@@ -182,15 +182,21 @@ public class Summoning {
 			}
 			return -1;
 		}
+
+		static int getPouchIndex(int slot) {//From blank
+			slot = (slot+3)/5 + 5 - 6;
+			//System.out.println(slot + ":.");
+			return slot;
+		}
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 16) {
 				Pouch pouch = Pouch.forId(e.getSlotId2());
 				if (pouch == null) {
 					if(e.getPlayer().getControllerManager().isIn(DungeonController.class))
-						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
+						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getDungPouchID(e.getSlotId()))) + " to create this pouch.");
 					if(!e.getPlayer().getControllerManager().isIn(DungeonController.class))
-						;//e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getPouchID(e.getSlotId()))) + " to create this pouch.");
+						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.values()[getPouchIndex(e.getSlotId())]) + " to create this pouch.");
 					return;
 				}
 				if (e.getPacket() == ClientPacket.IF_OP1)
