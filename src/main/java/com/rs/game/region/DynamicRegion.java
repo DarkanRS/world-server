@@ -143,17 +143,17 @@ public class DynamicRegion extends Region {
 								int x = (location >> 6 & 0x3f);
 								int y = (location & 0x3f);
 								int z = location >> 12;
-										int objectData = landStream.readUnsignedByte();
-										int type = objectData >> 2;
-											int rot = objectData & 0x3;
-											int realZ = z;
-											if (mapSettings != null && (mapSettings[1][x][y] & 2) == 2)
-												realZ--;
-											if (realZ == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
-												ObjectDefinitions definition = ObjectDefinitions.getDefs(objectId);
-												int[] coords = translate(x & 0x7, y & 0x7, rotation, definition.sizeX, definition.sizeY, rot);
-												spawnObject(new GameObject(objectId, ObjectType.forId(type), (rotation + rot) & 0x3, (dynX << 3) + coords[0] + ((getRegionId() >> 8) << 6), (dynY << 3) + coords[1] + ((getRegionId() & 0xFF) << 6), dynZ), dynZ, (dynX << 3) + coords[0], (dynY << 3) + coords[1]);
-											}
+								int objectData = landStream.readUnsignedByte();
+								int type = objectData >> 2;
+								int rot = objectData & 0x3;
+								int realZ = z;
+								if (mapSettings != null && (mapSettings[1][x][y] & 2) == 2)
+									realZ--;
+								if (realZ == renderChunkZ && (x >> 3) == renderLocalChunkX && (y >> 3) == renderLocalChunkY) {
+									ObjectDefinitions definition = ObjectDefinitions.getDefs(objectId);
+									int[] coords = translate(x & 0x7, y & 0x7, rotation, definition.sizeX, definition.sizeY, rot);
+									spawnObject(new GameObject(objectId, ObjectType.forId(type), (rotation + rot) & 0x3, (dynX << 3) + coords[0] + ((getRegionId() >> 8) << 6), (dynY << 3) + coords[1] + ((getRegionId() & 0xFF) << 6), dynZ), dynZ, (dynX << 3) + coords[0], (dynY << 3) + coords[1]);
+								}
 							}
 						}
 					}

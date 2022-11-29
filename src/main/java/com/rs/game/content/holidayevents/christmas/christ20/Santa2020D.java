@@ -73,7 +73,7 @@ public class Santa2020D extends Conversation {
 			addItem(1050, "Santa hands you a yo-yo and one of his hats!");
 			addNext(() -> {
 				player.save(Christmas2020.STAGE_KEY, 3);
-				player.getInventory().addItemDrop(new Item(1050, 1));
+				player.getInventory().addItemDrop(new Item(962, 1));
 				player.getInventory().addItemDrop(new Item(4079, 1));
 				player.addDiangoReclaimItem(4079);
 				player.sendMessage("You've unlocked the 'Freeze' emote!");
