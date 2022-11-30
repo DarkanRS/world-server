@@ -517,7 +517,6 @@ public final class LocalPlayerUpdate {
 		cachedAppearencesHashes[p.getIndex()] = p.getAppearance().getMD5AppeareanceDataHash();
 		data.writeByteC(renderData.length);
 		data.writeBytes(renderData);
-
 	}
 
 	private void applyForceMovementMask(Player p, OutputStream data) {
