@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars;
 
-import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.NexArena;
 import com.rs.game.content.dialogue.impl.NexEntrance;
@@ -27,7 +26,6 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -138,41 +136,35 @@ public class GodwarsController extends Controller {
 		}
 
 		if (object.getId() == 26303) {
-			if (player.getSkills().getLevel(Skills.RANGE) >= 70 && ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).getName().toLowerCase().contains("crossbow")) {
+			if (player.getSkills().getLevel(Skills.RANGE) >= 70) {
 				boolean withinArmadyl = player.getY() < 5276;
-				final WorldTile tile = new WorldTile(2872, withinArmadyl ? 5279 : 5269, 2);
+				final WorldTile tile = new WorldTile(2871, withinArmadyl ? 5279 : 5269, 2);
 				player.lock();
-				WorldTasks.schedule(new WorldTask() {
-
-					int ticks = 0, projectileTicks = 0;
-
-					@Override
-					public void run() {
-						ticks++;
-						if (ticks == 1) {
-							player.setNextFaceWorldTile(tile);
-							player.setNextAnimation(new Animation(385));
-						} else if (ticks == 3)
-							player.setNextAnimation(new Animation(16635));
-						else if (ticks == 4) {
-							//							player.getAppearance().setHidden(true);
-							player.getAppearance().transformIntoNPC(266);
-							projectileTicks = ticks + World.sendProjectile(player, tile, 605, 18, 18, 20, 1, 30, 0).getTaskDelay();
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
-						} else if (ticks == projectileTicks) {
-							//							player.getAppearance().setHidden(false);
-							player.getAppearance().transformIntoNPC(-1);
-							player.setNextAnimation(new Animation(16672));
-							player.setNextWorldTile(tile);
-							player.unlock();
-							player.resetReceivedHits();
-							stop();
-							return;
-						}
+				WorldTasks.scheduleTimer(tick -> {
+					switch(tick) {
+					case 1 -> {
+						player.setNextFaceWorldTile(tile);
+						player.setNextAnimation(new Animation(385));
 					}
-				}, 0, 1);
+					case 3 -> player.setNextAnimation(new Animation(16635));
+					case 4 -> {
+						player.getAppearance().transformIntoNPC(266);
+						World.sendProjectile(new WorldTile(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
+						player.setNextForceMovement(new ForceMovement(new WorldTile(player.getTile()), 0, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
+					}
+					case 6 -> player.setNextWorldTile(tile);
+					case 10 -> {
+						player.getAppearance().transformIntoNPC(-1);
+						player.setNextAnimation(new Animation(16672));
+						player.unlock();
+						player.resetReceivedHits();
+						return false;
+					}
+					}
+					return true;
+				});
 			} else
-				player.sendMessage("You need a Ranged level of 70 and a crossbow of some sort to enter this area.");
+				player.sendMessage("You need a Ranged level of 70 to cross this obstacle.");
 			return false;
 		}
 

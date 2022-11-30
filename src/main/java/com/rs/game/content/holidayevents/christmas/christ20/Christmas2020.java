@@ -34,7 +34,7 @@ public class Christmas2020 {
 
 	public static final String STAGE_KEY = "christ2022";
 
-	private static boolean ACTIVE = false;
+	private static boolean ACTIVE = true;
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void load() {
