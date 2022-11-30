@@ -525,7 +525,7 @@ public final class LocalPlayerUpdate {
 		data.write128Byte(p.getNextForceMovement().getToFirstTile().getY() - p.getY());
 		data.writeByte128(p.getNextForceMovement().getToSecondTile() == null ? 0 : p.getNextForceMovement().getToSecondTile().getX() - p.getX());
 		data.writeByteC(p.getNextForceMovement().getToSecondTile() == null ? 0 : p.getNextForceMovement().getToSecondTile().getY() - p.getY());
-		data.writeShortLE128(p.getNextForceMovement().getFirstTileTicketDelay() * 30);
+		data.writeShortLE128(p.getNextForceMovement().getFirstTileTicketDelay() * 30); //30 = client frames per game tick
 		data.writeShortLE(p.getNextForceMovement().getToSecondTile() == null ? 0 : p.getNextForceMovement().getSecondTileTicketDelay() * 30);
 		data.writeShort128(p.getNextForceMovement().getDirection());
 	}

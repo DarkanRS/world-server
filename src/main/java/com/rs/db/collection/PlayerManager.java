@@ -62,7 +62,11 @@ public class PlayerManager extends DBItemManager {
 	}
 
 	public void saveSync(Player account) {
-		getDocs().findOneAndReplace(eq("username", account.getUsername()), Document.parse(JsonFileManager.toJson(account)), new FindOneAndReplaceOptions().upsert(true));
+		try {
+			getDocs().findOneAndReplace(eq("username", account.getUsername()), Document.parse(JsonFileManager.toJson(account)), new FindOneAndReplaceOptions().upsert(true));
+		} catch(Throwable e) {
+			Logger.handle(PlayerManager.class, "saveSync", "Error saving player: " + account.getUsername(), e);
+		}
 	}
 
 	public Player getSyncUsername(String username) {
