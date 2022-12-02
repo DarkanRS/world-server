@@ -50,7 +50,7 @@ public class KingArthurHolyGrailD extends Conversation {
 				}
 				addNext(()->{p.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);});
 			}
-			case GO_TO_ENTRANA -> {
+			case TALK_TO_MERLIN, GO_TO_ENTRANA -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");
 				addPlayer(HeadE.HAPPY_TALKING, "I have made progress, but I have not recovered the Grail yet.");
 				addNPC(NPC, HeadE.CALM_TALK, "Well, the Grail IS very elusive, it may take some perseverance. As I said before, speak to Merlin in the workshop by the library.");

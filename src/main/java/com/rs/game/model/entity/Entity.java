@@ -1596,6 +1596,8 @@ public abstract class Entity {
 	}
 
 	public boolean canAttackMulti(Entity target) {
+		if(target instanceof Familiar && this.isForceMultiArea())
+			return true;
 		if (target instanceof NPC npc && npc.isForceMultiAttacked())
 			return true;
 		if (target.isAtMultiArea() && isAtMultiArea())

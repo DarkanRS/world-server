@@ -25,12 +25,10 @@ public class TrobertHeroesQuestD extends Conversation {
 			case GET_ITEMS -> {
 				if (ShieldOfArrav.isBlackArmGang(p)) {
 					if (p.getInventory().containsItem(1584, 1)) {
-						p.startConversation(new Dialogue()
-								.addNPC(NPC, HeadE.CALM_TALK, "Good luck getting those candles...", () -> {
+						addNPC(NPC, HeadE.CALM_TALK, "Good luck getting those candles...", () -> {
 									p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_trick", true);
-								})
-								.addPlayer(HeadE.CALM_TALK, "Thanks!")
-						);
+								});
+						addPlayer(HeadE.CALM_TALK, "Thanks!");
 						return;
 					}
 					addNext(intro
