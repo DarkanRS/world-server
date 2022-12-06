@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.skills.construction.ServantNPC.RequestType;
 import com.rs.game.model.entity.player.Player;
 
 public class ServantHouseD extends Conversation {
@@ -88,12 +89,14 @@ public class ServantHouseD extends Conversation {
 			
 			ops.add("Bring something from the bank")
 				.addOptions(bank -> {
+					if (servant.getLastBankRetrieve() != null)
+						bank.option("Fetch another " + servant.getLastBankRetrieve().getAmount() + " " + servant.getLastBankRetrieve().getName().toLowerCase() + ".", () -> player.getHouse().getServantInstance().requestType(servant.getLastBankRetrieve().getId(), servant.getLastBankRetrieve().getAmount(), RequestType.WITHDRAW));
 					for (int itemId : HouseConstants.BANKABLE_ITEMS) {
 						bank.option(ItemDefinitions.getDefs(itemId).name, () -> {
 							player.sendInputInteger("How many would you like?", amount -> {
 								if (!player.getHouse().isLoaded() || !player.getHouse().getPlayers().contains(player))
 									return;
-								player.getHouse().getServantInstance().requestType(itemId, amount, (byte) 0);
+								player.getHouse().getServantInstance().requestType(itemId, amount, RequestType.WITHDRAW);
 							});
 						});
 					}

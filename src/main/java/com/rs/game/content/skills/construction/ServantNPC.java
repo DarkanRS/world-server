@@ -41,6 +41,8 @@ public class ServantNPC extends NPC {
 	private Player owner;
 	private House house;
 	private boolean follow, greetGuests;
+	private Item lastBankRetrieve;
+	private Item lastSawmillSend;
 
 	public ServantNPC(House house) {
 		super(house.getServant().getId(), house.getPortal().transform(1, 0, 0), true);
@@ -151,19 +153,15 @@ public class ServantNPC extends NPC {
 		}, 2, 2);
 	}
 
-	/**
-	 * Types : 0 - Take item from bank, 1 - Logs to Plank, 2 - Notes to Item, 3
-	 * - Bank item
-	 *
-	 * @param item
-	 * @param quantity
-	 * @param type
-	 */
-	public void requestType(int item, int quantity, final byte type) {
+	public enum RequestType {
+		WITHDRAW, SAWMILL, UNNOTE, DEPOSIT
+	}
+	
+	public void requestType(int item, int quantity, final RequestType type) {
 		final Bank bank = owner.getBank();
 		final ItemDefinitions defs = ItemDefinitions.getDefs(item);
 		int inventorySize = servant.getInventorySize();
-		if (!bank.containsItem(defs.isNoted() ? defs.getCertId() : item, 1) && type == 0) {
+		if (!bank.containsItem(defs.isNoted() ? defs.getCertId() : item, 1) && type == RequestType.WITHDRAW) {
 			owner.npcDialogue(getId(), HeadE.CALM_TALK, "It appears you do not have this item in your bank.");
 			return;
 		}
@@ -173,7 +171,7 @@ public class ServantNPC extends NPC {
 		}
 		setNextNPCTransformation(1957);
 
-		if (type == 1 || type == 2) {
+		if (type == RequestType.SAWMILL || type == RequestType.UNNOTE) {
 			int amountOwned = owner.getInventory().getAmountOf(item);
 			if (quantity > amountOwned) {
 				quantity = amountOwned;
@@ -183,7 +181,7 @@ public class ServantNPC extends NPC {
 		}
 
 		final int[] plank = SawmillOperator.getPlankForLog(item);
-		if (plank != null && type == 1) {
+		if (plank != null && type == RequestType.SAWMILL) {
 			final int cost = (int) ((plank[1] * 0.7) * quantity);
 			if (owner.getInventory().getAmountOf(995) < cost) {
 				owner.npcDialogue(getId(), HeadE.CALM_TALK, "You do not have enough coins to cover the costs of the sawmill.");
@@ -191,14 +189,14 @@ public class ServantNPC extends NPC {
 			}
 		}
 
-		if (type == 0 || type == 1 || type == 2) {
-			if (type == 2 || type == 0) {
+		if (type == RequestType.WITHDRAW || type == RequestType.SAWMILL || type == RequestType.UNNOTE) {
+			if (type == RequestType.UNNOTE || type == RequestType.WITHDRAW) {
 				int freeSlots = owner.getInventory().getFreeSlots();
 				if (quantity > freeSlots)
 					quantity = freeSlots;
-			} else if (type == 1)
+			} else if (type == RequestType.SAWMILL)
 				owner.getInventory().removeItems(new Item(995, (int) (quantity * (plank[1] * 0.7))));
-			if (type != 0)
+			if (type != RequestType.WITHDRAW)
 				owner.getInventory().deleteItem(item, quantity);
 		}
 
@@ -214,24 +212,24 @@ public class ServantNPC extends NPC {
 				setNextNPCTransformation(servant.getId());
 				setCantInteract(false);
 				if (!owner.isRunning() || !house.isLoaded() || !house.getPlayers().contains(owner)) {
-					if (type == 1 || type == 2)
+					if (type == RequestType.SAWMILL || type == RequestType.UNNOTE)
 						bank.addItem(new Item(finalItem, completeQuantity), false);
 					return;
 				}
 				house.incrementPaymentStage();
-				if (type == 0) {
+				if (type == RequestType.WITHDRAW) {
 					if (bank.containsItem(finalItem, completeQuantity)) {
 						bank.withdrawItemDel(finalItem, completeQuantity);
 						owner.getInventory().addItem(finalItem, completeQuantity, true);
 					}
-				} else if (type == 1)
+				} else if (type == RequestType.SAWMILL)
 					owner.getInventory().addItem(plank[0], completeQuantity);
-				else if (type == 2)
+				else if (type == RequestType.UNNOTE)
 					owner.getInventory().addItem(finalItem, completeQuantity);
 				else
 					for (int i = 0; i < completeQuantity; i++)
 						bank.depositItem(owner.getInventory().getItems().getThisItemSlot(finalItem), completeQuantity, false);
-				owner.npcDialogue(getId(), HeadE.CALM_TALK, type == 3 ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
+				owner.npcDialogue(getId(), HeadE.CALM_TALK, type == RequestType.DEPOSIT ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
 			}
 		}, (int) servant.getBankDelay());
 	}
@@ -292,5 +290,21 @@ public class ServantNPC extends NPC {
 
 	public Servant getServantData() {
 		return servant;
+	}
+
+	public Item getLastSawmillSend() {
+		return lastSawmillSend;
+	}
+
+	public void setLastSawmillSend(Item lastSawmillSend) {
+		this.lastSawmillSend = lastSawmillSend;
+	}
+
+	public Item getLastBankRetrieve() {
+		return lastBankRetrieve;
+	}
+
+	public void setLastBankRetrieve(Item lastBankRetrieve) {
+		this.lastBankRetrieve = lastBankRetrieve;
 	}
 }

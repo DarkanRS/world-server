@@ -101,7 +101,7 @@ public class ClansManager {
 				});
 			} catch(Throwable e) {
 				cb.accept(null);
-				System.err.println("Error communicating with clan service.");
+				Logger.error(ClansManager.class, "getClan", "Error communicating with clan service: " + name);
 			}
 		} else
 			cb.accept(CACHED_CLANS.get(name));
