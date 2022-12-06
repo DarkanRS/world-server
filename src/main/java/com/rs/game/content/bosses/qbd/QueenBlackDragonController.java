@@ -137,7 +137,7 @@ public final class QueenBlackDragonController extends Controller {
 			return false;
 		}
 		if (object.getId() == 70813) {
-			Magic.sendObjectTeleportSpell(player, true, new WorldTile(2994, 3233, 0));
+			Magic.sendObjectTeleportSpell(player, true, WorldTile.of(2994, 3233, 0));
 			return false;
 		}
 		if (object.getId() == 70814) {
@@ -158,7 +158,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.getMusicsManager().playSongAndUnlock(1118); // QUEEN BLACK DRAGON
 			npc.setSpawningWorms(false);
 			npc.setNextAttack(20);
-			npc.setActiveArtifact(new GameObject(object.getId() + 1, ObjectType.SCENERY_INTERACT, 0, object));
+			npc.setActiveArtifact(new GameObject(object.getId() + 1, ObjectType.SCENERY_INTERACT, 0, object.getTile()));
 			npc.setHitpoints(npc.getMaxHitpoints());
 			npc.setCantInteract(false);
 			npc.setPhase(npc.getPhase() + 1);
@@ -337,7 +337,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
 			player.getPackets().sendVarc(184, -1);
 		} else
-			player.getTile().setLocation(OUTSIDE);
+			player.setTile(OUTSIDE);
 		removeController();
 		if (npc != null)
 			player.getBank().addItems(npc.getRewards().toArray(), false);

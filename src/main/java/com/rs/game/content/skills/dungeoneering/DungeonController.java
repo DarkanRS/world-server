@@ -198,24 +198,24 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean canMove(Direction dir) {
 		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
-		WorldTile to = new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
+		WorldTile to = WorldTile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
 		if(vr != null && !vr.canMove(player, to))
 			return false;
 
 		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (room != null)
 			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
-				if (!player.isCantWalk() && World.getObjectWithType(new WorldTile(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
+				if (!player.isCantWalk() && World.getObjectWithType(WorldTile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
 					player.getAppearance().setBAS(1429);
 					player.setRun(true);
 					player.setCantWalk(true);
 				}
 				if (player.isCantWalk()) {
-					WorldTile nextStep = new WorldTile(player.getX() + dir.getDx() * 2, player.getY() + dir.getDy() * 2, 0);
+					WorldTile nextStep = WorldTile.of(player.getX() + dir.getDx() * 2, player.getY() + dir.getDy() * 2, 0);
 					NPC boss = getNPC(player, "Plane-freezer Lakhrahnaz");
 					boolean collides = boss != null && WorldUtil.collides(nextStep.getX(), nextStep.getY(), player.getSize(), boss.getX(), boss.getY(), boss.getSize());
 					player.resetWalkSteps();
-					GameObject object = World.getObjectWithType(new WorldTile(nextStep.getX(), nextStep.getY(), 0), ObjectType.GROUND_DECORATION);
+					GameObject object = World.getObjectWithType(WorldTile.of(nextStep.getX(), nextStep.getY(), 0), ObjectType.GROUND_DECORATION);
 					if (collides || ((object != null && (object.getId() == 49331 || object.getId() == 49333)) || !player.addWalkSteps(nextStep.getX(), nextStep.getY(), 1))) {
 						player.setCantWalk(false);
 						player.getAppearance().setBAS(-1);
@@ -308,15 +308,15 @@ public class DungeonController extends Controller {
 		player.stopAll();
 		player.jingle(418);
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
-			WorldTile tile = new WorldTile(player.getTile());
-			dungeon.setGroupGatestone(new WorldTile(player.getTile()));
+			WorldTile tile = WorldTile.of(player.getTile());
+			dungeon.setGroupGatestone(WorldTile.of(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GROUP_GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GROUP_GATESTONE, 1);
 			player.sendMessage("Your group gatestone drops to the floor as you die.");
 		}
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
-			WorldTile tile = new WorldTile(player.getTile());
-			setGatestone(new WorldTile(player.getTile()));
+			WorldTile tile = WorldTile.of(player.getTile());
+			setGatestone(WorldTile.of(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
@@ -479,7 +479,7 @@ public class DungeonController extends Controller {
 					if (openId == -1)
 						World.removeObject(object);
 					else
-						dungeon.setDoor(dungeon.getCurrentRoomReference(object), -1, openId, object.getRotation());
+						dungeon.setDoor(dungeon.getCurrentRoomReference(object.getTile()), -1, openId, object.getRotation());
 				} else {
 					player.sendMessage(s.getFailMessage());
 					player.applyHit(new Hit(player, door.getLevel() * 4, HitLook.TRUE_DAMAGE));
@@ -870,7 +870,7 @@ public class DungeonController extends Controller {
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
 				player.sendMessage("You touch the obelisk", true);
 				player.setNextAnimation(new Animation(8502));
-				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				World.sendSpotAnim(null, new SpotAnim(1308), object.getTile());
 				WorldTasks.schedule(2, () -> {
 					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
 					player.sendMessage("...and recharge your summoning points.", true);
@@ -891,7 +891,7 @@ public class DungeonController extends Controller {
 				return false;
 			}
 			for (Entity t : boss.getPossibleTargets())
-				if (t.matches(object) || boss.matches(object)) {
+				if (t.matches(object.getTile()) || boss.matches(object.getTile())) {
 					player.sendMessage("The mechanism cannot be activated while someone is standing there.");
 					return false;
 				}
@@ -928,7 +928,7 @@ public class DungeonController extends Controller {
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
 				player.sendMessage("You touch the obelisk", true);
 				player.setNextAnimation(new Animation(8502));
-				World.sendSpotAnim(null, new SpotAnim(1308), object);
+				World.sendSpotAnim(null, new SpotAnim(1308), object.getTile());
 				WorldTasks.schedule(2, () -> {
 					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
 					player.sendMessage("...and recharge your summoning points.", true);
@@ -1234,7 +1234,7 @@ public class DungeonController extends Controller {
 		}
 		if (item.getDefinitions().isDestroyItem())
 			return true;
-		WorldTile currentTile = new WorldTile(player.getTile());
+		WorldTile currentTile = WorldTile.of(player.getTile());
 		player.stopAll(false);
 		player.getInventory().deleteItem(item);
 		if (item.getId() == DungeonConstants.GROUP_GATESTONE)
@@ -1252,7 +1252,7 @@ public class DungeonController extends Controller {
 	private void stoneTeleport(boolean group) {
 		WorldTile tile = group ? dungeon.getGroupGatestone() : gatestone;
 
-		if (dungeon.isAtBossRoom(player.getTile(), 26, 626, true) || (dungeon.isAtBossRoom(player.getTile(), 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(new WorldTile(player.getTile()))))) {
+		if (dungeon.isAtBossRoom(player.getTile(), 26, 626, true) || (dungeon.isAtBossRoom(player.getTile(), 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(WorldTile.of(player.getTile()))))) {
 			player.sendMessage("You can't teleport here.");
 			return;
 		}
@@ -1342,14 +1342,14 @@ public class DungeonController extends Controller {
 			player.setForceMultiArea(false);
 			if (player.getFamiliar() != null)
 				player.getFamiliar().sendDeath(player);
-			player.setLocation(new WorldTile(DungeonConstants.OUTSIDE, 2));
+			player.setLocation(WorldTile.of(DungeonConstants.OUTSIDE, 2));
 		}
 	}
 
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
+		player.setNextWorldTile(WorldTile.of(DungeonConstants.OUTSIDE, 2));
 		return false;
 	}
 

@@ -75,7 +75,7 @@ public class PuroPuroController extends Controller {
 		switch (object.getId()) {
 		case 25014:
 			player.getControllerManager().forceStop();
-			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, new WorldTile(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT, null);
+			Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, WorldTile.of(2427, 4446, 0), 9, false, Magic.OBJECT_TELEPORT, null);
 			return true;
 		}
 		return true;
@@ -103,11 +103,11 @@ public class PuroPuroController extends Controller {
 			direction = Direction.SOUTHEAST;
 		}
 		player.sendMessage(Utils.getRandomInclusive(2) == 0 ? "You use your strength to push through the wheat in the most efficient fashion." : "You use your strength to push through the wheat.");
-		player.setNextFaceWorldTile(object);
+		player.setNextFaceWorldTile(object.getTile());
 		player.setNextAnimation(new Animation(6594));
 		player.lock();
-		final WorldTile tile = new WorldTile(objectX, objectY, 0);
-		player.setNextFaceWorldTile(object);
+		final WorldTile tile = WorldTile.of(objectX, objectY, 0);
+		player.setNextFaceWorldTile(object.getTile());
 		player.setNextForceMovement(new ForceMovement(tile, 6, direction));
 		WorldTasks.schedule(new WorldTask() {
 
@@ -139,7 +139,7 @@ public class PuroPuroController extends Controller {
 	};
 
 	public static WorldTile getRandomTile() {
-		return new WorldTile(Utils.random(2558 + 3, 2626 - 3), Utils.random(4285 + 3, 4354 - 3), 0);
+		return WorldTile.of(Utils.random(2558 + 3, 2626 - 3), Utils.random(4285 + 3, 4354 - 3), 0);
 	}
 
 	public static int getRandomImplingId() {

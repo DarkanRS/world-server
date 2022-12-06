@@ -38,14 +38,14 @@ public class Meiyerditch {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 12945)
-				e.getPlayer().walkToAndExecute(new WorldTile(3525, 3170, 0), () -> {
+				e.getPlayer().walkToAndExecute(WorldTile.of(3525, 3170, 0), () -> {
 					e.getPlayer().faceObject(e.getObject());
-					e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(new WorldTile(3605, 3163, 0)));
+					e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(WorldTile.of(3605, 3163, 0)));
 				});
 			else
-				e.getPlayer().walkToAndExecute(new WorldTile(3605, 3163, 0), () -> {
+				e.getPlayer().walkToAndExecute(WorldTile.of(3605, 3163, 0), () -> {
 					e.getPlayer().faceObject(e.getObject());
-					e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(new WorldTile(3525, 3170, 0)));
+					e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(WorldTile.of(3525, 3170, 0)));
 				});
 		}
 	};
@@ -60,14 +60,14 @@ public class Meiyerditch {
 	public static ObjectClickHandler handleFloorClimb = new ObjectClickHandler(new Object[] { 18122, 18124 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(e.getObject().transform(e.getObjectId() == 18122 ? -1 : 1, 0, e.getObjectId() == 18122 ? -1 : 1));
+			e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18122 ? -1 : 1, 0, e.getObjectId() == 18122 ? -1 : 1));
 		}
 	};
 
 	public static ObjectClickHandler handleRubble = new ObjectClickHandler(new Object[] { 18037, 18038 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(e.getObject().transform(e.getObjectId() == 18037 ? 3 : -3, 0, 0));
+			e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18037 ? 3 : -3, 0, 0));
 		}
 	};
 

@@ -41,7 +41,7 @@ public class MerlinsCrystalRitualScene extends Controller {
 		if(hasSpirit)
 			;
 		else {
-            OwnedNPC spirit = new OwnedNPC(player, THRANTAX_SPIRIT, new WorldTile(2780, 3516, 0), true);
+            OwnedNPC spirit = new OwnedNPC(player, THRANTAX_SPIRIT, WorldTile.of(2780, 3516, 0), true);
 			player.musicTrack(449);
 			spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 			spirit.setCantInteract(true);

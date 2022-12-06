@@ -49,9 +49,9 @@ public class HeroesGuild  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObject().getId() == 67691)
-				e.getPlayer().useLadder(new WorldTile(2906, 3516, 0));
+				e.getPlayer().useLadder(WorldTile.of(2906, 3516, 0));
 			else if (e.getObject().getId() == 67690)
-				e.getPlayer().useLadder(new WorldTile(2893, 9907, 0));
+				e.getPlayer().useLadder(WorldTile.of(2893, 9907, 0));
 		}
 	};
 

@@ -48,9 +48,9 @@ public class IceQueenDungeon {
 						if (i == 15) {
 							p.setRun(false);
 							if (p.getX() < obj.getX())
-								p.addWalkSteps(new WorldTile(2840, p.getY() - 1, 0), 4, false);
+								p.addWalkSteps(WorldTile.of(2840, p.getY() - 1, 0), 4, false);
 							else
-								p.addWalkSteps(new WorldTile(2837, p.getY() + 1, 0), 4, false);
+								p.addWalkSteps(WorldTile.of(2837, p.getY() + 1, 0), 4, false);
 						}
 						if (i == 19) {
 							obj.setId(473);
@@ -74,10 +74,10 @@ public class IceQueenDungeon {
 		public void handle(ObjectClickEvent e) {
 			switch (e.getObjectId()) {
 				case 20987 -> {
-					e.getPlayer().useLadder(new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
+					e.getPlayer().useLadder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
 				}
 				case 33184 -> {
-					e.getPlayer().useLadder(new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
+					e.getPlayer().useLadder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
 				}
 			}
 		}

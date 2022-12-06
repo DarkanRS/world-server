@@ -126,14 +126,14 @@ public class Neitiznot  {
 	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? new WorldTile(2644, 3709, 0) : new WorldTile(2310, 3781, 0));
+			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2310, 3781, 0));
 		}
 	};
 
 	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? new WorldTile(2644, 3709, 0) : new WorldTile(2420, 3781, 0));
+			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2420, 3781, 0));
 		}
 	};
 

@@ -40,54 +40,54 @@ import com.rs.lib.util.Utils;
 public class DeathOfficeController extends Controller {
 	
 	public enum Hub {
-		LUMBRIDGE(new WorldTile(3222, 3219, 0)),
-		VARROCK(new WorldTile(3212, 3422, 0)),
-		EDGEVILLE(new WorldTile(3094, 3502, 0)),
-		FALADOR(new WorldTile(2965, 3386, 0)),
-		SEERS_VILLAGE(new WorldTile(2725, 3491, 0)),
-		ARDOUGNE(new WorldTile(2662, 3305, 0)),
-		YANILLE(new WorldTile(2605, 3093, 0)), 
-		KELDAGRIM(new WorldTile(2845, 10210, 0)) {
+		LUMBRIDGE(WorldTile.of(3222, 3219, 0)),
+		VARROCK(WorldTile.of(3212, 3422, 0)),
+		EDGEVILLE(WorldTile.of(3094, 3502, 0)),
+		FALADOR(WorldTile.of(2965, 3386, 0)),
+		SEERS_VILLAGE(WorldTile.of(2725, 3491, 0)),
+		ARDOUGNE(WorldTile.of(2662, 3305, 0)),
+		YANILLE(WorldTile.of(2605, 3093, 0)), 
+		KELDAGRIM(WorldTile.of(2845, 10210, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.GIANT_DWARF);
 			}
 		}, 
-		DORGESH_KAAN(new WorldTile(2720, 5351, 0)) {
+		DORGESH_KAAN(WorldTile.of(2720, 5351, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.DEATH_TO_DORGESHUUN);
 			}
 		},
-		LLETYA(new WorldTile(2341, 3171, 0)) {
+		LLETYA(WorldTile.of(2341, 3171, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.ROVING_ELVES);
 			}
 		},
-		ETCETERIA(new WorldTile(2614, 3894, 0)) {
+		ETCETERIA(WorldTile.of(2614, 3894, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.THRONE_OF_MISCELLANIA);
 			}
 		},
-		DAEMONHEIM(new WorldTile(3450, 3718, 0)),
-		CANIFIS(new WorldTile(3496, 3489, 0)) {
+		DAEMONHEIM(WorldTile.of(3450, 3718, 0)),
+		CANIFIS(WorldTile.of(3496, 3489, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.PRIEST_IN_PERIL);
 			}
 		},
-		TZHAAR_CITY(new WorldTile(4651, 5151, 0)),
-		BURTHORPE(new WorldTile(2889, 3528, 0)),
-		AL_KHARID(new WorldTile(3275, 3166, 0)),
-		DRAYNOR_VILLAGE(new WorldTile(3079, 3250, 0)),
+		TZHAAR_CITY(WorldTile.of(4651, 5151, 0)),
+		BURTHORPE(WorldTile.of(2889, 3528, 0)),
+		AL_KHARID(WorldTile.of(3275, 3166, 0)),
+		DRAYNOR_VILLAGE(WorldTile.of(3079, 3250, 0)),
 		
 		//Extra unlocked hubs
-		LUMBRIDGE_CASTLE(new WorldTile(3222, 3219, 0)),
-		FALADOR_CASTLE(new WorldTile(2971, 3343, 0)),
-		CAMELOT(new WorldTile(2758, 3486, 0)),
-		SOUL_WARS(new WorldTile(1891, 3177, 0));
+		LUMBRIDGE_CASTLE(WorldTile.of(3222, 3219, 0)),
+		FALADOR_CASTLE(WorldTile.of(2971, 3343, 0)),
+		CAMELOT(WorldTile.of(2758, 3486, 0)),
+		SOUL_WARS(WorldTile.of(1891, 3177, 0));
 		
 		private WorldTile tile;
 		
@@ -136,7 +136,7 @@ public class DeathOfficeController extends Controller {
 	}
 
 	public static Hub getRespawnHub(Player player) {
-		return getCurrentHub(player, new WorldTile(player.getTile()));
+		return getCurrentHub(player, WorldTile.of(player.getTile()));
 	}
 
 	private transient DynamicRegionReference region = new DynamicRegionReference(2, 2);
@@ -149,7 +149,7 @@ public class DeathOfficeController extends Controller {
 	private boolean hadSkull;
 
 	public DeathOfficeController(WorldTile deathTile, boolean hadSkull) {
-		this.deathTile = new WorldTile(deathTile);
+		this.deathTile = WorldTile.of(deathTile);
 		this.hadSkull = hadSkull;
 	}
 
@@ -166,7 +166,7 @@ public class DeathOfficeController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.getTile().setLocation(new WorldTile(1978, 5302, 0));
+		player.setTile(WorldTile.of(1978, 5302, 0));
 		destroyRoom();
 		return false;
 	}

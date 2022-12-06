@@ -16,7 +16,7 @@ import com.rs.lib.game.WorldTile;
 public class DragonSlayer_BoatScene extends Controller {
 	DynamicRegionReference instance;
 	WorldTile startingTile;
-	WorldTile crandor = new WorldTile(2849, 3239, 0);
+	WorldTile crandor = WorldTile.of(2849, 3239, 0);
 
 	NPC captainNed;
 	NPC cabinboyJenkins;
@@ -45,7 +45,7 @@ public class DragonSlayer_BoatScene extends Controller {
 
     @Override
 	public void start() {
-		startingTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
+		startingTile = WorldTile.of(player.getX(), player.getY(), player.getPlane());
 		player.getPackets().setBlockMinimapState(2);
 		player.lock();
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
@@ -97,14 +97,14 @@ public class DragonSlayer_BoatScene extends Controller {
 
 					if (tick == 11) {
 						player.faceEntity(captainNed);
-						captainNed.setNextFaceWorldTile(new WorldTile(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
+						captainNed.setNextFaceWorldTile(WorldTile.of(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
 						player.getInterfaceManager().setFadingInterface(170);
 						closeInterfaces();
 
 						player.getPackets().sendCameraShake(1, 0, 8, 5, 8);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 0);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(21), instance.getLocalY(13), 0), 0);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(13), 0), 600, 0, 4);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(28), instance.getLocalY(14), 0), 0);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(21), instance.getLocalY(13), 0), 0);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(26), instance.getLocalY(13), 0), 600, 0, 4);
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Ah, it's good to feel the salt spray on my face once again!");
@@ -114,7 +114,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if(tick == PAUSE_FOR_NED1) {
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(9), 0), 2050, 0, 2);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(26), instance.getLocalY(9), 0), 2050, 0, 2);
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "And this is a mighty fine ship. She don't look much but she handles like a dream.");
@@ -163,21 +163,21 @@ public class DragonSlayer_BoatScene extends Controller {
 
 					if(tick == 19) {
 						closeInterfaces();
-						player.setNextFaceWorldTile(new WorldTile(cabinboyJenkins.getX(), cabinboyJenkins.getY(), cabinboyJenkins.getPlane()));
-						cabinboyJenkins.setForceWalk(new WorldTile(captainNed.getX(), captainNed.getY()+1, cabinboyJenkins.getPlane()));
+						player.setNextFaceWorldTile(WorldTile.of(cabinboyJenkins.getX(), cabinboyJenkins.getY(), cabinboyJenkins.getPlane()));
+						cabinboyJenkins.setForceWalk(WorldTile.of(captainNed.getX(), captainNed.getY()+1, cabinboyJenkins.getPlane()));
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CABIN_BOY_JENKINS, HeadE.HAPPY_TALKING, "Looks like there's a storm coming up, cap'n. Soon we won't be able to see anything!");
 							}
 						});
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(23), instance.getLocalY(21), 0), 5000);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(14), instance.getLocalY(14), 0), 0);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(18), instance.getLocalY(21), 0), 5000, 0, 2);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(23), instance.getLocalY(21), 0), 5000);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(14), instance.getLocalY(14), 0), 0);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(18), instance.getLocalY(21), 0), 5000, 0, 2);
 					}
 
 					if(tick == PAUSE_FOR_NED3) {
-						captainNed.setNextFaceWorldTile(new WorldTile(captainNed.getX(), captainNed.getY()+1, captainNed.getPlane()));
-						player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY()+1, player.getPlane()));
+						captainNed.setNextFaceWorldTile(WorldTile.of(captainNed.getX(), captainNed.getY()+1, captainNed.getPlane()));
+						player.setNextFaceWorldTile(WorldTile.of(player.getX(), player.getY()+1, player.getPlane()));
 						cabinboyJenkins.faceEntity(captainNed);
 						player.startConversation(new Conversation(player) {
 							{
@@ -228,27 +228,27 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 
 					if(tick == 28) {
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(24), instance.getLocalY(13), 0), 1150);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(18), instance.getLocalY(13), 0), 0);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(24), instance.getLocalY(19), 0), 1150, 0, 3);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(24), instance.getLocalY(13), 0), 1150);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(18), instance.getLocalY(13), 0), 0);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(24), instance.getLocalY(19), 0), 1150, 0, 3);
 					}
 					if(tick == 29) {
-						WorldTile tile = new WorldTile(instance.getLocalX(17), instance.getLocalY(12), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(17), instance.getLocalY(12), 1);
 						captainNed.faceTile(tile);
 						player.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -263,19 +263,19 @@ public class DragonSlayer_BoatScene extends Controller {
 								create();
 							}
 						});
-						WorldTile tile = new WorldTile(instance.getLocalX(16), instance.getLocalY(12), 1);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						WorldTile tile = WorldTile.of(instance.getLocalX(16), instance.getLocalY(12), 1);
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -284,19 +284,19 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 31) {
-						WorldTile tile = new WorldTile(instance.getLocalX(15), instance.getLocalY(12), 1);
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						WorldTile tile = WorldTile.of(instance.getLocalX(15), instance.getLocalY(12), 1);
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -306,20 +306,20 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 					if(tick == 32) {
 						player.getInterfaceManager().setFadingInterface(546);
-						WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(12), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(13), instance.getLocalY(12), 1);
 						int fireHeight = 500;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -330,26 +330,26 @@ public class DragonSlayer_BoatScene extends Controller {
 
 					if(tick == 34) {
 						player.getPackets().sendCameraShake(1, 0, 8, 5, 8);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 0), 1200);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(26), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(19), instance.getLocalY(14), 0), 1200);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(26), instance.getLocalY(14), 0), 1200, 0, 3);
 						closeInterfaces();
-						WorldTile tile = new WorldTile(instance.getLocalX(13), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(13), instance.getLocalY(14), 1);
 						captainNed.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
 						int fireHeight = 500;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -358,21 +358,21 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 35) {
-						WorldTile tile = new WorldTile(instance.getLocalX(15), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(15), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_SHAKE));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -381,21 +381,21 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 36) {
-						WorldTile tile = new WorldTile(instance.getLocalX(16), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(16), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 										captainNed.setNextAnimation(new Animation(ANIM_NED_FEAR));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -404,21 +404,21 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 37) {
-						WorldTile tile = new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(17), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_FEAR));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -427,9 +427,9 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 38) {
-						WorldTile tile = new WorldTile(instance.getLocalX(18), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(18), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
@@ -437,11 +437,11 @@ public class DragonSlayer_BoatScene extends Controller {
 								public void run() {
 									if (tick == 0) {
 										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_DIE));
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -451,20 +451,20 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if(tick == 39) {
-						WorldTile tile = new WorldTile(instance.getLocalX(19), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(19), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -474,20 +474,20 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if(tick == 40) {
-						WorldTile tile = new WorldTile(instance.getLocalX(41), instance.getLocalY(14), 1);
+						WorldTile tile = WorldTile.of(instance.getLocalX(41), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(new WorldTile(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
+						World.sendProjectile(WorldTile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
 							WorldTasks.schedule(new WorldTask() {
 								int tick;
 
 								@Override
 								public void run() {
 									if (tick == 0) {
-										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
-										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(1154, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(2588, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									}
 									if (tick > 1)
-										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+										World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 									if(instance.isDestroyed() || tick == 80)
 										stop();
 									tick++;
@@ -496,9 +496,9 @@ public class DragonSlayer_BoatScene extends Controller {
 						});
 					}
 					if(tick == 41) {
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(34), instance.getLocalY(14), 0), 1900);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(28), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(34), instance.getLocalY(14), 0), 1900);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(17), instance.getLocalY(14), 0), 700);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(28), instance.getLocalY(14), 0), 1200, 0, 3);
 					}
 					if(tick == PAUSE_FOR_NED5)
 						player.startConversation(new Conversation(player) {
@@ -506,7 +506,7 @@ public class DragonSlayer_BoatScene extends Controller {
 								addNPC(CAPTAIN_NED, HeadE.CALM_TALK, "We're going to sink!", () -> {});
 								addNext(()->{
 									captainNed.faceEntity(player);
-									player.setNextFaceWorldTile(new WorldTile(player.getX()+1, player.getY(), player.getPlane()));
+									player.setNextFaceWorldTile(WorldTile.of(player.getX()+1, player.getY(), player.getPlane()));
 									tick++;
 								});
 								create();
@@ -524,9 +524,9 @@ public class DragonSlayer_BoatScene extends Controller {
 							}
 						});
 					if(tick == 44) {
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(20), instance.getLocalY(14), 0), 1200, 0, 3);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(20), instance.getLocalY(14), 0), 1200, 0, 3);
 						player.faceEntity(captainNed);
-						captainNed.setNextFaceWorldTile(new WorldTile(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
+						captainNed.setNextFaceWorldTile(WorldTile.of(captainNed.getX()+1, captainNed.getY(), captainNed.getPlane()));
 					}
 					if(tick == PAUSE_FOR_NED6)
 						player.startConversation(new Conversation(player) {
@@ -555,7 +555,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 
 					if(tick == PAUSE_FOR_PLAYER5) {
-						player.setNextFaceWorldTile(new WorldTile(player.getX(), player.getY()+1, player.getPlane()));//face north
+						player.setNextFaceWorldTile(WorldTile.of(player.getX(), player.getY()+1, player.getPlane()));//face north
 						player.getPackets().sendStopCameraShake();
 						player.getPackets().sendResetCamera();
 						player.startConversation(new Conversation(player) {

@@ -46,7 +46,7 @@ public class LookCameraAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.getPackets().sendCameraLook(new WorldTile(scene.getX(viewLocalX), scene.getY(viewLocalY), 0), viewZ, speedToExactDestination, speedOnRoutePath);
+		player.getPackets().sendCameraLook(WorldTile.of(scene.getX(viewLocalX), scene.getY(viewLocalY), 0), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
 }

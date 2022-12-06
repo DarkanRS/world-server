@@ -10,7 +10,7 @@ import com.rs.lib.util.Utils;
 
 public class MaxTaskCook implements Task {
 	
-	private static GameObject RANGE = new GameObject(114, ObjectType.SCENERY_INTERACT, 2, new WorldTile(3212, 3215, 0));
+	private static GameObject RANGE = new GameObject(114, ObjectType.SCENERY_INTERACT, 2, WorldTile.of(3212, 3215, 0));
 		
 	private boolean started = false;
 	private int itemsCooked = Utils.random(85, 150);
@@ -21,8 +21,8 @@ public class MaxTaskCook implements Task {
 			max.wearItems(-1, -1);
 			started = true;
 		}
-		if (!max.withinDistance(RANGE, 64)) {
-			Magic.npcNormalTeleport(max, new WorldTile(3235, 3219, 0), true, null);
+		if (!max.withinDistance(RANGE.getTile(), 64)) {
+			Magic.npcNormalTeleport(max, WorldTile.of(3235, 3219, 0), true, null);
 			return 10;
 		}
 		if (itemsCooked <= 0) {

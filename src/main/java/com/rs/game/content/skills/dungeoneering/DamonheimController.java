@@ -36,10 +36,10 @@ public class DamonheimController extends Controller {
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getControllerManager().getController() instanceof DungeonController)
 				e.getPlayer().getControllerManager().removeControllerWithoutCheck();
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, Direction.NORTH));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, Direction.NORTH));
 			e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
 			e.getPlayer().getControllerManager().startController(new DamonheimController());
-			e.getPlayer().useStairs(13760, new WorldTile(3454, 3725, 0), 2, 3);
+			e.getPlayer().useStairs(13760, WorldTile.of(3454, 3725, 0), 2, 3);
 		}
 	};
 	

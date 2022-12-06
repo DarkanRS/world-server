@@ -166,25 +166,25 @@ public class CountDraynorBoss extends OwnedNPC {
 			}
 			if(e.getObject().getId() == 158) {
 				World.removeObject(e.getObject());
-				World.spawnObject(new GameObject(COFFIN_ID, e.getObject().getType(), e.getObject().getRotation(), e.getObject()), true);
+				World.spawnObject(new GameObject(COFFIN_ID, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getTile()), true);
 			}
 
 			p.save("live_in_scene", true);
 			p.lock();
-			GameObject coffin = World.getObject(e.getObject(), ObjectType.forId(10));
+			GameObject coffin = World.getObject(e.getObject().getTile(), ObjectType.forId(10));
 			p.getMusicsManager().playSongAndUnlock(COUNTING_ON_YOU);
 
-            CountDraynorBoss countDraynor = new CountDraynorBoss(p, new WorldTile(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
+            CountDraynorBoss countDraynor = new CountDraynorBoss(p, WorldTile.of(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
 
 			countDraynor.setLocked(true);
-			countDraynor.faceTile(new WorldTile(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
+			countDraynor.faceTile(WorldTile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 			countDraynor.transformIntoNPC(266);
 
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					World.removeObject(coffin);
-					World.spawnObject(new GameObject(158, e.getObject().getType(), e.getObject().getRotation(), e.getObject()), true);
+					World.spawnObject(new GameObject(158, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getTile()), true);
 					countDraynor.finish();
 				}
 			}, Ticks.fromMinutes(3));
@@ -196,9 +196,9 @@ public class CountDraynorBoss extends OwnedNPC {
 					if(tick == 0)
 						p.getInterfaceManager().setFadingInterface(115);
 					if(tick == 3) {
-						p.setNextWorldTile(new WorldTile(3079, 9786, 0));
-						p.getPackets().sendCameraPos(coffin.getXInScene(p.getSceneBaseChunkId())-4, coffin.getYInScene(p.getSceneBaseChunkId())-8, 3000);
-						p.getPackets().sendCameraLook(coffin.getXInScene(p.getSceneBaseChunkId()), coffin.getYInScene(p.getSceneBaseChunkId()), 300);
+						p.setNextWorldTile(WorldTile.of(3079, 9786, 0));
+						p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-8, 3000);
+						p.getPackets().sendCameraLook(coffin.getTile().getXInScene(p.getSceneBaseChunkId()), coffin.getTile().getYInScene(p.getSceneBaseChunkId()), 300);
 					}
 					if(tick == 4)
 						p.getInterfaceManager().setFadingInterface(170);
@@ -217,17 +217,17 @@ public class CountDraynorBoss extends OwnedNPC {
 					}
 					if(tick == 9) {
 						p.setNextAnimation(new Animation(PUSHED_BACK));
-						p.setNextForceMovement(new ForceMovement(new WorldTile(p.getX()-1, p.getY(), p.getPlane()), 1, Direction.EAST));
+						p.setNextForceMovement(new ForceMovement(WorldTile.of(p.getX()-1, p.getY(), p.getPlane()), 1, Direction.EAST));
 					}
 					if(tick == 10) {
 						p.setNextAnimation(new Animation(ON_FLOOR));
-						p.getPackets().sendCameraPos(coffin.getXInScene(p.getSceneBaseChunkId())-4, coffin.getYInScene(p.getSceneBaseChunkId())-16, 2200, 0, 5);
-						p.getPackets().sendCameraLook(coffin.getXInScene(p.getSceneBaseChunkId()), coffin.getYInScene(p.getSceneBaseChunkId())-5, 50, 5, 0);
+						p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-16, 2200, 0, 5);
+						p.getPackets().sendCameraLook(coffin.getTile().getXInScene(p.getSceneBaseChunkId()), coffin.getTile().getYInScene(p.getSceneBaseChunkId())-5, 50, 5, 0);
 					}
 					if(tick == 14)
-						countDraynor.faceTile(new WorldTile(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
+						countDraynor.faceTile(WorldTile.of(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
 					if(tick == 16) {
-						countDraynor.setNextWorldTile(new WorldTile(3082, 9776, 0));
+						countDraynor.setNextWorldTile(WorldTile.of(3082, 9776, 0));
 						countDraynor.setNextAnimation(new Animation(SPAWN));
 					}
 

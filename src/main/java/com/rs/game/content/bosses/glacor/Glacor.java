@@ -218,9 +218,9 @@ public class Glacor extends NPC {
 	public void spawnMinions() {
 		setNextAnimation(new Animation(9964));
 		setNextSpotAnim(new SpotAnim(635));
-		unstable = new UnstableMinion(14302, new WorldTile(getX() + 1, getY() + 1, getPlane()), -1, true, true, this);
-		sapping = new SappingMinion(14303, new WorldTile(getX() + 1, getY(), getPlane()), -1, true, true, this);
-		enduring = new EnduringMinion(14304, new WorldTile(getX() + 1, getY() - 1, getPlane()), -1, true, true, this);
+		unstable = new UnstableMinion(14302, WorldTile.of(getX() + 1, getY() + 1, getPlane()), -1, true, true, this);
+		sapping = new SappingMinion(14303, WorldTile.of(getX() + 1, getY(), getPlane()), -1, true, true, this);
+		enduring = new EnduringMinion(14304, WorldTile.of(getX() + 1, getY() - 1, getPlane()), -1, true, true, this);
 		World.sendProjectile(this, unstable, 634, 60, 32, 50, 0.7, 0, 0);
 		World.sendProjectile(this, sapping, 634, 60, 32, 50, 0.7, 0, 0);
 		World.sendProjectile(this, enduring, 634, 60, 32, 50, 0.7, 0, 0);

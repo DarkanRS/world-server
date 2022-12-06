@@ -37,7 +37,7 @@ public class NPCFaceTileAction extends CutsceneAction {
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");;
 		NPC npc = (NPC) objects.get(getObjectKey());
-		npc.setNextFaceWorldTile(new WorldTile(scene.getX(x), scene.getY(y), npc.getPlane()));
+		npc.setNextFaceWorldTile(WorldTile.of(scene.getX(x), scene.getY(y), npc.getPlane()));
 	}
 
 }

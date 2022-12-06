@@ -38,9 +38,9 @@ public class HAMDungeon {
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 15766) {
 				if (e.getOption().equals("Climb-down"))
-					e.getPlayer().useLadder(new WorldTile(2568, 5185, 0));
+					e.getPlayer().useLadder(WorldTile.of(2568, 5185, 0));
 			} else
-				e.getPlayer().useLadder(new WorldTile(3166, 9623, 0));
+				e.getPlayer().useLadder(WorldTile.of(3166, 9623, 0));
 		}
 	};
 }

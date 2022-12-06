@@ -32,7 +32,7 @@ public class DramenTreeBoss {
 							npc.forceTalk("You must defeat me before touching the tree!");
 							return;
 						}
-					NPC spirit = World.spawnNPC(TREE_SPIRIT, new WorldTile(obj.getX(), obj.getY() + 2, obj.getPlane()), -1, false, true);
+					NPC spirit = World.spawnNPC(TREE_SPIRIT, WorldTile.of(obj.getX(), obj.getY() + 2, obj.getPlane()), -1, false, true);
 					spirit.setTarget(p);
 					spirit.forceTalk("You must defeat me before touching the tree!");
 				}

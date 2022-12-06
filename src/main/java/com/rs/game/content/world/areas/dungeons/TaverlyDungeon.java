@@ -35,7 +35,7 @@ public class TaverlyDungeon {
 	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getObjectId() == 11901 ? new WorldTile(4498, 5680, 0) : new WorldTile(2915, 9673, 0));
+			e.getPlayer().useStairs(e.getObjectId() == 11901 ? WorldTile.of(4498, 5680, 0) : WorldTile.of(2915, 9673, 0));
 		}
 	};
 
@@ -53,8 +53,8 @@ public class TaverlyDungeon {
 					e.getPlayer().setNextAnimation(new Animation(10580));
 				}
 			}, 0);
-			e.getPlayer().setNextForceMovement(new ForceMovement(new WorldTile(x, 9799, 0), 3, e.getPlayer().getX() == 2886 ? Direction.WEST : Direction.EAST));
-			e.getPlayer().useStairs(-1, new WorldTile(x, 9799, 0), 3, 4);
+			e.getPlayer().setNextForceMovement(new ForceMovement(WorldTile.of(x, 9799, 0), 3, e.getPlayer().getX() == 2886 ? Direction.WEST : Direction.EAST));
+			e.getPlayer().useStairs(-1, WorldTile.of(x, 9799, 0), 3, 4);
 		}
 	};
 
@@ -65,7 +65,7 @@ public class TaverlyDungeon {
 				return;
 			final boolean isRunning = e.getPlayer().getRun();
 			final boolean isSouth = e.getPlayer().getY() > 9812;
-			final WorldTile tile = isSouth ? new WorldTile(2878, 9812, 0) : new WorldTile(2881, 9814, 0);
+			final WorldTile tile = isSouth ? WorldTile.of(2878, 9812, 0) : WorldTile.of(2881, 9814, 0);
 			e.getPlayer().setRun(true);
 			e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
 			WorldTasks.schedule(new WorldTask() {
@@ -75,7 +75,7 @@ public class TaverlyDungeon {
 				public void run() {
 					ticks++;
 					if (ticks == 2)
-						e.getPlayer().setNextFaceWorldTile(e.getObject());
+						e.getPlayer().setNextFaceWorldTile(e.getObject().getTile());
 					else if (ticks == 3) {
 						e.getPlayer().setNextAnimation(new Animation(1995));
 						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
@@ -95,7 +95,7 @@ public class TaverlyDungeon {
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getObjectId() == 66991 ? new WorldTile(2885, 9795, 0) : new WorldTile(2885, 3395, 0));
+			e.getPlayer().setNextWorldTile(e.getObjectId() == 66991 ? WorldTile.of(2885, 9795, 0) : WorldTile.of(2885, 3395, 0));
 		}
 	};
 

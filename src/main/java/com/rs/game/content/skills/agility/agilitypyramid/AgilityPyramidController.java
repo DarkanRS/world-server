@@ -47,11 +47,11 @@ public class AgilityPyramidController extends Controller {
 	private boolean grabbedTop;
 
 	private enum RollingBlock {
-		A(1551, new WorldTile(3354, 2841, 1), 1),
-		B(1552, new WorldTile(3368, 2849, 2), 2),
-		C(1553, new WorldTile(3374, 2835, 1), 3),
-		D(1554, new WorldTile(3048, 4699, 2), 3),
-		E(1555, new WorldTile(3044, 4699, 3), 2);
+		A(1551, WorldTile.of(3354, 2841, 1), 1),
+		B(1552, WorldTile.of(3368, 2849, 2), 2),
+		C(1553, WorldTile.of(3374, 2835, 1), 3),
+		D(1554, WorldTile.of(3048, 4699, 2), 3),
+		E(1555, WorldTile.of(3044, 4699, 3), 2);
 
 		private int configId;
 		private WorldTile tile;
@@ -154,7 +154,7 @@ public class AgilityPyramidController extends Controller {
 
 	public void finishCourse() {
 		if (grabbedTop) {
-			player.setNextWorldTile(new WorldTile(3364, 2830, 0));
+			player.setNextWorldTile(WorldTile.of(3364, 2830, 0));
 			//player.getSkills().addXp(Constants.AGILITY, 300+(player.getSkills().getLevelForXp(Constants.AGILITY)*8)); //osrs rates?
 			player.getSkills().addXp(Constants.AGILITY, 500);
 			grabbedTop = false;
@@ -198,9 +198,9 @@ public class AgilityPyramidController extends Controller {
 		} else if (failed())
 			endAnim= 3056;
 		if (object.getRotation() % 2 == 0)
-			shimmy(object.transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
+			shimmy(object.getTile().transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
 		else
-			shimmy(object.transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
+			shimmy(object.getTile().transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, endAnim == 3055 || endAnim == 3056);
 	}
 
 	//760 761 fail
@@ -209,7 +209,7 @@ public class AgilityPyramidController extends Controller {
 		int renderEmote = 156;
 		int endAnim = 758;
 		boolean failed = failed();
-		if (object.getId() == 10886 || (object.getId() == 10860 && (object.isAt(3372, 2839) || object.isAt(3364, 2851))) || object.getId() == 10888) {
+		if (object.getId() == 10886 || (object.getId() == 10860 && (object.getTile().isAt(3372, 2839) || object.getTile().isAt(3364, 2851))) || object.getId() == 10888) {
 			startAnim++;
 			renderEmote++;
 			endAnim++;
@@ -220,9 +220,9 @@ public class AgilityPyramidController extends Controller {
 			failed = true;
 		}
 		if (object.getRotation() % 2 == 0)
-			shimmy(object.transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, failed);
+			shimmy(object.getTile().transform(object.getRotation() == 0 ? 1 : 0, player.getY() < object.getY() ? 4 : -4, 0), startAnim, renderEmote, endAnim, failed);
 		else
-			shimmy(object.transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, failed);
+			shimmy(object.getTile().transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, failed);
 	}
 
 	public void shimmy(final WorldTile toTile, final int startAnim, final int renderEmote, final int endAnim, final boolean fail) {
@@ -298,9 +298,9 @@ public class AgilityPyramidController extends Controller {
 		final boolean running = player.getRun();
 		final WorldTile toTile;
 		if (object.getRotation() % 2 == 0)
-			toTile = object.transform(object.getId() == 10867 ? 5 : -5, 0, 0);
+			toTile = object.getTile().transform(object.getId() == 10867 ? 5 : -5, 0, 0);
 		else
-			toTile = object.transform(0, object.getId() == 10867 ? 5 : -5, 0);
+			toTile = object.getTile().transform(0, object.getId() == 10867 ? 5 : -5, 0);
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);

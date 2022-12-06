@@ -39,21 +39,21 @@ public class LodestoneAction extends PlayerAction {
 	private final int HOME_ANIMATION = 16385, HOME_GRAPHIC = 3017;
 
 	public static enum Lodestone {
-		LUMBRIDGE(69836, null, 47, 10907, new WorldTile(3233, 3222, 0)),
-		BURTHORPE(69831, null, 42, 10902, new WorldTile(2899, 3545, 0)),
-		LUNAR_ISLE(69828, null, 39, -1, new WorldTile(2085, 3915, 0)),
-		BANDIT_CAMP(69827, null, 7, -1, new WorldTile(3214, 2955, 0)),
-		TAVERLY(69839, Achievement.RITE_OF_PASSAGE_1005, 50, 10910, new WorldTile(2878, 3443, 0)),
-		ALKARID(69829, Achievement.OPEN_SESAME_995, 40, 10900, new WorldTile(3297, 3185, 0)),
-		VARROCK(69840, Achievement.WELCOME_TO_BARTERTOWN_1006, 51, 10911, new WorldTile(3214, 3377, 0)),
-		EDGEVILLE(69834, Achievement.COMING_LIKE_A_GHOST_TOWN_1000, 45, 10905, new WorldTile(3067, 3506, 0)),
-		FALADOR(69835, Achievement.FOLLOW_THAT_STAR_1001, 46, 10906, new WorldTile(2967, 3404, 0)),
-		PORT_SARIM(69837, Achievement.SETTING_SAIL_1003, 48, 10908, new WorldTile(3011, 3216, 0)),
-		DRAYNOR_VILLAGE(69833, Achievement.AT_A_CROSSROADS_999, 44, 10904, new WorldTile(3105, 3299, 0)),
-		ARDOUGNE(69830, Achievement.OPEN_MARKET_996, 41, 10901, new WorldTile(2634, 3349, 0)),
-		CATHERBAY(69832, Achievement.BEACHHEAD_998, 43, 10903, new WorldTile(2831, 3452, 0)),
-		YANILLE(69841, Achievement.MAGICAL_MYSTERY_TOUR_1007, 52, 10912, new WorldTile(2529, 3095, 0)),
-		SEERS_VILLAGE(69838, Achievement.FIND_ENLIGHTENMENT_1004, 49, 10909, new WorldTile(2689, 3483, 0));
+		LUMBRIDGE(69836, null, 47, 10907, WorldTile.of(3233, 3222, 0)),
+		BURTHORPE(69831, null, 42, 10902, WorldTile.of(2899, 3545, 0)),
+		LUNAR_ISLE(69828, null, 39, -1, WorldTile.of(2085, 3915, 0)),
+		BANDIT_CAMP(69827, null, 7, -1, WorldTile.of(3214, 2955, 0)),
+		TAVERLY(69839, Achievement.RITE_OF_PASSAGE_1005, 50, 10910, WorldTile.of(2878, 3443, 0)),
+		ALKARID(69829, Achievement.OPEN_SESAME_995, 40, 10900, WorldTile.of(3297, 3185, 0)),
+		VARROCK(69840, Achievement.WELCOME_TO_BARTERTOWN_1006, 51, 10911, WorldTile.of(3214, 3377, 0)),
+		EDGEVILLE(69834, Achievement.COMING_LIKE_A_GHOST_TOWN_1000, 45, 10905, WorldTile.of(3067, 3506, 0)),
+		FALADOR(69835, Achievement.FOLLOW_THAT_STAR_1001, 46, 10906, WorldTile.of(2967, 3404, 0)),
+		PORT_SARIM(69837, Achievement.SETTING_SAIL_1003, 48, 10908, WorldTile.of(3011, 3216, 0)),
+		DRAYNOR_VILLAGE(69833, Achievement.AT_A_CROSSROADS_999, 44, 10904, WorldTile.of(3105, 3299, 0)),
+		ARDOUGNE(69830, Achievement.OPEN_MARKET_996, 41, 10901, WorldTile.of(2634, 3349, 0)),
+		CATHERBAY(69832, Achievement.BEACHHEAD_998, 43, 10903, WorldTile.of(2831, 3452, 0)),
+		YANILLE(69841, Achievement.MAGICAL_MYSTERY_TOUR_1007, 52, 10912, WorldTile.of(2529, 3095, 0)),
+		SEERS_VILLAGE(69838, Achievement.FIND_ENLIGHTENMENT_1004, 49, 10909, WorldTile.of(2689, 3483, 0));
 
 		private int objectId;
 		private Achievement achievement;

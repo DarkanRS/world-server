@@ -42,7 +42,7 @@ public class SpawnFormatChanger {
 		for (ShaunyNPCSpawn spawn : spawns) {
 			if (spawn.npcId > Utils.getNPCDefinitionsSize())
 				continue;
-			converted.add(new NPCSpawn(spawn.npcId, new WorldTile(spawn.x, spawn.y, spawn.plane), spawn.npcName));
+			converted.add(new NPCSpawn(spawn.npcId, WorldTile.of(spawn.x, spawn.y, spawn.plane), spawn.npcName));
 		}
 		JsonFileManager.saveJsonFile(converted, new File("./dumps/shaunySpawns.json"));
 	}

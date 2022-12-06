@@ -336,13 +336,13 @@ public class Slayer {
 		if (objects == null)
 			return false;
 		for (final GameObject object : objects) {
-			if (!object.withinDistance(player.getTile(), 3) || object.getId() != 22545)
+			if (!object.getTile().withinDistance(player.getTile(), 3) || object.getId() != 22545)
 				continue;
 			player.sendMessage("The bell re-sounds loudly throughout the cavern.");
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					NPC npc = World.spawnNPC(5751, new WorldTile(player.getTile()), -1, true);
+					NPC npc = World.spawnNPC(5751, WorldTile.of(player.getTile()), -1, true);
 					npc.getCombat().setTarget(player);
 					GameObject o = new GameObject(object);
 					o.setId(22544);

@@ -71,7 +71,7 @@ public class WildernessAgility {
 		player.sendMessage("You walk carefully across the path...", true);
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
-		final WorldTile toTile = new WorldTile(object.getX(), 3931, object.getPlane());
+		final WorldTile toTile = WorldTile.of(object.getX(), 3931, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.NORTH));
 		WorldTasks.schedule(new WorldTask() {
 
@@ -89,7 +89,7 @@ public class WildernessAgility {
 		player.sendMessage("You walk carefully across the path...", true);
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
-		final WorldTile toTile = new WorldTile(object.getX() + 1, 3916, object.getPlane());
+		final WorldTile toTile = WorldTile.of(object.getX() + 1, 3916, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.SOUTH));
 		WorldTasks.schedule(new WorldTask() {
 
@@ -107,7 +107,7 @@ public class WildernessAgility {
 		if (!Agility.hasLevel(player, 52))
 			return;
 		final boolean running = player.getRun();
-		final WorldTile toTile = new WorldTile(objectX, objectY == 3938 ? 3950 : 3937, 0);
+		final WorldTile toTile = WorldTile.of(objectX, objectY == 3938 ? 3950 : 3937, 0);
 		player.setRunHidden(false);
 		player.lock(7);
 		player.addWalkSteps(objectX, objectY == 3938 ? 3950 : 3937, -1, false);
@@ -142,7 +142,7 @@ public class WildernessAgility {
 		player.lock(4);
 		player.setNextAnimation(new Animation(751));
 		World.sendObjectAnimation(player, object, new Animation(497));
-		final WorldTile toTile = new WorldTile(object.getX(), 3958, object.getPlane());
+		final WorldTile toTile = WorldTile.of(object.getX(), 3958, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.NORTH));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.sendMessage("You skilfully swing across.", true);
@@ -177,7 +177,7 @@ public class WildernessAgility {
 					stop();
 					return;
 				}
-				final WorldTile toTile = new WorldTile(3002 - x, player.getY(), player.getPlane());
+				final WorldTile toTile = WorldTile.of(3002 - x, player.getY(), player.getPlane());
 				player.setNextForceMovement(new ForceMovement(toTile, 1, Direction.WEST));
 				player.setNextAnimation(new Animation(741));
 				WorldTasks.schedule(new WorldTask() {
@@ -228,7 +228,7 @@ public class WildernessAgility {
 		if (player.getY() != 3939)
 			return;
 		player.setNextAnimation(new Animation(3378));
-		final WorldTile toTile = new WorldTile(player.getX(), 3935, 0);
+		final WorldTile toTile = WorldTile.of(player.getX(), 3935, 0);
 
 		player.sendMessage("You climb up the rock.", true);
 		WorldTasks.schedule(new WorldTask() {

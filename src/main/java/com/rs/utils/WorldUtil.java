@@ -93,7 +93,7 @@ public class WorldUtil {
 		else if (object instanceof Entity e)
 			return e.getTile();
 		else if (object instanceof WorldObject w)
-			return w;
+			return w.getTile();
 		throw new IllegalArgumentException("Invalid target object passed.");
 	}
 

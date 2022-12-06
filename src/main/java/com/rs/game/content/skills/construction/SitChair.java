@@ -32,27 +32,27 @@ public class SitChair extends PlayerAction {
 
 	public SitChair(Player player, GameObject object) {
 		animation = HouseConstants.getSitAnimation(object.getId());
-		originalTile = new WorldTile(player.getTile());
-		chairTile = object;
-		WorldTile face = new WorldTile(player.getTile());
+		originalTile = WorldTile.of(player.getTile());
+		chairTile = object.getTile();
+		WorldTile face = WorldTile.of(player.getTile());
 		if (object.getType() == ObjectType.SCENERY_INTERACT) {
 			if (object.getRotation() == 0)
-				face.moveLocation(0, -1, 0);
+				face = face.transform(0, -1, 0);
 			else if (object.getRotation() == 2)
-				face.moveLocation(0, 1, 0);
+				face = face.transform(0, 1, 0);
 			else if (object.getRotation() == 3)
-				face.moveLocation(1, 0, 0);
+				face = face.transform(1, 0, 0);
 			else if (object.getRotation() == 1)
-				face.moveLocation(-1, 0, 0);
+				face = face.transform(-1, 0, 0);
 		} else if (object.getType() == ObjectType.GROUND_INTERACT)
 			if (object.getRotation() == 1)
-				face.moveLocation(-1, 1, 0);
+				face = face.transform(-1, 1, 0);
 			else if (object.getRotation() == 2)
-				face.moveLocation(1, 1, 0);
+				face = face.transform(1, 1, 0);
 			else if (object.getRotation() == 0)
-				face.moveLocation(-1, -1, 0);
+				face = face.transform(-1, -1, 0);
 			else if (object.getRotation() == 3)
-				face.moveLocation(1, -1, 0);
+				face = face.transform(1, -1, 0);
 		player.setNextFaceWorldTile(face);
 	}
 

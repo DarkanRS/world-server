@@ -31,7 +31,7 @@ public class DungFarmPatch extends OwnedObject {
 	private DungeonManager manager;
 
 	public DungFarmPatch(Player player, Harvest harvest, GameObject basePatch, DungeonManager manager) {
-		super(player, DungeonConstants.EMPTY_FARMING_PATCH + 1 + 1 + (harvest.ordinal() * 3), basePatch.getType(), basePatch.getRotation(), basePatch);
+		super(player, DungeonConstants.EMPTY_FARMING_PATCH + 1 + 1 + (harvest.ordinal() * 3), basePatch.getType(), basePatch.getRotation(), basePatch.getTile());
 		this.harvest = harvest;
 		this.manager = manager;
 	}

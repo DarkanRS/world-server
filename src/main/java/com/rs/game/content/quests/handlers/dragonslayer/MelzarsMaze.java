@@ -36,27 +36,27 @@ public class MelzarsMaze {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(2928, 3258, 0)) || obj.matches(new WorldTile(2925, 3258, 0)) || obj.matches(new WorldTile(2930, 3258, 1)) || obj.matches(new WorldTile(2937, 3247, 1)))
+			if(obj.getTile().matches(WorldTile.of(2928, 3258, 0)) || obj.getTile().matches(WorldTile.of(2925, 3258, 0)) || obj.getTile().matches(WorldTile.of(2930, 3258, 1)) || obj.getTile().matches(WorldTile.of(2937, 3247, 1)))
 				return;
-			if(obj.matches(new WorldTile(2934, 3243, 1)) || obj.matches(new WorldTile(2929, 3245, 1)) || obj.matches(new WorldTile(2940, 3240, 1)) || obj.matches(new WorldTile(2937, 3240, 0)))
+			if(obj.getTile().matches(WorldTile.of(2934, 3243, 1)) || obj.getTile().matches(WorldTile.of(2929, 3245, 1)) || obj.getTile().matches(WorldTile.of(2940, 3240, 1)) || obj.getTile().matches(WorldTile.of(2937, 3240, 0)))
 				return;
 
 
 			//Exits
-			if(obj.matches(new WorldTile(2924, 9650, 0)))//Melzar Mad basement exit ladder to first floor
-				e.getPlayer().useLadder(new WorldTile(2923, 3250, 0));
-			if(obj.matches(new WorldTile(2924, 3250, 0)))//1st floor to Melzar mad exit
-				e.getPlayer().useLadder(new WorldTile(2924, 9649, 0));
-			if(obj.matches(new WorldTile(2939, 3257, 0)))//Front exit to Lesser demon exit ladder
-				e.getPlayer().useLadder(new WorldTile(2939, 9656, 0));
-			if(obj.matches(new WorldTile(2939, 9657, 0)))//Lesser demon exit to front exit
-				e.getPlayer().useLadder(new WorldTile(2938, 3257, 0));
-			if(obj.matches(new WorldTile(2928, 9658, 0)))//Basement exit out
-				e.getPlayer().useLadder(new WorldTile(2928, 3259, 0));
-			if(obj.matches(new WorldTile(2928, 9658, 0)))//Basement exit out
-				e.getPlayer().useLadder(new WorldTile(2928, 3259, 0));
-			if(obj.matches(new WorldTile(2932, 3240, 0)))//Basement exit out
-				e.getPlayer().useLadder(new WorldTile(2932, 9641, 0));
+			if(obj.getTile().matches(WorldTile.of(2924, 9650, 0)))//Melzar Mad basement exit ladder to first floor
+				e.getPlayer().useLadder(WorldTile.of(2923, 3250, 0));
+			if(obj.getTile().matches(WorldTile.of(2924, 3250, 0)))//1st floor to Melzar mad exit
+				e.getPlayer().useLadder(WorldTile.of(2924, 9649, 0));
+			if(obj.getTile().matches(WorldTile.of(2939, 3257, 0)))//Front exit to Lesser demon exit ladder
+				e.getPlayer().useLadder(WorldTile.of(2939, 9656, 0));
+			if(obj.getTile().matches(WorldTile.of(2939, 9657, 0)))//Lesser demon exit to front exit
+				e.getPlayer().useLadder(WorldTile.of(2938, 3257, 0));
+			if(obj.getTile().matches(WorldTile.of(2928, 9658, 0)))//Basement exit out
+				e.getPlayer().useLadder(WorldTile.of(2928, 3259, 0));
+			if(obj.getTile().matches(WorldTile.of(2928, 9658, 0)))//Basement exit out
+				e.getPlayer().useLadder(WorldTile.of(2928, 3259, 0));
+			if(obj.getTile().matches(WorldTile.of(2932, 3240, 0)))//Basement exit out
+				e.getPlayer().useLadder(WorldTile.of(2932, 9641, 0));
 		}
 	};
 
@@ -149,7 +149,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(BLUE_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
+				World.addGroundItem(new Item(BLUE_KEY, 1), WorldTile.of(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 
@@ -158,7 +158,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(GREEN_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
+				World.addGroundItem(new Item(GREEN_KEY, 1), WorldTile.of(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 
@@ -167,7 +167,7 @@ public class MelzarsMaze {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getNPC().getRegionId() == MELZAR_BASEMENT_REGION && e.killedByPlayer())
-				World.addGroundItem(new Item(MAGENTA_KEY, 1), new WorldTile(e.getNPC().getTile()), (Player)e.getKiller());
+				World.addGroundItem(new Item(MAGENTA_KEY, 1), WorldTile.of(e.getNPC().getTile()), (Player)e.getKiller());
 		}
 	};
 

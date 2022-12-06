@@ -39,15 +39,15 @@ import com.rs.utils.shop.ShopsHandler;
 public class Desert  {
 
 	private enum CarpetLocation {
-		SHANTAY_PASS(2291, new WorldTile(3308, 3109, 0)),
-		BEDABIN_CAMP(2292, new WorldTile(3180, 3045, 0)),
-		S_POLLNIVNEACH(2293, new WorldTile(3351, 2942, 0)),
-		N_POLLNIVNEACH(2294, new WorldTile(3349, 3003, 0)),
-		UZER(2295, new WorldTile(3469, 3113, 0)),
-		SOPHANEM(2297, new WorldTile(3285, 2813, 0)),
-		MENAPHOS(2299, new WorldTile(3245, 2813, 0)),
-		NARDAH(3020, new WorldTile(3401, 2916, 0)),
-		MONKEY_COLONY(13237, new WorldTile(3227, 2988, 0));
+		SHANTAY_PASS(2291, WorldTile.of(3308, 3109, 0)),
+		BEDABIN_CAMP(2292, WorldTile.of(3180, 3045, 0)),
+		S_POLLNIVNEACH(2293, WorldTile.of(3351, 2942, 0)),
+		N_POLLNIVNEACH(2294, WorldTile.of(3349, 3003, 0)),
+		UZER(2295, WorldTile.of(3469, 3113, 0)),
+		SOPHANEM(2297, WorldTile.of(3285, 2813, 0)),
+		MENAPHOS(2299, WorldTile.of(3245, 2813, 0)),
+		NARDAH(3020, WorldTile.of(3401, 2916, 0)),
+		MONKEY_COLONY(13237, WorldTile.of(3227, 2988, 0));
 
 		private int npcId;
 		private WorldTile tile;
@@ -114,9 +114,9 @@ public class Desert  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 63173)
-				e.getPlayer().useStairs(new WorldTile(3348, 9535, 0));
+				e.getPlayer().useStairs(WorldTile.of(3348, 9535, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(3370, 3129, 0));
+				e.getPlayer().useStairs(WorldTile.of(3370, 3129, 0));
 		}
 	};
 
@@ -143,14 +143,14 @@ public class Desert  {
 	public static ObjectClickHandler handleEnterTTMine = new ObjectClickHandler(new Object[] { 2675, 2676 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(3279, 9427, 0));
+			e.getPlayer().useStairs(WorldTile.of(3279, 9427, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleExitTTMine = new ObjectClickHandler(new Object[] { 2690, 2691 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(3301, 3036, 0));
+			e.getPlayer().useStairs(WorldTile.of(3301, 3036, 0));
 		}
 	};
 
@@ -223,15 +223,15 @@ public class Desert  {
 	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3233, 9310, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3233, 9310, 0));
 		}
 	};
 
 	public static ObjectClickHandler handlePyramidSarcophagi = new ObjectClickHandler(new Object[] { 6516 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getObject().isAt(3233, 9309))
-				e.getPlayer().setNextWorldTile(new WorldTile(3233, 2887, 0));
+			if (e.getObject().getTile().isAt(3233, 9309))
+				e.getPlayer().setNextWorldTile(WorldTile.of(3233, 2887, 0));
 			else
 				e.getPlayer().sendMessage("You search the sarcophagus but find nothing.");
 		}

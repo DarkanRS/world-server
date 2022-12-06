@@ -108,11 +108,11 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 									byte[] dirs = Utils.getDirection(npc.getFaceAngle());
 									WorldTile tile = null;
 									distanceLoop: for (int distance = 2; distance >= 0; distance--) {
-										tile = new WorldTile(new WorldTile(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
+										tile = WorldTile.of(WorldTile.of(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
 										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 											break distanceLoop;
 										if (distance == 0)
-											tile = new WorldTile(t.getTile());
+											tile = WorldTile.of(t.getTile());
 									}
 									tiles.add(tile);
 									t.faceEntity(gazer);

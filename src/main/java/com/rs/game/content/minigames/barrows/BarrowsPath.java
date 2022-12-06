@@ -164,16 +164,16 @@ public class BarrowsPath {
 			p.getVars().setVarBit((465+i),(i == spawn ? 1 : 0));
 		switch (spawn) {
 		case 0:
-			p.setNextWorldTile(new WorldTile(3535, 9712, 0));
+			p.setNextWorldTile(WorldTile.of(3535, 9712, 0));
 			break;
 		case 1:
-			p.setNextWorldTile(new WorldTile(3567, 9712, 0));
+			p.setNextWorldTile(WorldTile.of(3567, 9712, 0));
 			break;
 		case 2:
-			p.setNextWorldTile(new WorldTile(3535, 9678, 0));
+			p.setNextWorldTile(WorldTile.of(3535, 9678, 0));
 			break;
 		case 3:
-			p.setNextWorldTile(new WorldTile(3569, 9678, 0));
+			p.setNextWorldTile(WorldTile.of(3569, 9678, 0));
 			break;
 		}
 	}

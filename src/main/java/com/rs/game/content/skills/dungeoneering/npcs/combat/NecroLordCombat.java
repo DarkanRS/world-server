@@ -84,7 +84,7 @@ public class NecroLordCombat extends CombatScript {
 			break;
 		case 2:
 		case 3:
-			final WorldTile tile = new WorldTile(target.getTile());
+			final WorldTile tile = WorldTile.of(target.getTile());
 			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
 			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);

@@ -260,10 +260,10 @@ public class DwarfMultiCannon extends OwnedObject {
 		else
 			spinRot = Direction.values()[spinRot.ordinal() + 1];
 		World.sendObjectAnimation(null, this, new Animation(CANNON_EMOTES[spinRot.ordinal()]));
-		Set<Integer> npcIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
+		Set<Integer> npcIndexes = World.getRegion(tile.getRegionId()).getNPCsIndexes();
 		if (npcIndexes == null)
 			return;
-		WorldTile cannonTile = this.transform(1, 1, 0);
+		WorldTile cannonTile = this.tile.transform(1, 1, 0);
 		for (int npcIndex : npcIndexes) {
 			NPC npc = World.getNPCs().get(npcIndex);
 			if (npc == null || npc == owner.getFamiliar() || npc.isDead() || npc.hasFinished() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
@@ -275,7 +275,7 @@ public class DwarfMultiCannon extends OwnedObject {
 
 			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
 				int damage = PlayerCombat.getRandomMaxHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
-				WorldProjectile proj = World.sendProjectile(new WorldTile(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
+				WorldProjectile proj = World.sendProjectile(WorldTile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, damage, HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, damage / 5);
 				balls--;
@@ -288,7 +288,7 @@ public class DwarfMultiCannon extends OwnedObject {
 
 	public Direction getDirectionTo(Entity entity) {
 		Vec2 to = entity.getMiddleWorldTileAsVector();
-		Vec2 from = new Vec2(transform(1, 1, 0));
+		Vec2 from = new Vec2(tile.transform(1, 1, 0));
 		Vec2 sub = to.sub(from);
 		sub.norm();
 		WorldTile delta = sub.toTile();

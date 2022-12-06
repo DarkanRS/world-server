@@ -199,9 +199,9 @@ public class Lumbridge {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 24360)
-				e.getPlayer().setNextWorldTile(new WorldTile(3190, 9834, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3190, 9834, 0));
 			else if (e.getObjectId() == 24365)
-				e.getPlayer().setNextWorldTile(new WorldTile(3188, 3433, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3188, 3433, 0));
 		}
 	};
 
@@ -228,23 +228,23 @@ public class Lumbridge {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 36771)
-				e.getPlayer().useLadder(new WorldTile(3207, 3222, 3));
+				e.getPlayer().useLadder(WorldTile.of(3207, 3222, 3));
 			else if (e.getObjectId() == 36772)
-				e.getPlayer().useLadder(new WorldTile(3207, 3224, 2));
+				e.getPlayer().useLadder(WorldTile.of(3207, 3224, 2));
 		}
 	};
 
 	public static ObjectClickHandler handleThievesGuildExitLadder = new ObjectClickHandler(new Object[] { 52308 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(new WorldTile(3223, 3269, 0));
+			e.getPlayer().useLadder(WorldTile.of(3223, 3269, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleThievesGuildEntrance = new ObjectClickHandler(new Object[] { 52309 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(new WorldTile(4762, 5891, 0));
+			e.getPlayer().useLadder(WorldTile.of(4762, 5891, 0));
 		}
 	};
 

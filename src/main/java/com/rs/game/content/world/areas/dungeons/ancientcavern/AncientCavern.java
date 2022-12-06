@@ -53,8 +53,8 @@ public class AncientCavern {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			switch(e.getObjectId()) {
-			case 25337 -> e.getPlayer().setNextWorldTile(new WorldTile(1744, 5321, 1));
-			case 39468 -> e.getPlayer().setNextWorldTile(new WorldTile(1745, 5325, 0));
+			case 25337 -> e.getPlayer().setNextWorldTile(WorldTile.of(1744, 5321, 1));
+			case 39468 -> e.getPlayer().setNextWorldTile(WorldTile.of(1745, 5325, 0));
 			}
 		}
 	};
@@ -62,49 +62,49 @@ public class AncientCavern {
 	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getObjectId() == 25341 ? new WorldTile(1823, 5273, 0) : new WorldTile(1759, 5342, 1));
+			e.getPlayer().useStairs(e.getObjectId() == 25341 ? WorldTile.of(1823, 5273, 0) : WorldTile.of(1759, 5342, 1));
 		}
 	};
 
 	public static ObjectClickHandler handleDownStepsEntrance = new ObjectClickHandler(new Object[] { 25338 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1772, 5366, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1772, 5366, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleUpStepsEntrance = new ObjectClickHandler(new Object[] { 25336 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1768, 5366, 1));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1768, 5366, 1));
 		}
 	};
 
 	public static ObjectClickHandler handleDownStepsMithDrags = new ObjectClickHandler(new Object[] { 25340 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1778, 5346, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5346, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleUpStepsMithDrags = new ObjectClickHandler(new Object[] { 25339 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1778, 5343, 1));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5343, 1));
 		}
 	};
 
 //	public static ObjectClickHandler handleDownStepsKuradal = new ObjectClickHandler(new Object[] { 39468 }) {
 //		@Override
 //		public void handle(ObjectClickEvent e) {
-//			e.getPlayer().setNextWorldTile(new WorldTile(1744, 5325, 0));
+//			e.getPlayer().setNextWorldTile(WorldTile.of(1744, 5325, 0));
 //		}
 //	};
 
 //	public static ObjectClickHandler handleUpStepsKuradal = new ObjectClickHandler(new Object[] { 25337 }) {
 //		@Override
 //		public void handle(ObjectClickEvent e) {
-//			e.getPlayer().setNextWorldTile(e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS) ? new WorldTile(1774, 5321, 1) : new WorldTile(1694, 5296, 1));
+//			e.getPlayer().setNextWorldTile(e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS) ? WorldTile.of(1774, 5321, 1) : WorldTile.of(1694, 5296, 1));
 //		}
 //	};
 
@@ -122,10 +122,10 @@ public class AncientCavern {
 						if (ticks == 1) {
 							e.getPlayer().setNextAnimation(new Animation(6723));
 							e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
-							e.getPlayer().setNextForceMovement(new ForceMovement(new WorldTile(2512, 3508, 0), 7, Direction.SOUTH));
+							e.getPlayer().setNextForceMovement(new ForceMovement(WorldTile.of(2512, 3508, 0), 7, Direction.SOUTH));
 							ticks++;
 						} else if (ticks >= 7) {
-							e.getPlayer().setNextWorldTile(new WorldTile(1764, 5365, 1));
+							e.getPlayer().setNextWorldTile(WorldTile.of(1764, 5365, 1));
 							stop();
 						}
 						ticks++;

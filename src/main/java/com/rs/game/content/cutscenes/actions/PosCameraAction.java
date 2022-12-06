@@ -46,7 +46,7 @@ public class PosCameraAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		player.getPackets().sendCameraPos(new WorldTile(scene.getX(moveLocalX), scene.getY(moveLocalY), 0), moveZ, speed, speed2);
+		player.getPackets().sendCameraPos(WorldTile.of(scene.getX(moveLocalX), scene.getY(moveLocalY), 0), moveZ, speed, speed2);
 	}
 
 }

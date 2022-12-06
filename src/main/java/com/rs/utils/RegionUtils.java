@@ -145,7 +145,7 @@ public class RegionUtils {
 		}
 
 		public WorldTile getRandomTile() {
-			return new WorldTile(x + Utils.random(width), y + Utils.random(height), 0);
+			return WorldTile.of(x + Utils.random(width), y + Utils.random(height), 0);
 		}
 
 		@Override

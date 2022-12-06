@@ -156,7 +156,7 @@ public class OrbImbuing {
 					e.getPlayer().sendMessage("Try using this spell on the correct obelisk.");
 					return;
 				}
-				e.getPlayer().getActionManager().setAction(new OrbChargingAction(orb, e.getObject()));
+				e.getPlayer().getActionManager().setAction(new OrbChargingAction(orb, e.getObject().getTile()));
 			}
 		}
 	};

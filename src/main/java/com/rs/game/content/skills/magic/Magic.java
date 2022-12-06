@@ -199,15 +199,15 @@ public class Magic {
 			break;
 		case 43:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 69, 66, new WorldTile(2112, 3915, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 2));
+			sendLunarTeleportSpell(player, 69, 66, WorldTile.of(2112, 3915, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 2));
 			break;
 		case 56:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 70, 67, new WorldTile(2112, 3915, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 4));
+			sendLunarTeleportSpell(player, 70, 67, WorldTile.of(2112, 3915, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 4));
 			break;
 		case 54:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 71, 69, new WorldTile(2466, 3248, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 6));
+			sendLunarTeleportSpell(player, 71, 69, WorldTile.of(2466, 3248, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.EARTH, 6));
 			break;
 		case 46:
 			Lunars.handleCureMe(player);
@@ -217,30 +217,30 @@ public class Magic {
 			break;
 		case 67:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 72, 70, new WorldTile(3005, 3327, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.AIR, 2));
+			sendLunarTeleportSpell(player, 72, 70, WorldTile.of(3005, 3327, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.AIR, 2));
 			break;
 		case 47:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 72, 71, new WorldTile(2546, 3757, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 1));
+			sendLunarTeleportSpell(player, 72, 71, WorldTile.of(2546, 3757, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 1));
 			break;
 		case 57:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 73, 72, new WorldTile(2546, 3757, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 5));
+			sendLunarTeleportSpell(player, 73, 72, WorldTile.of(2546, 3757, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 5));
 			break;
 		case 25:
 			Lunars.handleCureGroup(player);
 			break;
 		case 22:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 75, 76, new WorldTile(2542, 3574, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.FIRE, 3));
+			sendLunarTeleportSpell(player, 75, 76, WorldTile.of(2542, 3574, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.FIRE, 3));
 			break;
 		case 69:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 76, 76, new WorldTile(2613, 3345, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 5));
+			sendLunarTeleportSpell(player, 76, 76, WorldTile.of(2613, 3345, 0), new RuneSet(Rune.LAW, 1, Rune.ASTRAL, 2, Rune.WATER, 5));
 			break;
 		case 58:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 76, 77, new WorldTile(2542, 3574, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.FIRE, 6));
+			sendLunarTeleportSpell(player, 76, 77, WorldTile.of(2542, 3574, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.FIRE, 6));
 			break;
 		case 48:
 			Lunars.handleSuperGlassMake(player);
@@ -250,11 +250,11 @@ public class Magic {
 			break;
 		case 41:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 78, 80, new WorldTile(2630, 3167, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.WATER, 4));
+			sendLunarTeleportSpell(player, 78, 80, WorldTile.of(2630, 3167, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.WATER, 4));
 			break;
 		case 59:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 79, 81, new WorldTile(2630, 3167, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.WATER, 8));
+			sendLunarTeleportSpell(player, 79, 81, WorldTile.of(2630, 3167, 0), new RuneSet(Rune.LAW, 2, Rune.ASTRAL, 2, Rune.WATER, 8));
 			break;
 		case 32:
 			Lunars.handleDream(player);
@@ -267,38 +267,38 @@ public class Magic {
 			break;
 		case 40:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 85, 89, new WorldTile(2614, 3382, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+			sendLunarTeleportSpell(player, 85, 89, WorldTile.of(2614, 3382, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
 			break;
 		case 60:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 86, 90, new WorldTile(2614, 3382, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 14));
+			sendLunarTeleportSpell(player, 86, 90, WorldTile.of(2614, 3382, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 14));
 			break;
 		case 44:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 87, 92, new WorldTile(2804, 3434, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+			sendLunarTeleportSpell(player, 87, 92, WorldTile.of(2804, 3434, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
 			break;
 		case 61:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 88, 93, new WorldTile(2804, 3434, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 12));
+			sendLunarTeleportSpell(player, 88, 93, WorldTile.of(2804, 3434, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 12));
 			break;
 		case 51:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 89, 96, new WorldTile(2977, 3924, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 8));
+			sendLunarTeleportSpell(player, 89, 96, WorldTile.of(2977, 3924, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 8));
 			break;
 		case 62:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 90, 99, new WorldTile(2977, 3924, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 16));
+			sendLunarTeleportSpell(player, 90, 99, WorldTile.of(2977, 3924, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 16));
 			break;
 		case 73:
 			Lunars.handleDisruptionShield(player);
 			break;
 		case 75:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 92, 101, new WorldTile(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
+			sendLunarTeleportSpell(player, 92, 101, WorldTile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 10));
 			break;
 		case 76:
 			player.stopAll(false);
-			sendLunarTeleportSpell(player, 93, 102, new WorldTile(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 20));
+			sendLunarTeleportSpell(player, 93, 102, WorldTile.of(2814, 3677, 0), new RuneSet(Rune.LAW, 3, Rune.ASTRAL, 3, Rune.WATER, 20));
 			break;
 		case 37:
 			Lunars.handleVengeance(player);
@@ -328,28 +328,28 @@ public class Magic {
 		}
 		switch (componentId) {
 		case 40:
-			sendAncientTeleportSpell(player, 54, 64, new WorldTile(3099, 9882, 0), new RuneSet(Rune.LAW, 2, Rune.FIRE, 1, Rune.AIR, 1));
+			sendAncientTeleportSpell(player, 54, 64, WorldTile.of(3099, 9882, 0), new RuneSet(Rune.LAW, 2, Rune.FIRE, 1, Rune.AIR, 1));
 			break;
 		case 41:
-			sendAncientTeleportSpell(player, 60, 70, new WorldTile(3222, 3336, 0), new RuneSet(Rune.LAW, 2, Rune.SOUL, 1));
+			sendAncientTeleportSpell(player, 60, 70, WorldTile.of(3222, 3336, 0), new RuneSet(Rune.LAW, 2, Rune.SOUL, 1));
 			break;
 		case 42:
-			sendAncientTeleportSpell(player, 66, 76, new WorldTile(3492, 3471, 0), new RuneSet(Rune.LAW, 2, Rune.BLOOD, 1));
+			sendAncientTeleportSpell(player, 66, 76, WorldTile.of(3492, 3471, 0), new RuneSet(Rune.LAW, 2, Rune.BLOOD, 1));
 			break;
 		case 43:
-			sendAncientTeleportSpell(player, 72, 82, new WorldTile(3006, 3471, 0), new RuneSet(Rune.LAW, 2, Rune.WATER, 4));
+			sendAncientTeleportSpell(player, 72, 82, WorldTile.of(3006, 3471, 0), new RuneSet(Rune.LAW, 2, Rune.WATER, 4));
 			break;
 		case 44:
-			sendAncientTeleportSpell(player, 78, 88, new WorldTile(2990, 3696, 0), new RuneSet(Rune.LAW, 2, Rune.FIRE, 3, Rune.AIR, 2));
+			sendAncientTeleportSpell(player, 78, 88, WorldTile.of(2990, 3696, 0), new RuneSet(Rune.LAW, 2, Rune.FIRE, 3, Rune.AIR, 2));
 			break;
 		case 45:
-			sendAncientTeleportSpell(player, 84, 94, new WorldTile(3217, 3677, 0), new RuneSet(Rune.LAW, 2, Rune.SOUL, 2));
+			sendAncientTeleportSpell(player, 84, 94, WorldTile.of(3217, 3677, 0), new RuneSet(Rune.LAW, 2, Rune.SOUL, 2));
 			break;
 		case 46:
-			sendAncientTeleportSpell(player, 90, 100, new WorldTile(3288, 3886, 0), new RuneSet(Rune.LAW, 2, Rune.BLOOD, 2));
+			sendAncientTeleportSpell(player, 90, 100, WorldTile.of(3288, 3886, 0), new RuneSet(Rune.LAW, 2, Rune.BLOOD, 2));
 			break;
 		case 47:
-			sendAncientTeleportSpell(player, 96, 106, new WorldTile(2977, 3873, 0), new RuneSet(Rune.LAW, 2, Rune.WATER, 8));
+			sendAncientTeleportSpell(player, 96, 106, WorldTile.of(2977, 3873, 0), new RuneSet(Rune.LAW, 2, Rune.WATER, 8));
 			break;
 		case 48:
 			useHomeTele(player);
@@ -377,16 +377,16 @@ public class Magic {
 			useHomeTele(player);
 			break;
 		case 37: // mobi
-			sendNormalTeleportSpell(player, 10, 19, new WorldTile(2413, 2848, 0), new RuneSet(Rune.LAW, 1, Rune.WATER, 1, Rune.AIR, 1));
+			sendNormalTeleportSpell(player, 10, 19, WorldTile.of(2413, 2848, 0), new RuneSet(Rune.LAW, 1, Rune.WATER, 1, Rune.AIR, 1));
 			break;
 		case 40: // varrock
-			sendNormalTeleportSpell(player, 25, 19, new WorldTile(3212, 3424, 0), new RuneSet(Rune.FIRE, 1, Rune.AIR, 3, Rune.LAW, 1));
+			sendNormalTeleportSpell(player, 25, 19, WorldTile.of(3212, 3424, 0), new RuneSet(Rune.FIRE, 1, Rune.AIR, 3, Rune.LAW, 1));
 			break;
 		case 43: // lumby
-			sendNormalTeleportSpell(player, 31, 41, new WorldTile(3222, 3218, 0), new RuneSet(Rune.EARTH, 1, Rune.AIR, 3, Rune.LAW, 1));
+			sendNormalTeleportSpell(player, 31, 41, WorldTile.of(3222, 3218, 0), new RuneSet(Rune.EARTH, 1, Rune.AIR, 3, Rune.LAW, 1));
 			break;
 		case 46: // fally
-			sendNormalTeleportSpell(player, 37, 48, new WorldTile(2964, 3379, 0), new RuneSet(Rune.WATER, 1, Rune.AIR, 3, Rune.LAW, 1));
+			sendNormalTeleportSpell(player, 37, 48, WorldTile.of(2964, 3379, 0), new RuneSet(Rune.WATER, 1, Rune.AIR, 3, Rune.LAW, 1));
 			break;
 		case 48:
 			if (player.getSkills().getLevel(Constants.MAGIC) >= 40) {
@@ -397,19 +397,19 @@ public class Magic {
 				player.sendMessage("You need a magic level of 40 to use this spell.");
 			break;
 		case 51: // camelot
-			sendNormalTeleportSpell(player, 45, 55.5, new WorldTile(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
+			sendNormalTeleportSpell(player, 45, 55.5, WorldTile.of(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
 			break;
 		case 57: // ardy
-			sendNormalTeleportSpell(player, 51, 61, new WorldTile(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
+			sendNormalTeleportSpell(player, 51, 61, WorldTile.of(2664, 3305, 0), new RuneSet(Rune.WATER, 2, Rune.LAW, 2));
 			break;
 		case 62: // watch
-			sendNormalTeleportSpell(player, 58, 68, new WorldTile(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
+			sendNormalTeleportSpell(player, 58, 68, WorldTile.of(2547, 3113, 2), new RuneSet(Rune.EARTH, 2, Rune.LAW, 2));
 			break;
 		case 69: // troll
-			sendNormalTeleportSpell(player, 61, 68, new WorldTile(2888, 3674, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
+			sendNormalTeleportSpell(player, 61, 68, WorldTile.of(2888, 3674, 0), new RuneSet(Rune.FIRE, 2, Rune.LAW, 2));
 			break;
 		case 72: // ape
-			sendNormalTeleportSpell(player, 64, 76, new WorldTile(2797, 2798, 1), new RuneSet(Rune.FIRE, 2, Rune.WATER, 2, Rune.LAW, 2));
+			sendNormalTeleportSpell(player, 64, 76, WorldTile.of(2797, 2798, 1), new RuneSet(Rune.FIRE, 2, Rune.WATER, 2, Rune.LAW, 2));
 			break;
 		}
 	}
@@ -565,7 +565,7 @@ public class Magic {
 					if (randomize)
 						// attemps to randomize tile by 4x4 area
 						for (int trycount = 0; trycount < 10; trycount++) {
-							teleTile = new WorldTile(tile, 2);
+							teleTile = WorldTile.of(tile, 2);
 							if (World.floorAndWallsFree(teleTile, player.getSize()))
 								break;
 							teleTile = tile;
@@ -584,7 +584,7 @@ public class Magic {
 						player.setNextSpotAnim(new SpotAnim(downGraphicId));
 					if (teleType == MAGIC_TELEPORT) {
 						player.voiceEffect(5524);
-						player.setNextFaceWorldTile(new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
+						player.setNextFaceWorldTile(WorldTile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 						player.setFaceAngle(6);
 					}
 					if (onArrive != null)
@@ -613,7 +613,7 @@ public class Magic {
 			WorldTile teleTile = tile;
 			if (randomize) {
 				for (int trycount = 0; trycount < 10; trycount++) {
-					teleTile = new WorldTile(tile, 2);
+					teleTile = WorldTile.of(tile, 2);
 					if (World.floorAndWallsFree(teleTile, npc.getSize()))
 						break;
 					teleTile = tile;
@@ -654,7 +654,7 @@ public class Magic {
 	public static boolean useHouseTeleport(final Player player) {
 		//		if (player.getControllerManager().getController() instanceof HouseController)
 		//			return false;
-		if (!player.getControllerManager().processMagicTeleport(new WorldTile(3217, 3426, 0)) || player.isLocked())
+		if (!player.getControllerManager().processMagicTeleport(WorldTile.of(3217, 3426, 0)) || player.isLocked())
 			return false;
 
 		player.lock();
@@ -676,7 +676,7 @@ public class Magic {
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
 					} else
-						player.setNextWorldTile(new WorldTile(player.getHouse().getLocation().getTile()));
+						player.setNextWorldTile(WorldTile.of(player.getHouse().getLocation().getTile()));
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;
 				} else if (stage == 2) {
@@ -692,7 +692,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTab(final Player player) {
-		if (!player.getControllerManager().processItemTeleport(new WorldTile(3217, 3426, 0)) || (player.getControllerManager().getController() instanceof HouseController))
+		if (!player.getControllerManager().processItemTeleport(WorldTile.of(3217, 3426, 0)) || (player.getControllerManager().getController() instanceof HouseController))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
@@ -712,7 +712,7 @@ public class Magic {
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
 					} else
-						player.setNextWorldTile(new WorldTile(player.getHouse().getLocation().getTile()));
+						player.setNextWorldTile(WorldTile.of(player.getHouse().getLocation().getTile()));
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;
 				} else if (stage == 2) {
@@ -745,7 +745,7 @@ public class Magic {
 					WorldTile teleTile = tile;
 					// attemps to randomize tile by 4x4 area
 					for (int trycount = 0; trycount < 10; trycount++) {
-						teleTile = new WorldTile(tile, 2);
+						teleTile = WorldTile.of(tile, 2);
 						if (World.floorAndWallsFree(teleTile, player.getSize()))
 							break;
 						teleTile = tile;
@@ -754,7 +754,7 @@ public class Magic {
 					player.getControllerManager().magicTeleported(ITEM_TELEPORT);
 					if (player.getControllerManager().getController() == null)
 						teleControllersCheck(player, teleTile);
-					player.setNextFaceWorldTile(new WorldTile(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
+					player.setNextFaceWorldTile(WorldTile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 					player.setFaceAngle(6);
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;

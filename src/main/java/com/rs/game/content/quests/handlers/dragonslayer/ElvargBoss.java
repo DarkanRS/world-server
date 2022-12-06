@@ -63,9 +63,9 @@ public class ElvargBoss extends NPC {
 				@Override
 				public void run() {
 					if(tick == 0)
-						elvarg.walkToAndExecute(new WorldTile(2854, 9638, 0), ()->{
-							animTile = new WorldTile(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
-							elvarg.setNextFaceWorldTile(new WorldTile(getX()-1, getY()+1, getPlane()));
+						elvarg.walkToAndExecute(WorldTile.of(2854, 9638, 0), ()->{
+							animTile = WorldTile.of(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
+							elvarg.setNextFaceWorldTile(WorldTile.of(getX()-1, getY()+1, getPlane()));
 							tick++;
 						});
 

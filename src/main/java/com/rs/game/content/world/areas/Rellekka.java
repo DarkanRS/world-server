@@ -181,12 +181,12 @@ public class Rellekka {
 		return new Dialogue().addOptions("Where would you like to teleport?", new Options() {
 			@Override
 			public void create() {
-				option("Rellekka", () -> Rellekka.lyreTele(player, new WorldTile(2643, 3676, 0), item, reduceDaily));
+				option("Rellekka", () -> Rellekka.lyreTele(player, WorldTile.of(2643, 3676, 0), item, reduceDaily));
 				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
-					option("Waterbirth Island", () -> Rellekka.lyreTele(player, new WorldTile(2547, 3757, 0), item, reduceDaily));
+					option("Waterbirth Island", () -> Rellekka.lyreTele(player, WorldTile.of(2547, 3757, 0), item, reduceDaily));
 				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
-					option("Jatizso", () -> Rellekka.lyreTele(player, new WorldTile(2407, 3803, 0), item, reduceDaily));
-					option("Neitiznot", () -> Rellekka.lyreTele(player, new WorldTile(2336, 3803, 0), item, reduceDaily));
+					option("Jatizso", () -> Rellekka.lyreTele(player, WorldTile.of(2407, 3803, 0), item, reduceDaily));
+					option("Neitiznot", () -> Rellekka.lyreTele(player, WorldTile.of(2336, 3803, 0), item, reduceDaily));
 				}
 			}
 		});
@@ -223,14 +223,14 @@ public class Rellekka {
 	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2773, 10162, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2773, 10162, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2730, 3713, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2730, 3713, 0));
 		}
 	};
 

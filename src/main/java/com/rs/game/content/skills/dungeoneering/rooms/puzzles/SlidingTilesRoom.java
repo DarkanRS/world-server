@@ -94,7 +94,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 			if (shuffledNpcOrder[i] != 0) {
 				int[] coords = DungeonManager.translate(TILE_COORDS[i][0], TILE_COORDS[i][1], 0, 2, 2, 0);
 				WorldTile base = manager.getRoomBaseTile(reference);
-				tiles[i] = new SlidingTile(shuffledNpcOrder[i], new WorldTile(base.getX() + coords[0], base.getY() + coords[1], 0), manager);
+				tiles[i] = new SlidingTile(shuffledNpcOrder[i], WorldTile.of(base.getX() + coords[0], base.getY() + coords[1], 0), manager);
 			}
 	}
 

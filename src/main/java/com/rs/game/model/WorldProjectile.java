@@ -30,7 +30,17 @@ import com.rs.lib.util.Utils;
 public class WorldProjectile extends Projectile {
 
 	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Consumer<WorldProjectile> task) {
-		super(from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getTile(), from instanceof Entity e ? e.getIndex() : -1, to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getTile(), to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
+		super(switch(from) {
+			case WorldTile t -> t;
+			case Entity e -> e.getMiddleWorldTile();
+			case GameObject g -> g.getTile();
+			default -> throw new IllegalArgumentException("Unexpected value: " + from);
+		}, from instanceof Entity e ? e.getIndex() : -1, switch(to) {
+			case WorldTile t -> t;
+			case Entity e -> e.getMiddleWorldTile();
+			case GameObject g -> g.getTile();
+			default -> throw new IllegalArgumentException("Unexpected value: " + to);
+		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
 		Entity fromE = from instanceof Entity e ? e : null;
 		sourceId = fromE == null ? 0 : (fromE instanceof Player ? -(fromE.getIndex() + 1) : fromE.getIndex() + 1);
 		Entity toE = to instanceof Entity e ? e : null;

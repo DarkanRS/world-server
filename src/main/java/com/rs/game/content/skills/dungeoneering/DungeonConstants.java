@@ -49,7 +49,7 @@ public class DungeonConstants {
 		{ 5, 10, 19 }, MAX_CRIT_PATH =
 	{ 7, 13, 23 };
 
-	public static final WorldTile OUTSIDE = new WorldTile(3460, 3720, 1);
+	public static final WorldTile OUTSIDE = WorldTile.of(3460, 3720, 1);
 
 	public static final int ROTATIONS_COUNT = 4;
 

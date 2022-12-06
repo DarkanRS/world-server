@@ -116,7 +116,7 @@ public class PestControl {
 		int npcId = index == 4 ? data.getShifters()[Utils.random(data.getShifters().length)] : data.getPests()[Utils.random(data.getPests().length)];
 		NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
 		for (int trycount = 0; trycount < 10; trycount++) {
-			teleTile = new WorldTile(baseTile, 5);
+			teleTile = WorldTile.of(baseTile, 5);
 			if (World.floorAndWallsFree(teleTile, defs.size))
 				break;
 			teleTile = baseTile;

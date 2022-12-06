@@ -165,7 +165,7 @@ public class Thieving {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if (!World.getRegion(object.getRegionId()).objectExists(object)) {
+						if (!World.getRegion(object.getTile().getRegionId()).objectExists(object)) {
 							stop();
 							return;
 						}

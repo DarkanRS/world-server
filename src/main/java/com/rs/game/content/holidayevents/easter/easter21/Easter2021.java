@@ -54,15 +54,15 @@ public class Easter2021 {
 	public static void loadSpawns() {
 		if (!ENABLED)
 			return;
-		ObjectSpawns.add(new ObjectSpawn(23117, 10, 0, new WorldTile(3210, 3424, 0), "Rabbit hole"));
-		NPCSpawns.add(new NPCSpawn(9687, new WorldTile(3212, 3425, 0), "Easter Bunny"));
-		NPCSpawns.add(new NPCSpawn(9687, new WorldTile(2463, 5355, 0), "Easter Bunny"));
-		NPCSpawns.add(new NPCSpawn(7411, new WorldTile(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"));
-		NPCSpawns.add(new NPCSpawn(9686, new WorldTile(2969, 3431, 0), "Charlie the Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3283, new WorldTile(2968, 3429, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3284, new WorldTile(2970, 3429, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2969, 3428, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3285, new WorldTile(2968, 3432, 0), "Squirrel"));
+		ObjectSpawns.add(new ObjectSpawn(23117, 10, 0, WorldTile.of(3210, 3424, 0), "Rabbit hole"));
+		NPCSpawns.add(new NPCSpawn(9687, WorldTile.of(3212, 3425, 0), "Easter Bunny"));
+		NPCSpawns.add(new NPCSpawn(9687, WorldTile.of(2463, 5355, 0), "Easter Bunny"));
+		NPCSpawns.add(new NPCSpawn(7411, WorldTile.of(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"));
+		NPCSpawns.add(new NPCSpawn(9686, WorldTile.of(2969, 3431, 0), "Charlie the Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3283, WorldTile.of(2968, 3429, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3284, WorldTile.of(2970, 3429, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3285, WorldTile.of(2969, 3428, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3285, WorldTile.of(2968, 3432, 0), "Squirrel"));
 	}
 
 	public static ObjectClickHandler handleEnterExit = new ObjectClickHandler(new Object[] { 23117, 30074 }) {
@@ -72,7 +72,7 @@ public class Easter2021 {
 				e.getPlayer().sendMessage("You don't see a need to go down there yet!");
 				return;
 			}
-			e.getPlayer().useLadder(e.getObjectId() == 23117 ? new WorldTile(2483, 5258, 0) : new WorldTile(3212, 3425, 0));
+			e.getPlayer().useLadder(e.getObjectId() == 23117 ? WorldTile.of(2483, 5258, 0) : WorldTile.of(3212, 3425, 0));
 		}
 	};
 
@@ -106,22 +106,22 @@ public class Easter2021 {
 	public static final int CHIMNEY = 14718;
 
 	private static final WorldTile[] COG_LOCATIONS = {
-			new WorldTile(2469, 5328, 0),
-			new WorldTile(2469, 5321, 0),
-			new WorldTile(2454, 5334, 0),
-			new WorldTile(2448, 5341, 0)
+			WorldTile.of(2469, 5328, 0),
+			WorldTile.of(2469, 5321, 0),
+			WorldTile.of(2454, 5334, 0),
+			WorldTile.of(2448, 5341, 0)
 	};
 
 	private static final WorldTile[] PISTON_LOCATIONS = {
-			new WorldTile(2468, 5324, 0),
-			new WorldTile(2467, 5319, 0),
-			new WorldTile(2454, 5335, 0)
+			WorldTile.of(2468, 5324, 0),
+			WorldTile.of(2467, 5319, 0),
+			WorldTile.of(2454, 5335, 0)
 	};
 
 	private static final WorldTile[] CHIMNEY_LOCATIONS = {
-			new WorldTile(2469, 5323, 0),
-			new WorldTile(2444, 5329, 0),
-			new WorldTile(2449, 5343, 0)
+			WorldTile.of(2469, 5323, 0),
+			WorldTile.of(2444, 5329, 0),
+			WorldTile.of(2449, 5343, 0)
 	};
 
 	public static LoginHandler loginEaster = new LoginHandler() {
@@ -226,17 +226,17 @@ public class Easter2021 {
 				e.getPlayer().sendMessage("You don't find anything that looks useful to you right now.");
 				return;
 			}
-			if (COG_LOCATIONS[e.getPlayer().getNSV().getI("cogLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(COG)) {
+			if (COG_LOCATIONS[e.getPlayer().getNSV().getI("cogLocation")].matches(e.getObject().getTile()) && !e.getPlayer().getInventory().containsItem(COG)) {
 				e.getPlayer().getInventory().addItem(COG);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(COG, "You find a cog in the crate!"));
 				return;
 			}
-			if (PISTON_LOCATIONS[e.getPlayer().getNSV().getI("pistonLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(PISTON)) {
+			if (PISTON_LOCATIONS[e.getPlayer().getNSV().getI("pistonLocation")].matches(e.getObject().getTile()) && !e.getPlayer().getInventory().containsItem(PISTON)) {
 				e.getPlayer().getInventory().addItem(PISTON);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(PISTON, "You find some pistons in the crate!"));
 				return;
 			}
-			if (CHIMNEY_LOCATIONS[e.getPlayer().getNSV().getI("chimneyLocation")].matches(e.getObject()) && !e.getPlayer().getInventory().containsItem(CHIMNEY)) {
+			if (CHIMNEY_LOCATIONS[e.getPlayer().getNSV().getI("chimneyLocation")].matches(e.getObject().getTile()) && !e.getPlayer().getInventory().containsItem(CHIMNEY)) {
 				e.getPlayer().getInventory().addItem(CHIMNEY);
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addItem(CHIMNEY, "You find a chimney in the crate!"));
 				return;

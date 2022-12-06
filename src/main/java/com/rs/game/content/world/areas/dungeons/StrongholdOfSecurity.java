@@ -34,21 +34,21 @@ public class StrongholdOfSecurity {
 	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, new WorldTile(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, WorldTile.of(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 		}
 	};
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1859, 5243, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1859, 5243, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleExitLadders = new ObjectClickHandler(new Object[] { 16148, 16080, 16078, 16112, 16049, 16048 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(3081, 3421, 0));
+			e.getPlayer().ladder(WorldTile.of(3081, 3421, 0));
 		}
 	};
 
@@ -56,7 +56,7 @@ public class StrongholdOfSecurity {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.FLAP))
-				e.getPlayer().setNextWorldTile(new WorldTile(1907, 5221, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(1907, 5221, 0));
 			else
 				e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 		}
@@ -65,7 +65,7 @@ public class StrongholdOfSecurity {
 	public static ObjectClickHandler handleF1DownLadder = new ObjectClickHandler(new Object[] { 16149 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2042, 5245, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2042, 5245, 0));
 		}
 	};
 
@@ -73,7 +73,7 @@ public class StrongholdOfSecurity {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.SLAP_HEAD))
-				e.getPlayer().setNextWorldTile(new WorldTile(2022, 5214, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2022, 5214, 0));
 			else
 				e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 		}
@@ -82,7 +82,7 @@ public class StrongholdOfSecurity {
 	public static ObjectClickHandler handleF2DownLadder = new ObjectClickHandler(new Object[] { 16081 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2123, 5252, 0));
+			e.getPlayer().ladder(WorldTile.of(2123, 5252, 0));
 		}
 	};
 
@@ -90,7 +90,7 @@ public class StrongholdOfSecurity {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.IDEA))
-				e.getPlayer().setNextWorldTile(new WorldTile(2144, 5279, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2144, 5279, 0));
 			else
 				e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 		}
@@ -99,7 +99,7 @@ public class StrongholdOfSecurity {
 	public static ObjectClickHandler handleF3DownLadder = new ObjectClickHandler(new Object[] { 16115 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2358, 5215, 0));
+			e.getPlayer().ladder(WorldTile.of(2358, 5215, 0));
 		}
 	};
 
@@ -107,7 +107,7 @@ public class StrongholdOfSecurity {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.STOMP))
-				e.getPlayer().setNextWorldTile(new WorldTile(2344, 5213, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2344, 5213, 0));
 			else
 				e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 		}
@@ -122,10 +122,10 @@ public class StrongholdOfSecurity {
 				@Override
 				public void run() {
 					WorldTile tile = switch (e.getObject().getRotation()) {
-					case 0 -> new WorldTile(e.getObject().getX() == e.getPlayer().getX() ? e.getObject().getX() - 1 : e.getObject().getX(), e.getPlayer().getY(), 0);
-					case 1 -> new WorldTile(e.getPlayer().getX(), e.getObject().getY() == e.getPlayer().getY() ? e.getObject().getY() + 1 : e.getObject().getY(), 0);
-					case 2 -> new WorldTile(e.getObject().getX() == e.getPlayer().getX() ? e.getObject().getX() + 1 : e.getObject().getX(), e.getPlayer().getY(), 0);
-					case 3 -> new WorldTile(e.getPlayer().getX(), e.getObject().getY() == e.getPlayer().getY() ? e.getObject().getY() - 1 : e.getObject().getY(), 0);
+					case 0 -> WorldTile.of(e.getObject().getX() == e.getPlayer().getX() ? e.getObject().getX() - 1 : e.getObject().getX(), e.getPlayer().getY(), 0);
+					case 1 -> WorldTile.of(e.getPlayer().getX(), e.getObject().getY() == e.getPlayer().getY() ? e.getObject().getY() + 1 : e.getObject().getY(), 0);
+					case 2 -> WorldTile.of(e.getObject().getX() == e.getPlayer().getX() ? e.getObject().getX() + 1 : e.getObject().getX(), e.getPlayer().getY(), 0);
+					case 3 -> WorldTile.of(e.getPlayer().getX(), e.getObject().getY() == e.getPlayer().getY() ? e.getObject().getY() - 1 : e.getObject().getY(), 0);
 					default -> null;
 					};
 					e.getPlayer().setNextWorldTile(tile);

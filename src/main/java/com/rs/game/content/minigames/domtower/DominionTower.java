@@ -190,10 +190,10 @@ public final class DominionTower {
 	}
 
 	private void teleportToArena(int mode) {
-		player.setNextFaceWorldTile(new WorldTile(getBaseX() + 11, getBaseY() + 29, 0));
+		player.setNextFaceWorldTile(WorldTile.of(getBaseX() + 11, getBaseY() + 29, 0));
 		player.getControllerManager().startController(new DomTowerController(mode));
 		player.unlock();
-		player.setNextWorldTile(new WorldTile(getBaseX() + 10, getBaseY() + 29, 2));
+		player.setNextWorldTile(WorldTile.of(getBaseX() + 10, getBaseY() + 29, 2));
 		player.getMusicsManager().playSongAndUnlock(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
 	}
 
@@ -219,11 +219,11 @@ public final class DominionTower {
 	public void startFight(final NPC[] bosses) {
 		for (NPC boss : bosses) {
 			boss.setCantInteract(true);
-			boss.setNextFaceWorldTile(new WorldTile(boss.getX() - 1, boss.getY(), 0));
+			boss.setNextFaceWorldTile(WorldTile.of(boss.getX() - 1, boss.getY(), 0));
 		}
 		player.lock();
-		player.setNextWorldTile(new WorldTile(getBaseX() + 25, getBaseY() + 32, 2));
-		player.setNextFaceWorldTile(new WorldTile(getBaseX() + 26, getBaseY() + 32, 0));
+		player.setNextWorldTile(WorldTile.of(getBaseX() + 25, getBaseY() + 32, 2));
+		player.setNextFaceWorldTile(WorldTile.of(getBaseX() + 26, getBaseY() + 32, 0));
 		final int index = getNextBossIndex();
 		WorldTasks.schedule(new WorldTask() {
 
@@ -267,7 +267,7 @@ public final class DominionTower {
 					player.voiceEffect(7882);
 				} else if (count == 8) {
 					if (nextBossIndex != -1 && BOSSES[index].item != null)
-						World.addGroundItem(BOSSES[index].item, new WorldTile(getBaseX() + 26, getBaseY() + 33, 2));
+						World.addGroundItem(BOSSES[index].item, WorldTile.of(getBaseX() + 26, getBaseY() + 33, 2));
 					player.closeInterfaces();
 					player.getPackets().sendResetCamera();
 					for (NPC boss : bosses) {
@@ -296,14 +296,14 @@ public final class DominionTower {
 	public void loss(final int mode) {
 		/*
 		 * if(mapBaseCoords == null) { //died on logout
-		 * player.setNextWorldTile(new WorldTile(3744, 6425, 0));
+		 * player.setNextWorldTile(WorldTile.of(3744, 6425, 0));
 		 * player.getControllerManager().removeControllerWithoutCheck(); return; }
 		 */
 		removeItem();
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextWorldTile(new WorldTile(getBaseX() + 35, getBaseY() + 31, 2));
-		player.setNextFaceWorldTile(new WorldTile(player.getX() + 1, player.getY(), 0));
+		player.setNextWorldTile(WorldTile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.setNextFaceWorldTile(WorldTile.of(player.getX() + 1, player.getY(), 0));
 
 		WorldTasks.schedule(new WorldTask() {
 			int count;
@@ -357,8 +357,8 @@ public final class DominionTower {
 		}
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextWorldTile(new WorldTile(getBaseX() + 35, getBaseY() + 31, 2));
-		player.setNextFaceWorldTile(new WorldTile(getBaseX() + 36, getBaseY() + 31, 0));
+		player.setNextWorldTile(WorldTile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.setNextFaceWorldTile(WorldTile.of(getBaseX() + 36, getBaseY() + 31, 0));
 
 		WorldTasks.schedule(new WorldTask() {
 
@@ -398,9 +398,9 @@ public final class DominionTower {
 	 */
 
 	public void destroyArena(final boolean logout, int mode) {
-		WorldTile tile = new WorldTile(3744, 6425, 0);
+		WorldTile tile = WorldTile.of(3744, 6425, 0);
 		if (logout)
-			player.getTile().setLocation(tile);
+			player.setTile(tile);
 		else {
 			player.getControllerManager().removeControllerWithoutCheck();
 			player.lock();
@@ -419,7 +419,7 @@ public final class DominionTower {
 	public NPC[] createBosses() {
 		NPC[] bosses = new NPC[BOSSES[getNextBossIndex()].ids.length];
 		for (int i = 0; i < BOSSES[getNextBossIndex()].ids.length; i++)
-			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], new WorldTile(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), -1, true, true);
+			bosses[i] = World.spawnNPC(BOSSES[getNextBossIndex()].ids[i], WorldTile.of(getBaseX() + 37 + (i * 2), getBaseY() + 31, 2), -1, true, true);
 		return bosses;
 	}
 

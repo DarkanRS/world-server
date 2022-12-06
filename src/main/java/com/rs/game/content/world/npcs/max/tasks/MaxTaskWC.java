@@ -25,10 +25,10 @@ public class MaxTaskWC implements Task {
 		}
 		if (max.getTile().getRegionId() != 12854) {
 			if (max.getTile().getRegionId() != 12853)
-				Magic.npcNormalTeleport(max, new WorldTile(3213, 3423, 0), true, null);
+				Magic.npcNormalTeleport(max, WorldTile.of(3213, 3423, 0), true, null);
 			else {
 				if (!max.hasWalkSteps())
-					max.setRouteEvent(new RouteEvent(new WorldTile(3232, 3459, 0), () -> {  }));
+					max.setRouteEvent(new RouteEvent(WorldTile.of(3232, 3459, 0), () -> {  }));
 			}
 			return 10;
 		}
@@ -58,7 +58,7 @@ public class MaxTaskWC implements Task {
 		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {
 			if (obj == null || obj.getDefinitions() == null || !obj.getDefinitions().getName().equals("Ivy") || !obj.getDefinitions().containsOption("Chop"))
 				continue;
-			double dist = Utils.getDistance(obj, tile);
+			double dist = Utils.getDistance(obj.getTile(), tile);
 			if (dist < closest) {
 				ivy = obj;
 				closest = dist;

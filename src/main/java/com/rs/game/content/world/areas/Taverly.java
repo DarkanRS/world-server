@@ -370,7 +370,7 @@ public class Taverly {
 		}
 	};
 
-	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new WorldTile(2946, 3474, 0), new WorldTile(2946, 3473, 0)) {
+	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, WorldTile.of(2946, 3474, 0), WorldTile.of(2946, 3473, 0)) {
 		@Override
 		public void handle(PickupItemEvent e) {
 			if (!e.isTelegrabbed()) {

@@ -27,7 +27,7 @@ public class MordredMob extends NPC {
 				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 					if(npc.getId() == MORGAN)
 						return;
-                OwnedNPC morgan = new OwnedNPC(p, MORGAN, new WorldTile(2769, 3403, 2), true);
+                OwnedNPC morgan = new OwnedNPC(p, MORGAN, WorldTile.of(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();

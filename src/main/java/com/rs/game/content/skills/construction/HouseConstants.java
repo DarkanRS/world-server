@@ -1000,17 +1000,17 @@ public class HouseConstants {
 
 	public static enum POHLocation {
 
-		RIMMINGTON(15478, new WorldTile(2953, 3224, 0), 1, 5000),
+		RIMMINGTON(15478, WorldTile.of(2953, 3224, 0), 1, 5000),
 
-		TAVERLY(15477, new WorldTile(2882, 3452, 0), 1, 5000),
+		TAVERLY(15477, WorldTile.of(2882, 3452, 0), 1, 5000),
 
-		POLLNIVNEACH(15479, new WorldTile(3340, 3003, 0), 20, 7500),
+		POLLNIVNEACH(15479, WorldTile.of(3340, 3003, 0), 20, 7500),
 
-		RELLEKKA(15480, new WorldTile(2670, 3631, 0), 30, 10000),
+		RELLEKKA(15480, WorldTile.of(2670, 3631, 0), 30, 10000),
 
-		BRIMHAVEN(15481, new WorldTile(2757, 3178, 0), 40, 15000),
+		BRIMHAVEN(15481, WorldTile.of(2757, 3178, 0), 40, 15000),
 
-		YANILLE(15482, new WorldTile(2544, 3096, 0), 50, 25000);
+		YANILLE(15482, WorldTile.of(2544, 3096, 0), 50, 25000);
 
 		private WorldTile tile;
 		private int objectId, levelRequired, cost;

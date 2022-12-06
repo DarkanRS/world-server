@@ -23,7 +23,7 @@ import com.rs.game.model.object.GameObject;
 public class DeadfallTrap extends BoxStyleTrap {
 
 	public DeadfallTrap(Player player, GameObject orig) {
-		super(player, BoxTrapType.DEAD_FALL, orig);
+		super(player, BoxTrapType.DEAD_FALL, orig.getTile());
 		setRotation(orig.getRotation());
 		routeType = RouteType.NORMAL;
 	}

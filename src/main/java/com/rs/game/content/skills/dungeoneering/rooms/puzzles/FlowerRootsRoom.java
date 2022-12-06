@@ -126,7 +126,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		for (int type = 0; type < 5; type++)
 			for (int color = 0; color < 4; color++)
 				if (object.getId() == PLANTS[type][color][0] || object.getId() == PLANTS[type][color][1]) { //[1] is clickable for big plant aswell
-					final int[] coords = manager.getRoomPos(object);
+					final int[] coords = manager.getRoomPos(object.getTile());
 					if (type == 0) {
 						if (!hasRequirement(player, Constants.FARMING)) {
 							player.sendMessage("You need a farming level of " + getRequirement(Constants.FARMING) + " to uproot this plant.");

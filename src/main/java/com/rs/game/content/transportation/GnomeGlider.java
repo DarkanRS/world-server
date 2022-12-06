@@ -29,13 +29,13 @@ public class GnomeGlider {
 
 	private static final int GLIDER_INTEFACE = 138;
 	private static final WorldTile[] GLIDERS = {
-			new WorldTile(3,38,54,32,47),
-			new WorldTile(0,44,54,29,42),
-			new WorldTile(0,51,53,57,38),
-			new WorldTile(0,51,50,20,11),
-			new WorldTile(0,46,46,29,25),
-			new WorldTile(0,39,46,53,27),
-			new WorldTile(0,39,49,0,55)
+			WorldTile.of(3,38,54,32,47),
+			WorldTile.of(0,44,54,29,42),
+			WorldTile.of(0,51,53,57,38),
+			WorldTile.of(0,51,50,20,11),
+			WorldTile.of(0,46,46,29,25),
+			WorldTile.of(0,39,46,53,27),
+			WorldTile.of(0,39,49,0,55)
 	};
 
 	private static final int[][] CONFIGS = {

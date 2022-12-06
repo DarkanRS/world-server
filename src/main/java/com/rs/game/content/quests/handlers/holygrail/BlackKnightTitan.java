@@ -47,7 +47,7 @@ public class BlackKnightTitan extends NPC {
 			p.sendMessage("Well done, you have defeated the Black Knight Titan!");
 			boolean isRun = p.getRun();
 			p.setRunHidden(false);
-			p.addWalkSteps(new WorldTile(p.getX() >= 2791 ? 2790 : 2792, 4722, 0), 4, false);
+			p.addWalkSteps(WorldTile.of(p.getX() >= 2791 ? 2790 : 2792, 4722, 0), 4, false);
 			WorldTasks.delay(2, () -> {
 				p.setRunHidden(isRun);
 			});

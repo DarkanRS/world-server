@@ -53,7 +53,7 @@ public class ForgottenWarrior extends Guardian {
 		else
 			drops.add(new Item(DungeonUtils.getRandomRangeGear(Utils.random(tier) + 1)));
 		for (Item item : drops)
-			World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 }

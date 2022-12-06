@@ -263,8 +263,8 @@ public class Woodcutting extends Action {
 		if (!World.isSpawnedObject(treeObj) && treeObj.getPlane() < 3 && type != TreeType.IVY) {
 			for (int x = -1;x <= 1;x++) {
 				for (int y = -1;y <= 1;y++) {
-					World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.SCENERY_INTERACT), type.getRespawnDelay());
-					World.removeObjectTemporary(World.getObject(treeObj.transform(x, y, 1), ObjectType.GROUND_INTERACT), type.getRespawnDelay());
+					World.removeObjectTemporary(World.getObject(treeObj.getTile().transform(x, y, 1), ObjectType.SCENERY_INTERACT), type.getRespawnDelay());
+					World.removeObjectTemporary(World.getObject(treeObj.getTile().transform(x, y, 1), ObjectType.GROUND_INTERACT), type.getRespawnDelay());
 				}
 			}
 		}
@@ -298,7 +298,7 @@ public class Woodcutting extends Action {
 				player.incrementCount("Choking ivy chopped");
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
@@ -309,7 +309,7 @@ public class Woodcutting extends Action {
 			}
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, new WorldTile(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			if (type.getLogsId() != null) {
@@ -345,7 +345,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

@@ -32,12 +32,12 @@ public class SpiritTree {
 
 	private static final int TREE_INTERFACE = 864;
 	private static final WorldTile[] TELEPORTS = {
-			new WorldTile(2554, 3255, 0),
-			new WorldTile(3187, 3507, 0),
-			new WorldTile(2416, 2852, 0),
-			new WorldTile(2339, 3108, 0),
-			new WorldTile(2541, 3170, 0),
-			new WorldTile(2462, 3445, 0)
+			WorldTile.of(2554, 3255, 0),
+			WorldTile.of(3187, 3507, 0),
+			WorldTile.of(2416, 2852, 0),
+			WorldTile.of(2339, 3108, 0),
+			WorldTile.of(2541, 3170, 0),
+			WorldTile.of(2462, 3445, 0)
 	};
 	
 	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { "Spirit Tree", "Spirit tree", 26723 }) {

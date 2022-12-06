@@ -67,22 +67,22 @@ public class MonksFriend extends QuestOutline {
 
 	//It is a circle around a null ladder. A varbit makes it visible.
 	private static WorldTile[] ladderTilesInACircle = new WorldTile[]{
-			new WorldTile(2561, 3220, 0),
-			new WorldTile(2560, 3220, 0),
-			new WorldTile(2559, 3220, 0),
-			new WorldTile(2559, 3221, 0),
-			new WorldTile(2559, 3222, 0),
-			new WorldTile(2559, 3223, 0),
-			new WorldTile(2560, 3223, 0),
-			new WorldTile(2560, 3224, 0),
-			new WorldTile(2561, 3224, 0),
-			new WorldTile(2562, 3224, 0),
-			new WorldTile(2562, 3223, 0),
-			new WorldTile(2563, 3223, 0),
-			new WorldTile(2563, 3222, 0),
-			new WorldTile(2563, 3221, 0),
-			new WorldTile(2562, 3221, 0),
-			new WorldTile(2562, 3220, 0)
+			WorldTile.of(2561, 3220, 0),
+			WorldTile.of(2560, 3220, 0),
+			WorldTile.of(2559, 3220, 0),
+			WorldTile.of(2559, 3221, 0),
+			WorldTile.of(2559, 3222, 0),
+			WorldTile.of(2559, 3223, 0),
+			WorldTile.of(2560, 3223, 0),
+			WorldTile.of(2560, 3224, 0),
+			WorldTile.of(2561, 3224, 0),
+			WorldTile.of(2562, 3224, 0),
+			WorldTile.of(2562, 3223, 0),
+			WorldTile.of(2563, 3223, 0),
+			WorldTile.of(2563, 3222, 0),
+			WorldTile.of(2563, 3221, 0),
+			WorldTile.of(2562, 3221, 0),
+			WorldTile.of(2562, 3220, 0)
 	};
 
 	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle) {
@@ -98,9 +98,9 @@ public class MonksFriend extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			if (e.getObjectId() == 42)
-				p.useLadder(new WorldTile(2561, 9621, 0));
-			else if (e.getObject().matches(new WorldTile(2561, 9622, 0)))
-				p.useLadder(new WorldTile(2560, 3222, 0));
+				p.useLadder(WorldTile.of(2561, 9621, 0));
+			else if (e.getObject().getTile().matches(WorldTile.of(2561, 9622, 0)))
+				p.useLadder(WorldTile.of(2560, 3222, 0));
 		}
 	};
 

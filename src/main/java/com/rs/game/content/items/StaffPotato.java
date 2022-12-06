@@ -185,7 +185,7 @@ public class StaffPotato {
 							});
 						});
 					op.add("Save current location.", () -> {
-						e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(new WorldTile(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+						e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(WorldTile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
 						e.getPlayer().sendMessage("Location saved.");
 					});
 				});

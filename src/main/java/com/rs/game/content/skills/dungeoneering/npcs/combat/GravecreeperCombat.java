@@ -49,7 +49,7 @@ public class GravecreeperCombat extends CombatScript {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					boss.createBurnTiles(new WorldTile(boss.getTile()));
+					boss.createBurnTiles(WorldTile.of(boss.getTile()));
 				}
 			}, 1);
 			boss.setSpecialDelay(World.getServerTicks() + Gravecreeper.BURN_DELAY);

@@ -31,8 +31,8 @@ public class FremennikSlayerDungeon {
 		public void handle(ObjectClickEvent e) {
 			if (!Agility.hasLevel(e.getPlayer(), 81))
 				return;
-			final WorldTile toTile = e.getPlayer().getX() < 2772 ? new WorldTile(2775, 10002, 0) : new WorldTile(2768, 10002, 0);
-			e.getPlayer().walkToAndExecute(e.getPlayer().getX() > 2772 ? new WorldTile(2775, 10002, 0) : new WorldTile(2768, 10002, 0), () -> {
+			final WorldTile toTile = e.getPlayer().getX() < 2772 ? WorldTile.of(2775, 10002, 0) : WorldTile.of(2768, 10002, 0);
+			e.getPlayer().walkToAndExecute(e.getPlayer().getX() > 2772 ? WorldTile.of(2775, 10002, 0) : WorldTile.of(2768, 10002, 0), () -> {
 				AgilityShortcuts.forceMovement(e.getPlayer(), toTile, 4721, 1, 1);
 			});
 		}

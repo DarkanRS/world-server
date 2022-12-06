@@ -113,11 +113,11 @@ public class SeersVillage {
 			if(p.getX() < obj.getX()) {
 				WorldTasks.scheduleTimer(0, tick -> {
 					if (tick == 0) {
-						p.setNextForceMovement(new ForceMovement(new WorldTile(2662, 3500, 0), 1, Direction.EAST));
+						p.setNextForceMovement(new ForceMovement(WorldTile.of(2662, 3500, 0), 1, Direction.EAST));
 						p.setNextAnimation(new Animation(3844));
 					}
 					if (tick == 2) {
-						p.setNextWorldTile(new WorldTile(2662, 3500, 0));
+						p.setNextWorldTile(WorldTile.of(2662, 3500, 0));
 						return false;
 					}
 					return true;
@@ -125,11 +125,11 @@ public class SeersVillage {
 			} else {
 				WorldTasks.scheduleTimer(0, tick -> {
 					if (tick == 0) {
-						p.setNextForceMovement(new ForceMovement(new WorldTile(2661, 3500, 0), 1, Direction.WEST));
+						p.setNextForceMovement(new ForceMovement(WorldTile.of(2661, 3500, 0), 1, Direction.WEST));
 						p.setNextAnimation(new Animation(3844));
 					}
 					if (tick == 2) {
-						p.setNextWorldTile(new WorldTile(2661, 3500, 0));
+						p.setNextWorldTile(WorldTile.of(2661, 3500, 0));
 						return false;
 					}
 					return true;

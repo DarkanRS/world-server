@@ -30,16 +30,16 @@ public class TreeGnomeStronghold {
 		public void handle(ObjectClickEvent e) {
 			GameObject oppObj = e.getObject();
 			for(GameObject obj : World.getRegion(e.getPlayer().getRegionId()).getObjects())
-				if(obj.getId()== 69504 && obj.withinDistance(e.getObject().transform(0, 0, 1), 3))
+				if(obj.getId()== 69504 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, 1), 3))
 					oppObj = obj;
 			if(oppObj.getRotation() == 0)
-				e.getPlayer().useStairs(oppObj.transform(1, 0));
+				e.getPlayer().useStairs(oppObj.getTile().transform(1, 0));
 			if(oppObj.getRotation() == 1)
-				e.getPlayer().useStairs(oppObj.transform(0, -1));
+				e.getPlayer().useStairs(oppObj.getTile().transform(0, -1));
 			if(oppObj.getRotation() == 2)
-				e.getPlayer().useStairs(oppObj.transform(-1, 0));
+				e.getPlayer().useStairs(oppObj.getTile().transform(-1, 0));
 			if(oppObj.getRotation() == 3)
-				e.getPlayer().useStairs(oppObj.transform(0, 1));
+				e.getPlayer().useStairs(oppObj.getTile().transform(0, 1));
 		}
 	};
 	public static ObjectClickHandler handleGnomeSpiralStairsDown = new ObjectClickHandler(new Object[] { 69504 }) {
@@ -47,16 +47,16 @@ public class TreeGnomeStronghold {
 		public void handle(ObjectClickEvent e) {
 			GameObject oppObj = e.getObject();
 			for(GameObject obj : World.getRegion(e.getPlayer().getRegionId()).getObjects())
-				if(obj.getId()== 69505 && obj.withinDistance(e.getObject().transform(0, 0, -1), 3))
+				if(obj.getId()== 69505 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, -1), 3))
 					oppObj = obj;
 			if(oppObj.getRotation() == 0)
-				e.getPlayer().useStairs(oppObj.transform(1, -1));
+				e.getPlayer().useStairs(oppObj.getTile().transform(1, -1));
 			if(oppObj.getRotation() == 1)
-				e.getPlayer().useStairs(oppObj.transform(-1, 0));
+				e.getPlayer().useStairs(oppObj.getTile().transform(-1, 0));
 			if(oppObj.getRotation() == 2)
-				e.getPlayer().useStairs(oppObj.transform(0, 2));
+				e.getPlayer().useStairs(oppObj.getTile().transform(0, 2));
 			if(oppObj.getRotation() == 3)
-				e.getPlayer().useStairs(oppObj.transform(2, 1));
+				e.getPlayer().useStairs(oppObj.getTile().transform(2, 1));
 		}
 	};
 
@@ -64,10 +64,10 @@ public class TreeGnomeStronghold {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if(e.getPlayer().getPlane() == 1) {
-				e.getPlayer().useStairs(new WorldTile(2485, 3463, 2));
+				e.getPlayer().useStairs(WorldTile.of(2485, 3463, 2));
 				return;
 			}
-			e.getPlayer().useStairs(new WorldTile(2483, 3463, 1));
+			e.getPlayer().useStairs(WorldTile.of(2483, 3463, 1));
 		}
 	};
 }

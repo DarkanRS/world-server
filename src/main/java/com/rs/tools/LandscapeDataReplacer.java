@@ -245,9 +245,9 @@ public class LandscapeDataReplacer {
 				matches = false;
 				System.out.println("Id mismatch: " + o1.getId() + ", " + o2.getId());
 			}
-			if (!o1.isAt(o2.getX(), o2.getY())) {
+			if (!o1.getTile().isAt(o2.getX(), o2.getY())) {
 				matches = false;
-				System.out.println("Loc mismatch: " + o1.getTileHash() + ", " + o2.getTileHash());
+				System.out.println("Loc mismatch: " + o1.getTile().getTileHash() + ", " + o2.getTile().getTileHash());
 			}
 		}
 		return matches;

@@ -64,7 +64,7 @@ public class FamishedEyeCombat extends CombatScript {
 				cycles++;
 				if (cycles == 1) {
 					tiles = new LinkedList<>();
-					targetTile = new WorldTile(target.getTile());
+					targetTile = WorldTile.of(target.getTile());
 					World.sendProjectile(eye, targetTile, 2849, 35, 30, 41, 0, 15, 0);
 				} else if (cycles == 2)
 					for (int x = -1; x < 2; x++)

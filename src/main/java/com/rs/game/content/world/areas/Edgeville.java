@@ -72,28 +72,28 @@ public class Edgeville  {
 	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(3082, 4229, 0), 0, 1);
+			e.getPlayer().useStairs(-1, WorldTile.of(3082, 4229, 0), 0, 1);
 		}
 	};
 
 	public static ObjectClickHandler handleJailExit = new ObjectClickHandler(new Object[] { 29602 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(3074, 3456, 0), 0, 1);
+			e.getPlayer().useStairs(-1, WorldTile.of(3074, 3456, 0), 0, 1);
 		}
 	};
 
 	public static ObjectClickHandler handlePosterEntrance = new ObjectClickHandler(new Object[] { 29735 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(3140, 4230, 2), 0, 1);
+			e.getPlayer().useStairs(-1, WorldTile.of(3140, 4230, 2), 0, 1);
 		}
 	};
 
 	public static ObjectClickHandler handlePosterExit = new ObjectClickHandler(new Object[] { 29623 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(3077, 4235, 0), 0, 1);
+			e.getPlayer().useStairs(-1, WorldTile.of(3077, 4235, 0), 0, 1);
 		}
 	};
 
@@ -116,7 +116,7 @@ public class Edgeville  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			final boolean isNorth = e.getPlayer().getY() > 9964;
-			final WorldTile tile = new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
+			final WorldTile tile = WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(745));
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, tile, 5, isNorth ? Direction.SOUTH : Direction.NORTH));
@@ -144,7 +144,7 @@ public class Edgeville  {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			if(p.getSkills().getLevel(Constants.PRAYER) >= 31)
-				p.useLadder(new WorldTile(p.getX(), p.getY(), p.getPlane()+1));
+				p.useLadder(WorldTile.of(p.getX(), p.getY(), p.getPlane()+1));
 			else
 				p.startConversation(new Conversation(p) {
 					int NPC = 801;

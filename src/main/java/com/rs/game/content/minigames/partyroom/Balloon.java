@@ -58,7 +58,7 @@ public class Balloon extends GameObject {
 				@Override
 				public void run() {
 					if (item != null)
-						World.addGroundItem(item, new WorldTile(getX(), getY(), getPlane()), player, true, 60, DropMethod.NORMAL);
+						World.addGroundItem(item, WorldTile.of(getX(), getY(), getPlane()), player, true, 60, DropMethod.NORMAL);
 					World.removeObject(poppedBalloon);
 					player.unlock();
 				}

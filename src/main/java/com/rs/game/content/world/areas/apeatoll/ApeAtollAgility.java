@@ -41,7 +41,7 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock();
-		final WorldTile toTile = new WorldTile(2769, 2746, 1);
+		final WorldTile toTile = WorldTile.of(2769, 2746, 1);
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 7, Direction.NORTH));
 		player.getAppearance().setBAS(760);
 		WorldTasks.schedule(new WorldTask() {
@@ -64,7 +64,7 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(3);
-		final WorldTile toTile = new WorldTile(player.getX(), player.getY(), 0);
+		final WorldTile toTile = WorldTile.of(player.getX(), player.getY(), 0);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -84,7 +84,7 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(4);
-		final WorldTile toTile = new WorldTile(2743, 2741, 0);
+		final WorldTile toTile = WorldTile.of(2743, 2741, 0);
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Direction.WEST));
 		player.getAppearance().setBAS(739);
 		WorldTasks.schedule(new WorldTask() {
@@ -106,7 +106,7 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(3);
-		final WorldTile toTile = new WorldTile(2752, 2742, 2);
+		final WorldTile toTile = WorldTile.of(2752, 2742, 2);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -126,8 +126,8 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(4);
-		final WorldTile toTile = new WorldTile(2747, 2741, 0);
-		final WorldTile toTile2 = new WorldTile(2747, 2741, 2);
+		final WorldTile toTile = WorldTile.of(2747, 2741, 0);
+		final WorldTile toTile2 = WorldTile.of(2747, 2741, 2);
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile2, 4, Direction.WEST));
 		player.getAppearance().setBAS(744);
 		WorldTasks.schedule(new WorldTask() {
@@ -149,10 +149,10 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(3);
-		final WorldTile toTile = new WorldTile(object.getX(), object.getY(), object.getPlane());
-		final WorldTile toTile2 = new WorldTile(player.getX() == 2755 ? 2753 : 2755, 2742, object.getPlane());
-		final WorldTile WaterTile = new WorldTile(2756, 2746, object.getPlane());
-		final WorldTile Land = new WorldTile(2757, 2746, object.getPlane());
+		final WorldTile toTile = WorldTile.of(object.getX(), object.getY(), object.getPlane());
+		final WorldTile toTile2 = WorldTile.of(player.getX() == 2755 ? 2753 : 2755, 2742, object.getPlane());
+		final WorldTile WaterTile = WorldTile.of(2756, 2746, object.getPlane());
+		final WorldTile Land = WorldTile.of(2757, 2746, object.getPlane());
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
@@ -201,7 +201,7 @@ public class ApeAtollAgility {
 		player.lock(4);
 		player.setNextAnimation(new Animation(1392));
 		World.sendObjectAnimation(player, object, new Animation(497));
-		final WorldTile toTile = new WorldTile(2756, 2731, object.getPlane());
+		final WorldTile toTile = WorldTile.of(2756, 2731, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.EAST));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.getPackets().sendGameMessage("You skilfully swing across.", true);

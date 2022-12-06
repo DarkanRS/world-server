@@ -27,7 +27,7 @@ public class FeldipHills {
 	public static ObjectClickHandler handleRantzCaves = new ObjectClickHandler(new Object[] { 3379, 32068, 32069 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getObjectId() == 3379 ? new WorldTile(2646, 9378, 0) : new WorldTile(2631, 2997, 0));
+			e.getPlayer().useStairs(e.getObjectId() == 3379 ? WorldTile.of(2646, 9378, 0) : WorldTile.of(2631, 2997, 0));
 		}
 	};
 }

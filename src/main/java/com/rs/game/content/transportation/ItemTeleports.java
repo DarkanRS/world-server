@@ -67,21 +67,21 @@ public class ItemTeleports {
 	};
 
 	private static final WorldTile[][] COORDINATES = {
-			{ new WorldTile(3316, 3232, 0), new WorldTile(2443, 3089, 0), new WorldTile(2416, 2836, 0), new WorldTile(1701, 5600, 0) },
-			{ new WorldTile(2208, 4940, 0), new WorldTile(2519, 3571, 0), new WorldTile(2970, 9679, 0), new WorldTile(2886, 4377, 2), },
-			{ new WorldTile(3087, 3496, 0), new WorldTile(2918, 3176, 0), new WorldTile(3105, 3251, 0), new WorldTile(3293, 3163, 0) },
-			{ new WorldTile(3087, 3496, 0), new WorldTile(2918, 3176, 0), new WorldTile(3105, 3251, 0), new WorldTile(3293, 3163, 0) },
-			{ new WorldTile(2614, 3384, 0), new WorldTile(3032, 3337, 0), new WorldTile(2933, 3293, 0), new WorldTile(3143, 3442, 0) },
-			{ new WorldTile(2878, 3542, 0), new WorldTile(3191, 3363, 0), new WorldTile(2607, 3220, 0), new WorldTile(2657, 3238, 0) },
-			{ new WorldTile(3356, 3421, 0) },
-			{ new WorldTile(2527, 3860, 0), new WorldTile(3167, 3492, 0) },
-			{ new WorldTile(3353, 3006, 0), new WorldTile(3427, 3538, 0), new WorldTile(2787, 3616, 0), new WorldTile(3150, 4666, 0) },
-			{ new WorldTile(3305, 3489, 0) },
-			{ new WorldTile(3423, 2914, 0) },
-			{ new WorldTile(2796, 3082, 0) },
-			{ new WorldTile(3170, 2982, 0) },
-			{ new WorldTile(2294, 3626, 0) },
-			{ new WorldTile(2519, 3860, 0) },
+			{ WorldTile.of(3316, 3232, 0), WorldTile.of(2443, 3089, 0), WorldTile.of(2416, 2836, 0), WorldTile.of(1701, 5600, 0) },
+			{ WorldTile.of(2208, 4940, 0), WorldTile.of(2519, 3571, 0), WorldTile.of(2970, 9679, 0), WorldTile.of(2886, 4377, 2), },
+			{ WorldTile.of(3087, 3496, 0), WorldTile.of(2918, 3176, 0), WorldTile.of(3105, 3251, 0), WorldTile.of(3293, 3163, 0) },
+			{ WorldTile.of(3087, 3496, 0), WorldTile.of(2918, 3176, 0), WorldTile.of(3105, 3251, 0), WorldTile.of(3293, 3163, 0) },
+			{ WorldTile.of(2614, 3384, 0), WorldTile.of(3032, 3337, 0), WorldTile.of(2933, 3293, 0), WorldTile.of(3143, 3442, 0) },
+			{ WorldTile.of(2878, 3542, 0), WorldTile.of(3191, 3363, 0), WorldTile.of(2607, 3220, 0), WorldTile.of(2657, 3238, 0) },
+			{ WorldTile.of(3356, 3421, 0) },
+			{ WorldTile.of(2527, 3860, 0), WorldTile.of(3167, 3492, 0) },
+			{ WorldTile.of(3353, 3006, 0), WorldTile.of(3427, 3538, 0), WorldTile.of(2787, 3616, 0), WorldTile.of(3150, 4666, 0) },
+			{ WorldTile.of(3305, 3489, 0) },
+			{ WorldTile.of(3423, 2914, 0) },
+			{ WorldTile.of(2796, 3082, 0) },
+			{ WorldTile.of(3170, 2982, 0) },
+			{ WorldTile.of(2294, 3626, 0) },
+			{ WorldTile.of(2519, 3860, 0) },
 	};
 
 

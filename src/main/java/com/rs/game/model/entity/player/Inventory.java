@@ -527,7 +527,7 @@ public final class Inventory {
 			numberToDrop = item.getAmount() - items.getFreeSlots();
 			items.add(new Item(item).setAmount(items.getFreeSlots()));
 			player.sendMessage("Not enough space in your inventory.");
-			World.addGroundItem(item.setAmount(numberToDrop), new WorldTile(player.getTile()), player, true, 60);
+			World.addGroundItem(item.setAmount(numberToDrop), WorldTile.of(player.getTile()), player, true, 60);
 			refreshItems(itemsBefore);
 			return true;
 		}

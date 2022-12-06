@@ -79,7 +79,7 @@ public class LeprecaunLostCityD extends Conversation {
 										npc.faceEntity(p);
 										npc.setNextAnimation(new Animation(5488));
 										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, new WorldTile(3047, 3236, 0));
+										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
 										break;
 									}
 							})
@@ -158,7 +158,7 @@ public class LeprecaunLostCityD extends Conversation {
 										npc.faceEntity(p);
 										npc.setNextAnimation(new Animation(5488));
 										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, new WorldTile(3047, 3236, 0));
+										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
 										break;
 									}
 							})
@@ -199,7 +199,7 @@ public class LeprecaunLostCityD extends Conversation {
 							@Override
 							public void run() {
 								if(tick == 0 )
-									lepracaun = World.spawnNPC(LEPRACAUN, new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
+									lepracaun = World.spawnNPC(LEPRACAUN, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 								if(tick == 1)
 									lepracaun.forceTalk("Ouch!!");
 								if(tick == 10)
@@ -210,7 +210,7 @@ public class LeprecaunLostCityD extends Conversation {
 									lepracaun.forceTalk("Oww, that's sore...");
 								if(tick == 85) {
 									lepracaun.forceTalk("Welp, better head home...");
-									lepracaun.walkToAndExecute(new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
+									lepracaun.walkToAndExecute(WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
 										lepracaun.forceTalk("Back up the tree...");
 										if(!lepracaun.hasFinished())
 											lepracaun.finish();

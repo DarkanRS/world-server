@@ -175,7 +175,7 @@ public class Nomad extends NPC {
 		/*
 		 * if no throne returns middle of area
 		 */
-		return throneTile == null ? new WorldTile((getRegionX() << 6) + 32, (getRegionY() << 6) + 32, getPlane()) : throneTile;
+		return throneTile == null ? WorldTile.of((getRegionX() << 6) + 32, (getRegionY() << 6) + 32, getPlane()) : throneTile;
 	}
 
 	public void setThroneTile(WorldTile throneTile) {

@@ -35,7 +35,7 @@ public class MelzarTheMadCombat extends CombatScript {
 
 			switch (Utils.random(0, 3)) {
 			case 0 -> {
-				World.addGroundItem(new Item(1965, 1), new WorldTile(target.getX() + Utils.random(0, 2) - 1, target.getY() + Utils.random(0, 2) - 1, target.getPlane()), (Player)target);
+				World.addGroundItem(new Item(1965, 1), WorldTile.of(target.getX() + Utils.random(0, 2) - 1, target.getY() + Utils.random(0, 2) - 1, target.getPlane()), (Player)target);
 				npc.setNextAnimation(new Animation(Utils.random(0, 2) == 0 ? 423 : 422));
 				int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
 				delayHit(npc, 0, target, getMeleeHit(npc, damage));

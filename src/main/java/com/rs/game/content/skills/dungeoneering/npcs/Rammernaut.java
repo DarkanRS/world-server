@@ -82,11 +82,11 @@ public class Rammernaut extends DungeonBoss {
 					if (ticks == 1) {
 						byte[] dirs = Utils.getDirection(getFaceAngle());
 						for (int distance = 6; distance >= 0; distance--) {
-							tile = new WorldTile(new WorldTile(entity.getX() + (dirs[0] * distance), entity.getY() + (dirs[1] * distance), entity.getPlane()));
+							tile = WorldTile.of(WorldTile.of(entity.getX() + (dirs[0] * distance), entity.getY() + (dirs[1] * distance), entity.getPlane()));
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && getManager().isAtBossRoom(tile))
 								break;
 							if (distance == 0)
-								tile = new WorldTile(entity.getTile());
+								tile = WorldTile.of(entity.getTile());
 						}
 						entity.faceEntity(npc);
 						entity.setNextAnimation(new Animation(10070));

@@ -35,10 +35,10 @@ import com.rs.lib.util.Utils;
 public class NoEscape implements NexAttack {
 
 	public static WorldTile[] NO_ESCAPE_TELEPORTS = {
-			new WorldTile(2924, 5213, 0), //north
-			new WorldTile(2934, 5202, 0), //east,
-			new WorldTile(2924, 5192, 0), //south
-			new WorldTile(2913, 5202, 0), }; //west
+			WorldTile.of(2924, 5213, 0), //north
+			WorldTile.of(2934, 5202, 0), //east,
+			WorldTile.of(2924, 5192, 0), //south
+			WorldTile.of(2913, 5202, 0), }; //west
 
 	@Override
 	public int attack(Nex nex, Entity target) {
@@ -48,7 +48,7 @@ public class NoEscape implements NexAttack {
 		nex.getCombat().removeTarget();
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
 		final WorldTile dir = NO_ESCAPE_TELEPORTS[idx];
-		final WorldTile center = new WorldTile(2924, 5202, 0);
+		final WorldTile center = WorldTile.of(2924, 5202, 0);
 		WorldTasks.schedule(new WorldTask() {
 			private int count;
 

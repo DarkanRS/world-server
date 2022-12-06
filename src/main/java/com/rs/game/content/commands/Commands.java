@@ -226,7 +226,7 @@ public final class Commands {
 			return true;
 
 		case "proj":
-			World.sendProjectile(new WorldTile(p.getX() + 5, p.getY(), p.getPlane()), new WorldTile(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[1]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(WorldTile.of(p.getX() + 5, p.getY(), p.getPlane()), WorldTile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[1]), 40, 40, 0, 0.2, 0, 0);
 			return true;
 
 		case "house":
@@ -244,12 +244,12 @@ public final class Commands {
 			return true;
 
 		case "dropitem":
-			World.addGroundItem(new Item(Integer.valueOf(args[1]), 1), new WorldTile(p.getX(), p.getY(), p.getPlane()));
+			World.addGroundItem(new Item(Integer.valueOf(args[1]), 1), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
 			return true;
 
 		case "trolldropitem":
 			for (Player players : World.getPlayers())
-				players.getPackets().sendGroundItem(new GroundItem(new Item(Integer.valueOf(args[1]), 1), new WorldTile(p.getX(), p.getY(), p.getPlane()), players.getUsername(), GroundItemType.NORMAL));
+				players.getPackets().sendGroundItem(new GroundItem(new Item(Integer.valueOf(args[1]), 1), WorldTile.of(p.getX(), p.getY(), p.getPlane()), players.getUsername(), GroundItemType.NORMAL));
 			return true;
 
 		case "deathnpcs":

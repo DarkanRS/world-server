@@ -47,8 +47,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class AchievementSetRewards {
 
-	private static final WorldTile ARDY_FARM = new WorldTile(2664, 3375, 0);
-	private static final WorldTile KANDARIN_MONASTERY = new WorldTile(2607, 3222, 0);
+	private static final WorldTile ARDY_FARM = WorldTile.of(2664, 3375, 0);
+	private static final WorldTile KANDARIN_MONASTERY = WorldTile.of(2607, 3222, 0);
 	
 	public static NPCDropHandler handleNotingDagBones = new NPCDropHandler(new Object[] { 2881, 2882, 2883 }, new Object[] { 6729 }) {
 		@Override
@@ -103,7 +103,7 @@ public class AchievementSetRewards {
 		public void handle(ItemClickEvent e) {
 			switch(e.getOption()) {
 			case "Cabbage-port":
-				Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, new WorldTile(3053, 3291, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+				Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, WorldTile.of(3053, 3291, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 				break;
 			case "Run-replenish":
 				if ((e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) || (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2)) {
@@ -197,16 +197,16 @@ public class AchievementSetRewards {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 23584)
-				e.getPlayer().useLadder(new WorldTile(2825, 2997, 0));
+				e.getPlayer().useLadder(WorldTile.of(2825, 2997, 0));
 			else
-				e.getPlayer().useLadder(new WorldTile(2838, 9387, 0));
+				e.getPlayer().useLadder(WorldTile.of(2838, 9387, 0));
 		}
 	};
 
 	public static ItemClickHandler handleKaramjaGlovesTele = new ItemClickHandler(new Object[] { 11140, 19754 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2841, 9387, 0));
+			Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2841, 9387, 0));
 		}
 	};
 
@@ -280,7 +280,7 @@ public class AchievementSetRewards {
 					e.getPlayer().sendMessage("You already used your teleports for today.");
 					return;
 				}
-				if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, new WorldTile(3683, 9888, 0), 3, false, Magic.MAGIC_TELEPORT, null))
+				if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, WorldTile.of(3683, 9888, 0), 3, false, Magic.MAGIC_TELEPORT, null))
 					e.getPlayer().incDailyI("moryLegSlimeTeles");
 			}
 		}

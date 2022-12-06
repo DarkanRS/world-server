@@ -91,7 +91,7 @@ public class RouteEvent {
 			int[] bufferX = RouteFinder.getLastPathBufferX();
 			int[] bufferY = RouteFinder.getLastPathBufferY();
 
-			WorldTile last = new WorldTile(bufferX[0], bufferY[0], entity.getPlane());
+			WorldTile last = WorldTile.of(bufferX[0], bufferY[0], entity.getPlane());
 			entity.resetWalkSteps();
 			if (player != null)
 				player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));

@@ -54,7 +54,7 @@ public class WarpedGulegaCombat extends CombatScript {
 
 			final List<WorldTile> attackTiles = new LinkedList<>();
 			for (Entity t : boss.getPossibleTargets(true))
-				attackTiles.add(new WorldTile(t.getTile()));
+				attackTiles.add(WorldTile.of(t.getTile()));
 			WorldTasks.schedule(new WorldTask() {
 
 				@Override
@@ -99,7 +99,7 @@ public class WarpedGulegaCombat extends CombatScript {
 					cycles++;
 
 					if (cycles == 1) {
-						center = new WorldTile(target.getTile());
+						center = WorldTile.of(target.getTile());
 						sendTenticals(boss, center, 2);
 					} else if (cycles == 3)
 						sendTenticals(boss, center, 1);

@@ -65,7 +65,7 @@ public class GameObject extends WorldObject {
 
 	@Override
 	public int hashCode() {
-		int hash = getTileHash();
+		int hash = tile.getTileHash();
 		hash = ((hash << 5) - hash) + id;
 		hash = ((hash << 5) - hash) + rotation;
 		hash = ((hash << 5) - hash) + type.id;

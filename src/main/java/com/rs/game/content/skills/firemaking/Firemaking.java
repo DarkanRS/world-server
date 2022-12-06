@@ -133,7 +133,7 @@ public class Firemaking extends Action {
 			player.sendMessage("You attempt to light the logs.", true);
 		if (player != null && groundItem == null) {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
-			World.addGroundItem(new Item(fire.getLogId(), 1), new WorldTile(entity.getTile()), player, true, 180);
+			World.addGroundItem(new Item(fire.getLogId(), 1), WorldTile.of(entity.getTile()), player, true, 180);
 		}
 		boolean quickFire = entity.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
 		setActionDelay(entity, quickFire ? 1 : 2);
@@ -194,7 +194,7 @@ public class Firemaking extends Action {
 	public int processWithDelay(Entity entity) {
 		Player player = getPlayer(entity);
 		
-		final WorldTile tile = new WorldTile(entity.getTile());
+		final WorldTile tile = WorldTile.of(entity.getTile());
 		if (!entity.addWalkSteps(entity.getX() - 1, entity.getY(), 1))
 			if (!entity.addWalkSteps(entity.getX() + 1, entity.getY(), 1))
 				if (!entity.addWalkSteps(entity.getX(), entity.getY() + 1, 1))

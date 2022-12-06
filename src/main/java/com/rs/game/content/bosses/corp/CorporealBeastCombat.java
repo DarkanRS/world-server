@@ -86,12 +86,12 @@ public class CorporealBeastCombat extends CombatScript {
 				}, delay);
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
-			final WorldTile tile = new WorldTile(target.getTile());
+			final WorldTile tile = WorldTile.of(target.getTile());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (int i = 0; i < 6; i++) {
-						final WorldTile newTile = new WorldTile(tile, 3);
+						final WorldTile newTile = WorldTile.of(tile, 3);
 						if (!World.floorAndWallsFree(newTile, 1))
 							continue;
 						for (Entity t : possibleTargets) {

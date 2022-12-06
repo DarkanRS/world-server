@@ -294,14 +294,14 @@ public class ErnestTheChicken extends QuestOutline {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(3105, 3363, 2)))//To 2nd floor from professor
-				e.getPlayer().useLadder(new WorldTile(3105, 3364, 1));
-			if(obj.matches(new WorldTile(3105, 3363, 1)))//to 3rd floor to professor
-				e.getPlayer().useLadder(new WorldTile(3105, 3362, 2));
-			if(obj.matches(new WorldTile(3092, 3362, 0)))//To basement from 1st floor
-				e.getPlayer().useLadder(new WorldTile(3117, 9753, 0));
-			if(obj.matches(new WorldTile(3117, 9754, 0)))//To 1st floor from basement
-				e.getPlayer().useLadder(new WorldTile(3092, 3361, 0));
+			if(obj.getTile().matches(WorldTile.of(3105, 3363, 2)))//To 2nd floor from professor
+				e.getPlayer().useLadder(WorldTile.of(3105, 3364, 1));
+			if(obj.getTile().matches(WorldTile.of(3105, 3363, 1)))//to 3rd floor to professor
+				e.getPlayer().useLadder(WorldTile.of(3105, 3362, 2));
+			if(obj.getTile().matches(WorldTile.of(3092, 3362, 0)))//To basement from 1st floor
+				e.getPlayer().useLadder(WorldTile.of(3117, 9753, 0));
+			if(obj.getTile().matches(WorldTile.of(3117, 9754, 0)))//To 1st floor from basement
+				e.getPlayer().useLadder(WorldTile.of(3092, 3361, 0));
 		}
 	};
 

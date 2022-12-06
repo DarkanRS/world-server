@@ -90,7 +90,7 @@ public class Mining extends Action {
 	public static ObjectClickHandler handleGold = new ObjectClickHandler(new Object[] { "Gold ore rocks", "Gold ore vein" }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getObject().getRegionId() == 10903)//witchhaven mine
+			if(e.getObject().getTile().getRegionId() == 10903)//witchhaven mine
 				e.getPlayer().getActionManager().setAction(new Mining(RockType.PERFECT_GOLD, e.getObject()));
 			else
 				e.getPlayer().getActionManager().setAction(new Mining(RockType.GOLD, e.getObject()));
@@ -303,7 +303,7 @@ public class Mining extends Action {
 	}
 
 	public boolean checkRock() {
-		return rockObj != null ? World.getRegion(rockObj.getRegionId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
+		return rockObj != null ? World.getRegion(rockObj.getTile().getRegionId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
 	}
 
 	public static double getXPMultiplier(Player player) {

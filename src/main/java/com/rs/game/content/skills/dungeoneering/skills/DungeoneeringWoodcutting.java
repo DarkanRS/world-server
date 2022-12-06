@@ -78,7 +78,7 @@ public final class DungeoneeringWoodcutting extends PlayerAction {
 		if (type.rollSuccess(player.getSkills().getLevel(Constants.WOODCUTTING), hatchet)) {
 			type.giveLog(player);
 			if (Utils.random(8) == 0) {
-				World.spawnObject(new GameObject(treeObj.getId() + 1, treeObj.getType(), treeObj.getRotation(), treeObj));
+				World.spawnObject(new GameObject(treeObj.getId() + 1, treeObj.getType(), treeObj.getRotation(), treeObj.getTile()));
 				player.sendMessage("You have depleted this resource.");
 				return -1;
 			}
@@ -87,7 +87,7 @@ public final class DungeoneeringWoodcutting extends PlayerAction {
 	}
 
 	private boolean checkTree(Player player) {
-		return World.getRegion(treeObj.getRegionId()).objectExists(treeObj);
+		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(treeObj);
 	}
 
 	@Override

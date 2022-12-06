@@ -165,11 +165,11 @@ public class TribalTotem extends QuestOutline {
 			if(e.getOption().equalsIgnoreCase("climb-up"))
 				if(p.isQuestComplete(Quest.TRIBAL_TOTEM)
 						|| p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getB(DISARMED_STAIRS_ATTR))
-					p.useStairs(-1, new WorldTile(p.getX()-3, obj.getY(), p.getPlane() + 1), 0, 1);
+					p.useStairs(-1, WorldTile.of(p.getX()-3, obj.getY(), p.getPlane() + 1), 0, 1);
 				else {
 					p.applyHit(new Hit(25, Hit.HitLook.TRUE_DAMAGE));
 					p.sendMessage("You activate the trap stairs!");
-					p.setNextWorldTile(new WorldTile(2638, 9721, 0));
+					p.setNextWorldTile(WorldTile.of(2638, 9721, 0));
 				}
 			if(e.getOption().equalsIgnoreCase("investigate"))
 				if(p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getB(DISARMED_STAIRS_ATTR))
@@ -301,7 +301,7 @@ public class TribalTotem extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(2650, 3272, 0)))
+			if(obj.getTile().matches(WorldTile.of(2650, 3272, 0)))
 				if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) == REDIRECT_TELE_STONE)
 					p.startConversation(new Conversation(e.getPlayer()) {
 						{

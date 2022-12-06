@@ -380,10 +380,10 @@ public class Draynor {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(3118, 3244, 0)))//south entrance
-				p.useStairs(827, new WorldTile(3118, 9643, 0), 1, 1);
-			if(obj.matches(new WorldTile(3084, 3272, 0)))//north entrance
-				p.useStairs(827, new WorldTile(3085, 9672, 0), 1, 1);
+			if(obj.getTile().matches(WorldTile.of(3118, 3244, 0)))//south entrance
+				p.useStairs(827, WorldTile.of(3118, 9643, 0), 1, 1);
+			if(obj.getTile().matches(WorldTile.of(3084, 3272, 0)))//north entrance
+				p.useStairs(827, WorldTile.of(3085, 9672, 0), 1, 1);
 		}
 	};
 
@@ -399,10 +399,10 @@ public class Draynor {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(3118, 9643, 0)))//north
-				p.ladder(new WorldTile(3118, 3245, 0));
-			if(obj.matches(new WorldTile(3084, 9672, 0)))//south
-				p.ladder(new WorldTile(3084, 3273, 0));
+			if(obj.getTile().matches(WorldTile.of(3118, 9643, 0)))//north
+				p.ladder(WorldTile.of(3118, 3245, 0));
+			if(obj.getTile().matches(WorldTile.of(3084, 9672, 0)))//south
+				p.ladder(WorldTile.of(3084, 3273, 0));
 		}
 	};
 
@@ -410,28 +410,28 @@ public class Draynor {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().lock();
-			e.getPlayer().setNextFaceWorldTile(e.getObject());
+			e.getPlayer().setNextFaceWorldTile(e.getObject().getTile());
 			e.getPlayer().setNextAnimation(new Animation(1548));
 			WorldTasks.delay(2, () -> {
 				e.getPlayer().addWalkSteps(e.getPlayer().transform(0, e.getObjectId() == 47404 ? -1 : 1), 1, true);
 			});
 			WorldTasks.delay(4, () -> {
 				GameObject door1 = World.getObjectWithId(
-						e.getObject().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -1 : 2),
+						e.getObject().getTile().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -1 : 2),
 						47531);
 				GameObject door2 = World.getObjectWithId(
-						e.getObject().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -2 : 1),
+						e.getObject().getTile().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -2 : 1),
 						47529);
 				if (door1 != null && door2 != null) {
 					World.spawnObjectTemporary(new GameObject(door1).setIdNoRefresh(83), 2, true);
 					World.spawnObjectTemporary(new GameObject(door2).setIdNoRefresh(83), 2, true);
 					World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), door1),
-							door1.getType(), door1.getRotation(1), door1.transform(-1, 0, 0)), 2, true);
+							door1.getType(), door1.getRotation(1), door1.getTile().transform(-1, 0, 0)), 2, true);
 					World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), door2),
-							door2.getType(), door2.getRotation(-1), door2.transform(-1, 0, 0)), 2, true);
+							door2.getType(), door2.getRotation(-1), door2.getTile().transform(-1, 0, 0)), 2, true);
 				}
 				e.getPlayer().addWalkSteps(
-						e.getObject().transform(e.getObjectId() == 47404 ? -1 : 1, e.getObjectId() == 47404 ? -1 : 1),
+						e.getObject().getTile().transform(e.getObjectId() == 47404 ? -1 : 1, e.getObjectId() == 47404 ? -1 : 1),
 						3, false);
 				e.getPlayer().unlock();
 			});
@@ -439,10 +439,10 @@ public class Draynor {
 	};
 
 	public static ObjectClickHandler handleClimbWizardsTowerBasement = new ObjectClickHandler(new Object[] { 32015 },
-			new WorldTile(3103, 9576, 0)) {
+			WorldTile.of(3103, 9576, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(3105, 3162, 0));
+			e.getPlayer().ladder(WorldTile.of(3105, 3162, 0));
 		}
 	};
 
@@ -450,9 +450,9 @@ public class Draynor {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 47643)
-				e.getPlayer().useStairs(new WorldTile(3080, 9776, 0));
+				e.getPlayer().useStairs(WorldTile.of(3080, 9776, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(3115, 3355, 0));
+				e.getPlayer().useStairs(WorldTile.of(3115, 3355, 0));
 		}
 	};
 
@@ -465,12 +465,12 @@ public class Draynor {
 				p.getPackets().sendGameMessage("You need level 28 agility to use this shortcut.");
 				return;
 			}
-			if(!obj.matches(new WorldTile(3083, 3353, 0)))
+			if(!obj.getTile().matches(WorldTile.of(3083, 3353, 0)))
 				return;
 			if(p.getX() > obj.getX())
-				AgilityShortcuts.climbOver(p, new WorldTile(obj.getX(), obj.getY(), obj.getPlane()));
+				AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()));
 			if(p.getX() <= obj.getX())
-				AgilityShortcuts.climbOver(p, new WorldTile(obj.getX()+1, obj.getY(), obj.getPlane()));
+				AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX()+1, obj.getY(), obj.getPlane()));
 
 		}
 	};

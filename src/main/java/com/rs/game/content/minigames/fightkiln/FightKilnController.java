@@ -51,7 +51,7 @@ import com.rs.utils.music.Music;
  */
 public class FightKilnController extends Controller {
 
-	public static final WorldTile OUTSIDE = new WorldTile(4744, 5172, 0);
+	public static final WorldTile OUTSIDE = WorldTile.of(4744, 5172, 0);
 
 	private static final int TOKHAAR_HOK = 15195, TOKHAAR_HOK_SCENE = 15200;
 
@@ -567,13 +567,13 @@ public class FightKilnController extends Controller {
 			case "SE": // South East
 				WorldTile maxTile = getMaxTile();
 				WorldTile minTile = getMinTile();
-				return new WorldTile(maxTile.getX() - 1 - size, minTile.getY() + 2, 1);
+				return WorldTile.of(maxTile.getX() - 1 - size, minTile.getY() + 2, 1);
 			case "SW": // South West
 				return getMinTile().transform(2, 2, 0);
 			case "NW": // North West
 				maxTile = getMaxTile();
 				minTile = getMinTile();
-				return new WorldTile(minTile.getX() + 2, maxTile.getY() - 1 - size, 1);
+				return WorldTile.of(minTile.getX() + 2, maxTile.getY() - 1 - size, 1);
 			case "NE": // North East
 			default:
 				return getMaxTile().transform(-1 - size, -1 - size, 0);
@@ -810,13 +810,13 @@ public class FightKilnController extends Controller {
 	 */
 	public void exitCave(int type) {
 		stage = Stages.DESTROYING;
-		WorldTile outside = new WorldTile(OUTSIDE, 2); // radomizes alil
+		WorldTile outside = WorldTile.of(OUTSIDE, 2); // radomizes alil
 		if (type == 0) {
-			player.getTile().setLocation(outside);
+			player.setTile(outside);
 			if (getCurrentWave() == 0) // leaves if didnt start
 				removeController();
 		} else if (type == 2) {
-			player.getTile().setLocation(outside);
+			player.setTile(outside);
 			removeController();
 		} else {
 			player.setForceMultiArea(false);
@@ -829,7 +829,7 @@ public class FightKilnController extends Controller {
 					int reward = player.getTempAttribs().getI("FightKilnReward");
 					int itemId = reward != -1 && reward == 1 ? 6571 : 23659;
 					if (!player.getInventory().addItem(itemId, 1))
-						World.addGroundItem(new Item(itemId, 1), new WorldTile(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(itemId, 1), WorldTile.of(player.getTile()), player, true, 180);
 					player.reset();
 				}
 			}
@@ -898,15 +898,15 @@ public class FightKilnController extends Controller {
 				return;
 			switch (Utils.random(3)) {
 			case 0:
-				harAken.getTile().setLocation(getWorldTile(29, 17));
+				harAken.setTile(getWorldTile(29, 17));
 				harAken.setFaceAngle(Utils.getAngleTo(0, 1));
 				break;
 			case 1:
-				harAken.getTile().setLocation(getWorldTile(17, 30));
+				harAken.setTile(getWorldTile(17, 30));
 				harAken.setFaceAngle(Utils.getAngleTo(1, 0));
 				break;
 			case 2:
-				harAken.getTile().setLocation(getWorldTile(42, 30));
+				harAken.setTile(getWorldTile(42, 30));
 				harAken.setFaceAngle(Utils.getAngleTo(-1, 0));
 				break;
 			}

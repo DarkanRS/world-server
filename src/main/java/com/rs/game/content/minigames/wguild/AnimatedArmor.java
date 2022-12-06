@@ -57,7 +57,7 @@ public class AnimatedArmor extends NPC {
 						for (Integer items : getDroppedItems()) {
 							if (items == -1)
 								continue;
-							World.addGroundItem(new Item(items), new WorldTile(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane()), player, true, 60);
+							World.addGroundItem(new Item(items), WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane()), player, true, 60);
 						}
 						player.setWarriorPoints(3, WarriorsGuild.ARMOR_POINTS[getId() - 4278]);
 					}

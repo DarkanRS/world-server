@@ -27,7 +27,7 @@ public class MuspahDungeon {
 	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 42891 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2736, 3729, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2736, 3729, 0));
 		}
 	};
 
@@ -35,7 +35,7 @@ public class MuspahDungeon {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			//subtract 64 from x if muspah has not escaped
-			e.getPlayer().setNextWorldTile(new WorldTile(3485, 5511, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3485, 5511, 0));
 		}
 	};
 
@@ -49,14 +49,14 @@ public class MuspahDungeon {
 	public static ObjectClickHandler handleEnterIceStryke = new ObjectClickHandler(new Object[] { 48188 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3435, 5646, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3435, 5646, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleExitIceStryke = new ObjectClickHandler(new Object[] { 48189 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3509, 5515, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3509, 5515, 0));
 		}
 	};
 }

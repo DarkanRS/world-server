@@ -68,7 +68,7 @@ public class FlipTilesRoom extends PuzzleRoom {
 		if (name.equals("Green tile") || name.equals("Yellow tile")) {
 			p.lock(2);
 			p.setNextAnimation(new Animation(7660));
-			int[] pos = manager.getRoomPos(object);
+			int[] pos = manager.getRoomPos(object.getTile());
 			Set<GameObject> objects = getAdjacent(pos[0] - xOffset, pos[1] - yOffset);
 			for (GameObject tile : objects)
 				flipTile(tile);
@@ -87,7 +87,7 @@ public class FlipTilesRoom extends PuzzleRoom {
 			p.applyHit(new Hit(p, (int) (p.getMaxHitpoints() * .2), HitLook.TRUE_DAMAGE));
 			p.lock(2);
 			p.setNextAnimation(new Animation(13695));
-			int[] pos = manager.getRoomPos(object);
+			int[] pos = manager.getRoomPos(object.getTile());
 			flipTile(tiles[pos[0] - xOffset][pos[1] - yOffset]);
 			checkComplete();
 			return false;
@@ -103,7 +103,7 @@ public class FlipTilesRoom extends PuzzleRoom {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				World.spawnObject(new GameObject(id == GREEN ? YELLOW : GREEN, ObjectType.GROUND_DECORATION, 0, tile));
+				World.spawnObject(new GameObject(id == GREEN ? YELLOW : GREEN, ObjectType.GROUND_DECORATION, 0, tile.getTile()));
 			}
 		}, 1);
 	}

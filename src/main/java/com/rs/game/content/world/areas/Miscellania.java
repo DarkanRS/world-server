@@ -51,14 +51,14 @@ public class Miscellania {
 	public static ObjectClickHandler handleUndergroundEntrance = new ObjectClickHandler(new Object[] { 15115, 15116 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(e.getObjectId() == 15115 ? new WorldTile(2509, 3847, 0) : new WorldTile(2509, 10245, 0));
+			e.getPlayer().ladder(e.getObjectId() == 15115 ? WorldTile.of(2509, 3847, 0) : WorldTile.of(2509, 10245, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleUndergroundCrevices = new ObjectClickHandler(new Object[] { 15186, 15187 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getObjectId() == 15186 ? new WorldTile(2505, 10283, 0) : new WorldTile(2505, 10280, 0));
+			e.getPlayer().setNextWorldTile(e.getObjectId() == 15186 ? WorldTile.of(2505, 10283, 0) : WorldTile.of(2505, 10280, 0));
 		}
 	};
 

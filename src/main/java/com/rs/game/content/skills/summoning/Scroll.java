@@ -236,7 +236,7 @@ public enum Scroll {
 			owner.sync(7660, 1316);
 			familiar.sync(7775, 1461);
 			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
-				World.sendSpotAnim(owner, new SpotAnim(1460), object);
+				World.sendSpotAnim(owner, new SpotAnim(1460), object.getTile());
 				owner.unlock();
 				boolean superCompost = Utils.random(10) == 0;
 				spot.lives = 15;
@@ -303,14 +303,14 @@ public enum Scroll {
 			}
 			familiar.faceObject(object);
 			familiar.setNextFaceEntity(null);
-			familiar.walkToAndExecute(object, () -> familiar.getActionManager().setAction(new Woodcutting(object, type).setLevel(60)));
+			familiar.walkToAndExecute(object.getTile(), () -> familiar.getActionManager().setAction(new Woodcutting(object, type).setLevel(60)));
 			return true;
 		}
 	},
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, new WorldTile(2662, 2654, 0), 1, true, 1, null))
+			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, WorldTile.of(2662, 2654, 0), 1, true, 1, null))
 				return false;
 			familiar.sync(switch(familiar.getPouch()) {
 			default -> 8097;
@@ -358,7 +358,7 @@ public enum Scroll {
 						owner.unlock();
 						return false;
 					}
-					World.addGroundItem(herb[0], new WorldTile(familiar.getTile()), owner, true, 120);
+					World.addGroundItem(herb[0], WorldTile.of(familiar.getTile()), owner, true, 120);
 					owner.unlock();
 				}
 				}
@@ -479,7 +479,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			familiar.sync(8199, 1337);
-			WorldTasks.schedule(2, () -> World.addGroundItem(new Item(new int[] { 317, 341, 363, 353 }[Utils.random(4)]), new WorldTile(familiar.getTile()), owner, true, 120));
+			WorldTasks.schedule(2, () -> World.addGroundItem(new Item(new int[] { 317, 341, 363, 353 }[Utils.random(4)]), WorldTile.of(familiar.getTile()), owner, true, 120));
 			return true;
 		}
 	},

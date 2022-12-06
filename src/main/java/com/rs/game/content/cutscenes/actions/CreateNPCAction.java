@@ -41,7 +41,7 @@ public class CreateNPCAction extends CutsceneAction {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (objects.get(getObjectKey()) != null)
 			scene.deleteObject(objects.get(getObjectKey()));
-		NPC npc = World.spawnNPC(id, new WorldTile(scene.getX(x), scene.getY(y), plane), -1, true, true);
+		NPC npc = World.spawnNPC(id, WorldTile.of(scene.getX(x), scene.getY(y), plane), -1, true, true);
 		objects.put(getObjectKey(), npc);
 		npc.setRandomWalk(false);
 	}

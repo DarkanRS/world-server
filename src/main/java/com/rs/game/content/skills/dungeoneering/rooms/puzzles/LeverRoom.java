@@ -107,9 +107,9 @@ public class LeverRoom extends PuzzleRoom {
 
 					for (Player player : manager.getParty().getTeam()) {
 						player.sendMessage("You hear a loud noise and all the switches toggle back off.");
-						if (player.withinDistance(manager.getTile(reference, 7, 8), 2) || !manager.getCurrentRoomReference(new WorldTile(player.getTile())).equals(reference))
+						if (player.withinDistance(manager.getTile(reference, 7, 8), 2) || !manager.getCurrentRoomReference(WorldTile.of(player.getTile())).equals(reference))
 							continue;
-						World.sendSpotAnim(player, new SpotAnim(2759), new WorldTile(player.getTile()));
+						World.sendSpotAnim(player, new SpotAnim(2759), WorldTile.of(player.getTile()));
 						player.setNextAnimation(new Animation(13694));
 						player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * .3), HitLook.TRUE_DAMAGE));
 					}

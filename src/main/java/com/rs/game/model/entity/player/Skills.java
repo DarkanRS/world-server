@@ -974,7 +974,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
 			if (newLevel == 99 || newLevel == 120)
-				World.sendSpotAnim(player, new SpotAnim(1765), new WorldTile(player.getTile()));
+				World.sendSpotAnim(player, new SpotAnim(1765), WorldTile.of(player.getTile()));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
 				player.getAppearance().generateAppearanceData();
 				if (skill == Constants.HITPOINTS)

@@ -47,13 +47,13 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class RunespanController extends Controller {
 
-	public static WorldTile WIZARD_TOWER = new WorldTile(3106, 6160, 1);
-	public static WorldTile LOWER_LEVEL = new WorldTile(3994, 6105, 1);
-	public static WorldTile HIGHER_LEVEL_ENTER = new WorldTile(4137, 6090, 1);
-	public static WorldTile HIGHER_LEVEL = new WorldTile(4149, 6104, 1);
-	public static WorldTile VINE_LADDER = new WorldTile(3957, 6106, 1);
-	public static WorldTile TOP_LEVEL = new WorldTile(4297, 6040, 1);
-	public static WorldTile BONE_LADDER = new WorldTile(4106, 6042, 1);
+	public static WorldTile WIZARD_TOWER = WorldTile.of(3106, 6160, 1);
+	public static WorldTile LOWER_LEVEL = WorldTile.of(3994, 6105, 1);
+	public static WorldTile HIGHER_LEVEL_ENTER = WorldTile.of(4137, 6090, 1);
+	public static WorldTile HIGHER_LEVEL = WorldTile.of(4149, 6104, 1);
+	public static WorldTile VINE_LADDER = WorldTile.of(3957, 6106, 1);
+	public static WorldTile TOP_LEVEL = WorldTile.of(4297, 6040, 1);
+	public static WorldTile BONE_LADDER = WorldTile.of(4106, 6042, 1);
 
 	private static enum HandledPlatforms {
 		EARTH_1(3983, 6112, 3978, 6117),
@@ -233,8 +233,8 @@ public class RunespanController extends Controller {
 		private WorldTile smallIsland, largeIsland;
 
 		private HandledPlatforms(int largeIslandX, int largeIslandY, int smallIslandX, int smallIslandY) {
-			largeIsland = new WorldTile(largeIslandX, largeIslandY, 1);
-			smallIsland = new WorldTile(smallIslandX, smallIslandY, 1);
+			largeIsland = WorldTile.of(largeIslandX, largeIslandY, 1);
+			smallIsland = WorldTile.of(smallIslandX, smallIslandY, 1);
 		}
 
 		private static Object[] getToPlataform(WorldTile fromPlataform) {
@@ -331,7 +331,7 @@ public class RunespanController extends Controller {
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
 			case "Teleport":
-				Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(3107, 3162, 1));
+				Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(3107, 3162, 1));
 				break;
 			case "Shop":
 				openRewards(e.getPlayer());
@@ -343,11 +343,11 @@ public class RunespanController extends Controller {
 		}
 	};
 	
-	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { new WorldTile(3107, 3160, 1) }) {
+	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { WorldTile.of(3107, 3160, 1) }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().startConversation(new Dialogue().addOptions("Where would you like to travel to?", ops -> {
-				ops.add("The Runecrafting Guild", () -> e.getPlayer().useStairs(-1, new WorldTile(1696, 5460, 2), 0, 1));
+				ops.add("The Runecrafting Guild", () -> e.getPlayer().useStairs(-1, WorldTile.of(1696, 5460, 2), 0, 1));
 				ops.add("The Runespan (Low level)", () -> RunespanController.enterRunespan(e.getPlayer(), false));
 				ops.add("The Runespan (High level)", () -> RunespanController.enterRunespan(e.getPlayer(), true));
 			}));
@@ -451,13 +451,13 @@ public class RunespanController extends Controller {
 	};
 
 	private boolean handleCrossPlatform(final GameObject object, final Platforms plataform) {
-		Object[] toPlataform = HandledPlatforms.getToPlataform(object);
+		Object[] toPlataform = HandledPlatforms.getToPlataform(object.getTile());
 		if (toPlataform == null)
 			return false;
 		final WorldTile toTile = (WorldTile) toPlataform[0];
 		player.lock();
 		player.addWalkSteps(object.getX(), object.getY(), 1, false);
-		World.sendSpotAnim(player, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)), object);
+		World.sendSpotAnim(player, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)), object.getTile());
 		WorldTasks.schedule(new WorldTask() {
 
 			private int stage;
@@ -626,14 +626,14 @@ public class RunespanController extends Controller {
 			if (object.getX() == 4367 && object.getY() == 6062) {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
-				final WorldTile dest = new WorldTile(4367, 6033, 1);
+				final WorldTile dest = WorldTile.of(4367, 6033, 1);
 				WorldTasks.schedule(new WorldTask() {
 					private int stage;
 
 					@Override
 					public void run() {
 						if (stage == 0) {
-							player.setNextFaceWorldTile(new WorldTile(4367, 6062, 1));
+							player.setNextFaceWorldTile(WorldTile.of(4367, 6062, 1));
 							player.setNextAnimation(new Animation(16662));
 							player.setNextSpotAnim(new SpotAnim(3090));
 						} else if (stage == 4) {
@@ -651,14 +651,14 @@ public class RunespanController extends Controller {
 			} else if (object.getX() == 4367 && object.getY() == 6033) {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
-				final WorldTile dest = new WorldTile(4367, 6062, 1);
+				final WorldTile dest = WorldTile.of(4367, 6062, 1);
 				WorldTasks.schedule(new WorldTask() {
 					private int stage;
 
 					@Override
 					public void run() {
 						if (stage == 0) {
-							player.setNextFaceWorldTile(new WorldTile(4367, 6062, 1));
+							player.setNextFaceWorldTile(WorldTile.of(4367, 6062, 1));
 							player.setNextAnimation(new Animation(16662));
 							player.setNextSpotAnim(new SpotAnim(3090));
 						} else if (stage == 4) {

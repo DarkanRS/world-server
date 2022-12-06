@@ -52,7 +52,7 @@ public class LazyGuardFightArenaD extends Conversation {
 					addSimple("The guard quickly drinks half of the bottle and sways slightly.", () -> {
 						p.lock(9);
 						p.getInventory().deleteItem(77, 1);
-						p.faceTile(new WorldTile(2617, 3144, 0));
+						p.faceTile(WorldTile.of(2617, 3144, 0));
 						p.getVars().setVarBit(5627, 1);
 						WorldTasks.schedule(new WorldTask() {
 							int tick;

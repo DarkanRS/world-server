@@ -209,14 +209,14 @@ public class Karamja  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {//12 hours
-				e.getPlayer().setNextWorldTile(new WorldTile(2713, 9564, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2713, 9564, 0));
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addNPC(1595, HeadE.FRUSTRATED, "You can't go in there without paying!"));
 		}
 	};
 
-	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new WorldTile(2847, 3235, 1)) {
+	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, WorldTile.of(2847, 3235, 1)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(0, 0, -1));
@@ -226,7 +226,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2745, 3152, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2745, 3152, 0));
 		}
 	};
 
@@ -234,16 +234,16 @@ public class Karamja  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getX() > 2908)
-				Agility.walkToAgility(e.getPlayer(), 155, new WorldTile(2906, 3049, 0), 0);
+				Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2906, 3049, 0), 0);
 			else
-				Agility.walkToAgility(e.getPlayer(), 155, new WorldTile(2910, 3049, 0), 0);
+				Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2910, 3049, 0), 0);
 		}
 	};
 
 	public static ObjectClickHandler handleMossGiantRopeSwings = new ObjectClickHandler(new Object[] { 2322, 2323 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			final WorldTile toTile = e.getObjectId() == 2322 ? new WorldTile(2704, 3209, 0) : new WorldTile(2709, 3205, 0);
+			final WorldTile toTile = e.getObjectId() == 2322 ? WorldTile.of(2704, 3209, 0) : WorldTile.of(2709, 3205, 0);
 			if (Agility.hasLevel(e.getPlayer(), 10))
 				if (e.isAtObject()) {
 					if (e.getObjectId() == 2322 ? e.getPlayer().getX() == 2704 : e.getPlayer().getX() == 2709) {
@@ -277,11 +277,11 @@ public class Karamja  {
 			if (!Agility.hasLevel(e.getPlayer(), 30))
 				return;
 			e.getPlayer().setNextAnimation(new Animation(741));
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
+			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject().getTile(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					e.getPlayer().setNextWorldTile(new WorldTile(e.getObject()));
+					e.getPlayer().setNextWorldTile(e.getObject().getTile());
 				}
 			}, 0);
 		}
@@ -328,28 +328,28 @@ public class Karamja  {
 			}
 
 
-			e.getPlayer().setNextWorldTile(new WorldTile(2834, 9657, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2834, 9657, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleCrandorVolcanoRope = new ObjectClickHandler(new Object[] { 25213 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2832, 3255, 0));
+			e.getPlayer().ladder(WorldTile.of(2832, 3255, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleKaramjaVolcanoRocks = new ObjectClickHandler(new Object[] { 492 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2857, 9569, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2857, 9569, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleKaramjaVolcanoRope = new ObjectClickHandler(new Object[] { 1764 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2855, 3169, 0));
+			e.getPlayer().ladder(WorldTile.of(2855, 3169, 0));
 		}
 	};
 
@@ -382,28 +382,28 @@ public class Karamja  {
 	public static ObjectClickHandler handleTzhaarEnter = new ObjectClickHandler(new Object[] { 68134 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(4667, 5059, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(4667, 5059, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleTzhaarExit = new ObjectClickHandler(new Object[] { 68135 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2845, 3170, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2845, 3170, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2830, 9522, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2830, 9522, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2824, 3120, 0));
+			e.getPlayer().ladder(WorldTile.of(2824, 3120, 0));
 		}
 	};
 
@@ -418,14 +418,14 @@ public class Karamja  {
 	public static ObjectClickHandler handleShiloCartEnter = new ObjectClickHandler(new Object[] { 2230 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2833, 2954, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2833, 2954, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleShiloCartExit = new ObjectClickHandler(new Object[] { 2265 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2778, 3210, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2778, 3210, 0));
 		}
 	};
 
@@ -453,9 +453,9 @@ public class Karamja  {
 							return;
 					} else if (ticks >= 1) {
 						if (goingEast)
-							p.setNextWorldTile(new WorldTile(2847, p.getY(), 0));
+							p.setNextWorldTile(WorldTile.of(2847, p.getY(), 0));
 						if (!goingEast)
-							p.setNextWorldTile(new WorldTile(2845, p.getY(), 0));
+							p.setNextWorldTile(WorldTile.of(2845, p.getY(), 0));
 						stop();
 					}
 					ticks++;

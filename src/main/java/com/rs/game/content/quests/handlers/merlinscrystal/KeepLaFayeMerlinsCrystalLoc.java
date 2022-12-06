@@ -32,7 +32,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			p.useStairs(-1, new WorldTile(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+			p.useStairs(-1, WorldTile.of(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
 		}
 	};
 	public static ObjectClickHandler handleVariousStaircasesDown = new ObjectClickHandler(new Object[] { 25787 }) {
@@ -40,7 +40,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			p.useStairs(-1, new WorldTile(p.getX(), obj.getY()-3, p.getPlane() - 1), 0, 1);
+			p.useStairs(-1, WorldTile.of(p.getX(), obj.getY()-3, p.getPlane() - 1), 0, 1);
 		}
 	};
 
@@ -68,9 +68,9 @@ public class KeepLaFayeMerlinsCrystalLoc {
 	};
 
 	public static PlayerStepHandler handleStrongholdFight = new PlayerStepHandler(
-			new WorldTile(2769, 3401, 2), new WorldTile(2770, 3401, 2), new WorldTile(2771, 3401, 2),
-			new WorldTile(2771, 3402, 2), new WorldTile(2770, 3402, 2), new WorldTile(2769, 3402, 2),
-			new WorldTile(2768, 3402, 2), new WorldTile(2768, 3401, 2)) {
+			WorldTile.of(2769, 3401, 2), WorldTile.of(2770, 3401, 2), WorldTile.of(2771, 3401, 2),
+			WorldTile.of(2771, 3402, 2), WorldTile.of(2770, 3402, 2), WorldTile.of(2769, 3402, 2),
+			WorldTile.of(2768, 3402, 2), WorldTile.of(2768, 3401, 2)) {
 		final int MORDRED = 247;
 		@Override
 		public void handle(PlayerStepEvent e) {

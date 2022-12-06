@@ -208,7 +208,7 @@ public class FlyingEntityHunter {
 						public void run() {
 							WorldTile teleTile = npc.getTile();
 							for (int trycount = 0; trycount < 10; trycount++) {
-								teleTile = new WorldTile(npc.getTile(), 3);
+								teleTile = WorldTile.of(npc.getTile(), 3);
 								if (World.floorAndWallsFree(teleTile, player.getSize()))
 									break;
 								teleTile = npc.getTile();

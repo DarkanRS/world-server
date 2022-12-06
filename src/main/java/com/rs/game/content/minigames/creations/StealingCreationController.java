@@ -60,7 +60,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.getTile().setLocation(Helper.EXIT);
+		player.setTile(Helper.EXIT);
 		Helper.reset(player);
 		return true;
 	}
@@ -478,8 +478,8 @@ public class StealingCreationController extends Controller {
 			passWall(player, object, getTeam());
 			return false;
 		} else if (isEnemySCGate || isEnemySCWall) {
-			final int x = object.getChunkX() - (game.getArea().getMinX() >> 3);
-			final int y = object.getChunkY() - (game.getArea().getMinY() >> 3);
+			final int x = object.getTile().getChunkX() - (game.getArea().getMinX() >> 3);
+			final int y = object.getTile().getChunkY() - (game.getArea().getMinY() >> 3);
 			final int weaponId = player.getEquipment().getWeaponId();
 			AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
 			final int combatDelay = PlayerCombat.getMeleeCombatDelay(player, weaponId);
@@ -535,7 +535,7 @@ public class StealingCreationController extends Controller {
 				yExtra -= totalDistance;
 				direction = Direction.SOUTH;
 			}
-			final WorldTile toTile = new WorldTile(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
+			final WorldTile toTile = WorldTile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
 			ForceMovement nextForceMovement;
 			if (isWall)
 				nextForceMovement = new ForceMovement(toTile, 2, direction);
@@ -591,7 +591,7 @@ public class StealingCreationController extends Controller {
 					if (game.isEmpty(flagX, flagY) || player.getInventory().getFreeSlots() == 0)
 						return false;
 					player.setNextAnimation(bestItem != null ? new Animation(skill.getBaseAnimation() + itemTier) : new Animation(10602));
-					player.setNextFaceWorldTile(object);
+					player.setNextFaceWorldTile(object.getTile());
 					// player.getInventory().addItem(new Item(Helper.SACRED_CLAY[clayQuality], 1));
 
 					return true;
@@ -688,10 +688,10 @@ public class StealingCreationController extends Controller {
 				return false;
 			}
 			final int t = tier;
-			final int x = object.getChunkX() - (game.getArea().getMinX() >> 3);
-			final int y = object.getChunkY() - (game.getArea().getMinY() >> 3);
+			final int x = object.getTile().getChunkX() - (game.getArea().getMinX() >> 3);
+			final int y = object.getTile().getChunkY() - (game.getArea().getMinY() >> 3);
 			for (Player otherPlayer : redTeam ? game.getBlueTeam() : game.getRedTeam()) {
-				if (otherPlayer == null || !otherPlayer.withinDistance(object, 6))
+				if (otherPlayer == null || !otherPlayer.withinDistance(object.getTile(), 6))
 					continue;
 				if (Helper.withinArea(otherPlayer, game.getArea(), x, y, new int[] { 2, 2 })) {
 					player.sendMessage("You cannot build a barrier while players from the other team are near the pallet.");
@@ -748,8 +748,8 @@ public class StealingCreationController extends Controller {
 				}
 
 		if (isFriendlySCGate || isFriendlySCWall) {
-			final int x = object.getChunkX() - (game.getArea().getMinX() >> 3);
-			final int y = object.getChunkY() - (game.getArea().getMinY() >> 3);
+			final int x = object.getTile().getChunkX() - (game.getArea().getMinX() >> 3);
+			final int y = object.getTile().getChunkY() - (game.getArea().getMinY() >> 3);
 			synchronized (game.getLock()) {
 				final int team = game.getArea().getWallTeam(x, y);
 				final int tier = game.getArea().getWallTier(x, y);
@@ -815,7 +815,7 @@ public class StealingCreationController extends Controller {
 					return;
 				}
 				if (step == 0) {
-					WorldTile fromTile = new WorldTile(p.getX(), p.getY(), p.getPlane());
+					WorldTile fromTile = WorldTile.of(p.getX(), p.getY(), p.getPlane());
 					WorldTile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
 					p.setNextWorldTile(faceTile);

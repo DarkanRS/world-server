@@ -34,7 +34,7 @@ public class Entrana {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Doors.handleDoor(e.getPlayer(), e.getObject());
-			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3093, 3222, 0));
+			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3093, 3222, 0));
 		}
 	};
 
@@ -48,7 +48,7 @@ public class Entrana {
 					.addOption("Select an Option", "Well, that is a risk I will have to take.", "I don't think I'm strong enough to enter then.")
 					.addPlayer(HeadE.CALM_TALK, "Well, that's a risk I will have to take.")
 					.addNext(() -> {
-						e.getPlayer().useLadder(new WorldTile(2822, 9774, 0));
+						e.getPlayer().useLadder(WorldTile.of(2822, 9774, 0));
 					}));
 		}
 	};

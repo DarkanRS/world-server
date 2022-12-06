@@ -40,7 +40,7 @@ public class TzHaar {
 	public static final int TOKKUL_ZO_CHARGED = 23643;
 	public static final int TOKKUL_ZO_UNCHARGED = 23644;
 
-	private static WorldTile[] TOKKUL_ZO_TELEPORTS = { new WorldTile(4744, 5156, 0), new WorldTile(4599, 5062, 0), new WorldTile(4613, 5128, 0), new WorldTile(4744, 5170, 0) };
+	private static WorldTile[] TOKKUL_ZO_TELEPORTS = { WorldTile.of(4744, 5156, 0), WorldTile.of(4599, 5062, 0), WorldTile.of(4613, 5128, 0), WorldTile.of(4744, 5170, 0) };
 
 	public static ItemClickHandler handleCheckTokkulZoOptions = new ItemClickHandler(new Object[] { TOKKUL_ZO_CHARGED }, new String[] { "Check-charge", "Check-charges", "Teleport" }) {
 		@Override

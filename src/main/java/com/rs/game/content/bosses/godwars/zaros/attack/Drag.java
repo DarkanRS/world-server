@@ -54,7 +54,7 @@ public class Drag implements NexAttack {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					player.setNextWorldTile(new WorldTile(nex.getTile()));
+					player.setNextWorldTile(WorldTile.of(nex.getTile()));
 					player.sendMessage("You've been injured and you can't use protective prayers!");
 					player.setProtectionPrayBlock(12);
 					player.sendMessage("You're stunned.");

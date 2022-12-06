@@ -106,14 +106,14 @@ public class DungeonHunterNPC extends DungeonNPC {
 
 	@Override
 	public void drop() {
-		/*World.addGroundItem(new Item(532), new WorldTile(this)); //big bones
+		/*World.addGroundItem(new Item(532), WorldTile.of(this)); //big bones
 		Drops drops = NPCDrops.getDrops(getId());
 		if (drops == null)
 			return;
 		Drop drop = drops.getDrop(Drops.COMMOM, Double.MAX_VALUE); //to make 100% chance
 		if (drop == null) //shouldnt
 			return;
-		World.addGroundItem(new Item(drop.getItemId()), new WorldTile(this)); //hide*/
+		World.addGroundItem(new Item(drop.getItemId()), WorldTile.of(this)); //hide*/
 	}
 
 	private static double getSuccessRatio(int tier, int trapTier) {

@@ -59,7 +59,7 @@ public class WildernessController extends Controller {
 		if (target instanceof Player opp)
 			if (!player.attackedBy(opp.getUsername()))
 				player.setWildernessSkull();
-		if (player.getCombatDefinitions().getSpell() == null && Utils.inCircle(new WorldTile(3105, 3933, 0), target.getTile(), 24)) {
+		if (player.getCombatDefinitions().getSpell() == null && Utils.inCircle(WorldTile.of(3105, 3933, 0), target.getTile(), 24)) {
 			player.sendMessage("You can only use magic in the arena.");
 			return false;
 		}
@@ -142,10 +142,10 @@ public class WildernessController extends Controller {
 		if (isDitch(object.getId())) {
 			player.lock();
 			player.setNextAnimation(new Animation(6132));
-			final WorldTile toTile = new WorldTile(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(),
+			final WorldTile toTile = WorldTile.of(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(),
 					object.getPlane());
 
-			player.setNextForceMovement(new ForceMovement(new WorldTile(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
+			player.setNextForceMovement(new ForceMovement(WorldTile.of(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -209,7 +209,7 @@ public class WildernessController extends Controller {
 				if (player.get("customspawn") instanceof WorldTile spawn)
 					player.setNextWorldTile(spawn);
 				else
-					player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
+					player.setNextWorldTile(WorldTile.of(Settings.getConfig().getPlayerRespawnTile()));
 				player.setNextAnimation(new Animation(-1));
 			} else if (loop == 4) {
 				removeIcon();

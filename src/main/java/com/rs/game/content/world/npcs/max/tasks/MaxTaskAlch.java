@@ -9,9 +9,9 @@ import com.rs.lib.util.Utils;
 public class MaxTaskAlch implements Task {
 	
 	private enum AlchLocation {
-		EDGE(new WorldTile(3087, 3494, 0), new WorldTile(3093, 3497, 0)),
-		SEERS(new WorldTile(2757, 3479, 0), new WorldTile(2725, 3491, 0)),
-		VARROCK(new WorldTile(3212, 3423, 0), new WorldTile(3185, 3436, 0)),
+		EDGE(WorldTile.of(3087, 3494, 0), WorldTile.of(3093, 3497, 0)),
+		SEERS(WorldTile.of(2757, 3479, 0), WorldTile.of(2725, 3491, 0)),
+		VARROCK(WorldTile.of(3212, 3423, 0), WorldTile.of(3185, 3436, 0)),
 		;
 		
 		private WorldTile tele, alchSpot;
@@ -42,7 +42,7 @@ public class MaxTaskAlch implements Task {
 			return 10;
 		}
 		if (!atLocation && !max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
-			max.setRouteEvent(new RouteEvent(new WorldTile(loc.alchSpot, 2), () -> {
+			max.setRouteEvent(new RouteEvent(WorldTile.of(loc.alchSpot, 2), () -> {
 				atLocation = true;
 				max.repeatAction(5, count -> {
 					if (itemsAlched <= 0) {

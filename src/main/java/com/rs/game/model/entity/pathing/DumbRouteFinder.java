@@ -33,7 +33,7 @@ public final class DumbRouteFinder {
 	public static boolean addDumbPathfinderSteps(Entity entity, Object target, int maxSize, ClipType type) {
 		Deque<WorldTile> tiles = find(entity, target, maxSize, type);
 		if (tiles.size() > 0) {
-			WorldTile last = new WorldTile(entity.getTile());
+			WorldTile last = WorldTile.of(entity.getTile());
 			//World.sendSpotAnim(null, new SpotAnim(2000), last);
 			for (WorldTile t : tiles) {
 				//World.sendSpotAnim(null, new SpotAnim(2000), t);
@@ -49,12 +49,12 @@ public final class DumbRouteFinder {
 		WorldTile originTile = WorldUtil.targetToTile(origin);
 		WorldTile targetTile = WorldUtil.targetToTile(target);
 		int size = origin instanceof Entity e ? e.getSize() : 1;
-		WorldTile real = new WorldTile(originTile);
-		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(originTile);
-		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : new WorldTile(targetTile);
+		WorldTile real = WorldTile.of(originTile);
+		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : WorldTile.of(originTile);
+		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : WorldTile.of(targetTile);
 		Deque<WorldTile> positions = new ArrayDeque<>(maxSize);
 		while (true) {
-			WorldTile from = new WorldTile(curr);
+			WorldTile from = WorldTile.of(curr);
 			if (curr.getX() < targ.getX() && curr.getY() < targ.getY()) {
 				if (World.checkWalkStep(real, real.transform(1, 1), size, type)) {
 					real = add(positions, real.transform(1, 1));

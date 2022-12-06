@@ -12,14 +12,14 @@ public class FishingTrawlerLobbyController extends Controller {
 
 	public boolean login() {
 		leaveLobby();
-		player.setNextWorldTile(new WorldTile(2676, 3170, 0));
+		player.setNextWorldTile(WorldTile.of(2676, 3170, 0));
 		return true;
 	}
 
 	@Override
 	public boolean logout() {
 		leaveLobby();
-		player.setLocation(new WorldTile(2676, 3170, 0));
+		player.setLocation(WorldTile.of(2676, 3170, 0));
 		return true;
 	}
 

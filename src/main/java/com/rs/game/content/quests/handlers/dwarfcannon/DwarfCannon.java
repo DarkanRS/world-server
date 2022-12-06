@@ -212,7 +212,7 @@ public class DwarfCannon extends QuestOutline {
 	public static ObjectClickHandler handleEnterCaveEntrance = new ObjectClickHandler(new Object[] { 2 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(2620, 9796, 0));
+			e.getPlayer().useStairs(WorldTile.of(2620, 9796, 0));
 			if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 4)
 				e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 5);
 		}
@@ -221,7 +221,7 @@ public class DwarfCannon extends QuestOutline {
 	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(2627, 3391, 0));
+			e.getPlayer().useStairs(WorldTile.of(2627, 3391, 0));
 		}
 	};
 

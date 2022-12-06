@@ -46,7 +46,7 @@ public class MoveNPCAction extends CutsceneAction {
 		NPC npc = (NPC) objects.get(getObjectKey());
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (movementType == MoveType.TELE) {
-			npc.setNextWorldTile(new WorldTile(scene.getX(x), scene.getY(y), plane));
+			npc.setNextWorldTile(WorldTile.of(scene.getX(x), scene.getY(y), plane));
 			return;
 		}
 		npc.setRun(movementType == MoveType.RUN);

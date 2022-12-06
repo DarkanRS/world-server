@@ -81,7 +81,7 @@ public class BoatingD extends Conversation {
 		case 378:
 			return new Object[] { Carrier.KARAMJA_FARE, false };
 		case 380:
-			return player.withinDistance(new WorldTile(2772, 3227, 0), 30) ?
+			return player.withinDistance(WorldTile.of(2772, 3227, 0), 30) ?
 					new Object[] { Carrier.BRIMHAVEN_FARE, true } : new Object[] { Carrier.KARAMJA_FARE, true };
 
 		case 381:
@@ -125,7 +125,7 @@ public class BoatingD extends Conversation {
 		case 2438:
 			return new Object[] { Carrier.WATERBIRTH, true };
 		case 3160:
-			return new Object[] { Carrier.TEACH_MOS_LE_HARMLESS, player.withinDistance(new WorldTile(3714, 3499, 1)) ? false : true };
+			return new Object[] { Carrier.TEACH_MOS_LE_HARMLESS, player.withinDistance(WorldTile.of(3714, 3499, 1)) ? false : true };
 		}
 		return null;
 	}

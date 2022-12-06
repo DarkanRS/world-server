@@ -216,7 +216,7 @@ public final class Hunter {
 					return;
 				}
 				for (OwnedObject o : OwnedObject.getOwnedBy(e.getPlayer()))
-					if (o instanceof NetTrap nt && o.withinDistance(e.getObject(), 1))
+					if (o instanceof NetTrap nt && o.getTile().withinDistance(e.getObject().getTile(), 1))
 						nt.dismantle(e.getPlayer());
 			}
 		}

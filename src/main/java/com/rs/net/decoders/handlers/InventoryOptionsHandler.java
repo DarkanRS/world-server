@@ -310,12 +310,12 @@ public class InventoryOptionsHandler {
 		if (itemId == 299) {
 			if (player.isLocked())
 				return;
-			if (World.getObject(new WorldTile(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
+			if (World.getObject(WorldTile.of(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
 				player.sendMessage("You cannot plant flowers here..");
 				return;
 			}
 			final double random = Utils.random(100.0);
-			final WorldTile tile = new WorldTile(player.getTile());
+			final WorldTile tile = WorldTile.of(player.getTile());
 			int flower = Utils.random(2980, 2987);
 			if (random < 0.2)
 				flower = Utils.random(2987, 2989);
@@ -409,7 +409,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, new WorldTile(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, WorldTile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
@@ -523,7 +523,7 @@ public class InventoryOptionsHandler {
 		if (event.dropCancelled())
 			return;
 		player.getInventory().deleteItem(slotId, item);
-		World.addGroundItem(item, new WorldTile(player.getTile()), player);
+		World.addGroundItem(item, WorldTile.of(player.getTile()), player);
 		player.soundEffect(ItemConfig.get(item.getId()).getDropSound());
 	}
 

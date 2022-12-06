@@ -566,7 +566,7 @@ public class Region {
 				continue;
 			return object;
 		}
-		return getSpawnedObject(new WorldTile(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane));
+		return getSpawnedObject(WorldTile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane));
 	}
 
 	public GameObject getObject(int plane, int x, int y, ObjectType type) {
@@ -579,7 +579,7 @@ public class Region {
 			if (object.getType() == type)
 				return object;
 		}
-		return getSpawnedObject(new WorldTile(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane), type);
+		return getSpawnedObject(WorldTile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane), type);
 	}
 
 	// override by static region to get objects from needed
@@ -706,7 +706,7 @@ public class Region {
 
 	public GameObject getSpawnedObjectWithSlot(int plane, int x, int y, int slot) {
 		for (GameObject object : spawnedObjects)
-			if (object.getXInRegion() == x && object.getYInRegion() == y && object.getPlane() == plane && object.getSlot() == slot)
+			if (object.getTile().getXInRegion() == x && object.getTile().getYInRegion() == y && object.getPlane() == plane && object.getSlot() == slot)
 				return object;
 		return null;
 	}
@@ -724,13 +724,13 @@ public class Region {
 			}
 		}
 		for (GameObject object : spawnedObjects)
-			if (object.getXInRegion() == x && object.getYInRegion() == y && object.getPlane() == plane && object.getId() == id)
+			if (object.getTile().getXInRegion() == x && object.getTile().getYInRegion() == y && object.getPlane() == plane && object.getId() == id)
 				return object;
 		return null;
 	}
 
 	public boolean objectExists(GameObject object) {
-		return containsObjectWithId(object.getPlane(), object.getXInRegion(), object.getYInRegion(), object.getId());
+		return containsObjectWithId(object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), object.getId());
 	}
 
 	public GameObject getObjectWithId(int id, int plane) {
@@ -777,7 +777,7 @@ public class Region {
 			return; // cliped tile
 
 		if (localX >= 64 || localY >= 64 || localX < 0 || localY < 0) {
-			WorldTile tile = new WorldTile(clipMap.getRegionX() + localX, clipMap.getRegionY() + localY, plane);
+			WorldTile tile = WorldTile.of(clipMap.getRegionX() + localX, clipMap.getRegionY() + localY, plane);
 			int regionId = tile.getRegionId();
 			int newRegionX = (regionId >> 8) * 64;
 			int newRegionY = (regionId & 0xff) * 64;

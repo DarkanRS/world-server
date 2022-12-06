@@ -54,7 +54,7 @@ public class Halloween2007 {
 	public static String STAGE_KEY = "hw2022";
 	public static boolean ENABLED = false;
 
-	public static WorldTile START_LOCATION = new WorldTile(1697, 4814, 0);
+	public static WorldTile START_LOCATION = WorldTile.of(1697, 4814, 0);
 
 	public static final int GRIM_DIARY = 11780;
 	public static final int GRIM_ROBE = 11781;
@@ -114,7 +114,7 @@ public class Halloween2007 {
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPortal() {
 		if (ENABLED)
-			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, new WorldTile(3210, 3425, 0), "Portal to enter Death's House."));
+			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, WorldTile.of(3210, 3425, 0), "Portal to enter Death's House."));
 	}
 
 	public static ItemClickHandler handleGrimDiaryRead = new ItemClickHandler(Halloween2007.GRIM_DIARY) {
@@ -146,14 +146,14 @@ public class Halloween2007 {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().getControllerManager().forceStop();
-			e.getPlayer().useStairs(new WorldTile(3211, 3424, 0));
+			e.getPlayer().useStairs(WorldTile.of(3211, 3424, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleUpStairs = new ObjectClickHandler(new Object[] { 27242 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(1639, 4835, 0));
+			e.getPlayer().useStairs(WorldTile.of(1639, 4835, 0));
 			if (e.getPlayer().resizeable())
 				e.getPlayer().getPackets().sendRunScript(2582, 2858, 0, 0); //Set bloom to false for upstairs resizeable
 		}
@@ -162,11 +162,11 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleDownStairs = new ObjectClickHandler(new Object[] { 27243 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(new WorldTile(1703, 4826, 0));
+			e.getPlayer().useStairs(WorldTile.of(1703, 4826, 0));
 		}
 	};
 
-	public static ObjectClickHandler handleDoorway1 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1705, 4817, 0)) {
+	public static ObjectClickHandler handleDoorway1 = new ObjectClickHandler(new Object[] { 27276 }, WorldTile.of(1705, 4817, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 1)
@@ -188,7 +188,7 @@ public class Halloween2007 {
 			if (e.getPlayer().getControllerManager().getController() == null)
 				e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 			Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
-			if (ctrl.checkWeb(e.getObject().getTileHash()))
+			if (ctrl.checkWeb(e.getObject().getTile().getTileHash()))
 				passWeb(e.getPlayer(), e.getObject());
 			else
 				failWeb(e.getPlayer(), e.getObject());
@@ -224,7 +224,7 @@ public class Halloween2007 {
 		}
 	};
 
-	public static ObjectClickHandler handleDoorway2 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1701, 4832, 0)) {
+	public static ObjectClickHandler handleDoorway2 = new ObjectClickHandler(new Object[] { 27276 }, WorldTile.of(1701, 4832, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 2) {
@@ -276,14 +276,14 @@ public class Halloween2007 {
 		}
 	};
 
-	public static ObjectClickHandler handleCabinet = new ObjectClickHandler(new Object[] { 27246 }, new WorldTile(1687, 4820, 0)) {
+	public static ObjectClickHandler handleCabinet = new ObjectClickHandler(new Object[] { 27246 }, WorldTile.of(1687, 4820, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			searchItem(e.getPlayer(), GRIM_ROBE, "You found the Grim Reaper's robes.");
 		}
 	};
 
-	public static ItemOnObjectHandler handleSharpenerCabinet = new ItemOnObjectHandler(new Object[] { 27246 }, new WorldTile(1687, 4820, 0)) {
+	public static ItemOnObjectHandler handleSharpenerCabinet = new ItemOnObjectHandler(new Object[] { 27246 }, WorldTile.of(1687, 4820, 0)) {
 		@Override
 		public void handle(ItemOnObjectEvent e) {
 			if (e.getPlayer().getControllerManager().getController() == null)
@@ -455,7 +455,7 @@ public class Halloween2007 {
 		}
 	};
 
-	public static ObjectClickHandler handleDoorway3 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1694, 4820, 0)) {
+	public static ObjectClickHandler handleDoorway3 = new ObjectClickHandler(new Object[] { 27276 }, WorldTile.of(1694, 4820, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getControllerManager().getController() == null)
@@ -505,7 +505,7 @@ public class Halloween2007 {
 		}
 	};
 
-	public static ObjectClickHandler handleDoorway4 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1641, 4829, 0)) {
+	public static ObjectClickHandler handleDoorway4 = new ObjectClickHandler(new Object[] { 27276 }, WorldTile.of(1641, 4829, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getI(Halloween2007.STAGE_KEY) >= 6) {
@@ -539,16 +539,16 @@ public class Halloween2007 {
 				if (stage == 0) {
 					e.getPlayer().faceObject(e.getObject());
 					e.getPlayer().addWalkSteps(e.getPlayer().transform(0, -1, 0), 1, false);
-					WorldTile camTile = new WorldTile(1638, 4827, 0);
+					WorldTile camTile = WorldTile.of(1638, 4827, 0);
 					e.getPlayer().getPackets().sendCameraPos(camTile, 2000);
 					e.getPlayer().getPackets().sendCameraLook(e.getPlayer().transform(-2, 0, 0), 2000);
 				} else if (stage == 1)
 					e.getPlayer().setNextAnimation(new Animation(7274));
 				else if (stage == 9) {
 					e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, -1, 0));
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, new WorldTile(1642, 4819, 0), 2));
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, WorldTile.of(1642, 4819, 0), 2));
 				} else if (stage == 12) {
-					e.getPlayer().setNextWorldTile(new WorldTile(1642, 4819, 0));
+					e.getPlayer().setNextWorldTile(WorldTile.of(1642, 4819, 0));
 					e.getPlayer().unlock();
 					e.getPlayer().getPackets().sendResetCamera();
 					ctrl.setRodeSlide(true);
@@ -562,12 +562,12 @@ public class Halloween2007 {
 	public static ObjectClickHandler handleSpringboards = new ObjectClickHandler(new Object[] { 27278 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			WorldTile toTile = new WorldTile(SPRINGBOARD_PAIRS.get(e.getObject().getTileHash()));
-			boolean toSlime = e.getObject().isAt(1624, 4822);
+			WorldTile toTile = WorldTile.of(SPRINGBOARD_PAIRS.get(e.getObject().getTile().getTileHash()));
+			boolean toSlime = e.getObject().getTile().isAt(1624, 4822);
 			e.getPlayer().lock();
 			WorldTasks.scheduleTimer(stage -> {
 				if (stage == 0)
-					e.getPlayer().addWalkSteps(e.getObject(), 1, false);
+					e.getPlayer().addWalkSteps(e.getObject().getTile(), 1, false);
 				else if (stage == 1) {
 					World.sendObjectAnimation(e.getObject(), new Animation(7268));
 					e.getPlayer().setNextAnimation(new Animation(toSlime ? 7269 : 7268));
@@ -608,7 +608,7 @@ public class Halloween2007 {
 		}
 	};
 
-	public static ObjectClickHandler handleDoorway5 = new ObjectClickHandler(new Object[] { 27276 }, new WorldTile(1645, 4848, 0)) {
+	public static ObjectClickHandler handleDoorway5 = new ObjectClickHandler(new Object[] { 27276 }, WorldTile.of(1645, 4848, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getControllerManager().getController() == null)
@@ -621,7 +621,7 @@ public class Halloween2007 {
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 					} else
 						handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
-							e.getPlayer().setNextWorldTile(new WorldTile(1641, 4828, 0));
+							e.getPlayer().setNextWorldTile(WorldTile.of(1641, 4828, 0));
 							e.getPlayer().save(Halloween2007.STAGE_KEY, 8);
 							e.getPlayer().startConversation(new Dialogue()
 									.addPlayer(HeadE.CONFUSED, "Huh? What happened there?")
@@ -634,7 +634,7 @@ public class Halloween2007 {
 					handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 				} else
 					handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
-						e.getPlayer().setNextWorldTile(new WorldTile(1641, 4840, 0));
+						e.getPlayer().setNextWorldTile(WorldTile.of(1641, 4840, 0));
 						e.getPlayer().save(Halloween2007.STAGE_KEY, 9);
 						e.getPlayer().startConversation(new Dialogue()
 								.addNPC(8867, HeadE.CALM_TALK, "That is sufficient.")
@@ -669,7 +669,7 @@ public class Halloween2007 {
 
 	public static void handlePassGargoyleEntry(Player player, GameObject object) {
 		boolean horiz = object.getRotation() % 2 != 0;
-		player.passThrough(object.transform(horiz ? player.getX() > object.getX() ? -1 : 1 : 0, horiz ? 0 : player.getY() > object.getY() ? -1 : 1, 0));
+		player.passThrough(object.getTile().transform(horiz ? player.getX() > object.getX() ? -1 : 1 : 0, horiz ? 0 : player.getY() > object.getY() ? -1 : 1, 0));
 		player.sendMessage("You safely pass the gargoyles' judgement.");
 	}
 
@@ -679,8 +679,8 @@ public class Halloween2007 {
 
 	public static void handleDenyGargoyleEntry(Player player, GameObject object, Runnable postDeath) {
 		boolean xOff = object.getRotation() % 2 == 0;
-		World.sendObjectAnimation(World.getObject(object.transform(xOff ? -1 : 0, xOff ? 0 : -1, 0), ObjectType.GROUND_DECORATION), GARGOYLE_ANIM);
-		World.sendObjectAnimation(World.getObject(object.transform(xOff ? 1 : 0, xOff ? 0 : 1, 0), ObjectType.GROUND_DECORATION), GARGOYLE_ANIM);
+		World.sendObjectAnimation(World.getObject(object.getTile().transform(xOff ? -1 : 0, xOff ? 0 : -1, 0), ObjectType.GROUND_DECORATION), GARGOYLE_ANIM);
+		World.sendObjectAnimation(World.getObject(object.getTile().transform(xOff ? 1 : 0, xOff ? 0 : 1, 0), ObjectType.GROUND_DECORATION), GARGOYLE_ANIM);
 		if (postDeath == null)
 			player.startConversation(new Dialogue()
 					.addNPC(6389, HeadE.CAT_CALM_TALK2, "Who said you could come in here? See the Grim Reaper if you don't know where to go.")
@@ -709,7 +709,7 @@ public class Halloween2007 {
 						y = -1;
 						break;
 					}
-					GameObject lightning = new GameObject(27277, ObjectType.SCENERY_INTERACT, object.getRotation(), object.transform(x, y, 0));
+					GameObject lightning = new GameObject(27277, ObjectType.SCENERY_INTERACT, object.getRotation(), object.getTile().transform(x, y, 0));
 					World.spawnObjectTemporary(lightning, Ticks.fromSeconds(3));
 				} else if (stage == 3) {
 					player.setNextAnimation(new Animation(3170));

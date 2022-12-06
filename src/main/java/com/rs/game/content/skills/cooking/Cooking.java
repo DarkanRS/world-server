@@ -219,7 +219,7 @@ public class Cooking extends PlayerAction {
 
 	@Override
 	public boolean process(Player player) {
-		if (!World.getRegion(object.getRegionId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
+		if (!World.getRegion(object.getTile().getRegionId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
 			player.simpleDialogue("You need a level of " + cook.getLvl() + " to cook this.");

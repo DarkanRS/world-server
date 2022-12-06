@@ -102,8 +102,8 @@ public class ToxinMaze extends PuzzleRoom {
 			return false;
 		}
 		if (object.getId() == BARRIER || object.getId() == BARRIER_ENTRANCE) {
-			WorldTile in = new WorldTile(object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()], 0);
-			WorldTile out = new WorldTile(object.getX(), object.getY(), 0);
+			WorldTile in = WorldTile.of(object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()], 0);
+			WorldTile out = WorldTile.of(object.getX(), object.getY(), 0);
 			WorldTile target = null;
 			int delay = 0;
 			if (player.matches(out))
@@ -120,7 +120,7 @@ public class ToxinMaze extends PuzzleRoom {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					WorldTile fromTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
+					WorldTile fromTile = WorldTile.of(player.getX(), player.getY(), player.getPlane());
 					player.setNextWorldTile(target_);
 					player.setNextForceMovement(new ForceMovement(fromTile, 0, target_, 1, WorldUtil.getFaceDirection(target_, player)));
 					player.setNextAnimation(new Animation(9516)); //10584 faster

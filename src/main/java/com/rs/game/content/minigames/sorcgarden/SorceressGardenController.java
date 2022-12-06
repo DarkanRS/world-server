@@ -39,14 +39,14 @@ import com.rs.lib.util.Utils;
 
 public class SorceressGardenController extends Controller {
 
-	private static final WorldTile MIDDLE = new WorldTile(2916, 5475, 0);
+	private static final WorldTile MIDDLE = WorldTile.of(2916, 5475, 0);
 
 	public enum Gate {
 
-		WINTER(21709, 1, new WorldTile(2902, 5470, 0), new WorldTile(2903, 5470, 0), 231),
-		SPRING(21753, 25, new WorldTile(2921, 5473, 0), new WorldTile(2920, 5473, 0), 228),
-		AUTUMN(21731, 45, new WorldTile(2913, 5462, 0), new WorldTile(2913, 5463, 0), 229),
-		SUMMER(21687, 65, new WorldTile(2910, 5481, 0), new WorldTile(2910, 5480, 0), 230);
+		WINTER(21709, 1, WorldTile.of(2902, 5470, 0), WorldTile.of(2903, 5470, 0), 231),
+		SPRING(21753, 25, WorldTile.of(2921, 5473, 0), WorldTile.of(2920, 5473, 0), 228),
+		AUTUMN(21731, 45, WorldTile.of(2913, 5462, 0), WorldTile.of(2913, 5463, 0), 229),
+		SUMMER(21687, 65, WorldTile.of(2910, 5481, 0), WorldTile.of(2910, 5480, 0), 230);
 
 		private int objectId;
 		private int levelReq;
@@ -171,7 +171,7 @@ public class SorceressGardenController extends Controller {
 				@Override
 				public void run() {
 					player.unlock();
-					Magic.sendNormalTeleportSpell(player, 0, 0, new WorldTile(3321, 3141, 0));
+					Magic.sendNormalTeleportSpell(player, 0, 0, WorldTile.of(3321, 3141, 0));
 				}
 			}, 1);
 			return false;
@@ -222,7 +222,7 @@ public class SorceressGardenController extends Controller {
 		player.lock();
 		player.sendMessage("An elemental force enamating from the garden teleports you away.");
 		FadingScreen.fade(player, () -> {
-			player.setNextWorldTile(new WorldTile(2913, 5467, 0));
+			player.setNextWorldTile(WorldTile.of(2913, 5467, 0));
 			player.lock(3);
 		});
 	}

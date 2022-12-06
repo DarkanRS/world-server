@@ -47,8 +47,8 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class PortSarim {
 
-	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(new WorldTile(3053, 3255, 0), new WorldTile(3053, 3254, 0),
-			new WorldTile(3053, 3259, 0), new WorldTile(3053, 3260, 0)) {
+	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(WorldTile.of(3053, 3255, 0), WorldTile.of(3053, 3254, 0),
+			WorldTile.of(3053, 3259, 0), WorldTile.of(3053, 3260, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getTile().getY() == 3255 && e.getStep().getDir() == Direction.NORTH) {
@@ -171,28 +171,28 @@ public class PortSarim {
 	public static ObjectClickHandler handleEnterIceDungeon = new ObjectClickHandler(new Object[]{9472}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3007, 9550, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3007, 9550, 0));
 		}
 	};
 
-	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, new WorldTile(3008, 9550, 0)) {
+	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, WorldTile.of(3008, 9550, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3008, 3149, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3008, 3149, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleEnterWyvern = new ObjectClickHandler(new Object[]{33173}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3056, 9555, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3056, 9555, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleExitWyvern = new ObjectClickHandler(new Object[]{33174}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(3056, 9562, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3056, 9562, 0));
 		}
 	};
 
@@ -202,9 +202,9 @@ public class PortSarim {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
 			if (p.getY() > obj.getY())
-				e.getPlayer().setNextWorldTile(new WorldTile(3047, 3204, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3047, 3204, 0));
 			if (p.getY() < obj.getY())
-				e.getPlayer().setNextWorldTile(new WorldTile(3047, 3207, 1));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3047, 3207, 1));
 		}
 	};
 
@@ -213,7 +213,7 @@ public class PortSarim {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			p.useStairs(828, new WorldTile(obj.getX() - 1, obj.getY(), obj.getPlane() - 1), 1, 2);
+			p.useStairs(828, WorldTile.of(obj.getX() - 1, obj.getY(), obj.getPlane() - 1), 1, 2);
 		}
 	};
 
@@ -223,13 +223,13 @@ public class PortSarim {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
 			if (obj.getRotation() == 0)
-				p.useStairs(828, new WorldTile(obj.getX(), obj.getY() - 1, obj.getPlane() + 1), 1, 2);
+				p.useStairs(828, WorldTile.of(obj.getX(), obj.getY() - 1, obj.getPlane() + 1), 1, 2);
 			if (obj.getRotation() == 1)
-				p.useStairs(828, new WorldTile(obj.getX() - 1, obj.getY(), obj.getPlane() + 1), 1, 2);
+				p.useStairs(828, WorldTile.of(obj.getX() - 1, obj.getY(), obj.getPlane() + 1), 1, 2);
 			if (obj.getRotation() == 2)
-				p.useStairs(828, new WorldTile(obj.getX(), obj.getY() + 1, obj.getPlane() + 1), 1, 2);
+				p.useStairs(828, WorldTile.of(obj.getX(), obj.getY() + 1, obj.getPlane() + 1), 1, 2);
 			if (obj.getRotation() == 3)
-				p.useStairs(828, new WorldTile(obj.getX() + 1, obj.getY(), obj.getPlane() + 1), 1, 2);
+				p.useStairs(828, WorldTile.of(obj.getX() + 1, obj.getY(), obj.getPlane() + 1), 1, 2);
 		}
 	};
 }

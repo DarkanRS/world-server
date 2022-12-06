@@ -45,8 +45,8 @@ public class DuelArenaController extends Controller {
 
 	private final Item[] FUN_WEAPONS = { new Item(4566) };
 
-	private final WorldTile[] LOBBY_TELEPORTS = { new WorldTile(3367, 3275, 0), new WorldTile(3360, 3275, 0), new WorldTile(3358, 3270, 0), new WorldTile(3363, 3268, 0), new WorldTile(3370, 3268, 0), new WorldTile(3367, 3267, 0),
-			new WorldTile(3376, 3275, 0), new WorldTile(3377, 3271, 0), new WorldTile(3375, 3269, 0), new WorldTile(3381, 3277, 0) };
+	private final WorldTile[] LOBBY_TELEPORTS = { WorldTile.of(3367, 3275, 0), WorldTile.of(3360, 3275, 0), WorldTile.of(3358, 3270, 0), WorldTile.of(3363, 3268, 0), WorldTile.of(3370, 3268, 0), WorldTile.of(3367, 3267, 0),
+			WorldTile.of(3376, 3275, 0), WorldTile.of(3377, 3271, 0), WorldTile.of(3375, 3269, 0), WorldTile.of(3381, 3277, 0) };
 
 	public DuelArenaController(Player target, boolean friendly) {
 		this.target = target;
@@ -312,7 +312,7 @@ public class DuelArenaController extends Controller {
 		WorldTile tile = LOBBY_TELEPORTS[Utils.random(LOBBY_TELEPORTS.length)];
 		WorldTile teleTile = tile;
 		for (int trycount = 0; trycount < 10; trycount++) {
-			teleTile = new WorldTile(tile, 2);
+			teleTile = WorldTile.of(tile, 2);
 			if (World.floorAndWallsFree(teleTile, player.getSize()))
 				break;
 			teleTile = tile;
@@ -526,7 +526,7 @@ public class DuelArenaController extends Controller {
 
 		int finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 		int finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
-		locations[0] = (new WorldTile(finalX, finalY, 0));
+		locations[0] = (WorldTile.of(finalX, finalY, 0));
 		if (player.getLastDuelRules().getRule(25)) {
 			int direction = Utils.getRandomInclusive(1);
 			if (direction == 0)
@@ -537,7 +537,7 @@ public class DuelArenaController extends Controller {
 			finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 			finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
 		}
-		locations[1] = (new WorldTile(finalX, finalY, 0));
+		locations[1] = (WorldTile.of(finalX, finalY, 0));
 		return locations;
 	}
 

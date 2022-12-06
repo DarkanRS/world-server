@@ -36,7 +36,7 @@ public class FremennikShipmaster extends Conversation {
 	}
 	
 	public static void sail(Player player, boolean backing) {
-		player.useStairs(-1, backing ? new WorldTile(3254, 3171, 0) : new WorldTile(3511, 3692, 0), 2, 3);
+		player.useStairs(-1, backing ? WorldTile.of(3254, 3171, 0) : WorldTile.of(3511, 3692, 0), 2, 3);
 		if (backing)
 			player.getControllerManager().forceStop();
 		else
