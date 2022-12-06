@@ -20,6 +20,8 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.content.skills.construction.HouseConstants.Servant;
+import com.rs.game.content.skills.construction.ServantNPC.RequestType;
 import com.rs.game.model.entity.player.Player;
 
 public class ServantHouseD extends Conversation {
@@ -27,18 +29,18 @@ public class ServantHouseD extends Conversation {
 	public ServantHouseD(Player player, ServantNPC servant, boolean bankOps) {
 		super(player);
 		servant.setFollowing(true);
-		if (player.getHouse().getPaymentStage() == 10) {
-			addNPC(servant.getId(), HeadE.CALM_TALK, "Excuse me, but before I can continue working you must pay my fee.");
+		if (player.getHouse().getPaymentStage() >= 10) {
+			addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Excuse me, but before I can continue working you must pay my fee.");
 			addOptions("Would you you like to pay the fee of " + servant.getServantData().getCost() + "?", ops -> {
 				ops.add("Yes.", () -> {
 					int cost = servant.getServantData().getCost();
 					if (player.getInventory().getNumberOf(995) < cost) {
-						player.npcDialogue(servant.getId(), HeadE.UPSET, "You do not have enough coins to cover up my cost.");
+						player.npcDialogue(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.UPSET, "You do not have enough coins to cover up my cost.");
 						return;
 					}
 					player.getInventory().deleteItem(995, cost);
 					player.getHouse().resetPaymentStage();
-					player.npcDialogue(servant.getId(), HeadE.CHEERFUL, "Thank you!");
+					player.npcDialogue(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CHEERFUL, "Thank you!");
 				});
 				ops.add("No.");
 				ops.add("Fire.", () -> fireServant(player, servant));
@@ -51,7 +53,7 @@ public class ServantHouseD extends Conversation {
 			return;
 		}
 			
-		addNPC(servant.getId(), HeadE.CALM_TALK, "I am at thy command, my master");
+		addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "I am at thy command, my master");
 		addOptions(ops -> {
 			ops.add("Go to the bank/sawmill...")
 				.addNext(getBankOptions(player, servant));
@@ -59,10 +61,10 @@ public class ServantHouseD extends Conversation {
 			ops.add("Misc...")
 				.addOptions(misc -> {
 					misc.add("Make tea")
-						.addNPC(servant.getId(), HeadE.CALM_TALK, "Thou shall taste the very tea of the Demon Lords themselves!")
+						.addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Thou shall taste the very tea of the Demon Lords themselves!")
 						.addNext(() -> servant.makeFood(HouseConstants.TEA_BUILDS));
 					misc.add("Serve dinner")
-						.addNPC(servant.getId(), HeadE.CALM_TALK, "I shall prepare thee a banquet fit for the lords of Pandemonium!")
+						.addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "I shall prepare thee a banquet fit for the lords of Pandemonium!")
 						.addNext(() -> servant.makeFood(HouseConstants.DINNER_BUILDS));
 					misc.add("Serve drinks")
 						.addPlayer(HeadE.CALM_TALK, "Serve drinks please.")
@@ -84,16 +86,18 @@ public class ServantHouseD extends Conversation {
 	private Dialogue getBankOptions(Player player, ServantNPC servant) {
 		return new Dialogue().addOptions(ops -> {
 			ops.add("Take something to the bank").
-				addNPC(servant.getId(), HeadE.CALM_TALK, "Give any item to me and I shall take it swiftly to the bank where it will be safe from thieves and harm.");
+				addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Give any item to me and I shall take it swiftly to the bank where it will be safe from thieves and harm.");
 			
 			ops.add("Bring something from the bank")
 				.addOptions(bank -> {
+					if (servant.getLastBankRetrieve() != null)
+						bank.option("Fetch another " + servant.getLastBankRetrieve().getAmount() + " " + servant.getLastBankRetrieve().getName().toLowerCase() + ".", () -> player.getHouse().getServantInstance().requestType(servant.getLastBankRetrieve().getId(), servant.getLastBankRetrieve().getAmount(), RequestType.WITHDRAW));
 					for (int itemId : HouseConstants.BANKABLE_ITEMS) {
 						bank.option(ItemDefinitions.getDefs(itemId).name, () -> {
 							player.sendInputInteger("How many would you like?", amount -> {
 								if (!player.getHouse().isLoaded() || !player.getHouse().getPlayers().contains(player))
 									return;
-								player.getHouse().getServantInstance().requestType(itemId, amount, (byte) 0);
+								player.getHouse().getServantInstance().requestType(itemId, amount, RequestType.WITHDRAW);
 							});
 						});
 					}
@@ -101,7 +105,7 @@ public class ServantHouseD extends Conversation {
 			
 			if (servant.getServantData().isSawmill()) {
 				ops.add("Take something to the sawmill").
-					addNPC(servant.getId(), HeadE.CALM_TALK, "Give me some logs and I will return as fast as possible.");
+					addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Give me some logs and I will return as fast as possible.");
 			}
 		});
 	}
