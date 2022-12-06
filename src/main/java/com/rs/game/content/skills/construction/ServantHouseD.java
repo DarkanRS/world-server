@@ -29,7 +29,7 @@ public class ServantHouseD extends Conversation {
 	public ServantHouseD(Player player, ServantNPC servant, boolean bankOps) {
 		super(player);
 		servant.setFollowing(true);
-		if (player.getHouse().getPaymentStage() == 10) {
+		if (player.getHouse().getPaymentStage() >= 10) {
 			addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Excuse me, but before I can continue working you must pay my fee.");
 			addOptions("Would you you like to pay the fee of " + servant.getServantData().getCost() + "?", ops -> {
 				ops.add("Yes.", () -> {

@@ -123,6 +123,8 @@ public final class Inventory {
 			Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
 			if (item == null)
 				return;
+			if (!e.getPlayer().getControllerManager().processItemOnNPC(e.getTarget(), item))
+				return;
 			e.getPlayer().stopAll(false);
 			if (PluginManager.handle(new ItemOnNPCEvent(e.getPlayer(), e.getTarget(), item.setSlot(e.getSlotId()), false)))
 				return;

@@ -162,11 +162,11 @@ public class ServantNPC extends NPC {
 		final ItemDefinitions defs = ItemDefinitions.getDefs(item);
 		int inventorySize = servant.getInventorySize();
 		if (!bank.containsItem(defs.isNoted() ? defs.getCertId() : item, 1) && type == RequestType.WITHDRAW) {
-			owner.npcDialogue(getId(), HeadE.CALM_TALK, "It appears you do not have this item in your bank.");
+			owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "It appears you do not have this item in your bank.");
 			return;
 		}
 		if (quantity > inventorySize) {
-			owner.npcDialogue(getId(), HeadE.CALM_TALK, "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
+			owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "I'm sorry. I can only hold " + inventorySize + " items during a trip.");
 			return;
 		}
 		setNextNPCTransformation(1957);
@@ -184,7 +184,7 @@ public class ServantNPC extends NPC {
 		if (plank != null && type == RequestType.SAWMILL) {
 			final int cost = (int) ((plank[1] * 0.7) * quantity);
 			if (owner.getInventory().getAmountOf(995) < cost) {
-				owner.npcDialogue(getId(), HeadE.CALM_TALK, "You do not have enough coins to cover the costs of the sawmill.");
+				owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "You do not have enough coins to cover the costs of the sawmill.");
 				return;
 			}
 		}
@@ -229,7 +229,7 @@ public class ServantNPC extends NPC {
 				else
 					for (int i = 0; i < completeQuantity; i++)
 						bank.depositItem(owner.getInventory().getItems().getThisItemSlot(finalItem), completeQuantity, false);
-				owner.npcDialogue(getId(), HeadE.CALM_TALK, type == RequestType.DEPOSIT ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
+				owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, type == RequestType.DEPOSIT ? "I have successfully deposited your items into your bank. No longer will the items be at risk from thieves." : "I have returned with the items you asked me to retrieve.");
 			}
 		}, (int) servant.getBankDelay());
 	}
