@@ -67,6 +67,7 @@ public class ItemOnServantD extends Conversation {
 				ops.add("Cancel");
 			});
 		}
+		create();
 	}
 
 	private void setFetchAttributes(RequestType type, int item, String title) {
