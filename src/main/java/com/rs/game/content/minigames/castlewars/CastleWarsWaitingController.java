@@ -75,7 +75,7 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.getTile().setLocation(new WorldTile(CastleWars.LOBBY, 2));
+		player.setTile(WorldTile.of(CastleWars.LOBBY, 2));
 		return true;
 	}
 

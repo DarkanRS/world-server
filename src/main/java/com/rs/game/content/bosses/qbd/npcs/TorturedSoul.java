@@ -156,7 +156,7 @@ public final class TorturedSoul extends NPC {
 
 					@Override
 					public void run() {
-						WorldTile current = new WorldTile(x, y, 1);
+						WorldTile current = WorldTile.of(x, y, 1);
 						victim.getPackets().sendSpotAnim(SPECIAL_GRAPHIC, current);
 						Entity target = null;
 						for (TorturedSoul soul : dragon.getSouls())

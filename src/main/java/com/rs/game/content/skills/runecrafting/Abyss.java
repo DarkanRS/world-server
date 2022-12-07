@@ -76,13 +76,13 @@ public class Abyss {
 		public void handle(ObjectClickEvent e) {
 			switch(e.getObjectId()) {
 				case 7143, 7153 -> clearRocks(e.getPlayer(), e.getObject());
-				case 7152, 7144 -> clearTendrils(e.getPlayer(), e.getObject(), new WorldTile(e.getObjectId() == 7144 ? 3028 : 3051, 4824, 0));
-				case 7150, 7146 -> clearEyes(e.getPlayer(), e.getObject(), new WorldTile(e.getObject().getX() == 3021 ? 3028 : 3050, 4839, 0));
-				case 7147 -> clearGap(e.getPlayer(), e.getObject(), new WorldTile(3030, 4843, 0), false);
-				case 7148 -> clearGap(e.getPlayer(), e.getObject(), new WorldTile(3040, 4845, 0), true);
-				case 7149 -> clearGap(e.getPlayer(), e.getObject(), new WorldTile(3048, 4842, 0), false);
-				case 7151 -> burnGout(e.getPlayer(), e.getObject(), new WorldTile(3053, 4831, 0));
-				case 7145 -> burnGout(e.getPlayer(), e.getObject(), new WorldTile(3024, 4834, 0));
+				case 7152, 7144 -> clearTendrils(e.getPlayer(), e.getObject(), WorldTile.of(e.getObjectId() == 7144 ? 3028 : 3051, 4824, 0));
+				case 7150, 7146 -> clearEyes(e.getPlayer(), e.getObject(), WorldTile.of(e.getObject().getX() == 3021 ? 3028 : 3050, 4839, 0));
+				case 7147 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3030, 4843, 0), false);
+				case 7148 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3040, 4845, 0), true);
+				case 7149 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3048, 4842, 0), false);
+				case 7151 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3053, 4831, 0));
+				case 7145 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3024, 4834, 0));
 			}
 		}
 	};
@@ -108,7 +108,7 @@ public class Abyss {
 			} else if (ticks >= 5 && ticks <= 7)
 				demolish(7158 + (ticks - 5), object);
 			else if (ticks == 9) {
-				player.setNextWorldTile(new WorldTile(object.getX(), object.getY() + 13, 0));
+				player.setNextWorldTile(WorldTile.of(object.getX(), object.getY() + 13, 0));
 				player.resetReceivedHits();
 				player.unlock();
 				return false;
@@ -274,8 +274,8 @@ public class Abyss {
 			@Override
 			public void run() {
 				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
-				player.useStairs(-1, new WorldTile(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
-				Magic.teleControllersCheck(player, new WorldTile(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
+				player.useStairs(-1, WorldTile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
+				Magic.teleControllersCheck(player, WorldTile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
 				player.getPrayer().drainPrayer(player.getPrayer().getPoints());
 				player.setWildernessSkull();
 			}

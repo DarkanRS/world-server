@@ -32,7 +32,7 @@ import com.rs.lib.util.Utils;
 
 public class WildernessObelisk {
 
-	private static final WorldTile[] OBELISK_CENTER_TILES = { new WorldTile(2978, 3864, 0), new WorldTile(3033, 3730, 0), new WorldTile(3104, 3792, 0), new WorldTile(3154, 3618, 0), new WorldTile(3217, 3654, 0), new WorldTile(3305, 3914, 0) };
+	private static final WorldTile[] OBELISK_CENTER_TILES = { WorldTile.of(2978, 3864, 0), WorldTile.of(3033, 3730, 0), WorldTile.of(3104, 3792, 0), WorldTile.of(3154, 3618, 0), WorldTile.of(3217, 3654, 0), WorldTile.of(3305, 3914, 0) };
 	private static final boolean[] IS_ACTIVE = new boolean[6];
 
 	public static void activateObelisk(int id, final Player player) {
@@ -67,7 +67,7 @@ public class WildernessObelisk {
 							continue;
 						int offsetX = p.getX() - center.getX();
 						int offsetY = p.getY() - center.getY();
-						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, new WorldTile(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT, null);
+						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, WorldTile.of(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT, null);
 					}
 				IS_ACTIVE[index] = false;
 			}

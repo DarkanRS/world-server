@@ -925,7 +925,7 @@ public class PlayerCombat extends PlayerAction {
 		player.getEquipment().removeAmmo(slot, quantity);
 		if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely
 			return;
-		World.addGroundItem(new Item(ammoId, quantity), new WorldTile(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
+		World.addGroundItem(new Item(ammoId, quantity), WorldTile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
 	}
 
 	public void dropAmmo(Player player) {
@@ -969,7 +969,7 @@ public class PlayerCombat extends PlayerAction {
 				case 21373:
 				case 21374:
 				case 21375: {
-					final WorldTile tile = new WorldTile(target.getX(), target.getY(), target.getPlane());
+					final WorldTile tile = WorldTile.of(target.getX(), target.getY(), target.getPlane());
 					player.setNextAnimation(new Animation(11971));
 					player.setNextSpotAnim(new SpotAnim(476));
 					WorldTasks.scheduleTimer(tick -> {
@@ -977,7 +977,7 @@ public class PlayerCombat extends PlayerAction {
 							return false;
 						if (tick % 5 == 0) {
 							World.sendSpotAnim(player, new SpotAnim(478), tile);
-							for (Entity entity : getMultiAttackTargets(player, new WorldTile(target.getTile()), 1, 9)) {
+							for (Entity entity : getMultiAttackTargets(player, WorldTile.of(target.getTile()), 1, 9)) {
 								Hit hit = getMeleeHit(player, getRandomMaxHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25));
 								addXp(player, entity, attackStyle.getXpType(), hit);
 								if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)

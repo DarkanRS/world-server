@@ -100,7 +100,7 @@ public class WormBrainDragonSlayerMob extends Conversation {
 			if(e.killedByPlayer()) {
 				Player p = (Player) e.getKiller();
 				if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
-					World.addGroundItem(new Item(MAP_PART2, 1), new WorldTile(e.getNPC().getTile()), (Player) e.getKiller());
+					World.addGroundItem(new Item(MAP_PART2, 1), WorldTile.of(e.getNPC().getTile()), (Player) e.getKiller());
 			}
 		}
 	};

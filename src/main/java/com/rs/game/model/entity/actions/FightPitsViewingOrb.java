@@ -22,7 +22,7 @@ import com.rs.lib.game.WorldTile;
 
 public class FightPitsViewingOrb extends PlayerAction {
 
-	public static final WorldTile[] ORB_TELEPORTS = { new WorldTile(4571, 5092, 0), new WorldTile(4571, 5107, 0), new WorldTile(4590, 5092, 0), new WorldTile(4571, 5077, 0), new WorldTile(4557, 5092, 0) };
+	public static final WorldTile[] ORB_TELEPORTS = { WorldTile.of(4571, 5092, 0), WorldTile.of(4571, 5107, 0), WorldTile.of(4590, 5092, 0), WorldTile.of(4571, 5077, 0), WorldTile.of(4557, 5092, 0) };
 
 	private WorldTile tile;
 
@@ -30,7 +30,7 @@ public class FightPitsViewingOrb extends PlayerAction {
 	public boolean start(Player player) {
 		if (!process(player))
 			return false;
-		tile = new WorldTile(player.getTile());
+		tile = WorldTile.of(player.getTile());
 		player.getAppearance().switchHidden();
 		player.getPackets().setBlockMinimapState(5);
 		player.setNextWorldTile(ORB_TELEPORTS[0]);

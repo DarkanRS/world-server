@@ -253,11 +253,6 @@ public class BigBufferedImage extends BufferedImage {
 			buffer[bank].put(i, (byte) val);
 		}
 
-		@Override
-		protected void finalize() throws Throwable {
-			dispose();
-		}
-
 		private void disposeNow() {
 			final MappedByteBuffer[] disposedBuffer = buffer;
 			buffer = null;

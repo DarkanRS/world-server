@@ -40,8 +40,8 @@ public class Christmas2020 {
 	public static void load() {
 		if (!ACTIVE)
 			return;
-		NPCSpawns.add(new NPCSpawn(9398, new WorldTile(2655, 5678, 0), "Queen of Snow"));
-		NPCSpawns.add(new NPCSpawn(9400, new WorldTile(2654, 5679, 0), "Santa"));
+		NPCSpawns.add(new NPCSpawn(9398, WorldTile.of(2655, 5678, 0), "Queen of Snow"));
+		NPCSpawns.add(new NPCSpawn(9400, WorldTile.of(2654, 5679, 0), "Santa"));
 	}
 
 	public static LoginHandler login = new LoginHandler() {

@@ -155,7 +155,7 @@ public class DungeoneeringMining extends PlayerAction {
 	}
 
 	private boolean checkRock(Player player) {
-		return World.containsObjectWithId(rock, rock.getId());
+		return World.containsObjectWithId(rock.getTile(), rock.getId());
 	}
 
 	@Override

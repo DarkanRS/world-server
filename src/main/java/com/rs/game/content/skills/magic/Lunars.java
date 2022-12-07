@@ -292,7 +292,7 @@ public class Lunars {
 		}
 		if (!Magic.checkMagicAndRunes(player, 83, true, new RuneSet(Rune.ASTRAL, 3, Rune.EARTH, 15, Rune.NATURE, 2)))
 			return;
-		player.setNextFaceWorldTile(object);
+		player.setNextFaceWorldTile(object.getTile());
 		player.getSkills().addXp(Constants.FARMING, 18);
 		player.getSkills().addXp(Constants.MAGIC, 87);
 		player.setNextAnimation(new Animation(4411));
@@ -320,7 +320,7 @@ public class Lunars {
 		}
 		if (!Magic.checkMagicAndRunes(player, 66, true, new RuneSet(Rune.ASTRAL, 1, Rune.EARTH, 8)))
 			return;
-		player.setNextFaceWorldTile(object);
+		player.setNextFaceWorldTile(object.getTile());
 		player.getSkills().addXp(Constants.FARMING, 90);
 		player.getSkills().addXp(Constants.MAGIC, 60);
 		player.setNextAnimation(new Animation(4411));

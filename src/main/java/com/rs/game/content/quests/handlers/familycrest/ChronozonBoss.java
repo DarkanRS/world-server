@@ -85,7 +85,7 @@ public class ChronozonBoss extends NPC {
 			if(e.getKiller() instanceof Player) {
 				Player p = (Player)e.getKiller();
 				if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == KILL_CHRONOZON && !p.getInventory().containsItem(JOHNATHAN_CREST))
-					World.addGroundItem(new Item(JOHNATHAN_CREST, 1), new WorldTile(e.getNPC().getTile()), p);
+					World.addGroundItem(new Item(JOHNATHAN_CREST, 1), WorldTile.of(e.getNPC().getTile()), p);
 			}
 		}
 	};

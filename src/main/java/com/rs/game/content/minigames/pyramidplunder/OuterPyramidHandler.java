@@ -20,8 +20,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one region.
-	static WorldTile[] MUMMY_LOCATIONS = {new WorldTile(1934, 4458, 2), new WorldTile(1968, 4428, 2),
-			new WorldTile(1934, 4428, 3), new WorldTile(1968, 4458, 3)};
+	static WorldTile[] MUMMY_LOCATIONS = {WorldTile.of(1934, 4458, 2), WorldTile.of(1968, 4428, 2),
+			WorldTile.of(1934, 4428, 3), WorldTile.of(1968, 4458, 3)};
 	static Set<Integer> MUMMY_CHUNKS = new HashSet<>(Arrays.asList(3952992, 4034880, 3952960, 4034912));
 	static int MUMMY_ROOM = 0;
 	@ServerStartupEvent
@@ -57,7 +57,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
 					p.faceNorth();
-					p.setNextWorldTile(new WorldTile(tile.getX(), tile.getY() - 8, tile.getPlane()));
+					p.setNextWorldTile(WorldTile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
@@ -72,13 +72,13 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 			Player p = e.getPlayer();
 			WorldTile[] tiles = MUMMY_LOCATIONS;
 			if(p.withinDistance(tiles[0]))
-				exitMummyRoom(p, new WorldTile(3288, 2801, 0), 0);
+				exitMummyRoom(p, WorldTile.of(3288, 2801, 0), 0);
 			else if(p.withinDistance(tiles[1]))
-				exitMummyRoom(p, new WorldTile(3295, 2795, 0), 1);
+				exitMummyRoom(p, WorldTile.of(3295, 2795, 0), 1);
 			else if(p.withinDistance(tiles[2]))
-				exitMummyRoom(p, new WorldTile(3289, 2788, 0), 2);
+				exitMummyRoom(p, WorldTile.of(3289, 2788, 0), 2);
 			else if(p.withinDistance(tiles[3]))
-				exitMummyRoom(p, new WorldTile(3282, 2794, 0), 3);
+				exitMummyRoom(p, WorldTile.of(3282, 2794, 0), 3);
 
 		}
 	};

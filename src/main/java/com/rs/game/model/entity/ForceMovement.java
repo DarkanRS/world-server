@@ -38,19 +38,19 @@ public class ForceMovement {
 	}
 
 	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, WorldTile toSecondTile, int secondTileTicketDelay, Direction direction) {
-		this.toFirstTile = new WorldTile(toFirstTile);
+		this.toFirstTile = WorldTile.of(toFirstTile);
 		this.firstTileTicketDelay = firstTileTicketDelay;
 		if (toSecondTile != null)
-			this.toSecondTile = new WorldTile(toSecondTile);
+			this.toSecondTile = WorldTile.of(toSecondTile);
 		this.secondTileTicketDelay = secondTileTicketDelay;
 		this.direction = WorldUtil.getAngleTo(direction);
 	}
 
 	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, WorldTile toSecondTile, int secondTileTicketDelay, int direction) {
-		this.toFirstTile = new WorldTile(toFirstTile);
+		this.toFirstTile = WorldTile.of(toFirstTile);
 		this.firstTileTicketDelay = firstTileTicketDelay;
 		if (toSecondTile != null)
-			this.toSecondTile = new WorldTile(toSecondTile);
+			this.toSecondTile = WorldTile.of(toSecondTile);
 		this.secondTileTicketDelay = secondTileTicketDelay;
 		this.direction = direction;
 	}

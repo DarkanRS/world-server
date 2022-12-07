@@ -117,7 +117,7 @@ public class FishingContest extends QuestOutline {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(obj.getRegionId() == 10550) //mcgrubbers wood
+			if(obj.getTile().getRegionId() == 10550) //mcgrubbers wood
 				if(p.getInventory().hasFreeSlots()) {
 					p.setNextAnimation(new Animation(2282));//herb picking anim
 					p.getInventory().addItem(RED_WORM, 1);
@@ -170,7 +170,7 @@ public class FishingContest extends QuestOutline {
 				p.sendMessage("It doesn't appear edible...");
 			if(e.getOption().equalsIgnoreCase("drop")) {
 				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
 				e.getPlayer().soundEffect(2739);
 			}
 		}
@@ -184,7 +184,7 @@ public class FishingContest extends QuestOutline {
 		public void handle(ItemOnObjectEvent e) {
 			Player p = e.getPlayer();
 			int stage = p.getQuestManager().getStage(Quest.FISHING_CONTEST);
-			p.walkToAndExecute(new WorldTile(2638, 3445, 0), () -> {
+			p.walkToAndExecute(WorldTile.of(2638, 3445, 0), () -> {
 				if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
 					if (e.getItem().getId() == 1550) {//garlic
 						if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {

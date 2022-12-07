@@ -38,7 +38,7 @@ public class TzKekCaves extends FightCavesNPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		final WorldTile tile = new WorldTile(getTile());
+		WorldTile tile = WorldTile.of(getTile());
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
@@ -46,15 +46,16 @@ public class TzKekCaves extends FightCavesNPC {
 			} else if (loop >= defs.getDeathDelay()) {
 				reset();
 				new FightCavesNPC(2738, tile);
+				WorldTile finTile = tile;
 				if (World.floorAndWallsFree(getPlane(), tile.getX() + 1, tile.getY(), 1))
-					tile.moveLocation(1, 0, 0);
+					finTile = tile.transform(1, 0, 0);
 				else if (World.floorAndWallsFree(getPlane(), tile.getX() - 1, tile.getY(), 1))
-					tile.moveLocation(-1, 0, 0);
+					finTile = tile.transform(-1, 0, 0);
 				else if (World.floorAndWallsFree(getPlane(), tile.getX(), tile.getY() - 1, 1))
-					tile.moveLocation(0, -1, 0);
+					finTile = tile.transform(0, -1, 0);
 				else if (World.floorAndWallsFree(getPlane(), tile.getX(), tile.getY() + 1, 1))
-					tile.moveLocation(0, 1, 0);
-				new FightCavesNPC(2738, tile);
+					finTile = tile.transform(0, 1, 0);
+				new FightCavesNPC(2738, finTile);
 				finish();
 				return false;
 			}

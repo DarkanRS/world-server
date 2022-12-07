@@ -165,7 +165,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					final int[] coords = manager.getRoomPos(object);
+					final int[] coords = manager.getRoomPos(object.getTile());
 					FlowPiece node = findFlowPiece(coords[0], coords[1]);
 					if (node.blocked) { //players might click in same tick
 						giveXP(player, Constants.MINING);
@@ -187,7 +187,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 				player.sendMessage("You need a construction level of " + getRequirement(Constants.CONSTRUCTION) + " to repair this pillar.");
 				return false;
 			}
-			int[] coords = manager.getRoomPos(object);
+			int[] coords = manager.getRoomPos(object.getTile());
 			for (Flow flow : flows)
 				if (flow.pillarX == coords[0] && flow.pillarY == coords[1]) {
 					giveXP(player, Constants.CONSTRUCTION);

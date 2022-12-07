@@ -150,7 +150,7 @@ public class DungeoneeringFarming {
 				player.sendMessage("You have depleted this resource.");
 			if (patch != null)
 				patch.destroy();
-			World.spawnObject(new GameObject(isTextile ? object.getId() + 1 : DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object));
+			World.spawnObject(new GameObject(isTextile ? object.getId() + 1 : DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object.getTile()));
 			return;
 		}
 		player.getTempAttribs().setI("HARVEST_COUNT", harvestCount);
@@ -189,7 +189,7 @@ public class DungeoneeringFarming {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				World.spawnObject(new GameObject(DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object));
+				World.spawnObject(new GameObject(DungeonConstants.EMPTY_FARMING_PATCH, object.getType(), object.getRotation(), object.getTile()));
 				player.sendMessage("You empty the harvest patch.");
 			}
 		}, 2);

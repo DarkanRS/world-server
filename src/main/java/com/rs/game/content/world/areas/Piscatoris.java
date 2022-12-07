@@ -67,7 +67,7 @@ public class Piscatoris {
 			if (!e.getPlayer().isQuestComplete(Quest.SWAN_SONG, "to enter the Piscatoris Fishing Colony."))
 				return;
 			final boolean isNorth = e.getPlayer().getY() > 3653;
-			final WorldTile tile = isNorth ? new WorldTile(2344, 3650, 0) : new WorldTile(2344, 3655, 0);
+			final WorldTile tile = isNorth ? WorldTile.of(2344, 3650, 0) : WorldTile.of(2344, 3655, 0);
 			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
 
@@ -77,14 +77,14 @@ public class Piscatoris {
 					ticks++;
 					if (ticks == 1) {
 						e.getPlayer().setNextAnimation(new Animation(2589));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, isNorth ? Direction.SOUTH : Direction.NORTH));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, isNorth ? Direction.SOUTH : Direction.NORTH));
 					} else if (ticks == 3) {
-						e.getPlayer().setNextWorldTile(new WorldTile(2344, 3652, 0));
+						e.getPlayer().setNextWorldTile(WorldTile.of(2344, 3652, 0));
 						e.getPlayer().setNextAnimation(new Animation(2590));
 					} else if (ticks == 5)
 						e.getPlayer().setNextAnimation(new Animation(2591));
 					else if (ticks == 6) {
-						e.getPlayer().setNextWorldTile(new WorldTile(tile.getX(), tile.getY(), tile.getPlane()));
+						e.getPlayer().setNextWorldTile(WorldTile.of(tile.getX(), tile.getY(), tile.getPlane()));
 						e.getPlayer().unlock();
 						stop();
 					}
@@ -102,10 +102,10 @@ public class Piscatoris {
 				p.getPackets().sendGameMessage("You need level 25 agility to use this shortcut.");
 				return;
 			}
-			if(obj.matches(new WorldTile(2323,3497, 0)))//above
-				AgilityShortcuts.forceMovementInstant(p, new WorldTile(2322, 3502, 0), 2050, 1, 1, Direction.SOUTH);
-			if(obj.matches(new WorldTile(2322,3501, 0)))//below
-				AgilityShortcuts.forceMovementInstant(p, new WorldTile(2323, 3496, 0), 2049, 1, 1, Direction.SOUTH);
+			if(obj.getTile().matches(WorldTile.of(2323, 3497, 0)))//above
+				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2322, 3502, 0), 2050, 1, 1, Direction.SOUTH);
+			if(obj.getTile().matches(WorldTile.of(2322, 3501, 0)))//below
+				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2323, 3496, 0), 2049, 1, 1, Direction.SOUTH);
 
 		}
 	};

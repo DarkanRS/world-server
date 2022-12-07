@@ -79,13 +79,13 @@ public class Christmas2019 {
 	}
 
 	public enum Location {
-		VARROCK_CASTLE(new WorldTile(3202, 3491, 0), "Him seems to be somewhere in Varrock.."), CAMELOT_CASTLE(new WorldTile(2765, 3506, 0), "Him seems to be somewhere near Seer's Village.."), ARDOUGNE_CASTLE(new WorldTile(2571, 3292, 0), "Him seems to be somewhere in Ardougne.."),
+		VARROCK_CASTLE(WorldTile.of(3202, 3491, 0), "Him seems to be somewhere in Varrock.."), CAMELOT_CASTLE(WorldTile.of(2765, 3506, 0), "Him seems to be somewhere near Seer's Village.."), ARDOUGNE_CASTLE(WorldTile.of(2571, 3292, 0), "Him seems to be somewhere in Ardougne.."),
 
-		LUMBRIDGE_COOK(new WorldTile(3211, 3211, 0), "Him seems to be somewhere near Lumbridge.."), YANILLE_COOK(new WorldTile(2564, 3099, 0), "Him seems to be somewhere near Yanille.."), COOKING_GUILD(new WorldTile(3140, 3444, 0), "Him seems to be somewhere near Varrock.."),
+		LUMBRIDGE_COOK(WorldTile.of(3211, 3211, 0), "Him seems to be somewhere near Lumbridge.."), YANILLE_COOK(WorldTile.of(2564, 3099, 0), "Him seems to be somewhere near Yanille.."), COOKING_GUILD(WorldTile.of(3140, 3444, 0), "Him seems to be somewhere near Varrock.."),
 
-		LUMBRIDGE_CHICKEN(new WorldTile(3236, 3300, 0), "Him seems to be somewhere near Lumbridge.."), FALADOR_CHICKEN(new WorldTile(3020, 3291, 0), "Him seems to be somewhere near Falador.."), PHASMATYS_CHICKEN(new WorldTile(3620, 3522, 0), "Him seems to be somewhere near Canifis.."),
+		LUMBRIDGE_CHICKEN(WorldTile.of(3236, 3300, 0), "Him seems to be somewhere near Lumbridge.."), FALADOR_CHICKEN(WorldTile.of(3020, 3291, 0), "Him seems to be somewhere near Falador.."), PHASMATYS_CHICKEN(WorldTile.of(3620, 3522, 0), "Him seems to be somewhere near Canifis.."),
 
-		LUMBRIDGE_POTATO(new WorldTile(3260, 3307, 0), "Him seems to be somewhere near Lumbridge.."), DRAYNOR_POTATO(new WorldTile(3148, 3283, 0), "Him seems to be somewhere near Draynor.."), ARDOUGNE_POTATO(new WorldTile(2628, 3364, 0), "Him seems to be somewhere near Ardougne..");
+		LUMBRIDGE_POTATO(WorldTile.of(3260, 3307, 0), "Him seems to be somewhere near Lumbridge.."), DRAYNOR_POTATO(WorldTile.of(3148, 3283, 0), "Him seems to be somewhere near Draynor.."), ARDOUGNE_POTATO(WorldTile.of(2628, 3364, 0), "Him seems to be somewhere near Ardougne..");
 
 		private WorldTile loc;
 		private String hint;
@@ -114,15 +114,15 @@ public class Christmas2019 {
 			for (Location l : i.locs)
 				NPCSpawns.add(new NPCSpawn(i.npcId, l.loc, "Imp for Christmas event."));
 
-		NPCSpawns.add(new NPCSpawn(8540, new WorldTile(2655, 5678, 0), "Queen of Snow"));
-		NPCSpawns.add(new NPCSpawn(8539, new WorldTile(2654, 5679, 0), "Santa"));
+		NPCSpawns.add(new NPCSpawn(8540, WorldTile.of(2655, 5678, 0), "Queen of Snow"));
+		NPCSpawns.add(new NPCSpawn(8539, WorldTile.of(2654, 5679, 0), "Santa"));
 
-		NPCSpawns.add(new NPCSpawn(9386, new WorldTile(2652, 5663, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9389, new WorldTile(2658, 5663, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9392, new WorldTile(2655, 5659, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9386, new WorldTile(2662, 5654, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9389, new WorldTile(2649, 5653, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9392, new WorldTile(2655, 5668, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9386, WorldTile.of(2652, 5663, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9389, WorldTile.of(2658, 5663, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9392, WorldTile.of(2655, 5659, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9386, WorldTile.of(2662, 5654, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9389, WorldTile.of(2649, 5653, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9392, WorldTile.of(2655, 5668, 0), "Partygoer"));
 	}
 
 	public static EnterChunkHandler handleChunkEvents = new EnterChunkHandler() {

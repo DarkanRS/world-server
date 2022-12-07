@@ -148,7 +148,7 @@ public class NexArena {
 	private void startWar() {
 		if (getPlayersCount() >= 1)
 			if (nex == null) {
-				nex = new Nex(this, new WorldTile(2924, 5202, 0));
+				nex = new Nex(this, WorldTile.of(2924, 5202, 0));
 				WorldTasks.schedule(new WorldTask() {
 					private int count = 0;
 
@@ -164,34 +164,34 @@ public class NexArena {
 							nex.setNextSpotAnim(new SpotAnim(1217));
 							nex.voiceEffect(3295);
 						} else if (count == 3) {
-							fumus = new NexMinion(NexArena.this, 13451, new WorldTile(2912, 5216, 0));
+							fumus = new NexMinion(NexArena.this, 13451, WorldTile.of(2912, 5216, 0));
 							fumus.setFaceAngle(Utils.getAngleTo(1, -1));
-							nex.setNextFaceWorldTile(new WorldTile(fumus.getCoordFaceX(fumus.getSize()), fumus.getCoordFaceY(fumus.getSize()), 0));
+							nex.setNextFaceWorldTile(WorldTile.of(fumus.getCoordFaceX(fumus.getSize()), fumus.getCoordFaceY(fumus.getSize()), 0));
 							nex.setNextForceTalk(new ForceTalk("Fumus!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(fumus, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.voiceEffect(3325);
 						} else if (count == 5) {
-							umbra = new NexMinion(NexArena.this, 13452, new WorldTile(2937, 5216, 0));
+							umbra = new NexMinion(NexArena.this, 13452, WorldTile.of(2937, 5216, 0));
 							umbra.setFaceAngle(Utils.getAngleTo(-1, -1));
-							nex.setNextFaceWorldTile(new WorldTile(umbra.getCoordFaceX(umbra.getSize()), umbra.getCoordFaceY(umbra.getSize()), 0));
+							nex.setNextFaceWorldTile(WorldTile.of(umbra.getCoordFaceX(umbra.getSize()), umbra.getCoordFaceY(umbra.getSize()), 0));
 							nex.setNextForceTalk(new ForceTalk("Umbra!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(umbra, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.voiceEffect(3313);
 						} else if (count == 7) {
-							cruor = new NexMinion(NexArena.this, 13453, new WorldTile(2937, 5190, 0));
+							cruor = new NexMinion(NexArena.this, 13453, WorldTile.of(2937, 5190, 0));
 							cruor.setFaceAngle(Utils.getAngleTo(-1, 1));
-							nex.setNextFaceWorldTile(new WorldTile(cruor.getCoordFaceX(cruor.getSize()), cruor.getCoordFaceY(cruor.getSize()), 0));
+							nex.setNextFaceWorldTile(WorldTile.of(cruor.getCoordFaceX(cruor.getSize()), cruor.getCoordFaceY(cruor.getSize()), 0));
 							nex.setNextForceTalk(new ForceTalk("Cruor!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(cruor, nex, 2244, 18, 18, 60, 30, 0, 0);
 							nex.voiceEffect(3299);
 						} else if (count == 9) {
-							glacies = new NexMinion(NexArena.this, 13454, new WorldTile(2912, 5190, 0));
-							glacies.setNextFaceWorldTile(new WorldTile(glacies.getCoordFaceX(glacies.getSize()), glacies.getCoordFaceY(glacies.getSize()), 0));
+							glacies = new NexMinion(NexArena.this, 13454, WorldTile.of(2912, 5190, 0));
+							glacies.setNextFaceWorldTile(WorldTile.of(glacies.getCoordFaceX(glacies.getSize()), glacies.getCoordFaceY(glacies.getSize()), 0));
 							glacies.setFaceAngle(Utils.getAngleTo(1, 1));
-							nex.setNextFaceWorldTile(new WorldTile(glacies.getCoordFaceX(glacies.getSize()), glacies.getCoordFaceY(glacies.getSize()), 0));
+							nex.setNextFaceWorldTile(WorldTile.of(glacies.getCoordFaceX(glacies.getSize()), glacies.getCoordFaceY(glacies.getSize()), 0));
 							nex.setNextForceTalk(new ForceTalk("Glacies!"));
 							nex.setNextAnimation(new Animation(6987));
 							World.sendProjectile(glacies, nex, 2244, 18, 18, 60, 30, 0, 0);

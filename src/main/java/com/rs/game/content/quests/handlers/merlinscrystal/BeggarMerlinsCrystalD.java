@@ -85,7 +85,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 		}
 	};
 
-	public static PlayerStepHandler handleBeggar = new PlayerStepHandler(new WorldTile(3016, 3246, 0)) {
+	public static PlayerStepHandler handleBeggar = new PlayerStepHandler(WorldTile.of(3016, 3246, 0)) {
 		final int BEGGAR = 252;
 		@Override
 		public void handle(PlayerStepEvent e) {
@@ -95,7 +95,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 				if(npc.getId() == BEGGAR)
 					return;
-            OwnedNPC beggar = new OwnedNPC(p, BEGGAR, new WorldTile(3016, 3247, 0), true);
+            OwnedNPC beggar = new OwnedNPC(p, BEGGAR, WorldTile.of(3016, 3247, 0), true);
 			beggar.setNextSpotAnim(new SpotAnim(1605));
 			beggar.forceTalk("Hey!");
 		}

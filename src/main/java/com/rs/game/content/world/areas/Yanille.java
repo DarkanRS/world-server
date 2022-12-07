@@ -77,7 +77,7 @@ public class Yanille {
 			if (e.getOpNum() == 3)
 				e.getPlayer().fadeScreen(() -> {
 					e.getPlayer().sendMessage("Elkoy leads you through the maze...");
-					e.getPlayer().setNextWorldTile(e.getNPC().getId() == 473 ? new WorldTile(2515, 3160, 0) : new WorldTile(2502, 3193, 0));
+					e.getPlayer().setNextWorldTile(e.getNPC().getId() == 473 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
 				});
 		}
 	};
@@ -88,19 +88,19 @@ public class Yanille {
 			switch(e.getObjectId()) {
 			case 2518:
 				e.getPlayer().sendOptionDialogue("Teleport to Thormac's Tower?", ops -> {
-					ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(2702, 3403, 0)));
+					ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(2702, 3403, 0)));
 					ops.add("Not right now.");
 				});
 				break;
 			case 2156:
 				e.getPlayer().sendOptionDialogue("Teleport to the Wizard's Tower?", ops -> {
-					ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3109, 3164, 0)));
+					ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3109, 3164, 0)));
 					ops.add("Not right now.");
 				});
 				break;
 			case 2157:
 				e.getPlayer().sendOptionDialogue("Teleport to the Dark Wizard's Tower?", ops -> {
-					ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(new WorldTile(2906, 3334, 0)));
+					ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(2906, 3334, 0)));
 					ops.add("Not right now.");
 				});
 				break;
@@ -124,9 +124,9 @@ public class Yanille {
 		public void handle(ObjectClickEvent e) {
 			WorldTile endLoc;
 			if (e.getObjectId() == 2830)
-				endLoc = new WorldTile(2530, 3029, 0);
+				endLoc = WorldTile.of(2530, 3029, 0);
 			else
-				endLoc = new WorldTile(2531, 3026, 0);
+				endLoc = WorldTile.of(2531, 3026, 0);
 
 			e.getPlayer().lock();
 			e.getPlayer().setNextFaceWorldTile(endLoc);
@@ -154,7 +154,7 @@ public class Yanille {
 			WorldObject obj = e.getObject();
 
 			if(obj.getId() == 20056)
-				p.useLadder(new WorldTile(2548, 3118, 1));
+				p.useLadder(WorldTile.of(2548, 3118, 1));
 
 		}
 	};

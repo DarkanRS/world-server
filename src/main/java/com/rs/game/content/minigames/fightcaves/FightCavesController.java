@@ -41,7 +41,7 @@ import com.rs.utils.Ticks;
 
 public class FightCavesController extends Controller {
 
-	public static final WorldTile OUTSIDE = new WorldTile(4610, 5130, 0);
+	public static final WorldTile OUTSIDE = WorldTile.of(4610, 5130, 0);
 
 	private static final int THHAAR_MEJ_JAL = 2617;
 
@@ -144,7 +144,7 @@ public class FightCavesController extends Controller {
 					WorldTile walkTo = getWorldTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
 				}
-				center = new WorldTile(getWorldTile(32, 32));
+				center = WorldTile.of(getWorldTile(32, 32));
 				player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
 				player.setForceMultiArea(true);
 				playMusic();
@@ -318,9 +318,9 @@ public class FightCavesController extends Controller {
 	 */
 	public void exitCave(int type) {
 		stage = Stages.DESTROYING;
-		WorldTile outside = new WorldTile(OUTSIDE, 2); // radomizes alil
+		WorldTile outside = WorldTile.of(OUTSIDE, 2); // radomizes alil
 		if (type == 0 || type == 2)
-			player.getTile().setLocation(outside);
+			player.setTile(outside);
 		else {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
@@ -338,16 +338,16 @@ public class FightCavesController extends Controller {
 						p.sendMessage("<img=6><col=ff0000>" + player.getDisplayName() + " has just completed the fight caves!", true);
 					}
 					if (!player.getInventory().addItem(6570, 1)) {
-						World.addGroundItem(new Item(6570, 1), new WorldTile(player.getTile()), player, true, 180);
-						World.addGroundItem(new Item(6529, 16064), new WorldTile(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6570, 1), WorldTile.of(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, 16064), WorldTile.of(player.getTile()), player, true, 180);
 					} else if (!player.getInventory().addItem(6529, 16064))
-						World.addGroundItem(new Item(6529, 16064), new WorldTile(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, 16064), WorldTile.of(player.getTile()), player, true, 180);
 				} else if (getCurrentWave() == 1)
 					player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "Well I suppose you tried... better luck next time.");
 				else {
 					int tokkul = getCurrentWave() * 8032 / WAVES.length;
 					if (!player.getInventory().addItem(6529, tokkul))
-						World.addGroundItem(new Item(6529, tokkul), new WorldTile(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, tokkul), WorldTile.of(player.getTile()), player, true, 180);
 					player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "Well done in the cave, here, take TokKul as reward.");
 					// TODO tokens
 				}

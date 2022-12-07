@@ -133,9 +133,9 @@ public class TreeGnomeVillage extends QuestOutline {
 								stop();
 						} else if (tick >= 1) {
 							if (isPlayerNorth)
-								p.setNextWorldTile(new WorldTile(2509, 3252, 0));
+								p.setNextWorldTile(WorldTile.of(2509, 3252, 0));
 							if (!isPlayerNorth) {
-								p.setNextWorldTile(new WorldTile(2509, 3254, 0));
+								p.setNextWorldTile(WorldTile.of(2509, 3254, 0));
 								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 									if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 										npc.forceTalk("Hey, what are you doing in here?");
@@ -154,8 +154,8 @@ public class TreeGnomeVillage extends QuestOutline {
 		}
 	};
 
-	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new WorldTile(2503, 3254, 1), new WorldTile(2504, 3254, 1),
-			new WorldTile(2502, 3254, 1)) {
+	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(WorldTile.of(2503, 3254, 1), WorldTile.of(2504, 3254, 1),
+			WorldTile.of(2502, 3254, 1)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
@@ -167,7 +167,7 @@ public class TreeGnomeVillage extends QuestOutline {
 		}
 	};
 
-	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(new WorldTile(2505, 3256, 0)) {
+	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(WorldTile.of(2505, 3256, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
@@ -183,7 +183,7 @@ public class TreeGnomeVillage extends QuestOutline {
 		@Override
 		public void handle(NPCDeathEvent e) {
 			if(e.getKiller() instanceof Player p && p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == KILL_WARLORD && !p.getInventory().containsItem(588))
-				World.addGroundItem(new Item(588, 1), new WorldTile(e.getNPC().getTile()), p);
+				World.addGroundItem(new Item(588, 1), WorldTile.of(e.getNPC().getTile()), p);
 		}
 	};
 

@@ -34,7 +34,7 @@ public class DarkEnergyCore extends NPC {
 	private Entity target;
 
 	public DarkEnergyCore(CorporealBeast beast) {
-		super(8127, new WorldTile(beast.getTile()), true);
+		super(8127, WorldTile.of(beast.getTile()), true);
 		setForceMultiArea(true);
 		setIgnoreDocile(true);
 		this.beast = beast;
@@ -62,7 +62,7 @@ public class DarkEnergyCore extends NPC {
 					return;
 				}
 				target = possibleTarget.get(Utils.getRandomInclusive(possibleTarget.size() - 1));
-				setNextWorldTile(new WorldTile(target.getTile()));
+				setNextWorldTile(WorldTile.of(target.getTile()));
 				delay += World.sendProjectile(this, target, 1828, 0, 0, 35, 1, 20, 0).getTaskDelay();
 			}
 			changeTarget--;

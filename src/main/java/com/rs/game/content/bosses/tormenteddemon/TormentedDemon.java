@@ -136,14 +136,14 @@ public final class TormentedDemon extends NPC {
 	}
 
 	private void sendRandomProjectile() {
-		WorldTile tile = new WorldTile(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
+		WorldTile tile = WorldTile.of(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
 		for (int regionId : getMapRegionsIds()) {
 			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
 			if (playerIndexes != null)
 				for (int pid : playerIndexes) {
 					Player player = World.getPlayers().get(pid);
 					if (player != null && !player.isDead() && !player.hasFinished() && player.hasStarted() && player.withinDistance(getTile(), 7)) {
-						tile = new WorldTile(player.getTile(), 2);
+						tile = WorldTile.of(player.getTile(), 2);
 						break;
 					}
 				}

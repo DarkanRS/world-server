@@ -41,7 +41,7 @@ public class LocationFinder {
 
 		//		for (int regionId = 0; regionId < 16000;regionId++) {
 		//for (int y = 0; y < 10000; y += 64) {
-		//int regionId = new WorldTile(x, y, 0).getRegionId();
+		//int regionId = WorldTile.of(x, y, 0).getRegionId();
 		int regionId = 11826;
 
 		int regionX = (regionId >> 8) * 64;

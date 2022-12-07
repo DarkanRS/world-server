@@ -69,13 +69,13 @@ public class EasterEggSpawning {
 			for (int i = 0; i < eggsNeeded; i++) {
 				int x = r.getBaseX()+Utils.random(64);
 				int y = r.getBaseY()+Utils.random(64);
-				WorldTile tile = new WorldTile(x, y, 0);
+				WorldTile tile = WorldTile.of(x, y, 0);
 				while (!World.floorAndWallsFree(tile, 1)) {
 					x = r.getBaseX()+Utils.random(64);
 					y = r.getBaseY()+Utils.random(64);
-					tile = new WorldTile(x, y, 0);
+					tile = WorldTile.of(x, y, 0);
 				}
-				World.addGroundItem(new Item(1961), new WorldTile(x, y, 0));
+				World.addGroundItem(new Item(1961), WorldTile.of(x, y, 0));
 			}
 		}
 	}

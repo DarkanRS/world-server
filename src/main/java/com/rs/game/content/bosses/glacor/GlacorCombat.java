@@ -55,7 +55,7 @@ public class GlacorCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(9968));
 			npc.setNextSpotAnim(new SpotAnim(905));
 			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
-			final WorldTile targetPosition = new WorldTile(target.getX(), target.getY(), target.getPlane());
+			final WorldTile targetPosition = WorldTile.of(target.getX(), target.getY(), target.getPlane());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
@@ -107,7 +107,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9955));
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
-				final WorldTile targetPosition = new WorldTile(player.getX(), player.getY(), player.getPlane());
+				final WorldTile targetPosition = WorldTile.of(player.getX(), player.getY(), player.getPlane());
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {

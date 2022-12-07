@@ -17,15 +17,15 @@ public class MaxTaskFarm implements Task {
 	
 	@Override
 	public int tick(Max max) {
-		patch = World.getObject(new WorldTile(3228, 3458, 0), ObjectType.SCENERY_INTERACT);
+		patch = World.getObject(WorldTile.of(3228, 3458, 0), ObjectType.SCENERY_INTERACT);
 		if (patch == null)
 			return 0;
 		if (!started) {
 			max.wearItems(5341, 19749);
 			started = true;
 		}
-		if (!max.withinDistance(patch, 80)) {
-			Magic.npcNormalTeleport(max, new WorldTile(3213, 3423, 0), true, null);
+		if (!max.withinDistance(patch.getTile(), 80)) {
+			Magic.npcNormalTeleport(max, WorldTile.of(3213, 3423, 0), true, null);
 			return 10;
 		}
 		if (!reached) {

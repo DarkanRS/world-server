@@ -44,8 +44,8 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Falador {
 
-	public static PlayerStepHandler musicArtisansWorkshop = new PlayerStepHandler(new WorldTile(3035, 3339, 0), new WorldTile(3035, 3338, 0),
-			new WorldTile(3034, 3339, 0), new WorldTile(3034, 3338, 0)) {
+	public static PlayerStepHandler musicArtisansWorkshop = new PlayerStepHandler(WorldTile.of(3035, 3339, 0), WorldTile.of(3035, 3338, 0),
+			WorldTile.of(3034, 3339, 0), WorldTile.of(3034, 3338, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getTile().getX() == 3035 && e.getStep().getDir() == Direction.EAST) {
@@ -57,8 +57,8 @@ public class Falador {
 		}
 	};
 
-	public static PlayerStepHandler musicRisingSunInn = new PlayerStepHandler(new WorldTile(2956, 3378, 0), new WorldTile(2956, 3379, 0),
-			new WorldTile(2961, 3372, 0), new WorldTile(2962, 3372, 0)) {
+	public static PlayerStepHandler musicRisingSunInn = new PlayerStepHandler(WorldTile.of(2956, 3378, 0), WorldTile.of(2956, 3379, 0),
+			WorldTile.of(2961, 3372, 0), WorldTile.of(2962, 3372, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getTile().getY() == 3378 && e.getStep().getDir() == Direction.SOUTH) {
@@ -269,9 +269,9 @@ public class Falador {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if(e.getObjectId() == 20608)
-				e.getPlayer().useStairs(-1, new WorldTile(1677, 5598, 0), 1, 1);
+				e.getPlayer().useStairs(-1, WorldTile.of(1677, 5598, 0), 1, 1);
 			if(e.getObjectId() == 30203)
-				e.getPlayer().useStairs(-1, new WorldTile(2969, 9672, 0), 1, 1);
+				e.getPlayer().useStairs(-1, WorldTile.of(2969, 9672, 0), 1, 1);
 		}
 	};
 
@@ -290,12 +290,12 @@ public class Falador {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
-			if(!obj.matches(new WorldTile(3063, 3282, 0)))
+			if(!obj.getTile().matches(WorldTile.of(3063, 3282, 0)))
 				return;
 			if(p.getY() > obj.getY())
-				AgilityShortcuts.climbOver(p, new WorldTile(obj.getX(), obj.getY()-1, obj.getPlane()));
+				AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()));
 			if(p.getY() < obj.getY())
-				AgilityShortcuts.climbOver(p, new WorldTile(obj.getX(), obj.getY()+1, obj.getPlane()));
+				AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX(), obj.getY()+1, obj.getPlane()));
 		}
 	};
 }

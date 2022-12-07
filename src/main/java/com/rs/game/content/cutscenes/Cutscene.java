@@ -103,7 +103,7 @@ public abstract class Cutscene {
 		DynamicRegionReference old = region;
 		region = new DynamicRegionReference(widthChunks, heightChunks);
 		region.copyMapAllPlanes(baseChunkX, baseChunkY, () -> {
-			player.setNextWorldTile(new WorldTile(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
+			player.setNextWorldTile(WorldTile.of(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
 			constructingRegion = false;
 			if (old != null)
 				old.destroy();
@@ -158,7 +158,7 @@ public abstract class Cutscene {
 	}
 
 	public final void createObjectMap() {
-		endTile = new WorldTile(player.getTile());
+		endTile = WorldTile.of(player.getTile());
 		objects.put("cutscene", this);
 	}
 
@@ -443,11 +443,11 @@ public abstract class Cutscene {
 	}
 	
 	public void projectile(int delay, WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope, task));
+		action(delay, () -> World.sendProjectile(WorldTile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), WorldTile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope, task));
 	}
 	
 	public void projectile(int delay, WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
-		action(delay, () -> World.sendProjectile(new WorldTile(getX(from.getX()), getY(from.getY()), from.getPlane()), new WorldTile(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope));
+		action(delay, () -> World.sendProjectile(WorldTile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), WorldTile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope));
 	}
 	
 	public void projectile(WorldTile from, WorldTile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
@@ -483,6 +483,6 @@ public abstract class Cutscene {
 	}
 	
 	public void spawnObj(int id, int rotation, int x, int y, int z) {
-		action(() -> World.spawnObject(new GameObject(id, ObjectDefinitions.getDefs(id).types[0], rotation, new WorldTile(getX(x), getY(y), z))));
+		action(() -> World.spawnObject(new GameObject(id, ObjectDefinitions.getDefs(id).types[0], rotation, WorldTile.of(getX(x), getY(y), z))));
 	}
 }

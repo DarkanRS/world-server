@@ -41,9 +41,9 @@ public class PortPhasmatys {
 				return;
 			e.getPlayer().sendOptionDialogue(ops -> {
 				if (e.getPlayer().getRegionId() == 14638)
-					ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3713, 3497, 1)));
+					ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3713, 3497, 1)));
 				else
-					ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(new WorldTile(3682, 2949, 1)));
+					ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3682, 2949, 1)));
 				ops.add("Nevermind.");
 			});
 		}
@@ -54,7 +54,7 @@ public class PortPhasmatys {
 		public void handle(ItemClickEvent e) {
 			if (!e.getPlayer().isQuestComplete(Quest.GHOSTS_AHOY, "to use the ectophial."))
 				return;
-			Ectofuntus.sendEctophialTeleport(e.getPlayer(), new WorldTile(3659, 3523, 0));
+			Ectofuntus.sendEctophialTeleport(e.getPlayer(), WorldTile.of(3659, 3523, 0));
 		}
 	};
 
@@ -99,8 +99,8 @@ public class PortPhasmatys {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			switch(e.getObjectId()) {
-			case 7433 -> e.getPlayer().useStairs(828, new WorldTile(3681, 3497, 0), 1, 2);
-			case 7434 -> e.getPlayer().useStairs(828, new WorldTile(3682, 9961, 0), 1, 2);
+			case 7433 -> e.getPlayer().useStairs(828, WorldTile.of(3681, 3497, 0), 1, 2);
+			case 7434 -> e.getPlayer().useStairs(828, WorldTile.of(3682, 9961, 0), 1, 2);
 			}
 		}
 	};

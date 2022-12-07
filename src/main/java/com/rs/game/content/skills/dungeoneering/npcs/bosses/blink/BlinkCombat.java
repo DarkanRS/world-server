@@ -98,7 +98,7 @@ public class BlinkCombat extends CombatScript {
 						if (cycles == 1) {
 							knifeTargets = new LinkedList<>();
 							for (Entity t : boss.getPossibleTargets()) {
-								WorldTile center = new WorldTile(t.getTile());
+								WorldTile center = WorldTile.of(t.getTile());
 								for (int i = 0; i < 3; i++)
 									knifeTargets.add(i == 0 ? center : World.getFreeTile(center, 1));
 							}

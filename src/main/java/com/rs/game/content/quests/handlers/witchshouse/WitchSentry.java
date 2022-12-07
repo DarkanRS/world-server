@@ -68,7 +68,7 @@ public class WitchSentry extends NPC {
 				if(tick == 1)
 					tick = 10;
 				if(tick == 2) {
-					Magic.sendObjectTeleportSpell(player, false, new WorldTile(2892, 3373, 0));
+					Magic.sendObjectTeleportSpell(player, false, WorldTile.of(2892, 3373, 0));
 					tick--;
 				}
 				if(tick == 3)
@@ -76,11 +76,11 @@ public class WitchSentry extends NPC {
 
 
 				if(tick == 5)
-					walkToAndExecute(new WorldTile(2895, 3363, 0), ()-> {
+					walkToAndExecute(WorldTile.of(2895, 3363, 0), ()-> {
 						tick = 10;
 					});
 				if(tick == 10)
-					walkToAndExecute(new WorldTile(2922, 3363, 0), ()-> {
+					walkToAndExecute(WorldTile.of(2922, 3363, 0), ()-> {
 						tick = 5;
 					});
 

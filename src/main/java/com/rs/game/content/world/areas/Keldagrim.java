@@ -70,28 +70,28 @@ public class Keldagrim {
 	public static ObjectClickHandler handleRellekkaEntrance = new ObjectClickHandler(new Object[] { 5973 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2838, 10124, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2838, 10124, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleRellekkaExit = new ObjectClickHandler(new Object[] { 5998 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2780, 10161, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2780, 10161, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleChaosDwarfBattlefieldEnter = new ObjectClickHandler(new Object[] { 45060 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(1520, 4704, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(1520, 4704, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleChaosDwarfBattlefieldExit = new ObjectClickHandler(new Object[] { 45008 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2817, 10155, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2817, 10155, 0));
 		}
 	};
 
@@ -99,7 +99,7 @@ public class Keldagrim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer()
-			.useStairs(e.getObjectId() == 9084 ? new WorldTile(1939, 4958, 0) : new WorldTile(2931, 10196, 0));
+			.useStairs(e.getObjectId() == 9084 ? WorldTile.of(1939, 4958, 0) : WorldTile.of(2931, 10196, 0));
 		}
 	};
 
@@ -107,9 +107,9 @@ public class Keldagrim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getPlane() == 0)
-				e.getPlayer().setNextWorldTile(new WorldTile(2914, 10196, 1));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2914, 10196, 1));
 			else if (e.getPlayer().getPlane() == 1)
-				e.getPlayer().setNextWorldTile(new WorldTile(2917, 10196, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2917, 10196, 0));
 		}
 	};
 }

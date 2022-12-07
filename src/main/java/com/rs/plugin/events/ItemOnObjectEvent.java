@@ -74,7 +74,7 @@ public class ItemOnObjectEvent implements PluginEvent {
 			methodMapping = METHODS.get(getObject().getDefinitions(getPlayer()).getName());
 		if (methodMapping == null)
 			return null;
-		List<ItemOnObjectHandler> methods = methodMapping.get(getObject().getTileHash());
+		List<ItemOnObjectHandler> methods = methodMapping.get(getObject().getTile().getTileHash());
 		if (methods == null)
 			methods = methodMapping.get(0);
 		if (methods == null)

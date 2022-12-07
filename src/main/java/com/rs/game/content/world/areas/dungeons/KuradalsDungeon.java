@@ -73,17 +73,17 @@ public class KuradalsDungeon {
 					if (ticks == 1) {
 						if(isPlayerNorth) {
 							e.getPlayer().setFaceAngle(Direction.getAngleTo(Direction.SOUTH));
-							p.setNextForceMovement(new ForceMovement(new WorldTile(1641, 5260, 0), 1, Direction.SOUTH));
+							p.setNextForceMovement(new ForceMovement(WorldTile.of(1641, 5260, 0), 1, Direction.SOUTH));
 						}
 						if(!isPlayerNorth) {
 							e.getPlayer().setFaceAngle(Direction.getAngleTo(Direction.NORTH));
-							p.setNextForceMovement(new ForceMovement(new WorldTile(1641, 5268, 0), 1, Direction.NORTH));
+							p.setNextForceMovement(new ForceMovement(WorldTile.of(1641, 5268, 0), 1, Direction.NORTH));
 						}
 					} else if (ticks >= 2) {
 						if(isPlayerNorth)
-							p.setNextWorldTile(new WorldTile(1641, 5260, 0));
+							p.setNextWorldTile(WorldTile.of(1641, 5260, 0));
 						if(!isPlayerNorth)
-							p.setNextWorldTile(new WorldTile(1641, 5268, 0));
+							p.setNextWorldTile(WorldTile.of(1641, 5268, 0));
 						stop();
 					}
 					ticks++;
@@ -120,9 +120,9 @@ public class KuradalsDungeon {
 							return;
 					} else if (ticks >= 1) {
 						if (isPlayerNorth)
-							p.setNextWorldTile(new WorldTile(1633, 5292, 0));
+							p.setNextWorldTile(WorldTile.of(1633, 5292, 0));
 						if (!isPlayerNorth)
-							p.setNextWorldTile(new WorldTile(1633, 5294, 0));
+							p.setNextWorldTile(WorldTile.of(1633, 5294, 0));
 						stop();
 					}
 					ticks++;

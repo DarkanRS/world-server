@@ -41,18 +41,18 @@ public class Shilo {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 			Direction dir = Direction.NORTH;
-			if(!obj.matches(new WorldTile(2860, 2974, 0)))
+			if(!obj.getTile().matches(WorldTile.of(2860, 2974, 0)))
 				return;
 			if(p.getY() > obj.getY())
 				dir = Direction.SOUTH;
 
 			final Direction direction = dir;
-			p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? new WorldTile(2860, 2971, 0) : new WorldTile(2860, 2977, 0), () -> {
-				AgilityShortcuts.forceMovementInstant(p, new WorldTile(2860, 2974, 0), 741, 1, 0, direction);
+			p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? WorldTile.of(2860, 2971, 0) : WorldTile.of(2860, 2977, 0), () -> {
+				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2860, 2974, 0), 741, 1, 0, direction);
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						AgilityShortcuts.forceMovementInstant(p, new WorldTile(2860, 2977, 0), 741, 1, 0, direction);
+						AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2860, 2977, 0), 741, 1, 0, direction);
 						p.unlock();
 					}
 				}, 2);

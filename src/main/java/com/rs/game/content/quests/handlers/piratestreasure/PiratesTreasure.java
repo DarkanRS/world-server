@@ -126,7 +126,7 @@ public class PiratesTreasure extends QuestOutline {
 	public static void findTreasure(Player p) {
 		if((p.getQuestManager().getStage(Quest.PIRATES_TREASURE) != GET_TREASURE) || !p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(PiratesTreasure.KNOWS_TREASURE_LOC_ATTR))
 			return;
-		if(Utils.getDistance(p.getTile(), new WorldTile(2999, 3383, 0)) <= 2) {
+		if(Utils.getDistance(p.getTile(), WorldTile.of(2999, 3383, 0)) <= 2) {
 			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(KILLED_GARDENER_ATTR)) {
 				p.getQuestManager().completeQuest(Quest.PIRATES_TREASURE);
 				return;
@@ -134,7 +134,7 @@ public class PiratesTreasure extends QuestOutline {
 			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 				if(npc.getId()== HOSTILE_GARDENER)
 					return;
-			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, new WorldTile(p.getTile()), -1, false, true);
+			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, WorldTile.of(p.getTile()), -1, false, true);
 			gardener.setTarget(p);
 			gardener.forceTalk("First moles, now this!? Take this, vandal!");
 		}
@@ -145,7 +145,7 @@ public class PiratesTreasure extends QuestOutline {
 		public void handle(EnterChunkEvent e) {
 			if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
 				if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
-					if (Utils.getDistance(p.getTile(), new WorldTile(2928, 3143, 0)) > 70) {
+					if (Utils.getDistance(p.getTile(), WorldTile.of(2928, 3143, 0)) > 70) {
 						while (p.getInventory().containsItem(RUM, 1))
 							p.getInventory().removeItems(new Item(RUM, 1));
 						p.sendMessage("Your Karamja rum gets broken and spilled.");

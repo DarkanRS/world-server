@@ -474,7 +474,7 @@ public class ClipMap {
 
 	public void setFlag(int plane, int x, int y, int flag) {
 		if (x >= 64 || y >= 64 || x < 0 || y < 0) {
-			WorldTile tile = new WorldTile(regionX + x, regionY + y, plane);
+			WorldTile tile = WorldTile.of(regionX + x, regionY + y, plane);
 			int regionId = tile.getRegionId();
 			int newRegionX = (regionId >> 8) * 64;
 			int newRegionY = (regionId & 0xff) * 64;
@@ -489,7 +489,7 @@ public class ClipMap {
 
 	public void addFlag(int plane, int x, int y, int flag) {
 		if (x >= 64 || y >= 64 || x < 0 || y < 0) {
-			WorldTile tile = new WorldTile(regionX + x, regionY + y, plane);
+			WorldTile tile = WorldTile.of(regionX + x, regionY + y, plane);
 			int regionId = tile.getRegionId();
 			int newRegionX = (regionId >> 8) * 64;
 			int newRegionY = (regionId & 0xff) * 64;
@@ -504,7 +504,7 @@ public class ClipMap {
 
 	public void removeFlag(int plane, int x, int y, int flag) {
 		if (x >= 64 || y >= 64 || x < 0 || y < 0) {
-			WorldTile tile = new WorldTile(regionX + x, regionY + y, plane);
+			WorldTile tile = WorldTile.of(regionX + x, regionY + y, plane);
 			int regionId = tile.getRegionId();
 			int newRegionX = (regionId >> 8) * 64;
 			int newRegionY = (regionId & 0xff) * 64;

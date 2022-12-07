@@ -72,7 +72,7 @@ public class QuestInformationParser {
 				else
 					qi.setQpReq(0);
 				if (map.get(STARTLOC_HASH) != null)
-					qi.setStartLocation(new WorldTile((Integer) map.get(STARTLOC_HASH)));
+					qi.setStartLocation(WorldTile.of((Integer) map.get(STARTLOC_HASH)));
 				if (map.get(QUEST_REQ_START) != null) {
 					int numReqs = 0;
 					for (long q = QUEST_REQ_START;q <= QUEST_REQ_END;q++)

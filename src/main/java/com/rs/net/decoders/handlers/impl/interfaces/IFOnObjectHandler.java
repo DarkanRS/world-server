@@ -39,7 +39,7 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 			return;
 		if (player.isLocked() || player.getEmotesManager().isAnimating())
 			return;
-		final WorldTile tile = new WorldTile(packet.getX(), packet.getY(), player.getPlane());
+		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
 		int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;

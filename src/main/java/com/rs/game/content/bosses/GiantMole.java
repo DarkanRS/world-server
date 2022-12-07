@@ -33,8 +33,8 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class GiantMole extends NPC {
 
-	private static final WorldTile[] COORDS = { new WorldTile(1737, 5228, 0), new WorldTile(1751, 5233, 0), new WorldTile(1778, 5237, 0), new WorldTile(1736, 5227, 0), new WorldTile(1780, 5152, 0), new WorldTile(1758, 5162, 0),
-			new WorldTile(1745, 5169, 0), new WorldTile(1760, 5183, 0) };
+	private static final WorldTile[] COORDS = { WorldTile.of(1737, 5228, 0), WorldTile.of(1751, 5233, 0), WorldTile.of(1778, 5237, 0), WorldTile.of(1736, 5227, 0), WorldTile.of(1780, 5152, 0), WorldTile.of(1758, 5162, 0),
+			WorldTile.of(1745, 5169, 0), WorldTile.of(1760, 5183, 0) };
 
 	public GiantMole(int id, WorldTile tile, boolean spawned) {
 		super(id, tile, spawned);
@@ -69,15 +69,15 @@ public class GiantMole extends NPC {
 				if (isDead())
 					return;
 				World.sendSpotAnim(GiantMole.this, new SpotAnim(572), middle);
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX(), middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX(), middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() - 1, middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() - 1, middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() + 1, middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() + 1, middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() - 1, middle.getY(), middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), new WorldTile(middle.getX() + 1, middle.getY(), middle.getPlane()));
-				setNextWorldTile(new WorldTile(COORDS[Utils.random(COORDS.length)]));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX(), middle.getY() - 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX(), middle.getY() + 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() - 1, middle.getY() - 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() - 1, middle.getY() + 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() + 1, middle.getY() - 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() + 1, middle.getY() + 1, middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() - 1, middle.getY(), middle.getPlane()));
+				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), WorldTile.of(middle.getX() + 1, middle.getY(), middle.getPlane()));
+				setNextWorldTile(WorldTile.of(COORDS[Utils.random(COORDS.length)]));
 				setNextAnimation(new Animation(3315));
 
 			}

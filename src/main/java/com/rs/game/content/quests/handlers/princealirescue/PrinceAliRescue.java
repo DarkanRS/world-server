@@ -165,7 +165,7 @@ public class PrinceAliRescue extends QuestOutline {
 	public static ObjectClickHandler handleJailCellDoor = new ObjectClickHandler(new Object[] { 3436 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getObject().matches(new WorldTile(3128, 3243, 0))) {
+			if(e.getObject().getTile().matches(WorldTile.of(3128, 3243, 0))) {
 				if (e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1))
 					handleDoor(e.getPlayer(), e.getObject());
 				else

@@ -223,9 +223,9 @@ public class GoblinDiplomacy extends QuestOutline {
 			if (!e.isAtObject())
 				return;
 			if (e.getObjectId() == 16450 && e.getPlayer().getPlane() == 0)
-				e.getPlayer().ladder(new WorldTile(2953, 3497, 2));
+				e.getPlayer().ladder(WorldTile.of(2953, 3497, 2));
 			if (e.getObjectId() == 16556 && e.getPlayer().getPlane() == 2)
-				e.getPlayer().ladder(new WorldTile(2953, 3497, 0));
+				e.getPlayer().ladder(WorldTile.of(2953, 3497, 0));
 		}
 	};
 

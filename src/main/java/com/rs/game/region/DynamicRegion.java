@@ -178,7 +178,7 @@ public class DynamicRegion extends Region {
 
 				List<GameObject> ro = new ArrayList<>(removedObjects.values());
 				for (GameObject removed : ro)
-					if (removed.getPlane() == chunkZ && removed.getChunkX() == chunkX && removed.getChunkY() == chunkY)
+					if (removed.getPlane() == chunkZ && removed.getTile().getChunkX() == chunkX && removed.getTile().getChunkY() == chunkY)
 						deleteRemovedObject(removed);
 			}
 	}

@@ -10,8 +10,8 @@ import com.rs.lib.util.Utils;
 
 public class MaxTaskSmith implements Task {
 	
-	private static GameObject WEST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3188, 3426, 0));
-	private static GameObject EAST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, new WorldTile(3228, 3436, 0));
+	private static GameObject WEST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, WorldTile.of(3188, 3426, 0));
+	private static GameObject EAST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, WorldTile.of(3228, 3436, 0));
 		
 	private boolean started = false;
 	private int itemsSmithed = Utils.random(85, 150);
@@ -22,8 +22,8 @@ public class MaxTaskSmith implements Task {
 			max.wearItems(2347, 22422);
 			started = true;
 		}
-		if (!max.withinDistance(WEST, 64)) {
-			Magic.npcNormalTeleport(max, new WorldTile(3212, 3423, 0), true, null);
+		if (!max.withinDistance(WEST.getTile(), 64)) {
+			Magic.npcNormalTeleport(max, WorldTile.of(3212, 3423, 0), true, null);
 			return 10;
 		}
 		if (itemsSmithed <= 0) {

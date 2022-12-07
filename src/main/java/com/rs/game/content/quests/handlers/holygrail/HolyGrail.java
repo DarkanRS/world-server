@@ -150,7 +150,7 @@ public class HolyGrail extends QuestOutline {
 	};
 
 	public static PickupItemHandler handleHolyGrail = new PickupItemHandler(new Object[] {19},
-			new WorldTile(2649, 4684, 2)) {
+			WorldTile.of(2649, 4684, 2)) {
 		@Override
 		public void handle(PickupItemEvent e) {
 			if(e.getPlayer().isQuestComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
@@ -158,13 +158,13 @@ public class HolyGrail extends QuestOutline {
 		}
 	};
 
-	public static PlayerStepHandler handleMagicWhistleSpawn = new PlayerStepHandler(new WorldTile(3106, 3361, 2)) {
+	public static PlayerStepHandler handleMagicWhistleSpawn = new PlayerStepHandler(WorldTile.of(3106, 3361, 2)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getPlayer().getInventory().containsItem(15) && !e.getPlayer().getTempAttribs().getB("Spawned_Whistle")) {
 				e.getPlayer().getTempAttribs().setB("Spawned_Whistle", true);
-				World.addGroundItem(new Item(16, 1), new WorldTile(3107, 3359, 2), e.getPlayer());
-				World.addGroundItem(new Item(16, 1), new WorldTile(3107, 3359, 2), e.getPlayer());
+				World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
+				World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
 			}
 		}
 	};
@@ -174,19 +174,19 @@ public class HolyGrail extends QuestOutline {
 		public void handle(ItemClickEvent e) {
 			if(e.getOption().equalsIgnoreCase("Blow")) {
 				if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
-					Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2757, 3475, 0));
+					Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2757, 3475, 0));
 				}
-				if (e.getPlayer().getTile().withinDistance(new WorldTile(2742, 3236, 0), 2)) {
+				if (e.getPlayer().getTile().withinDistance(WorldTile.of(2742, 3236, 0), 2)) {
 					if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
-						Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2678, 4713, 0));
+						Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2678, 4713, 0));
 						return;
 					}
-					Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2803, 4713, 0));
+					Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2803, 4713, 0));
 				}
 			}
 			if(e.getOption().equalsIgnoreCase("drop")) {
 				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
 				e.getPlayer().soundEffect(2739);
 			}
 		}
@@ -195,11 +195,11 @@ public class HolyGrail extends QuestOutline {
 	public static ItemClickHandler handleGrailBell = new ItemClickHandler(new Object[] { 17 }, new String[] { "Ring" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().getTile().withinDistance(new WorldTile(2762, 4694, 0), 1)) {
+			if (e.getPlayer().getTile().withinDistance(WorldTile.of(2762, 4694, 0), 1)) {
 				e.getPlayer().startConversation(new Dialogue()
 						.addSimple("Ting-a-ling!")
 						.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-						.addNext(() -> e.getPlayer().setNextWorldTile(new WorldTile(2762, 4692, 0))));
+						.addNext(() -> e.getPlayer().setNextWorldTile(WorldTile.of(2762, 4692, 0))));
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
@@ -214,7 +214,7 @@ public class HolyGrail extends QuestOutline {
 				return;
 			}
 			WorldTile playerTile = e.getPlayer().getTile();
-			WorldTile percievalTile = new WorldTile(2961, 3505, 0);
+			WorldTile percievalTile = WorldTile.of(2961, 3505, 0);
 			int xDir = percievalTile.getX() - playerTile.getX();
 			int yDir = percievalTile.getY() - playerTile.getY();
 			if (xDir == 0 && yDir == 0)
@@ -250,7 +250,7 @@ public class HolyGrail extends QuestOutline {
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addSimple("You hear muffled noises from the sack. You open the sack."));
-			OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, new WorldTile(2961, 3504, 0), true);
+			OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, WorldTile.of(2961, 3504, 0), true);
 			percival.faceEntity(e.getPlayer());
 			percival.setRandomWalk(false);
 		}

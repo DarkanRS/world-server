@@ -47,7 +47,7 @@ public class MerlinsCrystal extends QuestOutline {
 	public static final String PLAYER_KNOWS_BEGGAR_ATTR = "KNOWS_BEGGAR";
 	protected static final int EXCALIBUR = 35;
 
-	protected WorldTile crate = new WorldTile(2778, 9839, 0);
+	protected WorldTile crate = WorldTile.of(2778, 9839, 0);
 
 	@Override
 	public int getCompletedStage() {
@@ -211,7 +211,7 @@ public class MerlinsCrystal extends QuestOutline {
 						p.sendMessage("... and it shatters under the force of Excalibur!");
 						p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
 						p.getVars().setVar(14, 7);
-                        OwnedNPC merlin = new OwnedNPC(p, MERLIN, new WorldTile(obj.getX(), obj.getY(), obj.getPlane()), true);
+                        OwnedNPC merlin = new OwnedNPC(p, MERLIN, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
 						merlin.setCantInteract(true);
 						merlin.setRandomWalk(false);
 						merlin.finishAfterTicks(5);
@@ -236,9 +236,9 @@ public class MerlinsCrystal extends QuestOutline {
 		}
 	};
 
-	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(new WorldTile(2780, 3515, 0)) {
+	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(WorldTile.of(2780, 3515, 0)) {
 		final int BAT_BONES = 530;
-		final WorldTile ritualTile = new WorldTile(2780, 3515, 0);
+		final WorldTile ritualTile = WorldTile.of(2780, 3515, 0);
 		@Override
 		public void handle(PlayerStepEvent e) {
 			Player p = e.getPlayer();

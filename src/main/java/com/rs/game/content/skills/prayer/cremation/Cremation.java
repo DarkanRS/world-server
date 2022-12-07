@@ -63,7 +63,7 @@ public class Cremation {
 	public static ObjectClickHandler handleColumbariumStairs = new ObjectClickHandler(new Object[] { 30621, 30534 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getObjectId() == 30621 ? new WorldTile(3422, 9965, 0) : new WorldTile(3425, 9899, 0));
+			e.getPlayer().useStairs(e.getObjectId() == 30621 ? WorldTile.of(3422, 9965, 0) : WorldTile.of(3425, 9899, 0));
 		}
 	};
 

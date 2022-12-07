@@ -67,7 +67,7 @@ public class ClanVexillum extends OwnedNPC {
 		@Override
 		public void handle(ItemClickEvent e) {
 			if (e.getOption().equals("Teleport"))
-				Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, new WorldTile(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+				Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, WorldTile.of(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 			else if (e.getOption().equals("Place"))
 				create(e.getPlayer(), true);
 			else if (e.getOption().equals("Recall")) {

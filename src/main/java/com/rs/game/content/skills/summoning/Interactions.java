@@ -2329,7 +2329,7 @@ public class Interactions {
 		switch(familiar.getPouch()) {
 			case LAVA_TITAN:
 				ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
-					yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, new WorldTile(3030, 3838, 0)));
+					yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, WorldTile.of(3030, 3838, 0)));
 					yesNo.add("Nevermind. That sounds dangerous.");
 				}));
 				break;

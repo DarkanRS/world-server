@@ -87,10 +87,10 @@ public class Pyre extends OwnedObject {
 			player.incrementCount(ItemDefinitions.getDefs(corpse.itemIds[0]).name + " cremated");
 			player.unlock();
 			GameObject stand = World.getClosestObject(shadePyre ? 4065 : 30488, getCoordFace());
-			World.sendSpotAnim(player, new SpotAnim(1605), stand);
+			World.sendSpotAnim(player, new SpotAnim(1605), stand.getTile());
 			for (Item item : corpse.getKeyDrop(player, log))
 				if (item != null)
-					World.addGroundItem(item, stand);
+					World.addGroundItem(item, stand.getTile());
 		});
 	}
 

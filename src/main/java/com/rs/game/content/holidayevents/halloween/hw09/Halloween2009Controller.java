@@ -60,7 +60,7 @@ public class Halloween2009Controller extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.setNextWorldTile(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : new WorldTile(3211, 3424, 0));
+					player.setNextWorldTile(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : WorldTile.of(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
@@ -82,7 +82,7 @@ public class Halloween2009Controller extends Controller {
 			player.sendOptionDialogue("Are you sure you want to leave? Any maze/webbing progress will be reset!", ops -> {
 				ops.add("Yes, I understand.", () -> {
 					player.getControllerManager().forceStop();
-					player.useStairs(new WorldTile(3211, 3424, 0));
+					player.useStairs(WorldTile.of(3211, 3424, 0));
 				});
 				ops.add("Nevermind.");
 			});

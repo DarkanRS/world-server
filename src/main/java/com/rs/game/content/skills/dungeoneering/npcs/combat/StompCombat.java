@@ -56,7 +56,7 @@ public class StompCombat extends CombatScript {
 		// 3 - 0%
 
 		if (stomp.getStage() > 1 && Utils.random(10) == 0) {
-			final WorldTile tile = new WorldTile(target.getTile());
+			final WorldTile tile = WorldTile.of(target.getTile());
 			World.sendSpotAnim(npc, new SpotAnim(2400), tile);
 			WorldTasks.schedule(new WorldTask() {
 

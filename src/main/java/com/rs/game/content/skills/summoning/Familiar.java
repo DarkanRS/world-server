@@ -167,7 +167,7 @@ public final class Familiar extends NPC {
 	public void dropInventory() {
 		if (inv == null)
 			return;
-		WorldTile tile = new WorldTile(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane());
+		WorldTile tile = WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane());
 		for (int i = 0; i < inv.getSize(); i++) {
 			Item item = inv.get(i);
 			if (item != null)

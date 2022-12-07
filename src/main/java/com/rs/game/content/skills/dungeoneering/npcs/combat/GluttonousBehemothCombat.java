@@ -55,14 +55,14 @@ public class GluttonousBehemothCombat extends CombatScript {
 			GameObject food = food1;
 			if (food1 != null)
 				for (Player player : manager.getParty().getTeam())
-					if (player.withinDistance(food1, food1.getDefinitions().getSizeX() + 1)) {
+					if (player.withinDistance(food1.getTile(), food1.getDefinitions().getSizeX() + 1)) {
 						food = null;
 						break;
 					}
 			if (food == null && food2 != null) {
 				food = food2;
 				for (Player player : manager.getParty().getTeam())
-					if (player.withinDistance(food2, food1.getDefinitions().getSizeX() + 1)) {
+					if (player.withinDistance(food2.getTile(), food1.getDefinitions().getSizeX() + 1)) {
 						food = null;
 						break;
 					}

@@ -33,53 +33,53 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class FairyRings {
 
 	private final static String[][] LETTERS = { { "a", "b", "c", "d" }, { "i", "j", "k", "l" }, { "p", "q", "r", "s" } };
-	private final static WorldTile FAIRY_SOURCE = new WorldTile(2412, 4434, 0);
+	private final static WorldTile FAIRY_SOURCE = WorldTile.of(2412, 4434, 0);
 	private final static int FIRST_ANIMATION = 3254, SECOND_ANIMATION = 3255;
 	private final static int FIRST_GRAPHICS = 2670, SECOND_GRAPHICS = 2671;
 
 	public static enum Ring {
-		DLS(77, "Dungeons: Myreque hideout", new WorldTile(3501, 9821, 3)) {
+		DLS(77, "Dungeons: Myreque hideout", WorldTile.of(3501, 9821, 3)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.IN_SEARCH_OF_MYREQUE, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		DLR(76, "Islands: Poison Waste south of Isafdar", new WorldTile(2213, 3099, 0)),
-		DLQ(75, "Kharidian Desert: North of Nardah", new WorldTile(3423, 3016, 0)),
+		DLR(76, "Islands: Poison Waste south of Isafdar", WorldTile.of(2213, 3099, 0)),
+		DLQ(75, "Kharidian Desert: North of Nardah", WorldTile.of(3423, 3016, 0)),
 		DLP(74, "Nowhere", null),
-		DKS(73, "Kandarin: Snowy Hunter area", new WorldTile(2744, 3719, 0)),
-		DKR(72, "Misthalin: Edgeville", new WorldTile(3129, 3496, 0)),
-		DKQ(71, "Glacor Cave", new WorldTile(4183, 5726, 0)) {
+		DKS(73, "Kandarin: Snowy Hunter area", WorldTile.of(2744, 3719, 0)),
+		DKR(72, "Misthalin: Edgeville", WorldTile.of(3129, 3496, 0)),
+		DKQ(71, "Glacor Cave", WorldTile.of(4183, 5726, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		DKP(70, "Karamja: South of Musa Point", new WorldTile(2900, 3111, 0)),
+		DKP(70, "Karamja: South of Musa Point", WorldTile.of(2900, 3111, 0)),
 		DJS(69, "Nowhere", null),
-		DJR(68, "Kandarin: Sinclair Mansion (west)", new WorldTile(2676, 3587, 0)),
+		DJR(68, "Kandarin: Sinclair Mansion (west)", WorldTile.of(2676, 3587, 0)),
 		DJQ(67, "Nowhere", null),
-		DJP(66, "Kandarin: Tower of Life", new WorldTile(2658, 3230, 0)),
-		DIS(65, "Misthalin: Wizards' Tower", new WorldTile(3108, 3149, 0)),
-		DIR(64, "Other Realms: The Gorak Plane", new WorldTile(3038, 5348, 0)),
-		BIQ(31, "Kharidian Desert: Near Kalphite hive", new WorldTile(3251, 3095, 0)),
-		BIP(30, "Islands: Polypore Dungeon", new WorldTile(3410, 3324, 0)),
-		ALS(29, "Kandarin: McGrubor's Wood", new WorldTile(2644, 3495, 0)),
-		ALR(28, "Other Realms: Abyss", new WorldTile(3059, 4875, 0)),
-		ALQ(27, "Morytania: Haunted Woods", new WorldTile(3597, 3495, 0)),
-		ALP(26, "Kandarin: Feldip Hills", new WorldTile(2468, 4189, 0)) {
+		DJP(66, "Kandarin: Tower of Life", WorldTile.of(2658, 3230, 0)),
+		DIS(65, "Misthalin: Wizards' Tower", WorldTile.of(3108, 3149, 0)),
+		DIR(64, "Other Realms: The Gorak Plane", WorldTile.of(3038, 5348, 0)),
+		BIQ(31, "Kharidian Desert: Near Kalphite hive", WorldTile.of(3251, 3095, 0)),
+		BIP(30, "Islands: Polypore Dungeon", WorldTile.of(3410, 3324, 0)),
+		ALS(29, "Kandarin: McGrubor's Wood", WorldTile.of(2644, 3495, 0)),
+		ALR(28, "Other Realms: Abyss", WorldTile.of(3059, 4875, 0)),
+		ALQ(27, "Morytania: Haunted Woods", WorldTile.of(3597, 3495, 0)),
+		ALP(26, "Kandarin: Feldip Hills", WorldTile.of(2468, 4189, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		AKS(25, "Feldip Hills: Feldip Hunter area", new WorldTile(2571, 2956, 0)),
+		AKS(25, "Feldip Hills: Feldip Hunter area", WorldTile.of(2571, 2956, 0)),
 		AKR(24, "Nowhere", null),
-		AKQ(23, "Kandarin: Piscatoris Hunter area", new WorldTile(2319, 3619, 0)),
+		AKQ(23, "Kandarin: Piscatoris Hunter area", WorldTile.of(2319, 3619, 0)),
 		AKP(22, "Nowhere", null),
-		AJS(21, "Islands: Penguins near Miscellania", new WorldTile(2500, 3896, 0)),
-		AJR(20, "Kandarin: Slayer cave south-east of Rellekka", new WorldTile(2780, 3613, 0)),
-		AJQ(19, "Dungeons: Dark cave south of Dorgesh-Kaan", new WorldTile(2735, 5221, 0)) {
+		AJS(21, "Islands: Penguins near Miscellania", WorldTile.of(2500, 3896, 0)),
+		AJR(20, "Kandarin: Slayer cave south-east of Rellekka", WorldTile.of(2780, 3613, 0)),
+		AJQ(19, "Dungeons: Dark cave south of Dorgesh-Kaan", WorldTile.of(2735, 5221, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.DEATH_TO_DORGESHUUN, silent ? null : "to use this fairy ring code.");
@@ -87,71 +87,71 @@ public class FairyRings {
 		},
 		AJP(18, "Nowhere", null),
 		AIS(17, "Nowhere", null),
-		AIR(16, "Islands: South of Witchaven", new WorldTile(2700, 3247, 0)),
-		AIQ(15, "Asgarnia: Mudskipper Point", new WorldTile(2996, 3114, 0)),
+		AIR(16, "Islands: South of Witchaven", WorldTile.of(2700, 3247, 0)),
+		AIQ(15, "Asgarnia: Mudskipper Point", WorldTile.of(2996, 3114, 0)),
 		AIP(14, "Nowhere", null),
 		DIQ(63, "Nowhere", null),
-		DIP(62, "Mos Le'Harmless: Isle on the coast of Mos Le'Harmless", new WorldTile(3763, 2930, 0)) {
+		DIP(62, "Mos Le'Harmless: Isle on the coast of Mos Le'Harmless", WorldTile.of(3763, 2930, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		CLS(61, "Islands: Jungle spiders near Yanille", new WorldTile(2682, 3081, 0)),
-		CLR(60, "Ape Atoll: West of the Ape Atoll Agility Course", new WorldTile(2735, 2742, 0)) {
+		CLS(61, "Islands: Jungle spiders near Yanille", WorldTile.of(2682, 3081, 0)),
+		CLR(60, "Ape Atoll: West of the Ape Atoll Agility Course", WorldTile.of(2735, 2742, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		CLQ(59, "Nowhere", null),
-		CLP(58, "Islands: South of Draynor Village", new WorldTile(3082, 3206, 0)),
-		CKS(57, "Morytania: Canifis", new WorldTile(3447, 3470, 0)),
-		CKR(56, "Karamja: South of Tai Bwo Wannai Village", new WorldTile(2801, 3003, 0)),
+		CLP(58, "Islands: South of Draynor Village", WorldTile.of(3082, 3206, 0)),
+		CKS(57, "Morytania: Canifis", WorldTile.of(3447, 3470, 0)),
+		CKR(56, "Karamja: South of Tai Bwo Wannai Village", WorldTile.of(2801, 3003, 0)),
 		CKQ(55, "Nowhere", null),
-		CKP(54, "Other Realms: Cosmic Entity's plane", new WorldTile(2075, 4848, 0)),
+		CKP(54, "Other Realms: Cosmic Entity's plane", WorldTile.of(2075, 4848, 0)),
 		CJS(53, "Nowhere", null),
-		CJR(52, "Kandarin: Sinclair Mansion (east)", new WorldTile(2705, 3576, 0)),
+		CJR(52, "Kandarin: Sinclair Mansion (east)", WorldTile.of(2705, 3576, 0)),
 		CJQ(51, "Nowhere", null),
 		CJP(50, "Nowhere", null),
 		CIS(49, "Nowhere", null),
 		CIR(48, "Nowhere", null),
-		CIQ(47, "Kandarin: North-west of Yanille", new WorldTile(2528, 3127, 0)),
-		CIP(46, "North-west Miscellania", new WorldTile(2513, 3884, 0)) {
+		CIQ(47, "Kandarin: North-west of Yanille", WorldTile.of(2528, 3127, 0)),
+		CIP(46, "North-west Miscellania", WorldTile.of(2513, 3884, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.FREMENNIK_TRIALS, silent ? null : "to use this fairy ring code.");
 			}
 		},
 		BLS(45, "Nowhere", null),
-		BLR(44, "Kandarin: Legend's Guild", new WorldTile(2740, 3351, 0)),
-		BLQ(43, "Yu'biusk", new WorldTile(2228, 4244, 1)) {
+		BLR(44, "Kandarin: Legend's Guild", WorldTile.of(2740, 3351, 0)),
+		BLQ(43, "Yu'biusk", WorldTile.of(2228, 4244, 1)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.CHOSEN_COMMANDER, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		BLP(42, "Dungeons: TzHaar area", new WorldTile(4622, 5147, 0)),
+		BLP(42, "Dungeons: TzHaar area", WorldTile.of(4622, 5147, 0)),
 		BKS(41, "Nowhere", null),
-		BKR(40, "Morytania: Mort Myre", new WorldTile(3469, 3431, 0)),
-		BKQ(39, "Other Realms: Enchanted Valley", new WorldTile(3041, 4532, 0)),
-		BKP(38, "Feldip Hills: South of Castle Wars", new WorldTile(2385, 3035, 0)),
+		BKR(40, "Morytania: Mort Myre", WorldTile.of(3469, 3431, 0)),
+		BKQ(39, "Other Realms: Enchanted Valley", WorldTile.of(3041, 4532, 0)),
+		BKP(38, "Feldip Hills: South of Castle Wars", WorldTile.of(2385, 3035, 0)),
 		BJS(37, "Nowhere", null),
-		BJR(36, "Fisher Realm", new WorldTile(2650, 4730, 0)) {
+		BJR(36, "Fisher Realm", WorldTile.of(2650, 4730, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.HOLY_GRAIL, silent ? null : "to use this fairy ring code.");
 			}
 		},
-		BJQ(35, "Dungeons: Ancient cavern", new WorldTile(1737, 5342, 0)) {
+		BJQ(35, "Dungeons: Ancient cavern", WorldTile.of(1737, 5342, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.getVars().getVarBit(AncientCavern.FIXED_RING_VARBIT) == 1;
 			}
 		},
 		BJP(34, "Nowhere", null),
-		BIS(33, "Kandarin: Ardougne Zoo", new WorldTile(2635, 3266, 0)),
-		BIR(32, "Sparse Plane", new WorldTile(2455, 4396, 0)) {
+		BIS(33, "Kandarin: Ardougne Zoo", WorldTile.of(2635, 3266, 0)),
+		BIR(32, "Sparse Plane", WorldTile.of(2455, 4396, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
 				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
@@ -187,11 +187,11 @@ public class FairyRings {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 12094) {//Fairy ring by evil chicken
-				sendTeleport(e.getPlayer(), new WorldTile(3202, 3169, 0));
+				sendTeleport(e.getPlayer(), WorldTile.of(3202, 3169, 0));
 				return;
 			}
 			if(e.getPlayer().isQuestComplete(Quest.FAIRY_TALE_I_GROWING_PAINS, "to use the fairy ring system.")) {
-				FairyRings.openRingInterface(e.getPlayer(), e.getObject(), e.getObjectId() == 12128);
+				FairyRings.openRingInterface(e.getPlayer(), e.getObject().getTile(), e.getObjectId() == 12128);
 				return;
 			}
 			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
@@ -276,7 +276,7 @@ public class FairyRings {
 			ring = null;
 		}
 		if (ring == null || ring.getTile() == null || !ring.meetsRequirements(player, false)) {
-			sendTeleport(player, new WorldTile(FAIRY_SOURCE, 2));
+			sendTeleport(player, WorldTile.of(FAIRY_SOURCE, 2));
 			return false;
 		}
 		sendTeleport(player, ring.getTile());

@@ -260,9 +260,9 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 			if(npc.getId() == SIR_PRYSIN) {
 				npc.transformIntoNPC(266);
-				NPC dummy = World.spawnNPC(SIR_PRYSIN, new WorldTile(3204, 3470, 0), -1, false, true);
+				NPC dummy = World.spawnNPC(SIR_PRYSIN, WorldTile.of(3204, 3470, 0), -1, false, true);
 				dummy.setRandomWalk(false);
-				dummy.faceTile(new WorldTile(3204, 3469, 0));
+				dummy.faceTile(WorldTile.of(3204, 3469, 0));
 				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					WorldTile playerTile;
@@ -271,7 +271,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						if (tick == 0) {
 							p.lock();
 							playerTile = p.getTile();
-							p.setNextWorldTile(new WorldTile(3204, 3471, 0));
+							p.setNextWorldTile(WorldTile.of(3204, 3471, 0));
 							p.faceEntity(dummy);
 						} else if (tick == 1) {
 							dummy.setNextAnimation(new Animation(2579));

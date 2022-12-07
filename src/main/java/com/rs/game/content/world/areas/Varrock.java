@@ -77,7 +77,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Varrock {
-	public static PlayerStepHandler musicBlueMoonInn = new PlayerStepHandler(new WorldTile(3215, 3395, 0), new WorldTile(3216, 3395, 0), new WorldTile(3233, 3396, 0)) {
+	public static PlayerStepHandler musicBlueMoonInn = new PlayerStepHandler(WorldTile.of(3215, 3395, 0), WorldTile.of(3216, 3395, 0), WorldTile.of(3233, 3396, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getTile().getX() <= 3216 && e.getStep().getDir() == Direction.WEST)
@@ -95,7 +95,7 @@ public class Varrock {
 		}
 	};
 
-	public static PlayerStepHandler musicDancingDonkeyInn = new PlayerStepHandler(new WorldTile(3274, 3389, 0), new WorldTile(3275, 3389, 0)) {
+	public static PlayerStepHandler musicDancingDonkeyInn = new PlayerStepHandler(WorldTile.of(3274, 3389, 0), WorldTile.of(3275, 3389, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getTile().getX() <= 3275 && e.getStep().getDir() == Direction.EAST)
@@ -107,7 +107,7 @@ public class Varrock {
 		}
 	};
 
-	public static PlayerStepHandler musicBoarsHeadInn = new PlayerStepHandler(new WorldTile(3281, 3506, 0), new WorldTile(3280, 3506, 0)) {
+	public static PlayerStepHandler musicBoarsHeadInn = new PlayerStepHandler(WorldTile.of(3281, 3506, 0), WorldTile.of(3280, 3506, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if(e.getStep().getDir() == Direction.NORTH)
@@ -124,7 +124,7 @@ public class Varrock {
 		public void handle(NPCClickEvent e) {
 			Player p = e.getPlayer();
 
-			p.setRouteEvent(new RouteEvent(new WorldTile(3224, 3397, 0), () -> {
+			p.setRouteEvent(new RouteEvent(WorldTile.of(3224, 3397, 0), () -> {
 				p.faceEntity(e.getNPC());
 				if (p.getTreasureTrailsManager().useNPC(e.getNPC()))
 					return;
@@ -236,14 +236,14 @@ public class Varrock {
 	public static ObjectClickHandler varrockCenterStairs = new ObjectClickHandler(new Object[] { 24367 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX(), 3476, 1), 1, 2);
+			e.getPlayer().useStairs(-1, WorldTile.of(e.getObject().getX(), 3476, 1), 1, 2);
 		}
 	};
 
 	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(-1, new WorldTile(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2);
+			e.getPlayer().useStairs(-1, WorldTile.of(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2);
 		}
 	};
 
@@ -253,9 +253,9 @@ public class Varrock {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
 			if(obj.getRotation() == 0)
-				p.useStairs(-1, new WorldTile(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+				p.useStairs(-1, WorldTile.of(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
 			else if (obj.getRotation() == 1)
-				p.useStairs(-1, new WorldTile(p.getX()+4, p.getY(), p.getPlane() + 1), 0, 1);
+				p.useStairs(-1, WorldTile.of(p.getX()+4, p.getY(), p.getPlane() + 1), 0, 1);
 			return;
 		}
 	};
@@ -337,8 +337,8 @@ public class Varrock {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
 			if(e.getOption().equalsIgnoreCase("Climb-Down"))
-				if(obj.matches(new WorldTile(3237, 3458, 0)))
-					p.useStairs(833, new WorldTile(3237, 9858, 0), 1, 2);
+				if(obj.getTile().matches(WorldTile.of(3237, 3458, 0)))
+					p.useStairs(833, WorldTile.of(3237, 9858, 0), 1, 2);
 		}
 	};
 	
@@ -649,7 +649,7 @@ public class Varrock {
 	public static ObjectClickHandler handleKeldagrimTrapdoor = new ObjectClickHandler(new Object[] { 28094 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2911, 10176, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2911, 10176, 0));
 		}
 	};
 
@@ -673,20 +673,20 @@ public class Varrock {
 				@Override
 				public void run() {
 					boolean withinGE = e.getObjectId() == 9312;
-					WorldTile tile = withinGE ? new WorldTile(3139, 3516, 0) : new WorldTile(3143, 3514, 0);
+					WorldTile tile = withinGE ? WorldTile.of(3139, 3516, 0) : WorldTile.of(3143, 3514, 0);
 					e.getPlayer().lock();
 					ticks++;
 					if (ticks == 1) {
 						e.getPlayer().setNextAnimation(new Animation(2589));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject(), 1, withinGE ? Direction.WEST : Direction.EAST));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, withinGE ? Direction.WEST : Direction.EAST));
 					} else if (ticks == 3) {
-						e.getPlayer().setNextWorldTile(new WorldTile(3141, 3515, 0));
+						e.getPlayer().setNextWorldTile(WorldTile.of(3141, 3515, 0));
 						e.getPlayer().setNextAnimation(new Animation(2590));
 					} else if (ticks == 5) {
 						e.getPlayer().setNextAnimation(new Animation(2591));
 						e.getPlayer().setNextWorldTile(tile);
 					} else if (ticks == 6) {
-						e.getPlayer().setNextWorldTile(new WorldTile(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
+						e.getPlayer().setNextWorldTile(WorldTile.of(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
 						e.getPlayer().unlock();
 						stop();
 					}
@@ -741,16 +741,16 @@ public class Varrock {
 	public static ObjectClickHandler handlePhoenixGangHideoutLadder = new ObjectClickHandler(new Object[] { 24363 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getObject().matches(new WorldTile(3244, 3383, 0)) && e.getOption().equalsIgnoreCase("climb-down"))
-				e.getPlayer().ladder(new WorldTile(3245, 9783, 0));
+			if(e.getObject().getTile().matches(WorldTile.of(3244, 3383, 0)) && e.getOption().equalsIgnoreCase("climb-down"))
+				e.getPlayer().ladder(WorldTile.of(3245, 9783, 0));
 		}
 	};
 
 	public static ObjectClickHandler handlePhoenixGangVarrockLadder = new ObjectClickHandler(new Object[] { 2405 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if(e.getObject().matches(new WorldTile(3244, 9783, 0)) && e.getOption().equalsIgnoreCase("climb-up"))
-				e.getPlayer().ladder(new WorldTile(3243, 3383, 0));
+			if(e.getObject().getTile().matches(WorldTile.of(3244, 9783, 0)) && e.getOption().equalsIgnoreCase("climb-up"))
+				e.getPlayer().ladder(WorldTile.of(3243, 3383, 0));
 		}
 	};
 

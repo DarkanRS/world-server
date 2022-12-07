@@ -143,7 +143,7 @@ public class RunecraftingAltar {
 				e.getPlayer().getTempAttribs().removeO("whr");
 				sendWickedHoodInter(e.getPlayer());
 			} else
-				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, new WorldTile(3106, 3162, 1), null, null);
+				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3106, 3162, 1), null, null);
 		}
 	};
 
@@ -233,19 +233,19 @@ public class RunecraftingAltar {
 	};
 
 	public enum Altar {
-		MIND(1, new int[] { 1448, 5529, 13631 }, new WorldTile(2793, 4828, 0), new WorldTile(2984, 3515, 0), 2453, 2466),
-		AIR(1, new int[] { 1438, 5527, 13630 }, new WorldTile(2841, 4829, 0), new WorldTile(3128, 3407, 0), 2452, 2465),
-		WATER(5, new int[] { 1444, 5531, 13632 }, new WorldTile(3494, 4832, 0), new WorldTile(3183, 3164, 0), 2454, 2467),
-		EARTH(9, new int[] { 1440, 5535, 13633 }, new WorldTile(2655, 4830, 0), new WorldTile(3306, 3472, 0), 2455, 2468),
-		FIRE(14, new int[] { 1442, 5537, 13634 }, new WorldTile(2577, 4846, 0), new WorldTile(3312, 3253, 0), 2456, 2469),
-		BODY(20, new int[] { 1446, 5533, 13635 }, new WorldTile(2522, 4833, 0), new WorldTile(3055, 3444, 0), 2457, 2470),
-		COSMIC(27, new int[] { 1454, 5539, 13636 }, new WorldTile(2162, 4833, 0), new WorldTile(2408, 4379, 0), 2458, 2471),
-		CHAOS(35, new int[] { 1452, 5543, 13637 }, new WorldTile(2281, 4837, 0), new WorldTile(3060, 3589, 0), 2461, 2474),
-		ASTRAL(40, new int[] { -1, -1 }, new WorldTile(2156, 3863, 0), new WorldTile(2156, 3863, 0), 17010, -1),
-		NATURE(44, new int[] { 1462, 5541, 13638 }, new WorldTile(2400, 4835, 0), new WorldTile(2868, 3017, 0), 2460, 2473),
-		LAW(54, new int[] { 1458, 5545, 13639 }, new WorldTile(2464, 4818, 0), new WorldTile(2857, 3380, 0), 2459, 2472),
-		DEATH(65, new int[] { 1456, 5547, 13640 }, new WorldTile(2208, 4830, 0), new WorldTile(1862, 4639, 0), 2462, 2475),
-		BLOOD(77, new int[] { 1450, 5549, 13641 }, new WorldTile(2468, 4889, 1), new WorldTile(3561, 9779, 0), 2464, 2477);
+		MIND(1, new int[] { 1448, 5529, 13631 }, WorldTile.of(2793, 4828, 0), WorldTile.of(2984, 3515, 0), 2453, 2466),
+		AIR(1, new int[] { 1438, 5527, 13630 }, WorldTile.of(2841, 4829, 0), WorldTile.of(3128, 3407, 0), 2452, 2465),
+		WATER(5, new int[] { 1444, 5531, 13632 }, WorldTile.of(3494, 4832, 0), WorldTile.of(3183, 3164, 0), 2454, 2467),
+		EARTH(9, new int[] { 1440, 5535, 13633 }, WorldTile.of(2655, 4830, 0), WorldTile.of(3306, 3472, 0), 2455, 2468),
+		FIRE(14, new int[] { 1442, 5537, 13634 }, WorldTile.of(2577, 4846, 0), WorldTile.of(3312, 3253, 0), 2456, 2469),
+		BODY(20, new int[] { 1446, 5533, 13635 }, WorldTile.of(2522, 4833, 0), WorldTile.of(3055, 3444, 0), 2457, 2470),
+		COSMIC(27, new int[] { 1454, 5539, 13636 }, WorldTile.of(2162, 4833, 0), WorldTile.of(2408, 4379, 0), 2458, 2471),
+		CHAOS(35, new int[] { 1452, 5543, 13637 }, WorldTile.of(2281, 4837, 0), WorldTile.of(3060, 3589, 0), 2461, 2474),
+		ASTRAL(40, new int[] { -1, -1 }, WorldTile.of(2156, 3863, 0), WorldTile.of(2156, 3863, 0), 17010, -1),
+		NATURE(44, new int[] { 1462, 5541, 13638 }, WorldTile.of(2400, 4835, 0), WorldTile.of(2868, 3017, 0), 2460, 2473),
+		LAW(54, new int[] { 1458, 5545, 13639 }, WorldTile.of(2464, 4818, 0), WorldTile.of(2857, 3380, 0), 2459, 2472),
+		DEATH(65, new int[] { 1456, 5547, 13640 }, WorldTile.of(2208, 4830, 0), WorldTile.of(1862, 4639, 0), 2462, 2475),
+		BLOOD(77, new int[] { 1450, 5549, 13641 }, WorldTile.of(2468, 4889, 1), WorldTile.of(3561, 9779, 0), 2464, 2477);
 
 		private int level;
 		private int[] talisman;
@@ -430,8 +430,8 @@ public class RunecraftingAltar {
 						}
 					}
 					player.unlock();
-					player.setNextWorldTile(new WorldTile(2911, 4832, 0));
-					player.lastEssTele = new WorldTile(npc.getTile());
+					player.setNextWorldTile(WorldTile.of(2911, 4832, 0));
+					player.lastEssTele = WorldTile.of(npc.getTile());
 					return false;
 				}
 			}

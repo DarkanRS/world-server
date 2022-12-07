@@ -146,7 +146,7 @@ public class HeroesQuest extends QuestOutline {
 				return;
 			else {
 				e.cancel();
-				World.addGroundItem(new Item(1583, 1), new WorldTile(p.getTile()));
+				World.addGroundItem(new Item(1583, 1), WorldTile.of(p.getTile()));
 				p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
 			}
 		}
@@ -175,7 +175,7 @@ public class HeroesQuest extends QuestOutline {
 			Player p = e.getPlayer();
 			if (e.getOption().equalsIgnoreCase("drop")) {
 				p.getInventory().removeItems(e.getItem());
-				World.addGroundItem(e.getItem(), new WorldTile(e.getPlayer().getTile()), e.getPlayer());
+				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
 				e.getPlayer().soundEffect(2739);
 				return;
 			}

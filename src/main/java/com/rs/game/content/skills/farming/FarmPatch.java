@@ -233,7 +233,7 @@ public class FarmPatch {
 				player.sendMessage("This patch has already been treated with "+(item.getId() == 6032 ? "" : "super")+"compost.");
 				return;
 			}
-			player.setNextFaceWorldTile(object);
+			player.setNextFaceWorldTile(object.getTile());
 			player.getSkills().addXp(Constants.FARMING, 18);
 			player.setNextAnimation(COMPOST_ANIMATION);
 			item.setId(1925);
@@ -249,7 +249,7 @@ public class FarmPatch {
 				player.sendMessage("It is growing just fine.");
 				return;
 			}
-			player.setNextFaceWorldTile(object);
+			player.setNextFaceWorldTile(object.getTile());
 			player.getSkills().addXp(Constants.FARMING, 90);
 			player.setNextAnimation(CURE_PLANT_ANIMATION);
 			item.setId(229);

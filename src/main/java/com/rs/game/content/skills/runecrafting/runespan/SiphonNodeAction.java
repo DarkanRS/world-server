@@ -162,7 +162,7 @@ public class SiphonNodeAction extends PlayerAction {
 			player.simpleDialogue("You need a runecrafting level of " + nodes.getLevelRequired() + " to siphon from that node.");
 			return false;
 		}
-		if (!started && !player.withinDistance(node, 6))
+		if (!started && !player.withinDistance(node.getTile(), 6))
 			return true;
 		if (!World.getRegion(player.getRegionId()).objectExists(node)) {
 			stop(player);
@@ -211,7 +211,7 @@ public class SiphonNodeAction extends PlayerAction {
 				player.getSkills().addXp(Constants.RUNECRAFTING, totalXp);
 			}
 			player.setNextAnimation(new Animation(nodes.getEmoteId()));
-			player.setNextFaceWorldTile(node);
+			player.setNextFaceWorldTile(node.getTile());
 			WorldProjectile p = World.sendProjectile(node, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
 			WorldTasks.schedule(new WorldTask() {

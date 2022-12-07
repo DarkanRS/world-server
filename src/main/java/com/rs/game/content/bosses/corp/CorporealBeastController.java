@@ -35,7 +35,7 @@ public class CorporealBeastController extends Controller {
 		public void handle(ButtonClickEvent e) {
 			if (e.getComponentId() == 15) {
 				e.getPlayer().stopAll();
-				e.getPlayer().setNextWorldTile(new WorldTile(2974, 4384, e.getPlayer().getPlane()));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2974, 4384, e.getPlayer().getPlane()));
 				e.getPlayer().getControllerManager().startController(new CorporealBeastController());
 			} else if (e.getComponentId() == 16)
 				e.getPlayer().closeInterfaces();
@@ -52,7 +52,7 @@ public class CorporealBeastController extends Controller {
 		if (object.getId() == 37929 || object.getId() == 38811) {
 			removeController();
 			player.stopAll();
-			player.setNextWorldTile(new WorldTile(2970, 4384, player.getPlane()));
+			player.setNextWorldTile(WorldTile.of(2970, 4384, player.getPlane()));
 			return false;
 		}
 		return true;
@@ -77,7 +77,7 @@ public class CorporealBeastController extends Controller {
 				else if (loop == 3) {
 					player.sendItemsOnDeath(null, false);
 					player.reset();
-					player.setNextWorldTile(new WorldTile(Settings.getConfig().getPlayerRespawnTile()));
+					player.setNextWorldTile(WorldTile.of(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					removeController();

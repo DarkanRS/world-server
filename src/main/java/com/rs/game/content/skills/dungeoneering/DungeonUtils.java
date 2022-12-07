@@ -641,7 +641,7 @@ public final class DungeonUtils {
 		List<WorldTile> list = new ArrayList<>();
 		for (int x = 2;x < (15-size);x++)
 			for (int y = 2;y < (15-size);y++)
-				list.add(new WorldTile(x, y, 0));
+				list.add(WorldTile.of(x, y, 0));
 		Collections.shuffle(list);
 		return list;
 	}

@@ -35,7 +35,7 @@ public class ShadeCatacombs {
 				e.getPlayer().sendMessage("The door seems securely locked.");
 				return;
 			}
-			e.getPlayer().useStairs(e.getObjectId() == 31294 ? new WorldTile(3493, 9725, 0) : new WorldTile(3484, 3321, 0));
+			e.getPlayer().useStairs(e.getObjectId() == 31294 ? WorldTile.of(3493, 9725, 0) : WorldTile.of(3484, 3321, 0));
 		}
 	};
 

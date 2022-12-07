@@ -105,7 +105,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 		int size = getSize();
 		List<Item> drops = type.drops.getDropList().genDrop();
 		for (Item item : drops)
-			World.addGroundItem(item, new WorldTile(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 	public DungeonSlayerType getType() {

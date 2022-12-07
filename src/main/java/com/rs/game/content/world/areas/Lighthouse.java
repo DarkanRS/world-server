@@ -28,7 +28,7 @@ public class Lighthouse {
 	public static ObjectClickHandler handleEntranceLadders = new ObjectClickHandler(new Object[] { 4383, 4412 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(e.getObjectId() == 4412 ? new WorldTile(2510, 3644, 0) : new WorldTile(2519, 9995, 1));
+			e.getPlayer().useLadder(e.getObjectId() == 4412 ? WorldTile.of(2510, 3644, 0) : WorldTile.of(2519, 9995, 1));
 		}
 	};
 

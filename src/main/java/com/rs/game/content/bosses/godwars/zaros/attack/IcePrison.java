@@ -39,7 +39,7 @@ public class IcePrison implements NexAttack {
 		nex.voiceEffect(3308);
 		nex.setNextAnimation(new Animation(6987));
 		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
-		final WorldTile base = new WorldTile(target.getX(), target.getY(), target.getPlane());
+		final WorldTile base = WorldTile.of(target.getX(), target.getY(), target.getPlane());
 		target.getTempAttribs().setB("inIcePrison", true);
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++) {

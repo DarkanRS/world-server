@@ -37,7 +37,7 @@ public class Helper {
 	public static final int[] SACRED_CLAY = { 14182, 14184, 14186, 14188, 14190 };
 	public static final long DURATION = 20 * 60 * 1000;
 	public static final long PENALTY_DURATION = 10 * 60 * 1000;
-	public static final WorldTile EXIT = new WorldTile(2968, 9710, 0);
+	public static final WorldTile EXIT = WorldTile.of(2968, 9710, 0);
 	public static final int[] BASE_ENTRANCE_BLUE = { 4, 5 };
 	public static final int[] BASE_ENTRANCE_RED = { 4, 2 };
 	public static final int[][] PLOT_ENTRANCES = { { 2, 2 }, { 2, 3 }, { 2, 4 }, { 3, 2 }, { 3, 4 }, { 4, 2 }, { 4, 4 }, { 5, 2 }, { 5, 3 }, { 5, 4 } };
@@ -113,7 +113,7 @@ public class Helper {
 			entrance = team ? BASE_ENTRANCE_RED : BASE_ENTRANCE_BLUE;
 		else
 			entrance = PLOT_ENTRANCES[Utils.random(PLOT_ENTRANCES.length)];
-		WorldTile tile = new WorldTile(game.getArea().getMinX() + (base[0] * 8) + entrance[0], game.getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
+		WorldTile tile = WorldTile.of(game.getArea().getMinX() + (base[0] * 8) + entrance[0], game.getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
 		// System.err.println("x:" + tile.getX() + ", y:" + tile.getY() + ", z:"
 		// + tile.getPlane());
 		player.reset();
@@ -170,7 +170,7 @@ public class Helper {
 					for (GameObject object : o) {
 						if (object == null || object.getId() != id)
 							continue;
-						return object;
+						return object.getTile();
 					}
 		int size = area.getSize();
 		int[] base = findNearestBase(area, player, team);
@@ -179,7 +179,7 @@ public class Helper {
 			entrance = team ? BASE_ENTRANCE_RED : BASE_ENTRANCE_BLUE;
 		else
 			entrance = PLOT_ENTRANCES[Utils.random(PLOT_ENTRANCES.length)];
-		WorldTile tile = new WorldTile(area.getMinX() + (base[0] * 8) + entrance[0], area.getMinY() + (base[1] * 8) + entrance[1], 0);
+		WorldTile tile = WorldTile.of(area.getMinX() + (base[0] * 8) + entrance[0], area.getMinY() + (base[1] * 8) + entrance[1], 0);
 		return tile;
 	}
 
@@ -270,7 +270,7 @@ public class Helper {
 	public static boolean withinArea(Player player, GameArea area, int flagX, int flagY, int[] range, int distance) {
 		int minX = area.getMinX() + (flagX << 3) + Helper.BARRIER_MIN[0] + range[0];
 		int minY = area.getMinY() + (flagY << 3) + Helper.BARRIER_MIN[1] + range[1];
-		return player.withinDistance(new WorldTile(minX, minY, player.getPlane()), distance);
+		return player.withinDistance(WorldTile.of(minX, minY, player.getPlane()), distance);
 	}
 
 	public static boolean withinArea(Player player, GameArea area, int flagX, int flagY, int[] range) {
@@ -282,7 +282,7 @@ public class Helper {
 		int minY = area.getMinY() + (flagY << 3) + range[1];
 		int maxX = area.getMinX() + (flagX << 3) + range[2];
 		int maxY = area.getMinY() + (flagY << 3) + range[3];
-		if (player.withinDistance(new WorldTile(minX, minY, player.getPlane()), 3))
+		if (player.withinDistance(WorldTile.of(minX, minY, player.getPlane()), 3))
 			return player.inArea(minX, minY, maxX, maxY) || player.getX() >= minX && player.getX() <= maxX && player.getY() >= minY && player.getY() <= maxY;
 			return false;
 	}
@@ -332,16 +332,16 @@ public class Helper {
 
 	public static WorldTile getFaceTile(GameObject gate, Player player) {
 		if (player.getX() != gate.getX() || player.getY() != gate.getY())
-			return new WorldTile(gate.getX(), gate.getY(), gate.getPlane());
+			return WorldTile.of(gate.getX(), gate.getY(), gate.getPlane());
 
 		if (gate.getRotation() == 0)
-			return new WorldTile(gate.getX() - 1, gate.getY(), gate.getPlane());
+			return WorldTile.of(gate.getX() - 1, gate.getY(), gate.getPlane());
 		if (gate.getRotation() == 1)
-			return new WorldTile(gate.getX(), gate.getY() + 1, gate.getPlane());
+			return WorldTile.of(gate.getX(), gate.getY() + 1, gate.getPlane());
 		if (gate.getRotation() == 2)
-			return new WorldTile(gate.getX() + 1, gate.getY(), gate.getPlane());
+			return WorldTile.of(gate.getX() + 1, gate.getY(), gate.getPlane());
 		else if (gate.getRotation() == 3)
-			return new WorldTile(gate.getX(), gate.getY() - 1, gate.getPlane());
+			return WorldTile.of(gate.getX(), gate.getY() - 1, gate.getPlane());
 		else
 			return null;
 	}

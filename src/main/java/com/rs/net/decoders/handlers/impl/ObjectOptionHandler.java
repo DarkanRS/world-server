@@ -32,7 +32,7 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 	public void handle(Player player, ObjectOp packet) {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
-		final WorldTile tile = new WorldTile(packet.getX(), packet.getY(), player.getPlane());
+		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;

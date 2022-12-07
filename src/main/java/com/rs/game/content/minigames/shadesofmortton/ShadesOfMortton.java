@@ -55,7 +55,7 @@ public class ShadesOfMortton {
 	}
 
 	public static TempleWall getWall(GameObject obj) {
-		TempleWall wall = WALLS.get(obj.getTileHash());
+		TempleWall wall = WALLS.get(obj.getTile().getTileHash());
 		if (wall == null)
 			wall = new TempleWall(obj);
 		return wall;
@@ -68,12 +68,12 @@ public class ShadesOfMortton {
 	}
 
 	public static void addWall(TempleWall wall) {
-		WALLS.put(wall.getTileHash(), wall);
+		WALLS.put(wall.getTile().getTileHash(), wall);
 		World.spawnObject(wall);
 	}
 
 	public static void deleteWall(TempleWall wall) {
-		WALLS.remove(wall.getTileHash());
+		WALLS.remove(wall.getTile().getTileHash());
 		World.removeObject(wall);
 	}
 
@@ -88,18 +88,18 @@ public class ShadesOfMortton {
 						continue;
 					removeSanctity(player, 1);
 				}
-				GameObject altar = World.getObject(new WorldTile(3506, 3316, 0));
+				GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
 				if (REPAIR_STATE >= 99) {
 					if (altar != null && altar.getId() == 4092) {
 						World.spawnObject(new GameObject(altar).setId(4091));
-						World.sendSpotAnim(null, new SpotAnim(1605), altar);
+						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
 					} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
 						altar.setId(4091);
-						World.sendSpotAnim(null, new SpotAnim(1605), altar);
+						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
 					}
 				} else if (altar != null && altar.getId() != 4092) {
 					World.removeObject(altar);
-					World.sendSpotAnim(null, new SpotAnim(1605), altar);
+					World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
 				}
 			}
 		}, 50, 50);
@@ -223,7 +223,7 @@ public class ShadesOfMortton {
 				e.getPlayer().sendMessage("You need a tinderbox to do that.");
 				return;
 			}
-			GameObject altar = World.getObject(new WorldTile(3506, 3316, 0));
+			GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
 			if (altar.getId() == 4091) {
 				altar.setId(4090);
 				e.getPlayer().setNextAnimation(new Animation(3687));
@@ -255,7 +255,7 @@ public class ShadesOfMortton {
 
 				@Override
 				public int processWithDelay(Player player) {
-					player.faceTile(e.getObject());
+					player.faceTile(e.getObject().getTile());
 					if (player.getI("shadeResources", 0) <= 95 && player.getInventory().containsItem(8837) && player.getInventory().containsItem(3420) && player.getInventory().containsItem(1941, 5)) {
 						player.getInventory().deleteItem(8837, 1);
 						player.getInventory().deleteItem(3420, 1);
@@ -270,7 +270,7 @@ public class ShadesOfMortton {
 						player.getSkills().addXp(Constants.CRAFTING, Utils.random(5, 9));
 						return 4;
 					}
-					TempleWall wall = WALLS.get(e.getObject().getTileHash());
+					TempleWall wall = WALLS.get(e.getObject().getTile().getTileHash());
 					if (wall == null)
 						wall = new TempleWall(e.getObject());
 					wall.increaseProgress();

@@ -49,7 +49,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean atDistance = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 
 		if (Utils.random(boss.getManager().getParty().getTeam().size() > 1 ? 6 : 8) == 0 && !boss.isCantInteract()) {
-			WorldTile tile = new WorldTile(target.getTile());
+			WorldTile tile = WorldTile.of(target.getTile());
 			DungeonManager dungeon = boss.getManager();
 			RoomReference rRef = dungeon.getCurrentRoomReference(tile);
 			Room room = dungeon.getRoom(rRef);

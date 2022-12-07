@@ -93,7 +93,7 @@ public enum HabitatFeature {
 					}
 					e.getPlayer().setHabitatFeature(toBuild);
 				}
-				World.sendSpotAnim(e.getPlayer(), new SpotAnim(1605), new WorldTile(2952, 2908, 0));
+				World.sendSpotAnim(e.getPlayer(), new SpotAnim(1605), WorldTile.of(2952, 2908, 0));
 				e.getPlayer().closeInterfaces();
 			}
 		}
@@ -102,7 +102,7 @@ public enum HabitatFeature {
 	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, new WorldTile(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, WorldTile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null);
 		}
 	};
 }

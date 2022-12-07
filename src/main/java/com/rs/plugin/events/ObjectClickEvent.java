@@ -73,11 +73,11 @@ public class ObjectClickEvent implements PluginEvent {
 	}
 
 	public boolean objectAt(int x, int y) {
-		return object.isAt(x, y);
+		return object.getTile().isAt(x, y);
 	}
 
 	public boolean objectAt(int x, int y, int plane) {
-		return object.isAt(x, y, plane);
+		return object.getTile().isAt(x, y, plane);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class ObjectClickEvent implements PluginEvent {
 			methodMapping = METHODS.get(getObject().getDefinitions(getPlayer()).getName());
 		if (methodMapping == null)
 			return null;
-		List<ObjectClickHandler> methods = methodMapping.get(getObject().getTileHash());
+		List<ObjectClickHandler> methods = methodMapping.get(getObject().getTile().getTileHash());
 		if (methods == null)
 			methods = methodMapping.get(-getObject().getType().id);
 		if (methods == null)

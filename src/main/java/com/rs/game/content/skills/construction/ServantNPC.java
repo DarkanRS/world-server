@@ -27,6 +27,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -124,7 +125,7 @@ public class ServantNPC extends NPC {
 					setNextAnimation(new Animation(858));
 					totalCount = (builds.length * 3) + count;
 				} else if (count == 2)
-					setNextWorldTile(new WorldTile(World.getFreeTile(kitchenTile, 2)));
+					setNextWorldTile(WorldTile.of(World.getFreeTile(kitchenTile, 2)));
 				else if (totalCount > 0 && index < builds.length) {
 					int calculatedCount = totalCount - count;
 					Builds build = builds[index];
@@ -136,7 +137,7 @@ public class ServantNPC extends NPC {
 				} else if (count == totalCount + 3)
 					setNextWorldTile(World.getFreeTile(diningRoomTile, 2));
 				else if (count == totalCount + 4 || count == totalCount + 5) {
-					WorldTile diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
+					GameObject diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
 					if (count == totalCount + 4)
 						calcFollow(diningTable, true);
 					else {
@@ -144,7 +145,7 @@ public class ServantNPC extends NPC {
 						int rotation = kitchen.getRotation();
 						for (int x = 0; x < (rotation == 1 || rotation == 3 ? 2 : 4); x++)
 							for (int y = 0; y < (rotation == 1 || rotation == 3 ? 4 : 2); y++)
-								World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.transform(x, y, 0), null, false, 300);
+								World.addGroundItem(new Item(builds.length == 6 ? 7736 : builds.length == 5 ? house.getServant().getFoodId() : HouseConstants.BEERS[kitchen.getBuildSlot(Builds.BARRELS)]), diningTable.getTile().transform(x, y, 0), null, false, 300);
 						setCantInteract(false);
 						stop();
 					}

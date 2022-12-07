@@ -215,9 +215,9 @@ public class Ardougne  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObject().getId() == 26844)
-				e.getPlayer().setNextWorldTile(new WorldTile(3312, 4817, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3312, 4817, 0));
 			else if (e.getObject().getId() == 26845)
-				e.getPlayer().setNextWorldTile(new WorldTile(3308, 4819, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3308, 4819, 0));
 		}
 	};
 
@@ -225,27 +225,27 @@ public class Ardougne  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
-			p.setNextWorldTile(new WorldTile(2696, 9683, 0));
+			p.setNextWorldTile(WorldTile.of(2696, 9683, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleClockTowerDungeonEntrances = new ObjectClickHandler(new Object[] { 1754, 1756 },
-			new WorldTile(2566, 3242, 0), new WorldTile(2566, 3231, 0), new WorldTile(2569, 3231, 0),
-			new WorldTile(2566, 3227, 0), new WorldTile(2569, 3227, 0), new WorldTile(2572, 3227, 0),
-			new WorldTile(2621, 3261, 0)) {
+			WorldTile.of(2566, 3242, 0), WorldTile.of(2566, 3231, 0), WorldTile.of(2569, 3231, 0),
+			WorldTile.of(2566, 3227, 0), WorldTile.of(2569, 3227, 0), WorldTile.of(2572, 3227, 0),
+			WorldTile.of(2621, 3261, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()+6399, 0));
+			e.getPlayer().useLadder(WorldTile.of(e.getObject().getX(), e.getObject().getY()+6399, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleClockTowerDungeonExits = new ObjectClickHandler(new Object[] { 32015 },
-			new WorldTile(2566, 9642, 0), new WorldTile(2572, 9631, 0), new WorldTile(2566, 9631, 0),
-			new WorldTile(2566, 9627, 0), new WorldTile(2569, 9627, 0), new WorldTile(2572, 9627, 0),
-			new WorldTile(2576, 9655, 0), new WorldTile(2621, 9661, 0)) {
+			WorldTile.of(2566, 9642, 0), WorldTile.of(2572, 9631, 0), WorldTile.of(2566, 9631, 0),
+			WorldTile.of(2566, 9627, 0), WorldTile.of(2569, 9627, 0), WorldTile.of(2572, 9627, 0),
+			WorldTile.of(2576, 9655, 0), WorldTile.of(2621, 9661, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(new WorldTile(e.getObject().getX(), e.getObject().getY()-6399, 0));
+			e.getPlayer().useLadder(WorldTile.of(e.getObject().getX(), e.getObject().getY()-6399, 0));
 		}
 	};
 
@@ -260,8 +260,8 @@ public class Ardougne  {
 				World.spawnObjectTemporary(openedHole, Ticks.fromMinutes(1));
 			}
 			if(e.getOption().equalsIgnoreCase("Climb-Down"))
-				if(obj.matches(new WorldTile(2632, 3294, 0)))
-					p.useStairs(833, new WorldTile(2631, 9694, 0), 1, 2);
+				if(obj.getTile().matches(WorldTile.of(2632, 3294, 0)))
+					p.useStairs(833, WorldTile.of(2631, 9694, 0), 1, 2);
 		}
 	};
 
@@ -270,8 +270,8 @@ public class Ardougne  {
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
 			GameObject obj = e.getObject();
-			if(obj.matches(new WorldTile(2632, 9694, 0)))
-				p.ladder(new WorldTile(2633, 3294, 0));
+			if(obj.getTile().matches(WorldTile.of(2632, 9694, 0)))
+				p.ladder(WorldTile.of(2633, 3294, 0));
 		}
 	};
 
@@ -279,14 +279,14 @@ public class Ardougne  {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			Player p = e.getPlayer();
-			p.setNextWorldTile(new WorldTile(2697, 3283, 0));
+			p.setNextWorldTile(WorldTile.of(2697, 3283, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleClocktowerDungeonLadders = new ObjectClickHandler(new Object[] { 1755, 1756 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + (e.getObjectId() == 1756 ? 6400 : -6400), 0));
+			e.getPlayer().ladder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + (e.getObjectId() == 1756 ? 6400 : -6400), 0));
 		}
 	};
 
@@ -309,7 +309,7 @@ public class Ardougne  {
 	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2312, 3217, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2312, 3217, 0));
 		}
 	};
 
@@ -373,28 +373,28 @@ public class Ardougne  {
 		}
 	};
 
-	public static ObjectClickHandler handleEnterTempleOfIkov = new ObjectClickHandler(new Object[] { 1754 }, new WorldTile(2677, 3405, 0)) {
+	public static ObjectClickHandler handleEnterTempleOfIkov = new ObjectClickHandler(new Object[] { 1754 }, WorldTile.of(2677, 3405, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(827, e.getPlayer().transform(0, 6400, 0), 1, 2);
 		}
 	};
 
-	public static ObjectClickHandler handleExitTempleOfIkov = new ObjectClickHandler(new Object[] { 32015 }, new WorldTile(2677, 9805, 0)) {
+	public static ObjectClickHandler handleExitTempleOfIkov = new ObjectClickHandler(new Object[] { 32015 }, WorldTile.of(2677, 9805, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(828, e.getPlayer().transform(0, -6400, 0), 1, 2);
 		}
 	};
 
-	public static ObjectClickHandler handleEnterBootsofLightnessRoom = new ObjectClickHandler(new Object[] { 35121 }, new WorldTile(2650, 9804, 0)) {
+	public static ObjectClickHandler handleEnterBootsofLightnessRoom = new ObjectClickHandler(new Object[] { 35121 }, WorldTile.of(2650, 9804, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(-1, e.getPlayer().transform(-8, -41, 0), 1, 2);
 		}
 	};
 
-	public static ObjectClickHandler handleExitBootsofLightnessRoom = new ObjectClickHandler(new Object[] { 96 }, new WorldTile(2638, 9763, 0)) {
+	public static ObjectClickHandler handleExitBootsofLightnessRoom = new ObjectClickHandler(new Object[] { 96 }, WorldTile.of(2638, 9763, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(-1, e.getPlayer().transform(8, 41, 0), 1, 2);
@@ -415,7 +415,7 @@ public class Ardougne  {
 		}
 	};
 
-	public static ObjectClickHandler handleExitLegendsGuildBasement = new ObjectClickHandler(new Object[] { 32048 }, new WorldTile(2717, 9773, 0)) {
+	public static ObjectClickHandler handleExitLegendsGuildBasement = new ObjectClickHandler(new Object[] { 32048 }, WorldTile.of(2717, 9773, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().setNextWorldTile(e.getPlayer().transform(3, -6400, 0));
@@ -425,14 +425,14 @@ public class Ardougne  {
 	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2044, 4649, 0));
+			e.getPlayer().ladder(WorldTile.of(2044, 4649, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleMournerBasementLadder = new ObjectClickHandler(new Object[] { 8785 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().ladder(new WorldTile(2543, 3327, 0));
+			e.getPlayer().ladder(WorldTile.of(2543, 3327, 0));
 		}
 	};
 
@@ -444,14 +444,14 @@ public class Ardougne  {
 				return;
 			}
 			if (RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, 2659, 3437, 0, 1, new FixedTileStrategy(e.getPlayer().getX(), e.getPlayer().getY()), false) != -1)
-				e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(2659, 3437, 0), () -> {
+				e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(2659, 3437, 0), () -> {
 					Doors.handleDoor(e.getPlayer(), e.getObject());
-					e.getPlayer().addWalkSteps(new WorldTile(2657, 3439, 0), 5, false);
+					e.getPlayer().addWalkSteps(WorldTile.of(2657, 3439, 0), 5, false);
 				}));
 			else
-				e.getPlayer().setRouteEvent(new RouteEvent(new WorldTile(2657, 3439, 0), () -> {
+				e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(2657, 3439, 0), () -> {
 					Doors.handleDoor(e.getPlayer(), e.getObject());
-					e.getPlayer().addWalkSteps(new WorldTile(2659, 3437, 0), 5, false);
+					e.getPlayer().addWalkSteps(WorldTile.of(2659, 3437, 0), 5, false);
 				}));
 		}
 	};

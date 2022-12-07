@@ -23,8 +23,8 @@ public class MaxTaskFM implements Task {
 			max.wearItems(590, 23027);
 			started = true;
 		}
-		if (!max.withinDistance(new WorldTile(3087, 3494, 0), 64)) {
-			Magic.npcItemTeleport(max, new WorldTile(3087, 3494, 0), true, null);
+		if (!max.withinDistance(WorldTile.of(3087, 3494, 0), 64)) {
+			Magic.npcItemTeleport(max, WorldTile.of(3087, 3494, 0), true, null);
 			return 10;
 		}
 		if (logsBurned <= 0) {
@@ -41,7 +41,7 @@ public class MaxTaskFM implements Task {
 			max.setRouteEvent(new RouteEvent(currentBonfire, () -> {
 				max.setBas(2498);
 				max.repeatAction(5, count -> {
-					if (World.getObjectWithType(currentBonfire, currentBonfire.getType()) != currentBonfire) {
+					if (World.getObjectWithType(currentBonfire.getTile(), currentBonfire.getType()) != currentBonfire) {
 						max.anim(-1);
 						max.setBas(-1);
 						currentBonfire = null;
@@ -64,7 +64,7 @@ public class MaxTaskFM implements Task {
 		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {
 			if (obj == null || obj.getDefinitions() == null || !obj.getDefinitions().getName().equals("Ivy") || !obj.getDefinitions().containsOption("Chop"))
 				continue;
-			double dist = Utils.getDistance(obj, tile);
+			double dist = Utils.getDistance(obj.getTile(), tile);
 			if (dist < closest) {
 				ivy = obj;
 				closest = dist;

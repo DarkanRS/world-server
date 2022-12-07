@@ -114,7 +114,7 @@ public class LostCity extends QuestOutline {
 						public void run() {
 							if(tick == 1) {
 								p.sendMessage("The world starts to shimmer...");
-								FairyRings.sendTeleport(p, new WorldTile(2452, 4473, 0));
+								FairyRings.sendTeleport(p, WorldTile.of(2452, 4473, 0));
 								p.lock(4);
 							}
 							if(tick == 4)

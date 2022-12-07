@@ -38,8 +38,8 @@ import com.rs.utils.music.Music;
 public class FightArenaFightCutsceneController extends Controller {
 	public DynamicRegionReference instance;
 	List<NPC> dynamicNPCs = new ArrayList<>();
-	WorldTile locationOnFail = new WorldTile(2617, 3167, 0);
-	WorldTile locationOnVictory = new WorldTile(2617, 3172, 0);
+	WorldTile locationOnFail = WorldTile.of(2617, 3167, 0);
+	WorldTile locationOnVictory = WorldTile.of(2617, 3172, 0);
 	WorldTile spawn = null;
 	boolean canLeave = false;
 	boolean playerHasDied = false;
@@ -129,20 +129,20 @@ public class FightArenaFightCutsceneController extends Controller {
 					}
 					if(tick == 11) {
 						jeremeysCell(false);
-						jeremy.walkToAndExecute(new WorldTile(jeremy.getX(), jeremy.getY()-12, jeremy.getPlane()), ()->{});
+						jeremy.walkToAndExecute(WorldTile.of(jeremy.getX(), jeremy.getY()-12, jeremy.getPlane()), ()->{});
 					}
 					if(tick == 13) {
-						general_khazard = new NPC(7551, new WorldTile(instance.getLocalX(45), instance.getLocalY(28), 0));
+						general_khazard = new NPC(7551, WorldTile.of(instance.getLocalX(45), instance.getLocalY(28), 0));
 						general_khazard.faceWest();
 						general_khazard.setRandomWalk(false);
 						dynamicNPCs.add(general_khazard);
 
-						player.getPackets().sendCameraPos(new WorldTile(instance.getLocalX(41), instance.getLocalY(35), 0), 1500);
-						player.getPackets().sendCameraLook(new WorldTile(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
+						player.getPackets().sendCameraPos(WorldTile.of(instance.getLocalX(41), instance.getLocalY(35), 0), 1500);
+						player.getPackets().sendCameraLook(WorldTile.of(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
 						player.faceNorth();
 						jeremy.faceNorth();
-						player.setNextWorldTile(new WorldTile(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));
-						jeremy.setNextWorldTile(new WorldTile(instance.getLocalX(42), instance.getLocalY(26), 0));
+						player.setNextWorldTile(WorldTile.of(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));
+						jeremy.setNextWorldTile(WorldTile.of(instance.getLocalX(42), instance.getLocalY(26), 0));
 					}
 					if(tick == 15) {
 						player.faceEntity(jeremy);
@@ -156,7 +156,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						);
 					}
 					if(tick == 17) {
-						ogre.setNextWorldTile(new WorldTile(instance.getLocalX(42), instance.getLocalY(40), 0));
+						ogre.setNextWorldTile(WorldTile.of(instance.getLocalX(42), instance.getLocalY(40), 0));
 						ogre.setRandomWalk(false);
 						ogre.faceEntity(father);
 						father.faceEntity(ogre);
@@ -202,7 +202,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					if(tick == 27) {
 						player.getPackets().setBlockMinimapState(2);
 						scorpion = new NPC(271,
-								new WorldTile(instance.getLocalX(45), instance.getLocalY(31), 0), true);
+								WorldTile.of(instance.getLocalX(45), instance.getLocalY(31), 0), true);
 						dynamicNPCs.add(scorpion);
 					}
 					if(tick == 29) {
@@ -227,7 +227,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					}
 					if(tick == 36) {
 						player.getPackets().setBlockMinimapState(2);
-						bouncer.setNextWorldTile(new WorldTile(instance.getLocalX(45), instance.getLocalY(34), 0));
+						bouncer.setNextWorldTile(WorldTile.of(instance.getLocalX(45), instance.getLocalY(34), 0));
 					}
 					if(tick == 38) {
 						player.getPackets().setBlockMinimapState(0);
@@ -381,7 +381,7 @@ public class FightArenaFightCutsceneController extends Controller {
 			for(int i = 0; i < originalNPCs.size(); i++) {
 				NPC npc = originalNPCs.get(i);
 				dynamicNPCs.add(new NPC(npc.getId(),
-						new WorldTile(spawn.getX() - xDiff.get(i), spawn.getY() - yDiff.get(i), npc.getPlane()), true));
+						WorldTile.of(spawn.getX() - xDiff.get(i), spawn.getY() - yDiff.get(i), npc.getPlane()), true));
 			}
 	}
 
@@ -392,7 +392,7 @@ public class FightArenaFightCutsceneController extends Controller {
 				return;
 			World.removeObject(door);
 			door.setRotation(3);
-			door.setLocation(door.getX() - 1, door.getY(), door.getPlane());
+			door.setTile(WorldTile.of(door.getX() - 1, door.getY(), door.getPlane()));
 			World.spawnObject(door);
 			return;
 		}
@@ -400,7 +400,7 @@ public class FightArenaFightCutsceneController extends Controller {
 			return;
 		World.removeObject(door);
 		door.setRotation(0);
-		door.setLocation(door.getX()+1, door.getY(), door.getPlane());
+		door.setTile(WorldTile.of(door.getX()+1, door.getY(), door.getPlane()));
 		World.spawnObject(door);;
 	}
 

@@ -51,8 +51,8 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	static final int RESURRECT = 4623;
 
 	private DynamicRegionReference instance;
-	WorldTile locationOnDeath = new WorldTile(3211, 3382, 0);
-	WorldTile locationOnVictory = new WorldTile(3228, 3368, 0);
+	WorldTile locationOnDeath = WorldTile.of(3211, 3382, 0);
+	WorldTile locationOnVictory = WorldTile.of(3228, 3368, 0);
 	WorldTile spawn;
 	WorldTile combatStartTile;
     boolean ambientMusicOn = false;
@@ -113,10 +113,10 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 
 					} else if (tick == 5) {
 						player.getInterfaceManager().setFadingInterface(170);
-						wizards.add(World.spawnNPC(DARK_WIZARD7, new WorldTile(spawn.getX() - 1, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DARK_WIZARD20, new WorldTile(spawn.getX() + 2, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DARK_WIZARD20, new WorldTile(spawn.getX() - 1, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DENATH, new WorldTile(spawn.getX() + 2, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
+						wizards.add(World.spawnNPC(DARK_WIZARD7, WorldTile.of(spawn.getX() - 1, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
+						wizards.add(World.spawnNPC(DARK_WIZARD20, WorldTile.of(spawn.getX() + 2, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
+						wizards.add(World.spawnNPC(DARK_WIZARD20, WorldTile.of(spawn.getX() - 1, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
+						wizards.add(World.spawnNPC(DENATH, WorldTile.of(spawn.getX() + 2, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
 						for (NPC wizard : wizards) {
 							wizard.setRandomWalk(false);
 							wizard.faceTile(spawn);
@@ -149,8 +149,8 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) - 4, 1500);
 						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) + 1, 50);
 						player.getPackets().sendCameraShake(3, 100, 1, 30, 1);
-						delrith = World.spawnNPC(DELRITH, new WorldTile(spawn.getX(), spawn.getY(), spawn.getPlane()), -1, false, true);
-						delrith.faceTile(new WorldTile(spawn.getX() + 1, spawn.getY() - 1, spawn.getPlane()));
+						delrith = World.spawnNPC(DELRITH, WorldTile.of(spawn.getX(), spawn.getY(), spawn.getPlane()), -1, false, true);
+						delrith.faceTile(WorldTile.of(spawn.getX() + 1, spawn.getY() - 1, spawn.getPlane()));
 						delrith.setRandomWalk(false);
 						delrith.setNextAnimation(new Animation(RESURRECT));
 					} else if (tick == 11) {
@@ -164,7 +164,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 						player.getPackets().sendCameraShake(3, 0, 0, 0, 0);
 						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) + 10, 250, 0, 1);
 					} else if (tick == 13)
-						delrith.setForceWalk(new WorldTile(spawn.getX(), spawn.getY() - 2, 0));
+						delrith.setForceWalk(WorldTile.of(spawn.getX(), spawn.getY() - 2, 0));
 					else if (tick == 14) {
 						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()) - 4, player.getYInScene(player.getSceneBaseChunkId()) + 6, 2000);
 						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) - 1, 50);
@@ -180,8 +180,8 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 								addNPC(DENATH, HeadE.EVIL_LAUGH, "We will destroy-");
 								addNPC(DARK_WIZARD7, HeadE.SCARED, "Who's that?", () -> {
 									for (NPC wizard : wizards)
-										wizard.faceTile(new WorldTile(spawn.getX() - 4, spawn.getY() + 4, 0));
-									delrith.faceTile(new WorldTile(spawn.getX() - 4, spawn.getY() + 4, 0));
+										wizard.faceTile(WorldTile.of(spawn.getX() - 4, spawn.getY() + 4, 0));
+									delrith.faceTile(WorldTile.of(spawn.getX() - 4, spawn.getY() + 4, 0));
 								});
 								addNPC(DENATH, HeadE.SCARED, "Noo! Not Silverlight! Delrith is not ready yet!");
 								addNPC(DENATH, HeadE.SCARED, "I've got to get out of here.", () -> {
@@ -194,7 +194,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 													wizard.finish();
 												}
 											}, Ticks.fromSeconds(13));
-											wizard.setForceWalk(new WorldTile(spawn.getX() + 13, spawn.getY(), 0));
+											wizard.setForceWalk(WorldTile.of(spawn.getX() + 13, spawn.getY(), 0));
 											continue;
 										}
 								});

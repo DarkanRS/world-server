@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 @PluginEventHandler
 public class AlKharid {
 
-	public static PlayerStepHandler shantayPass = new PlayerStepHandler(new WorldTile(3303, 3116, 0), new WorldTile(3303, 3117, 0), new WorldTile(3305, 3116, 0), new WorldTile(3305, 3117, 0)) {
+	public static PlayerStepHandler shantayPass = new PlayerStepHandler(WorldTile.of(3303, 3116, 0), WorldTile.of(3303, 3117, 0), WorldTile.of(3305, 3116, 0), WorldTile.of(3305, 3117, 0)) {
 		@Override
 		public void handle(PlayerStepEvent e) {
 			if (e.getStep().getY() == 3116 && e.getStep().getDir() == Direction.SOUTH) {
@@ -87,10 +87,10 @@ public class AlKharid {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 
-			if(obj.matches(new WorldTile(3306, 3315, 0)))//above
-				AgilityShortcuts.forceMovementInstant(p, new WorldTile(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
-			if(obj.matches(new WorldTile(3304, 3315, 0)))//below
-				AgilityShortcuts.forceMovementInstant(p, new WorldTile(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+			if(obj.getTile().matches(WorldTile.of(3306, 3315, 0)))//above
+				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
+			if(obj.getTile().matches(WorldTile.of(3304, 3315, 0)))//below
+				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
 		}
 	};
 

@@ -122,7 +122,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 					if (player == null || player.isDead() || player.hasFinished())
 						continue;
 
-					WorldTile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? new WorldTile(player.getTile()) : player.getLastWorldTile();
+					WorldTile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? WorldTile.of(player.getTile()) : player.getLastWorldTile();
 					tileLoop: for (int i = 0; i < icicles.size(); i++) {
 						WorldTile tile = icicles.remove(i);
 						player.getPackets().sendSpotAnim(ICE_SHARDS, tile);

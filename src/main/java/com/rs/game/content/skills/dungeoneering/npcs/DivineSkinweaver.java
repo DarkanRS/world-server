@@ -113,11 +113,11 @@ public final class DivineSkinweaver extends DungeonBoss {
 				int cbLevel = getManager().getCombatLevelMonster();
 				cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
 				if (skeleType == 0)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 2)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), cbLevel), 0, new WorldTile(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				respawnDelay = 20;
 			}
 		}

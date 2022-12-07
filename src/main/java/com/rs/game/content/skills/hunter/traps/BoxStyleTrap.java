@@ -70,9 +70,9 @@ public class BoxStyleTrap extends OwnedObject {
 	}
 
 	public void expire(Player player) {
-		World.addGroundItem(new Item(type.getId(), 1), new WorldTile(this), player, true, 60);
+		World.addGroundItem(new Item(type.getId(), 1), WorldTile.of(this.getTile()), player, true, 60);
 		if (bait != -1)
-			World.addGroundItem(new Item(bait, 1), new WorldTile(this), player, true, 60);
+			World.addGroundItem(new Item(bait, 1), WorldTile.of(this.getTile()), player, true, 60);
 	}
 
 	public void handleCatch(BoxHunterNPC npc, boolean success) {

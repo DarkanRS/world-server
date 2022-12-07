@@ -39,7 +39,7 @@ public class WineldaWitchTempleOfIkov extends Conversation {
 								npc.setNextAnimation(new Animation(711));
 								npc.setNextSpotAnim(new SpotAnim(108));
 								WorldTasks.delay(1, () -> {
-									Magic.sendNormalTeleportSpell(p, new WorldTile(2663, 9878, 0));
+									Magic.sendNormalTeleportSpell(p, WorldTile.of(2663, 9878, 0));
 									p.getInventory().removeItems(new Item(225, 20));
 								});
 							}

@@ -45,7 +45,7 @@ public class BorkController extends Controller {
 	public void process() {
 		if (borkStage == 0) {
 			if(player.getTempAttribs().getB("justSawBorkCutscene")) {
-				player.setNextWorldTile(new WorldTile(3115, 5528, 0));
+				player.setNextWorldTile(WorldTile.of(3115, 5528, 0));
 				removeController();
 				return;
 			}
@@ -56,7 +56,7 @@ public class BorkController extends Controller {
 				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(115);
 			}
 			if (stage == 5) {
-				player.setNextWorldTile(new WorldTile(3115, 5528, 0));
+				player.setNextWorldTile(WorldTile.of(3115, 5528, 0));
 				sendInterfaces();
 			}
 			if (stage == 18) {
@@ -74,9 +74,9 @@ public class BorkController extends Controller {
 				sendInterfaces();
 				bork.setCantInteract(true);
 			} else if (stage == 14) {
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
-				World.spawnNPC(7135, new WorldTile(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
 				bork.setCantInteract(false);
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));

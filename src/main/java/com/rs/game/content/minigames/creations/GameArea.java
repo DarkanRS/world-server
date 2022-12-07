@@ -205,8 +205,8 @@ public class GameArea {
 				int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
 				int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
 
-				World.spawnNPC(managerBlue, new WorldTile(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				World.spawnNPC(managerRed, new WorldTile(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+				World.spawnNPC(managerBlue, WorldTile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+				World.spawnNPC(managerRed, WorldTile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
 				callback.run();
 			});
 		});

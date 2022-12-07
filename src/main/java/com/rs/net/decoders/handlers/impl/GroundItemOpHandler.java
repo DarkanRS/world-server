@@ -46,7 +46,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		if (player.isLocked() || player.hasEffect(Effect.FREEZE))
 			return;
 
-		final WorldTile tile = new WorldTile(packet.getX(), packet.getY(), player.getPlane());
+		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;

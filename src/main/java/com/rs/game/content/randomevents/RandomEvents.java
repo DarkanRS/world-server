@@ -29,11 +29,11 @@ public class RandomEvents {
 
 	private static List<WorldTile> RANDOM_TILES = new ArrayList<>();
 	static {
-		RANDOM_TILES.add(new WorldTile(3208, 3219, 3));
-		RANDOM_TILES.add(new WorldTile(2707, 3472, 1));
-		RANDOM_TILES.add(new WorldTile(2995, 3341, 3));
-		RANDOM_TILES.add(new WorldTile(3217, 3475, 1));
-		RANDOM_TILES.add(new WorldTile(3083, 3415, 0));
+		RANDOM_TILES.add(WorldTile.of(3208, 3219, 3));
+		RANDOM_TILES.add(WorldTile.of(2707, 3472, 1));
+		RANDOM_TILES.add(WorldTile.of(2995, 3341, 3));
+		RANDOM_TILES.add(WorldTile.of(3217, 3475, 1));
+		RANDOM_TILES.add(WorldTile.of(3083, 3415, 0));
 	}
 
 	public static WorldTile getRandomTile() {

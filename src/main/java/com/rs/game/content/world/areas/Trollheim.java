@@ -47,14 +47,14 @@ public class Trollheim {
 	public static ObjectClickHandler handleTrollweissCaveEnter = new ObjectClickHandler(new Object[] { 5012 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2799, 10134, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2799, 10134, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleTrollweissCaveExit = new ObjectClickHandler(new Object[] { 5013 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2796, 3719, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2796, 3719, 0));
 		}
 	};
 
@@ -62,9 +62,9 @@ public class Trollheim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.objectAt(2906, 10036))
-				e.getPlayer().setNextWorldTile(new WorldTile(2922, 3658, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2922, 3658, 0));
 			else if (e.objectAt(2906, 10017))
-				e.getPlayer().setNextWorldTile(new WorldTile(2911, 3636, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2911, 3636, 0));
 		}
 	};
 
@@ -72,7 +72,7 @@ public class Trollheim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getPlayer().getControllerManager().getController() == null) {
-				e.getPlayer().useStairs(828, new WorldTile(2881, 5310, 2), 0, 0);
+				e.getPlayer().useStairs(828, WorldTile.of(2881, 5310, 2), 0, 0);
 				e.getPlayer().getControllerManager().startController(new GodwarsController());
 			} else
 				e.getPlayer().sendMessage("Invalid teleport.");
@@ -90,7 +90,7 @@ public class Trollheim {
 			boolean isReturning = e.getPlayer().getY() >= 3709;
 			int liftAnimation = isReturning ? 3624 :3725;
 			int squeezeAnimation = isReturning ? 3465 : 3466;
-			WorldTile destination = new WorldTile(e.getPlayer().getX(), e.getPlayer().getY() + (isReturning ? -4 : 4), 0);
+			WorldTile destination = WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isReturning ? -4 : 4), 0);
 			WorldTasks.schedule(new WorldTask() {
 				int stage = 0;
 
@@ -135,20 +135,20 @@ public class Trollheim {
 	public static ObjectClickHandler handleTrollheimCaveEntrances = new ObjectClickHandler(new Object[] { 34395 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getObject().isAt(2920, 3654))
-				e.getPlayer().setNextWorldTile(new WorldTile(2907, 10035, 0));
-			else if (e.getObject().isAt(2910, 3637))
-				e.getPlayer().setNextWorldTile(new WorldTile(2907, 10019, 0));
-			else if (e.getObject().isAt(2857, 3578))
-				e.getPlayer().setNextWorldTile(new WorldTile(2269, 4752, 0));
-			else if (e.getObject().isAt(2885, 3673))
-				e.getPlayer().setNextWorldTile(new WorldTile(2893, 10074, 2));
-			else if (e.getObject().isAt(2847, 3688))
-				e.getPlayer().setNextWorldTile(new WorldTile(2837, 10090, 2));
-			else if (e.getObject().isAt(2885, 3673))
-				e.getPlayer().setNextWorldTile(new WorldTile(2893, 10074, 2));
-			else if (e.getObject().isAt(2796, 3614))
-				e.getPlayer().setNextWorldTile(new WorldTile(2808, 10002, 0));
+			if (e.getObject().getTile().isAt(2920, 3654))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2907, 10035, 0));
+			else if (e.getObject().getTile().isAt(2910, 3637))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2907, 10019, 0));
+			else if (e.getObject().getTile().isAt(2857, 3578))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2269, 4752, 0));
+			else if (e.getObject().getTile().isAt(2885, 3673))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2893, 10074, 2));
+			else if (e.getObject().getTile().isAt(2847, 3688))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2837, 10090, 2));
+			else if (e.getObject().getTile().isAt(2885, 3673))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2893, 10074, 2));
+			else if (e.getObject().getTile().isAt(2796, 3614))
+				e.getPlayer().setNextWorldTile(WorldTile.of(2808, 10002, 0));
 			else
 				e.getPlayer().sendMessage("Unhandled TrollheimMisc.handleTrollheimCaveEntrances()");
 		}
@@ -158,15 +158,15 @@ public class Trollheim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObject().getId() == 32738)
-				e.getPlayer().setNextWorldTile(new WorldTile(2889, 3675, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2889, 3675, 0));
 			else if (e.getObject().getId() == 18834)
-				e.getPlayer().ladder(new WorldTile(2812, 3669, 0));
+				e.getPlayer().ladder(WorldTile.of(2812, 3669, 0));
 			else if (e.getObject().getId() == 18833)
-				e.getPlayer().ladder(new WorldTile(2831, 10076, 2));
+				e.getPlayer().ladder(WorldTile.of(2831, 10076, 2));
 			else if (e.getObject().getId() == 4500)
-				e.getPlayer().setNextWorldTile(new WorldTile(2795, 3615, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2795, 3615, 0));
 			else if (e.getObject().getId() == 3774)
-				e.getPlayer().setNextWorldTile(new WorldTile(2848, 3687, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2848, 3687, 0));
 		}
 	};
 
@@ -174,15 +174,15 @@ public class Trollheim {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObject().getId() == 67568)
-				e.getPlayer().setNextWorldTile(new WorldTile(2858, 3577, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2858, 3577, 0));
 			else if (e.getObject().getId() == 67567)
-				e.getPlayer().setNextWorldTile(new WorldTile(2267, 4758, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2267, 4758, 0));
 			else if (e.getObject().getId() == 67562)
-				e.getPlayer().setNextWorldTile(new WorldTile(3405, 4284, 2));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3405, 4284, 2));
 			else if (e.getObject().getId() == 67572)
-				e.getPlayer().setNextWorldTile(new WorldTile(2858, 3577, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2858, 3577, 0));
 			else if (e.getObject().getId() == 66533)
-				e.getPlayer().setNextWorldTile(new WorldTile(2208, 4364, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(2208, 4364, 0));
 			else if (e.getObject().getId() == 67674) {
 				if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
 					Agility.handleObstacle(e.getPlayer(), 3382, 3, e.getPlayer().transform(-3, 0, -1), 1);
@@ -237,9 +237,9 @@ public class Trollheim {
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 
-			p.setRouteEvent(new RouteEvent(new WorldTile(2950, 3681, 0), () -> {
-				if(obj.matches(new WorldTile(2951, 3681, 0)) && p.getX() < obj.getX()) {
-					WorldTile destinationTile = new WorldTile(2954, 3682, 0);
+			p.setRouteEvent(new RouteEvent(WorldTile.of(2950, 3681, 0), () -> {
+				if(obj.getTile().matches(WorldTile.of(2951, 3681, 0)) && p.getX() < obj.getX()) {
+					WorldTile destinationTile = WorldTile.of(2954, 3682, 0);
 					p.faceTile(destinationTile);
 					WorldTasks.schedule(new WorldTask() {
 						@Override

@@ -67,7 +67,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 													});
 													player.fadeScreen(() -> {
 														player.sendMessage("Elkoy leads you through the maze...");
-														player.setNextWorldTile(player.getY() > 3177 ? new WorldTile(2515, 3160, 0) : new WorldTile(2502, 3193, 0));
+														player.setNextWorldTile(player.getY() > 3177 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
 													});
 												})
 										);
@@ -123,7 +123,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 										});
 										player.fadeScreen(() -> {
 											player.sendMessage("Elkoy leads you through the maze...");
-											player.setNextWorldTile(player.getY() > 3177 ? new WorldTile(2515, 3160, 0) : new WorldTile(2502, 3193, 0));
+											player.setNextWorldTile(player.getY() > 3177 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
 										});
 									})
 							);

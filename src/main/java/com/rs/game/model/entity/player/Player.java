@@ -588,7 +588,7 @@ public class Player extends Entity {
 
 	// creates Player and saved classes
 	public Player(Account account) {
-		super(new WorldTile(Settings.getConfig().getPlayerStartTile()));
+		super(WorldTile.of(Settings.getConfig().getPlayerStartTile()));
 		this.account = account;
 		username = account.getUsername();
 		setHitpoints(100);
@@ -635,7 +635,7 @@ public class Player extends Entity {
 
 	public void init(Session session, Account account, int screenMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
 		if (getTile() == null)
-			setTile(new WorldTile(Settings.getConfig().getPlayerStartTile()));
+			setTile(WorldTile.of(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
 		this.account = account;
 		uuid = getUsername().hashCode();
@@ -879,7 +879,7 @@ public class Player extends Entity {
 
 		if (getBool("isLoggedOutInDungeon")) {
 			if (getDungManager().getParty() == null) {
-				setNextWorldTile(new WorldTile(DungeonConstants.OUTSIDE, 2));
+				setNextWorldTile(WorldTile.of(DungeonConstants.OUTSIDE, 2));
 				this.reset();
 				getEquipment().reset();
 				getInventory().reset();
@@ -1104,7 +1104,7 @@ public class Player extends Entity {
 									getInventory().addItem(4207, 1);
 									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed!");
 								} else {
-									World.addGroundItem(new Item(4207), new WorldTile(getX(), getY(), getPlane()));
+									World.addGroundItem(new Item(4207), WorldTile.of(getX(), getY(), getPlane()));
 									sendMessage("<col=FF0000>Your " + ItemDefinitions.getDefs(deg.getItemId()).getName() + " has reverted to a crystal seed and fallen to the floor!");
 								}
 								break;
@@ -1824,25 +1824,25 @@ public class Player extends Entity {
 	public void visualizeChunk(int chunkId) {
 		int[] oldChunk = MapUtils.decode(Structure.CHUNK, chunkId);
 		for (int i = 0;i < 8;i++)
-			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + i, (oldChunk[1] << 3), getPlane())));
+			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + i, (oldChunk[1] << 3), getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3), (oldChunk[1] << 3) + i, getPlane())));
+			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3), (oldChunk[1] << 3) + i, getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + i, (oldChunk[1] << 3) + 7, getPlane())));
+			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + i, (oldChunk[1] << 3) + 7, getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
+			getPackets().sendGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
 	}
 
 	public void devisualizeChunk(int chunkId) {
 		int[] oldChunk = MapUtils.decode(Structure.CHUNK, chunkId);
 		for (int i = 0;i < 8;i++)
-			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + i, (oldChunk[1] << 3), getPlane())));
+			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + i, (oldChunk[1] << 3), getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3), (oldChunk[1] << 3) + i, getPlane())));
+			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3), (oldChunk[1] << 3) + i, getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + i, (oldChunk[1] << 3) + 7, getPlane())));
+			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + i, (oldChunk[1] << 3) + 7, getPlane())));
 		for (int i = 0;i < 8;i++)
-			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), new WorldTile((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
+			getPackets().removeGroundItem(new GroundItem(new Item(14486, 1), WorldTile.of((oldChunk[0] << 3) + 7, (oldChunk[1] << 3) + i, getPlane())));
 	}
 	
 	public void sendOptionDialogue(Consumer<Options> options) {
@@ -2206,27 +2206,27 @@ public class Player extends Entity {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() - 1, target.getY(), target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() + 1, target.getY(), target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX(), target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX(), target.getY() + 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() - 1, target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() - 1, target.getY() + 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() + 1, target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), new WorldTile(target.getX() + 1, target.getY() + 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() - 1, target.getY(), target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() + 1, target.getY(), target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX(), target.getY() - 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX(), target.getY() + 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() - 1, target.getY() - 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() - 1, target.getY() + 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() + 1, target.getY() - 1, target.getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(438), WorldTile.of(target.getX() + 1, target.getY() + 1, target.getPlane()));
 					}
 				});
 			} else if (prayer.active(Prayer.WRATH)) {
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 
-				World.sendProjectile(this, new WorldTile(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, new WorldTile(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+				World.sendProjectile(this, WorldTile.of(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 				final Player target = this;
 				WorldTasks.schedule(new WorldTask() {
 					@Override
@@ -2255,21 +2255,21 @@ public class Player extends Entity {
 						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target.getTile(), 2))
 							source.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
 
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 2, getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 2, getY(), getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 2, getY() - 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() + 2, getY() + 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() + 2, getY(), getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() + 2, getY() - 2, getPlane()));
 
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() - 2, getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() - 2, getY(), getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() - 2, getY() - 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() - 2, getY() + 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() - 2, getY(), getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() - 2, getY() - 2, getPlane()));
 
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX(), getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX(), getY() - 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX(), getY() + 2, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX(), getY() - 2, getPlane()));
 
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 1, getY() + 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() + 1, getY() - 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() - 1, getY() + 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), new WorldTile(getX() - 1, getY() - 1, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() + 1, getY() + 1, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() + 1, getY() - 1, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() - 1, getY() + 1, getPlane()));
+						World.sendSpotAnim(target, new SpotAnim(2260), WorldTile.of(getX() - 1, getY() - 1, getPlane()));
 					}
 				});
 			}
@@ -2281,7 +2281,7 @@ public class Player extends Entity {
 		stopAll();
 		if (summFamiliar != null)
 			summFamiliar.sendDeath(this);
-		WorldTile lastTile = new WorldTile(getTile());
+		WorldTile lastTile = WorldTile.of(getTile());
 		if (isAtDynamicRegion())
 			lastTile = getRandomGraveyardTile();
 		final WorldTile deathTile = lastTile;
@@ -2313,12 +2313,12 @@ public class Player extends Entity {
 	}
 
 	public WorldTile getRandomGraveyardTile() {
-		return new WorldTile(new WorldTile(2745, 3474, 0), 4);
+		return WorldTile.of(WorldTile.of(2745, 3474, 0), 4);
 	}
 
 	public void sendItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendItemsOnDeath(killer, new WorldTile(getTile()), new WorldTile(getTile()), true, slots);
+		sendItemsOnDeath(killer, WorldTile.of(getTile()), WorldTile.of(getTile()), true, slots);
 	}
 
 	public void sendItemsOnDeath(Player killer, WorldTile deathTile, WorldTile respawnTile, boolean noGravestone, Integer[][] slots) {
@@ -3350,25 +3350,25 @@ public class Player extends Entity {
 		if (npc.getId() >= 6247 && npc.getId() <= 6259) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.SARADOMIN);
 			if (dropKey)
-				World.addGroundItem(new Item(20124, 1), new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
+				World.addGroundItem(new Item(20124, 1), WorldTile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
 			return;
 		}
 		if (npc.getId() >= 6260 && npc.getId() <= 6283) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.BANDOS);
 			if (dropKey)
-				World.addGroundItem(new Item(20122, 1), new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
+				World.addGroundItem(new Item(20122, 1), WorldTile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
 			return;
 		}
 		if (npc.getId() >= 6222 && npc.getId() <= 6246) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.ARMADYL);
 			if (dropKey)
-				World.addGroundItem(new Item(20121, 1), new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
+				World.addGroundItem(new Item(20121, 1), WorldTile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
 			return;
 		}
 		if (npc.getId() >= 6203 && npc.getId() <= 6221) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.ZAMORAK);
 			if (dropKey)
-				World.addGroundItem(new Item(20123, 1), new WorldTile(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
+				World.addGroundItem(new Item(20123, 1), WorldTile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
 			return;
 		}
 		if (npc.getId() >= 13447 && npc.getId() <= 13459) {
@@ -3705,7 +3705,7 @@ public class Player extends Entity {
 			if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
 				break;
 		if (last != -1) {
-			WorldTile tile = new WorldTile(bufferX[last], bufferY[last], getPlane());
+			WorldTile tile = WorldTile.of(bufferX[last], bufferY[last], getPlane());
 			getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
 		} else
 			getSession().writeToQueue(new MinimapFlag());
@@ -3786,7 +3786,7 @@ public class Player extends Entity {
 					return false;
 				tilesAvailable--;
 				tilesUnlocked.add(tileHash);
-				markTile(new WorldTile(tileHash));
+				markTile(WorldTile.of(tileHash));
 			}
 		}
 		return true;
@@ -3801,7 +3801,7 @@ public class Player extends Entity {
 	
 	public void updateTilemanTiles() {
 		for (int i : tilesUnlocked) {
-			WorldTile tile = new WorldTile(i);
+			WorldTile tile = WorldTile.of(i);
 			if (Utils.getDistance(getTile(), tile) < 64)
 				markTile(tile);
 		}
@@ -4458,7 +4458,7 @@ public class Player extends Entity {
 	
 	private void checkWasInDynamicRegion() {
 		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
-			setNextWorldTile(new WorldTile(lastNonDynamicTile));
+			setNextWorldTile(WorldTile.of(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}
 	}

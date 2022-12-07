@@ -65,9 +65,9 @@ public class FishingTrawlerGameController extends Controller {
 		else if(object.getId() == 2174 || object.getId() == 2175) {
 			WorldTile tile;
 			if(object.getId() == 2174)
-				tile = object.getY() == 4826 ? new WorldTile(1883, 4826, 1) : new WorldTile(1894, 4824, 1);
+				tile = object.getY() == 4826 ? WorldTile.of(1883, 4826, 1) : WorldTile.of(1894, 4824, 1);
 			else
-				tile = object.getY() == 4826 ? new WorldTile(1885, 4826, 0) : new WorldTile(1892, 4824, 0);
+				tile = object.getY() == 4826 ? WorldTile.of(1885, 4826, 0) : WorldTile.of(1892, 4824, 0);
 			if(trawler.isWaterShip())
 				tile = tile.transform(128, 0);
 			player.useLadder(tile);
@@ -96,13 +96,13 @@ public class FishingTrawlerGameController extends Controller {
 			RegionUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
 			WorldTile tile;
 			if(e.getObject().getY() == area.getY()-1)
-				tile = e.getObject().transform(0, 1);
+				tile = e.getObject().getTile().transform(0, 1);
 			else
-				tile = e.getObject().transform(0, 0);
+				tile = e.getObject().getTile().transform(0, 0);
 			e.getPlayer().addWalkSteps(tile, 25, false);
 			e.getPlayer().setRouteEvent(new RouteEvent(tile, () -> {
 				e.getPlayer().lock(1);
-				e.getPlayer().setNextFaceWorldTile(new WorldTile(e.getObject()));
+				e.getPlayer().setNextFaceWorldTile(WorldTile.of(e.getObject().getTile()));
 				if(!e.getPlayer().getInventory().containsItem(FishingTrawler.SWAMP_PASTE)) {
 					e.getPlayer().sendMessage("You'll need some swamp paste to fill that.");
 					return;

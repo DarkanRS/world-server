@@ -71,7 +71,7 @@ public class WizardFinix extends Conversation {
 				option("Can you teleport me back to the Wizards' Tower?", new Dialogue()
 						.addNPC(FINIX, HeadE.CHEERFUL, "Of course!")
 						.addNext(() -> {
-							Magic.sendNormalTeleportSpell(player, new WorldTile(3107, 3162, 1));
+							Magic.sendNormalTeleportSpell(player, WorldTile.of(3107, 3162, 1));
 						}));
 			}
 		});

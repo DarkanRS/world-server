@@ -103,7 +103,7 @@ public class NetTrap extends BoxStyleTrap {
 
 	@Override
 	public void expire(Player player) {
-		WorldTile tile = new WorldTile(this);
+		WorldTile tile = WorldTile.of(this.getTile());
 		if (tree == null)
 			tile = tile.transform(rotation == 1 ? 1 : rotation == 3 ? -1 : 0, rotation == 0 ? 1 : rotation == 2 ? -1 : 0, 0);
 		World.addGroundItem(new Item(954, 1), tile, player, true, 60);
@@ -116,7 +116,7 @@ public class NetTrap extends BoxStyleTrap {
 		if (npcType == null)
 			return;
 		destroy();
-		NetTrap compTrap = new NetTrap(getOwner(), tree.transform(rotation == 3 ? -1 : 0, rotation == 2 ? -1 : 0, 0), null);
+		NetTrap compTrap = new NetTrap(getOwner(), tree.getTile().transform(rotation == 3 ? -1 : 0, rotation == 2 ? -1 : 0, 0), null);
 		compTrap.setRouteType(RouteType.NORMAL);
 		compTrap.setRotation(tree.getRotation());
 		compTrap.setIdNoRefresh(success ? treeType.catching : treeType.failing);

@@ -54,17 +54,17 @@ public class Tirannwn {
 			 * 3 = S -> N 2 = W -> E 1 = N- > S 0 = E -> W
 			 */
 			Player p = e.getPlayer();
-			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+			WorldTile objTile = WorldTile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
 			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 3 || e.getObject().getRotation() == 1))
 				if (p.getY() > objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
 				else if (p.getY() <= objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
 			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2))
 				if (p.getX() > objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
 				else if (p.getX() <= objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
 		}
 	};
 
@@ -75,17 +75,17 @@ public class Tirannwn {
 			 * 2 = S -> N 3 = W -> E 0 = N- > S 1 = E -> W
 			 */
 			Player p = e.getPlayer();
-			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+			WorldTile objTile = WorldTile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
 			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2))
 				if (p.getY() > objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX(), objTile.getY() - 1, objTile.getPlane()), 5, false);
 				else if (p.getY() <= objTile.getY())
-					p.addWalkSteps(new WorldTile(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX(), objTile.getY() + 2, objTile.getPlane()), 5, false);
 			if (p.withinDistance(objTile, 3) && (e.getObject().getRotation() == 1 || e.getObject().getRotation() == 3))
 				if (p.getX() > objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX() - 1, objTile.getY(), objTile.getPlane()), 5, false);
 				else if (p.getX() <= objTile.getX())
-					p.addWalkSteps(new WorldTile(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
+					p.addWalkSteps(WorldTile.of(objTile.getX() + 2, objTile.getY(), objTile.getPlane()), 5, false);
 		}
 	};
 
@@ -93,27 +93,27 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) { // Hard coded
 			Player p = e.getPlayer();
-			WorldTile objTile = new WorldTile(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-			if (p.withinDistance(new WorldTile(2208, 3204, 0), 4))
+			WorldTile objTile = WorldTile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+			if (p.withinDistance(WorldTile.of(2208, 3204, 0), 4))
 				if (p.getY() > objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2209, 3201, 0), 10963, 1, 0, Direction.SOUTH);
 				else if (p.getY() < objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2209, 3205, 0), 10963, 1, 0, Direction.NORTH);
-			if (p.withinDistance(new WorldTile(2267, 3202, 0), 4))
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2209, 3205, 0), 10963, 1, 0, Direction.NORTH);
+			if (p.withinDistance(WorldTile.of(2267, 3202, 0), 4))
 				if (p.getY() > objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2267, 3201, 0), 10963, 1, 0, Direction.SOUTH);
 				else if (p.getY() < objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2267, 3205, 0), 10963, 1, 0, Direction.NORTH);
-			if (p.withinDistance(new WorldTile(2274, 3174, 0), 4))
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2267, 3205, 0), 10963, 1, 0, Direction.NORTH);
+			if (p.withinDistance(WorldTile.of(2274, 3174, 0), 4))
 				if (p.getY() > objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3172, 0), 10963, 1, 0, Direction.SOUTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2274, 3172, 0), 10963, 1, 0, Direction.SOUTH);
 				else if (p.getY() < objTile.getY())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2274, 3176, 0), 10963, 1, 0, Direction.NORTH);
-			if (p.withinDistance(new WorldTile(2278, 3262, 0), 4))
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2274, 3176, 0), 10963, 1, 0, Direction.NORTH);
+			if (p.withinDistance(WorldTile.of(2278, 3262, 0), 4))
 				if (p.getX() > objTile.getX())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2275, 3262, 0), 10963, 1, 0, Direction.WEST);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2275, 3262, 0), 10963, 1, 0, Direction.WEST);
 				else if (p.getX() < objTile.getX())
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2279, 3262, 0), 10963, 1, 0, Direction.EAST);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2279, 3262, 0), 10963, 1, 0, Direction.EAST);
 		}
 	};
 
@@ -121,9 +121,9 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 20753)
-				e.getPlayer().useStairs(new WorldTile(2389, 3193, 0));
+				e.getPlayer().useStairs(WorldTile.of(2389, 3193, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(3577, 4400, 0));
+				e.getPlayer().useStairs(WorldTile.of(3577, 4400, 0));
 		}
 	};
 
@@ -131,9 +131,9 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 20652)
-				e.getPlayer().useStairs(new WorldTile(3546, 4581, 0));
+				e.getPlayer().useStairs(WorldTile.of(3546, 4581, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(3619, 4582, 0));
+				e.getPlayer().useStairs(WorldTile.of(3619, 4582, 0));
 		}
 	};
 
@@ -141,9 +141,9 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 20655)
-				e.getPlayer().useStairs(new WorldTile(3545, 4577, 0));
+				e.getPlayer().useStairs(WorldTile.of(3545, 4577, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(3540, 4512, 0));
+				e.getPlayer().useStairs(WorldTile.of(3540, 4512, 0));
 		}
 	};
 
@@ -151,9 +151,9 @@ public class Tirannwn {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (e.getObjectId() == 20719 && e.getOption().equals("Climb-down"))
-				e.getPlayer().useStairs(new WorldTile(3541, 4571, 0));
+				e.getPlayer().useStairs(WorldTile.of(3541, 4571, 0));
 			else
-				e.getPlayer().useStairs(new WorldTile(2375, 3181, 0));
+				e.getPlayer().useStairs(WorldTile.of(2375, 3181, 0));
 		}
 	};
 
@@ -182,7 +182,7 @@ public class Tirannwn {
 	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 4006 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2438, 3315, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2438, 3315, 0));
 		}
 	};
 
@@ -216,9 +216,9 @@ public class Tirannwn {
 			WorldObject obj = e.getObject();
 
 			if (p.getY() > obj.getY())
-				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY() - 1, obj.getPlane()));
+				p.setNextWorldTile(WorldTile.of(obj.getX(), obj.getY() - 1, obj.getPlane()));
 			if (p.getY() < obj.getY())
-				p.setNextWorldTile(new WorldTile(obj.getX(), obj.getY() + 1, obj.getPlane()));
+				p.setNextWorldTile(WorldTile.of(obj.getX(), obj.getY() + 1, obj.getPlane()));
 		}
 	};
 
@@ -229,50 +229,50 @@ public class Tirannwn {
 			WorldObject obj = e.getObject();
 
 			if (obj.getId() == 9296) {// above
-				if (obj.matches(new WorldTile(2333, 3252, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2333, 3252, 0))) {
 					if (!Agility.hasLevel(p, 85)) {
 						p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3253, 0), 2050, 1, 1, Direction.WEST);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2338, 3253, 0), 2050, 1, 1, Direction.WEST);
 				}
-				if (obj.matches(new WorldTile(2338, 3282, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2338, 3282, 0))) {
 					if (!Agility.hasLevel(p, 68)) {
 						p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3286, 0), 2050, 1, 1, Direction.SOUTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2338, 3286, 0), 2050, 1, 1, Direction.SOUTH);
 				}
-				if (obj.matches(new WorldTile(2346, 3299, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2346, 3299, 0))) {
 					if (!Agility.hasLevel(p, 59)) {
 						p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2344, 3294, 0), 2050, 1, 1, Direction.NORTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2344, 3294, 0), 2050, 1, 1, Direction.NORTH);
 				}
 			}
 
 			if (obj.getId() == 9297) {// below
-				if (obj.matches(new WorldTile(2337, 3253, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2337, 3253, 0))) {
 					if (!Agility.hasLevel(p, 85)) {
 						p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2332, 3252, 0), 2049, 1, 1, Direction.WEST);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2332, 3252, 0), 2049, 1, 1, Direction.WEST);
 				}
-				if (obj.matches(new WorldTile(2338, 3285, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2338, 3285, 0))) {
 					if (!Agility.hasLevel(p, 68)) {
 						p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2338, 3281, 0), 2049, 1, 1, Direction.SOUTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2338, 3281, 0), 2049, 1, 1, Direction.SOUTH);
 				}
-				if (obj.matches(new WorldTile(2344, 3295, 0))) {
+				if (obj.getTile().matches(WorldTile.of(2344, 3295, 0))) {
 					if (!Agility.hasLevel(p, 59)) {
 						p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 						return;
 					}
-					AgilityShortcuts.forceMovementInstant(p, new WorldTile(2346, 3300, 0), 2049, 1, 1, Direction.NORTH);
+					AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2346, 3300, 0), 2049, 1, 1, Direction.NORTH);
 				}
 			}
 
@@ -376,7 +376,7 @@ public class Tirannwn {
 	public static ItemClickHandler handleTeleportCrystal = new ItemClickHandler(new Object[] { 6099, 6100, 6101, 6102 }, new String[] { "Activate" }) {
 		@Override
 		public void handle(ItemClickEvent e) {
-			if (Magic.sendNormalTeleportSpell(e.getPlayer(), new WorldTile(2340, 3172, 0))) {
+			if (Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2340, 3172, 0))) {
 				e.getItem().setId(e.getItem().getId() + 1);
 				e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 			}

@@ -101,7 +101,7 @@ public class SagittareCombat extends CombatScript {
 	private void sendRainDropAttack(final Sagittare boss) {
 		boss.setCantInteract(true);
 		boss.setNextForceTalk(new ForceTalk("Back off!"));
-		final WorldTile center = new WorldTile(boss.getTile());
+		final WorldTile center = WorldTile.of(boss.getTile());
 		final DungeonManager manager = boss.getManager();
 		final RoomReference rRef = manager.getCurrentRoomReference(center);
 		if (rRef == null)

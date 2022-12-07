@@ -36,7 +36,7 @@ public class OwnedObject extends GameObject {
 	private boolean destroyed;
 
 	public OwnedObject(Player player, GameObject object) {
-		this(player, object.getId(), object.getType(), object.getRotation(), new WorldTile(object));
+		this(player, object.getId(), object.getType(), object.getRotation(), object.getTile());
 	}
 
 	public OwnedObject(Player player, int id, ObjectType type, int rotation, WorldTile tile) {
@@ -76,41 +76,41 @@ public class OwnedObject extends GameObject {
 	}
 
 	public boolean overlapsExisting() {
-		return World.getObject(this, getType()) != null;
+		return World.getObject(this.tile, getType()) != null;
 	}
 
 	public final boolean createNoReplace() {
-		if (World.getObject(this, getType()) != null)
+		if (World.getObject(this.tile, getType()) != null)
 			return false;
 		World.spawnObject(this);
-		OBJECTS.put(getTileHash(), this);
+		OBJECTS.put(tile.getTileHash(), this);
 		onCreate();
 		Map<Integer, OwnedObject> ownedBy = OWNER_MAP.get(owner);
 		if (ownedBy == null)
 			ownedBy = new ConcurrentHashMap<>();
-		ownedBy.put(getTileHash(), this);
+		ownedBy.put(tile.getTileHash(), this);
 		OWNER_MAP.put(owner, ownedBy);
 		return true;
 	}
 
 	public final void createReplace() {
 		World.spawnObject(this);
-		OBJECTS.put(getTileHash(), this);
+		OBJECTS.put(tile.getTileHash(), this);
 		onCreate();
 		Map<Integer, OwnedObject> ownedBy = OWNER_MAP.get(owner);
 		if (ownedBy == null)
 			ownedBy = new ConcurrentHashMap<>();
-		ownedBy.put(getTileHash(), this);
+		ownedBy.put(tile.getTileHash(), this);
 		OWNER_MAP.put(owner, ownedBy);
 	}
 
 	public final void destroy() {
 		World.removeObject(this);
-		OBJECTS.remove(getTileHash());
+		OBJECTS.remove(tile.getTileHash());
 		onDestroy();
 		Map<Integer, OwnedObject> ownedBy = OWNER_MAP.get(owner);
 		if (ownedBy != null) {
-			ownedBy.remove(getTileHash());
+			ownedBy.remove(tile.getTileHash());
 			if (ownedBy.size() == 0)
 				OWNER_MAP.remove(owner);
 			destroyed = true;

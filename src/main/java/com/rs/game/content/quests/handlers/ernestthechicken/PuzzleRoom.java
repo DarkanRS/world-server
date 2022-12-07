@@ -147,7 +147,7 @@ public class PuzzleRoom {
 			GameObject obj = e.getObject();
 
 			e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-				if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject(), 2))
+				if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
 					return;
 				if(obj.getId() == DOOR1 || obj.getId() == DOOR3 || obj.getId() == DOOR8 || obj.getId() == DOOR5)
 					handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
@@ -160,7 +160,7 @@ public class PuzzleRoom {
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = new WorldTile(object);
+		WorldTile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
@@ -177,7 +177,7 @@ public class PuzzleRoom {
 		}
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
-		WorldTile toTile = object.transform(0, 0, 0);
+		WorldTile toTile = object.getTile();
 		switch (object.getRotation()) {
 		case 0:
 			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -201,7 +201,7 @@ public class PuzzleRoom {
 	private static void handlePuzzle2Door(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = new WorldTile(object);
+		WorldTile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
@@ -218,7 +218,7 @@ public class PuzzleRoom {
 		}
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
-		WorldTile toTile = object.transform(0, 0, 0);
+		WorldTile toTile = object.getTile();
 		switch (object.getRotation()) {
 		case 0:
 			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);

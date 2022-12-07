@@ -129,7 +129,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 					if (!moved) {
 						moved = true;
 						addWalkSteps(getX() + dx, getY() + dy);
-						WorldTile fromTile = new WorldTile(player.getX(), player.getY(), player.getPlane());
+						WorldTile fromTile = WorldTile.of(player.getX(), player.getY(), player.getPlane());
 						player.setNextWorldTile(pTarget);
 						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
 						player.setNextAnimation(new Animation(push ? 3065 : 3065));

@@ -121,7 +121,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						WorldTile tile = new WorldTile(entity.getTile());
+						WorldTile tile = WorldTile.of(entity.getTile());
 						targets.add(tile);
 
 						for (int i = 0; i < 3; i++) {

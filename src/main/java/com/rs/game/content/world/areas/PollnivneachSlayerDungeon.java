@@ -37,56 +37,56 @@ public class PollnivneachSlayerDungeon {
 		}
 	};
 
-	public static ObjectClickHandler handleDownStairsNE = new ObjectClickHandler(new Object[] { 31412 }, new WorldTile(3374, 9426, 0)) {
+	public static ObjectClickHandler handleDownStairsNE = new ObjectClickHandler(new Object[] { 31412 }, WorldTile.of(3374, 9426, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(-52, -5061));
 		}
 	};
 
-	public static ObjectClickHandler handleUpStairsNE = new ObjectClickHandler(new Object[] { 31417 }, new WorldTile(3317, 4364, 0)) {
+	public static ObjectClickHandler handleUpStairsNE = new ObjectClickHandler(new Object[] { 31417 }, WorldTile.of(3317, 4364, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(52, 5061));
 		}
 	};
 
-	public static ObjectClickHandler handleDownStairsSE = new ObjectClickHandler(new Object[] { 31412 }, new WorldTile(3377, 9367, 0)) {
+	public static ObjectClickHandler handleDownStairsSE = new ObjectClickHandler(new Object[] { 31412 }, WorldTile.of(3377, 9367, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(-54, -5028));
 		}
 	};
 
-	public static ObjectClickHandler handleUpStairsSE = new ObjectClickHandler(new Object[] { 31417 }, new WorldTile(3318, 4339, 0)) {
+	public static ObjectClickHandler handleUpStairsSE = new ObjectClickHandler(new Object[] { 31417 }, WorldTile.of(3318, 4339, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(54, 5028));
 		}
 	};
 
-	public static ObjectClickHandler handleDownStairsSW = new ObjectClickHandler(new Object[] { 31412 }, new WorldTile(3338, 9368, 0)) {
+	public static ObjectClickHandler handleDownStairsSW = new ObjectClickHandler(new Object[] { 31412 }, WorldTile.of(3338, 9368, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(-72, -5029));
 		}
 	};
 
-	public static ObjectClickHandler handleUpStairsSW = new ObjectClickHandler(new Object[] { 31417 }, new WorldTile(3271, 4339, 0)) {
+	public static ObjectClickHandler handleUpStairsSW = new ObjectClickHandler(new Object[] { 31417 }, WorldTile.of(3271, 4339, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(72, 5029));
 		}
 	};
 
-	public static ObjectClickHandler handleDownStairsNW = new ObjectClickHandler(new Object[] { 31412 }, new WorldTile(3340, 9426, 0)) {
+	public static ObjectClickHandler handleDownStairsNW = new ObjectClickHandler(new Object[] { 31412 }, WorldTile.of(3340, 9426, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(-68, -5059));
 		}
 	};
 
-	public static ObjectClickHandler handleUpStairsNW = new ObjectClickHandler(new Object[] { 31417 }, new WorldTile(3277, 4367, 0)) {
+	public static ObjectClickHandler handleUpStairsNW = new ObjectClickHandler(new Object[] { 31417 }, WorldTile.of(3277, 4367, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getPlayer().useStairs(e.getPlayer().transform(68, 5059));

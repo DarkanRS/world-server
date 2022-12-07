@@ -124,14 +124,14 @@ public class PyramidPlunderController extends Controller {
 
 	public void nextRoom() {
 		switch(currentRoom) {
-			case 0 -> player.setNextWorldTile(new WorldTile(1927, 4477, 0));
-			case 1 -> player.setNextWorldTile(new WorldTile(1977, 4471, 0));
-			case 2 -> player.setNextWorldTile(new WorldTile(1954, 4477, 0));
-			case 3 -> player.setNextWorldTile(new WorldTile(1927, 4453, 0));
-			case 4 -> player.setNextWorldTile(new WorldTile(1965, 4444, 0));
-			case 5 -> player.setNextWorldTile(new WorldTile(1927, 4424, 0));
-			case 6 -> player.setNextWorldTile(new WorldTile(1943, 4421, 0));
-			case 7 -> player.setNextWorldTile(new WorldTile(1974, 4420, 0));
+			case 0 -> player.setNextWorldTile(WorldTile.of(1927, 4477, 0));
+			case 1 -> player.setNextWorldTile(WorldTile.of(1977, 4471, 0));
+			case 2 -> player.setNextWorldTile(WorldTile.of(1954, 4477, 0));
+			case 3 -> player.setNextWorldTile(WorldTile.of(1927, 4453, 0));
+			case 4 -> player.setNextWorldTile(WorldTile.of(1965, 4444, 0));
+			case 5 -> player.setNextWorldTile(WorldTile.of(1927, 4424, 0));
+			case 6 -> player.setNextWorldTile(WorldTile.of(1943, 4421, 0));
+			case 7 -> player.setNextWorldTile(WorldTile.of(1974, 4420, 0));
 			case 8 -> {
 				player.startConversation(new Dialogue()
 						.addSimple("Opening this door will cause you to leave the pyramid.")

@@ -318,7 +318,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendObjectAnimation(GameObject object, Animation animation) {
-		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
 		session.writeToQueue(new ObjectAnim(object, animation));
 	}
 
@@ -352,19 +352,19 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendRemoveObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
 		session.writeToQueue(new RemoveObject(object));
 	}
 
 	public void sendAddObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object, player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
 		session.writeToQueue(new AddObject(object));
 		if (object.getMeshModifier() != null)
 			sendCustomizeObject(object.getMeshModifier());
 	}
 
 	public void sendCustomizeObject(ObjectMeshModifier modifier) {
-		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject(), player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject().getTile(), player.getSceneBaseChunkId()));
 		session.writeToQueue(new CustomizeObject(modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 

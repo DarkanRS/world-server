@@ -48,7 +48,7 @@ public final class CastleWars {
 	@SuppressWarnings("unchecked")
 	private static final List<Player>[] playing = new List[2];
 	private static int[] seasonWins = new int[2];
-	public static final WorldTile LOBBY = new WorldTile(2442, 3090, 0), SARA_WAITING = new WorldTile(2381, 9489, 0), ZAMO_WAITING = new WorldTile(2421, 9523, 0), SARA_BASE = new WorldTile(2426, 3076, 1), ZAMO_BASE = new WorldTile(2373, 3131, 1);
+	public static final WorldTile LOBBY = WorldTile.of(2442, 3090, 0), SARA_WAITING = WorldTile.of(2381, 9489, 0), ZAMO_WAITING = WorldTile.of(2421, 9523, 0), SARA_BASE = WorldTile.of(2426, 3076, 1), ZAMO_BASE = WorldTile.of(2373, 3131, 1);
 
 	private static PlayingGame playingGame;
 
@@ -107,7 +107,7 @@ public final class CastleWars {
 		setCape(player, new Item(team == ZAMORAK ? 4042 : 4041));
 		setHood(player, new Item(team == ZAMORAK ? 4515 : 4513));
 		player.getControllerManager().startController(new CastleWarsWaitingController(team));
-		player.setNextWorldTile(new WorldTile(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
+		player.setNextWorldTile(WorldTile.of(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
 		player.getMusicsManager().playSongAndUnlock(318); // 5 players to start a game
 		if (playingGame == null && waiting[team].size() >= 5)
 			createPlayingGame();
@@ -186,7 +186,7 @@ public final class CastleWars {
 		waiting[team].remove(player);
 		setCape(player, null);
 		setHood(player, null);
-		player.setNextWorldTile(new WorldTile(LOBBY, 2));
+		player.setNextWorldTile(WorldTile.of(LOBBY, 2));
 		if (playingGame != null && waiting[team].size() == 0 && playing[team].size() == 0)
 			destroyPlayingGame(); // cancels if 0 players playing/waiting on any
 		// of the tea
@@ -224,7 +224,7 @@ public final class CastleWars {
 
 		player.getHintIconsManager().removeUnsavedHintIcon();
 		player.getMusicsManager().reset();
-		player.setNextWorldTile(new WorldTile(LOBBY, 2));
+		player.setNextWorldTile(WorldTile.of(LOBBY, 2));
 		if (playingGame != null && waiting[team].size() == 0 && playing[team].size() == 0)
 			destroyPlayingGame(); // cancels if 0 players playing/waiting on any
 		// of the tea
@@ -238,7 +238,7 @@ public final class CastleWars {
 		playing[team].add(player);
 		player.setCanPvp(true);
 		player.getControllerManager().startController(new CastleWarsPlayingController(team));
-		player.setNextWorldTile(new WorldTile(team == ZAMORAK ? ZAMO_BASE : SARA_BASE, 1));
+		player.setNextWorldTile(WorldTile.of(team == ZAMORAK ? ZAMO_BASE : SARA_BASE, 1));
 	}
 
 	public static void endGame(int winner) {
@@ -357,7 +357,7 @@ public final class CastleWars {
 			}
 			player.getInventory().deleteItem(new Item(4053, 1));
 			barricadesCount[team]++;
-			barricades.add(new CastleWarBarricade(team, new WorldTile(player.getTile())));
+			barricades.add(new CastleWarBarricade(team, WorldTile.of(player.getTile())));
 		}
 
 		public void removeBarricade(int team, CastleWarBarricade npc) {

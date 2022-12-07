@@ -85,7 +85,7 @@ public final class BrimhavenAgilityController extends Controller {
 
 		private static WorldTile getNextDispenser() {
 			while (true) {
-				WorldTile tile = new WorldTile(2761 + 11 * Utils.random(5), 9546 + 11 * Utils.random(5), 3);
+				WorldTile tile = WorldTile.of(2761 + 11 * Utils.random(5), 9546 + 11 * Utils.random(5), 3);
 				if (!(tile.getX() == 2805 && tile.getY() == 9590) && !(taggedDispenser != null && tile.equals(taggedDispenser)))
 					return tile;
 			}
@@ -120,7 +120,7 @@ public final class BrimhavenAgilityController extends Controller {
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
 		if (object.getId() == 3581 || object.getId() == 3608) {
-			if (PlayingGame.taggedDispenser == null || PlayingGame.taggedDispenser.getTileHash() != object.getTileHash())
+			if (PlayingGame.taggedDispenser == null || PlayingGame.taggedDispenser.getTileHash() != object.getTile().getTileHash())
 				return false;
 			int stage = player.getTempAttribs().getI("BrimhavenAgility");
 			if (stage == -1) {

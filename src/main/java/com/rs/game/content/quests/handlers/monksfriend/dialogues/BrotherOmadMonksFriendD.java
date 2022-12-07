@@ -244,7 +244,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		ArrayList<Balloon> balloons = new ArrayList<>();
 		for (int x = 2601; x < 2612; x++)
 			for (int y = 3205; y < 3222; y++)
-				if (World.getObject(new WorldTile(x, y, 0)) == null && (RenderFlag.flagged(World.getRenderFlags(0, x, y), RenderFlag.UNDER_ROOF)))
+				if (World.getObject(WorldTile.of(x, y, 0)) == null && (RenderFlag.flagged(World.getRenderFlags(0, x, y), RenderFlag.UNDER_ROOF)))
 					if (Utils.randomInclusive(0, 1) == 0)
 						balloons.add(new Balloon(PartyRoom.getRandomBalloon(), 0, x, y, 0));
 		WorldTasks.scheduleTimer(i -> {

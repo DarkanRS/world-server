@@ -276,7 +276,7 @@ public final class World {
 				if (x >= npc.getX() && x <= eastMostX && y >= npc.getY() && y <= northMostY)
 					/* stepping within itself, allow it */
 					continue;
-				if (World.getClipNPC(new WorldTile(x, y, npc.getPlane())))
+				if (World.getClipNPC(WorldTile.of(x, y, npc.getPlane())))
 					return false;
 			}
 		return true;
@@ -357,13 +357,13 @@ public final class World {
 	}
 
 	public static boolean canLightFire(int plane, int x, int y) {
-		if (RenderFlag.flagged(getRenderFlags(plane, x, y), RenderFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(new WorldTile(x, y, plane), 2) != null)
+		if (RenderFlag.flagged(getRenderFlags(plane, x, y), RenderFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(WorldTile.of(x, y, plane), 2) != null)
 			return false;
 		return true;
 	}
 
 	public static boolean floorAndWallsFree(int plane, int x, int y, int size) {
-		return floorAndWallsFree(new WorldTile(x, y, plane), size);
+		return floorAndWallsFree(WorldTile.of(x, y, plane), size);
 	}
 
 	public static boolean floorAndWallsFree(WorldTile tile, int size) {
@@ -383,7 +383,7 @@ public final class World {
 	}
 
 	public static boolean floorFree(int plane, int x, int y, int size) {
-		return floorFree(new WorldTile(x, y, plane), size);
+		return floorFree(WorldTile.of(x, y, plane), size);
 	}
 
 	public static boolean floorFree(WorldTile tile) {
@@ -391,7 +391,7 @@ public final class World {
 	}
 
 	public static boolean floorFree(int plane, int x, int y) {
-		return floorFree(new WorldTile(x, y, plane));
+		return floorFree(WorldTile.of(x, y, plane));
 	}
 
 	public static boolean wallsFree(WorldTile tile) {
@@ -399,7 +399,7 @@ public final class World {
 	}
 
 	public static boolean wallsFree(int plane, int x, int y) {
-		return wallsFree(new WorldTile(x, y, plane));
+		return wallsFree(WorldTile.of(x, y, plane));
 	}
 
 	public static int getClipFlags(WorldTile tile) {
@@ -410,11 +410,11 @@ public final class World {
 	}
 
 	public static int getClipFlags(int plane, int x, int y) {
-		return getClipFlags(new WorldTile(x, y, plane));
+		return getClipFlags(WorldTile.of(x, y, plane));
 	}
 
 	public static int getRenderFlags(int plane, int x, int y) {
-		WorldTile tile = new WorldTile(x, y, plane);
+		WorldTile tile = WorldTile.of(x, y, plane);
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
 			return -1;
@@ -422,7 +422,7 @@ public final class World {
 	}
 
 	private static int getClipFlagsProj(int plane, int x, int y) {
-		WorldTile tile = new WorldTile(x, y, plane);
+		WorldTile tile = WorldTile.of(x, y, plane);
 		//World.sendSpotAnim(null, new SpotAnim(2000), tile);
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
@@ -881,7 +881,7 @@ public final class World {
 	public static WorldTile getFreeTile(WorldTile center, int distance) {
 		WorldTile tile = center;
 		for (int i = 0; i < 10; i++) {
-			tile = new WorldTile(center, distance);
+			tile = WorldTile.of(center, distance);
 			if (World.floorAndWallsFree(tile, 1))
 				return tile;
 		}
@@ -955,15 +955,15 @@ public final class World {
 	}
 
 	public static final boolean isSpawnedObject(GameObject object) {
-		return getRegion(object.getRegionId()).getSpawnedObjects().contains(object);
+		return getRegion(object.getTile().getRegionId()).getSpawnedObjects().contains(object);
 	}
 
 	public static final void spawnObject(GameObject object) {
-		getRegion(object.getRegionId()).spawnObject(object, object.getPlane(), object.getXInRegion(), object.getYInRegion(), true);
+		getRegion(object.getTile().getRegionId()).spawnObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), true);
 	}
 
 	public static final void spawnObject(GameObject object, boolean clip) {
-		getRegion(object.getRegionId()).spawnObject(object, object.getPlane(), object.getXInRegion(), object.getYInRegion(), clip);
+		getRegion(object.getTile().getRegionId()).spawnObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), clip);
 	}
 
 	public static final void unclipTile(WorldTile tile) {
@@ -971,7 +971,7 @@ public final class World {
 	}
 
 	public static final void removeObject(GameObject object) {
-		getRegion(object.getRegionId()).removeObject(object, object.getPlane(), object.getXInRegion(), object.getYInRegion());
+		getRegion(object.getTile().getRegionId()).removeObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion());
 	}
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks, boolean clip) {
@@ -1018,7 +1018,7 @@ public final class World {
 			public void run() {
 				try {
 					removeObject(object);
-					addGroundItem(new Item(replaceId), object, null, false, 180);
+					addGroundItem(new Item(replaceId), object.getTile(), null, false, 180);
 				} catch (Throwable e) {
 					Logger.handle(World.class, "spawnTempGroundObject", e);
 				}
@@ -1078,7 +1078,7 @@ public final class World {
 	}
 
 	public static final void refreshObject(GameObject object) {
-		for (Player player : getPlayersInRegionRange(object.getRegionId())) {
+		for (Player player : getPlayersInRegionRange(object.getTile().getRegionId())) {
 			if (!player.hasStarted() || player.hasFinished())
 				return;
 			player.getPackets().sendAddObject(object);
@@ -1222,7 +1222,7 @@ public final class World {
 	public static final void sendObjectAnimation(Entity creator, GameObject object, Animation animation) {
 		if (creator == null)
 			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object))
+				if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object.getTile()))
 					continue;
 				player.getPackets().sendObjectAnimation(object, animation);
 			}
@@ -1233,7 +1233,7 @@ public final class World {
 					continue;
 				for (Integer playerIndex : playersIndexes) {
 					Player player = PLAYERS.get(playerIndex);
-					if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object))
+					if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object.getTile()))
 						continue;
 					player.getPackets().sendObjectAnimation(object, animation);
 				}
@@ -1283,8 +1283,18 @@ public final class World {
 	}
 
 	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		WorldTile fromTile = from instanceof WorldTile ? (WorldTile) from : ((Entity) from).getMiddleWorldTile();
-		WorldTile toTile = to instanceof WorldTile ? (WorldTile) to : ((Entity) to).getMiddleWorldTile();
+		WorldTile fromTile = switch(from) {
+		case WorldTile t -> t;
+		case Entity e -> e.getMiddleWorldTile();
+		case GameObject g -> g.getTile();
+		default -> throw new IllegalArgumentException("Unexpected value: " + from);
+		};
+		WorldTile toTile = switch(to) {
+		case WorldTile t -> t;
+		case Entity e -> e.getMiddleWorldTile();
+		case GameObject g -> g.getTile();
+		default -> throw new IllegalArgumentException("Unexpected value: " + to);
+		};
 		if (speed > 20.0)
 			speed = speed / 50.0;
 		int fromSizeX, fromSizeY;
@@ -1308,7 +1318,12 @@ public final class World {
 		slope = fromSizeX * 32;
 		WorldProjectile projectile = new WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 		if (graphicId != -1) {
-			int regionId = from instanceof WorldTile t ? t.getRegionId() : from instanceof Entity e ? e.getRegionId() : -1;
+			int regionId = switch(from) {
+			case WorldTile t -> t.getRegionId();
+			case Entity e -> e.getMiddleWorldTile().getRegionId();
+			case GameObject g -> g.getTile().getRegionId();
+			default -> -1;
+			};
 			if (regionId == -1)
 				throw new RuntimeException("Invalid source target. Accepts WorldTiles and Entities.");
 			getRegion(regionId).addProjectile(projectile);
@@ -1596,10 +1611,10 @@ public final class World {
 
 	public static List<GameObject> getSurroundingObjects(GameObject obj, int radius) {
 		ArrayList<GameObject> objects = new ArrayList<>();
-		for (GameObject object : World.getRegion(obj.getRegionId()).getObjects()) {
+		for (GameObject object : World.getRegion(obj.getTile().getRegionId()).getObjects()) {
 			if (object == null || object.getDefinitions() == null)
 				continue;
-			if (Utils.getDistance(object, object) <= radius)
+			if (Utils.getDistance(obj.getTile(), object.getTile()) <= radius)
 				objects.add(object);
 		}
 		return objects;

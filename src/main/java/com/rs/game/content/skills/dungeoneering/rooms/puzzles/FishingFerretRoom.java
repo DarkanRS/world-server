@@ -184,9 +184,9 @@ public class FishingFerretRoom extends PuzzleRoom {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				World.sendSpotAnim(player, new SpotAnim(2523), object);
-				World.addGroundItem(item, object, null, false, 0, DropMethod.NORMAL, 40);
-				puzzle.getVileFishes().add(World.getRegion(player.getRegionId()).getGroundItem(item.getId(), object, player));
+				World.sendSpotAnim(player, new SpotAnim(2523), object.getTile());
+				World.addGroundItem(item, object.getTile(), null, false, 0, DropMethod.NORMAL, 40);
+				puzzle.getVileFishes().add(World.getRegion(player.getRegionId()).getGroundItem(item.getId(), object.getTile(), player));
 			}
 		}, p.getTaskDelay());
 		return true;

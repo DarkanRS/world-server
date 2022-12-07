@@ -66,10 +66,10 @@ public class DelrithBoss extends NPC {
 					stop();
 				}
 
-				if(!conversating && !p.inCombat() && p.withinDistance(new WorldTile(getX(), getY(), getPlane()), 2)) {
+				if(!conversating && !p.inCombat() && p.withinDistance(WorldTile.of(getX(), getY(), getPlane()), 2)) {
 					conversating = true;
 					tick = -10;
-					p.faceTile(new WorldTile(getX(), getY(), getPlane()));
+					p.faceTile(WorldTile.of(getX(), getY(), getPlane()));
 					p.startConversation(new EncantationOptionsD(p, DelrithBoss.this).getStart());
 				} else
 					tick++;

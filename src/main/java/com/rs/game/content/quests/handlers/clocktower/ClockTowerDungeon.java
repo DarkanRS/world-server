@@ -34,7 +34,7 @@ public class ClockTowerDungeon {
 		}
 	};
 
-	public static ObjectClickHandler handleGateLeverRats = new ObjectClickHandler(new Object[]{ 33 }, new WorldTile(2591, 9661, 0)) {
+	public static ObjectClickHandler handleGateLeverRats = new ObjectClickHandler(new Object[]{ 33 }, WorldTile.of(2591, 9661, 0)) {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			e.getObject().setIdTemporary(34, Ticks.fromSeconds(20));
@@ -59,7 +59,7 @@ public class ClockTowerDungeon {
 	};
 
 	public static PickupItemHandler handleBlackCogPickup = new PickupItemHandler(new Object[] { 21 },
-			new WorldTile(2613, 9639, 0)) {
+			WorldTile.of(2613, 9639, 0)) {
 		@Override
 		public void handle(PickupItemEvent e) {
 			if(e.getPlayer().getEquipment().getGlovesId() == 1580)//ice gloves
@@ -84,7 +84,7 @@ public class ClockTowerDungeon {
 				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
 					if(npc.getId() == 224) {
 						npc.setIgnoreNPCClipping(true);
-						npc.walkToAndExecute(new WorldTile(2586, 9655, 0), ()->{
+						npc.walkToAndExecute(WorldTile.of(2586, 9655, 0), ()->{
 							npc.setIgnoreNPCClipping(false);
 							npc.sendDeath(e.getPlayer());
 						});

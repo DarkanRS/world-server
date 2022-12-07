@@ -199,7 +199,7 @@ public class Blink extends DungeonBoss {
 	public void raisePillar(GameObject selectedPillar) {
 		final GameObject newPillar = new GameObject(selectedPillar);
 		newPillar.setId(32196);//Our little secret :D
-		activePillar = new WorldTile(selectedPillar);
+		activePillar = WorldTile.of(selectedPillar.getTile());
 		World.spawnObjectTemporary(newPillar, 4);
 		WorldTasks.schedule(new WorldTask() {
 

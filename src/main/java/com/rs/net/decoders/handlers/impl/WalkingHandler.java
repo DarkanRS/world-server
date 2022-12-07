@@ -49,7 +49,7 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 			if (!player.addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
 				break;
 		if (last != -1) {
-			WorldTile tile = new WorldTile(bufferX[last], bufferY[last], player.getPlane());
+			WorldTile tile = WorldTile.of(bufferX[last], bufferY[last], player.getPlane());
 			player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId())));
 		}
 	}

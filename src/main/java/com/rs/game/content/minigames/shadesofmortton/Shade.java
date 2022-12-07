@@ -74,7 +74,7 @@ public class Shade extends NPC {
 					resetWalkSteps();
 					if (attack-- <= 0) {
 						attack = 5;
-						faceTile(new WorldTile(3506, 3316, 0));
+						faceTile(WorldTile.of(3506, 3316, 0));
 						setNextAnimation(new Animation(1284));
 						TempleWall wall = ShadesOfMortton.getRandomWall();
 						if (wall != null)
@@ -84,7 +84,7 @@ public class Shade extends NPC {
 				return;
 			}
 			if (Utils.random(10) == 0)
-				calcFollow(new WorldTile(new WorldTile(3506, 3316, 0), 4), false);
+				calcFollow(WorldTile.of(WorldTile.of(3506, 3316, 0), 4), false);
 		}
 		if (getId() == baseId && inCombat(10000)) {
 			transformIntoNPC(baseId + 1);

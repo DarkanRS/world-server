@@ -246,7 +246,7 @@ public class KalGerWarmonger extends DungeonBoss {
 						}
 				} else if (ticks == 10) {
 					for (Entity t : getPossibleTargets())
-						t.setNextWorldTile(new WorldTile(boss.getTile()));
+						t.setNextWorldTile(WorldTile.of(boss.getTile()));
 					stop();
 					pullTicks = 0;
 					return;

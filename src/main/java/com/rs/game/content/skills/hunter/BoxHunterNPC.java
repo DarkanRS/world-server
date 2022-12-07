@@ -70,7 +70,7 @@ public class BoxHunterNPC extends NPC {
 			BoxHunterType type = getType(trapO.getOwner());
 			if (type == null)
 				continue;
-			if (owner.getSkills().getLevel(Constants.HUNTER) < type.getLevel() || trapO.getStatus() != Status.IDLE || trapO.getLife() < 10 || trapO.getLife() > 75 || trapO.getTrapType() != type.getTrap() || trapO.getBait() != type.getBaitId() || !withinDistance(o, 2))
+			if (owner.getSkills().getLevel(Constants.HUNTER) < type.getLevel() || trapO.getStatus() != Status.IDLE || trapO.getLife() < 10 || trapO.getLife() > 75 || trapO.getTrapType() != type.getTrap() || trapO.getBait() != type.getBaitId() || !withinDistance(o.getTile(), 2))
 				continue;
 			captureTicks = 1;
 			trapO.setStatus(Status.CATCHING);

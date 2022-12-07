@@ -32,14 +32,14 @@ public class Burthorpe {
 	public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2292, 4516, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2292, 4516, 0));
 		}
 	};
 
 	public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(new WorldTile(2876, 3502, 0));
+			e.getPlayer().setNextWorldTile(WorldTile.of(2876, 3502, 0));
 		}
 	};
 
