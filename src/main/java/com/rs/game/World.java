@@ -1287,13 +1287,13 @@ public final class World {
 		case WorldTile t -> t;
 		case Entity e -> e.getMiddleWorldTile();
 		case GameObject g -> g.getTile();
-		default -> throw new IllegalArgumentException("Unexpected value: " + from);
+		default -> throw new IllegalArgumentException("Unexpected target type: " + from);
 		};
 		WorldTile toTile = switch(to) {
 		case WorldTile t -> t;
 		case Entity e -> e.getMiddleWorldTile();
 		case GameObject g -> g.getTile();
-		default -> throw new IllegalArgumentException("Unexpected value: " + to);
+		default -> throw new IllegalArgumentException("Unexpected target type: " + to);
 		};
 		if (speed > 20.0)
 			speed = speed / 50.0;

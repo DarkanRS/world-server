@@ -11,7 +11,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class ZamorakMage extends Conversation {
-	@SuppressWarnings("unused")
 	private static final int NPC = 2257;
 	public ZamorakMage(Player p) {
 		super(p);
