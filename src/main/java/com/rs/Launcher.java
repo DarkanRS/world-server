@@ -91,7 +91,7 @@ public final class Launcher {
 		DB.init();
 
 		try {
-			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().getPort(), BaseWorldDecoder.class);
+			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().port(), BaseWorldDecoder.class);
 		} catch (Throwable e) {
 			Logger.handle(Launcher.class, "main", e);
 			Logger.error(Launcher.class, "main", "Failed to initialize server channel handler. Shutting down...");
@@ -99,7 +99,7 @@ public final class Launcher {
 			return;
 		}
 		Logger.info(Launcher.class, "main", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
-		Logger.info(Launcher.class, "main", "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().getPort() + "...");
+		Logger.info(Launcher.class, "main", "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().port() + "...");
 		Logger.info(Launcher.class, "main", "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
 		Logger.info(Launcher.class, "main", "Registering world with lobby server...");
 		Logger.info(Launcher.class, "main", Settings.getConfig().getWorldInfo());
