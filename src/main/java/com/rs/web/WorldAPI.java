@@ -36,7 +36,7 @@ import io.undertow.util.StatusCodes;
 public class WorldAPI extends WebAPI {
 
 	public WorldAPI() {
-		super("api", Settings.getConfig().getWorldInfo().getPort()+1);
+		super("api", Settings.getConfig().getWorldInfo().port()+1);
 
 		routes.post("/players", ex -> {
 			ex.dispatch(() -> {
