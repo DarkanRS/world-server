@@ -208,7 +208,10 @@ public class TreasureTrailsManager {
 			if (!meerkat) {
 				boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
 				boolean isCoordinateClue = currentClue.details.type == COORDINATE;
-				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, player.getNearestTeleTile(1));
+				WorldTile tile = player.getNearestTeleTile(1);
+				if (tile == null)
+					tile = WorldTile.of(player.getTile());
+				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, tile);
 				npc.setNextSpotAnim(new SpotAnim(74));
 				WorldTasks.schedule(() -> {
 					npc.setTarget(player);
