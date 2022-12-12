@@ -5,8 +5,21 @@ plugins {
     id 'io.github.0ffz.github-packages' version '1.2.1'
 }
 
-sourceCompatibility = "19"
-targetCompatibility = "19"
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(19)
+    }
+}
+
+compileJava { 
+    options.compilerArgs.addAll(['--enable-preview'])
+    options.compilerArgs.addAll(['--add-modules', 'jdk.incubator.concurrent'])
+}
+
+application {
+    applicationDefaultJvmArgs = ['--enable-preview', 
+                                 '--add-modules', 'jdk.incubator.concurrent']
+}
 
 //compileKotlin {
 //	kotlinOptions {
@@ -18,17 +31,6 @@ targetCompatibility = "19"
 //		jvmTarget = '17'
 //	}
 //}
-
-compileJava {
-    options.compilerArgs.addAll(['--release', '19']) 
-    options.compilerArgs.addAll(['--enable-preview'])
-    options.compilerArgs.addAll(['--add-modules', 'jdk.incubator.concurrent'])
-}
-
-application {
-    applicationDefaultJvmArgs = ['--enable-preview', 
-                                 '--add-modules', 'jdk.incubator.concurrent']
-}
 
 mainClassName = 'com.rs.Launcher'
 
