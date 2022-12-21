@@ -189,6 +189,18 @@ public final class Inventory {
 		items.set(item.getSlot(), newItem);
 		refresh();
 	}
+	
+	public void replace(int fromId, int toId) {
+		for (Item item : items.array()) {
+			if (item == null)
+				continue;
+			if (item.getId() == fromId) {
+				item.setId(toId);
+				refresh();
+				return;
+			}
+		}
+	}
 
 	public boolean addCoins(int amount) {
 		if (amount < 0)

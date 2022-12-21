@@ -23,6 +23,7 @@ import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
+import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.monksfriend.dialogues.BrotherCedricMonksFriendD;
 import com.rs.game.content.quests.handlers.monksfriend.dialogues.BrotherOmadMonksFriendD;
 import com.rs.game.content.skills.agility.Agility;
@@ -52,6 +53,53 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ardougne  {
+	
+	public static NPCClickHandler handleSpiritOfScorpius = new NPCClickHandler(new Object[] { 492 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			boolean observatoryDone = e.getPlayer().isQuestComplete(Quest.OBSERVATORY_QUEST, "to speak to Scorpius");
+			e.getPlayer().startConversation(new Dialogue()
+					.addNextIf(() -> e.getPlayer().getEquipment().getAmuletId() != 552, new Dialogue()
+						.addSimple("This powerful spirit seems capable of speaking to you even though you are not wearing an Amulet of Ghostspeak."))
+					.addNPC(492, HeadE.OLD_CHAT, observatoryDone ? "Who treads upon my grave?" : "How dare you disturb me!")
+					.addNextIf(() -> observatoryDone, new Dialogue().addOptions(ops -> {
+						if (!e.getPlayer().getBool("spiritOfScorpiusTalkedTo")) {
+							ops.add("I seek your wisdom.")
+								.addPlayer(HeadE.CALM_TALK, "I seek your wisdom.")
+								.addNPC(492, HeadE.OLD_CHAT, "Indeed, I feel you have beheld the far places in the heavens.")
+								.addNPC(492, HeadE.OLD_CHAT, "My Lord instructs me to help you.")
+								.addNPC(492, HeadE.OLD_CHAT, "Here is a mould to make a token for our Lord;a mould for the unholy symbol of Zamorak.")
+								.addItem(1594, "The ghost gives you a casting mould.", () -> {
+									e.getPlayer().save("spiritOfScorpiusTalkedTo", true);
+									e.getPlayer().getInventory().addItemDrop(1594, 1);
+								});
+						} else {
+							Dialogue blessing = ops.add("I have come to seek a blessing.");
+							if (!e.getPlayer().getInventory().containsItem(1722)) {
+								blessing.addNPC(492, HeadE.OLD_CHAT, "No blessings will be given to those who have no symbol of our Lord's love.");
+							} else {
+								blessing.addNPC(492, HeadE.OLD_CHAT, "I see you have the unholy symbol of our Lord. I will bless it for you.")
+									.addSimple("The ghost mutters in a strange voice.")
+									.addSimple("The unholy symbol throbs with power.", () -> e.getPlayer().getInventory().replace(1722, 1724))
+									.addNPC(492, HeadE.OLD_CHAT, "The symbol of our Lord has been blessed with power!")
+									.addNPC(492, HeadE.OLD_CHAT, "My master calls.");
+							}
+							
+							Dialogue mould = ops.add("I need another unholy symbol mould.");
+							if (e.getPlayer().getInventory().containsItem(1594)) {
+								mould.addNPC(492, HeadE.OLD_CHAT, "One you already have, another is not needed.");
+							} else {
+								mould.addNPC(492, HeadE.OLD_CHAT, "To lose an object is easy to replace. To lose the affections of our Lord is impossible to forgive.")
+									.addItem(1594, "The ghost hands you another mould.", () -> e.getPlayer().getInventory().addItemDrop(1594, 1));
+							}
+							
+						}
+						ops.add("I have come to kill you.")
+							.addPlayer(HeadE.ANGRY, "I have come to kill you.")
+							.addNPC(492, HeadE.OLD_CHAT, "The might of mortals, to me, is as the dust to the sea.");
+					})));
+		}
+	};
 
 	public static NPCClickHandler handleBrotherOmad = new NPCClickHandler(new Object[] { 279 }) {
 		@Override

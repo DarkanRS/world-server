@@ -16,14 +16,12 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 
 public class AnimatedArmor extends NPC {
@@ -54,11 +52,11 @@ public class AnimatedArmor extends NPC {
 			public void run() {
 				if (loop >= 2) {
 					if (source instanceof Player player) {
-						for (Integer items : getDroppedItems()) {
-							if (items == -1)
-								continue;
-							World.addGroundItem(new Item(items), WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane()), player, true, 60);
-						}
+//						for (Integer items : getDroppedItems()) {
+//							if (items == -1)
+//								continue;
+//							World.addGroundItem(new Item(items), WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane()), player, true, 60);
+//						}
 						player.setWarriorPoints(3, WarriorsGuild.ARMOR_POINTS[getId() - 4278]);
 					}
 					finish();

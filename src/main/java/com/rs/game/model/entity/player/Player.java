@@ -3393,13 +3393,17 @@ public class Player extends Entity {
 	}
 
 	public void useLadder(int anim, final WorldTile tile) {
+		lock();
 		setNextAnimation(new Animation(anim));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
+		WorldTasks.scheduleTimer(tick -> {
+			if (tick == 1)
 				setNextWorldTile(tile);
+			if (tick == 2) {
+				unlock();
+				return false;
 			}
-		}, 1);
+			return true;
+		});
 	}
 
 	public void sendMessage(String mes, boolean canBeFiltered) {

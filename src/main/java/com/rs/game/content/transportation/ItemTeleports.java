@@ -111,7 +111,7 @@ public class ItemTeleports {
 			player.stopAll(); // nowhere option
 			return false;
 		}
-		if (hasCharges(index) && !isScrollTeleport(index) && (item.getId() == 10362 || !item.getName().toLowerCase().contains("("))) {
+		if (!isScrollTeleport(index) && (item.getId() == 10362 || !item.getName().toLowerCase().contains("("))) {
 			player.sendMessage("Your " + item.getName().toLowerCase() + " has ran out of charges. You need to recharge it if you wish it use it once more.");
 			return false;
 		}
@@ -147,8 +147,6 @@ public class ItemTeleports {
 		if (HeroesGuild.isGloryOrROW(item.getId()))
 			player.getTempAttribs().setB("glory", true);
 		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.ITEM_TELEPORT, null)) {
-			if (!hasCharges(index))
-				return;
 			int newItemId = item.getId() + ((isNegative(index) ? -1 : 1) * (isIncremented(index) ? 2 : 1)), slot = equipmentTeleport ? Equipment.getItemSlot(item.getId()) : player.getInventory().getItems().getThisItemSlot(item);
 			if (item.getId() == LOWEST_AMOUNT[index] && destroyOnEmpty(index)) {
 				if (equipmentTeleport)
@@ -189,12 +187,6 @@ public class ItemTeleports {
 			if (item.getName().toLowerCase().contains(ITEM_NAMES[i]))
 				return i;
 		return -1;
-	}
-
-	private static boolean hasCharges(int index) {
-		if (index == 9 || index == 17 || index == 18)
-			return false;
-		return true;
 	}
 
 	private static boolean isNegative(int index) {
