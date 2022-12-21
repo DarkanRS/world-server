@@ -61,12 +61,12 @@ public class SiphonCreaturesInteraction extends PlayerEntityInteractionAction<Si
 
 	@Override
 	public boolean canStart(Player player) {
-		return true;
+		return getAction().start(player);
 	}
 
 	@Override
 	public boolean checkAll(Player player) {
-		return true;
+		return getAction().checkAll(player);
 	}
 
 	@Override
