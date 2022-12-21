@@ -146,15 +146,17 @@ public class Yanille {
 		@Override
 		public void handle(ObjectClickEvent e) {
 			if (!Agility.hasLevel(e.getPlayer(), 18)) {
-				e.getPlayer().sendMessage("You need 18 agility");
+				e.getPlayer().sendMessage("You need 18 Agility to climb that.");
 				return;
 			}
 
 			Player p = e.getPlayer();
 			WorldObject obj = e.getObject();
 
-			if(obj.getId() == 20056)
+			if(obj.getId() == 20056) {
 				p.useLadder(WorldTile.of(2548, 3118, 1));
+				p.getSkills().addXp(Skills.AGILITY, 31);
+			}
 
 		}
 	};
