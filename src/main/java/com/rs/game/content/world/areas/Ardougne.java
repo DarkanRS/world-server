@@ -52,6 +52,18 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ardougne  {
+	
+	public static NPCClickHandler handleSpiritOfScorpius = new NPCClickHandler(new Object[] { 492 }) {
+		@Override
+		public void handle(NPCClickEvent e) {
+			e.getPlayer().startConversation(new Dialogue()
+					.addNextIf(() -> e.getPlayer().getEquipment().getAmuletId() != 552, new Dialogue()
+						.addSimple("This powerful spirit seems capable of speaking to you even though you are not wearing an Amulet of Ghostspeak."))
+					.addNPC(492, HeadE.OLD_CHAT, "Who treads upon my grave?")
+					
+					);
+		}
+	};
 
 	public static NPCClickHandler handleBrotherOmad = new NPCClickHandler(new Object[] { 279 }) {
 		@Override

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import com.rs.game.content.dialogue.impl.StageSelectDialogue;
@@ -258,6 +259,18 @@ public class Dialogue {
 			nextD.setPrev(this);
 		next.add(nextD);
 		return nextD;
+	}
+	
+	public Dialogue addNextIf(BooleanSupplier condition, Dialogue dialogue) {
+		if (condition.getAsBoolean())
+			return addNext(dialogue);
+		return this;
+	}
+
+	public Dialogue addNextIf(BooleanSupplier condition, Runnable event) {
+		if (condition.getAsBoolean())
+			return addNext(event);
+		return this;
 	}
 
 	public Dialogue addNext(Dialogue dialogue) {
