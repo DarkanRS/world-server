@@ -16,14 +16,12 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 
 public class AnimatedArmor extends NPC {

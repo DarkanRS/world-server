@@ -438,13 +438,6 @@ public class InventoryOptionsHandler {
 		player.stopAll(false);
 		if (item.getDefinitions().isBindItem())
 			player.getDungManager().bind(item, slotId);
-		if (item.getId() >= 11095 && item.getId() <= 11103)
-			if (!item.getDefinitions().isNoted() && player.getInventory().containsItem(item.getId(), 1)) {
-				player.getInventory().deleteItem(item.getId(), 1);
-				if (!item.getDefinitions().getName().contains("(1)"))
-					player.getInventory().addItem(item.getId() + 2, 1);
-				player.refreshForinthry();
-			}
 		if (itemId >= 5509 && itemId <= 5514) {
 			int pouch = -1;
 			if (itemId == 5509)

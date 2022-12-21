@@ -46,8 +46,12 @@ public class SiphonAction extends PlayerAction {
 			player.simpleDialogue("This creature requires level " + creatures.levelRequired + " to siphon.");
 			return false;
 		}
-		if ((!creatures.rune.isPureEss() && !player.getInventory().containsOneItem(Runecrafting.PURE_ESS, Runecrafting.RUNE_ESS)) || (creatures.rune.isPureEss() && !player.getInventory().containsItem(Runecrafting.PURE_ESS))) {
+		if (!creatures.rune.isPureEss() && !player.getInventory().containsOneItem(Runecrafting.PURE_ESS, Runecrafting.RUNE_ESS)) {
 			player.sendMessage("You don't have any rune essence to siphon from that creature.");
+			return false;
+		}
+		if (creatures.rune.isPureEss() && !player.getInventory().containsItem(Runecrafting.PURE_ESS)) {
+			player.sendMessage("You don't have any pure essence to siphon from that creature.");
 			return false;
 		}
 		if (!started) {
