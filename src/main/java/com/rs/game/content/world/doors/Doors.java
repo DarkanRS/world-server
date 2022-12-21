@@ -418,16 +418,18 @@ public class Doors {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		ObjectDefinitions openedDef = ObjectDefinitions.getDefs(DoorPair.getOpposingDoor(player, object));
 		boolean tempMove = isTempMove(openedDef);
-		GameObject[] doors = getNearby(player, object, (t1, t2) -> {
-			return t1.getY() > t2.getY();
-		}, object.getTile().transform(0, 1, 0), object.getTile().transform(0, -1, 0));
-		if (doors == null)
-			doors = getNearby(player, object, (t1, t2) -> {
-				return t1.getX() > t2.getX();
-			}, object.getTile().transform(1, 0, 0), object.getTile().transform(-1, 0, 0));
-		if (doors == null) {
-			handleDoor(player, object);
-			return;
+		GameObject[] doors = new GameObject[2];
+		if (object instanceof Door door && door.getPair() != null) {
+			doors[0] = door;
+			doors[1] = door.getPair();
+		} else {
+			doors = getNearby(player, object, (t1, t2) -> t1.getY() > t2.getY(), object.getTile().transform(0, 1, 0), object.getTile().transform(0, -1, 0));
+			if (doors == null)
+				doors = getNearby(player, object, (t1, t2) -> t1.getX() > t2.getX(), object.getTile().transform(1, 0, 0), object.getTile().transform(-1, 0, 0));
+			if (doors == null) {
+				handleDoor(player, object);
+				return;
+			}
 		}
 		int rotation = doors[0].getRotation(open ? invert ? 2 : 0 : invert ? 3 : 1);
 		switch (rotation) {
@@ -445,8 +447,10 @@ public class Doors {
 					World.spawnObject(d0.getOriginal());
 					World.spawnObject(d1.getOriginal());
 				} else {
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].getTile().transform(-1, 0, 0) : doors[0].getTile().transform(1, 0, 0), doors[0]));
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].getTile().transform(-1, 0, 0) : doors[1].getTile().transform(1, 0, 0), doors[1]));
+					Door door0 = new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].getTile().transform(-1, 0, 0) : doors[0].getTile().transform(1, 0, 0), doors[0]);
+					Door door1 = new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].getTile().transform(-1, 0, 0) : doors[1].getTile().transform(1, 0, 0), doors[1]);
+					World.spawnObject(door0.setPair(door1));
+					World.spawnObject(door1.setPair(door0));
 				}
 			}
 			break;
@@ -464,8 +468,10 @@ public class Doors {
 					World.spawnObject(d0.getOriginal());
 					World.spawnObject(d1.getOriginal());
 				} else {
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].getTile().transform(0, 1, 0) : doors[0].getTile().transform(0, -1, 0), doors[0]));
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].getTile().transform(0, 1, 0) : doors[1].getTile().transform(0, -1, 0), doors[1]));
+					Door door0 = new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? -1 : 1), open ? doors[0].getTile().transform(0, 1, 0) : doors[0].getTile().transform(0, -1, 0), doors[0]);
+					Door door1 = new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? 1 : -1), open ? doors[1].getTile().transform(0, 1, 0) : doors[1].getTile().transform(0, -1, 0), doors[1]);
+					World.spawnObject(door0.setPair(door1));
+					World.spawnObject(door1.setPair(door0));
 				}
 			}
 			break;
@@ -483,8 +489,10 @@ public class Doors {
 					World.spawnObject(d0.getOriginal());
 					World.spawnObject(d1.getOriginal());
 				} else {
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].getTile().transform(1, 0, 0) : doors[0].getTile().transform(-1, 0, 0), doors[0]));
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].getTile().transform(1, 0, 0) : doors[1].getTile().transform(-1, 0, 0), doors[1]));
+					Door door0 = new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].getTile().transform(1, 0, 0) : doors[0].getTile().transform(-1, 0, 0), doors[0]);
+					Door door1 = new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].getTile().transform(1, 0, 0) : doors[1].getTile().transform(-1, 0, 0), doors[1]);
+					World.spawnObject(door0.setPair(door1));
+					World.spawnObject(door1.setPair(door0));
 				}
 			}
 			break;
@@ -502,8 +510,10 @@ public class Doors {
 					World.spawnObject(d0.getOriginal());
 					World.spawnObject(d1.getOriginal());
 				} else {
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].getTile().transform(0, -1, 0) : doors[0].getTile().transform(0, 1, 0), doors[0]));
-					World.spawnObject(new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].getTile().transform(0, -1, 0) : doors[1].getTile().transform(0, 1, 0), doors[1]));
+					Door door0 = new Door(DoorPair.getOpposingDoor(player, doors[0]), doors[0].getType(), doors[0].getRotation(open ? 1 : -1), open ? doors[0].getTile().transform(0, -1, 0) : doors[0].getTile().transform(0, 1, 0), doors[0]);
+					Door door1 = new Door(DoorPair.getOpposingDoor(player, doors[1]), doors[1].getType(), doors[1].getRotation(open ? -1 : 1), open ? doors[1].getTile().transform(0, -1, 0) : doors[1].getTile().transform(0, 1, 0), doors[1]);
+					World.spawnObject(door0.setPair(door1));
+					World.spawnObject(door1.setPair(door0));
 				}
 			}
 			break;
@@ -686,6 +696,7 @@ public class Doors {
 
 	public static class Door extends GameObject {
 		private GameObject original;
+		private Door pair;
 
 		public Door(int id, ObjectType type, int rotation, WorldTile location, GameObject original) {
 			super(id, type, rotation, location);
@@ -694,6 +705,15 @@ public class Doors {
 
 		public GameObject getOriginal() {
 			return original;
+		}
+
+		public Door getPair() {
+			return pair;
+		}
+
+		public Door setPair(Door pair) {
+			this.pair = pair;
+			return this;
 		}
 	}
 }

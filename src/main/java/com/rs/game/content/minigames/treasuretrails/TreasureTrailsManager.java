@@ -607,7 +607,7 @@ public class TreasureTrailsManager {
 		SIMPLE_D_1(MEDIUM, SIMPLE, OBJECT, 24911, "A town with a different sort of", "night-life is your destination.", "Search for some crates", "in one of the houses."),
 		SIMPLE_G_1(EASY, SIMPLE, TILE, 40275377, "Dig near some giant mushrooms behind", "the Grand Tree."),
 		SIMPLE_L_1(EASY, SIMPLE, OBJECT, 37011, "Go to the village being", "attacked by trolls, search the", "drawers in one of the houses."),
-		SIMPLE_N_1(MEDIUM, SIMPLE, OBJECT, 10159, "North of the best monkey restaurant on Karamja,", "look for the centre of the triangle of boats and", "search there."),
+		SIMPLE_N_1(MEDIUM, SIMPLE, OBJECT, 10159, "North of the best monkey restaurant on", "Karamja, look for the centre of the", "triangle of boats and search there."),
 		SIMPLE_O_1(EASY, SIMPLE, NPC, 376, "One of the sailors in Port Sarim is your", "next destination."),
 		SIMPLE_S_1(EASY, SIMPLE, OBJECT, 66875, "Search a barrel near the Combat.", "Skill SlayerMasterD at the combat", "training area, in Burthorpe."),
 		SIMPLE_S_2(EASY, SIMPLE, OBJECT, 66875, "Search a barrel outside the Pick", "and Lute inn, in Taverley."),
