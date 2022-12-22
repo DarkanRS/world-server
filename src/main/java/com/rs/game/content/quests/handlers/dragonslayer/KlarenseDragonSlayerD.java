@@ -16,7 +16,6 @@ import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
@@ -156,14 +155,14 @@ public class KlarenseDragonSlayerD extends Conversation {
 		addPlayer(HeadE.HAPPY_TALKING, "I'd like to buy her.");
 		addNPC(KLARENSE, HeadE.CALM_TALK, "Of course! I'm sure the work needed to do on it wouldn't be too expensive. How does 2,000 gold sound? I'll " +
 				"even throw in my cabin boy, Jenkins, for free! He'll swab the decks and splice the mainsails for you!");
-		if(p.getInventory().containsItem(995, 2000))
+		if(p.getInventory().hasCoins(2000))
 			addOptions("Buy Lady Lumbridge?", new Options() {
 				@Override
 				public void create() {
 					option("Yep, sounds good.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Yep, sounds good.")
 							.addNPC(KLARENSE, HeadE.CALM_TALK, "Okey dokey, she's all yours!", () -> {
-								p.getInventory().removeItems(new Item(995, 2000));
+								p.getInventory().removeCoins(2000);
 								p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(OWNS_BOAT_ATTR, true);
 							}));
 					option("I'm not paying that much for a broken boat!", new Dialogue()

@@ -34,7 +34,6 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
@@ -80,7 +79,7 @@ public class Karamja  {
 						.addOptions("Choose an option:", new Options() {
 							@Override
 							public void create() {
-								if(e.getPlayer().getInventory().getAmountOf(995) >= 875)
+								if(e.getPlayer().getInventory().hasCoins(875)) {
 									option("Can I go through that door please?", new Dialogue()
 										.addPlayer(HeadE.HAPPY_TALKING, "Can I go through that door please?")
 										.addNPC(NPC, HeadE.HAPPY_TALKING, "Most certainly, but I must charge you the sum of 875 coins first")
@@ -90,7 +89,7 @@ public class Karamja  {
 												option("Ok, here's 875 coins", new Dialogue()
 														.addPlayer(HeadE.CALM_TALK, "Ok, here's 875 coins")
 														.addItem(6964, "You give SaniBoch 875 coins.", ()->{
-															e.getPlayer().getInventory().removeItems(new Item(995, 875));
+															e.getPlayer().getInventory().removeCoins(875);
 															e.getPlayer().getTempAttribs().setB("paid_brimhaven_entrance_fee", true);
 														})
 														.addNPC(NPC, HeadE.HAPPY_TALKING, "Many thanks. You may now pass the door. May your death be a glorious one!")
@@ -109,7 +108,7 @@ public class Karamja  {
 											}
 										})
 									);
-								if(e.getPlayer().getInventory().getAmountOf(995) < 875)
+								} else {
 									option("Can I go through that door please?", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Can I go through that door please?")
 											.addNPC(NPC, HeadE.HAPPY_TALKING, "Most certainly, but I must charge you the sum of 875 coins first")
@@ -118,6 +117,7 @@ public class Karamja  {
 											.addPlayer(HeadE.HAPPY_TALKING, "But you don't even have clothes, how can you seriously call anyone riff raff.")
 											.addNPC(NPC, HeadE.FRUSTRATED, "Hummph.")
 									);
+								}
 								option("Where does this strange entrance lead?", new Dialogue()
 										.addPlayer(HeadE.HAPPY_TALKING, "Where does this strange entrance lead?")
 										.addNPC(NPC, HeadE.CALM_TALK, "To a huge fearsome dungeon, populated by giants and strange dogs. Adventurers come from all around to explore its depths.")
@@ -144,7 +144,7 @@ public class Karamja  {
 				}
 				e.getPlayer().startConversation(new Dialogue()
 						.addItem(6964, "You give SaniBoch 875 coins.", ()->{
-							e.getPlayer().getInventory().removeItems(new Item(995, 875));
+							e.getPlayer().getInventory().removeCoins(875);
 							e.getPlayer().getTempAttribs().setB("paid_brimhaven_entrance_fee", true);
 						})
 						.addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Many thanks. You may now pass the door. May your death be a glorious one!")
@@ -371,8 +371,8 @@ public class Karamja  {
 				return;
 			if (e.getPlayer().getY() > e.getObject().getY())
 				Doors.handleDoor(e.getPlayer(), e.getObject());
-			else if (e.getPlayer().getInventory().containsItem(995, 20)) {
-				e.getPlayer().getInventory().deleteItem(995, 20);
+			else if (e.getPlayer().getInventory().hasCoins(20)) {
+				e.getPlayer().getInventory().removeCoins(20);
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 			} else
 				e.getPlayer().sendMessage("You need 20 gold to use this furnace.");

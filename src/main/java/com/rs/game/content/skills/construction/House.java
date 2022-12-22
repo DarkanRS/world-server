@@ -271,7 +271,7 @@ public class House {
 			}
 			for (int index = 0; index < HouseConstants.Room.values().length - 2; index++) {
 				Room refRoom = HouseConstants.Room.values()[index];
-				if (player.getSkills().getLevel(Constants.CONSTRUCTION) >= refRoom.getLevel() && player.getInventory().getAmountOf(995) >= refRoom.getPrice())
+				if (player.getSkills().getLevel(Constants.CONSTRUCTION) >= refRoom.getLevel() && player.getInventory().hasCoins(refRoom.getPrice()))
 					player.getPackets().setIFText(402, index + (refRoom == HouseConstants.Room.DUNGEON_STAIRS || refRoom == HouseConstants.Room.DUNGEON_PIT ? 69 : refRoom == HouseConstants.Room.TREASURE_ROOM ? 70 : 68), "<col=008000> " + refRoom.getPrice() + " coins");
 			}
 			player.getInterfaceManager().sendInterface(402);
@@ -640,11 +640,11 @@ public class House {
 	}
 
 	public void createRoom(RoomReference room) {
-		if (player.getInventory().getNumberOf(995) < room.room.getPrice()) {
+		if (!player.getInventory().hasCoins(room.room.getPrice())) {
 			player.sendMessage("You don't have enough coins to build this room.");
 			return;
 		}
-		player.getInventory().deleteItem(995, room.room.getPrice());
+		player.getInventory().removeCoins(room.room.getPrice());
 		player.getTempAttribs().setO("CRef", room);
 		roomsR.add(room);
 		refreshNumberOfRooms();

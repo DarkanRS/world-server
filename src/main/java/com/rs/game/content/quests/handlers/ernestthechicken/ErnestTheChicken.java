@@ -122,7 +122,7 @@ public class ErnestTheChicken extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		player.getInventory().addItem(new Item(995, 3000), true);
+		player.getInventory().addCoins(3000);
 		player.getInventory().addItem(new Item(1945, 10), true);
 		player.getInventory().addItem(new Item(314, 300), true);
 		getQuest().sendQuestCompleteInterface(player, 314, "3,000 coins", "10 eggs", "300 feathers");

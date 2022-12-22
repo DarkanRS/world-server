@@ -31,11 +31,11 @@ public class RepairStandD extends Conversation {
 			boolean stand = e.getPlayer().getO("repairStand");
 			int slot = e.getPlayer().getO("repairSlot");
 			if (e.getComponentId() == 9) {
-				if (e.getPlayer().getInventory().containsItem(995, stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item))) {
+				if (e.getPlayer().getInventory().hasCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item))) {
 					if (e.getPlayer().getInventory().getItem(slot) == null || e.getPlayer().getInventory().getItem(slot).getId() != item.getId())
 						return;
 					e.getPlayer().getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
-					e.getPlayer().getInventory().deleteItem(995, stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item));
+					e.getPlayer().getInventory().removeCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item));
 					e.getPlayer().getInventory().refresh();
 				} else
 					e.getPlayer().sendMessage("You don't have enough coins.");

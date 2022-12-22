@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
@@ -102,7 +101,7 @@ public class Bank {
 			else if (e.getComponentId() == 39)
 				e.getPlayer().getBank().depositAllBob(true);
 			else if (e.getComponentId() == 35)
-				e.getPlayer().sendMessage("Coin pouch is disabled.");
+				e.getPlayer().sendMessage("Someone else can have a crack at coding this. Not a fan.");
 			else if (e.getComponentId() == 46) {
 				e.getPlayer().closeInterfaces();
 				e.getPlayer().getInterfaceManager().sendInterface(767);

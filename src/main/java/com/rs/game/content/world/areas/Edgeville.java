@@ -192,10 +192,10 @@ public class Edgeville  {
 												.addOption("Select an option", "Yes, please!", "No, thanks.", "That's a bit expensive!")
 												.addNPC(747, HeadE.CALM, "Great lets take a look.")
 												.addNext(
-														(player.getInventory().containsItem(11286) && player.getInventory().containsItem(995, 1250000) && player.getInventory().containsItem(1540) ?
+														(player.getInventory().containsItem(11286) && player.getInventory().hasCoins(1250000) && player.getInventory().containsItem(1540) ?
 																new Dialogue().addItem(11283, "Oziach skillfully forges the shield and visage into a new shield.", () -> {
 																	player.getInventory().deleteItem(11286, 1);
-																	player.getInventory().deleteItem(995, 1250000);
+																	player.getInventory().removeCoins(1250000);
 																	player.getInventory().deleteItem(1540, 1);
 																	player.getInventory().addItem(11283, 1);
 																}) : new Dialogue().addNPC(747, HeadE.CALM_TALK, "Ye seem to be missing some stuff. Come see me when ye have an anti-dragon shield and my payment."))

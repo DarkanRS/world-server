@@ -87,11 +87,11 @@ public class SawmillOperator  {
 			ops.add("Make "+finalAmount+" planks. ("+finalPrice+" coins)", () -> {
 				if (!player.getInventory().containsItem(log, finalAmount))
 					return;
-				if (!player.getInventory().containsItem(995, finalPrice)) {
+				if (!player.getInventory().hasCoins(finalPrice)) {
 					player.sendMessage("You don't have enough money to make the planks.");
 					return;
 				}
-				player.getInventory().deleteItem(995, finalPrice);
+				player.getInventory().removeCoins(finalPrice);
 				player.getInventory().deleteItem(log, finalAmount);
 				player.getInventory().addItem(plank, finalAmount);
 			});

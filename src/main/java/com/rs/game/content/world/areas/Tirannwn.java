@@ -292,15 +292,15 @@ public class Tirannwn {
 						public void create() {
 							option("Could you repair some seeds for me?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Of course! If you have a seed you would like me to repair, use it on me."));
 							option("Could I buy a crystal bow?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 1,000,000 coins.").addOption("Buy a crystal bow for 1,000,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.").addNext(() -> {
-								if (player.getInventory().containsItem(995, 1000000)) {
-									player.getInventory().deleteItem(995, 1000000);
+								if (player.getInventory().hasCoins(1000000)) {
+									player.getInventory().removeCoins(1000000);
 									player.getInventory().addItem(4212, 1);
 								} else
 									player.sendMessage("You don't have enough money.");
 							}));
 							option("Could I buy a crystal shield?", new Dialogue().addNPC(e.getNPCId(), HeadE.CHEERFUL, "Yes, but it will cost you 750,000 coins.").addOption("Buy a crystal shield for 750,000 coins?", "Yes, I'd like to buy one.", "No thanks, that's way too much for me.").addNext(() -> {
-								if (player.getInventory().containsItem(995, 750000)) {
-									player.getInventory().deleteItem(995, 750000);
+								if (player.getInventory().hasCoins(750000)) {
+									player.getInventory().removeCoins(750000);
 									player.getInventory().addItem(4224, 1);
 								} else
 									player.sendMessage("You don't have enough money.");
@@ -327,18 +327,18 @@ public class Tirannwn {
 				final int cost = estCost;
 				e.getPlayer().sendOptionDialogue("Would you like to attune your crystal seed for " + cost + " gold?", ops -> {
 					ops.add("Yes, I'll pay " + cost + " gold for a bow.", () -> {
-						if (e.getPlayer().getInventory().containsItem(995, cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
+						if (e.getPlayer().getInventory().hasCoins(cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
 							e.getPlayer().getInventory().deleteItem(4207, 1);
-							e.getPlayer().getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().removeCoins(cost);
 							e.getPlayer().getInventory().addItem(4212, 1);
 							e.getPlayer().incrementCrystalSeedRepair();
 						} else
 							e.getPlayer().sendMessage("You don't have enough money.");
 					});
 					ops.add("Yes, I'll pay " + cost + " gold for a shield.", () -> {
-						if (e.getPlayer().getInventory().containsItem(995, cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
+						if (e.getPlayer().getInventory().hasCoins(cost) && e.getPlayer().getInventory().containsItem(4207, 1)) {
 							e.getPlayer().getInventory().deleteItem(4207, 1);
-							e.getPlayer().getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().removeCoins(cost);
 							e.getPlayer().getInventory().addItem(4224, 1);
 							e.getPlayer().incrementCrystalSeedRepair();
 						} else
@@ -359,8 +359,9 @@ public class Tirannwn {
 				int totalCost = cost * numSeeds;
 				e.getPlayer().sendOptionDialogue("Repair all your teleport seeds for " + totalCost + "?", ops -> {
 					ops.add("Yes, please.", () -> {
-						if (e.getPlayer().getInventory().containsItem(995, totalCost) && e.getPlayer().getInventory().containsItem(6103, numSeeds)) {
+						if (e.getPlayer().getInventory().hasCoins(totalCost) && e.getPlayer().getInventory().containsItem(6103, numSeeds)) {
 							e.getPlayer().getInventory().deleteItem(6103, numSeeds);
+							e.getPlayer().getInventory().removeCoins(totalCost);
 							e.getPlayer().getInventory().addItem(6099, numSeeds);
 							for (int i = 0; i < numSeeds; i++)
 								e.getPlayer().incrementTinyCrystalSeedRepair();

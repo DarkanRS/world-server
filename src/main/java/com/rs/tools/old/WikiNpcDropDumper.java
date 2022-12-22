@@ -20,7 +20,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.lang.SuppressWarnings;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;

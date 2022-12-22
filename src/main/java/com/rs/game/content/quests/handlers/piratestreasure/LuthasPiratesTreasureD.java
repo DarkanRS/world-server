@@ -88,7 +88,7 @@ public class LuthasPiratesTreasureD extends Conversation {
 					addPlayer(HeadE.HAPPY_TALKING, "I've filled a crate with bananas.");
 					addNPC(LUTHAS, HeadE.CALM_TALK, "Well done, here's your payment");
 					addSimple("Luthas hands you 30 coins.", ()->{
-						p.getInventory().addItem(new Item(995, 30));
+						p.getInventory().addCoins(30);
 						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI(BANANA_COUNT_ATTR);
 						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI(LUTHAS_EMPLOYMENT_ATTR);
 						if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR)) {

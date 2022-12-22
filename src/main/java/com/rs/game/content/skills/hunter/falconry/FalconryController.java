@@ -146,11 +146,11 @@ public class FalconryController extends Controller {
 		}
 		player.sendOptionDialogue("Pay 500 coins to borrow a falcon?", ops -> {
 			ops.add("Yes", () -> {
-				if (!player.getInventory().containsItem(995, 500)) {
+				if (!player.getInventory().hasCoins(500)) {
 					player.sendMessage("You need 500 coins to borrow a falcon.");
 					return;
 				}
-				player.getInventory().deleteItem(995, 500);
+				player.getInventory().removeCoins(500);
 				player.getControllerManager().startController(new FalconryController());
 			});
 			ops.add("No");

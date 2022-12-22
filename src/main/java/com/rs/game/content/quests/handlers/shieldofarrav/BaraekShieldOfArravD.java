@@ -43,11 +43,11 @@ public class BaraekShieldOfArravD extends Conversation {
 							.addOptions("Choose an option: ", new Options() {
 								@Override
 								public void create() {
-									if(p.getInventory().containsItem(995, 10))
+									if(p.getInventory().hasCoins(10))
 										option("Alright. Have 10 gold coins.", new Dialogue()
 												.addSimple("You give him 10 coins", () -> {
 													if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.TALK_TO_BARAEK_STAGE) {
-														p.getInventory().deleteItem(995, 10);
+														p.getInventory().removeCoins(10);
 														ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_BARAEK_STAGE);
 													}
 												}).addNPC(BARAEK, HeadE.SECRETIVE, "To get to the gang hideout, enter Varrock through the south gate. Then, if you take the first turn east, " +
@@ -69,7 +69,7 @@ public class BaraekShieldOfArravD extends Conversation {
 														option("Thanks!", () -> {});
 													}
 												}));
-									else if(!p.getInventory().containsItem(995, 10))
+									else
 										option("I haven't got that much.", new Dialogue()
 												.addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "I haven't got that much")
 												.addNPC(BARAEK, HeadE.ANGRY, "In that case I wouldn't dare tell you anything about the Phoenix Gang.")

@@ -31,21 +31,21 @@ public class StrongholdRewardD extends Conversation {
 		case 0:
 			addSimple("The box hinges and crack and appear to be forming audible words....");
 			addSimple("...congratulations adventurer, you have been deemed worthy of this reward. You have also unlocked the Flap emote!", () -> {
-				player.getInventory().addItem(995, 2000, true);
+				player.getInventory().addCoins(2000);
 				player.getEmotesManager().unlockEmote(Emote.FLAP);
 			});
 			break;
 		case 1:
 			addSimple("The grain shifts in the sack, sighing audible words....");
 			addSimple("...congratulations adventurer, you have been deemed worthy of this reward. You have also unlocked the Slap Head emote!", () -> {
-				player.getInventory().addItem(995, 3000, true);
+				player.getInventory().addCoins(3000);
 				player.getEmotesManager().unlockEmote(Emote.SLAP_HEAD);
 			});
 			break;
 		case 2:
 			addSimple("The box hinges creak and appear to be forming audible words....");
 			addSimple("...congratulations adventurer, you have been deemed worthy of this reward. You have also unlocked the Idea emote!", () -> {
-				player.getInventory().addItem(995, 5000, true);
+				player.getInventory().addCoins(5000);
 				player.getEmotesManager().unlockEmote(Emote.IDEA);
 				player.sendMessage("You feel refreshed.");
 				player.reset();

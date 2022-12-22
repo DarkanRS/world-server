@@ -75,11 +75,11 @@ public class Draynor {
 									.addNext(() -> {
 										player.startConversation(new Conversation(player) {
 											{
-												if(player.getInventory().containsItem(995, 15)) {
+												if(player.getInventory().hasCoins(15)) {
 													addNPC(NED, HeadE.HAPPY_TALKING, "Okay that will be 15 coins...");
 													addPlayer(HeadE.CALM_TALK, "Thats good, here you go!");
 													addNext(()->{
-														player.getInventory().deleteItem(995, 15);
+														player.getInventory().removeCoins(15);
 														player.getInventory().addItem(954, 1);
 													});
 
@@ -256,9 +256,9 @@ public class Draynor {
 										public void create() {
 											option("Red dye", () -> {
 												if (player.getInventory().containsItem(1951, 3)
-														&& player.getInventory().containsItem(995, 5)) {
+														&& player.getInventory().hasCoins(5)) {
 													player.getInventory().deleteItem(1951, 3);
-													player.getInventory().deleteItem(995, 5);
+													player.getInventory().removeCoins(5);
 													player.getInventory().addItem(1763, 1);
 												} else
 													player.getPackets().sendGameMessage(
@@ -266,9 +266,9 @@ public class Draynor {
 											});
 											option("Yellow dye", () -> {
 												if (player.getInventory().containsItem(1957, 2)
-														&& player.getInventory().containsItem(995, 5)) {
+														&& player.getInventory().hasCoins(5)) {
 													player.getInventory().deleteItem(1957, 2);
-													player.getInventory().deleteItem(995, 5);
+													player.getInventory().removeCoins(5);
 													player.getInventory().addItem(1765, 1);
 												} else
 													player.getPackets()
@@ -276,9 +276,9 @@ public class Draynor {
 											});
 											option("Blue dye", () -> {
 												if (player.getInventory().containsItem(1793, 2)
-														&& player.getInventory().containsItem(995, 5)) {
+														&& player.getInventory().hasCoins(5)) {
 													player.getInventory().deleteItem(1793, 2);
-													player.getInventory().deleteItem(995, 5);
+													player.getInventory().removeCoins(5);
 													player.getInventory().addItem(1767, 1);
 												} else
 													player.getPackets().sendGameMessage(
@@ -305,8 +305,8 @@ public class Draynor {
 						@Override
 						public void create() {
 							option("The attractor", () -> {
-								if (player.getInventory().containsItem(995, 999)) {
-									player.getInventory().deleteItem(995, 999);
+								if (player.getInventory().hasCoins(999)) {
+									player.getInventory().removeCoins(999);
 									player.getInventory().addItem(10498, 1);
 									player.startConversation(
 											new Dialogue().addSimple("You buy an attractor for 999 coins."));
@@ -317,9 +317,9 @@ public class Draynor {
 							});
 							if (e.getPlayer().getSkills().getLevelForXp(Constants.RANGE) >= 50)
 								option("The accumulator", () -> {
-									if (player.getInventory().containsItem(995, 999)
+									if (player.getInventory().hasCoins(999)
 											&& player.getInventory().containsItem(886, 75)) {
-										player.getInventory().deleteItem(995, 999);
+										player.getInventory().removeCoins(999);
 										player.getInventory().deleteItem(886, 75);
 										player.getInventory().addItem(10499, 1);
 										player.startConversation(new Dialogue().addSimple(
@@ -331,9 +331,9 @@ public class Draynor {
 								});
 							if (player.isQuestComplete(Quest.DO_NO_EVIL, "to claim an alerter."))
 								option("The alerter", () -> {
-									if (player.getInventory().containsItem(995, 999)
+									if (player.getInventory().hasCoins(999)
 											&& player.getInventory().containsItem(886, 75)) {
-										player.getInventory().deleteItem(995, 999);
+										player.getInventory().removeCoins(999);
 										player.getInventory().deleteItem(886, 75);
 										player.getInventory().addItem(20068, 1);
 										player.startConversation(new Dialogue()

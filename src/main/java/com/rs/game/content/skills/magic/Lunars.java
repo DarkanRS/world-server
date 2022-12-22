@@ -181,7 +181,7 @@ public class Lunars {
 		
 		int price = (int) (SawmillOperator.prices[index] * 0.7);
 		
-		if (!player.getInventory().containsItem(995, price)) {
+		if (!player.getInventory().hasCoins(price)) {
 			player.sendMessage("You need " + Utils.formatNumber(price) + " gold to convert this log.");
 			return;
 		}
@@ -191,7 +191,7 @@ public class Lunars {
 
 		player.setNextAnimation(new Animation(6298));
 		player.setNextSpotAnim(new SpotAnim(1063, 0, 50));
-		player.getInventory().deleteItem(995, price);
+		player.getInventory().removeCoins(price);
 		player.getInventory().deleteItem(SawmillOperator.logs[index], 1);
 		player.getInventory().addItem(SawmillOperator.planks[index], 1);
 		player.getSkills().addXp(Constants.MAGIC, 90);

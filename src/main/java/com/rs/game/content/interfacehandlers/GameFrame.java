@@ -16,6 +16,9 @@
 //
 package com.rs.game.content.interfacehandlers;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import com.rs.game.model.entity.actions.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -183,12 +186,21 @@ public class GameFrame {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			if ((e.getInterfaceId() == 548 && e.getComponentId() == 167) || (e.getInterfaceId() == 746 && e.getComponentId() == 208)) {
-				if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
-					e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
-					return;
+				switch(e.getPacket()) {
+				case IF_OP1 -> e.getPlayer().getPackets().sendRunScript(5557, 1);
+				case IF_OP2 -> e.getPlayer().sendInputInteger("How much would you like to withdraw?", num -> e.getPlayer().getInventory().coinPouchToInventory(num));
+				case IF_OP3 -> e.getPlayer().sendMessage("Your pouch contains " + NumberFormat.getNumberInstance(Locale.US).format(e.getPlayer().getInventory().getCoins()) + " coins.");
+				case IF_OP4 -> {
+					if (e.getPlayer().getInterfaceManager().containsScreenInter() || e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
+						e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
+						return;
+					}
+					e.getPlayer().stopAll();
+					PriceChecker.openPriceCheck(e.getPlayer());
+					
 				}
-				e.getPlayer().stopAll();
-				PriceChecker.openPriceCheck(e.getPlayer());
+				default -> e.getPlayer().sendMessage("Unknown coin pouch option.");
+				}
 				return;
 			}
 			if ((e.getInterfaceId() == 548 && e.getComponentId() == 157) || (e.getInterfaceId() == 746 && e.getComponentId() == 200)) {

@@ -84,7 +84,7 @@ public class ClockTower extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.sendMessage("Congratulations! You have completed: 'Clock Tower'.");
-		player.getInventory().addItem(new Item(995, 500), true);
+		player.getInventory().addCoins(500);
 		getQuest().sendQuestCompleteInterface(player, 6964, "500 Coins");
 	}
 }

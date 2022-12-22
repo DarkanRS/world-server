@@ -61,8 +61,8 @@ public class AlKharid {
 	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 35549, 35551 }) {
 		@Override
 		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getInventory().containsItem(995, 10)) {
-				e.getPlayer().getInventory().deleteItem(995, 10);
+			if (e.getPlayer().getInventory().hasCoins(10)) {
+				e.getPlayer().getInventory().removeCoins(10);
 				Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
 			} else
 				e.getPlayer().sendMessage("You need 10 gold to pass through this gate.");

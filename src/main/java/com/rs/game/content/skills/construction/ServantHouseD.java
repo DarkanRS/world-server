@@ -34,11 +34,11 @@ public class ServantHouseD extends Conversation {
 			addOptions("Would you you like to pay the fee of " + servant.getServantData().getCost() + "?", ops -> {
 				ops.add("Yes.", () -> {
 					int cost = servant.getServantData().getCost();
-					if (player.getInventory().getNumberOf(995) < cost) {
+					if (!player.getInventory().hasCoins(cost)) {
 						player.npcDialogue(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.UPSET, "You do not have enough coins to cover up my cost.");
 						return;
 					}
-					player.getInventory().deleteItem(995, cost);
+					player.getInventory().removeCoins(cost);
 					player.getHouse().resetPaymentStage();
 					player.npcDialogue(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CHEERFUL, "Thank you!");
 				});

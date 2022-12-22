@@ -318,10 +318,10 @@ public class ItemConstants {
 			if (item.getMetaData("frozenKeyCharges") != null && item.getMetaDataI("frozenKeyCharges") < 100)
 				player.sendOptionDialogue("Would you like to add a charge to your frozen key? It will cost 50,000 coins.", ops -> {
 					ops.add("Yes please.", () -> {
-						if (player.getInventory().containsItem(995, 50000)) {
+						if (player.getInventory().hasCoins(50000)) {
 							if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != item.getId())
 								return;
-							player.getInventory().deleteItem(995, 50000);
+							player.getInventory().removeCoins(50000);
 							player.getInventory().getItems().set(slot, new Item(20120, 1).addMetaData("frozenKeyCharges", item.getMetaDataI("frozenKeyCharges") + 1));
 						} else
 							player.sendMessage("You don't have enough money to add a charge.");

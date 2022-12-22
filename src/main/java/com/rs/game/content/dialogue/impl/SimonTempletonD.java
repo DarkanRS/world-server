@@ -33,7 +33,7 @@ public class SimonTempletonD extends Conversation {
 			addNext(new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "Excellent job mate! Here's your money."), () -> {
 				int totalMoney = player.getInventory().getAmountOf(6970) * 10000;
 				player.getInventory().deleteItem(6970, Integer.MAX_VALUE);
-				player.getInventory().addItem(995, totalMoney);
+				player.getInventory().addCoins(totalMoney);
 			}));
 		} else {
 			addNext(new PlayerStatement(HeadE.CHEERFUL, "Hi, what do you do here?"));

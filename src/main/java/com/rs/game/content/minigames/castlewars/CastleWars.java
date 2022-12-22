@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.lang.SuppressWarnings;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;

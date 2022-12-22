@@ -35,14 +35,14 @@ public class BonzoFishingContestD extends Conversation {
 			addOptions("Choose an option:", new Options() {
 				@Override
 				public void create() {
-					if(p.getInventory().containsItem(995, 5)) {
+					if(p.getInventory().hasCoins(5)) {
 						if(p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
 							option("I'll enter the competition please", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "I'll enter the competition please")
 									.addNPC(NPC, HeadE.CALM_TALK, "Marvelous!")
 									.addNPC(NPC, HeadE.CALM_TALK, "Ok, we've got all the fishermen! It's time to roll! Ok, nearly everyone is in their place " +
 											"already. You fish in the spot by the willow tree, and the Sinister Stranger, you fish by the pipes", () -> {
-												p.getInventory().removeItems(new Item(995, 5));
+												p.getInventory().removeCoins(5);
 												p.getQuestManager().setStage(Quest.FISHING_CONTEST, DO_ROUNDS);
 											})
 									.addNPC(3677, HeadE.CALM_TALK, "Actually, can I take the willow tree!?")
@@ -54,7 +54,7 @@ public class BonzoFishingContestD extends Conversation {
 									.addNPC(NPC, HeadE.CALM_TALK, "Marvelous!")
 									.addNPC(NPC, HeadE.CALM_TALK, "Ok, we've got all the fishermen! It's time to roll! Ok, nearly everyone is in their place " +
 											"already. You fish in the spot by the willow tree, and the Sinister Stranger, you fish by the pipes", () -> {
-												p.getInventory().removeItems(new Item(995, 5));
+												p.getInventory().removeCoins(5);
 												p.getQuestManager().setStage(Quest.FISHING_CONTEST, DO_ROUNDS);
 											})
 									.addNPC(NPC, HeadE.CALM_TALK, "Your fishing competition spot is by the willow tree.")

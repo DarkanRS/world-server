@@ -54,8 +54,9 @@ public class LeelaPrinceAliRescueD extends Conversation {
 				if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_gave_key")) {
 					addNPC(LEELA, HeadE.CALM_TALK, "You lost the key?");
 					addNPC(LEELA, HeadE.CALM_TALK, "I am going to need 15 coins from you to pay for the bronze.");
-					if(p.getInventory().containsItem(995, 15))
+					if(p.getInventory().hasCoins(15))
 						addSimple("Leela gives you a copy of the key to the prince's door.", () -> {
+							p.getInventory().removeCoins(15);
 							p.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
 						});
 					else {

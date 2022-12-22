@@ -112,7 +112,7 @@ public class Alchemy {
 			}
 			World.soundEffect(player, 98);
 			player.getInventory().deleteItem(item.getId(), 1);
-			player.getInventory().addItem(995, def.getSellPrice());
+			player.getInventory().addCoins(def.getSellPrice());
 			player.getSkills().addXp(Constants.MAGIC, 31);
 			player.addSpellDelay(2);
 		} else {
@@ -125,7 +125,7 @@ public class Alchemy {
 			}
 			World.soundEffect(player, 98); //low alch id... high alch doesnt match osrs... reeeee
 			player.getInventory().deleteItem(item.getId(), 1);
-			player.getInventory().addItem(995, def.getHighAlchPrice());
+			player.getInventory().addCoins(def.getHighAlchPrice());
 			player.getSkills().addXp(Constants.MAGIC, 65);
 			player.addSpellDelay(4);
 		}

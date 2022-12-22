@@ -166,8 +166,8 @@ public enum Gardener {
 						player.sendMessage("You don't have enough inventory space.");
 						return;
 					}
-					if (player.getInventory().containsItem(995, cost)) {
-						player.getInventory().deleteItem(995, cost);
+					if (player.getInventory().hasCoins(cost)) {
+						player.getInventory().removeCoins(cost);
 						player.getInventory().addItem(itemId);
 					} else
 						player.sendMessage("You don't have enough coins for that.");

@@ -72,7 +72,7 @@ public class TanningD extends Conversation {
 				if (amount > player.getInventory().getAmountOf(leather.raw))
 					amount = player.getInventory().getAmountOf(leather.raw);
 				for (int i = 0;i < amount;i++) {
-					if (!player.getInventory().containsItem(995, pricePer)) {
+					if (!player.getInventory().hasCoins(pricePer)) {
 						player.sendMessage("You have run out of gold.");
 						break;
 					}
@@ -80,7 +80,7 @@ public class TanningD extends Conversation {
 						player.sendMessage("You have run out of raw leather.");
 						break;
 					}
-					player.getInventory().deleteItem(995, pricePer);
+					player.getInventory().removeCoins(pricePer);
 					player.getInventory().deleteItem(leather.raw, 1);
 					player.getInventory().addItem(leather.tanned);
 				}

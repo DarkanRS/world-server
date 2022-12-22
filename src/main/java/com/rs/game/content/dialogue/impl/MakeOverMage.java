@@ -69,8 +69,8 @@ public class MakeOverMage extends Dialogue {
 							.addNPC(MAKEOVER_MAGE, HeadE.CALM_TALK, "No problem, but please remember that the amulet I will sell you is only a copy of my own. It contains no magical powers and, as such, it will only cost you 100 coins.")
 							.addOption("Select an option", "Sure, here you go.", "No way! That's too expensive.")
 							.addNext(() -> {
-								if (player.getInventory().containsItem(995, 100)) {
-									player.getInventory().deleteItem(995, 100);
+								if (player.getInventory().hasCoins(100)) {
+									player.getInventory().removeCoins(100);
 									player.getInventory().addItem(7803, 1);
 								} else
 									addNPC(MAKEOVER_MAGE, HeadE.CALM_TALK, "Come back with 100gp and I'll sell you a copy.");

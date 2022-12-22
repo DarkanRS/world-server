@@ -46,10 +46,10 @@ public class Neitiznot  {
 			addNPC(MAWNIS, HeadE.CONFUSED, "It's a good job I have alert and loyal men who notice when something like this is left lying around and picks it up.");
 			addNPC(MAWNIS, HeadE.CONFUSED, "I'm afraid I'm going to have to charge you a 50,000GP handling cost.");
 			Dialogue op = addOption("Pay 50,000GP to recover your helmet?", "Yes, that would be fine.", "No, that's too much.");
-			if (player.getInventory().containsItem(995, 50000))
+			if (player.getInventory().hasCoins(50000))
 				op.addNPC(MAWNIS, HeadE.HAPPY_TALKING, "Please be more careful with it in the future.", () -> {
-					if (player.getInventory().containsItem(995, 50000)) {
-						player.getInventory().deleteItem(995, 50000);
+					if (player.getInventory().hasCoins(50000)) {
+						player.getInventory().removeCoins(50000);
 						player.getInventory().addItem(10828, 1, true);
 					}
 				});
