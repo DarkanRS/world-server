@@ -33,7 +33,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -163,7 +162,7 @@ public class PestControl {
 			int coinsAmount = player.getSkills().getCombatLevel() * 100;
 			int pointsAmount = data.getReward();
 			player.simpleDialogue("Congratulations! You have successfully kept the lander safe and have been awarded: " + coinsAmount + " gold coins and " + pointsAmount + " commendation points.");
-			player.getInventory().addItem(new Item(995, coinsAmount));
+			player.getInventory().addCoins(coinsAmount);
 			player.setPestPoints(player.getPestPoints() + pointsAmount);
 		}
 	}

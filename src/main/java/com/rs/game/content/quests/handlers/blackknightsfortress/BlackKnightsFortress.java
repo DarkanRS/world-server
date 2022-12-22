@@ -135,7 +135,7 @@ public class BlackKnightsFortress extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		player.getInventory().addItem(new Item(995, 2500), true);
+		player.getInventory().addCoins(2500);
 		getQuest().sendQuestCompleteInterface(player, 9591, "2,500 coins");
 	}
 

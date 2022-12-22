@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.combat;
 
-import java.lang.SuppressWarnings;
 import java.util.HashMap;
 import java.util.Map;
 

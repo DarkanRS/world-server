@@ -196,9 +196,9 @@ public class Falador {
 													.addNPC(e.getNPCId(), HeadE.FRUSTRATED,
 															" Mmmm... okay, that sounds fair.", () -> {
 																if (player.getInventory()
-																		.containsItem(995, 15)) {
+																		.hasCoins(15)) {
 																	player.getInventory()
-																	.deleteItem(995, 15);
+																	.removeCoins(15);
 																	player.getInventory().addItem(1793,
 																			1);
 																} else
@@ -210,9 +210,9 @@ public class Falador {
 													.addNPC(e.getNPCId(), HeadE.FRUSTRATED,
 															"Okay, that's more than fair", () -> {
 																if (player.getInventory()
-																		.containsItem(995, 20)) {
+																		.hasCoins(20)) {
 																	player.getInventory()
-																	.deleteItem(995, 20);
+																	.removeCoins(20);
 																	player.getInventory().addItem(1793,
 																			2);
 																} else

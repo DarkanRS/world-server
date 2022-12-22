@@ -232,7 +232,7 @@ public class PrinceAliRescue extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		player.getInventory().addItem(995, 700);
+		player.getInventory().addCoins(700);
 		getQuest().sendQuestCompleteInterface(player, 6964, "700 coins");
 	}
 

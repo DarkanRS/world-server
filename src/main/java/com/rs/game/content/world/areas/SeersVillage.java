@@ -176,8 +176,8 @@ public class SeersVillage {
 		@Override
 		public void handle(ButtonClickEvent e) {
 			int staffIdx = e.getComponentId()-21;
-			if (e.getPlayer().getInventory().containsItem(995, 40000) && e.getPlayer().getInventory().containsItem(battlestaves[staffIdx], 1)) {
-				e.getPlayer().getInventory().deleteItem(995, 40000);
+			if (e.getPlayer().getInventory().hasCoins(40000) && e.getPlayer().getInventory().containsItem(battlestaves[staffIdx], 1)) {
+				e.getPlayer().getInventory().removeCoins(40000);
 				e.getPlayer().getInventory().deleteItem(battlestaves[staffIdx], 1);
 				e.getPlayer().getInventory().addItem(mystics[staffIdx], 1);
 			} else

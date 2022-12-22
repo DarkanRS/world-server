@@ -52,10 +52,10 @@ public class WormBrainDragonSlayerMob extends Conversation {
 							.addOptions("Choose an option:", new Options() {
 								@Override
 								public void create() {
-									if(p.getInventory().containsItem(995 , 10000))
+									if(p.getInventory().hasCoins(10000))
 										option("Aright then, 10,000 it is.", new Dialogue()
 												.addSimple("You buy the map piece from Wormbrain.", ()->{
-													p.getInventory().removeItems(new Item(995, 10000));
+													p.getInventory().removeCoins(10000);
 													p.getInventory().addItem(MAP_PART2, 1, true);
 												})
 												.addNPC(WORM_BRAIN, HeadE.HAPPY_TALKING, "Tank you very much! Now me can bribe da guards, hehehe."));

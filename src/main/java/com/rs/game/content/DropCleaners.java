@@ -53,7 +53,7 @@ public class DropCleaners {
 		@Override
 		public void handle(NPCDropEvent e) {
 			if (e.getPlayer().getInventory().containsItem(25351, 1) && e.getPlayer().getInventory().hasRoomFor(e.getItem())) {
-				e.getPlayer().getInventory().addItem(new Item(e.getItem()));
+				e.getPlayer().getInventory().addCoins(e.getItem().getAmount());
 				e.deleteItem();
 				return;
 			}

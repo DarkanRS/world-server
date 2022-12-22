@@ -366,8 +366,8 @@ public class Ardougne  {
 		public void handle(NPCClickEvent e) {
 			e.getPlayer().sendOptionDialogue("Buy an Iban's staff for 100,000 gold?", ops -> {
 				ops.add("Yes, I'll pay 100,000 gold for a staff.", () -> {
-					if (e.getPlayer().getInventory().containsItem(995, 100000)) {
-						e.getPlayer().getInventory().deleteItem(995, 100000);
+					if (e.getPlayer().getInventory().hasCoins(100000)) {
+						e.getPlayer().getInventory().removeCoins(100000);
 						e.getPlayer().getInventory().addItem(1409, 1);
 					} else
 						e.getPlayer().sendMessage("You don't have enough money.");
@@ -393,7 +393,7 @@ public class Ardougne  {
 					ops.add("Yes", () -> {
 						int number = e.getPlayer().getInventory().getAmountOf(950);
 						e.getPlayer().getInventory().deleteItem(950, number);
-						e.getPlayer().getInventory().addItem(995, 20 * number);
+						e.getPlayer().getInventory().addCoins(20 * number);
 					});
 					ops.add("No");
 				});

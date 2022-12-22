@@ -97,7 +97,7 @@ public class Zanaris {
 								public void create() {
 									option("Yes, I'll sell you all my cabbages", () -> {
 										e.getPlayer().getInventory().deleteItem(1965, cabbageCount);
-										e.getPlayer().getInventory().addItem(995, cabbageCount * 100);
+										e.getPlayer().getInventory().addCoins(cabbageCount * 100);
 									});
 									option("No, I will keep my cabbages", new Dialogue()
 											.addPlayer(HeadE.CALM_TALK, "Yes, I'll sell you all my cabbages"));

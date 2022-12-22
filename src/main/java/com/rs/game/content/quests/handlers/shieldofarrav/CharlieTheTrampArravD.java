@@ -28,7 +28,7 @@ public class CharlieTheTrampArravD extends Conversation {
 	public CharlieTheTrampArravD(Player p) {
 		super(p);
 		addNPC(CHARLIE, HeadE.HAPPY_TALKING, "Spare some change, governer?");
-		if(p.getInventory().containsItem(995, 10))
+		if(p.getInventory().hasCoins(10))
 			conversationOptions(p);
 		else {
 			addPlayer(HeadE.FRUSTRATED, "I don't have gold");
@@ -51,13 +51,13 @@ public class CharlieTheTrampArravD extends Conversation {
 						.addNPC(CHARLIE, HeadE.SECRETIVE, "Talk to a lady called Katrine. But don't upset her, and tell her I sent you. She's " +
 								"pretty dangerous.")
 						.addNext(() -> {
-							p.getInventory().deleteItem(995, 10);
+							p.getInventory().removeCoins(10);
 							ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE);
 						}));
 				option("10 gold? That's too much. (Pay 5 gold.)", new Dialogue()
 						.addNPC(CHARLIE, HeadE.HAPPY_TALKING, "I guess that'll have to do, then.")
 						.addSimple("You give him 5 gold", () -> {
-							p.getInventory().deleteItem(995, 5);
+							p.getInventory().removeCoins(5);
 						})
 						.addNPC(CHARLIE, HeadE.HAPPY_TALKING, "Great, thanks.")
 						.addPlayer(HeadE.SECRETIVE, "So where is the hideout, then?")
@@ -69,13 +69,13 @@ public class CharlieTheTrampArravD extends Conversation {
 										.addPlayer(HeadE.ANGRY, "You thieving gutter-scum! You'd better watch your back!")
 										.addNPC(CHARLIE, HeadE.LAUGH, "Yeah, sure, whatever. You don't frighten me, pal.")
 										.addNext(() -> {
-											if(p.getInventory().containsItem(995, 10))
+											if(p.getInventory().hasCoins(10))
 												p.startConversation(new CharlieTheTrampArravD(p, true).getStart());
 										}));
 								option("I guess I don't have a choice. (Pay 5 gold.)", new Dialogue()
 										.addPlayer(HeadE.VERY_FRUSTRATED, "I guess I don't have a choice.")
 										.addSimple("You pay Charlie 5 gold", () -> {
-											p.getInventory().deleteItem(995, 5);
+											p.getInventory().removeCoins(5);
 											ShieldOfArrav.setStage(p, ShieldOfArrav.AFTER_BRIBE_CHARLIE_STAGE);
 										})
 										.addNPC(CHARLIE, HeadE.SECRETIVE, "The ruthless and notorious Black Arm Gang have their headquarters down the alleyway " +

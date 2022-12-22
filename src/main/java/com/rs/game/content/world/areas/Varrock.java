@@ -139,8 +139,8 @@ public class Varrock {
 										.addPlayer(HeadE.HAPPY_TALKING, "A glass of your finest ale please.")
 										.addNPC(BARTENDER, HeadE.HAPPY_TALKING, "No problemo. That'll be 2 coins.")
 										.addNext(()->{
-											if(p.getInventory().containsItem(995, 2)) {
-												p.getInventory().deleteItem(995, 2);
+											if(p.getInventory().hasCoins(2)) {
+												p.getInventory().removeCoins(2);
 												p.getInventory().addItem(1917, 1);
 												p.startConversation(new Conversation(p) { {
 													addSimple("The bartender hands you a beer...");
@@ -611,7 +611,7 @@ public class Varrock {
 				return;
 			}
 			e.getPlayer().sendInputInteger("How many battlestaves would you like to buy? (" + amountLeft +" available)", amount -> {
-				int coinsOnPlayer = e.getPlayer().getInventory().getAmountOf(995);
+				int coinsOnPlayer = e.getPlayer().getInventory().getCoinsAsInt();
 				int maxBuyable = coinsOnPlayer / 7000;
 				if (amount > maxBuyable)
 					amount = maxBuyable;
@@ -625,11 +625,11 @@ public class Varrock {
 				final int cost = 7000 * amount;
 				e.getPlayer().sendOptionDialogue("Buy " + amount + " battlestaves for " + Utils.formatNumber(cost) + " coins?", ops -> {
 					ops.add("Yes", () -> {
-						if (!e.getPlayer().getInventory().containsItem(995, cost)) {
+						if (!e.getPlayer().getInventory().hasCoins(cost)) {
 							e.getPlayer().sendMessage("You don't have enough money for that.");
 							return;
 						}
-						e.getPlayer().getInventory().deleteItem(995, cost);
+						e.getPlayer().getInventory().removeCoins(cost);
 						e.getPlayer().getInventory().addItemDrop(1392, finalAmount);
 						e.getPlayer().setDailyI("naffStavesBought", e.getPlayer().getDailyI("naffStavesBought") + finalAmount);
 					});

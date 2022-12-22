@@ -81,10 +81,10 @@ public class EstateAgentDialogue extends Conversation {
 
 	public void promptHouseLocation(final String name, final HouseConstants.POHLocation loc, int level, final int cost) {
 		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
-			if (player.getInventory().containsItem(995, cost))
+			if (player.getInventory().hasCoins(cost))
 				player.sendOptionDialogue("Are you sure?", ops -> {
 					ops.add("Yes", () -> {
-						player.getInventory().deleteItem(995, cost);
+						player.getInventory().removeCoins(cost);
 						player.getHouse().setLocation(loc);
 						player.sendMessage("Your house location been set to "+name+".");
 					});
@@ -100,10 +100,10 @@ public class EstateAgentDialogue extends Conversation {
 
 	public void promptHouseChange(final String name, final int look, int level, final int cost) {
 		if (player.getSkills().getLevelForXp(Constants.CONSTRUCTION) >= level) {
-			if (player.getInventory().containsItem(995, cost))
+			if (player.getInventory().hasCoins(cost))
 				player.sendOptionDialogue("Are you sure?", ops -> {
 					ops.add("Yes", () -> {
-						player.getInventory().deleteItem(995, cost);
+						player.getInventory().removeCoins(cost);
 						player.getHouse().changeLook(look);
 						player.sendMessage("Your house has been set to "+name+".");
 					});

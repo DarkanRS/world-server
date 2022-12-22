@@ -22,7 +22,6 @@ import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
@@ -178,10 +177,10 @@ public class Desert  {
 									.addOptions("Give money?", new Options() {
 										@Override
 										public void create() {
-											if(p.getInventory().containsItem(995, 1))
+											if(p.getInventory().hasCoins(1))
 												option("Yes.", new Dialogue()
 														.addItem(995, "You give the charmer 1 coin", ()->{
-															p.getInventory().removeItems(new Item(995, 1));
+															p.getInventory().removeCoins(1);
 														})
 														.addNPC(1872, HeadE.CHEERFUL, "Oh thank you so much! Please please come again")
 														.addSimple("You feel swindled...")

@@ -50,7 +50,7 @@ public class MansionDoorHeroesQuestD extends Conversation {
 								})
 						);
 				else if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("phoenix_trick"))
-					if (p.getInventory().containsItem(995, 1000))
+					if (p.getInventory().hasCoins(1000))
 						addNext(intro
 								.addPlayer(HeadE.HAPPY_TALKING, "Can I go in there?")
 								.addNPC(NPC, HeadE.CALM_TALK, "No in there is private.")
@@ -58,7 +58,7 @@ public class MansionDoorHeroesQuestD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "On these wages, absolutely It'll cost you 1,000 coin for me to urn a blind eye.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Sounds good")
 								.addSimple("You hand him the coins and he winks at you.", () -> {
-									p.getInventory().removeItems(new Item(995, 1000));
+									p.getInventory().removeCoins(1000);
 									p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_phoenix", true);
 								})
 						);

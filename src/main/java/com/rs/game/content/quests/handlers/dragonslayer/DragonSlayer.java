@@ -42,7 +42,6 @@ public class DragonSlayer extends QuestOutline {
 	public final static int QUEST_COMPLETE = 5;
 
 	//Items
-	public final static int COINS = 995;
 	public final static int MAP_PART1 = 1535;
 	public final static int MAP_PART2 = 1536;
 	public final static int MAP_PART3 = 1537;

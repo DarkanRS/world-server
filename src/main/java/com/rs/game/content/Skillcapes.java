@@ -63,10 +63,10 @@ public enum Skillcapes {
 	}
 
 	private Dialogue getGiveCapeDialogue(Player player, int npcId, boolean masterCape) {
-		if (!player.getInventory().containsItem(995, masterCape ? 120000 : 99000))
+		if (!player.getInventory().hasCoins(masterCape ? 120000 : 99000))
 			return new Dialogue(new PlayerStatement(HeadE.SAD_MILD, "But, unfortunately, I was mistaken.")).addNext(new NPCStatement(npcId, HeadE.NO_EXPRESSION, "Well, come back and see me when you do.")).finish();
 		return new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, ordinal() == Constants.FIREMAKING ? "I'm sure you'll look hot in that cape." : "Excellent! Wear that cape with pride my friend."), () -> {
-			player.getInventory().deleteItem(995, masterCape ? 120000 : 99000);
+			player.getInventory().removeCoins(masterCape ? 120000 : 99000);
 			if (!masterCape)
 				player.getInventory().addItem(hood, 1);
 			player.getInventory().addItem(masterCape ? master : player.getSkills().checkMulti99s() ? trimmed : untrimmed, 1);

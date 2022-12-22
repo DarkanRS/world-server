@@ -58,8 +58,8 @@ public class MaxD extends Conversation {
 								if (player.getInventory().getFreeSlots() < 2) {
 									player.npcDialogue(max, HeadE.SHAKING_HEAD, "You don't have enough inventory space for that.");
 								} else {
-									if (player.getInventory().containsItem(995, value)) {
-										player.getInventory().deleteItem(995, value);
+									if (player.getInventory().hasCoins(value)) {
+										player.getInventory().removeCoins(value);
 										player.getInventory().addItemDrop(20768, 1);
 										player.getInventory().addItemDrop(20767, 1);
 										player.npcDialogue(max, HeadE.SHAKING_HEAD, "Thanks. Enjoy!");

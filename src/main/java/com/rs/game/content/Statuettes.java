@@ -90,7 +90,7 @@ public enum Statuettes {
 								statuette = stat;
 						if (statuette != null) {
 							player.getInventory().deleteItem(item.getId(), item.getAmount());
-							player.getInventory().addItem(995, statuette.getValue()*item.getAmount());
+							player.getInventory().addCoins(statuette.getValue()*item.getAmount());
 						}
 					}
 				});

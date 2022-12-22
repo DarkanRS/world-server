@@ -105,11 +105,11 @@ public class Daemonheim {
 							Item item = e.getPlayer().getInventory().getItem(e.getItem().getSlot());
 							if (item == null || item.getId() != e.getItem().getId())
 								return;
-							if (!e.getPlayer().getInventory().containsItem(995, cost)) {
+							if (!e.getPlayer().getInventory().hasCoins(cost)) {
 								e.getPlayer().sendMessage("You don't have enough coins.");
 								return;
 							}
-							e.getPlayer().getInventory().deleteItem(995, cost);
+							e.getPlayer().getInventory().removeCoins(cost);
 							item.setId(deg.getItemId());
 							item.deleteMetaData();
 							e.getPlayer().getInventory().refresh(e.getItem().getSlot());
@@ -120,7 +120,7 @@ public class Daemonheim {
 								return;
 							int coinCost = cost / 10;
 							int tokenCost = cost / 100;
-							if (!e.getPlayer().getInventory().containsItem(995, coinCost)) {
+							if (!e.getPlayer().getInventory().hasCoins(coinCost)) {
 								e.getPlayer().sendMessage("You don't have enough coins.");
 								return;
 							}
@@ -128,7 +128,7 @@ public class Daemonheim {
 								e.getPlayer().sendMessage("You don't have enough dungeoneering tokens.");
 								return;
 							}
-							e.getPlayer().getInventory().deleteItem(995, coinCost);
+							e.getPlayer().getInventory().removeCoins(coinCost);
 							e.getPlayer().getDungManager().removeTokens(tokenCost);
 							item.setId(deg.getItemId());
 							item.deleteMetaData();

@@ -39,7 +39,6 @@ public class Shop {
 	private static final int MAIN_STOCK_ITEMS_KEY = 0;
 
 	private static final int MAX_SHOP_ITEMS = 40;
-	public static final int COINS = 995;
 
 	private String name;
 	private ShopItem[] mainStock;
@@ -274,7 +273,7 @@ public class Shop {
 			return;
 		}
 		int price = getBuyPrice(item);
-		int amountCoins = player.getInventory().getItems().getNumberOf(currency);
+		int amountCoins = currency == 995 ? player.getInventory().getCoinsAsInt() : player.getInventory().getItems().getNumberOf(currency);
 		int maxQuantity = amountCoins / price;
 		int buyQ = item.getItem().getAmount() > quantity ? quantity : item.getItem().getAmount();
 		boolean enoughCoins = maxQuantity >= buyQ;
@@ -297,7 +296,10 @@ public class Shop {
 		}
 		if (buyQ != 0) {
 			int totalPrice = price * buyQ;
-			player.getInventory().deleteItem(currency, totalPrice);
+			if (currency == 995)
+				player.getInventory().removeCoins(totalPrice);
+			else
+				player.getInventory().deleteItem(currency, totalPrice);
 			if (item.getItem().getId() == 36 && buyQ == 5)
 				player.getInventory().addItem(24170, 1);
 			else
@@ -395,7 +397,10 @@ public class Shop {
 			player.sendMessage("Looks like we need an eco reset..");
 		else {
 			player.getInventory().deleteItem(originalId, quantity);
-			player.getInventory().addItem(currency, getSellPrice(item) * quantity);
+			if (currency == 995)
+				player.getInventory().addCoins(getSellPrice(item) * quantity);
+			else
+				player.getInventory().addItem(currency, getSellPrice(item) * quantity);
 		}
 	}
 

@@ -5,7 +5,6 @@ import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -20,13 +19,13 @@ public class AngorFightArenaD extends Conversation {
 		addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
-				if(p.getInventory().getAmountOf(995) >= 5) {
+				if(p.getInventory().hasCoins(5)) {
 					option("I'll have a beer, please.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I'll have a beer, please.")
 							.addNPC(NPC, HeadE.CALM_TALK, "That will be 5 coins...")
 							.addPlayer(HeadE.HAPPY_TALKING, "Okiedokie")
 							.addSimple("He passes you a beer.", ()->{
-								p.getInventory().removeItems(new Item(995, 5));
+								p.getInventory().removeCoins(5);
 								p.getInventory().addItem(1917, 1);
 							})
 					);
@@ -35,7 +34,7 @@ public class AngorFightArenaD extends Conversation {
 							.addNPC(NPC, HeadE.CALM_TALK, "That will be 5 coins...")
 							.addPlayer(HeadE.HAPPY_TALKING, "Okiedokie")
 							.addSimple("He passes you a Khali brew.", ()->{
-								p.getInventory().removeItems(new Item(995, 5));
+								p.getInventory().removeCoins(5);
 								p.getInventory().addItem(77, 1);
 							})
 					);

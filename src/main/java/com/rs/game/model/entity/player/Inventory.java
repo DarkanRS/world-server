@@ -16,6 +16,7 @@
 //
 package com.rs.game.model.entity.player;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,7 @@ import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.plugin.PluginManager;
@@ -42,17 +44,20 @@ import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.IFOnNPCEvent;
 import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.events.ItemAddedToInventoryEvent;
+import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.ItemOnPlayerEvent;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.ItemConfig;
 
 @PluginEventHandler
 public final class Inventory {
 
+	private long coins;
 	private ItemsContainer<Item> items;
 
 	private transient Player player;
@@ -202,23 +207,10 @@ public final class Inventory {
 		}
 	}
 
-	public boolean addCoins(int amount) {
-		if (amount < 0)
-			return false;
-		Item[] itemsBefore = items.getItemsCopy();
-		if (!items.add(new Item(995, amount))) {
-			items.add(new Item(995, items.getFreeSlots()));
-			player.sendMessage("Not enough space in your inventory.");
-			refreshItems(itemsBefore);
-			return false;
-		}
-		refreshItems(itemsBefore);
-		return true;
-	}
-
 	public void init() {
 		refresh();
 		items.initSlots();
+		player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
 	}
 
 	public void unlockInventoryOptions() {
@@ -611,6 +603,87 @@ public final class Inventory {
 		for (int id : ids)
 			count += getNumberOf(id);
 		return count;
+	}
+	
+	public static ItemClickHandler coinPouch = new ItemClickHandler(new Object[] { 995 }, new String[] { "Add-to-pouch" }) {
+		@Override
+		public void handle(ItemClickEvent e) {
+			if ((e.getPlayer().getInventory().getCoins() + e.getItem().getAmount()) < 0L) {
+				e.getPlayer().sendMessage("Your pouch is full somehow. This kind of money probably deserves a ban LOL.");
+				return;
+			}
+			e.getPlayer().getInventory().deleteItem(e.getItem());
+			e.getPlayer().getInventory().addCoins(e.getItem().getAmount());
+		}
+	};
+	
+	public void coinPouchToInventory(int num) {
+		if (num <= 0)
+			return;
+		if (num > coins)
+			num = (int) coins;
+		if ((getNumberOf(995) + num) < 0)
+			num = Integer.MAX_VALUE - getNumberOf(995) - 1;
+		coins -= num;
+		player.getPackets().sendRunScript(5561, num, 0);
+		player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
+		addItemDrop(995, num);
+	}
+
+	public void addCoins(int num) {
+		if (num <= 0)
+			return;
+		if ((coins + num) > 0L) {
+			coins += num;
+			player.getPackets().sendRunScript(5561, num, 1);
+			player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
+			return;
+		}
+		addItemDrop(995, num);
+	}
+	
+	public boolean hasCoins(int num) {
+		if (coins >= num)
+			return true;
+		if (coins + getNumberOf(995) >= num)
+			return true;
+		return false;
+	}
+	
+	public long getCoins() {
+		long total = coins + getNumberOf(995);
+		if (total < 0L)
+			return coins;
+		return total;
+	}
+	
+	public int getCoinsAsInt() {
+		if (coins > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		return (int) coins;
+	}
+	
+	public void removeCoins(int num) {
+		if (num <= 0)
+			return;
+		
+		if (coins >= num) {
+			coins -= num;
+			player.getPackets().sendRunScript(5561, num, 0);
+			player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
+			return;
+		}
+		
+		num -= coins;
+		player.getPackets().sendRunScript(5561, (int) coins, 0);
+		player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
+		coins = 0;
+		if (getNumberOf(995) >= num)
+			deleteItem(995, num);
+		else {
+			player.sendMessage("Error removing coins. Please report how you managed to produce this message.");
+			Logger.error(Inventory.class, "removeCoins ("+player.getUsername()+")", Arrays.toString(Thread.currentThread().getStackTrace()));
+		}
 	}
 
 }

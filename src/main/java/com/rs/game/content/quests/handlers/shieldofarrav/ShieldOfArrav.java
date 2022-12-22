@@ -411,7 +411,7 @@ public class ShieldOfArrav extends QuestOutline {
 
     @Override
     public void complete(Player player) {
-        player.getInventory().addItem(995, 1200, true);
+        player.getInventory().addCoins(1200);
         getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
     }
 

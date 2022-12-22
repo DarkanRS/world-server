@@ -184,7 +184,7 @@ public class FightArena extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		player.getInventory().addItem(995, 1000, true);
+		player.getInventory().addCoins(1000);
 		player.getSkills().addXpQuest(Constants.ATTACK, 12_175);
 		player.getSkills().addXpQuest(Constants.THIEVING, 2_175);
 		getQuest().sendQuestCompleteInterface(player, 75, "12,175 Attack XP", "2,175 Thieving XP", "1,000 Coins");

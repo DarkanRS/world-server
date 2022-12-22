@@ -184,7 +184,7 @@ public class ServantNPC extends NPC {
 		final int[] plank = SawmillOperator.getPlankForLog(item);
 		if (plank != null && type == RequestType.SAWMILL) {
 			final int cost = (int) ((plank[1] * 0.7) * quantity);
-			if (owner.getInventory().getAmountOf(995) < cost) {
+			if (!owner.getInventory().hasCoins(cost)) {
 				owner.npcDialogue(getId(), servant == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "You do not have enough coins to cover the costs of the sawmill.");
 				return;
 			}
@@ -196,7 +196,7 @@ public class ServantNPC extends NPC {
 				if (quantity > freeSlots)
 					quantity = freeSlots;
 			} else if (type == RequestType.SAWMILL)
-				owner.getInventory().removeItems(new Item(995, (int) (quantity * (plank[1] * 0.7))));
+				owner.getInventory().removeCoins((int) (quantity * (plank[1] * 0.7)));
 			if (type != RequestType.WITHDRAW)
 				owner.getInventory().deleteItem(item, quantity);
 		}

@@ -210,11 +210,11 @@ public class TravelMethods {
 		if (ship.getFares() != null)
 			cost = ship.getFares()[shipIndex];
 		if (cost != -1) {
-			if (player.getInventory().getAmountOf(995) < cost) {
+			if (player.getInventory().hasCoins(cost)) {
 				player.sendMessage("You don't have enough money for that.");
 				return false;
 			}
-			player.getInventory().deleteItem(new Item(995, cost));
+			player.getInventory().removeCoins(cost);
 			player.sendMessage("You pay the fare and sail to " + ship.getFixedName(returning) + ".");
 		}
 		final boolean isFare = ship.toString().contains("Fare");

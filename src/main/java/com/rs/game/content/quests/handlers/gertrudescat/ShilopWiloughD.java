@@ -68,13 +68,13 @@ public class ShilopWiloughD extends Conversation {
 								@Override
 								public void create() {
 									Dialogue pay = new Dialogue();
-									if (player.getInventory().containsItem(995, 100))
+									if (player.getInventory().hasCoins(100))
 										pay.addPlayer(HeadE.NO_EXPRESSION, "Okay then, I'll pay, but I'll want you to tell your mother what a nice person I am.")
 										.addNPC(npcId, HeadE.CHILD_UNSURE, "What?")
 										.addPlayer(HeadE.NO_EXPRESSION, "I'll want you to tell your mother what a nice person I am so she rewards me for this search.")
 										.addNPC(npcId, HeadE.CHILD_CALM_TALK, "It's a deal.").addItem(997, "You give the lad 100 coins.", () -> {
-											if (player.getInventory().containsItem(995, 100)) {
-												player.getInventory().deleteItem(995, 100);
+											if (player.getInventory().hasCoins(100)) {
+												player.getInventory().removeCoins(100);
 												player.getQuestManager().setStage(Quest.GERTRUDES_CAT, 2);
 												GertrudesCat.updateFluffs(player);
 											}

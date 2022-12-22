@@ -392,7 +392,7 @@ public final class ObjectHandler {
 					return;
 				}
 				player.save("sopsRew", true);
-				player.getInventory().addItem(995, 10000, true);
+				player.getInventory().addCoins(10000);
 				player.getInventory().addItem(12629, 1, true);
 				player.getInventory().addItem(12628, 2, true);
 				player.getEmotesManager().unlockEmote(Emote.SAFETY_FIRST);
