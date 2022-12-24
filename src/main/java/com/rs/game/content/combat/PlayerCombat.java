@@ -682,13 +682,15 @@ public class PlayerCombat extends PlayerAction {
 				}
 				case SWAMP_LIZARD, ORANGE_SALAMANDER, RED_SALAMANDER, BLACK_SALAMANDER -> {
 					Hit hit = switch(attackStyle.getName()) {
-					case "Scorch" -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
-					case "Flare" -> getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
-					case "Blaze" -> getMagicHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
-					default -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
+					case "Scorch" -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true));
+					case "Flare" -> getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true));
+					case "Blaze" -> getMagicHit(player, getRandomMaxHit(player, weaponId, attackStyle, true));
+					default -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true));
 					};
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, hit);
 					dropAmmo(player, Equipment.AMMO, 1);
+					if (attackStyle.getName().equals("Flare"))
+						combatDelay = 3;
 				}
 				case CROSSBOW, BRONZE_CROSSBOW, BLURITE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, BLACK_CROSSBOW, MITH_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, ARMADYL_CROSSBOW, CHAOTIC_CROSSBOW, ZANIKS_CROSSBOW -> {
 					int damage = 0;
