@@ -646,7 +646,7 @@ public class PlayerCombat extends PlayerAction {
 		} else {
 			WorldProjectile p = weapon.getProjectile(player, target);
 			switch (weapon) {
-				case DEATHTOUCHED_DART:
+				case DEATHTOUCHED_DART -> {
 					player.setNextAnimation(weapon.getAttackAnimation());
 					target.setNextSpotAnim(new SpotAnim(44));
 					target.resetWalkSteps();
@@ -659,8 +659,8 @@ public class PlayerCombat extends PlayerAction {
 						return 8;
 					} else
 						return 0;
-				case CHINCHOMPA:
-				case RED_CHINCHOMPA:
+				}
+				case CHINCHOMPA, RED_CHINCHOMPA -> {
 					attackTarget(getMultiAttackTargets(player, target), new MultiAttack() {
 						private boolean nextTarget;
 
@@ -679,19 +679,18 @@ public class PlayerCombat extends PlayerAction {
 						}
 					});
 					dropAmmo(player, Equipment.WEAPON, 1);
-					break;
-				case CROSSBOW:
-				case BRONZE_CROSSBOW:
-				case BLURITE_CROSSBOW:
-				case IRON_CROSSBOW:
-				case STEEL_CROSSBOW:
-				case BLACK_CROSSBOW:
-				case MITH_CROSSBOW:
-				case ADAMANT_CROSSBOW:
-				case RUNE_CROSSBOW:
-				case ARMADYL_CROSSBOW:
-				case CHAOTIC_CROSSBOW:
-				case ZANIKS_CROSSBOW:
+				}
+				case SWAMP_LIZARD, ORANGE_SALAMANDER, RED_SALAMANDER, BLACK_SALAMANDER -> {
+					Hit hit = switch(attackStyle.getName()) {
+					case "Scorch" -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
+					case "Flare" -> getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
+					case "Blaze" -> getMagicHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
+					default -> getMeleeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D, 1.0D));
+					};
+					delayHit(p.getTaskDelay(), weaponId, attackStyle, hit);
+					dropAmmo(player, Equipment.AMMO, 1);
+				}
+				case CROSSBOW, BRONZE_CROSSBOW, BLURITE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, BLACK_CROSSBOW, MITH_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, ARMADYL_CROSSBOW, CHAOTIC_CROSSBOW, ZANIKS_CROSSBOW -> {
 					int damage = 0;
 					boolean specced = false;
 					if (player.getEquipment().getAmmoId() == 9241 && Utils.random(100) <= 55 && !target.getPoison().isPoisoned()) {
@@ -746,12 +745,11 @@ public class PlayerCombat extends PlayerAction {
 						player.getEquipment().removeAmmo(Equipment.AMMO, 1);
 					else
 						dropAmmo(player, Equipment.AMMO, 1);
-					break;
-				case ROYAL_CROSSBOW:
-					if (target instanceof Player) {
-						damage = Utils.random(0, 60);
+				}
+				case ROYAL_CROSSBOW -> {
+					if (target instanceof Player)
 						player.sendMessage("The Royal crossbow seems unresponsive against this target.", true);
-					} else {
+					else {
 						int stacks = player.getTempAttribs().getI("rcbStacks", 0);
 						if (World.getServerTicks() < player.getTempAttribs().getL("rcbLockOnTimer"))
 							stacks++;
@@ -764,7 +762,7 @@ public class PlayerCombat extends PlayerAction {
 						boolean lockedOn = stacks >= 9;
 						player.getTempAttribs().setI("rcbStacks", stacks);
 						player.getTempAttribs().setL("rcbLockOnTimer", World.getServerTicks() + 28);
-						damage = getRandomMaxHit(player, weaponId, attackStyle, true);
+						int damage = getRandomMaxHit(player, weaponId, attackStyle, true);
 						delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage), null, () -> {
 							if (weaponId == 24339 || target.isDead() || target.hasFinished())
 								return;
@@ -785,8 +783,8 @@ public class PlayerCombat extends PlayerAction {
 						checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, damage, p);
 					}
 					player.getEquipment().removeAmmo(Equipment.AMMO, 1);
-					break;
-				case HAND_CANNON:
+				}
+				case HAND_CANNON -> {
 					if (Utils.getRandomInclusive(player.getSkills().getLevel(Constants.FIREMAKING) << 1) == 0) {
 						player.setNextSpotAnim(new SpotAnim(2140));
 						player.getEquipment().deleteSlot(Equipment.WEAPON);
@@ -797,15 +795,15 @@ public class PlayerCombat extends PlayerAction {
 					}
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
 					dropAmmo(player, Equipment.AMMO, 1);
-					break;
-				case SAGAIE:
+				}
+				case SAGAIE -> {
 					double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleWorldTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
-					damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
+					int damage = getRandomMaxHit(player, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, damage));
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, damage, p);
 					dropAmmo(player, Equipment.WEAPON, 1);
-					break;
-				case BOLAS:
+				}
+				case BOLAS -> {
 					int delay = Ticks.fromSeconds(15);
 					if (target instanceof Player t) {
 						boolean slashBased = t.getEquipment().getItem(3) != null;
@@ -830,29 +828,29 @@ public class PlayerCombat extends PlayerAction {
 					}
 					playSound(soundId, player, target);
 					player.getEquipment().removeAmmo(Equipment.WEAPON, 1);
-					break;
-				case DARK_BOW:
+				}
+				case DARK_BOW -> {
 					int hit = getRandomMaxHit(player, weaponId, attackStyle, true);
 					delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, hit));
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 					WorldProjectile p2 = World.sendProjectile(player, target, AmmoType.forId(player.getEquipment().getAmmoId()).getProjAnim(player.getEquipment().getAmmoId()), 30, 50, 1);
 					delayHit(p2.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, getRandomMaxHit(player, weaponId, attackStyle, true)));
 					dropAmmo(player, Equipment.AMMO, 2);
-					break;
-				default:
+				}
+				default -> {
 					if (weapon.isThrown()) {
-						hit = getRandomMaxHit(player, weaponId, attackStyle, true);
+						int hit = getRandomMaxHit(player, weaponId, attackStyle, true);
 						delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, hit));
 						checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 						dropAmmo(player, Equipment.WEAPON, 1);
 					} else {
-						hit = getRandomMaxHit(player, weaponId, attackStyle, true);
+						int hit = getRandomMaxHit(player, weaponId, attackStyle, true);
 						delayHit(p.getTaskDelay(), weaponId, attackStyle, getRangeHit(player, hit));
 						checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 						if (weapon.getAmmos() != null)
 							dropAmmo(player);
 					}
-					break;
+				}
 			}
 			player.setNextAnimation(weapon.getAttackAnimation());
 			SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
