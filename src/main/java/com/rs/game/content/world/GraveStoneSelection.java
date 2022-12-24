@@ -56,7 +56,7 @@ public class GraveStoneSelection {
 		int price = getStonePrice(slot);
 		String name = getStoneName(slot);
 		if (slot != -1) {
-			if (player.getInventory().hasCoins(price)) {
+			if (!player.getInventory().hasCoins(price)) {
 				player.sendMessage("You need " + Utils.formatNumber(price) + " coins to purchase " + Utils.addArticle(name) + ".");
 				return;
 			}

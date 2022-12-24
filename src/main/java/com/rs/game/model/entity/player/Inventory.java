@@ -664,6 +664,10 @@ public final class Inventory {
 	}
 	
 	public void removeCoins(int num) {
+		removeCoins(num, false);
+	}
+	
+	public void removeCoins(int num, boolean pouchOnly) {
 		if (num <= 0)
 			return;
 		
@@ -673,7 +677,8 @@ public final class Inventory {
 			player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);
 			return;
 		}
-		
+		if (pouchOnly)
+			return;
 		num -= coins;
 		player.getPackets().sendRunScript(5561, (int) coins, 0);
 		player.getPackets().sendRunScript(5560, coins > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) coins);

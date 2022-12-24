@@ -329,6 +329,7 @@ public class Player extends Entity {
 	private transient long potionDelay;
 	private transient long boneDelay;
 	private transient Runnable closeInterfacesEvent;
+	private transient Runnable closeChatboxInterfaceEvent;
 	private transient Runnable finishConversationEvent;
 	private transient boolean disableEquip;
 	private transient MachineInformation machineInformation;
@@ -958,6 +959,11 @@ public class Player extends Entity {
 		if (closeInterfacesEvent != null) {
 			Runnable event = closeInterfacesEvent;
 			closeInterfacesEvent = null;
+			event.run();
+		}
+		if (closeChatboxInterfaceEvent != null) {
+			Runnable event = closeChatboxInterfaceEvent;
+			closeChatboxInterfaceEvent = null;
 			event.run();
 		}
 	}
@@ -1862,19 +1868,19 @@ public class Player extends Entity {
 		getPackets().sendInputNameScript(question);
 		if (description != null)
 			getPackets().setIFText(1110, 70, description);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginEnterName"));
+		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginEnterName"));
 	}
 
 	public void sendInputLongText(String question, InputStringEvent e) {
 		getTempAttribs().setO("pluginEnterLongText", e);
 		getPackets().sendInputLongTextScript(question);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginEnterLongText"));
+		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginEnterLongText"));
 	}
 
 	public void sendInputInteger(String question, InputIntegerEvent e) {
 		getTempAttribs().setO("pluginInteger", e);
 		getPackets().sendInputIntegerScript(question);
-		setCloseInterfacesEvent(() -> {
+		setCloseChatboxInterfaceEvent(() -> {
 			if(getTempAttribs().getB("viewingDepositBox") && !getInterfaceManager().topOpen(11)) {
 				getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 				getTempAttribs().setB("viewingDepositBox", false);
@@ -1885,12 +1891,12 @@ public class Player extends Entity {
 
 	public void sendInputHSL(InputHSLEvent e) {
 		getTempAttribs().setO("pluginHSL", e);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginHSL"));
+		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginHSL"));
 	}
 
 	public void sendInputForumQFC(InputStringEvent e) {
 		getTempAttribs().setO("pluginQFCD", e);
-		setCloseInterfacesEvent(() -> getTempAttribs().removeO("pluginQFCD"));
+		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginQFCD"));
 	}
 
 	public boolean hasStarted() {
@@ -2723,6 +2729,10 @@ public class Player extends Entity {
 
 	public int setDeathCount(int deathCount) {
 		return this.deathCount = deathCount;
+	}
+	
+	public void setCloseChatboxInterfaceEvent(Runnable closeInterfacesEvent) {
+		this.closeChatboxInterfaceEvent = closeInterfacesEvent;
 	}
 
 	public void setCloseInterfacesEvent(Runnable closeInterfacesEvent) {
