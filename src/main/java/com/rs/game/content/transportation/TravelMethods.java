@@ -210,7 +210,7 @@ public class TravelMethods {
 		if (ship.getFares() != null)
 			cost = ship.getFares()[shipIndex];
 		if (cost != -1) {
-			if (player.getInventory().hasCoins(cost)) {
+			if (!player.getInventory().hasCoins(cost)) {
 				player.sendMessage("You don't have enough money for that.");
 				return false;
 			}

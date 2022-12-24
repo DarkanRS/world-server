@@ -100,9 +100,19 @@ public class Bank {
 				e.getPlayer().getBank().depositAllEquipment(true);
 			else if (e.getComponentId() == 39)
 				e.getPlayer().getBank().depositAllBob(true);
-			else if (e.getComponentId() == 35)
-				e.getPlayer().sendMessage("Someone else can have a crack at coding this. Not a fan.");
-			else if (e.getComponentId() == 46) {
+			else if (e.getComponentId() == 35) {
+				int amount = e.getPlayer().getInventory().getCoinsAsInt();
+				Item bankCoins = e.getPlayer().getBank().getItem(995);
+				int bankAmt = bankCoins == null ? 0 : bankCoins.getAmount();
+				if (amount + bankAmt <= 0)
+					amount = Integer.MAX_VALUE - bankAmt;
+				if (amount == 0) {
+					e.getPlayer().sendMessage("You can't deposit any coins.");
+					return;
+				}
+				e.getPlayer().getInventory().removeCoins(amount, true);
+				e.getPlayer().getBank().addItem(new Item(995, amount), true);
+			} else if (e.getComponentId() == 46) {
 				e.getPlayer().closeInterfaces();
 				e.getPlayer().getInterfaceManager().sendInterface(767);
 				e.getPlayer().setCloseInterfacesEvent(() -> e.getPlayer().getBank().open());

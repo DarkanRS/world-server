@@ -79,11 +79,14 @@ public class Trade {
 						e.getPlayer().getTrade().sendValue(e.getSlotId(), false);
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getTrade().sendExamine(e.getSlotId(), false);
-				} else if (e.getComponentId() == 35)
+				} else if (e.getComponentId() == 35) {
 					if (e.getPacket() == ClientPacket.IF_OP1)
 						e.getPlayer().getTrade().sendValue(e.getSlotId(), true);
 					else if (e.getPacket() == ClientPacket.IF_OP10)
 						e.getPlayer().getTrade().sendExamine(e.getSlotId(), true);
+				} else if (e.getComponentId() == 53)
+					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addCoinsFromPouch(num));
+				
 			} else if (e.getInterfaceId() == 336)
 				if (e.getComponentId() == 0)
 					if (e.getPacket() == ClientPacket.IF_OP1)
@@ -135,6 +138,25 @@ public class Trade {
 		}
 	}
 
+	private void addCoinsFromPouch(int num) {
+		synchronized (this) {
+			if (!isTrading())
+				return;
+			synchronized (target.getTrade()) {
+				if (player.getInventory().getCoinsAsInt() < num)
+					num = player.getInventory().getCoinsAsInt();
+				Item[] itemsBefore = items.getItemsCopy();
+				if (!items.add(new Item(995, num))) {
+					player.sendMessage("Cannot add more money than this.");
+					return;
+				}
+				player.getInventory().removeCoins(num);
+				refreshItems(itemsBefore);
+				cancelAccepted();
+			}
+		}
+	}
+
 	public void removeItem(final int slot, int amount) {
 		synchronized (this) {
 			if (!isTrading())
@@ -152,7 +174,10 @@ public class Trade {
 						item = new Item(item.getId(), maxAmount);
 				}
 				items.remove(slot, item);
-				player.getInventory().addItem(item);
+				if (item.getId() == 995)
+					player.getInventory().addCoins(item.getAmount());
+				else
+					player.getInventory().addItem(item);
 				refreshItems(itemsBefore);
 				cancelAccepted();
 				setTradeModified(true);
