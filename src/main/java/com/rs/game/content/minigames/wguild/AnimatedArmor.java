@@ -25,7 +25,7 @@ public class AnimatedArmor extends OwnedNPC {
 	private transient Player player;
 
 	public AnimatedArmor(Player player, int id, WorldTile tile) {
-		super(player, id, tile, true);
+		super(player, id, tile, false);
 		this.player = player;
 	}
 
