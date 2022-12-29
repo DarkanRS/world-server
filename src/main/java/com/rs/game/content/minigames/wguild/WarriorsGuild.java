@@ -299,7 +299,7 @@ public class WarriorsGuild extends Controller {
 						player.faceObject(object);
 						player.endConversation();
 					} else if (ticks == 5) {
-						AnimatedArmor npc = new AnimatedArmor(player, 4278 + finalIndex, object.getTile(), -1, true);
+						AnimatedArmor npc = new AnimatedArmor(player, 4278 + finalIndex, object.getTile());
 						npc.setRun(false);
 						npc.setNextForceTalk(new ForceTalk("IM ALIVE!"));
 						npc.setNextAnimation(new Animation(4166));
