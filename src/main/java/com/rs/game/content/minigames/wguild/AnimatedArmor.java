@@ -16,24 +16,17 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 
-public class AnimatedArmor extends NPC {
+public class AnimatedArmor extends OwnedNPC {
 
 	private transient Player player;
 
-	public AnimatedArmor(Player player, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
-		super(id, tile);
+	public AnimatedArmor(Player player, int id, WorldTile tile) {
+		super(player, id, tile, true);
 		this.player = player;
-	}
-
-	@Override
-	public void processNPC() {
-		super.processNPC();
-		if (!getCombat().hasTarget() && !isDead())
-			finish();
 	}
 
 	public int[] getDroppedItems() {
