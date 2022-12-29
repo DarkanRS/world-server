@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Doomsayer extends Conversation {
 
-	//Identify NPC by ID (3777 - Doomsayer)
+	//Identify NPC by ID Object[]{XXXX})
 	public static NPCClickHandler Doomsayer = new NPCClickHandler(new Object[] { 3777 }) {
 		@Override
 		//Handle Right-Click
@@ -46,3 +46,15 @@ public class Doomsayer extends Conversation {
 }
 
 //TODO add toggle warnings handler
+
+//Correct Behaviour
+//Doomsayer: If you see the signs often enough, then you can turn them of; by that time you likely known what the area has in store for you.
+//Player: But what If I want to see the warnings again?
+//Doomsayer: That's why I'm waiting here!
+//Doomsayer: If you want to see the warning messages again, I can turn them back on for you.
+//Doomsayer: Do you need to turn on any warnings right now?
+//Player: Yes, I do.
+//Screen opens
+//Player: Not right now.
+//Doomsayer: Ok, keep an eye out for the messages though!
+//Player: I will.

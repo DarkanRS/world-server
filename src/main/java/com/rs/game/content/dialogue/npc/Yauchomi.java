@@ -14,7 +14,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Yauchomi extends Conversation {
 
-    //Identify NPC by ID (2238 - Donie)
+    //Identify NPC by ID Object[]{XXXX})
     public static NPCClickHandler Yauchomi = new NPCClickHandler(new Object[]{4903}) {
         @Override
         //Handle Right-Click
@@ -29,7 +29,7 @@ public class Yauchomi extends Conversation {
 
     public Yauchomi(Player player) {
         super(player);
-        //Identify NPC by ID (2238 - Donie)
+        //Identify NPC by ID
         int npcId = 4903;
 
         addOptions(new Options() {

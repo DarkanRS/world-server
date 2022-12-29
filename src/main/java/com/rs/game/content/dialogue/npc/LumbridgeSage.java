@@ -14,7 +14,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class LumbridgeSage extends Conversation {
 
-    //Identify NPC by ID (2244 - Lumbridge Sage)
+    //Identify NPC by ID Object[]{XXXX})
     public static NPCClickHandler LumbridgeSage = new NPCClickHandler(new Object[]{2244}) {
         @Override
         //Handle Right-Click
@@ -29,7 +29,7 @@ public class LumbridgeSage extends Conversation {
 
     public LumbridgeSage(Player player) {
         super(player);
-        //Identify NPC by ID (2244 - Lumbridge Sage)
+        //Identify NPC by ID
         int npcId = 2244;
 
         addOptions(new Options() {

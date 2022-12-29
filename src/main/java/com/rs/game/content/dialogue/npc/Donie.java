@@ -14,7 +14,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Donie extends Conversation {
 
-    //Identify NPC by ID (2238 - Donie)
+    //Identify NPC by ID Object[]{XXXX})
     public static NPCClickHandler Donie = new NPCClickHandler(new Object[]{2238}) {
         @Override
         //Handle Right-Click
