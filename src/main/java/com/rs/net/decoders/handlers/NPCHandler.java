@@ -144,7 +144,7 @@ public class NPCHandler {
 			else if (npc.getId() == 9707)
 				player.startConversation(new FremennikShipmaster(player, npc.getId(), true));
 			//Doomsayer
-				else if (npc.getId() == 3777)
+			else if (npc.getId() == 3777)
 				player.startConversation(new Doomsayer(player));
 			else if (npc.getId() == 4288)
 				player.startConversation(new AjjatD(player));
