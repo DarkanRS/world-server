@@ -36,7 +36,6 @@ import com.rs.game.content.dialogue.impl.TzHaarMejJal;
 import com.rs.game.content.dialogue.impl.TzHaarMejKah;
 import com.rs.game.content.dialogue.impl.skillmasters.AjjatD;
 import com.rs.game.content.dialogue.impl.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.content.dialogue.npc.Doomsayer;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
 import com.rs.game.content.minigames.pest.CommendationExchange;
