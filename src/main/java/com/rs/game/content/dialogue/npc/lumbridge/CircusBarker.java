@@ -1,11 +1,10 @@
-package com.rs.game.content.dialogue.npc;
+package com.rs.game.content.dialogue.npc.lumbridge;
 
 // Basic dialogue handler for linear text conversations with no choices.
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
