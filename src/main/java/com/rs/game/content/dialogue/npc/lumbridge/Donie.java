@@ -14,8 +14,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Donie extends Conversation {
 
-    //Identify NPC by ID Object[]{XXXX})
-    public static NPCClickHandler Donie = new NPCClickHandler(new Object[]{2238}) {
+    //Identify NPC by ID
+    private static int npcId = 2238;
+
+    public static NPCClickHandler Donie = new NPCClickHandler(new Object[]{npcId}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
@@ -29,9 +31,6 @@ public class Donie extends Conversation {
 
     public Donie(Player player) {
         super(player);
-        //Identify NPC by ID (2238 - Donie)
-        int npcId = 2238;
-
         addOptions(new Options() {
             @Override
             public void create() {

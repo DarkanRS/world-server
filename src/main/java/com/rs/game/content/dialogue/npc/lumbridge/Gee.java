@@ -14,8 +14,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Gee extends Conversation {
 
-    //Identify NPC by ID Object[]{XXXX})
-    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{2237}) {
+    //Identify NPC by ID
+    private static int npcId = 2237;
+    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
@@ -30,7 +31,6 @@ public class Gee extends Conversation {
     public Gee(Player player) {
         super(player);
         //Identify NPC by ID
-        int npcId = 2237;
         //Gee has the same script as Donie..
 
         addOptions(new Options() {

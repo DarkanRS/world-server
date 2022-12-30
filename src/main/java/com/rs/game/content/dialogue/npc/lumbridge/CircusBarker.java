@@ -13,7 +13,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class CircusBarker extends Conversation {
 
-	//Identify NPC by ID Object[]{XXXX})
+	//Identify NPC by ID
+	private static int npcId = 8081;
 	public static NPCClickHandler CircusBarker = new NPCClickHandler(new Object[]{8079, 8080, 8081}) {
 		@Override
 		//Handle Right-Click
@@ -31,16 +32,15 @@ public class CircusBarker extends Conversation {
 	public CircusBarker(Player player) {
 		super(player);
 		//Identify NPC by ID
-		Integer npc = 8081;
-		//TODO add support for ID 8079 8080 too.
+		//TODO add support for ID 8079 8080 too, might not be needed?
 		//Add NPC conversation line
-		addNPC(npc, HeadE.LOSING_IT_LAUGHING, "Come to Balthzar Beauregard's Big Top Bonanza! It's fun for all; with rewards for all. Come and have a laugh.")
+		addNPC(npcId, HeadE.LOSING_IT_LAUGHING, "Come to Balthzar Beauregard's Big Top Bonanza! It's fun for all; with rewards for all. Come and have a laugh.")
 				//Add PLAYER conversation line
 				.addPlayer(HeadE.HAPPY_TALKING, "Where is it? Can you take me there?")
 				//TODO Ticket Vendor locate and teleport
-				.addNPC(npc, HeadE.ANGRY, "Do I look like a carrier pigeon!")
+				.addNPC(npcId, HeadE.ANGRY, "Do I look like a carrier pigeon!")
 				.addPlayer(HeadE.CONFUSED, "Erm, sorry?")
-				.addNPC(npc, HeadE.ANGRY, "Have a nice walk!");
+				.addNPC(npcId, HeadE.ANGRY, "Have a nice walk!");
 		create();
 	}
 }

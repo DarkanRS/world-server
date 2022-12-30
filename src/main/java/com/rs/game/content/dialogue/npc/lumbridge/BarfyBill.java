@@ -13,8 +13,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class BarfyBill extends Conversation {
 
-    //Identify NPC by ID Object[]{XXXX})
-    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{3331}) {
+    //Identify NPC by ID
+    private static int npcId = 3331;
+    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
@@ -29,15 +30,13 @@ public class BarfyBill extends Conversation {
     public BarfyBill(Player player) {
         super(player);
         //Identify NPC by ID
-        int npcId = 3331;
-
         addOptions(new Options() {
             @Override
             public void create() {
                 //Player initiates
                 addPlayer(HeadE.CALM_TALK, "Test");
                 //TODO Bill isn't responding as expected?
-            };
-            });
+            }
+        });
     }
 }

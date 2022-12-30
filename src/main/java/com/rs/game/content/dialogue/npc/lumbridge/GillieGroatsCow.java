@@ -17,8 +17,12 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @QuestHandler(Quest.COOKS_ASSISTANT)
 
 public class GillieGroatsCow extends Conversation {
+    //Identify Cow by ID
+    private static int objId = 47721;
+    //Identify Gillie by ID
+    private static int npcId = 3807;
 
-    public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] {47721}) {
+    public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] {objId}) {
         @Override
         public void handle(ObjectClickEvent e) {
             if (e.getOption().equals("Milk")) {
@@ -30,7 +34,6 @@ public class GillieGroatsCow extends Conversation {
     public GillieGroatsCow(Player player) {
         super(player);
         //Identify NPC by ID
-        int npcId = 3807;
         if(player.getQuestManager().getStage(Quest.COOKS_ASSISTANT) != 1) {
             addNPC(npcId, HeadE.ANGRY, "Hands off, That milk is for the Duke!");
             create();

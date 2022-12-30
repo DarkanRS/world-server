@@ -14,8 +14,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class GillieGroats extends Conversation {
 
-    //Identify NPC by ID Object[]{XXXX})
-    public static NPCClickHandler GillieGroats = new NPCClickHandler(new Object[]{3807}) {
+    //Identify NPC by ID
+    private static int npcId = 3807;
+    public static NPCClickHandler GillieGroats = new NPCClickHandler(new Object[]{npcId}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
@@ -29,9 +30,6 @@ public class GillieGroats extends Conversation {
 
     public GillieGroats(Player player) {
         super(player);
-        //Identify NPC by ID
-        int npcId = 3807;
-
         addOptions(new Options() {
             @Override
             public void create() {
