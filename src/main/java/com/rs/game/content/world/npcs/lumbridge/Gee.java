@@ -1,4 +1,6 @@
-package com.rs.game.content.dialogue.npc.lumbridge;
+package com.rs.game.content.world.npcs.lumbridge;
+
+// Basic dialogue handler for linear text conversations with no choices.
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
@@ -10,29 +12,32 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
-public class Iain extends Conversation {
+public class Gee extends Conversation {
 
     //Identify NPC by ID
-    //Iain has the same script as Donie..
-    private static int npcId = 7868;
-
-    public static NPCClickHandler Iain = new NPCClickHandler(new Object[]{npcId}) {
+    private static int npcId = 2237;
+    public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
             switch (e.getOption()) {
                 //Start Conversation
-                case "Talk-to" -> e.getPlayer().startConversation(new Iain(e.getPlayer()));
+                case "Talk-to" -> e.getPlayer().startConversation(new Gee(e.getPlayer()));
             }
         }
     };
 
-    public Iain(Player player) {
+
+    public Gee(Player player) {
         super(player);
+        //Identify NPC by ID
+        //Gee has the same script as Donie..
+
         addOptions(new Options() {
             @Override
             public void create() {
                 //Give player options
+                addNPC(npcId, HeadE.CALM_TALK, "Hello there, Can I help you?");
                 addOptions(new Options() {
                     @Override
                     public void create() {
@@ -170,6 +175,6 @@ public class Iain extends Conversation {
             }
         });
 
-        //TODO add mission checks and alternative responses
+        //TODO add mission checks and alternative responses. Maybe rewrite this as Gee and Donie have the same script which is a bore.
     }
 }

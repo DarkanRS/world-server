@@ -1,4 +1,4 @@
-package com.rs.game.content.dialogue.npc.lumbridge;
+package com.rs.game.content.world.npcs.lumbridge;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
@@ -8,23 +8,23 @@ import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
-public class GuardsmanDeShawn extends Conversation {
+public class GuardsmanPazel extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 7886;
+    private static int npcId = 7889;
 
-    public static NPCClickHandler GuardsmanDeShawn = new NPCClickHandler(new Object[]{npcId}) {
+    public static NPCClickHandler GuardsmanPazel = new NPCClickHandler(new Object[]{npcId}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
             switch (e.getOption()) {
                 //Start Conversation
-                case "Talk-to" -> e.getPlayer().startConversation(new GuardsmanDeShawn(e.getPlayer()));
+                case "Talk-to" -> e.getPlayer().startConversation(new GuardsmanPazel(e.getPlayer()));
             }
         }
     };
 
-    public GuardsmanDeShawn(Player player) {
+    public GuardsmanPazel(Player player) {
         super(player);
         //TODO replace placeholder conversation
         addNPC(npcId, HeadE.FRUSTRATED, "Not right now, I'm Busy!");

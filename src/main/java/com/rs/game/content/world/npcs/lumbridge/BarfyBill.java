@@ -1,4 +1,4 @@
-package com.rs.game.content.dialogue.npc.lumbridge;
+package com.rs.game.content.world.npcs.lumbridge;
 
 // Basic dialogue handler for linear text conversations with no choices.
 

@@ -1,4 +1,4 @@
-package com.rs.game.content.dialogue.npc.lumbridge;
+package com.rs.game.content.world.npcs.lumbridge;
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.Dialogue;
