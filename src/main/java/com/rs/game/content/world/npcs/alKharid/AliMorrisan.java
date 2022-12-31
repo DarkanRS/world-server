@@ -40,10 +40,6 @@ public class AliMorrisan extends Conversation {
                         .addPlayer(HeadE.HAPPY_TALKING, "Sure, how can I help?")
                         .addNPC(npcId, HeadE.CALM_TALK, "I have no more stock left!")
                         .addNPC(npcId, HeadE.CALM_TALK, "If you can find me a supplier of Blackjacks, Clothes, and Runes I will give you a discount!")
-                        .addNext(() -> {
-                            player.getInventory().deleteItem(950, 1);
-                            player.getInventory().addItem(995, 20);
-                        }));
                 option("Not right now.", new Dialogue()
                         .addPlayer(HeadE.CALM_TALK, "Not right now.")
                         );
