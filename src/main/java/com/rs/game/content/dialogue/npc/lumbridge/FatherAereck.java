@@ -56,3 +56,5 @@ public class FatherAereck extends Conversation {
 		});
 	}
 }
+
+//TODO restore standard conversation options
