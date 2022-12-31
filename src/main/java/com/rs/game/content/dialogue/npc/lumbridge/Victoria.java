@@ -1,9 +1,7 @@
 package com.rs.game.content.dialogue.npc.lumbridge;
 
 import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;

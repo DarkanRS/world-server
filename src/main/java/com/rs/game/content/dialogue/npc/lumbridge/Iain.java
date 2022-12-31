@@ -8,7 +8,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Iain extends Conversation {

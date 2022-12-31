@@ -38,7 +38,7 @@ public class ApprenticeSmith extends Conversation {
             @Override
             public void create() {
                 if (!player.getInventory().containsItems(new Item(438, 1), new Item(436, 1))) {
-                    option("yes", new Dialogue()
+                    option("Yes", new Dialogue()
                             .addNPC(npcId, HeadE.WORRIED, "You'll need to have mined some tin and copper ore to smelt first. Go see the mining tutor to the south if you're not sure how to do this.")
                     );
                 } else {
