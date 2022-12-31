@@ -69,15 +69,3 @@ public class GillieGroats extends Conversation {
     }
 };
 
-//TODO add milking cow without a bucket interupt
-
-/*
-Attempting to milk a dairy cow without a bucket
-Gillie Groats the Milkmaid: Tee hee! You've never milked a cow before, have you?
-Player: Erm... No. How could you tell?
-Gillie Groats the Milkmaid: Because you're spilling milk all over the floor. What a waste! You need something to hold the milk.
-Player: Ah yes, I really should have guessed that one, shouldn't I?
-Gillie Groats the Milkmaid: You're from the city, aren't you... Try it again with an empty bucket.
-Player: Right, I'll do that.
- */
-
