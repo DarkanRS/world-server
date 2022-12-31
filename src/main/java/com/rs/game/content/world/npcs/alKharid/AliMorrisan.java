@@ -30,23 +30,22 @@ public class AliMorrisan extends Conversation {
 
     public AliMorrisan(Player player) {
         super(player);
-        addPlayer(HeadE.CALM_TALK, "My friend!");
-        addNPC(npcId, HeadE.AMAZED, "Can you help me?");
+        addNPC(npcId,HeadE.SAD_CRYING, "My friend!");
+        addNPC(npcId, HeadE.SAD_CRYING, "Can you help me?");
         addOptions(new Options() {
             @Override
             public void create() {
 
                 option("Sure, how can I help?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Sure, how can I help?")
-                        .addNPC(npcId, HeadE.CALM_TALK, "I have no more stock left!")
-                        .addNPC(npcId, HeadE.CALM_TALK, "If you can find me a supplier of Blackjacks, Clothes, and Runes I will give you a discount!")
-                        .addNext(() -> {
-                            player.getInventory().deleteItem(950, 1);
-                            player.getInventory().addItem(995, 20);
-                        }));
+                        .addNPC(npcId, HeadE.SAD_CRYING, "I have no more stock left!")
+                        .addNPC(npcId, HeadE.SAD_CRYING, "If you can find me a supplier of Blackjacks, Clothes, and Runes I will give you a discount!")
+                        .addPlayer(HeadE.HAPPY_TALKING, "I'll see what I can do.")
+                );
                 option("Not right now.", new Dialogue()
                         .addPlayer(HeadE.CALM_TALK, "Not right now.")
-                        );
+                );
+
             }
         });
     }

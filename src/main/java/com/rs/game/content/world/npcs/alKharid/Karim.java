@@ -36,7 +36,7 @@ public class Karim extends Conversation {
             public void create() {
 
                 option("I think I'll give it a miss.", new Dialogue()
-                        .addPlayer(HeadE.HAPPY_TALKING, "I think I'll give it a miss.")
+                        .addPlayer(HeadE.CALM_TALK, "I think I'll give it a miss.")
                 );
 
                 option("Yes please.", new Dialogue()
