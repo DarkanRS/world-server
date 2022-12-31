@@ -62,14 +62,9 @@ public final class Settings {
 	private double dropModifier;
 	private Item[] startItems;
 
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-
 	public Settings() {
 		serverName = "Darkan";
-		ownerName = "lgdolman";
+		ownerName = "trent";
 		cachePath = "../cache/";
 		debug = false;
 		lobbyIp = "dev.darkan.org";
@@ -83,7 +78,7 @@ public final class Settings {
 		loginMessage = "";
 		playerStartTile = WorldTile.of(3226, 3219, 0);
 		playerRespawnTile = WorldTile.of(3221, 3218, 0);
-		xpRate = 10;
+		xpRate = 1;
 		dropModifier = 1.0;
 		startItems = new Item[] {
 				new Item(1351, 1),
