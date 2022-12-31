@@ -1,11 +1,10 @@
-package com.rs.game.content.dialogue.npc;
+package com.rs.game.content.dialogue.npc.lumbridge;
 
 // Basic dialogue handler for linear text conversations with no choices.
 
 import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -14,10 +13,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class CircusBarker extends Conversation {
 
-	//Identify NPC by ID (8081 - CircusBarker)
+	//Identify NPC by ID
+	private static int npcId = 8081;
 	public static NPCClickHandler CircusBarker = new NPCClickHandler(new Object[]{8079, 8080, 8081}) {
 		@Override
-		//	//Handle Right-Click
+		//Handle Right-Click
 		public void handle(NPCClickEvent e) {
 			switch (e.getOption()) {
 				//			//Start Conversation
@@ -31,20 +31,24 @@ public class CircusBarker extends Conversation {
 
 	public CircusBarker(Player player) {
 		super(player);
-		//Identify NPC by ID (3777 - Doomsayer)
-		Integer npc = 8081;
-		//TODO add support for ID 8079 8080 too.
+		//Identify NPC by ID
+		//TODO add support for ID 8079 8080 too, might not be needed?
 		//Add NPC conversation line
-		addNPC(npc, HeadE.LOSING_IT_LAUGHING, "Come to Balthzar Beauregard's Big Top Bonanza! It's fun for all; with rewards for all. Come and have a laugh.")
+		addNPC(npcId, HeadE.LOSING_IT_LAUGHING, "Come to Balthzar Beauregard's Big Top Bonanza! It's fun for all; with rewards for all. Come and have a laugh.")
 				//Add PLAYER conversation line
 				.addPlayer(HeadE.HAPPY_TALKING, "Where is it? Can you take me there?")
 				//TODO Ticket Vendor locate and teleport
-				.addNPC(npc, HeadE.ANGRY, "Do I look like a carrier pigeon!")
+				.addNPC(npcId, HeadE.ANGRY, "Do I look like a carrier pigeon!")
 				.addPlayer(HeadE.CONFUSED, "Erm, sorry?")
-				.addNPC(npc, HeadE.ANGRY, "Have a nice walk!");
-		//Finish Script
+				.addNPC(npcId, HeadE.ANGRY, "Have a nice walk!");
 		create();
 	}
 }
 
+//Correct Behaviour
+//Circus Barker: The ticket vendor is currently located near the <Location of ticket vendor>.
+//Circus Barker: The nearest lodestone is in <location of nearest lodestone>. Would you like me to send you there?
+		//Yes, Please!
+			//(Teleport to lodestone starts.)
+		//No, thank you.
 

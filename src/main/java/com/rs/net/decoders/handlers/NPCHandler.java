@@ -43,7 +43,6 @@ import com.rs.game.content.pet.Pet;
 import com.rs.game.content.quests.Quest;
 import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
-import com.rs.game.content.quests.handlers.restlessghost.FatherAereckD;
 import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
@@ -216,8 +215,6 @@ public class NPCHandler {
 				MutatedZygomite.transform(player, npc);
 			else if (npc.getId() == 4236 || npc.getId() == 4238 || npc.getId() == 4240 || npc.getId() == 4242 || npc.getId() == 4244)
 				player.startConversation(new ServantDialogue(player, npc));
-			else if (npc.getId() == 456)
-				player.startConversation(new FatherAereckD(player));
 			else if (npc.getId() == 13633)
 				player.startConversation(new ClanItemClaim(player, 20708));
 			else if (npc.getId() == 5915)
