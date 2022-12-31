@@ -104,12 +104,10 @@ public class MakeOverMage extends Dialogue {
 	public static NPCClickHandler makeoverMageHandler = new NPCClickHandler(new Object[] { 2676, 599 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.isAtNPC()) {
-				if (e.getOption().equalsIgnoreCase("talk-to"))
-					e.getPlayer().startConversation(new MakeoverMage(e.getPlayer()));
-				if (e.getOption().equalsIgnoreCase("makeover"))
-					PlayerLook.openMageMakeOver(e.getPlayer());
-			}
+			if (e.getOption().equalsIgnoreCase("talk-to"))
+				e.getPlayer().startConversation(new MakeoverMage(e.getPlayer()));
+			if (e.getOption().equalsIgnoreCase("makeover"))
+				PlayerLook.openMageMakeOver(e.getPlayer());
 		}
 	};
 }
