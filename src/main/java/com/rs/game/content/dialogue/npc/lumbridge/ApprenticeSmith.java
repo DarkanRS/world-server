@@ -39,10 +39,10 @@ public class ApprenticeSmith extends Conversation {
             public void create() {
                 if (!player.getInventory().containsItems(new Item(438, 1), new Item(436, 1))) {
                     option("yes", new Dialogue()
-                            .addNPC(npcId, HeadE.WORRIED, "You'll need to have mined some ore to smelt first. Go see the mining tutor to the south if you're not sure how to do this.")
+                            .addNPC(npcId, HeadE.WORRIED, "You'll need to have mined some tin and copper ore to smelt first. Go see the mining tutor to the south if you're not sure how to do this.")
                     );
                 } else {
-                    option("yes", new Dialogue()
+                    option("Yes", new Dialogue()
                             .addNPC(npcId, HeadE.HAPPY_TALKING, "I see you have some ore with you to smelt, so let's get started.")
                             .addNPC(npcId, HeadE.CALM_TALK, "Click on the furnace to bring up a menu of metal bars you can try to make from your ore.")
                             .addNPC(npcId, HeadE.CALM_TALK, "When you have a full inventory, take it to the bank, you can find it on the roof of the castle in Lumbridge.")
