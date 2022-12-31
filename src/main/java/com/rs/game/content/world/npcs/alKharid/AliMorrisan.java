@@ -38,11 +38,13 @@ public class AliMorrisan extends Conversation {
 
                 option("Sure, how can I help?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Sure, how can I help?")
-                        .addNPC(npcId, HeadE.CALM_TALK, "I have no more stock left!")
+                        .addNPC(npcId, HeadE.SCARED, "I have no more stock left!")
                         .addNPC(npcId, HeadE.CALM_TALK, "If you can find me a supplier of Blackjacks, Clothes, and Runes I will give you a discount!")
+                );
                 option("Not right now.", new Dialogue()
                         .addPlayer(HeadE.CALM_TALK, "Not right now.")
-                        );
+                );
+
             }
         });
     }
