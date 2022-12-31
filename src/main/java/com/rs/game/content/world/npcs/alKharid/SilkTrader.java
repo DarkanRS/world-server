@@ -36,7 +36,7 @@ public class SilkTrader extends Conversation {
             create();
         } else {
             addPlayer(HeadE.HAPPY_TALKING, "Hello I have some fine silk from Al Kharid to sell to you.");
-            addNPC(npcId, HeadE.AMAZED, "Ah I may be intersted in that!");
+            addNPC(npcId, HeadE.AMAZED, "Ah I may be interested in that!");
             addNPC(npcId, HeadE.CALM_TALK, "What sort of price were you looking at per piece of silk?");
             addOptions(new Options() {
                 @Override
@@ -108,7 +108,7 @@ public class SilkTrader extends Conversation {
 
                     );
                     option("200 Coins", new Dialogue()
-                            .addPlayer(HeadE.HAPPY_TALKING, "200 Coins")
+                            .addPlayer(HeadE.HAPPY_TALKING, "200 Coins.")
                             .addNPC(npcId, HeadE.ANGRY, "Don't be ridiculous that is far to much.")
                             .addNPC(npcId, HeadE.ANGRY, "You insult me with that price.")
                     );
