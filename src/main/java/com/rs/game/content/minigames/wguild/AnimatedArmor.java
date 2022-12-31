@@ -16,55 +16,17 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 
-public class AnimatedArmor extends NPC {
+public class AnimatedArmor extends OwnedNPC {
 
 	private transient Player player;
 
-	public AnimatedArmor(Player player, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
-		super(id, tile);
+	public AnimatedArmor(Player player, int id, WorldTile tile) {
+		super(player, id, tile, false);
 		this.player = player;
-	}
-
-	@Override
-	public void processNPC() {
-		super.processNPC();
-		if (!getCombat().hasTarget() && !isDead())
-			finish();
-	}
-
-	@Override
-	public void sendDeath(final Entity source) {
-		resetWalkSteps();
-		getCombat().removeTarget();
-		setNextAnimation(new Animation(836));
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop >= 2) {
-					if (source instanceof Player player) {
-//						for (Integer items : getDroppedItems()) {
-//							if (items == -1)
-//								continue;
-//							World.addGroundItem(new Item(items), WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane()), player, true, 60);
-//						}
-						player.setWarriorPoints(3, WarriorsGuild.ARMOR_POINTS[getId() - 4278]);
-					}
-					finish();
-					stop();
-				}
-				loop++;
-			}
-		}, 0, 1);
 	}
 
 	public int[] getDroppedItems() {
@@ -80,6 +42,7 @@ public class AnimatedArmor extends NPC {
 		super.finish();
 		if (player != null) {
 			player.getTempAttribs().removeB("animator_spawned");
+			player.setWarriorPoints(3, WarriorsGuild.ARMOR_POINTS[getId() - 4278]);
 			if (!isDead())
 				for (int item : getDroppedItems()) {
 					if (item == -1)
