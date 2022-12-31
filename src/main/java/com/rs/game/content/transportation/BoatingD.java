@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.transportation;
 
-import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.KLARENSE;
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KLARENSE;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer;
-import com.rs.game.content.quests.handlers.dragonslayer.KlarenseDragonSlayerD;
-import com.rs.game.content.quests.handlers.piratestreasure.CustomsOfficerPiratesTreasureD;
-import com.rs.game.content.quests.handlers.piratestreasure.PiratesTreasure;
+import com.rs.game.content.quests.dragonslayer.DragonSlayer;
+import com.rs.game.content.quests.dragonslayer.KlarenseDragonSlayerD;
+import com.rs.game.content.quests.piratestreasure.CustomsOfficerPiratesTreasureD;
+import com.rs.game.content.quests.piratestreasure.PiratesTreasure;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

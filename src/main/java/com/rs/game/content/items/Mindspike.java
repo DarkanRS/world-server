@@ -1,7 +1,7 @@
 package com.rs.game.content.items;
 
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.statements.Statement;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.statements.Statement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;

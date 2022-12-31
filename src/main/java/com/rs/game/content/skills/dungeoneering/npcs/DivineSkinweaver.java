@@ -22,13 +22,13 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;

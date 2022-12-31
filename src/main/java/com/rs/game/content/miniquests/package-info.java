@@ -1,0 +1,1 @@
+package com.rs.game.content.miniquests;

@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogue.impl.GemCuttingD;
+import com.rs.game.content.world.unorganized_dialogue.GemCuttingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

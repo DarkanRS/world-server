@@ -17,10 +17,10 @@
 package com.rs.game.content.world;
 
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

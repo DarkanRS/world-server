@@ -19,12 +19,12 @@ package com.rs.game.content.minigames.fightcaves;
 import java.util.Set;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
-import com.rs.game.content.pet.Pets;
+import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.summoning.Summoning;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.minigames.wguild;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 
 public class KamfreendaDefender extends Conversation {

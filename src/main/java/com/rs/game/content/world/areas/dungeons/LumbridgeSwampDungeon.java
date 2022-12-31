@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
-import com.rs.game.content.quests.Quest;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;

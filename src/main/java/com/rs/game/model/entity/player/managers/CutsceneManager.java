@@ -16,7 +16,7 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import com.rs.game.content.cutscenes.Cutscene;
+import com.rs.game.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
 
 public final class CutsceneManager {

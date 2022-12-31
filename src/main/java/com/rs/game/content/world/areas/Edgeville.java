@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.world.areas;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.dragonslayer.OziachDragonSlayerD;
+import com.rs.game.content.quests.dragonslayer.OziachDragonSlayerD;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.content.world.doors.Doors;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;

@@ -20,11 +20,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.statements.MakeXStatement;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;

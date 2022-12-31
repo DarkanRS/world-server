@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.rs.game.content.miniquests.Miniquest;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.engine.miniquest.Miniquest;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
