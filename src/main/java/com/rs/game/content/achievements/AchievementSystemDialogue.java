@@ -17,10 +17,10 @@
 package com.rs.game.content.achievements;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 
 public class AchievementSystemDialogue extends Conversation {

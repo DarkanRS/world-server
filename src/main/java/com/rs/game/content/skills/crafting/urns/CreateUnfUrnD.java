@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.crafting.urns;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 
 public class CreateUnfUrnD extends Conversation {

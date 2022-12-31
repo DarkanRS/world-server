@@ -19,7 +19,7 @@ package com.rs.game.content.skills.slayer;
 import java.util.HashMap;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.game.content.quests.Quest;
+import com.rs.game.engine.quest.Quest;
 
 public enum TaskMonster {
 	MONKEYS(1, 1, "monkey"),

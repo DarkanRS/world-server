@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.minigames.treasuretrails.Ugi;
 import com.rs.game.content.minigames.treasuretrails.UgiDialogue;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;

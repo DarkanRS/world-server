@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.dialogue.impl.GrilleGoatsDialogue;
+import com.rs.game.content.world.unorganized_dialogue.GrilleGoatsDialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;

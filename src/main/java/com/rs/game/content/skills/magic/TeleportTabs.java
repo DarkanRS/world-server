@@ -19,7 +19,7 @@ package com.rs.game.content.skills.magic;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.quests.Quest;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;

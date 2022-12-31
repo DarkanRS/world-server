@@ -17,8 +17,8 @@
 package com.rs.game.content.world.areas;
 
 import com.rs.game.content.Potions;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.NPCClickEvent;

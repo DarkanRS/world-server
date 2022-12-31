@@ -16,7 +16,7 @@
 //
 package com.rs.net.decoders.handlers.impl.interfaces;
 
-import com.rs.game.content.Shop;
+import com.rs.game.engine.Shop;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;

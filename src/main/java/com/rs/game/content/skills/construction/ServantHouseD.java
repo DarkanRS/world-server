@@ -17,11 +17,11 @@
 package com.rs.game.content.skills.construction;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
 import com.rs.game.content.skills.construction.ServantNPC.RequestType;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 
 public class ServantHouseD extends Conversation {

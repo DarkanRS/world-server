@@ -19,7 +19,7 @@ package com.rs.game.content.holidayevents.christmas.christ19;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.pet.Pets;
+import com.rs.game.content.pets.Pets;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content;
 
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.Options;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;

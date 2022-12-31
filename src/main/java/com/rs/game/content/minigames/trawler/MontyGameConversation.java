@@ -1,12 +1,12 @@
 package com.rs.game.content.minigames.trawler;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogue.statements.NPCStatement;
-import com.rs.game.content.dialogue.statements.PlayerStatement;
-import com.rs.game.content.dialogue.statements.SimpleStatement;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.dialogue.statements.NPCStatement;
+import com.rs.game.engine.dialogue.statements.PlayerStatement;
+import com.rs.game.engine.dialogue.statements.SimpleStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 

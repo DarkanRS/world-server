@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.areas;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.transportation.FairyRings;
 import com.rs.game.content.world.AgilityShortcuts;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemOnObjectEvent;
