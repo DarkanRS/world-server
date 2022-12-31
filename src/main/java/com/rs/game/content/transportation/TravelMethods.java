@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.transportation;
 
-import com.rs.game.content.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;

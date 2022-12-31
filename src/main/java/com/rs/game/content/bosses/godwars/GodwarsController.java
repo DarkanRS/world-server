@@ -18,8 +18,8 @@ package com.rs.game.content.bosses.godwars;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.NexArena;
-import com.rs.game.content.dialogue.impl.NexEntrance;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.world.unorganized_dialogue.NexEntrance;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;

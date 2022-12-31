@@ -16,18 +16,18 @@
 //
 package com.rs.game.content.world.areas;
 
-import static com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.RuneMysteries;
-import com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer;
+import com.rs.game.content.quests.RuneMysteries;
+import com.rs.game.content.quests.dragonslayer.DragonSlayer;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;

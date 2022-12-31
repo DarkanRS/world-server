@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas;
 
-import com.rs.game.content.quests.handlers.treegnomevillage.dialogues.ElkoyTreeGnomeVillageD;
+import com.rs.game.content.quests.treegnomevillage.dialogues.ElkoyTreeGnomeVillageD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;

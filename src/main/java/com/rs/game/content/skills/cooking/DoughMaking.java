@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.statements.MakeXStatement;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.plugin.annotations.PluginEventHandler;

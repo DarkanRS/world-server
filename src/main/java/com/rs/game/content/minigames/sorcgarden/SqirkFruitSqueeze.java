@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.minigames.sorcgarden;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;

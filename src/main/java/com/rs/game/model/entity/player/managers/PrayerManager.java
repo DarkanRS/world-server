@@ -20,10 +20,10 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.World;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.prayer.Leech;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.prayer.Sap;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;

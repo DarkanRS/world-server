@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.domtower;
 
-import com.rs.game.content.cutscenes.Cutscene;
+import com.rs.game.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
 
 public class DTPreview extends Cutscene {

@@ -17,8 +17,8 @@
 package com.rs.game.content.skills.agility;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

@@ -17,10 +17,10 @@
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;

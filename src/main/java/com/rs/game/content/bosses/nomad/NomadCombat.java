@@ -17,8 +17,8 @@
 package com.rs.game.content.bosses.nomad;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;

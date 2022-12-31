@@ -18,9 +18,9 @@ package com.rs.game.content.skills.farming;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
-import com.rs.game.content.dialogue.Dialogue;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
+import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;

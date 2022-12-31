@@ -16,30 +16,30 @@
 //
 package com.rs.game.content.world.areas;
 
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.AGGIE;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.ASHES;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.BALL_WOOL;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.GEAR_CHECK;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.NED;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.REDBERRY;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.WATER_BUCKET;
-import static com.rs.game.content.quests.handlers.princealirescue.PrinceAliRescue.WIG;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.AGGIE;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.ASHES;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BALL_WOOL;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.GEAR_CHECK;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.NED;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PASTE;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.REDBERRY;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WATER_BUCKET;
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WIG;
 
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.dragonslayer.DragonSlayer;
-import com.rs.game.content.quests.handlers.dragonslayer.NedDragonSlayerD;
+import com.rs.game.content.quests.dragonslayer.DragonSlayer;
+import com.rs.game.content.quests.dragonslayer.NedDragonSlayerD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.DoorPair;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

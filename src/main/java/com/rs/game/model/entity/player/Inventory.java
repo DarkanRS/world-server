@@ -26,7 +26,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.pet.Pet;
+import com.rs.game.content.pets.Pet;
 import com.rs.game.content.skills.slayer.npcs.ConditionalDeath;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;

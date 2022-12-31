@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.npcs;
 
-import com.rs.game.content.quests.Quest;
+import com.rs.game.engine.quest.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;

@@ -1,13 +1,13 @@
 package com.rs.game.content.skills.summoning;
 
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Animation;
