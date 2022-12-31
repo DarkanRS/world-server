@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.construction;
 
-import com.rs.game.content.pet.Pets;
+import com.rs.game.content.pets.Pets;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;

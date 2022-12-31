@@ -19,7 +19,7 @@ package com.rs.game.model.entity.actions;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.dialogue.impl.FillingD;
+import com.rs.game.content.world.unorganized_dialogue.FillingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;

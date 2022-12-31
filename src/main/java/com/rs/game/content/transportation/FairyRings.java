@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.transportation;
 
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.quests.Quest;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.dungeons.ancientcavern.AncientCavern;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;

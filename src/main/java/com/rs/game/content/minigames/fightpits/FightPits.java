@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.rs.game.World;
-import com.rs.game.content.dialogue.HeadE;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.FightPitsViewingOrb;

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.dialogue.Conversation;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
+import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 
 public class DungeonLeave extends Conversation {

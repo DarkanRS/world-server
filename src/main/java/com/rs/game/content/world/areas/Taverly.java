@@ -18,14 +18,14 @@ package com.rs.game.content.world.areas;
 
 import java.util.List;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogue.impl.TanningD;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.handlers.heroesquest.dialogues.AchiettiesHeroesQuestD;
+import com.rs.game.content.quests.heroesquest.dialogues.AchiettiesHeroesQuestD;
 import com.rs.game.content.world.doors.Doors;
+import com.rs.game.content.world.unorganized_dialogue.TanningD;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;

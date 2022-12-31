@@ -17,10 +17,10 @@
 package com.rs.game.content.skills.hunter;
 
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.Options;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap.Status;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.Options;
 import com.rs.game.content.skills.hunter.traps.NetTrap;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.lib.game.Animation;

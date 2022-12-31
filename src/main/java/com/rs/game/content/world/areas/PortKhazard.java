@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.world.areas;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
 import com.rs.game.content.minigames.trawler.FishingTrawler;
 import com.rs.game.content.minigames.trawler.FishingTrawlerGameController;
 import com.rs.game.content.minigames.trawler.MontyConversation;
 import com.rs.game.content.minigames.trawler.MontyGameConversation;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCClickEvent;

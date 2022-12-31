@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.holidayevents.halloween.hw07;
 
-import com.rs.game.content.books.Book;
-import com.rs.game.content.books.BookPage;
+import com.rs.game.engine.book.Book;
+import com.rs.game.engine.book.BookPage;
 
 public class GrimsDiary extends Book {
 

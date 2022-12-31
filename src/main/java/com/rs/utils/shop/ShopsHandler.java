@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.game.content.Shop;
+import com.rs.game.engine.Shop;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;

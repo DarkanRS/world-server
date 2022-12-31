@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import com.rs.game.content.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 
 public class LanderD extends Conversation {

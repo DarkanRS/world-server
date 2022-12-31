@@ -1,8 +1,8 @@
 package com.rs.game.content.tutorialisland;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.statements.SimpleStatement;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.statements.SimpleStatement;
 import com.rs.game.model.entity.player.Player;
 
 public class GamemodeSelection extends Conversation {

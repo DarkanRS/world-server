@@ -50,7 +50,6 @@ import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.Toolbelt;
 import com.rs.game.content.Toolbelt.Tools;
 import com.rs.game.content.achievements.AchievementInterface;
-import com.rs.game.content.books.Book;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.content.clans.ClansManager;
@@ -58,11 +57,6 @@ import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.Dialogue;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.dialogue.Options;
-import com.rs.game.content.dialogue.statements.SimpleStatement;
 import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.content.interfacehandlers.TransformationRing;
 import com.rs.game.content.minigames.domtower.DominionTower;
@@ -70,12 +64,8 @@ import com.rs.game.content.minigames.duel.DuelRules;
 import com.rs.game.content.minigames.herblorehabitat.HabitatFeature;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.minigames.wguild.WarriorsGuild;
-import com.rs.game.content.miniquests.Miniquest;
-import com.rs.game.content.miniquests.MiniquestManager;
-import com.rs.game.content.pet.Pet;
-import com.rs.game.content.pet.PetManager;
-import com.rs.game.content.quests.Quest;
-import com.rs.game.content.quests.QuestManager;
+import com.rs.game.content.pets.Pet;
+import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.cooking.Brewery;
 import com.rs.game.content.skills.dungeoneering.DungManager;
@@ -97,6 +87,16 @@ import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.Musician;
+import com.rs.game.engine.book.Book;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.engine.dialogue.statements.SimpleStatement;
+import com.rs.game.engine.miniquest.Miniquest;
+import com.rs.game.engine.miniquest.MiniquestManager;
+import com.rs.game.engine.quest.Quest;
+import com.rs.game.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.model.WorldProjectile;
@@ -3751,7 +3751,7 @@ public class Player extends Entity {
 		return false;
 	}
 
-	public void startConversation(com.rs.game.content.dialogue.Dialogue dialogue) {
+	public void startConversation(com.rs.game.engine.dialogue.Dialogue dialogue) {
 		startConversation(new Conversation(dialogue.finish()));
 	}
 
@@ -4341,7 +4341,7 @@ public class Player extends Entity {
 	}
 
 	public void simpleDialogue(String message) {
-		startConversation(new com.rs.game.content.dialogue.Dialogue(new SimpleStatement(message)));
+		startConversation(new com.rs.game.engine.dialogue.Dialogue(new SimpleStatement(message)));
 	}
 
 	public void setUsername(String username) {

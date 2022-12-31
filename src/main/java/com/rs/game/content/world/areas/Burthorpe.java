@@ -18,9 +18,9 @@ package com.rs.game.content.world.areas;
 
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
-import com.rs.game.content.dialogue.Conversation;
-import com.rs.game.content.dialogue.HeadE;
-import com.rs.game.content.quests.Quest;
+import com.rs.game.engine.dialogue.Conversation;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.quest.Quest;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
