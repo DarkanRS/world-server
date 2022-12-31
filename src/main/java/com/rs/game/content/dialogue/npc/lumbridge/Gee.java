@@ -16,7 +16,7 @@ public class Gee extends Conversation {
 
     //Identify NPC by ID
     private static int npcId = 2237;
-    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}) {
+    public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}) {
         @Override
         //Handle Right-Click
         public void handle(NPCClickEvent e) {
