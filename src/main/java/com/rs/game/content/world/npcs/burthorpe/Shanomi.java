@@ -31,7 +31,7 @@ public class Shanomi extends Conversation {
 
 		addNPC(npcId, HeadE.HAPPY_TALKING, "Greetings " + player.getDisplayName() + " Welcome you are in the test of combat.");
 
-		Dialogue option = addOption("What would you like to say?", "What do I do here?", "Where do the machines come from?", "Bye!");
+		Dialogue option = addOption("What do I do here?", "What do I do here?", "Where do the machines come from?", "Bye!");
 
 		option.addPlayer(HeadE.CONFUSED, "What do I do here?")
 				.addNPC(npcId, HeadE.HAPPY_TALKING, "A spare suit of armor need you will. Full helm, plate leggings and platebody yes? Placing it in the centre of the magical machines you will be doing. KA-POOF! The armor, it attaks its most furiously as if alive! Kill it you must, yes.")
