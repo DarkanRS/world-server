@@ -34,7 +34,6 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ShanomiWorld extends NPC {
 
 	private static int npcId = 4290;
-	Timer timer = new Timer();
 
 	public ShanomiWorld(int id, WorldTile tile) {
 		super(id, tile);
