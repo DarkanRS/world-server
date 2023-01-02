@@ -44,7 +44,7 @@ public class SilkTrader extends Conversation {
                                 option("3 coins sounds good.", new Dialogue()
                                         .addNext(() -> {
                                             if(player.getInventory().hasCoins(3)) {
-                                                player.getInventory().deleteItem(955, 3);
+                                                player.getInventory().removeCoins(3);
                                                 player.getInventory().addItem(950, 1);
                                             }
                                             else{
@@ -63,7 +63,7 @@ public class SilkTrader extends Conversation {
                                                 option("2 coins sounds good.", new Dialogue()
                                                         .addNext(() -> {
                                                             if(player.getInventory().hasCoins(2)) {
-                                                                player.getInventory().deleteItem(955, 2);
+                                                                player.getInventory().removeCoins(2);
                                                                 player.getInventory().addItem(950, 1);
                                                             }
                                                             else{

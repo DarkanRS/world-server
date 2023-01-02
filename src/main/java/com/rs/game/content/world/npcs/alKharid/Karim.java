@@ -42,7 +42,7 @@ public class Karim extends Conversation {
                 option("Yes please.", new Dialogue()
                         .addNext(() -> {
                             if(player.getInventory().hasCoins(1)){
-                                player.getInventory().deleteItem(995, 1);
+                                player.getInventory().removeCoins(1);
                                 player.getInventory().addItem(1971, 1);
                             }
                             else {
