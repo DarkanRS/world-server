@@ -32,9 +32,9 @@ import com.rs.utils.spawns.NPCSpawns;
 @PluginEventHandler
 public class Christmas2020 {
 
-	public static final String STAGE_KEY = "christ2022";
+	public static final String STAGE_KEY = "christ2023";
 
-	private static boolean ACTIVE = true;
+	private static boolean ACTIVE = false;
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void load() {
