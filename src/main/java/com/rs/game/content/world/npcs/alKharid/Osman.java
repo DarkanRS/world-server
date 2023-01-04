@@ -41,13 +41,14 @@ public class Osman extends Conversation {
 		@Override
 		//Handle Right-Click
 		public void handle(NPCClickEvent e) {
+			int convoID = 1;
 			switch (e.getOption()) {
 				//Start Conversation
-				case "Talk-to" -> e.getPlayer().startConversation(new SilkTrader(e.getPlayer()));
+				case "Talk-to" -> e.getPlayer().startConversation(new Osman(e.getPlayer(), convoID));
 			}
 		}
 	};
-
+	
 	public Osman(Player player, int convoID) {
 		super(player);
 
