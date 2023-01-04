@@ -304,6 +304,12 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
+	public int getNeckId() {
+		Item item = items.get(NECK);
+		if (item == null)
+			return -1;
+		return item.getId();
+	}
 
 	public int getRingId() {
 		Item item = items.get(RING);

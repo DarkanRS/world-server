@@ -392,20 +392,9 @@ public class NPCHandler {
 
 	public static int getShopIdForNpc(int npcId) {
 		switch (npcId) {
-		case 1436: // Ape Toll General Store", Ifaba. (2752, 2774, 0)
-			return -1; // TODO
-		case 590: // East Ardougne General Store", Aemad. (2614, 3293, 0)
-			return -1; // TODO
-		case 2154: // Gunslik's General Store "Gunslik's Assorted Items",
-			// Gunslik. (2868, 10190, 0)
-			return -1; // TODO
 		case 1254: // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
 			return -1; // TODO get burgh de rott transforming npc spawns
 		case 1866: // Pollniveach General Store", Market Seller. (3359, 2983, 0)
-			return -1; // TODO
-		case 1699: // Port Phasmatys General Store", Ghostly Shopkeeper. (3659,
-			// 3473, 0) (Ghostly Amulet Needed to talk to him, run by
-			// one of the ghostly denizens).
 			return -1; // TODO
 		case 3166: // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
 			return -1; // TODO
