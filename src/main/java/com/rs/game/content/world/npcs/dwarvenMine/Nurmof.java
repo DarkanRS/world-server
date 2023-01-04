@@ -14,25 +14,41 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.world.npcs.dwarvenMine;
 
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
+@PluginEventHandler
 public class Nurmof extends Conversation {
+	private static int npcId = 594;
 
-	public Nurmof(Player player, NPC npc) {
+	public static NPCClickHandler Nurmof = new NPCClickHandler(new Object[]{npcId}) {
+		@Override
+		//Handle Right-Click
+		public void handle(NPCClickEvent e) {
+			switch (e.getOption()) {
+				//Start Conversation
+				case "Talk-to" -> e.getPlayer().startConversation(new Nurmof(e.getPlayer()));
+				case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "nurmofs_pickaxe_shop");
+			}
+		}
+	};
+
+	public Nurmof(Player player) {
 		super(player);
-		addNPC(npc.getId(), HeadE.CHEERFUL, "Greetings and welcome to my pickaxe shop. Do you want to buy my premium quality pickaxes?");
+		addNPC(npcId, HeadE.CHEERFUL, "Greetings and welcome to my pickaxe shop. Do you want to buy my premium quality pickaxes?");
 		addOptions(ops -> {
 			ops.add("Yes, please.", () -> ShopsHandler.openShop(player, "nurmofs_pickaxe_shop"));
 			
 			ops.add("Are your pickaxes better than other pickaxes, then?")
 				.addPlayer(HeadE.CONFUSED, "Are your pickaxes better than other pickaxes, then?")
-				.addNPC(npc.getId(), HeadE.CHEERFUL_EXPOSITION, "Of course they are! My pickaxes are made of higher grade metal than your ordinary bronze pickaxes, allowing you to mine ore just that little bit faster.");
+				.addNPC(npcId, HeadE.CHEERFUL_EXPOSITION, "Of course they are! My pickaxes are made of higher grade metal than your ordinary bronze pickaxes, allowing you to mine ore just that little bit faster.");
 			
 			ops.add("No, thank you.")
 				.addPlayer(HeadE.CHEERFUL, "No, thank you.");

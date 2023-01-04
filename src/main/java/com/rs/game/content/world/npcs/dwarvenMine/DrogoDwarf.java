@@ -14,19 +14,35 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.world.npcs.dwarvenMine;
 
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
+@PluginEventHandler
 public class DrogoDwarf extends Conversation {
+	private static int npcId = 579;
 
-	public DrogoDwarf(Player player, NPC npc) {
+	public static NPCClickHandler DrogoDwarf = new NPCClickHandler(new Object[]{npcId}) {
+		@Override
+		//Handle Right-Click
+		public void handle(NPCClickEvent e) {
+			switch (e.getOption()) {
+				//Start Conversation
+				case "Talk-to" -> e.getPlayer().startConversation(new DrogoDwarf(e.getPlayer()));
+				case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "drogos_mining_emporium");
+			}
+		}
+	};
+
+	public DrogoDwarf(Player player) {
 		super(player);
-		addNPC(npc.getId(), HeadE.CHEERFUL, "'Ello. Welcome to my Mining shop, friend.");
+		addNPC(npcId, HeadE.CHEERFUL, "'Ello. Welcome to my Mining shop, friend.");
 		addOptions(ops -> {
 			ops.add("Do you want to trade?")
 				.addPlayer(HeadE.CONFUSED, "Do you want to trade?")
@@ -34,11 +50,11 @@ public class DrogoDwarf extends Conversation {
 			
 			ops.add("Hello, shorty.")
 				.addPlayer(HeadE.CHEERFUL, "Hello, shorty.")
-				.addNPC(npc.getId(), HeadE.ANGRY, "I may be short but at least I've got manners.");
+				.addNPC(npcId, HeadE.ANGRY, "I may be short but at least I've got manners.");
 			
 			ops.add("Why don't you ever restock ores and bars?")
 				.addPlayer(HeadE.CONFUSED, "Why don't you ever restock ores and bars?")
-				.addNPC(npc.getId(), HeadE.CHEERFUL, "The only ores and bars I sell are those sold to me.");
+				.addNPC(npcId, HeadE.CHEERFUL, "The only ores and bars I sell are those sold to me.");
 		});
 	}
 }
