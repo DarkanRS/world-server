@@ -1,0 +1,53 @@
+{
+  "name": "Ifaba General Store",
+  "generalStore": true,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1925,
+        "amount": 2,
+        "_name": "Bucket"
+      }
+    },
+    {
+      "item": {
+        "id": 1931,
+        "amount": 3,
+        "_name": "Pot"
+      }
+    },
+    {
+      "item": {
+        "id": 2347,
+        "amount": 5,
+        "_name": "Hammer"
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 2,
+        "_name": "Jug"
+      }
+    },
+    {
+      "item": {
+        "id": 590,
+        "amount": 2,
+        "_name": "Tinderbox"
+      }
+    },
+    {
+      "item": {
+        "id": 954,
+        "amount": 8,
+        "_name": "Rope"
+      }
+    }
+  ],
+  "npcIds": [
+    1436
+  ]
+}

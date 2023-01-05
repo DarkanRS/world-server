@@ -1,14 +1,40 @@
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.world.npcs.tzHaarCity;
 
 import com.rs.game.content.minigames.fightpits.FightPits;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.ge.GE;
 import com.rs.game.model.entity.player.Player;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
+
+@PluginEventHandler
 
 public class TzHaarMejKah extends Conversation {
-	public TzHaarMejKah(Player p, int npcId) {
-		super(p);
+	private static int npcId = 2618;
+
+	public static NPCClickHandler TzHaarMejKah = new NPCClickHandler(new Object[]{npcId}) {
+		@Override
+		//Handle Right-Click
+		public void handle(NPCClickEvent e) {
+			switch(e.getOption()) {
+				case "Bank":
+					e.getPlayer().getBank().open();
+					break;
+				case "Collect":
+					GE.openCollection(e.getPlayer());
+					break;
+				case "Talk-to":
+					e.getPlayer().startConversation(new TzHaarMejKah(e.getPlayer()));
+					break;
+			}
+		}
+	};
+
+	public TzHaarMejKah(Player player) {
+		super(player);
 		addNPC(npcId, HeadE.SKEPTICAL_HEAD_SHAKE, "You want help JalYt-Ket-" + player.getDisplayName() + "?");
 		addOptions("Choose an option:", ops -> {
 			ops.add("What is this place?", new Dialogue()
