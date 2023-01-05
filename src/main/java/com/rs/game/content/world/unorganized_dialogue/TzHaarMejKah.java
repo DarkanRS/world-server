@@ -11,11 +11,11 @@ public class TzHaarMejKah extends Conversation {
 		super(p);
 		addNPC(npcId, HeadE.SKEPTICAL_HEAD_SHAKE, "You want help JalYt-Ket-" + player.getDisplayName() + "?");
 		addOptions("Choose an option:", ops -> {
-			ops.add("What is this place?", new Dialogue()
+			ops.add("What is this place?")
 				.addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "What is this place?")
 				.addNPC(npcId, HeadE.CALM_TALK, "This is the Fight Pit. TzHaar-Xil made it for their sport but many JalYt come here to fight, too. If you are wanting to fight then enter the cage, you will be summoned when next round is ready to begin.")
 				.addOptions("Choose an option:", op2 -> {
-					op2.add("Are there any rules?", new Dialogue()
+					op2.add("Are there any rules?")
 						.addPlayer(HeadE.HAPPY_TALKING, "Are there any rules?")
 						.addNPC(npcId, HeadE.CALM_TALK, "No rules, you use whatever you want. Last person standing wins and is declared champion, they stay in the pit for next fight.")
 						.addOptions("Choose an option:", op3 -> {
@@ -27,9 +27,9 @@ public class TzHaarMejKah extends Conversation {
 								.addNPC(npcId, HeadE.CALM_TALK, "Gold is like you JalYt, soft and easily broken, we use hard rock forged in fire like TzHaar!"));
 
 							op3.add("Sounds good.");
-						}));
+						});
 					op2.add("Ok thanks.");
-				}));
+				});
 
 			ops.add("Who's the current champion?", new Dialogue()
 				.addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "Who's the current champion?")
