@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas;
+package com.rs.game.content.world.areas.varrock;
 
 import java.util.Arrays;
 import java.util.HashMap;
