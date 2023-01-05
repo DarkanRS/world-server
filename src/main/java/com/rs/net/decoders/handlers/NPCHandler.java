@@ -19,7 +19,6 @@ package com.rs.net.decoders.handlers;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.Skillcapes;
-import com.rs.game.content.Statuettes;
 import com.rs.game.content.death.GraveStone;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
@@ -39,20 +38,10 @@ import com.rs.game.content.transportation.BoatingD;
 import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
 import com.rs.game.content.world.unorganized_dialogue.ClanItemClaim;
-import com.rs.game.content.world.unorganized_dialogue.DrogoDwarf;
-import com.rs.game.content.world.unorganized_dialogue.FredaD;
 import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.GeneralStore;
-import com.rs.game.content.world.unorganized_dialogue.Nurmof;
-import com.rs.game.content.world.unorganized_dialogue.OsmanD;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
-import com.rs.game.content.world.unorganized_dialogue.TzHaarMejJal;
-import com.rs.game.content.world.unorganized_dialogue.TzHaarMejKah;
-import com.rs.game.content.world.unorganized_dialogue.skillmasters.AjjatD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
@@ -120,16 +109,7 @@ public class NPCHandler {
 			}
 			if (player.getTreasureTrailsManager().useNPC(npc))
 				return;
-			if (npc.getId() == 6537)
-				player.sendOptionDialogue("What would you like to do?", ops -> {
-					ops.add("Exchange Ancient Revenant Artefacts", () -> Statuettes.exchangeStatuettes(player));
-					ops.add("Nothing.");
-				});
-			else if (npc.getId() == 5282)
-				player.startConversation(new OsmanD(player, npc.getId()));
-			else if (npc.getId() == 15099)
-				player.startConversation(new FredaD(player, npc.getId()));
-			else if (npc.getId() == 2825)
+			if (npc.getId() == 2825)
 				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
 					ops.add("Yes", () -> player.setNextWorldTile(WorldTile.of(2163, 5112, 1)));
 					ops.add("No");
@@ -141,8 +121,6 @@ public class NPCHandler {
 				});
 			else if (npc.getId() == 9707)
 				player.startConversation(new FremennikShipmaster(player, npc.getId(), true));
-			else if (npc.getId() == 4288)
-				player.startConversation(new AjjatD(player));
 			else if (npc.getId() == 8269)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 8269, Skillcapes.Strength));
 			else if (npc.getId() == 705)
@@ -181,34 +159,14 @@ public class NPCHandler {
 				player.startConversation(new GenericSkillcapeOwnerD(player, 5113, Skillcapes.Hunter));
 			else if (npc.getId() == 9713)
 				player.startConversation(new GenericSkillcapeOwnerD(player, 9713, Skillcapes.Dungeoneering));
-			else if (npc.getId() == 8649)
-				player.startConversation(new Conversation(new Dialogue()
-						.addNPC(8649, HeadE.CHEERFUL, "Hello! What do you think of my apiary? Nice, isn't it?")
-						.addPlayer(HeadE.SKEPTICAL, "You mean all these beehives?")
-						.addNPC(8649, HeadE.CHEERFUL, "Yup! They're filled with bees. Also wax, and delicious honey too!")
-						.addNPC(8649, HeadE.CHEERFUL, "You're welcome to help yourself to as much wax and honey as you like.")
-						.addNPC(8649, HeadE.SKEPTICAL, "Oh, but you'll need some insect repellant - here.")
-						.addItemToInv(player, new Item(28, 1), "The beekeeper hands you some insect repellant.")
-						.addPlayer(HeadE.CHEERFUL, "Thank you!")
-						.addNPC(8649, HeadE.ANGRY, "Leave the bees, though. The bees are mine!")
-						.addNPC(8649, HeadE.CHEERFUL_EXPOSITION, "I love bees!")
-						.finish()));
 			else if (npc.getId() == 9708 || npc.getId() == 14847)
 				player.startConversation(new FremennikShipmaster(player, npc.getId(), false));
-			else if (npc.getId() == 579)
-				player.startConversation(new DrogoDwarf(player, npc));
 			else if (npc.getId() == 528 || npc.getId() == 529)
 				player.startConversation(new GeneralStore(player, npc, "edgeville_general_store"));
 			else if (npc.getId() == 522 || npc.getId() == 523)
 				player.startConversation(new GeneralStore(player, npc, "varrock_general_store"));
 			else if (npc.getId() == 520 || npc.getId() == 521)
 				player.startConversation(new GeneralStore(player, npc, "lumbridge_general_store"));
-			else if (npc.getId() == 594)
-				player.startConversation(new Nurmof(player, npc));
-			else if (npc.getId() == 2617)
-				player.startConversation(new TzHaarMejJal(player, npc));
-			else if (npc.getId() == 2618)
-				player.startConversation(new TzHaarMejKah(player, npc.getId()));
 			else if (npc.getId() == 6715 || npc.getId() == 14862)
 				player.startConversation(new EstateAgentDialogue(player, npc.getId()));
 			else if (npc.getId() == 3344 || npc.getId() == 3345)
@@ -434,20 +392,9 @@ public class NPCHandler {
 
 	public static int getShopIdForNpc(int npcId) {
 		switch (npcId) {
-		case 1436: // Ape Toll General Store", Ifaba. (2752, 2774, 0)
-			return -1; // TODO
-		case 590: // East Ardougne General Store", Aemad. (2614, 3293, 0)
-			return -1; // TODO
-		case 2154: // Gunslik's General Store "Gunslik's Assorted Items",
-			// Gunslik. (2868, 10190, 0)
-			return -1; // TODO
 		case 1254: // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
 			return -1; // TODO get burgh de rott transforming npc spawns
 		case 1866: // Pollniveach General Store", Market Seller. (3359, 2983, 0)
-			return -1; // TODO
-		case 1699: // Port Phasmatys General Store", Ghostly Shopkeeper. (3659,
-			// 3473, 0) (Ghostly Amulet Needed to talk to him, run by
-			// one of the ghostly denizens).
 			return -1; // TODO
 		case 3166: // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
 			return -1; // TODO

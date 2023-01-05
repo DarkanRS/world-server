@@ -7,67 +7,78 @@
     {
       "item": {
         "id": 1923,
-        "amount": 10
+        "amount": 10,
+        "_name": "Bowl"
       }
     },
     {
       "item": {
         "id": 1925,
-        "amount": 30
+        "amount": 30,
+        "_name": "Bucket"
       }
     },
     {
       "item": {
         "id": 1931,
-        "amount": 30
+        "amount": 30,
+        "_name": "Pot"
       }
     },
     {
       "item": {
         "id": 1887,
-        "amount": 10
+        "amount": 10,
+        "_name": "Cake Tin"
       }
     },
     {
       "item": {
         "id": 1755,
-        "amount": 10
+        "amount": 10,
+        "_name": "Chisel"
       }
     },
     {
       "item": {
         "id": 2347,
-        "amount": 10
+        "amount": 10,
+        "_name": "Hammer"
       }
     },
     {
       "item": {
         "id": 1935,
-        "amount": 10
+        "amount": 10,
+        "_name": "Jug"
       }
     },
     {
       "item": {
         "id": 550,
-        "amount": 10
+        "amount": 10,
+        "_name": "Newcomer Map"
       }
     },
     {
       "item": {
         "id": 9003,
-        "amount": 10
+        "amount": 10,
+        "_name": "Security Book"
       }
     },
     {
       "item": {
         "id": 1735,
-        "amount": 10
+        "amount": 10,
+        "_name": "Shears"
       }
     },
     {
       "item": {
         "id": 590,
-        "amount": 10
+        "amount": 10,
+        "_name": "Tinderbox"
       }
     }
   ],

@@ -81,7 +81,7 @@ public class Banker extends Conversation {
 		}
 	};
 
-	public static NPCClickHandler bankerHandler = new NPCClickHandler(new Object[] { "Banker", 14707, 2619, 13455, 2617, 2618, 15194 }) {
+	public static NPCClickHandler bankerHandler = new NPCClickHandler(new Object[] { "Banker", 14707, 2619, 13455, 15194 }) {
 		@Override
 		public void handle(NPCClickEvent e) {
 			switch(e.getOption()) {
