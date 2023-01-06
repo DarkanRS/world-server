@@ -51,7 +51,6 @@ public class GhostVillager extends Conversation {
 	public GhostVillager(Player player) {
 		super(player);
 		int neckId = player.getEquipment().getNeckId();
-		player.sendMessage(ItemDefinitions.getDefs(neckId).getName());
 		if (GhostEquipped())
 		{
 			switch (Utils.random(1,5)) {
