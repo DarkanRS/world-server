@@ -61,6 +61,7 @@ public final class Settings {
 	private int xpRate;
 	private double dropModifier;
 	private Item[] startItems;
+	private String chatGPTApiKey;
 
 	public Settings() {
 		serverName = "Darkan";
@@ -100,6 +101,7 @@ public final class Settings {
 				new Item(557, 4),
 				new Item(559, 2),
 		};
+		chatGPTApiKey = "YEE_HAW_LMAO";
 	}
 
 	public static final long WORLD_CYCLE_NS = 600000000L;
@@ -232,5 +234,9 @@ public final class Settings {
 			db += ":" + mongoPort;
 		db += "/"+mongoDbName+"?retryWrites=true&w=majority";
 		return db;
+	}
+	
+	public String getChatGPTApiKey() {
+		return chatGPTApiKey;
 	}
 }
