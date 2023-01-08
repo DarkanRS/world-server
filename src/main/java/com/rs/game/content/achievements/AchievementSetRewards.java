@@ -22,7 +22,7 @@ import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.content.skills.magic.Alchemy;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.world.areas.Rellekka;
+import com.rs.game.content.world.areas.rellekka.Rellekka;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.Options;

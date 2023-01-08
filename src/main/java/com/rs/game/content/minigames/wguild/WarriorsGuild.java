@@ -23,7 +23,7 @@ import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.content.world.npcs.burthorpe.Shanomi;
+import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.unorganized_dialogue.ShotputD;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
