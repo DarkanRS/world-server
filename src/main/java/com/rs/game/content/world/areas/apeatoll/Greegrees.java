@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.apeatoll.npcs;
+package com.rs.game.content.world.areas.apeatoll;
 
 import com.rs.plugin.annotations.PluginEventHandler;
 
