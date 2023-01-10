@@ -23,7 +23,6 @@ import java.awt.Graphics2D;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
-import java.lang.SuppressWarnings;
 
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;

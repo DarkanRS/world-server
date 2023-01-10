@@ -9,8 +9,6 @@ import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST
 import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
 import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
