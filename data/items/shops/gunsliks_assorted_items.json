@@ -2,7 +2,7 @@
   "name": "Gunslik's Assorted Items",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
     {
       "item": {
