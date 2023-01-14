@@ -18,7 +18,6 @@ package com.rs.net.decoders;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
-import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.Cache;

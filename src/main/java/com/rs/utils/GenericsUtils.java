@@ -16,8 +16,6 @@
 //
 package com.rs.utils;
 
-import java.lang.SuppressWarnings;
-
 public class GenericsUtils {
 
 

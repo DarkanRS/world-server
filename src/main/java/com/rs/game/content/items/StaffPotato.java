@@ -2,7 +2,6 @@ package com.rs.game.content.items;
 
 import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.function.Consumer;
-import java.lang.SuppressWarnings;
 
 import com.rs.game.World;
 import com.rs.game.content.Effect;

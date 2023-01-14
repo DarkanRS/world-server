@@ -17,7 +17,6 @@
 package com.rs.utils;
 
 import java.io.IOException;
-import java.lang.SuppressWarnings;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;

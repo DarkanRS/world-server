@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.construction;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder;

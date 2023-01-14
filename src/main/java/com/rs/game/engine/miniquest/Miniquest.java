@@ -18,7 +18,6 @@ package com.rs.game.engine.miniquest;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

@@ -18,7 +18,6 @@ package com.rs.game.region;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.lang.SuppressWarnings;
 
 import com.rs.cores.CoresManager;
 import com.rs.game.World;

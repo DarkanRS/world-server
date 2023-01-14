@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;

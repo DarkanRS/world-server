@@ -118,7 +118,7 @@ public class WaterfallQuest extends QuestOutline {
 	public static NPCClickHandler handleHudon = new NPCClickHandler(false, new Object[] { "Hudon" }) {
 		@Override
 		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 1) {
+			if (e.getOpNum() == 1) {				
 				e.getNPC().resetWalkSteps();
 				e.getPlayer().resetWalkSteps();
 				e.getPlayer().faceEntity(e.getNPC());
