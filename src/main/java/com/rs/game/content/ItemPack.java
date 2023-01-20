@@ -22,7 +22,6 @@ import java.util.Map;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
@@ -64,18 +63,15 @@ public enum ItemPack {
 		return contents;
 	}
 
-	public static ItemClickHandler onClick = new ItemClickHandler(ItemPack.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			ItemPack pack = ItemPack.forId(e.getItem().getId());
-			if (pack != null) {
-				if (e.getOption().equals("Open"))
-					pack.open(e.getPlayer());
-				if (e.getOption().equals("Open-All"))
-					pack.openAll(e.getPlayer());
-			}
+	public static ItemClickHandler onClick = new ItemClickHandler(ItemPack.MAP.keySet().toArray(), e -> {
+		ItemPack pack = ItemPack.forId(e.getItem().getId());
+		if (pack != null) {
+			if (e.getOption().equals("Open"))
+				pack.open(e.getPlayer());
+			if (e.getOption().equals("Open-All"))
+				pack.openAll(e.getPlayer());
 		}
-	};
+	});
 
 	public void open(Player player) {
 		if (player.getInventory().containsItem(itemId, 1))

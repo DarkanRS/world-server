@@ -51,7 +51,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 
@@ -62,37 +61,34 @@ public class PlayerCombat extends PlayerAction {
 	private int max_hit;
 	private CombatSpell spellcasterGloveSpell;
 
-	public static ItemClickHandler handleDFS = new ItemClickHandler(new Object[]{"Dragonfire shield"}, new String[]{"Inspect", "Activate", "Empty"}) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Inspect")) {
-				if (e.getItem().getId() == 11284)
-					e.getPlayer().sendMessage("The shield is empty and unresponsive.");
-				else
-					e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
-			} else if (e.getOption().equals("Activate")) {
-				if (e.getItem().getMetaDataI("dfsCharges") > 0) {
-					if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
-						e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
-						e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
-					} else
-						e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
+	public static ItemClickHandler handleDFS = new ItemClickHandler(new Object[]{"Dragonfire shield"}, new String[]{"Inspect", "Activate", "Empty"}, e -> {
+		if (e.getOption().equals("Inspect")) {
+			if (e.getItem().getId() == 11284)
+				e.getPlayer().sendMessage("The shield is empty and unresponsive.");
+			else
+				e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
+		} else if (e.getOption().equals("Activate")) {
+			if (e.getItem().getMetaDataI("dfsCharges") > 0) {
+				if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
+					e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
+					e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
 				} else
-					e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
-			} else if (e.getOption().equals("Empty"))
-				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
-					e.getPlayer().sendMessage("The shield is already empty.");
-				else
-					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
-						ops.add("Yes, I understand the shield will lose all its stats.", () -> {
-							e.getItem().deleteMetaData();
-							e.getItem().setId(11284);
-							e.getPlayer().getInventory().refresh();
-						});
-						ops.add("No, I want to keep them.");
+					e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
+			} else
+				e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
+		} else if (e.getOption().equals("Empty"))
+			if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
+				e.getPlayer().sendMessage("The shield is already empty.");
+			else
+				e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
+					ops.add("Yes, I understand the shield will lose all its stats.", () -> {
+						e.getItem().deleteMetaData();
+						e.getItem().setId(11284);
+						e.getPlayer().getInventory().refresh();
 					});
-		}
-	};
+					ops.add("No, I want to keep them.");
+				});
+	});
 
 	public PlayerCombat(Entity target) {
 		this.target = target;

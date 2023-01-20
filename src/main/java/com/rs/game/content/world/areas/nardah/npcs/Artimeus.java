@@ -5,20 +5,16 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Artimeus extends Conversation {
 
-	public static NPCClickHandler handleArtimeus = new NPCClickHandler(new Object[] { 5109 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Talk-to" -> e.getPlayer().startConversation(new Artimeus(e.getPlayer(), e.getNPC()));
-			}
+	public static NPCClickHandler handleArtimeus = new NPCClickHandler(new Object[] { 5109 }, e -> {
+		switch(e.getOption()) {
+		case "Talk-to" -> e.getPlayer().startConversation(new Artimeus(e.getPlayer(), e.getNPC()));
 		}
-	};
+	});
 
 	public Artimeus(Player player, NPC npc) {
 		super(player);

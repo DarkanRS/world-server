@@ -32,7 +32,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
@@ -450,33 +449,10 @@ public final class CastleWars {
 				player.closeInterfaces();
 	}
 
-	public static ObjectClickHandler handleScoreboard = new ObjectClickHandler(new Object[] { 4484 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			CastleWars.viewScoreBoard(e.getPlayer());
-		}
-	};
-
-	public static ObjectClickHandler handleJoinZamorak = new ObjectClickHandler(new Object[] { 4388 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			joinPortal(e.getPlayer(), ZAMORAK);
-		}
-	};
-
-	public static ObjectClickHandler handleJoinGuthix = new ObjectClickHandler(new Object[] { 4408 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			joinPortal(e.getPlayer(), GUTHIX);
-		}
-	};
-
-	public static ObjectClickHandler handleJoinSaradomin = new ObjectClickHandler(new Object[] { 4387 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			joinPortal(e.getPlayer(), SARADOMIN);
-		}
-	};
+	public static ObjectClickHandler handleScoreboard = new ObjectClickHandler(new Object[] { 4484 }, e -> CastleWars.viewScoreBoard(e.getPlayer()));
+	public static ObjectClickHandler handleJoinZamorak = new ObjectClickHandler(new Object[] { 4388 }, e -> joinPortal(e.getPlayer(), ZAMORAK));
+	public static ObjectClickHandler handleJoinGuthix = new ObjectClickHandler(new Object[] { 4408 }, e -> joinPortal(e.getPlayer(), GUTHIX));
+	public static ObjectClickHandler handleJoinSaradomin = new ObjectClickHandler(new Object[] { 4387 }, e -> joinPortal(e.getPlayer(), SARADOMIN));
 
 	public static List<Player>[] getPlaying() {
 		return playing;

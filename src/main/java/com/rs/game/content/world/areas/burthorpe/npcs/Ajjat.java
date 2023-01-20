@@ -22,7 +22,6 @@ import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -30,16 +29,12 @@ public class Ajjat extends Conversation {
 
 	private static int npcId = 4288;
 
-	public static NPCClickHandler Ajjat = new NPCClickHandler(new Object[]{npcId}) {
-		@Override
-		//Handle Right-Click
-		public void handle(NPCClickEvent e) {
-			switch (e.getOption()) {
-				//Start Conversation
-				case "Talk-to" -> e.getPlayer().startConversation(new Ajjat(e.getPlayer()));
-			}
+	public static NPCClickHandler Ajjat = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch (e.getOption()) {
+		//Start Conversation
+		case "Talk-to" -> e.getPlayer().startConversation(new Ajjat(e.getPlayer()));
 		}
-	};
+	});
 
 	public Ajjat(Player player) {
 		super(player);

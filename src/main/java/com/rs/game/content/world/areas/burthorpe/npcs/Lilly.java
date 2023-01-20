@@ -22,27 +22,20 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
-
 
 @PluginEventHandler
 public class Lilly extends Conversation {
 	private static int npcId = 4294;
 
-
-	public static NPCClickHandler Lilly = new NPCClickHandler(new Object[]{npcId}) {
-		@Override
-		//Handle Right-Click
-		public void handle(NPCClickEvent e) {
-			switch (e.getOption()) {
-				//Start Conversation
-				case "Talk-to" -> e.getPlayer().startConversation(new Lilly(e.getPlayer()));
-				case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "warrior_guild_potion_shop");
-			}
+	public static NPCClickHandler Lilly = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch (e.getOption()) {
+		//Start Conversation
+		case "Talk-to" -> e.getPlayer().startConversation(new Lilly(e.getPlayer()));
+		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "warrior_guild_potion_shop");
 		}
-	};
+	});
 
 	public Lilly(Player player) {
 		super(player);

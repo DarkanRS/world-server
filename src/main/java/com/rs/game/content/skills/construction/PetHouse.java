@@ -23,7 +23,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -40,25 +39,19 @@ public class PetHouse {
 		pets = new ItemsContainer<>(72, false);
 	}
 
-	public static ButtonClickHandler handleInvInterface = new ButtonClickHandler(INV_INTERFACE_ID) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 0)
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					e.getPlayer().getHouse().getPetHouse().addItem(e.getSlotId());
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleInvInterface = new ButtonClickHandler(INV_INTERFACE_ID, e -> {
+		if (e.getComponentId() == 0)
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				e.getPlayer().getHouse().getPetHouse().addItem(e.getSlotId());
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				e.getPlayer().getInventory().sendExamine(e.getSlotId());
+	});
 
-	public static ButtonClickHandler handleInterfaceButtons = new ButtonClickHandler(INTERFACE_ID) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 13)
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					e.getPlayer().getHouse().getPetHouse().removeItem(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleInterfaceButtons = new ButtonClickHandler(INTERFACE_ID, e -> {
+		if (e.getComponentId() == 13)
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				e.getPlayer().getHouse().getPetHouse().removeItem(e.getSlotId());
+	});
 
 	public void open() {
 		player.getInterfaceManager().sendInterface(INTERFACE_ID);

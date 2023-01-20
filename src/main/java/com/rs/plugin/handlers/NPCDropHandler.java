@@ -16,13 +16,15 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.NPCDropEvent;
 
-public abstract class NPCDropHandler extends PluginHandler<NPCDropEvent> {
+public class NPCDropHandler extends PluginHandler<NPCDropEvent> {
 	private Object[] npcKeys, itemKeys;
 	
-	public NPCDropHandler(Object[] npcNamesOrIds, Object[] itemNamesOrIds) {
-		super(new Object[] { "meme" });
+	public NPCDropHandler(Object[] npcNamesOrIds, Object[] itemNamesOrIds, Consumer<NPCDropEvent> handler) {
+		super(new Object[] { "meme" }, handler);
 		this.npcKeys = npcNamesOrIds;
 		this.itemKeys = itemNamesOrIds;
 	}

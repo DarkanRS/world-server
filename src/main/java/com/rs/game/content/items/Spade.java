@@ -9,18 +9,12 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
 public class Spade {
 	
-	public static ItemClickHandler digSpade = new ItemClickHandler(new Object[] { 952 }, new String[] { "Dig" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			dig(e.getPlayer());
-		}
-	};
+	public static ItemClickHandler digSpade = new ItemClickHandler(new Object[] { 952 }, new String[] { "Dig" }, e -> dig(e.getPlayer()));
 
 	public static void dig(final Player player) {
 		player.resetWalkSteps();

@@ -20,7 +20,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
@@ -32,49 +31,35 @@ public class SlayerHelmet  {
 	static int SLAYER_HELMET = 13263;
 	static int FULL_SLAYER_HELMET = 15492;
 
-	public static ItemClickHandler dismantle = new ItemClickHandler(new Object[] { FULL_SLAYER_HELMET, SLAYER_HELMET }, new String[] { "Disassemble" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getItem().getId() == FULL_SLAYER_HELMET) {
-				if (e.getPlayer().getInventory().getFreeSlots() < 7) {
-					e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
-					return;
-				}
-				e.getPlayer().getInventory().deleteItem(15492, 1);
-				for (int parts : FULL_SLAYER_HELMET_PARTS)
-					e.getPlayer().getInventory().addItem(parts, 1, true);
-				for (int parts : SLAYER_HELMET_PARTS)
-					e.getPlayer().getInventory().addItem(parts, 1, true);
-				e.getPlayer().getInventory().addItem(8921, 1);
+	public static ItemClickHandler dismantle = new ItemClickHandler(new Object[] { FULL_SLAYER_HELMET, SLAYER_HELMET }, new String[] { "Disassemble" }, e -> {
+		if (e.getItem().getId() == FULL_SLAYER_HELMET) {
+			if (e.getPlayer().getInventory().getFreeSlots() < 7) {
+				e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
 				return;
 			}
-			if (e.getItem().getId() == SLAYER_HELMET) {
-				if (e.getPlayer().getInventory().getFreeSlots() < 5) {
-					e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
-					return;
-				}
-				e.getPlayer().getInventory().deleteItem(13263, 1);
-				for (int parts : SLAYER_HELMET_PARTS)
-					e.getPlayer().getInventory().addItem(parts, 1, true);
-				e.getPlayer().getInventory().addItem(8921, 1);
+			e.getPlayer().getInventory().deleteItem(15492, 1);
+			for (int parts : FULL_SLAYER_HELMET_PARTS)
+				e.getPlayer().getInventory().addItem(parts, 1, true);
+			for (int parts : SLAYER_HELMET_PARTS)
+				e.getPlayer().getInventory().addItem(parts, 1, true);
+			e.getPlayer().getInventory().addItem(8921, 1);
+			return;
+		}
+		if (e.getItem().getId() == SLAYER_HELMET) {
+			if (e.getPlayer().getInventory().getFreeSlots() < 5) {
+				e.getPlayer().sendMessage("You don't have enough space in your inventory to dissassemble the helmet.");
 				return;
 			}
+			e.getPlayer().getInventory().deleteItem(13263, 1);
+			for (int parts : SLAYER_HELMET_PARTS)
+				e.getPlayer().getInventory().addItem(parts, 1, true);
+			e.getPlayer().getInventory().addItem(8921, 1);
+			return;
 		}
-	};
+	});
 
-	public static ItemOnItemHandler craftNormal = new ItemOnItemHandler(SLAYER_HELMET_PARTS, SLAYER_HELMET_PARTS) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			craft(e);
-		}
-	};
-
-	public static ItemOnItemHandler craftFull = new ItemOnItemHandler(SLAYER_HELMET, FULL_SLAYER_HELMET_PARTS) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			craft(e);
-		}
-	};
+	public static ItemOnItemHandler craftNormal = new ItemOnItemHandler(SLAYER_HELMET_PARTS, SLAYER_HELMET_PARTS, e -> craft(e));
+	public static ItemOnItemHandler craftFull = new ItemOnItemHandler(SLAYER_HELMET, FULL_SLAYER_HELMET_PARTS, e -> craft(e));
 
 	public static boolean craft(ItemOnItemEvent e) {
 

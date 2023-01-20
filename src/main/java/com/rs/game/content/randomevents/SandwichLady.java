@@ -26,8 +26,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
@@ -94,57 +92,51 @@ public class SandwichLady extends OwnedNPC {
 		};
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getNPC() instanceof SandwichLady) {
-				SandwichLady npc = (SandwichLady) e.getNPC();
-				if (npc.ticks >= DURATION)
-					return;
-				if (npc.getOwner() != e.getPlayer()) {
-					e.getPlayer().startConversation(new Conversation(new Dialogue()
-							.addNPC(8629, HeadE.CALM_TALK, "This is for " + npc.getOwner().getDisplayName() + ", not you!")));
-					return;
-				}
-				if (e.getPlayer().inCombat()) {
-					e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
-					e.getPlayer().getInventory().addItemDrop(1973, 1);
-					npc.forceTalk("Hope that fills you up!");
-					npc.ticks = DURATION+4;
-					return;
-				}
-				e.getPlayer().startConversation(new Conversation(e.getPlayer())
-						.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a chocolate bar on me.")
-						.addNext(() -> {
-							e.getPlayer().getTempAttribs().setO("sandwichLady", e.getNPC());
-							e.getPlayer().getInterfaceManager().sendInterface(297);
-						}));
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }, e -> {
+		if (e.getNPC() instanceof SandwichLady) {
+			SandwichLady npc = (SandwichLady) e.getNPC();
+			if (npc.ticks >= DURATION)
+				return;
+			if (npc.getOwner() != e.getPlayer()) {
+				e.getPlayer().startConversation(new Conversation(new Dialogue()
+						.addNPC(8629, HeadE.CALM_TALK, "This is for " + npc.getOwner().getDisplayName() + ", not you!")));
+				return;
 			}
+			if (e.getPlayer().inCombat()) {
+				e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
+				e.getPlayer().getInventory().addItemDrop(1973, 1);
+				npc.forceTalk("Hope that fills you up!");
+				npc.ticks = DURATION+4;
+				return;
+			}
+			e.getPlayer().startConversation(new Conversation(e.getPlayer())
+					.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a chocolate bar on me.")
+					.addNext(() -> {
+						e.getPlayer().getTempAttribs().setO("sandwichLady", e.getNPC());
+						e.getPlayer().getInterfaceManager().sendInterface(297);
+					}));
 		}
-	};
+	});
 
-	public static ButtonClickHandler handleSandwichInterface = new ButtonClickHandler(297) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 10 && e.getComponentId() <= 22) {
-				SandwichLady lady = e.getPlayer().getTempAttribs().getO("sandwichLady");
-				e.getPlayer().closeInterfaces();
-				if (lady == null) {
-					e.getPlayer().sendMessage("An error has ocurred.");
-					return;
-				}
-				if (e.getComponentId() == 22) {
-					e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
-					e.getPlayer().getInventory().addItemDrop(1973, 1);
-					lady.forceTalk("Hope that fills you up!");
-					lady.ticks = DURATION+4;
-				} else {
-					e.getPlayer().sendMessage("The sandwich lady knocks you out and you wake up somewhere.. different.");
-					lady.forceTalk("Hey, I didn't say you could have that!");
-					lady.ticks = DURATION-1;
-				}
-				lady.claimed = true;
+	public static ButtonClickHandler handleSandwichInterface = new ButtonClickHandler(297, e -> {
+		if (e.getComponentId() >= 10 && e.getComponentId() <= 22) {
+			SandwichLady lady = e.getPlayer().getTempAttribs().getO("sandwichLady");
+			e.getPlayer().closeInterfaces();
+			if (lady == null) {
+				e.getPlayer().sendMessage("An error has ocurred.");
+				return;
 			}
+			if (e.getComponentId() == 22) {
+				e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
+				e.getPlayer().getInventory().addItemDrop(1973, 1);
+				lady.forceTalk("Hope that fills you up!");
+				lady.ticks = DURATION+4;
+			} else {
+				e.getPlayer().sendMessage("The sandwich lady knocks you out and you wake up somewhere.. different.");
+				lady.forceTalk("Hey, I didn't say you could have that!");
+				lady.ticks = DURATION-1;
+			}
+			lady.claimed = true;
 		}
-	};
+	});
 }

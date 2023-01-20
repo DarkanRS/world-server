@@ -16,10 +16,20 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.NPCDeathEvent;
 
-public abstract class NPCDeathHandler extends PluginHandler<NPCDeathEvent> {
-	public NPCDeathHandler(Object... namesOrIds) {
-		super(namesOrIds);
+public class NPCDeathHandler extends PluginHandler<NPCDeathEvent> {
+	public NPCDeathHandler(Object[] namesOrIds, Consumer<NPCDeathEvent> handler) {
+		super(namesOrIds, handler);
+	}
+	
+	public NPCDeathHandler(int id, Consumer<NPCDeathEvent> handler) {
+		super(new Object[] { id }, handler);
+	}
+	
+	public NPCDeathHandler(String name, Consumer<NPCDeathEvent> handler) {
+		super(new Object[] { name }, handler);
 	}
 }

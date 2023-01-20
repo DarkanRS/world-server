@@ -28,9 +28,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -40,35 +37,29 @@ public class FalconryController extends Controller {
 	
 	public static final int BIRD_GLOVE = 10024, EMPTY_GLOVE = 10023;
 
-	public static NPCClickHandler catchKebbit = new NPCClickHandler(false, Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray()) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
-				e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
-				return;
-			}
-			if (!(e.getNPC() instanceof Kebbit kebbit)) {
-				e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
-				return;
-			}
-			e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), 8, () -> kebbit.sendFalcon(e.getPlayer())));
+	public static NPCClickHandler catchKebbit = new NPCClickHandler(false, Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray(), e -> {
+		if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+			e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
+			return;
 		}
-	};
+		if (!(e.getNPC() instanceof Kebbit kebbit)) {
+			e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
+			return;
+		}
+		e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), 8, () -> kebbit.sendFalcon(e.getPlayer())));
+	});
 
-	public static NPCClickHandler lootKebbit = new NPCClickHandler(Arrays.stream(KebbitType.values()).map(k -> k.caughtId).toArray()) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
-				e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
-				return;
-			}
-			if (!(e.getNPC() instanceof Kebbit kebbit)) {
-				e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
-				return;
-			}
-			kebbit.loot(e.getPlayer());
+	public static NPCClickHandler lootKebbit = new NPCClickHandler(Arrays.stream(KebbitType.values()).map(k -> k.caughtId).toArray(), e -> {
+		if (!e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+			e.getPlayer().sendMessage("I should speak to Matthias about using my own falcon before catching these.");
+			return;
 		}
-	};
+		if (!(e.getNPC() instanceof Kebbit kebbit)) {
+			e.getPlayer().sendMessage("This shouldn't have happened. Report it as a bug please.");
+			return;
+		}
+		kebbit.loot(e.getPlayer());
+	});
 
 	@Override
 	public void start() {
@@ -78,18 +69,15 @@ public class FalconryController extends Controller {
 		player.simpleDialogue("Simply click on the target and try your luck.");
 	}
 
-	public static ItemEquipHandler handleFalconersGlove = new ItemEquipHandler(BIRD_GLOVE, EMPTY_GLOVE) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			if (e.equip()) {
-				e.cancel();
-				e.getPlayer().getInventory().deleteItem(e.getItem());
-				return;
-			}
-			e.getPlayer().getPackets().sendPlayerMessage(0, 0xFF0000, "You should speak to Matthias to get this removed safely.");
+	public static ItemEquipHandler handleFalconersGlove = new ItemEquipHandler(new Object[] { BIRD_GLOVE, EMPTY_GLOVE }, e -> {
+		if (e.equip()) {
 			e.cancel();
+			e.getPlayer().getInventory().deleteItem(e.getItem());
+			return;
 		}
-	};
+		e.getPlayer().getPackets().sendPlayerMessage(0, 0xFF0000, "You should speak to Matthias to get this removed safely.");
+		e.cancel();
+	});
 	
 	@Override
 	public boolean login() {
@@ -114,26 +102,23 @@ public class FalconryController extends Controller {
 		player.getAppearance().generateAppearanceData();
 	}
 
-	public static ObjectClickHandler enterArea = new ObjectClickHandler(new Object[] { 19222 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
-				e.getPlayer().sendOptionDialogue("Are you sure you would like to leave?", ops -> {
-					ops.add("Yes", () -> {
-						e.getPlayer().getControllerManager().forceStop();
-						e.getPlayer().lock(2);
-						e.getPlayer().setNextAnimation(new Animation(1560));
-						WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
-					});
-					ops.add("No");
+	public static ObjectClickHandler enterArea = new ObjectClickHandler(new Object[] { 19222 }, e -> {
+		if (e.getPlayer().getControllerManager().isIn(FalconryController.class)) {
+			e.getPlayer().sendOptionDialogue("Are you sure you would like to leave?", ops -> {
+				ops.add("Yes", () -> {
+					e.getPlayer().getControllerManager().forceStop();
+					e.getPlayer().lock(2);
+					e.getPlayer().setNextAnimation(new Animation(1560));
+					WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 				});
-				return;
-			}
-			e.getPlayer().lock(2);
-			e.getPlayer().setNextAnimation(new Animation(1560));
-			WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+				ops.add("No");
+			});
+			return;
 		}
-	};
+		e.getPlayer().lock(2);
+		e.getPlayer().setNextAnimation(new Animation(1560));
+		WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+	});
 
 	public static void beginFalconry(Player player) {
 		if (player.getEquipment().hasItemInSlot(Equipment.WEAPON, Equipment.SHIELD)) {

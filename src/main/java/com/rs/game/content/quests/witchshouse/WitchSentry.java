@@ -117,12 +117,7 @@ public class WitchSentry extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(WITCH) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new WitchSentry(tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(WITCH, (npcId, tile) -> new WitchSentry(tile));
 
 
 }

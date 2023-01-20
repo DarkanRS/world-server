@@ -24,9 +24,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -34,74 +31,62 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class PortPhasmatys {
 	
-	public static NPCClickHandler handleBillTeach = new NPCClickHandler(new Object[] { 3157 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().isQuestComplete(Quest.CABIN_FEVER, "to travel to Mos' Le Harmless."))
-				return;
-			e.getPlayer().sendOptionDialogue(ops -> {
-				if (e.getPlayer().getRegionId() == 14638)
-					ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3713, 3497, 1)));
-				else
-					ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3682, 2949, 1)));
-				ops.add("Nevermind.");
-			});
-		}
-	};
+	public static NPCClickHandler handleBillTeach = new NPCClickHandler(new Object[] { 3157 }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.CABIN_FEVER, "to travel to Mos' Le Harmless."))
+			return;
+		e.getPlayer().sendOptionDialogue(ops -> {
+			if (e.getPlayer().getRegionId() == 14638)
+				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3713, 3497, 1)));
+			else
+				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3682, 2949, 1)));
+			ops.add("Nevermind.");
+		});
+	});
 
-	public static ItemClickHandler handleEctophial = new ItemClickHandler(4251) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (!e.getPlayer().isQuestComplete(Quest.GHOSTS_AHOY, "to use the ectophial."))
-				return;
-			Ectofuntus.sendEctophialTeleport(e.getPlayer(), WorldTile.of(3659, 3523, 0));
-		}
-	};
+	public static ItemClickHandler handleEctophial = new ItemClickHandler(new Object[] { 4251 }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.GHOSTS_AHOY, "to use the ectophial."))
+			return;
+		Ectofuntus.sendEctophialTeleport(e.getPlayer(), WorldTile.of(3659, 3523, 0));
+	});
 
-	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				{
-					if (e.getPlayer().getEquipment().getAmuletId() != 552) {
-						addNPC(1683, HeadE.CALM_TALK, "Woooowoooooo woooooo!");
-						addSimple("You cannot understand a word the ghost is saying.");
-					} else
-						addOptions("What would you like to say?", new Options() {
-							@Override
-							public void create() {
-								if (!player.containsItems(4251))
-									if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
-										option("Can I have another ectophial?", new Dialogue()
-												.addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
-												.addNPC(1683, HeadE.CALM_TALK, "Of course you can, you have helped us more than we could ever have hoped.")
-												.addItem(4251, "Velorina gives you a vial of bright green ectoplasm.", () -> {
-													if (!player.getInventory().hasFreeSlots()) {
-														player.sendMessage("You don't have enough inventory space.");
-														return;
-													}
-													player.getInventory().addItem(4251);
-												}));
+	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> {
+		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+			{
+				if (e.getPlayer().getEquipment().getAmuletId() != 552) {
+					addNPC(1683, HeadE.CALM_TALK, "Woooowoooooo woooooo!");
+					addSimple("You cannot understand a word the ghost is saying.");
+				} else
+					addOptions("What would you like to say?", new Options() {
+						@Override
+						public void create() {
+							if (!player.containsItems(4251))
+								if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
+									option("Can I have another ectophial?", new Dialogue()
+											.addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
+											.addNPC(1683, HeadE.CALM_TALK, "Of course you can, you have helped us more than we could ever have hoped.")
+											.addItem(4251, "Velorina gives you a vial of bright green ectoplasm.", () -> {
+												if (!player.getInventory().hasFreeSlots()) {
+													player.sendMessage("You don't have enough inventory space.");
+													return;
+												}
+												player.getInventory().addItem(4251);
+											}));
 
-								option("I thought you were going to pass over to the next world.", new Dialogue()
-										.addPlayer(HeadE.CONFUSED, "I thought you were going to pass over to the next world.")
-										.addNPC(1683, HeadE.CALM_TALK, "All in good time, " + player.getDisplayName() + ". We stand forever in your debt, and will certainly"
-												+ "put in a good word for you when we pass over."));
-							}
-						});
-					create();
-				}
-			});
-		}
-	};
-	
-	public static ObjectClickHandler barTrapdoor = new ObjectClickHandler(new Object[] { 7433, 7434 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getObjectId()) {
-			case 7433 -> e.getPlayer().useStairs(828, WorldTile.of(3681, 3497, 0), 1, 2);
-			case 7434 -> e.getPlayer().useStairs(828, WorldTile.of(3682, 9961, 0), 1, 2);
+							option("I thought you were going to pass over to the next world.", new Dialogue()
+									.addPlayer(HeadE.CONFUSED, "I thought you were going to pass over to the next world.")
+									.addNPC(1683, HeadE.CALM_TALK, "All in good time, " + player.getDisplayName() + ". We stand forever in your debt, and will certainly"
+											+ "put in a good word for you when we pass over."));
+						}
+					});
+				create();
 			}
+		});
+	});
+	
+	public static ObjectClickHandler barTrapdoor = new ObjectClickHandler(new Object[] { 7433, 7434 }, e -> {
+		switch(e.getObjectId()) {
+		case 7433 -> e.getPlayer().useStairs(828, WorldTile.of(3681, 3497, 0), 1, 2);
+		case 7434 -> e.getPlayer().useStairs(828, WorldTile.of(3682, 9961, 0), 1, 2);
 		}
-	};
+	});
 }

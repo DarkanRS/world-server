@@ -21,7 +21,6 @@ import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -65,11 +64,8 @@ public class MrEx extends Conversation {
 		create();
 	}
 
-	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { MREX }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new MrEx(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { MREX }, e -> {
+		e.getPlayer().startConversation(new MrEx(e.getPlayer()));
+	});
 
 }

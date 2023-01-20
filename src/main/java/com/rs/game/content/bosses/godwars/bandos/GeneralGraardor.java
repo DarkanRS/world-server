@@ -51,10 +51,5 @@ public class GeneralGraardor extends NPC {
 		}, 2);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6260) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new GeneralGraardor(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6260, (npcId, tile) -> new GeneralGraardor(npcId, tile, false));
 }

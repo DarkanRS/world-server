@@ -23,7 +23,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -106,10 +105,5 @@ public class VeronicaErnestChickenD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleVeronica = new NPCClickHandler(new Object[] { VERONICA }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new VeronicaErnestChickenD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleVeronica = new NPCClickHandler(new Object[] { VERONICA }, e -> e.getPlayer().startConversation(new VeronicaErnestChickenD(e.getPlayer()).getStart()));
 }

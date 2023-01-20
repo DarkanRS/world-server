@@ -19,23 +19,24 @@ package com.rs.plugin.handlers;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.rs.plugin.events.ItemClickEvent;
 
-public abstract class ItemClickHandler extends PluginHandler<ItemClickEvent> {
+public class ItemClickHandler extends PluginHandler<ItemClickEvent> {
 	private Set<String> options;
 
-	public ItemClickHandler(Object... namesOrIds) {
-		super(namesOrIds);
+	public ItemClickHandler(Object[] namesOrIds, Consumer<ItemClickEvent> handler) {
+		super(namesOrIds, handler);
 	}
 
-	public ItemClickHandler(Object[] namesOrIds, String[] options) {
-		super(namesOrIds);
+	public ItemClickHandler(Object[] namesOrIds, String[] options, Consumer<ItemClickEvent> handler) {
+		super(namesOrIds, handler);
 		this.options = new HashSet<>(Arrays.asList(options));
 	}
 
-	public ItemClickHandler(String[] options) {
-		super(null);
+	public ItemClickHandler(String[] options, Consumer<ItemClickEvent> handler) {
+		super(null, handler);
 		this.options = new HashSet<>(Arrays.asList(options));
 	}
 

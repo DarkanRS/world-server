@@ -15,7 +15,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
@@ -118,46 +117,43 @@ public class KnightsSword extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, BLURITE_SWORD, "12,725 Smithing XP");
 	}
 
-	public static ObjectClickHandler handleVyvinCupboard = new ObjectClickHandler(new Object[] { 2271, 2272 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if (e.getOption().equalsIgnoreCase("open")) {
-				p.setNextAnimation(new Animation(536));
-				p.lock(2);
-				GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-				p.faceObject(openedChest);
-				World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-			}
-			if (e.getOption().equalsIgnoreCase("shut")) {
-				p.setNextAnimation(new Animation(536));
-				p.lock(2);
-				GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-				p.faceObject(openedChest);
-				World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-			}
-			if(e.getOption().equalsIgnoreCase("search")) {
-				if(p.getQuestManager().getStage(Quest.KNIGHTS_SWORD) != GET_PICTURE) {
-					p.sendMessage("There is nothing interesting here...");
-					return;
-				}
-				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-					if(npc.getName().equalsIgnoreCase("Sir Vyvin"))
-						if(npc.lineOfSightTo(p, false)) {
-							p.startConversation(new Conversation(p) {
-								{
-									addPlayer(HeadE.SKEPTICAL_THINKING, "Sir Vyvin can see me...");
-									create();
-								}
-							});
-							return;
-						}
-				if(p.getInventory().containsItem(PORTRAIT))
-					p.sendMessage("The cupboard is empty...");
-				else
-					p.getInventory().addItem(new Item(PORTRAIT, 1));
-			}
+	public static ObjectClickHandler handleVyvinCupboard = new ObjectClickHandler(new Object[] { 2271, 2272 }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		if (e.getOption().equalsIgnoreCase("open")) {
+			p.setNextAnimation(new Animation(536));
+			p.lock(2);
+			GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+			p.faceObject(openedChest);
+			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
 		}
-	};
+		if (e.getOption().equalsIgnoreCase("shut")) {
+			p.setNextAnimation(new Animation(536));
+			p.lock(2);
+			GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+			p.faceObject(openedChest);
+			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
+		}
+		if(e.getOption().equalsIgnoreCase("search")) {
+			if(p.getQuestManager().getStage(Quest.KNIGHTS_SWORD) != GET_PICTURE) {
+				p.sendMessage("There is nothing interesting here...");
+				return;
+			}
+			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				if(npc.getName().equalsIgnoreCase("Sir Vyvin"))
+					if(npc.lineOfSightTo(p, false)) {
+						p.startConversation(new Conversation(p) {
+							{
+								addPlayer(HeadE.SKEPTICAL_THINKING, "Sir Vyvin can see me...");
+								create();
+							}
+						});
+						return;
+					}
+			if(p.getInventory().containsItem(PORTRAIT))
+				p.sendMessage("The cupboard is empty...");
+			else
+				p.getInventory().addItem(new Item(PORTRAIT, 1));
+		}
+	});
 }

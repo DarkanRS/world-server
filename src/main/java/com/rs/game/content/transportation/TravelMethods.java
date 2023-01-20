@@ -24,8 +24,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -146,15 +144,12 @@ public class TravelMethods {
 	 * * 44: sarim -> crandor(short)
 	 */
 
-	public static NPCClickHandler handleCharterShips = new NPCClickHandler(new Object[] { "Trader Crewmember", "Trader crewmember" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 3)
-				ShopsHandler.openShop(e.getPlayer(), "trader_stans_trading_post");
-			else if (e.getOpNum() == 4)
-				TravelMethods.openCharterInterface(e.getPlayer());
-		}
-	};
+	public static NPCClickHandler handleCharterShips = new NPCClickHandler(new Object[] { "Trader Crewmember", "Trader crewmember" }, e -> {
+		if (e.getOpNum() == 3)
+			ShopsHandler.openShop(e.getPlayer(), "trader_stans_trading_post");
+		else if (e.getOpNum() == 4)
+			TravelMethods.openCharterInterface(e.getPlayer());
+	});
 
 	public static void openCharterInterface(Player player) {
 		player.getInterfaceManager().sendInterface(CHARTER_INTERFACE);
@@ -167,13 +162,10 @@ public class TravelMethods {
 				player.getPackets().setIFHidden(CHARTER_INTERFACE, 23 + index, true);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(95) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 23 && e.getComponentId() <= 33)
-				handleCharterOptions(e.getPlayer(), e.getComponentId());
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(95, e -> {
+		if (e.getComponentId() >= 23 && e.getComponentId() <= 33)
+			handleCharterOptions(e.getPlayer(), e.getComponentId());
+	});
 
 	public static void handleCharterOptions(Player player, int componentId) {
 		int index = componentId - 23;

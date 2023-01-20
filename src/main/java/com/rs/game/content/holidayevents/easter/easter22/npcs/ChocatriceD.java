@@ -11,8 +11,6 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.music.Music;
@@ -183,30 +181,24 @@ public class ChocatriceD extends Conversation {
         create();
     }
 
-    public static NPCClickHandler handleChocatrice = new NPCClickHandler(new Object[] { Easter2022.CHOCATRICE, Easter2022.CHOCATRICE_MEDIUM, Easter2022.CHOCATRICE_LARGE }) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            if (!Easter2022.ENABLED)
-                return;
-            if (e.getOption().equals("Talk to")) {
-                e.getPlayer().startConversation(new ChocatriceD(e.getPlayer()));
-            }
+    public static NPCClickHandler handleChocatrice = new NPCClickHandler(new Object[] { Easter2022.CHOCATRICE, Easter2022.CHOCATRICE_MEDIUM, Easter2022.CHOCATRICE_LARGE }, e -> {
+    	if (!Easter2022.ENABLED)
+            return;
+        if (e.getOption().equals("Talk to")) {
+            e.getPlayer().startConversation(new ChocatriceD(e.getPlayer()));
         }
-    };
+    });
 
-    public static ItemOnNPCHandler handleItemOnChocatrice = new ItemOnNPCHandler(new Object[] { Easter2022.CHOCATRICE, Easter2022.CHOCATRICE_MEDIUM, Easter2022.CHOCATRICE_LARGE }) {
-        @Override
-        public void handle(ItemOnNPCEvent e) {
-            if (!Easter2022.ENABLED)
-                return;
-            if (e.getItem().getId() == Easter2022.CHOCOLATE_EGG_ON_FACE_MASK)
-                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "In that mask, you look scrumptious. Truly delicious."));
-            if (e.getItem().getId() == Easter2022.EGG_ON_FACE_MASK)
-                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The eggs used to make that mask aren't even free-ranged. Or so I've heard."));
-            if (e.getItem().getId() == Easter2022.CHOCOTREAT)
-                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Delicious."));
-            if (e.getItem().getId() == Easter2022.EVIL_DRUMSTICK)
-                e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Keep that fowl leg away from me."));
-        }
-    };
+    public static ItemOnNPCHandler handleItemOnChocatrice = new ItemOnNPCHandler(new Object[] { Easter2022.CHOCATRICE, Easter2022.CHOCATRICE_MEDIUM, Easter2022.CHOCATRICE_LARGE }, e -> {
+    	 if (!Easter2022.ENABLED)
+             return;
+         if (e.getItem().getId() == Easter2022.CHOCOLATE_EGG_ON_FACE_MASK)
+             e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "In that mask, you look scrumptious. Truly delicious."));
+         if (e.getItem().getId() == Easter2022.EGG_ON_FACE_MASK)
+             e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "The eggs used to make that mask aren't even free-ranged. Or so I've heard."));
+         if (e.getItem().getId() == Easter2022.CHOCOTREAT)
+             e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Delicious."));
+         if (e.getItem().getId() == Easter2022.EVIL_DRUMSTICK)
+             e.getPlayer().startConversation(new Dialogue().addNPC(Easter2022.CHOCATRICE, HeadE.NO_EXPRESSION, "Keep that fowl leg away from me."));
+    });
 }

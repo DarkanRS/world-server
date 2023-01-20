@@ -38,7 +38,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -63,20 +62,17 @@ public final class QueenBlackDragonController extends Controller {
 	private DynamicRegionReference rewardRegion;
 	private WorldTile rewardBase;
 	
-	public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 70812 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Investigate")) {
-				e.getPlayer().startConversation(new Dialogue()
-						.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
-						.addOptions(ops -> {
-							ops.add("Proceed.", () -> enterPortal(e.getPlayer()));
-							ops.add("Step away from the portal.");
-						}));
-			} else if (e.getOption().equals("Pass through"))
-				enterPortal(e.getPlayer());
-		}
-	};
+	public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 70812 }, e -> {
+		if (e.getOption().equals("Investigate")) {
+			e.getPlayer().startConversation(new Dialogue()
+					.addSimple("You will be sent to the heart of this cave complex - alone. There is no way out other than victory, teleportation, or death. Only those who can endure dangerous counters (level 110 or more) should proceed.")
+					.addOptions(ops -> {
+						ops.add("Proceed.", () -> enterPortal(e.getPlayer()));
+						ops.add("Step away from the portal.");
+					}));
+		} else if (e.getOption().equals("Pass through"))
+			enterPortal(e.getPlayer());
+	});
 	
 	private static void enterPortal(Player player) {
 		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < 60) {

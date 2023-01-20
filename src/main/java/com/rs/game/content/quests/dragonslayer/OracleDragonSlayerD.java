@@ -8,7 +8,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -39,10 +38,5 @@ public class OracleDragonSlayerD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleOracleDialogue = new NPCClickHandler(new Object[] { 746 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new OracleDragonSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleOracleDialogue = new NPCClickHandler(new Object[] { 746 }, e -> e.getPlayer().startConversation(new OracleDragonSlayerD(e.getPlayer()).getStart()));
 }

@@ -25,7 +25,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -151,11 +150,6 @@ public class JoePrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleJoe = new NPCClickHandler(new Object[] { JOE }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new JoePrinceAliRescueD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleJoe = new NPCClickHandler(new Object[] { JOE }, e -> e.getPlayer().startConversation(new JoePrinceAliRescueD(e.getPlayer()).getStart()));
 }
 

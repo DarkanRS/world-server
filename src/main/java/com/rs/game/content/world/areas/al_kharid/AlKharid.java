@@ -25,73 +25,54 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 
 @PluginEventHandler
 public class AlKharid {
 
-	public static PlayerStepHandler shantayPass = new PlayerStepHandler(WorldTile.of(3303, 3116, 0), WorldTile.of(3303, 3117, 0), WorldTile.of(3305, 3116, 0), WorldTile.of(3305, 3117, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			if (e.getStep().getY() == 3116 && e.getStep().getDir() == Direction.SOUTH) {
-				if (!e.getPlayer().getInventory().containsItem(1854, 1)) {
-					e.getPlayer().sendMessage("You should check with Shantay for a pass.");
-					return;
-				}
-				e.getPlayer().getInventory().deleteItem(1854, 1);
-			}
-			e.getStep().setCheckClip(false);
-			e.getPlayer().setRunHidden(false);
-			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-			});
-		}
-	};
-
-	public static ObjectClickHandler clickShantayPass = new ObjectClickHandler(new Object[] { 12774 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendMessage("Walk on through with a pass!");
-		}
-	};
-
-	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 35549, 35551 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getInventory().hasCoins(10)) {
-				e.getPlayer().getInventory().removeCoins(10);
-				Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
-			} else
-				e.getPlayer().sendMessage("You need 10 gold to pass through this gate.");
-		}
-	};
-
-	public static ObjectClickHandler handleStrykewyrmStile = new ObjectClickHandler(new Object[] { 48208 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0));
-		}
-	};
-
-	public static ObjectClickHandler handleMiningSiteShortcut = new ObjectClickHandler(new Object[] { 9331, 9332 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!Agility.hasLevel(e.getPlayer(), 38)) {
-				e.getPlayer().sendMessage("You need 38 agility");
+	public static PlayerStepHandler shantayPass = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3303, 3116, 0), WorldTile.of(3303, 3117, 0), WorldTile.of(3305, 3116, 0), WorldTile.of(3305, 3117, 0) }, e -> {
+		if (e.getStep().getY() == 3116 && e.getStep().getDir() == Direction.SOUTH) {
+			if (!e.getPlayer().getInventory().containsItem(1854, 1)) {
+				e.getPlayer().sendMessage("You should check with Shantay for a pass.");
 				return;
 			}
-
-			Player p = e.getPlayer();
-			WorldObject obj = e.getObject();
-
-			if(obj.getTile().matches(WorldTile.of(3306, 3315, 0)))//above
-				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
-			if(obj.getTile().matches(WorldTile.of(3304, 3315, 0)))//below
-				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+			e.getPlayer().getInventory().deleteItem(1854, 1);
 		}
-	};
+		e.getStep().setCheckClip(false);
+		e.getPlayer().setRunHidden(false);
+		WorldTasks.delay(3, () -> {
+			e.getPlayer().setRunHidden(true);
+		});
+	});
+
+	public static ObjectClickHandler clickShantayPass = new ObjectClickHandler(new Object[] { 12774 }, e -> e.getPlayer().sendMessage("Walk on through with a pass!"));
+
+	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 35549, 35551 }, e -> {
+		if (e.getPlayer().getInventory().hasCoins(10)) {
+			e.getPlayer().getInventory().removeCoins(10);
+			Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
+		} else
+			e.getPlayer().sendMessage("You need 10 gold to pass through this gate.");
+	});
+
+	public static ObjectClickHandler handleStrykewyrmStile = new ObjectClickHandler(new Object[] { 48208 }, e -> {
+		AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0));
+	});
+
+	public static ObjectClickHandler handleMiningSiteShortcut = new ObjectClickHandler(new Object[] { 9331, 9332 }, e -> {
+		if (!Agility.hasLevel(e.getPlayer(), 38)) {
+			e.getPlayer().sendMessage("You need 38 agility");
+			return;
+		}
+
+		Player p = e.getPlayer();
+		WorldObject obj = e.getObject();
+
+		if(obj.getTile().matches(WorldTile.of(3306, 3315, 0)))//above
+			AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
+		if(obj.getTile().matches(WorldTile.of(3304, 3315, 0)))//below
+			AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+	});
 
 }

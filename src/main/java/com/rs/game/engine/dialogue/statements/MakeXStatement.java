@@ -22,7 +22,6 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.engine.dialogue.impl.MakeXItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -117,23 +116,20 @@ public class MakeXStatement implements Statement {
 		player.getInterfaceManager().sendSubSpecific(true, 905, 4, 916);
 	}
 	
-	public static ButtonClickHandler handleSetQuantityButtons = new ButtonClickHandler(916) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 10)
-				setQuantity(e.getPlayer(), 1, true);
-			else if (e.getComponentId() == 11)
-				setQuantity(e.getPlayer(), 5, true);
-			else if (e.getComponentId() == 12)
-				setQuantity(e.getPlayer(), 10, true);
-			else if (e.getComponentId() == 8)
-				setQuantity(e.getPlayer(), getMaxQuantity(e.getPlayer()), true);
-			else if (e.getComponentId() == 24)
-				setQuantity(e.getPlayer(), getQuantity(e.getPlayer()) + 1, true);
-			else if (e.getComponentId() == 25)
-				setQuantity(e.getPlayer(), getQuantity(e.getPlayer()) - 1, true);
-		}
-	};
+	public static ButtonClickHandler handleSetQuantityButtons = new ButtonClickHandler(916, e -> {
+		if (e.getComponentId() == 10)
+			setQuantity(e.getPlayer(), 1, true);
+		else if (e.getComponentId() == 11)
+			setQuantity(e.getPlayer(), 5, true);
+		else if (e.getComponentId() == 12)
+			setQuantity(e.getPlayer(), 10, true);
+		else if (e.getComponentId() == 8)
+			setQuantity(e.getPlayer(), getMaxQuantity(e.getPlayer()), true);
+		else if (e.getComponentId() == 24)
+			setQuantity(e.getPlayer(), getQuantity(e.getPlayer()) + 1, true);
+		else if (e.getComponentId() == 25)
+			setQuantity(e.getPlayer(), getQuantity(e.getPlayer()) - 1, true);
+	});
 
 	@Override
 	public int getOptionId(int componentId) {

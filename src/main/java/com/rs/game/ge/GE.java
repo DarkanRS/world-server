@@ -27,7 +27,6 @@ import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.ge.Offer.State;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
@@ -35,8 +34,6 @@ import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
@@ -62,9 +59,7 @@ public class GE {
 		BUY, SELL;
 	}
 
-	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105) {
-		@Override
-		public void handle(ButtonClickEvent e) {;
+	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105, e -> {
 		if (e.getPlayer().isIronMan()) {
 			e.getPlayer().sendMessage("Ironmen stand alone.");
 			return;
@@ -127,49 +122,42 @@ public class GE {
 
 		default -> Logger.debug(GE.class, "mainInterface", "Unhandled GE button: " + e.getComponentId() + ", " + e.getSlotId());
 		}
-		}
-	};
+	});
 
-	public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().isIronMan()) {
-				e.getPlayer().sendMessage("Ironmen stand alone.");
-				return;
-			}
-			if (e.getPlayer().getTempAttribs().getB("geLocked"))
-				return;
-			if (e.getComponentId() == 18) {
-				Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
-				if (item == null)
-					return;
-				if (item.getDefinitions().isNoted())
-					item = new Item(item.getDefinitions().getCertId(), item.getAmount());
-				selectItem(e.getPlayer(), item.getId(), item.getAmount());
-			}
+	public static ButtonClickHandler sellInv = new ButtonClickHandler(SPECIAL_DEPOSIT_INV, e -> {
+		if (e.getPlayer().isIronMan()) {
+			e.getPlayer().sendMessage("Ironmen stand alone.");
+			return;
 		}
-	};
+		if (e.getPlayer().getTempAttribs().getB("geLocked"))
+			return;
+		if (e.getComponentId() == 18) {
+			Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+			if (item == null)
+				return;
+			if (item.getDefinitions().isNoted())
+				item = new Item(item.getDefinitions().getCertId(), item.getAmount());
+			selectItem(e.getPlayer(), item.getId(), item.getAmount());
+		}
+	});
 
-	public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().isIronMan()) {
-				e.getPlayer().sendMessage("Ironmen stand alone.");
-				return;
-			}
-			if (e.getPlayer().getTempAttribs().getB("geLocked"))
-				return;
-			switch(e.getComponentId()) {
-			case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
-			default -> Logger.debug(GE.class, "collBox", "Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
-			}
+	public static ButtonClickHandler collBox = new ButtonClickHandler(COLLECTION_BOX, e -> {
+		if (e.getPlayer().isIronMan()) {
+			e.getPlayer().sendMessage("Ironmen stand alone.");
+			return;
 		}
-	};
+		if (e.getPlayer().getTempAttribs().getB("geLocked"))
+			return;
+		switch(e.getComponentId()) {
+		case 19 -> collectItems(e.getPlayer(), 0, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		case 23 -> collectItems(e.getPlayer(), 1, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		case 27 -> collectItems(e.getPlayer(), 2, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		case 32 -> collectItems(e.getPlayer(), 3, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		case 37 -> collectItems(e.getPlayer(), 4, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		case 42 -> collectItems(e.getPlayer(), 5, e.getSlotId() / 2, e.getPacket() == ClientPacket.IF_OP1);
+		default -> Logger.debug(GE.class, "collBox", "Unhandled collection box button: " + e.getComponentId() + ", " + e.getSlotId());
+		}
+	});
 
 	public static void open(Player player) {
 		player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
@@ -475,32 +463,24 @@ public class GE {
 		return -1;
 	}
 
-	public static NPCInteractionDistanceHandler clerkDistance = new NPCInteractionDistanceHandler("Grand Exchange clerk") {
-		@Override
-		public int getDistance(Player player, NPC npc) {
-			return 1;
-		}
-	};
+	public static NPCInteractionDistanceHandler clerkDistance = new NPCInteractionDistanceHandler(new Object[] { "Grand Exchange clerk" }, (player, npc) -> 1);
 
-	public static NPCClickHandler handleClerks = new NPCClickHandler(new Object[] { "Grand Exchange clerk" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch (e.getOption()) {
-			case "Talk-to":
-				e.getPlayer().sendOptionDialogue("What would you like to do?", ops -> {
-					ops.add("Open the Grand Exchange", () -> GE.open(e.getPlayer()));
-					ops.add("Nevermind.");
-				});
-				break;
-			case "Exchange":
-				GE.open(e.getPlayer());
-				break;
-			case "History":
-				break;
-			case "Sets":
-				Sets.open(e.getPlayer());
-				break;
-			}
+	public static NPCClickHandler handleClerks = new NPCClickHandler(new Object[] { "Grand Exchange clerk" }, e -> {
+		switch (e.getOption()) {
+		case "Talk-to":
+			e.getPlayer().sendOptionDialogue("What would you like to do?", ops -> {
+				ops.add("Open the Grand Exchange", () -> GE.open(e.getPlayer()));
+				ops.add("Nevermind.");
+			});
+			break;
+		case "Exchange":
+			GE.open(e.getPlayer());
+			break;
+		case "History":
+			break;
+		case "Sets":
+			Sets.open(e.getPlayer());
+			break;
 		}
-	};
+	});
 }

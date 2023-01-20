@@ -11,7 +11,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
@@ -49,17 +48,7 @@ public class JeremyServilFightArenaD extends Conversation {
 		create();
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7533}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new JeremyServilFightArenaD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7533}, e -> e.getPlayer().startConversation(new JeremyServilFightArenaD(e.getPlayer())));
 
-	public static NPCInteractionDistanceHandler jeremyJailDistance = new NPCInteractionDistanceHandler(NPC) {
-		@Override
-		public int getDistance(Player player, com.rs.game.model.entity.npc.NPC npc) {
-			return 2;
-		}
-	};
+	public static NPCInteractionDistanceHandler jeremyJailDistance = new NPCInteractionDistanceHandler(NPC, (player, npc) -> 2);
 }

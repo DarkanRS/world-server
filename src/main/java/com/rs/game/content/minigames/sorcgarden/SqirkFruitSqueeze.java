@@ -21,7 +21,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
@@ -65,15 +64,12 @@ public class SqirkFruitSqueeze extends Conversation {
 		}
 	}
 
-	public static ItemOnItemHandler handleSquirks = new ItemOnItemHandler(new int[] { 233 }, new int[] { 10844, 10845, 10846, 10847 }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			SqirkFruit fruit = null;
-			for (SqirkFruit f : SqirkFruit.values())
-				if (f.getFruitId() == e.getUsedWith(233).getId())
-					fruit = f;
-			e.getPlayer().startConversation(new SqirkFruitSqueeze(e.getPlayer(), fruit));
-		}
-	};
+	public static ItemOnItemHandler handleSquirks = new ItemOnItemHandler(new int[] { 233 }, new int[] { 10844, 10845, 10846, 10847 }, e -> {
+		SqirkFruit fruit = null;
+		for (SqirkFruit f : SqirkFruit.values())
+			if (f.getFruitId() == e.getUsedWith(233).getId())
+				fruit = f;
+		e.getPlayer().startConversation(new SqirkFruitSqueeze(e.getPlayer(), fruit));
+	});
 
 }

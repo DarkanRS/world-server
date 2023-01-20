@@ -28,7 +28,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -88,46 +87,43 @@ public enum Gardener {
 		this.locations = locations;
 	}
 
-	public static NPCClickHandler handleGardeners = new NPCClickHandler(new Object[] {  871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Gardener gardener = Gardener.forNPC(e.getNPCId());
-			if (e.getOption().contains("Pay")) {
-				int patchIdx = e.getOpNum()-3;
-				FarmPatch patch = e.getPlayer().getPatch(gardener.locations[patchIdx]);
-				protectPatch(e.getPlayer(), e.getNPC(), patch);
-				return;
-			}
-			if (e.getOption().contains("Talk"))
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("Would you look after my crops for me?", new Dialogue()
-								.addNPC(e.getNPCId(), HeadE.CALM, "Of course, what would you like me to protect?")
-								.addOptions("What would you like to protect?", new Options() {
-									@Override
-									public void create() {
-										for (PatchLocation loc : gardener.locations)
-											option(loc.name().replace("_", " "), new Dialogue().addNext(() -> protectPatch(e.getPlayer(), e.getNPC(), e.getPlayer().getPatch(loc))));
-										option("Nevermind.");
-									}
-								}));
-						option("Can you sell me something?", new Dialogue().addOptions(new Options() {
-							@Override
-							public void create() {
-								option("Plant cure (25 gold)", buyItem(e.getPlayer(), e.getNPCId(), 6036, 25));
-								option("Compost (35 gold)", buyItem(e.getPlayer(), e.getNPCId(), 6032, 35));
-								option("Rake (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5341, 15));
-								option("Watering can (25 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5331, 25));
-								option("Gardening trowel (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5325, 15));
-								option("Seed dibber (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5343, 15));
-							}
-						}));
-						option("That's all, thanks.");
-					}
-				}));
+	public static NPCClickHandler handleGardeners = new NPCClickHandler(new Object[] {  871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101 }, e -> {
+		Gardener gardener = Gardener.forNPC(e.getNPCId());
+		if (e.getOption().contains("Pay")) {
+			int patchIdx = e.getOpNum()-3;
+			FarmPatch patch = e.getPlayer().getPatch(gardener.locations[patchIdx]);
+			protectPatch(e.getPlayer(), e.getNPC(), patch);
+			return;
 		}
-	};
+		if (e.getOption().contains("Talk"))
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()).addOptions("What would you like to say?", new Options() {
+				@Override
+				public void create() {
+					option("Would you look after my crops for me?", new Dialogue()
+							.addNPC(e.getNPCId(), HeadE.CALM, "Of course, what would you like me to protect?")
+							.addOptions("What would you like to protect?", new Options() {
+								@Override
+								public void create() {
+									for (PatchLocation loc : gardener.locations)
+										option(loc.name().replace("_", " "), new Dialogue().addNext(() -> protectPatch(e.getPlayer(), e.getNPC(), e.getPlayer().getPatch(loc))));
+									option("Nevermind.");
+								}
+							}));
+					option("Can you sell me something?", new Dialogue().addOptions(new Options() {
+						@Override
+						public void create() {
+							option("Plant cure (25 gold)", buyItem(e.getPlayer(), e.getNPCId(), 6036, 25));
+							option("Compost (35 gold)", buyItem(e.getPlayer(), e.getNPCId(), 6032, 35));
+							option("Rake (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5341, 15));
+							option("Watering can (25 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5331, 25));
+							option("Gardening trowel (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5325, 15));
+							option("Seed dibber (15 gold)", buyItem(e.getPlayer(), e.getNPCId(), 5343, 15));
+						}
+					}));
+					option("That's all, thanks.");
+				}
+			}));
+	});
 
 	private static void protectPatch(Player player, NPC npc, FarmPatch patch) {
 		if (patch == null || patch.seed == null) {

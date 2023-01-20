@@ -5,7 +5,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -13,17 +12,12 @@ public class BarfyBill extends Conversation {
 
     //Identify NPC by ID
     private static int npcId = 3331;
-    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}) {
-        @Override
-        //Handle Right-Click
-        public void handle(NPCClickEvent e) {
-            switch (e.getOption()) {
-                //Start Conversation
-                case "Talk-To" -> e.getPlayer().startConversation(new BarfyBill(e.getPlayer()));
-            }
-        }
-    };
-
+    public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}, e -> {
+    	switch (e.getOption()) {
+        //Start Conversation
+        case "Talk-To" -> e.getPlayer().startConversation(new BarfyBill(e.getPlayer()));
+    	}
+    });
 
     public BarfyBill(Player player) {
         super(player);

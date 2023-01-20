@@ -24,10 +24,5 @@ public class Spinolyp extends NPC {
 		super.processNPC();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Spinolyp") {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Spinolyp(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Spinolyp", (npcId, tile) -> new Spinolyp(npcId, tile));
 }

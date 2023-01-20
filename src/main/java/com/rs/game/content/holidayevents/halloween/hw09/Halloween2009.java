@@ -38,9 +38,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -120,225 +117,182 @@ public class Halloween2009 {
 			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, WorldTile.of(3210, 3425, 0), "Portal to enter Death's House."));
 	}
 
-	public static ItemClickHandler handleEek = new ItemClickHandler(new Object[] { 15353 }, new String[] { "Hold", "Talk-to", "Play-with", "Dismiss" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Hold":
-				Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId(), true);
-				break;
-			case "Talk-to":
-				break;
-			case "Play-with":
-				e.getPlayer().setNextAnimation(new Animation(12490));
-				e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
-				break;
-			case "Dismiss":
-				e.getPlayer().startConversation(new DestroyItem(e.getPlayer(), e.getSlotId(), e.getItem()));
-				break;
-			}
+	public static ItemClickHandler handleEek = new ItemClickHandler(new Object[] { 15353 }, new String[] { "Hold", "Talk-to", "Play-with", "Dismiss" }, e -> {
+		switch(e.getOption()) {
+		case "Hold":
+			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId(), true);
+			break;
+		case "Talk-to":
+			break;
+		case "Play-with":
+			e.getPlayer().setNextAnimation(new Animation(12490));
+			e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
+			break;
+		case "Dismiss":
+			e.getPlayer().startConversation(new DestroyItem(e.getPlayer(), e.getSlotId(), e.getItem()));
+			break;
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleWebWalks = new ObjectClickHandler(false, WEBS.keySet().toArray()) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			WorldObject curr = World.getClosestObject("Web", e.getPlayer().getTile(), 3);
-			if (curr == null) {
-				e.getPlayer().sendMessage("You aren't in a position to walk towards that web!");
-				return;
-			}
-			Set<Integer> possibles = WEBS.get(curr.getId());
-			if (possibles == null || !possibles.contains(e.getObjectId())) {
-				e.getPlayer().sendMessage("You aren't in a position to walk towards that web!");
-				return;
-			}
-			Halloween2009Controller ctrl = e.getPlayer().getControllerManager().getController(Halloween2009Controller.class);
-			if (ctrl == null || ctrl.getPath() == null) {
-				e.getPlayer().sendMessage("Error occurred while getting path. Moving you to start point.");
-				e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
-				return;
-			}
-			boolean failed = !ctrl.getPath().contains(e.getObjectId());
-			boolean running = e.getPlayer().getRun();
-			e.getPlayer().lock();
-			e.getPlayer().setRunHidden(false);
-			WorldTile from = curr.getCoordFace();
-			WorldTile to = e.getObject().getCoordFace();
-			boolean needStart = !e.getPlayer().matches(from);
-			if (needStart)
-				e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-			WorldTasks.schedule(new WorldTask() {
-				boolean started;
-				int failTimer = 3;
-
-				@Override
-				public void run() {
-					if (failed && failTimer <= 0) {
-						e.getPlayer().sendMessage("Oops! That didn't seem like the right way!", true);
-						e.getPlayer().resetWalkSteps();
-						e.getPlayer().getAppearance().setBAS(-1);
-						e.getPlayer().setNextAnimation(new Animation(12917));
-						WorldTasks.delay(1, () -> {
-							e.getPlayer().setNextAnimation(new Animation(767));
-							e.getPlayer().unlock();
-							e.getPlayer().setNextWorldTile(WEB_RESET_LOC);
-						});
-						stop();
-					}
-					if (!started) {
-						started = true;
-						e.getPlayer().getAppearance().setBAS(155);
-						e.getPlayer().addWalkSteps(to, 25, false);
-					}
-					if (e.getPlayer().matches(to)) {
-						e.getPlayer().getAppearance().setBAS(-1);
-						e.getPlayer().setRunHidden(running);
-						e.getPlayer().unlock();
-						stop();
-					}
-					failTimer--;
-				}
-			}, needStart ? 1 : 0, 0);
-
+	public static ObjectClickHandler handleWebWalks = new ObjectClickHandler(false, WEBS.keySet().toArray(), e -> {
+		WorldObject curr = World.getClosestObject("Web", e.getPlayer().getTile(), 3);
+		if (curr == null) {
+			e.getPlayer().sendMessage("You aren't in a position to walk towards that web!");
+			return;
 		}
-	};
-
-	public static ObjectClickHandler handleEnter = new ObjectClickHandler(new Object[] { 31845 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!ENABLED)
-				return;
+		Set<Integer> possibles = WEBS.get(curr.getId());
+		if (possibles == null || !possibles.contains(e.getObjectId())) {
+			e.getPlayer().sendMessage("You aren't in a position to walk towards that web!");
+			return;
+		}
+		Halloween2009Controller ctrl = e.getPlayer().getControllerManager().getController(Halloween2009Controller.class);
+		if (ctrl == null || ctrl.getPath() == null) {
+			e.getPlayer().sendMessage("Error occurred while getting path. Moving you to start point.");
 			e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
+			return;
 		}
-	};
+		boolean failed = !ctrl.getPath().contains(e.getObjectId());
+		boolean running = e.getPlayer().getRun();
+		e.getPlayer().lock();
+		e.getPlayer().setRunHidden(false);
+		WorldTile from = curr.getCoordFace();
+		WorldTile to = e.getObject().getCoordFace();
+		boolean needStart = !e.getPlayer().matches(from);
+		if (needStart)
+			e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
+		WorldTasks.schedule(new WorldTask() {
+			boolean started;
+			int failTimer = 3;
 
-	public static ObjectClickHandler handleGrimStairs = new ObjectClickHandler(new Object[] { 27866, 27870 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getPlayer().transform(e.getObjectId() == 27866 ? -5 : 5, 0, e.getObjectId() == 27866 ? 1 : -1));
-		}
-	};
-
-	public static ObjectClickHandler spiderPortal = new ObjectClickHandler(new Object[] { 46932 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
-				e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
-					ops.add("Go to web maze.", () -> {
-						e.getPlayer().setNextAnimation(new Animation(12776));
-						WorldTasks.delay(1, () -> {
-							e.getPlayer().setNextAnimation(new Animation(12777));
-							e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
-							e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
-						});
+			@Override
+			public void run() {
+				if (failed && failTimer <= 0) {
+					e.getPlayer().sendMessage("Oops! That didn't seem like the right way!", true);
+					e.getPlayer().resetWalkSteps();
+					e.getPlayer().getAppearance().setBAS(-1);
+					e.getPlayer().setNextAnimation(new Animation(12917));
+					WorldTasks.delay(1, () -> {
+						e.getPlayer().setNextAnimation(new Animation(767));
+						e.getPlayer().unlock();
+						e.getPlayer().setNextWorldTile(WEB_RESET_LOC);
 					});
-					ops.add("Go to spider court.", () -> {
-						e.getPlayer().setNextAnimation(new Animation(12776));
-						WorldTasks.delay(1, () -> {
-							e.getPlayer().setNextAnimation(new Animation(12777));
-							e.getPlayer().setNextWorldTile(WorldTile.of(3744, 5287, 0));
-							e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
-						});
-					});
-				});
-			} else {
-				e.getPlayer().setNextAnimation(new Animation(12776));
-				WorldTasks.delay(1, () -> {
-					e.getPlayer().setNextAnimation(new Animation(12777));
-					e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
-					e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
-				});
+					stop();
+				}
+				if (!started) {
+					started = true;
+					e.getPlayer().getAppearance().setBAS(155);
+					e.getPlayer().addWalkSteps(to, 25, false);
+				}
+				if (e.getPlayer().matches(to)) {
+					e.getPlayer().getAppearance().setBAS(-1);
+					e.getPlayer().setRunHidden(running);
+					e.getPlayer().unlock();
+					stop();
+				}
+				failTimer--;
 			}
-		}
-	};
+		}, needStart ? 1 : 0, 0);
+	});
 
-	public static ObjectClickHandler spiderPortalExit = new ObjectClickHandler(new Object[] { 46934 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
+	public static ObjectClickHandler handleEnter = new ObjectClickHandler(new Object[] { 31845 }, e -> {
+		if (!ENABLED)
+			return;
+		e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
+	});
+
+	public static ObjectClickHandler handleGrimStairs = new ObjectClickHandler(new Object[] { 27866, 27870 }, e -> {
+		e.getPlayer().useStairs(e.getPlayer().transform(e.getObjectId() == 27866 ? -5 : 5, 0, e.getObjectId() == 27866 ? 1 : -1));
+	});
+
+	public static ObjectClickHandler spiderPortal = new ObjectClickHandler(new Object[] { 46932 }, e -> {
+		if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
+			e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
+				ops.add("Go to web maze.", () -> {
+					e.getPlayer().setNextAnimation(new Animation(12776));
+					WorldTasks.delay(1, () -> {
+						e.getPlayer().setNextAnimation(new Animation(12777));
+						e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
+						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
+					});
+				});
+				ops.add("Go to spider court.", () -> {
+					e.getPlayer().setNextAnimation(new Animation(12776));
+					WorldTasks.delay(1, () -> {
+						e.getPlayer().setNextAnimation(new Animation(12777));
+						e.getPlayer().setNextWorldTile(WorldTile.of(3744, 5287, 0));
+						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
+					});
+				});
+			});
+		} else {
 			e.getPlayer().setNextAnimation(new Animation(12776));
 			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
-				e.getPlayer().setNextWorldTile(WorldTile.of(3805, 5149, 0));
+				e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
+				e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 			});
 		}
-	};
+	});
 
-	public static ObjectClickHandler webLaddersDown = new ObjectClickHandler(new Object[] { 46936 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getTile().isAt(3744, 5288)) {
-				if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
-					e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
-						ops.add("Go down the ladder.", () -> e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2)));
-						ops.add("Return to the Grim Reaper's House.", () -> e.getPlayer().useLadder(WorldTile.of(3805, 5149, 0)));
-					});
-					return;
-				}
-				e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2));
-			} else
-				e.getPlayer().useLadder(WorldTile.of(3744, 5276, 0));
-		}
-	};
+	public static ObjectClickHandler spiderPortalExit = new ObjectClickHandler(new Object[] { 46934 }, e -> {
+		e.getPlayer().setNextAnimation(new Animation(12776));
+		WorldTasks.delay(1, () -> {
+			e.getPlayer().setNextAnimation(new Animation(12777));
+			e.getPlayer().setNextWorldTile(WorldTile.of(3805, 5149, 0));
+		});
+	});
 
-	public static ObjectClickHandler agilCourseLadderDown = new ObjectClickHandler(new Object[] { 46939 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(WorldTile.of(3936, 5150, 2));
-		}
-	};
-
-	public static ObjectClickHandler agilCourseLadderUp = new ObjectClickHandler(new Object[] { 46731 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(/*e.getObject().isAt(3936, 5151) ? WorldTile.of(3936, 5315, 2) : */WorldTile.of(3744, 5287, 0));
-		}
-	};
-
-	public static ObjectClickHandler webLaddersUp = new ObjectClickHandler(new Object[] { 46938 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) < 4) {
-				e.getPlayer().startConversation(new Dialogue().addNPC(8976, HeadE.SPIDER_EXCLAIM, "Halt! Nobody is permitted to see the Spider Queen. Especially not a four-limbed intruder like yourself!"));
+	public static ObjectClickHandler webLaddersDown = new ObjectClickHandler(new Object[] { 46936 }, e -> {
+		if (e.getObject().getTile().isAt(3744, 5288)) {
+			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
+				e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
+					ops.add("Go down the ladder.", () -> e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2)));
+					ops.add("Return to the Grim Reaper's House.", () -> e.getPlayer().useLadder(WorldTile.of(3805, 5149, 0)));
+				});
 				return;
 			}
-			e.getPlayer().useLadder(WorldTile.of(3809, 5277, 0));
+			e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2));
+		} else
+			e.getPlayer().useLadder(WorldTile.of(3744, 5276, 0));
+	});
+
+	public static ObjectClickHandler agilCourseLadderDown = new ObjectClickHandler(new Object[] { 46939 }, e -> e.getPlayer().useLadder(WorldTile.of(3936, 5150, 2)));
+
+	public static ObjectClickHandler agilCourseLadderUp = new ObjectClickHandler(new Object[] { 46731 }, e -> e.getPlayer().useLadder(/*e.getObject().isAt(3936, 5151) ? WorldTile.of(3936, 5315, 2) : */WorldTile.of(3744, 5287, 0)));
+
+	public static ObjectClickHandler webLaddersUp = new ObjectClickHandler(new Object[] { 46938 }, e -> {
+		if (e.getPlayer().getI(Halloween2009.STAGE_KEY) < 4) {
+			e.getPlayer().startConversation(new Dialogue().addNPC(8976, HeadE.SPIDER_EXCLAIM, "Halt! Nobody is permitted to see the Spider Queen. Especially not a four-limbed intruder like yourself!"));
+			return;
 		}
-	};
+		e.getPlayer().useLadder(WorldTile.of(3809, 5277, 0));
+	});
 
 	public static Set<Integer> getRandomPath() {
 		return new HashSet<>(Arrays.asList(PATHS[Utils.random(PATHS.length)]));
 	}
 
-	public static ItemEquipHandler handleEekEquip = new ItemEquipHandler(15353) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			refreshWebbables(e.getPlayer(), e.equip());
-		}
-	};
+	public static ItemEquipHandler handleEekEquip = new ItemEquipHandler(15353, e -> refreshWebbables(e.getPlayer(), e.equip()));
 
-	public static ObjectClickHandler webbables = new ObjectClickHandler(Arrays.stream(Utils.range(46861, 46924)).boxed().toArray(Integer[]::new)) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.getOption().equals("Web"))
-				return;
-			Halloween2009Controller ctrl = e.getPlayer().getControllerManager().getController(Halloween2009Controller.class);
-			if (ctrl == null || ctrl.getWebbedUp() == null) {
-				e.getPlayer().sendMessage("Error occurred while getting path. Moving you to start point.");
-				e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
-				return;
-			}
-			e.getPlayer().lock();
-			e.getPlayer().setNextAnimation(new Animation(12490));
-			e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
-			WorldTasks.delay(2, () -> {
-				e.getPlayer().unlock();
-				e.getPlayer().setNextAnimation(new Animation(1264));
-				e.getPlayer().setNextSpotAnim(new SpotAnim(-1));
-				ctrl.web(e.getObjectId());
-			});
+	public static ObjectClickHandler webbables = new ObjectClickHandler(Arrays.stream(Utils.range(46861, 46924)).boxed().toArray(Integer[]::new), e-> {
+		if (!e.getOption().equals("Web"))
+			return;
+		Halloween2009Controller ctrl = e.getPlayer().getControllerManager().getController(Halloween2009Controller.class);
+		if (ctrl == null || ctrl.getWebbedUp() == null) {
+			e.getPlayer().sendMessage("Error occurred while getting path. Moving you to start point.");
+			e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
+			return;
 		}
-	};
+		e.getPlayer().lock();
+		e.getPlayer().setNextAnimation(new Animation(12490));
+		e.getPlayer().setNextSpotAnim(new SpotAnim(2178));
+		WorldTasks.delay(2, () -> {
+			e.getPlayer().unlock();
+			e.getPlayer().setNextAnimation(new Animation(1264));
+			e.getPlayer().setNextSpotAnim(new SpotAnim(-1));
+			ctrl.web(e.getObjectId());
+		});
+	});
 
 	public static void refreshWebbables(Player player, boolean showWebOp) {
 		if (player.getI(Halloween2009.STAGE_KEY) < 7)

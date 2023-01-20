@@ -16,18 +16,20 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.ItemOnPlayerEvent;
 
-public abstract class ItemOnPlayerHandler extends PluginHandler<ItemOnPlayerEvent> {
+public class ItemOnPlayerHandler extends PluginHandler<ItemOnPlayerEvent> {
 	private boolean checkDistance = true;
 
-	public ItemOnPlayerHandler(boolean checkDistance, Object[] namesOrIds) {
-		super(namesOrIds);
+	public ItemOnPlayerHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ItemOnPlayerEvent> handler) {
+		super(namesOrIds, handler);
 		this.checkDistance = checkDistance;
 	}
 
-	public ItemOnPlayerHandler(Object... namesOrIds) {
-		super(namesOrIds);
+	public ItemOnPlayerHandler(Object[] namesOrIds, Consumer<ItemOnPlayerEvent> handler) {
+		super(namesOrIds, handler);
 	}
 
 	public boolean isCheckDistance() {

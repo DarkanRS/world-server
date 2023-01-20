@@ -23,7 +23,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -226,10 +225,5 @@ public class GypsyArisDemonSlayerD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleGypsyAris = new NPCClickHandler(new Object[] { 882 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GypsyArisDemonSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleGypsyAris = new NPCClickHandler(new Object[] { 882 }, e -> e.getPlayer().startConversation(new GypsyArisDemonSlayerD(e.getPlayer()).getStart()));
 }

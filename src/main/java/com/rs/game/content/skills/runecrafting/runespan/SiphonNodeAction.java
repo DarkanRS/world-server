@@ -32,7 +32,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -127,15 +126,12 @@ public class SiphonNodeAction extends PlayerAction {
 		}
 	}
 
-	public static ObjectClickHandler handleNodes = new ObjectClickHandler(false, Node.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			//			Nodes node = getNode(e.getObjectId());
-			//			if (node == null)
-			//				return;
-			//			e.getPlayer().getActionManager().setAction(new SiphonNodeAction(node, e.getObject()));
-		}
-	};
+	public static ObjectClickHandler handleNodes = new ObjectClickHandler(false, Node.MAP.keySet().toArray(), e -> {
+		//		Nodes node = getNode(e.getObjectId());
+		//			if (node == null)
+		//				return;
+		//			e.getPlayer().getActionManager().setAction(new SiphonNodeAction(node, e.getObject()));
+	});
 
 	@SuppressWarnings("unused")
 	private static int getRandomTransformationId() {

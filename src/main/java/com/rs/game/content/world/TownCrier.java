@@ -38,10 +38,5 @@ public class TownCrier extends NPC {
 		super.processNPC();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6135, 6136, 6137, 6138, 6139) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new TownCrier(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6135, 6136, 6137, 6138, 6139 }, (npcId, tile) -> new TownCrier(npcId, tile));
 }

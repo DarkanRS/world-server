@@ -41,43 +41,24 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
-
 
 @PluginEventHandler
 public class Debug {
 	private static boolean musicMoveOn = false;
-	public static EnterChunkHandler handleTempleChunks = new EnterChunkHandler() {
-		@Override
-		public void handle(EnterChunkEvent e) {
-			if (!Settings.getConfig().isDebug())
-				return;
-			if(musicMoveOn && e.getPlayer() != null && e.getPlayer().hasStarted())
-				e.getPlayer().sendMessage("Region: " + e.getPlayer().getRegionId() + ", Chunk: " + e.getChunkId() + ", Genre: " + Music.getGenre(e.getPlayer()).getGenreName());
-			if (e.getEntity() instanceof Player player)
-				if (player.getNSV().getB("visChunks") && player.hasStarted()) {
-					player.devisualizeChunk(e.getEntity().getLastChunkId());
-					player.visualizeChunk(e.getChunkId());
-					player.sendMessage("Chunk: " + e.getChunkId());
-				}
-		}
-	};
-
-	public static ButtonClickHandler debugButtons = new ButtonClickHandler() {
-		@Override
-		public boolean handleGlobal(ButtonClickEvent e) {
-			Logger.debug(Debug.class, "debugButtons", e.getPacket() + ", " + e.getInterfaceId() + ", " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
-			return false;
-		}
-
-		@Override
-		public void handle(ButtonClickEvent e) {
-		}
-	};
+	public static EnterChunkHandler visChunks = new EnterChunkHandler(e -> {
+		if (!Settings.getConfig().isDebug())
+			return;
+		if(musicMoveOn && e.getPlayer() != null && e.getPlayer().hasStarted())
+			e.getPlayer().sendMessage("Region: " + e.getPlayer().getRegionId() + ", Chunk: " + e.getChunkId() + ", Genre: " + Music.getGenre(e.getPlayer()).getGenreName());
+		if (e.getEntity() instanceof Player player)
+			if (player.getNSV().getB("visChunks") && player.hasStarted()) {
+				player.devisualizeChunk(e.getEntity().getLastChunkId());
+				player.visualizeChunk(e.getChunkId());
+				player.sendMessage("Chunk: " + e.getChunkId());
+			}
+	});
 
 	@ServerStartupEvent
 	public static void startup() {

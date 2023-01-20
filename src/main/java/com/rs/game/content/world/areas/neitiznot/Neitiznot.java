@@ -22,8 +22,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -61,86 +59,65 @@ public class Neitiznot  {
 		}
 	}
 
-	public static ObjectClickHandler handleLadders = new ObjectClickHandler(new Object[] { 21512, 21513, 21514, 21515 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObjectId() == 21512 || e.getObjectId() == 21513)
-				e.getPlayer().useLadder(e.getObjectId() == 21512 ? e.getPlayer().transform(2, 0, 2) : e.getPlayer().transform(-2, 0, -2));
-			else if (e.getObjectId() == 21514 || e.getObjectId() == 21515)
-				e.getPlayer().useLadder(e.getObjectId() == 21514 ? e.getPlayer().transform(-2, 0, 1) : e.getPlayer().transform(2, 0, -1));
-		}
-	};
+	public static ObjectClickHandler handleLadders = new ObjectClickHandler(new Object[] { 21512, 21513, 21514, 21515 }, e -> {
+		if (e.getObjectId() == 21512 || e.getObjectId() == 21513)
+			e.getPlayer().useLadder(e.getObjectId() == 21512 ? e.getPlayer().transform(2, 0, 2) : e.getPlayer().transform(-2, 0, -2));
+		else if (e.getObjectId() == 21514 || e.getObjectId() == 21515)
+			e.getPlayer().useLadder(e.getObjectId() == 21514 ? e.getPlayer().transform(-2, 0, 1) : e.getPlayer().transform(2, 0, -1));
+	});
 
-	public static NPCClickHandler handleMawnis = new NPCClickHandler(new Object[] { 5503 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleMawnis = new NPCClickHandler(new Object[] { 5503 }, e -> {
+		e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer()));
+	});
 
-	public static NPCClickHandler handleShops = new NPCClickHandler(new Object[] { 5509, 5487, 5484, 5486, 5485, 5483, 5495 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getNPC().getId()) {
-			case 5509:
-				ShopsHandler.openShop(e.getPlayer(), "neitiznot_supplies");
-				break;
-			case 5487:
-				ShopsHandler.openShop(e.getPlayer(), "keepa_kettilons_store");
-				break;
-			case 5484:
-				ShopsHandler.openShop(e.getPlayer(), "flosis_fishmongers");
-				break;
-			case 5486:
-				ShopsHandler.openShop(e.getPlayer(), "weapons_galore");
-				break;
-			case 5485:
-				ShopsHandler.openShop(e.getPlayer(), "armour_shop");
-				break;
-			case 5483:
-				ShopsHandler.openShop(e.getPlayer(), "ore_store");
-				break;
-			case 5495:
-				ShopsHandler.openShop(e.getPlayer(), "contraband_yak_produce");
-				break;
-			}
+	public static NPCClickHandler handleShops = new NPCClickHandler(new Object[] { 5509, 5487, 5484, 5486, 5485, 5483, 5495 }, e -> {
+		switch(e.getNPC().getId()) {
+		case 5509:
+			ShopsHandler.openShop(e.getPlayer(), "neitiznot_supplies");
+			break;
+		case 5487:
+			ShopsHandler.openShop(e.getPlayer(), "keepa_kettilons_store");
+			break;
+		case 5484:
+			ShopsHandler.openShop(e.getPlayer(), "flosis_fishmongers");
+			break;
+		case 5486:
+			ShopsHandler.openShop(e.getPlayer(), "weapons_galore");
+			break;
+		case 5485:
+			ShopsHandler.openShop(e.getPlayer(), "armour_shop");
+			break;
+		case 5483:
+			ShopsHandler.openShop(e.getPlayer(), "ore_store");
+			break;
+		case 5495:
+			ShopsHandler.openShop(e.getPlayer(), "contraband_yak_produce");
+			break;
 		}
-	};
+	});
 
-	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().sendOptionDialogue("What can I help you with?", ops -> {
-				ops.add("Cure my yak-hide, please.", () -> {
-					if (e.getPlayer().getInventory().containsItem(10818, 1)) {
-						int number = e.getPlayer().getInventory().getAmountOf(10818);
-						e.getPlayer().getInventory().deleteItem(10818, number);
-						e.getPlayer().getInventory().addItem(10820, number);
-					}
-				});
-				ops.add("Nothing, thanks.");
+	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }, e -> {
+		e.getPlayer().sendOptionDialogue("What can I help you with?", ops -> {
+			ops.add("Cure my yak-hide, please.", () -> {
+				if (e.getPlayer().getInventory().containsItem(10818, 1)) {
+					int number = e.getPlayer().getInventory().getAmountOf(10818);
+					e.getPlayer().getInventory().deleteItem(10818, number);
+					e.getPlayer().getInventory().addItem(10820, number);
+				}
 			});
-		}
-	};
+			ops.add("Nothing, thanks.");
+		});
+	});
 
-	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2310, 3781, 0));
-		}
-	};
+	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }, e -> {
+		e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2310, 3781, 0));
+	});
 
-	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2420, 3781, 0));
-		}
-	};
+	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }, e -> {
+		e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2420, 3781, 0));
+	});
 
-	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().getBank().open();
-		}
-	};
+	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }, e -> {
+		e.getPlayer().getBank().open();
+	});
 }

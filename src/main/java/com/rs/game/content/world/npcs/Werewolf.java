@@ -73,10 +73,5 @@ public class Werewolf extends NPC {
 		super.reset();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6026, 6027, 6028, 6029, 6030, 6031, 6032, 6033, 6034, 6035, 6036, 6037, 6038, 6039, 6040, 6041, 6042, 6043, 6044, 6045) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Werewolf(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6026, 6027, 6028, 6029, 6030, 6031, 6032, 6033, 6034, 6035, 6036, 6037, 6038, 6039, 6040, 6041, 6042, 6043, 6044, 6045 }, (npcId, tile) -> new Werewolf(npcId, tile, false));
 }

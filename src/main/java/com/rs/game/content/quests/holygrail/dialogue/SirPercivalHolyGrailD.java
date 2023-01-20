@@ -11,7 +11,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -79,10 +78,5 @@ public class SirPercivalHolyGrailD extends Conversation {
 	}
 
 
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new SirPercivalHolyGrailD(e.getPlayer()).getStart());
-        }
-    };
+    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}, e -> e.getPlayer().startConversation(new SirPercivalHolyGrailD(e.getPlayer()).getStart()));
 }

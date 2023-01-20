@@ -30,7 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 
@@ -299,15 +298,12 @@ public class ItemConstants {
 		}
 	}
 
-	public static ItemClickHandler handleGenericCheckCharges = new ItemClickHandler(new String[] { "Check-charges", "Check state", "Check-state" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getItem().getMetaData("combatCharges") != null)
-				e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(e.getItem().getMetaDataI("combatCharges")));
-			else
-				e.getPlayer().sendMessage("<col=FF0000>It looks brand new.");
-		}
-	};
+	public static ItemClickHandler handleGenericCheckCharges = new ItemClickHandler(new String[] { "Check-charges", "Check state", "Check-state" }, e -> {
+		if (e.getItem().getMetaData("combatCharges") != null)
+			e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(e.getItem().getMetaDataI("combatCharges")));
+		else
+			e.getPlayer().sendMessage("<col=FF0000>It looks brand new.");
+	});
 
 	public static void handleRepairs(Player player, Item item, final boolean stand, final int slot) {
 		if (item.getId() >= 18349 && item.getId() <= 18374) {

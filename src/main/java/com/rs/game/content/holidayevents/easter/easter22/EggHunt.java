@@ -12,7 +12,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.LoginHandler;
 
 @PluginEventHandler
@@ -102,16 +101,13 @@ public class EggHunt {
     	});
     }
 
-    public static LoginHandler resetVars = new LoginHandler() {
-        @Override
-        public void handle(LoginEvent e) {
-            if (!Easter2022.ENABLED)
-                return;
-            if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != hunt)
-                for (int idx = 0; idx < 5; idx++)
-                    e.getPlayer().getVars().saveVarBit(varbits[idx], 0);
-        }
-    };
+    public static LoginHandler resetVars = new LoginHandler(e -> {
+    	if (!Easter2022.ENABLED)
+            return;
+        if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != hunt)
+            for (int idx = 0; idx < 5; idx++)
+                e.getPlayer().getVars().saveVarBit(varbits[idx], 0);
+    });
 
     public void start() {
     	active = true;

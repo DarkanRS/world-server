@@ -18,31 +18,21 @@ package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class UndergroundPass {
 
-	public static ObjectClickHandler handleSkullDoorEnter = new ObjectClickHandler(new Object[] { 3220, 3221 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(WorldTile.of(2173, 4725, 1));
-		}
-	};
+	public static ObjectClickHandler handleSkullDoorEnter = new ObjectClickHandler(new Object[] { 3220, 3221 }, e -> {
+		e.getPlayer().useStairs(WorldTile.of(2173, 4725, 1));
+	});
 
-	public static ObjectClickHandler handleSkullDoorExit = new ObjectClickHandler(new Object[] { 34288, 34289 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(WorldTile.of(2369, 9718, 0));
-		}
-	};
+	public static ObjectClickHandler handleSkullDoorExit = new ObjectClickHandler(new Object[] { 34288, 34289 }, e -> {
+		e.getPlayer().useStairs(WorldTile.of(2369, 9718, 0));
+	});
 
-	public static ObjectClickHandler handleWellDoorEnter = new ObjectClickHandler(new Object[] { 3333, 3334 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? WorldTile.of(2145, 4648, 1) : WorldTile.of(2014, 4712, 1));
-		}
-	};
+	public static ObjectClickHandler handleWellDoorEnter = new ObjectClickHandler(new Object[] { 3333, 3334 }, e -> {
+		e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? WorldTile.of(2145, 4648, 1) : WorldTile.of(2014, 4712, 1));
+	});
 
 }

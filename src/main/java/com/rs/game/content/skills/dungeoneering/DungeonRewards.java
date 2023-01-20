@@ -28,7 +28,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -178,73 +177,67 @@ public class DungeonRewards {
 		player.getInterfaceManager().sendInterface(1006);
 	}
 
-	public static ButtonClickHandler handleHerbicideButtons = new ButtonClickHandler(1006) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			HerbicideSetting setting = null;
-			for (HerbicideSetting settings : HerbicideSetting.values())
-				if (settings.getButtonId() == e.getComponentId())
-					setting = settings;
-			if (setting != null)
-				if (e.getPlayer().herbicideSettings.contains(setting)) {
-					e.getPlayer().herbicideSettings.remove(setting);
-					e.getPlayer().getPackets().setIFGraphic(1006, setting.getButtonId(), 2549);
-				} else {
-					e.getPlayer().herbicideSettings.add(setting);
-					e.getPlayer().getPackets().setIFGraphic(1006, setting.getButtonId(), 2548);
-				}
-		}
-	};
+	public static ButtonClickHandler handleHerbicideButtons = new ButtonClickHandler(1006, e -> {
+		HerbicideSetting setting = null;
+		for (HerbicideSetting settings : HerbicideSetting.values())
+			if (settings.getButtonId() == e.getComponentId())
+				setting = settings;
+		if (setting != null)
+			if (e.getPlayer().herbicideSettings.contains(setting)) {
+				e.getPlayer().herbicideSettings.remove(setting);
+				e.getPlayer().getPackets().setIFGraphic(1006, setting.getButtonId(), 2549);
+			} else {
+				e.getPlayer().herbicideSettings.add(setting);
+				e.getPlayer().getPackets().setIFGraphic(1006, setting.getButtonId(), 2548);
+			}
+	});
 
-	public static ButtonClickHandler handleRewardsInter = new ButtonClickHandler(940) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 64 && e.getPacket() == ClientPacket.IF_OP1) {
-				if (e.getPlayer().getTempAttribs().getO("dungReward") != null) {
-					DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
-					if (reward != null) {
-						if (e.getPlayer().getSkills().getLevelForXp(Constants.DUNGEONEERING) < reward.getRequirement()) {
-							e.getPlayer().sendMessage("You need " + reward.getRequirement() + " dungeoneering to buy this reward.");
-							return;
-						}
-						if (e.getPlayer().getDungManager().getTokens() < reward.getCost()) {
-							e.getPlayer().sendMessage("You need " + reward.getCost() + " dungeoneering tokens to buy this reward.");
-							return;
-						}
+	public static ButtonClickHandler handleRewardsInter = new ButtonClickHandler(940, e -> {
+		if (e.getComponentId() == 64 && e.getPacket() == ClientPacket.IF_OP1) {
+			if (e.getPlayer().getTempAttribs().getO("dungReward") != null) {
+				DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
+				if (reward != null) {
+					if (e.getPlayer().getSkills().getLevelForXp(Constants.DUNGEONEERING) < reward.getRequirement()) {
+						e.getPlayer().sendMessage("You need " + reward.getRequirement() + " dungeoneering to buy this reward.");
+						return;
+					}
+					if (e.getPlayer().getDungManager().getTokens() < reward.getCost()) {
+						e.getPlayer().sendMessage("You need " + reward.getCost() + " dungeoneering tokens to buy this reward.");
+						return;
+					}
+				} else
+					e.getPlayer().sendMessage("You must choose a reward before trying to buy something.");
+				e.getPlayer().getPackets().setIFHidden(940, 42, false);
+			}
+			return;
+		}
+		if (e.getComponentId() == 48) {
+			DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
+			if (reward != null && e.getPlayer().getDungManager().getTokens() >= reward.getCost())
+				if (e.getPlayer().getInventory().hasFreeSlots()) {
+					if (reward.getId() >= 18349 && reward.getId() <= 18374) {
+						Item rew = new Item(reward.getId(), 1);
+						rew.addMetaData("combatCharges", 12000);
+						e.getPlayer().getInventory().addItem(rew);
 					} else
-						e.getPlayer().sendMessage("You must choose a reward before trying to buy something.");
-					e.getPlayer().getPackets().setIFHidden(940, 42, false);
-				}
+						e.getPlayer().getInventory().addItem(reward.getId(), 1);
+					e.getPlayer().getDungManager().removeTokens(reward.getCost());
+				} else
+					e.getPlayer().sendMessage("You don't have enough inventory space.");
+			refresh(e.getPlayer());
+			e.getPlayer().getPackets().setIFHidden(940, 42, true);
+		}
+		if (e.getComponentId() == 50)
+			e.getPlayer().getPackets().setIFHidden(940, 42, true);
+		if (e.getComponentId() == 2) {
+			DungeonReward reward = DungeonReward.forId(e.getSlotId());
+			if (reward == null) {
+				e.getPlayer().getTempAttribs().removeO("dungReward");
+				e.getPlayer().sendMessage("Reward currently not supported. " + (e.getPlayer().hasRights(Rights.DEVELOPER) ? e.getSlotId() : ""));
 				return;
 			}
-			if (e.getComponentId() == 48) {
-				DungeonReward reward = e.getPlayer().getTempAttribs().getO("dungReward");
-				if (reward != null && e.getPlayer().getDungManager().getTokens() >= reward.getCost())
-					if (e.getPlayer().getInventory().hasFreeSlots()) {
-						if (reward.getId() >= 18349 && reward.getId() <= 18374) {
-							Item rew = new Item(reward.getId(), 1);
-							rew.addMetaData("combatCharges", 12000);
-							e.getPlayer().getInventory().addItem(rew);
-						} else
-							e.getPlayer().getInventory().addItem(reward.getId(), 1);
-						e.getPlayer().getDungManager().removeTokens(reward.getCost());
-					} else
-						e.getPlayer().sendMessage("You don't have enough inventory space.");
-				refresh(e.getPlayer());
-				e.getPlayer().getPackets().setIFHidden(940, 42, true);
-			}
-			if (e.getComponentId() == 50)
-				e.getPlayer().getPackets().setIFHidden(940, 42, true);
-			if (e.getComponentId() == 2) {
-				DungeonReward reward = DungeonReward.forId(e.getSlotId());
-				if (reward == null) {
-					e.getPlayer().getTempAttribs().removeO("dungReward");
-					e.getPlayer().sendMessage("Reward currently not supported. " + (e.getPlayer().hasRights(Rights.DEVELOPER) ? e.getSlotId() : ""));
-					return;
-				}
-				e.getPlayer().getTempAttribs().setO("dungReward", reward);
-			}
+			e.getPlayer().getTempAttribs().setO("dungReward", reward);
 		}
-	};
+	});
 
 }

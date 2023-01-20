@@ -16,10 +16,20 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.ItemAddedToInventoryEvent;
 
-public abstract class ItemAddedToInventoryHandler extends PluginHandler<ItemAddedToInventoryEvent> {
-	public ItemAddedToInventoryHandler(Object... namesOrIds) {
-		super(namesOrIds);
+public class ItemAddedToInventoryHandler extends PluginHandler<ItemAddedToInventoryEvent> {
+	public ItemAddedToInventoryHandler(Object[] namesOrIds, Consumer<ItemAddedToInventoryEvent> handler) {
+		super(namesOrIds, handler);
+	}
+	
+	public ItemAddedToInventoryHandler(int id, Consumer<ItemAddedToInventoryEvent> handler) {
+		this(new Object[] { id }, handler);
+	}
+	
+	public ItemAddedToInventoryHandler(String name, Consumer<ItemAddedToInventoryEvent> handler) {
+		this(new Object[] { name }, handler);
 	}
 }

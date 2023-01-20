@@ -16,27 +16,37 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.BiFunction;
+
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.events.NPCInstanceEvent;
 
-public abstract class NPCInstanceHandler extends PluginHandler<NPCInstanceEvent> {
+public class NPCInstanceHandler extends PluginHandler<NPCInstanceEvent> {
+	
+	private BiFunction<Integer, WorldTile, NPC> instantiator;
 
-	public NPCInstanceHandler(Object... keys) {
-		super(keys);
+	public NPCInstanceHandler(Object[] keys, BiFunction<Integer, WorldTile, NPC> instantiator) {
+		super(keys, null);
+		this.instantiator = instantiator;
 	}
-
-	public abstract NPC getNPC(int npcId, WorldTile tile);
-
-	@Override
-	public final void handle(NPCInstanceEvent e) { }
+	
+	public NPCInstanceHandler(int id, BiFunction<Integer, WorldTile, NPC> instantiator) {
+		super(new Object[] { id }, null);
+		this.instantiator = instantiator;
+	}
+	
+	public NPCInstanceHandler(String name, BiFunction<Integer, WorldTile, NPC> instantiator) {
+		super(new Object[] { name }, null);
+		this.instantiator = instantiator;
+	}
 
 	@Override
 	public final boolean handleGlobal(NPCInstanceEvent e) { return false; }
 
 	@Override
 	public final Object getObj(NPCInstanceEvent e) {
-		NPC npc = getNPC(e.getNpcId(), e.getTile());
+		NPC npc = instantiator.apply(e.getNpcId(), e.getTile());
 		npc.setSpawned(e.isSpawned());
 		return npc;
 	}

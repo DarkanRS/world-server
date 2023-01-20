@@ -27,7 +27,6 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -89,15 +88,12 @@ public class ShopsHandler {
 		return NPC_SHOPS.get(npcId);
 	}
 
-	public static NPCClickHandler handleShop = new NPCClickHandler(new String[] { "Trade", "Shop" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			String key = getShopForNpc(e.getNPCId());
-			if (key == null)
-				return;
-			openShop(e.getPlayer(), key);
-		}
-	};
+	public static NPCClickHandler handleShop = new NPCClickHandler(new String[] { "Trade", "Shop" }, e -> {
+		String key = getShopForNpc(e.getNPCId());
+		if (key == null)
+			return;
+		openShop(e.getPlayer(), key);
+	});
 
 	public static void restoreShops() {
 		for (Shop shop : SHOPS.values())

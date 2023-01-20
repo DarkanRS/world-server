@@ -18,7 +18,6 @@ package com.rs.game.content.achievements;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -44,40 +43,34 @@ public class AchievementInterface {
 		player.getPackets().setIFRightClickOps(917, 147, 0, 10, 0);
 	}
 
-	public static ButtonClickHandler handleTabButtons = new ButtonClickHandler(1056) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 173:
-				openInterface(e.getPlayer());
-				break;
-			default:
-				e.getPlayer().sendMessage("Unhandled Achievement Tab button: " + e.getComponentId() + ", " + e.getSlotId());
-				break;
-			}
+	public static ButtonClickHandler handleTabButtons = new ButtonClickHandler(1056, e -> {
+		switch (e.getComponentId()) {
+		case 173:
+			openInterface(e.getPlayer());
+			break;
+		default:
+			e.getPlayer().sendMessage("Unhandled Achievement Tab button: " + e.getComponentId() + ", " + e.getSlotId());
+			break;
 		}
-	};
+	});
 
-	public static ButtonClickHandler handleInterfaceButtons = new ButtonClickHandler(917) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 147:
-				e.getPlayer().getVars().setVarBit(8582, e.getSlotId());
-				e.getPlayer().getVars().setVarBit(8581, 0);
-				break;
-			case 160:
-			case 161:
-				e.getPlayer().getVars().setVarBit(8579, e.getComponentId() == 160 ? 0 : 1);
-				break;
-			case 162:
-			case 163:
-				e.getPlayer().getVars().setVarBit(8580, e.getComponentId() == 162 ? 0 : 1);
-				break;
-			default:
-				e.getPlayer().sendMessage("Unhandled Achievement Interface button: " + e.getComponentId() + ", " + e.getSlotId());
-				break;
-			}
+	public static ButtonClickHandler handleInterfaceButtons = new ButtonClickHandler(917, e -> {
+		switch (e.getComponentId()) {
+		case 147:
+			e.getPlayer().getVars().setVarBit(8582, e.getSlotId());
+			e.getPlayer().getVars().setVarBit(8581, 0);
+			break;
+		case 160:
+		case 161:
+			e.getPlayer().getVars().setVarBit(8579, e.getComponentId() == 160 ? 0 : 1);
+			break;
+		case 162:
+		case 163:
+			e.getPlayer().getVars().setVarBit(8580, e.getComponentId() == 162 ? 0 : 1);
+			break;
+		default:
+			e.getPlayer().sendMessage("Unhandled Achievement Interface button: " + e.getComponentId() + ", " + e.getSlotId());
+			break;
 		}
-	};
+	});
 }

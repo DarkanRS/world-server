@@ -37,7 +37,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
 
@@ -76,18 +75,15 @@ public final class Nex extends NPC {
 		refreshTicksAttacked();
 	}
 
-	public static ObjectClickHandler handleIcePrison = new ObjectClickHandler(new Object[] { 57263 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getTempAttribs().getB("inIcePrison")) {
-				e.getPlayer().sendMessage("You can't move!");
-				return;
-			}
-			e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
-			e.getPlayer().lock(2);
-			World.removeObject(e.getObject());
+	public static ObjectClickHandler handleIcePrison = new ObjectClickHandler(new Object[] { 57263 }, e -> {
+		if (e.getPlayer().getTempAttribs().getB("inIcePrison")) {
+			e.getPlayer().sendMessage("You can't move!");
+			return;
 		}
-	};
+		e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
+		e.getPlayer().lock(2);
+		World.removeObject(e.getObject());
+	});
 
 	@Override
 	public void processNPC() {

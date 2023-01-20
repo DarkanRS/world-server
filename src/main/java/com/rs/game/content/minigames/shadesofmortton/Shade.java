@@ -41,12 +41,7 @@ public class Shade extends NPC {
 		attack = 0;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1240, 1241, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Shade(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1240, 1241, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250 }, (npcId, tile) -> new Shade(npcId, tile));
 
 	@Override
 	public void onRespawn() {

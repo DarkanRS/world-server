@@ -31,9 +31,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -162,70 +159,61 @@ public class PrinceAliRescue extends QuestOutline {
 				p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1));
 	}
 
-	public static ObjectClickHandler handleJailCellDoor = new ObjectClickHandler(new Object[] { 3436 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getObject().getTile().matches(WorldTile.of(3128, 3243, 0))) {
-				if (e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1))
-					handleDoor(e.getPlayer(), e.getObject());
-				else
-					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-						{
-							addPlayer(HeadE.CALM_TALK, "It appears to need a key...");
-						}
-					});
-				return;
-			}
-
-
-			if(e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
-				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-					if(npc.getId() == LADY_KELI) {
-						e.getPlayer().sendMessage("You'd better get rid of Lady Keli before trying to go through there.");
-						return;
-					}
+	public static ObjectClickHandler handleJailCellDoor = new ObjectClickHandler(new Object[] { 3436 }, e -> {
+		if(e.getObject().getTile().matches(WorldTile.of(3128, 3243, 0))) {
+			if (e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1))
 				handleDoor(e.getPlayer(), e.getObject());
-			}
 			else
 				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					{
 						addPlayer(HeadE.CALM_TALK, "It appears to need a key...");
 					}
 				});
+			return;
 		}
-	};
 
-	public static ItemOnItemHandler handleRedYellowDyes = new ItemOnItemHandler(YELLOW_DYE, new int[] {WIG}) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if(e.usedWith(WIG, YELLOW_DYE)) {
-				e.getPlayer().getInventory().replace(e.getItem2(), new Item(BLONDE_WIG, 1));
-				e.getPlayer().getInventory().deleteItem(e.getItem1().getSlot(), e.getItem1());
-			}
-		}
-	};
 
-	public static ItemOnNPCHandler handleLadyKeliRope = new ItemOnNPCHandler(LADY_KELI) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			if(e.getItem().getId() != ROPE || e.getPlayer().isQuestComplete(Quest.PRINCE_ALI_RESCUE))
-				return;
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk") && p.getInventory().containsItem(BRONZE_KEY, 1) &&
-					p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
-					p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)) {
-				p.getInventory().removeItems(new Item(ROPE, 1));
-				e.getNPC().setRespawnTask(90);
-				e.getNPC().finish();
-			} else
-				p.startConversation(new Conversation(p) {
-					{
-						addSimple("You cannot tie Keli up until you have all equipment and disabled the guard!");
-						create();
-					}
-				});
+		if(e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
+			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				if(npc.getId() == LADY_KELI) {
+					e.getPlayer().sendMessage("You'd better get rid of Lady Keli before trying to go through there.");
+					return;
+				}
+			handleDoor(e.getPlayer(), e.getObject());
 		}
-	};
+		else
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+				{
+					addPlayer(HeadE.CALM_TALK, "It appears to need a key...");
+				}
+			});
+	});
+
+	public static ItemOnItemHandler handleRedYellowDyes = new ItemOnItemHandler(YELLOW_DYE, new int[] {WIG}, e -> {
+		if(e.usedWith(WIG, YELLOW_DYE)) {
+			e.getPlayer().getInventory().replace(e.getItem2(), new Item(BLONDE_WIG, 1));
+			e.getPlayer().getInventory().deleteItem(e.getItem1().getSlot(), e.getItem1());
+		}
+	});
+
+	public static ItemOnNPCHandler handleLadyKeliRope = new ItemOnNPCHandler(LADY_KELI, e -> {
+		if(e.getItem().getId() != ROPE || e.getPlayer().isQuestComplete(Quest.PRINCE_ALI_RESCUE))
+			return;
+		Player p = e.getPlayer();
+		if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk") && p.getInventory().containsItem(BRONZE_KEY, 1) &&
+				p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
+				p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)) {
+			p.getInventory().removeItems(new Item(ROPE, 1));
+			e.getNPC().setRespawnTask(90);
+			e.getNPC().finish();
+		} else
+			p.startConversation(new Conversation(p) {
+				{
+					addSimple("You cannot tie Keli up until you have all equipment and disabled the guard!");
+					create();
+				}
+			});
+	});
 
 
 

@@ -121,10 +121,5 @@ public class CorporealBeast extends NPC {
 		return 0.6;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8133) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new CorporealBeast(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8133, (npcId, tile) -> new CorporealBeast(npcId, tile, false));
 }

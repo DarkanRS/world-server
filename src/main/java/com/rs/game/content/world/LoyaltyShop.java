@@ -26,20 +26,15 @@ import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 
 @PluginEventHandler
 public class LoyaltyShop {
 
-	public static LoginHandler sendLoyaltyPoints = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			e.getPlayer().getVars().setVar(2225, e.getPlayer().loyaltyPoints);
-		}
-	};
+	public static LoginHandler sendLoyaltyPoints = new LoginHandler(e -> {
+		e.getPlayer().getVars().setVar(2225, e.getPlayer().loyaltyPoints);
+	});
 
 	public static void refresh(Player player) {
 		player.getVars().setVar(2225, player.loyaltyPoints);
@@ -59,69 +54,66 @@ public class LoyaltyShop {
 		refresh(player);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1143) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 103:
-				e.getPlayer().closeInterfaces();
-				break;
-			case 1:
-				e.getPlayer().getVars().setVarBit(9487, -1);
-				break;
-			case 13:
-				e.getPlayer().getVars().setVarBit(9487, 6);
-				break;
-			case 3:
-				e.getPlayer().getVars().setVarBit(9487, 8);
-				break;
-			case 50:
-				confirmBuy(e.getPlayer());
-				break;
-			case 40:
-				e.getPlayer().getTempAttribs().setI("LoyaltyRewardColor", e.getSlotId());
-				break;
-			case 59:
-			case 51:
-			case 163:
-				closeMessage(e.getPlayer());
-				break;
-			}
-			if (e.getComponentId() >= 7 && e.getComponentId() <= 12) {
-				Tab tab = Tab.values()[e.getComponentId() - 7];
-				if (tab != null && (e.getPlayer().hasRights(Rights.DEVELOPER) || (tab != Tab.RECOLOR)))
-					e.getPlayer().getVars().setVarBit(9487, tab.configId);
-				else
-					sendMessage(e.getPlayer(), "Tab not added", "That tab hasn't been added yet. Sorry.");
-				return;
-			}
-			Tab tab = Tab.forId(e.getComponentId());
-			if (tab != null && tab.isBuyComponent(e.getComponentId())) {
-				EnumDefinitions map = EnumDefinitions.getEnum(tab.getCSMapId(e.getPlayer().getAppearance().isMale()));
-				Reward reward = tab.getReward(e.getSlotId());
-				if (reward != null) {
-					e.getPlayer().getTempAttribs().setO("LoyaltyReward", reward);
-					e.getPlayer().getPackets().sendRunScriptReverse(5355, e.getPlayer().unlockedLoyaltyReward(reward) ? 1 : 0, map.getIntValue(e.getSlotId()));
-					e.getPlayer().getPackets().setIFHidden(1143, 16, false);
-					e.getPlayer().getPackets().setIFHidden(1143, 56, false);
-					e.getPlayer().getPackets().setIFHidden(1143, 58, true);
-				} else
-					e.getPlayer().getTempAttribs().removeO("LoyaltyReward");
-			} else if (tab != null && tab.isFavoriteComponent(e.getComponentId())) {
-				Reward reward = tab.getReward(e.getSlotId());
-				if (reward != null) {
-					if (e.getPlayer().favoritedLoyaltyReward(reward))
-						e.getPlayer().unfavoriteLoyaltyReward(reward);
-					else
-						e.getPlayer().favoriteLoyaltyReward(reward);
-					refreshFavorite(e.getPlayer());
-				}
-			}
-			refresh(e.getPlayer());
-			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().getPackets().sendDevConsoleMessage("Loyalty click: " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1143, e -> {
+		switch (e.getComponentId()) {
+		case 103:
+			e.getPlayer().closeInterfaces();
+			break;
+		case 1:
+			e.getPlayer().getVars().setVarBit(9487, -1);
+			break;
+		case 13:
+			e.getPlayer().getVars().setVarBit(9487, 6);
+			break;
+		case 3:
+			e.getPlayer().getVars().setVarBit(9487, 8);
+			break;
+		case 50:
+			confirmBuy(e.getPlayer());
+			break;
+		case 40:
+			e.getPlayer().getTempAttribs().setI("LoyaltyRewardColor", e.getSlotId());
+			break;
+		case 59:
+		case 51:
+		case 163:
+			closeMessage(e.getPlayer());
+			break;
 		}
-	};
+		if (e.getComponentId() >= 7 && e.getComponentId() <= 12) {
+			Tab tab = Tab.values()[e.getComponentId() - 7];
+			if (tab != null && (e.getPlayer().hasRights(Rights.DEVELOPER) || (tab != Tab.RECOLOR)))
+				e.getPlayer().getVars().setVarBit(9487, tab.configId);
+			else
+				sendMessage(e.getPlayer(), "Tab not added", "That tab hasn't been added yet. Sorry.");
+			return;
+		}
+		Tab tab = Tab.forId(e.getComponentId());
+		if (tab != null && tab.isBuyComponent(e.getComponentId())) {
+			EnumDefinitions map = EnumDefinitions.getEnum(tab.getCSMapId(e.getPlayer().getAppearance().isMale()));
+			Reward reward = tab.getReward(e.getSlotId());
+			if (reward != null) {
+				e.getPlayer().getTempAttribs().setO("LoyaltyReward", reward);
+				e.getPlayer().getPackets().sendRunScriptReverse(5355, e.getPlayer().unlockedLoyaltyReward(reward) ? 1 : 0, map.getIntValue(e.getSlotId()));
+				e.getPlayer().getPackets().setIFHidden(1143, 16, false);
+				e.getPlayer().getPackets().setIFHidden(1143, 56, false);
+				e.getPlayer().getPackets().setIFHidden(1143, 58, true);
+			} else
+				e.getPlayer().getTempAttribs().removeO("LoyaltyReward");
+		} else if (tab != null && tab.isFavoriteComponent(e.getComponentId())) {
+			Reward reward = tab.getReward(e.getSlotId());
+			if (reward != null) {
+				if (e.getPlayer().favoritedLoyaltyReward(reward))
+					e.getPlayer().unfavoriteLoyaltyReward(reward);
+				else
+					e.getPlayer().favoriteLoyaltyReward(reward);
+				refreshFavorite(e.getPlayer());
+			}
+		}
+		refresh(e.getPlayer());
+		if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().getPackets().sendDevConsoleMessage("Loyalty click: " + e.getComponentId() + ", " + e.getSlotId() + ", " + e.getSlotId2());
+	});
 
 	public static void confirmBuy(Player player) {
 		Reward reward = player.getTempAttribs().getO("LoyaltyReward");

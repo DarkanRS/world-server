@@ -29,7 +29,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemConfig;
 import com.rs.utils.shop.ShopItem;
@@ -68,137 +67,134 @@ public class Shop {
 		}
 	}
 
-	public static ButtonClickHandler handleInterfaces = new ButtonClickHandler(449, 1265, 1266, 621) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == 449) {
-				if (e.getComponentId() == 1) {
-					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
-					if (shop == null)
-						return;
-					shop.sendInventory(e.getPlayer());
-				} else if (e.getComponentId() == 21) {
-					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
-					if (shop == null)
-						return;
-					int slot = e.getPlayer().getTempAttribs().getI("ShopSelectedSlot");
-					if (slot == -1)
-						return;
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						shop.buy(e.getPlayer(), slot, 1);
-					else if (e.getPacket() == ClientPacket.IF_OP2)
-						shop.buy(e.getPlayer(), slot, 5);
-					else if (e.getPacket() == ClientPacket.IF_OP3)
-						shop.buy(e.getPlayer(), slot, 10);
-					else if (e.getPacket() == ClientPacket.IF_OP4)
-						shop.buy(e.getPlayer(), slot, 50);
-					shop.sendCustomPrices(e.getPlayer());
-				}
-			} else if (e.getInterfaceId() == 1265) {
+	public static ButtonClickHandler handleInterfaces = new ButtonClickHandler(new Object[] { 449, 1265, 1266, 621 }, e -> {
+		if (e.getInterfaceId() == 449) {
+			if (e.getComponentId() == 1) {
+				Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
+				if (shop == null)
+					return;
+				shop.sendInventory(e.getPlayer());
+			} else if (e.getComponentId() == 21) {
 				Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
 				if (shop == null)
 					return;
 				int slot = e.getPlayer().getTempAttribs().getI("ShopSelectedSlot");
-				boolean isBuying = e.getPlayer().getTempAttribs().getB("shop_buying");
-				if (e.getComponentId() == 20) {
-					e.getPlayer().getTempAttribs().setI("ShopSelectedSlot", e.getSlotId());
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						shop.sendInfo(e.getPlayer(), e.getSlotId(), isBuying);
-					else if (e.getPacket() == ClientPacket.IF_OP2)
-						shop.handleShop(e.getPlayer(), e.getSlotId(), 1);
-					else if (e.getPacket() == ClientPacket.IF_OP3)
-						shop.handleShop(e.getPlayer(), e.getSlotId(), 5);
-					else if (e.getPacket() == ClientPacket.IF_OP4)
-						shop.handleShop(e.getPlayer(), e.getSlotId(), 10);
-					else if (e.getPacket() == ClientPacket.IF_OP5)
-						shop.handleShop(e.getPlayer(), e.getSlotId(), 50);
-					else if (e.getPacket() == ClientPacket.IF_OP6)
-						shop.handleShop(e.getPlayer(), e.getSlotId(), 500);
-					else if (e.getPacket() == ClientPacket.IF_OP10)
-						shop.sendExamine(e.getPlayer(), e.getSlotId());
-				} else if (e.getComponentId() == 201) {
-					if (slot == -1)
-						return;
-					if (isBuying)
-						shop.buy(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
-					else {
-						shop.sell(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
-						e.getPlayer().getVars().setVar(2563, 0);
-						e.getPlayer().getVars().setVar(2565, 1); // this is to update the tab.
-					}
-				} else if (e.getComponentId() == 208) {
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 5, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 15) {
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 1, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 214) {
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 1, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 217) {
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 5, 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 220) {
-					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 211) {
-					if ((slot == -1) || (shop.getMainStock() == null) || (slot > shop.getMainStock().length - 1) || (shop.getMainStock()[slot] == null))
-						return;
-					if (e.getPlayer().getInventory().getItems().array()[slot] == null)
-						return;
-					e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().array()[slot].getAmount(), 1, 5000));
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				} else if (e.getComponentId() == 29) {
-					e.getPlayer().getVars().setVar(2561, 93);
-					e.getPlayer().getTempAttribs().removeB("shop_buying");
-					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
-				} else if (e.getComponentId() == 28) {
-					e.getPlayer().getTempAttribs().setB("shop_buying", true);
-					e.getPlayer().getTempAttribs().setI("shopAmt", 1);
-					e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
-				}
+				if (slot == -1)
+					return;
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					shop.buy(e.getPlayer(), slot, 1);
+				else if (e.getPacket() == ClientPacket.IF_OP2)
+					shop.buy(e.getPlayer(), slot, 5);
+				else if (e.getPacket() == ClientPacket.IF_OP3)
+					shop.buy(e.getPlayer(), slot, 10);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					shop.buy(e.getPlayer(), slot, 50);
 				shop.sendCustomPrices(e.getPlayer());
-			} else if (e.getInterfaceId() == 1266) {
-				if (e.getComponentId() == 0)
-					if (e.getPacket() == ClientPacket.IF_OP6)
-						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-					else {
-						Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
-						if (shop == null)
-							return;
-						e.getPlayer().getVars().setVar(2563, e.getSlotId());
-						if (e.getPacket() == ClientPacket.IF_OP1)
-							shop.sendValue(e.getPlayer(), e.getSlotId());
-						else if (e.getPacket() == ClientPacket.IF_OP2)
-							shop.sell(e.getPlayer(), e.getSlotId(), 1);
-						else if (e.getPacket() == ClientPacket.IF_OP3)
-							shop.sell(e.getPlayer(), e.getSlotId(), 5);
-						else if (e.getPacket() == ClientPacket.IF_OP4)
-							shop.sell(e.getPlayer(), e.getSlotId(), 10);
-						else if (e.getPacket() == ClientPacket.IF_OP5)
-							shop.sell(e.getPlayer(), e.getSlotId(), 50);
-					}
-			} else if (e.getInterfaceId() == 621)
-				if (e.getComponentId() == 0)
-					if (e.getPacket() == ClientPacket.IF_OP6)
-						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-					else {
-						Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
-						if (shop == null)
-							return;
-						if (e.getPacket() == ClientPacket.IF_OP1)
-							shop.sendValue(e.getPlayer(), e.getSlotId());
-						else if (e.getPacket() == ClientPacket.IF_OP2)
-							shop.sell(e.getPlayer(), e.getSlotId(), 1);
-						else if (e.getPacket() == ClientPacket.IF_OP3)
-							shop.sell(e.getPlayer(), e.getSlotId(), 5);
-						else if (e.getPacket() == ClientPacket.IF_OP4)
-							shop.sell(e.getPlayer(), e.getSlotId(), 10);
-						else if (e.getPacket() == ClientPacket.IF_OP5)
-							shop.sell(e.getPlayer(), e.getSlotId(), 50);
-					}
-		}
-	};
+			}
+		} else if (e.getInterfaceId() == 1265) {
+			Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
+			if (shop == null)
+				return;
+			int slot = e.getPlayer().getTempAttribs().getI("ShopSelectedSlot");
+			boolean isBuying = e.getPlayer().getTempAttribs().getB("shop_buying");
+			if (e.getComponentId() == 20) {
+				e.getPlayer().getTempAttribs().setI("ShopSelectedSlot", e.getSlotId());
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					shop.sendInfo(e.getPlayer(), e.getSlotId(), isBuying);
+				else if (e.getPacket() == ClientPacket.IF_OP2)
+					shop.handleShop(e.getPlayer(), e.getSlotId(), 1);
+				else if (e.getPacket() == ClientPacket.IF_OP3)
+					shop.handleShop(e.getPlayer(), e.getSlotId(), 5);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					shop.handleShop(e.getPlayer(), e.getSlotId(), 10);
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					shop.handleShop(e.getPlayer(), e.getSlotId(), 50);
+				else if (e.getPacket() == ClientPacket.IF_OP6)
+					shop.handleShop(e.getPlayer(), e.getSlotId(), 500);
+				else if (e.getPacket() == ClientPacket.IF_OP10)
+					shop.sendExamine(e.getPlayer(), e.getSlotId());
+			} else if (e.getComponentId() == 201) {
+				if (slot == -1)
+					return;
+				if (isBuying)
+					shop.buy(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
+				else {
+					shop.sell(e.getPlayer(), slot, e.getPlayer().getTempAttribs().getI("shopAmt", 0));
+					e.getPlayer().getVars().setVar(2563, 0);
+					e.getPlayer().getVars().setVar(2565, 1); // this is to update the tab.
+				}
+			} else if (e.getComponentId() == 208) {
+				e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 5, 1, 5000));
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 15) {
+				e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) + 1, 1, 5000));
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 214) {
+				e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 1, 1, 5000));
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 217) {
+				e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(e.getPlayer().getTempAttribs().getI("shopAmt", 0) - 5, 1, 5000));
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 220) {
+				e.getPlayer().getTempAttribs().setI("shopAmt", 1);
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 211) {
+				if ((slot == -1) || (shop.getMainStock() == null) || (slot > shop.getMainStock().length - 1) || (shop.getMainStock()[slot] == null))
+					return;
+				if (e.getPlayer().getInventory().getItems().array()[slot] == null)
+					return;
+				e.getPlayer().getTempAttribs().setI("shopAmt", Utils.clampI(isBuying ? shop.getMainStock()[slot].getItem().getAmount() : e.getPlayer().getInventory().getItems().array()[slot].getAmount(), 1, 5000));
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			} else if (e.getComponentId() == 29) {
+				e.getPlayer().getVars().setVar(2561, 93);
+				e.getPlayer().getTempAttribs().removeB("shop_buying");
+				e.getPlayer().getTempAttribs().setI("shopAmt", 1);
+			} else if (e.getComponentId() == 28) {
+				e.getPlayer().getTempAttribs().setB("shop_buying", true);
+				e.getPlayer().getTempAttribs().setI("shopAmt", 1);
+				e.getPlayer().getPackets().setIFText(1265, 67, String.valueOf(e.getPlayer().getTempAttribs().getI("shopAmt", 0)));
+			}
+			shop.sendCustomPrices(e.getPlayer());
+		} else if (e.getInterfaceId() == 1266) {
+			if (e.getComponentId() == 0)
+				if (e.getPacket() == ClientPacket.IF_OP6)
+					e.getPlayer().getInventory().sendExamine(e.getSlotId());
+				else {
+					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
+					if (shop == null)
+						return;
+					e.getPlayer().getVars().setVar(2563, e.getSlotId());
+					if (e.getPacket() == ClientPacket.IF_OP1)
+						shop.sendValue(e.getPlayer(), e.getSlotId());
+					else if (e.getPacket() == ClientPacket.IF_OP2)
+						shop.sell(e.getPlayer(), e.getSlotId(), 1);
+					else if (e.getPacket() == ClientPacket.IF_OP3)
+						shop.sell(e.getPlayer(), e.getSlotId(), 5);
+					else if (e.getPacket() == ClientPacket.IF_OP4)
+						shop.sell(e.getPlayer(), e.getSlotId(), 10);
+					else if (e.getPacket() == ClientPacket.IF_OP5)
+						shop.sell(e.getPlayer(), e.getSlotId(), 50);
+				}
+		} else if (e.getInterfaceId() == 621)
+			if (e.getComponentId() == 0)
+				if (e.getPacket() == ClientPacket.IF_OP6)
+					e.getPlayer().getInventory().sendExamine(e.getSlotId());
+				else {
+					Shop shop = e.getPlayer().getTempAttribs().getO("Shop");
+					if (shop == null)
+						return;
+					if (e.getPacket() == ClientPacket.IF_OP1)
+						shop.sendValue(e.getPlayer(), e.getSlotId());
+					else if (e.getPacket() == ClientPacket.IF_OP2)
+						shop.sell(e.getPlayer(), e.getSlotId(), 1);
+					else if (e.getPacket() == ClientPacket.IF_OP3)
+						shop.sell(e.getPlayer(), e.getSlotId(), 5);
+					else if (e.getPacket() == ClientPacket.IF_OP4)
+						shop.sell(e.getPlayer(), e.getSlotId(), 10);
+					else if (e.getPacket() == ClientPacket.IF_OP5)
+						shop.sell(e.getPlayer(), e.getSlotId(), 50);
+				}
+	});
 
 	public boolean isGeneralStore() {
 		return generalStock != null;

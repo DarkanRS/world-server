@@ -18,7 +18,6 @@ package com.rs.game.engine.book;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -40,18 +39,15 @@ public abstract class Book {
 		this.pages = pages;
 	}
 
-	public static ButtonClickHandler handleInter = new ButtonClickHandler(INTERFACE) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTempAttribs().getO("currBook") == null)
-				return;
-			Book book = e.getPlayer().getTempAttribs().getO("currBook");
-			if (e.getComponentId() == 72)
-				book.prevPage();
-			if (e.getComponentId() == 73)
-				book.nextPage();
-		}
-	};
+	public static ButtonClickHandler handleInter = new ButtonClickHandler(INTERFACE, e -> {
+		if (e.getPlayer().getTempAttribs().getO("currBook") == null)
+			return;
+		Book book = e.getPlayer().getTempAttribs().getO("currBook");
+		if (e.getComponentId() == 72)
+			book.prevPage();
+		if (e.getComponentId() == 73)
+			book.nextPage();
+	});
 
 	public void open(Player player) {
 		this.player = player;

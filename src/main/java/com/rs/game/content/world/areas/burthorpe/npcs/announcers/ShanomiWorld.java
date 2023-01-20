@@ -68,10 +68,5 @@ public class ShanomiWorld extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(npcId) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new ShanomiWorld(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, (npcId, tile) -> new ShanomiWorld(npcId, tile));
 }

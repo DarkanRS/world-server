@@ -20,7 +20,6 @@ import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
@@ -32,10 +31,5 @@ public class BattlestaffCrafting  {
 	private static double[] xp = { 100, 112.5, 125, 137.5 };
 	private static int[] anims = { 16448, 16447, 16449, 16446 };
 
-	public static ItemOnItemHandler craftStaves = new ItemOnItemHandler(1391, new int[] { 569, 571, 573, 575 }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
-		}
-	};
+	public static ItemOnItemHandler craftStaves = new ItemOnItemHandler(1391, new int[] { 569, 571, 573, 575 }, e -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2)));
 }

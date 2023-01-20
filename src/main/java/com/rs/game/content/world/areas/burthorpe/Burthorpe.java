@@ -23,46 +23,35 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class Burthorpe {
 
-	public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(2292, 4516, 0));
-		}
-	};
+	public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(2292, 4516, 0));
+	});
 
-	public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(2876, 3502, 0));
-		}
-	};
+	public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(2876, 3502, 0));
+	});
 
-	public static ObjectClickHandler handleHeroesGuildDoors = new ObjectClickHandler(new Object[]{2624, 2625}) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST) || e.getPlayer().getX() < e.getObject().getX()) {
-				handleDoubleDoor(e.getPlayer(), e.getObject());
-				e.getPlayer().getMusicsManager().playSpecificAmbientSong(77, true);
-			}
-			else
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					int NPC = 796;
+	public static ObjectClickHandler handleHeroesGuildDoors = new ObjectClickHandler(new Object[]{2624, 2625}, e -> {
+		if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST) || e.getPlayer().getX() < e.getObject().getX()) {
+			handleDoubleDoor(e.getPlayer(), e.getObject());
+			e.getPlayer().getMusicsManager().playSpecificAmbientSong(77, true);
+		} else
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+				int NPC = 796;
 
-					{
-						addNPC(NPC, HeadE.FRUSTRATED, "Hey! Only heroes are allowed in there.");
-						addPlayer(HeadE.SECRETIVE, "Umm, how do I know if I am a hero?");
-						addNPC(NPC, HeadE.HAPPY_TALKING, "By completing the Heroes' Quest of course");
-						addPlayer(HeadE.SAD, "Oh..");
-						create();
-					}
-				});
-		}
-	};
+				{
+					addNPC(NPC, HeadE.FRUSTRATED, "Hey! Only heroes are allowed in there.");
+					addPlayer(HeadE.SECRETIVE, "Umm, how do I know if I am a hero?");
+					addNPC(NPC, HeadE.HAPPY_TALKING, "By completing the Heroes' Quest of course");
+					addPlayer(HeadE.SAD, "Oh..");
+					create();
+				}
+			});
+	});
 
 }

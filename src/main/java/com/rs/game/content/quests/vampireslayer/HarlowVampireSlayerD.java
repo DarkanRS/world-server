@@ -23,7 +23,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -133,10 +132,5 @@ public class HarlowVampireSlayerD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleHarlow = new NPCClickHandler(new Object[] { HARLOW }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new HarlowVampireSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleHarlow = new NPCClickHandler(new Object[] { HARLOW }, e -> e.getPlayer().startConversation(new HarlowVampireSlayerD(e.getPlayer()).getStart()));
 }

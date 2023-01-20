@@ -12,7 +12,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -41,10 +40,5 @@ public class ArcherLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleArcherDialogue = new NPCClickHandler(new Object[] { ARCHER }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new ArcherLostCityD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleArcherDialogue = new NPCClickHandler(new Object[] { ARCHER }, e -> e.getPlayer().startConversation(new ArcherLostCityD(e.getPlayer()).getStart()));
 }

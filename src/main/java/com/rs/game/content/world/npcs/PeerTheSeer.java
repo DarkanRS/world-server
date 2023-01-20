@@ -18,22 +18,18 @@ package com.rs.game.content.world.npcs;
 
 import com.rs.game.engine.quest.Quest;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class PeerTheSeer {
 
-	public static NPCClickHandler handler = new NPCClickHandler(new Object[] { "Peer the Seer" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Deposit":
-				if (e.getPlayer().isQuestComplete(Quest.FREMENNIK_TRIALS, "to deposit with Peer."))
-					e.getPlayer().getBank().openDepositBox();
-				break;
-			}
+	public static NPCClickHandler handler = new NPCClickHandler(new Object[] { "Peer the Seer" }, e -> {
+		switch(e.getOption()) {
+		case "Deposit":
+			if (e.getPlayer().isQuestComplete(Quest.FREMENNIK_TRIALS, "to deposit with Peer."))
+				e.getPlayer().getBank().openDepositBox();
+			break;
 		}
-	};
+	});
 
 }

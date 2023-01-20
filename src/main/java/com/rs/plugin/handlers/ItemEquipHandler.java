@@ -16,10 +16,20 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.ItemEquipEvent;
 
-public abstract class ItemEquipHandler extends PluginHandler<ItemEquipEvent> {
-	public ItemEquipHandler(Object... namesOrIds) {
-		super(namesOrIds);
+public class ItemEquipHandler extends PluginHandler<ItemEquipEvent> {
+	public ItemEquipHandler(Object[] namesOrIds, Consumer<ItemEquipEvent> handler) {
+		super(namesOrIds, handler);
+	}
+	
+	public ItemEquipHandler(int id, Consumer<ItemEquipEvent> handler) {
+		this(new Object[] { id }, handler);
+	}
+	
+	public ItemEquipHandler(String name, Consumer<ItemEquipEvent> handler) {
+		this(new Object[] { name }, handler);
 	}
 }

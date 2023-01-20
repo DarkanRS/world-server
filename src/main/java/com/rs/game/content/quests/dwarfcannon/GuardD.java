@@ -21,7 +21,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -29,12 +28,7 @@ public class GuardD extends Conversation {
 
 	private static final int GUARD = 206;
 
-	public static NPCClickHandler talkToLawgof = new NPCClickHandler(new Object[] { GUARD }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GuardD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler talkToLawgof = new NPCClickHandler(new Object[] { GUARD }, e -> e.getPlayer().startConversation(new GuardD(e.getPlayer())));
 
 	public GuardD(Player player) {
 		super(player);

@@ -39,7 +39,7 @@ public class PluginMethodRepository {
 		PluginHandler<PluginEvent> method = (PluginHandler<PluginEvent>) event.getMethod();
 		if (method != null) {
 			try {
-				method.handle(event);
+				method.getHandler().accept(event);
 				return true;
 			} catch (Exception e) {
 				Logger.handle(PluginMethodRepository.class, "handle:" + event.getClass().getSimpleName(), e);
@@ -52,7 +52,7 @@ public class PluginMethodRepository {
 		for (PluginHandler<? extends PluginEvent> m : methods)
 			try {
 				PluginHandler<PluginEvent> pHandle = (PluginHandler<PluginEvent>) m;
-				pHandle.handle(event);
+				pHandle.getHandler().accept(event);
 			} catch (Exception e) {
 				Logger.handle(PluginMethodRepository.class, "handle:" + event.getClass().getSimpleName(), e);
 				return false;

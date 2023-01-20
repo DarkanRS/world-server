@@ -93,11 +93,6 @@ public class AgilityPyramidBlock extends NPC {
 		return players;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3124, 2125) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new AgilityPyramidBlock(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3124, 2125 }, (npcId, tile) -> new AgilityPyramidBlock(npcId, tile));
 
 }

@@ -24,8 +24,6 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.VarManager;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
@@ -70,92 +68,84 @@ public class PuzzleRoom {
 
 
 
-	public static ObjectClickHandler handleLevers = new ObjectClickHandler(new Object[] { LEVER_A, LEVER_B, LEVER_C, LEVER_D, LEVER_E, LEVER_F }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			GameObject obj = e.getObject();
-			VarManager vars = e.getPlayer().getVars();
-			int id = obj.getId();
+	public static ObjectClickHandler handleLevers = new ObjectClickHandler(new Object[] { LEVER_A, LEVER_B, LEVER_C, LEVER_D, LEVER_E, LEVER_F }, e -> {
+		GameObject obj = e.getObject();
+		VarManager vars = e.getPlayer().getVars();
+		int id = obj.getId();
 
-			//step 1/5, https://runescape.salmoneus.net/runescape-2007/quests/ernest-the-chicken.html
-			if(vars.getVar(LEVER_A_V) == 0 && id == LEVER_A) {
-				vars.setVarBit(LEVER_A_V, 1);
-				if(vars.getVarBit(LEVER_B_V) == 1) {
-					vars.setVarBit(DOOR1_V, 1);
-					vars.setVarBit(DOOR4_V, 1);
-					vars.setVarBit(DOOR5_V, 1);
-				}
+		//step 1/5, https://runescape.salmoneus.net/runescape-2007/quests/ernest-the-chicken.html
+		if(vars.getVar(LEVER_A_V) == 0 && id == LEVER_A) {
+			vars.setVarBit(LEVER_A_V, 1);
+			if(vars.getVarBit(LEVER_B_V) == 1) {
+				vars.setVarBit(DOOR1_V, 1);
+				vars.setVarBit(DOOR4_V, 1);
+				vars.setVarBit(DOOR5_V, 1);
 			}
-			if(vars.getVar(LEVER_B_V) == 0 && id == LEVER_B) {
-				vars.setVarBit(LEVER_B_V, 1);
-				if(vars.getVarBit(LEVER_A_V) == 1) {
-					vars.setVarBit(DOOR1_V, 1);
-					vars.setVarBit(DOOR4_V, 1);
-					vars.setVarBit(DOOR5_V, 1);
-				}
+		}
+		if(vars.getVar(LEVER_B_V) == 0 && id == LEVER_B) {
+			vars.setVarBit(LEVER_B_V, 1);
+			if(vars.getVarBit(LEVER_A_V) == 1) {
+				vars.setVarBit(DOOR1_V, 1);
+				vars.setVarBit(DOOR4_V, 1);
+				vars.setVarBit(DOOR5_V, 1);
 			}
+		}
 
-			//step 3
-			if(vars.getVar(LEVER_D_V) == 0 && id == LEVER_D) {
-				vars.setVarBit(LEVER_D_V, 1);
-				vars.setVarBit(DOOR2_V, 1);
-				vars.setVarBit(DOOR3_V, 1);
+		//step 3
+		if(vars.getVar(LEVER_D_V) == 0 && id == LEVER_D) {
+			vars.setVarBit(LEVER_D_V, 1);
+			vars.setVarBit(DOOR2_V, 1);
+			vars.setVarBit(DOOR3_V, 1);
 
-				//reset A & B
-				vars.setVarBit(LEVER_A_V, 0);
-				vars.setVarBit(LEVER_B_V, 0);
+			//reset A & B
+			vars.setVarBit(LEVER_A_V, 0);
+			vars.setVarBit(LEVER_B_V, 0);
+			vars.setVarBit(DOOR1_V, 0);
+			vars.setVarBit(DOOR4_V, 0);
+			vars.setVarBit(DOOR5_V, 0);
+		}
+
+		//Step 7//11
+		if(vars.getVar(LEVER_E_V) == 0 && id == LEVER_E) {
+			vars.setVarBit(LEVER_E_V, 1);
+			if(vars.getVarBit(LEVER_F_V) == 1) {
+				vars.setVarBit(DOOR6_V, 1);
+				vars.setVarBit(DOOR7_V, 1);
 				vars.setVarBit(DOOR1_V, 0);
 				vars.setVarBit(DOOR4_V, 0);
 				vars.setVarBit(DOOR5_V, 0);
 			}
+			if(vars.getVarBit(LEVER_C_V) == 1)
+				vars.setVarBit(DOOR9_V, 1);
+		}
 
-			//Step 7//11
-			if(vars.getVar(LEVER_E_V) == 0 && id == LEVER_E) {
-				vars.setVarBit(LEVER_E_V, 1);
-				if(vars.getVarBit(LEVER_F_V) == 1) {
-					vars.setVarBit(DOOR6_V, 1);
-					vars.setVarBit(DOOR7_V, 1);
-					vars.setVarBit(DOOR1_V, 0);
-					vars.setVarBit(DOOR4_V, 0);
-					vars.setVarBit(DOOR5_V, 0);
-				}
-				if(vars.getVarBit(LEVER_C_V) == 1)
-					vars.setVarBit(DOOR9_V, 1);
-			}
-
-			if(vars.getVar(LEVER_F_V) == 0 && id == LEVER_F) {
-				vars.setVarBit(LEVER_F_V, 1);
-				if(vars.getVarBit(LEVER_E_V) == 1) {
-					vars.setVarBit(DOOR6_V, 1);
-					vars.setVarBit(DOOR7_V, 1);
-				}
-			}
-
-			//step 9
-			if(vars.getVar(LEVER_C_V) == 0 && id == LEVER_C) {
-				vars.setVarBit(LEVER_C_V, 1);
-				vars.setVarBit(LEVER_E_V, 0);
-				vars.setVarBit(DOOR8_V, 1);
-				vars.setVarBit(DOOR2_V, 0);
+		if(vars.getVar(LEVER_F_V) == 0 && id == LEVER_F) {
+			vars.setVarBit(LEVER_F_V, 1);
+			if(vars.getVarBit(LEVER_E_V) == 1) {
+				vars.setVarBit(DOOR6_V, 1);
+				vars.setVarBit(DOOR7_V, 1);
 			}
 		}
-	};
 
-	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			GameObject obj = e.getObject();
-
-			e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-				if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
-					return;
-				if(obj.getId() == DOOR1 || obj.getId() == DOOR3 || obj.getId() == DOOR8 || obj.getId() == DOOR5)
-					handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
-				else
-					handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
-			}, true));
+		//step 9
+		if(vars.getVar(LEVER_C_V) == 0 && id == LEVER_C) {
+			vars.setVarBit(LEVER_C_V, 1);
+			vars.setVarBit(LEVER_E_V, 0);
+			vars.setVarBit(DOOR8_V, 1);
+			vars.setVarBit(DOOR2_V, 0);
 		}
-	};
+	});
+
+	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }, e -> {
+		e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
+			if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
+				return;
+			if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+				handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+			else
+				handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+		}, true));
+	});
 
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
@@ -240,25 +230,21 @@ public class PuzzleRoom {
 	}
 
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {//Reset all doors/levers
-			e.getPlayer().getVars().setVarBit(LEVER_A_V, 0);
-			e.getPlayer().getVars().setVarBit(LEVER_B_V, 0);
-			e.getPlayer().getVars().setVarBit(LEVER_C_V, 0);
-			e.getPlayer().getVars().setVarBit(LEVER_D_V, 0);
-			e.getPlayer().getVars().setVarBit(LEVER_E_V, 0);
-			e.getPlayer().getVars().setVarBit(LEVER_F_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR1_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR2_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR3_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR4_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR5_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR6_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR7_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR8_V, 0);
-			e.getPlayer().getVars().setVarBit(DOOR9_V, 0);
-
-		}
-	};
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		e.getPlayer().getVars().setVarBit(LEVER_A_V, 0);
+		e.getPlayer().getVars().setVarBit(LEVER_B_V, 0);
+		e.getPlayer().getVars().setVarBit(LEVER_C_V, 0);
+		e.getPlayer().getVars().setVarBit(LEVER_D_V, 0);
+		e.getPlayer().getVars().setVarBit(LEVER_E_V, 0);
+		e.getPlayer().getVars().setVarBit(LEVER_F_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR1_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR2_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR3_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR4_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR5_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR6_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR7_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR8_V, 0);
+		e.getPlayer().getVars().setVarBit(DOOR9_V, 0);
+	});
 }

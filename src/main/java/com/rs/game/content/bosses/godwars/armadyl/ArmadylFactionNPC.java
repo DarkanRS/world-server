@@ -64,10 +64,6 @@ public class ArmadylFactionNPC extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(6228, 6229, 6230, 6231, 6232, 6233, 6234, 6235, 6236, 6237, 6238, 6239, 6240, 6241, 6242, 6243, 6244, 6245, 6246) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new ArmadylFactionNPC(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(new Object[] { 6228, 6229, 6230, 6231, 6232, 6233, 6234, 6235, 6236, 6237, 6238, 6239, 6240, 6241, 6242, 6243, 6244, 6245, 6246 }, 
+			(npcId, tile) -> new ArmadylFactionNPC(npcId, tile, false));
 }

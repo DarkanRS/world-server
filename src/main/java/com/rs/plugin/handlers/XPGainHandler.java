@@ -16,10 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.XPGainEvent;
 
-public abstract class XPGainHandler extends PluginHandler<XPGainEvent> {
-	public XPGainHandler() {
-		super(new Object[] { "meme" });
+public class XPGainHandler extends PluginHandler<XPGainEvent> {
+	public XPGainHandler(Consumer<XPGainEvent> handler) {
+		super(new Object[] { "meme" }, handler);
 	}
 }

@@ -22,7 +22,6 @@ import com.rs.game.ge.GE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -30,23 +29,19 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class TzHaarMejJal extends Conversation {
 	private static int npcId = 2617;
 
-	public static NPCClickHandler TzHaarMejJal = new NPCClickHandler(new Object[]{npcId}) {
-		@Override
-		//Handle Right-Click
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-				case "Bank":
-					e.getPlayer().getBank().open();
-					break;
-				case "Collect":
-					GE.openCollection(e.getPlayer());
-					break;
-				case "Talk-to":
-					e.getPlayer().startConversation(new TzHaarMejJal(e.getPlayer(), e.getNPC()));
-					break;
-			}
+	public static NPCClickHandler TzHaarMejJal = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch(e.getOption()) {
+		case "Bank":
+			e.getPlayer().getBank().open();
+			break;
+		case "Collect":
+			GE.openCollection(e.getPlayer());
+			break;
+		case "Talk-to":
+			e.getPlayer().startConversation(new TzHaarMejJal(e.getPlayer(), e.getNPC()));
+			break;
 		}
-	};
+	});
 
 	public TzHaarMejJal(Player player, NPC npc) {
 		super(player);

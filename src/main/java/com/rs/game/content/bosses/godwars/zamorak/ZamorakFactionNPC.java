@@ -54,10 +54,6 @@ public class ZamorakFactionNPC extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6210, 6211, 6212, 6213, 6214, 6215, 6216, 6217, 6218, 6219, 6220, 6221) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new ZamorakFactionNPC(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6210, 6211, 6212, 6213, 6214, 6215, 6216, 6217, 6218, 6219, 6220, 6221 }, 
+			(npcId, tile) -> new ZamorakFactionNPC(npcId, tile, false));
 }

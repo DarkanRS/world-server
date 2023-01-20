@@ -24,27 +24,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.PlayerClickEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.PlayerClickHandler;
 
 @PluginEventHandler
 public class SnowballInteraction extends PlayerEntityInteraction {
 
-	public static ItemEquipHandler handleSnowballWield = new ItemEquipHandler(11951) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			e.getPlayer().setPlayerOption(e.equip() ? "Pelt" : "null", 8, true);
-		}
-	};
-
-	public static PlayerClickHandler handlePelt = new PlayerClickHandler(false, "Pelt") {
-		@Override
-		public void handle(PlayerClickEvent e) {
-			e.getPlayer().getInteractionManager().setInteraction(new SnowballInteraction(e.getTarget()));
-		}
-	};
+	public static ItemEquipHandler handleSnowballWield = new ItemEquipHandler(11951, e -> e.getPlayer().setPlayerOption(e.equip() ? "Pelt" : "null", 8, true));
+	public static PlayerClickHandler handlePelt = new PlayerClickHandler(false, "Pelt", e -> e.getPlayer().getInteractionManager().setInteraction(new SnowballInteraction(e.getTarget())));
 
 	public SnowballInteraction(Entity target) {
 		super(target, 7);

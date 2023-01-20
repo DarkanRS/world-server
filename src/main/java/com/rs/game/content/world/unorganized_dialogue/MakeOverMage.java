@@ -23,7 +23,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -101,13 +100,10 @@ public class MakeOverMage extends Dialogue {
 		}
 	}
 
-	public static NPCClickHandler makeoverMageHandler = new NPCClickHandler(new Object[] { 2676, 599 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new MakeoverMage(e.getPlayer()));
-			if (e.getOption().equalsIgnoreCase("makeover"))
-				PlayerLook.openMageMakeOver(e.getPlayer());
-		}
-	};
+	public static NPCClickHandler makeoverMageHandler = new NPCClickHandler(new Object[] { 2676, 599 }, e -> {
+		if (e.getOption().equalsIgnoreCase("talk-to"))
+			e.getPlayer().startConversation(new MakeoverMage(e.getPlayer()));
+		if (e.getOption().equalsIgnoreCase("makeover"))
+			PlayerLook.openMageMakeOver(e.getPlayer());
+	});
 }

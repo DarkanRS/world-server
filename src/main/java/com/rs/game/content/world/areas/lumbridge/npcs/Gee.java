@@ -6,7 +6,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -14,16 +13,12 @@ public class Gee extends Conversation {
 
     //Identify NPC by ID
     private static int npcId = 2237;
-    public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}) {
-        @Override
-        //Handle Right-Click
-        public void handle(NPCClickEvent e) {
-            switch (e.getOption()) {
-                //Start Conversation
-                case "Talk-to" -> e.getPlayer().startConversation(new Gee(e.getPlayer()));
-            }
-        }
-    };
+    public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}, e -> {
+    	switch (e.getOption()) {
+        //Start Conversation
+        case "Talk-to" -> e.getPlayer().startConversation(new Gee(e.getPlayer()));
+    	}
+    });
 
 
     public Gee(Player player) {

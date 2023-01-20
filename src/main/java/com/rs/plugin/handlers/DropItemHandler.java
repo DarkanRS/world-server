@@ -16,10 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.DropItemEvent;
 
-public abstract class DropItemHandler extends PluginHandler<DropItemEvent> {
-	public DropItemHandler(Object... namesOrIds) {
-		super(namesOrIds);
+public class DropItemHandler extends PluginHandler<DropItemEvent> {
+	public DropItemHandler(Object[] namesOrIds, Consumer<DropItemEvent> handler) {
+		super(namesOrIds, handler);
 	}
 }

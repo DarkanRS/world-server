@@ -15,8 +15,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -128,37 +126,27 @@ public class JohnathonFamilyCrestD extends Conversation {
 		}
 	}
 
-	public static ItemOnNPCHandler itemOnJohn = new ItemOnNPCHandler(true, new Object[] { 668 }) {
+	public static ItemOnNPCHandler itemOnJohn = new ItemOnNPCHandler(true, new Object[] { 668 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == TALK_TO_JOHNATHAN)
+			if(e.getItem().getName().contains("Antipoison") || e.getItem().getName().contains("antipoison"))
+				if(e.getItem().getDefinitions().isNoted())
+					p.startConversation(new Conversation(p) {
+						{
+							addPlayer(HeadE.HAPPY_TALKING, "It must be unnoted silly!");
+							create();
+						}
+					});
+				else if(!p.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB(USED_ANTIPOISON)) {
+					p.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB(USED_ANTIPOISON, true);
+					p.startConversation(new Conversation(p) {
+						{
+							addSimple("You give Johnathon a small sip of antipoison, not a full dose...");
+							create();
+						}
+					});
+				}
+	});
 
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == TALK_TO_JOHNATHAN)
-				if(e.getItem().getName().contains("Antipoison") || e.getItem().getName().contains("antipoison"))
-					if(e.getItem().getDefinitions().isNoted())
-						p.startConversation(new Conversation(p) {
-							{
-								addPlayer(HeadE.HAPPY_TALKING, "It must be unnoted silly!");
-								create();
-							}
-						});
-					else if(!p.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB(USED_ANTIPOISON)) {
-						p.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB(USED_ANTIPOISON, true);
-						p.startConversation(new Conversation(p) {
-							{
-								addSimple("You give Johnathon a small sip of antipoison, not a full dose...");
-								create();
-							}
-						});
-					}
-
-		}
-	};
-
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new JohnathonFamilyCrestD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new JohnathonFamilyCrestD(e.getPlayer()).getStart()));
 }

@@ -1,4 +1,4 @@
-package com.rs.game.content.world;
+package com.rs.game.content.world.areas.trollheim;
 
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;

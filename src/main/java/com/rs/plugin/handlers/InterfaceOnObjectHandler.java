@@ -18,14 +18,15 @@ package com.rs.plugin.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.rs.plugin.events.InterfaceOnObjectEvent;
 
-public abstract class InterfaceOnObjectHandler extends PluginHandler<InterfaceOnObjectEvent> {
+public class InterfaceOnObjectHandler extends PluginHandler<InterfaceOnObjectEvent> {
 	private boolean checkDistance = true;
 
-	public InterfaceOnObjectHandler(boolean checkDistance, int[] interfaceIds, int[] componentIds) {
-		super(null);
+	public InterfaceOnObjectHandler(boolean checkDistance, int[] interfaceIds, int[] componentIds, Consumer<InterfaceOnObjectEvent> handler) {
+		super(null, handler);
 		this.checkDistance = checkDistance;
 		List<Object> list = new ArrayList<>();
 		if (componentIds.length <= 0)
@@ -38,8 +39,8 @@ public abstract class InterfaceOnObjectHandler extends PluginHandler<InterfaceOn
 		keys = list.toArray();
 	}
 
-	public InterfaceOnObjectHandler(int[] interfaceIds, int[] componentIds) {
-		this(true, interfaceIds, componentIds);
+	public InterfaceOnObjectHandler(int[] interfaceIds, int[] componentIds, Consumer<InterfaceOnObjectEvent> handler) {
+		this(true, interfaceIds, componentIds, handler);
 	}
 
 	public boolean isCheckDistance() {

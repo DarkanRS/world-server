@@ -41,8 +41,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Vec2;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -107,12 +105,9 @@ public class DwarfMultiCannon extends OwnedObject {
 		this.type = type;
 	}
 
-	public static ItemClickHandler handlePlace = new ItemClickHandler(new Object[] { 6, 20494, 20498 }, new String[] { "Set-up" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			setUp(e.getPlayer(), e.getItem().getId() == 6 ? 0 : e.getItem().getId() == 20494 ? 1 : 2);
-		}
-	};
+	public static ItemClickHandler handlePlace = new ItemClickHandler(new Object[] { 6, 20494, 20498 }, new String[] { "Set-up" }, e -> {
+		setUp(e.getPlayer(), e.getItem().getId() == 6 ? 0 : e.getItem().getId() == 20494 ? 1 : 2);
+	});
 
 	public static boolean canFreelyReplace(Player player) {
 		return player.getPlacedCannon() > 0 && OwnedObject.getNumOwned(player, DwarfMultiCannon.class) == 0;
@@ -182,18 +177,15 @@ public class DwarfMultiCannon extends OwnedObject {
 		});
 	}
 
-	public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] { "Dwarf multicannon", "Gold dwarf multicannon", "Royale dwarf multicannon" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!(e.getObject() instanceof DwarfMultiCannon))
-				return;
-			DwarfMultiCannon cannon = (DwarfMultiCannon) e.getObject();
-			if (e.getOption().equals("Fire"))
-				cannon.fire(e.getPlayer());
-			else if (e.getOption().equals("Pick-up"))
-				cannon.pickUp(e.getPlayer(), e.getObject());
-		}
-	};
+	public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] { "Dwarf multicannon", "Gold dwarf multicannon", "Royale dwarf multicannon" }, e -> {
+		if (!(e.getObject() instanceof DwarfMultiCannon))
+			return;
+		DwarfMultiCannon cannon = (DwarfMultiCannon) e.getObject();
+		if (e.getOption().equals("Fire"))
+			cannon.fire(e.getPlayer());
+		else if (e.getOption().equals("Pick-up"))
+			cannon.pickUp(e.getPlayer(), e.getObject());
+	});
 	
 	public int getMaxBalls() {
 		return switch(type) {

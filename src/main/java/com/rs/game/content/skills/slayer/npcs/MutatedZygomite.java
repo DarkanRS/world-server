@@ -70,10 +70,5 @@ public class MutatedZygomite extends ConditionalDeath {
 		}, 1);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3344, 3345, 3346, 3347) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new MutatedZygomite(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3344, 3345, 3346, 3347 }, (npcId, tile) -> new MutatedZygomite(npcId, tile));
 }

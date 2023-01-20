@@ -30,9 +30,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnPlayerHandler;
@@ -45,30 +42,22 @@ public class Slayer {
 	public static final int LEARN_INTERFACE = 378;
 	public static final int ASSIGNMENT_INTERFACE = 161;
 
-	public static ItemClickHandler handleKillsLeft = new ItemClickHandler(new String[] { "Kills-left" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().sendMessage(e.getPlayer().getSlayer().getTaskString());
-		}
-	};
+	public static ItemClickHandler handleKillsLeft = new ItemClickHandler(new String[] { "Kills-left" }, e -> e.getPlayer().sendMessage(e.getPlayer().getSlayer().getTaskString()));
 	
-	public static ItemOnPlayerHandler groupSlayer = new ItemOnPlayerHandler(4155) {
-		@Override
-		public void handle(ItemOnPlayerEvent e) {
-			e.getPlayer().sendMessage("Group slayer is in progress.");
-//			if (other.getCoopSlayerPartner() != null) {
-//				player.sendMessage("This player is already in a slayer group with: " + other.getCoopSlayerPartner().getDisplayName());
-//				return;
-//			}
-//			if (player.getCoopSlayerPartner() != null) {
-//				player.sendMessage("You are already in a slayer group with: " + player.getCoopSlayerPartner().getDisplayName());
-//				return;
-//			}
-//			player.sendMessage("Sending co-op slayer request...");
-//			other.getPackets().sendCoOpSlayerRequestMessage(player);
-//			player.getTemporaryAttributtes().put("coopSlayerRequest", other);
-		}
-	};
+	public static ItemOnPlayerHandler groupSlayer = new ItemOnPlayerHandler(new Object[] { 4155 }, e -> {
+		e.getPlayer().sendMessage("Group slayer is in progress.");
+//		if (other.getCoopSlayerPartner() != null) {
+//			player.sendMessage("This player is already in a slayer group with: " + other.getCoopSlayerPartner().getDisplayName());
+//			return;
+//		}
+//		if (player.getCoopSlayerPartner() != null) {
+//			player.sendMessage("You are already in a slayer group with: " + player.getCoopSlayerPartner().getDisplayName());
+//			return;
+//		}
+//		player.sendMessage("Sending co-op slayer request...");
+//		other.getPackets().sendCoOpSlayerRequestMessage(player);
+//		player.getTemporaryAttributtes().put("coopSlayerRequest", other);
+	});
 
 	public static void openBuyInterface(Player player) {
 		player.getInterfaceManager().sendInterface(BUY_INTERFACE);
@@ -122,156 +111,153 @@ public class Slayer {
 		}
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(BUY_INTERFACE, LEARN_INTERFACE, ASSIGNMENT_INTERFACE) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getInterfaceId()) {
-			case BUY_INTERFACE:
-				if (e.getComponentId() == 16)
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(new Object[] { BUY_INTERFACE, LEARN_INTERFACE, ASSIGNMENT_INTERFACE }, e -> {
+		switch (e.getInterfaceId()) {
+		case BUY_INTERFACE:
+			if (e.getComponentId() == 16)
+				openLearnInterface(e.getPlayer());
+			if (e.getComponentId() == 17)
+				openAssignmentInterface(e.getPlayer());
+			if (e.getComponentId() == 32 || e.getComponentId() == 24)
+				if (e.getPlayer().slayerPoints >= 400) {
+					e.getPlayer().getSkills().addXp(Constants.SLAYER, 10000);
+					e.getPlayer().slayerPoints -= 400;
+					refreshPoints(e.getPlayer(), e.getInterfaceId());
+				} else
+					e.getPlayer().sendMessage("You need 400 points for 10,000 Slayer experience.");
+			if (e.getComponentId() == 36 || e.getComponentId() == 28)
+				if (e.getPlayer().slayerPoints >= 35) {
+					e.getPlayer().getInventory().addItem(558, 1000);
+					e.getPlayer().getInventory().addItem(560, 250);
+					e.getPlayer().slayerPoints -= 35;
+					refreshPoints(e.getPlayer(), e.getInterfaceId());
+				} else
+					e.getPlayer().sendMessage("You need 35 points for 250 slayer dart runes.");
+			break;
+
+		case LEARN_INTERFACE:
+			if (e.getComponentId() == 15)
+				openBuyInterface(e.getPlayer());
+			if (e.getComponentId() == 76) {
+				if (e.getPlayer().slayerPoints < 300) {
+					e.getPlayer().sendMessage("You need 300 points to buy broad fletching.");
+					return;
+				}
+				if (!e.getPlayer().isBroadFletching()) {
+					e.getPlayer().slayerPoints -= 300;
+					e.getPlayer().setBroadFletching(true);
 					openLearnInterface(e.getPlayer());
-				if (e.getComponentId() == 17)
-					openAssignmentInterface(e.getPlayer());
-				if (e.getComponentId() == 32 || e.getComponentId() == 24)
-					if (e.getPlayer().slayerPoints >= 400) {
-						e.getPlayer().getSkills().addXp(Constants.SLAYER, 10000);
-						e.getPlayer().slayerPoints -= 400;
-						refreshPoints(e.getPlayer(), e.getInterfaceId());
-					} else
-						e.getPlayer().sendMessage("You need 400 points for 10,000 Slayer experience.");
-				if (e.getComponentId() == 36 || e.getComponentId() == 28)
-					if (e.getPlayer().slayerPoints >= 35) {
-						e.getPlayer().getInventory().addItem(558, 1000);
-						e.getPlayer().getInventory().addItem(560, 250);
-						e.getPlayer().slayerPoints -= 35;
-						refreshPoints(e.getPlayer(), e.getInterfaceId());
-					} else
-						e.getPlayer().sendMessage("You need 35 points for 250 slayer dart runes.");
-				break;
-
-			case LEARN_INTERFACE:
-				if (e.getComponentId() == 15)
-					openBuyInterface(e.getPlayer());
-				if (e.getComponentId() == 76) {
-					if (e.getPlayer().slayerPoints < 300) {
-						e.getPlayer().sendMessage("You need 300 points to buy broad fletching.");
-						return;
-					}
-					if (!e.getPlayer().isBroadFletching()) {
-						e.getPlayer().slayerPoints -= 300;
-						e.getPlayer().setBroadFletching(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already learned broad fletching.");
-				}
-				if (e.getComponentId() == 77) {
-					if (e.getPlayer().slayerPoints < 300) {
-						e.getPlayer().sendMessage("You need 300 points to buy the ability to craft the ring of slaying.");
-						return;
-					}
-					if (!e.getPlayer().hasCraftROS()) {
-						e.getPlayer().slayerPoints -= 300;
-						e.getPlayer().setCraftROS(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already learned how to craft the ring of slaying.");
-				}
-				if (e.getComponentId() == 78) {
-					if (e.getPlayer().slayerPoints < 400) {
-						e.getPlayer().sendMessage("You need 400 points to buy that ability.");
-						return;
-					}
-					if (!e.getPlayer().isSlayerHelmCreation()) {
-						e.getPlayer().slayerPoints -= 400;
-						e.getPlayer().setSlayerHelmCreation(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already learned how to craft slayer helmets.");
-				}
-				if (e.getComponentId() == 74) {
-					if (e.getPlayer().slayerPoints < 400) {
-						e.getPlayer().sendMessage("You need 400 points to buy that ability.");
-						return;
-					}
-					if (!e.getPlayer().hasLearnedQuickBlows()) {
-						e.getPlayer().slayerPoints -= 400;
-						e.getPlayer().setHasLearnedQuickBlows(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already learned how to deliver quick killing blows.");
-				}
-				if (e.getComponentId() == 73) {
-					if (e.getPlayer().slayerPoints < 50) {
-						e.getPlayer().sendMessage("You need 50 points to buy that ability.");
-						return;
-					}
-					if (!e.getPlayer().aquanitesUnlocked()) {
-						e.getPlayer().slayerPoints -= 50;
-						e.getPlayer().setAquanitesUnlocked(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already persuaded Kuradal to assign aquanites.");
-				}
-				if (e.getComponentId() == 75) {
-					if (e.getPlayer().slayerPoints < 2000) {
-						e.getPlayer().sendMessage("You need 2000 points to buy that ability.");
-						return;
-					}
-					if (!e.getPlayer().iceStrykeNoCape()) {
-						e.getPlayer().slayerPoints -= 2000;
-						e.getPlayer().setIceStrykeNoCape(true);
-						openLearnInterface(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You already learned how to fight ice strykewyrms without a fire cape.");
-				}
-				if (e.getComponentId() == 14)
-					openAssignmentInterface(e.getPlayer());
-				break;
-
-			case ASSIGNMENT_INTERFACE:
-				if (e.getComponentId() == 15)
-					openBuyInterface(e.getPlayer());
-				if (e.getComponentId() == 14)
-					openLearnInterface(e.getPlayer());
-
-				if (e.getComponentId() == 26) {
-					if (e.getPlayer().slayerPoints < 30) {
-						e.getPlayer().sendMessage("You need 30 points to cancel your task.");
-						return;
-					}
-					if (e.getPlayer().hasSlayerTask()) {
-						e.getPlayer().slayerPoints -= 30;
-						e.getPlayer().getSlayer().removeTask();
-						e.getPlayer().updateSlayerTask();
-						refreshPoints(e.getPlayer(), e.getInterfaceId());
-					} else
-						e.getPlayer().sendMessage("You don't have a slayer task to cancel.");
-				}
-
-				if (e.getComponentId() == 27)
-					if (e.getPlayer().slayerPoints >= 100) {
-						if (e.getPlayer().hasSlayerTask()) {
-							if (e.getPlayer().getBlockedTaskNumber() < 6) {
-								e.getPlayer().slayerPoints -= 100;
-								e.getPlayer().blockTask(e.getPlayer().getSlayer().getTask().getMonster());
-								e.getPlayer().getSlayer().removeTask();
-								refreshBlockedTasks(e.getPlayer());
-								refreshPoints(e.getPlayer(), e.getInterfaceId());
-							} else
-								e.getPlayer().sendMessage("You are not able to block more than 6 tasks.");
-						} else
-							e.getPlayer().sendMessage("You don't have a slayer task to block.");
-					} else
-						e.getPlayer().sendMessage("You need 100 points to block a task.");
-
-				if (e.getComponentId() >= 37 && e.getComponentId() <= 42) {
-					int index = e.getComponentId() - 37;
-					e.getPlayer().unblockTask(index);
-					refreshBlockedTasks(e.getPlayer());
-				}
-				break;
+				} else
+					e.getPlayer().sendMessage("You already learned broad fletching.");
 			}
+			if (e.getComponentId() == 77) {
+				if (e.getPlayer().slayerPoints < 300) {
+					e.getPlayer().sendMessage("You need 300 points to buy the ability to craft the ring of slaying.");
+					return;
+				}
+				if (!e.getPlayer().hasCraftROS()) {
+					e.getPlayer().slayerPoints -= 300;
+					e.getPlayer().setCraftROS(true);
+					openLearnInterface(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You already learned how to craft the ring of slaying.");
+			}
+			if (e.getComponentId() == 78) {
+				if (e.getPlayer().slayerPoints < 400) {
+					e.getPlayer().sendMessage("You need 400 points to buy that ability.");
+					return;
+				}
+				if (!e.getPlayer().isSlayerHelmCreation()) {
+					e.getPlayer().slayerPoints -= 400;
+					e.getPlayer().setSlayerHelmCreation(true);
+					openLearnInterface(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You already learned how to craft slayer helmets.");
+			}
+			if (e.getComponentId() == 74) {
+				if (e.getPlayer().slayerPoints < 400) {
+					e.getPlayer().sendMessage("You need 400 points to buy that ability.");
+					return;
+				}
+				if (!e.getPlayer().hasLearnedQuickBlows()) {
+					e.getPlayer().slayerPoints -= 400;
+					e.getPlayer().setHasLearnedQuickBlows(true);
+					openLearnInterface(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You already learned how to deliver quick killing blows.");
+			}
+			if (e.getComponentId() == 73) {
+				if (e.getPlayer().slayerPoints < 50) {
+					e.getPlayer().sendMessage("You need 50 points to buy that ability.");
+					return;
+				}
+				if (!e.getPlayer().aquanitesUnlocked()) {
+					e.getPlayer().slayerPoints -= 50;
+					e.getPlayer().setAquanitesUnlocked(true);
+					openLearnInterface(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You already persuaded Kuradal to assign aquanites.");
+			}
+			if (e.getComponentId() == 75) {
+				if (e.getPlayer().slayerPoints < 2000) {
+					e.getPlayer().sendMessage("You need 2000 points to buy that ability.");
+					return;
+				}
+				if (!e.getPlayer().iceStrykeNoCape()) {
+					e.getPlayer().slayerPoints -= 2000;
+					e.getPlayer().setIceStrykeNoCape(true);
+					openLearnInterface(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You already learned how to fight ice strykewyrms without a fire cape.");
+			}
+			if (e.getComponentId() == 14)
+				openAssignmentInterface(e.getPlayer());
+			break;
+
+		case ASSIGNMENT_INTERFACE:
+			if (e.getComponentId() == 15)
+				openBuyInterface(e.getPlayer());
+			if (e.getComponentId() == 14)
+				openLearnInterface(e.getPlayer());
+
+			if (e.getComponentId() == 26) {
+				if (e.getPlayer().slayerPoints < 30) {
+					e.getPlayer().sendMessage("You need 30 points to cancel your task.");
+					return;
+				}
+				if (e.getPlayer().hasSlayerTask()) {
+					e.getPlayer().slayerPoints -= 30;
+					e.getPlayer().getSlayer().removeTask();
+					e.getPlayer().updateSlayerTask();
+					refreshPoints(e.getPlayer(), e.getInterfaceId());
+				} else
+					e.getPlayer().sendMessage("You don't have a slayer task to cancel.");
+			}
+
+			if (e.getComponentId() == 27)
+				if (e.getPlayer().slayerPoints >= 100) {
+					if (e.getPlayer().hasSlayerTask()) {
+						if (e.getPlayer().getBlockedTaskNumber() < 6) {
+							e.getPlayer().slayerPoints -= 100;
+							e.getPlayer().blockTask(e.getPlayer().getSlayer().getTask().getMonster());
+							e.getPlayer().getSlayer().removeTask();
+							refreshBlockedTasks(e.getPlayer());
+							refreshPoints(e.getPlayer(), e.getInterfaceId());
+						} else
+							e.getPlayer().sendMessage("You are not able to block more than 6 tasks.");
+					} else
+						e.getPlayer().sendMessage("You don't have a slayer task to block.");
+				} else
+					e.getPlayer().sendMessage("You need 100 points to block a task.");
+
+			if (e.getComponentId() >= 37 && e.getComponentId() <= 42) {
+				int index = e.getComponentId() - 37;
+				e.getPlayer().unblockTask(index);
+				refreshBlockedTasks(e.getPlayer());
+			}
+			break;
 		}
-	};
+	});
 
 	public static boolean hasNosepeg(Entity target) {
 		if (!(target instanceof Player targetPlayer))

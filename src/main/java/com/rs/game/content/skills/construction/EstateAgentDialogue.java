@@ -26,19 +26,13 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class EstateAgentDialogue extends Conversation {
 
-	public static NPCClickHandler handleEstateAgent = new NPCClickHandler(new Object[] { "Estate agent" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new EstateAgentDialogue(e.getPlayer(), e.getNPCId()));
-		}
-	};
+	public static NPCClickHandler handleEstateAgent = new NPCClickHandler(new Object[] { "Estate agent" }, e -> e.getPlayer().startConversation(new EstateAgentDialogue(e.getPlayer(), e.getNPCId())));
 
 	public EstateAgentDialogue(Player player, int npcId) {
 		super(player);

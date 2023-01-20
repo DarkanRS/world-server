@@ -24,7 +24,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -136,35 +135,32 @@ public class Jewelry {
 		}
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(446) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			Bling bling = Bling.forId(e.getComponentId());
-			int numberToMake = getNumberToMake(e.getPacket());
-			if (numberToMake == -5)
-				e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
-					if (bling != null) {
-						if (bling.name() == "SLAYER_RING")
-							if (!e.getPlayer().hasCraftROS()) {
-								e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
-								return;
-							}
-						e.getPlayer().getActionManager().setAction(new JewelryAction(bling, number, e.getPlayer().getTempAttribs().getB("immenseHeatCrafting")));
-					} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
-						e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-				});
-			else if (bling != null) {
-				if (bling.name() == "SLAYER_RING")
-					if (!e.getPlayer().hasCraftROS()) {
-						e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
-						return;
-					}
-				e.getPlayer().getActionManager().setAction(new JewelryAction(bling, numberToMake, e.getPlayer().getTempAttribs().getB("immenseHeatCrafting")));
-			} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-			e.getPlayer().closeInterfaces();
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(446, e -> {
+		Bling bling = Bling.forId(e.getComponentId());
+		int numberToMake = getNumberToMake(e.getPacket());
+		if (numberToMake == -5)
+			e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
+				if (bling != null) {
+					if (bling.name() == "SLAYER_RING")
+						if (!e.getPlayer().hasCraftROS()) {
+							e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
+							return;
+						}
+					e.getPlayer().getActionManager().setAction(new JewelryAction(bling, number, e.getPlayer().getTempAttribs().getB("immenseHeatCrafting")));
+				} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+					e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+			});
+		else if (bling != null) {
+			if (bling.name() == "SLAYER_RING")
+				if (!e.getPlayer().hasCraftROS()) {
+					e.getPlayer().sendMessage("You have not unlocked the ability to craft this. Purchase the ability from a slayer master.");
+					return;
+				}
+			e.getPlayer().getActionManager().setAction(new JewelryAction(bling, numberToMake, e.getPlayer().getTempAttribs().getB("immenseHeatCrafting")));
+		} else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("JEWELRY: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+		e.getPlayer().closeInterfaces();
+	});
 
 	public static void openJewelryInterface(Player player, boolean pyrefiend) {
 		player.getInterfaceManager().sendInterface(446);

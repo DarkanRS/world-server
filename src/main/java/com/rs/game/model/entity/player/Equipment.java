@@ -36,7 +36,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -538,22 +537,19 @@ public final class Equipment {
 		return -1;
 	}
 
-	public static ButtonClickHandler handle = new ButtonClickHandler(884) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 4) {
-				int weaponId = e.getPlayer().getEquipment().getWeaponId();
-				if (e.getPlayer().hasInstantSpecial(weaponId)) {
-					e.getPlayer().performInstantSpecial(weaponId);
-					return;
-				}
-				e.getPlayer().getCombatDefinitions().switchUsingSpecialAttack();
-			} else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
-				e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
-			else if (e.getComponentId() == 11)
-				e.getPlayer().getCombatDefinitions().switchAutoRetaliate();
-		}
-	};
+	public static ButtonClickHandler handle = new ButtonClickHandler(884, e -> {
+		if (e.getComponentId() == 4) {
+			int weaponId = e.getPlayer().getEquipment().getWeaponId();
+			if (e.getPlayer().hasInstantSpecial(weaponId)) {
+				e.getPlayer().performInstantSpecial(weaponId);
+				return;
+			}
+			e.getPlayer().getCombatDefinitions().switchUsingSpecialAttack();
+		} else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
+			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
+		else if (e.getComponentId() == 11)
+			e.getPlayer().getCombatDefinitions().switchAutoRetaliate();
+	});
 	
 	public static void compareItems(Player p, Item item1, Item item2) {
 		if (item1 == null || item2 == null || item1.getDefinitions().getEquipSlot() != item2.getDefinitions().getEquipSlot()) {
@@ -607,110 +603,104 @@ public final class Equipment {
 		return in;
 	}
 
-	public static ButtonClickHandler handleEquipmentStatsInterface = new ButtonClickHandler(667, 670) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == 667) {
-				if (e.getComponentId() == 9) {
-					if (e.getSlotId() >= 14)
-						return;
-					Item item = e.getPlayer().getEquipment().getItem(e.getSlotId());
-					if (item == null)
-						return;
-					if (e.getPacket() == ClientPacket.IF_OP10) {
-						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
-						if (item.getMetaData("combatCharges") != null)
-							e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
-					} else if (e.getPacket() == ClientPacket.IF_OP1) {
-						remove(e.getPlayer(), e.getSlotId());
-						Equipment.refreshEquipBonuses(e.getPlayer());
-					}
-				} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking"))
-					e.getPlayer().getBank().open();
-			} else if (e.getInterfaceId() == 670)
-				if (e.getComponentId() == 0) {
-					if (e.getSlotId() >= e.getPlayer().getInventory().getItemsContainerSize())
-						return;
-					Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
-					if (item == null)
-						return;
-					if (e.getPacket() == ClientPacket.IF_OP1) {
-						if (e.getPlayer().isEquipDisabled())
-							return;
-						if (sendWear(e.getPlayer(), e.getSlotId(), item.getId()))
-							Equipment.refreshEquipBonuses(e.getPlayer());
-					} else if (e.getPacket() == ClientPacket.IF_OP4)
-						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-				}
-		}
-	};
-
-	public static ButtonClickHandler handleEquipmentTabButtons = new ButtonClickHandler(387) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getInterfaceManager().containsInventoryInter())
-				return;
-			if (e.getComponentId() == 40) {
-				if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
-					e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
+	public static ButtonClickHandler handleEquipmentStatsInterface = new ButtonClickHandler(new Object[] { 667, 670 }, e -> {
+		if (e.getInterfaceId() == 667) {
+			if (e.getComponentId() == 9) {
+				if (e.getSlotId() >= 14)
 					return;
+				Item item = e.getPlayer().getEquipment().getItem(e.getSlotId());
+				if (item == null)
+					return;
+				if (e.getPacket() == ClientPacket.IF_OP10) {
+					e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
+					if (item.getMetaData("combatCharges") != null)
+						e.getPlayer().sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
+				} else if (e.getPacket() == ClientPacket.IF_OP1) {
+					remove(e.getPlayer(), e.getSlotId());
+					Equipment.refreshEquipBonuses(e.getPlayer());
 				}
-				e.getPlayer().stopAll();
-				PriceChecker.openPriceCheck(e.getPlayer());
+			} else if (e.getComponentId() == 46 && e.getPlayer().getTempAttribs().removeB("Banking"))
+				e.getPlayer().getBank().open();
+		} else if (e.getInterfaceId() == 670)
+			if (e.getComponentId() == 0) {
+				if (e.getSlotId() >= e.getPlayer().getInventory().getItemsContainerSize())
+					return;
+				Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+				if (item == null)
+					return;
+				if (e.getPacket() == ClientPacket.IF_OP1) {
+					if (e.getPlayer().isEquipDisabled())
+						return;
+					if (sendWear(e.getPlayer(), e.getSlotId(), item.getId()))
+						Equipment.refreshEquipBonuses(e.getPlayer());
+				} else if (e.getPacket() == ClientPacket.IF_OP4)
+					e.getPlayer().getInventory().sendExamine(e.getSlotId());
+			}
+	});
+
+	public static ButtonClickHandler handleEquipmentTabButtons = new ButtonClickHandler(387, e -> {
+		if (e.getPlayer().getInterfaceManager().containsInventoryInter())
+			return;
+		if (e.getComponentId() == 40) {
+			if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
+				e.getPlayer().sendMessage("Please finish what you're doing before opening the price checker.");
 				return;
 			}
-			if (e.getComponentId() == 38) {
-				openEquipmentBonuses(e.getPlayer(), false);
-				openEquipmentBonuses(e.getPlayer(), false);
-				return;
-			}
-			if (e.getComponentId() == 41) {
-				e.getPlayer().stopAll();
-				ItemsKeptOnDeath.openItemsKeptOnDeath(e.getPlayer());
-				return;
-			} else if (e.getComponentId() == 42) {
-				e.getPlayer().getInterfaceManager().sendInterface(1178);
-				return;
-			} else if (e.getComponentId() == 43) {
-				PriceChecker.openPriceCheck(e.getPlayer());
-				//				e.getPlayer().sendMessage("Customizations not finished.");
-				return;
-			}
-			Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
-			if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
-				return;
-			if (e.getPacket() == ClientPacket.IF_OP10) {
-				e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
-				return;
-			}
-			if (e.getPacket() == ClientPacket.IF_OP1 && PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), "Remove", true)))
-				return;
-			if (e.getComponentId() == 12) {
-				if (e.getPacket() == ClientPacket.IF_OP2)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 2, true);
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 3, true);
-			} else if (e.getComponentId() == 15) {
-				if (e.getPacket() == ClientPacket.IF_OP2) {
-					int weaponId = e.getPlayer().getEquipment().getWeaponId();
-					if (weaponId == 15484)
-						e.getPlayer().getInterfaceManager().gazeOrbOfOculus();
-				}
-			} else if (e.getComponentId() == 33)
-				if (e.getPacket() == ClientPacket.IF_OP2)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 2, true);
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 3, true);
+			e.getPlayer().stopAll();
+			PriceChecker.openPriceCheck(e.getPlayer());
+			return;
 		}
-	};
+		if (e.getComponentId() == 38) {
+			openEquipmentBonuses(e.getPlayer(), false);
+			openEquipmentBonuses(e.getPlayer(), false);
+			return;
+		}
+		if (e.getComponentId() == 41) {
+			e.getPlayer().stopAll();
+			ItemsKeptOnDeath.openItemsKeptOnDeath(e.getPlayer());
+			return;
+		} else if (e.getComponentId() == 42) {
+			e.getPlayer().getInterfaceManager().sendInterface(1178);
+			return;
+		} else if (e.getComponentId() == 43) {
+			PriceChecker.openPriceCheck(e.getPlayer());
+			//				e.getPlayer().sendMessage("Customizations not finished.");
+			return;
+		}
+		Item item = e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2()));
+		if ((item == null) || PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), item.getDefinitions().getEquipmentOption(getOptionForPacket(e.getPacket())), true)))
+			return;
+		if (e.getPacket() == ClientPacket.IF_OP10) {
+			e.getPlayer().getEquipment().sendExamine(Equipment.getItemSlot(e.getSlotId2()));
+			return;
+		}
+		if (e.getPacket() == ClientPacket.IF_OP1 && PluginManager.handle(new ItemClickEvent(e.getPlayer(), item, e.getSlotId(), "Remove", true)))
+			return;
+		if (e.getComponentId() == 12) {
+			if (e.getPacket() == ClientPacket.IF_OP2)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 2, true);
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 3, true);
+		} else if (e.getComponentId() == 15) {
+			if (e.getPacket() == ClientPacket.IF_OP2) {
+				int weaponId = e.getPlayer().getEquipment().getWeaponId();
+				if (weaponId == 15484)
+					e.getPlayer().getInterfaceManager().gazeOrbOfOculus();
+			}
+		} else if (e.getComponentId() == 33)
+			if (e.getPacket() == ClientPacket.IF_OP2)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 0, true);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 1, true);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 2, true);
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				ItemTeleports.sendTeleport(e.getPlayer(), e.getPlayer().getEquipment().getItem(Equipment.getItemSlot(e.getSlotId2())), 3, true);
+	});
 
 	public static void remove(Player player, int slotId, boolean stopAll) {
 		if (slotId >= 15)

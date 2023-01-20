@@ -23,7 +23,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.WorldUtil;
 
@@ -32,67 +31,46 @@ public class AncientCavern {
 
 	public static int FIXED_RING_VARBIT = 6774;
 
-	public static ObjectClickHandler handleFixRing = new ObjectClickHandler(new Object[] { "Enchanted land" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.getOption().equals("Plant")) {
-				e.getPlayer().sendMessage("YIKES");
-				return;
-			}
-			if (!e.getPlayer().getInventory().containsItem(6004, 5)) {
-				e.getPlayer().sendMessage("You need 5 bittercap mushrooms to repair the fairy ring.");
-				return;
-			}
-			e.getPlayer().setNextAnimation(new Animation(2291));
-			e.getPlayer().getInventory().deleteItem(6004, 5);
-			e.getPlayer().getVars().saveVarBit(FIXED_RING_VARBIT, 1);
+	public static ObjectClickHandler handleFixRing = new ObjectClickHandler(new Object[] { "Enchanted land" }, e -> {
+		if (!e.getOption().equals("Plant")) {
+			e.getPlayer().sendMessage("YIKES");
+			return;
 		}
-	};
+		if (!e.getPlayer().getInventory().containsItem(6004, 5)) {
+			e.getPlayer().sendMessage("You need 5 bittercap mushrooms to repair the fairy ring.");
+			return;
+		}
+		e.getPlayer().setNextAnimation(new Animation(2291));
+		e.getPlayer().getInventory().deleteItem(6004, 5);
+		e.getPlayer().getVars().saveVarBit(FIXED_RING_VARBIT, 1);
+	});
 	
-	public static ObjectClickHandler handleRoughSteps = new ObjectClickHandler(new Object[] { 25337, 39468 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getObjectId()) {
-			case 25337 -> e.getPlayer().setNextWorldTile(WorldTile.of(1744, 5321, 1));
-			case 39468 -> e.getPlayer().setNextWorldTile(WorldTile.of(1745, 5325, 0));
-			}
+	public static ObjectClickHandler handleRoughSteps = new ObjectClickHandler(new Object[] { 25337, 39468 }, e -> {
+		switch(e.getObjectId()) {
+		case 25337 -> e.getPlayer().setNextWorldTile(WorldTile.of(1744, 5321, 1));
+		case 39468 -> e.getPlayer().setNextWorldTile(WorldTile.of(1745, 5325, 0));
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(e.getObjectId() == 25341 ? WorldTile.of(1823, 5273, 0) : WorldTile.of(1759, 5342, 1));
-		}
-	};
+	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }, e -> {
+		e.getPlayer().useStairs(e.getObjectId() == 25341 ? WorldTile.of(1823, 5273, 0) : WorldTile.of(1759, 5342, 1));
+	});
 
-	public static ObjectClickHandler handleDownStepsEntrance = new ObjectClickHandler(new Object[] { 25338 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(1772, 5366, 0));
-		}
-	};
+	public static ObjectClickHandler handleDownStepsEntrance = new ObjectClickHandler(new Object[] { 25338 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(1772, 5366, 0));
+	});
 
-	public static ObjectClickHandler handleUpStepsEntrance = new ObjectClickHandler(new Object[] { 25336 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(1768, 5366, 1));
-		}
-	};
+	public static ObjectClickHandler handleUpStepsEntrance = new ObjectClickHandler(new Object[] { 25336 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(1768, 5366, 1));
+	});
 
-	public static ObjectClickHandler handleDownStepsMithDrags = new ObjectClickHandler(new Object[] { 25340 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5346, 0));
-		}
-	};
+	public static ObjectClickHandler handleDownStepsMithDrags = new ObjectClickHandler(new Object[] { 25340 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5346, 0));
+	});
 
-	public static ObjectClickHandler handleUpStepsMithDrags = new ObjectClickHandler(new Object[] { 25339 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5343, 1));
-		}
-	};
+	public static ObjectClickHandler handleUpStepsMithDrags = new ObjectClickHandler(new Object[] { 25339 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(1778, 5343, 1));
+	});
 
 //	public static ObjectClickHandler handleDownStepsKuradal = new ObjectClickHandler(new Object[] { 39468 }) {
 //		@Override
@@ -108,31 +86,28 @@ public class AncientCavern {
 //		}
 //	};
 
-	public static ObjectClickHandler handleWhirlpool = new ObjectClickHandler(new Object[] { 67966 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			WorldTasks.schedule(new WorldTask() {
-				int ticks = 0;
+	public static ObjectClickHandler handleWhirlpool = new ObjectClickHandler(new Object[] { 67966 }, e -> {
+		WorldTasks.schedule(new WorldTask() {
+			int ticks = 0;
 
-				@Override
-				public void run() {
-					if (e.getPlayer().getX() != 2512 || e.getPlayer().getY() != 3516 && ticks == 0)
-						e.getPlayer().addWalkStep(2512, 3516, e.getPlayer().getX(), e.getPlayer().getY(), true);
-					else {
-						if (ticks == 1) {
-							e.getPlayer().setNextAnimation(new Animation(6723));
-							e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
-							e.getPlayer().setNextForceMovement(new ForceMovement(WorldTile.of(2512, 3508, 0), 7, Direction.SOUTH));
-							ticks++;
-						} else if (ticks >= 7) {
-							e.getPlayer().setNextWorldTile(WorldTile.of(1764, 5365, 1));
-							stop();
-						}
+			@Override
+			public void run() {
+				if (e.getPlayer().getX() != 2512 || e.getPlayer().getY() != 3516 && ticks == 0)
+					e.getPlayer().addWalkStep(2512, 3516, e.getPlayer().getX(), e.getPlayer().getY(), true);
+				else {
+					if (ticks == 1) {
+						e.getPlayer().setNextAnimation(new Animation(6723));
+						e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
+						e.getPlayer().setNextForceMovement(new ForceMovement(WorldTile.of(2512, 3508, 0), 7, Direction.SOUTH));
 						ticks++;
+					} else if (ticks >= 7) {
+						e.getPlayer().setNextWorldTile(WorldTile.of(1764, 5365, 1));
+						stop();
 					}
+					ticks++;
 				}
-			}, 0, 1);
-		}
-	};
+			}
+		}, 0, 1);
+	});
 
 }

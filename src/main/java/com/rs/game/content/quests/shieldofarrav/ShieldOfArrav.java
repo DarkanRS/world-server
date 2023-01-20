@@ -36,12 +36,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnPlayerEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PickupItemEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnPlayerHandler;
@@ -49,7 +43,6 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.utils.Ticks;
-
 
 @QuestHandler(Quest.SHIELD_OF_ARRAV)
 @PluginEventHandler
@@ -415,242 +408,198 @@ public class ShieldOfArrav extends QuestOutline {
         getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
     }
 
-    public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            Player p = e.getPlayer();
-            if (e.getObject().getId() == 2402)
-                if (!p.getInventory().containsItem(757)) {
-                    p.getInventory().addItem(757, 1);
-                    p.getPackets().sendGameMessage("You found the book, \"Shield Of Arrav\".");
-                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
-                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Aha, 'The Shield Of Arrav'! Exactly what I was looking for."));
-                } else
-                    p.getPackets().sendGameMessage("You already found the book, \"Shield Of Arrav\".");
-            else {
-                p.getPackets().sendGameMessage("You search the books...");
-                p.getPackets().sendGameMessage("You find nothing of interest to you.");
-            }
-        }
-	};
+    public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}, e -> {
+    	 Player p = e.getPlayer();
+         if (e.getObject().getId() == 2402)
+             if (!p.getInventory().containsItem(757)) {
+                 p.getInventory().addItem(757, 1);
+                 p.getPackets().sendGameMessage("You found the book, \"Shield Of Arrav\".");
+                 if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
+                     p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Aha, 'The Shield Of Arrav'! Exactly what I was looking for."));
+             } else
+                 p.getPackets().sendGameMessage("You already found the book, \"Shield Of Arrav\".");
+         else {
+             p.getPackets().sendGameMessage("You search the books...");
+             p.getPackets().sendGameMessage("You find nothing of interest to you.");
+         }
+    });
 
-	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { BOOK }, new String[] { "Read" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			BookShieldOfArrav.openBook(e.getPlayer());
-		}
-	};
+	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { BOOK }, new String[] { "Read" }, e -> {
+		BookShieldOfArrav.openBook(e.getPlayer());
+	});
 
-	public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(new Object[] { 761 }, new String[] { "Read" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang");
-		}
-	};
+	public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(new Object[] { 761 }, new String[] { "Read" }, e -> e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang"));
 
-    public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[]{2397}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            if (e.getObject().getTile().matches(WorldTile.of(3247, 9779, 0))) {
-                if (e.getOption().equalsIgnoreCase("open")) {
-                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX_STAGE) && e.getPlayer().getY() > e.getObject().getY()) {
-                        e.getPlayer().startConversation(new Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
-                                " the VTAM Corporation are allowed beyond this point."));
-                        return;
-                    }
-                    Doors.handleDoor(e.getPlayer(), e.getObject());
-                }
-                return;
-            }
-            Doors.handleDoor(e.getPlayer(), e.getObject());
-        }
-    };
-
-    public static ObjectClickHandler handleBlackArmGangDoor = new ObjectClickHandler(new Object[]{2399}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            if (e.getObject().getTile().matches(WorldTile.of(3185, 3388, 0))) {
-                if (e.getOption().equalsIgnoreCase("open")) {
-                    if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_BLACK_ARM_STAGE) && e.getPlayer().getY() < e.getObject().getY()) {
-                        e.getPlayer().sendMessage("The door seems to be locked from the inside.");
-                        return;
-                    }
-                    Doors.handleDoor(e.getPlayer(), e.getObject());
-                }
-                return;
-            }
-            Doors.handleDoor(e.getPlayer(), e.getObject());
-        }
-    };
-
-    public static ObjectClickHandler handleShieldChest = new ObjectClickHandler(new Object[]{2403, 2404}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            Player p = e.getPlayer();
-            GameObject obj = e.getObject();
-            if (!obj.getTile().matches(WorldTile.of(3235, 9761, 0)))
-                return;
+    public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[]{2397}, e -> {
+    	if (e.getObject().getTile().matches(WorldTile.of(3247, 9779, 0))) {
             if (e.getOption().equalsIgnoreCase("open")) {
-                p.setNextAnimation(new Animation(536));
-                p.lock(2);
-                GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-                p.faceObject(openedChest);
-                World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-            }
-            if (e.getOption().equalsIgnoreCase("search"))
-                if (p.getInventory().containsItem(SHIELD_RIGHT_HALF))
-                    p.sendMessage("The chest is empty");
-                else if (p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
-                    p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
-                    p.sendMessage("The chest is empty");
-                } else {
-                    p.sendMessage("You get the right half of the shield of Arrav");
-                    p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
-                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
-                        setStage(p, HAS_SHIELD_STAGE);
-                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
-                    }
+                if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX_STAGE) && e.getPlayer().getY() > e.getObject().getY()) {
+                    e.getPlayer().startConversation(new Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
+                            " the VTAM Corporation are allowed beyond this point."));
+                    return;
                 }
-
-        }
-    };
-
-    public static ObjectClickHandler handleBlackArmCupboard = new ObjectClickHandler(new Object[]{2400, 2401}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            Player p = e.getPlayer();
-            GameObject obj = e.getObject();
-            if (!obj.getTile().matches(WorldTile.of(3189, 3385, 1)))
-                return;
-            if (e.getOption().equalsIgnoreCase("open")) {
-                p.setNextAnimation(new Animation(536));
-                p.lock(2);
-                GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-                p.faceObject(openedChest);
-                World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-            }
-            if (e.getOption().equalsIgnoreCase("shut")) {
-                p.setNextAnimation(new Animation(536));
-                p.lock(2);
-                GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-                p.faceObject(openedChest);
-                World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-            }
-            if (e.getOption().equalsIgnoreCase("search"))
-                if (p.getInventory().containsItem(SHIELD_LEFT_HALF))
-                    p.sendMessage("The cupboard is empty");
-                else if (p.getBank().containsItem(SHIELD_LEFT_HALF, 1)) {
-                    p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
-                    p.sendMessage("The cupboard is empty");
-                } else {
-                    p.sendMessage("You get the left half of the shield of Arrav");
-                    p.getInventory().addItem(SHIELD_LEFT_HALF, 1);
-                    if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
-                        setStage(p, HAS_SHIELD_STAGE);
-                        p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
-                    }
-                }
-
-        }
-    };
-
-    public static ObjectClickHandler handleWeaponsStoreDoor = new ObjectClickHandler(new Object[]{2398}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            GameObject obj = e.getObject();
-            if (!obj.getTile().matches(WorldTile.of(3251, 3386, 0)))
-                return;
-            if (e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
                 Doors.handleDoor(e.getPlayer(), e.getObject());
-            else
-                e.getPlayer().sendMessage("The door appears to need a key");
+            }
+            return;
         }
-    };
+        Doors.handleDoor(e.getPlayer(), e.getObject());
+    });
 
+    public static ObjectClickHandler handleBlackArmGangDoor = new ObjectClickHandler(new Object[]{2399}, e -> {
+    	 if (e.getObject().getTile().matches(WorldTile.of(3185, 3388, 0))) {
+             if (e.getOption().equalsIgnoreCase("open")) {
+                 if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_BLACK_ARM_STAGE) && e.getPlayer().getY() < e.getObject().getY()) {
+                     e.getPlayer().sendMessage("The door seems to be locked from the inside.");
+                     return;
+                 }
+                 Doors.handleDoor(e.getPlayer(), e.getObject());
+             }
+             return;
+         }
+         Doors.handleDoor(e.getPlayer(), e.getObject());
+    });
 
-    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[]{CERTIFICATE_LEFT}) {
-        @Override
-        public void handle(ItemOnItemEvent e) {
-            if (e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
-                e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
-                e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
-                e.getPlayer().getInventory().addItem(CERTIFICATE_FULL, 1);
-            } else
-                e.getPlayer().sendMessage("You don't know what these papers are for...");
+    public static ObjectClickHandler handleShieldChest = new ObjectClickHandler(new Object[]{2403, 2404}, e -> {
+    	Player p = e.getPlayer();
+        GameObject obj = e.getObject();
+        if (!obj.getTile().matches(WorldTile.of(3235, 9761, 0)))
+            return;
+        if (e.getOption().equalsIgnoreCase("open")) {
+            p.setNextAnimation(new Animation(536));
+            p.lock(2);
+            GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+            p.faceObject(openedChest);
+            World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
         }
-    };
-
-    public static ItemClickHandler handleClickOnCertificate = new ItemClickHandler(11173, 11174, 769) {
-        @Override
-        public void handle(ItemClickEvent e) {
-            if (e.getOption().equalsIgnoreCase("read"))
-                e.getPlayer().sendMessage("This authenticates the Shield Of Arrav");
-        }
-    };
-
-    public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] {PHOENIX_CROSSBOW},
-			WorldTile.of(3245, 3385, 1)) {
-        @Override
-        public void handle(PickupItemEvent e) {
-            List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
-            for (NPC npc : npcs)
-                if (npc.getId() == 643) {
-                    switch (Utils.random(1, 4)) {
-                        case 1:
-                            npc.forceTalk("Get your hands off!");
-                            break;
-                        case 2:
-                            npc.forceTalk("Don't touch that!");
-                            break;
-                        case 3:
-                            npc.forceTalk("Hey, that's Phoenix Gang property!");
-                            break;
-                    }
-                    npc.faceEntity(e.getPlayer());
-                    e.cancelPickup();
+        if (e.getOption().equalsIgnoreCase("search"))
+            if (p.getInventory().containsItem(SHIELD_RIGHT_HALF))
+                p.sendMessage("The chest is empty");
+            else if (p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
+                p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
+                p.sendMessage("The chest is empty");
+            } else {
+                p.sendMessage("You get the right half of the shield of Arrav");
+                p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
+                if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                    setStage(p, HAS_SHIELD_STAGE);
+                    p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
                 }
-        }
-    };
+            }
+    });
 
-    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(new Object[] { 643 }, new String[] { "Talk-to" }) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                {
-                    addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I would die before I let anyone take a weapon from here...");
-                    addPlayer(HeadE.NERVOUS, "Is that so?");
-                    addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Yes it is.");
-                    addPlayer(HeadE.NERVOUS, "...");
-                    addNPC(e.getNPCId(), HeadE.NERVOUS, " . ");
-                    addPlayer(HeadE.NERVOUS, " . ");
-                    create();
-                }
-            });
-        }
-    };
-    
-    public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(WEAPONS_KEY, CERTIFICATE_LEFT, CERTIFICATE_RIGHT) {
-		@Override
-		public void handle(ItemOnPlayerEvent e) {
-			if (e.getItem().getAmount() >= 1) {
-				if (e.getTarget().getInventory().getFreeSlots() >= 1) {
-					e.getPlayer().lock();
-					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
-					WorldTasks.delay(0, () -> {
-						e.getPlayer().setNextAnimation(new Animation(881));
-						e.getTarget().getInventory().addItem(e.getItem().getId(), 1);
-						if (e.getTarget().isIronMan())
-							e.getPlayer().sendMessage("They stand alone, but not this once!");
-						e.getPlayer().unlock();
-					});
-				} else {
-					e.getTarget().sendMessage("You need to make space in your inventory");
-					e.getPlayer().sendMessage(e.getTarget().getUsername() + " does not have enough space.");
+    public static ObjectClickHandler handleBlackArmCupboard = new ObjectClickHandler(new Object[]{2400, 2401}, e -> {
+    	 Player p = e.getPlayer();
+         GameObject obj = e.getObject();
+         if (!obj.getTile().matches(WorldTile.of(3189, 3385, 1)))
+             return;
+         if (e.getOption().equalsIgnoreCase("open")) {
+             p.setNextAnimation(new Animation(536));
+             p.lock(2);
+             GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+             p.faceObject(openedChest);
+             World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
+         }
+         if (e.getOption().equalsIgnoreCase("shut")) {
+             p.setNextAnimation(new Animation(536));
+             p.lock(2);
+             GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+             p.faceObject(openedChest);
+             World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
+         }
+         if (e.getOption().equalsIgnoreCase("search"))
+             if (p.getInventory().containsItem(SHIELD_LEFT_HALF))
+                 p.sendMessage("The cupboard is empty");
+             else if (p.getBank().containsItem(SHIELD_LEFT_HALF, 1)) {
+                 p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
+                 p.sendMessage("The cupboard is empty");
+             } else {
+                 p.sendMessage("You get the left half of the shield of Arrav");
+                 p.getInventory().addItem(SHIELD_LEFT_HALF, 1);
+                 if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
+                     setStage(p, HAS_SHIELD_STAGE);
+                     p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
+                 }
+             }
+    });
+
+    public static ObjectClickHandler handleWeaponsStoreDoor = new ObjectClickHandler(new Object[]{2398}, e -> {
+    	GameObject obj = e.getObject();
+        if (!obj.getTile().matches(WorldTile.of(3251, 3386, 0)))
+            return;
+        if (e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
+            Doors.handleDoor(e.getPlayer(), e.getObject());
+        else
+            e.getPlayer().sendMessage("The door appears to need a key");
+    });
+
+
+    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[]{CERTIFICATE_LEFT}, e -> {
+    	if (e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
+            e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
+            e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
+            e.getPlayer().getInventory().addItem(CERTIFICATE_FULL, 1);
+        } else
+            e.getPlayer().sendMessage("You don't know what these papers are for...");
+    });
+
+    public static ItemClickHandler handleClickOnCertificate = new ItemClickHandler(new Object[] { 11173, 11174, 769 }, e -> {
+    	 if (e.getOption().equalsIgnoreCase("read"))
+             e.getPlayer().sendMessage("This authenticates the Shield Of Arrav");
+    });
+
+	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { PHOENIX_CROSSBOW }, WorldTile.of(3245, 3385, 1), e -> {
+		List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
+		for (NPC npc : npcs)
+			if (npc.getId() == 643) {
+				switch (Utils.random(1, 4)) {
+				case 1:
+					npc.forceTalk("Get your hands off!");
+					break;
+				case 2:
+					npc.forceTalk("Don't touch that!");
+					break;
+				case 3:
+					npc.forceTalk("Hey, that's Phoenix Gang property!");
+					break;
 				}
-			} else
-				e.getPlayer().sendMessage("You need at least 1 of this item to give!");
-		}
-    };
+				npc.faceEntity(e.getPlayer());
+				e.cancelPickup();
+			}
+	});
+
+    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(new Object[] { 643 }, new String[] { "Talk-to" }, e -> {
+    	e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+            {
+                addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I would die before I let anyone take a weapon from here...");
+                addPlayer(HeadE.NERVOUS, "Is that so?");
+                addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Yes it is.");
+                addPlayer(HeadE.NERVOUS, "...");
+                addNPC(e.getNPCId(), HeadE.NERVOUS, " . ");
+                addPlayer(HeadE.NERVOUS, " . ");
+                create();
+            }
+        });
+    });
+    
+    public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(new Object[] { WEAPONS_KEY, CERTIFICATE_LEFT, CERTIFICATE_RIGHT }, e -> {
+		if (e.getItem().getAmount() >= 1) {
+			if (e.getTarget().getInventory().getFreeSlots() >= 1) {
+				e.getPlayer().lock();
+				e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+				WorldTasks.delay(0, () -> {
+					e.getPlayer().setNextAnimation(new Animation(881));
+					e.getTarget().getInventory().addItem(e.getItem().getId(), 1);
+					if (e.getTarget().isIronMan())
+						e.getPlayer().sendMessage("They stand alone, but not this once!");
+					e.getPlayer().unlock();
+				});
+			} else {
+				e.getTarget().sendMessage("You need to make space in your inventory");
+				e.getPlayer().sendMessage(e.getTarget().getUsername() + " does not have enough space.");
+			}
+		} else
+			e.getPlayer().sendMessage("You need at least 1 of this item to give!");
+    });
 
     /**
      * When the player logs in, the Shield Of Arrav display case is updated based on quest completion.

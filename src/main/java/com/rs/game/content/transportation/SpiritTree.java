@@ -22,8 +22,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -40,22 +38,19 @@ public class SpiritTree {
 			WorldTile.of(2462, 3445, 0)
 	};
 	
-	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { "Spirit Tree", "Spirit tree", 26723 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			String op = e.getOption().toLowerCase();
-			if (op.contains("talk")) {
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC((e.getObjectId() == 68973 && e.getObjectId() == 68974) ? 3637 : 3636, HeadE.CALM_TALK, "If you are a friend of the gnome people, you are a friend of mine. Do you wish to travel?")
-						.addOptions(ops -> {
-							ops.add("Yes, please.", () -> SpiritTree.openInterface(e.getPlayer()));
-							ops.add("No, thanks.");
-						}));
-			} else if (op.contains("travel") || op.contains("teleport")) {
-				SpiritTree.openInterface(e.getPlayer());
-			}
+	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { "Spirit Tree", "Spirit tree", 26723 }, e -> {
+		String op = e.getOption().toLowerCase();
+		if (op.contains("talk")) {
+			e.getPlayer().startConversation(new Dialogue()
+					.addNPC((e.getObjectId() == 68973 && e.getObjectId() == 68974) ? 3637 : 3636, HeadE.CALM_TALK, "If you are a friend of the gnome people, you are a friend of mine. Do you wish to travel?")
+					.addOptions(ops -> {
+						ops.add("Yes, please.", () -> SpiritTree.openInterface(e.getPlayer()));
+						ops.add("No, thanks.");
+					}));
+		} else if (op.contains("travel") || op.contains("teleport")) {
+			SpiritTree.openInterface(e.getPlayer());
 		}
-	};
+	});
 
 	public static void openInterface(Player player) {
 		player.getVars().setVarBit(3959, 3);
@@ -69,12 +64,7 @@ public class SpiritTree {
 			sendTeleport(player, TELEPORTS[4]);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(864) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			handleSpiritTree(e.getPlayer(), e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(864, e -> handleSpiritTree(e.getPlayer(), e.getSlotId()));
 
 	private static void sendTeleport(Player player, WorldTile tile) {
 		player.sendMessage("You place your hands on the dry tough bark of the spirit tree, and feel a surge of energy run through your veins.");

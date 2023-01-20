@@ -21,19 +21,15 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class UgiDialogue extends Conversation {
 	
-	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { 5141 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getNPC() instanceof Ugi ugi)
-				e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
-		}
-	};
+	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { 5141 }, e -> {
+		if (e.getNPC() instanceof Ugi ugi)
+			e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
+	});
 
 	public UgiDialogue(Player player, Ugi ugi) {
 		super(player);

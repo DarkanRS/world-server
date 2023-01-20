@@ -16,18 +16,28 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.ItemOnNPCEvent;
 
-public abstract class ItemOnNPCHandler extends PluginHandler<ItemOnNPCEvent> {
+public class ItemOnNPCHandler extends PluginHandler<ItemOnNPCEvent> {
 	private boolean checkDistance = true;
 
-	public ItemOnNPCHandler(boolean checkDistance, Object[] namesOrIds) {
-		super(namesOrIds);
+	public ItemOnNPCHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ItemOnNPCEvent> handler) {
+		super(namesOrIds, handler);
 		this.checkDistance = checkDistance;
 	}
+	
+	public ItemOnNPCHandler(int id, Consumer<ItemOnNPCEvent> handler) {
+		super(new Object[] { id }, handler);
+	}
+	
+	public ItemOnNPCHandler(String name, Consumer<ItemOnNPCEvent> handler) {
+		super(new Object[] { name }, handler);
+	}
 
-	public ItemOnNPCHandler(Object... namesOrIds) {
-		super(namesOrIds);
+	public ItemOnNPCHandler(Object[] namesOrIds, Consumer<ItemOnNPCEvent> handler) {
+		super(namesOrIds, handler);
 	}
 
 	public boolean isCheckDistance() {

@@ -24,21 +24,17 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.interactions.PlayerEntityInteractionAction;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SiphonCreaturesInteraction extends PlayerEntityInteractionAction<SiphonAction> {
 
-	public static NPCClickHandler clickHandler = new NPCClickHandler(false, Arrays.stream(Creature.values()).map(c -> c.npcId).toArray(), new String[] { "Siphon", "Chip off" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Creature creature = getCreature(e.getNPC().getId());
-			if (creature == null)
-				return;
-			e.getPlayer().getInteractionManager().setInteraction(new SiphonCreaturesInteraction(creature, e.getNPC()));
-		}
-	};
+	public static NPCClickHandler clickHandler = new NPCClickHandler(false, Arrays.stream(Creature.values()).map(c -> c.npcId).toArray(), new String[] { "Siphon", "Chip off" }, e -> {
+		Creature creature = getCreature(e.getNPC().getId());
+		if (creature == null)
+			return;
+		e.getPlayer().getInteractionManager().setInteraction(new SiphonCreaturesInteraction(creature, e.getNPC()));
+	});
 
 	public SiphonCreaturesInteraction(Creature creatures, NPC creature) {
 		super(creature, new SiphonAction(creatures, creature), 7);

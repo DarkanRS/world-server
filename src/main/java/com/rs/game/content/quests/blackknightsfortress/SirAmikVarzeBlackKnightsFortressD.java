@@ -14,7 +14,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -136,10 +135,5 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleSirAmik = new NPCClickHandler(new Object[] { SIR_AMIK_VARZE }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new SirAmikVarzeBlackKnightsFortressD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleSirAmik = new NPCClickHandler(new Object[] { SIR_AMIK_VARZE }, e -> e.getPlayer().startConversation(new SirAmikVarzeBlackKnightsFortressD(e.getPlayer()).getStart()));
 }

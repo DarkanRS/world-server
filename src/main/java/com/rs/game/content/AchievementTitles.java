@@ -18,7 +18,6 @@ package com.rs.game.content;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
-import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.LoginHandler;
 
 public class AchievementTitles {
@@ -164,17 +163,14 @@ public class AchievementTitles {
 				if (i < TitleReward.values().length && TitleReward.values()[i] != null)
 					TitleReward.values()[i].handleActivate(player);
 	}
-
-	public static LoginHandler login = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if (isUsingGamebreakerTitle(e.getPlayer())) {
-				e.getPlayer().setTitle(gamebreakerVariations[Utils.random(gamebreakerVariations.length)]);
-				e.getPlayer().getAppearance().generateAppearanceData();
-				e.getPlayer().setTitleAfter(true);
-			}
+	
+	public static LoginHandler login = new LoginHandler(e -> {
+		if (isUsingGamebreakerTitle(e.getPlayer())) {
+			e.getPlayer().setTitle(gamebreakerVariations[Utils.random(gamebreakerVariations.length)]);
+			e.getPlayer().getAppearance().generateAppearanceData();
+			e.getPlayer().setTitleAfter(true);
 		}
-	};
+	});
 
 	public static boolean isUsingGamebreakerTitle(Player p) {
 		if (p.getTitle() == null)

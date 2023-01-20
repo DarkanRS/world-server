@@ -29,7 +29,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -52,12 +51,7 @@ public class Agility {
 		}
 	}
 
-	public static NPCClickHandler handleGunnjorn = new NPCClickHandler(new Object[] { 607 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GunnjornD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleGunnjorn = new NPCClickHandler(new Object[] { 607 }, e -> e.getPlayer().startConversation(new GunnjornD(e.getPlayer())));
 
 	static class GnomeTrainerD extends Conversation {
 		public GnomeTrainerD(Player player) {
@@ -78,12 +72,7 @@ public class Agility {
 		}
 	}
 
-	public static NPCClickHandler handleGnomeTrainer = new NPCClickHandler(new Object[] { 162 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GnomeTrainerD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleGnomeTrainer = new NPCClickHandler(new Object[] { 162 }, e -> e.getPlayer().startConversation(new GnomeTrainerD(e.getPlayer())));
 
 	public static boolean hasLevel(Player player, int level) {
 		if (player.getSkills().getLevel(Constants.AGILITY) < level) {

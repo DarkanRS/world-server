@@ -26,7 +26,6 @@ import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -34,13 +33,10 @@ public class GrimReaper2007D extends Conversation {
 
 	private static int[] HWEEN_MASKS = { 1053, 1055, 1057 };
 
-	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 6390 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getNPC().resetDirection();
-			e.getPlayer().startConversation(new GrimReaper2007D(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 6390 }, e -> {
+		e.getNPC().resetDirection();
+		e.getPlayer().startConversation(new GrimReaper2007D(e.getPlayer()));
+	});
 
 	public GrimReaper2007D(Player player) {
 		super(player);

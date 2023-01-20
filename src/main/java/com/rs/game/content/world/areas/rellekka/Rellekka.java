@@ -34,11 +34,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -49,79 +44,67 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Rellekka {
 
-	public static NPCClickHandler handleCouncilWorkman = new NPCClickHandler(new Object[] { 1287 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
+	public static NPCClickHandler handleCouncilWorkman = new NPCClickHandler(new Object[] { 1287 }, e -> {
+		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+			{
+				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
+				addOptions("What would you like to say?", new Options() {
+					@Override
+					public void create() {
+						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
+					}
+				});
+			}
+		});
+	});
+
+	public static NPCClickHandler handleYrsa = new NPCClickHandler(new Object[] { 1301 }, e -> {
+		switch(e.getOpNum()) {
+		case 1:
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
-					addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
+					addNPC(e.getNPCId(), HeadE.CHEERFUL, "Welcome to my clothes shop. I can change your shoes, or I've got a fine selection of clothes for sale.");
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
+							option("I'd like to buy some clothes.", () -> ShopsHandler.openShop(player, "yrsas_accoutrements"));
+							option("I'd like to change my shoes.", () -> PlayerLook.openYrsaShop(player));
 							option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
 						}
 					});
 				}
 			});
+			break;
+		case 3:
+			ShopsHandler.openShop(e.getPlayer(), "yrsas_accoutrements");
+			break;
+		case 4:
+			PlayerLook.openYrsaShop(e.getPlayer());
+			break;
 		}
-	};
+	});
 
-	public static NPCClickHandler handleYrsa = new NPCClickHandler(new Object[] { 1301 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOpNum()) {
-			case 1:
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-					{
-						addNPC(e.getNPCId(), HeadE.CHEERFUL, "Welcome to my clothes shop. I can change your shoes, or I've got a fine selection of clothes for sale.");
-						addOptions("What would you like to say?", new Options() {
-							@Override
-							public void create() {
-								option("I'd like to buy some clothes.", () -> ShopsHandler.openShop(player, "yrsas_accoutrements"));
-								option("I'd like to change my shoes.", () -> PlayerLook.openYrsaShop(player));
-								option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
-							}
-						});
-					}
-				});
-				break;
-			case 3:
-				ShopsHandler.openShop(e.getPlayer(), "yrsas_accoutrements");
-				break;
-			case 4:
-				PlayerLook.openYrsaShop(e.getPlayer());
-				break;
-			}
+	public static ItemOnItemHandler handleStringLyre = new ItemOnItemHandler(3694, 3688, e -> {
+		if (e.getPlayer().getSkills().getLevel(Constants.FLETCHING) < 25) {
+			e.getPlayer().sendMessage("You need a Fletching level of 25 to string the lyre.");
+			return;
 		}
-	};
+		Item branch = e.getUsedWith(3694);
+		if (branch != null) {
+			branch.setId(3689);
+			e.getPlayer().getInventory().refresh(branch.getSlot());
+		}
+	});
 
-	public static ItemOnItemHandler handleStringLyre = new ItemOnItemHandler(3694, 3688) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (e.getPlayer().getSkills().getLevel(Constants.FLETCHING) < 25) {
-				e.getPlayer().sendMessage("You need a Fletching level of 25 to string the lyre.");
-				return;
-			}
-			Item branch = e.getUsedWith(3694);
-			if (branch != null) {
-				branch.setId(3689);
-				e.getPlayer().getInventory().refresh(branch.getSlot());
-			}
+	public static ItemOnItemHandler handleCutLyre = new ItemOnItemHandler(946, new int[] { 3692 }, e -> {
+		Item branch = e.getUsedWith(946);
+		if (branch != null) {
+			e.getPlayer().getInventory().deleteItem(3692, 1);
+			branch.setId(3688);
+			e.getPlayer().getInventory().refresh(branch.getSlot());
+			e.getPlayer().setNextAnimation(new Animation(6702));
 		}
-	};
-
-	public static ItemOnItemHandler handleCutLyre = new ItemOnItemHandler(946, new int[] { 3692 }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			Item branch = e.getUsedWith(946);
-			if (branch != null) {
-				e.getPlayer().getInventory().deleteItem(3692, 1);
-				branch.setId(3688);
-				e.getPlayer().getInventory().refresh(branch.getSlot());
-				e.getPlayer().setNextAnimation(new Animation(6702));
-			}
-		}
-	};
+	});
 
 	public static void rechargeLyre(Player player) {
 		if (!player.getInventory().containsItem(383, 1)) {
@@ -146,13 +129,10 @@ public class Rellekka {
 		}
 	}
 
-	public static ItemOnObjectHandler handleChargeLyre = new ItemOnObjectHandler(new Object[] { 4141 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getItem().getDefinitions().getName().contains("Raw"))
-				rechargeLyre(e.getPlayer()); //TODO no way is this real in RS lmao
-		}
-	};
+	public static ItemOnObjectHandler handleChargeLyre = new ItemOnObjectHandler(new Object[] { 4141 }, e -> {
+		if (e.getItem().getDefinitions().getName().contains("Raw"))
+			rechargeLyre(e.getPlayer()); //TODO no way is this real in RS lmao
+	});
 
 	private static final int[] LYRE_IDS = { 3690, 3691, 6125, 6126, 6127, 14590, 14591 };
 
@@ -192,70 +172,46 @@ public class Rellekka {
 		});
 	}
 
-	public static ItemClickHandler handleEnchantedLyre = new ItemClickHandler(new Object[] { 3690 }, new String[] { "Play" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().sendMessage("The lyre is unresponsive. I should contact the Fossegrimen.");
-		}
-	};
+	public static ItemClickHandler handleEnchantedLyre = new ItemClickHandler(new Object[] { 3690 }, new String[] { "Play" }, e -> {
+		e.getPlayer().sendMessage("The lyre is unresponsive. I should contact the Fossegrimen.");
+	});
 
-	public static ItemClickHandler handleEnchantedLyreTeleports = new ItemClickHandler(new Object[] { 3691, 6125, 6126, 6127, 14590, 14591 }, new String[] { "Play" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().startConversation(getLyreTeleOptions(e.getPlayer(), e.getItem(), false));
-		}
-	};
+	public static ItemClickHandler handleEnchantedLyreTeleports = new ItemClickHandler(new Object[] { 3691, 6125, 6126, 6127, 14590, 14591 }, new String[] { "Play" }, e -> {
+		e.getPlayer().startConversation(getLyreTeleOptions(e.getPlayer(), e.getItem(), false));
+	});
 
-	public static ObjectClickHandler handleLighthouseDoor = new ObjectClickHandler(new Object[] { 4577 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().handleOneWayDoor(e.getObject(), e.getObject().getId()+1);
-		}
-	};
+	public static ObjectClickHandler handleLighthouseDoor = new ObjectClickHandler(new Object[] { 4577 }, e -> {
+		e.getPlayer().handleOneWayDoor(e.getObject(), e.getObject().getId()+1);
+	});
 
-	public static ObjectClickHandler handleMountainCampWall = new ObjectClickHandler(new Object[] { 5847 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0));
-		}
-	};
+	public static ObjectClickHandler handleMountainCampWall = new ObjectClickHandler(new Object[] { 5847 }, e -> {
+		AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0));
+	});
 
-	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(2773, 10162, 0));
-		}
-	};
+	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(2773, 10162, 0));
+	});
 
-	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextWorldTile(WorldTile.of(2730, 3713, 0));
-		}
-	};
+	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }, e -> {
+		e.getPlayer().setNextWorldTile(WorldTile.of(2730, 3713, 0));
+	});
 
-	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new Dialogue().addNPC(1270, HeadE.T_ANGRY, "Hey human! You not go in my house! It where me keep all my stuff!"));
-		}
-	};
+	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }, e -> {
+		e.getPlayer().startConversation(new Dialogue().addNPC(1270, HeadE.T_ANGRY, "Hey human! You not go in my house! It where me keep all my stuff!"));
+	});
 
-	public static NPCClickHandler handleLallisConversation = new NPCClickHandler(new Object[] { 1270 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			//			e.getPlayer().startConversation(new Dialogue()
-			//			.addPlayer(HeadE.CALM, "Hello there.")
-			//			.addNPC(1270, HeadE.T_ANGRY, "Bah! Puny humans always try steal Lallis' golden apples! You go away now!")
-			//			.addPlayer(HeadE.CONFUSED, "Uh.... Okay..."));
-			e.getPlayer().startConversation(new Dialogue()
-					.addPlayer(HeadE.CALM, "Hello there.")
-					.addNPC(1270, HeadE.T_ANGRY, "Bah! Puny humans always try steal Lallis' golden apples! You go away now!")
-					.addPlayer(HeadE.CONFUSED, "Oh no, I'm not here for golden apples, I was just wondering if I could have some golden fleece from the sheep over there.")
-					.addNPC(1270, HeadE.T_CONFUSED, "Mmmm.. Here den, take some and leave Lalli alone!")
-					.addItem(3693, "The troll hands you some golden fleece.", () -> {
-						e.getPlayer().getInventory().addItem(3693, 1);
-					}));
-		}
-	};
+	public static NPCClickHandler handleLallisConversation = new NPCClickHandler(new Object[] { 1270 }, e -> {
+		//			e.getPlayer().startConversation(new Dialogue()
+		//			.addPlayer(HeadE.CALM, "Hello there.")
+		//			.addNPC(1270, HeadE.T_ANGRY, "Bah! Puny humans always try steal Lallis' golden apples! You go away now!")
+		//			.addPlayer(HeadE.CONFUSED, "Uh.... Okay..."));
+		e.getPlayer().startConversation(new Dialogue()
+				.addPlayer(HeadE.CALM, "Hello there.")
+				.addNPC(1270, HeadE.T_ANGRY, "Bah! Puny humans always try steal Lallis' golden apples! You go away now!")
+				.addPlayer(HeadE.CONFUSED, "Oh no, I'm not here for golden apples, I was just wondering if I could have some golden fleece from the sheep over there.")
+				.addNPC(1270, HeadE.T_CONFUSED, "Mmmm.. Here den, take some and leave Lalli alone!")
+				.addItem(3693, "The troll hands you some golden fleece.", () -> {
+					e.getPlayer().getInventory().addItem(3693, 1);
+				}));
+	});
 }

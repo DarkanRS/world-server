@@ -77,10 +77,5 @@ public class KalphiteQueen extends NPC {
 		});
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1158, 1160) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new KalphiteQueen(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1158, 1160 }, (npcId, tile) -> new KalphiteQueen(npcId, tile, false));
 }

@@ -36,8 +36,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.utils.Ticks;
@@ -858,20 +856,17 @@ public class Potions {
 		}
 	}
 
-	public static ItemClickHandler clickOps = new ItemClickHandler(Potion.POTS.keySet().toArray(), new String[] { "Drink", "Empty" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			Potion pot = Potion.forId(e.getItem().getId());
-			if (pot == null)
-				return;
-			if (e.getOption().equals("Drink"))
-				pot.drink(e.getPlayer(), e.getItem().getId(), e.getItem().getSlot());
-			else if (e.getOption().equals("Empty") && pot.emptyId != -1) {
-				e.getItem().setId(pot.emptyId);
-				e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-			}
+	public static ItemClickHandler clickOps = new ItemClickHandler(Potion.POTS.keySet().toArray(), new String[] { "Drink", "Empty" }, e -> {
+		Potion pot = Potion.forId(e.getItem().getId());
+		if (pot == null)
+			return;
+		if (e.getOption().equals("Drink"))
+			pot.drink(e.getPlayer(), e.getItem().getId(), e.getItem().getSlot());
+		else if (e.getOption().equals("Empty") && pot.emptyId != -1) {
+			e.getItem().setId(pot.emptyId);
+			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 		}
-	};
+	});
 
 	public static int getDoses(Potion pot, Item item) {
 		for (int i = pot.ids.length - 1; i >= 0; i--)
@@ -880,53 +875,50 @@ public class Potions {
 		return 0;
 	}
 
-	public static ItemOnItemHandler mixPotions = new ItemOnItemHandler(Potion.POTS.keySet().stream().mapToInt(i->i).toArray()) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			Item fromItem = e.getItem1();
-			Item toItem = e.getItem2();
-			int fromSlot = fromItem.getSlot();
-			int toSlot = toItem.getSlot();
-			if (fromItem.getId() == VIAL || toItem.getId() == VIAL) {
-				Potion pot = Potion.forId(fromItem.getId() == VIAL ? toItem.getId() : fromItem.getId());
-				if (pot == null || pot.emptyId == -1)
-					return;
-				int doses = getDoses(pot, fromItem.getId() == VIAL ? toItem : fromItem);
-				if (doses == 1) {
-					e.getPlayer().getInventory().switchItem(fromSlot, toSlot);
-					e.getPlayer().sendMessage("You combine the potions.", true);
-					return;
-				}
-				int vialDoses = doses / 2;
-				doses -= vialDoses;
-				e.getPlayer().getInventory().getItems().set(fromItem.getId() == VIAL ? toSlot : fromSlot, new Item(pot.getIdForDoses(doses), 1));
-				e.getPlayer().getInventory().getItems().set(fromItem.getId() == VIAL ? fromSlot : toSlot, new Item(pot.getIdForDoses(vialDoses), 1));
-				e.getPlayer().getInventory().refresh(fromSlot);
-				e.getPlayer().getInventory().refresh(toSlot);
-				e.getPlayer().sendMessage("You split the potion between the two vials.", true);
+	public static ItemOnItemHandler mixPotions = new ItemOnItemHandler(Potion.POTS.keySet().stream().mapToInt(i->i).toArray(), e -> {
+		Item fromItem = e.getItem1();
+		Item toItem = e.getItem2();
+		int fromSlot = fromItem.getSlot();
+		int toSlot = toItem.getSlot();
+		if (fromItem.getId() == VIAL || toItem.getId() == VIAL) {
+			Potion pot = Potion.forId(fromItem.getId() == VIAL ? toItem.getId() : fromItem.getId());
+			if (pot == null || pot.emptyId == -1)
+				return;
+			int doses = getDoses(pot, fromItem.getId() == VIAL ? toItem : fromItem);
+			if (doses == 1) {
+				e.getPlayer().getInventory().switchItem(fromSlot, toSlot);
+				e.getPlayer().sendMessage("You combine the potions.", true);
 				return;
 			}
-			Potion pot = Potion.forId(fromItem.getId());
-			if (pot == null)
-				return;
-			int doses2 = getDoses(pot, toItem);
-			if (doses2 == 0 || doses2 == pot.getMaxDoses())
-				return;
-			int doses1 = getDoses(pot, fromItem);
-			doses2 += doses1;
-			doses1 = doses2 > pot.getMaxDoses() ? doses2 - pot.getMaxDoses() : 0;
-			doses2 -= doses1;
-			if (doses1 == 0 && pot.emptyId == -1)
-				e.getPlayer().getInventory().deleteItem(fromSlot, fromItem);
-			else {
-				e.getPlayer().getInventory().getItems().set(fromSlot, new Item(doses1 > 0 ? pot.getIdForDoses(doses1) : pot.emptyId, 1));
-				e.getPlayer().getInventory().refresh(fromSlot);
-			}
-			e.getPlayer().getInventory().getItems().set(toSlot, new Item(pot.getIdForDoses(doses2), 1));
+			int vialDoses = doses / 2;
+			doses -= vialDoses;
+			e.getPlayer().getInventory().getItems().set(fromItem.getId() == VIAL ? toSlot : fromSlot, new Item(pot.getIdForDoses(doses), 1));
+			e.getPlayer().getInventory().getItems().set(fromItem.getId() == VIAL ? fromSlot : toSlot, new Item(pot.getIdForDoses(vialDoses), 1));
+			e.getPlayer().getInventory().refresh(fromSlot);
 			e.getPlayer().getInventory().refresh(toSlot);
-			e.getPlayer().sendMessage("You pour from one container into the other" + (pot.emptyId == -1 && doses1 == 0 ? " and the flask shatters to pieces." : "."));
+			e.getPlayer().sendMessage("You split the potion between the two vials.", true);
+			return;
 		}
-	};
+		Potion pot = Potion.forId(fromItem.getId());
+		if (pot == null)
+			return;
+		int doses2 = getDoses(pot, toItem);
+		if (doses2 == 0 || doses2 == pot.getMaxDoses())
+			return;
+		int doses1 = getDoses(pot, fromItem);
+		doses2 += doses1;
+		doses1 = doses2 > pot.getMaxDoses() ? doses2 - pot.getMaxDoses() : 0;
+		doses2 -= doses1;
+		if (doses1 == 0 && pot.emptyId == -1)
+			e.getPlayer().getInventory().deleteItem(fromSlot, fromItem);
+		else {
+			e.getPlayer().getInventory().getItems().set(fromSlot, new Item(doses1 > 0 ? pot.getIdForDoses(doses1) : pot.emptyId, 1));
+			e.getPlayer().getInventory().refresh(fromSlot);
+		}
+		e.getPlayer().getInventory().getItems().set(toSlot, new Item(pot.getIdForDoses(doses2), 1));
+		e.getPlayer().getInventory().refresh(toSlot);
+		e.getPlayer().sendMessage("You pour from one container into the other" + (pot.emptyId == -1 && doses1 == 0 ? " and the flask shatters to pieces." : "."));
+	});
 	
 	public static void checkOverloads(Player player) {
 		boolean changed = false;

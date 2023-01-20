@@ -9,7 +9,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -18,16 +17,12 @@ public class FatherAereck extends Conversation {
 	//Identify NPC by ID
 	//NPC handler was 9827? check restless ghost quest..
 	private static int npcId = 456;
-	public static NPCClickHandler FatherAereck = new NPCClickHandler(new Object[]{npcId}) {
-		@Override
-		//Handle Right-Click
-		public void handle(NPCClickEvent e) {
-			switch (e.getOption()) {
-				//Start Conversation
-				case "Talk-to" -> e.getPlayer().startConversation(new FatherAereck(e.getPlayer()));
-			}
+	public static NPCClickHandler FatherAereck = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch (e.getOption()) {
+		//Start Conversation
+		case "Talk-to" -> e.getPlayer().startConversation(new FatherAereck(e.getPlayer()));
 		}
-	};
+	});
 
 	public FatherAereck(Player player) {
 		super(player);

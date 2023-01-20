@@ -17,11 +17,6 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -115,164 +110,135 @@ public class MerlinsCrystal extends QuestOutline {
 		return lines;
 	}
 
+    private static void openShop(Player p) {
+        if(p.isQuestComplete(Quest.MERLINS_CRYSTAL))
+            ShopsHandler.openShop(p, "candle_with_black_shop");
+        else
+            ShopsHandler.openShop(p, "candle_shop");
+    }
 
-
-	public static NPCClickHandler handleCandleMakerDialogue = new NPCClickHandler(new Object[] { 562 }) {
-		final int NPC=562;
-		final int UNLIT_BLACK_CANDLE = 38;
-		final int BUCKET_WAX = 30;
-
-        private static void openShop(Player p) {
-            if(p.isQuestComplete(Quest.MERLINS_CRYSTAL))
-                ShopsHandler.openShop(p, "candle_with_black_shop");
-            else
-                ShopsHandler.openShop(p, "candle_shop");
-        }
-
-		@Override
-		public void handle(NPCClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Talk-to")) {
-                if (e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.THE_BLACK_CANDLE
-                        && !e.getPlayer().isQuestComplete(Quest.MERLINS_CRYSTAL)) {
-                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                        {
-                            if (e.getPlayer().getInventory().containsItem(UNLIT_BLACK_CANDLE)) {
-                                addNPC(NPC, HeadE.CALM_TALK, "Good luck with your candle!");
-                                addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
-                            } else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR)) {
-                                if (e.getPlayer().getInventory().containsItem(BUCKET_WAX, 1)) {
-                                    addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
-                                    addPlayer(HeadE.HAPPY_TALKING, "Yes");
-                                    addSimple("You exchange the wax with the candle maker for a black candle.", () -> {
-                                        e.getPlayer().getInventory().removeItems(new Item(30, 1));
-                                        e.getPlayer().getInventory().addItem(new Item(38, 1), true);
-                                        e.getPlayer().getQuestManager().setStage(Quest.MERLINS_CRYSTAL, OBTAINING_EXCALIBUR);
-                                    });
-
-                                } else {
-                                    addNPC(NPC, HeadE.CALM_TALK, "Do you have the wax?");
-                                    addPlayer(HeadE.HAPPY_TALKING, "Not yet");
-                                }
-                            } else {
-                                addNPC(NPC, HeadE.CALM_TALK, "Hi! Would you be interested in some of my fine candles?");
-                                addPlayer(HeadE.HAPPY_TALKING, "Have you got any black candles?");
-                                addNPC(NPC, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
-                                        " to make black candles. VERY bad luck.");
-                                addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
-                                addNPC(NPC, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
-                                    e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR, true);
+	public static NPCClickHandler handleCandleMakerDialogue = new NPCClickHandler(new Object[] { 562 }, e -> {
+		if(e.getOption().equalsIgnoreCase("Talk-to")) {
+            if (e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.THE_BLACK_CANDLE
+                    && !e.getPlayer().isQuestComplete(Quest.MERLINS_CRYSTAL)) {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        if (e.getPlayer().getInventory().containsItem(38)) {
+                            addNPC(562, HeadE.CALM_TALK, "Good luck with your candle!");
+                            addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
+                        } else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR)) {
+                            if (e.getPlayer().getInventory().containsItem(30, 1)) {
+                                addNPC(562, HeadE.CALM_TALK, "Do you have the wax?");
+                                addPlayer(HeadE.HAPPY_TALKING, "Yes");
+                                addSimple("You exchange the wax with the candle maker for a black candle.", () -> {
+                                    e.getPlayer().getInventory().removeItems(new Item(30, 1));
+                                    e.getPlayer().getInventory().addItem(new Item(38, 1), true);
+                                    e.getPlayer().getQuestManager().setStage(Quest.MERLINS_CRYSTAL, OBTAINING_EXCALIBUR);
                                 });
-                            }
-                            create();
-                        }
-                    });
-                } else {
-                    e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                        {
-                            addNPC(NPC, HeadE.CALM_TALK, "Hi, looking for candles?");
-                            addPlayer(HeadE.HAPPY_TALKING, "Sure!");
-                            addNext(() -> {
-                                openShop(e.getPlayer());
-                            });
-                            create();
-                        }
-                    });
-                }
-            } else if(e.getOption().equalsIgnoreCase("trade")) {
-                openShop(e.getPlayer());
-            }
-		}
 
-	};
+                            } else {
+                                addNPC(562, HeadE.CALM_TALK, "Do you have the wax?");
+                                addPlayer(HeadE.HAPPY_TALKING, "Not yet");
+                            }
+                        } else {
+                            addNPC(562, HeadE.CALM_TALK, "Hi! Would you be interested in some of my fine candles?");
+                            addPlayer(HeadE.HAPPY_TALKING, "Have you got any black candles?");
+                            addNPC(562, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
+                                    " to make black candles. VERY bad luck.");
+                            addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
+                            addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
+                                e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR, true);
+                            });
+                        }
+                        create();
+                    }
+                });
+            } else {
+                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                    {
+                        addNPC(562, HeadE.CALM_TALK, "Hi, looking for candles?");
+                        addPlayer(HeadE.HAPPY_TALKING, "Sure!");
+                        addNext(() -> {
+                            openShop(e.getPlayer());
+                        });
+                        create();
+                    }
+                });
+            }
+        } else if(e.getOption().equalsIgnoreCase("trade")) {
+            openShop(e.getPlayer());
+        }
+	});
 
 	final static int LIT_BLACK_CANDLE = 32;
 	final static int UNLIT_BLACK_CANDLE = 38;
 	final static int TINDERBOX = 590;
 
-	public static ItemClickHandler handleLitCandle = new ItemClickHandler(new Object[] { LIT_BLACK_CANDLE }, new String[] { "Extinguish" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().getInventory().replaceItem(UNLIT_BLACK_CANDLE, 1, e.getItem().getSlot());
-		}
-	};
+	public static ItemClickHandler handleLitCandle = new ItemClickHandler(new Object[] { LIT_BLACK_CANDLE }, new String[] { "Extinguish" }, e -> e.getPlayer().getInventory().replaceItem(UNLIT_BLACK_CANDLE, 1, e.getItem().getSlot()));
 
 	private static final int MERLIN_FREE_VAR = 14;
 	private static final int MERLINS_CRYSTAL_OBJ = 62;
-	public static ObjectClickHandler handleMerlinsCrystal = new ObjectClickHandler(new Object[] { MERLINS_CRYSTAL_OBJ }) {
-		final int MERLIN = 249;
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if (e.getOption().equalsIgnoreCase("smash")) {
-				p.sendMessage("You attempt to smash the crystal...");
-				if (p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == BREAK_MERLIN_CRYSTAL)
-					if (p.getInventory().containsItem(EXCALIBUR, 1) || p.getEquipment().containsOneItem(EXCALIBUR)) {
-						p.sendMessage("... and it shatters under the force of Excalibur!");
-						p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
-						p.getVars().setVar(14, 7);
-                        OwnedNPC merlin = new OwnedNPC(p, MERLIN, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
-						merlin.setCantInteract(true);
-						merlin.setRandomWalk(false);
-						merlin.finishAfterTicks(5);
-						e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-							int NPC = MERLIN;
+	public static ObjectClickHandler handleMerlinsCrystal = new ObjectClickHandler(new Object[] { MERLINS_CRYSTAL_OBJ }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		if (e.getOption().equalsIgnoreCase("smash")) {
+			p.sendMessage("You attempt to smash the crystal...");
+			if (p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == BREAK_MERLIN_CRYSTAL)
+				if (p.getInventory().containsItem(EXCALIBUR, 1) || p.getEquipment().containsOneItem(EXCALIBUR)) {
+					p.sendMessage("... and it shatters under the force of Excalibur!");
+					p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
+					p.getVars().setVar(14, 7);
+                    OwnedNPC merlin = new OwnedNPC(p, 249, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
+					merlin.setCantInteract(true);
+					merlin.setRandomWalk(false);
+					merlin.finishAfterTicks(5);
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+						{
+							addNPC(249, HeadE.CALM_TALK, "Thank you! Thank you! Thank you!");
+							addNPC(249, HeadE.CALM_TALK, "It's not fun being trapped in a giant crystal!");
+							addSimple("You have set Merlin free. Now talk to King Arthur.");
+							create();
+						}
+					});
+				} else
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+						{
+							addPlayer(HeadE.HAPPY_TALKING, "Hmm, looks like I will need excalibur to do this.");
+							create();
+						}
+					});
+		}
+	});
 
-							{
-								addNPC(NPC, HeadE.CALM_TALK, "Thank you! Thank you! Thank you!");
-								addNPC(NPC, HeadE.CALM_TALK, "It's not fun being trapped in a giant crystal!");
-								addSimple("You have set Merlin free. Now talk to King Arthur.");
-								create();
+	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(WorldTile.of(2780, 3515, 0), e -> {
+		Player p = e.getPlayer();
+		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
+			return;
+		WorldTasks.schedule(new WorldTask() {
+			int tick;
+			@Override
+			public void run() {
+				if(tick == 1)
+					if(p.getInventory().containsItem(LIT_BLACK_CANDLE, 1))
+						for (GroundItem item : World.getRegion(p.getRegionId()).getAllGroundItems())
+							if (item.getId() == 530 && item.getTile().matches(WorldTile.of(2780, 3515, 0))) {
+								p.getControllerManager().startController(new MerlinsCrystalRitualScene());
+								stop();
 							}
-						});
-					} else
-						e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-							{
-								addPlayer(HeadE.HAPPY_TALKING, "Hmm, looks like I will need excalibur to do this.");
-								create();
-							}
-						});
+				if(tick == 3)
+					if(p.matches(WorldTile.of(2780, 3515, 0)))
+						tick = 0;
+				if(tick == 5)
+					stop();
+				tick++;
 			}
-		}
-	};
+		}, 0, 1);
+	});
 
-	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(WorldTile.of(2780, 3515, 0)) {
-		final int BAT_BONES = 530;
-		final WorldTile ritualTile = WorldTile.of(2780, 3515, 0);
-		@Override
-		public void handle(PlayerStepEvent e) {
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
-				return;
-			WorldTasks.schedule(new WorldTask() {
-				int tick;
-				@Override
-				public void run() {
-					if(tick == 1)
-						if(p.getInventory().containsItem(LIT_BLACK_CANDLE, 1))
-							for (GroundItem item : World.getRegion(p.getRegionId()).getAllGroundItems())
-								if (item.getId() == BAT_BONES && item.getTile().matches(ritualTile)) {
-									p.getControllerManager().startController(new MerlinsCrystalRitualScene());
-									stop();
-								}
-					if(tick == 3)
-						if(p.matches(ritualTile))
-							tick = 0;
-					if(tick == 5)
-						stop();
-					tick++;
-				}
-			}, 0, 1);
-		}
-	};
-
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= TALK_TO_ARTHUR)
-				e.getPlayer().getVars().setVar(MERLIN_FREE_VAR, 7);
-		}
-	};
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= TALK_TO_ARTHUR)
+			e.getPlayer().getVars().setVar(MERLIN_FREE_VAR, 7);
+	});
 
 	@Override
 	public void complete(Player player) {

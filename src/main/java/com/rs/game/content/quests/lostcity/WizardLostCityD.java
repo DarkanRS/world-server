@@ -12,7 +12,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -38,10 +37,5 @@ public class WizardLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleWizardDialogue = new NPCClickHandler(new Object[] { WIZARD }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new WizardLostCityD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleWizardDialogue = new NPCClickHandler(new Object[] { WIZARD }, e -> e.getPlayer().startConversation(new WizardLostCityD(e.getPlayer()).getStart()));
 }

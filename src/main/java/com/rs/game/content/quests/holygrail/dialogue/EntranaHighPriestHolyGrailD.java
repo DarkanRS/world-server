@@ -13,7 +13,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -77,17 +76,7 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 	}
 
 
-    public static NPCClickHandler handlePriest = new NPCClickHandler(new Object[]{NPC}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new EntranaHighPriestHolyGrailD(e.getPlayer()).getStart());
-        }
-    };
+    public static NPCClickHandler handlePriest = new NPCClickHandler(new Object[]{NPC}, e -> e.getPlayer().startConversation(new EntranaHighPriestHolyGrailD(e.getPlayer()).getStart()));
 
-	public static NPCClickHandler handleCrone = new NPCClickHandler(new Object[]{217}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new CroneDialogue(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleCrone = new NPCClickHandler(new Object[]{217}, e -> e.getPlayer().startConversation(new CroneDialogue(e.getPlayer()).getStart()));
 }

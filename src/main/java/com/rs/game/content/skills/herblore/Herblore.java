@@ -29,7 +29,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
@@ -89,14 +88,11 @@ public class Herblore extends PlayerAction {
 		setActionDelay(player, 3);
 	}
 
-	public static ItemOnItemHandler craftPotion = new ItemOnItemHandler(true, CraftablePotion.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			CraftablePotion potion = CraftablePotion.forCombo(e.getItem1().getId(), e.getItem2().getId());
-			if (potion != null)
-				e.getPlayer().startConversation(new Conversation(e.getPlayer())
-						.addNext(new MakeXStatement(new int[] { potion.getProduct().getId() }, 28))
-						.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
-		}
-	};
+	public static ItemOnItemHandler craftPotion = new ItemOnItemHandler(true, CraftablePotion.MAP.keySet().toArray(), e -> {
+		CraftablePotion potion = CraftablePotion.forCombo(e.getItem1().getId(), e.getItem2().getId());
+		if (potion != null)
+			e.getPlayer().startConversation(new Conversation(e.getPlayer())
+					.addNext(new MakeXStatement(new int[] { potion.getProduct().getId() }, 28))
+					.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
+	});
 }

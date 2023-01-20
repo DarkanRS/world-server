@@ -29,7 +29,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
 
@@ -164,10 +163,5 @@ public class OddensteinErnestChickenD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleProfessor = new NPCClickHandler(new Object[] { ODDENSTEIN }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new OddensteinErnestChickenD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleProfessor = new NPCClickHandler(new Object[] { ODDENSTEIN }, e -> e.getPlayer().startConversation(new OddensteinErnestChickenD(e.getPlayer()).getStart()));
 }

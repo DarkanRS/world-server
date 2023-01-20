@@ -12,7 +12,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -36,10 +35,5 @@ public class MonkLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleMonkDialogue = new NPCClickHandler(new Object[] { MONK }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new MonkLostCityD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleMonkDialogue = new NPCClickHandler(new Object[] { MONK }, e -> e.getPlayer().startConversation(new MonkLostCityD(e.getPlayer()).getStart()));
 }

@@ -24,7 +24,6 @@ import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 /**
@@ -105,23 +104,20 @@ public class ScorpionCatcher extends QuestOutline {
 		return lines;
 	}
 
-	public static NPCClickHandler handleScorpCatches = new NPCClickHandler(new Object[] { SCORP_1, SCORP_2, SCORP_3 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) != LOOK_FOR_SCORPIONS)
-				return;
-			if (!e.getPlayer().getInventory().containsOneItem(EMPTY_CAGE, CAUGHT_CAGE_1, CAUGHT_CAGE_2, CAUGHT_CAGE_3)) {
-				e.getPlayer().sendMessage("You're not going to pick that up without something to put it in.");
-				return;
-			}
-			if (caughtScorp(e.getPlayer(), e.getNPCId()))
-				return;
-			setCaughtScorp(e.getPlayer(), e.getNPCId());
-			e.getPlayer().getInventory().removeAllItems(EMPTY_CAGE, CAUGHT_CAGE_1, CAUGHT_CAGE_2);
-			e.getPlayer().getInventory().addItem(getCageId(e.getPlayer()), 1);
-			e.getPlayer().sendMessage("You add the scorpion to the cage.");
+	public static NPCClickHandler handleScorpCatches = new NPCClickHandler(new Object[] { SCORP_1, SCORP_2, SCORP_3 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) != LOOK_FOR_SCORPIONS)
+			return;
+		if (!e.getPlayer().getInventory().containsOneItem(EMPTY_CAGE, CAUGHT_CAGE_1, CAUGHT_CAGE_2, CAUGHT_CAGE_3)) {
+			e.getPlayer().sendMessage("You're not going to pick that up without something to put it in.");
+			return;
 		}
-	};
+		if (caughtScorp(e.getPlayer(), e.getNPCId()))
+			return;
+		setCaughtScorp(e.getPlayer(), e.getNPCId());
+		e.getPlayer().getInventory().removeAllItems(EMPTY_CAGE, CAUGHT_CAGE_1, CAUGHT_CAGE_2);
+		e.getPlayer().getInventory().addItem(getCageId(e.getPlayer()), 1);
+		e.getPlayer().sendMessage("You add the scorpion to the cage.");
+	});
 	
 	public static int getCageId(Player player) {
 		return switch(getNumCaught(player)) {

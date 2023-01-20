@@ -108,10 +108,5 @@ public class Bork extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(7134) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Bork(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(7134, (npcId, tile) -> new Bork(npcId, tile, false));
 }

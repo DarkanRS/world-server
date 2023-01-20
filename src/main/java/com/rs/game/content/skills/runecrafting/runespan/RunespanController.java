@@ -35,10 +35,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -326,33 +322,27 @@ public class RunespanController extends Controller {
 		return 3063;
 	}
 
-	public static NPCClickHandler handleWizardFinix = new NPCClickHandler(new Object[] { "Wizard Finix" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Teleport":
-				Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(3107, 3162, 1));
-				break;
-			case "Shop":
-				openRewards(e.getPlayer());
-				break;
-			case "Talk to":
-				e.getPlayer().startConversation(new WizardFinix(e.getPlayer()));
-				break;
-			}
+	public static NPCClickHandler handleWizardFinix = new NPCClickHandler(new Object[] { "Wizard Finix" }, e -> {
+		switch(e.getOption()) {
+		case "Teleport":
+			Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(3107, 3162, 1));
+			break;
+		case "Shop":
+			openRewards(e.getPlayer());
+			break;
+		case "Talk to":
+			e.getPlayer().startConversation(new WizardFinix(e.getPlayer()));
+			break;
 		}
-	};
+	});
 	
-	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { WorldTile.of(3107, 3160, 1) }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new Dialogue().addOptions("Where would you like to travel to?", ops -> {
-				ops.add("The Runecrafting Guild", () -> e.getPlayer().useStairs(-1, WorldTile.of(1696, 5460, 2), 0, 1));
-				ops.add("The Runespan (Low level)", () -> RunespanController.enterRunespan(e.getPlayer(), false));
-				ops.add("The Runespan (High level)", () -> RunespanController.enterRunespan(e.getPlayer(), true));
-			}));
-		}
-	};
+	public static ObjectClickHandler runespanPortal = new ObjectClickHandler(new Object[] { 38279 }, new WorldTile[] { WorldTile.of(3107, 3160, 1) }, e -> {
+		e.getPlayer().startConversation(new Dialogue().addOptions("Where would you like to travel to?", ops -> {
+			ops.add("The Runecrafting Guild", () -> e.getPlayer().useStairs(-1, WorldTile.of(1696, 5460, 2), 0, 1));
+			ops.add("The Runespan (Low level)", () -> RunespanController.enterRunespan(e.getPlayer(), false));
+			ops.add("The Runespan (High level)", () -> RunespanController.enterRunespan(e.getPlayer(), true));
+		}));
+	});
 
 	private static void openRewards(Player player) {
 		refreshPoints(player);
@@ -360,95 +350,92 @@ public class RunespanController extends Controller {
 		player.getPackets().setIFEvents(new IFEvents(1273, 14, 0, 60).enableRightClickOptions(0, 1, 2, 3, 4));
 	}
 
-	public static ButtonClickHandler handleRewards = new ButtonClickHandler(1273) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch(e.getComponentId()) {
-			case 54:
-				e.getPlayer().closeInterfaces();
+	public static ButtonClickHandler handleRewards = new ButtonClickHandler(1273, e -> {
+		switch(e.getComponentId()) {
+		case 54:
+			e.getPlayer().closeInterfaces();
+			break;
+		case 14:
+			switch(e.getPacket()) {
+			case IF_OP1:
+				e.getPlayer().getVars().setVarBit(11106, 1);
 				break;
-			case 14:
-				switch(e.getPacket()) {
-				case IF_OP1:
-					e.getPlayer().getVars().setVarBit(11106, 1);
-					break;
-				case IF_OP2:
-					e.getPlayer().getVars().setVarBit(11106, 2);
-					break;
-				case IF_OP3:
-					e.getPlayer().getVars().setVarBit(11106, 5);
-					break;
-				case IF_OP4:
-					e.getPlayer().getVars().setVarBit(11106, 10);
-					break;
-				default:
-					break;
-				}
-				StructDefinitions reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getSlotId()));
-				if (reward != null) {
-					e.getPlayer().getVars().setVarBit(11105, e.getSlotId()+1);
-					e.getPlayer().getVars().setVarBit(11104, 0);
-					e.getPlayer().getTempAttribs().setI("rsShopRew", e.getSlotId());
-				}
+			case IF_OP2:
+				e.getPlayer().getVars().setVarBit(11106, 2);
 				break;
-			case 29:
-				reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
-				if (reward != null) {
-					int amount = e.getPlayer().getVars().getVarBit(11106);
-					int totalPrice = (amount * reward.getIntValue(2379));
-					int lvlReq = reward.getIntValue(2393);
-					if (totalPrice > e.getPlayer().getRuneSpanPoints()) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough points.");
-						return;
-					}
-					if (e.getPlayer().getSkills().getLevelForXp(Constants.RUNECRAFTING) < lvlReq) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You need a Runecrafting level of " + lvlReq + " for that.");
-						return;
-					}
-					if (!e.getPlayer().getInventory().hasFreeSlots()) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough inventory space.");
-						return;
-					}
-					e.getPlayer().getPackets().setIFHidden(1273, 37, false);
-					e.getPlayer().getPackets().setIFText(1273, 2, e.getPlayer().getVars().getVarBit(11106) + " x " + reward.getStringValue(2376) + " " + reward.getStringValue(2377));
-					e.getPlayer().getPackets().setIFText(1273, 4, (e.getPlayer().getVars().getVarBit(11106) * reward.getIntValue(2379)) + " Points");
-				}
+			case IF_OP3:
+				e.getPlayer().getVars().setVarBit(11106, 5);
 				break;
-			case 7:
-				reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
-				if (reward != null) {
-					int amount = e.getPlayer().getVars().getVarBit(11106);
-					int totalPrice = (amount * reward.getIntValue(2379));
-					int lvlReq = reward.getIntValue(2393);
-					if (totalPrice > e.getPlayer().getRuneSpanPoints()) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough points.");
-						return;
-					}
-					if (e.getPlayer().getSkills().getLevelForXp(Constants.RUNECRAFTING) < lvlReq) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You need a Runecrafting level of " + lvlReq + " for that.");
-						return;
-					}
-					if (!e.getPlayer().getInventory().hasFreeSlots()) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough inventory space.");
-						return;
-					}
-					int itemId = reward.getIntValue(2381);
-					if (itemId <= 0) {
-						e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>Error purchasing item.");
-						return;
-					}
-					e.getPlayer().removeRunespanPoints(totalPrice);
-					e.getPlayer().getInventory().addItem(reward.getIntValue(2381), amount);
-					e.getPlayer().getPackets().setIFHidden(1273, 37, true);
-					refreshPoints(e.getPlayer());
-				}
+			case IF_OP4:
+				e.getPlayer().getVars().setVarBit(11106, 10);
 				break;
-			case 8:
-				e.getPlayer().getPackets().setIFHidden(1273, 37, true);
+			default:
 				break;
 			}
+			StructDefinitions reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getSlotId()));
+			if (reward != null) {
+				e.getPlayer().getVars().setVarBit(11105, e.getSlotId()+1);
+				e.getPlayer().getVars().setVarBit(11104, 0);
+				e.getPlayer().getTempAttribs().setI("rsShopRew", e.getSlotId());
+			}
+			break;
+		case 29:
+			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			if (reward != null) {
+				int amount = e.getPlayer().getVars().getVarBit(11106);
+				int totalPrice = (amount * reward.getIntValue(2379));
+				int lvlReq = reward.getIntValue(2393);
+				if (totalPrice > e.getPlayer().getRuneSpanPoints()) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough points.");
+					return;
+				}
+				if (e.getPlayer().getSkills().getLevelForXp(Constants.RUNECRAFTING) < lvlReq) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You need a Runecrafting level of " + lvlReq + " for that.");
+					return;
+				}
+				if (!e.getPlayer().getInventory().hasFreeSlots()) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough inventory space.");
+					return;
+				}
+				e.getPlayer().getPackets().setIFHidden(1273, 37, false);
+				e.getPlayer().getPackets().setIFText(1273, 2, e.getPlayer().getVars().getVarBit(11106) + " x " + reward.getStringValue(2376) + " " + reward.getStringValue(2377));
+				e.getPlayer().getPackets().setIFText(1273, 4, (e.getPlayer().getVars().getVarBit(11106) * reward.getIntValue(2379)) + " Points");
+			}
+			break;
+		case 7:
+			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			if (reward != null) {
+				int amount = e.getPlayer().getVars().getVarBit(11106);
+				int totalPrice = (amount * reward.getIntValue(2379));
+				int lvlReq = reward.getIntValue(2393);
+				if (totalPrice > e.getPlayer().getRuneSpanPoints()) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough points.");
+					return;
+				}
+				if (e.getPlayer().getSkills().getLevelForXp(Constants.RUNECRAFTING) < lvlReq) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You need a Runecrafting level of " + lvlReq + " for that.");
+					return;
+				}
+				if (!e.getPlayer().getInventory().hasFreeSlots()) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>You don't have enough inventory space.");
+					return;
+				}
+				int itemId = reward.getIntValue(2381);
+				if (itemId <= 0) {
+					e.getPlayer().getPackets().setIFText(1273, 68, "<col=FF0000>Error purchasing item.");
+					return;
+				}
+				e.getPlayer().removeRunespanPoints(totalPrice);
+				e.getPlayer().getInventory().addItem(reward.getIntValue(2381), amount);
+				e.getPlayer().getPackets().setIFHidden(1273, 37, true);
+				refreshPoints(e.getPlayer());
+			}
+			break;
+		case 8:
+			e.getPlayer().getPackets().setIFHidden(1273, 37, true);
+			break;
 		}
-	};
+	});
 
 	private boolean handleCrossPlatform(final GameObject object, final Platforms plataform) {
 		Object[] toPlataform = HandledPlatforms.getToPlataform(object.getTile());
@@ -561,36 +548,33 @@ public class RunespanController extends Controller {
 		player.getPackets().sendVarc(1916, 0);
 	}
 
-	public static ItemOnNPCHandler handleUnnoteEssence = new ItemOnNPCHandler(15402) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			Player player = e.getPlayer();
-			player.setNextAnimation(new Animation(12832));
-			int freeSlots = player.getInventory().getFreeSlots();
-			if (e.getItem().getId() == 7937) {
-				if (player.containsItem(7937)) {
-					if (player.getInventory().getNumberOf(7937) < freeSlots)
-						freeSlots = player.getInventory().getNumberOf(7937);
-					if (freeSlots > 0) {
-						player.getInventory().deleteItem(7937, freeSlots);
-						player.getInventory().addItemDrop(Runecrafting.PURE_ESS, freeSlots);
-					} else
-						player.sendMessage("You don't have enough inventory space to unnote more essence.");
-				}
-			} else if (e.getItem().getId() == 1437) {
-				if (player.containsItem(1437)) {
-					if (player.getInventory().getNumberOf(1437) < freeSlots)
-						freeSlots = player.getInventory().getNumberOf(1437);
-					if (freeSlots > 0) {
-						player.getInventory().deleteItem(1437, freeSlots);
-						player.getInventory().addItemDrop(Runecrafting.RUNE_ESS, freeSlots);
-					} else
-						player.sendMessage("You don't have enough inventory space to unnote more essence.");
-				}
-			} else
-				player.sendMessage("You can use noted rune essence on this to unnote them.");
-		}
-	};
+	public static ItemOnNPCHandler handleUnnoteEssence = new ItemOnNPCHandler(15402, e -> {
+		Player player = e.getPlayer();
+		player.setNextAnimation(new Animation(12832));
+		int freeSlots = player.getInventory().getFreeSlots();
+		if (e.getItem().getId() == 7937) {
+			if (player.containsItem(7937)) {
+				if (player.getInventory().getNumberOf(7937) < freeSlots)
+					freeSlots = player.getInventory().getNumberOf(7937);
+				if (freeSlots > 0) {
+					player.getInventory().deleteItem(7937, freeSlots);
+					player.getInventory().addItemDrop(Runecrafting.PURE_ESS, freeSlots);
+				} else
+					player.sendMessage("You don't have enough inventory space to unnote more essence.");
+			}
+		} else if (e.getItem().getId() == 1437) {
+			if (player.containsItem(1437)) {
+				if (player.getInventory().getNumberOf(1437) < freeSlots)
+					freeSlots = player.getInventory().getNumberOf(1437);
+				if (freeSlots > 0) {
+					player.getInventory().deleteItem(1437, freeSlots);
+					player.getInventory().addItemDrop(Runecrafting.RUNE_ESS, freeSlots);
+				} else
+					player.sendMessage("You don't have enough inventory space to unnote more essence.");
+			}
+		} else
+			player.sendMessage("You can use noted rune essence on this to unnote them.");
+	});
 
 	@Override
 	public boolean processNPCClick1(NPC npc) {

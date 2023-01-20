@@ -25,7 +25,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
 
@@ -69,11 +68,8 @@ public class FireSpirit extends OwnedNPC {
 		});
 	}
 	
-	public static NPCClickHandler claim = new NPCClickHandler(new Object[] { 15451 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getNPC() instanceof FireSpirit spirit)
-				spirit.giveReward(e.getPlayer());
-		}
-	};
+	public static NPCClickHandler claim = new NPCClickHandler(new Object[] { 15451 }, e -> {
+		if (e.getNPC() instanceof FireSpirit spirit)
+			spirit.giveReward(e.getPlayer());
+	});
 }

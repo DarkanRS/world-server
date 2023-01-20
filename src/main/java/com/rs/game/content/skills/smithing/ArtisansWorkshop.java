@@ -28,8 +28,6 @@ import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -248,68 +246,54 @@ public class ArtisansWorkshop  {
 		BAR_SETS.put("Rune", RUNE);
 	}
 
-	public static ObjectClickHandler handleDepositArmor = new ObjectClickHandler(new Object[] { 29396 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			depositAllArmor(e.getPlayer());
-		}
-	};
+	public static ObjectClickHandler handleDepositArmor = new ObjectClickHandler(new Object[] { 29396 }, e -> depositAllArmor(e.getPlayer()));
 
-	public static ObjectClickHandler handleAnvil = new ObjectClickHandler(new Object[] { 4046 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			int highestIngot = getHighestIngot(e.getPlayer());
-			if (highestIngot != -1)
-				e.getPlayer().startConversation(new CreationActionD(e.getPlayer(), Category.ARTISANS, highestIngot, 898, 15, true));
-			else
-				e.getPlayer().sendMessage("You don't have any ingots to smith.");
-		}
-	};
+	public static ObjectClickHandler handleAnvil = new ObjectClickHandler(new Object[] { 4046 }, e -> {
+		int highestIngot = getHighestIngot(e.getPlayer());
+		if (highestIngot != -1)
+			e.getPlayer().startConversation(new CreationActionD(e.getPlayer(), Category.ARTISANS, highestIngot, 898, 15, true));
+		else
+			e.getPlayer().sendMessage("You don't have any ingots to smith.");
+	});
 
-	public static ObjectClickHandler handleFurnaces = new ObjectClickHandler(new Object[] { 29394, 29395 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getOpNum()) {
-			case OBJECT_OP1:
-				ArrayList<String> options = new ArrayList<>();
-				for (ReqItem[] bar : BAR_SETS.values()) {
-					if (!e.getPlayer().getInventory().hasMaterials(bar[0].getMaterials()))
-						continue;
-					options.add(bar[0].getProduct().getDefinitions().name.split(" ")[0]);
-				}
-				if (options.size() > 1) {
-					e.getPlayer().sendOptionDialogue("Which type of bar would you like to make?", ops -> {
-						for (String opName : options)
-							ops.add(opName, () -> openIngotCreation(e.getPlayer(), BAR_SETS.get(opName)));
-					});
-				} else if (options.size() == 1)
-					openIngotCreation(e.getPlayer(), BAR_SETS.get(options.get(0)));
-				else
-					e.getPlayer().sendMessage("You don't have any ore stored.");
-				break;
-			case OBJECT_OP2:
-				returnAllIngots(e.getPlayer());
-				break;
-			case OBJECT_OP3:
-				handleDepositOres(e.getPlayer());
-				break;
-			case OBJECT_OP4:
-				handleWithdrawOres(e.getPlayer());
-				break;
-			default:
-				break;
+	public static ObjectClickHandler handleFurnaces = new ObjectClickHandler(new Object[] { 29394, 29395 }, e -> {
+		switch(e.getOpNum()) {
+		case OBJECT_OP1:
+			ArrayList<String> options = new ArrayList<>();
+			for (ReqItem[] bar : BAR_SETS.values()) {
+				if (!e.getPlayer().getInventory().hasMaterials(bar[0].getMaterials()))
+					continue;
+				options.add(bar[0].getProduct().getDefinitions().name.split(" ")[0]);
 			}
+			if (options.size() > 1) {
+				e.getPlayer().sendOptionDialogue("Which type of bar would you like to make?", ops -> {
+					for (String opName : options)
+						ops.add(opName, () -> openIngotCreation(e.getPlayer(), BAR_SETS.get(opName)));
+				});
+			} else if (options.size() == 1)
+				openIngotCreation(e.getPlayer(), BAR_SETS.get(options.get(0)));
+			else
+				e.getPlayer().sendMessage("You don't have any ore stored.");
+			break;
+		case OBJECT_OP2:
+			returnAllIngots(e.getPlayer());
+			break;
+		case OBJECT_OP3:
+			handleDepositOres(e.getPlayer());
+			break;
+		case OBJECT_OP4:
+			handleWithdrawOres(e.getPlayer());
+			break;
+		default:
+			break;
 		}
-	};
+	});
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if (e.getPlayer().artisanOres == null)
-				e.getPlayer().artisanOres = new int[5];
-			sendOreVars(e.getPlayer());
-		}
-	};
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		if (e.getPlayer().artisanOres == null)
+			e.getPlayer().artisanOres = new int[5];
+		sendOreVars(e.getPlayer());
+	});
 
 	public static void sendOreVars(Player player) {
 		player.getVars().setVarBit(8857, player.artisanOres[0]);

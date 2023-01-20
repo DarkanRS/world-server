@@ -25,18 +25,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
 public class Dicing {
 	
-	public static ItemClickHandler handleLight = new ItemClickHandler(IntStream.range(15086, 15100).toArray(), new String[] { "Drop" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			handleRoll(e.getPlayer(), e.getItem().getId(), true);
-		}
-	};
+	public static ItemClickHandler handleRoll = new ItemClickHandler(new Object[] { IntStream.range(15086, 15100).toArray() }, new String[] { "Drop" }, e -> {
+		handleRoll(e.getPlayer(), e.getItem().getId(), true);
+	});
 
 	public static void handleRoll(final Player player, int itemId, boolean friends) {
 		if (friends)

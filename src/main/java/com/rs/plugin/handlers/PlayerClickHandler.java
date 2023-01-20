@@ -16,14 +16,16 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.PlayerClickEvent;
 
-public abstract class PlayerClickHandler extends PluginHandler<PlayerClickEvent> {
+public class PlayerClickHandler extends PluginHandler<PlayerClickEvent> {
 
 	private boolean checkDistance = true;
 
-	public PlayerClickHandler(boolean checkDistance, String option) {
-		super(new Object[] { option });
+	public PlayerClickHandler(boolean checkDistance, String option, Consumer<PlayerClickEvent> handler) {
+		super(new Object[] { option }, handler);
 		this.checkDistance = checkDistance;
 	}
 

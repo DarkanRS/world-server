@@ -123,12 +123,7 @@ public class Kebbit extends NPC {
 		caughtBy = null;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray()) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Kebbit(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray(), (npcId, tile) -> new Kebbit(npcId, tile));
 
 	public void sendFalcon(Player player) {
 		if (player.getSkills().getLevel(Skills.HUNTER) < type.level) {

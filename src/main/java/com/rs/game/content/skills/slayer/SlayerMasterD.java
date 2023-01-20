@@ -24,24 +24,20 @@ import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SlayerMasterD extends Conversation {
 
-	public static NPCClickHandler handleMasters = new NPCClickHandler(new Object[] { 8480, 8481, 1597, 1598, 7779, 8466, 9085 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Master master = Master.getMasterForId(e.getNPC().getId());
-			switch(e.getOption()) {
-			case "Talk-to" -> e.getPlayer().startConversation(new SlayerMasterD(e.getPlayer(), master));
-			case "Get-task" -> e.getPlayer().getSlayer().getTaskFrom(e.getPlayer(), master);
-			case "Trade" -> e.getPlayer().getSlayer().openShop(e.getPlayer(), master);
-			case "Rewards" -> Slayer.openBuyInterface(e.getPlayer());
-			}
+	public static NPCClickHandler handleMasters = new NPCClickHandler(new Object[] { 8480, 8481, 1597, 1598, 7779, 8466, 9085 }, e -> {
+		Master master = Master.getMasterForId(e.getNPC().getId());
+		switch(e.getOption()) {
+		case "Talk-to" -> e.getPlayer().startConversation(new SlayerMasterD(e.getPlayer(), master));
+		case "Get-task" -> e.getPlayer().getSlayer().getTaskFrom(e.getPlayer(), master);
+		case "Trade" -> e.getPlayer().getSlayer().openShop(e.getPlayer(), master);
+		case "Rewards" -> Slayer.openBuyInterface(e.getPlayer());
 		}
-	};
+	});
 
 	public SlayerMasterD(Player player, Master master) {
 		super(player);

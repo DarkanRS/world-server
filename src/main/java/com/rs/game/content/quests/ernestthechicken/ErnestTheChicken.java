@@ -40,11 +40,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemAddedToInventoryEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -128,191 +123,160 @@ public class ErnestTheChicken extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, 314, "3,000 coins", "10 eggs", "300 feathers");
 	}
 
-	public static ObjectClickHandler handleManorFrontDoor = new ObjectClickHandler(new Object[] { 47424, 47421 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if(p.getY() <= e.getObject().getY())
-				if(p.getBool("EverEnteredDraynorManor")) {
-					handleDoubleDoor(p, e.getObject());
-					p.sendMessage("The doors slam shut behind you.");
-				} else
-					p.startConversation(new Conversation(p) {
-						{
-							addPlayer(HeadE.NERVOUS, "There's a sign on the door that says...");
-							addSimple("Adventurers beware: Going in doesn't mean you'll come out again.");
-							addOptions("Enter Draynor Manor?", new Options() {
-								@Override
-								public void create() {
-									option("Yes.", new Dialogue()
-											.addNext(()->{
-												p.save("EverEnteredDraynorManor", true);
-												handleDoubleDoor(p, e.getObject());
-												p.sendMessage("The doors slam shut behind you.");
-											}));
-									option("No.", new Dialogue());
-								}
-							});
-							create();
-						}
-					});
-			else
-				p.sendMessage("The doors are firmly closed.");
-		}
-	};
-
-	public static ItemOnItemHandler handlePoisonOnFishFood = new ItemOnItemHandler(POISON, new int[] { FISH_FOOD }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			Inventory inv = e.getPlayer().getInventory();
-			inv.deleteItem(e.getItem1());
-			inv.deleteItem(e.getItem2());
-			inv.addItem(POISONED_FISH_FOOD, 1);
-		}
-	};
-
-	public static ItemOnObjectHandler handleCompostHeapItem = new ItemOnObjectHandler(new Object[] { 152 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if(e.getPlayer().getInventory().containsItem(GRIMY_KEY, 1)) {
-				e.getPlayer().sendMessage("I already have the key");
-				return;
-			}
-			if(e.getItem().getId() == SPADE) {
-				e.getPlayer().setNextAnimation(new Animation(830));
-				e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
+	public static ObjectClickHandler handleManorFrontDoor = new ObjectClickHandler(new Object[] { 47424, 47421 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getY() <= e.getObject().getY())
+			if(p.getBool("EverEnteredDraynorManor")) {
+				handleDoubleDoor(p, e.getObject());
+				p.sendMessage("The doors slam shut behind you.");
 			} else
-				e.getPlayer().sendMessage("I appear to need a spade.");
-		}
-	};
-
-	public static ObjectClickHandler handleCompostHeapSearch = new ObjectClickHandler(new Object[] { 152 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getInventory().containsItem(GRIMY_KEY, 1)) {
-				e.getPlayer().sendMessage("I already have the key");
-				return;
-			}
-			if(e.getPlayer().getInventory().containsItem(SPADE, 1)) {
-				e.getPlayer().setNextAnimation(new Animation(830));
-				e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
-			}
-			else
-				e.getPlayer().sendMessage("I appear to need a spade.");
-		}
-	};
-
-	public static ObjectClickHandler handleFountainSearch = new ObjectClickHandler(new Object[] { 153 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if(p.getInventory().containsItem(PRESSURE_GAUGE, 1)) {
-				p.startConversation(new Conversation(p) {{
-					addPlayer(HeadE.CALM_TALK, "I already have the pressure gauge...");
-					create();
-				}});
-				return;
-			}
-			if(p.getTempAttribs().getB("FountainFishDead"))
 				p.startConversation(new Conversation(p) {
 					{
-						addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> {
-							p.getInventory().addItem(PRESSURE_GAUGE, 1);
+						addPlayer(HeadE.NERVOUS, "There's a sign on the door that says...");
+						addSimple("Adventurers beware: Going in doesn't mean you'll come out again.");
+						addOptions("Enter Draynor Manor?", new Options() {
+							@Override
+							public void create() {
+								option("Yes.", new Dialogue()
+										.addNext(()->{
+											p.save("EverEnteredDraynorManor", true);
+											handleDoubleDoor(p, e.getObject());
+											p.sendMessage("The doors slam shut behind you.");
+										}));
+								option("No.", new Dialogue());
+							}
 						});
-						addPlayer(HeadE.CALM_TALK, "... and a lot of dead fish.");
 						create();
 					}
 				});
-			else
-				p.startConversation(new Conversation(p) {
-					{
-						addPlayer(HeadE.NERVOUS, "There appear to be deadly fish in the water...");
-						create();
-					}
-				});
+		else
+			p.sendMessage("The doors are firmly closed.");
+	});
+
+	public static ItemOnItemHandler handlePoisonOnFishFood = new ItemOnItemHandler(POISON, new int[] { FISH_FOOD }, e -> {
+		Inventory inv = e.getPlayer().getInventory();
+		inv.deleteItem(e.getItem1());
+		inv.deleteItem(e.getItem2());
+		inv.addItem(POISONED_FISH_FOOD, 1);
+	});
+
+	public static ItemOnObjectHandler handleCompostHeapItem = new ItemOnObjectHandler(new Object[] { 152 }, e -> {
+		if(e.getPlayer().getInventory().containsItem(GRIMY_KEY, 1)) {
+			e.getPlayer().sendMessage("I already have the key");
+			return;
 		}
-	};
+		if(e.getItem().getId() == SPADE) {
+			e.getPlayer().setNextAnimation(new Animation(830));
+			e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
+		} else
+			e.getPlayer().sendMessage("I appear to need a spade.");
+	});
 
-	public static ItemOnObjectHandler handleFountainItem = new ItemOnObjectHandler(new Object[] { 153 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Player p = e.getPlayer();
-			if(e.getItem().getId() != POISONED_FISH_FOOD) {
-				p.startConversation(new Conversation(p) {{
-					addPlayer(HeadE.SKEPTICAL_THINKING, "What good would that do?");
+	public static ObjectClickHandler handleCompostHeapSearch = new ObjectClickHandler(new Object[] { 152 }, e -> {
+		if(e.getPlayer().getInventory().containsItem(GRIMY_KEY, 1)) {
+			e.getPlayer().sendMessage("I already have the key");
+			return;
+		}
+		if(e.getPlayer().getInventory().containsItem(SPADE, 1)) {
+			e.getPlayer().setNextAnimation(new Animation(830));
+			e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
+		}
+		else
+			e.getPlayer().sendMessage("I appear to need a spade.");
+	});
+
+	public static ObjectClickHandler handleFountainSearch = new ObjectClickHandler(new Object[] { 153 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getInventory().containsItem(PRESSURE_GAUGE, 1)) {
+			p.startConversation(new Conversation(p) {{
+				addPlayer(HeadE.CALM_TALK, "I already have the pressure gauge...");
+				create();
+			}});
+			return;
+		}
+		if(p.getTempAttribs().getB("FountainFishDead"))
+			p.startConversation(new Conversation(p) {
+				{
+					addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> {
+						p.getInventory().addItem(PRESSURE_GAUGE, 1);
+					});
+					addPlayer(HeadE.CALM_TALK, "... and a lot of dead fish.");
 					create();
-				}});
-				return;
-			}
-			p.getInventory().deleteItem(POISONED_FISH_FOOD, 1);
-			WorldTasks.schedule(new WorldTask() {
-				int tick = 0;
-				@Override
-				public void run() {
-					if(tick == 0)
-						p.sendMessage("You pour the poisoned fish food into the fountain.");
-					if(tick == 1)
-						p.sendMessage("The piranhas start eating the food...");
-					if(tick == 2) {
-						p.sendMessage("...Then die and float to the surface.");
-						p.getTempAttribs().setB("FountainFishDead", true);
-						stop();
-					}
-
-					tick++;
 				}
-			}, 0, 1);
-
-		}
-	};
-
-	public static ObjectClickHandler handleRubberTubeDoor = new ObjectClickHandler(new Object[] { 131 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getInventory().containsItem(GRIMY_KEY) || e.getPlayer().getY() <= e.getObject().getY())
-				handleDoor(e.getPlayer(), e.getObject());
-			else
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {{
-					addPlayer(HeadE.SKEPTICAL_THINKING, "It appears to need a key");
+			});
+		else
+			p.startConversation(new Conversation(p) {
+				{
+					addPlayer(HeadE.NERVOUS, "There appear to be deadly fish in the water...");
 					create();
-				}});
-		}
-	};
+				}
+			});
+	});
 
-	public static ItemAddedToInventoryHandler handleRubberTubePickup = new ItemAddedToInventoryHandler(RUBBER_TUBE) {
-		@Override
-		public void handle(ItemAddedToInventoryEvent e) {
-			Player p = e.getPlayer();
-			List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
-			for(NPC npc : npcs)
-				if(npc.getId() == 3291)
-					npc.setTarget(p);
+	public static ItemOnObjectHandler handleFountainItem = new ItemOnObjectHandler(new Object[] { 153 }, e -> {
+		Player p = e.getPlayer();
+		if(e.getItem().getId() != POISONED_FISH_FOOD) {
+			p.startConversation(new Conversation(p) {{
+				addPlayer(HeadE.SKEPTICAL_THINKING, "What good would that do?");
+				create();
+			}});
+			return;
 		}
-	};
+		p.getInventory().deleteItem(POISONED_FISH_FOOD, 1);
+		WorldTasks.schedule(new WorldTask() {
+			int tick = 0;
+			@Override
+			public void run() {
+				if(tick == 0)
+					p.sendMessage("You pour the poisoned fish food into the fountain.");
+				if(tick == 1)
+					p.sendMessage("The piranhas start eating the food...");
+				if(tick == 2) {
+					p.sendMessage("...Then die and float to the surface.");
+					p.getTempAttribs().setB("FountainFishDead", true);
+					stop();
+				}
 
-	public static ObjectClickHandler handleDraynorManorLadders = new ObjectClickHandler(new Object[] { 47574, 47575, 133, 32015 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			GameObject obj = e.getObject();
-			if(obj.getTile().matches(WorldTile.of(3105, 3363, 2)))//To 2nd floor from professor
-				e.getPlayer().useLadder(WorldTile.of(3105, 3364, 1));
-			if(obj.getTile().matches(WorldTile.of(3105, 3363, 1)))//to 3rd floor to professor
-				e.getPlayer().useLadder(WorldTile.of(3105, 3362, 2));
-			if(obj.getTile().matches(WorldTile.of(3092, 3362, 0)))//To basement from 1st floor
-				e.getPlayer().useLadder(WorldTile.of(3117, 9753, 0));
-			if(obj.getTile().matches(WorldTile.of(3117, 9754, 0)))//To 1st floor from basement
-				e.getPlayer().useLadder(WorldTile.of(3092, 3361, 0));
-		}
-	};
+				tick++;
+			}
+		}, 0, 1);
+	});
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.ERNEST_CHICKEN) >= ERNEST_NOT_CHICKEN)
-				e.getPlayer().getVars().setVar(32, 3);
-			else
-				e.getPlayer().getVars().setVar(32, 0);
-		}
-	};
+	public static ObjectClickHandler handleRubberTubeDoor = new ObjectClickHandler(new Object[] { 131 }, e -> {
+		if(e.getPlayer().getInventory().containsItem(GRIMY_KEY) || e.getPlayer().getY() <= e.getObject().getY())
+			handleDoor(e.getPlayer(), e.getObject());
+		else
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {{
+				addPlayer(HeadE.SKEPTICAL_THINKING, "It appears to need a key");
+				create();
+			}});
+	});
+
+	public static ItemAddedToInventoryHandler handleRubberTubePickup = new ItemAddedToInventoryHandler(RUBBER_TUBE, e -> {
+		Player p = e.getPlayer();
+		List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+		for(NPC npc : npcs)
+			if(npc.getId() == 3291)
+				npc.setTarget(p);
+	});
+
+	public static ObjectClickHandler handleDraynorManorLadders = new ObjectClickHandler(new Object[] { 47574, 47575, 133, 32015 }, e -> {
+		GameObject obj = e.getObject();
+		if(obj.getTile().matches(WorldTile.of(3105, 3363, 2)))//To 2nd floor from professor
+			e.getPlayer().useLadder(WorldTile.of(3105, 3364, 1));
+		if(obj.getTile().matches(WorldTile.of(3105, 3363, 1)))//to 3rd floor to professor
+			e.getPlayer().useLadder(WorldTile.of(3105, 3362, 2));
+		if(obj.getTile().matches(WorldTile.of(3092, 3362, 0)))//To basement from 1st floor
+			e.getPlayer().useLadder(WorldTile.of(3117, 9753, 0));
+		if(obj.getTile().matches(WorldTile.of(3117, 9754, 0)))//To 1st floor from basement
+			e.getPlayer().useLadder(WorldTile.of(3092, 3361, 0));
+	});
+
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.ERNEST_CHICKEN) >= ERNEST_NOT_CHICKEN)
+			e.getPlayer().getVars().setVar(32, 3);
+		else
+			e.getPlayer().getVars().setVar(32, 0);
+	});
 
 }

@@ -6,7 +6,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -16,16 +15,12 @@ public class Iain extends Conversation {
     //Iain has the same script as Donie..
     private static int npcId = 7868;
 
-    public static NPCClickHandler Iain = new NPCClickHandler(new Object[]{npcId}) {
-        @Override
-        //Handle Right-Click
-        public void handle(NPCClickEvent e) {
-            switch (e.getOption()) {
-                //Start Conversation
-                case "Talk-to" -> e.getPlayer().startConversation(new Iain(e.getPlayer()));
-            }
-        }
-    };
+    public static NPCClickHandler Iain = new NPCClickHandler(new Object[]{npcId}, e -> {
+    	switch (e.getOption()) {
+        //Start Conversation
+        case "Talk-to" -> e.getPlayer().startConversation(new Iain(e.getPlayer()));
+    }
+    });
 
     public Iain(Player player) {
         super(player);

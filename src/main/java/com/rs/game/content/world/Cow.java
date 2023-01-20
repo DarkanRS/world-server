@@ -22,9 +22,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -44,32 +41,18 @@ public class Cow extends NPC {
         super.processNPC();
     }
 
-    public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler("Cow") {
-        @Override
-        public void handle(ItemOnNPCEvent e) {
-            e.getPlayer().sendMessage("The cow doesn't want that.");
-        }
-    };
+    public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler(new Object[] { "Cow" }, e -> {
+    	 e.getPlayer().sendMessage("The cow doesn't want that.");
+    });
 
-    public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Cow") {
-        @Override
-        public NPC getNPC(int npcId, WorldTile tile) {
-            return new Cow(npcId, tile);
-        }
-    };
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Cow" }, (npcId, tile) -> new Cow(npcId, tile));
     
-    public static NPCDeathHandler count = new NPCDeathHandler("Cow") {
-		@Override
-		public void handle(NPCDeathEvent e) {
-			World.getData().getAttribs().incI("cowTrackerKills");
-		}
-    };
+    public static NPCDeathHandler count = new NPCDeathHandler(new Object[] { "Cow" }, e -> {
+    	World.getData().getAttribs().incI("cowTrackerKills");
+    });
     
-    public static ObjectClickHandler signpost = new ObjectClickHandler(new Object[] { 31297 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendMessage("So far, "+World.getData().getAttribs().getI("cowTrackerKills")+" cows have been killed by adventurers.");
-		}
-    };
+    public static ObjectClickHandler signpost = new ObjectClickHandler(new Object[] { 31297 }, e -> {
+    	e.getPlayer().sendMessage("So far, "+World.getData().getAttribs().getI("cowTrackerKills")+" cows have been killed by adventurers.");
+    });
 
 }

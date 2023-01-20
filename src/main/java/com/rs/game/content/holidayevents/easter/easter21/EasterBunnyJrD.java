@@ -20,7 +20,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -28,12 +27,7 @@ public class EasterBunnyJrD extends Conversation {
 
 	private static final int EASTER_BUNNY_JR = 7411;
 
-	public static NPCClickHandler handleEasterBunnyJrTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY_JR }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new EasterBunnyJrD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleEasterBunnyJrTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY_JR }, e -> e.getPlayer().startConversation(new EasterBunnyJrD(e.getPlayer())));
 
 	public EasterBunnyJrD(Player player) {
 		super(player);

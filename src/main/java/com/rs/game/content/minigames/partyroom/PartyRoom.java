@@ -40,8 +40,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
@@ -155,46 +153,40 @@ public class PartyRoom {
 		return item;
 	}
 
-	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
-				e.getPlayer().sendOptionDialogue(ops -> {
-					ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
-					ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
-					ops.add("No action.");
-				});
-			}));
-		}
-	};
+	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }, e -> {
+		e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
+			e.getPlayer().sendOptionDialogue(ops -> {
+				ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
+				ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
+				ops.add("No action.");
+			});
+		}));
+	});
 	
-	public static ObjectClickHandler handleBalloons = new ObjectClickHandler(new Object[] { 115, 116, 117, 118, 119, 120, 121, 122 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject() instanceof Balloon balloon) {
-				if (e.getPlayer().isIronMan()) {
-					e.getPlayer().sendMessage("You can't pop a party balloon as an ironman.");
-					if (balloon.getItem() != null)
-						e.getPlayer().sendMessage("You would have gotten " + balloon.getItem().getDefinitions().getName() + " though.");
-					return;
-				}
-				balloon.handlePop(e.getPlayer());
-			} else {
-				e.getPlayer().setNextAnimation(new Animation(794));
-				e.getPlayer().lock();
-				World.removeObject(e.getObject());
-				final GameObject poppedBalloon = new GameObject(e.getObject().getId() + 8, ObjectType.SCENERY_INTERACT, e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-				World.spawnObject(poppedBalloon);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						World.removeObject(poppedBalloon);
-						e.getPlayer().unlock();
-					}
-				}, 1);
+	public static ObjectClickHandler handleBalloons = new ObjectClickHandler(new Object[] { 115, 116, 117, 118, 119, 120, 121, 122 }, e -> {
+		if (e.getObject() instanceof Balloon balloon) {
+			if (e.getPlayer().isIronMan()) {
+				e.getPlayer().sendMessage("You can't pop a party balloon as an ironman.");
+				if (balloon.getItem() != null)
+					e.getPlayer().sendMessage("You would have gotten " + balloon.getItem().getDefinitions().getName() + " though.");
+				return;
 			}
+			balloon.handlePop(e.getPlayer());
+		} else {
+			e.getPlayer().setNextAnimation(new Animation(794));
+			e.getPlayer().lock();
+			World.removeObject(e.getObject());
+			final GameObject poppedBalloon = new GameObject(e.getObject().getId() + 8, ObjectType.SCENERY_INTERACT, e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+			World.spawnObject(poppedBalloon);
+			WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					World.removeObject(poppedBalloon);
+					e.getPlayer().unlock();
+				}
+			}, 1);
 		}
-	};
+	});
 
 	public static void spawnBalloons() {
 		ArrayList<Balloon> balloons = new ArrayList<>();
@@ -289,58 +281,55 @@ public class PartyRoom {
 		refreshItems(player);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(CHEST_INTERFACE, INVENTORY_INTERFACE) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == CHEST_INTERFACE) {
-				if (e.getComponentId() == 25) {
-					Item item = e.getPlayer().partyDeposit.get(e.getSlotId());
-					if (item == null)
-						return;
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						removeDeposit(e.getPlayer(), e.getSlotId());
-					else
-						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
-				} else if (e.getComponentId() == 21)
-					addToChest(e.getPlayer());
-				else if (e.getComponentId() == 23) {
-					Item item = World.getData().getPartyRoomStorage().get(e.getSlotId());
-					if (item == null)
-						return;
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						e.getPlayer().sendMessage("Item valued at: " + item.getDefinitions().getValue());
-					else
-						e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
-				}
-			} else if (e.getInterfaceId() == INVENTORY_INTERFACE) {
-				final Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(new Object[] { CHEST_INTERFACE, INVENTORY_INTERFACE }, e -> {
+		if (e.getInterfaceId() == CHEST_INTERFACE) {
+			if (e.getComponentId() == 25) {
+				Item item = e.getPlayer().partyDeposit.get(e.getSlotId());
 				if (item == null)
 					return;
-				switch (e.getPacket()) {
-				case IF_OP1:
-					addDeposit(e.getPlayer(), item, 1);
-					break;
-				case IF_OP2:
-					addDeposit(e.getPlayer(), item, 5);
-					break;
-				case IF_OP3:
-					addDeposit(e.getPlayer(), item, 10);
-					break;
-				case IF_OP4:
-					addDeposit(e.getPlayer(), item, e.getPlayer().getInventory().getAmountOf(item.getId()));
-					break;
-				case IF_OP5:
-					e.getPlayer().sendInputInteger("How many would you like to deposit?", amount -> addDeposit(e.getPlayer(), item, amount));
-					break;
-				case IF_OP10:
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					removeDeposit(e.getPlayer(), e.getSlotId());
+				else
 					e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
-					break;
-				default:
-					break;
-				}
+			} else if (e.getComponentId() == 21)
+				addToChest(e.getPlayer());
+			else if (e.getComponentId() == 23) {
+				Item item = World.getData().getPartyRoomStorage().get(e.getSlotId());
+				if (item == null)
+					return;
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					e.getPlayer().sendMessage("Item valued at: " + item.getDefinitions().getValue());
+				else
+					e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
+			}
+		} else if (e.getInterfaceId() == INVENTORY_INTERFACE) {
+			final Item item = e.getPlayer().getInventory().getItem(e.getSlotId());
+			if (item == null)
+				return;
+			switch (e.getPacket()) {
+			case IF_OP1:
+				addDeposit(e.getPlayer(), item, 1);
+				break;
+			case IF_OP2:
+				addDeposit(e.getPlayer(), item, 5);
+				break;
+			case IF_OP3:
+				addDeposit(e.getPlayer(), item, 10);
+				break;
+			case IF_OP4:
+				addDeposit(e.getPlayer(), item, e.getPlayer().getInventory().getAmountOf(item.getId()));
+				break;
+			case IF_OP5:
+				e.getPlayer().sendInputInteger("How many would you like to deposit?", amount -> addDeposit(e.getPlayer(), item, amount));
+				break;
+			case IF_OP10:
+				e.getPlayer().sendMessage(ItemConfig.get(item.getId()).getExamine(item));
+				break;
+			default:
+				break;
 			}
 		}
-	};
+	});
 
 	public static long getTotalCoins() {
 		long total = 0;

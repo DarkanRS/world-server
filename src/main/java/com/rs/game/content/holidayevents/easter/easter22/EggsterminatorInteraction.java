@@ -10,10 +10,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.PlayerClickEvent;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -59,56 +55,39 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
     @Override
     public void onStop(Player player) {}
 
-    public static PlayerClickHandler handlePlayerSplatter = new PlayerClickHandler(false, "Splatter") {
-        @Override
-        public void handle(PlayerClickEvent e) {
-            e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getTarget()));
-        }
-    };
-    
-    public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(false, new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-            e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getNPC()));
-		}
-    };
+    public static PlayerClickHandler handlePlayerSplatter = new PlayerClickHandler(false, "Splatter", e -> e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getTarget())));
+    public static NPCClickHandler handleNPCSplatter = new NPCClickHandler(false, new Object[] { Easter2022.CHOCOCHICK, Easter2022.CHICK }, new String[] { "Splatter" }, e -> e.getPlayer().getInteractionManager().setInteraction(new EggsterminatorInteraction(e.getNPC())));
 
-    public static ItemEquipHandler handleEggsterminatorWield = new ItemEquipHandler(Easter2022.EGGSTERMINATOR, Easter2022.PERMANENT_EGGSTERMINATOR) {
-        @Override
-        public void handle(ItemEquipEvent e) {
-        	if (e.equip()) {
-        		e.getPlayer().setPlayerOption("Splatter", 8, true);
-        		if (Easter2022.ENABLED)
-                    e.getPlayer().sendMessage("Using the Combat Styles menu, you can choose whether to fire marshmallows (in support of the Chocatrice) or scotch-eggs (in support of the Evil Chicken).");
-                return;
-        	}
-            if (e.getItem().getId() == Easter2022.EGGSTERMINATOR) {
-            	e.cancel();
-                e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", ops -> {
-                	ops.add("Yes, destroy it.", () -> {
-                		e.getPlayer().getEquipment().setNoPluginTrigger(Equipment.WEAPON, null);
-                		e.getPlayer().setPlayerOption("null", 8, true);
-                        e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
-                        e.getPlayer().getAppearance().generateAppearanceData();
-                    });
-                	ops.add("No, keep it.");
+    public static ItemEquipHandler handleEggsterminatorWield = new ItemEquipHandler(new Object[] { Easter2022.EGGSTERMINATOR, Easter2022.PERMANENT_EGGSTERMINATOR }, e -> {
+    	if (e.equip()) {
+    		e.getPlayer().setPlayerOption("Splatter", 8, true);
+    		if (Easter2022.ENABLED)
+                e.getPlayer().sendMessage("Using the Combat Styles menu, you can choose whether to fire marshmallows (in support of the Chocatrice) or scotch-eggs (in support of the Evil Chicken).");
+            return;
+    	}
+        if (e.getItem().getId() == Easter2022.EGGSTERMINATOR) {
+        	e.cancel();
+            e.getPlayer().sendOptionDialogue("Destroy the Eggsterminator?", ops -> {
+            	ops.add("Yes, destroy it.", () -> {
+            		e.getPlayer().getEquipment().setNoPluginTrigger(Equipment.WEAPON, null);
+            		e.getPlayer().setPlayerOption("null", 8, true);
+                    e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
+                    e.getPlayer().getAppearance().generateAppearanceData();
                 });
-            } else
-            	e.getPlayer().setPlayerOption("null", 8, true);
-        }
-    };
+            	ops.add("No, keep it.");
+            });
+        } else
+        	e.getPlayer().setPlayerOption("null", 8, true);
+    });
 
-    public static LoginHandler removeTempEggsterminator = new LoginHandler() {
-        @Override
-        public void handle(LoginEvent e) {
-            if (Easter2022.ENABLED)
-                return;
-            if (e.getPlayer().getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
-                e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
-                e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
-                e.getPlayer().getAppearance().generateAppearanceData();
-                e.getPlayer().sendMessage("The Easter event is over and the magic of your Eggsterminator has vanished. You watch as it melts into chocolate.");
-            }
+    public static LoginHandler removeTempEggsterminator = new LoginHandler(e -> {
+    	if (Easter2022.ENABLED)
+            return;
+        if (e.getPlayer().getEquipment().getWeaponId() == Easter2022.EGGSTERMINATOR) {
+            e.getPlayer().getEquipment().deleteItem(Easter2022.EGGSTERMINATOR, 1);
+            e.getPlayer().getEquipment().refresh(Equipment.WEAPON);
+            e.getPlayer().getAppearance().generateAppearanceData();
+            e.getPlayer().sendMessage("The Easter event is over and the magic of your Eggsterminator has vanished. You watch as it melts into chocolate.");
         }
-    };
+    });
 }

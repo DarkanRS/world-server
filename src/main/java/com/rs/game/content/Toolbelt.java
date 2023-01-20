@@ -22,7 +22,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
@@ -129,55 +128,52 @@ public class Toolbelt {
 		}
 	}
 
-	public static ItemClickHandler handleToolbeltOps = new ItemClickHandler(new String[] { "Add-to-toolbelt", "Carve", "Light", "Grind", "Powder", "Squeeze", "Craft", "Fletch", "Gut" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Add-to-toolbelt":
-				if (e.getPlayer().addToolbelt(e.getItem().getId())) {
-					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
-					refreshToolbelt(e.getPlayer());
-				}
-				break;
-			case "Light":
-				InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.TINDERBOX.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
-				break;
-			case "Grind":
-			case "Powder":
-			case "Squeeze":
-				InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.PESTLE_AND_MORTAR.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
-				break;
-			case "Craft":
-			case "Carve":
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()) || InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.GLASSBLOWING_PIPE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				break;
-			case "Fletch":
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
-					return;
-				break;
-			case "Gut":
-				InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
-				break;
+	public static ItemClickHandler handleToolbeltOps = new ItemClickHandler(new String[] { "Add-to-toolbelt", "Carve", "Light", "Grind", "Powder", "Squeeze", "Craft", "Fletch", "Gut" }, e -> {
+		switch(e.getOption()) {
+		case "Add-to-toolbelt":
+			if (e.getPlayer().addToolbelt(e.getItem().getId())) {
+				e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+				refreshToolbelt(e.getPlayer());
 			}
+			break;
+		case "Light":
+			InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.TINDERBOX.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
+			break;
+		case "Grind":
+		case "Powder":
+		case "Squeeze":
+			InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.PESTLE_AND_MORTAR.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
+			break;
+		case "Craft":
+		case "Carve":
+			if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()) || InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.GLASSBLOWING_PIPE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_NEEDLE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			break;
+		case "Fletch":
+			if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.DUNG_CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			else if (InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.CHISEL.itemIds[0], 1), e.getItem(), -1, e.getSlotId()))
+				return;
+			break;
+		case "Gut":
+			InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), new Item(Tools.KNIFE.itemIds[0], 1), e.getItem(), -1, e.getSlotId());
+			break;
 		}
-	};
+	});
 
 	public static void refreshToolbelt(Player player) {
 		if (player.getToolbelt() == null)

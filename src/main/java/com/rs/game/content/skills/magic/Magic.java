@@ -39,9 +39,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.IFOnNPCEvent;
-import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
@@ -96,83 +93,68 @@ public class Magic {
 		}
 	}
 	
-	public static InterfaceOnPlayerHandler manualCastPlayer = new InterfaceOnPlayerHandler(false, new int[] { 192, 193, 950 }) {
-		@Override
-		public void handle(IFOnPlayerEvent e) {
-			CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
-			if (combat != null)
-				manualCast(e.getPlayer(), e.getTarget(), combat);
-		}
-	};
+	public static InterfaceOnPlayerHandler manualCastPlayer = new InterfaceOnPlayerHandler(false, new int[] { 192, 193, 950 }, e -> {
+		CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
+		if (combat != null)
+			manualCast(e.getPlayer(), e.getTarget(), combat);
+	});
 	
-	public static InterfaceOnNPCHandler manualCastNPC = new InterfaceOnNPCHandler(false, new int[] { 192, 193, 950 }) {
-		@Override
-		public void handle(IFOnNPCEvent e) {
-			e.getPlayer().stopAll(false);
-			CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
-			if (combat != null) {
-				if (!e.getTarget().getDefinitions().hasAttackOption()) {
-					e.getPlayer().sendMessage("You can't attack that.");
-					return;
-				}
-				manualCast(e.getPlayer(), e.getTarget(), combat);
+	public static InterfaceOnNPCHandler manualCastNPC = new InterfaceOnNPCHandler(false, new int[] { 192, 193, 950 }, e -> {
+		e.getPlayer().stopAll(false);
+		CombatSpell combat = CombatSpell.forId(e.getInterfaceId(), e.getComponentId());
+		if (combat != null) {
+			if (!e.getTarget().getDefinitions().hasAttackOption()) {
+				e.getPlayer().sendMessage("You can't attack that.");
+				return;
 			}
+			manualCast(e.getPlayer(), e.getTarget(), combat);
 		}
-	};
+	});
 
-	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 2)
-				e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
-			else if (e.getComponentId() == 7)
-				e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
-			else if (e.getComponentId() == 9)
-				e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
-			else if (e.getComponentId() == 11)
-				e.getPlayer().getCombatDefinitions().switchShowMiscSpells();
-			else if (e.getComponentId() == 13)
-				e.getPlayer().getCombatDefinitions().switchShowSkillSpells();
-			else if (e.getComponentId() >= 15 & e.getComponentId() <= 17)
-				e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 15);
-			else
-				Magic.processNormalSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
-		}
-	};
+	public static ButtonClickHandler handleNormalSpellbookButtons = new ButtonClickHandler(192, e -> {
+		if (e.getComponentId() == 2)
+			e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
+		else if (e.getComponentId() == 7)
+			e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
+		else if (e.getComponentId() == 9)
+			e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
+		else if (e.getComponentId() == 11)
+			e.getPlayer().getCombatDefinitions().switchShowMiscSpells();
+		else if (e.getComponentId() == 13)
+			e.getPlayer().getCombatDefinitions().switchShowSkillSpells();
+		else if (e.getComponentId() >= 15 & e.getComponentId() <= 17)
+			e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 15);
+		else
+			Magic.processNormalSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
+	});
 
-	public static ButtonClickHandler handleAncientSpellbookButtons = new ButtonClickHandler(193) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 5)
-				e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
-			else if (e.getComponentId() == 7)
-				e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
-			else if (e.getComponentId() >= 9 && e.getComponentId() <= 11)
-				e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 9);
-			else if (e.getComponentId() == 18)
-				e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
-			else
-				Magic.processAncientSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
-		}
-	};
+	public static ButtonClickHandler handleAncientSpellbookButtons = new ButtonClickHandler(193, e -> {
+		if (e.getComponentId() == 5)
+			e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
+		else if (e.getComponentId() == 7)
+			e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
+		else if (e.getComponentId() >= 9 && e.getComponentId() <= 11)
+			e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 9);
+		else if (e.getComponentId() == 18)
+			e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
+		else
+			Magic.processAncientSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
+	});
 
-	public static ButtonClickHandler handleLunarSpellbookButtons = new ButtonClickHandler(430) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 5)
-				e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
-			else if (e.getComponentId() == 7)
-				e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
-			else if (e.getComponentId() == 9)
-				e.getPlayer().getCombatDefinitions().switchShowMiscSpells();
-			else if (e.getComponentId() >= 11 & e.getComponentId() <= 13)
-				e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 11);
-			else if (e.getComponentId() == 20)
-				e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
-			else
-				Magic.processLunarSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
-		}
-	};
+	public static ButtonClickHandler handleLunarSpellbookButtons = new ButtonClickHandler(430, e -> {
+		if (e.getComponentId() == 5)
+			e.getPlayer().getCombatDefinitions().switchShowCombatSpells();
+		else if (e.getComponentId() == 7)
+			e.getPlayer().getCombatDefinitions().switchShowTeleportSkillSpells();
+		else if (e.getComponentId() == 9)
+			e.getPlayer().getCombatDefinitions().switchShowMiscSpells();
+		else if (e.getComponentId() >= 11 & e.getComponentId() <= 13)
+			e.getPlayer().getCombatDefinitions().setSortSpellBook(e.getComponentId() - 11);
+		else if (e.getComponentId() == 20)
+			e.getPlayer().getCombatDefinitions().switchDefensiveCasting();
+		else
+			Magic.processLunarSpell(e.getPlayer(), e.getComponentId(), e.getPacket());
+	});
 
 	public static final void setCombatSpell(Player player, CombatSpell spell) {
 		if (player.getCombatDefinitions().getAutoCast() == spell)

@@ -5,7 +5,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -23,24 +22,21 @@ public class RepairStandD extends Conversation {
 		player.save("repairSlot", slot);
 	}
 
-	public static ButtonClickHandler handleRepair = new ButtonClickHandler(1183) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			ItemConstants.ItemDegrade details = e.getPlayer().getO("repairDetails");
-			Item item = e.getPlayer().getO("repairItem");
-			boolean stand = e.getPlayer().getO("repairStand");
-			int slot = e.getPlayer().getO("repairSlot");
-			if (e.getComponentId() == 9) {
-				if (e.getPlayer().getInventory().hasCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item))) {
-					if (e.getPlayer().getInventory().getItem(slot) == null || e.getPlayer().getInventory().getItem(slot).getId() != item.getId())
-						return;
-					e.getPlayer().getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
-					e.getPlayer().getInventory().removeCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item));
-					e.getPlayer().getInventory().refresh();
-				} else
-					e.getPlayer().sendMessage("You don't have enough coins.");
-			}
-			e.getPlayer().closeInterfaces();
+	public static ButtonClickHandler handleRepair = new ButtonClickHandler(1183, e -> {
+		ItemConstants.ItemDegrade details = e.getPlayer().getO("repairDetails");
+		Item item = e.getPlayer().getO("repairItem");
+		boolean stand = e.getPlayer().getO("repairStand");
+		int slot = e.getPlayer().getO("repairSlot");
+		if (e.getComponentId() == 9) {
+			if (e.getPlayer().getInventory().hasCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item))) {
+				if (e.getPlayer().getInventory().getItem(slot) == null || e.getPlayer().getInventory().getItem(slot).getId() != item.getId())
+					return;
+				e.getPlayer().getInventory().getItems().set(slot, new Item(details.getItemId(), 1));
+				e.getPlayer().getInventory().removeCoins(stand ? details.getRepairStandCost(e.getPlayer()) : details.getCost(item));
+				e.getPlayer().getInventory().refresh();
+			} else
+				e.getPlayer().sendMessage("You don't have enough coins.");
 		}
-	};
+		e.getPlayer().closeInterfaces();
+	});
 }

@@ -25,8 +25,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -46,20 +44,14 @@ public class CrystalChest {
 			{ new Item(1631), new Item(1079), new Item(1093) } };
 
 
-	public static ItemOnObjectHandler handleKeyUse = new ItemOnObjectHandler(new Object[] { 172 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getItem().getId() == 989)
-				openChest(e.getPlayer(), e.getObject());
-		}
-	};
-
-	public static ObjectClickHandler handleChest = new ObjectClickHandler(new Object[] { 172 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
+	public static ItemOnObjectHandler handleKeyUse = new ItemOnObjectHandler(new Object[] { 172 }, e -> {
+		if (e.getItem().getId() == 989)
 			openChest(e.getPlayer(), e.getObject());
-		}
-	};
+	});
+
+	public static ObjectClickHandler handleChest = new ObjectClickHandler(new Object[] { 172 }, e -> {
+		openChest(e.getPlayer(), e.getObject());
+	});
 
 	private static void openChest(Player player, GameObject object) {
 		if (player.getInventory().containsItem(989)) {

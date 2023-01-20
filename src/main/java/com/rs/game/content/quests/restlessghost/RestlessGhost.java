@@ -24,9 +24,6 @@ import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -98,48 +95,34 @@ public class RestlessGhost extends QuestOutline {
 		player.getVars().setVarBit(SKULL_CONF, hasSkull(player) ? 1 : 0);
 	}
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
+	public static LoginHandler onLogin = new LoginHandler(e -> refreshSkull(e.getPlayer()));
+
+	public static ObjectClickHandler handleSkullRock = new ObjectClickHandler(new Object[] { 47713 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3) {
+			e.getPlayer().sendMessage("You take the skull.");
+			e.getPlayer().getInventory().addItem(553, 1);
 			refreshSkull(e.getPlayer());
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleSkullRock = new ObjectClickHandler(new Object[] { 47713 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3) {
-				e.getPlayer().sendMessage("You take the skull.");
-				e.getPlayer().getInventory().addItem(553, 1);
-				refreshSkull(e.getPlayer());
+	public static ObjectClickHandler handleCoffin = new ObjectClickHandler(new Object[] { 2145 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 2) {
+			e.getPlayer().getQuestManager().setStage(Quest.RESTLESS_GHOST, 3);
+			e.getPlayer().sendMessage("A ghost appears nearby!");
+		}
+	});
+
+	public static NPCClickHandler talkToNpcs = new NPCClickHandler(new Object[] { 457, 458 }, e -> {
+		if (e.getOpNum() == 1) {
+			if (e.getNPC().getId() == 458) {
+				e.getPlayer().startConversation(new UrhneyD(e.getPlayer()));
+				return;
+			}
+			if (e.getNPC().getId() == 457) {
+				if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
+					e.getPlayer().startConversation(new RGhostD(e.getPlayer()));
+				return;
 			}
 		}
-	};
-
-	public static ObjectClickHandler handleCoffin = new ObjectClickHandler(new Object[] { 2145 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 2) {
-				e.getPlayer().getQuestManager().setStage(Quest.RESTLESS_GHOST, 3);
-				e.getPlayer().sendMessage("A ghost appears nearby!");
-			}
-		}
-	};
-
-	public static NPCClickHandler talkToNpcs = new NPCClickHandler(new Object[] { 457, 458 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 1) {
-				if (e.getNPC().getId() == 458) {
-					e.getPlayer().startConversation(new UrhneyD(e.getPlayer()));
-					return;
-				}
-				if (e.getNPC().getId() == 457) {
-					if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
-						e.getPlayer().startConversation(new RGhostD(e.getPlayer()));
-					return;
-				}
-			}
-		}
-	};
+	});
 }

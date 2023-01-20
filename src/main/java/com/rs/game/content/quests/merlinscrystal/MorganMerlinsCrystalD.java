@@ -12,7 +12,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -83,11 +82,6 @@ public class MorganMerlinsCrystalD extends Conversation {
 		});
 	}
 
-	public static NPCClickHandler handleMorganDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new MorganMerlinsCrystalD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleMorganDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new MorganMerlinsCrystalD(e.getPlayer()).getStart()));
 
 }

@@ -36,7 +36,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
@@ -332,76 +331,67 @@ public final class Skills {
 		}
 	}
 
-	public static ButtonClickHandler handleLevelupButtons = new ButtonClickHandler(741) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 9)
-				e.getPlayer().getInterfaceManager().sendInterface(499);
-		}
-	};
+	public static ButtonClickHandler handleLevelupButtons = new ButtonClickHandler(741, e -> {
+		if (e.getComponentId() == 9)
+			e.getPlayer().getInterfaceManager().sendInterface(499);
+	});
 
-	public static ButtonClickHandler handleGuideButtons = new ButtonClickHandler(499) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().getVars().setVarBit(3289, e.getComponentId()-9);
-		}
-	};
+	public static ButtonClickHandler handleGuideButtons = new ButtonClickHandler(499, e -> {
+		e.getPlayer().getVars().setVarBit(3289, e.getComponentId()-9);
+	});
 
-	public static ButtonClickHandler handleSkillTabButtons = new ButtonClickHandler(320) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPacket() == ClientPacket.IF_OP1) {
-				e.getPlayer().stopAll();
-				int targetId = Skills.getTargetIdByComponentId(e.getComponentId());
-				int skillId = Skills.getSkillIdByTargetId(targetId);
-				e.getPlayer().getVars().setVarBit(3289, 0);
-				e.getPlayer().getVars().setVarBit(3288, targetId+1);
-				if (e.getPlayer().getSkills().lastCheckedLevels[skillId] != e.getPlayer().getSkills().getLevelForXp(skillId)) {
-					e.getPlayer().getPackets().sendVarc(getVarcIdFromTarget(targetId), e.getPlayer().getSkills().lastCheckedLevels[skillId]);
-					e.getPlayer().getVars().setVarBit(4729, targetId+1);
-				}
-				e.getPlayer().getVars().syncVarsToClient();
-
-				if (e.getPlayer().getSkills().lastCheckedLevels[skillId] != e.getPlayer().getSkills().getLevelForXp(skillId)) {
-					e.getPlayer().getSkills().lastCheckedLevels[skillId] = e.getPlayer().getSkills().getLevelForXp(skillId);
-					e.getPlayer().getInterfaceManager().sendInterface(741);
-				} else
-					e.getPlayer().getInterfaceManager().sendInterface(499);
-
-				if (targetId != -1)
-					switchFlash(e.getPlayer(), skillId, false);
-			} else if (e.getPacket() == ClientPacket.IF_OP2 || e.getPacket() == ClientPacket.IF_OP3) {
-				int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
-				final boolean usingLevel = e.getPacket() == ClientPacket.IF_OP2;
-				e.getPlayer().sendInputInteger("Please enter target " + (usingLevel ? "level" : "xp") + " you want to set: ", integer -> {
-					if (!usingLevel) {
-						int xpTarget = integer;
-						if (xpTarget < e.getPlayer().getSkills().getXp(skillId) || e.getPlayer().getSkills().getXp(skillId) >= 200000000)
-							return;
-						if (xpTarget > 200000000)
-							xpTarget = 200000000;
-						e.getPlayer().getSkills().setSkillTarget(false, skillId, xpTarget);
-
-					} else {
-						int levelTarget = integer;
-						int curLevel = e.getPlayer().getSkills().getLevel(skillId);
-						if (curLevel >= (skillId == 24 ? 120 : 99))
-							return;
-						if (levelTarget > (skillId == 24 ? 120 : 99))
-							levelTarget = skillId == 24 ? 120 : 99;
-						if (levelTarget < e.getPlayer().getSkills().getLevel(skillId))
-							return;
-						e.getPlayer().getSkills().setSkillTarget(true, skillId, levelTarget);
-					}
-				});
-			} else if (e.getPacket() == ClientPacket.IF_OP4) {
-				int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
-				e.getPlayer().getSkills().setSkillTargetEnabled(skillId, false);
-				e.getPlayer().getSkills().setSkillTargetValue(skillId, 0);
-				e.getPlayer().getSkills().setSkillTargetUsingLevelMode(skillId, false);
+	public static ButtonClickHandler handleSkillTabButtons = new ButtonClickHandler(320, e -> {
+		if (e.getPacket() == ClientPacket.IF_OP1) {
+			e.getPlayer().stopAll();
+			int targetId = Skills.getTargetIdByComponentId(e.getComponentId());
+			int skillId = Skills.getSkillIdByTargetId(targetId);
+			e.getPlayer().getVars().setVarBit(3289, 0);
+			e.getPlayer().getVars().setVarBit(3288, targetId+1);
+			if (e.getPlayer().getSkills().lastCheckedLevels[skillId] != e.getPlayer().getSkills().getLevelForXp(skillId)) {
+				e.getPlayer().getPackets().sendVarc(getVarcIdFromTarget(targetId), e.getPlayer().getSkills().lastCheckedLevels[skillId]);
+				e.getPlayer().getVars().setVarBit(4729, targetId+1);
 			}
+			e.getPlayer().getVars().syncVarsToClient();
+
+			if (e.getPlayer().getSkills().lastCheckedLevels[skillId] != e.getPlayer().getSkills().getLevelForXp(skillId)) {
+				e.getPlayer().getSkills().lastCheckedLevels[skillId] = e.getPlayer().getSkills().getLevelForXp(skillId);
+				e.getPlayer().getInterfaceManager().sendInterface(741);
+			} else
+				e.getPlayer().getInterfaceManager().sendInterface(499);
+
+			if (targetId != -1)
+				switchFlash(e.getPlayer(), skillId, false);
+		} else if (e.getPacket() == ClientPacket.IF_OP2 || e.getPacket() == ClientPacket.IF_OP3) {
+			int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
+			final boolean usingLevel = e.getPacket() == ClientPacket.IF_OP2;
+			e.getPlayer().sendInputInteger("Please enter target " + (usingLevel ? "level" : "xp") + " you want to set: ", integer -> {
+				if (!usingLevel) {
+					int xpTarget = integer;
+					if (xpTarget < e.getPlayer().getSkills().getXp(skillId) || e.getPlayer().getSkills().getXp(skillId) >= 200000000)
+						return;
+					if (xpTarget > 200000000)
+						xpTarget = 200000000;
+					e.getPlayer().getSkills().setSkillTarget(false, skillId, xpTarget);
+
+				} else {
+					int levelTarget = integer;
+					int curLevel = e.getPlayer().getSkills().getLevel(skillId);
+					if (curLevel >= (skillId == 24 ? 120 : 99))
+						return;
+					if (levelTarget > (skillId == 24 ? 120 : 99))
+						levelTarget = skillId == 24 ? 120 : 99;
+					if (levelTarget < e.getPlayer().getSkills().getLevel(skillId))
+						return;
+					e.getPlayer().getSkills().setSkillTarget(true, skillId, levelTarget);
+				}
+			});
+		} else if (e.getPacket() == ClientPacket.IF_OP4) {
+			int skillId = Skills.getSkillIdByTargetId(Skills.getTargetIdByComponentId(e.getComponentId()));
+			e.getPlayer().getSkills().setSkillTargetEnabled(skillId, false);
+			e.getPlayer().getSkills().setSkillTargetValue(skillId, 0);
+			e.getPlayer().getSkills().setSkillTargetUsingLevelMode(skillId, false);
 		}
-	};
+	});
 
 	private static int getVarcIdFromTarget(int targetId) {
 		switch(targetId) {
@@ -460,13 +450,10 @@ public final class Skills {
 	}
 
 	@Deprecated
-	public static ButtonClickHandler handleSkillGuideButtons = new ButtonClickHandler(1218) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-//			if ((e.getComponentId() >= 33 && e.getComponentId() <= 55) || e.getComponentId() == 120 || e.getComponentId() == 151 || e.getComponentId() == 189)
-//				e.getPlayer().getInterfaceManager().setInterface(false, 1218, 1, 1217);
-		}
-	};
+	public static ButtonClickHandler handleSkillGuideButtons = new ButtonClickHandler(1218, e -> {
+//		if ((e.getComponentId() >= 33 && e.getComponentId() <= 55) || e.getComponentId() == 120 || e.getComponentId() == 151 || e.getComponentId() == 189)
+//			e.getPlayer().getInterfaceManager().setInterface(false, 1218, 1, 1217);
+	});
 
 	public void refreshEnabledSkillsTargets() {
 		int value = 0;
@@ -567,32 +554,29 @@ public final class Skills {
 		player.getVars().setVar(counter == 0 ? 1801 : 2474 + counter, (int) (xpTracks[counter] * 10));
 	}
 
-	public static ButtonClickHandler handleSetupXPCounter = new ButtonClickHandler(1214) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 18)
-				e.getPlayer().closeInterfaces();
-			else if (e.getComponentId() >= 22 && e.getComponentId() <= 24)
-				e.getPlayer().getSkills().setCurrentCounter(e.getComponentId() - 22);
-			else if (e.getComponentId() == 27)
-				e.getPlayer().getSkills().switchTrackCounter();
-			else if (e.getComponentId() == 61)
-				e.getPlayer().getSkills().resetCounterXP();
-			else if (e.getComponentId() >= 31 && e.getComponentId() <= 57)
-				if (e.getComponentId() == 33)
-					e.getPlayer().getSkills().setCounterSkill(4);
-				else if (e.getComponentId() == 34)
-					e.getPlayer().getSkills().setCounterSkill(2);
-				else if (e.getComponentId() == 35)
-					e.getPlayer().getSkills().setCounterSkill(3);
-				else if (e.getComponentId() == 42)
-					e.getPlayer().getSkills().setCounterSkill(18);
-				else if (e.getComponentId() == 49)
-					e.getPlayer().getSkills().setCounterSkill(11);
-				else
-					e.getPlayer().getSkills().setCounterSkill(e.getComponentId() >= 56 ? e.getComponentId() - 27 : e.getComponentId() - 31);
-		}
-	};
+	public static ButtonClickHandler handleSetupXPCounter = new ButtonClickHandler(1214, e -> {
+		if (e.getComponentId() == 18)
+			e.getPlayer().closeInterfaces();
+		else if (e.getComponentId() >= 22 && e.getComponentId() <= 24)
+			e.getPlayer().getSkills().setCurrentCounter(e.getComponentId() - 22);
+		else if (e.getComponentId() == 27)
+			e.getPlayer().getSkills().switchTrackCounter();
+		else if (e.getComponentId() == 61)
+			e.getPlayer().getSkills().resetCounterXP();
+		else if (e.getComponentId() >= 31 && e.getComponentId() <= 57)
+			if (e.getComponentId() == 33)
+				e.getPlayer().getSkills().setCounterSkill(4);
+			else if (e.getComponentId() == 34)
+				e.getPlayer().getSkills().setCounterSkill(2);
+			else if (e.getComponentId() == 35)
+				e.getPlayer().getSkills().setCounterSkill(3);
+			else if (e.getComponentId() == 42)
+				e.getPlayer().getSkills().setCounterSkill(18);
+			else if (e.getComponentId() == 49)
+				e.getPlayer().getSkills().setCounterSkill(11);
+			else
+				e.getPlayer().getSkills().setCounterSkill(e.getComponentId() >= 56 ? e.getComponentId() - 27 : e.getComponentId() - 31);
+	});
 
 	public void switchXPDisplay() {
 		xpDisplay = !xpDisplay;

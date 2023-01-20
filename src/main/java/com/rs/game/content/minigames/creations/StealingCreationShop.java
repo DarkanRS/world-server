@@ -19,7 +19,6 @@ package com.rs.game.content.minigames.creations;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -37,29 +36,26 @@ public class StealingCreationShop {
 		player.setCloseInterfacesEvent(() -> resetSelection(player));
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1128) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			int index = -1;
-			if (e.getComponentId() == 98 || e.getComponentId() == 4)
-				index = 0;
-			else if (e.getComponentId() == 128 || e.getComponentId() == 106)
-				index = 1;
-			else if (e.getComponentId() == 144 || e.getComponentId() == 166)
-				index = 2;
-			else if (e.getComponentId() == 203 || e.getComponentId() == 181)
-				index = 3;
-			else if (e.getComponentId() == 240 || e.getComponentId() == 218)
-				index = 4;
-			else if (e.getComponentId() == 277 || e.getComponentId() == 255)
-				index = 5;
-			else if (e.getComponentId() == 292 || e.getComponentId() == 314)
-				index = 6;
-			if (index != -1)
-				select(e.getPlayer(), index);
-			purchase(e.getPlayer());
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1128, e -> {
+		int index = -1;
+		if (e.getComponentId() == 98 || e.getComponentId() == 4)
+			index = 0;
+		else if (e.getComponentId() == 128 || e.getComponentId() == 106)
+			index = 1;
+		else if (e.getComponentId() == 144 || e.getComponentId() == 166)
+			index = 2;
+		else if (e.getComponentId() == 203 || e.getComponentId() == 181)
+			index = 3;
+		else if (e.getComponentId() == 240 || e.getComponentId() == 218)
+			index = 4;
+		else if (e.getComponentId() == 277 || e.getComponentId() == 255)
+			index = 5;
+		else if (e.getComponentId() == 292 || e.getComponentId() == 314)
+			index = 6;
+		if (index != -1)
+			select(e.getPlayer(), index);
+		purchase(e.getPlayer());
+	});
 
 	public static void select(Player player, int index) {
 		boolean[] selectedList = player.getTempAttribs().getO("sc_shop_selected");

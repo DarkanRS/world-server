@@ -16,10 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.DestroyItemEvent;
 
-public abstract class DestroyItemHandler extends PluginHandler<DestroyItemEvent> {
-	public DestroyItemHandler(Object... namesOrIds) {
-		super(namesOrIds);
+public class DestroyItemHandler extends PluginHandler<DestroyItemEvent> {
+	public DestroyItemHandler(Object[] namesOrIds, Consumer<DestroyItemEvent> handler) {
+		super(namesOrIds, handler);
 	}
 }

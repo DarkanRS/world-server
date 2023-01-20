@@ -17,11 +17,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PickupItemEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -131,130 +126,105 @@ public class HolyGrail extends QuestOutline {
 		return true;
 	}
 
-	public static NPCClickHandler handleFisherNPCs = new NPCClickHandler(new Object[]{210, 214, 215}, new String[]{"Talk-to"}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if(e.getNPCId()==214)//peasent
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(214, HeadE.SAD_CRYING, "Woe is me! Our crops are all failing... how shall I feed myself this winter?")
-				);
-			if(e.getNPCId()==215)//paesent
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(215, HeadE.HAPPY_TALKING, "Oh happy day! Suddenly our crops are growing again! It'll be a bumper harvest this year!")
-				);
-			if(e.getNPCId()==210)//grail maiden
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(210, HeadE.CALM_TALK, "Welcome to the Grail Castle.")
-				);
-		}
-	};
+	public static NPCClickHandler handleFisherNPCs = new NPCClickHandler(new Object[]{210, 214, 215}, new String[]{"Talk-to"}, e -> {
+		if (e.getNPCId() == 214)// peasent
+			e.getPlayer().startConversation(new Dialogue()
+					.addNPC(214, HeadE.SAD_CRYING, "Woe is me! Our crops are all failing... how shall I feed myself this winter?"));
+		if (e.getNPCId() == 215)// paesent
+			e.getPlayer().startConversation(new Dialogue()
+					.addNPC(215, HeadE.HAPPY_TALKING, "Oh happy day! Suddenly our crops are growing again! It'll be a bumper harvest this year!"));
+		if (e.getNPCId() == 210)// grail maiden
+			e.getPlayer().startConversation(new Dialogue()
+					.addNPC(210, HeadE.CALM_TALK, "Welcome to the Grail Castle."));
+	});
 
-	public static PickupItemHandler handleHolyGrail = new PickupItemHandler(new Object[] {19},
-			WorldTile.of(2649, 4684, 2)) {
-		@Override
-		public void handle(PickupItemEvent e) {
-			if(e.getPlayer().isQuestComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
-				e.cancelPickup();
-		}
-	};
+	public static PickupItemHandler handleHolyGrail = new PickupItemHandler(new Object[] {19}, WorldTile.of(2649, 4684, 2), e -> {
+		if(e.getPlayer().isQuestComplete(Quest.HOLY_GRAIL) || e.getPlayer().getInventory().containsItem(19))
+			e.cancelPickup();
+	});
 
-	public static PlayerStepHandler handleMagicWhistleSpawn = new PlayerStepHandler(WorldTile.of(3106, 3361, 2)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			if(e.getPlayer().getInventory().containsItem(15) && !e.getPlayer().getTempAttribs().getB("Spawned_Whistle")) {
-				e.getPlayer().getTempAttribs().setB("Spawned_Whistle", true);
-				World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
-				World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
+	public static PlayerStepHandler handleMagicWhistleSpawn = new PlayerStepHandler(WorldTile.of(3106, 3361, 2), e -> {
+		if(e.getPlayer().getInventory().containsItem(15) && !e.getPlayer().getTempAttribs().getB("Spawned_Whistle")) {
+			e.getPlayer().getTempAttribs().setB("Spawned_Whistle", true);
+			World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
+			World.addGroundItem(new Item(16, 1), WorldTile.of(3107, 3359, 2), e.getPlayer());
+		}
+	});
+
+	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(new Object[] { 16 }, e -> {
+		if(e.getOption().equalsIgnoreCase("Blow")) {
+			if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
+				Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2757, 3475, 0));
 			}
-		}
-	};
-
-	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(16) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("Blow")) {
-				if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
-					Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2757, 3475, 0));
+			if (e.getPlayer().getTile().withinDistance(WorldTile.of(2742, 3236, 0), 2)) {
+				if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
+					Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2678, 4713, 0));
+					return;
 				}
-				if (e.getPlayer().getTile().withinDistance(WorldTile.of(2742, 3236, 0), 2)) {
-					if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
-						Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2678, 4713, 0));
-						return;
-					}
-					Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2803, 4713, 0));
-				}
-			}
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().soundEffect(2739);
+				Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2803, 4713, 0));
 			}
 		}
-	};
+		if(e.getOption().equalsIgnoreCase("drop")) {
+			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			e.getPlayer().soundEffect(2739);
+		}
+	});
 
-	public static ItemClickHandler handleGrailBell = new ItemClickHandler(new Object[] { 17 }, new String[] { "Ring" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().getTile().withinDistance(WorldTile.of(2762, 4694, 0), 1)) {
-				e.getPlayer().startConversation(new Dialogue()
-						.addSimple("Ting-a-ling!")
-						.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-						.addNext(() -> e.getPlayer().setNextWorldTile(WorldTile.of(2762, 4692, 0))));
-				return;
-			}
-			e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
+	public static ItemClickHandler handleGrailBell = new ItemClickHandler(new Object[] { 17 }, new String[] { "Ring" }, e -> {
+		if (e.getPlayer().getTile().withinDistance(WorldTile.of(2762, 4694, 0), 1)) {
+			e.getPlayer().startConversation(new Dialogue()
+					.addSimple("Ting-a-ling!")
+					.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
+					.addNext(() -> e.getPlayer().setNextWorldTile(WorldTile.of(2762, 4692, 0))));
+			return;
 		}
-	};
+		e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
+	});
 
-	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(new Object[] { 18 }, new String[] { "Blow-on" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
-				e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
-				return;
-			}
-			WorldTile playerTile = e.getPlayer().getTile();
-			WorldTile percievalTile = WorldTile.of(2961, 3505, 0);
-			int xDir = percievalTile.getX() - playerTile.getX();
-			int yDir = percievalTile.getY() - playerTile.getY();
-			if (xDir == 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points down somewhere near here");
-			if (xDir == 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to the north");
-			if (xDir > 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to northeast");
-			if (xDir > 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points to the east");
-			if (xDir > 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the southeast");
-			if (xDir == 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the south");
-			if (xDir < 0 && yDir < 0)
-				e.getPlayer().sendMessage("The feather points to the southwest");
-			if (xDir < 0 && yDir == 0)
-				e.getPlayer().sendMessage("The feather points to the west");
-			if (xDir < 0 && yDir > 0)
-				e.getPlayer().sendMessage("The feather points to the northwest");
+	public static ItemClickHandler handleMagicGoldFeather = new ItemClickHandler(new Object[] { 18 }, new String[] { "Blow-on" }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
+			e.getPlayer().sendMessage("The feather seems like an ordinary feather now...");
+			return;
 		}
-	};
+		WorldTile playerTile = e.getPlayer().getTile();
+		WorldTile percievalTile = WorldTile.of(2961, 3505, 0);
+		int xDir = percievalTile.getX() - playerTile.getX();
+		int yDir = percievalTile.getY() - playerTile.getY();
+		if (xDir == 0 && yDir == 0)
+			e.getPlayer().sendMessage("The feather points down somewhere near here");
+		if (xDir == 0 && yDir > 0)
+			e.getPlayer().sendMessage("The feather points to the north");
+		if (xDir > 0 && yDir > 0)
+			e.getPlayer().sendMessage("The feather points to northeast");
+		if (xDir > 0 && yDir == 0)
+			e.getPlayer().sendMessage("The feather points to the east");
+		if (xDir > 0 && yDir < 0)
+			e.getPlayer().sendMessage("The feather points to the southeast");
+		if (xDir == 0 && yDir < 0)
+			e.getPlayer().sendMessage("The feather points to the south");
+		if (xDir < 0 && yDir < 0)
+			e.getPlayer().sendMessage("The feather points to the southwest");
+		if (xDir < 0 && yDir == 0)
+			e.getPlayer().sendMessage("The feather points to the west");
+		if (xDir < 0 && yDir > 0)
+			e.getPlayer().sendMessage("The feather points to the northwest");
+	});
 
-	public static ObjectClickHandler handlePercivalSack = new ObjectClickHandler(new Object[]{ 23 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
-				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "It is just an ordinary sack..."));
-				return;
-			}
-			if(e.getOption().equalsIgnoreCase("Prod")) {
-				e.getPlayer().startConversation(new Dialogue().addSimple("You hear a muffled groan. The sack wiggles slightly."));
-				return;
-			}
-			e.getPlayer().startConversation(new Dialogue().addSimple("You hear muffled noises from the sack. You open the sack."));
-			OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, WorldTile.of(2961, 3504, 0), true);
-			percival.faceEntity(e.getPlayer());
-			percival.setRandomWalk(false);
+	public static ObjectClickHandler handlePercivalSack = new ObjectClickHandler(new Object[]{ 23 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) != SPEAK_TO_PERCIVAL) {
+			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "It is just an ordinary sack..."));
+			return;
 		}
-	};
+		if(e.getOption().equalsIgnoreCase("Prod")) {
+			e.getPlayer().startConversation(new Dialogue().addSimple("You hear a muffled groan. The sack wiggles slightly."));
+			return;
+		}
+		e.getPlayer().startConversation(new Dialogue().addSimple("You hear muffled noises from the sack. You open the sack."));
+		OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, WorldTile.of(2961, 3504, 0), true);
+		percival.faceEntity(e.getPlayer());
+		percival.setRandomWalk(false);
+	});
 
 	@Override
 	public void complete(Player player) {

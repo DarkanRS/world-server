@@ -24,7 +24,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -94,29 +93,26 @@ public class Silver {
 			player.getPackets().setIFItem(438, item.getButtonId()+1, item.getProduct().getId(), item.getProduct().getAmount());
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(438) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().closeInterfaces();
-			SilverItems silver = SilverItems.forId(e.getComponentId());
-			int numberToMake = getNumberToMake(e.getPacket());
-			if (numberToMake == -5)
-				e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
-					if (silver != null)
-						e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, number));
-					else if (e.getPlayer().hasRights(Rights.DEVELOPER))
-						e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-					else
-						e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
-				});
-			else if (silver != null)
-				e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, numberToMake));
-			else if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
-			else
-				e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(438, e -> {
+		e.getPlayer().closeInterfaces();
+		SilverItems silver = SilverItems.forId(e.getComponentId());
+		int numberToMake = getNumberToMake(e.getPacket());
+		if (numberToMake == -5)
+			e.getPlayer().sendInputInteger("How many would you like to make?", number -> {
+				if (silver != null)
+					e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, number));
+				else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+					e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+				else
+					e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
+			});
+		else if (silver != null)
+			e.getPlayer().getActionManager().setAction(new SilverCraftingAction(silver, numberToMake));
+		else if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("SILVER: component: " + e.getComponentId() + " packetId: " + e.getPacket());
+		else
+			e.getPlayer().sendMessage("You are unable to craft this item at the moment.");
+	});
 
 	public static int getNumberToMake(ClientPacket packetId) {
 		switch (packetId) {

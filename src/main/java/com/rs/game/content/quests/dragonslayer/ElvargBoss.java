@@ -115,10 +115,5 @@ public class ElvargBoss extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(ELVARG_ID) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new ElvargBoss(tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(ELVARG_ID, (npcId, tile) -> new ElvargBoss(tile));
 }

@@ -25,7 +25,6 @@ import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
@@ -35,14 +34,11 @@ public class FillAction extends PlayerAction {
 	private Animation FILLING = new Animation(883);
 	private Filler fil;
 
-	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Filler fill = FillAction.isFillable(e.getItem());
-			if (fill != null)
-				e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));
-		}
-	};
+	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, e -> {
+		Filler fill = FillAction.isFillable(e.getItem());
+		if (fill != null)
+			e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));
+	});
 
 	public enum Filler {
 		VIAL(new Item(229, 1), new Item(227, 1)),

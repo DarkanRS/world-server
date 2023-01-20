@@ -42,10 +42,5 @@ public class AntonWorld extends NPC {
 			setNextForceTalk(new ForceTalk("Armour and axes to suit your needs."));
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(npcId) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new AntonWorld(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, (npcId, tile) -> new AntonWorld(npcId, tile));
 }

@@ -15,7 +15,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -182,10 +181,5 @@ public class WarriorLostCityD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleWarriorDialogue = new NPCClickHandler(new Object[] { WARRIOR }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new WarriorLostCityD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleWarriorDialogue = new NPCClickHandler(new Object[] { WARRIOR }, e -> e.getPlayer().startConversation(new WarriorLostCityD(e.getPlayer()).getStart()));
 }

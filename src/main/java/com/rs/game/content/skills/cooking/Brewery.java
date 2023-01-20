@@ -21,9 +21,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -65,62 +62,50 @@ public class Brewery {
 		this.player = player;
 	}
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			e.getPlayer().getKeldagrimBrewery().updateVars();
-			e.getPlayer().getPhasmatysBrewery().updateVars();
-		}
-	};
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		e.getPlayer().getKeldagrimBrewery().updateVars();
+		e.getPlayer().getPhasmatysBrewery().updateVars();
+	});
 
-	public static ObjectClickHandler handleValve = new ObjectClickHandler(new Object[] { 7442, 7443 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Brewery brewery = e.getObjectId() == 7442 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
-			brewery.turnValve();
-		}
-	};
+	public static ObjectClickHandler handleValve = new ObjectClickHandler(new Object[] { 7442, 7443 }, e -> {
+		Brewery brewery = e.getObjectId() == 7442 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
+		brewery.turnValve();
+	});
 
-	public static ObjectClickHandler handleBarrels = new ObjectClickHandler(new Object[] { 7431, 7432 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Brewery brewery = e.getObjectId() == 7431 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
-			switch(e.getOption()) {
-			case "Drain":
-				brewery.reset();
-				e.getPlayer().sendMessage("You drain the spoiled drink from the vat.");
-				break;
-			case "Level":
-				brewery.level();
-				break;
-			}
+	public static ObjectClickHandler handleBarrels = new ObjectClickHandler(new Object[] { 7431, 7432 }, e -> {
+		Brewery brewery = e.getObjectId() == 7431 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
+		switch(e.getOption()) {
+		case "Drain":
+			brewery.reset();
+			e.getPlayer().sendMessage("You drain the spoiled drink from the vat.");
+			break;
+		case "Level":
+			brewery.level();
+			break;
 		}
-	};
+	});
 
-	public static ItemOnObjectHandler handleVats = new ItemOnObjectHandler(new Object[] { 7494, 7495 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Brewery brewery = e.getObjectId() == 7494 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
-			switch(e.getItem().getId()) {
-			case BUCKET_OF_WATER:
-				brewery.addWater();
-				break;
-			case BARLEY_MALT:
-				brewery.addMalt();
-				break;
-			case ALE_YEAST:
-				brewery.addYeast();
-				break;
-			case THE_STUFF:
-				brewery.addTheStuff();
-				break;
-			default:
-				brewery.addSecondary(e.getItem().getId());
-				break;
-			}
-			brewery.updateVars();
+	public static ItemOnObjectHandler handleVats = new ItemOnObjectHandler(new Object[] { 7494, 7495 }, e -> {
+		Brewery brewery = e.getObjectId() == 7494 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
+		switch(e.getItem().getId()) {
+		case BUCKET_OF_WATER:
+			brewery.addWater();
+			break;
+		case BARLEY_MALT:
+			brewery.addMalt();
+			break;
+		case ALE_YEAST:
+			brewery.addYeast();
+			break;
+		case THE_STUFF:
+			brewery.addTheStuff();
+			break;
+		default:
+			brewery.addSecondary(e.getItem().getId());
+			break;
 		}
-	};
+		brewery.updateVars();
+	});
 
 	public void ferment() {
 		if (isFinished())

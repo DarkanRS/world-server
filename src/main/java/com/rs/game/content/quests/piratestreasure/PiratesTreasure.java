@@ -14,9 +14,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -105,23 +102,20 @@ public class PiratesTreasure extends QuestOutline {
 		return lines;
 	}
 
-	public static ObjectClickHandler handleTreasureChest = new ObjectClickHandler(new Object[] {BLUE_MOON_INN_CHEST }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(!p.getInventory().containsItem(CHEST_KEY))
-				return;
-			if(e.getOption().equalsIgnoreCase("open")) {
-				p.setNextAnimation(new Animation(536));
-				p.lock(2);
-				GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-				p.faceObject(openedChest);
-				World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-				p.getInventory().addItem(new Item(PIRATE_MESSAGE, 1));
-			}
+	public static ObjectClickHandler handleTreasureChest = new ObjectClickHandler(new Object[] {BLUE_MOON_INN_CHEST }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		if(!p.getInventory().containsItem(CHEST_KEY))
+			return;
+		if(e.getOption().equalsIgnoreCase("open")) {
+			p.setNextAnimation(new Animation(536));
+			p.lock(2);
+			GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+			p.faceObject(openedChest);
+			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
+			p.getInventory().addItem(new Item(PIRATE_MESSAGE, 1));
 		}
-	};
+	});
 
 	public static void findTreasure(Player p) {
 		if((p.getQuestManager().getStage(Quest.PIRATES_TREASURE) != GET_TREASURE) || !p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(PiratesTreasure.KNOWS_TREASURE_LOC_ATTR))
@@ -140,48 +134,34 @@ public class PiratesTreasure extends QuestOutline {
 		}
 	}
 
-	public static EnterChunkHandler handleBreakRum = new EnterChunkHandler() {
-		@Override
-		public void handle(EnterChunkEvent e) {
-			if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
-				if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
-					if (Utils.getDistance(p.getTile(), WorldTile.of(2928, 3143, 0)) > 70) {
-						while (p.getInventory().containsItem(RUM, 1))
-							p.getInventory().removeItems(new Item(RUM, 1));
-						p.sendMessage("Your Karamja rum gets broken and spilled.");
-					}
-		}
-	};
+	public static EnterChunkHandler handleBreakRum = new EnterChunkHandler(e -> {
+		if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
+			if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
+				if (Utils.getDistance(p.getTile(), WorldTile.of(2928, 3143, 0)) > 70) {
+					while (p.getInventory().containsItem(RUM, 1))
+						p.getInventory().removeItems(new Item(RUM, 1));
+					p.sendMessage("Your Karamja rum gets broken and spilled.");
+				}
+	});
 
 
-	public static ItemClickHandler openCasket = new ItemClickHandler(new Object[] { CASKET }, new String[] { "Open" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().getInventory().removeItems(new Item(CASKET, 1));
-			e.getPlayer().getInventory().addItem(new Item(1605, 1), true);//gold ring
-			e.getPlayer().getInventory().addItem(new Item(1635, 1), true);//cut emerald
-		}
-	};
+	public static ItemClickHandler openCasket = new ItemClickHandler(new Object[] { CASKET }, new String[] { "Open" }, e -> {
+		e.getPlayer().getInventory().removeItems(new Item(CASKET, 1));
+		e.getPlayer().getInventory().addItem(new Item(1605, 1), true);//gold ring
+		e.getPlayer().getInventory().addItem(new Item(1635, 1), true);//cut emerald
+	});
 
-	public static ItemClickHandler readMessage = new ItemClickHandler(new Object[] { PIRATE_MESSAGE }, new String[] { "Read" }) {
-		private final int MESSAGE_INTERFACE = 220;
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().getInterfaceManager().sendInterface(MESSAGE_INTERFACE);//Message interface
-			e.getPlayer().getPackets().setIFText(MESSAGE_INTERFACE, 8, "Visit the city of the White Knights. In the park,");
-			e.getPlayer().getPackets().setIFText(MESSAGE_INTERFACE, 9, "Saradomin points to the X which marks the spot.");
-			e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(KNOWS_TREASURE_LOC_ATTR, true);
-		}
-	};
+	public static ItemClickHandler readMessage = new ItemClickHandler(new Object[] { PIRATE_MESSAGE }, new String[] { "Read" }, e -> {
+		e.getPlayer().getInterfaceManager().sendInterface(220);//Message interface
+		e.getPlayer().getPackets().setIFText(220, 8, "Visit the city of the White Knights. In the park,");
+		e.getPlayer().getPackets().setIFText(220, 9, "Saradomin points to the X which marks the spot.");
+		e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(KNOWS_TREASURE_LOC_ATTR, true);
+	});
 
-	public static ObjectClickHandler bananaTreePlantation = new ObjectClickHandler(new Object[] { BANANA_TREE_PLANT }) {
-		private static final int FRUIT_PICK_ANIM = 2280;
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setNextAnimation(new Animation(FRUIT_PICK_ANIM));
-			e.getPlayer().getInventory().addItem(BANANA, 1);
-		}
-	};
+	public static ObjectClickHandler bananaTreePlantation = new ObjectClickHandler(new Object[] { BANANA_TREE_PLANT }, e -> {
+		e.getPlayer().setNextAnimation(new Animation(2280));
+		e.getPlayer().getInventory().addItem(BANANA, 1);
+	});
 
 	@Override
 	public void complete(Player player) {

@@ -20,7 +20,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
 
@@ -118,79 +117,76 @@ public class StaffPotato {
 		}
 	}
 
-	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 5733 }, new String[] { "Eat", "Heal", "CM-Tool", "Commands", "Drop" }) {
-		@SuppressWarnings("deprecation")
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Drop" -> {
-				e.getPlayer().sendOptionDialogue("Drop it? It will be destroyed.", ops -> {
-					ops.add("Yes, drop it.", () -> e.getPlayer().getInventory().deleteItem(e.getItem()));
-					ops.add("Nevermind.");
-				});
-			}
-			case "Eat" -> {
-				if (!e.getPlayer().canEat())
-					return;
-				e.getPlayer().sendMessage("I'm an island boi.");
-				e.getPlayer().incrementCount("Food eaten");
-				e.getPlayer().setNextAnimation(Foods.EAT_ANIM);
-				e.getPlayer().addFoodDelay(3);
-				e.getPlayer().getActionManager().setActionDelay(e.getPlayer().getActionManager().getActionDelay() + 3);
-				e.getPlayer().heal(Food.ROCKTAIL.getHeal() * 10, Food.ROCKTAIL.getExtraHP() * 10);
-				e.getPlayer().addEffect(Effect.OVERLOAD, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.BONFIRE, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.ANTIPOISON, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.SUPER_ANTIFIRE, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.JUJU_MINE_BANK, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.JUJU_WC_BANK, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.JUJU_FARMING, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.JUJU_HUNTER, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.JUJU_FISHING, Ticks.fromHours(10));
-				e.getPlayer().addEffect(Effect.REV_IMMUNE, Ticks.fromHours(10));
-				Potion.RECOVER_SPECIAL.getEffect().accept(e.getPlayer());
-				Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
-				Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
-				Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
-				Potion.STRONG_ARTISANS_POTION.getEffect().accept(e.getPlayer());
-				Potion.STRONG_GATHERERS_POTION.getEffect().accept(e.getPlayer());
-				Potion.STRONG_NATURALISTS_POTION.getEffect().accept(e.getPlayer());
-				Potion.STRONG_SURVIVALISTS_POTION.getEffect().accept(e.getPlayer());
-			}
-			case "Heal" -> {
-				Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");
-				if (command != null)
-					command.action.accept(e.getPlayer());
-			}
-			case "Commands" -> {
-				e.getPlayer().startConversation(new Dialogue().addOptions(o1 -> {
-					for (Command command : Command.values())
-						o1.add(command.name, () -> {
-							command.action.accept(e.getPlayer());
-							e.getPlayer().getNSV().setO("lastPotatoCommand", command);
-						});
-				}));
-			}
-			case "CM-Tool" -> {
-				e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
-					SimpleImmutableEntry<WorldTile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
-					if (lastLoc != null)
-						op.add("Teleport to saved location.", () -> {
-							Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
-								if (lastLoc.getValue() != null) {
-									p.getControllerManager().setController(lastLoc.getValue());
-									p.getControllerManager().sendInterfaces();
-								}
-							});
-						});
-					op.add("Save current location.", () -> {
-						e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(WorldTile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
-						e.getPlayer().sendMessage("Location saved.");
-					});
-				});
-			}
-			}
+	@SuppressWarnings("deprecation")
+	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 5733 }, new String[] { "Eat", "Heal", "CM-Tool", "Commands", "Drop" }, e -> {
+		switch(e.getOption()) {
+		case "Drop" -> {
+			e.getPlayer().sendOptionDialogue("Drop it? It will be destroyed.", ops -> {
+				ops.add("Yes, drop it.", () -> e.getPlayer().getInventory().deleteItem(e.getItem()));
+				ops.add("Nevermind.");
+			});
 		}
-	};
+		case "Eat" -> {
+			if (!e.getPlayer().canEat())
+				return;
+			e.getPlayer().sendMessage("I'm an island boi.");
+			e.getPlayer().incrementCount("Food eaten");
+			e.getPlayer().setNextAnimation(Foods.EAT_ANIM);
+			e.getPlayer().addFoodDelay(3);
+			e.getPlayer().getActionManager().setActionDelay(e.getPlayer().getActionManager().getActionDelay() + 3);
+			e.getPlayer().heal(Food.ROCKTAIL.getHeal() * 10, Food.ROCKTAIL.getExtraHP() * 10);
+			e.getPlayer().addEffect(Effect.OVERLOAD, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.BONFIRE, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.ANTIPOISON, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.SUPER_ANTIFIRE, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.JUJU_MINE_BANK, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.JUJU_WC_BANK, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.JUJU_FARMING, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.JUJU_HUNTER, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.JUJU_FISHING, Ticks.fromHours(10));
+			e.getPlayer().addEffect(Effect.REV_IMMUNE, Ticks.fromHours(10));
+			Potion.RECOVER_SPECIAL.getEffect().accept(e.getPlayer());
+			Potion.SUPER_RESTORE.getEffect().accept(e.getPlayer());
+			Potion.SUPER_ENERGY.getEffect().accept(e.getPlayer());
+			Potion.SUMMONING_POTION.getEffect().accept(e.getPlayer());
+			Potion.STRONG_ARTISANS_POTION.getEffect().accept(e.getPlayer());
+			Potion.STRONG_GATHERERS_POTION.getEffect().accept(e.getPlayer());
+			Potion.STRONG_NATURALISTS_POTION.getEffect().accept(e.getPlayer());
+			Potion.STRONG_SURVIVALISTS_POTION.getEffect().accept(e.getPlayer());
+		}
+		case "Heal" -> {
+			Command command = e.getPlayer().getNSV().getO("lastPotatoCommand");
+			if (command != null)
+				command.action.accept(e.getPlayer());
+		}
+		case "Commands" -> {
+			e.getPlayer().startConversation(new Dialogue().addOptions(o1 -> {
+				for (Command command : Command.values())
+					o1.add(command.name, () -> {
+						command.action.accept(e.getPlayer());
+						e.getPlayer().getNSV().setO("lastPotatoCommand", command);
+					});
+			}));
+		}
+		case "CM-Tool" -> {
+			e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
+				SimpleImmutableEntry<WorldTile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
+				if (lastLoc != null)
+					op.add("Teleport to saved location.", () -> {
+						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
+							if (lastLoc.getValue() != null) {
+								p.getControllerManager().setController(lastLoc.getValue());
+								p.getControllerManager().sendInterfaces();
+							}
+						});
+					});
+				op.add("Save current location.", () -> {
+					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(WorldTile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+					e.getPlayer().sendMessage("Location saved.");
+				});
+			});
+		}
+		}
+	});
 	
 }

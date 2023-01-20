@@ -25,8 +25,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.InputIntegerEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -74,67 +72,53 @@ public class Banker extends Conversation {
 		create();
 	}
 
-	public static NPCInteractionDistanceHandler bankerDistance = new NPCInteractionDistanceHandler("Banker") {
-		@Override
-		public int getDistance(Player player, NPC npc) {
-			return 1;
-		}
-	};
+	public static NPCInteractionDistanceHandler bankerDistance = new NPCInteractionDistanceHandler(new Object[] { "Banker" }, (p, n) -> 1);
 
-	public static NPCClickHandler bankerHandler = new NPCClickHandler(new Object[] { "Banker", 14707, 2619, 13455, 15194 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-			case "Bank":
+	public static NPCClickHandler bankerHandler = new NPCClickHandler(new Object[] { "Banker", 14707, 2619, 13455, 15194 }, e -> {
+		switch(e.getOption()) {
+		case "Bank":
+			e.getPlayer().getBank().open();
+			break;
+		case "Collect":
+			GE.openCollection(e.getPlayer());
+			break;
+		case "Talk-to":
+			e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
+			break;
+		}
+	});
+
+	public static ObjectClickHandler bankObjHandler = new ObjectClickHandler(new Object[] { "Bank booth", "Bank", "Bank chest", "Bank table", "Counter", "Shantay chest", "Darkmeyer Treasury" }, e -> {
+		switch(e.getOption()) {
+		case "Bank":
+			e.getPlayer().getBank().open();
+			break;
+		case "Collect":
+			GE.openCollection(e.getPlayer());
+			break;
+		case "Use":
+			if (e.getObject().getDefinitions().getName(e.getPlayer().getVars()).equals("Bank chest"))
 				e.getPlayer().getBank().open();
-				break;
-			case "Collect":
-				GE.openCollection(e.getPlayer());
-				break;
-			case "Talk-to":
-				e.getPlayer().startConversation(new Banker(e.getPlayer(), e.getNPC()));
-				break;
-			}
-		}
-	};
-
-	public static ObjectClickHandler bankObjHandler = new ObjectClickHandler(new Object[] { "Bank booth", "Bank", "Bank chest", "Bank table", "Counter", "Shantay chest", "Darkmeyer Treasury" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getOption()) {
-			case "Bank":
+			break;
+		case "Open":
+			if (e.getObject().getDefinitions().getName(e.getPlayer().getVars()).equals("Shantay chest"))
 				e.getPlayer().getBank().open();
-				break;
-			case "Collect":
-				GE.openCollection(e.getPlayer());
-				break;
-			case "Use":
-				if (e.getObject().getDefinitions().getName(e.getPlayer().getVars()).equals("Bank chest"))
-					e.getPlayer().getBank().open();
-				break;
-			case "Open":
-				if (e.getObject().getDefinitions().getName(e.getPlayer().getVars()).equals("Shantay chest"))
-					e.getPlayer().getBank().open();
-				break;
-			default:
-				e.getPlayer().sendMessage("Unhandled bank object option: " + e.getOption());
-				break;
-			}
+			break;
+		default:
+			e.getPlayer().sendMessage("Unhandled bank object option: " + e.getOption());
+			break;
 		}
-	};
+	});
 
-	public static ObjectClickHandler depositBoxHandler = new ObjectClickHandler(new Object[] { "Bank deposit box", "Deposit box", "Deposit Box", "Deposit chest", "Pulley lift" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getOption()) {
-			case "Deposit":
-			case "Use":
-				e.getPlayer().getBank().openDepositBox();
-				break;
-			default:
-				e.getPlayer().sendMessage("Unhandled deposit box object option: " + e.getOption());
-				break;
-			}
+	public static ObjectClickHandler depositBoxHandler = new ObjectClickHandler(new Object[] { "Bank deposit box", "Deposit box", "Deposit Box", "Deposit chest", "Pulley lift" }, e -> {
+		switch(e.getOption()) {
+		case "Deposit":
+		case "Use":
+			e.getPlayer().getBank().openDepositBox();
+			break;
+		default:
+			e.getPlayer().sendMessage("Unhandled deposit box object option: " + e.getOption());
+			break;
 		}
-	};
+	});
 }

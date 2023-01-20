@@ -20,7 +20,6 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -33,15 +32,12 @@ public class GraveStoneSelection {
 		player.getVars().setVar(1146, player.getGraveStone() | 262112);
 	}
 
-	public static ButtonClickHandler handleSelectionInterface = new ButtonClickHandler(652) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 31)
-				e.getPlayer().getTempAttribs().setI("graveSelection", e.getSlotId());
-			else if (e.getComponentId() == 34)
-				confirmSelection(e.getPlayer());
-		}
-	};
+	public static ButtonClickHandler handleSelectionInterface = new ButtonClickHandler(652, e -> {
+		if (e.getComponentId() == 31)
+			e.getPlayer().getTempAttribs().setI("graveSelection", e.getSlotId());
+		else if (e.getComponentId() == 34)
+			confirmSelection(e.getPlayer());
+	});
 
 	private static String getStoneName(int slot) {
 		return EnumDefinitions.getEnum(1099).getStringValue(slot);

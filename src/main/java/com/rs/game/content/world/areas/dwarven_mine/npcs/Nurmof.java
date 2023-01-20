@@ -20,7 +20,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -28,17 +27,13 @@ import com.rs.utils.shop.ShopsHandler;
 public class Nurmof extends Conversation {
 	private static int npcId = 594;
 
-	public static NPCClickHandler Nurmof = new NPCClickHandler(new Object[]{npcId}) {
-		@Override
-		//Handle Right-Click
-		public void handle(NPCClickEvent e) {
-			switch (e.getOption()) {
-				//Start Conversation
-				case "Talk-to" -> e.getPlayer().startConversation(new Nurmof(e.getPlayer()));
-				case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "nurmofs_pickaxe_shop");
-			}
+	public static NPCClickHandler Nurmof = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch (e.getOption()) {
+		//Start Conversation
+		case "Talk-to" -> e.getPlayer().startConversation(new Nurmof(e.getPlayer()));
+		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "nurmofs_pickaxe_shop");
 		}
-	};
+	});
 
 	public Nurmof(Player player) {
 		super(player);

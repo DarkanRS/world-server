@@ -28,7 +28,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
@@ -242,10 +241,5 @@ public class Smelting extends PlayerAction {
 		setActionDelay(player, 3);
 	}
 
-	public static ItemClickHandler checkChargesRingOfForging = new ItemClickHandler(new Object[] { 2568 }, new String[] { "Check" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().sendMessage("You have " + e.getPlayer().ringOfForgingCharges + " charges remaining in your ring of forging.");
-		}
-	};
+	public static ItemClickHandler checkChargesRingOfForging = new ItemClickHandler(new Object[] { 2568 }, new String[] { "Check" }, e -> e.getPlayer().sendMessage("You have " + e.getPlayer().ringOfForgingCharges + " charges remaining in your ring of forging."));
 }

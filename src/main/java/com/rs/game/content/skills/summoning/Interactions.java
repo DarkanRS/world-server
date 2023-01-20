@@ -15,8 +15,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -26,34 +24,28 @@ public class Interactions {
 	//spotanim 1575 mining boost
 	//TODO 8320 8321 anim interaction to search for fruit fruit bat
 	
-	public static NPCClickHandler handleInteract = new NPCClickHandler(Pouch.getAllNPCIdKeys(), new String[] { "Interact" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!(e.getNPC() instanceof Familiar familiar))
-				return;
-			if (familiar.getOwner() != e.getPlayer()) {
-				e.getPlayer().sendMessage("This isn't your familiar");
-				return;
-			}
-			familiar.interact();
+	public static NPCClickHandler handleInteract = new NPCClickHandler(Pouch.getAllNPCIdKeys(), new String[] { "Interact" }, e -> {
+		if (!(e.getNPC() instanceof Familiar familiar))
+			return;
+		if (familiar.getOwner() != e.getPlayer()) {
+			e.getPlayer().sendMessage("This isn't your familiar");
+			return;
 		}
-	};
+		familiar.interact();
+	});
 	
-	public static ItemOnNPCHandler pyrelordFire = new ItemOnNPCHandler(Pouch.PYRELORD.getIdKeys()) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			Fire fire = Fire.forId(e.getItem().getId());
-			if (fire == null) {
-				e.getPlayer().sendMessage("The pyrelord only burns logs.");
-				return;
-			}
-			if (e.getPlayer().getSkills().getLevel(Skills.FIREMAKING) < fire.getLevel()) {
-				e.getPlayer().sendMessage("You need " + fire.getLevel() + " firemaking to burn this log.");
-				return;
-			}
-			e.getNPC().getActionManager().setAction(new Firemaking(fire));
+	public static ItemOnNPCHandler pyrelordFire = new ItemOnNPCHandler(Pouch.PYRELORD.getIdKeys(), e -> {
+		Fire fire = Fire.forId(e.getItem().getId());
+		if (fire == null) {
+			e.getPlayer().sendMessage("The pyrelord only burns logs.");
+			return;
 		}
-	};
+		if (e.getPlayer().getSkills().getLevel(Skills.FIREMAKING) < fire.getLevel()) {
+			e.getPlayer().sendMessage("You need " + fire.getLevel() + " firemaking to burn this log.");
+			return;
+		}
+		e.getNPC().getActionManager().setAction(new Firemaking(fire));
+	});
 	
 	public static Dialogue getTalkToDialogue(Player player, Familiar familiar) {
 		boolean canTalk = player.getSkills().getLevelForXp(Skills.SUMMONING) >= familiar.getPouch().getLevel() + 10;

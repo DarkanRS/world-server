@@ -23,8 +23,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -179,62 +177,54 @@ public class LeprecaunLostCityD extends Conversation {
 		}
 	}
 
-	public static ObjectClickHandler handleTreeLep = new ObjectClickHandler(true, new Object[] { LEPRACAUN_TREE }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-				if(npc.getId() == LEPRACAUN)
-					return;
-			p.startConversation(new Conversation(p) {
-				{
-					addNPC(LEPRACAUN, HeadE.FRUSTRATED, "Hey! Yer big elephant! Don't go choppin' down me house, now!");
-					addNPC(LEPRACAUN, HeadE.AMAZED_MILD, "Woah, woah!");
-					addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
-					addSimple("The leprechaun falls down", () -> {
-						WorldTasks.schedule(new WorldTask() {
-							int tick;
-							NPC lepracaun;
-							@Override
-							public void run() {
-								if(tick == 0 )
-									lepracaun = World.spawnNPC(LEPRACAUN, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
-								if(tick == 1)
-									lepracaun.forceTalk("Ouch!!");
-								if(tick == 10)
-									lepracaun.forceTalk("My aching back...");
-								if(tick == 30)
-									lepracaun.forceTalk("Might need to walk this off...");
-								if(tick == 60)
-									lepracaun.forceTalk("Oww, that's sore...");
-								if(tick == 85) {
-									lepracaun.forceTalk("Welp, better head home...");
-									lepracaun.walkToAndExecute(WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
-										lepracaun.forceTalk("Back up the tree...");
-										if(!lepracaun.hasFinished())
-											lepracaun.finish();
-									});
-								}
-								if(tick == 90) {
+	public static ObjectClickHandler handleTreeLep = new ObjectClickHandler(true, new Object[] { LEPRACAUN_TREE }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			if(npc.getId() == LEPRACAUN)
+				return;
+		p.startConversation(new Conversation(p) {
+			{
+				addNPC(LEPRACAUN, HeadE.FRUSTRATED, "Hey! Yer big elephant! Don't go choppin' down me house, now!");
+				addNPC(LEPRACAUN, HeadE.AMAZED_MILD, "Woah, woah!");
+				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
+				addSimple("The leprechaun falls down", () -> {
+					WorldTasks.schedule(new WorldTask() {
+						int tick;
+						NPC lepracaun;
+						@Override
+						public void run() {
+							if(tick == 0 )
+								lepracaun = World.spawnNPC(LEPRACAUN, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
+							if(tick == 1)
+								lepracaun.forceTalk("Ouch!!");
+							if(tick == 10)
+								lepracaun.forceTalk("My aching back...");
+							if(tick == 30)
+								lepracaun.forceTalk("Might need to walk this off...");
+							if(tick == 60)
+								lepracaun.forceTalk("Oww, that's sore...");
+							if(tick == 85) {
+								lepracaun.forceTalk("Welp, better head home...");
+								lepracaun.walkToAndExecute(WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
+									lepracaun.forceTalk("Back up the tree...");
 									if(!lepracaun.hasFinished())
 										lepracaun.finish();
-									stop();
-								}
-								tick++;
+								});
 							}
-						}, 0, 1);
-					});
-					create();
-				}
-			});
-		}
-	};
+							if(tick == 90) {
+								if(!lepracaun.hasFinished())
+									lepracaun.finish();
+								stop();
+							}
+							tick++;
+						}
+					}, 0, 1);
+				});
+				create();
+			}
+		});
+	});
 
-	public static NPCClickHandler handleLeprecaunDialogue = new NPCClickHandler(new Object[] { LEPRACAUN }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new LeprecaunLostCityD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleLeprecaunDialogue = new NPCClickHandler(new Object[] { LEPRACAUN }, e -> e.getPlayer().startConversation(new LeprecaunLostCityD(e.getPlayer()).getStart()));
 }

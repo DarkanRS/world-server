@@ -21,7 +21,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 
 @PluginEventHandler
@@ -99,13 +98,8 @@ public class MuseumCuratorArravD extends Conversation {
 
 
 
-	public static ItemOnNPCHandler handleItemOnCurator = new ItemOnNPCHandler(646) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			if(e.getItem().getId() == ShieldOfArrav.SHIELD_LEFT_HALF || e.getItem().getId() == ShieldOfArrav.SHIELD_RIGHT_HALF)
-				e.getPlayer().startConversation(new MuseumCuratorArravD(e.getPlayer(), true).getStart());
-
-
-		}
-	};
+	public static ItemOnNPCHandler handleItemOnCurator = new ItemOnNPCHandler(646, e -> {
+		if (e.getItem().getId() == ShieldOfArrav.SHIELD_LEFT_HALF || e.getItem().getId() == ShieldOfArrav.SHIELD_RIGHT_HALF)
+			e.getPlayer().startConversation(new MuseumCuratorArravD(e.getPlayer(), true).getStart());
+	});
 }

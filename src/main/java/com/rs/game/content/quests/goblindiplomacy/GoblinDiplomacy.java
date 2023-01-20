@@ -30,9 +30,6 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -210,62 +207,41 @@ public class GoblinDiplomacy extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler talkGoblinGenerals = new NPCClickHandler(new Object[] { 4494, 4493 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GeneralsD(e.getPlayer(), e.getNPC().getId()));
-		}
-	};
+	public static NPCClickHandler talkGoblinGenerals = new NPCClickHandler(new Object[] { 4494, 4493 }, e -> e.getPlayer().startConversation(new GeneralsD(e.getPlayer(), e.getNPC().getId())));
 
-	public static ObjectClickHandler handleGoblinVillageLadder = new ObjectClickHandler(new Object[] { 16450, 16556 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.isAtObject())
-				return;
-			if (e.getObjectId() == 16450 && e.getPlayer().getPlane() == 0)
-				e.getPlayer().ladder(WorldTile.of(2953, 3497, 2));
-			if (e.getObjectId() == 16556 && e.getPlayer().getPlane() == 2)
-				e.getPlayer().ladder(WorldTile.of(2953, 3497, 0));
-		}
-	};
+	public static ObjectClickHandler handleGoblinVillageLadder = new ObjectClickHandler(new Object[] { 16450, 16556 }, e -> {
+		if (e.getObjectId() == 16450 && e.getPlayer().getPlane() == 0)
+			e.getPlayer().ladder(WorldTile.of(2953, 3497, 2));
+		if (e.getObjectId() == 16556 && e.getPlayer().getPlane() == 2)
+			e.getPlayer().ladder(WorldTile.of(2953, 3497, 0));
+	});
 
-	public static ObjectClickHandler handleGoblinMailChests = new ObjectClickHandler(new Object[] { 16559, 16560, 16561 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.isAtObject())
-				return;
-			if(!e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).getB("isGoblinMateCrateBlocked")) {
-				e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).setB("isGoblinMateCrateBlocked", true);
-				e.getPlayer().getInventory().addItem(288, 1);
-				e.getPlayer().startConversation(new Dialogue().addItem(288, "You find goblin mail."));
-				return;
-			}
-			e.getPlayer().sendMessage("You search the crate but find nothing.");
+	public static ObjectClickHandler handleGoblinMailChests = new ObjectClickHandler(new Object[] { 16559, 16560, 16561 }, e -> {
+		if(!e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).getB("isGoblinMateCrateBlocked")) {
+			e.getPlayer().getQuestManager().getAttribs(Quest.GOBLIN_DIPLOMACY).setB("isGoblinMateCrateBlocked", true);
+			e.getPlayer().getInventory().addItem(288, 1);
+			e.getPlayer().startConversation(new Dialogue().addItem(288, "You find goblin mail."));
+			return;
 		}
-	};
+		e.getPlayer().sendMessage("You search the crate but find nothing.");
+	});
 
-	public static ItemOnItemHandler handleColorGoblinMail = new ItemOnItemHandler(GOBLIN_MAIL, new int[] { ORANGE_DYE, BLUE_DYE }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (e.usedWith(ORANGE_DYE, GOBLIN_MAIL)) {
-				e.getPlayer().getInventory().replace(e.getUsedWith(ORANGE_DYE), new Item(ORANGE_GOBLIN_MAIL, 1));
-				e.getPlayer().getInventory().deleteItem(ORANGE_DYE, 1);
-			}
-			if (e.usedWith(BLUE_DYE, GOBLIN_MAIL)) {
-				e.getPlayer().getInventory().replace(e.getUsedWith(BLUE_DYE), new Item(BLUE_GOBLIN_MAIL, 1));
-				e.getPlayer().getInventory().deleteItem(BLUE_DYE, 1);
-			}
+	public static ItemOnItemHandler handleColorGoblinMail = new ItemOnItemHandler(GOBLIN_MAIL, new int[] { ORANGE_DYE, BLUE_DYE }, e -> {
+		if (e.usedWith(ORANGE_DYE, GOBLIN_MAIL)) {
+			e.getPlayer().getInventory().replace(e.getUsedWith(ORANGE_DYE), new Item(ORANGE_GOBLIN_MAIL, 1));
+			e.getPlayer().getInventory().deleteItem(ORANGE_DYE, 1);
 		}
-	};
+		if (e.usedWith(BLUE_DYE, GOBLIN_MAIL)) {
+			e.getPlayer().getInventory().replace(e.getUsedWith(BLUE_DYE), new Item(BLUE_GOBLIN_MAIL, 1));
+			e.getPlayer().getInventory().deleteItem(BLUE_DYE, 1);
+		}
+	});
 
-	public static ItemOnItemHandler handleRedYellowDyes = new ItemOnItemHandler(RED_DYE, new int[] { YELLOW_DYE }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (e.usedWith(RED_DYE, YELLOW_DYE)) {
-				e.getPlayer().getInventory().replace(e.getItem2(), new Item(ORANGE_DYE, 1));
-				e.getPlayer().getInventory().deleteItem(e.getItem1().getSlot(), e.getItem1());
-			}
+	public static ItemOnItemHandler handleRedYellowDyes = new ItemOnItemHandler(RED_DYE, new int[] { YELLOW_DYE }, e -> {
+		if (e.usedWith(RED_DYE, YELLOW_DYE)) {
+			e.getPlayer().getInventory().replace(e.getItem2(), new Item(ORANGE_DYE, 1));
+			e.getPlayer().getInventory().deleteItem(e.getItem1().getSlot(), e.getItem1());
 		}
-	};
+	});
 
 }

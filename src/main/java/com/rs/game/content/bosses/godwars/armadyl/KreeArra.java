@@ -62,10 +62,5 @@ public class KreeArra extends NPC {
 		return true;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6222) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new KreeArra(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6222, (npcId, tile) -> new KreeArra(npcId, tile, false));
 }
