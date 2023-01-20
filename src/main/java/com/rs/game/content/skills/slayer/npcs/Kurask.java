@@ -44,10 +44,5 @@ public class Kurask extends NPC {
 		super.handlePreHit(hit);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1608, 1609) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Kurask(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1608, 1609 }, (npcId, tile) -> new Kurask(npcId, tile));
 }

@@ -30,8 +30,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -294,74 +292,65 @@ public class DruidicRitual extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler kaqemeexHandler = new NPCClickHandler(new Object[] { KAQEMEEX }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new KaqemeexD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler kaqemeexHandler = new NPCClickHandler(new Object[] { KAQEMEEX }, e -> {
+		if (e.getOption().equalsIgnoreCase("talk-to"))
+			e.getPlayer().startConversation(new KaqemeexD(e.getPlayer()));
+	});
 
-	public static NPCClickHandler sanfewHandler = new NPCClickHandler(new Object[] { SANFEW }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new SanfewD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler sanfewHandler = new NPCClickHandler(new Object[] { SANFEW }, e -> {
+		if (e.getOption().equalsIgnoreCase("talk-to"))
+			e.getPlayer().startConversation(new SanfewD(e.getPlayer()));
+	});
 
-	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Player player = e.getPlayer();
-			Item item = e.getItem();
-			int itemId = item.getId();
-			if (itemId == RAW_BEAR_MEAT) {
-				if(player.getInventory().containsItem(RAW_BEAR_MEAT) && !player.getInventory().containsItem(ENCHANTED_RAW_BEAR_MEAT)) {
-					player.getInventory().deleteItem(RAW_BEAR_MEAT, 1);
-					player.getInventory().addItem(ENCHANTED_RAW_BEAR_MEAT);
-					return;
-				}
-				if(player.getInventory().containsItem(ENCHANTED_RAW_BEAR_MEAT)) {
-					player.getPackets().sendGameMessage("Enchanted bear meat is already in your inventory");
-					return;
-				}
+	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }, e -> {
+		Player player = e.getPlayer();
+		Item item = e.getItem();
+		int itemId = item.getId();
+		if (itemId == RAW_BEAR_MEAT) {
+			if(player.getInventory().containsItem(RAW_BEAR_MEAT) && !player.getInventory().containsItem(ENCHANTED_RAW_BEAR_MEAT)) {
+				player.getInventory().deleteItem(RAW_BEAR_MEAT, 1);
+				player.getInventory().addItem(ENCHANTED_RAW_BEAR_MEAT);
+				return;
 			}
-			if (itemId == RAW_RAT_MEAT) {
-				if(player.getInventory().containsItem(RAW_RAT_MEAT) && !player.getInventory().containsItem(ENCHANTED_RAW_RAT_MEAT)) {
-					player.getInventory().deleteItem(RAW_RAT_MEAT, 1);
-					player.getInventory().addItem(ENCHANTED_RAW_RAT_MEAT);
-					return;
-				}
-				if(player.getInventory().containsItem(ENCHANTED_RAW_RAT_MEAT)) {
-					player.getPackets().sendGameMessage("Enchanted rat meat is already in your inventory");
-					return;
-				}
+			if(player.getInventory().containsItem(ENCHANTED_RAW_BEAR_MEAT)) {
+				player.getPackets().sendGameMessage("Enchanted bear meat is already in your inventory");
+				return;
 			}
-			if (itemId == RAW_CHICKEN) {
-				if(player.getInventory().containsItem(RAW_CHICKEN) && !player.getInventory().containsItem(ENCHANTED_RAW_CHICKEN)) {
-					player.getInventory().deleteItem(RAW_CHICKEN, 1);
-					player.getInventory().addItem(ENCHANTED_RAW_CHICKEN);
-					return;
-				}
-				if(player.getInventory().containsItem(ENCHANTED_RAW_CHICKEN))  {
-					player.getPackets().sendGameMessage("Enchanted chicken meat is already in your inventory");
-					return;
-				}
-			}
-			if (itemId == RAW_BEEF) {
-				if(player.getInventory().containsItem(RAW_BEEF) && !player.getInventory().containsItem(ENCHANTED_RAW_BEEF)) {
-					player.getInventory().deleteItem(RAW_BEEF, 1);
-					player.getInventory().addItem(ENCHANTED_RAW_BEEF);
-					return;
-				}
-				if(player.getInventory().containsItem(ENCHANTED_RAW_BEEF))  {
-					player.getPackets().sendGameMessage("Enchanted beef meat is already in your inventory");
-					return;
-				}
-			}
-
-			player.getPackets().sendGameMessage("There is no reason to put this in the cauldron");
 		}
-	};
+		if (itemId == RAW_RAT_MEAT) {
+			if(player.getInventory().containsItem(RAW_RAT_MEAT) && !player.getInventory().containsItem(ENCHANTED_RAW_RAT_MEAT)) {
+				player.getInventory().deleteItem(RAW_RAT_MEAT, 1);
+				player.getInventory().addItem(ENCHANTED_RAW_RAT_MEAT);
+				return;
+			}
+			if(player.getInventory().containsItem(ENCHANTED_RAW_RAT_MEAT)) {
+				player.getPackets().sendGameMessage("Enchanted rat meat is already in your inventory");
+				return;
+			}
+		}
+		if (itemId == RAW_CHICKEN) {
+			if(player.getInventory().containsItem(RAW_CHICKEN) && !player.getInventory().containsItem(ENCHANTED_RAW_CHICKEN)) {
+				player.getInventory().deleteItem(RAW_CHICKEN, 1);
+				player.getInventory().addItem(ENCHANTED_RAW_CHICKEN);
+				return;
+			}
+			if(player.getInventory().containsItem(ENCHANTED_RAW_CHICKEN))  {
+				player.getPackets().sendGameMessage("Enchanted chicken meat is already in your inventory");
+				return;
+			}
+		}
+		if (itemId == RAW_BEEF) {
+			if(player.getInventory().containsItem(RAW_BEEF) && !player.getInventory().containsItem(ENCHANTED_RAW_BEEF)) {
+				player.getInventory().deleteItem(RAW_BEEF, 1);
+				player.getInventory().addItem(ENCHANTED_RAW_BEEF);
+				return;
+			}
+			if(player.getInventory().containsItem(ENCHANTED_RAW_BEEF))  {
+				player.getPackets().sendGameMessage("Enchanted beef meat is already in your inventory");
+				return;
+			}
+		}
+
+		player.getPackets().sendGameMessage("There is no reason to put this in the cauldron");
+	});
 }

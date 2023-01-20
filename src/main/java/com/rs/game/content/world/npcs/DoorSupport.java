@@ -72,10 +72,5 @@ public class DoorSupport extends NPC {
 		}, Ticks.fromSeconds(60));
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(2440, 2443, 2446) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new DoorSupport(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2440, 2443, 2446 }, (npcId, tile) -> new DoorSupport(npcId, tile));
 }

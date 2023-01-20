@@ -22,19 +22,15 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class GrimReaper2009D extends Conversation {
 
-	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 8977 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getNPC().resetDirection();
-			e.getPlayer().startConversation(new GrimReaper2009D(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 8977 }, e -> {
+		e.getNPC().resetDirection();
+		e.getPlayer().startConversation(new GrimReaper2009D(e.getPlayer()));
+	});
 
 	public GrimReaper2009D(Player player) {
 		super(player);

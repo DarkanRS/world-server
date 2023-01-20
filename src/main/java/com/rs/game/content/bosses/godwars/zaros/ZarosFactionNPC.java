@@ -64,10 +64,5 @@ public class ZarosFactionNPC extends NPC {
 		return name.contains("pernix") || name.contains("torva") || name.contains("virtus") || name.contains("zaryte");
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(13456, 13457, 13458, 13459) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new ZarosFactionNPC(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13456, 13457, 13458, 13459 }, (npcId, tile) -> new ZarosFactionNPC(npcId, tile));
 }

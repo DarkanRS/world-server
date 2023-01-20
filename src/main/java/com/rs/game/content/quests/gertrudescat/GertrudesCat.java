@@ -30,10 +30,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -168,138 +164,111 @@ public class GertrudesCat extends QuestOutline {
 	 *
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleFluffsOptions = new NPCClickHandler(new Object[] { 759 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equals("Pick-up"))
-				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 2 || e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 4) {
-					e.getNPC().setNextAnimation(new Animation(9160));
-					e.getNPC().setNextForceTalk(new ForceTalk("Hiss!"));
-					e.getPlayer().setNextAnimation(new Animation(827));
-					e.getPlayer().setNextForceTalk(new ForceTalk("Ouch!"));
-					e.getPlayer().startConversation(new Conversation(new SimpleStatement("Fluffs hisses but clearly wants something - " + (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 2 ? "maybe she is thirsty?" : "maybe she is hungry too?"))));
-					e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT)+1);
-					updateFluffs(e.getPlayer());
-				} else if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 6) {
-					e.getNPC().setNextAnimation(new Animation(9160));
-					e.getNPC().setNextForceTalk(new ForceTalk("Hiss!"));
-					e.getPlayer().setNextAnimation(new Animation(827));
-					e.getPlayer().setNextForceTalk(new ForceTalk("Ouch!"));
-					e.getPlayer().startConversation(new Conversation(new SimpleStatement("Fluffs seems afraid to leave. In the Lumber Yard below you can hear kittens mewing.")));
-					e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT)+1);
-					updateFluffs(e.getPlayer());
-				}
-		}
-	};
+	public static NPCClickHandler handleFluffsOptions = new NPCClickHandler(new Object[] { 759 }, e -> {
+		if (e.getOption().equals("Pick-up"))
+			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 2 || e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 4) {
+				e.getNPC().setNextAnimation(new Animation(9160));
+				e.getNPC().setNextForceTalk(new ForceTalk("Hiss!"));
+				e.getPlayer().setNextAnimation(new Animation(827));
+				e.getPlayer().setNextForceTalk(new ForceTalk("Ouch!"));
+				e.getPlayer().startConversation(new Conversation(new SimpleStatement("Fluffs hisses but clearly wants something - " + (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 2 ? "maybe she is thirsty?" : "maybe she is hungry too?"))));
+				e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT)+1);
+				updateFluffs(e.getPlayer());
+			} else if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 6) {
+				e.getNPC().setNextAnimation(new Animation(9160));
+				e.getNPC().setNextForceTalk(new ForceTalk("Hiss!"));
+				e.getPlayer().setNextAnimation(new Animation(827));
+				e.getPlayer().setNextForceTalk(new ForceTalk("Ouch!"));
+				e.getPlayer().startConversation(new Conversation(new SimpleStatement("Fluffs seems afraid to leave. In the Lumber Yard below you can hear kittens mewing.")));
+				e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT)+1);
+				updateFluffs(e.getPlayer());
+			}
+	});
 
 	/**
 	 * Handles when the player clicks on the shaking crates in the Lumber Yard.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleShakingCrate = new NPCClickHandler(new Object[] { 7740 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
-				if (e.getPlayer().containsItem(13236))
-					return;
-				e.getPlayer().startConversation(new Conversation(new Dialogue()
-						.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> {
-							e.getPlayer().getInventory().addItem(13236, 1);
-						})));
-			}
+	public static NPCClickHandler handleShakingCrate = new NPCClickHandler(new Object[] { 7740 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
+			if (e.getPlayer().containsItem(13236))
+				return;
+			e.getPlayer().startConversation(new Conversation(new Dialogue()
+					.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> {
+						e.getPlayer().getInventory().addItem(13236, 1);
+					})));
 		}
-	};
+	});
 
 	/**
 	 * Handles starting Gertrude's dialogue.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleGertrude = new NPCClickHandler(new Object[] { 780 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new GertrudeD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleGertrude = new NPCClickHandler(new Object[] { 780 }, e -> e.getPlayer().startConversation(new GertrudeD(e.getPlayer())));
 
 	/**
 	 * Handles starting Shilop and Wilough's dialogue.
 	 * @param The event to handle.
 	 */
-	public static NPCClickHandler handleShilopWilough = new NPCClickHandler(new Object[] { 781, 783 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new ShilopWiloughD(e.getPlayer(), e.getNPC()));
-		}
-	};
+	public static NPCClickHandler handleShilopWilough = new NPCClickHandler(new Object[] { 781, 783 }, e -> e.getPlayer().startConversation(new ShilopWiloughD(e.getPlayer(), e.getNPC())));
 
 	/**
 	 * When the player logs in, Fluffs is re-updated to make sure she is still visible.
 	 */
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			updateFluffs(e.getPlayer());
-		}
-	};
+	public static LoginHandler onLogin = new LoginHandler(e -> updateFluffs(e.getPlayer()));
 
 	/**
 	 * Handles the creation of doogle sardines.
 	 * @param The event to handle.
 	 */
-	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
-				e.getPlayer().getInventory().deleteItem(327, 1);
-				e.getPlayer().getInventory().deleteItem(1573, 1);
-				e.getPlayer().getInventory().addItem(1552, 1);
-			})));
-		}
-	};
+	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573, e -> {
+		e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
+			e.getPlayer().getInventory().deleteItem(327, 1);
+			e.getPlayer().getInventory().deleteItem(1573, 1);
+			e.getPlayer().getInventory().addItem(1552, 1);
+		})));
+	});
 
 	/**
 	 * Handles the various items you must use on Fluffs at the Lumber Yard to get her to trust you.
 	 * @param The event to handle.
 	 */
-	public static ItemOnNPCHandler handleItemOnFluffs = new ItemOnNPCHandler(759) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			if (e.getItem().getId() == 1927) {
-				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 3) {
-					e.getPlayer().setNextAnimation(new Animation(827));
-					e.getPlayer().startConversation(new Conversation(e.getPlayer(), new Dialogue()
-							.addNPC(e.getNPC().getId(), HeadE.CAT_CALM_TALK, "Mew!")
-							.addPlayer(HeadE.CHEERFUL, "Progress at least.")
-							.addSimple("Fluffs laps up the milk greedily. Then she mews at you again.", () -> {
-								e.getPlayer().getInventory().deleteItem(1927, 1);
-								e.getPlayer().getInventory().addItem(1925, 1);
-								e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 4);
-								updateFluffs(e.getPlayer());
-							})));
-				}
-			} else if (e.getItem().getId() == 1552) {
-				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 5) {
-					e.getPlayer().setNextAnimation(new Animation(827));
-					e.getPlayer().startConversation(new Conversation(e.getPlayer(), new Dialogue()
-							.addNPC(e.getNPC().getId(), HeadE.CAT_CALM_TALK, "Mew!")
-							.addPlayer(HeadE.CHEERFUL, "Progress at least.")
-							.addSimple("Fluffs devours the doogle sardine greedily. Then she mews at you again.", () -> {
-								e.getPlayer().getInventory().deleteItem(1552, 1);
-								e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 6);
-								updateFluffs(e.getPlayer());
-							})));
-				}
-			} else if (e.getItem().getId() == 13236)
-				if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
-					e.getPlayer().setNextAnimation(new Animation(827));
-					// TODO cutscene
-					// https://i.imgur.com/VEkOx0N.jpg
-					// https://i.imgur.com/G6pFoqR.jpg
-					// https://i.imgur.com/3f7cvd2.jpg
-					e.getPlayer().getInventory().deleteItem(13236, 1);
-					e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 8);
-					updateFluffs(e.getPlayer());
-				}
-		}
-	};
+	public static ItemOnNPCHandler handleItemOnFluffs = new ItemOnNPCHandler(759, e -> {
+		if (e.getItem().getId() == 1927) {
+			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 3) {
+				e.getPlayer().setNextAnimation(new Animation(827));
+				e.getPlayer().startConversation(new Conversation(e.getPlayer(), new Dialogue()
+						.addNPC(e.getNPC().getId(), HeadE.CAT_CALM_TALK, "Mew!")
+						.addPlayer(HeadE.CHEERFUL, "Progress at least.")
+						.addSimple("Fluffs laps up the milk greedily. Then she mews at you again.", () -> {
+							e.getPlayer().getInventory().deleteItem(1927, 1);
+							e.getPlayer().getInventory().addItem(1925, 1);
+							e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 4);
+							updateFluffs(e.getPlayer());
+						})));
+			}
+		} else if (e.getItem().getId() == 1552) {
+			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 5) {
+				e.getPlayer().setNextAnimation(new Animation(827));
+				e.getPlayer().startConversation(new Conversation(e.getPlayer(), new Dialogue()
+						.addNPC(e.getNPC().getId(), HeadE.CAT_CALM_TALK, "Mew!")
+						.addPlayer(HeadE.CHEERFUL, "Progress at least.")
+						.addSimple("Fluffs devours the doogle sardine greedily. Then she mews at you again.", () -> {
+							e.getPlayer().getInventory().deleteItem(1552, 1);
+							e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 6);
+							updateFluffs(e.getPlayer());
+						})));
+			}
+		} else if (e.getItem().getId() == 13236)
+			if (e.getPlayer().getQuestManager().getStage(Quest.GERTRUDES_CAT) == 7) {
+				e.getPlayer().setNextAnimation(new Animation(827));
+				// TODO cutscene
+				// https://i.imgur.com/VEkOx0N.jpg
+				// https://i.imgur.com/G6pFoqR.jpg
+				// https://i.imgur.com/3f7cvd2.jpg
+				e.getPlayer().getInventory().deleteItem(13236, 1);
+				e.getPlayer().getQuestManager().setStage(Quest.GERTRUDES_CAT, 8);
+				updateFluffs(e.getPlayer());
+			}
+	});
 }

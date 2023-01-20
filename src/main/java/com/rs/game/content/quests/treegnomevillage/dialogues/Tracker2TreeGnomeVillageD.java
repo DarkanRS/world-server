@@ -12,10 +12,8 @@ import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
@@ -55,17 +53,7 @@ public class Tracker2TreeGnomeVillageD extends Conversation {
 	}
 
 
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new Tracker2TreeGnomeVillageD(e.getPlayer()).getStart());
-        }
-    };
+    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}, e -> e.getPlayer().startConversation(new Tracker2TreeGnomeVillageD(e.getPlayer()).getStart()));
 
-	public static NPCInteractionDistanceHandler tracker2Distance = new NPCInteractionDistanceHandler(NPC) {
-		@Override
-		public int getDistance(Player player, NPC npc) {
-			return 1;
-		}
-	};
+	public static NPCInteractionDistanceHandler tracker2Distance = new NPCInteractionDistanceHandler(NPC, (player, npc) -> 1);
 }

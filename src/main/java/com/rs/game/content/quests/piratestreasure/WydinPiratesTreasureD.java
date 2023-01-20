@@ -22,8 +22,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -119,65 +117,56 @@ public class WydinPiratesTreasureD extends Conversation {
 		}
 	}
 
-	public static ObjectClickHandler handleBackRoom = new ObjectClickHandler(new Object[] { 2069 }) {//backroom of Wydin
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(p.getX() < obj.getX()) {
-				handleDoor(p, e.getObject());
+	public static ObjectClickHandler handleBackRoom = new ObjectClickHandler(new Object[] { 2069 }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		if(p.getX() < obj.getX()) {
+			handleDoor(p, e.getObject());
+			return;
+		}
+		if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM) {
+			if(!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(WYDIN_EMPLOYMENT_ATTR)) {
+				p.startConversation(new Conversation(e.getPlayer()) {
+					{
+						addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you are not employed here!");
+						create();
+					}
+				});
 				return;
 			}
-			if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM) {
-				if(!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(WYDIN_EMPLOYMENT_ATTR)) {
-					p.startConversation(new Conversation(e.getPlayer()) {
-						{
-							addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you are not employed here!");
-							create();
-						}
-					});
-					return;
-				}
-				if(p.getEquipment().getChestId() != APRON) {
-					p.startConversation(new Conversation(e.getPlayer()) {
-						{
-							addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you need your apron on!");
-							create();
-						}
-					});
-					return;
-				}
+			if(p.getEquipment().getChestId() != APRON) {
+				p.startConversation(new Conversation(e.getPlayer()) {
+					{
+						addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you need your apron on!");
+						create();
+					}
+				});
+				return;
 			}
-			handleDoor(p, e.getObject());
 		}
-	};
+		handleDoor(p, e.getObject());
+	});
 
-	public static ObjectClickHandler handleSmuggleCrate = new ObjectClickHandler(new Object[] { 2071 }) {//backroom of Wydin
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
-				if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_SARIM_CRATE_ATTR)) {
-					p.getInventory().addItem(new Item(RUM, 1), true);
-					p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB(RUM_IN_SARIM_CRATE_ATTR);
-					p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(HAS_SMUGGLED_RUM_ATTR, true);
-				} else if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR))
-					p.startConversation(new Conversation(e.getPlayer()) {
-						{
-							addPlayer(HeadE.HAPPY_TALKING, "Darn, I should probably tell Lathus to send the crate!");
-							create();
-						}
-					});
-		}
-	};
+	public static ObjectClickHandler handleSmuggleCrate = new ObjectClickHandler(new Object[] { 2071 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
+			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_SARIM_CRATE_ATTR)) {
+				p.getInventory().addItem(new Item(RUM, 1), true);
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB(RUM_IN_SARIM_CRATE_ATTR);
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(HAS_SMUGGLED_RUM_ATTR, true);
+			} else if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR))
+				p.startConversation(new Conversation(e.getPlayer()) {
+					{
+						addPlayer(HeadE.HAPPY_TALKING, "Darn, I should probably tell Lathus to send the crate!");
+						create();
+					}
+				});
+	});
 
-	public static NPCClickHandler handleWydin = new NPCClickHandler(new Object[] { WYDIN }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new WydinPiratesTreasureD(e.getPlayer()).getStart());
-			else if(e.getOption().equalsIgnoreCase("trade"))
-				ShopsHandler.openShop(e.getPlayer(), "wydins_food_store");
-		}
-	};
+	public static NPCClickHandler handleWydin = new NPCClickHandler(new Object[] { WYDIN }, e -> {
+		if(e.getOption().equalsIgnoreCase("talk-to"))
+			e.getPlayer().startConversation(new WydinPiratesTreasureD(e.getPlayer()).getStart());
+		else if(e.getOption().equalsIgnoreCase("trade"))
+			ShopsHandler.openShop(e.getPlayer(), "wydins_food_store");
+	});
 }

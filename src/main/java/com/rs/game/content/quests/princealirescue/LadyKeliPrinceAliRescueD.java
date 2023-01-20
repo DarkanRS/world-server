@@ -22,7 +22,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -231,11 +230,6 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleLadyKeli = new NPCClickHandler(new Object[] { LADY_KELI }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new LadyKeliPrinceAliRescueD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleLadyKeli = new NPCClickHandler(new Object[] { LADY_KELI }, e -> e.getPlayer().startConversation(new LadyKeliPrinceAliRescueD(e.getPlayer()).getStart()));
 }
 

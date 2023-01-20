@@ -28,9 +28,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.XPGainHandler;
@@ -144,45 +141,36 @@ public class AuraManager {
 		}
 	}
 
-	public static ItemClickHandler handleAuraOptions = new ItemClickHandler(Aura.ITEMID_MAP.keySet().toArray(), new String[] { "Activate aura", "Activate Aura", "Aura Time remaining", "Aura time remaining", "Time-Remaining" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Activate aura":
-			case "Activate Aura":
-				e.getPlayer().getAuraManager().activate();
-				break;
-			case "Aura time remaining":
-			case "Aura Time remaining":
-			case "Time-Remaining":
-				Aura aura = Aura.forId(e.getItem().getId());
-				e.getPlayer().getAuraManager().sendAuraRemainingTime(aura);
-				if (aura == Aura.JACK_OF_TRADES)
-					e.getPlayer().sendMessage("You have trained " + e.getPlayer().getAuraManager().getJotSkills() + " out of 10 skills so far.");
-				break;
-			}
+	public static ItemClickHandler handleAuraOptions = new ItemClickHandler(Aura.ITEMID_MAP.keySet().toArray(), new String[] { "Activate aura", "Activate Aura", "Aura Time remaining", "Aura time remaining", "Time-Remaining" }, e -> {
+		switch(e.getOption()) {
+		case "Activate aura":
+		case "Activate Aura":
+			e.getPlayer().getAuraManager().activate();
+			break;
+		case "Aura time remaining":
+		case "Aura Time remaining":
+		case "Time-Remaining":
+			Aura aura = Aura.forId(e.getItem().getId());
+			e.getPlayer().getAuraManager().sendAuraRemainingTime(aura);
+			if (aura == Aura.JACK_OF_TRADES)
+				e.getPlayer().sendMessage("You have trained " + e.getPlayer().getAuraManager().getJotSkills() + " out of 10 skills so far.");
+			break;
 		}
-	};
+	});
 
-	public static ItemEquipHandler handleDequipAura = new ItemEquipHandler(Aura.ITEMID_MAP.keySet().toArray()) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			if (e.dequip())
-				e.getPlayer().getAuraManager().removeAura();
-		}
-	};
+	public static ItemEquipHandler handleDequipAura = new ItemEquipHandler(Aura.ITEMID_MAP.keySet().toArray(), e -> {
+		if (e.dequip())
+			e.getPlayer().getAuraManager().removeAura();
+	});
 
-	public static XPGainHandler handleXpGain = new XPGainHandler() {
-		@Override
-		public void handle(XPGainEvent e) {
-			if (!e.getPlayer().getAuraManager().isActivated(Aura.JACK_OF_TRADES))
-				return;
-			int total = e.getPlayer().getAuraManager().getJotSkills();
-			e.getPlayer().getAuraManager().setJotFlag(e.getSkillId());
-			if (total != e.getPlayer().getAuraManager().getJotSkills())
-				e.getPlayer().sendMessage("You have now gained XP in " + e.getPlayer().getAuraManager().getJotSkills() + " of the 10 required skills.");
-		}
-	};
+	public static XPGainHandler handleXpGain = new XPGainHandler(e -> {
+		if (!e.getPlayer().getAuraManager().isActivated(Aura.JACK_OF_TRADES))
+			return;
+		int total = e.getPlayer().getAuraManager().getJotSkills();
+		e.getPlayer().getAuraManager().setJotFlag(e.getSkillId());
+		if (total != e.getPlayer().getAuraManager().getJotSkills())
+			e.getPlayer().sendMessage("You have now gained XP in " + e.getPlayer().getAuraManager().getJotSkills() + " of the 10 required skills.");
+	});
 
 	public void clearJotFlags() {
 		jotFlags = 0;

@@ -32,10 +32,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -136,101 +132,95 @@ public class RunecraftingAltar {
 				player.getPackets().setIFGraphic(WICKED_HOOD_INTER, rune.getSpriteComp(), rune.getSpriteId());
 	}
 
-	public static ItemClickHandler handleWickedHood = new ItemClickHandler(new Object[] { WICKED_HOOD }, new String[] { "Activate", "Teleport" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Activate")) {
-				e.getPlayer().getTempAttribs().removeO("whr");
-				sendWickedHoodInter(e.getPlayer());
-			} else
-				Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3106, 3162, 1), null, null);
-		}
-	};
+	public static ItemClickHandler handleWickedHood = new ItemClickHandler(new Object[] { WICKED_HOOD }, new String[] { "Activate", "Teleport" }, e -> {
+		if (e.getOption().equals("Activate")) {
+			e.getPlayer().getTempAttribs().removeO("whr");
+			sendWickedHoodInter(e.getPlayer());
+		} else
+			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3106, 3162, 1), null, null);
+	});
 
-	public static ButtonClickHandler handleWickedHoodInter = new ButtonClickHandler(WICKED_HOOD_INTER) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 119) {
-				int amountToTake = e.getPlayer().getInventory().getFreeSlots();
-				if (amountToTake > e.getPlayer().getDailySubI("wickedEss", 100))
-					amountToTake = e.getPlayer().getDailySubI("wickedEss", 100);
-				if (amountToTake > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().setDailyI("wickedEss", e.getPlayer().getDailyI("wickedEss") + amountToTake);
-					if (e.getPlayer().getUsedElementalTalisman())
-						e.getPlayer().getInventory().addItem(7936, amountToTake);
-					else
-						e.getPlayer().getInventory().addItem(1436, amountToTake);
-					refreshHood(e.getPlayer());
-				}
-			} else if (e.getComponentId() == 111) {
-				if (e.getPlayer().getTempAttribs().getO("whr") == null)
-					e.getPlayer().sendMessage("You need to select a rune first.");
-				else {
-					WickedHoodRune selection = e.getPlayer().getTempAttribs().getO("whr");
-					if (selection != null) {
-						if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
-							e.getPlayer().sendMessage("Please choose a valid rune type.");
-							return;
-						}
-						if (selection.name().equals("SOUL")) {
-							e.getPlayer().sendMessage("The hood refuses to function.");
-							return;
-						}
-						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
-							if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedOmniTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
-								e.getPlayer().incDailyI("wickedRunes");
-								e.getPlayer().getInventory().addItem(selection.getRuneId(), selection.ordinal() > 5 ? 5 : 100);
-								refreshHood(e.getPlayer());
-							}
-						} else
-							e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
+	public static ButtonClickHandler handleWickedHoodInter = new ButtonClickHandler(new Object[] { WICKED_HOOD_INTER }, e -> {
+		if (e.getComponentId() == 119) {
+			int amountToTake = e.getPlayer().getInventory().getFreeSlots();
+			if (amountToTake > e.getPlayer().getDailySubI("wickedEss", 100))
+				amountToTake = e.getPlayer().getDailySubI("wickedEss", 100);
+			if (amountToTake > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().setDailyI("wickedEss", e.getPlayer().getDailyI("wickedEss") + amountToTake);
+				if (e.getPlayer().getUsedElementalTalisman())
+					e.getPlayer().getInventory().addItem(7936, amountToTake);
+				else
+					e.getPlayer().getInventory().addItem(1436, amountToTake);
+				refreshHood(e.getPlayer());
+			}
+		} else if (e.getComponentId() == 111) {
+			if (e.getPlayer().getTempAttribs().getO("whr") == null)
+				e.getPlayer().sendMessage("You need to select a rune first.");
+			else {
+				WickedHoodRune selection = e.getPlayer().getTempAttribs().getO("whr");
+				if (selection != null) {
+					if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
+						e.getPlayer().sendMessage("Please choose a valid rune type.");
+						return;
 					}
-				}
-			} else if (e.getComponentId() == 127) {
-				if (e.getPlayer().getTempAttribs().getO("whr") == null)
-					e.getPlayer().sendMessage("You need to select a rune first.");
-				else {
-					WickedHoodRune selection = e.getPlayer().getTempAttribs().getO("whr");
-					if (selection != null) {
-						if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
-							e.getPlayer().sendMessage("Please choose a valid rune type.");
-							return;
-						}
-						if (selection.name().equals("SOUL")) {
-							e.getPlayer().sendMessage("The hood refuses to function.");
-							return;
-						}
-						if (e.getPlayer().hasWickedHoodTalisman(selection)) {
-							if (e.getPlayer().getDailyI("wickedTeles") < 2) {
-								e.getPlayer().incDailyI("wickedTeles");
-								Altar altar = Altar.valueOf(selection.name());
-								if (altar != null && altar.canEnter(e.getPlayer(), false))
-									Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
-							}
-						} else
-							e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
+					if (selection.name().equals("SOUL")) {
+						e.getPlayer().sendMessage("The hood refuses to function.");
+						return;
 					}
-				}
-			} else {
-				WickedHoodRune rune = null;
-				for (WickedHoodRune r : WickedHoodRune.values())
-					if (r.buttonId == e.getComponentId())
-						rune = r;
-				if (rune != null)
-					if (e.getPlayer().hasWickedHoodTalisman(rune)) {
-						if (e.getPlayer().getTempAttribs().getO("whr") == null) {
-							e.getPlayer().getTempAttribs().setO("whr", rune);
-							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
-						} else {
-							WickedHoodRune old = e.getPlayer().getTempAttribs().setO("whr", rune);
-							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, old.getComponentId(), false);
-							e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
+					if (e.getPlayer().hasWickedHoodTalisman(selection)) {
+						if (e.getPlayer().getDailySubI("wickedRunes", e.getPlayer().getUsedOmniTalisman() ? 2 : 1) > 0 && e.getPlayer().getInventory().hasFreeSlots()) {
+							e.getPlayer().incDailyI("wickedRunes");
+							e.getPlayer().getInventory().addItem(selection.getRuneId(), selection.ordinal() > 5 ? 5 : 100);
+							refreshHood(e.getPlayer());
 						}
 					} else
 						e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
+				}
 			}
+		} else if (e.getComponentId() == 127) {
+			if (e.getPlayer().getTempAttribs().getO("whr") == null)
+				e.getPlayer().sendMessage("You need to select a rune first.");
+			else {
+				WickedHoodRune selection = e.getPlayer().getTempAttribs().getO("whr");
+				if (selection != null) {
+					if (selection.name().equals("OMNI") || selection.name().equals("ELEMENTAL")) {
+						e.getPlayer().sendMessage("Please choose a valid rune type.");
+						return;
+					}
+					if (selection.name().equals("SOUL")) {
+						e.getPlayer().sendMessage("The hood refuses to function.");
+						return;
+					}
+					if (e.getPlayer().hasWickedHoodTalisman(selection)) {
+						if (e.getPlayer().getDailyI("wickedTeles") < 2) {
+							e.getPlayer().incDailyI("wickedTeles");
+							Altar altar = Altar.valueOf(selection.name());
+							if (altar != null && altar.canEnter(e.getPlayer(), false))
+								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
+						}
+					} else
+						e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
+				}
+			}
+		} else {
+			WickedHoodRune rune = null;
+			for (WickedHoodRune r : WickedHoodRune.values())
+				if (r.buttonId == e.getComponentId())
+					rune = r;
+			if (rune != null)
+				if (e.getPlayer().hasWickedHoodTalisman(rune)) {
+					if (e.getPlayer().getTempAttribs().getO("whr") == null) {
+						e.getPlayer().getTempAttribs().setO("whr", rune);
+						e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
+					} else {
+						WickedHoodRune old = e.getPlayer().getTempAttribs().setO("whr", rune);
+						e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, old.getComponentId(), false);
+						e.getPlayer().getPackets().setIFHidden(WICKED_HOOD_INTER, rune.getComponentId(), true);
+					}
+				} else
+					e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
 		}
-	};
+	});
 
 	public enum Altar {
 		MIND(1, new int[] { 1448, 5529, 13631 }, WorldTile.of(2793, 4828, 0), WorldTile.of(2984, 3515, 0), 2453, 2466),
@@ -329,75 +319,63 @@ public class RunecraftingAltar {
 		return false;
 	}
 
-	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().lastEssTele != null)
-				e.getPlayer().setNextWorldTile(e.getPlayer().lastEssTele);
-			else
-				e.getPlayer().sendMessage("Couldn't lock on to your entry path to safely exit you. Teleport out another way.");
-		}
-	};
+	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
+		if (e.getPlayer().lastEssTele != null)
+			e.getPlayer().setNextWorldTile(e.getPlayer().lastEssTele);
+		else
+			e.getPlayer().sendMessage("Couldn't lock on to your entry path to safely exit you. Teleport out another way.");
+	});
 
-	public static ObjectClickHandler handleEntrances = new ObjectClickHandler(new Object[] { 2452, 2453, 2454, 2455, 2456, 2457, 2458, 2461, 2460, 2459, 2462, 2464 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
+	public static ObjectClickHandler handleEntrances = new ObjectClickHandler(new Object[] { 2452, 2453, 2454, 2455, 2456, 2457, 2458, 2461, 2460, 2459, 2462, 2464 }, e -> {
+		Altar altar = null;
+		for (Altar altars : Altar.values())
+			if (e.getObjectId() == altars.getObjectId()) {
+				altar = altars;
+				break;
+			}
+		if (altar != null) {
+			e.getPlayer().sendMessage("You touch the mysterious ruin...");
+			WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() {
+					Altar altar = null;
+					for (Altar altars : Altar.values())
+						if (e.getObjectId() == altars.getObjectId()) {
+							altar = altars;
+							break;
+						}
+					if (altar != null && checkItems(e.getPlayer(), altar) && altar.canEnter(e.getPlayer(), true))
+						e.getPlayer().sendMessage("...and you appear within the ruin!");
+					else
+						e.getPlayer().sendMessage("...and nothing happens...");
+				}
+			}, 2);
+		}
+	});
+
+	public static ObjectClickHandler handleExitPortals = new ObjectClickHandler(new Object[] { 2465, 2466, 2467, 2468, 2469, 2470, 2471, 2474, 2473, 2472, 2475, 2477 }, e -> {
+		if (e.getObject().getDefinitions().getName().equals("Portal")) {
 			Altar altar = null;
 			for (Altar altars : Altar.values())
-				if (e.getObjectId() == altars.getObjectId()) {
+				if (e.getObjectId() == altars.getPortal()) {
 					altar = altars;
 					break;
 				}
 			if (altar != null) {
-				e.getPlayer().sendMessage("You touch the mysterious ruin...");
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						Altar altar = null;
-						for (Altar altars : Altar.values())
-							if (e.getObjectId() == altars.getObjectId()) {
-								altar = altars;
-								break;
-							}
-						if (altar != null && checkItems(e.getPlayer(), altar) && altar.canEnter(e.getPlayer(), true))
-							e.getPlayer().sendMessage("...and you appear within the ruin!");
-						else
-							e.getPlayer().sendMessage("...and nothing happens...");
-					}
-				}, 2);
+				e.getPlayer().setNextWorldTile(altar.getOutside());
+				if (altar.name() == Altar.CHAOS.name())
+					e.getPlayer().getControllerManager().startController(new WildernessController());
 			}
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleExitPortals = new ObjectClickHandler(new Object[] { 2465, 2466, 2467, 2468, 2469, 2470, 2471, 2474, 2473, 2472, 2475, 2477 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().getName().equals("Portal")) {
-				Altar altar = null;
-				for (Altar altars : Altar.values())
-					if (e.getObjectId() == altars.getPortal()) {
-						altar = altars;
-						break;
-					}
-				if (altar != null) {
-					e.getPlayer().setNextWorldTile(altar.getOutside());
-					if (altar.name() == Altar.CHAOS.name())
-						e.getPlayer().getControllerManager().startController(new WildernessController());
-				}
-			}
+	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 171, 300, 462, 844, 5913 }, new String[] { "Teleport" }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.RUNE_MYSTERIES)) {
+			e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
+			return;
 		}
-	};
-
-	public static NPCClickHandler handleOthers = new NPCClickHandler(new Object[] { 171, 300, 462, 844, 5913 }, new String[] { "Teleport" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!e.getPlayer().isQuestComplete(Quest.RUNE_MYSTERIES)) {
-				e.getPlayer().sendMessage("You have no idea where this mage might take you if you try that.");
-				return;
-			}
-			handleEssTele(e.getPlayer(), e.getNPC());
-		}
-	};
+		handleEssTele(e.getPlayer(), e.getNPC());
+	});
 
 	public static void handleEssTele(Player player, NPC npc) {
 		npc.setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));

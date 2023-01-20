@@ -85,10 +85,5 @@ public class GiantMole extends NPC {
 
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3340) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new GiantMole(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3340, (npcId, tile) -> new GiantMole(npcId, tile, false));
 }

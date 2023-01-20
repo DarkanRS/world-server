@@ -24,7 +24,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -223,15 +222,12 @@ public class Sets {
 		}
 	}
 
-	public static ButtonClickHandler processItemSets = new ButtonClickHandler(644, 645) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPacket() == ClientPacket.IF_OP1)
-				printSet(e.getPlayer(), Set.forId(e.getSlotId2()));
-			else if (e.getComponentId() == 16)
-				packSet(e.getPlayer(), Set.forId(e.getSlotId2()));
-			else
-				unpackSet(e.getPlayer(), Set.forId(e.getSlotId2()));
-		}
-	};
+	public static ButtonClickHandler processItemSets = new ButtonClickHandler(new Object[] { 644, 645 }, e -> {
+		if (e.getPacket() == ClientPacket.IF_OP1)
+			printSet(e.getPlayer(), Set.forId(e.getSlotId2()));
+		else if (e.getComponentId() == 16)
+			packSet(e.getPlayer(), Set.forId(e.getSlotId2()));
+		else
+			unpackSet(e.getPlayer(), Set.forId(e.getSlotId2()));
+	});
 }

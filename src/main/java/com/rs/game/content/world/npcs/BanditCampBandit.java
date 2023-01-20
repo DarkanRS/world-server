@@ -57,11 +57,6 @@ public class BanditCampBandit extends NPC {
 		super.setTarget(entity);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1926, 1931) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new BanditCampBandit(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1926, 1931 }, (npcId, tile) -> new BanditCampBandit(npcId, tile, false));
 
 }

@@ -53,8 +53,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
@@ -99,62 +97,50 @@ public class House {
 		return players.contains(player);
 	}
 	
-	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray()) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
-				ops.add("Go to your house.", () -> {
-					e.getPlayer().getHouse().setBuildMode(false);
-					e.getPlayer().getHouse().enterMyHouse();
-				});
-				ops.add("Go to your house (building mode).", () -> {
-					e.getPlayer().getHouse().kickGuests();
-					e.getPlayer().getHouse().setBuildMode(true);
-					e.getPlayer().getHouse().enterMyHouse();
-				});
-				ops.add("Go to a friend's house.", () -> {
-					if (e.getPlayer().isIronMan()) {
-						e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
-						return;
-					}
-					e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
-				});
-				ops.add("Nevermind.");
-			}));
-		}
-	};
+	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray(), e -> {
+		e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
+			ops.add("Go to your house.", () -> {
+				e.getPlayer().getHouse().setBuildMode(false);
+				e.getPlayer().getHouse().enterMyHouse();
+			});
+			ops.add("Go to your house (building mode).", () -> {
+				e.getPlayer().getHouse().kickGuests();
+				e.getPlayer().getHouse().setBuildMode(true);
+				e.getPlayer().getHouse().enterMyHouse();
+			});
+			ops.add("Go to a friend's house.", () -> {
+				if (e.getPlayer().isIronMan()) {
+					e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
+					return;
+				}
+				e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
+			});
+			ops.add("Nevermind.");
+		}));
+	});
 
-	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 19)
-				e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
-			else if (e.getComponentId() == 15 || e.getComponentId() == 1)
-				e.getPlayer().getHouse().setBuildMode(e.getComponentId() == 15);
-			else if (e.getComponentId() == 25 || e.getComponentId() == 26)
-				e.getPlayer().getHouse().setArriveInPortal(e.getComponentId() == 25);
-			else if (e.getComponentId() == 27)
-				e.getPlayer().getHouse().expelGuests();
-			else if (e.getComponentId() == 29)
-				House.leaveHouse(e.getPlayer());
-		}
-	};
+	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398, e -> {
+		if (e.getComponentId() == 19)
+			e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
+		else if (e.getComponentId() == 15 || e.getComponentId() == 1)
+			e.getPlayer().getHouse().setBuildMode(e.getComponentId() == 15);
+		else if (e.getComponentId() == 25 || e.getComponentId() == 26)
+			e.getPlayer().getHouse().setArriveInPortal(e.getComponentId() == 25);
+		else if (e.getComponentId() == 27)
+			e.getPlayer().getHouse().expelGuests();
+		else if (e.getComponentId() == 29)
+			House.leaveHouse(e.getPlayer());
+	});
 
-	public static ButtonClickHandler handleCreateRoom = new ButtonClickHandler(402) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 93 && e.getComponentId() <= 115)
-				e.getPlayer().getHouse().createRoom(e.getComponentId() - 93);
-		}
-	};
+	public static ButtonClickHandler handleCreateRoom = new ButtonClickHandler(402, e -> {
+		if (e.getComponentId() >= 93 && e.getComponentId() <= 115)
+			e.getPlayer().getHouse().createRoom(e.getComponentId() - 93);
+	});
 
-	public static ButtonClickHandler handleBuild = new ButtonClickHandler(394, 396) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 11)
-				e.getPlayer().getHouse().build(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleBuild = new ButtonClickHandler(new Object[] { 394, 396 }, e -> {
+		if (e.getComponentId() == 11)
+			e.getPlayer().getHouse().build(e.getSlotId());
+	});
 
 	public void expelGuests() {
 		if (!isOwnerInside()) {

@@ -24,8 +24,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -183,38 +181,29 @@ public class FairyRings {
 		}
 	}
 
-	public static ObjectClickHandler handleRings = new ObjectClickHandler(new Object[] { "Fairy ring", 27331 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObjectId() == 12094) {//Fairy ring by evil chicken
-				sendTeleport(e.getPlayer(), WorldTile.of(3202, 3169, 0));
-				return;
-			}
-			if(e.getPlayer().isQuestComplete(Quest.FAIRY_TALE_I_GROWING_PAINS, "to use the fairy ring system.")) {
-				FairyRings.openRingInterface(e.getPlayer(), e.getObject().getTile(), e.getObjectId() == 12128);
-				return;
-			}
-			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
+	public static ObjectClickHandler handleRings = new ObjectClickHandler(new Object[] { "Fairy ring", 27331 }, e -> {
+		if (e.getObjectId() == 12094) {//Fairy ring by evil chicken
+			sendTeleport(e.getPlayer(), WorldTile.of(3202, 3169, 0));
+			return;
 		}
-	};
+		if(e.getPlayer().isQuestComplete(Quest.FAIRY_TALE_I_GROWING_PAINS, "to use the fairy ring system.")) {
+			FairyRings.openRingInterface(e.getPlayer(), e.getObject().getTile(), e.getObjectId() == 12128);
+			return;
+		}
+		e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "I don't know what's supposed to be happening here..."));
+	});
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(734) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 21)
-				confirmRingHash(e.getPlayer());
-			else
-				handleDialButtons(e.getPlayer(), e.getComponentId());
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(734, e -> {
+		if (e.getComponentId() == 21)
+			confirmRingHash(e.getPlayer());
+		else
+			handleDialButtons(e.getPlayer(), e.getComponentId());
+	});
 
-	public static ButtonClickHandler handleQuickTeleport = new ButtonClickHandler(735) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 14 && e.getComponentId() <= 14 + 64)
-				sendRingTeleport(e.getPlayer(), e.getComponentId() - 14);
-		}
-	};
+	public static ButtonClickHandler handleQuickTeleport = new ButtonClickHandler(735, e -> {
+		if (e.getComponentId() >= 14 && e.getComponentId() <= 14 + 64)
+			sendRingTeleport(e.getPlayer(), e.getComponentId() - 14);
+	});
 
 	public static boolean checkAll(Player player) {
 		if ((player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT)) || player.getEquipment().getWeaponId() == 772 || player.getEquipment().getWeaponId() == 9084)

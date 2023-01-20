@@ -26,7 +26,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
@@ -106,23 +105,20 @@ public class BoneAltar  {
 
 	}
 
-	public static ItemOnObjectHandler handleBonesOnAltar = new ItemOnObjectHandler(new Object[] { 13179, 13182, 13185, 13188, 13191, 13194, 13197 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Altar altar = null;
-			Bone bone = null;
-			for (Altar altars : Altar.values())
-				if (altars.getObjectId() == e.getObject().getId()) {
-					altar = altars;
-					break;
-				}
-			for (Bone bones : Bone.values())
-				if (bones.getId() == e.getItem().getId()) {
-					bone = bones;
-					break;
-				}
-			e.getPlayer().getActionManager().setAction(new BoneAction(altar, bone, e.getObject()));
-		}
-	};
+	public static ItemOnObjectHandler handleBonesOnAltar = new ItemOnObjectHandler(new Object[] { 13179, 13182, 13185, 13188, 13191, 13194, 13197 }, e -> {
+		Altar altar = null;
+		Bone bone = null;
+		for (Altar altars : Altar.values())
+			if (altars.getObjectId() == e.getObject().getId()) {
+				altar = altars;
+				break;
+			}
+		for (Bone bones : Bone.values())
+			if (bones.getId() == e.getItem().getId()) {
+				bone = bones;
+				break;
+			}
+		e.getPlayer().getActionManager().setAction(new BoneAction(altar, bone, e.getObject()));
+	});
 
 }

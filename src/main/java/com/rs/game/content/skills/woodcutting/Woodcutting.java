@@ -35,8 +35,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.DropSets;
@@ -68,131 +66,90 @@ public class Woodcutting extends Action {
 		return this;
 	}
 
-	public static LoginHandler unlockBlisterwoodTree = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			e.getPlayer().getVars().setVarBit(9776, 1);
-		}
-	};
+	public static LoginHandler unlockBlisterwoodTree = new LoginHandler(e -> e.getPlayer().getVars().setVarBit(9776, 1));
 
-	public static ObjectClickHandler handleTree = new ObjectClickHandler(new Object[] { "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.NORMAL));
-		}
-	};
+	public static ObjectClickHandler handleTree = new ObjectClickHandler(new Object[] { "Tree", "Swamp tree", "Dead tree", "Evergreen", "Dying tree", "Jungle tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.NORMAL));
+	});
 
-	public static ObjectClickHandler handleOak = new ObjectClickHandler(new Object[] { "Oak", "Oak tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.OAK));
-		}
-	};
+	public static ObjectClickHandler handleOak = new ObjectClickHandler(new Object[] { "Oak", "Oak tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.OAK));
+	});
 
-	public static ObjectClickHandler handleWillow = new ObjectClickHandler(new Object[] { "Willow", "Willow tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.WILLOW));
-		}
-	};
+	public static ObjectClickHandler handleWillow = new ObjectClickHandler(new Object[] { "Willow", "Willow tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.WILLOW));
+	});
 
-	public static ObjectClickHandler handleMaple = new ObjectClickHandler(new Object[] { "Maple", "Maple tree", "Maple Tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAPLE));
-		}
-	};
+	public static ObjectClickHandler handleMaple = new ObjectClickHandler(new Object[] { "Maple", "Maple tree", "Maple Tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAPLE));
+	});
 
-	public static ObjectClickHandler handleTeak = new ObjectClickHandler(new Object[] { "Teak", "Teak tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.TEAK));
-		}
-	};
+	public static ObjectClickHandler handleTeak = new ObjectClickHandler(new Object[] { "Teak", "Teak tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.TEAK));
+	});
 
-	public static ObjectClickHandler handleMahogany = new ObjectClickHandler(new Object[] { "Mahogany", "Mahogany tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAHOGANY));
-		}
-	};
+	public static ObjectClickHandler handleMahogany = new ObjectClickHandler(new Object[] { "Mahogany", "Mahogany tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAHOGANY));
+	});
 
-	public static ObjectClickHandler handleArcticPine = new ObjectClickHandler(new Object[] { "Arctic Pine" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down") || e.getObject().getDefinitions().containsOption(0, "Cut down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.ARCTIC_PINE));
-		}
-	};
+	public static ObjectClickHandler handleArcticPine = new ObjectClickHandler(new Object[] { "Arctic Pine" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down") || e.getObject().getDefinitions().containsOption(0, "Cut down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.ARCTIC_PINE));
+	});
 
-	public static ObjectClickHandler handleIvy = new ObjectClickHandler(new Object[] { "Ivy" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.IVY));
-		}
-	};
+	public static ObjectClickHandler handleIvy = new ObjectClickHandler(new Object[] { "Ivy" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.IVY));
+	});
 
-	public static ObjectClickHandler handleYew = new ObjectClickHandler(new Object[] { "Yew", "Yew tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.YEW));
-		}
-	};
+	public static ObjectClickHandler handleYew = new ObjectClickHandler(new Object[] { "Yew", "Yew tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.YEW));
+	});
 
-	public static ObjectClickHandler handleMagic = new ObjectClickHandler(new Object[] { "Magic tree", "Cursed magic tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAGIC));
-		}
-	};
+	public static ObjectClickHandler handleMagic = new ObjectClickHandler(new Object[] { "Magic tree", "Cursed magic tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.MAGIC));
+	});
 
-	public static ObjectClickHandler handleSwayingTree = new ObjectClickHandler(new Object[] { "Swaying tree" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getObject().getDefinitions().containsOption(0, "Cut-branch"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.SWAYING) {
-					@Override
-					public void fellTree() {
+	public static ObjectClickHandler handleSwayingTree = new ObjectClickHandler(new Object[] { "Swaying tree" }, e -> {
+		if (e.getObject().getDefinitions().containsOption(0, "Cut-branch"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.SWAYING) {
+				@Override
+				public void fellTree() {
 
-					}
-				});
-		}
-	};
+				}
+			});
+	});
 
-	public static ObjectClickHandler handleBlisterwood = new ObjectClickHandler(new Object[] { 61321 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Chop"))
-				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.BLISTERWOOD) {
-					@Override
-					public void fellTree() {
-						e.getPlayer().getVars().setVarBit(9776, 2);
-						CoresManager.schedule(() -> {
-							try {
-								if (e.getPlayer() != null && !e.getPlayer().hasFinished())
-									e.getPlayer().getVars().setVarBit(9776, 1);
-							} catch (Throwable e1) {
-								Logger.handle(Woodcutting.class, "handleBlisterwood", e1);
-							}
-						}, Ticks.fromMinutes(2));
-					}
+	public static ObjectClickHandler handleBlisterwood = new ObjectClickHandler(new Object[] { 61321 }, e -> {
+		if (e.getOption().equals("Chop"))
+			e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.BLISTERWOOD) {
+				@Override
+				public void fellTree() {
+					e.getPlayer().getVars().setVarBit(9776, 2);
+					CoresManager.schedule(() -> {
+						try {
+							if (e.getPlayer() != null && !e.getPlayer().hasFinished())
+								e.getPlayer().getVars().setVarBit(9776, 1);
+						} catch (Throwable e1) {
+							Logger.handle(Woodcutting.class, "handleBlisterwood", e1);
+						}
+					}, Ticks.fromMinutes(2));
+				}
 
-					@Override
-					public boolean checkTree() {
-						return e.getPlayer().getVars().getVarBit(9776) == 1;
-					}
-				});
-		}
-	};
+				@Override
+				public boolean checkTree() {
+					return e.getPlayer().getVars().getVarBit(9776) == 1;
+				}
+			});
+	});
 
 	@Override
 	public boolean start(Entity entity) {

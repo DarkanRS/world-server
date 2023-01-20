@@ -110,12 +110,7 @@ public class DelrithBoss extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(DELRITH_ID) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new DelrithBoss(tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(DELRITH_ID, (npcId, tile) -> new DelrithBoss(tile));
 
 
 }

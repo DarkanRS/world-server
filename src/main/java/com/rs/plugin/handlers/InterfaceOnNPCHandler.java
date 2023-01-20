@@ -18,14 +18,15 @@ package com.rs.plugin.handlers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.rs.plugin.events.IFOnNPCEvent;
 
-public abstract class InterfaceOnNPCHandler extends PluginHandler<IFOnNPCEvent> {
+public class InterfaceOnNPCHandler extends PluginHandler<IFOnNPCEvent> {
 	private boolean checkDistance = true;
 
-	public InterfaceOnNPCHandler(boolean checkDistance, int[] interfaceIds, int[] componentIds) {
-		super(null);
+	public InterfaceOnNPCHandler(boolean checkDistance, int[] interfaceIds, int[] componentIds, Consumer<IFOnNPCEvent> handler) {
+		super(null, handler);
 		this.checkDistance = checkDistance;
 		List<Object> list = new ArrayList<>();
 		if (componentIds == null || componentIds.length <= 0)
@@ -38,16 +39,16 @@ public abstract class InterfaceOnNPCHandler extends PluginHandler<IFOnNPCEvent> 
 		keys = list.toArray();
 	}
 	
-	public InterfaceOnNPCHandler(boolean checkDistance, int[] interfaceIds) {
-		this(checkDistance, interfaceIds, null);
+	public InterfaceOnNPCHandler(boolean checkDistance, int[] interfaceIds, Consumer<IFOnNPCEvent> handler) {
+		this(checkDistance, interfaceIds, null, handler);
 	}
 
-	public InterfaceOnNPCHandler(int[] interfaceIds, int[] componentIds) {
-		this(true, interfaceIds, componentIds);
+	public InterfaceOnNPCHandler(int[] interfaceIds, int[] componentIds, Consumer<IFOnNPCEvent> handler) {
+		this(true, interfaceIds, componentIds, handler);
 	}
 	
-	public InterfaceOnNPCHandler(int[] interfaceIds) {
-		this(true, interfaceIds, null);
+	public InterfaceOnNPCHandler(int[] interfaceIds, Consumer<IFOnNPCEvent> handler) {
+		this(true, interfaceIds, null, handler);
 	}
 
 	public boolean isCheckDistance() {

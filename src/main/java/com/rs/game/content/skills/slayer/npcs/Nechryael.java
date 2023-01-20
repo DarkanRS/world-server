@@ -67,10 +67,5 @@ public class Nechryael extends NPC {
 		return deathSpawns != null;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1613, 10702) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Nechryael(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1613, 10702 }, (npcId, tile) -> new Nechryael(npcId, tile, false));
 }

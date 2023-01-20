@@ -48,12 +48,7 @@ public class LucienVarrockMob extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8347) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new LucienVarrockMob(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8347, (npcId, tile) -> new LucienVarrockMob(npcId, tile));
 
 
 }

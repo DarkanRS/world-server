@@ -17,8 +17,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -113,38 +111,29 @@ public class LuthasPiratesTreasureD extends Conversation {
 		}
 	}
 
-	public static ObjectClickHandler handleBananaCrate = new ObjectClickHandler(new Object[] { 2072 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == UNEMPLOYED)
-				return;
-			int bananaCount = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR);
-			boolean hasRum = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR);
-			if(e.getOption().equalsIgnoreCase("search"))
-				p.sendMessage("The crate has " + bananaCount + " out of 10 bananas " + (hasRum ? "and has rum!" : "but does not have rum!"));
-			if(e.getOption().equalsIgnoreCase("fill")) {
-				if(p.getInventory().containsItem(RUM, 1)) {
-					p.getInventory().removeItems(new Item(RUM, 1));
-					p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(RUM_IN_KARAMJA_CRATE_ATTR, true);
-					p.sendMessage("You place rum in the crate!");
-				}
-				while(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR) < 10) {
-					if(!p.getInventory().containsItem(BANANA, 1))
-						break;
-					p.getInventory().removeItems(new Item(BANANA, 1));
-					p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI(BANANA_COUNT_ATTR,
-							p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR)+1);
-				}
-
+	public static ObjectClickHandler handleBananaCrate = new ObjectClickHandler(new Object[] { 2072 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == UNEMPLOYED)
+			return;
+		int bananaCount = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR);
+		boolean hasRum = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR);
+		if(e.getOption().equalsIgnoreCase("search"))
+			p.sendMessage("The crate has " + bananaCount + " out of 10 bananas " + (hasRum ? "and has rum!" : "but does not have rum!"));
+		if(e.getOption().equalsIgnoreCase("fill")) {
+			if(p.getInventory().containsItem(RUM, 1)) {
+				p.getInventory().removeItems(new Item(RUM, 1));
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(RUM_IN_KARAMJA_CRATE_ATTR, true);
+				p.sendMessage("You place rum in the crate!");
+			}
+			while(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR) < 10) {
+				if(!p.getInventory().containsItem(BANANA, 1))
+					break;
+				p.getInventory().removeItems(new Item(BANANA, 1));
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI(BANANA_COUNT_ATTR,
+						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR)+1);
 			}
 		}
-	};
+	});
 
-	public static NPCClickHandler handleLuthas = new NPCClickHandler(new Object[] { LUTHAS }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new LuthasPiratesTreasureD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleLuthas = new NPCClickHandler(new Object[] { LUTHAS }, e -> e.getPlayer().startConversation(new LuthasPiratesTreasureD(e.getPlayer()).getStart()));
 }

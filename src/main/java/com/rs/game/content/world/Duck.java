@@ -37,10 +37,5 @@ public class Duck extends NPC {
 			setNextForceTalk(new ForceTalk("Quack!"));
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler("Duck", "Drake") {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Duck(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Duck", "Drake" }, (npcId, tile) -> new Duck(npcId, tile));
 }

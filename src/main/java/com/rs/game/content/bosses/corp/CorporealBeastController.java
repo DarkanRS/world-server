@@ -24,23 +24,19 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class CorporealBeastController extends Controller {
 
-	public static ButtonClickHandler handleEnterWarning = new ButtonClickHandler(650) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 15) {
-				e.getPlayer().stopAll();
-				e.getPlayer().setNextWorldTile(WorldTile.of(2974, 4384, e.getPlayer().getPlane()));
-				e.getPlayer().getControllerManager().startController(new CorporealBeastController());
-			} else if (e.getComponentId() == 16)
-				e.getPlayer().closeInterfaces();
-		}
-	};
+	public static ButtonClickHandler handleEnterWarning = new ButtonClickHandler(650, e -> {
+		if (e.getComponentId() == 15) {
+			e.getPlayer().stopAll();
+			e.getPlayer().setNextWorldTile(WorldTile.of(2974, 4384, e.getPlayer().getPlane()));
+			e.getPlayer().getControllerManager().startController(new CorporealBeastController());
+		} else if (e.getComponentId() == 16)
+			e.getPlayer().closeInterfaces();
+	});
 
 	@Override
 	public void start() {

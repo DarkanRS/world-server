@@ -5,8 +5,6 @@ import static com.rs.game.content.quests.monksfriend.MonksFriend.HELP_CEDRIC;
 import static com.rs.game.content.quests.monksfriend.MonksFriend.NOT_STARTED;
 import static com.rs.game.content.quests.monksfriend.MonksFriend.QUEST_COMPLETE;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;

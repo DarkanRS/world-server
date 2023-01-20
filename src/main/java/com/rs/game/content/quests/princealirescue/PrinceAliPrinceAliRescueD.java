@@ -29,7 +29,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -118,11 +117,6 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handlePrinceAli = new NPCClickHandler(new Object[] { PRINCE_ALI }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new PrinceAliPrinceAliRescueD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handlePrinceAli = new NPCClickHandler(new Object[] { PRINCE_ALI }, e -> e.getPlayer().startConversation(new PrinceAliPrinceAliRescueD(e.getPlayer()).getStart()));
 }
 

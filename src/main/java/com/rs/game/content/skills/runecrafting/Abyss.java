@@ -32,7 +32,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
@@ -49,43 +48,36 @@ public class Abyss {
 			{ 3063, 4820 }, { 3028, 4806 }
 	};
 
-	public static ObjectClickHandler handleAltarEntries = new ObjectClickHandler(new Object[] { 7137, 7139, 7140, 7131, 7130, 7129, 7136, 7135, 7133, 7132, 7141, 7134, 7138 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getObjectId()) {
-				case 7137 -> RunecraftingAltar.Altar.WATER.canEnter(e.getPlayer(), true);
-				case 7139 -> RunecraftingAltar.Altar.AIR.canEnter(e.getPlayer(), true);
-				case 7140 -> RunecraftingAltar.Altar.MIND.canEnter(e.getPlayer(), true);
-				case 7131 -> RunecraftingAltar.Altar.BODY.canEnter(e.getPlayer(), true);
-				case 7130 -> RunecraftingAltar.Altar.EARTH.canEnter(e.getPlayer(), true);
-				case 7129 -> RunecraftingAltar.Altar.FIRE.canEnter(e.getPlayer(), true);
-				case 7136 -> RunecraftingAltar.Altar.DEATH.canEnter(e.getPlayer(), true);
-				case 7135 -> RunecraftingAltar.Altar.LAW.canEnter(e.getPlayer(), true);
-				case 7133 -> RunecraftingAltar.Altar.NATURE.canEnter(e.getPlayer(), true);
-				case 7132 -> RunecraftingAltar.Altar.COSMIC.canEnter(e.getPlayer(), true);
-				case 7141 -> RunecraftingAltar.Altar.BLOOD.canEnter(e.getPlayer(), true);
-				case 7134 -> RunecraftingAltar.Altar.CHAOS.canEnter(e.getPlayer(), true);
-				case 7138 -> e.getPlayer().sendMessage("A strange power blocks your exit..");
-
-			}
+	public static ObjectClickHandler handleAltarEntries = new ObjectClickHandler(new Object[] { 7137, 7139, 7140, 7131, 7130, 7129, 7136, 7135, 7133, 7132, 7141, 7134, 7138 }, e -> {
+		switch(e.getObjectId()) {
+		case 7137 -> RunecraftingAltar.Altar.WATER.canEnter(e.getPlayer(), true);
+		case 7139 -> RunecraftingAltar.Altar.AIR.canEnter(e.getPlayer(), true);
+		case 7140 -> RunecraftingAltar.Altar.MIND.canEnter(e.getPlayer(), true);
+		case 7131 -> RunecraftingAltar.Altar.BODY.canEnter(e.getPlayer(), true);
+		case 7130 -> RunecraftingAltar.Altar.EARTH.canEnter(e.getPlayer(), true);
+		case 7129 -> RunecraftingAltar.Altar.FIRE.canEnter(e.getPlayer(), true);
+		case 7136 -> RunecraftingAltar.Altar.DEATH.canEnter(e.getPlayer(), true);
+		case 7135 -> RunecraftingAltar.Altar.LAW.canEnter(e.getPlayer(), true);
+		case 7133 -> RunecraftingAltar.Altar.NATURE.canEnter(e.getPlayer(), true);
+		case 7132 -> RunecraftingAltar.Altar.COSMIC.canEnter(e.getPlayer(), true);
+		case 7141 -> RunecraftingAltar.Altar.BLOOD.canEnter(e.getPlayer(), true);
+		case 7134 -> RunecraftingAltar.Altar.CHAOS.canEnter(e.getPlayer(), true);
+		case 7138 -> e.getPlayer().sendMessage("A strange power blocks your exit..");
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 7143, 7153, 7152, 7144, 7150, 7146, 7147, 7148, 7149, 7151, 7145 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch(e.getObjectId()) {
-				case 7143, 7153 -> clearRocks(e.getPlayer(), e.getObject());
-				case 7152, 7144 -> clearTendrils(e.getPlayer(), e.getObject(), WorldTile.of(e.getObjectId() == 7144 ? 3028 : 3051, 4824, 0));
-				case 7150, 7146 -> clearEyes(e.getPlayer(), e.getObject(), WorldTile.of(e.getObject().getX() == 3021 ? 3028 : 3050, 4839, 0));
-				case 7147 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3030, 4843, 0), false);
-				case 7148 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3040, 4845, 0), true);
-				case 7149 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3048, 4842, 0), false);
-				case 7151 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3053, 4831, 0));
-				case 7145 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3024, 4834, 0));
-			}
+	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 7143, 7153, 7152, 7144, 7150, 7146, 7147, 7148, 7149, 7151, 7145 }, e -> {
+		switch(e.getObjectId()) {
+		case 7143, 7153 -> clearRocks(e.getPlayer(), e.getObject());
+		case 7152, 7144 -> clearTendrils(e.getPlayer(), e.getObject(), WorldTile.of(e.getObjectId() == 7144 ? 3028 : 3051, 4824, 0));
+		case 7150, 7146 -> clearEyes(e.getPlayer(), e.getObject(), WorldTile.of(e.getObject().getX() == 3021 ? 3028 : 3050, 4839, 0));
+		case 7147 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3030, 4843, 0), false);
+		case 7148 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3040, 4845, 0), true);
+		case 7149 -> clearGap(e.getPlayer(), e.getObject(), WorldTile.of(3048, 4842, 0), false);
+		case 7151 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3053, 4831, 0));
+		case 7145 -> burnGout(e.getPlayer(), e.getObject(), WorldTile.of(3024, 4834, 0));
 		}
-	};
+	});
 
 	public static void clearRocks(final Player player, final GameObject object) {
 		Pickaxe pick = Pickaxe.getBest(player);

@@ -9,8 +9,6 @@ import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST
 import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
 import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
@@ -21,7 +19,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -180,10 +177,5 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 
 	}
 
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getPlayer().startConversation(new KingBolrenTreeGnomeVillageD(e.getPlayer()).getStart());
-        }
-    };
+    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC}, e -> e.getPlayer().startConversation(new KingBolrenTreeGnomeVillageD(e.getPlayer()).getStart()));
 }

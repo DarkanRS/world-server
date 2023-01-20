@@ -22,9 +22,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -32,186 +29,177 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 @PluginEventHandler
 public class GemBag {
 
-	public static ItemClickHandler handleClickOnGemBag = new ItemClickHandler(18338) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			int current = getNumGemsInBag(e.getPlayer());
-			int sapphire = e.getPlayer().getI("gemBagSapphire");
-			int emerald = e.getPlayer().getI("gemBagEmerald");
-			int ruby = e.getPlayer().getI("gemBagRuby");
-			int diamond = e.getPlayer().getI("gemBagDiamond");
+	public static ItemClickHandler handleClickOnGemBag = new ItemClickHandler(new Object[] { 18338 }, e -> {
+		int current = getNumGemsInBag(e.getPlayer());
+		int sapphire = e.getPlayer().getI("gemBagSapphire");
+		int emerald = e.getPlayer().getI("gemBagEmerald");
+		int ruby = e.getPlayer().getI("gemBagRuby");
+		int diamond = e.getPlayer().getI("gemBagDiamond");
 
-			if (current == 0) {
-				e.getPlayer().sendMessage("You do not have any gems in your gem bag.");
+		if (current == 0) {
+			e.getPlayer().sendMessage("You do not have any gems in your gem bag.");
+			return;
+		}
+
+		switch(e.getOption()) {
+		case "Inspect":
+			e.getPlayer().sendMessage("You have " + current + " gem"  + (current > 1 ? "s" : "") + " in your gem bag.");
+			e.getPlayer().sendMessage(sapphire + " sapphires, " + emerald + " emeralds, " + ruby + " rubies, " + diamond + " diamonds.");
+			break;
+		case "Withdraw":
+			if (!e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().sendMessage("You do not have enough inventory spaces to do that.");
 				return;
 			}
 
-			switch(e.getOption()) {
-			case "Inspect":
-				e.getPlayer().sendMessage("You have " + current + " gem"  + (current > 1 ? "s" : "") + " in your gem bag.");
-				e.getPlayer().sendMessage(sapphire + " sapphires, " + emerald + " emeralds, " + ruby + " rubies, " + diamond + " diamonds.");
-				break;
-			case "Withdraw":
-				if (!e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().sendMessage("You do not have enough inventory spaces to do that.");
-					return;
+			e.getPlayer().startConversation(new Dialogue().addOptions(new Options() {
+				@Override
+				public void create() {
+					if (sapphire > 0)
+						option("Withdraw sapphires", () -> {
+							int numToWithdraw = (sapphire > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : sapphire);
+							e.getPlayer().getInventory().addItem(1623, numToWithdraw);
+							e.getPlayer().save("gemBagSapphire", sapphire-numToWithdraw);
+						});
+					if (emerald > 0)
+						option("Withdraw emerald", () -> {
+							int numToWithdraw = (emerald > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : emerald);
+							e.getPlayer().getInventory().addItem(1621, numToWithdraw);
+							e.getPlayer().save("gemBagEmerald", emerald-numToWithdraw);
+						});
+					if (ruby > 0)
+						option("Withdraw rubies", () -> {
+							int numToWithdraw = (ruby > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : ruby);
+							e.getPlayer().getInventory().addItem(1619, numToWithdraw);
+							e.getPlayer().save("gemBagRuby", ruby-numToWithdraw);
+						});
+					if (diamond > 0)
+						option("Withdraw diamonds", () -> {
+							int numToWithdraw = (diamond > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : diamond);
+							e.getPlayer().getInventory().addItem(1617, numToWithdraw);
+							e.getPlayer().save("gemBagDiamond", diamond-numToWithdraw);
+						});
 				}
-
-				e.getPlayer().startConversation(new Dialogue().addOptions(new Options() {
-					@Override
-					public void create() {
-						if (sapphire > 0)
-							option("Withdraw sapphires", () -> {
-								int numToWithdraw = (sapphire > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : sapphire);
-								e.getPlayer().getInventory().addItem(1623, numToWithdraw);
-								e.getPlayer().save("gemBagSapphire", sapphire-numToWithdraw);
-							});
-						if (emerald > 0)
-							option("Withdraw emerald", () -> {
-								int numToWithdraw = (emerald > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : emerald);
-								e.getPlayer().getInventory().addItem(1621, numToWithdraw);
-								e.getPlayer().save("gemBagEmerald", emerald-numToWithdraw);
-							});
-						if (ruby > 0)
-							option("Withdraw rubies", () -> {
-								int numToWithdraw = (ruby > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : ruby);
-								e.getPlayer().getInventory().addItem(1619, numToWithdraw);
-								e.getPlayer().save("gemBagRuby", ruby-numToWithdraw);
-							});
-						if (diamond > 0)
-							option("Withdraw diamonds", () -> {
-								int numToWithdraw = (diamond > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : diamond);
-								e.getPlayer().getInventory().addItem(1617, numToWithdraw);
-								e.getPlayer().save("gemBagDiamond", diamond-numToWithdraw);
-							});
-					}
-				}));
-				break;
-			case "Empty":
-				if (!e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().sendMessage("You do not have enough inventory spaces to do that.");
-					return;
-				}
-
-				int withdraw = (diamond > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : diamond);
-				if (withdraw > 0) {
-					e.getPlayer().getInventory().addItem(1617, withdraw);
-					e.getPlayer().save("gemBagDiamond", diamond-withdraw);
-					e.getPlayer().sendMessage("You empty out " + withdraw + " diamon" + (withdraw > 1 ? "s" : "") +  " from your gem bag.");
-				}
-
-				withdraw = (ruby > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : ruby);
-				if (withdraw > 0) {
-					e.getPlayer().getInventory().addItem(1619, withdraw);
-					e.getPlayer().save("gemBagRuby", ruby-withdraw);
-					e.getPlayer().sendMessage("You empty out " + withdraw +  (withdraw > 1 ? " rubies" : " ruby") + " from your gem bag.");
-				}
-
-				withdraw = (emerald > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : emerald);
-				if (withdraw > 0) {
-					e.getPlayer().getInventory().addItem(1621, withdraw);
-					e.getPlayer().save("gemBagEmerald", emerald-withdraw);
-					e.getPlayer().sendMessage("You empty out " + withdraw + " emerald"  + (withdraw > 1 ? "s" : "") + " from your gem bag.");
-				}
-
-				withdraw = (sapphire > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : sapphire);
-				if (withdraw > 0) {
-					e.getPlayer().getInventory().addItem(1623, withdraw);
-					e.getPlayer().save("gemBagSapphire", sapphire-withdraw);
-					e.getPlayer().sendMessage("You empty out " + withdraw + " sapphire" + (withdraw > 1 ? "s" : "") + " from your gem bag.");
-				}
-				break;
-			}
-		}
-	};
-
-	public static ItemOnItemHandler handleItemOnGemBag = new ItemOnItemHandler(18338, new int[] { 1623, 1621, 1619, 1617 }) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			int current = getNumGemsInBag(e.getPlayer());
-			int sapphire = e.getPlayer().getI("gemBagSapphire");
-			int emerald = e.getPlayer().getI("gemBagEmerald");
-			int ruby = e.getPlayer().getI("gemBagRuby");
-			int diamond = e.getPlayer().getI("gemBagDiamond");
-			int room = 0;
-
-			if (current < 100)
-				room = 100 - current;
-
-			if (room == 0) {
-				e.getPlayer().sendMessage("Your gem bag is already full.");
+			}));
+			break;
+		case "Empty":
+			if (!e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().sendMessage("You do not have enough inventory spaces to do that.");
 				return;
 			}
 
-			int gemsToStore = 0;
-			switch (e.getUsedWith(18338).getId()) {
-			case 1623:
-				gemsToStore = e.getPlayer().getInventory().getNumberOf(1623);
-				if (gemsToStore > room)
-					gemsToStore = room;
-
-				e.getPlayer().getInventory().deleteItem(1623, gemsToStore);
-				e.getPlayer().save("gemBagSapphire", sapphire+gemsToStore);
-				e.getPlayer().sendMessage("You store " + gemsToStore + " sapphire" + (gemsToStore > 1 ? "s" : "") + " in your gem bag.");
-				break;
-			case 1621:
-				gemsToStore = e.getPlayer().getInventory().getNumberOf(1621);
-				if (gemsToStore > room)
-					gemsToStore = room;
-
-				e.getPlayer().getInventory().deleteItem(1621, gemsToStore);
-				e.getPlayer().save("gemBagEmerald", emerald+gemsToStore);
-				e.getPlayer().sendMessage("You store " + gemsToStore + " emerald" + (gemsToStore > 1 ? "s" : "") + " in your gem bag.");
-				break;
-			case 1619:
-				gemsToStore = e.getPlayer().getInventory().getNumberOf(1619);
-				if (gemsToStore > room)
-					gemsToStore = room;
-
-				e.getPlayer().getInventory().deleteItem(1619, gemsToStore);
-				e.getPlayer().save("gemBagRuby", ruby+gemsToStore);
-				e.getPlayer().sendMessage("You store " + gemsToStore + (gemsToStore > 1 ? " rubies" : " ruby") + " in your gem bag.");
-				break;
-			case 1617:
-				gemsToStore = e.getPlayer().getInventory().getNumberOf(1617);
-				if (gemsToStore > room)
-					gemsToStore = room;
-
-				e.getPlayer().getInventory().deleteItem(1617, gemsToStore);
-				e.getPlayer().save("gemBagDiamond", diamond+gemsToStore);
-				e.getPlayer().sendMessage("You store " + gemsToStore + " diamond" + (gemsToStore > 1 ? "s" : "") +  "in your gem bag.");
-				break;
-			default:
-				break;
+			int withdraw = (diamond > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : diamond);
+			if (withdraw > 0) {
+				e.getPlayer().getInventory().addItem(1617, withdraw);
+				e.getPlayer().save("gemBagDiamond", diamond-withdraw);
+				e.getPlayer().sendMessage("You empty out " + withdraw + " diamon" + (withdraw > 1 ? "s" : "") +  " from your gem bag.");
 			}
+
+			withdraw = (ruby > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : ruby);
+			if (withdraw > 0) {
+				e.getPlayer().getInventory().addItem(1619, withdraw);
+				e.getPlayer().save("gemBagRuby", ruby-withdraw);
+				e.getPlayer().sendMessage("You empty out " + withdraw +  (withdraw > 1 ? " rubies" : " ruby") + " from your gem bag.");
+			}
+
+			withdraw = (emerald > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : emerald);
+			if (withdraw > 0) {
+				e.getPlayer().getInventory().addItem(1621, withdraw);
+				e.getPlayer().save("gemBagEmerald", emerald-withdraw);
+				e.getPlayer().sendMessage("You empty out " + withdraw + " emerald"  + (withdraw > 1 ? "s" : "") + " from your gem bag.");
+			}
+
+			withdraw = (sapphire > e.getPlayer().getInventory().getFreeSlots() ? e.getPlayer().getInventory().getFreeSlots() : sapphire);
+			if (withdraw > 0) {
+				e.getPlayer().getInventory().addItem(1623, withdraw);
+				e.getPlayer().save("gemBagSapphire", sapphire-withdraw);
+				e.getPlayer().sendMessage("You empty out " + withdraw + " sapphire" + (withdraw > 1 ? "s" : "") + " from your gem bag.");
+			}
+			break;
 		}
-	};
+	});
 
-	public static ItemOnObjectHandler handleGemBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getItem().getId() != 18338)
-				return;
-			if (e.isAtObject())
-				if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank")) {
-					e.getPlayer().sendMessage("You store " + getNumGemsInBag(e.getPlayer()) + " gems in the bank.");
-					int sapphire = e.getPlayer().getI("gemBagSapphire");
-					int emerald = e.getPlayer().getI("gemBagEmerald");
-					int ruby = e.getPlayer().getI("gemBagRuby");
-					int diamond = e.getPlayer().getI("gemBagDiamond");
+	public static ItemOnItemHandler handleItemOnGemBag = new ItemOnItemHandler(18338, new int[] { 1623, 1621, 1619, 1617 }, e -> {
+		int current = getNumGemsInBag(e.getPlayer());
+		int sapphire = e.getPlayer().getI("gemBagSapphire");
+		int emerald = e.getPlayer().getI("gemBagEmerald");
+		int ruby = e.getPlayer().getI("gemBagRuby");
+		int diamond = e.getPlayer().getI("gemBagDiamond");
+		int room = 0;
 
-					e.getPlayer().getBank().addItem(new Item(1623, sapphire), true);
-					e.getPlayer().getBank().addItem(new Item(1621, emerald), true);
-					e.getPlayer().getBank().addItem(new Item(1619, ruby), true);
-					e.getPlayer().getBank().addItem(new Item(1617, diamond), true);
+		if (current < 100)
+			room = 100 - current;
 
-					e.getPlayer().save("gemBagSapphire", 0);
-					e.getPlayer().save("gemBagEmerald", 0);
-					e.getPlayer().save("gemBagRuby", 0);
-					e.getPlayer().save("gemBagDiamond", 0);
-				}
+		if (room == 0) {
+			e.getPlayer().sendMessage("Your gem bag is already full.");
+			return;
 		}
-	};
+
+		int gemsToStore = 0;
+		switch (e.getUsedWith(18338).getId()) {
+		case 1623:
+			gemsToStore = e.getPlayer().getInventory().getNumberOf(1623);
+			if (gemsToStore > room)
+				gemsToStore = room;
+
+			e.getPlayer().getInventory().deleteItem(1623, gemsToStore);
+			e.getPlayer().save("gemBagSapphire", sapphire+gemsToStore);
+			e.getPlayer().sendMessage("You store " + gemsToStore + " sapphire" + (gemsToStore > 1 ? "s" : "") + " in your gem bag.");
+			break;
+		case 1621:
+			gemsToStore = e.getPlayer().getInventory().getNumberOf(1621);
+			if (gemsToStore > room)
+				gemsToStore = room;
+
+			e.getPlayer().getInventory().deleteItem(1621, gemsToStore);
+			e.getPlayer().save("gemBagEmerald", emerald+gemsToStore);
+			e.getPlayer().sendMessage("You store " + gemsToStore + " emerald" + (gemsToStore > 1 ? "s" : "") + " in your gem bag.");
+			break;
+		case 1619:
+			gemsToStore = e.getPlayer().getInventory().getNumberOf(1619);
+			if (gemsToStore > room)
+				gemsToStore = room;
+
+			e.getPlayer().getInventory().deleteItem(1619, gemsToStore);
+			e.getPlayer().save("gemBagRuby", ruby+gemsToStore);
+			e.getPlayer().sendMessage("You store " + gemsToStore + (gemsToStore > 1 ? " rubies" : " ruby") + " in your gem bag.");
+			break;
+		case 1617:
+			gemsToStore = e.getPlayer().getInventory().getNumberOf(1617);
+			if (gemsToStore > room)
+				gemsToStore = room;
+
+			e.getPlayer().getInventory().deleteItem(1617, gemsToStore);
+			e.getPlayer().save("gemBagDiamond", diamond+gemsToStore);
+			e.getPlayer().sendMessage("You store " + gemsToStore + " diamond" + (gemsToStore > 1 ? "s" : "") +  "in your gem bag.");
+			break;
+		default:
+			break;
+		}
+	});
+
+	public static ItemOnObjectHandler handleGemBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }, e -> {
+		if (e.getItem().getId() != 18338)
+			return;
+		if (e.isAtObject())
+			if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank")) {
+				e.getPlayer().sendMessage("You store " + getNumGemsInBag(e.getPlayer()) + " gems in the bank.");
+				int sapphire = e.getPlayer().getI("gemBagSapphire");
+				int emerald = e.getPlayer().getI("gemBagEmerald");
+				int ruby = e.getPlayer().getI("gemBagRuby");
+				int diamond = e.getPlayer().getI("gemBagDiamond");
+
+				e.getPlayer().getBank().addItem(new Item(1623, sapphire), true);
+				e.getPlayer().getBank().addItem(new Item(1621, emerald), true);
+				e.getPlayer().getBank().addItem(new Item(1619, ruby), true);
+				e.getPlayer().getBank().addItem(new Item(1617, diamond), true);
+
+				e.getPlayer().save("gemBagSapphire", 0);
+				e.getPlayer().save("gemBagEmerald", 0);
+				e.getPlayer().save("gemBagRuby", 0);
+				e.getPlayer().save("gemBagDiamond", 0);
+			}
+	});
 
 	//Lmao... forgot I need to add checks to make sure this doesn't trigger when someone is withdrawing from the gem bag.
 	//	@ItemAddedToInventoryHandler(ids = {1617, 1619, 1621, 1623})

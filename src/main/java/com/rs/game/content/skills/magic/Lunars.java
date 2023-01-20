@@ -39,7 +39,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -91,28 +90,25 @@ public class Lunars {
 		return -1;
 	}
 
-	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPacket() == ClientPacket.IF_OP1)
-				if (e.getPlayer().getTempAttribs().getB("RemoteFarm")) {
-					//					int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182, 184, 186, 188 };
-					//					for (int i = 0; i < names.length; i++) {
-					//						if ((names[i]+1) == e.getComponentId()) {
-					//							if (e.getPlayer().getFarming().patches[i] != null) {
-					//								if (e.getPlayer().getFarming().patches[i].diseased) {
-					//									e.getPlayer().getFarming().patches[i].diseased = false;
-					//									refreshRemoteFarm(e.getPlayer());
-					//								} else {
-					//									e.getPlayer().sendMessage("This patch isn't diseased.");
-					//								}
-					//							}
-					//						}
-					//					}
-				} else
-					AchievementTitles.handleButtons(e.getPlayer(), e.getComponentId());
-		}
-	};
+	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082, e -> {
+		if (e.getPacket() == ClientPacket.IF_OP1)
+			if (e.getPlayer().getTempAttribs().getB("RemoteFarm")) {
+				//					int[] names = new int[] { 30, 32, 34, 36, 38, 49, 51, 53, 55, 57, 59, 62, 64, 66, 68, 70, 72, 74, 76, 190, 79, 81, 83, 85, 88, 90, 92, 94, 97, 99, 101, 104, 106, 108, 110, 115, 117, 119, 121, 123, 125, 131, 127, 129, 2, 173, 175, 177, 182, 184, 186, 188 };
+				//					for (int i = 0; i < names.length; i++) {
+				//						if ((names[i]+1) == e.getComponentId()) {
+				//							if (e.getPlayer().getFarming().patches[i] != null) {
+				//								if (e.getPlayer().getFarming().patches[i].diseased) {
+				//									e.getPlayer().getFarming().patches[i].diseased = false;
+				//									refreshRemoteFarm(e.getPlayer());
+				//								} else {
+				//									e.getPlayer().sendMessage("This patch isn't diseased.");
+				//								}
+				//							}
+				//						}
+				//					}
+			} else
+				AchievementTitles.handleButtons(e.getPlayer(), e.getComponentId());
+	});
 
 	public static void openRemoteFarm(Player player) {
 		if (!player.canCastSpell()) {

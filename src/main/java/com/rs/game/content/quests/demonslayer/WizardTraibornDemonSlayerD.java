@@ -28,7 +28,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -265,10 +264,5 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 
 
 
-	public static NPCClickHandler handleWizardTraiborn = new NPCClickHandler(new Object[] { 881 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new WizardTraibornDemonSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleWizardTraiborn = new NPCClickHandler(new Object[] { 881 }, e -> e.getPlayer().startConversation(new WizardTraibornDemonSlayerD(e.getPlayer()).getStart()));
 }

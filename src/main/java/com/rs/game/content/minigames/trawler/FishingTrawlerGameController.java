@@ -7,8 +7,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
@@ -89,76 +87,67 @@ public class FishingTrawlerGameController extends Controller {
 		return false;
 	}
 
-	public static ObjectClickHandler fillLeak = new ObjectClickHandler(false, new Object[] { FishingTrawler.LEAK }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().resetWalkSteps();
-			RegionUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
-			WorldTile tile;
-			if(e.getObject().getY() == area.getY()-1)
-				tile = e.getObject().getTile().transform(0, 1);
-			else
-				tile = e.getObject().getTile().transform(0, 0);
-			e.getPlayer().addWalkSteps(tile, 25, false);
-			e.getPlayer().setRouteEvent(new RouteEvent(tile, () -> {
-				e.getPlayer().lock(1);
-				e.getPlayer().setNextFaceWorldTile(WorldTile.of(e.getObject().getTile()));
-				if(!e.getPlayer().getInventory().containsItem(FishingTrawler.SWAMP_PASTE)) {
-					e.getPlayer().sendMessage("You'll need some swamp paste to fill that.");
-					return;
-				}
-				e.getPlayer().setNextAnimation(new Animation(827));
-				FishingTrawler.getInstance().addActivity(e.getPlayer(), 50);
-				FishingTrawler.getInstance().cheerMonty();
-				FishingTrawler.getInstance().repairLeak(e.getObject());
-				e.getPlayer().getInventory().deleteItem(new Item(FishingTrawler.SWAMP_PASTE, 1));
-			}));
-		}
-	};
-
-	public static ItemClickHandler emptyBailingBucketClick = new ItemClickHandler(new Object[] { 585 }, new String[] { "Empty" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			Controller controller = e.getPlayer().getControllerManager().getController();
-			String message;
-			if(controller instanceof FishingTrawlerGameController)
-				message = "You tip the water over the side.";
-			else
-				message = "You tip the water out of the bucket.";
-			e.getPlayer().sendMessage(message);
-			e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), new Item(583, 1));
-			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-			FishingTrawler.getInstance().addActivity(e.getPlayer(), 20);
+	public static ObjectClickHandler fillLeak = new ObjectClickHandler(false, new Object[] { FishingTrawler.LEAK }, e -> {
+		e.getPlayer().resetWalkSteps();
+		RegionUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
+		WorldTile tile;
+		if(e.getObject().getY() == area.getY()-1)
+			tile = e.getObject().getTile().transform(0, 1);
+		else
+			tile = e.getObject().getTile().transform(0, 0);
+		e.getPlayer().addWalkSteps(tile, 25, false);
+		e.getPlayer().setRouteEvent(new RouteEvent(tile, () -> {
+			e.getPlayer().lock(1);
+			e.getPlayer().setNextFaceWorldTile(WorldTile.of(e.getObject().getTile()));
+			if(!e.getPlayer().getInventory().containsItem(FishingTrawler.SWAMP_PASTE)) {
+				e.getPlayer().sendMessage("You'll need some swamp paste to fill that.");
+				return;
+			}
 			e.getPlayer().setNextAnimation(new Animation(827));
-			e.getPlayer().lock(1);
-		}
-	};
+			FishingTrawler.getInstance().addActivity(e.getPlayer(), 50);
+			FishingTrawler.getInstance().cheerMonty();
+			FishingTrawler.getInstance().repairLeak(e.getObject());
+			e.getPlayer().getInventory().deleteItem(new Item(FishingTrawler.SWAMP_PASTE, 1));
+		}));
+	});
 
-	public static ItemClickHandler bailingBucketClick = new ItemClickHandler(new Object[] { 583 }, new String[] { "Bail-with" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			Controller controller = e.getPlayer().getControllerManager().getController();
-			if(!(controller instanceof FishingTrawlerGameController)) {
-				e.getPlayer().sendMessage("I don't really need to bail yet.");
-				return;
-			}
-			FishingTrawler trawler = FishingTrawler.getInstance();
-			if(!trawler.isWaterShip()) {
-				e.getPlayer().sendMessage("I don't really need to bail yet.");
-				return;
-			}
-			trawler.setWaterLevel(trawler.getWaterLevel() - 1);
-			if(trawler.getWaterLevel() < 0)
-				trawler.setWaterLevel(0);
-			int activity = trawler.getActivity().get(e.getPlayer().getUsername()) + 100;
-			if(activity > 1000) activity = 1000;
-			trawler.getActivity().put(e.getPlayer().getUsername(), activity);
-			e.getPlayer().sendMessage("You fill the bucket with water.");
-			e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), new Item(585, 1));
-			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-			FishingTrawler.getInstance().addActivity(e.getPlayer(), 20);
-			e.getPlayer().setNextAnimation(new Animation(832));
-			e.getPlayer().lock(1);
+	public static ItemClickHandler emptyBailingBucketClick = new ItemClickHandler(new Object[] { 585 }, new String[] { "Empty" }, e -> {
+		Controller controller = e.getPlayer().getControllerManager().getController();
+		String message;
+		if(controller instanceof FishingTrawlerGameController)
+			message = "You tip the water over the side.";
+		else
+			message = "You tip the water out of the bucket.";
+		e.getPlayer().sendMessage(message);
+		e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), new Item(583, 1));
+		e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+		FishingTrawler.getInstance().addActivity(e.getPlayer(), 20);
+		e.getPlayer().setNextAnimation(new Animation(827));
+		e.getPlayer().lock(1);
+	});
+
+	public static ItemClickHandler bailingBucketClick = new ItemClickHandler(new Object[] { 583 }, new String[] { "Bail-with" }, e -> {
+		Controller controller = e.getPlayer().getControllerManager().getController();
+		if(!(controller instanceof FishingTrawlerGameController)) {
+			e.getPlayer().sendMessage("I don't really need to bail yet.");
+			return;
 		}
-	};
+		FishingTrawler trawler = FishingTrawler.getInstance();
+		if(!trawler.isWaterShip()) {
+			e.getPlayer().sendMessage("I don't really need to bail yet.");
+			return;
+		}
+		trawler.setWaterLevel(trawler.getWaterLevel() - 1);
+		if(trawler.getWaterLevel() < 0)
+			trawler.setWaterLevel(0);
+		int activity = trawler.getActivity().get(e.getPlayer().getUsername()) + 100;
+		if(activity > 1000) activity = 1000;
+		trawler.getActivity().put(e.getPlayer().getUsername(), activity);
+		e.getPlayer().sendMessage("You fill the bucket with water.");
+		e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), new Item(585, 1));
+		e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+		FishingTrawler.getInstance().addActivity(e.getPlayer(), 20);
+		e.getPlayer().setNextAnimation(new Animation(832));
+		e.getPlayer().lock(1);
+	});
 }

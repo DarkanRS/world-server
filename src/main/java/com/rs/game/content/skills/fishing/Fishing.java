@@ -30,9 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -81,52 +78,43 @@ public class Fishing extends PlayerAction {
         FISHING_SPOTS.put(15020, new FishingSpot[]{FishingSpot.LAVA_EEL});
     }
 
-    public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray()) {
-        @Override
-        public void handle(NPCClickEvent e) {
-            e.getNPC().resetDirection();
-            int op = e.getOpNum() == 1 ? 0 : e.getOpNum() - 2;
-            if (op >= 0 && op < FISHING_SPOTS.get(e.getNPC().getId()).length)
-                e.getPlayer().getActionManager().setAction(new Fishing(FISHING_SPOTS.get(e.getNPC().getId())[op], e.getNPC()));
-        }
-    };
+    public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray(), e -> {
+    	 e.getNPC().resetDirection();
+         int op = e.getOpNum() == 1 ? 0 : e.getOpNum() - 2;
+         if (op >= 0 && op < FISHING_SPOTS.get(e.getNPC().getId()).length)
+             e.getPlayer().getActionManager().setAction(new Fishing(FISHING_SPOTS.get(e.getNPC().getId())[op], e.getNPC()));
+    });
 
-    public static ObjectClickHandler handleBarbarianBed = new ObjectClickHandler(new Object[]{25268}) {
-        @Override
-        public void handle(ObjectClickEvent e) {
-            e.getPlayer().getInventory().addItem(11323, 1);
-            e.getPlayer().sendMessage("You find a barbarian fishing rod under the bed.");
-        }
-    };
+    public static ObjectClickHandler handleBarbarianBed = new ObjectClickHandler(new Object[]{25268}, e -> {
+    	  e.getPlayer().getInventory().addItem(11323, 1);
+          e.getPlayer().sendMessage("You find a barbarian fishing rod under the bed.");
+    });
 
-    public static ItemOnItemHandler handleKnifeOnBarbFish = new ItemOnItemHandler(946, new int[]{11328, 11330, 11332}) {
-        @Override
-        public void handle(ItemOnItemEvent e) {
-            Item fish = e.getUsedWith(946);
-            if (fish == null)
-                return;
-            if (!e.getPlayer().getInventory().containsItem(946, 1)) {
-                e.getPlayer().sendMessage("You need a knife to gut fish.");
-                return;
-            }
-            int chance1 = fish.getId() == 11328 ? 2 : 4;
-            int chance99 = fish.getId() == 11328 ? 169 : 317;
-
-            e.getPlayer().setNextAnimation(new Animation(6702));
-            e.getPlayer().getInventory().deleteItem(fish);
-            if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.COOKING), chance1, chance99)) {
-                double offcutChance = switch(fish.getId()) {
-                  default -> 0.5;
-                  case 11330 -> 0.75;
-                  case 11332 -> 0.83333;
-                };
-                e.getPlayer().getInventory().addItemDrop(fish.getId() == 11332 ? 11326 : 11324, 1);
-                e.getPlayer().getSkills().addXp(Constants.COOKING, fish.getId() == 11332 ? 15 : 10);
-                if (Math.random() < offcutChance)
-                    e.getPlayer().getInventory().addItemDrop(11334, 1);
-            }
+    public static ItemOnItemHandler handleKnifeOnBarbFish = new ItemOnItemHandler(946, new int[]{11328, 11330, 11332}, e -> {
+        Item fish = e.getUsedWith(946);
+        if (fish == null)
+            return;
+        if (!e.getPlayer().getInventory().containsItem(946, 1)) {
+            e.getPlayer().sendMessage("You need a knife to gut fish.");
+            return;
         }
-    };
+        int chance1 = fish.getId() == 11328 ? 2 : 4;
+        int chance99 = fish.getId() == 11328 ? 169 : 317;
+
+        e.getPlayer().setNextAnimation(new Animation(6702));
+        e.getPlayer().getInventory().deleteItem(fish);
+        if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.COOKING), chance1, chance99)) {
+            double offcutChance = switch(fish.getId()) {
+              default -> 0.5;
+              case 11330 -> 0.75;
+              case 11332 -> 0.83333;
+            };
+            e.getPlayer().getInventory().addItemDrop(fish.getId() == 11332 ? 11326 : 11324, 1);
+            e.getPlayer().getSkills().addXp(Constants.COOKING, fish.getId() == 11332 ? 15 : 10);
+            if (Math.random() < offcutChance)
+                e.getPlayer().getInventory().addItemDrop(11334, 1);
+        }
+    });
 
     private FishingSpot spot;
     private NPC npc;

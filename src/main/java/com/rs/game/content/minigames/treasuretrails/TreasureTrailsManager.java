@@ -36,7 +36,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
@@ -64,20 +63,12 @@ public class TreasureTrailsManager {
 	private transient Player player;
 	private transient List<Item> pieces;
 
-	public static ButtonClickHandler handlePuzzleButtons = new ButtonClickHandler(363) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 4)
-				e.getPlayer().getTreasureTrailsManager().movePuzzlePeice(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handlePuzzleButtons = new ButtonClickHandler(363, e -> {
+		if (e.getComponentId() == 4)
+			e.getPlayer().getTreasureTrailsManager().movePuzzlePeice(e.getSlotId());
+	});
 
-	public static ButtonClickHandler handleSextantButtons = new ButtonClickHandler(365) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().getTreasureTrailsManager().handleSextant(e.getComponentId());
-		}
-	};
+	public static ButtonClickHandler handleSextantButtons = new ButtonClickHandler(365, e -> e.getPlayer().getTreasureTrailsManager().handleSextant(e.getComponentId()));
 
 	public void setPlayer(Player player) {
 		this.player = player;

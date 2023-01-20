@@ -16,7 +16,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
@@ -87,31 +86,22 @@ public class LazyGuardFightArenaD extends Conversation {
 		}
 	}
 
-    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7525, 7526, 7527}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-			e.getNPC().faceSouth();
-            if(e.getOption().equalsIgnoreCase("Steal-keys")) {
-				if(e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().startConversation(new Dialogue().addSimple("You grab the keys"));
-					e.getPlayer().getInventory().addItem(76, 1);
-					e.getPlayer().getVars().setVarBit(5627, 3);
-					return;
-				}
-				e.getPlayer().sendMessage("You need free space to grab his keys...");
-			}
-			if(e.getPlayer().getVars().getVarBit(5627) > 0)
+    public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{NPC, 7525, 7526, 7527}, e -> {
+    	e.getNPC().faceSouth();
+        if(e.getOption().equalsIgnoreCase("Steal-keys")) {
+			if(e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().startConversation(new Dialogue().addSimple("You grab the keys"));
+				e.getPlayer().getInventory().addItem(76, 1);
+				e.getPlayer().getVars().setVarBit(5627, 3);
 				return;
-
-
-			e.getPlayer().startConversation(new LazyGuardFightArenaD(e.getPlayer(), e.getNPC()).getStart());
-        }
-    };
-
-	public static NPCInteractionDistanceHandler HandleDistance = new NPCInteractionDistanceHandler(NPC, 7525, 7526, 7527) {
-		@Override
-		public int getDistance(Player player, com.rs.game.model.entity.npc.NPC npc) {
-			return 1;
+			}
+			e.getPlayer().sendMessage("You need free space to grab his keys...");
 		}
-	};
+		if(e.getPlayer().getVars().getVarBit(5627) > 0)
+			return;
+
+		e.getPlayer().startConversation(new LazyGuardFightArenaD(e.getPlayer(), e.getNPC()).getStart());
+    });
+
+	public static NPCInteractionDistanceHandler HandleDistance = new NPCInteractionDistanceHandler(new Object[] { NPC, 7525, 7526, 7527 }, (player, npc) -> 1);
 }

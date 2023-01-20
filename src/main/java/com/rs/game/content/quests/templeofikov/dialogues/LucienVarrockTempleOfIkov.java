@@ -12,8 +12,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -54,21 +52,13 @@ public class LucienVarrockTempleOfIkov extends Conversation {
 		}
 	}
 
-	public static ObjectClickHandler handleLuciensHouse = new ObjectClickHandler(new Object[] { 102 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TEMPLE_OF_IKOV) > 0) {
-				handleDoor(e.getPlayer(), e.getObject());
-				return;
-			}
-			e.getPlayer().sendMessage("The door is locked...");
+	public static ObjectClickHandler handleLuciensHouse = new ObjectClickHandler(new Object[] { 102 }, e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TEMPLE_OF_IKOV) > 0) {
+			handleDoor(e.getPlayer(), e.getObject());
+			return;
 		}
-	};
+		e.getPlayer().sendMessage("The door is locked...");
+	});
 
-    public static NPCClickHandler handleLucianDialogue = new NPCClickHandler(new Object[]{NPC}, new String[]{"Talk-to"}) {
-        @Override
-        public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new LucienVarrockTempleOfIkov(e.getPlayer()).getStart());
-        }
-    };
+    public static NPCClickHandler handleLucianDialogue = new NPCClickHandler(new Object[]{NPC}, new String[]{"Talk-to"}, e -> e.getPlayer().startConversation(new LucienVarrockTempleOfIkov(e.getPlayer()).getStart()));
 }

@@ -253,10 +253,5 @@ public class Glacor extends NPC {
 		this.stage = stage;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(14301) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Glacor(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(14301, (npcId, tile) -> new Glacor(npcId, tile, false));
 }

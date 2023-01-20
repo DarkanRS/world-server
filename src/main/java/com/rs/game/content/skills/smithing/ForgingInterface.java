@@ -26,7 +26,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -88,29 +87,26 @@ public class ForgingInterface {
 		}
 	}
 
-	public static ButtonClickHandler handleSmithButtons = new ButtonClickHandler(SMITHING_INTERFACE) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			int barId = e.getPlayer().getTempAttribs().getI("SmithingBar");
-			Slot slot = Slot.forId(e.getComponentId());
-			if (slot == null)
-				return;
-			Map<Slot, Smithable> items = Smithable.forBar(barId);
-			if (items == null || items.get(slot) == null)
-				return;
-			int makeX = switch(e.getComponentId() - slot.componentId) {
-			case 3 -> 28;
-			case 4 -> -1;
-			case 5 -> 5;
-			case 6 -> 1;
-			default -> 1;
-			};
-			if (makeX < 0)
-				e.getPlayer().sendInputInteger("How many would you like to make?", amount -> e.getPlayer().getActionManager().setAction(new Smithing(amount, items.get(slot))));
-			else
-				e.getPlayer().getActionManager().setAction(new Smithing(makeX, items.get(slot)));
-		}
-	};
+	public static ButtonClickHandler handleSmithButtons = new ButtonClickHandler(SMITHING_INTERFACE, e -> {
+		int barId = e.getPlayer().getTempAttribs().getI("SmithingBar");
+		Slot slot = Slot.forId(e.getComponentId());
+		if (slot == null)
+			return;
+		Map<Slot, Smithable> items = Smithable.forBar(barId);
+		if (items == null || items.get(slot) == null)
+			return;
+		int makeX = switch(e.getComponentId() - slot.componentId) {
+		case 3 -> 28;
+		case 4 -> -1;
+		case 5 -> 5;
+		case 6 -> 1;
+		default -> 1;
+		};
+		if (makeX < 0)
+			e.getPlayer().sendInputInteger("How many would you like to make?", amount -> e.getPlayer().getActionManager().setAction(new Smithing(amount, items.get(slot))));
+		else
+			e.getPlayer().getActionManager().setAction(new Smithing(makeX, items.get(slot)));
+	});
 
 	public static String[] getStrings(Player player, Smithable item) {
 		StringBuilder barName = new StringBuilder();

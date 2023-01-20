@@ -30,7 +30,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -308,11 +307,6 @@ public class SirPrysinDemonSlayerD extends Conversation {
 			}
 	}
 
-	public static NPCClickHandler handleSirPrysin = new NPCClickHandler(new Object[] { 883 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new SirPrysinDemonSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleSirPrysin = new NPCClickHandler(new Object[] { 883 }, e -> e.getPlayer().startConversation(new SirPrysinDemonSlayerD(e.getPlayer()).getStart()));
 }
 

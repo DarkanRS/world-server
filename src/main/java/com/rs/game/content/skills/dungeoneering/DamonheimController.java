@@ -23,7 +23,6 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -31,17 +30,14 @@ public class DamonheimController extends Controller {
 
 	private boolean showingOption;
 	
-	public static ObjectClickHandler handleJumpDownExit = new ObjectClickHandler(new Object[] { 50552 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getControllerManager().getController() instanceof DungeonController)
-				e.getPlayer().getControllerManager().removeControllerWithoutCheck();
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, Direction.NORTH));
-			e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
-			e.getPlayer().getControllerManager().startController(new DamonheimController());
-			e.getPlayer().useStairs(13760, WorldTile.of(3454, 3725, 0), 2, 3);
-		}
-	};
+	public static ObjectClickHandler handleJumpDownExit = new ObjectClickHandler(new Object[] { 50552 }, e -> {
+		if (e.getPlayer().getControllerManager().getController() instanceof DungeonController)
+			e.getPlayer().getControllerManager().removeControllerWithoutCheck();
+		e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, Direction.NORTH));
+		e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
+		e.getPlayer().getControllerManager().startController(new DamonheimController());
+		e.getPlayer().useStairs(13760, WorldTile.of(3454, 3725, 0), 2, 3);
+	});
 	
 	@Override
 	public void start() {

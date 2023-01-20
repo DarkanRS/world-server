@@ -23,7 +23,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
@@ -92,62 +91,59 @@ public class RunecraftingCombinations {
 		}
 	}
 
-	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			for (CombinationRunes cr : CombinationRunes.values())
-				for (int i = 0; i < cr.altars.length; i++)
-					if (e.getObject().getId() == cr.altars[i] && (e.getItem().getId() == cr.getTalismans()[i] || e.getItem().getId() == cr.getRunes()[i]))
-						if (e.getPlayer().getSkills().getLevel(Constants.RUNECRAFTING) >= cr.getLevel() && e.getPlayer().getInventory().getItems().getNumberOf(cr.getTalismans()[i]) > 0) {
-							int maxCraftable = 0;
-							int pureEss = e.getPlayer().getInventory().getItems().getNumberOf(Runecrafting.PURE_ESS);
-							int inputRune = e.getPlayer().getInventory().getItems().getNumberOf(cr.getRunes()[i]);
-							double xp = cr.getXP()[i];
+	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, e -> {
+		for (CombinationRunes cr : CombinationRunes.values())
+			for (int i = 0; i < cr.altars.length; i++)
+				if (e.getObject().getId() == cr.altars[i] && (e.getItem().getId() == cr.getTalismans()[i] || e.getItem().getId() == cr.getRunes()[i]))
+					if (e.getPlayer().getSkills().getLevel(Constants.RUNECRAFTING) >= cr.getLevel() && e.getPlayer().getInventory().getItems().getNumberOf(cr.getTalismans()[i]) > 0) {
+						int maxCraftable = 0;
+						int pureEss = e.getPlayer().getInventory().getItems().getNumberOf(Runecrafting.PURE_ESS);
+						int inputRune = e.getPlayer().getInventory().getItems().getNumberOf(cr.getRunes()[i]);
+						double xp = cr.getXP()[i];
 
-							if (pureEss == 0) {
-								e.getPlayer().simpleDialogue("You don't have enough pure essence.");
-								return;
-							}
-
-							if (inputRune == 0) {
-								e.getPlayer().simpleDialogue("You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
-								return;
-							}
-
-							if (inputRune >= pureEss)
-								maxCraftable = pureEss;
-							else
-								maxCraftable = inputRune;
-
-							if (!e.getPlayer().isCastMagicImbue())
-								e.getPlayer().getInventory().deleteItem(cr.getTalismans()[i], 1);
-
-							e.getPlayer().getInventory().deleteItem(Runecrafting.PURE_ESS, maxCraftable);
-							e.getPlayer().getInventory().deleteItem(cr.getRunes()[i], maxCraftable);
-
-							if (Runecrafting.hasRcingSuit(e.getPlayer()))
-								xp *= 1.025;
-
-							if (e.getPlayer().getEquipment().getAmuletId() == BINDING_NECKLACE) {
-								e.getPlayer().bindingNecklaceCharges--;
-								if (e.getPlayer().bindingNecklaceCharges <= 0) {
-									e.getPlayer().getEquipment().deleteSlot(Equipment.NECK);
-									e.getPlayer().sendMessage("Your binding necklace disintegrates.");
-									e.getPlayer().bindingNecklaceCharges = 15;
-								};
-								e.getPlayer().sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
-								e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable);
-								e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*maxCraftable);
-
-							} else {
-								e.getPlayer().sendMessage("You attempt to bind " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
-								e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable/2);
-								e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*(maxCraftable/2));
-							}
-							e.getPlayer().setNextSpotAnim(new SpotAnim(186));
-							e.getPlayer().setNextAnimation(new Animation(791));
-							e.getPlayer().lock(5);
+						if (pureEss == 0) {
+							e.getPlayer().simpleDialogue("You don't have enough pure essence.");
+							return;
 						}
-		}
-	};
+
+						if (inputRune == 0) {
+							e.getPlayer().simpleDialogue("You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
+							return;
+						}
+
+						if (inputRune >= pureEss)
+							maxCraftable = pureEss;
+						else
+							maxCraftable = inputRune;
+
+						if (!e.getPlayer().isCastMagicImbue())
+							e.getPlayer().getInventory().deleteItem(cr.getTalismans()[i], 1);
+
+						e.getPlayer().getInventory().deleteItem(Runecrafting.PURE_ESS, maxCraftable);
+						e.getPlayer().getInventory().deleteItem(cr.getRunes()[i], maxCraftable);
+
+						if (Runecrafting.hasRcingSuit(e.getPlayer()))
+							xp *= 1.025;
+
+						if (e.getPlayer().getEquipment().getAmuletId() == BINDING_NECKLACE) {
+							e.getPlayer().bindingNecklaceCharges--;
+							if (e.getPlayer().bindingNecklaceCharges <= 0) {
+								e.getPlayer().getEquipment().deleteSlot(Equipment.NECK);
+								e.getPlayer().sendMessage("Your binding necklace disintegrates.");
+								e.getPlayer().bindingNecklaceCharges = 15;
+							};
+							e.getPlayer().sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
+							e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable);
+							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*maxCraftable);
+
+						} else {
+							e.getPlayer().sendMessage("You attempt to bind " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
+							e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable/2);
+							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*(maxCraftable/2));
+						}
+						e.getPlayer().setNextSpotAnim(new SpotAnim(186));
+						e.getPlayer().setNextAnimation(new Animation(791));
+						e.getPlayer().lock(5);
+					}
+	});
 }

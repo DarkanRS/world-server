@@ -26,7 +26,6 @@ import com.rs.lib.net.packets.decoders.fc.FCJoin;
 import com.rs.lib.web.dto.FCData;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -37,62 +36,56 @@ public class FCManager {
 
 	private static Map<String, FCData> FRIEND_CHATS = new ConcurrentHashMap<>();
 
-	public static ButtonClickHandler handleInterface = new ButtonClickHandler(FC_SETUP_INTER) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 1 -> {
-				switch (e.getPacket()) {
-				case IF_OP1 -> e.getPlayer().sendInputName("Enter chat prefix:", str -> {
-					e.getPlayer().getSocial().getFriendsChat().setName(str);
-					LobbyCommunicator.updateFC(e.getPlayer(), res -> {
-						if (res == null)
-							e.getPlayer().sendMessage("Error communicating with social service.");
-						else
-							refreshFC(e.getPlayer());
-					});
+	public static ButtonClickHandler handleInterface = new ButtonClickHandler(FC_SETUP_INTER, e -> {
+		switch (e.getComponentId()) {
+		case 1 -> {
+			switch (e.getPacket()) {
+			case IF_OP1 -> e.getPlayer().sendInputName("Enter chat prefix:", str -> {
+				e.getPlayer().getSocial().getFriendsChat().setName(str);
+				LobbyCommunicator.updateFC(e.getPlayer(), res -> {
+					if (res == null)
+						e.getPlayer().sendMessage("Error communicating with social service.");
+					else
+						refreshFC(e.getPlayer());
 				});
-				case IF_OP2 -> e.getPlayer().getSocial().getFriendsChat().setName(null); // TODO when fc block update is
-				// sent, check if name was
-				// set to null and destroy
-				// chat
-				default -> e.getPlayer().sendMessage("Unexpected FC interface packet...");
-				}
-			}
-			case 2 -> e.getPlayer().getSocial().getFriendsChat().setRankToEnter(getRankFromPacket(e.getPacket()));
-			case 3 -> e.getPlayer().getSocial().getFriendsChat().setRankToSpeak(getRankFromPacket(e.getPacket()));
-			case 4 -> e.getPlayer().getSocial().getFriendsChat().setRankToKick(getRankFromPacket(e.getPacket()));
-			case 5 -> e.getPlayer().getSocial().getFriendsChat().setRankToLS(getRankFromPacket(e.getPacket()));
-			}
-			LobbyCommunicator.updateFC(e.getPlayer(), res -> {
-				if (res == null)
-					e.getPlayer().sendMessage("Error communicating with social service.");
-				else
-					refreshFC(e.getPlayer());
 			});
+			case IF_OP2 -> e.getPlayer().getSocial().getFriendsChat().setName(null); // TODO when fc block update is
+			// sent, check if name was
+			// set to null and destroy
+			// chat
+			default -> e.getPlayer().sendMessage("Unexpected FC interface packet...");
+			}
 		}
-	};
+		case 2 -> e.getPlayer().getSocial().getFriendsChat().setRankToEnter(getRankFromPacket(e.getPacket()));
+		case 3 -> e.getPlayer().getSocial().getFriendsChat().setRankToSpeak(getRankFromPacket(e.getPacket()));
+		case 4 -> e.getPlayer().getSocial().getFriendsChat().setRankToKick(getRankFromPacket(e.getPacket()));
+		case 5 -> e.getPlayer().getSocial().getFriendsChat().setRankToLS(getRankFromPacket(e.getPacket()));
+		}
+		LobbyCommunicator.updateFC(e.getPlayer(), res -> {
+			if (res == null)
+				e.getPlayer().sendMessage("Error communicating with social service.");
+			else
+				refreshFC(e.getPlayer());
+		});
+	});
 
-	public static ButtonClickHandler handleTab = new ButtonClickHandler(FC_TAB) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 26 -> {
-				if (e.getPlayer().getSocial().getCurrentFriendsChat() != null) //TODO make sure to force leave the player from existing if they try to join new FC without leaving old
-					LobbyCommunicator.forwardPackets(e.getPlayer(), new FCJoin().setOpcode(ClientPacket.FC_JOIN));
-			}
-			case 31 -> {
-				if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
-					e.getPlayer().sendMessage("Please close the interface you have opened before using Friends Chat setup.");
-					return;
-				}
-				e.getPlayer().stopAll();
-				openFriendChatSetup(e.getPlayer());
-			}
-			case 19 -> e.getPlayer().toggleLootShare();
-			}
+	public static ButtonClickHandler handleTab = new ButtonClickHandler(FC_TAB, e -> {
+		switch (e.getComponentId()) {
+		case 26 -> {
+			if (e.getPlayer().getSocial().getCurrentFriendsChat() != null) //TODO make sure to force leave the player from existing if they try to join new FC without leaving old
+				LobbyCommunicator.forwardPackets(e.getPlayer(), new FCJoin().setOpcode(ClientPacket.FC_JOIN));
 		}
-	};
+		case 31 -> {
+			if (e.getPlayer().getInterfaceManager().containsScreenInter()) {
+				e.getPlayer().sendMessage("Please close the interface you have opened before using Friends Chat setup.");
+				return;
+			}
+			e.getPlayer().stopAll();
+			openFriendChatSetup(e.getPlayer());
+		}
+		case 19 -> e.getPlayer().toggleLootShare();
+		}
+	});
 
 	public static void openFriendChatSetup(Player player) {
 		player.getInterfaceManager().sendInterface(FC_SETUP_INTER);

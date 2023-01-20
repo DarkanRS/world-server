@@ -9,8 +9,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 
@@ -85,24 +83,18 @@ public class MonksFriend extends QuestOutline {
 			WorldTile.of(2562, 3220, 0)
 	};
 
-	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			Player p = e.getPlayer();
-			p.getVars().setVarBit(4833, 1);
-		}
-	};
+	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle, e -> {
+		Player p = e.getPlayer();
+		p.getVars().setVarBit(4833, 1);
+	});
 
-	public static ObjectClickHandler handleThiefLadder = new ObjectClickHandler(new Object[]{42, 32015}) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if (e.getObjectId() == 42)
-				p.useLadder(WorldTile.of(2561, 9621, 0));
-			else if (e.getObject().getTile().matches(WorldTile.of(2561, 9622, 0)))
-				p.useLadder(WorldTile.of(2560, 3222, 0));
-		}
-	};
+	public static ObjectClickHandler handleThiefLadder = new ObjectClickHandler(new Object[]{42, 32015}, e -> {
+		Player p = e.getPlayer();
+		if (e.getObjectId() == 42)
+			p.useLadder(WorldTile.of(2561, 9621, 0));
+		else if (e.getObject().getTile().matches(WorldTile.of(2561, 9622, 0)))
+			p.useLadder(WorldTile.of(2560, 3222, 0));
+	});
 
 	@Override
 	public void complete(Player player) {

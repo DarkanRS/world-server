@@ -14,7 +14,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -60,34 +59,25 @@ public class JoshuaFishingContestD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new JoshuaFishingContestD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new JoshuaFishingContestD(e.getPlayer()).getStart()));
 
-	public static NPCClickHandler handleJoshuaSpot = new NPCClickHandler(true, new Object[] { 236 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Player p = e.getPlayer();
-			NPC npc = e.getNPC();
-			if(npc.getRegionId() == 10549) {
-				e.getNPC().resetDirection();
-				if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
-					p.sendMessage("Nothing interesting happens...");
-					return;
-				}
-				p.startConversation(new Conversation(p) {
-					{
-						addNPC(NPC, HeadE.CALM_TALK, "Hey dude! This is my spot!");
-						addPlayer(HeadE.HAPPY_TALKING, "Um... can I fish here then please?");
-						addNPC(NPC, HeadE.CALM_TALK, "No way "+ p.getPronoun("man", "lady") + ", I got a good feeling about this spot!");
-						create();
-					}
-				});
+	public static NPCClickHandler handleJoshuaSpot = new NPCClickHandler(true, new Object[] { 236 }, e -> {
+		Player p = e.getPlayer();
+		NPC npc = e.getNPC();
+		if(npc.getRegionId() == 10549) {
+			e.getNPC().resetDirection();
+			if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
+				p.sendMessage("Nothing interesting happens...");
+				return;
 			}
-
+			p.startConversation(new Conversation(p) {
+				{
+					addNPC(NPC, HeadE.CALM_TALK, "Hey dude! This is my spot!");
+					addPlayer(HeadE.HAPPY_TALKING, "Um... can I fish here then please?");
+					addNPC(NPC, HeadE.CALM_TALK, "No way "+ p.getPronoun("man", "lady") + ", I got a good feeling about this spot!");
+					create();
+				}
+			});
 		}
-	};
+	});
 }

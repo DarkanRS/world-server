@@ -23,7 +23,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -64,11 +63,6 @@ public class HassanPrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleHassan = new NPCClickHandler(new Object[] { HASSAN }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new HassanPrinceAliRescueD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleHassan = new NPCClickHandler(new Object[] { HASSAN }, e -> e.getPlayer().startConversation(new HassanPrinceAliRescueD(e.getPlayer()).getStart()));
 }
 

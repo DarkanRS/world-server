@@ -8,8 +8,6 @@ import static com.rs.game.content.quests.holygrail.HolyGrail.QUEST_COMPLETE;
 import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_FISHER_KING;
 import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;

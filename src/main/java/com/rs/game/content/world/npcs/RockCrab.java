@@ -48,10 +48,5 @@ public class RockCrab extends NPC {
 		super.reset();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1266, 1268, 2453, 2886) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new RockCrab(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1266, 1268, 2453, 2886 }, (npcId, tile) -> new RockCrab(npcId, tile, false));
 }

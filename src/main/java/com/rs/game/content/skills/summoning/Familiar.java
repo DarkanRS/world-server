@@ -42,8 +42,6 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -94,60 +92,51 @@ public final class Familiar extends NPC {
 		return inv;
 	}
 	
-	public static ButtonClickHandler handleInvInter = new ButtonClickHandler(665) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null || e.getPlayer().getFamiliar().pouch.isForager())
-				return;
-			if (e.getComponentId() == 0)
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					e.getPlayer().getFamiliar().addItem(e.getSlotId(), 1);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					e.getPlayer().getFamiliar().addItem(e.getSlotId(), 5);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					e.getPlayer().getFamiliar().addItem(e.getSlotId(), 10);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					e.getPlayer().getFamiliar().addItem(e.getSlotId(), Integer.MAX_VALUE);
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().addItem(e.getSlotId(), num));
-				else if (e.getPacket() == ClientPacket.IF_OP6)
-					e.getPlayer().getInventory().sendExamine(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleInvInter = new ButtonClickHandler(665, e -> {
+		if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null || e.getPlayer().getFamiliar().pouch.isForager())
+			return;
+		if (e.getComponentId() == 0)
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				e.getPlayer().getFamiliar().addItem(e.getSlotId(), 1);
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				e.getPlayer().getFamiliar().addItem(e.getSlotId(), 5);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				e.getPlayer().getFamiliar().addItem(e.getSlotId(), 10);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				e.getPlayer().getFamiliar().addItem(e.getSlotId(), Integer.MAX_VALUE);
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().addItem(e.getSlotId(), num));
+			else if (e.getPacket() == ClientPacket.IF_OP6)
+				e.getPlayer().getInventory().sendExamine(e.getSlotId());
+	});
 
-	public static ButtonClickHandler handleInter = new ButtonClickHandler(671) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null)
-				return;
-			if (e.getComponentId() == 27) {
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 1);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 5);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 10);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					e.getPlayer().getFamiliar().removeItem(e.getSlotId(), Integer.MAX_VALUE);
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().removeItem(e.getSlotId(), num));
-			} else if (e.getComponentId() == 29)
-				e.getPlayer().getFamiliar().takeInventory();
-		}
-	};
+	public static ButtonClickHandler handleInter = new ButtonClickHandler(671, e -> {
+		if (e.getPlayer().getFamiliar() == null || e.getPlayer().getFamiliar().inv == null)
+			return;
+		if (e.getComponentId() == 27) {
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 1);
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 5);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				e.getPlayer().getFamiliar().removeItem(e.getSlotId(), 10);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				e.getPlayer().getFamiliar().removeItem(e.getSlotId(), Integer.MAX_VALUE);
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().removeItem(e.getSlotId(), num));
+		} else if (e.getComponentId() == 29)
+			e.getPlayer().getFamiliar().takeInventory();
+	});
 	
-	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take", "Withdraw" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!(e.getNPC() instanceof Familiar familiar))
-				return;
-			if (familiar.getOwner() != e.getPlayer()) {
-				e.getPlayer().sendMessage("This isn't your familiar.");
-				return;
-			}
-			familiar.openInventory();
+	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take", "Withdraw" }, e -> {
+		if (!(e.getNPC() instanceof Familiar familiar))
+			return;
+		if (familiar.getOwner() != e.getPlayer()) {
+			e.getPlayer().sendMessage("This isn't your familiar.");
+			return;
 		}
-	};
+		familiar.openInventory();
+	});
 	
 	public void openInventory() {
 		if (inv == null)
@@ -349,80 +338,71 @@ public final class Familiar extends NPC {
 		ticks = pouch.getPouchTime();
 	}
 
-	public static ButtonClickHandler handleFamiliarOptionSettings = new ButtonClickHandler(880) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 7 && e.getComponentId() <= 19)
-				setLeftclickOption(e.getPlayer(), (e.getComponentId() - 7) / 2);
-			else if (e.getComponentId() == 21)
-				confirmLeftOption(e.getPlayer());
-			else if (e.getComponentId() == 25)
-				setLeftclickOption(e.getPlayer(), 7);
-		}
-	};
+	public static ButtonClickHandler handleFamiliarOptionSettings = new ButtonClickHandler(880, e -> {
+		if (e.getComponentId() >= 7 && e.getComponentId() <= 19)
+			setLeftclickOption(e.getPlayer(), (e.getComponentId() - 7) / 2);
+		else if (e.getComponentId() == 21)
+			confirmLeftOption(e.getPlayer());
+		else if (e.getComponentId() == 25)
+			setLeftclickOption(e.getPlayer(), 7);
+	});
 
-	public static ButtonClickHandler summoningOrb = new ButtonClickHandler(747) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 8)
-				selectLeftOption(e.getPlayer());
-			else if (e.getPlayer().getPet() != null) {
-				if (e.getComponentId() == 11 || e.getComponentId() == 20)
-					e.getPlayer().getPet().call();
-				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
-					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
-				else if (e.getComponentId() == 10 || e.getComponentId() == 19)
-					e.getPlayer().getPet().sendFollowerDetails();
-			} else if (e.getPlayer().getFamiliar() != null)
-				if (e.getComponentId() == 11 || e.getComponentId() == 20)
-					e.getPlayer().getFamiliar().call();
-				else if (e.getComponentId() == 12 || e.getComponentId() == 21)
-					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
-				else if (e.getComponentId() == 13 || e.getComponentId() == 22)
-					e.getPlayer().getFamiliar().takeInventory();
-				else if (e.getComponentId() == 14 || e.getComponentId() == 23)
-					e.getPlayer().getFamiliar().renewFamiliar();
-				else if (e.getComponentId() == 16)
-					e.getPlayer().getFamiliar().interact();
-				else if (e.getComponentId() == 19 || e.getComponentId() == 10)
-					e.getPlayer().getFamiliar().sendFollowerDetails();
-				else if (e.getComponentId() == 18) {
-					if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.CLICK)
-						e.getPlayer().getFamiliar().castSpecial(null);
-					else if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.COMBAT)
-						e.getPlayer().getFamiliar().setSpecActive(true);
-				}
-		}
-	};
-
-	public static ButtonClickHandler followerInterface = new ButtonClickHandler(662) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getFamiliar() == null) {
-				if (e.getPlayer().getPet() == null)
-					return;
-				if (e.getComponentId() == 49)
-					e.getPlayer().getPet().call();
-				else if (e.getComponentId() == 51)
-					e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
-				return;
-			}
-			if (e.getComponentId() == 49)
-				e.getPlayer().getFamiliar().call();
-			else if (e.getComponentId() == 51)
+	public static ButtonClickHandler summoningOrb = new ButtonClickHandler(747, e -> {
+		if (e.getComponentId() == 8)
+			selectLeftOption(e.getPlayer());
+		else if (e.getPlayer().getPet() != null) {
+			if (e.getComponentId() == 11 || e.getComponentId() == 20)
+				e.getPlayer().getPet().call();
+			else if (e.getComponentId() == 12 || e.getComponentId() == 21)
 				e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
-			else if (e.getComponentId() == 67)
+			else if (e.getComponentId() == 10 || e.getComponentId() == 19)
+				e.getPlayer().getPet().sendFollowerDetails();
+		} else if (e.getPlayer().getFamiliar() != null)
+			if (e.getComponentId() == 11 || e.getComponentId() == 20)
+				e.getPlayer().getFamiliar().call();
+			else if (e.getComponentId() == 12 || e.getComponentId() == 21)
+				e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
+			else if (e.getComponentId() == 13 || e.getComponentId() == 22)
 				e.getPlayer().getFamiliar().takeInventory();
-			else if (e.getComponentId() == 69)
+			else if (e.getComponentId() == 14 || e.getComponentId() == 23)
 				e.getPlayer().getFamiliar().renewFamiliar();
-			else if (e.getComponentId() == 74) {
+			else if (e.getComponentId() == 16)
+				e.getPlayer().getFamiliar().interact();
+			else if (e.getComponentId() == 19 || e.getComponentId() == 10)
+				e.getPlayer().getFamiliar().sendFollowerDetails();
+			else if (e.getComponentId() == 18) {
 				if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.CLICK)
 					e.getPlayer().getFamiliar().castSpecial(null);
 				else if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.COMBAT)
 					e.getPlayer().getFamiliar().setSpecActive(true);
 			}
+	});
+
+	public static ButtonClickHandler followerInterface = new ButtonClickHandler(662, e -> {
+		if (e.getPlayer().getFamiliar() == null) {
+			if (e.getPlayer().getPet() == null)
+				return;
+			if (e.getComponentId() == 49)
+				e.getPlayer().getPet().call();
+			else if (e.getComponentId() == 51)
+				e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
+			return;
 		}
-	};
+		if (e.getComponentId() == 49)
+			e.getPlayer().getFamiliar().call();
+		else if (e.getComponentId() == 51)
+			e.getPlayer().startConversation(new DismissD(e.getPlayer()).getStart());
+		else if (e.getComponentId() == 67)
+			e.getPlayer().getFamiliar().takeInventory();
+		else if (e.getComponentId() == 69)
+			e.getPlayer().getFamiliar().renewFamiliar();
+		else if (e.getComponentId() == 74) {
+			if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.CLICK)
+				e.getPlayer().getFamiliar().castSpecial(null);
+			else if (e.getPlayer().getFamiliar().getPouch().getScroll().getTarget() == ScrollTarget.COMBAT)
+				e.getPlayer().getFamiliar().setSpecActive(true);
+		}
+	});
 	
 	public Pouch getPouch() {
 		return pouch;

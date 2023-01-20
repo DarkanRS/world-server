@@ -54,10 +54,5 @@ public class AbyssalDemon extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(1615) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new AbyssalDemon(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(new Object[] { 1615 }, (npcId, tile) -> new AbyssalDemon(npcId, tile));
 }

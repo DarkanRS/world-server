@@ -25,7 +25,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
@@ -91,54 +90,51 @@ public class TeleportTabs {
 		}
 	}
 
-	public static ItemClickHandler handle = new ItemClickHandler(TeleTab.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Break" -> {
-				if (!meetsTabReqs(e.getItem().getId(), e.getPlayer()))
-					return;
+	public static ItemClickHandler handle = new ItemClickHandler(TeleTab.MAP.keySet().toArray(), e -> {
+		switch(e.getOption()) {
+		case "Break" -> {
+			if (!meetsTabReqs(e.getItem().getId(), e.getPlayer()))
+				return;
 
-				if (e.getItem().getId() == 8013) {
-					if (!Magic.useHouseTab(e.getPlayer()))
-						e.getPlayer().sendMessage("You can't teleport here!");
-					else
-						e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
-					return;
-				}
-
-				TeleTab t = TeleTab.forId(e.getItem().getId());
-
-				if (Magic.useTeleTab(e.getPlayer(), t.teleToTile))
+			if (e.getItem().getId() == 8013) {
+				if (!Magic.useHouseTab(e.getPlayer()))
+					e.getPlayer().sendMessage("You can't teleport here!");
+				else
 					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+				return;
 			}
-			case "Modify" -> {
-				if (!e.getPlayer().isQuestComplete(Quest.LOVE_STORY, "to modify house teleports."))
-					return;
-				e.getPlayer().sendInputInteger("How many tabs would you like to modify?", num -> {
-					if (!e.getPlayer().getInventory().containsItem(e.getItem().getId(), num)) {
-						e.getPlayer().sendMessage("You don't have enough tablets to do that.");
-						return;
-					}
-					e.getPlayer().sendOptionDialogue("Which tablet would you like to create?", ops -> {
-						ops.add("House teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(8013, num); });
-						ops.add("Rimmington teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.RIMMINGTON.id, num); });
-						ops.add("Taverly teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.TAVERLY.id, num); });
-						ops.add("Pollnivneach teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.POLLNIVNEACH.id, num); });
-						ops.add("Relleka teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.RELLEKA.id, num); });
-						ops.add("Brimhaven teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.BRIMHAVEN.id, num); });
-						ops.add("Yanille teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.YANILLE.id, num); });
-						ops.add("Trollheim teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.TROLLHEIM.id, num); });
-					});
-				});
-				if (!e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().sendMessage("You don't have enough inventory space to do that.");
+
+			TeleTab t = TeleTab.forId(e.getItem().getId());
+
+			if (Magic.useTeleTab(e.getPlayer(), t.teleToTile))
+				e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+		}
+		case "Modify" -> {
+			if (!e.getPlayer().isQuestComplete(Quest.LOVE_STORY, "to modify house teleports."))
+				return;
+			e.getPlayer().sendInputInteger("How many tabs would you like to modify?", num -> {
+				if (!e.getPlayer().getInventory().containsItem(e.getItem().getId(), num)) {
+					e.getPlayer().sendMessage("You don't have enough tablets to do that.");
 					return;
 				}
-			}
+				e.getPlayer().sendOptionDialogue("Which tablet would you like to create?", ops -> {
+					ops.add("House teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(8013, num); });
+					ops.add("Rimmington teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.RIMMINGTON.id, num); });
+					ops.add("Taverly teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.TAVERLY.id, num); });
+					ops.add("Pollnivneach teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.POLLNIVNEACH.id, num); });
+					ops.add("Relleka teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.RELLEKA.id, num); });
+					ops.add("Brimhaven teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.BRIMHAVEN.id, num); });
+					ops.add("Yanille teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.YANILLE.id, num); });
+					ops.add("Trollheim teleport", () -> { e.getPlayer().getInventory().deleteItem(e.getItem().getId(), num); e.getPlayer().getInventory().addItem(TeleTab.TROLLHEIM.id, num); });
+				});
+			});
+			if (!e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().sendMessage("You don't have enough inventory space to do that.");
+				return;
 			}
 		}
-	};
+		}
+	});
 
 	public static boolean meetsTabReqs(int itemId, Player p) {
 		if (itemId == 20175 || (itemId >= 18809 && itemId <= 18814)) {

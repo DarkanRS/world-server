@@ -40,11 +40,6 @@ public class HarpieBug extends NPC {
 		super.handlePreHit(hit);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3153) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new HarpieBug(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3153, (npcId, tile) -> new HarpieBug(npcId, tile));
 
 }

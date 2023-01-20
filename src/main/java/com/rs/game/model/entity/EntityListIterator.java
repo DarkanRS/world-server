@@ -17,7 +17,6 @@ package com.rs.game.model.entity;
 
 import java.util.Iterator;
 import java.util.Set;
-import java.lang.SuppressWarnings;
 
 public class EntityListIterator<E extends Entity> implements Iterator<E> {
 	private Integer[] indicies;

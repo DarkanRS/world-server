@@ -21,8 +21,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -35,20 +33,14 @@ public class SpinningWheel {
 	private static double[] xp = { 15, 15, 15, 1, 1 };
 	private static int[] anims = { 883, 883, 883, 883, 883 };
 
-	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Spinning wheel" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOpNum() == ClientPacket.OBJECT_OP2)
-				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
-		}
-	};
+	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Spinning wheel" }, e -> {
+		if (e.getOpNum() == ClientPacket.OBJECT_OP2)
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+	});
 
-	public static ItemOnObjectHandler handleItemOn = new ItemOnObjectHandler(new Object[] { "Spinning wheel" }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			for (int i = 0; i < materials.length; i++)
-				if (materials[i][0].getId() == e.getItem().getId())
-					e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));
-		}
-	};
+	public static ItemOnObjectHandler handleItemOn = new ItemOnObjectHandler(new Object[] { "Spinning wheel" }, e -> {
+		for (int i = 0; i < materials.length; i++)
+			if (materials[i][0].getId() == e.getItem().getId())
+				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));
+	});
 }

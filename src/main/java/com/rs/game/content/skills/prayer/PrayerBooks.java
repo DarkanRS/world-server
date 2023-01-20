@@ -21,7 +21,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 
 @PluginEventHandler
@@ -49,12 +48,7 @@ public class PrayerBooks {
 		return false;
 	}
 
-	public static ItemClickHandler handleGodBooks = new ItemClickHandler(BOOKS, new String[] { "Preach" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			PrayerBooks.handleSermon(e.getPlayer(), e.getItem().getId());
-		}
-	};
+	public static ItemClickHandler handleGodBooks = new ItemClickHandler(new Object[] { BOOKS }, new String[] { "Preach" }, e -> PrayerBooks.handleSermon(e.getPlayer(), e.getItem().getId()));
 
 	public static void bindPages(Player player, int bookId) {
 		int god = -1;

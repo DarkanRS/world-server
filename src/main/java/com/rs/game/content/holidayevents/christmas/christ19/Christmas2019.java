@@ -27,10 +27,6 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.LoginEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
@@ -125,72 +121,58 @@ public class Christmas2019 {
 		NPCSpawns.add(new NPCSpawn(9392, WorldTile.of(2655, 5668, 0), "Partygoer"));
 	}
 
-	public static EnterChunkHandler handleChunkEvents = new EnterChunkHandler() {
-		@Override
-		public void handle(EnterChunkEvent e) {
-			if (!ACTIVE)
+	public static EnterChunkHandler handleChunkEvents = new EnterChunkHandler(e -> {
+		if (!ACTIVE)
+			return;
+		if (e.getEntity() instanceof Player p) {
+			if (p.getChrist19Loc() == null) {
+				p.getVars().setVarBit(6928, 1);
+				p.getVars().setVarBit(6929, 1);
+				p.getVars().setVarBit(6930, 1);
+				p.getVars().setVarBit(6931, 1);
 				return;
-			if (e.getEntity() instanceof Player p) {
-				if (p.getChrist19Loc() == null) {
+			}
+			if (p.getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId()) {
+				Location loc = p.getChrist19Loc();
+				if (e.getChunkId() == loc.chunkId) {
+					if (p.getPet() != null)
+						p.getPet().setNextForceTalk(new ForceTalk("Der he is!"));
+					p.getVars().setVarBit(loc.getImp().varBit, 0);
+				} else {
+					if (p.getPet() != null) {
+						int prevDist = p.getTempAttribs().getI("christ19LocDist");
+						int currDist = (int) Utils.getDistance(p.getTile(), loc.loc);
+						if (prevDist != 0)
+							if (currDist > prevDist)
+								p.getPet().setNextForceTalk(new ForceTalk("Yer headin the wrong way, guv!"));
+							else
+								p.getPet().setNextForceTalk(new ForceTalk("Yer gettin closer, guv!"));
+						p.getTempAttribs().setI("christ19LocDist", currDist);
+					}
 					p.getVars().setVarBit(6928, 1);
 					p.getVars().setVarBit(6929, 1);
 					p.getVars().setVarBit(6930, 1);
 					p.getVars().setVarBit(6931, 1);
-					return;
-				}
-				if (p.getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId()) {
-					Location loc = p.getChrist19Loc();
-					if (e.getChunkId() == loc.chunkId) {
-						if (p.getPet() != null)
-							p.getPet().setNextForceTalk(new ForceTalk("Der he is!"));
-						p.getVars().setVarBit(loc.getImp().varBit, 0);
-					} else {
-						if (p.getPet() != null) {
-							int prevDist = p.getTempAttribs().getI("christ19LocDist");
-							int currDist = (int) Utils.getDistance(p.getTile(), loc.loc);
-							if (prevDist != 0)
-								if (currDist > prevDist)
-									p.getPet().setNextForceTalk(new ForceTalk("Yer headin the wrong way, guv!"));
-								else
-									p.getPet().setNextForceTalk(new ForceTalk("Yer gettin closer, guv!"));
-							p.getTempAttribs().setI("christ19LocDist", currDist);
-						}
-						p.getVars().setVarBit(6928, 1);
-						p.getVars().setVarBit(6929, 1);
-						p.getVars().setVarBit(6930, 1);
-						p.getVars().setVarBit(6931, 1);
-					}
 				}
 			}
 		}
-	};
+	});
 
-	public static LoginHandler login = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if (!ACTIVE)
-				return;
-			e.getPlayer().getVars().setVarBit(6928, 1);
-			e.getPlayer().getVars().setVarBit(6929, 1);
-			e.getPlayer().getVars().setVarBit(6930, 1);
-			e.getPlayer().getVars().setVarBit(6931, 1);
-			if (e.getPlayer().getI(Christmas2019.STAGE_KEY) == 10)
-				e.getPlayer().getVars().setVarBit(6934, 1);
-		}
-	};
+	public static LoginHandler login = new LoginHandler(e -> {
+		if (!ACTIVE)
+			return;
+		e.getPlayer().getVars().setVarBit(6928, 1);
+		e.getPlayer().getVars().setVarBit(6929, 1);
+		e.getPlayer().getVars().setVarBit(6930, 1);
+		e.getPlayer().getVars().setVarBit(6931, 1);
+		if (e.getPlayer().getI(Christmas2019.STAGE_KEY) == 10)
+			e.getPlayer().getVars().setVarBit(6934, 1);
+	});
 
-	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 14599 }, new String[] { "Summon Imp" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().getPetManager().spawnPet(50001, false);
-		}
-	};
+	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 14599 }, new String[] { "Summon Imp" }, e -> e.getPlayer().getPetManager().spawnPet(50001, false));
 
-	public static ItemEquipHandler handleUnequipIceAmulet = new ItemEquipHandler(14599) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			if (e.dequip() && e.getPlayer().getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId())
-				e.getPlayer().getPet().pickup();
-		}
-	};
+	public static ItemEquipHandler handleUnequipIceAmulet = new ItemEquipHandler(14599, e -> {
+		if (e.dequip() && e.getPlayer().getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId())
+			e.getPlayer().getPet().pickup();
+	});
 }

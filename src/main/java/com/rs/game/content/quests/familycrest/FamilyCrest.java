@@ -15,9 +15,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -140,66 +137,58 @@ public class FamilyCrest extends QuestOutline {
 		return false;
 	}
 
-	public static ItemOnItemHandler createActualCrest = new ItemOnItemHandler(new int[]{CALEB_CREST, AVAN_CREST, JOHNATHAN_CREST},
-			new int[]{CALEB_CREST, AVAN_CREST, JOHNATHAN_CREST}) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (e.getPlayer().getInventory().containsItem(CALEB_CREST, 1))
-				if (e.getPlayer().getInventory().containsItem(AVAN_CREST, 1))
-					if (e.getPlayer().getInventory().containsItem(JOHNATHAN_CREST, 1)) {
-						e.getPlayer().getInventory().removeItems(new Item(CALEB_CREST, 1), new Item(AVAN_CREST, 1), new Item(JOHNATHAN_CREST, 1));
-						e.getPlayer().getInventory().addItem(new Item(FAMILY_CREST, 1), true);
-					}
+	public static ItemOnItemHandler createActualCrest = new ItemOnItemHandler(new int[]{CALEB_CREST, AVAN_CREST, JOHNATHAN_CREST}, new int[]{CALEB_CREST, AVAN_CREST, JOHNATHAN_CREST}, e -> {
+		if (e.getPlayer().getInventory().containsItem(CALEB_CREST, 1))
+			if (e.getPlayer().getInventory().containsItem(AVAN_CREST, 1))
+				if (e.getPlayer().getInventory().containsItem(JOHNATHAN_CREST, 1)) {
+					e.getPlayer().getInventory().removeItems(new Item(CALEB_CREST, 1), new Item(AVAN_CREST, 1), new Item(JOHNATHAN_CREST, 1));
+					e.getPlayer().getInventory().addItem(new Item(FAMILY_CREST, 1), true);
+				}
+	});
+	
+	static final int PERFECT_ORE = 446;
+	static final int PERFECT_BAR = 2365;
+	static final int RUBY = 1603;
+	static final int RING_MOULD = 1592;
+	static final int NECKLACE_MOULD = 1597;
 
+	public static ItemOnObjectHandler perfectItemsOnFurnace = new ItemOnObjectHandler(true, new Object[] { "Furnace" }, e -> {
+		Player p = e.getPlayer();
+		if(e.getItem().getId() == PERFECT_ORE) {
+			p.getInventory().replaceItem(PERFECT_BAR, 1, e.getItem().getSlot());
+			p.setNextAnimation(new Animation(3243));
 		}
-	};
+		if(e.getItem().getId() == PERFECT_BAR)
+			p.startConversation(new Conversation(p) {
+				{
+					addOptions("Choose an option:", new Options() {
+						@Override
+						public void create() {
+							if(p.getInventory().containsItem(RING_MOULD, 1, true) && p.getInventory().containsItem(RUBY, 1))
+								option("Make perfect ring", new Dialogue()
+										.addNext(()->{
+											p.setNextAnimation(new Animation(3243));
+											p.getInventory().removeItems(new Item(RUBY, 1));
+											p.getInventory().replaceItem(PERFECT_RUBY_RING, 1, e.getItem().getSlot());
+										}));
+							else
+								p.sendMessage("You don't have materials for a perfect ring");
+							if(p.getInventory().containsItem(NECKLACE_MOULD, 1, true) && p.getInventory().containsItem(RUBY, 1))
+								option("Make perfect neck", new Dialogue()
+										.addNext(()->{
+											p.setNextAnimation(new Animation(3243));
+											p.getInventory().removeItems(new Item(RUBY, 1));
+											p.getInventory().replaceItem(PERFECT_RUBY_NECKLACE, 1, e.getItem().getSlot());
+										}));
+							else
+								p.sendMessage("You don't have materials for a perfect necklace");
+						}
+					});
 
-	public static ItemOnObjectHandler perfectItemsOnFurnace = new ItemOnObjectHandler(true, new Object[] { "Furnace" }) {
-		int PERFECT_ORE = 446;
-		int PERFECT_BAR = 2365;
-		//
-		int RUBY = 1603;
-		int RING_MOULD = 1592;
-		int NECKLACE_MOULD = 1597;
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Player p = e.getPlayer();
-			if(e.getItem().getId() == PERFECT_ORE) {
-				p.getInventory().replaceItem(PERFECT_BAR, 1, e.getItem().getSlot());
-				p.setNextAnimation(new Animation(3243));
-			}
-			if(e.getItem().getId() == PERFECT_BAR)
-				p.startConversation(new Conversation(p) {
-					{
-						addOptions("Choose an option:", new Options() {
-							@Override
-							public void create() {
-								if(p.getInventory().containsItem(RING_MOULD, 1, true) && p.getInventory().containsItem(RUBY, 1))
-									option("Make perfect ring", new Dialogue()
-											.addNext(()->{
-												p.setNextAnimation(new Animation(3243));
-												p.getInventory().removeItems(new Item(RUBY, 1));
-												p.getInventory().replaceItem(PERFECT_RUBY_RING, 1, e.getItem().getSlot());
-											}));
-								else
-									p.sendMessage("You don't have materials for a perfect ring");
-								if(p.getInventory().containsItem(NECKLACE_MOULD, 1, true) && p.getInventory().containsItem(RUBY, 1))
-									option("Make perfect neck", new Dialogue()
-											.addNext(()->{
-												p.setNextAnimation(new Animation(3243));
-												p.getInventory().removeItems(new Item(RUBY, 1));
-												p.getInventory().replaceItem(PERFECT_RUBY_NECKLACE, 1, e.getItem().getSlot());
-											}));
-								else
-									p.sendMessage("You don't have materials for a perfect necklace");
-							}
-						});
-
-						create();
-					}
-				});
-		}
-	};
+					create();
+				}
+			});
+	});
 
 	@Override
 	public void complete(Player player) {
@@ -208,17 +197,14 @@ public class FamilyCrest extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, 778, "Family gauntlets");
 	}
 
-	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().isEquipDisabled())
-				return;
-			if (!e.getPlayer().isQuestComplete(Quest.FAMILY_CREST)) {
-				e.getPlayer().sendMessage("You must complete the Family Crest quest to use this item...");
-				return;
-			}
-			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
+	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}, e -> {
+		if (e.getPlayer().isEquipDisabled())
+			return;
+		if (!e.getPlayer().isQuestComplete(Quest.FAMILY_CREST)) {
+			e.getPlayer().sendMessage("You must complete the Family Crest quest to use this item...");
+			return;
 		}
-	};
+		Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
+	});
 
 }

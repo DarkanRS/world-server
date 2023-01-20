@@ -18,13 +18,14 @@ package com.rs.plugin.handlers;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.rs.plugin.events.ItemOnItemEvent;
 
-public abstract class ItemOnItemHandler extends PluginHandler<ItemOnItemEvent> {
+public class ItemOnItemHandler extends PluginHandler<ItemOnItemEvent> {
 
-	public ItemOnItemHandler(int[] itemsUsed, int[] usedWiths) {
-		super(null);
+	public ItemOnItemHandler(int[] itemsUsed, int[] usedWiths, Consumer<ItemOnItemEvent> handler) {
+		super(null, handler);
 		Set<Object> list = new HashSet<>();
 		if (usedWiths.length > 0)
 			for (Integer usedWith : usedWiths)
@@ -38,28 +39,28 @@ public abstract class ItemOnItemHandler extends PluginHandler<ItemOnItemEvent> {
 		keys = list.toArray();
 	}
 
-	public ItemOnItemHandler(int itemUsed, int[] usedWith) {
-		this(new int[] { itemUsed }, usedWith);
+	public ItemOnItemHandler(int itemUsed, int[] usedWith, Consumer<ItemOnItemEvent> handler) {
+		this(new int[] { itemUsed }, usedWith, handler);
 	}
 
-	public ItemOnItemHandler(int[] itemUsed, int usedWith) {
-		this(itemUsed, new int[] { usedWith });
+	public ItemOnItemHandler(int[] itemUsed, int usedWith, Consumer<ItemOnItemEvent> handler) {
+		this(itemUsed, new int[] { usedWith }, handler);
 	}
 
-	public ItemOnItemHandler(int used, int usedWith) {
-		this(new int[] { used },  new int[] { usedWith });
+	public ItemOnItemHandler(int used, int usedWith, Consumer<ItemOnItemEvent> handler) {
+		this(new int[] { used },  new int[] { usedWith }, handler);
 	}
 
-	public ItemOnItemHandler(int[] used) {
-		this(used,  new int[] { });
+	public ItemOnItemHandler(int[] used, Consumer<ItemOnItemEvent> handler) {
+		this(used,  new int[] { }, handler);
 	}
 
-	public ItemOnItemHandler(int used) {
-		this(new int[] { used },  new int[] { });
+	public ItemOnItemHandler(int used, Consumer<ItemOnItemEvent> handler) {
+		this(new int[] { used },  new int[] { }, handler);
 	}
 
-	public ItemOnItemHandler(boolean directKeySet, Object[] keys) {
-		super(keys);
+	public ItemOnItemHandler(boolean directKeySet, Object[] keys, Consumer<ItemOnItemEvent> handler) {
+		super(keys, handler);
 	}
 
 }

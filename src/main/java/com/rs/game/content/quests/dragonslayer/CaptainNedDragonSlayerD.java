@@ -17,7 +17,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -66,10 +65,5 @@ public class CaptainNedDragonSlayerD extends Conversation {
 	}
 
 
-	public static NPCClickHandler handleJenkinsDialogue = new NPCClickHandler(new Object[] { CAPTAIN_NED }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new CaptainNedDragonSlayerD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleJenkinsDialogue = new NPCClickHandler(new Object[] { CAPTAIN_NED }, e -> e.getPlayer().startConversation(new CaptainNedDragonSlayerD(e.getPlayer()).getStart()));
 }

@@ -30,7 +30,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
@@ -74,28 +73,25 @@ public final class MusicsManager {
 		unlockedMusics.add(621);
     }
 
-    public static ButtonClickHandler handlePlaylistButtons = new ButtonClickHandler(187) {
-        @Override
-        public void handle(ButtonClickEvent e) {
-            if (e.getComponentId() == 1) {
-                if (e.getPacket() == ClientPacket.IF_OP1)
-                    e.getPlayer().getMusicsManager().playAnotherMusic(e.getSlotId() / 2);
-                else if (e.getPacket() == ClientPacket.IF_OP2)
-                    e.getPlayer().getMusicsManager().sendHint(e.getSlotId() / 2);
-                else if (e.getPacket() == ClientPacket.IF_OP3)
-                    e.getPlayer().getMusicsManager().addToPlayList(e.getSlotId() / 2);
-                else if (e.getPacket() == ClientPacket.IF_OP4)
-                    e.getPlayer().getMusicsManager().removeFromPlayList(e.getSlotId() / 2);
-            } else if (e.getComponentId() == 4)
-                e.getPlayer().getMusicsManager().addPlayingMusicToPlayList();
-            else if (e.getComponentId() == 10)
-                e.getPlayer().getMusicsManager().switchPlayListOn();
-            else if (e.getComponentId() == 11)
-                e.getPlayer().getMusicsManager().clearPlayList();
-            else if (e.getComponentId() == 13)
-                e.getPlayer().getMusicsManager().switchShuffleOn();
-        }
-    };
+    public static ButtonClickHandler handlePlaylistButtons = new ButtonClickHandler(187, e -> {
+    	if (e.getComponentId() == 1) {
+            if (e.getPacket() == ClientPacket.IF_OP1)
+                e.getPlayer().getMusicsManager().playAnotherMusic(e.getSlotId() / 2);
+            else if (e.getPacket() == ClientPacket.IF_OP2)
+                e.getPlayer().getMusicsManager().sendHint(e.getSlotId() / 2);
+            else if (e.getPacket() == ClientPacket.IF_OP3)
+                e.getPlayer().getMusicsManager().addToPlayList(e.getSlotId() / 2);
+            else if (e.getPacket() == ClientPacket.IF_OP4)
+                e.getPlayer().getMusicsManager().removeFromPlayList(e.getSlotId() / 2);
+        } else if (e.getComponentId() == 4)
+            e.getPlayer().getMusicsManager().addPlayingMusicToPlayList();
+        else if (e.getComponentId() == 10)
+            e.getPlayer().getMusicsManager().switchPlayListOn();
+        else if (e.getComponentId() == 11)
+            e.getPlayer().getMusicsManager().clearPlayList();
+        else if (e.getComponentId() == 13)
+            e.getPlayer().getMusicsManager().switchShuffleOn();
+    });
 
     /**
      * Only for debug use

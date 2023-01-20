@@ -23,19 +23,15 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class ItemsKeptOnDeath {
 
-	public static ButtonClickHandler handleSwapWildy = new ButtonClickHandler(17) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 28)
-				sendItemsKeptOnDeath(e.getPlayer(), !e.getPlayer().getTempAttribs().getB("wildy"));
-		}
-	};
+	public static ButtonClickHandler handleSwapWildy = new ButtonClickHandler(17, e -> {
+		if (e.getComponentId() == 28)
+			sendItemsKeptOnDeath(e.getPlayer(), !e.getPlayer().getTempAttribs().getB("wildy"));
+	});
 
 	public static void openItemsKeptOnDeath(Player player) {
 		player.getInterfaceManager().sendInterface(17);

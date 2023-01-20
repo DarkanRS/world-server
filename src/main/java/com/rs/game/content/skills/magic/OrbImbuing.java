@@ -23,7 +23,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.InterfaceOnObjectEvent;
 import com.rs.plugin.handlers.InterfaceOnObjectHandler;
 
 @PluginEventHandler
@@ -142,22 +141,19 @@ public class OrbImbuing {
 		}
 	}
 
-	public static InterfaceOnObjectHandler handle = new InterfaceOnObjectHandler(true, new int[] { 192 }, new int[] { 60, 64, 71, 74 }) {
-		@Override
-		public void handle(InterfaceOnObjectEvent e) {
-			if (e.isAtObject()) {
-				Orbs orb = null;
-				for (Orbs o : Orbs.values())
-					if (e.getObjectId() == o.getObjectId() && e.getComponentId() == o.getComponentId()) {
-						orb = o;
-						break;
-					}
-				if (orb == null) {
-					e.getPlayer().sendMessage("Try using this spell on the correct obelisk.");
-					return;
+	public static InterfaceOnObjectHandler handle = new InterfaceOnObjectHandler(true, new int[] { 192 }, new int[] { 60, 64, 71, 74 }, e -> {
+		if (e.isAtObject()) {
+			Orbs orb = null;
+			for (Orbs o : Orbs.values())
+				if (e.getObjectId() == o.getObjectId() && e.getComponentId() == o.getComponentId()) {
+					orb = o;
+					break;
 				}
-				e.getPlayer().getActionManager().setAction(new OrbChargingAction(orb, e.getObject().getTile()));
+			if (orb == null) {
+				e.getPlayer().sendMessage("Try using this spell on the correct obelisk.");
+				return;
 			}
+			e.getPlayer().getActionManager().setAction(new OrbChargingAction(orb, e.getObject().getTile()));
 		}
-	};
+	});
 }

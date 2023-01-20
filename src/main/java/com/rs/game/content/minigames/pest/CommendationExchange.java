@@ -23,7 +23,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
@@ -74,77 +73,74 @@ public class CommendationExchange {// 1875 TODO
 		return true;
 	}
 
-	public static ButtonClickHandler handleButtonOptions = new ButtonClickHandler(1011) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 68)
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_ONE);
-			else if (e.getComponentId() == 86)
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_TEN);
-			else if (e.getComponentId() == 88)
-				addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
-			else if (e.getComponentId() == 29)
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
-			else if (e.getComponentId() == 75) {
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, true);
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
-			} else if (e.getComponentId() == 20 || e.getComponentId() == 73)
-				openExchangeShop(e.getPlayer());
-			else if (e.getComponentId() == 24 || e.getComponentId() == 31) {
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, false);
-				e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, true);
-			} else if (e.getComponentId() == 291) {
-				if (e.getPlayer().getSkills().getLevelForXp(Constants.HERBLORE) < 25) {
-					e.getPlayer().sendMessage("You need a herblore level of 25 in order to purchase a herblore pack.");
-					return;
-				}
-				if (!exchangeCommendation(e.getPlayer(), 30))
-					return;
-				e.getPlayer().getInventory().addItem(Herbs.values()[Utils.random(5)].getHerbId() + 1, Utils.random(4), true);
-				e.getPlayer().getInventory().addItem(Herbs.values()[Herbs.values().length - 1].getHerbId() + 1, Utils.random(2), true);
-				e.getPlayer().sendMessage("You exchange 30 commendation points for a herblore pack.");
-			} else if (e.getComponentId() == 302) {
-				if (e.getPlayer().getSkills().getLevelForXp(Constants.MINING) < 25) {
-					e.getPlayer().sendMessage("You need a mining level of 25 in order to purchase a herblore pack.");
-					return;
-				}
-				if (!exchangeCommendation(e.getPlayer(), 15))
-					return;
-				e.getPlayer().getInventory().addItem(441, Utils.random(20), true);
-				e.getPlayer().getInventory().addItem(454, Utils.random(30), true);
-				e.getPlayer().sendMessage("You exchange 15 commendation points for a mineral pack.");
-			} else if (e.getComponentId() == 313) {
-				if (e.getPlayer().getSkills().getLevelForXp(Constants.FARMING) < 25) {
-					e.getPlayer().sendMessage("You need a farming level of 25 in order to purchase a herblore pack.");
-					return;
-				}
-				if (!exchangeCommendation(e.getPlayer(), 15))
-					return;
-				for (int i = 0;i < 6;i++)
-					for (Item rew : DropTable.calculateDrops(e.getPlayer(), DropSets.getDropSet("nest_shit_seed")))
-						e.getPlayer().getInventory().addItemDrop(rew);
-				e.getPlayer().sendMessage("You exchange 15 commendation points for a seed pack.");
-			} else {
-				for (int index = 0; index < SKILL_BASE_COMPONENTS.length; index++) {
-					int skillComponent = SKILL_BASE_COMPONENTS[index];
-					for (int i = 0; i < 6; i += 2)
-						if (skillComponent + i == e.getComponentId())
-							addXPForSkill(e.getPlayer(), SKILLS[index], getRateForIndex(i / 2));
-				}
+	public static ButtonClickHandler handleButtonOptions = new ButtonClickHandler(1011, e -> {
+		if (e.getComponentId() == 68)
+			addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_ONE);
+		else if (e.getComponentId() == 86)
+			addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_TEN);
+		else if (e.getComponentId() == 88)
+			addXPForSkill(e.getPlayer(), Constants.ATTACK, RATE_HUNDRED);
+		else if (e.getComponentId() == 29)
+			e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
+		else if (e.getComponentId() == 75) {
+			e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, true);
+			e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, false);
+		} else if (e.getComponentId() == 20 || e.getComponentId() == 73)
+			openExchangeShop(e.getPlayer());
+		else if (e.getComponentId() == 24 || e.getComponentId() == 31) {
+			e.getPlayer().getPackets().setIFHidden(INTERFACE, 70, false);
+			e.getPlayer().getPackets().setIFHidden(INTERFACE, 69, true);
+		} else if (e.getComponentId() == 291) {
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.HERBLORE) < 25) {
+				e.getPlayer().sendMessage("You need a herblore level of 25 in order to purchase a herblore pack.");
+				return;
+			}
+			if (!exchangeCommendation(e.getPlayer(), 30))
+				return;
+			e.getPlayer().getInventory().addItem(Herbs.values()[Utils.random(5)].getHerbId() + 1, Utils.random(4), true);
+			e.getPlayer().getInventory().addItem(Herbs.values()[Herbs.values().length - 1].getHerbId() + 1, Utils.random(2), true);
+			e.getPlayer().sendMessage("You exchange 30 commendation points for a herblore pack.");
+		} else if (e.getComponentId() == 302) {
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.MINING) < 25) {
+				e.getPlayer().sendMessage("You need a mining level of 25 in order to purchase a herblore pack.");
+				return;
+			}
+			if (!exchangeCommendation(e.getPlayer(), 15))
+				return;
+			e.getPlayer().getInventory().addItem(441, Utils.random(20), true);
+			e.getPlayer().getInventory().addItem(454, Utils.random(30), true);
+			e.getPlayer().sendMessage("You exchange 15 commendation points for a mineral pack.");
+		} else if (e.getComponentId() == 313) {
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.FARMING) < 25) {
+				e.getPlayer().sendMessage("You need a farming level of 25 in order to purchase a herblore pack.");
+				return;
+			}
+			if (!exchangeCommendation(e.getPlayer(), 15))
+				return;
+			for (int i = 0;i < 6;i++)
+				for (Item rew : DropTable.calculateDrops(e.getPlayer(), DropSets.getDropSet("nest_shit_seed")))
+					e.getPlayer().getInventory().addItemDrop(rew);
+			e.getPlayer().sendMessage("You exchange 15 commendation points for a seed pack.");
+		} else {
+			for (int index = 0; index < SKILL_BASE_COMPONENTS.length; index++) {
+				int skillComponent = SKILL_BASE_COMPONENTS[index];
+				for (int i = 0; i < 6; i += 2)
+					if (skillComponent + i == e.getComponentId())
+						addXPForSkill(e.getPlayer(), SKILLS[index], getRateForIndex(i / 2));
+			}
 
-				for (int index = 0; index < VOID_BASE_COMPONENTS.length; index++)
-					if (VOID_BASE_COMPONENTS[index] == e.getComponentId())
-						addVoidItem(e.getPlayer(), index);
+			for (int index = 0; index < VOID_BASE_COMPONENTS.length; index++)
+				if (VOID_BASE_COMPONENTS[index] == e.getComponentId())
+					addVoidItem(e.getPlayer(), index);
 
-				for (int index = 0; index < CHARM_BASE_COMPONENTS.length; index++) {
-					int charmComponent = CHARM_BASE_COMPONENTS[index];
-					for (int i = 0; i < 6; i += 2)
-						if (charmComponent + i == e.getComponentId())
-							addCharm(e.getPlayer(), CHARMS[index], getRateForIndex(i / 2));
-				}
+			for (int index = 0; index < CHARM_BASE_COMPONENTS.length; index++) {
+				int charmComponent = CHARM_BASE_COMPONENTS[index];
+				for (int i = 0; i < 6; i += 2)
+					if (charmComponent + i == e.getComponentId())
+						addCharm(e.getPlayer(), CHARMS[index], getRateForIndex(i / 2));
 			}
 		}
-	};
+	});
 
 	private static void addCharm(Player player, int itemId, int rate) {
 		if (rate == 100)

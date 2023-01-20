@@ -28,8 +28,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -100,32 +98,26 @@ public class LodestoneAction extends PlayerAction {
 		}
 	}
 
-	public static ObjectClickHandler handleUnlock = new ObjectClickHandler(new Object[] { 69827, 69828, 69829, 69830, 69831, 69832, 69833, 69834, 69835, 69836, 69837, 69838, 69839, 69840, 69841 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOpNum() != ClientPacket.OBJECT_OP1)
-				return;
-			Lodestone stone = Lodestone.forObject(e.getObject().getId());
-			if (stone != null)
-				e.getPlayer().unlockLodestone(stone, e.getObject());
-		}
-	};
+	public static ObjectClickHandler handleUnlock = new ObjectClickHandler(new Object[] { 69827, 69828, 69829, 69830, 69831, 69832, 69833, 69834, 69835, 69836, 69837, 69838, 69839, 69840, 69841 }, e -> {
+		if (e.getOpNum() != ClientPacket.OBJECT_OP1)
+			return;
+		Lodestone stone = Lodestone.forObject(e.getObject().getId());
+		if (stone != null)
+			e.getPlayer().unlockLodestone(stone, e.getObject());
+	});
 
-	public static ButtonClickHandler handleLodestoneButtons = new ButtonClickHandler(1092) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			e.getPlayer().stopAll();
-			Lodestone stone = Lodestone.forComponent(e.getComponentId());
-			if (stone != null) {
-				if ((stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
-					return;
-				if (e.getPlayer().unlockedLodestone(stone))
-					e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
-				else
-					e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
-			}
+	public static ButtonClickHandler handleLodestoneButtons = new ButtonClickHandler(1092, e -> {
+		e.getPlayer().stopAll();
+		Lodestone stone = Lodestone.forComponent(e.getComponentId());
+		if (stone != null) {
+			if ((stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
+				return;
+			if (e.getPlayer().unlockedLodestone(stone))
+				e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
+			else
+				e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
 		}
-	};
+	});
 
 	private int currentTime;
 	private WorldTile tile;

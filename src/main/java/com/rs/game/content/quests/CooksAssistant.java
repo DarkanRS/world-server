@@ -27,7 +27,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @QuestHandler(Quest.COOKS_ASSISTANT)
@@ -118,10 +117,5 @@ public class CooksAssistant extends QuestOutline {
 
 	}
 
-	public static NPCClickHandler talkCook = new NPCClickHandler(new Object[] { 278 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new CookD(e.getPlayer(), e.getNPC().getId()));
-		}
-	};
+	public static NPCClickHandler talkCook = new NPCClickHandler(new Object[] { 278 }, e -> e.getPlayer().startConversation(new CookD(e.getPlayer(), e.getNPC().getId())));
 }

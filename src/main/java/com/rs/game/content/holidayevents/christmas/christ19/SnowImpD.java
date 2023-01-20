@@ -22,7 +22,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -30,15 +29,12 @@ public class SnowImpD extends Conversation {
 
 	private static final int IMP = 8536, IMP_HEAD = 9364;
 
-	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(new Object[] { IMP }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getPlayer().getPet() == e.getNPC())
-				e.getPlayer().startConversation(new SnowImpD(e.getPlayer()));
-			else
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(IMP_HEAD, HeadE.CONFUSED, "Whatchu want, guv?"));
-		}
-	};
+	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(new Object[] { IMP }, e -> {
+		if (e.getPlayer().getPet() == e.getNPC())
+			e.getPlayer().startConversation(new SnowImpD(e.getPlayer()));
+		else
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(IMP_HEAD, HeadE.CONFUSED, "Whatchu want, guv?"));
+	});
 
 	public SnowImpD(Player player) {
 		super(player);

@@ -47,10 +47,5 @@ public class AngryGardenerNPC extends NPC {
 	}
 
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1217) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new AngryGardenerNPC(npcId, tile, true);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1217, (npcId, tile) -> new AngryGardenerNPC(npcId, tile, true));
 }

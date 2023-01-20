@@ -51,10 +51,5 @@ public class CommanderZilyana extends NPC {
 		}, 2);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6247) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new CommanderZilyana(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6247, (npcId, tile) -> new CommanderZilyana(npcId, tile, false));
 }

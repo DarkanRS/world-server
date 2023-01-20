@@ -11,7 +11,6 @@ import com.rs.game.engine.miniquest.MiniquestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -70,35 +69,27 @@ public class EnterTheAbyss extends MiniquestOutline {
 		player.getVars().setVar(492, player.getMiniquestManager().getStage(Miniquest.ENTER_THE_ABYSS));
 	}
 
-	public static NPCClickHandler handleMageOfZamorakWildy = new NPCClickHandler(new Object[] { 2257 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOption()) {
-				case "Talk-to":
-					switch(e.getPlayer().getMiniquestManager().getStage(Miniquest.ENTER_THE_ABYSS)) {
-						case 0 -> e.getPlayer().startConversation(new Dialogue()
-								.addPlayer(HeadE.CONFUSED, "Hello there, what are you doing here?")
-								.addNPC(2257, HeadE.SECRETIVE, "I am researching an interesting phenomenon I call the 'Abyss' and selling runes.")
-								.addPlayer(HeadE.CONFUSED, "Where do you get your runes?")
-								.addNPC(2257, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!", () -> e.getPlayer().getMiniquestManager().setStage(Miniquest.ENTER_THE_ABYSS, 1)));
-						default -> e.getPlayer().startConversation(new Dialogue()
-								.addNPC(2257, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!"));
-					}
-					break;
-				case "Trade":
-					ShopsHandler.openShop(e.getPlayer(), "zamorak_mage_shop");
-					break;
-				case "Teleport":
-					Abyss.teleport(e.getPlayer(), e.getNPC());
-					break;
+	public static NPCClickHandler handleMageOfZamorakWildy = new NPCClickHandler(new Object[] { 2257 }, e -> {
+		switch(e.getOption()) {
+		case "Talk-to":
+			switch(e.getPlayer().getMiniquestManager().getStage(Miniquest.ENTER_THE_ABYSS)) {
+				case 0 -> e.getPlayer().startConversation(new Dialogue()
+						.addPlayer(HeadE.CONFUSED, "Hello there, what are you doing here?")
+						.addNPC(2257, HeadE.SECRETIVE, "I am researching an interesting phenomenon I call the 'Abyss' and selling runes.")
+						.addPlayer(HeadE.CONFUSED, "Where do you get your runes?")
+						.addNPC(2257, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!", () -> e.getPlayer().getMiniquestManager().setStage(Miniquest.ENTER_THE_ABYSS, 1)));
+				default -> e.getPlayer().startConversation(new Dialogue()
+						.addNPC(2257, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!"));
 			}
-		}
-	};
+			break;
+		case "Trade":
+			ShopsHandler.openShop(e.getPlayer(), "zamorak_mage_shop");
+			break;
+		case "Teleport":
+			Abyss.teleport(e.getPlayer(), e.getNPC());
+			break;
+	}
+	});
 
-	public static NPCClickHandler handleMageOfZamorakVarrock = new NPCClickHandler(new Object[] { 2260 }, new String[] { "Talk-to" }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new ZamorakMage(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleMageOfZamorakVarrock = new NPCClickHandler(new Object[] { 2260 }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new ZamorakMage(e.getPlayer())));
 }

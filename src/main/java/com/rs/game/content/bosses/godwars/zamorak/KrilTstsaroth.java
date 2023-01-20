@@ -51,10 +51,5 @@ public class KrilTstsaroth extends NPC {
 		}, 2);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6203) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new KrilTstsaroth(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6203, (npcId, tile) -> new KrilTstsaroth(npcId, tile, false));
 }

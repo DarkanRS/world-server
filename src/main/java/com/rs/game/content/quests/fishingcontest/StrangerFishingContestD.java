@@ -17,7 +17,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -79,45 +78,36 @@ public class StrangerFishingContestD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new StrangerFishingContestD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new StrangerFishingContestD(e.getPlayer()).getStart()));
 
-	public static NPCClickHandler handleStrangerFishingSpot = new NPCClickHandler(new Object[] { 234 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Player p = e.getPlayer();
-			NPC npc = e.getNPC();
-			if(npc.getRegionId() == 10549) {
-				if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
-					p.sendMessage("Nothing interesting happens...");
-					return;
-				}
-				e.getNPC().resetDirection();
-				if(p.getQuestManager().getStage(Quest.FISHING_CONTEST) == DO_ROUNDS && p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
-					e.getPlayer().getActionManager().setAction(new Fishing(FishingSpot.GIANT_CARP, e.getNPC()));
-				else
-					if(p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
-						p.startConversation(new Conversation(p) {
-							{
-								addNPC(225, HeadE.CALM_TALK, "Hey, you need to pay to enter the competition first! Only 5 coins for the entrance fee!");//Bonzo
-								create();
-							}
-						});
-					else
-						p.startConversation(new Conversation(p) {
-							{
-								addNPC(NPC, HeadE.CALM_TALK, "I think you will find that is my spot.");
-								addPlayer(HeadE.HAPPY_TALKING, "Can't you go to another spot?");
-								addNPC(NPC, HeadE.CALM_TALK, "I like this place. I like to savour the aroma coming from these pipes.");
-								create();
-							}
-						});
+	public static NPCClickHandler handleStrangerFishingSpot = new NPCClickHandler(new Object[] { 234 }, e -> {
+		Player p = e.getPlayer();
+		NPC npc = e.getNPC();
+		if(npc.getRegionId() == 10549) {
+			if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
+				p.sendMessage("Nothing interesting happens...");
+				return;
 			}
-
+			e.getNPC().resetDirection();
+			if(p.getQuestManager().getStage(Quest.FISHING_CONTEST) == DO_ROUNDS && p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
+				e.getPlayer().getActionManager().setAction(new Fishing(FishingSpot.GIANT_CARP, e.getNPC()));
+			else
+				if(p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
+					p.startConversation(new Conversation(p) {
+						{
+							addNPC(225, HeadE.CALM_TALK, "Hey, you need to pay to enter the competition first! Only 5 coins for the entrance fee!");//Bonzo
+							create();
+						}
+					});
+				else
+					p.startConversation(new Conversation(p) {
+						{
+							addNPC(NPC, HeadE.CALM_TALK, "I think you will find that is my spot.");
+							addPlayer(HeadE.HAPPY_TALKING, "Can't you go to another spot?");
+							addNPC(NPC, HeadE.CALM_TALK, "I like this place. I like to savour the aroma coming from these pipes.");
+							create();
+						}
+					});
 		}
-	};
+	});
 }

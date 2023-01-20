@@ -16,26 +16,33 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.events.ItemOnObjectEvent;
 
-public abstract class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
+public class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
 
 	private WorldTile[] tiles;
 	private boolean checkDistance = true;
 
-	public ItemOnObjectHandler(boolean checkDistance, Object[] namesOrIds, WorldTile... tiles) {
-		super(namesOrIds);
+	public ItemOnObjectHandler(boolean checkDistance, Object[] namesOrIds, WorldTile[] tiles, Consumer<ItemOnObjectEvent> handler) {
+		super(namesOrIds, handler);
 		this.tiles = tiles;
 		this.checkDistance = checkDistance;
 	}
 
-	public ItemOnObjectHandler(Object[] namesOrIds, WorldTile... tiles) {
-		this(true, namesOrIds, tiles);
+	public ItemOnObjectHandler(Object[] namesOrIds, WorldTile[] tiles, Consumer<ItemOnObjectEvent> handler) {
+		this(true, namesOrIds, tiles, handler);
+	}
+	
+	public ItemOnObjectHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ItemOnObjectEvent> handler) {
+		this(true, namesOrIds, null, handler);
+		this.checkDistance = checkDistance;
 	}
 
-	public ItemOnObjectHandler(Object[] namesOrIds) {
-		this(true, namesOrIds);
+	public ItemOnObjectHandler(Object[] namesOrIds, Consumer<ItemOnObjectEvent> handler) {
+		this(true, namesOrIds, null, handler);
 	}
 
 	public boolean isCheckDistance() {

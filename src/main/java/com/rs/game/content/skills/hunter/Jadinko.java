@@ -37,10 +37,5 @@ public class Jadinko extends NPC {
 			player.addJadinkoFavor((getId() == 13820 ? 3 : getId() == 13821 ? 7 : 10));
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(13820, 13821, 13822) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Jadinko(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13820, 13821, 13822 }, (npcId, tile) -> new Jadinko(npcId, tile));
 }

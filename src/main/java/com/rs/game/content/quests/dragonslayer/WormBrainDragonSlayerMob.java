@@ -10,14 +10,10 @@ import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
@@ -87,35 +83,17 @@ public class WormBrainDragonSlayerMob extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleWormBrain = new NPCClickHandler(new Object[] { WORM_BRAIN }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new WormBrainDragonSlayerMob(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleWormBrain = new NPCClickHandler(new Object[] { WORM_BRAIN }, e -> e.getPlayer().startConversation(new WormBrainDragonSlayerMob(e.getPlayer()).getStart()));
 
-	public static NPCDeathHandler handleWormBrainDrop = new NPCDeathHandler(WORM_BRAIN) {
-		@Override
-		public void handle(NPCDeathEvent e) {
-			if(e.killedByPlayer()) {
-				Player p = (Player) e.getKiller();
-				if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
-					World.addGroundItem(new Item(MAP_PART2, 1), WorldTile.of(e.getNPC().getTile()), (Player) e.getKiller());
-			}
+	public static NPCDeathHandler handleWormBrainDrop = new NPCDeathHandler(WORM_BRAIN, e -> {
+		if(e.killedByPlayer()) {
+			Player p = (Player) e.getKiller();
+			if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
+				World.addGroundItem(new Item(MAP_PART2, 1), WorldTile.of(e.getNPC().getTile()), (Player) e.getKiller());
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleWormBrainJailGate = new ObjectClickHandler(new Object[] { 40184 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().sendMessage("It is firmly shut...");
-		}
-	};
+	public static ObjectClickHandler handleWormBrainJailGate = new ObjectClickHandler(new Object[] { 40184 }, e -> e.getPlayer().sendMessage("It is firmly shut..."));
 
-	public static NPCInteractionDistanceHandler wormbrainDistance = new NPCInteractionDistanceHandler(WORM_BRAIN) {
-		@Override
-		public int getDistance(Player player, NPC npc) {
-			return 1;
-		}
-	};
+	public static NPCInteractionDistanceHandler wormbrainDistance = new NPCInteractionDistanceHandler(WORM_BRAIN, (player, npc) -> 1);
 }

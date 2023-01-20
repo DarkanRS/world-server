@@ -30,7 +30,6 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -91,10 +90,5 @@ public class BoyWitchsHouseD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleBoyDialogue = new NPCClickHandler(new Object[] { BOY }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new BoyWitchsHouseD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleBoyDialogue = new NPCClickHandler(new Object[] { BOY }, e -> e.getPlayer().startConversation(new BoyWitchsHouseD(e.getPlayer()).getStart()));
 }

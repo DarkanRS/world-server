@@ -20,7 +20,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -28,12 +27,7 @@ public class CharlieSquirrelD extends Conversation {
 
 	private static final int CHARLIE = 9686;
 
-	public static NPCClickHandler handleCharlieTalk = new NPCClickHandler(new Object[] { CHARLIE }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new CharlieSquirrelD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleCharlieTalk = new NPCClickHandler(new Object[] { CHARLIE }, e -> e.getPlayer().startConversation(new CharlieSquirrelD(e.getPlayer())));
 
 	public CharlieSquirrelD(Player player) {
 		super(player);

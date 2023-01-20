@@ -24,7 +24,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -32,13 +31,10 @@ public class DungeoneeringTutor extends Conversation {
 	
 	private static final int DUNGEON_TUTOR = 9712;
 	
-	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getNPC() instanceof Ugi ugi)
-				e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
-		}
-	};
+	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }, e -> {
+		if (e.getNPC() instanceof Ugi ugi)
+			e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
+	});
 
 	public DungeoneeringTutor(Player player) {
 		super(player);

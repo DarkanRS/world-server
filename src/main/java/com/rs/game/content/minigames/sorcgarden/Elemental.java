@@ -106,10 +106,5 @@ public class Elemental extends NPC {
 		super.processNPC();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(5533, 5534, 5535, 5536, 5537, 5538, 5539, 5540, 5541, 5542, 5543, 5544, 5545, 5546, 5547, 5548, 5549, 5550, 5551, 5552, 5553, 5554, 5555, 5556, 5557, 5558) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Elemental(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 5533, 5534, 5535, 5536, 5537, 5538, 5539, 5540, 5541, 5542, 5543, 5544, 5545, 5546, 5547, 5548, 5549, 5550, 5551, 5552, 5553, 5554, 5555, 5556, 5557, 5558 }, (npcId, tile) -> new Elemental(npcId, tile, false));
 }

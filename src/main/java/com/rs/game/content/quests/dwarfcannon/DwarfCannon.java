@@ -33,10 +33,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -136,12 +132,7 @@ public class DwarfCannon extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, 1, "750 Crafting XP", "Permission to purchase and use a dwarf multicannon", "Ability to add the ammo mould to your tool belt", "Ability to smith cannonballs");
 	}
 
-	public static LoginHandler login = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			updateVars(e.getPlayer());
-		}
-	};
+	public static LoginHandler login = new LoginHandler(e -> updateVars(e.getPlayer()));
 
 	public static void updateVars(Player player) {
 		if (player.getQuestManager().getStage(Quest.DWARF_CANNON) == 3 && !player.getInventory().containsItem(DWARF_REMAINS))
@@ -150,121 +141,91 @@ public class DwarfCannon extends QuestOutline {
 			player.getVars().setVar(0, 8);
 	}
 
-	public static ButtonClickHandler handleToolkit = new ButtonClickHandler(409) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-		}
-	};
+	public static ButtonClickHandler handleToolkit = new ButtonClickHandler(409, e -> {});
 
-	public static ItemOnObjectHandler handleItemOnRailings = new ItemOnObjectHandler(new Object[] { 15590, 15591, 15592, 15593, 15594, 15595 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 1)
-				if (e.getItem().getId() == 14) {
-					int varbit = e.getObject().getDefinitions().varpBit;
-					if ((varbit != -1) && (e.getPlayer().getVars().getVarBit(varbit) == 0)) {
-						e.getPlayer().setNextAnimation(new Animation(4190));
-						if (Utils.random(4) == 0) {
-							e.getPlayer().getVars().saveVarBit(varbit, 1);
-							e.getPlayer().getInventory().deleteItem(14, 1);
-							e.getPlayer().sendMessage("This railing is now fixed.");
-							if (checkRemainingRepairs(e.getPlayer()) == 0)
-								e.getPlayer().startConversation(new Dialogue(new PlayerStatement(HeadE.CALM, "I've fixed all these railings now.")));
-							e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 2);
-						} else
-							failedRepair(e.getPlayer());
+	public static ItemOnObjectHandler handleItemOnRailings = new ItemOnObjectHandler(new Object[] { 15590, 15591, 15592, 15593, 15594, 15595 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 1)
+			if (e.getItem().getId() == 14) {
+				int varbit = e.getObject().getDefinitions().varpBit;
+				if ((varbit != -1) && (e.getPlayer().getVars().getVarBit(varbit) == 0)) {
+					e.getPlayer().setNextAnimation(new Animation(4190));
+					if (Utils.random(4) == 0) {
+						e.getPlayer().getVars().saveVarBit(varbit, 1);
+						e.getPlayer().getInventory().deleteItem(14, 1);
+						e.getPlayer().sendMessage("This railing is now fixed.");
+						if (checkRemainingRepairs(e.getPlayer()) == 0)
+							e.getPlayer().startConversation(new Dialogue(new PlayerStatement(HeadE.CALM, "I've fixed all these railings now.")));
+						e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 2);
 					} else
-						e.getPlayer().sendMessage("That railing does not need to be repaired.");
-				}
-		}
-	};
-
-	public static ObjectClickHandler handleRailingClick = new ObjectClickHandler(new Object[] { 15590, 15591, 15592, 15593, 15594, 15595 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Inspect"))
-				if (e.getPlayer().getVars().getVarBit(e.getObject().getDefinitions().varpBit) == 1)
-					e.getPlayer().startConversation(new Dialogue(new SimpleStatement("That railing does not need to be replaced.")));
-				else {
-					e.getPlayer().startConversation(new Dialogue(new SimpleStatement("This railing is broken and needs to be replaced.")));
-					if (e.getPlayer().getInventory().containsItem(14)) {
-						e.getPlayer().setNextAnimation(new Animation(4190));
-						if (Utils.random(4) == 0) {
-							e.getPlayer().getVars().saveVarBit(e.getObject().getDefinitions().varpBit, 1);
-							e.getPlayer().getInventory().deleteItem(14, 1);
-							if (checkRemainingRepairs(e.getPlayer()) == 0)
-								e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 2);
-						} else
-							failedRepair(e.getPlayer());
-					}
-				}
-		}
-	};
-
-	public static ObjectClickHandler handleLadderClimbUp = new ObjectClickHandler(new Object[] { 11 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(e.getPlayer().transform(0, 0, 1));
-			updateVars(e.getPlayer());
-		}
-	};
-
-	public static ObjectClickHandler handleEnterCaveEntrance = new ObjectClickHandler(new Object[] { 2 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(WorldTile.of(2620, 9796, 0));
-			if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 4)
-				e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 5);
-		}
-	};
-
-	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useStairs(WorldTile.of(2627, 3391, 0));
-		}
-	};
-
-	public static ObjectClickHandler handleDwarfRemains = new ObjectClickHandler(new Object[] { 0 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Take"))
-				if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 3) && !e.getPlayer().getInventory().containsItem(0)) {
-					e.getPlayer().startConversation(new Dialogue(new SimpleStatement("I had better take these remains.")));
-					e.getPlayer().getVars().saveVar(0, 0);
-					e.getPlayer().getInventory().addItem(0, 1);
-				}
-		}
-	};
-
-	public static ObjectClickHandler handleSearchCrate = new ObjectClickHandler(new Object[] { 1 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Search"))
-				if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 5))
-					e.getPlayer().startConversation(new LollkD(e.getPlayer()));
-		}
-	};
-
-	public static ObjectClickHandler handleCannonRepair = new ObjectClickHandler(new Object[] { 15597 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getOption().equals("Inspect")) {
-				if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 7)) {
-					if (e.getPlayer().containsItem(TOOLKIT)) {
-						e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 8);
-						e.getPlayer().sendMessage("You repair the cannon using the toolkit Lawgof gave you.");
-						updateVars(e.getPlayer());
-					} else
-						e.getPlayer().sendMessage("You need a toolkit to repair the cannon.");
+						failedRepair(e.getPlayer());
 				} else
-					e.getPlayer().sendMessage("It looks pretty broken.");
-			} else if (e.getOption().equals("Fire"))
-				e.getPlayer().sendMessage("I should leave that up to the mercenaries.");
-			else if (e.getOption().equals("Pick-up"))
-				e.getPlayer().sendMessage("That isn't your cannon!");
-		}
-	};
+					e.getPlayer().sendMessage("That railing does not need to be repaired.");
+			}
+	});
+
+	public static ObjectClickHandler handleRailingClick = new ObjectClickHandler(new Object[] { 15590, 15591, 15592, 15593, 15594, 15595 }, e -> {
+		if (e.getOption().equals("Inspect"))
+			if (e.getPlayer().getVars().getVarBit(e.getObject().getDefinitions().varpBit) == 1)
+				e.getPlayer().startConversation(new Dialogue(new SimpleStatement("That railing does not need to be replaced.")));
+			else {
+				e.getPlayer().startConversation(new Dialogue(new SimpleStatement("This railing is broken and needs to be replaced.")));
+				if (e.getPlayer().getInventory().containsItem(14)) {
+					e.getPlayer().setNextAnimation(new Animation(4190));
+					if (Utils.random(4) == 0) {
+						e.getPlayer().getVars().saveVarBit(e.getObject().getDefinitions().varpBit, 1);
+						e.getPlayer().getInventory().deleteItem(14, 1);
+						if (checkRemainingRepairs(e.getPlayer()) == 0)
+							e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 2);
+					} else
+						failedRepair(e.getPlayer());
+				}
+			}
+	});
+
+	public static ObjectClickHandler handleLadderClimbUp = new ObjectClickHandler(new Object[] { 11 }, e -> {
+		e.getPlayer().useLadder(e.getPlayer().transform(0, 0, 1));
+		updateVars(e.getPlayer());
+	});
+
+	public static ObjectClickHandler handleEnterCaveEntrance = new ObjectClickHandler(new Object[] { 2 }, e -> {
+		e.getPlayer().useStairs(WorldTile.of(2620, 9796, 0));
+		if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 4)
+			e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 5);
+	});
+
+	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }, e -> e.getPlayer().useStairs(WorldTile.of(2627, 3391, 0)));
+
+	public static ObjectClickHandler handleDwarfRemains = new ObjectClickHandler(new Object[] { 0 }, e -> {
+		if (e.getOption().equals("Take"))
+			if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 3) && !e.getPlayer().getInventory().containsItem(0)) {
+				e.getPlayer().startConversation(new Dialogue(new SimpleStatement("I had better take these remains.")));
+				e.getPlayer().getVars().saveVar(0, 0);
+				e.getPlayer().getInventory().addItem(0, 1);
+			}
+	});
+
+	public static ObjectClickHandler handleSearchCrate = new ObjectClickHandler(new Object[] { 1 }, e -> {
+		if (e.getOption().equals("Search"))
+			if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 5))
+				e.getPlayer().startConversation(new LollkD(e.getPlayer()));
+	});
+
+	public static ObjectClickHandler handleCannonRepair = new ObjectClickHandler(new Object[] { 15597 }, e -> {
+		if (e.getOption().equals("Inspect")) {
+			if ((e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 7)) {
+				if (e.getPlayer().containsItem(TOOLKIT)) {
+					e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 8);
+					e.getPlayer().sendMessage("You repair the cannon using the toolkit Lawgof gave you.");
+					updateVars(e.getPlayer());
+				} else
+					e.getPlayer().sendMessage("You need a toolkit to repair the cannon.");
+			} else
+				e.getPlayer().sendMessage("It looks pretty broken.");
+		} else if (e.getOption().equals("Fire"))
+			e.getPlayer().sendMessage("I should leave that up to the mercenaries.");
+		else if (e.getOption().equals("Pick-up"))
+			e.getPlayer().sendMessage("That isn't your cannon!");
+	});
 
 	public static int checkRemainingRepairs(Player p) {
 		int count = 6;

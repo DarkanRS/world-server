@@ -27,11 +27,6 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -170,93 +165,74 @@ public class DemonSlayer extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, SILVERLIGHT, "Silverlight");
 	}
 
-	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Player p = e.getPlayer();
-			if(p.getVars().getVarBit(2568) == 0 && e.getItem().getId() == 1929) {
-				p.getInventory().replace(e.getItem(), new Item(1925, 1));
-				e.getPlayer().getVars().setVarBit(2568, 1);
-				p.sendMessage("You pour the liquid down the drain.");
-				p.startConversation(new Conversation(p) {
-					{
-						addPlayer(HeadE.WORRIED, "OK, I think I've washed the key down into the sewer. I'd better go down and get it!");
-						create();
-					}
-				});
-			}
-
-		}
-	};
-
-	public static ObjectClickHandler handleDrainSearch = new ObjectClickHandler(new Object[] { 31759 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			p.sendMessage("You peer into the drain.");
-            if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
-                p.getVars().setVarBit(2568, 0);
+	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, e -> {
+		Player p = e.getPlayer();
+		if(p.getVars().getVarBit(2568) == 0 && e.getItem().getId() == 1929) {
+			p.getInventory().replace(e.getItem(), new Item(1925, 1));
+			e.getPlayer().getVars().setVarBit(2568, 1);
+			p.sendMessage("You pour the liquid down the drain.");
 			p.startConversation(new Conversation(p) {
 				{
-					if(p.getVars().getVarBit(2568) == 0)
-						addPlayer(HeadE.WORRIED, "It looks like I will need to wash the key down with a bucket of water.");
-					if(p.getVars().getVarBit(2568) == 1)
-						addPlayer(HeadE.HAPPY_TALKING, "Okay, time to go in the sewers and get that key...");
-					if(p.getVars().getVarBit(2568) == 2)
-						addPlayer(HeadE.SKEPTICAL_THINKING, "Filthy in there...");
+					addPlayer(HeadE.WORRIED, "OK, I think I've washed the key down into the sewer. I'd better go down and get it!");
 					create();
 				}
 			});
 		}
-	};
+	});
 
-	public static ItemClickHandler handleDarklightQuestRequirement = new ItemClickHandler(new Object[]{6746}, new String[]{"Wield"}) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getPlayer().isEquipDisabled())
-				return;
-			if (!e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER)) {
-				e.getPlayer().sendMessage("You must complete the Demon Slayer quest to use this item...");
-				return;
+	public static ObjectClickHandler handleDrainSearch = new ObjectClickHandler(new Object[] { 31759 }, e -> {
+		Player p = e.getPlayer();
+		p.sendMessage("You peer into the drain.");
+        if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
+            p.getVars().setVarBit(2568, 0);
+		p.startConversation(new Conversation(p) {
+			{
+				if(p.getVars().getVarBit(2568) == 0)
+					addPlayer(HeadE.WORRIED, "It looks like I will need to wash the key down with a bucket of water.");
+				if(p.getVars().getVarBit(2568) == 1)
+					addPlayer(HeadE.HAPPY_TALKING, "Okay, time to go in the sewers and get that key...");
+				if(p.getVars().getVarBit(2568) == 2)
+					addPlayer(HeadE.SKEPTICAL_THINKING, "Filthy in there...");
+				create();
 			}
-			Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
-		}
-	};
+		});
+	});
 
-	public static ObjectClickHandler handleRustyKey = new ObjectClickHandler(new Object[] { 17431 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			p.getInventory().addItem(PRYSIN_KEY);
-			p.startConversation(new Conversation(p) {
-				{
-					addItem(PRYSIN_KEY, "You pick up an old rusty key.");
-					create();
-				}
-			});
+	public static ItemClickHandler handleDarklightQuestRequirement = new ItemClickHandler(new Object[]{6746}, new String[]{"Wield"}, e -> {
+		if (e.getPlayer().isEquipDisabled())
+			return;
+		if (!e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER)) {
+			e.getPlayer().sendMessage("You must complete the Demon Slayer quest to use this item...");
+			return;
+		}
+		Equipment.sendWear(e.getPlayer(), e.getSlotId(), e.getItem().getId());
+	});
+
+	public static ObjectClickHandler handleRustyKey = new ObjectClickHandler(new Object[] { 17431 }, e -> {
+		Player p = e.getPlayer();
+		p.getInventory().addItem(PRYSIN_KEY);
+		p.startConversation(new Conversation(p) {
+			{
+				addItem(PRYSIN_KEY, "You pick up an old rusty key.");
+				create();
+			}
+		});
+		e.getPlayer().getVars().setVarBit(2568, 2);
+	});
+
+	public static EnterChunkHandler handleFinalCutsceneChunk = new EnterChunkHandler(e -> {
+		if (e.getEntity() instanceof Player p && p.hasStarted() && Areas.withinArea("dark_wizard_altar", e.getChunkId())) {
+			if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
+				return;
+			p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
+			p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+		}
+	});
+
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		if(e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER))
 			e.getPlayer().getVars().setVarBit(2568, 2);
-		}
-	};
-
-	public static EnterChunkHandler handleFinalCutsceneChunk = new EnterChunkHandler() {
-		@Override
-		public void handle(EnterChunkEvent e) {
-			if (e.getEntity() instanceof Player p && p.hasStarted() && Areas.withinArea("dark_wizard_altar", e.getChunkId())) {
-				if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
-					return;
-				p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
-				p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
-			}
-		}
-	};
-
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if(e.getPlayer().isQuestComplete(Quest.DEMON_SLAYER))
-				e.getPlayer().getVars().setVarBit(2568, 2);
-			else
-				e.getPlayer().getVars().setVarBit(2568, 0);
-		}
-	};
+		else
+			e.getPlayer().getVars().setVarBit(2568, 0);
+	});
 }

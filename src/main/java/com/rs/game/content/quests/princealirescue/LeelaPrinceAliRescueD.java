@@ -30,7 +30,6 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -123,11 +122,6 @@ public class LeelaPrinceAliRescueD extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleLeela = new NPCClickHandler(new Object[] { LEELA }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new LeelaPrinceAliRescueD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleLeela = new NPCClickHandler(new Object[] { LEELA }, e -> e.getPlayer().startConversation(new LeelaPrinceAliRescueD(e.getPlayer()).getStart()));
 }
 

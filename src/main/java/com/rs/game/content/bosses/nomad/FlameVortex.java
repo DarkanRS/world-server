@@ -97,10 +97,5 @@ public class FlameVortex extends NPC {
 		return null;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(9441) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new FlameVortex(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(9441, (npcId, tile) -> new FlameVortex(npcId, tile, false));
 }

@@ -1,0 +1,152 @@
+{
+  "name": "Gunslik's Assorted Items",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 590,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 229,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15362,
+        "amount": 20
+      }
+    },
+    {
+      "item": {
+        "id": 233,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1931,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1265,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1349,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1129,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1059,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1061,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2142,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2309,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 952,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 36,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 596,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1755,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2347,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 970,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 973,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 227,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 15363,
+        "amount": 20
+      }
+    },
+    {
+      "item": {
+        "id": 975,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 954,
+        "amount": 10
+      }
+    }
+  ]
+}

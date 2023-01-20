@@ -22,7 +22,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -30,12 +29,7 @@ public class Santa2019D extends Conversation {
 
 	private static final int SNOW_QUEEN = 8539, SANTA = 8540;
 
-	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(new Object[] { SNOW_QUEEN, SANTA }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new Santa2019D(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleSantaTalk = new NPCClickHandler(new Object[] { SNOW_QUEEN, SANTA }, e -> e.getPlayer().startConversation(new Santa2019D(e.getPlayer())));
 
 	public Santa2019D(Player player) {
 		super(player);

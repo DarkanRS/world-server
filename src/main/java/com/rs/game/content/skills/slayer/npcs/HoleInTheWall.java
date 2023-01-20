@@ -111,10 +111,5 @@ public class HoleInTheWall extends NPC {
 		});
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(2058) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new HoleInTheWall(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(2058, (npcId, tile) -> new HoleInTheWall(npcId, tile));
 }

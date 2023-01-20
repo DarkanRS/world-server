@@ -20,9 +20,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCDeathEvent;
-import com.rs.plugin.events.ObjectClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -101,148 +98,126 @@ public class TreeGnomeVillage extends QuestOutline {
 		return lines;
 	}
 
-	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Doors.handleDoor(e.getPlayer(), e.getObject());
-		}
-	};
+	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }, e -> {
+		Doors.handleDoor(e.getPlayer(), e.getObject());
+	});
 
-	public static ObjectClickHandler handleWallBallistaHit = new ObjectClickHandler(new Object[] { 12762 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1) {
-				Player p = e.getPlayer();
-				WorldTasks.schedule(new WorldTask() {
-					int tick = 0;
-					boolean isPlayerNorth = true;
-					@Override
-					public void run() {
-						if (tick == 0) {
-							if (p.getY() == 3254) {
-								p.lock(2);
-								p.faceSouth();
-								p.setNextAnimation(new Animation(839));
-								isPlayerNorth = true;
-							} else if (p.getY() == 3252) {
-								p.lock(2);
-								p.faceNorth();
-								p.setNextAnimation(new Animation(839));
-								isPlayerNorth = false;
-							} else
-								stop();
-						} else if (tick >= 1) {
-							if (isPlayerNorth)
-								p.setNextWorldTile(WorldTile.of(2509, 3252, 0));
-							if (!isPlayerNorth) {
-								p.setNextWorldTile(WorldTile.of(2509, 3254, 0));
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
-										npc.forceTalk("Hey, what are you doing in here?");
-										npc.setTarget(p);
-									}
-							}
+	public static ObjectClickHandler handleWallBallistaHit = new ObjectClickHandler(new Object[] { 12762 }, e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1) {
+			Player p = e.getPlayer();
+			WorldTasks.schedule(new WorldTask() {
+				int tick = 0;
+				boolean isPlayerNorth = true;
+				@Override
+				public void run() {
+					if (tick == 0) {
+						if (p.getY() == 3254) {
+							p.lock(2);
+							p.faceSouth();
+							p.setNextAnimation(new Animation(839));
+							isPlayerNorth = true;
+						} else if (p.getY() == 3252) {
+							p.lock(2);
+							p.faceNorth();
+							p.setNextAnimation(new Animation(839));
+							isPlayerNorth = false;
+						} else
 							stop();
+					} else if (tick >= 1) {
+						if (isPlayerNorth)
+							p.setNextWorldTile(WorldTile.of(2509, 3252, 0));
+						if (!isPlayerNorth) {
+							p.setNextWorldTile(WorldTile.of(2509, 3254, 0));
+							for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
+									npc.forceTalk("Hey, what are you doing in here?");
+									npc.setTarget(p);
+								}
 						}
-						tick++;
+						stop();
 					}
+					tick++;
+				}
 
-				}, 0, 1);
-				return;
-			}
-			e.getPlayer().sendMessage("The wall is too tough to cross");
+			}, 0, 1);
+			return;
 		}
-	};
+		e.getPlayer().sendMessage("The wall is too tough to cross");
+	});
 
-	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(WorldTile.of(2503, 3254, 1), WorldTile.of(2504, 3254, 1),
-			WorldTile.of(2502, 3254, 1)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
-				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-					if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
-						npc.forceTalk("Hey, get out of here!");
-						npc.setTarget(e.getPlayer());
-					}
-		}
-	};
+	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2503, 3254, 1), WorldTile.of(2504, 3254, 1), WorldTile.of(2502, 3254, 1) }, e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
+			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
+					npc.forceTalk("Hey, get out of here!");
+					npc.setTarget(e.getPlayer());
+				}
+	});
 
-	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(WorldTile.of(2505, 3256, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
-				for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-					if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
-						npc.forceTalk("Get out! What are you doing here?!");
-						npc.setTarget(e.getPlayer());
-					}
-		}
-	};
+	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(WorldTile.of(2505, 3256, 0), e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
+			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
+					npc.forceTalk("Get out! What are you doing here?!");
+					npc.setTarget(e.getPlayer());
+				}
+	});
 
-	public static NPCDeathHandler handleWarlordDrop = new NPCDeathHandler(new Object[] { 477 }) {
-		@Override
-		public void handle(NPCDeathEvent e) {
-			if(e.getKiller() instanceof Player p && p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == KILL_WARLORD && !p.getInventory().containsItem(588))
-				World.addGroundItem(new Item(588, 1), WorldTile.of(e.getNPC().getTile()), p);
-		}
-	};
+	public static NPCDeathHandler handleWarlordDrop = new NPCDeathHandler(new Object[] { 477 }, e -> {
+		if(e.getKiller() instanceof Player p && p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == KILL_WARLORD && !p.getInventory().containsItem(588))
+			World.addGroundItem(new Item(588, 1), WorldTile.of(e.getNPC().getTile()), p);
+	});
 
-	public static ObjectClickHandler handleOrb1Chest = new ObjectClickHandler(new Object[] { 2183 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1 && !e.getPlayer().getInventory().containsItem(587)) {
-				WorldTasks.scheduleTimer(tick -> {
-					if(tick == 0) {
-						e.getPlayer().lock(2);
-						e.getPlayer().faceObject(e.getObject());
-						e.getPlayer().setNextAnimation(new Animation(536));
-					}
-					if(tick == 1) {
-						e.getObject().setIdTemporary(2182, 2);
-						e.getPlayer().getInventory().addItem(new Item(587, 1));
-						return false;
-					}
-					return true;
-				});
-			}
+	public static ObjectClickHandler handleOrb1Chest = new ObjectClickHandler(new Object[] { 2183 }, e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1 && !e.getPlayer().getInventory().containsItem(587)) {
+			WorldTasks.scheduleTimer(tick -> {
+				if(tick == 0) {
+					e.getPlayer().lock(2);
+					e.getPlayer().faceObject(e.getObject());
+					e.getPlayer().setNextAnimation(new Animation(536));
+				}
+				if(tick == 1) {
+					e.getObject().setIdTemporary(2182, 2);
+					e.getPlayer().getInventory().addItem(new Item(587, 1));
+					return false;
+				}
+				return true;
+			});
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleBallista = new ObjectClickHandler(new Object[] { 69527 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == FIRE_BALLISTA && has3TrackerCoordinates(e.getPlayer())) {
-				Dialogue rightCoordinate = new Dialogue().addSimple("The huge spear flies through the air and screams down directly into the Khazard stronghold. " +
-						"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()->{
-					e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1);
-				});
-				Dialogue wrongCoordinate = new Dialogue().addSimple("The huge spear completely misses the Khazard stronghold!");
-				int coordinate = e.getPlayer().getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
-				e.getPlayer().startConversation(new Dialogue()
-						.addPlayer(HeadE.CALM_TALK, "That tracker gnome was a bit vague about the x coordinate! What could it be?")
-						.addOptions("What is the X coordinate?", new Options() {
-							@Override
-							public void create() {
-								option("0001", new Dialogue()
-										.addNext(coordinate == 1 ? rightCoordinate : wrongCoordinate)
-								);
-								option("0002", new Dialogue()
-										.addNext(coordinate == 2 ? rightCoordinate : wrongCoordinate)
-								);
-								option("0003", new Dialogue()
-										.addNext(coordinate == 3 ? rightCoordinate : wrongCoordinate)
-								);
-								option("0004", new Dialogue()
-										.addNext(coordinate == 4 ? rightCoordinate : wrongCoordinate)
-								);
-							}
-						})
-				);
-				return;
-			}
-			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "I don't know what to do with this ballista..."));
+	public static ObjectClickHandler handleBallista = new ObjectClickHandler(new Object[] { 69527 }, e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == FIRE_BALLISTA && has3TrackerCoordinates(e.getPlayer())) {
+			Dialogue rightCoordinate = new Dialogue().addSimple("The huge spear flies through the air and screams down directly into the Khazard stronghold. " +
+					"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()->{
+				e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1);
+			});
+			Dialogue wrongCoordinate = new Dialogue().addSimple("The huge spear completely misses the Khazard stronghold!");
+			int coordinate = e.getPlayer().getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
+			e.getPlayer().startConversation(new Dialogue()
+					.addPlayer(HeadE.CALM_TALK, "That tracker gnome was a bit vague about the x coordinate! What could it be?")
+					.addOptions("What is the X coordinate?", new Options() {
+						@Override
+						public void create() {
+							option("0001", new Dialogue()
+									.addNext(coordinate == 1 ? rightCoordinate : wrongCoordinate)
+							);
+							option("0002", new Dialogue()
+									.addNext(coordinate == 2 ? rightCoordinate : wrongCoordinate)
+							);
+							option("0003", new Dialogue()
+									.addNext(coordinate == 3 ? rightCoordinate : wrongCoordinate)
+							);
+							option("0004", new Dialogue()
+									.addNext(coordinate == 4 ? rightCoordinate : wrongCoordinate)
+							);
+						}
+					})
+			);
+			return;
 		}
-	};
+		e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "I don't know what to do with this ballista..."));
+	});
 
 	private static boolean has3TrackerCoordinates(Player p) {
 		GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE);

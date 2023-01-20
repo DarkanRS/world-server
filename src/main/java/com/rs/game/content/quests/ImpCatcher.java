@@ -28,7 +28,6 @@ import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -146,15 +145,12 @@ public class ImpCatcher extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler mizgogHandler = new NPCClickHandler(new Object[] { WIZARD_MIZGOG }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("talk-to"))
-				e.getPlayer().startConversation(new MizgogD(e.getPlayer()));
-			else if (e.getOption().equalsIgnoreCase("trade") && e.getPlayer().isQuestComplete(Quest.IMP_CATCHER))
-				ShopsHandler.openShop(e.getPlayer(), "wizard_mizgog");
-			else
-				e.getPlayer().startConversation(new MizgogD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler mizgogHandler = new NPCClickHandler(new Object[] { WIZARD_MIZGOG }, e -> {
+		if (e.getOption().equalsIgnoreCase("talk-to"))
+			e.getPlayer().startConversation(new MizgogD(e.getPlayer()));
+		else if (e.getOption().equalsIgnoreCase("trade") && e.getPlayer().isQuestComplete(Quest.IMP_CATCHER))
+			ShopsHandler.openShop(e.getPlayer(), "wizard_mizgog");
+		else
+			e.getPlayer().startConversation(new MizgogD(e.getPlayer()));
+	});
 }

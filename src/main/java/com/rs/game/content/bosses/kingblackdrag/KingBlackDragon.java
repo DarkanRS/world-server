@@ -37,10 +37,5 @@ public class KingBlackDragon extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(50, 2642) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new KingBlackDragon(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 50, 2642 }, (npcId, tile) -> new KingBlackDragon(npcId, tile, false));
 }

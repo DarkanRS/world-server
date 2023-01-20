@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import java.lang.SuppressWarnings;
-
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;

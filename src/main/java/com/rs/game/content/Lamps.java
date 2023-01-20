@@ -24,7 +24,6 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -146,21 +145,18 @@ public class Lamps {
 		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("lampInstance"));
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1263) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getTempAttribs().getO("lampInstance") == null) {
-				e.getPlayer().closeInterfaces();
-				return;
-			}
-			Lamp lamp = e.getPlayer().getTempAttribs().getO("lampInstance");
-			if (e.getComponentId() >= 13 && e.getComponentId() <= 37) {
-				int skill = DIALOGUE_INTERFACE_CS2[e.getComponentId() - 13];
-				lamp.setSelectedSkill(skill);
-				sendSelectedSkill(e.getPlayer());
-			}
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1263, e -> {
+		if (e.getPlayer().getTempAttribs().getO("lampInstance") == null) {
+			e.getPlayer().closeInterfaces();
+			return;
 		}
-	};
+		Lamp lamp = e.getPlayer().getTempAttribs().getO("lampInstance");
+		if (e.getComponentId() >= 13 && e.getComponentId() <= 37) {
+			int skill = DIALOGUE_INTERFACE_CS2[e.getComponentId() - 13];
+			lamp.setSelectedSkill(skill);
+			sendSelectedSkill(e.getPlayer());
+		}
+	});
 
 	private static void openSkillDialog(Player player, final int slot, final int id) {
 		final int type = skillLampType(id);

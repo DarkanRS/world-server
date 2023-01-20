@@ -11,7 +11,6 @@ import com.rs.game.model.entity.actions.RestMusician;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -74,31 +73,28 @@ public class Musician {
 		}
 	}
 
-	public static NPCClickHandler handleMusicians = new NPCClickHandler(MUSICIANS) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			Player p = e.getPlayer();
-			switch (e.getOption().toLowerCase()) {
-			case "talk-to":
-				e.getNPC().resetDirection();
-				p.startConversation(new MusicianD(p, e.getNPCId()));
-				break;
-			case "listen-to":
-				if (p.getEmotesManager().isAnimating()) {
-					p.sendMessage("You can't rest while perfoming an emote.");
-					return;
-				}
-				if (p.isLocked()) {
-					p.sendMessage("You can't rest while perfoming an action.");
-					return;
-				}
-				p.stopAll();
-				e.getNPC().resetDirection();
-				p.getActionManager().setAction(new RestMusician(e.getNPCId()));
-				break;
+	public static NPCClickHandler handleMusicians = new NPCClickHandler(MUSICIANS, e -> {
+		Player p = e.getPlayer();
+		switch (e.getOption().toLowerCase()) {
+		case "talk-to":
+			e.getNPC().resetDirection();
+			p.startConversation(new MusicianD(p, e.getNPCId()));
+			break;
+		case "listen-to":
+			if (p.getEmotesManager().isAnimating()) {
+				p.sendMessage("You can't rest while perfoming an emote.");
+				return;
 			}
+			if (p.isLocked()) {
+				p.sendMessage("You can't rest while perfoming an action.");
+				return;
+			}
+			p.stopAll();
+			e.getNPC().resetDirection();
+			p.getActionManager().setAction(new RestMusician(e.getNPCId()));
+			break;
 		}
-	};
+	});
 
 	public static boolean isNearby(Player p) {
 		List<NPC> nearbyNPCs = World.getNPCsInRegion(p.getRegionId());

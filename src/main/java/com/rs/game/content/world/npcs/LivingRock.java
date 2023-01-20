@@ -90,10 +90,5 @@ public class LivingRock extends NPC {
 			setRespawnTask();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8832, 8833, 8834) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new LivingRock(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 8832, 8833, 8834 }, (npcId, tile) -> new LivingRock(npcId, tile, false));
 }

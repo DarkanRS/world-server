@@ -55,10 +55,6 @@ public class BandosFactionNPC extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6268, 6269, 6270, 6271, 6272, 6273, 6274, 6275, 6276, 6277, 6278, 6279, 6280, 6281, 6282, 6283) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new BandosFactionNPC(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6268, 6269, 6270, 6271, 6272, 6273, 6274, 6275, 6276, 6277, 6278, 6279, 6280, 6281, 6282, 6283 }, 
+			(npcId, tile) -> new BandosFactionNPC(npcId, tile, false));
 }

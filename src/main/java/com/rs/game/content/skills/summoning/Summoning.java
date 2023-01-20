@@ -30,11 +30,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.IFOnNPCEvent;
-import com.rs.plugin.events.IFOnPlayerEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
@@ -61,62 +56,50 @@ public class Summoning {
 		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
 	}
 	
-	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().repeatAction(2, count -> {
-				if (!e.getPlayer().getInventory().containsItem(946, 1)) {
-					e.getPlayer().sendMessage("You need a knife to cut the turnip.");
-					return false;
-				}
-				if (!e.getPlayer().getInventory().containsItem(12134))
-					return false;
-				e.getPlayer().getInventory().deleteItem(12134, 1);
-				e.getPlayer().getInventory().addItem(12153, 1);
-				e.getPlayer().anim(6702);
-				return true;
-			});
-		}
-	};
-
-	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			Pouch pouches = Pouch.forId(e.getItem().getId());
-			if (pouches != null) {
-				if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
-					spawnFamiliar(e.getPlayer(), pouches);
-				else
-					e.getPlayer().sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
+	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134, e -> {
+		e.getPlayer().repeatAction(2, count -> {
+			if (!e.getPlayer().getInventory().containsItem(946, 1)) {
+				e.getPlayer().sendMessage("You need a knife to cut the turnip.");
+				return false;
 			}
+			if (!e.getPlayer().getInventory().containsItem(12134))
+				return false;
+			e.getPlayer().getInventory().deleteItem(12134, 1);
+			e.getPlayer().getInventory().addItem(12153, 1);
+			e.getPlayer().anim(6702);
+			return true;
+		});
+	});
+
+	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }, e -> {
+		Pouch pouches = Pouch.forId(e.getItem().getId());
+		if (pouches != null) {
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
+				spawnFamiliar(e.getPlayer(), pouches);
+			else
+				e.getPlayer().sendMessage("You need a summoning level of " + pouches.getLevel() + " to summon this familiar.");
 		}
-	};
+	});
 	
-	public static InterfaceOnPlayerHandler scrollOnPlayer = new InterfaceOnPlayerHandler(false, new int[] { 662, 747 }) {
-		@Override
-		public void handle(IFOnPlayerEvent e) {
-			if (e.getPlayer().getFamiliar() == null)
-				return;
-			e.getPlayer().stopAll(false, true, false);
-			if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
-				e.getPlayer().getFamiliar().commandAttack(e.getTarget());
-			if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
-				e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
-		}
-	};
+	public static InterfaceOnPlayerHandler scrollOnPlayer = new InterfaceOnPlayerHandler(false, new int[] { 662, 747 }, e -> {
+		if (e.getPlayer().getFamiliar() == null)
+			return;
+		e.getPlayer().stopAll(false, true, false);
+		if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
+			e.getPlayer().getFamiliar().commandAttack(e.getTarget());
+		if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
+			e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
+	});
 	
-	public static InterfaceOnNPCHandler scrollOnNPC = new InterfaceOnNPCHandler(false, new int[] { 662, 747 }) {
-		@Override
-		public void handle(IFOnNPCEvent e) {
-			if (e.getPlayer().getFamiliar() == null)
-				return;
-			e.getPlayer().stopAll(false, true, false);
-			if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
-				e.getPlayer().getFamiliar().commandAttack(e.getTarget());
-			if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
-				e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
-		}
-	};
+	public static InterfaceOnNPCHandler scrollOnNPC = new InterfaceOnNPCHandler(false, new int[] { 662, 747 }, e -> {
+		if (e.getPlayer().getFamiliar() == null)
+			return;
+		e.getPlayer().stopAll(false, true, false);
+		if ((e.getInterfaceId() == 747 && e.getComponentId() == 15) || (e.getInterfaceId() == 662 && e.getComponentId() == 65) || e.getInterfaceId() == 747 && e.getComponentId() == 24)
+			e.getPlayer().getFamiliar().commandAttack(e.getTarget());
+		if ((e.getInterfaceId() == 662 && e.getComponentId() == 74) || (e.getInterfaceId() == 747 && e.getComponentId() == 18))
+			e.getPlayer().getFamiliar().executeSpecial(e.getTarget());
+	});
 	
 	private static void spawnFamiliar(Player player, Pouch pouch) {
 		if (player.getFamiliar() != null || player.getPet() != null) {
@@ -157,64 +140,62 @@ public class Summoning {
 		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
 	}
 
-	public static ButtonClickHandler handleDungeoneeringPouchButtons = new ButtonClickHandler(672) {
-		static int getDungPouchID(int slot) {//From blank
-			slot = (slot+3)/5 + 5;
-			switch (slot % 6) {
-				case 0 -> {
-					return slot / 6 + 17934;
-				}
-				case 1 -> {
-					return slot / 6 + 17984;
-				}
-				case 2 -> {
-					return slot / 6 + 17944;
-				}
-				case 3 -> {
-					return slot / 6 + 17954;
-				}
-				case 4 -> {
-					return slot / 6 + 17974;
-				}
-				case 5 -> {
-					return slot / 6 + 17964;
-				}
+	static int getDungPouchID(int slot) {//From blank
+		slot = (slot+3)/5 + 5;
+		switch (slot % 6) {
+			case 0 -> {
+				return slot / 6 + 17934;
 			}
-			return -1;
+			case 1 -> {
+				return slot / 6 + 17984;
+			}
+			case 2 -> {
+				return slot / 6 + 17944;
+			}
+			case 3 -> {
+				return slot / 6 + 17954;
+			}
+			case 4 -> {
+				return slot / 6 + 17974;
+			}
+			case 5 -> {
+				return slot / 6 + 17964;
+			}
 		}
+		return -1;
+	}
 
-		static int getPouchIndex(int slot) {//From blank
-			slot = (slot+3)/5 + 5 - 6;
-			//System.out.println(slot + ":.");
-			return slot;
-		}
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 16) {
-				Pouch pouch = Pouch.forId(e.getSlotId2());
-				if (pouch == null) {
-					if(e.getPlayer().getControllerManager().isIn(DungeonController.class))
-						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getDungPouchID(e.getSlotId()))) + " to create this pouch.");
-					if(!e.getPlayer().getControllerManager().isIn(DungeonController.class))
-						e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.values()[getPouchIndex(e.getSlotId())]) + " to create this pouch.");
-					return;
-				}
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					handlePouchInfusion(e.getPlayer(), pouch, 1);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					handlePouchInfusion(e.getPlayer(), pouch, 5);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					handlePouchInfusion(e.getPlayer(), pouch, 10);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					handlePouchInfusion(e.getPlayer(), pouch, Integer.MAX_VALUE);
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					handlePouchInfusion(e.getPlayer(), pouch, 28);
-				else if (e.getPacket() == ClientPacket.IF_OP7)
-					e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
-			} else if (e.getComponentId() == 19 && e.getPacket() == ClientPacket.IF_OP1)
-				openScrollInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
-		}
-	};
+	static int getPouchIndex(int slot) {//From blank
+		slot = (slot+3)/5 + 5 - 6;
+		//System.out.println(slot + ":.");
+		return slot;
+	}
+	
+	public static ButtonClickHandler handleDungeoneeringPouchButtons = new ButtonClickHandler(672, e -> {
+		if (e.getComponentId() == 16) {
+			Pouch pouch = Pouch.forId(e.getSlotId2());
+			if (pouch == null) {
+				if(e.getPlayer().getControllerManager().isIn(DungeonController.class))
+					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getDungPouchID(e.getSlotId()))) + " to create this pouch.");
+				if(!e.getPlayer().getControllerManager().isIn(DungeonController.class))
+					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.values()[getPouchIndex(e.getSlotId())]) + " to create this pouch.");
+				return;
+			}
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				handlePouchInfusion(e.getPlayer(), pouch, 1);
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				handlePouchInfusion(e.getPlayer(), pouch, 5);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				handlePouchInfusion(e.getPlayer(), pouch, 10);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				handlePouchInfusion(e.getPlayer(), pouch, Integer.MAX_VALUE);
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				handlePouchInfusion(e.getPlayer(), pouch, 28);
+			else if (e.getPacket() == ClientPacket.IF_OP7)
+				e.getPlayer().sendMessage("You need " + getMaterialListString(pouch) + " to create this pouch.");
+		} else if (e.getComponentId() == 19 && e.getPacket() == ClientPacket.IF_OP1)
+			openScrollInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
+	});
 	
 	public static void openScrollInfusionInterface(Player player, boolean dung) {
 		player.getInterfaceManager().sendInterface(SCROLLS_INTERFACE);
@@ -222,22 +203,19 @@ public class Summoning {
 		player.getPackets().setIFEvents(new IFEvents(SCROLLS_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,5));
 	}
 
-	public static ButtonClickHandler handleScrollButtons = new ButtonClickHandler(666) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 16) {
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					createScroll(e.getPlayer(), e.getSlotId2(), 1);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					createScroll(e.getPlayer(), e.getSlotId2(), 5);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					createScroll(e.getPlayer(), e.getSlotId2(), 10);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					createScroll(e.getPlayer(), e.getSlotId2(), Integer.MAX_VALUE);
-			} else if (e.getComponentId() == 18 && e.getPacket() == ClientPacket.IF_OP1)
-				openInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
-		}
-	};
+	public static ButtonClickHandler handleScrollButtons = new ButtonClickHandler(666, e -> {
+		if (e.getComponentId() == 16) {
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				createScroll(e.getPlayer(), e.getSlotId2(), 1);
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				createScroll(e.getPlayer(), e.getSlotId2(), 5);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				createScroll(e.getPlayer(), e.getSlotId2(), 10);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				createScroll(e.getPlayer(), e.getSlotId2(), Integer.MAX_VALUE);
+		} else if (e.getComponentId() == 18 && e.getPacket() == ClientPacket.IF_OP1)
+			openInfusionInterface(e.getPlayer(), e.getPlayer().getControllerManager().isIn(DungeonController.class));
+	});
 
 	public static void createScroll(Player player, int itemId, int amount) {
 		Scroll scroll = Scroll.forId(itemId);

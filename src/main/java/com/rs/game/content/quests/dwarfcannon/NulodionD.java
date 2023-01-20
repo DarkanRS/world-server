@@ -23,8 +23,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -36,35 +34,29 @@ public class NulodionD extends Conversation {
 	private static final int AMMO_MOULD = 4;
 	private static final int NULODIONS_NOTES = 3;
 
-	public static NPCClickHandler talkToNulodion = new NPCClickHandler(new Object[] { NULODION }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equals("Talk-to"))
-				e.getPlayer().startConversation(new NulodionD(e.getPlayer()));
-			else if (e.getOption().equals("Trade")) {
-				if (!e.getPlayer().isQuestComplete(Quest.DWARF_CANNON)) {
-					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "Who are you?")));
-					return;
-				}
-				ShopsHandler.openShop(e.getPlayer(), "nulodions_cannon_parts");
-			} else if (e.getOption().equals("Replace-cannon"))
-				if (DwarfMultiCannon.canFreelyReplace(e.getPlayer()))
-					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.HAPPY_TALKING, "Please try not to lose it next time..", () -> {
-						for (int item : DwarfMultiCannon.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1])
-							e.getPlayer().getInventory().addItemDrop(item, 1);
-						e.getPlayer().setPlacedCannon(0);
-					})));
-				else
-					e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "I haven't found any cannons of yours.")));
-		}
-	};
+	public static NPCClickHandler talkToNulodion = new NPCClickHandler(new Object[] { NULODION }, e -> {
+		if (e.getOption().equals("Talk-to"))
+			e.getPlayer().startConversation(new NulodionD(e.getPlayer()));
+		else if (e.getOption().equals("Trade")) {
+			if (!e.getPlayer().isQuestComplete(Quest.DWARF_CANNON)) {
+				e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "Who are you?")));
+				return;
+			}
+			ShopsHandler.openShop(e.getPlayer(), "nulodions_cannon_parts");
+		} else if (e.getOption().equals("Replace-cannon"))
+			if (DwarfMultiCannon.canFreelyReplace(e.getPlayer()))
+				e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.HAPPY_TALKING, "Please try not to lose it next time..", () -> {
+					for (int item : DwarfMultiCannon.CANNON_PIECES[e.getPlayer().getPlacedCannon()-1])
+						e.getPlayer().getInventory().addItemDrop(item, 1);
+					e.getPlayer().setPlacedCannon(0);
+				})));
+			else
+				e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "I haven't found any cannons of yours.")));
+	});
 
-	public static ItemClickHandler handleNotes = new ItemClickHandler(new Object[] { NULODIONS_NOTES }, new String[] { "Read" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			e.getPlayer().sendMessage("Ammo for the Dwarf Multi Cannon must be made from steel bars. The bars must be heated in a furnace and used with the ammo mould.");
-		}
-	};
+	public static ItemClickHandler handleNotes = new ItemClickHandler(new Object[] { NULODIONS_NOTES }, new String[] { "Read" }, e -> {
+		e.getPlayer().sendMessage("Ammo for the Dwarf Multi Cannon must be made from steel bars. The bars must be heated in a furnace and used with the ammo mould.");
+	});
 
 	public NulodionD(Player player) {
 		super(player);

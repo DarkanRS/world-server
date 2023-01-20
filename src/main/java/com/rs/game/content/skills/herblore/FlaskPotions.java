@@ -131,63 +131,60 @@ public class FlaskPotions {
 			for (int i = 0; i < 4; i++)
 				POTIONS[potionIndex++] = flask.getPotions()[i];
 	}
-
-	public static ItemOnItemHandler handlePotionOnFlask = new ItemOnItemHandler(EMPTY_FLASK, POTIONS) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (inventoryHasEnoughPotion(e)) {
-				decantIntoFlask(e, 6);
-				e.getPlayer().getPackets().sendGameMessage("You fill the flask");
-			}
+	
+	private static void decantIntoFlask(ItemOnItemEvent e, int dosesLeft) {
+		Player p = e.getPlayer();
+		int usedOnFlask = e.getUsedWith(EMPTY_FLASK).getId();
+		if (dosesLeft == 6) {
+			dosesLeft = dosesLeft -Flasks.getDose(usedOnFlask);
+			p.getInventory().deleteItem(e.getUsedWith(EMPTY_FLASK));
 		}
 
-		void decantIntoFlask(ItemOnItemEvent e, int dosesLeft) {
-			Player p = e.getPlayer();
-			int usedOnFlask = e.getUsedWith(EMPTY_FLASK).getId();
-			if (dosesLeft == 6) {
-				dosesLeft = dosesLeft -Flasks.getDose(usedOnFlask);
-				p.getInventory().deleteItem(e.getUsedWith(EMPTY_FLASK));
-			}
-
-			for (int potionId : Flasks.getFlaskEnum(usedOnFlask).getPotions())
-				if (p.getInventory().containsItem(potionId)) {
-					if (dosesLeft -Flasks.getDose(potionId) < 0) {
-						int dosesOver =Flasks.getDose(potionId) - dosesLeft;
-						int potionIdOver =Flasks.getFlaskEnum(potionId).getPotions()[dosesOver - 1];
-						p.getInventory().deleteItem(potionId, 1);
-						p.getInventory().addItemDrop(potionIdOver, 1);
-						p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
-						break;
-					}
-					if (dosesLeft -Flasks.getDose(potionId) == 0) { // base case
-						p.getInventory().deleteItem(potionId, 1);
-						p.getInventory().addItem(EMPTY_POTION, 1);
-						p.getInventory().addItem(EMPTY_POTION, 1);
-						p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
-						return;
-					}
-					if (dosesLeft -Flasks.getDose(potionId) > 0) {
-						dosesLeft = dosesLeft -Flasks.getDose(potionId);
-						p.getInventory().deleteItem(potionId, 1);
-						p.getInventory().addItem(EMPTY_POTION, 1);
-						decantIntoFlask(e, dosesLeft);
-						break;
-					}
+		for (int potionId : Flasks.getFlaskEnum(usedOnFlask).getPotions())
+			if (p.getInventory().containsItem(potionId)) {
+				if (dosesLeft -Flasks.getDose(potionId) < 0) {
+					int dosesOver =Flasks.getDose(potionId) - dosesLeft;
+					int potionIdOver =Flasks.getFlaskEnum(potionId).getPotions()[dosesOver - 1];
+					p.getInventory().deleteItem(potionId, 1);
+					p.getInventory().addItemDrop(potionIdOver, 1);
+					p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
+					break;
 				}
-		}
-
-		boolean inventoryHasEnoughPotion(ItemOnItemEvent e) {
-			int doses = 6;
-			int usedOnFlask = e.getUsedWith(EMPTY_FLASK).getId();
-			for (int potionId : Flasks.getFlaskEnum(usedOnFlask).getPotions())
-				if (e.getPlayer().getInventory().containsItem(potionId)) {
-					int potionCount =e.getPlayer().getInventory().getAmountOf(potionId);
-					int potionDose =Flasks.getDose(potionId);
-					doses = doses - potionCount*potionDose;
-					if (doses<=0)
-						return true;
+				if (dosesLeft -Flasks.getDose(potionId) == 0) { // base case
+					p.getInventory().deleteItem(potionId, 1);
+					p.getInventory().addItem(EMPTY_POTION, 1);
+					p.getInventory().addItem(EMPTY_POTION, 1);
+					p.getInventory().replace(e.getUsedWith(usedOnFlask), new Item(Flasks.getFlaskIdFromPotionId(potionId), 1));
+					return;
 				}
-			return false;
+				if (dosesLeft -Flasks.getDose(potionId) > 0) {
+					dosesLeft = dosesLeft -Flasks.getDose(potionId);
+					p.getInventory().deleteItem(potionId, 1);
+					p.getInventory().addItem(EMPTY_POTION, 1);
+					decantIntoFlask(e, dosesLeft);
+					break;
+				}
+			}
+	}
+
+	private static boolean inventoryHasEnoughPotion(ItemOnItemEvent e) {
+		int doses = 6;
+		int usedOnFlask = e.getUsedWith(EMPTY_FLASK).getId();
+		for (int potionId : Flasks.getFlaskEnum(usedOnFlask).getPotions())
+			if (e.getPlayer().getInventory().containsItem(potionId)) {
+				int potionCount =e.getPlayer().getInventory().getAmountOf(potionId);
+				int potionDose =Flasks.getDose(potionId);
+				doses = doses - potionCount*potionDose;
+				if (doses<=0)
+					return true;
+			}
+		return false;
+	}
+
+	public static ItemOnItemHandler handlePotionOnFlask = new ItemOnItemHandler(EMPTY_FLASK, POTIONS, e -> {
+		if (inventoryHasEnoughPotion(e)) {
+			decantIntoFlask(e, 6);
+			e.getPlayer().getPackets().sendGameMessage("You fill the flask");
 		}
-	};
+	});
 }

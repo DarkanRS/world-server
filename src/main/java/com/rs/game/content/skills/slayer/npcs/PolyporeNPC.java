@@ -73,10 +73,7 @@ public class PolyporeNPC extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(14688, 14689, 14690, 14691, 14692, 14693, 14696, 14697, 14698, 14699, 14700, 14701) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new PolyporeNPC(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 14688, 14689, 14690, 14691, 14692, 14693, 14696, 14697, 14698, 14699, 14700, 14701 }, (npcId, tile) -> {
+		return new PolyporeNPC(npcId, tile, false);
+	});
 }

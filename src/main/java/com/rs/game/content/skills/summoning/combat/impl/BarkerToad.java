@@ -26,30 +26,26 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 
 @PluginEventHandler
 public class BarkerToad extends FamiliarCombatScript {
 	
-	public static ItemOnNPCHandler load = new ItemOnNPCHandler(Pouch.BARKER_TOAD.getIdKeys()) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			if (e.getItem().getId() != 2) {
-				e.getPlayer().sendMessage("You can only load the toad with cannonballs.");
+	public static ItemOnNPCHandler load = new ItemOnNPCHandler(Pouch.BARKER_TOAD.getIdKeys(), e -> {
+		if (e.getItem().getId() != 2) {
+			e.getPlayer().sendMessage("You can only load the toad with cannonballs.");
+			return;
+		}
+		if (e.getNPC() instanceof Familiar f) {
+			if (f.getAttribs().getB("storedCannonball")) {
+				e.getPlayer().sendMessage("The toad already has a cannonball stored in it.");
 				return;
 			}
-			if (e.getNPC() instanceof Familiar f) {
-				if (f.getAttribs().getB("storedCannonball")) {
-					e.getPlayer().sendMessage("The toad already has a cannonball stored in it.");
-					return;
-				}
-				f.getAttribs().setB("storedCannonball", true);
-				e.getPlayer().getInventory().deleteItem(2, 1);
-				f.sync(7704, 1400);
-			}
+			f.getAttribs().setB("storedCannonball", true);
+			e.getPlayer().getInventory().deleteItem(2, 1);
+			f.sync(7704, 1400);
 		}
-	};
+	});
 
 	@Override
 	public Object[] getKeys() {

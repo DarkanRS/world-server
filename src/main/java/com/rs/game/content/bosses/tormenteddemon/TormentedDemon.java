@@ -203,10 +203,5 @@ public final class TormentedDemon extends NPC {
 		return combatStyle;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8349, 8350, 8351) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new TormentedDemon(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 8349, 8350, 8351 }, (npcId, tile) -> new TormentedDemon(npcId, tile, false));
 }

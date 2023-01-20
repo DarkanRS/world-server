@@ -19,7 +19,6 @@ package com.rs.game.content.quests.shieldofarrav;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -109,29 +108,22 @@ public class BookShieldOfArrav {
 		p.getPackets().setIFHidden(BOOKINTERFACE, 92, !isShown);
 	}
 
-	public static ButtonClickHandler handleBookButtons = new ButtonClickHandler(937) {
-		int page = 1;
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if(e.getComponentId() == 41)
-				page = 1;
-			if(e.getComponentId() == 67)
-				page++;
-			if(e.getComponentId() == 66)
-				page--;
-			if(page>2)
-				page = 2;
+	public static ButtonClickHandler handleBookButtons = new ButtonClickHandler(937, e -> {
+		if(e.getComponentId() == 41)
+			e.getPlayer().getTempAttribs().setI("soaBookPage", 1);
+		if(e.getComponentId() == 67)
+			e.getPlayer().getTempAttribs().incI("soaBookPage");
+		if(e.getComponentId() == 66)
+			e.getPlayer().getTempAttribs().decI("soaBookPage");
+		if(e.getPlayer().getTempAttribs().getI("soaBookPage") > 2)
+			e.getPlayer().getTempAttribs().setI("soaBookPage", 2);
 
-			if(page == 1)
-				set1stPage(e.getPlayer());
-			if(page == 2) {
-				set2ndPage(e.getPlayer());
-				if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
-					ShieldOfArrav.setStage(e.getPlayer(), ShieldOfArrav.BOOK_IS_READ_STAGE);
-			}
-
-
-
+		if(e.getPlayer().getTempAttribs().getI("soaBookPage") == 1)
+			set1stPage(e.getPlayer());
+		if(e.getPlayer().getTempAttribs().getI("soaBookPage") == 2) {
+			set2ndPage(e.getPlayer());
+			if(e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) == ShieldOfArrav.FIND_BOOK_STAGE)
+				ShieldOfArrav.setStage(e.getPlayer(), ShieldOfArrav.BOOK_IS_READ_STAGE);
 		}
-	};
+	});
 }

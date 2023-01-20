@@ -55,10 +55,5 @@ public class SaradominFactionNPC extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6254, 6255, 6256, 6257, 6258, 6259) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new SaradominFactionNPC(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6254, 6255, 6256, 6257, 6258, 6259 }, (npcId, tile) -> new SaradominFactionNPC(npcId, tile, false));
 }

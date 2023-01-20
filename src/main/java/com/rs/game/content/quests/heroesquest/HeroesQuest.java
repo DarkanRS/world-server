@@ -16,9 +16,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemAddedToInventoryEvent;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
@@ -138,50 +135,36 @@ public class HeroesQuest extends QuestOutline {
 		return true;
 	}
 
-	public static ItemAddedToInventoryHandler handleFireFeather = new ItemAddedToInventoryHandler(1583) {
-		@Override
-		public void handle(ItemAddedToInventoryEvent e) {
-			Player p = e.getPlayer();
-			if (p.getEquipment().getGlovesId() == 1580)//ice gloves
-				return;
-			else {
-				e.cancel();
-				World.addGroundItem(new Item(1583, 1), WorldTile.of(p.getTile()));
-				p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
-			}
+	public static ItemAddedToInventoryHandler handleFireFeather = new ItemAddedToInventoryHandler(1583, e -> {
+		Player p = e.getPlayer();
+		if (p.getEquipment().getGlovesId() == 1580)//ice gloves
+			return;
+		else {
+			e.cancel();
+			World.addGroundItem(new Item(1583, 1), WorldTile.of(p.getTile()));
+			p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
 		}
-	};
+	});
 
-	public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{307}) {//blamish oil, fly fishing rod
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			int rod_slot = e.getItem1().getId() == 307 ? e.getItem1().getSlot() : e.getItem2().getSlot();
-			int oil_slot = e.getItem1().getId() == 1582 ? e.getItem1().getSlot() : e.getItem2().getSlot();
-			e.getPlayer().getInventory().deleteItem(oil_slot, new Item(1582, 1));
-			e.getPlayer().getInventory().replaceItem(1585, 1, rod_slot);
-		}
-	};
+	public static ItemOnItemHandler handleMakeOilyRod = new ItemOnItemHandler(new int[]{1582}, new int[]{307}, e -> {
+		int rod_slot = e.getItem1().getId() == 307 ? e.getItem1().getSlot() : e.getItem2().getSlot();
+		int oil_slot = e.getItem1().getId() == 1582 ? e.getItem1().getSlot() : e.getItem2().getSlot();
+		e.getPlayer().getInventory().deleteItem(oil_slot, new Item(1582, 1));
+		e.getPlayer().getInventory().replaceItem(1585, 1, rod_slot);
+	});
 
-	public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}) {//blamish slime, fly fishing rod
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily..."));
-		}
-	};
+	public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}, e -> e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily...")));
 
-	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(1582) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			Player p = e.getPlayer();
-			if (e.getOption().equalsIgnoreCase("drop")) {
-				p.getInventory().removeItems(e.getItem());
-				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().soundEffect(2739);
-				return;
-			}
-			p.sendMessage("You know... I'd really rather not.");
+	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, e -> {
+		Player p = e.getPlayer();
+		if (e.getOption().equalsIgnoreCase("drop")) {
+			p.getInventory().removeItems(e.getItem());
+			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			e.getPlayer().soundEffect(2739);
+			return;
 		}
-	};
+		p.sendMessage("You know... I'd really rather not.");
+	});
 
 	@Override
 	public void complete(Player player) {

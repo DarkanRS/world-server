@@ -18,11 +18,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -204,252 +199,224 @@ public class DragonSlayer extends QuestOutline {
 
 
 
-	public static ItemClickHandler handleClickOnCrandorMap = new ItemClickHandler(CRANDOR_MAP) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("study"))
-				e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().soundEffect(2739);
-			}
+	public static ItemClickHandler handleClickOnCrandorMap = new ItemClickHandler(new Object[] { CRANDOR_MAP }, e -> {
+		if(e.getOption().equalsIgnoreCase("study"))
+			e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
+		if(e.getOption().equalsIgnoreCase("drop")) {
+			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			e.getPlayer().soundEffect(2739);
 		}
-	};
+	});
 
-	public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(MAP_PART1, MAP_PART2, MAP_PART3) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("study"))
-				e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
-			if(e.getOption().equalsIgnoreCase("drop")) {
-				e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-				World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
-				e.getPlayer().soundEffect(2739);
-			}
+	public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(new Object[] { MAP_PART1, MAP_PART2, MAP_PART3 }, e -> {
+		if(e.getOption().equalsIgnoreCase("study"))
+			e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
+		if(e.getOption().equalsIgnoreCase("drop")) {
+			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
+			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			e.getPlayer().soundEffect(2739);
 		}
-	};
+	});
 
-	public static ItemOnItemHandler createMapFromParts = new ItemOnItemHandler(new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, new int[]{MAP_PART1, MAP_PART2, MAP_PART3}) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			if (e.getPlayer().getInventory().containsItem(MAP_PART1, 1))
-				if (e.getPlayer().getInventory().containsItem(MAP_PART2, 1))
-					if (e.getPlayer().getInventory().containsItem(MAP_PART3, 1)) {
-						e.getPlayer().getInventory().removeItems(new Item(MAP_PART1, 1), new Item(MAP_PART2, 1), new Item(MAP_PART3, 1));
-						e.getPlayer().getInventory().addItem(new Item(CRANDOR_MAP, 1), true);
-					}
+	public static ItemOnItemHandler createMapFromParts = new ItemOnItemHandler(new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, e -> {
+		if (e.getPlayer().getInventory().containsItem(MAP_PART1, 1))
+			if (e.getPlayer().getInventory().containsItem(MAP_PART2, 1))
+				if (e.getPlayer().getInventory().containsItem(MAP_PART3, 1)) {
+					e.getPlayer().getInventory().removeItems(new Item(MAP_PART1, 1), new Item(MAP_PART2, 1), new Item(MAP_PART3, 1));
+					e.getPlayer().getInventory().addItem(new Item(CRANDOR_MAP, 1), true);
+				}
+	});
 
+	public static LoginHandler onLogin = new LoginHandler(e -> {
+		if(e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(NED_IS_CAPTAIN_ATTR))
+			e.getPlayer().getVars().setVar(NED_BOAT_VISIBILITY_VAR, 7);
+		else
+			;
+		if(e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) >= 3) {
+			e.getPlayer().getVars().setVarBit(BOAT_HULL_FIXED_VAR, 1);
+			e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(IS_BOAT_FIXED_ATTR, true);
 		}
-	};
+	});
 
-	public static LoginHandler onLogin = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if(e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(NED_IS_CAPTAIN_ATTR))
-				e.getPlayer().getVars().setVar(NED_BOAT_VISIBILITY_VAR, 7);
-			else
-				;
-			if(e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) >= 3) {
-				e.getPlayer().getVars().setVarBit(BOAT_HULL_FIXED_VAR, 1);
-				e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(IS_BOAT_FIXED_ATTR, true);
-			}
-
-
-		}
-	};
-
-	public static ObjectClickHandler handleBoatFix = new ObjectClickHandler(new Object[] { 25036 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR) || p.isQuestComplete(Quest.DRAGON_SLAYER)) {
-				if(p.getInventory().containsItem(new Item(HAMMER, 1)) || p.containsTool(HAMMER)) {
-					if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) <= 2)
-						if (p.getInventory().containsItem(STEEL_NAILS, 30) && p.getInventory().containsItem(PLANKS, 1)) {
-							p.setNextAnimation(new Animation(HAMMER_HITTING_REPAIR_ANIM));
-							p.getInventory().removeItems(new Item(STEEL_NAILS, 30), new Item(PLANKS, 1));
-							p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setI(BOAT_FIX_NUM_ATTR, p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) + 1);
-							if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) >= 3) {
-								p.getVars().setVarBit(BOAT_HULL_FIXED_VAR, 1);
-								p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(IS_BOAT_FIXED_ATTR, true);
-								p.startConversation(new Conversation(e.getPlayer()) {
-									{
-										addPlayer(HeadE.HAPPY_TALKING, "There, all done...");
-										create();
-									}
-								});
-							}
-						} else
+	public static ObjectClickHandler handleBoatFix = new ObjectClickHandler(new Object[] { 25036 }, e -> {
+		Player p = e.getPlayer();
+		if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR) || p.isQuestComplete(Quest.DRAGON_SLAYER)) {
+			if(p.getInventory().containsItem(new Item(HAMMER, 1)) || p.containsTool(HAMMER)) {
+				if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) <= 2)
+					if (p.getInventory().containsItem(STEEL_NAILS, 30) && p.getInventory().containsItem(PLANKS, 1)) {
+						p.setNextAnimation(new Animation(HAMMER_HITTING_REPAIR_ANIM));
+						p.getInventory().removeItems(new Item(STEEL_NAILS, 30), new Item(PLANKS, 1));
+						p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setI(BOAT_FIX_NUM_ATTR, p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) + 1);
+						if (p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) >= 3) {
+							p.getVars().setVarBit(BOAT_HULL_FIXED_VAR, 1);
+							p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(IS_BOAT_FIXED_ATTR, true);
 							p.startConversation(new Conversation(e.getPlayer()) {
 								{
-									addPlayer(HeadE.HAPPY_TALKING, "I am going to need a hammer, planks and some steel nails...");
-									addPlayer(HeadE.HAPPY_TALKING, (90-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) * 30) + " steel nails and " + (3-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR)) + " planks.");
+									addPlayer(HeadE.HAPPY_TALKING, "There, all done...");
 									create();
 								}
 							});
-				} else
-					p.startConversation(new Conversation(e.getPlayer()) {
-						{
-							addPlayer(HeadE.HAPPY_TALKING, "I am going to need a hammer, planks and some steel nails....");
-							addPlayer(HeadE.HAPPY_TALKING, (90-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) * 30) + " steel nails and " + (3-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR)) + " planks.");
-							create();
 						}
-					});
+					} else
+						p.startConversation(new Conversation(e.getPlayer()) {
+							{
+								addPlayer(HeadE.HAPPY_TALKING, "I am going to need a hammer, planks and some steel nails...");
+								addPlayer(HeadE.HAPPY_TALKING, (90-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) * 30) + " steel nails and " + (3-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR)) + " planks.");
+								create();
+							}
+						});
 			} else
 				p.startConversation(new Conversation(e.getPlayer()) {
 					{
-						addPlayer(HeadE.HAPPY_TALKING, "This isn't my boat, better not touch it...");
+						addPlayer(HeadE.HAPPY_TALKING, "I am going to need a hammer, planks and some steel nails....");
+						addPlayer(HeadE.HAPPY_TALKING, (90-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR) * 30) + " steel nails and " + (3-p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getI(BOAT_FIX_NUM_ATTR)) + " planks.");
 						create();
 					}
 				});
-		}
-	};
-
-	public static ObjectClickHandler handleMagicDoor = new ObjectClickHandler(new Object[] { 25115 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
-
-			if(p.getX() > obj.getX()) {
-				p.startConversation(new Conversation(e.getPlayer()) {
-					{
-						addPlayer(HeadE.SCARED, "It appears to be locked from the outside, I am trapped!");
-						create();
-					}
-				});
-				return;
-			}
-
-			if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
-				return;
-
-			if(attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
-				obj.animate(new Animation(6636));
-				WorldTasks.schedule(new WorldTask() {
-					int tick;
-					@Override
-					public void run() {
-						if(tick == 0)
-							p.lock();
-						if(tick == 1)
-							p.walkToAndExecute(WorldTile.of(3050, 9840, 0), ()-> {
-								p.faceEast();
-								tick++;
-							});
-						if(tick==2) {
-							p.sendMessage("The magic door opens...");
-							obj.animate(new Animation(6636));
-						}
-						if(tick==3)
-							p.addWalkSteps(WorldTile.of(3051, 9840, 0), 3, false);
-						if(tick==5)
-							obj.animate(new Animation(6637));
-						if(tick==7) {
-							p.unlock();
-							stop();
-						}
-
-						if(tick != 1)
-							tick++;
-					}
-				}, 0, 1);
-			} else
-				p.startConversation(new Conversation(e.getPlayer()) {
-					{
-						addPlayer(HeadE.SKEPTICAL_THINKING, "It appears to be magically locked...");
-						create();
-					}
-				});
-
-
-		}
-	};
-
-	public static ObjectClickHandler handleMagicChest = new ObjectClickHandler(new Object[] { MAP_CHEST2 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
-				return;
-			if(p.getInventory().containsItem(MAP_PART3, 1)) {
-				p.startConversation(new Conversation(e.getPlayer()) {
-					{
-						addPlayer(HeadE.SKEPTICAL_THINKING, "The chest is empty...");
-						create();
-					}
-				});
-				return;
-			}
+		} else
 			p.startConversation(new Conversation(e.getPlayer()) {
 				{
-					addSimple("As you open the chest you notice an inscription on the lid.");
-					addSimple("Here, I rest the map of my beloved home. To whoever finds it, I beg of you, let it be. I was honour-bound not to destroy the " +
-							"map piece, but I have used all of my magical skill to keep it from being recovered.");
-					addSimple("But revenge would not benefit me now, and to disturb this beast is to risk bringing its wrath down upon another land. " +
-							"This map leads to the lair of the beast that destroyed my home, devoured my family, and burned to a cinder all that I love.");
-					addSimple("I cannot stop you from taking this map piece now, but think on this: if you can slay the Dragon of Crandor, you are a " +
-							"greater hero than my land ever produced. There is no shame in backing out now.");
-					addNext(()-> {
-						p.setNextAnimation(new Animation(536));
-						p.lock(2);
-						GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-						p.faceObject(openedChest);
-						World.spawnObjectTemporary(openedChest, Ticks.fromSeconds(4));
-						p.getInventory().addItem(new Item(MAP_PART3, 1), true);
-					});
+					addPlayer(HeadE.HAPPY_TALKING, "This isn't my boat, better not touch it...");
 					create();
 				}
 			});
-		}
-	};
+	});
 
-	public static ItemOnObjectHandler itemOnMagicDoor = new ItemOnObjectHandler(true, new Object[] { 25115 }) {
-		final int SILK = 950;
-		final int BOMB = 1907;
-		final int BOWL = 1791;
-		final int CAGE = 13431;
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			Player p = e.getPlayer();
-			GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
-			if (e.getItem().getId() == SILK)
-				if(attr.getB(DOOR_SILK_ATTR))
-					p.sendMessage("Silk seems to have been used on the door...");
-				else {
-					attr.setB(DOOR_SILK_ATTR, true);
-					p.getInventory().removeItems(new Item(SILK, 1));
-					p.sendMessage("The door consumes the silk...");
+	public static ObjectClickHandler handleMagicDoor = new ObjectClickHandler(new Object[] { 25115 }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
+
+		if(p.getX() > obj.getX()) {
+			p.startConversation(new Conversation(e.getPlayer()) {
+				{
+					addPlayer(HeadE.SCARED, "It appears to be locked from the outside, I am trapped!");
+					create();
 				}
-			if (e.getItem().getId() == BOMB)
-				if(attr.getB(DOOR_BOMB_ATTR))
-					p.sendMessage("A wizard mind bomb seems to have been used on the door...");
-				else {
-					attr.setB(DOOR_BOMB_ATTR, true);
-					p.getInventory().removeItems(new Item(BOMB, 1));
-					p.sendMessage("You pour the wizard mind bomb on the door...");
-				}
-			if (e.getItem().getId() == BOWL)
-				if(attr.getB(DOOR_BOWL_ATTR))
-					p.sendMessage("A bowl seems to have been used on the door...");
-				else {
-					attr.setB(DOOR_BOWL_ATTR, true);
-					p.getInventory().removeItems(new Item(BOWL, 1));
-					p.sendMessage("You place the unfired bowl on the door...");
-				}
-			if (e.getItem().getId() == CAGE || e.getItem().getId() == 301)
-				if(attr.getB(DOOR_CAGE_ATTR))
-					p.sendMessage("The cage seems to have been used on the door...");
-				else {
-					attr.setB(DOOR_CAGE_ATTR, true);
-					p.getInventory().removeItems(new Item(CAGE, 1));
-					p.sendMessage("The door consumes the cage...");
-				}
+			});
+			return;
 		}
-	};
+
+		if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+			return;
+
+		if(attr.getB(DOOR_BOMB_ATTR) && attr.getB(DOOR_BOWL_ATTR) && attr.getB(DOOR_SILK_ATTR) && attr.getB(DOOR_CAGE_ATTR)) {
+			obj.animate(new Animation(6636));
+			WorldTasks.schedule(new WorldTask() {
+				int tick;
+				@Override
+				public void run() {
+					if(tick == 0)
+						p.lock();
+					if(tick == 1)
+						p.walkToAndExecute(WorldTile.of(3050, 9840, 0), ()-> {
+							p.faceEast();
+							tick++;
+						});
+					if(tick==2) {
+						p.sendMessage("The magic door opens...");
+						obj.animate(new Animation(6636));
+					}
+					if(tick==3)
+						p.addWalkSteps(WorldTile.of(3051, 9840, 0), 3, false);
+					if(tick==5)
+						obj.animate(new Animation(6637));
+					if(tick==7) {
+						p.unlock();
+						stop();
+					}
+
+					if(tick != 1)
+						tick++;
+				}
+			}, 0, 1);
+		} else
+			p.startConversation(new Conversation(e.getPlayer()) {
+				{
+					addPlayer(HeadE.SKEPTICAL_THINKING, "It appears to be magically locked...");
+					create();
+				}
+			});
+	});
+
+	public static ObjectClickHandler handleMagicChest = new ObjectClickHandler(new Object[] { MAP_CHEST2 }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) != PREPARE_FOR_CRANDOR)
+			return;
+		if(p.getInventory().containsItem(MAP_PART3, 1)) {
+			p.startConversation(new Conversation(e.getPlayer()) {
+				{
+					addPlayer(HeadE.SKEPTICAL_THINKING, "The chest is empty...");
+					create();
+				}
+			});
+			return;
+		}
+		p.startConversation(new Conversation(e.getPlayer()) {
+			{
+				addSimple("As you open the chest you notice an inscription on the lid.");
+				addSimple("Here, I rest the map of my beloved home. To whoever finds it, I beg of you, let it be. I was honour-bound not to destroy the " +
+						"map piece, but I have used all of my magical skill to keep it from being recovered.");
+				addSimple("But revenge would not benefit me now, and to disturb this beast is to risk bringing its wrath down upon another land. " +
+						"This map leads to the lair of the beast that destroyed my home, devoured my family, and burned to a cinder all that I love.");
+				addSimple("I cannot stop you from taking this map piece now, but think on this: if you can slay the Dragon of Crandor, you are a " +
+						"greater hero than my land ever produced. There is no shame in backing out now.");
+				addNext(()-> {
+					p.setNextAnimation(new Animation(536));
+					p.lock(2);
+					GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
+					p.faceObject(openedChest);
+					World.spawnObjectTemporary(openedChest, Ticks.fromSeconds(4));
+					p.getInventory().addItem(new Item(MAP_PART3, 1), true);
+				});
+				create();
+			}
+		});
+	});
+	
+	static final int SILK = 950;
+	static final int BOMB = 1907;
+	static final int BOWL = 1791;
+	static final int CAGE = 13431;
+
+	public static ItemOnObjectHandler itemOnMagicDoor = new ItemOnObjectHandler(true, new Object[] { 25115 }, e -> {
+		Player p = e.getPlayer();
+		GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
+		if (e.getItem().getId() == SILK)
+			if(attr.getB(DOOR_SILK_ATTR))
+				p.sendMessage("Silk seems to have been used on the door...");
+			else {
+				attr.setB(DOOR_SILK_ATTR, true);
+				p.getInventory().removeItems(new Item(SILK, 1));
+				p.sendMessage("The door consumes the silk...");
+			}
+		if (e.getItem().getId() == BOMB)
+			if(attr.getB(DOOR_BOMB_ATTR))
+				p.sendMessage("A wizard mind bomb seems to have been used on the door...");
+			else {
+				attr.setB(DOOR_BOMB_ATTR, true);
+				p.getInventory().removeItems(new Item(BOMB, 1));
+				p.sendMessage("You pour the wizard mind bomb on the door...");
+			}
+		if (e.getItem().getId() == BOWL)
+			if(attr.getB(DOOR_BOWL_ATTR))
+				p.sendMessage("A bowl seems to have been used on the door...");
+			else {
+				attr.setB(DOOR_BOWL_ATTR, true);
+				p.getInventory().removeItems(new Item(BOWL, 1));
+				p.sendMessage("You place the unfired bowl on the door...");
+			}
+		if (e.getItem().getId() == CAGE || e.getItem().getId() == 301)
+			if(attr.getB(DOOR_CAGE_ATTR))
+				p.sendMessage("The cage seems to have been used on the door...");
+			else {
+				attr.setB(DOOR_CAGE_ATTR, true);
+				p.getInventory().removeItems(new Item(CAGE, 1));
+				p.sendMessage("The door consumes the cage...");
+			}
+	});
 
 	public static void introduceElvarg(Player p) {
 		WorldTasks.schedule(new WorldTask() {

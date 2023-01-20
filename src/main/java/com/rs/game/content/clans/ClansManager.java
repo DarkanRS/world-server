@@ -55,8 +55,6 @@ import com.rs.lib.util.RSColor;
 import com.rs.lib.util.Utils;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.IFOnPlayerEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 
@@ -183,157 +181,145 @@ public class ClansManager {
 		});
 	}
 	
-	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			switch(e.getComponentId()) {
-			case 82 -> {
-				if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
-					leaveChannel(e.getPlayer(), false);
-				else
-					joinChannel(e.getPlayer(), null);
-			}
-			case 91 -> {
-				if (e.getPlayer().getSocial().getGuestedClanChat() != null)
-					leaveChannel(e.getPlayer(), true);
-				else
-					e.getPlayer().sendInputName("Which clan chat would you like to join?",
-							"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
-							name -> joinChannel(e.getPlayer(), name));
-			}
-			case 59 -> e.getPlayer().getPackets().sendRunScript(4443, -1);
-			case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
-			case 78 -> openSettings(e.getPlayer());
-			case 75 -> openClanDetails(e.getPlayer(), null, e.getPlayer().getClan());
-			case 109 -> leaveClan(e.getPlayer());
-			case 11 -> unban(e.getPlayer(), e.getSlotId());
-			case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
-			}
+	public static ButtonClickHandler handleClanChatButtons = new ButtonClickHandler(1110, e -> {
+		if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("handleClanChatButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+		switch(e.getComponentId()) {
+		case 82 -> {
+			if (e.getPlayer().getSocial().isConnectedToClan() && e.getPlayer().getSocial().getClanName() != null)
+				leaveChannel(e.getPlayer(), false);
+			else
+				joinChannel(e.getPlayer(), null);
 		}
-	};
+		case 91 -> {
+			if (e.getPlayer().getSocial().getGuestedClanChat() != null)
+				leaveChannel(e.getPlayer(), true);
+			else
+				e.getPlayer().sendInputName("Which clan chat would you like to join?",
+						"Please enter the name of the clan whose Clan chat you wish to join as a guest. <br><br>To talk as a guest, start  your<br>line<br>of chat with ///",
+						name -> joinChannel(e.getPlayer(), name));
+		}
+		case 59 -> e.getPlayer().getPackets().sendRunScript(4443, -1);
+		case 95 -> e.getPlayer().sendInputName("Which player would you like to ban?", name -> banPlayer(e.getPlayer(), name));
+		case 78 -> openSettings(e.getPlayer());
+		case 75 -> openClanDetails(e.getPlayer(), null, e.getPlayer().getClan());
+		case 109 -> leaveClan(e.getPlayer());
+		case 11 -> unban(e.getPlayer(), e.getSlotId());
+		case 99 -> e.getPlayer().sendInputName("Which player would you like to unban?", name -> unban(e.getPlayer(), Utils.formatPlayerNameForDisplay(name)));
+		}
+	});
 
-	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().getClan() == null)
+	public static ButtonClickHandler handleClanFlagButtons = new ButtonClickHandler(1089, e -> {
+		if (e.getPlayer().getClan() == null)
+			return;
+		switch(e.getComponentId()) {
+		case 30 -> e.getPlayer().getTempAttribs().setI("clanflagselection", e.getSlotId());
+		case 26 -> {
+			int flag = e.getPlayer().getTempAttribs().removeI("clanflagselection", -1);
+			e.getPlayer().stopAll();
+			if (flag != -1) {
+				if (!e.getPlayer().getClan().hasPermissions(e.getPlayer().getUsername(), ClanRank.ADMIN))
+					return;
+				e.getPlayer().getClan().setSetting(ClanSetting.NATIONAL_FLAG, flag);
+				syncClanToLobby(e.getPlayer().getClan(), () -> e.getPlayer().sendMessage("Clan settings saved."));
+			}	
+		}
+		}
+	});
+
+	public static ButtonClickHandler handleClanSettingsButtonsMain = new ButtonClickHandler(1096, e -> {
+		if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+		switch(e.getComponentId()) {
+		case 41 -> viewClanmateDetails(e.getPlayer(), e.getSlotId());
+		case 94 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_ENTER_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_ENTER_CC) == 0 ? 1 : 0);
+		case 95 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_TALK_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_TALK_CC) == 0 ? 1 : 0);
+		case 96 -> {
+			boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.IS_RECRUITING)) == 1;
+			setClanSetting(e.getPlayer(), ClanSetting.IS_RECRUITING, set ? 0 : 1);
+			syncClanToLobby(e.getPlayer().getClan());
+		}
+		case 97 -> {
+			boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.USES_CLANTIMEZONE)) == 1;
+			setClanSetting(e.getPlayer(), ClanSetting.USES_CLANTIMEZONE, set ? 0 : 1);
+			syncClanToLobby(e.getPlayer().getClan());
+		}
+		case 113 -> showClanSettingsClanMates(e.getPlayer());
+		case 120 -> showClanSettingsSettings(e.getPlayer());
+		case 124 -> openClanMotifInterface(e.getPlayer());
+		case 131 -> openClanMottoInterface(e.getPlayer());
+		case 160 -> openKeywordEditor(e.getPlayer());
+		case 222 -> {
+			if (!canEditSettings(e.getPlayer()))
 				return;
-			switch(e.getComponentId()) {
-			case 30 -> e.getPlayer().getTempAttribs().setI("clanflagselection", e.getSlotId());
-			case 26 -> {
-				int flag = e.getPlayer().getTempAttribs().removeI("clanflagselection", -1);
-				e.getPlayer().stopAll();
-				if (flag != -1) {
-					if (!e.getPlayer().getClan().hasPermissions(e.getPlayer().getUsername(), ClanRank.ADMIN))
-						return;
-					e.getPlayer().getClan().setSetting(ClanSetting.NATIONAL_FLAG, flag);
-					syncClanToLobby(e.getPlayer().getClan(), () -> e.getPlayer().sendMessage("Clan settings saved."));
-				}	
+			setVar(e.getPlayer().getClan(), 2811, Utils.clampI(e.getSlotId(), 0, 4)); //signpost permissions
+		}
+		case 207 -> setClanSetting(e.getPlayer(), ClanSetting.GUEST_CITADEL_ACCESS, Utils.clampI(e.getSlotId(), 0, 3));
+		case 240 -> setClanSetting(e.getPlayer(), ClanSetting.GAME_TIME, -720 + e.getSlotId() * 10);
+		case 290 -> setClanSetting(e.getPlayer(), ClanSetting.HOME_WORLD, Utils.clampI(e.getSlotId(), 0, 200));
+		case 297 -> openForumThreadInterface(e.getPlayer());
+		case 346 -> openNationalFlagInterface(e.getPlayer());
+		case 386 -> showClanSettingsPermissions(e.getPlayer());
+		case 489 -> selectPermissionTab(e.getPlayer(), 1);
+		case 498 -> selectPermissionTab(e.getPlayer(), 2);
+		case 506 -> selectPermissionTab(e.getPlayer(), 3);
+		case 514 -> selectPermissionTab(e.getPlayer(), 4);
+		case 522 -> selectPermissionTab(e.getPlayer(), 5);
+		
+		case 262 -> e.getPlayer().getTempAttribs().setI("editClanMateJob", e.getSlotId());
+		case 276 -> e.getPlayer().getTempAttribs().setI("editClanMateRank", e.getSlotId());
+		case 309 -> kick(e.getPlayer());
+		case 318 -> saveClanmateDetails(e.getPlayer());
+		case 366 -> e.getPlayer().getPackets().sendVarc(1516, e.getSlotId());
+		case 558 -> {
+			ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
+			if (rank == null) {
+				e.getPlayer().sendMessage("Please select a rank before setting the chat ranking.");
+				return;
 			}
+			e.getPlayer().getClan().setCcChatRank(rank);
+		}
+		case 570 -> {
+			ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
+			if (rank == null) {
+				e.getPlayer().sendMessage("Please select a rank before setting the kick ranking.");
+				return;
+			}
+			e.getPlayer().getClan().setCcKickRank(rank);
+		}
+		case 534, 547, 752, 739, 483, 659, 581, 592, 648, 684, 671, 
+			 793, 696, 603, 614, 782, 625, 815, 720, 708, 804 -> togglePermissionSetting(e.getPlayer(), e.getComponentId());
+		default -> {
+			if (e.getComponentId() >= 395 && e.getComponentId() <= 475) {
+				int selectedRank = (e.getComponentId() - 395) / 8;
+				if (selectedRank == 10)
+					selectedRank = 125;
+				else if (selectedRank > 5)
+					selectedRank = 100 + selectedRank - 6;
+				selectPermissionRank(e.getPlayer(), ClanRank.forId(selectedRank));
 			}
 		}
-	};
+		}
+	});
 
-	public static ButtonClickHandler handleClanSettingsButtonsMain = new ButtonClickHandler(1096) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("handleClanSettingsButtonsMain: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			switch(e.getComponentId()) {
-			case 41 -> viewClanmateDetails(e.getPlayer(), e.getSlotId());
-			case 94 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_ENTER_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_ENTER_CC) == 0 ? 1 : 0);
-			case 95 -> setClanSetting(e.getPlayer(), ClanSetting.GUESTS_CAN_TALK_CC, (int) e.getPlayer().getClan().getSetting(ClanSetting.GUESTS_CAN_TALK_CC) == 0 ? 1 : 0);
-			case 96 -> {
-				boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.IS_RECRUITING)) == 1;
-				setClanSetting(e.getPlayer(), ClanSetting.IS_RECRUITING, set ? 0 : 1);
-				syncClanToLobby(e.getPlayer().getClan());
-			}
-			case 97 -> {
-				boolean set = ((int) e.getPlayer().getClan().getSetting(ClanSetting.USES_CLANTIMEZONE)) == 1;
-				setClanSetting(e.getPlayer(), ClanSetting.USES_CLANTIMEZONE, set ? 0 : 1);
-				syncClanToLobby(e.getPlayer().getClan());
-			}
-			case 113 -> showClanSettingsClanMates(e.getPlayer());
-			case 120 -> showClanSettingsSettings(e.getPlayer());
-			case 124 -> openClanMotifInterface(e.getPlayer());
-			case 131 -> openClanMottoInterface(e.getPlayer());
-			case 160 -> openKeywordEditor(e.getPlayer());
-			case 222 -> {
-				if (!canEditSettings(e.getPlayer()))
-					return;
-				setVar(e.getPlayer().getClan(), 2811, Utils.clampI(e.getSlotId(), 0, 4)); //signpost permissions
-			}
-			case 207 -> setClanSetting(e.getPlayer(), ClanSetting.GUEST_CITADEL_ACCESS, Utils.clampI(e.getSlotId(), 0, 3));
-			case 240 -> setClanSetting(e.getPlayer(), ClanSetting.GAME_TIME, -720 + e.getSlotId() * 10);
-			case 290 -> setClanSetting(e.getPlayer(), ClanSetting.HOME_WORLD, Utils.clampI(e.getSlotId(), 0, 200));
-			case 297 -> openForumThreadInterface(e.getPlayer());
-			case 346 -> openNationalFlagInterface(e.getPlayer());
-			case 386 -> showClanSettingsPermissions(e.getPlayer());
-			case 489 -> selectPermissionTab(e.getPlayer(), 1);
-			case 498 -> selectPermissionTab(e.getPlayer(), 2);
-			case 506 -> selectPermissionTab(e.getPlayer(), 3);
-			case 514 -> selectPermissionTab(e.getPlayer(), 4);
-			case 522 -> selectPermissionTab(e.getPlayer(), 5);
-			
-			case 262 -> e.getPlayer().getTempAttribs().setI("editClanMateJob", e.getSlotId());
-			case 276 -> e.getPlayer().getTempAttribs().setI("editClanMateRank", e.getSlotId());
-			case 309 -> kick(e.getPlayer());
-			case 318 -> saveClanmateDetails(e.getPlayer());
-			case 366 -> e.getPlayer().getPackets().sendVarc(1516, e.getSlotId());
-			case 558 -> {
-				ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
-				if (rank == null) {
-					e.getPlayer().sendMessage("Please select a rank before setting the chat ranking.");
-					return;
-				}
-				e.getPlayer().getClan().setCcChatRank(rank);
-			}
-			case 570 -> {
-				ClanRank rank = e.getPlayer().getTempAttribs().getO("permissionRankEditing");
-				if (rank == null) {
-					e.getPlayer().sendMessage("Please select a rank before setting the kick ranking.");
-					return;
-				}
-				e.getPlayer().getClan().setCcKickRank(rank);
-			}
-			case 534, 547, 752, 739, 483, 659, 581, 592, 648, 684, 671, 
-				 793, 696, 603, 614, 782, 625, 815, 720, 708, 804 -> togglePermissionSetting(e.getPlayer(), e.getComponentId());
-			default -> {
-				if (e.getComponentId() >= 395 && e.getComponentId() <= 475) {
-					int selectedRank = (e.getComponentId() - 395) / 8;
-					if (selectedRank == 10)
-						selectedRank = 125;
-					else if (selectedRank > 5)
-						selectedRank = 100 + selectedRank - 6;
-					selectPermissionRank(e.getPlayer(), ClanRank.forId(selectedRank));
-				}
-			}
-			}
+	public static ButtonClickHandler handleMotifButtons = new ButtonClickHandler(1105, e -> {
+		if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("handleMotifButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+		if (e.getComponentId() == 63 || e.getComponentId() == 66)
+			ClansManager.setClanMotifTextureInterface(e.getPlayer(), e.getComponentId() == 66, e.getSlotId());
+		if (e.getComponentId() == 35)
+			ClansManager.openSetMotifColor(e.getPlayer(), 0);
+		else if (e.getComponentId() == 80)
+			ClansManager.openSetMotifColor(e.getPlayer(), 1);
+		else if (e.getComponentId() == 92)
+			ClansManager.openSetMotifColor(e.getPlayer(), 2);
+		else if (e.getComponentId() == 104)
+			ClansManager.openSetMotifColor(e.getPlayer(), 3);
+		else if (e.getComponentId() == 120) {
+			syncClanToLobby(e.getPlayer().getClan());
+			e.getPlayer().stopAll();
 		}
-	};
-
-	public static ButtonClickHandler handleMotifButtons = new ButtonClickHandler(1105) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("handleMotifButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			if (e.getComponentId() == 63 || e.getComponentId() == 66)
-				ClansManager.setClanMotifTextureInterface(e.getPlayer(), e.getComponentId() == 66, e.getSlotId());
-			if (e.getComponentId() == 35)
-				ClansManager.openSetMotifColor(e.getPlayer(), 0);
-			else if (e.getComponentId() == 80)
-				ClansManager.openSetMotifColor(e.getPlayer(), 1);
-			else if (e.getComponentId() == 92)
-				ClansManager.openSetMotifColor(e.getPlayer(), 2);
-			else if (e.getComponentId() == 104)
-				ClansManager.openSetMotifColor(e.getPlayer(), 3);
-			else if (e.getComponentId() == 120) {
-				syncClanToLobby(e.getPlayer().getClan());
-				e.getPlayer().stopAll();
-			}
-		}
-	};
+	});
 	
 	private static BiMap<ClanSetting, Integer> KEYWORD_INDICES = HashBiMap.create(10);
 	
@@ -360,97 +346,83 @@ public class ClansManager {
 		KEYWORD_INDICES.put(ClanSetting.KEYWORD9_INDEX, 9174);
 	}
 	
-	public static ButtonClickHandler handleKeywordButtons = new ButtonClickHandler(1097) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getPlayer().hasRights(Rights.DEVELOPER))
-				e.getPlayer().sendMessage("handleKeywordButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
-			switch(e.getComponentId()) {
-			case 193 -> e.getPlayer().getVars().setVar(2136, e.getSlotId());
-			case 207 -> {
-				int enumId = EnumDefinitions.getEnum(3703).getIntValue(e.getPlayer().getVars().getVar(2136));
-				if (enumId == -1) {
-					e.getPlayer().getTempAttribs().removeI("keywordTempVal");
-					return;
+	public static ButtonClickHandler handleKeywordButtons = new ButtonClickHandler(1097, e -> {
+		if (e.getPlayer().hasRights(Rights.DEVELOPER))
+			e.getPlayer().sendMessage("handleKeywordButtons: " + e.getComponentId() + " - " + e.getSlotId() + " - " + e.getPacket());
+		switch(e.getComponentId()) {
+		case 193 -> e.getPlayer().getVars().setVar(2136, e.getSlotId());
+		case 207 -> {
+			int enumId = EnumDefinitions.getEnum(3703).getIntValue(e.getPlayer().getVars().getVar(2136));
+			if (enumId == -1) {
+				e.getPlayer().getTempAttribs().removeI("keywordTempVal");
+				return;
+			}
+			EnumDefinitions infoDef = EnumDefinitions.getEnum(enumId);
+			if (infoDef.getStringValue(e.getSlotId()) != null && !infoDef.getStringValue(e.getSlotId()).equals("null"))
+				e.getPlayer().getTempAttribs().setI("keywordTempVal", e.getSlotId());
+			else
+				e.getPlayer().getTempAttribs().removeI("keywordTempVal");
+		}
+		case 15 -> {
+			int category = e.getPlayer().getVars().getVar(2136);
+			if (category <= 0)
+				return;
+			int index = e.getPlayer().getTempAttribs().getI("keywordTempVal");
+			for (ClanSetting setting : KEYWORD_INDICES.keySet()) {
+				if (setting.name().contains("INDEX"))
+					continue;
+				int varbit = KEYWORD_INDICES.get(setting);
+				if (e.getPlayer().getVars().getVarBit(varbit) <= 0) {
+					e.getPlayer().getVars().setVarBit(varbit, category);
+					e.getPlayer().getVars().setVarBit(varbit+1, index);
+					break;
 				}
-				EnumDefinitions infoDef = EnumDefinitions.getEnum(enumId);
-				if (infoDef.getStringValue(e.getSlotId()) != null && !infoDef.getStringValue(e.getSlotId()).equals("null"))
-					e.getPlayer().getTempAttribs().setI("keywordTempVal", e.getSlotId());
-				else
-					e.getPlayer().getTempAttribs().removeI("keywordTempVal");
-			}
-			case 15 -> {
-				int category = e.getPlayer().getVars().getVar(2136);
-				if (category <= 0)
-					return;
-				int index = e.getPlayer().getTempAttribs().getI("keywordTempVal");
-				for (ClanSetting setting : KEYWORD_INDICES.keySet()) {
-					if (setting.name().contains("INDEX"))
-						continue;
-					int varbit = KEYWORD_INDICES.get(setting);
-					if (e.getPlayer().getVars().getVarBit(varbit) <= 0) {
-						e.getPlayer().getVars().setVarBit(varbit, category);
-						e.getPlayer().getVars().setVarBit(varbit+1, index);
-						break;
-					}
-				}
-			}
-			case 160, 171, 172, 173, 174, 175, 176, 177, 178, 179 -> {
-				int index = e.getComponentId() == 160 ? 0 : e.getComponentId() - 170;
-				int baseVar = 9155 + (index * 2);
-				e.getPlayer().getVars().setVarBit(baseVar, 0);
-				e.getPlayer().getVars().setVarBit(baseVar+1, 0);
-			}
-			case 42 -> {
-				for (ClanSetting setting : KEYWORD_INDICES.keySet())
-					setClanSetting(e.getPlayer(), setting, e.getPlayer().getVars().getVarBit(KEYWORD_INDICES.get(setting)));
-				e.getPlayer().stopAll();
-				syncClanToLobby(e.getPlayer().getClan());
-			}
 			}
 		}
-	};
+		case 160, 171, 172, 173, 174, 175, 176, 177, 178, 179 -> {
+			int index = e.getComponentId() == 160 ? 0 : e.getComponentId() - 170;
+			int baseVar = 9155 + (index * 2);
+			e.getPlayer().getVars().setVarBit(baseVar, 0);
+			e.getPlayer().getVars().setVarBit(baseVar+1, 0);
+		}
+		case 42 -> {
+			for (ClanSetting setting : KEYWORD_INDICES.keySet())
+				setClanSetting(e.getPlayer(), setting, e.getPlayer().getVars().getVarBit(KEYWORD_INDICES.get(setting)));
+			e.getPlayer().stopAll();
+			syncClanToLobby(e.getPlayer().getClan());
+		}
+		}
+	});
 	
-	public static ButtonClickHandler handleCloseButton = new ButtonClickHandler(1079) {
-		@Override
-		public void handle(ButtonClickEvent e) {
+	public static ButtonClickHandler handleCloseButton = new ButtonClickHandler(1079, e -> e.getPlayer().closeInterfaces());
+
+	public static ButtonClickHandler handleInviteInter = new ButtonClickHandler(1095, e -> {
+		if (e.getComponentId() == 33) {
+			Player inviter = e.getPlayer().getTempAttribs().removeO("clanInviter");
+			if (inviter == null) {
+				e.getPlayer().sendMessage("There is a pending request to join a clan submitted to the clan service. Relog or try again later.");
+				return;
+			}
+			if (inviter.hasStarted() && !inviter.hasFinished()) {
+				LobbyCommunicator.forwardPacket(inviter, new ClanAddMember(e.getPlayer().getUsername()), success -> {
+					if (!success)
+						e.getPlayer().sendMessage("There was an error communicating with the clan service.");
+				});
+			}
 			e.getPlayer().closeInterfaces();
 		}
-	};
-
-	public static ButtonClickHandler handleInviteInter = new ButtonClickHandler(1095) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 33) {
-				Player inviter = e.getPlayer().getTempAttribs().removeO("clanInviter");
-				if (inviter == null) {
-					e.getPlayer().sendMessage("There is a pending request to join a clan submitted to the clan service. Relog or try again later.");
-					return;
-				}
-				if (inviter.hasStarted() && !inviter.hasFinished()) {
-					LobbyCommunicator.forwardPacket(inviter, new ClanAddMember(e.getPlayer().getUsername()), success -> {
-						if (!success)
-							e.getPlayer().sendMessage("There was an error communicating with the clan service.");
-					});
-				}
-				e.getPlayer().closeInterfaces();
-			}
-		}
-	};
+	});
 	
-	public static InterfaceOnPlayerHandler handleInvite = new InterfaceOnPlayerHandler(false, new int[] { 1110 }) {
-		@Override
-		public void handle(IFOnPlayerEvent e) {
-			if (e.getComponentId() == 87) {
-				if (e.getTarget().getSocial().getClanName() != null) {
-					e.getPlayer().sendMessage(e.getTarget().getDisplayName() + " is already in a clan.");
-					return;
-				}
-				e.getPlayer().sendMessage("Sending clan invite to " + e.getTarget().getDisplayName() + ".");
-				e.getTarget().getPackets().sendClanInviteMessage(e.getPlayer());
+	public static InterfaceOnPlayerHandler handleInvite = new InterfaceOnPlayerHandler(false, new int[] { 1110 }, e -> {
+		if (e.getComponentId() == 87) {
+			if (e.getTarget().getSocial().getClanName() != null) {
+				e.getPlayer().sendMessage(e.getTarget().getDisplayName() + " is already in a clan.");
+				return;
 			}
+			e.getPlayer().sendMessage("Sending clan invite to " + e.getTarget().getDisplayName() + ".");
+			e.getTarget().getPackets().sendClanInviteMessage(e.getPlayer());
 		}
-	};
+	});
 	
 	public static void viewClanmateDetails(Player player, int index) {
 		if (player.getClan() == null)

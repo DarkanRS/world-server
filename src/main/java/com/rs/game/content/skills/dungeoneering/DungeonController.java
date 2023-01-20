@@ -18,7 +18,6 @@ package com.rs.game.content.skills.dungeoneering;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.lang.SuppressWarnings;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;

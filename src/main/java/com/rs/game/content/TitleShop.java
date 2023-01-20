@@ -21,46 +21,42 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class TitleShop {
 
-	public static NPCClickHandler onNPCClick = new NPCClickHandler(new Object[] { 13727 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch (e.getOpNum()) {
-			case 1:
-				if (e.getPlayer().getAuraManager().getJotSkills() >= 10) {
-					e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(13727, HeadE.CHEERFUL, "Before we go any further, I have a reward for you.").addItem(20960, "Xuan hands you a reward book for completing the Jack of Trades.", () -> {
-						e.getPlayer().getInventory().addItemDrop(20960, 1);
-						e.getPlayer().getAuraManager().deactivate();
-						e.getPlayer().getAuraManager().clearJotFlags();
-						e.getPlayer().incrementCount("Jack of Trades completed");
-					}));
-					return;
-				}
-				e.getPlayer().sendOptionDialogue("What would you like help with?", ops -> {
-					ops.add("Check the Loyalty Point Shop", () -> LoyaltyShop.open(e.getPlayer()));
-					ops.add("Re-apply my account type title", () -> e.getPlayer().applyAccountTitle());
-					ops.add("See your available titles", () -> AchievementTitles.openInterface(e.getPlayer()));
-					ops.add("Clear my title", new Dialogue().addOptions("Really clear your title?", ops2 -> {
-						ops2.add("Yes", () -> e.getPlayer().clearTitle());
-						ops2.add("No");
-					}));
-				});
-				break;
-			case 3:
-				LoyaltyShop.open(e.getPlayer());
-				break;
-			case 4:
-				e.getPlayer().sendOptionDialogue("Really clear your title?", ops -> {
-					ops.add("Yes", () -> e.getPlayer().clearTitle());
-					ops.add("No");
-				});
-				break;
+	public static NPCClickHandler onNPCClick = new NPCClickHandler(new Object[] { 13727 }, e -> {
+		switch (e.getOpNum()) {
+		case 1:
+			if (e.getPlayer().getAuraManager().getJotSkills() >= 10) {
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(13727, HeadE.CHEERFUL, "Before we go any further, I have a reward for you.").addItem(20960, "Xuan hands you a reward book for completing the Jack of Trades.", () -> {
+					e.getPlayer().getInventory().addItemDrop(20960, 1);
+					e.getPlayer().getAuraManager().deactivate();
+					e.getPlayer().getAuraManager().clearJotFlags();
+					e.getPlayer().incrementCount("Jack of Trades completed");
+				}));
+				return;
 			}
+			e.getPlayer().sendOptionDialogue("What would you like help with?", ops -> {
+				ops.add("Check the Loyalty Point Shop", () -> LoyaltyShop.open(e.getPlayer()));
+				ops.add("Re-apply my account type title", () -> e.getPlayer().applyAccountTitle());
+				ops.add("See your available titles", () -> AchievementTitles.openInterface(e.getPlayer()));
+				ops.add("Clear my title", new Dialogue().addOptions("Really clear your title?", ops2 -> {
+					ops2.add("Yes", () -> e.getPlayer().clearTitle());
+					ops2.add("No");
+				}));
+			});
+			break;
+		case 3:
+			LoyaltyShop.open(e.getPlayer());
+			break;
+		case 4:
+			e.getPlayer().sendOptionDialogue("Really clear your title?", ops -> {
+				ops.add("Yes", () -> e.getPlayer().clearTitle());
+				ops.add("No");
+			});
+			break;
 		}
-	};
+	});
 }

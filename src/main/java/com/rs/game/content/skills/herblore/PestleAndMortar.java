@@ -23,7 +23,6 @@ import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnItemEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
@@ -78,16 +77,13 @@ public class PestleAndMortar  {
 		}
 	}
 
-	public static ItemOnItemHandler handle = new ItemOnItemHandler(233) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			PestleMortar p = PestleMortar.forId(e.getItem1().getId());
-			if (p == null)
-				p = PestleMortar.forId(e.getItem2().getId());
-			if (p == null)
-				return;
-			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
-		}
-	};
+	public static ItemOnItemHandler handle = new ItemOnItemHandler(233, e -> {
+		PestleMortar p = PestleMortar.forId(e.getItem1().getId());
+		if (p == null)
+			p = PestleMortar.forId(e.getItem2().getId());
+		if (p == null)
+			return;
+		e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] {{new Item(p.getRawId(), p.rawQty)}}, new Item[][] {{p.getCrushedItem()}}, new double[] {0}, new int[] {364}, Constants.HERBLORE, 0));
+	});
 
 }

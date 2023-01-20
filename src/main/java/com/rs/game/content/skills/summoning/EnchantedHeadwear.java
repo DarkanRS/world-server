@@ -29,11 +29,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.ItemOnItemEvent;
-import com.rs.plugin.events.ItemOnNPCEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
@@ -104,104 +99,86 @@ public class EnchantedHeadwear {
 		}
 	}
 
-	public static ItemOnNPCHandler headwearOnPikkupstix = new ItemOnNPCHandler(6988) {
-		@Override
-		public void handle(ItemOnNPCEvent e) {
-			Headwear helm = Headwear.forId(e.getItem().getId());
-			if (helm != null) {
-				if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) < helm.summReq) {
-					e.getPlayer().sendMessage("You must have a summoning level of " + helm.summReq + " to enchant this.");
-					return;
-				}
+	public static ItemOnNPCHandler headwearOnPikkupstix = new ItemOnNPCHandler(6988, e -> {
+		Headwear helm = Headwear.forId(e.getItem().getId());
+		if (helm != null) {
+			if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) < helm.summReq) {
+				e.getPlayer().sendMessage("You must have a summoning level of " + helm.summReq + " to enchant this.");
+				return;
+			}
 
-				if (e.getItem().getId() == helm.baseId) {
-					e.getItem().setId(helm.enchantedId);
-					e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-					e.getPlayer().sendMessage("Pikkupstix magically enchants your headwear.");
-					return;
-				}
-				if (e.getItem().getId() == helm.enchantedId) {
-					e.getItem().setId(helm.baseId);
-					e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-					e.getPlayer().sendMessage("Pikkupstix removes the enchantment from your headwear.");
-					return;
-				}
-				if (e.getItem().getId() == helm.chargedId) {
-					e.getPlayer().sendMessage("You need to remove your scrolls before unenchanting the helmet.");
-					return;
-				}
+			if (e.getItem().getId() == helm.baseId) {
+				e.getItem().setId(helm.enchantedId);
+				e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+				e.getPlayer().sendMessage("Pikkupstix magically enchants your headwear.");
+				return;
+			}
+			if (e.getItem().getId() == helm.enchantedId) {
+				e.getItem().setId(helm.baseId);
+				e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+				e.getPlayer().sendMessage("Pikkupstix removes the enchantment from your headwear.");
+				return;
+			}
+			if (e.getItem().getId() == helm.chargedId) {
+				e.getPlayer().sendMessage("You need to remove your scrolls before unenchanting the helmet.");
+				return;
 			}
 		}
-	};
+	});
 	
-	public static ItemEquipHandler canEquipCharged = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.chargedId).toArray()) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
-				e.cancel();
-		}
-	};
+	public static ItemEquipHandler canEquipCharged = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.chargedId).toArray(), e -> {
+		if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
+			e.cancel();
+	});
 	
-	public static ItemEquipHandler canEquipEnchanted = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.enchantedId).toArray()) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
-				e.cancel();
-		}
-	};
+	public static ItemEquipHandler canEquipEnchanted = new ItemEquipHandler(Arrays.stream(Headwear.values()).map(h -> h.enchantedId).toArray(), e -> {
+		if (e.equip() && !ItemConstants.canWear(new Item(Headwear.forId(e.getItem().getId()).baseId, 1), e.getPlayer()))
+			e.cancel();
+	});
 
-	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 1)
-				e.getPlayer().startConversation(new GenericSkillcapeOwnerD(e.getPlayer(), 6988, Skillcapes.Summoning));
-			else if (e.getOpNum() == 3)
-				ShopsHandler.openShop(e.getPlayer(), "taverly_summoning_shop");
-			else if (e.getOpNum() == 4) {
-				if (e.getPlayer().getInventory().getFreeSlots() < 28) {
-					for (Item i : e.getPlayer().getInventory().getItems().array()) {
-						if ((i != null) && (Headwear.forId(i.getId()) != null)) {
-							e.getPlayer().startConversation(new Dialogue().addSimple("That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it."));
-							return;
-						}
+	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }, e -> {
+		if (e.getOpNum() == 1)
+			e.getPlayer().startConversation(new GenericSkillcapeOwnerD(e.getPlayer(), 6988, Skillcapes.Summoning));
+		else if (e.getOpNum() == 3)
+			ShopsHandler.openShop(e.getPlayer(), "taverly_summoning_shop");
+		else if (e.getOpNum() == 4) {
+			if (e.getPlayer().getInventory().getFreeSlots() < 28) {
+				for (Item i : e.getPlayer().getInventory().getItems().array()) {
+					if ((i != null) && (Headwear.forId(i.getId()) != null)) {
+						e.getPlayer().startConversation(new Dialogue().addSimple("That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it."));
+						return;
 					}
 				}
-				e.getPlayer().startConversation(new Dialogue().addSimple("If you bring me the right headwear, I may be able to assist in enchanting it."));
 			}
+			e.getPlayer().startConversation(new Dialogue().addSimple("If you bring me the right headwear, I may be able to assist in enchanting it."));
 		}
-	};
+	});
 	
-	public static ItemOnItemHandler chargeUncharged = new ItemOnItemHandler(Arrays.stream(Headwear.values()).mapToInt(h -> h.enchantedId).toArray(), Arrays.stream(Scroll.values()).mapToInt(s -> s.getId()).toArray()) {
-		@Override
-		public void handle(ItemOnItemEvent e) {
-			Headwear wear = Headwear.forId(e.getItem1().getId());
-			if (wear == null)
-				wear = Headwear.forId(e.getItem2().getId());
-			Scroll s = Scroll.forId(e.getItem1().getId());
-			if (s == null)
-				s = Scroll.forId(e.getItem2().getId());
-			final Scroll scroll = s;
-			if (wear == null) {
-				e.getPlayer().sendMessage("You cannot charge that item with scrolls.");
-				return;
-			}
-			if (scroll == null) {
-				e.getPlayer().sendMessage("You don't have any valid scrolls.");
-				return;
-			}
-			e.getPlayer().sendInputInteger("How many would you like to charge the helmet with?", num -> addScrolls(e.getPlayer(), e.getUsedWith(scroll.getId()), scroll, num));
+	public static ItemOnItemHandler chargeUncharged = new ItemOnItemHandler(Arrays.stream(Headwear.values()).mapToInt(h -> h.enchantedId).toArray(), Arrays.stream(Scroll.values()).mapToInt(s -> s.getId()).toArray(), e -> {
+		Headwear wear = Headwear.forId(e.getItem1().getId());
+		if (wear == null)
+			wear = Headwear.forId(e.getItem2().getId());
+		Scroll s = Scroll.forId(e.getItem1().getId());
+		if (s == null)
+			s = Scroll.forId(e.getItem2().getId());
+		final Scroll scroll = s;
+		if (wear == null) {
+			e.getPlayer().sendMessage("You cannot charge that item with scrolls.");
+			return;
 		}
-	};
+		if (scroll == null) {
+			e.getPlayer().sendMessage("You don't have any valid scrolls.");
+			return;
+		}
+		e.getPlayer().sendInputInteger("How many would you like to charge the helmet with?", num -> addScrolls(e.getPlayer(), e.getUsedWith(scroll.getId()), scroll, num));
+	});
 	
-	public static ItemClickHandler chargedOps = new ItemClickHandler(Arrays.stream(Headwear.values()).map(h -> h.chargedId).toArray(), new String[] { "Commune", "Uncharge" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Uncharge"))
-				removeScrolls(e.getPlayer(), e.getItem());
-			else if (e.getOption().equals("Commune"))
-				e.getPlayer().sendMessage("You have " + e.getItem().getMetaDataI("summScrollsStored") + " " + ItemDefinitions.getDefs(e.getItem().getMetaDataI("summScrollId")).name + " stored in this helmet.");
-		}
-	};
+	public static ItemClickHandler chargedOps = new ItemClickHandler(Arrays.stream(Headwear.values()).map(h -> h.chargedId).toArray(), new String[] { "Commune", "Uncharge" }, e -> {
+		if (e.getOption().equals("Uncharge"))
+			removeScrolls(e.getPlayer(), e.getItem());
+		else if (e.getOption().equals("Commune"))
+			e.getPlayer().sendMessage("You have " + e.getItem().getMetaDataI("summScrollsStored") + " " + ItemDefinitions.getDefs(e.getItem().getMetaDataI("summScrollId")).name + " stored in this helmet.");
+	});
 	
 	public static void addScrolls(Player player, Item item, Scroll scroll, int num) {
 		Headwear headwear = Headwear.forId(item.getId());

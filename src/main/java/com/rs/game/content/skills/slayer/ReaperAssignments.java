@@ -22,8 +22,6 @@ import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -114,41 +112,35 @@ public class ReaperAssignments  {
 		return d;
 	}
 
-	public static ItemClickHandler handleGrimGem = new ItemClickHandler(24806) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			switch(e.getOption()) {
-			case "Activate":
-				e.getPlayer().startConversation(new ReaperDialogue(e.getPlayer()));
-				break;
-			case "Kills-left":
-				if (e.getPlayer().getBossTask() != null)
-					e.getPlayer().sendMessage(e.getPlayer().getBossTask().getMessage());
-				else
-					e.getPlayer().sendMessage("You do not have a task assigned right now.");
-				break;
-			case "Assignment":
-				talkAboutAssignment(e.getPlayer());
-				break;
-			}
+	public static ItemClickHandler handleGrimGem = new ItemClickHandler(new Object[] { 24806 }, e -> {
+		switch(e.getOption()) {
+		case "Activate":
+			e.getPlayer().startConversation(new ReaperDialogue(e.getPlayer()));
+			break;
+		case "Kills-left":
+			if (e.getPlayer().getBossTask() != null)
+				e.getPlayer().sendMessage(e.getPlayer().getBossTask().getMessage());
+			else
+				e.getPlayer().sendMessage("You do not have a task assigned right now.");
+			break;
+		case "Assignment":
+			talkAboutAssignment(e.getPlayer());
+			break;
 		}
-	};
+	});
 
-	public static NPCClickHandler handleDeath = new NPCClickHandler(new Object[] { 15661 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			switch(e.getOpNum()) {
-			case 1:
-				e.getPlayer().startConversation(new ReaperDialogue(e.getPlayer()));
-				break;
-			case 3:
-				talkAboutAssignment(e.getPlayer());
-				break;
-			case 4:
-				e.getPlayer().sendMessage("Rewards are not implemented at the moment, but you can still gain points. Feel free to post suggestions for rewards in Discord.");
-				break;
-			}
+	public static NPCClickHandler handleDeath = new NPCClickHandler(new Object[] { 15661 }, e -> {
+		switch(e.getOpNum()) {
+		case 1:
+			e.getPlayer().startConversation(new ReaperDialogue(e.getPlayer()));
+			break;
+		case 3:
+			talkAboutAssignment(e.getPlayer());
+			break;
+		case 4:
+			e.getPlayer().sendMessage("Rewards are not implemented at the moment, but you can still gain points. Feel free to post suggestions for rewards in Discord.");
+			break;
 		}
-	};
+	});
 
 }

@@ -22,7 +22,6 @@ import java.util.List;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -39,46 +38,43 @@ public final class Notes {
 		this.player = player;
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(34) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch (e.getComponentId()) {
-			case 35, 37, 39, 41 -> {
-				e.getPlayer().getNotes().colour((e.getComponentId() - 35) / 2);
-				e.getPlayer().getPackets().setIFHidden(34, 16, true);
-			}
-			case 3 -> e.getPlayer().sendInputLongText("Add note:", text -> e.getPlayer().getNotes().add(text));
-			case 9 -> {
-				switch (e.getPacket()) {
-				case IF_OP1 -> {
-					if (e.getPlayer().getNotes().getCurrentNote() == e.getSlotId())
-						e.getPlayer().getNotes().removeCurrentNote();
-					else
-						e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-				}
-				case IF_OP2 -> e.getPlayer().sendInputLongText("Edit note:", text -> {
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(34, e -> {
+		switch (e.getComponentId()) {
+		case 35, 37, 39, 41 -> {
+			e.getPlayer().getNotes().colour((e.getComponentId() - 35) / 2);
+			e.getPlayer().getPackets().setIFHidden(34, 16, true);
+		}
+		case 3 -> e.getPlayer().sendInputLongText("Add note:", text -> e.getPlayer().getNotes().add(text));
+		case 9 -> {
+			switch (e.getPacket()) {
+			case IF_OP1 -> {
+				if (e.getPlayer().getNotes().getCurrentNote() == e.getSlotId())
+					e.getPlayer().getNotes().removeCurrentNote();
+				else
 					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getNotes().edit(text);
-				});
-				case IF_OP3 -> {
-					e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
-					e.getPlayer().getPackets().setIFHidden(34, 16, false);
-				}
-				case IF_OP4 -> e.getPlayer().getNotes().delete(e.getSlotId());
-				default -> {}
-				}
 			}
-			case 11 -> {
-				switch (e.getPacket()) {
-				case IF_OP1 -> e.getPlayer().getNotes().delete();
-				case IF_OP2 -> e.getPlayer().getNotes().deleteAll();
-				default -> {}
-				}
-				break;
+			case IF_OP2 -> e.getPlayer().sendInputLongText("Edit note:", text -> {
+				e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
+				e.getPlayer().getNotes().edit(text);
+			});
+			case IF_OP3 -> {
+				e.getPlayer().getNotes().setCurrentNote(e.getSlotId());
+				e.getPlayer().getPackets().setIFHidden(34, 16, false);
 			}
+			case IF_OP4 -> e.getPlayer().getNotes().delete(e.getSlotId());
+			default -> {}
 			}
 		}
-	};
+		case 11 -> {
+			switch (e.getPacket()) {
+			case IF_OP1 -> e.getPlayer().getNotes().delete();
+			case IF_OP2 -> e.getPlayer().getNotes().deleteAll();
+			default -> {}
+			}
+			break;
+		}
+		}
+	});
 
 	public void init() {
 		player.getPackets().setIFEvents(new IFEvents(34, 9, 0, 30)

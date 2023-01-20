@@ -22,7 +22,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
@@ -31,15 +30,12 @@ public class Jossik extends Conversation {
 	
 	private static final int JOSSIK = 1334;
 	
-	public static NPCClickHandler handle = new NPCClickHandler(new Object[] { 1334 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().contains("Talk"))
-				e.getPlayer().startConversation(new Jossik(e.getPlayer()));
-			else if (e.getOption().contains("Trade"))
-				ShopsHandler.openShop(e.getPlayer(), "book_shop");
-		}
-	};
+	public static NPCClickHandler handle = new NPCClickHandler(new Object[] { 1334 }, e -> {
+		if (e.getOption().contains("Talk"))
+			e.getPlayer().startConversation(new Jossik(e.getPlayer()));
+		else if (e.getOption().contains("Trade"))
+			ShopsHandler.openShop(e.getPlayer(), "book_shop");
+	});
 
 	public Jossik(Player player) {
 		super(player);

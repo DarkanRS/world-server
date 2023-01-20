@@ -31,7 +31,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -96,36 +95,33 @@ public final class DominionTower {
 		player.getPackets().setIFText(1164, 27, progress == 0 ? "Ready for a new match" : "Floor progress: " + progress);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(1163, 1164, 1168, 1170, 1173) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == 1164) {
-				if (e.getComponentId() == 26)
-					e.getPlayer().getDominionTower().openClimberMode();
-				else if (e.getComponentId() == 28)
-					e.getPlayer().getDominionTower().openEnduranceMode();
-				else if (e.getComponentId() == 29)
-					e.getPlayer().getDominionTower().openSpecialMode();
-				else if (e.getComponentId() == 30)
-					e.getPlayer().getDominionTower().openFreeStyleMode();
-				else if (e.getComponentId() == 31)
-					e.getPlayer().getDominionTower().openSpectate();
-			} else if (e.getInterfaceId() == 1163) {
-				if (e.getComponentId() == 89)
-					e.getPlayer().closeInterfaces();
-			} else if (e.getInterfaceId() == 1168) {
-				if (e.getComponentId() == 254)
-					e.getPlayer().closeInterfaces();
-			} else if (e.getInterfaceId() == 1170) {
-				if (e.getComponentId() == 85)
-					e.getPlayer().closeInterfaces();
-			} else if (e.getInterfaceId() == 1173)
-				if (e.getComponentId() == 58)
-					e.getPlayer().closeInterfaces();
-				else if (e.getComponentId() == 59)
-					e.getPlayer().getDominionTower().startEnduranceMode();
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(new Object[] { 1163, 1164, 1168, 1170, 1173 }, e -> {
+		if (e.getInterfaceId() == 1164) {
+			if (e.getComponentId() == 26)
+				e.getPlayer().getDominionTower().openClimberMode();
+			else if (e.getComponentId() == 28)
+				e.getPlayer().getDominionTower().openEnduranceMode();
+			else if (e.getComponentId() == 29)
+				e.getPlayer().getDominionTower().openSpecialMode();
+			else if (e.getComponentId() == 30)
+				e.getPlayer().getDominionTower().openFreeStyleMode();
+			else if (e.getComponentId() == 31)
+				e.getPlayer().getDominionTower().openSpectate();
+		} else if (e.getInterfaceId() == 1163) {
+			if (e.getComponentId() == 89)
+				e.getPlayer().closeInterfaces();
+		} else if (e.getInterfaceId() == 1168) {
+			if (e.getComponentId() == 254)
+				e.getPlayer().closeInterfaces();
+		} else if (e.getInterfaceId() == 1170) {
+			if (e.getComponentId() == 85)
+				e.getPlayer().closeInterfaces();
+		} else if (e.getInterfaceId() == 1173)
+			if (e.getComponentId() == 58)
+				e.getPlayer().closeInterfaces();
+			else if (e.getComponentId() == 59)
+				e.getPlayer().getDominionTower().startEnduranceMode();
+	});
 
 	private static final int[] MUSICS = { 1015, 1022, 1018, 1016, 1021 };
 

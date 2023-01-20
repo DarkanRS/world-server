@@ -31,8 +31,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
@@ -497,35 +495,29 @@ public class FarmPatch {
 		return growthStage == seed.stages;
 	}
 
-	public static ObjectClickHandler handlePatches = new ObjectClickHandler(PatchLocation.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			PatchLocation loc = PatchLocation.forObject(e.getObjectId());
-			if (loc == null)
-				return;
+	public static ObjectClickHandler handlePatches = new ObjectClickHandler(PatchLocation.MAP.keySet().toArray(), e -> {
+		PatchLocation loc = PatchLocation.forObject(e.getObjectId());
+		if (loc == null)
+			return;
 
-			FarmPatch patch = e.getPlayer().getPatch(loc);
-			if (patch == null)
-				patch = new FarmPatch(loc);
-			patch.handleClick(e.getPlayer(), e.getObject(), e.getOption(), e.getOpNum());
-			e.getPlayer().putPatch(patch);
-		}
-	};
+		FarmPatch patch = e.getPlayer().getPatch(loc);
+		if (patch == null)
+			patch = new FarmPatch(loc);
+		patch.handleClick(e.getPlayer(), e.getObject(), e.getOption(), e.getOpNum());
+		e.getPlayer().putPatch(patch);
+	});
 
-	public static ItemOnObjectHandler handleItemOnPatch = new ItemOnObjectHandler(PatchLocation.MAP.keySet().toArray()) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			PatchLocation loc = PatchLocation.forObject(e.getObjectId());
-			if (loc == null)
-				return;
+	public static ItemOnObjectHandler handleItemOnPatch = new ItemOnObjectHandler(PatchLocation.MAP.keySet().toArray(), e -> {
+		PatchLocation loc = PatchLocation.forObject(e.getObjectId());
+		if (loc == null)
+			return;
 
-			FarmPatch patch = e.getPlayer().getPatch(loc);
-			if (patch == null)
-				patch = new FarmPatch(loc);
-			patch.useItem(e.getPlayer(), e.getObject(), e.getItem());
-			e.getPlayer().putPatch(patch);
-		}
-	};
+		FarmPatch patch = e.getPlayer().getPatch(loc);
+		if (patch == null)
+			patch = new FarmPatch(loc);
+		patch.useItem(e.getPlayer(), e.getObject(), e.getItem());
+		e.getPlayer().putPatch(patch);
+	});
 	
 	@Override
 	public String toString() {

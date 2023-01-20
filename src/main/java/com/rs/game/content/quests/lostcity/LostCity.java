@@ -13,7 +13,6 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @QuestHandler(Quest.LOST_CITY)
@@ -99,36 +98,33 @@ public class LostCity extends QuestOutline {
 		return lines;
 	}
 
-	public static ObjectClickHandler handleShedDoor = new ObjectClickHandler(new Object[] { 2406 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			Player p = e.getPlayer();
-			GameObject obj = e.getObject();
-			Doors.handleDoor(p, obj);
-			if(p.getX() <= obj.getX())
-				if(p.getEquipment().getWeaponId() == DRAMEN_STAFF
-                        && p.getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
-					WorldTasks.schedule(new WorldTask() {
-						int tick;
-						@Override
-						public void run() {
-							if(tick == 1) {
-								p.sendMessage("The world starts to shimmer...");
-								FairyRings.sendTeleport(p, WorldTile.of(2452, 4473, 0));
-								p.lock(4);
-							}
-							if(tick == 4)
-								if(!p.isQuestComplete(Quest.LOST_CITY)) {
-									p.lock(3);//so players dont cancel it out by accident and not see it...
-									p.getQuestManager().completeQuest(Quest.LOST_CITY);
-								}
-							if(tick == 5)
-								stop();
-							tick++;
+	public static ObjectClickHandler handleShedDoor = new ObjectClickHandler(new Object[] { 2406 }, e -> {
+		Player p = e.getPlayer();
+		GameObject obj = e.getObject();
+		Doors.handleDoor(p, obj);
+		if(p.getX() <= obj.getX())
+			if(p.getEquipment().getWeaponId() == DRAMEN_STAFF
+                    && p.getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
+				WorldTasks.schedule(new WorldTask() {
+					int tick;
+					@Override
+					public void run() {
+						if(tick == 1) {
+							p.sendMessage("The world starts to shimmer...");
+							FairyRings.sendTeleport(p, WorldTile.of(2452, 4473, 0));
+							p.lock(4);
 						}
-					}, 0, 1);
-		}
-	};
+						if(tick == 4)
+							if(!p.isQuestComplete(Quest.LOST_CITY)) {
+								p.lock(3);//so players dont cancel it out by accident and not see it...
+								p.getQuestManager().completeQuest(Quest.LOST_CITY);
+							}
+						if(tick == 5)
+							stop();
+						tick++;
+					}
+				}, 0, 1);
+	});
 
 
 	@Override

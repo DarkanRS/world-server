@@ -262,10 +262,5 @@ public class Nomad extends NPC {
 		this.healed = healed;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8528, 8529, 8530, 8531, 8532) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new Nomad(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 8528, 8529, 8530, 8531, 8532 }, (npcId, tile) -> new Nomad(npcId, tile, false));
 }

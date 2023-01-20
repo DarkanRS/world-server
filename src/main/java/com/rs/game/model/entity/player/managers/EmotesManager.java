@@ -33,7 +33,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -260,16 +259,13 @@ public final class EmotesManager {
 		return unlocked.contains(emote);
 	}
 
-	public static ButtonClickHandler handleEmoteBook = new ButtonClickHandler(590, 464) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if ((e.getInterfaceId() == 590 && e.getComponentId() != 8))
-				return;
-			Emote emote = Emote.forSlot(e.getSlotId());
-			if (emote != null)
-				e.getPlayer().getEmotesManager().useBookEmote(emote);
-		}
-	};
+	public static ButtonClickHandler handleEmoteBook = new ButtonClickHandler(new Object[] { 590, 464 }, e -> {
+		if ((e.getInterfaceId() == 590 && e.getComponentId() != 8))
+			return;
+		Emote emote = Emote.forSlot(e.getSlotId());
+		if (emote != null)
+			e.getPlayer().getEmotesManager().useBookEmote(emote);
+	});
 
 	public void useBookEmote(Emote emote) {
 		if (player.inCombat(10000) || player.hasBeenHit(10000)) {

@@ -22,7 +22,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -30,12 +29,7 @@ public class EasterBunnyD extends Conversation {
 
 	private static final int EASTER_BUNNY = 9687;
 
-	public static NPCClickHandler handleEasterBunnyTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new EasterBunnyD(e.getPlayer()));
-		}
-	};
+	public static NPCClickHandler handleEasterBunnyTalk = new NPCClickHandler(new Object[] { EASTER_BUNNY }, e -> e.getPlayer().startConversation(new EasterBunnyD(e.getPlayer())));
 
 	public EasterBunnyD(Player player) {
 		super(player);

@@ -22,7 +22,6 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -149,28 +148,25 @@ public class BoltEnchanting  {
 
 	}
 
-	public static ButtonClickHandler handleInter = new ButtonClickHandler(432) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			Bolt bolt = Bolt.forId(e.getComponentId());
-			if (bolt != null)
-				switch(e.getPacket()) {
-				case IF_OP1: //1
-					e.getPlayer().stopAll();
-					e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 1));
-					break;
-				case IF_OP2: //5
-					e.getPlayer().stopAll();
-					e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 5));
-					break;
-				case IF_OP3: //10
-					e.getPlayer().stopAll();
-					e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 10));
-					break;
-				default:
-					break;
-				}
-		}
-	};
+	public static ButtonClickHandler handleInter = new ButtonClickHandler(432, e -> {
+		Bolt bolt = Bolt.forId(e.getComponentId());
+		if (bolt != null)
+			switch(e.getPacket()) {
+			case IF_OP1: //1
+				e.getPlayer().stopAll();
+				e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 1));
+				break;
+			case IF_OP2: //5
+				e.getPlayer().stopAll();
+				e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 5));
+				break;
+			case IF_OP3: //10
+				e.getPlayer().stopAll();
+				e.getPlayer().getActionManager().setAction(new BoltEnchantingAction(bolt, 10));
+				break;
+			default:
+				break;
+			}
+	});
 
 }

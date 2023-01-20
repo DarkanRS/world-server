@@ -21,7 +21,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 
@@ -142,54 +141,51 @@ public class PriceChecker {
 		player.getPackets().sendItems(93, inv);
 	}
 
-	public static ButtonClickHandler handleButtons = new ButtonClickHandler(206, 207) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == 206) {
-				if (e.getComponentId() == 15)
-					switch(e.getPacket()) {
-					case IF_OP1:
-						removeItem(e.getPlayer(), e.getSlotId(), 1);
-						break;
-					case IF_OP2:
-						removeItem(e.getPlayer(), e.getSlotId(), 5);
-						break;
-					case IF_OP3:
-						removeItem(e.getPlayer(), e.getSlotId(), 10);
-						break;
-					case IF_OP4:
-						removeItem(e.getPlayer(), e.getSlotId(), Integer.MAX_VALUE);
-						break;
-					case IF_OP5:
-						e.getPlayer().sendInputInteger("Enter Amount:", amount -> removeItem(e.getPlayer(), e.getSlotId(), amount));
-						break;
-					default:
-						break;
-					}
-			} else if (e.getInterfaceId() == 207)
-				if (e.getComponentId() == 0)
-					switch(e.getPacket()) {
-					case IF_OP1:
-						addItem(e.getPlayer(), e.getSlotId(), 1);
-						break;
-					case IF_OP2:
-						addItem(e.getPlayer(), e.getSlotId(), 5);
-						break;
-					case IF_OP3:
-						addItem(e.getPlayer(), e.getSlotId(), 10);
-						break;
-					case IF_OP4:
-						addItem(e.getPlayer(), e.getSlotId(), Integer.MAX_VALUE);
-						break;
-					case IF_OP5:
-						e.getPlayer().sendInputInteger("Enter Amount:", amount -> addItem(e.getPlayer(), e.getSlotId(), amount));
-						break;
-					case IF_OP6:
-						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-						break;
-					default:
-						break;
-					}
-		}
-	};
+	public static ButtonClickHandler handleButtons = new ButtonClickHandler(new Object[] { 206, 207 }, e -> {
+		if (e.getInterfaceId() == 206) {
+			if (e.getComponentId() == 15)
+				switch(e.getPacket()) {
+				case IF_OP1:
+					removeItem(e.getPlayer(), e.getSlotId(), 1);
+					break;
+				case IF_OP2:
+					removeItem(e.getPlayer(), e.getSlotId(), 5);
+					break;
+				case IF_OP3:
+					removeItem(e.getPlayer(), e.getSlotId(), 10);
+					break;
+				case IF_OP4:
+					removeItem(e.getPlayer(), e.getSlotId(), Integer.MAX_VALUE);
+					break;
+				case IF_OP5:
+					e.getPlayer().sendInputInteger("Enter Amount:", amount -> removeItem(e.getPlayer(), e.getSlotId(), amount));
+					break;
+				default:
+					break;
+				}
+		} else if (e.getInterfaceId() == 207)
+			if (e.getComponentId() == 0)
+				switch(e.getPacket()) {
+				case IF_OP1:
+					addItem(e.getPlayer(), e.getSlotId(), 1);
+					break;
+				case IF_OP2:
+					addItem(e.getPlayer(), e.getSlotId(), 5);
+					break;
+				case IF_OP3:
+					addItem(e.getPlayer(), e.getSlotId(), 10);
+					break;
+				case IF_OP4:
+					addItem(e.getPlayer(), e.getSlotId(), Integer.MAX_VALUE);
+					break;
+				case IF_OP5:
+					e.getPlayer().sendInputInteger("Enter Amount:", amount -> addItem(e.getPlayer(), e.getSlotId(), amount));
+					break;
+				case IF_OP6:
+					e.getPlayer().getInventory().sendExamine(e.getSlotId());
+					break;
+				default:
+					break;
+				}
+	});
 }

@@ -71,12 +71,7 @@ public class MordredMob extends NPC {
 		return true;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(247) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new MordredMob(npcId, tile);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(247, (npcId, tile) -> new MordredMob(npcId, tile));
 
 
 }

@@ -24,7 +24,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.EconomyPrices;
 import com.rs.utils.ItemConfig;
@@ -43,68 +42,65 @@ public class Trade {
 		items = new ItemsContainer<>(28, false);
 	}
 
-	public static ButtonClickHandler handleTradeWindow = new ButtonClickHandler(334, 335, 336) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getInterfaceId() == 334) {
-				if (e.getPlayer().isIronMan())
-					return;
-				if (e.getPlayer().getRights() == Rights.ADMIN) {
-					e.getPlayer().sendMessage("Administrators cannot trade.");
-					return;
-				}
-				if (e.getComponentId() == 22)
-					e.getPlayer().closeInterfaces();
-				else if (e.getComponentId() == 21)
-					e.getPlayer().getTrade().accept(false);
-			} else if (e.getInterfaceId() == 335) {
-				if (e.getPlayer().isIronMan())
-					return;
-				if (e.getComponentId() == 18)
-					e.getPlayer().getTrade().accept(true);
-				else if (e.getComponentId() == 20)
-					e.getPlayer().closeInterfaces();
-				else if (e.getComponentId() == 32) {
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						e.getPlayer().getTrade().removeItem(e.getSlotId(), 1);
-					else if (e.getPacket() == ClientPacket.IF_OP2)
-						e.getPlayer().getTrade().removeItem(e.getSlotId(), 5);
-					else if (e.getPacket() == ClientPacket.IF_OP3)
-						e.getPlayer().getTrade().removeItem(e.getSlotId(), 10);
-					else if (e.getPacket() == ClientPacket.IF_OP4)
-						e.getPlayer().getTrade().removeItem(e.getSlotId(), Integer.MAX_VALUE);
-					else if (e.getPacket() == ClientPacket.IF_OP5)
-						e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().removeItem(e.getSlotId(), num));
-					else if (e.getPacket() == ClientPacket.IF_OP6)
-						e.getPlayer().getTrade().sendValue(e.getSlotId(), false);
-					else if (e.getPacket() == ClientPacket.IF_OP10)
-						e.getPlayer().getTrade().sendExamine(e.getSlotId(), false);
-				} else if (e.getComponentId() == 35) {
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						e.getPlayer().getTrade().sendValue(e.getSlotId(), true);
-					else if (e.getPacket() == ClientPacket.IF_OP10)
-						e.getPlayer().getTrade().sendExamine(e.getSlotId(), true);
-				} else if (e.getComponentId() == 53)
-					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addCoinsFromPouch(num));
-				
-			} else if (e.getInterfaceId() == 336)
-				if (e.getComponentId() == 0)
-					if (e.getPacket() == ClientPacket.IF_OP1)
-						e.getPlayer().getTrade().addItem(e.getSlotId(), 1);
-					else if (e.getPacket() == ClientPacket.IF_OP2)
-						e.getPlayer().getTrade().addItem(e.getSlotId(), 5);
-					else if (e.getPacket() == ClientPacket.IF_OP3)
-						e.getPlayer().getTrade().addItem(e.getSlotId(), 10);
-					else if (e.getPacket() == ClientPacket.IF_OP4)
-						e.getPlayer().getTrade().addItem(e.getSlotId(), Integer.MAX_VALUE);
-					else if (e.getPacket() == ClientPacket.IF_OP5)
-						e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addItem(e.getSlotId(), num));
-					else if (e.getPacket() == ClientPacket.IF_OP6)
-						e.getPlayer().getTrade().sendValue(e.getSlotId());
-					else if (e.getPacket() == ClientPacket.IF_OP10)
-						e.getPlayer().getInventory().sendExamine(e.getSlotId());
-		}
-	};
+	public static ButtonClickHandler handleTradeWindow = new ButtonClickHandler(new Object[] { 334, 335, 336 }, e -> {
+		if (e.getInterfaceId() == 334) {
+			if (e.getPlayer().isIronMan())
+				return;
+			if (e.getPlayer().getRights() == Rights.ADMIN) {
+				e.getPlayer().sendMessage("Administrators cannot trade.");
+				return;
+			}
+			if (e.getComponentId() == 22)
+				e.getPlayer().closeInterfaces();
+			else if (e.getComponentId() == 21)
+				e.getPlayer().getTrade().accept(false);
+		} else if (e.getInterfaceId() == 335) {
+			if (e.getPlayer().isIronMan())
+				return;
+			if (e.getComponentId() == 18)
+				e.getPlayer().getTrade().accept(true);
+			else if (e.getComponentId() == 20)
+				e.getPlayer().closeInterfaces();
+			else if (e.getComponentId() == 32) {
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					e.getPlayer().getTrade().removeItem(e.getSlotId(), 1);
+				else if (e.getPacket() == ClientPacket.IF_OP2)
+					e.getPlayer().getTrade().removeItem(e.getSlotId(), 5);
+				else if (e.getPacket() == ClientPacket.IF_OP3)
+					e.getPlayer().getTrade().removeItem(e.getSlotId(), 10);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					e.getPlayer().getTrade().removeItem(e.getSlotId(), Integer.MAX_VALUE);
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().removeItem(e.getSlotId(), num));
+				else if (e.getPacket() == ClientPacket.IF_OP6)
+					e.getPlayer().getTrade().sendValue(e.getSlotId(), false);
+				else if (e.getPacket() == ClientPacket.IF_OP10)
+					e.getPlayer().getTrade().sendExamine(e.getSlotId(), false);
+			} else if (e.getComponentId() == 35) {
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					e.getPlayer().getTrade().sendValue(e.getSlotId(), true);
+				else if (e.getPacket() == ClientPacket.IF_OP10)
+					e.getPlayer().getTrade().sendExamine(e.getSlotId(), true);
+			} else if (e.getComponentId() == 53)
+				e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addCoinsFromPouch(num));
+			
+		} else if (e.getInterfaceId() == 336)
+			if (e.getComponentId() == 0)
+				if (e.getPacket() == ClientPacket.IF_OP1)
+					e.getPlayer().getTrade().addItem(e.getSlotId(), 1);
+				else if (e.getPacket() == ClientPacket.IF_OP2)
+					e.getPlayer().getTrade().addItem(e.getSlotId(), 5);
+				else if (e.getPacket() == ClientPacket.IF_OP3)
+					e.getPlayer().getTrade().addItem(e.getSlotId(), 10);
+				else if (e.getPacket() == ClientPacket.IF_OP4)
+					e.getPlayer().getTrade().addItem(e.getSlotId(), Integer.MAX_VALUE);
+				else if (e.getPacket() == ClientPacket.IF_OP5)
+					e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getTrade().addItem(e.getSlotId(), num));
+				else if (e.getPacket() == ClientPacket.IF_OP6)
+					e.getPlayer().getTrade().sendValue(e.getSlotId());
+				else if (e.getPacket() == ClientPacket.IF_OP10)
+					e.getPlayer().getInventory().sendExamine(e.getSlotId());
+	});
 
 	/*
 	 * called to both players

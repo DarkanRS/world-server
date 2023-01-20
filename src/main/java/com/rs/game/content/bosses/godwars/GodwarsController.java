@@ -32,7 +32,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -68,25 +67,22 @@ public class GodwarsController extends Controller {
 		return false; // so doesnt remove script
 	}
 
-	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
-				if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
-					if (e.getPlayer().getY() < 5334) {
-						if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
-							e.getPlayer().useStairs(6999, WorldTile.of(2885, 5347, 2), 1, 1);
-							e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
-							e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
-						} else
-							e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
+	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }, e -> {
+		e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
+			if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
+				if (e.getPlayer().getY() < 5334) {
+					if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
+						e.getPlayer().useStairs(6999, WorldTile.of(2885, 5347, 2), 1, 1);
+						e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
+						e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
 					} else
-						e.getPlayer().useStairs(6999, WorldTile.of(2885, 5330, 2), 1, 1);
-					return;
-				}
-			}, true));
-		}
-	};
+						e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
+				} else
+					e.getPlayer().useStairs(6999, WorldTile.of(2885, 5330, 2), 1, 1);
+				return;
+			}
+		}, true));
+	});
 
 	@Override
 	public boolean processObjectClick1(final GameObject object) {

@@ -29,8 +29,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.utils.drop.Drop;
@@ -86,33 +84,27 @@ public class Runecrafting {
 		}
 	}
 
-	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514 }, new String[] { "Fill", "Empty" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Fill"))
-				switch(e.getItem().getId()) {
-				case 5509 -> fillPouch(e.getPlayer(), 0);
-				case 5510 -> fillPouch(e.getPlayer(), 1);
-				case 5512 -> fillPouch(e.getPlayer(), 2);
-				case 5514 -> fillPouch(e.getPlayer(), 3);
-				}
-			else
-				switch(e.getItem().getId()) {
-				case 5509 -> emptyPouch(e.getPlayer(), 0);
-				case 5510 -> emptyPouch(e.getPlayer(), 1);
-				case 5512 -> emptyPouch(e.getPlayer(), 2);
-				case 5514 -> emptyPouch(e.getPlayer(), 3);
-				}
-			e.getPlayer().stopAll(false);
-		}
-	};
+	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514 }, new String[] { "Fill", "Empty" }, e -> {
+		if (e.getOption().equals("Fill"))
+			switch(e.getItem().getId()) {
+			case 5509 -> fillPouch(e.getPlayer(), 0);
+			case 5510 -> fillPouch(e.getPlayer(), 1);
+			case 5512 -> fillPouch(e.getPlayer(), 2);
+			case 5514 -> fillPouch(e.getPlayer(), 3);
+			}
+		else
+			switch(e.getItem().getId()) {
+			case 5509 -> emptyPouch(e.getPlayer(), 0);
+			case 5510 -> emptyPouch(e.getPlayer(), 1);
+			case 5512 -> emptyPouch(e.getPlayer(), 2);
+			case 5514 -> emptyPouch(e.getPlayer(), 3);
+			}
+		e.getPlayer().stopAll(false);
+	});
 	
-	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA) {
-		@Override
-		public void handle(ItemEquipEvent e) {
-			e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
-		}
-	};
+	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(new Object[] { AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA }, e -> {
+		e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
+	});
 
 	public static void craftTalisman(Player player, int talisman, int tiara, int staff, double xp) {
 		player.sendOptionDialogue("What would you like to imbue?", ops -> {

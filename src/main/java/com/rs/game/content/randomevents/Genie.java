@@ -26,7 +26,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -87,55 +86,52 @@ public class Genie extends OwnedNPC {
 			finish();
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getNPC() instanceof Genie) {
-				Genie npc = (Genie) e.getNPC();
-				if (npc.ticks >= 149)
-					return;
-				if (npc.getOwner() != e.getPlayer()) {
-					e.getPlayer().startConversation(new Conversation(new Dialogue()
-							.addNPC(3022, HeadE.CALM_TALK, "This wish is for " + npc.getOwner().getDisplayName() + ", not you!")));
-					return;
-				}
-				if (e.getPlayer().inCombat()) {
-					if(e.getPlayer().getInventory().hasFreeSlots()) {
-						e.getPlayer().sendMessage("The genie gives you a lamp!");
-						e.getPlayer().getInventory().addItem(2528, 1);
-						npc.forceTalk("Hope that satisfies you!");
-						npc.claimed = true;
-					} else {
-						e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-						npc.claimed = true;
-					}
-					npc.ticks = 152;
-					return;
-				}
-				e.getPlayer().startConversation(new Conversation(e.getPlayer())
-						.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your with!")
-						.addOptions(new Options() {
-							@Override
-							public void create() {
-								option("Take the lamp", () -> {
-									if(e.getPlayer().getInventory().hasFreeSlots()) {
-										e.getPlayer().sendMessage("The genie gives you a lamp!");
-										e.getPlayer().getInventory().addItem(2528, 1);
-										npc.forceTalk("I hope you're happy with your wish.");
-										npc.claimed = true;
-									} else {
-										e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-										npc.claimed = true;
-									}
-									npc.ticks = 152;
-								});
-								option("Don't take it", () -> {
-									npc.claimed = true;
-									npc.ticks = 152;
-								});
-							}
-						}));
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }, e -> {
+		if (e.getNPC() instanceof Genie) {
+			Genie npc = (Genie) e.getNPC();
+			if (npc.ticks >= 149)
+				return;
+			if (npc.getOwner() != e.getPlayer()) {
+				e.getPlayer().startConversation(new Conversation(new Dialogue()
+						.addNPC(3022, HeadE.CALM_TALK, "This wish is for " + npc.getOwner().getDisplayName() + ", not you!")));
+				return;
 			}
+			if (e.getPlayer().inCombat()) {
+				if(e.getPlayer().getInventory().hasFreeSlots()) {
+					e.getPlayer().sendMessage("The genie gives you a lamp!");
+					e.getPlayer().getInventory().addItem(2528, 1);
+					npc.forceTalk("Hope that satisfies you!");
+					npc.claimed = true;
+				} else {
+					e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
+					npc.claimed = true;
+				}
+				npc.ticks = 152;
+				return;
+			}
+			e.getPlayer().startConversation(new Conversation(e.getPlayer())
+					.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your with!")
+					.addOptions(new Options() {
+						@Override
+						public void create() {
+							option("Take the lamp", () -> {
+								if(e.getPlayer().getInventory().hasFreeSlots()) {
+									e.getPlayer().sendMessage("The genie gives you a lamp!");
+									e.getPlayer().getInventory().addItem(2528, 1);
+									npc.forceTalk("I hope you're happy with your wish.");
+									npc.claimed = true;
+								} else {
+									e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
+									npc.claimed = true;
+								}
+								npc.ticks = 152;
+							});
+							option("Don't take it", () -> {
+								npc.claimed = true;
+								npc.ticks = 152;
+							});
+						}
+					}));
 		}
-	};
+	});
 }

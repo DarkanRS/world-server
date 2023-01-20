@@ -29,8 +29,6 @@ import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -179,22 +177,16 @@ public class DoricsQuest extends QuestOutline {
 		}
 	}
 
-	public static NPCClickHandler doricHandler = new NPCClickHandler(new Object[] { DORIC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.isAtNPC())
-				if (e.getOption().equalsIgnoreCase("talk-to"))
-					e.getPlayer().startConversation(new DoricD(e.getPlayer()));
-		}
-	};
-
-	public static ObjectClickHandler handleDoricsAnvil = new ObjectClickHandler(new Object[] { 2782, 10641 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.getPlayer().isQuestComplete(Quest.DORICS_QUEST))
+	public static NPCClickHandler doricHandler = new NPCClickHandler(new Object[] { DORIC }, e -> {
+		if (e.isAtNPC())
+			if (e.getOption().equalsIgnoreCase("talk-to"))
 				e.getPlayer().startConversation(new DoricD(e.getPlayer()));
-			else if (e.getObject().getDefinitions().containsOption(0, "Smith"))
-				ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer());
-		}
-	};
+	});
+
+	public static ObjectClickHandler handleDoricsAnvil = new ObjectClickHandler(new Object[] { 2782, 10641 }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.DORICS_QUEST))
+			e.getPlayer().startConversation(new DoricD(e.getPlayer()));
+		else if (e.getObject().getDefinitions().containsOption(0, "Smith"))
+			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer());
+	});
 }

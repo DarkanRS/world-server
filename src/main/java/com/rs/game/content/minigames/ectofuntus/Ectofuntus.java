@@ -30,7 +30,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -95,109 +94,78 @@ public class Ectofuntus {
 		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null);
 	}
 
-	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(WorldTile.of(3669, 9888, 3));
+	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }, e -> e.getPlayer().useLadder(WorldTile.of(3669, 9888, 3)));
+	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }, e -> e.getPlayer().useLadder(WorldTile.of(3654, 3519, 0)));
+
+	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 9307, 9308 }, e -> {
+		switch (e.getObjectId()) {
+		case 9307:
+			if (!Agility.hasLevel(e.getPlayer(), 53))
+				return;
+			e.getPlayer().useLadder(WorldTile.of(3670, 9888, 3));
+			return;
+
+		case 9308:
+			if (!Agility.hasLevel(e.getPlayer(), 53))
+				return;
+			e.getPlayer().useLadder(WorldTile.of(3671, 9888, 2));
+			return;
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().useLadder(WorldTile.of(3654, 3519, 0));
+	public static ObjectClickHandler handleStairs = new ObjectClickHandler(new Object[] { 5262, 5263 }, e -> {
+		switch (e.getObjectId()) {
+		case 5262:
+			if (e.getPlayer().getPlane() == 2)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3692, 9888, 3));
+			if (e.getPlayer().getPlane() == 1)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3671, 9888, 2));
+			if (e.getPlayer().getPlane() == 0)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3687, 9888, 1));
+			return;
+
+		case 5263:
+			if (e.getPlayer().getPlane() == 3)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3688, 9888, 2));
+			if (e.getPlayer().getPlane() == 2)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3675, 9887, 1));
+			if (e.getPlayer().getPlane() == 1)
+				e.getPlayer().setNextWorldTile(WorldTile.of(3683, 9888, 0));
+			return;
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 9307, 9308 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch (e.getObjectId()) {
-			case 9307:
-				if (!Agility.hasLevel(e.getPlayer(), 53))
-					return;
-				e.getPlayer().useLadder(WorldTile.of(3670, 9888, 3));
-				return;
-
-			case 9308:
-				if (!Agility.hasLevel(e.getPlayer(), 53))
-					return;
-				e.getPlayer().useLadder(WorldTile.of(3671, 9888, 2));
-				return;
-			}
+	public static ObjectClickHandler handleWorship = new ObjectClickHandler(new Object[] { 5282 }, e -> {
+		if (!e.getPlayer().getInventory().containsItem(BUCKET_OF_SLIME, 1)) {
+			e.getPlayer().sendMessage("You need a bucket of slime before you can worship the ectofuntus.");
+			return;
 		}
-	};
-
-	public static ObjectClickHandler handleStairs = new ObjectClickHandler(new Object[] { 5262, 5263 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			switch (e.getObjectId()) {
-			case 5262:
-				if (e.getPlayer().getPlane() == 2)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3692, 9888, 3));
-				if (e.getPlayer().getPlane() == 1)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3671, 9888, 2));
-				if (e.getPlayer().getPlane() == 0)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3687, 9888, 1));
-				return;
-
-			case 5263:
-				if (e.getPlayer().getPlane() == 3)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3688, 9888, 2));
-				if (e.getPlayer().getPlane() == 2)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3675, 9887, 1));
-				if (e.getPlayer().getPlane() == 1)
-					e.getPlayer().setNextWorldTile(WorldTile.of(3683, 9888, 0));
-				return;
-			}
-		}
-	};
-
-	public static ObjectClickHandler handleWorship = new ObjectClickHandler(new Object[] { 5282 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (!e.getPlayer().getInventory().containsItem(BUCKET_OF_SLIME, 1)) {
-				e.getPlayer().sendMessage("You need a bucket of slime before you can worship the ectofuntus.");
-				return;
-			}
-			for (Item item : e.getPlayer().getInventory().getItems().array()) {
-				if (item == null)
-					continue;
-				BoneMeal bone = BoneMeal.forMealId(item.getId());
-				if (bone != null) {
-					Burying.Bone boneData = Burying.Bone.forId(bone.getBoneId());
-					if (boneData == null) {
-						e.getPlayer().sendMessage("Error bone not added.. Please post the bone you tried to add on the forums.");
-						return;
-					}
-					e.getPlayer().incrementCount(ItemDefinitions.getDefs(bone.getBoneId()).getName()+" offered at ectofuntus");
-					e.getPlayer().setNextAnimation(new Animation(1651));
-					e.getPlayer().getInventory().deleteItem(bone.getBoneMealId(), 1);
-					if (!bone.name().contains("ASHES"))
-						e.getPlayer().getInventory().addItem(EMPTY_POT, 1);
-					e.getPlayer().getInventory().deleteItem(BUCKET_OF_SLIME, 1);
-					e.getPlayer().getInventory().addItem(EMPTY_BUCKET, 1);
-					e.getPlayer().getSkills().addXp(Constants.PRAYER, boneData.getExperience() * 4);
-					e.getPlayer().unclaimedEctoTokens += 5;
+		for (Item item : e.getPlayer().getInventory().getItems().array()) {
+			if (item == null)
+				continue;
+			BoneMeal bone = BoneMeal.forMealId(item.getId());
+			if (bone != null) {
+				Burying.Bone boneData = Burying.Bone.forId(bone.getBoneId());
+				if (boneData == null) {
+					e.getPlayer().sendMessage("Error bone not added.. Please post the bone you tried to add on the forums.");
 					return;
 				}
+				e.getPlayer().incrementCount(ItemDefinitions.getDefs(bone.getBoneId()).getName()+" offered at ectofuntus");
+				e.getPlayer().setNextAnimation(new Animation(1651));
+				e.getPlayer().getInventory().deleteItem(bone.getBoneMealId(), 1);
+				if (!bone.name().contains("ASHES"))
+					e.getPlayer().getInventory().addItem(EMPTY_POT, 1);
+				e.getPlayer().getInventory().deleteItem(BUCKET_OF_SLIME, 1);
+				e.getPlayer().getInventory().addItem(EMPTY_BUCKET, 1);
+				e.getPlayer().getSkills().addXp(Constants.PRAYER, boneData.getExperience() * 4);
+				e.getPlayer().unclaimedEctoTokens += 5;
+				return;
 			}
 		}
-	};
+	});
 
-	public static ObjectClickHandler handleGrinder = new ObjectClickHandler(new Object[] { 11163 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			grinder(e.getPlayer());
-		}
-	};
-
-	public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[] { 11164 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			bin(e.getPlayer());
-		}
-	};
+	public static ObjectClickHandler handleGrinder = new ObjectClickHandler(new Object[] { 11163 }, e -> grinder(e.getPlayer()));
+	public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[] { 11164 }, e -> bin(e.getPlayer()));
 
 	public static boolean handleItemOnObject(Player player, int itemId, int objectId) {
 		ObjectDefinitions objectDefs = ObjectDefinitions.getDefs(objectId);

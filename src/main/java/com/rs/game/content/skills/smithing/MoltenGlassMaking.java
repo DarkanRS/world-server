@@ -21,7 +21,6 @@ import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
@@ -37,11 +36,8 @@ public class MoltenGlassMaking {
 	private static double[] xp = { 20 };
 	private static int[] anims = { 3243 };
 
-	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getItem().getId() == SODA_ASH || e.getItem().getId() == BUCKET_OF_SAND)
-				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
-		}
-	};
+	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, e -> {
+		if (e.getItem().getId() == SODA_ASH || e.getItem().getId() == BUCKET_OF_SAND)
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
+	});
 }

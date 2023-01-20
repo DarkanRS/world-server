@@ -178,6 +178,16 @@ public class Dialogue {
 		return addOptions(title, options);
 	}
 	
+	public Dialogue addOptions(Conversation conversation, String stageName, Consumer<Options> create) {
+		Options options = new Options(stageName, conversation) {
+			@Override
+			public void create() {
+				create.accept(this);
+			}
+		};
+		return addOptions(Conversation.DEFAULT_OPTIONS_TITLE, options);
+	}
+	
 	public Dialogue addOptions(String stageName, Conversation conv, String title, Consumer<Options> create) {
 		Options options = new Options(stageName, conv) {
 			@Override

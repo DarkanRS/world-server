@@ -27,7 +27,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -62,125 +61,100 @@ public class GuardBypasses {
 	}
 
 	public static PlayerStepHandler createDoubleGuardBypass(WorldTile bottomLeftTile, WorldTile guard1, WorldTile guard2, int openAnim, int closeAnim) {
-		return new PlayerStepHandler(bottomLeftTile, bottomLeftTile.transform(0, 1), bottomLeftTile.transform(1, 0), bottomLeftTile.transform(1, 1)) {
-			@Override
-			public void handle(PlayerStepEvent e) {
-				e.getStep().setCheckClip(false);
-				e.getPlayer().setRunHidden(false);
+		return new PlayerStepHandler(new WorldTile[] { bottomLeftTile, bottomLeftTile.transform(0, 1), bottomLeftTile.transform(1, 0), bottomLeftTile.transform(1, 1) }, e -> {
+			e.getStep().setCheckClip(false);
+			e.getPlayer().setRunHidden(false);
 
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
-				WorldTasks.delay(3, () -> {
+			World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
+			World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
+			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
 				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
 			});
-			}
-		};
+		});
 	}
 
-	public static PlayerStepHandler gatesToExamCentreStep = new PlayerStepHandler(WorldTile.of(3311, 3331, 0), WorldTile.of(3311, 3332, 0), WorldTile.of(3312, 3331, 0), WorldTile.of(3312, 3332, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			GameObject gate1 = World.getObjectWithId(WorldTile.of(3312, 3331, 0), 45856);
-			GameObject gate2 = World.getObjectWithId(WorldTile.of(3312, 3332, 0), 45857);
-			if (gate1 != null && gate2 != null) {
-				World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate1), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(-1, 0, 0)), 3, true);
-				World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate2), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(-1, 0, 0)), 3, true);
-			}
-			e.getStep().setCheckClip(false);
-			e.getPlayer().setRunHidden(false);
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
-			WorldTasks.delay(3, () -> {
+	public static PlayerStepHandler gatesToExamCentreStep = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3311, 3331, 0), WorldTile.of(3311, 3332, 0), WorldTile.of(3312, 3331, 0), WorldTile.of(3312, 3332, 0) }, e -> {
+		GameObject gate1 = World.getObjectWithId(WorldTile.of(3312, 3331, 0), 45856);
+		GameObject gate2 = World.getObjectWithId(WorldTile.of(3312, 3332, 0), 45857);
+		if (gate1 != null && gate2 != null) {
+			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate1), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(-1, 0, 0)), 3, true);
+			World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate2), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(-1, 0, 0)), 3, true);
+		}
+		e.getStep().setCheckClip(false);
+		e.getPlayer().setRunHidden(false);
+		World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
+		World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
+		WorldTasks.delay(3, () -> {
 			e.getPlayer().setRunHidden(true);
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
 		});
-		}
-	};
+	});
 
-	public static PlayerStepHandler varrockEastGates = new PlayerStepHandler(WorldTile.of(3273, 3428, 0), WorldTile.of(3273, 3429, 0), WorldTile.of(3274, 3428, 0), WorldTile.of(3274, 3429, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			GameObject gate1 = World.getObjectWithId(WorldTile.of(3273, 3429, 0), 45853);
-			GameObject gate2 = World.getObjectWithId(WorldTile.of(3273, 3428, 0), 45855);
-			if (gate1 != null && gate2 != null) {
-				World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
-			}
-			e.getStep().setCheckClip(false);
-			e.getPlayer().setRunHidden(false);
-			WorldTasks.delay(3, () -> {
-				e.getPlayer().setRunHidden(true);
-			});
+	public static PlayerStepHandler varrockEastGates = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3273, 3428, 0), WorldTile.of(3273, 3429, 0), WorldTile.of(3274, 3428, 0), WorldTile.of(3274, 3429, 0) }, e -> {
+		GameObject gate1 = World.getObjectWithId(WorldTile.of(3273, 3429, 0), 45853);
+		GameObject gate2 = World.getObjectWithId(WorldTile.of(3273, 3428, 0), 45855);
+		if (gate1 != null && gate2 != null) {
+			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
 		}
-	};
-
-	public static PlayerStepHandler varrockNorthDoor = new PlayerStepHandler(WorldTile.of(3245, 3501, 0), WorldTile.of(3245, 3502, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			GameObject door = World.getObjectWithId(WorldTile.of(3245, 3501, 0), 45853);
-			if (door != null) {
-				World.spawnObjectTemporary(new GameObject(door).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(door.getId(), door.getType(), door.getRotation(-1), door.getTile().transform(0, 1, 0)), 3, true);
-			}
-			e.getStep().setCheckClip(false);
-			e.getPlayer().setRunHidden(false);
-			WorldTasks.delay(3, () -> {
+		e.getStep().setCheckClip(false);
+		e.getPlayer().setRunHidden(false);
+		WorldTasks.delay(3, () -> {
 			e.getPlayer().setRunHidden(true);
 		});
-		}
-	};
+	});
 
-	public static PlayerStepHandler daemonheimWildyEntrance = new PlayerStepHandler(WorldTile.of(3384, 3615, 0), WorldTile.of(3385, 3615, 0)) {
-		@Override
-		public void handle(PlayerStepEvent e) {
-			e.getStep().setCheckClip(false);
-			e.getPlayer().setRunHidden(false);
-			if (e.getStep().getX() <= 3384 && e.getStep().getDir() == Direction.WEST) {
-				e.getPlayer().getControllerManager().forceStop();
-				e.getPlayer().getControllerManager().startController(new WildernessController());
-			} else if (e.getStep().getX() > 3384 && e.getStep().getDir() == Direction.EAST) {
-				e.getPlayer().getControllerManager().forceStop();
-				e.getPlayer().getControllerManager().startController(new DamonheimController());
-			}
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
-			WorldTasks.delay(3, () -> {
+	public static PlayerStepHandler varrockNorthDoor = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3245, 3501, 0), WorldTile.of(3245, 3502, 0) }, e -> {
+		GameObject door = World.getObjectWithId(WorldTile.of(3245, 3501, 0), 45853);
+		if (door != null) {
+			World.spawnObjectTemporary(new GameObject(door).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(door.getId(), door.getType(), door.getRotation(-1), door.getTile().transform(0, 1, 0)), 3, true);
+		}
+		e.getStep().setCheckClip(false);
+		e.getPlayer().setRunHidden(false);
+		WorldTasks.delay(3, () -> e.getPlayer().setRunHidden(true));
+	});
+
+	public static PlayerStepHandler daemonheimWildyEntrance = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3384, 3615, 0), WorldTile.of(3385, 3615, 0) }, e -> {
+		e.getStep().setCheckClip(false);
+		e.getPlayer().setRunHidden(false);
+		if (e.getStep().getX() <= 3384 && e.getStep().getDir() == Direction.WEST) {
+			e.getPlayer().getControllerManager().forceStop();
+			e.getPlayer().getControllerManager().startController(new WildernessController());
+		} else if (e.getStep().getX() > 3384 && e.getStep().getDir() == Direction.EAST) {
+			e.getPlayer().getControllerManager().forceStop();
+			e.getPlayer().getControllerManager().startController(new DamonheimController());
+		}
+		World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
+		WorldTasks.delay(3, () -> {
 			e.getPlayer().setRunHidden(true);
 			World.sendObjectAnimation(e.getPlayer(), World.getObject(WorldTile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
 		});
-		}
-	};
+	});
 
-	public static ObjectClickHandler uselessDoors = new ObjectClickHandler(new Object[] {  45854, 45856, 45857, 45858, 45859 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
+	public static ObjectClickHandler uselessDoors = new ObjectClickHandler(new Object[] {  45854, 45856, 45857, 45858, 45859 }, e -> { });
 
+	public static ObjectClickHandler handleNorthAndEastVarrockGates = new ObjectClickHandler(new Object[] { 45853, 45855 }, e -> {
+		GameObject gate1 = World.getObjectWithId(WorldTile.of(3273, 3429, 0), 45853);
+		GameObject gate2 = World.getObjectWithId(WorldTile.of(3273, 3428, 0), 45855);
+		if (gate1 != null && gate2 != null) {
+			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
 		}
-	};
-
-	public static ObjectClickHandler handleNorthAndEastVarrockGates = new ObjectClickHandler(new Object[] { 45853, 45855 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			GameObject gate1 = World.getObjectWithId(WorldTile.of(3273, 3429, 0), 45853);
-			GameObject gate2 = World.getObjectWithId(WorldTile.of(3273, 3428, 0), 45855);
-			if (gate1 != null && gate2 != null) {
-				World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
-				World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
-			}
-			e.getPlayer().lock(2);
-			if(e.getObject().getRotation() == 2) //East
-				e.getPlayer().addWalkSteps(e.getPlayer().getX() > e.getObject().getX() ? e.getObject().getTile().transform(-1, 0) : e.getObject().getTile().transform(1, 0), 3, false);
-			if(e.getObject().getRotation() == 1) //North
-				e.getPlayer().addWalkSteps(e.getPlayer().getY() > e.getObject().getY() ? e.getObject().getTile().transform(0, -1) : e.getObject().getTile().transform(0, 1), 3, false);
-		}
-	};
+		e.getPlayer().lock(2);
+		if(e.getObject().getRotation() == 2) //East
+			e.getPlayer().addWalkSteps(e.getPlayer().getX() > e.getObject().getX() ? e.getObject().getTile().transform(-1, 0) : e.getObject().getTile().transform(1, 0), 3, false);
+		if(e.getObject().getRotation() == 1) //North
+			e.getPlayer().addWalkSteps(e.getPlayer().getY() > e.getObject().getY() ? e.getObject().getTile().transform(0, -1) : e.getObject().getTile().transform(0, 1), 3, false);
+	});
 
 }

@@ -16,10 +16,16 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.ButtonClickEvent;
 
-public abstract class ButtonClickHandler extends PluginHandler<ButtonClickEvent> {
-	public ButtonClickHandler(Object... interfaceIds) {
-		super(interfaceIds);
+public class ButtonClickHandler extends PluginHandler<ButtonClickEvent> {
+	public ButtonClickHandler(Object[] interfaceIds, Consumer<ButtonClickEvent> handler) {
+		super(interfaceIds, handler);
+	}
+	
+	public ButtonClickHandler(Object interfaceId, Consumer<ButtonClickEvent> handler) {
+		super(new Object[] { interfaceId }, handler);
 	}
 }

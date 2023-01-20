@@ -20,25 +20,21 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class DuelController extends Controller {
 
-	public static ButtonClickHandler handleDuelRequest = new ButtonClickHandler(640) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() == 18 || e.getComponentId() == 22) {
-				e.getPlayer().getTempAttribs().setB("WillDuelFriendly", true);
-				e.getPlayer().getVars().setVar(283, 67108864);
-			} else if (e.getComponentId() == 19 || e.getComponentId() == 21) {
-				e.getPlayer().getTempAttribs().setB("WillDuelFriendly", false);
-				e.getPlayer().getVars().setVar(283, 134217728);
-			} else if (e.getComponentId() == 20)
-				challenge(e.getPlayer());
-		}
-	};
+	public static ButtonClickHandler handleDuelRequest = new ButtonClickHandler(640, e -> {
+		if (e.getComponentId() == 18 || e.getComponentId() == 22) {
+			e.getPlayer().getTempAttribs().setB("WillDuelFriendly", true);
+			e.getPlayer().getVars().setVar(283, 67108864);
+		} else if (e.getComponentId() == 19 || e.getComponentId() == 21) {
+			e.getPlayer().getTempAttribs().setB("WillDuelFriendly", false);
+			e.getPlayer().getVars().setVar(283, 134217728);
+		} else if (e.getComponentId() == 20)
+			challenge(e.getPlayer());
+	});
 
 	@Override
 	public void start() {

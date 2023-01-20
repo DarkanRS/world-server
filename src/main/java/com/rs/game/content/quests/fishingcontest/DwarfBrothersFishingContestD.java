@@ -17,7 +17,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -163,17 +162,6 @@ public class DwarfBrothersFishingContestD extends Conversation {
 		}
 	}
 
-	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(new Object[] { 232 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 232).getStart());
-		}
-	};
-
-	public static NPCClickHandler handleVestriDialogue = new NPCClickHandler(new Object[] { 3679 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 3679).getStart());
-		}
-	};
+	public static NPCClickHandler handleAustriDialogue = new NPCClickHandler(new Object[] { 232 }, e -> e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 232).getStart()));
+	public static NPCClickHandler handleVestriDialogue = new NPCClickHandler(new Object[] { 3679 }, e -> e.getPlayer().startConversation(new DwarfBrothersFishingContestD(e.getPlayer(), 3679).getStart()));
 }

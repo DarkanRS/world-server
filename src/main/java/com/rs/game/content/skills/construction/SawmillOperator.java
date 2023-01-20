@@ -16,12 +16,9 @@
 //
 package com.rs.game.content.skills.construction;
 
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
@@ -34,45 +31,34 @@ public class SawmillOperator  {
 	public static int[] planks = { 960, 8778, 8780, 8782 };
 	public static int[] prices = { 100, 250, 500, 1500 };
 
-	public static NPCInteractionDistanceHandler sawmillDistance = new NPCInteractionDistanceHandler(4250) {
-		@Override
-		public int getDistance(Player player, NPC npc) {
-			return 1;
-		}
-	};
+	public static NPCInteractionDistanceHandler sawmillDistance = new NPCInteractionDistanceHandler(4250, (player, npc) -> 1);
 
-	public static NPCClickHandler handleOps = new NPCClickHandler(new Object[] { 4250 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOpNum() == 1)
-				e.getPlayer().getInterfaceManager().sendInterface(403);
-			else if (e.getOpNum() == 3)
-				e.getPlayer().getInterfaceManager().sendInterface(403);
-			else if (e.getOpNum() == 4)
-				ShopsHandler.openShop(e.getPlayer(), "construction_supplies");
-		}
-	};
+	public static NPCClickHandler handleOps = new NPCClickHandler(new Object[] { 4250 }, e -> {
+		if (e.getOpNum() == 1)
+			e.getPlayer().getInterfaceManager().sendInterface(403);
+		else if (e.getOpNum() == 3)
+			e.getPlayer().getInterfaceManager().sendInterface(403);
+		else if (e.getOpNum() == 4)
+			ShopsHandler.openShop(e.getPlayer(), "construction_supplies");
+	});
 
-	public static ButtonClickHandler handleSawmillInter = new ButtonClickHandler(403) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			if (e.getComponentId() >= 12 && e.getComponentId() <= 15) {
-				final int log = logs[e.getComponentId()-12];
-				final int pricePer = prices[e.getComponentId()-12];
-				final int plank = planks[e.getComponentId()-12];
-				if (e.getPacket() == ClientPacket.IF_OP1)
-					openAreYouSure(e.getPlayer(), log, 1, pricePer, plank);
-				else if (e.getPacket() == ClientPacket.IF_OP2)
-					openAreYouSure(e.getPlayer(), log, 5, pricePer, plank);
-				else if (e.getPacket() == ClientPacket.IF_OP3)
-					openAreYouSure(e.getPlayer(), log, 10, pricePer, plank);
-				else if (e.getPacket() == ClientPacket.IF_OP4)
-					e.getPlayer().sendInputInteger("How many planks would you like to make?", (number) -> openAreYouSure(e.getPlayer(), log, number, pricePer, plank));
-				else if (e.getPacket() == ClientPacket.IF_OP5)
-					openAreYouSure(e.getPlayer(), log, 28, pricePer, plank);
-			}
+	public static ButtonClickHandler handleSawmillInter = new ButtonClickHandler(403, e -> {
+		if (e.getComponentId() >= 12 && e.getComponentId() <= 15) {
+			final int log = logs[e.getComponentId()-12];
+			final int pricePer = prices[e.getComponentId()-12];
+			final int plank = planks[e.getComponentId()-12];
+			if (e.getPacket() == ClientPacket.IF_OP1)
+				openAreYouSure(e.getPlayer(), log, 1, pricePer, plank);
+			else if (e.getPacket() == ClientPacket.IF_OP2)
+				openAreYouSure(e.getPlayer(), log, 5, pricePer, plank);
+			else if (e.getPacket() == ClientPacket.IF_OP3)
+				openAreYouSure(e.getPlayer(), log, 10, pricePer, plank);
+			else if (e.getPacket() == ClientPacket.IF_OP4)
+				e.getPlayer().sendInputInteger("How many planks would you like to make?", (number) -> openAreYouSure(e.getPlayer(), log, number, pricePer, plank));
+			else if (e.getPacket() == ClientPacket.IF_OP5)
+				openAreYouSure(e.getPlayer(), log, 28, pricePer, plank);
 		}
-	};
+	});
 
 	public static void openAreYouSure(Player player, final int log, int amount, final int pricePer, final int plank) {
 		if (amount > player.getInventory().getNumberOf(log))

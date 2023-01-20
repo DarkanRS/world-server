@@ -17,8 +17,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 
@@ -78,26 +76,17 @@ public class BeggarMerlinsCrystalD extends Conversation {
 			}
 		});
 	}
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new BeggarMerlinsCrystalD(e.getPlayer()).getStart());
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new BeggarMerlinsCrystalD(e.getPlayer()).getStart()));
 
-	public static PlayerStepHandler handleBeggar = new PlayerStepHandler(WorldTile.of(3016, 3246, 0)) {
-		final int BEGGAR = 252;
-		@Override
-		public void handle(PlayerStepEvent e) {
-			Player p = e.getPlayer();
-			if((p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != OBTAINING_EXCALIBUR) || !p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(LADY_LAKE_TEST_ATTR))
+	public static PlayerStepHandler handleBeggar = new PlayerStepHandler(WorldTile.of(3016, 3246, 0), e -> {
+		Player p = e.getPlayer();
+		if((p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != OBTAINING_EXCALIBUR) || !p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(LADY_LAKE_TEST_ATTR))
+			return;
+		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+			if(npc.getId() == 252)
 				return;
-			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-				if(npc.getId() == BEGGAR)
-					return;
-            OwnedNPC beggar = new OwnedNPC(p, BEGGAR, WorldTile.of(3016, 3247, 0), true);
-			beggar.setNextSpotAnim(new SpotAnim(1605));
-			beggar.forceTalk("Hey!");
-		}
-	};
+        OwnedNPC beggar = new OwnedNPC(p, 252, WorldTile.of(3016, 3247, 0), true);
+		beggar.setNextSpotAnim(new SpotAnim(1605));
+		beggar.forceTalk("Hey!");
+	});
 }

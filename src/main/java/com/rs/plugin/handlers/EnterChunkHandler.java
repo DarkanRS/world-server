@@ -16,10 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import java.util.function.Consumer;
+
 import com.rs.plugin.events.EnterChunkEvent;
 
-public abstract class EnterChunkHandler extends PluginHandler<EnterChunkEvent> {
-	public EnterChunkHandler() {
-		super(new Object[] { "meme" });
+public class EnterChunkHandler extends PluginHandler<EnterChunkEvent> {
+	public EnterChunkHandler(Consumer<EnterChunkEvent> handler) {
+		super(new Object[] { "meme" }, handler);
 	}
 }

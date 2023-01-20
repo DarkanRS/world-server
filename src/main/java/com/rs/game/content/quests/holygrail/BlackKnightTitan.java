@@ -25,7 +25,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -61,21 +60,13 @@ public class BlackKnightTitan extends NPC {
 		return true;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(221) {
-		@Override
-		public NPC getNPC(int npcId, WorldTile tile) {
-			return new BlackKnightTitan(npcId, tile, false);
-		}
-	};
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(221, (npcId, tile) -> new BlackKnightTitan(npcId, tile, false));
 
-	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{221}, new String[]{"Talk-to"}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new Dialogue()
-					.addNPC(221, HeadE.CHILD_CALM_TALK, "I am the Black Knight Titan! You must pass through me before you can continue in this realm!")
-					.addPlayer(HeadE.HAPPY_TALKING, "Ok, have at ye oh evil knight!")
-					.addPlayer(HeadE.HAPPY_TALKING, "Actually I think I'll run away!")
-			);
-		}
-	};
+	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[]{221}, new String[]{"Talk-to"}, e -> {
+		e.getPlayer().startConversation(new Dialogue()
+				.addNPC(221, HeadE.CHILD_CALM_TALK, "I am the Black Knight Titan! You must pass through me before you can continue in this realm!")
+				.addPlayer(HeadE.HAPPY_TALKING, "Ok, have at ye oh evil knight!")
+				.addPlayer(HeadE.HAPPY_TALKING, "Actually I think I'll run away!")
+		);
+	});
 }

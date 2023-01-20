@@ -25,28 +25,24 @@ import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class BobBarter {
 
-	public static NPCClickHandler handleBobBarter = new NPCClickHandler(new Object[] { 6524 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (e.getOption().equalsIgnoreCase("decant"))
-				decant(e.getPlayer());
-			else if (e.getOption().equalsIgnoreCase("decant-x")) {
-				Dialogue decantChoices = new Dialogue();
-				decantChoices.addOption("Decant to dose", "1 dose", "2 dose", "3 dose", "4 dose");
-				decantChoices.addSimple("Bob decant's your potions into 1 doses", () -> decant(e.getPlayer(), 1));
-				decantChoices.addSimple("Bob decant's your potions into 2 doses", () -> decant(e.getPlayer(), 2));
-				decantChoices.addSimple("Bob decant's your potions into 3 doses", () -> decant(e.getPlayer(), 3));
-				decantChoices.addSimple("Bob decant's your potions into 4 doses", () -> decant(e.getPlayer(), 4));
-				e.getPlayer().startConversation(decantChoices);
-			}
+	public static NPCClickHandler handleBobBarter = new NPCClickHandler(new Object[] { 6524 }, e -> {
+		if (e.getOption().equalsIgnoreCase("decant"))
+			decant(e.getPlayer());
+		else if (e.getOption().equalsIgnoreCase("decant-x")) {
+			Dialogue decantChoices = new Dialogue();
+			decantChoices.addOption("Decant to dose", "1 dose", "2 dose", "3 dose", "4 dose");
+			decantChoices.addSimple("Bob decant's your potions into 1 doses", () -> decant(e.getPlayer(), 1));
+			decantChoices.addSimple("Bob decant's your potions into 2 doses", () -> decant(e.getPlayer(), 2));
+			decantChoices.addSimple("Bob decant's your potions into 3 doses", () -> decant(e.getPlayer(), 3));
+			decantChoices.addSimple("Bob decant's your potions into 4 doses", () -> decant(e.getPlayer(), 4));
+			e.getPlayer().startConversation(decantChoices);
 		}
-	};
+	});
 
 	public static void decant(Player p) {
 		decant(p, 4);

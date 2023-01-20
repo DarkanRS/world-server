@@ -13,10 +13,6 @@ import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemOnObjectEvent;
-import com.rs.plugin.events.LoginEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -83,104 +79,79 @@ public class FightArena extends QuestOutline {
 		return lines;
 	}
 
-	public static ItemOnObjectHandler keyOnCell = new ItemOnObjectHandler(true, new Object[] { 80 }) {
-		@Override
-		public void handle(ItemOnObjectEvent e) {
-			if (e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) == GET_JAIL_KEYS && e.getItem().getId() == 76) {
-				e.getPlayer().startConversation(new Dialogue()
-						.addPlayer(HeadE.HAPPY_TALKING, "Jeremy! Look, I have the keys.")
-						.addNPC(265, HeadE.CHILD_UNSURE, "Wow! Please set me free so we can find my dad. I overheard a guard talking. I think " +
-								"they've taken him to the arena.")
-						.addPlayer(HeadE.HAPPY_TALKING, "Okay, we'd better hurry.")
-						.addNext(()->{e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController());})
-				);
+	public static ItemOnObjectHandler keyOnCell = new ItemOnObjectHandler(true, new Object[] { 80 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) == GET_JAIL_KEYS && e.getItem().getId() == 76) {
+			e.getPlayer().startConversation(new Dialogue()
+					.addPlayer(HeadE.HAPPY_TALKING, "Jeremy! Look, I have the keys.")
+					.addNPC(265, HeadE.CHILD_UNSURE, "Wow! Please set me free so we can find my dad. I overheard a guard talking. I think " +
+							"they've taken him to the arena.")
+					.addPlayer(HeadE.HAPPY_TALKING, "Okay, we'd better hurry.")
+					.addNext(()->{e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController());})
+			);
+		}
+	});
+
+	public static NPCClickHandler attack = new NPCClickHandler(false, new Object[] {7552}, e -> {
+		e.getPlayer().stopAll(true);
+		e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
+	});
+
+	public static ObjectClickHandler handleAreanEntrance = new ObjectClickHandler(new Object[] { 82 }, e -> {});
+
+	public static ObjectClickHandler handleArmourStand = new ObjectClickHandler(new Object[] { 41498 }, e -> {
+		if(e.getOption().equalsIgnoreCase("borrow")) {
+			if(!e.getPlayer().getInventory().containsItem(74) && e.getPlayer().getEquipment().getHatId() != 74)
+				e.getPlayer().getInventory().addItem(74, 1, true);
+			if(!e.getPlayer().getInventory().containsItem(75) && e.getPlayer().getEquipment().getChestId() != 75)
+				e.getPlayer().getInventory().addItem(75, 1, true);
+		}
+	});
+
+	public static NPCClickHandler talkKhazardGaurd = new NPCClickHandler(new Object[] { 253 }, e -> e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.EVIL_LAUGH, "Hail General Khazard!")));
+
+	public static LoginHandler onLoginVarbits = new LoginHandler(e -> {
+		if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) > NOT_STARTED)
+			e.getPlayer().getVars().setVarBit(5626, 1);
+		if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) > GET_JAIL_KEYS);
+			e.getPlayer().getVars().setVarBit(6163, 2);
+		if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) <= GET_JAIL_KEYS)
+			e.getPlayer().getVars().setVarBit(6163, 0);
+	});
+
+	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 81 }, e -> {
+		if(e.getObject().getRotation() == 2) {
+			if(e.getPlayer().getX() > e.getObject().getX()) {
+				handleDoor(e.getPlayer(), e.getObject());
+				return;
 			}
-		}
-	};
-
-	public static NPCClickHandler attack = new NPCClickHandler(false, new Object[] {7552}) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().stopAll(true);
-			e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
-		}
-	};
-
-	public static ObjectClickHandler handleAreanEntrance = new ObjectClickHandler(new Object[] { 82 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			//pass
-		}
-	};
-
-	public static ObjectClickHandler handleArmourStand = new ObjectClickHandler(new Object[] { 41498 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getOption().equalsIgnoreCase("borrow")) {
-				if(!e.getPlayer().getInventory().containsItem(74) && e.getPlayer().getEquipment().getHatId() != 74)
-					e.getPlayer().getInventory().addItem(74, 1, true);
-				if(!e.getPlayer().getInventory().containsItem(75) && e.getPlayer().getEquipment().getChestId() != 75)
-					e.getPlayer().getInventory().addItem(75, 1, true);
-			}
-		}
-	};
-
-	public static NPCClickHandler talkKhazardGaurd = new NPCClickHandler(new Object[] { 253 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.EVIL_LAUGH, "Hail General Khazard!"));
-		}
-	};
-
-	public static LoginHandler onLoginVarbits = new LoginHandler() {
-		@Override
-		public void handle(LoginEvent e) {
-			if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) > NOT_STARTED)
-				e.getPlayer().getVars().setVarBit(5626, 1);
-			if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) > GET_JAIL_KEYS);
-				e.getPlayer().getVars().setVarBit(6163, 2);
-			if(e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) <= GET_JAIL_KEYS)
-				e.getPlayer().getVars().setVarBit(6163, 0);
-		}
-	};
-
-	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 81 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getObject().getRotation() == 2) {
-				if(e.getPlayer().getX() > e.getObject().getX()) {
-					handleDoor(e.getPlayer(), e.getObject());
-					return;
-				}
-				if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
-					e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
-							.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-							.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
-					);
-					return;
-				}
+			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
 				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
-						.addNPC(253, HeadE.CALM_TALK, "Nice observation")
+						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
+						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
 				);
+				return;
 			}
-			if(e.getObject().getRotation() == 3) {
-				if(e.getPlayer().getY() < e.getObject().getY()) {
-					handleDoor(e.getPlayer(), e.getObject());
-					return;
-				}
-				if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
-					e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
-							.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-							.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
-					);
-					return;
-				}
-				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
-						.addNPC(253, HeadE.CALM_TALK, "Nice observation")
-				);
-			}
+			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
+					.addNPC(253, HeadE.CALM_TALK, "Nice observation")
+			);
 		}
-	};
+		if(e.getObject().getRotation() == 3) {
+			if(e.getPlayer().getY() < e.getObject().getY()) {
+				handleDoor(e.getPlayer(), e.getObject());
+				return;
+			}
+			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
+				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
+						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
+						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
+				);
+				return;
+			}
+			e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
+					.addNPC(253, HeadE.CALM_TALK, "Nice observation")
+			);
+		}
+	});
 
 	@Override
 	public void complete(Player player) {

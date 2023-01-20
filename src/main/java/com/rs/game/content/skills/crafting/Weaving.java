@@ -20,7 +20,6 @@ import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -32,10 +31,5 @@ public class Weaving  {
 	private static double[] xp = { 12, 38, 56, 83 };
 	private static int[] anims = { -1, -1, -1, -1 };
 
-	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Loom" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
-		}
-	};
+	public static ObjectClickHandler onClick = new ObjectClickHandler(new Object[] { "Loom" }, e -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2)));
 }

@@ -30,8 +30,6 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
@@ -428,133 +426,121 @@ public class FishingTrawler {
 		game.remove(player);
 	}
 
-	public static ObjectClickHandler barrelClick = new ObjectClickHandler(true, new Object[] { 2159, 2160 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getObjectId() == 2160) {
-				e.getPlayer().startConversation(new Dialogue(new SimpleStatement("I can't get a grip on it!")));
-				return;
-			}
-			e.getPlayer().startConversation(new Dialogue(new SimpleStatement("You climb onto the floating barrel and begin to kick your way to the shore.")));
-			FadingScreen.fade(e.getPlayer(), 2, () -> {
-				e.getPlayer().sendMessage("You make it to the shore tired and weary.");
-				e.getPlayer().applyHit(new Hit(20, Hit.HitLook.TRUE_DAMAGE));
-				e.getPlayer().setNextWorldTile(SHORE.getRandomTile());
-				e.getPlayer().getControllerManager().forceStop();
-				e.getPlayer().getAppearance().setBAS(-1);
-				e.getPlayer().endConversation();
-			});
+	public static ObjectClickHandler barrelClick = new ObjectClickHandler(true, new Object[] { 2159, 2160 }, e -> {
+		if(e.getObjectId() == 2160) {
+			e.getPlayer().startConversation(new Dialogue(new SimpleStatement("I can't get a grip on it!")));
+			return;
 		}
-	};
+		e.getPlayer().startConversation(new Dialogue(new SimpleStatement("You climb onto the floating barrel and begin to kick your way to the shore.")));
+		FadingScreen.fade(e.getPlayer(), 2, () -> {
+			e.getPlayer().sendMessage("You make it to the shore tired and weary.");
+			e.getPlayer().applyHit(new Hit(20, Hit.HitLook.TRUE_DAMAGE));
+			e.getPlayer().setNextWorldTile(SHORE.getRandomTile());
+			e.getPlayer().getControllerManager().forceStop();
+			e.getPlayer().getAppearance().setBAS(-1);
+			e.getPlayer().endConversation();
+		});
+	});
 
-	public static ButtonClickHandler rewardsInterfaceHandler = new ButtonClickHandler(367) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			Item item = e.getPlayer().getTrawlerRewards().get(e.getSlotId());
-			if(item == null) return;
-			if(item.getId() != e.getSlotId2()) {
-				Logger.error(FishingTrawler.class, "rewardsInterfaceHandler", "Trawler item "+item.getId()+" does not match "+e.getSlotId2());
-				return;
-			}
-			int amount = e.getPacket() == ClientPacket.IF_OP1 ? 1 : -1;
-			if(e.getPacket() == ClientPacket.IF_OP3) {
-				e.getPlayer().getTrawlerRewards().set(e.getSlotId(), null);
-				e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().array());
-				return;
-			}
-			e.getPlayer().getTrawlerRewards().set(e.getSlotId(), amount == -1 ? null : new Item(item.getId(), item.getAmount() -  1));
+	public static ButtonClickHandler rewardsInterfaceHandler = new ButtonClickHandler(367, e -> {
+		Item item = e.getPlayer().getTrawlerRewards().get(e.getSlotId());
+		if(item == null) return;
+		if(item.getId() != e.getSlotId2()) {
+			Logger.error(FishingTrawler.class, "rewardsInterfaceHandler", "Trawler item "+item.getId()+" does not match "+e.getSlotId2());
+			return;
+		}
+		int amount = e.getPacket() == ClientPacket.IF_OP1 ? 1 : -1;
+		if(e.getPacket() == ClientPacket.IF_OP3) {
+			e.getPlayer().getTrawlerRewards().set(e.getSlotId(), null);
 			e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().array());
-			e.getPlayer().getInventory().addItem(item.getId(), amount == -1 ? item.getAmount() : amount);
+			return;
 		}
-	};
+		e.getPlayer().getTrawlerRewards().set(e.getSlotId(), amount == -1 ? null : new Item(item.getId(), item.getAmount() -  1));
+		e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards().array());
+		e.getPlayer().getInventory().addItem(item.getId(), amount == -1 ? item.getAmount() : amount);
+	});
 
-	public static ObjectClickHandler rewardsNetClick = new ObjectClickHandler(new Object[] { 2166 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if(e.getPlayer().getTrawlerRewards() == null || e.getPlayer().getTrawlerRewards().isEmpty()) {
-				e.getPlayer().playerDialogue(HeadE.CONFUSED, "I better not steal other people's fish!");
+	public static ObjectClickHandler rewardsNetClick = new ObjectClickHandler(new Object[] { 2166 }, e -> {
+		if(e.getPlayer().getTrawlerRewards() == null || e.getPlayer().getTrawlerRewards().isEmpty()) {
+			e.getPlayer().playerDialogue(HeadE.CONFUSED, "I better not steal other people's fish!");
+			return;
+		}
+		IFEvents params = new IFEvents(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)
+				.enableRightClickOptions(0, 1, 2, 3)
+				.enableDrag();
+		e.getPlayer().getInterfaceManager().sendInterface(REWARDS_INTERFACE);
+		e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards());
+		e.getPlayer().getPackets().setIFEvents(params);
+		e.getPlayer().getPackets().sendInterSetItemsOptionsScript(REWARDS_INTERFACE, REWARDS_CONTAINER, REWARDS_KEY, 4, 7, "Withdraw-1", "Withdraw-all", "Discard-all", "Examine");
+		e.getPlayer().setCloseInterfacesEvent(() -> {
+			for(final Item item : e.getPlayer().getTrawlerRewards().array()) {
+				if(item == null) continue;
+				World.addGroundItem(item, WorldTile.of(e.getPlayer().getTile()), e.getPlayer(), false, 180);
+			}
+			e.getPlayer().getTrawlerRewards().clear();
+		});
+	});
+
+	public static ObjectClickHandler gangplankClick = new ObjectClickHandler(true, new Object[]{ 2178, 2179 }, e -> {
+		if (e.getPlayer().getPlane() == 1) {
+			e.getPlayer().lock();
+			instance.lobby.remove(e.getPlayer());
+			e.getPlayer().getControllerManager().forceStop();
+			e.getPlayer().setNextWorldTile(WorldTile.of(2674, 3170, 0));
+			WorldTasks.schedule(new WorldTask() {
+				private boolean tick;
+				private boolean run;
+				@Override
+				public void run() {
+					if(!tick) {
+						run = e.getPlayer().getRun();
+						e.getPlayer().setRunHidden(false);
+						e.getPlayer().addWalkSteps(WorldTile.of(2676, 3170, 0), 10, false);
+						tick = true;
+						return;
+					}
+					stop();
+					e.getPlayer().setRunHidden(run);
+					e.getPlayer().unlock();
+				}
+			}, 0, 1);
+		} else {
+			if(e.getPlayer().getSkills().getLevelForXp(Skills.FISHING) < 15) {
+				e.getPlayer().startConversation(new Dialogue(new SimpleStatement("You need at least 15 fishing to be able to go out on the ship with Murphy.")));
 				return;
 			}
-			IFEvents params = new IFEvents(REWARDS_INTERFACE, REWARDS_CONTAINER, 0, 27)
-					.enableRightClickOptions(0, 1, 2, 3)
-					.enableDrag();
-			e.getPlayer().getInterfaceManager().sendInterface(REWARDS_INTERFACE);
-			e.getPlayer().getPackets().sendItems(REWARDS_KEY, e.getPlayer().getTrawlerRewards());
-			e.getPlayer().getPackets().setIFEvents(params);
-			e.getPlayer().getPackets().sendInterSetItemsOptionsScript(REWARDS_INTERFACE, REWARDS_CONTAINER, REWARDS_KEY, 4, 7, "Withdraw-1", "Withdraw-all", "Discard-all", "Examine");
-			e.getPlayer().setCloseInterfacesEvent(() -> {
-				for(final Item item : e.getPlayer().getTrawlerRewards().array()) {
-					if(item == null) continue;
-					World.addGroundItem(item, WorldTile.of(e.getPlayer().getTile()), e.getPlayer(), false, 180);
-				}
-				e.getPlayer().getTrawlerRewards().clear();
-			});
-		}
-	};
-
-	public static ObjectClickHandler gangplankClick = new ObjectClickHandler(true, new Object[]{ 2178, 2179 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			if (e.getPlayer().getPlane() == 1) {
-				e.getPlayer().lock();
-				instance.lobby.remove(e.getPlayer());
-				e.getPlayer().getControllerManager().forceStop();
-				e.getPlayer().setNextWorldTile(WorldTile.of(2674, 3170, 0));
-				WorldTasks.schedule(new WorldTask() {
-					private boolean tick;
-					private boolean run;
-					@Override
-					public void run() {
-						if(!tick) {
-							run = e.getPlayer().getRun();
-							e.getPlayer().setRunHidden(false);
-							e.getPlayer().addWalkSteps(WorldTile.of(2676, 3170, 0), 10, false);
-							tick = true;
-							return;
-						}
-						stop();
+			e.getPlayer().lock();
+			WorldTile toTile = WorldTile.of(2674, 3170, 0);
+			boolean run = e.getPlayer().getRun();
+			e.getPlayer().setRunHidden(false);
+			e.getPlayer().addWalkSteps(toTile, 20, false);
+			WorldTasks.schedule(new WorldTask() {
+				private boolean tick;
+				@Override
+				public void run() {
+					if(!tick) {
+						instance.lobby.add(e.getPlayer());
+						e.getPlayer().getControllerManager().startController(new FishingTrawlerLobbyController());
+						e.getPlayer().setNextWorldTile(WorldTile.of(2673, 3170, 1));
 						e.getPlayer().setRunHidden(run);
 						e.getPlayer().unlock();
-					}
-				}, 0, 1);
-			} else {
-				if(e.getPlayer().getSkills().getLevelForXp(Skills.FISHING) < 15) {
-					e.getPlayer().startConversation(new Dialogue(new SimpleStatement("You need at least 15 fishing to be able to go out on the ship with Murphy.")));
-					return;
-				}
-				e.getPlayer().lock();
-				WorldTile toTile = WorldTile.of(2674, 3170, 0);
-				boolean run = e.getPlayer().getRun();
-				e.getPlayer().setRunHidden(false);
-				e.getPlayer().addWalkSteps(toTile, 20, false);
-				WorldTasks.schedule(new WorldTask() {
-					private boolean tick;
-					@Override
-					public void run() {
-						if(!tick) {
-							instance.lobby.add(e.getPlayer());
-							e.getPlayer().getControllerManager().startController(new FishingTrawlerLobbyController());
-							e.getPlayer().setNextWorldTile(WorldTile.of(2673, 3170, 1));
-							e.getPlayer().setRunHidden(run);
-							e.getPlayer().unlock();
-							if(!instance.running) {
-								e.getPlayer().startConversation(new Dialogue(new SimpleStatement("Trawler will leave in 1 minute.", "If you have a team get them on board now!")));
-								e.getPlayer().sendMessage("Trawler will leave in 1 minute.");
-							} else {
-								e.getPlayer().startConversation(new Dialogue(new SimpleStatement("There is already someone on a fishing trip!", "Try back in a few minutes.")));
-								e.getPlayer().sendMessage("There is already someone on a fishing trip!");
-								e.getPlayer().sendMessage("Try back in a few minutes.");
-							}
-							tick = true;
-							return;
+						if(!instance.running) {
+							e.getPlayer().startConversation(new Dialogue(new SimpleStatement("Trawler will leave in 1 minute.", "If you have a team get them on board now!")));
+							e.getPlayer().sendMessage("Trawler will leave in 1 minute.");
+						} else {
+							e.getPlayer().startConversation(new Dialogue(new SimpleStatement("There is already someone on a fishing trip!", "Try back in a few minutes.")));
+							e.getPlayer().sendMessage("There is already someone on a fishing trip!");
+							e.getPlayer().sendMessage("Try back in a few minutes.");
 						}
-						e.getPlayer().addWalkSteps(WorldTile.of(2672, 3170, 1), 10, true);
-						stop();
+						tick = true;
+						return;
 					}
-				}, 2, 0);
-			}
+					e.getPlayer().addWalkSteps(WorldTile.of(2672, 3170, 1), 10, true);
+					stop();
+				}
+			}, 2, 0);
 		}
-	};
+	});
 
 	@ServerStartupEvent
 	public static void init() {

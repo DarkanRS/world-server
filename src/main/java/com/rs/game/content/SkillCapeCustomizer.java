@@ -21,7 +21,6 @@ import java.util.Arrays;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
@@ -56,31 +55,28 @@ public class SkillCapeCustomizer {
 		});
 	}
 
-	public static ButtonClickHandler handleSkillCapeCustomizer = new ButtonClickHandler(20) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			int[] colors = e.getPlayer().getTempAttribs().getO("scCustomColorArr");
-			if (colors == null) {
-				e.getPlayer().closeInterfaces();
-				return;
-			}
-			switch(e.getComponentId()) {
-			case 58 -> {
-				int[] orig = Arrays.copyOf(ItemDefinitions.getDefs(20767).originalModelColors, 4);
-				for (int i = 0;i < orig.length;i++)
-					colors[i] = orig[i];
-				for (int i = 0; i < 4; i++)
-					e.getPlayer().getVars().setVarBit(9254 + i, colors[i]);
-			}
-			case 34 -> customizeSlot(e.getPlayer(), 0);
-			case 71 -> customizeSlot(e.getPlayer(), 1);
-			case 83 -> customizeSlot(e.getPlayer(), 2);
-			case 95 -> customizeSlot(e.getPlayer(), 3);
-			case 114, 142 -> {
-				e.getPlayer().getAppearance().generateAppearanceData();
-				e.getPlayer().closeInterfaces();
-			}
-			}
+	public static ButtonClickHandler handleSkillCapeCustomizer = new ButtonClickHandler(20, e -> {
+		int[] colors = e.getPlayer().getTempAttribs().getO("scCustomColorArr");
+		if (colors == null) {
+			e.getPlayer().closeInterfaces();
+			return;
 		}
-	};
+		switch(e.getComponentId()) {
+		case 58 -> {
+			int[] orig = Arrays.copyOf(ItemDefinitions.getDefs(20767).originalModelColors, 4);
+			for (int i = 0;i < orig.length;i++)
+				colors[i] = orig[i];
+			for (int i = 0; i < 4; i++)
+				e.getPlayer().getVars().setVarBit(9254 + i, colors[i]);
+		}
+		case 34 -> customizeSlot(e.getPlayer(), 0);
+		case 71 -> customizeSlot(e.getPlayer(), 1);
+		case 83 -> customizeSlot(e.getPlayer(), 2);
+		case 95 -> customizeSlot(e.getPlayer(), 3);
+		case 114, 142 -> {
+			e.getPlayer().getAppearance().generateAppearanceData();
+			e.getPlayer().closeInterfaces();
+		}
+		}
+	});
 }

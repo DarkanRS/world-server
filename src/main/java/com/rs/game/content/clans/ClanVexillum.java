@@ -14,9 +14,6 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.clan.Clan;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ItemClickEvent;
-import com.rs.plugin.events.NPCClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -42,70 +39,59 @@ public class ClanVexillum extends OwnedNPC {
 		CLAN_VEXES.put(clan.getName(), this);
 	}
 	
-	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }) {
-		@Override
-		public void handle(NPCClickEvent e) {
-			if (!(e.getNPC() instanceof ClanVexillum vex)) {
-				e.getNPC().finish();
+	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }, e -> {
+		if (!(e.getNPC() instanceof ClanVexillum vex)) {
+			e.getNPC().finish();
+			return;
+		}
+		e.getNPC().resetDirection();
+		if (e.getOption().equals("Remove")) {
+			if (vex.getOwner() != e.getPlayer()) {
+				e.getPlayer().sendMessage("This isn't your vexillum to remove.");
 				return;
 			}
-			e.getNPC().resetDirection();
-			if (e.getOption().equals("Remove")) {
-				if (vex.getOwner() != e.getPlayer()) {
-					e.getPlayer().sendMessage("This isn't your vexillum to remove.");
-					return;
-				}
-				e.getPlayer().anim(8177);
-				vex.finish();
-			} else {
-				ClansManager.openClanDetails(e.getPlayer(), vex.getOwner(), vex.clan);
-			}
+			e.getPlayer().anim(8177);
+			vex.finish();
+		} else {
+			ClansManager.openClanDetails(e.getPlayer(), vex.getOwner(), vex.clan);
 		}
-	};
+	});
 	
-	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place", "Recall", "Find" }) {
-		@Override
-		public void handle(ItemClickEvent e) {
-			if (e.getOption().equals("Teleport"))
-				Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, WorldTile.of(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
-			else if (e.getOption().equals("Place"))
-				create(e.getPlayer(), true);
-			else if (e.getOption().equals("Recall")) {
-				if (e.getPlayer().getClan() == null) {
-					e.getPlayer().sendMessage("Could not find a vexillum to recall.");
-					return;
-				}
-				ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
-				if (vex == null) {
-					e.getPlayer().sendMessage("Could not find a vexillum to recall.");
-					return;
-				}
-				if (vex.getOwner() != e.getPlayer()) {
-					e.getPlayer().sendMessage("This isn't your vexillum to remove.");
-					return;
-				}
-				vex.finish();
-			} else if (e.getOption().equals("Find")) {
-				if (e.getPlayer().getClan() == null) {
-					e.getPlayer().sendMessage("Could not find your vexillum.");
-					return;
-				}
-				ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
-				if (vex == null) {
-					e.getPlayer().sendMessage("Could not find your vexillum.");
-					return;
-				}
-				vex.hint = e.getPlayer().getHintIconsManager().addHintIcon(vex, 0, -1, false);
+	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place", "Recall", "Find" }, e -> {
+		if (e.getOption().equals("Teleport"))
+			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, WorldTile.of(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+		else if (e.getOption().equals("Place"))
+			create(e.getPlayer(), true);
+		else if (e.getOption().equals("Recall")) {
+			if (e.getPlayer().getClan() == null) {
+				e.getPlayer().sendMessage("Could not find a vexillum to recall.");
+				return;
 			}
+			ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
+			if (vex == null) {
+				e.getPlayer().sendMessage("Could not find a vexillum to recall.");
+				return;
+			}
+			if (vex.getOwner() != e.getPlayer()) {
+				e.getPlayer().sendMessage("This isn't your vexillum to remove.");
+				return;
+			}
+			vex.finish();
+		} else if (e.getOption().equals("Find")) {
+			if (e.getPlayer().getClan() == null) {
+				e.getPlayer().sendMessage("Could not find your vexillum.");
+				return;
+			}
+			ClanVexillum vex = CLAN_VEXES.get(e.getPlayer().getClan().getName());
+			if (vex == null) {
+				e.getPlayer().sendMessage("Could not find your vexillum.");
+				return;
+			}
+			vex.hint = e.getPlayer().getHintIconsManager().addHintIcon(vex, 0, -1, false);
 		}
-	};
+	});
 	
-	public static ObjectClickHandler plantStand = new ObjectClickHandler(new Object[] { "Vexillum stand" }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			create(e.getPlayer(), false);
-		}
-	};
+	public static ObjectClickHandler plantStand = new ObjectClickHandler(new Object[] { "Vexillum stand" }, e -> create(e.getPlayer(), false));
 	
 	public static void create(Player player, boolean checkClip) {
 		Clan clan = player.getClan();

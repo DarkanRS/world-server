@@ -26,45 +26,37 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.events.ButtonClickEvent;
-import com.rs.plugin.events.ObjectClickEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public final class FFAController extends Controller {
 	
-	public static ObjectClickHandler handleFFAPortals = new ObjectClickHandler(new Object[] { 38698, 38699 }) {
-		@Override
-		public void handle(ObjectClickEvent e) {
-			WorldTasks.delay(0, () -> {
-				e.getPlayer().getVars().setVarBit(5279, e.getObjectId() == 38699 ? 1 : 0);
-				if (e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1) {
-					e.getPlayer().setNextWorldTile(WorldTile.of(e.getPlayer().getVars().getVarBit(5279) == 1 ? 3007 : 2815, 5511, 0));
-					e.getPlayer().getControllerManager().startController(new FFAController(e.getPlayer().getVars().getVarBit(5279) == 1));
-					return;
-				}
-				e.getPlayer().getInterfaceManager().sendInterface(793);
-			});
-		}
-	};
-	
-	public static ButtonClickHandler confirmOp = new ButtonClickHandler(793) {
-		@Override
-		public void handle(ButtonClickEvent e) {
-			switch(e.getComponentId()) {
-			case 9 -> e.getPlayer().getVars().setVarBit(5294 + e.getPlayer().getVars().getVarBit(5279), e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1 ? 0 : 1);
-			case 14 -> e.getPlayer().closeInterfaces();
-			case 15 -> {
-				if (e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1)
-					e.getPlayer().getVars().saveVarBit(5294 + e.getPlayer().getVars().getVarBit(5279), 1);
-				e.getPlayer().closeInterfaces();
+	public static ObjectClickHandler handleFFAPortals = new ObjectClickHandler(new Object[] { 38698, 38699 }, e -> {
+		WorldTasks.delay(0, () -> {
+			e.getPlayer().getVars().setVarBit(5279, e.getObjectId() == 38699 ? 1 : 0);
+			if (e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1) {
 				e.getPlayer().setNextWorldTile(WorldTile.of(e.getPlayer().getVars().getVarBit(5279) == 1 ? 3007 : 2815, 5511, 0));
 				e.getPlayer().getControllerManager().startController(new FFAController(e.getPlayer().getVars().getVarBit(5279) == 1));
+				return;
 			}
-			}
+			e.getPlayer().getInterfaceManager().sendInterface(793);
+		});
+	});
+	
+	public static ButtonClickHandler confirmOp = new ButtonClickHandler(793, e -> {
+		switch(e.getComponentId()) {
+		case 9 -> e.getPlayer().getVars().setVarBit(5294 + e.getPlayer().getVars().getVarBit(5279), e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1 ? 0 : 1);
+		case 14 -> e.getPlayer().closeInterfaces();
+		case 15 -> {
+			if (e.getPlayer().getVars().getVarBit(5294 + e.getPlayer().getVars().getVarBit(5279)) == 1)
+				e.getPlayer().getVars().saveVarBit(5294 + e.getPlayer().getVars().getVarBit(5279), 1);
+			e.getPlayer().closeInterfaces();
+			e.getPlayer().setNextWorldTile(WorldTile.of(e.getPlayer().getVars().getVarBit(5279) == 1 ? 3007 : 2815, 5511, 0));
+			e.getPlayer().getControllerManager().startController(new FFAController(e.getPlayer().getVars().getVarBit(5279) == 1));
 		}
-	};
+		}
+	});
 
 	private transient boolean wasInArea;
 	private boolean dangerous;
