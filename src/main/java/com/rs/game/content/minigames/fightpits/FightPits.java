@@ -24,7 +24,6 @@ import com.rs.game.World;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.actions.FightPitsViewingOrb;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;

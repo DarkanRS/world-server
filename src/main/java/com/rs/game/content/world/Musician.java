@@ -7,7 +7,6 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
-import com.rs.game.model.entity.actions.RestMusician;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
