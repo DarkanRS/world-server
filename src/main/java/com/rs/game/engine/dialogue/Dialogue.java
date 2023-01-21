@@ -25,6 +25,7 @@ import java.util.function.Consumer;
 
 import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
 import com.rs.game.engine.dialogue.statements.ItemStatement;
+import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.engine.dialogue.statements.NPCStatement;
 import com.rs.game.engine.dialogue.statements.OptionStatement;
 import com.rs.game.engine.dialogue.statements.PlayerStatement;
@@ -152,6 +153,22 @@ public class Dialogue {
 		return addNext(new ItemStatement(item.getId(), text)).setFunc(() -> {
 			player.getInventory().addItem(item);
 		});
+	}
+	
+	public Dialogue addMakeX(int[] itemIds, int maxAmt) {
+		return addNext(new MakeXStatement(itemIds, maxAmt));
+	}
+	
+	public Dialogue addMakeX(int itemId, int maxAmt) {
+		return addMakeX(new int[] { itemId }, maxAmt);
+	}
+	
+	public Dialogue addMakeX(int[] itemIds) {
+		return addMakeX(itemIds, 60);
+	}
+	
+	public Dialogue addMakeX(int itemId) {
+		return addMakeX(new int[] { itemId }, 60);
 	}
 	
 	public Dialogue addOptions(Consumer<Options> create) {
