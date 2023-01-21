@@ -72,7 +72,7 @@ public class Taverly {
 									.addNPC(e.getNPCId(), HeadE.CALM,
 											" something that only needs checking on occasionally, it'll suit you down to the ground. Plant as many crops as ya can,"
 													+ " as often as ya can. It's only through practice that you'll improve."));
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -102,7 +102,7 @@ public class Taverly {
 									HeadE.HAPPY_TALKING,
 									"Fishing is more than a method of gathering food. It's more than a profession. "
 											+ "It's a way of life! Fish makes good eating, especially when you need to recover after battle."));
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -125,7 +125,7 @@ public class Taverly {
 							option("I need hunter supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "ayleths_hunting_supplies");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -147,7 +147,7 @@ public class Taverly {
 							option("I need fletching supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "alison_fletch_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -169,7 +169,7 @@ public class Taverly {
 							option("I need wouldcutting supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "will_woodcut_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -191,7 +191,7 @@ public class Taverly {
 							option("I need firemaking supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "marcus_firemaking_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -213,7 +213,7 @@ public class Taverly {
 							option("I need herblore supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "poletaxs_herblore_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -235,7 +235,7 @@ public class Taverly {
 							option("I need smithing supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "martin_smithing_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -259,7 +259,7 @@ public class Taverly {
 								ShopsHandler.openShop(e.getPlayer(), "jack_crafting_shop");
 							});
 							option("I need you to tan some leather for me.", () -> e.getPlayer().startConversation(new TanningD(e.getPlayer(), false)));
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -283,7 +283,7 @@ public class Taverly {
 							option("I need mining supplies", () -> {
 								ShopsHandler.openShop(e.getPlayer(), "tobias_mining_shop");
 							});
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();
@@ -316,7 +316,7 @@ public class Taverly {
 									.addPlayer(HeadE.CALM, "I'll have a look.").addNext(() -> {
 										ShopsHandler.openShop(e.getPlayer(), "carwens_rune_shop");
 									}));
-							option("farewell");
+							option("Farewell");
 						}
 					});
 					create();

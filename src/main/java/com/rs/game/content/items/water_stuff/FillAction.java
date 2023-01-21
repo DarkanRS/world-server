@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.model.entity.actions;
+package com.rs.game.content.items.water_stuff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class FillAction extends PlayerAction {
 
 	private int amount;
 	private Animation FILLING = new Animation(883);
-	private Filler fil;
+	private Filler fill;
 
 	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, e -> {
 		Filler fill = FillAction.isFillable(e.getItem());
@@ -58,15 +58,22 @@ public class FillAction extends PlayerAction {
 		WATERING_CAN7(new Item(5339, 1), new Item(5340, 1)),
 		KETTLE(new Item(7688, 1), new Item(7690, 1));
 
-		private static Map<Short, Filler> items = new HashMap<>();
+		private static final Map<Integer, Filler> EMPTY = new HashMap<>();
+		private static final Map<Integer, Filler> FULL = new HashMap<>();
 
-		public static Filler forId(short itemId) {
-			return items.get(itemId);
+		public static Filler forEmpty(int itemId) {
+			return EMPTY.get(itemId);
+		}
+		
+		public static Filler forFull(int itemId) {
+			return FULL.get(itemId);
 		}
 
 		static {
-			for (Filler ingredient : Filler.values())
-				items.put((short) ingredient.getEmptyItem().getId(), ingredient);
+			for (Filler ingredient : Filler.values()) {
+				EMPTY.put(ingredient.getEmptyItem().getId(), ingredient);
+				FULL.put(ingredient.getFilledItem().getId(), ingredient);
+			}
 		}
 
 		private Item empty;
@@ -87,12 +94,12 @@ public class FillAction extends PlayerAction {
 	}
 
 	public static Filler isFillable(Item item) {
-		return Filler.forId((short) item.getId());
+		return Filler.forEmpty((short) item.getId());
 	}
 
 	public FillAction(int amount, Filler fil) {
 		this.amount = amount;
-		this.fil = fil;
+		this.fill = fil;
 	}
 
 	@Override
@@ -103,7 +110,7 @@ public class FillAction extends PlayerAction {
 
 	@Override
 	public boolean process(Player player) {
-		if (!player.getInventory().containsItem(fil.getEmptyItem().getId(), 1))
+		if (!player.getInventory().containsItem(fill.getEmptyItem().getId(), 1))
 			return false;
 		return true;
 	}
@@ -112,8 +119,8 @@ public class FillAction extends PlayerAction {
 	public int processWithDelay(Player player) {
 		amount--;
 		player.setNextAnimation(FILLING);
-		player.getInventory().deleteItem(fil.getEmptyItem().getId(), 1);
-		player.getInventory().addItem(fil.getFilledItem().getId(), 1);
+		player.getInventory().deleteItem(fill.getEmptyItem().getId(), 1);
+		player.getInventory().addItem(fill.getFilledItem().getId(), 1);
 		if (amount > 0)
 			return 1;
 		return -1;

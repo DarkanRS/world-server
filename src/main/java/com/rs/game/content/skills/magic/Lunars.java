@@ -22,12 +22,12 @@ import java.util.Set;
 
 import com.rs.game.World;
 import com.rs.game.content.AchievementTitles;
+import com.rs.game.content.items.water_stuff.FillAction.Filler;
 import com.rs.game.content.skills.construction.SawmillOperator;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.actions.FillAction.Filler;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
@@ -225,7 +225,7 @@ public class Lunars {
 		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
-			Filler fill = Filler.forId((short) item.getId());
+			Filler fill = Filler.forEmpty((short) item.getId());
 			if (fill != null)
 				if (player.getInventory().containsItem(fill.getEmptyItem().getId(), 1)) {
 					player.getInventory().deleteItem(fill.getEmptyItem());
@@ -238,7 +238,7 @@ public class Lunars {
 		for (Item item : player.getInventory().getItems().array()) {
 			if (item == null)
 				continue;
-			Filler fill = Filler.forId((short) item.getId());
+			Filler fill = Filler.forEmpty((short) item.getId());
 			if (fill != null)
 				return true;
 		}

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.minigames.fightpits;
 
-import com.rs.game.model.entity.actions.FightPitsViewingOrb;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 

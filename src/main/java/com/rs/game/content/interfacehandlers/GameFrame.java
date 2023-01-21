@@ -19,7 +19,7 @@ package com.rs.game.content.interfacehandlers;
 import java.text.NumberFormat;
 import java.util.Locale;
 
-import com.rs.game.model.entity.actions.Rest;
+import com.rs.game.content.world.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.managers.PriceChecker;

@@ -677,4 +677,13 @@ public final class Inventory {
 		}
 	}
 
+	public Item findItemByIds(int... ids) {
+		for (int itemId : ids) {
+			Item item = getItemById(itemId);
+			if (item != null)
+				return item;
+		}
+		return null;
+	}
+
 }
