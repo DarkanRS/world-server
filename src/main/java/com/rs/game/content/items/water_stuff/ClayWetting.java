@@ -9,7 +9,6 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler
 public class ClayWetting {
-	
 	private static int CLAY = 434;
 	private static int SOFT_CLAY = 1761;
 	private static int JUG = 1937;
