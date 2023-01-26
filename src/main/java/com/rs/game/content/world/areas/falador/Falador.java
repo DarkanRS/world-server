@@ -34,7 +34,6 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;

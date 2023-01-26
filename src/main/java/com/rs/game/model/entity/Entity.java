@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.rs.Settings;
@@ -36,7 +35,6 @@ import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;

@@ -48,53 +48,49 @@ public class AncientEffigies {
 			type = Utils.getRandomInclusive(7);
 			e.getPlayer().getInventory().replace(e.getItem(), new Item(e.getItem().getId(), e.getItem().getAmount()).addMetaData("effigyType", type));
 		}
+		
+		if (type == -1)
+			return;
 
-		final int skill1 = AncientEffigies.SKILL_1[type];
-		final int skill2 = AncientEffigies.SKILL_2[type];
+		final int skill1 = SKILL_1[type];
+		final int skill2 = SKILL_2[type];
 		e.getPlayer().startConversation(new Dialogue()
 				.addSimple("As you inspect the ancient effigy you begin to feel a strange sensation of the relic searching your mind, drawing on your knowledge.")
-				.addSimple("Images from your experiences of " + AncientEffigies.getMessage(skill1) + " fill your mind.", ()->{
-					e.getPlayer().getTempAttribs().setI("skill1", skill1);
-					e.getPlayer().getTempAttribs().setI("skill2", skill2);
-				})
+				.addSimple("Images from your experiences of " + getMessage(skill1) + " fill your mind.")
 				.addOptions("Which images do you wish to focus on?", new Options() {
 					@Override
 					public void create() {
-						if(e.getPlayer().getSkills().getLevel(e.getPlayer().getTempAttribs().getI("skill1")) < AncientEffigies.getRequiredLevel(e.getItem().getId()))
+						if(e.getPlayer().getSkills().getLevel(skill1) < getRequiredLevel(e.getItem().getId()))
 							option(Constants.SKILL_NAME[skill1], new Dialogue()
 									.addSimple("The images in your mind fade; the ancient effigy seems to desire knowledge of experiences you have not yet had.", () -> {
-										e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + " " + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill1")] + " to investigate the ancient effigy further.");
+										e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + " " + Constants.SKILL_NAME[skill1] + " to investigate the ancient effigy further.");
 										e.getPlayer().setNextAnimation(new Animation(4067));
 									})
 							);
 						else
 							option(Constants.SKILL_NAME[skill1], new Dialogue()
-									.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...", ()->{
-										e.getPlayer().getTempAttribs().setI("skill", skill1);
-									})
+									.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...")
 									.addSimple("The ancient effigy glows briefly; it seems changed somehow and no longer responds to the same memories as before.", ()->{
-										e.getPlayer().getSkills().addXpLamp(e.getPlayer().getTempAttribs().getI("skill"), AncientEffigies.getExp(e.getItem().getId()));
-										e.getPlayer().sendMessage("You have gained " + AncientEffigies.getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill1")] + " experience!");
-										AncientEffigies.effigyInvestigation(e.getPlayer(), e.getItem());
+										e.getPlayer().getSkills().addXpLamp(skill1, getExp(e.getItem().getId()));
+										e.getPlayer().sendMessage("You have gained " + getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[skill1] + " experience!");
+										effigyInvestigation(e.getPlayer(), e.getItem());
 									})
 									.addSimple("A sudden bolt of inspiration flashes through your mind, revealing new insight into your experiences!")
 							);
-						if(e.getPlayer().getSkills().getLevel(e.getPlayer().getTempAttribs().getI("skill2")) < AncientEffigies.getRequiredLevel(e.getItem().getId()))
+						if(e.getPlayer().getSkills().getLevel(skill2) < getRequiredLevel(e.getItem().getId()))
 							option(Constants.SKILL_NAME[skill2], new Dialogue()
 									.addSimple("The images in your mind fade; the ancient effigy seems to desire knowledge of experiences you have not yet had.", () -> {
-										e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill2")] + " to investigate the ancient effigy further.");
+										e.getPlayer().sendMessage("You require at least level " + getRequiredLevel(e.getItem().getId()) + Constants.SKILL_NAME[skill2] + " to investigate the ancient effigy further.");
 										e.getPlayer().setNextAnimation(new Animation(4067));
 									})
 							);
 						else
 							option(Constants.SKILL_NAME[skill2], new Dialogue()
-									.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...", ()->{
-										e.getPlayer().getTempAttribs().setI("skill", skill2);
-									})
+									.addSimple("As you focus on your memories, you can almost hear a voice in the back of your mind whispering to you...")
 									.addSimple("The ancient effigy glows briefly; it seems changed somehow and no longer responds to the same memories as before.", ()->{
-										e.getPlayer().getSkills().addXpLamp(e.getPlayer().getTempAttribs().getI("skill"), AncientEffigies.getExp(e.getItem().getId()));
-										e.getPlayer().sendMessage("You have gained " + AncientEffigies.getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[e.getPlayer().getTempAttribs().getI("skill")] + " experience!");
-										AncientEffigies.effigyInvestigation(e.getPlayer(), e.getItem());
+										e.getPlayer().getSkills().addXpLamp(skill2, getExp(e.getItem().getId()));
+										e.getPlayer().sendMessage("You have gained " + getExp(e.getItem().getId()) + " " + Constants.SKILL_NAME[skill2] + " experience!");
+										effigyInvestigation(e.getPlayer(), e.getItem());
 									})
 									.addSimple("A sudden bolt of inspiration flashes through your mind, revealing new insight into your experiences!")
 							);
