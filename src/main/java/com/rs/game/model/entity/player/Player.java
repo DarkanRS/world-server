@@ -1028,6 +1028,11 @@ public class Player extends Entity {
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
 				tickFarming();
+			
+			if (getTickCounter() % FarmPatch.FARMING_TICK == 0) {
+				getKeldagrimBrewery().process();
+				getPhasmatysBrewery().process();
+			}
 
 			processTimePlayedTasks();
 			processTimedRestorations();

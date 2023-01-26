@@ -22,8 +22,11 @@ import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 
+@PluginEventHandler
 public final class LivingRockCavern {
 
 	private static enum Rocks {
@@ -69,6 +72,7 @@ public final class LivingRockCavern {
 		}, Ticks.fromMinutes(3));
 	}
 
+	@ServerStartupEvent
 	public static void init() {
 		for (Rocks rock : Rocks.values())
 			respawnRock(rock);

@@ -40,6 +40,7 @@ import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
@@ -58,6 +59,23 @@ public class PartyRoom {
 	private static final int[] BALLOON_IDS = { 115, 116, 117, 118, 119, 120, 121, 122 };
 	private static String[] SONG = { "We're the knights of the party room", "We dance round and round like a loon", "Quite often we like to sing", "Unfortunately we make a din", "We're the knights of the party room",
 			"Do you like our helmet plumes?", "Everyone's happy now we can move", "Like a party animal in the groove" };
+	
+	@ServerStartupEvent
+	public static void scheduleTimers() {
+		CoresManager.schedule(() -> {
+			try {
+				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
+					if (PartyRoom.getTimeLeft() % 5 == 0)
+						PartyRoom.yellNpcs();
+					PartyRoom.timer--;
+					if (PartyRoom.timer <= 0)
+						PartyRoom.spawnBalloons();
+				}
+			} catch (Throwable e) {
+				Logger.handle(World.class, "processPartyRoom", e);
+			}
+		}, 2, 2);
+	}
 
 	public static void openChest(Player player) {
 		if (!player.getBank().checkPin())

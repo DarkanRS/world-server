@@ -34,9 +34,6 @@ import com.rs.cores.WorldThread;
 import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.minigames.duel.DuelController;
-import com.rs.game.content.minigames.partyroom.PartyRoom;
-import com.rs.game.content.skills.hunter.PuroPuroController;
-import com.rs.game.content.world.areas.dungeons.LivingRockCavern;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
@@ -76,7 +73,6 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public final class World {
@@ -92,56 +88,7 @@ public final class World {
 	private static final Map<Integer, Region> REGIONS = new HashMap<>();
 
 	@ServerStartupEvent
-	public static final void loadWorldUpdateTasks() {
-		addSavePlayersTask();
-		addRestoreShopItemsTask();
-		addBrewingProcessTask();
-		processPartyRoom();
-		PuroPuroController.initPuroImplings();
-		LivingRockCavern.init();
-	}
-
-	private static void processPartyRoom() {
-		CoresManager.schedule(() -> {
-			try {
-				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
-					if (PartyRoom.getTimeLeft() % 5 == 0)
-						PartyRoom.yellNpcs();
-					PartyRoom.timer--;
-					if (PartyRoom.timer <= 0)
-						PartyRoom.spawnBalloons();
-				}
-			} catch (Throwable e) {
-				Logger.handle(World.class, "processPartyRoom", e);
-			}
-		}, 2, 2);
-	}
-
-	private static void addBrewingProcessTask() {
-		CoresManager.schedule(() -> {
-			try {
-				for (Player player : PLAYERS)
-					if (player != null && !player.hasFinished()) {
-						player.getKeldagrimBrewery().process();
-						player.getPhasmatysBrewery().process();
-					}
-			} catch (Throwable e) {
-				Logger.handle(World.class, "addBrewingProcessTask", e);
-			}
-		}, Ticks.fromHours(1), Ticks.fromHours(1));
-	}
-
-	private static void addRestoreShopItemsTask() {
-		CoresManager.schedule(() -> {
-			try {
-				ShopsHandler.restoreShops();
-			} catch (Throwable e) {
-				Logger.handle(World.class, "addRestoreShopItemsTask", e);
-			}
-		}, 0, 1);
-	}
-
-	private static final void addSavePlayersTask() {
+	public static final void addSavePlayersTask() {
 		CoresManager.schedule(() -> {
 			for (Player player : getPlayers()) {
 				if (player == null || !player.hasStarted())
