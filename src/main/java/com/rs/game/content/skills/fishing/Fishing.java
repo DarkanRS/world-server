@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -30,6 +31,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -76,6 +78,12 @@ public class Fishing extends PlayerAction {
         FISHING_SPOTS.put(14907, new FishingSpot[]{FishingSpot.CRAYFISH});
         FISHING_SPOTS.put(7862, new FishingSpot[]{FishingSpot.CRAYFISH});
         FISHING_SPOTS.put(15020, new FishingSpot[]{FishingSpot.LAVA_EEL});
+    }
+    
+    @ServerStartupEvent
+    public static void addLoSOverrides() {
+    	for (int id : FISHING_SPOTS.keySet())
+    		Entity.addLOSOverride(id);
     }
 
     public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray(), e -> {

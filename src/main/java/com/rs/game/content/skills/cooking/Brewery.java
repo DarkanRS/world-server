@@ -24,6 +24,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class Brewery {
@@ -41,7 +42,7 @@ public class Brewery {
 	private static final Animation CALQUAT_LEVEL = new Animation(2284);
 	private static final Animation BEER_GLASS_LEVEL = new Animation(2285);
 
-	private static final long BREWING_CONSTANT = 12 * 60 * 60 * 1000; //12 hours
+	public static final long BREW_TICKS = Ticks.fromHours(12);
 
 	private Brewable brew;
 	private int prep;
@@ -123,11 +124,11 @@ public class Brewery {
 			return;
 		long currTime = System.currentTimeMillis();
 		long timePassed = currTime - lastTime;
-		if (timePassed > BREWING_CONSTANT) {
-			int cycles = (int) (timePassed / BREWING_CONSTANT);
+		if (timePassed > BREW_TICKS) {
+			int cycles = (int) (timePassed / BREW_TICKS);
 			for (int i = 0;i < cycles;i++)
 				ferment();
-			lastTime = currTime - (timePassed % (cycles * BREWING_CONSTANT));
+			lastTime = currTime - (timePassed % (cycles * BREW_TICKS));
 		}
 		updateVars();
 	}

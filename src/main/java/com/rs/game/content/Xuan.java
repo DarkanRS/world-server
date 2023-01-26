@@ -20,11 +20,18 @@ import com.rs.game.content.world.LoyaltyShop;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.model.entity.Entity;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
-public class TitleShop {
+public class Xuan {
+	
+	@ServerStartupEvent
+	public static void addLoSOverride() {
+		Entity.addLOSOverride(13727);
+	}
 
 	public static NPCClickHandler onNPCClick = new NPCClickHandler(new Object[] { 13727 }, e -> {
 		switch (e.getOpNum()) {

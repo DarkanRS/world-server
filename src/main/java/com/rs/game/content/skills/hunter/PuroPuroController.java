@@ -31,6 +31,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -144,6 +145,7 @@ public class PuroPuroController extends Controller {
 		return implings[Utils.getRandomInclusive(5)].getNpcId();
 	}
 
+	@ServerStartupEvent
 	public static void initPuroImplings() {
 		for (int i = 0; i < 5; i++)
 			for (int index = 0; index < 11; index++) {

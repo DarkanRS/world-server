@@ -20,6 +20,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.rs.cores.CoresManager;
+import com.rs.game.World;
 import com.rs.game.engine.Shop;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
@@ -48,6 +50,17 @@ public class ShopsHandler {
 		SHOP_DEFS.clear();
 		NPC_SHOPS.clear();
 		loadShopFiles();
+	}
+	
+	@ServerStartupEvent
+	public static void addRestoreShopItemsTask() {
+		CoresManager.schedule(() -> {
+			try {
+				ShopsHandler.restoreShops();
+			} catch (Throwable e) {
+				Logger.handle(World.class, "addRestoreShopItemsTask", e);
+			}
+		}, 0, 1);
 	}
 
 	private static void loadShopFiles() {

@@ -41,9 +41,12 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
 
+@PluginEventHandler
 public final class Stomp extends DungeonBoss {
 
 	private static final int IVULNERABLE_TIMER = 37; // 16.5 sec
@@ -60,6 +63,15 @@ public final class Stomp extends DungeonBoss {
 		freeze(5000000);
 		lodestones = new boolean[2];
 		shadows = new ArrayList<>();
+	}
+	
+	@ServerStartupEvent
+	public static void overrideLoS() {
+		Entity.addLOSOverride((source, target, melee) -> {
+			if (target instanceof Stomp s)
+				return s.getManager().isAtBossRoom(source.getTile());
+			return false;
+		});
 	}
 
 	@Override

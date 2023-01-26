@@ -122,10 +122,10 @@ public class Falador {
 		});
 	});
 
-	public static NPCClickHandler handleSirTiffy = new NPCClickHandler(false, new Object[] { 2290 }, e -> {
+	public static NPCClickHandler handleSirTiffy = new NPCClickHandler(new Object[] { 2290 }, e -> {
 		ShopsHandler.openShop(e.getPlayer(), "initiate_rank_armory");
 	});
-
+	
 	public static NPCClickHandler handleQuarterMaster = new NPCClickHandler(new Object[] { 1208 }, e -> {
 		ShopsHandler.openShop(e.getPlayer(), "quartermasters_stores");
 	});

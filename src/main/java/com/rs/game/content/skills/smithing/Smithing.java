@@ -281,7 +281,7 @@ public class Smithing extends PlayerAction {
 		int amount = item.bar.getAmount();
 
 		if (player.hasScrollOfEfficiency && amount > 3)
-			if (Utils.getRandomInclusive(15) == 5)
+			if (Utils.random(15) < 5)
 				amount--;
 
 		player.getInventory().deleteItem(item.bar.getId(), amount);

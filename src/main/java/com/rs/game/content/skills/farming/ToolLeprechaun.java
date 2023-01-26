@@ -20,9 +20,11 @@ import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.dialogue.Options;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -51,6 +53,11 @@ public class ToolLeprechaun {
 		if (item == null)
 			return;
 		player.takeLeprechaunItem(item, amount);
+	}
+	
+	@ServerStartupEvent
+	public static void addLoSOverrides() {
+		Entity.addLOSOverrides("Tool leprechaun", "Tool Leprechaun");
 	}
 
 	public static NPCClickHandler handleToolLeprechaun = new NPCClickHandler(new Object[] { "Tool leprechaun", "Tool Leprechaun" }, e -> {
