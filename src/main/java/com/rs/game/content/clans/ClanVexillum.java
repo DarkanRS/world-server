@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.pathing.Direction;
@@ -14,6 +15,7 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.model.clan.Clan;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -37,6 +39,11 @@ public class ClanVexillum extends OwnedNPC {
 		setIgnoreNPCClipping(true);
 		setHidden(true);
 		CLAN_VEXES.put(clan.getName(), this);
+	}
+	
+	@ServerStartupEvent
+	public static void addLoSOverrides() {
+		Entity.addLOSOverride(13634);
 	}
 	
 	public static NPCClickHandler interact = new NPCClickHandler(new Object[] { 13634 }, e -> {

@@ -642,6 +642,7 @@ public final class Inventory {
 	}
 	
 	public int getCoinsAsInt() {
+		long coins = getCoins();
 		if (coins > Integer.MAX_VALUE)
 			return Integer.MAX_VALUE;
 		return (int) coins;

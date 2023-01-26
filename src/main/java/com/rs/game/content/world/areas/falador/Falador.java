@@ -34,6 +34,7 @@ import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -122,10 +123,10 @@ public class Falador {
 		});
 	});
 
-	public static NPCClickHandler handleSirTiffy = new NPCClickHandler(false, new Object[] { 2290 }, e -> {
+	public static NPCClickHandler handleSirTiffy = new NPCClickHandler(new Object[] { 2290 }, e -> {
 		ShopsHandler.openShop(e.getPlayer(), "initiate_rank_armory");
 	});
-
+	
 	public static NPCClickHandler handleQuarterMaster = new NPCClickHandler(new Object[] { 1208 }, e -> {
 		ShopsHandler.openShop(e.getPlayer(), "quartermasters_stores");
 	});
