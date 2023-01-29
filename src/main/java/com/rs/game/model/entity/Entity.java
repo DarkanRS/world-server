@@ -739,7 +739,7 @@ public abstract class Entity {
 	
 	public static void addLOSOverrides(String... npcNames) {
 		for (String npcName : npcNames)
-			addLOSOverrides(npcName);
+			addLOSOverride(npcName);
 	}
 	
 	public static void addLOSOverride(TriFunction<Entity, Object, Boolean, Boolean> func) {
