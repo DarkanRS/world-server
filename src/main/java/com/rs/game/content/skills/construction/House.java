@@ -573,7 +573,7 @@ public class House {
 			player.sendMessage("You need a Construction level of " + room.getLevel() + " to build this room.");
 			return;
 		}
-		if (player.getInventory().getAmountOf(995) < room.getPrice()) {
+		if (player.getInventory().getCoins() < room.getPrice()) {
 			player.sendMessage("You don't have enough coins to build this room.");
 			return;
 		}
@@ -635,6 +635,8 @@ public class House {
 		roomsR.add(room);
 		refreshNumberOfRooms();
 		refreshHouse();
+		player.setCloseChatboxInterfaceEvent(null);
+		player.setCloseInterfacesEvent(null);
 	}
 
 	public void openBuildInterface(GameObject object, final Builds build) {
