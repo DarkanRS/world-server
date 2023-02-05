@@ -53,6 +53,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
+import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -717,10 +718,8 @@ public class MiscTest {
 			int x = Integer.valueOf(args[0]);
 			int y = Integer.valueOf(args[1]);
 			int modelId = Integer.valueOf(args[2]);
-			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			int[] bufferX = RouteFinder.getLastPathBufferX();
-			int[] bufferY = RouteFinder.getLastPathBufferY();
-			p.getSession().writeToQueue(new HintTrail(WorldTile.of(p.getTile()), modelId, bufferX, bufferY, steps));
+			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
+			p.getSession().writeToQueue(new HintTrail(WorldTile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {

@@ -59,10 +59,10 @@ public class RouteEvent {
 		if (last != null && match(strategies, last) && !entity.hasWalkSteps()) {
 			for (int i = 0; i < strategies.length; i++) {
 				RouteStrategy strategy = strategies[i];
-				int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
-				if (steps == -1)
+				Route route = RouteFinder.find(entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
+				if (route.getStepCount() == -1)
 					continue;
-				if ((!RouteFinder.lastIsAlternative() && steps <= 0) || alternative) {
+				if ((!route.foundAltRoute() && route.getStepCount() <= 0) || alternative) {
 					if (alternative && player != null)
 						player.getSession().writeToQueue(new MinimapFlag());
 					event.run();
@@ -79,26 +79,23 @@ public class RouteEvent {
 
 		for (int i = 0; i < strategies.length; i++) {
 			RouteStrategy strategy = strategies[i];
-			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
-			if (steps == -1)
+			Route route = RouteFinder.find(entity.getX(), entity.getY(), entity.getPlane(), entity.getSize(), strategy, i == (strategies.length - 1));
+			if (route.getStepCount() == -1)
 				continue;
-			if ((!RouteFinder.lastIsAlternative() && steps <= 0)) {
+			if ((!route.foundAltRoute() && route.getStepCount() <= 0)) {
 				if (alternative && player != null)
 					player.getSession().writeToQueue(new MinimapFlag());
 				event.run();
 				return true;
 			}
-			int[] bufferX = RouteFinder.getLastPathBufferX();
-			int[] bufferY = RouteFinder.getLastPathBufferY();
-
-			WorldTile last = WorldTile.of(bufferX[0], bufferY[0], entity.getPlane());
+			WorldTile last = WorldTile.of(route.getBufferX()[0], route.getBufferY()[0], entity.getPlane());
 			entity.resetWalkSteps();
 			if (player != null)
 				player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
 			if (entity.hasEffect(Effect.FREEZE) || (object instanceof Entity e && e.hasWalkSteps() && WorldUtil.collides(entity, e)))
 				return false;
-			for (int step = steps - 1; step >= 0; step--)
-				if (!entity.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+			for (int step = route.getStepCount() - 1; step >= 0; step--)
+				if (!entity.addWalkSteps(route.getBufferX()[step], route.getBufferY()[step], 25, true, true))
 					break;
 			return false;
 		}

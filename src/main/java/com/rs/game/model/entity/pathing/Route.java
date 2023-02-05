@@ -21,13 +21,7 @@ import com.rs.game.region.ClipFlag;
 import com.rs.game.region.ClipMap;
 import com.rs.game.region.Region;
 
-/**
- * Walking route finder working on third flag range, designed for walking
- * routes.
- *
- * @author Mangis
- */
-public class WalkRouteFinder {
+public class Route {
 	private static final int GRAPH_SIZE = 128;
 	private static final int QUEUE_SIZE = (GRAPH_SIZE * GRAPH_SIZE) / 4; // we do /4 because each tile can only be accessed from single direction
 	private static final int ALTERNATIVE_ROUTE_MAX_DISTANCE = 100;
@@ -38,37 +32,36 @@ public class WalkRouteFinder {
 	private static final int DIR_SOUTH = 0x4;
 	private static final int DIR_WEST = 0x8;
 
-	private static final int[][] directions = new int[GRAPH_SIZE][GRAPH_SIZE];
-	private static final int[][] distances = new int[GRAPH_SIZE][GRAPH_SIZE];
-	private static final int[][] clip = new int[GRAPH_SIZE][GRAPH_SIZE];
-	private static final int[] bufferX = new int[QUEUE_SIZE];
-	private static final int[] bufferY = new int[QUEUE_SIZE];
-	private static int exitX = -1;
-	private static int exitY = -1;
-	private static boolean isAlternative;
+	private final int[][] directions = new int[GRAPH_SIZE][GRAPH_SIZE];
+	private final int[][] distances = new int[GRAPH_SIZE][GRAPH_SIZE];
+	private final int[][] clip = new int[GRAPH_SIZE][GRAPH_SIZE];
+	private final int[] bufferX = new int[QUEUE_SIZE];
+	private final int[] bufferY = new int[QUEUE_SIZE];
+	private int exitX = -1;
+	private int exitY = -1;
+	private boolean foundAltRoute = false;
+	private int stepCount = 0;
 
-	public static boolean debug = false;
-	public static long debug_transmittime = 0;
+	public long debug_transmittime = 0;
+
+	public Route() {
+		
+	}
 
 	/**
 	 * Find's route using given strategy. Returns amount of steps found. If steps >
 	 * 0, route exists. If steps = 0, route exists, but no need to move. If steps <
 	 * 0, route does not exist.
 	 */
-	protected static int findRoute(int srcX, int srcY, int srcZ, int srcSizeXY, RouteStrategy strategy, boolean findAlternative) {
-		isAlternative = false;
-		for (int x = 0; x < GRAPH_SIZE; x++)
+	protected Route find(int srcX, int srcY, int srcZ, int srcSizeXY, RouteStrategy strategy, boolean ignoreTileEventTiles) {
+		long start = System.nanoTime();
+		for (int x = 0; x < GRAPH_SIZE; x++) {
 			for (int y = 0; y < GRAPH_SIZE; y++) {
 				directions[x][y] = 0;
 				distances[x][y] = 99999999;
 			}
-
-		if (debug) {
-			long start = System.nanoTime();
-			transmitClipData(srcX, srcY, srcZ);
-			debug_transmittime = System.nanoTime() - start;
-		} else
-			transmitClipData(srcX, srcY, srcZ);
+		}
+		transmitClipData(srcX, srcY, srcZ);
 
 		// we could use performCalculationSX() for every size, but since most common
 		// size's are 1 and 2,
@@ -80,8 +73,11 @@ public class WalkRouteFinder {
 		default -> checkVariableTraversal(srcX, srcY, srcSizeXY, strategy);
 		};
 
-		if (!found && !findAlternative)
-			return -1;
+		if (!found && !ignoreTileEventTiles) {
+			stepCount = -1;
+			debug_transmittime = System.nanoTime() - start;
+			return this;
+		}
 
 		// when we start searching for path, we position ourselves in the middle of
 		// graph
@@ -91,8 +87,8 @@ public class WalkRouteFinder {
 		int endX = exitX;
 		int endY = exitY;
 
-		if (!found && findAlternative) {
-			isAlternative = true;
+		if (!found && ignoreTileEventTiles) {
+			foundAltRoute = true;
 			int lowestCost = Integer.MAX_VALUE;
 			int lowestDistance = Integer.MAX_VALUE;
 
@@ -141,12 +137,18 @@ public class WalkRouteFinder {
 					}
 				}
 
-			if (lowestCost == Integer.MAX_VALUE || lowestDistance == Integer.MAX_VALUE)
-				return -1; // we didin't find any alternative route, sadly.
+			if (lowestCost == Integer.MAX_VALUE || lowestDistance == Integer.MAX_VALUE) {
+				stepCount = -1;
+				debug_transmittime = System.nanoTime() - start;
+				return this; // we didin't find any alternative route, sadly.
+			}
 		}
 
-		if (endX == srcX && endY == srcY)
-			return 0; // path was found, but we didin't move
+		if (endX == srcX && endY == srcY) {
+			stepCount = 0;
+			debug_transmittime = System.nanoTime() - start;
+			return this; // path was found, but we didin't move
+		}
 
 		// what we will do now is trace the path from the end position
 		// for faster performance, we are reusing our queue buffer for another purpose.
@@ -178,11 +180,12 @@ public class WalkRouteFinder {
 
 			direction = directions[traceX - graphBaseX][traceY - graphBaseY];
 		}
-
-		return steps;
+		stepCount = steps;
+		debug_transmittime = System.nanoTime() - start;
+		return this;
 	}
 
-	private static boolean checkSingleTraversal(int srcX, int srcY, RouteStrategy strategy) {
+	private boolean checkSingleTraversal(int srcX, int srcY, RouteStrategy strategy) {
 		// first, we will cache our static fields to local variables, this is done for
 		// performance, because
 		// modern jit compiler's usually takes advantage of things like this
@@ -311,11 +314,11 @@ public class WalkRouteFinder {
 		return false;
 	}
 
-	private static boolean checkDoubleTraversal(int srcX, int srcY, RouteStrategy strategy) {
+	private boolean checkDoubleTraversal(int srcX, int srcY, RouteStrategy strategy) {
 		return checkVariableTraversal(srcX, srcY, 2, strategy);
 	}
 
-	private static boolean checkVariableTraversal(int srcX, int srcY, int size, RouteStrategy strategy) {
+	private boolean checkVariableTraversal(int srcX, int srcY, int size, RouteStrategy strategy) {
 		// first, we will cache our static fields to local variables, this is done for
 		// performance, because
 		// modern jit compiler's usually takes advantage of things like this
@@ -480,7 +483,7 @@ public class WalkRouteFinder {
 		return false;
 	}
 
-	private static void transmitClipData(int x, int y, int z) {
+	private void transmitClipData(int x, int y, int z) {
 		int graphBaseX = x - (GRAPH_SIZE / 2);
 		int graphBaseY = y - (GRAPH_SIZE / 2);
 
@@ -503,15 +506,19 @@ public class WalkRouteFinder {
 			}
 	}
 
-	protected static int[] getLastPathBufferX() {
+	public int[] getBufferX() {
 		return bufferX;
 	}
 
-	protected static int[] getLastPathBufferY() {
+	public int[] getBufferY() {
 		return bufferY;
 	}
 
-	protected static boolean lastIsAlternative() {
-		return isAlternative;
+	public boolean foundAltRoute() {
+		return foundAltRoute;
+	}
+
+	public int getStepCount() {
+		return stepCount;
 	}
 }
