@@ -570,6 +570,7 @@ public class Bank {
 	public void open() {
 		if (!checkPin())
 			return;
+		withdrawNotes = false;
 		player.getTempAttribs().removeB("viewingOtherBank");
 		player.getVars().setVar(638, 0);
 		player.getVars().setVarBit(8348, 0);
