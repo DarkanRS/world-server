@@ -180,7 +180,7 @@ public class Kebbit extends NPC {
 		player.anim(827);
 		player.getSkills().addXp(Skills.HUNTER, type.xp);
 		player.getInventory().addItemDrop(type.furId, 1);
-		if (!DropCleaners.bonecrush(player, new Item(526, 1)))
+		if (!DropCleaners.Companion.bonecrush(player, new Item(526, 1)))
 			player.getInventory().addItemDrop(526, 1);
 		sendDeath(player);
 	}

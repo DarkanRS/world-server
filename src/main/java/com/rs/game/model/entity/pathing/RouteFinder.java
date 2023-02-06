@@ -14,6 +14,7 @@ public class RouteFinder {
 		SERVICE.submit(() -> {
 			try {
 				future.complete(new Route().find(x, y, z, size, target, ignoreTileEventTiles));
+				COUNT.incrementAndGet();
 			} catch(Throwable e) {
 				future.completeExceptionally(e);
 			}
