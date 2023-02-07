@@ -23,9 +23,11 @@ public class ExampleCutscene extends Cutscene {
 	
 	@Override
 	public void construct(Player player) {
+		fadeIn(5);
 		dynamicRegion(178, 554, 4, 4);
 		playerMove(15, 20, 0, MoveType.TELE);
 		spawnObj(67500, 2, 14, 23, 0);
+		fadeOut(5);
 		delay(20);
 	}
 }

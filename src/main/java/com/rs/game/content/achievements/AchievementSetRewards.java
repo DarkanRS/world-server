@@ -49,7 +49,7 @@ public class AchievementSetRewards {
 		if (e.getPlayer().getEquipment().getBootsId() == 19766)
 			e.getItem().setId(e.getItem().getDefinitions().getCertId());
 		else
-			DropCleaners.bonecrusher.getHandler().accept(e);
+			DropCleaners.Companion.getBonecrusher().getHandler().accept(e);
 	});
 
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }, e -> {

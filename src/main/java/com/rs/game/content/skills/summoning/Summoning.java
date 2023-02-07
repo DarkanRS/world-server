@@ -140,45 +140,20 @@ public class Summoning {
 		player.getPackets().setIFEvents(new IFEvents(POUCHES_INTERFACE, 16, 0, 462).enableRightClickOptions(0,1,2,3,4,6));
 	}
 
-	static int getDungPouchID(int slot) {//From blank
-		slot = (slot+3)/5 + 5;
-		switch (slot % 6) {
-			case 0 -> {
-				return slot / 6 + 17934;
-			}
-			case 1 -> {
-				return slot / 6 + 17984;
-			}
-			case 2 -> {
-				return slot / 6 + 17944;
-			}
-			case 3 -> {
-				return slot / 6 + 17954;
-			}
-			case 4 -> {
-				return slot / 6 + 17974;
-			}
-			case 5 -> {
-				return slot / 6 + 17964;
-			}
-		}
-		return -1;
+	//1182 = real pouch list
+	public static int forSlotId(int slotId, boolean dung) {
+		EnumDefinitions realDef = EnumDefinitions.getEnum(1182);
+		return realDef.getIntValue(((slotId-2)/5)+(dung ? 1100 : 1));
 	}
 
-	static int getPouchIndex(int slot) {//From blank
-		slot = (slot+3)/5 + 5 - 6;
-		//System.out.println(slot + ":.");
-		return slot;
-	}
-	
 	public static ButtonClickHandler handleDungeoneeringPouchButtons = new ButtonClickHandler(672, e -> {
 		if (e.getComponentId() == 16) {
 			Pouch pouch = Pouch.forId(e.getSlotId2());
 			if (pouch == null) {
 				if(e.getPlayer().getControllerManager().isIn(DungeonController.class))
-					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(getDungPouchID(e.getSlotId()))) + " to create this pouch.");
-				if(!e.getPlayer().getControllerManager().isIn(DungeonController.class))
-					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.values()[getPouchIndex(e.getSlotId())]) + " to create this pouch.");
+					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(forSlotId(e.getSlotId(), true))) + " to create this pouch.");
+				else
+					e.getPlayer().sendMessage("You need " + getMaterialListString(Pouch.forId(forSlotId(e.getSlotId(), false))) + " to create this pouch.");
 				return;
 			}
 			if (e.getPacket() == ClientPacket.IF_OP1)

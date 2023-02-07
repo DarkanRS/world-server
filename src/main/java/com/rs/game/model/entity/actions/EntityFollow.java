@@ -19,6 +19,7 @@ package com.rs.game.model.entity.actions;
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.EntityStrategy;
+import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
@@ -59,17 +60,14 @@ public class EntityFollow extends Action {
 		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof EntityFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
 		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {
-			int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getPlane(), player.getSize(), new EntityStrategy(target), true);
-			if (steps == -1)
+			Route route = RouteFinder.find(player.getX(), player.getY(), player.getPlane(), player.getSize(), new EntityStrategy(target), true);
+			if (route.getStepCount() == -1)
 				return false;
 
-			if (steps > 0) {
+			if (route.getStepCount() > 0) {
 				player.resetWalkSteps();
-
-				int[] bufferX = RouteFinder.getLastPathBufferX();
-				int[] bufferY = RouteFinder.getLastPathBufferY();
-				for (int step = steps - 1; step >= 0; step--)
-					if (!player.addWalkSteps(bufferX[step], bufferY[step], 25, true, true))
+				for (int step = route.getStepCount() - 1; step >= 0; step--)
+					if (!player.addWalkSteps(route.getBufferX()[step], route.getBufferY()[step], 25, true, true))
 						break;
 			}
 			return true;

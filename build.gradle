@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'application'
-    //id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
     id 'io.github.0ffz.github-packages' version '1.2.1'
 }
 
@@ -21,17 +21,6 @@ application {
                                  '--add-modules', 'jdk.incubator.concurrent']
 }
 
-//compileKotlin {
-//	kotlinOptions {
-//		jvmTarget = '17'
-//	}
-//}
-//compileTestKotlin {
-//	kotlinOptions {
-//		jvmTarget = '17'
-//	}
-//}
-
 mainClassName = 'com.rs.Launcher'
 
 repositories {
@@ -44,14 +33,17 @@ group 'rs.darkan'
 version '1.1.11'
 
 dependencies {
-	//implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+	implementation group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.36'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.8.10'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '1.8.10'
+	implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.6.4'
 	implementation group: 'rs.darkan', name: 'core', version: '1.1.16'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
 	implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 	implementation group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.4.0'
 	implementation group: 'org.mongodb', name: 'mongodb-driver-core', version: '4.4.0'
-	implementation group: 'io.netty', name: 'netty-all', version: '4.1.77.Final'
-	implementation group: 'io.undertow', name: 'undertow-core', version: '2.2.15.Final'
+	implementation group: 'io.netty', name: 'netty-all', version: '4.1.86.Final'
+	implementation group: 'io.undertow', name: 'undertow-core', version: '2.2.22.Final'
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
 	implementation group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'

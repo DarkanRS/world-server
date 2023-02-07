@@ -49,6 +49,7 @@ import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
+import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Bank;
@@ -175,13 +176,12 @@ public class NPC extends Entity {
 	}
 
 	public void walkToAndExecute(WorldTile startTile, Runnable event) {
-		int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
-		int[] bufferX = RouteFinder.getLastPathBufferX();
-		int[] bufferY = RouteFinder.getLastPathBufferY(); //TODO expensive call for cutscenes
-		if (steps == -1)
+		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
+		//TODO expensive call for cutscenes
+		if (route.getStepCount() == -1)
 			return;
-		for (int i = steps - 1; i >= 0; i--)
-			if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
+		for (int i = route.getStepCount() - 1; i >= 0; i--)
+			if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
 				break;
 		setRouteEvent(new RouteEvent(startTile, event));
 	}
@@ -298,11 +298,9 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
-						int[] bufferX = RouteFinder.getLastPathBufferX();
-						int[] bufferY = RouteFinder.getLastPathBufferY();
-						for (int i = steps - 1; i >= 0; i--)
-							if (!addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
+						Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
+						for (int i = route.getStepCount() - 1; i >= 0; i--)
+							if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
 								break;
 					}
 					if (!hasWalkSteps()) { // failing finding route

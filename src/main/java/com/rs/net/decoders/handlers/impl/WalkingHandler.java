@@ -18,6 +18,7 @@ package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
+import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
@@ -38,18 +39,16 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 			return;
 		}
 
-		int steps = RouteFinder.findRoute(RouteFinder.WALK_ROUTEFINDER, player.getX(), player.getY(), player.getPlane(), player.getSize(), new FixedTileStrategy(packet.getX(), packet.getY()), true);
-		int[] bufferX = RouteFinder.getLastPathBufferX();
-		int[] bufferY = RouteFinder.getLastPathBufferY();
+		Route route = RouteFinder.find(player.getX(), player.getY(), player.getPlane(), player.getSize(), new FixedTileStrategy(packet.getX(), packet.getY()), true);
 		int last = -1;
-		if (steps == -1)
+		if (route.getStepCount() == -1)
 			return;
 		player.stopAll();
-		for (int i = steps - 1; i >= 0; i--)
-			if (!player.addWalkSteps(bufferX[i], bufferY[i], 25, true, true))
+		for (int i = route.getStepCount() - 1; i >= 0; i--)
+			if (!player.addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
 				break;
 		if (last != -1) {
-			WorldTile tile = WorldTile.of(bufferX[last], bufferY[last], player.getPlane());
+			WorldTile tile = WorldTile.of(route.getBufferX()[last], route.getBufferY()[last], player.getPlane());
 			player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId())));
 		}
 	}
