@@ -6,7 +6,7 @@ import com.rs.game.model.entity.pathing.RouteFinder
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-fun main(args: Array<String>) {
+fun main() {
     for (i in 0..50) {
         runCoroutineTest()
     }

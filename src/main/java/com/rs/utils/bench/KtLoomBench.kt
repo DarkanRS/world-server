@@ -13,7 +13,7 @@ import java.util.concurrent.Executors
 private lateinit var executorService: ExecutorService
 private lateinit var executorCoroutineDispatcher: ExecutorCoroutineDispatcher
 
-fun main(args: Array<String>) {
+fun main() {
     executorService = Executors.newVirtualThreadPerTaskExecutor()
     executorCoroutineDispatcher = executorService.asCoroutineDispatcher()
 
