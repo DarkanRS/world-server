@@ -89,6 +89,7 @@ import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.Musician;
 import com.rs.game.engine.book.Book;
+import com.rs.game.engine.cutscene.Cutscene;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
@@ -4514,4 +4515,16 @@ public class Player extends Entity {
 		WorldTasks.delay(ticks, task);
 		WorldTasks.delay(ticks+1, () -> unlock());
 	}
+
+	public void playCutscene(Consumer<Cutscene> constructor) {
+		getCutsceneManager().play(new Cutscene() {
+			@Override
+			public void construct(Player player) {
+				constructor.accept(this);
+			}
+		});
+	}
+    public void playCutscene(Cutscene scene) {
+		getCutsceneManager().play(scene);
+    }
 }

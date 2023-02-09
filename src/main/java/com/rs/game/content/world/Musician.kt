@@ -34,7 +34,7 @@ class Musician {
                             .addNPC(e.npcId, HeadE.CALM_TALK, "Well, not quite. Poison, lack of faith, and dismembered limbs are all a bit beyond even the most rousing of harmonies, but I guarantee you will feel refreshed, and better equipped to take on the challenges of the day.")
                             .addPlayer(HeadE.CALM_TALK, "Does this cost me anything?")
                             .addNPC(e.npcId, HeadE.CALM_TALK, "Oh, no! My reward is the pleasure I bring to the masses. Just remember me and tell your friends, and that is payment enough. So sit down and enjoy!"))
-                        ops.add("Can I ask you some questions about resting?", Dialogue().addOptions { restOps ->
+                        ops.add("Can I ask you some questions about resting?").addOptions { restOps ->
                             restOps.add("How does resting work?", Dialogue()
                                 .addNPC(e.npcId, HeadE.CALM_TALK, "Have you ever been on a long journey, and simply wanted to have a rest? When you’re running from city to city, it’s so easy to run out of breath, don’t you find?")
                                 .addPlayer(HeadE.CALM_TALK, "Yes, I can never run as far as I’d like.")
@@ -49,7 +49,7 @@ class Musician {
                                 .addNPC(e.npcId, HeadE.CALM_TALK, "Certainly. You can rest anywhere, simply choose the Rest option on the run buttons. Resting anywhere will replenish your run energy more quickly than normal, your life points will replenish twice as fast as well! ")
                                 .addNPC(e.npcId, HeadE.CALM_TALK, "Resting by a musician will replenish your run energy many times faster than normal, and your life points will also replenish three times as fast."))
                             restOps.add("That's all for now.")
-                        })
+                        }
                         ops.add("Can I ask you some questions about running?", Dialogue()
                             .addNPC(e.npcId, HeadE.CALM_TALK, "Running? Of course! Not that I do much running, I prefer to saunter. But you adventuring types always seem to be in a rush, zipping hither and thither.")
                             .addPlayer(HeadE.CALM_TALK, "Why do I need to run anyway?")
@@ -63,11 +63,11 @@ class Musician {
 
                 "listen-to" -> {
                     if (e.player.emotesManager.isAnimating) {
-                        e.player.sendMessage("You can't rest while perfoming an emote.")
+                        e.player.sendMessage("You can't rest while performing an emote.")
                         return@NPCClickHandler
                     }
                     if (e.player.isLocked) {
-                        e.player.sendMessage("You can't rest while perfoming an action.")
+                        e.player.sendMessage("You can't rest while performing an action.")
                         return@NPCClickHandler
                     }
                     e.player.stopAll()

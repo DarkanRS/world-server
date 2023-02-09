@@ -1728,9 +1728,9 @@ public final class ObjectHandler {
 		if (player.hasRights(Rights.DEVELOPER)) {
 			player.sendMessage(object.toString());
 			if (object.getDefinitions().varpBit != -1)
-				player.sendMessage("Transforms with varbit " + object.getDefinitions().varpBit);
+				player.sendMessage("Transforms with varbit " + object.getDefinitions().varpBit + " - current obj: " + object.getDefinitions(player).id);
 			if (object.getDefinitions().varp != -1)
-				player.sendMessage("Transforms with var " + object.getDefinitions().varp);
+				player.sendMessage("Transforms with var " + object.getDefinitions().varp + " - current obj: " + object.getDefinitions(player).id);
 		}
 	}
 
