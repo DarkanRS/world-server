@@ -81,6 +81,8 @@ public abstract class Cutscene {
 		player.getVars().setVar(1241, 3);
 		player.getPackets().sendResetCamera();
 		player.setLargeSceneView(false);
+		player.resetReceivedHits();
+		player.getPoison().reset();
 		player.unlock();
 		deleteObjects();
 		if (region != null)
