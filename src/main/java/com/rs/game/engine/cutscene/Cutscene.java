@@ -24,27 +24,7 @@ import java.util.function.Consumer;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
-import com.rs.game.engine.cutscene.actions.ConstructMapAction;
-import com.rs.game.engine.cutscene.actions.CreateNPCAction;
-import com.rs.game.engine.cutscene.actions.CutsceneAction;
-import com.rs.game.engine.cutscene.actions.CutsceneCodeAction;
-import com.rs.game.engine.cutscene.actions.DelayAction;
-import com.rs.game.engine.cutscene.actions.DestroyCachedObjectAction;
-import com.rs.game.engine.cutscene.actions.DialogueAction;
-import com.rs.game.engine.cutscene.actions.LookCameraAction;
-import com.rs.game.engine.cutscene.actions.MoveNPCAction;
-import com.rs.game.engine.cutscene.actions.MovePlayerAction;
-import com.rs.game.engine.cutscene.actions.NPCAnimationAction;
-import com.rs.game.engine.cutscene.actions.NPCFaceTileAction;
-import com.rs.game.engine.cutscene.actions.NPCForceTalkAction;
-import com.rs.game.engine.cutscene.actions.NPCGraphicAction;
-import com.rs.game.engine.cutscene.actions.PlayerAnimationAction;
-import com.rs.game.engine.cutscene.actions.PlayerFaceEntityAction;
-import com.rs.game.engine.cutscene.actions.PlayerFaceTileAction;
-import com.rs.game.engine.cutscene.actions.PlayerForceTalkAction;
-import com.rs.game.engine.cutscene.actions.PlayerGraphicAction;
-import com.rs.game.engine.cutscene.actions.PlayerMusicEffectAction;
-import com.rs.game.engine.cutscene.actions.PosCameraAction;
+import com.rs.game.engine.cutscene.actions.*;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity.MoveType;
@@ -345,7 +325,13 @@ public abstract class Cutscene {
 	public void npcAnim(String key, Animation anim) {
 		npcAnim(key, anim, -1);
 	}
-	
+
+	public void npcTransform(String key, int id, int delay) {
+		actions.add(new NPCTransformAction(key, id, delay));
+	}
+
+	public void npcTransform(String key, int id) { npcTransform(key, id, 0); }
+
 	public void npcTalk(String key, String message, int delay) {
 		actions.add(new NPCForceTalkAction(key, message, delay));
 	}

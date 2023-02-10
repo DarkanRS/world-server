@@ -1,16 +1,17 @@
-package com.rs.game.player.quests.handlers.wolfwhistle;
+package com.rs.game.content.quests.wolfwhistle;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 import com.rs.game.World;
-import com.rs.game.Entity.MoveType;
-import com.rs.game.npc.NPC;
-import com.rs.game.pathing.Direction;
-import com.rs.game.player.content.dialogue.Dialogue;
-import com.rs.game.player.content.dialogue.HeadE;
-import com.rs.game.player.cutscenes.Cutscene;
-import com.rs.game.player.Player;
+import com.rs.game.engine.cutscene.Cutscene;
+import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.game.engine.dialogue.HeadE;
+import com.rs.game.engine.quest.Quest;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -49,6 +50,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
 
 	// animations
 	final static int WOLPERTINGER_FEAR_CAST = 15929;
+	final static int WOLPERTINGER_DESPAWN = 15930;
 	final static int WOLPERTINGER_SPAWN = 15932;
 	final static int TROLL_COWER = 15921;
 	// 1522
@@ -60,8 +62,8 @@ public class WolfWhistleWellCutscene extends Cutscene {
 	@Override
 	public void construct(Player player) {
 		playing = true;
-//		fadeInBG(4);
-//		hideMinimap();
+		fadeInBG(4);
+		hideMinimap();
 		dynamicRegion(178, 554, 4, 4);
 
 		spawnObj(BOWLOFTRIX_CAULDRON, 0, 14, 23, 0);
@@ -69,7 +71,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
 		npcCreate("scalectrix", SCALECTRIX, 13, 8, 0);
 		npcCreate("wolfmeat", WOLF_MEAT, 15, 21, 0);
 		npcCreate("wolfbones", WOLF_BONES, 13, 21, 0);
-//		npcCreate("trollflinter", TROLL_FLINTER, 11, 23, 0);
+		npcCreate("trollflinter", TROLL_FLINTER, 11, 23, 0);
 		npcCreate("t0", TROLL_BONE, 16, 18, 0); // 3 with just bone frontline runner
 		npcCreate("t1", TROLL_BONE, 10, 27, 0);
 		npcCreate("t2", TROLL_BONE, 15, 25, 0);
@@ -85,28 +87,22 @@ public class WolfWhistleWellCutscene extends Cutscene {
 		npcCreate("t12", TROLL_CLUB, 9, 19, 0);
 		delay(1);
 		playerFaceDir(Direction.NORTH);
-		playerMove(14, 8, 0, MoveType.TELE);
+		playerMove(14, 8, 0, Entity.MoveType.TELE);
 		npcFaceDir("scalectrix", Direction.NORTH);
-//		npcFaceDir("trollflinter", Direction.SOUTH);
+		npcFaceDir("trollflinter", Direction.EAST);
 		npcFaceNPC("giantwolpertinger", "wolfbones");
 
 		camPosReset();
 		camPos(14, 18, 2000);
 		camLook(14, 8, 0);
 		delay(1);
-//		fadeOutBG(4);
+		fadeOutBG(4);
 
-//		if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(ALREADY_BEEN_IN_WELL) == true) {
-//			dialogue(new Dialogue()
-//					.addPlayer(HeadE.ANGRY, "Alright, trolls. Time for round two!")
-//					, true);
-//		}
-
-		playerMove(14, 14, MoveType.WALK);
-		npcMove("scalectrix", 14, 8, MoveType.WALK);
-		npcMove("scalectrix", 14, 13, MoveType.WALK);
-		npcMove("scalectrix", 13, 13, MoveType.WALK);
-		npcMove("scalectrix", 13, 14, MoveType.WALK);
+		playerMove(14, 14, Entity.MoveType.WALK);
+		npcMove("scalectrix", 14, 8, Entity.MoveType.WALK);
+		npcMove("scalectrix", 14, 13, Entity.MoveType.WALK);
+		npcMove("scalectrix", 13, 13, Entity.MoveType.WALK);
+		npcMove("scalectrix", 13, 14, Entity.MoveType.WALK);
 		camPos(14, 30, 2000, 0, 20, 2);
 		delay(5);
 		dialogue(new Dialogue()
@@ -133,7 +129,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
 		playerAnim(new Animation(7660));
 		npcSpotAnim("scalectrix", new SpotAnim(1300));
 		npcAnim("scalectrix", new Animation(7660));
-		npcMove("giantwolpertinger", 13, 16, MoveType.TELE);
+		npcMove("giantwolpertinger", 13, 16, Entity.MoveType.TELE);
 		npcSpotAnim("giantwolpertinger", new SpotAnim(SUMMONING_SPAWN));
 		npcAnim("giantwolpertinger", new Animation(WOLPERTINGER_SPAWN));
 		delay(5);
@@ -160,16 +156,16 @@ public class WolfWhistleWellCutscene extends Cutscene {
 			t3.forceTalk("Me no like!");
 			t5.forceTalk("It too huge!");
 			WorldTasks.scheduleTimer(tick -> {
-				World.sendSpotAnim(player, new SpotAnim(ONE), new WorldTile(wolfbones.getX(), wolfbones.getY(), wolfbones.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(ONE), new WorldTile(wolfmeat.getX(), wolfmeat.getY(), wolfmeat.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(ONE), new WorldTile(t0.getX(), t0.getY(), t0.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(ONE), new WorldTile(t3.getX(), t3.getY(), t3.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(ONE), new WorldTile(t5.getX(), t5.getY(), t5.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(wolfbones.getX(), wolfbones.getY(), wolfbones.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(wolfmeat.getX(), wolfmeat.getY(), wolfmeat.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t0.getX(), t0.getY(), t0.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t3.getX(), t3.getY(), t3.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t5.getX(), t5.getY(), t5.getPlane()));
 				return playing;
 			});
 		});
-		delay(6);
-		npcMove("t4", 8, 20, MoveType.WALK); // maybe run
+		delay(2);
+		npcMove("t4", 8, 20, Entity.MoveType.WALK); // maybe run
 		npcAnim("t0", new Animation(TROLL_COWER));
 		npcAnim("t1", new Animation(TROLL_COWER));
 		npcAnim("t2", new Animation(TROLL_COWER));
@@ -197,10 +193,8 @@ public class WolfWhistleWellCutscene extends Cutscene {
 		npcTransform("t10", TROLL_CLUB_SCARED);
 		npcTransform("t11", TROLL_CLUB_SCARED);
 		npcTransform("t12", TROLL_CLUB_SCARED);
-		delay(5);
 
 		action(() -> {
-			player.sendMessage("Hello 2");
 			whiners.add(getNPC("t1"));
 			whiners.add(getNPC("t2"));
 			whiners.add(getNPC("t6"));
@@ -235,31 +229,39 @@ public class WolfWhistleWellCutscene extends Cutscene {
 						.addNPC(WOLF_MEAT, HeadE.T_SCARED, "It messing with Wolf Meat's brains! It in my head! Make it stop!")
 						.addNPC(WOLF_BONES, HeadE.T_SCARED, "Wolf Bones need his mummy!")
 				, true);
+
+		camPos(14, 18, 2000);
+		camLook(14, 8, 0);
+
+		camPos(16, 25, 2000);
+		camLook(13, 14, 0);
 		npcTransform("wolfbones", WOLF_BONES_SCARED);
 		npcTransform("wolfmeat", WOLF_MEAT_SCARED);
-		//campos
-//		//camlook
-//		dialogue(new Dialogue()
-//				.addPlayer(HeadE.HAPPY_TALKING, "Quick! Let's get Bowloftrix, before they regroup.")
-//				);
-		// wolf bones,meat turn and walk away
-		// wolf bones: I gettin' out of 'ere!
-//		// wolf meat: Run! Run fer it!
-//		dialogue(new Dialogue()
-//				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Yes, the wolpertinger won't last long.")
-//				.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "In fact, there it goes...")
-//				, true);
-//		//campos
-		//camlook
-		//desummon animation wolpertinger
-		//delay()
-//		dialogue(new Dialogue()
-//				.addPlayer(HeadE.CALM_TALK, "Well let's get Bowloftrix and get out.")
-//				.addNPC(SCALECTRIX, HeadE.CALM, "Oh dear...I hope he's all right.")
-//				, true);
-		//player run forth
-		//scalectrix run forth
-		//fade to black
+		npcTalk("wolfbones", "I gettin' out of 'ere!");
+		npcTalk("wolfmeat", "Run! Run fer it!");
+		dialogue(new Dialogue()
+				.addPlayer(HeadE.HAPPY_TALKING, "Quick! Let's get Bowloftrix, before they regroup.")
+				, true);
+		npcMove("wolfbones", 12, 21, Entity.MoveType.WALK);
+		npcMove("wolfmeat", 13, 21, Entity.MoveType.WALK);
+		dialogue(new Dialogue()
+				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Yes, the wolpertinger won't last long.")
+				.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "In fact, there it goes...")
+				, true);
+
+		npcAnim("giantwolpertinger", new Animation(WOLPERTINGER_DESPAWN));
+		delay(8);
+		npcDestroy("giantwolpertinger");
+
+		dialogue(new Dialogue()
+				.addPlayer(HeadE.CALM_TALK, "Well let's get Bowloftrix and get out.")
+				.addNPC(SCALECTRIX, HeadE.CALM, "Oh dear...I hope he's all right.")
+				, true);
+		playerMove(14, 19, Entity.MoveType.RUN);
+		npcMove("scalectrix", 13, 19, Entity.MoveType.RUN);
+		fadeInBG(0);
+		delay(4);
+		fadeOutBG(0);
 		//start new cutscene/new dynamic region
 		//spawn scalectrix
 		//spawn bowloftrix
@@ -273,7 +275,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
 //		//scalectrix face bowloftrix
 //		dialogue(new Dialogue()
 //				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Well he is the one you should really be thanking. Without him we'd never have been able to call the wolpertinger.")
-//				.addNPC(BOWLOFTRIX, HeadE.HAPPY_TALKING, "Yes, thank you veyr much, hero!")
+//				.addNPC(BOWLOFTRIX, HeadE.HAPPY_TALKING, "Yes, thank you very much, hero!")
 //				.addPlayer(HeadE.HAPPY_TALKING, "No problem, I'm just glad we got you out of there before you were badly injured.")
 //				, true);
 //		//bowloftrix faces scalectrix
@@ -295,8 +297,10 @@ public class WolfWhistleWellCutscene extends Cutscene {
 //				, true);
 		//fade to black
 		//restore scene
-		//quest complete
-		//Congratulations message I guess
+		action(() -> {
+			player.getQuestManager().completeQuest(Quest.WOLF_WHISTLE);
+			playing = false;
+		});
 	}
 
 	private String generateRandomWhine() {

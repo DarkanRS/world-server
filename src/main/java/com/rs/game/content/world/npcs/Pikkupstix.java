@@ -1,6 +1,8 @@
-package com.rs.game.content.quests.wolfwhistle;
+package com.rs.game.content.world.npcs;
 
 import com.rs.game.content.Skillcapes;
+import com.rs.game.content.quests.wolfwhistle.QuestPikkupstix;
+import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
 import com.rs.game.engine.dialogue.Conversation;
@@ -16,7 +18,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class PikkupstixD extends Conversation {
+public class Pikkupstix extends Conversation {
 	final static int PIKKUPSTIX = 6988;
 
 	// right click options
@@ -24,7 +26,7 @@ public class PikkupstixD extends Conversation {
 	final static int TRADE = 3;
 	final static int ENCHANT = 4;
 
-	public PikkupstixD(Player p, NPC pikkupstix, boolean greeting) {
+	public Pikkupstix(Player p, NPC pikkupstix, boolean greeting) {
 		super(p);
 
 		if (greeting) {
@@ -147,9 +149,9 @@ public class PikkupstixD extends Conversation {
 							}
 						}));
 
-				String quest_option = QuestPikkupstixD.getNextOptionTextPikkupstix(p);
+				String quest_option = QuestPikkupstix.getNextOptionTextPikkupstix(p);
 				if (quest_option != null) {
-					option(quest_option, () -> p.startConversation(new QuestPikkupstixD(p, pikkupstix)));
+					option(quest_option, () -> p.startConversation(new QuestPikkupstix(p, pikkupstix)));
 				}
 
 				// only if you know about Pikkenmix
@@ -173,7 +175,7 @@ public class PikkupstixD extends Conversation {
 							.addPlayer(HeadE.AMAZED, "Wow...you really haven't had much luck with assistants.")
 							.addNPC(PIKKUPSTIX, HeadE.SAD, "It has been one heck of a busy week, I can tell you.")
 							.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Now, is there anything else you need?")
-							.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false)))
+							.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false)))
 					);
 				}
 
@@ -187,18 +189,16 @@ public class PikkupstixD extends Conversation {
 		Player p = e.getPlayer();
 
 		switch(e.getOption()) {
-			case "Talk-to" -> p.startConversation(new PikkupstixD(e.getPlayer(), e.getNPC(), true));
+			case "Talk-to" -> p.startConversation(new Pikkupstix(e.getPlayer(), e.getNPC(), true));
 			case "Trade" -> ShopsHandler.openShop(p, "taverly_summoning_shop");
 			case "Enchant" -> {
-				if (p.getInventory().getFreeSlots() < 28) {
-					for (Item i : p.getInventory().getItems().array())
-						if ((null != i) && (null != EnchantedHeadwear.Headwear.forId(i.getId()))) {
-							p.startConversation(new Dialogue()
-									.addNPC(PIKKUPSTIX, HeadE.HAPPY_TALKING, "That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it.")
-									);
-							break;
-						}
-//					for (EnchantedHeadwear hw : )
+				for (Item i : p.getInventory().getItems().array()) {
+					if ((null != i) && (null != EnchantedHeadwear.Headwear.forId(i.getId()))) {
+						p.startConversation(new Dialogue()
+								.addNPC(PIKKUPSTIX, HeadE.HAPPY_TALKING, "That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it.")
+						);
+						return;
+					}
 				}
 				p.startConversation(new Dialogue()
 						.addNPC(PIKKUPSTIX, HeadE.HAPPY_TALKING, "If you bring me the right headwear, I may be able to assist in enchanting it.")

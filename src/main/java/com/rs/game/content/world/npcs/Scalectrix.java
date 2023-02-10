@@ -1,5 +1,7 @@
-package com.rs.game.content.quests.wolfwhistle;
+package com.rs.game.content.world.npcs;
 
+import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
+import com.rs.game.content.quests.wolfwhistle.WolfWhistleWellCutscene;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
@@ -15,14 +17,15 @@ public class Scalectrix extends Conversation {
 	// npc id
 	final static int SCALECTRIX = 15055;
 
-	// item id
-	static final int GIANT_WOLPERTINGER_POUCH = 23070;
-
-
 	public Scalectrix(Player p) {
 		super(p);
 
 		switch (p.getQuestManager().getStage(Quest.WOLF_WHISTLE)) {
+			case WolfWhistle.NOT_STARTED ->
+					addNPC(SCALECTRIX, HeadE.WORRIED, "Oh dear...oh dear...")
+							.addPlayer(HeadE.CONFUSED, "Are you alright?")
+							.addSimple("The young druidess seems intent on staring into the well and wringing her hands, and does not reply.")
+							.addPlayer(HeadE.CONFUSED, "Uh...ok then! Have a nice day!");
 			case WolfWhistle.FIND_SCALECTRIX ->
 				addPlayer(HeadE.CONFUSED, "Hey, are you Scalectrix; the assistant to Pikkupstix?")
 						.addNPC(SCALECTRIX, HeadE.AMAZED, "Yes! How did you know that?")
@@ -40,19 +43,6 @@ public class Scalectrix extends Conversation {
 								option("Look, I'll just go and take a look myself...", new Dialogue()
 										.addPlayer(HeadE.CALM_TALK, "Look, I'll just go and take a look myself. I am trained for this sort of thing, after all.")
 										.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "Be careful!", () -> {
-											// TODO:
-											/* set up cutscene props
-											 * cutscene fade to black, fade to white at bottom of well
-											 * .addPlayer(HeadE.ANGRY, "All right you trolls, let the druid go!")
-											 * zoom out to room
-											 * .addPlayer(HeadE.WORRIED, "Wow...there certainly are a lot of you...")
-											 * .addNPC(WOLF_MEAT, HeadE.LAUGH, "Hur hur hur, more food come to us!")
-											 * .addPlayer(HeadE.ANGRY, "I warn you, you'd better let him go!")
-											 * .addNPC(WOLF_BONES, HeadE.SHAKE, "Or what? Wolf Bones tink you're not gonna last long!")
-											 * .addNPC(WOLF_MEAT, HeadE.LAUGH, "Specially not if we cut 'em into little bitty bites!")
-											 * .addPlayer(HeadE.TERRIFIED, "Bowloftrix! Don't worry. I'm going to go and get help!")
-											 * .addNPC(BOWLOFTRIX, HeadE.?, "Please hurry!")
-											 */
 											p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.PIKKUPSTIX_HELP);
 										}));
 								option("All right. Wait here, I'll be right back.", new Dialogue()
@@ -67,7 +57,6 @@ public class Scalectrix extends Conversation {
 						.addNPC(SCALECTRIX, HeadE.SAD_MILD_LOOK_DOWN, "Well could you PLEASE hurry up?")
 						.addPlayer(HeadE.CALM, "Hey, you can't rush heroism. I'll be right back.");
 			case WolfWhistle.WOLPERTINGER_POUCH_CHECK ->
-				// she says it regardless of having the pouch
 				addNPC(SCALECTRIX, HeadE.CONFUSED, "So what's the plan?")
 						.addPlayer(HeadE.CHEERFUL_EXPOSITION, "I have made the giant wolpertinger pouch! I have it here, let's go!")
 						.addNPC(SCALECTRIX, HeadE.AMAZED, "Wait, wait!")
@@ -80,11 +69,10 @@ public class Scalectrix extends Conversation {
 						.addPlayer(HeadE.TERRIFIED, "I'm, uh, just going to take this to Pikkupstix...just in case.")
 						.addNPC(SCALECTRIX, HeadE.SAD_MILD_LOOK_DOWN, "Please, hurry back!");
 			case WolfWhistle.SAVE_BOWLOFTRIX -> {
-				if (player.getInventory().containsItem(GIANT_WOLPERTINGER_POUCH)) {
+				if (player.getInventory().containsItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH)) {
 					addNPC(SCALECTRIX, HeadE.CONFUSED, "You're back! What's the news?")
 							.addPlayer(HeadE.CALM, "I have a giant wolpertinger. Here, take a look.")
-							// TODO: Possible typo "I"
-							.addNPC(SCALECTRIX, HeadE.AMAZED, "I giant wolpertinger pouch...I never thought I'd see one.")
+							.addNPC(SCALECTRIX, HeadE.AMAZED, "A giant wolpertinger pouch...I never thought I'd see one.")
 							.addNPC(SCALECTRIX, HeadE.AMAZED, "With just the two of us it'll be a stretch, and we'll only be able to summon it for a few seconds, but that might be all the time we need.")
 							.addPlayer(HeadE.HAPPY_TALKING, "Come on, let's get Bowloftrix before he comes a bowl of Bowloftrix.")
 							.addNext(() -> {

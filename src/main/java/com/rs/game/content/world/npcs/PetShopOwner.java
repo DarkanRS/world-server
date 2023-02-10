@@ -1,5 +1,6 @@
-package com.rs.game.content.quests.wolfwhistle;
+package com.rs.game.content.world.npcs;
 
+import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;

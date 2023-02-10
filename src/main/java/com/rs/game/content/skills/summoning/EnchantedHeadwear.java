@@ -136,23 +136,23 @@ public class EnchantedHeadwear {
 			e.cancel();
 	});
 
-	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }, e -> {
-		if (e.getOpNum() == 1)
-			e.getPlayer().startConversation(new GenericSkillcapeOwnerD(e.getPlayer(), 6988, Skillcapes.Summoning));
-		else if (e.getOpNum() == 3)
-			ShopsHandler.openShop(e.getPlayer(), "taverly_summoning_shop");
-		else if (e.getOpNum() == 4) {
-			if (e.getPlayer().getInventory().getFreeSlots() < 28) {
-				for (Item i : e.getPlayer().getInventory().getItems().array()) {
-					if ((i != null) && (Headwear.forId(i.getId()) != null)) {
-						e.getPlayer().startConversation(new Dialogue().addSimple("That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it."));
-						return;
-					}
-				}
-			}
-			e.getPlayer().startConversation(new Dialogue().addSimple("If you bring me the right headwear, I may be able to assist in enchanting it."));
-		}
-	});
+//	public static NPCClickHandler pikkupstixEnchanting = new NPCClickHandler(new Object[] { 6988 }, e -> {
+//		if (e.getOpNum() == 1)
+//			e.getPlayer().startConversation(new GenericSkillcapeOwnerD(e.getPlayer(), 6988, Skillcapes.Summoning));
+//		else if (e.getOpNum() == 3)
+//			ShopsHandler.openShop(e.getPlayer(), "taverly_summoning_shop");
+//		else if (e.getOpNum() == 4) {
+//			if (e.getPlayer().getInventory().getFreeSlots() < 28) {
+//				for (Item i : e.getPlayer().getInventory().getItems().array()) {
+//					if ((i != null) && (Headwear.forId(i.getId()) != null)) {
+//						e.getPlayer().startConversation(new Dialogue().addSimple("That is a fine piece of headwear you have there. If you give me a closer look, I may be able to enchant it."));
+//						return;
+//					}
+//				}
+//			}
+//			e.getPlayer().startConversation(new Dialogue().addSimple("If you bring me the right headwear, I may be able to assist in enchanting it."));
+//		}
+//	});
 	
 	public static ItemOnItemHandler chargeUncharged = new ItemOnItemHandler(Arrays.stream(Headwear.values()).mapToInt(h -> h.enchantedId).toArray(), Arrays.stream(Scroll.values()).mapToInt(s -> s.getId()).toArray(), e -> {
 		Headwear wear = Headwear.forId(e.getItem1().getId());

@@ -24,6 +24,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
+import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -108,8 +109,12 @@ public class Summoning {
 		}
 		if (!player.getControllerManager().canSummonFamiliar())
 			return;
+		if (!player.getQuestManager().isComplete(Quest.WOLF_WHISTLE)) {
+			player.sendMessage("You're not sure how to do that yet.");
+			return;
+		}
 		if (player.getSkills().getLevel(Constants.SUMMONING) < pouch.getSummoningCost()) {
-			player.sendMessage("You do not have enought summoning points to spawn this.");
+			player.sendMessage("You do not have enough summoning points to spawn this.");
 			return;
 		}
 		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < pouch.getLevel()) {

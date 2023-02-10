@@ -1,5 +1,6 @@
 package com.rs.game.content.quests.wolfwhistle;
 
+import com.rs.game.content.world.npcs.Pikkupstix;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
@@ -12,7 +13,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
-public class QuestPikkupstixD extends Conversation {
+public class QuestPikkupstix extends Conversation {
 
 	// stages
 	public static final int NOT_STARTED = 0;
@@ -41,7 +42,7 @@ public class QuestPikkupstixD extends Conversation {
 	static final int SPOT_ANIM_ENCHANT = 2814;
 
 
-	public QuestPikkupstixD(Player p, NPC pikkupstix) {
+	public QuestPikkupstix(Player p, NPC pikkupstix) {
 		super(p);
 
 		p.sendMessage("Your stage: "+p.getQuestManager().getStage(Quest.WOLF_WHISTLE));
@@ -244,7 +245,7 @@ public class QuestPikkupstixD extends Conversation {
 										.addPlayer(HeadE.AMAZED, "Wow...you really haven't had much luck with assistants.")
 										.addNPC(PIKKUPSTIX, HeadE.SAD, "It has been one heck of a busy week, I can tell you.")
 										.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Now, is there anything else you need?")
-										.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false))));
+										.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false))));
 							}
 						});
 			case WolfWhistle.WOLPERTINGER_POUCH_CHECK -> {
@@ -312,7 +313,7 @@ public class QuestPikkupstixD extends Conversation {
 																.addPlayer(HeadE.AMAZED, "Wow...you really haven't had much luck with assistants.")
 																.addNPC(PIKKUPSTIX, HeadE.SAD, "It has been one heck of a busy week, I can tell you.")
 																.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Now, is there anything else you need?")
-																.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false))));
+																.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false))));
 													}
 												});
 									}
@@ -334,7 +335,7 @@ public class QuestPikkupstixD extends Conversation {
 										.addPlayer(HeadE.AMAZED, "Wow...you really haven't had much luck with assistants.")
 										.addNPC(PIKKUPSTIX, HeadE.SAD, "It has been one heck of a busy week, I can tell you.")
 										.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Now, is there anything else you need?")
-										.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false))));
+										.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false))));
 							}
 						});
 			}
@@ -360,13 +361,13 @@ public class QuestPikkupstixD extends Conversation {
 											.addPlayer(HeadE.AMAZED, "Melty-brain syndrome? What...why didn't you tell me I could get that?")
 											.addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "Well, technically creating a pouch would not cause it. Nobody knows what causes it.")
 											.addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "You could be walking along, minding your own business, and then the next thing you know your brains are squirting out of your ears and nostrils.")
-											.addNPC(PIKKUPSTIX, HeadE.SAD_MILD_LOOK_DOWN, "Like waht happened to poor old Soltrix...")
+											.addNPC(PIKKUPSTIX, HeadE.SAD_MILD_LOOK_DOWN, "Like what happened to poor old Soltrix...")
 											.addPlayer(HeadE.SCARED, "Uh...the old well, right?")
 											.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Hmm? Oh yes, Scalectrix. That's where she is. Is there anything else?")
 											.addPlayer(HeadE.SCARED, "Uh, no. Not right now. If you need me I'll be delivering this pouch, and then trying not to shake my head around too much.")
 											.addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "Good idea. If you do not have MBS then keeping your head steady until your brain congeals is the best plan.")
 											.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Anyways, is there anything else I can help you with?")
-											.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false))));
+											.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false))));
 								}
 								option("You really seem to have had some problems with your assistants.", new Dialogue()
 										.addNPC(PIKKUPSTIX, HeadE.SAD, "You are right, it has been pretty hard since the war started.")
@@ -385,7 +386,7 @@ public class QuestPikkupstixD extends Conversation {
 										.addPlayer(HeadE.AMAZED, "Wow...you really haven't had much luck with assistants.")
 										.addNPC(PIKKUPSTIX, HeadE.SAD, "It has been one heck of a busy week, I can tell you.")
 										.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Now, is there anything else you need?")
-										.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false))));
+										.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false))));
 							}
 						});
 			case WolfWhistle.QUEST_COMPLETE ->
@@ -403,7 +404,7 @@ public class QuestPikkupstixD extends Conversation {
 						.addPlayer(HeadE.TERRIFIED, "I have to go! Look at the time! My oven is on and I need to feed the cat!")
 						.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Strange...that's what most people say when I ask them that.")
 						.addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Is there anything else I can help you with?")
-						.addNext(() -> p.startConversation(new PikkupstixD(p, pikkupstix, false)));
+						.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false)));
 			default -> p.sendMessage("Uh oh");
 		}
 

@@ -2,7 +2,6 @@ package com.rs.game.content.quests.wolfwhistle;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.engine.quest.Quest;
@@ -10,7 +9,7 @@ import com.rs.game.engine.quest.QuestHandler;
 import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.lib.Constants;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.game.WorldTile;
@@ -51,18 +50,17 @@ public class WolfWhistle extends QuestOutline {
 	static final int HEAPED_BOOKS = 67494;
 	static final int DISCARDED_BOOKS = 65849;
 	static final int STIKKLEBRIX_BODY = 67488; // varbit 10734
-	static final int OBELISK = 67036;
-
-	// item ids
-	static final int WHITE_HARE_MEAT = 23067;
-	static final int EMBROIDERED_POUCH = 23068;
-	static final int RARE_SUMMONING_ITEMS = 23069;
-	static final int ANCIENT_WOLF_BONE_AMULET = 23066;
-	static final int GIANT_WOLPERTINGER_POUCH = 23070;
-	static final int GOLD_CHARM = 12158;
 
 	// animations
-	static final int POUCH_INFUSION = 725;
+	public static final int POUCH_INFUSION = 725;
+
+	// item ids
+	public static final int WHITE_HARE_MEAT = 23067;
+	public static final int EMBROIDERED_POUCH = 23068;
+	public static final int RARE_SUMMONING_ITEMS = 23069;
+	public static final int ANCIENT_WOLF_BONE_AMULET = 23066;
+	public static final int GIANT_WOLPERTINGER_POUCH = 23070;
+	public static final int GOLD_CHARM = 12158;
 
 	@Override
 	public int getCompletedStage() {
@@ -112,7 +110,7 @@ public class WolfWhistle extends QuestOutline {
 			case WOLPERTINGER_CREATION -> {
 				lines.add("I have taken all of the items I was requested to collect and");
 				lines.add("brought them to Pikkupstix. He has told me to use them on the");
-				lines.add("obelish to create the pouch.");
+				lines.add("obelisk to create the pouch.");
 				lines.add("");
 			}
 			case WOLPERTINGER_POUCH_CHECK -> {
@@ -148,11 +146,28 @@ public class WolfWhistle extends QuestOutline {
 		getQuest().sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH, "276 Summoning XP<br>275 gold charms");
 	}
 
+	public static void doWolpertingerPouchCreation(Player p, GameObject obelisk) {
+		if (!WolfWhistle.wolfWhistleObeliskReadyToInfusePouch(p))
+			return;
+		p.faceObject(obelisk);
+		p.setNextAnimation(new Animation(WolfWhistle.POUCH_INFUSION));
+		p.startConversation(new Dialogue()
+				.addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH, "You craft the giant wolpertinger pouch. It thrums with barely contained power.", () -> {
+					p.getInventory().removeAllItems(WolfWhistle.EMBROIDERED_POUCH, WolfWhistle.RARE_SUMMONING_ITEMS, WolfWhistle.WHITE_HARE_MEAT, WolfWhistle.ANCIENT_WOLF_BONE_AMULET);
+					p.getInventory().addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH);
+					p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH, true);
+					p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.WOLPERTINGER_POUCH_CHECK);
+				})
+				.addPlayer(HeadE.AMAZED, "I should check with Pikkupstix that this is how it is supposed to look.")
+		);
+	}
+
+
 	public static LoginHandler handleLoginVarbit = new LoginHandler(e -> {
 		Player p = e.getPlayer();
 
 		if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
-			e.getPlayer().getVars().setVarBit(10734, 1);
+			p.getVars().setVarBit(10734, 1);
 		}
 	});
 
@@ -204,44 +219,6 @@ public class WolfWhistle extends QuestOutline {
 		}
 	});
 
-	public static final int INFUSE_POUCH = 0;
-	public static final int RENEW_POINTS = 1;
-	public static ObjectClickHandler handleObeliskWolpertingerCreation = new ObjectClickHandler(new Object[] { OBELISK }, e -> {
-		Player p = e.getPlayer();
-
-		switch (e.getOption()) {
-			case "Infuse-pouch" -> {
-				if ((p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_CREATION)) {
-					if (!wolfWhistleObeliskReadyToInfusePouch(p))
-						break;
-					p.faceObject(e.getObject());
-					p.setNextAnimation(new Animation(POUCH_INFUSION));
-					p.startConversation(new Dialogue()
-							.addItem(GIANT_WOLPERTINGER_POUCH, "You craft the giant wolpertinger pouch. It thrums with barely contained power.", () -> {
-								p.getInventory().removeAllItems(EMBROIDERED_POUCH, RARE_SUMMONING_ITEMS, WHITE_HARE_MEAT, ANCIENT_WOLF_BONE_AMULET);
-								p.getInventory().addItem(GIANT_WOLPERTINGER_POUCH);
-								p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH, true);
-								p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.WOLPERTINGER_POUCH_CHECK);
-							})
-							.addPlayer(HeadE.AMAZED, "I should check with Pikkupstix that this is how it is supposed to look.")
-					);
-					break;
-				}
-				Summoning.openInfusionInterface(p, false);
-			}
-			case "Renew-points" -> { // ObjectHandler.java#1923
-				int summonLevel = p.getSkills().getLevelForXp(Constants.SUMMONING);
-				if (p.getSkills().getLevel(Constants.SUMMONING) < summonLevel) {
-					p.lock(3);
-					p.setNextAnimation(new Animation(8502));
-					p.getSkills().set(Constants.SUMMONING, summonLevel);
-					p.sendMessage("You have recharged your Summoning points.", true);
-					break;
-				}
-				p.sendMessage("You already have full Summoning points.");
-			}
-		}
-	});
 
 	public static boolean wolfWhistleObeliskReadyToInfusePouch(Player player) {
 		return player.getInventory().containsItem(EMBROIDERED_POUCH)

@@ -19,6 +19,8 @@ package com.rs.game.content.world.areas.taverly;
 import java.util.List;
 
 import com.rs.game.content.quests.heroesquest.dialogues.AchiettiesHeroesQuestD;
+import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
+import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.engine.dialogue.Conversation;
@@ -28,6 +30,9 @@ import com.rs.game.engine.dialogue.Options;
 import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
+import com.rs.lib.Constants;
+import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -37,6 +42,65 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Taverly {
+
+	public static ObjectClickHandler handleWell = new ObjectClickHandler(new Object[] { 67498 }, e -> {
+		Player p = e.getPlayer();
+
+		if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.NOT_STARTED) {
+			p.startConversation(new Dialogue()
+					.addSimple("I'm sure there is nothing down there. It's just an old, dry well that is making funny echoes.")
+				);
+		} else if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.PIKKUPSTIX_HELP) {
+			/* TODO: start cutscene
+			 * set up cutscene props
+			 * cutscene fade to black, fade to white at bottom of well
+			 * .addPlayer(HeadE.ANGRY, "All right you trolls, let the druid go!")
+			 * zoom out to room
+			 * .addPlayer(HeadE.WORRIED, "Wow...there certainly are a lot of you...")
+			 * .addNPC(WOLF_MEAT, HeadE.LAUGH, "Hur hur hur, more food come to us!")
+			 * .addPlayer(HeadE.ANGRY, "I warn you, you'd better let him go!")
+			 * .addNPC(WOLF_BONES, HeadE.SHAKE, "Or what? Wolf Bones tink you're not gonna last long!")
+			 * .addNPC(WOLF_MEAT, HeadE.LAUGH, "Specially not if we cut 'em into little bitty bites!")
+			 * .addPlayer(HeadE.TERRIFIED, "Bowloftrix! Don't worry. I'm going to go and get help!")
+			 * .addNPC(BOWLOFTRIX, HeadE.?, "Please hurry!")
+			 * If player has already been in the well another different cutscene plays.
+			 * .addPlayer(HeadE.ANGRY, "Alright, trolls. Time for round two!")
+			 */
+		} else {
+			// TODO: create well instance filled with trolls
+		}
+	});
+
+	public static ObjectClickHandler handleSummoningObelisk = new ObjectClickHandler(new Object[] { 67036 }, e -> {
+		Player p = e.getPlayer();
+
+		switch (e.getOption()) {
+			case "Infuse-pouch" -> {
+				if (p.getQuestManager().isComplete(Quest.WOLF_WHISTLE)) {
+					Summoning.openInfusionInterface(p, false);
+					break;
+				}
+				if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_CREATION) {
+					WolfWhistle.doWolpertingerPouchCreation(p, e.getObject());
+					break;
+				}
+				p.sendMessage("You're not sure how to do that yet.");
+				break;
+			}
+			case "Renew-points" -> {
+				int summonLevel = p.getSkills().getLevelForXp(Constants.SUMMONING);
+				if (p.getSkills().getLevel(Constants.SUMMONING) < summonLevel) {
+					p.lock(3);
+					p.setNextAnimation(new Animation(8502));
+					p.getSkills().set(Constants.SUMMONING, summonLevel);
+					p.sendMessage("You have recharged your Summoning points.", true);
+					break;
+				}
+				p.sendMessage("You already have full Summoning points.");
+			}
+		}
+	});
+
 	public static NPCClickHandler handleAchietties = new NPCClickHandler(new Object[] { 796 }, e -> {
 		if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST)) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

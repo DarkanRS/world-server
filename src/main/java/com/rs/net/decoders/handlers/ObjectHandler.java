@@ -377,8 +377,6 @@ public final class ObjectHandler {
 				Runecrafting.runecraft(player, RCRune.DEATH);
 			else if (id == 30624)
 				Runecrafting.runecraft(player, RCRune.BLOOD);
-			else if (id == 4019 || id == 67036)
-				Summoning.openInfusionInterface(player, false);
 			else if (id == 20604)
 				player.useStairs(-1, WorldTile.of(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
