@@ -1715,7 +1715,7 @@ public class PlayerCombat extends PlayerAction {
 		if (isRanging(player)) {
 			int atkRange = 8;
 			String weaponName = player.getEquipment().getWeaponName().toLowerCase();
-			if (weaponName.contains("salamander"))
+			if (weaponName.contains("swamp lizard") || weaponName.contains("salamander"))
 				return 1;
 			if (weaponName.contains(" dart") || weaponName.contains("blisterwood stake"))
 				atkRange = 3;

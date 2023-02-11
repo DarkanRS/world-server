@@ -68,7 +68,7 @@ public class Herblore extends PlayerAction {
 		ticks--;
 		player.getInventory().deleteItem(potion.getPrimary());
 		List<Item> secondaries = new LinkedList<>(Arrays.asList(potion.getSecondaries()));
-		boolean cleansingProc = player.hasScrollOfCleansing && Utils.random(10) == 0;
+		boolean cleansingProc = player.hasScrollOfCleansing && Utils.random(100) <= 10;
 		if (cleansingProc)
 			player.sendMessage("Your scroll of cleansing saves " + Utils.addArticle(secondaries.remove(Utils.random(secondaries.size())).getName().toLowerCase()) + ".");
 		if (secondaries.size() > 0)
