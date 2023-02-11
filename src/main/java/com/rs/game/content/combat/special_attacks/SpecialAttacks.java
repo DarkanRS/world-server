@@ -350,7 +350,7 @@ public class SpecialAttacks {
             delayHit(target, p.getTaskDelay(), hit);
             if (hit.getDamage() > 0)
                 target.lowerStat(Skills.MAGIC, hit.getDamage()/10, 0.0);
-            dropAmmo(player, target, Equipment.WEAPON, 1);
+            dropAmmo(player, target);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
