@@ -146,7 +146,7 @@ public class SpecialAttacks {
         /**
          * RANGED WEAPONS
          */
-        addSpec(RangedWeapon.QUICK_BOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.QUICK_BOW.getIds(), new SpecialAttack(Type.RANGE, 75, (player, target) -> {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(97));
             WorldProjectile p = World.sendProjectile(player, target, 1099, 20, 50, 1, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
@@ -156,7 +156,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.ZAMORAK_BOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.ZAMORAK_BOW.getIds(), new SpecialAttack(Type.RANGE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(97));
             WorldProjectile p = World.sendProjectile(player, target, 100, 20, 50, 1.5);
@@ -165,7 +165,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.GUTHIX_BOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.GUTHIX_BOW.getIds(), new SpecialAttack(Type.RANGE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(95));
             WorldProjectile p = World.sendProjectile(player, target, 98, 20, 50, 1.5);
@@ -174,7 +174,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.SARADOMIN_BOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.SARADOMIN_BOW.getIds(), new SpecialAttack(Type.RANGE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(96));
             WorldProjectile p = World.sendProjectile(player, target, 99, 20, 50, 1.5);
@@ -184,7 +184,7 @@ public class SpecialAttacks {
         }));
 
         //TODO check and make sure hits aren't cancer calculated using new weapons after swap
-        addSpec(RangedWeapon.RUNE_THROWNAXE.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.RUNE_THROWNAXE.getIds(), new SpecialAttack(Type.RANGE, 20, (player, target) -> {
             player.setNextAnimation(new Animation(9055));
             WorldProjectile p1 = World.sendProjectile(player, target, 258, 20, 50, 1);
             delayHit(target, p1.getTaskDelay(), getRandomMaxHit(player, target, true));
@@ -217,7 +217,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(Stream.of(RangedWeapon.MAGIC_BOW.getIds(), RangedWeapon.MAGIC_LONGBOW.getIds(), RangedWeapon.MAGIC_COMP_BOW.getIds()).flatMapToInt(Arrays::stream).toArray(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(Stream.of(RangedWeapon.MAGIC_BOW.getIds(), RangedWeapon.MAGIC_LONGBOW.getIds(), RangedWeapon.MAGIC_COMP_BOW.getIds()).flatMapToInt(Arrays::stream).toArray(), new SpecialAttack(Type.RANGE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(1074));
             player.setNextSpotAnim(new SpotAnim(250, 10, 100));
             WorldProjectile p = World.sendProjectile(player, target, 249, 20, 20, 2);
@@ -228,7 +228,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.HAND_CANNON.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.HAND_CANNON.getIds(), new SpecialAttack(Type.RANGE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(12175));
             player.setNextSpotAnim(new SpotAnim(2138));
             WorldProjectile p = World.sendProjectile(player, target, 2143, 0, 50, 1.5);
@@ -236,7 +236,7 @@ public class SpecialAttacks {
             return 1;
         }));
 
-        addSpec(RangedWeapon.DORGESHUUN_CBOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.DORGESHUUN_CBOW.getIds(), new SpecialAttack(Type.RANGE, 75, (player, target) -> {
             player.setNextAnimation(RangedWeapon.DORGESHUUN_CBOW.getAttackAnimation());
             SpotAnim attackSpotAnim = RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player, AmmoType.forId(player.getEquipment().getAmmoId()));
             if (attackSpotAnim != null)
@@ -250,7 +250,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.DARK_BOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.DARK_BOW.getIds(), new SpecialAttack(Type.RANGE, 65, (player, target) -> {
             int ammoId = player.getEquipment().getAmmoId();
             player.setNextAnimation(RangedWeapon.DARK_BOW.getAttackAnimation());
             SpotAnim attackSpotAnim = RangedWeapon.DARK_BOW.getAttackSpotAnim(player, AmmoType.forId(player.getEquipment().getAmmoId()));
@@ -283,7 +283,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.ZANIKS_CROSSBOW.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.ZANIKS_CROSSBOW.getIds(), new SpecialAttack(Type.RANGE, 50, (player, target) -> {
             player.setNextAnimation(RangedWeapon.ZANIKS_CROSSBOW.getAttackAnimation());
             player.setNextSpotAnim(new SpotAnim(1714));
             WorldProjectile p = World.sendProjectile(player, target, 2001, 20, 50, 1.5);
@@ -293,7 +293,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.MORRIGANS_JAVELIN.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.MORRIGANS_JAVELIN.getIds(), new SpecialAttack(Type.RANGE, 50, (player, target) -> {
             player.setNextSpotAnim(new SpotAnim(1836));
             player.setNextAnimation(new Animation(10501));
             WorldProjectile p = World.sendProjectile(player, target, 1837, 20, 50, 1.5);
@@ -324,7 +324,7 @@ public class SpecialAttacks {
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        addSpec(RangedWeapon.MORRIGANS_THROWING_AXE.getIds(), new SpecialAttack(Type.RANGE, 000000000, (player, target) -> {
+        addSpec(RangedWeapon.MORRIGANS_THROWING_AXE.getIds(), new SpecialAttack(Type.RANGE, 50, (player, target) -> {
             player.setNextSpotAnim(new SpotAnim(1838));
             player.setNextAnimation(new Animation(10504));
             WorldProjectile p = World.sendProjectile(player, target, 1839, 20, 50, 1.5);
@@ -337,7 +337,7 @@ public class SpecialAttacks {
          * MELEE WEAPONS
          */
         //Vine whip
-        addSpec(new int[] { 21371, 21372, 21373, 21374, 21375 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 21371, 21372, 21373, 21374, 21375 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
             final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
             final WorldTile tile = WorldTile.of(target.getX(), target.getY(), target.getPlane());
             player.setNextAnimation(new Animation(11971));
@@ -363,7 +363,7 @@ public class SpecialAttacks {
         }));
 
         //Abyssal whip
-        addSpec(new int[] { 4151, 15441, 15442, 15443, 15444, 23691 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 4151, 15441, 15442, 15443, 15444, 23691 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(11971));
             target.setNextSpotAnim(new SpotAnim(2108, 0, 100));
             if (target instanceof Player p2)
@@ -373,7 +373,7 @@ public class SpecialAttacks {
         }));
 
         //Saradomin sword
-        addSpec(new int[] { 11730 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11730 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             player.setNextAnimation(new Animation(11993));
             target.setNextSpotAnim(new SpotAnim(1194));
             delayNormalHit(target, new Hit(player, 50 + Utils.getRandomInclusive(100), HitLook.MELEE_DAMAGE).setMaxHit(150));
@@ -383,7 +383,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon spear
-        addSpec(new int[] { 1249, 1263, 3176, 5716, 5730, 13770, 13772, 13774, 13776 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 1249, 1263, 3176, 5716, 5730, 13770, 13772, 13774, 13776 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(12017));
             player.stopAll();
             target.setNextSpotAnim(new SpotAnim(80, 5, 60));
@@ -417,7 +417,7 @@ public class SpecialAttacks {
         }));
 
         //Keenblade
-        addSpec(new int[] { 23042 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 23042 }, new SpecialAttack(Type.MELEE, 75, (player, target) -> {
             player.setNextAnimation(new Animation(12019));
             player.setNextSpotAnim(new SpotAnim(2109));
             delayNormalHit(target, new Hit(player, 50, HitLook.MELEE_DAMAGE).setMaxHit(50));
@@ -425,7 +425,7 @@ public class SpecialAttacks {
         }));
 
         //Saradomin godsword
-        addSpec(new int[] { 11698, 23681 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11698, 23681 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(12019));
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
@@ -436,7 +436,7 @@ public class SpecialAttacks {
         }));
 
         //Bandos godsword
-        addSpec(new int[] { 11696, 23680 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11696, 23680 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             player.setNextAnimation(new Animation(11991));
             player.setNextSpotAnim(new SpotAnim(2114));
             Hit hit2 = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
@@ -458,7 +458,7 @@ public class SpecialAttacks {
         }));
 
         //Ancient mace
-        addSpec(new int[] { 11061 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11061 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             player.setNextAnimation(new Animation(6147));
             player.setNextSpotAnim(new SpotAnim(1052));
             Hit hit3 = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
@@ -469,7 +469,7 @@ public class SpecialAttacks {
         }));
 
         //Armadyl godsword
-        addSpec(new int[] { 11694, 23679 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11694, 23679 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(11989));
             player.setNextSpotAnim(new SpotAnim(2113));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 2.0, 1.25));
@@ -477,14 +477,14 @@ public class SpecialAttacks {
         }));
 
         //Vesta's longsword
-        addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(10502));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 2.0, 1.20));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
         //Statius' warhammer
-        addSpec(new int[] { 13902, 13904 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 13902, 13904 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             Hit hit1 = getRandomMaxHit(player, target, false, true, 1.0, 1.25);
             player.setNextAnimation(new Animation(10505));
             player.setNextSpotAnim(new SpotAnim(1840));
@@ -499,7 +499,7 @@ public class SpecialAttacks {
         }));
 
         //Vesta's spear
-        addSpec(new int[] { 13905, 13907 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 13905, 13907 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(10499));
             player.setNextSpotAnim(new SpotAnim(1835));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.1));
@@ -507,7 +507,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon 2h sword
-        addSpec(new int[] { 7158 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 7158 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
             final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
             player.setNextAnimation(new Animation(7078));
             player.setNextSpotAnim(new SpotAnim(1225));
@@ -519,7 +519,7 @@ public class SpecialAttacks {
         }));
 
         //Korasi's sword
-        addSpec(new int[] { 18786, 19784 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 18786, 19784 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
             player.setNextAnimation(new Animation(14788));
             player.setNextSpotAnim(new SpotAnim(1729));
             int damage = getMaxHit(player, target, false, 1.0);
@@ -532,7 +532,7 @@ public class SpecialAttacks {
         }));
 
         //Zamorak godsword
-        addSpec(new int[] { 11700, 13453, 23682 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 11700, 13453, 23682 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             Hit hit4 = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
             player.setNextAnimation(new Animation(7070));
             player.setNextSpotAnim(new SpotAnim(1221));
@@ -578,7 +578,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon claws
-        addSpec(new int[] { 14484, 23695 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 14484, 23695 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(10961));
             player.setNextSpotAnim(new SpotAnim(1950));
             Hit[] hits = { new Hit(player, 0, HitLook.MELEE_DAMAGE), new Hit(player, 0, HitLook.MELEE_DAMAGE) };
@@ -612,7 +612,7 @@ public class SpecialAttacks {
         }));
 
         //Barrelchest anchor
-        addSpec(new int[] { 10887 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 10887 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(5870));
             player.setNextSpotAnim(new SpotAnim(1027));
             Hit hitt = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
@@ -623,7 +623,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon longsword
-        addSpec(new int[] { 1305 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 1305 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(12033));
             player.setNextSpotAnim(new SpotAnim(2117));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.25));
@@ -631,7 +631,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon halberd
-        addSpec(new int[] { 3204 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 3204 }, new SpecialAttack(Type.MELEE, 30, (player, target) -> {
             player.setNextAnimation(new Animation(1665));
             player.setNextSpotAnim(new SpotAnim(282));
             if (target.getSize() > 3) {
@@ -645,7 +645,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon scimitar
-        addSpec(new int[] { 4587 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 4587 }, new SpecialAttack(Type.MELEE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(12031));
             player.setNextSpotAnim(new SpotAnim(2118));
             Hit hit5 = getRandomMaxHit(player, target, false, true, 1.25, 1.0);
@@ -658,7 +658,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon daggers
-        addSpec(new int[] { 1215, 1231, 5680, 5698 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 1215, 1231, 5680, 5698 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(1062));
             player.setNextSpotAnim(new SpotAnim(252, 0, 100));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.15, 1.15));
@@ -668,7 +668,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon mace
-        addSpec(new int[] { 1434 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 1434 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(1060));
             player.setNextSpotAnim(new SpotAnim(251));
             delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.25, 1.5));

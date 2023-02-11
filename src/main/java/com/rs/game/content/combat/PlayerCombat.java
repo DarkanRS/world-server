@@ -26,7 +26,6 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.combat.special_attacks.SpecialAttack;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
@@ -813,114 +812,6 @@ public class PlayerCombat extends PlayerAction {
 		player.soundEffect(soundId);
 		if (target instanceof Player p2)
 			p2.soundEffect(soundId);
-	}
-
-	public static int getSpecialAmmount(int weaponId) {
-		switch (weaponId) {
-			case 4587: // dragon sci
-			case 859: // magic longbow
-			case 861: // magic shortbow
-			case 10284: // Magic composite bow
-			case 18332: // Magic longbow (sighted)
-			case 19149:// zamorak bow
-			case 19151:
-			case 19143:// saradomin bow
-			case 19145:
-			case 19146:
-			case 19148:// guthix bow
-				return 55;
-			case 11235: // dark bows
-			case 15701:
-			case 15702:
-			case 15703:
-			case 15704:
-				return 65;
-			case 8880:
-			case 23043:
-			case 23042:
-			case 23044:
-			case 23045:
-			case 23046:
-			case 23047:
-				return 75;
-			case 13899: // vls
-			case 13901:
-			case 1305: // dragon long
-			case 1215: // dragon dagger
-			case 1231:
-			case 5698: // dds
-			case 1434: // dragon mace
-			case 1249:// d spear
-			case 1263:
-			case 3176:
-			case 5716:
-			case 5730:
-			case 13770:
-			case 13772:
-			case 13774:
-			case 13776:
-				return 25;
-			case 805:
-				return 20;
-			case 15442:// whip start
-			case 15443:
-			case 15444:
-			case 15441:
-			case 4151:
-			case 23691:
-			case 11698: // sgs
-			case 23681:
-			case 11694: // ags
-			case 23679:
-			case 13902: // statius hammer
-			case 13904:
-			case 13905: // vesta spear
-			case 13907:
-			case 14484: // d claws
-			case 23695:
-			case 10887: // anchor
-			case 4153: // granite maul
-			case 14679:
-			case 14684: // zanik cbow
-			case 15241: // hand cannon
-			case 13908:
-			case 13954:// morrigan javelin
-			case 13955:
-			case 13956:
-			case 13879:
-			case 13880:
-			case 13881:
-			case 13882:
-			case 13883:// morigan thrown axe
-			case 13957:
-				return 50;
-			case 11730: // ss
-			case 23690:
-			case 11696: // bgs
-			case 23680:
-			case 11700: // zgs
-			case 23682:
-			case 35:// Excalibur
-			case 8280:
-			case 14632:
-			case 1377:// dragon battle axe
-			case 13472:
-			case 15486:// staff of lights
-			case 22207:
-			case 22209:
-			case 22211:
-			case 22213:
-			case 11061:
-				return 100;
-			case 19784: // korasi sword
-			case 21371:
-			case 7158:
-				return 60;
-			case 3204: // d hally
-				return 30;
-			default:
-				return 0;
-		}
 	}
 
 	public static Hit getRandomMagicMaxHit(Player player, Entity target, int baseDamage) {
