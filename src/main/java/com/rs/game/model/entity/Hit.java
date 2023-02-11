@@ -49,6 +49,8 @@ public final class Hit {
 
 	private Entity source;
 	private HitLook look;
+
+	private int maxHit;
 	private int damage;
 	private boolean critical;
 	private Hit soaking;
@@ -100,6 +102,11 @@ public final class Hit {
 		return mark;
 	}
 
+	public Hit setMaxHit(int maxHit) {
+		this.maxHit = maxHit;
+		return this;
+	}
+
 	public HitLook getLook() {
 		return look;
 	}
@@ -108,8 +115,9 @@ public final class Hit {
 		return damage;
 	}
 
-	public void setDamage(int damage) {
+	public Hit setDamage(int damage) {
 		this.damage = damage;
+		return this;
 	}
 
 	public Entity getSource() {
@@ -118,6 +126,11 @@ public final class Hit {
 
 	public Hit setSource(Entity source) {
 		this.source = source;
+		return this;
+	}
+
+	public Hit setLook(HitLook look) {
+		this.look = look;
 		return this;
 	}
 
@@ -137,9 +150,33 @@ public final class Hit {
 		return delay;
 	}
 
+	public int getMaxHit() {
+		return maxHit;
+	}
+
 	public Hit setData(String key, Object obj) {
 		data.put(key, obj);
 		return this;
+	}
+
+	public static Hit miss(Player source) {
+		return new Hit(source, 0, HitLook.MISSED);
+	}
+
+	public static Hit melee(Player source, int damage) {
+		return new Hit(source, damage, HitLook.MELEE_DAMAGE);
+	}
+
+	public static Hit range(Player source, int damage) {
+		return new Hit(source, damage, HitLook.RANGE_DAMAGE);
+	}
+
+	public static Hit magic(Player source, int damage) {
+		return new Hit(source, damage, HitLook.MAGIC_DAMAGE);
+	}
+
+	public static Hit flat(Player source, int damage) {
+		return new Hit(source, damage, HitLook.TRUE_DAMAGE);
 	}
 
 	public <T> T getData(String key, Class<T> clazz) {

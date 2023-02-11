@@ -287,6 +287,10 @@ public enum RangedWeapon {
 		};
 	}
 
+	public int[] getIds() {
+		return itemIds;
+	}
+
 	public boolean isThrown() {
 		return thrown;
 	}
