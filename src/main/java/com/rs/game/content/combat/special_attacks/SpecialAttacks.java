@@ -545,28 +545,27 @@ public class SpecialAttacks {
         }));
 
         //Rune claws
-        addSpec(new int[] { 3101 }, new SpecialAttack(Type.MELEE, 000000000, (player, target) -> {
+        addSpec(new int[] { 3101 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(10961));
-            //player.setNextSpotAnim(new SpotAnim(1950));
             Hit[] hits = { new Hit(player, 0, HitLook.MELEE_DAMAGE), new Hit(player, 0, HitLook.MELEE_DAMAGE) };
-            int maxHit1 = getMaxHit(player, target, false, 1.0);
+            int maxHit1 = getMaxHit(player, target, false, 0.75);
             Hit base = getRandomMaxHit(player, target, maxHit1 / 2, maxHit1, false, true, 1.0);
             if (base.getDamage() > 0)
                 hits = new Hit[] { base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) - ((base.getDamage() / 2) / 2), HitLook.MELEE_DAMAGE) };
             else {
-                base = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
+                base = getRandomMaxHit(player, target, false, true, 1.0, 0.75);
                 if (base.getDamage() > 0)
                     hits = new Hit[] { Hit.miss(player), base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, base.getDamage() - (base.getDamage() / 2), HitLook.MELEE_DAMAGE) };
                 else {
-                    base = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
+                    base = getRandomMaxHit(player, target, false, true, 1.0, 0.75);
                     if (base.getDamage() > 0)
                         hits = new Hit[] { Hit.miss(player), Hit.miss(player), new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) + 10, HitLook.MELEE_DAMAGE) };
                     else {
-                        base = getRandomMaxHit(player, target, false, true, 1.0, 1.5);
+                        base = getRandomMaxHit(player, target, false, true, 1.0, 1.25);
                         if (base.getDamage() > 0)
                             hits = new Hit[] { Hit.miss(player), Hit.miss(player), Hit.miss(player), base };
                         else
-                            hits = new Hit[] { Hit.miss(player), Hit.miss(player), Hit.miss(player), new Hit(player, Utils.getRandomInclusive(7), HitLook.MELEE_DAMAGE) };
+                            hits = new Hit[] { Hit.miss(player), Hit.miss(player), Hit.miss(player), new Hit(player, Utils.random(1, 8), HitLook.MELEE_DAMAGE) };
                     }
                 }
             }

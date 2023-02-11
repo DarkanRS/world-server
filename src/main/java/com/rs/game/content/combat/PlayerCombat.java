@@ -1355,7 +1355,7 @@ public class PlayerCombat extends PlayerAction {
 
 	public static void delayHit(Entity target, int delay, int weaponId, AttackStyle attackStyle, Hit hit, Runnable afterDelay, Runnable hitSucc, Runnable hitFail) {
 		Player player = (Player) hit.getSource();
-		addAttackedByDelay(hit.getSource(), player);
+		addAttackedByDelay(player, target);
 		target.applyHit(hit, delay, () -> {
 			if (afterDelay != null)
 				afterDelay.run();
