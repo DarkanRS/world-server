@@ -1714,11 +1714,11 @@ public abstract class Entity {
 			player.getSkills().lowerStat(skillId, perc, maxDrain);
 		} else if (this instanceof NPC npc) {
 			switch(skillId) {
-			case Skills.ATTACK -> npc.lowerAttack(skillId, maxDrain);
-			case Skills.STRENGTH -> npc.lowerStrength(skillId, maxDrain);
-			case Skills.DEFENSE -> npc.lowerDefense(skillId, maxDrain);
-			case Skills.MAGIC -> npc.lowerMagic(skillId, maxDrain);
-			case Skills.RANGE -> npc.lowerRange(skillId, maxDrain);
+			case Skills.ATTACK -> npc.lowerAttack(perc, maxDrain);
+			case Skills.STRENGTH -> npc.lowerStrength(perc, maxDrain);
+			case Skills.DEFENSE -> npc.lowerDefense(perc, maxDrain);
+			case Skills.MAGIC -> npc.lowerMagic(perc, maxDrain);
+			case Skills.RANGE -> npc.lowerRange(perc, maxDrain);
 			}
 		}
 	}
