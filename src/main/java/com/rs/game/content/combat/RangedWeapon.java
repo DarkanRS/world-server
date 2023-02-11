@@ -72,7 +72,7 @@ public enum RangedWeapon {
 	YEW_COMP_BOW(new Animation(426), 5, new int[] { 10282, 13542 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.ICE_ARROWS),
 
 	MAGIC_BOW(new Animation(426), 4, new int[] { 861, 13528 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.BROAD_ARROW, AmmoType.BANE_ARROW, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS, AmmoType.ICE_ARROWS),
-	MAGIC_LONGBOW(new Animation(426), 6, new int[] { 859, 13543, 18332 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.BROAD_ARROW, AmmoType.BANE_ARROW, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS, AmmoType.ICE_ARROWS),
+	MAGIC_LONGBOW(new Animation(426), 6, new int[] { 859, 13543, 13527, 18332 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.BROAD_ARROW, AmmoType.BANE_ARROW, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS, AmmoType.ICE_ARROWS),
 	MAGIC_COMP_BOW(new Animation(426), 5, new int[] { 10284, 13543 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.BROAD_ARROW, AmmoType.BANE_ARROW, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS, AmmoType.ICE_ARROWS),
 
 	DARK_BOW(new Animation(426), 9, new int[] { 11235, 13405, 15701, 15702, 15703, 15704 }, AmmoType.BRONZE_ARROW, AmmoType.IRON_ARROW, AmmoType.STEEL_ARROW, AmmoType.MITHRIL_ARROW, AmmoType.ADAMANT_ARROW, AmmoType.RUNE_ARROW, AmmoType.DRAGON_ARROW, AmmoType.BANE_ARROW, AmmoType.SARADOMIN_ARROWS, AmmoType.GUTHIX_ARROWS, AmmoType.ZAMORAK_ARROWS, AmmoType.ICE_ARROWS),
@@ -285,6 +285,10 @@ public enum RangedWeapon {
 				yield World.sendProjectile(player, target, ammo.getProjAnim(player.getEquipment().getAmmoId()), 20, 40, speed);
 			}
 		};
+	}
+
+	public int[] getIds() {
+		return itemIds;
 	}
 
 	public boolean isThrown() {

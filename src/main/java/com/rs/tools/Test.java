@@ -23,7 +23,9 @@ import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.BASDefinitions;
+import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -32,6 +34,7 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
 
 public class Test {
@@ -48,12 +51,13 @@ public class Test {
 				.create());
 		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
-		
-		NPCDefinitions def = NPCDefinitions.getDefs(6808);
-		System.out.println(def);
-		
-		BASDefinitions def2 = BASDefinitions.getDefs(10);
-		System.out.println(def2);
+
+		SpecialAttacks.loadSpecs();
+		for (int i = 0;i < Utils.getItemDefinitionsSize();i++) {
+			ItemDefinitions def = ItemDefinitions.getDefs(i);
+			if (def.getParamVal(687) == 1 && SpecialAttacks.getSpec(i) == null)
+				System.out.println("Missing spec coded for: " + i + " - " + def.getName());
+		}
 	}
 
 }

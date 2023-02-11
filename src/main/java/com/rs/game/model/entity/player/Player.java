@@ -2059,8 +2059,10 @@ public class Player extends Entity {
 		if (source == null)
 			return;
 
-		if (getTempAttribs().getL("SOL_SPEC") > System.currentTimeMillis() && hit.getLook() == HitLook.MELEE_DAMAGE)
+		if (hasEffect(Effect.STAFF_OF_LIGHT_SPEC) && hit.getLook() == HitLook.MELEE_DAMAGE) {
 			hit.setDamage((int) (hit.getDamage() * 0.5));
+			spotAnim(2320);
+		}
 		if (prayer.hasPrayersOn() && hit.getDamage() != 0)
 			if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
 				if (prayer.active(Prayer.PROTECT_MAGIC))
@@ -2176,9 +2178,6 @@ public class Player extends Entity {
 					break;
 				}
 			}
-		if (target instanceof Player opp)
-			if (opp.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis())
-				target.setNextSpotAnim(new SpotAnim(2320));
 		getAuraManager().onOutgoingHit(hit);
 		getControllerManager().processOutgoingHit(hit, target);
 	}
@@ -2950,122 +2949,6 @@ public class Player extends Entity {
 		if (getTemporaryMoveType() != null)
 			return getTemporaryMoveType();
 		return getRun() ? MoveType.RUN : MoveType.WALK;
-	}
-
-	public boolean hasInstantSpecial(final int weaponId) {
-		switch (weaponId) {
-		case 4153:
-		case 14679:
-		case 15486:
-		case 22207:
-		case 22209:
-		case 22211:
-		case 22213:
-		case 1377:
-		case 13472:
-		case 35:// Excalibur
-		case 8280:
-		case 14632:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	public void performInstantSpecial(final int weaponId) {
-		int specAmt = PlayerCombat.getSpecialAmmount(weaponId);
-		if (combatDefinitions.hasRingOfVigour())
-			specAmt *= 0.9;
-		if (combatDefinitions.getSpecialAttackPercentage() < specAmt) {
-			sendMessage("You don't have enough power left.");
-			combatDefinitions.drainSpec(0);
-			return;
-		}
-
-		combatDefinitions.switchUsingSpecialAttack();
-
-		switch (weaponId) {
-		case 4153:
-		case 14679:
-			combatDefinitions.switchUsingSpecialAttack();
-			Entity target = (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) ? combat.getAction().getTarget() : getTempAttribs().getO("last_target");
-			if (target != null) {
-				if (!(target instanceof NPC n && n.isForceMultiAttacked()))
-					if (!target.isAtMultiArea() || !isAtMultiArea())
-						if ((getAttackedBy() != target && inCombat()) || (target.getAttackedBy() != this && target.inCombat()))
-							return;
-				if (target.isDead() || target.hasFinished())
-					return;
-				if (!(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) || combat.getAction().getTarget() != target) {
-					resetWalkSteps();
-					getInteractionManager().setInteraction(new PlayerCombatInteraction(this, target));
-				}
-				PlayerCombat pcb = null;
-				if (getInteractionManager().getInteraction() != null && getInteractionManager().getInteraction() instanceof PlayerCombatInteraction pci)
-					pcb = pci.getAction();
-				if (pcb == null ||!inMeleeRange(target) || !PlayerCombat.specialExecute(this))
-					return;
-				setNextAnimation(new Animation(weaponId == 4153 ? 1667 : 10505));
-				if (weaponId == 4153)
-					setNextSpotAnim(new SpotAnim(340, 0, 96 << 16));
-				pcb.delayNormalHit(weaponId, getCombatDefinitions().getAttackStyle(), PlayerCombat.getMeleeHit(this, pcb.getRandomMaxHit(this, weaponId, getCombatDefinitions().getAttackStyle(), false, true, 1.0, 1.0)));
-			}
-			break;
-		case 1377:
-		case 13472:
-			setNextAnimation(new Animation(1056));
-			setNextSpotAnim(new SpotAnim(246));
-			setNextForceTalk(new ForceTalk("Raarrrrrgggggghhhhhhh!"));
-			int defence = (int) (skills.getLevelForXp(Constants.DEFENSE) * 0.90D);
-			int attack = (int) (skills.getLevelForXp(Constants.ATTACK) * 0.90D);
-			int range = (int) (skills.getLevelForXp(Constants.RANGE) * 0.90D);
-			int magic = (int) (skills.getLevelForXp(Constants.MAGIC) * 0.90D);
-			int strength = (int) (skills.getLevelForXp(Constants.STRENGTH) * 1.2D);
-			skills.set(Constants.DEFENSE, defence);
-			skills.set(Constants.ATTACK, attack);
-			skills.set(Constants.RANGE, range);
-			skills.set(Constants.MAGIC, magic);
-			skills.set(Constants.STRENGTH, strength);
-			combatDefinitions.drainSpec(specAmt);
-			break;
-		case 35:// Excalibur
-		case 8280:
-		case 14632:
-			setNextAnimation(new Animation(1168));
-			setNextSpotAnim(new SpotAnim(247));
-			setNextForceTalk(new ForceTalk("For Camelot!"));
-			final boolean enhanced = weaponId == 14632;
-			skills.set(Constants.DEFENSE, enhanced ? (int) (skills.getLevelForXp(Constants.DEFENSE) * 1.15D) : (skills.getLevel(Constants.DEFENSE) + 8));
-			WorldTasks.schedule(new WorldTask() {
-				int count = 5;
-
-				@Override
-				public void run() {
-					if (isDead() || hasFinished() || getHitpoints() >= getMaxHitpoints()) {
-						stop();
-						return;
-					}
-					heal(enhanced ? 80 : 40);
-					if (count-- == 0) {
-						stop();
-						return;
-					}
-				}
-			}, 4, 2);
-			combatDefinitions.drainSpec(specAmt);
-			break;
-		case 15486:
-		case 22207:
-		case 22209:
-		case 22211:
-		case 22213:
-			setNextAnimation(new Animation(12804));
-			setNextSpotAnim(new SpotAnim(2319));// 2320
-			setNextSpotAnim(new SpotAnim(2321));
-			getTempAttribs().setL("SOL_SPEC", System.currentTimeMillis() + 60000);
-			combatDefinitions.drainSpec(specAmt);
-			break;
-		}
 	}
 
 	public void setDisableEquip(boolean equip) {

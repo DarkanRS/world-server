@@ -61,6 +61,7 @@ public enum Effect {
 				}
 		}
 	},
+	STAFF_OF_LIGHT_SPEC("staff of light protection", true),
 	JUJU_MINING("juju mining potion", false),
 	JUJU_MINE_BANK,
 	JUJU_WOODCUTTING("juju woodcutting potion", false),

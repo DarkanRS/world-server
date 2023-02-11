@@ -24,6 +24,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.transportation.ItemTeleports;
@@ -44,18 +45,18 @@ import com.rs.utils.ItemConfig;
 @PluginEventHandler
 public final class Equipment {
 	public static final byte
-	HEAD = 0,
-	CAPE = 1,
-	NECK = 2,
-	WEAPON = 3,
-	CHEST = 4,
-	SHIELD = 5,
-	LEGS = 7,
-	HANDS = 9,
-	FEET = 10,
-	RING = 12,
-	AMMO = 13,
-	AURA = 14;
+			HEAD = 0,
+			CAPE = 1,
+			NECK = 2,
+			WEAPON = 3,
+			CHEST = 4,
+			SHIELD = 5,
+			LEGS = 7,
+			HANDS = 9,
+			FEET = 10,
+			RING = 12,
+			AMMO = 13,
+			AURA = 14;
 
 	public static final int SIZE = 15;
 
@@ -149,7 +150,7 @@ public final class Equipment {
 				return true;
 		return false;
 	}
-	
+
 	public boolean hasItemInSlot(int... slots) {
 		for (int slot : slots)
 			if (getId(slot) != -1)
@@ -177,10 +178,10 @@ public final class Equipment {
 			if (item == null)
 				continue;
 			switch(item.getId()) {
-			case 20135, 20137, 20147, 20149, 20159, 20161 -> hpIncrease += 66;
-			case 20139, 20141, 20151, 20153, 20163, 20165 -> hpIncrease += 200;
-			case 20143, 20145, 20155, 20157, 20167, 20169 -> hpIncrease += 134;
-			case 24974, 24975, 24977, 24978, 24980, 24981, 24983, 24984, 24986, 24987, 24989, 24990, 25058, 25060, 25062, 25064, 25066, 25068 -> hpIncrease += 25;
+				case 20135, 20137, 20147, 20149, 20159, 20161 -> hpIncrease += 66;
+				case 20139, 20141, 20151, 20153, 20163, 20165 -> hpIncrease += 200;
+				case 20143, 20145, 20155, 20157, 20167, 20169 -> hpIncrease += 134;
+				case 24974, 24975, 24977, 24978, 24980, 24981, 24983, 24984, 24986, 24987, 24989, 24990, 25058, 25060, 25062, 25064, 25066, 25068 -> hpIncrease += 25;
 			}
 		}
 		if (player.hasEffect(Effect.BONFIRE)) {
@@ -303,6 +304,7 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
+
 	public int getNeckId() {
 		Item item = items.get(NECK);
 		if (item == null)
@@ -360,14 +362,14 @@ public final class Equipment {
 			return -1;
 		return item.getId();
 	}
-	
+
 	public int getIdInSlot(int slot) {
 		Item item = items.get(slot);
 		if (item == null)
 			return -1;
 		return item.getId();
 	}
-	
+
 	public boolean wearingSlot(int slot, int... items) {
 		int id = getIdInSlot(slot);
 		for (int check : items)
@@ -538,19 +540,14 @@ public final class Equipment {
 	}
 
 	public static ButtonClickHandler handle = new ButtonClickHandler(884, e -> {
-		if (e.getComponentId() == 4) {
-			int weaponId = e.getPlayer().getEquipment().getWeaponId();
-			if (e.getPlayer().hasInstantSpecial(weaponId)) {
-				e.getPlayer().performInstantSpecial(weaponId);
-				return;
-			}
-			e.getPlayer().getCombatDefinitions().switchUsingSpecialAttack();
-		} else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
+		if (e.getComponentId() == 4)
+			SpecialAttacks.handleClick(e.getPlayer());
+		else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
 			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
 		else if (e.getComponentId() == 11)
 			e.getPlayer().getCombatDefinitions().switchAutoRetaliate();
 	});
-	
+
 	public static void compareItems(Player p, Item item1, Item item2) {
 		if (item1 == null || item2 == null || item1.getDefinitions().getEquipSlot() != item2.getDefinitions().getEquipSlot()) {
 			p.sendMessage("These two items cannot be compared because they are not the same type.");
@@ -596,7 +593,7 @@ public final class Equipment {
 		p.getPackets().sendVarcString(324, item1Desc);
 		p.getPackets().sendVarcString(325, item2Desc);
 	}
-	
+
 	private static String wrapIfSuperior(String in, int bonus1, int bonus2) {
 		if (bonus1 > bonus2)
 			return "<col=FFFFFF>"+in+"</col>";
@@ -717,7 +714,7 @@ public final class Equipment {
 		if (slotId == 3)
 			player.getCombatDefinitions().drainSpec(0);
 	}
-	
+
 	public static void remove(Player player, int slotId) {
 		remove(player, slotId, true);
 	}
@@ -754,7 +751,7 @@ public final class Equipment {
 		if (!player.getControllerManager().canEquip(targetSlot, itemId))
 			return false;
 		player.stopAll(false, false);
-		
+
 		if (!fireEvent(player, item, true))
 			return false;
 		if (player.getEquipment().get(targetSlot) != null && !fireEvent(player, player.getEquipment().get(targetSlot), false))
@@ -765,9 +762,9 @@ public final class Equipment {
 		boolean dequipWeapon = targetSlot == SHIELD && player.getEquipment().getItem(WEAPON) != null && Equipment.isTwoHandedWeapon(player.getEquipment().getItem(WEAPON));
 		if (dequipWeapon && !fireEvent(player, player.getEquipment().getItem(WEAPON), false))
 			return false;
-		
+
 		player.getInventory().deleteItem(slotId, item);
-		
+
 		if (dequipShield) {
 			if (!player.getInventory().addItem(player.getEquipment().getItem(SHIELD))) {
 				player.getInventory().getItems().set(slotId, item);
@@ -785,7 +782,7 @@ public final class Equipment {
 			}
 			player.getEquipment().setNoPluginTrigger(WEAPON, null);
 		}
-		
+
 		if (player.getEquipment().getItem(targetSlot) != null && (itemId != player.getEquipment().getItem(targetSlot).getId() || !item.getDefinitions().isStackable())) {
 			if (player.getInventory().getItems().get(slotId) == null && !item.getDefinitions().isStackable()) {
 				player.getInventory().getItems().set(slotId, new Item(player.getEquipment().getItem(targetSlot)));
@@ -800,7 +797,7 @@ public final class Equipment {
 		Item item2 = new Item(itemId, oldAmt + item.getAmount(), item.getMetaData());
 		player.getEquipment().setNoPluginTrigger(targetSlot, item2);
 		player.getEquipment().refresh(targetSlot, targetSlot == WEAPON ? SHIELD : targetSlot == WEAPON ? 0 : WEAPON);
-		
+
 		player.getAppearance().generateAppearanceData();
 		player.getPackets().sendVarc(779, player.getAppearance().getRenderEmote());
 		player.soundEffect(ItemConfig.get(item.getId()).getEquipSound());
@@ -819,26 +816,26 @@ public final class Equipment {
 
 	private static int getOptionForPacket(ClientPacket packet) {
 		switch(packet) {
-		case IF_OP2:
-			return 0;
-		case IF_OP3:
-			return 1;
-		case IF_OP4:
-			return 2;
-		case IF_OP5:
-			return 3;
-		case IF_OP6:
-			return 4;
-		case IF_OP7:
-			return 5;
-		case IF_OP8:
-			return 6;
-		case IF_OP9:
-			return 7;
-		case IF_OP10:
-			return 8;
-		default:
-			return -1;
+			case IF_OP2:
+				return 0;
+			case IF_OP3:
+				return 1;
+			case IF_OP4:
+				return 2;
+			case IF_OP5:
+				return 3;
+			case IF_OP6:
+				return 4;
+			case IF_OP7:
+				return 5;
+			case IF_OP8:
+				return 6;
+			case IF_OP9:
+				return 7;
+			case IF_OP10:
+				return 8;
+			default:
+				return -1;
 		}
 	}
 
@@ -887,23 +884,23 @@ public final class Equipment {
 		player.getPackets().setIFText(667, 44, "Prayer: " + player.getCombatDefinitions().getBonus(Bonus.PRAYER));
 		player.getPackets().setIFText(667, 45, "Magic Damage: " + player.getCombatDefinitions().getBonus(Bonus.MAGIC_STR) + "%");
 	}
-	
+
 	public static int getBonus(Player player, Item item, Bonus bonus) {
 		int value = item.getDefinitions().getBonuses()[bonus.ordinal()];
 		switch(item.getId()) {
-		case 11283, 11284 -> {
-			return switch(bonus) {
-			case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
-			default -> value;
-			};
-		}
-		case 19152, 19157, 19162 -> {
-			return switch(bonus) {
-			case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
-			default -> value;
-			};
-		}
-		default -> {
+			case 11283, 11284 -> {
+				return switch(bonus) {
+					case STAB_DEF, SLASH_DEF, CRUSH_DEF, RANGE_DEF -> value + item.getMetaDataI("dfsCharges", 0);
+					default -> value;
+				};
+			}
+			case 19152, 19157, 19162 -> {
+				return switch(bonus) {
+					case RANGE_STR -> value + Utils.clampI((int) (player.getSkills().getLevelForXp(Constants.RANGE) * 0.7), 0, 49);
+					default -> value;
+				};
+			}
+			default -> {
 				return value;
 			}
 		}

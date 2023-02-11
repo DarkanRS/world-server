@@ -266,10 +266,10 @@ public class DwarfMultiCannon extends OwnedObject {
 				continue;
 
 			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
-				int damage = PlayerCombat.getRandomMaxHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
+				Hit hit = PlayerCombat.calculateHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
 				WorldProjectile proj = World.sendProjectile(WorldTile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
-				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, damage, HitLook.CANNON_DAMAGE)));
-				owner.getSkills().addXp(Constants.RANGE, damage / 5);
+				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, hit.getDamage(), HitLook.CANNON_DAMAGE)));
+				owner.getSkills().addXp(Constants.RANGE, hit.getDamage() / 5);
 				balls--;
 				npc.setTarget(owner);
 				npc.setAttackedBy(owner);
