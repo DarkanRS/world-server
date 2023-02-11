@@ -1,7 +1,7 @@
 package com.rs.game.content.combat.special_attacks;
 
 import com.rs.game.World;
-import com.rs.game.content.bosses.pestqueen.attack.Attack;
+import com.rs.game.content.Effect;
 import com.rs.game.content.combat.*;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
@@ -34,7 +34,7 @@ import static com.rs.game.content.combat.PlayerCombat.delayNormalHit;
 import static com.rs.game.content.combat.PlayerCombat.delayMagicHit;
 import static com.rs.game.content.combat.PlayerCombat.delayHit;
 import static com.rs.game.content.combat.PlayerCombat.dropAmmo;
-import static com.rs.game.content.combat.PlayerCombat.getRandomMaxHit;
+import static com.rs.game.content.combat.PlayerCombat.calculateHit;
 import static com.rs.game.content.combat.PlayerCombat.getMaxHit;
 import static com.rs.game.content.combat.PlayerCombat.getMultiAttackTargets;
 import static com.rs.game.content.combat.PlayerCombat.addXp;
@@ -72,7 +72,7 @@ public class SpecialAttacks {
                 player.setNextAnimation(new Animation(player.getEquipment().getWeaponId() == 4153 ? 1667 : 10505));
                 if (player.getEquipment().getWeaponId() == 4153)
                     player.setNextSpotAnim(new SpotAnim(340, 0, 96 << 16));
-                delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.0));
+                delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.0));
                 return 0;
             }
             return 0;
@@ -129,7 +129,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(12804));
             player.setNextSpotAnim(new SpotAnim(2319));// 2320
             player.setNextSpotAnim(new SpotAnim(2321));
-            player.getTempAttribs().setL("SOL_SPEC", System.currentTimeMillis() + 60000);
+            player.addEffect(Effect.STAFF_OF_LIGHT_SPEC, Ticks.fromSeconds(60));
             player.getCombatDefinitions().drainSpec(100);
             return 0;
         }));
@@ -160,7 +160,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(97));
             WorldProjectile p = World.sendProjectile(player, target, 100, 20, 50, 1.5);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 1);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
@@ -169,7 +169,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(95));
             WorldProjectile p = World.sendProjectile(player, target, 98, 20, 50, 1.5);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 1);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
@@ -178,33 +178,33 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(426));
             player.setNextSpotAnim(new SpotAnim(96));
             WorldProjectile p = World.sendProjectile(player, target, 99, 20, 50, 1.5);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 1);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
-        //TODO check and make sure hits aren't cancer calculated using new weapons after swap
         addSpec(RangedWeapon.RUNE_THROWNAXE.getIds(), new SpecialAttack(Type.RANGE, 20, (player, target) -> {
+            int maxHit = getMaxHit(player, target, true, 1.0);
             player.setNextAnimation(new Animation(9055));
             WorldProjectile p1 = World.sendProjectile(player, target, 258, 20, 50, 1);
-            delayHit(target, p1.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p1.getTaskDelay(), PlayerCombat.calculateHit(player, target, 1, maxHit, true, true, 1.0));
             WorldTasks.schedule(p1.getTaskDelay(), () -> {
                 for (Entity next : getMultiAttackTargets(player, target, 5, 1, false)) {
                     WorldProjectile p2 = World.sendProjectile(target, next, 258, 20, 50, 1);
                     WorldTasks.schedule(p2.getTaskDelay(), () -> {
-                        next.applyHit(getRandomMaxHit(player, next, true));
+                        next.applyHit(PlayerCombat.calculateHit(player, next, 1, maxHit, true, true, 1.0));
                         for (Entity next2 : getMultiAttackTargets(player, next, 5, 1, false)) {
                             WorldProjectile p3 = World.sendProjectile(next, next2, 258, 20, 50, 1);
                             WorldTasks.schedule(p3.getTaskDelay(), () -> {
-                                next2.applyHit(getRandomMaxHit(player, next2, true));
+                                next2.applyHit(PlayerCombat.calculateHit(player, next2, 1, maxHit, true, true, 1.0));
                                 for (Entity next3 : getMultiAttackTargets(player, next2, 5, 1, false)) {
                                     WorldProjectile p4 = World.sendProjectile(next2, next3, 258, 20, 50, 1);
                                     WorldTasks.schedule(p4.getTaskDelay(), () -> {
-                                        next3.applyHit(getRandomMaxHit(player, next3, true));
+                                        next3.applyHit(PlayerCombat.calculateHit(player, next3, 1, maxHit, true, true, 1.0));
                                         for (Entity next4 : getMultiAttackTargets(player, next3, 5, 1, false)) {
                                             WorldProjectile p5 = World.sendProjectile(next3, next4, 258, 20, 50, 1);
                                             WorldTasks.schedule(p5.getTaskDelay(), () -> {
-                                                next4.applyHit(getRandomMaxHit(player, next4, true));
+                                                next4.applyHit(PlayerCombat.calculateHit(player, next4, 1, maxHit, true, true, 1.0));
                                             });
                                         }
                                     });
@@ -222,8 +222,8 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(250, 10, 100));
             WorldProjectile p = World.sendProjectile(player, target, 249, 20, 20, 2);
             WorldProjectile p2 = World.sendProjectile(player, target, 249, 15, 50, 1.6);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true));
-            delayHit(target, p2.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
+            delayHit(target, p2.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 2);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
@@ -232,7 +232,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(12175));
             player.setNextSpotAnim(new SpotAnim(2138));
             WorldProjectile p = World.sendProjectile(player, target, 2143, 0, 50, 1.5);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true));
             return 1;
         }));
 
@@ -241,7 +241,7 @@ public class SpecialAttacks {
             SpotAnim attackSpotAnim = RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player, AmmoType.forId(player.getEquipment().getAmmoId()));
             if (attackSpotAnim != null)
                 player.setNextSpotAnim(attackSpotAnim);
-            Hit hit = getRandomMaxHit(player, target, true, true, 1.0, 1.3);
+            Hit hit = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.3);
             if (hit.getDamage() > 0)
                 target.lowerStat(Skills.DEFENSE, hit.getDamage()/10, 0.0);
             WorldProjectile p = World.sendProjectile(player, target, 698, 20, 50, 1);
@@ -257,10 +257,10 @@ public class SpecialAttacks {
             if (attackSpotAnim != null)
                 player.setNextSpotAnim(attackSpotAnim);
             if (ammoId == 11212) {
-                Hit hit1 = getRandomMaxHit(player, target, true, true, 1.0, 1.5);
+                Hit hit1 = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.5);
                 if (hit1.getDamage() < 80)
                     hit1.setDamage(80);
-                Hit hit2 = getRandomMaxHit(player, target, true, true, 1.0, 1.5);
+                Hit hit2 = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.5);
                 if (hit2.getDamage() < 80)
                     hit2.setDamage(80);
                 WorldProjectile p = World.sendProjectile(player, target, 1099, 20, 50, 1, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
@@ -268,10 +268,10 @@ public class SpecialAttacks {
                 delayHit(target, p.getTaskDelay(), hit1);
                 delayHit(target, p2.getTaskDelay(), hit2);
             } else {
-                Hit hit1 = getRandomMaxHit(player, target, true, true, 1.0, 1.3);
+                Hit hit1 = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.3);
                 if (hit1.getDamage() < 50)
                     hit1.setDamage(50);
-                Hit hit2 = getRandomMaxHit(player, target, true, true, 1.0, 1.3);
+                Hit hit2 = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.3);
                 if (hit2.getDamage() < 50)
                     hit2.setDamage(50);
                 WorldProjectile p = World.sendProjectile(player, target, 1101, 20, 50, 1);
@@ -287,7 +287,7 @@ public class SpecialAttacks {
             player.setNextAnimation(RangedWeapon.ZANIKS_CROSSBOW.getAttackAnimation());
             player.setNextSpotAnim(new SpotAnim(1714));
             WorldProjectile p = World.sendProjectile(player, target, 2001, 20, 50, 1.5);
-            Hit hit = getRandomMaxHit(player, target, true, true, 1.0, 1.0);
+            Hit hit = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.0);
             delayHit(target, p.getTaskDelay(), Hit.range(player, hit.getDamage() + 30 + Utils.getRandomInclusive(120)));
             dropAmmo(player, target);
             return PlayerCombat.getRangeCombatDelay(player);
@@ -297,7 +297,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(1836));
             player.setNextAnimation(new Animation(10501));
             WorldProjectile p = World.sendProjectile(player, target, 1837, 20, 50, 1.5);
-            final Hit hit = getRandomMaxHit(player, target, true, true, 1.0, 1.0);
+            final Hit hit = PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.0);
             delayHit(target, p.getTaskDelay(), hit);
             if (hit.getDamage() > 0) {
                 final Entity finalTarget = target;
@@ -328,7 +328,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(1838));
             player.setNextAnimation(new Animation(10504));
             WorldProjectile p = World.sendProjectile(player, target, 1839, 20, 50, 1.5);
-            delayHit(target, p.getTaskDelay(), getRandomMaxHit(player, target, true, true, 1.0, 1.0));
+            delayHit(target, p.getTaskDelay(), PlayerCombat.calculateHit(player, target, true, true, 1.0, 1.0));
             dropAmmo(player, target, Equipment.WEAPON, 1);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
@@ -348,7 +348,7 @@ public class SpecialAttacks {
                 if (tick % 5 == 0) {
                     World.sendSpotAnim(player, new SpotAnim(478), tile);
                     for (Entity entity : getMultiAttackTargets(player, WorldTile.of(target.getTile()), 1, 9)) {
-                        Hit hit = getRandomMaxHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
+                        Hit hit = PlayerCombat.calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
                         addXp(player, entity, attackStyle.getXpType(), hit);
                         if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
                             target.getPoison().makePoisoned(48);
@@ -368,7 +368,7 @@ public class SpecialAttacks {
             target.setNextSpotAnim(new SpotAnim(2108, 0, 100));
             if (target instanceof Player p2)
                 p2.setRunEnergy(p2.getRunEnergy() > 25 ? p2.getRunEnergy() - 25 : 0);
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.25, 1.0));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.25, 1.0));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -377,7 +377,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(11993));
             target.setNextSpotAnim(new SpotAnim(1194));
             delayNormalHit(target, new Hit(player, 50 + Utils.getRandomInclusive(100), HitLook.MELEE_DAMAGE).setMaxHit(150));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 2.0, 1.1));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.1));
             player.soundEffect(3853);
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -428,7 +428,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 11698, 23681 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(12019));
             player.setNextSpotAnim(new SpotAnim(2109));
-            Hit hit = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
+            Hit hit = PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
             player.getPrayer().restorePrayer((hit.getDamage() / 4) * 10);
             delayNormalHit(target, hit);
@@ -439,7 +439,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 11696, 23680 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             player.setNextAnimation(new Animation(11991));
             player.setNextSpotAnim(new SpotAnim(2114));
-            Hit hit2 = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
+            Hit hit2 = PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.1);
             delayNormalHit(target, hit2);
 
             if (target instanceof Player other) {
@@ -461,7 +461,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 11061 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
             player.setNextAnimation(new Animation(6147));
             player.setNextSpotAnim(new SpotAnim(1052));
-            Hit hit3 = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
+            Hit hit3 = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.0);
             delayNormalHit(target, hit3);
             if (target instanceof Player other)
                 other.getPrayer().drainPrayer(hit3.getDamage());
@@ -472,20 +472,20 @@ public class SpecialAttacks {
         addSpec(new int[] { 11694, 23679 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(11989));
             player.setNextSpotAnim(new SpotAnim(2113));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 2.0, 1.25));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.25));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
         //Vesta's longsword
         addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(10502));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 2.0, 1.20));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.20));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
         //Statius' warhammer
         addSpec(new int[] { 13902, 13904 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
-            Hit hit1 = getRandomMaxHit(player, target, false, true, 1.0, 1.25);
+            Hit hit1 = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.25);
             player.setNextAnimation(new Animation(10505));
             player.setNextSpotAnim(new SpotAnim(1840));
             delayNormalHit(target, hit1);
@@ -502,7 +502,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 13905, 13907 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(10499));
             player.setNextSpotAnim(new SpotAnim(1835));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.1));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.1));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -512,7 +512,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(7078));
             player.setNextSpotAnim(new SpotAnim(1225));
             attackTarget(target, getMultiAttackTargets(player, target, 1, 20), () -> {
-                delayHit(target, 1, 7158, attackStyle, getRandomMaxHit(player, target, 7158, attackStyle, true, true, 1.0, 1.2));
+                delayHit(target, 1, 7158, attackStyle, PlayerCombat.calculateHit(player, target, 7158, attackStyle, true, true, 1.0, 1.2));
                 return true;
             });
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
@@ -533,7 +533,7 @@ public class SpecialAttacks {
 
         //Zamorak godsword
         addSpec(new int[] { 11700, 13453, 23682 }, new SpecialAttack(Type.MELEE, 100, (player, target) -> {
-            Hit hit4 = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
+            Hit hit4 = PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.1);
             player.setNextAnimation(new Animation(7070));
             player.setNextSpotAnim(new SpotAnim(1221));
             if (hit4.getDamage() != 0 && target.getSize() <= 1) {
@@ -549,19 +549,19 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(10961));
             Hit[] hits = { new Hit(player, 0, HitLook.MELEE_DAMAGE), new Hit(player, 0, HitLook.MELEE_DAMAGE) };
             int maxHit1 = getMaxHit(player, target, false, 0.75);
-            Hit base = getRandomMaxHit(player, target, maxHit1 / 2, maxHit1, false, true, 1.0);
+            Hit base = calculateHit(player, target, maxHit1 / 2, maxHit1, false, true, 1.0);
             if (base.getDamage() > 0)
                 hits = new Hit[] { base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) - ((base.getDamage() / 2) / 2), HitLook.MELEE_DAMAGE) };
             else {
-                base = getRandomMaxHit(player, target, false, true, 1.0, 0.75);
+                base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 0.75);
                 if (base.getDamage() > 0)
                     hits = new Hit[] { Hit.miss(player), base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, base.getDamage() - (base.getDamage() / 2), HitLook.MELEE_DAMAGE) };
                 else {
-                    base = getRandomMaxHit(player, target, false, true, 1.0, 0.75);
+                    base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 0.75);
                     if (base.getDamage() > 0)
                         hits = new Hit[] { Hit.miss(player), Hit.miss(player), new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) + 10, HitLook.MELEE_DAMAGE) };
                     else {
-                        base = getRandomMaxHit(player, target, false, true, 1.0, 1.25);
+                        base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.25);
                         if (base.getDamage() > 0)
                             hits = new Hit[] { Hit.miss(player), Hit.miss(player), Hit.miss(player), base };
                         else
@@ -583,19 +583,19 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(1950));
             Hit[] hits = { new Hit(player, 0, HitLook.MELEE_DAMAGE), new Hit(player, 0, HitLook.MELEE_DAMAGE) };
             int maxHit1 = getMaxHit(player, target, false, 1.0);
-            Hit base = getRandomMaxHit(player, target, maxHit1 / 2, maxHit1, false, true, 1.0);
+            Hit base = calculateHit(player, target, maxHit1 / 2, maxHit1, false, true, 1.0);
             if (base.getDamage() > 0)
                 hits = new Hit[] { base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) - ((base.getDamage() / 2) / 2), HitLook.MELEE_DAMAGE) };
             else {
-                base = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
+                base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.0);
                 if (base.getDamage() > 0)
                     hits = new Hit[] { Hit.miss(player), base, new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, base.getDamage() - (base.getDamage() / 2), HitLook.MELEE_DAMAGE) };
                 else {
-                    base = getRandomMaxHit(player, target, false, true, 1.0, 1.0);
+                    base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.0);
                     if (base.getDamage() > 0)
                         hits = new Hit[] { Hit.miss(player), Hit.miss(player), new Hit(player, base.getDamage() / 2, HitLook.MELEE_DAMAGE), new Hit(player, (base.getDamage() / 2) + 10, HitLook.MELEE_DAMAGE) };
                     else {
-                        base = getRandomMaxHit(player, target, false, true, 1.0, 1.5);
+                        base = PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.5);
                         if (base.getDamage() > 0)
                             hits = new Hit[] { Hit.miss(player), Hit.miss(player), Hit.miss(player), base };
                         else
@@ -615,7 +615,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 10887 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
             player.setNextAnimation(new Animation(5870));
             player.setNextSpotAnim(new SpotAnim(1027));
-            Hit hitt = getRandomMaxHit(player, target, false, true, 2.0, 1.1);
+            Hit hitt = PlayerCombat.calculateHit(player, target, false, true, 2.0, 1.1);
             delayNormalHit(target, hitt);
             if (target instanceof Player other)
                 other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
@@ -626,7 +626,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 1305 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(12033));
             player.setNextSpotAnim(new SpotAnim(2117));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.25));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.25));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -638,9 +638,9 @@ public class SpecialAttacks {
                 target.setNextSpotAnim(new SpotAnim(254, 0, 100));
                 target.setNextSpotAnim(new SpotAnim(80));
             }
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.0, 1.1));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.1));
             if (target.getSize() > 1)
-                delayHit(target, 1, getRandomMaxHit(player, target, false, true, 1.0, 1.1));
+                delayHit(target, 1, PlayerCombat.calculateHit(player, target, false, true, 1.0, 1.1));
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -648,7 +648,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 4587 }, new SpecialAttack(Type.MELEE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(12031));
             player.setNextSpotAnim(new SpotAnim(2118));
-            Hit hit5 = getRandomMaxHit(player, target, false, true, 1.25, 1.0);
+            Hit hit5 = PlayerCombat.calculateHit(player, target, false, true, 1.25, 1.0);
             if (target instanceof Player p2)
                 if (hit5.getDamage() > 0)
                     p2.setProtectionPrayBlock(10);
@@ -661,8 +661,8 @@ public class SpecialAttacks {
         addSpec(new int[] { 1215, 1231, 5680, 5698 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(1062));
             player.setNextSpotAnim(new SpotAnim(252, 0, 100));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.15, 1.15));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.15, 1.15));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.15, 1.15));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.15, 1.15));
             player.soundEffect(2537);
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -671,7 +671,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 1434 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(1060));
             player.setNextSpotAnim(new SpotAnim(251));
-            delayNormalHit(target, getRandomMaxHit(player, target, false, true, 1.25, 1.5));
+            delayNormalHit(target, PlayerCombat.calculateHit(player, target, false, true, 1.25, 1.5));
             player.soundEffect(2541);
             return PlayerCombat.getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));

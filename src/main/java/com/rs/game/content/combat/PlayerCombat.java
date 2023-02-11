@@ -41,7 +41,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
 import com.rs.game.region.Region;
@@ -172,7 +171,7 @@ public class PlayerCombat extends PlayerAction {
 			player.setNextAnimation(new Animation(15448));
 			PolyporeStaff.drainCharge(player);
 			WorldProjectile p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2, 0, 0);
-			Hit hit = getRandomMagicMaxHit(player, target, (5 * player.getSkills().getLevel(Constants.MAGIC)) - 180, false);
+			Hit hit = calculateMagicHit(player, target, (5 * player.getSkills().getLevel(Constants.MAGIC)) - 180, false);
 			delayMagicHit(target, p.getTaskDelay(), hit, () -> {
 				if (hit.getDamage() > 0)
 					target.setNextSpotAnim(new SpotAnim(2036, 0, 96));
@@ -376,7 +375,7 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	public boolean castSpellAtTarget(Player player, Entity target, CombatSpell spell, int hitDelay) {
-		Hit hit = getRandomMagicMaxHit(player, target, spell.getBaseDamage(player));
+		Hit hit = calculateMagicHit(player, target, spell.getBaseDamage(player));
 		if (spell == CombatSpell.STORM_OF_ARMADYL && hit.getDamage() > 0) {
 			int minHit = (player.getSkills().getLevelForXp(Constants.MAGIC) - 77) * 5;
 			if (hit.getDamage() < minHit)
@@ -471,7 +470,7 @@ public class PlayerCombat extends PlayerAction {
 
 					@Override
 					public boolean attack() {
-						Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
+						Hit hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
 						player.setNextAnimation(new Animation(2779));
 						WorldTasks.delay(p.getTaskDelay(), () -> target.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
 						delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
@@ -488,9 +487,9 @@ public class PlayerCombat extends PlayerAction {
 			case SWAMP_LIZARD, ORANGE_SALAMANDER, RED_SALAMANDER, BLACK_SALAMANDER -> {
 				Hit hit = switch(attackStyle.getName()) {
 					//TODO use proper combat style combat formula for each damage
-					case "Flare" -> getRandomMaxHit(player, target, weaponId, attackStyle, true).setLook(HitLook.RANGE_DAMAGE);
-					case "Blaze" -> getRandomMaxHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MAGIC_DAMAGE);
-					default -> getRandomMaxHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MELEE_DAMAGE); //Scorch
+					case "Flare" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.RANGE_DAMAGE);
+					case "Blaze" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MAGIC_DAMAGE);
+					default -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MELEE_DAMAGE); //Scorch
 				};
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				dropAmmo(player, target, Equipment.AMMO, 1);
@@ -508,7 +507,7 @@ public class PlayerCombat extends PlayerAction {
 				if (player.getEquipment().getAmmoId() != -1 && Utils.getRandomInclusive(10) == 0) {
 					switch (player.getEquipment().getAmmoId()) {
 						case 9237:
-							hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+							hit = calculateHit(player, target, weaponId, attackStyle, true);
 							target.setNextSpotAnim(new SpotAnim(755));
 							if (target instanceof Player p2)
 								p2.stopAll();
@@ -523,27 +522,27 @@ public class PlayerCombat extends PlayerAction {
 							soundId = 2912;
 							break;
 						case 9243:
-							hit = getRandomMaxHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
+							hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
 							target.setNextSpotAnim(new SpotAnim(751));
 							soundId = 2913;
 							break;
 						case 9244:
-							hit = getRandomMaxHit(player, target, weaponId, attackStyle, true, false, 1.0, PlayerCombat.getAntifireLevel(target, true) > 0 ? 1.45 : 1.0);
+							hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, PlayerCombat.getAntifireLevel(target, true) > 0 ? 1.45 : 1.0);
 							target.setNextSpotAnim(new SpotAnim(756));
 							soundId = 2915;
 							break;
 						case 9245:
-							hit = getRandomMaxHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
+							hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
 							target.setNextSpotAnim(new SpotAnim(753));
 							player.heal((int) (player.getMaxHitpoints() * 0.25));
 							soundId = 2917;
 							break;
 						default:
-							hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+							hit = calculateHit(player, target, weaponId, attackStyle, true);
 					}
 					specced = true;
 				} else {
-					hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+					hit = calculateHit(player, target, weaponId, attackStyle, true);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				}
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
@@ -568,7 +567,7 @@ public class PlayerCombat extends PlayerAction {
 					boolean lockedOn = stacks >= 9;
 					player.getTempAttribs().setI("rcbStacks", stacks);
 					player.getTempAttribs().setL("rcbLockOnTimer", World.getServerTicks() + 28);
-					Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+					Hit hit = calculateHit(player, target, weaponId, attackStyle, true);
 					delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit, null, () -> {
 						if (weaponId == 24339 || target.isDead() || target.hasFinished())
 							return;
@@ -599,12 +598,12 @@ public class PlayerCombat extends PlayerAction {
 					player.setNextAnimation(new Animation(12175));
 					return combatDelay;
 				}
-				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, getRandomMaxHit(player, target, weaponId, attackStyle, true));
+				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true));
 				dropAmmo(player, target, Equipment.AMMO, 1);
 			}
 			case SAGAIE -> {
 				double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleWorldTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
-				Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
+				Hit hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				dropAmmo(player, target, Equipment.WEAPON, 1);
@@ -628,7 +627,7 @@ public class PlayerCombat extends PlayerAction {
 					if (delay < Ticks.fromSeconds(5))
 						delay = Ticks.fromSeconds(5);
 				}
-				if (getRandomMaxHit(player, target, weaponId, attackStyle, true).getDamage() > 0) {
+				if (calculateHit(player, target, weaponId, attackStyle, true).getDamage() > 0) {
 					target.freeze(delay, true);
 					WorldTasks.schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
 				}
@@ -636,21 +635,21 @@ public class PlayerCombat extends PlayerAction {
 				player.getEquipment().removeAmmo(Equipment.WEAPON, 1);
 			}
 			case DARK_BOW -> {
-				Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+				Hit hit = calculateHit(player, target, weaponId, attackStyle, true);
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				WorldProjectile p2 = World.sendProjectile(player, target, AmmoType.forId(player.getEquipment().getAmmoId()).getProjAnim(player.getEquipment().getAmmoId()), 30, 50, 1);
-				delayHit(target, p2.getTaskDelay(), weaponId, attackStyle, getRandomMaxHit(player, target, weaponId, attackStyle, true));
+				delayHit(target, p2.getTaskDelay(), weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true));
 				dropAmmo(player, target, Equipment.AMMO, 2);
 			}
 			default -> {
 				if (weapon.isThrown()) {
-					Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+					Hit hit = calculateHit(player, target, weaponId, attackStyle, true);
 					delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 					dropAmmo(player, target, Equipment.WEAPON, 1);
 				} else {
-					Hit hit = getRandomMaxHit(player, target, weaponId, attackStyle, true);
+					Hit hit = calculateHit(player, target, weaponId, attackStyle, true);
 					delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 					if (weapon.getAmmos() != null)
@@ -674,7 +673,7 @@ public class PlayerCombat extends PlayerAction {
 			return;
 		player.sendMessage("You fired an extra shot.");
 		World.sendProjectile(player, target, p.getSpotAnimId(), p.getStartHeight() - 5, p.getEndHeight() - 5, p.getStartTime(), 2, p.getAngle() - 5 < 0 ? 0 : p.getAngle() - 5, p.getSlope());
-		delayHit(target, hitDelay, weaponId, attackStyle, getRandomMaxHit(player, target, weaponId, attackStyle, true));
+		delayHit(target, hitDelay, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, true));
 		if (hit.getDamage() > (hit.getMaxHit() - 10)) {
 			target.freeze(Ticks.fromSeconds(10), false);
 			target.setNextSpotAnim(new SpotAnim(181, 0, 96));
@@ -783,7 +782,7 @@ public class PlayerCombat extends PlayerAction {
 						target.freeze(Ticks.fromSeconds(10), true);
 						target.setNextSpotAnim(new SpotAnim(181, 0, 96));
 						final Entity t = target;
-						WorldTasks.schedule(1, () -> t.applyHit(getRandomMaxHit(player, target, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
+						WorldTasks.schedule(1, () -> t.applyHit(calculateHit(player, target, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
 						if (target instanceof Player p) {
 							for (int i = 0; i < 7; i++)
 								if (i != 3 && i != 5)
@@ -800,7 +799,7 @@ public class PlayerCombat extends PlayerAction {
 				return combatDelay;
 			}
 		}
-		delayNormalHit(target, weaponId, attackStyle, getRandomMaxHit(player, target, weaponId, attackStyle, false));
+		delayNormalHit(target, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, false));
 		player.setNextAnimation(new Animation(getWeaponAttackEmote(weaponId, attackStyle)));
 		playSound(soundId, player, target);
 		return combatDelay;
@@ -814,16 +813,12 @@ public class PlayerCombat extends PlayerAction {
 			p2.soundEffect(soundId);
 	}
 
-	public static Hit getRandomMagicMaxHit(Player player, Entity target, int baseDamage) {
-		return getRandomMagicMaxHit(player, target, baseDamage, true);
+	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage) {
+		return calculateMagicHit(player, target, baseDamage, true);
 	}
 
-	public static Hit calculateMagicHit(Player player, Entity target, int spellBaseDamage) {
-		return getRandomMagicMaxHit(player, target, spellBaseDamage, true);
-	}
-
-	public static Hit getRandomMagicMaxHit(Player player, Entity target, int baseDamage, boolean applyMageLevelBoost) {
-		Hit hit = calculateMagicHit(player, target, baseDamage, applyMageLevelBoost);
+	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage, boolean applyMageLevelBoost) {
+		Hit hit = getMagicMaxHit(player, target, baseDamage, applyMageLevelBoost);
 		hit.setDamage(Utils.random(hit.getDamage() + 1));
 		if (hit.getDamage() > 0)
 			if (target instanceof NPC n)
@@ -832,7 +827,7 @@ public class PlayerCombat extends PlayerAction {
 		return hit;
 	}
 
-	public static Hit calculateMagicHit(Player player, Entity target, int spellBaseDamage, boolean applyMageLevelBoost) {
+	public static Hit getMagicMaxHit(Player player, Entity target, int spellBaseDamage, boolean applyMageLevelBoost) {
 		double lvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());
 		lvl += 8;
 		if (fullVoidEquipped(player, 11663, 11674))
@@ -917,28 +912,27 @@ public class PlayerCombat extends PlayerAction {
 		return new Hit(player, finalMaxHit, HitLook.MAGIC_DAMAGE).setMaxHit(finalMaxHit);
 	}
 
-	public static Hit getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
-		return getRandomMaxHit(player, target, 1, getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier), weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
+	public static Hit calculateHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
+		return calculateHit(player, target, 1, getMaxHit(player, target, weaponId, attackStyle, ranging, damageModifier), weaponId, attackStyle, ranging, calcDefense, accuracyModifier);
 	}
 
-	public static Hit getRandomMaxHit(Player player, Entity target, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
-		return getRandomMaxHit(player, target, 1, getMaxHit(player, target, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, damageModifier), player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, calcDefense, accuracyModifier);
+	public static Hit calculateHit(Player player, Entity target, boolean ranging, boolean calcDefense, double accuracyModifier, double damageModifier) {
+		return calculateHit(player, target, 1, getMaxHit(player, target, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, damageModifier), player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, calcDefense, accuracyModifier);
 	}
 
-	public static Hit getRandomMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging) {
-		return getRandomMaxHit(player, target, weaponId, attackStyle, ranging, true, 1.0D, 1.0D);
+	public static Hit calculateHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging) {
+		return calculateHit(player, target, weaponId, attackStyle, ranging, true, 1.0D, 1.0D);
 	}
 
-	public static Hit getRandomMaxHit(Player player, Entity target, boolean ranging) {
-		return getRandomMaxHit(player, target, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, true, 1.0D, 1.0D);
+	public static Hit calculateHit(Player player, Entity target, boolean ranging) {
+		return calculateHit(player, target, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, true, 1.0D, 1.0D);
 	}
 
-	public static Hit getRandomMaxHit(Player player, Entity target, int minHit, int maxHit, boolean ranging, boolean calcDefense, double accuracyModifier) {
-		return getRandomMaxHit(player, target, minHit, maxHit, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, calcDefense, accuracyModifier);
+	public static Hit calculateHit(Player player, Entity target, int minHit, int maxHit, boolean ranging, boolean calcDefense, double accuracyModifier) {
+		return calculateHit(player, target, minHit, maxHit, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, calcDefense, accuracyModifier);
 	}
 
-	//TODO rename calculateHit
-	public static Hit getRandomMaxHit(Player player, Entity target, int minHit, int maxHit, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier) {
+	public static Hit calculateHit(Player player, Entity target, int minHit, int maxHit, int weaponId, AttackStyle attackStyle, boolean ranging, boolean calcDefense, double accuracyModifier) {
 		Hit hit = new Hit(player, 0, ranging ? HitLook.RANGE_DAMAGE : HitLook.MELEE_DAMAGE);
 		boolean veracsProc = false;
 		if (calcDefense) {
@@ -1694,8 +1688,8 @@ public class PlayerCombat extends PlayerAction {
 			} else if (isAttackExeption(player, n))
 				return false;
 		}
-		if (player.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis() && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
-			player.getTempAttribs().setL("SOL_SPEC", 0);
+		if (player.hasEffect(Effect.STAFF_OF_LIGHT_SPEC) && !(player.getEquipment().getWeaponId() == 15486 || player.getEquipment().getWeaponId() == 22207 || player.getEquipment().getWeaponId() == 22209 || player.getEquipment().getWeaponId() == 22211 || player.getEquipment().getWeaponId() == 22213))
+			player.removeEffect(Effect.STAFF_OF_LIGHT_SPEC);
 		player.getTempAttribs().setO("last_target", target);
 		if (target != null)
 			target.getTempAttribs().setO("last_attacker", player);

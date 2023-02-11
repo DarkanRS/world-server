@@ -2059,8 +2059,10 @@ public class Player extends Entity {
 		if (source == null)
 			return;
 
-		if (getTempAttribs().getL("SOL_SPEC") > System.currentTimeMillis() && hit.getLook() == HitLook.MELEE_DAMAGE)
+		if (hasEffect(Effect.STAFF_OF_LIGHT_SPEC) && hit.getLook() == HitLook.MELEE_DAMAGE) {
 			hit.setDamage((int) (hit.getDamage() * 0.5));
+			spotAnim(2320);
+		}
 		if (prayer.hasPrayersOn() && hit.getDamage() != 0)
 			if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
 				if (prayer.active(Prayer.PROTECT_MAGIC))
@@ -2176,9 +2178,6 @@ public class Player extends Entity {
 					break;
 				}
 			}
-		if (target instanceof Player opp)
-			if (opp.getTempAttribs().getL("SOL_SPEC") >= System.currentTimeMillis())
-				target.setNextSpotAnim(new SpotAnim(2320));
 		getAuraManager().onOutgoingHit(hit);
 		getControllerManager().processOutgoingHit(hit, target);
 	}
