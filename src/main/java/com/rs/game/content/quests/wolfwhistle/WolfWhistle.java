@@ -11,8 +11,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.PublicChatMessage;
-import com.rs.lib.game.WorldTile;
 import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -41,8 +39,6 @@ public class WolfWhistle extends QuestOutline {
 	public static final String ATTRIB_ALREADY_BEEN_IN_WELL = "WELLWELL";
 
 	// object ids
-	static final int PIKKUPSTICKS_STAIRS_0 = 66637;
-	static final int PIKKUPSTICKS_STAIRS_1 = 66638;
 	static final int CLUTTERED_DRAWERS = 28641;
 	static final int CLUTTERED_SHELVES = 67496;
 	static final int UNTIDY_SHELVES = 67495;
@@ -168,22 +164,6 @@ public class WolfWhistle extends QuestOutline {
 
 		if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
 			p.getVars().setVarBit(10734, 1);
-		}
-	});
-
-	public static ObjectClickHandler handleTaverleyStaircase = new ObjectClickHandler(new Object[] { PIKKUPSTICKS_STAIRS_0, PIKKUPSTICKS_STAIRS_1 }, e -> {
-		Player p = e.getPlayer();
-
-		// use stairs and message goes on the same tick
-		if (e.getObjectId() == PIKKUPSTICKS_STAIRS_0) {
-			p.useStairs(-1, WorldTile.of(2930, 3445, 1), 0, 0);
-			if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
-				if (!p.getInventory().containsItem(EMBROIDERED_POUCH) && !p.getBank().containsItem(EMBROIDERED_POUCH, 1)) {
-					p.sendPublicChatMessage(new PublicChatMessage("Okay, that pouch has to be here somewhere...", 0));
-				}
-			}
-		} else if (e.getObjectId() == PIKKUPSTICKS_STAIRS_1) {
-			p.useStairs(-1, WorldTile.of(2928, 3446, 0), 0, 0);
 		}
 	});
 

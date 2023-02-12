@@ -31,8 +31,10 @@ import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -42,6 +44,60 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Taverly {
+
+	public static ObjectClickHandler handleTaverleyHouseStaircase = new ObjectClickHandler(new Object[] { 66637, 66638 }, e -> {
+		Player p = e.getPlayer();
+		GameObject o = e.getObject();
+
+		int x = o.getX();
+		int y = o.getY();
+		int plane = 0;
+		if (e.getObjectId() == 66637) {
+			if (x == 2928 && y == 3445 && o.getPlane() == 0) {
+				if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
+					if (!p.getInventory().containsItem(WolfWhistle.EMBROIDERED_POUCH)
+							&& !p.getBank().containsItem(WolfWhistle.EMBROIDERED_POUCH, 1)) {
+						p.forceTalk("Okay, that pouch has to be here somewhere...");
+					}
+				}
+			}
+			switch (o.getRotation()) {
+				case 0:
+					y += 2;
+					break;
+				case 1:
+					x += 2;
+					break;
+				case 2:
+					y -= 1;
+					break;
+				case 3:
+					x -= 1;
+					break;
+			}
+			plane = 1;
+		} else if (e.getObjectId() == 66638) {
+			switch (o.getRotation()) {
+				case 0:
+					x -= 1;
+					y -= 1;
+					break;
+				case 1:
+					x -= 1;
+					y += 1;
+					break;
+				case 2:
+					x += 1;
+					y += 2;
+					break;
+				case 3:
+					x += 2;
+					y -= 1;
+					break;
+			}
+		}
+		p.useStairs(-1, WorldTile.of(x, y, plane), 0, 0);
+	});
 
 	public static ObjectClickHandler handleWell = new ObjectClickHandler(new Object[] { 67498 }, e -> {
 		Player p = e.getPlayer();
@@ -126,9 +182,9 @@ public class Taverly {
 					addOptions(new Options() {
 						@Override
 						public void create() {
-							option("I need farming supplies", () -> {
-								ShopsHandler.openShop(e.getPlayer(), "head_farmer_jones_shop");
-							});
+							option("I need farming supplies", () ->
+								ShopsHandler.openShop(e.getPlayer(), "head_farmer_jones_shop")
+							);
 							option("Tell me more about farming", new Dialogue().addNPC(e.getNPCId(),
 											HeadE.HAPPY_TALKING,
 											"By farming you can grow your own plants. You'll start with simple stuff like potatoes"

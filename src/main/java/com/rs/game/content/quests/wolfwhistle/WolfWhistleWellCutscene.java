@@ -55,6 +55,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
 	final static int TROLL_COWER = 15921;
 	// 1522
 
+	final String[] TROLL_KEYS = new String[] { "t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12" };
 	final ArrayList<NPC> whiners = new ArrayList<>();
 
 	boolean playing = false;
@@ -166,19 +167,13 @@ public class WolfWhistleWellCutscene extends Cutscene {
 		});
 		delay(2);
 		npcMove("t4", 8, 20, Entity.MoveType.WALK); // maybe run
-		npcAnim("t0", new Animation(TROLL_COWER));
-		npcAnim("t1", new Animation(TROLL_COWER));
-		npcAnim("t2", new Animation(TROLL_COWER));
-		npcAnim("t3", new Animation(TROLL_COWER));
-		npcAnim("t4", new Animation(TROLL_COWER));
-		npcAnim("t5", new Animation(TROLL_COWER));
-		npcAnim("t6", new Animation(TROLL_COWER));
-		npcAnim("t7", new Animation(TROLL_COWER));
-		npcAnim("t8", new Animation(TROLL_COWER));
-		npcAnim("t9", new Animation(TROLL_COWER));
-		npcAnim("t10", new Animation(TROLL_COWER));
-		npcAnim("t11", new Animation(TROLL_COWER));
-		npcAnim("t12", new Animation(TROLL_COWER));
+		{
+			Animation cower = new Animation(TROLL_COWER);
+			for (String key : TROLL_KEYS)
+			{
+				npcAnim(key, cower);
+			}
+		}
 		delay(1);
 		npcTransform("t0", TROLL_BONE_SCARED);
 		npcTransform("t1", TROLL_BONE_SCARED);
