@@ -45,8 +45,6 @@ public class QuestPikkupstix extends Conversation {
 	public QuestPikkupstix(Player p, NPC pikkupstix) {
 		super(p);
 
-		p.sendMessage("Your stage: "+p.getQuestManager().getStage(Quest.WOLF_WHISTLE));
-
 		switch (player.getQuestManager().getStage(Quest.WOLF_WHISTLE)) {
 			case NOT_STARTED ->
 				addPlayer(HeadE.CONFUSED, "Hello there. I'm "+player.getDisplayName()+", the adventurer. Do you have a quest for me?")
@@ -257,7 +255,7 @@ public class QuestPikkupstix extends Conversation {
 							.addOptions(new Options() {
 								@Override
 								public void create() {
-
+									// TODO: missing dialogue?
 								}
 							});
 				}
@@ -407,10 +405,7 @@ public class QuestPikkupstix extends Conversation {
 						.addNext(() -> p.startConversation(new Pikkupstix(p, pikkupstix, false)));
 			default -> p.sendMessage("Uh oh");
 		}
-
 		create();
-
-
 	}
 
 	public static String getNextOptionTextPikkupstix(Player p) {

@@ -109,10 +109,6 @@ public class Summoning {
 		}
 		if (!player.getControllerManager().canSummonFamiliar())
 			return;
-		if (!player.getQuestManager().isComplete(Quest.WOLF_WHISTLE)) {
-			player.sendMessage("You're not sure how to do that yet.");
-			return;
-		}
 		if (player.getSkills().getLevel(Constants.SUMMONING) < pouch.getSummoningCost()) {
 			player.sendMessage("You do not have enough summoning points to spawn this.");
 			return;

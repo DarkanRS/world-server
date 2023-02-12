@@ -132,15 +132,13 @@ public class Taverly {
 
 		switch (e.getOption()) {
 			case "Infuse-pouch" -> {
-				if (p.getQuestManager().isComplete(Quest.WOLF_WHISTLE)) {
-					Summoning.openInfusionInterface(p, false);
-					break;
-				}
 				if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_CREATION) {
-					WolfWhistle.doWolpertingerPouchCreation(p, e.getObject());
-					break;
+					if (WolfWhistle.wolfWhistleObeliskReadyToInfusePouch(p)) {
+						WolfWhistle.doWolpertingerPouchCreation(p, e.getObject());
+						break;
+					}
 				}
-				p.sendMessage("You're not sure how to do that yet.");
+				Summoning.openInfusionInterface(p, false);
 				break;
 			}
 			case "Renew-points" -> {

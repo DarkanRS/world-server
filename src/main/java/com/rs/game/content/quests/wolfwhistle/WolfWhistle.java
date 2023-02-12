@@ -143,8 +143,6 @@ public class WolfWhistle extends QuestOutline {
 	}
 
 	public static void doWolpertingerPouchCreation(Player p, GameObject obelisk) {
-		if (!WolfWhistle.wolfWhistleObeliskReadyToInfusePouch(p))
-			return;
 		p.faceObject(obelisk);
 		p.setNextAnimation(new Animation(WolfWhistle.POUCH_INFUSION));
 		p.startConversation(new Dialogue()
@@ -184,7 +182,7 @@ public class WolfWhistle extends QuestOutline {
 			p.sendMessage(MessageType.GAME, "Despite searching, you cannot find anything.");
 		} else {
 			p.sendMessage(MessageType.GAME, "Despite searching, you cannot find anything.");
-			}
+		}
 	});
 
 	public static ObjectClickHandler handleStikklebrixDeadBody = new ObjectClickHandler(new Object[] { STIKKLEBRIX_BODY }, e -> {
