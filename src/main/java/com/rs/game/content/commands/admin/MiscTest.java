@@ -29,6 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.model.RSModel;
 import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
@@ -152,6 +153,40 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
 		});
+
+//		Commands.add(Rights.DEVELOPER, "modeldebug", "Spawns a ton of models of a certain color around you.", (p, args) -> {
+//			List<RSModel> meshes = new ArrayList<>();
+//			int baseCol = RSColor.RGB_to_HSL(238, 213, 54);
+//			for (int i = 0;i < Cache.STORE.getIndex(IndexType.MODELS).getLastArchiveId();i++) {
+//				RSModel model = RSModel.getMesh(i);
+//				if (model.getAvgColor() == 0)
+//					continue;
+//				if (model != null && model.faceCount < 64)
+//					meshes.add(model);
+//			}
+//			meshes.sort((m1, m2) -> {
+//				//if ((m1.vertexCount + m1.faceCount) == (m2.vertexCount + m2.faceCount))
+//				return Math.abs(m1.getAvgColor()-baseCol) - Math.abs(m2.getAvgColor()-baseCol);
+//				//return (m1.vertexCount + m1.faceCount + Math.abs(m1.getAvgColor()-baseCol)) / 2 - (m2.vertexCount + m2.faceCount + Math.abs(m2.getAvgColor()-baseCol)) / 2;
+//			});
+//			int count = 0;
+//			int x = 0, y = 0;
+//			for (RSModel model : meshes) {
+//				if (count++ > 100)
+//					break;
+//				if (count % 10 == 0) {
+//					y++;
+//					x = 0;
+//				}
+//				GameObject obj = new GameObject(1, ObjectType.SCENERY_INTERACT, 0, p.transform(x++, y));
+//				World.spawnObject(obj);
+//				WorldTasks.schedule(15, () -> {
+//					obj.modifyMesh().addModels(model.id, model.id, model.id);
+//					obj.refresh();
+//				});
+//				System.out.println(model.id + " - v" + model.vertexCount + " - f" + model.faceCount + " - " + Math.abs(model.getAvgColor()-baseCol));
+//			}
+//		});
 
 		Commands.add(Rights.DEVELOPER, "bonusxp [amount]", "Sets your bonus XP rate.", (p, args) -> {
 			p.setBonusXpRate(Double.valueOf(args[0]));
@@ -718,6 +753,7 @@ public class MiscTest {
 			int x = Integer.valueOf(args[0]);
 			int y = Integer.valueOf(args[1]);
 			int modelId = Integer.valueOf(args[2]);
+			//47868
 			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
 			p.getSession().writeToQueue(new HintTrail(WorldTile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
 		});
