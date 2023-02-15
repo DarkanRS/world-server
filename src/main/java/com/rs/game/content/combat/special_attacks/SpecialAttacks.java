@@ -537,8 +537,8 @@ public class SpecialAttacks {
             final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
             player.setNextAnimation(new Animation(7078));
             player.setNextSpotAnim(new SpotAnim(1225));
-            attackTarget(target, getMultiAttackTargets(player, target, 1, 20), () -> {
-                delayHit(target, 1, 7158, attackStyle, calculateHit(player, target, 7158, attackStyle, true, true, 1.0, 1.2));
+            attackTarget(target, getMultiAttackTargets(player, target, 1, 20), next -> {
+                delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, true, true, 1.0, 1.2));
                 return true;
             });
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());

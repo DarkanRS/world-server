@@ -1018,6 +1018,10 @@ public abstract class Entity {
 		}
 	}
 
+	public void moveTo(WorldTile worldtile) {
+		setNextWorldTile(worldtile);
+	}
+
 	public SpotAnim getNextSpotAnim1() {
 		return nextSpotAnim1;
 	}

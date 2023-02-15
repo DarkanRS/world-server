@@ -52,6 +52,8 @@ public class RuneSet {
 	}
 
 	public boolean meetsRequirements(Player player) {
+		if (player.getNSV().getB("infRunes"))
+			return true;
 		if (runes == null)
 			return true;
 		for (int i = 0;i < runes.length;i++)
@@ -65,6 +67,8 @@ public class RuneSet {
 	public boolean meetsPortalRequirements(Player player) {
 		if (runes == null)
 			return true;
+		if (player.getNSV().getB("infRunes"))
+			return true;
 		for (int i = 0;i < runes.length;i++)
 			if (runes[i].getRunesToDelete(player, amounts[i]) == null) {
 				player.sendMessage("You don't have enough " + runes[i].toString().toLowerCase() + " runes to tune your portal to this location.");
@@ -75,7 +79,7 @@ public class RuneSet {
 
 	public List<Item> getRunesToDelete(Player player) {
 		List<Item> toDelete = new ArrayList<>();
-		if (runes == null)
+		if (runes == null || player.getNSV().getB("infRunes"))
 			return toDelete;
 		for (int i = 0;i < runes.length;i++) {
 			List<Item> rDel = runes[i].getRunesToDelete(player, amounts[i]);

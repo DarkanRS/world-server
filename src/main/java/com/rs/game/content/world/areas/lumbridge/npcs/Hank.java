@@ -16,7 +16,7 @@ public class Hank extends Conversation {
     	 switch (e.getOption()) {
          //Start Conversation
          case "Talk-to" -> e.getPlayer().startConversation(new Hank(e.getPlayer()));
-         case "Trade-General-Store" -> ShopsHandler.openShop(e.getPlayer(), "lumbridge_fishing_supplies");
+         case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "lumbridge_fishing_supplies");
      }
     });
 

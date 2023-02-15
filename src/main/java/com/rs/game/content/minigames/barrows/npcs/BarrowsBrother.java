@@ -20,9 +20,13 @@ import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BarrowsBrother extends OwnedNPC {
 
@@ -47,7 +51,7 @@ public class BarrowsBrother extends OwnedNPC {
 	public double getMeleePrayerMultiplier() {
 		return getId() != 2030 ? 0 : Utils.random(3) == 0 ? 1 : 0;
 	}
-	
+
 	@Override
 	public void handlePreHitOut(Entity target, Hit hit) {
 		super.handlePreHitOut(target, hit);
@@ -71,6 +75,15 @@ public class BarrowsBrother extends OwnedNPC {
 			barrows = null;
 		}
 		super.finish();
+	}
+
+	@Override
+	public List<Entity> getPossibleTargets() {
+		List<Entity> owners = new ArrayList<>();
+		Player owner = getOwner();
+		if (owner != null)
+			owners.add(owner);
+		return owners;
 	}
 
 }

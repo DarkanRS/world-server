@@ -93,6 +93,8 @@ import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
+import java.util.Arrays;
+
 public final class ObjectHandler {
 
 	public static void handleOption1(final Player player, final GameObject object) {
@@ -147,18 +149,18 @@ public final class ObjectHandler {
 				return;
 			} else if (object.getId() == 24357 || object.getId() == 24358 || object.getId() == 11734) {
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+						break;
 				}
 				return;
 			} else if (object.getId() == 24359 || object.getId() == 24360 || object.getId() == 35783) {
@@ -167,18 +169,18 @@ public final class ObjectHandler {
 					return;
 				}
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+						break;
 				}
 				return;
 			} else if (object.getId() == 66518) {
@@ -313,9 +315,7 @@ public final class ObjectHandler {
 			} else if (id == 12328) { // Jadinko lair
 				player.setNextWorldTile(WorldTile.of(3011, 9276, 0));
 				return;
-			}
-
-			else if (id == 66533)
+			} else if (id == 66533)
 				player.useStairs(-1, WorldTile.of(2208, 4364, 0), 0, 1);
 			else if (id == 66534)
 				player.useStairs(-1, WorldTile.of(2878, 3573, 0), 0, 1);
@@ -504,63 +504,63 @@ public final class ObjectHandler {
 				player.addWalkSteps(object.getX(), player.getY() <= 3491 ? player.getY() + 2 : player.getY() - 2, -1, false);
 			} else if (id == 4756)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+						break;
 				}
 			else if (id == 4755)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+						break;
 				}
 			else if (id == 16960 || id == 16959)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(828, player.transform(2, 0, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(828, player.transform(0, -2, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(828, player.transform(0, 2, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(828, player.transform(0, 2, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(828, player.transform(2, 0, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(828, player.transform(0, -2, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(828, player.transform(0, 2, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(828, player.transform(0, 2, 1), 1, 1);
+						break;
 				}
 			else if (id == 16962 || id == 16961)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(827, player.transform(-2, 0, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(827, player.transform(0, 2, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(827, player.transform(0, -2, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(827, player.transform(0, -2, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(827, player.transform(-2, 0, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(827, player.transform(0, 2, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(827, player.transform(0, -2, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(827, player.transform(0, -2, -1), 1, 1);
+						break;
 				}
 			else if (id == 1759 || id == 4780)
 				player.useStairs(827, player.transform(0, 6400, 0), 1, 1);
@@ -626,123 +626,123 @@ public final class ObjectHandler {
 				return;
 			} else if (id == 6087)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+						break;
 				}
 			else if (id == 6088)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
 				}
 			else if (id == 22937)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(4, 0, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(0, -4, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(-4, 0, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(0, 4, 1), 1, 1);
+						break;
 				}
 			else if (id == 22938)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(-4, 0, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(0, 4, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(4, 0, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(0, -4, -1), 1, 1);
+						break;
 				}
 			else if (id == 22931)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+						break;
 				}
 			else if (id == 22932)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
 				}
 			else if (id == 34548 || id == 22941 || id == 22939)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+						break;
 				}
 			else if (id == 34550 || id == 22942 || id == 22940)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
 				}
 			else if (id == 34567)
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? -3 : 3, 0, 1), 1, 1);
@@ -750,33 +750,33 @@ public final class ObjectHandler {
 				player.useStairs(-1, player.transform(object.getRotation() == 3 ? 3 : -3, 0, -1), 1, 1);
 			else if (id == 34498)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
+						break;
 				}
 			else if (id == 34499)
 				switch(object.getRotation()) {
-				case 0:
-					player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-					break;
-				case 1:
-					player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-					break;
-				case 2:
-					player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-					break;
-				case 3:
-					player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-					break;
+					case 0:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
 				}
 			else if (id == 71902)
 				player.useStairs(-1, player.transform(object.getRotation() == 1 ? 4 : 0, object.getRotation() == 0 ? 4 : 0, 1), 1, 1);
@@ -825,8 +825,7 @@ public final class ObjectHandler {
 						}
 					}
 				}, 0, 5);
-			}
-			else if (id == 17222 || id == 17223)
+			} else if (id == 17222 || id == 17223)
 				player.useStairs(-1, WorldTile.of(2402, 3419, 0), 0, 1);
 			else if (id == 17209)
 				player.useStairs(-1, WorldTile.of(2408, 9812, 0), 0, 1);
@@ -864,7 +863,7 @@ public final class ObjectHandler {
 			} else if (id == 2231)
 				player.useStairs(-1, WorldTile.of(x == 2792 ? 2795 : 2791, 2979, 0), 1, 2, x == 2792 ? "You climb down the slope." : "You climb up the slope.");
 
-			// start forinthry dungeon
+				// start forinthry dungeon
 			else if (id == 18341 && object.getX() == 3036 && object.getY() == 10172)
 				player.useStairs(-1, WorldTile.of(3039, 3765, 0), 0, 1);
 			else if (id == 20599 && object.getX() == 3038 && object.getY() == 3761)
@@ -879,7 +878,7 @@ public final class ObjectHandler {
 				player.getActionManager().setAction(new CowMilkingAction());
 			else if (id == 42220)
 				player.useStairs(-1, WorldTile.of(3082, 3475, 0), 0, 1);
-			// start falador mininig
+				// start falador mininig
 			else if (id == 30942 && object.getX() == 3019 && object.getY() == 3450)
 				player.useStairs(828, WorldTile.of(3020, 9850, 0));
 			else if (id == 6226 && object.getX() == 3019 && object.getY() == 9850)
@@ -952,8 +951,8 @@ public final class ObjectHandler {
 					}
 
 				}, 0, 0);
-				
-			// rock living caverns
+
+				// rock living caverns
 			} else if (id == 45077) {
 				player.lock();
 				if (player.getX() != object.getX() || player.getY() != object.getY())
@@ -1000,12 +999,12 @@ public final class ObjectHandler {
 				WildernessAgility.crossSteppingPalletes(player, object);
 			else if (id == 45078)
 				player.useStairs(2413, WorldTile.of(3012, 9832, 0), 2, 2);
-			// champion guild
+				// champion guild
 			else if (id == 24357 && object.getX() == 3188 && object.getY() == 3355)
 				player.useStairs(-1, WorldTile.of(3189, 3354, 1), 0, 1);
 			else if (id == 24359 && object.getX() == 3188 && object.getY() == 3355)
 				player.useStairs(-1, WorldTile.of(3189, 3358, 0), 0, 1);
-			// start of varrock dungeon
+				// start of varrock dungeon
 			else if (id == 29355 && object.getX() == 3230 && object.getY() == 9904) // varrock
 				// dungeon
 				// climb
@@ -1040,7 +1039,7 @@ public final class ObjectHandler {
 
 					@Override
 					public void close(Player player) {
-						
+
 					}
 				}).addNext(() -> {
 					player.stopAll();
@@ -1138,7 +1137,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, WorldTile.of(1850, 4385, 1), 0, 1);
 			else if (id == 10224 && x == 1850 && y == 4385)
 				player.useStairs(-1, WorldTile.of(1850, 4387, 2), 0, 1);
-			// White Wolf Mountain cut
+				// White Wolf Mountain cut
 			else if (id == 56 && x == 2876 && y == 9880)
 				player.useStairs(-1, WorldTile.of(2879, 3465, 0), 0, 1);
 			else if (id == 66990 && x == 2876 && y == 3462)
@@ -1147,7 +1146,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, WorldTile.of(2820, 3486, 0), 0, 1);
 			else if (id == 55 && x == 2820 && y == 3484)
 				player.useStairs(-1, WorldTile.of(2821, 9882, 0), 0, 1);
-			// sabbot lair
+				// sabbot lair
 			else if (id == 19690)
 				player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 			else if (id == 19691)
@@ -1386,7 +1385,7 @@ public final class ObjectHandler {
 				player.setNextWorldTile(player.transform(object.getRotation() == 3 ? -3 : 3, 0, -1));
 			else if (id == 2347)
 				player.setNextWorldTile(player.transform(object.getRotation() == 3 ? 3 : -3, 0, 1));
-			//start chaos tunnels
+				//start chaos tunnels
 			else if (id == 65203) {
 				if (player.inCombat(10000) || player.hasBeenHit(10000)) {
 					player.sendMessage("You cannot enter the rift while you're under attack.");
@@ -1423,43 +1422,43 @@ public final class ObjectHandler {
 				return;
 			else
 				switch (objectDef.getName().toLowerCase()) {
-				case "trapdoor":
-				case "closed chest":
-					if (objectDef.containsOption(0, "Open")) {
-						player.setNextAnimation(new Animation(536));
-						player.lock(2);
-						GameObject openedChest = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
-						// if (World.removeTemporaryObject(object, 60000,
-						// true)) {
-						player.faceObject(openedChest);
-						World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-						// }
-					}
-					break;
-				case "open chest":
-					if (objectDef.containsOption(0, "Search"))
-						player.sendMessage("You search the chest but find nothing.");
-					break;
-				case "spiderweb":
-					if (object.getRotation() == 2) {
-						player.lock(2);
-						if (Utils.getRandomInclusive(1) == 0) {
-							player.addWalkSteps(player.getX(), player.getY() < y ? object.getY() + 2 : object.getY() - 1, -1, false);
-							player.sendMessage("You squeeze though the web.");
-						} else
-							player.sendMessage("You fail to squeeze though the web; perhaps you should try again.");
-					}
-					break;
-				case "web":
-					if (objectDef.containsOption(0, "Slash")) {
-						player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
-						slashWeb(player, object);
-					}
-					break;
-				case "anvil":
-					if (objectDef.containsOption(0, "Smith"))
-						ForgingInterface.openSmithingInterfaceForHighestBar(player);
-					break;
+					case "trapdoor":
+					case "closed chest":
+						if (objectDef.containsOption(0, "Open")) {
+							player.setNextAnimation(new Animation(536));
+							player.lock(2);
+							GameObject openedChest = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
+							// if (World.removeTemporaryObject(object, 60000,
+							// true)) {
+							player.faceObject(openedChest);
+							World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
+							// }
+						}
+						break;
+					case "open chest":
+						if (objectDef.containsOption(0, "Search"))
+							player.sendMessage("You search the chest but find nothing.");
+						break;
+					case "spiderweb":
+						if (object.getRotation() == 2) {
+							player.lock(2);
+							if (Utils.getRandomInclusive(1) == 0) {
+								player.addWalkSteps(player.getX(), player.getY() < y ? object.getY() + 2 : object.getY() - 1, -1, false);
+								player.sendMessage("You squeeze though the web.");
+							} else
+								player.sendMessage("You fail to squeeze though the web; perhaps you should try again.");
+						}
+						break;
+					case "web":
+						if (objectDef.containsOption(0, "Slash")) {
+							player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+							slashWeb(player, object);
+						}
+						break;
+					case "anvil":
+						if (objectDef.containsOption(0, "Smith"))
+							ForgingInterface.openSmithingInterfaceForHighestBar(player);
+						break;
 					//					case "gate":
 					//					case "large door":
 					//					case "metal door":
@@ -1475,61 +1474,61 @@ public final class ObjectHandler {
 					//						if (object.getType() == 0 && (objectDef.containsOption(0, "Open") || objectDef.containsOption(0, "Unlock")))
 					//							handleDoor(player, object);
 					//						break;
-				case "ladder":
-					handleLadder(player, object, 1);
-					break;
-				case "staircase":
-					handleStaircases(player, object, 1);
-					break;
-				case "small obelisk":
-					if (objectDef.containsOption(0, "Renew-points")) {
-						int summonLevel = player.getSkills().getLevelForXp(Constants.SUMMONING);
-						if (player.getSkills().getLevel(Constants.SUMMONING) < summonLevel) {
-							player.lock(3);
-							player.setNextAnimation(new Animation(8502));
-							player.getSkills().set(Constants.SUMMONING, summonLevel);
-							player.sendMessage("You have recharged your Summoning points.", true);
-						} else
-							player.sendMessage("You already have full Summoning points.");
-					}
-					break;
-				case "altar":
-				case "chaos altar":
-				case "altar of guthix":
-					if (objectDef.containsOption(0, "Pray") || objectDef.containsOption(0, "Pray-at") || objectDef.containsOption(0, "Recharge")) {
-						final int maxPrayer3 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-						if (player.getPrayer().getPoints() < maxPrayer3) {
-							player.lock(5);
-							player.sendMessage("You pray to the gods...", true);
-							player.setNextAnimation(new Animation(645));
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									player.getPrayer().restorePrayer(maxPrayer3);
-									player.sendMessage("...and recharged your prayer.", true);
-								}
-							}, 2);
-						} else
-							player.sendMessage("You already have full prayer.");
-						if (id == 6552) {
-							player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
-								ops.add("Yes, replace my spellbook.", () -> {
-									if (player.getCombatDefinitions().getSpellbook() != Spellbook.ANCIENT) {
-										player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
-										player.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
-									} else {
-										player.sendMessage("Your mind clears and you switch back to the normal spellbook.");
-										player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
-									}
-								});
-								ops.add("Nevermind.");
-							}));
+					case "ladder":
+						handleLadder(player, object, 1);
+						break;
+					case "staircase":
+						handleStaircases(player, object, 1);
+						break;
+					case "small obelisk":
+						if (objectDef.containsOption(0, "Renew-points")) {
+							int summonLevel = player.getSkills().getLevelForXp(Constants.SUMMONING);
+							if (player.getSkills().getLevel(Constants.SUMMONING) < summonLevel) {
+								player.lock(3);
+								player.setNextAnimation(new Animation(8502));
+								player.getSkills().set(Constants.SUMMONING, summonLevel);
+								player.sendMessage("You have recharged your Summoning points.", true);
+							} else
+								player.sendMessage("You already have full Summoning points.");
 						}
-					}
-					break;
-				default:
+						break;
+					case "altar":
+					case "chaos altar":
+					case "altar of guthix":
+						if (objectDef.containsOption(0, "Pray") || objectDef.containsOption(0, "Pray-at") || objectDef.containsOption(0, "Recharge")) {
+							final int maxPrayer3 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
+							if (player.getPrayer().getPoints() < maxPrayer3) {
+								player.lock(5);
+								player.sendMessage("You pray to the gods...", true);
+								player.setNextAnimation(new Animation(645));
+								WorldTasks.schedule(new WorldTask() {
+									@Override
+									public void run() {
+										player.getPrayer().restorePrayer(maxPrayer3);
+										player.sendMessage("...and recharged your prayer.", true);
+									}
+								}, 2);
+							} else
+								player.sendMessage("You already have full prayer.");
+							if (id == 6552) {
+								player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
+									ops.add("Yes, replace my spellbook.", () -> {
+										if (player.getCombatDefinitions().getSpellbook() != Spellbook.ANCIENT) {
+											player.sendMessage("Your mind clears and you switch back to the ancient spellbook.");
+											player.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
+										} else {
+											player.sendMessage("Your mind clears and you switch back to the normal spellbook.");
+											player.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
+										}
+									});
+									ops.add("Nevermind.");
+								}));
+							}
+						}
+						break;
+					default:
 
-					break;
+						break;
 				}
 		}));
 		Logger.debug(ObjectHandler.class, "handleOption1", "Object interaction 1: " + object);
@@ -1610,19 +1609,19 @@ public final class ObjectHandler {
 						new DropTable(1, 15, 10981, 1),
 						new DropTable(1, 15, 10973, 1),
 						new DropTable(1, 15, 10980, 1)
-						));
+				));
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP2, true)))
 				return;
 			else
 				switch (def.getName().toLowerCase()) {
-				case "ladder":
-					handleLadder(player, object, 2);
-					break;
-				case "staircase":
-					handleStaircases(player, object, 2);
-					break;
-				default:
-					break;
+					case "ladder":
+						handleLadder(player, object, 2);
+						break;
+					case "staircase":
+						handleStaircases(player, object, 2);
+						break;
+					default:
+						break;
 				}
 			Logger.debug(ObjectHandler.class, "handleOption2", "Object interaction 2: " + object);
 		}));
@@ -1641,32 +1640,32 @@ public final class ObjectHandler {
 				return;
 
 			switch (def.getName().toLowerCase()) {
-			case "bank":
-			case "bank chest":
-			case "bank booth":
-			case "bank table":
-			case "counter":
-				if (def.containsOption(2, "Collect") || def.containsOption(2, "Use")) {
-					//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, ops -> {
-					//							@Override
-					//							public void run(Player player) {
-					//								if (option == 1) {
-					//									player.openLoadouts();
-					//								} else {
-					//									player.openClanBank();
-					//								}
-					//							}
-					//						});
-				}
-				break;
-			case "ladder":
-				handleLadder(player, object, 3);
-				break;
-			case "staircase":
-				handleStaircases(player, object, 3);
-				break;
-			default:
-				break;
+				case "bank":
+				case "bank chest":
+				case "bank booth":
+				case "bank table":
+				case "counter":
+					if (def.containsOption(2, "Collect") || def.containsOption(2, "Use")) {
+						//						player.sendOptionDialogue("What would you like to do?", new String[] { "Loadouts", "Clan Bank" }, ops -> {
+						//							@Override
+						//							public void run(Player player) {
+						//								if (option == 1) {
+						//									player.openLoadouts();
+						//								} else {
+						//									player.openClanBank();
+						//								}
+						//							}
+						//						});
+					}
+					break;
+				case "ladder":
+					handleLadder(player, object, 3);
+					break;
+				case "staircase":
+					handleStaircases(player, object, 3);
+					break;
+				default:
+					break;
 			}
 			Logger.debug(ObjectHandler.class, "handleOption3", "Object interaction 3: " + object);
 		}));
@@ -1684,9 +1683,9 @@ public final class ObjectHandler {
 			if (!player.getControllerManager().processObjectClick4(object) || PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP4, true)))
 				return;
 			switch (def.getName().toLowerCase()) {
-			default:
-				player.sendMessage("Nothing interesting happens.");
-				break;
+				default:
+					player.sendMessage("Nothing interesting happens.");
+					break;
 			}
 			Logger.debug(ObjectHandler.class, "handleOption4", "Object interaction 4: " + object);
 		}));
@@ -1708,16 +1707,16 @@ public final class ObjectHandler {
 				// unused
 			} else
 				switch (def.getName().toLowerCase()) {
-				case "fire":
-					if (def.containsOption(4, "Add-logs"))
-						Bonfire.addLogs(player, object);
-					break;
-				case "magical wheat":
-					PuroPuroController.pushThrough(player, object);
-					break;
-				default:
-					player.sendMessage("Nothing interesting happens.");
-					break;
+					case "fire":
+						if (def.containsOption(4, "Add-logs"))
+							Bonfire.addLogs(player, object);
+						break;
+					case "magical wheat":
+						PuroPuroController.pushThrough(player, object);
+						break;
+					default:
+						player.sendMessage("Nothing interesting happens.");
+						break;
 				}
 			Logger.debug(ObjectHandler.class, "handleOption5", "Object interaction 5: " + object);
 		}));
@@ -1731,6 +1730,8 @@ public final class ObjectHandler {
 				player.sendMessage("Transforms with varbit " + object.getDefinitions().varpBit + " - current obj: " + object.getDefinitions(player).id);
 			if (object.getDefinitions().varp != -1)
 				player.sendMessage("Transforms with var " + object.getDefinitions().varp + " - current obj: " + object.getDefinitions(player).id);
+			if (object.getMeshModifier() != null)
+				player.sendMessage(Arrays.toString(object.getMeshModifier().getModelIds()));
 		}
 	}
 
@@ -1851,31 +1852,31 @@ public final class ObjectHandler {
 				if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, true)))
 					return;
 				switch (objectDef.getName().toLowerCase()) {
-				case "anvil":
-					int bar = Smithable.getHighestBar(player);
-					if (bar != -1)
-						ForgingInterface.sendSmithingInterface(player, bar);
-					else
-						player.sendMessage("You can't find a way to smith that.");
-					break;
-				case "fire":
-					if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))
-						return;
-				case "range":
-				case "campfire":
-				case "oven":
-				case "cooking range":
-				case "sulphur pit":
-				case "stove":
-				case "clay oven":
-				case "fireplace":
-					Cookables cook = Cooking.isCookingSkill(item);
-					if (cook != null) {
-						player.startConversation(new CookingD(player, cook, object));
-						return;
-					}
-					player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
-					break;
+					case "anvil":
+						int bar = Smithable.getHighestBar(player);
+						if (bar != -1)
+							ForgingInterface.sendSmithingInterface(player, bar);
+						else
+							player.sendMessage("You can't find a way to smith that.");
+						break;
+					case "fire":
+						if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))
+							return;
+					case "range":
+					case "campfire":
+					case "oven":
+					case "cooking range":
+					case "sulphur pit":
+					case "stove":
+					case "clay oven":
+					case "fireplace":
+						Cookables cook = Cooking.isCookingSkill(item);
+						if (cook != null) {
+							player.startConversation(new CookingD(player, cook, object));
+							return;
+						}
+						player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
+						break;
 				}
 			}
 		}));
