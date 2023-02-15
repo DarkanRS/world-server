@@ -586,6 +586,11 @@ public class MiscTest {
 			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
 		});
 
+		Commands.add(Rights.ADMIN, "infrunes", "Toggles infinite runes for the player.", (p, args) -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		});
+
 		Commands.add(Rights.ADMIN, "maxbank", "Sets all the item counts in the player's bank to 10m.", (p, args) -> {
 			for (Item i : p.getBank().getContainerCopy())
 				if (i != null)

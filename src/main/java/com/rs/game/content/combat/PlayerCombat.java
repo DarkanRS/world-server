@@ -362,11 +362,11 @@ public class PlayerCombat extends PlayerAction {
 					private boolean nextTarget;
 
 					@Override
-					public boolean attack() {
+					public boolean attack(Entity next) {
 						if (!nextTarget)
 							nextTarget = true;
 						else
-							castSpellAtTarget(player, target, spell, delay);
+							castSpellAtTarget(player, next, spell, delay);
 						return nextTarget;
 					}
 				});
@@ -418,17 +418,14 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	public interface MultiAttack {
-		public boolean attack();
+		public boolean attack(Entity nextTarget);
 	}
 
 	public static void attackTarget(Entity target, Entity[] targets, MultiAttack perform) {
-		Entity realTarget = target;
 		for (Entity t : targets) {
-			target = t;
-			if (!perform.attack())
+			if (!perform.attack(t))
 				break;
 		}
-		target = realTarget;
 	}
 
 	public static int getRangeCombatDelay(Player player) {
@@ -469,11 +466,11 @@ public class PlayerCombat extends PlayerAction {
 					private boolean nextTarget;
 
 					@Override
-					public boolean attack() {
-						Hit hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
+					public boolean attack(Entity next) {
+						Hit hit = calculateHit(player, next, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
 						player.setNextAnimation(new Animation(2779));
-						WorldTasks.delay(p.getTaskDelay(), () -> target.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
-						delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
+						WorldTasks.delay(p.getTaskDelay(), () -> next.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
+						delayHit(next, p.getTaskDelay(), weaponId, attackStyle, hit);
 						if (!nextTarget) {
 							if (hit.getDamage() <= 0)
 								return false;
@@ -778,17 +775,17 @@ public class PlayerCombat extends PlayerAction {
 					private boolean nextTarget;
 
 					@Override
-					public boolean attack() {
-						target.freeze(Ticks.fromSeconds(10), true);
-						target.setNextSpotAnim(new SpotAnim(181, 0, 96));
-						final Entity t = target;
-						WorldTasks.schedule(1, () -> t.applyHit(calculateHit(player, target, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
-						if (target instanceof Player p) {
+					public boolean attack(Entity next) {
+						next.freeze(Ticks.fromSeconds(10), true);
+						next.setNextSpotAnim(new SpotAnim(181, 0, 96));
+						final Entity t = next;
+						WorldTasks.schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
+						if (next instanceof Player p) {
 							for (int i = 0; i < 7; i++)
 								if (i != 3 && i != 5)
 									p.getSkills().drainLevel(i, 7);
 							p.sendMessage("Your stats have been drained!");
-						} else if (target instanceof NPC n)
+						} else if (next instanceof NPC n)
 							n.lowerDefense(0.05, 0.0);
 						if (!nextTarget)
 							nextTarget = true;

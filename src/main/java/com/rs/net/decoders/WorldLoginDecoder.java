@@ -65,6 +65,7 @@ public final class WorldLoginDecoder extends Decoder {
 		}
 		if (packetId == 16 || packetId == 18) // 16 world login
 			return decodeWorldLogin(stream);
+		Logger.debug(WorldLoginDecoder.class, "decode", "Unknown connection type: " + packetId + " Remaining: " + stream.getRemaining());
 		session.getChannel().close();
 		return -1;
 	}
