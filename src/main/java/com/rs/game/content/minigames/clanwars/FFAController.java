@@ -83,7 +83,7 @@ public final class FFAController extends Controller {
 	public boolean sendDeath() {
 		player.lock(8);
 		player.stopAll();
-		WorldTasks.scheduleTimer(0, 1, loop -> {
+		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0)
 				player.setNextAnimation(new Animation(836));
 			else if (loop == 1)
@@ -98,8 +98,8 @@ public final class FFAController extends Controller {
 					player.sendItemsOnDeath(killer);
 					player.getEquipment().init();
 					player.getInventory().init();
-					player.reset();
 				}
+				player.reset();
 				player.setNextWorldTile(WorldTile.of(2993, 9679, 0));
 				remove(true);
 				player.setNextAnimation(new Animation(-1));
