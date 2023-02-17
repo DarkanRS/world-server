@@ -139,7 +139,7 @@ public final class World {
 		PLAYERS.add(player);
 		PLAYER_MAP_USERNAME.put(player.getUsername(), player);
 		PLAYER_MAP_DISPLAYNAME.put(player.getDisplayName(), player);
-		if (player.getSession() != null)
+		if (player.getSession() != null && !player.getUsername().contains("cli_bot"))
 			AccountLimiter.add(player.getSession().getIP());
 	}
 
