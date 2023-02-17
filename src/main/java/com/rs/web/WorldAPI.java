@@ -83,8 +83,10 @@ public class WorldAPI extends WebAPI {
 				}
 				APIUtil.readJSON(ex, Account.class, account -> {
 					Player player = World.getPlayerByUsername(account.getUsername());
-					if (player == null || player.getSession() == null)
+					if (player == null || player.getSession() == null) {
+						APIUtil.sendResponse(ex, StatusCodes.OK, true);
 						return;
+					}
 					player.getAccount().setSocial(account.getSocial());
 					player.getClan();
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
@@ -113,8 +115,10 @@ public class WorldAPI extends WebAPI {
 				}
 				APIUtil.readJSON(ex, PacketEncoderDto.class, request -> {
 					Player player = World.getPlayerByUsername(request.username());
-					if (player == null || player.getSession() == null)
+					if (player == null || player.getSession() == null) {
+						APIUtil.sendResponse(ex, StatusCodes.OK, true);
 						return;
+					}
 					player.getSession().writeToQueue(request.encoders());
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);
 				});
@@ -129,8 +133,10 @@ public class WorldAPI extends WebAPI {
 				}
 				APIUtil.readJSON(ex, PacketDto.class, packet -> {
 					Player player = World.getPlayerByUsername(packet.username());
-					if (player == null)
+					if (player == null) {
+						APIUtil.sendResponse(ex, StatusCodes.OK, true);
 						return;
+					}
 					for (Packet p : packet.packets())
 						player.getSession().queuePacket(p);
 					APIUtil.sendResponse(ex, StatusCodes.OK, true);

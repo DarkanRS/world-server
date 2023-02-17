@@ -1365,8 +1365,11 @@ public class Player extends Entity {
 				getControllerManager().startController(new TutorialIslandController());
 			else
 				setStarter(1);
-			PlayerLook.openCharacterCustomizing(this);
-			startConversation(new GamemodeSelection(this));
+			if (!getUsername().startsWith("cli_bot")) {
+				PlayerLook.openCharacterCustomizing(this);
+				startConversation(new GamemodeSelection(this));
+			} else
+				setChosenAccountType(true);
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
 		PluginManager.handle(new LoginEvent(this));
