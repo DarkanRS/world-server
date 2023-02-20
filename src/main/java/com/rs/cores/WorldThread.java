@@ -128,7 +128,7 @@ public final class WorldThread extends Thread {
 			}
 			World.processEntityLists();
 			long time = (System.currentTimeMillis() - startTime);
-			Logger.info(WorldThread.class, "tick", "Tick finished - " + time + "ms - Players online: " + World.getPlayers().size());
+			//Logger.info(WorldThread.class, "tick", "Tick finished - " + time + "ms - Players online: " + World.getPlayers().size());
 			Telemetry.queueTelemetryTick(time);
 		} catch (Throwable e) {
 			Logger.handle(WorldThread.class, "tick", e);
