@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import com.rs.Settings;
+import com.rs.game.World;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.Route;
 
@@ -41,6 +42,7 @@ public class Telemetry implements Route {
 	public static Queue<Telemetry> TELEMETRY_HOURS = new LinkedList<>();
 	public static Queue<Telemetry> TELEMETRY_DAYS = new LinkedList<>();
 
+	private int playersOnline;
 	private long time;
 	private double memoryLoad;
 	private long tickMs;
@@ -71,10 +73,11 @@ public class Telemetry implements Route {
 		});
 	}
 
-	public Telemetry(long time, double memoryLoad, long tickMs) {
+	public Telemetry(long time, double memoryLoad, long tickMs, int playersOnline) {
 		this.time = time;
 		this.memoryLoad = memoryLoad;
 		this.tickMs = tickMs;
+		this.playersOnline = playersOnline;
 	}
 
 	public long getTime() {
@@ -87,6 +90,10 @@ public class Telemetry implements Route {
 
 	public long getTickMs() {
 		return tickMs;
+	}
+
+	public int getPlayersOnline() {
+		return playersOnline;
 	}
 
 	public static void queueTelemetryTick(long tickTime) {
@@ -126,20 +133,22 @@ public class Telemetry implements Route {
 	public static Telemetry getAverage(Queue<Telemetry> list) {
 		double memoryLoadTotal = 0.0;
 		long tickTotal = 0;
+		int playersTotal = 0;
 		int num = 0;
 		for (Telemetry t : list) {
 			num++;
 			memoryLoadTotal += t.getMemoryLoad();
 			tickTotal += t.getTickMs();
+			playersTotal += t.getPlayersOnline();
 		}
-		return new Telemetry(System.currentTimeMillis(), memoryLoadTotal/num, tickTotal/num);
+		return new Telemetry(System.currentTimeMillis(), memoryLoadTotal/num, tickTotal/num, playersTotal/num);
 	}
 
 	private static Telemetry getTelemetryNow(long tickTime) {
 		Runtime rt = Runtime.getRuntime();
 		long used = rt.totalMemory() - rt.freeMemory();
 		long max = rt.maxMemory();
-		return new Telemetry(System.currentTimeMillis(), ((double) used / max)*100.0, tickTime);
+		return new Telemetry(System.currentTimeMillis(), ((double) used / max)*100.0, tickTime, World.getPlayers().size());
 	}
 
 }

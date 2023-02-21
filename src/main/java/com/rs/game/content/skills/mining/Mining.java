@@ -35,13 +35,13 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Mining extends Action {
 
-	public static ObjectClickHandler handleClay = new ObjectClickHandler(new Object[] { "Clay rocks", "Clay vein" }, 
+	public static ObjectClickHandler handleClay = new ObjectClickHandler(new Object[] { "Clay rocks", "Clay vein", "Clay rock" },
 			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.CLAY, e.getObject())));
 	
-	public static ObjectClickHandler handleCopper = new ObjectClickHandler(new Object[] { "Copper ore rocks", "Copper ore vein" }, 
+	public static ObjectClickHandler handleCopper = new ObjectClickHandler(new Object[] { "Copper ore rocks", "Copper ore vein", "Copper rock" },
 			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.COPPER, e.getObject())));
 
-	public static ObjectClickHandler handleTin = new ObjectClickHandler(new Object[] { "Tin ore rocks", "Tin ore vein" },
+	public static ObjectClickHandler handleTin = new ObjectClickHandler(new Object[] { "Tin ore rocks", "Tin ore vein", "Tin rock" },
 			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.TIN, e.getObject())));
 
 	public static ObjectClickHandler handleBlurite = new ObjectClickHandler(new Object[] { "Blurite ore rocks" },

@@ -147,7 +147,6 @@ public final class World {
 		PLAYERS.remove(player);
 		PLAYER_MAP_USERNAME.remove(player.getUsername(), player);
 		PLAYER_MAP_DISPLAYNAME.remove(player.getDisplayName(), player);
-		AccountLimiter.remove(player.getSession().getIP());
 	}
 
 	public static final void addNPC(NPC npc) {

@@ -2,23 +2,22 @@ plugins {
     id 'java'
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
-    id 'io.github.0ffz.github-packages' version '1.2.1'
 }
 
 java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(19)
-    }
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(19)
+	}
 }
 
-compileJava { 
-    options.compilerArgs.addAll(['--enable-preview'])
-    options.compilerArgs.addAll(['--add-modules', 'jdk.incubator.concurrent'])
+compileJava {
+	options.compilerArgs.addAll(['--enable-preview'])
+	options.compilerArgs.addAll(['--add-modules', 'jdk.incubator.concurrent'])
 }
 
 application {
-    applicationDefaultJvmArgs = ['--enable-preview', 
-                                 '--add-modules', 'jdk.incubator.concurrent']
+	applicationDefaultJvmArgs = ['--enable-preview',
+								 '--add-modules', 'jdk.incubator.concurrent']
 }
 
 mainClassName = 'com.rs.Launcher'
@@ -26,18 +25,20 @@ mainClassName = 'com.rs.Launcher'
 repositories {
 	mavenLocal()
 	mavenCentral()
-	maven githubPackage.invoke('DarkanRS/core')
+	maven {
+		url 'https://gitlab.com/api/v4/projects/42379000/packages/maven'
+	}
 }
 
 group 'rs.darkan'
-version '1.1.11'
+version '1.1.18'
 
 dependencies {
 	implementation group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.36'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.8.10'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '1.8.10'
 	implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.6.4'
-	implementation group: 'rs.darkan', name: 'core', version: '1.1.16'
+	implementation group: 'rs.darkan', name: 'core', version: '1.1.18'
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
 	implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
 	implementation group: 'org.mongodb', name: 'mongodb-driver-sync', version: '4.4.0'
@@ -46,5 +47,5 @@ dependencies {
 	implementation group: 'io.undertow', name: 'undertow-core', version: '2.2.22.Final'
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
 	implementation group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
-    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }

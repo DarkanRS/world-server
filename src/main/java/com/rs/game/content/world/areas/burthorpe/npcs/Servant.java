@@ -14,28 +14,35 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.catherby;
+package com.rs.game.content.world.areas.burthorpe.npcs;
 
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.HeadE;
-import com.rs.lib.game.WorldTile;
+import com.rs.game.engine.dialogue.Options;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class Catherby {
+public class Servant extends Conversation {
+	private static int npcId = 1081;
 
-	public static ObjectClickHandler taverlyDungeonClimbToWaterObelisk = new ObjectClickHandler(new Object[] { 32015 }, new WorldTile[] { WorldTile.of(2842, 9824, 0) }, e -> {
-		e.getPlayer().ladder(WorldTile.of(2842, 3423, 0));
+
+	public static NPCClickHandler Servant = new NPCClickHandler(new Object[]{npcId}, e -> {
+		switch (e.getOption()) {
+		//Start Conversation
+		case "Talk-to" -> e.getPlayer().startConversation(new Servant(e.getPlayer()));
+		}
 	});
 
-	public static ObjectClickHandler ArheinsShip = new ObjectClickHandler(new Object[] { 69 }, new WorldTile[] { WorldTile.of(2805, 3421, 0) }, e -> {
-		int npcId = 563;
-		e.getPlayer().startConversation(new Dialogue()
-				.addNPC(npcId, HeadE.ANGRY, "Hey buddy! Get away from my ship alright?")
-				.addPlayer(HeadE.SAD, "Yeah... uh... sorry...")
-		);
-	});
-	
+	public Servant(Player player) {
+		super(player);
+		addPlayer(HeadE.HAPPY_TALKING, "Hi!");
+		addNPC(npcId, HeadE.HAPPY_TALKING, "Hi!");
+		addNPC(npcId,HeadE.SKEPTICAL_HEAD_SHAKE,"Look, I'd better not talk. I'll get in trouble.");
+		addNPC(npcId, HeadE.CALM_TALK, "If you want someone to show you round the castle ask Eohric, the Head Servant.");
+		create();
+	}
 }

@@ -36,6 +36,30 @@ public class Burthorpe {
 		e.getPlayer().setNextWorldTile(WorldTile.of(2876, 3502, 0));
 	});
 
+	public static ObjectClickHandler handleCastleLadders = new ObjectClickHandler(new Object[] { 66986, 66988 }, e -> {
+		switch (e.getObjectId()) {
+			case 66986 -> {
+				e.getPlayer().ladder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + 2, 2));
+			}
+			case 66988 -> {
+				e.getPlayer().ladder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() - 2, 0));
+			}
+		}
+	});
+
+	public static ObjectClickHandler handleCastleStairs = new ObjectClickHandler(new Object[] { 66971, 66970, 66972, 66969 }, e -> {
+		switch (e.getObjectId()) {
+			case 66970 -> {
+				e.getPlayer().useStairs(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 2));
+			}
+			case 66971, 66969 -> {
+				e.getPlayer().useStairs(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + 4, 1));
+			}
+			case 66972 -> {
+				e.getPlayer().useStairs(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 0));
+			}
+		}});
+
 	public static ObjectClickHandler handleHeroesGuildDoors = new ObjectClickHandler(new Object[]{2624, 2625}, e -> {
 		if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST) || e.getPlayer().getX() < e.getObject().getX()) {
 			handleDoubleDoor(e.getPlayer(), e.getObject());
