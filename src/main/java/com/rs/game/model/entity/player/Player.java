@@ -166,6 +166,7 @@ import com.rs.plugin.events.InputIntegerEvent;
 import com.rs.plugin.events.InputStringEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.events.LoginEvent;
+import com.rs.utils.AccountLimiter;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
 import com.rs.utils.record.Recorder;
@@ -1263,10 +1264,8 @@ public class Player extends Entity {
 			LobbyCommunicator.updateRights(this);
 		}
 		LobbyCommunicator.addWorldPlayer(account, response -> {
-			if (!response) {
+			if (response == null || !response)
 				forceLogout();
-				return;
-			}
 		});
 		getClan(clan -> appearence.generateAppearanceData());
 		getGuestClan();
@@ -1757,6 +1756,7 @@ public class Player extends Entity {
 			pet.finish();
 		lastLoggedIn = System.currentTimeMillis();
 		setFinished(true);
+		AccountLimiter.remove(getSession().getIP());
 		session.setDecoder(null);
 		WorldDB.getPlayers().save(this, () -> {
 			LobbyCommunicator.removeWorldPlayer(this);

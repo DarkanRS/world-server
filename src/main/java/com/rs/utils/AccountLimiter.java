@@ -16,26 +16,39 @@
 //
 package com.rs.utils;
 
+import com.rs.game.World;
+
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class AccountLimiter {
 
-	private static List<String> CONNECTIONS = new CopyOnWriteArrayList<>();
+	private static Map<String, Integer> CONNECTIONS = new ConcurrentHashMap<>();
 
 	public static void add(String ip) {
-		CONNECTIONS.add(ip);
+		Integer amount = CONNECTIONS.get(ip);
+		if (amount != null)
+			CONNECTIONS.put(ip, amount+1);
+		else
+			CONNECTIONS.put(ip, 1);
 	}
 
 	public static void remove(String ip) {
-		CONNECTIONS.remove(ip);
+		Integer amount = CONNECTIONS.get(ip);
+		if (amount == null)
+			amount = 0;
+		if (amount <= 1)
+			CONNECTIONS.remove(ip);
+		else
+			CONNECTIONS.put(ip, amount-1);
 	}
 
 	public static int getSessionsIP(String ip) {
-		int amount = 1;
-		for (String element : CONNECTIONS)
-			if (element.equalsIgnoreCase(ip))
-				amount++;
-		return amount;
+		Integer connections = CONNECTIONS.get(ip);
+		if (connections == null)
+			return 1;
+		return connections;
 	}
 }

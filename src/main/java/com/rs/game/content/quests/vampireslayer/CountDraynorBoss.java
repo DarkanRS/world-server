@@ -86,6 +86,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			int finalTick = Ticks.fromSeconds(12);
+
 			@Override
 			public void run() {
 				if(World.getPlayersInRegion(getRegionId()).isEmpty())
@@ -117,6 +118,7 @@ public class CountDraynorBoss extends OwnedNPC {
         }
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
+
 			@Override
 			public void run() {
 				if(tick == 0) {
@@ -151,7 +153,7 @@ public class CountDraynorBoss extends OwnedNPC {
 			return;
 		}
 		if(!p.getInventory().containsItem(STAKE, 1) ||
-				(!p.getInventory().containsItem(STAKE_HAMMER, 1) && !p.getInventory().containsItem(REGULAR_HAMMER, 1))) {
+			(!p.getInventory().containsItem(STAKE_HAMMER, 1) && !p.getInventory().containsItem(REGULAR_HAMMER, 1))) {
 			p.startConversation(new Conversation(p) {
 				{
 					addPlayer(HeadE.CALM_TALK, "I'll need both a stake and stake hammer or hammer, better go get those...");
@@ -186,6 +188,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
+
 			@Override
 			public void run() {
 				if(tick == 0)
@@ -257,13 +260,13 @@ public class CountDraynorBoss extends OwnedNPC {
 	});
 
 	public static ItemOnNPCHandler hammerOnCountDraynor = new ItemOnNPCHandler(COUNT_DRAYNOR_ID, e -> {
-		if(e.getItem().getId() == STAKE_HAMMER || e.getItem().getId() == REGULAR_HAMMER)
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-				if(npc.getId() == COUNT_DRAYNOR_ID)
-					if (npc.isLocked())
-						((CountDraynorBoss) npc).die(e.getPlayer());
-					else
-						e.getPlayer().sendMessage("I must weaken him first");
+		if (e.getItem().getId() != STAKE_HAMMER && e.getItem().getId() != REGULAR_HAMMER)
+			return;
+		if (!(e.getNPC() instanceof CountDraynorBoss boss) || boss.isLocked()) {
+			e.getPlayer().sendMessage("I must weaken him first");
+			return;
+		}
+		boss.die(e.getPlayer());
 	});
 
 }

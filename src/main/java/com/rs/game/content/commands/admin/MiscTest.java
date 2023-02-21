@@ -571,6 +571,17 @@ public class MiscTest {
 			p.sendMessage("GODMODE: " + p.getNSV().getB("godMode"));
 		});
 
+		Commands.add(Rights.ADMIN, "unnullall", "Forces the player out of a controller and unlocks them hopefully freeing any stuck-ness.", (p, args) -> {
+			for (Player player : World.getPlayers()) {
+				if (player == null)
+					continue;
+				player.unlock();
+				player.getControllerManager().forceStop();
+				if (player.getNextWorldTile() == null)
+					player.setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
+			}
+		});
+
 		Commands.add(Rights.ADMIN, "infspec", "Toggles infinite special attack for the player.", (p, args) -> {
 			p.getNSV().setB("infSpecialAttack", !p.getNSV().getB("infSpecialAttack"));
 			p.sendMessage("INFINITE SPECIAL ATTACK: " + p.getNSV().getB("infSpecialAttack"));
