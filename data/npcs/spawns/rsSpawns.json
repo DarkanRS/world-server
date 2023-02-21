@@ -37576,12 +37576,12 @@
   },
   {
     "tile": {
-      "plane": 0,
+      "plane": 1,
       "x": 2893,
       "y": 3565
     },
-    "comment": "Eadburg",
-    "npcId": 1072
+    "comment": "Eohric",
+    "npcId": 1080
   },
   {
     "tile": {
