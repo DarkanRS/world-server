@@ -48,12 +48,9 @@ public class Taverly {
 	public static ObjectClickHandler handleTaverleyHouseStaircase = new ObjectClickHandler(new Object[] { 66637, 66638 }, e -> {
 		Player p = e.getPlayer();
 		GameObject o = e.getObject();
-
-		int x = o.getX();
-		int y = o.getY();
-		int plane = 0;
+		WorldTile tile = o.getTile();
 		if (e.getObjectId() == 66637) {
-			if (x == 2928 && y == 3445 && o.getPlane() == 0) {
+			if (tile.isAt(2928, 3445, 0)) {
 				if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
 					if (!p.getInventory().containsItem(WolfWhistle.EMBROIDERED_POUCH)
 							&& !p.getBank().containsItem(WolfWhistle.EMBROIDERED_POUCH, 1)) {
@@ -61,42 +58,21 @@ public class Taverly {
 					}
 				}
 			}
-			switch (o.getRotation()) {
-				case 0:
-					y += 2;
-					break;
-				case 1:
-					x += 2;
-					break;
-				case 2:
-					y -= 1;
-					break;
-				case 3:
-					x -= 1;
-					break;
-			}
-			plane = 1;
+			tile = switch (o.getRotation()) {
+				case 0 -> tile.transform(0, 2, 1);
+				case 1 -> tile.transform(2, 0, 1);
+				case 2 -> tile.transform(0, -1, 1);
+				default -> tile.transform(-1, 0, 1);
+			};
 		} else if (e.getObjectId() == 66638) {
-			switch (o.getRotation()) {
-				case 0:
-					x -= 1;
-					y -= 1;
-					break;
-				case 1:
-					x -= 1;
-					y += 1;
-					break;
-				case 2:
-					x += 1;
-					y += 2;
-					break;
-				case 3:
-					x += 2;
-					y -= 1;
-					break;
-			}
+			tile = switch (o.getRotation()) {
+				case 0 -> tile.transform(-1, -1, -1);
+				case 1 -> tile.transform(-1, 1, -1);
+				case 2 -> tile.transform(1, 2, -1);
+				default -> tile.transform(2, -1, -1);
+			};
 		}
-		p.useStairs(-1, WorldTile.of(x, y, plane), 0, 0);
+		p.useStairs(-1, tile, 0, 0);
 	});
 
 	public static ObjectClickHandler handleWell = new ObjectClickHandler(new Object[] { 67498 }, e -> {
