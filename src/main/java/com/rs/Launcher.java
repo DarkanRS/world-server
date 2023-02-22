@@ -82,13 +82,13 @@ public final class Launcher {
 
 		CoresManager.startThreads();
 
+		DB = new WorldDB();
+		DB.init();
+
 		GameDecoder.loadPacketDecoders();
 
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
-
-		DB = new WorldDB();
-		DB.init();
 
 		try {
 			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().port(), BaseWorldDecoder.class);
