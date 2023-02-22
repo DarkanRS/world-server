@@ -1234,6 +1234,29 @@ public abstract class Entity {
 		this.nextForceMovement = nextForceMovement;
 	}
 
+	public void forceMoveVis(WorldTile toTile, int delay, Direction dir) {
+		setNextForceMovement(new ForceMovement(toTile, delay, dir));
+	}
+
+	public void forceMoveVis(WorldTile toFirstTile, int firstTileDelay, WorldTile toSecondTile, int secondTileDelay) {
+		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay));
+	}
+
+	public void forceMoveVis(WorldTile toFirstTile, int firstTileDelay, WorldTile toSecondTile, int secondTileDelay, Direction direction) {
+		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay, direction));
+	}
+
+	public void forceMoveVis(WorldTile toFirstTile, int firstTileDelay, WorldTile toSecondTile, int secondTileDelay, int direction) {
+		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay, direction));
+	}
+
+	public void forceMove(Direction dir, int distance, int delay, Runnable afterComplete) {
+		WorldTile toTile = transform(dir.getDx()*distance, dir.getDy()*distance);
+		forceMoveVis(toTile, delay, dir);
+		WorldTasks.schedule(delay, () -> setNextWorldTile(toTile));
+		WorldTasks.schedule(delay+1, afterComplete);
+	}
+
 	public Poison getPoison() {
 		return poison;
 	}

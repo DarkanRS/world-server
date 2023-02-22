@@ -206,9 +206,9 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleJogreLogWalk = new ObjectClickHandler(new Object[] { 2332 }, e -> {
 		if (e.getPlayer().getX() > 2908)
-			Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2906, 3049, 0), 0);
+			Agility.walkToAgility(e.getPlayer(), 155, Direction.WEST, 4, 4);
 		else
-			Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2910, 3049, 0), 0);
+			Agility.walkToAgility(e.getPlayer(), 155, Direction.EAST, 4, 4);
 	});
 
 	public static ObjectClickHandler handleMossGiantRopeSwings = new ObjectClickHandler(new Object[] { 2322, 2323 }, e -> {

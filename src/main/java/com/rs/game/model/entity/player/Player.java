@@ -4413,4 +4413,10 @@ public class Player extends Entity {
     public void playCutscene(Cutscene scene) {
 		getCutsceneManager().play(scene);
     }
+
+	@Override
+	public void setBasNoReset(int bas) {
+		super.setBasNoReset(bas);
+		getAppearance().generateAppearanceData();
+	}
 }

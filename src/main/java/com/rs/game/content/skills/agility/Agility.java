@@ -20,6 +20,7 @@ import com.rs.game.World;
 import com.rs.game.engine.dialogue.Conversation;
 import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.ForceMovement;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
@@ -90,56 +91,53 @@ public class Agility {
 			World.sendObjectAnimation(player, object, new Animation(497));
 			player.setNextForceMovement(new ForceMovement(player.getTile(), 1, endTile, 3, Utils.getAngleTo(endTile.getX()-player.getX(), endTile.getY()-player.getY())));
 			player.sendMessage("You skillfully swing across the rope.", true);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.unlockNextTick();
-					player.getSkills().addXp(Constants.AGILITY, xp);
-					player.setNextWorldTile(endTile);
-				}
-
-			}, 1);
+			WorldTasks.schedule(1, () -> {
+				player.unlockNextTick();
+				player.getSkills().addXp(Constants.AGILITY, xp);
+				player.setNextWorldTile(endTile);
+			});
 		});
 	}
 
 	public static void handleObstacle(final Player player, int animationId, int delay, final WorldTile toTile, final double xp) {
 		player.lock();
-		player.setNextAnimation(new Animation(animationId));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlockNextTick();
-				player.setNextWorldTile(toTile);
-				player.setNextAnimation(new Animation(-1));
-				player.getSkills().addXp(Constants.AGILITY, xp);
-			}
-		}, delay);
+		WorldTasks.schedule(1, () -> player.setNextAnimation(new Animation(animationId)));
+		WorldTasks.schedule(delay+1, () -> {
+			player.unlockNextTick();
+			player.setNextWorldTile(toTile);
+			player.setNextAnimation(new Animation(-1));
+			player.getSkills().addXp(Constants.AGILITY, xp);
+		});
 	}
 
 	public static void crossMonkeybars(final Player player, WorldTile startTile, final WorldTile endTile, final double xp) {
-		player.walkToAndExecute(startTile, () -> walkToAgility(player, 2405, endTile, xp));
+		player.walkToAndExecute(startTile, () -> {
+			player.faceTile(endTile);
+			walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp);
+		});
 	}
 
-	public static void walkToAgility(final Player player, final int renderEmote, final WorldTile toTile, final double xp) {
-		final boolean running = player.getRun();
-		player.setRunHidden(false);
+	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay) {
+		walkToAgility(player, renderEmote, direction, distance, delay, 0.0);
+	}
+
+	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay, final double xp) {
+		if (direction != player.getDirection())
+			return;
 		player.lock();
-		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				if (player.getX() != toTile.getX() || player.getY() != toTile.getY())
-					player.getAppearance().setBAS(renderEmote);
-				else {
-					player.getAppearance().setBAS(-1);
-					player.setRunHidden(running);
-					if (xp > 0)
-						player.getSkills().addXp(Constants.AGILITY, xp);
-					player.unlockNextTick();
-					stop();
-				}
-			}
-		}, 0, 1);
+		boolean running = player.getRun();
+		player.setRunHidden(false);
+		WorldTasks.schedule(1, () -> {
+			player.setBas(renderEmote);
+			player.addWalkSteps(player.transform(direction.getDx()*distance, direction.getDy()*distance), distance,false);
+		});
+		WorldTasks.schedule(delay+1, () -> {
+			if (xp > 0)
+				player.getSkills().addXp(Constants.AGILITY, xp);
+			player.setBas(-1);
+			player.unlockNextTick();
+			player.setRunHidden(running);
+		});
 	}
 
 }
