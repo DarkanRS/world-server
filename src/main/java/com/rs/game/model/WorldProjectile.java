@@ -72,6 +72,6 @@ public class WorldProjectile extends Projectile {
 	}
 
 	public int getTaskDelay() {
-		return Utils.projectileTimeToCycles(getEndTime()) - 1;
+		return Utils.clampI(Utils.projectileTimeToCycles(getEndTime()) - 1, 0, 2000);
 	}
 }
