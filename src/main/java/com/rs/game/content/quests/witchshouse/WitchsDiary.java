@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.quests.witchshouse;
 
-import com.rs.game.engine.book.Book;
-import com.rs.game.engine.book.BookPage;
+import com.rs.engine.book.Book;
+import com.rs.engine.book.BookPage;
 
 public class WitchsDiary extends Book {
 

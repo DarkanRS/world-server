@@ -29,8 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.model.RSModel;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
@@ -43,9 +42,9 @@ import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.command.Commands;
-import com.rs.game.engine.cutscene.ExampleCutscene;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.command.Commands;
+import com.rs.engine.cutscene.ExampleCutscene;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -334,7 +333,7 @@ public class MiscTest {
 				type = ObjectDefinitions.getDefs(Integer.valueOf(args[0])).types[0];
 			GameObject before = World.getSpawnedObject(p.transform(0, -1, 0));
 			if (before != null)
-				CoresManager.schedule(() -> World.spawnObject(before), 3);
+				TaskExecutor.schedule(() -> World.spawnObject(before), 3);
 			World.spawnObjectTemporary(new GameObject(Integer.valueOf(args[0]), type, rotation, p.getX(), p.getY()-1, p.getPlane()), 1);
 		});
 

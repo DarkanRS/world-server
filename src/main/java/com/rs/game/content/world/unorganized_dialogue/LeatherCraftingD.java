@@ -17,10 +17,10 @@
 package com.rs.game.content.world.unorganized_dialogue;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
-import com.rs.game.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

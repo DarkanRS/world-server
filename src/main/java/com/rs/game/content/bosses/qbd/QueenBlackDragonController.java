@@ -22,7 +22,7 @@ import com.rs.game.World;
 import com.rs.game.content.bosses.qbd.npcs.QueenBlackDragon;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Controller;

@@ -21,7 +21,7 @@ import java.util.Collections;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
@@ -62,7 +62,7 @@ public class PartyRoom {
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -219,7 +219,7 @@ public class PartyRoom {
 		for (Balloon balloon : balloons)
 			if (balloon != null)
 				World.spawnObjectTemporary(balloon.setItem(getNextItem()), Ticks.fromMinutes(2));
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				isDropping = false;
 				timer = -1;

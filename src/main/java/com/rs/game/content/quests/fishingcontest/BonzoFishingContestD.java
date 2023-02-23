@@ -8,11 +8,11 @@ import static com.rs.game.content.quests.fishingcontest.FishingContest.NOT_START
 import static com.rs.game.content.quests.fishingcontest.FishingContest.PIPE_HAS_GARLIC;
 import static com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;

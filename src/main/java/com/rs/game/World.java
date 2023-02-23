@@ -29,8 +29,8 @@ import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
-import com.rs.cores.WorldThread;
+import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.minigames.duel.DuelController;
@@ -89,7 +89,7 @@ public final class World {
 
 	@ServerStartupEvent
 	public static final void addSavePlayersTask() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			for (Player player : getPlayers()) {
 				if (player == null || !player.hasStarted())
 					continue;
@@ -880,7 +880,7 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
@@ -1149,7 +1149,7 @@ public final class World {
 					WorldDB.getLogs().logPickup(player, groundItem);
 			}
 			if (groundItem.isRespawn())
-				CoresManager.schedule(() -> {
+				TaskExecutor.schedule(() -> {
 					try {
 						addGroundItemForever(groundItem, groundItem.getTile());
 					} catch (Throwable e) {
@@ -1287,7 +1287,7 @@ public final class World {
 			@Override
 			public void run() {
 				try {
-					if ((CoresManager.pendingTasks() || World.getRegion(regionId, true) == null || !World.isRegionLoaded(regionId)) && (System.currentTimeMillis() - startMs) < 10000)
+					if ((TaskExecutor.pendingTasks() || World.getRegion(regionId, true) == null || !World.isRegionLoaded(regionId)) && (System.currentTimeMillis() - startMs) < 10000)
 						return;
 					event.run();
 					stop();

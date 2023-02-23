@@ -18,20 +18,14 @@ package com.rs.game.content.quests;
 
 import java.util.ArrayList;
 
-import com.rs.game.content.Skillcapes;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 
 @QuestHandler(Quest.DRUIDIC_RITUAL)
 @PluginEventHandler

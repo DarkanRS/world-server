@@ -6,12 +6,12 @@ import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 import java.util.ArrayList;
 
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

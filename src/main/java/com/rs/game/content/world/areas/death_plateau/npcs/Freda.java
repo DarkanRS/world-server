@@ -1,10 +1,10 @@
 package com.rs.game.content.world.areas.death_plateau.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.NPCStatement;
-import com.rs.game.engine.dialogue.statements.PlayerStatement;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

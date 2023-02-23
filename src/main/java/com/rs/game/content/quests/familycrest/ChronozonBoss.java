@@ -5,7 +5,7 @@ import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;

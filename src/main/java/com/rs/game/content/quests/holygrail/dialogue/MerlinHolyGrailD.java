@@ -8,9 +8,9 @@ import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_FISHER_KIN
 import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
 import static com.rs.game.content.quests.holygrail.HolyGrail.TALK_TO_MERLIN;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 

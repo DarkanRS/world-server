@@ -20,9 +20,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
-import com.rs.game.engine.Shop;
+import com.rs.engine.Shop;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
@@ -54,7 +54,7 @@ public class ShopsHandler {
 	
 	@ServerStartupEvent
 	public static void addRestoreShopItemsTask() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				ShopsHandler.restoreShops();
 			} catch (Throwable e) {

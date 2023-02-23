@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.godwars.bandos;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.WorldTile;
@@ -44,7 +44,7 @@ public class GeneralGraardor extends NPC {
 	}
 
 	public void respawnMinions() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();

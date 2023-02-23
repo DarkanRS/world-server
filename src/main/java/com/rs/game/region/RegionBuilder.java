@@ -19,7 +19,7 @@ package com.rs.game.region;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -284,7 +284,7 @@ public final class RegionBuilder {
 	}
 
 	public static void findEmptyChunkBound(DynamicRegionReference ref, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				ref.base = findEmptyChunkBound(ref.width, ref.height);
 				if (callback != null)
@@ -335,7 +335,7 @@ public final class RegionBuilder {
 	}
 
 	private static final void destroyMap(DynamicRegionReference ref, Runnable callback) {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.width, ref.height);
 				if (callback != null)
@@ -366,7 +366,7 @@ public final class RegionBuilder {
 	}
 
 	private static void copyChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
 				if (callback != null)
@@ -389,7 +389,7 @@ public final class RegionBuilder {
 	}
 
 	private static void copy2x2ChunkSquare(DynamicRegionReference ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
 				if (callback != null)
@@ -427,7 +427,7 @@ public final class RegionBuilder {
 	}
 
 	private static void clearChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
 				if (callback != null)
@@ -462,7 +462,7 @@ public final class RegionBuilder {
 	}
 
 	private static void clearMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
 				if (callback != null)
@@ -478,7 +478,7 @@ public final class RegionBuilder {
 	}
 
 	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
 				if (callback != null)
@@ -509,7 +509,7 @@ public final class RegionBuilder {
 	}
 
 	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
 				if (callback != null)

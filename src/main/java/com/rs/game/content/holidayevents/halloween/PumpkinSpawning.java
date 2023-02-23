@@ -18,7 +18,7 @@ package com.rs.game.content.holidayevents.halloween;
 
 import java.util.List;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
@@ -45,7 +45,7 @@ public class PumpkinSpawning {
 			return;
 		for (int id : regionsToSpawn)
 			World.getRegion(id, true);
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				spawnPumpkins();
 				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);

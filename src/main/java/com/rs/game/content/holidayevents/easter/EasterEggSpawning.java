@@ -18,7 +18,7 @@ package com.rs.game.content.holidayevents.easter;
 
 import java.util.List;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.region.Region;
 import com.rs.lib.game.GroundItem;
@@ -40,7 +40,7 @@ public class EasterEggSpawning {
 	public static void initSpawning() {
 		for (int id : regionsToSpawn)
 			World.getRegion(id, true);
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				spawnEggs();
 				World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);

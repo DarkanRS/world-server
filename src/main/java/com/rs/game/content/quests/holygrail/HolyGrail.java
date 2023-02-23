@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestManager;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestManager;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;

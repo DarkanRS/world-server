@@ -14,8 +14,8 @@ import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ZOMBIE_BLUE_K
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;

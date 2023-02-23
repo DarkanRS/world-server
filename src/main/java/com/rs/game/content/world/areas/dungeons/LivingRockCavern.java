@@ -17,7 +17,7 @@
 package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.util.Logger;
@@ -52,7 +52,7 @@ public final class LivingRockCavern {
 
 	private static void respawnRock(final Rocks rock) {
 		World.spawnObject(rock.rock);
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				removeRock(rock);
 			} catch (Throwable e) {
@@ -63,7 +63,7 @@ public final class LivingRockCavern {
 
 	private static void removeRock(final Rocks rock) {
 		World.removeObject(rock.rock);
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				respawnRock(rock);
 			} catch (Throwable e) {

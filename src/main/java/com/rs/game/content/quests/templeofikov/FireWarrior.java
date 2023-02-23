@@ -2,7 +2,7 @@ package com.rs.game.content.quests.templeofikov;
 
 import com.rs.game.content.combat.AmmoType;
 import com.rs.game.content.combat.RangedWeapon;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;

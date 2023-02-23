@@ -1,0 +1,145 @@
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//  Copyright (C) 2021 Trenton Kress
+//  This file is part of project: Darkan
+//
+package com.rs.engine.dialogue;
+
+public enum HeadE {
+	NONE(-1),
+	AMAZED_MILD(9742),
+	AMAZED(9746),
+	MORTIFIED_JAW_DROP(9750),
+	MORTIFIED(9753),
+	SAD_MILD_LOOK_DOWN(9757),
+	SAD_MILD(9760),
+	SAD_SNIFFLE(9761),
+	SAD(9764),
+	SAD_CRYING(9765),
+	SAD_EXTREME(9768),
+	UPSET(9770),
+	UPSET_SNIFFLE(9772),
+	SCARED(9773),
+	WORRIED(9775),
+	TERRIFIED(9777),
+	FRUSTRATED(9781),
+	VERY_FRUSTRATED(9785),
+	ANGRY(9789),
+	BUMPY_RIDE(9793),
+	SLEEPING(9802),
+	NOTHING_LISTENING(9804),
+	CALM(9806),
+	NO_EXPRESSION(9809),
+	CALM_TALK(9810),
+	CONFUSED(9811),
+	SHAKING_HEAD(9814),
+	SKEPTICAL_HEAD_SHAKE(9827),
+	SKEPTICAL(9830),
+	ROLL_EYES(9831),
+	SKEPTICAL_THINKING(9834),
+	DRUNK(9835),
+	NERVOUS(9836),
+	SECRETIVE(9838),
+	CHUCKLE(9840),
+	LAUGH(9841),
+	EVIL_LAUGH(9842),
+	CHEERFUL(9843),
+	TALKING_ALOT(9845),
+	CHEERFUL_EXPOSITION(9847),
+	HAPPY_TALKING(9850),
+	FOGGY_STORYTELLING(9851),
+	FOGGY_STORYTELLING_2(9852),
+	EYES_CLOSED_NERVOUS(9877),
+	DIZZY(9878),
+	DRUNK_ANGRY(12648),
+	LOSING_IT_LAUGHING(12649),
+	SAD_VERY_SNIFFLE(12650),
+
+	T_CALM_TALK(12936),
+	T_ANGRY(12940),
+	T_VERY_SAD(12944),
+	T_SAD(12948),
+	T_HAPPY_TALK(12952),
+	T_CONFUSED(12957),
+	T_CONFUSED_DENIAL(12961),
+	T_LAUGH(12964),
+	T_SCARED(12968),
+	T_ANGRY_NO(12973),
+	T_SURPRISED(12977),
+
+	CAT_CALM_TALK(9178),
+	CAT_CHEERFUL(9179),
+	CAT_EXPLAIN(9180),
+	CAT_SHOOK(9181),
+	CAT_SHOUTING(9185),
+	CAT_SLOW_TALK(9187),
+	CAT_CALM_TALK2(9189),
+	CAT_SURPRISED(9190),
+	CAT_HAPPY(9192),
+	CAT_PURRING(9202),
+	CAT_DISAPPOINTED(9225),
+	CAT_CRAZY(10522),
+	CAT_DISAPPOINTED2(11536),
+	CAT_LAUGH(1518),
+	CAT_SAD(6552),
+	CAT_INTELLIGENT_CALM(6553),
+	
+	OLD_CHAT(590),
+
+	CHILD_FRUSTRATED(7168),
+	CHILD_DOWN(7169),
+	CHILD_RECALLING(7170),
+	CHILD_EVIL_LAUGH(7171),
+	CHILD_HAPPY_TALK(7172),
+	CHILD_CALM_TALK(7173),
+	CHILD_LAUGH(7175),
+	CHILD_THINKING(7176),
+	CHILD_SAD(7177),
+	CHILD_SCARED(7178),
+	CHILD_SECRETIVE(7179),
+	CHILD_AWE(7180),
+	CHILD_ANGRY(8814),
+	CHILD_ANGRY_HEADSHAKE(8815),
+	CHILD_UNSURE(8824),
+	CHILD_CRYING(9683),
+	CHILD_GRETA_THUNBERG(9684),
+	CHILD_TANTRUM(7181),
+
+	PENG_TALK(5661),
+	PENG_EXPLAIN(5662),
+	PENG_HAPPY(5663),
+	PENG_SAD(5665),
+
+	SPIDER_NONE(11605),
+	SPIDER_EXCLAIM(11606),
+	SPIDER_CALM(11607),
+	SPIDER_SAD(11607),
+
+	//Kalphites 6243-6246 possibly
+	//More bug faces 7630-7639
+	//8380-8387
+	//8475-8478
+
+	;
+
+	private int emoteId;
+
+	private HeadE(int emoteId) {
+		this.emoteId = emoteId;
+	}
+
+	public int getEmoteId() {
+		return emoteId;
+	}
+}

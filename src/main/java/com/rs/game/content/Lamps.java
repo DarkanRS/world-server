@@ -17,8 +17,8 @@
 package com.rs.game.content;
 
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.statements.LampXPSelectStatement;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.LampXPSelectStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;

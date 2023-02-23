@@ -4,9 +4,9 @@ import static com.rs.game.content.quests.fishingcontest.FishingContest.FISHING_P
 import static com.rs.game.content.quests.fishingcontest.FishingContest.NOT_STARTED;
 import static com.rs.game.content.world.doors.Doors.handleGate;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.plugin.annotations.PluginEventHandler;

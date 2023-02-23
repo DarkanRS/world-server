@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.godwars.armadyl;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.npc.NPC;
@@ -46,7 +46,7 @@ public class KreeArra extends NPC {
 	}
 
 	public void respawnMinions() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();

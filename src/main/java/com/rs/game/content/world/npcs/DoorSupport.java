@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.npcs;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -61,7 +61,7 @@ public class DoorSupport extends NPC {
 		final GameObject door = World.getObjectWithId(getTile(), 8967);
 		if (door != null)
 			World.removeObject(door);
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				setNextNPCTransformation(getId() - 1);
 				reset();

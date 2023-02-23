@@ -17,16 +17,16 @@
 package com.rs.game.content.minigames.fightkiln;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightkiln.npcs.FightKilnNPC;
 import com.rs.game.content.minigames.fightkiln.npcs.HarAken;
 import com.rs.game.content.minigames.fightkiln.npcs.TokHaarKetDill;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -926,7 +926,7 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>>The power of this crystal makes you invulnerable.");
 			player.getTempAttribs().setB("FightKilnCrystal", true);
 			player.setInvulnerable(true);
-			CoresManager.schedule(() -> {
+			TaskExecutor.schedule(() -> {
 				try {
 					player.getTempAttribs().removeB("FightKilnCrystal");
 					player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
@@ -956,7 +956,7 @@ public class FightKilnController extends Controller {
 			player.getEquipment().refreshConfigs(false);
 			player.heal(player.getSkills().getLevelForXp(Constants.HITPOINTS) * 5);
 			player.sendMessage("<col=7E2217>The power of this crystal improves your Constitution.");
-			CoresManager.schedule(() -> {
+			TaskExecutor.schedule(() -> {
 				try {
 					player.getTempAttribs().removeB("FightKilnCrystal");
 					player.sendMessage("<col=7E2217>The power of the crystal dwindles and your constitution prowess returns to normal.");

@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.bosses.corp;
 
-import com.rs.game.engine.cutscene.Cutscene;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 
 public class CorporealBeastScene extends Cutscene {

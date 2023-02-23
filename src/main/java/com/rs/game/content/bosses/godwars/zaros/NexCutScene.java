@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.godwars.zaros;
 
-import com.rs.game.engine.cutscene.Cutscene;
+import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

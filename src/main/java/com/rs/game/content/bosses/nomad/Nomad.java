@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;

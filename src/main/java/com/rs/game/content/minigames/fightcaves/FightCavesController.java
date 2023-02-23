@@ -24,7 +24,7 @@ import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

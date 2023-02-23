@@ -20,8 +20,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

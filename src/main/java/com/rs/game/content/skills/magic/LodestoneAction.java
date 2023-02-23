@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.magic;
 
 import com.rs.game.content.achievements.Achievement;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.tasks.WorldTask;

@@ -19,9 +19,9 @@ package com.rs.game.content.quests.waterfallquest;
 import java.util.ArrayList;
 
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
