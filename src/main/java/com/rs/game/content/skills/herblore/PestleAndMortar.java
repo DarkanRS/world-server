@@ -29,6 +29,7 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 public class PestleAndMortar  {
 
 	public enum PestleMortar {
+		ANCHOVIES(319, 1, new Item(11266, 1)),
 		UNICORN_HORN(237, 1, new Item(235, 1)),
 		CHOCOLATE_BAR(1973, 1, new Item(1975, 1)),
 		KEBBIT_TEETH(10109, 1, new Item(10111, 1)),

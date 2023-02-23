@@ -15770,29 +15770,11 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2426,
-      "y": 4442
-    },
-    "comment": "Fairy Aeryka",
-    "npcId": 6072
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2424,
       "y": 4442
     },
     "comment": "Fairy Aeryka",
     "npcId": 6072
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2424,
-      "y": 4436
-    },
-    "comment": "Wandering impling",
-    "npcId": 6073
   },
   {
     "tile": {
@@ -15802,15 +15784,6 @@
     },
     "comment": "Wandering impling",
     "npcId": 6073
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2377,
-      "y": 4468
-    },
-    "comment": "Gnarly",
-    "npcId": 11308
   },
   {
     "tile": {

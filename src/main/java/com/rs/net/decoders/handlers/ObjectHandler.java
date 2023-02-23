@@ -46,7 +46,7 @@ import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.content.skills.crafting.Silver;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
 import com.rs.game.content.skills.firemaking.Bonfire;
-import com.rs.game.content.skills.hunter.PuroPuroController;
+import com.rs.game.content.skills.hunter.puropuro.PuroPuroController;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
@@ -272,14 +272,6 @@ public final class ObjectHandler {
 			} else if (id == 25632) {
 				if (Lander.canEnter(player, 2))
 					return;
-			} else if (id == 24991) {
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.getControllerManager().startController(new PuroPuroController());
-					}
-				}, 10);
-				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, WorldTile.of(2591, 4320, 0), 9, false, Magic.OBJECT_TELEPORT, null);
 			} else if (id == 26847)
 				Runecrafting.craftZMIAltar(player);
 			else if (id == 35391 || id == 2832) {
@@ -1705,16 +1697,13 @@ public final class ObjectHandler {
 				// unused
 			} else
 				switch (def.getName().toLowerCase()) {
-					case "fire":
-						if (def.containsOption(4, "Add-logs"))
-							Bonfire.addLogs(player, object);
-						break;
-					case "magical wheat":
-						PuroPuroController.pushThrough(player, object);
-						break;
-					default:
-						player.sendMessage("Nothing interesting happens.");
-						break;
+				case "fire":
+					if (def.containsOption(4, "Add-logs"))
+						Bonfire.addLogs(player, object);
+					break;
+				default:
+					player.sendMessage("Nothing interesting happens.");
+					break;
 				}
 			Logger.debug(ObjectHandler.class, "handleOption5", "Object interaction 5: " + object);
 		}));
