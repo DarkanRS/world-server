@@ -1425,6 +1425,12 @@ public class Player extends Entity {
 		refreshLodestoneNetwork();
 
 		if (object != null) {
+			playCutscene(cs -> {
+				cs.camPos(object.getX()+1, object.getY()+6, 5000);
+				cs.camLook(object.getX(), object.getY(), 0);
+				cs.dialogue(new Dialogue().addSimple("You unlock the lodestone."), true);
+				cs.camPosReset();
+			});
 			getPackets().sendSpotAnim(new SpotAnim(3019), object);
 			if (stone.getAchievement() != null)
 				getInterfaceManager().sendAchievementComplete(stone.getAchievement());
