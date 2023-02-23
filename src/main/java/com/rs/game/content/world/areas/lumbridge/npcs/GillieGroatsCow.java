@@ -15,7 +15,7 @@ public class GillieGroatsCow extends Conversation {
     //Identify Cow by ID
     private static int objId = 47721;
     //Identify Gillie by ID
-    private static int npcId = 3807;
+    private static final int npcId = 3807;
 
     public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] {objId}, e -> {
     	 if (e.getOption().equals("Milk")) {

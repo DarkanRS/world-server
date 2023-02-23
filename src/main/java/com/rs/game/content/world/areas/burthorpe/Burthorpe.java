@@ -36,6 +36,10 @@ public class Burthorpe {
 		e.getPlayer().setNextWorldTile(WorldTile.of(2876, 3502, 0));
 	});
 
+	public static ObjectClickHandler handleCastleLockedDoor = new ObjectClickHandler(new Object[]{66967}, e -> {
+		e.getPlayer().sendMessage("This door is securely locked");
+	});
+
 	public static ObjectClickHandler handleCastleLadders = new ObjectClickHandler(new Object[] { 66986, 66988 }, e -> {
 		switch (e.getObjectId()) {
 			case 66986 -> {

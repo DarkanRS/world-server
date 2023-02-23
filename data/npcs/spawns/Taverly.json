@@ -1,0 +1,173 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2919,
+      "y": 3576
+    },
+    "comment": "Dunstan",
+    "npcId": 1082
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2915,
+      "y": 3549
+    },
+    "comment": "Breoca",
+    "npcId": 1084
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2922,
+      "y": 3556
+    },
+    "comment": "Ocga",
+    "npcId": 1085
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2918,
+      "y": 3545
+    },
+    "comment": "Hygd",
+    "npcId": 1088
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2919,
+      "y": 3529
+    },
+    "comment": "Ceolburg",
+    "npcId": 1089
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2927,
+      "y": 3569
+    },
+    "comment": "Hild",
+    "npcId": 1090
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2909,
+      "y": 3571
+    },
+    "comment": "Unferth",
+    "npcId": 2654
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2942,
+      "y": 3559
+    },
+    "comment": "Doronbol",
+    "npcId": 8073
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2880,
+      "y": 3540
+    },
+    "comment": "Ghommal",
+    "npcId": 8266
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2926,
+      "y": 3549
+    },
+    "comment": "Tam McGrubor",
+    "npcId": 14414
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2886,
+      "y": 3530
+    },
+    "comment": "Major Nigel Corothers",
+    "npcId": 14850
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2919,
+      "y": 3549
+    },
+    "comment": "Drill Sergeant Hartman",
+    "npcId": 14852
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2929,
+      "y": 3553
+    },
+    "comment": "Carwen Essencebinder",
+    "npcId": 14872
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2929,
+      "y": 3556
+    },
+    "comment": "Apprentice Clara",
+    "npcId": 14906
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2892,
+      "y": 3532
+    },
+    "comment": "Corporal Boothe",
+    "npcId": 14921
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2908,
+      "y": 3520
+    },
+    "comment": "Troll commando",
+    "npcId": 14926
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2889,
+      "y": 3523
+    },
+    "comment": "Isold",
+    "npcId": 14970
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2894,
+      "y": 3529
+    },
+    "comment": "Corporal Keymans",
+    "npcId": 14994
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2894,
+      "y": 3529
+    },
+    "comment": "Corporal Keymans",
+    "npcId": 14994
+  }
+]

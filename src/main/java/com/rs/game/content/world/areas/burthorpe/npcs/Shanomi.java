@@ -24,7 +24,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class Shanomi extends Conversation {
-	private static int npcId = 4290;
+	private static final int npcId = 4290;
 
 	public Shanomi(Player player) {
 		super(player);

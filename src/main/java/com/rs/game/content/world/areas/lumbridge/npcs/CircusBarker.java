@@ -10,7 +10,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class CircusBarker extends Conversation {
 
 	//Identify NPC by ID
-	private static int npcId = 8081;
+	private static final int npcId = 8081;
 	public static NPCClickHandler CircusBarker = new NPCClickHandler(new Object[]{8079, 8080, 8081}, e -> {
 		switch (e.getOption()) {
 		//			//Start Conversation

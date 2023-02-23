@@ -13,7 +13,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class Gunslik extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 2154;
+    private static final int npcId = 2154;
 
     public static NPCClickHandler Gunslik = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {

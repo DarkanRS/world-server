@@ -10,7 +10,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class Hank extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 8864;
+    private static final int npcId = 8864;
 
     public static NPCClickHandler Hank = new NPCClickHandler(new Object[]{npcId}, e -> {
     	 switch (e.getOption()) {

@@ -49,7 +49,7 @@ public class TanningD extends Conversation {
 		}
 	}
 	
-	public TanningD(Player player, boolean canifis) {
+	public TanningD(Player player, boolean canifis, int NPC) {
 		super(player);
 		
 		List<Leather> craftable = new ArrayList<>();
@@ -58,7 +58,7 @@ public class TanningD extends Conversation {
 				craftable.add(leather);
 		
 		if (craftable.isEmpty()) {
-			addNPC(canifis ? 1041 : 2824, HeadE.CHEERFUL, "You don't have any leather that I can tan. Bring me some raw leather and then I can be more help to you.");
+			addNPC(NPC, HeadE.CHEERFUL, "You don't have any leather that I can tan. Bring me some raw leather and then I can be more help to you.");
 			create();
 			return;
 		}

@@ -14,7 +14,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Hans extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 0;
+    private static final int npcId = 0;
     public static NPCClickHandler Hans = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
         //Start Conversation

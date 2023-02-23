@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Doomsayer extends Conversation {
 
 	//Identify NPC by ID
-	private static int npcId = 3777;
+	private static final int npcId = 3777;
 	
 	@ServerStartupEvent
 	public static void addLoSOverrides() {

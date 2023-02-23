@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class ShanomiWorld extends NPC {
 
-	private static int npcId = 4290;
+	private static final int npcId = 4290;
 
 	public ShanomiWorld(int id, WorldTile tile) {
 		super(id, tile);

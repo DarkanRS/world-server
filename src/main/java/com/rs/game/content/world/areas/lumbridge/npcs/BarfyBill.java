@@ -11,7 +11,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class BarfyBill extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 3331;
+    private static final int npcId = 3331;
     public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
         //Start Conversation
