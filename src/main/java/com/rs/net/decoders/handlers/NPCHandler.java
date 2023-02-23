@@ -178,7 +178,7 @@ public class NPCHandler {
 			else if (npc.getId() == 5915)
 				player.startConversation(new ClanItemClaim(player, 20709));
 			else if (npc.getId() == 2824 || npc.getId() == 1041 || npc.getId() == 804)
-				player.startConversation(new TanningD(player, npc.getId() == 1041));
+				player.startConversation(new TanningD(player, npc.getId() == 1041, npc.getId()));
 			else if (PluginManager.handle(new NPCClickEvent(player, npc, 1, true))) {
 
 			} else if (npc instanceof Pet pet) {

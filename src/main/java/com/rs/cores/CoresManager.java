@@ -37,7 +37,7 @@ public final class CoresManager {
 
 	public static void startThreads() {
 		Logger.info(CoresManager.class, "startThreads", "Initializing world threads...");
-		worldExemptExecutor = Executors.newSingleThreadScheduledExecutor(new SlowThreadFactory());
+		worldExemptExecutor = Executors.newSingleThreadScheduledExecutor(Thread.ofVirtual().factory());
 		worldExecutor = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
 	}
 
