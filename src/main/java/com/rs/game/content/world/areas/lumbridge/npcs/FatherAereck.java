@@ -16,7 +16,7 @@ public class FatherAereck extends Conversation {
 
 	//Identify NPC by ID
 	//NPC handler was 9827? check restless ghost quest..
-	private static int npcId = 456;
+	private static final int npcId = 456;
 	public static NPCClickHandler FatherAereck = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
 		//Start Conversation

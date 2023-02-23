@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Donie extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 2238;
+    private static final int npcId = 2238;
 
     public static NPCClickHandler Donie = new NPCClickHandler(new Object[]{npcId}, e -> {
     	 switch (e.getOption()) {

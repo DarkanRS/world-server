@@ -14,7 +14,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class Freda extends Conversation {
 
 	//Identify NPC by ID
-	private static int npcId = 15099;
+	private static final int npcId = 15099;
 
 	public static NPCClickHandler Freda = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

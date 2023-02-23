@@ -13,7 +13,7 @@ public class Iain extends Conversation {
 
     //Identify NPC by ID
     //Iain has the same script as Donie..
-    private static int npcId = 7868;
+    private static final int npcId = 7868;
 
     public static NPCClickHandler Iain = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {

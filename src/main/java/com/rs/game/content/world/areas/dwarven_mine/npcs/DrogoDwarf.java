@@ -25,7 +25,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class DrogoDwarf extends Conversation {
-	private static int npcId = 579;
+	private static final int npcId = 579;
 
 	public static NPCClickHandler DrogoDwarf = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

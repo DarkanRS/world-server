@@ -13,7 +13,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class Kortan extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 591;
+    private static final int npcId = 591;
 
     public static NPCClickHandler Aemad = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {

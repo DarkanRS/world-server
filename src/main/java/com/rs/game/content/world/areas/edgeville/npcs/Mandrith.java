@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Mandrith extends Conversation {
-	private static int npcId = 6537;
+	private static final int npcId = 6537;
 
 	public static NPCClickHandler Mandrith = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

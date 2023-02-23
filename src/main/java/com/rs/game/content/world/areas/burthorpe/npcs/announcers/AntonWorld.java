@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class AntonWorld extends NPC {
-	private static int npcId = 4295;
+	private static final int npcId = 4295;
 
 	public AntonWorld(int id, WorldTile tile) {
 		super(id, tile);

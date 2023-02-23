@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Karim extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 543;
+    private static final int npcId = 543;
 
     public static NPCClickHandler Karim = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {

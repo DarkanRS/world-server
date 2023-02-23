@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 
 public class TzHaarMejKah extends Conversation {
-	private static int npcId = 2618;
+	private static final int npcId = 2618;
 
 	public static NPCClickHandler TzHaarMejKah = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch(e.getOption()) {

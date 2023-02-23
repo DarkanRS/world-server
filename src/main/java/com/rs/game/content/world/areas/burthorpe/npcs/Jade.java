@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 @PluginEventHandler
 public class Jade extends Conversation {
 
-    private static int npcId = 4296;
+    private static final int npcId = 4296;
 
     public Jade(Player player, NPC npc) {
         super(player);

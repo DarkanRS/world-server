@@ -27,7 +27,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Lidio extends Conversation {
-	private static int npcId = 4293;
+	private static final int npcId = 4293;
 
 	public static NPCClickHandler Lidio = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
