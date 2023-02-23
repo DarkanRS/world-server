@@ -101,6 +101,7 @@ public class Cooking extends PlayerAction {
 		BOULDABASS(new Item(17809), 60, 70, 146, new Item(18191), new Item(18171), false, false),
 		SALVE_EEL(new Item(17811), 70, 70, 168, new Item(18193), new Item(18173), false, false),
 		BLUE_CRAB(new Item(17813), 80, 70, 191, new Item(18195), new Item(18175), false, false),
+		NETTLE_TEA(new Item(4237), 1, 1, 1, new Item(4239), new Item(4239), false, false),
 		CAVE_MORAY(new Item(17815), 90, 70, 215, new Item(18197), new Item(18177), false, false);
 
 		private static Map<Short, Cookables> ingredients = new HashMap<>();

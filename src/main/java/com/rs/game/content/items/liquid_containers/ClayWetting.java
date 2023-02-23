@@ -1,6 +1,6 @@
-package com.rs.game.content.items.water_stuff;
+package com.rs.game.content.items.liquid_containers;
 
-import com.rs.game.content.items.water_stuff.FillAction.Filler;
+import com.rs.game.content.items.liquid_containers.FillAction.Filler;
 import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.lib.game.Item;
