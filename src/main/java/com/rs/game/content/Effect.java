@@ -144,6 +144,8 @@ public enum Effect {
 		}
 	},
 
+	FARMERS_AFFINITY("Farmer's affinity"),
+
 	;
 
 	private boolean removeOnDeath = true;

@@ -86,22 +86,6 @@ public class Falador {
 		});
 	});
 
-	public static NPCClickHandler handleChemist = new NPCClickHandler(new Object[] { 367 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...",
-								new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FALADOR_SHIELD)
-								.getStart());
-					}
-				});
-			}
-		});
-	});
-
 	public static NPCClickHandler handleSquireAsrol = new NPCClickHandler(new Object[] { 606 }, e -> {
 		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 			{
