@@ -1421,13 +1421,22 @@ public class Player extends Entity {
 			sendMessage("This lodestone doesn't respond.");
 			return;
 		}
-		lodestones[stone.ordinal()] = true;
-		refreshLodestoneNetwork();
-
+		final WorldTile tile = object.getTile();
 		if (object != null) {
-			getPackets().sendSpotAnim(new SpotAnim(3019), object);
-			if (stone.getAchievement() != null)
-				getInterfaceManager().sendAchievementComplete(stone.getAchievement());
+			playCutscene(cs -> {
+				cs.camPos(object.getX()+1, object.getY()+6, 5000);
+				cs.camLook(object.getX(), object.getY(), 0);
+				cs.delay(2);
+				cs.action(() -> {
+					lodestones[stone.ordinal()] = true;
+					refreshLodestoneNetwork();
+					getPackets().sendSpotAnim(new SpotAnim(3019), tile);
+					if (stone.getAchievement() != null)
+						getInterfaceManager().sendAchievementComplete(stone.getAchievement());
+				});
+				cs.dialogue(new Dialogue().addSimple("You unlock the lodestone."), true);
+				cs.camPosResetSoft();
+			});
 		}
 	}
 

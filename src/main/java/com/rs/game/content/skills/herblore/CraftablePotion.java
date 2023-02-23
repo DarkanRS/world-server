@@ -132,6 +132,20 @@ public enum CraftablePotion {
 	BRAVERY_POTION(new Item(739, 1), 1, 0.0, new Item[] { new Item(738, 1), new Item(1526, 1) }),
 	BLAMISH_OIL(new Item(1582, 1), 25, 80.0, new Item[] { new Item(97, 1), new Item(1581, 1) }),
 
+	ANCHOVY_OIL(new Item(11264, 1), 3, 0.0, new Item[] { new Item(229, 1), new Item(11266, 8) }),
+	IMP_REPLLENT_MARIGOLDS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(6010, 1) }),
+	IMP_REPLLENT_ROSEMARY(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(6014, 1) }),
+	IMP_REPLLENT_NASTURTIUMS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(6012, 1) }),
+	IMP_REPLLENT_PASTEL_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2460, 1) }),
+	IMP_REPLLENT_RED_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2462, 1) }),
+	IMP_REPLLENT_BLUE_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2464, 1) }),
+	IMP_REPLLENT_YELLOW_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2466, 1) }),
+	IMP_REPLLENT_PURPLE_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2468, 1) }),
+	IMP_REPLLENT_ORANGE_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2470, 1) }),
+	IMP_REPLLENT_RGB_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2472, 1) }),
+	IMP_REPLLENT_WHITE_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2474, 1) }),
+	IMP_REPLLENT_BLACK_FLOWERS(new Item(11262, 1), 3, 5.0, new Item[] { new Item(11264, 1), new Item(2476, 1) }),
+
 	JUJU_MINING_POTION(new Item(20004, 1), 74, 168.0, new Item[] { new Item(20002, 1), new Item(19973, 1) }),
 	JUJU_COOKING_POTION(new Item(20008, 1), 67, 152.0, new Item[] { new Item(20001, 1), new Item(19975, 1) }),
 	JUJU_FARMING_POTION(new Item(20012, 1), 64, 146.0, new Item[] { new Item(19999, 1), new Item(19980, 1) }),
@@ -204,7 +218,8 @@ public enum CraftablePotion {
 	STRONG_GATHERERS_POTION(new Item(17622, 1), 90, 234.0, new Item[] { new Item(17550, 1), new Item(17534, 1) }),
 	STRONG_ARTISANS_POTION(new Item(17624, 1), 93, 253.0, new Item[] { new Item(17552, 1), new Item(17534, 1) }),
 	STRONG_NATURALISTS_POTION(new Item(17626, 1), 96, 279.0, new Item[] { new Item(17550, 1), new Item(17532, 1) }),
-	STRONG_SURVIVALISTS_POTION(new Item(17628, 1), 99, 315.0, new Item[] { new Item(17552, 1), new Item(17536, 1) });
+	STRONG_SURVIVALISTS_POTION(new Item(17628, 1), 99, 315.0, new Item[] { new Item(17552, 1), new Item(17536, 1) }),
+	NETTLE_WATER(new Item(4237, 1), 1, 1.0, new Item[] { new Item(1921, 1), new Item(4241, 1) });
 
 	private Item product;
 	private int req;

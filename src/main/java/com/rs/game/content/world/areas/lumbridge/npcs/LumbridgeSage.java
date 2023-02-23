@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class LumbridgeSage extends Conversation {
 
 	// Identify NPC by ID
-	private static int npcId = 2244;
+	private static final int npcId = 2244;
 	public static NPCClickHandler LumbridgeSage = new NPCClickHandler(new Object[] { 2244 }, e -> {
 		switch (e.getOption()) {
 		// Start Conversation

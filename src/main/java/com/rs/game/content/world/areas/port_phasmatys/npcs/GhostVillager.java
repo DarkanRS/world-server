@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class GhostVillager extends Conversation {
-	private static int npcId = 1697;
+	private static final int npcId = 1697;
 
 	public static NPCClickHandler GhostVillager = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch (e.getOption()) {

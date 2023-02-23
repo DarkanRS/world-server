@@ -143,10 +143,6 @@ public class NPC extends Entity {
 		BoxHunterType npc = BoxHunterType.forId(id);
 		if (npc != null)
 			setRandomWalk(true);
-		if (getName().contains("impling")) {
-			setRandomWalk(true);
-			setClipType(ClipType.FLYING);
-		}
 		if (getDefinitions().combatLevel >= 200)
 			setIgnoreDocile(true);
 		combatLevels = NPCCombatDefinitions.getDefs(id).getLevels();

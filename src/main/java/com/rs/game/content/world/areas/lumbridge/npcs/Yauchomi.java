@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Yauchomi extends Conversation {
 
 	// Identify NPC by ID
-	private static int npcId = 4903;
+	private static final int npcId = 4903;
 	public static NPCClickHandler Yauchomi = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch (e.getOption()) {
 		// Start Conversation

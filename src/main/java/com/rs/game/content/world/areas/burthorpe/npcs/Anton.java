@@ -27,7 +27,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Anton extends Conversation {
-	private static int npcId = 4295;
+	private static final int npcId = 4295;
 
 
 	public static NPCClickHandler Anton = new NPCClickHandler(new Object[]{npcId}, e -> {

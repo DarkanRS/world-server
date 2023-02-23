@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Gee extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 2237;
+    private static final int npcId = 2237;
     public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}, e -> {
     	switch (e.getOption()) {
         //Start Conversation

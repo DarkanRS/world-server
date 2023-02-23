@@ -90,9 +90,14 @@ public class Herblore extends PlayerAction {
 
 	public static ItemOnItemHandler craftPotion = new ItemOnItemHandler(true, CraftablePotion.MAP.keySet().toArray(), e -> {
 		CraftablePotion potion = CraftablePotion.forCombo(e.getItem1().getId(), e.getItem2().getId());
-		if (potion != null)
-			e.getPlayer().startConversation(new Conversation(e.getPlayer())
-					.addNext(new MakeXStatement(new int[] { potion.getProduct().getId() }, 28))
-					.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
+		if (potion == null)
+			return;
+		if (potion == CraftablePotion.ANCHOVY_OIL && !e.getPlayer().getInventory().containsItem(6097)) {
+			e.getPlayer().sendMessage("You need a sieve to make anchovy oil.");
+			return;
+		}
+		e.getPlayer().startConversation(new Conversation(e.getPlayer())
+			.addNext(new MakeXStatement(new int[]{potion.getProduct().getId()}, 28))
+			.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
 	});
 }

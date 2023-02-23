@@ -10,7 +10,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class GuardsmanPeale extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 7890;
+    private static final int npcId = 7890;
 
     public static NPCClickHandler GuardsmanPeale = new NPCClickHandler(new Object[]{npcId}, e -> {
     	 switch (e.getOption()) {

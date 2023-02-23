@@ -451,9 +451,6 @@ public class InventoryOptionsHandler {
 			Runecrafting.checkPouch(player, pouch);
 			return;
 		}
-		FlyingEntities impJar = FlyingEntities.forItem((short) itemId);
-		if (impJar != null)
-			FlyingEntityHunter.openJar(player, impJar, slotId);
 		else if (item.getDefinitions().containsOption("Teleport") && ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (player.hasRights(Rights.DEVELOPER))

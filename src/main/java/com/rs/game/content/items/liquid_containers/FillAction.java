@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.items.water_stuff;
+package com.rs.game.content.items.liquid_containers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,6 +41,7 @@ public class FillAction extends PlayerAction {
 	});
 
 	public enum Filler {
+		//Empty Item, Full Item
 		VIAL(new Item(229, 1), new Item(227, 1)),
 		CLAY(new Item(434, 1), new Item(1761, 1)),
 		BOWL(new Item(1923, 1), new Item(1921, 1)),

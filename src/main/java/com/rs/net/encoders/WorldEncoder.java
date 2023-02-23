@@ -248,6 +248,10 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_SMOOTHRESET);
 	}
 
+	public void sendResetCameraSoft() {
+		session.writeToQueue(ServerPacket.CAM_RESET);
+	}
+
 	public void sendCameraPos(WorldTile tile, int z) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z);
 	}

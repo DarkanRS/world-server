@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Ajjat extends Conversation {
 
-	private static int npcId = 4288;
+	private static final int npcId = 4288;
 
 	public static NPCClickHandler Ajjat = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

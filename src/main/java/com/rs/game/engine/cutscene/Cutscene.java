@@ -227,11 +227,19 @@ public abstract class Cutscene {
 	public void camPosReset(int delay) {
 		action(delay, () -> player.getPackets().sendResetCamera());
 	}
+
+	public void camPosResetSoft(int delay) {
+		action(delay, () -> player.getPackets().sendResetCameraSoft());
+	}
 	
 	public void camPosReset() {
 		camPosReset(-1);
 	}
-	
+
+	public void camPosResetSoft() {
+		camPosResetSoft(-1);
+	}
+
 	public void dialogue(Dialogue dialogue, int delay) {
 		actions.add(new DialogueAction(dialogue, delay, false));
 	}
