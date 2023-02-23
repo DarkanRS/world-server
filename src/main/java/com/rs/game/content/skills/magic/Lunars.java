@@ -22,7 +22,7 @@ import java.util.Set;
 
 import com.rs.game.World;
 import com.rs.game.content.AchievementTitles;
-import com.rs.game.content.items.water_stuff.FillAction.Filler;
+import com.rs.game.content.items.liquid_containers.FillAction.Filler;
 import com.rs.game.content.skills.construction.SawmillOperator;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
