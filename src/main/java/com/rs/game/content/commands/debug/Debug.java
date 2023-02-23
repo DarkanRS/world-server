@@ -329,6 +329,11 @@ public class Debug {
 			p.sendMessage("GODMODE: " + !god);
 		});
 
+		Commands.add(Rights.PLAYER, "infrunes", "Toggles infinite runes for the player.", (p, args) -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		});
+
 		Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
 			p.delete(args[0]);
 		});
