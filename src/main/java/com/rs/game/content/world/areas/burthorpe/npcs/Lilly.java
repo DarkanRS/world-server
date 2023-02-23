@@ -27,7 +27,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Lilly extends Conversation {
-	private static int npcId = 4294;
+	private static final int npcId = 4294;
 
 	public static NPCClickHandler Lilly = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

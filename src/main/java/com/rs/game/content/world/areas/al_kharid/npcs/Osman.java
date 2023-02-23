@@ -34,7 +34,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Osman extends Conversation {
 
-	private static int npcId = 5282;
+	private static final int npcId = 5282;
 
 	public static NPCClickHandler Osman = new NPCClickHandler(new Object[]{npcId}, e -> {
 		int convoID = 1;

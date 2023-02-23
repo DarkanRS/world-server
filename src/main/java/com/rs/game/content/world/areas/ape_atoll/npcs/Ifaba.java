@@ -28,7 +28,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ifaba extends Conversation {
-	private static int npcId = 1436;
+	private static final int npcId = 1436;
 
 	public static NPCClickHandler Ifaba = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

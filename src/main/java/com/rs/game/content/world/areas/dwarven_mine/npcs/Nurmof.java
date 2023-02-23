@@ -25,7 +25,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Nurmof extends Conversation {
-	private static int npcId = 594;
+	private static final int npcId = 594;
 
 	public static NPCClickHandler Nurmof = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {

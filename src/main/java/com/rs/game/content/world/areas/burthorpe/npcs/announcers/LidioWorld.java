@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class LidioWorld extends NPC {
-	private static int npcId = 4293;
+	private static final int npcId = 4293;
 
 	public LidioWorld(int id, WorldTile tile) {
 		super(id, tile);

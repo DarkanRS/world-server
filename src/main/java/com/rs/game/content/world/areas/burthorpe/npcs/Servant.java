@@ -27,7 +27,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Servant extends Conversation {
-	private static int npcId = 1081;
+	private static final int npcId = 1081;
 
 
 	public static NPCClickHandler Servant = new NPCClickHandler(new Object[]{npcId}, e -> {

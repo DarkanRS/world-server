@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 
 public class TzHaarMejJal extends Conversation {
-	private static int npcId = 2617;
+	private static final int npcId = 2617;
 
 	public static NPCClickHandler TzHaarMejJal = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch(e.getOption()) {

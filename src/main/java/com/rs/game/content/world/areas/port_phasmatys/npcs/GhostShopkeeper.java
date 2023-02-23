@@ -24,7 +24,7 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class GhostShopkeeper {
-	private static int npcId = 1699;
+	private static final int npcId = 1699;
 
 	public static NPCClickHandler ghostShopkeeper = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch (e.getOption()) {

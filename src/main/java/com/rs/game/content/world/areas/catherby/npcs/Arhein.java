@@ -13,7 +13,7 @@ import com.rs.utils.shop.ShopsHandler;
 public class Arhein extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 563;
+    private static final int npcId = 563;
 
     public static NPCClickHandler Arhein = new NPCClickHandler(new Object[]{npcId}, e -> {
         switch (e.getOption()) {
