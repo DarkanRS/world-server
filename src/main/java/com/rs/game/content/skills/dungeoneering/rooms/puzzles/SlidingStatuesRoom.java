@@ -67,9 +67,10 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 		statues = new WorldTile[8];
 		WorldTile base = manager.getRoomBaseTile(reference);
 		int index = 0;
-		for (int i = 0; i < 2; i++)
-			for (int j = 0; j < 2; j++)
-				while_: while (true) {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 2; j++) {
+				while_:
+				while (true) {
 					WorldTile inactive = base.transform(STATUE_LOCATIONS[i][0] + Utils.random(5), STATUE_LOCATIONS[i][1] + Utils.random(5), 0);
 					WorldTile active = base.transform(STATUE_LOCATIONS[i + 2][0] + Utils.random(5), STATUE_LOCATIONS[i + 2][1] + Utils.random(5), 0);
 					for (WorldTile statue : statues)
@@ -82,6 +83,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 					index++;
 					break;
 				}
+			}
+		}
 		manager.spawnRandomNPCS(reference);
 	}
 
@@ -113,11 +116,12 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 				player.sendMessage("A statue is blocking the way.");
 				return;
 			}
-			for (Player team : manager.getParty().getTeam())
+			for (Player team : manager.getParty().getTeam()) {
 				if (team != player && team.matches(nTarget)) {
 					player.sendMessage("A party member is blocking the way.");
 					return;
 				}
+			}
 
 			player.lock(2);
 			WorldTasks.schedule(new WorldTask() {

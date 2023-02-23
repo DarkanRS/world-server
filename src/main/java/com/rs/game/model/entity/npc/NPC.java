@@ -538,7 +538,7 @@ public class NPC extends Entity {
 			for (Item item : drops)
 				sendDrop(killer, item);
 
-			if (DropSets.getDropSet(id) != null && EffigyDrop.dropEffigy(getDefinitions().combatLevel))
+			if (DropSets.getDropSet(id) != null && DropSets.getDropSet(id) != DropSets.DEFAULT_DROPSET && EffigyDrop.dropEffigy(getDefinitions().combatLevel))
 				sendDrop(killer, new Item(18778, 1));
 
 			Item[] clues = DropTable.calculateDrops(killer, NPCClueDrops.rollClues(id));
