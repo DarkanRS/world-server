@@ -108,14 +108,12 @@ public class LodestoneAction extends PlayerAction {
 	public static ButtonClickHandler handleLodestoneButtons = new ButtonClickHandler(1092, e -> {
 		e.getPlayer().stopAll();
 		Lodestone stone = Lodestone.forComponent(e.getComponentId());
-		if (stone != null) {
-			if ((stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
-				return;
-			if (e.getPlayer().unlockedLodestone(stone))
-				e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
-			else
-				e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
-		}
+		if (stone == null || (stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
+			return;
+		if (e.getPlayer().unlockedLodestone(stone))
+			e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
+		else
+			e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
 	});
 
 	private int currentTime;
