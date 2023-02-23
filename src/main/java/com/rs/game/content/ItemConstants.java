@@ -23,7 +23,7 @@ import com.rs.Settings;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
 import com.rs.game.content.world.unorganized_dialogue.RepairStandD;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;

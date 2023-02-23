@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

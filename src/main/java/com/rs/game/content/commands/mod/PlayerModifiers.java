@@ -17,7 +17,7 @@
 package com.rs.game.content.commands.mod;
 
 import com.rs.game.World;
-import com.rs.game.engine.command.Commands;
+import com.rs.engine.command.Commands;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;

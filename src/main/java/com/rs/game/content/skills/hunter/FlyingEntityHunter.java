@@ -16,16 +16,14 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.region.ClipFlag;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;

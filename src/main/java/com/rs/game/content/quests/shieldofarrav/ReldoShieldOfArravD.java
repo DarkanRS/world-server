@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class ReldoShieldOfArravD extends Conversation {

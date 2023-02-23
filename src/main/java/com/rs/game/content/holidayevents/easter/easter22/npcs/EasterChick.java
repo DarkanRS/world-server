@@ -3,7 +3,7 @@ package com.rs.game.content.holidayevents.easter.easter22.npcs;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.holidayevents.easter.easter22.EggHunt;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;

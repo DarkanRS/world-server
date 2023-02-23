@@ -1,8 +1,8 @@
 package com.rs.game.content.world.areas.lunar_isle;
 
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

@@ -23,10 +23,10 @@ import com.rs.game.content.quests.dragonslayer.KlarenseDragonSlayerD;
 import com.rs.game.content.quests.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldTile;
 

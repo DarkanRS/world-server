@@ -19,7 +19,7 @@ package com.rs.game.content.minigames.domtower;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.world.unorganized_dialogue.StrangeFace;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

@@ -28,7 +28,6 @@ import com.rs.game.content.quests.piratestreasure.CustomsOfficerPiratesTreasureD
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure;
 import com.rs.game.content.skills.construction.EstateAgentDialogue;
 import com.rs.game.content.skills.construction.ServantDialogue;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.slayer.npcs.ConditionalDeath;
 import com.rs.game.content.skills.slayer.npcs.MutatedZygomite;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -42,7 +41,7 @@ import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.GeneralStore;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.npc.NPC;

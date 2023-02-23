@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.smithing;
 
 import com.rs.game.content.skills.util.CreateActionD;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;

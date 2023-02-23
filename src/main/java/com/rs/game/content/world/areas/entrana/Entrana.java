@@ -18,8 +18,8 @@ package com.rs.game.content.world.areas.entrana;
 
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

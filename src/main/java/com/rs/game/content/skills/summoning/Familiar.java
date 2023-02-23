@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;

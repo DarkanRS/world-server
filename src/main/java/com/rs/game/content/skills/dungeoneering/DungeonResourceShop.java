@@ -18,7 +18,7 @@ package com.rs.game.content.skills.dungeoneering;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 

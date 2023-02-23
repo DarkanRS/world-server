@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -136,7 +136,7 @@ public class NexArena {
 
 	public void endWar() {
 		deleteNPCS();
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				startWar();
 			} catch (Throwable e) {

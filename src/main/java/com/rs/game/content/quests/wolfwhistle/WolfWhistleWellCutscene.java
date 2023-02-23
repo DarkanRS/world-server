@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.rs.game.World;
-import com.rs.game.engine.cutscene.Cutscene;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;

@@ -17,15 +17,15 @@
 package com.rs.game.content.world.areas.al_kharid.npcs;
 
 import com.rs.game.content.quests.princealirescue.OsmanPrinceAliRescueD;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.dialogue.statements.NPCStatement;
-import com.rs.game.engine.dialogue.statements.OptionStatement;
-import com.rs.game.engine.dialogue.statements.PlayerStatement;
-import com.rs.game.engine.dialogue.statements.SimpleStatement;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.dialogue.statements.OptionStatement;
+import com.rs.engine.dialogue.statements.PlayerStatement;
+import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;

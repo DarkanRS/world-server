@@ -5,11 +5,11 @@ import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_C
 import static com.rs.game.content.quests.dragonslayer.DragonSlayer.WORM_BRAIN;
 
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldTile;

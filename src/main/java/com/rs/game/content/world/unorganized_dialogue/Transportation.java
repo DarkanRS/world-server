@@ -17,7 +17,7 @@
 package com.rs.game.content.world.unorganized_dialogue;
 
 import com.rs.game.content.transportation.ItemTeleports;
-import com.rs.game.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 

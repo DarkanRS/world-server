@@ -17,9 +17,9 @@
 package com.rs.game.content.skills.cooking;
 
 import com.rs.game.content.skills.cooking.Cooking.Cookables;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
-import com.rs.game.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 

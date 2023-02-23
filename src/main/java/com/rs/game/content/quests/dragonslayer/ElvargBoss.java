@@ -6,7 +6,7 @@ import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZI
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;

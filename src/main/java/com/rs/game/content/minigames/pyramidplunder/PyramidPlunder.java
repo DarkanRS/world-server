@@ -2,8 +2,8 @@ package com.rs.game.content.minigames.pyramidplunder;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;

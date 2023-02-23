@@ -17,7 +17,7 @@
 package com.rs.game.content.world.unorganized_dialogue.skillmasters;
 
 import com.rs.game.content.Skillcapes;
-import com.rs.game.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 
 public class GenericSkillcapeOwnerD extends Conversation {

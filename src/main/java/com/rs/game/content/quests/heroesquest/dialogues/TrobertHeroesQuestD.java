@@ -3,11 +3,11 @@ package com.rs.game.content.quests.heroesquest.dialogues;
 import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
 
 import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 

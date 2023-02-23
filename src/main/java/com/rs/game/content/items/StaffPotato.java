@@ -12,7 +12,7 @@ import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;

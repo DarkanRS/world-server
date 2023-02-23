@@ -29,7 +29,7 @@ import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Controller;
@@ -80,7 +80,7 @@ public final class Launcher {
 
 		MapXTEAs.loadKeys();
 
-		CoresManager.startThreads();
+		TaskExecutor.startThreads();
 
 		DB = new WorldDB();
 		DB.init();
@@ -136,7 +136,7 @@ public final class Launcher {
 	}
 
 	private static void addCleanMemoryTask() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
 			} catch (Throwable e) {
@@ -146,7 +146,7 @@ public final class Launcher {
 	}
 
 	private static void addAccountsSavingTask() {
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				saveFiles();
 			} catch (Throwable e) {
@@ -188,7 +188,7 @@ public final class Launcher {
 
 	public static void closeServices() {
 		ServerChannelHandler.shutdown();
-		CoresManager.shutdown();
+		TaskExecutor.shutdown();
 	}
 
 	private Launcher() {
@@ -200,7 +200,7 @@ public final class Launcher {
 	}
 
 	public static void executeCommand(Player player, String cmd) {
-		CoresManager.execute(() -> {
+		TaskExecutor.execute(() -> {
 			try {
 				String line;
 				ProcessBuilder builder = new ProcessBuilder(cmd.split(" "));

@@ -24,7 +24,6 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;

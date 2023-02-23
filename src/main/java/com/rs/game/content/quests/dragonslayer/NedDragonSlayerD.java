@@ -7,9 +7,9 @@ import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NED_BOAT_VISI
 import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NED_IS_CAPTAIN_ATTR;
 import static com.rs.game.content.quests.dragonslayer.DragonSlayer.OWNS_BOAT_ATTR;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;

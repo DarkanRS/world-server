@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.holidayevents.christmas;
 
-import com.rs.game.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;

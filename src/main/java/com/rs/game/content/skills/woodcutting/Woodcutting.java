@@ -18,7 +18,7 @@ package com.rs.game.content.skills.woodcutting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -134,7 +134,7 @@ public class Woodcutting extends Action {
 				@Override
 				public void fellTree() {
 					e.getPlayer().getVars().setVarBit(9776, 2);
-					CoresManager.schedule(() -> {
+					TaskExecutor.schedule(() -> {
 						try {
 							if (e.getPlayer() != null && !e.getPlayer().hasFinished())
 								e.getPlayer().getVars().setVarBit(9776, 1);

@@ -22,7 +22,7 @@ import com.rs.game.content.skills.construction.House.RoomReference;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.content.skills.construction.HouseConstants.Room;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Bank;

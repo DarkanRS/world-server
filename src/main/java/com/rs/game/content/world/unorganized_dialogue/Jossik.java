@@ -18,8 +18,8 @@ package com.rs.game.content.world.unorganized_dialogue;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.skills.prayer.PrayerBooks;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

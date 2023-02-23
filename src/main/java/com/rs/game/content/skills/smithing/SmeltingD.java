@@ -20,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;

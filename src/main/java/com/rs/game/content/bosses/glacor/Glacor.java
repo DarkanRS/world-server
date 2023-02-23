@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.glacor;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
 import com.rs.game.model.entity.Entity;
@@ -201,7 +201,7 @@ public class Glacor extends NPC {
 			finish();
 		}
 		final NPC npc = this;
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				setFinished(false);
 				World.addNPC(npc);

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.bork;
 
-import com.rs.cores.CoresManager;
+import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -84,7 +84,7 @@ public class Bork extends NPC {
 			setLocation(getRespawnTile());
 			finish();
 		}
-		CoresManager.schedule(() -> {
+		TaskExecutor.schedule(() -> {
 			try {
 				spawn();
 			} catch (Throwable e) {
