@@ -58,7 +58,7 @@ public abstract class Cutscene {
 			player.setNextWorldTile(endTile);
 		if (hideMap)
 			player.getPackets().setBlockMinimapState(0);
-		player.getVars().setVar(1241, 3);
+		restoreDefaultAspectRatio();
 		player.getPackets().sendResetCamera();
 		player.setLargeSceneView(false);
 		player.resetReceivedHits();
@@ -73,7 +73,6 @@ public abstract class Cutscene {
 	public final void startCutscene() {
 		if (hideMap)
 			player.getPackets().setBlockMinimapState(2);
-		player.getVars().setVar(1241, 1);
 		player.setLargeSceneView(true);
 		player.lock();
 		player.stopAll(true, false);
@@ -480,5 +479,13 @@ public abstract class Cutscene {
 	
 	public void spawnObj(int id, int rotation, int x, int y, int z) {
 		action(() -> World.spawnObject(new GameObject(id, ObjectDefinitions.getDefs(id).types[0], rotation, WorldTile.of(getX(x), getY(y), z))));
+	}
+
+	public void lowerAspectRatio() {
+		player.getVars().setVar(1241, 1);
+	}
+
+	public void restoreDefaultAspectRatio() {
+		player.getVars().setVar(1241, 3);
 	}
 }

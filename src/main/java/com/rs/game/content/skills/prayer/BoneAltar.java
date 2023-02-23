@@ -118,6 +118,8 @@ public class BoneAltar  {
 				bone = bones;
 				break;
 			}
+		if (bone == null)
+			return;
 		e.getPlayer().getActionManager().setAction(new BoneAction(altar, bone, e.getObject()));
 	});
 
