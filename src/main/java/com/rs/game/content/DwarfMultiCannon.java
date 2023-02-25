@@ -38,7 +38,7 @@ import com.rs.game.model.object.OwnedObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Vec2;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -100,7 +100,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		}
 	}
 
-	public DwarfMultiCannon(Player player, WorldTile tile, int type) {
+	public DwarfMultiCannon(Player player, Tile tile, int type) {
 		super(player, CANNON_OBJECTS[type][0], ObjectType.SCENERY_INTERACT, 0, tile);
 		this.type = type;
 	}
@@ -142,13 +142,13 @@ public class DwarfMultiCannon extends OwnedObject {
 			player.sendMessage("You don't have all your cannon parts.");
 			return;
 		}
-		WorldTile pos = player.transform(-2, -3, 0);
+		Tile pos = player.transform(-2, -3, 0);
 		if (!World.floorAndWallsFree(pos, 3) || World.getObject(pos, ObjectType.SCENERY_INTERACT) != null) {
 			player.sendMessage("There isn't enough space to set up here.");
 			return;
 		}
 		player.lock();
-		player.setNextFaceWorldTile(pos);
+		player.setNextFaceTile(pos);
 		DwarfMultiCannon cannon = new DwarfMultiCannon(player, pos, type);
 		WorldTasks.scheduleTimer(0, 0, stage -> {
 			player.setNextAnimation(new Animation(827));
@@ -255,7 +255,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		Set<Integer> npcIndexes = World.getRegion(tile.getRegionId()).getNPCsIndexes();
 		if (npcIndexes == null)
 			return;
-		WorldTile cannonTile = this.tile.transform(1, 1, 0);
+		Tile cannonTile = this.tile.transform(1, 1, 0);
 		for (int npcIndex : npcIndexes) {
 			NPC npc = World.getNPCs().get(npcIndex);
 			if (npc == null || npc == owner.getFamiliar() || npc.isDead() || npc.hasFinished() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
@@ -267,7 +267,7 @@ public class DwarfMultiCannon extends OwnedObject {
 
 			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
 				Hit hit = PlayerCombat.calculateHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
-				WorldProjectile proj = World.sendProjectile(WorldTile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
+				WorldProjectile proj = World.sendProjectile(Tile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, hit.getDamage(), HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, hit.getDamage() / 5);
 				balls--;
@@ -279,11 +279,11 @@ public class DwarfMultiCannon extends OwnedObject {
 	}
 
 	public Direction getDirectionTo(Entity entity) {
-		Vec2 to = entity.getMiddleWorldTileAsVector();
+		Vec2 to = entity.getMiddleTileAsVector();
 		Vec2 from = new Vec2(tile.transform(1, 1, 0));
 		Vec2 sub = to.sub(from);
 		sub.norm();
-		WorldTile delta = sub.toTile();
+		Tile delta = sub.toTile();
 		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 }

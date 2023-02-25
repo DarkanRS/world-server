@@ -22,21 +22,21 @@ import java.util.List;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class RandomEvents {
 
-	private static List<WorldTile> RANDOM_TILES = new ArrayList<>();
+	private static List<Tile> RANDOM_TILES = new ArrayList<>();
 	static {
-		RANDOM_TILES.add(WorldTile.of(3208, 3219, 3));
-		RANDOM_TILES.add(WorldTile.of(2707, 3472, 1));
-		RANDOM_TILES.add(WorldTile.of(2995, 3341, 3));
-		RANDOM_TILES.add(WorldTile.of(3217, 3475, 1));
-		RANDOM_TILES.add(WorldTile.of(3083, 3415, 0));
+		RANDOM_TILES.add(Tile.of(3208, 3219, 3));
+		RANDOM_TILES.add(Tile.of(2707, 3472, 1));
+		RANDOM_TILES.add(Tile.of(2995, 3341, 3));
+		RANDOM_TILES.add(Tile.of(3217, 3475, 1));
+		RANDOM_TILES.add(Tile.of(3083, 3415, 0));
 	}
 
-	public static WorldTile getRandomTile() {
+	public static Tile getRandomTile() {
 		return RANDOM_TILES.get(Utils.random(RANDOM_TILES.size()));
 	}
 
@@ -47,7 +47,7 @@ public class RandomEvents {
 	public static void attemptSpawnRandom(Player player, boolean force) {
 		if ((!force && (World.getServerTicks() - player.getNSV().getL("lastRandom") < 3000)) || (player.getControllerManager().getController() != null && !(player.getControllerManager().getController() instanceof DamonheimController)))
 			return;
-		WorldTile spawnTile = player.getNearestTeleTile(1);
+		Tile spawnTile = player.getNearestTeleTile(1);
 		if (spawnTile == null)
 			return;
 		player.getNSV().setL("lastRandom", World.getServerTicks());

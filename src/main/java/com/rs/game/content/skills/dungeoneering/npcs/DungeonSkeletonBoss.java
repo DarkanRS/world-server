@@ -19,13 +19,13 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class DungeonSkeletonBoss extends DungeonNPC {
 
 	private DivineSkinweaver boss;
 
-	public DungeonSkeletonBoss(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public DungeonSkeletonBoss(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);
 		setForceAgressive(true);
 		setIntelligentRouteFinder(true);

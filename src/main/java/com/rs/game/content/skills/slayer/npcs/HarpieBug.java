@@ -19,14 +19,14 @@ package com.rs.game.content.skills.slayer.npcs;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class HarpieBug extends NPC {
 
-	public HarpieBug(int id, WorldTile tile) {
+	public HarpieBug(int id, Tile tile) {
 		super(id, tile);
 	}
 

@@ -39,7 +39,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -57,7 +57,7 @@ public final class Stomp extends DungeonBoss {
 
 	private List<int[]> shadows;
 
-	public Stomp(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Stomp(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9782, 9796), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true); // force cant walk
 		freeze(5000000);
@@ -80,7 +80,7 @@ public final class Stomp extends DungeonBoss {
 	}
 
 	@Override
-	public WorldTile getMiddleWorldTile() {
+	public Tile getMiddleTile() {
 		return this.getTile();
 	}
 

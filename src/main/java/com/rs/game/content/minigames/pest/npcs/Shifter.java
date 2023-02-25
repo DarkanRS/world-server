@@ -22,12 +22,12 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class Shifter extends PestMonsters {
 
-	public Shifter(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
+	public Shifter(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
 		super(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned, index, manager);
 	}
 
@@ -39,8 +39,8 @@ public class Shifter extends PestMonsters {
 			teleportSpinner(target.getTile());
 	}
 
-	private void teleportSpinner(WorldTile tile) { // def 3902, death 3903
-		setNextWorldTile(WorldTile.of(tile));
+	private void teleportSpinner(Tile tile) { // def 3902, death 3903
+		setNextTile(Tile.of(tile));
 		setNextAnimation(new Animation(3904));
 		WorldTasks.schedule(new WorldTask() {
 

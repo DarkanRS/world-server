@@ -40,7 +40,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.drop.Drop;
@@ -57,17 +57,17 @@ public final class BarrowsController extends Controller {
 	public int[] varBits = new int[20];
 
 	private static enum Hills {
-		AHRIM_HILL(WorldTile.of(3564, 3287, 0), WorldTile.of(3557, 9703, 3)),
-		DHAROK_HILL(WorldTile.of(3573, 3296, 0), WorldTile.of(3556, 9718, 3)),
-		GUTHAN_HILL(WorldTile.of(3574, 3279, 0), WorldTile.of(3534, 9704, 3)),
-		KARIL_HILL(WorldTile.of(3563, 3276, 0), WorldTile.of(3546, 9684, 3)),
-		TORAG_HILL(WorldTile.of(3553, 3281, 0), WorldTile.of(3568, 9683, 3)),
-		VERAC_HILL(WorldTile.of(3556, 3296, 0), WorldTile.of(3578, 9706, 3));
+		AHRIM_HILL(Tile.of(3564, 3287, 0), Tile.of(3557, 9703, 3)),
+		DHAROK_HILL(Tile.of(3573, 3296, 0), Tile.of(3556, 9718, 3)),
+		GUTHAN_HILL(Tile.of(3574, 3279, 0), Tile.of(3534, 9704, 3)),
+		KARIL_HILL(Tile.of(3563, 3276, 0), Tile.of(3546, 9684, 3)),
+		TORAG_HILL(Tile.of(3553, 3281, 0), Tile.of(3568, 9683, 3)),
+		VERAC_HILL(Tile.of(3556, 3296, 0), Tile.of(3578, 9706, 3));
 
-		private WorldTile outBound;
-		private WorldTile inside;
+		private Tile outBound;
+		private Tile inside;
 
-		private Hills(WorldTile outBound, WorldTile in) {
+		private Hills(Tile outBound, Tile in) {
 			this.outBound = outBound;
 			inside = in;
 		}
@@ -97,8 +97,8 @@ public final class BarrowsController extends Controller {
 		return true;
 	}
 
-	private void exit(WorldTile outside) {
-		player.setNextWorldTile(outside);
+	private void exit(Tile outside) {
+		player.setNextTile(outside);
 		leave(false);
 	}
 
@@ -273,12 +273,12 @@ public final class BarrowsController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() >= 6702 && object.getId() <= 6707) {
-			WorldTile out = Hills.values()[object.getId() - 6702].outBound;
-			exit(WorldTile.of(out.getX() + 1, out.getY() + 1, out.getPlane()));
+			Tile out = Hills.values()[object.getId() - 6702].outBound;
+			exit(Tile.of(out.getX() + 1, out.getY() + 1, out.getPlane()));
 			return false;
 		}
 		if (object.getId() >= 6709 && object.getId() <= 6712) {
-			player.useLadder(WorldTile.of(3565, 3288, 0));
+			player.useLadder(Tile.of(3565, 3288, 0));
 			leave(false);
 		} else if (object.getId() == 10284) {
 			if (player.getHiddenBrother() == -1) {
@@ -286,7 +286,7 @@ public final class BarrowsController extends Controller {
 				return false;
 			}
 			if (!player.getKilledBarrowBrothers()[player.getHiddenBrother()])
-				sendTarget(2025 + player.getHiddenBrother(), WorldTile.of(player.getTile()));
+				sendTarget(2025 + player.getHiddenBrother(), Tile.of(player.getTile()));
 			if (object.getDefinitions(player).getOption(1).equals("Search")) {
 				player.incrementCount("Barrows chests looted");
 				sendReward();
@@ -327,7 +327,7 @@ public final class BarrowsController extends Controller {
 						if (player.getHiddenBrother() != -1) {
 							int brother = getRandomBrother();
 							if (brother != -1)
-								sendTarget(2025 + brother, WorldTile.of(player.getTile()));
+								sendTarget(2025 + brother, Tile.of(player.getTile()));
 						}
 					}
 				}, 0);
@@ -348,7 +348,7 @@ public final class BarrowsController extends Controller {
 				else if (target != null || player.getKilledBarrowBrothers()[sarcoId])
 					player.sendMessage("You found nothing.");
 				else
-					sendTarget(2025 + sarcoId, WorldTile.of(player.getTile()));
+					sendTarget(2025 + sarcoId, Tile.of(player.getTile()));
 				return false;
 			}
 		}
@@ -411,7 +411,7 @@ public final class BarrowsController extends Controller {
 		sendBrotherSlain(index, true);
 	}
 
-	public void sendTarget(int id, WorldTile tile) {
+	public void sendTarget(int id, Tile tile) {
 		if (target != null)
 			target.disappear();
 		target = new BarrowsBrother(id, tile, this);

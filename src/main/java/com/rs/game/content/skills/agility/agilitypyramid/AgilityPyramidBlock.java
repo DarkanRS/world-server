@@ -29,7 +29,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
@@ -38,9 +38,9 @@ import com.rs.utils.WorldUtil;
 public class AgilityPyramidBlock extends NPC {
 
 	private int timer;
-	private WorldTile dangerTile;
+	private Tile dangerTile;
 
-	public AgilityPyramidBlock(int id, WorldTile tile) {
+	public AgilityPyramidBlock(int id, Tile tile) {
 		super(id, tile);
 		dangerTile = transform(getId() == 3125 ? 2 : 0, getId() == 3125 ? 0 : 2, 0);
 	}
@@ -65,12 +65,12 @@ public class AgilityPyramidBlock extends NPC {
 					dist = 2;
 				p.lock();
 				p.setNextAnimation(new Animation(3066));
-				final WorldTile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, 0);
+				final Tile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, 0);
 				p.setNextForceMovement(new ForceMovement(tile, dist, getId() == 3125 ? Direction.WEST : Direction.SOUTH));
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						p.setNextWorldTile(tile.transform(0, 0, -1));
+						p.setNextTile(tile.transform(0, 0, -1));
 						p.applyHit(new Hit(null, 80, HitLook.TRUE_DAMAGE));
 						p.unlock();
 					}

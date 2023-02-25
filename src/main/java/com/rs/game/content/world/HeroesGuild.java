@@ -18,7 +18,7 @@ package com.rs.game.content.world;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -43,9 +43,9 @@ public class HeroesGuild  {
 
 	public static ObjectClickHandler handleLadders = new ObjectClickHandler(new Object[] { 67691, 67690 }, e -> {
 		if (e.getObject().getId() == 67691)
-			e.getPlayer().useLadder(WorldTile.of(2906, 3516, 0));
+			e.getPlayer().useLadder(Tile.of(2906, 3516, 0));
 		else if (e.getObject().getId() == 67690)
-			e.getPlayer().useLadder(WorldTile.of(2893, 9907, 0));
+			e.getPlayer().useLadder(Tile.of(2893, 9907, 0));
 	});
 
 	public static boolean isGloryOrROW(int itemId) {

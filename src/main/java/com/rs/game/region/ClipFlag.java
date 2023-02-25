@@ -17,6 +17,7 @@
 package com.rs.game.region;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 /**
  * BW = Actually blocks a tile when step is processed
@@ -26,44 +27,53 @@ import java.util.ArrayList;
  * @author trent
  */
 public enum ClipFlag {
-	EMPTY(0xFFFFFFFF), 			// -1
+	EMPTY(true, 0xFFFFFFFF),             // -1
 
-	BW_NW(0x1), 				// 1
-	BW_N(0x2), 					// 2
-	BW_NE(0x4), 				// 4
-	BW_E(0x8), 					// 8
-	BW_SE(0x10), 				// 16
-	BW_S(0x20), 				// 32
-	BW_SW(0x40), 				// 64
-	BW_W(0x80), 				// 128
-	BW_FULL(0x100), 			// 256
+	BW_NW(0),                 // 1
+	BW_N(1),                     // 2
+	BW_NE(2),                 // 4
+	BW_E(3),                     // 8
+	BW_SE(4),                 // 16
+	BW_S(5),                 // 32
+	BW_SW(6),                 // 64
+	BW_W(7),                 // 128
+	BW_FULL(8),             // 256
 
-	BP_NW(0x200), 				// 512
-	BP_N(0x400), 				// 1024
-	BP_NE(0x800), 				// 2048
-	BP_E(0x1000), 				// 4096
-	BP_SE(0x2000), 				// 8192
-	BP_S(0x4000), 				// 16384
-	BP_SW(0x8000), 				// 32768
-	BP_W(0x10000), 				// 65536
-	BP_FULL(0x20000), 			// 131072
+	BP_NW(9),                 // 512
+	BP_N(10),                 // 1024
+	BP_NE(11),                 // 2048
+	BP_E(12),                 // 4096
+	BP_SE(13),                 // 8192
+	BP_S(14),                 // 16384
+	BP_SW(15),                 // 32768
+	BP_W(16),                 // 65536
+	BP_FULL(17),             // 131072
 
-	PFBW_GROUND_DECO(0x40000), 	// 262144
-	PFBW_FLOOR(0x200000), 		// 2097152
+	PFBW_GROUND_DECO(18),     // 262144
 
-	PF_NW(0x400000), 			// 4194304
-	PF_N(0x800000), 			// 8388608
-	PF_NE(0x1000000), 			// 16777216
-	PF_E(0x2000000), 			// 33554432
-	PF_SE(0x4000000),			// 67108864
-	PF_S(0x8000000), 			// 134217728
-	PF_SW(0x10000000), 			// 268435456
-	PF_W(0x20000000), 			// 536870912
-	PF_FULL(0x40000000); 		// 1073741824
+	BW_NPC(19),         	// 524288
+	BW_PLAYER(20),         	// 1048576
+
+	PFBW_FLOOR(22),         // 2097152
+
+	PF_NW(22),             	// 4194304
+	PF_N(23),             	// 8388608
+	PF_NE(24),             	// 16777216
+	PF_E(25),             	// 33554432
+	PF_SE(26),            	// 67108864
+	PF_S(27),             	// 134217728
+	PF_SW(28),             	// 268435456
+	PF_W(29),             	// 536870912
+	PF_FULL(30),         	// 1073741824
+	UNDER_ROOF(31);			//-2147483648
 
 	public int flag;
 
-	private ClipFlag(int flag) {
+	ClipFlag(int flag) {
+		this.flag = 1 << flag;
+	}
+
+	ClipFlag(boolean absolute, int flag) {
 		this.flag = flag;
 	}
 
@@ -87,5 +97,94 @@ public enum ClipFlag {
 		for (ClipFlag f : flags)
 			flag |= f.flag;
 		return flag;
+	}
+
+	public static int blockNorth(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_N.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_N.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_N.flag;
+		return flags;
+	}
+
+	public static int blockNorthEast(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_NE.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_NE.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_NE.flag;
+		return flags;
+	}
+
+	public static int blockNorthWest(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_NW.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_NW.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_NW.flag;
+		return flags;
+	}
+
+
+	public static int blockSouth(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_S.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_S.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_S.flag;
+		return flags;
+	}
+
+	public static int blockSouthEast(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_SE.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_SE.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_SE.flag;
+		return flags;
+	}
+
+	public static int blockSouthWest(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_SW.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_SW.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_SW.flag;
+		return flags;
+	}
+
+	public static int blockEast(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_E.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_E.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_E.flag;
+		return flags;
+	}
+
+	public static int blockWest(boolean walk, boolean projectiles, boolean pathfinder) {
+		int flags = 0;
+		if (walk)
+			flags |= ClipFlag.BW_W.flag;
+		if (projectiles)
+			flags |= ClipFlag.BP_W.flag;
+		if (pathfinder)
+			flags |= ClipFlag.PF_W.flag;
+		return flags;
 	}
 }

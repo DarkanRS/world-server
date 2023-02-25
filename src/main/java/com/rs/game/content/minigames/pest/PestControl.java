@@ -33,7 +33,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
@@ -88,7 +88,7 @@ public class PestControl {
 			unlockPortal();
 			for (Player player : team) {
 				player.getControllerManager().removeControllerWithoutCheck();
-				player.useStairs(-1, getWorldTile(35 - Utils.random(4), 54 - (Utils.random(3))), 1, 2);
+				player.useStairs(-1, getTile(35 - Utils.random(4), 54 - (Utils.random(3))), 1, 2);
 				player.getControllerManager().startController(new PestControlGameController(this));
 			}
 
@@ -98,10 +98,10 @@ public class PestControl {
 	}
 
 	private void sendBeginningWave() {
-		knight = new PestPortal(KNIGHT_IDS[Utils.random(KNIGHT_IDS.length)], true, getWorldTile(32, 32), this);
+		knight = new PestPortal(KNIGHT_IDS[Utils.random(KNIGHT_IDS.length)], true, getTile(32, 32), this);
 		knight.unlock();
 		for (int index = 0; index < portals.length; index++) {
-			PestPortal portal = portals[index] = new PestPortal(6146 + index, true, getWorldTile(PORTAL_LOCATIONS[0][index], PORTAL_LOCATIONS[1][index]), this);
+			PestPortal portal = portals[index] = new PestPortal(6146 + index, true, getTile(PORTAL_LOCATIONS[0][index], PORTAL_LOCATIONS[1][index]), this);
 			portal.setHitpoints(data.ordinal() == 0 ? 2000 : 2500);
 		}
 	}
@@ -110,12 +110,12 @@ public class PestControl {
 		if (region == null || pestCounts[index] >= (index == 4 ? 4 : (portals[index] != null && portals[index].isLocked()) ? 5 : 15))
 			return false;
 		pestCounts[index]++;
-		WorldTile baseTile = getWorldTile(PORTAL_LOCATIONS[0][index], PORTAL_LOCATIONS[1][index]);
-		WorldTile teleTile = baseTile;
+		Tile baseTile = getTile(PORTAL_LOCATIONS[0][index], PORTAL_LOCATIONS[1][index]);
+		Tile teleTile = baseTile;
 		int npcId = index == 4 ? data.getShifters()[Utils.random(data.getShifters().length)] : data.getPests()[Utils.random(data.getPests().length)];
 		NPCDefinitions defs = NPCDefinitions.getDefs(npcId);
 		for (int trycount = 0; trycount < 10; trycount++) {
-			teleTile = WorldTile.of(baseTile, 5);
+			teleTile = Tile.of(baseTile, 5);
 			if (World.floorAndWallsFree(teleTile, defs.size))
 				break;
 			teleTile = baseTile;
@@ -200,7 +200,7 @@ public class PestControl {
 		}
 	}
 
-	public boolean isBrawlerAt(WorldTile tile) {
+	public boolean isBrawlerAt(Tile tile) {
 		for (Iterator<NPC> it = brawlers.iterator(); it.hasNext();) {
 			NPC npc = it.next();
 			if (npc.isDead() || npc.hasFinished()) {
@@ -229,7 +229,7 @@ public class PestControl {
 		return portalCount == 0;
 	}
 
-	public WorldTile getWorldTile(int mapX, int mapY) {
+	public Tile getTile(int mapX, int mapY) {
 		return region.getLocalTile(mapX, mapY);
 	}
 

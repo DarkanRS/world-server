@@ -19,7 +19,7 @@ package com.rs.game.content.world;
 import com.rs.Settings;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class TownCrier extends NPC {
 
-	public TownCrier(int id, WorldTile tile) {
+	public TownCrier(int id, Tile tile) {
 		super(id, tile);
 	}
 

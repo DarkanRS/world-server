@@ -30,7 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class CorporealBeastCombat extends CombatScript {
@@ -86,12 +86,12 @@ public class CorporealBeastCombat extends CombatScript {
 				}, delay);
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
-			final WorldTile tile = WorldTile.of(target.getTile());
+			final Tile tile = Tile.of(target.getTile());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					for (int i = 0; i < 6; i++) {
-						final WorldTile newTile = WorldTile.of(tile, 3);
+						final Tile newTile = Tile.of(tile, 3);
 						if (!World.floorAndWallsFree(newTile, 1))
 							continue;
 						for (Entity t : possibleTargets) {

@@ -18,7 +18,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
@@ -170,7 +170,7 @@ public class StaffPotato {
 		}
 		case "CM-Tool" -> {
 			e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
-				SimpleImmutableEntry<WorldTile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
+				SimpleImmutableEntry<Tile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
 				if (lastLoc != null)
 					op.add("Teleport to saved location.", () -> {
 						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
@@ -181,7 +181,7 @@ public class StaffPotato {
 						});
 					});
 				op.add("Save current location.", () -> {
-					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(WorldTile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<Tile, Controller>(Tile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
 					e.getPlayer().sendMessage("Location saved.");
 				});
 			});

@@ -33,7 +33,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -199,9 +199,9 @@ public class TreasureTrailsManager {
 			if (!meerkat) {
 				boolean inWilderness = player.getControllerManager().getController() instanceof WildernessController;
 				boolean isCoordinateClue = currentClue.details.type == COORDINATE;
-				WorldTile tile = player.getNearestTeleTile(1);
+				Tile tile = player.getNearestTeleTile(1);
 				if (tile == null)
-					tile = WorldTile.of(player.getTile());
+					tile = Tile.of(player.getTile());
 				final ClueNPC npc = new ClueNPC(player, inWilderness ? isCoordinateClue ? 1007 : 5144 : isCoordinateClue ? 1264 : 5145, tile);
 				npc.setNextSpotAnim(new SpotAnim(74));
 				WorldTasks.schedule(() -> {
@@ -305,8 +305,8 @@ public class TreasureTrailsManager {
 			return;
 		if (!hasCurrentClue())
 			return;
-		else if (!player.withinDistance(WorldTile.of(currentClue.details.getId()), 8)) {
-			player.sendMessage("Hint: " + WorldTile.of(currentClue.details.getId()).toString());
+		else if (!player.withinDistance(Tile.of(currentClue.details.getId()), 8)) {
+			player.sendMessage("Hint: " + Tile.of(currentClue.details.getId()).toString());
 			return;
 		} else if (emote != ((Emote[]) currentClue.details.parameters[0])[cluePhase == 3 ? 1 : 0])
 			return;
@@ -332,7 +332,7 @@ public class TreasureTrailsManager {
 		if ((currentClue.details.type == SIMPLE || currentClue.details.type == MAP) && currentClue.details.idType == TILE) {
 			if (!hasCurrentClue())
 				return false;
-			WorldTile tile = WorldTile.of(currentClue.details.getId());
+			Tile tile = Tile.of(currentClue.details.getId());
 			if (!player.withinDistance(tile, currentClue.details.type == MAP ? meerkat ? 12 : 6 : meerkat ? 32 : 16))
 				return false;
 			setNextClue(SOURCE_DIG, meerkat);
@@ -341,7 +341,7 @@ public class TreasureTrailsManager {
 		if (currentClue.details.type == COORDINATE /*&& hasSextantItems()*/) {
 			if (!hasCurrentClue())
 				return false;
-			WorldTile t = getTile((Integer) currentClue.details.parameters[0], (Integer) currentClue.details.parameters[1], (Integer) currentClue.details.parameters[2], (Integer) currentClue.details.parameters[3],
+			Tile t = getTile((Integer) currentClue.details.parameters[0], (Integer) currentClue.details.parameters[1], (Integer) currentClue.details.parameters[2], (Integer) currentClue.details.parameters[3],
 					(Integer) currentClue.details.parameters[4], (Integer) currentClue.details.parameters[5]);
 			if (!player.withinDistance(t, meerkat ? 12 : 6)) // setted distance cuz the getTile
 				// method may miss 3-5 tiles on rs
@@ -531,13 +531,13 @@ public class TreasureTrailsManager {
 		player.getInterfaceManager().sendInterface(365);
 	}
 
-	public static WorldTile getTile(int degreeY, int minY, int dirY, int degreeX, int minX, int dirX) {
+	public static Tile getTile(int degreeY, int minY, int dirY, int degreeX, int minX, int dirX) {
 		double offsetY = degreeY * 60 / 1.875 + minY / 1.875;
 		double offsetX = degreeX * 60 / 1.875 + minX / 1.875;
-		return WorldTile.of(2440 + (dirX == EAST ? (int) offsetX : (int) -offsetX), 3162 + (dirY == NORTH ? (int) offsetY : (int) -offsetY), 0);
+		return Tile.of(2440 + (dirX == EAST ? (int) offsetX : (int) -offsetX), 3162 + (dirY == NORTH ? (int) offsetY : (int) -offsetY), 0);
 	}
 
-	private int[] getCoordinates(WorldTile tile) {
+	private int[] getCoordinates(Tile tile) {
 		int dirX = tile.getX() > 2440 ? EAST : WEST;
 		int dirY = tile.getY() > 3162 ? NORTH : SOUTH;
 		int x = dirX == EAST ? (tile.getX() - 2440) : (2440 - tile.getX());

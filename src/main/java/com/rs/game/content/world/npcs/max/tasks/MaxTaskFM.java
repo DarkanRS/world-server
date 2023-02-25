@@ -8,7 +8,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class MaxTaskFM implements Task {
@@ -23,8 +23,8 @@ public class MaxTaskFM implements Task {
 			max.wearItems(590, 23027);
 			started = true;
 		}
-		if (!max.withinDistance(WorldTile.of(3087, 3494, 0), 64)) {
-			Magic.npcItemTeleport(max, WorldTile.of(3087, 3494, 0), true, null);
+		if (!max.withinDistance(Tile.of(3087, 3494, 0), 64)) {
+			Magic.npcItemTeleport(max, Tile.of(3087, 3494, 0), true, null);
 			return 10;
 		}
 		if (logsBurned <= 0) {
@@ -58,7 +58,7 @@ public class MaxTaskFM implements Task {
 		return 5;
 	}
 	
-	public GameObject getClosestIvy(WorldTile tile) {
+	public GameObject getClosestIvy(Tile tile) {
 		GameObject ivy = null;
 		double closest = Double.MAX_VALUE;
 		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {

@@ -20,7 +20,7 @@ import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FremennikShipmaster extends Conversation {
 
@@ -36,7 +36,7 @@ public class FremennikShipmaster extends Conversation {
 	}
 	
 	public static void sail(Player player, boolean backing) {
-		player.useStairs(-1, backing ? WorldTile.of(3254, 3171, 0) : WorldTile.of(3511, 3692, 0), 2, 3);
+		player.useStairs(-1, backing ? Tile.of(3254, 3171, 0) : Tile.of(3511, 3692, 0), 2, 3);
 		if (backing)
 			player.getControllerManager().forceStop();
 		else

@@ -21,7 +21,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -77,7 +77,7 @@ public class LeprecaunLostCityD extends Conversation {
 										npc.faceEntity(p);
 										npc.setNextAnimation(new Animation(5488));
 										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
+										Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));
 										break;
 									}
 							})
@@ -156,7 +156,7 @@ public class LeprecaunLostCityD extends Conversation {
 										npc.faceEntity(p);
 										npc.setNextAnimation(new Animation(5488));
 										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
+										Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));
 										break;
 									}
 							})
@@ -195,7 +195,7 @@ public class LeprecaunLostCityD extends Conversation {
 						@Override
 						public void run() {
 							if(tick == 0 )
-								lepracaun = World.spawnNPC(LEPRACAUN, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
+								lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 							if(tick == 1)
 								lepracaun.forceTalk("Ouch!!");
 							if(tick == 10)
@@ -206,7 +206,7 @@ public class LeprecaunLostCityD extends Conversation {
 								lepracaun.forceTalk("Oww, that's sore...");
 							if(tick == 85) {
 								lepracaun.forceTalk("Welp, better head home...");
-								lepracaun.walkToAndExecute(WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
+								lepracaun.walkToAndExecute(Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
 									lepracaun.forceTalk("Back up the tree...");
 									if(!lepracaun.hasFinished())
 										lepracaun.finish();

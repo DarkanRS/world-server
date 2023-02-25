@@ -24,7 +24,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class BorkController extends Controller {
 	int stage = 0;
@@ -45,7 +45,7 @@ public class BorkController extends Controller {
 	public void process() {
 		if (borkStage == 0) {
 			if(player.getTempAttribs().getB("justSawBorkCutscene")) {
-				player.setNextWorldTile(WorldTile.of(3115, 5528, 0));
+				player.setNextTile(Tile.of(3115, 5528, 0));
 				removeController();
 				return;
 			}
@@ -56,7 +56,7 @@ public class BorkController extends Controller {
 				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(115);
 			}
 			if (stage == 5) {
-				player.setNextWorldTile(WorldTile.of(3115, 5528, 0));
+				player.setNextTile(Tile.of(3115, 5528, 0));
 				sendInterfaces();
 			}
 			if (stage == 18) {
@@ -74,9 +74,9 @@ public class BorkController extends Controller {
 				sendInterfaces();
 				bork.setCantInteract(true);
 			} else if (stage == 14) {
-				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
-				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
-				World.spawnNPC(7135, WorldTile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, Tile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, Tile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
+				World.spawnNPC(7135, Tile.of(bork.getTile(), 1), -1, true, true).setForceAgressive(true);
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
 				bork.setCantInteract(false);
 				bork.setNextForceTalk(new ForceTalk("Destroy the intruder, my Legions!"));
@@ -97,7 +97,7 @@ public class BorkController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		return true;
 	}
 

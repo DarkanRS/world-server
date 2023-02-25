@@ -33,7 +33,7 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapXTEAs;
@@ -54,10 +54,6 @@ public class Region {
 	public static final int HEIGHT = 64;
 
 	protected int regionId;
-	protected ClipMap clipMap;
-	protected ClipMap clipMapProj;
-
-	private boolean[][][] npcClipping;
 	private int[][][] overlayIds;
 	private int[][][] underlayIds;
 	private byte[][][] overlayPathShapes;
@@ -116,20 +112,13 @@ public class Region {
 		if (getLoadMapStage() == 2 && (playersIndexes == null || playersIndexes.isEmpty()) && (npcsIndexes == null || npcsIndexes.isEmpty())) {
 			objects = null;
 			clipMap = null;
-			npcClipping = null;
 			setLoadMapStage(0);
 		}
 	}
 
-	public ClipMap forceGetClipMapProjectiles() {
-		if (clipMapProj == null)
-			clipMapProj = new ClipMap(regionId, true);
-		return clipMapProj;
-	}
-
 	public ClipMap forceGetClipMap() {
 		if (clipMap == null)
-			clipMap = new ClipMap(regionId, false);
+			clipMap = new ClipMap(regionId);
 		return clipMap;
 	}
 
@@ -137,9 +126,7 @@ public class Region {
 		if (object.getId() == -1)
 			return;
 		if (clipMap == null)
-			clipMap = new ClipMap(regionId, false);
-		if (clipMapProj == null)
-			clipMapProj = new ClipMap(regionId, true);
+			clipMap = new ClipMap(regionId);
 		int plane = object.getPlane();
 		ObjectType type = object.getType();
 		int rotation = object.getRotation();
@@ -156,8 +143,6 @@ public class Region {
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
 			clipMap.addWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
-			if (defs.blocks())
-				clipMapProj.addWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -182,8 +167,8 @@ public class Region {
 				sizeY = defs.getSizeX();
 			}
 			clipMap.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
-			if (defs.clipType != 0)
-				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
+//			if (defs.clipType != 0)
+//				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)
@@ -196,19 +181,13 @@ public class Region {
 
 	public void unclip(int plane, int x, int y) {
 		if (clipMap == null)
-			clipMap = new ClipMap(regionId, false);
-		if (clipMapProj == null)
-			clipMapProj = new ClipMap(regionId, true);
+			clipMap = new ClipMap(regionId);
 		clipMap.setFlag(plane, x, y, 0);
 	}
 
 	public void unclip(GameObject object, int x, int y) {
 		if (object.getId() == -1) // dont clip or noclip with id -1
 			return;
-		if (clipMap == null)
-			clipMap = new ClipMap(regionId, false);
-		if (clipMapProj == null)
-			clipMapProj = new ClipMap(regionId, true);
 		int plane = object.getPlane();
 		ObjectType type = object.getType();
 		int rotation = object.getRotation();
@@ -225,8 +204,6 @@ public class Region {
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
 			clipMap.removeWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
-			if (defs.blocks())
-				clipMapProj.removeWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -251,8 +228,6 @@ public class Region {
 				sizeY = defs.getSizeY();
 			}
 			clipMap.removeObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
-			if (defs.blocks())
-				clipMapProj.removeObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)
@@ -566,7 +541,7 @@ public class Region {
 				continue;
 			return object;
 		}
-		return getSpawnedObject(WorldTile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane));
+		return getSpawnedObject(Tile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane));
 	}
 
 	public GameObject getObject(int plane, int x, int y, ObjectType type) {
@@ -579,7 +554,7 @@ public class Region {
 			if (object.getType() == type)
 				return object;
 		}
-		return getSpawnedObject(WorldTile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane), type);
+		return getSpawnedObject(Tile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane), type);
 	}
 
 	// override by static region to get objects from needed
@@ -619,7 +594,7 @@ public class Region {
 		return list;
 	}
 
-	public GameObject getSpawnedObject(WorldTile tile) {
+	public GameObject getSpawnedObject(Tile tile) {
 		if (spawnedObjects == null)
 			return null;
 		for (GameObject object : spawnedObjects)
@@ -628,7 +603,7 @@ public class Region {
 		return null;
 	}
 
-	public GameObject getSpawnedObject(WorldTile tile, ObjectType type) {
+	public GameObject getSpawnedObject(Tile tile, ObjectType type) {
 		if (spawnedObjects == null)
 			return null;
 		for (GameObject object : spawnedObjects)
@@ -777,7 +752,7 @@ public class Region {
 			return; // cliped tile
 
 		if (localX >= 64 || localY >= 64 || localX < 0 || localY < 0) {
-			WorldTile tile = WorldTile.of(clipMap.getRegionX() + localX, clipMap.getRegionY() + localY, plane);
+			Tile tile = Tile.of(clipMap.getRegionX() + localX, clipMap.getRegionY() + localY, plane);
 			int regionId = tile.getRegionId();
 			int newRegionX = (regionId >> 8) * 64;
 			int newRegionY = (regionId & 0xff) * 64;
@@ -792,19 +767,13 @@ public class Region {
 		return 0;
 	}
 
-	public int getClipFlagsProj(int plane, int localX, int localY) {
-		if (clipMapProj == null || getLoadMapStage() != 2)
-			return -1;
-		return clipMapProj.getMasks()[plane][localX][localY];
-	}
-
 	public List<GroundItem> getAllGroundItems() {
 		if (groundItemList == null)
 			groundItemList = new CopyOnWriteArrayList<>();
 		return groundItemList;
 	}
 
-	public GroundItem getGroundItem(int itemId, WorldTile tile, int playerId) {
+	public GroundItem getGroundItem(int itemId, Tile tile, int playerId) {
 		if (groundItems == null)
 			return null;
 		Map<Integer, List<GroundItem>> tileMap = groundItems.get(playerId);
@@ -823,7 +792,7 @@ public class Region {
 		return getGroundItem(item.getId(), item.getTile(), item.getVisibleToId()) != null;
 	}
 
-	public GroundItem getGroundItem(int itemId, WorldTile tile, Player player) {
+	public GroundItem getGroundItem(int itemId, Tile tile, Player player) {
 		GroundItem item = getGroundItem(itemId, tile, player == null ? 0 : player.getUuid());
 		if (item == null)
 			item = getGroundItem(itemId, tile, 0);
@@ -1053,17 +1022,5 @@ public class Region {
 		if (data == null)
 			return false;
 		return true;
-	}
-
-	public boolean getClipNPC(int plane, int x, int y) {
-		if (npcClipping == null)
-			return false;
-		return npcClipping[plane][x][y];
-	}
-
-	public void setClipNPC(int plane, int x, int y, boolean clip) {
-		if (npcClipping == null)
-			npcClipping = new boolean[4][64][64];
-		npcClipping[plane][x][y] = clip;
 	}
 }

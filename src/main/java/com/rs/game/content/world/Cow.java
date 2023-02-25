@@ -19,7 +19,7 @@ package com.rs.game.content.world;
 import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Cow extends NPC {
 
-    public Cow(int id, WorldTile tile) {
+    public Cow(int id, Tile tile) {
         super(id, tile);
     }
 

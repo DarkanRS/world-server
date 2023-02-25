@@ -21,7 +21,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -30,7 +30,7 @@ public class MutatedZygomite extends ConditionalDeath {
 
 	boolean lvl74;
 
-	public MutatedZygomite(int id, WorldTile tile) {
+	public MutatedZygomite(int id, Tile tile) {
 		super(7421, null, false, id, tile);
 		lvl74 = id == 3344;
 	}
@@ -44,7 +44,7 @@ public class MutatedZygomite extends ConditionalDeath {
 
 	private void resetNPC() {
 		setNextNPCTransformation(lvl74 ? 3344 : 3345);
-		setNextWorldTile(getRespawnTile());
+		setNextTile(getRespawnTile());
 	}
 
 	@Override

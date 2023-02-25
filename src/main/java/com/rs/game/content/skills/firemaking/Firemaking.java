@@ -32,7 +32,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 
 public class Firemaking extends Action {
@@ -133,7 +133,7 @@ public class Firemaking extends Action {
 			player.sendMessage("You attempt to light the logs.", true);
 		if (player != null && groundItem == null) {
 			player.getInventory().deleteItem(fire.getLogId(), 1);
-			World.addGroundItem(new Item(fire.getLogId(), 1), WorldTile.of(entity.getTile()), player, true, 180);
+			World.addGroundItem(new Item(fire.getLogId(), 1), Tile.of(entity.getTile()), player, true, 180);
 		}
 		boolean quickFire = entity.getTempAttribs().removeL("Fire") > System.currentTimeMillis();
 		setActionDelay(entity, quickFire ? 1 : 2);
@@ -194,7 +194,7 @@ public class Firemaking extends Action {
 	public int processWithDelay(Entity entity) {
 		Player player = getPlayer(entity);
 		
-		final WorldTile tile = WorldTile.of(entity.getTile());
+		final Tile tile = Tile.of(entity.getTile());
 		if (!entity.addWalkSteps(entity.getX() - 1, entity.getY(), 1))
 			if (!entity.addWalkSteps(entity.getX() + 1, entity.getY(), 1))
 				if (!entity.addWalkSteps(entity.getX(), entity.getY() + 1, 1))
@@ -212,7 +212,7 @@ public class Firemaking extends Action {
 				World.spawnTempGroundObject(new GameObject(fire.getFireId(), ObjectType.SCENERY_INTERACT, 0, tile.getX(), tile.getY(), tile.getPlane()), 592, fire.getLife());
 				if (player != null)
 					player.getSkills().addXp(Constants.FIREMAKING, increasedExperience(player, fire.getExperience()));
-				entity.setNextFaceWorldTile(tile);
+				entity.setNextFaceTile(tile);
 			}
 		}, 1);
 		entity.getTempAttribs().setL("Fire", System.currentTimeMillis() + 1800);

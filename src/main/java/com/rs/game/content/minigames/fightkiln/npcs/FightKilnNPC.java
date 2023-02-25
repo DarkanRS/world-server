@@ -29,13 +29,13 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FightKilnNPC extends NPC {
 
 	private FightKilnController controller;
 
-	public FightKilnNPC(int id, WorldTile tile, FightKilnController controller) {
+	public FightKilnNPC(int id, Tile tile, FightKilnController controller) {
 		super(id, tile, true);
 		setForceMultiArea(true);
 		setNoDistanceCheck(true);

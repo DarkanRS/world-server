@@ -188,9 +188,9 @@ public final class LocalNPCUpdate {
 			applyChangeLevelMask(n, block);
 		}
 		//0x400000 unused outdated varn
-		if (n.getNextFaceWorldTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null) {
+		if (n.getNextFaceTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null) {
 			maskData |= 0x4;
-			applyFaceWorldTileMask(n, block);
+			applyFaceTileMask(n, block);
 		}
 		if (n.getNextBodyGlow() != null) {
 			maskData |= 0x20000;
@@ -270,9 +270,9 @@ public final class LocalNPCUpdate {
 		data.writeShortLE128(n.getNextForceMovement().getDirection());
 	}
 
-	private void applyFaceWorldTileMask(NPC n, OutputStream data) {
-		data.writeShortLE128((n.getNextFaceWorldTile().getX() << 1) + 1);
-		data.writeShortLE((n.getNextFaceWorldTile().getY() << 1) + 1);
+	private void applyFaceTileMask(NPC n, OutputStream data) {
+		data.writeShortLE128((n.getNextFaceTile().getX() << 1) + 1);
+		data.writeShortLE((n.getNextFaceTile().getY() << 1) + 1);
 	}
 
 	private void applyHitMask(NPC n, OutputStream data) {

@@ -20,7 +20,7 @@ import com.rs.game.World;
 import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ObjectOp;
@@ -32,7 +32,7 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 	public void handle(Player player, ObjectOp packet) {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
-		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
+		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;

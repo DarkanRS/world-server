@@ -25,7 +25,7 @@ import com.rs.game.content.minigames.pest.PestControl;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class PestMonsters extends NPC {
@@ -33,7 +33,7 @@ public class PestMonsters extends NPC {
 	protected PestControl manager;
 	protected int portalIndex;
 
-	public PestMonsters(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
+	public PestMonsters(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
 		super(id, tile, spawned);
 		this.manager = manager;
 		portalIndex = index;

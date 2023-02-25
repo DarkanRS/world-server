@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.gnome_stronghold;
 
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -56,9 +56,9 @@ public class TreeGnomeStronghold {
 
 	public static ObjectClickHandler handleSpecialStair = new ObjectClickHandler(new Object[] { 69549, 69550 }, e -> {
 		if(e.getPlayer().getPlane() == 1) {
-			e.getPlayer().useStairs(WorldTile.of(2485, 3463, 2));
+			e.getPlayer().useStairs(Tile.of(2485, 3463, 2));
 			return;
 		}
-		e.getPlayer().useStairs(WorldTile.of(2483, 3463, 1));
+		e.getPlayer().useStairs(Tile.of(2483, 3463, 1));
 	});
 }

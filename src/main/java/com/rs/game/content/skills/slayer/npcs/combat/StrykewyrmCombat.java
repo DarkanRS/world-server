@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
@@ -83,7 +83,7 @@ public class StrykewyrmCombat extends CombatScript {
 						target.getPoison().makePoisoned(88);
 				}
 		} else if (attackStyle == 20) { // bury
-			final WorldTile tile = WorldTile.of(target.getTile()).transform(-1, -1, 0);
+			final Tile tile = Tile.of(target.getTile()).transform(-1, -1, 0);
 			npc.setNextAnimation(new Animation(12796));
 			npc.setCantInteract(true);
 			npc.getCombat().removeTarget();

@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.godwars.bandos;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -28,7 +28,7 @@ public class GeneralGraardor extends NPC {
 
 	private GodWarMinion[] minions = new GodWarMinion[3];
 
-	public GeneralGraardor(int id, WorldTile tile, boolean spawned) {
+	public GeneralGraardor(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setForceFollowClose(true);
 		setIntelligentRouteFinder(true);

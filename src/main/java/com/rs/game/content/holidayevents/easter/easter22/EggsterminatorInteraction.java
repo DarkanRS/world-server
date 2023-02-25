@@ -26,7 +26,7 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
     public void interact(Player player) {
         player.lock();
         player.resetWalkSteps();
-        player.setNextFaceWorldTile(target.getTile());
+        player.setNextFaceTile(target.getTile());
         player.setNextAnimation(new Animation(12174));
         player.setNextSpotAnim(new SpotAnim(2138));
         

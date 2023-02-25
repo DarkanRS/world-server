@@ -173,8 +173,6 @@ public class DynamicRegion extends Region {
 						objects[chunkZ][fullX][fullY][slot] = null;
 				if (clipMap != null)
 					clipMap.setFlag(chunkZ, fullX, fullY, 0);
-				if (clipMapProj != null)
-					clipMapProj.setFlag(chunkZ, fullX, fullY, 0);
 
 				List<GameObject> ro = new ArrayList<>(removedObjects.values());
 				for (GameObject removed : ro)

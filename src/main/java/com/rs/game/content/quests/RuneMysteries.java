@@ -32,7 +32,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
@@ -285,7 +285,7 @@ public class RuneMysteries extends QuestOutline {
 												WorldTasks.schedule(new WorldTask() {
 													@Override
 													public void run() {
-														e.getPlayer().setNextWorldTile(WorldTile.of(3113, 3175, 0, 0));
+														e.getPlayer().setNextTile(Tile.of(3113, 3175, 0, 0));
 													}
 												}, 2);
 												player.getInventory().deleteItem(290, 1);

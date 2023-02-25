@@ -27,7 +27,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Pyre extends OwnedObject {
 
@@ -106,7 +106,7 @@ public class Pyre extends OwnedObject {
 
 		private int life;
 
-		public ReleasedSpirit(Player owner, WorldTile tile, boolean shade) {
+		public ReleasedSpirit(Player owner, Tile tile, boolean shade) {
 			super(owner, shade ? 1242 : 7687, tile, false);
 			life = shade ? 6 : 12;
 		}

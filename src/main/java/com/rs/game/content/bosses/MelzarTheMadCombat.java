@@ -13,7 +13,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class MelzarTheMadCombat extends CombatScript {
@@ -35,7 +35,7 @@ public class MelzarTheMadCombat extends CombatScript {
 
 			switch (Utils.random(0, 3)) {
 			case 0 -> {
-				World.addGroundItem(new Item(1965, 1), WorldTile.of(target.getX() + Utils.random(0, 2) - 1, target.getY() + Utils.random(0, 2) - 1, target.getPlane()), (Player)target);
+				World.addGroundItem(new Item(1965, 1), Tile.of(target.getX() + Utils.random(0, 2) - 1, target.getY() + Utils.random(0, 2) - 1, target.getPlane()), (Player)target);
 				npc.setNextAnimation(new Animation(Utils.random(0, 2) == 0 ? 423 : 422));
 				int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
 				delayHit(npc, 0, target, getMeleeHit(npc, damage));

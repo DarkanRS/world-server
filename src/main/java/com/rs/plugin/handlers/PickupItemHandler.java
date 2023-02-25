@@ -18,40 +18,40 @@ package com.rs.plugin.handlers;
 
 import java.util.function.Consumer;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.events.PickupItemEvent;
 
 public class PickupItemHandler extends PluginHandler<PickupItemEvent> {
 
-	private WorldTile[] tiles;
+	private Tile[] tiles;
 
-	public PickupItemHandler(Object[] namesOrIds, WorldTile[] tiles, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(Object[] namesOrIds, Tile[] tiles, Consumer<PickupItemEvent> handler) {
 		super(namesOrIds, handler);
 		this.tiles = tiles;
 	}
 	
-	public PickupItemHandler(Object[] namesOrIds, WorldTile tile, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(Object[] namesOrIds, Tile tile, Consumer<PickupItemEvent> handler) {
 		super(namesOrIds, handler);
-		this.tiles = new WorldTile[] { tile };
+		this.tiles = new Tile[] { tile };
 	}
 	
-	public PickupItemHandler(int id, WorldTile[] tiles, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(int id, Tile[] tiles, Consumer<PickupItemEvent> handler) {
 		this(new Object[] { id }, tiles, handler);
 	}
 	
-	public PickupItemHandler(int id, WorldTile tile, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(int id, Tile tile, Consumer<PickupItemEvent> handler) {
 		this(new Object[] { id }, tile, handler);
 	}
 	
-	public PickupItemHandler(String name, WorldTile[] tiles, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(String name, Tile[] tiles, Consumer<PickupItemEvent> handler) {
 		this(new Object[] { name }, tiles, handler);
 	}
 
-	public PickupItemHandler(String name, WorldTile tile, Consumer<PickupItemEvent> handler) {
+	public PickupItemHandler(String name, Tile tile, Consumer<PickupItemEvent> handler) {
 		this(new Object[] { name }, tile, handler);
 	}
 	
-	public WorldTile[] getTiles() {
+	public Tile[] getTiles() {
 		return tiles;
 	}
 }

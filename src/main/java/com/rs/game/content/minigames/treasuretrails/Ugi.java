@@ -18,11 +18,11 @@ package com.rs.game.content.minigames.treasuretrails;
 
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Ugi extends OwnedNPC {
 
-	public Ugi(Player target, int id, WorldTile tile) {
+	public Ugi(Player target, int id, Tile tile) {
 		super(target, id, tile, false);
 	}
 

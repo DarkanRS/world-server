@@ -27,7 +27,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -86,7 +86,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 							public void run() {
 								if(tick == 0) {
 									npc.setRespawnTask(50);
-									WorldTile tile = npc.getTile();
+									Tile tile = npc.getTile();
 									npc.finish();
 									ali2 = World.spawnNPC(PRINCE_ALI2, tile, -1, false, true);
 								}

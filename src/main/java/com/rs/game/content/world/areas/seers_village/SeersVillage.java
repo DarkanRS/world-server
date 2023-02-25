@@ -59,7 +59,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -102,11 +102,11 @@ public class SeersVillage {
 		if(p.getX() < obj.getX()) {
 			WorldTasks.scheduleTimer(0, tick -> {
 				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(WorldTile.of(2662, 3500, 0), 1, Direction.EAST));
+					p.setNextForceMovement(new ForceMovement(Tile.of(2662, 3500, 0), 1, Direction.EAST));
 					p.setNextAnimation(new Animation(3844));
 				}
 				if (tick == 2) {
-					p.setNextWorldTile(WorldTile.of(2662, 3500, 0));
+					p.setNextTile(Tile.of(2662, 3500, 0));
 					return false;
 				}
 				return true;
@@ -114,11 +114,11 @@ public class SeersVillage {
 		} else {
 			WorldTasks.scheduleTimer(0, tick -> {
 				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(WorldTile.of(2661, 3500, 0), 1, Direction.WEST));
+					p.setNextForceMovement(new ForceMovement(Tile.of(2661, 3500, 0), 1, Direction.WEST));
 					p.setNextAnimation(new Animation(3844));
 				}
 				if (tick == 2) {
-					p.setNextWorldTile(WorldTile.of(2661, 3500, 0));
+					p.setNextTile(Tile.of(2661, 3500, 0));
 					return false;
 				}
 				return true;

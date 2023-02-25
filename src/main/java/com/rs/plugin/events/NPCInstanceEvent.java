@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
@@ -29,10 +29,10 @@ public class NPCInstanceEvent implements PluginEvent {
 	private static Map<Object, NPCInstanceHandler> HANDLERS = new HashMap<>();
 
 	private int npcId;
-	private WorldTile tile;
+	private Tile tile;
 	private boolean spawned;
 
-	public NPCInstanceEvent(int npcId, WorldTile tile, boolean spawned) {
+	public NPCInstanceEvent(int npcId, Tile tile, boolean spawned) {
 		this.npcId = npcId;
 		this.tile = tile;
 		this.spawned = spawned;
@@ -42,7 +42,7 @@ public class NPCInstanceEvent implements PluginEvent {
 		return npcId;
 	}
 
-	public WorldTile getTile() {
+	public Tile getTile() {
 		return tile;
 	}
 

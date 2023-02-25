@@ -11,7 +11,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -111,7 +111,7 @@ public class LostCity extends QuestOutline {
 					public void run() {
 						if(tick == 1) {
 							p.sendMessage("The world starts to shimmer...");
-							FairyRings.sendTeleport(p, WorldTile.of(2452, 4473, 0));
+							FairyRings.sendTeleport(p, Tile.of(2452, 4473, 0));
 							p.lock(4);
 						}
 						if(tick == 4)

@@ -9,7 +9,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.Region;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -23,7 +23,7 @@ public class Matthias extends NPC {
 	private static List<GameObject> POST_TILES = new ArrayList<>();
 	private static final int BIRD_FREQUENCY = Ticks.fromSeconds(15);
 
-	public Matthias(WorldTile tile) {
+	public Matthias(Tile tile) {
 		super(5092, tile);
 	}
 	

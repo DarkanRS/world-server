@@ -18,13 +18,13 @@ package com.rs.game.content.bosses.nomad;
 
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FakeNomad extends NPC {
 
 	private Nomad nomad;
 
-	public FakeNomad(WorldTile tile, Nomad nomad) {
+	public FakeNomad(Tile tile, Nomad nomad) {
 		super(8529, tile, true);
 		this.nomad = nomad;
 		setForceMultiArea(true);

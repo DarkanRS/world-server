@@ -84,7 +84,7 @@ class Musician {
                 if (nearbyNPC == null)
                     continue
                 for (musicianId in MUSICIANS)
-                    if (nearbyNPC.id == musicianId && p.withinDistance(nearbyNPC.middleWorldTile, 2))
+                    if (nearbyNPC.id == musicianId && p.withinDistance(nearbyNPC.middleTile, 2))
                         return true
             }
             return false

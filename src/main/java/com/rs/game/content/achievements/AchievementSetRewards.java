@@ -31,7 +31,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -42,8 +42,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class AchievementSetRewards {
 
-	private static final WorldTile ARDY_FARM = WorldTile.of(2664, 3375, 0);
-	private static final WorldTile KANDARIN_MONASTERY = WorldTile.of(2607, 3222, 0);
+	private static final Tile ARDY_FARM = Tile.of(2664, 3375, 0);
+	private static final Tile KANDARIN_MONASTERY = Tile.of(2607, 3222, 0);
 	
 	public static NPCDropHandler handleNotingDagBones = new NPCDropHandler(new Object[] { 2881, 2882, 2883 }, new Object[] { 6729 }, e -> {
 		if (e.getPlayer().getEquipment().getBootsId() == 19766)
@@ -90,7 +90,7 @@ public class AchievementSetRewards {
 	public static ItemClickHandler handleExplorersRing = new ItemClickHandler(new Object[] { 13560, 13561, 13562, 19760 }, new String[] { "Cabbage-port", "Run-replenish", "Low-alchemy", "Low-Alchemy", "High-Alchemy", "Superheat", "Alchemy-or-superheat" }, e -> {
 		switch(e.getOption()) {
 		case "Cabbage-port":
-			Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, WorldTile.of(3053, 3291, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, Tile.of(3053, 3291, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 			break;
 		case "Run-replenish":
 			if ((e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) || (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2)) {
@@ -173,12 +173,12 @@ public class AchievementSetRewards {
 
 	public static ObjectClickHandler handleUndergroundGem = new ObjectClickHandler(new Object[] { 23584, 23586 }, e -> {
 		if (e.getObjectId() == 23584)
-			e.getPlayer().useLadder(WorldTile.of(2825, 2997, 0));
+			e.getPlayer().useLadder(Tile.of(2825, 2997, 0));
 		else
-			e.getPlayer().useLadder(WorldTile.of(2838, 9387, 0));
+			e.getPlayer().useLadder(Tile.of(2838, 9387, 0));
 	});
 
-	public static ItemClickHandler handleKaramjaGlovesTele = new ItemClickHandler(new Object[] { 11140, 19754 }, new String[] { "Teleport" }, e -> Magic.sendNormalTeleportSpell(e.getPlayer(), WorldTile.of(2841, 9387, 0)));
+	public static ItemClickHandler handleKaramjaGlovesTele = new ItemClickHandler(new Object[] { 11140, 19754 }, new String[] { "Teleport" }, e -> Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2841, 9387, 0)));
 
 	public static ObjectClickHandler handleCooksGuildSpecialDoor = new ObjectClickHandler(new Object[] { 26810 }, e -> {
 		if (AchievementDef.meetsRequirements(e.getPlayer(), Area.VARROCK, Difficulty.HARD))
@@ -242,7 +242,7 @@ public class AchievementSetRewards {
 			e.getPlayer().sendMessage("You already used your teleports for today.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, WorldTile.of(3683, 9888, 0), 3, false, Magic.MAGIC_TELEPORT, null))
+		if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, Tile.of(3683, 9888, 0), 3, false, Magic.MAGIC_TELEPORT, null))
 			e.getPlayer().incDailyI("moryLegSlimeTeles");
 	}
 	});

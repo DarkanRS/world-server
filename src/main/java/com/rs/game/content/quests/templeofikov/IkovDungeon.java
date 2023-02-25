@@ -17,7 +17,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -36,8 +36,8 @@ public class IkovDungeon {
 			e.getNPC().sendDrop(p, new Item(87));
 	});
 	
-	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, WorldTile.of(2637, 9808, 0), e -> {
-		e.getPlayer().useLadder(WorldTile.of(2637, 3409, 0));	
+	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, Tile.of(2637, 9808, 0), e -> {
+		e.getPlayer().useLadder(Tile.of(2637, 3409, 0));	
 	});
 
 	public static ItemOnObjectHandler leverIceDoor = new ItemOnObjectHandler(false, new Object[] { 86 }, e -> {
@@ -53,7 +53,7 @@ public class IkovDungeon {
 			e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).setB("LeverIcePulled", true);
 	});
 
-	public static ObjectClickHandler handleLadderToMcGruborsShed = new ObjectClickHandler(new Object[]{ 32015 }, WorldTile.of(2659, 9892, 0), e -> e.getPlayer().useLadder(WorldTile.of(2658, 3492, 0)));
+	public static ObjectClickHandler handleLadderToMcGruborsShed = new ObjectClickHandler(new Object[]{ 32015 }, Tile.of(2659, 9892, 0), e -> e.getPlayer().useLadder(Tile.of(2658, 3492, 0)));
 
 	public static ObjectClickHandler handleFireWarriorDoorWithFight = new ObjectClickHandler(new Object[]{ 93 }, e -> {
 		if(e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).getB("FireWarriorKilled")) {
@@ -71,7 +71,7 @@ public class IkovDungeon {
 
 	public static ObjectClickHandler handleArmadylWall = new ObjectClickHandler(new Object[]{1586}, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
-	public static PickupItemHandler handleArmaStaffPickup = new PickupItemHandler(new Object[] { 84 }, WorldTile.of(2638, 9906, 0), e -> {
+	public static PickupItemHandler handleArmaStaffPickup = new PickupItemHandler(new Object[] { 84 }, Tile.of(2638, 9906, 0), e -> {
 		for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
 			if (npc.getName().contains("Guardian of Armadyl") && npc.lineOfSightTo(e.getPlayer(), false)) {
 				e.cancelPickup();
@@ -169,7 +169,7 @@ public class IkovDungeon {
 		e.getPlayer().sendMessage("The door is firmly shut...");
 	});
 
-	public static PlayerStepHandler handleBridge = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2650, 9828, 0), WorldTile.of(2650, 9829, 0), WorldTile.of(2647, 9828, 0), WorldTile.of(2647, 9829, 0) }, e -> {
+	public static PlayerStepHandler handleBridge = new PlayerStepHandler(new Tile[] { Tile.of(2650, 9828, 0), Tile.of(2650, 9829, 0), Tile.of(2647, 9828, 0), Tile.of(2647, 9829, 0) }, e -> {
 		Player p = e.getPlayer();
 		if(p.getTempAttribs().getB("CrossingIkovBridge"))
 			return;
@@ -178,7 +178,7 @@ public class IkovDungeon {
 		p.getTempAttribs().setB("CrossingIkovBridge", true);
 		WorldTasks.scheduleTimer(i -> {
 			if(i == 1)
-				p.addWalkSteps(WorldTile.of((e.getTile().getX() == 2650 ? 2647 : 2650), e.getTile().getY(), 0), 4, false);
+				p.addWalkSteps(Tile.of((e.getTile().getX() == 2650 ? 2647 : 2650), e.getTile().getY(), 0), 4, false);
 			if(i == 2 && p.getWeight() > 0) {
 				p.resetWalkSteps();
 				p.sendMessage("The bridge gives way under the weight...");
@@ -187,7 +187,7 @@ public class IkovDungeon {
 			}
 			if(i == 4  && p.getWeight() > 0) {
 				p.sendMessage("Good thing the lava was shallow!");
-				p.setNextWorldTile(WorldTile.of(2648, 9826, 0));
+				p.setNextTile(Tile.of(2648, 9826, 0));
 				p.setRunHidden(true);
 				p.getTempAttribs().removeB("CrossingIkovBridge");
 				return false;

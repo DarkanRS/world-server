@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class AsteaFrostweb extends DungeonBoss {
@@ -35,7 +35,7 @@ public final class AsteaFrostweb extends DungeonBoss {
 	private int spawnedSpiders;
 	private NPC[] spiders;
 
-	public AsteaFrostweb(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public AsteaFrostweb(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9965, 10021, 3), manager.getBossLevel()), tile, manager, reference);
 		spiders = new NPC[6];
 		setHitpoints(getMaxHitpoints());
@@ -80,7 +80,7 @@ public final class AsteaFrostweb extends DungeonBoss {
 			return;
 		// spawnedSpiders
 		for (int tryI = 0; tryI < 10; tryI++) {
-			WorldTile tile = WorldTile.of(getTile(), 2);
+			Tile tile = Tile.of(getTile(), 2);
 			if (World.floorAndWallsFree(tile, 1)) {
 				NPC spider = spiders[spawnedSpiders++] = new NPC(64, tile, true);
 				spider.setForceAgressive(true);

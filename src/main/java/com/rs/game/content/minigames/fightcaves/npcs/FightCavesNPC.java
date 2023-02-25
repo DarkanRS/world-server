@@ -25,11 +25,11 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FightCavesNPC extends NPC {
 
-	public FightCavesNPC(int id, WorldTile tile) {
+	public FightCavesNPC(int id, Tile tile) {
 		super(id, tile, true);
 		setForceMultiArea(true);
 		setIgnoreDocile(true);

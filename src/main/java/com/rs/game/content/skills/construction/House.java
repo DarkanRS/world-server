@@ -49,7 +49,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -340,7 +340,7 @@ public class House {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					p.setNextWorldTile(WorldTile.of(p.getX(), p.getY(), 0));
+					p.setNextTile(Tile.of(p.getX(), p.getY(), 0));
 					p.setNextAnimation(new Animation(3640));
 				}
 			}, 5);
@@ -351,21 +351,21 @@ public class House {
 	public void releasePlayers(int roomX, int roomY, int... trapIds) {
 		int x = region.getLocalX(roomX, 3);
 		int y = region.getLocalY(roomY, 3);
-		World.removeObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, WorldTile.of(x, y, player.getPlane())));
+		World.removeObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, Tile.of(x, y, player.getPlane())));
 		if (trapIds.length > 1)
-			World.removeObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, WorldTile.of(x + 1, y, player.getPlane())));
+			World.removeObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, Tile.of(x + 1, y, player.getPlane())));
 		if (trapIds.length > 2)
-			World.removeObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, WorldTile.of(x, y + 1, player.getPlane())));
+			World.removeObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, Tile.of(x, y + 1, player.getPlane())));
 		if (trapIds.length > 3)
-			World.removeObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, WorldTile.of(x + 1, y + 1, player.getPlane())));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x - 1, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x - 1, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 1, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 1, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 2, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 2, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+			World.removeObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, Tile.of(x + 1, y + 1, player.getPlane())));
+		World.removeObject(World.getObjectWithType(Tile.of(x - 1, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x - 1, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 1, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 1, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 2, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 2, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
 		for (Player p : getTrappedPlayers(x, y))
 			p.resetWalkSteps();
 	}
@@ -373,21 +373,21 @@ public class House {
 	public void trapPlayers(int roomX, int roomY, int... trapIds) {
 		int x = region.getLocalX(roomX, 3);
 		int y = region.getLocalY(roomY, 3);
-		World.spawnObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, WorldTile.of(x, y, player.getPlane())));
+		World.spawnObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, Tile.of(x, y, player.getPlane())));
 		if (trapIds.length > 1)
-			World.spawnObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, WorldTile.of(x + 1, y, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, Tile.of(x + 1, y, player.getPlane())));
 		if (trapIds.length > 2)
-			World.spawnObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, WorldTile.of(x, y + 1, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, Tile.of(x, y + 1, player.getPlane())));
 		if (trapIds.length > 3)
-			World.spawnObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, WorldTile.of(x + 1, y + 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(x - 1, y + 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(x - 1, y, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(x, y + 2, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(x + 1, y + 2, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(x, y - 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(x + 1, y - 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(x + 2, y, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(x + 2, y + 1, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, Tile.of(x + 1, y + 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, Tile.of(x - 1, y + 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, Tile.of(x - 1, y, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, Tile.of(x, y + 2, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, Tile.of(x + 1, y + 2, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, Tile.of(x, y - 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, Tile.of(x + 1, y - 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, Tile.of(x + 2, y, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, Tile.of(x + 2, y + 1, player.getPlane())));
 		for (Player p : getTrappedPlayers(x, y))
 			p.resetWalkSteps();
 	}
@@ -448,10 +448,10 @@ public class House {
 			yOff = 1;
 			xOff = 2;
 		}
-		player.ladder(WorldTile.of(region.getLocalX(roomTo.getX(), xOff), region.getLocalY(roomTo.getY(), yOff), player.getPlane() + (up ? 1 : -1)));
+		player.ladder(Tile.of(region.getLocalX(roomTo.getX(), xOff), region.getLocalY(roomTo.getY(), yOff), player.getPlane() + (up ? 1 : -1)));
 	}
 
-	public WorldTile getCenterTile(RoomReference rRef) {
+	public Tile getCenterTile(RoomReference rRef) {
 		if (region == null || rRef == null)
 			return null;
 		return region.getLocalTile(rRef.x * 8 + 3, rRef.y * 8 + 3);
@@ -524,7 +524,7 @@ public class House {
 			player.sendMessage("These stairs do not lead anywhere.");
 			return;
 		}
-		player.useStairs(-1, WorldTile.of(player.getX(), player.getY(), player.getPlane() + (up ? 1 : -1)), 0, 1);
+		player.useStairs(-1, Tile.of(player.getX(), player.getY(), player.getPlane() + (up ? 1 : -1)), 0, 1);
 
 	}
 
@@ -1005,7 +1005,7 @@ public class House {
 			player.sendMessage("The house has no servant.");
 		else {
 			servantInstance.setFollowing(true);
-			servantInstance.setNextWorldTile(World.getFreeTile(player.getTile(), 1));
+			servantInstance.setNextTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
 			player.startConversation(new ServantDialogue(player, servantInstance));
 		}
@@ -1042,16 +1042,16 @@ public class House {
 	}
 
 	public void teleportPlayer(Player player) {
-		player.setNextWorldTile(getPortal());
+		player.setNextTile(getPortal());
 		player.setLastNonDynamicTile(getLocation().getTile());
 	}
 
 	public void teleportPlayer(Player player, RoomReference room) {
-		player.setNextWorldTile(WorldTile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane));
+		player.setNextTile(Tile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane));
 		player.setLastNonDynamicTile(getLocation().getTile());
 	}
 
-	public WorldTile getPortal() {
+	public Tile getPortal() {
 		if (region == null)
 			throw new RuntimeException("BoundChunks were null so room could not be entered.");
 		for (RoomReference room : roomsR) {
@@ -1066,10 +1066,10 @@ public class House {
 						continue;
 					}
 					if (o.getPiece() == HouseConstants.HObject.EXIT_PORTAL || o.getPiece() == HouseConstants.HObject.EXITPORTAL)
-						return WorldTile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane);
+						return Tile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane);
 				}
 		}
-		return WorldTile.of(region.getLocalX(32), region.getLocalX(32), 1);
+		return Tile.of(region.getLocalX(32), region.getLocalX(32), 1);
 	}
 
 	public int getPortalCount() {
@@ -1235,7 +1235,7 @@ public class House {
 						if (reference.plane == 0 || defs.containsOption(4, "Build")) {
 							GameObject objectR = new GameObject(object);
 							int[] coords = DynamicRegion.translate(x, y, reference.rotation, defs.sizeX, defs.sizeY, object.getRotation());
-							objectR.setTile(WorldTile.of(boundX + coords[0], boundY + coords[1], reference.plane));
+							objectR.setTile(Tile.of(boundX + coords[0], boundY + coords[1], reference.plane));
 							objectR.setRotation((object.getRotation() + reference.rotation) & 0x3);
 							// just a preview. they're not realy there.
 							if (remove)
@@ -1424,7 +1424,7 @@ public class House {
 		if (!buildMode)
 			if (getMenagerie() != null) {
 				RoomReference men = getMenagerie();
-				WorldTile spawn = WorldTile.of(region.getLocalX(men.x, 3), region.getLocalY(men.y, 3), men.plane);
+				Tile spawn = Tile.of(region.getLocalX(men.x, 3), region.getLocalY(men.y, 3), men.plane);
 
 				Pets pet = Pets.forId(item.getId());
 				if (pet == null)
@@ -1510,7 +1510,7 @@ public class House {
 	}
 
 	public void spawnNPC(int id, GameObject object) {
-		NPC npc = new NPC(id, WorldTile.of(object.getX(), object.getY(), object.getPlane()));
+		NPC npc = new NPC(id, Tile.of(object.getX(), object.getY(), object.getPlane()));
 		npcs.add(npc);
 		npc.setRandomWalk(false);
 		npc.setForceMultiArea(true);
@@ -1527,7 +1527,7 @@ public class House {
 		for (int x = -1; x < 8; x++)
 			for (int y = -1; y < 8; y++)
 				for (HObject piece : build.getPieces()) {
-					GameObject object = World.getObjectWithId(WorldTile.of(boundX + x, boundY + y, reference.plane), piece.getId());
+					GameObject object = World.getObjectWithId(Tile.of(boundX + x, boundY + y, reference.plane), piece.getId());
 					if (object != null)
 						return object;
 				}
@@ -1539,7 +1539,7 @@ public class House {
 		int boundY = region.getLocalY(reference.y, 0);
 		for (int x = -1; x < 8; x++)
 			for (int y = -1; y < 8; y++) {
-				GameObject object = World.getObjectWithId(WorldTile.of(boundX + x, boundY + y, reference.plane), id);
+				GameObject object = World.getObjectWithId(Tile.of(boundX + x, boundY + y, reference.plane), id);
 				if (object != null)
 					return object;
 			}

@@ -16,7 +16,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -29,7 +29,7 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class PyramidPlunder {
 
-	public static final WorldTile EXIT_TILE = WorldTile.of(3288, 2801, 0);
+	public static final Tile EXIT_TILE = Tile.of(3288, 2801, 0);
 	public static final Integer[] DOORS = { 16539, 16540, 16541, 16542 };
 	private static final int PHARAOHS_SCEPTRE = 9044;
 	private static final int SCEPTRE_OF_THE_GODS = 21536;
@@ -38,7 +38,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePyramidExits = new ObjectClickHandler(new Object[] { 16458 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -54,7 +54,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePlunderUrns = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524, 16525, 16526, 16527, 16528, 16529, 16530, 16531, 16532 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -115,12 +115,12 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleGrandChest = new ObjectClickHandler(new Object[] { 16537 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
 		if(Utils.randomInclusive(0, 4) == 1) {
-			OwnedNPC swarm = new OwnedNPC(e.getPlayer(), 2001, WorldTile.of(e.getPlayer().getTile()), false);
+			OwnedNPC swarm = new OwnedNPC(e.getPlayer(), 2001, Tile.of(e.getPlayer().getTile()), false);
 			swarm.setTarget(e.getPlayer());
 		}
 		ctrl.updateObject(e.getObject(), 1);
@@ -131,7 +131,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleSarcophagus = new ObjectClickHandler(new Object[] { 16547 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -151,7 +151,7 @@ public class PyramidPlunder {
 					case 6 -> {
 						if (success) {
 							if (Utils.randomInclusive(0, 4) == 1) {
-								OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, WorldTile.of(e.getPlayer().getTile()), false);
+								OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, Tile.of(e.getPlayer().getTile()), false);
 								mummy.setTarget(e.getPlayer());
 							}
 							e.getPlayer().getSkills().addXp(Constants.STRENGTH, getRoomBaseXP(ctrl.getCurrentRoom()));
@@ -175,14 +175,14 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleEngravedSarcophagus = new ObjectClickHandler(new Object[] { 59795 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
 
 		if (e.getOption().equals("Open")) {
 			if (Utils.randomInclusive(0, 4) == 1) {
-				OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, WorldTile.of(e.getPlayer().getTile()), false);
+				OwnedNPC mummy = new OwnedNPC(e.getPlayer(), 2015, Tile.of(e.getPlayer().getTile()), false);
 				mummy.setTarget(e.getPlayer());
 			}
 			ctrl.updateObject(e.getObject(), 1);
@@ -196,7 +196,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePyramidTombDoors = new ObjectClickHandler((Object[]) DOORS, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -372,7 +372,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleSpearTrap = new ObjectClickHandler(new Object[] { 16517 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextWorldTile(EXIT_TILE);
+			e.getPlayer().setNextTile(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -391,16 +391,16 @@ public class PyramidPlunder {
      * @param e
      */
 	private static void passTrap(ObjectClickEvent e) {
-		WorldTile[] nearbyTiles = { e.getObject().getTile().transform(0, 1), e.getObject().getTile().transform(1, 0), e.getObject().getTile().transform(0, -1), e.getObject().getTile().transform(-1, 0) };
-		WorldTile[] farTiles = { e.getPlayer().transform(0, 3), e.getPlayer().transform(3, 0), e.getPlayer().transform(0, -3), e.getPlayer().transform(-3, 0) };
+		Tile[] nearbyTiles = { e.getObject().getTile().transform(0, 1), e.getObject().getTile().transform(1, 0), e.getObject().getTile().transform(0, -1), e.getObject().getTile().transform(-1, 0) };
+		Tile[] farTiles = { e.getPlayer().transform(0, 3), e.getPlayer().transform(3, 0), e.getPlayer().transform(0, -3), e.getPlayer().transform(-3, 0) };
 		int tileIdx = 0;
-		for(WorldTile nearbyTile : nearbyTiles) {
+		for(Tile nearbyTile : nearbyTiles) {
 			GameObject obj2 = World.getObject(nearbyTile, ObjectType.SCENERY_INTERACT);
 			if (obj2 != null && obj2.getId() == 16517)
 				break;
 			tileIdx++;
 		}
-		final WorldTile toTile = farTiles[tileIdx];
+		final Tile toTile = farTiles[tileIdx];
 		e.getPlayer().lock();
 		boolean hasRun = e.getPlayer().getRun();
 		WorldTasks.scheduleTimer(i -> {
@@ -426,23 +426,23 @@ public class PyramidPlunder {
 		});
 	}
 
-	final static WorldTile[] rightHandSpearTraps = {
-			WorldTile.of(1927, 4473, 0), WorldTile.of(1928, 4473, 0),
-			WorldTile.of(1930, 4452, 0), WorldTile.of(1930, 4453, 0),
-			WorldTile.of(1955, 4474, 0), WorldTile.of(1954, 4474, 0),
-			WorldTile.of(1961, 4444, 0), WorldTile.of(1961, 4445, 0),
-			WorldTile.of(1927, 4428, 0), WorldTile.of(1926, 4428, 0),
-			WorldTile.of(1944, 4425, 0), WorldTile.of(1945, 4425, 0),
-			WorldTile.of(1974, 4424, 0), WorldTile.of(1975, 4424, 0)
+	final static Tile[] rightHandSpearTraps = {
+			Tile.of(1927, 4473, 0), Tile.of(1928, 4473, 0),
+			Tile.of(1930, 4452, 0), Tile.of(1930, 4453, 0),
+			Tile.of(1955, 4474, 0), Tile.of(1954, 4474, 0),
+			Tile.of(1961, 4444, 0), Tile.of(1961, 4445, 0),
+			Tile.of(1927, 4428, 0), Tile.of(1926, 4428, 0),
+			Tile.of(1944, 4425, 0), Tile.of(1945, 4425, 0),
+			Tile.of(1974, 4424, 0), Tile.of(1975, 4424, 0)
 	};
-	final static WorldTile[] leftHandSpearTraps = {
-			WorldTile.of(1927, 4472, 0), WorldTile.of(1928, 4472, 0),
-			WorldTile.of(1931, 4452, 0), WorldTile.of(1931, 4453, 0),
-			WorldTile.of(1955, 4473, 0), WorldTile.of(1954, 4473, 0),
-			WorldTile.of(1962, 4444, 0), WorldTile.of(1962, 4445, 0),
-			WorldTile.of(1927, 4427, 0), WorldTile.of(1926, 4427, 0),
-			WorldTile.of(1944, 4424, 0), WorldTile.of(1945, 4424, 0),
-			WorldTile.of(1974, 4423, 0), WorldTile.of(1975, 4423, 0)
+	final static Tile[] leftHandSpearTraps = {
+			Tile.of(1927, 4472, 0), Tile.of(1928, 4472, 0),
+			Tile.of(1931, 4452, 0), Tile.of(1931, 4453, 0),
+			Tile.of(1955, 4473, 0), Tile.of(1954, 4473, 0),
+			Tile.of(1962, 4444, 0), Tile.of(1962, 4445, 0),
+			Tile.of(1927, 4427, 0), Tile.of(1926, 4427, 0),
+			Tile.of(1944, 4424, 0), Tile.of(1945, 4424, 0),
+			Tile.of(1974, 4423, 0), Tile.of(1975, 4423, 0)
 	};
 
 	public static PlayerStepHandler handleRightHandSpearTraps = new PlayerStepHandler(rightHandSpearTraps, e -> {
@@ -462,7 +462,7 @@ public class PyramidPlunder {
 	});
 
 	private static void activateTrap(PlayerStepEvent e, Direction trapDir) {
-		WorldTile trapTile = e.getTile();
+		Tile trapTile = e.getTile();
 		for(GameObject obj : World.getRegion(trapTile.getRegionId()).getObjects())
 			if(obj.getId() == 16517) {
 				if(trapTile.matches(obj.getTile()) || (obj.getX() - trapDir.getDx() == trapTile.getX() && obj.getY() - trapDir.getDy() == trapTile.getY())) {
@@ -479,7 +479,7 @@ public class PyramidPlunder {
 		Direction oppositeDir = Direction.rotateClockwise(e.getStep().getDir(), 4);//180 degree turn
 		int dX = oppositeDir.getDx();
 		int dY = oppositeDir.getDy();
-		WorldTile prevTile = WorldTile.of(e.getTile().getX() + dX, e.getTile().getY() + dY, e.getTile().getPlane());
+		Tile prevTile = Tile.of(e.getTile().getX() + dX, e.getTile().getY() + dY, e.getTile().getPlane());
 		p.lock(3);
 		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
@@ -490,7 +490,7 @@ public class PyramidPlunder {
 					p.setNextForceMovement(new ForceMovement(prevTile, 1, e.getStep().getDir()));
 				}
 				else if (ticks == 1) {
-					p.setNextWorldTile(prevTile);
+					p.setNextTile(prevTile);
 					p.forceTalk("Ouch!");
 				}
 				else if (ticks == 2)

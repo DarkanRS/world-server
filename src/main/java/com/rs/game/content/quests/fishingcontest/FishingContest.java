@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -155,7 +155,7 @@ public class FishingContest extends QuestOutline {
 			p.sendMessage("It doesn't appear edible...");
 		if(e.getOption().equalsIgnoreCase("drop")) {
 			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 		}
 	});
@@ -166,7 +166,7 @@ public class FishingContest extends QuestOutline {
 	public static ItemOnObjectHandler handlePipeGarlic = new ItemOnObjectHandler(false, new Object[] { 41 }, e -> {
 		Player p = e.getPlayer();
 		int stage = p.getQuestManager().getStage(Quest.FISHING_CONTEST);
-		p.walkToAndExecute(WorldTile.of(2638, 3445, 0), () -> {
+		p.walkToAndExecute(Tile.of(2638, 3445, 0), () -> {
 			if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
 				if (e.getItem().getId() == 1550) {//garlic
 					if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {

@@ -17,7 +17,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
@@ -125,9 +125,9 @@ public class TreeGnomeVillage extends QuestOutline {
 							stop();
 					} else if (tick >= 1) {
 						if (isPlayerNorth)
-							p.setNextWorldTile(WorldTile.of(2509, 3252, 0));
+							p.setNextTile(Tile.of(2509, 3252, 0));
 						if (!isPlayerNorth) {
-							p.setNextWorldTile(WorldTile.of(2509, 3254, 0));
+							p.setNextTile(Tile.of(2509, 3254, 0));
 							for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 									npc.forceTalk("Hey, what are you doing in here?");
@@ -145,7 +145,7 @@ public class TreeGnomeVillage extends QuestOutline {
 		e.getPlayer().sendMessage("The wall is too tough to cross");
 	});
 
-	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2503, 3254, 1), WorldTile.of(2504, 3254, 1), WorldTile.of(2502, 3254, 1) }, e -> {
+	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new Tile[] { Tile.of(2503, 3254, 1), Tile.of(2504, 3254, 1), Tile.of(2502, 3254, 1) }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
 			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
 				if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
@@ -154,7 +154,7 @@ public class TreeGnomeVillage extends QuestOutline {
 				}
 	});
 
-	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(WorldTile.of(2505, 3256, 0), e -> {
+	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(Tile.of(2505, 3256, 0), e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
 			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
 				if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
@@ -165,7 +165,7 @@ public class TreeGnomeVillage extends QuestOutline {
 
 	public static NPCDeathHandler handleWarlordDrop = new NPCDeathHandler(new Object[] { 477 }, e -> {
 		if(e.getKiller() instanceof Player p && p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == KILL_WARLORD && !p.getInventory().containsItem(588))
-			World.addGroundItem(new Item(588, 1), WorldTile.of(e.getNPC().getTile()), p);
+			World.addGroundItem(new Item(588, 1), Tile.of(e.getNPC().getTile()), p);
 	});
 
 	public static ObjectClickHandler handleOrb1Chest = new ObjectClickHandler(new Object[] { 2183 }, e -> {

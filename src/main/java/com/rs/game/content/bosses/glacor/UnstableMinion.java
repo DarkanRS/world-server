@@ -25,7 +25,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class UnstableMinion extends NPC {
@@ -42,7 +42,7 @@ public class UnstableMinion extends NPC {
 
 	final NPC thisNpc = this;
 
-	public UnstableMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
+	public UnstableMinion(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
 		super(id, tile, spawned);
 		this.parent = parent;
 		setForceAgressive(true);

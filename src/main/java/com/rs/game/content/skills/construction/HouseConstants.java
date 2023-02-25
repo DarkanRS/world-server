@@ -20,7 +20,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class HouseConstants {
 
@@ -998,29 +998,29 @@ public class HouseConstants {
 
 	public static enum POHLocation {
 
-		RIMMINGTON(15478, WorldTile.of(2953, 3224, 0), 1, 5000),
+		RIMMINGTON(15478, Tile.of(2953, 3224, 0), 1, 5000),
 
-		TAVERLY(15477, WorldTile.of(2882, 3452, 0), 1, 5000),
+		TAVERLY(15477, Tile.of(2882, 3452, 0), 1, 5000),
 
-		POLLNIVNEACH(15479, WorldTile.of(3340, 3003, 0), 20, 7500),
+		POLLNIVNEACH(15479, Tile.of(3340, 3003, 0), 20, 7500),
 
-		RELLEKKA(15480, WorldTile.of(2670, 3631, 0), 30, 10000),
+		RELLEKKA(15480, Tile.of(2670, 3631, 0), 30, 10000),
 
-		BRIMHAVEN(15481, WorldTile.of(2757, 3178, 0), 40, 15000),
+		BRIMHAVEN(15481, Tile.of(2757, 3178, 0), 40, 15000),
 
-		YANILLE(15482, WorldTile.of(2544, 3096, 0), 50, 25000);
+		YANILLE(15482, Tile.of(2544, 3096, 0), 50, 25000);
 
-		private WorldTile tile;
+		private Tile tile;
 		private int objectId, levelRequired, cost;
 
-		private POHLocation(int objectId, WorldTile tile, int levelRequired, int cost) {
+		private POHLocation(int objectId, Tile tile, int levelRequired, int cost) {
 			this.objectId = objectId;
 			this.tile = tile;
 			this.levelRequired = levelRequired;
 			this.cost = cost;
 		}
 
-		public WorldTile getTile() {
+		public Tile getTile() {
 			return tile;
 		}
 

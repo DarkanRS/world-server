@@ -22,7 +22,7 @@ import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MoveNPCAction extends CutsceneAction {
 
@@ -46,7 +46,7 @@ public class MoveNPCAction extends CutsceneAction {
 		NPC npc = (NPC) objects.get(getObjectKey());
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (movementType == MoveType.TELE) {
-			npc.setNextWorldTile(WorldTile.of(scene.getX(x), scene.getY(y), plane));
+			npc.setNextTile(Tile.of(scene.getX(x), scene.getY(y), plane));
 			return;
 		}
 		npc.setRun(movementType == MoveType.RUN);

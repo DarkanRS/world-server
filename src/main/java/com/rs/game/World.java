@@ -41,6 +41,7 @@ import com.rs.game.model.entity.EntityList;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.ClipType;
 import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.ClipFlag;
@@ -55,7 +56,7 @@ import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
@@ -158,7 +159,7 @@ public final class World {
 		NPCS.remove(npc);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, Direction direction, boolean permaDeath, boolean withFunction, String customName) {
+	public static final NPC spawnNPC(int id, Tile tile, Direction direction, boolean permaDeath, boolean withFunction, String customName) {
 		NPC n = null;
 		if (withFunction) {
 			Object fObj = PluginManager.getObj(new NPCInstanceEvent(id, tile, permaDeath));
@@ -173,42 +174,45 @@ public final class World {
 		return n;
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, boolean permaDeath, boolean withFunction, String customName) {
+	public static final NPC spawnNPC(int id, Tile tile, boolean permaDeath, boolean withFunction, String customName) {
 		return spawnNPC(id, tile, Direction.SOUTH, permaDeath, withFunction, null);
 	}
 
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath, boolean withFunction) {
+	public static final NPC spawnNPC(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath, boolean withFunction) {
 		return spawnNPC(id, tile, permaDeath, withFunction, null);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath) {
+	public static final NPC spawnNPC(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean permaDeath) {
 		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, permaDeath, true);
 	}
 
-	public static final NPC spawnNPC(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public static final NPC spawnNPC(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		return spawnNPC(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, false, true);
 	}
 
 	public static void clipNPC(NPC npc) {
 		if (!npc.blocksOtherNpcs())
 			return;
-		WorldTile lastTile = npc.getLastWorldTile() == null ? npc.getTile() : npc.getLastWorldTile();
+		Tile lastTile = npc.getLastTile() == null ? npc.getTile() : npc.getLastTile();
 		fillNPCClip(lastTile, npc.getSize(), false);
 		if (!npc.hasFinished())
 			fillNPCClip(npc.getTile(), npc.getSize(), true);
 	}
 
-	public static void fillNPCClip(WorldTile tile, int size, boolean blocks) {
+	public static void fillNPCClip(Tile tile, int size, boolean blocks) {
 		for (int x = 0; x < size; x++)
 			for (int y = 0; y < size; y++) {
-				WorldTile local = tile.transform(x, y);
-				World.getRegion(local.getRegionId()).setClipNPC(local.getPlane(), local.getXInRegion(), local.getYInRegion(), blocks);
+				Tile local = tile.transform(x, y);
+				if (blocks)
+					WorldCollision.addClipNPC(local);
+				else
+					WorldCollision.removeClipNPC(local);
 			}
 	}
 
-	public static boolean getClipNPC(WorldTile tile) {
-		return getRegion(tile.getRegionId()).getClipNPC(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
+	public static boolean getClipNPC(Tile tile) {
+		return ClipFlag.flagged(getRegion(tile.getRegionId()).getClipFlags(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion()), ClipFlag.BW_NPC);
 	}
 
 	public static boolean checkNPCClip(NPC npc, Direction dir) {
@@ -222,7 +226,7 @@ public final class World {
 				if (x >= npc.getX() && x <= eastMostX && y >= npc.getY() && y <= northMostY)
 					/* stepping within itself, allow it */
 					continue;
-				if (World.getClipNPC(WorldTile.of(x, y, npc.getPlane())))
+				if (World.getClipNPC(Tile.of(x, y, npc.getPlane())))
 					return false;
 			}
 		return true;
@@ -303,16 +307,16 @@ public final class World {
 	}
 
 	public static boolean canLightFire(int plane, int x, int y) {
-		if (RenderFlag.flagged(getRenderFlags(plane, x, y), RenderFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(WorldTile.of(x, y, plane), 2) != null)
+		if (RenderFlag.flagged(getRenderFlags(plane, x, y), RenderFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(Tile.of(x, y, plane), 2) != null)
 			return false;
 		return true;
 	}
 
 	public static boolean floorAndWallsFree(int plane, int x, int y, int size) {
-		return floorAndWallsFree(WorldTile.of(x, y, plane), size);
+		return floorAndWallsFree(Tile.of(x, y, plane), size);
 	}
 
-	public static boolean floorAndWallsFree(WorldTile tile, int size) {
+	public static boolean floorAndWallsFree(Tile tile, int size) {
 		for (int x = 0; x < size; x++)
 			for (int y = 0; y < size; y++)
 				if (!floorFree(tile.transform(x, y)) || !wallsFree(tile.transform(x, y)))
@@ -320,7 +324,7 @@ public final class World {
 		return true;
 	}
 
-	public static boolean floorFree(WorldTile tile, int size) {
+	public static boolean floorFree(Tile tile, int size) {
 		for (int x = 0; x < size; x++)
 			for (int y = 0; y < size; y++)
 				if (!floorFree(tile.transform(x, y)))
@@ -329,26 +333,26 @@ public final class World {
 	}
 
 	public static boolean floorFree(int plane, int x, int y, int size) {
-		return floorFree(WorldTile.of(x, y, plane), size);
+		return floorFree(Tile.of(x, y, plane), size);
 	}
 
-	public static boolean floorFree(WorldTile tile) {
+	public static boolean floorFree(Tile tile) {
 		return !ClipFlag.flagged(getClipFlags(tile), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL);
 	}
 
 	public static boolean floorFree(int plane, int x, int y) {
-		return floorFree(WorldTile.of(x, y, plane));
+		return floorFree(Tile.of(x, y, plane));
 	}
 
-	public static boolean wallsFree(WorldTile tile) {
+	public static boolean wallsFree(Tile tile) {
 		return !ClipFlag.flagged(getClipFlags(tile), ClipFlag.BW_NE, ClipFlag.BW_NW, ClipFlag.BW_SE, ClipFlag.BW_SW, ClipFlag.BW_E, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W);
 	}
 
 	public static boolean wallsFree(int plane, int x, int y) {
-		return wallsFree(WorldTile.of(x, y, plane));
+		return wallsFree(Tile.of(x, y, plane));
 	}
 
-	public static int getClipFlags(WorldTile tile) {
+	public static int getClipFlags(Tile tile) {
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
 			return -1;
@@ -356,27 +360,18 @@ public final class World {
 	}
 
 	public static int getClipFlags(int plane, int x, int y) {
-		return getClipFlags(WorldTile.of(x, y, plane));
+		return getClipFlags(Tile.of(x, y, plane));
 	}
 
 	public static int getRenderFlags(int plane, int x, int y) {
-		WorldTile tile = WorldTile.of(x, y, plane);
+		Tile tile = Tile.of(x, y, plane);
 		Region region = getRegion(tile.getRegionId());
 		if (region == null)
 			return -1;
 		return region.getRenderFlags(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
 	}
 
-	private static int getClipFlagsProj(int plane, int x, int y) {
-		WorldTile tile = WorldTile.of(x, y, plane);
-		//World.sendSpotAnim(null, new SpotAnim(2000), tile);
-		Region region = getRegion(tile.getRegionId());
-		if (region == null)
-			return -1;
-		return region.getClipFlagsProj(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
-	}
-
-	public static boolean hasLineOfSight(WorldTile t1, WorldTile t2) {
+	public static boolean hasLineOfSight(Tile t1, Tile t2) {
 		if (t1.getPlane() != t2.getPlane())
 			return false;
 		int plane = t1.getPlane();
@@ -415,11 +410,11 @@ public final class World {
 			while (xTile != x2) {
 				xTile += xInc;
 				int yTile = y >>> 16;
-				if ((getClipFlagsProj(plane, xTile, yTile) & xMask) != 0)
+				if ((getClipFlags(plane, xTile, yTile) & xMask) != 0)
 					return false;
 				y += slope;
 				int newYTile = y >>> 16;
-				if (newYTile != yTile && (getClipFlagsProj(plane, xTile, newYTile) & yMask) != 0)
+				if (newYTile != yTile && (getClipFlags(plane, xTile, newYTile) & yMask) != 0)
 					return false;
 			}
 		} else {
@@ -448,8 +443,8 @@ public final class World {
 				int xInc = (dx > 0 ? 1 : -1);
 				int xTile = x1;
 				while (yTile != y2) {
-					if (((getClipFlagsProj(plane, xTile + xInc, yTile) & xMask) != 0 || (getClipFlagsProj(plane, xTile + xInc, yTile + yInc) & yMask) != 0) &&
-							((getClipFlagsProj(plane, xTile, yTile + yInc) & yMask) != 0 || (getClipFlagsProj(plane, xTile + xInc, yTile + yInc) & xMask) != 0))
+					if (((getClipFlags(plane, xTile + xInc, yTile) & xMask) != 0 || (getClipFlags(plane, xTile + xInc, yTile + yInc) & yMask) != 0) &&
+							((getClipFlags(plane, xTile, yTile + yInc) & yMask) != 0 || (getClipFlags(plane, xTile + xInc, yTile + yInc) & xMask) != 0))
 						return false;
 					xTile += xInc;
 					yTile += yInc;
@@ -458,30 +453,30 @@ public final class World {
 				while (yTile != y2) {
 					yTile += yInc;
 					int xTile = x >>> 16;
-					if ((getClipFlagsProj(plane, xTile, yTile) & yMask) != 0)
+					if ((getClipFlags(plane, xTile, yTile) & yMask) != 0)
 						return false;
 					x += slope;
 					int newXTile = x >>> 16;
-					if (newXTile != xTile && (getClipFlagsProj(plane, newXTile, yTile) & xMask) != 0)
+					if (newXTile != xTile && (getClipFlags(plane, newXTile, yTile) & xMask) != 0)
 						return false;
 				}
 		}
 		return true;
 	}
 
-	public static final boolean checkWalkStep(WorldTile from, WorldTile to) {
+	public static final boolean checkWalkStep(Tile from, Tile to) {
 		if (from.matches(to))
 			return true;
 		return checkWalkStep(from, to, 1);
 	}
 
 	public static boolean checkMeleeStep(Object from, int fromSize, Object to, int toSize) {
-		WorldTile fromTile = WorldUtil.targetToTile(from);
-		WorldTile toTile = WorldUtil.targetToTile(to);
+		Tile fromTile = WorldUtil.targetToTile(from);
+		Tile toTile = WorldUtil.targetToTile(to);
 		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-		WorldTile closestFrom = fromTile;
-		WorldTile closestTo = toTile;
+		Tile closestFrom = fromTile;
+		Tile closestTo = toTile;
 		double shortest = 1000.0;
 		for (int x1 = 0; x1 < fromSize; x1++)
 			for (int y1 = 0; y1 < fromSize; y1++)
@@ -541,16 +536,16 @@ public final class World {
 		return true;
 	}
 
-	public static final boolean checkWalkStep(WorldTile from, WorldTile to, int size) {
+	public static final boolean checkWalkStep(Tile from, Tile to, int size) {
 		return checkWalkStep(from, to, size, ClipType.NORMAL);
 	}
 
-	public static final boolean checkWalkStep(WorldTile from, WorldTile to, int size, ClipType type) {
+	public static final boolean checkWalkStep(Tile from, Tile to, int size, ClipType type) {
 		Direction dir = Direction.forDelta(to.getX() - from.getX(), to.getY() - from.getY());
 		return checkWalkStep(from.getPlane(), from.getX(), from.getY(), dir, size, type);
 	}
 
-	public static final boolean checkWalkStep(WorldTile tile, Direction dir, int size) {
+	public static final boolean checkWalkStep(Tile tile, Direction dir, int size) {
 		return checkWalkStep(tile.getPlane(), tile.getX(), tile.getY(), dir.getDx(), dir.getDy(), size);
 	}
 
@@ -570,7 +565,7 @@ public final class World {
 		switch(type) {
 		case FLYING:
 			if (size == 1) {
-				int flags = getClipFlagsProj(plane, x + xOffset, y + yOffset);
+				int flags = getClipFlags(plane, x + xOffset, y + yOffset);
 				if (xOffset == -1 && yOffset == 0)
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_E);
 				if (xOffset == 1 && yOffset == 0)
@@ -581,75 +576,75 @@ public final class World {
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_S);
 				if (xOffset == -1 && yOffset == -1)
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
+							!ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
+							!ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
 				if (xOffset == 1 && yOffset == -1)
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
+							!ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
+							!ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
 				if (xOffset == -1 && yOffset == 1)
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
+							!ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
+							!ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
 				if (xOffset == 1 && yOffset == 1)
 					return !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
-							!ClipFlag.flagged(getClipFlagsProj(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
+							!ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
+							!ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
 			} else if (xOffset == -1 && yOffset == 0) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
-						ClipFlag.flagged(getClipFlagsProj(plane, x - 1, -1 + (y + size)), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
+				if (ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
+						ClipFlag.flagged(getClipFlags(plane, x - 1, -1 + (y + size)), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE))
+					if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE))
 						return false;
 			} else if (xOffset == 1 && yOffset == 0) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x + size, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW) ||
-						ClipFlag.flagged(getClipFlagsProj(plane, x + size, y - (-size + 1)), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
+				if (ClipFlag.flagged(getClipFlags(plane, x + size, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW) ||
+						ClipFlag.flagged(getClipFlags(plane, x + size, y - (-size + 1)), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
+					if (ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
 						return false;
 			} else if (xOffset == 0 && yOffset == -1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
-						ClipFlag.flagged(getClipFlagsProj(plane, x + size - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
+				if (ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
+						ClipFlag.flagged(getClipFlags(plane, x + size - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
+					if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
 						return false;
 			} else if (xOffset == 0 && yOffset == 1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE) ||
-						ClipFlag.flagged(getClipFlagsProj(plane, x + (size - 1), y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
+				if (ClipFlag.flagged(getClipFlags(plane, x, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE) ||
+						ClipFlag.flagged(getClipFlags(plane, x + (size - 1), y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
+					if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
 						return false;
 			} else if (xOffset == -1 && yOffset == -1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE))
+				if (ClipFlag.flagged(getClipFlags(plane, x - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y + (-1 + sizeOffset)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
-							ClipFlag.flagged(getClipFlagsProj(plane, sizeOffset - 1 + x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
+					if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + (-1 + sizeOffset)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
+							ClipFlag.flagged(getClipFlags(plane, sizeOffset - 1 + x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
 						return false;
 			} else if (xOffset == 1 && yOffset == -1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x + size, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
+				if (ClipFlag.flagged(getClipFlags(plane, x + size, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x + size, sizeOffset + (-1 + y)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW) ||
-							ClipFlag.flagged(getClipFlagsProj(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
+					if (ClipFlag.flagged(getClipFlags(plane, x + size, sizeOffset + (-1 + y)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW) ||
+							ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
 						return false;
 			} else if (xOffset == -1 && yOffset == 1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
+				if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
-							ClipFlag.flagged(getClipFlagsProj(plane, -1 + (x + sizeOffset), y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
+					if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
+							ClipFlag.flagged(getClipFlags(plane, -1 + (x + sizeOffset), y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
 						return false;
 			} else if (xOffset == 1 && yOffset == 1) {
-				if (ClipFlag.flagged(getClipFlagsProj(plane, x + size, y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
+				if (ClipFlag.flagged(getClipFlags(plane, x + size, y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
 					return false;
 				for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-					if (ClipFlag.flagged(getClipFlagsProj(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW) ||
-							ClipFlag.flagged(getClipFlagsProj(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
+					if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW) ||
+							ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
 						return false;
 			}
 			return true;
@@ -824,10 +819,10 @@ public final class World {
 		return false;
 	}
 
-	public static WorldTile getFreeTile(WorldTile center, int distance) {
-		WorldTile tile = center;
+	public static Tile getFreeTile(Tile center, int distance) {
+		Tile tile = center;
 		for (int i = 0; i < 10; i++) {
-			tile = WorldTile.of(center, distance);
+			tile = Tile.of(center, distance);
 			if (World.floorAndWallsFree(tile, 1))
 				return tile;
 		}
@@ -912,7 +907,7 @@ public final class World {
 		getRegion(object.getTile().getRegionId()).spawnObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), clip);
 	}
 
-	public static final void unclipTile(WorldTile tile) {
+	public static final void unclipTile(Tile tile) {
 		getRegion(tile.getRegionId()).unclip(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
 	}
 
@@ -1031,25 +1026,25 @@ public final class World {
 		}
 	}
 
-	public static final GameObject getObject(WorldTile tile) {
+	public static final GameObject getObject(Tile tile) {
 		int regionId = tile.getRegionId();
 		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
 		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
 		return getRegion(regionId).getObject(tile.getPlane(), baseLocalX, baseLocalY);
 	}
 
-	public static final GameObject[] getObjects(WorldTile tile) {
+	public static final GameObject[] getObjects(Tile tile) {
 		int regionId = tile.getRegionId();
 		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
 		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
 		return getRegion(regionId).getObjects(tile.getPlane(), baseLocalX, baseLocalY);
 	}
 
-	public static final GameObject getSpawnedObject(WorldTile tile) {
+	public static final GameObject getSpawnedObject(Tile tile) {
 		return getRegion(tile.getRegionId()).getSpawnedObject(tile);
 	}
 
-	public static final GameObject getObject(WorldTile tile, ObjectType type) {
+	public static final GameObject getObject(Tile tile, ObjectType type) {
 		int regionId = tile.getRegionId();
 		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
 		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
@@ -1060,31 +1055,31 @@ public final class World {
 		NORMAL, TURN_UNTRADEABLES_TO_COINS
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile) {
+	public static final GroundItem addGroundItem(Item item, Tile tile) {
 		return addGroundItem(item, tile, null, false, -1, DropMethod.NORMAL, -1);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner) {
+	public static final GroundItem addGroundItem(Item item, Tile tile, Player owner) {
 		return addGroundItem(item, tile, owner, true, 60);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs) {
+	public static final GroundItem addGroundItem(Item item, Tile tile, Player owner, boolean invisible, int hiddenSecs) {
 		return addGroundItem(item, tile, owner, invisible, hiddenSecs, DropMethod.NORMAL, 150);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenSecs, DropMethod type) {
+	public static final GroundItem addGroundItem(Item item, Tile tile, Player owner, boolean invisible, int hiddenSecs, DropMethod type) {
 		return addGroundItem(item, tile, owner, invisible, hiddenSecs, type, 150);
 	}
 
 	@Deprecated
-	public static final void addGroundItemForever(Item item, WorldTile tile) {
+	public static final void addGroundItemForever(Item item, Tile tile) {
 		GroundItem groundItem = new GroundItem(item, tile, GroundItemType.FOREVER);
 		if (groundItem.getId() == -1)
 			return;
 		getRegion(tile.getRegionId()).addGroundItem(groundItem);
 	}
 
-	public static final GroundItem addGroundItem(Item item, WorldTile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int deleteTime) {
+	public static final GroundItem addGroundItem(Item item, Tile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int deleteTime) {
 		if ((item.getId() == -1) || (owner != null && owner.getRights() == Rights.ADMIN))
 			return null;
 		if (type != DropMethod.NORMAL)
@@ -1107,7 +1102,7 @@ public final class World {
 		return floorItem;
 	}
 
-	private static void finalizeGroundItem(GroundItem item, WorldTile tile, Player owner, int hiddenSeconds, DropMethod type, int lifeSeconds) {
+	private static void finalizeGroundItem(GroundItem item, Tile tile, Player owner, int hiddenSeconds, DropMethod type, int lifeSeconds) {
 		if ((item.getId() == -1) || (owner != null && owner.getRights() == Rights.ADMIN))
 			return;
 		if (getRegion(tile.getRegionId()).addGroundItem(item)) {
@@ -1186,7 +1181,7 @@ public final class World {
 			}
 	}
 
-	public static final void sendSpotAnim(Entity creator, SpotAnim anim, WorldTile tile) {
+	public static final void sendSpotAnim(Entity creator, SpotAnim anim, Tile tile) {
 		if (creator == null) {
 			int regionId = tile.getRegionId();
 			for (Player player : World.getPlayers()) {
@@ -1229,15 +1224,15 @@ public final class World {
 	}
 
 	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		WorldTile fromTile = switch(from) {
-		case WorldTile t -> t;
-		case Entity e -> e.getMiddleWorldTile();
+		Tile fromTile = switch(from) {
+		case Tile t -> t;
+		case Entity e -> e.getMiddleTile();
 		case GameObject g -> g.getTile();
 		default -> throw new IllegalArgumentException("Unexpected target type: " + from);
 		};
-		WorldTile toTile = switch(to) {
-		case WorldTile t -> t;
-		case Entity e -> e.getMiddleWorldTile();
+		Tile toTile = switch(to) {
+		case Tile t -> t;
+		case Entity e -> e.getMiddleTile();
 		case GameObject g -> g.getTile();
 		default -> throw new IllegalArgumentException("Unexpected target type: " + to);
 		};
@@ -1265,13 +1260,13 @@ public final class World {
 		WorldProjectile projectile = new WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 		if (graphicId != -1) {
 			int regionId = switch(from) {
-			case WorldTile t -> t.getRegionId();
-			case Entity e -> e.getMiddleWorldTile().getRegionId();
+			case Tile t -> t.getRegionId();
+			case Entity e -> e.getMiddleTile().getRegionId();
 			case GameObject g -> g.getTile().getRegionId();
 			default -> -1;
 			};
 			if (regionId == -1)
-				throw new RuntimeException("Invalid source target. Accepts WorldTiles and Entities.");
+				throw new RuntimeException("Invalid source target. Accepts Tiles and Entities.");
 			getRegion(regionId).addProjectile(projectile);
 		}
 		return projectile;
@@ -1306,7 +1301,7 @@ public final class World {
 		return region.getLoadMapStage() == 2;
 	}
 
-	public static final boolean isMultiArea(WorldTile tile) {
+	public static final boolean isMultiArea(Tile tile) {
 		int chunkId = MapUtils.encode(Structure.CHUNK, tile.getChunkX(), tile.getChunkY());
 		return Areas.withinArea("multi", chunkId);
 	}
@@ -1369,7 +1364,7 @@ public final class World {
 		voiceEffect(source, voiceId, 0);
 	}
 
-	public static GameObject getClosestObject(int objectId, WorldTile tile) {
+	public static GameObject getClosestObject(int objectId, Tile tile) {
 		for (int dist = 0;dist < 16;dist++)
 			for (int x = -dist;x < dist;x++)
 				for (int y = -dist; y < dist;y++) {
@@ -1380,7 +1375,7 @@ public final class World {
 		return null;
 	}
 
-	public static GameObject getClosestObject(ObjectType type, WorldTile tile) {
+	public static GameObject getClosestObject(ObjectType type, Tile tile) {
 		for (int dist = 0;dist < 16;dist++)
 			for (int x = -dist;x < dist;x++)
 				for (int y = -dist; y < dist;y++) {
@@ -1391,7 +1386,7 @@ public final class World {
 		return null;
 	}
 	
-	public static GameObject getClosestObject(ObjectType type, int objectId, WorldTile tile) {
+	public static GameObject getClosestObject(ObjectType type, int objectId, Tile tile) {
 		for (int dist = 0;dist < 16;dist++)
 			for (int x = -dist;x < dist;x++)
 				for (int y = -dist; y < dist;y++) {
@@ -1402,7 +1397,7 @@ public final class World {
 		return null;
 	}
 
-	public static GameObject getClosestObject(String name, WorldTile tile) {
+	public static GameObject getClosestObject(String name, Tile tile) {
 		for (int dist = 0;dist < 16;dist++)
 			for (int x = -dist;x < dist;x++)
 				for (int y = -dist; y < dist;y++) {
@@ -1413,7 +1408,7 @@ public final class World {
 		return null;
 	}
 
-	public static GameObject getClosestObject(String name, WorldTile tile, int range) {
+	public static GameObject getClosestObject(String name, Tile tile, int range) {
 		GameObject closest = null;
 		double closestDist = 1000;
 		for (int dist = 0;dist < range;dist++)
@@ -1431,23 +1426,23 @@ public final class World {
 		return closest;
 	}
 
-	public static final GameObject getStandartObject(WorldTile tile) {
+	public static final GameObject getStandartObject(Tile tile) {
 		return getRegion(tile.getRegionId()).getStandartObject(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
 	}
 
-	public static final GameObject getObjectWithType(WorldTile tile, ObjectType type) {
+	public static final GameObject getObjectWithType(Tile tile, ObjectType type) {
 		return getRegion(tile.getRegionId()).getObjectWithType(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), type);
 	}
 
-	public static final GameObject getObjectWithSlot(WorldTile tile, int slot) {
+	public static final GameObject getObjectWithSlot(Tile tile, int slot) {
 		return getRegion(tile.getRegionId()).getObjectWithSlot(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), slot);
 	}
 
-	public static final boolean containsObjectWithId(WorldTile tile, int id) {
+	public static final boolean containsObjectWithId(Tile tile, int id) {
 		return getRegion(tile.getRegionId()).containsObjectWithId(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), id);
 	}
 
-	public static final GameObject getObjectWithId(WorldTile tile, int id) {
+	public static final GameObject getObjectWithId(Tile tile, int id) {
 		return getRegion(tile.getRegionId()).getObjectWithId(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), id);
 	}
 
@@ -1469,7 +1464,7 @@ public final class World {
 	/**
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
-	public static WorldTile findAdjacentFreeTile(WorldTile tile) {
+	public static Tile findAdjacentFreeTile(Tile tile) {
 		List<Direction> unchecked = new ArrayList<>(Arrays.asList(Direction.values()));
 		while(!unchecked.isEmpty()) {
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
@@ -1483,19 +1478,19 @@ public final class World {
 	/**
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
-	public static WorldTile findAdjacentFreeSpace(WorldTile tile, int size) {
+	public static Tile findAdjacentFreeSpace(Tile tile, int size) {
 		if (size == 1)
 			return findAdjacentFreeTile(tile);
 		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
-		WorldTile finalTile = null;
+		Tile finalTile = null;
 		while(!unchecked.isEmpty()) {
 			boolean failed = false;
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
 			Direction offset = Direction.forDelta(curr.getDx() != 0 ? 0 : 1 * curr.getDy(), curr.getDy() != 0 ? 0 : 1 * curr.getDx());
-			WorldTile startTile = tile.transform(0, 0);
+			Tile startTile = tile.transform(0, 0);
 			for (int i = 0;i <= size;i++) {
 				for (int row = 0; row < size; row++) {
-					WorldTile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
+					Tile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
 //					if (Settings.getConfig().isDebug()) {
 //						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
 //							case NORTH -> 2000;
@@ -1523,7 +1518,7 @@ public final class World {
 		return finalTile;
 	}
 
-	public static WorldTile findClosestAdjacentFreeTile(WorldTile tile, int dist) {
+	public static Tile findClosestAdjacentFreeTile(Tile tile, int dist) {
 		//Checks outward - Northeast
 		for (int x = 0; x <= dist; x++)
 			for (int y = 0; y <= dist; y++)

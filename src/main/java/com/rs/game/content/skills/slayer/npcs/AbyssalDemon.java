@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -30,7 +30,7 @@ import com.rs.utils.WorldUtil;
 @PluginEventHandler
 public class AbyssalDemon extends NPC {
 
-	public AbyssalDemon(int id, WorldTile tile) {
+	public AbyssalDemon(int id, Tile tile) {
 		super(id, tile);
 	}
 
@@ -48,7 +48,7 @@ public class AbyssalDemon extends NPC {
 			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
 			if (World.checkWalkStep(entity.getPlane(), entity.getX(), entity.getY(), dir, entitySize)) {
 				entity.setNextSpotAnim(new SpotAnim(409));
-				entity.setNextWorldTile(entity.transform(dir.getDx(), dir.getDy(), 0));
+				entity.setNextTile(entity.transform(dir.getDx(), dir.getDy(), 0));
 				break;
 			}
 		}

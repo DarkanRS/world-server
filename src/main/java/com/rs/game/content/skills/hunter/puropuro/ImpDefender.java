@@ -12,7 +12,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -21,7 +21,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class ImpDefender extends NPC {
 
-    public ImpDefender(WorldTile tile) {
+    public ImpDefender(Tile tile) {
         super(6074, tile);
         setClipType(ClipType.NORMAL);
         WorldTasks.schedule(0, Ticks.fromSeconds(5), () -> freeImplings());
@@ -38,7 +38,7 @@ public class ImpDefender extends NPC {
             return;
 
         for (Player p : players) {
-            if (p.withinDistance(WorldTile.of(getX(), getY(), getPlane()), 3)) {
+            if (p.withinDistance(Tile.of(getX(), getY(), getPlane()), 3)) {
                 if (p.getInventory().containsItem(11262)) {
                     Item i = p.getInventory().getItemById(11262);
                     boolean used = (boolean)i.getMetaData("used");

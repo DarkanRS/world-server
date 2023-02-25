@@ -20,7 +20,7 @@ import com.rs.game.content.bosses.godwars.zaros.NexArena;
 import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class NexEntrance extends Conversation {
 
@@ -30,7 +30,7 @@ public class NexEntrance extends Conversation {
 		addSimple("The room beyond this point is a prison! There is no way out other than death or teleport. Only those who endure dangerous encounters should proceed.");
 		addOption("There are currently " + arena.getPlayersCount() + " people fighting.<br>Do you wish to join them?", "Climb down.", "Stay here.");
 		addNext(() -> {
-			player.setNextWorldTile(WorldTile.of(2911, 5204, 0));
+			player.setNextTile(Tile.of(2911, 5204, 0));
 			player.getControllerManager().startController(new NexController(arena));
 		});
 		create();

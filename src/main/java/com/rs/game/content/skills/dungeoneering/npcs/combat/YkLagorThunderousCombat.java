@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -152,7 +152,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		return 4;
 	}
 
-	public static void sendPullAttack(final WorldTile tile, final Player player, final boolean disablePrayers) {
+	public static void sendPullAttack(final Tile tile, final Player player, final boolean disablePrayers) {
 		player.lock(3);
 		player.resetWalkSteps();
 		player.setNextAnimation(new Animation(14388));
@@ -163,7 +163,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 			@Override
 			public void run() {
 				player.getActionManager().addActionDelay(10);
-				player.setNextWorldTile(tile);
+				player.setNextTile(tile);
 				player.freeze(8);
 				if (disablePrayers) {
 					player.sendMessage("You've been injured and you cannot use protective " + (player.getPrayer().isCurses() ? "curses" : "protective prayers") + "!");

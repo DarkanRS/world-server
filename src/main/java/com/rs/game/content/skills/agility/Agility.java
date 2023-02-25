@@ -26,7 +26,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -82,7 +82,7 @@ public class Agility {
 		return true;
 	}
 
-	public static void swingOnRopeSwing(final Player player, final WorldTile startTile, final WorldTile endTile, final GameObject object, final double xp) {
+	public static void swingOnRopeSwing(final Player player, final Tile startTile, final Tile endTile, final GameObject object, final double xp) {
 		player.walkToAndExecute(startTile, () -> {
 			player.lock();
 			player.faceObject(object);
@@ -93,23 +93,23 @@ public class Agility {
 			WorldTasks.schedule(1, () -> {
 				player.unlockNextTick();
 				player.getSkills().addXp(Constants.AGILITY, xp);
-				player.setNextWorldTile(endTile);
+				player.setNextTile(endTile);
 			});
 		});
 	}
 
-	public static void handleObstacle(final Player player, int animationId, int delay, final WorldTile toTile, final double xp) {
+	public static void handleObstacle(final Player player, int animationId, int delay, final Tile toTile, final double xp) {
 		player.lock();
 		WorldTasks.schedule(1, () -> player.setNextAnimation(new Animation(animationId)));
 		WorldTasks.schedule(delay+1, () -> {
 			player.unlockNextTick();
-			player.setNextWorldTile(toTile);
+			player.setNextTile(toTile);
 			player.setNextAnimation(new Animation(-1));
 			player.getSkills().addXp(Constants.AGILITY, xp);
 		});
 	}
 
-	public static void crossMonkeybars(final Player player, WorldTile startTile, final WorldTile endTile, final double xp) {
+	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
 		player.walkToAndExecute(startTile, () -> {
 			player.faceTile(endTile);
 			walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp);

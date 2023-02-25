@@ -206,7 +206,7 @@ public class SiphonNodeAction extends PlayerAction {
 				player.getSkills().addXp(Constants.RUNECRAFTING, totalXp);
 			}
 			player.setNextAnimation(new Animation(nodes.getEmoteId()));
-			player.setNextFaceWorldTile(node.getTile());
+			player.setNextFaceTile(node.getTile());
 			WorldProjectile p = World.sendProjectile(node, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
 			WorldTasks.schedule(new WorldTask() {

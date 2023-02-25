@@ -23,7 +23,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
@@ -223,7 +223,7 @@ public class BlackKnightsFortress extends QuestOutline {
 			return;
 		GameObject cauldron = World.getRegion(12086).getObjectWithId(CAULDRON, 0);
 
-		WorldTile tileBeforeCutscene = WorldTile.of(p.getX(), p.getY(), p.getPlane());
+		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		if (e.getItem().getId() == CABBAGE) {
 			p.lock();
 			p.getInventory().removeItems(new Item(CABBAGE, 1));
@@ -238,13 +238,13 @@ public class BlackKnightsFortress extends QuestOutline {
 
 					if (tick == 0) {
 						p.setNextAnimation(new Animation(TOSS_CABBAGE));
-						World.sendProjectile(p, WorldTile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
+						World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
 					}
 					if (tick == 3)
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 6) {
-						p.setNextWorldTile(cauldron.getTile());
+						p.setNextTile(cauldron.getTile());
 						p.getAppearance().transformIntoNPC(NULL_NPC);
 					}
 
@@ -278,8 +278,8 @@ public class BlackKnightsFortress extends QuestOutline {
 						});
 
 					if (tick == 14)
-						World.sendProjectile(WorldTile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-							World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
+						World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
+							World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), Tile.of(p.getX(), p.getY(), p.getPlane()));
 						});
 
 					if (tick == POTION_RUINED) {
@@ -304,7 +304,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 25) {
-						p.setNextWorldTile(tileBeforeCutscene);
+						p.setNextTile(tileBeforeCutscene);
 						p.getAppearance().transformIntoNPC(-1);
 					}
 

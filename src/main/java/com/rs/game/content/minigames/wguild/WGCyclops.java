@@ -19,7 +19,7 @@ package com.rs.game.content.minigames.wguild;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class WGCyclops extends NPC {
 
-	public WGCyclops(int id, WorldTile tile) {
+	public WGCyclops(int id, Tile tile) {
 		super(id, tile);
 	}
 

@@ -32,7 +32,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
@@ -54,7 +54,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	private boolean blessed;
 	private int hintIcon;
 
-	public GraveStone(Player player, WorldTile deathTile, Item[] items) {
+	public GraveStone(Player player, Tile deathTile, Item[] items) {
 		super(getNPCId(player.getGraveStone()), deathTile);
 		graveStone = player.getGraveStone();
 		setFaceAngle(Utils.getAngleTo(0, -1));

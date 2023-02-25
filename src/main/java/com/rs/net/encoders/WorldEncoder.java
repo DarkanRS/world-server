@@ -38,7 +38,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.model.Account;
 import com.rs.lib.net.Encoder;
@@ -228,11 +228,11 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_RESET_HARD);
 	}
 
-	public void sendCameraLook(WorldTile tile, int viewZ) {
+	public void sendCameraLook(Tile tile, int viewZ) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ);
 	}
 
-	public void sendCameraLook(WorldTile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
+	public void sendCameraLook(Tile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
@@ -252,12 +252,12 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_RESET_SMOOTH);
 	}
 
-	public void sendCameraPos(WorldTile tile, int z) {
+	public void sendCameraPos(Tile tile, int z) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z);
 	}
 
-	public void sendCameraPos(WorldTile tile, int z, int speedToWorldTile, int speedToExactDestination) {
-		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToWorldTile, speedToExactDestination);
+	public void sendCameraPos(Tile tile, int z, int speedToTile, int speedToExactDestination) {
+		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToTile, speedToExactDestination);
 	}
 
 	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ) {
@@ -265,11 +265,11 @@ public class WorldEncoder extends Encoder {
 	}
 
 	/**
-	 * @param speedToWorldTile defines speed of the camera to the world tile with the default height then the exact position
+	 * @param speedToTile defines speed of the camera to the world tile with the default height then the exact position
 	 * @param speedToExactDestination defines speed of camera to the exact position specified by previous parameters.
 	 */
-	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speedToWorldTile, int speedToExactDestination) {
-		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speedToWorldTile, speedToExactDestination));
+	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speedToTile, int speedToExactDestination) {
+		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speedToTile, speedToExactDestination));
 	}
 
 	public void sendRunScript(int scriptId, Object... params) {
@@ -346,12 +346,12 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(new ProjAnim(projectile));
 	}
 
-	public void sendTileMessage(String message, WorldTile tile, int delay, int height, int color) {
+	public void sendTileMessage(String message, Tile tile, int delay, int height, int color) {
 		session.writeToQueue(new UpdateZoneFullFollows(tile, player.getSceneBaseChunkId()));
 		session.writeToQueue(new TileMessage(tile, message, delay, height, color));
 	}
 
-	public void sendTileMessage(String message, WorldTile tile, int color) {
+	public void sendTileMessage(String message, Tile tile, int color) {
 		sendTileMessage(message, tile, 5000, 255, color);
 	}
 
@@ -516,7 +516,7 @@ public class WorldEncoder extends Encoder {
 			targetHash = p.getIndex() & 0xffff | 1 << 28;
 		else if (target instanceof NPC n)
 			targetHash = n.getIndex() & 0xffff | 1 << 29;
-		else if (target instanceof WorldTile tile)
+		else if (target instanceof Tile tile)
 			targetHash = tile.getPlane() << 28 | tile.getX() << 14 | tile.getY() & 0x3fff | 1 << 30;
 		session.writeToQueue(new SpotAnimSpecific(spotAnim, targetHash));
 	}

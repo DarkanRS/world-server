@@ -41,7 +41,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class DungeonNPC extends NPC {
@@ -49,7 +49,7 @@ public class DungeonNPC extends NPC {
 	private DungeonManager manager;
 	private boolean marked;
 
-	public DungeonNPC(int id, WorldTile tile, DungeonManager manager) {
+	public DungeonNPC(int id, Tile tile, DungeonManager manager) {
 		super(id, tile, true);
 		setManager(manager);
 		if (getDefinitions().hasAttackOption()) {
@@ -199,7 +199,7 @@ public class DungeonNPC extends NPC {
 			drops.add(new Item(17447, 10 + Utils.random(300)));
 
 		for (Item item : drops)
-			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 	public DungeonManager getManager() {

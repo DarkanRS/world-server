@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.godwars.zamorak;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -28,7 +28,7 @@ public class KrilTstsaroth extends NPC {
 
 	private GodWarMinion[] minions = new GodWarMinion[3];
 
-	public KrilTstsaroth(int id, WorldTile tile, boolean spawned) {
+	public KrilTstsaroth(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIntelligentRouteFinder(true);
 		setIgnoreDocile(true);

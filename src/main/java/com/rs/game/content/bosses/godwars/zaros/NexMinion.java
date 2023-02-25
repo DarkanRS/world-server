@@ -21,13 +21,13 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class NexMinion extends NPC {
 
 	private NexArena arena;
 
-	public NexMinion(NexArena arena, int id, WorldTile tile) {
+	public NexMinion(NexArena arena, int id, Tile tile) {
 		super(id, tile, true);
 		this.arena = arena;
 		setCantFollowUnderCombat(true);

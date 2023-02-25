@@ -22,7 +22,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class WizardFinix extends Conversation {
 
@@ -71,7 +71,7 @@ public class WizardFinix extends Conversation {
 				option("Can you teleport me back to the Wizards' Tower?", new Dialogue()
 						.addNPC(FINIX, HeadE.CHEERFUL, "Of course!")
 						.addNext(() -> {
-							Magic.sendNormalTeleportSpell(player, WorldTile.of(3107, 3162, 1));
+							Magic.sendNormalTeleportSpell(player, Tile.of(3107, 3162, 1));
 						}));
 			}
 		});

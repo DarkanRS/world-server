@@ -22,7 +22,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -32,7 +32,7 @@ public class Werewolf extends NPC {
 
 	private int realId;
 
-	public Werewolf(int id, WorldTile tile, boolean spawned) {
+	public Werewolf(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		realId = id;
 	}

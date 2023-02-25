@@ -15,7 +15,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -109,8 +109,8 @@ public class DragonSlayer extends QuestOutline {
 	public final static String INTRODUCED_ELVARG_ATTR = "INTRODUCED_ELVARG";
 
 	//Other
-	public final static WorldTile MELZAR_BASEMENT = WorldTile.of(2933, 9641, 0);
-	public final static WorldTile MELZAR_MAZE = WorldTile.of(2931, 3250, 0);
+	public final static Tile MELZAR_BASEMENT = Tile.of(2933, 9641, 0);
+	public final static Tile MELZAR_MAZE = Tile.of(2931, 3250, 0);
 	private final static int HAMMER_HITTING_REPAIR_ANIM = 3676;
 
 	@Override
@@ -204,7 +204,7 @@ public class DragonSlayer extends QuestOutline {
 			e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
 		if(e.getOption().equalsIgnoreCase("drop")) {
 			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 		}
 	});
@@ -214,7 +214,7 @@ public class DragonSlayer extends QuestOutline {
 			e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
 		if(e.getOption().equalsIgnoreCase("drop")) {
 			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 		}
 	});
@@ -310,7 +310,7 @@ public class DragonSlayer extends QuestOutline {
 					if(tick == 0)
 						p.lock();
 					if(tick == 1)
-						p.walkToAndExecute(WorldTile.of(3050, 9840, 0), ()-> {
+						p.walkToAndExecute(Tile.of(3050, 9840, 0), ()-> {
 							p.faceEast();
 							tick++;
 						});
@@ -319,7 +319,7 @@ public class DragonSlayer extends QuestOutline {
 						obj.animate(new Animation(6636));
 					}
 					if(tick==3)
-						p.addWalkSteps(WorldTile.of(3051, 9840, 0), 3, false);
+						p.addWalkSteps(Tile.of(3051, 9840, 0), 3, false);
 					if(tick==5)
 						obj.animate(new Animation(6637));
 					if(tick==7) {
@@ -430,7 +430,7 @@ public class DragonSlayer extends QuestOutline {
 				}
 				if (tick == 3) {// setup p2, move p
 					p.getAppearance().transformIntoNPC(266);
-					p.setNextWorldTile(WorldTile.of(2845, 9636, 0));
+					p.setNextTile(Tile.of(2845, 9636, 0));
 				}
 				if (tick == 5) {// setup p3, camera
 					p.getPackets().sendCameraPos(p.getXInScene(p.getSceneBaseChunkId()), p.getYInScene(p.getSceneBaseChunkId()), 1300);
@@ -450,7 +450,7 @@ public class DragonSlayer extends QuestOutline {
 				if(tick == 15)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick==18) {
-					p.setNextWorldTile(WorldTile.of(2834, 9657, 0));
+					p.setNextTile(Tile.of(2834, 9657, 0));
 					p.getPackets().sendResetCamera();
 				}
 				if (tick == 21) {// closing p2

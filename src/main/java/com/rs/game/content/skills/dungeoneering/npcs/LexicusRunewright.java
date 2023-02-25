@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class LexicusRunewright extends DungeonBoss {
@@ -44,7 +44,7 @@ public class LexicusRunewright extends DungeonBoss {
 	private int attackStage;
 	private List<TombOfLexicus> books = new CopyOnWriteArrayList<>();
 
-	public LexicusRunewright(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public LexicusRunewright(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9842, 9855), manager.getBossLevel()), tile, manager, reference);
 	}
 
@@ -79,7 +79,7 @@ public class LexicusRunewright extends DungeonBoss {
 					int random = Utils.random(TELEPORT_LOCS.length);
 					if (random % 1 == 0 && random != 0)
 						random -= 1;
-					setNextWorldTile(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
+					setNextTile(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
 					setNextAnimation(new Animation(13500));
 					setNextSpotAnim(new SpotAnim(1577));
 				} else if (cycles == 4) {
@@ -100,7 +100,7 @@ public class LexicusRunewright extends DungeonBoss {
 				for (int id = 0; id < 2; id++) {
 					if (reachedMaxBookSize())
 						break;
-					WorldTile tile = getManager().getTile(getReference(), 6 + Utils.random(4), 6 + Utils.random(4));
+					Tile tile = getManager().getTile(getReference(), 6 + Utils.random(4), 6 + Utils.random(4));
 					TombOfLexicus book = new TombOfLexicus(boss, 9856 + Utils.random(3), tile, getManager()); //TODO scale to combat level
 					book.setTarget(target);
 					books.add(book);

@@ -30,7 +30,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -40,13 +40,13 @@ public class Nomad extends NPC {
 
 	private int nextMove;
 	private long nextMovePerform;
-	private WorldTile throneTile;
+	private Tile throneTile;
 	private ArrayList<NPC> copies;
 	private boolean healed;
 	private int notAttacked;
 	private Player target;
 
-	public Nomad(int id, WorldTile tile, boolean spawned) {
+	public Nomad(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setForceMultiArea(true);
 		setRun(true);
@@ -149,13 +149,13 @@ public class Nomad extends NPC {
 		return nextMove++;
 	}
 
-	public void sendTeleport(final WorldTile tile) {
+	public void sendTeleport(final Tile tile) {
 		setNextAnimation(new Animation(12729));
 		setNextSpotAnim(new SpotAnim(1576));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				setNextWorldTile(tile);
+				setNextTile(tile);
 				setNextAnimation(new Animation(12730));
 				setNextSpotAnim(new SpotAnim(1577));
 				setFaceAngle(6);
@@ -171,14 +171,14 @@ public class Nomad extends NPC {
 		this.nextMove = nextMove;
 	}
 
-	public WorldTile getThroneTile() {
+	public Tile getThroneTile() {
 		/*
 		 * if no throne returns middle of area
 		 */
-		return throneTile == null ? WorldTile.of((getRegionX() << 6) + 32, (getRegionY() << 6) + 32, getPlane()) : throneTile;
+		return throneTile == null ? Tile.of((getRegionX() << 6) + 32, (getRegionY() << 6) + 32, getPlane()) : throneTile;
 	}
 
-	public void setThroneTile(WorldTile throneTile) {
+	public void setThroneTile(Tile throneTile) {
 		this.throneTile = throneTile;
 	}
 
@@ -196,7 +196,7 @@ public class Nomad extends NPC {
 					NPC n;
 					if (thisIndex == i) {
 						n = thisNpc;
-						setNextWorldTile(getCopySpot(i));
+						setNextTile(getCopySpot(i));
 					} else {
 						n = new FakeNomad(getCopySpot(i), thisNpc);
 						copies.add(n);
@@ -211,8 +211,8 @@ public class Nomad extends NPC {
 		}, 3);
 	}
 
-	public WorldTile getCopySpot(int index) {
-		WorldTile throneTile = getThroneTile();
+	public Tile getCopySpot(int index) {
+		Tile throneTile = getThroneTile();
 		switch (index) {
 		case 0:
 			return throneTile;

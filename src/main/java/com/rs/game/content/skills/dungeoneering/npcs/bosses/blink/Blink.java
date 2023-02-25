@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -77,9 +77,9 @@ public class Blink extends DungeonBoss {
 	private int rushCount, rushStage;
 	private int[] selectedPath;
 	private boolean inversedPath, specialRequired;
-	private WorldTile toPath, activePillar;
+	private Tile toPath, activePillar;
 
-	public Blink(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Blink(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12865, 12878), manager.getBossLevel()), tile, manager, reference);
 		setForceFollowClose(true);
 		setHitpoints(getMaxHitpoints());
@@ -164,7 +164,7 @@ public class Blink extends DungeonBoss {
 					rushCount = 5;
 				setNextNPCTransformation(1957);
 			} else if (rushCount == 8)
-				setNextWorldTile(getNextPath());
+				setNextTile(getNextPath());
 			else if (rushCount == 9) {
 				setNextNPCTransformation(12865);
 				toPath = getManager().getTile(getReference(), selectedPath[inversedPath ? 2 : 0], selectedPath[inversedPath ? 3 : 1]);
@@ -190,7 +190,7 @@ public class Blink extends DungeonBoss {
 		}
 	}
 
-	public WorldTile getNextPath() {
+	public Tile getNextPath() {
 		selectedPath = RUSH_COORDINATES[Utils.random(RUSH_COORDINATES.length)];
 		inversedPath = Utils.random(2) == 0;
 		return getManager().getTile(getReference(), selectedPath[inversedPath ? 0 : 2], selectedPath[inversedPath ? 1 : 3]);
@@ -199,7 +199,7 @@ public class Blink extends DungeonBoss {
 	public void raisePillar(GameObject selectedPillar) {
 		final GameObject newPillar = new GameObject(selectedPillar);
 		newPillar.setId(32196);//Our little secret :D
-		activePillar = WorldTile.of(selectedPillar.getTile());
+		activePillar = Tile.of(selectedPillar.getTile());
 		World.spawnObjectTemporary(newPillar, 4);
 		WorldTasks.schedule(new WorldTask() {
 

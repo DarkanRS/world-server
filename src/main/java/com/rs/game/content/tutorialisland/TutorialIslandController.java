@@ -46,7 +46,7 @@ import com.rs.game.region.Region;
 import com.rs.lib.Constants;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 
 public final class TutorialIslandController extends Controller {
@@ -1096,9 +1096,9 @@ public final class TutorialIslandController extends Controller {
 			player.handleOneWayDoor(object);
 		} else if (object.getId() == 3029 && pastStage(Stage.LEAVE_QUEST_GUIDE_HOUSE)) {
 			nextStage(Stage.TALK_TO_MINING_GUIDE);
-			player.useLadder(WorldTile.of(3088, 9520, 0));
+			player.useLadder(Tile.of(3088, 9520, 0));
 		} else if (object.getId() == 3028 && pastStage(Stage.LEAVE_QUEST_GUIDE_HOUSE))
-			player.useLadder(WorldTile.of(3088, 3120, 0));
+			player.useLadder(Tile.of(3088, 3120, 0));
 		else if (object.getId() == 3043)
 			player.getActionManager().setAction(new Mining(RockType.TIN, object));
 		else if (object.getId() == 3042)
@@ -1272,7 +1272,7 @@ public final class TutorialIslandController extends Controller {
 	@Override
 	public void start() {
 		if (getStage() == Stage.TALK_TO_GUIDE)
-			player.setNextWorldTile(WorldTile.of(3094, 3107, 0));
+			player.setNextTile(Tile.of(3094, 3107, 0));
 		sendInterfaces();
 	}
 
@@ -1349,12 +1349,12 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		return false;
 	}
 

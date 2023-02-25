@@ -15,7 +15,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -38,7 +38,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						p.setNextWorldTile(WorldTile.of(2642, 3321, 0));//Mansion in ardy
+						p.setNextTile(Tile.of(2642, 3321, 0));//Mansion in ardy
 					}
 				}, 2);
 			});
@@ -80,9 +80,9 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 													@Override
 													public void run() {
 														if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) >= GET_TOTEM)
-															p.setNextWorldTile(WorldTile.of(2642, 3321, 0)); //Mansion in ardy
+															p.setNextTile(Tile.of(2642, 3321, 0)); //Mansion in ardy
 														else
-															p.setNextWorldTile(WorldTile.of(2649, 3271, 0)); //RPDT crates in ardy
+															p.setNextTile(Tile.of(2649, 3271, 0)); //RPDT crates in ardy
 													}
 												}, 2);
 											}));

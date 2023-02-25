@@ -34,28 +34,28 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class SorceressGardenController extends Controller {
 
-	private static final WorldTile MIDDLE = WorldTile.of(2916, 5475, 0);
+	private static final Tile MIDDLE = Tile.of(2916, 5475, 0);
 
 	public enum Gate {
 
-		WINTER(21709, 1, WorldTile.of(2902, 5470, 0), WorldTile.of(2903, 5470, 0), 231),
-		SPRING(21753, 25, WorldTile.of(2921, 5473, 0), WorldTile.of(2920, 5473, 0), 228),
-		AUTUMN(21731, 45, WorldTile.of(2913, 5462, 0), WorldTile.of(2913, 5463, 0), 229),
-		SUMMER(21687, 65, WorldTile.of(2910, 5481, 0), WorldTile.of(2910, 5480, 0), 230);
+		WINTER(21709, 1, Tile.of(2902, 5470, 0), Tile.of(2903, 5470, 0), 231),
+		SPRING(21753, 25, Tile.of(2921, 5473, 0), Tile.of(2920, 5473, 0), 228),
+		AUTUMN(21731, 45, Tile.of(2913, 5462, 0), Tile.of(2913, 5463, 0), 229),
+		SUMMER(21687, 65, Tile.of(2910, 5481, 0), Tile.of(2910, 5480, 0), 230);
 
 		private int objectId;
 		private int levelReq;
 		private int musicId;
-		private WorldTile inside, outside;
+		private Tile inside, outside;
 
 		private static Map<Integer, Gate> Gates = new HashMap<>();
 
-		private Gate(int objectId, int lvlReq, WorldTile inside, WorldTile outside, int musicId) {
+		private Gate(int objectId, int lvlReq, Tile inside, Tile outside, int musicId) {
 			this.objectId = objectId;
 			levelReq = lvlReq;
 			this.inside = inside;
@@ -79,7 +79,7 @@ public class SorceressGardenController extends Controller {
 		 * @param toTile
 		 *            Where the player will be spawned
 		 */
-		public static void handleGates(Player player, int objectId, int lvlReq, WorldTile toTile, int musicId) {
+		public static void handleGates(Player player, int objectId, int lvlReq, Tile toTile, int musicId) {
 			if (lvlReq > player.getSkills().getLevelForXp(Constants.THIEVING)) {
 				player.simpleDialogue("You need " + lvlReq + " thieving level to pick this gate.");
 				return;
@@ -100,11 +100,11 @@ public class SorceressGardenController extends Controller {
 			return levelReq;
 		}
 
-		public WorldTile getInsideTile() {
+		public Tile getInsideTile() {
 			return inside;
 		}
 
-		public WorldTile getOutsideTile() {
+		public Tile getOutsideTile() {
 			return outside;
 		}
 	}
@@ -171,7 +171,7 @@ public class SorceressGardenController extends Controller {
 				@Override
 				public void run() {
 					player.unlock();
-					Magic.sendNormalTeleportSpell(player, 0, 0, WorldTile.of(3321, 3141, 0));
+					Magic.sendNormalTeleportSpell(player, 0, 0, Tile.of(3321, 3141, 0));
 				}
 			}, 1);
 			return false;
@@ -222,7 +222,7 @@ public class SorceressGardenController extends Controller {
 		player.lock();
 		player.sendMessage("An elemental force enamating from the garden teleports you away.");
 		FadingScreen.fade(player, () -> {
-			player.setNextWorldTile(WorldTile.of(2913, 5467, 0));
+			player.setNextTile(Tile.of(2913, 5467, 0));
 			player.lock(3);
 		});
 	}
@@ -230,39 +230,39 @@ public class SorceressGardenController extends Controller {
 	/**
 	 * Checks if the player is in any garden
 	 */
-	public static boolean inGarden(WorldTile tile) {
+	public static boolean inGarden(Tile tile) {
 		return ((tile.getX() >= 2880 && tile.getX() <= 2943) && (tile.getY() >= 5440 && tile.getY() <= 5503));
 	}
 
-	public static boolean inGardens(WorldTile tile) {
+	public static boolean inGardens(Tile tile) {
 		return inWinterGarden(tile) || inAutumnGarden(tile) || inSpringGarden(tile) || inSummerGarden(tile);
 	}
 
 	/**
 	 * Checks if the player is at Winter Garden or not
 	 */
-	public static boolean inWinterGarden(WorldTile tile) {
+	public static boolean inWinterGarden(Tile tile) {
 		return ((tile.getX() >= 2886 && tile.getX() <= 2902) && (tile.getY() >= 5464 && tile.getY() <= 5487));
 	}
 
 	/**
 	 * Checks if the player is at Spring Garden or not
 	 */
-	public static boolean inSummerGarden(WorldTile tile) {
+	public static boolean inSummerGarden(Tile tile) {
 		return ((tile.getX() >= 2904 && tile.getX() <= 2927) && (tile.getY() >= 5481 && tile.getY() <= 5497));
 	}
 
 	/**
 	 * Checks if the player is at Summer Garden or not
 	 */
-	public static boolean inSpringGarden(WorldTile tile) {
+	public static boolean inSpringGarden(Tile tile) {
 		return ((tile.getX() >= 2921 && tile.getX() <= 2937) && (tile.getY() >= 5456 && tile.getY() <= 5479));
 	}
 
 	/**
 	 * Checks if the player is at Autumn Garden or not
 	 */
-	public static boolean inAutumnGarden(WorldTile tile) {
+	public static boolean inAutumnGarden(Tile tile) {
 		return ((tile.getX() >= 2896 && tile.getX() <= 2919) && (tile.getY() >= 5446 && tile.getY() <= 5462));
 	}
 

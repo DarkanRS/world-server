@@ -9,7 +9,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -27,7 +27,7 @@ public class DramenTreeBoss {
 						npc.forceTalk("You must defeat me before touching the tree!");
 						return;
 					}
-				NPC spirit = World.spawnNPC(TREE_SPIRIT, WorldTile.of(obj.getX(), obj.getY() + 2, obj.getPlane()), -1, false, true);
+				NPC spirit = World.spawnNPC(TREE_SPIRIT, Tile.of(obj.getX(), obj.getY() + 2, obj.getPlane()), -1, false, true);
 				spirit.setTarget(p);
 				spirit.forceTalk("You must defeat me before touching the tree!");
 			}

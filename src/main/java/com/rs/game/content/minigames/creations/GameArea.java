@@ -22,7 +22,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.region.RegionBuilder.DynamicRegionReference;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
@@ -205,8 +205,8 @@ public class GameArea {
 				int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
 				int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
 
-				World.spawnNPC(managerBlue, WorldTile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				World.spawnNPC(managerRed, WorldTile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+				World.spawnNPC(managerBlue, Tile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+				World.spawnNPC(managerRed, Tile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
 				callback.run();
 			});
 		});

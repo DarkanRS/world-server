@@ -19,7 +19,7 @@ package com.rs.game.content.holidayevents.christmas;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -41,32 +41,32 @@ public class LandOfSnow {
 	public static void initObjects() {
 		if (!ACTIVE)
 			return;
-		WorldTile center = WorldTile.of(3212, 3428, 3);
+		Tile center = Tile.of(3212, 3428, 3);
 		for (int x = -10; x < 10; x++)
 			for (int y = -10; y < 10; y++)
 				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 3, y * 3, 0)));
 
-		ObjectSpawns.add(new ObjectSpawn(12258, 10, 0, WorldTile.of(3210, 3425, 0), "Cupboard to Christmas event."));
+		ObjectSpawns.add(new ObjectSpawn(12258, 10, 0, Tile.of(3210, 3425, 0), "Cupboard to Christmas event."));
 
-		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, WorldTile.of(2648, 5667, 0), "Bank chest"));
-		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, WorldTile.of(2650, 5666, 0), "Bonfire"));
-		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, WorldTile.of(2662, 5667, 0), "Bank chest"));
-		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, WorldTile.of(2660, 5666, 0), "Bonfire"));
+		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, Tile.of(2648, 5667, 0), "Bank chest"));
+		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2650, 5666, 0), "Bonfire"));
+		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, Tile.of(2662, 5667, 0), "Bank chest"));
+		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2660, 5666, 0), "Bonfire"));
 
-		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, WorldTile.of(2645, 5671, 0), "Arctic pine bottom"));
-		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, WorldTile.of(2644, 5671, 0), "Arctic pine presents"));
-		ObjectSpawns.add(new ObjectSpawn(47761, 10, 0, WorldTile.of(2647, 5671, 0), "Arctic pine presents"));
-		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, WorldTile.of(2640, 5665, 0), "Arctic pine bottom"));
-		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, WorldTile.of(2641, 5664, 0), "Arctic pine presents"));
-		ObjectSpawns.add(new ObjectSpawn(47761, 10, 0, WorldTile.of(2640, 5667, 0), "Arctic pine presents"));
+		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, Tile.of(2645, 5671, 0), "Arctic pine bottom"));
+		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, Tile.of(2644, 5671, 0), "Arctic pine presents"));
+		ObjectSpawns.add(new ObjectSpawn(47761, 10, 0, Tile.of(2647, 5671, 0), "Arctic pine presents"));
+		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, Tile.of(2640, 5665, 0), "Arctic pine bottom"));
+		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, Tile.of(2641, 5664, 0), "Arctic pine presents"));
+		ObjectSpawns.add(new ObjectSpawn(47761, 10, 0, Tile.of(2640, 5667, 0), "Arctic pine presents"));
 
-		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, WorldTile.of(2667, 5670, 0), "Ice fishing"));
-		NPCSpawns.add(new NPCSpawn(324, WorldTile.of(2667, 5670, 0), "Fishing spot"));
-		NPCSpawns.add(new NPCSpawn(327, WorldTile.of(2667, 5670, 0), "Fishing spot"));
+		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, Tile.of(2667, 5670, 0), "Ice fishing"));
+		NPCSpawns.add(new NPCSpawn(324, Tile.of(2667, 5670, 0), "Fishing spot"));
+		NPCSpawns.add(new NPCSpawn(327, Tile.of(2667, 5670, 0), "Fishing spot"));
 
-		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, WorldTile.of(2665, 5670, 0), "Ice fishing"));
-		NPCSpawns.add(new NPCSpawn(334, WorldTile.of(2665, 5670, 0), "Fishing spot"));
-		NPCSpawns.add(new NPCSpawn(328, WorldTile.of(2665, 5670, 0), "Fishing spot"));
+		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, Tile.of(2665, 5670, 0), "Ice fishing"));
+		NPCSpawns.add(new NPCSpawn(334, Tile.of(2665, 5670, 0), "Fishing spot"));
+		NPCSpawns.add(new NPCSpawn(328, Tile.of(2665, 5670, 0), "Fishing spot"));
 	}
 
 	public static XPGainHandler handleXPGain = new XPGainHandler(e -> {
@@ -93,7 +93,7 @@ public class LandOfSnow {
 
 	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
 		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextWorldTile(e.getObjectId() == 12258 ? WorldTile.of(2646, 5659, 0) : WorldTile.of(3211, 3424, 0));
+			e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0));
 		});
 	});
 

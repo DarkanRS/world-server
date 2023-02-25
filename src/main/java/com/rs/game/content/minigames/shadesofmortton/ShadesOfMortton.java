@@ -28,7 +28,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -83,7 +83,7 @@ public class ShadesOfMortton {
 						continue;
 					removeSanctity(player, 1);
 				}
-				GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
+				GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 				if (REPAIR_STATE >= 99) {
 					if (altar != null && altar.getId() == 4092) {
 						World.spawnObject(new GameObject(altar).setId(4091));
@@ -210,7 +210,7 @@ public class ShadesOfMortton {
 			e.getPlayer().sendMessage("You need a tinderbox to do that.");
 			return;
 		}
-		GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
+		GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 		if (altar.getId() == 4091) {
 			altar.setId(4090);
 			e.getPlayer().setNextAnimation(new Animation(3687));

@@ -29,7 +29,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
@@ -40,7 +40,7 @@ public class Taverly {
 	public static ObjectClickHandler handleTaverleyHouseStaircase = new ObjectClickHandler(new Object[] { 66637, 66638 }, e -> {
 		Player p = e.getPlayer();
 		GameObject o = e.getObject();
-		WorldTile tile = o.getTile();
+		Tile tile = o.getTile();
 		if (e.getObjectId() == 66637) {
 			if (tile.isAt(2928, 3445, 0)) {
 				if (p.getQuestManager().getStage(Quest.WOLF_WHISTLE) == WolfWhistle.WOLPERTINGER_MATERIALS) {
@@ -127,7 +127,7 @@ public class Taverly {
 		Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
 	});
 
-	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new WorldTile[] { WorldTile.of(2946, 3474, 0), WorldTile.of(2946, 3473, 0) }, e -> {
+	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new Tile[] { Tile.of(2946, 3474, 0), Tile.of(2946, 3473, 0) }, e -> {
 		if (!e.isTelegrabbed()) {
 			e.getPlayer().applyHit(new Hit(e.getPlayer(), 50, Hit.HitLook.TRUE_DAMAGE));
 			List<NPC> npcs = e.getPlayer().getNearbyNPCs(true, n -> n.getId() == 189);

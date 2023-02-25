@@ -38,7 +38,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
@@ -262,14 +262,14 @@ public class ErnestTheChicken extends QuestOutline {
 
 	public static ObjectClickHandler handleDraynorManorLadders = new ObjectClickHandler(new Object[] { 47574, 47575, 133, 32015 }, e -> {
 		GameObject obj = e.getObject();
-		if(obj.getTile().matches(WorldTile.of(3105, 3363, 2)))//To 2nd floor from professor
-			e.getPlayer().useLadder(WorldTile.of(3105, 3364, 1));
-		if(obj.getTile().matches(WorldTile.of(3105, 3363, 1)))//to 3rd floor to professor
-			e.getPlayer().useLadder(WorldTile.of(3105, 3362, 2));
-		if(obj.getTile().matches(WorldTile.of(3092, 3362, 0)))//To basement from 1st floor
-			e.getPlayer().useLadder(WorldTile.of(3117, 9753, 0));
-		if(obj.getTile().matches(WorldTile.of(3117, 9754, 0)))//To 1st floor from basement
-			e.getPlayer().useLadder(WorldTile.of(3092, 3361, 0));
+		if(obj.getTile().matches(Tile.of(3105, 3363, 2)))//To 2nd floor from professor
+			e.getPlayer().useLadder(Tile.of(3105, 3364, 1));
+		if(obj.getTile().matches(Tile.of(3105, 3363, 1)))//to 3rd floor to professor
+			e.getPlayer().useLadder(Tile.of(3105, 3362, 2));
+		if(obj.getTile().matches(Tile.of(3092, 3362, 0)))//To basement from 1st floor
+			e.getPlayer().useLadder(Tile.of(3117, 9753, 0));
+		if(obj.getTile().matches(Tile.of(3117, 9754, 0)))//To 1st floor from basement
+			e.getPlayer().useLadder(Tile.of(3092, 3361, 0));
 	});
 
 	public static LoginHandler onLogin = new LoginHandler(e -> {

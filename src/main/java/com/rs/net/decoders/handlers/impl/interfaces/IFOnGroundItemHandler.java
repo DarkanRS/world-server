@@ -32,7 +32,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
@@ -48,7 +48,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 
 		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
 			return;
-		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
+		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;
@@ -99,7 +99,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 					if (Magic.checkMagicAndRunes(player, 33, true, new RuneSet(Rune.AIR, 1, Rune.LAW, 1))) {
 						player.getActionManager().setActionDelay(3);
 						player.resetWalkSteps();
-						player.setNextFaceWorldTile(tile);
+						player.setNextFaceTile(tile);
 						player.setNextAnimation(new Animation(711));
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));

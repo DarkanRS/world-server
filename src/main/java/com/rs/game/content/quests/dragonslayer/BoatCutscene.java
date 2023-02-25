@@ -27,7 +27,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class BoatCutscene extends Cutscene {
 	
@@ -36,7 +36,7 @@ public class BoatCutscene extends Cutscene {
 
 	@Override
 	public void construct(Player player) {
-		setEndTile(WorldTile.of(2849, 3239, 0));
+		setEndTile(Tile.of(2849, 3239, 0));
 		fadeInBG(2);
 		hideMinimap();
 		dynamicRegion(256, 688, 8, 8);
@@ -107,15 +107,15 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 17, 12);
 		npcFaceTile("jenkins", 17, 12);
 		playerFaceTile(17, 12);
-		projectile(1, WorldTile.of(17, 9, 1), WorldTile.of(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(17, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
 		dialogue(new Dialogue().addNPC(6084, HeadE.SCARED, "It's the dragon!"), true);
-		projectile(1, WorldTile.of(17, 9, 1), WorldTile.of(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(16, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 				
-		projectile(1, WorldTile.of(17, 9, 1), WorldTile.of(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(17, 9, 1), Tile.of(15, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 		
 		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(546));
-		projectile(2, WorldTile.of(17, 9, 1), WorldTile.of(13, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+		projectile(2, Tile.of(17, 9, 1), Tile.of(13, 12, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
 
 		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 		camShake(1, 0, 8, 5, 8);
@@ -125,14 +125,14 @@ public class BoatCutscene extends Cutscene {
 		npcFaceTile("ned", 13, 14);
 		npcFaceTile("jenkins", 13, 14);
 		action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
-		projectile(1, WorldTile.of(13, 11, 1), WorldTile.of(13, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
+		projectile(1, Tile.of(13, 11, 1), Tile.of(13, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 500));
 
-		projectile(1, WorldTile.of(15, 11, 1), WorldTile.of(15, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(2105))));
-		projectile(1, WorldTile.of(16, 17, 1), WorldTile.of(16, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("ned").setNextAnimation(new Animation(4280))));
-		projectile(1, WorldTile.of(17, 17, 1), WorldTile.of(17, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(6649))));
-		projectile(1, WorldTile.of(18, 17, 1), WorldTile.of(18, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(836))));
-		projectile(1, WorldTile.of(19, 17, 1), WorldTile.of(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
-		projectile(1, WorldTile.of(41, 17, 1), WorldTile.of(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(15, 11, 1), Tile.of(15, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(2105))));
+		projectile(1, Tile.of(16, 17, 1), Tile.of(16, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("ned").setNextAnimation(new Animation(4280))));
+		projectile(1, Tile.of(17, 17, 1), Tile.of(17, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(6649))));
+		projectile(1, Tile.of(18, 17, 1), Tile.of(18, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0, () -> getNPC("jenkins").setNextAnimation(new Animation(836))));
+		projectile(1, Tile.of(19, 17, 1), Tile.of(19, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
+		projectile(1, Tile.of(41, 17, 1), Tile.of(41, 14, 1), 1155, 99, 0, 0, 0.5, 0, 0, p -> repeatFireSpotAnim(player, p.getDestination(), 0));
 
 		camPos(34, 14, 1900);
 		camLook(17, 14, 700);
@@ -161,7 +161,7 @@ public class BoatCutscene extends Cutscene {
 		
 		fadeInBG(3);
 		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(516));
-		action(1, () -> player.setNextWorldTile(getEndTile()));
+		action(1, () -> player.setNextTile(getEndTile()));
 		playerFaceDir(Direction.NORTH);
 		camShakeReset();
 		camPosReset();
@@ -176,23 +176,23 @@ public class BoatCutscene extends Cutscene {
 		});
 	}
 	
-	private void repeatFireSpotAnim(Player player, WorldTile target, int fireHeight, Runnable extra) {
+	private void repeatFireSpotAnim(Player player, Tile target, int fireHeight, Runnable extra) {
 		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0) {
-				World.sendSpotAnim(player, new SpotAnim(1154), WorldTile.of(target.getX(), target.getY(), target.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(2588), WorldTile.of(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(1154), Tile.of(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(2588), Tile.of(target.getX(), target.getY(), target.getPlane()));
 				if (extra != null)
 					extra.run();
 			}
 			if (tick > 1)
-				World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), WorldTile.of(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), Tile.of(target.getX(), target.getY(), target.getPlane()));
 			if(tick == 80)
 				return false;
 			return true;
 		});
 	}
 	
-	private void repeatFireSpotAnim(Player player, WorldTile target, int fireHeight) {
+	private void repeatFireSpotAnim(Player player, Tile target, int fireHeight) {
 		repeatFireSpotAnim(player, target, fireHeight, null);
 	}
 	

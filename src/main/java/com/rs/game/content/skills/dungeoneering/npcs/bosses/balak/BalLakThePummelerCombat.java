@@ -29,7 +29,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -58,7 +58,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(14384));
 			npc.setNextForceTalk(new ForceTalk("Rrrraargh!"));
 			//npc.playSoundEffect(3038);
-			final WorldTile center = manager.getRoomCenterTile(boss.getReference());
+			final Tile center = manager.getRoomCenterTile(boss.getReference());
 			WorldTasks.schedule(new WorldTask() {
 
 				@Override

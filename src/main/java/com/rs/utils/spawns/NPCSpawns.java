@@ -29,7 +29,7 @@ import com.google.gson.JsonIOException;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -46,7 +46,7 @@ public final class NPCSpawns {
 	private static final ArrayList<NPCSpawn> ADDED_SPAWNS = new ArrayList<>();
 	private static final Map<Integer, List<NPCSpawn>> NPC_SPAWNS = new HashMap<>();
 
-	public static boolean addSpawn(String username, int id, WorldTile tile) {
+	public static boolean addSpawn(String username, int id, Tile tile) {
 		synchronized (lock) {
 			File file = new File("./data/npcs/addedSpawns.json");
 			ADDED_SPAWNS.add(new NPCSpawn(id, tile, ""+NPCDefinitions.getDefs(id).getName()+" added by " + username));

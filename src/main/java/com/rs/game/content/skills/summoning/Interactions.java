@@ -12,7 +12,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -2321,7 +2321,7 @@ public class Interactions {
 		switch(familiar.getPouch()) {
 			case LAVA_TITAN:
 				ops.add("Teleport to Lava Maze", new Dialogue().addOptions("Are you sure you want to teleport here? It's very high wilderness.", yesNo -> {
-					yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, WorldTile.of(3030, 3838, 0)));
+					yesNo.add("Yes. I'm sure.", () -> Magic.sendNormalTeleportSpell(player, Tile.of(3030, 3838, 0)));
 					yesNo.add("Nevermind. That sounds dangerous.");
 				}));
 				break;

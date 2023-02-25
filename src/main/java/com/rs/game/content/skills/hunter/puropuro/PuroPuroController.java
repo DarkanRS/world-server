@@ -19,15 +19,15 @@ package com.rs.game.content.skills.hunter.puropuro;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class PuroPuroController extends Controller {
 
-	private WorldTile entranceTile;
+	private Tile entranceTile;
 
-	public PuroPuroController(WorldTile tile) {
+	public PuroPuroController(Tile tile) {
 		this.entranceTile = tile;
 	}
 

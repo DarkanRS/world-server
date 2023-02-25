@@ -9,14 +9,14 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class MordredMob extends NPC {
 	final static int MORGAN = 248;
-	public MordredMob(int id, WorldTile tile) {
+	public MordredMob(int id, Tile tile) {
 		super(id, tile, false);
 	}
 
@@ -27,7 +27,7 @@ public class MordredMob extends NPC {
 				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
 					if(npc.getId() == MORGAN)
 						return;
-                OwnedNPC morgan = new OwnedNPC(p, MORGAN, WorldTile.of(2769, 3403, 2), true);
+                OwnedNPC morgan = new OwnedNPC(p, MORGAN, Tile.of(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();

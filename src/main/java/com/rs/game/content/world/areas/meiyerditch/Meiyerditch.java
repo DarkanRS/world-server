@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.meiyerditch;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -31,14 +31,14 @@ public class Meiyerditch {
 
 	public static ObjectClickHandler handleBoat = new ObjectClickHandler(false, new Object[] { 12945, 17955 }, e -> {
 		if (e.getObjectId() == 12945)
-			e.getPlayer().walkToAndExecute(WorldTile.of(3525, 3170, 0), () -> {
+			e.getPlayer().walkToAndExecute(Tile.of(3525, 3170, 0), () -> {
 				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(WorldTile.of(3605, 3163, 0)));
+				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(Tile.of(3605, 3163, 0)));
 			});
 		else
-			e.getPlayer().walkToAndExecute(WorldTile.of(3605, 3163, 0), () -> {
+			e.getPlayer().walkToAndExecute(Tile.of(3605, 3163, 0), () -> {
 				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextWorldTile(WorldTile.of(3525, 3170, 0)));
+				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(Tile.of(3525, 3170, 0)));
 			});
 	});
 

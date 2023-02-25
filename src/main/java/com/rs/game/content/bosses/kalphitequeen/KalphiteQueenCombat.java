@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class KalphiteQueenCombat extends CombatScript {
@@ -82,7 +82,7 @@ public class KalphiteQueenCombat extends CombatScript {
 		});
 	}
 
-	private static Player getTarget(List<Player> list, final Entity fromEntity, WorldTile startTile) {
+	private static Player getTarget(List<Player> list, final Entity fromEntity, Tile startTile) {
 		if (fromEntity == null)
 			return null;
 		ArrayList<Player> added = new ArrayList<>();

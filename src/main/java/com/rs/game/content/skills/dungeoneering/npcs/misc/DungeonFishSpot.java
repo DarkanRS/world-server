@@ -19,7 +19,7 @@ package com.rs.game.content.skills.dungeoneering.npcs.misc;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing.Fish;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class DungeonFishSpot extends DungeonNPC {
@@ -27,7 +27,7 @@ public class DungeonFishSpot extends DungeonNPC {
 	private Fish fish;
 	private int fishes;
 
-	public DungeonFishSpot(int id, WorldTile tile, DungeonManager manager, Fish fish) {
+	public DungeonFishSpot(int id, Tile tile, DungeonManager manager, Fish fish) {
 		super(id, tile, manager);
 		this.fish = fish;
 		setName(Utils.formatPlayerNameForDisplay(fish.toString()));

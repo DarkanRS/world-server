@@ -12,7 +12,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
@@ -89,7 +89,7 @@ public class WormBrainDragonSlayerMob extends Conversation {
 		if(e.killedByPlayer()) {
 			Player p = (Player) e.getKiller();
 			if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR && !p.getInventory().containsItem(MAP_PART2, 1))
-				World.addGroundItem(new Item(MAP_PART2, 1), WorldTile.of(e.getNPC().getTile()), (Player) e.getKiller());
+				World.addGroundItem(new Item(MAP_PART2, 1), Tile.of(e.getNPC().getTile()), (Player) e.getKiller());
 		}
 	});
 

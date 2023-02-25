@@ -15,7 +15,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -42,7 +42,7 @@ public class MerlinsCrystal extends QuestOutline {
 	public static final String PLAYER_KNOWS_BEGGAR_ATTR = "KNOWS_BEGGAR";
 	protected static final int EXCALIBUR = 35;
 
-	protected WorldTile crate = WorldTile.of(2778, 9839, 0);
+	protected Tile crate = Tile.of(2778, 9839, 0);
 
 	@Override
 	public int getCompletedStage() {
@@ -188,7 +188,7 @@ public class MerlinsCrystal extends QuestOutline {
 					p.sendMessage("... and it shatters under the force of Excalibur!");
 					p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
 					p.getVars().setVar(14, 7);
-                    OwnedNPC merlin = new OwnedNPC(p, 249, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
+                    OwnedNPC merlin = new OwnedNPC(p, 249, Tile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
 					merlin.setCantInteract(true);
 					merlin.setRandomWalk(false);
 					merlin.finishAfterTicks(5);
@@ -210,7 +210,7 @@ public class MerlinsCrystal extends QuestOutline {
 		}
 	});
 
-	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(WorldTile.of(2780, 3515, 0), e -> {
+	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(Tile.of(2780, 3515, 0), e -> {
 		Player p = e.getPlayer();
 		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
 			return;
@@ -221,12 +221,12 @@ public class MerlinsCrystal extends QuestOutline {
 				if(tick == 1)
 					if(p.getInventory().containsItem(LIT_BLACK_CANDLE, 1))
 						for (GroundItem item : World.getRegion(p.getRegionId()).getAllGroundItems())
-							if (item.getId() == 530 && item.getTile().matches(WorldTile.of(2780, 3515, 0))) {
+							if (item.getId() == 530 && item.getTile().matches(Tile.of(2780, 3515, 0))) {
 								p.getControllerManager().startController(new MerlinsCrystalRitualScene());
 								stop();
 							}
 				if(tick == 3)
-					if(p.matches(WorldTile.of(2780, 3515, 0)))
+					if(p.matches(Tile.of(2780, 3515, 0)))
 						tick = 0;
 				if(tick == 5)
 					stop();

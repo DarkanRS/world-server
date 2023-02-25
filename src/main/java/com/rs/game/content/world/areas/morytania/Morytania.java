@@ -39,7 +39,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -149,11 +149,11 @@ public class Morytania  {
 	});
 
 	public static ObjectClickHandler handleLabEntrance = new ObjectClickHandler(new Object[] { 18049 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3637, 9695, 0), 1, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3637, 9695, 0), 1, 1);
 	});
 
 	public static ObjectClickHandler handleLabExit = new ObjectClickHandler(new Object[] { 18050 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3643, 3306, 0), 1, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3643, 3306, 0), 1, 1);
 	});
 
 	public static ObjectClickHandler handleBurghDeRottToMineFence = new ObjectClickHandler(new Object[] { 12776 }, e -> {
@@ -165,23 +165,23 @@ public class Morytania  {
 	});
 
 	public static ObjectClickHandler handleTempleTrapdoor = new ObjectClickHandler(new Object[] { 30572 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(3405, 9906, 0));
+		e.getPlayer().ladder(Tile.of(3405, 9906, 0));
 	});
 
 	public static ObjectClickHandler handleTempleTrapdoorCanifisSide = new ObjectClickHandler(new Object[] { 30574 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(3440, 9887, 0));
+		e.getPlayer().ladder(Tile.of(3440, 9887, 0));
 	});
 
 	public static ObjectClickHandler handleTempleLadder = new ObjectClickHandler(new Object[] { 30575 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(3405, 3506, 0));
+		e.getPlayer().ladder(Tile.of(3405, 3506, 0));
 	});
 
 	public static ObjectClickHandler handleHolyBarrier = new ObjectClickHandler(new Object[] { 3443 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(3423, 3484, 0));
+		e.getPlayer().ladder(Tile.of(3423, 3484, 0));
 	});
 
 	public static ObjectClickHandler handleSwampTrapdoorShortcut = new ObjectClickHandler(new Object[] { 5055, 5054 }, e -> {
-		e.getPlayer().ladder(e.getObjectId() == 5055 ? WorldTile.of(3477, 9845, 0) : WorldTile.of(3495, 3466, 0));
+		e.getPlayer().ladder(e.getObjectId() == 5055 ? Tile.of(3477, 9845, 0) : Tile.of(3495, 3466, 0));
 	});
 
 	public static ObjectClickHandler handleMyrequeWall = new ObjectClickHandler(new Object[] { 5052 }, e -> {
@@ -189,54 +189,54 @@ public class Morytania  {
 	});
 
 	public static ObjectClickHandler handleSwampWoodenDoors = new ObjectClickHandler(new Object[] { 30261, 30262, 30265 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 30265 ? WorldTile.of(3500, 9812, 0) : WorldTile.of(3510, 3448, 0));
+		e.getPlayer().useStairs(e.getObjectId() == 30265 ? Tile.of(3500, 9812, 0) : Tile.of(3510, 3448, 0));
 	});
 
 	public static ObjectClickHandler handleTreeBridgeShortcut = new ObjectClickHandler(new Object[] { 5005 }, e -> {
 		if (e.getObject().getTile().isAt(3502, 3431))
-			e.getPlayer().ladder(WorldTile.of(3502, 3425, 0));
+			e.getPlayer().ladder(Tile.of(3502, 3425, 0));
 		else
-			e.getPlayer().ladder(WorldTile.of(3502, 3432, 0));
+			e.getPlayer().ladder(Tile.of(3502, 3432, 0));
 	});
 
 	public static ObjectClickHandler handleSwampBoatFromMorton = new ObjectClickHandler(new Object[] { 6969 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3500, 3380, 0));
+		e.getPlayer().setNextTile(Tile.of(3500, 3380, 0));
 	});
 
 	public static ObjectClickHandler handleSwampBoatToMorton = new ObjectClickHandler(new Object[] { 6970 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3521, 3284, 0));
+		e.getPlayer().setNextTile(Tile.of(3521, 3284, 0));
 	});
 
 	public static ObjectClickHandler handleGrottoTree = new ObjectClickHandler(new Object[] { 3517 }, e -> {
 		if (e.getOpNum() == ClientPacket.OBJECT_OP2)
-			e.getPlayer().useLadder(WorldTile.of(2272, 5334, e.getPlayer().isQuestComplete(Quest.NATURE_SPIRIT) ? 1 : 0));
+			e.getPlayer().useLadder(Tile.of(2272, 5334, e.getPlayer().isQuestComplete(Quest.NATURE_SPIRIT) ? 1 : 0));
 	});
 
 	public static ObjectClickHandler handleExitNatureGrotto = new ObjectClickHandler(new Object[] { 3525, 3526 }, e -> {
-		e.getPlayer().useLadder(WorldTile.of(3440, 3337, 0));
+		e.getPlayer().useLadder(Tile.of(3440, 3337, 0));
 	});
 
 	public static ObjectClickHandler handleGrottoBridge = new ObjectClickHandler(new Object[] { 3522 }, e -> {
 		int jumpTo = ((e.getObject().getY() <= 3329) ? e.getObject().getY()+2 : e.getObject().getY()-2);
-		WorldTile endTile = WorldTile.of(e.getObject().getX(), jumpTo, e.getObject().getPlane());
+		Tile endTile = Tile.of(e.getObject().getX(), jumpTo, e.getObject().getPlane());
 		e.getPlayer().lock();
-		e.getPlayer().setNextFaceWorldTile(endTile);
+		e.getPlayer().setNextFaceTile(endTile);
 		e.getPlayer().setNextAnimation(new Animation(769));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();
-				e.getPlayer().setNextWorldTile(endTile);
+				e.getPlayer().setNextTile(endTile);
 				e.getPlayer().setNextAnimation(new Animation(-1));
 			}
 		}, 1);
 	});
 
 	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 15215 }, new String[] { "Teleport" }, e -> {
-		Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, WorldTile.of(3362, 3504, 0), 3, true, Magic.MAGIC_TELEPORT, null);
+		Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, Tile.of(3362, 3504, 0), 3, true, Magic.MAGIC_TELEPORT, null);
 	});
 
-	private static void drakanTeleport(Player player, Item item, WorldTile location) {
+	private static void drakanTeleport(Player player, Item item, Tile location) {
 		if (item.getMetaDataI("drakanCharges") <= 0) {
 			player.sendMessage("The medallion seems unresponsive. It probably needs recharging.");
 			return;
@@ -261,11 +261,11 @@ public class Morytania  {
 					addOptions("Where would you like to teleport?", new Options() {
 						@Override
 						public void create() {
-							option("Barrows", () -> drakanTeleport(e.getPlayer(), e.getItem(), WorldTile.of(3565, 3312, 0)));
-							option("Burgh de Rott", () -> drakanTeleport(e.getPlayer(), e.getItem(), WorldTile.of(3491, 3199, 0)));
-							option("Meiyerditch", () -> drakanTeleport(e.getPlayer(), e.getItem(), WorldTile.of(3626, 9618, 0)));
-							option("Darkmeyer", () -> drakanTeleport(e.getPlayer(), e.getItem(), WorldTile.of(3628, 3364, 00)));
-							option("Meiyerditch Laboratories", () -> drakanTeleport(e.getPlayer(), e.getItem(), WorldTile.of(3633, 9696, 0)));
+							option("Barrows", () -> drakanTeleport(e.getPlayer(), e.getItem(), Tile.of(3565, 3312, 0)));
+							option("Burgh de Rott", () -> drakanTeleport(e.getPlayer(), e.getItem(), Tile.of(3491, 3199, 0)));
+							option("Meiyerditch", () -> drakanTeleport(e.getPlayer(), e.getItem(), Tile.of(3626, 9618, 0)));
+							option("Darkmeyer", () -> drakanTeleport(e.getPlayer(), e.getItem(), Tile.of(3628, 3364, 00)));
+							option("Meiyerditch Laboratories", () -> drakanTeleport(e.getPlayer(), e.getItem(), Tile.of(3633, 9696, 0)));
 						}
 					});
 				}
@@ -288,7 +288,7 @@ public class Morytania  {
 		if (!e.getPlayer().isQuestComplete(Quest.BRANCHES_OF_DARKMEYER, "to enter the cave."))
 			return;
 		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextWorldTile(e.getObjectId() == 59921 ? WorldTile.of(2273, 5152, 0) : WorldTile.of(3498, 3204, 0));
+			e.getPlayer().setNextTile(e.getObjectId() == 59921 ? Tile.of(2273, 5152, 0) : Tile.of(3498, 3204, 0));
 		});
 	});
 

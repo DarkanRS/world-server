@@ -19,7 +19,7 @@ package com.rs.game.content.world.areas.burthorpe.npcs.announcers;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -30,7 +30,7 @@ public class ShanomiWorld extends NPC {
 
 	private static final int npcId = 4290;
 
-	public ShanomiWorld(int id, WorldTile tile) {
+	public ShanomiWorld(int id, Tile tile) {
 		super(id, tile);
 	}
 

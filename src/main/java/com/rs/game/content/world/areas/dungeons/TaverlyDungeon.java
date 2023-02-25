@@ -23,7 +23,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -32,7 +32,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class TaverlyDungeon {
 
 	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 11901 ? WorldTile.of(4498, 5680, 0) : WorldTile.of(2915, 9673, 0));
+		e.getPlayer().useStairs(e.getObjectId() == 11901 ? Tile.of(4498, 5680, 0) : Tile.of(2915, 9673, 0));
 	});
 
 	public static ObjectClickHandler handlePipeSqueeze = new ObjectClickHandler(new Object[] { 9293 }, e -> {
@@ -47,8 +47,8 @@ public class TaverlyDungeon {
 				e.getPlayer().setNextAnimation(new Animation(10580));
 			}
 		}, 0);
-		e.getPlayer().setNextForceMovement(new ForceMovement(WorldTile.of(x, 9799, 0), 3, e.getPlayer().getX() == 2886 ? Direction.WEST : Direction.EAST));
-		e.getPlayer().useStairs(-1, WorldTile.of(x, 9799, 0), 3, 4);
+		e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(x, 9799, 0), 3, e.getPlayer().getX() == 2886 ? Direction.WEST : Direction.EAST));
+		e.getPlayer().useStairs(-1, Tile.of(x, 9799, 0), 3, 4);
 	});
 
 	public static ObjectClickHandler handleStrangeFloor = new ObjectClickHandler(new Object[] { 9294 }, e -> {
@@ -56,7 +56,7 @@ public class TaverlyDungeon {
 			return;
 		final boolean isRunning = e.getPlayer().getRun();
 		final boolean isSouth = e.getPlayer().getY() > 9812;
-		final WorldTile tile = isSouth ? WorldTile.of(2878, 9812, 0) : WorldTile.of(2881, 9814, 0);
+		final Tile tile = isSouth ? Tile.of(2878, 9812, 0) : Tile.of(2881, 9814, 0);
 		e.getPlayer().setRun(true);
 		e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
 		WorldTasks.schedule(new WorldTask() {
@@ -66,14 +66,14 @@ public class TaverlyDungeon {
 			public void run() {
 				ticks++;
 				if (ticks == 2)
-					e.getPlayer().setNextFaceWorldTile(e.getObject().getTile());
+					e.getPlayer().setNextFaceTile(e.getObject().getTile());
 				else if (ticks == 3) {
 					e.getPlayer().setNextAnimation(new Animation(1995));
 					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
 				} else if (ticks == 4)
 					e.getPlayer().setNextAnimation(new Animation(1603));
 				else if (ticks == 7) {
-					e.getPlayer().setNextWorldTile(tile);
+					e.getPlayer().setNextTile(tile);
 					e.getPlayer().setRun(isRunning);
 					stop();
 					return;
@@ -83,7 +83,7 @@ public class TaverlyDungeon {
 	});
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }, e -> {
-		e.getPlayer().setNextWorldTile(e.getObjectId() == 66991 ? WorldTile.of(2885, 9795, 0) : WorldTile.of(2885, 3395, 0));
+		e.getPlayer().setNextTile(e.getObjectId() == 66991 ? Tile.of(2885, 9795, 0) : Tile.of(2885, 3395, 0));
 	});
 
 }

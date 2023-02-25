@@ -24,11 +24,11 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MarasamawPlant extends BoxStyleTrap {
 
-	public MarasamawPlant(Player player, WorldTile tile) {
+	public MarasamawPlant(Player player, Tile tile) {
 		super(player, BoxTrapType.MARASAMAW_PLANT, tile);
 	}
 

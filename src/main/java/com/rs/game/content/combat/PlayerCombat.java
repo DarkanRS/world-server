@@ -50,7 +50,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -224,7 +224,7 @@ public class PlayerCombat extends PlayerAction {
 		return getMultiAttackTargets(player, target, 1, 9);
 	}
 
-	public static Entity[] getMultiAttackTargets(Player player, WorldTile tile, int maxDistance, int maxAmtTargets) {
+	public static Entity[] getMultiAttackTargets(Player player, Tile tile, int maxDistance, int maxAmtTargets) {
 		List<Entity> possibleTargets = new ArrayList<>();
 		if (!player.isAtMultiArea()) {
 			Entity target = player.getTempAttribs().getO("last_target");
@@ -599,7 +599,7 @@ public class PlayerCombat extends PlayerAction {
 				dropAmmo(player, target, Equipment.AMMO, 1);
 			}
 			case SAGAIE -> {
-				double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleWorldTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
+				double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
 				Hit hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
@@ -723,7 +723,7 @@ public class PlayerCombat extends PlayerAction {
 		player.getEquipment().removeAmmo(slot, quantity);
 		if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely
 			return;
-		World.addGroundItem(new Item(ammoId, quantity), WorldTile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
+		World.addGroundItem(new Item(ammoId, quantity), Tile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
 	}
 
 	public static void dropAmmo(Player player, Entity target) {

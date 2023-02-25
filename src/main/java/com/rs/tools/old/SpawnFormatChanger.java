@@ -23,7 +23,7 @@ import java.util.List;
 
 import com.google.gson.JsonIOException;
 import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.spawns.NPCSpawn;
 
@@ -42,7 +42,7 @@ public class SpawnFormatChanger {
 		for (ShaunyNPCSpawn spawn : spawns) {
 			if (spawn.npcId > Utils.getNPCDefinitionsSize())
 				continue;
-			converted.add(new NPCSpawn(spawn.npcId, WorldTile.of(spawn.x, spawn.y, spawn.plane), spawn.npcName));
+			converted.add(new NPCSpawn(spawn.npcId, Tile.of(spawn.x, spawn.y, spawn.plane), spawn.npcName));
 		}
 		JsonFileManager.saveJsonFile(converted, new File("./dumps/shaunySpawns.json"));
 	}

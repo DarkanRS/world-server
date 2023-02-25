@@ -9,7 +9,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -61,7 +61,7 @@ public class EventEasterEgg extends GameObject {
             e.getPlayer().setNextAnimation(new Animation(12174));
             e.getPlayer().setNextSpotAnim(new SpotAnim(2138));
             int attackStyle = e.getPlayer().getCombatDefinitions().getAttackStyleId();
-            int delay = World.sendProjectile(e.getPlayer().getTile(), WorldTile.of(e.getObject().getTile()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
+            int delay = World.sendProjectile(e.getPlayer().getTile(), Tile.of(e.getObject().getTile()), (attackStyle == 0 ? 3034 : 3035), 20, 10, 30, 1, 0, 0).getTaskDelay();
     		int npcId = (attackStyle == 0 ? Easter2022.CHICK : Easter2022.CHOCOCHICK);
     		egg.spotted(e.getPlayer());
     		WorldTasks.scheduleTimer(delay, (tick) -> {
@@ -71,7 +71,7 @@ public class EventEasterEgg extends GameObject {
                         e.getPlayer().getPackets().sendObjectAnimation(e.getObject(), new Animation(16432));
             		}
             		case 2 -> {
-                        EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(WorldTile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), e.getObject().getDefinitions().varpBit);
+                        EasterChick npc = new EasterChick(e.getPlayer(), npcId, World.getFreeTile(Tile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane()), 2), e.getObject().getDefinitions().varpBit);
                         e.getPlayer().startConversation(new Dialogue().addItem(Easter2022.PERMANENT_EGGSTERMINATOR, "You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears."));
                         e.getPlayer().sendMessage("You shatter the egg with the Eggsterminator. A " + npc.getName().toLowerCase() + " appears.");
                         if (e.getPlayer().getI(Easter2022.STAGE_KEY+"CurrentHunt", 0) != EggHunt.getHunt())

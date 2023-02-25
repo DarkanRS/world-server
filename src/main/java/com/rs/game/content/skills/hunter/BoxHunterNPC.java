@@ -29,7 +29,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -39,7 +39,7 @@ public class BoxHunterNPC extends NPC {
 
 	private int captureTicks;
 
-	public BoxHunterNPC(int id, WorldTile tile, boolean spawned) {
+	public BoxHunterNPC(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIgnoreNPCClipping(true);
 	}

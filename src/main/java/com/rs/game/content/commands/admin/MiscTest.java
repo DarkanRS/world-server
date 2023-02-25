@@ -69,7 +69,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.packets.PacketEncoder;
@@ -149,7 +149,7 @@ public class MiscTest {
 		});
 		
 		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
-			World.spawnNPC(3373, WorldTile.of(p.getTile()), -1, true, true, true);
+			World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true);
 		});
 		
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
@@ -198,8 +198,8 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
-					if (World.floorAndWallsFree(WorldTile.of(p.getX() + x, p.getY() + y, p.getPlane()), 1))
-						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), WorldTile.of(p.getX() + x, p.getY() + y, p.getPlane()));
+					if (World.floorAndWallsFree(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), 1))
+						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), Tile.of(p.getX() + x, p.getY() + y, p.getPlane()));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
@@ -302,18 +302,18 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "runespan", "Teleports to runespan.", (p, args) -> {
-			p.setNextWorldTile(WorldTile.of(3995, 6103, 1));
+			p.setNextTile(Tile.of(3995, 6103, 1));
 			p.getControllerManager().startController(new RunespanController());
 		});
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
 			p.getTempAttribs().setI("tempProjCheck", Integer.valueOf(args[0]));
-			World.sendProjectile(WorldTile.of(p.getX() + 5, p.getY(), p.getPlane()), WorldTile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
-			World.sendProjectile(WorldTile.of(p.getX() + 5, p.getY(), p.getPlane()), WorldTile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
@@ -361,7 +361,7 @@ public class MiscTest {
 				for (int z = -3;z < 3;z++)
 					for (int x = -radius;x < radius;x++)
 						for (int y = -radius;y < radius;y++) {
-							WorldTile t = p.transform(x, y, z);
+							Tile t = p.transform(x, y, z);
 							if (t.getPlane() >= 4 || t.getPlane() < 0)
 								continue;
 							GameObject[] objs = World.getObjects(t);
@@ -403,7 +403,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, WorldTile.of(p.getTile()), -1, true, true);
+			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
 		});
@@ -547,24 +547,24 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> {
-			World.spawnNPC(Integer.parseInt(args[0]), WorldTile.of(p.getTile()), -1, true, true, false);
+			World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false);
 		});
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), WorldTile.of(p.getTile())))
+			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
 		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> {
-			World.addGroundItem(new Item(Integer.valueOf(args[0]), 1), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
+			World.addGroundItem(new Item(Integer.valueOf(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane()));
 		});
 
 		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, WorldTile.of(p.getTile())))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -579,8 +579,8 @@ public class MiscTest {
 					continue;
 				player.unlock();
 				player.getControllerManager().forceStop();
-				if (player.getNextWorldTile() == null)
-					player.setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
+				if (player.getNextTile() == null)
+					player.setNextTile(Settings.getConfig().getPlayerRespawnTile());
 			}
 		});
 
@@ -773,7 +773,7 @@ public class MiscTest {
 			int modelId = Integer.valueOf(args[2]);
 			//47868
 			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			p.getSession().writeToQueue(new HintTrail(WorldTile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
+			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {
@@ -790,10 +790,10 @@ public class MiscTest {
 			for (GameObject obj : objs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
 			if(args.length == 1) {
-				p.setNextWorldTile(objs.get(0).getTile());
+				p.setNextTile(objs.get(0).getTile());
 				return;
 			}
-			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])).getTile());
+			p.setNextTile(objs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
@@ -806,10 +806,10 @@ public class MiscTest {
 			for(NPC npc : npcs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
 			if (args.length == 1) {
-				p.setNextWorldTile(WorldTile.of(npcs.get(0).getTile()));
+				p.setNextTile(Tile.of(npcs.get(0).getTile()));
 				return;
 			}
-			p.setNextWorldTile(npcs.get(Integer.valueOf(args[1])).getTile());
+			p.setNextTile(npcs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {
@@ -895,13 +895,13 @@ public class MiscTest {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(x, y, plane));
+				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0])));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 
@@ -909,14 +909,14 @@ public class MiscTest {
 			int regionX = (Integer.valueOf(args[0]) >> 8) * 64 + 32;
 			int regionY = (Integer.valueOf(args[0]) & 0xff) * 64 + 32;
 			p.resetWalkSteps();
-			p.setNextWorldTile(WorldTile.of(regionX, regionY, 0));
+			p.setNextTile(Tile.of(regionX, regionY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
 			int chunkX = Integer.valueOf(args[0]) * 8 + 4;
 			int chunkY = Integer.valueOf(args[1]) * 8 + 4;
 			p.resetWalkSteps();
-			p.setNextWorldTile(WorldTile.of(chunkX, chunkY, 0));
+			p.setNextTile(Tile.of(chunkX, chunkY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "settitle [new title]", "Sets player title.", (p, args) -> {
@@ -1122,7 +1122,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "objectanim,oanim [x y (objectType)]", "Makes an object play an animation.", (p, args) -> {
-			GameObject object = args.length == 3 ? World.getObject(WorldTile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane())) : World.getObject(WorldTile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()), ObjectType.forId(Integer.parseInt(args[2])));
+			GameObject object = args.length == 3 ? World.getObject(Tile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane())) : World.getObject(Tile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()), ObjectType.forId(Integer.parseInt(args[2])));
 			if (object == null) {
 				p.getPackets().sendDevConsoleMessage("No object was found.");
 				return;
@@ -1133,7 +1133,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "objectanimloop,oanimloop [x y (startId) (endId)]", "Loops through object animations.", (p, args) -> {
 			int x = Integer.parseInt(args[0]);
 			int y = Integer.parseInt(args[1]);
-			GameObject o = World.getRegion(p.getRegionId()).getSpawnedObject(WorldTile.of(x, y, p.getPlane()));
+			GameObject o = World.getRegion(p.getRegionId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
 			if (o == null) {
 				p.getPackets().sendDevConsoleMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
 				return;

@@ -15,7 +15,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
@@ -27,13 +27,13 @@ public class KeepLaFayeMerlinsCrystalLoc {
 	public static ObjectClickHandler handleVariousStaircasesUp = new ObjectClickHandler(new Object[] { 25786 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.useStairs(-1, WorldTile.of(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+		p.useStairs(-1, Tile.of(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
 	});
 	
 	public static ObjectClickHandler handleVariousStaircasesDown = new ObjectClickHandler(new Object[] { 25787 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.useStairs(-1, WorldTile.of(p.getX(), obj.getY()-3, p.getPlane() - 1), 0, 1);
+		p.useStairs(-1, Tile.of(p.getX(), obj.getY()-3, p.getPlane() - 1), 0, 1);
 	});
 
 	public static ObjectClickHandler handleCrate = new ObjectClickHandler(new Object[] { 63 }, e -> {
@@ -56,7 +56,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 			});
 	});
 
-	public static PlayerStepHandler handleStrongholdFight = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2769, 3401, 2), WorldTile.of(2770, 3401, 2), WorldTile.of(2771, 3401, 2), WorldTile.of(2771, 3402, 2), WorldTile.of(2770, 3402, 2), WorldTile.of(2769, 3402, 2), WorldTile.of(2768, 3402, 2), WorldTile.of(2768, 3401, 2) }, e -> {
+	public static PlayerStepHandler handleStrongholdFight = new PlayerStepHandler(new Tile[] { Tile.of(2769, 3401, 2), Tile.of(2770, 3401, 2), Tile.of(2771, 3401, 2), Tile.of(2771, 3402, 2), Tile.of(2770, 3402, 2), Tile.of(2769, 3402, 2), Tile.of(2768, 3402, 2), Tile.of(2768, 3401, 2) }, e -> {
 		Player p = e.getPlayer();
 		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != CONFRONT_KEEP_LA_FAYE)
 			return;

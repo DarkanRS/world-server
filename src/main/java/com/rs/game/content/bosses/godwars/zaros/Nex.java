@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -60,7 +60,7 @@ public final class Nex extends NPC {
 
 	private NPC[] bloodReavers;
 
-	public Nex(NexArena arena, WorldTile tile) {
+	public Nex(NexArena arena, Tile tile) {
 		super(13447, tile, true);
 		this.arena = arena;
 		setCantInteract(true);
@@ -127,13 +127,13 @@ public final class Nex extends NPC {
 			if ((!lineOfSightTo(target, isFollowTarget())) || !WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), maxDistance)) {
 				resetWalkSteps();
 				if (!WorldUtil.isInRange(getX(), getY(), getSize(), target.getX(), target.getY(), target.getSize(), 5)) {
-					WorldTile tile = target.getNearestTeleTile(this);
+					Tile tile = target.getNearestTeleTile(this);
 					if (tile == null)
-						tile = WorldTile.of(target.getTile());
+						tile = Tile.of(target.getTile());
 					if (World.floorAndWallsFree(tile, getSize())) {
-						setNextForceMovement(new ForceMovement(WorldTile.of(this.getTile()), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
+						setNextForceMovement(new ForceMovement(Tile.of(this.getTile()), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
 						setNextAnimation(new Animation(6985));
-						setNextWorldTile(tile);
+						setNextTile(tile);
 						return;
 					}
 				} else
@@ -167,18 +167,18 @@ public final class Nex extends NPC {
 
 	public void sendWrath() {
 		setNextSpotAnim(new SpotAnim(2259));
-		sendWrathProj(this, WorldTile.of(getX() + 3, getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() + 3, getY(), getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() + 3, getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() - 3, getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() - 3, getY(), getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() - 3, getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX(), getY() + 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX(), getY() - 3, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() + 2, getY() - 2, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() - 2, getY() + 2, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() + 2, getY() + 2, getPlane()), 0.4);
-		sendWrathProj(this, WorldTile.of(getX() - 2, getY() - 2, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 3, getY() + 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 3, getY(), getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 3, getY() - 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() - 3, getY() + 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() - 3, getY(), getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() - 3, getY() - 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX(), getY() + 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX(), getY() - 3, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 0.4);
+		sendWrathProj(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 0.4);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
@@ -194,13 +194,13 @@ public final class Nex extends NPC {
 		}, 5);
 	}
 
-	public static void sendWrathProj(Entity nex, WorldTile tile, double speed) {
+	public static void sendWrathProj(Entity nex, Tile tile, double speed) {
 		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, p -> {
 			World.sendSpotAnim(nex, new SpotAnim(2260), tile);
 		});
 	}
 
-	public ArrayList<Entity> calculatePossibleTargets(WorldTile current, WorldTile position, boolean northSouth) {
+	public ArrayList<Entity> calculatePossibleTargets(Tile current, Tile position, boolean northSouth) {
 		ArrayList<Entity> list = new ArrayList<>();
 		for (Entity e : getPossibleTargets())
 			if (e.inArea(current.getX(), current.getY(), position.getX() + (northSouth ? 2 : 0), position.getY() + (!northSouth ? 2 : 0))

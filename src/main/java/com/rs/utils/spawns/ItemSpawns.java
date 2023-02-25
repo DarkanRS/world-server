@@ -30,7 +30,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -48,7 +48,7 @@ public final class ItemSpawns {
 	private static final Map<Integer, List<ItemSpawn>> ITEM_SPAWNS = new HashMap<>();
 
 	@SuppressWarnings("deprecation")
-	public static boolean addSpawn(String username, int id, int amount, WorldTile tile) {
+	public static boolean addSpawn(String username, int id, int amount, Tile tile) {
 		synchronized (lock) {
 			File file = new File("data/items/addedSpawns.json");
 			ADDED_SPAWNS.add(new ItemSpawn(id, amount, tile, ""+ItemDefinitions.getDefs(id).getName()+" added by " + username));

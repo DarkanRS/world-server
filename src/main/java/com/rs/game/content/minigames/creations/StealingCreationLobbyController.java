@@ -25,7 +25,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class StealingCreationLobbyController extends Controller {
 
@@ -63,24 +63,24 @@ public class StealingCreationLobbyController extends Controller {
 		} else
 			StealingCreationLobby.removePlayer(player);
 		player.setNextAnimation(new Animation(1560));
-		final WorldTile toTile = WorldTile.of(enterance ? object.getX() : object.getX() + 2, object.getY(), object.getPlane());
+		final Tile toTile = Tile.of(enterance ? object.getX() : object.getX() + 2, object.getY(), object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, enterance ? Direction.WEST : Direction.EAST));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 			}
 		}, 1);
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
@@ -99,14 +99,14 @@ public class StealingCreationLobbyController extends Controller {
 	@Override
 	public boolean logout() {
 		StealingCreationLobby.removePlayer(player);
-		player.setNextWorldTile(Helper.EXIT);
+		player.setNextTile(Helper.EXIT);
 		return true;
 	}
 
 	@Override
 	public boolean login() {
 		StealingCreationLobby.removePlayer(player);
-		player.setNextWorldTile(Helper.EXIT);
+		player.setNextTile(Helper.EXIT);
 		return true;
 	}
 

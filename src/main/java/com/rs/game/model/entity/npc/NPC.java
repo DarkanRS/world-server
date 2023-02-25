@@ -60,7 +60,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
@@ -79,13 +79,13 @@ import com.rs.utils.drop.DropTable;
 public class NPC extends Entity {
 
 	private int id;
-	private WorldTile respawnTile;
+	private Tile respawnTile;
 	private boolean randomWalk;
 	private Map<Skill, Integer> combatLevels;
 	private boolean spawned;
 	private transient NPCCombat combat;
 	private transient boolean ignoreNPCClipping;
-	public WorldTile forceWalk;
+	public Tile forceWalk;
 	private int size;
 	private boolean hidden = false;
 
@@ -123,10 +123,10 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-	public NPC(int id, WorldTile tile, Direction direction, boolean permaDeath) {
+	public NPC(int id, Tile tile, Direction direction, boolean permaDeath) {
 		super(tile);
 		this.id = id;
-		respawnTile = WorldTile.of(tile);
+		respawnTile = Tile.of(tile);
 		setSpawned(permaDeath);
 		combatLevel = -1;
 		setHitpoints(getMaxHitpoints());
@@ -158,12 +158,12 @@ public class NPC extends Entity {
 		checkMultiArea();
 	}
 
-	public NPC(int id, WorldTile tile, boolean permaDeath) {
+	public NPC(int id, Tile tile, boolean permaDeath) {
 		this(id,tile, null, permaDeath);
 	}
 
 
-	public NPC(int id, WorldTile tile) {
+	public NPC(int id, Tile tile) {
 		this(id, tile, false);
 	}
 
@@ -171,7 +171,7 @@ public class NPC extends Entity {
 		return (getDefinitions().walkMask & 0x4) != 0;
 	}
 
-	public void walkToAndExecute(WorldTile startTile, Runnable event) {
+	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		//TODO expensive call for cutscenes
 		if (route.getStepCount() == -1)
@@ -211,7 +211,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetDirection() {
-		setNextFaceWorldTile(null);
+		setNextFaceTile(null);
 		setNextFaceEntity(null);
 		setFaceAngle(getRespawnDirection());
 	}
@@ -300,7 +300,7 @@ public class NPC extends Entity {
 								break;
 					}
 					if (!hasWalkSteps()) { // failing finding route
-						setNextWorldTile(WorldTile.of(forceWalk));
+						setNextTile(Tile.of(forceWalk));
 						forceWalk = null; // so ofc reached forcewalk place
 					}
 				} else
@@ -657,7 +657,7 @@ public class NPC extends Entity {
 			sendDropDirectlyToBank(dropTo, item);
 			return;
 		}
-		GroundItem gItem = World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		GroundItem gItem = World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 		int value = item.getDefinitions().getValue() * item.getAmount();
 		if (gItem != null && (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId())))
 			player.getPackets().sendGroundItemMessage(50, 0xFF0000, gItem, "<shad=000000><col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName());
@@ -849,12 +849,12 @@ public class NPC extends Entity {
 		return 0;
 	}
 
-	public WorldTile getRespawnTile() {
+	public Tile getRespawnTile() {
 		return respawnTile;
 	}
 
-	protected void setRespawnTile(WorldTile respawnTile) {
-		this.respawnTile = WorldTile.of(respawnTile);
+	protected void setRespawnTile(Tile respawnTile) {
+		this.respawnTile = Tile.of(respawnTile);
 	}
 
 	public boolean isUnderCombat() {
@@ -897,7 +897,7 @@ public class NPC extends Entity {
 		setForceWalk(respawnTile);
 	}
 
-	public void setForceWalk(WorldTile tile) {
+	public void setForceWalk(Tile tile) {
 		resetWalkSteps();
 		forceWalk = tile;
 	}

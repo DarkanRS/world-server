@@ -35,7 +35,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -129,7 +129,7 @@ public class PartyRoom {
 		isDancing = true;
 		final NPC[] npcs = new NPC[6];
 		for (int i = 0; i < 6; i++) {
-			npcs[i] = new NPC(660, WorldTile.of(3043 + i, 3378, 0));
+			npcs[i] = new NPC(660, Tile.of(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
 		WorldTasks.schedule(new WorldTask() {
@@ -172,7 +172,7 @@ public class PartyRoom {
 	}
 
 	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
+		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
 			e.getPlayer().sendOptionDialogue(ops -> {
 				ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
 				ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
@@ -212,7 +212,7 @@ public class PartyRoom {
 			for (int y = 3373; y < 3384; y++) {
 				if (x <= 3049 && x >= 3042 && y == 3378)
 					continue;
-				if (World.floorAndWallsFree(0, x, y, 1) && World.getObject(WorldTile.of(x, y, 0)) == null)
+				if (World.floorAndWallsFree(0, x, y, 1) && World.getObject(Tile.of(x, y, 0)) == null)
 					balloons.add(new Balloon(getRandomBalloon(), 0, x, y, 0));
 			}
 		Collections.shuffle(balloons);

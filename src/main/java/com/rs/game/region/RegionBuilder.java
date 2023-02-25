@@ -23,7 +23,7 @@ import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 
 public final class RegionBuilder {
@@ -163,15 +163,15 @@ public final class RegionBuilder {
 			return base[1] << 3;
 		}
 
-		public WorldTile getBase() {
-			return WorldTile.of(getBaseX(), getBaseY(), 0);
+		public Tile getBase() {
+			return Tile.of(getBaseX(), getBaseY(), 0);
 		}
 
-		public WorldTile getLocalTile(int offsetX, int offsetY, int plane) {
-			return WorldTile.of(getLocalX(offsetX), getLocalY(offsetY), plane);
+		public Tile getLocalTile(int offsetX, int offsetY, int plane) {
+			return Tile.of(getLocalX(offsetX), getLocalY(offsetY), plane);
 		}
 
-		public WorldTile getLocalTile(int offsetX, int offsetY) {
+		public Tile getLocalTile(int offsetX, int offsetY) {
 			return getLocalTile(offsetX, offsetY, 0);
 		}
 

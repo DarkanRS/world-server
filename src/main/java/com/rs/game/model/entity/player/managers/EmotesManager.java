@@ -30,7 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -307,7 +307,7 @@ public final class EmotesManager {
 				player.setNextAnimation(new Animation(player.getAppearance().isMale() ? 15535 : 15536));
 				player.setNextSpotAnim(new SpotAnim(2191));
 			} else if (emote == Emote.LIVING_BORROWED_TIME) {
-				final NPC grim = new NPC(14388, WorldTile.of(player.getX(), player.getY() + 1, player.getPlane()));
+				final NPC grim = new NPC(14388, Tile.of(player.getX(), player.getY() + 1, player.getPlane()));
 				World.addNPC(grim);
 				player.lock();
 				grim.setNextFaceEntity(player);
@@ -524,7 +524,7 @@ public final class EmotesManager {
 				case 19710: // Master dungeoneering cape
 					if (player.isLocked())
 						break;
-					player.setNextFaceWorldTile(WorldTile.of(player.getX(), player.getY() - 1, player.getPlane()));
+					player.setNextFaceTile(Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
 					player.lock();
 					WorldTasks.schedule(new WorldTask() {
 						int step;
@@ -534,20 +534,20 @@ public final class EmotesManager {
 							if (step == 1) {
 								player.getAppearance().transformIntoNPC(11229);
 								player.setNextAnimation(new Animation(14608));
-								World.sendProjectile(player, WorldTile.of(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
-								World.sendSpotAnim(player, new SpotAnim(2777), WorldTile.of(player.getX(), player.getY() - 1, player.getPlane()));
+								World.sendProjectile(player, Tile.of(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
+								World.sendSpotAnim(player, new SpotAnim(2777), Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
 							}
 							if (step == 3) {
 								player.getAppearance().transformIntoNPC(11228);
 								player.setNextAnimation(new Animation(14609));
 								player.setNextSpotAnim(new SpotAnim(2782));
-								World.sendSpotAnim(player, new SpotAnim(2778), WorldTile.of(player.getX() + 1, player.getY() - 1, player.getPlane()));
+								World.sendSpotAnim(player, new SpotAnim(2778), Tile.of(player.getX() + 1, player.getY() - 1, player.getPlane()));
 							}
 							if (step == 5) {
 								player.getAppearance().transformIntoNPC(11227);
 								player.setNextAnimation(new Animation(14610, 15));
-								World.sendSpotAnim(player, new SpotAnim(2779), WorldTile.of(player.getX(), player.getY() - 1, player.getPlane()));
-								World.sendSpotAnim(player, new SpotAnim(2780), WorldTile.of(player.getX(), player.getY() + 1, player.getPlane()));
+								World.sendSpotAnim(player, new SpotAnim(2779), Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
+								World.sendSpotAnim(player, new SpotAnim(2780), Tile.of(player.getX(), player.getY() + 1, player.getPlane()));
 							}
 							if (step == 9)
 								player.setNextSpotAnim(new SpotAnim(2442));
@@ -584,7 +584,7 @@ public final class EmotesManager {
 						return;
 					}
 					int size = NPCDefinitions.getDefs(1224).size;
-					WorldTile spawnTile = WorldTile.of(WorldTile.of(player.getX() + 1, player.getY(), player.getPlane()));
+					Tile spawnTile = Tile.of(Tile.of(player.getX() + 1, player.getY(), player.getPlane()));
 					if (!World.floorAndWallsFree(spawnTile, size))
 						spawnTile = player.getNearestTeleTile(size);
 					if (spawnTile == null) {
@@ -592,7 +592,7 @@ public final class EmotesManager {
 						return;
 					}
 					nextEmoteEnd = World.getServerTicks() + 25;
-					final WorldTile npcTile = spawnTile;
+					final Tile npcTile = spawnTile;
 					WorldTasks.schedule(new WorldTask() {
 						private int step;
 						private NPC npc;

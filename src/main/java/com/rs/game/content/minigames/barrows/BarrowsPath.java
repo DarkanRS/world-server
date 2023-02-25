@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import com.rs.game.content.minigames.barrows.BarrowsRoom.RoomType;
 import com.rs.game.content.minigames.barrows.Link.RoomStatus;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class BarrowsPath {
 
@@ -164,16 +164,16 @@ public class BarrowsPath {
 			p.getVars().setVarBit((465+i),(i == spawn ? 1 : 0));
 		switch (spawn) {
 		case 0:
-			p.setNextWorldTile(WorldTile.of(3535, 9712, 0));
+			p.setNextTile(Tile.of(3535, 9712, 0));
 			break;
 		case 1:
-			p.setNextWorldTile(WorldTile.of(3567, 9712, 0));
+			p.setNextTile(Tile.of(3567, 9712, 0));
 			break;
 		case 2:
-			p.setNextWorldTile(WorldTile.of(3535, 9678, 0));
+			p.setNextTile(Tile.of(3535, 9678, 0));
 			break;
 		case 3:
-			p.setNextWorldTile(WorldTile.of(3569, 9678, 0));
+			p.setNextTile(Tile.of(3569, 9678, 0));
 			break;
 		}
 	}

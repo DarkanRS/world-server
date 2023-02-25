@@ -29,7 +29,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonPartyManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
@@ -94,7 +94,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 
 	private DungeonSlayerType type;
 
-	public DungeonSlayerNPC(int id, WorldTile tile, DungeonManager manager) {
+	public DungeonSlayerNPC(int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
 		type = DungeonSlayerType.forId(id);
 	}
@@ -105,7 +105,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 		int size = getSize();
 		List<Item> drops = type.drops.getDropList().genDrop();
 		for (Item item : drops)
-			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 	public DungeonSlayerType getType() {
