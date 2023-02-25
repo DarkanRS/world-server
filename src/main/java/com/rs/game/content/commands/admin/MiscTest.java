@@ -70,6 +70,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldTile;
+import com.rs.lib.io.OutputStream;
+import com.rs.lib.net.ServerPacket;
+import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.Logger;
@@ -958,15 +961,18 @@ public class MiscTest {
 			p.getAppearance().setBAS(Integer.valueOf(args[0]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "camlook [localX localY z  speed1 speed2]", "Points the camera at the specified tile.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "camlook [localX localY z (speed1 speed2)]", "Points the camera at the specified tile.", (p, args) -> {
 			if(args.length == 3)
 				p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
 			else if(args.length == 5)
 				p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "campos [localX localY z]", "Locks the camera to a specified tile.", (p, args) -> {
-			p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+		Commands.add(Rights.DEVELOPER, "campos [localX localY z (speed1 speed2)]", "Locks the camera to a specified tile.", (p, args) -> {
+			if(args.length == 3)
+				p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+			else if(args.length == 5)
+				p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, args) -> {

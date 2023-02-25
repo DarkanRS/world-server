@@ -225,7 +225,7 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendStopCameraShake() {
-		session.writeToQueue(ServerPacket.CAM_RESET);
+		session.writeToQueue(ServerPacket.CAM_RESET_HARD);
 	}
 
 	public void sendCameraLook(WorldTile tile, int viewZ) {
@@ -245,11 +245,11 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendResetCamera() {
-		session.writeToQueue(ServerPacket.CAM_SMOOTHRESET);
+		session.writeToQueue(ServerPacket.CAM_RESET_HARD);
 	}
 
 	public void sendResetCameraSoft() {
-		session.writeToQueue(ServerPacket.CAM_RESET);
+		session.writeToQueue(ServerPacket.CAM_RESET_SMOOTH);
 	}
 
 	public void sendCameraPos(WorldTile tile, int z) {
