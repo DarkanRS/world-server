@@ -142,7 +142,7 @@ public class Region {
 		case WALL_DIAGONAL_CORNER:
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
-			clipMap.addWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
+			clipMap.addWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -166,9 +166,9 @@ public class Region {
 				sizeX = defs.getSizeY();
 				sizeY = defs.getSizeX();
 			}
-			clipMap.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
+			clipMap.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 //			if (defs.clipType != 0)
-//				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
+//				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)
@@ -203,7 +203,7 @@ public class Region {
 		case WALL_DIAGONAL_CORNER:
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
-			clipMap.removeWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoreAltClip);
+			clipMap.removeWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -227,7 +227,7 @@ public class Region {
 				sizeX = defs.getSizeX();
 				sizeY = defs.getSizeY();
 			}
-			clipMap.removeObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoreAltClip);
+			clipMap.removeObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)

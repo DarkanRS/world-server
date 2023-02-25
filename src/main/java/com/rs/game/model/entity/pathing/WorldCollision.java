@@ -15,10 +15,14 @@ public class WorldCollision {
     }
 
     public static void clearChunk(int chunkX, int chunkY, int plane) {
-        CLIP_FLAGS[getId(chunkX, chunkY, plane)] = null;
+        clearChunk(getId(chunkX, chunkY, plane));
     }
 
-    private static int getId(int chunkX, int chunkY, int plane) {
+    public static void clearChunk(int chunkCollisionHash) {
+        CLIP_FLAGS[chunkCollisionHash] = null;
+    }
+
+    public static int getId(int chunkX, int chunkY, int plane) {
         return (chunkX & 0xfff) + ((chunkY & 0xfff) << 11) + ((plane & 0x3) << 22);
     }
 
