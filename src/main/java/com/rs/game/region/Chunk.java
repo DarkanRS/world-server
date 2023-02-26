@@ -4,6 +4,7 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.utils.music.Music;
@@ -23,7 +24,7 @@ public class Chunk {
     protected Set<Integer> players = IntSets.emptySet();
     protected Set<Integer> npcs = IntSets.emptySet();
 
-    protected List<GameObject> baseObjects = ObjectLists.emptyList();
+    protected GameObject[][][][] baseObjects = new GameObject[4][8][8][4];
     protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.emptyMap();
     protected List<GameObject> spawnedObjects = ObjectLists.emptyList();
 

@@ -30,6 +30,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.WorldProjectile;
+import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
@@ -44,12 +45,6 @@ import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawns;
 
 public class Region {
-
-	public static final int OBJECT_SLOT_WALL = 0;
-	public static final int OBJECT_SLOT_WALL_DECORATION = 1;
-	public static final int OBJECT_SLOT_FLOOR = 2;
-	public static final int OBJECT_SLOT_FLOOR_DECORATION = 3;
-
 	public static final int WIDTH = 64;
 	public static final int HEIGHT = 64;
 
@@ -111,27 +106,16 @@ public class Region {
 	public void removeMapFromMemory() {
 		if (getLoadMapStage() == 2 && (playersIndexes == null || playersIndexes.isEmpty()) && (npcsIndexes == null || npcsIndexes.isEmpty())) {
 			objects = null;
-			clipMap = null;
 			setLoadMapStage(0);
 		}
 	}
 
-	public ClipMap forceGetClipMap() {
-		if (clipMap == null)
-			clipMap = new ClipMap(regionId);
-		return clipMap;
-	}
-
-	public void clip(GameObject object, int x, int y) {
+	public void clip(GameObject object) {
 		if (object.getId() == -1)
 			return;
-		if (clipMap == null)
-			clipMap = new ClipMap(regionId);
-		int plane = object.getPlane();
 		ObjectType type = object.getType();
 		int rotation = object.getRotation();
-		if (x < 0 || y < 0 || x >= clipMap.getMasks()[plane].length || y >= clipMap.getMasks()[plane][x].length)
-			return;
+
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
 
 		if (defs.getClipType() == 0)
@@ -142,7 +126,7 @@ public class Region {
 		case WALL_DIAGONAL_CORNER:
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
-			clipMap.addWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoresPathfinder);
+			WorldCollision.addWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -166,33 +150,28 @@ public class Region {
 				sizeX = defs.getSizeY();
 				sizeY = defs.getSizeX();
 			}
-			clipMap.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
+			WorldCollision.addObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 //			if (defs.clipType != 0)
 //				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)
-				clipMap.addBlockWalkAndProj(plane, x, y);
+				WorldCollision.addBlockWalkAndProj(object.getTile());
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void unclip(int plane, int x, int y) {
-		if (clipMap == null)
-			clipMap = new ClipMap(regionId);
-		clipMap.setFlag(plane, x, y, 0);
+	public void unclip(Tile tile) {
+		WorldCollision.setFlags(tile, 0);
 	}
 
-	public void unclip(GameObject object, int x, int y) {
+	public void unclip(GameObject object) {
 		if (object.getId() == -1) // dont clip or noclip with id -1
 			return;
-		int plane = object.getPlane();
 		ObjectType type = object.getType();
 		int rotation = object.getRotation();
-		if (x < 0 || y < 0 || x >= clipMap.getMasks()[plane].length || y >= clipMap.getMasks()[plane][x].length)
-			return;
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
 
 		if (defs.getClipType() == 0)
@@ -203,7 +182,7 @@ public class Region {
 		case WALL_DIAGONAL_CORNER:
 		case WALL_WHOLE_CORNER:
 		case WALL_STRAIGHT_CORNER:
-			clipMap.removeWall(plane, x, y, type, rotation, defs.blocks(), !defs.ignoresPathfinder);
+			WorldCollision.removeWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case WALL_INTERACT:
 		case SCENERY_INTERACT:
@@ -227,22 +206,20 @@ public class Region {
 				sizeX = defs.getSizeX();
 				sizeY = defs.getSizeY();
 			}
-			clipMap.removeObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
+			WorldCollision.removeObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
 			break;
 		case GROUND_DECORATION:
 			if (defs.clipType == 1)
-				clipMap.removeBlockWalkAndProj(plane, x, y);
+				WorldCollision.removeBlockWalkAndProj(object.getTile());
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void spawnObject(GameObject obj, int plane, int localX, int localY) {
-		if (objects == null)
-			objects = new GameObject[4][64][64][4];
+	public void spawnObject(GameObject obj) {
 		objects[plane][localX][localY][obj.getSlot()] = obj;
-		clip(obj, localX, localY);
+		clip(obj);
 	}
 
 	public void spawnObject(GameObject object, int plane, int localX, int localY, boolean clip) {
@@ -652,10 +629,6 @@ public class Region {
 							list.add(o);
 				}
 		return list;
-	}
-
-	public GameObject getStandartObject(int plane, int x, int y) {
-		return getObjectWithSlot(plane, x, y, OBJECT_SLOT_FLOOR);
 	}
 
 	public GameObject getObjectWithType(int plane, int x, int y, ObjectType type) {

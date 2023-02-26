@@ -1426,10 +1426,6 @@ public final class World {
 		return closest;
 	}
 
-	public static final GameObject getStandartObject(Tile tile) {
-		return getRegion(tile.getRegionId()).getStandartObject(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
-	}
-
 	public static final GameObject getObjectWithType(Tile tile, ObjectType type) {
 		return getRegion(tile.getRegionId()).getObjectWithType(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), type);
 	}
