@@ -28,7 +28,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

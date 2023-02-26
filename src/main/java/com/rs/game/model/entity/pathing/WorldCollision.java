@@ -1,14 +1,44 @@
 package com.rs.game.model.entity.pathing;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.region.ClipFlag;
+import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.cache.loaders.map.Region;
+import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 
-import static com.rs.game.region.ClipFlag.*;
+import static com.rs.cache.loaders.map.ClipFlag.*;
 
+@PluginEventHandler
 public class WorldCollision {
     private static final int CHUNK_SIZE = 2048; //2048 chunk size = max capacity 16384x16384 tiles
     private static final int[][] CLIP_FLAGS = new int[CHUNK_SIZE * CHUNK_SIZE * 4][];
+
+    @ServerStartupEvent
+    public static void loadAllMapData() {
+        for (int regionId = 0; regionId < 0xFFFF; regionId++) {
+            Region region = new Region(regionId);
+            region.loadRegionMap(false);
+            for (int x = 0;x < 64;x++) {
+                for (int y = 0;y < 64;y++) {
+                    for (int plane = 0;plane < 4;plane++) {
+                        addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
+                    }
+                }
+            }
+            if (region.getObjects() == null)
+                continue;
+            for (WorldObject object : region.getObjects()) {
+                Chunk chunk = World.getChunk(object.getTile().getChunkId());
+                chunk.addBaseObject(new GameObject(object));
+                chunk.setOriginalChunk();
+            }
+        }
+    }
 
     public static void createChunk(int chunkX, int chunkY, int plane, int[] flags) {
         CLIP_FLAGS[getId(chunkX, chunkY, plane)] = flags;
@@ -237,6 +267,10 @@ public class WorldCollision {
                 }
             }
         }
+    }
+
+    public static int getFlags(Tile tile) {
+        return CLIP_FLAGS[getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane())][tile.getXInChunk() + tile.getYInChunk() << 5];
     }
 
     public static void addFlag(Tile tile, int flag) {

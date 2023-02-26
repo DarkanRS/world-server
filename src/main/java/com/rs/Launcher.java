@@ -170,7 +170,6 @@ public final class Launcher {
 			ItemDefinitions.clearItemsDefinitions();
 			NPCDefinitions.clearNPCDefinitions();
 			ObjectDefinitions.clearObjectDefinitions();
-			World.cleanRegions();
 			Logger.debug(Launcher.class, "cleanMemory", "Force cleaning cached data.");
 		}
 		for (Index index : Cache.STORE.getIndices())

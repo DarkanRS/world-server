@@ -22,7 +22,6 @@ import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
-import com.rs.game.region.Region;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;

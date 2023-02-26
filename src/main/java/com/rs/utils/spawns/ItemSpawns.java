@@ -72,18 +72,18 @@ public final class ItemSpawns {
 				for(ItemSpawn spawn : spawns)
 					if (spawn != null) {
 						ALL_SPAWNS.add(spawn);
-						List<ItemSpawn> regionSpawns = ITEM_SPAWNS.get(spawn.getTile().getRegionId());
+						List<ItemSpawn> regionSpawns = ITEM_SPAWNS.get(spawn.getTile().getChunkId());
 						if (regionSpawns == null)
 							regionSpawns = new ArrayList<>();
 						regionSpawns.add(spawn);
-						ITEM_SPAWNS.put(spawn.getTile().getRegionId(), regionSpawns);
+						ITEM_SPAWNS.put(spawn.getTile().getChunkId(), regionSpawns);
 					}
 		}
 		Logger.info(ItemSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " item spawns...");
 	}
 
-	public static final void loadItemSpawns(int regionId) {
-		List<ItemSpawn> spawns = ITEM_SPAWNS.get(regionId);
+	public static final void loadItemSpawns(int chunkId) {
+		List<ItemSpawn> spawns = ITEM_SPAWNS.get(chunkId);
 		if (spawns != null)
 			for (ItemSpawn spawn : spawns)
 				spawn.spawn();

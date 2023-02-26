@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.region;
+package com.rs.game.map;
 
 import java.util.HashSet;
 import java.util.Set;

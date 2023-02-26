@@ -20,7 +20,6 @@ import java.util.List;
 
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
-import com.rs.game.region.Region;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;

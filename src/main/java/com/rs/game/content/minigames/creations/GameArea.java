@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.RegionBuilder.DynamicRegionReference;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;

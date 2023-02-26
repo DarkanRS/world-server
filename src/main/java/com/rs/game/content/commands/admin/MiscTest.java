@@ -51,17 +51,12 @@ import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.Route;
-import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.ClipFlag;
-import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -70,9 +65,6 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
-import com.rs.lib.io.OutputStream;
-import com.rs.lib.net.ServerPacket;
-import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.Logger;
@@ -535,7 +527,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
-			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
+			p.sendMessage("" + WorldCollision.getFlags(p.getTile()));
 		});
 
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {

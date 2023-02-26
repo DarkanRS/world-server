@@ -51,6 +51,10 @@ public class GameObject extends WorldObject {
 		super(id, type, rotation, x, y, plane);
 	}
 
+	public GameObject(WorldObject object) {
+		super(object);
+	}
+
 	public GameObject(GameObject object) {
 		super(object);
 		routeType = object.getRouteType();

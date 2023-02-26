@@ -79,7 +79,7 @@ public final class NPCSpawns {
 	public static void add(NPCSpawn spawn) {
 		if (spawn != null) {
 			ALL_SPAWNS.add(spawn);
-			List<NPCSpawn> regionSpawns = NPC_SPAWNS.get(spawn.getTile().getRegionId());
+			List<NPCSpawn> regionSpawns = NPC_SPAWNS.get(spawn.getTile().getChunkId());
 			if (regionSpawns == null)
 				regionSpawns = new ArrayList<>();
 			regionSpawns.add(spawn);
@@ -91,8 +91,8 @@ public final class NPCSpawns {
 		return ALL_SPAWNS;
 	}
 
-	public static void loadNPCSpawns(int regionId) {
-		List<NPCSpawn> spawns = NPC_SPAWNS.get(regionId);
+	public static void loadNPCSpawns(int chunkId) {
+		List<NPCSpawn> spawns = NPC_SPAWNS.get(chunkId);
 		if (spawns != null)
 			for (NPCSpawn spawn : spawns)
 				spawn.spawn();

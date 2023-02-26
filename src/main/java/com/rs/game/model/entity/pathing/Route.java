@@ -17,9 +17,6 @@
 package com.rs.game.model.entity.pathing;
 
 import com.rs.game.World;
-import com.rs.game.region.ClipFlag;
-import com.rs.game.region.ClipMap;
-import com.rs.game.region.Region;
 
 public class Route {
 	private static final int GRAPH_SIZE = 128;

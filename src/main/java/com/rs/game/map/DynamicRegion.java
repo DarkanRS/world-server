@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.region;
+package com.rs.game.map;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,24 +27,14 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
 
-public class DynamicRegion extends Region {
-
-	/**
-	 * Contains render coordinates.
-	 */
-	private int[][][][] regionCoords;
-	private boolean[][][] needsReload;
+public class InstancedChunk extends Chunk {
+	private int rotation;
+	private boolean needsReload;
 	private boolean recheckReload;
 
-	public DynamicRegion(int regionId) {
-		super(regionId);
-		// plane,x,y, (real x, real y,or real plane coord, or rotation
-		regionCoords = new int[4][8][8][4];
-		needsReload = new boolean[4][8][8];
-		for (int z = 0; z < 4; z++)
-			for (int x = 0; x < 8; x++)
-				for (int y = 0; y < 8; y++)
-					needsReload[z][x][y] = true;
+	public InstancedChunk(int chunkId) {
+		super(chunkId);
+		needsReload = true;
 		recheckReload = false;
 	}
 
