@@ -4,13 +4,14 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.map.update.ChunkUpdate;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Tile;
+import com.rs.lib.io.OutputStream;
+import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -36,7 +37,8 @@ public class Chunk {
     private int plane;
     private boolean originalChunk;
 
-    private Map<Integer, List<ChunkUpdate>> updates;
+    private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(ObjectLists.emptyList());
+    private UpdateZonePartialEnclosed updateZonePacket = null;
 
     protected Set<Integer> players = IntSets.synchronize(IntSets.emptySet());
     protected Set<Integer> npcs = IntSets.synchronize(IntSets.emptySet());
@@ -130,9 +132,8 @@ public class Chunk {
                 if (!item.isInvisible() || !ItemConstants.isTradeable(item))
                     continue;
                 removeItemFromOwnerMapping(item);
-                for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
-                    if (player.hasStarted() && !player.hasFinished() && player.getUuid() != item.getVisibleToId())
-                        player.getPackets().sendGroundItem(item);
+                Player creator = item.getCreatorUsername() != null ? World.getPlayerByUsername(item.getCreatorUsername()) : null;
+                addChunkUpdate(new RevealGroundItem(item.getTile().getChunkLocalHash(), item, creator == null ? -1 : creator.getIndex()));
                 item.removeOwner();
                 addItemToOwnerMapping(item);
             }
@@ -192,9 +193,7 @@ public class Chunk {
             if (existing.getCreatorUsername() != null && World.getPlayerByUsername(existing.getCreatorUsername()) != null)
                 World.getPlayerByUsername(existing.getCreatorUsername()).getPackets().sendSetGroundItemAmount(existing, oldAmount);
             else
-                for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
-                    if (player.hasStarted() && !player.hasFinished())
-                        player.getPackets().sendSetGroundItemAmount(existing, oldAmount);
+                addChunkUpdate(new SetGroundItemAmount(existing.getTile().getChunkLocalHash(), existing, oldAmount));
             return false;
         }
         groundItemList.add(item);
@@ -202,9 +201,7 @@ public class Chunk {
         if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
             World.getPlayerByUsername(item.getCreatorUsername()).getPackets().sendGroundItem(item);
         else
-            for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
-                if (player.hasStarted() && !player.hasFinished())
-                    player.getPackets().sendGroundItem(item);
+            addChunkUpdate(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
         return true;
     }
 
@@ -225,9 +222,7 @@ public class Chunk {
             if (item.isPrivate() && World.getPlayerByUsername(item.getCreatorUsername()) != null)
                 World.getPlayerByUsername(item.getCreatorUsername()).getPackets().removeGroundItem(item);
             else
-                for (Player player : World.getPlayersInRegionRange(item.getTile().getRegionId()))
-                    if (player.hasStarted() && !player.hasFinished())
-                        player.getPackets().removeGroundItem(item);
+                addChunkUpdate(new RemoveGroundItem(item.getTile().getChunkLocalHash(), item));
             return true;
         }
         return false;
@@ -384,11 +379,7 @@ public class Chunk {
 
         if (clip)
             clip(newObj);
-        for (Player player : World.getPlayersInRegionRange(getRegionId())) {
-            if (player == null || !player.hasStarted() || player.hasFinished())
-                return;
-            player.getPackets().sendAddObject(newObj);
-        }
+        addChunkUpdate(new AddObject(newObj.getTile().getChunkLocalHash(), newObj));
     }
 
     public void removeObject(GameObject toRemove) {
@@ -414,14 +405,10 @@ public class Chunk {
             Logger.info(Chunk.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObject);
             return;
         }
-        for (Player player : World.getPlayersInRegionRange(getRegionId())) {
-            if (player == null || !player.hasStarted() || player.hasFinished())
-                return;
-            if (replace && baseObject != null)
-                player.getPackets().sendAddObject(baseObject);
-            else
-                player.getPackets().sendRemoveObject(toRemove);
-        }
+        if (replace && baseObject != null)
+            addChunkUpdate(new AddObject(baseObject.getTile().getChunkLocalHash(), baseObject));
+        else
+            addChunkUpdate(new RemoveObject(toRemove.getTile().getChunkLocalHash(), toRemove));
     }
 
     public void addRemovedObject(GameObject object) {
@@ -645,6 +632,20 @@ public class Chunk {
 
     public boolean removeNPCIndex(Object index) {
         return npcs.remove(index);
+    }
+
+    public void addChunkUpdate(UpdateZonePacketEncoder update) {
+        updates.add(update);
+    }
+
+    public void rebuildUpdateZone() {
+        updateZonePacket = new UpdateZonePartialEnclosed(chunkId, updates);
+    }
+
+    public void sendUpdates(Player player) {
+        if (!player.hasStarted() || player.hasFinished())
+            return;
+        player.getSession().write(updateZonePacket);
     }
 
     public int getChunkX() {
