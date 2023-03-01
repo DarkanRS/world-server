@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.map.update.ChunkUpdate;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
@@ -12,6 +13,7 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
 import com.rs.utils.music.Music;
 import com.rs.utils.spawns.ItemSpawns;
@@ -25,18 +27,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Chunk {
     private int chunkId;
+    private int chunkX;
+    private int chunkY;
+    private int plane;
     private boolean originalChunk;
-    private int[] collisionMappings = new int[4];
+
+    private Map<Integer, List<ChunkUpdate>> updates;
 
     protected Set<Integer> players = IntSets.synchronize(IntSets.emptySet());
     protected Set<Integer> npcs = IntSets.synchronize(IntSets.emptySet());
 
-    protected GameObject[][][][] baseObjects = new GameObject[4][8][8][4];
+    protected GameObject[][][] baseObjects = new GameObject[8][8][4];
     protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());
     protected List<GameObject> spawnedObjects = ObjectLists.synchronize(ObjectLists.emptyList());
 
@@ -50,8 +55,10 @@ public class Chunk {
 
     public Chunk(int chunkId) {
         this.chunkId = chunkId;
-        for (int i = 0;i < 4;i++)
-            collisionMappings[i] = WorldCollision.getId(chunkId >> 14 & 0xfff, chunkId >> 3 & 0xfff, i);
+        int[] coords = MapUtils.decode(Structure.CHUNK, chunkId);
+        this.chunkX = coords[0];
+        this.chunkY = coords[1];
+        this.plane = coords[2];
         musicIds = Music.getRegionMusics(MapUtils.chunkToRegionId(chunkId));
     }
 
@@ -63,9 +70,8 @@ public class Chunk {
         return originalChunk;
     }
 
-    public void destroy() {
-        for (int mapping : collisionMappings)
-            WorldCollision.clearChunk(mapping);
+    public void clearCollisionData() {
+        WorldCollision.clearChunk(chunkId);
     }
 
     public void setMusicIds(int[] musicIds) {
@@ -348,18 +354,18 @@ public class Chunk {
     }
 
     public void addBaseObject(GameObject obj) {
-        baseObjects[obj.getPlane()][obj.getTile().getXInChunk()][obj.getTile().getYInChunk()][obj.getSlot()] = obj;
+        baseObjects[obj.getTile().getXInChunk()][obj.getTile().getYInChunk()][obj.getSlot()] = obj;
         clip(obj);
     }
 
     public void spawnObject(GameObject newObj, boolean clip) {
-        GameObject baseObj = baseObjects[newObj.getPlane()][newObj.getTile().getXInChunk()][newObj.getTile().getYInChunk()][newObj.getSlot()];
+        GameObject baseObj = baseObjects[newObj.getTile().getXInChunk()][newObj.getTile().getYInChunk()][newObj.getSlot()];
         GameObject spawnedObj = getSpawnedObjectWithSlot(newObj.getTile(), newObj.getSlot());
 
         if (spawnedObj != null) {
             spawnedObjects.remove(spawnedObj);
             if (clip)
-                unclip(spawnedObj, localX, localY);
+                unclip(spawnedObj);
         }
 
         if (newObj.equals(baseObj)) {
@@ -370,14 +376,14 @@ public class Chunk {
                 addRemovedObject(baseObj);
             spawnedObjects.add(newObj);
             if (clip && baseObj != null)
-                unclip(baseObj, localX, localY);
+                unclip(baseObj);
         } else if (spawnedObj == null) {
-            Logger.info(Region.class, "spawnObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObj);
+            Logger.info(Chunk.class, "spawnObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObj);
             return;
         }
 
         if (clip)
-            clip(newObj, localX, localY);
+            clip(newObj);
         for (Player player : World.getPlayersInRegionRange(getRegionId())) {
             if (player == null || !player.hasStarted() || player.hasFinished())
                 return;
@@ -385,63 +391,59 @@ public class Chunk {
         }
     }
 
-    public void removeObject(GameObject object, int plane, int localX, int localY) {
-        if (objects == null)
-            objects = new GameObject[4][64][64][4];
-        GameObject mapObject = objects[plane][localX][localY][object.getSlot()];
-        GameObject removed = getRemovedObject(mapObject);
+    public void removeObject(GameObject toRemove) {
+        GameObject baseObject = baseObjects[toRemove.getTile().getXInChunk()][toRemove.getTile().getYInChunk()][toRemove.getSlot()];
+        GameObject removedBaseObject = getRemovedObject(baseObject);
         boolean replace = false;
-        if (removed != null) {
-            deleteRemovedObject(mapObject);
-            clip(mapObject, localX, localY);
+        if (removedBaseObject != null) {
+            deleteRemovedObject(baseObject);
+            clip(baseObject);
             replace = true;
         }
-        GameObject spawned = getSpawnedObjectWithSlot(plane, localX, localY, object.getSlot());
+        GameObject spawned = getSpawnedObjectWithSlot(toRemove.getTile(), toRemove.getSlot());
         if (spawned != null) {
-            spawnedObjects.remove(object);
-            unclip(object, localX, localY);
-            if (mapObject != null)
-                clip(mapObject, localX, localY);
+            spawnedObjects.remove(toRemove);
+            unclip(toRemove);
+            if (baseObject != null)
+                clip(baseObject);
             replace = true;
-        } else if (object.equals(mapObject)) {
-            unclip(object, localX, localY);
-            addRemovedObject(mapObject);
+        } else if (toRemove.equals(baseObject)) {
+            unclip(toRemove);
+            addRemovedObject(baseObject);
         } else {
-            Logger.info(Region.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + mapObject);
+            Logger.info(Chunk.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObject);
             return;
         }
         for (Player player : World.getPlayersInRegionRange(getRegionId())) {
             if (player == null || !player.hasStarted() || player.hasFinished())
                 return;
-            if (replace && mapObject != null)
-                player.getPackets().sendAddObject(mapObject);
+            if (replace && baseObject != null)
+                player.getPackets().sendAddObject(baseObject);
             else
-                player.getPackets().sendRemoveObject(object);
+                player.getPackets().sendRemoveObject(toRemove);
         }
     }
 
     public void addRemovedObject(GameObject object) {
-        if (object == null)
+        if (removedBaseObjects == null || object == null)
             return;
-        if (removedObjects == null)
-            removedObjects = new ConcurrentHashMap<>();
-        removedObjects.put(object.hashCode(), object);
+        removedBaseObjects.put(object.hashCode(), object);
     }
 
     public void deleteRemovedObject(GameObject object) {
-        if (removedObjects == null || object == null)
+        if (removedBaseObjects == null || object == null)
             return;
-        removedObjects.remove(object.hashCode());
+        removedBaseObjects.remove(object.hashCode());
     }
 
     public GameObject getRemovedObject(GameObject object) {
-        if (removedObjects == null || object == null)
+        if (removedBaseObjects == null || object == null)
             return null;
-        return removedObjects.get(object.hashCode());
+        return removedBaseObjects.get(object.hashCode());
     }
 
-    public GameObject getObject(int plane, int x, int y) {
-        GameObject[] objects = getObjects(plane, x, y);
+    public GameObject getObject(Tile tile) {
+        GameObject[] objects = getObjects(tile);
         if (objects == null)
             return null;
         for (GameObject object : objects) {
@@ -449,11 +451,11 @@ public class Chunk {
                 continue;
             return object;
         }
-        return getSpawnedObject(Tile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane));
+        return getSpawnedObject(tile);
     }
 
-    public GameObject getObject(int plane, int x, int y, ObjectType type) {
-        GameObject[] objects = getObjects(plane, x, y);
+    public GameObject getObject(Tile tile, ObjectType type) {
+        GameObject[] objects = getObjects(tile);
         if (objects == null)
             return null;
         for (GameObject object : objects) {
@@ -462,35 +464,33 @@ public class Chunk {
             if (object.getType() == type)
                 return object;
         }
-        return getSpawnedObject(Tile.of(x + ((regionId >> 8) * 64), y + ((regionId & 0xff) * 64), plane), type);
+        return getSpawnedObject(tile, type);
     }
 
-    public GameObject[] getObjects(int plane, int x, int y) {
-        checkLoadMap();
-        // if objects just loaded now will return null, anyway after they load
-        // will return correct so np
-        if (objects == null)
-            return null;
-        return objects[plane][x][y];
+    /**
+     * TODO rename getBaseObjects
+     */
+    public GameObject[] getObjects(Tile tile) {
+        GameObject[] objs = baseObjects[tile.getXInChunk()][tile.getYInChunk()];
+        return objs == null ? new GameObject[0] : objs;
     }
 
+    /**
+     * TODO rename getBaseObjects
+     */
     public List<GameObject> getObjects() {
-        if (objects == null)
+        if (baseObjects == null)
             return null;
         List<GameObject> list = new ArrayList<>();
-        for (GameObject[][][] object : objects) {
+        for (GameObject[][] object : baseObjects) {
             if (object == null)
                 continue;
-            for (GameObject[][] element : object) {
+            for (GameObject[] element : object) {
                 if (element == null)
                     continue;
-                for (int y = 0; y < element.length; y++) {
-                    if (element[y] == null)
-                        continue;
-                    for (GameObject o : element[y])
-                        if (o != null)
-                            list.add(o);
-                }
+                for (GameObject o : element)
+                    if (o != null)
+                        list.add(o);
             }
         }
         return list;
@@ -514,46 +514,44 @@ public class Chunk {
         return null;
     }
 
-    public GameObject[] getAllObjects(int plane, int x, int y) {
-        if (objects == null)
-            return null;
-        return objects[plane][x][y];
+    public List<GameObject> getSpawnedObjects() {
+        return spawnedObjects == null ? new ArrayList<>() : spawnedObjects;
     }
 
+    /**
+     * TODO rename get all base objects
+     */
     public List<GameObject> getAllObjects() {
-        if (objects == null)
+        if (baseObjects == null)
             return null;
         List<GameObject> list = new ArrayList<>();
-        for (int z = 0; z < 4; z++)
-            for (int x = 0; x < 64; x++)
-                for (int y = 0; y < 64; y++) {
-                    if (objects[z][x][y] == null)
-                        continue;
-                    for (GameObject o : objects[z][x][y])
-                        if (o != null)
-                            list.add(o);
-                }
+        for (int x = 0; x < 8; x++)
+            for (int y = 0; y < 8; y++) {
+                if (baseObjects[x][y] == null)
+                    continue;
+                for (GameObject o : baseObjects[x][y])
+                    if (o != null)
+                        list.add(o);
+            }
         return list;
     }
 
-    public GameObject getObjectWithType(int plane, int x, int y, ObjectType type) {
-        GameObject object = getObjectWithSlot(plane, x, y, type.slot);
+    public GameObject getObjectWithType(Tile tile, ObjectType type) {
+        GameObject object = getObjectWithSlot(tile, type.slot);
         return object != null && object.getType() == type ? object : null;
     }
 
-    public GameObject getObjectWithSlot(int plane, int x, int y, int slot) {
-        if (objects == null || objects[plane] == null || objects[plane][x] == null || objects[plane][x][y] == null)
-            return null;
-        GameObject o = getSpawnedObjectWithSlot(plane, x, y, slot);
+    public GameObject getObjectWithSlot(Tile tile, int slot) {
+        GameObject o = getSpawnedObjectWithSlot(tile, slot);
         if (o == null) {
-            GameObject real = objects[plane][x][y][slot];
+            GameObject real = getObjects(tile)[slot];
             return real == null ? null : getRemovedObject(real) != null ? null : real;
         }
         return o;
     }
 
-    public boolean containsObjectWithId(int plane, int x, int y, int id) {
-        GameObject object = getObjectWithId(plane, x, y, id);
+    public boolean containsObjectWithId(Tile tile, int id) {
+        GameObject object = getObjectWithId(tile, id);
         return object != null && object.getId() == id;
     }
 
@@ -564,38 +562,36 @@ public class Chunk {
         return null;
     }
 
-    public GameObject getObjectWithId(int plane, int x, int y, int id) {
-        if (objects == null || objects[plane] == null || objects[plane][x] == null || objects[plane][x][y] == null)
-            return null;
+    public GameObject getObjectWithId(Tile tile, int id) {
         for (int i = 0; i < 4; i++) {
-            GameObject object = objects[plane][x][y][i];
+            GameObject object = getObjects(tile)[i];
             if (object != null && getRemovedObject(object) != null)
                 object = null;
             if (object != null && object.getId() == id) {
-                GameObject spawned = getSpawnedObjectWithSlot(plane, x, y, object.getSlot());
+                GameObject spawned = getSpawnedObjectWithSlot(tile, object.getSlot());
                 return spawned == null ? object : spawned;
             }
         }
         for (GameObject object : spawnedObjects)
-            if (object.getTile().getXInRegion() == x && object.getTile().getYInRegion() == y && object.getPlane() == plane && object.getId() == id)
+            if (tile.matches(object.getTile()) && object.getId() == id)
                 return object;
         return null;
     }
 
     public boolean objectExists(GameObject object) {
-        return containsObjectWithId(object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), object.getId());
+        return containsObjectWithId(object.getTile(), object.getId());
     }
 
     public GameObject getObjectWithId(int id, int plane) {
-        if (objects == null)
+        if (baseObjects == null)
             return null;
         for (GameObject object : spawnedObjects)
             if (object.getId() == id && object.getPlane() == plane)
                 return object;
         for (int x = 0; x < 64; x++)
             for (int y = 0; y < 64; y++)
-                for (int slot = 0; slot < objects[plane][x][y].length; slot++) {
-                    GameObject object = objects[plane][x][y][slot];
+                for (int slot = 0; slot < baseObjects[x][y].length; slot++) {
+                    GameObject object = baseObjects[x][y][slot];
                     if (object != null && object.getId() == id && getRemovedObject(object) == null)
                         return object;
                 }
@@ -603,11 +599,7 @@ public class Chunk {
     }
 
     public GameObject getRealObject(GameObject spawnObject) {
-        int absX = (regionId >> 8) * 64;
-        int absY = (regionId & 0xff) * 64;
-        int localX = spawnObject.getX() - absX;
-        int localY = spawnObject.getY() - absY;
-        GameObject[] mapObjects = getObjects(spawnObject.getPlane(), localX, localY);
+        GameObject[] mapObjects = getObjects(spawnObject.getTile());
         if (mapObjects == null)
             return null;
         for (GameObject object : mapObjects) {
@@ -617,18 +609,6 @@ public class Chunk {
                 return object;
         }
         return null;
-    }
-
-    private void loadNPCSpawns() {
-        NPCSpawns.loadNPCSpawns(chunkId);
-    }
-
-    private void loadObjectSpawns() {
-        ObjectSpawns.loadObjectSpawns(chunkId);
-    }
-
-    private void loadItemSpawns() {
-        ItemSpawns.loadItemSpawns(chunkId);
     }
 
     public int getMusicId() {
@@ -665,5 +645,37 @@ public class Chunk {
 
     public boolean removeNPCIndex(Object index) {
         return npcs.remove(index);
+    }
+
+    public int getChunkX() {
+        return chunkX;
+    }
+
+    public int getChunkY() {
+        return chunkY;
+    }
+
+    public int getPlane() {
+        return plane;
+    }
+
+    public int getRenderChunkX() {
+        return chunkX;
+    }
+
+    public int getRenderChunkY() {
+        return chunkY;
+    }
+
+    public int getRenderPlane() {
+        return plane;
+    }
+
+    public int getRenderRegionId() {
+        return (((getRenderChunkX() / 8) << 8) + (getRenderChunkY() / 8));
+    }
+
+    public int getRotation() {
+        return 0;
     }
 }

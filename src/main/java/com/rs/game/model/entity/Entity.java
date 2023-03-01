@@ -97,7 +97,6 @@ public abstract class Entity {
 	private transient int index;
 	private String uuid;
 	private transient int sceneBaseChunkId;
-	private transient int lastRegionId; // the last region the entity was at
 	private transient int lastChunkId;
 	private transient boolean forceUpdateEntityRegion;
 	private transient Set<Integer> mapRegionIds;
@@ -627,7 +626,7 @@ public abstract class Entity {
 			teleported = true;
 			if (player != null && player.getTemporaryMoveType() == null)
 				player.setTemporaryMoveType(MoveType.TELE);
-			World.updateEntityRegion(this);
+			World.updateChunks(this);
 			if (needMapUpdate())
 				loadMapRegions();
 			if (player != null) {
@@ -689,7 +688,7 @@ public abstract class Entity {
 						player.setRun(false);
 				}
 		}
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		if (needMapUpdate())
 			loadMapRegions();
 	}
@@ -967,14 +966,6 @@ public abstract class Entity {
 
 	public void setHitpoints(int hitpoints) {
 		this.hitpoints = hitpoints;
-	}
-
-	public void setLastRegionId(int lastRegionId) {
-		this.lastRegionId = lastRegionId;
-	}
-
-	public int getLastRegionId() {
-		return lastRegionId;
 	}
 
 	public RegionSize getMapSize() {

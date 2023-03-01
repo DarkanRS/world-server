@@ -8,6 +8,8 @@ import com.rs.game.map.Chunk;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 
@@ -53,7 +55,7 @@ public class WorldCollision {
     }
 
     public static int getId(int chunkX, int chunkY, int plane) {
-        return (chunkX & 0xfff) + ((chunkY & 0xfff) << 11) + ((plane & 0x3) << 22);
+        return MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
     }
 
     public static void removeFlag(Tile tile, ClipFlag... flags) {

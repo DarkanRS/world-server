@@ -206,7 +206,7 @@ public class Glacor extends NPC {
 				setFinished(false);
 				World.addNPC(npc);
 				npc.setLastRegionId(0);
-				World.updateEntityRegion(npc);
+				World.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();
 			} catch (Throwable e) {

@@ -30,6 +30,7 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.cache.loaders.map.RenderFlag;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
@@ -37,6 +38,7 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.EntityList;
@@ -72,6 +74,8 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
+
+import javax.sound.sampled.Clip;
 
 @PluginEventHandler
 public final class World {
@@ -223,35 +227,33 @@ public final class World {
 		return true;
 	}
 
-	public static final void updateEntityRegion(Entity entity) {
+	public static final void updateChunks(Entity entity) {
 		if (entity instanceof NPC)
 			clipNPC((NPC) entity);
 		if (entity.hasFinished()) {
 			if (entity instanceof Player)
-				getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
+				getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
 			else
-				getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
+				getChunk(entity.getLastChunkId()).removeNPCIndex(entity.getIndex());
 			return;
 		}
-		int chunkId = MapUtils.encode(Structure.CHUNK, entity.getChunkX(), entity.getChunkY());
-		if (entity.getLastChunkId() != chunkId) {
+		int chunkId = MapUtils.encode(Structure.CHUNK, entity.getChunkX(), entity.getChunkY(), entity.getPlane());
+		int chunkIdNoPlane = MapUtils.encode(Structure.CHUNK, entity.getChunkX(), entity.getChunkY());
+		if (entity.getLastChunkId() != chunkId || entity.isForceUpdateEntityRegion()) {
 			PluginManager.handle(new EnterChunkEvent(entity, chunkId));
-			entity.setLastChunkId(chunkId);
+			PluginManager.handle(new EnterChunkEvent(entity, chunkIdNoPlane));
 			entity.checkMultiArea();
-		}
-		int regionId = entity.getRegionId();
-		if (entity.getLastRegionId() != regionId || entity.isForceUpdateEntityRegion()) {
+
 			if (entity instanceof Player player) {
-				if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(player) == null
-                        && !(World.getRegion(player.getRegionId()) instanceof DynamicRegion))
-					player.sendMessage(regionId + " has no music genre!");
-				if (entity.getLastRegionId() > 0)
-					getRegion(entity.getLastRegionId()).removePlayerIndex(entity.getIndex());
-				Region region = getRegion(regionId);
-				region.addPlayerIndex(entity.getIndex());
+				if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(player) == null && !(getChunk(player.getChunkId()) instanceof InstancedChunk))
+					player.sendMessage(chunkIdNoPlane + " has no music genre!");
+				if (entity.getLastChunkId() > 0)
+					getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
+				Chunk chunk = getChunk(chunkId);
+				chunk.addPlayerIndex(entity.getIndex());
 
 				//Unlock all region music at once.
-				int[] musicIds = region.getMusicIds();
+				int[] musicIds = chunk.getMusicIds();
 				if (player.hasStarted() && musicIds != null && musicIds.length > 0)
 					for (int musicId : musicIds)
 						if (!player.getMusicsManager().hasMusic(musicId))
@@ -259,32 +261,32 @@ public final class World {
 
 				//if should play random song on enter region
 
-                /**
-                 * If the player is in the world and no genre is playing
-                 * if there is no controller and the region and playing genres don't match, play a song
-                 * same if there is a controller but check if the controller allows region play.
-                 */
+				/**
+				 * If the player is in the world and no genre is playing
+				 * if there is no controller and the region and playing genres don't match, play a song
+				 * same if there is a controller but check if the controller allows region play.
+				 */
 				if(player.hasStarted() && (Music.getGenre(player) == null || player.getMusicsManager().getPlayingGenre() == null
-                        || !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(player)))) {//tested, looks good.
-                    if (player.getControllerManager().getController() == null) {
-                        player.getMusicsManager().nextAmbientSong();
-                    } else if (player.getControllerManager().getController().playAmbientOnControllerRegionEnter() && !player.getDungManager().isInsideDungeon()) { //if we start the dungeon controller before the region enter we can get rid of that inside dungeon thing.
-                        if(player.getMusicsManager().getPlayingGenre() == null || !player.getMusicsManager().getPlayingGenre().matches(player.getControllerManager().getController().getGenre())) {
-                            player.getMusicsManager().nextAmbientSong();
-                        }
-                    }
-                }
+					|| !player.getMusicsManager().getPlayingGenre().matches(Music.getGenre(player)))) {//tested, looks good.
+					if (player.getControllerManager().getController() == null) {
+						player.getMusicsManager().nextAmbientSong();
+					} else if (player.getControllerManager().getController().playAmbientOnControllerRegionEnter() && !player.getDungManager().isInsideDungeon()) { //if we start the dungeon controller before the region enter we can get rid of that inside dungeon thing.
+						if(player.getMusicsManager().getPlayingGenre() == null || !player.getMusicsManager().getPlayingGenre().matches(player.getControllerManager().getController().getGenre())) {
+							player.getMusicsManager().nextAmbientSong();
+						}
+					}
+				}
 
 				player.getControllerManager().moved();
 				if (player.hasStarted())
 					checkControllersAtMove(player);
 			} else {
-				if (entity.getLastRegionId() > 0)
-					getRegion(entity.getLastRegionId()).removeNPCIndex(entity.getIndex());
-				getRegion(regionId).addNPCIndex(entity.getIndex());
+				if (entity.getLastChunkId() > 0)
+					getChunk(entity.getLastChunkId()).removeNPCIndex(entity.getIndex());
+				getChunk(chunkId).addNPCIndex(entity.getIndex());
 			}
 			entity.setForceUpdateEntityRegion(false);
-			entity.setLastRegionId(regionId);
+			entity.setLastChunkId(chunkId);
 		} else if (entity instanceof Player player) {
 			player.getControllerManager().moved();
 			if (player.hasStarted())
@@ -298,7 +300,7 @@ public final class World {
 	}
 
 	public static boolean canLightFire(int plane, int x, int y) {
-		if (RenderFlag.flagged(getRenderFlags(plane, x, y), RenderFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(Tile.of(x, y, plane), 2) != null)
+		if (ClipFlag.flagged(getClipFlags(plane, x, y), ClipFlag.UNDER_ROOF) || (getClipFlags(plane, x, y) & 2097152) != 0 || getObjectWithSlot(Tile.of(x, y, plane), 2) != null)
 			return false;
 		return true;
 	}
@@ -343,16 +345,12 @@ public final class World {
 		return wallsFree(Tile.of(x, y, plane));
 	}
 
-	public static int getClipFlags(int plane, int x, int y) {
-		return getClipFlags(Tile.of(x, y, plane));
+	public static int getClipFlags(int x, int y, int plane) {
+		return WorldCollision.getFlags(Tile.of(x, y, plane));
 	}
 
-	public static int getRenderFlags(int plane, int x, int y) {
-		Tile tile = Tile.of(x, y, plane);
-		Region region = getRegion(tile.getRegionId());
-		if (region == null)
-			return -1;
-		return region.getRenderFlags(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
+	public static int getClipFlags(Tile tile) {
+		return WorldCollision.getFlags(tile);
 	}
 
 	public static boolean hasLineOfSight(Tile t1, Tile t2) {
@@ -635,29 +633,28 @@ public final class World {
 			case WATER:
 				if (size == 1) {
 					int flags = getClipFlags(plane, x + xOffset, y + yOffset);
-					int rFlags = getRenderFlags(plane, x + xOffset, y + yOffset);
 					if (xOffset == -1 && yOffset == 0)
-						return RenderFlag.flagged(rFlags, RenderFlag.CLIPPED) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E);
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E);
 					if (xOffset == 1 && yOffset == 0)
-						return RenderFlag.flagged(rFlags, RenderFlag.CLIPPED) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W);
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W);
 					if (xOffset == 0 && yOffset == -1)
-						return RenderFlag.flagged(rFlags, RenderFlag.CLIPPED) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
 					if (xOffset == 0 && yOffset == 1)
-						return RenderFlag.flagged(rFlags, RenderFlag.CLIPPED) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
 					if (xOffset == -1 && yOffset == -1)
-						return !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) &&
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) &&
 							!ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) &&
 							!ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
 					if (xOffset == 1 && yOffset == -1)
-						return !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW) &&
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW) &&
 							!ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) &&
 							!ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
 					if (xOffset == -1 && yOffset == 1)
-						return !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE) &&
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE) &&
 							!ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) &&
 							!ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
 					if (xOffset == 1 && yOffset == 1)
-						return !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW) &&
+						return ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW) &&
 							!ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) &&
 							!ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
 				} else if (xOffset == -1 && yOffset == 0) {
@@ -880,23 +877,23 @@ public final class World {
 	}
 
 	public static final boolean isSpawnedObject(GameObject object) {
-		return getRegion(object.getTile().getRegionId()).getSpawnedObjects().contains(object);
+		return getChunk(object.getTile().getChunkId()).getSpawnedObjects().contains(object);
 	}
 
 	public static final void spawnObject(GameObject object) {
-		getRegion(object.getTile().getRegionId()).spawnObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), true);
+		getChunk(object.getTile().getChunkId()).spawnObject(object, true);
 	}
 
 	public static final void spawnObject(GameObject object, boolean clip) {
-		getRegion(object.getTile().getRegionId()).spawnObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion(), clip);
+		getChunk(object.getTile().getChunkId()).spawnObject(object, clip);
 	}
 
 	public static final void unclipTile(Tile tile) {
-		getRegion(tile.getRegionId()).unclip(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion());
+		getChunk(tile.getChunkId()).unclip(tile);
 	}
 
 	public static final void removeObject(GameObject object) {
-		getRegion(object.getTile().getRegionId()).removeObject(object, object.getPlane(), object.getTile().getXInRegion(), object.getTile().getYInRegion());
+		getChunk(object.getTile().getChunkId()).removeObject(object);
 	}
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks, boolean clip) {
@@ -958,16 +955,16 @@ public final class World {
 		}
 	}
 
-	public static List<Player> getPlayersInRegionRange(int regionId) {
-		List<Player> players = new ArrayList<>();
-		for (Player player : getPlayers()) {
-			if (player == null)
-				continue;
-			if (player.getMapRegionsIds().contains(regionId))
-				players.add(player);
-		}
-		return players;
-	}
+//	public static List<Player> getPlayersInRegionRange(int regionId) {
+//		List<Player> players = new ArrayList<>();
+//		for (Player player : getPlayers()) {
+//			if (player == null)
+//				continue;
+//			if (player.getMapRegionsIds().contains(regionId))
+//				players.add(player);
+//		}
+//		return players;
+//	}
 
 	public static List<NPC> getNPCsInRegionRange(int regionId) {
 		List<NPC> npcs = new ArrayList<>();
@@ -980,23 +977,23 @@ public final class World {
 		return npcs;
 	}
 
-	public static List<Player> getPlayersInRegion(int regionId) {
+	public static List<Player> getPlayersInChunk(int chunkId) {
 		List<Player> player = new ArrayList<>();
-		Region r = World.getRegion(regionId);
-		if (r == null)
+		Chunk chunk = World.getChunk(chunkId);
+		if (chunk == null)
 			return player;
-		Set<Integer> playerIndices = World.getRegion(regionId).getPlayerIndexes();
+		Set<Integer> playerIndices = chunk.getPlayerIndexes();
 		for (Integer idx : playerIndices)
 			player.add(World.getPlayers().get(idx));
 		return player;
 	}
 
-	public static List<NPC> getNPCsInRegion(int regionId) {
+	public static List<NPC> getNPCsInRegion(int chunkId) {
 		List<NPC> npcs = new ArrayList<>();
-		Region r = World.getRegion(regionId);
-		if (r == null)
+		Chunk chunk = World.getChunk(chunkId);
+		if (chunk == null)
 			return npcs;
-		Set<Integer> npcIndices = World.getRegion(regionId).getNPCsIndexes();
+		Set<Integer> npcIndices = chunk.getNPCsIndexes();
 		for (Integer idx : npcIndices)
 			npcs.add(World.getNPCs().get(idx));
 		return npcs;
@@ -1011,28 +1008,22 @@ public final class World {
 	}
 
 	public static final GameObject getObject(Tile tile) {
-		int regionId = tile.getRegionId();
-		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getPlane(), baseLocalX, baseLocalY);
+		return getChunk(tile.getChunkId()).getObject(tile);
 	}
 
+	/**
+	 * TODO rename getBaseObjects
+	 */
 	public static final GameObject[] getObjects(Tile tile) {
-		int regionId = tile.getRegionId();
-		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObjects(tile.getPlane(), baseLocalX, baseLocalY);
+		return getChunk(tile.getChunkId()).getObjects(tile);
 	}
 
 	public static final GameObject getSpawnedObject(Tile tile) {
-		return getRegion(tile.getRegionId()).getSpawnedObject(tile);
+		return getChunk(tile.getChunkId()).getSpawnedObject(tile);
 	}
 
 	public static final GameObject getObject(Tile tile, ObjectType type) {
-		int regionId = tile.getRegionId();
-		int baseLocalX = tile.getX() - ((regionId >> 8) * 64);
-		int baseLocalY = tile.getY() - ((regionId & 0xff) * 64);
-		return getRegion(regionId).getObject(tile.getPlane(), baseLocalX, baseLocalY, type);
+		return getChunk(tile.getChunkId()).getObject(tile, type);
 	}
 
 	public enum DropMethod {
@@ -1099,7 +1090,7 @@ public final class World {
 	}
 
 	public static final boolean removeGroundItem(GroundItem groundItem) {
-		return getRegion(groundItem.getTile().getRegionId()).deleteGroundItem(groundItem);
+		return getChunk(groundItem.getTile().getChunkId()).deleteGroundItem(groundItem);
 	}
 
 	public static final boolean removeGroundItem(Player player, GroundItem floorItem) {
@@ -1109,8 +1100,8 @@ public final class World {
 	public static final boolean removeGroundItem(Player player, GroundItem groundItem, boolean add) {
 		if (groundItem.getId() == -1)
 			return false;
-		Region region = getRegion(groundItem.getTile().getRegionId());
-		if (!region.itemExists(groundItem))
+		Chunk chunk = getChunk(groundItem.getTile().getChunkId());
+		if (!chunk.itemExists(groundItem))
 			return false;
 		if (player.isIronMan() && groundItem.getSourceId() != 0 && groundItem.getSourceId() != player.getUuid()) {
 			player.sendMessage("You may not pick up other players items as an ironman.");
@@ -1120,7 +1111,7 @@ public final class World {
 			player.sendMessage("Not enough space in your inventory.");
 			return false;
 		}
-		if (region.deleteGroundItem(groundItem)) {
+		if (chunk.deleteGroundItem(groundItem)) {
 			if (add) {
 				if (!player.getInventory().addItem(new Item(groundItem.getId(), groundItem.getAmount(), groundItem.getMetaData())))
 					return false;
@@ -1152,8 +1143,8 @@ public final class World {
 				player.getPackets().sendObjectAnimation(object, animation);
 			}
 		else
-			for (int regionId : creator.getMapRegionsIds()) {
-				Set<Integer> playersIndexes = getRegion(regionId).getPlayerIndexes();
+			for (int chunkId : creator.getVisibleChunkIds()) {
+				Set<Integer> playersIndexes = getChunk(regionId).getPlayerIndexes();
 				if (playersIndexes == null)
 					continue;
 				for (Integer playerIndex : playersIndexes) {

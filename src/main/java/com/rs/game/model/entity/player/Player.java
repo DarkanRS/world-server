@@ -699,7 +699,7 @@ public class Player extends Entity {
 		if (pouchesType == null)
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
@@ -1768,11 +1768,11 @@ public class Player extends Entity {
 		WorldDB.getPlayers().save(this, () -> {
 			LobbyCommunicator.removeWorldPlayer(this);
 			World.removePlayer(this);
-			World.updateEntityRegion(this);
+			World.updateChunks(this);
 			WorldDB.getHighscores().save(this);
 			Logger.info(Player.class, "realFinish", "Finished Player: " + getUsername());
 		});
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 	}
 
 	public long getLastLoggedIn() {

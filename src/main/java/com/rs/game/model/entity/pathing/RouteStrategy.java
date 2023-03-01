@@ -17,6 +17,7 @@
 package com.rs.game.model.entity.pathing;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.ClipFlag;
 
 /**
  * @author Mangis

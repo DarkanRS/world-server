@@ -152,7 +152,7 @@ public class NPC extends Entity {
 		// npc is inited on creating instance
 		initEntity();
 		World.addNPC(this);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
@@ -383,7 +383,7 @@ public class NPC extends Entity {
 		if (hasFinished())
 			return;
 		setFinished(true);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		World.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
 	}
@@ -427,7 +427,7 @@ public class NPC extends Entity {
 		setFinished(false);
 		World.addNPC(this);
 		setLastRegionId(0);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 		onRespawn();

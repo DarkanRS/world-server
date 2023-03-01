@@ -34,7 +34,7 @@ public class GodWarMinion extends NPC {
 		setFinished(false);
 		World.addNPC(this);
 		setLastRegionId(0);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 	}

@@ -179,7 +179,7 @@ public final class TormentedDemon extends NPC {
 				setFinished(false);
 				World.addNPC(npc);
 				npc.setLastRegionId(0);
-				World.updateEntityRegion(npc);
+				World.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();
 				shieldTimer = 0;

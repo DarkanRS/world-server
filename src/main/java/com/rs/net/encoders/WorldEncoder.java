@@ -22,6 +22,8 @@ import java.util.List;
 
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -29,7 +31,6 @@ import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.ObjectMeshModifier;
-import com.rs.game.map.DynamicRegion;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.HintIcon;
@@ -113,6 +114,8 @@ import com.rs.lib.net.packets.encoders.vars.SetVarcString;
 import com.rs.lib.net.packets.encoders.vars.SetVarp;
 import com.rs.lib.net.packets.encoders.vars.SetVarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
 
 import io.netty.channel.ChannelFuture;
@@ -431,44 +434,28 @@ public class WorldEncoder extends Encoder {
 		int mapHash = player.getMapSize().size >> 4;
 		int[] realRegionIds = new int[4 * mapHash * mapHash];
 		int realRegionIdsCount = 0;
-		for (int plane = 0; plane < 4; plane++)
-			for (int thisRegionX = (player.getChunkX() - mapHash); thisRegionX <= ((player.getChunkX() + mapHash)); thisRegionX++)
-				for (int thisRegionY = (player.getChunkY() - mapHash); thisRegionY <= ((player.getChunkY() + mapHash)); thisRegionY++) {
-					int regionId = (((thisRegionX / 8) << 8) + (thisRegionY / 8));
-					Region region = World.getRegion(regionId);
-					int realRegionX;
-					int realRegionY;
-					int realPlane;
-					int rotation;
-					if (region instanceof DynamicRegion dynRegion) {
-						int[] regionCoords = dynRegion.getRegionCoords()[plane][thisRegionX - ((thisRegionX / 8) * 8)][thisRegionY - ((thisRegionY / 8) * 8)];
-						realRegionX = regionCoords[0];
-						realRegionY = regionCoords[1];
-						realPlane = regionCoords[2];
-						rotation = regionCoords[3];
-					} else {
-						realRegionX = thisRegionX;
-						realRegionY = thisRegionY;
-						realPlane = plane;
-						rotation = 0;
-					}
-					if (realRegionX == 0 || realRegionY == 0)
+		for (int plane = 0; plane < 4; plane++) {
+			for (int chunkX = (player.getChunkX() - mapHash); chunkX <= ((player.getChunkX() + mapHash)); chunkX++) {
+				for (int chunkY = (player.getChunkY() - mapHash); chunkY <= ((player.getChunkY() + mapHash)); chunkY++) {
+					Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0)
 						stream.writeBits(1, 0);
 					else {
 						stream.writeBits(1, 1);
-						stream.writeBits(26, (rotation << 1) | (realPlane << 24) | (realRegionX << 14) | (realRegionY << 3));
-						int realRegionId = (((realRegionX / 8) << 8) + (realRegionY / 8));
+						stream.writeBits(26, (chunk.getRotation() << 1) | (chunk.getRenderPlane() << 24) | (chunk.getRenderChunkX() << 14) | (chunk.getRenderChunkY() << 3));
 						boolean found = false;
-						for (int index = 0; index < realRegionIdsCount; index++)
-							if (realRegionIds[index] == realRegionId) {
+						for (int index = 0; index < realRegionIdsCount; index++) {
+							if (realRegionIds[index] == chunk.getRenderRegionId()) {
 								found = true;
 								break;
 							}
+						}
 						if (!found)
-							realRegionIds[realRegionIdsCount++] = realRegionId;
+							realRegionIds[realRegionIdsCount++] = chunk.getRenderRegionId();
 					}
-
 				}
+			}
+		}
 		stream.finishBitAccess();
 		session.writeToQueue(new DynamicMapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), stream.toByteArray(), realRegionIds));
 	}
