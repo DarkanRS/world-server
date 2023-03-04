@@ -166,7 +166,7 @@ public class YkLagorThunderous extends DungeonBoss {
 	public void sendBrokenFloor() {
 		for (int[] element : BROKEN_FLOORS_TILES) {
 			Tile tile = getManager().getTile(getReference(), element[0], element[1]);
-			World.sendSpotAnim(this, EARTH_QUAKE_GRAPHICS, tile);
+			World.sendSpotAnim(tile, EARTH_QUAKE_GRAPHICS);
 		}
 	}
 

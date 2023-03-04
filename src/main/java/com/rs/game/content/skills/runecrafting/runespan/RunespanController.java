@@ -444,7 +444,7 @@ public class RunespanController extends Controller {
 		final Tile toTile = (Tile) toPlataform[0];
 		player.lock();
 		player.addWalkSteps(object.getX(), object.getY(), 1, false);
-		World.sendSpotAnim(player, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)), object.getTile());
+		World.sendSpotAnim(object.getTile(), new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
 		WorldTasks.schedule(new WorldTask() {
 
 			private int stage;
@@ -496,7 +496,7 @@ public class RunespanController extends Controller {
 					player.unlock();
 					player.setNextTile(toTile);
 				} else if (stage == 6)
-					World.sendSpotAnim(player, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)), toTile);
+					World.sendSpotAnim(toTile, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
 				stage++;
 
 			}

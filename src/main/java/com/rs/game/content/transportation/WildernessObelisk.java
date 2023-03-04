@@ -55,7 +55,7 @@ public class WildernessObelisk {
 			public void run() {
 				for (int x = 1; x < 4; x++)
 					for (int y = 1; y < 4; y++)
-						World.sendSpotAnim(player, new SpotAnim(661), center.transform(x, y, 0));
+						World.sendSpotAnim(center.transform(x, y, 0), new SpotAnim(661));
 				Region region = World.getRegion(center.getRegionId());
 				Set<Integer> playerIndexes = region.getPlayerIndexes();
 				Tile newCenter = OBELISK_CENTER_TILES[Utils.random(OBELISK_CENTER_TILES.length)];

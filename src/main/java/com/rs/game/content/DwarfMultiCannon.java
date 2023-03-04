@@ -251,7 +251,7 @@ public class DwarfMultiCannon extends OwnedObject {
 			spinRot = Direction.NORTH;
 		else
 			spinRot = Direction.values()[spinRot.ordinal() + 1];
-		World.sendObjectAnimation(null, this, new Animation(CANNON_EMOTES[spinRot.ordinal()]));
+		World.sendObjectAnimation(this, new Animation(CANNON_EMOTES[spinRot.ordinal()]));
 		Set<Integer> npcIndexes = World.getRegion(tile.getRegionId()).getNPCsIndexes();
 		if (npcIndexes == null)
 			return;

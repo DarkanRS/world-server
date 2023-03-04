@@ -222,7 +222,7 @@ public class Karamja  {
 				e.getPlayer().lock();
 				e.getPlayer().faceObject(e.getObject());
 				e.getPlayer().setNextAnimation(new Animation(751));
-				World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
+				World.sendObjectAnimation(e.getObject(), new Animation(497));
 
 				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
 				e.getPlayer().sendMessage("You skillfully swing across the rope.", true);

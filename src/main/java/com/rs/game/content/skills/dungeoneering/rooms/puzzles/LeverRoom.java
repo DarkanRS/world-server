@@ -109,7 +109,7 @@ public class LeverRoom extends PuzzleRoom {
 						player.sendMessage("You hear a loud noise and all the switches toggle back off.");
 						if (player.withinDistance(manager.getTile(reference, 7, 8), 2) || !manager.getCurrentRoomReference(Tile.of(player.getTile())).equals(reference))
 							continue;
-						World.sendSpotAnim(player, new SpotAnim(2759), Tile.of(player.getTile()));
+						World.sendSpotAnim(Tile.of(player.getTile()), new SpotAnim(2759));
 						player.setNextAnimation(new Animation(13694));
 						player.applyHit(new Hit(player, (int) (player.getMaxHitpoints() * .3), HitLook.TRUE_DAMAGE));
 					}

@@ -99,7 +99,7 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 
 	public static void submitGraphics(PortalCluster cluster, NPC creator) {
 		for (Tile tile : cluster.getBoundary())
-			World.sendSpotAnim(creator, new SpotAnim((Utils.random(3) == 0 ? 1 : 0) + RAIN_GRAPHICS[cluster.getType()]), tile);
+			World.sendSpotAnim(tile, new SpotAnim((Utils.random(3) == 0 ? 1 : 0) + RAIN_GRAPHICS[cluster.getType()]));
 	}
 
 	private static class PortalCluster {

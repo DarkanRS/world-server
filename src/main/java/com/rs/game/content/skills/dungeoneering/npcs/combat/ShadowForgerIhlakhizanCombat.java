@@ -67,7 +67,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 
 						@Override
 						public void run() {
-							World.sendSpotAnim(npc, new SpotAnim(2374), tile);
+							World.sendSpotAnim(tile, new SpotAnim(2374));
 							for (Player player : forger.getManager().getParty().getTeam()) {
 								if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
 									continue;

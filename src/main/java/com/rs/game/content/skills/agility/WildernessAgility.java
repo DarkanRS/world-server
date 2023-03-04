@@ -141,7 +141,7 @@ public class WildernessAgility {
 		}
 		player.lock(4);
 		player.setNextAnimation(new Animation(751));
-		World.sendObjectAnimation(player, object, new Animation(497));
+		World.sendObjectAnimation(object, new Animation(497));
 		final Tile toTile = Tile.of(object.getX(), 3958, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.NORTH));
 		player.getSkills().addXp(Constants.AGILITY, 22);

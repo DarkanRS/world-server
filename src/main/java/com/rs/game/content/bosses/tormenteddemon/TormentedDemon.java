@@ -151,7 +151,7 @@ public final class TormentedDemon extends NPC {
 		Tile finalTile = tile;
 		setNextAnimation(new Animation(10917));
 		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, 0, p -> {
-			World.sendSpotAnim(this, new SpotAnim(1883), finalTile);
+			World.sendSpotAnim(finalTile, new SpotAnim(1883));
 			for (int regionId : getMapRegionsIds()) {
 				Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
 				if (playerIndexes != null)

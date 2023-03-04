@@ -179,13 +179,13 @@ public class BoatCutscene extends Cutscene {
 	private void repeatFireSpotAnim(Player player, Tile target, int fireHeight, Runnable extra) {
 		WorldTasks.scheduleTimer(tick -> {
 			if (tick == 0) {
-				World.sendSpotAnim(player, new SpotAnim(1154), Tile.of(target.getX(), target.getY(), target.getPlane()));
-				World.sendSpotAnim(player, new SpotAnim(2588), Tile.of(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(Tile.of(target.getX(), target.getY(), target.getPlane()), new SpotAnim(1154));
+				World.sendSpotAnim(Tile.of(target.getX(), target.getY(), target.getPlane()), new SpotAnim(2588));
 				if (extra != null)
 					extra.run();
 			}
 			if (tick > 1)
-				World.sendSpotAnim(player, new SpotAnim(453, 0, fireHeight), Tile.of(target.getX(), target.getY(), target.getPlane()));
+				World.sendSpotAnim(Tile.of(target.getX(), target.getY(), target.getPlane()), new SpotAnim(453, 0, fireHeight));
 			if(tick == 80)
 				return false;
 			return true;

@@ -349,7 +349,7 @@ public class Morytania  {
 				for (int y = -1;y <= 1;y++) {
 					if (x == 0 && y == 0)
 						continue;
-					World.sendSpotAnim(e.getPlayer(), new SpotAnim(263), e.getPlayer().transform(x, y));
+					World.sendSpotAnim(e.getPlayer().transform(x, y), new SpotAnim(263));
 					GameObject object = World.getObject(e.getPlayer().transform(x, y), ObjectType.SCENERY_INTERACT);
 					if (object == null)
 						continue;

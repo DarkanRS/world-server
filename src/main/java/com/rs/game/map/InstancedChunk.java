@@ -53,10 +53,10 @@ public class InstancedChunk extends Chunk {
 		super.checkLoaded();
 	}
 
-	public void loadRegionMap() {
+	public void loadMap() {
 		if (needsReload)
 			clearCollisionData();
-
+		//TODO
 	}
 
 	@Override

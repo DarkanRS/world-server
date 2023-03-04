@@ -36,9 +36,9 @@ public class EggsterminatorInteraction extends PlayerEntityInteraction {
         WorldTasks.schedule(delay, () -> {
             if (target instanceof NPC n) {
                 n.sendDeath(player);
-                World.sendSpotAnim(player, attackStyle == 0 ? new SpotAnim(3033) : new SpotAnim(3032), target.getTile());
+                World.sendSpotAnim(target.getTile(), attackStyle == 0 ? new SpotAnim(3033) : new SpotAnim(3032));
             } else if (target instanceof Player p) {
-                World.sendSpotAnim(player, attackStyle == 0 ? new SpotAnim(3037) : new SpotAnim(3036), target.getTile());
+                World.sendSpotAnim(target.getTile(), attackStyle == 0 ? new SpotAnim(3037) : new SpotAnim(3036));
                 if ((p.getEquipment().getHatId() == Easter2022.EGG_ON_FACE_MASK || p.getEquipment().getHatId() == Easter2022.CHOCOLATE_EGG_ON_FACE_MASK) && p.getNextAnimation() == null)
                 	p.setNextAnimation(new Animation(2107));
             }

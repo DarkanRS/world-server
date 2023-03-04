@@ -135,7 +135,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 				else if (cycle == 4) {
 
 					for (Tile tile : targets)
-						World.sendSpotAnim(npc, new SpotAnim(2423), tile);
+						World.sendSpotAnim(tile, new SpotAnim(2423));
 
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)

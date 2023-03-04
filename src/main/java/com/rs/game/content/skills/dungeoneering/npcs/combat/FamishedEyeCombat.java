@@ -77,7 +77,7 @@ public class FamishedEyeCombat extends CombatScript {
 				else if (cycles == 3) {
 					for (Tile tile : tiles) {
 						if (!tile.matches(targetTile))
-							World.sendSpotAnim(eye, new SpotAnim(2852, 35, 5), tile);
+							World.sendSpotAnim(tile, new SpotAnim(2852, 35, 5));
 						for (Entity t : eye.getPossibleTargets())
 							if (t.matches(tile))
 								t.applyHit(new Hit(eye, (int) Utils.random(eye.getMaxHit() * .25, eye.getMaxHit()), HitLook.TRUE_DAMAGE));

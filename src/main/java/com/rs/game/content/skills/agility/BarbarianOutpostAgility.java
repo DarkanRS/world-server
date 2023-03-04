@@ -58,7 +58,7 @@ public class BarbarianOutpostAgility {
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2551, 3554, 0), () -> {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(751));
-			World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
+			World.sendObjectAnimation(e.getObject(), new Animation(497));
 			final Tile toTile = Tile.of(e.getObject().getX(), 3549, e.getObject().getPlane());
 			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Direction.SOUTH));
 			e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
@@ -242,12 +242,12 @@ public class BarbarianOutpostAgility {
 					else if (stage == 1) {
 						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Direction.NORTH));
 						e.getPlayer().setNextAnimation(new Animation(4189));
-						World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(11819));
+						World.sendObjectAnimation(e.getObject(), new Animation(11819));
 					} else if (stage == 4) {
 						e.getPlayer().unlock();
 						e.getPlayer().setNextTile(toTile);
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
-						World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(2531, 3554, 3), ObjectType.SCENERY_INTERACT), new Animation(7527));
+						World.sendObjectAnimation(World.getObject(Tile.of(2531, 3554, 3), ObjectType.SCENERY_INTERACT), new Animation(7527));
 						stop();
 					}
 					stage++;

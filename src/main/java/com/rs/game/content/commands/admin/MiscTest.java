@@ -191,7 +191,7 @@ public class MiscTest {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
 					if (World.floorAndWallsFree(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), 1))
-						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), Tile.of(p.getX() + x, p.getY() + y, p.getPlane()));
+						World.sendSpotAnim(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), new SpotAnim(2000, 0, 96));
 		});
 		
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
@@ -1125,7 +1125,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "objectanimloop,oanimloop [x y (startId) (endId)]", "Loops through object animations.", (p, args) -> {
 			int x = Integer.parseInt(args[0]);
 			int y = Integer.parseInt(args[1]);
-			GameObject o = World.getRegion(p.getRegionId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
+			GameObject o = World.getChunk(p.getChunkId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
 			if (o == null) {
 				p.getPackets().sendDevConsoleMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
 				return;

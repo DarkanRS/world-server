@@ -93,7 +93,7 @@ public class BoneAltar  {
 				player.getInventory().deleteItem(bone.getId(), 1);
 				player.getSkills().addXp(Constants.PRAYER, bone.getExperience()*altar.getXpMul());
 				player.setNextAnimation(new Animation(ANIM));
-				World.sendSpotAnim(null, new SpotAnim(GFX), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(GFX));
 			}
 			return 2;
 		}

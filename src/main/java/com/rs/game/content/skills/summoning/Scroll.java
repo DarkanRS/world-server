@@ -115,7 +115,7 @@ public enum Scroll {
 					continue;
 				spawned.add(tile.getTileHash());
 				num++;
-				World.sendSpotAnim(player, new SpotAnim(1342), tile);
+				World.sendSpotAnim(tile, new SpotAnim(1342));
 				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(223, 1), tile, player, true, 120));
 			}
 			return true;
@@ -236,7 +236,7 @@ public enum Scroll {
 			owner.sync(7660, 1316);
 			familiar.sync(7775, 1461);
 			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
-				World.sendSpotAnim(owner, new SpotAnim(1460), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(1460));
 				owner.unlock();
 				boolean superCompost = Utils.random(10) == 0;
 				spot.lives = 15;
@@ -700,7 +700,7 @@ public enum Scroll {
 				if (spawned.contains(tile.getTileHash()))
 					continue;
 				spawned.add(tile.getTileHash());
-				World.sendSpotAnim(owner, new SpotAnim(1331), tile);
+				World.sendSpotAnim(tile, new SpotAnim(1331));
 				final boolean spawnPapaya = papaya;
 				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(spawnPapaya ? 5972 : randomFruit(), 1), tile, owner, true, 120));
 				papaya = false;

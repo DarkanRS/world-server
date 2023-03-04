@@ -90,7 +90,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 							}
 					} else if (cycles == 8) {
 						for (Tile tile : explosions)
-							World.sendSpotAnim(boss, new SpotAnim(2399), tile);
+							World.sendSpotAnim(tile, new SpotAnim(2399));
 						for (Entity t : boss.getPossibleTargets())
 							tileLoop: for (Tile tile : explosions) {
 								if (t.getX() != tile.getX() || t.getY() != tile.getY())

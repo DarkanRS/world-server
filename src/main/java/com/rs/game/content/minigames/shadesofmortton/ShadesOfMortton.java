@@ -87,14 +87,14 @@ public class ShadesOfMortton {
 				if (REPAIR_STATE >= 99) {
 					if (altar != null && altar.getId() == 4092) {
 						World.spawnObject(new GameObject(altar).setId(4091));
-						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
+						World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 					} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
 						altar.setId(4091);
-						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
+						World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 					}
 				} else if (altar != null && altar.getId() != 4092) {
 					World.removeObject(altar);
-					World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
+					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
 				}
 			}
 		}, 50, 50);

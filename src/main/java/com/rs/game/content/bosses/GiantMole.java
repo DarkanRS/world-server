@@ -68,15 +68,15 @@ public class GiantMole extends NPC {
 				setCantInteract(false);
 				if (isDead())
 					return;
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(572), middle);
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX(), middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX(), middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() - 1, middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() - 1, middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() + 1, middle.getY() - 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() + 1, middle.getY() + 1, middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() - 1, middle.getY(), middle.getPlane()));
-				World.sendSpotAnim(GiantMole.this, new SpotAnim(571), Tile.of(middle.getX() + 1, middle.getY(), middle.getPlane()));
+				World.sendSpotAnim(middle, new SpotAnim(572));
+				World.sendSpotAnim(Tile.of(middle.getX(), middle.getY() - 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX(), middle.getY() + 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() - 1, middle.getY() - 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() - 1, middle.getY() + 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() + 1, middle.getY() - 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() + 1, middle.getY() + 1, middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() - 1, middle.getY(), middle.getPlane()), new SpotAnim(571));
+				World.sendSpotAnim(Tile.of(middle.getX() + 1, middle.getY(), middle.getPlane()), new SpotAnim(571));
 				setNextTile(Tile.of(COORDS[Utils.random(COORDS.length)]));
 				setNextAnimation(new Animation(3315));
 

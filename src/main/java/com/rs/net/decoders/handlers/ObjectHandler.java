@@ -1184,7 +1184,7 @@ public final class ObjectHandler {
 					@Override
 					public void run() {
 						player.simpleDialogue("You feel a rush of energy charge through your veins. Suddenly a cape appears before you.");
-						World.sendSpotAnim(player, new SpotAnim(1605), Tile.of(object.getX(), object.getY() - 1, 0));
+						World.sendSpotAnim(Tile.of(object.getX(), object.getY() - 1, 0), new SpotAnim(1605));
 						World.addGroundItem(new Item(id == 2873 ? 2412 : id == 2874 ? 2414 : 2413), Tile.of(object.getX(), object.getY() - 1, 0));
 					}
 				}, 3);

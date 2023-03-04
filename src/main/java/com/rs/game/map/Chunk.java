@@ -8,9 +8,9 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.io.OutputStream;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
@@ -49,7 +49,6 @@ public class Chunk {
 
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());;
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(ObjectLists.emptyList());
-    protected List<WorldProjectile> projectiles = ObjectLists.synchronize(ObjectLists.emptyList());
 
     private AtomicBoolean loadedData = new AtomicBoolean(false);
 
@@ -80,16 +79,20 @@ public class Chunk {
         this.musicIds = musicIds;
     }
 
-    public boolean addProjectile(WorldProjectile projectile) {
-        return projectiles.add(projectile);
+    public void addProjectile(WorldProjectile projectile) {
+        addChunkUpdate(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
     }
 
-    public List<WorldProjectile> getProjectiles() {
-        return projectiles;
+    public void addSpotAnim(Tile tile, SpotAnim spotAnim) {
+        addChunkUpdate(new TileSpotAnim(tile.getChunkLocalHash(), spotAnim));
     }
 
-    public void removeProjectiles() {
-        projectiles.clear();
+    public void addObjectAnim(WorldObject object, Animation anim) {
+        addChunkUpdate(new ObjectAnim(object.getTile().getChunkLocalHash(), object, anim));
+    }
+
+    public void addSound(Tile tile, Sound sound) {
+        addChunkUpdate(new TileSound(tile.getChunkLocalHash(), sound));
     }
 
     public List<GroundItem> getAllGroundItems() {
@@ -346,6 +349,10 @@ public class Chunk {
             ItemSpawns.loadItemSpawns(chunkId);
             ObjectSpawns.loadObjectSpawns(chunkId);
         }
+    }
+
+    public boolean isLoaded() {
+        return loadedData.get();
     }
 
     public void addBaseObject(GameObject obj) {
@@ -678,5 +685,11 @@ public class Chunk {
 
     public int getRotation() {
         return 0;
+    }
+
+    public void preTick() {
+    }
+
+    public void update() {
     }
 }

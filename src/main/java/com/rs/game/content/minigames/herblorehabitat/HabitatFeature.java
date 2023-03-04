@@ -77,7 +77,7 @@ public enum HabitatFeature {
 				}
 				e.getPlayer().setHabitatFeature(toBuild);
 			}
-			World.sendSpotAnim(e.getPlayer(), new SpotAnim(1605), Tile.of(2952, 2908, 0));
+			World.sendSpotAnim(Tile.of(2952, 2908, 0), new SpotAnim(1605));
 			e.getPlayer().closeInterfaces();
 		}
 	});

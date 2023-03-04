@@ -535,19 +535,19 @@ public final class EmotesManager {
 								player.getAppearance().transformIntoNPC(11229);
 								player.setNextAnimation(new Animation(14608));
 								World.sendProjectile(player, Tile.of(player.getX(), player.getY() - 1, player.getPlane()), 2781, 30, 30, 6, 20, 1, 0);
-								World.sendSpotAnim(player, new SpotAnim(2777), Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
+								World.sendSpotAnim(Tile.of(player.getX(), player.getY() - 1, player.getPlane()), new SpotAnim(2777));
 							}
 							if (step == 3) {
 								player.getAppearance().transformIntoNPC(11228);
 								player.setNextAnimation(new Animation(14609));
 								player.setNextSpotAnim(new SpotAnim(2782));
-								World.sendSpotAnim(player, new SpotAnim(2778), Tile.of(player.getX() + 1, player.getY() - 1, player.getPlane()));
+								World.sendSpotAnim(Tile.of(player.getX() + 1, player.getY() - 1, player.getPlane()), new SpotAnim(2778));
 							}
 							if (step == 5) {
 								player.getAppearance().transformIntoNPC(11227);
 								player.setNextAnimation(new Animation(14610, 15));
-								World.sendSpotAnim(player, new SpotAnim(2779), Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
-								World.sendSpotAnim(player, new SpotAnim(2780), Tile.of(player.getX(), player.getY() + 1, player.getPlane()));
+								World.sendSpotAnim(Tile.of(player.getX(), player.getY() - 1, player.getPlane()), new SpotAnim(2779));
+								World.sendSpotAnim(Tile.of(player.getX(), player.getY() + 1, player.getPlane()), new SpotAnim(2780));
 							}
 							if (step == 9)
 								player.setNextSpotAnim(new SpotAnim(2442));

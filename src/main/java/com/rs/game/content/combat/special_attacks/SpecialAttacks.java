@@ -10,7 +10,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -372,7 +371,7 @@ public class SpecialAttacks {
                 if (player == null || player.hasFinished())
                     return false;
                 if (tick % 5 == 0) {
-                    World.sendSpotAnim(player, new SpotAnim(478), tile);
+                    World.sendSpotAnim(tile, new SpotAnim(478));
                     for (Entity entity : getMultiAttackTargets(player, Tile.of(target.getTile()), 1, 9)) {
                         Hit hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
                         addXp(player, entity, attackStyle.getXpType(), hit);

@@ -66,7 +66,7 @@ public class NecroLord extends DungeonBoss {
 		SkeletalMinion npc = new SkeletalMinion(this, 11722, tile, getManager()); //TODO scale to level
 		npc.setForceAgressive(true);
 		skeletons.add(npc);
-		World.sendSpotAnim(npc, new SpotAnim(2399), tile);
+		World.sendSpotAnim(tile, new SpotAnim(2399));
 	}
 
 	public void resetSkeletons() {

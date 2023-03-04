@@ -61,7 +61,7 @@ public class GlacorCombat extends CombatScript {
 				public void run() {
 					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY()))
 						target.applyHit(new Hit(target, 500, HitLook.TRUE_DAMAGE));
-					World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
+					World.sendSpotAnim(targetPosition, new SpotAnim(2315));
 				}
 			}, p.getTaskDelay());
 			return 0;
@@ -113,7 +113,7 @@ public class GlacorCombat extends CombatScript {
 					public void run() {
 						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY()))
 							player.applyHit(new Hit(player, player.getHitpoints() / 2, HitLook.TRUE_DAMAGE));
-						World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
+						World.sendSpotAnim(targetPosition, new SpotAnim(2315));
 					}
 				}, p.getTaskDelay());
 			}

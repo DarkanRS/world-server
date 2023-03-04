@@ -48,7 +48,7 @@ public class MarasamawPlant extends BoxStyleTrap {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					World.sendObjectAnimation(getOwner(), MarasamawPlant.this, new Animation(3300));
+					World.sendObjectAnimation(MarasamawPlant.this, new Animation(3300));
 				}
 			}, 0);
 		WorldTasks.schedule(new WorldTask() {

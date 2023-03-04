@@ -115,7 +115,7 @@ public class Dreadnaut extends DungeonBoss {
 		}
 
 		public void refreshGraphics() {
-			World.sendSpotAnim(boss, new SpotAnim(2859, 0, 10), tile);
+			World.sendSpotAnim(tile, new SpotAnim(2859, 0, 10));
 		}
 
 		public boolean canDestroyPuddle() {

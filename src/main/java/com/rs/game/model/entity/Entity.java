@@ -39,6 +39,8 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.npcs.max.Max;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.interactions.InteractionManager;
@@ -59,7 +61,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.DynamicRegion;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -140,7 +141,7 @@ public abstract class Entity {
 	protected transient long attackedByDelay; // delay till someone else can attack you
 	protected transient long timeLastHit;
 	private transient boolean multiArea;
-	private transient boolean isAtDynamicRegion;
+	private transient boolean hasNearbyInstancedChunks;
 	private transient long lastAnimationEnd;
 	private transient boolean forceMultiArea;
 	private transient long findTargetDelay;
@@ -630,7 +631,7 @@ public abstract class Entity {
 			if (needMapUpdate())
 				loadMapRegions();
 			if (player != null) {
-				if (World.getRegion(getRegionId(), true) instanceof DynamicRegion)
+				if (World.getChunk(getChunkId(), true) instanceof InstancedChunk)
 					player.setLastNonDynamicTile(Tile.of(lastTile));
 				else
 					player.clearLastNonDynamicTile();
@@ -926,29 +927,25 @@ public abstract class Entity {
 
 	public void loadMapRegions() {
 		mapRegionIds.clear();
-		isAtDynamicRegion = false;
-		int chunkX = getChunkX();
-		int chunkY = getChunkY();
-		int sceneChunksRadio = getMapSize().size / 16;
-		int sceneBaseChunkX = (chunkX - sceneChunksRadio);
-		int sceneBaseChunkY = (chunkY - sceneChunksRadio);
+		hasNearbyInstancedChunks = false;
+		int currChunkX = getChunkX();
+		int currChunkY = getChunkY();
+		int sceneChunkRadius = getMapSize().size / 16;
+		int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
+		int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
 		if (sceneBaseChunkX < 0)
 			sceneBaseChunkX = 0;
 		if (sceneBaseChunkY < 0)
 			sceneBaseChunkY = 0;
-		int fromRegionX = sceneBaseChunkX / 8;
-		int fromRegionY = sceneBaseChunkY / 8;
-		int toRegionX = (chunkX + sceneChunksRadio) / 8;
-		int toRegionY = (chunkY + sceneChunksRadio) / 8;
-
-		for (int regionX = fromRegionX; regionX <= toRegionX; regionX++)
-			for (int regionY = fromRegionY; regionY <= toRegionY; regionY++) {
-				int regionId = MapUtils.encode(Structure.REGION, regionX, regionY);
-				Region region = World.getRegion(regionId, this instanceof Player || this instanceof Max);
-				if (region instanceof DynamicRegion)
-					isAtDynamicRegion = true;
-				mapRegionIds.add(regionId);
+		for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
+			for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
+				Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY), this instanceof Player || this instanceof Max);
+				if (chunk instanceof InstancedChunk)
+					hasNearbyInstancedChunks = true;
+				if (chunkX % 8 == 0)
+					mapRegionIds.add(MapUtils.encode(Structure.REGION, chunkX / 8, chunkY / 8));
 			}
+		}
 		sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY);
 	}
 
@@ -1227,8 +1224,8 @@ public abstract class Entity {
 		this.multiArea = multiArea;
 	}
 
-	public boolean isAtDynamicRegion() {
-		return isAtDynamicRegion;
+	public boolean isHasNearbyInstancedChunks() {
+		return hasNearbyInstancedChunks;
 	}
 
 	public ForceMovement getNextForceMovement() {

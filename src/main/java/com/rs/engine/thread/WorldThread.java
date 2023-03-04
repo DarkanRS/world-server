@@ -58,7 +58,7 @@ public final class WorldThread extends Thread {
 			long startTime = System.currentTimeMillis();
 			WorldTasks.processTasks();
 			OwnedObject.process();
-			World.processRegions();
+			World.preTickChunks();
 			NAMES.clear();
 			for (Player player : World.getPlayers()) {
 				try {
@@ -102,6 +102,7 @@ public final class WorldThread extends Thread {
 					Logger.handle(WorldThread.class, "processNPCMovement", e);
 				}
 			}
+			World.updateChunks();
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
@@ -109,13 +110,11 @@ public final class WorldThread extends Thread {
 					player.getPackets().sendLocalPlayersUpdate();
 					player.getPackets().sendLocalNPCsUpdate();
 					player.postSync();
-					player.processProjectiles();
 					player.getSession().flush();
 				} catch(Throwable e) {
 					Logger.handle(WorldThread.class, "processPlayersPostSync", e);
 				}
 			}
-			World.removeProjectiles();
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;

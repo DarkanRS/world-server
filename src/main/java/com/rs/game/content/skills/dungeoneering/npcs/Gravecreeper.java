@@ -199,7 +199,7 @@ public class Gravecreeper extends DungeonBoss {
 				if (plinths[x][y] == null)
 					continue;
 				Tile altarLoc = getManager().getTile(getReference(), TOMB_LOC_POS_2[y][x][0], TOMB_LOC_POS_2[y][x][1]);
-				World.sendSpotAnim(this, new SpotAnim(2751), altarLoc);
+				World.sendSpotAnim(altarLoc, new SpotAnim(2751));
 				if (!triggeredPlinths[x][y]) {
 					triggeredPlinths[x][y] = true;
 					createBurnTiles(plinths[x][y].getTile(), true);
@@ -228,7 +228,7 @@ public class Gravecreeper extends DungeonBoss {
 	public void cleanseTomb(int x, int y) {
 		if (plinths[x][y] != null) {
 			World.removeObject(plinths[x][y]);
-			World.sendSpotAnim(this, new SpotAnim(2320), plinths[x][y].getTile());
+			World.sendSpotAnim(plinths[x][y].getTile(), new SpotAnim(2320));
 			if (triggeredPlinths[x][y]) {
 				removeBurnedTile(plinths[x][y].getTile());
 				triggeredPlinths[x][y] = false;
@@ -250,7 +250,7 @@ public class Gravecreeper extends DungeonBoss {
 				GameObject activeAltar = new GameObject(altar);
 				activeAltar.setId(altar.getId() + 1);
 				World.spawnObjectTemporary(activeAltar, Ticks.fromSeconds(7));
-				World.sendSpotAnim(this, new SpotAnim(2752), activeAltar.getTile());
+				World.sendSpotAnim(activeAltar.getTile(), new SpotAnim(2752));
 			}
 	}
 
@@ -305,7 +305,7 @@ public class Gravecreeper extends DungeonBoss {
 		}
 
 		public void sendGraphics() {
-			World.sendSpotAnim(null, new SpotAnim(133), center);
+			World.sendSpotAnim(center, new SpotAnim(133));
 		}
 	}
 }

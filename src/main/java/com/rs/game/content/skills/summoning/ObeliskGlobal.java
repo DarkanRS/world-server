@@ -17,7 +17,7 @@ public class ObeliskGlobal {
 			if (e.getPlayer().getSkills().getLevel(Constants.SUMMONING) < e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING)) {
 				e.getPlayer().sendMessage("You touch the obelisk", true);
 				e.getPlayer().setNextAnimation(new Animation(8502));
-				World.sendSpotAnim(null, new SpotAnim(1308), e.getObject().getTile());
+				World.sendSpotAnim(e.getObject().getTile(), new SpotAnim(1308));
 				WorldTasks.schedule(2, () -> {
 					e.getPlayer().getSkills().set(Constants.SUMMONING, e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING));
 					e.getPlayer().sendMessage("...and recharge your summoning points.", true);

@@ -299,7 +299,7 @@ public class Halloween2007 {
 					if (stage == 0)
 						e.getPlayer().setNextAnimation(new Animation(7271));
 					else if (stage == 1)
-						World.sendSpotAnim(null, new SpotAnim(1244, 0, 0, 2), e.getPlayer().transform(-1, 0, 0));
+						World.sendSpotAnim(e.getPlayer().transform(-1, 0, 0), new SpotAnim(1244, 0, 0, 2));
 					else if (stage == 4) {
 						e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
 						e.getPlayer().unlock();

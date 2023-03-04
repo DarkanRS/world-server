@@ -60,7 +60,7 @@ public class WarpedGulegaCombat extends CombatScript {
 				@Override
 				public void run() {
 					for (Tile tile : attackTiles)
-						World.sendSpotAnim(npc, MELEE, tile);
+						World.sendSpotAnim(tile, MELEE);
 					for (Entity t : boss.getPossibleTargets(true))
 						tileLoop: for (Tile tile : attackTiles)
 							if (t.getX() == tile.getX() && t.getY() == tile.getY()) {
@@ -121,12 +121,12 @@ public class WarpedGulegaCombat extends CombatScript {
 
 	private void sendTenticals(NPC npc, Tile center, int stage) {
 		if (stage == 0)
-			World.sendSpotAnim(npc, MELEE, center);
+			World.sendSpotAnim(center, MELEE);
 		else if (stage == 2 || stage == 1) {
-			World.sendSpotAnim(npc, MELEE, center.transform(-stage, stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(stage, stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(-stage, -stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(stage, -stage, 0));
+			World.sendSpotAnim(center.transform(-stage, stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(stage, stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(-stage, -stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(stage, -stage, 0), MELEE);
 		}
 	}
 }

@@ -30,7 +30,6 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.cache.loaders.map.RenderFlag;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
@@ -59,6 +58,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
+import com.rs.lib.net.packets.encoders.updatezone.AddObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -74,8 +74,6 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
-
-import javax.sound.sampled.Clip;
 
 @PluginEventHandler
 public final class World {
@@ -1000,11 +998,7 @@ public final class World {
 	}
 
 	public static final void refreshObject(GameObject object) {
-		for (Player player : getPlayersInRegionRange(object.getTile().getRegionId())) {
-			if (!player.hasStarted() || player.hasFinished())
-				return;
-			player.getPackets().sendAddObject(object);
-		}
+		getChunk(object.getTile().getChunkId()).addChunkUpdate(new AddObject(object.getTile().getChunkLocalHash(), object));
 	}
 
 	public static final GameObject getObject(Tile tile) {
@@ -1051,7 +1045,7 @@ public final class World {
 		GroundItem groundItem = new GroundItem(item, tile, GroundItemType.FOREVER);
 		if (groundItem.getId() == -1)
 			return;
-		getRegion(tile.getRegionId()).addGroundItem(groundItem);
+		getChunk(tile.getChunkId()).addGroundItem(groundItem);
 	}
 
 	public static final GroundItem addGroundItem(Item item, Tile tile, Player owner, boolean invisible, int hiddenTime, DropMethod type, int deleteTime) {
@@ -1080,7 +1074,7 @@ public final class World {
 	private static void finalizeGroundItem(GroundItem item, Tile tile, Player owner, int hiddenSeconds, DropMethod type, int lifeSeconds) {
 		if ((item.getId() == -1) || (owner != null && owner.getRights() == Rights.ADMIN))
 			return;
-		if (getRegion(tile.getRegionId()).addGroundItem(item)) {
+		if (getChunk(tile.getChunkId()).addGroundItem(item)) {
 			if (lifeSeconds != -1)
 				item.setDeleteTime(Ticks.fromSeconds(lifeSeconds + hiddenSeconds));
 			if (item.isInvisible())
@@ -1132,50 +1126,11 @@ public final class World {
 	}
 
 	public static final void sendObjectAnimation(GameObject object, Animation animation) {
-		sendObjectAnimation(null, object, animation);
+		getChunk(object.getTile().getChunkId()).addObjectAnim(object, animation);
 	}
 
-	public static final void sendObjectAnimation(Entity creator, GameObject object, Animation animation) {
-		if (creator == null)
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object.getTile()))
-					continue;
-				player.getPackets().sendObjectAnimation(object, animation);
-			}
-		else
-			for (int chunkId : creator.getVisibleChunkIds()) {
-				Set<Integer> playersIndexes = getChunk(regionId).getPlayerIndexes();
-				if (playersIndexes == null)
-					continue;
-				for (Integer playerIndex : playersIndexes) {
-					Player player = PLAYERS.get(playerIndex);
-					if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(object.getTile()))
-						continue;
-					player.getPackets().sendObjectAnimation(object, animation);
-				}
-			}
-	}
-
-	public static final void sendSpotAnim(Entity creator, SpotAnim anim, Tile tile) {
-		if (creator == null) {
-			int regionId = tile.getRegionId();
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished() || !player.getMapRegionsIds().contains(regionId))
-					continue;
-				player.getPackets().sendSpotAnim(anim, tile);
-			}
-		} else
-			for (int regionId : creator.getMapRegionsIds()) {
-				Set<Integer> playersIndexes = getRegion(regionId).getPlayerIndexes();
-				if (playersIndexes == null)
-					continue;
-				for (Integer playerIndex : playersIndexes) {
-					Player player = PLAYERS.get(playerIndex);
-					if (player == null || !player.hasStarted() || player.hasFinished() || !player.withinDistance(tile))
-						continue;
-					player.getPackets().sendSpotAnim(anim, tile);
-				}
-			}
+	public static final void sendSpotAnim(Tile tile, SpotAnim anim) {
+		getChunk(tile.getChunkId()).addSpotAnim(tile, anim);
 	}
 
 	public static final WorldProjectile sendProjectile(Object from, Object to, int graphicId, int angle, int delay, double speed) {
@@ -1234,30 +1189,30 @@ public final class World {
 		slope = fromSizeX * 32;
 		WorldProjectile projectile = new WorldProjectile(fromTile, to, graphicId, startHeight, endHeight, startTime, startTime + (speed == -1 ? Utils.getProjectileTimeSoulsplit(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY) : Utils.getProjectileTimeNew(fromTile, fromSizeX, fromSizeY, toTile, toSizeX, toSizeY, speed)), slope, angle, task);
 		if (graphicId != -1) {
-			int regionId = switch(from) {
-				case Tile t -> t.getRegionId();
-				case Entity e -> e.getMiddleTile().getRegionId();
-				case GameObject g -> g.getTile().getRegionId();
+			int chunkId = switch(from) {
+				case Tile t -> t.getChunkId();
+				case Entity e -> e.getMiddleTile().getChunkId();
+				case GameObject g -> g.getTile().getChunkId();
 				default -> -1;
 			};
-			if (regionId == -1)
+			if (chunkId == -1)
 				throw new RuntimeException("Invalid source target. Accepts Tiles and Entities.");
-			getRegion(regionId).addProjectile(projectile);
+			getChunk(chunkId).addProjectile(projectile);
 		}
 		return projectile;
 	}
 
-	public static void executeAfterLoadRegion(final int regionId, final Runnable event) {
-		executeAfterLoadRegion(regionId, 0, event);
+	public static void executeAfterLoadChunk(final int chunkId, final Runnable event) {
+		executeAfterLoadChunk(chunkId, 0, event);
 	}
 
-	public static void executeAfterLoadRegion(final int regionId, int startTime, final Runnable event) {
+	public static void executeAfterLoadChunk(final int chunkId, int startTime, final Runnable event) {
 		long startMs = System.currentTimeMillis() + startTime * 600;
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				try {
-					if ((TaskExecutor.pendingTasks() || World.getRegion(regionId, true) == null || !World.isRegionLoaded(regionId)) && (System.currentTimeMillis() - startMs) < 10000)
+					if ((TaskExecutor.pendingTasks() || !World.getChunk(chunkId).isLoaded()) && (System.currentTimeMillis() - startMs) < 10000)
 						return;
 					event.run();
 					stop();
@@ -1269,13 +1224,6 @@ public final class World {
 		}, startTime, 1);
 	}
 
-	public static boolean isRegionLoaded(int regionId) {
-		Region region = getRegion(regionId);
-		if (region == null)
-			return false;
-		return region.getLoadMapStage() == 2;
-	}
-
 	public static final boolean isMultiArea(Tile tile) {
 		int chunkId = MapUtils.encode(Structure.CHUNK, tile.getChunkX(), tile.getChunkY());
 		return Areas.withinArea("multi", chunkId);
@@ -1285,57 +1233,48 @@ public final class World {
 		return WildernessController.isAtWild(player.getTile());
 	}
 
-	public static Sound playSound(Entity source, Sound sound) {
-		for (int regionId : source.getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || !player.isRunning() || !source.withinDistance(player.getTile()))
-						continue;
-					player.playSound(sound);
-				}
-		}
+	public static Sound playSound(Tile tile, Sound sound) {
+		getChunk(tile.getChunkId()).addSound(tile, sound);
 		return sound;
 	}
 
-	private static Sound playSound(Entity source, int soundId, int delay, SoundType type) {
+	private static Sound playSound(Tile source, int soundId, int delay, SoundType type) {
 		return playSound(source, new Sound(soundId, delay, type));
 	}
 
-	public static void jingle(Entity source, int jingleId, int delay) {
+	public static void jingle(Tile source, int jingleId, int delay) {
 		playSound(source, jingleId, delay, SoundType.JINGLE);
 	}
 
-	public static void jingle(Entity source, int jingleId) {
+	public static void jingle(Tile source, int jingleId) {
 		playSound(source, jingleId, 0, SoundType.JINGLE);
 	}
 
-	public static void musicTrack(Entity source, int trackId, int delay, int volume) {
+	public static void musicTrack(Tile source, int trackId, int delay, int volume) {
 		playSound(source, trackId, delay, SoundType.MUSIC).volume(volume);
 	}
 
-	public static void musicTrack(Entity source, int trackId, int delay) {
+	public static void musicTrack(Tile source, int trackId, int delay) {
 		playSound(source, trackId, delay, SoundType.MUSIC);
 	}
 
-	public static void musicTrack(Entity source, int trackId) {
+	public static void musicTrack(Tile source, int trackId) {
 		musicTrack(source, trackId, 100);
 	}
 
-	public static void soundEffect(Entity source, int soundId, int delay) {
+	public static void soundEffect(Tile source, int soundId, int delay) {
 		playSound(source, soundId, delay, SoundType.EFFECT);
 	}
 
-	public static void soundEffect(Entity source, int soundId) {
+	public static void soundEffect(Tile source, int soundId) {
 		soundEffect(source, soundId, 0);
 	}
 
-	public static void voiceEffect(Entity source, int voiceId, int delay) {
+	public static void voiceEffect(Tile source, int voiceId, int delay) {
 		playSound(source, voiceId, delay, SoundType.VOICE);
 	}
 
-	public static void voiceEffect(Entity source, int voiceId) {
+	public static void voiceEffect(Tile source, int voiceId) {
 		voiceEffect(source, voiceId, 0);
 	}
 
@@ -1402,19 +1341,19 @@ public final class World {
 	}
 
 	public static final GameObject getObjectWithType(Tile tile, ObjectType type) {
-		return getRegion(tile.getRegionId()).getObjectWithType(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), type);
+		return getChunk(tile.getChunkId()).getObjectWithType(tile, type);
 	}
 
 	public static final GameObject getObjectWithSlot(Tile tile, int slot) {
-		return getRegion(tile.getRegionId()).getObjectWithSlot(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), slot);
+		return getChunk(tile.getChunkId()).getObjectWithSlot(tile, slot);
 	}
 
 	public static final boolean containsObjectWithId(Tile tile, int id) {
-		return getRegion(tile.getRegionId()).containsObjectWithId(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), id);
+		return getChunk(tile.getChunkId()).containsObjectWithId(tile, id);
 	}
 
 	public static final GameObject getObjectWithId(Tile tile, int id) {
-		return getRegion(tile.getRegionId()).getObjectWithId(tile.getPlane(), tile.getXInRegion(), tile.getYInRegion(), id);
+		return getChunk(tile.getChunkId()).getObjectWithId(tile, id);
 	}
 
 	public static void sendWorldMessage(String message, boolean forStaff) {
@@ -1422,13 +1361,6 @@ public final class World {
 			if (p == null || !p.isRunning() || p.isYellOff() || (forStaff && !p.hasRights(Rights.MOD)))
 				continue;
 			p.sendMessage(message);
-		}
-	}
-
-	public static void removeProjectiles() {
-		synchronized (REGIONS) {
-			for (Region region : REGIONS.values())
-				region.removeProjectiles();
 		}
 	}
 
@@ -1523,7 +1455,7 @@ public final class World {
 
 	public static List<GameObject> getSurroundingObjects(GameObject obj, int radius) {
 		ArrayList<GameObject> objects = new ArrayList<>();
-		for (GameObject object : World.getRegion(obj.getTile().getRegionId()).getObjects()) {
+		for (GameObject object : World.getChunk(obj.getTile().getChunkId()).getObjects()) {
 			if (object == null || object.getDefinitions() == null)
 				continue;
 			if (Utils.getDistance(obj.getTile(), object.getTile()) <= radius)
@@ -1532,11 +1464,19 @@ public final class World {
 		return objects;
 	}
 
-	public static void processRegions() {
-		synchronized(REGIONS) {
-			for (Region r : REGIONS.values())
-				if (r != null)
-					r.processGroundItems();
+	public static void preTickChunks() {
+		synchronized(CHUNKS) {
+			for (Chunk c : CHUNKS.values())
+				if (c != null)
+					c.preTick();
+		}
+	}
+
+	public static void updateChunks() {
+		synchronized(CHUNKS) {
+			for (Chunk c : CHUNKS.values())
+				if (c != null)
+					c.update();
 		}
 	}
 

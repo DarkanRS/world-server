@@ -65,12 +65,12 @@ public class GuardBypasses {
 			e.getStep().setCheckClip(false);
 			e.getPlayer().setRunHidden(false);
 
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
+			World.sendObjectAnimation(World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
+			World.sendObjectAnimation(World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(openAnim));
 			WorldTasks.delay(3, () -> {
 				e.getPlayer().setRunHidden(true);
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
-				World.sendObjectAnimation(e.getPlayer(), World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
+				World.sendObjectAnimation(World.getObject(guard1, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
+				World.sendObjectAnimation(World.getObject(guard2, ObjectType.SCENERY_INTERACT), new Animation(closeAnim));
 			});
 		});
 	}
@@ -86,12 +86,12 @@ public class GuardBypasses {
 		}
 		e.getStep().setCheckClip(false);
 		e.getPlayer().setRunHidden(false);
-		World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
-		World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
+		World.sendObjectAnimation(World.getObject(Tile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
+		World.sendObjectAnimation(World.getObject(Tile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4640));
 		WorldTasks.delay(3, () -> {
 			e.getPlayer().setRunHidden(true);
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
+			World.sendObjectAnimation(World.getObject(Tile.of(3311, 3332, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
+			World.sendObjectAnimation(World.getObject(Tile.of(3311, 3330, 0), ObjectType.SCENERY_INTERACT), new Animation(4636));
 		});
 	});
 
@@ -132,10 +132,10 @@ public class GuardBypasses {
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().getControllerManager().startController(new DamonheimController());
 		}
-		World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
+		World.sendObjectAnimation(World.getObject(Tile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1366));
 		WorldTasks.delay(3, () -> {
 			e.getPlayer().setRunHidden(true);
-			World.sendObjectAnimation(e.getPlayer(), World.getObject(Tile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
+			World.sendObjectAnimation(World.getObject(Tile.of(3385, 3614, 0), ObjectType.SCENERY_INTERACT), new Animation(1365));
 		});
 	});
 

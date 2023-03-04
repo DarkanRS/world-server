@@ -100,7 +100,6 @@ import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
-import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -979,10 +978,10 @@ public class Player extends Entity {
 			docileTimer = System.currentTimeMillis();
 		else
 			docileTimer = System.currentTimeMillis()-(lastLoggedIn-docileTimer);
-		boolean wasAtDynamicRegion = isAtDynamicRegion();
+		boolean wasAtDynamicRegion = isHasNearbyInstancedChunks();
 		super.loadMapRegions();
 		setClientHasntLoadedMapRegion();
-		if (isAtDynamicRegion()) {
+		if (isHasNearbyInstancedChunks()) {
 			getPackets().sendDynamicMapRegion(!started);
 			if (!wasAtDynamicRegion)
 				localNPCUpdate.reset();
@@ -997,15 +996,6 @@ public class Player extends Entity {
 	public boolean isDocile() {
 		return (System.currentTimeMillis() - docileTimer) >= 600000L;
 	}
-
-	public void processProjectiles() {
-		for (int regionId : getMapRegionsIds()) {
-			Region region = World.getRegion(regionId);
-			for (WorldProjectile projectile : region.getProjectiles())
-				getPackets().sendProjectile(projectile);
-		}
-	}
-
 	@Override
 	public void processEntity() {
 		try {
@@ -2200,101 +2190,14 @@ public class Player extends Entity {
 	@Override
 	public void sendDeath(final Entity source) {
 		incrementCount("Deaths");
-		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel"))
-			if (prayer.active(Prayer.RETRIBUTION)) {
-				setNextSpotAnim(new SpotAnim(437));
-				final Player target = this;
-				if (isAtMultiArea())
-					for (int regionId : getMapRegionsIds()) {
-						Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-						if (playersIndexes != null)
-							for (int playerIndex : playersIndexes) {
-								Player player = World.getPlayers().get(playerIndex);
-								if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(getTile(), 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
-									continue;
-								player.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
-							}
-						Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-						if (npcsIndexes != null)
-							for (int npcIndex : npcsIndexes) {
-								NPC npc = World.getNPCs().get(npcIndex);
-								if (npc == null || npc.isDead() || npc.hasFinished() || !npc.withinDistance(this, 1) || !npc.getDefinitions().hasAttackOption() || !target.getControllerManager().canHit(npc))
-									continue;
-								npc.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
-							}
-					}
-				else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(getTile(), 1))
-					source.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() - 1, target.getY(), target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() + 1, target.getY(), target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX(), target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX(), target.getY() + 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() - 1, target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() - 1, target.getY() + 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() + 1, target.getY() - 1, target.getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(438), Tile.of(target.getX() + 1, target.getY() + 1, target.getPlane()));
-					}
-				});
-			} else if (prayer.active(Prayer.WRATH)) {
-				World.sendProjectile(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, Tile.of(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
 
-				World.sendProjectile(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, Tile.of(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
+		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel")) {
+			if (prayer.active(Prayer.RETRIBUTION))
+				retribution(source);
+			if (prayer.active(Prayer.WRATH))
+				wrath(source);
+		}
 
-				World.sendProjectile(this, Tile.of(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				World.sendProjectile(this, Tile.of(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0);
-				final Player target = this;
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						setNextSpotAnim(new SpotAnim(2259));
-
-						if (isAtMultiArea())
-							for (int regionId : getMapRegionsIds()) {
-								Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-								if (playersIndexes != null)
-									for (int playerIndex : playersIndexes) {
-										Player player = World.getPlayers().get(playerIndex);
-										if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target.getTile(), 2) || !target.getControllerManager().canHit(player))
-											continue;
-										player.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
-									}
-								Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-								if (npcsIndexes != null)
-									for (int npcIndex : npcsIndexes) {
-										NPC npc = World.getNPCs().get(npcIndex);
-										if (npc == null || npc.isDead() || npc.hasFinished() || !npc.withinDistance(target, 2) || !npc.getDefinitions().hasAttackOption() || !target.getControllerManager().canHit(npc))
-											continue;
-										npc.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
-									}
-							}
-						else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target.getTile(), 2))
-							source.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
-
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() + 2, getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() + 2, getY(), getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() + 2, getY() - 2, getPlane()));
-
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() - 2, getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() - 2, getY(), getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() - 2, getY() - 2, getPlane()));
-
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX(), getY() + 2, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX(), getY() - 2, getPlane()));
-
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() + 1, getY() + 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() + 1, getY() - 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() - 1, getY() + 1, getPlane()));
-						World.sendSpotAnim(target, new SpotAnim(2260), Tile.of(getX() - 1, getY() - 1, getPlane()));
-					}
-				});
-			}
 		refreshDyingTime();
 		setNextAnimation(new Animation(-1));
 		if (!controllerManager.sendDeath())
@@ -2304,7 +2207,7 @@ public class Player extends Entity {
 		if (summFamiliar != null)
 			summFamiliar.sendDeath(this);
 		Tile lastTile = Tile.of(getTile());
-		if (isAtDynamicRegion())
+		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
 		WorldTasks.schedule(new WorldTask() {
@@ -2332,6 +2235,88 @@ public class Player extends Entity {
 				loop++;
 			}
 		}, 0, 1);
+	}
+
+	public void retribution(Entity source) {
+		setNextSpotAnim(new SpotAnim(437));
+		final Player target = this;
+		if (isAtMultiArea()) {
+			for (int regionId : getMapRegionsIds()) {
+				Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
+				if (playersIndexes != null)
+					for (int playerIndex : playersIndexes) {
+						Player player = World.getPlayers().get(playerIndex);
+						if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.withinDistance(getTile(), 1) || !player.isCanPvp() || !target.getControllerManager().canHit(player))
+							continue;
+						player.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
+					}
+				Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
+				if (npcsIndexes != null)
+					for (int npcIndex : npcsIndexes) {
+						NPC npc = World.getNPCs().get(npcIndex);
+						if (npc == null || npc.isDead() || npc.hasFinished() || !npc.withinDistance(this, 1) || !npc.getDefinitions().hasAttackOption() || !target.getControllerManager().canHit(npc))
+							continue;
+						npc.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
+					}
+			}
+		} else if (source != null && source != this && !source.isDead() && !source.hasFinished() && source.withinDistance(getTile(), 1))
+			source.applyHit(new Hit(target, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
+		WorldTasks.schedule(() -> {
+			World.sendSpotAnim(Tile.of(target.getX() - 1, target.getY(), target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX() + 1, target.getY(), target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX(), target.getY() - 1, target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX(), target.getY() + 1, target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX() - 1, target.getY() - 1, target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX() - 1, target.getY() + 1, target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX() + 1, target.getY() - 1, target.getPlane()), new SpotAnim(438));
+			World.sendSpotAnim(Tile.of(target.getX() + 1, target.getY() + 1, target.getPlane()), new SpotAnim(438));
+		});
+	}
+
+	public void wrath(Entity source) {
+		World.sendProjectile(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		World.sendProjectile(this, Tile.of(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
+			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+
+		final Player target = this;
+		WorldTasks.schedule(() -> {
+			setNextSpotAnim(new SpotAnim(2259));
+
+			if (isAtMultiArea())
+				for (int regionId : getMapRegionsIds()) {
+					Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
+					if (playersIndexes != null)
+						for (int playerIndex : playersIndexes) {
+							Player player = World.getPlayers().get(playerIndex);
+							if (player == null || !player.hasStarted() || player.isDead() || player.hasFinished() || !player.isCanPvp() || !player.withinDistance(target.getTile(), 2) || !target.getControllerManager().canHit(player))
+								continue;
+							player.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
+						}
+					Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
+					if (npcsIndexes != null)
+						for (int npcIndex : npcsIndexes) {
+							NPC npc = World.getNPCs().get(npcIndex);
+							if (npc == null || npc.isDead() || npc.hasFinished() || !npc.withinDistance(target, 2) || !npc.getDefinitions().hasAttackOption() || !target.getControllerManager().canHit(npc))
+								continue;
+							npc.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
+						}
+				}
+			else if (source != null && source != target && !source.isDead() && !source.hasFinished() && source.withinDistance(target.getTile(), 2))
+				source.applyHit(new Hit(target, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));
+		});
 	}
 
 	public Tile getRandomGraveyardTile() {

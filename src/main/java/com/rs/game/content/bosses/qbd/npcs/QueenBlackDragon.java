@@ -225,7 +225,7 @@ public final class QueenBlackDragon extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (ticks > 5 && !attacker.isAtDynamicRegion()) {
+		if (ticks > 5 && !attacker.isHasNearbyInstancedChunks()) {
 			finish();
 			return;
 		}

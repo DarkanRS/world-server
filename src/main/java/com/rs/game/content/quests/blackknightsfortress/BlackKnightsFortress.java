@@ -279,7 +279,7 @@ public class BlackKnightsFortress extends QuestOutline {
 
 					if (tick == 14)
 						World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-							World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), Tile.of(p.getX(), p.getY(), p.getPlane()));
+							World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX));
 						});
 
 					if (tick == POTION_RUINED) {

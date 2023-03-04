@@ -109,7 +109,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 								player.sendMessage("Too late. It's gone!");
 								return;
 							}
-							World.sendSpotAnim(null, new SpotAnim(144), tile);
+							World.sendSpotAnim(tile, new SpotAnim(144));
 							PickupItemEvent e2 = new PickupItemEvent(player, gItem, true);
 							PluginManager.handle(e2);
 							if (!e2.isCancelPickup())

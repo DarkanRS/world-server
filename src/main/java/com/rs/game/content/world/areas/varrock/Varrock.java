@@ -269,7 +269,7 @@ public class Varrock {
 		}
 		e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
 		e.getPlayer().lock(3);
-		World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(6482));
+		World.sendObjectAnimation(e.getObject(), new Animation(6482));
 		e.getPlayer().getSkills().addXp(Constants.ATTACK, 5);
 	});
 

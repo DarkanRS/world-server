@@ -75,7 +75,7 @@ public class Pyre extends OwnedObject {
 		player.lock();
 		player.setNextAnimation(new Animation(16700));
 		WorldTasks.delay(1, () -> {
-			World.sendSpotAnim(player, new SpotAnim(357), getCoordFace());
+			World.sendSpotAnim(getCoordFace(), new SpotAnim(357));
 			new ReleasedSpirit(player, getCoordFace(), shadePyre);
 			player.getSkills().addXp(Constants.FIREMAKING, log.xp);
 			player.getSkills().addXp(Constants.PRAYER, corpse.xp);
@@ -87,7 +87,7 @@ public class Pyre extends OwnedObject {
 			player.incrementCount(ItemDefinitions.getDefs(corpse.itemIds[0]).name + " cremated");
 			player.unlock();
 			GameObject stand = World.getClosestObject(shadePyre ? 4065 : 30488, getCoordFace());
-			World.sendSpotAnim(player, new SpotAnim(1605), stand.getTile());
+			World.sendSpotAnim(stand.getTile(), new SpotAnim(1605));
 			for (Item item : corpse.getKeyDrop(player, log))
 				if (item != null)
 					World.addGroundItem(item, stand.getTile());

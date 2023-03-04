@@ -129,15 +129,15 @@ public class BalLakThePummeler extends DungeonBoss {
 	}
 
 	private void addPoisonBubbleSpotAnimations(Tile centerTile) {
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX(), centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), Tile.of(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()));
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
 	}
 
 	public List<PoisionPuddle> getPoisionPuddles() {

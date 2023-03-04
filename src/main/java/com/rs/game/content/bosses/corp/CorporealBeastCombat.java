@@ -102,7 +102,7 @@ public class CorporealBeastCombat extends CombatScript {
 						WorldTasks.schedule(new WorldTask() {
 							@Override
 							public void run() {
-								World.sendSpotAnim(npc, new SpotAnim(1806), newTile);
+								World.sendSpotAnim(newTile, new SpotAnim(1806));
 							}
 						}, World.sendProjectile(tile, newTile, 1824, 0, 0, 0, 1, 30, 0).getTaskDelay());
 					}

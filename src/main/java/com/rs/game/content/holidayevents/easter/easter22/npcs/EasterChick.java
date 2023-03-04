@@ -53,7 +53,7 @@ public class EasterChick extends OwnedNPC {
 		
         int attackStyle = getOwner().getCombatDefinitions().getAttackStyleId();
 		setNextAnimation(new Animation(16423));
-		World.sendSpotAnim(getOwner(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030), this.getTile());
+		World.sendSpotAnim(this.getTile(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030));
 
 		WorldTasks.scheduleTimer(0, (tick) -> {
 			if (tick == 1)
