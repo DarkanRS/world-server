@@ -18,6 +18,7 @@ package com.rs.game.content.transportation;
 
 import java.util.Set;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;

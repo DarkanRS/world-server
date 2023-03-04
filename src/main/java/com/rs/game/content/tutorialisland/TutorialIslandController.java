@@ -19,6 +19,7 @@ package com.rs.game.content.tutorialisland;
 import java.util.function.Consumer;
 
 import com.rs.Settings;
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;

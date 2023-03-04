@@ -24,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;

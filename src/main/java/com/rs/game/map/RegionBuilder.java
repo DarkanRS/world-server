@@ -19,6 +19,7 @@ package com.rs.game.map;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;

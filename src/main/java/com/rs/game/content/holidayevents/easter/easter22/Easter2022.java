@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
 import com.rs.game.model.entity.npc.NPC;

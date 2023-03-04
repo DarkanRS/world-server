@@ -18,6 +18,7 @@ package com.rs.game.content.holidayevents.halloween;
 
 import java.util.List;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;

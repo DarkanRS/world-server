@@ -23,6 +23,7 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.Store;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.Region;
 import com.rs.cache.utils.Constants;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
