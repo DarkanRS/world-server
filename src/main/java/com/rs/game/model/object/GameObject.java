@@ -24,7 +24,7 @@ import com.rs.game.tasks.WorldTaskInformation;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 
 public class GameObject extends WorldObject {
@@ -39,7 +39,7 @@ public class GameObject extends WorldObject {
 	protected RouteType routeType = RouteType.NORMAL;
 	private ObjectMeshModifier meshModifier;
 
-	public GameObject(int id, ObjectType type, int rotation, WorldTile tile) {
+	public GameObject(int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
 	}
 
@@ -49,6 +49,10 @@ public class GameObject extends WorldObject {
 
 	public GameObject(int id, ObjectType type, int rotation, int x, int y, int plane) {
 		super(id, type, rotation, x, y, plane);
+	}
+
+	public GameObject(WorldObject object) {
+		super(object);
 	}
 
 	public GameObject(GameObject object) {
@@ -68,6 +72,12 @@ public class GameObject extends WorldObject {
 		int hash = tile.getTileHash();
 		hash = ((hash << 5) - hash) + id;
 		hash = ((hash << 5) - hash) + rotation;
+		hash = ((hash << 5) - hash) + type.id;
+		return hash;
+	}
+
+	public int positionHashCode() {
+		int hash = tile.getTileHash();
 		hash = ((hash << 5) - hash) + type.id;
 		return hash;
 	}

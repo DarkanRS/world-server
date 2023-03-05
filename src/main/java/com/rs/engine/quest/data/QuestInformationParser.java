@@ -23,7 +23,7 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class QuestInformationParser {
 
@@ -72,7 +72,7 @@ public class QuestInformationParser {
 				else
 					qi.setQpReq(0);
 				if (map.get(STARTLOC_HASH) != null)
-					qi.setStartLocation(WorldTile.of((Integer) map.get(STARTLOC_HASH)));
+					qi.setStartLocation(Tile.of((Integer) map.get(STARTLOC_HASH)));
 				if (map.get(QUEST_REQ_START) != null) {
 					int numReqs = 0;
 					for (long q = QUEST_REQ_START;q <= QUEST_REQ_END;q++)

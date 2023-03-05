@@ -38,7 +38,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -236,7 +236,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile tile) {
+	public boolean processMagicTeleport(Tile tile) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
@@ -535,7 +535,7 @@ public class StealingCreationController extends Controller {
 				yExtra -= totalDistance;
 				direction = Direction.SOUTH;
 			}
-			final WorldTile toTile = WorldTile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
+			final Tile toTile = Tile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
 			ForceMovement nextForceMovement;
 			if (isWall)
 				nextForceMovement = new ForceMovement(toTile, 2, direction);
@@ -549,7 +549,7 @@ public class StealingCreationController extends Controller {
 				@Override
 				public void run() {
 					player.setFaceAngle(WorldUtil.getAngleTo(finalDirection));
-					player.setNextWorldTile(toTile);
+					player.setNextTile(toTile);
 				}
 			}, 1);
 		} else {
@@ -591,7 +591,7 @@ public class StealingCreationController extends Controller {
 					if (game.isEmpty(flagX, flagY) || player.getInventory().getFreeSlots() == 0)
 						return false;
 					player.setNextAnimation(bestItem != null ? new Animation(skill.getBaseAnimation() + itemTier) : new Animation(10602));
-					player.setNextFaceWorldTile(object.getTile());
+					player.setNextFaceTile(object.getTile());
 					// player.getInventory().addItem(new Item(Helper.SACRED_CLAY[clayQuality], 1));
 
 					return true;
@@ -815,10 +815,10 @@ public class StealingCreationController extends Controller {
 					return;
 				}
 				if (step == 0) {
-					WorldTile fromTile = WorldTile.of(p.getX(), p.getY(), p.getPlane());
-					WorldTile faceTile = Helper.getFaceTile(o, p);
+					Tile fromTile = Tile.of(p.getX(), p.getY(), p.getPlane());
+					Tile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
-					p.setNextWorldTile(faceTile);
+					p.setNextTile(faceTile);
 					p.setNextForceMovement(new ForceMovement(fromTile, 0, faceTile, 1, Helper.getFaceDirection(faceTile, p)));
 					p.setNextAnimation(new Animation(10584));
 					p.setNextSpotAnim(new SpotAnim(red ? 1871 : 1870));
@@ -857,7 +857,7 @@ public class StealingCreationController extends Controller {
 					}
 					player.getEquipment().deleteSlot(Equipment.CAPE);
 					player.sendItemsOnDeath(killer, true);
-					player.setNextWorldTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
+					player.setNextTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();
 					player.reset();
 					if (score != null) {

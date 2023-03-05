@@ -20,11 +20,11 @@ import java.util.Random;
 
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Wolverine extends NPC {
 
-	public Wolverine(Player target, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Wolverine(Player target, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(id, tile);
 		setCombatLevel(target.getSkills().getCombatLevel() + new Random().nextInt(100) + 100);
 		int hitpoints = 1000 + getCombatLevel() + target.getSkills().getCombatLevel() / 2 + new Random().nextInt(10);

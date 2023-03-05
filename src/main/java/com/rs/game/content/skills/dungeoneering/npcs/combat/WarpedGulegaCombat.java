@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class WarpedGulegaCombat extends CombatScript {
@@ -52,17 +52,17 @@ public class WarpedGulegaCombat extends CombatScript {
 		case 3:// reg aeo melee
 			npc.setNextAnimation(new Animation(15004));
 
-			final List<WorldTile> attackTiles = new LinkedList<>();
+			final List<Tile> attackTiles = new LinkedList<>();
 			for (Entity t : boss.getPossibleTargets(true))
-				attackTiles.add(WorldTile.of(t.getTile()));
+				attackTiles.add(Tile.of(t.getTile()));
 			WorldTasks.schedule(new WorldTask() {
 
 				@Override
 				public void run() {
-					for (WorldTile tile : attackTiles)
-						World.sendSpotAnim(npc, MELEE, tile);
+					for (Tile tile : attackTiles)
+						World.sendSpotAnim(tile, MELEE);
 					for (Entity t : boss.getPossibleTargets(true))
-						tileLoop: for (WorldTile tile : attackTiles)
+						tileLoop: for (Tile tile : attackTiles)
 							if (t.getX() == tile.getX() && t.getY() == tile.getY()) {
 								delayHit(npc, 0, t, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.75), AttackStyle.MELEE, t)));
 								break tileLoop;
@@ -91,7 +91,7 @@ public class WarpedGulegaCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(15004));
 			WorldTasks.schedule(new WorldTask() {
 
-				WorldTile center;
+				Tile center;
 				int cycles;
 
 				@Override
@@ -99,7 +99,7 @@ public class WarpedGulegaCombat extends CombatScript {
 					cycles++;
 
 					if (cycles == 1) {
-						center = WorldTile.of(target.getTile());
+						center = Tile.of(target.getTile());
 						sendTenticals(boss, center, 2);
 					} else if (cycles == 3)
 						sendTenticals(boss, center, 1);
@@ -119,14 +119,14 @@ public class WarpedGulegaCombat extends CombatScript {
 		return 4;
 	}
 
-	private void sendTenticals(NPC npc, WorldTile center, int stage) {
+	private void sendTenticals(NPC npc, Tile center, int stage) {
 		if (stage == 0)
-			World.sendSpotAnim(npc, MELEE, center);
+			World.sendSpotAnim(center, MELEE);
 		else if (stage == 2 || stage == 1) {
-			World.sendSpotAnim(npc, MELEE, center.transform(-stage, stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(stage, stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(-stage, -stage, 0));
-			World.sendSpotAnim(npc, MELEE, center.transform(stage, -stage, 0));
+			World.sendSpotAnim(center.transform(-stage, stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(stage, stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(-stage, -stage, 0), MELEE);
+			World.sendSpotAnim(center.transform(stage, -stage, 0), MELEE);
 		}
 	}
 }

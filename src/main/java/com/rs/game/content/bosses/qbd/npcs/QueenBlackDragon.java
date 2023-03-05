@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
@@ -105,7 +105,7 @@ public final class QueenBlackDragon extends NPC {
 	/**
 	 * The region base location.
 	 */
-	private final WorldTile base;
+	private final Tile base;
 
 	/**
 	 * The list of tortured souls.
@@ -147,7 +147,7 @@ public final class QueenBlackDragon extends NPC {
 	 * @param base
 	 *            The dynamic region's base location.
 	 */
-	public QueenBlackDragon(Player attacker, WorldTile tile, WorldTile base) {
+	public QueenBlackDragon(Player attacker, Tile tile, Tile base) {
 		super(15509, tile, true);
 		super.setForceMultiArea(true);
 		super.setCantFollowUnderCombat(true);
@@ -225,7 +225,7 @@ public final class QueenBlackDragon extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (ticks > 5 && !attacker.isAtDynamicRegion()) {
+		if (ticks > 5 && !attacker.isHasNearbyInstancedChunks()) {
 			finish();
 			return;
 		}
@@ -271,7 +271,7 @@ public final class QueenBlackDragon extends NPC {
 	public void spawnWorm() {
 		setNextAnimation(new Animation(16747));
 		attacker.sendMessage("Worms burrow through her rotting flesh.");
-		final WorldTile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
+		final Tile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
 		WorldProjectile p = World.sendProjectile(this, destination, 3141, 128, 0, 60, 1.5, 5, 3);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -477,7 +477,7 @@ public final class QueenBlackDragon extends NPC {
 	 *
 	 * @return The base.
 	 */
-	public WorldTile getBase() {
+	public Tile getBase() {
 		return base;
 	}
 

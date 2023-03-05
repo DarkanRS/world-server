@@ -21,7 +21,7 @@ import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
@@ -48,7 +48,7 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 			if (!player.addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
 				break;
 		if (last != -1) {
-			WorldTile tile = WorldTile.of(route.getBufferX()[last], route.getBufferY()[last], player.getPlane());
+			Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], player.getPlane());
 			player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId())));
 		}
 	}

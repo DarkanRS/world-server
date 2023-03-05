@@ -24,12 +24,12 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class ForgottenWarrior extends Guardian {
 
-	public ForgottenWarrior(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public ForgottenWarrior(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager, reference);
 	}
 
@@ -53,7 +53,7 @@ public class ForgottenWarrior extends Guardian {
 		else
 			drops.add(new Item(DungeonUtils.getRandomRangeGear(Utils.random(tier) + 1)));
 		for (Item item : drops)
-			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 }

@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
@@ -36,7 +36,7 @@ public class RuneboundBehemoth extends DungeonBoss {
 	private BehemothArtifact[] artifacts;
 	private int baseId;
 
-	public RuneboundBehemoth(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public RuneboundBehemoth(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11812, 11826), manager.getBossLevel()), tile, manager, reference);
 		baseId = getId();
 		artifacts = new BehemothArtifact[3];

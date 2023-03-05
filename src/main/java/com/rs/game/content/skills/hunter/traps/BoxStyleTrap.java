@@ -33,7 +33,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class BoxStyleTrap extends OwnedObject {
 
@@ -52,7 +52,7 @@ public class BoxStyleTrap extends OwnedObject {
 	private Status status = Status.IDLE;
 	private BoxHunterType npcTrapped;
 
-	public BoxStyleTrap(Player player, BoxTrapType type, WorldTile tile) {
+	public BoxStyleTrap(Player player, BoxTrapType type, Tile tile) {
 		super(player, -1, ObjectType.SCENERY_INTERACT, 0, tile);
 		id = type.getObjectId();
 		this.type = type;
@@ -70,9 +70,9 @@ public class BoxStyleTrap extends OwnedObject {
 	}
 
 	public void expire(Player player) {
-		World.addGroundItem(new Item(type.getId(), 1), WorldTile.of(this.getTile()), player, true, 60);
+		World.addGroundItem(new Item(type.getId(), 1), Tile.of(this.getTile()), player, true, 60);
 		if (bait != -1)
-			World.addGroundItem(new Item(bait, 1), WorldTile.of(this.getTile()), player, true, 60);
+			World.addGroundItem(new Item(bait, 1), Tile.of(this.getTile()), player, true, 60);
 	}
 
 	public void handleCatch(BoxHunterNPC npc, boolean success) {

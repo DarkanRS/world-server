@@ -165,7 +165,7 @@ public class Thieving {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if (!World.getRegion(object.getTile().getRegionId()).objectExists(object)) {
+						if (!World.getChunk(object.getTile().getChunkId()).objectExists(object)) {
 							stop();
 							return;
 						}
@@ -182,21 +182,11 @@ public class Thieving {
 	public static void checkGuards(Player player) {
 		NPC guard = null;
 		int lastDistance = -1;
-		for (int regionId : player.getMapRegionsIds()) {
-			Set<Integer> npcIndexes = World.getRegion(regionId).getNPCsIndexes();
-			if (npcIndexes == null)
-				continue;
-			for (int npcIndex : npcIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc == null)
-					continue;
-				if (!isGuard(npc.getId()) || npc.isUnderCombat() || npc.isDead() || !npc.withinDistance(player, 4) || !npc.lineOfSightTo(player, false))
-					continue;
-				int distance = (int) Utils.getDistance(npc.getX(), npc.getY(), player.getX(), player.getY());
-				if (lastDistance == -1 || lastDistance > distance) {
-					guard = npc;
-					lastDistance = distance;
-				}
+		for (NPC npc : player.queryNearbyNPCsByTileRange(4, npc -> isGuard(npc.getId()) && !npc.isUnderCombat() && !npc.isDead() && npc.withinDistance(player, 4) && npc.lineOfSightTo(player, false))) {
+			int distance = (int) Utils.getDistance(npc.getX(), npc.getY(), player.getX(), player.getY());
+			if (lastDistance == -1 || lastDistance > distance) {
+				guard = npc;
+				lastDistance = distance;
 			}
 		}
 		if (guard != null) {

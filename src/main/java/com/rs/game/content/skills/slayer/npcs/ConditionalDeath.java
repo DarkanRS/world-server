@@ -21,7 +21,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -33,7 +33,7 @@ public class ConditionalDeath extends NPC {
 	private String deathMessage;
 	private boolean remove;
 
-	public ConditionalDeath(int requiredItem, String deathMessage, boolean remove, int id, WorldTile tile) {
+	public ConditionalDeath(int requiredItem, String deathMessage, boolean remove, int id, Tile tile) {
 		super(id, tile);
 		this.requiredItem = requiredItem;
 		this.deathMessage = deathMessage;

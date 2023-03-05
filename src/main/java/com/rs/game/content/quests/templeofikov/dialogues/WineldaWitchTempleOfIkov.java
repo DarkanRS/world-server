@@ -12,7 +12,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -32,13 +32,13 @@ public class WineldaWitchTempleOfIkov extends Conversation {
 					.addNPC(NPC, HeadE.CALM_TALK, "Ooh, they're well prepared! Hehe!")
 					.addNPC(NPC, HeadE.CALM_TALK, "Good! Good! My potion is nearly ready! Bubble, bubble, toil and trouble! Now we shows them ours magic! Hold on tight!")
 					.addNext(()->{
-						for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+						for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 							if(npc.getId() == 276) {
 								npc.faceEntity(p);
 								npc.setNextAnimation(new Animation(711));
 								npc.setNextSpotAnim(new SpotAnim(108));
 								WorldTasks.delay(1, () -> {
-									Magic.sendNormalTeleportSpell(p, WorldTile.of(2663, 9878, 0));
+									Magic.sendNormalTeleportSpell(p, Tile.of(2663, 9878, 0));
 									p.getInventory().removeItems(new Item(225, 20));
 								});
 							}

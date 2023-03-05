@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class ShadowTraps implements NexAttack {
@@ -59,7 +59,7 @@ public class ShadowTraps implements NexAttack {
 				if (!firstCall) {
 					List<Entity> possibleTargets = nex.getPossibleTargets();
 					for (int[] tile : tiles.values()) {
-						World.sendSpotAnim(null, new SpotAnim(383), WorldTile.of(tile[0], tile[1], 0));
+						World.sendSpotAnim(Tile.of(tile[0], tile[1], 0), new SpotAnim(383));
 						for (Entity t : possibleTargets)
 							if (t.getX() == tile[0] && t.getY() == tile[1])
 								t.applyHit(new Hit(nex, Utils.getRandomInclusive(400) + 400, HitLook.TRUE_DAMAGE));

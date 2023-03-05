@@ -18,7 +18,7 @@ package com.rs.game.content.minigames.domtower;
 
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class DreadNip extends NPC {
@@ -28,7 +28,7 @@ public class DreadNip extends NPC {
 	private Player owner;
 	private int ticks;
 
-	public DreadNip(Player owner, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public DreadNip(Player owner, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(id, tile);
 		this.owner = owner;
 	}

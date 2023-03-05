@@ -18,28 +18,33 @@ package com.rs.game.content.holidayevents.easter;
 
 import java.util.List;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
-import com.rs.game.region.Region;
+import com.rs.game.map.Chunk;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 @PluginEventHandler
 public class EasterEggSpawning {
 
-	static int eggsCount = 0;
-	static int eggsPerRegion = 50;
-	static int[] regionsToSpawn = { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
+	private static boolean ENABLED = false;
 
-	//@ServerStartupEvent
+	static int eggsCount = 0;
+	static int eggsPerChunk = 3;
+	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
+
+	@ServerStartupEvent
 	public static void initSpawning() {
-		for (int id : regionsToSpawn)
-			World.getRegion(id, true);
+		if (!ENABLED)
+			return;
 		TaskExecutor.schedule(() -> {
 			try {
 				spawnEggs();
@@ -51,9 +56,9 @@ public class EasterEggSpawning {
 	}
 
 
-	public static int countEggs(int regionId) {
+	public static int countEggs(int chunkId) {
 		eggsCount = 0;
-		List<GroundItem> itemSpawns = World.getRegion(regionId).getAllGroundItems();
+		List<GroundItem> itemSpawns = World.getChunk(chunkId).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1961)
@@ -63,19 +68,19 @@ public class EasterEggSpawning {
 	}
 
 	public static void spawnEggs() {
-		for (int id : regionsToSpawn) {
-			Region r = World.getRegion(id);
-			int eggsNeeded = eggsPerRegion-countEggs(id);
+		for (int chunkId : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
+			Chunk r = World.getChunk(chunkId);
+			int eggsNeeded = eggsPerChunk-countEggs(chunkId);
 			for (int i = 0; i < eggsNeeded; i++) {
-				int x = r.getBaseX()+Utils.random(64);
-				int y = r.getBaseY()+Utils.random(64);
-				WorldTile tile = WorldTile.of(x, y, 0);
+				int x = r.getBaseX()+Utils.random(8);
+				int y = r.getBaseY()+Utils.random(8);
+				Tile tile = Tile.of(x, y, 0);
 				while (!World.floorAndWallsFree(tile, 1)) {
-					x = r.getBaseX()+Utils.random(64);
-					y = r.getBaseY()+Utils.random(64);
-					tile = WorldTile.of(x, y, 0);
+					x = r.getBaseX()+Utils.random(8);
+					y = r.getBaseY()+Utils.random(8);
+					tile = Tile.of(x, y, 0);
 				}
-				World.addGroundItem(new Item(1961), WorldTile.of(x, y, 0));
+				World.addGroundItem(new Item(1961), Tile.of(x, y, 0));
 			}
 		}
 	}

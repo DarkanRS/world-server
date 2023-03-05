@@ -23,7 +23,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Vec2;
 import com.rs.lib.web.dto.FCData;
@@ -87,8 +87,8 @@ public class WorldUtil {
 		return stream.toByteArray();
 	}
 
-	public static WorldTile targetToTile(Object object) {
-		if (object instanceof WorldTile t)
+	public static Tile targetToTile(Object object) {
+		if (object instanceof Tile t)
 			return t;
 		else if (object instanceof Entity e)
 			return e.getTile();
@@ -98,12 +98,12 @@ public class WorldUtil {
 	}
 
 	public static Direction getDirectionTo(Entity entity, Object target) {
-		WorldTile targTile = WorldUtil.targetToTile(target);
-		Vec2 from = entity.getMiddleWorldTileAsVector();
-		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2(targTile);
+		Tile targTile = WorldUtil.targetToTile(target);
+		Vec2 from = entity.getMiddleTileAsVector();
+		Vec2 to = target instanceof Entity e ? e.getMiddleTileAsVector() : new Vec2(targTile);
 		Vec2 sub = to.sub(from);
 		sub.norm();
-		WorldTile delta = sub.toTile();
+		Tile delta = sub.toTile();
 		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 
@@ -111,7 +111,7 @@ public class WorldUtil {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
 
-	public static Direction getFaceDirection(WorldTile faceTile, Player player) {
+	public static Direction getFaceDirection(Tile faceTile, Player player) {
 		if (player.getX() < faceTile.getX())
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())
@@ -128,15 +128,15 @@ public class WorldUtil {
 		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), entity.getSize(), target.getX(), target.getY(), target.getSize());
 	}
 
-	public static boolean collides(WorldTile entity, WorldTile target) {
+	public static boolean collides(Tile entity, Tile target) {
 		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), 1, target.getX(), target.getY(), 1);
 	}
 
-	public static boolean collides(WorldTile entity, WorldTile target, int s1, int s2) {
+	public static boolean collides(Tile entity, Tile target, int s1, int s2) {
 		return entity.getPlane() == target.getPlane() && collides(entity.getX(), entity.getY(), s1, target.getX(), target.getY(), s2);
 	}
 
-	public static boolean isInRange(WorldTile entity, WorldTile target, int rangeRatio) {
+	public static boolean isInRange(Tile entity, Tile target, int rangeRatio) {
 		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), 1, target.getX(), target.getY(), 1, rangeRatio);
 	}
 
@@ -144,7 +144,7 @@ public class WorldUtil {
 		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), entity.getSize(), target.getX(), target.getY(), target.getSize(), rangeRatio);
 	}
 
-	public static boolean isInRange(WorldTile entity, WorldTile target, int rangeRatio, int s1, int s2) {
+	public static boolean isInRange(Tile entity, Tile target, int rangeRatio, int s1, int s2) {
 		return entity.getPlane() == target.getPlane() && isInRange(entity.getX(), entity.getY(), s1, target.getX(), target.getY(), s2, rangeRatio);
 	}
 

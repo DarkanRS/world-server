@@ -11,7 +11,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -25,29 +25,29 @@ public class CropCircles {
     private static CropCircle locationOne, locationTwo;
 
     public enum CropCircle {
-        ARDOUGNE(WorldTile.of(2647, 3347, 0)),
-        BRIMHAVEN(WorldTile.of(2808, 3200, 0)),
-        CATHERBY(WorldTile.of(2818, 3470, 0)),
-        DRAYNOR_VILLAGE(WorldTile.of(3115, 3272, 0)),
-        HARMONY_ISLAND(WorldTile.of(3810, 2852, 0)),
-        LUMBRIDGE(WorldTile.of(3160, 3298, 0)),
-        MISCELLANIA(WorldTile.of(2538, 3845, 0)),
-        MOS_LE_HARMLESS(WorldTile.of(3697, 3025, 0)),
-        RIMMINGTON(WorldTile.of(2979, 3216, 0)),
-        DORICS_HOUSE(WorldTile.of(2953, 3444, 0)),
-        COOKS_GUILD(WorldTile.of(3141, 3461, 0)),
-        CHAMPIONS_GUILD(WorldTile.of(3212, 3345, 0)),
-        TAVERLEY(WorldTile.of(2893, 3398, 0)),
-        TREE_GNOME_STRONGHOLD(WorldTile.of(2435, 3472, 0)),
-        YANILLE(WorldTile.of(2582, 3104, 0));
+        ARDOUGNE(Tile.of(2647, 3347, 0)),
+        BRIMHAVEN(Tile.of(2808, 3200, 0)),
+        CATHERBY(Tile.of(2818, 3470, 0)),
+        DRAYNOR_VILLAGE(Tile.of(3115, 3272, 0)),
+        HARMONY_ISLAND(Tile.of(3810, 2852, 0)),
+        LUMBRIDGE(Tile.of(3160, 3298, 0)),
+        MISCELLANIA(Tile.of(2538, 3845, 0)),
+        MOS_LE_HARMLESS(Tile.of(3697, 3025, 0)),
+        RIMMINGTON(Tile.of(2979, 3216, 0)),
+        DORICS_HOUSE(Tile.of(2953, 3444, 0)),
+        COOKS_GUILD(Tile.of(3141, 3461, 0)),
+        CHAMPIONS_GUILD(Tile.of(3212, 3345, 0)),
+        TAVERLEY(Tile.of(2893, 3398, 0)),
+        TREE_GNOME_STRONGHOLD(Tile.of(2435, 3472, 0)),
+        YANILLE(Tile.of(2582, 3104, 0));
 
-        private final WorldTile entranceTile;
+        private final Tile entranceTile;
 
-        CropCircle(WorldTile tile) {
+        CropCircle(Tile tile) {
             this.entranceTile = tile;
         }
 
-        public WorldTile getEntranceTile() {
+        public Tile getEntranceTile() {
             return entranceTile;
         }
 
@@ -74,15 +74,15 @@ public class CropCircles {
                 e.getPlayer().sendMessage("You feel the magic of the crop circle grant you a Farmer's affinity.");
             }
         });
-        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, WorldTile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, Magic.OBJECT_TELEPORT, null);
+        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, Tile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, Magic.OBJECT_TELEPORT, null);
     });
 
     public static NPCClickHandler handleWanderingImpling = new NPCClickHandler(new Object[] { 6073 }, e -> {
         Cutscene currentLocations = new Cutscene() {
             @Override
             public void construct(Player player) {
-                WorldTile loc1 = locationOne.getEntranceTile();
-                WorldTile loc2 = locationTwo.getEntranceTile();
+                Tile loc1 = locationOne.getEntranceTile();
+                Tile loc2 = locationTwo.getEntranceTile();
                 setEndTile(player.getTile());
                 fadeIn(3);
                 hideMinimap();
@@ -150,11 +150,11 @@ public class CropCircles {
             locationOne = CropCircle.values()[random];
             locationTwo = CropCircle.values()[random2];
 
-            NPC impOne = new NPC(1531, WorldTile.of(locationOne.getX() - 1, locationOne.getY() - 1, locationOne.getPlane()));
-            NPC impTwo = new NPC(1531, WorldTile.of(locationTwo.getX() - 1, locationTwo.getY() - 1, locationTwo.getPlane()));
+            NPC impOne = new NPC(1531, Tile.of(locationOne.getX() - 1, locationOne.getY() - 1, locationOne.getPlane()));
+            NPC impTwo = new NPC(1531, Tile.of(locationTwo.getX() - 1, locationTwo.getY() - 1, locationTwo.getPlane()));
 
-            WorldTile[] impPathOne = setImpPath(locationOne);
-            WorldTile[] impPathTwo = setImpPath(locationTwo);
+            Tile[] impPathOne = setImpPath(locationOne);
+            Tile[] impPathTwo = setImpPath(locationTwo);
 
             impOne.setRandomWalk(false);
             impOne.finishAfterTicks(42);
@@ -183,16 +183,16 @@ public class CropCircles {
         });
     }
 
-    private static WorldTile[] setImpPath(CropCircle location) {
-        WorldTile[] impPath = new WorldTile[] {
-                WorldTile.of(location.getX() + 1, location.getY() - 1, location.getPlane()),
-                WorldTile.of(location.getX() + 1, location.getY() + 1, location.getPlane()),
-                WorldTile.of(location.getX() - 1, location.getY() + 1, location.getPlane()),
-                WorldTile.of(location.getX() - 1, location.getY() - 1, location.getPlane()),
-                WorldTile.of(location.getX() + 1, location.getY() - 1, location.getPlane()),
-                WorldTile.of(location.getX() + 1, location.getY() + 1, location.getPlane()),
-                WorldTile.of(location.getX() - 1, location.getY() + 1, location.getPlane()),
-                WorldTile.of(location.getX() - 1, location.getY() - 1, location.getPlane())
+    private static Tile[] setImpPath(CropCircle location) {
+        Tile[] impPath = new Tile[] {
+                Tile.of(location.getX() + 1, location.getY() - 1, location.getPlane()),
+                Tile.of(location.getX() + 1, location.getY() + 1, location.getPlane()),
+                Tile.of(location.getX() - 1, location.getY() + 1, location.getPlane()),
+                Tile.of(location.getX() - 1, location.getY() - 1, location.getPlane()),
+                Tile.of(location.getX() + 1, location.getY() - 1, location.getPlane()),
+                Tile.of(location.getX() + 1, location.getY() + 1, location.getPlane()),
+                Tile.of(location.getX() - 1, location.getY() + 1, location.getPlane()),
+                Tile.of(location.getX() - 1, location.getY() - 1, location.getPlane())
         };
         return impPath;
     }

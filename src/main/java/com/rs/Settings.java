@@ -29,7 +29,7 @@ import com.rs.lib.Globals;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.WorldInfo;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 
 public final class Settings {
@@ -56,8 +56,8 @@ public final class Settings {
 	private String lobbyApiKey;
 	private WorldInfo worldInfo;
 	private String loginMessage;
-	private WorldTile playerStartTile;
-	private WorldTile playerRespawnTile;
+	private Tile playerStartTile;
+	private Tile playerRespawnTile;
 	private int xpRate;
 	private double dropModifier;
 	private Item[] startItems;
@@ -77,8 +77,8 @@ public final class Settings {
 		lobbyApiKey = "TEST_API_KEY";
 		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
 		loginMessage = "";
-		playerStartTile = WorldTile.of(3226, 3219, 0);
-		playerRespawnTile = WorldTile.of(3221, 3218, 0);
+		playerStartTile = Tile.of(3226, 3219, 0);
+		playerRespawnTile = Tile.of(3221, 3218, 0);
 		xpRate = 1;
 		dropModifier = 1.0;
 		startItems = new Item[] {
@@ -181,12 +181,12 @@ public final class Settings {
 		this.loginMessage = loginMessage;
 	}
 
-	public WorldTile getPlayerStartTile() {
-		return WorldTile.of(playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile);
+	public Tile getPlayerStartTile() {
+		return Tile.of(playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile);
 	}
 
-	public WorldTile getPlayerRespawnTile() {
-		return WorldTile.of(playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile);
+	public Tile getPlayerRespawnTile() {
+		return Tile.of(playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile);
 	}
 
 	public int getXpRate() {

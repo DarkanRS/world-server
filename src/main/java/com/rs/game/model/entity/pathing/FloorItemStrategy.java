@@ -17,7 +17,7 @@
 package com.rs.game.model.entity.pathing;
 
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FloorItemStrategy extends RouteStrategy {
 
@@ -35,7 +35,7 @@ public class FloorItemStrategy extends RouteStrategy {
 		y = entity.getTile().getY();
 	}
 
-	public FloorItemStrategy(WorldTile entity, boolean junk) {
+	public FloorItemStrategy(Tile entity, boolean junk) {
 		x = entity.getX();
 		y = entity.getY();
 	}

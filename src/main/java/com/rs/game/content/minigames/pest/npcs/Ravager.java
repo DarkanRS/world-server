@@ -17,13 +17,13 @@
 package com.rs.game.content.minigames.pest.npcs;
 
 import com.rs.game.content.minigames.pest.PestControl;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Ravager extends PestMonsters {
 
 	boolean destroyingObject = false;
 
-	public Ravager(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
+	public Ravager(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
 		super(id, tile, -1, false, false, index, manager);
 	}
 

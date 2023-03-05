@@ -17,27 +17,27 @@
 package com.rs.game.model.entity;
 
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 public class ForceMovement {
 
-	private WorldTile toFirstTile;
-	private WorldTile toSecondTile;
+	private Tile toFirstTile;
+	private Tile toSecondTile;
 	private int firstTileTicketDelay;
 	private int secondTileTicketDelay;
 	protected int direction;
 
-	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, Direction direction) {
+	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Direction direction) {
 		this(toFirstTile, firstTileTicketDelay, null, 0, WorldUtil.getAngleTo(direction));
 	}
 
-	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, WorldTile toSecondTile, int secondTileTicketDelay) {
+	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay) {
 		this(toFirstTile, firstTileTicketDelay, toSecondTile, secondTileTicketDelay, Utils.getAngleTo(toFirstTile, toSecondTile));
 	}
 
-	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, WorldTile toSecondTile, int secondTileTicketDelay, Direction direction) {
+	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay, Direction direction) {
 		this.toFirstTile = toFirstTile;
 		this.firstTileTicketDelay = firstTileTicketDelay;
 		if (toSecondTile != null)
@@ -46,7 +46,7 @@ public class ForceMovement {
 		this.direction = WorldUtil.getAngleTo(direction);
 	}
 
-	public ForceMovement(WorldTile toFirstTile, int firstTileTicketDelay, WorldTile toSecondTile, int secondTileTicketDelay, int direction) {
+	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay, int direction) {
 		this.toFirstTile = toFirstTile;
 		this.firstTileTicketDelay = firstTileTicketDelay;
 		if (toSecondTile != null)
@@ -59,11 +59,11 @@ public class ForceMovement {
 		return direction;
 	}
 
-	public WorldTile getToFirstTile() {
+	public Tile getToFirstTile() {
 		return toFirstTile;
 	}
 
-	public WorldTile getToSecondTile() {
+	public Tile getToSecondTile() {
 		return toSecondTile;
 	}
 

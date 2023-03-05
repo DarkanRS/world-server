@@ -19,7 +19,7 @@ package com.rs.game.content.skills.slayer.npcs;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -28,7 +28,7 @@ public class Nechryael extends NPC {
 
 	private NPC[] deathSpawns;
 
-	public Nechryael(int id, WorldTile tile, boolean spawned) {
+	public Nechryael(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 	}
 

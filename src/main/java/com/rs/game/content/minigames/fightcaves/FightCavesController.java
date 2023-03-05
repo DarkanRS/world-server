@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.minigames.fightcaves;
 
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
@@ -28,12 +26,12 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -41,7 +39,7 @@ import com.rs.utils.Ticks;
 
 public class FightCavesController extends Controller {
 
-	public static final WorldTile OUTSIDE = WorldTile.of(4610, 5130, 0);
+	public static final Tile OUTSIDE = Tile.of(4610, 5130, 0);
 
 	private static final int THHAAR_MEJ_JAL = 2617;
 
@@ -55,8 +53,8 @@ public class FightCavesController extends Controller {
 			{ 2741, 2739, 2736 }, { 2741, 2739, 2736, 2734 }, { 2741, 2739, 2736, 2734, 2734 }, { 2741, 2739, 2736, 2736 }, { 2741, 2739, 2739 }, { 2741, 2741 }, { 2743 }, { 2743, 2734 }, { 2743, 2734, 2734 }, { 2743, 2736 }, { 2743, 2736, 2734 }, { 2743, 2736, 2734, 2734 }, { 2743, 2736, 2736 }, { 2743, 2739 }, { 2743, 2739, 2734 }, { 2743, 2739, 2734, 2734 }, { 2743, 2739, 2736 }, { 2743, 2739, 2736, 2734 }, { 2743, 2739, 2736, 2734, 2734 }, { 2743, 2739, 2736, 2736 }, { 2743, 2739, 2739 },
 			{ 2743, 2741 }, { 2743, 2741, 2734 }, { 2743, 2741, 2734, 2734 }, { 2743, 2741, 2736 }, { 2743, 2741, 2736, 2734 }, { 2743, 2741, 2736, 2734, 2734 }, { 2743, 2741, 2736, 2736 }, { 2743, 2741, 2739 }, { 2743, 2741, 2739, 2734 }, { 2743, 2741, 2739, 2734, 2734 }, { 2743, 2741, 2739, 2736 }, { 2743, 2741, 2739, 2736, 2734 }, { 2743, 2741, 2739, 2736, 2734, 2734 }, { 2743, 2741, 2739, 2736, 2736 }, { 2743, 2741, 2739, 2739 }, { 2743, 2741, 2741 }, { 2743, 2743 }, { 2745 } };
 
-	private transient DynamicRegionReference region;
-	private transient WorldTile center;
+	private transient InstanceReference region;
+	private transient Tile center;
 	private transient Stages stage;
 	public transient boolean spawned;
 	private transient boolean logoutAtEnd;
@@ -134,17 +132,17 @@ public class FightCavesController extends Controller {
 		this.login = login;
 		stage = Stages.LOADING;
 		player.lock(); // locks player
-		region = new DynamicRegionReference(8, 8);
+		region = new InstanceReference(8, 8);
 		region.copyMapAllPlanes(552, 640, () -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
-			player.setNextWorldTile(!login ? getWorldTile(46, 61) : getWorldTile(32, 32));
+			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));
 			stage = Stages.RUNNING;
 			WorldTasks.delay(1, () -> {
 				if (!login) {
-					WorldTile walkTo = getWorldTile(32, 32);
+					Tile walkTo = getTile(32, 32);
 					player.addWalkSteps(walkTo.getX(), walkTo.getY());
 				}
-				center = WorldTile.of(getWorldTile(32, 32));
+				center = Tile.of(getTile(32, 32));
 				player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "You're on your own now, JalYt.<br>Prepare to fight for your life!");
 				player.setForceMultiArea(true);
 				playMusic();
@@ -167,19 +165,19 @@ public class FightCavesController extends Controller {
 		});
 	}
 
-	public WorldTile getSpawnTile() {
+	public Tile getSpawnTile() {
 		switch (Utils.random(5)) {
 		case 0:
-			return getWorldTile(11, 16);
+			return getTile(11, 16);
 		case 1:
-			return getWorldTile(51, 25);
+			return getTile(51, 25);
 		case 2:
-			return getWorldTile(10, 50);
+			return getTile(10, 50);
 		case 3:
-			return getWorldTile(46, 49);
+			return getTile(46, 49);
 		case 4:
 		default:
-			return getWorldTile(32, 30);
+			return getTile(32, 30);
 		}
 	}
 
@@ -255,8 +253,7 @@ public class FightCavesController extends Controller {
 	@Override
 	public void process() {
 		if (spawned) {
-			Set<Integer> npcs = World.getRegion(center.getRegionId()).getNPCsIndexes();
-			if (npcs == null || npcs.isEmpty()) {
+			if (World.getNPCsInChunkRange(center.getChunkId(), 8).isEmpty()) {
 				spawned = false;
 				nextWave();
 			}
@@ -296,19 +293,19 @@ public class FightCavesController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
 
 	@Override
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
@@ -318,14 +315,14 @@ public class FightCavesController extends Controller {
 	 */
 	public void exitCave(int type) {
 		stage = Stages.DESTROYING;
-		WorldTile outside = WorldTile.of(OUTSIDE, 2); // radomizes alil
+		Tile outside = Tile.of(OUTSIDE, 2); // radomizes alil
 		if (type == 0 || type == 2)
 			player.setTile(outside);
 		else {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
 			if (type == 1 || type == 4) {
-				player.setNextWorldTile(outside);
+				player.setNextTile(outside);
 				if (type == 4) {
 					player.incrementCount("Fight Caves clears");
 					player.refreshFightKilnEntrance();
@@ -338,16 +335,16 @@ public class FightCavesController extends Controller {
 						p.sendMessage("<img=6><col=ff0000>" + player.getDisplayName() + " has just completed the fight caves!", true);
 					}
 					if (!player.getInventory().addItem(6570, 1)) {
-						World.addGroundItem(new Item(6570, 1), WorldTile.of(player.getTile()), player, true, 180);
-						World.addGroundItem(new Item(6529, 16064), WorldTile.of(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6570, 1), Tile.of(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, 16064), Tile.of(player.getTile()), player, true, 180);
 					} else if (!player.getInventory().addItem(6529, 16064))
-						World.addGroundItem(new Item(6529, 16064), WorldTile.of(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, 16064), Tile.of(player.getTile()), player, true, 180);
 				} else if (getCurrentWave() == 1)
 					player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "Well I suppose you tried... better luck next time.");
 				else {
 					int tokkul = getCurrentWave() * 8032 / WAVES.length;
 					if (!player.getInventory().addItem(6529, tokkul))
-						World.addGroundItem(new Item(6529, tokkul), WorldTile.of(player.getTile()), player, true, 180);
+						World.addGroundItem(new Item(6529, tokkul), Tile.of(player.getTile()), player, true, 180);
 					player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "Well done in the cave, here, take TokKul as reward.");
 					// TODO tokens
 				}
@@ -357,7 +354,7 @@ public class FightCavesController extends Controller {
 		region.destroy();
 	}
 
-	public WorldTile getWorldTile(int mapX, int mapY) {
+	public Tile getTile(int mapX, int mapY) {
 		return region.getLocalTile(mapX, mapY);
 	}
 

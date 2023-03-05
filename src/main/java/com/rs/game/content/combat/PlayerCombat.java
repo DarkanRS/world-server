@@ -43,14 +43,13 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
-import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -224,7 +223,7 @@ public class PlayerCombat extends PlayerAction {
 		return getMultiAttackTargets(player, target, 1, 9);
 	}
 
-	public static Entity[] getMultiAttackTargets(Player player, WorldTile tile, int maxDistance, int maxAmtTargets) {
+	public static Entity[] getMultiAttackTargets(Player player, Tile tile, int maxDistance, int maxAmtTargets) {
 		List<Entity> possibleTargets = new ArrayList<>();
 		if (!player.isAtMultiArea()) {
 			Entity target = player.getTempAttribs().getO("last_target");
@@ -232,29 +231,17 @@ public class PlayerCombat extends PlayerAction {
 				possibleTargets.add(target);
 			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 		}
-		y: for (int regionId : player.getMapRegionsIds()) {
-			Region region = World.getRegion(regionId);
-			Set<Integer> playerIndexes = region.getPlayerIndexes();
-			if (playerIndexes == null)
-				continue;
-			for (int playerIndex : playerIndexes) {
-				Player p2 = World.getPlayers().get(playerIndex);
-				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(tile, maxDistance) || !player.getControllerManager().canHit(p2))
-					continue;
-				possibleTargets.add(p2);
-				if (possibleTargets.size() == maxAmtTargets)
-					break y;
-			}
-			Set<Integer> npcIndexes = region.getNPCsIndexes();
-			if (npcIndexes == null)
-				continue;
-			for (int npcIndex : npcIndexes) {
-				NPC n = World.getNPCs().get(npcIndex);
-				if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
-					continue;
+
+		for (Player p2 : player.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(tile, maxDistance) && player.getControllerManager().canHit(p2))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() >= maxAmtTargets)
+				break;
+		}
+		if (possibleTargets.size() < maxAmtTargets) {
+			for (NPC n : player.queryNearbyNPCsByTileRange(maxDistance, n -> n != player.getFamiliar() && !n.isDead() && n.getDefinitions().hasAttackOption() && n.isAtMultiArea() && n.withinDistance(tile, maxDistance) && player.getControllerManager().canHit(n))) {
 				possibleTargets.add(n);
-				if (possibleTargets.size() == maxAmtTargets)
-					break y;
+				if (possibleTargets.size() >= maxAmtTargets)
+					break;
 			}
 		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
@@ -268,37 +255,20 @@ public class PlayerCombat extends PlayerAction {
 		List<Entity> possibleTargets = new ArrayList<>();
 		if (includeOriginalTarget)
 			possibleTargets.add(target);
-		if (target.isAtMultiArea())
-			y:for (int regionId : target.getMapRegionsIds()) {
-				Region region = World.getRegion(regionId);
-				if (target instanceof Player) {
-					Set<Integer> playerIndexes = region.getPlayerIndexes();
-					if (playerIndexes == null)
-						continue;
-					for (int playerIndex : playerIndexes) {
-						Player p2 = World.getPlayers().get(playerIndex);
-						if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance)
-								|| !player.getControllerManager().canHit(p2))
-							continue;
-						possibleTargets.add(p2);
-						if (possibleTargets.size() == maxAmtTargets)
-							break y;
-					}
-				} else {
-					Set<Integer> npcIndexes = region.getNPCsIndexes();
-					if (npcIndexes == null)
-						continue;
-					for (int npcIndex : npcIndexes) {
-						NPC n = World.getNPCs().get(npcIndex);
-						if (n == null || n == target || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(target.getTile(), maxDistance) || !n.getDefinitions().hasAttackOption()
-								|| !player.getControllerManager().canHit(n))
-							continue;
-						possibleTargets.add(n);
-						if (possibleTargets.size() == maxAmtTargets)
-							break y;
-					}
-				}
+		if (!target.isAtMultiArea())
+			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+		for (Player p2 : target.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(p2))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() >= maxAmtTargets)
+				break;
+		}
+		if (possibleTargets.size() < maxAmtTargets) {
+			for (NPC n : target.queryNearbyNPCsByTileRange(maxDistance, n -> n != player.getFamiliar() && !n.isDead() && n.getDefinitions().hasAttackOption() && n.isAtMultiArea() && n.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(n))) {
+				possibleTargets.add(n);
+				if (possibleTargets.size() >= maxAmtTargets)
+					break;
 			}
+		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 
@@ -599,7 +569,7 @@ public class PlayerCombat extends PlayerAction {
 				dropAmmo(player, target, Equipment.AMMO, 1);
 			}
 			case SAGAIE -> {
-				double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleWorldTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
+				double damageMod = Utils.clampD((Utils.getDistanceI(player.getTile(), target.getMiddleTile()) / (double) getAttackRange(player)) * 0.70, 0.01, 1.0);
 				Hit hit = calculateHit(player, target, weaponId, attackStyle, true, true, 1.0D - (damageMod * 0.95), 1.0D + damageMod);
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
@@ -723,7 +693,7 @@ public class PlayerCombat extends PlayerAction {
 		player.getEquipment().removeAmmo(slot, quantity);
 		if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely
 			return;
-		World.addGroundItem(new Item(ammoId, quantity), WorldTile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
+		World.addGroundItem(new Item(ammoId, quantity), Tile.of(target.getCoordFaceX(target.getSize()), target.getCoordFaceY(target.getSize()), target.getPlane()), player);
 	}
 
 	public static void dropAmmo(Player player, Entity target) {

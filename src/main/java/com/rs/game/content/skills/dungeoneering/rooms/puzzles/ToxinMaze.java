@@ -35,7 +35,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -102,9 +102,9 @@ public class ToxinMaze extends PuzzleRoom {
 			return false;
 		}
 		if (object.getId() == BARRIER || object.getId() == BARRIER_ENTRANCE) {
-			WorldTile in = WorldTile.of(object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()], 0);
-			WorldTile out = WorldTile.of(object.getX(), object.getY(), 0);
-			WorldTile target = null;
+			Tile in = Tile.of(object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()], 0);
+			Tile out = Tile.of(object.getX(), object.getY(), 0);
+			Tile target = null;
 			int delay = 0;
 			if (player.matches(out))
 				target = in;
@@ -115,13 +115,13 @@ public class ToxinMaze extends PuzzleRoom {
 				target = in;
 				delay = 1;
 			}
-			final WorldTile target_ = target;
+			final Tile target_ = target;
 			player.lock(delay + 1);
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					WorldTile fromTile = WorldTile.of(player.getX(), player.getY(), player.getPlane());
-					player.setNextWorldTile(target_);
+					Tile fromTile = Tile.of(player.getX(), player.getY(), player.getPlane());
+					player.setNextTile(target_);
 					player.setNextForceMovement(new ForceMovement(fromTile, 0, target_, 1, WorldUtil.getFaceDirection(target_, player)));
 					player.setNextAnimation(new Animation(9516)); //10584 faster
 					player.setNextSpotAnim(new SpotAnim(2609));

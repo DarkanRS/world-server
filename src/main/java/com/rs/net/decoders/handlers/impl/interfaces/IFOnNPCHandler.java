@@ -35,7 +35,7 @@ public class IFOnNPCHandler implements PacketHandler<Player, IFOnNPC> {
 		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || !player.getInterfaceManager().topOpen(packet.getInterfaceId()) || (packet.getComponentId() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()))
 			return;
 		NPC npc = World.getNPCs().get(packet.getNpcIndex());
-		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapRegionsIds().contains(npc.getRegionId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
+		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapChunkIds().contains(npc.getChunkId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
 			return;
 		player.stopAll(true);
 		if (PluginManager.handle(new IFOnNPCEvent(player, npc, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))

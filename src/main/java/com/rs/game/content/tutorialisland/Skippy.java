@@ -29,7 +29,7 @@ import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Skippy extends Conversation {
 
@@ -48,7 +48,7 @@ public class Skippy extends Conversation {
 		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "If all else fails, visit the " + Settings.getConfig().getServerName() + " website for a whole", "chestload of information on quests, skills and minigames", "as well as a very good starter's guide."));
 		addNext(new Dialogue(new SimpleStatement("Welcome to Lumbridge! To get more help, simply click on the", "Lumbridge Guide or one of the Tutors - these can be found by", "looking for the question mark icon on your mini map. If you find", "you are lost at any time, look for a signpost or use the Lumbridge", "Home Port spell."), () -> {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
-			player.setNextWorldTile(WorldTile.of(Settings.getConfig().getPlayerStartTile()));
+			player.setNextTile(Tile.of(Settings.getConfig().getPlayerStartTile()));
 			player.getControllerManager().forceStop();
 			player.getInterfaceManager().flashTabOff();
 			player.getInterfaceManager().sendSubDefaults(Sub.ALL_GAME_TABS);

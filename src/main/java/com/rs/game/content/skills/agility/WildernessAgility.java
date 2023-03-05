@@ -25,7 +25,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class WildernessAgility {
 
@@ -71,13 +71,13 @@ public class WildernessAgility {
 		player.sendMessage("You walk carefully across the path...", true);
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
-		final WorldTile toTile = WorldTile.of(object.getX(), 3931, object.getPlane());
+		final Tile toTile = Tile.of(object.getX(), 3931, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.NORTH));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 				player.sendMessage("... and make it safely to the other side.", true);
 				player.unlock();
 			}
@@ -89,13 +89,13 @@ public class WildernessAgility {
 		player.sendMessage("You walk carefully across the path...", true);
 		player.lock();
 		player.setNextAnimation(new Animation(9908));
-		final WorldTile toTile = WorldTile.of(object.getX() + 1, 3916, object.getPlane());
+		final Tile toTile = Tile.of(object.getX() + 1, 3916, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.SOUTH));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 				player.sendMessage("... and make it safely to the other side.", true);
 				player.unlock();
 			}
@@ -107,7 +107,7 @@ public class WildernessAgility {
 		if (!Agility.hasLevel(player, 52))
 			return;
 		final boolean running = player.getRun();
-		final WorldTile toTile = WorldTile.of(objectX, objectY == 3938 ? 3950 : 3937, 0);
+		final Tile toTile = Tile.of(objectX, objectY == 3938 ? 3950 : 3937, 0);
 		player.setRunHidden(false);
 		player.lock(7);
 		player.addWalkSteps(objectX, objectY == 3938 ? 3950 : 3937, -1, false);
@@ -121,7 +121,7 @@ public class WildernessAgility {
 					secondloop = true;
 					player.getAppearance().setBAS(295);
 				} else {
-					player.setNextWorldTile(toTile);
+					player.setNextTile(toTile);
 					player.getAppearance().setBAS(-1);
 					setWildernessStage(player, 0);
 					player.setRunHidden(running);
@@ -141,8 +141,8 @@ public class WildernessAgility {
 		}
 		player.lock(4);
 		player.setNextAnimation(new Animation(751));
-		World.sendObjectAnimation(player, object, new Animation(497));
-		final WorldTile toTile = WorldTile.of(object.getX(), 3958, object.getPlane());
+		World.sendObjectAnimation(object, new Animation(497));
+		final Tile toTile = Tile.of(object.getX(), 3958, object.getPlane());
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.NORTH));
 		player.getSkills().addXp(Constants.AGILITY, 22);
 		player.sendMessage("You skilfully swing across.", true);
@@ -150,7 +150,7 @@ public class WildernessAgility {
 
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 				if (getWildernessStage(player) == 0)
 					setWildernessStage(player, 1);
 				player.getSkills().addXp(Constants.AGILITY, 15.5);
@@ -177,14 +177,14 @@ public class WildernessAgility {
 					stop();
 					return;
 				}
-				final WorldTile toTile = WorldTile.of(3002 - x, player.getY(), player.getPlane());
+				final Tile toTile = Tile.of(3002 - x, player.getY(), player.getPlane());
 				player.setNextForceMovement(new ForceMovement(toTile, 1, Direction.WEST));
 				player.setNextAnimation(new Animation(741));
 				WorldTasks.schedule(new WorldTask() {
 
 					@Override
 					public void run() {
-						player.setNextWorldTile(toTile);
+						player.setNextTile(toTile);
 					}
 				}, 0);
 			}
@@ -228,13 +228,13 @@ public class WildernessAgility {
 		if (player.getY() != 3939)
 			return;
 		player.setNextAnimation(new Animation(3378));
-		final WorldTile toTile = WorldTile.of(player.getX(), 3935, 0);
+		final Tile toTile = Tile.of(player.getX(), 3935, 0);
 
 		player.sendMessage("You climb up the rock.", true);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().setBAS(-1);
 				stop();

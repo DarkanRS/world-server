@@ -60,7 +60,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.util.Logger;
@@ -79,13 +79,13 @@ import com.rs.utils.drop.DropTable;
 public class NPC extends Entity {
 
 	private int id;
-	private WorldTile respawnTile;
+	private Tile respawnTile;
 	private boolean randomWalk;
 	private Map<Skill, Integer> combatLevels;
 	private boolean spawned;
 	private transient NPCCombat combat;
 	private transient boolean ignoreNPCClipping;
-	public WorldTile forceWalk;
+	public Tile forceWalk;
 	private int size;
 	private boolean hidden = false;
 
@@ -123,10 +123,10 @@ public class NPC extends Entity {
 	private boolean intelligentRoutefinder;
 	public boolean maskTest;
 
-	public NPC(int id, WorldTile tile, Direction direction, boolean permaDeath) {
+	public NPC(int id, Tile tile, Direction direction, boolean permaDeath) {
 		super(tile);
 		this.id = id;
-		respawnTile = WorldTile.of(tile);
+		respawnTile = Tile.of(tile);
 		setSpawned(permaDeath);
 		combatLevel = -1;
 		setHitpoints(getMaxHitpoints());
@@ -152,18 +152,18 @@ public class NPC extends Entity {
 		// npc is inited on creating instance
 		initEntity();
 		World.addNPC(this);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
 	}
 
-	public NPC(int id, WorldTile tile, boolean permaDeath) {
+	public NPC(int id, Tile tile, boolean permaDeath) {
 		this(id,tile, null, permaDeath);
 	}
 
 
-	public NPC(int id, WorldTile tile) {
+	public NPC(int id, Tile tile) {
 		this(id, tile, false);
 	}
 
@@ -171,7 +171,7 @@ public class NPC extends Entity {
 		return (getDefinitions().walkMask & 0x4) != 0;
 	}
 
-	public void walkToAndExecute(WorldTile startTile, Runnable event) {
+	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		//TODO expensive call for cutscenes
 		if (route.getStepCount() == -1)
@@ -211,7 +211,7 @@ public class NPC extends Entity {
 	}
 
 	public void resetDirection() {
-		setNextFaceWorldTile(null);
+		setNextFaceTile(null);
 		setNextFaceEntity(null);
 		setFaceAngle(getRespawnDirection());
 	}
@@ -266,7 +266,7 @@ public class NPC extends Entity {
 	}
 
 	public void processNPC() {
-		if (isDead() || locked || World.getPlayersInRegionRange(getRegionId()).isEmpty())
+		if (isDead() || locked)
 			return;
 		//Restore combat stats
 		if (getTickCounter() % 100 == 0)
@@ -300,7 +300,7 @@ public class NPC extends Entity {
 								break;
 					}
 					if (!hasWalkSteps()) { // failing finding route
-						setNextWorldTile(WorldTile.of(forceWalk));
+						setNextTile(Tile.of(forceWalk));
 						forceWalk = null; // so ofc reached forcewalk place
 					}
 				} else
@@ -383,7 +383,7 @@ public class NPC extends Entity {
 		if (hasFinished())
 			return;
 		setFinished(true);
-		World.updateEntityRegion(this);
+		World.updateChunks(this);
 		World.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
 	}
@@ -426,8 +426,8 @@ public class NPC extends Entity {
 		timeLastSpawned = System.currentTimeMillis();
 		setFinished(false);
 		World.addNPC(this);
-		setLastRegionId(0);
-		World.updateEntityRegion(this);
+		setLastChunkId(0);
+		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 		onRespawn();
@@ -657,7 +657,7 @@ public class NPC extends Entity {
 			sendDropDirectlyToBank(dropTo, item);
 			return;
 		}
-		GroundItem gItem = World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
+		GroundItem gItem = World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()), dropTo, true, 60);
 		int value = item.getDefinitions().getValue() * item.getAmount();
 		if (gItem != null && (value > player.getI("lootbeamThreshold", 90000) || item.getDefinitions().name.contains("Scroll box") || item.getDefinitions().name.contains(" defender") || yellDrop(item.getId())))
 			player.getPackets().sendGroundItemMessage(50, 0xFF0000, gItem, "<shad=000000><col=cc0033>You received: "+ item.getAmount() + " " + item.getDefinitions().getName());
@@ -849,12 +849,12 @@ public class NPC extends Entity {
 		return 0;
 	}
 
-	public WorldTile getRespawnTile() {
+	public Tile getRespawnTile() {
 		return respawnTile;
 	}
 
-	protected void setRespawnTile(WorldTile respawnTile) {
-		this.respawnTile = WorldTile.of(respawnTile);
+	protected void setRespawnTile(Tile respawnTile) {
+		this.respawnTile = Tile.of(respawnTile);
 	}
 
 	public boolean isUnderCombat() {
@@ -897,7 +897,7 @@ public class NPC extends Entity {
 		setForceWalk(respawnTile);
 	}
 
-	public void setForceWalk(WorldTile tile) {
+	public void setForceWalk(Tile tile) {
 		resetWalkSteps();
 		forceWalk = tile;
 	}
@@ -920,52 +920,47 @@ public class NPC extends Entity {
 	}
 
 	public List<Entity> getPossibleTargets() {
-		return getPossibleTargets(canAggroNPCs);
+		return getPossibleTargets(getCombatDefinitions().aggroDistance, canAggroNPCs);
 	}
 
 	public List<Entity> getPossibleTargets(boolean includeNpcs) {
+		return getPossibleTargets(getCombatDefinitions().aggroDistance, includeNpcs);
+	}
+
+	public List<Entity> getPossibleTargets(int tileRadius) {
+		return getPossibleTargets(tileRadius, canAggroNPCs);
+	}
+
+	public List<Entity> getPossibleTargets(int tileRadius, boolean includeNpcs) {
 		boolean isNormallyPassive = !forceAgressive && getCombatDefinitions().getAgressivenessType() == AggressiveType.PASSIVE;
 		ArrayList<Entity> possibleTarget = new ArrayList<>();
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
-						continue;
-					if (player == null
-							|| player.isDead()
-							|| player.hasFinished()
-							|| !player.isRunning()
-							|| !canAggroPlayer(player)
-							|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
-							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
-							|| player.getAppearance().isHidden()
-							|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
-							|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
-							|| !lineOfSightTo(player, false)
-							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
-						continue;
-					possibleTarget.add(player);
-				}
-			if (includeNpcs && !isNormallyPassive) {
-				Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-				if (npcsIndexes != null)
-					for (int npcIndex : npcsIndexes) {
-						NPC npc = World.getNPCs().get(npcIndex);
-						if (npc == null
-								|| npc == this
-								|| npc.isDead()
-								|| npc.hasFinished()
-								|| !canAggroNPC(npc)
-								|| !WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
-								|| !npc.getDefinitions().hasAttackOption()
-								|| (!forceMultiAttacked && (!isAtMultiArea() || !npc.isAtMultiArea()) && npc.getAttackedBy() != this && (npc.inCombat() || npc.getFindTargetDelay() > System.currentTimeMillis()))
-								|| !lineOfSightTo(npc, false))
-							continue;
-						possibleTarget.add(npc);
-					}
-			}
+		possibleTarget.addAll(queryNearbyPlayersByTileRange(tileRadius, player -> {
+			if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
+				return false;
+			if (player.isDead()
+				|| !canAggroPlayer(player)
+				|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
+				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
+				|| player.getAppearance().isHidden()
+				|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
+				|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
+				|| !lineOfSightTo(player, false)
+				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+				return false;
+			return true;
+		}));
+		if (includeNpcs && !isNormallyPassive) {
+			possibleTarget.addAll(queryNearbyNPCsByTileRange(tileRadius, npc -> {
+				if (npc == this
+					|| npc.isDead()
+					|| !canAggroNPC(npc)
+					|| !WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
+					|| !npc.getDefinitions().hasAttackOption()
+					|| (!forceMultiAttacked && (!isAtMultiArea() || !npc.isAtMultiArea()) && npc.getAttackedBy() != this && (npc.inCombat() || npc.getFindTargetDelay() > System.currentTimeMillis()))
+					|| !lineOfSightTo(npc, false))
+					return false;
+				return true;
+			}));
 		}
 		return possibleTarget;
 	}
@@ -1309,7 +1304,7 @@ public class NPC extends Entity {
 	}
 	
 	private Sound playSound(Sound sound) {
-		World.playSound(this, sound);
+		World.playSound(getTile(), sound);
 		return sound;
 	}
 	

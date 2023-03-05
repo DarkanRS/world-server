@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -65,7 +65,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 		}
 
 		if (Utils.random(15) == 0) {// Special attack
-			final List<WorldTile> explosions = new LinkedList<>();
+			final List<Tile> explosions = new LinkedList<>();
 			boss.setNextForceTalk(new ForceTalk("Raaaaaaaaaaaaaaaaaaaaaaaaaawr!"));
 			WorldTasks.schedule(new WorldTask() {
 
@@ -82,17 +82,17 @@ public class RuneboundBehemothCombat extends CombatScript {
 						boss.setNextSpotAnim(new SpotAnim(2771));
 						for (Entity t : boss.getPossibleTargets())
 							tileLoop: for (int i = 0; i < 4; i++) {
-								WorldTile tile = World.getFreeTile(t.getTile(), 2);
+								Tile tile = World.getFreeTile(t.getTile(), 2);
 								if (!manager.isAtBossRoom(tile))
 									continue tileLoop;
 								explosions.add(tile);
 								World.sendProjectile(boss, tile, 2414, 120, 0, 20, 0, 20, 0);
 							}
 					} else if (cycles == 8) {
-						for (WorldTile tile : explosions)
-							World.sendSpotAnim(boss, new SpotAnim(2399), tile);
+						for (Tile tile : explosions)
+							World.sendSpotAnim(tile, new SpotAnim(2399));
 						for (Entity t : boss.getPossibleTargets())
-							tileLoop: for (WorldTile tile : explosions) {
+							tileLoop: for (Tile tile : explosions) {
 								if (t.getX() != tile.getX() || t.getY() != tile.getY())
 									continue tileLoop;
 								t.applyHit(new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6, boss.getMaxHit()), HitLook.TRUE_DAMAGE));

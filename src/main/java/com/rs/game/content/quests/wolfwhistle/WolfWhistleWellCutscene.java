@@ -15,7 +15,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class WolfWhistleWellCutscene extends Cutscene {
 
@@ -157,11 +157,11 @@ public class WolfWhistleWellCutscene extends Cutscene {
             t3.forceTalk("Me no like!");
             t5.forceTalk("It too huge!");
             WorldTasks.scheduleTimer(tick -> {
-                World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(wolfbones.getX(), wolfbones.getY(), wolfbones.getPlane()));
-                World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(wolfmeat.getX(), wolfmeat.getY(), wolfmeat.getPlane()));
-                World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t0.getX(), t0.getY(), t0.getPlane()));
-                World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t3.getX(), t3.getY(), t3.getPlane()));
-                World.sendSpotAnim(player, new SpotAnim(ONE), WorldTile.of(t5.getX(), t5.getY(), t5.getPlane()));
+                World.sendSpotAnim(Tile.of(wolfbones.getX(), wolfbones.getY(), wolfbones.getPlane()), new SpotAnim(ONE));
+                World.sendSpotAnim(Tile.of(wolfmeat.getX(), wolfmeat.getY(), wolfmeat.getPlane()), new SpotAnim(ONE));
+                World.sendSpotAnim(Tile.of(t0.getX(), t0.getY(), t0.getPlane()), new SpotAnim(ONE));
+                World.sendSpotAnim(Tile.of(t3.getX(), t3.getY(), t3.getPlane()), new SpotAnim(ONE));
+                World.sendSpotAnim(Tile.of(t5.getX(), t5.getY(), t5.getPlane()), new SpotAnim(ONE));
                 return playing;
             });
         });

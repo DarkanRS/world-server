@@ -29,7 +29,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -62,7 +62,7 @@ public class Doors {
 		handleDoubleDoor(e.getPlayer(), e.getObject(), true);
 	});
 
-	public static ObjectClickHandler handleInvertedDoublesYanille = new ObjectClickHandler(new Object[] { 1517, 1520 }, new WorldTile[] { WorldTile.of(2561, 3099, 0), WorldTile.of(2561, 3098, 0) }, e -> {
+	public static ObjectClickHandler handleInvertedDoublesYanille = new ObjectClickHandler(new Object[] { 1517, 1520 }, new Tile[] { Tile.of(2561, 3099, 0), Tile.of(2561, 3098, 0) }, e -> {
 		handleDoubleDoor(e.getPlayer(), e.getObject(), true);
 	});
 
@@ -90,7 +90,7 @@ public class Doors {
 		e.getPlayer().sendMessage("The door is securely locked.");
 	});
 
-	public static ObjectClickHandler handleWasteMyTimeDoor1 = new ObjectClickHandler(new Object[] { 1591 }, new WorldTile[] { WorldTile.of(2794, 3199, 0) }, e -> {
+	public static ObjectClickHandler handleWasteMyTimeDoor1 = new ObjectClickHandler(new Object[] { 1591 }, new Tile[] { Tile.of(2794, 3199, 0) }, e -> {
 		handleDoor(e.getPlayer(), e.getObject());
 	});
 
@@ -116,7 +116,7 @@ public class Doors {
 	public static void handleClosedDoor(Player player, GameObject object) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 : -1);
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
@@ -136,7 +136,7 @@ public class Doors {
 			World.removeObject(object);
 			World.spawnObject(opp, true);
 		} else {
-			WorldTile toTile = object.getTile().transform(0, 0, 0);
+			Tile toTile = object.getTile().transform(0, 0, 0);
 			switch (object.getRotation()) {
 			case 0:
 				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -162,7 +162,7 @@ public class Doors {
 		boolean tempMove = isTempMove(openedDef);
 		if (tempMove) {
 			World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(player, object), object.getType(), object.getRotation(), object.getTile()), 2, true);
-			WorldTile toTile = object.getTile().transform(0, 0, 0);
+			Tile toTile = object.getTile().transform(0, 0, 0);
 			switch (object.getRotation()) {
 			case 0:
 				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -226,7 +226,7 @@ public class Doors {
 	public static void handleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
@@ -251,7 +251,7 @@ public class Doors {
 				World.spawnObject(opp, true);
 			}
 		} else {
-			WorldTile toTile = object.getTile();
+			Tile toTile = object.getTile();
 			switch (object.getRotation()) {
 			case 0:
 				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -279,7 +279,7 @@ public class Doors {
 	public static void handleLeftHandedDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
@@ -304,7 +304,7 @@ public class Doors {
 				World.spawnObject(opp, true);
 			}
 		} else {
-			WorldTile toTile = object.getTile();
+			Tile toTile = object.getTile();
 			switch (object.getRotation()) {
 			case 0:
 				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -327,7 +327,7 @@ public class Doors {
 
 	public static void handleOneWayDoor(Player player, GameObject object, int rotation) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? -1 : 1, 0, 0);
@@ -350,7 +350,7 @@ public class Doors {
 			else
 				World.spawnObject(opp, true);
 		} else {
-			WorldTile toTile = object.getTile();
+			Tile toTile = object.getTile();
 			switch (object.getRotation()) {
 			case 0:
 				toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -595,9 +595,9 @@ public class Doors {
 		}
 	}
 
-	private static GameObject[] getNearby(Player player, GameObject object, BiFunction<WorldTile, WorldTile, Boolean> sort, WorldTile... toCheck) {
+	private static GameObject[] getNearby(Player player, GameObject object, BiFunction<Tile, Tile, Boolean> sort, Tile... toCheck) {
 		GameObject[] g = new GameObject[2];
-		for (WorldTile t : toCheck)
+		for (Tile t : toCheck)
 			if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName()))
 				g[0] = World.getObject(t, object.getType());
 		if (g[0] == null || g[0].getDefinitions().interactable == 0 || !g[0].getDefinitions().getName().equals(object.getDefinitions().getName()))
@@ -659,7 +659,7 @@ public class Doors {
 		private GameObject original;
 		private Door pair;
 
-		public Door(int id, ObjectType type, int rotation, WorldTile location, GameObject original) {
+		public Door(int id, ObjectType type, int rotation, Tile location, GameObject original) {
 			super(id, type, rotation, location);
 			this.original = new GameObject(original);
 		}

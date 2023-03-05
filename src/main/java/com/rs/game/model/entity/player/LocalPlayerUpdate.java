@@ -211,7 +211,7 @@ public final class LocalPlayerUpdate {
 				stream.writeBits(1, 1); // needs update
 				stream.writeBits(1, 0); // no masks update needeed
 				stream.writeBits(2, 0); // request remove
-				regionHashes[playerIndex] = p.getLastWorldTile() == null ? p.getRegionHash() : p.getLastWorldTile().getRegionHash();
+				regionHashes[playerIndex] = p.getLastTile() == null ? p.getRegionHash() : p.getLastTile().getRegionHash();
 				int hash = p.getRegionHash();
 				if (hash == regionHashes[playerIndex])
 					stream.writeBits(1, 0);
@@ -230,10 +230,10 @@ public final class LocalPlayerUpdate {
 					stream.writeBits(1, 1); // needs update
 					stream.writeBits(1, needUpdate ? 1 : 0);
 					stream.writeBits(2, 3);
-					int xOffset = p.getX() - p.getLastWorldTile().getX();
-					int yOffset = p.getY() - p.getLastWorldTile().getY();
-					int planeOffset = p.getPlane() - p.getLastWorldTile().getPlane();
-					if (Math.abs(p.getX() - p.getLastWorldTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastWorldTile().getY()) <= 14) {
+					int xOffset = p.getX() - p.getLastTile().getX();
+					int yOffset = p.getY() - p.getLastTile().getY();
+					int planeOffset = p.getPlane() - p.getLastTile().getPlane();
+					if (Math.abs(p.getX() - p.getLastTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastTile().getY()) <= 14) {
 						stream.writeBits(1, 0);
 						if (xOffset < 0)
 							xOffset += 32;
@@ -324,7 +324,7 @@ public final class LocalPlayerUpdate {
 			applyGraphicsMask2(p, block);
 		}
 
-		if (added || (p.getNextFaceWorldTile() != null && p.getNextRunDirection() == null && p.getNextWalkDirection() == null)) {
+		if (added || (p.getNextFaceTile() != null && p.getNextRunDirection() == null && p.getNextWalkDirection() == null)) {
 			maskData |= 0x20;
 			applyFaceDirectionMask(p, block);
 		}

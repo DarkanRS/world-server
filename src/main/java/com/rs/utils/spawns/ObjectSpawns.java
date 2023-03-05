@@ -55,8 +55,8 @@ public final class ObjectSpawns {
 		Logger.info(ObjectSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " map object spawns...");
 	}
 
-	public static void loadObjectSpawns(int regionId) {
-		List<ObjectSpawn> spawns = OBJECT_SPAWNS.get(regionId);
+	public static void loadObjectSpawns(int chunkId) {
+		List<ObjectSpawn> spawns = OBJECT_SPAWNS.get(chunkId);
 		if (spawns != null)
 			for (ObjectSpawn spawn : spawns)
 				spawn.spawn();
@@ -64,10 +64,10 @@ public final class ObjectSpawns {
 
 	public static void add(ObjectSpawn spawn) {
 		ALL_SPAWNS.add(spawn);
-		List<ObjectSpawn> regionSpawns = OBJECT_SPAWNS.get(spawn.getTile().getRegionId());
+		List<ObjectSpawn> regionSpawns = OBJECT_SPAWNS.get(spawn.getTile().getChunkId());
 		if (regionSpawns == null)
 			regionSpawns = new ArrayList<>();
 		regionSpawns.add(spawn);
-		OBJECT_SPAWNS.put(spawn.getTile().getRegionId(), regionSpawns);
+		OBJECT_SPAWNS.put(spawn.getTile().getChunkId(), regionSpawns);
 	}
 }

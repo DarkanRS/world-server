@@ -28,7 +28,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -38,6 +38,7 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Areas;
+import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class ShadesOfMortton {
@@ -74,30 +75,27 @@ public class ShadesOfMortton {
 
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				updateRepairState();
-				for (Player player : World.getPlayersInRegion(13875)) {
-					if (!player.hasStarted() || player.hasFinished())
-						continue;
-					removeSanctity(player, 1);
-				}
-				GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
-				if (REPAIR_STATE >= 99) {
-					if (altar != null && altar.getId() == 4092) {
-						World.spawnObject(new GameObject(altar).setId(4091));
-						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
-					} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
-						altar.setId(4091);
-						World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
-					}
-				} else if (altar != null && altar.getId() != 4092) {
-					World.removeObject(altar);
-					World.sendSpotAnim(null, new SpotAnim(1605), altar.getTile());
-				}
+		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromSeconds(30), () -> {
+			updateRepairState();
+			for (Player player : World.getPlayersInChunkRange(Tile.of(3497, 3298, 0).getChunkId(), 4)) {
+				if (!player.hasStarted() || player.hasFinished())
+					continue;
+				removeSanctity(player, 1);
 			}
-		}, 50, 50);
+			GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
+			if (REPAIR_STATE >= 99) {
+				if (altar != null && altar.getId() == 4092) {
+					World.spawnObject(new GameObject(altar).setId(4091));
+					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
+				} else if (altar != null && altar.getId() == 4090 && Utils.random(2) == 0) {
+					altar.setId(4091);
+					World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
+				}
+			} else if (altar != null && altar.getId() != 4092) {
+				World.removeObject(altar);
+				World.sendSpotAnim(altar.getTile(), new SpotAnim(1605));
+			}
+		});
 	}
 
 	protected static void updateRepairState() {
@@ -162,40 +160,40 @@ public class ShadesOfMortton {
 			return;
 		}
 		switch(e.getItem().getId()) {
-		//olive oils
-		case 3422:
-			e.getItem().setId(3430);
-			removeSanctity(e.getPlayer(), 3.6);
-			break;
-		case 3424:
-			e.getItem().setId(3432);
-			removeSanctity(e.getPlayer(), 2.7);
-			break;
-		case 3426:
-			e.getItem().setId(3434);
-			removeSanctity(e.getPlayer(), 1.8);
-			break;
-		case 3428:
-			e.getItem().setId(3436);
-			removeSanctity(e.getPlayer(), 0.9);
-			break;
+			//olive oils
+			case 3422:
+				e.getItem().setId(3430);
+				removeSanctity(e.getPlayer(), 3.6);
+				break;
+			case 3424:
+				e.getItem().setId(3432);
+				removeSanctity(e.getPlayer(), 2.7);
+				break;
+			case 3426:
+				e.getItem().setId(3434);
+				removeSanctity(e.getPlayer(), 1.8);
+				break;
+			case 3428:
+				e.getItem().setId(3436);
+				removeSanctity(e.getPlayer(), 0.9);
+				break;
 			//serums
-		case 3408:
-			e.getItem().setId(3416);
-			removeSanctity(e.getPlayer(), 3.6);
-			break;
-		case 3410:
-			e.getItem().setId(3417);
-			removeSanctity(e.getPlayer(), 2.7);
-			break;
-		case 3412:
-			e.getItem().setId(3418);
-			removeSanctity(e.getPlayer(), 1.8);
-			break;
-		case 3414:
-			e.getItem().setId(3419);
-			removeSanctity(e.getPlayer(), 0.9);
-			break;
+			case 3408:
+				e.getItem().setId(3416);
+				removeSanctity(e.getPlayer(), 3.6);
+				break;
+			case 3410:
+				e.getItem().setId(3417);
+				removeSanctity(e.getPlayer(), 2.7);
+				break;
+			case 3412:
+				e.getItem().setId(3418);
+				removeSanctity(e.getPlayer(), 1.8);
+				break;
+			case 3414:
+				e.getItem().setId(3419);
+				removeSanctity(e.getPlayer(), 0.9);
+				break;
 		}
 		updateVars(e.getPlayer());
 		e.getPlayer().getInventory().refresh(e.getItem().getSlot());
@@ -210,7 +208,7 @@ public class ShadesOfMortton {
 			e.getPlayer().sendMessage("You need a tinderbox to do that.");
 			return;
 		}
-		GameObject altar = World.getObject(WorldTile.of(3506, 3316, 0));
+		GameObject altar = World.getObject(Tile.of(3506, 3316, 0));
 		if (altar.getId() == 4091) {
 			altar.setId(4090);
 			e.getPlayer().setNextAnimation(new Animation(3687));
@@ -281,15 +279,15 @@ public class ShadesOfMortton {
 			return;
 		}
 		switch(e.getUsedWith(21489).getId()) {
-		case 14497:
-			e.getUsedWith(21489).setId(21477);
-			break;
-		case 14499:
-			e.getUsedWith(21489).setId(21478);
-			break;
-		case 14501:
-			e.getUsedWith(21489).setId(21479);
-			break;
+			case 14497:
+				e.getUsedWith(21489).setId(21477);
+				break;
+			case 14499:
+				e.getUsedWith(21489).setId(21478);
+				break;
+			case 14501:
+				e.getUsedWith(21489).setId(21479);
+				break;
 		}
 		e.getPlayer().getInventory().deleteItem(21489, 1);
 		e.getPlayer().getInventory().deleteItem(3470, 10);
@@ -305,15 +303,15 @@ public class ShadesOfMortton {
 		e.getPlayer().sendOptionDialogue("Would you like to remove the kit? You will not recover the fine cloth.", ops -> {
 			ops.add("Yes", () -> {
 				switch(e.getItem().getId()) {
-				case 21477:
-					e.getItem().setId(14497);
-					break;
-				case 21478:
-					e.getItem().setId(14499);
-					break;
-				case 21479:
-					e.getItem().setId(14501);
-					break;
+					case 21477:
+						e.getItem().setId(14497);
+						break;
+					case 21478:
+						e.getItem().setId(14499);
+						break;
+					case 21479:
+						e.getItem().setId(14501);
+						break;
 				}
 				e.getPlayer().getInventory().addItemDrop(21489, 1);
 				e.getPlayer().getInventory().refresh();
@@ -328,60 +326,60 @@ public class ShadesOfMortton {
 			return;
 		}
 		switch(e.getUsedWith(21488).getId()) {
-		case 1381: //Skeletal staff of air
-			e.getUsedWith(21488).setId(21490);
-			break;
-		case 1383: //Skeletal staff of water
-			e.getUsedWith(21488).setId(21491);
-			break;
-		case 1385: //Skeletal staff of earth
-			e.getUsedWith(21488).setId(21492);
-			break;
-		case 1387: //Skeletal staff of fire
-			e.getUsedWith(21488).setId(21493);
-			break;
-		case 1393: //Skeletal battlestaff of fire
-			e.getUsedWith(21488).setId(21494);
-			break;
-		case 1395: //Skeletal battlestaff of water
-			e.getUsedWith(21488).setId(21495);
-			break;
-		case 1397: //Skeletal battlestaff of air
-			e.getUsedWith(21488).setId(21496);
-			break;
-		case 1399: //Skeletal battlestaff of earth
-			e.getUsedWith(21488).setId(21497);
-			break;
-		case 1401: //Necromancer's fire staff
-			e.getUsedWith(21488).setId(21498);
-			break;
-		case 1403: //Necromancer's water staff
-			e.getUsedWith(21488).setId(21499);
-			break;
-		case 1405: //Necromancer's air staff
-			e.getUsedWith(21488).setId(21500);
-			break;
-		case 1407: //Necromancer's earth staff
-			e.getUsedWith(21488).setId(21501);
-			break;
-		case 3053: //Skeletal lava battlestaff
-			e.getUsedWith(21488).setId(21502);
-			break;
-		case 3054: //Necromancer's lava staff
-			e.getUsedWith(21488).setId(21503);
-			break;
-		case 6562: //Skeletal mud battlestaff
-			e.getUsedWith(21488).setId(21504);
-			break;
-		case 6563: //Necromancer's mud staff
-			e.getUsedWith(21488).setId(21505);
-			break;
-		case 11736: //Skeletal steam battlestaff
-			e.getUsedWith(21488).setId(21506);
-			break;
-		case 11738: //Necromancer's steam staff
-			e.getUsedWith(21488).setId(21507);
-			break;
+			case 1381: //Skeletal staff of air
+				e.getUsedWith(21488).setId(21490);
+				break;
+			case 1383: //Skeletal staff of water
+				e.getUsedWith(21488).setId(21491);
+				break;
+			case 1385: //Skeletal staff of earth
+				e.getUsedWith(21488).setId(21492);
+				break;
+			case 1387: //Skeletal staff of fire
+				e.getUsedWith(21488).setId(21493);
+				break;
+			case 1393: //Skeletal battlestaff of fire
+				e.getUsedWith(21488).setId(21494);
+				break;
+			case 1395: //Skeletal battlestaff of water
+				e.getUsedWith(21488).setId(21495);
+				break;
+			case 1397: //Skeletal battlestaff of air
+				e.getUsedWith(21488).setId(21496);
+				break;
+			case 1399: //Skeletal battlestaff of earth
+				e.getUsedWith(21488).setId(21497);
+				break;
+			case 1401: //Necromancer's fire staff
+				e.getUsedWith(21488).setId(21498);
+				break;
+			case 1403: //Necromancer's water staff
+				e.getUsedWith(21488).setId(21499);
+				break;
+			case 1405: //Necromancer's air staff
+				e.getUsedWith(21488).setId(21500);
+				break;
+			case 1407: //Necromancer's earth staff
+				e.getUsedWith(21488).setId(21501);
+				break;
+			case 3053: //Skeletal lava battlestaff
+				e.getUsedWith(21488).setId(21502);
+				break;
+			case 3054: //Necromancer's lava staff
+				e.getUsedWith(21488).setId(21503);
+				break;
+			case 6562: //Skeletal mud battlestaff
+				e.getUsedWith(21488).setId(21504);
+				break;
+			case 6563: //Necromancer's mud staff
+				e.getUsedWith(21488).setId(21505);
+				break;
+			case 11736: //Skeletal steam battlestaff
+				e.getUsedWith(21488).setId(21506);
+				break;
+			case 11738: //Necromancer's steam staff
+				e.getUsedWith(21488).setId(21507);
+				break;
 		}
 		e.getPlayer().getInventory().deleteItem(21488, 1);
 		e.getPlayer().getInventory().refresh();
@@ -395,60 +393,60 @@ public class ShadesOfMortton {
 		e.getPlayer().sendOptionDialogue("Would you like to remove the skull?", ops -> {
 			ops.add("Yes", () -> {
 				switch(e.getItem().getId()) {
-				case 21490: //Skeletal staff of air
-					e.getItem().setId(1381);
-					break;
-				case 21491: //Skeletal staff of water
-					e.getItem().setId(1383);
-					break;
-				case 21492: //Skeletal staff of earth
-					e.getItem().setId(1385);
-					break;
-				case 21493: //Skeletal staff of fire
-					e.getItem().setId(1387);
-					break;
-				case 21494: //Skeletal battlestaff of fire
-					e.getItem().setId(1393);
-					break;
-				case 21495: //Skeletal battlestaff of water
-					e.getItem().setId(1395);
-					break;
-				case 21496: //Skeletal battlestaff of air
-					e.getItem().setId(1397);
-					break;
-				case 21497: //Skeletal battlestaff of earth
-					e.getItem().setId(1399);
-					break;
-				case 21498: //Necromancer's fire staff
-					e.getItem().setId(1401);
-					break;
-				case 21499: //Necromancer's water staff
-					e.getItem().setId(1403);
-					break;
-				case 21500: //Necromancer's air staff
-					e.getItem().setId(1405);
-					break;
-				case 21501: //Necromancer's earth staff
-					e.getItem().setId(1407);
-					break;
-				case 21502: //Skeletal lava battlestaff
-					e.getItem().setId(3053);
-					break;
-				case 21503: //Necromancer's lava staff
-					e.getItem().setId(3054);
-					break;
-				case 21504: //Skeletal mud battlestaff
-					e.getItem().setId(6562);
-					break;
-				case 21505: //Necromancer's mud staff
-					e.getItem().setId(6563);
-					break;
-				case 21506: //Skeletal steam battlestaff
-					e.getItem().setId(11736);
-					break;
-				case 21507: //Necromancer's steam staff
-					e.getItem().setId(11738);
-					break;
+					case 21490: //Skeletal staff of air
+						e.getItem().setId(1381);
+						break;
+					case 21491: //Skeletal staff of water
+						e.getItem().setId(1383);
+						break;
+					case 21492: //Skeletal staff of earth
+						e.getItem().setId(1385);
+						break;
+					case 21493: //Skeletal staff of fire
+						e.getItem().setId(1387);
+						break;
+					case 21494: //Skeletal battlestaff of fire
+						e.getItem().setId(1393);
+						break;
+					case 21495: //Skeletal battlestaff of water
+						e.getItem().setId(1395);
+						break;
+					case 21496: //Skeletal battlestaff of air
+						e.getItem().setId(1397);
+						break;
+					case 21497: //Skeletal battlestaff of earth
+						e.getItem().setId(1399);
+						break;
+					case 21498: //Necromancer's fire staff
+						e.getItem().setId(1401);
+						break;
+					case 21499: //Necromancer's water staff
+						e.getItem().setId(1403);
+						break;
+					case 21500: //Necromancer's air staff
+						e.getItem().setId(1405);
+						break;
+					case 21501: //Necromancer's earth staff
+						e.getItem().setId(1407);
+						break;
+					case 21502: //Skeletal lava battlestaff
+						e.getItem().setId(3053);
+						break;
+					case 21503: //Necromancer's lava staff
+						e.getItem().setId(3054);
+						break;
+					case 21504: //Skeletal mud battlestaff
+						e.getItem().setId(6562);
+						break;
+					case 21505: //Necromancer's mud staff
+						e.getItem().setId(6563);
+						break;
+					case 21506: //Skeletal steam battlestaff
+						e.getItem().setId(11736);
+						break;
+					case 21507: //Necromancer's steam staff
+						e.getItem().setId(11738);
+						break;
 				}
 				e.getPlayer().getInventory().addItemDrop(21488, 1);
 				e.getPlayer().getInventory().refresh();

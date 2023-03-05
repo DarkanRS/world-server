@@ -23,7 +23,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
@@ -138,7 +138,7 @@ public class BlackKnightsFortress extends QuestOutline {
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.hasStarted() && FORTRESS_CHUNKS.contains(e.getChunkId())) {
 			if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) >= STARTED && !p.isQuestComplete(Quest.BLACK_KNIGHTS_FORTRESS)) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 					if (npc.getName().equalsIgnoreCase("Black Knight"))
 						if (npc.lineOfSightTo(p, false)) {
 							npc.setTarget(p);
@@ -221,9 +221,9 @@ public class BlackKnightsFortress extends QuestOutline {
 		Player p = e.getPlayer();
 		if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) != HEARD_PLAN)
 			return;
-		GameObject cauldron = World.getRegion(12086).getObjectWithId(CAULDRON, 0);
+		GameObject cauldron = World.getObjectWithId(Tile.of(3031, 3507, 0), CAULDRON);
 
-		WorldTile tileBeforeCutscene = WorldTile.of(p.getX(), p.getY(), p.getPlane());
+		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		if (e.getItem().getId() == CABBAGE) {
 			p.lock();
 			p.getInventory().removeItems(new Item(CABBAGE, 1));
@@ -238,13 +238,13 @@ public class BlackKnightsFortress extends QuestOutline {
 
 					if (tick == 0) {
 						p.setNextAnimation(new Animation(TOSS_CABBAGE));
-						World.sendProjectile(p, WorldTile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
+						World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
 					}
 					if (tick == 3)
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 6) {
-						p.setNextWorldTile(cauldron.getTile());
+						p.setNextTile(cauldron.getTile());
 						p.getAppearance().transformIntoNPC(NULL_NPC);
 					}
 
@@ -268,7 +268,7 @@ public class BlackKnightsFortress extends QuestOutline {
 								addNPC(BLACK_KNIGHT_CAPTAIN, HeadE.SKEPTICAL_THINKING, "What's that noise?");
 								addNPC(WITCH, HeadE.AMAZED_MILD, "Hopefully Greldo with that cabbage... yes look here it co....NOOOOOoooo!");
 								addNext(() -> {
-									for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+									for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 										if (npc.getId() == WITCH || npc.getId() == BLACK_KNIGHT_CAPTAIN)
 											npc.faceObject(cauldron);
 									tick++;
@@ -278,8 +278,8 @@ public class BlackKnightsFortress extends QuestOutline {
 						});
 
 					if (tick == 14)
-						World.sendProjectile(WorldTile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-							World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
+						World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
+							World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX));
 						});
 
 					if (tick == POTION_RUINED) {
@@ -292,7 +292,7 @@ public class BlackKnightsFortress extends QuestOutline {
 								addNext(() -> {
 									tick++;
 								});
-								for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+								for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 									if (npc.getId() == WITCH)
 										npc.setNextAnimation(new Animation(CRY));
 								create();
@@ -304,7 +304,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 25) {
-						p.setNextWorldTile(tileBeforeCutscene);
+						p.setNextTile(tileBeforeCutscene);
 						p.getAppearance().transformIntoNPC(-1);
 					}
 

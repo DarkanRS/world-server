@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class HarAken extends NPC {
@@ -57,7 +57,7 @@ public class HarAken extends NPC {
 		return false;
 	}
 
-	public HarAken(int id, WorldTile tile, FightKilnController controller) {
+	public HarAken(int id, Tile tile, FightKilnController controller) {
 		super(id, tile, true);
 		setForceMultiArea(true);
 		this.controller = controller;

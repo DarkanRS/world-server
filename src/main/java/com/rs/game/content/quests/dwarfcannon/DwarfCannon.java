@@ -30,7 +30,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -188,12 +188,12 @@ public class DwarfCannon extends QuestOutline {
 	});
 
 	public static ObjectClickHandler handleEnterCaveEntrance = new ObjectClickHandler(new Object[] { 2 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(2620, 9796, 0));
+		e.getPlayer().useStairs(Tile.of(2620, 9796, 0));
 		if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 4)
 			e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 5);
 	});
 
-	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }, e -> e.getPlayer().useStairs(WorldTile.of(2627, 3391, 0)));
+	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }, e -> e.getPlayer().useStairs(Tile.of(2627, 3391, 0)));
 
 	public static ObjectClickHandler handleDwarfRemains = new ObjectClickHandler(new Object[] { 0 }, e -> {
 		if (e.getOption().equals("Take"))

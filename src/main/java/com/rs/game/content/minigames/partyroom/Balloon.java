@@ -25,7 +25,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Balloon extends GameObject {
 
@@ -58,7 +58,7 @@ public class Balloon extends GameObject {
 				@Override
 				public void run() {
 					if (item != null)
-						World.addGroundItem(item, WorldTile.of(getX(), getY(), getPlane()), player, true, 60, DropMethod.NORMAL);
+						World.addGroundItem(item, Tile.of(getX(), getY(), getPlane()), player, true, 60, DropMethod.NORMAL);
 					World.removeObject(poppedBalloon);
 					player.unlock();
 				}

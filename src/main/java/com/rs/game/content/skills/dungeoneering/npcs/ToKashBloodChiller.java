@@ -20,14 +20,14 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class ToKashBloodChiller extends DungeonBoss {
 
 	private boolean specialAttack;
 
-	public ToKashBloodChiller(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public ToKashBloodChiller(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10024, 10039), manager.getBossLevel()), tile, manager, reference);
 	}
 

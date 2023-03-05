@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.region;
+package com.rs.game.map;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,71 +23,71 @@ import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
-public final class RegionBuilder {
+public final class InstanceBuilder {
 
 	/**
 	 * Instance builder
 	 */
-	public static class DynamicRegionReference {
-
+	public static class InstanceReference {
 		private int[] base;
+		private IntSet chunkIds = new IntOpenHashSet();
 		private int width;
 		private int height;
 		private boolean destroyed;
 
-		public DynamicRegionReference(int width, int height) {
+		public InstanceReference(int width, int height) {
 			this.width = width;
 			this.height = height;
 			destroyed = false;
 		}
-		
-		@Deprecated
-		public void setBase(int[] base) {
-			this.base = base;
-		}
 
 		public void requestChunkBound(Runnable callback) {
 			destroyed = false;
-			RegionBuilder.findEmptyChunkBound(this, callback);
+			InstanceBuilder.findEmptyChunkBound(this, callback);
 		}
 
 		public void copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
+					InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
 				});
 			else
-				RegionBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
+				InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
 		}
 
 		public void clearChunk(int localChunkX, int localChunkY, int plane, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
+					InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
 				});
 			else
-				RegionBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
+				InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
 		}
 
 		public void copy2x2ChunkSquare(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
+					InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
 				});
 			else
-				RegionBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
+				InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
 		}
 
 		public void copyMap(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
+					InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
 				});
 			else
-				RegionBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
+				InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
 		}
 
 		public void copyMapAllPlanes(int fromChunkX, int fromChunkY, int size, Runnable callback) {
@@ -97,10 +97,10 @@ public final class RegionBuilder {
 		public void copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
+					InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
 				});
 			else
-				RegionBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
+				InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
 		}
 
 		public void copyMap(int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
@@ -118,10 +118,10 @@ public final class RegionBuilder {
 		public void clearMap(int chunkX, int chunkY, int width, int height, int[] planes, Runnable callback) {
 			if (base == null)
 				requestChunkBound(() -> {
-					RegionBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
+					InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
 				});
 			else
-				RegionBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
+				InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
 		}
 
 		public void clearMap(int width, int height, int[] planes, Runnable callback) {
@@ -136,7 +136,7 @@ public final class RegionBuilder {
 			if (destroyed)
 				return;
 			destroyed = true;
-			RegionBuilder.destroyMap(this, callback);
+			InstanceBuilder.destroyMap(this, callback);
 		}
 
 		public void destroy() {
@@ -163,15 +163,15 @@ public final class RegionBuilder {
 			return base[1] << 3;
 		}
 
-		public WorldTile getBase() {
-			return WorldTile.of(getBaseX(), getBaseY(), 0);
+		public Tile getBase() {
+			return Tile.of(getBaseX(), getBaseY(), 0);
 		}
 
-		public WorldTile getLocalTile(int offsetX, int offsetY, int plane) {
-			return WorldTile.of(getLocalX(offsetX), getLocalY(offsetY), plane);
+		public Tile getLocalTile(int offsetX, int offsetY, int plane) {
+			return Tile.of(getLocalX(offsetX), getLocalY(offsetY), plane);
 		}
 
-		public WorldTile getLocalTile(int offsetX, int offsetY) {
+		public Tile getLocalTile(int offsetX, int offsetY) {
 			return getLocalTile(offsetX, offsetY, 0);
 		}
 
@@ -199,8 +199,8 @@ public final class RegionBuilder {
 			return getBaseChunkY() + offsetY;
 		}
 
-		public int getRegionId() {
-			return ((getBaseChunkX() >> 3) << 8) + (getBaseChunkY() >> 3);
+		public int getChunkId(int offsetX, int offsetY, int plane) {
+			return MapUtils.encode(Structure.CHUNK, getBaseChunkX()+offsetX, getBaseChunkY()+offsetY, plane);
 		}
 
 		public boolean isDestroyed() {
@@ -210,59 +210,62 @@ public final class RegionBuilder {
 		public boolean isCreated() {
 			return base != null;
 		}
+
+		public IntSet getChunkIds() {
+			return chunkIds;
+		}
 	}
 
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
-	private static final Set<Integer> EXISTING_MAPS = new HashSet<>();
+	private static final Set<Integer> EXISTING_CHUNKS = new HashSet<>();
 
 	private static final int MAX_REGION_X = 127;
 	private static final int MAX_REGION_Y = 255;
 
-	private static void reserveArea(int fromRegionX, int fromRegionY, int width, int height, boolean remove) {
-		synchronized(EXISTING_MAPS) {
-			for (int regionX = fromRegionX; regionX < fromRegionX + width; regionX++)
-				for (int regionY = fromRegionY; regionY < fromRegionY + height; regionY++)
-					if (remove)
-						EXISTING_MAPS.remove(getRegionId(regionX, regionY));
-					else
-						EXISTING_MAPS.add(getRegionId(regionX, regionY));
+	private static void reserveChunks(int fromChunkX, int fromChunkY, int width, int height, boolean remove) {
+		synchronized(EXISTING_CHUNKS) {
+			for (int plane = 0;plane < 4;plane++) {
+				for (int chunkX = fromChunkX; chunkX < fromChunkX + width; chunkX++) {
+					for (int chunkY = fromChunkY; chunkY < fromChunkY + height; chunkY++)
+						if (remove)
+							EXISTING_CHUNKS.remove(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+						else
+							EXISTING_CHUNKS.add(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+				}
+			}
 		}
 	}
 
-	private static boolean regionExists(int regionId) {
-		synchronized(EXISTING_MAPS) {
-			return EXISTING_MAPS.contains(regionId);
+	private static boolean chunkExists(int chunkId) {
+		synchronized(EXISTING_CHUNKS) {
+			return EXISTING_CHUNKS.contains(chunkId);
 		}
 	}
 
-	private static int getRegionId(int mapX, int mapY) {
-		return (mapX << 8) + mapY;
-	}
-
-	private static DynamicRegion createDynamicRegion(int regionId) {
-		Region region = World.getRegion(regionId);
-		if (region != null) {
-			if (region instanceof DynamicRegion dr)
+	private static InstancedChunk createInstancedChunk(int fromChunkId, int rotation, int toChunkId) {
+		Chunk chunk = World.getChunk(toChunkId);
+		if (chunk != null) {
+			if (chunk instanceof InstancedChunk dr)
 				return dr;
-			destroyRegion(regionId);
+			destroyChunk(toChunkId);
 		}
-		DynamicRegion newRegion = new DynamicRegion(regionId);
-		World.putRegion(regionId, newRegion);
-		return newRegion;
+		InstancedChunk newChunk = new InstancedChunk(fromChunkId, rotation, toChunkId);
+		World.putChunk(toChunkId, newChunk);
+		return newChunk;
 	}
 
-	public static void destroyRegion(int regionId) {
-		Region region = World.getRegion(regionId);
-		if (region != null) {
-			Set<Integer> playerIndexes = region.getPlayerIndexes();
-			Set<Integer> npcIndexes = region.getNPCsIndexes();
-			if (region.getAllGroundItems() != null)
-				region.getAllGroundItems().clear();
-			if (region.getGroundItems() != null)
-				region.getGroundItems().clear();
-			region.getSpawnedObjects().clear();
-			region.getRemovedObjects().clear();
+	public static void destroyChunk(int chunkId) {
+		Chunk chunk = World.getChunk(chunkId);
+		if (chunk != null) {
+			Set<Integer> playerIndexes = chunk.getPlayerIndexes();
+			Set<Integer> npcIndexes = chunk.getNPCsIndexes();
+			if (chunk.getAllGroundItems() != null)
+				chunk.getAllGroundItems().clear();
+			if (chunk.getGroundItems() != null)
+				chunk.getGroundItems().clear();
+			chunk.getSpawnedObjects().clear();
+			chunk.getRemovedObjects().clear();
 			if (npcIndexes != null)
 				for (int npcIndex : npcIndexes) {
 					NPC npc = World.getNPCs().get(npcIndex);
@@ -270,7 +273,7 @@ public final class RegionBuilder {
 						continue;
 					npc.finish();
 				}
-			World.removeRegion(regionId);
+			World.removeChunk(chunkId);
 
 			if (playerIndexes != null)
 				for (int playerIndex : playerIndexes) {
@@ -283,14 +286,21 @@ public final class RegionBuilder {
 		}
 	}
 
-	public static void findEmptyChunkBound(DynamicRegionReference ref, Runnable callback) {
+	public static void findEmptyChunkBound(InstanceReference ref, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				ref.base = findEmptyChunkBound(ref.width, ref.height);
+				for (int plane = 0;plane < 4;plane++) {
+					for (int x = ref.base[0];x < ref.width;x++) {
+						for (int y = ref.base[1];y < ref.height;y++) {
+							ref.chunkIds.add(MapUtils.encode(Structure.CHUNK, x, y, plane));
+						}
+					}
+				}
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "findEmptyChunkBound", e);
+				Logger.handle(InstanceBuilder.class, "findEmptyChunkBound", e);
 			}
 		});
 	}
@@ -308,94 +318,73 @@ public final class RegionBuilder {
 	}
 
 	private static int findEmptyRegionHash(int widthChunks, int heightChunks) {
-		int regionsDistanceX = 1;
-		while (widthChunks > 8) {
-			regionsDistanceX += 1;
-			widthChunks -= 8;
-		}
-		int regionsDistanceY = 1;
-		while (heightChunks > 8) {
-			regionsDistanceY += 1;
-			heightChunks -= 8;
-		}
-		for (int regionX = 1; regionX <= MAX_REGION_X - regionsDistanceX; regionX++)
-			skip: for (int regionY = 1; regionY <= MAX_REGION_Y - regionsDistanceY; regionY++) {
-				int regionHash = getRegionId(regionX, regionY);
-				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++)
-					for (int checkRegionY = regionY - 1; checkRegionY <= regionY + regionsDistanceY; checkRegionY++) {
-						int regionId = getRegionId(checkRegionX, checkRegionY);
-						if (regionExists(regionId))
+		for (int chunkX = 8; chunkX <= MAX_REGION_X - widthChunks; chunkX++) {
+			skip: for (int chunkY = 8; chunkY <= MAX_REGION_Y - heightChunks; chunkY++) {
+				int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);
+				for (int checkChunkX = chunkX - 1; checkChunkX <= chunkX + widthChunks; checkChunkX++) {
+					for (int checkChunkY = chunkY - 1; checkChunkY <= chunkY + heightChunks; checkChunkY++) {
+						int checkChunkId = MapUtils.encode(Structure.CHUNK, checkChunkX, checkChunkY, 0);
+						if (chunkExists(checkChunkId))
 							continue skip;
 
 					}
-				reserveArea(regionX, regionY, regionsDistanceX, regionsDistanceY, false);
-				return regionHash;
+				}
+				reserveChunks(chunkX, chunkY, widthChunks, heightChunks, false);
+				return chunkId;
 			}
+		}
 		return -1;
 	}
 
-	private static final void destroyMap(DynamicRegionReference ref, Runnable callback) {
+	private static final void destroyMap(InstanceReference ref, Runnable callback) {
 		TaskExecutor.schedule(() -> {
 			try {
 				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.width, ref.height);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "destroyMap", e);
+				Logger.handle(InstanceBuilder.class, "destroyMap", e);
 			}
 		}, 8);
 	}
 
-	private static final void destroyMap(int chunkX, int chunkY, int widthRegions, int heightRegions) {
-		int fromRegionX = chunkX / 8;
-		int fromRegionY = chunkY / 8;
-		int regionsDistanceX = 1;
-		while (widthRegions > 8) {
-			regionsDistanceX += 1;
-			widthRegions -= 8;
-		}
-		int regionsDistanceY = 1;
-		while (heightRegions > 8) {
-			regionsDistanceY += 1;
-			heightRegions -= 8;
-		}
-		for (int regionX = fromRegionX; regionX < fromRegionX + regionsDistanceX; regionX++)
-			for (int regionY = fromRegionY; regionY < fromRegionY + regionsDistanceY; regionY++)
-				destroyRegion(getRegionId(regionX, regionY));
-		reserveArea(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
+	private static final void destroyMap(int chunkX, int chunkY, int width, int height) {
+		for (int z = 0;z < 4;z++)
+			for (int x = chunkX; x < chunkX + width; x++)
+				for (int y = chunkY; y < chunkY + height; y++)
+					destroyChunk(MapUtils.encode(Structure.CHUNK, x, y, z));
+		reserveChunks(chunkX, chunkY, width, height, true);
 	}
 
-	private static void copyChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
+	private static void copyChunk(InstanceReference ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "copyChunk", e);
+				Logger.handle(InstanceBuilder.class, "copyChunk", e);
 			}
 		});
 	}
 
 	private static void copyChunk(int fromChunkX, int fromChunkY, int fromPlane, int toChunkX, int toChunkY, int toPlane, int rotation) {
-		DynamicRegion toRegion = createDynamicRegion(((toChunkX / 8) << 8) + (toChunkY / 8));
-		int regionOffsetX = toChunkX - ((toChunkX / 8) * 8);
-		int regionOffsetY = toChunkY - ((toChunkY / 8) * 8);
-		toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][0] = fromChunkX;
-		toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][1] = fromChunkY;
-		toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][2] = fromPlane;
-		toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][3] = rotation;
-		toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
+		InstancedChunk toChunk = createInstancedChunk(
+			MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
+			rotation,
+			MapUtils.encode(Structure.CHUNK, toChunkX, toChunkY, toPlane)
+		);
+		toChunk.loadMap();
 	}
 
-	private static void copy2x2ChunkSquare(DynamicRegionReference ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
+	private static void copy2x2ChunkSquare(InstanceReference ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "copy2x2ChunkSquare", e);
+				Logger.handle(InstanceBuilder.class, "copy2x2ChunkSquare", e);
 			}
 		});
 	}
@@ -426,14 +415,14 @@ public final class RegionBuilder {
 			}
 	}
 
-	private static void clearChunk(DynamicRegionReference ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
+	private static void clearChunk(InstanceReference ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "clearChunk", e);
+				Logger.handle(InstanceBuilder.class, "clearChunk", e);
 			}
 		});
 	}
@@ -443,32 +432,28 @@ public final class RegionBuilder {
 	}
 
 	private static final void repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
-		for (int xOffset = 0; xOffset < widthChunks; xOffset++)
-			for (int yOffset = 0; yOffset < heightChunks; yOffset++) {
-				int nextChunkX = toChunkX + xOffset;
-				int nextChunkY = toChunkY + yOffset;
-				DynamicRegion toRegion = createDynamicRegion((((nextChunkX / 8) << 8) + (nextChunkY / 8)));
-				int regionOffsetX = (nextChunkX - ((nextChunkX / 8) * 8));
-				int regionOffsetY = (nextChunkY - ((nextChunkY / 8) * 8));
-				for (int toPlane2 : toPlanes) {
-					int toPlane = toPlane2;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][0] = fromChunkX;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][1] = fromChunkY;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][2] = fromPlane;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][3] = rotation;
-					toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
+		for (int plane : toPlanes) {
+			for (int xOffset = 0; xOffset < widthChunks; xOffset++) {
+				for (int yOffset = 0; yOffset < heightChunks; yOffset++) {
+					InstancedChunk toChunk = createInstancedChunk(
+						MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
+						rotation,
+						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, plane)
+					);
+					toChunk.loadMap();
 				}
 			}
+		}
 	}
 
-	private static void clearMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
+	private static void clearMap(InstanceReference ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "clearMap", e);
+				Logger.handle(InstanceBuilder.class, "clearMap", e);
 			}
 		});
 	}
@@ -477,14 +462,14 @@ public final class RegionBuilder {
 		repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
 	}
 
-	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
+	private static void copyMap(InstanceReference ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "copyMap", e);
+				Logger.handle(InstanceBuilder.class, "copyMap", e);
 			}
 		});
 	}
@@ -508,38 +493,31 @@ public final class RegionBuilder {
 		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes);
 	}
 
-	private static void copyMap(DynamicRegionReference ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
+	private static void copyMap(InstanceReference ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
-				Logger.handle(RegionBuilder.class, "copyMap", e);
+				Logger.handle(InstanceBuilder.class, "copyMap", e);
 			}
 		});
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions, int[] fromPlanes, int[] toPlanes) {
+	private static final void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes) {
 		if (fromPlanes.length != toPlanes.length)
 			throw new RuntimeException("PLANES LENGTH ISNT SAME OF THE NEW PLANES ORDER!");
-		for (int xOffset = 0; xOffset < widthRegions; xOffset++)
-			for (int yOffset = 0; yOffset < heightRegions; yOffset++) {
-				int fromThisRegionX = fromRegionX + xOffset;
-				int fromThisRegionY = fromRegionY + yOffset;
-				int toThisRegionX = toRegionX + xOffset;
-				int toThisRegionY = toRegionY + yOffset;
-				int regionId = ((toThisRegionX / 8) << 8) + (toThisRegionY / 8);
-				DynamicRegion toRegion = createDynamicRegion(regionId);
-				int regionOffsetX = (toThisRegionX - ((toThisRegionX / 8) * 8));
-				int regionOffsetY = (toThisRegionY - ((toThisRegionY / 8) * 8));
-				for (int pIndex = 0; pIndex < fromPlanes.length; pIndex++) {
-					int toPlane = toPlanes[pIndex];
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][0] = fromThisRegionX;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][1] = fromThisRegionY;
-					toRegion.getRegionCoords()[toPlane][regionOffsetX][regionOffsetY][2] = fromPlanes[pIndex];
-					toRegion.setReloadObjects(toPlane, regionOffsetX, regionOffsetY);
+		for (int planeIdx = 0; planeIdx < fromPlanes.length; planeIdx++) {
+			for (int xOffset = 0; xOffset < width; xOffset++)
+				for (int yOffset = 0; yOffset < height; yOffset++) {
+					InstancedChunk instance = createInstancedChunk(
+						MapUtils.encode(Structure.CHUNK, fromChunkX + xOffset, fromChunkY + yOffset, fromPlanes[planeIdx]),
+						0,
+						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, toPlanes[planeIdx])
+					);
+					instance.loadMap();
 				}
-			}
+		}
 	}
 }

@@ -24,7 +24,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -34,7 +34,7 @@ public class Strykewyrm extends NPC {
 
 	private int stompId;
 
-	public Strykewyrm(int id, WorldTile tile) {
+	public Strykewyrm(int id, Tile tile) {
 		super(id, tile, false);
 		stompId = id;
 	}

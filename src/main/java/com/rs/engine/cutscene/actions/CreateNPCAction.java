@@ -22,7 +22,7 @@ import com.rs.game.World;
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class CreateNPCAction extends CutsceneAction {
 
@@ -41,7 +41,7 @@ public class CreateNPCAction extends CutsceneAction {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (objects.get(getObjectKey()) != null)
 			scene.deleteObject(objects.get(getObjectKey()));
-		NPC npc = World.spawnNPC(id, WorldTile.of(scene.getX(x), scene.getY(y), plane), -1, true, true);
+		NPC npc = World.spawnNPC(id, Tile.of(scene.getX(x), scene.getY(y), plane), -1, true, true);
 		objects.put(getObjectKey(), npc);
 		npc.setRandomWalk(false);
 	}

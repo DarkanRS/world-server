@@ -39,7 +39,7 @@ public class SnowballInteraction extends PlayerEntityInteraction {
 
 	@Override
 	public void interact(Player player) {
-		player.setNextFaceWorldTile(target.getTile());
+		player.setNextFaceTile(target.getTile());
 		if (player.getInventory().containsItem(11951, 1))
 			player.getInventory().deleteItem(11951, 1);
 		else {

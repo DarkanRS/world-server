@@ -28,12 +28,12 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class ShadowForgerIhlakhizan extends DungeonBoss {
 
-	public ShadowForgerIhlakhizan(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public ShadowForgerIhlakhizan(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10143, 10156), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true); //force cant walk
 	}

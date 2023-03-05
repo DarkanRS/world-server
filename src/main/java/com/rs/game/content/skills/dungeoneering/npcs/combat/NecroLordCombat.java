@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class NecroLordCombat extends CombatScript {
@@ -48,7 +48,7 @@ public class NecroLordCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			final int skeletonCount = boss.getManager().getParty().getTeam().size();
-			final List<WorldTile> projectileTile = new LinkedList<>();
+			final List<Tile> projectileTile = new LinkedList<>();
 			WorldTasks.schedule(new WorldTask() {
 				int cycles;
 
@@ -58,12 +58,12 @@ public class NecroLordCombat extends CombatScript {
 
 					if (cycles == 2)
 						for (int i = 0; i < skeletonCount; i++) {
-							WorldTile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
+							Tile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
 							projectileTile.add(tile);
 							World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
 						}
 					else if (cycles == 4) {
-						for (WorldTile tile : projectileTile)
+						for (Tile tile : projectileTile)
 							boss.addSkeleton(tile);
 						stop();
 						return;
@@ -84,7 +84,7 @@ public class NecroLordCombat extends CombatScript {
 			break;
 		case 2:
 		case 3:
-			final WorldTile tile = WorldTile.of(target.getTile());
+			final Tile tile = Tile.of(target.getTile());
 			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
 			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
 			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);

@@ -33,7 +33,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -50,9 +50,9 @@ public class Halloween2009 {
 	public static String STAGE_KEY = "hw2022";
 	public static final boolean ENABLED = false;
 
-	static WorldTile WEB_RESET_LOC = WorldTile.of(3936, 5125, 2);
+	static Tile WEB_RESET_LOC = Tile.of(3936, 5125, 2);
 
-	public static WorldTile START_LOCATION = WorldTile.of(3808, 5135, 0);
+	public static Tile START_LOCATION = Tile.of(3808, 5135, 0);
 
 	private static HashMap<Integer, Set<Integer>> WEBS = new HashMap<>();
 
@@ -114,7 +114,7 @@ public class Halloween2009 {
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPortal() {
 		if (ENABLED)
-			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, WorldTile.of(3210, 3425, 0), "Portal to enter Death's House."));
+			ObjectSpawns.add(new ObjectSpawn(31845, 10, 0, Tile.of(3210, 3425, 0), "Portal to enter Death's House."));
 	}
 
 	public static ItemClickHandler handleEek = new ItemClickHandler(new Object[] { 15353 }, new String[] { "Hold", "Talk-to", "Play-with", "Dismiss" }, e -> {
@@ -155,8 +155,8 @@ public class Halloween2009 {
 		boolean running = e.getPlayer().getRun();
 		e.getPlayer().lock();
 		e.getPlayer().setRunHidden(false);
-		WorldTile from = curr.getCoordFace();
-		WorldTile to = e.getObject().getCoordFace();
+		Tile from = curr.getCoordFace();
+		Tile to = e.getObject().getCoordFace();
 		boolean needStart = !e.getPlayer().matches(from);
 		if (needStart)
 			e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
@@ -174,7 +174,7 @@ public class Halloween2009 {
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(767));
 						e.getPlayer().unlock();
-						e.getPlayer().setNextWorldTile(WEB_RESET_LOC);
+						e.getPlayer().setNextTile(WEB_RESET_LOC);
 					});
 					stop();
 				}
@@ -211,7 +211,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
+						e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -219,7 +219,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextWorldTile(WorldTile.of(3744, 5287, 0));
+						e.getPlayer().setNextTile(Tile.of(3744, 5287, 0));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -228,7 +228,7 @@ public class Halloween2009 {
 			e.getPlayer().setNextAnimation(new Animation(12776));
 			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
-				e.getPlayer().setNextWorldTile(WorldTile.of(3936, 5125, 2));
+				e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
 				e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 			});
 		}
@@ -238,7 +238,7 @@ public class Halloween2009 {
 		e.getPlayer().setNextAnimation(new Animation(12776));
 		WorldTasks.delay(1, () -> {
 			e.getPlayer().setNextAnimation(new Animation(12777));
-			e.getPlayer().setNextWorldTile(WorldTile.of(3805, 5149, 0));
+			e.getPlayer().setNextTile(Tile.of(3805, 5149, 0));
 		});
 	});
 
@@ -246,26 +246,26 @@ public class Halloween2009 {
 		if (e.getObject().getTile().isAt(3744, 5288)) {
 			if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
 				e.getPlayer().sendOptionDialogue("Select an Option", ops -> {
-					ops.add("Go down the ladder.", () -> e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2)));
-					ops.add("Return to the Grim Reaper's House.", () -> e.getPlayer().useLadder(WorldTile.of(3805, 5149, 0)));
+					ops.add("Go down the ladder.", () -> e.getPlayer().useLadder(/*Tile.of(3936, 5372, 2)*/Tile.of(3936, 5150, 2)));
+					ops.add("Return to the Grim Reaper's House.", () -> e.getPlayer().useLadder(Tile.of(3805, 5149, 0)));
 				});
 				return;
 			}
-			e.getPlayer().useLadder(/*WorldTile.of(3936, 5372, 2)*/WorldTile.of(3936, 5150, 2));
+			e.getPlayer().useLadder(/*Tile.of(3936, 5372, 2)*/Tile.of(3936, 5150, 2));
 		} else
-			e.getPlayer().useLadder(WorldTile.of(3744, 5276, 0));
+			e.getPlayer().useLadder(Tile.of(3744, 5276, 0));
 	});
 
-	public static ObjectClickHandler agilCourseLadderDown = new ObjectClickHandler(new Object[] { 46939 }, e -> e.getPlayer().useLadder(WorldTile.of(3936, 5150, 2)));
+	public static ObjectClickHandler agilCourseLadderDown = new ObjectClickHandler(new Object[] { 46939 }, e -> e.getPlayer().useLadder(Tile.of(3936, 5150, 2)));
 
-	public static ObjectClickHandler agilCourseLadderUp = new ObjectClickHandler(new Object[] { 46731 }, e -> e.getPlayer().useLadder(/*e.getObject().isAt(3936, 5151) ? WorldTile.of(3936, 5315, 2) : */WorldTile.of(3744, 5287, 0)));
+	public static ObjectClickHandler agilCourseLadderUp = new ObjectClickHandler(new Object[] { 46731 }, e -> e.getPlayer().useLadder(/*e.getObject().isAt(3936, 5151) ? Tile.of(3936, 5315, 2) : */Tile.of(3744, 5287, 0)));
 
 	public static ObjectClickHandler webLaddersUp = new ObjectClickHandler(new Object[] { 46938 }, e -> {
 		if (e.getPlayer().getI(Halloween2009.STAGE_KEY) < 4) {
 			e.getPlayer().startConversation(new Dialogue().addNPC(8976, HeadE.SPIDER_EXCLAIM, "Halt! Nobody is permitted to see the Spider Queen. Especially not a four-limbed intruder like yourself!"));
 			return;
 		}
-		e.getPlayer().useLadder(WorldTile.of(3809, 5277, 0));
+		e.getPlayer().useLadder(Tile.of(3809, 5277, 0));
 	});
 
 	public static Set<Integer> getRandomPath() {

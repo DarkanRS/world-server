@@ -30,7 +30,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 
 public class NetTrap extends BoxStyleTrap {
@@ -75,7 +75,7 @@ public class NetTrap extends BoxStyleTrap {
 	private OwnedObject tree;
 	private TreeType treeType;
 
-	public NetTrap(Player player, WorldTile tile, GameObject tree) {
+	public NetTrap(Player player, Tile tile, GameObject tree) {
 		super(player, BoxTrapType.TREE_NET, tile);
 		if (tree != null) {
 			this.tree = new OwnedObject(player, tree);
@@ -103,7 +103,7 @@ public class NetTrap extends BoxStyleTrap {
 
 	@Override
 	public void expire(Player player) {
-		WorldTile tile = WorldTile.of(this.getTile());
+		Tile tile = Tile.of(this.getTile());
 		if (tree == null)
 			tile = tile.transform(rotation == 1 ? 1 : rotation == 3 ? -1 : 0, rotation == 0 ? 1 : rotation == 2 ? -1 : 0, 0);
 		World.addGroundItem(new Item(954, 1), tile, player, true, 60);

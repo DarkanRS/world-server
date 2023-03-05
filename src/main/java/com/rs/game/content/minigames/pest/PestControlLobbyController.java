@@ -18,7 +18,7 @@ package com.rs.game.content.minigames.pest;
 
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class PestControlLobbyController extends Controller {
@@ -50,13 +50,13 @@ public final class PestControlLobbyController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.getControllerManager().forceStop();
 		return true;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.getControllerManager().forceStop();
 		return true;
 	}

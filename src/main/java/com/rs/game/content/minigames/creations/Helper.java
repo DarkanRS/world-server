@@ -25,7 +25,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 /**
@@ -37,7 +37,7 @@ public class Helper {
 	public static final int[] SACRED_CLAY = { 14182, 14184, 14186, 14188, 14190 };
 	public static final long DURATION = 20 * 60 * 1000;
 	public static final long PENALTY_DURATION = 10 * 60 * 1000;
-	public static final WorldTile EXIT = WorldTile.of(2968, 9710, 0);
+	public static final Tile EXIT = Tile.of(2968, 9710, 0);
 	public static final int[] BASE_ENTRANCE_BLUE = { 4, 5 };
 	public static final int[] BASE_ENTRANCE_RED = { 4, 2 };
 	public static final int[][] PLOT_ENTRANCES = { { 2, 2 }, { 2, 3 }, { 2, 4 }, { 3, 2 }, { 3, 4 }, { 4, 2 }, { 4, 4 }, { 5, 2 }, { 5, 3 }, { 5, 4 } };
@@ -113,7 +113,7 @@ public class Helper {
 			entrance = team ? BASE_ENTRANCE_RED : BASE_ENTRANCE_BLUE;
 		else
 			entrance = PLOT_ENTRANCES[Utils.random(PLOT_ENTRANCES.length)];
-		WorldTile tile = WorldTile.of(game.getArea().getMinX() + (base[0] * 8) + entrance[0], game.getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
+		Tile tile = Tile.of(game.getArea().getMinX() + (base[0] * 8) + entrance[0], game.getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
 		// System.err.println("x:" + tile.getX() + ", y:" + tile.getY() + ", z:"
 		// + tile.getPlane());
 		player.reset();
@@ -148,7 +148,7 @@ public class Helper {
 	}
 
 	public static boolean withinSafeArea(Player player, GameArea area, boolean team) {
-		WorldTile tile = getNearestRespawnPoint(player, area, team);
+		Tile tile = getNearestRespawnPoint(player, area, team);
 		int flagX = tile.getChunkX() - (area.getMinX() >> 3);
 		int flagY = tile.getChunkY() - (area.getMinY() >> 3);
 		if (area.getType(flagX, flagY) == 1) {
@@ -162,16 +162,19 @@ public class Helper {
 		return false;
 	}
 
-	public static WorldTile getNearestRespawnPoint(Player player, GameArea area, boolean team) {
-		List<GameObject> o = World.getRegion(player.getRegionId()).getAllObjects();
-		if (o != null)
-			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES))
-				for (int id : gateIDS)
+	public static Tile getNearestRespawnPoint(Player player, GameArea area, boolean team) {
+		List<GameObject> o = World.getSpawnedObjectsInChunkRange(player.getChunkId(), 8); //TODO bug test
+		if (o != null) {
+			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES)) {
+				for (int id : gateIDS) {
 					for (GameObject object : o) {
 						if (object == null || object.getId() != id)
 							continue;
 						return object.getTile();
 					}
+				}
+			}
+		}
 		int size = area.getSize();
 		int[] base = findNearestBase(area, player, team);
 		int[] entrance;
@@ -179,7 +182,7 @@ public class Helper {
 			entrance = team ? BASE_ENTRANCE_RED : BASE_ENTRANCE_BLUE;
 		else
 			entrance = PLOT_ENTRANCES[Utils.random(PLOT_ENTRANCES.length)];
-		WorldTile tile = WorldTile.of(area.getMinX() + (base[0] * 8) + entrance[0], area.getMinY() + (base[1] * 8) + entrance[1], 0);
+		Tile tile = Tile.of(area.getMinX() + (base[0] * 8) + entrance[0], area.getMinY() + (base[1] * 8) + entrance[1], 0);
 		return tile;
 	}
 
@@ -270,7 +273,7 @@ public class Helper {
 	public static boolean withinArea(Player player, GameArea area, int flagX, int flagY, int[] range, int distance) {
 		int minX = area.getMinX() + (flagX << 3) + Helper.BARRIER_MIN[0] + range[0];
 		int minY = area.getMinY() + (flagY << 3) + Helper.BARRIER_MIN[1] + range[1];
-		return player.withinDistance(WorldTile.of(minX, minY, player.getPlane()), distance);
+		return player.withinDistance(Tile.of(minX, minY, player.getPlane()), distance);
 	}
 
 	public static boolean withinArea(Player player, GameArea area, int flagX, int flagY, int[] range) {
@@ -282,7 +285,7 @@ public class Helper {
 		int minY = area.getMinY() + (flagY << 3) + range[1];
 		int maxX = area.getMinX() + (flagX << 3) + range[2];
 		int maxY = area.getMinY() + (flagY << 3) + range[3];
-		if (player.withinDistance(WorldTile.of(minX, minY, player.getPlane()), 3))
+		if (player.withinDistance(Tile.of(minX, minY, player.getPlane()), 3))
 			return player.inArea(minX, minY, maxX, maxY) || player.getX() >= minX && player.getX() <= maxX && player.getY() >= minY && player.getY() <= maxY;
 			return false;
 	}
@@ -330,23 +333,23 @@ public class Helper {
 			return false;
 	}
 
-	public static WorldTile getFaceTile(GameObject gate, Player player) {
+	public static Tile getFaceTile(GameObject gate, Player player) {
 		if (player.getX() != gate.getX() || player.getY() != gate.getY())
-			return WorldTile.of(gate.getX(), gate.getY(), gate.getPlane());
+			return Tile.of(gate.getX(), gate.getY(), gate.getPlane());
 
 		if (gate.getRotation() == 0)
-			return WorldTile.of(gate.getX() - 1, gate.getY(), gate.getPlane());
+			return Tile.of(gate.getX() - 1, gate.getY(), gate.getPlane());
 		if (gate.getRotation() == 1)
-			return WorldTile.of(gate.getX(), gate.getY() + 1, gate.getPlane());
+			return Tile.of(gate.getX(), gate.getY() + 1, gate.getPlane());
 		if (gate.getRotation() == 2)
-			return WorldTile.of(gate.getX() + 1, gate.getY(), gate.getPlane());
+			return Tile.of(gate.getX() + 1, gate.getY(), gate.getPlane());
 		else if (gate.getRotation() == 3)
-			return WorldTile.of(gate.getX(), gate.getY() - 1, gate.getPlane());
+			return Tile.of(gate.getX(), gate.getY() - 1, gate.getPlane());
 		else
 			return null;
 	}
 
-	public static Direction getFaceDirection(WorldTile faceTile, Player player) {
+	public static Direction getFaceDirection(Tile faceTile, Player player) {
 		if (player.getX() < faceTile.getX())
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())

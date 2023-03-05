@@ -7,12 +7,12 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class FireWarrior extends OwnedNPC {
-	public FireWarrior(Player p, int id, WorldTile tile) {
+	public FireWarrior(Player p, int id, Tile tile) {
 		super(p, id, tile, true);
 	}
 

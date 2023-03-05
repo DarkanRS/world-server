@@ -23,7 +23,7 @@ import java.util.Map;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
@@ -89,7 +89,7 @@ public class PickupItemEvent implements PluginEvent {
 				methods.add(handler);
 				locMap.put(0, methods);
 			} else
-				for (WorldTile tile : handler.getTiles()) {
+				for (Tile tile : handler.getTiles()) {
 					List<PickupItemHandler> methods = locMap.get(tile.getTileHash());
 					if (methods == null)
 						methods = new ArrayList<>();

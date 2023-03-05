@@ -19,9 +19,12 @@ package com.rs.net.encoders;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -29,8 +32,6 @@ import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.ObjectMeshModifier;
-import com.rs.game.region.DynamicRegion;
-import com.rs.game.region.Region;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.HintIcon;
@@ -38,7 +39,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.PublicChatMessage;
 import com.rs.lib.game.QuickChatMessage;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.model.Account;
 import com.rs.lib.net.Encoder;
@@ -98,26 +99,20 @@ import com.rs.lib.net.packets.encoders.social.QuickChatClan;
 import com.rs.lib.net.packets.encoders.social.QuickChatFriendsChat;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivate;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivateEcho;
-import com.rs.lib.net.packets.encoders.updatezone.AddObject;
-import com.rs.lib.net.packets.encoders.updatezone.CreateGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject;
-import com.rs.lib.net.packets.encoders.updatezone.ObjectAnim;
-import com.rs.lib.net.packets.encoders.updatezone.ProjAnim;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
-import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
-import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
-import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
+import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.SetVarClan;
 import com.rs.lib.net.packets.encoders.vars.SetVarc;
 import com.rs.lib.net.packets.encoders.vars.SetVarcString;
 import com.rs.lib.net.packets.encoders.vars.SetVarp;
 import com.rs.lib.net.packets.encoders.vars.SetVarpBit;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 public class WorldEncoder extends Encoder {
 
@@ -228,11 +223,11 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_RESET_HARD);
 	}
 
-	public void sendCameraLook(WorldTile tile, int viewZ) {
+	public void sendCameraLook(Tile tile, int viewZ) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ);
 	}
 
-	public void sendCameraLook(WorldTile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
+	public void sendCameraLook(Tile tile, int viewZ, int speedToExactDestination, int speedOnRoutePath) {
 		sendCameraLook(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), viewZ, speedToExactDestination, speedOnRoutePath);
 	}
 
@@ -252,12 +247,12 @@ public class WorldEncoder extends Encoder {
 		session.writeToQueue(ServerPacket.CAM_RESET_SMOOTH);
 	}
 
-	public void sendCameraPos(WorldTile tile, int z) {
+	public void sendCameraPos(Tile tile, int z) {
 		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z);
 	}
 
-	public void sendCameraPos(WorldTile tile, int z, int speedToWorldTile, int speedToExactDestination) {
-		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToWorldTile, speedToExactDestination);
+	public void sendCameraPos(Tile tile, int z, int speedToTile, int speedToExactDestination) {
+		sendCameraPos(tile.getXInScene(player.getSceneBaseChunkId()), tile.getYInScene(player.getSceneBaseChunkId()), z, speedToTile, speedToExactDestination);
 	}
 
 	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ) {
@@ -265,11 +260,11 @@ public class WorldEncoder extends Encoder {
 	}
 
 	/**
-	 * @param speedToWorldTile defines speed of the camera to the world tile with the default height then the exact position
+	 * @param speedToTile defines speed of the camera to the world tile with the default height then the exact position
 	 * @param speedToExactDestination defines speed of camera to the exact position specified by previous parameters.
 	 */
-	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speedToWorldTile, int speedToExactDestination) {
-		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speedToWorldTile, speedToExactDestination));
+	public void sendCameraPos(int moveLocalX, int moveLocalY, int moveZ, int speedToTile, int speedToExactDestination) {
+		session.writeToQueue(new CamMoveTo(moveLocalX, moveLocalY, moveZ, speedToTile, speedToExactDestination));
 	}
 
 	public void sendRunScript(int scriptId, Object... params) {
@@ -322,54 +317,54 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendObjectAnimation(GameObject object, Animation animation) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new ObjectAnim(object, animation));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
+		session.writeToQueue(new ObjectAnim(object.getTile().getChunkLocalHash(), object, animation));
 	}
 
 	public void removeGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new RemoveGroundItem(item));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
+		session.writeToQueue(new RemoveGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new CreateGroundItem(item));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
+		session.writeToQueue(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendSetGroundItemAmount(GroundItem item, int oldAmount) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new SetGroundItemAmount(item, oldAmount));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
+		session.writeToQueue(new SetGroundItemAmount(item.getTile().getChunkLocalHash(), item, oldAmount));
 	}
 
 	public void sendProjectile(WorldProjectile projectile) {
-		session.writeToQueue(new UpdateZoneFullFollows(projectile.getSource(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new ProjAnim(projectile));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), projectile.getFromTile().getChunkId()));
+		session.writeToQueue(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
 	}
 
-	public void sendTileMessage(String message, WorldTile tile, int delay, int height, int color) {
-		session.writeToQueue(new UpdateZoneFullFollows(tile, player.getSceneBaseChunkId()));
-		session.writeToQueue(new TileMessage(tile, message, delay, height, color));
+	public void sendTileMessage(String message, Tile tile, int delay, int height, int color) {
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), tile.getChunkId()));
+		session.writeToQueue(new TileMessage(tile.getChunkLocalHash(), message, delay, height, color));
 	}
 
-	public void sendTileMessage(String message, WorldTile tile, int color) {
+	public void sendTileMessage(String message, Tile tile, int color) {
 		sendTileMessage(message, tile, 5000, 255, color);
 	}
 
 	public void sendRemoveObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new RemoveObject(object));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
+		session.writeToQueue(new RemoveObject(object.getTile().getChunkLocalHash(), object));
 	}
 
 	public void sendAddObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new AddObject(object));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
+		session.writeToQueue(new AddObject(object.getTile().getChunkLocalHash(), object));
 		if (object.getMeshModifier() != null)
 			sendCustomizeObject(object.getMeshModifier());
 	}
 
 	public void sendCustomizeObject(ObjectMeshModifier modifier) {
-		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject().getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new CustomizeObject(modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), modifier.getObject().getTile().getChunkId()));
+		session.writeToQueue(new CustomizeObject(modifier.getObject().getTile().getChunkLocalHash(), modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 
 	public void sendMessage(MessageType type, String text, Player p) {
@@ -432,44 +427,28 @@ public class WorldEncoder extends Encoder {
 		int mapHash = player.getMapSize().size >> 4;
 		int[] realRegionIds = new int[4 * mapHash * mapHash];
 		int realRegionIdsCount = 0;
-		for (int plane = 0; plane < 4; plane++)
-			for (int thisRegionX = (player.getChunkX() - mapHash); thisRegionX <= ((player.getChunkX() + mapHash)); thisRegionX++)
-				for (int thisRegionY = (player.getChunkY() - mapHash); thisRegionY <= ((player.getChunkY() + mapHash)); thisRegionY++) {
-					int regionId = (((thisRegionX / 8) << 8) + (thisRegionY / 8));
-					Region region = World.getRegion(regionId);
-					int realRegionX;
-					int realRegionY;
-					int realPlane;
-					int rotation;
-					if (region instanceof DynamicRegion dynRegion) {
-						int[] regionCoords = dynRegion.getRegionCoords()[plane][thisRegionX - ((thisRegionX / 8) * 8)][thisRegionY - ((thisRegionY / 8) * 8)];
-						realRegionX = regionCoords[0];
-						realRegionY = regionCoords[1];
-						realPlane = regionCoords[2];
-						rotation = regionCoords[3];
-					} else {
-						realRegionX = thisRegionX;
-						realRegionY = thisRegionY;
-						realPlane = plane;
-						rotation = 0;
-					}
-					if (realRegionX == 0 || realRegionY == 0)
+		for (int plane = 0; plane < 4; plane++) {
+			for (int chunkX = (player.getChunkX() - mapHash); chunkX <= ((player.getChunkX() + mapHash)); chunkX++) {
+				for (int chunkY = (player.getChunkY() - mapHash); chunkY <= ((player.getChunkY() + mapHash)); chunkY++) {
+					Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0)
 						stream.writeBits(1, 0);
 					else {
 						stream.writeBits(1, 1);
-						stream.writeBits(26, (rotation << 1) | (realPlane << 24) | (realRegionX << 14) | (realRegionY << 3));
-						int realRegionId = (((realRegionX / 8) << 8) + (realRegionY / 8));
+						stream.writeBits(26, (chunk.getRotation() << 1) | (chunk.getRenderPlane() << 24) | (chunk.getRenderChunkX() << 14) | (chunk.getRenderChunkY() << 3));
 						boolean found = false;
-						for (int index = 0; index < realRegionIdsCount; index++)
-							if (realRegionIds[index] == realRegionId) {
+						for (int index = 0; index < realRegionIdsCount; index++) {
+							if (realRegionIds[index] == chunk.getRenderRegionId()) {
 								found = true;
 								break;
 							}
+						}
 						if (!found)
-							realRegionIds[realRegionIdsCount++] = realRegionId;
+							realRegionIds[realRegionIdsCount++] = chunk.getRenderRegionId();
 					}
-
 				}
+			}
+		}
 		stream.finishBitAccess();
 		session.writeToQueue(new DynamicMapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), stream.toByteArray(), realRegionIds));
 	}
@@ -481,7 +460,12 @@ public class WorldEncoder extends Encoder {
 			player.getLocalPlayerUpdate().init(stream);
 			lswp = stream.toByteArray();
 		}
-		session.writeToQueue(new MapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), player.getMapRegionsIds()));
+		Set<Integer> mapRegionIds = new IntOpenHashSet();
+		for (int chunkId : player.getMapChunkIds()) {
+			int[] coords = MapUtils.decode(Structure.CHUNK, chunkId);
+			mapRegionIds.add(MapUtils.encode(Structure.REGION, coords[0] >> 3, coords[1] >> 3));
+		}
+		session.writeToQueue(new MapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), mapRegionIds));
 	}
 
 	public void sendCutscene(int id) {
@@ -516,7 +500,7 @@ public class WorldEncoder extends Encoder {
 			targetHash = p.getIndex() & 0xffff | 1 << 28;
 		else if (target instanceof NPC n)
 			targetHash = n.getIndex() & 0xffff | 1 << 29;
-		else if (target instanceof WorldTile tile)
+		else if (target instanceof Tile tile)
 			targetHash = tile.getPlane() << 28 | tile.getX() << 14 | tile.getY() & 0x3fff | 1 << 30;
 		session.writeToQueue(new SpotAnimSpecific(spotAnim, targetHash));
 	}

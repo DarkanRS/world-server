@@ -31,12 +31,12 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class IcyBones extends DungeonBoss {
 
-	public IcyBones(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public IcyBones(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10040, 10057), manager.getBossLevel()), tile, manager, reference);
 		spikes = new ArrayList<>();
 		setHitpoints(getMaxHitpoints());
@@ -75,7 +75,7 @@ public final class IcyBones extends DungeonBoss {
 			for (int y = -1; y < 7; y++) {
 				if (((x != -1 && x != 6) && (y != -1 && y != 6)) || Utils.random(2) != 0)
 					continue;
-				WorldTile tile = transform(x - size, y - size, 0);
+				Tile tile = transform(x - size, y - size, 0);
 				RoomReference current = getManager().getCurrentRoomReference(tile);
 				if (current.getRoomX() != getReference().getRoomX() || current.getRoomY() != getReference().getRoomY() || !World.floorFree(tile.getPlane(), tile.getX(), tile.getY()))
 					continue;

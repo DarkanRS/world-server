@@ -27,7 +27,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -116,7 +116,7 @@ public class Summoning {
 			player.sendMessage("You need a summoning level of " + pouch.getLevel() + " in order to use this pouch.");
 			return;
 		}
-		WorldTile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(pouch.getBaseNpc(), player.getVars()).size);
+		Tile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(pouch.getBaseNpc(), player.getVars()).size);
 		if (spawnTile == null) {
 			player.sendMessage("Theres not enough space to summon your familiar here.");
 			return;

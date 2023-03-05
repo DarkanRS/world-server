@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -32,11 +32,11 @@ public class AncientGuthixTemple {
 	});
 
 	public static ObjectClickHandler handleSkullEntrance = new ObjectClickHandler(new Object[] { 48248 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(2525, 5810, 0), 1, 1);
+		e.getPlayer().useStairs(-1, Tile.of(2525, 5810, 0), 1, 1);
 	});
 
 	public static ObjectClickHandler handleSkullExit = new ObjectClickHandler(new Object[] { 41077 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(2527, 5830, 2), 1, 1);
+		e.getPlayer().useStairs(-1, Tile.of(2527, 5830, 2), 1, 1);
 	});
 
 }

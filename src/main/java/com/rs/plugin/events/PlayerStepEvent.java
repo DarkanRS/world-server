@@ -21,7 +21,7 @@ import java.util.Map;
 
 import com.rs.game.model.entity.pathing.WalkStep;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
@@ -30,10 +30,10 @@ public class PlayerStepEvent implements PluginEvent {
 	private static Map<Object, PlayerStepHandler> METHODS = new HashMap<>();
 
 	private Player player;
-	private WorldTile tile;
+	private Tile tile;
 	private WalkStep step;
 
-	public PlayerStepEvent(Player player, WalkStep step, WorldTile tile) {
+	public PlayerStepEvent(Player player, WalkStep step, Tile tile) {
 		this.player = player;
 		this.tile = tile;
 		this.step = step;
@@ -43,7 +43,7 @@ public class PlayerStepEvent implements PluginEvent {
 		return player;
 	}
 
-	public WorldTile getTile() {
+	public Tile getTile() {
 		return tile;
 	}
 

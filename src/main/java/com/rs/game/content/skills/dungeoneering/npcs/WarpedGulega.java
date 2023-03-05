@@ -22,12 +22,12 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Hit;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class WarpedGulega extends DungeonBoss {
 
-	public WarpedGulega(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public WarpedGulega(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12737, 12751), manager.getBossLevel()), tile, manager, reference);
 	}
 

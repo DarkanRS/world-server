@@ -27,71 +27,71 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 
 public class DeathOfficeController extends Controller {
 	
 	public enum Hub {
-		LUMBRIDGE(WorldTile.of(3222, 3219, 0)),
-		VARROCK(WorldTile.of(3212, 3422, 0)),
-		EDGEVILLE(WorldTile.of(3094, 3502, 0)),
-		FALADOR(WorldTile.of(2965, 3386, 0)),
-		SEERS_VILLAGE(WorldTile.of(2725, 3491, 0)),
-		ARDOUGNE(WorldTile.of(2662, 3305, 0)),
-		YANILLE(WorldTile.of(2605, 3093, 0)), 
-		KELDAGRIM(WorldTile.of(2845, 10210, 0)) {
+		LUMBRIDGE(Tile.of(3222, 3219, 0)),
+		VARROCK(Tile.of(3212, 3422, 0)),
+		EDGEVILLE(Tile.of(3094, 3502, 0)),
+		FALADOR(Tile.of(2965, 3386, 0)),
+		SEERS_VILLAGE(Tile.of(2725, 3491, 0)),
+		ARDOUGNE(Tile.of(2662, 3305, 0)),
+		YANILLE(Tile.of(2605, 3093, 0)),
+		KELDAGRIM(Tile.of(2845, 10210, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.GIANT_DWARF);
 			}
 		}, 
-		DORGESH_KAAN(WorldTile.of(2720, 5351, 0)) {
+		DORGESH_KAAN(Tile.of(2720, 5351, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.DEATH_TO_DORGESHUUN);
 			}
 		},
-		LLETYA(WorldTile.of(2341, 3171, 0)) {
+		LLETYA(Tile.of(2341, 3171, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.ROVING_ELVES);
 			}
 		},
-		ETCETERIA(WorldTile.of(2614, 3894, 0)) {
+		ETCETERIA(Tile.of(2614, 3894, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.THRONE_OF_MISCELLANIA);
 			}
 		},
-		DAEMONHEIM(WorldTile.of(3450, 3718, 0)),
-		CANIFIS(WorldTile.of(3496, 3489, 0)) {
+		DAEMONHEIM(Tile.of(3450, 3718, 0)),
+		CANIFIS(Tile.of(3496, 3489, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player) {
 				return player.isQuestComplete(Quest.PRIEST_IN_PERIL);
 			}
 		},
-		TZHAAR_CITY(WorldTile.of(4651, 5151, 0)),
-		BURTHORPE(WorldTile.of(2889, 3528, 0)),
-		AL_KHARID(WorldTile.of(3275, 3166, 0)),
-		DRAYNOR_VILLAGE(WorldTile.of(3079, 3250, 0)),
+		TZHAAR_CITY(Tile.of(4651, 5151, 0)),
+		BURTHORPE(Tile.of(2889, 3528, 0)),
+		AL_KHARID(Tile.of(3275, 3166, 0)),
+		DRAYNOR_VILLAGE(Tile.of(3079, 3250, 0)),
 		
 		//Extra unlocked hubs
-		LUMBRIDGE_CASTLE(WorldTile.of(3222, 3219, 0)),
-		FALADOR_CASTLE(WorldTile.of(2971, 3343, 0)),
-		CAMELOT(WorldTile.of(2758, 3486, 0)),
-		SOUL_WARS(WorldTile.of(1891, 3177, 0));
+		LUMBRIDGE_CASTLE(Tile.of(3222, 3219, 0)),
+		FALADOR_CASTLE(Tile.of(2971, 3343, 0)),
+		CAMELOT(Tile.of(2758, 3486, 0)),
+		SOUL_WARS(Tile.of(1891, 3177, 0));
 		
-		private WorldTile tile;
+		private Tile tile;
 		
-		Hub(WorldTile tile) {
+		Hub(Tile tile) {
 			this.tile = tile;
 		}
 		
@@ -118,7 +118,7 @@ public class DeathOfficeController extends Controller {
 		return hubs;
 	}
 
-	public static Hub getCurrentHub(Player player, WorldTile tile) {
+	public static Hub getCurrentHub(Player player, Tile tile) {
 		Hub nearestHub = null;
 		int distance = Integer.MAX_VALUE;
 		for (Hub hub : Hub.values()) {
@@ -136,20 +136,20 @@ public class DeathOfficeController extends Controller {
 	}
 
 	public static Hub getRespawnHub(Player player) {
-		return getCurrentHub(player, WorldTile.of(player.getTile()));
+		return getCurrentHub(player, Tile.of(player.getTile()));
 	}
 
-	private transient DynamicRegionReference region = new DynamicRegionReference(2, 2);
+	private transient InstanceReference region = new InstanceReference(2, 2);
 	private Stages stage;
 	private Integer[][] slots;
 	private Hub defaultHub;
 	private Hub currentHub;
 	private List<Hub> optionalHubs;
-	private WorldTile deathTile;
+	private Tile deathTile;
 	private boolean hadSkull;
 
-	public DeathOfficeController(WorldTile deathTile, boolean hadSkull) {
-		this.deathTile = WorldTile.of(deathTile);
+	public DeathOfficeController(Tile deathTile, boolean hadSkull) {
+		this.deathTile = Tile.of(deathTile);
 		this.hadSkull = hadSkull;
 	}
 
@@ -166,7 +166,7 @@ public class DeathOfficeController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.setTile(WorldTile.of(1978, 5302, 0));
+		player.setTile(Tile.of(1978, 5302, 0));
 		destroyRoom();
 		return false;
 	}
@@ -215,11 +215,11 @@ public class DeathOfficeController extends Controller {
 		player.lock();
 
 		if (region == null)
-			region = new DynamicRegionReference(2, 2);
+			region = new InstanceReference(2, 2);
 
 		region.copyMapSinglePlane(246, 662, () -> {
 			player.reset();
-			player.setNextWorldTile(region.getLocalTile(10, 6));
+			player.setNextTile(region.getLocalTile(10, 6));
 			WorldTasks.delay(1, () -> {
 				player.setNextAnimation(new Animation(-1));
 				player.getMusicsManager().playSongAndUnlock(683);
@@ -232,12 +232,12 @@ public class DeathOfficeController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		return false;
 	}
 
@@ -360,7 +360,7 @@ public class DeathOfficeController extends Controller {
 		return player.get("protectSlots") != null ? (Integer) player.get("protectSlots") : 1;
 	}
 
-	public WorldTile getDeathTile() {
+	public Tile getDeathTile() {
 		return deathTile;
 	}
 

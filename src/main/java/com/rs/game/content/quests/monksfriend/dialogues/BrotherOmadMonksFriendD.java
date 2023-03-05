@@ -9,6 +9,7 @@ import static com.rs.game.content.quests.monksfriend.MonksFriend.RETURN_TO_OMAD;
 
 import java.util.ArrayList;
 
+import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.game.World;
 import com.rs.game.content.minigames.partyroom.Balloon;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
@@ -19,11 +20,10 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.utils.Ticks;
@@ -215,7 +215,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		p.getTempAttribs().setL("last_party_time", System.currentTimeMillis());
 		String[] dancePhrases = new String[]{"Let's boogie!", "Get down!", "Let's dance!", "Party time!", "Feel the rhythm!", "Watch me go!", "Party!", "Woop!", "Oh my!"};
 		ArrayList<NPC> monks = new ArrayList<>();
-		for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 			if (npc.getName().equalsIgnoreCase("Monk") || npc.getName().equalsIgnoreCase("Brother Omad"))
 				monks.add(npc);
 		WorldTasks.scheduleTimer(i -> {
@@ -244,7 +244,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		ArrayList<Balloon> balloons = new ArrayList<>();
 		for (int x = 2601; x < 2612; x++)
 			for (int y = 3205; y < 3222; y++)
-				if (World.getObject(WorldTile.of(x, y, 0)) == null && (RenderFlag.flagged(World.getRenderFlags(0, x, y), RenderFlag.UNDER_ROOF)))
+				if (World.getObject(Tile.of(x, y, 0)) == null && (ClipFlag.flagged(World.getClipFlags(0, x, y), ClipFlag.UNDER_ROOF)))
 					if (Utils.randomInclusive(0, 1) == 0)
 						balloons.add(new Balloon(PartyRoom.getRandomBalloon(), 0, x, y, 0));
 		WorldTasks.scheduleTimer(i -> {

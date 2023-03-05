@@ -31,7 +31,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -255,7 +255,7 @@ public class Woodcutting extends Action {
 				player.incrementCount("Choking ivy chopped");
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
@@ -266,7 +266,7 @@ public class Woodcutting extends Action {
 			}
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			if (type.getLogsId() != null) {
@@ -302,7 +302,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return World.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

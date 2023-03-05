@@ -17,7 +17,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -65,7 +65,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 													});
 													player.fadeScreen(() -> {
 														player.sendMessage("Elkoy leads you through the maze...");
-														player.setNextWorldTile(player.getY() > 3177 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
+														player.setNextTile(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 													});
 												})
 										);
@@ -121,7 +121,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 										});
 										player.fadeScreen(() -> {
 											player.sendMessage("Elkoy leads you through the maze...");
-											player.setNextWorldTile(player.getY() > 3177 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
+											player.setNextTile(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 										});
 									})
 							);

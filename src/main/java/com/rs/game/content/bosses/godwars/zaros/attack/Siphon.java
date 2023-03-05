@@ -24,7 +24,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Siphon implements NexAttack {
 
@@ -39,7 +39,7 @@ public class Siphon implements NexAttack {
 		int reaverSize = NPCDefinitions.getDefs(13458).size;
 		int respawnedBloodReaverCount = 0;
 		for (int i = 0; i < 3; i++) {
-			WorldTile tile = nex.getNearestTeleTile(reaverSize);
+			Tile tile = nex.getNearestTeleTile(reaverSize);
 			if (tile != null)
 				nex.getBloodReavers()[respawnedBloodReaverCount++] = new NPC(13458, tile, true);
 		}

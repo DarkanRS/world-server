@@ -1,6 +1,6 @@
 package com.rs.game.model.entity;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Rotation {
 	private int data;
@@ -14,7 +14,7 @@ public class Rotation {
 		data = entity.getClientIndex();
 	}
 	
-	public Rotation(WorldTile tile) {
+	public Rotation(Tile tile) {
 		data |= -0x40000000;
 		data += tile.getY() + (tile.getX() << 14);
 	}

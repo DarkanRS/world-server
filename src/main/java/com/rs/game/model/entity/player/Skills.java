@@ -31,7 +31,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -958,7 +958,7 @@ public final class Skills {
 			player.setNextSpotAnim(new SpotAnim(2457, 25, 254));
 			player.setNextSpotAnim(new SpotAnim(2456, 50, 220));
 			if (newLevel == 99 || newLevel == 120)
-				World.sendSpotAnim(player, new SpotAnim(1765), WorldTile.of(player.getTile()));
+				World.sendSpotAnim(Tile.of(player.getTile()), new SpotAnim(1765));
 			if (skill == Constants.SUMMONING || (skill >= Constants.ATTACK && skill <= Constants.MAGIC)) {
 				player.getAppearance().generateAppearanceData();
 				if (skill == Constants.HITPOINTS)

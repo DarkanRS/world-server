@@ -28,7 +28,7 @@ import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -211,9 +211,9 @@ public class GoblinDiplomacy extends QuestOutline {
 
 	public static ObjectClickHandler handleGoblinVillageLadder = new ObjectClickHandler(new Object[] { 16450, 16556 }, e -> {
 		if (e.getObjectId() == 16450 && e.getPlayer().getPlane() == 0)
-			e.getPlayer().ladder(WorldTile.of(2953, 3497, 2));
+			e.getPlayer().ladder(Tile.of(2953, 3497, 2));
 		if (e.getObjectId() == 16556 && e.getPlayer().getPlane() == 2)
-			e.getPlayer().ladder(WorldTile.of(2953, 3497, 0));
+			e.getPlayer().ladder(Tile.of(2953, 3497, 0));
 	});
 
 	public static ObjectClickHandler handleGoblinMailChests = new ObjectClickHandler(new Object[] { 16559, 16560, 16561 }, e -> {

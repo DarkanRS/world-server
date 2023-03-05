@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class LuminscentIcefiend extends DungeonBoss {
@@ -43,12 +43,12 @@ public class LuminscentIcefiend extends DungeonBoss {
 	private static final SpotAnim ICE_SHARDS = new SpotAnim(2525);
 	private static final Animation KNOCKBACK = new Animation(10070);
 
-	private List<WorldTile> icicles;
+	private List<Tile> icicles;
 
 	private int specialStage;
 	private boolean specialEnabled;
 
-	public LuminscentIcefiend(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public LuminscentIcefiend(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9912, 9928), manager.getBossLevel()), tile, manager, reference);
 		specialStage = FIRST_STAGE;
 		icicles = new LinkedList<>();
@@ -122,9 +122,9 @@ public class LuminscentIcefiend extends DungeonBoss {
 					if (player == null || player.isDead() || player.hasFinished())
 						continue;
 
-					WorldTile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? WorldTile.of(player.getTile()) : player.getLastWorldTile();
+					Tile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? Tile.of(player.getTile()) : player.getLastTile();
 					tileLoop: for (int i = 0; i < icicles.size(); i++) {
-						WorldTile tile = icicles.remove(i);
+						Tile tile = icicles.remove(i);
 						player.getPackets().sendSpotAnim(ICE_SHARDS, tile);
 						if (player.getTempAttribs().getB("FIEND_FLAGGED") || player.getX() != tile.getX() || player.getY() != tile.getY())
 							continue tileLoop;
@@ -136,20 +136,20 @@ public class LuminscentIcefiend extends DungeonBoss {
 				if (count < 5)
 					return;
 
-				for (WorldTile tile : icicles) {
+				for (Tile tile : icicles) {
 					entityLoop: for (Entity t : getPossibleTargets()) {
 						Player player = (Player) t;
 						if (!player.getTempAttribs().getB("FIEND_FLAGGED"))
 							continue entityLoop;
 
-						WorldTile nextTile = World.getFreeTile(player.getTile(), 1);
+						Tile nextTile = World.getFreeTile(player.getTile(), 1);
 
 						if (!player.isCantWalk())
 							player.setCantWalk(true);
 						if (player.getActionManager().getAction() != null)
 							player.getActionManager().forceStop();
 						player.setNextAnimation(KNOCKBACK);
-						player.setNextWorldTile(nextTile);
+						player.setNextTile(nextTile);
 						player.setNextForceMovement(new ForceMovement(tile, 0, nextTile, 1, Utils.getAngleTo(tile.getX() - nextTile.getX(), tile.getY() - nextTile.getY())));
 						int damageCap = (int) (player.getMaxHitpoints() * .10);
 						if (player.getHitpoints() < damageCap)// If has 10% of HP.

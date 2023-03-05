@@ -23,7 +23,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -35,7 +35,7 @@ public class LivingRock extends NPC {
 	private Entity source;
 	private long deathTime;
 
-	public LivingRock(int id, WorldTile tile, boolean spawned) {
+	public LivingRock(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setForceAggroDistance(4);
 		setIgnoreDocile(true);

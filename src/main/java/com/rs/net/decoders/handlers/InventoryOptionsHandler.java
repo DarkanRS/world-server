@@ -63,7 +63,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -310,12 +310,12 @@ public class InventoryOptionsHandler {
 		if (itemId == 299) {
 			if (player.isLocked())
 				return;
-			if (World.getObject(WorldTile.of(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
+			if (World.getObject(Tile.of(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
 				player.sendMessage("You cannot plant flowers here..");
 				return;
 			}
 			final double random = Utils.random(100.0);
-			final WorldTile tile = WorldTile.of(player.getTile());
+			final Tile tile = Tile.of(player.getTile());
 			int flower = Utils.random(2980, 2987);
 			if (random < 0.2)
 				flower = Utils.random(2987, 2989);
@@ -337,7 +337,7 @@ public class InventoryOptionsHandler {
 						stop();
 					if (step == 1) {
 						player.startConversation(new FlowerPickup(player, flowerObject, flowerId));
-						player.setNextFaceWorldTile(tile);
+						player.setNextFaceTile(tile);
 						player.unlock();
 						stop();
 					}
@@ -409,7 +409,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, WorldTile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
@@ -513,7 +513,7 @@ public class InventoryOptionsHandler {
 		if (event.dropCancelled())
 			return;
 		player.getInventory().deleteItem(slotId, item);
-		World.addGroundItem(item, WorldTile.of(player.getTile()), player);
+		World.addGroundItem(item, Tile.of(player.getTile()), player);
 		player.soundEffect(ItemConfig.get(item.getId()).getDropSound());
 	}
 

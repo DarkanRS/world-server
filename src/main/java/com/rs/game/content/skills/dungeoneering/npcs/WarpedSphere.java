@@ -22,7 +22,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class WarpedSphere extends DungeonNPC {
 
@@ -45,7 +45,7 @@ public class WarpedSphere extends DungeonNPC {
 	private final RoomReference reference;
 	private int stage;
 
-	public WarpedSphere(RoomReference reference, int id, WorldTile tile, DungeonManager manager) {
+	public WarpedSphere(RoomReference reference, int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
 		this.reference = reference;
 		stage = -1;//Gotta follow warmonger
@@ -56,7 +56,7 @@ public class WarpedSphere extends DungeonNPC {
 		super.processNPC();
 		if (stage > 0)
 			if (hasWalkSteps()) {
-				WorldTile previousTile = getLastWorldTile();
+				Tile previousTile = getLastTile();
 				if (previousTile == null)
 					return;
 				final int[] TELEPORT_TILE = PLAYER_TELEPORT_LOCATIONS[stage];
@@ -85,8 +85,8 @@ public class WarpedSphere extends DungeonNPC {
 		final int[] TELEPORT_TILE = ORB_TELEPORT_LOCATIONS[stage];
 		if (TELEPORT_TILE[0] == 0)
 			return;
-		WorldTile nextTile = getManager().getTile(reference, TELEPORT_TILE[0], TELEPORT_TILE[1]);
+		Tile nextTile = getManager().getTile(reference, TELEPORT_TILE[0], TELEPORT_TILE[1]);
 		setRespawnTile(nextTile);
-		setNextWorldTile(nextTile);
+		setNextTile(nextTile);
 	}
 }

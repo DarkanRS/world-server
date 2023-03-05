@@ -17,7 +17,7 @@
 package com.rs.game.content.minigames.shadesofmortton;
 
 import com.rs.game.content.world.doors.Doors;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -31,7 +31,7 @@ public class ShadeCatacombs {
 			e.getPlayer().sendMessage("The door seems securely locked.");
 			return;
 		}
-		e.getPlayer().useStairs(e.getObjectId() == 31294 ? WorldTile.of(3493, 9725, 0) : WorldTile.of(3484, 3321, 0));
+		e.getPlayer().useStairs(e.getObjectId() == 31294 ? Tile.of(3493, 9725, 0) : Tile.of(3484, 3321, 0));
 	});
 
 	public static ObjectClickHandler handleDoors = new ObjectClickHandler(new Object[] { 4106, 4107, 4108, 4109 }, e -> {

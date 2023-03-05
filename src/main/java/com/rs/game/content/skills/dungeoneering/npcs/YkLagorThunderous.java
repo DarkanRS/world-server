@@ -29,7 +29,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class YkLagorThunderous extends DungeonBoss {
@@ -63,7 +63,7 @@ public class YkLagorThunderous extends DungeonBoss {
 
 	private boolean loaded;
 
-	public YkLagorThunderous(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public YkLagorThunderous(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11872, 11886), manager.getBossLevel()), tile, manager, reference);
 		setCantInteract(true);
 		setCantFollowUnderCombat(true);
@@ -155,7 +155,7 @@ public class YkLagorThunderous extends DungeonBoss {
 		List<Entity> possibleTargets = super.getPossibleTargets(npc);
 		if (special)
 			for (int[] element : PILLAR_SAFEZONE) {
-				WorldTile tile = getManager().getTile(getReference(), element[0], element[1]);
+				Tile tile = getManager().getTile(getReference(), element[0], element[1]);
 				for (Entity t : possibleTargets)
 					if (t.getX() == tile.getX() && t.getY() == tile.getY())
 						possibleTargets.remove(t);
@@ -165,8 +165,8 @@ public class YkLagorThunderous extends DungeonBoss {
 
 	public void sendBrokenFloor() {
 		for (int[] element : BROKEN_FLOORS_TILES) {
-			WorldTile tile = getManager().getTile(getReference(), element[0], element[1]);
-			World.sendSpotAnim(this, EARTH_QUAKE_GRAPHICS, tile);
+			Tile tile = getManager().getTile(getReference(), element[0], element[1]);
+			World.sendSpotAnim(tile, EARTH_QUAKE_GRAPHICS);
 		}
 	}
 
@@ -180,7 +180,7 @@ public class YkLagorThunderous extends DungeonBoss {
 
 	public static boolean isBehindPillar(Player player, DungeonManager manager, RoomReference rRef) {
 		for (int[] element : PILLAR_SAFEZONE) {
-			WorldTile tile = manager.getTile(rRef, element[0], element[1]);
+			Tile tile = manager.getTile(rRef, element[0], element[1]);
 			if (player.getX() == tile.getX() && player.getY() == tile.getY())
 				return true;
 		}

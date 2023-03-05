@@ -18,7 +18,7 @@ package com.rs.game.content.minigames.duel;
 
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
@@ -61,12 +61,12 @@ public class DuelController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		return true;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		return true;
 	}
 
@@ -133,7 +133,7 @@ public class DuelController extends Controller {
 			player.getInterfaceManager().sendOverlay(638);
 	}
 
-	public static boolean isAtDuelArena(WorldTile player) {
+	public static boolean isAtDuelArena(Tile player) {
 		return (player.getX() >= 3355 && player.getX() <= 3360 && player.getY() >= 3267 && player.getY() <= 3279) || (player.getX() >= 3355 && player.getX() <= 3379 && player.getY() >= 3272 && player.getY() <= 3279)
 				|| (player.getX() >= 3374 && player.getX() <= 3379 && player.getY() >= 3267 && player.getY() <= 3271);
 	}

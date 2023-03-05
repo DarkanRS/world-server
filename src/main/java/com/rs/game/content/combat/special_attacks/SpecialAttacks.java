@@ -10,7 +10,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -19,7 +18,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -365,15 +364,15 @@ public class SpecialAttacks {
         //Vine whip
         addSpec(new int[] { 21371, 21372, 21373, 21374, 21375 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
             final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
-            final WorldTile tile = WorldTile.of(target.getX(), target.getY(), target.getPlane());
+            final Tile tile = Tile.of(target.getX(), target.getY(), target.getPlane());
             player.setNextAnimation(new Animation(11971));
             player.setNextSpotAnim(new SpotAnim(476));
             WorldTasks.scheduleTimer(tick -> {
                 if (player == null || player.hasFinished())
                     return false;
                 if (tick % 5 == 0) {
-                    World.sendSpotAnim(player, new SpotAnim(478), tile);
-                    for (Entity entity : getMultiAttackTargets(player, WorldTile.of(target.getTile()), 1, 9)) {
+                    World.sendSpotAnim(tile, new SpotAnim(478));
+                    for (Entity entity : getMultiAttackTargets(player, Tile.of(target.getTile()), 1, 9)) {
                         Hit hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
                         addXp(player, entity, attackStyle.getXpType(), hit);
                         if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)

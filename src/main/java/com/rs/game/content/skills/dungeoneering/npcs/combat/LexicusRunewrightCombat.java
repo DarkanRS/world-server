@@ -37,7 +37,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -106,7 +106,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 		WorldTasks.schedule(new WorldTask() {
 
 			private int cycle = 0;
-			private LinkedList<WorldTile> targets = new LinkedList<>();
+			private LinkedList<Tile> targets = new LinkedList<>();
 
 			@Override
 			public void run() {
@@ -121,7 +121,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						WorldTile tile = WorldTile.of(entity.getTile());
+						Tile tile = Tile.of(entity.getTile());
 						targets.add(tile);
 
 						for (int i = 0; i < 3; i++) {
@@ -134,13 +134,13 @@ public class LexicusRunewrightCombat extends CombatScript {
 					}
 				else if (cycle == 4) {
 
-					for (WorldTile tile : targets)
-						World.sendSpotAnim(npc, new SpotAnim(2423), tile);
+					for (Tile tile : targets)
+						World.sendSpotAnim(tile, new SpotAnim(2423));
 
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						tileLoop: for (WorldTile tile : targets) {
+						tileLoop: for (Tile tile : targets) {
 							if (entity.getX() != tile.getX() || entity.getY() != tile.getY())
 								continue tileLoop;
 							entity.applyHit(new Hit(npc, (int) (entity instanceof Familiar ? 1000 : Utils.random(entity.getMaxHitpoints() * .6, entity.getMaxHitpoints() * .9)), HitLook.TRUE_DAMAGE));

@@ -11,7 +11,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
@@ -120,15 +120,15 @@ public class PiratesTreasure extends QuestOutline {
 	public static void findTreasure(Player p) {
 		if((p.getQuestManager().getStage(Quest.PIRATES_TREASURE) != GET_TREASURE) || !p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(PiratesTreasure.KNOWS_TREASURE_LOC_ATTR))
 			return;
-		if(Utils.getDistance(p.getTile(), WorldTile.of(2999, 3383, 0)) <= 2) {
+		if(Utils.getDistance(p.getTile(), Tile.of(2999, 3383, 0)) <= 2) {
 			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(KILLED_GARDENER_ATTR)) {
 				p.getQuestManager().completeQuest(Quest.PIRATES_TREASURE);
 				return;
 			}
-			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 				if(npc.getId()== HOSTILE_GARDENER)
 					return;
-			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, WorldTile.of(p.getTile()), -1, false, true);
+			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, Tile.of(p.getTile()), -1, false, true);
 			gardener.setTarget(p);
 			gardener.forceTalk("First moles, now this!? Take this, vandal!");
 		}
@@ -137,7 +137,7 @@ public class PiratesTreasure extends QuestOutline {
 	public static EnterChunkHandler handleBreakRum = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
 			if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
-				if (Utils.getDistance(p.getTile(), WorldTile.of(2928, 3143, 0)) > 70) {
+				if (Utils.getDistance(p.getTile(), Tile.of(2928, 3143, 0)) > 70) {
 					while (p.getInventory().containsItem(RUM, 1))
 						p.getInventory().removeItems(new Item(RUM, 1));
 					p.sendMessage("Your Karamja rum gets broken and spilled.");

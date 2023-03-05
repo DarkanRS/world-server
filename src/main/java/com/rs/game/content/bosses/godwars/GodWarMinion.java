@@ -18,11 +18,11 @@ package com.rs.game.content.bosses.godwars;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class GodWarMinion extends NPC {
 
-	public GodWarMinion(int id, WorldTile tile, boolean spawned) {
+	public GodWarMinion(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIgnoreDocile(true);
 		setForceAgressive(true);
@@ -33,8 +33,8 @@ public class GodWarMinion extends NPC {
 	public void respawn() {
 		setFinished(false);
 		World.addNPC(this);
-		setLastRegionId(0);
-		World.updateEntityRegion(this);
+		setLastChunkId(0);
+		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 	}

@@ -35,7 +35,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
@@ -51,7 +51,7 @@ public class Gravecreeper extends DungeonBoss {
 	private GameObject[][] plinths;
 	private boolean[][] triggeredPlinths;
 
-	public Gravecreeper(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Gravecreeper(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(new int[] { 532, 533, 11708, 11709, 11710, 11711, 11712, 11713, 11714, 11715, 11716, 11717, 11718, 11719, 11720 }, manager.getBossLevel()), tile, manager, reference);
 		originalId = getId();
 		burnedTiles = new CopyOnWriteArrayList<>();
@@ -77,7 +77,7 @@ public class Gravecreeper extends DungeonBoss {
 		super.processNPC();
 	}
 
-	public boolean removeBurnedTile(WorldTile center) {
+	public boolean removeBurnedTile(Tile center) {
 		for (BurnTile bTile : burnedTiles)
 			if (bTile.center.getX() == center.getX() && bTile.center.getY() == center.getY()) {
 				burnedTiles.remove(bTile);
@@ -98,7 +98,7 @@ public class Gravecreeper extends DungeonBoss {
 			bTile.sendGraphics();
 			for (Entity t : getPossibleTargets()) {
 				Player p2 = (Player) t;
-				tileLoop: for (WorldTile tile : bTile.tiles) {
+				tileLoop: for (Tile tile : bTile.tiles) {
 					if (p2.getX() != tile.getX() || p2.getY() != tile.getY())
 						continue tileLoop;
 					p2.applyHit(new Hit(this, (int) Utils.random(getMaxHit() * .1, getMaxHit() * .25), HitLook.TRUE_DAMAGE));
@@ -124,7 +124,7 @@ public class Gravecreeper extends DungeonBoss {
 	private static final String[] SPECIAL_SHOUTS = { "Burrrrrry", "Digggggg", "Brrainnns" };
 
 	public void useSpecial() {
-		WorldTile walkTo = getNearestPlinch();
+		Tile walkTo = getNearestPlinch();
 		if (walkTo == null)
 			return;
 		getManager().setTemporaryBoss(this);
@@ -151,7 +151,7 @@ public class Gravecreeper extends DungeonBoss {
 							public void run() {
 								if (getManager().isDestroyed())
 									return;
-								setNextWorldTile(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
+								setNextTile(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
 								setNextNPCTransformation(originalId);
 								setNextAnimation(new Animation(14506));
 								WorldTasks.schedule(new WorldTask() {
@@ -175,7 +175,7 @@ public class Gravecreeper extends DungeonBoss {
 		}, Utils.getDistanceI(getTile(), walkTo));
 	}
 
-	public WorldTile getNearestPlinch() {
+	public Tile getNearestPlinch() {
 		int distance = Integer.MAX_VALUE;
 		GameObject p = null;
 		for (int x = 0; x < plinths.length; x++)
@@ -198,8 +198,8 @@ public class Gravecreeper extends DungeonBoss {
 			for (int y = 0; y < plinths[x].length; y++) {
 				if (plinths[x][y] == null)
 					continue;
-				WorldTile altarLoc = getManager().getTile(getReference(), TOMB_LOC_POS_2[y][x][0], TOMB_LOC_POS_2[y][x][1]);
-				World.sendSpotAnim(this, new SpotAnim(2751), altarLoc);
+				Tile altarLoc = getManager().getTile(getReference(), TOMB_LOC_POS_2[y][x][0], TOMB_LOC_POS_2[y][x][1]);
+				World.sendSpotAnim(altarLoc, new SpotAnim(2751));
 				if (!triggeredPlinths[x][y]) {
 					triggeredPlinths[x][y] = true;
 					createBurnTiles(plinths[x][y].getTile(), true);
@@ -228,7 +228,7 @@ public class Gravecreeper extends DungeonBoss {
 	public void cleanseTomb(int x, int y) {
 		if (plinths[x][y] != null) {
 			World.removeObject(plinths[x][y]);
-			World.sendSpotAnim(this, new SpotAnim(2320), plinths[x][y].getTile());
+			World.sendSpotAnim(plinths[x][y].getTile(), new SpotAnim(2320));
 			if (triggeredPlinths[x][y]) {
 				removeBurnedTile(plinths[x][y].getTile());
 				triggeredPlinths[x][y] = false;
@@ -250,7 +250,7 @@ public class Gravecreeper extends DungeonBoss {
 				GameObject activeAltar = new GameObject(altar);
 				activeAltar.setId(altar.getId() + 1);
 				World.spawnObjectTemporary(activeAltar, Ticks.fromSeconds(7));
-				World.sendSpotAnim(this, new SpotAnim(2752), activeAltar.getTile());
+				World.sendSpotAnim(activeAltar.getTile(), new SpotAnim(2752));
 			}
 	}
 
@@ -272,11 +272,11 @@ public class Gravecreeper extends DungeonBoss {
 			}
 	}
 
-	public void createBurnTiles(WorldTile tile, boolean permenant) {
+	public void createBurnTiles(Tile tile, boolean permenant) {
 		burnedTiles.add(new BurnTile(tile, permenant));
 	}
 
-	public void createBurnTiles(WorldTile tile) {
+	public void createBurnTiles(Tile tile) {
 		createBurnTiles(tile, false);
 	}
 
@@ -291,13 +291,13 @@ public class Gravecreeper extends DungeonBoss {
 	public class BurnTile {
 		private int cycles;
 		private boolean permenant;
-		private final WorldTile center;
-		private final WorldTile[] tiles;
+		private final Tile center;
+		private final Tile[] tiles;
 
-		public BurnTile(WorldTile center, boolean permenant) {
+		public BurnTile(Tile center, boolean permenant) {
 			this.center = center;
 			this.permenant = permenant;
-			tiles = new WorldTile[9];
+			tiles = new Tile[9];
 			int index = 0;
 			for (int x = -1; x < 2; x++)
 				for (int y = -1; y < 2; y++)
@@ -305,7 +305,7 @@ public class Gravecreeper extends DungeonBoss {
 		}
 
 		public void sendGraphics() {
-			World.sendSpotAnim(null, new SpotAnim(133), center);
+			World.sendSpotAnim(center, new SpotAnim(133));
 		}
 	}
 }

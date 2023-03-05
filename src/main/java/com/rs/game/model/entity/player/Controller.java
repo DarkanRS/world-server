@@ -25,7 +25,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
@@ -212,21 +212,21 @@ public abstract class Controller {
 	/**
 	 * return can teleport
 	 */
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		return true;
 	}
 
 	/**
 	 * return can teleport
 	 */
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		return true;
 	}
 
 	/**
 	 * return can teleport
 	 */
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		return true;
 	}
 

@@ -7,7 +7,7 @@ import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -64,23 +64,23 @@ public class MonksFriend extends QuestOutline {
 	}
 
 	//It is a circle around a null ladder. A varbit makes it visible.
-	private static WorldTile[] ladderTilesInACircle = new WorldTile[]{
-			WorldTile.of(2561, 3220, 0),
-			WorldTile.of(2560, 3220, 0),
-			WorldTile.of(2559, 3220, 0),
-			WorldTile.of(2559, 3221, 0),
-			WorldTile.of(2559, 3222, 0),
-			WorldTile.of(2559, 3223, 0),
-			WorldTile.of(2560, 3223, 0),
-			WorldTile.of(2560, 3224, 0),
-			WorldTile.of(2561, 3224, 0),
-			WorldTile.of(2562, 3224, 0),
-			WorldTile.of(2562, 3223, 0),
-			WorldTile.of(2563, 3223, 0),
-			WorldTile.of(2563, 3222, 0),
-			WorldTile.of(2563, 3221, 0),
-			WorldTile.of(2562, 3221, 0),
-			WorldTile.of(2562, 3220, 0)
+	private static Tile[] ladderTilesInACircle = new Tile[]{
+			Tile.of(2561, 3220, 0),
+			Tile.of(2560, 3220, 0),
+			Tile.of(2559, 3220, 0),
+			Tile.of(2559, 3221, 0),
+			Tile.of(2559, 3222, 0),
+			Tile.of(2559, 3223, 0),
+			Tile.of(2560, 3223, 0),
+			Tile.of(2560, 3224, 0),
+			Tile.of(2561, 3224, 0),
+			Tile.of(2562, 3224, 0),
+			Tile.of(2562, 3223, 0),
+			Tile.of(2563, 3223, 0),
+			Tile.of(2563, 3222, 0),
+			Tile.of(2563, 3221, 0),
+			Tile.of(2562, 3221, 0),
+			Tile.of(2562, 3220, 0)
 	};
 
 	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle, e -> {
@@ -91,9 +91,9 @@ public class MonksFriend extends QuestOutline {
 	public static ObjectClickHandler handleThiefLadder = new ObjectClickHandler(new Object[]{42, 32015}, e -> {
 		Player p = e.getPlayer();
 		if (e.getObjectId() == 42)
-			p.useLadder(WorldTile.of(2561, 9621, 0));
-		else if (e.getObject().getTile().matches(WorldTile.of(2561, 9622, 0)))
-			p.useLadder(WorldTile.of(2560, 3222, 0));
+			p.useLadder(Tile.of(2561, 9621, 0));
+		else if (e.getObject().getTile().matches(Tile.of(2561, 9622, 0)))
+			p.useLadder(Tile.of(2560, 3222, 0));
 	});
 
 	@Override

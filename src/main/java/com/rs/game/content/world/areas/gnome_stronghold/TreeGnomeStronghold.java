@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.gnome_stronghold;
 
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -26,7 +26,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class TreeGnomeStronghold {
 	public static ObjectClickHandler handleGnomeSpiralStairsUp = new ObjectClickHandler(new Object[] { 69505 }, e -> {
 		GameObject oppObj = e.getObject();
-		for(GameObject obj : World.getRegion(e.getPlayer().getRegionId()).getObjects())
+		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, 1).getChunkId()).getBaseObjects())
 			if(obj.getId()== 69504 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, 1), 3))
 				oppObj = obj;
 		if(oppObj.getRotation() == 0)
@@ -41,7 +41,7 @@ public class TreeGnomeStronghold {
 	
 	public static ObjectClickHandler handleGnomeSpiralStairsDown = new ObjectClickHandler(new Object[] { 69504 }, e -> {
 		GameObject oppObj = e.getObject();
-		for(GameObject obj : World.getRegion(e.getPlayer().getRegionId()).getObjects())
+		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, -1).getChunkId()).getBaseObjects())
 			if(obj.getId()== 69505 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, -1), 3))
 				oppObj = obj;
 		if(oppObj.getRotation() == 0)
@@ -56,9 +56,9 @@ public class TreeGnomeStronghold {
 
 	public static ObjectClickHandler handleSpecialStair = new ObjectClickHandler(new Object[] { 69549, 69550 }, e -> {
 		if(e.getPlayer().getPlane() == 1) {
-			e.getPlayer().useStairs(WorldTile.of(2485, 3463, 2));
+			e.getPlayer().useStairs(Tile.of(2485, 3463, 2));
 			return;
 		}
-		e.getPlayer().useStairs(WorldTile.of(2483, 3463, 1));
+		e.getPlayer().useStairs(Tile.of(2483, 3463, 1));
 	});
 }

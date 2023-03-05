@@ -28,7 +28,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -39,7 +39,7 @@ public class BalLakThePummeler extends DungeonBoss {
 
 	private List<PoisionPuddle> puddles = new CopyOnWriteArrayList<>();
 
-	public BalLakThePummeler(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public BalLakThePummeler(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10128, 10141), manager.getBossLevel()), tile, manager, reference);
 		setLureDelay(6000); //this way you can lure him hehe, still not as much as outside dung npcs
 		setHitpoints(getMaxHitpoints());
@@ -111,10 +111,10 @@ public class BalLakThePummeler extends DungeonBoss {
 	}
 
 	private static class PoisionPuddle {
-		final WorldTile tile;
+		final Tile tile;
 		int cycles;
 
-		public PoisionPuddle(WorldTile tile, int barPercentage) {
+		public PoisionPuddle(Tile tile, int barPercentage) {
 			this.tile = tile;
 		}
 
@@ -123,21 +123,21 @@ public class BalLakThePummeler extends DungeonBoss {
 		}
 	}
 
-	public void addPoisionBubble(WorldTile centerTile) {
+	public void addPoisionBubble(Tile centerTile) {
 		puddles.add(new PoisionPuddle(centerTile, barPercentage));
 		addPoisonBubbleSpotAnimations(centerTile);
 	}
 
-	private void addPoisonBubbleSpotAnimations(WorldTile centerTile) {
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX(), centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()));
-		World.sendSpotAnim(this, new SpotAnim(2588), WorldTile.of(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()));
+	private void addPoisonBubbleSpotAnimations(Tile centerTile) {
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY(), centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX(), centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()-1, centerTile.getY()+1, centerTile.getPlane()), new SpotAnim(2588));
+		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
 	}
 
 	public List<PoisionPuddle> getPoisionPuddles() {

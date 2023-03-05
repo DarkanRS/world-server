@@ -14,7 +14,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
@@ -51,7 +51,7 @@ public class LazyGuardFightArenaD extends Conversation {
 					addSimple("The guard quickly drinks half of the bottle and sways slightly.", () -> {
 						p.lock(9);
 						p.getInventory().deleteItem(77, 1);
-						p.faceTile(WorldTile.of(2617, 3144, 0));
+						p.faceTile(Tile.of(2617, 3144, 0));
 						p.getVars().setVarBit(5627, 1);
 						WorldTasks.schedule(new WorldTask() {
 							int tick;

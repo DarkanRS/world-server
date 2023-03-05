@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -77,10 +77,10 @@ public enum HabitatFeature {
 				}
 				e.getPlayer().setHabitatFeature(toBuild);
 			}
-			World.sendSpotAnim(e.getPlayer(), new SpotAnim(1605), WorldTile.of(2952, 2908, 0));
+			World.sendSpotAnim(Tile.of(2952, 2908, 0), new SpotAnim(1605));
 			e.getPlayer().closeInterfaces();
 		}
 	});
 
-	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, WorldTile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null));
+	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null));
 }

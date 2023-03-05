@@ -23,11 +23,11 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FightPitsNPC extends NPC {
 
-	public FightPitsNPC(int id, WorldTile tile) {
+	public FightPitsNPC(int id, Tile tile) {
 		super(id, tile, true);
 		setForceMultiArea(true);
 		setNoDistanceCheck(true);

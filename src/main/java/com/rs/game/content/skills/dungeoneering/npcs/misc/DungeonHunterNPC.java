@@ -26,12 +26,12 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class DungeonHunterNPC extends DungeonNPC {
 
-	public DungeonHunterNPC(int id, WorldTile tile, DungeonManager manager) {
+	public DungeonHunterNPC(int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
 	}
 
@@ -106,14 +106,14 @@ public class DungeonHunterNPC extends DungeonNPC {
 
 	@Override
 	public void drop() {
-		/*World.addGroundItem(new Item(532), WorldTile.of(this)); //big bones
+		/*World.addGroundItem(new Item(532), Tile.of(this)); //big bones
 		Drops drops = NPCDrops.getDrops(getId());
 		if (drops == null)
 			return;
 		Drop drop = drops.getDrop(Drops.COMMOM, Double.MAX_VALUE); //to make 100% chance
 		if (drop == null) //shouldnt
 			return;
-		World.addGroundItem(new Item(drop.getItemId()), WorldTile.of(this)); //hide*/
+		World.addGroundItem(new Item(drop.getItemId()), Tile.of(this)); //hide*/
 	}
 
 	private static double getSuccessRatio(int tier, int trapTier) {

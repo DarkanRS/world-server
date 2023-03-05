@@ -29,13 +29,13 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -43,7 +43,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public final class QueenBlackDragonController extends Controller {
 
-	public static final WorldTile OUTSIDE = Settings.getConfig().getPlayerRespawnTile();
+	public static final Tile OUTSIDE = Settings.getConfig().getPlayerRespawnTile();
 
 	private static final int[][][] PLATFORM_STEPS = {
 			{ { 88, 86 }, { 88, 87 }, { 88, 88 }, { 88, 89 }, { 88, 90 }, { 88, 91 }, { 89, 91 }, { 89, 90 }, { 89, 89 }, { 89, 88 }, { 89, 87 }, { 89, 86 }, { 90, 86 }, { 90, 87 }, { 90, 88 }, { 90, 89 }, { 90, 90 }, { 90, 91 }, { 91, 91 },
@@ -57,10 +57,10 @@ public final class QueenBlackDragonController extends Controller {
 
 	private int platformStand;
 	private transient QueenBlackDragon npc;
-	private DynamicRegionReference bossRegion;
-	private WorldTile bossBase;
-	private DynamicRegionReference rewardRegion;
-	private WorldTile rewardBase;
+	private InstanceReference bossRegion;
+	private Tile bossBase;
+	private InstanceReference rewardRegion;
+	private Tile rewardBase;
 	
 	public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 70812 }, e -> {
 		if (e.getOption().equals("Investigate")) {
@@ -87,13 +87,13 @@ public final class QueenBlackDragonController extends Controller {
 	@Override
 	public void start() {
 		player.lock();
-		bossRegion = new DynamicRegionReference(8, 8);
+		bossRegion = new InstanceReference(8, 8);
 		bossRegion.copyMapAllPlanes(176, 792, () -> {
 			bossBase = bossRegion.getBase().transform(0, 0, 1);
 			player.fadeScreen(() -> {
 				player.resetReceivedHits();
 				npc = new QueenBlackDragon(player, bossBase.transform(31, 37, 0), bossBase);
-				player.setNextWorldTile(bossBase.transform(33, 28, 0));
+				player.setNextTile(bossBase.transform(33, 28, 0));
 				player.setLargeSceneView(true);
 				player.setForceMultiArea(true);
 				player.unlock();
@@ -119,11 +119,11 @@ public final class QueenBlackDragonController extends Controller {
 				player.sendMessage("You descend the stairs that appeared when you defeated the Queen Black Dragon.");
 				player.getPackets().sendVarc(184, -1);
 				npc.finish();
-				rewardRegion = new DynamicRegionReference(8, 8);
+				rewardRegion = new InstanceReference(8, 8);
 				rewardRegion.copyMapAllPlanes(160, 760, () -> {
 					player.resetReceivedHits();
 					rewardBase = rewardRegion.getBase().transform(0, 0, 0);
-					player.setNextWorldTile(rewardBase.transform(31, 36, 0));
+					player.setNextTile(rewardBase.transform(31, 36, 0));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
 					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);
@@ -133,7 +133,7 @@ public final class QueenBlackDragonController extends Controller {
 			return false;
 		}
 		if (object.getId() == 70813) {
-			Magic.sendObjectTeleportSpell(player, true, WorldTile.of(2994, 3233, 0));
+			Magic.sendObjectTeleportSpell(player, true, Tile.of(2994, 3233, 0));
 			return false;
 		}
 		if (object.getId() == 70814) {
@@ -342,7 +342,7 @@ public final class QueenBlackDragonController extends Controller {
 			rewardRegion.destroy();
 	}
 
-	public WorldTile getBase() {
+	public Tile getBase() {
 		return bossBase;
 	}
 

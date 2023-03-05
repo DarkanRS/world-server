@@ -33,7 +33,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -81,15 +81,15 @@ public class BlinkCombat extends CombatScript {
 
 		if (rangeAttack) {
 			if (manager.getParty().getTeam().size() > 1 || Utils.random(3) == 0) {
-				WorldTile beginningTile = boss.getNextPath();
+				Tile beginningTile = boss.getNextPath();
 				boss.setNextAnimation(new Animation(14949));
 				boss.resetCombat();
 				boss.setNextFaceEntity(null);
-				boss.setNextFaceWorldTile(beginningTile);// Faces the direction it throws into
+				boss.setNextFaceTile(beginningTile);// Faces the direction it throws into
 				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0, 0);
 				WorldTasks.schedule(new WorldTask() {
 
-					private List<WorldTile> knifeTargets;
+					private List<Tile> knifeTargets;
 					private int cycles;
 
 					@Override
@@ -98,12 +98,12 @@ public class BlinkCombat extends CombatScript {
 						if (cycles == 1) {
 							knifeTargets = new LinkedList<>();
 							for (Entity t : boss.getPossibleTargets()) {
-								WorldTile center = WorldTile.of(t.getTile());
+								Tile center = Tile.of(t.getTile());
 								for (int i = 0; i < 3; i++)
 									knifeTargets.add(i == 0 ? center : World.getFreeTile(center, 1));
 							}
 						} else if (cycles == 2) {
-							for (WorldTile tile : knifeTargets) {
+							for (Tile tile : knifeTargets) {
 								// outdated method projectile
 								int delay = 3;
 								entityLoop: for (Entity t : boss.getPossibleTargets()) {

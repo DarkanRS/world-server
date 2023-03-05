@@ -31,7 +31,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -49,7 +49,7 @@ public class GeomancerCombat extends CombatScript {
 		boolean atDistance = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 
 		if (Utils.random(boss.getManager().getParty().getTeam().size() > 1 ? 6 : 8) == 0 && !boss.isCantInteract()) {
-			WorldTile tile = WorldTile.of(target.getTile());
+			Tile tile = Tile.of(target.getTile());
 			DungeonManager dungeon = boss.getManager();
 			RoomReference rRef = dungeon.getCurrentRoomReference(tile);
 			Room room = dungeon.getRoom(rRef);

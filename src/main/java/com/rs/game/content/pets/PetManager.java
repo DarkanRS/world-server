@@ -26,7 +26,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 /**
  * The pet manager.
@@ -102,7 +102,7 @@ public final class PetManager {
 		}
 		int npcId = pets.getNpcId(details.getStage());
 		if (npcId > 0) {
-			WorldTile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(npcId, player.getVars()).size);
+			Tile spawnTile = player.getNearestTeleTile(NPCDefinitions.getDefs(npcId, player.getVars()).size);
 			if (spawnTile == null) {
 				player.sendMessage("There's no space to summon your pet.");
 				return true;

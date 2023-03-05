@@ -57,7 +57,7 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello. I am in search of the Holy Grail.");
 				addNPC(NPC, HeadE.CALM_TALK, "The object of which you speak did once pass through holy Entrana. I know not where it is now however. " +
 						"Nor do I really care.", ()->{
-					for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+					for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 						if(npc.getId() == 217 && npc instanceof OwnedNPC crone && crone.getOwner() == p)
 							return;
 					new OwnedNPC(p, 217, p.getTile(), true);

@@ -34,7 +34,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -90,7 +90,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 				WorldTasks.schedule(new WorldTask() {
 
 					private int ticks;
-					private List<WorldTile> tiles = new LinkedList<>();
+					private List<Tile> tiles = new LinkedList<>();
 
 					@Override
 					public void run() {
@@ -106,13 +106,13 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 										player.stopAll();
 									}
 									byte[] dirs = Utils.getDirection(npc.getFaceAngle());
-									WorldTile tile = null;
+									Tile tile = null;
 									distanceLoop: for (int distance = 2; distance >= 0; distance--) {
-										tile = WorldTile.of(WorldTile.of(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
+										tile = Tile.of(Tile.of(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
 										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 											break distanceLoop;
 										if (distance == 0)
-											tile = WorldTile.of(t.getTile());
+											tile = Tile.of(t.getTile());
 									}
 									tiles.add(tile);
 									t.faceEntity(gazer);
@@ -123,7 +123,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 							for (int index = 0; index < tiles.size(); index++) {
 								Entity t = targets.get(index);
 								if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 1))
-									t.setNextWorldTile(tiles.get(index));
+									t.setNextTile(tiles.get(index));
 							}
 							stop();
 							return;

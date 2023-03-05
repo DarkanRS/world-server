@@ -22,7 +22,7 @@ import com.rs.game.content.world.unorganized_dialogue.Transportation;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class ItemTeleports {
 
@@ -66,22 +66,22 @@ public class ItemTeleports {
 			{ "Miscellania", "Nowhere" }
 	};
 
-	private static final WorldTile[][] COORDINATES = {
-			{ WorldTile.of(3316, 3232, 0), WorldTile.of(2443, 3089, 0), WorldTile.of(2416, 2836, 0), WorldTile.of(1701, 5600, 0) },
-			{ WorldTile.of(2208, 4940, 0), WorldTile.of(2519, 3571, 0), WorldTile.of(2970, 9679, 0), WorldTile.of(2886, 4377, 2), },
-			{ WorldTile.of(3087, 3496, 0), WorldTile.of(2918, 3176, 0), WorldTile.of(3105, 3251, 0), WorldTile.of(3293, 3163, 0) },
-			{ WorldTile.of(3087, 3496, 0), WorldTile.of(2918, 3176, 0), WorldTile.of(3105, 3251, 0), WorldTile.of(3293, 3163, 0) },
-			{ WorldTile.of(2614, 3384, 0), WorldTile.of(3032, 3337, 0), WorldTile.of(2933, 3293, 0), WorldTile.of(3143, 3442, 0) },
-			{ WorldTile.of(2878, 3542, 0), WorldTile.of(3191, 3363, 0), WorldTile.of(2607, 3220, 0), WorldTile.of(2657, 3238, 0) },
-			{ WorldTile.of(3356, 3421, 0) },
-			{ WorldTile.of(2527, 3860, 0), WorldTile.of(3167, 3492, 0) },
-			{ WorldTile.of(3353, 3006, 0), WorldTile.of(3427, 3538, 0), WorldTile.of(2787, 3616, 0), WorldTile.of(3150, 4666, 0) },
-			{ WorldTile.of(3305, 3489, 0) },
-			{ WorldTile.of(3423, 2914, 0) },
-			{ WorldTile.of(2796, 3082, 0) },
-			{ WorldTile.of(3170, 2982, 0) },
-			{ WorldTile.of(2294, 3626, 0) },
-			{ WorldTile.of(2519, 3860, 0) },
+	private static final Tile[][] COORDINATES = {
+			{ Tile.of(3316, 3232, 0), Tile.of(2443, 3089, 0), Tile.of(2416, 2836, 0), Tile.of(1701, 5600, 0) },
+			{ Tile.of(2208, 4940, 0), Tile.of(2519, 3571, 0), Tile.of(2970, 9679, 0), Tile.of(2886, 4377, 2), },
+			{ Tile.of(3087, 3496, 0), Tile.of(2918, 3176, 0), Tile.of(3105, 3251, 0), Tile.of(3293, 3163, 0) },
+			{ Tile.of(3087, 3496, 0), Tile.of(2918, 3176, 0), Tile.of(3105, 3251, 0), Tile.of(3293, 3163, 0) },
+			{ Tile.of(2614, 3384, 0), Tile.of(3032, 3337, 0), Tile.of(2933, 3293, 0), Tile.of(3143, 3442, 0) },
+			{ Tile.of(2878, 3542, 0), Tile.of(3191, 3363, 0), Tile.of(2607, 3220, 0), Tile.of(2657, 3238, 0) },
+			{ Tile.of(3356, 3421, 0) },
+			{ Tile.of(2527, 3860, 0), Tile.of(3167, 3492, 0) },
+			{ Tile.of(3353, 3006, 0), Tile.of(3427, 3538, 0), Tile.of(2787, 3616, 0), Tile.of(3150, 4666, 0) },
+			{ Tile.of(3305, 3489, 0) },
+			{ Tile.of(3423, 2914, 0) },
+			{ Tile.of(2796, 3082, 0) },
+			{ Tile.of(3170, 2982, 0) },
+			{ Tile.of(2294, 3626, 0) },
+			{ Tile.of(2519, 3860, 0) },
 	};
 
 

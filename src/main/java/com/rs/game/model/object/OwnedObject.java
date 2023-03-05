@@ -25,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class OwnedObject extends GameObject {
 
@@ -39,7 +39,7 @@ public class OwnedObject extends GameObject {
 		this(player, object.getId(), object.getType(), object.getRotation(), object.getTile());
 	}
 
-	public OwnedObject(Player player, int id, ObjectType type, int rotation, WorldTile tile) {
+	public OwnedObject(Player player, int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
 		owner = player.getUsername();
 	}

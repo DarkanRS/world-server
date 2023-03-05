@@ -19,14 +19,14 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class YkLagorMage extends DungeonNPC {
 
 	private YkLagorThunderous boss;
 	private int cycle;
 
-	public YkLagorMage(YkLagorThunderous ykLagorThunderous, int id, WorldTile tile, DungeonManager manager, double multiplier) {
+	public YkLagorMage(YkLagorThunderous ykLagorThunderous, int id, Tile tile, DungeonManager manager, double multiplier) {
 		super(id, tile, manager);
 		boss = ykLagorThunderous;
 		setNextFaceEntity(boss);
