@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.map.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -33,7 +33,7 @@ import com.rs.utils.music.Music;
 public class DemonSlayer_WallyVSDelrith extends Controller {
 	private static final int WALLY = 4664;
 	private static final int GYPSY_ARIS = 882;
-	private DynamicRegionReference instance;
+	private InstanceReference instance;
 	private Tile locationBeforeCutscene;
 	private Tile spawn;
 
@@ -60,7 +60,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 	private void playCutscene() {
 		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
 		player.lock();
-		instance = new DynamicRegionReference(4, 4);
+		instance = new InstanceReference(4, 4);
 		instance.copyMapAllPlanes(401, 419, () -> {
 			spawn = instance.getLocalTile(19, 17);
 			Logger.debug(DemonSlayer_WallyVSDelrith.class, "playCutscene", spawn);

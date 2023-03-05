@@ -29,7 +29,7 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -57,9 +57,9 @@ public final class QueenBlackDragonController extends Controller {
 
 	private int platformStand;
 	private transient QueenBlackDragon npc;
-	private DynamicRegionReference bossRegion;
+	private InstanceReference bossRegion;
 	private Tile bossBase;
-	private DynamicRegionReference rewardRegion;
+	private InstanceReference rewardRegion;
 	private Tile rewardBase;
 	
 	public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 70812 }, e -> {
@@ -87,7 +87,7 @@ public final class QueenBlackDragonController extends Controller {
 	@Override
 	public void start() {
 		player.lock();
-		bossRegion = new DynamicRegionReference(8, 8);
+		bossRegion = new InstanceReference(8, 8);
 		bossRegion.copyMapAllPlanes(176, 792, () -> {
 			bossBase = bossRegion.getBase().transform(0, 0, 1);
 			player.fadeScreen(() -> {
@@ -119,7 +119,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.sendMessage("You descend the stairs that appeared when you defeated the Queen Black Dragon.");
 				player.getPackets().sendVarc(184, -1);
 				npc.finish();
-				rewardRegion = new DynamicRegionReference(8, 8);
+				rewardRegion = new InstanceReference(8, 8);
 				rewardRegion.copyMapAllPlanes(160, 760, () -> {
 					player.resetReceivedHits();
 					rewardBase = rewardRegion.getBase().transform(0, 0, 0);

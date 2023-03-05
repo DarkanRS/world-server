@@ -9,7 +9,6 @@ import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.*;
-import com.rs.lib.io.OutputStream;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.util.Logger;
@@ -35,7 +34,7 @@ public class Chunk {
     private int chunkX;
     private int chunkY;
     private int plane;
-    private boolean originalChunk;
+    private boolean staticChunk;
 
     private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(ObjectLists.emptyList());
     private UpdateZonePartialEnclosed updateZonePacket = null;
@@ -63,12 +62,12 @@ public class Chunk {
         musicIds = Music.getRegionMusics(MapUtils.chunkToRegionId(chunkId));
     }
 
-    public void setOriginalChunk() {
-        originalChunk = true;
+    public void setStaticChunk() {
+        staticChunk = true;
     }
 
-    public boolean isOriginalChunk() {
-        return originalChunk;
+    public boolean isStaticChunk() {
+        return staticChunk;
     }
 
     public void clearCollisionData() {
@@ -437,7 +436,7 @@ public class Chunk {
     }
 
     public GameObject getObject(Tile tile) {
-        GameObject[] objects = getObjects(tile);
+        GameObject[] objects = getBaseObjects(tile);
         if (objects == null)
             return null;
         for (GameObject object : objects) {
@@ -449,7 +448,7 @@ public class Chunk {
     }
 
     public GameObject getObject(Tile tile, ObjectType type) {
-        GameObject[] objects = getObjects(tile);
+        GameObject[] objects = getBaseObjects(tile);
         if (objects == null)
             return null;
         for (GameObject object : objects) {
@@ -461,18 +460,16 @@ public class Chunk {
         return getSpawnedObject(tile, type);
     }
 
-    /**
-     * TODO rename getBaseObjects
-     */
-    public GameObject[] getObjects(Tile tile) {
+    public GameObject[] getBaseObjects(Tile tile) {
         GameObject[] objs = baseObjects[tile.getXInChunk()][tile.getYInChunk()];
         return objs == null ? new GameObject[0] : objs;
     }
 
-    /**
-     * TODO rename getBaseObjects
-     */
-    public List<GameObject> getObjects() {
+    public GameObject[] getBaseObjects(int localX, int localY) {
+        return getBaseObjects(Tile.of(getBaseX()+localX, getBaseY()+localY, plane));
+    }
+
+    public List<GameObject> getBaseObjects() {
         if (baseObjects == null)
             return null;
         List<GameObject> list = new ArrayList<>();
@@ -512,10 +509,11 @@ public class Chunk {
         return spawnedObjects == null ? new ArrayList<>() : spawnedObjects;
     }
 
-    /**
-     * TODO rename get all base objects
-     */
-    public List<GameObject> getAllObjects() {
+    public Map<Integer, GameObject> getRemovedObjects() {
+        return removedBaseObjects;
+    }
+
+    public List<GameObject> getAllBaseObjects() {
         if (baseObjects == null)
             return null;
         List<GameObject> list = new ArrayList<>();
@@ -538,7 +536,7 @@ public class Chunk {
     public GameObject getObjectWithSlot(Tile tile, int slot) {
         GameObject o = getSpawnedObjectWithSlot(tile, slot);
         if (o == null) {
-            GameObject real = getObjects(tile)[slot];
+            GameObject real = getBaseObjects(tile)[slot];
             return real == null ? null : getRemovedObject(real) != null ? null : real;
         }
         return o;
@@ -558,7 +556,7 @@ public class Chunk {
 
     public GameObject getObjectWithId(Tile tile, int id) {
         for (int i = 0; i < 4; i++) {
-            GameObject object = getObjects(tile)[i];
+            GameObject object = getBaseObjects(tile)[i];
             if (object != null && getRemovedObject(object) != null)
                 object = null;
             if (object != null && object.getId() == id) {
@@ -593,7 +591,7 @@ public class Chunk {
     }
 
     public GameObject getRealObject(GameObject spawnObject) {
-        GameObject[] mapObjects = getObjects(spawnObject.getTile());
+        GameObject[] mapObjects = getBaseObjects(spawnObject.getTile());
         if (mapObjects == null)
             return null;
         for (GameObject object : mapObjects) {
@@ -691,5 +689,13 @@ public class Chunk {
     }
 
     public void update() {
+    }
+
+    public int getBaseX() {
+        return chunkX << 3;
+    }
+
+    public int getBaseY() {
+        return chunkY << 3;
     }
 }

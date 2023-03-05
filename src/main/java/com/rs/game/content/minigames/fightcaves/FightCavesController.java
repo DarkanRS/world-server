@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.minigames.fightcaves;
 
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
@@ -28,7 +26,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -55,7 +53,7 @@ public class FightCavesController extends Controller {
 			{ 2741, 2739, 2736 }, { 2741, 2739, 2736, 2734 }, { 2741, 2739, 2736, 2734, 2734 }, { 2741, 2739, 2736, 2736 }, { 2741, 2739, 2739 }, { 2741, 2741 }, { 2743 }, { 2743, 2734 }, { 2743, 2734, 2734 }, { 2743, 2736 }, { 2743, 2736, 2734 }, { 2743, 2736, 2734, 2734 }, { 2743, 2736, 2736 }, { 2743, 2739 }, { 2743, 2739, 2734 }, { 2743, 2739, 2734, 2734 }, { 2743, 2739, 2736 }, { 2743, 2739, 2736, 2734 }, { 2743, 2739, 2736, 2734, 2734 }, { 2743, 2739, 2736, 2736 }, { 2743, 2739, 2739 },
 			{ 2743, 2741 }, { 2743, 2741, 2734 }, { 2743, 2741, 2734, 2734 }, { 2743, 2741, 2736 }, { 2743, 2741, 2736, 2734 }, { 2743, 2741, 2736, 2734, 2734 }, { 2743, 2741, 2736, 2736 }, { 2743, 2741, 2739 }, { 2743, 2741, 2739, 2734 }, { 2743, 2741, 2739, 2734, 2734 }, { 2743, 2741, 2739, 2736 }, { 2743, 2741, 2739, 2736, 2734 }, { 2743, 2741, 2739, 2736, 2734, 2734 }, { 2743, 2741, 2739, 2736, 2736 }, { 2743, 2741, 2739, 2739 }, { 2743, 2741, 2741 }, { 2743, 2743 }, { 2745 } };
 
-	private transient DynamicRegionReference region;
+	private transient InstanceReference region;
 	private transient Tile center;
 	private transient Stages stage;
 	public transient boolean spawned;
@@ -134,7 +132,7 @@ public class FightCavesController extends Controller {
 		this.login = login;
 		stage = Stages.LOADING;
 		player.lock(); // locks player
-		region = new DynamicRegionReference(8, 8);
+		region = new InstanceReference(8, 8);
 		region.copyMapAllPlanes(552, 640, () -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));

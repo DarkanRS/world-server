@@ -26,7 +26,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class TreeGnomeStronghold {
 	public static ObjectClickHandler handleGnomeSpiralStairsUp = new ObjectClickHandler(new Object[] { 69505 }, e -> {
 		GameObject oppObj = e.getObject();
-		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, 1).getChunkId()).getObjects())
+		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, 1).getChunkId()).getBaseObjects())
 			if(obj.getId()== 69504 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, 1), 3))
 				oppObj = obj;
 		if(oppObj.getRotation() == 0)
@@ -41,7 +41,7 @@ public class TreeGnomeStronghold {
 	
 	public static ObjectClickHandler handleGnomeSpiralStairsDown = new ObjectClickHandler(new Object[] { 69504 }, e -> {
 		GameObject oppObj = e.getObject();
-		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, -1).getChunkId()).getObjects())
+		for(GameObject obj : World.getChunk(e.getPlayer().transform(0, 0, -1).getChunkId()).getBaseObjects())
 			if(obj.getId()== 69505 && obj.getTile().withinDistance(e.getObject().getTile().transform(0, 0, -1), 3))
 				oppObj = obj;
 		if(oppObj.getRotation() == 0)

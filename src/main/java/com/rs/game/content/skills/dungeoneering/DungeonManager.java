@@ -89,7 +89,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.map.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.InstanceBuilder.InstanceReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -106,7 +106,7 @@ public class DungeonManager {
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
 	private VisibleRoom[][] visibleMap;
-	private DynamicRegionReference region;
+	private InstanceReference region;
 	private int stage; //0 - not loaded. 1 - loaded. 2 - new one not loaded, old one loaded(rewards screen)
 	private RewardsTimer rewardsTimer;
 	private DestroyTimer destroyTimer;
@@ -290,43 +290,40 @@ public class DungeonManager {
 		int chunkOffX = reference.getRoomX() * 2;
 		int chunkOffY = reference.getRoomY() * 2;
 		region.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
-			int regionId = region.getRegionId();
 			for (Player player : party.getTeam()) {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			}
-			World.executeAfterLoadRegion(regionId, () -> {
-				if (isDestroyed())
-					return;
-				room.openRoom(DungeonManager.this, reference);
-				visibleRoom.openRoom();
-				for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
-					Door door = room.getDoor(i);
-					if (door == null)
-						continue;
-					int rotation = (room.getRoom().getDoorDirections()[i] + room.getRotation()) & 0x3;
-					if (door.getType() == DungeonConstants.KEY_DOOR) {
-						KeyDoors keyDoor = KeyDoors.values()[door.getId()];
-						setDoor(reference, keyDoor.getObjectId(), keyDoor.getDoorId(party.getFloorType()), rotation);
-					} else if (door.getType() == DungeonConstants.GUARDIAN_DOOR) {
-						setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType()], rotation);
-						if (visibleRoom.roomCleared())  //remove referene since done
-							room.setDoor(i, null);
-					} else if (door.getType() == DungeonConstants.SKILL_DOOR) {
-						SkillDoors skillDoor = SkillDoors.values()[door.getId()];
-						int type = party.getFloorType();
-						int closedId = skillDoor.getClosedObject(type);
-						int openId = skillDoor.getOpenObject(type);
-						setDoor(reference, openId == -1 ? closedId : -1, openId != -1 ? closedId : -1, rotation);
-					}
+			if (isDestroyed())
+				return;
+			room.openRoom(DungeonManager.this, reference);
+			visibleRoom.openRoom();
+			for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
+				Door door = room.getDoor(i);
+				if (door == null)
+					continue;
+				int rotation = (room.getRoom().getDoorDirections()[i] + room.getRotation()) & 0x3;
+				if (door.getType() == DungeonConstants.KEY_DOOR) {
+					KeyDoors keyDoor = KeyDoors.values()[door.getId()];
+					setDoor(reference, keyDoor.getObjectId(), keyDoor.getDoorId(party.getFloorType()), rotation);
+				} else if (door.getType() == DungeonConstants.GUARDIAN_DOOR) {
+					setDoor(reference, -1, DungeonConstants.DUNGEON_GUARDIAN_DOORS[party.getFloorType()], rotation);
+					if (visibleRoom.roomCleared())  //remove referene since done
+						room.setDoor(i, null);
+				} else if (door.getType() == DungeonConstants.SKILL_DOOR) {
+					SkillDoors skillDoor = SkillDoors.values()[door.getId()];
+					int type = party.getFloorType();
+					int closedId = skillDoor.getClosedObject(type);
+					int openId = skillDoor.getOpenObject(type);
+					setDoor(reference, openId == -1 ? closedId : -1, openId != -1 ? closedId : -1, rotation);
 				}
-				if (room.getRoom().allowResources())
-					setResources(room, reference, chunkOffX, chunkOffY);
+			}
+			if (room.getRoom().allowResources())
+				setResources(room, reference, chunkOffX, chunkOffY);
 
-				if (room.getDropId() != -1)
-					setKey(room, reference);
-				visibleRoom.setLoaded();
-			});
+			if (room.getDropId() != -1)
+				setKey(room, reference);
+			visibleRoom.setLoaded();
 		});
 	}
 
@@ -1493,7 +1490,7 @@ public class DungeonManager {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				region = new DynamicRegionReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
+				region = new InstanceReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
 				region.clearMap(new int[1], () -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());

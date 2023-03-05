@@ -843,28 +843,33 @@ public class Player extends Entity {
 	}
 
 	public void refreshRegionItems() {
-		List<GroundItem> floorItems = World.getAllGroundItemsInChunkRange(getChunkId(), 8).stream().filter(item -> {
-			if (!getMapRegionsIds().contains(item.getTile().getRegionId()))
-				return false;
-			getPackets().removeGroundItem(item);
-			return true;
-		}).toList();
-		for (GroundItem item : floorItems) {
-			if (item.isPrivate() && item.getVisibleToId() != getUuid())
+		for (int chunkId : World.mapRegionIdsToChunks(getMapRegionsIds(), getPlane())) {
+			List<GroundItem> floorItems = World.getChunk(chunkId).getAllGroundItems();
+			if (floorItems == null)
 				continue;
-			getPackets().sendGroundItem(item);
+			for (GroundItem item : floorItems)
+				getPackets().removeGroundItem(item);
+			for (GroundItem item : floorItems) {
+				if (item.isPrivate() && item.getVisibleToId() != getUuid())
+					continue;
+				getPackets().sendGroundItem(item);
+			}
 		}
 	}
 
 	public void refreshSpawnedObjects() {
-		for (GameObject object : new ArrayList<>(World.getRegion(regionId).getRemovedObjects().values()))
-			getPackets().sendRemoveObject(object);
-		for (GameObject object : World.getRegion(regionId).getSpawnedObjects())
-			getPackets().sendAddObject(object);
-		List<GameObject> all =  World.getRegion(regionId).getAllObjects();
-		for (GameObject object : all)
-			if (object.getMeshModifier() != null)
-				getPackets().sendCustomizeObject(object.getMeshModifier());
+		for (int chunkId : World.mapRegionIdsToChunks(getMapRegionsIds(), getPlane())) {
+			for (GameObject object : new ArrayList<>(World.getChunk(chunkId).getRemovedObjects().values()))
+				getPackets().sendRemoveObject(object);
+			for (GameObject object : World.getChunk(chunkId).getSpawnedObjects())
+				getPackets().sendAddObject(object);
+			List<GameObject> all =  World.getChunk(chunkId).getAllBaseObjects();
+			if (all == null)
+				continue;
+			for (GameObject object : all)
+				if (object.getMeshModifier() != null)
+					getPackets().sendCustomizeObject(object.getMeshModifier());
+		}
 	}
 
 	// now that we inited we can start showing game
@@ -991,7 +996,6 @@ public class Player extends Entity {
 	public boolean isDocile() {
 		return (System.currentTimeMillis() - docileTimer) >= 600000L;
 	}
-
 	@Override
 	public void processEntity() {
 		try {
@@ -1619,28 +1623,28 @@ public class Player extends Entity {
 
 	public String getPlayerOption(ClientPacket packet) {
 		switch(packet) {
-			case PLAYER_OP1:
-				return playerOptions[0];
-			case PLAYER_OP2:
-				return playerOptions[1];
-			case PLAYER_OP3:
-				return playerOptions[2];
-			case PLAYER_OP4:
-				return playerOptions[3];
-			case PLAYER_OP5:
-				return playerOptions[4];
-			case PLAYER_OP6:
-				return playerOptions[5];
-			case PLAYER_OP7:
-				return playerOptions[6];
-			case PLAYER_OP8:
-				return playerOptions[7];
-			case PLAYER_OP9:
-				return playerOptions[8];
-			case PLAYER_OP10:
-				return playerOptions[9];
-			default:
-				return "null";
+		case PLAYER_OP1:
+			return playerOptions[0];
+		case PLAYER_OP2:
+			return playerOptions[1];
+		case PLAYER_OP3:
+			return playerOptions[2];
+		case PLAYER_OP4:
+			return playerOptions[3];
+		case PLAYER_OP5:
+			return playerOptions[4];
+		case PLAYER_OP6:
+			return playerOptions[5];
+		case PLAYER_OP7:
+			return playerOptions[6];
+		case PLAYER_OP8:
+			return playerOptions[7];
+		case PLAYER_OP9:
+			return playerOptions[8];
+		case PLAYER_OP10:
+			return playerOptions[9];
+		default:
+			return "null";
 		}
 	}
 
@@ -2165,13 +2169,13 @@ public class Player extends Entity {
 				if (hit.getDamage() == 0)
 					return;
 				switch(hit.getLook()) {
-					case MELEE_DAMAGE:
-					case RANGE_DAMAGE:
-					case MAGIC_DAMAGE:
-						target.sendSoulSplit(hit, this);
-						break;
-					default:
-						break;
+				case MELEE_DAMAGE:
+				case RANGE_DAMAGE:
+				case MAGIC_DAMAGE:
+					target.sendSoulSplit(hit, this);
+					break;
+				default:
+					break;
 				}
 			}
 		getAuraManager().onOutgoingHit(hit);
@@ -4193,44 +4197,44 @@ public class Player extends Entity {
 			boost += getTempAttribs().getI("hsDungScrollTier", 0);
 
 		switch(skill) {
-			case Skills.WOODCUTTING:
-				if (getFamiliarPouch() == Pouch.BEAVER)
-					boost += 2;
-				break;
-			case Skills.MINING:
-				if (getFamiliarPouch() == Pouch.DESERT_WYRM)
-					boost += 1;
-				else if (getFamiliarPouch() == Pouch.VOID_RAVAGER)
-					boost += 1;
-				else if (getFamiliarPouch() == Pouch.OBSIDIAN_GOLEM)
-					boost += 7;
-				else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
-					boost += 10;
-				break;
-			case Skills.FISHING:
-				if (getFamiliarPouch() == Pouch.GRANITE_CRAB)
-					boost += 1;
-				else if (getFamiliarPouch() == Pouch.IBIS)
-					boost += 3;
-				else if (getFamiliarPouch() == Pouch.GRANITE_LOBSTER)
-					boost += 4;
-				break;
-			case Skills.FIREMAKING:
-				if (getFamiliarPouch() == Pouch.PYRELORD)
-					boost += 3;
-				else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
-					boost += 10;
-				else if (getFamiliarPouch() == Pouch.PHOENIX)
-					boost += 12;
-				break;
-			case Skills.HUNTER:
-				if (getFamiliarPouch() == Pouch.SPIRIT_GRAAHK || getFamiliarPouch() == Pouch.SPIRIT_LARUPIA || getFamiliarPouch() == Pouch.SPIRIT_KYATT)
-					boost += 5;
-				else if (getFamiliarPouch() == Pouch.WOLPERTINGER)
-					boost += 5;
-				else if (getFamiliarPouch() == Pouch.ARCTIC_BEAR)
-					boost += 7;
-				break;
+		case Skills.WOODCUTTING:
+			if (getFamiliarPouch() == Pouch.BEAVER)
+				boost += 2;
+			break;
+		case Skills.MINING:
+			if (getFamiliarPouch() == Pouch.DESERT_WYRM)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.VOID_RAVAGER)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.OBSIDIAN_GOLEM)
+				boost += 7;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			break;
+		case Skills.FISHING:
+			if (getFamiliarPouch() == Pouch.GRANITE_CRAB)
+				boost += 1;
+			else if (getFamiliarPouch() == Pouch.IBIS)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.GRANITE_LOBSTER)
+				boost += 4;
+			break;
+		case Skills.FIREMAKING:
+			if (getFamiliarPouch() == Pouch.PYRELORD)
+				boost += 3;
+			else if (getFamiliarPouch() == Pouch.LAVA_TITAN)
+				boost += 10;
+			else if (getFamiliarPouch() == Pouch.PHOENIX)
+				boost += 12;
+			break;
+		case Skills.HUNTER:
+			if (getFamiliarPouch() == Pouch.SPIRIT_GRAAHK || getFamiliarPouch() == Pouch.SPIRIT_LARUPIA || getFamiliarPouch() == Pouch.SPIRIT_KYATT)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.WOLPERTINGER)
+				boost += 5;
+			else if (getFamiliarPouch() == Pouch.ARCTIC_BEAR)
+				boost += 7;
+			break;
 		}
 
 		return boost;

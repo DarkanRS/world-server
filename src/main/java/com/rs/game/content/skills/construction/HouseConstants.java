@@ -18,7 +18,7 @@ package com.rs.game.content.skills.construction;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.RegionBuilder;
+import com.rs.game.map.InstanceBuilder;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 
@@ -905,31 +905,31 @@ public class HouseConstants {
 	}
 
 	public static enum Room {
-		PARLOUR(1000, 1, 232, 639, true, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		GARDEN(1000, 1, 232, 633, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		KITCHEN(5000, 5, 234, 639, true, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		DINING_ROOM(5000, 10, 236, 639, true, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		WORKSHOP(10000, 15, 232, 637, true, RegionBuilder.NORTH, RegionBuilder.SOUTH),
-		BEDROOM(10000, 20, 238, 639, true, RegionBuilder.NORTH, RegionBuilder.WEST),
-		HALL_SKILL(15000, 25, 233, 638, true, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		GAMES_ROOM(25000, 30, 237, 636, true, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		COMBAT_ROOM(25000, 32, 235, 636, true, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		HALL_QUEST(25000, 35, 237, 638, true, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		MENAGERIE(30000, 37, 239, 634, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		STUDY(50000, 40, 236, 637, true, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		COSTUME_ROOM(50000, 42, 238, 633, true, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		CHAPEL(50000, 45, 234, 637, true, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		PORTAL_CHAMBER(100000, 50, 233, 636, true, RegionBuilder.SOUTH),
-		FORMAL_GARDEN(75000, 55, 234, 633, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		THRONE_ROOM(150000, 60, 238, 637, true, RegionBuilder.SOUTH),
-		OUTBLIETTE(150000, 65, 238, 635, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		DUNGEON_CORRIDOR(7500, 70, 236, 635, false, RegionBuilder.NORTH, RegionBuilder.SOUTH),
-		DUNGEON_JUNCTION(7500, 70, 232, 635, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		DUNGEON_STAIRS(7500, 70, 234, 635, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		DUNGEON_PIT(10000, 70, 237, 634, false, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		TREASURE_ROOM(250000, 75, 239, 636, true, RegionBuilder.SOUTH),
-		HALL_SKILL_DOWN(15000, 25, 235, 638, true, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST),
-		HALL_QUEST_DOWN(25000, 35, 239, 638, true, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.WEST);
+		PARLOUR(1000, 1, 232, 639, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		GARDEN(1000, 1, 232, 633, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		KITCHEN(5000, 5, 234, 639, true, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		DINING_ROOM(5000, 10, 236, 639, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		WORKSHOP(10000, 15, 232, 637, true, InstanceBuilder.NORTH, InstanceBuilder.SOUTH),
+		BEDROOM(10000, 20, 238, 639, true, InstanceBuilder.NORTH, InstanceBuilder.WEST),
+		HALL_SKILL(15000, 25, 233, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		GAMES_ROOM(25000, 30, 237, 636, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		COMBAT_ROOM(25000, 32, 235, 636, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		HALL_QUEST(25000, 35, 237, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		MENAGERIE(30000, 37, 239, 634, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		STUDY(50000, 40, 236, 637, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		COSTUME_ROOM(50000, 42, 238, 633, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		CHAPEL(50000, 45, 234, 637, true, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		PORTAL_CHAMBER(100000, 50, 233, 636, true, InstanceBuilder.SOUTH),
+		FORMAL_GARDEN(75000, 55, 234, 633, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		THRONE_ROOM(150000, 60, 238, 637, true, InstanceBuilder.SOUTH),
+		OUTBLIETTE(150000, 65, 238, 635, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		DUNGEON_CORRIDOR(7500, 70, 236, 635, false, InstanceBuilder.NORTH, InstanceBuilder.SOUTH),
+		DUNGEON_JUNCTION(7500, 70, 232, 635, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		DUNGEON_STAIRS(7500, 70, 234, 635, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		DUNGEON_PIT(10000, 70, 237, 634, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		TREASURE_ROOM(250000, 75, 239, 636, true, InstanceBuilder.SOUTH),
+		HALL_SKILL_DOWN(15000, 25, 235, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
+		HALL_QUEST_DOWN(25000, 35, 239, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST);
 
 		private int price, level;
 		private int chunkX;
@@ -971,10 +971,10 @@ public class HouseConstants {
 
 	public static enum Roof {
 
-		ROOF1(233, 634, RegionBuilder.NORTH, RegionBuilder.SOUTH),
-		ROOF2(235, 634, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH),
-		ROOF3(235, 634, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.NORTH),
-		DUNGEON_ROOF1(235, 632, RegionBuilder.NORTH, RegionBuilder.EAST, RegionBuilder.SOUTH, RegionBuilder.NORTH);
+		ROOF1(233, 634, InstanceBuilder.NORTH, InstanceBuilder.SOUTH),
+		ROOF2(235, 634, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH),
+		ROOF3(235, 634, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.NORTH),
+		DUNGEON_ROOF1(235, 632, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.NORTH);
 
 		private int chunkX;
 		private int chunkY;

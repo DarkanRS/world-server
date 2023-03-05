@@ -38,7 +38,7 @@ public class WorldCollision {
             for (WorldObject object : region.getObjects()) {
                 Chunk chunk = World.getChunk(object.getTile().getChunkId());
                 chunk.addBaseObject(new GameObject(object));
-                chunk.setOriginalChunk();
+                chunk.setStaticChunk();
             }
         }
     }

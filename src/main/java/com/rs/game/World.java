@@ -69,6 +69,7 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 @PluginEventHandler
 public final class World {
@@ -965,7 +966,7 @@ public final class World {
 		List<GameObject> objects = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
 		for (int chunk : chunkIds) {
-			for (GameObject obj : World.getChunk(chunk).getAllObjects()) {
+			for (GameObject obj : World.getChunk(chunk).getAllBaseObjects()) {
 				if (obj == null)
 					continue;
 				objects.add(obj);
@@ -978,7 +979,7 @@ public final class World {
 		List<GameObject> objects = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
 		for (int chunk : chunkIds) {
-			for (GameObject obj : World.getChunk(chunk).getObjects()) {
+			for (GameObject obj : World.getChunk(chunk).getBaseObjects()) {
 				if (obj == null)
 					continue;
 				objects.add(obj);
@@ -1039,6 +1040,18 @@ public final class World {
 		return chunksXYLoop;
 	}
 
+	public static Set<Integer> mapRegionIdsToChunks(Set<Integer> mapRegionsIds, int plane) {
+		Set<Integer> chunkIds = IntSets.emptySet();
+		for (int regionId : mapRegionsIds) {
+			int[] rCoords = MapUtils.decode(Structure.REGION, regionId);
+			int cX = rCoords[0] << 3, cY = rCoords[1] << 3;
+			for (int x = 0;x < 8;x++)
+				for (int y = 0;y < 8;y++)
+					chunkIds.add(MapUtils.encode(Structure.CHUNK, cX+x, cY+y, plane));
+		}
+		return chunkIds;
+	}
+
 	public static final void refreshObject(GameObject object) {
 		getChunk(object.getTile().getChunkId()).addChunkUpdate(new AddObject(object.getTile().getChunkLocalHash(), object));
 	}
@@ -1051,7 +1064,7 @@ public final class World {
 	 * TODO rename getBaseObjects
 	 */
 	public static final GameObject[] getObjects(Tile tile) {
-		return getChunk(tile.getChunkId()).getObjects(tile);
+		return getChunk(tile.getChunkId()).getBaseObjects(tile);
 	}
 
 	public static final GameObject getSpawnedObject(Tile tile) {
@@ -1497,7 +1510,7 @@ public final class World {
 
 	public static List<GameObject> getSurroundingObjects(GameObject obj, int radius) {
 		ArrayList<GameObject> objects = new ArrayList<>();
-		for (GameObject object : World.getChunk(obj.getTile().getChunkId()).getObjects()) {
+		for (GameObject object : World.getChunk(obj.getTile().getChunkId()).getBaseObjects()) {
 			if (object == null || object.getDefinitions() == null)
 				continue;
 			if (Utils.getDistance(obj.getTile(), object.getTile()) <= radius)

@@ -324,33 +324,33 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendObjectAnimation(GameObject object, Animation animation) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new ObjectAnim(object, animation));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new ObjectAnim(object.getTile().getChunkLocalHash(), object, animation));
 	}
 
 	public void removeGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new RemoveGroundItem(item));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new RemoveGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new CreateGroundItem(item));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendSetGroundItemAmount(GroundItem item, int oldAmount) {
-		session.writeToQueue(new UpdateZoneFullFollows(item.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new SetGroundItemAmount(item, oldAmount));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new SetGroundItemAmount(item.getTile().getChunkLocalHash(), item, oldAmount));
 	}
 
 	public void sendProjectile(WorldProjectile projectile) {
-		session.writeToQueue(new UpdateZoneFullFollows(projectile.getSource(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new ProjAnim(projectile));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
 	}
 
 	public void sendTileMessage(String message, Tile tile, int delay, int height, int color) {
-		session.writeToQueue(new UpdateZoneFullFollows(tile, player.getSceneBaseChunkId()));
-		session.writeToQueue(new TileMessage(tile, message, delay, height, color));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new TileMessage(tile.getChunkLocalHash(), message, delay, height, color));
 	}
 
 	public void sendTileMessage(String message, Tile tile, int color) {
@@ -358,20 +358,20 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendRemoveObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new RemoveObject(object));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new RemoveObject(object.getTile().getChunkLocalHash(), object));
 	}
 
 	public void sendAddObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(object.getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new AddObject(object));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new AddObject(object.getTile().getChunkLocalHash(), object));
 		if (object.getMeshModifier() != null)
 			sendCustomizeObject(object.getMeshModifier());
 	}
 
 	public void sendCustomizeObject(ObjectMeshModifier modifier) {
-		session.writeToQueue(new UpdateZoneFullFollows(modifier.getObject().getTile(), player.getSceneBaseChunkId()));
-		session.writeToQueue(new CustomizeObject(modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
+		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new CustomizeObject(modifier.getObject().getTile().getChunkLocalHash(), modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 
 	public void sendMessage(MessageType type, String text, Player p) {

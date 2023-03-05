@@ -36,6 +36,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.engine.dialogue.statements.OptionStatement;
+import com.rs.game.map.Chunk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
@@ -48,10 +49,11 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 public final class TutorialIslandController extends Controller {
 
-	private static final int[] TUTORIAL_REGIONS = { 12336, 12592, 12337, 12436 };
+	private static final IntSet TUTORIAL_REGIONS = IntSet.of(12336, 12592, 12337, 12436);
 
 	private static final int RUNESCAPE_GUIDE = 945;
 	private static final int SURVIVAL_EXPERT = 943;
@@ -1334,8 +1336,8 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	public NPC getNPC(int id) {
-		for (int regionId : TUTORIAL_REGIONS) {
-			Region r = World.getRegion(regionId, true);
+		for (int chunkId : World.mapRegionIdsToChunks(TUTORIAL_REGIONS, 0)) {
+			Chunk r = World.getChunk(chunkId, true);
 			if (r == null || r.getNPCsIndexes() == null)
 				continue;
 			for (int npcIdx : r.getNPCsIndexes()) {
