@@ -49,8 +49,8 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
 			return;
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
-		final int regionId = tile.getRegionId();
-		if (!player.getMapRegionsIds().contains(regionId))
+		final int chunkId = tile.getChunkId();
+		if (!player.getMapChunkIds().contains(chunkId))
 			return;
 		GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 		if (groundItem == null)

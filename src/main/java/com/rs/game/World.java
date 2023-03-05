@@ -69,6 +69,7 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 
 @PluginEventHandler
@@ -339,7 +340,7 @@ public final class World {
 		return wallsFree(Tile.of(x, y, plane));
 	}
 
-	public static int getClipFlags(int x, int y, int plane) {
+	public static int getClipFlags(int plane, int x, int y) {
 		return WorldCollision.getFlags(Tile.of(x, y, plane));
 	}
 
@@ -992,7 +993,7 @@ public final class World {
 		List<NPC> npcs = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
 		for (int chunk : chunkIds) {
-			for (int pid : World.getChunk(chunk).getPlayerIndexes()) {
+			for (int pid : World.getChunk(chunk).getNPCsIndexes()) {
 				NPC npc = World.getNPCs().get(pid);
 				if (npc == null || !npc.hasFinished())
 					continue;
@@ -1041,7 +1042,7 @@ public final class World {
 	}
 
 	public static Set<Integer> mapRegionIdsToChunks(Set<Integer> mapRegionsIds, int plane) {
-		Set<Integer> chunkIds = IntSets.emptySet();
+		Set<Integer> chunkIds = new IntOpenHashSet();
 		for (int regionId : mapRegionsIds) {
 			int[] rCoords = MapUtils.decode(Structure.REGION, regionId);
 			int cX = rCoords[0] << 3, cY = rCoords[1] << 3;
@@ -1519,11 +1520,11 @@ public final class World {
 		return objects;
 	}
 
-	public static void preTickChunks() {
+	public static void processChunks() {
 		synchronized(CHUNKS) {
 			for (Chunk c : CHUNKS.values())
 				if (c != null)
-					c.preTick();
+					c.process();
 		}
 	}
 

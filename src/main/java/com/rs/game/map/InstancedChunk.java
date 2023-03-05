@@ -62,7 +62,7 @@ public class InstancedChunk extends Chunk {
 		for (WorldObject orig : realChunk.getBaseObjects()) {
 			GameObject adjusted = new GameObject(orig);
 			int[] coords = InstancedChunk.transform(orig.getTile().getXInChunk(),orig.getTile().getYInChunk(), rotation, orig.getDefinitions().getSizeX(), orig.getDefinitions().getSizeY(), orig.getRotation());
-			adjusted.setTile(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], adjusted.getPlane()));
+			adjusted.setTile(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()));
 			adjusted.setRotation((adjusted.getRotation() + rotation) & 0x3);
 			addBaseObject(adjusted);
 		}

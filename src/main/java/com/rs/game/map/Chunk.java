@@ -20,7 +20,10 @@ import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawns;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
 import java.util.ArrayList;
@@ -36,18 +39,19 @@ public class Chunk {
     private int plane;
     private boolean staticChunk;
 
-    private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(ObjectLists.emptyList());
+    private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(new ObjectArrayList<>());
     private UpdateZonePartialEnclosed updateZonePacket = null;
 
-    protected Set<Integer> players = IntSets.synchronize(IntSets.emptySet());
-    protected Set<Integer> npcs = IntSets.synchronize(IntSets.emptySet());
+    protected Set<Integer> players = IntSets.synchronize(new IntOpenHashSet());
+    protected Set<Integer> watchers = IntSets.synchronize(new IntOpenHashSet());
+    protected Set<Integer> npcs = IntSets.synchronize(new IntOpenHashSet());
 
     protected GameObject[][][] baseObjects = new GameObject[8][8][4];
-    protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());
-    protected List<GameObject> spawnedObjects = ObjectLists.synchronize(ObjectLists.emptyList());
+    protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
+    protected List<GameObject> spawnedObjects = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());;
-    protected List<GroundItem> groundItemList = ObjectLists.synchronize(ObjectLists.emptyList());
+    protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
+    protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
     private AtomicBoolean loadedData = new AtomicBoolean(false);
 
@@ -165,12 +169,12 @@ public class Chunk {
     public boolean addItemToOwnerMapping(GroundItem item) {
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null) {
-            tileMap = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());
+            tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
             groundItems.put(item.getVisibleToId(), tileMap);
         }
         List<GroundItem> items = tileMap.get(item.getTile().getTileHash());
         if (items == null) {
-            items = ObjectLists.synchronize(ObjectLists.emptyList());
+            items = ObjectLists.synchronize(new ObjectArrayList<>());
             tileMap.put(item.getTile().getTileHash(), items);
         }
         items.add(item);
@@ -180,12 +184,12 @@ public class Chunk {
     public boolean addGroundItem(GroundItem item) {
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null) {
-            tileMap = Int2ObjectMaps.synchronize(Int2ObjectMaps.emptyMap());
+            tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
             groundItems.put(item.getVisibleToId(), tileMap);
         }
         List<GroundItem> items = tileMap.get(item.getTile().getTileHash());
         if (items == null) {
-            items = ObjectLists.synchronize(ObjectLists.emptyList());
+            items = ObjectLists.synchronize(new ObjectArrayList<>());
             tileMap.put(item.getTile().getTileHash(), items);
         }
         GroundItem existing = getGroundItem(item.getId(), item.getTile(), item.getVisibleToId());
@@ -644,11 +648,13 @@ public class Chunk {
     }
 
     public void rebuildUpdateZone() {
-        updateZonePacket = new UpdateZonePartialEnclosed(chunkId, updates);
+        if (!updates.isEmpty())
+            updateZonePacket = new UpdateZonePartialEnclosed(chunkId, updates);
+        updates.clear();
     }
 
     public void sendUpdates(Player player) {
-        if (!player.hasStarted() || player.hasFinished())
+        if (updateZonePacket == null || player == null || !player.hasStarted() || player.hasFinished())
             return;
         player.getSession().write(updateZonePacket);
     }
@@ -685,10 +691,23 @@ public class Chunk {
         return 0;
     }
 
-    public void preTick() {
+    public void process() {
+        processGroundItems();
     }
 
     public void update() {
+        rebuildUpdateZone();
+        for (int pid : watchers)
+            sendUpdates(World.getPlayers().get(pid));
+        updateZonePacket = null;
+    }
+
+    public void addWatcher(int pid) {
+        watchers.add(pid);
+    }
+
+    public void removeWatcher(int pid) {
+        watchers.remove(pid);
     }
 
     public int getBaseX() {
@@ -697,5 +716,25 @@ public class Chunk {
 
     public int getBaseY() {
         return chunkY << 3;
+    }
+
+    public void init(Player player) {
+        List<UpdateZonePacketEncoder> initUpdates = new ObjectArrayList<>();
+        List<GroundItem> floorItems = getAllGroundItems();
+        for (GroundItem item : floorItems) {
+            if (item.isPrivate() && item.getVisibleToId() != player.getUuid())
+                continue;
+            initUpdates.add(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
+        }
+        for (GameObject object : new ArrayList<>(getRemovedObjects().values()))
+            initUpdates.add(new RemoveObject(object.getTile().getChunkLocalHash(), object));
+        for (GameObject object : getSpawnedObjects())
+            initUpdates.add(new AddObject(object.getTile().getChunkLocalHash(), object));
+        List<GameObject> all =  getAllBaseObjects();
+        for (GameObject object : all)
+            if (object.getMeshModifier() != null)
+                initUpdates.add(new CustomizeObject(object.getTile().getChunkLocalHash(), object.getMeshModifier().getObject(), object.getMeshModifier().getModelIds(), object.getMeshModifier().getModifiedColors(), object.getMeshModifier().getModifiedTextures()));
+        if (!initUpdates.isEmpty())
+            player.getSession().writeToQueue(new UpdateZonePartialEnclosed(chunkId, initUpdates));
     }
 }

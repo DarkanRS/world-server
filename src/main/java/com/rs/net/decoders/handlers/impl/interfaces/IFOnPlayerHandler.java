@@ -34,7 +34,7 @@ public class IFOnPlayerHandler implements PacketHandler<Player, IFOnPlayer> {
 		if ((Utils.getInterfaceDefinitionsSize() <= packet.getInterfaceId()) || !player.getInterfaceManager().topOpen(packet.getInterfaceId()) || (packet.getComponentId() != -1 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()))
 			return;
 		Player p2 = World.getPlayers().get(packet.getPlayerIndex());
-		if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapRegionsIds().contains(p2.getRegionId()))
+		if (p2 == null || p2.isDead() || p2.hasFinished() || !player.getMapChunkIds().contains(p2.getChunkId()))
 			return;
 		player.stopAll(false);
 		if (PluginManager.handle(new IFOnPlayerEvent(player, p2, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), false)))

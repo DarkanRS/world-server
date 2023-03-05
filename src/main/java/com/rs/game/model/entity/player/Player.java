@@ -168,6 +168,8 @@ import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
 import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 public class Player extends Entity {
 
@@ -253,6 +255,7 @@ public class Player extends Entity {
 	// transient stuff
 	private transient Session session;
 	private transient long clientLoadedMapRegion;
+	private transient Set<Integer> mapChunksNeedInit;
 	private transient ScreenMode screenMode;
 	private transient int screenWidth;
 	private transient int screenHeight;
@@ -635,6 +638,8 @@ public class Player extends Entity {
 	}
 
 	public void init(Session session, Account account, int screenMode, int screenWidth, int screenHeight, MachineInformation machineInformation) {
+		if (mapChunksNeedInit == null)
+			mapChunksNeedInit = IntSets.synchronize(new IntOpenHashSet());
 		if (getTile() == null)
 			setTile(Tile.of(Settings.getConfig().getPlayerStartTile()));
 		this.session = session;
@@ -842,39 +847,16 @@ public class Player extends Entity {
 		getAppearance().generateAppearanceData();
 	}
 
-	public void refreshRegionItems() {
-		for (int chunkId : World.mapRegionIdsToChunks(getMapRegionsIds(), getPlane())) {
-			List<GroundItem> floorItems = World.getChunk(chunkId).getAllGroundItems();
-			if (floorItems == null)
-				continue;
-			for (GroundItem item : floorItems)
-				getPackets().removeGroundItem(item);
-			for (GroundItem item : floorItems) {
-				if (item.isPrivate() && item.getVisibleToId() != getUuid())
-					continue;
-				getPackets().sendGroundItem(item);
-			}
-		}
-	}
-
-	public void refreshSpawnedObjects() {
-		for (int chunkId : World.mapRegionIdsToChunks(getMapRegionsIds(), getPlane())) {
-			for (GameObject object : new ArrayList<>(World.getChunk(chunkId).getRemovedObjects().values()))
-				getPackets().sendRemoveObject(object);
-			for (GameObject object : World.getChunk(chunkId).getSpawnedObjects())
-				getPackets().sendAddObject(object);
-			List<GameObject> all =  World.getChunk(chunkId).getAllBaseObjects();
-			if (all == null)
-				continue;
-			for (GameObject object : all)
-				if (object.getMeshModifier() != null)
-					getPackets().sendCustomizeObject(object.getMeshModifier());
+	public void initNewChunks() {
+		for (int chunkId : getMapChunksNeedInit()) {
+			World.getChunk(chunkId).init(this);
 		}
 	}
 
 	// now that we inited we can start showing game
 	public void start() {
 		loadMapRegions();
+		getMapChunksNeedInit().addAll(getMapChunkIds());
 		started = true;
 		run();
 
@@ -4369,5 +4351,9 @@ public class Player extends Entity {
 	public void setBasNoReset(int bas) {
 		super.setBasNoReset(bas);
 		getAppearance().generateAppearanceData();
+	}
+
+	public Set<Integer> getMapChunksNeedInit() {
+		return mapChunksNeedInit;
 	}
 }

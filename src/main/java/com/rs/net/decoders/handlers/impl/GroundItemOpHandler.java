@@ -47,8 +47,8 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			return;
 
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
-		final int regionId = tile.getRegionId();
-		if (!player.getMapRegionsIds().contains(regionId))
+		final int chunkId = tile.getChunkId();
+		if (!player.getMapChunkIds().contains(chunkId))
 			return;
 		final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 		if (item == null)

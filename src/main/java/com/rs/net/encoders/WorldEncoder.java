@@ -19,6 +19,7 @@ package com.rs.net.encoders;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
@@ -120,6 +121,7 @@ import com.rs.lib.util.Utils;
 
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 public class WorldEncoder extends Encoder {
 
@@ -467,7 +469,12 @@ public class WorldEncoder extends Encoder {
 			player.getLocalPlayerUpdate().init(stream);
 			lswp = stream.toByteArray();
 		}
-		session.writeToQueue(new MapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), player.getMapRegionsIds()));
+		Set<Integer> mapRegionIds = new IntOpenHashSet();
+		for (int chunkId : player.getMapChunkIds()) {
+			int[] coords = MapUtils.decode(Structure.CHUNK, chunkId);
+			mapRegionIds.add(MapUtils.encode(Structure.REGION, coords[0] >> 3, coords[1] >> 3));
+		}
+		session.writeToQueue(new MapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), mapRegionIds));
 	}
 
 	public void sendCutscene(int id) {

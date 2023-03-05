@@ -83,7 +83,7 @@ public final class NPCSpawns {
 			if (regionSpawns == null)
 				regionSpawns = new ArrayList<>();
 			regionSpawns.add(spawn);
-			NPC_SPAWNS.put(spawn.getTile().getRegionId(), regionSpawns);
+			NPC_SPAWNS.put(spawn.getTile().getChunkId(), regionSpawns);
 		}
 	}
 

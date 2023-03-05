@@ -97,7 +97,7 @@ public final class LocalNPCUpdate {
 
 	private void addInScreenNPCs(OutputStream stream, OutputStream updateBlockData, boolean largeSceneView) {
 		int radius = largeSceneView ? 126 : 14;						//TODO is isDead really necessary here?
-		for (NPC n : player.queryNearbyNPCsByTileRange(radius, n -> /*!n.isDead() && */!localNPCs.contains(n) && n.withinDistance(player, largeSceneView ? 126 : 14))) {
+		for (NPC n : player.queryNearbyNPCsByTileRange(radius, n -> /*!n.isDead() && */!localNPCs.contains(n) && n.withinDistance(player, radius))) {
 			if (localNPCs.size() == Settings.LOCAL_NPCS_LIMIT)
 				break;
 			stream.writeBits(15, n.getIndex());

@@ -58,7 +58,7 @@ public final class WorldThread extends Thread {
 			long startTime = System.currentTimeMillis();
 			WorldTasks.processTasks();
 			OwnedObject.process();
-			World.preTickChunks();
+			World.processChunks();
 			NAMES.clear();
 			for (Player player : World.getPlayers()) {
 				try {

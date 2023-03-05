@@ -27,6 +27,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 
@@ -37,7 +38,7 @@ public final class InstanceBuilder {
 	 */
 	public static class InstanceReference {
 		private int[] base;
-		private IntSet chunkIds = IntSets.emptySet();
+		private IntSet chunkIds = new IntOpenHashSet();
 		private int width;
 		private int height;
 		private boolean destroyed;

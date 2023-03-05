@@ -77,6 +77,9 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
 import com.rs.utils.WorldUtil;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
 public abstract class Entity {
@@ -102,7 +105,7 @@ public abstract class Entity {
 	private transient int sceneBaseChunkId;
 	private transient int lastChunkId;
 	private transient boolean forceUpdateEntityRegion;
-	private transient Set<Integer> mapRegionIds;
+	private transient Set<Integer> mapChunkIds;
 	protected transient GenericAttribMap temporaryAttributes;
 	protected transient GenericAttribMap nonsavingVars;
 	private transient int faceAngle;
@@ -278,7 +281,7 @@ public abstract class Entity {
 	}
 
 	public final void initEntity() {
-		mapRegionIds = ConcurrentHashMap.newKeySet();
+		mapChunkIds = IntSets.synchronize(new IntOpenHashSet());
 		walkSteps = new ConcurrentLinkedQueue<>();
 		receivedHits = new ConcurrentLinkedQueue<>();
 		receivedDamage = new ConcurrentHashMap<>();
@@ -929,27 +932,59 @@ public abstract class Entity {
 	}
 
 	public void loadMapRegions() {
-		mapRegionIds.clear();
-		hasNearbyInstancedChunks = false;
-		int currChunkX = getChunkX();
-		int currChunkY = getChunkY();
-		int sceneChunkRadius = getMapSize().size / 16;
-		int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
-		int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
-		if (sceneBaseChunkX < 0)
-			sceneBaseChunkX = 0;
-		if (sceneBaseChunkY < 0)
-			sceneBaseChunkY = 0;
-		for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
-			for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
-				Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY), this instanceof Player || this instanceof Max);
-				if (chunk instanceof InstancedChunk)
-					hasNearbyInstancedChunks = true;
-				if (chunkX % 8 == 0)
-					mapRegionIds.add(MapUtils.encode(Structure.REGION, chunkX / 8, chunkY / 8));
+		if (this instanceof Player p) {
+			Set<Integer> old = new IntOpenHashSet(mapChunkIds);
+			for (int cid : mapChunkIds)
+				World.getChunk(cid).removeWatcher(p.getIndex());
+			mapChunkIds.clear();
+			hasNearbyInstancedChunks = false;
+			int currChunkX = getChunkX();
+			int currChunkY = getChunkY();
+			int sceneChunkRadius = getMapSize().size / 16;
+			int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
+			int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
+			if (sceneBaseChunkX < 0)
+				sceneBaseChunkX = 0;
+			if (sceneBaseChunkY < 0)
+				sceneBaseChunkY = 0;
+			for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
+				for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
+					Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY), true);
+					if (chunk instanceof InstancedChunk)
+						hasNearbyInstancedChunks = true;
+					int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, getPlane());
+					mapChunkIds.add(chunkId);
+					if (!old.contains(chunkId)) {
+						p.getMapChunksNeedInit().add(chunkId);
+						World.getChunk(chunkId).addWatcher(p.getIndex());
+					}
+					old.remove(chunkId);
+				}
+			}
+			for (int oldCid : old)
+				World.getChunk(oldCid).removeWatcher(p.getIndex());
+			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY);
+		} else {
+			mapChunkIds.clear();
+			hasNearbyInstancedChunks = false;
+			int currChunkX = getChunkX();
+			int currChunkY = getChunkY();
+			int sceneChunkRadius = getMapSize().size / 16;
+			int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
+			int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
+			if (sceneBaseChunkX < 0)
+				sceneBaseChunkX = 0;
+			if (sceneBaseChunkY < 0)
+				sceneBaseChunkY = 0;
+			for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
+				for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
+					Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY), this instanceof Max);
+					if (chunk instanceof InstancedChunk)
+						hasNearbyInstancedChunks = true;
+					mapChunkIds.add(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, getPlane()));
+				}
 			}
 		}
-		sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY);
 	}
 
 	public void setIndex(int index) {
@@ -979,8 +1014,8 @@ public abstract class Entity {
 		loadMapRegions();
 	}
 
-	public Set<Integer> getMapRegionsIds() {
-		return mapRegionIds;
+	public Set<Integer> getMapChunkIds() {
+		return mapChunkIds;
 	}
 
 	public void setNextAnimation(Animation nextAnimation) {
@@ -1362,7 +1397,7 @@ public abstract class Entity {
 
 	public List<NPC> queryNearbyNPCsByTileRange(int tileRange, Function<NPC, Boolean> predicate) {
 		List<NPC> startList = World.getNPCsInChunkRange(getChunkId(), ((tileRange / 8) + 1));
-		List<NPC> list = ObjectLists.emptyList();
+		List<NPC> list = new ObjectArrayList<>();
 		for (NPC npc : startList) {
 			if (predicate == null || predicate.apply(npc))
 				list.add(npc);
@@ -1372,7 +1407,7 @@ public abstract class Entity {
 
 	public List<Player> queryNearbyPlayersByTileRange(int tileRange, Function<Player, Boolean> predicate) {
 		List<Player> startList = World.getPlayersInChunkRange(getChunkId(), ((tileRange / 8) + 1));
-		List<Player> list = ObjectLists.emptyList();
+		List<Player> list = new ObjectArrayList<>();
 		for (Player npc : startList) {
 			if (predicate == null || predicate.apply(npc))
 				list.add(npc);
