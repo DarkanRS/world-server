@@ -1018,7 +1018,7 @@ public final class World {
 		for (int chunk : chunkIds) {
 			for (int pid : World.getChunk(chunk).getNPCsIndexes()) {
 				NPC npc = World.getNPCs().get(pid);
-				if (npc == null || !npc.hasFinished())
+				if (npc == null || npc.hasFinished())
 					continue;
 				npcs.add(npc);
 			}
@@ -1032,7 +1032,7 @@ public final class World {
 		for (int chunk : chunkIds) {
 			for (int pid : World.getChunk(chunk).getPlayerIndexes()) {
 				Player player = World.getPlayers().get(pid);
-				if (player == null || !player.hasStarted() || !player.hasFinished())
+				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
 				players.add(player);
 			}
@@ -1055,9 +1055,9 @@ public final class World {
 
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
 		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
-		Set<Integer> chunksXYLoop = new HashSet<>();
-		for (int cx = xyz[0] - radius; cx <= xyz[0] + radius; cx++) {
-			for (int cy = xyz[1] - radius; cy <= xyz[1] + radius; cy++) {
+		Set<Integer> chunksXYLoop = new IntOpenHashSet();
+		for (int cx = Utils.clampI(xyz[0] - radius, 0, Integer.MAX_VALUE); cx <= xyz[0] + radius; cx++) {
+			for (int cy = Utils.clampI(xyz[1] - radius, 0, Integer.MAX_VALUE); cy <= xyz[1] + radius; cy++) {
 				chunksXYLoop.add(MapUtils.encode(Structure.CHUNK, cx, cy, xyz[2]));
 			}
 		}
