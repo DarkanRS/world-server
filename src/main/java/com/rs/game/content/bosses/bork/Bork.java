@@ -43,7 +43,7 @@ public class Bork extends NPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		for(NPC npc : World.getNPCsInRegion(source.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(source.getChunkId(), 3))
 			if(npc.getId() == 7135)
 				npc.sendDeath(source);
 		deadTime = System.currentTimeMillis() + (1000 * 60 * 60);

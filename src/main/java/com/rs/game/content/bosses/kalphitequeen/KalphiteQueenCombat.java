@@ -86,17 +86,8 @@ public class KalphiteQueenCombat extends CombatScript {
 		if (fromEntity == null)
 			return null;
 		ArrayList<Player> added = new ArrayList<>();
-		for (int regionId : fromEntity.getMapRegionsIds()) {
-			Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playersIndexes == null)
-				continue;
-			for (Integer playerIndex : playersIndexes) {
-				Player player = World.getPlayers().get(playerIndex);
-				if (player == null || list.contains(player) || !player.withinDistance(fromEntity.getTile()) || !player.withinDistance(startTile))
-					continue;
-				added.add(player);
-			}
-		}
+		for (Player player : fromEntity.queryNearbyPlayersByTileRange(16, player -> !list.contains(player) && player.withinDistance(fromEntity.getTile()) && player.withinDistance(startTile)))
+			added.add(player);
 		if (added.isEmpty())
 			return null;
 		Collections.sort(added, (o1, o2) -> {

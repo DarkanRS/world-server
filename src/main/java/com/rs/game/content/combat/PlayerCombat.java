@@ -231,29 +231,17 @@ public class PlayerCombat extends PlayerAction {
 				possibleTargets.add(target);
 			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 		}
-		y: for (int regionId : player.getMapRegionsIds()) {
-			Region region = World.getRegion(regionId);
-			Set<Integer> playerIndexes = region.getPlayerIndexes();
-			if (playerIndexes == null)
-				continue;
-			for (int playerIndex : playerIndexes) {
-				Player p2 = World.getPlayers().get(playerIndex);
-				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(tile, maxDistance) || !player.getControllerManager().canHit(p2))
-					continue;
-				possibleTargets.add(p2);
-				if (possibleTargets.size() == maxAmtTargets)
-					break y;
-			}
-			Set<Integer> npcIndexes = region.getNPCsIndexes();
-			if (npcIndexes == null)
-				continue;
-			for (int npcIndex : npcIndexes) {
-				NPC n = World.getNPCs().get(npcIndex);
-				if (n == null || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(tile, maxDistance) || !n.getDefinitions().hasAttackOption() || !player.getControllerManager().canHit(n) || !n.isAtMultiArea())
-					continue;
+
+		for (Player p2 : player.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(tile, maxDistance) && player.getControllerManager().canHit(p2))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() >= maxAmtTargets)
+				break;
+		}
+		if (possibleTargets.size() < maxAmtTargets) {
+			for (NPC n : player.queryNearbyNPCsByTileRange(maxDistance, n -> n != player.getFamiliar() && !n.isDead() && n.getDefinitions().hasAttackOption() && n.isAtMultiArea() && n.withinDistance(tile, maxDistance) && player.getControllerManager().canHit(n))) {
 				possibleTargets.add(n);
-				if (possibleTargets.size() == maxAmtTargets)
-					break y;
+				if (possibleTargets.size() >= maxAmtTargets)
+					break;
 			}
 		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
@@ -267,37 +255,20 @@ public class PlayerCombat extends PlayerAction {
 		List<Entity> possibleTargets = new ArrayList<>();
 		if (includeOriginalTarget)
 			possibleTargets.add(target);
-		if (target.isAtMultiArea())
-			y:for (int regionId : target.getMapRegionsIds()) {
-				Region region = World.getRegion(regionId);
-				if (target instanceof Player) {
-					Set<Integer> playerIndexes = region.getPlayerIndexes();
-					if (playerIndexes == null)
-						continue;
-					for (int playerIndex : playerIndexes) {
-						Player p2 = World.getPlayers().get(playerIndex);
-						if (p2 == null || p2 == player || p2 == target || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.isCanPvp() || !p2.isAtMultiArea() || !p2.withinDistance(target.getTile(), maxDistance)
-								|| !player.getControllerManager().canHit(p2))
-							continue;
-						possibleTargets.add(p2);
-						if (possibleTargets.size() == maxAmtTargets)
-							break y;
-					}
-				} else {
-					Set<Integer> npcIndexes = region.getNPCsIndexes();
-					if (npcIndexes == null)
-						continue;
-					for (int npcIndex : npcIndexes) {
-						NPC n = World.getNPCs().get(npcIndex);
-						if (n == null || n == target || n == player.getFamiliar() || n.isDead() || n.hasFinished() || !n.isAtMultiArea() || !n.withinDistance(target.getTile(), maxDistance) || !n.getDefinitions().hasAttackOption()
-								|| !player.getControllerManager().canHit(n))
-							continue;
-						possibleTargets.add(n);
-						if (possibleTargets.size() == maxAmtTargets)
-							break y;
-					}
-				}
+		if (!target.isAtMultiArea())
+			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+		for (Player p2 : target.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(p2))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() >= maxAmtTargets)
+				break;
+		}
+		if (possibleTargets.size() < maxAmtTargets) {
+			for (NPC n : target.queryNearbyNPCsByTileRange(maxDistance, n -> n != player.getFamiliar() && !n.isDead() && n.getDefinitions().hasAttackOption() && n.isAtMultiArea() && n.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(n))) {
+				possibleTargets.add(n);
+				if (possibleTargets.size() >= maxAmtTargets)
+					break;
 			}
+		}
 		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
 	}
 

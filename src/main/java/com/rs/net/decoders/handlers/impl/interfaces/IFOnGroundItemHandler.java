@@ -52,7 +52,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;
-		GroundItem groundItem = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+		GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 		if (groundItem == null)
 			return;
 		player.stopAll();
@@ -80,7 +80,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 				public boolean process() {
 					if (player.isDead() || player.hasFinished())
 						return false;
-					final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+					final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 					if ((item == null) || (player.getPlane() != tile.getPlane()))
 						return false;
 					if (player.hasEffect(Effect.FREEZE))
@@ -104,7 +104,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
 						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, 0, p -> {
-							final GroundItem gItem = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+							final GroundItem gItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 							if (gItem == null) {
 								player.sendMessage("Too late. It's gone!");
 								return;

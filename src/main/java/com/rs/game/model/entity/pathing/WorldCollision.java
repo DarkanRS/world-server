@@ -12,6 +12,7 @@ import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 import static com.rs.cache.loaders.map.ClipFlag.*;
 
@@ -20,7 +21,7 @@ public class WorldCollision {
     private static final int CHUNK_SIZE = 2048; //2048 chunk size = max capacity 16384x16384 tiles
     private static final int[][] CLIP_FLAGS = new int[CHUNK_SIZE * CHUNK_SIZE * 4][];
 
-    @ServerStartupEvent
+    @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
         for (int regionId = 0; regionId < 0xFFFF; regionId++) {
             Region region = new Region(regionId);

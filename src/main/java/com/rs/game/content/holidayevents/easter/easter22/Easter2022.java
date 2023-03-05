@@ -93,16 +93,16 @@ public class Easter2022 {
     }
 
     public static void initEasterSpawns(int ticksToEnd) {
-        //Load varrock
-        Region varrock = World.getRegion(12853, true);
-
-        //Remove default game objects that will be in the way
-        WorldTasks.schedule(Ticks.fromSeconds(5), () -> {
-            World.removeObject(varrock.getObject(0,5,39, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
-            World.removeObject(varrock.getObject(0,11,46, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
-            World.removeObject(varrock.getObject(0,14,46, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
-            World.removeObject(varrock.getObject(1,9,24, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
-        });
+//        //Load varrock
+//        Region varrock = World.getRegion(12853, true);
+//
+//        //Remove default game objects that will be in the way
+//        WorldTasks.schedule(Ticks.fromSeconds(5), () -> {
+//            World.removeObject(varrock.getObject(0,5,39, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
+//            World.removeObject(varrock.getObject(0,11,46, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
+//            World.removeObject(varrock.getObject(0,14,46, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
+//            World.removeObject(varrock.getObject(1,9,24, ObjectType.STRAIGHT_OUSIDE_WALL_DEC));
+//        });
 
         final NPC Chocatrice = new NPC(15259, Tile.of(3208, 3426, 0));
         final NPC EvilChicken = new NPC(15262, Tile.of(3216,3426,0));

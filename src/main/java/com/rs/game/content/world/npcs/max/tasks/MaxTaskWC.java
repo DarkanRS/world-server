@@ -55,7 +55,7 @@ public class MaxTaskWC implements Task {
 	public GameObject getClosestIvy(Tile tile) {
 		GameObject ivy = null;
 		double closest = Double.MAX_VALUE;
-		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {
+		for (GameObject obj : World.getAllObjectsInChunkRange(tile.getChunkId(), 2)) {
 			if (obj == null || obj.getDefinitions() == null || !obj.getDefinitions().getName().equals("Ivy") || !obj.getDefinitions().containsOption("Chop"))
 				continue;
 			double dist = Utils.getDistance(obj.getTile(), tile);

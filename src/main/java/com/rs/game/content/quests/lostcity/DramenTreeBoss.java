@@ -22,7 +22,7 @@ public class DramenTreeBoss {
 		GameObject obj = e.getObject();
 		if(p.getQuestManager().getStage(Quest.LOST_CITY) == LostCity.CHOP_DRAMEN_TREE) {
 			if(!p.inCombat()) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 4))
 					if (npc.getId() == TREE_SPIRIT) {
 						npc.forceTalk("You must defeat me before touching the tree!");
 						return;

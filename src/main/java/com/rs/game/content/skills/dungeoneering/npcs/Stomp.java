@@ -27,6 +27,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
+import com.rs.game.map.Chunk;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -216,11 +217,9 @@ public final class Stomp extends DungeonBoss {
 	}
 
 	public void removeCrystals() {
-		Region region = World.getRegion(getRegionId());
-		if (region.getGroundItems() != null)
-			for (GroundItem item : region.getAllGroundItems())
-				if (item.getId() == CRYSTAL[lodeStoneType])
-					World.removeGroundItem(item);
+		for (GroundItem item : World.getAllGroundItemsInChunkRange(getChunkId(), 2))
+			if (item.getId() == CRYSTAL[lodeStoneType])
+				World.removeGroundItem(item);
 	}
 
 	public boolean containsShadow(int x, int y) {

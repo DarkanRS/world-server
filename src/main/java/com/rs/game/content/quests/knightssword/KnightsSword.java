@@ -139,7 +139,7 @@ public class KnightsSword extends QuestOutline {
 				p.sendMessage("There is nothing interesting here...");
 				return;
 			}
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getName().equalsIgnoreCase("Sir Vyvin"))
 					if(npc.lineOfSightTo(p, false)) {
 						p.startConversation(new Conversation(p) {

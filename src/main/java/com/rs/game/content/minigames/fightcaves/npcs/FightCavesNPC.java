@@ -44,16 +44,7 @@ public class FightCavesNPC extends NPC {
 
 	@Override
 	public List<Entity> getPossibleTargets() {
-		List<Entity> possibleTarget = new ArrayList<>(1);
-		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null)
-			for (int npcIndex : playerIndexes) {
-				Player player = World.getPlayers().get(npcIndex);
-				if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
-					continue;
-				possibleTarget.add(player);
-			}
-		return possibleTarget;
+		return queryNearbyPlayersByTileRangeAsEntityList(64, player -> !player.isDead());
 	}
 
 }

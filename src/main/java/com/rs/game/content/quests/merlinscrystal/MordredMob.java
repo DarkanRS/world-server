@@ -24,7 +24,7 @@ public class MordredMob extends NPC {
 	public void sendDeath(Entity source) {
 		if(source instanceof Player p) {
 			if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == MerlinsCrystal.CONFRONT_KEEP_LA_FAYE) {
-				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+				for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 					if(npc.getId() == MORGAN)
 						return;
                 OwnedNPC morgan = new OwnedNPC(p, MORGAN, Tile.of(2769, 3403, 2), true);
@@ -55,7 +55,7 @@ public class MordredMob extends NPC {
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 			if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
                 if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
 				    return false;
@@ -64,7 +64,7 @@ public class MordredMob extends NPC {
 
 	@Override
 	public boolean canAggroPlayer(Player player) {
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
             if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
                 if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
                     return false;

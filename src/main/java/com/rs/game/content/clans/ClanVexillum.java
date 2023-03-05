@@ -119,7 +119,7 @@ public class ClanVexillum extends OwnedNPC {
 			player.sendMessage("You can't place a vexillum here.");
 			return;
 		}
-		for (NPC npc : World.getNPCsInRegionRange(player.getRegionId())) {
+		for (NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1)) {
 			if (npc == null || npc.hasFinished())
 				continue;
 			if (npc.withinDistance(tile, npc instanceof ClanVexillum ? 6 : 1)) {

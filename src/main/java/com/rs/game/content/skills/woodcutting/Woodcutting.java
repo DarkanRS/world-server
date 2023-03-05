@@ -302,7 +302,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return World.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

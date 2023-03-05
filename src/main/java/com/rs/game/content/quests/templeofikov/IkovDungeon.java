@@ -60,7 +60,7 @@ public class IkovDungeon {
 			handleDoor(e.getPlayer(), e.getObject());
 			return;
 		}
-		for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 			if(npc instanceof FireWarrior warrior && warrior.getOwner() == e.getPlayer())
 				return;
 		NPC warrior = new FireWarrior(e.getPlayer(), 277, e.getPlayer().getTile().transform(0, -1));
@@ -72,7 +72,7 @@ public class IkovDungeon {
 	public static ObjectClickHandler handleArmadylWall = new ObjectClickHandler(new Object[]{1586}, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
 	public static PickupItemHandler handleArmaStaffPickup = new PickupItemHandler(new Object[] { 84 }, Tile.of(2638, 9906, 0), e -> {
-		for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+		for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 			if (npc.getName().contains("Guardian of Armadyl") && npc.lineOfSightTo(e.getPlayer(), false)) {
 				e.cancelPickup();
 				e.getPlayer().startConversation(new Dialogue().addSimple("An Armadyl Guardian glares at you..."));
@@ -90,7 +90,7 @@ public class IkovDungeon {
 							.addPlayer(HeadE.HAPPY_TALKING, "A mighty hero!")
 							.addNPC(NPC, HeadE.CALM_TALK, "Pathetic fool! Prepare to die!")
 							.addNext(()->{
-								for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+								for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 									if(npc instanceof FireWarrior warrior && warrior.getOwner() == e.getPlayer())
 										warrior.setTarget(e.getPlayer());
 							})

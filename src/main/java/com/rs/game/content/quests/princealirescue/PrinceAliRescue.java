@@ -174,7 +174,7 @@ public class PrinceAliRescue extends QuestOutline {
 
 
 		if(e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 2))
 				if(npc.getId() == LADY_KELI) {
 					e.getPlayer().sendMessage("You'd better get rid of Lady Keli before trying to go through there.");
 					return;

@@ -27,12 +27,10 @@ public class ImpDefender extends NPC {
         WorldTasks.schedule(0, Ticks.fromSeconds(5), () -> freeImplings());
     }
 
-    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }, (npcId, tile) -> {
-        return new ImpDefender(tile);
-    });
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }, (npcId, tile) -> new ImpDefender(tile));
 
     public void freeImplings() {
-        List<Player> players = World.getPlayersInRegion(10307);
+        List<Player> players = World.getPlayersInChunkRange(getChunkId(), 1);
 
         if (players.size() == 0)
             return;

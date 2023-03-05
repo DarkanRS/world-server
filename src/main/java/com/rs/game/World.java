@@ -16,12 +16,7 @@
 //
 package com.rs.game;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -953,48 +948,95 @@ public final class World {
 		}
 	}
 
-//	public static List<Player> getPlayersInRegionRange(int regionId) {
-//		List<Player> players = new ArrayList<>();
-//		for (Player player : getPlayers()) {
-//			if (player == null)
-//				continue;
-//			if (player.getMapRegionsIds().contains(regionId))
-//				players.add(player);
-//		}
-//		return players;
-//	}
+	public static List<GameObject> getSpawnedObjectsInChunkRange(int chunkId, int chunkRadius) {
+		List<GameObject> objects = new ArrayList<>();
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (GameObject obj : World.getChunk(chunk).getSpawnedObjects()) {
+				if (obj == null)
+					continue;
+				objects.add(obj);
+			}
+		}
+		return objects;
+	}
 
-	public static List<NPC> getNPCsInRegionRange(int regionId) {
+	public static List<GameObject> getAllObjectsInChunkRange(int chunkId, int chunkRadius) {
+		List<GameObject> objects = new ArrayList<>();
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (GameObject obj : World.getChunk(chunk).getAllObjects()) {
+				if (obj == null)
+					continue;
+				objects.add(obj);
+			}
+		}
+		return objects;
+	}
+
+	public static List<GameObject> getBaseObjectsInChunkRange(int chunkId, int chunkRadius) {
+		List<GameObject> objects = new ArrayList<>();
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (GameObject obj : World.getChunk(chunk).getObjects()) {
+				if (obj == null)
+					continue;
+				objects.add(obj);
+			}
+		}
+		return objects;
+	}
+
+	public static List<NPC> getNPCsInChunkRange(int chunkId, int chunkRadius) {
 		List<NPC> npcs = new ArrayList<>();
-		for (NPC npc : getNPCs()) {
-			if (npc == null)
-				continue;
-			if (npc.getMapRegionsIds().contains(regionId))
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (int pid : World.getChunk(chunk).getPlayerIndexes()) {
+				NPC npc = World.getNPCs().get(pid);
+				if (npc == null || !npc.hasFinished())
+					continue;
 				npcs.add(npc);
+			}
 		}
 		return npcs;
 	}
 
-	public static List<Player> getPlayersInChunk(int chunkId) {
-		List<Player> player = new ArrayList<>();
-		Chunk chunk = World.getChunk(chunkId);
-		if (chunk == null)
-			return player;
-		Set<Integer> playerIndices = chunk.getPlayerIndexes();
-		for (Integer idx : playerIndices)
-			player.add(World.getPlayers().get(idx));
-		return player;
+	public static List<Player> getPlayersInChunkRange(int chunkId, int chunkRadius) {
+		List<Player> players = new ArrayList<>();
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (int pid : World.getChunk(chunk).getPlayerIndexes()) {
+				Player player = World.getPlayers().get(pid);
+				if (player == null || !player.hasStarted() || !player.hasFinished())
+					continue;
+				players.add(player);
+			}
+		}
+		return players;
 	}
 
-	public static List<NPC> getNPCsInRegion(int chunkId) {
-		List<NPC> npcs = new ArrayList<>();
-		Chunk chunk = World.getChunk(chunkId);
-		if (chunk == null)
-			return npcs;
-		Set<Integer> npcIndices = chunk.getNPCsIndexes();
-		for (Integer idx : npcIndices)
-			npcs.add(World.getNPCs().get(idx));
-		return npcs;
+	public static List<GroundItem> getAllGroundItemsInChunkRange(int chunkId, int chunkRadius) {
+		List<GroundItem> objects = new ArrayList<>();
+		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		for (int chunk : chunkIds) {
+			for (GroundItem obj : World.getChunk(chunk).getAllGroundItems()) {
+				if (obj == null)
+					continue;
+				objects.add(obj);
+			}
+		}
+		return objects;
+	}
+
+	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
+		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
+		Set<Integer> chunksXYLoop = new HashSet<>();
+		for (int cx = xyz[0] - radius; cx <= xyz[0] + radius; cx++) {
+			for (int cy = xyz[1] - radius; cy <= xyz[1] + radius; cy++) {
+				chunksXYLoop.add(MapUtils.encode(Structure.CHUNK, cx, cy, xyz[2]));
+			}
+		}
+		return chunksXYLoop;
 	}
 
 	public static final void refreshObject(GameObject object) {

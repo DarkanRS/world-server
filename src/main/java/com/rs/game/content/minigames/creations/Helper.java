@@ -163,15 +163,18 @@ public class Helper {
 	}
 
 	public static Tile getNearestRespawnPoint(Player player, GameArea area, boolean team) {
-		List<GameObject> o = World.getRegion(player.getRegionId()).getAllObjects();
-		if (o != null)
-			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES))
-				for (int id : gateIDS)
+		List<GameObject> o = World.getSpawnedObjectsInChunkRange(player.getChunkId(), 8); //TODO bug test
+		if (o != null) {
+			for (int[] gateIDS : (team ? Helper.RED_BARRIER_GATES : Helper.BLUE_BARRIER_GATES)) {
+				for (int id : gateIDS) {
 					for (GameObject object : o) {
 						if (object == null || object.getId() != id)
 							continue;
 						return object.getTile();
 					}
+				}
+			}
+		}
 		int size = area.getSize();
 		int[] base = findNearestBase(area, player, team);
 		int[] entrance;

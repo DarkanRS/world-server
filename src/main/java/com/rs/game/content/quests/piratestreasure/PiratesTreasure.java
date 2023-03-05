@@ -125,7 +125,7 @@ public class PiratesTreasure extends QuestOutline {
 				p.getQuestManager().completeQuest(Quest.PIRATES_TREASURE);
 				return;
 			}
-			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 				if(npc.getId()== HOSTILE_GARDENER)
 					return;
 			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, Tile.of(p.getTile()), -1, false, true);

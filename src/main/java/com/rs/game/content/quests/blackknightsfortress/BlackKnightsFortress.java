@@ -138,7 +138,7 @@ public class BlackKnightsFortress extends QuestOutline {
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.hasStarted() && FORTRESS_CHUNKS.contains(e.getChunkId())) {
 			if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) >= STARTED && !p.isQuestComplete(Quest.BLACK_KNIGHTS_FORTRESS)) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 					if (npc.getName().equalsIgnoreCase("Black Knight"))
 						if (npc.lineOfSightTo(p, false)) {
 							npc.setTarget(p);
@@ -221,7 +221,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		Player p = e.getPlayer();
 		if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) != HEARD_PLAN)
 			return;
-		GameObject cauldron = World.getRegion(12086).getObjectWithId(CAULDRON, 0);
+		GameObject cauldron = World.getObjectWithId(Tile.of(3031, 3507, 0), CAULDRON);
 
 		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		if (e.getItem().getId() == CABBAGE) {
@@ -268,7 +268,7 @@ public class BlackKnightsFortress extends QuestOutline {
 								addNPC(BLACK_KNIGHT_CAPTAIN, HeadE.SKEPTICAL_THINKING, "What's that noise?");
 								addNPC(WITCH, HeadE.AMAZED_MILD, "Hopefully Greldo with that cabbage... yes look here it co....NOOOOOoooo!");
 								addNext(() -> {
-									for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+									for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 										if (npc.getId() == WITCH || npc.getId() == BLACK_KNIGHT_CAPTAIN)
 											npc.faceObject(cauldron);
 									tick++;
@@ -292,7 +292,7 @@ public class BlackKnightsFortress extends QuestOutline {
 								addNext(() -> {
 									tick++;
 								});
-								for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+								for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 									if (npc.getId() == WITCH)
 										npc.setNextAnimation(new Animation(CRY));
 								create();

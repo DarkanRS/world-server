@@ -254,7 +254,7 @@ public class ErnestTheChicken extends QuestOutline {
 
 	public static ItemAddedToInventoryHandler handleRubberTubePickup = new ItemAddedToInventoryHandler(RUBBER_TUBE, e -> {
 		Player p = e.getPlayer();
-		List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+		List<NPC> npcs = World.getNPCsInChunkRange(p.getChunkId(), 1);
 		for(NPC npc : npcs)
 			if(npc.getId() == 3291)
 				npc.setTarget(p);

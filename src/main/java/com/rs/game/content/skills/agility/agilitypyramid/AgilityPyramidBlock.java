@@ -48,9 +48,8 @@ public class AgilityPyramidBlock extends NPC {
 	@Override
 	public void processNPC() {
 		if (timer-- <= 0) {
-			for (Player player : World.getPlayersInRegionRange(getRegionId()))
-				if (player.getPlane() == getPlane())
-					player.getVars().setVarBit(1550, getId() == 3125 ? 1 : 3);
+			for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
+				player.getVars().setVarBit(1550, getId() == 3125 ? 1 : 3);
 			setNextForceMovement(new ForceMovement(dangerTile, 2, getId() == 3125 ? Direction.EAST : Direction.NORTH));
 			timer = 10;
 		}
@@ -77,14 +76,13 @@ public class AgilityPyramidBlock extends NPC {
 				}, 2);
 			}
 		if (timer == 4)
-			for (Player player : World.getPlayersInRegionRange(getRegionId()))
-				if (player.getPlane() == getPlane())
-					player.getVars().setVarBit(1550, 0);
+			for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
+				player.getVars().setVarBit(1550, 0);
 	}
 
 	public List<Player> getHittablePlayers() {
 		List<Player> players = new ArrayList<>();
-		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+		for (Player player : World.getPlayersInChunkRange(getChunkId(), 1)) {
 			if (player.getPlane() != getPlane() || player.isLocked())
 				continue;
 			if (WorldUtil.collides(player.getTile(), dangerTile, 1, 2))

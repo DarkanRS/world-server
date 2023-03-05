@@ -256,7 +256,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 	}
 
 	private void cutscene(Player p) {
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 			if(npc.getId() == SIR_PRYSIN) {
 				npc.transformIntoNPC(266);
 				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), -1, false, true);

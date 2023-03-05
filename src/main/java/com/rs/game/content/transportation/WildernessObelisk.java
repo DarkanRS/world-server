@@ -57,13 +57,9 @@ public class WildernessObelisk {
 				for (int x = 1; x < 4; x++)
 					for (int y = 1; y < 4; y++)
 						World.sendSpotAnim(center.transform(x, y, 0), new SpotAnim(661));
-				Region region = World.getRegion(center.getRegionId());
-				Set<Integer> playerIndexes = region.getPlayerIndexes();
 				Tile newCenter = OBELISK_CENTER_TILES[Utils.random(OBELISK_CENTER_TILES.length)];
-				if (playerIndexes != null)
-					for (Integer i : playerIndexes) {
-						Player p = World.getPlayers().get(i);
-						if (p == null || (p.getX() < center.getX() + 1 || p.getX() > center.getX() + 3 || p.getY() < center.getY() + 1 || p.getY() > center.getY() + 3))
+					for (Player p : World.getPlayersInChunkRange(center.getChunkId(), 1)) {
+						if (p == null || p.isLocked() || p.isDead() || (p.getX() < center.getX() + 1 || p.getX() > center.getX() + 3 || p.getY() < center.getY() + 1 || p.getY() > center.getY() + 3))
 							continue;
 						int offsetX = p.getX() - center.getX();
 						int offsetY = p.getY() - center.getY();

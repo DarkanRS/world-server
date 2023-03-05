@@ -220,7 +220,7 @@ public class MerlinsCrystal extends QuestOutline {
 			public void run() {
 				if(tick == 1)
 					if(p.getInventory().containsItem(LIT_BLACK_CANDLE, 1))
-						for (GroundItem item : World.getRegion(p.getRegionId()).getAllGroundItems())
+						for (GroundItem item : World.getChunk(p.getChunkId()).getAllGroundItems())
 							if (item.getId() == 530 && item.getTile().matches(Tile.of(2780, 3515, 0))) {
 								p.getControllerManager().startController(new MerlinsCrystalRitualScene());
 								stop();

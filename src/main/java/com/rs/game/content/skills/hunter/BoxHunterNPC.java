@@ -58,7 +58,7 @@ public class BoxHunterNPC extends NPC {
 			captureTicks++;
 			return;
 		}
-		List<GameObject> objects = World.getRegion(getRegionId()).getSpawnedObjects();
+		List<GameObject> objects = World.getSpawnedObjectsInChunkRange(getChunkId(), 1);
 		if (objects == null)
 			return;
 		for (final GameObject o : objects) {

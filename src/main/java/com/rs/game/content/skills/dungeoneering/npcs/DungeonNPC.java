@@ -95,13 +95,10 @@ public class DungeonNPC extends NPC {
 	}
 
 	public NPC getNPC(int id) {
-		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id)
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(getChunkId(), 4)) {
+			if (npc.getId() == id)
+				return npc;
+		}
 		return null;
 	}
 

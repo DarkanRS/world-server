@@ -77,32 +77,33 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 			addPlayer(HeadE.SECRETIVE, "Take this disguise, and this key.");
 			addSimple("You hand over the disguise and key over to Prince Ali.", ()-> {
 				p.getInventory().removeItems(new Item(PASTE, 1), new Item(PINK_SKIRT, 1), new Item(BLONDE_WIG, 1));
-				for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
-					if(npc.getId() == PRINCE_ALI)
-						WorldTasks.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
-							int tick;
-							NPC ali2;
-							@Override
-							public void run() {
-								if(tick == 0) {
-									npc.setRespawnTask(50);
-									Tile tile = npc.getTile();
-									npc.finish();
-									ali2 = World.spawnNPC(PRINCE_ALI2, tile, -1, false, true);
-								}
-								if(tick == 10) {
-									ali2.finish();
-									for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
-										if(npc.getId() == PRINCE_ALI2)
-											npc.finish();
-								}
-								if(tick == 11)
-									stop();
-
-								if(World.isRegionLoaded(JAIL_REGION_ID))
-									tick++;
-							}
-						}, 0, 1);
+				//TODO update this to new logic what on earth even
+//				for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
+//					if(npc.getId() == PRINCE_ALI)
+//						WorldTasks.schedule(new WorldTask() {//deletes all ali2s when region is loaded.
+//							int tick;
+//							NPC ali2;
+//							@Override
+//							public void run() {
+//								if(tick == 0) {
+//									npc.setRespawnTask(50);
+//									Tile tile = npc.getTile();
+//									npc.finish();
+//									ali2 = World.spawnNPC(PRINCE_ALI2, tile, -1, false, true);
+//								}
+//								if(tick == 10) {
+//									ali2.finish();
+//									for(NPC npc : World.getNPCsInRegion(JAIL_REGION_ID))
+//										if(npc.getId() == PRINCE_ALI2)
+//											npc.finish();
+//								}
+//								if(tick == 11)
+//									stop();
+//
+//								if(World.isRegionLoaded(JAIL_REGION_ID))
+//									tick++;
+//							}
+//						}, 0, 1);
 			});
 			addNPC(PRINCE_ALI2, HeadE.HAPPY_TALKING, "Thank you my friend, I must leave you now. My father will pay you well for this.");
 			addSimple("The prince has escaped, well done! You are now a friend of Al-Kharid and may pass through the Al-Kharid toll gate for free.", ()->{

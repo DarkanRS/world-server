@@ -159,7 +159,7 @@ public class Glacor extends NPC {
 					public void run() {
 						if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
 							return;
-						for (Player player : World.getPlayersInRegionRange(getRegionId()))
+						for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
 							if (Utils.getDistance(thisNpc.getX(), thisNpc.getY(), player.getX(), player.getY()) < 3)
 								player.applyHit(new Hit(player, player.getHitpoints() / 2, HitLook.TRUE_DAMAGE));
 						thisNpc.applyHit(new Hit(thisNpc, (int) (thisNpc.getHitpoints() * 0.80), HitLook.TRUE_DAMAGE));
@@ -205,7 +205,7 @@ public class Glacor extends NPC {
 			try {
 				setFinished(false);
 				World.addNPC(npc);
-				npc.setLastRegionId(0);
+				npc.setLastChunkId(0);
 				World.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();

@@ -59,7 +59,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 	public BeggarMerlinsCrystalD(Player p, boolean filler) {
 		super(p);
 		NPC buff = null;
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 			if(npc.getId() == NPC)
 				buff = npc;
 		NPC beggar = buff;
@@ -82,7 +82,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 		Player p = e.getPlayer();
 		if((p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != OBTAINING_EXCALIBUR) || !p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(LADY_LAKE_TEST_ATTR))
 			return;
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 			if(npc.getId() == 252)
 				return;
         OwnedNPC beggar = new OwnedNPC(p, 252, Tile.of(3016, 3247, 0), true);

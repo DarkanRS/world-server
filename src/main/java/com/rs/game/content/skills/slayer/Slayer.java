@@ -318,7 +318,7 @@ public class Slayer {
 	public static boolean isUsingBell(final Player player) {
 		player.lock(3);
 		player.setNextAnimation(new Animation(6083));
-		List<GameObject> objects = World.getRegion(player.getRegionId()).getAllObjects();
+		List<GameObject> objects = World.getChunk(player.getChunkId()).getAllObjects();
 		if (objects == null)
 			return false;
 		for (final GameObject object : objects) {

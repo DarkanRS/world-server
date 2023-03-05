@@ -266,7 +266,7 @@ public class NPC extends Entity {
 	}
 
 	public void processNPC() {
-		if (isDead() || locked || World.getPlayersInRegionRange(getRegionId()).isEmpty())
+		if (isDead() || locked)
 			return;
 		//Restore combat stats
 		if (getTickCounter() % 100 == 0)
@@ -426,7 +426,7 @@ public class NPC extends Entity {
 		timeLastSpawned = System.currentTimeMillis();
 		setFinished(false);
 		World.addNPC(this);
-		setLastRegionId(0);
+		setLastChunkId(0);
 		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
@@ -920,52 +920,47 @@ public class NPC extends Entity {
 	}
 
 	public List<Entity> getPossibleTargets() {
-		return getPossibleTargets(canAggroNPCs);
+		return getPossibleTargets(getCombatDefinitions().aggroDistance, canAggroNPCs);
 	}
 
 	public List<Entity> getPossibleTargets(boolean includeNpcs) {
+		return getPossibleTargets(getCombatDefinitions().aggroDistance, includeNpcs);
+	}
+
+	public List<Entity> getPossibleTargets(int tileRadius) {
+		return getPossibleTargets(tileRadius, canAggroNPCs);
+	}
+
+	public List<Entity> getPossibleTargets(int tileRadius, boolean includeNpcs) {
 		boolean isNormallyPassive = !forceAgressive && getCombatDefinitions().getAgressivenessType() == AggressiveType.PASSIVE;
 		ArrayList<Entity> possibleTarget = new ArrayList<>();
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
-						continue;
-					if (player == null
-							|| player.isDead()
-							|| player.hasFinished()
-							|| !player.isRunning()
-							|| !canAggroPlayer(player)
-							|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
-							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
-							|| player.getAppearance().isHidden()
-							|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
-							|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
-							|| !lineOfSightTo(player, false)
-							|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
-						continue;
-					possibleTarget.add(player);
-				}
-			if (includeNpcs && !isNormallyPassive) {
-				Set<Integer> npcsIndexes = World.getRegion(regionId).getNPCsIndexes();
-				if (npcsIndexes != null)
-					for (int npcIndex : npcsIndexes) {
-						NPC npc = World.getNPCs().get(npcIndex);
-						if (npc == null
-								|| npc == this
-								|| npc.isDead()
-								|| npc.hasFinished()
-								|| !canAggroNPC(npc)
-								|| !WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
-								|| !npc.getDefinitions().hasAttackOption()
-								|| (!forceMultiAttacked && (!isAtMultiArea() || !npc.isAtMultiArea()) && npc.getAttackedBy() != this && (npc.inCombat() || npc.getFindTargetDelay() > System.currentTimeMillis()))
-								|| !lineOfSightTo(npc, false))
-							continue;
-						possibleTarget.add(npc);
-					}
-			}
+		possibleTarget.addAll(queryNearbyPlayersByTileRange(tileRadius, player -> {
+			if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
+				return false;
+			if (player.isDead()
+				|| !canAggroPlayer(player)
+				|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
+				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
+				|| player.getAppearance().isHidden()
+				|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
+				|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
+				|| !lineOfSightTo(player, false)
+				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
+				return false;
+			return true;
+		}));
+		if (includeNpcs && !isNormallyPassive) {
+			possibleTarget.addAll(queryNearbyNPCsByTileRange(tileRadius, npc -> {
+				if (npc == this
+					|| npc.isDead()
+					|| !canAggroNPC(npc)
+					|| !WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
+					|| !npc.getDefinitions().hasAttackOption()
+					|| (!forceMultiAttacked && (!isAtMultiArea() || !npc.isAtMultiArea()) && npc.getAttackedBy() != this && (npc.inCombat() || npc.getFindTargetDelay() > System.currentTimeMillis()))
+					|| !lineOfSightTo(npc, false))
+					return false;
+				return true;
+			}));
 		}
 		return possibleTarget;
 	}
@@ -1309,7 +1304,7 @@ public class NPC extends Entity {
 	}
 	
 	private Sound playSound(Sound sound) {
-		World.playSound(this, sound);
+		World.playSound(getTile(), sound);
 		return sound;
 	}
 	

@@ -463,7 +463,7 @@ public class PyramidPlunder {
 
 	private static void activateTrap(PlayerStepEvent e, Direction trapDir) {
 		Tile trapTile = e.getTile();
-		for(GameObject obj : World.getRegion(trapTile.getRegionId()).getObjects())
+		for(GameObject obj : World.getChunk(trapTile.getChunkId()).getObjects())
 			if(obj.getId() == 16517) {
 				if(trapTile.matches(obj.getTile()) || (obj.getX() - trapDir.getDx() == trapTile.getX() && obj.getY() - trapDir.getDy() == trapTile.getY())) {
 					obj.animate(new Animation(463));

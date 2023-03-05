@@ -63,7 +63,7 @@ public class ClockTowerDungeon {
 		if (e.getItem().getId() == 24) {
 			e.getPlayer().getInventory().removeItems(new Item(24, 1));
 			e.getPlayer().lock(5);
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == 224) {
 					npc.setIgnoreNPCClipping(true);
 					npc.walkToAndExecute(Tile.of(2586, 9655, 0), ()->{

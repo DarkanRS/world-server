@@ -61,7 +61,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != CONFRONT_KEEP_LA_FAYE)
 			return;
 		NPC mordred = null;
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 			if(npc.getId() == 247) {
 				mordred = npc;
 				break;
@@ -117,7 +117,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 	protected final static Set<Integer> STRONGHOLD_CHUNKS = new HashSet<>(Arrays.asList(5672264, 5688648, 5672256));
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.hasStarted() && STRONGHOLD_CHUNKS.contains(e.getChunkId())) {
-			for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+			for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 				if (!npc.getName().equalsIgnoreCase("Renegade Knight") || !npc.lineOfSightTo(p, false))
 					continue;
 				npc.setTarget(p);

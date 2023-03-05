@@ -86,14 +86,8 @@ public class FlameVortex extends NPC {
 	}
 
 	public Player getTargetToCheck() {
-		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null)
-			for (int npcIndex : playerIndexes) {
-				Player player = World.getPlayers().get(npcIndex);
-				if (player == null || player.isDead() || !player.isRunning())
-					continue;
-				return player;
-			}
+		for (Player player : queryNearbyPlayersByTileRange(0, player -> true))
+			return player;
 		return null;
 	}
 

@@ -548,7 +548,7 @@ public class ShieldOfArrav extends QuestOutline {
     });
 
 	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { PHOENIX_CROSSBOW }, Tile.of(3245, 3385, 1), e -> {
-		List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
+		List<NPC> npcs = World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1);
 		for (NPC npc : npcs)
 			if (npc.getId() == 643) {
 				switch (Utils.random(1, 4)) {

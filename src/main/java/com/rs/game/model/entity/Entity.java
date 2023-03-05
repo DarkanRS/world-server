@@ -26,6 +26,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
@@ -76,19 +77,20 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
 import com.rs.utils.WorldUtil;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 
 public abstract class Entity {
 	public enum MoveType {
 		WALK(1),
 		RUN(2),
 		TELE(127);
-		
+
 		private int id;
-		
+
 		MoveType(int id) {
 			this.id = id;
 		}
-		
+
 		public int getId() {
 			return id;
 		}
@@ -261,16 +263,16 @@ public abstract class Entity {
 	public boolean inArea(int a, int b, int c, int d) {
 		return getX() >= a && getY() >= b && getX() <= c && getY() <= d;
 	}
-	
+
 	public Tile getTileInScene(int x, int y) {
 		Tile tile = Tile.of(x, y, getPlane());
 		return Tile.of(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId()), getPlane());
 	}
-	
+
 	public int getSceneX(int targetX) {
 		return Tile.of(targetX, 0, 0).getXInScene(getSceneBaseChunkId());
 	}
-	
+
 	public int getSceneY(int targetY) {
 		return Tile.of(0, targetY, 0).getYInScene(getSceneBaseChunkId());
 	}
@@ -338,6 +340,7 @@ public abstract class Entity {
 	}
 
 	public abstract void handlePreHit(Hit hit);
+
 	public abstract void handlePreHitOut(Entity target, Hit hit);
 
 	public void reset(boolean attributes) {
@@ -733,28 +736,28 @@ public abstract class Entity {
 	public boolean ignoreWallsWhenMeleeing() {
 		return false;
 	}
-	
+
 	private static Set<Object> LOS_NPC_OVERRIDES = new HashSet<>();
 	private static List<TriFunction<Entity, Object, Boolean, Boolean>> LOS_FUNCTION_OVERRIDES = new ArrayList<>();
-	
+
 	public static void addLOSOverride(int npcId) {
 		LOS_NPC_OVERRIDES.add(npcId);
 	}
-	
+
 	public static void addLOSOverride(String npcName) {
 		LOS_NPC_OVERRIDES.add(npcName);
 	}
-	
+
 	public static void addLOSOverrides(int... npcIds) {
 		for (int npcId : npcIds)
 			addLOSOverride(npcId);
 	}
-	
+
 	public static void addLOSOverrides(String... npcNames) {
 		for (String npcName : npcNames)
 			addLOSOverride(npcName);
 	}
-	
+
 	public static void addLOSOverride(TriFunction<Entity, Object, Boolean, Boolean> func) {
 		LOS_FUNCTION_OVERRIDES.add(func);
 	}
@@ -766,18 +769,18 @@ public abstract class Entity {
 			if (LOS_NPC_OVERRIDES.contains(npc.getId()) || LOS_NPC_OVERRIDES.contains(npc.getName()))
 				return true;
 			switch(npc.getId()) {
-			case 9712: //dung tutor
-			case 9710: //frem banker
-			case 706: //wizard mizgog
-			case 14860: //Head Farmer Jones
-			case 14864: //Ayleth Beaststalker
-			case 14858: //Alison Elmshaper
-			case 14883: //Marcus Everburn
-				return true;
+				case 9712: //dung tutor
+				case 9710: //frem banker
+				case 706: //wizard mizgog
+				case 14860: //Head Farmer Jones
+				case 14864: //Ayleth Beaststalker
+				case 14858: //Alison Elmshaper
+				case 14883: //Marcus Everburn
+					return true;
 			}
 			switch(npc.getName()) {
-			case "Fremennik shipmaster":
-				return true;
+				case "Fremennik shipmaster":
+					return true;
 			}
 		}
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
@@ -1144,11 +1147,11 @@ public abstract class Entity {
 	public int getLastFaceEntity() {
 		return lastFaceEntity;
 	}
-	
+
 	public void unfreeze() {
 		removeEffect(Effect.FREEZE);
 	}
-	
+
 	public void freeze() {
 		freeze(Integer.MAX_VALUE, false);
 	}
@@ -1357,21 +1360,32 @@ public abstract class Entity {
 		return temporaryAttributes;
 	}
 
-	/**
-	 * ONLY use this check in non-expensive cases. Checking outside region only is relatively expensive.
-	 * @param regionOnly Whether the NPC should be found in the entitie's region only
-	 * @return List of nearby NPCs
-	 */
-	public List<NPC> getNearbyNPCs(boolean regionOnly, Function<NPC, Boolean> predicate) {
-		List<NPC> startList = regionOnly ? World.getNPCsInRegion(this.getRegionId()) : World.getNPCsInRegionRange(this.getRegionId());
-		List<NPC> list = new ArrayList<NPC>();
+	public List<NPC> queryNearbyNPCsByTileRange(int tileRange, Function<NPC, Boolean> predicate) {
+		List<NPC> startList = World.getNPCsInChunkRange(getChunkId(), ((tileRange / 8) + 1));
+		List<NPC> list = ObjectLists.emptyList();
 		for (NPC npc : startList) {
-			if (npc.hasFinished())
-				continue;
 			if (predicate == null || predicate.apply(npc))
 				list.add(npc);
 		}
 		return list;
+	}
+
+	public List<Player> queryNearbyPlayersByTileRange(int tileRange, Function<Player, Boolean> predicate) {
+		List<Player> startList = World.getPlayersInChunkRange(getChunkId(), ((tileRange / 8) + 1));
+		List<Player> list = ObjectLists.emptyList();
+		for (Player npc : startList) {
+			if (predicate == null || predicate.apply(npc))
+				list.add(npc);
+		}
+		return list;
+	}
+
+	public List<Entity> queryNearbyPlayersByTileRangeAsEntityList(int tileRange, Function<Player, Boolean> predicate) {
+		return queryNearbyPlayersByTileRange(tileRange, predicate).stream().map(e -> (Entity) e).collect(Collectors.toList());
+	}
+
+	public List<Entity> queryNearbyNPCsByTileRangeAsEntityList(int tileRange, Function<NPC, Boolean> predicate) {
+		return queryNearbyNPCsByTileRange(tileRange, predicate).stream().map(e -> (Entity) e).collect(Collectors.toList());
 	}
 
 	public GenericAttribMap getNSV() {
@@ -1639,7 +1653,7 @@ public abstract class Entity {
 			return true;
 		if (target.isAtMultiArea() && isAtMultiArea())
 			return true;
-		
+
 		if (this instanceof Player p) {
 			if (target instanceof Player) {
 				if (getAttackedBy() instanceof Player && inCombat() && getAttackedBy() != target) {
@@ -1668,23 +1682,23 @@ public abstract class Entity {
 		}
 		return true;
 	}
-	
+
 	public void anim(int anim) {
 		setNextAnimation(new Animation(anim));
 	}
-	
+
 	public void spotAnim(int spotAnim, int speed, int height) {
 		setNextSpotAnim(new SpotAnim(spotAnim, speed, height));
 	}
-	
+
 	public void spotAnim(int spotAnim, int speed) {
 		setNextSpotAnim(new SpotAnim(spotAnim, speed));
 	}
-	
+
 	public void spotAnim(int spotAnim) {
 		setNextSpotAnim(new SpotAnim(spotAnim));
 	}
-	
+
 	public void sync(int anim, int spotAnim) {
 		anim(anim);
 		spotAnim(spotAnim);
@@ -1693,11 +1707,11 @@ public abstract class Entity {
 	public InteractionManager getInteractionManager() {
 		return interactionManager;
 	}
-	
+
 	public ActionManager getActionManager() {
 		return actionManager;
 	}
-	
+
 	public boolean canLowerStat(int skillId, double perc, double maxDrain) {
 		if (this instanceof Player player) {
 			if (player.getSkills().getLevel(skillId) < (player.getSkills().getLevelForXp(skillId) * maxDrain))
@@ -1707,26 +1721,26 @@ public abstract class Entity {
 				if (skillId == skill)
 					return false;
 			switch(skillId) {
-			case Skills.ATTACK -> {
-				if (npc.getAttackLevel() < (npc.getCombatDefinitions().getAttackLevel() * maxDrain))
-					return false;
-			}
-			case Skills.STRENGTH -> {
-				if (npc.getStrengthLevel() < (npc.getCombatDefinitions().getStrengthLevel() * maxDrain))
-					return false;
-			}
-			case Skills.DEFENSE -> {
-				if (npc.getDefenseLevel() < (npc.getCombatDefinitions().getDefenseLevel() * maxDrain))
-					return false;		
-						}
-			case Skills.MAGIC -> {
-				if (npc.getMagicLevel() < (npc.getCombatDefinitions().getMagicLevel() * maxDrain))
-					return false;
-			}
-			case Skills.RANGE -> {
-				if (npc.getRangeLevel() < (npc.getCombatDefinitions().getRangeLevel() * maxDrain))
-					return false;
-			}
+				case Skills.ATTACK -> {
+					if (npc.getAttackLevel() < (npc.getCombatDefinitions().getAttackLevel() * maxDrain))
+						return false;
+				}
+				case Skills.STRENGTH -> {
+					if (npc.getStrengthLevel() < (npc.getCombatDefinitions().getStrengthLevel() * maxDrain))
+						return false;
+				}
+				case Skills.DEFENSE -> {
+					if (npc.getDefenseLevel() < (npc.getCombatDefinitions().getDefenseLevel() * maxDrain))
+						return false;
+				}
+				case Skills.MAGIC -> {
+					if (npc.getMagicLevel() < (npc.getCombatDefinitions().getMagicLevel() * maxDrain))
+						return false;
+				}
+				case Skills.RANGE -> {
+					if (npc.getRangeLevel() < (npc.getCombatDefinitions().getRangeLevel() * maxDrain))
+						return false;
+				}
 			}
 		}
 		return true;
@@ -1743,15 +1757,15 @@ public abstract class Entity {
 			player.getSkills().lowerStat(skillId, perc, maxDrain);
 		} else if (this instanceof NPC npc) {
 			switch(skillId) {
-			case Skills.ATTACK -> npc.lowerAttack(perc, maxDrain);
-			case Skills.STRENGTH -> npc.lowerStrength(perc, maxDrain);
-			case Skills.DEFENSE -> npc.lowerDefense(perc, maxDrain);
-			case Skills.MAGIC -> npc.lowerMagic(perc, maxDrain);
-			case Skills.RANGE -> npc.lowerRange(perc, maxDrain);
+				case Skills.ATTACK -> npc.lowerAttack(perc, maxDrain);
+				case Skills.STRENGTH -> npc.lowerStrength(perc, maxDrain);
+				case Skills.DEFENSE -> npc.lowerDefense(perc, maxDrain);
+				case Skills.MAGIC -> npc.lowerMagic(perc, maxDrain);
+				case Skills.RANGE -> npc.lowerRange(perc, maxDrain);
 			}
 		}
 	}
-	
+
 	public void lowerStat(int skillId, int amt, double maxDrain) {
 		if (this instanceof Player player) {
 			if (skillId == Skills.HITPOINTS)
@@ -1763,18 +1777,19 @@ public abstract class Entity {
 			player.getSkills().lowerStat(skillId, amt, maxDrain);
 		} else if (this instanceof NPC npc) {
 			switch(skillId) {
-			case Skills.ATTACK -> npc.lowerAttack(amt, maxDrain);
-			case Skills.STRENGTH -> npc.lowerStrength(amt, maxDrain);
-			case Skills.DEFENSE -> npc.lowerDefense(amt, maxDrain);
-			case Skills.MAGIC -> npc.lowerMagic(amt, maxDrain);
-			case Skills.RANGE -> npc.lowerRange(amt, maxDrain);
+				case Skills.ATTACK -> npc.lowerAttack(amt, maxDrain);
+				case Skills.STRENGTH -> npc.lowerStrength(amt, maxDrain);
+				case Skills.DEFENSE -> npc.lowerDefense(amt, maxDrain);
+				case Skills.MAGIC -> npc.lowerMagic(amt, maxDrain);
+				case Skills.RANGE -> npc.lowerRange(amt, maxDrain);
 			}
 		}
 	}
-	
+
 	public void repeatAction(int ticks, Function<Integer, Boolean> action) {
 		getActionManager().setAction(new Action() {
 			int count = 0;
+
 			@Override
 			public boolean start(Entity entity) {
 				return true;
@@ -1794,7 +1809,7 @@ public abstract class Entity {
 
 			@Override
 			public void stop(Entity entity) {
-				
+
 			}
 		});
 	}
@@ -1822,11 +1837,11 @@ public abstract class Entity {
 		}
 		setBasNoReset(basAnim);
 	}
-	
+
 	public void setBasNoReset(int bas) {
 		this.bas = bas;
 	}
-	
+
 	public boolean isLocked() {
 		return lockDelay >= World.getServerTicks();
 	}

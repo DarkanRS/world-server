@@ -19,6 +19,7 @@ package com.rs.game.content.quests.fightarena;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -365,17 +366,13 @@ public class FightArenaFightCutsceneController extends Controller {
 	}
 
 	private void addAllFightArenaNPCs() {
-		Region fightArena = World.getRegion(10289, true);//Trent is this perma loaded after this?
-		List<NPC> originalNPCs = World.getNPCsInRegion(10289);
+		List<NPC> originalNPCs = World.getNPCsInChunkRange(Tile.of(2595, 3163, 0).getChunkId(), 5);
 		List<Integer> xDiff = new ArrayList<>();
 		List<Integer> yDiff = new ArrayList<>();
 		for(NPC npc : originalNPCs) {
 			xDiff.add(2617 - npc.getX());//Same spawn X as dynamic but from original Fight Arena
 			yDiff.add(3167 - npc.getY());//Same spawn Y
 		}
-		if(fightArena.getPlayerIndexes().size() == 0)
-			fightArena.removeMapFromMemory();
-
 		if(spawn != null)
 			for(int i = 0; i < originalNPCs.size(); i++) {
 				NPC npc = originalNPCs.get(i);

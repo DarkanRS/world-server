@@ -70,7 +70,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 									option("Yes", new Dialogue()
 											.addNext(()->{
 												NPC wizard = null;
-												for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+												for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 													if(npc.getId() == NPC)
 														wizard = npc;
 												wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));

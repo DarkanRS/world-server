@@ -95,7 +95,7 @@ public class UnstableMinion extends NPC {
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
 					return;
-				for (Player player : World.getPlayersInRegionRange(getRegionId()))
+				for (Player player : queryNearbyPlayersByTileRange(2, player -> !player.isDead()))
 					if (Utils.getDistance(thisNpc.getX(), thisNpc.getY(), player.getX(), player.getY()) < 2)
 						player.applyHit(new Hit(player, player.getHitpoints() / 3, HitLook.TRUE_DAMAGE));
 				thisNpc.applyHit(new Hit(thisNpc, (int) (thisNpc.getHitpoints() * 0.90), HitLook.TRUE_DAMAGE));

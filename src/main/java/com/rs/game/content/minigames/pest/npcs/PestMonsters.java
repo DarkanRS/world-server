@@ -53,14 +53,8 @@ public class PestMonsters extends NPC {
 	@Override
 	public List<Entity> getPossibleTargets() {
 		ArrayList<Entity> possibleTarget = new ArrayList<>();
-		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null)
-			for (int playerIndex : playerIndexes) {
-				Player player = World.getPlayers().get(playerIndex);
-				if (player == null || player.isDead() || player.hasFinished() || !player.isRunning() || !player.withinDistance(getTile(), 10))
-					continue;
-				possibleTarget.add(player);
-			}
+		for (Player player : queryNearbyPlayersByTileRange(10, player -> !player.isDead() && player.withinDistance(getTile(), 10)))
+			possibleTarget.add(player);
 		if (possibleTarget.isEmpty() || Utils.random(3) == 0) {
 			possibleTarget.clear();
 			possibleTarget.add(manager.getKnight());

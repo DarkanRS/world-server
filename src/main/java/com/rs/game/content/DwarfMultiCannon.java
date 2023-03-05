@@ -252,13 +252,9 @@ public class DwarfMultiCannon extends OwnedObject {
 		else
 			spinRot = Direction.values()[spinRot.ordinal() + 1];
 		World.sendObjectAnimation(this, new Animation(CANNON_EMOTES[spinRot.ordinal()]));
-		Set<Integer> npcIndexes = World.getRegion(tile.getRegionId()).getNPCsIndexes();
-		if (npcIndexes == null)
-			return;
 		Tile cannonTile = this.tile.transform(1, 1, 0);
-		for (int npcIndex : npcIndexes) {
-			NPC npc = World.getNPCs().get(npcIndex);
-			if (npc == null || npc == owner.getFamiliar() || npc.isDead() || npc.hasFinished() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
+		for (NPC npc : World.getNPCsInChunkRange(cannonTile.getChunkId(), 2)) {
+			if (npc == owner.getFamiliar() || npc.isDead() || !npc.getDefinitions().hasAttackOption() || !owner.getControllerManager().canHit(npc))
 				continue;
 			if (!npc.lineOfSightTo(cannonTile, false) || (!owner.isAtMultiArea() && owner.inCombat() && owner.getAttackedBy() != npc))
 				continue;

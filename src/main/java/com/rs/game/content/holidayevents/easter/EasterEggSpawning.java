@@ -27,19 +27,22 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class EasterEggSpawning {
 
+	private static boolean ENABLED = false;
+
 	static int eggsCount = 0;
 	static int eggsPerRegion = 50;
 	static int[] regionsToSpawn = { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
 
-	//@ServerStartupEvent
+	@ServerStartupEvent
 	public static void initSpawning() {
-		for (int id : regionsToSpawn)
-			World.getRegion(id, true);
+		if (!ENABLED)
+			return;
 		TaskExecutor.schedule(() -> {
 			try {
 				spawnEggs();

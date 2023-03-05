@@ -96,42 +96,35 @@ public final class LocalNPCUpdate {
 	}
 
 	private void addInScreenNPCs(OutputStream stream, OutputStream updateBlockData, boolean largeSceneView) {
-		for (int regionId : player.getMapRegionsIds()) {
-			Set<Integer> indexes = World.getRegion(regionId).getNPCsIndexes();
-			if (indexes == null)
-				continue;
-			for (int npcIndex : indexes) {
-				if (localNPCs.size() == Settings.LOCAL_NPCS_LIMIT)
-					break;
-				NPC n = World.getNPCs().get(npcIndex);
-				if (n == null || n.hasFinished() || localNPCs.contains(n) || !n.withinDistance(player, largeSceneView ? 126 : 14) || n.isDead())
-					continue;
-				stream.writeBits(15, n.getIndex());
-				boolean needUpdate = n.needMasksUpdate() || n.getLastFaceEntity() != -1;
-				int x = n.getX() - player.getX();
-				int y = n.getY() - player.getY();
-				if (largeSceneView) {
-					if (x < 127)
-						x += 256;
-					if (y < 127)
-						y += 256;
-				} else {
-					if (x < 15)
-						x += 32;
-					if (y < 15)
-						y += 32;
-				}
-				stream.writeBits(1, needUpdate ? 1 : 0);
-				stream.writeBits(largeSceneView ? 8 : 5, y);
-				stream.writeBits(3, (n.getFaceAngle() >> 11) - 4);
-				stream.writeBits(15, n.getId());
-				stream.writeBits(largeSceneView ? 8 : 5, x);
-				stream.writeBits(1, n.hasTeleported() ? 1 : 0);
-				stream.writeBits(2, n.getPlane());
-				localNPCs.add(n);
-				if (needUpdate)
-					appendUpdateBlock(n, updateBlockData, true);
+		int radius = largeSceneView ? 126 : 14;						//TODO is isDead really necessary here?
+		for (NPC n : player.queryNearbyNPCsByTileRange(radius, n -> /*!n.isDead() && */!localNPCs.contains(n) && n.withinDistance(player, largeSceneView ? 126 : 14))) {
+			if (localNPCs.size() == Settings.LOCAL_NPCS_LIMIT)
+				break;
+			stream.writeBits(15, n.getIndex());
+			boolean needUpdate = n.needMasksUpdate() || n.getLastFaceEntity() != -1;
+			int x = n.getX() - player.getX();
+			int y = n.getY() - player.getY();
+			if (largeSceneView) {
+				if (x < 127)
+					x += 256;
+				if (y < 127)
+					y += 256;
+			} else {
+				if (x < 15)
+					x += 32;
+				if (y < 15)
+					y += 32;
 			}
+			stream.writeBits(1, needUpdate ? 1 : 0);
+			stream.writeBits(largeSceneView ? 8 : 5, y);
+			stream.writeBits(3, (n.getFaceAngle() >> 11) - 4);
+			stream.writeBits(15, n.getId());
+			stream.writeBits(largeSceneView ? 8 : 5, x);
+			stream.writeBits(1, n.hasTeleported() ? 1 : 0);
+			stream.writeBits(2, n.getPlane());
+			localNPCs.add(n);
+			if (needUpdate)
+				appendUpdateBlock(n, updateBlockData, true);
 		}
 	}
 

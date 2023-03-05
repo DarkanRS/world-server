@@ -130,8 +130,7 @@ public class Taverly {
 	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new Tile[] { Tile.of(2946, 3474, 0), Tile.of(2946, 3473, 0) }, e -> {
 		if (!e.isTelegrabbed()) {
 			e.getPlayer().applyHit(new Hit(e.getPlayer(), 50, Hit.HitLook.TRUE_DAMAGE));
-			List<NPC> npcs = e.getPlayer().getNearbyNPCs(true, n -> n.getId() == 189);
-			for (NPC n : npcs) {
+			for (NPC n : e.getPlayer().queryNearbyNPCsByTileRange(7, n -> n.getId() == 189)) {
 				if (n.isDead())
 					continue;
 				n.forceTalk("Hands off Zamorak's wine!");

@@ -67,8 +67,7 @@ public class Matthias extends NPC {
 	
 	@ServerStartupEvent
 	public static void init() {
-		Region region = World.getRegion(9528, true);
-		POST_TILES = region.getAllObjects()
+		POST_TILES = World.getAllObjectsInChunkRange(Tile.of(2374, 3605, 0).getChunkId(), 2)
 			.stream()
 			.filter(obj -> obj != null && (obj.getId() == 19220 || obj.getId() == 19221))
 			.toList();

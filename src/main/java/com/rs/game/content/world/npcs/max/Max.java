@@ -154,13 +154,6 @@ public class Max extends NPC {
 		return nextTasks.stream().filter(pred -> !pred.getClass().isAssignableFrom(task.getClass())).toList();
 	}
 	
-	@ServerStartupEvent
-	public static void loadMaxRegions() {
-		World.getRegion(12342, true);
-		World.getRegion(12853, true);
-		World.getRegion(12854, true);
-	}
-	
 	public static NPCClickHandler clickClose = new NPCClickHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Talk-to", "Trade" }, e -> {
 		if (!(e.getNPC() instanceof Max max))
 			return;

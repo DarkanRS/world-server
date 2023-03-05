@@ -47,24 +47,20 @@ public class WitchSentry extends NPC {
 			Player player;
 			@Override
 			public void run() {
-				if(tick > 3)
-					for (int regionId : getMapRegionsIds()) {
-						Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-						if (playerIndexes != null)
-							for (int playerIndex : playerIndexes) {
-								player = World.getPlayers().get(playerIndex);
-								if (player == null)
-									continue;
-								if(lineOfSightTo(player, false)) {
-									resetWalkSteps();
-									faceEntity(player);
-									setNextSpotAnim(new SpotAnim(108));
-									setNextAnimation(new Animation(711));
-									forceTalk("Get out!");
-									tick=3;
-								}
-							}
+				if(tick > 3) {
+					for (Player player : World.getPlayersInChunkRange(getChunkId(), 1)) {
+						if (player == null)
+							continue;
+						if (lineOfSightTo(player, false)) {
+							resetWalkSteps();
+							faceEntity(player);
+							setNextSpotAnim(new SpotAnim(108));
+							setNextAnimation(new Animation(711));
+							forceTalk("Get out!");
+							tick = 3;
+						}
 					}
+				}
 				if(tick == 1)
 					tick = 10;
 				if(tick == 2) {

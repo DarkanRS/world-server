@@ -88,7 +88,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 			@Override
 			public void run() {
-				if(World.getPlayersInRegion(getRegionId()).isEmpty())
+				if(World.getPlayersInChunkRange(getChunkId(), 2).isEmpty())
 					finish();
 				if(tick == 1)
 					setNextAnimation(new Animation(STUNNED));

@@ -150,7 +150,7 @@ public class WitchsHouse extends QuestOutline {
 		if(p.getInventory().containsItem(new Item(BACKROOM_KEY, 1))) {
 			handleDoor(p, obj);
 			if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 					if (npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 						return;
 				World.spawnNPC(EXPERIMENT1, Tile.of(2927, 3359, 0), -1, false, true);
@@ -195,7 +195,7 @@ public class WitchsHouse extends QuestOutline {
 			return;
 		}
 		if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 					npc.setTarget(p);
 			e.cancelPickup();
@@ -237,7 +237,7 @@ public class WitchsHouse extends QuestOutline {
 			return;
 		}
 		if(e.getItem().getName().equalsIgnoreCase("Cheese")) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == MOUSE) {
 					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{

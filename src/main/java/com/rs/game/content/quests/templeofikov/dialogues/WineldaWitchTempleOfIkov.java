@@ -32,7 +32,7 @@ public class WineldaWitchTempleOfIkov extends Conversation {
 					.addNPC(NPC, HeadE.CALM_TALK, "Ooh, they're well prepared! Hehe!")
 					.addNPC(NPC, HeadE.CALM_TALK, "Good! Good! My potion is nearly ready! Bubble, bubble, toil and trouble! Now we shows them ours magic! Hold on tight!")
 					.addNext(()->{
-						for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+						for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 							if(npc.getId() == 276) {
 								npc.faceEntity(p);
 								npc.setNextAnimation(new Animation(711));

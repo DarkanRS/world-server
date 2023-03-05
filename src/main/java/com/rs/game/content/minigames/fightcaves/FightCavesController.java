@@ -255,8 +255,7 @@ public class FightCavesController extends Controller {
 	@Override
 	public void process() {
 		if (spawned) {
-			Set<Integer> npcs = World.getRegion(center.getRegionId()).getNPCsIndexes();
-			if (npcs == null || npcs.isEmpty()) {
+			if (World.getNPCsInChunkRange(center.getChunkId(), 8).isEmpty()) {
 				spawned = false;
 				nextWave();
 			}

@@ -247,7 +247,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 			addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Hurrah! That's all 25 sets of bones.");
 			addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Wings of dark and colour too, Spreading in the morning dew; Locked away I have a key; Return it now, " +
 					"please, unto me.", () -> {
-						for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+						for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 							if(npc.getId() == 881) {
 								npc.setNextAnimation(new Animation(716));
 								npc.setNextSpotAnim(new SpotAnim(102));

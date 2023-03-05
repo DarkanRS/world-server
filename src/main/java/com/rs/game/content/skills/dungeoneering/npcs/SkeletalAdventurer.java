@@ -63,15 +63,11 @@ public final class SkeletalAdventurer extends DungeonBoss {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		boolean last = true;
-		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
-					continue;
-				last = false;
-				break;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(getChunkId(), 2)) {
+			if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
+				continue;
+			last = false;
+		}
 		final boolean l = last;
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0)

@@ -572,24 +572,18 @@ public class DungeonController extends Controller {
 	}
 
 	public static NPC getNPC(Entity entity, int id) {
-		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id)
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(entity.getChunkId(), 4)) {
+			if (npc.getId() == id)
+				return npc;
+		}
 		return null;
 	}
 
 	public static NPC getNPC(Entity entity, String name) {
-		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getName().equals(name))
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(entity.getChunkId(), 4)) {
+			if (npc.getName().equals(name))
+				return npc;
+		}
 		return null;
 	}
 
@@ -1205,7 +1199,7 @@ public class DungeonController extends Controller {
 				if (packet == ClientPacket.IF_OP2) {
 					player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 					if (gatestone != null) {
-						GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
+						GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
 						if (item == null)
 							return false;
 						World.removeGroundItem(player, item, false);
@@ -1261,7 +1255,7 @@ public class DungeonController extends Controller {
 		}
 
 		if (!group) {
-			GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
+			GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
 			if (item == null)
 				return;
 			World.removeGroundItem(player, item);

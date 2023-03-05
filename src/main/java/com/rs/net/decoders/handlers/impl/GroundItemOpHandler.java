@@ -50,7 +50,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		final int regionId = tile.getRegionId();
 		if (!player.getMapRegionsIds().contains(regionId))
 			return;
-		final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+		final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 		if (item == null)
 			return;
 		if (packet.getOpcode() == ClientPacket.GROUND_ITEM_EXAMINE) {
@@ -71,7 +71,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP3:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem item1 = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem item1 = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (item1 == null || !player.getControllerManager().canTakeItem(item1))
 					return;
 				if (TreasureTrailsManager.isScroll(item1.getId()))
@@ -97,7 +97,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP4:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem groundItem = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (groundItem == null)
 					return;
 

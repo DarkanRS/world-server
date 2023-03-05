@@ -159,7 +159,7 @@ public class SiphonNodeAction extends PlayerAction {
 		}
 		if (!started && !player.withinDistance(node.getTile(), 6))
 			return true;
-		if (!World.getRegion(player.getRegionId()).objectExists(node)) {
+		if (!World.getChunk(node.getTile().getChunkId()).objectExists(node)) {
 			stop(player);
 			return false;
 		}

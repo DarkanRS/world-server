@@ -41,14 +41,12 @@ public class YtMejKotCombat extends CombatScript {
 		if (npc.getHitpoints() < npc.getMaxHitpoints() / 2)
 			if (npc.getTempAttribs().removeB("Heal")) {
 				npc.setNextSpotAnim(new SpotAnim(2980, 0, 100));
-				Set<Integer> npcIndexes = World.getRegion(npc.getRegionId()).getNPCsIndexes();
-				if (npcIndexes != null)
-					for (int npcIndex : npcIndexes) {
-						NPC n = World.getNPCs().get(npcIndex);
-						if (n == null || n.isDead() || n.hasFinished())
-							continue;
-						n.heal(100);
-					}
+				npc.queryNearbyNPCsByTileRange(4, n -> {
+					if (n == null || n.isDead() || n.hasFinished())
+						return false;
+					n.heal(100);
+					return true;
+				});
 			} else
 				npc.getTempAttribs().setB("Heal", Boolean.TRUE);
 		return npc.getAttackSpeed();

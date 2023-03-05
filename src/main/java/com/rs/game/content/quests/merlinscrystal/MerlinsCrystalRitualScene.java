@@ -35,7 +35,7 @@ public class MerlinsCrystalRitualScene extends Controller {
 
 	private void playCutscene() {
 		boolean hasSpirit = false;
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 			if(npc.getId() == THRANTAX_SPIRIT)
 				hasSpirit = true;
 		if(hasSpirit)

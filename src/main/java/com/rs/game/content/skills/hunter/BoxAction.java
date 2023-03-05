@@ -103,7 +103,7 @@ public class BoxAction extends PlayerAction {
 				player.getInventory().deleteItem(954, 1);
 				player.getInventory().deleteItem(303, 1);
 			} else {
-				GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(type.getId(), tile, player);
+				GroundItem item = groundItem != null ? groundItem : World.getChunk(tile.getChunkId()).getGroundItem(type.getId(), tile, player);
 				if (item != null)
 					World.removeGroundItem(player, item, false);
 			}

@@ -19,6 +19,7 @@ package com.rs.game.content.minigames.sorcgarden;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.rs.game.World;
 import com.rs.game.content.transportation.FadingScreen;
@@ -60,19 +61,8 @@ public class Elemental extends NPC {
 	}
 
 	@Override
-	public List<Entity> getPossibleTargets() {
-		List<Entity> possibleTarget = new ArrayList<>();
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || player.isDead() || player.getAppearance().isHidden() || player.hasFinished() || player.isLocked() || !lineOfSightTo(player, false))
-						continue;
-					possibleTarget.add(player);
-				}
-		}
-		return possibleTarget;
+	public List<Entity> getPossibleTargets(int tileRadius) {
+		return queryNearbyPlayersByTileRangeAsEntityList(7, player -> !player.isDead() && !player.getAppearance().isHidden() && !player.isLocked() && lineOfSightTo(player, false));
 	}
 
 	private int steps;

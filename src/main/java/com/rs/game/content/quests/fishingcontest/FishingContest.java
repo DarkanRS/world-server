@@ -184,7 +184,7 @@ public class FishingContest extends QuestOutline {
 						@Override
 						public void run() {
 							if (tick == 0)
-								for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
+								for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 									if (npc.getId() == 3677)//vampyre stranger
 									stranger = npc;
 							if (tick == 1) {

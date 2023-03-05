@@ -48,19 +48,10 @@ public class Lunars {
 
 	public static Player[] getNearPlayers(Player player, int distance, int maxTargets) {
 		List<Entity> possibleTargets = new ArrayList<>();
-		stop: for (int regionId : player.getMapRegionsIds()) {
-			Region region = World.getRegion(regionId);
-			Set<Integer> playerIndexes = region.getPlayerIndexes();
-			if (playerIndexes == null)
-				continue;
-			for (int playerIndex : playerIndexes) {
-				Player p2 = World.getPlayers().get(playerIndex);
-				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.withinDistance(player.getTile(), distance))
-					continue;
-				possibleTargets.add(p2);
-				if (possibleTargets.size() == maxTargets)
-					break stop;
-			}
+		for (Player p2 : player.queryNearbyPlayersByTileRange(distance, p2 -> !p2.isDead() && p2 != player && p2.withinDistance(player.getTile(), distance))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() == maxTargets)
+				break;
 		}
 		return possibleTargets.toArray(new Player[possibleTargets.size()]);
 	}

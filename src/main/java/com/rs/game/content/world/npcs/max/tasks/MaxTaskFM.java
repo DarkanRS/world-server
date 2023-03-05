@@ -57,19 +57,4 @@ public class MaxTaskFM implements Task {
 		}
 		return 5;
 	}
-	
-	public GameObject getClosestIvy(Tile tile) {
-		GameObject ivy = null;
-		double closest = Double.MAX_VALUE;
-		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {
-			if (obj == null || obj.getDefinitions() == null || !obj.getDefinitions().getName().equals("Ivy") || !obj.getDefinitions().containsOption("Chop"))
-				continue;
-			double dist = Utils.getDistance(obj.getTile(), tile);
-			if (dist < closest) {
-				ivy = obj;
-				closest = dist;
-			}	
-		}
-		return ivy;
-	}
 }

@@ -33,7 +33,7 @@ public class GodWarMinion extends NPC {
 	public void respawn() {
 		setFinished(false);
 		World.addNPC(this);
-		setLastRegionId(0);
+		setLastChunkId(0);
 		World.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();

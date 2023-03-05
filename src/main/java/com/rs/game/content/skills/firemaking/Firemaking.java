@@ -169,7 +169,7 @@ public class Firemaking extends Action {
 			player.sendMessage("You do not have the required level to light this.");
 			return false;
 		}
-		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || World.getRegion(entity.getRegionId()).getSpawnedObject(entity.getTile()) != null || (player != null && (player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController))) { // contains
+		if (!World.canLightFire(entity.getPlane(), entity.getX(), entity.getY()) || World.getChunk(entity.getChunkId()).getSpawnedObject(entity.getTile()) != null || (player != null && (player.getControllerManager().getController() instanceof DuelArenaController || player.getControllerManager().getController() instanceof DuelController))) { // contains
 			if (player != null)
 				player.sendMessage("You can't light a fire here.");
 			return false;
@@ -205,7 +205,7 @@ public class Firemaking extends Action {
 			@Override
 			public void run() {
 				if (player != null) {
-					final GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(fire.getLogId(), tile, player);
+					final GroundItem item = groundItem != null ? groundItem : World.getChunk(tile.getChunkId()).getGroundItem(fire.getLogId(), tile, player);
 					if ((item == null) || !World.removeGroundItem(player, item, false))
 						return;
 				}

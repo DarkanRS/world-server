@@ -362,7 +362,7 @@ public class StealingCreationGameController {
 		if (clicked && index == 2 || index == -1)
 			return;
 		Tile tile = Tile.of(getArea().getMinX() + (base[0] * 8) + entrance[0], getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
-		objectLoop: for (GameObject object : World.getRegion(tile.getRegionId()).getAllObjects()) {
+		for (GameObject object : World.getAllObjectsInChunkRange(tile.getChunkId(), 5)) {
 			if (object == null || object.getId() != 39534 + index || !object.getTile().withinDistance(tile, 30))
 				continue;
 			int nameIndex = name.indexOf("(class");
@@ -378,7 +378,7 @@ public class StealingCreationGameController {
 			Controller controller = player.getControllerManager().getController();
 			if (controller instanceof StealingCreationController ctrl)
 				ctrl.sendScore(score);
-			break objectLoop;
+			break;
 		}
 	}
 

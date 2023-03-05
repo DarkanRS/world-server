@@ -487,7 +487,7 @@ public class Route {
 		int graphBaseX = x - (GRAPH_SIZE / 2);
 		int graphBaseY = y - (GRAPH_SIZE / 2);
 
-		for (int transmitRegionX = graphBaseX >> 6; transmitRegionX <= (graphBaseX + (GRAPH_SIZE - 1)) >> 6; transmitRegionX++)
+		for (int transmitRegionX = graphBaseX >> 6; transmitRegionX <= (graphBaseX + (GRAPH_SIZE - 1)) >> 6; transmitRegionX++) {
 			for (int transmitRegionY = graphBaseY >> 6; transmitRegionY <= (graphBaseY + (GRAPH_SIZE - 1)) >> 6; transmitRegionY++) {
 				int startX = Math.max(graphBaseX, transmitRegionX << 6), startY = Math.max(graphBaseY, transmitRegionY << 6);
 				int endX = Math.min(graphBaseX + GRAPH_SIZE, (transmitRegionX << 6) + 64), endY = Math.min(graphBaseY + GRAPH_SIZE, (transmitRegionY << 6) + 64);
@@ -495,6 +495,7 @@ public class Route {
 					for (int fillY = startY; fillY < endY; fillY++)
 						clip[fillX - graphBaseX][fillY - graphBaseY] = WorldCollision.getFlags(Tile.of(fillX, fillY, z));
 			}
+		}
 	}
 
 	public int[] getBufferX() {

@@ -110,11 +110,11 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	});
 
 	private static void moveMummy(Player p) {
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))//If mummy is correct dont do anything
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))//If mummy is correct dont do anything
 			if(npc.getId() == 4476)
 				if(npc.withinDistance(MUMMY_LOCATIONS[MUMMY_ROOM], 5))
 					return;
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))//else finish
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))//else finish
 			if(npc.getId() == 4476)
 				npc.setNextTile(MUMMY_LOCATIONS[MUMMY_ROOM]);
 	}

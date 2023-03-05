@@ -43,8 +43,6 @@ public class PumpkinSpawning {
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
-		for (int id : regionsToSpawn)
-			World.getRegion(id, true);
 		TaskExecutor.schedule(() -> {
 			try {
 				spawnPumpkins();
