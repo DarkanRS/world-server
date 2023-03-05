@@ -858,6 +858,7 @@ public class Player extends Entity {
 		loadMapRegions();
 		getMapChunksNeedInit().addAll(getMapChunkIds());
 		started = true;
+		Logger.info(Player.class, "start", "Started player: " + account.getUsername());
 		run();
 
 		if (getBool("isLoggedOutInDungeon")) {

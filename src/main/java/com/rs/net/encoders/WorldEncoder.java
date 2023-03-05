@@ -99,16 +99,7 @@ import com.rs.lib.net.packets.encoders.social.QuickChatClan;
 import com.rs.lib.net.packets.encoders.social.QuickChatFriendsChat;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivate;
 import com.rs.lib.net.packets.encoders.social.QuickChatPrivateEcho;
-import com.rs.lib.net.packets.encoders.updatezone.AddObject;
-import com.rs.lib.net.packets.encoders.updatezone.CreateGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.CustomizeObject;
-import com.rs.lib.net.packets.encoders.updatezone.ObjectAnim;
-import com.rs.lib.net.packets.encoders.updatezone.ProjAnim;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveGroundItem;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
-import com.rs.lib.net.packets.encoders.updatezone.SetGroundItemAmount;
-import com.rs.lib.net.packets.encoders.updatezone.TileMessage;
-import com.rs.lib.net.packets.encoders.updatezone.UpdateZoneFullFollows;
+import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.SetVarClan;
 import com.rs.lib.net.packets.encoders.vars.SetVarc;
 import com.rs.lib.net.packets.encoders.vars.SetVarcString;
@@ -326,32 +317,32 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendObjectAnimation(GameObject object, Animation animation) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
 		session.writeToQueue(new ObjectAnim(object.getTile().getChunkLocalHash(), object, animation));
 	}
 
 	public void removeGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
 		session.writeToQueue(new RemoveGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendGroundItem(GroundItem item) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
 		session.writeToQueue(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
 	}
 
 	public void sendSetGroundItemAmount(GroundItem item, int oldAmount) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), item.getTile().getChunkId()));
 		session.writeToQueue(new SetGroundItemAmount(item.getTile().getChunkLocalHash(), item, oldAmount));
 	}
 
 	public void sendProjectile(WorldProjectile projectile) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), projectile.getFromTile().getChunkId()));
 		session.writeToQueue(new ProjAnim(projectile.getFromTile().getChunkLocalHash(), projectile));
 	}
 
 	public void sendTileMessage(String message, Tile tile, int delay, int height, int color) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), tile.getChunkId()));
 		session.writeToQueue(new TileMessage(tile.getChunkLocalHash(), message, delay, height, color));
 	}
 
@@ -360,19 +351,19 @@ public class WorldEncoder extends Encoder {
 	}
 
 	public void sendRemoveObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
 		session.writeToQueue(new RemoveObject(object.getTile().getChunkLocalHash(), object));
 	}
 
 	public void sendAddObject(GameObject object) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), object.getTile().getChunkId()));
 		session.writeToQueue(new AddObject(object.getTile().getChunkLocalHash(), object));
 		if (object.getMeshModifier() != null)
 			sendCustomizeObject(object.getMeshModifier());
 	}
 
 	public void sendCustomizeObject(ObjectMeshModifier modifier) {
-		session.writeToQueue(new UpdateZoneFullFollows(player.getSceneBaseChunkId()));
+		session.writeToQueue(new UpdateZonePartial(player.getSceneBaseChunkId(), modifier.getObject().getTile().getChunkId()));
 		session.writeToQueue(new CustomizeObject(modifier.getObject().getTile().getChunkLocalHash(), modifier.getObject(), modifier.getModelIds(), modifier.getModifiedColors(), modifier.getModifiedTextures()));
 	}
 

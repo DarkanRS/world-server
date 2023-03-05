@@ -25,6 +25,7 @@ import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.cache.loaders.map.RegionSize;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
@@ -33,6 +34,7 @@ import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.InstancedChunk;
+import com.rs.game.map.UpdateZone;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.EntityList;
@@ -84,6 +86,8 @@ public final class World {
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Chunk> CHUNKS = new HashMap<>();
+	private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
+	private static final Map<Integer, UpdateZone> UPDATE_ZONES = new HashMap<>();
 
 	@ServerStartupEvent
 	public static final void addSavePlayersTask() {
@@ -106,6 +110,24 @@ public final class World {
 	public static final Chunk removeChunk(int id) {
 		synchronized (CHUNKS) {
 			return CHUNKS.remove(id);
+		}
+	}
+
+	public static final UpdateZone removeUpdateZone(int baseChunkId, RegionSize size) {
+		synchronized (UPDATE_ZONES) {
+			return UPDATE_ZONES.remove(UpdateZone.getId(baseChunkId, size));
+		}
+	}
+
+	public static final UpdateZone getUpdateZone(int baseChunkId, RegionSize size) {
+		synchronized (UPDATE_ZONES) {
+			int id = UpdateZone.getId(baseChunkId, size);
+			UpdateZone updateZone = UPDATE_ZONES.get(id);
+			if (updateZone == null) {
+				updateZone = new UpdateZone(baseChunkId, size);
+				UPDATE_ZONES.put(id, updateZone);
+			}
+			return updateZone;
 		}
 	}
 
@@ -226,9 +248,10 @@ public final class World {
 		if (entity instanceof NPC)
 			clipNPC((NPC) entity);
 		if (entity.hasFinished()) {
-			if (entity instanceof Player)
+			if (entity instanceof Player) {
 				getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
-			else
+				getUpdateZone(entity.getSceneBaseChunkId(), entity.getMapSize()).removeWatcher(entity.getIndex());
+			} else
 				getChunk(entity.getLastChunkId()).removeNPCIndex(entity.getIndex());
 			return;
 		}
@@ -967,7 +990,7 @@ public final class World {
 		List<GameObject> objects = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
 		for (int chunk : chunkIds) {
-			for (GameObject obj : World.getChunk(chunk).getAllBaseObjects()) {
+			for (GameObject obj : World.getChunk(chunk).getAllObjects()) {
 				if (obj == null)
 					continue;
 				objects.add(obj);
@@ -1258,28 +1281,6 @@ public final class World {
 		return projectile;
 	}
 
-	public static void executeAfterLoadChunk(final int chunkId, final Runnable event) {
-		executeAfterLoadChunk(chunkId, 0, event);
-	}
-
-	public static void executeAfterLoadChunk(final int chunkId, int startTime, final Runnable event) {
-		long startMs = System.currentTimeMillis() + startTime * 600;
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				try {
-					if ((TaskExecutor.pendingTasks() || !World.getChunk(chunkId).isLoaded()) && (System.currentTimeMillis() - startMs) < 10000)
-						return;
-					event.run();
-					stop();
-				} catch (Throwable e) {
-					Logger.handle(World.class, "executeAfterLoadRegion", e);
-				}
-			}
-
-		}, startTime, 1);
-	}
-
 	public static final boolean isMultiArea(Tile tile) {
 		int chunkId = MapUtils.encode(Structure.CHUNK, tile.getChunkX(), tile.getChunkY());
 		return Areas.withinArea("multi", chunkId);
@@ -1522,17 +1523,25 @@ public final class World {
 
 	public static void processChunks() {
 		synchronized(CHUNKS) {
-			for (Chunk c : CHUNKS.values())
-				if (c != null)
-					c.process();
+			for (int chunkId : new IntOpenHashSet(ACTIVE_CHUNKS))
+				getChunk(chunkId).process();
 		}
 	}
 
-	public static void updateChunks() {
-		synchronized(CHUNKS) {
-			for (Chunk c : CHUNKS.values())
+	public static void markChunkActive(int chunkId) {
+		ACTIVE_CHUNKS.add(chunkId);
+	}
+
+	public static void markChunkInactive(int chunkId) {
+		ACTIVE_CHUNKS.remove(chunkId);
+	}
+
+	public static void processUpdateZones() {
+		synchronized(UPDATE_ZONES) {
+			for (UpdateZone c : UPDATE_ZONES.values()) {
 				if (c != null)
 					c.update();
+			}
 		}
 	}
 

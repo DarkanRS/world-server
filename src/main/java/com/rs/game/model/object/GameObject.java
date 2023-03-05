@@ -76,6 +76,12 @@ public class GameObject extends WorldObject {
 		return hash;
 	}
 
+	public int positionHashCode() {
+		int hash = tile.getTileHash();
+		hash = ((hash << 5) - hash) + type.id;
+		return hash;
+	}
+
 	@Override
 	public String toString() {
 		return "[id:"+id+" loc:("+getX()+","+getY()+","+getPlane()+") type:"+type+" rot:"+rotation+" name:"+getDefinitions().getName()+"]";

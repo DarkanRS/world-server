@@ -33,17 +33,15 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Chunk {
-    private int chunkId;
-    private int chunkX;
-    private int chunkY;
+    private int id;
+    private int x;
+    private int y;
     private int plane;
     private boolean staticChunk;
 
     private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(new ObjectArrayList<>());
-    private UpdateZonePartialEnclosed updateZonePacket = null;
 
     protected Set<Integer> players = IntSets.synchronize(new IntOpenHashSet());
-    protected Set<Integer> watchers = IntSets.synchronize(new IntOpenHashSet());
     protected Set<Integer> npcs = IntSets.synchronize(new IntOpenHashSet());
 
     protected GameObject[][][] baseObjects = new GameObject[8][8][4];
@@ -58,10 +56,10 @@ public class Chunk {
     private int[] musicIds;
 
     public Chunk(int chunkId) {
-        this.chunkId = chunkId;
+        this.id = chunkId;
         int[] coords = MapUtils.decode(Structure.CHUNK, chunkId);
-        this.chunkX = coords[0];
-        this.chunkY = coords[1];
+        this.x = coords[0];
+        this.y = coords[1];
         this.plane = coords[2];
         musicIds = Music.getRegionMusics(MapUtils.chunkToRegionId(chunkId));
     }
@@ -75,7 +73,7 @@ public class Chunk {
     }
 
     public void clearCollisionData() {
-        WorldCollision.clearChunk(chunkId);
+        WorldCollision.clearChunk(id);
     }
 
     public void setMusicIds(int[] musicIds) {
@@ -127,7 +125,7 @@ public class Chunk {
     }
 
     public void processGroundItems() {
-        if (groundItems == null || groundItemList == null)
+        if (groundItems.isEmpty())
             return;
         List<GroundItem> toRemove = new ArrayList<>();
         for (GroundItem item : groundItemList) {
@@ -348,9 +346,9 @@ public class Chunk {
     public void checkLoaded() {
         if (!loadedData.get()) {
             loadedData.set(true);
-            NPCSpawns.loadNPCSpawns(chunkId);
-            ItemSpawns.loadItemSpawns(chunkId);
-            ObjectSpawns.loadObjectSpawns(chunkId);
+            NPCSpawns.loadNPCSpawns(id);
+            ItemSpawns.loadItemSpawns(id);
+            ObjectSpawns.loadObjectSpawns(id);
         }
     }
 
@@ -424,19 +422,19 @@ public class Chunk {
     public void addRemovedObject(GameObject object) {
         if (removedBaseObjects == null || object == null)
             return;
-        removedBaseObjects.put(object.hashCode(), object);
+        removedBaseObjects.put(object.positionHashCode(), object);
     }
 
     public void deleteRemovedObject(GameObject object) {
         if (removedBaseObjects == null || object == null)
             return;
-        removedBaseObjects.remove(object.hashCode());
+        removedBaseObjects.remove(object.positionHashCode());
     }
 
     public GameObject getRemovedObject(GameObject object) {
         if (removedBaseObjects == null || object == null)
             return null;
-        return removedBaseObjects.get(object.hashCode());
+        return removedBaseObjects.get(object.positionHashCode());
     }
 
     public GameObject getObject(Tile tile) {
@@ -517,18 +515,27 @@ public class Chunk {
         return removedBaseObjects;
     }
 
-    public List<GameObject> getAllBaseObjects() {
+    public List<GameObject> getAllBaseObjects(boolean ignoreRemoved) {
         if (baseObjects == null)
             return null;
-        List<GameObject> list = new ArrayList<>();
+        List<GameObject> list = new ObjectArrayList<>();
         for (int x = 0; x < 8; x++)
             for (int y = 0; y < 8; y++) {
                 if (baseObjects[x][y] == null)
                     continue;
                 for (GameObject o : baseObjects[x][y])
-                    if (o != null)
+                    if (o != null && (ignoreRemoved || getRemovedObject(o) != null))
                         list.add(o);
             }
+        return list;
+    }
+
+    public List<GameObject> getAllObjects() {
+        List<GameObject> list = new ObjectArrayList<>();
+        for (GameObject base : getAllBaseObjects(false))
+            if (!removedBaseObjects.containsValue(base))
+                list.add(base);
+        list.addAll(spawnedObjects);
         return list;
     }
 
@@ -644,27 +651,24 @@ public class Chunk {
     }
 
     public void addChunkUpdate(UpdateZonePacketEncoder update) {
+        World.markChunkActive(id);
         updates.add(update);
     }
 
-    public void rebuildUpdateZone() {
-        if (!updates.isEmpty())
-            updateZonePacket = new UpdateZonePartialEnclosed(chunkId, updates);
-        updates.clear();
+    public List<UpdateZonePacketEncoder> getUpdates() {
+        return updates;
     }
 
-    public void sendUpdates(Player player) {
-        if (updateZonePacket == null || player == null || !player.hasStarted() || player.hasFinished())
-            return;
-        player.getSession().write(updateZonePacket);
+    public int getId() {
+        return id;
     }
 
-    public int getChunkX() {
-        return chunkX;
+    public int getX() {
+        return x;
     }
 
-    public int getChunkY() {
-        return chunkY;
+    public int getY() {
+        return y;
     }
 
     public int getPlane() {
@@ -672,11 +676,11 @@ public class Chunk {
     }
 
     public int getRenderChunkX() {
-        return chunkX;
+        return x;
     }
 
     public int getRenderChunkY() {
-        return chunkY;
+        return y;
     }
 
     public int getRenderPlane() {
@@ -692,36 +696,23 @@ public class Chunk {
     }
 
     public void process() {
+        updates.clear();
         processGroundItems();
-    }
-
-    public void update() {
-        rebuildUpdateZone();
-        for (int pid : watchers)
-            sendUpdates(World.getPlayers().get(pid));
-        updateZonePacket = null;
-    }
-
-    public void addWatcher(int pid) {
-        watchers.add(pid);
-    }
-
-    public void removeWatcher(int pid) {
-        watchers.remove(pid);
+        if (getAllGroundItems().isEmpty())
+            World.markChunkInactive(id);
     }
 
     public int getBaseX() {
-        return chunkX << 3;
+        return x << 3;
     }
 
     public int getBaseY() {
-        return chunkY << 3;
+        return y << 3;
     }
 
     public void init(Player player) {
         List<UpdateZonePacketEncoder> initUpdates = new ObjectArrayList<>();
-        List<GroundItem> floorItems = getAllGroundItems();
-        for (GroundItem item : floorItems) {
+        for (GroundItem item : getAllGroundItems()) {
             if (item.isPrivate() && item.getVisibleToId() != player.getUuid())
                 continue;
             initUpdates.add(new CreateGroundItem(item.getTile().getChunkLocalHash(), item));
@@ -730,11 +721,13 @@ public class Chunk {
             initUpdates.add(new RemoveObject(object.getTile().getChunkLocalHash(), object));
         for (GameObject object : getSpawnedObjects())
             initUpdates.add(new AddObject(object.getTile().getChunkLocalHash(), object));
-        List<GameObject> all =  getAllBaseObjects();
-        for (GameObject object : all)
+        for (GameObject object : getAllObjects())
             if (object.getMeshModifier() != null)
                 initUpdates.add(new CustomizeObject(object.getTile().getChunkLocalHash(), object.getMeshModifier().getObject(), object.getMeshModifier().getModelIds(), object.getMeshModifier().getModifiedColors(), object.getMeshModifier().getModifiedTextures()));
-        if (!initUpdates.isEmpty())
-            player.getSession().writeToQueue(new UpdateZonePartialEnclosed(chunkId, initUpdates));
+        if (!initUpdates.isEmpty()) {
+            player.getSession().writeToQueue(new UpdateZoneFull(player.getSceneBaseChunkId(), getId()));
+            for (UpdateZonePacketEncoder packet : initUpdates)
+                player.getSession().writeToQueue(packet);
+        }
     }
 }

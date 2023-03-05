@@ -932,10 +932,13 @@ public abstract class Entity {
 	}
 
 	public void loadMapRegions() {
+		loadMapRegions(getMapSize());
+	}
+
+	public void loadMapRegions(RegionSize oldSize) {
 		if (this instanceof Player p) {
 			Set<Integer> old = new IntOpenHashSet(mapChunkIds);
-			for (int cid : mapChunkIds)
-				World.getChunk(cid).removeWatcher(p.getIndex());
+			World.getUpdateZone(sceneBaseChunkId, oldSize).removeWatcher(p.getIndex());
 			mapChunkIds.clear();
 			hasNearbyInstancedChunks = false;
 			int currChunkX = getChunkX();
@@ -954,16 +957,13 @@ public abstract class Entity {
 						hasNearbyInstancedChunks = true;
 					int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, getPlane());
 					mapChunkIds.add(chunkId);
-					if (!old.contains(chunkId)) {
+					if (!old.contains(chunkId))
 						p.getMapChunksNeedInit().add(chunkId);
-						World.getChunk(chunkId).addWatcher(p.getIndex());
-					}
 					old.remove(chunkId);
 				}
 			}
-			for (int oldCid : old)
-				World.getChunk(oldCid).removeWatcher(p.getIndex());
-			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY);
+			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
+			World.getUpdateZone(sceneBaseChunkId, getMapSize()).addWatcher(p.getIndex());
 		} else {
 			mapChunkIds.clear();
 			hasNearbyInstancedChunks = false;
@@ -984,6 +984,7 @@ public abstract class Entity {
 					mapChunkIds.add(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, getPlane()));
 				}
 			}
+			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
 		}
 	}
 
@@ -1010,8 +1011,9 @@ public abstract class Entity {
 	}
 
 	public void setMapSize(RegionSize size) {
+		RegionSize oldSize = regionSize;
 		regionSize = size;
-		loadMapRegions();
+		loadMapRegions(oldSize);
 	}
 
 	public Set<Integer> getMapChunkIds() {
