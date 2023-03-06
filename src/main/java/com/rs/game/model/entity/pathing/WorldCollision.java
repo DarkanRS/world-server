@@ -2,6 +2,7 @@ package com.rs.game.model.entity.pathing;
 
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
+import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.cache.loaders.map.Region;
@@ -29,12 +30,9 @@ public class WorldCollision {
             if (regionId == 18754)
                 continue;
             Region region = new Region(regionId);
-            int regionX = (regionId >> 8) * 64;
-            int regionY = (regionId & 0xff) * 64;
-            int landArchiveId = Cache.STORE.getIndex(IndexType.MAPS).getArchiveId("l" + ((regionX >> 3) / 8) + "_" + ((regionY >> 3) / 8));
-            if (landArchiveId == 5863)
-                System.out.println(regionId);
             region.loadRegionMap(false);
+            if (!region.hasData())
+                continue;
             for (int x = 0;x < 64;x++) {
                 for (int y = 0;y < 64;y++) {
                     for (int plane = 0;plane < 4;plane++) {
@@ -42,14 +40,12 @@ public class WorldCollision {
                     }
                 }
             }
-            if (region.getObjects() == null)
+            if (region.getObjects() == null || region.getObjects().isEmpty())
                 continue;
-            for (WorldObject object : region.getObjects()) {
-                Chunk chunk = World.getChunk(object.getTile().getChunkId());
-                chunk.addBaseObject(new GameObject(object));
-                chunk.setStaticChunk();
-            }
+            for (WorldObject object : region.getObjects())
+                clip(new GameObject(object));
         }
+        System.gc();
     }
 
     public static void createChunk(int chunkX, int chunkY, int plane, int[] flags) {
@@ -282,27 +278,140 @@ public class WorldCollision {
     }
 
     public static int getFlags(Tile tile) {
-        return CLIP_FLAGS[getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane())][tile.getXInChunk() | tile.getYInChunk() << 3];
+        int chunkId = getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane());
+        if (CLIP_FLAGS[chunkId] == null)
+            return -1;
+        return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
     }
 
     public static void addFlag(Tile tile, int flag) {
         int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        if (CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] == null)
-            CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] = new int[64];
-        CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
+        int chunkId = getId(chunkX, chunkY, tile.getPlane());
+        if (CLIP_FLAGS[chunkId] == null)
+            CLIP_FLAGS[chunkId] = new int[64];
+        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
     }
 
     public static void removeFlag(Tile tile, int flag) {
         int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        if (CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] == null)
-            CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] = new int[64];
-        CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
+        int chunkId = getId(chunkX, chunkY, tile.getPlane());
+        if (CLIP_FLAGS[chunkId] == null)
+            CLIP_FLAGS[chunkId] = new int[64];
+        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
     }
 
     public static void setFlags(Tile tile, int flag) {
         int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        if (CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] == null)
-            CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())] = new int[64];
-        CLIP_FLAGS[getId(chunkX, chunkY, tile.getPlane())][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;
+        int chunkId = getId(chunkX, chunkY, tile.getPlane());
+        if (CLIP_FLAGS[chunkId] == null)
+            CLIP_FLAGS[chunkId] = new int[64];
+        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;
+    }
+
+    public static void clip(GameObject object) {
+        if (object.getId() == -1)
+            return;
+        ObjectType type = object.getType();
+        int rotation = object.getRotation();
+
+        ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
+
+        if (defs.getClipType() == 0)
+            return;
+
+        switch(type) {
+            case WALL_STRAIGHT:
+            case WALL_DIAGONAL_CORNER:
+            case WALL_WHOLE_CORNER:
+            case WALL_STRAIGHT_CORNER:
+                addWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
+                break;
+            case WALL_INTERACT:
+            case SCENERY_INTERACT:
+            case GROUND_INTERACT:
+            case STRAIGHT_SLOPE_ROOF:
+            case DIAGONAL_SLOPE_ROOF:
+            case DIAGONAL_SLOPE_CONNECT_ROOF:
+            case STRAIGHT_SLOPE_CORNER_CONNECT_ROOF:
+            case STRAIGHT_SLOPE_CORNER_ROOF:
+            case STRAIGHT_FLAT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_ROOF:
+            case DIAGONAL_BOTTOM_EDGE_CONNECT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_CONNECT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_CONNECT_CORNER_ROOF:
+                int sizeX;
+                int sizeY;
+                if (rotation != 1 && rotation != 3) {
+                    sizeX = defs.getSizeX();
+                    sizeY = defs.getSizeY();
+                } else {
+                    sizeX = defs.getSizeY();
+                    sizeY = defs.getSizeX();
+                }
+                addObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
+//			if (defs.clipType != 0)
+//				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
+                break;
+            case GROUND_DECORATION:
+                if (defs.clipType == 1)
+                    addBlockWalkAndProj(object.getTile());
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void unclip(Tile tile) {
+        setFlags(tile, 0);
+    }
+
+    public static void unclip(GameObject object) {
+        if (object.getId() == -1) // dont clip or noclip with id -1
+            return;
+        ObjectType type = object.getType();
+        int rotation = object.getRotation();
+        ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
+
+        if (defs.getClipType() == 0)
+            return;
+
+        switch(type) {
+            case WALL_STRAIGHT:
+            case WALL_DIAGONAL_CORNER:
+            case WALL_WHOLE_CORNER:
+            case WALL_STRAIGHT_CORNER:
+                removeWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
+                break;
+            case WALL_INTERACT:
+            case SCENERY_INTERACT:
+            case GROUND_INTERACT:
+            case STRAIGHT_SLOPE_ROOF:
+            case DIAGONAL_SLOPE_ROOF:
+            case DIAGONAL_SLOPE_CONNECT_ROOF:
+            case STRAIGHT_SLOPE_CORNER_CONNECT_ROOF:
+            case STRAIGHT_SLOPE_CORNER_ROOF:
+            case STRAIGHT_FLAT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_ROOF:
+            case DIAGONAL_BOTTOM_EDGE_CONNECT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_CONNECT_ROOF:
+            case STRAIGHT_BOTTOM_EDGE_CONNECT_CORNER_ROOF:
+                int sizeX;
+                int sizeY;
+                if (rotation == 1 || rotation == 3) {
+                    sizeX = defs.getSizeY();
+                    sizeY = defs.getSizeX();
+                } else {
+                    sizeX = defs.getSizeX();
+                    sizeY = defs.getSizeY();
+                }
+                removeObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
+                break;
+            case GROUND_DECORATION:
+                if (defs.clipType == 1)
+                    removeBlockWalkAndProj(object.getTile());
+                break;
+            default:
+                break;
+        }
     }
 }

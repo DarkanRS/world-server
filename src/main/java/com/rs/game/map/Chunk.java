@@ -1,7 +1,7 @@
 package com.rs.game.map;
 
-import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.WorldProjectile;
@@ -38,7 +38,6 @@ public class Chunk {
     private int x;
     private int y;
     private int plane;
-    private boolean staticChunk;
 
     private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(new ObjectArrayList<>());
 
@@ -52,6 +51,7 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
+    private AtomicBoolean loadingData = new AtomicBoolean(false);
     private AtomicBoolean loadedData = new AtomicBoolean(false);
 
     private int[] musicIds;
@@ -63,14 +63,6 @@ public class Chunk {
         this.y = coords[1];
         this.plane = coords[2];
         musicIds = Music.getRegionMusics(MapUtils.chunkToRegionId(chunkId));
-    }
-
-    public void setStaticChunk() {
-        staticChunk = true;
-    }
-
-    public boolean isStaticChunk() {
-        return staticChunk;
     }
 
     public void clearCollisionData() {
@@ -237,119 +229,22 @@ public class Chunk {
         return groundItems;
     }
 
-    public void clip(GameObject object) {
-        if (object.getId() == -1)
-            return;
-        ObjectType type = object.getType();
-        int rotation = object.getRotation();
-
-        ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
-
-        if (defs.getClipType() == 0)
-            return;
-
-        switch(type) {
-            case WALL_STRAIGHT:
-            case WALL_DIAGONAL_CORNER:
-            case WALL_WHOLE_CORNER:
-            case WALL_STRAIGHT_CORNER:
-                WorldCollision.addWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
-                break;
-            case WALL_INTERACT:
-            case SCENERY_INTERACT:
-            case GROUND_INTERACT:
-            case STRAIGHT_SLOPE_ROOF:
-            case DIAGONAL_SLOPE_ROOF:
-            case DIAGONAL_SLOPE_CONNECT_ROOF:
-            case STRAIGHT_SLOPE_CORNER_CONNECT_ROOF:
-            case STRAIGHT_SLOPE_CORNER_ROOF:
-            case STRAIGHT_FLAT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_ROOF:
-            case DIAGONAL_BOTTOM_EDGE_CONNECT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_CONNECT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_CONNECT_CORNER_ROOF:
-                int sizeX;
-                int sizeY;
-                if (rotation != 1 && rotation != 3) {
-                    sizeX = defs.getSizeX();
-                    sizeY = defs.getSizeY();
-                } else {
-                    sizeX = defs.getSizeY();
-                    sizeY = defs.getSizeX();
-                }
-                WorldCollision.addObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
-//			if (defs.clipType != 0)
-//				clipMapProj.addObject(plane, x, y, sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
-                break;
-            case GROUND_DECORATION:
-                if (defs.clipType == 1)
-                    WorldCollision.addBlockWalkAndProj(object.getTile());
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void unclip(Tile tile) {
-        WorldCollision.setFlags(tile, 0);
-    }
-
-    public void unclip(GameObject object) {
-        if (object.getId() == -1) // dont clip or noclip with id -1
-            return;
-        ObjectType type = object.getType();
-        int rotation = object.getRotation();
-        ObjectDefinitions defs = ObjectDefinitions.getDefs(object.getId());
-
-        if (defs.getClipType() == 0)
-            return;
-
-        switch(type) {
-            case WALL_STRAIGHT:
-            case WALL_DIAGONAL_CORNER:
-            case WALL_WHOLE_CORNER:
-            case WALL_STRAIGHT_CORNER:
-                WorldCollision.removeWall(object.getTile(), type, rotation, defs.blocks(), !defs.ignoresPathfinder);
-                break;
-            case WALL_INTERACT:
-            case SCENERY_INTERACT:
-            case GROUND_INTERACT:
-            case STRAIGHT_SLOPE_ROOF:
-            case DIAGONAL_SLOPE_ROOF:
-            case DIAGONAL_SLOPE_CONNECT_ROOF:
-            case STRAIGHT_SLOPE_CORNER_CONNECT_ROOF:
-            case STRAIGHT_SLOPE_CORNER_ROOF:
-            case STRAIGHT_FLAT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_ROOF:
-            case DIAGONAL_BOTTOM_EDGE_CONNECT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_CONNECT_ROOF:
-            case STRAIGHT_BOTTOM_EDGE_CONNECT_CORNER_ROOF:
-                int sizeX;
-                int sizeY;
-                if (rotation == 1 || rotation == 3) {
-                    sizeX = defs.getSizeY();
-                    sizeY = defs.getSizeX();
-                } else {
-                    sizeX = defs.getSizeX();
-                    sizeY = defs.getSizeY();
-                }
-                WorldCollision.removeObject(object.getTile(), sizeX, sizeY, defs.blocks(), !defs.ignoresPathfinder);
-                break;
-            case GROUND_DECORATION:
-                if (defs.clipType == 1)
-                    WorldCollision.removeBlockWalkAndProj(object.getTile());
-                break;
-            default:
-                break;
-        }
-    }
-
     public void checkLoaded() {
-        if (!loadedData.get()) {
-            loadedData.set(true);
+        if (!loadingData.get()) {
+            loadingData.set(true);
+            Region region = new Region(getRegionId());
+            region.loadRegionMap(false);
+            if (region.getObjects() != null && !region.getObjects().isEmpty()) {
+                for (WorldObject object : region.getObjects()) {
+                    if (object.getTile().getChunkId() != id)
+                        continue;
+                    addBaseObject(new GameObject(object));
+                }
+            }
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
+            loadedData.set(true);
         }
     }
 
@@ -359,7 +254,7 @@ public class Chunk {
 
     public void addBaseObject(GameObject obj) {
         baseObjects[obj.getTile().getXInChunk()][obj.getTile().getYInChunk()][obj.getSlot()] = obj;
-        clip(obj);
+        WorldCollision.clip(obj);
     }
 
     public void spawnObject(GameObject newObj, boolean clip) {
@@ -369,7 +264,7 @@ public class Chunk {
         if (spawnedObj != null) {
             spawnedObjects.remove(spawnedObj);
             if (clip)
-                unclip(spawnedObj);
+                WorldCollision.unclip(spawnedObj);
         }
 
         if (newObj.equals(baseObj)) {
@@ -380,14 +275,14 @@ public class Chunk {
                 addRemovedObject(baseObj);
             spawnedObjects.add(newObj);
             if (clip && baseObj != null)
-                unclip(baseObj);
+                WorldCollision.unclip(baseObj);
         } else if (spawnedObj == null) {
             Logger.info(Chunk.class, "spawnObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObj);
             return;
         }
 
         if (clip)
-            clip(newObj);
+            WorldCollision.clip(newObj);
         addChunkUpdate(new AddObject(newObj.getTile().getChunkLocalHash(), newObj));
     }
 
@@ -397,18 +292,18 @@ public class Chunk {
         boolean replace = false;
         if (removedBaseObject != null) {
             deleteRemovedObject(baseObject);
-            clip(baseObject);
+            WorldCollision.clip(baseObject);
             replace = true;
         }
         GameObject spawned = getSpawnedObjectWithSlot(toRemove.getTile(), toRemove.getSlot());
         if (spawned != null) {
             spawnedObjects.remove(toRemove);
-            unclip(toRemove);
+            WorldCollision.unclip(toRemove);
             if (baseObject != null)
-                clip(baseObject);
+                WorldCollision.clip(baseObject);
             replace = true;
         } else if (toRemove.equals(baseObject)) {
-            unclip(toRemove);
+            WorldCollision.unclip(toRemove);
             addRemovedObject(baseObject);
         } else {
             Logger.info(Chunk.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObject);
@@ -709,6 +604,18 @@ public class Chunk {
 
     public int getBaseY() {
         return y << 3;
+    }
+
+    public int getRegionX() {
+        return x >> 3;
+    }
+
+    public int getRegionY() {
+        return y >> 3;
+    }
+
+    public int getRegionId() {
+        return (getRegionX() << 8) + getRegionY();
     }
 
     public void init(Player player) {

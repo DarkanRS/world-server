@@ -907,7 +907,7 @@ public final class World {
 	}
 
 	public static final void unclipTile(Tile tile) {
-		getChunk(tile.getChunkId()).unclip(tile);
+		WorldCollision.unclip(tile);
 	}
 
 	public static final void removeObject(GameObject object) {

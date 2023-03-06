@@ -61,7 +61,7 @@ public class InstancedChunk extends Chunk {
 
 	public void loadMap(boolean copyNpcs) {
 		clearCollisionData();
-		Chunk realChunk = World.getChunk(getFromChunkId());
+		Chunk realChunk = World.getChunk(getFromChunkId(), true);
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
 				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, fromPlane);
