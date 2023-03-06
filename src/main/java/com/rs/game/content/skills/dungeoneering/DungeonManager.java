@@ -106,7 +106,7 @@ public class DungeonManager {
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
 	private VisibleRoom[][] visibleMap;
-	private Instance region;
+	private Instance instance;
 	private int stage; //0 - not loaded. 1 - loaded. 2 - new one not loaded, old one loaded(rewards screen)
 	private RewardsTimer rewardsTimer;
 	private DestroyTimer destroyTimer;
@@ -289,7 +289,7 @@ public class DungeonManager {
 	public void openRoom(final Room room, final RoomReference reference, final VisibleRoom visibleRoom) {
 		int chunkOffX = reference.getRoomX() * 2;
 		int chunkOffY = reference.getRoomY() * 2;
-		region.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
+		instance.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
 			for (Player player : party.getTeam()) {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
@@ -330,11 +330,11 @@ public class DungeonManager {
 	public void setDoor(RoomReference reference, int lockObjectId, int doorObjectId, int rotation) {
 		if (lockObjectId != -1) {
 			int[] xy = DungeonManager.translate(1, 7, rotation, 1, 2, 0);
-			World.spawnObject(new GameObject(lockObjectId, ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(reference.getBaseX() + xy[0]), region.getLocalY(reference.getBaseY() + xy[1]), 0));
+			World.spawnObject(new GameObject(lockObjectId, ObjectType.SCENERY_INTERACT, rotation, instance.getLocalX(reference.getBaseX() + xy[0]), instance.getLocalY(reference.getBaseY() + xy[1]), 0));
 		}
 		if (doorObjectId != -1) {
 			int[] xy = DungeonManager.translate(0, 7, rotation, 1, 2, 0);
-			World.spawnObject(new GameObject(doorObjectId, ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(reference.getBaseX() + xy[0]), region.getLocalY(reference.getBaseY() + xy[1]), 0));
+			World.spawnObject(new GameObject(doorObjectId, ObjectType.SCENERY_INTERACT, rotation, instance.getLocalX(reference.getBaseX() + xy[0]), instance.getLocalY(reference.getBaseY() + xy[1]), 0));
 		}
 	}
 
@@ -358,10 +358,10 @@ public class DungeonManager {
 				int y = b[1] + Utils.random(b[3]);
 				if (((x >= 6 && x <= 8) && b[2] != 0) || ((y >= 6 && y <= 8) && b[3] != 0))
 					continue;
-				if (!World.floorFree(0, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y)) || !World.floorAndWallsFree(0, region.getLocalX(chunkOffX, x - Utils.ROTATION_DIR_X[((rotation + 3) & 0x3)]), region.getLocalY(chunkOffY, y - Utils.ROTATION_DIR_Y[((rotation + 3) & 0x3)]), 1))
+				if (!World.floorFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)) || !World.floorAndWallsFree(0, instance.getLocalX(chunkOffX, x - Utils.ROTATION_DIR_X[((rotation + 3) & 0x3)]), instance.getLocalY(chunkOffY, y - Utils.ROTATION_DIR_Y[((rotation + 3) & 0x3)]), 1))
 					continue;
 				room.setThiefChest(Utils.random(10));
-				World.spawnObject(new GameObject(DungeonConstants.THIEF_CHEST_LOCKED[party.getFloorType()], ObjectType.SCENERY_INTERACT, ((rotation + 3) & 0x3), region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0));
+				World.spawnObject(new GameObject(DungeonConstants.THIEF_CHEST_LOCKED[party.getFloorType()], ObjectType.SCENERY_INTERACT, ((rotation + 3) & 0x3), instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
 				Logger.debug(DungeonManager.class, "setResources", "Added chest spot.");
 				break;
 			}
@@ -374,9 +374,9 @@ public class DungeonManager {
 				int y = b[1] + Utils.random(b[3]);
 				if (((x >= 6 && x <= 8) && b[2] != 0) || ((y >= 6 && y <= 8) && b[3] != 0))
 					continue;
-				if (!World.floorFree(0, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y)))
+				if (!World.floorFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)))
 					continue;
-				World.spawnObject(new GameObject(DungeonUtils.getFarmingResource(Utils.random(10), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0));
+				World.spawnObject(new GameObject(DungeonUtils.getFarmingResource(Utils.random(10), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
 				Logger.debug(DungeonManager.class, "setResources", "Added flower spot.");
 				break;
 			}
@@ -389,9 +389,9 @@ public class DungeonManager {
 				int y = b[1] + Utils.random(b[3]);
 				if (((x >= 6 && x <= 8) && b[2] != 0) || ((y >= 6 && y <= 8) && b[3] != 0))
 					continue;
-				if (!World.floorFree(0, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y)))
+				if (!World.floorFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)))
 					continue;
-				World.spawnObject(new GameObject(DungeonUtils.getMiningResource(Utils.random(DungeoneeringMining.DungeoneeringRocks.values().length), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0));
+				World.spawnObject(new GameObject(DungeonUtils.getMiningResource(Utils.random(DungeoneeringMining.DungeoneeringRocks.values().length), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
 				Logger.debug(DungeonManager.class, "setResources", "Added rock spot.");
 				break;
 			}
@@ -404,19 +404,19 @@ public class DungeonManager {
 				int y = b[1] + Utils.random(b[3]);
 				if (((x >= 6 && x <= 8) && b[2] != 0) || ((y >= 6 && y <= 8) && b[3] != 0))
 					continue;
-				if (!World.wallsFree(0, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y)) || !World.floorFree(0, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y)))
+				if (!World.wallsFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)) || !World.floorFree(0, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y)))
 					continue;
 				x -= Utils.ROTATION_DIR_X[rotation];
 				y -= Utils.ROTATION_DIR_Y[rotation];
 				Logger.debug(DungeonManager.class, "setResources", "Added tree spot");
-				World.spawnObject(new GameObject(DungeonUtils.getWoodcuttingResource(Utils.random(10), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0));
+				World.spawnObject(new GameObject(DungeonUtils.getWoodcuttingResource(Utils.random(10), party.getFloorType()), ObjectType.SCENERY_INTERACT, rotation, instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0));
 				break;
 			}
 		if (party.getComplexity() >= 2) { //sets fish spot
 			List<int[]> fishSpots = new ArrayList<>();
 			for (int x = 0; x < 16; x++)
 				for (int y = 0; y < 16; y++) {
-					GameObject o = World.getObjectWithType(Tile.of(region.getLocalX(chunkOffX, x), region.getLocalY(chunkOffY, y), 0), ObjectType.SCENERY_INTERACT);
+					GameObject o = World.getObjectWithType(Tile.of(instance.getLocalX(chunkOffX, x), instance.getLocalY(chunkOffY, y), 0), ObjectType.SCENERY_INTERACT);
 					if (o == null || o.getId() != DungeonConstants.FISH_SPOT_OBJECT_ID)
 						continue;
 					fishSpots.add(new int[]
@@ -424,7 +424,7 @@ public class DungeonManager {
 				}
 			if (!fishSpots.isEmpty()) {
 				int[] spot = fishSpots.get(Utils.random(fishSpots.size()));
-				spawnNPC(DungeonConstants.FISH_SPOT_NPC_ID, room.getRotation(), Tile.of(region.getLocalX(chunkOffX, spot[0]), region.getLocalY(chunkOffY, spot[1]), 0), reference, DungeonConstants.FISH_SPOT_NPC);
+				spawnNPC(DungeonConstants.FISH_SPOT_NPC_ID, room.getRotation(), Tile.of(instance.getLocalX(chunkOffX, spot[0]), instance.getLocalY(chunkOffY, spot[1]), 0), reference, DungeonConstants.FISH_SPOT_NPC);
 				Logger.debug(DungeonManager.class, "setResources", "Added fish spot");
 			}
 		}
@@ -435,11 +435,11 @@ public class DungeonManager {
 	}
 
 	public Tile getRoomBaseTile(RoomReference reference) {
-		return Tile.of((region.getBaseX() + reference.getBaseX()), (region.getBaseY() + reference.getBaseY()), 0);
+		return Tile.of((instance.getBaseX() + reference.getBaseX()), (instance.getBaseY() + reference.getBaseY()), 0);
 	}
 
 	public RoomReference getCurrentRoomReference(Tile tile) {
-		return new RoomReference((tile.getChunkX() - region.getBaseChunkX()) / 2, ((tile.getChunkY() - region.getBaseChunkY()) / 2));
+		return new RoomReference((tile.getChunkX() - instance.getBaseChunkX()) / 2, ((tile.getChunkY() - instance.getBaseChunkY()) / 2));
 	}
 
 	public Room getRoom(RoomReference reference) {
@@ -751,12 +751,12 @@ public class DungeonManager {
 		final int rotation = dungeon.getRoom(reference).getRotation();
 		final int size = NPCDefinitions.getDefs(id).size;
 		int[] coords = translate(x, y, rotation, size, size, 0);
-		Tile tile = region.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
+		Tile tile = instance.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
 		if (check && !World.floorAndWallsFree(tile, size)) {
 			List<Tile> tiles = DungeonUtils.getRandomOrderCoords(size);
 			for (Tile t : tiles) {
 				coords = translate(t.getX(), t.getY(), rotation, size, size, 0);
-				tile = region.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
+				tile = instance.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
 				if (World.floorAndWallsFree(tile, size))
 					return spawnNPC(id, rotation, tile, reference, type);
 			}
@@ -770,7 +770,7 @@ public class DungeonManager {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, rotation);
-		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 		World.spawnObject(object);
 		return object;
 	}
@@ -778,7 +778,7 @@ public class DungeonManager {
 	public GameObject spawnObjectForMapRotation(RoomReference reference, int id, ObjectType type, int rotation, int x, int y, int mapRotation) {
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, rotation);
-		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 		World.spawnObject(object);
 		return object;
 	}
@@ -787,7 +787,7 @@ public class DungeonManager {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, rotation);
-		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		GameObject object = new GameObject(id, type, (rotation + mapRotation) & 0x3, instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 		World.spawnObjectTemporary(object, ticks);
 		return object;
 	}
@@ -796,21 +796,21 @@ public class DungeonManager {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, rotation);
-		World.removeObject(new GameObject(id, type, (rotation + mapRotation) & 0x3, region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0));
+		World.removeObject(new GameObject(id, type, (rotation + mapRotation) & 0x3, instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0));
 	}
 
 	public GameObject getObject(RoomReference reference, int id, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, 0);
-		return World.getObjectWithId(Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0), id);
+		return World.getObjectWithId(Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0), id);
 	}
 
 	public GameObject getObjectWithType(RoomReference reference, int id, ObjectType type, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		ObjectDefinitions defs = ObjectDefinitions.getDefs(id);
 		int[] coords = translate(x, y, mapRotation, defs.sizeX, defs.sizeY, 0);
-		return World.getObjectWithType(Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0), type);
+		return World.getObjectWithType(Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0), type);
 	}
 
 	public GameObject getObjectWithType(RoomReference reference, ObjectType type, int x, int y) {
@@ -819,7 +819,7 @@ public class DungeonManager {
 			return null;
 		final int mapRotation = room.getRotation();
 		int[] coords = translate(x, y, mapRotation, 1, 1, 0);
-		return World.getObjectWithType(Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0), type);
+		return World.getObjectWithType(Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0), type);
 	}
 
 	public Tile getTile(RoomReference reference, int x, int y, int sizeX, int sizeY) {
@@ -828,7 +828,7 @@ public class DungeonManager {
 			return null;
 		final int mapRotation = room.getRotation();
 		int[] coords = translate(x, y, mapRotation, sizeX, sizeY, 0);
-		return Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		return Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 	}
 
 	public Tile getTile(RoomReference reference, int x, int y) {
@@ -838,25 +838,25 @@ public class DungeonManager {
 	public Tile getRotatedTile(RoomReference reference, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		int[] coords = translate(x, y, mapRotation, 1, 1, 0);
-		return Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		return Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 	}
 
 	public void spawnItem(RoomReference reference, Item item, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		int[] coords = translate(x, y, mapRotation, 1, 1, 0);
-		World.addGroundItem(item, Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0));
+		World.addGroundItem(item, Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0));
 	}
 
 	public boolean isFloorFree(RoomReference reference, int x, int y) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		int[] coords = translate(x, y, mapRotation, 1, 1, 0);
-		return World.floorFree(0, region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]));
+		return World.floorFree(0, instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]));
 	}
 
 	public Tile getRoomTile(RoomReference reference) {
 		final int mapRotation = dungeon.getRoom(reference).getRotation();
 		int[] coords = translate(0, 0, mapRotation, 1, 1, 0);
-		return Tile.of(region.getLocalX(reference.getBaseX() + coords[0]), region.getLocalY(reference.getBaseY() + coords[1]), 0);
+		return Tile.of(instance.getLocalX(reference.getBaseX() + coords[0]), instance.getLocalY(reference.getBaseY() + coords[1]), 0);
 	}
 
 	public DungeonNPC spawnNPC(int id, int rotation, Tile tile, RoomReference reference, int type) {
@@ -1045,7 +1045,7 @@ public class DungeonManager {
 				if (element2 != null)
 					element2.destroy();
 		dungeon = null;
-		region.destroy();
+		instance.destroy();
 	}
 
 	public void nextFloor() {
@@ -1490,8 +1490,8 @@ public class DungeonManager {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				region = new Instance(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
-				region.clearMap(new int[1], () -> {
+				instance = new Instance(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
+				instance.clearMap(new int[1], () -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());
 					stage = 1;

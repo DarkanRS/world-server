@@ -56,11 +56,8 @@ public final class InstanceBuilder {
 
 	public static InstancedChunk createInstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		Chunk chunk = World.getChunk(toChunkId);
-		if (chunk != null) {
-			if (chunk instanceof InstancedChunk dr)
-				return dr;
-			destroyChunk(toChunkId);
-		}
+		if (chunk != null)
+			chunk.destroy();
 		InstancedChunk newChunk = new InstancedChunk(fromChunkId, toChunkId, rotation);
 		World.putChunk(toChunkId, newChunk);
 		return newChunk;
