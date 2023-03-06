@@ -56,11 +56,13 @@ public final class WorldThread extends Thread {
 		WORLD_CYCLE++;
 		try {
 			long startTime = System.currentTimeMillis();
-			WorldTasks.processTasks();
-			OwnedObject.process();
 			long nsS = System.nanoTime();
 			World.processChunks();
 			Logger.trace(WorldThread.class, "tick", "processChunks() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
+			WorldTasks.processTasks();
+			Logger.trace(WorldThread.class, "tick", "processTasks() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			OwnedObject.process();
 			NAMES.clear();
 			nsS = System.nanoTime();
 			for (Player player : World.getPlayers()) {

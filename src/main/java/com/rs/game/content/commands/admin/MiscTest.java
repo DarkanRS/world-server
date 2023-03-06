@@ -531,6 +531,10 @@ public class MiscTest {
 			p.sendMessage("" + ClipFlag.getFlags(WorldCollision.getFlags(p.getTile())));
 		});
 
+		Commands.add(Rights.DEVELOPER, "wrath", "Get the tile flags for the tile you're standing on.", (p, args) -> {
+			p.wrath(null);
+		});
+
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
 			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.valueOf(args[0])));
 		});
@@ -664,6 +668,7 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY() + ", hash: " + p.getTileHash());
+			p.sendMessage("ChunkId: " + p.getChunkId());
 			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInRegion()+","+p.getYInRegion());
 			p.sendMessage("Local coords: " + p.getXInRegion() + " , " + p.getYInRegion());
 			p.sendMessage("16x16: " +(p.getXInScene(p.getSceneBaseChunkId()) % 16) +", "+(p.getYInScene(p.getSceneBaseChunkId()) % 16));

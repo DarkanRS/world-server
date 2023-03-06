@@ -2222,16 +2222,8 @@ public class Player extends Entity {
 
 	public void retribution(Entity source) {
 		setNextSpotAnim(new SpotAnim(437));
-		WorldTasks.schedule(() -> {
-			World.sendSpotAnim(Tile.of(getX() - 1, getY(), getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX() + 1, getY(), getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX(), getY() - 1, getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX(), getY() + 1, getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX() - 1, getY() - 1, getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX() - 1, getY() + 1, getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX() + 1, getY() - 1, getPlane()), new SpotAnim(438));
-			World.sendSpotAnim(Tile.of(getX() + 1, getY() + 1, getPlane()), new SpotAnim(438));
-		});
+		for (Direction dir : Direction.values())
+			World.sendSpotAnim(Tile.of(getX() - dir.getDx(), getY() - dir.getDy(), getPlane()), new SpotAnim(438, 20, 10, dir.getId()));
 		if (isAtMultiArea()) {
 			for (Player player : queryNearbyPlayersByTileRange(1, player -> !player.isDead() && player.isCanPvp() && player.withinDistance(getTile(), 1) || getControllerManager().canHit(player)))
 				player.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
@@ -2242,25 +2234,11 @@ public class Player extends Entity {
 	}
 
 	public void wrath(Entity source) {
-		World.sendProjectile(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 2260, 24, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX() + 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX() + 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX() - 2, getY(), getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX(), getY() + 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-		World.sendProjectile(this, Tile.of(getX(), getY() - 2, getPlane()), 2260, 41, 0, 41, 35, 30, 0,
-			proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
-
+		for (Direction dir : Direction.values())
+			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35, 15,
+				proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
-			setNextSpotAnim(new SpotAnim(2259));
 			if (isAtMultiArea()) {
 				for (Player player : queryNearbyPlayersByTileRange(1, player -> !player.isDead() && player.isCanPvp() && player.withinDistance(getTile(), 2) || getControllerManager().canHit(player)))
 					player.applyHit(new Hit(this, Utils.getRandomInclusive((skills.getLevelForXp(Constants.PRAYER) * 3)), HitLook.TRUE_DAMAGE));

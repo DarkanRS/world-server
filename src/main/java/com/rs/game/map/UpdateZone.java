@@ -43,8 +43,9 @@ public class UpdateZone {
             for (int chunkX = baseChunkX; chunkX < baseChunkX + (size.size / 8); chunkX++) {
                 for (int chunkY = baseChunkY; chunkY < baseChunkY + (size.size / 8); chunkY++) {
                     Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
-                    if (!chunk.getUpdates().isEmpty())
+                    if (!chunk.getUpdates().isEmpty()) {
                         chunkUpdates.add(new UpdateZonePartialEnclosed(baseChunkId, chunk.getId(), chunk.getUpdates()));
+                    }
                 }
             }
         }
