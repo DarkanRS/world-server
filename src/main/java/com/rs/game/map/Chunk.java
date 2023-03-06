@@ -173,6 +173,7 @@ public class Chunk {
     }
 
     public boolean addGroundItem(GroundItem item) {
+        World.markChunkActive(id);
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null) {
             tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
@@ -203,6 +204,7 @@ public class Chunk {
     }
 
     public boolean deleteGroundItem(GroundItem item) {
+        World.markChunkActive(id);
         int tileHash = item.getTile().getTileHash();
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null)
@@ -597,7 +599,7 @@ public class Chunk {
     public void process() {
         updates.clear();
         processGroundItems();
-        if (getAllGroundItems().isEmpty())
+        if (groundItems.isEmpty())
             World.markChunkInactive(id);
     }
 
