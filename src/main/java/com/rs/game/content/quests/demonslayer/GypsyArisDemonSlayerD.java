@@ -166,7 +166,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 					option("So how did Wally kill Delrith?", new Dialogue()
 							.addPlayer(HeadE.AMAZED_MILD, "So how did Wally kill Delrith?")
 							.addNext(() -> {
-								p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+								p.playCutscene(new DemonSlayer_WallyVSDelrithCutscene());
 							}));
 				}
 			}

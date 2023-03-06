@@ -15,7 +15,7 @@ public class DemonSlayer_WallyVSDelrithCutscene extends Cutscene {
 		music(-1);
 		fadeIn(0);
 		hideMinimap();
-		delay(5);
+		delay(4);
 		dynamicRegion(401, 419, 4, 4);
 		action(()->{player.getAppearance().transformIntoNPC(266);});
 		playerMove(19, 17, 0, Entity.MoveType.TELE);
@@ -59,7 +59,7 @@ public class DemonSlayer_WallyVSDelrithCutscene extends Cutscene {
 						"summoned, Wally was able to imprison Delrith in the stone block in the centre of the circle.")
 				, true);
 		fadeIn(0);
-		delay(5);
+		delay(4);
 		action(()->{player.getAppearance().transformIntoNPC(-1);});
 		action(()->{player.setNextTile(getEndTile());});
 		camShakeReset();
