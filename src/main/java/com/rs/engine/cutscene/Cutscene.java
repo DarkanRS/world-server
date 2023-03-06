@@ -164,9 +164,13 @@ public abstract class Cutscene {
 	}
 
 	public void hideMinimap() {
-		this.hideMap = true;
+		hideMinimap(true);
 	}
-	
+
+	public void hideMinimap(boolean hide) {
+		this.hideMap = hide;
+	}
+
 	public void setEndTile(Tile tile) {
 		this.endTile = tile;
 	}
@@ -264,6 +268,10 @@ public abstract class Cutscene {
 	public void fadeOut(int delay) {
 		action(delay, () -> player.getInterfaceManager().fadeOut());
 	}
+
+	public void fadeOutQuickly(int delay) {
+		action(delay, () -> player.getInterfaceManager().removeInterface(115));
+	}
 	
 	public void fadeInBG(int delay) {
 		action(delay, () -> player.getInterfaceManager().fadeInBG());
@@ -302,6 +310,14 @@ public abstract class Cutscene {
 	public void npcCreate(String key, int npcId, int x, int y, int z) {
 		npcCreate(key, npcId, x, y, z, -1);
 	}
+
+	public void npcCreate(String key, int npcId, Tile tile) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), -1);
+	}
+
+	public void npcCreate(String key, int npcId, Tile tile, int delay) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), delay);
+	}
 	
 	public void npcDestroy(String key, int delay) {
 		actions.add(new DestroyCachedObjectAction(key, delay));
@@ -318,7 +334,15 @@ public abstract class Cutscene {
 	public void npcFaceTile(String key, int x, int y) {
 		npcFaceTile(key, x, y, -1);
 	}
-	
+
+	public void npcFaceTile(String key, Tile tile) {
+		npcFaceTile(key, tile, -1);
+	}
+
+	public void npcFaceTile(String key, Tile tile, int delay) {
+		actions.add(new NPCFaceTileAction(key, tile.getX(), tile.getY(), delay));
+	}
+
 	public void npcSpotAnim(String key, SpotAnim anim, int delay) {
 		actions.add(new NPCGraphicAction(key, anim, delay));
 	}
@@ -364,7 +388,15 @@ public abstract class Cutscene {
 	public void npcMove(String key, int x, int y, MoveType type) {
 		npcMove(key, x, y, player.getPlane(), type, -1);
 	}
-	
+
+	public void npcMove(String key, Tile tile, MoveType type) {
+		npcMove(key, tile.getX(), tile.getY(), player.getPlane(), type, -1);
+	}
+
+	public void npcMove(String key, Tile tile, MoveType type, int delay) {
+		npcMove(key, tile.getX(), tile.getY(), player.getPlane(), type, delay);
+	}
+
 	public void playerMove(int x, int y, int z, MoveType type, int delay) {
 		actions.add(new MovePlayerAction(x, y, z, type, delay));
 	}
@@ -380,7 +412,15 @@ public abstract class Cutscene {
 	public void playerMove(int x, int y, MoveType type) {
 		playerMove(x, y, player.getPlane(), type, -1);
 	}
-	
+
+	public void playerMove(Tile tile, MoveType type) {
+		playerMove(tile.getX(), tile.getY(), tile.getPlane(), type, -1);
+	}
+
+	public void playerMove(Tile tile, MoveType type, int delay) {
+		playerMove(tile.getX(), tile.getY(), tile.getPlane(), type, delay);
+	}
+
 	public void playerFaceTile(int x, int y, int delay) {
 		actions.add(new PlayerFaceTileAction(x, y, delay));
 	}
@@ -388,7 +428,7 @@ public abstract class Cutscene {
 	public void playerFaceTile(int x, int y) {
 		playerFaceTile(x, y, -1);
 	}
-	
+
 	public void playerAnim(Animation anim, int delay) {
 		actions.add(new PlayerAnimationAction(anim, delay));
 	}
@@ -456,7 +496,7 @@ public abstract class Cutscene {
 	public void npcFaceNPC(String key, String targetKey, int delay) {
 		action(delay, () -> getNPC(key).setNextFaceEntity(getNPC(targetKey)));
 	}
-	
+
 	public void npcFaceNPC(String key, String targetKey) {
 		npcFaceNPC(key, targetKey, -1);
 	}
