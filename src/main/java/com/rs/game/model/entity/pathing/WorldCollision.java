@@ -45,7 +45,6 @@ public class WorldCollision {
             for (WorldObject object : region.getObjects())
                 World.getChunk(object.getTile().getChunkId()).addBaseObject(new GameObject(object));
         }
-        System.gc();
     }
 
     public static void createChunk(int chunkX, int chunkY, int plane, int[] flags) {
