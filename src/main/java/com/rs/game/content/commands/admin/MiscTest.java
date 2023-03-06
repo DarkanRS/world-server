@@ -531,10 +531,6 @@ public class MiscTest {
 			p.sendMessage("" + ClipFlag.getFlags(WorldCollision.getFlags(p.getTile())));
 		});
 
-		Commands.add(Rights.DEVELOPER, "wrath", "Get the tile flags for the tile you're standing on.", (p, args) -> {
-			p.wrath(null);
-		});
-
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
 			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.valueOf(args[0])));
 		});
