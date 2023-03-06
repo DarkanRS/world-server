@@ -34,7 +34,7 @@ public final class TaskExecutor {
 	private static ScheduledExecutorService LOW_PRIORITY_EXECUTOR;
 	private static List<Future<?>> PENDING_FUTURES = new ArrayList<>();
 
-	public static void startThreads() {
+	public static void initExecutors() {
 		Logger.info(TaskExecutor.class, "startThreads", "Initializing world threads...");
 		LOW_PRIORITY_EXECUTOR = Executors.newSingleThreadScheduledExecutor(Thread.ofVirtual().factory());
 		WORLD_EXECUTOR = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());

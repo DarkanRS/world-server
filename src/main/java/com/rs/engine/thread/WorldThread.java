@@ -32,7 +32,6 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.web.Telemetry;
 
-@PluginEventHandler
 public final class WorldThread extends Thread {
 
 	public static volatile long WORLD_CYCLE;
@@ -43,7 +42,6 @@ public final class WorldThread extends Thread {
 		setUncaughtExceptionHandler((th, ex) -> Logger.handle(WorldThread.class, "uncaughtExceptionHandler", ex));
 	}
 
-	@ServerStartupEvent(Priority.SYSTEM)
 	public static void init() {
 		WORLD_CYCLE = System.currentTimeMillis() / 600L;
 		TaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);

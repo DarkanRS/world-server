@@ -22,8 +22,6 @@ import java.util.Set;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
-import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -93,19 +91,17 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static int[] findEmptyRegionBound(int widthChunks, int heightChunks) {
-		int regionHash = findEmptyRegionHash(widthChunks, heightChunks);
-		return new int[] { (regionHash >> 8), regionHash & 0xff };
+	private static int[] findEmptyChunkBounds(int widthChunks, int heightChunks) {
+		int chunkId = findEmptyBaseChunkId(widthChunks, heightChunks);
+		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
+		return new int[] { xyz[0], xyz[1] };
 	}
 
 	private static int[] findEmptyChunkBound(int widthChunks, int heightChunks) {
-		int[] map = findEmptyRegionBound(widthChunks, heightChunks);
-		map[0] *= 8;
-		map[1] *= 8;
-		return map;
+		return findEmptyChunkBounds(widthChunks, heightChunks);
 	}
 
-	private static int findEmptyRegionHash(int widthChunks, int heightChunks) {
+	private static int findEmptyBaseChunkId(int widthChunks, int heightChunks) {
 		for (int chunkX = 8; chunkX <= MAX_REGION_X - widthChunks; chunkX++) {
 			skip: for (int chunkY = 8; chunkY <= MAX_REGION_Y - heightChunks; chunkY++) {
 				int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);

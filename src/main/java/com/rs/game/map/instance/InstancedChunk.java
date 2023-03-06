@@ -82,7 +82,7 @@ public class InstancedChunk extends Chunk {
 			if (npcSpawns != null) {
 				for (NPCSpawn npcSpawn : npcSpawns) {
 					int[] coords = InstancedChunk.transform(npcSpawn.getTile().getXInChunk(), npcSpawn.getTile().getYInChunk(), rotation, npcSpawn.getDefs().size, npcSpawn.getDefs().size, 0);
-					npcSpawn.spawnAtCoords(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()), Direction.rotateClockwise(npcSpawn.getDir(), rotation*2));
+					npcSpawn.spawnAtCoords(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()), npcSpawn.getDir() == null ? null : Direction.rotateClockwise(npcSpawn.getDir(), rotation*2));
 				}
 			}
 		}

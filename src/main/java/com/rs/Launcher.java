@@ -31,6 +31,7 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.db.WorldDB;
+import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -61,32 +62,31 @@ public final class Launcher {
 		Logger.setupFormat();
 		Logger.setLevel(Level.FINE); //FINER for traces
 		JsonFileManager.setGSON(new GsonBuilder()
-				.registerTypeAdapter(Controller.class, new ControllerAdapter())
-				.registerTypeAdapter(Date.class, new DateAdapter())
-				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
-				.registerTypeAdapter(Packet.class, new PacketAdapter())
-				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
-				.disableHtmlEscaping()
-				.setPrettyPrinting()
-				.create());
-		
+			.registerTypeAdapter(Controller.class, new ControllerAdapter())
+			.registerTypeAdapter(Date.class, new DateAdapter())
+			.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+			.registerTypeAdapter(Packet.class, new PacketAdapter())
+			.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+			.disableHtmlEscaping()
+			.setPrettyPrinting()
+			.create());
+
 		Settings.loadConfig();
 		if (!Settings.getConfig().isDebug())
 			Logger.setLevel(Level.WARNING);
-		
+
 		long currentTime = System.currentTimeMillis();
 
 		Cache.init(Settings.getConfig().getCachePath());
 
 		MapXTEAs.loadKeys();
 
-		TaskExecutor.startThreads();
-
 		DB = new WorldDB();
 		DB.init();
 
 		GameDecoder.loadPacketDecoders();
 
+		TaskExecutor.initExecutors();
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
 
@@ -98,6 +98,7 @@ public final class Launcher {
 			System.exit(1);
 			return;
 		}
+		WorldThread.init();
 		Logger.info(Launcher.class, "main", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
 		Logger.info(Launcher.class, "main", "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().port() + "...");
 		Logger.info(Launcher.class, "main", "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
