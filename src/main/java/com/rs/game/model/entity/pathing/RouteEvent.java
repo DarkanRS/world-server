@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.utils.WorldUtil;
 
@@ -48,6 +48,7 @@ public class RouteEvent {
 			player = p;
 		if (!simpleCheck(entity)) {
 			if (player != null) {
+				System.out.println("Dicks1");
 				player.sendMessage("You can't reach that.");
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
@@ -70,6 +71,7 @@ public class RouteEvent {
 				}
 			}
 			if (player != null) {
+				System.out.println("Dicks2");
 				player.sendMessage("You can't reach that.");
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
@@ -88,7 +90,7 @@ public class RouteEvent {
 				event.run();
 				return true;
 			}
-			WorldTile last = WorldTile.of(route.getBufferX()[0], route.getBufferY()[0], entity.getPlane());
+			Tile last = Tile.of(route.getBufferX()[0], route.getBufferY()[0], entity.getPlane());
 			entity.resetWalkSteps();
 			if (player != null)
 				player.getSession().writeToQueue(new MinimapFlag(last.getXInScene(entity.getSceneBaseChunkId()), last.getYInScene(entity.getSceneBaseChunkId())));
@@ -100,6 +102,7 @@ public class RouteEvent {
 			return false;
 		}
 		if (player != null) {
+			System.out.println("Dicks3");
 			player.sendMessage("You can't reach that.");
 			player.getSession().writeToQueue(new MinimapFlag());
 		}
@@ -113,7 +116,7 @@ public class RouteEvent {
 			return entity.getPlane() == e.getPlane();
 		else if (object instanceof GroundItem e)
 			return entity.getPlane() == e.getTile().getPlane();
-		else if (object instanceof WorldTile e)
+		else if (object instanceof Tile e)
 			return entity.getPlane() == e.getPlane();
 		else
 			throw new RuntimeException(object + " is not instanceof any reachable entity.");
@@ -124,7 +127,7 @@ public class RouteEvent {
 			return new RouteStrategy[] { new EntityStrategy(e) };
 		if (object instanceof GameObject go)
 			return new RouteStrategy[] { new ObjectStrategy(go) };
-		if (object instanceof WorldTile wt)
+		if (object instanceof Tile wt)
 			return new RouteStrategy[] { new FixedTileStrategy(wt.getX(), wt.getY()), new FloorItemStrategy(wt, true)};
 		else if (object instanceof GroundItem gi)
 			return new RouteStrategy[] { new FixedTileStrategy(gi.getTile().getX(), gi.getTile().getY()), new FloorItemStrategy(gi) };

@@ -1,8 +1,8 @@
 package com.rs.game.content.world
 
-import com.rs.game.World
 import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
+import com.rs.game.World
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.player.Player
 import com.rs.plugin.annotations.PluginEventHandler
@@ -79,12 +79,12 @@ class Musician {
 
         @JvmStatic
         fun isNearby(p: Player): Boolean {
-            val nearbyNPCs = World.getNPCsInRegion(p.regionId)
+            val nearbyNPCs = World.getNPCsInChunkRange(p.chunkId, 1)
             for (nearbyNPC in nearbyNPCs) {
                 if (nearbyNPC == null)
                     continue
                 for (musicianId in MUSICIANS)
-                    if (nearbyNPC.id == musicianId && p.withinDistance(nearbyNPC.middleWorldTile, 2))
+                    if (nearbyNPC.id == musicianId && p.withinDistance(nearbyNPC.middleTile, 2))
                         return true
             }
             return false

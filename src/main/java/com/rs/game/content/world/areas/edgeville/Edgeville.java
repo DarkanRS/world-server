@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -56,19 +56,19 @@ public class Edgeville  {
     });
 
 	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3082, 4229, 0), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3082, 4229, 0), 0, 1);
 	});
 
 	public static ObjectClickHandler handleJailExit = new ObjectClickHandler(new Object[] { 29602 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3074, 3456, 0), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3074, 3456, 0), 0, 1);
 	});
 
 	public static ObjectClickHandler handlePosterEntrance = new ObjectClickHandler(new Object[] { 29735 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3140, 4230, 2), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3140, 4230, 2), 0, 1);
 	});
 
 	public static ObjectClickHandler handlePosterExit = new ObjectClickHandler(new Object[] { 29623 }, e -> {
-		e.getPlayer().useStairs(-1, WorldTile.of(3077, 4235, 0), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(3077, 4235, 0), 0, 1);
 	});
 
 	public static ObjectClickHandler handleJailDoors = new ObjectClickHandler(new Object[] { 29624 }, e -> {
@@ -85,7 +85,7 @@ public class Edgeville  {
 
 	public static ObjectClickHandler handleEdgevilleMonkeybars = new ObjectClickHandler(new Object[] { 29375 }, e -> {
 		final boolean isNorth = e.getPlayer().getY() > 9964;
-		final WorldTile tile = WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
+		final Tile tile = Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
 		e.getPlayer().lock();
 		e.getPlayer().setNextAnimation(new Animation(745));
 		e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, tile, 5, isNorth ? Direction.SOUTH : Direction.NORTH));
@@ -98,7 +98,7 @@ public class Edgeville  {
 				if (ticks > 1)
 					e.getPlayer().setNextAnimation(new Animation(744));
 				if (ticks == 5) {
-					e.getPlayer().setNextWorldTile(tile);
+					e.getPlayer().setNextTile(tile);
 					e.getPlayer().unlock();
 					stop();
 					return;
@@ -110,7 +110,7 @@ public class Edgeville  {
 	public static ObjectClickHandler handleMonastaryLadders = new ObjectClickHandler(new Object[] { 2641 }, e -> {
 		Player p = e.getPlayer();
 		if(p.getSkills().getLevel(Constants.PRAYER) >= 31)
-			p.useLadder(WorldTile.of(p.getX(), p.getY(), p.getPlane()+1));
+			p.useLadder(Tile.of(p.getX(), p.getY(), p.getPlane()+1));
 		else
 			p.startConversation(new Conversation(p) {
 				int NPC = 801;

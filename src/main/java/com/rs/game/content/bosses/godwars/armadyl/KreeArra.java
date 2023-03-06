@@ -21,7 +21,7 @@ import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -30,7 +30,7 @@ public class KreeArra extends NPC {
 
 	private GodWarMinion[] minions = new GodWarMinion[3];
 
-	public KreeArra(int id, WorldTile tile, boolean spawned) {
+	public KreeArra(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIntelligentRouteFinder(true);
 		setIgnoreDocile(true);

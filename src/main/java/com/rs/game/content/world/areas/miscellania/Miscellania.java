@@ -21,7 +21,7 @@ import com.rs.game.content.achievements.SetReward;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -44,11 +44,11 @@ public class Miscellania {
 	});
 
 	public static ObjectClickHandler handleUndergroundEntrance = new ObjectClickHandler(new Object[] { 15115, 15116 }, e -> {
-		e.getPlayer().ladder(e.getObjectId() == 15115 ? WorldTile.of(2509, 3847, 0) : WorldTile.of(2509, 10245, 0));
+		e.getPlayer().ladder(e.getObjectId() == 15115 ? Tile.of(2509, 3847, 0) : Tile.of(2509, 10245, 0));
 	});
 
 	public static ObjectClickHandler handleUndergroundCrevices = new ObjectClickHandler(new Object[] { 15186, 15187 }, e -> {
-		e.getPlayer().setNextWorldTile(e.getObjectId() == 15186 ? WorldTile.of(2505, 10283, 0) : WorldTile.of(2505, 10280, 0));
+		e.getPlayer().setNextTile(e.getObjectId() == 15186 ? Tile.of(2505, 10283, 0) : Tile.of(2505, 10280, 0));
 	});
 
 	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { 46274, 46275, 46277, 15062 }, e -> {

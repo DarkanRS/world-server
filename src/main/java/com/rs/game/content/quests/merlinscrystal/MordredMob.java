@@ -9,14 +9,14 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class MordredMob extends NPC {
 	final static int MORGAN = 248;
-	public MordredMob(int id, WorldTile tile) {
+	public MordredMob(int id, Tile tile) {
 		super(id, tile, false);
 	}
 
@@ -24,10 +24,10 @@ public class MordredMob extends NPC {
 	public void sendDeath(Entity source) {
 		if(source instanceof Player p) {
 			if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == MerlinsCrystal.CONFRONT_KEEP_LA_FAYE) {
-				for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+				for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 					if(npc.getId() == MORGAN)
 						return;
-                OwnedNPC morgan = new OwnedNPC(p, MORGAN, WorldTile.of(2769, 3403, 2), true);
+                OwnedNPC morgan = new OwnedNPC(p, MORGAN, Tile.of(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();
@@ -55,7 +55,7 @@ public class MordredMob extends NPC {
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 			if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
                 if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
 				    return false;
@@ -64,7 +64,7 @@ public class MordredMob extends NPC {
 
 	@Override
 	public boolean canAggroPlayer(Player player) {
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
             if(npc.getId() == MORGAN && npc instanceof OwnedNPC morgan)
                 if(player.getUsername().equalsIgnoreCase(morgan.getOwner().getUsername()))
                     return false;

@@ -30,7 +30,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -42,7 +42,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class PortSarim {
 
-	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3053, 3255, 0), WorldTile.of(3053, 3254, 0), WorldTile.of(3053, 3259, 0), WorldTile.of(3053, 3260, 0) }, e -> {
+	public static PlayerStepHandler musicRustyAnchorInn = new PlayerStepHandler(new Tile[] { Tile.of(3053, 3255, 0), Tile.of(3053, 3254, 0), Tile.of(3053, 3259, 0), Tile.of(3053, 3260, 0) }, e -> {
 		if(e.getTile().getY() == 3255 && e.getStep().getDir() == Direction.NORTH) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(719, true);
 			return;
@@ -146,44 +146,44 @@ public class PortSarim {
 	});
 
 	public static ObjectClickHandler handleEnterIceDungeon = new ObjectClickHandler(new Object[]{9472}, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3007, 9550, 0));
+		e.getPlayer().setNextTile(Tile.of(3007, 9550, 0));
 	});
 
-	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, new WorldTile[] { WorldTile.of(3008, 9550, 0) }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3008, 3149, 0));
+	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, new Tile[] { Tile.of(3008, 9550, 0) }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3008, 3149, 0));
 	});
 
 	public static ObjectClickHandler handleEnterWyvern = new ObjectClickHandler(new Object[]{33173}, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3056, 9555, 0));
+		e.getPlayer().setNextTile(Tile.of(3056, 9555, 0));
 	});
 
 	public static ObjectClickHandler handleExitWyvern = new ObjectClickHandler(new Object[]{33174}, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3056, 9562, 0));
+		e.getPlayer().setNextTile(Tile.of(3056, 9562, 0));
 	});
 
 	public static ObjectClickHandler handleEnterLadyLumbridgeBoat = new ObjectClickHandler(new Object[]{2594, 2593}, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (p.getY() > obj.getY())
-			e.getPlayer().setNextWorldTile(WorldTile.of(3047, 3204, 0));
+			e.getPlayer().setNextTile(Tile.of(3047, 3204, 0));
 		if (p.getY() < obj.getY())
-			e.getPlayer().setNextWorldTile(WorldTile.of(3047, 3207, 1));
+			e.getPlayer().setNextTile(Tile.of(3047, 3207, 1));
 	});
 
 	public static ObjectClickHandler handleEnterLadyLumbridgeBoatUpperLadder = new ObjectClickHandler(new Object[]{2590}, e -> {
-		e.getPlayer().useStairs(828, WorldTile.of(e.getObject().getX() - 1, e.getObject().getY(), e.getObject().getPlane() - 1), 1, 2);
+		e.getPlayer().useStairs(828, Tile.of(e.getObject().getX() - 1, e.getObject().getY(), e.getObject().getPlane() - 1), 1, 2);
 	});
 
 	public static ObjectClickHandler handleLowerBoatLadder = new ObjectClickHandler(new Object[]{272}, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (obj.getRotation() == 0)
-			p.useStairs(828, WorldTile.of(obj.getX(), obj.getY() - 1, obj.getPlane() + 1), 1, 2);
+			p.useStairs(828, Tile.of(obj.getX(), obj.getY() - 1, obj.getPlane() + 1), 1, 2);
 		if (obj.getRotation() == 1)
-			p.useStairs(828, WorldTile.of(obj.getX() - 1, obj.getY(), obj.getPlane() + 1), 1, 2);
+			p.useStairs(828, Tile.of(obj.getX() - 1, obj.getY(), obj.getPlane() + 1), 1, 2);
 		if (obj.getRotation() == 2)
-			p.useStairs(828, WorldTile.of(obj.getX(), obj.getY() + 1, obj.getPlane() + 1), 1, 2);
+			p.useStairs(828, Tile.of(obj.getX(), obj.getY() + 1, obj.getPlane() + 1), 1, 2);
 		if (obj.getRotation() == 3)
-			p.useStairs(828, WorldTile.of(obj.getX() + 1, obj.getY(), obj.getPlane() + 1), 1, 2);
+			p.useStairs(828, Tile.of(obj.getX() + 1, obj.getY(), obj.getPlane() + 1), 1, 2);
 	});
 }

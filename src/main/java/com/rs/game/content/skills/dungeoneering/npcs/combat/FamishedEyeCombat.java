@@ -30,7 +30,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class FamishedEyeCombat extends CombatScript {
@@ -54,8 +54,8 @@ public class FamishedEyeCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(14916));
 		WorldTasks.schedule(new WorldTask() {
 
-			private List<WorldTile> tiles;
-			private WorldTile targetTile;
+			private List<Tile> tiles;
+			private Tile targetTile;
 
 			int cycles;
 
@@ -64,20 +64,20 @@ public class FamishedEyeCombat extends CombatScript {
 				cycles++;
 				if (cycles == 1) {
 					tiles = new LinkedList<>();
-					targetTile = WorldTile.of(target.getTile());
+					targetTile = Tile.of(target.getTile());
 					World.sendProjectile(eye, targetTile, 2849, 35, 30, 41, 0, 15, 0);
 				} else if (cycles == 2)
 					for (int x = -1; x < 2; x++)
 						for (int y = -1; y < 2; y++) {
-							WorldTile attackedTile = targetTile.transform(x, y, 0);
+							Tile attackedTile = targetTile.transform(x, y, 0);
 							if (x != y)
 								World.sendProjectile(targetTile, attackedTile, 2851, 35, 0, 26, 40, 16, 0);
 							tiles.add(attackedTile);
 						}
 				else if (cycles == 3) {
-					for (WorldTile tile : tiles) {
+					for (Tile tile : tiles) {
 						if (!tile.matches(targetTile))
-							World.sendSpotAnim(eye, new SpotAnim(2852, 35, 5), tile);
+							World.sendSpotAnim(tile, new SpotAnim(2852, 35, 5));
 						for (Entity t : eye.getPossibleTargets())
 							if (t.matches(tile))
 								t.applyHit(new Hit(eye, (int) Utils.random(eye.getMaxHit() * .25, eye.getMaxHit()), HitLook.TRUE_DAMAGE));

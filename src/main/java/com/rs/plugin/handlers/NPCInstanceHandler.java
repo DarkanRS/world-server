@@ -19,24 +19,24 @@ package com.rs.plugin.handlers;
 import java.util.function.BiFunction;
 
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.events.NPCInstanceEvent;
 
 public class NPCInstanceHandler extends PluginHandler<NPCInstanceEvent> {
 	
-	private BiFunction<Integer, WorldTile, NPC> instantiator;
+	private BiFunction<Integer, Tile, NPC> instantiator;
 
-	public NPCInstanceHandler(Object[] keys, BiFunction<Integer, WorldTile, NPC> instantiator) {
+	public NPCInstanceHandler(Object[] keys, BiFunction<Integer, Tile, NPC> instantiator) {
 		super(keys, null);
 		this.instantiator = instantiator;
 	}
 	
-	public NPCInstanceHandler(int id, BiFunction<Integer, WorldTile, NPC> instantiator) {
+	public NPCInstanceHandler(int id, BiFunction<Integer, Tile, NPC> instantiator) {
 		super(new Object[] { id }, null);
 		this.instantiator = instantiator;
 	}
 	
-	public NPCInstanceHandler(String name, BiFunction<Integer, WorldTile, NPC> instantiator) {
+	public NPCInstanceHandler(String name, BiFunction<Integer, Tile, NPC> instantiator) {
 		super(new Object[] { name }, null);
 		this.instantiator = instantiator;
 	}

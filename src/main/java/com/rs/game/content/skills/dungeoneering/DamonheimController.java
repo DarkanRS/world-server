@@ -21,7 +21,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -36,7 +36,7 @@ public class DamonheimController extends Controller {
 		e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, Direction.NORTH));
 		e.getPlayer().getPackets().sendVarc(234, 0);// Party Config Interface
 		e.getPlayer().getControllerManager().startController(new DamonheimController());
-		e.getPlayer().useStairs(13760, WorldTile.of(3454, 3725, 0), 2, 3);
+		e.getPlayer().useStairs(13760, Tile.of(3454, 3725, 0), 2, 3);
 	});
 	
 	@Override
@@ -46,7 +46,7 @@ public class DamonheimController extends Controller {
 
 	@Override
 	public boolean canPlayerOption1(Player target) {
-		player.setNextFaceWorldTile(target.getTile());
+		player.setNextFaceTile(target.getTile());
 		player.getDungManager().invite(target.getDisplayName());
 		return false;
 	}
@@ -115,7 +115,7 @@ public class DamonheimController extends Controller {
 			setInviteOption(true);
 	}
 
-	public static boolean isAtKalaboss(WorldTile tile) {
+	public static boolean isAtKalaboss(Tile tile) {
 		return tile.getX() >= 3385 && tile.getX() <= 3513 && tile.getY() >= 3605 && tile.getY() <= 3794;
 	}
 

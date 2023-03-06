@@ -29,7 +29,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class Dreadnaut extends DungeonBoss {
@@ -39,7 +39,7 @@ public class Dreadnaut extends DungeonBoss {
 	private int ticks;
 	private boolean reduceMagicLevel;
 
-	public Dreadnaut(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Dreadnaut(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12848, 12862), manager.getBossLevel()), tile, manager, reference);
 		setForceFollowClose(true);
 		setRun(true);
@@ -98,7 +98,7 @@ public class Dreadnaut extends DungeonBoss {
 		this.reduceMagicLevel = reduceMagicLevel;
 	}
 
-	public void addSpot(WorldTile tile) {
+	public void addSpot(Tile tile) {
 		GassPuddle puddle = new GassPuddle(this, tile);
 		puddle.refreshGraphics();
 		puddles.add(puddle);
@@ -106,16 +106,16 @@ public class Dreadnaut extends DungeonBoss {
 
 	private static class GassPuddle {
 		final Dreadnaut boss;
-		final WorldTile tile;
+		final Tile tile;
 		int cycles;
 
-		public GassPuddle(Dreadnaut boss, WorldTile tile) {
+		public GassPuddle(Dreadnaut boss, Tile tile) {
 			this.tile = tile;
 			this.boss = boss;
 		}
 
 		public void refreshGraphics() {
-			World.sendSpotAnim(boss, new SpotAnim(2859, 0, 10), tile);
+			World.sendSpotAnim(tile, new SpotAnim(2859, 0, 10));
 		}
 
 		public boolean canDestroyPuddle() {

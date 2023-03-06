@@ -18,14 +18,14 @@ package com.rs.game.content.minigames.castlewars;
 
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class CastleWarBarricade extends NPC {
 
 	private int team;
 
-	public CastleWarBarricade(int team, WorldTile tile) {
+	public CastleWarBarricade(int team, Tile tile) {
 		super(1532, tile, true);
 		setCantFollowUnderCombat(true);
 		this.team = team;

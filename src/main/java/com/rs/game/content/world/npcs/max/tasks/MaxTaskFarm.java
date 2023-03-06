@@ -7,7 +7,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MaxTaskFarm implements Task {
 	
@@ -17,7 +17,7 @@ public class MaxTaskFarm implements Task {
 	
 	@Override
 	public int tick(Max max) {
-		patch = World.getObject(WorldTile.of(3228, 3458, 0), ObjectType.SCENERY_INTERACT);
+		patch = World.getObject(Tile.of(3228, 3458, 0), ObjectType.SCENERY_INTERACT);
 		if (patch == null)
 			return 0;
 		if (!started) {
@@ -25,7 +25,7 @@ public class MaxTaskFarm implements Task {
 			started = true;
 		}
 		if (!max.withinDistance(patch.getTile(), 80)) {
-			Magic.npcNormalTeleport(max, WorldTile.of(3213, 3423, 0), true, null);
+			Magic.npcNormalTeleport(max, Tile.of(3213, 3423, 0), true, null);
 			return 10;
 		}
 		if (!reached) {

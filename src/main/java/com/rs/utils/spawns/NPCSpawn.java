@@ -16,34 +16,41 @@
 //
 package com.rs.utils.spawns;
 
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class NPCSpawn {
 
 	private String comment;
 	private int npcId;
-	private WorldTile tile;
+	private Tile tile;
 	private Direction dir;
 	private String customName;
 
-	public NPCSpawn(int npcId, WorldTile tile, Direction dir, String comment) {
+	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment) {
 		this.npcId = npcId;
 		this.tile = tile;
 		this.dir = dir;
 		this.comment = comment;
 	}
 
-	public NPCSpawn(int npcId, WorldTile tile, String comment) {
+	public NPCSpawn(int npcId, Tile tile, String comment) {
 		this(npcId, tile, null, comment);
 	}
 
-	public void spawn() {
-		World.spawnNPC(npcId, tile, dir, false, true, customName);
+	public NPC spawn() {
+		return World.spawnNPC(npcId, tile, dir, false, true, customName);
 	}
 
-	public WorldTile getTile() {
+	public NPC spawnAtCoords(Tile tile, Direction dir) {
+		return World.spawnNPC(npcId, tile, dir, false, true, customName);
+	}
+
+	public Tile getTile() {
 		return tile;
 	}
 
@@ -66,5 +73,9 @@ public class NPCSpawn {
 
 	public String getCustomName() {
 		return customName;
+	}
+
+	public NPCDefinitions getDefs() {
+		return NPCDefinitions.getDefs(npcId);
 	}
 }

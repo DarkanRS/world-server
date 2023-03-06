@@ -22,7 +22,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
@@ -51,7 +51,7 @@ public class Cremation {
 	});
 
 	public static ObjectClickHandler handleColumbariumStairs = new ObjectClickHandler(new Object[] { 30621, 30534 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 30621 ? WorldTile.of(3422, 9965, 0) : WorldTile.of(3425, 9899, 0));
+		e.getPlayer().useStairs(e.getObjectId() == 30621 ? Tile.of(3422, 9965, 0) : Tile.of(3425, 9899, 0));
 	});
 
 	public static ItemOnObjectHandler handlePyreLogSetup = new ItemOnObjectHandler(new Object[] { 4093, 30467 }, e -> {

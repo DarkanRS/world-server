@@ -19,7 +19,7 @@ package com.rs.game.content.minigames.castlewars;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 
 public class CastleWarsWaitingController extends Controller {
@@ -75,24 +75,24 @@ public class CastleWarsWaitingController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.setTile(WorldTile.of(CastleWars.LOBBY, 2));
+		player.setTile(Tile.of(CastleWars.LOBBY, 2));
 		return true;
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
 
 	@Override
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}

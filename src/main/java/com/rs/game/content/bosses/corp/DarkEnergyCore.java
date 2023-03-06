@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -34,7 +34,7 @@ public class DarkEnergyCore extends NPC {
 	private Entity target;
 
 	public DarkEnergyCore(CorporealBeast beast) {
-		super(8127, WorldTile.of(beast.getTile()), true);
+		super(8127, Tile.of(beast.getTile()), true);
 		setForceMultiArea(true);
 		setIgnoreDocile(true);
 		this.beast = beast;
@@ -62,7 +62,7 @@ public class DarkEnergyCore extends NPC {
 					return;
 				}
 				target = possibleTarget.get(Utils.getRandomInclusive(possibleTarget.size() - 1));
-				setNextWorldTile(WorldTile.of(target.getTile()));
+				setNextTile(Tile.of(target.getTile()));
 				delay += World.sendProjectile(this, target, 1828, 0, 0, 35, 1, 20, 0).getTaskDelay();
 			}
 			changeTarget--;

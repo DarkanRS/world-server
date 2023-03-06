@@ -17,7 +17,7 @@
 package com.rs.game.model.entity.npc;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class OwnedNPC extends NPC {
 
@@ -25,7 +25,7 @@ public class OwnedNPC extends NPC {
 	private boolean hideFromOtherPlayers;
 	private boolean autoDespawnAtDistance = true;
 
-	public OwnedNPC(Player owner, int id, WorldTile tile, boolean hideFromOtherPlayers) {
+	public OwnedNPC(Player owner, int id, Tile tile, boolean hideFromOtherPlayers) {
 		super(id, tile, true);
 		this.owner = owner;
 		this.hideFromOtherPlayers = hideFromOtherPlayers;
@@ -63,9 +63,9 @@ public class OwnedNPC extends NPC {
 	}
 
 	public void teleToOwner() {
-		WorldTile tile = owner.getNearestTeleTile(this);
+		Tile tile = owner.getNearestTeleTile(this);
 		if (tile != null)
-			setNextWorldTile(tile);
+			setNextTile(tile);
 	}
 
 	public boolean isAutoDespawnAtDistance() {

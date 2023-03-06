@@ -28,7 +28,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.GroundItemOp;
@@ -46,11 +46,11 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		if (player.isLocked() || player.hasEffect(Effect.FREEZE))
 			return;
 
-		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
-		final int regionId = tile.getRegionId();
-		if (!player.getMapRegionsIds().contains(regionId))
+		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
+		final int chunkId = tile.getChunkId();
+		if (!player.getMapChunkIds().contains(chunkId))
 			return;
-		final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+		final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 		if (item == null)
 			return;
 		if (packet.getOpcode() == ClientPacket.GROUND_ITEM_EXAMINE) {
@@ -71,7 +71,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP3:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem item1 = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem item1 = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (item1 == null || !player.getControllerManager().canTakeItem(item1))
 					return;
 				if (TreasureTrailsManager.isScroll(item1.getId()))
@@ -81,7 +81,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 					}
 				if (!World.checkWalkStep(player.getTile(), item1.getTile())) {
 					player.setNextAnimation(new Animation(833));
-					player.setNextFaceWorldTile(item1.getTile());
+					player.setNextFaceTile(item1.getTile());
 					player.lock(1);
 					PickupItemEvent e1 = new PickupItemEvent(player, item1, false);
 					PluginManager.handle(e1);
@@ -97,7 +97,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP4:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem groundItem = World.getRegion(regionId).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (groundItem == null)
 					return;
 

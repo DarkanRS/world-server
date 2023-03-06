@@ -21,7 +21,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -150,10 +150,10 @@ public class WitchsHouse extends QuestOutline {
 		if(p.getInventory().containsItem(new Item(BACKROOM_KEY, 1))) {
 			handleDoor(p, obj);
 			if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 					if (npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 						return;
-				World.spawnNPC(EXPERIMENT1, WorldTile.of(2927, 3359, 0), -1, false, true);
+				World.spawnNPC(EXPERIMENT1, Tile.of(2927, 3359, 0), -1, false, true);
 			}
 		} else
 			p.startConversation(new Conversation(e.getPlayer()) {
@@ -165,17 +165,17 @@ public class WitchsHouse extends QuestOutline {
 	});
 
 	public static NPCDeathHandler handleExperiment1 = new NPCDeathHandler(EXPERIMENT1, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT2, WorldTile.of(2927, 3363, 0), -1, false, true);
+		NPC n = World.spawnNPC(EXPERIMENT2, Tile.of(2927, 3363, 0), -1, false, true);
 		n.setTarget(e.getKiller());
 	});
 
 	public static NPCDeathHandler handleExperiment2 = new NPCDeathHandler(EXPERIMENT2, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT3, WorldTile.of(2927, 3363, 0), -1, false, true);
+		NPC n = World.spawnNPC(EXPERIMENT3, Tile.of(2927, 3363, 0), -1, false, true);
 		n.setTarget(e.getKiller());
 	});
 
 	public static NPCDeathHandler handleExperiment3 = new NPCDeathHandler(EXPERIMENT3, e -> {
-		NPC n = World.spawnNPC(EXPERIMENT4, WorldTile.of(2927, 3363, 0), -1, false, true);
+		NPC n = World.spawnNPC(EXPERIMENT4, Tile.of(2927, 3363, 0), -1, false, true);
 		n.setTarget(e.getKiller());
 	});
 
@@ -187,7 +187,7 @@ public class WitchsHouse extends QuestOutline {
 		}
 	});
 
-	public static PickupItemHandler handleBallPickup = new PickupItemHandler(new Object[] { BALL }, WorldTile.of(2927, 3360, 0), e -> {
+	public static PickupItemHandler handleBallPickup = new PickupItemHandler(new Object[] { BALL }, Tile.of(2927, 3360, 0), e -> {
 		Player p = e.getPlayer();
 		if(p.getQuestManager().getStage(Quest.WITCHS_HOUSE) != FIND_BALL) {
 			e.cancelPickup();
@@ -195,7 +195,7 @@ public class WitchsHouse extends QuestOutline {
 			return;
 		}
 		if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 					npc.setTarget(p);
 			e.cancelPickup();
@@ -203,7 +203,7 @@ public class WitchsHouse extends QuestOutline {
 		}
 	});
 
-	public static PlayerStepHandler handleCheesePrompt = new PlayerStepHandler(WorldTile.of(2894, 3367, 0), e -> {
+	public static PlayerStepHandler handleCheesePrompt = new PlayerStepHandler(Tile.of(2894, 3367, 0), e -> {
 		if (e.getPlayer().getQuestManager().getStage(Quest.WITCHS_HOUSE) == FIND_BALL && e.getPlayer().containsItem(1985))
 			if (!e.getPlayer().getTempAttribs().getB("MousePuzzleKnownWitchsHouse")) {
 				e.getPlayer().sendMessage("You hear a hungry mouse in this room, must be the cheese...");
@@ -237,7 +237,7 @@ public class WitchsHouse extends QuestOutline {
 			return;
 		}
 		if(e.getItem().getName().equalsIgnoreCase("Cheese")) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == MOUSE) {
 					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{
@@ -260,7 +260,7 @@ public class WitchsHouse extends QuestOutline {
 				@Override
 				public void run() {
 					if(tick == 0 )
-						mouse = World.spawnNPC(MOUSE, WorldTile.of(obj.getX()-1, obj.getY(), obj.getPlane()), -1, false, true);
+						mouse = World.spawnNPC(MOUSE, Tile.of(obj.getX()-1, obj.getY(), obj.getPlane()), -1, false, true);
 					if(tick == 30) {
 						if(!mouse.hasFinished())
 							mouse.finish();
@@ -288,9 +288,9 @@ public class WitchsHouse extends QuestOutline {
 
 	public static ObjectClickHandler handleWitchHouseLadderToBasement = new ObjectClickHandler(new Object[] { 24717, 24718 }, e -> {
 		if(e.getObjectId() == 24718)
-			e.getPlayer().useLadder(WorldTile.of(2774, 9759, 0));
+			e.getPlayer().useLadder(Tile.of(2774, 9759, 0));
 		else
-			e.getPlayer().useLadder(WorldTile.of(2898, 3376, 0));
+			e.getPlayer().useLadder(Tile.of(2898, 3376, 0));
 	});
 	public static ObjectClickHandler handleWitchHouseElectricGate = new ObjectClickHandler(new Object[] { 2866, 2865 }, e -> {
 		Player p = e.getPlayer();

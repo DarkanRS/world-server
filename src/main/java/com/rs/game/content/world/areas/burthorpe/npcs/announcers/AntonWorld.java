@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.burthorpe.npcs.announcers;
 
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 public class AntonWorld extends NPC {
 	private static final int npcId = 4295;
 
-	public AntonWorld(int id, WorldTile tile) {
+	public AntonWorld(int id, Tile tile) {
 		super(id, tile);
 	}
 

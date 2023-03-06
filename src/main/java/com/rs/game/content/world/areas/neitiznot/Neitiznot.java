@@ -20,7 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -110,11 +110,11 @@ public class Neitiznot  {
 	});
 
 	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }, e -> {
-		e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5507 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2310, 3781, 0));
+		e.getPlayer().setNextTile(e.getNPC().getId() == 5507 ? Tile.of(2644, 3709, 0) : Tile.of(2310, 3781, 0));
 	});
 
 	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }, e -> {
-		e.getPlayer().setNextWorldTile(e.getNPC().getId() == 5482 ? WorldTile.of(2644, 3709, 0) : WorldTile.of(2420, 3781, 0));
+		e.getPlayer().setNextTile(e.getNPC().getId() == 5482 ? Tile.of(2644, 3709, 0) : Tile.of(2420, 3781, 0));
 	});
 
 	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }, e -> {

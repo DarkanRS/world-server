@@ -25,7 +25,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
@@ -42,9 +42,9 @@ public class DelrithBoss extends NPC {
 
 	public boolean actuallyDead = false;
 
-	public DelrithBoss(WorldTile tile) {
+	public DelrithBoss(Tile tile) {
 		super(DELRITH_ID, tile, true);
-		p = World.getPlayersInRegion(getRegionId()).get(0);
+		p = World.getPlayersInChunkRange(getChunkId(), 2).get(0);
 	}
 
 	@Override
@@ -66,10 +66,10 @@ public class DelrithBoss extends NPC {
 					stop();
 				}
 
-				if(!conversating && !p.inCombat() && p.withinDistance(WorldTile.of(getX(), getY(), getPlane()), 2)) {
+				if(!conversating && !p.inCombat() && p.withinDistance(Tile.of(getX(), getY(), getPlane()), 2)) {
 					conversating = true;
 					tick = -10;
-					p.faceTile(WorldTile.of(getX(), getY(), getPlane()));
+					p.faceTile(Tile.of(getX(), getY(), getPlane()));
 					p.startConversation(new EncantationOptionsD(p, DelrithBoss.this).getStart());
 				} else
 					tick++;

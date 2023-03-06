@@ -18,14 +18,14 @@ package com.rs.engine.thread;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Queue;
+import java.util.concurrent.*;
+import java.util.stream.Stream;
 
 import com.rs.Settings;
 import com.rs.lib.thread.CatchExceptionRunnable;
 import com.rs.lib.util.Logger;
+import jdk.incubator.concurrent.StructuredTaskScope;
 
 public final class TaskExecutor {
 	public static volatile boolean SHUTDOWN;
@@ -34,10 +34,33 @@ public final class TaskExecutor {
 	private static ScheduledExecutorService LOW_PRIORITY_EXECUTOR;
 	private static List<Future<?>> PENDING_FUTURES = new ArrayList<>();
 
-	public static void startThreads() {
+	public static void initExecutors() {
 		Logger.info(TaskExecutor.class, "startThreads", "Initializing world threads...");
 		LOW_PRIORITY_EXECUTOR = Executors.newSingleThreadScheduledExecutor(Thread.ofVirtual().factory());
 		WORLD_EXECUTOR = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
+	}
+
+	public class LowPriorityTaskScope<T> extends StructuredTaskScope<T> {
+		private final Queue<T> results = new ConcurrentLinkedQueue<>();
+
+		LowPriorityTaskScope() {
+			super("Low Priority Task Scope", Thread.ofVirtual().factory());
+		}
+
+		@Override
+		protected void handleComplete(Future<T> future) {
+			switch(future.state()) {
+				case SUCCESS -> {
+					T result = future.resultNow();
+					results.add(result);
+				}
+				case FAILED -> Logger.handle(LowPriorityTaskScope.class, "handleComplete", future.exceptionNow());
+			}
+		}
+
+		public Stream<T> results() {
+			return results.stream();
+		}
 	}
 
 	public static void execute(Runnable command) {

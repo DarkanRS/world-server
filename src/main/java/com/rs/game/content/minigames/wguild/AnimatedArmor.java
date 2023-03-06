@@ -18,13 +18,13 @@ package com.rs.game.content.minigames.wguild;
 
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class AnimatedArmor extends OwnedNPC {
 
 	private transient Player player;
 
-	public AnimatedArmor(Player player, int id, WorldTile tile) {
+	public AnimatedArmor(Player player, int id, Tile tile) {
 		super(player, id, tile, false);
 		this.player = player;
 	}

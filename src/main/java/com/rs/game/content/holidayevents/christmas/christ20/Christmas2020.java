@@ -18,7 +18,7 @@ package com.rs.game.content.holidayevents.christmas.christ20;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
@@ -38,8 +38,8 @@ public class Christmas2020 {
 	public static void load() {
 		if (!ACTIVE)
 			return;
-		NPCSpawns.add(new NPCSpawn(9398, WorldTile.of(2655, 5678, 0), "Queen of Snow"));
-		NPCSpawns.add(new NPCSpawn(9400, WorldTile.of(2654, 5679, 0), "Santa"));
+		NPCSpawns.add(new NPCSpawn(9398, Tile.of(2655, 5678, 0), "Queen of Snow"));
+		NPCSpawns.add(new NPCSpawn(9400, Tile.of(2654, 5679, 0), "Santa"));
 	}
 
 	public static LoginHandler login = new LoginHandler(e -> {

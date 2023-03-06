@@ -21,7 +21,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MerlinsCrystalRitualScene extends Controller {
 	NPC spirit;
@@ -35,13 +35,13 @@ public class MerlinsCrystalRitualScene extends Controller {
 
 	private void playCutscene() {
 		boolean hasSpirit = false;
-		for(NPC npc : World.getNPCsInRegion(player.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 			if(npc.getId() == THRANTAX_SPIRIT)
 				hasSpirit = true;
 		if(hasSpirit)
 			;
 		else {
-            OwnedNPC spirit = new OwnedNPC(player, THRANTAX_SPIRIT, WorldTile.of(2780, 3516, 0), true);
+            OwnedNPC spirit = new OwnedNPC(player, THRANTAX_SPIRIT, Tile.of(2780, 3516, 0), true);
 			player.musicTrack(449);
 			spirit.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 			spirit.setCantInteract(true);

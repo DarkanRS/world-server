@@ -19,6 +19,7 @@ package com.rs.game.content.minigames.herblorehabitat;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 
@@ -26,12 +27,10 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 public class HerbloreHabitat {
 	//inter 72 jadinko methods
 
-	public static final int REGION_ID = 11821;
-
 	@ServerStartupEvent
 	public static void initUpdateTask() {
 		WorldTasks.schedule(25, 25, () -> {
-			for (Player player : World.getPlayersInRegion(REGION_ID)) {
+			for (Player player : World.getPlayersInChunkRange(Tile.of(2959, 2915, 0).getChunkId(), 5)) {
 				if (player.hasStarted() && !player.hasFinished()) {
 					JadinkoType.updateGroup(player, JadinkoType.COMMON);
 					JadinkoType.updateGroup(player, JadinkoType.IGNEOUS, JadinkoType.AQUATIC);

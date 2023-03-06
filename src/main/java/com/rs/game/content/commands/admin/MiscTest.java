@@ -29,6 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
@@ -51,17 +52,12 @@ import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.Route;
-import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.ClipFlag;
-import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -69,7 +65,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
 import com.rs.lib.util.Logger;
@@ -95,30 +91,30 @@ import com.rs.utils.spawns.NPCSpawns;
 public class MiscTest {
 
 	private static final int[] UNIDENTIFIED_ANIMS = { 2057, 12549, 15461, 3024, 2202, 2205, 2200, 2212, 2207, 2211, 2208, 2197, 2195, 15719, 3145, 4122, 3874, 587, 10707, 1107, 2938, 2435, 2438, 2434, 2552, 2449, 2447, 14165, 2976, 2932, 3320, 3911, 5964, 3777, 3727, 2825, 2826, 16254, 16355, 16366, 16363, 16382, 16393, 10371, 1599, 3853, 3452, 3471, 3423, 3348, 2048, 3982, 2149, 6083, 2148, 2788, 11620, 2614, 15138, 12033, 3071, 13691, 2764, 12919, 1409, 6703, 15624, 2450, 1354, 15622, 2378, 9104, 16445, 654, 3032, 3670, 15147, 14175, 9021, 12913, 4471, 1852, 11146, 3266, 1633, 15128, 2343, 15203, 2010,
-			4223, 9899, 2903, 2326, 1307, 2891, 15139, 1196, 1895, 1485, 2697, 1267, 4611, 1914, 1606, 2094, 2813, 2793, 3182, 12806, 11604, 1317, 2684, 3562, 3308, 1155, 2138, 1855, 1867, 1255, 3093, 9723, 1893, 786, 3458, 3454, 3456, 3455, 3453, 2008, 2007, 2002, 3166, 2767, 11224, 5767, 3092, 1356, 1361, 1006, 948, 3546, 9681, 1492, 646, 1136, 345, 6, 1898, 2159, 120, 1418, 9946, 166, 179, 14844, 3437, 232, 16322, 296, 9502, 1017, 3575, 3574, 3681, 3601, 3588, 3612, 3650, 14289, 3120, 3122, 2998, 3576, 10243, 1870, 3098, 1621, 1620, 3123, 1922, 3037, 1452, 1456, 3474, 3344, 1998, 2000,
-			2030, 1761, 1410, 2330, 1095, 3189, 2897, 1232, 1213, 1219, 1498, 1279, 1635, 2808, 3987, 3978, 1876, 2571, 1262, 2103, 455, 2711, 3220, 466, 443, 1247, 450, 730, 3229, 463, 458, 456, 2166, 1546, 1562, 3164, 1815, 5013, 4019, 4016, 4029, 4135, 4138, 15080, 4156, 4164, 15113, 15129, 4222, 6689, 4262, 4253, 4281, 4258, 4283, 4285, 4316, 4333, 9164, 4337, 4347, 4352, 4404, 4359, 4364, 4361, 4434, 4576, 4573, 4834, 4553, 7139, 4574, 4592, 7033, 12609, 4600, 4752, 4749, 4822, 4818, 4803, 4796, 4909, 4912, 4892, 14242, 4904, 4908, 4903, 4878, 4907, 4863, 8525, 5015, 5054, 15137, 5421,
-			5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
-			5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
-			7253, 7281, 7293, 7278, 7290, 7277, 7296, 7299, 7321, 7348, 7352, 7359, 8806, 8859, 7388, 7489, 9610, 9633, 7538, 8450, 7545, 7551, 8535, 7634, 7652, 8402, 8474, 8466, 8418, 8486, 8434, 8379, 8414, 8430, 8422, 10554, 8426, 8494, 8482, 8490, 8446, 8462, 8470, 8137, 8509, 8662, 8590, 8645, 8625, 486, 11451, 8699, 1221, 1220, 1228, 8711, 8748, 8746, 8747, 8744, 8768, 8803, 8826, 8895, 8884, 10475, 10992, 11568, 11552, 8991, 9018, 10449, 9861, 9056, 9043, 9034, 10121, 15135, 9148, 9147, 9142, 9149, 4294, 12397, 9224, 9319, 9245, 9232, 9238, 9251, 9257, 9269, 15142, 9327, 9328, 9351,
-			12187, 9384, 9427, 9391, 9389, 9397, 9513, 9574, 9543, 9582, 9982, 9909, 15416, 4856, 12373, 3329, 9854, 13656, 16301, 6830, 10024, 9971, 9972, 9966, 9990, 10079, 12319, 10052, 10047, 10094, 10095, 10220, 10191, 10128, 10127, 10221, 10229, 10331, 10334, 10316, 12191, 10350, 10353, 10373, 10414, 10489, 10445, 10443, 10448, 10430, 14223, 15726, 10559, 10746, 10649, 10702, 10880, 10893, 10827, 10821, 10754, 10894, 10712, 10786, 10790, 10788, 10805, 10809, 10807, 10780, 10784, 10782, 10792, 10811, 10803, 10778, 14633, 10989, 10935, 10932, 10930, 10995, 14713, 11011, 11032, 11056,
-			11220, 1132, 1715, 1708, 11286, 11284, 11336, 11340, 11350, 11316, 11314, 11305, 11312, 11376, 1742, 11372, 11321, 11298, 11547, 16934, 11561, 11566, 11576, 11590, 11622, 11625, 11644, 11655, 11688, 11716, 11765, 11770, 11766, 884, 11794, 11819, 7527, 15825, 11860, 11862, 11882, 11821, 11933, 13945, 3273, 411, 11959, 3327, 12059, 12115, 12113, 12117, 12137, 12130, 12111, 12167, 12112, 16438, 12225, 12219, 12224, 12924, 12241, 12296, 12600, 12357, 12401, 12400, 12417, 12432, 12421, 12433, 12442, 12503, 12495, 12529, 12554, 12589, 12536, 12550, 1513, 12630, 1548, 12606, 4609, 12636,
-			4615, 12655, 12733, 9514, 5083, 12781, 12775, 12787, 12814, 12832, 6607, 12836, 12835, 12888, 12887, 16931, 12923, 12265, 13593, 13663, 14808, 13315, 13782, 13643, 13730, 13572, 13563, 13581, 13594, 13559, 13557, 13554, 13566, 13574, 13582, 13721, 13007, 13500, 13353, 14610, 13758, 13763, 13636, 13324, 14798, 13766, 14152, 13817, 13814, 13831, 13839, 13967, 13959, 14083, 14058, 13973, 14086, 15127, 14078, 14007, 14147, 1038, 14116, 14101, 2129, 4874, 14163, 14177, 14206, 14208, 14231, 14273, 14275, 14317, 14355, 14345, 14335, 14349, 14562, 14561, 14556, 14514, 14569, 14414, 14533,
-			14962, 14401, 14673, 14639, 14645, 14722, 14733, 14748, 14780, 14787, 14941, 14841, 14845, 14886, 14929, 14982, 3302, 3300, 3288, 3290, 15239, 15034, 15063, 15097, 7573, 15103, 15105, 15217, 15187, 15176, 15181, 6292, 6998, 7493, 15261, 7502, 7437, 7436, 7434, 15906, 15317, 15305, 15308, 15275, 15276, 2916, 15304, 16077, 107, 379, 307, 10825, 1478, 4207, 10860, 10824, 10116, 7456, 9573, 12465, 5848, 15353, 10964, 1174, 1291, 12437, 9674, 16875, 1202, 1730, 1786, 2120, 2566, 2231, 15740, 2605, 3413, 3536, 3497, 3052, 3929, 7055, 8644, 7157, 6787, 5684, 8498, 6066, 6575, 6366, 5784,
-			6786, 4405, 9856, 4729, 9818, 9211, 9700, 9699, 9694, 9503, 9953, 11553, 16501, 12361, 11843, 10731, 10734, 11957, 11235, 16325, 10978, 12666, 12546, 12760, 12901, 12934, 15644, 13686, 13510, 13597, 13956, 13700, 14528, 14306, 16921, 14878, 14955, 15313, 15376, 15330, 15402, 15382, 15429, 15433, 15536, 15560, 15573, 15566, 15576, 15900, 15584, 15592, 15602, 15733, 15702, 15637, 15639, 15658, 15645, 15717, 15716, 16212, 15746, 15754, 15940, 16404, 15994, 15898, 15757, 16062, 15802, 15808, 15937, 16072, 8527, 15943, 8545, 16245, 16410, 16439, 16429, 16370, 16532, 16548, 16533, 16632,
-			16686, 16647, 16617, 16623, 16620, 16629, 16603, 16671, 16940, 16929, 16870, 16826, 16835, 16855, 16825, 16770, 16767, 16760, 16850, 16864, 16881, 16917, 16894, 16935, 16938, 16973, 16964, 16958, 16978, 16987, 17064, 17010, 17132, 17118, 17159, 17184, 17169, 17155, 17149, 17158, 17168 };
-	
+		4223, 9899, 2903, 2326, 1307, 2891, 15139, 1196, 1895, 1485, 2697, 1267, 4611, 1914, 1606, 2094, 2813, 2793, 3182, 12806, 11604, 1317, 2684, 3562, 3308, 1155, 2138, 1855, 1867, 1255, 3093, 9723, 1893, 786, 3458, 3454, 3456, 3455, 3453, 2008, 2007, 2002, 3166, 2767, 11224, 5767, 3092, 1356, 1361, 1006, 948, 3546, 9681, 1492, 646, 1136, 345, 6, 1898, 2159, 120, 1418, 9946, 166, 179, 14844, 3437, 232, 16322, 296, 9502, 1017, 3575, 3574, 3681, 3601, 3588, 3612, 3650, 14289, 3120, 3122, 2998, 3576, 10243, 1870, 3098, 1621, 1620, 3123, 1922, 3037, 1452, 1456, 3474, 3344, 1998, 2000,
+		2030, 1761, 1410, 2330, 1095, 3189, 2897, 1232, 1213, 1219, 1498, 1279, 1635, 2808, 3987, 3978, 1876, 2571, 1262, 2103, 455, 2711, 3220, 466, 443, 1247, 450, 730, 3229, 463, 458, 456, 2166, 1546, 1562, 3164, 1815, 5013, 4019, 4016, 4029, 4135, 4138, 15080, 4156, 4164, 15113, 15129, 4222, 6689, 4262, 4253, 4281, 4258, 4283, 4285, 4316, 4333, 9164, 4337, 4347, 4352, 4404, 4359, 4364, 4361, 4434, 4576, 4573, 4834, 4553, 7139, 4574, 4592, 7033, 12609, 4600, 4752, 4749, 4822, 4818, 4803, 4796, 4909, 4912, 4892, 14242, 4904, 4908, 4903, 4878, 4907, 4863, 8525, 5015, 5054, 15137, 5421,
+		5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
+		5076, 5077, 5053, 5139, 5157, 5154, 5266, 5299, 5307, 14302, 5360, 5354, 5062, 8849, 5420, 2757, 9405, 5599, 5588, 6104, 10355, 9577, 5736, 5733, 6364, 5796, 5812, 5813, 6147, 5861, 5905, 5902, 5904, 5908, 6073, 4219, 6125, 11411, 6121, 6213, 6179, 6169, 4852, 6459, 11608, 6273, 15011, 452, 12217, 6482, 11739, 6427, 6452, 6409, 6530, 6554, 6611, 6599, 6665, 6700, 6636, 6644, 6641, 6640, 14723, 11540, 6851, 12446, 6860, 14174, 6899, 6921, 6920, 9387, 6941, 7024, 16420, 1016, 16421, 16419, 15238, 6981, 7113, 7130, 7136, 7137, 7141, 7135, 7119, 7138, 7114, 7116, 7145, 35, 7233, 7240,
+		7253, 7281, 7293, 7278, 7290, 7277, 7296, 7299, 7321, 7348, 7352, 7359, 8806, 8859, 7388, 7489, 9610, 9633, 7538, 8450, 7545, 7551, 8535, 7634, 7652, 8402, 8474, 8466, 8418, 8486, 8434, 8379, 8414, 8430, 8422, 10554, 8426, 8494, 8482, 8490, 8446, 8462, 8470, 8137, 8509, 8662, 8590, 8645, 8625, 486, 11451, 8699, 1221, 1220, 1228, 8711, 8748, 8746, 8747, 8744, 8768, 8803, 8826, 8895, 8884, 10475, 10992, 11568, 11552, 8991, 9018, 10449, 9861, 9056, 9043, 9034, 10121, 15135, 9148, 9147, 9142, 9149, 4294, 12397, 9224, 9319, 9245, 9232, 9238, 9251, 9257, 9269, 15142, 9327, 9328, 9351,
+		12187, 9384, 9427, 9391, 9389, 9397, 9513, 9574, 9543, 9582, 9982, 9909, 15416, 4856, 12373, 3329, 9854, 13656, 16301, 6830, 10024, 9971, 9972, 9966, 9990, 10079, 12319, 10052, 10047, 10094, 10095, 10220, 10191, 10128, 10127, 10221, 10229, 10331, 10334, 10316, 12191, 10350, 10353, 10373, 10414, 10489, 10445, 10443, 10448, 10430, 14223, 15726, 10559, 10746, 10649, 10702, 10880, 10893, 10827, 10821, 10754, 10894, 10712, 10786, 10790, 10788, 10805, 10809, 10807, 10780, 10784, 10782, 10792, 10811, 10803, 10778, 14633, 10989, 10935, 10932, 10930, 10995, 14713, 11011, 11032, 11056,
+		11220, 1132, 1715, 1708, 11286, 11284, 11336, 11340, 11350, 11316, 11314, 11305, 11312, 11376, 1742, 11372, 11321, 11298, 11547, 16934, 11561, 11566, 11576, 11590, 11622, 11625, 11644, 11655, 11688, 11716, 11765, 11770, 11766, 884, 11794, 11819, 7527, 15825, 11860, 11862, 11882, 11821, 11933, 13945, 3273, 411, 11959, 3327, 12059, 12115, 12113, 12117, 12137, 12130, 12111, 12167, 12112, 16438, 12225, 12219, 12224, 12924, 12241, 12296, 12600, 12357, 12401, 12400, 12417, 12432, 12421, 12433, 12442, 12503, 12495, 12529, 12554, 12589, 12536, 12550, 1513, 12630, 1548, 12606, 4609, 12636,
+		4615, 12655, 12733, 9514, 5083, 12781, 12775, 12787, 12814, 12832, 6607, 12836, 12835, 12888, 12887, 16931, 12923, 12265, 13593, 13663, 14808, 13315, 13782, 13643, 13730, 13572, 13563, 13581, 13594, 13559, 13557, 13554, 13566, 13574, 13582, 13721, 13007, 13500, 13353, 14610, 13758, 13763, 13636, 13324, 14798, 13766, 14152, 13817, 13814, 13831, 13839, 13967, 13959, 14083, 14058, 13973, 14086, 15127, 14078, 14007, 14147, 1038, 14116, 14101, 2129, 4874, 14163, 14177, 14206, 14208, 14231, 14273, 14275, 14317, 14355, 14345, 14335, 14349, 14562, 14561, 14556, 14514, 14569, 14414, 14533,
+		14962, 14401, 14673, 14639, 14645, 14722, 14733, 14748, 14780, 14787, 14941, 14841, 14845, 14886, 14929, 14982, 3302, 3300, 3288, 3290, 15239, 15034, 15063, 15097, 7573, 15103, 15105, 15217, 15187, 15176, 15181, 6292, 6998, 7493, 15261, 7502, 7437, 7436, 7434, 15906, 15317, 15305, 15308, 15275, 15276, 2916, 15304, 16077, 107, 379, 307, 10825, 1478, 4207, 10860, 10824, 10116, 7456, 9573, 12465, 5848, 15353, 10964, 1174, 1291, 12437, 9674, 16875, 1202, 1730, 1786, 2120, 2566, 2231, 15740, 2605, 3413, 3536, 3497, 3052, 3929, 7055, 8644, 7157, 6787, 5684, 8498, 6066, 6575, 6366, 5784,
+		6786, 4405, 9856, 4729, 9818, 9211, 9700, 9699, 9694, 9503, 9953, 11553, 16501, 12361, 11843, 10731, 10734, 11957, 11235, 16325, 10978, 12666, 12546, 12760, 12901, 12934, 15644, 13686, 13510, 13597, 13956, 13700, 14528, 14306, 16921, 14878, 14955, 15313, 15376, 15330, 15402, 15382, 15429, 15433, 15536, 15560, 15573, 15566, 15576, 15900, 15584, 15592, 15602, 15733, 15702, 15637, 15639, 15658, 15645, 15717, 15716, 16212, 15746, 15754, 15940, 16404, 15994, 15898, 15757, 16062, 15802, 15808, 15937, 16072, 8527, 15943, 8545, 16245, 16410, 16439, 16429, 16370, 16532, 16548, 16533, 16632,
+		16686, 16647, 16617, 16623, 16620, 16629, 16603, 16671, 16940, 16929, 16870, 16826, 16835, 16855, 16825, 16770, 16767, 16760, 16850, 16864, 16881, 16917, 16894, 16935, 16938, 16973, 16964, 16958, 16978, 16987, 17064, 17010, 17132, 17118, 17159, 17184, 17169, 17155, 17149, 17158, 17168 };
+
 	@ServerStartupEvent
 	public static void loadCommands() {
 
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-		
+
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
 			p.getNSV().setB("clanifyStuff", !p.getNSV().getB("clanifyStuff"));
 			p.sendMessage("CLANIFY: " + p.getNSV().getB("clanifyStuff"));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "allstopfaceme", "Stops all body model rotators.", (p, args) -> {
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
@@ -131,7 +127,7 @@ public class MiscTest {
 				npc.setBodyModelRotator(null);
 			}
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "allfaceme", "Sets body model rotators for all entities in the server.", (p, args) -> {
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
@@ -144,11 +140,11 @@ public class MiscTest {
 				npc.setBodyModelRotator(new ModelRotator().addRotator(new Rotation(p).enableAll()));
 			}
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
-			World.spawnNPC(3373, WorldTile.of(p.getTile()), -1, true, true, true);
+			World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true);
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
 			p.getCutsceneManager().play(new ExampleCutscene());
 		});
@@ -195,18 +191,18 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
-					if (World.floorAndWallsFree(WorldTile.of(p.getX() + x, p.getY() + y, p.getPlane()), 1))
-						World.sendSpotAnim(p, new SpotAnim(2000, 0, 96), WorldTile.of(p.getX() + x, p.getY() + y, p.getPlane()));
+					if (World.floorAndWallsFree(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), 1))
+						World.sendSpotAnim(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), new SpotAnim(2000, 0, 96));
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
 			p.getControllerManager().startController(new TutorialIslandController());
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> {
 			p.getControllerManager().startController(new QueenBlackDragonController());
 		});
-		
+
 		/**
 		 * 31 orange glow
 		 * 40 fire cape
@@ -242,7 +238,7 @@ public class MiscTest {
 		 * 880 alternate fire cape lava
 		 * 906 recolorable dragonhide lookin
 		 * 916 eye rape bloom
-		 * 
+		 *
 		 */
 		Commands.add(Rights.DEVELOPER, "drtor [texId]", "Set equipment texture override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
@@ -255,7 +251,7 @@ public class MiscTest {
 				p.getEquipment().get(Equipment.HEAD).addMetaData("drTOr", Integer.valueOf(args[0]));
 			p.getAppearance().generateAppearanceData();
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "drcor [r, g, b]", "Set equipment color override", (p, args) -> {
 			if (p.getEquipment().get(Equipment.CHEST) != null)
 				p.getEquipment().get(Equipment.CHEST).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
@@ -267,7 +263,7 @@ public class MiscTest {
 				p.getEquipment().get(Equipment.HEAD).addMetaData("drCOr", RSColor.RGB_to_HSL(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2])));
 			p.getAppearance().generateAppearanceData();
 		});
-		
+
 		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
 			p.setTileMan(true);
 		});
@@ -299,18 +295,18 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "runespan", "Teleports to runespan.", (p, args) -> {
-			p.setNextWorldTile(WorldTile.of(3995, 6103, 1));
+			p.setNextTile(Tile.of(3995, 6103, 1));
 			p.getControllerManager().startController(new RunespanController());
 		});
 
 		Commands.add(Rights.DEVELOPER, "proj [id]", "Sends a projectile over the player.", (p, args) -> {
 			p.getTempAttribs().setI("tempProjCheck", Integer.valueOf(args[0]));
-			World.sendProjectile(WorldTile.of(p.getX() + 5, p.getY(), p.getPlane()), WorldTile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), Integer.valueOf(args[0]), 40, 40, 0, 0.2, 0, 0);
 		});
 
 		Commands.add(Rights.DEVELOPER, "projrot [id next/prev]", "Sends a projectile over the player.", (p, args) -> {
 			int projId = p.getTempAttribs().getI("tempProjCheck", 0);
-			World.sendProjectile(WorldTile.of(p.getX() + 5, p.getY(), p.getPlane()), WorldTile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
+			World.sendProjectile(Tile.of(p.getX() + 5, p.getY(), p.getPlane()), Tile.of(p.getX() - 5, p.getY(), p.getPlane()), projId, 0, 0, 0, 0.2, 0, 0);
 			p.getPackets().sendDevConsoleMessage("Projectile: " + projId);
 			if (args[0].equals("next"))
 				p.getTempAttribs().setI("tempProjCheck", Utils.clampI(projId+1, 0, 5000));
@@ -358,7 +354,7 @@ public class MiscTest {
 				for (int z = -3;z < 3;z++)
 					for (int x = -radius;x < radius;x++)
 						for (int y = -radius;y < radius;y++) {
-							WorldTile t = p.transform(x, y, z);
+							Tile t = p.transform(x, y, z);
 							if (t.getPlane() >= 4 || t.getPlane() < 0)
 								continue;
 							GameObject[] objs = World.getObjects(t);
@@ -400,7 +396,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
-			NPC n = World.spawnNPC(14256, WorldTile.of(p.getTile()), -1, true, true);
+			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
 		});
@@ -505,7 +501,7 @@ public class MiscTest {
             if(genre == null)
                 p.sendMessage("No genre, remember this updates after an ambient song is played...");
             else
-			    p.sendMessage(genre.getGenreName());
+				p.sendMessage(genre.getGenreName());
 		});
 
 
@@ -532,7 +528,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
-			p.sendMessage("" + ClipFlag.getFlags(World.getClipFlags(p.getPlane(), p.getX(), p.getY())) + " - " + RenderFlag.getFlags(World.getRenderFlags(p.getPlane(), p.getX(), p.getY())));
+			p.sendMessage("" + ClipFlag.getFlags(WorldCollision.getFlags(p.getTile())));
 		});
 
 		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
@@ -544,24 +540,24 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> {
-			World.spawnNPC(Integer.parseInt(args[0]), WorldTile.of(p.getTile()), -1, true, true, false);
+			World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false);
 		});
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), WorldTile.of(p.getTile())))
+			if (NPCSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
 		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> {
-			World.addGroundItem(new Item(Integer.valueOf(args[0]), 1), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
+			World.addGroundItem(new Item(Integer.valueOf(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane()));
 		});
 
 		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, WorldTile.of(p.getTile())))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.valueOf(args[0]), 1, Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -576,8 +572,8 @@ public class MiscTest {
 					continue;
 				player.unlock();
 				player.getControllerManager().forceStop();
-				if (player.getNextWorldTile() == null)
-					player.setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
+				if (player.getNextTile() == null)
+					player.setNextTile(Settings.getConfig().getPlayerRespawnTile());
 			}
 		});
 
@@ -590,7 +586,7 @@ public class MiscTest {
 			p.getNSV().setB("infPrayer", !p.getNSV().getB("infPrayer"));
 			p.sendMessage("INFINITE PRAYER: " + p.getNSV().getB("infPrayer"));
 		});
-		
+
 		Commands.add(Rights.ADMIN, "infrun", "Toggles infinite run for the player.", (p, args) -> {
 			p.getNSV().setB("infRun", !p.getNSV().getB("infRun"));
 			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
@@ -609,41 +605,46 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "spellbook [modern/lunar/ancient]", "Switches to modern, lunar, or ancient spellbooks.", (p, args) -> {
 			switch(args[0].toLowerCase()) {
-			case "modern":
-			case "normal":
-				p.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
-				break;
-			case "ancient":
-			case "ancients":
-				p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
-				break;
-			case "lunar":
-			case "lunars":
-				p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
-				break;
-			case "dung":
-				p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
-				break;
-			default:
-				p.sendMessage("Invalid spellbook. Spellbooks are modern, lunar, ancient, and dung");
-				break;
+				case "modern":
+				case "normal":
+					p.getCombatDefinitions().setSpellbook(Spellbook.MODERN);
+					break;
+				case "ancient":
+				case "ancients":
+					p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT);
+					break;
+				case "lunar":
+				case "lunars":
+					p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR);
+					break;
+				case "dung":
+					p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING);
+					break;
+				default:
+					p.sendMessage("Invalid spellbook. Spellbooks are modern, lunar, ancient, and dung");
+					break;
 			}
 		});
 
 		Commands.add(Rights.ADMIN, "prayers [normal/curses]", "Switches to curses, or normal prayers.", (p, args) -> {
 			switch(args[0].toLowerCase()) {
-			case "normal":
-			case "normals":
-				p.getPrayer().setPrayerBook(false);
-				break;
-			case "curses":
-			case "ancients":
-				p.getPrayer().setPrayerBook(true);
-				break;
-			default:
-				p.sendMessage("Invalid prayer book. Prayer books are normal and curses.");
-				break;
+				case "normal":
+				case "normals":
+					p.getPrayer().setPrayerBook(false);
+					break;
+				case "curses":
+				case "ancients":
+					p.getPrayer().setPrayerBook(true);
+					break;
+				default:
+					p.sendMessage("Invalid prayer book. Prayer books are normal and curses.");
+					break;
 			}
+		});
+
+		Commands.add(Rights.DEVELOPER, "reloadlocalmap", "Forces your local map to reload", (p, args) -> {
+			p.setForceNextMapLoadRefresh(true);
+			p.loadMapRegions();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> {
@@ -668,6 +669,7 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY() + ", hash: " + p.getTileHash());
+			p.sendMessage("ChunkId: " + p.getChunkId());
 			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInRegion()+","+p.getYInRegion());
 			p.sendMessage("Local coords: " + p.getXInRegion() + " , " + p.getYInRegion());
 			p.sendMessage("16x16: " +(p.getXInScene(p.getSceneBaseChunkId()) % 16) +", "+(p.getYInScene(p.getSceneBaseChunkId()) % 16));
@@ -770,7 +772,7 @@ public class MiscTest {
 			int modelId = Integer.valueOf(args[2]);
 			//47868
 			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			p.getSession().writeToQueue(new HintTrail(WorldTile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
+			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {
@@ -787,10 +789,10 @@ public class MiscTest {
 			for (GameObject obj : objs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
 			if(args.length == 1) {
-				p.setNextWorldTile(objs.get(0).getTile());
+				p.setNextTile(objs.get(0).getTile());
 				return;
 			}
-			p.setNextWorldTile(objs.get(Integer.valueOf(args[1])).getTile());
+			p.setNextTile(objs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
@@ -803,10 +805,10 @@ public class MiscTest {
 			for(NPC npc : npcs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
 			if (args.length == 1) {
-				p.setNextWorldTile(WorldTile.of(npcs.get(0).getTile()));
+				p.setNextTile(Tile.of(npcs.get(0).getTile()));
 				return;
 			}
-			p.setNextWorldTile(npcs.get(Integer.valueOf(args[1])).getTile());
+			p.setNextTile(npcs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {
@@ -861,6 +863,7 @@ public class MiscTest {
 			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				int voiceID = 0;
+
 				@Override
 				public void run() {
 					if(tick == 0)
@@ -892,13 +895,13 @@ public class MiscTest {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(x, y, plane));
+				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0])));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 
@@ -906,14 +909,14 @@ public class MiscTest {
 			int regionX = (Integer.valueOf(args[0]) >> 8) * 64 + 32;
 			int regionY = (Integer.valueOf(args[0]) & 0xff) * 64 + 32;
 			p.resetWalkSteps();
-			p.setNextWorldTile(WorldTile.of(regionX, regionY, 0));
+			p.setNextTile(Tile.of(regionX, regionY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
 			int chunkX = Integer.valueOf(args[0]) * 8 + 4;
 			int chunkY = Integer.valueOf(args[1]) * 8 + 4;
 			p.resetWalkSteps();
-			p.setNextWorldTile(WorldTile.of(chunkX, chunkY, 0));
+			p.setNextTile(Tile.of(chunkX, chunkY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "settitle [new title]", "Sets player title.", (p, args) -> {
@@ -958,15 +961,18 @@ public class MiscTest {
 			p.getAppearance().setBAS(Integer.valueOf(args[0]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "camlook [localX localY z  speed1 speed2]", "Points the camera at the specified tile.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "camlook [localX localY z (speed1 speed2)]", "Points the camera at the specified tile.", (p, args) -> {
 			if(args.length == 3)
 				p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
 			else if(args.length == 5)
 				p.getPackets().sendCameraLook(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "campos [localX localY z]", "Locks the camera to a specified tile.", (p, args) -> {
-			p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+		Commands.add(Rights.DEVELOPER, "campos [localX localY z (speed1 speed2)]", "Locks the camera to a specified tile.", (p, args) -> {
+			if(args.length == 3)
+				p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]));
+			else if(args.length == 5)
+				p.getPackets().sendCameraPos(Integer.valueOf(args[0]), Integer.valueOf(args[1]), Integer.valueOf(args[2]), Integer.valueOf(args[3]), Integer.valueOf(args[4]));
 		});
 
 		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, args) -> {
@@ -1116,7 +1122,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "objectanim,oanim [x y (objectType)]", "Makes an object play an animation.", (p, args) -> {
-			GameObject object = args.length == 3 ? World.getObject(WorldTile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane())) : World.getObject(WorldTile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()), ObjectType.forId(Integer.parseInt(args[2])));
+			GameObject object = args.length == 3 ? World.getObject(Tile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane())) : World.getObject(Tile.of(Integer.parseInt(args[0]), Integer.parseInt(args[1]), p.getPlane()), ObjectType.forId(Integer.parseInt(args[2])));
 			if (object == null) {
 				p.getPackets().sendDevConsoleMessage("No object was found.");
 				return;
@@ -1127,7 +1133,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "objectanimloop,oanimloop [x y (startId) (endId)]", "Loops through object animations.", (p, args) -> {
 			int x = Integer.parseInt(args[0]);
 			int y = Integer.parseInt(args[1]);
-			GameObject o = World.getRegion(p.getRegionId()).getSpawnedObject(WorldTile.of(x, y, p.getPlane()));
+			GameObject o = World.getChunk(p.getChunkId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
 			if (o == null) {
 				p.getPackets().sendDevConsoleMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
 				return;
@@ -1186,22 +1192,22 @@ public class MiscTest {
 				p.sendMessage("Couldn't find player.");
 			else
 				target.queueReflectionAnalysis(new ReflectionAnalysis()
-						.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final");
-						}))
-						.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static");
-						}))
-						.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown();
-						}))
-						.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> {
-							return check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594;
-						}))
-						.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> {
-							return check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d");
-						}))
-						.build());
+					.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> {
+						return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final");
+					}))
+					.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> {
+						return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static");
+					}))
+					.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> {
+						return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown();
+					}))
+					.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> {
+						return check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594;
+					}))
+					.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> {
+						return check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d");
+					}))
+					.build());
 		});
 
 		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {

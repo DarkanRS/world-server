@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.glacor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class EnduringMinion extends NPC {
@@ -27,7 +27,7 @@ public class EnduringMinion extends NPC {
 	public Glacor parent;
 	public boolean defeated = false;
 
-	public EnduringMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
+	public EnduringMinion(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
 		super(id, tile, spawned);
 		this.parent = parent;
 		setForceMultiAttacked(true);

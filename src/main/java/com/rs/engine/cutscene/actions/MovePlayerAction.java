@@ -21,7 +21,7 @@ import java.util.Map;
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MovePlayerAction extends CutsceneAction {
 
@@ -40,7 +40,7 @@ public class MovePlayerAction extends CutsceneAction {
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (movementType == MoveType.TELE) {
-			player.setNextWorldTile(WorldTile.of(scene.getX(x), scene.getY(y), plane));
+			player.setNextTile(Tile.of(scene.getX(x), scene.getY(y), plane));
 			return;
 		}
 		player.setRun(movementType == MoveType.RUN);

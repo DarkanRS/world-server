@@ -17,7 +17,7 @@
 package com.rs.game.content.transportation;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -26,14 +26,14 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class GnomeGlider {
 
 	private static final int GLIDER_INTEFACE = 138;
-	private static final WorldTile[] GLIDERS = {
-			WorldTile.of(3,38,54,32,47),
-			WorldTile.of(0,44,54,29,42),
-			WorldTile.of(0,51,53,57,38),
-			WorldTile.of(0,51,50,20,11),
-			WorldTile.of(0,46,46,29,25),
-			WorldTile.of(0,39,46,53,27),
-			WorldTile.of(0,39,49,0,55)
+	private static final Tile[] GLIDERS = {
+			Tile.of(3,38,54,32,47),
+			Tile.of(0,44,54,29,42),
+			Tile.of(0,51,53,57,38),
+			Tile.of(0,51,50,20,11),
+			Tile.of(0,46,46,29,25),
+			Tile.of(0,39,46,53,27),
+			Tile.of(0,39,49,0,55)
 	};
 
 	private static final int[][] CONFIGS = {

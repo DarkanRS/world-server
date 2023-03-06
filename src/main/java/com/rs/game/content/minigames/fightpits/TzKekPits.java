@@ -24,11 +24,11 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class TzKekPits extends FightPitsNPC {
 
-	public TzKekPits(int id, WorldTile tile) {
+	public TzKekPits(int id, Tile tile) {
 		super(id, tile);
 	}
 
@@ -38,7 +38,7 @@ public class TzKekPits extends FightPitsNPC {
 		resetWalkSteps();
 		getCombat().removeTarget();
 		setNextAnimation(null);
-		WorldTile tile = WorldTile.of(getTile());
+		Tile tile = Tile.of(getTile());
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
@@ -46,7 +46,7 @@ public class TzKekPits extends FightPitsNPC {
 			} else if (loop >= defs.getDeathDelay()) {
 				reset();
 				FightPits.addNPC(new FightPitsNPC(2738, tile));
-				WorldTile finTile = tile;
+				Tile finTile = tile;
 				if (World.floorAndWallsFree(getPlane(), tile.getX() + 1, tile.getY(), 1))
 					finTile = tile.transform(1, 0, 0);
 				else if (World.floorAndWallsFree(getPlane(), tile.getX() - 1, tile.getY(), 1))

@@ -32,7 +32,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -431,7 +431,7 @@ public class ShieldOfArrav extends QuestOutline {
 	public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(new Object[] { 761 }, new String[] { "Read" }, e -> e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang"));
 
     public static ObjectClickHandler handlePhoenixGangDoor = new ObjectClickHandler(new Object[]{2397}, e -> {
-    	if (e.getObject().getTile().matches(WorldTile.of(3247, 9779, 0))) {
+    	if (e.getObject().getTile().matches(Tile.of(3247, 9779, 0))) {
             if (e.getOption().equalsIgnoreCase("open")) {
                 if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_PHOENIX_STAGE) && e.getPlayer().getY() > e.getObject().getY()) {
                     e.getPlayer().startConversation(new Dialogue().addNPC(644, HeadE.FRUSTRATED, "Hey! You can't go in there. Only authorised personnel of" +
@@ -446,7 +446,7 @@ public class ShieldOfArrav extends QuestOutline {
     });
 
     public static ObjectClickHandler handleBlackArmGangDoor = new ObjectClickHandler(new Object[]{2399}, e -> {
-    	 if (e.getObject().getTile().matches(WorldTile.of(3185, 3388, 0))) {
+    	 if (e.getObject().getTile().matches(Tile.of(3185, 3388, 0))) {
              if (e.getOption().equalsIgnoreCase("open")) {
                  if (!ShieldOfArrav.isStageInPlayerSave(e.getPlayer(), ShieldOfArrav.JOINED_BLACK_ARM_STAGE) && e.getPlayer().getY() < e.getObject().getY()) {
                      e.getPlayer().sendMessage("The door seems to be locked from the inside.");
@@ -462,7 +462,7 @@ public class ShieldOfArrav extends QuestOutline {
     public static ObjectClickHandler handleShieldChest = new ObjectClickHandler(new Object[]{2403, 2404}, e -> {
     	Player p = e.getPlayer();
         GameObject obj = e.getObject();
-        if (!obj.getTile().matches(WorldTile.of(3235, 9761, 0)))
+        if (!obj.getTile().matches(Tile.of(3235, 9761, 0)))
             return;
         if (e.getOption().equalsIgnoreCase("open")) {
             p.setNextAnimation(new Animation(536));
@@ -490,7 +490,7 @@ public class ShieldOfArrav extends QuestOutline {
     public static ObjectClickHandler handleBlackArmCupboard = new ObjectClickHandler(new Object[]{2400, 2401}, e -> {
     	 Player p = e.getPlayer();
          GameObject obj = e.getObject();
-         if (!obj.getTile().matches(WorldTile.of(3189, 3385, 1)))
+         if (!obj.getTile().matches(Tile.of(3189, 3385, 1)))
              return;
          if (e.getOption().equalsIgnoreCase("open")) {
              p.setNextAnimation(new Animation(536));
@@ -524,7 +524,7 @@ public class ShieldOfArrav extends QuestOutline {
 
     public static ObjectClickHandler handleWeaponsStoreDoor = new ObjectClickHandler(new Object[]{2398}, e -> {
     	GameObject obj = e.getObject();
-        if (!obj.getTile().matches(WorldTile.of(3251, 3386, 0)))
+        if (!obj.getTile().matches(Tile.of(3251, 3386, 0)))
             return;
         if (e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
             Doors.handleDoor(e.getPlayer(), e.getObject());
@@ -547,8 +547,8 @@ public class ShieldOfArrav extends QuestOutline {
              e.getPlayer().sendMessage("This authenticates the Shield Of Arrav");
     });
 
-	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { PHOENIX_CROSSBOW }, WorldTile.of(3245, 3385, 1), e -> {
-		List<NPC> npcs = World.getNPCsInRegion(e.getPlayer().getRegionId());
+	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { PHOENIX_CROSSBOW }, Tile.of(3245, 3385, 1), e -> {
+		List<NPC> npcs = World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1);
 		for (NPC npc : npcs)
 			if (npc.getId() == 643) {
 				switch (Utils.random(1, 4)) {

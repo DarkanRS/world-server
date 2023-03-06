@@ -32,7 +32,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnGroundItem;
 import com.rs.lib.util.Utils;
@@ -48,11 +48,11 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 
 		if (packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId())
 			return;
-		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
-		final int regionId = tile.getRegionId();
-		if (!player.getMapRegionsIds().contains(regionId))
+		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
+		final int chunkId = tile.getChunkId();
+		if (!player.getMapChunkIds().contains(chunkId))
 			return;
-		GroundItem groundItem = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+		GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 		if (groundItem == null)
 			return;
 		player.stopAll();
@@ -80,7 +80,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 				public boolean process() {
 					if (player.isDead() || player.hasFinished())
 						return false;
-					final GroundItem item = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+					final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 					if ((item == null) || (player.getPlane() != tile.getPlane()))
 						return false;
 					if (player.hasEffect(Effect.FREEZE))
@@ -99,17 +99,17 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 					if (Magic.checkMagicAndRunes(player, 33, true, new RuneSet(Rune.AIR, 1, Rune.LAW, 1))) {
 						player.getActionManager().setActionDelay(3);
 						player.resetWalkSteps();
-						player.setNextFaceWorldTile(tile);
+						player.setNextFaceTile(tile);
 						player.setNextAnimation(new Animation(711));
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
 						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, 0, p -> {
-							final GroundItem gItem = World.getRegion(regionId).getGroundItem(packet.getItemId(), tile, player);
+							final GroundItem gItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 							if (gItem == null) {
 								player.sendMessage("Too late. It's gone!");
 								return;
 							}
-							World.sendSpotAnim(null, new SpotAnim(144), tile);
+							World.sendSpotAnim(tile, new SpotAnim(144));
 							PickupItemEvent e2 = new PickupItemEvent(player, gItem, true);
 							PluginManager.handle(e2);
 							if (!e2.isCancelPickup())

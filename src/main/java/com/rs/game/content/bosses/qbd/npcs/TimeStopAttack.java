@@ -49,7 +49,7 @@ public final class TimeStopAttack implements QueenAttack {
 		if (npc.getSouls().isEmpty())
 			return 1;
 		final TorturedSoul soul = npc.getSouls().get(Utils.random(npc.getSouls().size()));
-		soul.setNextWorldTile(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
+		soul.setNextTile(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
 		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
 		soul.setLocked(true);

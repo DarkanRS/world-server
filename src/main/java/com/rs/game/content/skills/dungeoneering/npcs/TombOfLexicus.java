@@ -18,13 +18,13 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class TombOfLexicus extends DungeonNPC {
 
 	private LexicusRunewright boss;
 
-	public TombOfLexicus(LexicusRunewright boss, int id, WorldTile tile, DungeonManager manager) {
+	public TombOfLexicus(LexicusRunewright boss, int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
 		setForceAgressive(true);
 		this.boss = boss;

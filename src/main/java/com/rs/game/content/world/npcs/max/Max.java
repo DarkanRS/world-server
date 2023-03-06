@@ -20,7 +20,7 @@ import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -41,7 +41,7 @@ public class Max extends NPC {
 	private String displayName;
 	private int cbLevel;
 
-	public Max(int id, WorldTile tile) {
+	public Max(int id, Tile tile) {
 		super(id, tile);
 		setRun(true);
 		setIgnoreNPCClipping(true);
@@ -152,13 +152,6 @@ public class Max extends NPC {
 		if (task == null)
 			return nextTasks;
 		return nextTasks.stream().filter(pred -> !pred.getClass().isAssignableFrom(task.getClass())).toList();
-	}
-	
-	@ServerStartupEvent
-	public static void loadMaxRegions() {
-		World.getRegion(12342, true);
-		World.getRegion(12853, true);
-		World.getRegion(12854, true);
 	}
 	
 	public static NPCClickHandler clickClose = new NPCClickHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Talk-to", "Trade" }, e -> {

@@ -87,7 +87,7 @@ public final class DungeoneeringWoodcutting extends PlayerAction {
 	}
 
 	private boolean checkTree(Player player) {
-		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(treeObj);
+		return World.getChunk(treeObj.getTile().getChunkId()).objectExists(treeObj);
 	}
 
 	@Override

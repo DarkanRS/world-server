@@ -32,7 +32,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
@@ -248,7 +248,7 @@ public class StealingCreationGameController {
 			for (int testX = startX - 1; testX < (startX + 2); testX++)
 				for (int testY = startY - 1; testY < (startY + 2); testY++)
 					for (int a = 0; a < objects.length; a++) {
-						GameObject obj = World.getObjectWithId(WorldTile.of(testX, testY, 0), objects[a]);
+						GameObject obj = World.getObjectWithId(Tile.of(testX, testY, 0), objects[a]);
 						if (obj != null) {
 							if (a != look)
 								World.spawnObject(new GameObject(objects[look], obj.getType(), obj.getRotation(), obj.getTile()));
@@ -265,59 +265,59 @@ public class StealingCreationGameController {
 			int maxX = area.getMinX() + (x << 3) + Helper.BARRIER_MAX[0];
 			int maxY = area.getMinY() + (y << 3) + Helper.BARRIER_MAX[1];
 			if (tier == 0) {
-				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 1, WorldTile.of(minX, minY, 0)));
-				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 2, WorldTile.of(minX, maxY, 0)));
-				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 3, WorldTile.of(maxX, maxY, 0)));
-				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 0, WorldTile.of(maxX, minY, 0)));
+				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 1, Tile.of(minX, minY, 0)));
+				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 2, Tile.of(minX, maxY, 0)));
+				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 3, Tile.of(maxX, maxY, 0)));
+				World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_DIAGONAL_CORNER, 0, Tile.of(maxX, minY, 0)));
 				for (x = minX + 1; x <= maxX - 1; x++) {
-					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(x, minY, 0)));
-					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(x, maxY, 0)));
+					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 1, Tile.of(x, minY, 0)));
+					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 3, Tile.of(x, maxY, 0)));
 				}
 				for (y = minY + 1; y <= maxY - 1; y++) {
-					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(minX, y, 0)));
-					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(maxX, y, 0)));
+					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 2, Tile.of(minX, y, 0)));
+					World.spawnObject(new GameObject(Helper.EMPTY_BARRIER1, ObjectType.WALL_STRAIGHT, 0, Tile.of(maxX, y, 0)));
 				}
 			} else {
 				int wallID = team ? Helper.RED_BARRIER_WALLS[tier - 1][damage] : Helper.BLUE_BARRIER_WALLS[tier - 1][damage];
 				int gate1ID = team ? Helper.RED_BARRIER_GATES[tier - 1][0] : Helper.BLUE_BARRIER_GATES[tier - 1][0];
 				int gate2ID = team ? Helper.RED_BARRIER_GATES[tier - 1][1] : Helper.BLUE_BARRIER_GATES[tier - 1][1];
 
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(minX + 0, minY + 1, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(minX + 0, minY + 4, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 2, Tile.of(minX + 0, minY + 1, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 2, Tile.of(minX + 0, minY + 4, 0)));
 
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(maxX + 0, minY + 1, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(maxX + 0, minY + 4, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 0, Tile.of(maxX + 0, minY + 1, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 0, Tile.of(maxX + 0, minY + 4, 0)));
 
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(minX + 1, minY + 0, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(minX + 4, minY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 1, Tile.of(minX + 1, minY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 1, Tile.of(minX + 4, minY + 0, 0)));
 
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(minX + 1, maxY + 0, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(minX + 4, maxY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 3, Tile.of(minX + 1, maxY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_STRAIGHT, 3, Tile.of(minX + 4, maxY + 0, 0)));
 
 				// corners
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 1, WorldTile.of(minX + 0, minY + 0, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 2, WorldTile.of(minX + 0, maxY + 0, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 0, WorldTile.of(maxX + 0, minY + 0, 0)));
-				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 3, WorldTile.of(maxX + 0, maxY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 1, Tile.of(minX + 0, minY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 2, Tile.of(minX + 0, maxY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 0, Tile.of(maxX + 0, minY + 0, 0)));
+				World.spawnObject(new GameObject(wallID, ObjectType.WALL_DIAGONAL_CORNER, 3, Tile.of(maxX + 0, maxY + 0, 0)));
 				// --------
 
 				// gates
 
 				// west
-				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(minX + 0, minY + 3, 0)));
-				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(minX + 0, minY + 2, 0)));
+				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 2, Tile.of(minX + 0, minY + 3, 0)));
+				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 2, Tile.of(minX + 0, minY + 2, 0)));
 
 				// east
-				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(maxX + 0, minY + 3, 0)));
-				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(maxX + 0, minY + 2, 0)));
+				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 0, Tile.of(maxX + 0, minY + 3, 0)));
+				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 0, Tile.of(maxX + 0, minY + 2, 0)));
 
 				// south
-				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(minX + 2, minY + 0, 0)));
-				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(minX + 3, minY + 0, 0)));
+				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 1, Tile.of(minX + 2, minY + 0, 0)));
+				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 1, Tile.of(minX + 3, minY + 0, 0)));
 
 				// north
-				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(minX + 2, maxY + 0, 0)));
-				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(minX + 3, maxY + 0, 0)));
+				World.spawnObject(new GameObject(gate2ID, ObjectType.WALL_STRAIGHT, 3, Tile.of(minX + 2, maxY + 0, 0)));
+				World.spawnObject(new GameObject(gate1ID, ObjectType.WALL_STRAIGHT, 3, Tile.of(minX + 3, maxY + 0, 0)));
 
 				// --------
 			}
@@ -361,8 +361,8 @@ public class StealingCreationGameController {
 		int index = Helper.getItemIndex(name);
 		if (clicked && index == 2 || index == -1)
 			return;
-		WorldTile tile = WorldTile.of(getArea().getMinX() + (base[0] * 8) + entrance[0], getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
-		objectLoop: for (GameObject object : World.getRegion(tile.getRegionId()).getAllObjects()) {
+		Tile tile = Tile.of(getArea().getMinX() + (base[0] * 8) + entrance[0], getArea().getMinY() + (base[1] * 8) + entrance[1], 0);
+		for (GameObject object : World.getAllObjectsInChunkRange(tile.getChunkId(), 5)) {
 			if (object == null || object.getId() != 39534 + index || !object.getTile().withinDistance(tile, 30))
 				continue;
 			int nameIndex = name.indexOf("(class");
@@ -378,7 +378,7 @@ public class StealingCreationGameController {
 			Controller controller = player.getControllerManager().getController();
 			if (controller instanceof StealingCreationController ctrl)
 				ctrl.sendScore(score);
-			break objectLoop;
+			break;
 		}
 	}
 

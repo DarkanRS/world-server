@@ -21,7 +21,7 @@ import java.util.Deque;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.utils.WorldUtil;
 
 public final class DumbRouteFinder {
@@ -31,11 +31,11 @@ public final class DumbRouteFinder {
 	}
 
 	public static boolean addDumbPathfinderSteps(Entity entity, Object target, int maxSize, ClipType type) {
-		Deque<WorldTile> tiles = find(entity, target, maxSize, type);
+		Deque<Tile> tiles = find(entity, target, maxSize, type);
 		if (tiles.size() > 0) {
-			WorldTile last = WorldTile.of(entity.getTile());
+			Tile last = Tile.of(entity.getTile());
 			//World.sendSpotAnim(null, new SpotAnim(2000), last);
-			for (WorldTile t : tiles) {
+			for (Tile t : tiles) {
 				//World.sendSpotAnim(null, new SpotAnim(2000), t);
 				entity.addWalkStep(t.getX(), t.getY(), last.getX(), last.getY(), true);
 				last = t;
@@ -45,16 +45,16 @@ public final class DumbRouteFinder {
 		return false;
 	}
 
-	private static Deque<WorldTile> find(Object origin, Object target, int maxSize, ClipType type) {
-		WorldTile originTile = WorldUtil.targetToTile(origin);
-		WorldTile targetTile = WorldUtil.targetToTile(target);
+	private static Deque<Tile> find(Object origin, Object target, int maxSize, ClipType type) {
+		Tile originTile = WorldUtil.targetToTile(origin);
+		Tile targetTile = WorldUtil.targetToTile(target);
 		int size = origin instanceof Entity e ? e.getSize() : 1;
-		WorldTile real = WorldTile.of(originTile);
-		WorldTile curr = origin instanceof Entity e ? e.getMiddleWorldTile() : WorldTile.of(originTile);
-		WorldTile targ = target instanceof Entity e ? e.getMiddleWorldTile() : WorldTile.of(targetTile);
-		Deque<WorldTile> positions = new ArrayDeque<>(maxSize);
+		Tile real = Tile.of(originTile);
+		Tile curr = origin instanceof Entity e ? e.getMiddleTile() : Tile.of(originTile);
+		Tile targ = target instanceof Entity e ? e.getMiddleTile() : Tile.of(targetTile);
+		Deque<Tile> positions = new ArrayDeque<>(maxSize);
 		while (true) {
-			WorldTile from = WorldTile.of(curr);
+			Tile from = Tile.of(curr);
 			if (curr.getX() < targ.getX() && curr.getY() < targ.getY()) {
 				if (World.checkWalkStep(real, real.transform(1, 1), size, type)) {
 					real = add(positions, real.transform(1, 1));
@@ -125,7 +125,7 @@ public final class DumbRouteFinder {
 		return positions;
 	}
 
-	private static WorldTile add(Deque<WorldTile> positions, WorldTile att) {
+	private static Tile add(Deque<Tile> positions, Tile att) {
 		positions.add(att);
 		return att;
 	}

@@ -124,7 +124,7 @@ public final class MusicsManager {
 
     public void setPlayer(Player player) {
         this.player = player;
-        playingMusic = World.getRegion(player.getRegionId()).getMusicId();
+        playingMusic = World.getChunk(player.getChunkId()).getMusicId();
     }
 
     public void switchShuffleOn() {
@@ -427,7 +427,7 @@ public final class MusicsManager {
 
     public void reset() {
         settedMusic = false;
-        player.getMusicsManager().checkMusic(World.getRegion(player.getRegionId()).getMusicId());
+        player.getMusicsManager().checkMusic(World.getChunk(player.getChunkId()).getMusicId());
     }
 
     public void sendHint(int slotId) {

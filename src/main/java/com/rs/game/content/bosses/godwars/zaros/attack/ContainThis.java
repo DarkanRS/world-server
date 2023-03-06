@@ -28,7 +28,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
@@ -39,7 +39,7 @@ public class ContainThis implements NexAttack {
 		nex.setNextForceTalk(new ForceTalk("Contain this!"));
 		nex.voiceEffect(3316);
 		nex.setNextAnimation(new Animation(6984));
-		final WorldTile base = nex.transform(1, 1, 0);
+		final Tile base = nex.transform(1, 1, 0);
 		nex.resetWalkSteps();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -48,7 +48,7 @@ public class ContainThis implements NexAttack {
 					for (int x = 2; x >= -2; x-=2) {
 						if (x == y)
 							continue;
-						final WorldTile tile = base.transform(x, y, 0);
+						final Tile tile = base.transform(x, y, 0);
 						final GameObject object = new GameObject(57262, ObjectType.SCENERY_INTERACT, 0, tile);
 						if (tile != base && World.floorAndWallsFree(tile, (object.getDefinitions().getSizeX() + object.getDefinitions().getSizeY()) / 2)) {
 							for (Player player : nex.getArena().getPlayers())

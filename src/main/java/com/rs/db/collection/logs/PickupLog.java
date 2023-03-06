@@ -6,14 +6,14 @@ import java.util.UUID;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class PickupLog {
 	private String uuid;
 	private String player;
 	private String itemName;
 	private Item item;
-	private WorldTile tile;
+	private Tile tile;
 	private String owner;
 
 	public PickupLog(Player player, GroundItem item) {

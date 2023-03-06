@@ -28,7 +28,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -90,25 +90,25 @@ public class Ectofuntus {
 		}
 	}
 
-	public static final void sendEctophialTeleport(Player player, WorldTile tile) {
+	public static final void sendEctophialTeleport(Player player, Tile tile) {
 		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null);
 	}
 
-	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }, e -> e.getPlayer().useLadder(WorldTile.of(3669, 9888, 3)));
-	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }, e -> e.getPlayer().useLadder(WorldTile.of(3654, 3519, 0)));
+	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }, e -> e.getPlayer().useLadder(Tile.of(3669, 9888, 3)));
+	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }, e -> e.getPlayer().useLadder(Tile.of(3654, 3519, 0)));
 
 	public static ObjectClickHandler handleShortcuts = new ObjectClickHandler(new Object[] { 9307, 9308 }, e -> {
 		switch (e.getObjectId()) {
 		case 9307:
 			if (!Agility.hasLevel(e.getPlayer(), 53))
 				return;
-			e.getPlayer().useLadder(WorldTile.of(3670, 9888, 3));
+			e.getPlayer().useLadder(Tile.of(3670, 9888, 3));
 			return;
 
 		case 9308:
 			if (!Agility.hasLevel(e.getPlayer(), 53))
 				return;
-			e.getPlayer().useLadder(WorldTile.of(3671, 9888, 2));
+			e.getPlayer().useLadder(Tile.of(3671, 9888, 2));
 			return;
 		}
 	});
@@ -117,20 +117,20 @@ public class Ectofuntus {
 		switch (e.getObjectId()) {
 		case 5262:
 			if (e.getPlayer().getPlane() == 2)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3692, 9888, 3));
+				e.getPlayer().setNextTile(Tile.of(3692, 9888, 3));
 			if (e.getPlayer().getPlane() == 1)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3671, 9888, 2));
+				e.getPlayer().setNextTile(Tile.of(3671, 9888, 2));
 			if (e.getPlayer().getPlane() == 0)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3687, 9888, 1));
+				e.getPlayer().setNextTile(Tile.of(3687, 9888, 1));
 			return;
 
 		case 5263:
 			if (e.getPlayer().getPlane() == 3)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3688, 9888, 2));
+				e.getPlayer().setNextTile(Tile.of(3688, 9888, 2));
 			if (e.getPlayer().getPlane() == 2)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3675, 9887, 1));
+				e.getPlayer().setNextTile(Tile.of(3675, 9887, 1));
 			if (e.getPlayer().getPlane() == 1)
-				e.getPlayer().setNextWorldTile(WorldTile.of(3683, 9888, 0));
+				e.getPlayer().setNextTile(Tile.of(3683, 9888, 0));
 			return;
 		}
 	});

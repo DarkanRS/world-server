@@ -115,7 +115,7 @@ public class OddensteinErnestChickenD extends Conversation {
 				addSimple("You give a rubber tube, a pressure gauge, and a can of oil to the professor.");
 				addSimple("Oddenstein starts up the machine.");
 				addSimple("The machine hums and shakes.", ()-> {
-					List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+					List<NPC> npcs = World.getNPCsInChunkRange(p.getChunkId(), 1);
 					for(NPC npc : npcs)
 						if(npc.getId() == 3290)
 							npc.transformIntoNPC(287);

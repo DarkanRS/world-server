@@ -22,7 +22,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.VarManager;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -150,7 +150,7 @@ public class PuzzleRoom {
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
@@ -167,7 +167,7 @@ public class PuzzleRoom {
 		}
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
-		WorldTile toTile = object.getTile();
+		Tile toTile = object.getTile();
 		switch (object.getRotation()) {
 		case 0:
 			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
@@ -191,7 +191,7 @@ public class PuzzleRoom {
 	private static void handlePuzzle2Door(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
 		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
-		WorldTile adjusted = object.getTile();
+		Tile adjusted = object.getTile();
 		switch (rotation) {
 		case 0:
 			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
@@ -208,7 +208,7 @@ public class PuzzleRoom {
 		}
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
-		WorldTile toTile = object.getTile();
+		Tile toTile = object.getTile();
 		switch (object.getRotation()) {
 		case 0:
 			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);

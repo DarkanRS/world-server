@@ -18,16 +18,16 @@ package com.rs.utils.spawns;
 
 import com.rs.game.World;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class ItemSpawn {
 
 	private String comment;
 	private int itemId;
 	private int amount;
-	private WorldTile tile;
+	private Tile tile;
 
-	public ItemSpawn(int itemId, int amount, WorldTile tile, String comment) {
+	public ItemSpawn(int itemId, int amount, Tile tile, String comment) {
 		this.itemId = itemId;
 		this.amount = amount;
 		this.tile = tile;
@@ -39,7 +39,7 @@ public class ItemSpawn {
 		World.addGroundItemForever(new Item(itemId, amount), tile);
 	}
 
-	public WorldTile getTile() {
+	public Tile getTile() {
 		return tile;
 	}
 

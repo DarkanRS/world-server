@@ -31,7 +31,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class LakkTheRiftSplitter extends DungeonBoss {
@@ -41,7 +41,7 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 
 	private List<PortalCluster> clusters;
 
-	public LakkTheRiftSplitter(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public LakkTheRiftSplitter(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9898, 9911), manager.getBossLevel()), tile, manager, reference);
 		clusters = new CopyOnWriteArrayList<>();
 	}
@@ -62,7 +62,7 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 				if (cluster.getCycle() < 1)
 					continue;
 				if (cluster.getCycle() % 2 == 0)
-					for (WorldTile tile : cluster.getBoundary())
+					for (Tile tile : cluster.getBoundary())
 						if (player.getX() == tile.getX() && player.getY() == tile.getY()) {
 							cluster.increaseEffectMultipier();
 							int type = cluster.getType();
@@ -91,31 +91,31 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 		clusters.clear();
 	}
 
-	public void addPortalCluster(int type, WorldTile[] boundary) {
+	public void addPortalCluster(int type, Tile[] boundary) {
 		PortalCluster cluster = new PortalCluster(type, boundary);
 		submitGraphics(cluster, this);
 		clusters.add(cluster);
 	}
 
 	public static void submitGraphics(PortalCluster cluster, NPC creator) {
-		for (WorldTile tile : cluster.getBoundary())
-			World.sendSpotAnim(creator, new SpotAnim((Utils.random(3) == 0 ? 1 : 0) + RAIN_GRAPHICS[cluster.getType()]), tile);
+		for (Tile tile : cluster.getBoundary())
+			World.sendSpotAnim(tile, new SpotAnim((Utils.random(3) == 0 ? 1 : 0) + RAIN_GRAPHICS[cluster.getType()]));
 	}
 
 	private static class PortalCluster {
 
 		private final int type;
-		private final WorldTile[] boundary;
+		private final Tile[] boundary;
 		private int cycle;
 		private double effectMultiplier;
 
-		public PortalCluster(int type, WorldTile[] boundary) {
+		public PortalCluster(int type, Tile[] boundary) {
 			this.type = type;
 			this.boundary = boundary;
 			effectMultiplier = 0.5;
 		}
 
-		public WorldTile[] getBoundary() {
+		public Tile[] getBoundary() {
 			return boundary;
 		}
 
@@ -140,10 +140,10 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 		}
 	}
 
-	public boolean doesBoundaryOverlap(List<WorldTile> boundaries) {
+	public boolean doesBoundaryOverlap(List<Tile> boundaries) {
 		for (PortalCluster cluster : clusters)
-			for (WorldTile tile : cluster.getBoundary())
-				for (WorldTile boundary : boundaries)
+			for (Tile tile : cluster.getBoundary())
+				for (Tile boundary : boundaries)
 					if (tile.getX() == boundary.getX() && tile.getY() == boundary.getY())
 						return true;
 		return false;

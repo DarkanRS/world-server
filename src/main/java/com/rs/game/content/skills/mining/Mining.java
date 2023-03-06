@@ -217,7 +217,7 @@ public class Mining extends Action {
 	}
 
 	public boolean checkRock() {
-		return rockObj != null ? World.getRegion(rockObj.getTile().getRegionId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
+		return rockObj != null ? World.getChunk(rockObj.getTile().getChunkId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
 	}
 
 	public static double getXPMultiplier(Player player) {

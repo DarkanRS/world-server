@@ -28,7 +28,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -318,7 +318,7 @@ public class Slayer {
 	public static boolean isUsingBell(final Player player) {
 		player.lock(3);
 		player.setNextAnimation(new Animation(6083));
-		List<GameObject> objects = World.getRegion(player.getRegionId()).getAllObjects();
+		List<GameObject> objects = World.getChunk(player.getChunkId()).getAllObjects();
 		if (objects == null)
 			return false;
 		for (final GameObject object : objects) {
@@ -328,7 +328,7 @@ public class Slayer {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					NPC npc = World.spawnNPC(5751, WorldTile.of(player.getTile()), -1, true);
+					NPC npc = World.spawnNPC(5751, Tile.of(player.getTile()), -1, true);
 					npc.getCombat().setTarget(player);
 					GameObject o = new GameObject(object);
 					o.setId(22544);

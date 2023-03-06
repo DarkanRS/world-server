@@ -31,7 +31,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonConstants.SkillDoors;
 import com.rs.game.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.HandledRoom;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class DungeonUtils {
@@ -637,11 +637,11 @@ public final class DungeonUtils {
 		return false;
 	}
 
-	public static List<WorldTile> getRandomOrderCoords(int size) {
-		List<WorldTile> list = new ArrayList<>();
+	public static List<Tile> getRandomOrderCoords(int size) {
+		List<Tile> list = new ArrayList<>();
 		for (int x = 2;x < (15-size);x++)
 			for (int y = 2;y < (15-size);y++)
-				list.add(WorldTile.of(x, y, 0));
+				list.add(Tile.of(x, y, 0));
 		Collections.shuffle(list);
 		return list;
 	}

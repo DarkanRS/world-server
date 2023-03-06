@@ -19,14 +19,14 @@ package com.rs.game.content.quests.restlessghost;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class RGhost extends NPC {
 
-	public RGhost(int id, WorldTile tile) {
+	public RGhost(int id, Tile tile) {
 		super(id, tile);
 	}
 

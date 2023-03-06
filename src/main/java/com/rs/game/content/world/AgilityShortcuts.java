@@ -23,76 +23,76 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class AgilityShortcuts {
 
-	public static void forceMovement(Player player, WorldTile tile, int animation, int delay) {
+	public static void forceMovement(Player player, Tile tile, int animation, int delay) {
 		forceMovement(player, tile, animation, 0, delay);
 	}
 
-	public static void forceMovement(Player player, WorldTile tile, int animation, int useDelay, int delay) {
+	public static void forceMovement(Player player, Tile tile, int animation, int useDelay, int delay) {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(tile);
+				player.setNextTile(tile);
 				player.unlock();
 			}
 		}, delay+useDelay);
 	}
 
-	public static void forceMovement(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
+	public static void forceMovement(Player player, Tile tile, int animation, int useDelay, int delay, Direction direction) {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay, direction));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(tile);
+				player.setNextTile(tile);
 				player.unlock();
 			}
 		}, delay+useDelay);
 	}
 
-	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int delay) {
+	public static void forceMovementInstant(Player player, Tile tile, int animation, int delay) {
 		forceMovementInstant(player, tile, animation, 0, delay);
 	}
 
-	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int useDelay, int delay) {
+	public static void forceMovementInstant(Player player, Tile tile, int animation, int useDelay, int delay) {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(tile);
+				player.setNextTile(tile);
 				player.unlock();
 			}
 		}, delay+useDelay);
 	}
 
-	public static void forceMovementInstant(Player player, WorldTile tile, int animation, int useDelay, int delay, Direction direction) {
+	public static void forceMovementInstant(Player player, Tile tile, int animation, int useDelay, int delay, Direction direction) {
 		player.setNextAnimation(new Animation(animation));
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay, direction));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(tile);
+				player.setNextTile(tile);
 				player.unlock();
 			}
 		}, delay+useDelay);
 	}
 
-	public static void climbOver(Player player, WorldTile toTile) {
+	public static void climbOver(Player player, Tile toTile) {
 		climbOver(player, toTile, 1560);
 	}
 
-	public static void climbOver(Player player, WorldTile toTile, int animId) {
+	public static void climbOver(Player player, Tile toTile, int animId) {
 		Direction direction = null;
 		if (player.getX() < toTile.getX())
 			direction = Direction.EAST;
@@ -108,13 +108,13 @@ public class AgilityShortcuts {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 				player.unlock();
 			}
 		}, 1);
 	}
 
-	public static void sidestep(final Player player, WorldTile toTile) {
+	public static void sidestep(final Player player, Tile toTile) {
 		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
@@ -126,7 +126,7 @@ public class AgilityShortcuts {
 					player.setNextAnimation(new Animation(3844));
 					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
 				} else if (ticks == 4) {
-					player.setNextWorldTile(toTile);
+					player.setNextTile(toTile);
 					player.unlock();
 					stop();
 				}
@@ -134,7 +134,7 @@ public class AgilityShortcuts {
 		}, 0, 0);
 	}
 
-	public static void crawlUnder(final Player player, WorldTile toTile) {
+	public static void crawlUnder(final Player player, Tile toTile) {
 		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
@@ -147,7 +147,7 @@ public class AgilityShortcuts {
 					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
 				} else if (ticks == 4) {
 					player.setNextAnimation(new Animation(2591));
-					player.setNextWorldTile(toTile);
+					player.setNextTile(toTile);
 					player.unlock();
 					stop();
 				}
@@ -155,7 +155,7 @@ public class AgilityShortcuts {
 		}, 0, 0);
 	}
 
-	public static void walkLog(final Player player, WorldTile toTile, int delay) {
+	public static void walkLog(final Player player, Tile toTile, int delay) {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock(delay);

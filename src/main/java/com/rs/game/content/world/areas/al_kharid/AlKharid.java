@@ -23,7 +23,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 @PluginEventHandler
 public class AlKharid {
 
-	public static PlayerStepHandler shantayPass = new PlayerStepHandler(new WorldTile[] { WorldTile.of(3303, 3116, 0), WorldTile.of(3303, 3117, 0), WorldTile.of(3305, 3116, 0), WorldTile.of(3305, 3117, 0) }, e -> {
+	public static PlayerStepHandler shantayPass = new PlayerStepHandler(new Tile[] { Tile.of(3303, 3116, 0), Tile.of(3303, 3117, 0), Tile.of(3305, 3116, 0), Tile.of(3305, 3117, 0) }, e -> {
 		if (e.getStep().getY() == 3116 && e.getStep().getDir() == Direction.SOUTH) {
 			if (!e.getPlayer().getInventory().containsItem(1854, 1)) {
 				e.getPlayer().sendMessage("You should check with Shantay for a pass.");
@@ -69,10 +69,10 @@ public class AlKharid {
 		Player p = e.getPlayer();
 		WorldObject obj = e.getObject();
 
-		if(obj.getTile().matches(WorldTile.of(3306, 3315, 0)))//above
-			AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
-		if(obj.getTile().matches(WorldTile.of(3304, 3315, 0)))//below
-			AgilityShortcuts.forceMovementInstant(p, WorldTile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+		if(obj.getTile().matches(Tile.of(3306, 3315, 0)))//above
+			AgilityShortcuts.forceMovementInstant(p, Tile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
+		if(obj.getTile().matches(Tile.of(3304, 3315, 0)))//below
+			AgilityShortcuts.forceMovementInstant(p, Tile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
 	});
 
 }

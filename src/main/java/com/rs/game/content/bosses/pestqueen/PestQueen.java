@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.pestqueen;
 import com.rs.game.content.bosses.pestqueen.attack.Attack;
 import com.rs.game.content.bosses.pestqueen.attack.impl.MeleeAttack;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 /**
  *
@@ -30,7 +30,7 @@ public class PestQueen extends NPC {
 
 	public Attack currentAttack;
 
-	public PestQueen(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public PestQueen(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(id, tile);
 		setHitpoints(20000);
 		setCombatLevel(599);

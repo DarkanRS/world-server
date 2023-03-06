@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.EntityStrategy;
 import com.rs.game.model.entity.pathing.Route;
 import com.rs.game.model.entity.pathing.RouteFinder;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -56,7 +56,7 @@ public class EntityFollow extends Action {
 		if (player.getPlane() != target.getPlane() || distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 			return false;
 		int lastFaceEntity = target.getLastFaceEntity();
-		WorldTile toTile = target.getTileBehind() != null && Utils.getDistance(target.getTile(), target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
+		Tile toTile = target.getTileBehind() != null && Utils.getDistance(target.getTile(), target.getTileBehind()) <= 3 ? target.getTileBehind() : target.getBackfacingTile();
 		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof EntityFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
 		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {

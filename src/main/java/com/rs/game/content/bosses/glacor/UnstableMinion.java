@@ -25,7 +25,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class UnstableMinion extends NPC {
@@ -42,7 +42,7 @@ public class UnstableMinion extends NPC {
 
 	final NPC thisNpc = this;
 
-	public UnstableMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
+	public UnstableMinion(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
 		super(id, tile, spawned);
 		this.parent = parent;
 		setForceAgressive(true);
@@ -95,7 +95,7 @@ public class UnstableMinion extends NPC {
 			public void run() {
 				if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())
 					return;
-				for (Player player : World.getPlayersInRegionRange(getRegionId()))
+				for (Player player : queryNearbyPlayersByTileRange(2, player -> !player.isDead()))
 					if (Utils.getDistance(thisNpc.getX(), thisNpc.getY(), player.getX(), player.getY()) < 2)
 						player.applyHit(new Hit(player, player.getHitpoints() / 3, HitLook.TRUE_DAMAGE));
 				thisNpc.applyHit(new Hit(thisNpc, (int) (thisNpc.getHitpoints() * 0.90), HitLook.TRUE_DAMAGE));

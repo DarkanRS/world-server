@@ -5,7 +5,7 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -20,19 +20,19 @@ public class FishingTrawlerGameController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		sendMessage();
 		return false;
 	}
 
 	@Override
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		sendMessage();
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		sendMessage();
 		return false;
 	}
@@ -44,7 +44,7 @@ public class FishingTrawlerGameController extends Controller {
 	@Override
 	public boolean login() {
 		FishingTrawler.getInstance().removeGamePlayer(player);
-		player.setNextWorldTile(FishingTrawler.SHORE.getRandomTile());
+		player.setNextTile(FishingTrawler.SHORE.getRandomTile());
 		return true;
 	}
 
@@ -61,11 +61,11 @@ public class FishingTrawlerGameController extends Controller {
 		if(object.getId() == 255)
 			player.sendMessage("It seems the winch is jammed - I can't move it.");
 		else if(object.getId() == 2174 || object.getId() == 2175) {
-			WorldTile tile;
+			Tile tile;
 			if(object.getId() == 2174)
-				tile = object.getY() == 4826 ? WorldTile.of(1883, 4826, 1) : WorldTile.of(1894, 4824, 1);
+				tile = object.getY() == 4826 ? Tile.of(1883, 4826, 1) : Tile.of(1894, 4824, 1);
 			else
-				tile = object.getY() == 4826 ? WorldTile.of(1885, 4826, 0) : WorldTile.of(1892, 4824, 0);
+				tile = object.getY() == 4826 ? Tile.of(1885, 4826, 0) : Tile.of(1892, 4824, 0);
 			if(trawler.isWaterShip())
 				tile = tile.transform(128, 0);
 			player.useLadder(tile);
@@ -90,7 +90,7 @@ public class FishingTrawlerGameController extends Controller {
 	public static ObjectClickHandler fillLeak = new ObjectClickHandler(false, new Object[] { FishingTrawler.LEAK }, e -> {
 		e.getPlayer().resetWalkSteps();
 		RegionUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
-		WorldTile tile;
+		Tile tile;
 		if(e.getObject().getY() == area.getY()-1)
 			tile = e.getObject().getTile().transform(0, 1);
 		else
@@ -98,7 +98,7 @@ public class FishingTrawlerGameController extends Controller {
 		e.getPlayer().addWalkSteps(tile, 25, false);
 		e.getPlayer().setRouteEvent(new RouteEvent(tile, () -> {
 			e.getPlayer().lock(1);
-			e.getPlayer().setNextFaceWorldTile(WorldTile.of(e.getObject().getTile()));
+			e.getPlayer().setNextFaceTile(Tile.of(e.getObject().getTile()));
 			if(!e.getPlayer().getInventory().containsItem(FishingTrawler.SWAMP_PASTE)) {
 				e.getPlayer().sendMessage("You'll need some swamp paste to fill that.");
 				return;

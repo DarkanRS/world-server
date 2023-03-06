@@ -31,7 +31,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class PoltergeistRoom extends PuzzleRoom {
@@ -171,12 +171,12 @@ public class PoltergeistRoom extends PuzzleRoom {
 
 	public static class Poltergeist extends DungeonNPC {
 
-		private WorldTile[] corners;
+		private Tile[] corners;
 		private int ptr;
 
-		public Poltergeist(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+		public Poltergeist(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 			super(id, tile, manager);
-			corners = new WorldTile[4];
+			corners = new Tile[4];
 			corners[0] = manager.getTile(reference, 5, 5);
 			corners[1] = manager.getTile(reference, 5, 10);
 			corners[2] = manager.getTile(reference, 10, 10);

@@ -73,7 +73,7 @@ public class MorganMerlinsCrystalD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will go do all that.")
 							.addSimple("Morgan Le Faye vanishes.", ()->{
 								p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+								for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 									if(npc.getId() == NPC)
 										npc.finish();
 							})

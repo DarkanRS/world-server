@@ -22,13 +22,13 @@ import java.util.Map;
 import java.util.Set;
 
 import com.rs.engine.quest.Quest;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class QuestInformation {
 	private int id;
 	private String name;
 	private int startNpc;
-	private WorldTile startLocation;
+	private Tile startLocation;
 	private Set<Quest> preReqs = new HashSet<>();
 	private Map<Integer, Integer> skillReqs = new HashMap<>();
 	private Map<Integer, Integer> preReqSkillReqs = new HashMap<>();
@@ -53,11 +53,11 @@ public class QuestInformation {
 		this.startNpc = startNpc;
 	}
 
-	public WorldTile getStartLocation() {
+	public Tile getStartLocation() {
 		return startLocation;
 	}
 
-	public void setStartLocation(WorldTile startLocation) {
+	public void setStartLocation(Tile startLocation) {
 		this.startLocation = startLocation;
 	}
 

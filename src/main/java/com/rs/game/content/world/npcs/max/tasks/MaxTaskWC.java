@@ -8,7 +8,7 @@ import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class MaxTaskWC implements Task {
@@ -25,10 +25,10 @@ public class MaxTaskWC implements Task {
 		}
 		if (max.getTile().getRegionId() != 12854) {
 			if (max.getTile().getRegionId() != 12853)
-				Magic.npcNormalTeleport(max, WorldTile.of(3213, 3423, 0), true, null);
+				Magic.npcNormalTeleport(max, Tile.of(3213, 3423, 0), true, null);
 			else {
 				if (!max.hasWalkSteps())
-					max.setRouteEvent(new RouteEvent(WorldTile.of(3232, 3459, 0), () -> {  }));
+					max.setRouteEvent(new RouteEvent(Tile.of(3232, 3459, 0), () -> {  }));
 			}
 			return 10;
 		}
@@ -52,10 +52,10 @@ public class MaxTaskWC implements Task {
 		return 0;
 	}
 	
-	public GameObject getClosestIvy(WorldTile tile) {
+	public GameObject getClosestIvy(Tile tile) {
 		GameObject ivy = null;
 		double closest = Double.MAX_VALUE;
-		for (GameObject obj : World.getRegion(tile.getRegionId()).getObjects()) {
+		for (GameObject obj : World.getAllObjectsInChunkRange(tile.getChunkId(), 2)) {
 			if (obj == null || obj.getDefinitions() == null || !obj.getDefinitions().getName().equals("Ivy") || !obj.getDefinitions().containsOption("Chop"))
 				continue;
 			double dist = Utils.getDistance(obj.getTile(), tile);

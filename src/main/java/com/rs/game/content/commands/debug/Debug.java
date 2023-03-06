@@ -36,7 +36,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -76,7 +76,7 @@ public class Debug {
 		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
 			p.sendMessage("JagCoords: " + p.getPlane() + "," + p.getRegionX() + "," + p.getRegionY() + "," + p.getXInScene(p.getSceneBaseChunkId()) + "," + p.getYInScene(p.getSceneBaseChunkId()));
-			Logger.debug(Debug.class, "coordsCommand", "WorldTile.of(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
+			Logger.debug(Debug.class, "coordsCommand", "Tile.of(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
 		});
 
 		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
@@ -329,6 +329,11 @@ public class Debug {
 			p.sendMessage("GODMODE: " + !god);
 		});
 
+		Commands.add(Rights.PLAYER, "infrunes", "Toggles infinite runes for the player.", (p, args) -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		});
+
 		Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
 			p.delete(args[0]);
 		});
@@ -387,14 +392,14 @@ public class Debug {
 			for (Item item : p.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, WorldTile.of(p.getTile()));
+				World.addGroundItem(item, Tile.of(p.getTile()));
 			}
 			for (Item item : p.getInventory().getItems().array()) {
 				if (item != null)
 					Logger.debug(Debug.class, "droptest", item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, WorldTile.of(p.getTile()));
+				World.addGroundItem(item, Tile.of(p.getTile()));
 			}
 		});
 
@@ -405,13 +410,13 @@ public class Debug {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(x, y, plane));
+				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0])));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 		// case "load":

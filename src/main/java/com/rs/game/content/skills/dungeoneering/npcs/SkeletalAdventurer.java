@@ -33,7 +33,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class SkeletalAdventurer extends DungeonBoss {
@@ -42,7 +42,7 @@ public final class SkeletalAdventurer extends DungeonBoss {
 
 	private int npcId;
 
-	public SkeletalAdventurer(int type, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public SkeletalAdventurer(int type, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(type == MELEE ? DungeonUtils.getClosestToCombatLevel(Utils.range(11940, 11984, 3), manager.getBossLevel()) : type == RANGE ? DungeonUtils.getClosestToCombatLevel(Utils.range(12044, 12088, 3), manager.getBossLevel()) : DungeonUtils.getClosestToCombatLevel(Utils.range(11999, 12043, 3), manager.getBossLevel()), tile, manager, reference);
 		npcId = getId();
 	}
@@ -63,15 +63,11 @@ public final class SkeletalAdventurer extends DungeonBoss {
 		getCombat().removeTarget();
 		setNextAnimation(null);
 		boolean last = true;
-		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
-					continue;
-				last = false;
-				break;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(getChunkId(), 2)) {
+			if (npc == this || npc.isDead() || npc.hasFinished() || !npc.getName().startsWith("Skeletal "))
+				continue;
+			last = false;
+		}
 		final boolean l = last;
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0)

@@ -49,7 +49,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 
@@ -83,7 +83,7 @@ public class HouseController extends Controller {
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
 					player.setNextAnimation(new Animation(-1));
-					player.setNextWorldTile(house.getPortal());
+					player.setNextTile(house.getPortal());
 					player.reset();
 					player.setCanPvp(false);
 					stop();
@@ -285,7 +285,7 @@ public class HouseController extends Controller {
 	}
 
 	private void handleDoor(GameObject object) {
-		WorldTile target = null;
+		Tile target = null;
 		Direction direction = Direction.NORTH;
 		switch (object.getRotation()) {
 		case 0:
@@ -329,13 +329,13 @@ public class HouseController extends Controller {
 			return;
 		player.lock(1);
 		player.setNextAnimation(new Animation(741));
-		final WorldTile toTile = target;
+		final Tile toTile = target;
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 			}
 
 		}, 0);
@@ -358,7 +358,7 @@ public class HouseController extends Controller {
 	}
 
 	private void handleCombatRing(GameObject object) {
-		WorldTile target = null;
+		Tile target = null;
 		Direction direction = Direction.NORTH;
 		switch (object.getRotation()) {
 		case 0:
@@ -410,13 +410,13 @@ public class HouseController extends Controller {
 			return;
 		player.lock(1);
 		player.setNextAnimation(new Animation(3688));
-		final WorldTile toTile = target;
+		final Tile toTile = target;
 		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
 		WorldTasks.schedule(new WorldTask() {
 
 			@Override
 			public void run() {
-				player.setNextWorldTile(toTile);
+				player.setNextTile(toTile);
 			}
 
 		}, 0);
@@ -510,7 +510,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean logout() {
 		player.setTile(house.getLocation().getTile());
-		player.setNextWorldTile(house.getLocation().getTile());
+		player.setNextTile(house.getLocation().getTile());
 		house.leaveHouse(player, House.LOGGED_OUT);
 		return false;
 	}
@@ -518,7 +518,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextWorldTile(POHLocation.RIMMINGTON.getTile());
+		player.setNextTile(POHLocation.RIMMINGTON.getTile());
 		return false;
 	}
 
@@ -531,7 +531,7 @@ public class HouseController extends Controller {
 	@Override
 	public void forceClose() {
 		player.setTile(house.getLocation().getTile());
-		player.setNextWorldTile(house.getLocation().getTile());
+		player.setNextTile(house.getLocation().getTile());
 		player.removeHouseOnlyItems();
 		house.leaveHouse(player, House.TELEPORTED);
 	}
@@ -834,37 +834,37 @@ public class HouseController extends Controller {
 		case 13615:
 		case 13622:
 		case 13629:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(3212, 3424, 0), null, null); //Varrock
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(3212, 3424, 0), null, null); //Varrock
 			break;
 		case 13616:
 		case 13623:
 		case 13630:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(3222, 3218, 0), null, null); //Lumby
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(3222, 3218, 0), null, null); //Lumby
 			break;
 		case 13617:
 		case 13624:
 		case 13631:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(2964, 3379, 0), null, null); //Falador
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(2964, 3379, 0), null, null); //Falador
 			break;
 		case 13618:
 		case 13625:
 		case 13632:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(2757, 3478, 0), null, null); //Camelot
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(2757, 3478, 0), null, null); //Camelot
 			break;
 		case 13619:
 		case 13626:
 		case 13633:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(2664, 3305, 0), null, null); //Ardougne
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(2664, 3305, 0), null, null); //Ardougne
 			break;
 		case 13620:
 		case 13627:
 		case 13634:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(2546, 3095, 0), null, null); //Yanille
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(2546, 3095, 0), null, null); //Yanille
 			break;
 		case 13621:
 		case 13628:
 		case 13635:
-			Magic.sendNormalTeleportSpell(player, 1, 0, WorldTile.of(3492, 3471, 0), null, null); //Kharyrll
+			Magic.sendNormalTeleportSpell(player, 1, 0, Tile.of(3492, 3471, 0), null, null); //Kharyrll
 			break;
 		default:
 			player.sendMessage("Uh-oh... This shouldn't have happened (Object: " + objectId + "). Please report to staff.");

@@ -26,7 +26,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -68,7 +68,7 @@ public class DreadnautCombat extends CombatScript {
 				World.sendProjectile(boss, t, 2857, 30, 30, 25, 35, 15, 1);
 				if (damage > 0) {
 					sendReductionEffect(boss, t, damage);
-					boss.addSpot(WorldTile.of(t.getTile()));
+					boss.addSpot(Tile.of(t.getTile()));
 				} else
 					t.setNextSpotAnim(new SpotAnim(2858, 75, 0));
 				delayHit(npc, 1, t, getMeleeHit(npc, damage));

@@ -58,7 +58,7 @@ public class KreeArraCombat extends CombatScript {
 					if (dir != null)
 						if (World.checkWalkStep(target.getTile(), dir, target.getSize())) {
 							target.resetWalkSteps();
-							target.setNextWorldTile(target.transform(dir.getDx(), dir.getDy()));
+							target.setNextTile(target.transform(dir.getDx(), dir.getDy()));
 						}
 				}, p.getTaskDelay());
 			}

@@ -20,25 +20,25 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
 public class MerlinsCrystalCrateScene extends Controller {
-	private DynamicRegionReference instance;
-	private WorldTile locationBeforeCutscene;
-	private WorldTile insideCrate;
-	private WorldTile destination = WorldTile.of(2779, 3400, 0);
+	private Instance instance;
+	private Tile locationBeforeCutscene;
+	private Tile insideCrate;
+	private Tile destination = Tile.of(2779, 3400, 0);
 
 	@Override
 	public void start() {
 		player.lock();
-		locationBeforeCutscene = WorldTile.of(player.getX(), player.getY(), player.getPlane());
-		instance = new DynamicRegionReference(4, 4);
+		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
+		instance = new Instance(4, 4);
 		playCutscene();
 	}
 
@@ -70,12 +70,12 @@ public class MerlinsCrystalCrateScene extends Controller {
 					else if (tick == 3) {// setup p2, move player
                         player.musicTrack(-1);
 						player.getPackets().setBlockMinimapState(2);
-						player.setNextWorldTile(insideCrate);
+						player.setNextTile(insideCrate);
 					} else if (tick == 4) {
 						player.setNextAnimation(new Animation(CROUCH_CRATE_ANIM));
 						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId())-3, player.getYInScene(player.getSceneBaseChunkId())-3, 4000);
 						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()), 200);
-						player.faceTile(WorldTile.of(player.getX()+1, player.getY()-1, player.getPlane()));
+						player.faceTile(Tile.of(player.getX()+1, player.getY()-1, player.getPlane()));
 					} else if (tick == 6)
 						player.getInterfaceManager().setFadingInterface(170);
 					else if (tick == 8)
@@ -136,7 +136,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 						player.getInterfaceManager().setFadingInterface(115);
 					else if(tick == 30) {
 						player.getPackets().setBlockMinimapState(0);
-						player.setNextWorldTile(destination);
+						player.setNextTile(destination);
 						player.getPackets().sendResetCamera();
 						player.setNextAnimation(new Animation(-1));
 					} else if(tick == 31)
@@ -170,7 +170,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 
 	@Override
 	public void forceClose() {
-		player.setNextWorldTile(locationBeforeCutscene);
+		player.setNextTile(locationBeforeCutscene);
 		removeInstance();
 		player.unlock();
 		player.getPackets().setBlockMinimapState(0);

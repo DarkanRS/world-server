@@ -19,13 +19,13 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Guardian extends DungeonNPC {
 
 	private RoomReference reference;
 
-	public Guardian(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Guardian(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);
 		this.reference = reference;
 		setForceAgressive(true);

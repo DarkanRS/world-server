@@ -25,7 +25,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
@@ -34,7 +34,7 @@ public class DungeonBoss extends DungeonNPC {
 
 	private RoomReference reference;
 
-	public DungeonBoss(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public DungeonBoss(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);
 		setReference(reference);
 		resetBonuses();

@@ -14,7 +14,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -141,7 +141,7 @@ public class HeroesQuest extends QuestOutline {
 			return;
 		else {
 			e.cancel();
-			World.addGroundItem(new Item(1583, 1), WorldTile.of(p.getTile()));
+			World.addGroundItem(new Item(1583, 1), Tile.of(p.getTile()));
 			p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
 		}
 	});
@@ -159,7 +159,7 @@ public class HeroesQuest extends QuestOutline {
 		Player p = e.getPlayer();
 		if (e.getOption().equalsIgnoreCase("drop")) {
 			p.getInventory().removeItems(e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 			return;
 		}

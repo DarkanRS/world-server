@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class KalphiteQueenCombat extends CombatScript {
@@ -82,21 +82,12 @@ public class KalphiteQueenCombat extends CombatScript {
 		});
 	}
 
-	private static Player getTarget(List<Player> list, final Entity fromEntity, WorldTile startTile) {
+	private static Player getTarget(List<Player> list, final Entity fromEntity, Tile startTile) {
 		if (fromEntity == null)
 			return null;
 		ArrayList<Player> added = new ArrayList<>();
-		for (int regionId : fromEntity.getMapRegionsIds()) {
-			Set<Integer> playersIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playersIndexes == null)
-				continue;
-			for (Integer playerIndex : playersIndexes) {
-				Player player = World.getPlayers().get(playerIndex);
-				if (player == null || list.contains(player) || !player.withinDistance(fromEntity.getTile()) || !player.withinDistance(startTile))
-					continue;
-				added.add(player);
-			}
-		}
+		for (Player player : fromEntity.queryNearbyPlayersByTileRange(16, player -> !list.contains(player) && player.withinDistance(fromEntity.getTile()) && player.withinDistance(startTile)))
+			added.add(player);
 		if (added.isEmpty())
 			return null;
 		Collections.sort(added, (o1, o2) -> {

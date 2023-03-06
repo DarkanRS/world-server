@@ -28,7 +28,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -256,21 +256,21 @@ public class SirPrysinDemonSlayerD extends Conversation {
 	}
 
 	private void cutscene(Player p) {
-		for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 			if(npc.getId() == SIR_PRYSIN) {
 				npc.transformIntoNPC(266);
-				NPC dummy = World.spawnNPC(SIR_PRYSIN, WorldTile.of(3204, 3470, 0), -1, false, true);
+				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), -1, false, true);
 				dummy.setRandomWalk(false);
-				dummy.faceTile(WorldTile.of(3204, 3469, 0));
+				dummy.faceTile(Tile.of(3204, 3469, 0));
 				WorldTasks.schedule(new WorldTask() {
 					int tick;
-					WorldTile playerTile;
+					Tile playerTile;
 					@Override
 					public void run() {
 						if (tick == 0) {
 							p.lock();
 							playerTile = p.getTile();
-							p.setNextWorldTile(WorldTile.of(3204, 3471, 0));
+							p.setNextTile(Tile.of(3204, 3471, 0));
 							p.faceEntity(dummy);
 						} else if (tick == 1) {
 							dummy.setNextAnimation(new Animation(2579));
@@ -296,7 +296,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 							p.getInventory().deleteItem(DemonSlayer.ROVIN_KEY, 1);
 						} else if(tick == 9) {
 							p.unlock();
-							p.setNextWorldTile(playerTile);
+							p.setNextTile(playerTile);
 							dummy.finish();
 							npc.transformIntoNPC(SIR_PRYSIN);
 							stop();

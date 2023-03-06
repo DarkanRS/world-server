@@ -18,26 +18,26 @@ package com.rs.game.content.transportation;
 
 import java.util.Set;
 
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class WildernessObelisk {
 
-	private static final WorldTile[] OBELISK_CENTER_TILES = { WorldTile.of(2978, 3864, 0), WorldTile.of(3033, 3730, 0), WorldTile.of(3104, 3792, 0), WorldTile.of(3154, 3618, 0), WorldTile.of(3217, 3654, 0), WorldTile.of(3305, 3914, 0) };
+	private static final Tile[] OBELISK_CENTER_TILES = { Tile.of(2978, 3864, 0), Tile.of(3033, 3730, 0), Tile.of(3104, 3792, 0), Tile.of(3154, 3618, 0), Tile.of(3217, 3654, 0), Tile.of(3305, 3914, 0) };
 	private static final boolean[] IS_ACTIVE = new boolean[6];
 
 	public static void activateObelisk(int id, final Player player) {
 		final int index = id - 65616;
-		final WorldTile center = OBELISK_CENTER_TILES[index];
+		final Tile center = OBELISK_CENTER_TILES[index];
 		if (IS_ACTIVE[index]) {
 			player.sendMessage("The obelisk is already active.");
 			return;
@@ -56,18 +56,14 @@ public class WildernessObelisk {
 			public void run() {
 				for (int x = 1; x < 4; x++)
 					for (int y = 1; y < 4; y++)
-						World.sendSpotAnim(player, new SpotAnim(661), center.transform(x, y, 0));
-				Region region = World.getRegion(center.getRegionId());
-				Set<Integer> playerIndexes = region.getPlayerIndexes();
-				WorldTile newCenter = OBELISK_CENTER_TILES[Utils.random(OBELISK_CENTER_TILES.length)];
-				if (playerIndexes != null)
-					for (Integer i : playerIndexes) {
-						Player p = World.getPlayers().get(i);
-						if (p == null || (p.getX() < center.getX() + 1 || p.getX() > center.getX() + 3 || p.getY() < center.getY() + 1 || p.getY() > center.getY() + 3))
+						World.sendSpotAnim(center.transform(x, y, 0), new SpotAnim(661));
+				Tile newCenter = OBELISK_CENTER_TILES[Utils.random(OBELISK_CENTER_TILES.length)];
+					for (Player p : World.getPlayersInChunkRange(center.getChunkId(), 1)) {
+						if (p == null || p.isLocked() || p.isDead() || (p.getX() < center.getX() + 1 || p.getX() > center.getX() + 3 || p.getY() < center.getY() + 1 || p.getY() > center.getY() + 3))
 							continue;
 						int offsetX = p.getX() - center.getX();
 						int offsetY = p.getY() - center.getY();
-						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, WorldTile.of(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT, null);
+						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, Tile.of(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT, null);
 					}
 				IS_ACTIVE[index] = false;
 			}

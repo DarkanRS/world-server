@@ -37,8 +37,9 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.OverlayDefinitions;
 import com.rs.cache.loaders.SpriteDefinitions;
 import com.rs.cache.loaders.UnderlayDefinitions;
+import com.rs.cache.loaders.map.Region;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.MapXTEAs;
 import com.rs.utils.BigBufferedImage;
 
@@ -180,7 +181,7 @@ public class MapImageDumper {
 	private void initialize() throws IOException {
 		for (int i = 0; i < MAX_REGION; i++) {
 			final Region region = new Region(i);
-			region.loadRegionMap();
+			region.loadRegionMap(true);
 			if (region.isMissingXtea())
 				flags.add(i);
 			if (region.hasData() || i == 0) {
@@ -379,7 +380,7 @@ public class MapImageDumper {
 			int drawBaseY = highestY.getBaseY() - region.getBaseY();
 			if (region.getObjects() == null)
 				continue;
-			for (GameObject location : region.getObjects()) {
+			for (WorldObject location : region.getObjects()) {
 				int localX = location.getX() - region.getBaseX();
 				int localY = location.getY() - region.getBaseY();
 
@@ -408,7 +409,7 @@ public class MapImageDumper {
 			int drawBaseY = highestY.getBaseY() - region.getBaseY();
 			if (region.getObjects() == null)
 				continue;
-			for (GameObject location : region.getObjects()) {
+			for (WorldObject location : region.getObjects()) {
 				graphics.setColor(Color.WHITE);
 
 				int localX = location.getX() - region.getBaseX();
@@ -481,7 +482,7 @@ public class MapImageDumper {
 			int drawBaseY = highestY.getBaseY() - region.getBaseY();
 			if (region.getObjects() == null)
 				continue;
-			for (GameObject location : region.getObjects()) {
+			for (WorldObject location : region.getObjects()) {
 				int localX = location.getX() - region.getBaseX();
 				int localY = location.getY() - region.getBaseY();
 
@@ -506,7 +507,7 @@ public class MapImageDumper {
 		}
 	}
 
-	private boolean canDrawLocation(Region region, GameObject location, int z, int x, int y) {
+	private boolean canDrawLocation(Region region, WorldObject location, int z, int x, int y) {
 		if (region.isLinkedBelow(z, x, y) || region.isVisibleBelow(z, x, y))
 			return false;
 

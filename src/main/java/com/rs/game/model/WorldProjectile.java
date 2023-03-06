@@ -24,20 +24,20 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Projectile;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class WorldProjectile extends Projectile {
 
 	public WorldProjectile(Object from, Object to, int spotAnimId, int startHeight, int endHeight, int startTime, int endTime, int slope, int angle, Consumer<WorldProjectile> task) {
 		super(switch(from) {
-			case WorldTile t -> t;
-			case Entity e -> e.getMiddleWorldTile();
+			case Tile t -> t;
+			case Entity e -> e.getMiddleTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + from);
 		}, from instanceof Entity e ? e.getIndex() : -1, switch(to) {
-			case WorldTile t -> t;
-			case Entity e -> e.getMiddleWorldTile();
+			case Tile t -> t;
+			case Entity e -> e.getMiddleTile();
 			case GameObject g -> g.getTile();
 			default -> throw new IllegalArgumentException("Unexpected value: " + to);
 		}, to instanceof Entity e ? e.getIndex() : -1, spotAnimId, startHeight, endHeight, startTime, endTime, slope, angle);
@@ -72,6 +72,6 @@ public class WorldProjectile extends Projectile {
 	}
 
 	public int getTaskDelay() {
-		return Utils.projectileTimeToCycles(getEndTime()) - 1;
+		return Utils.clampI(Utils.projectileTimeToCycles(getEndTime()) - 1, 0, Integer.MAX_VALUE);
 	}
 }

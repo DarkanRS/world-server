@@ -32,7 +32,6 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.web.Telemetry;
 
-@PluginEventHandler
 public final class WorldThread extends Thread {
 
 	public static volatile long WORLD_CYCLE;
@@ -43,7 +42,6 @@ public final class WorldThread extends Thread {
 		setUncaughtExceptionHandler((th, ex) -> Logger.handle(WorldThread.class, "uncaughtExceptionHandler", ex));
 	}
 
-	@ServerStartupEvent(Priority.SYSTEM)
 	public static void init() {
 		WORLD_CYCLE = System.currentTimeMillis() / 600L;
 		TaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);
@@ -56,10 +54,15 @@ public final class WorldThread extends Thread {
 		WORLD_CYCLE++;
 		try {
 			long startTime = System.currentTimeMillis();
+			long nsS = System.nanoTime();
+			World.processChunks();
+			Logger.trace(WorldThread.class, "tick", "processChunks() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
 			WorldTasks.processTasks();
+			Logger.trace(WorldThread.class, "tick", "processTasks() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
 			OwnedObject.process();
-			World.processRegions();
 			NAMES.clear();
+			nsS = System.nanoTime();
 			for (Player player : World.getPlayers()) {
 				try {
 					if (player != null && player.getTempAttribs().getB("realFinished"))
@@ -75,6 +78,8 @@ public final class WorldThread extends Thread {
 					Logger.handle(WorldThread.class, "run:playerProcessEntity", "Error processing player: " + (player == null ? "NULL PLAYER" : player.getUsername()), e);
 				}
 			}
+			Logger.trace(WorldThread.class, "tick", "playerProcessEntity() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
 			for (NPC npc : World.getNPCs()) {
 				try {
 					if (npc == null || npc.hasFinished())
@@ -84,6 +89,8 @@ public final class WorldThread extends Thread {
 					Logger.handle(WorldThread.class, "run:npcProcessEntity", "Error processing NPC: " + (npc == null ? "NULL NPC" : npc.getId()), e);
 				}
 			}
+			Logger.trace(WorldThread.class, "tick", "npcProcessEntity() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
@@ -93,6 +100,8 @@ public final class WorldThread extends Thread {
 					Logger.handle(WorldThread.class, "processPlayerMovement", e);
 				}
 			}
+			Logger.trace(WorldThread.class, "tick", "processPlayerMovement() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
 			for (NPC npc : World.getNPCs()) {
 				if (npc == null || npc.hasFinished())
 					continue;
@@ -102,6 +111,8 @@ public final class WorldThread extends Thread {
 					Logger.handle(WorldThread.class, "processNPCMovement", e);
 				}
 			}
+			Logger.trace(WorldThread.class, "tick", "processNPCMovement() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
@@ -109,13 +120,21 @@ public final class WorldThread extends Thread {
 					player.getPackets().sendLocalPlayersUpdate();
 					player.getPackets().sendLocalNPCsUpdate();
 					player.postSync();
-					player.processProjectiles();
-					player.getSession().flush();
 				} catch(Throwable e) {
 					Logger.handle(WorldThread.class, "processPlayersPostSync", e);
 				}
 			}
-			World.removeProjectiles();
+			Logger.trace(WorldThread.class, "tick", "processPlayersPostSync() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
+			World.processUpdateZones();
+			Logger.trace(WorldThread.class, "tick", "processUpdateZones() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
+			nsS = System.nanoTime();
+			for (Player player : World.getPlayers()) {
+				if (player == null || !player.hasStarted() || player.hasFinished())
+					continue;
+				player.getSession().flush();
+			}
+			Logger.trace(WorldThread.class, "tick", "flushPlayerPackets() - " + TimeUnit.NANOSECONDS.toMillis((System.nanoTime() - nsS)) + "ms");
 			for (Player player : World.getPlayers()) {
 				if (player == null || !player.hasStarted() || player.hasFinished())
 					continue;
@@ -128,7 +147,7 @@ public final class WorldThread extends Thread {
 			}
 			World.processEntityLists();
 			long time = (System.currentTimeMillis() - startTime);
-			//Logger.info(WorldThread.class, "tick", "Tick finished - " + time + "ms - Players online: " + World.getPlayers().size());
+			Logger.info(WorldThread.class, "tick", "Tick finished - " + time + "ms - Players online: " + World.getPlayers().size());
 			Telemetry.queueTelemetryTick(time);
 		} catch (Throwable e) {
 			Logger.handle(WorldThread.class, "tick", e);

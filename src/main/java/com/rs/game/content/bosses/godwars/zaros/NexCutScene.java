@@ -18,14 +18,14 @@ package com.rs.game.content.bosses.godwars.zaros;
 
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class NexCutScene extends Cutscene {
 	
-	private WorldTile dir;
+	private Tile dir;
 	private int selected;
 
-	public NexCutScene(WorldTile dir, int selected) {
+	public NexCutScene(Tile dir, int selected) {
 		this.dir = dir;
 		this.selected = selected;
 	}

@@ -52,7 +52,7 @@ public class ChristmasCracker {
 		}
 
 		int random = Utils.random(1000);
-		e.getTarget().setNextFaceWorldTile(e.getPlayer().getTile());
+		e.getTarget().setNextFaceTile(e.getPlayer().getTile());
 		e.getPlayer().setNextAnimation(new Animation(15152));
 		e.getTarget().setNextAnimation(new Animation(15153));
 		e.getPlayer().setNextSpotAnim(new SpotAnim(2952));

@@ -21,7 +21,7 @@ import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.InterfaceOnObjectHandler;
 
@@ -86,9 +86,9 @@ public class OrbImbuing {
 	static class OrbChargingAction extends PlayerAction {
 
 		private Orbs orb;
-		private WorldTile tile;
+		private Tile tile;
 
-		public OrbChargingAction(Orbs orb, WorldTile tile) {
+		public OrbChargingAction(Orbs orb, Tile tile) {
 			this.orb = orb;
 			this.tile = tile;
 		}
@@ -131,7 +131,7 @@ public class OrbImbuing {
 			player.getSkills().addXp(Constants.MAGIC, orb.getXp());
 			player.setNextSpotAnim(new SpotAnim(orb.getGfx(), 0, 100));
 			player.setNextAnimation(new Animation(726));
-			player.setNextFaceWorldTile(tile);
+			player.setNextFaceTile(tile);
 			return 3;
 		}
 

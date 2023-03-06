@@ -30,7 +30,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
@@ -41,7 +41,7 @@ public final class NightGazerKhighorahk extends DungeonBoss {
 	private boolean usedSpecial;
 	private int lightCount;
 
-	public NightGazerKhighorahk(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public NightGazerKhighorahk(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9725, 9738), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true); //force cant walk
 	}

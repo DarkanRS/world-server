@@ -1,7 +1,7 @@
 package com.rs.game.content.minigames.trawler;
 
 import com.rs.game.model.entity.player.Controller;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FishingTrawlerLobbyController extends Controller {
 
@@ -12,14 +12,14 @@ public class FishingTrawlerLobbyController extends Controller {
 
 	public boolean login() {
 		leaveLobby();
-		player.setNextWorldTile(WorldTile.of(2676, 3170, 0));
+		player.setNextTile(Tile.of(2676, 3170, 0));
 		return true;
 	}
 
 	@Override
 	public boolean logout() {
 		leaveLobby();
-		player.setLocation(WorldTile.of(2676, 3170, 0));
+		player.setLocation(Tile.of(2676, 3170, 0));
 		return true;
 	}
 

@@ -85,7 +85,7 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -95,7 +95,7 @@ import com.rs.utils.music.Music;
 public class DungeonController extends Controller {
 
 	private transient DungeonManager dungeon;
-	private WorldTile gatestone;
+	private Tile gatestone;
 	@SuppressWarnings("unused")
 	private int deaths;
 	private int voteStage;
@@ -197,24 +197,24 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean canMove(Direction dir) {
 		VisibleRoom vr = dungeon.getVisibleRoom(dungeon.getCurrentRoomReference(player.getTile()));
-		WorldTile to = WorldTile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
+		Tile to = Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0);
 		if(vr != null && !vr.canMove(player, to))
 			return false;
 
 		Room room = dungeon.getRoom(dungeon.getCurrentRoomReference(player.getTile()));
 		if (room != null)
 			if (room.getRoom() == DungeonUtils.getBossRoomWithChunk(DungeonConstants.FROZEN_FLOORS, 26, 624)) {
-				if (!player.isCantWalk() && World.getObjectWithType(WorldTile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
+				if (!player.isCantWalk() && World.getObjectWithType(Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), 0), ObjectType.GROUND_DECORATION) == null) {
 					player.getAppearance().setBAS(1429);
 					player.setRun(true);
 					player.setCantWalk(true);
 				}
 				if (player.isCantWalk()) {
-					WorldTile nextStep = WorldTile.of(player.getX() + dir.getDx() * 2, player.getY() + dir.getDy() * 2, 0);
+					Tile nextStep = Tile.of(player.getX() + dir.getDx() * 2, player.getY() + dir.getDy() * 2, 0);
 					NPC boss = getNPC(player, "Plane-freezer Lakhrahnaz");
 					boolean collides = boss != null && WorldUtil.collides(nextStep.getX(), nextStep.getY(), player.getSize(), boss.getX(), boss.getY(), boss.getSize());
 					player.resetWalkSteps();
-					GameObject object = World.getObjectWithType(WorldTile.of(nextStep.getX(), nextStep.getY(), 0), ObjectType.GROUND_DECORATION);
+					GameObject object = World.getObjectWithType(Tile.of(nextStep.getX(), nextStep.getY(), 0), ObjectType.GROUND_DECORATION);
 					if (collides || ((object != null && (object.getId() == 49331 || object.getId() == 49333)) || !player.addWalkSteps(nextStep.getX(), nextStep.getY(), 1))) {
 						player.setCantWalk(false);
 						player.getAppearance().setBAS(-1);
@@ -307,15 +307,15 @@ public class DungeonController extends Controller {
 		player.stopAll();
 		player.jingle(418);
 		if (player.getInventory().containsItem(DungeonConstants.GROUP_GATESTONE, 1)) {
-			WorldTile tile = WorldTile.of(player.getTile());
-			dungeon.setGroupGatestone(WorldTile.of(player.getTile()));
+			Tile tile = Tile.of(player.getTile());
+			dungeon.setGroupGatestone(Tile.of(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GROUP_GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GROUP_GATESTONE, 1);
 			player.sendMessage("Your group gatestone drops to the floor as you die.");
 		}
 		if (player.getInventory().containsItem(DungeonConstants.GATESTONE, 1)) {
-			WorldTile tile = WorldTile.of(player.getTile());
-			setGatestone(WorldTile.of(player.getTile()));
+			Tile tile = Tile.of(player.getTile());
+			setGatestone(Tile.of(player.getTile()));
 			World.addGroundItem(new Item(DungeonConstants.GATESTONE), tile);
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
@@ -344,8 +344,8 @@ public class DungeonController extends Controller {
 								npc.setNextForceTalk(new ForceTalk("Another kill for the Thunderous!"));
 							//npc.playSoundEffect(1928);
 						}
-						WorldTile startRoom = dungeon.getHomeTile();
-						player.setNextWorldTile(startRoom);
+						Tile startRoom = dungeon.getHomeTile();
+						player.setNextTile(startRoom);
 						dungeon.playMusic(player, dungeon.getCurrentRoomReference(startRoom));
 						increaseDeaths();
 						player.reset();
@@ -383,7 +383,7 @@ public class DungeonController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		if (dungeon == null || !player.getCombatDefinitions().isDungSpellbook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
 		if (Utils.getDistance(toTile, dungeon.getHomeTile()) > 500)
@@ -392,7 +392,7 @@ public class DungeonController extends Controller {
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		return false;
 	}
 
@@ -572,24 +572,18 @@ public class DungeonController extends Controller {
 	}
 
 	public static NPC getNPC(Entity entity, int id) {
-		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id)
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(entity.getChunkId(), 4)) {
+			if (npc.getId() == id)
+				return npc;
+		}
 		return null;
 	}
 
 	public static NPC getNPC(Entity entity, String name) {
-		Set<Integer> npcsIndexes = World.getRegion(entity.getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getName().equals(name))
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(entity.getChunkId(), 4)) {
+			if (npc.getName().equals(name))
+				return npc;
+		}
 		return null;
 	}
 
@@ -869,7 +863,7 @@ public class DungeonController extends Controller {
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
 				player.sendMessage("You touch the obelisk", true);
 				player.setNextAnimation(new Animation(8502));
-				World.sendSpotAnim(null, new SpotAnim(1308), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(1308));
 				WorldTasks.schedule(2, () -> {
 					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
 					player.sendMessage("...and recharge your summoning points.", true);
@@ -927,7 +921,7 @@ public class DungeonController extends Controller {
 			if (player.getSkills().getLevel(Constants.SUMMONING) < player.getSkills().getLevelForXp(Constants.SUMMONING)) {
 				player.sendMessage("You touch the obelisk", true);
 				player.setNextAnimation(new Animation(8502));
-				World.sendSpotAnim(null, new SpotAnim(1308), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(1308));
 				WorldTasks.schedule(2, () -> {
 					player.getSkills().set(Constants.SUMMONING, player.getSkills().getLevelForXp(Constants.SUMMONING));
 					player.sendMessage("...and recharge your summoning points.", true);
@@ -1076,7 +1070,7 @@ public class DungeonController extends Controller {
 	 */
 	@Override
 	public void magicTeleported(int type) {
-		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getNextWorldTile()));
+		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getNextTile()));
 		hideBar();
 	}
 
@@ -1205,7 +1199,7 @@ public class DungeonController extends Controller {
 				if (packet == ClientPacket.IF_OP2) {
 					player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 					if (gatestone != null) {
-						GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
+						GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
 						if (item == null)
 							return false;
 						World.removeGroundItem(player, item, false);
@@ -1233,7 +1227,7 @@ public class DungeonController extends Controller {
 		}
 		if (item.getDefinitions().isDestroyItem())
 			return true;
-		WorldTile currentTile = WorldTile.of(player.getTile());
+		Tile currentTile = Tile.of(player.getTile());
 		player.stopAll(false);
 		player.getInventory().deleteItem(item);
 		if (item.getId() == DungeonConstants.GROUP_GATESTONE)
@@ -1249,9 +1243,9 @@ public class DungeonController extends Controller {
 	}
 
 	private void stoneTeleport(boolean group) {
-		WorldTile tile = group ? dungeon.getGroupGatestone() : gatestone;
+		Tile tile = group ? dungeon.getGroupGatestone() : gatestone;
 
-		if (dungeon.isAtBossRoom(player.getTile(), 26, 626, true) || (dungeon.isAtBossRoom(player.getTile(), 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(WorldTile.of(player.getTile()))))) {
+		if (dungeon.isAtBossRoom(player.getTile(), 26, 626, true) || (dungeon.isAtBossRoom(player.getTile(), 26, 672, true) && !YkLagorThunderous.isBehindPillar(player, dungeon, dungeon.getCurrentRoomReference(Tile.of(player.getTile()))))) {
 			player.sendMessage("You can't teleport here.");
 			return;
 		}
@@ -1261,7 +1255,7 @@ public class DungeonController extends Controller {
 		}
 
 		if (!group) {
-			GroundItem item = World.getRegion(gatestone.getRegionId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
+			GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
 			if (item == null)
 				return;
 			World.removeGroundItem(player, item);
@@ -1284,7 +1278,7 @@ public class DungeonController extends Controller {
 	}
 
 	private void portalGroupStoneTeleport() {
-		WorldTile tile = dungeon.getGroupGatestone();
+		Tile tile = dungeon.getGroupGatestone();
 		if (tile == null) //cant happen
 			return;
 		Magic.sendTeleportSpell(player, 14279, 13285, 2518, 2517, 1, 0, tile, 1, false, Magic.OBJECT_TELEPORT, null);
@@ -1341,14 +1335,14 @@ public class DungeonController extends Controller {
 			player.setForceMultiArea(false);
 			if (player.getFamiliar() != null)
 				player.getFamiliar().sendDeath(player);
-			player.setLocation(WorldTile.of(DungeonConstants.OUTSIDE, 2));
+			player.setLocation(Tile.of(DungeonConstants.OUTSIDE, 2));
 		}
 	}
 
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextWorldTile(WorldTile.of(DungeonConstants.OUTSIDE, 2));
+		player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
 		return false;
 	}
 
@@ -1357,7 +1351,7 @@ public class DungeonController extends Controller {
 		return false;
 	}
 
-	private void setGatestone(WorldTile gatestone) {
+	private void setGatestone(Tile gatestone) {
 		this.gatestone = gatestone;
 	}
 

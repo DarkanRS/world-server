@@ -28,7 +28,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -37,7 +37,7 @@ public class NecroLord extends DungeonBoss {
 	private int resetTicks;
 	private List<SkeletalMinion> skeletons;
 
-	public NecroLord(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public NecroLord(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11737, 11751), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true); //force can't walk
 		setLureDelay(Integer.MAX_VALUE);//doesn't stop focusing on target
@@ -62,11 +62,11 @@ public class NecroLord extends DungeonBoss {
 		return 0.6;
 	}
 
-	public void addSkeleton(WorldTile tile) {
+	public void addSkeleton(Tile tile) {
 		SkeletalMinion npc = new SkeletalMinion(this, 11722, tile, getManager()); //TODO scale to level
 		npc.setForceAgressive(true);
 		skeletons.add(npc);
-		World.sendSpotAnim(npc, new SpotAnim(2399), tile);
+		World.sendSpotAnim(tile, new SpotAnim(2399));
 	}
 
 	public void resetSkeletons() {

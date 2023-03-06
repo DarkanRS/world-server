@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class BarrowsBrother extends OwnedNPC {
 
 	private BarrowsController barrows;
 
-	public BarrowsBrother(int id, WorldTile tile, BarrowsController barrows) {
+	public BarrowsBrother(int id, Tile tile, BarrowsController barrows) {
 		super(barrows.getPlayer(), id, tile, false);
 		this.barrows = barrows;
 		setIntelligentRouteFinder(true);
