@@ -47,6 +47,7 @@ public class Impling extends NPC {
         reset();
         setTile(respawnTile);
         finish();
+        setNPC(rollImpRespawn());
         if (!isSpawned())
             setRespawnTask(getRespawnTicks(getId()));
     }
@@ -115,7 +116,8 @@ public class Impling extends NPC {
         if (random >= 100) return FlyingEntities.KINGLY_IMPLING.getNpcId();
         if (random >= 97) return FlyingEntities.ZOMBIE_IMPLING.getNpcId();
         if (random >= 87) return FlyingEntities.DRAGON_IMPLING.getNpcId();
-        if (random >= 57) return FlyingEntities.NINJA_IMPLING.getNpcId();
+        if (random >= 75) return FlyingEntities.PIRATE_IMPLING.getNpcId();
+        if (random >= 50) return FlyingEntities.NINJA_IMPLING.getNpcId();
         if (random >= 10) return FlyingEntities.MAGPIE_IMPLING.getNpcId();
         return FlyingEntities.NATURE_IMPLING.getNpcId();
     }
@@ -147,8 +149,9 @@ public class Impling extends NPC {
         if (random >= 300) return FlyingEntities.KINGLY_IMPLING_PP.getNpcId();
         if (random >= 297) return FlyingEntities.ZOMBIE_IMPLING_PP.getNpcId();
         if (random >= 288) return FlyingEntities.DRAGON_IMPLING_PP.getNpcId();
-        if (random >= 261) return FlyingEntities.NINJA_IMPLING_PP.getNpcId();
-        if (random >= 150) return FlyingEntities.MAGPIE_IMPLING_PP.getNpcId();
+        if (random >= 270) return FlyingEntities.PIRATE_IMPLING_PP.getNpcId();
+        if (random >= 243) return FlyingEntities.NINJA_IMPLING_PP.getNpcId();
+        if (random >= 132) return FlyingEntities.MAGPIE_IMPLING_PP.getNpcId();
         return FlyingEntities.NATURE_IMPLING_PP.getNpcId();
     }
 
