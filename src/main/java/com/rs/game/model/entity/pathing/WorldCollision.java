@@ -43,7 +43,7 @@ public class WorldCollision {
             if (region.getObjects() == null || region.getObjects().isEmpty())
                 continue;
             for (WorldObject object : region.getObjects())
-                clip(new GameObject(object));
+                World.getChunk(object.getTile().getChunkId()).addBaseObject(new GameObject(object));
         }
         System.gc();
     }
