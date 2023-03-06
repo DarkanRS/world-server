@@ -25,6 +25,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.PlayerOp;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerClickEvent;
 
@@ -36,7 +37,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			return;
 
 		Player target = World.getPlayers().get(packet.getPid());
-		if (target == null || target.isDead() || target.hasFinished() || !player.getMapChunkIds().contains(target.getChunkId()))
+		if (target == null || target.isDead() || target.hasFinished() || Utils.getDistanceI(player.getTile(), target.getTile()) > 20)
 			return;
 
 		if (packet.isForceRun())
