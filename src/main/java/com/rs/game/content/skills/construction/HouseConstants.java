@@ -18,7 +18,7 @@ package com.rs.game.content.skills.construction;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder;
+import com.rs.game.map.instance.InstanceBuilder;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 

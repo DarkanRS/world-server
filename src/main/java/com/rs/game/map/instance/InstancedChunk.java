@@ -14,32 +14,43 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.map;
+package com.rs.game.map.instance;
 
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.utils.spawns.NPCSpawn;
+import com.rs.utils.spawns.NPCSpawns;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
+
+import java.util.List;
 
 public class InstancedChunk extends Chunk {
-	private int originalChunkId;
-	private int originalChunkX;
-	private int originalChunkY;
-	private int originalPlane;
+	private int fromChunkId;
+	private int fromChunkX;
+	private int fromChunkY;
+	private int fromPlane;
 
 	private int rotation;
 
-	public InstancedChunk(int originalChunkId, int rotation, int newChunk) {
-		super(newChunk);
-		this.originalChunkId = originalChunkId;
-		int[] coords = MapUtils.decode(Structure.CHUNK, originalChunkId);
-		this.originalChunkX = coords[0];
-		this.originalChunkY = coords[1];
-		this.originalPlane = coords[2];
+	private List<NPC> npcSpawns = ObjectLists.synchronize(new ObjectArrayList<>());
+
+	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
+		super(toChunkId);
+		this.fromChunkId = fromChunkId;
+		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);
+		this.fromChunkX = coords[0];
+		this.fromChunkY = coords[1];
+		this.fromPlane = coords[2];
 		this.rotation = rotation;
 	}
 
@@ -48,12 +59,12 @@ public class InstancedChunk extends Chunk {
 		super.checkLoaded();
 	}
 
-	public void loadMap() {
+	public void loadMap(boolean copyNpcs) {
 		clearCollisionData();
-		Chunk realChunk = World.getChunk(getOriginalChunkId());
+		Chunk realChunk = World.getChunk(getFromChunkId());
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
-				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, originalPlane);
+				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, fromPlane);
 				int[] coords = transform(x, y, rotation);
 				Tile toTile = Tile.of(getBaseX()+coords[0], getBaseY()+coords[1], getPlane());
 				WorldCollision.setFlags(toTile, WorldCollision.getFlags(original) & (ClipFlag.PFBW_FLOOR.flag | ClipFlag.UNDER_ROOF.flag));
@@ -65,6 +76,15 @@ public class InstancedChunk extends Chunk {
 			adjusted.setTile(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()));
 			adjusted.setRotation((adjusted.getRotation() + rotation) & 0x3);
 			addBaseObject(adjusted);
+		}
+		if (copyNpcs) {
+			List<NPCSpawn> npcSpawns = NPCSpawns.getSpawnsForChunk(getFromChunkId());
+			if (npcSpawns != null) {
+				for (NPCSpawn npcSpawn : npcSpawns) {
+					int[] coords = InstancedChunk.transform(npcSpawn.getTile().getXInChunk(), npcSpawn.getTile().getYInChunk(), rotation, npcSpawn.getDefs().size, npcSpawn.getDefs().size, 0);
+					npcSpawn.spawnAtCoords(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()), Direction.rotateClockwise(npcSpawn.getDir(), rotation*2));
+				}
+			}
 		}
 	}
 
@@ -91,6 +111,14 @@ public class InstancedChunk extends Chunk {
 		};
 	}
 
+	@Override
+	public void destroy() {
+		super.destroy();
+		for (NPC npc : npcSpawns) {
+			if (npc != null)
+				npc.permanentlyDelete();
+		}
+	}
 
 	@Override
 	public int getRotation() {
@@ -101,27 +129,27 @@ public class InstancedChunk extends Chunk {
 		this.rotation = rotation;
 	}
 
-	public int getOriginalChunkId() {
-		return originalChunkId;
+	public int getFromChunkId() {
+		return fromChunkId;
 	}
 
 	public int getRenderChunkX() {
-		return originalChunkX;
+		return fromChunkX;
 	}
 
 	public int getRenderChunkY() {
-		return originalChunkY;
+		return fromChunkY;
 	}
 
 	public int getRenderPlane() {
-		return originalPlane;
+		return fromPlane;
 	}
 
 	public int getOriginalBaseX() {
-		return originalChunkX << 3;
+		return fromChunkX << 3;
 	}
 
 	public int getOriginalBaseY() {
-		return originalChunkY << 3;
+		return fromChunkY << 3;
 	}
 }

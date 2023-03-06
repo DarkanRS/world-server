@@ -41,7 +41,7 @@ import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.map.Chunk;
-import com.rs.game.map.InstancedChunk;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.interactions.InteractionManager;
@@ -80,7 +80,6 @@ import com.rs.utils.WorldUtil;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectLists;
 
 public abstract class Entity {
 	public enum MoveType {

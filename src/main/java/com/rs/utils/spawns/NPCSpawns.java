@@ -97,4 +97,8 @@ public final class NPCSpawns {
 			for (NPCSpawn spawn : spawns)
 				spawn.spawn();
 	}
+
+	public static List<NPCSpawn> getSpawnsForChunk(int chunkId) {
+		return NPC_SPAWNS.get(chunkId);
+	}
 }

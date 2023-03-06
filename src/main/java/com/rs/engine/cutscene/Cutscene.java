@@ -32,7 +32,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
@@ -48,7 +48,7 @@ public abstract class Cutscene {
 	private boolean hideMap;
 	private boolean dialoguePaused;
 	private boolean constructingRegion;
-	private InstanceReference region;
+	private Instance region;
 	private Tile endTile;
 	
 	public abstract void construct(Player player);
@@ -81,8 +81,8 @@ public abstract class Cutscene {
 
 	public void constructArea(final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
 		constructingRegion = true;
-		InstanceReference old = region;
-		region = new InstanceReference(widthChunks, heightChunks);
+		Instance old = region;
+		region = new Instance(widthChunks, heightChunks);
 		region.copyMapAllPlanes(baseChunkX, baseChunkY, () -> {
 			player.setNextTile(Tile.of(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
 			constructingRegion = false;

@@ -89,7 +89,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -106,7 +106,7 @@ public class DungeonManager {
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
 	private VisibleRoom[][] visibleMap;
-	private InstanceReference region;
+	private Instance region;
 	private int stage; //0 - not loaded. 1 - loaded. 2 - new one not loaded, old one loaded(rewards screen)
 	private RewardsTimer rewardsTimer;
 	private DestroyTimer destroyTimer;
@@ -1490,7 +1490,7 @@ public class DungeonManager {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				region = new InstanceReference(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
+				region = new Instance(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
 				region.clearMap(new int[1], () -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());

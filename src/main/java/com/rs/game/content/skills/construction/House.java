@@ -24,7 +24,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
@@ -36,14 +35,14 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.map.Chunk;
-import com.rs.game.map.InstancedChunk;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -78,7 +77,7 @@ public class House {
 	private transient CopyOnWriteArrayList<NPC> npcs;
 
 	private transient List<Player> players;
-	private transient InstanceReference instance;
+	private transient Instance instance;
 	private transient boolean loaded;
 	private transient boolean challengeMode;
 	private transient ServantNPC servantInstance;
@@ -1295,7 +1294,7 @@ public class House {
 						}
 		if (instance != null && !instance.isDestroyed())
 			instance.destroy();
-		instance = new InstanceReference(8, 8);
+		instance = new Instance(8, 8);
 		instance.requestChunkBound(() -> {
 			// builds data
 			for (int plane = 0; plane < data.length; plane++)
@@ -1366,7 +1365,7 @@ public class House {
 			player.setForceNextMapLoadRefresh(true);
 			player.loadMapRegions();
 			player.lock(1);
-			player.getInterfaceManager().setDefaultTopInterface();
+			WorldTasks.schedule(3, () -> player.getInterfaceManager().setDefaultTopInterface());
 			if (!buildMode)
 				if (getMenagerie() != null)
 					for (Item item : petHouse.getPets().array())

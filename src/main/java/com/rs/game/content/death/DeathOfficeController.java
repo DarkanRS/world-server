@@ -27,7 +27,7 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -139,7 +139,7 @@ public class DeathOfficeController extends Controller {
 		return getCurrentHub(player, Tile.of(player.getTile()));
 	}
 
-	private transient InstanceReference region = new InstanceReference(2, 2);
+	private transient Instance region = new Instance(2, 2);
 	private Stages stage;
 	private Integer[][] slots;
 	private Hub defaultHub;
@@ -215,7 +215,7 @@ public class DeathOfficeController extends Controller {
 		player.lock();
 
 		if (region == null)
-			region = new InstanceReference(2, 2);
+			region = new Instance(2, 2);
 
 		region.copyMapSinglePlane(246, 662, () -> {
 			player.reset();

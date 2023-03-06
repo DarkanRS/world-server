@@ -33,7 +33,7 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.minigames.duel.DuelController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.map.Chunk;
-import com.rs.game.map.InstancedChunk;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.map.UpdateZone;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;

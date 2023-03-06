@@ -23,7 +23,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -39,7 +39,7 @@ public final class DominionTower {
 	public static final int CLIMBER = 0, ENDURANCE = 1, MAX_FACTOR = 10000000;
 
 	private transient Player player;
-	private transient InstanceReference region;
+	private transient Instance region;
 
 	private int nextBossIndex;
 	private int progress;
@@ -175,8 +175,8 @@ public final class DominionTower {
 	public void createArena(final int mode) {
 		player.closeInterfaces();
 		player.lock();
-		InstanceReference old = region;
-		region = new InstanceReference(8, 8);
+		Instance old = region;
+		region = new Instance(8, 8);
 		region.copyMapAllPlanes(BOSSES[getNextBossIndex()].arena[0], BOSSES[getNextBossIndex()].arena[1], () -> {
 			teleportToArena(mode);
 			player.unlock();

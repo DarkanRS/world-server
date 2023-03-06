@@ -26,7 +26,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -35,7 +35,7 @@ import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
 public class FightArenaFightCutsceneController extends Controller {
-	public InstanceReference instance;
+	public Instance instance;
 	List<NPC> dynamicNPCs = new ArrayList<>();
 	Tile locationOnFail = Tile.of(2617, 3167, 0);
 	Tile locationOnVictory = Tile.of(2617, 3172, 0);
@@ -65,7 +65,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	private void playCutscene() {
 		player.lock();
-		instance = new InstanceReference(10, 10);
+		instance = new Instance(10, 10);
 		instance.copyMapAllPlanes(320, 391, () -> {
 			spawn = instance.getLocalTile(57, 39);
 

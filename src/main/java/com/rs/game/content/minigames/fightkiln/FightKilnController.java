@@ -31,7 +31,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -125,7 +125,7 @@ public class FightKilnController extends Controller {
 			{ Jad, Jad } // 36
 	};
 
-	private transient InstanceReference region;
+	private transient Instance region;
 	private transient Stages stage;
 	private transient NPC tokHaarHok;
 	private transient HarAken harAken;
@@ -497,7 +497,7 @@ public class FightKilnController extends Controller {
 		};
 		// finds empty map bounds
 		if (region == null) {
-			region = new InstanceReference(8, 8);
+			region = new Instance(8, 8);
 			region.copyMapAllPlanes(getMap()[0], getMap()[1], () -> {
 				event.run();
 				player.setForceNextMapLoadRefresh(true);

@@ -14,208 +14,21 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.map;
+package com.rs.game.map.instance;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
-import it.unimi.dsi.fastutil.ints.IntSets;
 
 public final class InstanceBuilder {
-
-	/**
-	 * Instance builder
-	 */
-	public static class InstanceReference {
-		private int[] base;
-		private IntSet chunkIds = new IntOpenHashSet();
-		private int width;
-		private int height;
-		private boolean destroyed;
-
-		public InstanceReference(int width, int height) {
-			this.width = width;
-			this.height = height;
-			destroyed = false;
-		}
-
-		public void requestChunkBound(Runnable callback) {
-			destroyed = false;
-			InstanceBuilder.findEmptyChunkBound(this, callback);
-		}
-
-		public void copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
-				});
-			else
-				InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
-		}
-
-		public void clearChunk(int localChunkX, int localChunkY, int plane, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
-				});
-			else
-				InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
-		}
-
-		public void copy2x2ChunkSquare(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
-				});
-			else
-				InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
-		}
-
-		public void copyMap(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
-				});
-			else
-				InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
-		}
-
-		public void copyMapAllPlanes(int fromChunkX, int fromChunkY, int size, Runnable callback) {
-			copyMap(0, 0, fromChunkX, fromChunkY, size, callback);
-		}
-
-		public void copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
-				});
-			else
-				InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
-		}
-
-		public void copyMap(int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-			copyMap(0, 0, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
-		}
-
-		public void copyMapSinglePlane(int fromChunkX, int fromChunkY, Runnable callback) {
-			copyMap(0, 0, new int[1], fromChunkX, fromChunkY, new int[1], width, height, callback);
-		}
-
-		public void copyMapAllPlanes(int fromChunkX, int fromChunkY, Runnable callback) {
-			copyMap(0, 0, new int[] { 0, 1, 2, 3 }, fromChunkX, fromChunkY, new int[] { 0, 1, 2, 3 }, width, height, callback);
-		}
-
-		public void clearMap(int chunkX, int chunkY, int width, int height, int[] planes, Runnable callback) {
-			if (base == null)
-				requestChunkBound(() -> {
-					InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
-				});
-			else
-				InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
-		}
-
-		public void clearMap(int width, int height, int[] planes, Runnable callback) {
-			clearMap(0, 0, width, height, planes, callback);
-		}
-
-		public void clearMap(int[] planes, Runnable callback) {
-			clearMap(width, height, planes, callback);
-		}
-
-		public void destroy(Runnable callback) {
-			if (destroyed)
-				return;
-			destroyed = true;
-			InstanceBuilder.destroyMap(this, callback);
-		}
-
-		public void destroy() {
-			destroy(null);
-		}
-
-		public int[] getBaseChunks() {
-			return base;
-		}
-
-		public int getBaseChunkX() {
-			return base[0];
-		}
-
-		public int getBaseChunkY() {
-			return base[1];
-		}
-
-		public int getBaseX() {
-			return base[0] << 3;
-		}
-
-		public int getBaseY() {
-			return base[1] << 3;
-		}
-
-		public Tile getBase() {
-			return Tile.of(getBaseX(), getBaseY(), 0);
-		}
-
-		public Tile getLocalTile(int offsetX, int offsetY, int plane) {
-			return Tile.of(getLocalX(offsetX), getLocalY(offsetY), plane);
-		}
-
-		public Tile getLocalTile(int offsetX, int offsetY) {
-			return getLocalTile(offsetX, offsetY, 0);
-		}
-
-		public int getLocalX(int offset) {
-			return getBaseX() + offset;
-		}
-
-		public int getLocalY(int offset) {
-			return getBaseY() + offset;
-		}
-
-		public int getLocalX(int chunkXOffset, int tileXOffset) {
-			return (getChunkX(chunkXOffset) << 3) + tileXOffset;
-		}
-
-		public int getLocalY(int chunkYOffset, int tileYOffset) {
-			return (getChunkY(chunkYOffset) << 3) + tileYOffset;
-		}
-
-		public int getChunkX(int offsetX) {
-			return getBaseChunkX() + offsetX;
-		}
-
-		public int getChunkY(int offsetY) {
-			return getBaseChunkY() + offsetY;
-		}
-
-		public int getChunkId(int offsetX, int offsetY, int plane) {
-			return MapUtils.encode(Structure.CHUNK, getBaseChunkX()+offsetX, getBaseChunkY()+offsetY, plane);
-		}
-
-		public boolean isDestroyed() {
-			return destroyed;
-		}
-
-		public boolean isCreated() {
-			return base != null;
-		}
-
-		public IntSet getChunkIds() {
-			return chunkIds;
-		}
-	}
-
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
 	private static final Set<Integer> EXISTING_CHUNKS = new HashSet<>();
@@ -243,57 +56,32 @@ public final class InstanceBuilder {
 		}
 	}
 
-	private static InstancedChunk createInstancedChunk(int fromChunkId, int rotation, int toChunkId) {
+	public static InstancedChunk createInstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		Chunk chunk = World.getChunk(toChunkId);
 		if (chunk != null) {
 			if (chunk instanceof InstancedChunk dr)
 				return dr;
 			destroyChunk(toChunkId);
 		}
-		InstancedChunk newChunk = new InstancedChunk(fromChunkId, rotation, toChunkId);
+		InstancedChunk newChunk = new InstancedChunk(fromChunkId, toChunkId, rotation);
 		World.putChunk(toChunkId, newChunk);
 		return newChunk;
 	}
 
 	public static void destroyChunk(int chunkId) {
 		Chunk chunk = World.getChunk(chunkId);
-		if (chunk != null) {
-			Set<Integer> playerIndexes = chunk.getPlayerIndexes();
-			Set<Integer> npcIndexes = chunk.getNPCsIndexes();
-			if (chunk.getAllGroundItems() != null)
-				chunk.getAllGroundItems().clear();
-			if (chunk.getGroundItems() != null)
-				chunk.getGroundItems().clear();
-			chunk.getSpawnedObjects().clear();
-			chunk.getRemovedObjects().clear();
-			if (npcIndexes != null)
-				for (int npcIndex : npcIndexes) {
-					NPC npc = World.getNPCs().get(npcIndex);
-					if (npc == null)
-						continue;
-					npc.finish();
-				}
-			World.removeChunk(chunkId);
-
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || !player.hasStarted() || player.hasFinished())
-						continue;
-					player.setForceNextMapLoadRefresh(true);
-					player.loadMapRegions();
-				}
-		}
+		if (chunk != null)
+			chunk.destroy();
 	}
 
-	public static void findEmptyChunkBound(InstanceReference ref, Runnable callback) {
+	public static void findEmptyChunkBound(Instance ref, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
-				ref.base = findEmptyChunkBound(ref.width, ref.height);
+				ref.setChunkBase(findEmptyChunkBound(ref.getWidth(), ref.getHeight()));
 				for (int plane = 0;plane < 4;plane++) {
-					for (int x = ref.base[0];x < ref.width;x++) {
-						for (int y = ref.base[1];y < ref.height;y++) {
-							ref.chunkIds.add(MapUtils.encode(Structure.CHUNK, x, y, plane));
+					for (int x = ref.getChunkBase()[0]; x < ref.getWidth(); x++) {
+						for (int y = ref.getChunkBase()[1];y < ref.getHeight();y++) {
+							ref.getChunkIds().add(MapUtils.encode(Structure.CHUNK, x, y, plane));
 						}
 					}
 				}
@@ -336,10 +124,10 @@ public final class InstanceBuilder {
 		return -1;
 	}
 
-	private static final void destroyMap(InstanceReference ref, Runnable callback) {
+	static final void destroyMap(Instance ref, Runnable callback) {
 		TaskExecutor.schedule(() -> {
 			try {
-				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.width, ref.height);
+				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
@@ -356,7 +144,7 @@ public final class InstanceBuilder {
 		reserveChunks(chunkX, chunkY, width, height, true);
 	}
 
-	private static void copyChunk(InstanceReference ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
+	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
@@ -368,16 +156,16 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static void copyChunk(int fromChunkX, int fromChunkY, int fromPlane, int toChunkX, int toChunkY, int toPlane, int rotation) {
+	private static InstancedChunk copyChunk(int fromChunkX, int fromChunkY, int fromPlane, int toChunkX, int toChunkY, int toPlane, int rotation) {
 		InstancedChunk toChunk = createInstancedChunk(
 			MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
-			rotation,
-			MapUtils.encode(Structure.CHUNK, toChunkX, toChunkY, toPlane)
+			MapUtils.encode(Structure.CHUNK, toChunkX, toChunkY, toPlane), rotation
 		);
-		toChunk.loadMap();
+		toChunk.loadMap(true);
+		return toChunk;
 	}
 
-	private static void copy2x2ChunkSquare(InstanceReference ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
+	static void copy2x2ChunkSquare(Instance ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
@@ -415,7 +203,7 @@ public final class InstanceBuilder {
 			}
 	}
 
-	private static void clearChunk(InstanceReference ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
+	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
@@ -437,16 +225,15 @@ public final class InstanceBuilder {
 				for (int yOffset = 0; yOffset < heightChunks; yOffset++) {
 					InstancedChunk toChunk = createInstancedChunk(
 						MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
-						rotation,
-						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, plane)
+						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, plane), rotation
 					);
-					toChunk.loadMap();
+					toChunk.loadMap(true);
 				}
 			}
 		}
 	}
 
-	private static void clearMap(InstanceReference ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
+	static void clearMap(Instance ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
@@ -462,7 +249,7 @@ public final class InstanceBuilder {
 		repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
 	}
 
-	private static void copyMap(InstanceReference ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
+	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
@@ -493,7 +280,7 @@ public final class InstanceBuilder {
 		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes);
 	}
 
-	private static void copyMap(InstanceReference ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
+	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
@@ -513,10 +300,9 @@ public final class InstanceBuilder {
 				for (int yOffset = 0; yOffset < height; yOffset++) {
 					InstancedChunk instance = createInstancedChunk(
 						MapUtils.encode(Structure.CHUNK, fromChunkX + xOffset, fromChunkY + yOffset, fromPlanes[planeIdx]),
-						0,
-						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, toPlanes[planeIdx])
+						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, toPlanes[planeIdx]), 0
 					);
-					instance.loadMap();
+					instance.loadMap(true);
 				}
 		}
 	}

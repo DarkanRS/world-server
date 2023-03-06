@@ -24,7 +24,6 @@ import java.util.Set;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
-import com.rs.game.map.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

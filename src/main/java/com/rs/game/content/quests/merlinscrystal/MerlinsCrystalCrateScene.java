@@ -20,7 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -29,7 +29,7 @@ import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
 public class MerlinsCrystalCrateScene extends Controller {
-	private InstanceReference instance;
+	private Instance instance;
 	private Tile locationBeforeCutscene;
 	private Tile insideCrate;
 	private Tile destination = Tile.of(2779, 3400, 0);
@@ -38,7 +38,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 	public void start() {
 		player.lock();
 		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
-		instance = new InstanceReference(4, 4);
+		instance = new Instance(4, 4);
 		playCutscene();
 	}
 

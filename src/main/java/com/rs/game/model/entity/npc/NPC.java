@@ -115,6 +115,7 @@ public class NPC extends Entity {
 	private transient boolean changedCombatLevel;
 	private transient boolean locked;
 	private transient boolean skipWalkStep;
+	private transient boolean deleted = false;
 
 	public boolean switchWalkStep() {
 		return skipWalkStep = !skipWalkStep;
@@ -423,6 +424,8 @@ public class NPC extends Entity {
 	}
 
 	public void spawn() {
+		if (deleted)
+			return;
 		timeLastSpawned = System.currentTimeMillis();
 		setFinished(false);
 		World.addNPC(this);
@@ -431,6 +434,11 @@ public class NPC extends Entity {
 		loadMapRegions();
 		checkMultiArea();
 		onRespawn();
+	}
+
+	public void permanentlyDelete() {
+		finish();
+		deleted = true;
 	}
 
 	public void onRespawn() {

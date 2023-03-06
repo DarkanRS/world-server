@@ -30,7 +30,7 @@ import com.rs.game.content.minigames.pest.npcs.Spinner;
 import com.rs.game.content.minigames.pest.npcs.Splatter;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
@@ -42,7 +42,7 @@ public class PestControl {
 	private final static int[][] PORTAL_LOCATIONS = { { 4, 56, 45, 21, 32 }, { 31, 28, 10, 9, 32 } };
 	private final static int[] KNIGHT_IDS = { 3782, 3784, 3785 };
 
-	private InstanceReference region;
+	private Instance region;
 	private int[] pestCounts = new int[5];
 
 	private List<Player> team;
@@ -82,7 +82,7 @@ public class PestControl {
 	}
 
 	public PestControl create() {
-		region = new InstanceReference(8, 8);
+		region = new Instance(8, 8);
 		region.copyMapAllPlanes(328, 320, () -> {
 			sendBeginningWave();
 			unlockPortal();

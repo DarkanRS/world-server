@@ -5,6 +5,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.WorldProjectile;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -729,5 +730,29 @@ public class Chunk {
             for (UpdateZonePacketEncoder packet : initUpdates)
                 player.getSession().writeToQueue(packet);
         }
+    }
+
+    public void destroy() {
+        if (getAllGroundItems() != null)
+            getAllGroundItems().clear();
+        if (getGroundItems() != null)
+            getGroundItems().clear();
+        getSpawnedObjects().clear();
+        getRemovedObjects().clear();
+        for (int npcIndex : getNPCsIndexes()) {
+            NPC npc = World.getNPCs().get(npcIndex);
+            if (npc == null)
+                continue;
+            npc.finish();
+        }
+        World.removeChunk(id);
+        for (int playerIndex : getPlayerIndexes()) {
+            Player player = World.getPlayers().get(playerIndex);
+            if (player == null || !player.hasStarted() || player.hasFinished())
+                continue;
+            player.setForceNextMapLoadRefresh(true);
+            player.loadMapRegions();
+        }
+
     }
 }

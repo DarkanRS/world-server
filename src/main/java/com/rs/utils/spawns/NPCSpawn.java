@@ -16,7 +16,10 @@
 //
 package com.rs.utils.spawns;
 
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.World;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.Tile;
 
@@ -39,8 +42,12 @@ public class NPCSpawn {
 		this(npcId, tile, null, comment);
 	}
 
-	public void spawn() {
-		World.spawnNPC(npcId, tile, dir, false, true, customName);
+	public NPC spawn() {
+		return World.spawnNPC(npcId, tile, dir, false, true, customName);
+	}
+
+	public NPC spawnAtCoords(Tile tile, Direction dir) {
+		return World.spawnNPC(npcId, tile, dir, false, true, customName);
 	}
 
 	public Tile getTile() {
@@ -66,5 +73,9 @@ public class NPCSpawn {
 
 	public String getCustomName() {
 		return customName;
+	}
+
+	public NPCDefinitions getDefs() {
+		return NPCDefinitions.getDefs(npcId);
 	}
 }

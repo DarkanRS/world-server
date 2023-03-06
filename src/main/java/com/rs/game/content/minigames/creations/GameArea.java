@@ -21,7 +21,7 @@ import java.util.Arrays;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -61,7 +61,7 @@ public class GameArea {
 	/**
 	 * Contains base positions.
 	 */
-	private InstanceReference region;
+	private Instance region;
 
 	public GameArea(int size) {
 		flags = new int[size][size];
@@ -122,7 +122,7 @@ public class GameArea {
 	public void create(Runnable callback) {
 		if (region != null)
 			throw new RuntimeException("Area already created.");
-		region = new InstanceReference(flags.length, flags.length);
+		region = new Instance(flags.length, flags.length);
 		region.requestChunkBound(() -> {
 			try (StructuredTaskScope scope = new StructuredTaskScope()) {
 				for (int x = 0; x < flags.length; x++) {

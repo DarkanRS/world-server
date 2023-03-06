@@ -90,10 +90,7 @@ public enum Direction {
 	}
 
 	public static Direction rotateClockwise(Direction dir, int rotation) {
-		rotation = dir.getId() + rotation;
-		if (rotation > 7)
-			rotation = rotation - 8;
-		return getById(rotation);
+		return getById((dir.getId() + rotation) & 0x7);
 	}
 
 	public static Direction fromAngle(int angle) {

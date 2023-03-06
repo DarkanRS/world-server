@@ -25,7 +25,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.map.InstanceBuilder.InstanceReference;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -50,7 +50,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	// Delrith animation
 	static final int RESURRECT = 4623;
 
-	private InstanceReference instance;
+	private Instance instance;
 	Tile locationOnDeath = Tile.of(3211, 3382, 0);
 	Tile locationOnVictory = Tile.of(3228, 3368, 0);
 	Tile spawn;
@@ -80,7 +80,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	private void playCutscene() {
 		player.lock();
 
-		instance = new InstanceReference(4, 4);
+		instance = new Instance(4, 4);
 		instance.copyMapAllPlanes(401, 419, () -> {
 			spawn = instance.getLocalTile(19, 17);
 			combatStartTile = instance.getLocalTile(15, 20);
