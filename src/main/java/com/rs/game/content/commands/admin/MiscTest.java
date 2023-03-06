@@ -642,6 +642,11 @@ public class MiscTest {
 			}
 		});
 
+		Commands.add(Rights.DEVELOPER, "reloadlocalmap", "Forces your local map to reload", (p, args) -> {
+			p.setForceNextMapLoadRefresh(true);
+			p.loadMapRegions();
+		});
+
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> {
 			ShopsHandler.reloadShops();
 		});

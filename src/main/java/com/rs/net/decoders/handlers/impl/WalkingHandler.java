@@ -44,6 +44,7 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 		if (route.getStepCount() == -1)
 			return;
 		player.stopAll();
+		player.setNextFaceEntity(null);
 		for (int i = route.getStepCount() - 1; i >= 0; i--)
 			if (!player.addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
 				break;

@@ -24,6 +24,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ObjectOp;
+import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.ObjectHandler;
 
 public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
@@ -33,7 +34,7 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
-		if (!player.getMapChunkIds().contains(tile.getChunkId()))
+		if (Utils.getDistanceI(player.getTile(), tile) > 20)
 			return;
 		GameObject mapObject = World.getObjectWithId(tile, packet.getObjectId());
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())

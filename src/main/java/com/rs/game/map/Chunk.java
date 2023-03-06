@@ -232,19 +232,22 @@ public class Chunk {
     public void checkLoaded() {
         if (!loadingData.get()) {
             loadingData.set(true);
-            Region region = new Region(getRegionId());
-            region.loadRegionMap(false);
-            if (region.getObjects() != null && !region.getObjects().isEmpty()) {
-                for (WorldObject object : region.getObjects()) {
-                    if (object.getTile().getChunkId() != id)
-                        continue;
-                    addBaseObject(new GameObject(object));
-                }
-            }
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
             loadedData.set(true);
+        }
+    }
+
+    public void loadObjectsFromCache() {
+        Region region = new Region(getRegionId());
+        region.loadRegionMap(false);
+        if (region.getObjects() != null && !region.getObjects().isEmpty()) {
+            for (WorldObject object : region.getObjects()) {
+                if (object.getTile().getChunkId() != id)
+                    continue;
+                addBaseObject(new GameObject(object));
+            }
         }
     }
 
