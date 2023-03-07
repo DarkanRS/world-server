@@ -61,7 +61,7 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 						.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "Anyway, you're not the King either. So get out of my sight."));
 				if(!p.isQuestComplete(Quest.DEMON_SLAYER)
 						&& p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
-						&& !p.getInventory().containsItem(DemonSlayer.ROVIN_KEY))
+						&& !p.getInventory().containsItem(2400))
 					option("Yes I know, but this is important.", new Dialogue()
 							.addPlayer(HeadE.AMAZED_MILD, "Yes I know, but this is important.")
 							.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_THINKING, "Ok, I'm listening. Tell me what's so important.")
@@ -149,7 +149,7 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 							.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Okay, I'll give you the key, just so that it's you that kills the demon and not Sir Prysin!")
 							.addNext(()-> {
 								if(p.getInventory().hasFreeSlots()) {
-									p.getInventory().addItem(DemonSlayer.ROVIN_KEY, 1);
+									p.getInventory().addItem(2400, 1);
 									p.getPackets().sendGameMessage("Rovin gives you the key");
 								} else
 									p.startConversation(new Conversation(p) {

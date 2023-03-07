@@ -56,7 +56,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 			return;
 		}
 
-		if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.AFTER_SIR_PRYSIN_INTRO_ATTR)) {
+		if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("AFTER_PRYSIN_INTRO")) {
 			if(hasAllKeys(p)) {
 				addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
 				addNext(() -> {
@@ -164,7 +164,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		addNPC(SIR_PRYSIN, HeadE.NERVOUS, "One I gave to Rovin, the captain of the palace guard.");
 		addNPC(SIR_PRYSIN, HeadE.NERVOUS, "I gave the other to the wizard Traiborn.");
 		addNext(() -> {
-			p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.AFTER_SIR_PRYSIN_INTRO_ATTR, true);
+			p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("AFTER_PRYSIN_INTRO", true);
 			p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE);
 			p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());
 		});
@@ -194,14 +194,14 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "Well there's a problem there as well.")
 						.addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "I managed to drop the key in the drain just outside the palace kitchen. " +
 								"It is just inside and I can't reach it.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN_ATTR, true);
+									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY1_DRAIN_LOC_KNOWN", true);
 								})
 						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
 				option("Where can I find Captain Rovin?", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Where can I find Captain Rovin?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Captain Rovin lives at the top of the guards' quarters in the north-west wing of this" +
 								" palace.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY3_ROVIN_LOCATION_KNOWN_ATTR, true);
+									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY3_ROVIN_LOC_KNOWN", true);
 								})
 						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
 				option("Where does the wizard live?", new Dialogue()
@@ -209,10 +209,10 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Wizard Traiborn?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "He is one of the wizards who lives in the tower on the little island just off the south coast. " +
 								"I believe his quarters are on the first floor of the tower.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.KEY2_WIZARD_LOCATION_KNOWN_ATTR, true);
+									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY2_WIZARD_LOC_KNOWN", true);
 								})
 						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
-				if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.KEY1_DRAIN_LOCATION_KNOWN_ATTR))
+				if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY1_DRAIN_LOC_KNOWN"))
 					option("So what does the drain lead to?", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL_THINKING, "So what does the drain connect to?")
 							.addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "It is the drain for the drainpipe running from the sink in the kitchen down to the palace sewers.")
@@ -226,11 +226,11 @@ public class SirPrysinDemonSlayerD extends Conversation {
 
 	private boolean hasAllKeys(Player p) {
 		Inventory inv = p.getInventory();
-		return inv.containsItem(DemonSlayer.ROVIN_KEY) && inv.containsItem(DemonSlayer.WIZARD_KEY) && inv.containsItem(DemonSlayer.PRYSIN_KEY);
+		return inv.containsItem(2400) && inv.containsItem(2399) && inv.containsItem(2401);
 	}
 
 	private void silverLightCutscene(Player p) {
-		if(p.getInventory().containsItem(DemonSlayer.SILVERLIGHT)) {
+		if(p.getInventory().containsItem(2402)) {
 			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Silverlight looks good on you...");
 			addPlayer(HeadE.HAPPY_TALKING, "I guess it does");
 			return;
@@ -289,11 +289,11 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						else if(tick == 6) {
 							dummy.transformIntoNPC(SIR_PRYSIN);
 							p.setNextAnimation(new Animation(15952));
-							p.getInventory().addItem(DemonSlayer.SILVERLIGHT, 1);
+							p.getInventory().addItem(2402, 1);
 							p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.SILVERLIGHT_OBTAINED_STAGE);
-							p.getInventory().deleteItem(DemonSlayer.PRYSIN_KEY, 1);
-							p.getInventory().deleteItem(DemonSlayer.WIZARD_KEY, 1);
-							p.getInventory().deleteItem(DemonSlayer.ROVIN_KEY, 1);
+							p.getInventory().deleteItem(2401, 1);
+							p.getInventory().deleteItem(2399, 1);
+							p.getInventory().deleteItem(2400, 1);
 						} else if(tick == 9) {
 							p.unlock();
 							p.setNextTile(playerTile);
