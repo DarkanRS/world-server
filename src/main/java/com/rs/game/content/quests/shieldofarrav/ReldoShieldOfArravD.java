@@ -45,7 +45,7 @@ public class ReldoShieldOfArravD extends Conversation {
 			break;
 		case ShieldOfArrav.FIND_BOOK_STAGE:
 			addPlayer(HeadE.SECRETIVE, "Where is that book...'The Shield of Arrav'?");
-			if (p.getInventory().containsItem(ShieldOfArrav.BOOK)) {
+			if (p.getInventory().containsItem(757)) {
 				addNPC(RELDO, HeadE.SECRETIVE, "Did you find the book?");
 				addPlayer(HeadE.SECRETIVE, "Yes");
 				addNPC(RELDO, HeadE.FRUSTRATED, "Why are you asking me where to find a book you've already found? Have you read it?");

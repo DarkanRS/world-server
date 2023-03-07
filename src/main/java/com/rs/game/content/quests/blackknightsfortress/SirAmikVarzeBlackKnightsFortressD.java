@@ -1,11 +1,6 @@
 package com.rs.game.content.quests.blackknightsfortress;
 
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.HEARD_PLAN;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.NOT_STARTED;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.QUEST_COMPLETE;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.RUINED_CAULDRON;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.SIR_AMIK_VARZE;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.STARTED;
+import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.*;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
@@ -19,6 +14,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 	private final int QUEST_START_CONVO = 0;
+	private final static int SIR_AMIK_VARZE = 608;
 
 	public SirAmikVarzeBlackKnightsFortressD(Player p) {
 		super(p);

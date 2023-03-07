@@ -74,47 +74,6 @@ public class ShieldOfArrav extends QuestOutline {
     final public static int SPOKE_TO_KING_STAGE = 25;
     final public static int HAS_CERTIFICATE_STAGE = 26;
     final static int QUEST_COMPLETE_STAGE = 27;
-    //------
-
-    //---Attributes---
-    final static String NOT_STARTED_ATTR = "NOT_STARTED";
-
-    //Starting quest
-    final static String FIND_BOOK_ATTR = "FIND_BOOK";
-    final static String BOOK_IS_READ_ATTR = "BOOK_IS_READ";
-    final static String TALK_TO_BARAEK_ATTR = "TALK_TO_BARAEK";
-    final static String AFTER_BRIBE_BARAEK_ATTR = "AFTER_BRIBE_BARAEK";
-
-    //Inititiation Phoenix gang
-    final static String PROVING_LOYALTY_PHOENIX_ATTR = "PROVING_LOYALTY_PHOENIX";
-
-    //Initiation Black arm gang
-    final static String AFTER_BRIBE_CHARLIE_ATTR = "AFTER_BRIBE_CHARLIE";
-    final static String PROVING_LOYALTY_BLACK_ARM_ATTR = "PROVING_LOYALTY_BLACK_ARM";
-
-    //Gang activity
-    final public static String JOINED_PHOENIX_ATTR = "JOINED_PHOENIX";
-
-    //Gang activity
-    final public static String JOINED_BLACK_ARM_ATTR = "JOINED_BLACK_ARM";
-
-    //King Roald
-    final public static String HAS_SHIELD_ATTR = "HAS_SHIELD";
-    final public static String SPOKE_TO_KING_ATTR = "SPOKE_TO_KING";
-    final public static String HAS_CERTIFICATE_ATTR = "HAS_CERTIFICATE";
-    //------
-
-    //Items
-    final static int BOOK = 757;
-    final public static int WEAPONS_KEY = 759;
-    final static int SHIELD_LEFT_HALF = 763;
-    final static int SHIELD_RIGHT_HALF = 765;
-    final public static int CERTIFICATE_LEFT = 11173;
-    final public static int CERTIFICATE_RIGHT = 11174;
-    final static int CERTIFICATE_FULL = 769;
-    final static int FULL_SHIELD = 11164;
-    final static int PHOENIX_CROSSBOW = 767;
-
     @Override
     public int getCompletedStage() {
         return QUEST_COMPLETE_STAGE;
@@ -282,44 +241,44 @@ public class ShieldOfArrav extends QuestOutline {
         GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
         switch (questStage) {
             case NOT_STARTED_STAGE -> {
-                questAttr.setB(NOT_STARTED_ATTR, true);
+                questAttr.setB("NOT_STARTED", true);
             }
             case FIND_BOOK_STAGE -> {
                 p.delete("claimedArravLamp");
-                questAttr.setB(FIND_BOOK_ATTR, true);
+                questAttr.setB("FIND_BOOK", true);
             }
             case BOOK_IS_READ_STAGE -> {
-                questAttr.setB(BOOK_IS_READ_ATTR, true);
+                questAttr.setB("BOOK_IS_READ", true);
             }
             case TALK_TO_BARAEK_STAGE -> {
-                questAttr.setB(TALK_TO_BARAEK_ATTR, true);
+                questAttr.setB("TALK_TO_BARAEK", true);
             }
             case AFTER_BRIBE_BARAEK_STAGE -> {
-                questAttr.setB(AFTER_BRIBE_BARAEK_ATTR, true);
+                questAttr.setB("AFTER_BRIBE_BARAEK", true);
             }
             case PROVING_LOYALTY_PHOENIX_STAGE -> {
-                questAttr.setB(PROVING_LOYALTY_PHOENIX_ATTR, true);
+                questAttr.setB("PROVING_LOYALTY_PHOENIX", true);
             }
             case AFTER_BRIBE_CHARLIE_STAGE -> {
-                questAttr.setB(AFTER_BRIBE_CHARLIE_ATTR, true);
+                questAttr.setB("AFTER_BRIBE_CHARLIE", true);
             }
             case PROVING_LOYALTY_BLACK_ARM_STAGE -> {
-                questAttr.setB(PROVING_LOYALTY_BLACK_ARM_ATTR, true);
+                questAttr.setB("PROVING_LOYALTY_BLACK_ARM", true);
             }
             case JOINED_PHOENIX_STAGE -> {
-                questAttr.setB(JOINED_PHOENIX_ATTR, true);
+                questAttr.setB("JOINED_PHOENIX", true);
             }
             case JOINED_BLACK_ARM_STAGE -> {
-                questAttr.setB(JOINED_BLACK_ARM_ATTR, true);
+                questAttr.setB("JOINED_BLACK_ARM", true);
             }
             case HAS_SHIELD_STAGE -> {
-                questAttr.setB(HAS_SHIELD_ATTR, true);
+                questAttr.setB("HAS_SHIELD", true);
             }
             case SPOKE_TO_KING_STAGE -> {
-                questAttr.setB(SPOKE_TO_KING_ATTR, true);
+                questAttr.setB("SPOKE_TO_KING", true);
             }
             case HAS_CERTIFICATE_STAGE -> {
-                questAttr.setB(HAS_CERTIFICATE_ATTR, true);
+                questAttr.setB("HAS_CERTIFICATE", true);
             }
         }
     }
@@ -328,43 +287,43 @@ public class ShieldOfArrav extends QuestOutline {
         GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
         switch (questStage) {
             case NOT_STARTED_STAGE -> {
-                return questAttr.getB(NOT_STARTED_ATTR);
+                return questAttr.getB("NOT_STARTED");
             }
             case FIND_BOOK_STAGE -> {
-                return questAttr.getB(FIND_BOOK_ATTR);
+                return questAttr.getB("FIND_BOOK");
             }
             case BOOK_IS_READ_STAGE -> {
-                return questAttr.getB(BOOK_IS_READ_ATTR);
+                return questAttr.getB("BOOK_IS_READ");
             }
             case TALK_TO_BARAEK_STAGE -> {
-                return questAttr.getB(TALK_TO_BARAEK_ATTR);
+                return questAttr.getB("TALK_TO_BARAEK");
             }
             case AFTER_BRIBE_BARAEK_STAGE -> {
-                return questAttr.getB(AFTER_BRIBE_BARAEK_ATTR);
+                return questAttr.getB("AFTER_BRIBE_BARAEK");
             }
             case PROVING_LOYALTY_PHOENIX_STAGE -> {
-                return questAttr.getB(PROVING_LOYALTY_PHOENIX_ATTR);
+                return questAttr.getB("PROVING_LOYALTY_PHOENIX");
             }
             case AFTER_BRIBE_CHARLIE_STAGE -> {
-                return questAttr.getB(AFTER_BRIBE_CHARLIE_ATTR);
+                return questAttr.getB("AFTER_BRIBE_CHARLIE");
             }
             case PROVING_LOYALTY_BLACK_ARM_STAGE -> {
-                return questAttr.getB(PROVING_LOYALTY_BLACK_ARM_ATTR);
+                return questAttr.getB("PROVING_LOYALTY_BLACK_ARM");
             }
             case JOINED_PHOENIX_STAGE -> {
-                return questAttr.getB(JOINED_PHOENIX_ATTR);
+                return questAttr.getB("JOINED_PHOENIX");
             }
             case JOINED_BLACK_ARM_STAGE -> {
-                return questAttr.getB(JOINED_BLACK_ARM_ATTR);
+                return questAttr.getB("JOINED_BLACK_ARM");
             }
             case HAS_SHIELD_STAGE -> {
-                return questAttr.getB(HAS_SHIELD_ATTR);
+                return questAttr.getB("HAS_SHIELD");
             }
             case SPOKE_TO_KING_STAGE -> {
-                return questAttr.getB(SPOKE_TO_KING_ATTR);
+                return questAttr.getB("SPOKE_TO_KING");
             }
             case HAS_CERTIFICATE_STAGE -> {
-                return questAttr.getB(HAS_CERTIFICATE_ATTR);
+                return questAttr.getB("HAS_CERTIFICATE");
             }
             default -> {
                 return false;
@@ -405,7 +364,7 @@ public class ShieldOfArrav extends QuestOutline {
     @Override
     public void complete(Player player) {
         player.getInventory().addCoins(1200);
-        getQuest().sendQuestCompleteInterface(player, FULL_SHIELD, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
+        getQuest().sendQuestCompleteInterface(player, 11164, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
     }
 
     public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}, e -> {
@@ -424,7 +383,7 @@ public class ShieldOfArrav extends QuestOutline {
          }
     });
 
-	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { BOOK }, new String[] { "Read" }, e -> {
+	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { 757 }, new String[] { "Read" }, e -> {
 		BookShieldOfArrav.openBook(e.getPlayer());
 	});
 
@@ -472,14 +431,14 @@ public class ShieldOfArrav extends QuestOutline {
             World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
         }
         if (e.getOption().equalsIgnoreCase("search"))
-            if (p.getInventory().containsItem(SHIELD_RIGHT_HALF))
+            if (p.getInventory().containsItem(765))
                 p.sendMessage("The chest is empty");
-            else if (p.getBank().containsItem(SHIELD_RIGHT_HALF, 1)) {
+            else if (p.getBank().containsItem(765, 1)) {
                 p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
                 p.sendMessage("The chest is empty");
             } else {
                 p.sendMessage("You get the right half of the shield of Arrav");
-                p.getInventory().addItem(SHIELD_RIGHT_HALF, 1);
+                p.getInventory().addItem(765, 1);
                 if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
                     setStage(p, HAS_SHIELD_STAGE);
                     p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
@@ -507,14 +466,14 @@ public class ShieldOfArrav extends QuestOutline {
              World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
          }
          if (e.getOption().equalsIgnoreCase("search"))
-             if (p.getInventory().containsItem(SHIELD_LEFT_HALF))
+             if (p.getInventory().containsItem(763))
                  p.sendMessage("The cupboard is empty");
-             else if (p.getBank().containsItem(SHIELD_LEFT_HALF, 1)) {
+             else if (p.getBank().containsItem(763, 1)) {
                  p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Oh that's right, the right shield half is in my bank."));
                  p.sendMessage("The cupboard is empty");
              } else {
                  p.sendMessage("You get the left half of the shield of Arrav");
-                 p.getInventory().addItem(SHIELD_LEFT_HALF, 1);
+                 p.getInventory().addItem(763, 1);
                  if (p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < HAS_SHIELD_STAGE) {
                      setStage(p, HAS_SHIELD_STAGE);
                      p.startConversation(new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "I should take this to King Roald"));
@@ -526,18 +485,18 @@ public class ShieldOfArrav extends QuestOutline {
     	GameObject obj = e.getObject();
         if (!obj.getTile().matches(Tile.of(3251, 3386, 0)))
             return;
-        if (e.getPlayer().getInventory().containsItem(WEAPONS_KEY, 1) || e.getPlayer().getY() < obj.getY())
+        if (e.getPlayer().getInventory().containsItem(759, 1) || e.getPlayer().getY() < obj.getY())
             Doors.handleDoor(e.getPlayer(), e.getObject());
         else
             e.getPlayer().sendMessage("The door appears to need a key");
     });
 
 
-    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(CERTIFICATE_RIGHT, new int[]{CERTIFICATE_LEFT}, e -> {
+    public static ItemOnItemHandler handleCertificates = new ItemOnItemHandler(11174, new int[]{11173}, e -> {
     	if (e.getPlayer().getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) >= ShieldOfArrav.HAS_CERTIFICATE_STAGE) {
             e.getPlayer().getInventory().deleteItem(e.getItem1().getId(), 1);
             e.getPlayer().getInventory().deleteItem(e.getItem2().getId(), 1);
-            e.getPlayer().getInventory().addItem(CERTIFICATE_FULL, 1);
+            e.getPlayer().getInventory().addItem(769, 1);
         } else
             e.getPlayer().sendMessage("You don't know what these papers are for...");
     });
@@ -547,7 +506,7 @@ public class ShieldOfArrav extends QuestOutline {
              e.getPlayer().sendMessage("This authenticates the Shield Of Arrav");
     });
 
-	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { PHOENIX_CROSSBOW }, Tile.of(3245, 3385, 1), e -> {
+	public static PickupItemHandler handlePhoenixBowsPickup = new PickupItemHandler(new Object[] { 767 }, Tile.of(3245, 3385, 1), e -> {
 		List<NPC> npcs = World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1);
 		for (NPC npc : npcs)
 			if (npc.getId() == 643) {
@@ -581,7 +540,7 @@ public class ShieldOfArrav extends QuestOutline {
         });
     });
     
-    public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(new Object[] { WEAPONS_KEY, CERTIFICATE_LEFT, CERTIFICATE_RIGHT }, e -> {
+    public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(new Object[] { 759, 11173, 11174 }, e -> {
 		if (e.getItem().getAmount() >= 1) {
 			if (e.getTarget().getInventory().getFreeSlots() >= 1) {
 				e.getPlayer().lock();

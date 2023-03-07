@@ -24,40 +24,36 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class KatrineShieldOfArravD extends Conversation {
-	Player p;
-	final int KATRINE = 642;
-	final int PHOENIX_CROSSBOW = 767;
+	private final int KATRINE = 642;
 
-	public KatrineShieldOfArravD(Player p) {
-		super(p);
-		this.p = p;
-		if(p.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE) {
+	public KatrineShieldOfArravD(Player player) {
+		super(player);
+		if(player.getQuestManager().getStage(Quest.SHIELD_OF_ARRAV) < ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE) {
 			addPlayer(HeadE.TALKING_ALOT, "What is this place?");
 			addNPC(KATRINE, HeadE.FRUSTRATED, "It's a private business. Can I help you at all?");
-			introductoryConversations(p);
+			introductoryConversations(player);
 			return;
 		}
-		if(!ShieldOfArrav.hasGang(p))
-			checkAboutCrossbowsConversation(p);
-		else if(ShieldOfArrav.isBlackArmGang(p)) {
+		if(!ShieldOfArrav.hasGang(player))
+			checkAboutCrossbowsConversation(player);
+		else if(ShieldOfArrav.isBlackArmGang(player)) {
 			addPlayer(HeadE.HAPPY_TALKING, "Hey.");
 			addNPC(KATRINE, HeadE.HAPPY_TALKING, "Hey.");
-			fellowGangMemberDialogue(p);
-		} else if(ShieldOfArrav.isPhoenixGang(p)) {
+			fellowGangMemberDialogue(player);
+		} else if(ShieldOfArrav.isPhoenixGang(player)) {
 			addPlayer(HeadE.TALKING_ALOT, "What is this place?");
 			addNPC(KATRINE, HeadE.FRUSTRATED, "It's a private business Phoenix scum, please leave.");
 		}
 	}
 
-	public KatrineShieldOfArravD(Player p, int convoID) {
-		super(p);
-		this.p = p;
+	public KatrineShieldOfArravD(Player player, int convoID) {
+		super(player);
 		switch(convoID) {
 		case 0:
-			introductoryConversations(p);
+			introductoryConversations(player);
 			break;
 		case 1:
-			fellowGangMemberDialogue(p);
+			fellowGangMemberDialogue(player);
 			break;
 		}
 
@@ -86,19 +82,19 @@ public class KatrineShieldOfArravD extends Conversation {
 
 	private void checkAboutCrossbowsConversation(Player p) {
 		addNPC(KATRINE, HeadE.CALM, "Have you got those crossbows for me yet?");
-		if(p.getInventory().containsItem(PHOENIX_CROSSBOW, 2)) {
+		if(p.getInventory().containsItem(767, 2)) {
 			addPlayer(HeadE.HAPPY_TALKING, "Yes I have.");
 			addSimple("You give the crossbows to Katrine.", () -> {
-				p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
-				p.getInventory().deleteItem(PHOENIX_CROSSBOW, 1);
+				p.getInventory().deleteItem(767, 1);
+				p.getInventory().deleteItem(767, 1);
 				ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_BLACK_ARM_STAGE);
 				ShieldOfArrav.setGang(p, "Black");
 			});
 			addNPC(HeadE.HAPPY_TALKING, "You're now a Black Arm Gang member. Feel free to enter any of the rooms of the ganghouse.");
-		} else if(p.getInventory().containsItem(PHOENIX_CROSSBOW, 1)) {
+		} else if(p.getInventory().containsItem(767, 1)) {
 			addPlayer(HeadE.NERVOUS, "I have one...");
 			addNPC(HeadE.HAPPY_TALKING, "I need two. Come back when you have them.");
-		} else if(!p.getInventory().containsItem(PHOENIX_CROSSBOW)) {
+		} else if(!p.getInventory().containsItem(767)) {
 			addPlayer(HeadE.NERVOUS, "No, I haven't yet found them. ");
 			addNPC(HeadE.HAPPY_TALKING, "I need two crossbows stolen from the Phoenix Gang weapons stash, which if you head east for a bit, is a building " +
 					"on the south side of the road. Come back when you got 'em.");
@@ -188,13 +184,13 @@ public class KatrineShieldOfArravD extends Conversation {
 													.addNPC(KATRINE, HeadE.HAPPY_TALKING, "Great! You'll find the Phoenix gang's weapon stash just next to a temple, due east of here.")
 													.addPlayer(HeadE.HAPPY_TALKING,"I'll get on it!")
 													.addNext(() -> {
-														ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE);
+														ShieldOfArrav.setStage(player, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE);
 													}));
 											option("Sounds a little tricky. Got anything easier?", new Dialogue()
 													.addPlayer(HeadE.WORRIED, "Sounds a little tricky. Got anything easier?")
 													.addNPC(KATRINE, HeadE.LAUGH, "If you're not up to a little bit of danger I don't think you've got anything to offer our gang.")
 													.addNext(() -> {
-														p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
+														player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
 													}));
 										}
 									}));
@@ -202,7 +198,7 @@ public class KatrineShieldOfArravD extends Conversation {
 									.addNPC(KATRINE, HeadE.SKEPTICAL_HEAD_SHAKE, "How unusual. Someone honest wanting to join a gang of thieves. Excuse me if I remain " +
 											"unconvinced.")
 									.addNext(() -> {
-										p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
+										player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
 									}));
 						}
 					}));
@@ -210,14 +206,14 @@ public class KatrineShieldOfArravD extends Conversation {
 					.addPlayer(HeadE.SECRETIVE, "I want some hints for becoming a thief.")
 					.addNPC(KATRINE, HeadE.WORRIED, "Well, I'm sorry luv, I'm not giving away any of my secrets. Not to people who ain't Black Arm members anyway.")
 					.addNext(() -> {
-						p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
+						player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
 					}));
 			option("I'm looking for the door out of here.", new Dialogue()
 					.addPlayer(HeadE.SCARED, "I'm looking for the door out of here.")
 					.addSimple("*Katrine groans")
 					.addNPC(KATRINE, HeadE.VERY_FRUSTRATED, "Try... the one you just came in?")
 					.addNext(() -> {
-						p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
+						player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
 					}));
 		}
 	};
