@@ -113,7 +113,7 @@ public final class Settings {
 	public static final int LOCAL_PLAYERS_LIMIT = 250;
 	public static final int NPCS_LIMIT = 64000;
 	public static final int LOCAL_NPCS_LIMIT = 250;
-	public static final double HIGH_MEM_USE_THRESHOLD = 70.0; // 70%
+	public static final double HIGH_MEM_USE_THRESHOLD = 85.0;
 
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 

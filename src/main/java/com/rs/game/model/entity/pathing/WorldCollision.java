@@ -11,6 +11,7 @@ import com.rs.game.map.Chunk;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -27,8 +28,9 @@ public class WorldCollision {
 
     @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
-        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1000*1024*1024; //1000mb HEAP
-        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3200*1024*1024; //3200mb HEAP
+        Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
+        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
+        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
 
         if (preloadCollision) {
             for (int regionId = 0; regionId < 0xFFFF; regionId++) {
