@@ -31,6 +31,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
@@ -39,12 +40,13 @@ public class PumpkinSpawning {
 
 	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
 	static int pumpkinCount = 0;
-	static int pumpkinsPerChunk = 3;
+	static int pumpkinsPerChunk = 2;
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
+		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
 		TaskExecutor.schedule(() -> {
 			try {
 				spawnPumpkins();
@@ -71,12 +73,12 @@ public class PumpkinSpawning {
 			Chunk r = World.getChunk(id);
 			int eggsNeeded = pumpkinsPerChunk-countPumpkins(id);
 			for (int i = 0; i < eggsNeeded; i++) {
-				int x = r.getBaseX()+Utils.random(64);
-				int y = r.getBaseY()+Utils.random(64);
+				int x = r.getBaseX()+Utils.random(8);
+				int y = r.getBaseY()+Utils.random(8);
 				Tile tile = Tile.of(x, y, 0);
 				while (!World.floorAndWallsFree(tile, 1)) {
-					x = r.getBaseX()+Utils.random(64);
-					y = r.getBaseY()+Utils.random(64);
+					x = r.getBaseX()+Utils.random(8);
+					y = r.getBaseY()+Utils.random(8);
 					tile = Tile.of(x, y, 0);
 				}
 				World.addGroundItem(new Item(1959), Tile.of(x, y, 0));

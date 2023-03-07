@@ -37,7 +37,7 @@ public class PlayerOptionHandler implements PacketHandler<Player, PlayerOp> {
 			return;
 
 		Player target = World.getPlayers().get(packet.getPid());
-		if (target == null || target.isDead() || target.hasFinished() || Utils.getDistanceI(player.getTile(), target.getTile()) > 20)
+		if (target == null || target.isDead() || target.hasFinished() || !player.getMapChunkIds().contains(target.getChunkId()))
 			return;
 
 		if (packet.isForceRun())

@@ -87,6 +87,8 @@ public final class World {
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
 	private static final Map<Integer, Chunk> CHUNKS = new HashMap<>();
 	private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
+	private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
+	private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Map<Integer, UpdateZone> UPDATE_ZONES = new HashMap<>();
 
 	@ServerStartupEvent
@@ -113,8 +115,58 @@ public final class World {
 		}
 	}
 
+	public static final void markChunksUnviewed(int baseChunkId, RegionSize size) {
+		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
+		for (int plane = 0;plane < 4;plane++) {
+			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
+				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
+					int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
+					if (!PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
+						UNLOADABLE_CHUNKS.add(chunkId);
+				}
+			}
+		}
+	}
+
+	public static final void markChunksViewed(int baseChunkId, RegionSize size) {
+		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
+		for (int plane = 0;plane < 4;plane++) {
+			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
+				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
+					UNLOADABLE_CHUNKS.remove(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+				}
+			}
+		}
+	}
+
+	public static void permanentlyPreloadChunks(int centerChunkId, int radius) {
+		int[] coords = MapUtils.decode(Structure.CHUNK, centerChunkId);
+		for (int plane = 0;plane < 4;plane++) {
+			for (int chunkX = coords[0] - radius; chunkX < coords[0] + radius; chunkX++) {
+				for (int chunkY = coords[1] - radius; chunkY < coords[1] + radius; chunkY++) {
+					permanentlyPreloadChunks(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+				}
+			}
+		}
+	}
+
+	public static void permanentlyPreloadChunks(int... chunkIds) {
+		for (int chunkId : chunkIds) {
+			getChunk(chunkId, true);
+			PERMANENTLY_LOADED_CHUNKS.add(chunkId);
+		}
+	}
+
+	public static void permanentlyPreloadChunks(Set<Integer> chunkIds) {
+		for (int chunkId : chunkIds) {
+			getChunk(chunkId, true);
+			PERMANENTLY_LOADED_CHUNKS.add(chunkId);
+		}
+	}
+
 	public static final UpdateZone removeUpdateZone(int baseChunkId, RegionSize size) {
 		synchronized (UPDATE_ZONES) {
+			markChunksUnviewed(baseChunkId, size);
 			return UPDATE_ZONES.remove(UpdateZone.getId(baseChunkId, size));
 		}
 	}
@@ -126,6 +178,7 @@ public final class World {
 			if (updateZone == null) {
 				updateZone = new UpdateZone(baseChunkId, size);
 				UPDATE_ZONES.put(id, updateZone);
+				markChunksViewed(baseChunkId, size);
 			}
 			return updateZone;
 		}
@@ -1064,6 +1117,19 @@ public final class World {
 		return chunksXYLoop;
 	}
 
+	public static Set<Integer> mapRegionIdsToChunks(Set<Integer> mapRegionsIds) {
+		Set<Integer> chunkIds = new IntOpenHashSet();
+		for (int regionId : mapRegionsIds) {
+			int[] rCoords = MapUtils.decode(Structure.REGION, regionId);
+			int cX = rCoords[0] << 3, cY = rCoords[1] << 3;
+			for (int plane = 0;plane < 4;plane++)
+				for (int x = 0;x < 8;x++)
+					for (int y = 0;y < 8;y++)
+						chunkIds.add(MapUtils.encode(Structure.CHUNK, cX+x, cY+y, plane));
+		}
+		return chunkIds;
+	}
+
 	public static Set<Integer> mapRegionIdsToChunks(Set<Integer> mapRegionsIds, int plane) {
 		Set<Integer> chunkIds = new IntOpenHashSet();
 		for (int regionId : mapRegionsIds) {
@@ -1073,6 +1139,17 @@ public final class World {
 				for (int y = 0;y < 8;y++)
 					chunkIds.add(MapUtils.encode(Structure.CHUNK, cX+x, cY+y, plane));
 		}
+		return chunkIds;
+	}
+
+	public static Set<Integer> regionIdToChunkSet(int regionId) {
+		Set<Integer> chunkIds = new IntOpenHashSet();
+		int[] rCoords = MapUtils.decode(Structure.REGION, regionId);
+		int cX = rCoords[0] << 3, cY = rCoords[1] << 3;
+		for (int plane = 0;plane < 4;plane++)
+			for (int x = 0;x < 8;x++)
+				for (int y = 0;y < 8;y++)
+					chunkIds.add(MapUtils.encode(Structure.CHUNK, cX+x, cY+y, plane));
 		return chunkIds;
 	}
 
@@ -1097,6 +1174,14 @@ public final class World {
 
 	public static final GameObject getObject(Tile tile, ObjectType type) {
 		return getChunk(tile.getChunkId()).getObject(tile, type);
+	}
+
+	public static Map<Integer, Chunk> getChunks() {
+		return CHUNKS;
+	}
+
+	public static Set<Integer> getUnloadableChunks() {
+		return UNLOADABLE_CHUNKS;
 	}
 
 	public enum DropMethod {
