@@ -11,8 +11,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class HoracioTribalTotemD extends Conversation {
 	private static final int NPC = 845;
-	public HoracioTribalTotemD(Player p) {
-		super(p);
+	public HoracioTribalTotemD(Player player) {
+		super(player);
 		addNPC(NPC, HeadE.CALM_TALK, "It's a fine day to be out in a garden, isn't it?");
 		addOptions("Choose an option:", new Options() {
 			@Override

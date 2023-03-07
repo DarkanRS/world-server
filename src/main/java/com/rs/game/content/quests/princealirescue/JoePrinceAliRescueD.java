@@ -29,16 +29,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class JoePrinceAliRescueD extends Conversation {
-	Player p;
-	public final static int JOE = 916;
-	final int CONVO1 = 0;
-	final int CONVO2 = 1;
-	final int CONVO3 = 2;
+	private final static int JOE = 916;
 
-	public JoePrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
-		if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk")) {
+	public JoePrinceAliRescueD(Player player) {
+		super(player);
+		if(player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Joe_guard_is_drunk")) {
 			addNPC(JOE, HeadE.DRUNK, "Halt! Who goes there?");
 			addPlayer(HeadE.HAPPY_TALKING, "Hello friend, I am just rescuing the prince, is that ok?");
 			addNPC(JOE, HeadE.DRUNK, "Thatsh a funny joke. You are lucky I am shober. Go in peace, friend.");
@@ -47,7 +42,7 @@ public class JoePrinceAliRescueD extends Conversation {
 			addOptions("Choose an option:", new Options() {
 				@Override
 				public void create() {
-					if(p.getInventory().containsItem(BEER, 3))
+					if(player.getInventory().containsItem(BEER, 3))
 						option("I have some beer here, fancy one?", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "I have some beer here, fancy one?")
 								.addNPC(JOE, HeadE.CALM_TALK, "Ah, that would be lovely, just one now, just to wet my throat.")
@@ -63,8 +58,8 @@ public class JoePrinceAliRescueD extends Conversation {
 								.addNPC(JOE, HeadE.DRUNK, "Franksh, that wash just what I need to shtay on guard. No more beersh, I don't want to get drunk.")
 								.addSimple("The guard is drunk, and no longer a problem.",
 										() -> {
-											p.getInventory().deleteItem(BEER, 3);
-											p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Joe_guard_is_drunk", true);
+											player.getInventory().deleteItem(BEER, 3);
+											player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Joe_guard_is_drunk", true);
 										}));
 					option("Tell me about the life of a guard.", new Dialogue()
 							.addPlayer(HeadE.TALKING_ALOT, "Tell me about the life of a guard.")
@@ -79,38 +74,44 @@ public class JoePrinceAliRescueD extends Conversation {
 											.addPlayer(HeadE.CALM_TALK, "I was just wondering what you do to relax.")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "You never relax with these people, but it's a good career for a young man and some " +
 													"of the shouting I rather like.")
-											.addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> {p.getTempAttribs().setB("JoeTheGuardTalksALot", true);})
-											.addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
+											.addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> {
+												player.getTempAttribs().setB("JoeTheGuardTalksALot", true);})
+											.addNext(()->{
+												player.startConversation(new JoePrinceAliRescueD(player));}));
 									option("What did you want to be when you were a boy?", new Dialogue()
 											.addPlayer(HeadE.TALKING_ALOT, "What did you want to be when you were a boy?")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "Well, I loved to sit by the lake, with my toes in the water and shoot the fish with my bow and arrow.")
 											.addPlayer(HeadE.TALKING_ALOT, "That was a strange hobby for a little boy.")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "It kept us from goblin hunting, which was what most boys did. What are you here for?")
-											.addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
+											.addNext(()->{
+												player.startConversation(new JoePrinceAliRescueD(player));}));
 								}
 							}));
-					if(p.getTempAttribs().getB("JoeTheGuardTalksALot")) {
+					if(player.getTempAttribs().getB("JoeTheGuardTalksALot")) {
 						option("So what do you buy with these great wages?", new Dialogue()
 								.addPlayer(HeadE.TALKING_ALOT, "So what do you buy with these great wages?")
 								.addNPC(JOE, HeadE.TALKING_ALOT, "Really, after working here, there's only time for a drink or three. All us guards go to the" +
 										" same bar and drink ourselves stupid.")
 								.addNPC(JOE, HeadE.TALKING_ALOT, "It's what I enjoy these days, that fade into unconciousness. I can't resist the sight of a " +
 										"really cold beer.")
-								.addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
+								.addNext(()->{
+									player.startConversation(new JoePrinceAliRescueD(player));}));
 						option("Would you be interested in making a little more money?", new Dialogue()
 								.addPlayer(HeadE.SECRETIVE, "Would you be interested in making a little more money?")
 								.addNPC(JOE, HeadE.ANGRY, "WHAT?! Are you trying to bribe me? I may not be a great guard, but I am loyal. How DARE you " +
 										"try to bribe me!")
 								.addPlayer(HeadE.SHAKING_HEAD, "No, no, you got the wrong idea, totally. I just wondered if you wanted some part-time bodyguard work.")
 								.addNPC(JOE, HeadE.CALM_TALK, "Oh. Sorry. No, I don't need money. As long as you were not offering me a bribe.")
-								.addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
+								.addNext(()->{
+									player.startConversation(new JoePrinceAliRescueD(player));}));
 					}
 					option("What did you want to be when you were a boy?", new Dialogue()
 							.addPlayer(HeadE.TALKING_ALOT, "What did you want to be when you were a boy?")
 							.addNPC(JOE, HeadE.TALKING_ALOT, "Well, I loved to sit by the lake, with my toes in the water and shoot the fish with my bow and arrow.")
 							.addPlayer(HeadE.TALKING_ALOT, "That was a strange hobby for a little boy.")
 							.addNPC(JOE, HeadE.TALKING_ALOT, "It kept us from goblin hunting, which was what most boys did. What are you here for?")
-							.addNext(()->{p.startConversation(new JoePrinceAliRescueD(p));}));
+							.addNext(()->{
+								player.startConversation(new JoePrinceAliRescueD(player));}));
 					option("I had better leave, I don't want trouble.", new Dialogue()
 							.addNPC(JOE, HeadE.HAPPY_TALKING, "Thanks, I appreciate that. Talking on duty can be punishable by having your mouth stitched up. These are " +
 									"tough people, no mistake."));
@@ -120,35 +121,7 @@ public class JoePrinceAliRescueD extends Conversation {
 
 	}
 
-	public JoePrinceAliRescueD(Player p, int convoID) {
-		super(p);
-		this.p = p;
 
-		switch(convoID) {
-		case CONVO1:
-			convo1(p);
-			break;
-		case CONVO2:
-			convo2(p);
-			break;
-		case CONVO3:
-			convo3(p);
-			break;
-		}
-
-	}
-
-	private void convo1(Player p) {
-
-	}
-
-	private void convo2(Player p) {
-
-	}
-
-	private void convo3(Player p) {
-
-	}
 
 	public static NPCClickHandler handleJoe = new NPCClickHandler(new Object[] { JOE }, e -> e.getPlayer().startConversation(new JoePrinceAliRescueD(e.getPlayer()).getStart()));
 }

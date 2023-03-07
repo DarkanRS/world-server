@@ -26,37 +26,34 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class LadyKeliPrinceAliRescueD extends Conversation {
-	Player p;
-	public final static int LADY_KELI = 919;
-	final int ORIGINAL_OPTIONS = 0;
-	final int LATEST_PLAN_OPTIONS = 1;
+	private final static int LADY_KELI = 919;
+	private final int ORIGINAL_OPTIONS = 0;
+	private final int LATEST_PLAN_OPTIONS = 1;
 
-	public LadyKeliPrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
+	public LadyKeliPrinceAliRescueD(Player player) {
+		super(player);
 		addPlayer(HeadE.HAPPY_TALKING, "Are you the famous Lady Keli?");
 		addPlayer(HeadE.HAPPY_TALKING, "Leader of the toughest gang of mercenary killers around?");
 		addNPC(LADY_KELI, HeadE.HAPPY_TALKING, "I am Keli, you have heard of me then");
-		addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, ORIGINAL_OPTIONS, true));});
+		addNext(()->{
+			player.startConversation(new LadyKeliPrinceAliRescueD(player, ORIGINAL_OPTIONS, true));});
 
 
 	}
 
-	public LadyKeliPrinceAliRescueD(Player p, int convoID, boolean isFirst) {
-		super(p);
-		this.p = p;
-
+	public LadyKeliPrinceAliRescueD(Player player, int convoID, boolean isFirst) {
+		super(player);
 		switch(convoID) {
 			case ORIGINAL_OPTIONS:
-				originalOptions(p, isFirst);
+				originalOptions(isFirst);
 				break;
 			case LATEST_PLAN_OPTIONS:
-				latestPlanOptions(p, isFirst);
+				latestPlanOptions(isFirst);
 				break;
 		}
 	}
 
-	private void originalOptions(Player p, boolean isFirst) {
+	private void originalOptions(boolean isFirst) {
 		addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
@@ -65,7 +62,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 							.addPlayer(HeadE.AMAZED_MILD, "Heard of you? You are famous in Gielinor!")
 							.addNPC(LADY_KELI, HeadE.HAPPY_TALKING, "That's very kind of you to say. Reputations are not easily earned. I have managed to succeed" +
 									" where many fail.")
-							.addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, ORIGINAL_OPTIONS, false));}));
+							.addNext(()->{player.startConversation(new LadyKeliPrinceAliRescueD(player, ORIGINAL_OPTIONS, false));}));
 
 				option("I have heard a little, but I think Katrine is tougher.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "I think Katrine is still tougher.")
@@ -79,7 +76,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 							.addNPC(LADY_KELI, HeadE.TALKING_ALOT, "Well, I can tell you, I have a valuable prisoner here in my cells")
 							.addNPC(LADY_KELI, HeadE.TALKING_ALOT, "I can expect a high reward to be paid very soon for this guy")
 							.addNPC(LADY_KELI, HeadE.SECRETIVE, "I can't tell you who he is, but he is a lot colder now")
-							.addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, LATEST_PLAN_OPTIONS, true));}));
+							.addNext(()->{player.startConversation(new LadyKeliPrinceAliRescueD(player, LATEST_PLAN_OPTIONS, true));}));
 					option("You must have trained a lot for this work", new Dialogue()
 							.addPlayer(HeadE.AMAZED_MILD, "You must have trained a lot for this work")
 							.addNPC(LADY_KELI, HeadE.TALKING_ALOT, "I have used a sword since I was a small girl")
@@ -91,7 +88,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 							.addNPC(LADY_KELI, HeadE.CALM_TALK, "There's always someone ready to spread rumours. I hear all sort of ridiculous things these days.")
 							.addNPC(LADY_KELI, HeadE.FRUSTRATED, "I heard a rumour the other day, that some men are wearing skirts")
 							.addNPC(LADY_KELI, HeadE.VERY_FRUSTRATED, "If one of my men wore a skirt, he would wish he hadn't")
-							.addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, ORIGINAL_OPTIONS, false));}));
+							.addNext(()->{player.startConversation(new LadyKeliPrinceAliRescueD(player, ORIGINAL_OPTIONS, false));}));
 				if(isFirst)
 					option("No I have never really heard of you.", new Dialogue()
 							.addPlayer(HeadE.CALM_TALK, "No I have never really heard of you.")
@@ -128,7 +125,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 											.addPlayer(HeadE.HAPPY_TALKING, "Heard of you? You are famous in Gielinor!")
 											.addNPC(LADY_KELI, HeadE.HAPPY_TALKING, "That's very kind of you to say. Reputations are not easily earned. I have managed to succeed" +
 													" where many fail.")
-											.addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, ORIGINAL_OPTIONS, false));}));
+											.addNext(()->{player.startConversation(new LadyKeliPrinceAliRescueD(player, ORIGINAL_OPTIONS, false));}));
 									option("You must have trained a lot for this work", new Dialogue()
 											.addPlayer(HeadE.AMAZED_MILD, "You must have trained a lot for this work")
 											.addNPC(LADY_KELI, HeadE.TALKING_ALOT, "I have used a sword since I was a small girl")
@@ -148,7 +145,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 		});
 	}
 
-	private void latestPlanOptions(Player p, boolean isFirst) {
+	private void latestPlanOptions(boolean isFirst) {
 		addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
@@ -158,7 +155,7 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 							.addNPC(LADY_KELI, HeadE.HAPPY_TALKING, "Yes, I did most of the work, we had to grab the Pr...")
 							.addNPC(LADY_KELI, HeadE.SKEPTICAL_THINKING, "er, we had to grab him under cover of ten of his bodyguards")
 							.addNPC(LADY_KELI, HeadE.SECRETIVE, "It was a stroke of genius")
-							.addNext(()->{p.startConversation(new LadyKeliPrinceAliRescueD(p, LATEST_PLAN_OPTIONS, false));}));
+							.addNext(()->{player.startConversation(new LadyKeliPrinceAliRescueD(player, LATEST_PLAN_OPTIONS, false));}));
 				option("Thats great, are you sure they will pay?", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Are you sure they will pay?")
 						.addNPC(LADY_KELI, HeadE.EVIL_LAUGH, "They will pay, or we will cut his hair off and send it to them")
@@ -188,13 +185,13 @@ public class LadyKeliPrinceAliRescueD extends Conversation {
 														.addPlayer(HeadE.CALM_TALK, "Could I touch the key for a moment please")
 														.addNPC(LADY_KELI, HeadE.CALM_TALK, "Only for a moment then")
 														.addNext(() -> {
-															p.startConversation(new Conversation(p) {
+															player.startConversation(new Conversation(player) {
 																{
-																	if(p.getInventory().containsItem(PrinceAliRescue.SOFT_CLAY, 1)) {
+																	if(player.getInventory().containsItem(PrinceAliRescue.SOFT_CLAY, 1)) {
 																		addSimple("(You put a piece of your soft clay in your hand)");
 																		addSimple("(As you touch the key, you take an imprint of it)", () -> {
-																			p.getInventory().deleteItem(PrinceAliRescue.SOFT_CLAY, 1);
-																			p.getInventory().addItem(PrinceAliRescue.KEY_PRINT, 1);
+																			player.getInventory().deleteItem(PrinceAliRescue.SOFT_CLAY, 1);
+																			player.getInventory().addItem(PrinceAliRescue.KEY_PRINT, 1);
 																		});
 																	} else
 																		addSimple("You look at the key and give it back");

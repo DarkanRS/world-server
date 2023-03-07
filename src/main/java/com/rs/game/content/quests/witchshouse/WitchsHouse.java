@@ -39,10 +39,6 @@ public class WitchsHouse extends QuestOutline {
 	public final static int FIND_BALL = 1;
 	public final static int QUEST_COMPLETE = 2;
 
-	//Attributes
-	protected final static String MOUSE_SOLVED_ATTR = "MOUSE_SOLVED";
-	protected final static String KILLED_EXPERIMENT_ATTR = "KILLED_EXPERIMENT";
-
 	//items
 	protected final static int DOOR_KEY = 2409;
 	protected final static int BACKROOM_KEY = 2411;
@@ -58,9 +54,6 @@ public class WitchsHouse extends QuestOutline {
 	protected final static int EXPERIMENT2 = 898;
 	protected final static int EXPERIMENT3 = 899;
 	protected final static int EXPERIMENT4 = 900;
-
-	//Objects
-
 
 	@Override
 	public int getCompletedStage() {
@@ -149,7 +142,7 @@ public class WitchsHouse extends QuestOutline {
 		GameObject obj = e.getObject();
 		if(p.getInventory().containsItem(new Item(BACKROOM_KEY, 1))) {
 			handleDoor(p, obj);
-			if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
+			if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("KILLED_EXPERIMENT")) {
 				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 					if (npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 						return;
@@ -183,7 +176,7 @@ public class WitchsHouse extends QuestOutline {
 		if (e.killedByPlayer()) {
 			Player p = (Player) e.getKiller();
 			if (p.getQuestManager().getStage(Quest.WITCHS_HOUSE) == FIND_BALL)
-				p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).setB(KILLED_EXPERIMENT_ATTR, true);
+				p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).setB("KILLED_EXPERIMENT", true);
 		}
 	});
 
@@ -194,7 +187,7 @@ public class WitchsHouse extends QuestOutline {
 			p.startConversation(new Dialogue().addSimple("I better not touch it..."));
 			return;
 		}
-		if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(KILLED_EXPERIMENT_ATTR)) {
+		if(!p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("KILLED_EXPERIMENT")) {
 			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == EXPERIMENT1 || npc.getId() == EXPERIMENT2 || npc.getId() == EXPERIMENT3 || npc.getId() == EXPERIMENT4)
 					npc.setTarget(p);
@@ -214,7 +207,7 @@ public class WitchsHouse extends QuestOutline {
 	public static ObjectClickHandler handleWitchHouseMouseDoor = new ObjectClickHandler(new Object[] { 2862 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		if(p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(MOUSE_SOLVED_ATTR))
+		if(p.getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("MOUSE_SOLVED"))
 			handleDoor(p, obj);
 		else
 			p.startConversation(new Conversation(e.getPlayer()) {
@@ -227,7 +220,7 @@ public class WitchsHouse extends QuestOutline {
 
 	public static ItemOnObjectHandler handleMouseHole = new ItemOnObjectHandler(new Object[] { 2870 }, e -> {
 		GameObject obj = e.getObject();
-		if(e.getPlayer().getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB(MOUSE_SOLVED_ATTR)) {
+		if(e.getPlayer().getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("MOUSE_SOLVED")) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addPlayer(HeadE.CALM_TALK, "The door is already unlocked...");
@@ -282,7 +275,7 @@ public class WitchsHouse extends QuestOutline {
 				}
 			});
 			e.getNPC().finish();
-			e.getPlayer().getQuestManager().getAttribs(Quest.WITCHS_HOUSE).setB(MOUSE_SOLVED_ATTR, true);
+			e.getPlayer().getQuestManager().getAttribs(Quest.WITCHS_HOUSE).setB("MOUSE_SOLVED", true);
 		}
 	});
 

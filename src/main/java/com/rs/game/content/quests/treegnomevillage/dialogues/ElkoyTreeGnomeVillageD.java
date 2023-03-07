@@ -22,8 +22,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class ElkoyTreeGnomeVillageD extends Conversation {
 	private static final int NPC = 473;
-	public ElkoyTreeGnomeVillageD(Player p) {
-		super(p);
+	public ElkoyTreeGnomeVillageD(Player player) {
+		super(player);
 		Dialogue goThroughMaze = new Dialogue().addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
@@ -46,7 +46,7 @@ public class ElkoyTreeGnomeVillageD extends Conversation {
 				);
 			}
 		});
-		switch(p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
+		switch(player.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello there.");
 				addNPC(NPC, HeadE.CALM_TALK, "Hello, welcome to our maze. I'm Elkoy the tree gnome.");

@@ -34,38 +34,35 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class SirPrysinDemonSlayerD extends Conversation {
-	Player p;
-	final int SIR_PRYSIN = 883;
-	final int SIR_PRYSIN_W_SWORD = 4657;
-	final int ASK_ABOUT_SILVERLIGHT = 0;
-	final int ASK_ABOUT_KEYS_OPTIONS = 1;
-	final int GIVE_KEYS_DIALOGUE = 2;
-	final int KEY_OPTIONS = 3;
-	final int KEY_LOCATIONS_OPTIONS = 4;
-	final int SILVERLIGHT_CUTSCENE = 5;
+	private final int SIR_PRYSIN = 883;
+	private final int SIR_PRYSIN_W_SWORD = 4657;
+	private final int ASK_ABOUT_SILVERLIGHT = 0;
+	private final int ASK_ABOUT_KEYS_OPTIONS = 1;
+	private final int GIVE_KEYS_DIALOGUE = 2;
+	private final int KEY_OPTIONS = 3;
+	private final int KEY_LOCATIONS_OPTIONS = 4;
+	private final int SILVERLIGHT_CUTSCENE = 5;
 
-	public SirPrysinDemonSlayerD(Player p) {
-		super(p);
-		this.p = p;
-
-		if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED_STAGE) {
+	public SirPrysinDemonSlayerD(Player player) {
+		super(player);
+		if(player.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED_STAGE) {
 			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
 			addNext(() -> {
-				p.startConversation(new SirPrysinDemonSlayerD(p, SILVERLIGHT_CUTSCENE).getStart());
+				player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart());
 			});
 			return;
 		}
 
-		if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("AFTER_PRYSIN_INTRO")) {
-			if(hasAllKeys(p)) {
+		if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("AFTER_PRYSIN_INTRO")) {
+			if(hasAllKeys(player)) {
 				addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
 				addNext(() -> {
-					p.startConversation(new SirPrysinDemonSlayerD(p, SILVERLIGHT_CUTSCENE).getStart());
+					player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart());
 				});
 			} else {
 				addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again.");
 				addNext(() -> {
-					p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());
+					player.startConversation(new SirPrysinDemonSlayerD(player, KEY_LOCATIONS_OPTIONS).getStart());
 				});
 			}
 		} else {
@@ -79,7 +76,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 					option("I'm not sure, I was hoping you could tell me.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure, I was hoping you could tell me.")
 							.addNPC(SIR_PRYSIN, HeadE.SKEPTICAL, "Well I've never met you before."));
-					if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) == DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE)
+					if(player.getQuestManager().getStage(Quest.DEMON_SLAYER) == DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE)
 						option("Gypsy Aris said I should come and talk to you.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Gypsy Aris said I should come and talk to you.")
 								.addNPC(SIR_PRYSIN, HeadE.AMAZED_MILD, "Gypsy Aris? Is she still alive? I remember her from when I was pretty young. Well what do you " +
@@ -88,13 +85,15 @@ public class SirPrysinDemonSlayerD extends Conversation {
 									@Override
 									public void create() {
 										option("I need to find Silverlight.", new Dialogue()
-												.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_SILVERLIGHT).getStart());}));
+												.addNext(() -> {
+													player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart());}));
 										option("Yes, she is still alive.", new Dialogue()
 												.addPlayer(HeadE.CALM_TALK, "Yes she is still alive. She lives right outside the castle!")
 												.addNPC(SIR_PRYSIN, HeadE.AMAZED_MILD, "Oh, is that the same gypsy? I would have thought she would have died by now. She was " +
 														"pretty old when I was a lad.")
 												.addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "Anyway, what can I do for you?")
-												.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_SILVERLIGHT).getStart());}));
+												.addNext(() -> {
+													player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart());}));
 									}
 								}));
 
@@ -103,28 +102,28 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		}
 	}
 
-	public SirPrysinDemonSlayerD(Player p, int convoID) {
-		super(p);
-		this.p = p;
+	public SirPrysinDemonSlayerD(Player player, int convoID) {
+		super(player);
+		this.player = player;
 
 		switch(convoID) {
 		case ASK_ABOUT_SILVERLIGHT:
-			askAboutSilverlight(p);
+			askAboutSilverlight(player);
 			break;
 		case ASK_ABOUT_KEYS_OPTIONS:
-			askingAboutGivingKeyOptions(p);
+			askingAboutGivingKeyOptions(player);
 			break;
 		case GIVE_KEYS_DIALOGUE:
-			soGiveKeysDialogue(p);
+			soGiveKeysDialogue(player);
 			break;
 		case KEY_OPTIONS:
-			askingAboutGivingKeyOptions(p);
+			askingAboutGivingKeyOptions(player);
 			break;
 		case KEY_LOCATIONS_OPTIONS:
-			keyLocationsOptions(p);
+			keyLocationsOptions(player);
 			break;
 		case SILVERLIGHT_CUTSCENE:
-			silverLightCutscene(p);
+			silverLightCutscene(player);
 			break;
 		}
 

@@ -27,17 +27,15 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class GypsyArisDemonSlayerD extends Conversation {
-	Player p;
-	final int GYPSY_ARIS = 882;
+	private final int GYPSY_ARIS = 882;
 
-	public GypsyArisDemonSlayerD(Player p) {
-		super(p);
-		this.p = p;
+	public GypsyArisDemonSlayerD(Player player) {
+		super(player);
 
-		switch (p.getQuestManager().getStage(Quest.DEMON_SLAYER)) {
+		switch (player.getQuestManager().getStage(Quest.DEMON_SLAYER)) {
 		case DemonSlayer.NOT_STARTED_STAGE:
-			if(p.getTempAttribs().getB("DemonSlayerCutscenePlayed")) {
-				afterCutsceneConvo(p);
+			if(player.getTempAttribs().getB("DemonSlayerCutscenePlayed")) {
+				afterCutsceneConvo(player);
 				break;
 			}
 			addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Hello young one.");
@@ -65,7 +63,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 							.addNPC(GYPSY_ARIS, HeadE.AMAZED, "Ye gods! Silverlight was the sword you were holding in my vision! You are the one destined to " +
 									"stop the demon this time.")
 							.addNext(() -> {
-								p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
+								player.startConversation(new GypsyArisDemonSlayerD(player, 0).getStart());
 							}));
 					option("No.", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL, "No, I don't believe in that stuff")
@@ -82,7 +80,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 			addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Greetings. How goes thy quest?");
 			addPlayer(HeadE.WORRIED, "I'm still working on it.");
 			addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Well if you need any advice I'm always here, young one.");
-			afterQuestStartConvo(p);
+			afterQuestStartConvo(player);
 			break;
 		case DemonSlayer.QUEST_COMPLETE_STAGE:
 			addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Thank you for saving us from that demon.");
@@ -90,19 +88,18 @@ public class GypsyArisDemonSlayerD extends Conversation {
 		}
 	}
 
-	public GypsyArisDemonSlayerD(Player p, int convoID) {
-		super(p);
-		this.p = p;
+	public GypsyArisDemonSlayerD(Player player, int convoID) {
+		super(player);
 
 		switch(convoID) {
 		case 0:
-			introductoryOptions(p);
+			introductoryOptions(player);
 			break;
 		case 1:
-			afterCutsceneConvo(p);
+			afterCutsceneConvo(player);
 			break;
 		case 2:
-			afterQuestStartConvo(p);
+			afterQuestStartConvo(player);
 			break;
 
 		}

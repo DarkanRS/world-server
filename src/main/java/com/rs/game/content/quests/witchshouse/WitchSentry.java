@@ -37,7 +37,6 @@ import com.rs.utils.WorldUtil;
 
 @PluginEventHandler
 public class WitchSentry extends NPC {
-	public boolean actuallyDead = false;
 
 	public WitchSentry(Tile tile) {
 		super(WITCH, tile, true);

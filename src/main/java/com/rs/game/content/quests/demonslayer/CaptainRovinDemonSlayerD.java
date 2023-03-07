@@ -27,12 +27,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class CaptainRovinDemonSlayerD extends Conversation {
-	Player p;
-	final int CAPTAIN_ROVIN = 884;
+	private final int CAPTAIN_ROVIN = 884;
 
-	public CaptainRovinDemonSlayerD(Player p) {
-		super(p);
-		this.p = p;
+	public CaptainRovinDemonSlayerD(Player player) {
+		super(player);
 		addNPC(CAPTAIN_ROVIN, HeadE.FRUSTRATED, "What are you doing up here? Only the palace guards are allowed up here.");
 		addOptions("Choose an option:", new Options() {
 			@Override
@@ -59,9 +57,9 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 						.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_THINKING, "Well, yes, I suppose we'd let him up. He doesn't generally want to come up here, but if" +
 								" he did want to, he could.")
 						.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "Anyway, you're not the King either. So get out of my sight."));
-				if(!p.isQuestComplete(Quest.DEMON_SLAYER)
-						&& p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
-						&& !p.getInventory().containsItem(2400))
+				if(!player.isQuestComplete(Quest.DEMON_SLAYER)
+						&& player.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
+						&& !player.getInventory().containsItem(2400))
 					option("Yes I know, but this is important.", new Dialogue()
 							.addPlayer(HeadE.AMAZED_MILD, "Yes I know, but this is important.")
 							.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_THINKING, "Ok, I'm listening. Tell me what's so important.")
@@ -94,7 +92,8 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 																			.addPlayer(HeadE.HAPPY_TALKING, "I'm going to use the powerful sword Silverlight, which I believe you have one of " +
 																					"the keys for?")
 																			.addNPC(CAPTAIN_ROVIN, HeadE.SECRETIVE, "Yes, I do. But why should I give it to you?")
-																			.addNext(()-> {p.startConversation(new CaptainRovinDemonSlayerD(p, 0).getStart());}));
+																			.addNext(()-> {
+																				player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
 																}
 															}));
 												}
@@ -115,52 +114,54 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 
 	}
 
-	public CaptainRovinDemonSlayerD(Player p, int convoID) {
-		super(p);
-		this.p = p;
+	public CaptainRovinDemonSlayerD(Player player, int convoID) {
+		super(player);
 
 		switch(convoID) {
-		case 0:
-			addOptions("Choose an option", new Options() {
-				@Override
-				public void create() {
-					option("Gypsy Aris said I was destined to kill the demon.", new Dialogue()
-							.addPlayer(HeadE.SECRETIVE, "Gypsy Aris said I was destined to kill the demon.")
-							.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "A gypsy? Destiny? I don't believe in that stuff. I got where I am today by hard work, " +
-									"not by destiny! Why should I care what that mad old gypsy says?")
-							.addNext(()-> {p.startConversation(new CaptainRovinDemonSlayerD(p, 0).getStart());}));
-					option("Otherwise the demon will destroy the city!", new Dialogue()
-							.addPlayer(HeadE.AMAZED, "Otherwise the demon will destroy the city!")
-							.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, " You can't fool me! How do I know you haven't just made that story up to get my key?")
-							.addNext(()-> {p.startConversation(new CaptainRovinDemonSlayerD(p, 0).getStart());}));
-					option("Sir Prysin said you would give me the key.", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Sir Prysin said you would give me the key.")
-							.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "Oh, he did, did he? Well I don't report to Sir Prysin, I report directly to the king!")
-							.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "I didn't work my way up through the ranks of the palace guards so I could take orders from an " +
-									"ill-bred moron who only has his job because his great- grandfather was a hero with a silly name!")
-							.addNext(()-> {p.startConversation(new CaptainRovinDemonSlayerD(p, 0).getStart());}));
-					option("Why did he give you one of the keys then?", new Dialogue()
-							.addPlayer(HeadE.CALM_TALK, "Why did he give you one of the keys then?")
-							.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Only because the king ordered him to! The king couldn't get Sir Prysin to part with his " +
-									"precious ancestral sword, but he made him lock it up so he couldn't lose it.")
-							.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "I got one key and I think some wizard got another. Now what happened to the third one?")
-							.addPlayer(HeadE.FRUSTRATED, "Sir Prysin dropped it down a drain!")
-							.addNPC(CAPTAIN_ROVIN, HeadE.LAUGH, "Ha ha ha! The idiot!")
-							.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Okay, I'll give you the key, just so that it's you that kills the demon and not Sir Prysin!")
-							.addNext(()-> {
-								if(p.getInventory().hasFreeSlots()) {
-									p.getInventory().addItem(2400, 1);
-									p.getPackets().sendGameMessage("Rovin gives you the key");
-								} else
-									p.startConversation(new Conversation(p) {
-										{
-											addSimple("You need an empty space for the key.");
-										}
-									});
-							}));
-				}
-			});
-			break;
+			case 0:
+				addOptions("Choose an option", new Options() {
+					@Override
+					public void create() {
+						option("Gypsy Aris said I was destined to kill the demon.", new Dialogue()
+								.addPlayer(HeadE.SECRETIVE, "Gypsy Aris said I was destined to kill the demon.")
+								.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "A gypsy? Destiny? I don't believe in that stuff. I got where I am today by hard work, " +
+										"not by destiny! Why should I care what that mad old gypsy says?")
+								.addNext(()-> {
+									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+						option("Otherwise the demon will destroy the city!", new Dialogue()
+								.addPlayer(HeadE.AMAZED, "Otherwise the demon will destroy the city!")
+								.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, " You can't fool me! How do I know you haven't just made that story up to get my key?")
+								.addNext(()-> {
+									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+						option("Sir Prysin said you would give me the key.", new Dialogue()
+								.addPlayer(HeadE.HAPPY_TALKING, "Sir Prysin said you would give me the key.")
+								.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "Oh, he did, did he? Well I don't report to Sir Prysin, I report directly to the king!")
+								.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "I didn't work my way up through the ranks of the palace guards so I could take orders from an " +
+										"ill-bred moron who only has his job because his great- grandfather was a hero with a silly name!")
+								.addNext(()-> {
+									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+						option("Why did he give you one of the keys then?", new Dialogue()
+								.addPlayer(HeadE.CALM_TALK, "Why did he give you one of the keys then?")
+								.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Only because the king ordered him to! The king couldn't get Sir Prysin to part with his " +
+										"precious ancestral sword, but he made him lock it up so he couldn't lose it.")
+								.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "I got one key and I think some wizard got another. Now what happened to the third one?")
+								.addPlayer(HeadE.FRUSTRATED, "Sir Prysin dropped it down a drain!")
+								.addNPC(CAPTAIN_ROVIN, HeadE.LAUGH, "Ha ha ha! The idiot!")
+								.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Okay, I'll give you the key, just so that it's you that kills the demon and not Sir Prysin!")
+								.addNext(()-> {
+									if(player.getInventory().hasFreeSlots()) {
+										player.getInventory().addItem(2400, 1);
+										player.getPackets().sendGameMessage("Rovin gives you the key");
+									} else
+										player.startConversation(new Conversation(player) {
+											{
+												addSimple("You need an empty space for the key.");
+											}
+										});
+								}));
+					}
+				});
+				break;
 		}
 
 	}
