@@ -27,8 +27,8 @@ public class WorldCollision {
 
     @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
-        boolean preloadCollision = Runtime.getRuntime().maxMemory() > 1000*1024*1024; //1000mb RAM
-        boolean preloadObjects = Runtime.getRuntime().maxMemory() > 3200*1024*1024; //3200mb RAM
+        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1000*1024*1024; //1000mb HEAP
+        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3200*1024*1024; //3200mb HEAP
 
         if (preloadCollision) {
             for (int regionId = 0; regionId < 0xFFFF; regionId++) {
