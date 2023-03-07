@@ -49,8 +49,12 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
+@PluginEventHandler
 public final class TutorialIslandController extends Controller {
 
 	private static final IntSet TUTORIAL_REGIONS = IntSet.of(12336, 12592, 12337, 12436);
@@ -72,6 +76,11 @@ public final class TutorialIslandController extends Controller {
 
 	private transient String[] prevText = {""};
 	private Stage stage;
+
+	@ServerStartupEvent(Priority.POST_PROCESS)
+	public static void init() {
+		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(TUTORIAL_REGIONS));
+	}
 
 	public enum Stage {
 		TALK_TO_GUIDE(new String[] {

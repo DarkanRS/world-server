@@ -51,8 +51,11 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    private AtomicBoolean loadingData = new AtomicBoolean(false);
-    private AtomicBoolean loadedData = new AtomicBoolean(false);
+    private AtomicBoolean loadingSpawnData = new AtomicBoolean(false);
+    private AtomicBoolean loadedSpawnData = new AtomicBoolean(false);
+
+    private AtomicBoolean loadingMapData = new AtomicBoolean(false);
+    private AtomicBoolean loadedMapData = new AtomicBoolean(false);
 
     private int[] musicIds;
 
@@ -173,6 +176,7 @@ public class Chunk {
     }
 
     public boolean addGroundItem(GroundItem item) {
+        World.markChunkActive(id);
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null) {
             tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
@@ -203,6 +207,7 @@ public class Chunk {
     }
 
     public boolean deleteGroundItem(GroundItem item) {
+        World.markChunkActive(id);
         int tileHash = item.getTile().getTileHash();
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null)
@@ -230,18 +235,34 @@ public class Chunk {
     }
 
     public void checkLoaded() {
-        if (!loadingData.get()) {
-            loadingData.set(true);
+        if (!loadingMapData.get()) {
+            loadedMapData.set(true);
+            loadMapFromCache();
+            loadedMapData.set(true);
+        }
+        if (!loadingSpawnData.get()) {
+            loadingSpawnData.set(true);
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
-            loadedData.set(true);
+            loadedSpawnData.set(true);
         }
     }
 
-    public void loadObjectsFromCache() {
+    public void setMapDataLoaded() {
+        loadingMapData.set(true);
+        loadedMapData.set(true);
+    }
+
+    public void loadMapFromCache() {
+        clearCollisionData();
+        baseObjects = new GameObject[8][8][4];
         Region region = new Region(getRegionId());
         region.loadRegionMap(false);
+        for (int xOff = 0;xOff < 8;xOff++)
+            for (int yOff = 0;yOff < 8;yOff++)
+                for (int plane = 0;plane < 4;plane++)
+                    WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
         if (region.getObjects() != null && !region.getObjects().isEmpty()) {
             for (WorldObject object : region.getObjects()) {
                 if (object.getTile().getChunkId() != id)
@@ -252,7 +273,7 @@ public class Chunk {
     }
 
     public boolean isLoaded() {
-        return loadedData.get();
+        return loadedSpawnData.get();
     }
 
     public void addBaseObject(GameObject obj) {
@@ -597,7 +618,7 @@ public class Chunk {
     public void process() {
         updates.clear();
         processGroundItems();
-        if (getAllGroundItems().isEmpty())
+        if (groundItems.isEmpty())
             World.markChunkInactive(id);
     }
 
@@ -647,6 +668,7 @@ public class Chunk {
             getAllGroundItems().clear();
         if (getGroundItems() != null)
             getGroundItems().clear();
+        getBaseObjects().clear();
         getSpawnedObjects().clear();
         getRemovedObjects().clear();
         for (int npcIndex : getNPCsIndexes()) {
@@ -663,6 +685,6 @@ public class Chunk {
             player.setForceNextMapLoadRefresh(true);
             player.loadMapRegions();
         }
-
+        WorldCollision.clearChunk(getId());
     }
 }

@@ -11,6 +11,7 @@ import com.rs.game.map.Chunk;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -23,41 +24,43 @@ import static com.rs.cache.loaders.map.ClipFlag.*;
 public class WorldCollision {
     private static final int CHUNK_SIZE = 2048; //2048 chunk size = max capacity 16384x16384 tiles
     private static final int[][] CLIP_FLAGS = new int[CHUNK_SIZE * CHUNK_SIZE * 4][];
+    private static final Object LOCK = new Object();
 
     @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
-        for (int regionId = 0; regionId < 0xFFFF; regionId++) {
-            if (regionId == 18754)
-                continue;
-            Region region = new Region(regionId);
-            region.loadRegionMap(false);
-            if (!region.hasData())
-                continue;
-            for (int x = 0;x < 64;x++) {
-                for (int y = 0;y < 64;y++) {
-                    for (int plane = 0;plane < 4;plane++) {
-                        addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
+        Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
+        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
+        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
+
+        if (preloadCollision) {
+            for (int regionId = 0; regionId < 0xFFFF; regionId++) {
+                if (regionId == 18754)
+                    continue;
+                Region region = new Region(regionId);
+                region.loadRegionMap(false);
+                if (!region.hasData())
+                    continue;
+                for (int x = 0; x < 64; x++)
+                    for (int y = 0; y < 64; y++)
+                        for (int plane = 0; plane < 4; plane++)
+                            addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
+                if (preloadObjects) {
+                    if (region.getObjects() == null || region.getObjects().isEmpty())
+                        continue;
+                    for (WorldObject object : region.getObjects()) {
+                        Chunk chunk = World.getChunk(object.getTile().getChunkId());
+                        chunk.addBaseObject(new GameObject(object));
+                        chunk.setMapDataLoaded();
                     }
                 }
             }
-            if (region.getObjects() == null || region.getObjects().isEmpty())
-                continue;
-            for (WorldObject object : region.getObjects())
-                World.getChunk(object.getTile().getChunkId()).addBaseObject(new GameObject(object));
         }
-        System.gc();
-    }
-
-    public static void createChunk(int chunkX, int chunkY, int plane, int[] flags) {
-        CLIP_FLAGS[getId(chunkX, chunkY, plane)] = flags;
-    }
-
-    public static void clearChunk(int chunkX, int chunkY, int plane) {
-        clearChunk(getId(chunkX, chunkY, plane));
     }
 
     public static void clearChunk(int chunkCollisionHash) {
-        CLIP_FLAGS[chunkCollisionHash] = null;
+        synchronized (LOCK) {
+            CLIP_FLAGS[chunkCollisionHash] = null;
+        }
     }
 
     public static int getId(int chunkX, int chunkY, int plane) {
@@ -278,34 +281,45 @@ public class WorldCollision {
     }
 
     public static int getFlags(Tile tile) {
-        int chunkId = getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane());
-        if (CLIP_FLAGS[chunkId] == null)
-            return -1;
-        return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
+        synchronized (LOCK) {
+            int chunkId = getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane());
+            if (CLIP_FLAGS[chunkId] == null)
+                return -1;
+            return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
+        }
     }
 
     public static void addFlag(Tile tile, int flag) {
-        int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        int chunkId = getId(chunkX, chunkY, tile.getPlane());
-        if (CLIP_FLAGS[chunkId] == null)
-            CLIP_FLAGS[chunkId] = new int[64];
-        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
+        synchronized (LOCK) {
+            int chunkX = tile.getChunkX();
+            int chunkY = tile.getChunkY();
+            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            if (CLIP_FLAGS[chunkId] == null)
+                CLIP_FLAGS[chunkId] = new int[64];
+            CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
+        }
     }
 
     public static void removeFlag(Tile tile, int flag) {
-        int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        int chunkId = getId(chunkX, chunkY, tile.getPlane());
-        if (CLIP_FLAGS[chunkId] == null)
-            CLIP_FLAGS[chunkId] = new int[64];
-        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
+        synchronized (LOCK) {
+            int chunkX = tile.getChunkX();
+            int chunkY = tile.getChunkY();
+            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            if (CLIP_FLAGS[chunkId] == null)
+                CLIP_FLAGS[chunkId] = new int[64];
+            CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
+        }
     }
 
     public static void setFlags(Tile tile, int flag) {
-        int chunkX = tile.getChunkX(); int chunkY = tile.getChunkY();
-        int chunkId = getId(chunkX, chunkY, tile.getPlane());
-        if (CLIP_FLAGS[chunkId] == null)
-            CLIP_FLAGS[chunkId] = new int[64];
-        CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;
+        synchronized (LOCK) {
+            int chunkX = tile.getChunkX();
+            int chunkY = tile.getChunkY();
+            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            if (CLIP_FLAGS[chunkId] == null)
+                CLIP_FLAGS[chunkId] = new int[64];
+            CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;
+        }
     }
 
     public static void clip(GameObject object) {

@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 
 import com.google.gson.GsonBuilder;
@@ -33,6 +34,8 @@ import com.rs.engine.thread.TaskExecutor;
 import com.rs.db.WorldDB;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
@@ -53,6 +56,7 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
 
 public final class Launcher {
 
@@ -62,14 +66,14 @@ public final class Launcher {
 		Logger.setupFormat();
 		Logger.setLevel(Level.FINE); //FINER for traces
 		JsonFileManager.setGSON(new GsonBuilder()
-			.registerTypeAdapter(Controller.class, new ControllerAdapter())
-			.registerTypeAdapter(Date.class, new DateAdapter())
-			.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
-			.registerTypeAdapter(Packet.class, new PacketAdapter())
-			.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
-			.disableHtmlEscaping()
-			.setPrettyPrinting()
-			.create());
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
 
 		Settings.loadConfig();
 		if (!Settings.getConfig().isDebug())
@@ -139,7 +143,7 @@ public final class Launcher {
 	private static void addCleanMemoryTask() {
 		TaskExecutor.schedule(() -> {
 			try {
-				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
+				cleanMemory(getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
 			} catch (Throwable e) {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
@@ -171,6 +175,14 @@ public final class Launcher {
 			ItemDefinitions.clearItemsDefinitions();
 			NPCDefinitions.clearNPCDefinitions();
 			ObjectDefinitions.clearObjectDefinitions();
+			List<Integer> destroyed = new IntArrayList();
+			for (int chunkId : World.getUnloadableChunks()) {
+				Chunk chunk = World.getChunk(chunkId);
+				if (!(chunk instanceof InstancedChunk))
+					chunk.destroy();
+			}
+			for (int chunkId : destroyed)
+				World.getUnloadableChunks().remove(chunkId);
 			Logger.debug(Launcher.class, "cleanMemory", "Force cleaning cached data.");
 		}
 		for (Index index : Cache.STORE.getIndices())
@@ -219,5 +231,9 @@ public final class Launcher {
 				Logger.handle(Launcher.class, "executeCommand", e);
 			}
 		});
+	}
+
+	public static double getMemUsedPerc() {
+		return 100.0 - (((double) Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory()) * 100.0);
 	}
 }
