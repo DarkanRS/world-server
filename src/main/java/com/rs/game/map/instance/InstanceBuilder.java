@@ -17,6 +17,7 @@
 package com.rs.game.map.instance;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.rs.engine.thread.TaskExecutor;
@@ -25,6 +26,7 @@ import com.rs.game.map.Chunk;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public final class InstanceBuilder {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
@@ -140,7 +142,9 @@ public final class InstanceBuilder {
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
-				copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
+				InstancedChunk chunk = copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
+				chunk.clearCollisionData();
+				chunk.loadMap(ref.isCopyNpcs());
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
@@ -154,14 +158,17 @@ public final class InstanceBuilder {
 			MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
 			MapUtils.encode(Structure.CHUNK, toChunkX, toChunkY, toPlane), rotation
 		);
-		toChunk.loadMap(true);
 		return toChunk;
 	}
 
 	static void copy2x2ChunkSquare(Instance ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
 		TaskExecutor.execute(() -> {
 			try {
-				copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
+				List<InstancedChunk> chunks = copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
+				for (InstancedChunk chunk : chunks)
+					chunk.clearCollisionData();
+				for (InstancedChunk chunk : chunks)
+					chunk.loadMap(ref.isCopyNpcs());
 				if (callback != null)
 					callback.run();
 			} catch (Throwable e) {
@@ -170,30 +177,37 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void copy2x2ChunkSquare(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int rotation, int... planes) {
-		for (int i : planes)
-			// plane 1 and 2
-			if (rotation == 0) {
-				copyChunk(fromRegionX, fromRegionY, i, toRegionX, toRegionY, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX + 1, toRegionY, i, rotation);
-				copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX + 1, toRegionY + 1, i, rotation);
-			} else if (rotation == 1) {
-				copyChunk(fromRegionX, fromRegionY, i, toRegionX, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX, toRegionY, i, rotation);
-				copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX + 1, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX + 1, toRegionY, i, rotation);
-			} else if (rotation == 2) {
-				copyChunk(fromRegionX, fromRegionY, i, toRegionX + 1, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX + 1, toRegionY, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX, toRegionY, i, rotation);
-			} else if (rotation == 3) {
-				copyChunk(fromRegionX, fromRegionY, i, toRegionX + 1, toRegionY, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX + 1, toRegionY + 1, i, rotation);
-				copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX, toRegionY, i, rotation);
-				copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX, toRegionY + 1, i, rotation);
+	private static final List<InstancedChunk> copy2x2ChunkSquare(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int rotation, int... planes) {
+		List<InstancedChunk> chunks = new ObjectArrayList<>();
+		for (int i : planes) {
+			switch (rotation) {
+				default -> {
+					chunks.add(copyChunk(fromRegionX, fromRegionY, i, toRegionX, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX + 1, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX + 1, toRegionY + 1, i, rotation));
+				}
+				case 1 -> {
+					chunks.add(copyChunk(fromRegionX, fromRegionY, i, toRegionX, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX + 1, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX + 1, toRegionY, i, rotation));
+				}
+				case 2 -> {
+					chunks.add(copyChunk(fromRegionX, fromRegionY, i, toRegionX + 1, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX + 1, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX, toRegionY, i, rotation));
+				}
+				case 3 -> {
+					chunks.add(copyChunk(fromRegionX, fromRegionY, i, toRegionX + 1, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY, i, toRegionX + 1, toRegionY + 1, i, rotation));
+					chunks.add(copyChunk(fromRegionX, fromRegionY + 1, i, toRegionX, toRegionY, i, rotation));
+					chunks.add(copyChunk(fromRegionX + 1, fromRegionY + 1, i, toRegionX, toRegionY + 1, i, rotation));
+				}
 			}
+		}
+		return chunks;
 	}
 
 	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
@@ -209,21 +223,24 @@ public final class InstanceBuilder {
 	}
 
 	private static void cutChunk(int toChunkX, int toChunkY, int toPlane) {
-		copyChunk(0, 0, 0, toChunkX, toChunkY, toPlane, 0);
+		InstancedChunk chunk = copyChunk(0, 0, 0, toChunkX, toChunkY, toPlane, 0);
+		chunk.clearCollisionData();
+		chunk.loadMap(false);
 	}
 
-	private static final void repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
+	private static final List<InstancedChunk> repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
+		List<InstancedChunk> chunks = new ObjectArrayList<>();
 		for (int plane : toPlanes) {
 			for (int xOffset = 0; xOffset < widthChunks; xOffset++) {
 				for (int yOffset = 0; yOffset < heightChunks; yOffset++) {
-					InstancedChunk toChunk = createInstancedChunk(
+					chunks.add(createInstancedChunk(
 						MapUtils.encode(Structure.CHUNK, fromChunkX, fromChunkY, fromPlane),
 						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, plane), rotation
-					);
-					toChunk.loadMap(true);
+					));
 				}
 			}
 		}
+		return chunks;
 	}
 
 	static void clearMap(Instance ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
@@ -239,7 +256,11 @@ public final class InstanceBuilder {
 	}
 
 	private static final void cutMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int... toPlanes) {
-		repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
+		List<InstancedChunk> chunks = repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
+		for (InstancedChunk chunk : chunks) {
+			chunk.clearCollisionData();
+			chunk.loadMap(false);
+		}
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {

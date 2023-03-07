@@ -11,12 +11,19 @@ public class Instance {
     private IntSet chunkIds = new IntOpenHashSet();
     private int width;
     private int height;
+
+    private boolean copyNpcs;
     private boolean destroyed;
 
-    public Instance(int width, int height) {
+    public Instance(int width, int height, boolean copyNpcs) {
         this.width = width;
         this.height = height;
         destroyed = false;
+        this.copyNpcs = copyNpcs;
+    }
+
+    public Instance(int width, int height) {
+        this(width, height, false);
     }
 
     public void requestChunkBound(Runnable callback) {
@@ -171,6 +178,10 @@ public class Instance {
 
     public int getChunkId(int offsetX, int offsetY, int plane) {
         return MapUtils.encode(Structure.CHUNK, getBaseChunkX()+offsetX, getBaseChunkY()+offsetY, plane);
+    }
+
+    public boolean isCopyNpcs() {
+        return copyNpcs;
     }
 
     public boolean isDestroyed() {

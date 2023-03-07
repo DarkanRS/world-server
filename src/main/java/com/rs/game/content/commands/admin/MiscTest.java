@@ -46,6 +46,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.quest.Quest;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -643,8 +644,14 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadlocalmap", "Forces your local map to reload", (p, args) -> {
-			p.setForceNextMapLoadRefresh(true);
-			p.loadMapRegions();
+			for (GameObject obj : World.getChunk(p.getChunkId()).getAllBaseObjects(true)) {
+				p.sendMessage(obj.toString());
+			}
+			if (World.getChunk(p.getChunkId()) instanceof InstancedChunk c)
+				p.sendMessage(c.getOriginalBaseX() + ", " + c.getOriginalBaseY() + " - " + c.getRotation());
+
+//			p.setForceNextMapLoadRefresh(true);
+//			p.loadMapRegions();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> {

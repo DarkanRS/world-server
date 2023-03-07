@@ -51,11 +51,11 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    private AtomicBoolean loadingSpawnData = new AtomicBoolean(false);
-    private AtomicBoolean loadedSpawnData = new AtomicBoolean(false);
+    protected AtomicBoolean loadingSpawnData = new AtomicBoolean(false);
+    protected AtomicBoolean loadedSpawnData = new AtomicBoolean(false);
 
-    private AtomicBoolean loadingMapData = new AtomicBoolean(false);
-    private AtomicBoolean loadedMapData = new AtomicBoolean(false);
+    protected AtomicBoolean loadingMapData = new AtomicBoolean(false);
+    protected AtomicBoolean loadedMapData = new AtomicBoolean(false);
 
     private int[] musicIds;
 
@@ -236,7 +236,7 @@ public class Chunk {
 
     public void checkLoaded() {
         if (!loadingMapData.get()) {
-            loadedMapData.set(true);
+            loadingMapData.set(true);
             loadMapFromCache();
             loadedMapData.set(true);
         }
@@ -664,6 +664,9 @@ public class Chunk {
     }
 
     public void destroy() {
+        clearCollisionData();
+        loadingMapData.set(false);
+        loadedMapData.set(false);
         if (getAllGroundItems() != null)
             getAllGroundItems().clear();
         if (getGroundItems() != null)
@@ -671,14 +674,14 @@ public class Chunk {
         getBaseObjects().clear();
         getSpawnedObjects().clear();
         getRemovedObjects().clear();
-        for (int npcIndex : getNPCsIndexes()) {
+        for (int npcIndex : npcs) {
             NPC npc = World.getNPCs().get(npcIndex);
             if (npc == null)
                 continue;
-            npc.finish();
+            npc.finishAfterTicks(1);
         }
         World.removeChunk(id);
-        for (int playerIndex : getPlayerIndexes()) {
+        for (int playerIndex : players) {
             Player player = World.getPlayers().get(playerIndex);
             if (player == null || !player.hasStarted() || player.hasFinished())
                 continue;
