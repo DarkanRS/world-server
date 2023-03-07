@@ -48,7 +48,6 @@ public class RouteEvent {
 			player = p;
 		if (!simpleCheck(entity)) {
 			if (player != null) {
-				System.out.println("Dicks1");
 				player.sendMessage("You can't reach that.");
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
@@ -71,7 +70,6 @@ public class RouteEvent {
 				}
 			}
 			if (player != null) {
-				System.out.println("Dicks2");
 				player.sendMessage("You can't reach that.");
 				player.getSession().writeToQueue(new MinimapFlag());
 			}
@@ -102,7 +100,6 @@ public class RouteEvent {
 			return false;
 		}
 		if (player != null) {
-			System.out.println("Dicks3");
 			player.sendMessage("You can't reach that.");
 			player.getSession().writeToQueue(new MinimapFlag());
 		}

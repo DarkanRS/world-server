@@ -1411,16 +1411,23 @@ public final class ObjectHandler {
 			else
 				switch (objectDef.getName().toLowerCase()) {
 					case "trapdoor":
-					case "closed chest":
 						if (objectDef.containsOption(0, "Open")) {
+							GameObject openedTrapdoor = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
 							player.setNextAnimation(new Animation(536));
 							player.lock(2);
+							player.faceObject(openedTrapdoor);
+							World.spawnObjectTemporary(openedTrapdoor, Ticks.fromMinutes(1));
+						}
+						break;
+					case "closed chest":
+						if (objectDef.containsOption(0, "Open")) {
 							GameObject openedChest = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
-							// if (World.removeTemporaryObject(object, 60000,
-							// true)) {
+							if (!openedChest.getDefinitions().containsOption("Search") && !openedChest.getDefinitions().containsOption("Close"))
+								return;
+							player.setNextAnimation(new Animation(536));
+							player.lock(2);
 							player.faceObject(openedChest);
 							World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-							// }
 						}
 						break;
 					case "open chest":
@@ -1695,13 +1702,13 @@ public final class ObjectHandler {
 				// unused
 			} else
 				switch (def.getName().toLowerCase()) {
-				case "fire":
-					if (def.containsOption(4, "Add-logs"))
-						Bonfire.addLogs(player, object);
-					break;
-				default:
-					player.sendMessage("Nothing interesting happens.");
-					break;
+					case "fire":
+						if (def.containsOption(4, "Add-logs"))
+							Bonfire.addLogs(player, object);
+						break;
+					default:
+						player.sendMessage("Nothing interesting happens.");
+						break;
 				}
 			Logger.debug(ObjectHandler.class, "handleOption5", "Object interaction 5: " + object);
 		}));
