@@ -234,6 +234,6 @@ public final class Launcher {
 	}
 
 	public static double getMemUsedPerc() {
-		return ((double) Runtime.getRuntime().totalMemory() / Runtime.getRuntime().maxMemory()) * 100.0;
+		return 100.0 - (((double) Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory()) * 100.0);
 	}
 }

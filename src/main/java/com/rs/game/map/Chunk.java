@@ -668,6 +668,7 @@ public class Chunk {
             getAllGroundItems().clear();
         if (getGroundItems() != null)
             getGroundItems().clear();
+        getBaseObjects().clear();
         getSpawnedObjects().clear();
         getRemovedObjects().clear();
         for (int npcIndex : getNPCsIndexes()) {
