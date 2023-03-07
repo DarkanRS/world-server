@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
@@ -27,6 +28,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
@@ -147,7 +149,7 @@ public final class WorldThread extends Thread {
 			}
 			World.processEntityLists();
 			long time = (System.currentTimeMillis() - startTime);
-			Logger.info(WorldThread.class, "tick", "Tick finished - " + time + "ms - Players online: " + World.getPlayers().size());
+			Logger.info(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 			Telemetry.queueTelemetryTick(time);
 		} catch (Throwable e) {
 			Logger.handle(WorldThread.class, "tick", e);

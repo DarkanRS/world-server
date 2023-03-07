@@ -40,7 +40,7 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 		if (player.isLocked() || player.getEmotesManager().isAnimating())
 			return;
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
-		if (Utils.getDistanceI(player.getTile(), tile) > 20)
+		if (!player.getMapChunkIds().contains(tile.getChunkId()))
 			return;
 		GameObject mapObject = World.getObjectWithId(tile, packet.getObjectId());
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())

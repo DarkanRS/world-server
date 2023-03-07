@@ -34,7 +34,7 @@ public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {
 		if (!player.hasStarted() || !player.clientHasLoadedMapRegion() || player.isDead())
 			return;
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
-		if (Utils.getDistanceI(player.getTile(), tile) > 20)
+		if (!player.getMapChunkIds().contains(tile.getChunkId()))
 			return;
 		GameObject mapObject = World.getObjectWithId(tile, packet.getObjectId());
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())

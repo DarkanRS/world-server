@@ -29,6 +29,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
@@ -38,13 +39,14 @@ public class EasterEggSpawning {
 	private static boolean ENABLED = false;
 
 	static int eggsCount = 0;
-	static int eggsPerChunk = 3;
+	static int eggsPerChunk = 2;
 	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void initSpawning() {
 		if (!ENABLED)
 			return;
+		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
 		TaskExecutor.schedule(() -> {
 			try {
 				spawnEggs();

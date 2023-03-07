@@ -36,9 +36,8 @@ public class NPCOpHandler implements PacketHandler<Player, NPCOp> {
 		if (packet.isForceRun())
 			player.setRun(true);
 		NPC npc = World.getNPCs().get(packet.getNpcIndex());
-
-		if (npc == null || npc.isDead() || npc.hasFinished() || Utils.getDistanceI(player.getTile(), npc.getTile()) > 20 || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
-		return;
+		if (npc == null || npc.isDead() || npc.hasFinished() || !player.getMapChunkIds().contains(npc.getChunkId()) || npc.getDefinitions().getIdForPlayer(player.getVars()) == -1)
+			return;
 
 		if (packet.getOpcode() == ClientPacket.NPC_EXAMINE) {
 			NPCHandler.handleExamine(player, npc);
