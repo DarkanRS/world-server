@@ -147,7 +147,7 @@ public final class Launcher {
 			} catch (Throwable e) {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
-		}, 0, Ticks.fromSeconds(30));//Ticks.fromMinutes(10));
+		}, 0, Ticks.fromMinutes(10));
 	}
 
 	private static void addAccountsSavingTask() {
