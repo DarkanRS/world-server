@@ -15,19 +15,19 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class MordredMob extends NPC {
-	final static int MORGAN = 248;
+	private final static int MORGAN = 248;
 	public MordredMob(int id, Tile tile) {
 		super(id, tile, false);
 	}
 
 	@Override
 	public void sendDeath(Entity source) {
-		if(source instanceof Player p) {
-			if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == MerlinsCrystal.CONFRONT_KEEP_LA_FAYE) {
-				for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
+		if(source instanceof Player player) {
+			if(player.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == MerlinsCrystal.CONFRONT_KEEP_LA_FAYE) {
+				for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 					if(npc.getId() == MORGAN)
 						return;
-                OwnedNPC morgan = new OwnedNPC(p, MORGAN, Tile.of(2769, 3403, 2), true);
+                OwnedNPC morgan = new OwnedNPC(player, MORGAN, Tile.of(2769, 3403, 2), true);
 				morgan.setNextSpotAnim(new SpotAnim(1605, 0, 0));
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();

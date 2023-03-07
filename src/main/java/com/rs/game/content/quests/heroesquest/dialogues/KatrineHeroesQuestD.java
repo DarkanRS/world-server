@@ -15,32 +15,32 @@ import com.rs.plugin.annotations.PluginEventHandler;
 public class KatrineHeroesQuestD extends Conversation {
 	private static final int NPC = 642;
 
-	public KatrineHeroesQuestD(Player p) {
-		super(p);
+	public KatrineHeroesQuestD(Player player) {
+		super(player);
 		Dialogue katrineImpressed = new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "I am impressed you got the master thieves' arm band.")
 				.addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
-		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
+		switch (player.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
-				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("got_armband_katrine")) {
-					if (p.getInventory().containsItem(1579, 1))
+				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("got_armband_katrine")) {
+					if (player.getInventory().containsItem(1579, 1))
 						addNext(katrineImpressed);
 					else {
 						addPlayer(HeadE.HAPPY_TALKING, "I have lost my master thief's armband...");
 						addNPC(NPC, HeadE.CALM_TALK, "Lucky I 'ave a spare ain't it? Don't lose it again.", () -> {
-							p.getInventory().addItem(1579, 1);
+							player.getInventory().addItem(1579, 1);
 						});
 					}
 					return;
 				}
-				if (p.getInventory().containsItem(1577, 1)) {
+				if (player.getInventory().containsItem(1577, 1)) {
 					addPlayer(HeadE.HAPPY_TALKING, "I have a candlestick now!");
 					addNPC(NPC, HeadE.CALM_TALK, "Wow... is... it REALLY it? This really is a FINE bit of thievery. Us thieves have been trying to get hold" +
 							" of this one for a while! You wanted to be ranked as a master thief didn't you? Well, I guess this just about ranks as good enough!");
 					addSimple("Katrine gives you a master thief armband.", () -> {
-						p.getInventory().removeItems(new Item(1577, 1));
-						p.getInventory().addItem(1579, 1);
-						p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("got_armband_katrine", true);
+						player.getInventory().removeItems(new Item(1577, 1));
+						player.getInventory().addItem(1579, 1);
+						player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("got_armband_katrine", true);
 					});
 					return;
 				}

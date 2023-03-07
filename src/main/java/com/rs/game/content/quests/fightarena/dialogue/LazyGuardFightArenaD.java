@@ -22,15 +22,15 @@ import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 @PluginEventHandler
 public class LazyGuardFightArenaD extends Conversation {
 	private static final int NPC = 7550;
-	public LazyGuardFightArenaD(Player p, final NPC npc) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FIGHT_ARENA)) {
+	public LazyGuardFightArenaD(Player player, final NPC npc) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FIGHT_ARENA)) {
 			case NOT_STARTED, FREE_JEREMY -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Whatchu want?");
 				addPlayer(HeadE.HAPPY_TALKING, "Nothing.");
 			}
 			case GET_JAIL_KEYS -> {
-				if(p.getInventory().containsItem(76)) {
+				if(player.getInventory().containsItem(76)) {
 					addNPC(NPC, HeadE.CALM_TALK, "Phew, Almost fell asleep there");
 					addPlayer(HeadE.SECRETIVE, "Yea, you almost did...");
 					addNPC(NPC, HeadE.CALM_TALK, "Blimey I lost my keys too. Looks like I will have to make a new set again.");
@@ -38,7 +38,7 @@ public class LazyGuardFightArenaD extends Conversation {
 					return;
 				}
 
-				if(p.getInventory().containsItem(77)) {
+				if(player.getInventory().containsItem(77)) {
 					addPlayer(HeadE.HAPPY_TALKING, "Hello again.");
 					addNPC(NPC, HeadE.CALM_TALK, "Bored, bored, bored. You'd think suffering and slaughter would be more entertaining. The slaves hardly make any effort to make the fights fun. Selfish, the lot of them");
 					addPlayer(HeadE.HAPPY_TALKING, "Do you still fancy a drink? I just happen to have a bottle of the good stuff on me.");
@@ -49,10 +49,10 @@ public class LazyGuardFightArenaD extends Conversation {
 					addNPC(NPC, HeadE.CALM_TALK, "Blimey! This stuff is pretty good. It isn't Khali brew, is it?");
 					addPlayer(HeadE.HAPPY_TALKING, "No, of course not. Don't worry, it's just a quick pick-me-up. You'll be fine.");
 					addSimple("The guard quickly drinks half of the bottle and sways slightly.", () -> {
-						p.lock(9);
-						p.getInventory().deleteItem(77, 1);
-						p.faceTile(Tile.of(2617, 3144, 0));
-						p.getVars().setVarBit(5627, 1);
+						player.lock(9);
+						player.getInventory().deleteItem(77, 1);
+						player.faceTile(Tile.of(2617, 3144, 0));
+						player.getVars().setVarBit(5627, 1);
 						WorldTasks.schedule(new WorldTask() {
 							int tick;
 							@Override
@@ -61,7 +61,7 @@ public class LazyGuardFightArenaD extends Conversation {
 									npc.setNextAnimation(new Animation(11669));
 								if (tick == 9) {
 									npc.setNextAnimation(new Animation(11670));
-									p.getVars().setVarBit(5627, 2);
+									player.getVars().setVarBit(5627, 2);
 								}
 								if(tick == 10)
 									stop();

@@ -17,11 +17,11 @@ public class GrandpaJackFishingContestD extends Conversation {
 	private static final int NPC = 230;
 
 
-	public GrandpaJackFishingContestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
+	public GrandpaJackFishingContestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
 		case ENTER_COMPETITION, DO_ROUNDS -> {
-			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ p.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
+			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ player.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
 					"best fisherman these parts have seen!");
 			addOptions("Choose an option:", new Options() {
 				@Override
@@ -74,7 +74,7 @@ public class GrandpaJackFishingContestD extends Conversation {
 			});
 		}
 		default -> {
-			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ p.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
+			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ player.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
 					"best fisherman these parts have seen!");
 			addOptions("Choose an option:", new Options() {
 				@Override

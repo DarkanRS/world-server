@@ -41,14 +41,14 @@ public class BlackKnightTitan extends NPC {
 
 	@Override
 	public void sendDeath(final Entity source) {
-		if(source instanceof Player p && p.getEquipment().getWeaponId() == 35) {
+		if(source instanceof Player player && player.getEquipment().getWeaponId() == 35) {
 			super.sendDeath(source);
-			p.sendMessage("Well done, you have defeated the Black Knight Titan!");
-			boolean isRun = p.getRun();
-			p.setRunHidden(false);
-			p.addWalkSteps(Tile.of(p.getX() >= 2791 ? 2790 : 2792, 4722, 0), 4, false);
+			player.sendMessage("Well done, you have defeated the Black Knight Titan!");
+			boolean isRun = player.getRun();
+			player.setRunHidden(false);
+			player.addWalkSteps(Tile.of(player.getX() >= 2791 ? 2790 : 2792, 4722, 0), 4, false);
 			WorldTasks.delay(2, () -> {
-				p.setRunHidden(isRun);
+				player.setRunHidden(isRun);
 			});
 			return;
 		}

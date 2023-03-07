@@ -24,13 +24,6 @@ public class LostCity extends QuestOutline {
 	public final static int FIND_ZANARIS = 3;
 	public final static int QUEST_COMPLETE = 4;
 
-
-	//Attributes
-
-
-	//items
-
-
 	//NPCs
 	protected final static int ARCHER = 649;
 	protected final static int WARRIOR = 650;
@@ -99,25 +92,24 @@ public class LostCity extends QuestOutline {
 	}
 
 	public static ObjectClickHandler handleShedDoor = new ObjectClickHandler(new Object[] { 2406 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		Doors.handleDoor(p, obj);
-		if(p.getX() <= obj.getX())
-			if(p.getEquipment().getWeaponId() == DRAMEN_STAFF
-                    && p.getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
+		Doors.handleDoor(e.getPlayer(), obj);
+		if(e.getPlayer().getX() <= obj.getX())
+			if(e.getPlayer().getEquipment().getWeaponId() == DRAMEN_STAFF
+                    && e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
 				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					@Override
 					public void run() {
 						if(tick == 1) {
-							p.sendMessage("The world starts to shimmer...");
-							FairyRings.sendTeleport(p, Tile.of(2452, 4473, 0));
-							p.lock(4);
+							e.getPlayer().sendMessage("The world starts to shimmer...");
+							FairyRings.sendTeleport(e.getPlayer(), Tile.of(2452, 4473, 0));
+							e.getPlayer().lock(4);
 						}
 						if(tick == 4)
-							if(!p.isQuestComplete(Quest.LOST_CITY)) {
-								p.lock(3);//so players dont cancel it out by accident and not see it...
-								p.getQuestManager().completeQuest(Quest.LOST_CITY);
+							if(!e.getPlayer().isQuestComplete(Quest.LOST_CITY)) {
+								e.getPlayer().lock(3);//so players dont cancel it out by accident and not see it...
+								e.getPlayer().getQuestManager().completeQuest(Quest.LOST_CITY);
 							}
 						if(tick == 5)
 							stop();

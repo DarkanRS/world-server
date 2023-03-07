@@ -25,27 +25,24 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 @PluginEventHandler
 public class KeepLaFayeMerlinsCrystalLoc {
 	public static ObjectClickHandler handleVariousStaircasesUp = new ObjectClickHandler(new Object[] { 25786 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.useStairs(-1, Tile.of(p.getX(), obj.getY()+3, p.getPlane() + 1), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(e.getPlayer().getX(), obj.getY()+3, e.getPlayer().getPlane() + 1), 0, 1);
 	});
 	
 	public static ObjectClickHandler handleVariousStaircasesDown = new ObjectClickHandler(new Object[] { 25787 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.useStairs(-1, Tile.of(p.getX(), obj.getY()-3, p.getPlane() - 1), 0, 1);
+		e.getPlayer().useStairs(-1, Tile.of(e.getPlayer().getX(), obj.getY()-3, e.getPlayer().getPlane() - 1), 0, 1);
 	});
 
 	public static ObjectClickHandler handleCrate = new ObjectClickHandler(new Object[] { 63 }, e -> {
-		Player p = e.getPlayer();
-		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == CONFRONT_KEEP_LA_FAYE)
+		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == CONFRONT_KEEP_LA_FAYE)
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addOptions("Hide in the crate?", new Options() {
 						@Override
 						public void create() {
 							option("Yes", new Dialogue()
-									.addNext(()->{p.getControllerManager().startController(new MerlinsCrystalCrateScene());}));
+									.addNext(()->{e.getPlayer().getControllerManager().startController(new MerlinsCrystalCrateScene());}));
 							option("No", new Dialogue());
 						}
 					});
@@ -57,26 +54,24 @@ public class KeepLaFayeMerlinsCrystalLoc {
 	});
 
 	public static PlayerStepHandler handleStrongholdFight = new PlayerStepHandler(new Tile[] { Tile.of(2769, 3401, 2), Tile.of(2770, 3401, 2), Tile.of(2771, 3401, 2), Tile.of(2771, 3402, 2), Tile.of(2770, 3402, 2), Tile.of(2769, 3402, 2), Tile.of(2768, 3402, 2), Tile.of(2768, 3401, 2) }, e -> {
-		Player p = e.getPlayer();
-		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != CONFRONT_KEEP_LA_FAYE)
+		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != CONFRONT_KEEP_LA_FAYE)
 			return;
 		NPC mordred = null;
-		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
+		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 			if(npc.getId() == 247) {
 				mordred = npc;
 				break;
 			}
-		if(mordred == null || mordred.getTarget() != null || !mordred.canAggroPlayer(p))
+		if(mordred == null || mordred.getTarget() != null || !mordred.canAggroPlayer(e.getPlayer()))
 			return;
 		mordred.forceTalk("You DARE invade MY stronghold?!?! Have at thee knave!!");
-		mordred.setTarget(p);
+		mordred.setTarget(e.getPlayer());
 	});
 
 	public static ObjectClickHandler handleFrontDoor = new ObjectClickHandler(new Object[] { 71, 72 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		e.getPlayer().sendMessage("The door is securely locked.");
-		if(p.getX() > obj.getX())
+		if(e.getPlayer().getX() > obj.getX())
 			return;
 		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 			{
@@ -116,11 +111,11 @@ public class KeepLaFayeMerlinsCrystalLoc {
 
 	protected final static Set<Integer> STRONGHOLD_CHUNKS = new HashSet<>(Arrays.asList(5672264, 5688648, 5672256));
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
-		if (e.getEntity() instanceof Player p && p.hasStarted() && STRONGHOLD_CHUNKS.contains(e.getChunkId())) {
+		if (e.getEntity() instanceof Player player && player.hasStarted() && STRONGHOLD_CHUNKS.contains(e.getChunkId())) {
 			for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
-				if (!npc.getName().equalsIgnoreCase("Renegade Knight") || !npc.lineOfSightTo(p, false))
+				if (!npc.getName().equalsIgnoreCase("Renegade Knight") || !npc.lineOfSightTo(player, false))
 					continue;
-				npc.setTarget(p);
+				npc.setTarget(player);
 				if (Utils.random(0, 5) == 1)
 					npc.forceTalk("Intruder!");
 			}

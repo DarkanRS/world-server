@@ -19,9 +19,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class BigDaveFishingContestD extends Conversation {
 	private static final int NPC = 228;
-	public BigDaveFishingContestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
+	public BigDaveFishingContestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
 		case NOT_STARTED, ENTER_COMPETITION -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Hi, what are you doing here?");
 			addNPC(NPC, HeadE.CALM_TALK, "I am waiting for the fishing contest to start.");
@@ -62,15 +62,14 @@ public class BigDaveFishingContestD extends Conversation {
 	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new BigDaveFishingContestD(e.getPlayer()).getStart()));
 
 	public static NPCClickHandler handleBigDaveSpot = new NPCClickHandler(true, new Object[] { 235 }, e -> {
-		Player p = e.getPlayer();
 		NPC npc = e.getNPC();
 		if(npc.getRegionId() == 10549) {
 			e.getNPC().resetDirection();
-			if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
-				p.sendMessage("Nothing interesting happens...");
+			if (e.getPlayer().getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
+				e.getPlayer().sendMessage("Nothing interesting happens...");
 				return;
 			}
-			p.startConversation(new Conversation(p) {
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addNPC(NPC, HeadE.CALM_TALK, "Sorry,  this is my spot.");
 					addPlayer(HeadE.HAPPY_TALKING, "I don't like my spot. Please can I have yours?");

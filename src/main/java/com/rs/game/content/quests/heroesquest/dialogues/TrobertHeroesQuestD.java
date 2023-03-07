@@ -15,18 +15,18 @@ import com.rs.plugin.annotations.PluginEventHandler;
 public class TrobertHeroesQuestD extends Conversation {
 	private static final int NPC = 1884;
 
-	public TrobertHeroesQuestD(Player p) {
-		super(p);
+	public TrobertHeroesQuestD(Player player) {
+		super(player);
 		Dialogue intro = new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "Welcome to our Brimhaven headquarters. I'm Trobert and I'm in charge here.")
 				.addPlayer(HeadE.HAPPY_TALKING, "Pleased to meet you.")
 				.addNPC(NPC, HeadE.CALM_TALK, "Likewise.");
-		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
+		switch (player.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
-				if (ShieldOfArrav.isBlackArmGang(p)) {
-					if (p.getInventory().containsItem(1584, 1)) {
+				if (ShieldOfArrav.isBlackArmGang(player)) {
+					if (player.getInventory().containsItem(1584, 1)) {
 						addNPC(NPC, HeadE.CALM_TALK, "Good luck getting those candles...", () -> {
-									p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_trick", true);
+									player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_trick", true);
 								});
 						addPlayer(HeadE.CALM_TALK, "Thanks!");
 						return;
@@ -46,8 +46,8 @@ public class TrobertHeroesQuestD extends Conversation {
 											.addPlayer(HeadE.HAPPY_TALKING, "I volunteer to undertake that mission!")
 											.addNPC(NPC, HeadE.CALM_TALK, "Good good. Well, here's the ID papers, take them and introduce yourself to " +
 													"the guards at Scarface Pete's mansion, we'll have that treasure in no time.", () -> {
-												p.getInventory().addItem(1584, 1);
-												p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_trick", true);
+												player.getInventory().addItem(1584, 1);
+												player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_trick", true);
 											})
 									);
 									option("Well, good luck then.", new Dialogue()

@@ -19,8 +19,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class EntranaHighPriestHolyGrailD extends Conversation {
 	private static final int NPC = 216;
 	static class CroneDialogue extends Conversation {
-		public CroneDialogue(Player p) {
-			super(p);
+		public CroneDialogue(Player player) {
+			super(player);
 			Dialogue croneQuestions = new Dialogue();
 			croneQuestions.addOptions("Choose an option:", new Options() {
 				@Override

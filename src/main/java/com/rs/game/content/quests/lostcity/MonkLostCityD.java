@@ -16,9 +16,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class MonkLostCityD extends Conversation {
-	public MonkLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public MonkLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Why are all of you standing around here?");
 			addNPC(MONK, HeadE.FRUSTRATED, "None of your business. Get lost.");

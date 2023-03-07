@@ -21,9 +21,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class SirLancelotMerlinsCrystalD extends Conversation {
 	private final static int NPC = 239;
-	public SirLancelotMerlinsCrystalD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
+	public SirLancelotMerlinsCrystalD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
 		case NOT_STARTED -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Greetings! I am Sir Lancelot, the greatest Knight in the land! What do you want?");
 			addOptions("Choose an option:", new Options() {
@@ -59,7 +59,7 @@ public class SirLancelotMerlinsCrystalD extends Conversation {
 							.addNPC(NPC, HeadE.CALM_TALK, "That stronghold is built in a strong defensive position. It's on a big rock out into the sea. ")
 							.addNPC(NPC, HeadE.CALM_TALK, "There are two ways in that I know of, the large heavy front doors, and the sea entrance, " +
 									"only penetrable by boat. They take all their deliveries by boat.", ()->{
-										p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, CONFRONT_KEEP_LA_FAYE);
+										player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, CONFRONT_KEEP_LA_FAYE);
 									})
 							);
 				}

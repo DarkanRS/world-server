@@ -1,14 +1,6 @@
 package com.rs.game.content.quests.knightssword;
 
-import static com.rs.game.content.quests.knightssword.KnightsSword.BLURITE_SWORD;
-import static com.rs.game.content.quests.knightssword.KnightsSword.FIND_DWARF;
-import static com.rs.game.content.quests.knightssword.KnightsSword.GET_MATERIALS;
-import static com.rs.game.content.quests.knightssword.KnightsSword.GET_PICTURE;
-import static com.rs.game.content.quests.knightssword.KnightsSword.NOT_STARTED;
-import static com.rs.game.content.quests.knightssword.KnightsSword.PICTURE_LOCATION_KNOWN_ATTR;
-import static com.rs.game.content.quests.knightssword.KnightsSword.PORTRAIT;
-import static com.rs.game.content.quests.knightssword.KnightsSword.SQUIRE;
-import static com.rs.game.content.quests.knightssword.KnightsSword.TALK_TO_RELDO;
+import static com.rs.game.content.quests.knightssword.KnightsSword.*;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
@@ -26,10 +18,10 @@ public class SquireKnightsSwordD extends Conversation {
 	public static final int DWARVES_MAKE_ANOTHER_CONVO = 2;
 	public static final int VAGUE_AREA_CONVO = 3;
 
-	public SquireKnightsSwordD(Player p) {
-		super(p);
+	public SquireKnightsSwordD(Player player) {
+		super(player);
 
-		if(p.getInventory().containsItem(BLURITE_SWORD)) {
+		if(player.getInventory().containsItem(BLURITE_SWORD)) {
 			addNPC(SQUIRE, HeadE.CALM_TALK, "That's it! That's the sword I need!");
 			addNPC(SQUIRE, HeadE.CALM_TALK, "Please let me have it.");
 			addOptions("Give the sword?", new Options() {
@@ -39,8 +31,8 @@ public class SquireKnightsSwordD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "Of course you can have it")
 							.addSimple("You give the Squire the Knight's Sword.")
 							.addNext(()-> {
-								p.getInventory().removeItems(new Item(BLURITE_SWORD, 1));
-								p.getQuestManager().completeQuest(Quest.KNIGHTS_SWORD);
+								player.getInventory().removeItems(new Item(BLURITE_SWORD, 1));
+								player.getQuestManager().completeQuest(Quest.KNIGHTS_SWORD);
 							})
 							);
 					option("I think I will keep it.", new Dialogue()
@@ -54,7 +46,7 @@ public class SquireKnightsSwordD extends Conversation {
 		}
 
 
-		switch (p.getQuestManager().getStage(Quest.KNIGHTS_SWORD)) {
+		switch (player.getQuestManager().getStage(Quest.KNIGHTS_SWORD)) {
 		case NOT_STARTED -> {
 			addOptions("Choose an option:", new Options() {
 				@Override
@@ -73,16 +65,16 @@ public class SquireKnightsSwordD extends Conversation {
 												@Override
 												public void create() {
 													option("Well, do you know the VAGUE AREA you lost it?", new Dialogue()
-															.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, VAGUE_AREA_CONVO).getStart());}));
+															.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, VAGUE_AREA_CONVO).getStart());}));
 													option("I can make a new sword if you like...", new Dialogue()
-															.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, NEW_SWORD_CONVO).getStart());}));
+															.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, NEW_SWORD_CONVO).getStart());}));
 													option("Well, the kingdom is fairly abundant with swords...", new Dialogue()
-															.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, ABUNDANT_WITH_SWORDS_CONVO).getStart());}));
+															.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, ABUNDANT_WITH_SWORDS_CONVO).getStart());}));
 
 												}
 											}));
 									option("I can make a new sword if you like...", new Dialogue()
-											.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, NEW_SWORD_CONVO).getStart());}));
+											.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, NEW_SWORD_CONVO).getStart());}));
 									option("Is he angry?", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Is he angry?")
 											.addNPC(SQUIRE, HeadE.CALM_TALK, "He doesn't know yet. I was hoping I could think of something to do before he does find out, But I find myself at a loss.")
@@ -108,9 +100,9 @@ public class SquireKnightsSwordD extends Conversation {
 			addNPC(SQUIRE, HeadE.CALM_TALK, "Please try and find them quickly... I am scared Sir Vyvin will find out!");
 		}
 		case GET_PICTURE -> {
-			if(p.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).getB(PICTURE_LOCATION_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).getB("picture_location_known")) {
 				addNPC(SQUIRE, HeadE.CALM_TALK, "Did you find the portrait?");
-				if(p.getInventory().containsItem(PORTRAIT)) {
+				if(player.getInventory().containsItem(PORTRAIT)) {
 					addPlayer(HeadE.HAPPY_TALKING, "Yes, I just need to take it to the dwarf");
 					addNPC(SQUIRE, HeadE.CALM_TALK, "Great!");
 				} else
@@ -127,7 +119,7 @@ public class SquireKnightsSwordD extends Conversation {
 			addNPC(SQUIRE, HeadE.CALM_TALK, "Well, Sir Vyvin keeps a portrait with him holding it in his cupboard in his room.");
 			addNPC(SQUIRE, HeadE.CALM_TALK, "You should get it without him knowing though. Don't let him see you. His room is on the 3rd floor on the east" +
 					" side of the castle.", ()->{
-						p.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).setB(PICTURE_LOCATION_KNOWN_ATTR, true);
+						player.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).setB("picture_location_known", true);
 					});
 		}
 		case GET_MATERIALS -> {
@@ -137,27 +129,27 @@ public class SquireKnightsSwordD extends Conversation {
 		}
 	}
 
-	public SquireKnightsSwordD(Player p, int convoID) {
-		super(p);
+	public SquireKnightsSwordD(Player player, int convoID) {
+		super(player);
 
 		switch(convoID) {
 		case NEW_SWORD_CONVO:
-			makeNewSwordConvo(p);
+			makeNewSwordConvo();
 			break;
 		case ABUNDANT_WITH_SWORDS_CONVO:
-			abundantWithSwords(p);
+			abundantWithSwords();
 			break;
 		case DWARVES_MAKE_ANOTHER_CONVO:
-			dwarvesMakeAnother(p);
+			dwarvesMakeAnother();
 			break;
 		case VAGUE_AREA_CONVO:
-			vagueArea(p);
+			vagueArea();
 			break;
 		}
 
 	}
 
-	private void makeNewSwordConvo(Player p) {
+	private void makeNewSwordConvo() {
 		addPlayer(HeadE.HAPPY_TALKING, "I can make a new sword if you like...");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "Thanks for the offer. I'd be surprised if you could though.");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "The thing is, this sword is a family heirloom. It has been passed down through" +
@@ -168,7 +160,7 @@ public class SquireKnightsSwordD extends Conversation {
 			@Override
 			public void create() {
 				option("So would these dwarves make another one?", new Dialogue()
-						.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, DWARVES_MAKE_ANOTHER_CONVO).getStart());}));
+						.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, DWARVES_MAKE_ANOTHER_CONVO).getStart());}));
 				option("Well I hope you find it soon.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Well, I hope you find it soon.")
 						.addNPC(SQUIRE, HeadE.CALM_TALK, "Yes, me too. I'm not looking forward to telling Vyvin I've lost it. " +
@@ -177,7 +169,7 @@ public class SquireKnightsSwordD extends Conversation {
 		});
 	}
 
-	private void abundantWithSwords(Player p) {
+	private void abundantWithSwords() {
 		addPlayer(HeadE.HAPPY_TALKING, "Well, the kingdom is fairly abundant with swords...");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "Yes. You can get bronze swords anywhere. But THIS isn't any old sword.");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "The thing is, this sword is a family heirloom. It has been passed down through Vyvin's family for five generations! " +
@@ -187,7 +179,7 @@ public class SquireKnightsSwordD extends Conversation {
 			@Override
 			public void create() {
 				option("So would these dwarves make another one?", new Dialogue()
-						.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, DWARVES_MAKE_ANOTHER_CONVO).getStart());}));
+						.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, DWARVES_MAKE_ANOTHER_CONVO).getStart());}));
 				option("Well I hope you find it soon.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Well, I hope you find it soon.")
 						.addNPC(SQUIRE, HeadE.CALM_TALK, "Yes, me too. I'm not looking forward to telling Vyvin I've lost it. " +
@@ -198,7 +190,7 @@ public class SquireKnightsSwordD extends Conversation {
 
 	}
 
-	private void dwarvesMakeAnother(Player p) {
+	private void dwarvesMakeAnother() {
 		addPlayer(HeadE.HAPPY_TALKING, "So would these dwarves make another one?");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "I'm not a hundred percent sure the Imcando tribe exists anymore. " +
 				"I should think Reldo, the palace librarian in Varrock, will know; he has done a lot of research " +
@@ -210,7 +202,7 @@ public class SquireKnightsSwordD extends Conversation {
 			public void create() {
 				option("Ok, I'll give it a go.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll give it a go.", () -> {
-							p.getQuestManager().setStage(Quest.KNIGHTS_SWORD, TALK_TO_RELDO, true);
+							player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, TALK_TO_RELDO, true);
 						})
 						.addNPC(SQUIRE, HeadE.CALM_TALK, "Thank you very much! As I say, the best place to " +
 								"start should be with Reldo..."));
@@ -221,7 +213,7 @@ public class SquireKnightsSwordD extends Conversation {
 		});
 	}
 
-	private void vagueArea(Player p) {
+	private void vagueArea() {
 		addPlayer(HeadE.HAPPY_TALKING, "Well, do you know the VAGUE AREA you lost it in?");
 		addNPC(SQUIRE, HeadE.CALM_TALK, "No. I was carrying it for him all the way from where he had it stored" +
 				" in Lumbridge. It must have slipped from my pack during the trip, and you know what people are like these days...");
@@ -230,9 +222,9 @@ public class SquireKnightsSwordD extends Conversation {
 			@Override
 			public void create() {
 				option("I can make a new sword if you like...", new Dialogue()
-						.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, NEW_SWORD_CONVO).getStart());}));
+						.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, NEW_SWORD_CONVO).getStart());}));
 				option("Well, the kingdom is fairly abundant with swords...", new Dialogue()
-						.addNext(()->{p.startConversation(new SquireKnightsSwordD(p, ABUNDANT_WITH_SWORDS_CONVO).getStart());}));
+						.addNext(()->{player.startConversation(new SquireKnightsSwordD(player, ABUNDANT_WITH_SWORDS_CONVO).getStart());}));
 				option("Well I hope you find it soon.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Well, I hope you find it soon.")
 						.addNPC(SQUIRE, HeadE.CALM_TALK, "Yes, me too. I'm not looking forward to telling Vyvin I've lost it. " +

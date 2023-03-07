@@ -44,9 +44,6 @@ public class FamilyCrest extends QuestOutline {
 	public final static int CHAOS_GAUNTLETS = 777;
 	public final static int FAMILY_GAUNTLETS = 778;
 
-	//Attr
-	public static final String CALEB_ASKED_ATTR = "CALEB_ASKED";
-
 	@Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE;
@@ -74,7 +71,7 @@ public class FamilyCrest extends QuestOutline {
 			lines.add("Speak to Caleb in Catherby to ask about the family");
 			lines.add("crest.");
 			lines.add("");
-			if(player.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB(CALEB_ASKED_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB("CALEB_ASKED")) {
 				lines.add("I must get Caleb cooked shrimp, salmon, tuna, bass and");
 				lines.add("swordfish to get a piece of the crest.");
 				lines.add("");

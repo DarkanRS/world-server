@@ -37,9 +37,7 @@ public class MerlinsCrystal extends QuestOutline {
 	public static final int TALK_TO_ARTHUR = 7;
 	public static final int QUEST_COMPLETE = 8;
 
-	public static final String CANDLE_MAKER_KNOWS_ATTR = "KNOWS_ABOUT_BLACK_CANDLE";
-	public static final String LADY_LAKE_TEST_ATTR = "LADY_TEST";
-	public static final String PLAYER_KNOWS_BEGGAR_ATTR = "KNOWS_BEGGAR";
+	//item
 	protected static final int EXCALIBUR = 35;
 
 	protected Tile crate = Tile.of(2778, 9839, 0);
@@ -110,11 +108,11 @@ public class MerlinsCrystal extends QuestOutline {
 		return lines;
 	}
 
-    private static void openShop(Player p) {
-        if(p.isQuestComplete(Quest.MERLINS_CRYSTAL))
-            ShopsHandler.openShop(p, "candle_with_black_shop");
+    private static void openShop(Player player) {
+        if(player.isQuestComplete(Quest.MERLINS_CRYSTAL))
+            ShopsHandler.openShop(player, "candle_with_black_shop");
         else
-            ShopsHandler.openShop(p, "candle_shop");
+            ShopsHandler.openShop(player, "candle_shop");
     }
 
 	public static NPCClickHandler handleCandleMakerDialogue = new NPCClickHandler(new Object[] { 562 }, e -> {
@@ -126,7 +124,7 @@ public class MerlinsCrystal extends QuestOutline {
                         if (e.getPlayer().getInventory().containsItem(38)) {
                             addNPC(562, HeadE.CALM_TALK, "Good luck with your candle!");
                             addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
-                        } else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR)) {
+                        } else if (e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_BLACK_CANDLE")) {
                             if (e.getPlayer().getInventory().containsItem(30, 1)) {
                                 addNPC(562, HeadE.CALM_TALK, "Do you have the wax?");
                                 addPlayer(HeadE.HAPPY_TALKING, "Yes");
@@ -147,7 +145,7 @@ public class MerlinsCrystal extends QuestOutline {
                                     " to make black candles. VERY bad luck.");
                             addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
                             addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
-                                e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(MerlinsCrystal.CANDLE_MAKER_KNOWS_ATTR, true);
+                                e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_BLACK_CANDLE", true);
                             });
                         }
                         create();
@@ -179,16 +177,15 @@ public class MerlinsCrystal extends QuestOutline {
 	private static final int MERLIN_FREE_VAR = 14;
 	private static final int MERLINS_CRYSTAL_OBJ = 62;
 	public static ObjectClickHandler handleMerlinsCrystal = new ObjectClickHandler(new Object[] { MERLINS_CRYSTAL_OBJ }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (e.getOption().equalsIgnoreCase("smash")) {
-			p.sendMessage("You attempt to smash the crystal...");
-			if (p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == BREAK_MERLIN_CRYSTAL)
-				if (p.getInventory().containsItem(EXCALIBUR, 1) || p.getEquipment().containsOneItem(EXCALIBUR)) {
-					p.sendMessage("... and it shatters under the force of Excalibur!");
-					p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
-					p.getVars().setVar(14, 7);
-                    OwnedNPC merlin = new OwnedNPC(p, 249, Tile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
+			e.getPlayer().sendMessage("You attempt to smash the crystal...");
+			if (e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == BREAK_MERLIN_CRYSTAL)
+				if (e.getPlayer().getInventory().containsItem(EXCALIBUR, 1) || e.getPlayer().getEquipment().containsOneItem(EXCALIBUR)) {
+					e.getPlayer().sendMessage("... and it shatters under the force of Excalibur!");
+					e.getPlayer().getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_ARTHUR);
+					e.getPlayer().getVars().setVar(14, 7);
+                    OwnedNPC merlin = new OwnedNPC(e.getPlayer(), 249, Tile.of(obj.getX(), obj.getY(), obj.getPlane()), true);
 					merlin.setCantInteract(true);
 					merlin.setRandomWalk(false);
 					merlin.finishAfterTicks(5);
@@ -211,22 +208,21 @@ public class MerlinsCrystal extends QuestOutline {
 	});
 
 	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(Tile.of(2780, 3515, 0), e -> {
-		Player p = e.getPlayer();
-		if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
+		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
 			return;
 		WorldTasks.schedule(new WorldTask() {
 			int tick;
 			@Override
 			public void run() {
 				if(tick == 1)
-					if(p.getInventory().containsItem(LIT_BLACK_CANDLE, 1))
-						for (GroundItem item : World.getChunk(p.getChunkId()).getAllGroundItems())
+					if(e.getPlayer().getInventory().containsItem(LIT_BLACK_CANDLE, 1))
+						for (GroundItem item : World.getChunk(e.getPlayer().getChunkId()).getAllGroundItems())
 							if (item.getId() == 530 && item.getTile().matches(Tile.of(2780, 3515, 0))) {
-								p.getControllerManager().startController(new MerlinsCrystalRitualScene());
+								e.getPlayer().getControllerManager().startController(new MerlinsCrystalRitualScene());
 								stop();
 							}
 				if(tick == 3)
-					if(p.matches(Tile.of(2780, 3515, 0)))
+					if(e.getPlayer().matches(Tile.of(2780, 3515, 0)))
 						tick = 0;
 				if(tick == 5)
 					stop();
