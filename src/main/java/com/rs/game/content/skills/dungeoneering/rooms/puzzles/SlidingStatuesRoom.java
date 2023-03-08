@@ -16,11 +16,13 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -60,11 +62,11 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 				{ 2, 2 },
 				{ 9, 2 }, };
 
-	private Tile[] statues;
+	private NPC[] statues;
 
 	@Override
 	public void openRoom() {
-		statues = new Tile[8];
+		statues = new NPC[8];
 		Tile base = manager.getRoomBaseTile(reference);
 		int index = 0;
 		for (int i = 0; i < 2; i++) {
@@ -73,17 +75,20 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 				while (true) {
 					Tile inactive = base.transform(STATUE_LOCATIONS[i][0] + Utils.random(5), STATUE_LOCATIONS[i][1] + Utils.random(5), 0);
 					Tile active = base.transform(STATUE_LOCATIONS[i + 2][0] + Utils.random(5), STATUE_LOCATIONS[i + 2][1] + Utils.random(5), 0);
-					for (Tile statue : statues)
-						if (statue != null && (inactive.matches(statue) || active.matches(statue)))
+					for (NPC statue : statues)
+						if (statue != null && (inactive.matches(statue.getTile()) || active.matches(statue.getTile())))
 							continue while_;
 					if (active.transform(0, 7, 0).matches(inactive))
 						continue while_;
-					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC).getTile();
-					statues[index + 4] = new Statue(STATUES_ACTIVE[type][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]).getTile();
+					statues[index] = manager.spawnNPC(STATUES_INACTIVE[type][index], 0, inactive, reference, DungeonConstants.NORMAL_NPC);
+					statues[index + 4] = new Statue(STATUES_ACTIVE[type][index], active, STATUE_LOCATIONS[i + 2][0], STATUE_LOCATIONS[i + 2][1]);
 					index++;
 					break;
 				}
 			}
+		}
+		for(NPC statue : statues) {
+			WorldCollision.addFlag(statue.getTile(), ClipFlag.PF_FULL);
 		}
 		manager.spawnRandomNPCS(reference);
 	}
@@ -101,6 +106,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 		public void handle(final Player player, final boolean push) {
 			//TODO: make sure 2 players can't move 2 statues ontop of eachother in the same tick? although it doesn't really matter
 			boolean pull = !push;
+
 			int x = transform(-baseX, -baseY, 0).getXInChunk();
 			int y = transform(-baseX, -baseY, 0).getYInChunk();
 			final int dx = push ? getX() - player.getX() : player.getX() - getX();
@@ -111,8 +117,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 			}
 			final Tile nTarget = transform(dx, dy, 0);
 			final Tile pTarget = player.transform(dx, dy, 0);
-
-			if (!SlidingStatuesRoom.this.canMove(null, nTarget) || (pull && !SlidingStatuesRoom.this.canMove(null, pTarget))) {
+			if (!SlidingStatuesRoom.this.tileHasStatue(null, nTarget) || (pull && !SlidingStatuesRoom.this.tileHasStatue(null, pTarget))) {
 				player.sendMessage("A statue is blocking the way.");
 				return;
 			}
@@ -121,7 +126,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 					player.sendMessage("A party member is blocking the way.");
 					return;
 				}
-			}
+		}
 
 			player.lock(2);
 			WorldTasks.schedule(new WorldTask() {
@@ -132,16 +137,18 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 				public void run() {
 					if (!moved) {
 						moved = true;
+						WorldCollision.removeFlag(getTile(), ClipFlag.PF_FULL);
 						addWalkSteps(getX() + dx, getY() + dy);
 						Tile fromTile = Tile.of(player.getX(), player.getY(), player.getPlane());
 						player.setNextTile(pTarget);
 						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
 						player.setNextAnimation(new Animation(push ? 3065 : 3065));
 					} else {
+						WorldCollision.addFlag(getTile(), ClipFlag.PF_FULL);
 						checkComplete();
 						stop();
 					}
-				}
+		}
 			}, 0, 0);
 
 		}
@@ -152,16 +159,17 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 		if (isComplete())
 			return;
 		for (int i = 0; i < 4; i++)
-			if (!statues[i + 4].transform(0, 7, 0).matches(statues[i]))
+			if (!statues[i + 4].transform(0, 7, 0).matches(statues[i].getTile()))
 				return;
 		setComplete();
 	}
 
-	@Override
-	public boolean canMove(Player player, Tile to) {
-		for (Tile statue : statues)
-			if (to.matches(statue))
+	public boolean tileHasStatue(Player player, Tile to) {
+		for (NPC statue : statues)
+			if (to.matches(statue.getTile())) {
+				player.sendMessage("bleh");
 				return false;
+			}
 		return true;
 	}
 
@@ -183,4 +191,10 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 		return true;
 	}
 
+	@Override
+	public void destroy() {
+		for(NPC statue : statues) {
+			WorldCollision.removeFlag(statue.getTile(), ClipFlag.PF_FULL);
+		}
+	}
 }
