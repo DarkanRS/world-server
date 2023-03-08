@@ -29,6 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
@@ -84,6 +85,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
+import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -930,8 +932,11 @@ public class DungeonManager {
 		} else if (type == DungeonConstants.FORGOTTEN_WARRIOR) {
 			n = new ForgottenWarrior(id, tile, this, reference);
 			visibleMap[reference.getRoomX()][reference.getRoomY()].addGuardian(n);
-		} else if (type == DungeonConstants.FISH_SPOT_NPC)
+		} else if (type == DungeonConstants.FISH_SPOT_NPC) {
 			n = new DungeonFishSpot(id, tile, this, DungeoneeringFishing.Fish.values()[Utils.random(DungeoneeringFishing.Fish.values().length - 1)]);
+			WorldCollision.removeFlag(n.getTile(), WorldCollision.getFlags(n.getTile()));
+			WorldCollision.addFlag(n.getTile(), ClipFlag.PF_FULL, ClipFlag.BW_NPC);
+		}
 		else if (type == DungeonConstants.SLAYER_NPC)
 			n = new DungeonSlayerNPC(id, tile, this);
 		else if (type == DungeonConstants.HUNTER_NPC)
