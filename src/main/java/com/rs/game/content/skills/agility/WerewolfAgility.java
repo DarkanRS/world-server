@@ -16,28 +16,207 @@
 //
 package com.rs.game.content.skills.agility;
 
+import com.rs.game.World;
+import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ObjectClickEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import java.util.List;
+
+@PluginEventHandler
 public class WerewolfAgility {
+	public static class WolfAgilityTrainer extends NPC {
+		public WolfAgilityTrainer(int id, Tile tile) {
+			super(id, tile);
+			if(id == 1661)
+				setRandomWalk(false);
+
+		}
+
+		@Override
+		public void processNPC() {
+			super.processNPC();
+			int option = Utils.random(400);
+			switch (option) {
+				case 0 -> setNextForceTalk(new ForceTalk("Let the bloodlust take you!!"));
+				case 1 -> setNextForceTalk(new ForceTalk("You're the slowest wolf I've ever had the misfortune to witness"));
+				case 2 -> setNextForceTalk(new ForceTalk("I never really wanted to be an agility trainer"));
+				case 3 -> setNextForceTalk(new ForceTalk("Claws first - think later."));
+				case 4 -> setNextForceTalk(new ForceTalk("When you're done there's a human with your name on it!!"));
+				case 5 -> setNextForceTalk(new ForceTalk("Get on with it - you need your shiskers plucking!!!!"));
+				case 6 -> setNextForceTalk(new ForceTalk("Remember - a slow wolf is a hungry wolf!!"));
+				case 7 -> setNextForceTalk(new ForceTalk("It'll be worth it when you hunt!!"));
+				case 8 -> setNextForceTalk(new ForceTalk("Let's see those powerful backlegs at work!!"));
+				case 9 -> setNextForceTalk(new ForceTalk("Imagine the smell of blood in your nostrils!!!"));
+			}
+		}
+	}
+
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Agility Trainer", "Agility Boss" }, (npcId, tile) -> new WolfAgilityTrainer(npcId, tile));
+	public static NPCClickHandler handleAgilityTrainer = new NPCClickHandler(new Object[]{1664}, e -> {
+		if(e.getPlayer().getInventory().containsItem(4179)) {
+			int stickCount = e.getPlayer().getInventory().getAmountOf(4179);
+			e.getPlayer().getInventory().removeItems(new Item(4179, stickCount));
+			e.getPlayer().getSkills().addXp(Skills.AGILITY, 380*stickCount);
+		}
+	});
+
 	public static ObjectClickHandler handleZipLine = new ObjectClickHandler(false, new Object[] { 5139, 5140, 5141 }, e -> {
-		if (!Agility.hasLevel(e.getPlayer(), 60))
-			return;
-		e.getPlayer().walkToAndExecute(Tile.of(3528, 9909, 0), () -> {
-			WorldTasks.schedule(1, 0, new WorldTask() {
-				int tick = 0;
-				@Override
-				public void run() {
-					tick++;
+		Tile endTile = Tile.of(3528, 9870, 0);
+		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () ->{
+			WorldTasks.scheduleTimer(1, 0, ticks -> {
+				switch(ticks) {
+					default -> { return true; }
+					case 0 -> {
+						e.getPlayer().lock(11);
+						e.getPlayer().faceSouth();
+						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(1, (npc -> npc.getId() == 1663 && npc.withinDistance(e.getPlayer().getTile(), 4)));
+						if(npcs.size() >= 1) {
+							switch(Utils.random(3)) {
+								case 0 -> npcs.get(0).forceTalk("Now a true test of teeth...");
+								case 1 -> npcs.get(0).forceTalk("Don't let the spikes or the blood put you off...");
+							}
+						}
+						return true;
+					}
+					case 1 -> { e.getPlayer().setNextAnimation(new Animation(1601)); return true; }
+					case 2 -> {
+						e.getPlayer().forceTalk("WAAAAAARRRGGGHHH!!!!!!");
+						e.getPlayer().setNextAnimation(new Animation(1602));
+						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, endTile, 8));
+						return true;
+					}
+					case 10 -> {
+						e.getPlayer().setNextAnimation(new Animation(-1));
+						e.getPlayer().getSkills().addXp(Skills.AGILITY, 200);
+						e.getPlayer().setNextTile(endTile);
+						return true;
+					}
+					case 11 -> {
+						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(10, (npc -> npc.getId() == 1664));
+						if(npcs.size() >= 1)
+							switch(Utils.random(3)) {
+								case 0 -> npcs.get(0).forceTalk("Remember - no stick, no agility bonus!");
+								case 1 -> npcs.get(0).forceTalk("Don't forget to give me the stick when you're done.");
+							}
+						return false;
+					}
 				}
 			});
 		});
 	});
+
+	public static ObjectClickHandler handleStepStones = new ObjectClickHandler(false, new Object[] { 35996 }, e -> {
+		if(!Agility.hasLevel(e.getPlayer(), 60) || e.getPlayer().getTile().getY() > 9880)
+			return;
+		if(e.getObject().getTile().isAt(3538, 9875)) {
+			e.getPlayer().walkToAndExecute(Tile.of(3538, 9873, 0), jumpRock(e));
+		} else
+			jumpRock(e).run();
+	});
+
+	private static Runnable jumpRock(ObjectClickEvent e) {
+		return new Runnable() {
+			@Override
+			public void run() {
+				if(e.getObject().getTile().isAt(3538, 9875))
+					yellFetch(e);
+				WorldTasks.scheduleTimer(0, 0, ticks -> {
+					switch(ticks) {
+						default -> { return true; }
+						case 0 -> {
+							e.getPlayer().lock(1);
+							e.getPlayer().setNextAnimation(new Animation(741));
+							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject().getTile(), 1));
+							return true;
+						}
+						case 1 -> {
+							e.getPlayer().setNextTile(e.getObject().getTile());
+							e.getPlayer().getSkills().addXp(Skills.AGILITY, 10);
+							return false;
+						}
+					}
+				});
+			}
+		};
+	}
+
+	private static void yellFetch(ObjectClickEvent e) {
+		List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(8, (npc -> npc.getId() == 1661));
+		if (npcs.size() >= 1) {
+			npcs.get(0).faceNorth();
+			npcs.get(0).forceTalk("FETCH!!!!!");
+			WorldTasks.schedule(2, () -> {
+				npcs.get(0).setNextAnimation(new Animation(6547));
+				World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer());
+			});
+		}
+	}
+
+	public static ObjectClickHandler handleHurdles = new ObjectClickHandler(new Object[] { 5134, 5133, 5135 }, e -> {
+		if(e.getPlayer().getTile().getY() > e.getObject().getY())
+			return;
+		Tile endTile = Tile.of(e.getObject().getX()+(e.getObjectId() == 5134 ? 0 : 1), e.getObject().getY() + 1, 0);
+		WorldTasks.scheduleTimer(0, 0, ticks -> {
+			switch(ticks) {
+				default -> { return true; }
+				case 0 -> {
+					e.getPlayer().lock(1);
+					e.getPlayer().setNextAnimation(new Animation(1603));
+					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, endTile, 1));
+					return true;
+				}
+				case 1 -> {
+					e.getPlayer().setNextTile(endTile);
+					e.getPlayer().getSkills().addXp(Skills.AGILITY, 20);
+					return false;
+				}
+			}
+		});
+	});
+
+	public static ObjectClickHandler handleObstaclePipes = new ObjectClickHandler(new Object[] { 5152 }, e -> {
+		if(e.getPlayer().getTile().getY() > e.getObject().getY())
+			return;
+		e.getPlayer().lock();
+		e.getPlayer().setNextAnimation(new Animation(10580));
+		final Tile toTile = Tile.of(e.getObject().getX(), e.getObject().getY()+4, e.getObject().getPlane());
+		e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 2));
+		WorldTasks.schedule(new WorldTask() {
+			@Override
+			public void run() {
+				e.getPlayer().getSkills().addXp(Skills.AGILITY, 15);
+				e.getPlayer().unlock();
+				e.getPlayer().setNextTile(toTile);
+			}
+
+		}, 1);
+	});
+
+	public static ObjectClickHandler handleRockSlope = new ObjectClickHandler(new Object[] { 5136 }, e -> {
+		if(e.getPlayer().getX() < e.getObject().getX())
+			return;
+		AgilityShortcuts.forceMovement(e.getPlayer(), Tile.of(e.getObject().getX()-2, e.getObject().getY(), 0), 2049, 1, 1);
+		e.getPlayer().getSkills().addXp(Skills.AGILITY, 25);
+	});
+
+	public static ObjectClickHandler courseExitLadder = new ObjectClickHandler(new Object[] { 5130 }, e -> e.getPlayer().useLadder(Tile.of(3543, 3463, 0)));
+	public static ObjectClickHandler courseEntranceLadder = new ObjectClickHandler(new Object[] { 5132 }, e -> e.getPlayer().useLadder(Tile.of(3549, 9865, 0)));
 }
+
