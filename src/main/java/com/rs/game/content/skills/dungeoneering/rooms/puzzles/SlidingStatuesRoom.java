@@ -166,10 +166,8 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 
 	public boolean tileHasStatue(Player player, Tile to) {
 		for (NPC statue : statues)
-			if (to.matches(statue.getTile())) {
-				player.sendMessage("bleh");
+			if (to.matches(statue.getTile()))
 				return false;
-			}
 		return true;
 	}
 

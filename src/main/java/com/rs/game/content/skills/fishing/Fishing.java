@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -84,6 +85,7 @@ public class Fishing extends PlayerAction {
     public static void addLoSOverrides() {
     	for (int id : FISHING_SPOTS.keySet())
     		Entity.addLOSOverride(id);
+		Entity.addLOSOverride(DungeonConstants.FISH_SPOT_NPC_ID);
     }
 
     public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray(), e -> {

@@ -932,11 +932,8 @@ public class DungeonManager {
 		} else if (type == DungeonConstants.FORGOTTEN_WARRIOR) {
 			n = new ForgottenWarrior(id, tile, this, reference);
 			visibleMap[reference.getRoomX()][reference.getRoomY()].addGuardian(n);
-		} else if (type == DungeonConstants.FISH_SPOT_NPC) {
+		} else if (type == DungeonConstants.FISH_SPOT_NPC)
 			n = new DungeonFishSpot(id, tile, this, DungeoneeringFishing.Fish.values()[Utils.random(DungeoneeringFishing.Fish.values().length - 1)]);
-			WorldCollision.removeFlag(n.getTile(), WorldCollision.getFlags(n.getTile()));
-			WorldCollision.addFlag(n.getTile(), ClipFlag.PF_FULL, ClipFlag.BW_NPC);
-		}
 		else if (type == DungeonConstants.SLAYER_NPC)
 			n = new DungeonSlayerNPC(id, tile, this);
 		else if (type == DungeonConstants.HUNTER_NPC)

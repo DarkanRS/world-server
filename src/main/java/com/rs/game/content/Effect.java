@@ -112,7 +112,7 @@ public enum Effect {
 
 		@Override
 		public void tick(Entity entity, long tick) {
-			if(entity instanceof Player player) {
+			if(entity instanceof Player player && player.getDungManager().isInsideDungeon()) {
 				List<NPC> npcs = player.queryNearbyNPCsByTileRange(1, npc -> !npc.isDead() && npc.withinDistance(player, 1)
 						&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getTarget() instanceof Player);
 				for (NPC npc : npcs)
