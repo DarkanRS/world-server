@@ -1,7 +1,9 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+	id 'maven-publish'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20-RC'
+	id 'com.github.johnrengelman.shadow' version '8.1.0'
 }
 
 java {
@@ -48,4 +50,25 @@ dependencies {
 	implementation group: 'it.unimi.dsi', name: 'fastutil', version: '8.5.8'
 	implementation group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+}
+
+publishing {
+	publications {
+		shadow(MavenPublication) { publication ->
+			project.shadow.component(publication)
+		}
+	}
+	repositories {
+		maven {
+			name = "GitLabRepository"
+			url = "https://gitlab.com/api/v4/projects/42378996/packages/maven"
+			credentials(HttpHeaderCredentials) {
+				name = "Job-Token"
+				value = System.getenv("CI_JOB_TOKEN")
+			}
+			authentication {
+				header(HttpHeaderAuthentication)
+			}
+		}
+	}
 }

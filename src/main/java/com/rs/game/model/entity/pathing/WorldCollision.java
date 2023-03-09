@@ -1,5 +1,6 @@
 package com.rs.game.model.entity.pathing;
 
+import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -29,12 +30,12 @@ public class WorldCollision {
     @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
         Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
-        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
-        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
+        boolean preloadCollision = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
+        boolean preloadObjects = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
 
         if (preloadCollision) {
             for (int regionId = 0; regionId < 0xFFFF; regionId++) {
-                if (regionId == 18754)
+                if (regionId == 18754) //citadel map that gets partially decoded with xteas but fails to pass gzip format tests
                     continue;
                 Region region = new Region(regionId);
                 region.loadRegionMap(false);
