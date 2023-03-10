@@ -2,6 +2,7 @@ package com.rs.game.content.world.areas.lumbridge.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.NpcID;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -11,8 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Doomsayer extends Conversation {
 
-	//Identify NPC by ID
-	private static final int npcId = 3777;
+	private static final int npcId = NpcID.NPCS.valueOf("Doomsayer").getId();
 	
 	@ServerStartupEvent
 	public static void addLoSOverrides() {
@@ -21,16 +21,13 @@ public class Doomsayer extends Conversation {
 	
 	public static NPCClickHandler Doomsayer = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch(e.getOption()) {
-		//Start Conversation
 		case "Talk-to" -> e.getPlayer().startConversation(new Doomsayer(e.getPlayer()));
 		}
 	});
 
 	public Doomsayer(Player player) {
 		super(player);
-		//Add NPC conversation line
 		addNPC(npcId, HeadE.SCARED, "Dooooom!")
-		//Add PLAYER conversation line
 		.addPlayer( HeadE.WORRIED, "Do you mean the Battle of Lumbridge? Are you telling me I should go and help out by going to join in?")
 		.addNPC(npcId, HeadE.CONFUSED,"No, why should I be doing that? I'm talking about doooooom here, not some battlefield.")
 		.addPlayer(HeadE.CONFUSED, "Well, everyone else seems to be... um... anyway, you mentioned doom. Where is this doom?")
@@ -40,7 +37,6 @@ public class Doomsayer extends Conversation {
 		.addPlayer(HeadE.CONFUSED, "Danger Tutor?")
 		.addNPC(npcId, HeadE.CHEERFUL, "Yes! I roam the world sensing danger.")
 		.addNPC(npcId, HeadE.CHEERFUL, " If I find a dangerous area, then I put up warning signs that will tell you what is so dangerous about that area.");
-		//Finish Script
 		create();
 	}
 }
