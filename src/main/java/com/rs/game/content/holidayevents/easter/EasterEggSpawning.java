@@ -18,10 +18,9 @@ package com.rs.game.content.holidayevents.easter;
 
 import java.util.List;
 
-import com.rs.cache.loaders.map.Region;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -47,14 +46,14 @@ public class EasterEggSpawning {
 		if (!ENABLED)
 			return;
 		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromMinutes(30), () -> {
 			try {
 				spawnEggs();
 				World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
 				Logger.handle(EasterEggSpawning.class, "initSpawning", e);
 			}
-		}, Ticks.fromSeconds(30), Ticks.fromMinutes(30));
+		});
 	}
 
 

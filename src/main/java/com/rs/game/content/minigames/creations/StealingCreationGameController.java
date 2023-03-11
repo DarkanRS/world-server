@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -439,13 +438,13 @@ public class StealingCreationGameController {
 						Helper.awardPoints(player, personal, winner);
 
 					}
-					TaskExecutor.schedule(() -> {
+					WorldTasks.schedule(2, () -> {
 						try {
 							area.destroy();
 						} catch (Throwable e) {
 							Logger.handle(StealingCreationGameController.class, "gameShutdown", e);
 						}
-					}, 2);
+					});
 				}
 			}, 6);
 

@@ -21,7 +21,6 @@ import java.util.Collections;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
@@ -62,7 +61,7 @@ public class PartyRoom {
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(2, 2, () -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -74,7 +73,7 @@ public class PartyRoom {
 			} catch (Throwable e) {
 				Logger.handle(World.class, "processPartyRoom", e);
 			}
-		}, 2, 2);
+		});
 	}
 
 	public static void openChest(Player player) {
@@ -219,14 +218,14 @@ public class PartyRoom {
 		for (Balloon balloon : balloons)
 			if (balloon != null)
 				World.spawnObjectTemporary(balloon.setItem(getNextItem()), Ticks.fromMinutes(2));
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(2), () -> {
 			try {
 				isDropping = false;
 				timer = -1;
 			} catch (Throwable e) {
 				Logger.handle(PartyRoom.class, "spawnBalloons", e);
 			}
-		}, Ticks.fromMinutes(2));
+		});
 	}
 
 	public static void startBalloonTimer() {

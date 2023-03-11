@@ -64,10 +64,6 @@ public class WorldCollision {
         }
     }
 
-    public static int getId(int chunkX, int chunkY, int plane) {
-        return MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
-    }
-
     public static void removeFlag(Tile tile, ClipFlag... flags) {
         int flag = 0;
         for (ClipFlag f : flags)
@@ -283,7 +279,7 @@ public class WorldCollision {
 
     public static int getFlags(Tile tile) {
         synchronized (LOCK) {
-            int chunkId = getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 return -1;
             return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
@@ -292,9 +288,7 @@ public class WorldCollision {
 
     public static void addFlag(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
@@ -303,9 +297,7 @@ public class WorldCollision {
 
     public static void removeFlag(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
@@ -314,9 +306,7 @@ public class WorldCollision {
 
     public static void setFlags(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;

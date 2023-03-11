@@ -29,7 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
@@ -296,8 +296,10 @@ public class DungeonManager {
 			}
 			if (isDestroyed())
 				return;
-			room.openRoom(DungeonManager.this, reference);
-			visibleRoom.openRoom();
+			WorldTasks.schedule(1, () -> {
+				room.openRoom(DungeonManager.this, reference);
+				visibleRoom.openRoom();
+			});
 			for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
 				Door door = room.getDoor(i);
 				if (door == null)
@@ -320,7 +322,6 @@ public class DungeonManager {
 			}
 			if (room.getRoom().allowResources())
 				setResources(room, reference, chunkOffX, chunkOffY);
-
 			if (room.getDropId() != -1)
 				setKey(room, reference);
 			visibleRoom.setLoaded();
@@ -1485,7 +1486,7 @@ public class DungeonManager {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
 		// slow executor loads dungeon as it may take up to few secs
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());

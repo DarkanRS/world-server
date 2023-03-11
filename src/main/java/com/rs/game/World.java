@@ -26,7 +26,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.cache.loaders.map.RegionSize;
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
@@ -71,6 +71,8 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 
@@ -85,22 +87,15 @@ public final class World {
 	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
-	private static final Map<Integer, Chunk> CHUNKS = new HashMap<>();
+	private static final Map<Integer, Chunk> CHUNKS = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
 	private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Map<Integer, UpdateZone> UPDATE_ZONES = new HashMap<>();
 
 	@ServerStartupEvent
-	public static final void addSavePlayersTask() {
-		TaskExecutor.schedule(() -> {
-			for (Player player : getPlayers()) {
-				if (player == null || !player.hasStarted())
-					continue;
-				WorldDB.getPlayers().save(player);
-			}
-			WorldPersistentData.save();
-		}, 0, Ticks.fromSeconds(30));
+	public static final void addSaveFilesTask() {
+		LowPriorityTaskExecutor.schedule(() -> Launcher.saveFilesAsync(), 0, Ticks.fromSeconds(30));
 	}
 
 	public static final Chunk putChunk(int id, Chunk chunk) {
@@ -927,20 +922,21 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(delay, () -> {
 			try {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
 					player.getPackets().sendLogout(true);
 					player.realFinish();
+					WorldDB.getPlayers().saveSync(player);
 				}
 				WorldPersistentData.save();
 				Launcher.shutdown();
 			} catch (Throwable e) {
 				Logger.handle(World.class, "safeShutdown", e);
 			}
-		}, delay);
+		});
 	}
 
 	public static WorldPersistentData getData() {
@@ -1277,13 +1273,13 @@ public final class World {
 					WorldDB.getLogs().logPickup(player, groundItem);
 			}
 			if (groundItem.isRespawn())
-				TaskExecutor.schedule(() -> {
+				WorldTasks.schedule(Ticks.fromSeconds(15), () -> { //TODO add variable respawn timers to various ground items
 					try {
 						addGroundItemForever(groundItem, groundItem.getTile());
 					} catch (Throwable e) {
 						Logger.handle(World.class, "removeGroundItem", e);
 					}
-				}, Ticks.fromSeconds(15));
+				});
 			return true;
 		}
 		return false;

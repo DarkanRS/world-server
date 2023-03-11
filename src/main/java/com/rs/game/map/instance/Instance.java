@@ -94,9 +94,7 @@ public class Instance {
 
     public void clearMap(int chunkX, int chunkY, int width, int height, int[] planes, Runnable callback) {
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
-            });
+            requestChunkBound(() -> InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback));
         else
             InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
     }

@@ -17,6 +17,7 @@
 package com.rs.game.model.entity.player;
 
 import java.security.MessageDigest;
+import java.util.Arrays;
 
 import com.rs.Settings;
 import com.rs.game.World;
@@ -541,11 +542,11 @@ public final class LocalPlayerUpdate {
 		outPlayersIndexesCount = 0;
 		for (int playerIndex = 1; playerIndex < 2048; playerIndex++) {
 			slotFlags[playerIndex] >>= 1;
-		Player player = localPlayers[playerIndex];
-		if (player == null)
-			outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
-		else
-			localPlayersIndexes[localPlayersIndexesCount++] = playerIndex;
+			Player player = localPlayers[playerIndex];
+			if (player == null)
+				outPlayersIndexes[outPlayersIndexesCount++] = playerIndex;
+			else
+				localPlayersIndexes[localPlayersIndexesCount++] = playerIndex;
 		}
 	}
 

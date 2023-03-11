@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.bosses.bork;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -84,13 +83,13 @@ public class Bork extends NPC {
 			setLocation(getRespawnTile());
 			finish();
 		}
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromHours(1), () -> {
 			try {
 				spawn();
 			} catch (Throwable e) {
-				Logger.handle(Bork.class, "setRespawnTask", e);
+				Logger.handle(Bork.class, "Bork::setRespawnTask", e);
 			}
-		}, Ticks.fromHours(1));
+		});
 	}
 
 	public static String convertToTime() {

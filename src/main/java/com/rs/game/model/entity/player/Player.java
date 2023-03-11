@@ -37,7 +37,6 @@ import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.db.WorldDB;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
@@ -1704,7 +1703,7 @@ public class Player extends Entity {
 			return;
 		stopAll(false, true, !(getInteractionManager().getInteraction() instanceof PlayerCombatInteraction));
 		if ((inCombat(10000) || hasBeenHit(10000) || getEmotesManager().isAnimating() || isLocked()) && tryCount < 6) {
-			TaskExecutor.schedule(() -> {
+			WorldTasks.schedule(Ticks.fromSeconds(10), () -> {
 				try {
 					finishing = false;
 					if (isDead() || isDying())
@@ -1714,7 +1713,7 @@ public class Player extends Entity {
 				} catch (Throwable e) {
 					Logger.handle(Player.class, "finish", e);
 				}
-			}, Ticks.fromSeconds(10));
+			});
 			return;
 		}
 		realFinish();

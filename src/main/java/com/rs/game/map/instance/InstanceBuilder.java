@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.lib.util.Logger;
@@ -72,7 +72,7 @@ public final class InstanceBuilder {
 	}
 
 	public static void findEmptyChunkBound(Instance ref, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				ref.setChunkBase(findEmptyChunkBound(ref.getWidth(), ref.getHeight()));
 				for (int plane = 0;plane < 4;plane++) {
@@ -120,7 +120,7 @@ public final class InstanceBuilder {
 	}
 
 	static final void destroyMap(Instance ref, Runnable callback) {
-		TaskExecutor.schedule(() -> {
+		LowPriorityTaskExecutor.schedule(() -> {
 			try {
 				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
 				if (callback != null)
@@ -140,7 +140,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				InstancedChunk chunk = copyChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
 				chunk.clearCollisionData();
@@ -162,7 +162,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copy2x2ChunkSquare(Instance ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				List<InstancedChunk> chunks = copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
 				for (InstancedChunk chunk : chunks)
@@ -211,7 +211,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
 				if (callback != null)
@@ -244,7 +244,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearMap(Instance ref, int localChunkX, int localChunkY, int width, int height, int[] planes, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
 				if (callback != null)
@@ -264,7 +264,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
 				if (callback != null)
@@ -295,7 +295,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
 				if (callback != null)

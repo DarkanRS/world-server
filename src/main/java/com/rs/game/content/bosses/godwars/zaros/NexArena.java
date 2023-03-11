@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -136,13 +135,13 @@ public class NexArena {
 
 	public void endWar() {
 		deleteNPCS();
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(1), () -> {
 			try {
 				startWar();
 			} catch (Throwable e) {
 				Logger.handle(NexArena.class, "endWar", e);
 			}
-		}, Ticks.fromMinutes(1));
+		});
 	}
 
 	private void startWar() {
