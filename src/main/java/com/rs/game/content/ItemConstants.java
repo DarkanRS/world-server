@@ -404,24 +404,24 @@ public class ItemConstants {
 		if (item.getMetaData() != null)
 			return false;
 		switch(item.getId()) {
-		//tradeable non-exchangeable item exceptions
-		case 995:
-		case 1706:
-		case 1707:
-		case 1708:
-		case 1709:
-		case 1710:
-		case 1711:
-		case 20653:
-		case 20654:
-		case 20655:
-		case 20656:
-		case 20657:
-		case 20658:
-		case ShieldOfArrav.CERTIFICATE_LEFT:
-		case ShieldOfArrav.CERTIFICATE_RIGHT:
-		case ShieldOfArrav.WEAPONS_KEY:
-			return true;
+			//tradeable non-exchangeable item exceptions
+			case 995:
+			case 1706:
+			case 1707:
+			case 1708:
+			case 1709:
+			case 1710:
+			case 1711:
+			case 20653:
+			case 20654:
+			case 20655:
+			case 20656:
+			case 20657:
+			case 20658:
+			case 11173:
+			case 11174:
+			case 759:
+				return true;
 		}
 		if ((!item.getDefinitions().isStackable() && item.getDefinitions().getCertId() == -1) || item.getDefinitions().isDestroyItem() || item.getDefinitions().isLended())
 			return false;

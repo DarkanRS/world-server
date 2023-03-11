@@ -27,14 +27,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class MorganVampireSlayerD extends Conversation {
-	Player p;
 	final static int MORGAN = 755;
 
-	public MorganVampireSlayerD(Player p) {
-		super(p);
-		this.p = p;
-
-		switch (p.getQuestManager().getStage(Quest.VAMPYRE_SLAYER)) {
+	public MorganVampireSlayerD(Player player) {
+		super(player);
+		switch (player.getQuestManager().getStage(Quest.VAMPYRE_SLAYER)) {
 		case VampireSlayer.NOT_STARTED:
 			addNPC(MORGAN, HeadE.WORRIED, "Please please help us, bold adventurer!");
 			addPlayer(HeadE.SKEPTICAL_THINKING, "What's the problem?");
@@ -53,7 +50,8 @@ public class MorganVampireSlayerD extends Conversation {
 							.addNPC(MORGAN, HeadE.CALM_TALK, "He can normally be found in the Blue Moon Inn in Varrock, he's a bit of an old soak " +
 									"these days. Mention his old friend Morgan, I'm sure he wouldn't want me killed by a vampyre.")
 							.addPlayer(HeadE.HAPPY_TALKING, "I'll look him up then.")
-							.addNext(()->{p.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.STARTED);}));
+							.addNext(()->{
+								player.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.STARTED);}));
 					option("Have you got any tips on killing the vampyre?", new Dialogue()
 							.addPlayer(HeadE.CALM_TALK, "Have you got any tips on killing the vampyre?")
 							.addNPC(MORGAN, HeadE.CALM_TALK, "I think first you should seek help. I have a friend who is a retired vampyre hunter, " +
@@ -61,7 +59,8 @@ public class MorganVampireSlayerD extends Conversation {
 							.addNPC(MORGAN, HeadE.CALM_TALK, "He can normally be found in the Blue Moon Inn in Varrock, he's a bit of an old soak " +
 									"these days. Mention his old friend Morgan, I'm sure he wouldn't want me killed by a vampyre.")
 							.addPlayer(HeadE.HAPPY_TALKING, "I'll look him up then.")
-							.addNext(()->{p.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.STARTED);}));
+							.addNext(()->{
+								player.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.STARTED);}));
 				}
 			});
 			break;
@@ -71,20 +70,21 @@ public class MorganVampireSlayerD extends Conversation {
 			addNPC(MORGAN, HeadE.SCARED, "Please hurry! Every day we live in fear that we will be the vampyre's next victim!");
 			break;
 		case VampireSlayer.STAKE_RECIEVED:
-			if(p.getTempAttribs().getB("morganHarlowPrompt")) {
+			if(player.getTempAttribs().getB("morganHarlowPrompt")) {
 				addNPC(MORGAN, HeadE.SCARED, "Please hurry...");
 				break;
 			}
 			addNPC(MORGAN, HeadE.CALM_TALK, "Have you talked to Dr. Harlow?");
 			addPlayer(HeadE.CALM_TALK, "Yes, I just need a stake & hammer and I am ready to kill the vampyre.");
-			addNPC(MORGAN, HeadE.SCARED, "Great, please hurry every day we live in fear we will be the vampyre's next victim!", ()->{p.getTempAttribs().setB("morganHarlowPrompt", true);});
+			addNPC(MORGAN, HeadE.SCARED, "Great, please hurry every day we live in fear we will be the vampyre's next victim!", ()->{
+				player.getTempAttribs().setB("morganHarlowPrompt", true);});
 
 			break;
 		case VampireSlayer.VAMPYRE_KILLED:
 			addPlayer(HeadE.HAPPY_TALKING, "I have slain the foul creature!");
 			addNPC(MORGAN, HeadE.HAPPY_TALKING, "Thank you, thank you! You will always be a hero in our village!");
 			addNext(()-> {
-				p.getQuestManager().completeQuest(Quest.VAMPYRE_SLAYER);
+				player.getQuestManager().completeQuest(Quest.VAMPYRE_SLAYER);
 			});
 			break;
 		case VampireSlayer.QUEST_COMPLETE:

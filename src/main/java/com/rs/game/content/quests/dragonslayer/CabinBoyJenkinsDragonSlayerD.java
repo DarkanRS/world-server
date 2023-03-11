@@ -21,11 +21,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class CabinBoyJenkinsDragonSlayerD extends Conversation {
-	public CabinBoyJenkinsDragonSlayerD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
+	public CabinBoyJenkinsDragonSlayerD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
 		case NOT_STARTED, TALK_TO_OZIACH, TALK_TO_GUILDMASTER, PREPARE_FOR_CRANDOR -> {
-			if(p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(OWNS_BOAT_ATTR)) {
 				addNPC(JENKINS, HeadE.CALM_TALK, "Ahoy! What d'ye think of yer ship then?");
 				addOptions("Choose an option:", new Options() {
 					@Override
@@ -33,7 +33,7 @@ public class CabinBoyJenkinsDragonSlayerD extends Conversation {
 						option("I'd like to inspect her some more.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "I'd like to inspect her some more.")
 								.addNPC(JENKINS, HeadE.CALM_TALK, "Aye."));
-						if(p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(NED_IS_CAPTAIN_ATTR))
+						if(player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(NED_IS_CAPTAIN_ATTR))
 							option("Can you sail this ship to Crandor?", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "Can you sail this ship to Crandor?")
 									.addNPC(JENKINS, HeadE.CALM_TALK, "Not me, sir! I'm just an 'umble cabin boy. You'll need to talk to Captain Ned."));

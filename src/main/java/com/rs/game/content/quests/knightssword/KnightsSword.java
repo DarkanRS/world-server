@@ -44,10 +44,6 @@ public class KnightsSword extends QuestOutline {
 	//objects
 	protected static final int CUPBOARD = 2271;
 
-	protected static final String PICTURE_LOCATION_KNOWN_ATTR = "picture_location_known";
-	protected static final String GAVE_THRUGO_PIE_ATTR = "gave_thurgo_pie";
-	protected static final String MADE_SWORD_ATTR = "made_sword";
-
 	@Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE;
@@ -81,7 +77,7 @@ public class KnightsSword extends QuestOutline {
 			lines.add("I will need a picture of the sword. Maybe the");
 			lines.add("Squire knows where to find one...");
 			lines.add("");
-			if(player.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).getB(PICTURE_LOCATION_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.KNIGHTS_SWORD).getB("picture_location_known")) {
 				lines.add("The squire says Sir Vyvin keeps an image of his sword ");
 				lines.add("in a cupboard in his room on the 3rd floor on the east");
 				lines.add("side of the castle. He can't know we are stealing it.");
@@ -118,31 +114,30 @@ public class KnightsSword extends QuestOutline {
 	}
 
 	public static ObjectClickHandler handleVyvinCupboard = new ObjectClickHandler(new Object[] { 2271, 2272 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (e.getOption().equalsIgnoreCase("open")) {
-			p.setNextAnimation(new Animation(536));
-			p.lock(2);
+			e.getPlayer().setNextAnimation(new Animation(536));
+			e.getPlayer().lock(2);
 			GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-			p.faceObject(openedChest);
+			e.getPlayer().faceObject(openedChest);
 			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
 		}
 		if (e.getOption().equalsIgnoreCase("shut")) {
-			p.setNextAnimation(new Animation(536));
-			p.lock(2);
+			e.getPlayer().setNextAnimation(new Animation(536));
+			e.getPlayer().lock(2);
 			GameObject openedChest = new GameObject(obj.getId() - 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-			p.faceObject(openedChest);
+			e.getPlayer().faceObject(openedChest);
 			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
 		}
 		if(e.getOption().equalsIgnoreCase("search")) {
-			if(p.getQuestManager().getStage(Quest.KNIGHTS_SWORD) != GET_PICTURE) {
-				p.sendMessage("There is nothing interesting here...");
+			if(e.getPlayer().getQuestManager().getStage(Quest.KNIGHTS_SWORD) != GET_PICTURE) {
+				e.getPlayer().sendMessage("There is nothing interesting here...");
 				return;
 			}
 			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getName().equalsIgnoreCase("Sir Vyvin"))
-					if(npc.lineOfSightTo(p, false)) {
-						p.startConversation(new Conversation(p) {
+					if(npc.lineOfSightTo(e.getPlayer(), false)) {
+						e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 							{
 								addPlayer(HeadE.SKEPTICAL_THINKING, "Sir Vyvin can see me...");
 								create();
@@ -150,10 +145,10 @@ public class KnightsSword extends QuestOutline {
 						});
 						return;
 					}
-			if(p.getInventory().containsItem(PORTRAIT))
-				p.sendMessage("The cupboard is empty...");
+			if(e.getPlayer().getInventory().containsItem(PORTRAIT))
+				e.getPlayer().sendMessage("The cupboard is empty...");
 			else
-				p.getInventory().addItem(new Item(PORTRAIT, 1));
+				e.getPlayer().getInventory().addItem(new Item(PORTRAIT, 1));
 		}
 	});
 }

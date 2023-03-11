@@ -24,9 +24,9 @@ public class CaptainNedDragonSlayerD extends Conversation {
 	/**
 	 * Only called in PREPARE_FOR_CRANDOR stage.
 	 */
-	public CaptainNedDragonSlayerD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
+	public CaptainNedDragonSlayerD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.DRAGON_SLAYER)) {
 		case NOT_STARTED, TALK_TO_OZIACH, TALK_TO_GUILDMASTER -> {
 			addNPC(NED, HeadE.CALM_TALK, "I just came here for a little stroll...");
 			addPlayer(HeadE.HAPPY_TALKING, "Oh, well carry on then...");
@@ -40,7 +40,7 @@ public class CaptainNedDragonSlayerD extends Conversation {
 					option("Yes, let's go!", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Yes, let's go!")
 							.addSimple("Ship begins to set sail")
-							.addNext(()->{p.getControllerManager().startController(new DragonSlayer_BoatScene());}));
+							.addNext(()->{player.getControllerManager().startController(new DragonSlayer_BoatScene());}));
 					option("No, I'm not quite ready yet.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "No, I'm not quite ready yet.")
 							.addNPC(NED, HeadE.CALM_TALK, "Well, you go do whatever you need to do. I'll wait here for you until you're ready."));
@@ -56,7 +56,7 @@ public class CaptainNedDragonSlayerD extends Conversation {
 		}
 
 		case QUEST_COMPLETE -> {
-			if(p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(IS_BOAT_FIXED_ATTR))
+			if(player.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(IS_BOAT_FIXED_ATTR))
 				addNPC(NED, HeadE.CALM_TALK, "This ship's in a sorry state. You'd better fix up the hole in the hull before we can go anywhere.");
 			else
 				addNPC(NED, HeadE.CALM_TALK, "If you want to head to Crandor you better tell Klarense.");

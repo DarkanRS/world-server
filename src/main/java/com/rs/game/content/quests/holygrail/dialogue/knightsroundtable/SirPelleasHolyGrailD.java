@@ -16,9 +16,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class SirPelleasHolyGrailD extends Conversation {
 	private static final int NPC = 244;
-	public SirPelleasHolyGrailD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+	public SirPelleasHolyGrailD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case GO_TO_ENTRANA, GO_TO_MCGRUBOR, SPEAK_TO_FISHER_KING, SPEAK_TO_PERCIVAL, GIVE_AURTHUR_HOLY_GRAIL -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Greetings to the court of King Arthur!");
 				addPlayer(HeadE.HAPPY_TALKING, "Any suggestions on finding the Grail?");

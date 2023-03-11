@@ -18,15 +18,15 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class SirGawainHolyGrailD extends Conversation {
 	private static final int NPC = 240;
-	public SirGawainHolyGrailD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+	public SirGawainHolyGrailD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case NOT_STARTED, TALK_TO_MERLIN -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Good day to you " + p.getPronoun("sir", "madam") + "!");
+				addNPC(NPC, HeadE.CALM_TALK, "Good day to you " + player.getPronoun("sir", "madam") + "!");
 				addPlayer(HeadE.HAPPY_TALKING, "Good day!");
 			}
 			case GO_TO_ENTRANA, GO_TO_MCGRUBOR, SPEAK_TO_FISHER_KING, SPEAK_TO_PERCIVAL, GIVE_AURTHUR_HOLY_GRAIL -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Good day to you " + p.getPronoun("sir", "madam") + "!");
+				addNPC(NPC, HeadE.CALM_TALK, "Good day to you " + player.getPronoun("sir", "madam") + "!");
 				addPlayer(HeadE.HAPPY_TALKING, "I seek the Grail in the name of Camelot!");
 				addNPC(NPC, HeadE.CALM_TALK, "The Grail? That is truly a noble quest indeed. None but Galahad have come close.");
 				addPlayer(HeadE.HAPPY_TALKING, "Galahad? Who is he?");

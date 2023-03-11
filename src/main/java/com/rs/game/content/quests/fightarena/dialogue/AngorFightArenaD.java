@@ -11,21 +11,21 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class AngorFightArenaD extends Conversation {
 	private static final int NPC = 259;
-	public AngorFightArenaD(Player p) {
-		super(p);
+	public AngorFightArenaD(Player player) {
+		super(player);
 		addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 		addNPC(NPC, HeadE.CALM_TALK, "Hi, what can I get you? We have a range of quality brews");
 		addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
-				if(p.getInventory().hasCoins(5)) {
+				if(player.getInventory().hasCoins(5)) {
 					option("I'll have a beer, please.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I'll have a beer, please.")
 							.addNPC(NPC, HeadE.CALM_TALK, "That will be 5 coins...")
 							.addPlayer(HeadE.HAPPY_TALKING, "Okiedokie")
 							.addSimple("He passes you a beer.", ()->{
-								p.getInventory().removeCoins(5);
-								p.getInventory().addItem(1917, 1);
+								player.getInventory().removeCoins(5);
+								player.getInventory().addItem(1917, 1);
 							})
 					);
 					option(" I'd like a Khali brew please.", new Dialogue()
@@ -33,8 +33,8 @@ public class AngorFightArenaD extends Conversation {
 							.addNPC(NPC, HeadE.CALM_TALK, "That will be 5 coins...")
 							.addPlayer(HeadE.HAPPY_TALKING, "Okiedokie")
 							.addSimple("He passes you a Khali brew.", ()->{
-								p.getInventory().removeCoins(5);
-								p.getInventory().addItem(77, 1);
+								player.getInventory().removeCoins(5);
+								player.getInventory().addItem(77, 1);
 							})
 					);
 				} else {

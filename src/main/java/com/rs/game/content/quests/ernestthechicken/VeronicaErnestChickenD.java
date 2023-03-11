@@ -29,9 +29,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class VeronicaErnestChickenD extends Conversation {
 	private static final int VERONICA = 285;
 
-	public VeronicaErnestChickenD(Player p) {
-		super(p);
-		switch (p.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
+	public VeronicaErnestChickenD(Player player) {
+		super(player);
+		switch (player.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
 		case ErnestTheChicken.NOT_STARTED:
 			addNPC(VERONICA, HeadE.NERVOUS, "Can you please help me? I'm in a terrible spot of trouble. My fiance, Ernest, and I came upon this house. ");
 			addNPC(VERONICA, HeadE.UPSET, "Seeing as we were a little lost, Ernest decided to go in and ask for directions. That was an hour ago..." +
@@ -42,7 +42,7 @@ public class VeronicaErnestChickenD extends Conversation {
 				public void create() {
 					option("Accept Quest", new Dialogue()
 							.addNPC(VERONICA, HeadE.HAPPY_TALKING, "Thank you, thank you. I'm very grateful.", () -> {
-								p.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.STARTED);
+								player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.STARTED);
 							})
 							.addNPC(VERONICA, HeadE.TALKING_ALOT, "I think I spotted some lights flashing in one of the top floor windows, so you may want to " +
 									"head up there first."));
@@ -74,36 +74,6 @@ public class VeronicaErnestChickenD extends Conversation {
 			break;
 		}
 	}
-
-	public VeronicaErnestChickenD(Player p, int convoID) {
-		super(p);
-		switch(convoID) {
-		case 0:
-			convo1(p);
-			break;
-		case 1:
-			convo2(p);
-			break;
-		case 2:
-			convo3(p);
-			break;
-
-		}
-
-	}
-
-	private void convo1(Player p) {
-
-	}
-
-	private void convo2(Player p) {
-
-	}
-
-	private void convo3(Player p) {
-
-	}
-
 
 	public static NPCClickHandler handleVeronica = new NPCClickHandler(new Object[] { VERONICA }, e -> e.getPlayer().startConversation(new VeronicaErnestChickenD(e.getPlayer()).getStart()));
 }

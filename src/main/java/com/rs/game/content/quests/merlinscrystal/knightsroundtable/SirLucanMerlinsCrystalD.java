@@ -19,9 +19,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class SirLucanMerlinsCrystalD extends Conversation {
 	private final static int NPC = 245;
-	public SirLucanMerlinsCrystalD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
+	public SirLucanMerlinsCrystalD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
 			case NOT_STARTED -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Hello there adventurer.");
 				addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a quest...");

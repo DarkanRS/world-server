@@ -1,13 +1,6 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.BANANA;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.BANANA_COUNT_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.LUTHAS;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.LUTHAS_EMPLOYMENT_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM_IN_KARAMJA_CRATE_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
+import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
@@ -26,13 +19,13 @@ public class LuthasPiratesTreasureD extends Conversation {
 	private static final int EMPLOYED = 1;
 	private static final int JOB_FINISHED = 2;
 
-	public LuthasPiratesTreasureD(Player p) {
-		super(p);
-		switch (p.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
+	public LuthasPiratesTreasureD(Player player) {
+		super(player);
+		switch (player.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
 			case SMUGGLE_RUM -> {
-				if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR) >= 10)
-					p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI(LUTHAS_EMPLOYMENT_ATTR, JOB_FINISHED);
-				if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == UNEMPLOYED) {
+				if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("BANANA_COUNT") >= 10)
+					player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI("LUTHAS_EMPLOYMENT", JOB_FINISHED);
+				if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("LUTHAS_EMPLOYMENT") == UNEMPLOYED) {
 					addNPC(LUTHAS, HeadE.CALM_TALK, "Hello I'm Luthas, I run the banana plantation here");
 					addOptions("Choose an option:", new Options() {
 						@Override
@@ -43,7 +36,7 @@ public class LuthasPiratesTreasureD extends Conversation {
 											"You wouldn't believe the demand for bananas from Wydin's shop over in Port Sarim. ")
 									.addNPC(LUTHAS, HeadE.CALM_TALK, "I think this is the third crate I've shipped him this month.. If you could fill it up with " +
 											"bananas, I'll pay you 30 gold.", ()-> {
-												p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI(LUTHAS_EMPLOYMENT_ATTR, EMPLOYED);
+												player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI("LUTHAS_EMPLOYMENT", EMPLOYED);
 											})
 									);
 							option("That customs officer is annoying isn't she?", new Dialogue()
@@ -55,7 +48,7 @@ public class LuthasPiratesTreasureD extends Conversation {
 											" it is run by a man called Wydin."));
 						}
 					});
-				} else if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == EMPLOYED) {
+				} else if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("LUTHAS_EMPLOYMENT") == EMPLOYED) {
 					addNPC(LUTHAS, HeadE.CALM_TALK, "Have you completed your task yet?");
 					addOptions("Choose an option:", new Options() {
 						@Override
@@ -82,17 +75,17 @@ public class LuthasPiratesTreasureD extends Conversation {
 											" it is run by a man called Wydin."));
 						}
 					});
-				} else if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == JOB_FINISHED) {
+				} else if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("LUTHAS_EMPLOYMENT") == JOB_FINISHED) {
 					addPlayer(HeadE.HAPPY_TALKING, "I've filled a crate with bananas.");
 					addNPC(LUTHAS, HeadE.CALM_TALK, "Well done, here's your payment");
 					addSimple("Luthas hands you 30 coins.", ()->{
-						p.getInventory().addCoins(30);
-						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI(BANANA_COUNT_ATTR);
-						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI(LUTHAS_EMPLOYMENT_ATTR);
-						if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR)) {
-							p.sendMessage("The rum was sent along with the bananas!");
-							p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(RUM_IN_SARIM_CRATE_ATTR, true);
-							p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB(RUM_IN_KARAMJA_CRATE_ATTR);
+						player.getInventory().addCoins(30);
+						player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI("BANANA_COUNT");
+						player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeI("LUTHAS_EMPLOYMENT");
+						if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("RUM_IN_KARAMJA_CRATE")) {
+							player.sendMessage("The rum was sent along with the bananas!");
+							player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("RUM_IN_SARIM_CRATE", true);
+							player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB("RUM_IN_KARAMJA_CRATE");
 						}
 					});
 				}
@@ -113,24 +106,24 @@ public class LuthasPiratesTreasureD extends Conversation {
 
 	public static ObjectClickHandler handleBananaCrate = new ObjectClickHandler(new Object[] { 2072 }, e -> {
 		Player p = e.getPlayer();
-		if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(LUTHAS_EMPLOYMENT_ATTR) == UNEMPLOYED)
+		if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("LUTHAS_EMPLOYMENT") == UNEMPLOYED)
 			return;
-		int bananaCount = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR);
-		boolean hasRum = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR);
+		int bananaCount = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("BANANA_COUNT");
+		boolean hasRum = p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("RUM_IN_KARAMJA_CRATE");
 		if(e.getOption().equalsIgnoreCase("search"))
 			p.sendMessage("The crate has " + bananaCount + " out of 10 bananas " + (hasRum ? "and has rum!" : "but does not have rum!"));
 		if(e.getOption().equalsIgnoreCase("fill")) {
 			if(p.getInventory().containsItem(RUM, 1)) {
 				p.getInventory().removeItems(new Item(RUM, 1));
-				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(RUM_IN_KARAMJA_CRATE_ATTR, true);
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("RUM_IN_KARAMJA_CRATE", true);
 				p.sendMessage("You place rum in the crate!");
 			}
-			while(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR) < 10) {
+			while(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("BANANA_COUNT") < 10) {
 				if(!p.getInventory().containsItem(BANANA, 1))
 					break;
 				p.getInventory().removeItems(new Item(BANANA, 1));
-				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI(BANANA_COUNT_ATTR,
-						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI(BANANA_COUNT_ATTR)+1);
+				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI("BANANA_COUNT",
+						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getI("BANANA_COUNT")+1);
 			}
 		}
 	});

@@ -23,7 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 
 public class CharlieTheTrampArravD extends Conversation {
-	int CHARLIE = 641;
+	private int CHARLIE = 641;
 
 	public CharlieTheTrampArravD(Player p) {
 		super(p);

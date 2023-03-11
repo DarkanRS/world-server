@@ -1,16 +1,6 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.APRON;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.GET_TREASURE;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.HAS_SMUGGLED_RUM_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.NOT_STARTED;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.QUEST_COMPLETE;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM_IN_KARAMJA_CRATE_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM_IN_SARIM_CRATE_ATTR;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.WYDIN;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.WYDIN_EMPLOYMENT_ATTR;
+import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 import com.rs.engine.dialogue.Conversation;
@@ -29,10 +19,10 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {
 
-	public WydinPiratesTreasureD(Player p) {
-		super(p);
+	public WydinPiratesTreasureD(Player player) {
+		super(player);
 		int NPC = WYDIN;
-		switch (p.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
+		switch (player.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
 			case NOT_STARTED -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Welcome to my food store! Would you like to buy anything?");
 				addOptions("Choose an option:", new Options() {
@@ -40,7 +30,7 @@ public class WydinPiratesTreasureD extends Conversation {
 					public void create() {
 						option("Yes please.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Yes please.")
-								.addNext(()->{ShopsHandler.openShop(player, "wydins_food_store");})
+								.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
 						);
 						option("No, thank you.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "No, thank you.")
@@ -54,7 +44,7 @@ public class WydinPiratesTreasureD extends Conversation {
 										option("Hmm, I think I'll try one.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "Hmm, I think I'll try one.")
 												.addNPC(NPC, HeadE.CALM_TALK, "Great. You might as well take a look at the rest of my wares as well.")
-												.addNext(()->{ShopsHandler.openShop(player, "wydins_food_store");})
+												.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
 										);
 
 										option("I don't like the sound of that.", new Dialogue()
@@ -71,10 +61,10 @@ public class WydinPiratesTreasureD extends Conversation {
 			case SMUGGLE_RUM -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Can I get a job here?");
 				addNPC(WYDIN, HeadE.CALM_TALK, "Well, you're keen, I'll give you that. Okay, I'll give you a go. Have you got your own white apron?");
-				if(p.getInventory().containsItem(APRON, 1) || p.getEquipment().getChestId() == APRON) {
+				if(player.getInventory().containsItem(APRON, 1) || player.getEquipment().getChestId() == APRON) {
 					addPlayer(HeadE.HAPPY_TALKING, "Yes, I have one right here.");
 					addNPC(WYDIN, HeadE.CALM_TALK, "Wow - you are well prepared! You're hired. Go through to the back and tidy up for me, please.", ()->{
-						p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(WYDIN_EMPLOYMENT_ATTR, true);
+						player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("WYDIN_EMPLOYMENT", true);
 					});
 				}
 				else {
@@ -108,7 +98,7 @@ public class WydinPiratesTreasureD extends Conversation {
 						option("Can I buy something please?", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Can I buy something please?")
 								.addNPC(NPC, HeadE.CALM_TALK, "Yes, of course.")
-								.addNext(()->{ShopsHandler.openShop(player, "wydins_food_store");})
+								.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
 						);
 					}
 				});
@@ -118,15 +108,14 @@ public class WydinPiratesTreasureD extends Conversation {
 	}
 
 	public static ObjectClickHandler handleBackRoom = new ObjectClickHandler(new Object[] { 2069 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		if(p.getX() < obj.getX()) {
-			handleDoor(p, e.getObject());
+		if(e.getPlayer().getX() < obj.getX()) {
+			handleDoor(e.getPlayer(), e.getObject());
 			return;
 		}
-		if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM) {
-			if(!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(WYDIN_EMPLOYMENT_ATTR)) {
-				p.startConversation(new Conversation(e.getPlayer()) {
+		if(e.getPlayer().getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM) {
+			if(!e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("WYDIN_EMPLOYMENT")) {
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					{
 						addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you are not employed here!");
 						create();
@@ -134,8 +123,8 @@ public class WydinPiratesTreasureD extends Conversation {
 				});
 				return;
 			}
-			if(p.getEquipment().getChestId() != APRON) {
-				p.startConversation(new Conversation(e.getPlayer()) {
+			if(e.getPlayer().getEquipment().getChestId() != APRON) {
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					{
 						addNPC(WYDIN, HeadE.CALM_TALK, "Hey, you need your apron on!");
 						create();
@@ -144,18 +133,17 @@ public class WydinPiratesTreasureD extends Conversation {
 				return;
 			}
 		}
-		handleDoor(p, e.getObject());
+		handleDoor(e.getPlayer(), e.getObject());
 	});
 
 	public static ObjectClickHandler handleSmuggleCrate = new ObjectClickHandler(new Object[] { 2071 }, e -> {
-		Player p = e.getPlayer();
-		if(p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
-			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_SARIM_CRATE_ATTR)) {
-				p.getInventory().addItem(new Item(RUM, 1), true);
-				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB(RUM_IN_SARIM_CRATE_ATTR);
-				p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(HAS_SMUGGLED_RUM_ATTR, true);
-			} else if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(RUM_IN_KARAMJA_CRATE_ATTR))
-				p.startConversation(new Conversation(e.getPlayer()) {
+		if(e.getPlayer().getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
+			if(e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("RUM_IN_SARIM_CRATE")) {
+				e.getPlayer().getInventory().addItem(new Item(RUM, 1), true);
+				e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).removeB("RUM_IN_SARIM_CRATE");
+				e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("HAS_SMUGGLED_RUM", true);
+			} else if(e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("RUM_IN_KARAMJA_CRATE"))
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 					{
 						addPlayer(HeadE.HAPPY_TALKING, "Darn, I should probably tell Lathus to send the crate!");
 						create();

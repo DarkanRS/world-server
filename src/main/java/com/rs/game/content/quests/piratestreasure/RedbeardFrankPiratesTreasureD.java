@@ -21,9 +21,9 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 
 
 
-	public RedbeardFrankPiratesTreasureD(Player p) {
-		super(p);
-		switch (p.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
+	public RedbeardFrankPiratesTreasureD(Player player) {
+		super(player);
+		switch (player.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
 		case NOT_STARTED -> {
 			addOptions("Choose an option:", new Options() {
 				@Override
@@ -40,11 +40,11 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 								public void create() {
 									option("Ok, I will bring you some rum", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will bring you some rum.", () -> {
-												p.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM, true);
-												if(p.getInventory().containsItem(RUM, 1)) {
-													while(p.getInventory().containsItem(RUM, 1))
-														p.getInventory().removeItems(new Item(RUM, 1));
-													p.sendMessage("Your Karamja rum gets broken and spilled.");
+												player.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM, true);
+												if(player.getInventory().containsItem(RUM, 1)) {
+													while(player.getInventory().containsItem(RUM, 1))
+														player.getInventory().removeItems(new Item(RUM, 1));
+													player.sendMessage("Your Karamja rum gets broken and spilled.");
 												}
 											})
 											.addNPC(REDBEARD, HeadE.CALM_TALK, "Yer a saint, although it'll take a miracle to get it off Karamja.")
@@ -62,13 +62,13 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "Arr!")
 							.addNPC(REDBEARD, HeadE.CALM_TALK, "Arr!")
 							.addNext(()->{
-								p.startConversation(new RedbeardFrankPiratesTreasureD(p).getStart());
+								player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
 							}));
 					option("Do you have anything for trade?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Do you have anything for trade?")
 							.addNPC(REDBEARD, HeadE.CALM_TALK, "Nothin' at the moment, but then again the Customs Agents are on the warpath right now.")
 							.addNext(()->{
-								p.startConversation(new RedbeardFrankPiratesTreasureD(p).getStart());
+								player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
 							}));
 				}
 			});
@@ -76,16 +76,16 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 		}
 		case SMUGGLE_RUM -> {
 			addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, Matey! Have ye brought some rum from yer ol' mate Frank?");
-			if(p.getInventory().containsItem(RUM, 1)) {
+			if(player.getInventory().containsItem(RUM, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "Yes, I've got some.");
 				addNPC(REDBEARD, HeadE.CALM_TALK, "Now a deal's a deal, I'll tell ye about the treasure. I used to serve under a pirate captain called " +
 						"One-Eyed Hector. Hector were very successful and became very rich.");
 				addNPC(REDBEARD, HeadE.CALM_TALK, "But about a year ago we were boarded by the Customs and Excise Agents. Hector were killed along with " +
 						"many of the crew, I were one of the few to escape and I escaped with this.");
 				addSimple("Frank happily takes the rum... and... hands you a key.", ()->{
-					p.getInventory().removeItems(new Item(RUM, 1));
-					p.getInventory().addItem(new Item(CHEST_KEY, 1));
-					p.getQuestManager().setStage(Quest.PIRATES_TREASURE, GET_TREASURE, true);
+					player.getInventory().removeItems(new Item(RUM, 1));
+					player.getInventory().addItem(new Item(CHEST_KEY, 1));
+					player.getQuestManager().setStage(Quest.PIRATES_TREASURE, GET_TREASURE, true);
 				});
 				addNPC(REDBEARD, HeadE.CALM_TALK, "This be Hector's key. I believe it opens his chest on his old room in the Blue Moon Inn in Varrock. " +
 						"With any luck his treasure will be in there.");
@@ -111,11 +111,11 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 			}
 		}
 		case GET_TREASURE -> {
-			if(!p.getInventory().containsItem(CHEST_KEY, 1)) {
+			if(!player.getInventory().containsItem(CHEST_KEY, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I lost the chest key!");
 				addNPC(REDBEARD, HeadE.CALM_TALK, "Good thing I keep a copy.");
 				addSimple("Redbeard hands you another key.", ()->{
-					p.getInventory().addItem(new Item(CHEST_KEY, 1));
+					player.getInventory().addItem(new Item(CHEST_KEY, 1));
 				});
 				return;
 			}

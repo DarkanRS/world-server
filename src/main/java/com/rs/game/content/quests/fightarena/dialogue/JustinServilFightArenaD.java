@@ -9,9 +9,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class JustinServilFightArenaD extends Conversation {
 	private static final int NPC = 7541;
-	public JustinServilFightArenaD(Player p) {
-		super(p);
-		addNPC(NPC, HeadE.HAPPY_TALKING, "You are one tough fighter, thank you " + player.getDisplayName() + "!");
+	public JustinServilFightArenaD(Player player) {
+		super(player);
+		addNPC(NPC, HeadE.HAPPY_TALKING, "You are one tough fighter, thank you " + this.player.getDisplayName() + "!");
 	}
 
 

@@ -36,27 +36,25 @@ public class BrimhavenHeroesQuest {
 
 
 	public static ObjectClickHandler handleCandleStickChest = new ObjectClickHandler(new Object[]{37044}, e -> {
-		Player p = e.getPlayer();
 		if (e.getOption().equalsIgnoreCase("Search"))
-			if (p.getQuestManager().getStage(Quest.HEROES_QUEST) == HeroesQuest.GET_ITEMS)
-				if (p.getInventory().containsItem(1577, 1))
-					p.startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "It's empty..."));
+			if (e.getPlayer().getQuestManager().getStage(Quest.HEROES_QUEST) == HeroesQuest.GET_ITEMS)
+				if (e.getPlayer().getInventory().containsItem(1577, 1))
+					e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.SECRETIVE, "It's empty..."));
 				else
-					p.getInventory().addItem(1577, 1);
+					e.getPlayer().getInventory().addItem(1577, 1);
 	});
 
 	public static ObjectClickHandler handleBlackArmHideoutDoor = new ObjectClickHandler(new Object[]{2626}, e -> {
-		Player p = e.getPlayer();
-		if (p.getX() >= e.getObject().getX()) {
-			handleDoor(p, e.getObject());
+		if (e.getPlayer().getX() >= e.getObject().getX()) {
+			handleDoor(e.getPlayer(), e.getObject());
 			return;
 		}
-		if (p.isQuestComplete(Quest.HEROES_QUEST) || p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_hideout_open")) {
-			handleDoor(p, e.getObject());
+		if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST) || e.getPlayer().getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_hideout_open")) {
+			handleDoor(e.getPlayer(), e.getObject());
 			return;
 		}
-		if (p.getQuestManager().getStage(Quest.HEROES_QUEST) == HeroesQuest.GET_ITEMS && ShieldOfArrav.isBlackArmGang(p)) {
-			p.startConversation(new Dialogue().addNPC(789, HeadE.SECRETIVE, "Yes, what do you want?")
+		if (e.getPlayer().getQuestManager().getStage(Quest.HEROES_QUEST) == HeroesQuest.GET_ITEMS && ShieldOfArrav.isBlackArmGang(e.getPlayer())) {
+			e.getPlayer().startConversation(new Dialogue().addNPC(789, HeadE.SECRETIVE, "Yes, what do you want?")
 					.addOptions("Choose an option:", new Options() {
 						@Override
 						public void create() {
@@ -66,14 +64,14 @@ public class BrimhavenHeroesQuest {
 									.addNPC(789, HeadE.HAPPY_TALKING, "Oh, you're one of the gang are you? Ok, hold up a second, I'll just let you in" +
 											" through here.")
 									.addSimple("You hear the door being unbarred from inside.", () -> {
-										p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_hideout_open", true);
+										e.getPlayer().getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_hideout_open", true);
 									}));
 							option("Lucky horseshoe", new Dialogue().addNPC(789, HeadE.CALM_TALK, "No idea what you are talking about, go away!"));
 							option("Black cat", new Dialogue().addNPC(789, HeadE.CALM_TALK, "No idea what you are talking about, go away!"));
 						}
 					}));
 		} else
-			p.sendMessage("The door won't open");
+			e.getPlayer().sendMessage("The door won't open");
 	});
 
 	public static NPCClickHandler gruborTalk = new NPCClickHandler(new Object[] { 789 }, e -> {

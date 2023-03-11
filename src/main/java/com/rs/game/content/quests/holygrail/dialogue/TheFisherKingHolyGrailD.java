@@ -16,9 +16,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class TheFisherKingHolyGrailD extends Conversation {
 	private static final int NPC = 220;
-	public TheFisherKingHolyGrailD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+	public TheFisherKingHolyGrailD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case SPEAK_TO_FISHER_KING, SPEAK_TO_PERCIVAL, GIVE_AURTHUR_HOLY_GRAIL -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Ah! You got inside at last! You spent all that time fumbling around outside. I thought you'd never make it here.");
 				addOptions("Choose an option:", new Options() {
@@ -46,7 +46,7 @@ public class TheFisherKingHolyGrailD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "Who is your son?")
 								.addNPC(NPC, HeadE.CALM_TALK, "He is known as Percival. I believe he is a knight of the round table.")
 								.addPlayer(HeadE.HAPPY_TALKING, "I shall go and see if I can find him.", ()->{
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL);
+									player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL);
 								})
 						);
 					}

@@ -17,11 +17,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class SirGalahadHolyGrailD extends Conversation {
 	private static final int NPC = 218;
-	public SirGalahadHolyGrailD(Player p) {
-		super(p);
+	public SirGalahadHolyGrailD(Player player) {
+		super(player);
 		addNPC(NPC, HeadE.CALM_TALK, "Welcome to my home. It's rare for me to have guests! Would you like a cup of tea? I'll just put the kettle on.");
 		addSimple("Brother Galahad hangs a kettle over the fire");
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case GO_TO_ENTRANA -> {
 				addPlayer(HeadE.HAPPY_TALKING, " I'm looking for Sir Galahad");
 				addNPC(NPC, HeadE.CALM_TALK, "I AM Sir Galahad. Although I've retired as a Knight, and now live as a solitary monk. Also, I prefer to be " +
@@ -45,9 +45,9 @@ public class SirGalahadHolyGrailD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Funny you should mention that, but when I left there I took a small cloth from the table as a keepsake.");
 				addPlayer(HeadE.HAPPY_TALKING, "I don't suppose I could borrow that? It could come in useful on my quest.");
 				addSimple("Galahad reluctantly passes you a small cloth.", ()->{
-					p.getInventory().addItem(new Item(15, 1), true);
-					if(p.getQuestManager().getStage(Quest.HOLY_GRAIL) == GO_TO_MCGRUBOR)
-						p.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_FISHER_KING);
+					player.getInventory().addItem(new Item(15, 1), true);
+					if(player.getQuestManager().getStage(Quest.HOLY_GRAIL) == GO_TO_MCGRUBOR)
+						player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_FISHER_KING);
 				});
 			}
 			default -> {

@@ -16,41 +16,41 @@ import com.rs.plugin.events.ObjectClickEvent;
 public class MansionDoorHeroesQuestD extends Conversation {
 	private static final int NPC = 788;
 
-	public MansionDoorHeroesQuestD(Player p, ObjectClickEvent e) {
-		super(p);
+	public MansionDoorHeroesQuestD(Player player, ObjectClickEvent e) {
+		super(player);
 		Dialogue intro = new Dialogue().addNPC(NPC, HeadE.FRUSTRATED, "Oi! Where do you think you're going pal?");
 		Dialogue reportDuty = new Dialogue().addPlayer(HeadE.CALM_TALK, "Hi, I'm Hartigen. I've come to work here.")
 				.addNPC(NPC, HeadE.CALM_TALK, "I assume you have your I.D. papers then?");
-		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
+		switch (player.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
-				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("mansion_open_phoenix")) {
-					handleDoor(p, e.getObject());
+				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("mansion_open_phoenix")) {
+					handleDoor(player, e.getObject());
 					return;
 				}
-				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("mansion_open_black_arm")) {
-					if (isWearingBlackArmour(p))
-						handleDoor(p, e.getObject());
+				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("mansion_open_black_arm")) {
+					if (isWearingBlackArmour())
+						handleDoor(player, e.getObject());
 					return;
 				}
-				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_trick") && isWearingBlackArmour(p))
-					if (p.getInventory().containsItem(1584, 1))
+				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_trick") && isWearingBlackArmour())
+					if (player.getInventory().containsItem(1584, 1))
 						addNext(intro.addNext(() -> {
-							p.startConversation(reportDuty
+							player.startConversation(reportDuty
 									.addSimple("You show the ID papers...", () -> {
-										p.getInventory().removeItems(new Item(1584, 1));
-										p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_black_arm", true);
+										player.getInventory().removeItems(new Item(1584, 1));
+										player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_black_arm", true);
 									})
 									.addNPC(NPC, HeadE.CALM_TALK, "You'd better come in then."));
 						}));
 					else
 						addNext(intro.addNext(() -> {
-									p.startConversation(reportDuty
+									player.startConversation(reportDuty
 											.addPlayer(HeadE.SECRETIVE, "Uh... Yeah. About that...I must have left them in my other suit of armour.")
 									);
 								})
 						);
-				else if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("phoenix_trick"))
-					if (p.getInventory().hasCoins(1000))
+				else if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("phoenix_trick"))
+					if (player.getInventory().hasCoins(1000))
 						addNext(intro
 								.addPlayer(HeadE.HAPPY_TALKING, "Can I go in there?")
 								.addNPC(NPC, HeadE.CALM_TALK, "No in there is private.")
@@ -58,8 +58,8 @@ public class MansionDoorHeroesQuestD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "On these wages, absolutely It'll cost you 1,000 coin for me to urn a blind eye.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Sounds good")
 								.addSimple("You hand him the coins and he winks at you.", () -> {
-									p.getInventory().removeCoins(1000);
-									p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_phoenix", true);
+									player.getInventory().removeCoins(1000);
+									player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_phoenix", true);
 								})
 						);
 					else
@@ -71,10 +71,10 @@ public class MansionDoorHeroesQuestD extends Conversation {
 		}
 	}
 
-	public static boolean isWearingBlackArmour(Player p) {
-		if (p.getEquipment().getChestId() == 1125 && p.getEquipment().getLegsId() == 1077 && p.getEquipment().getHatId() == 1165)
+	public boolean isWearingBlackArmour() {
+		if (player.getEquipment().getChestId() == 1125 && player.getEquipment().getLegsId() == 1077 && player.getEquipment().getHatId() == 1165)
 			return true;
-		p.sendMessage("You need to be wearing black armour as a disguise...");
+		player.sendMessage("You need to be wearing black armour as a disguise...");
 		return false;
 	}
 }

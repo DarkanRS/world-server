@@ -19,46 +19,38 @@ import com.rs.lib.game.Tile;
 
 public class WolfWhistleWellCutscene extends Cutscene {
 
-    final static int WOLF_MEAT = 15058;
-    final static int WOLF_BONES = 15059;
-    final static int WOLF_MEAT_SCARED = 15060;
-    final static int WOLF_BONES_SCARED = 15061;
-    final static int TROLL_FLINTER = 15062;
-    final static int TROLL_BONE = 15063;
-    //final static int TROLL_CLUB_SHOULDERS = 15064;
-    //final static int TROLL_SHIELD_BONE_SHOULDERS = 15065;
-    final static int TROLL_CLUB = 15066;
-    final static int TROLL_BONE_SHIELD = 15067;
-    final static int TROLL_BONE_SCARED = 15068;
-    final static int TROLL_CLUB_SCARED = 15069;
-    //final static int TROLL_SHIELD_BONE_SHOULDERS_SCARED = 15070;
-    // final static int TROLL_CLUB_SCARED_1 = 15071;
-    final static int TROLL_SHIELD_BONE_SCARED = 15072;
-    final static int BOWLOFTRIX_CAULDRON = 67500;
+    private final static int WOLF_MEAT = 15058;
+	private final static int WOLF_BONES = 15059;
+	private final static int WOLF_MEAT_SCARED = 15060;
+	private final static int WOLF_BONES_SCARED = 15061;
+	private final static int TROLL_FLINTER = 15062;
+	private final static int TROLL_BONE = 15063;
+	private final static int TROLL_CLUB = 15066;
+	private final static int TROLL_BONE_SHIELD = 15067;
+	private final static int TROLL_BONE_SCARED = 15068;
+	private final static int TROLL_SHIELD_BONE_SCARED = 15072;
+	private final static int BOWLOFTRIX_CAULDRON = 67500;
 
-    final static int SPIRIT_WOLF = 15074;
-    final static int GIANT_WOLPERTINGER = 6990;
+	private final static int GIANT_WOLPERTINGER = 6990;
 
-    final static int SCALECTRIX = 15055;
-    final static int BOWLOFTRIX = 15057;
+	private final static int SCALECTRIX = 15055;
 
     // spot anims
-    final static int SUMMONING_SPAWN = 1315;
-    final static int ONE = 2860;
-    final static int TWO = 2826;
-    final static int WOLPERTINGER_FEAR_FLASH = 2820;
+	private final static int SUMMONING_SPAWN = 1315;
+	private final static int ONE = 2860;
+	private final static int WOLPERTINGER_FEAR_FLASH = 2820;
 
     // animations
-    final static int WOLPERTINGER_FEAR_CAST = 15929;
-    final static int WOLPERTINGER_DESPAWN = 15930;
-    final static int WOLPERTINGER_SPAWN = 15932;
-    final static int TROLL_COWER = 15921;
+	private final static int WOLPERTINGER_FEAR_CAST = 15929;
+	private final static int WOLPERTINGER_DESPAWN = 15930;
+	private final static int WOLPERTINGER_SPAWN = 15932;
+	private final static int TROLL_COWER = 15921;
     // 1522
 
-    final String[] TROLL_KEYS = new String[]{"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12"};
-    final ArrayList<NPC> whiners = new ArrayList<>();
+	private final String[] TROLL_KEYS = new String[]{"t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10", "t11", "t12"};
+	private final ArrayList<NPC> whiners = new ArrayList<>();
 
-    boolean playing = false;
+	private boolean playing = false;
 
     @Override
     public void construct(Player player) {
@@ -238,41 +230,6 @@ public class WolfWhistleWellCutscene extends Cutscene {
         fadeInBG(0);
         delay(4);
         fadeOutBG(0);
-        //start new cutscene/new dynamic region
-        //spawn scalectrix
-        //spawn bowloftrix
-        //player face bowloftrix
-        //bowloftrix face player
-        //scalectrix face player
-        //fade to clear
-//		dialogue(new Dialogue()
-//				.addNPC(BOWLOFTRIX, HeadE.HAPPY_TALKING, "Thank you both! I was a gonner until you showed up!")
-//				, true);
-//		//scalectrix face bowloftrix
-//		dialogue(new Dialogue()
-//				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Well he is the one you should really be thanking. Without him we'd never have been able to call the wolpertinger.")
-//				.addNPC(BOWLOFTRIX, HeadE.HAPPY_TALKING, "Yes, thank you very much, hero!")
-//				.addPlayer(HeadE.HAPPY_TALKING, "No problem, I'm just glad we got you out of there before you were badly injured.")
-//				, true);
-//		//bowloftrix faces scalectrix
-//		dialogue(new Dialogue()
-//				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Especially as that means you'll be able to come back and help with Pikkupstix's next project.")
-//				.addNPC(BOWLOFTRIX, HeadE.SHAKING_HEAD, "Uh..well.yes...")
-//				.addNPC(BOWLOFTRIX, HeadE.SECRETIVE, "Oh! Ow! Ow! I think the trolls cracked one of my ribs! I should get that seen to...right away!")
-//				.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "Oh, you poor man! Go see the healers before you faint!")
-//				, true);
-        //player face east or south east or something
-        //scalectrix runs away out of scene
-        //delay
-        //scalectrix faces player
-        //player faces scalectrix
-//		dialogue(new Dialogue()
-//				.addPlayer(HeadE.CONFUSED, "He semmed to run quite quickly for a man with a cracked rib.")
-//				.addNPC(SCALECTRIX, HeadE.CONFUSED, "Maybe he was in such pain he wanted to get there quickly.")
-//				.addNPC(SCALECTRIX, HeadE.HAPPY_TALKING, "Anyway, he's alive and well, all thanks to you!")
-//				, true);
-        //fade to black
-        //restore scene
         action(() -> {
             player.getQuestManager().completeQuest(Quest.WOLF_WHISTLE);
             playing = false;

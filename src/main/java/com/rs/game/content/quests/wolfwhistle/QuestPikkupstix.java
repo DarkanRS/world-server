@@ -12,28 +12,12 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 
+import static com.rs.game.content.quests.wolfwhistle.WolfWhistle.*;
+
 @PluginEventHandler
 public class QuestPikkupstix extends Conversation {
-
-    // stages
-    public static final int NOT_STARTED = 0;
-    public static final int FIND_SCALECTRIX = 1;
-    public static final int PIKKUPSTIX_HELP = 2;
-    public static final int WOLPERTINGER_MATERIALS = 3;
-    public static final int WOLPERTINGER_CREATION = 4;
-    public static final int WOLPERTINGER_POUCH_CHECK = 5;
-    public static final int SAVE_BOWLOFTRIX = 6;
-    public static final int QUEST_COMPLETE = 7;
-
     // npcs
     final static int PIKKUPSTIX = 6988;
-
-    // items
-    static final int ANCIENT_WOLF_BONE_AMULET = 23066;
-    static final int WHITE_HARE_MEAT = 23067;
-    static final int EMBROIDERED_POUCH = 23068;
-    static final int RARE_SUMMONING_ITEMS = 23069;
-    static final int GIANT_WOLPERTINGER_POUCH = 23070;
 
     // animations
     static final int ANIMATION_ENCHANT = 15924;
@@ -111,7 +95,7 @@ public class QuestPikkupstix extends Conversation {
                             @Override
                             public void create() {
                                 if (!player.getInventory().containsItem(ANCIENT_WOLF_BONE_AMULET) && !player.getBank().containsItem(ANCIENT_WOLF_BONE_AMULET, 1)) {
-                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_ANCIENT_WOLF_BONE_AMULET_BEFORE)) {
+                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("ANCIENT_AMULET")) {
                                         option("Ask about the wolf bone amulet.", new Dialogue()
                                             .addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "No matter. The amulet is enchanted to return to the owner, and in this case that is currently Stikklebrix. So go and search him again.")
                                             .addNPC(PIKKUPSTIX, HeadE.FRUSTRATED, "This time, try and take better care of it!")
@@ -126,7 +110,7 @@ public class QuestPikkupstix extends Conversation {
                                     }
                                 }
                                 if (!player.getInventory().containsItem(WHITE_HARE_MEAT) && !player.getBank().containsItem(WHITE_HARE_MEAT, 1)) {
-                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE)) {
+                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("HARE_MEAT")) {
                                         option("Ask about the white hare meat.", new Dialogue()
                                             .addNPC(PIKKUPSTIX, HeadE.CHEERFUL_EXPOSITION, "Wonderful, where is it?")
                                             .addPlayer(HeadE.CHEERFUL_EXPOSITION, "I have no idea!")
@@ -143,7 +127,7 @@ public class QuestPikkupstix extends Conversation {
                                     }
                                 }
                                 if (!player.getInventory().containsItem(EMBROIDERED_POUCH) && !player.getBank().containsItem(EMBROIDERED_POUCH, 1)) {
-                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_EMBROIDERED_POUCH_BEFORE)) {
+                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("EMBROIDERED_POUCH")) {
                                         option("Ask about the embroidered pouch.", new Dialogue()
                                             .addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Where did you lose it? Have you tried looking there for it again?")
                                         );
@@ -160,7 +144,7 @@ public class QuestPikkupstix extends Conversation {
                                     }
                                 }
                                 if (!player.getInventory().containsItem(RARE_SUMMONING_ITEMS) && !player.getBank().containsItem(RARE_SUMMONING_ITEMS, 1)) {
-                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_RARE_SUMMING_ITEMS_BEFORE)) {
+                                    if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("RARE_ITEMS")) {
                                         option("Ask about the rare summoning items.", new Dialogue()
                                             .addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Yes.")
                                             .addPlayer(HeadE.SECRETIVE, "Theorectically, HOW rare and HOW unique were they?")
@@ -176,7 +160,7 @@ public class QuestPikkupstix extends Conversation {
                                             .addNPC(PIKKUPSTIX, HeadE.CALM, "Of course. Remember, these are EXTREMELY rare and precious, so I plead that you take good care of them.")
                                             .addItem(RARE_SUMMONING_ITEMS, "Pikkupstix carefully hands you the grey charm and blessed spirit shard.", () -> {
                                                 player.getInventory().addItem(RARE_SUMMONING_ITEMS);
-                                                player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_RARE_SUMMING_ITEMS_BEFORE, true);
+                                                player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("RARE_ITEMS", true);
                                             })
                                             .addPlayer(HeadE.LAUGH, "Well, you know, I'm pretty skilled at holding things. I should be able to keep this safe.")
                                             .addNPC(PIKKUPSTIX, HeadE.CALM, "I hope you're right. These are very valuable relics.")
@@ -247,7 +231,7 @@ public class QuestPikkupstix extends Conversation {
                         }
                     });
             case WolfWhistle.WOLPERTINGER_POUCH_CHECK -> {
-                if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH)) {
+                if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("WOLPERTINGER_POUCH")) {
                     addNPC(PIKKUPSTIX, HeadE.CONFUSED, "Have you done it? Do you have the pouch?");
                 } else {
                     addPlayer(HeadE.CALM_TALK, "I need to ask you something about the quest...")
@@ -275,7 +259,7 @@ public class QuestPikkupstix extends Conversation {
                                     .addNPC(PIKKUPSTIX, HeadE.CALM, "But Scalectrix is strong too. Between you both you should be able to accomplish this.")
                                     .addNext(() -> p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.SAVE_BOWLOFTRIX)));
                             } else {
-                                if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH)) {
+                                if (player.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("WOLPERTINGER_POUCH")) {
                                     option("I made the giant wolpertinger pouch!", new Dialogue()
                                         .addPlayer(HeadE.SECRETIVE, "Well, between here and the obelisk I may have sort of managed to lose it...")
                                         .addNPC(PIKKUPSTIX, HeadE.TERRIFIED, "WHAT? One of the most potent summoning pouches of this era and you LOST it?")
@@ -410,7 +394,7 @@ public class QuestPikkupstix extends Conversation {
 
     public static String getNextOptionTextPikkupstix(Player p) {
         return switch (p.getQuestManager().getStage(Quest.WOLF_WHISTLE)) {
-            case WolfWhistle.NOT_STARTED -> "Do you have a quest for me?";
+            case NOT_STARTED -> "Do you have a quest for me?";
             case WolfWhistle.PIKKUPSTIX_HELP -> "Bowloftrix has been kidnapped by trolls!";
             case WolfWhistle.FIND_SCALECTRIX,
                 WolfWhistle.WOLPERTINGER_MATERIALS,

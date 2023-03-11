@@ -49,21 +49,6 @@ public class DemonSlayer extends QuestOutline {
 	final static int SILVERLIGHT_OBTAINED_STAGE = 8;
 	final static int QUEST_COMPLETE_STAGE = 9;
 
-	//attributes
-	final static String AFTER_SIR_PRYSIN_INTRO_ATTR = "AFTER_PRYSIN_INTRO";
-	final static String KEY1_DRAIN_LOCATION_KNOWN_ATTR = "KEY1_DRAIN_LOC_KNOWN";
-	final static String KEY2_WIZARD_LOCATION_KNOWN_ATTR = "KEY2_WIZARD_LOC_KNOWN";
-	final static String KEY3_ROVIN_LOCATION_KNOWN_ATTR = "KEY3_ROVIN_LOC_KNOWN";
-	final static String WIZARD_RITUAL_KNOWN_ATTR = "WIZARD_RITUAL_KNOWN";
-	final static String WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR = "WIZARD_KEY_PREVIOUSLY_RETRIEVED";
-
-	//Items
-	final static int WIZARD_KEY = 2399;
-	final static int ROVIN_KEY = 2400;
-	final static int PRYSIN_KEY = 2401;
-	final static int SILVERLIGHT = 2402;
-
-
 	@Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE_STAGE;
@@ -100,7 +85,7 @@ public class DemonSlayer extends QuestOutline {
 			lines.add("");
 
 			//---Sir Prysin---
-			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY1_DRAIN_LOCATION_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY1_DRAIN_LOC_KNOWN")) {
 				lines.add("Sir Prysin's key is stuck in a drain North West");
 				lines.add("of Varrock castle. I can use a bucket of water");
 				lines.add("to push it into the sewers.");
@@ -111,34 +96,34 @@ public class DemonSlayer extends QuestOutline {
 				lines.add("I just have to find it...");
 				lines.add("");
 			}
-			if(player.getInventory().containsItem(PRYSIN_KEY)) {
+			if(player.getInventory().containsItem(2401)) {
 				lines.add("I have gotten Sir Prysin's key");
 				lines.add("");
 			}
 			//------
 
-			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY2_WIZARD_LOCATION_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY2_WIZARD_LOC_KNOWN")) {
 				lines.add("I can speak to Wizard Traiborn in the wizards");
 				lines.add("tower to ask about the 2nd key.");
 				lines.add("");
 			}
-			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(WIZARD_RITUAL_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("WIZARD_RITUAL_KNOWN")) {
 				lines.add("Wizard Traiborn needs 25 unnoted regular bones for");
 				lines.add("a ritual to get a silverlight key.");
 				lines.add("");
 			}
-			if(player.getInventory().containsItem(WIZARD_KEY)) {
+			if(player.getInventory().containsItem(2399)) {
 				lines.add("I have gotten Wizard Traiborn's key");
 				lines.add("");
 			}
 
-			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(KEY3_ROVIN_LOCATION_KNOWN_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY3_ROVIN_LOC_KNOWN")) {
 				lines.add("I can speak to Roving in the North West tower");
 				lines.add("on the 3rd floor for his key.");
 				lines.add("");
 			}
 
-			if(player.getInventory().containsItem(ROVIN_KEY)) {
+			if(player.getInventory().containsItem(2400)) {
 				lines.add("I have gotten Captain Rovin's key");
 				lines.add("");
 			}
@@ -162,7 +147,7 @@ public class DemonSlayer extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, SILVERLIGHT, "Silverlight");
+		getQuest().sendQuestCompleteInterface(player, 2402, "Silverlight");
 	}
 
 	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, e -> {
@@ -183,7 +168,7 @@ public class DemonSlayer extends QuestOutline {
 	public static ObjectClickHandler handleDrainSearch = new ObjectClickHandler(new Object[] { 31759 }, e -> {
 		Player p = e.getPlayer();
 		p.sendMessage("You peer into the drain.");
-        if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(PRYSIN_KEY) && p.getVars().getVarBit(2568) != 1)
+        if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(2401) && p.getVars().getVarBit(2568) != 1)
             p.getVars().setVarBit(2568, 0);
 		p.startConversation(new Conversation(p) {
 			{
@@ -210,10 +195,10 @@ public class DemonSlayer extends QuestOutline {
 
 	public static ObjectClickHandler handleRustyKey = new ObjectClickHandler(new Object[] { 17431 }, e -> {
 		Player p = e.getPlayer();
-		p.getInventory().addItem(PRYSIN_KEY);
+		p.getInventory().addItem(2401);
 		p.startConversation(new Conversation(p) {
 			{
-				addItem(PRYSIN_KEY, "You pick up an old rusty key.");
+				addItem(2401, "You pick up an old rusty key.");
 				create();
 			}
 		});
@@ -222,7 +207,7 @@ public class DemonSlayer extends QuestOutline {
 
 	public static EnterChunkHandler handleFinalCutsceneChunk = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.hasStarted() && Areas.withinArea("dark_wizard_altar", e.getChunkId())) {
-			if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(SILVERLIGHT) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
+			if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(2402) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
 				return;
 			p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
 			p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
