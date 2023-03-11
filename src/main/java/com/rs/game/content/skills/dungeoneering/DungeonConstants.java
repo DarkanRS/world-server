@@ -508,7 +508,8 @@ public class DungeonConstants {
 			new StartRoom(14, 632, EAST_DOOR, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR),
 			new StartRoom(14, 624, SOUTH_DOOR),
 			new StartRoom(14, 626, WEST_DOOR, SOUTH_DOOR),
-			new StartRoom(14, 630, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR) };
+			new StartRoom(14, 630, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR)
+	};
 
 	public static final NormalRoom[] NORMAL_ROOMS = {
 			new NormalRoom(8, 240, spot(3, 7), SOUTH_DOOR),

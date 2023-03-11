@@ -17,7 +17,6 @@
 package com.rs.game.content.minigames.fightkiln;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightkiln.npcs.FightKilnNPC;
 import com.rs.game.content.minigames.fightkiln.npcs.HarAken;
@@ -926,7 +925,7 @@ public class FightKilnController extends Controller {
 			player.sendMessage("<col=7E2217>>The power of this crystal makes you invulnerable.");
 			player.getTempAttribs().setB("FightKilnCrystal", true);
 			player.setInvulnerable(true);
-			TaskExecutor.schedule(() -> {
+			WorldTasks.schedule(Ticks.fromSeconds(15), () -> {
 				try {
 					player.getTempAttribs().removeB("FightKilnCrystal");
 					player.sendMessage("<col=7E2217>The power of the crystal dwindles and you're vulnerable once more.");
@@ -934,7 +933,7 @@ public class FightKilnController extends Controller {
 				} catch (Throwable e) {
 					Logger.handle(FightKilnController.class, "useCrystal", e);
 				}
-			}, Ticks.fromSeconds(15));
+			});
 			break;
 		case 23654: // RESTORATION
 			player.heal(player.getMaxHitpoints());
@@ -956,7 +955,7 @@ public class FightKilnController extends Controller {
 			player.getEquipment().refreshConfigs(false);
 			player.heal(player.getSkills().getLevelForXp(Constants.HITPOINTS) * 5);
 			player.sendMessage("<col=7E2217>The power of this crystal improves your Constitution.");
-			TaskExecutor.schedule(() -> {
+			WorldTasks.schedule(Ticks.fromSeconds(210), () -> {
 				try {
 					player.getTempAttribs().removeB("FightKilnCrystal");
 					player.sendMessage("<col=7E2217>The power of the crystal dwindles and your constitution prowess returns to normal.");
@@ -965,7 +964,7 @@ public class FightKilnController extends Controller {
 				} catch (Throwable e) {
 					Logger.handle(FightKilnController.class, "useCrystal", e);
 				}
-			}, Ticks.fromSeconds(210));
+			});
 			break;
 		}
 	}

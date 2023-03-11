@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.tormenteddemon;
 
-import java.util.Set;
-
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -160,7 +157,7 @@ public final class TormentedDemon extends NPC {
 			finish();
 		}
 		final NPC npc = this;
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(getCombatDefinitions().getRespawnDelay(), () -> {
 			try {
 				setFinished(false);
 				World.addNPC(npc);
@@ -172,7 +169,7 @@ public final class TormentedDemon extends NPC {
 			} catch (Throwable e) {
 				Logger.handle(TormentedDemon.class, "setRespawnTask", e);
 			}
-		}, getCombatDefinitions().getRespawnDelay());
+		});
 	}
 
 	public static boolean atTD(Tile tile) {

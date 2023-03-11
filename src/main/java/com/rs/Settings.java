@@ -47,6 +47,7 @@ public final class Settings {
 	private String ownerName;
 	private String cachePath;
 	private boolean debug = false;
+	private boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
 	private String mongoUser;
@@ -68,6 +69,7 @@ public final class Settings {
 		ownerName = "trent";
 		cachePath = "../cache/";
 		debug = false;
+		allowHighMemUseOptimizations = false;
 		lobbyIp = "dev.darkan.org";
 		mongoUrl = "localhost";
 		mongoPort = 27017;
@@ -113,7 +115,7 @@ public final class Settings {
 	public static final int LOCAL_PLAYERS_LIMIT = 250;
 	public static final int NPCS_LIMIT = 64000;
 	public static final int LOCAL_NPCS_LIMIT = 250;
-	public static final double HIGH_MEM_USE_THRESHOLD = 20.0;
+	public static final double HIGH_MEM_USE_THRESHOLD = 85.0;
 
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 
@@ -171,6 +173,10 @@ public final class Settings {
 
 	public boolean isDebug() {
 		return debug;
+	}
+
+	public boolean isAllowHighMemUseOptimizations() {
+		return allowHighMemUseOptimizations;
 	}
 
 	public String getLoginMessage() {

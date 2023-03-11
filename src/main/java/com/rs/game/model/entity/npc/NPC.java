@@ -20,13 +20,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -414,7 +412,7 @@ public class NPC extends Entity {
 			setTile(respawnTile);
 			finish();
 		}
-		TaskExecutor.schedule(() -> spawn(), time < 0 ? getCombatDefinitions().getRespawnDelay() : time);
+		WorldTasks.schedule(time < 0 ? getCombatDefinitions().getRespawnDelay() : time, () -> spawn());
 	}
 
 	public void deserialize() {

@@ -688,6 +688,5 @@ public class Chunk {
             player.setForceNextMapLoadRefresh(true);
             player.loadMapRegions();
         }
-        WorldCollision.clearChunk(getId());
     }
 }
