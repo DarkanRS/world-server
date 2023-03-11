@@ -3,7 +3,7 @@ package com.rs.game.content.world.areas.varrock.npcs;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.engine.dialogue.Dialogue;
@@ -15,7 +15,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 public class VarrockBankDoor extends Conversation {
     private final int npcId = 2759;
 
-    public static ObjectClickHandler VarrockBankDoor = new ObjectClickHandler(new Object[]{24389}, new WorldTile[]{WorldTile.of(3190, 3445, 0)}, e -> {
+    public static ObjectClickHandler VarrockBankDoor = new ObjectClickHandler(new Object[]{24389}, new Tile[]{Tile.of(3190, 3445, 0)}, e -> {
         if (e.getOpNum() == ClientPacket.OBJECT_OP1) {
             e.getPlayer().startConversation(new VarrockBankDoor(e.getPlayer()));
         }

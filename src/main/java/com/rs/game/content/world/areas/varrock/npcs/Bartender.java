@@ -6,7 +6,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -15,7 +15,7 @@ public class Bartender {
     public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(new Object[] { 733 }, e -> {
         Player p = e.getPlayer();
 
-        p.setRouteEvent(new RouteEvent(WorldTile.of(3224, 3397, 0), () -> {
+        p.setRouteEvent(new RouteEvent(Tile.of(3224, 3397, 0), () -> {
             p.faceEntity(e.getNPC());
             if (p.getTreasureTrailsManager().useNPC(e.getNPC()))
                 return;
