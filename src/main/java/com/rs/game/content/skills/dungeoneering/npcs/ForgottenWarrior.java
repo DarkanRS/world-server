@@ -41,17 +41,12 @@ public class ForgottenWarrior extends Guardian {
 			return;
 		int size = getSize();
 		ArrayList<Item> drops = new ArrayList<>();
-		int tier = getDefinitions().combatLevel / 11;
-		if (tier > 10)
-			tier = 10;
-		else if (tier < 1)
-			tier = 1;
 		if (m.name().contains("WARRIOR"))
-			drops.add(new Item(DungeonUtils.getRandomMeleeGear(Utils.random(tier) + 1)));
+			drops.add(new Item(DungeonUtils.getRandomMeleeGear(Math.min(1+Utils.random(getTier()), 10))));
 		else if (m.name().contains("MAGE"))
-			drops.add(new Item(DungeonUtils.getRandomMagicGear(Utils.random(tier) + 1)));
+			drops.add(new Item(DungeonUtils.getRandomMagicGear(Math.min(1+Utils.random(getTier()), 10))));
 		else
-			drops.add(new Item(DungeonUtils.getRandomRangeGear(Utils.random(tier) + 1)));
+			drops.add(new Item(DungeonUtils.getRandomRangeGear(Math.min(1+Utils.random(getTier()), 10))));
 		for (Item item : drops)
 			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
