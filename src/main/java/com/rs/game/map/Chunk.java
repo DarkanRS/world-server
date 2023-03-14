@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -27,13 +28,13 @@ import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Chunk {
+    public static final int PLANE_INC = 0x400000;
+    public static final int X_INC = 0x800;
+
     private int id;
     private int x;
     private int y;
@@ -261,8 +262,7 @@ public class Chunk {
         region.loadRegionMap(false);
         for (int xOff = 0;xOff < 8;xOff++)
             for (int yOff = 0;yOff < 8;yOff++)
-                for (int plane = 0;plane < 4;plane++)
-                    WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
+                WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
         if (region.getObjects() != null && !region.getObjects().isEmpty()) {
             for (WorldObject object : region.getObjects()) {
                 if (object.getTile().getChunkId() != id)

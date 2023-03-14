@@ -949,13 +949,14 @@ public abstract class Entity {
 				sceneBaseChunkX = 0;
 			if (sceneBaseChunkY < 0)
 				sceneBaseChunkY = 0;
-			for (int plane = 0;plane < 4;plane++) {
-				for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
-					for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
-						Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane), true);
+			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
+			for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+				for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
+					for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
+						int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
+						Chunk chunk = World.getChunk(chunkId, true);
 						if (chunk instanceof InstancedChunk)
 							hasNearbyInstancedChunks = true;
-						int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
 						mapChunkIds.add(chunkId);
 						if (!old.contains(chunkId))
 							p.getMapChunksNeedInit().add(chunkId);
@@ -963,7 +964,6 @@ public abstract class Entity {
 					}
 				}
 			}
-			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
 			World.getUpdateZone(sceneBaseChunkId, getMapSize()).addWatcher(p.getIndex());
 		} else {
 			mapChunkIds.clear();
@@ -977,17 +977,18 @@ public abstract class Entity {
 				sceneBaseChunkX = 0;
 			if (sceneBaseChunkY < 0)
 				sceneBaseChunkY = 0;
-			for (int plane = 0;plane < 4;plane++) {
-				for (int chunkX = sceneBaseChunkX; chunkX <= (currChunkX + sceneChunkRadius); chunkX++) {
-					for (int chunkY = sceneBaseChunkY; chunkY <= (currChunkY + sceneChunkRadius); chunkY++) {
-						Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane), this instanceof Max);
+			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
+			for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+				for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
+					for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
+						int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
+						Chunk chunk = World.getChunk(chunkId, this instanceof Max);
 						if (chunk instanceof InstancedChunk)
 							hasNearbyInstancedChunks = true;
-						mapChunkIds.add(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+						mapChunkIds.add(chunkId);
 					}
 				}
 			}
-			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
 		}
 	}
 

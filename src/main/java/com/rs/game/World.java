@@ -87,7 +87,7 @@ public final class World {
 	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
-	private static final Map<Integer, Chunk> CHUNKS = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
+	private static final Map<Integer, Chunk> CHUNKS = new Int2ObjectOpenHashMap<>();
 	private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
@@ -112,10 +112,10 @@ public final class World {
 
 	public static final void markChunksUnviewed(int baseChunkId, RegionSize size) {
 		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
-		for (int plane = 0;plane < 4;plane++) {
-			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
-				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
-					int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
+		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
+					int chunkId = baseChunkId + planeOff + chunkXOff + chunkYOff;
 					if (!PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
 						UNLOADABLE_CHUNKS.add(chunkId);
 				}
@@ -125,10 +125,11 @@ public final class World {
 
 	public static final void markChunksViewed(int baseChunkId, RegionSize size) {
 		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
-		for (int plane = 0;plane < 4;plane++) {
-			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
-				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
-					UNLOADABLE_CHUNKS.remove(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
+					int chunkId = baseChunkId + planeOff + chunkXOff + chunkYOff;
+					UNLOADABLE_CHUNKS.remove(chunkId);
 				}
 			}
 		}
@@ -1105,9 +1106,9 @@ public final class World {
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
 		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
 		Set<Integer> chunksXYLoop = new IntOpenHashSet();
-		for (int cx = Utils.clampI(xyz[0] - radius, 0, Integer.MAX_VALUE); cx <= xyz[0] + radius; cx++) {
+		for (int cx = Utils.clampI(xyz[0] - (radius * Chunk.X_INC), 0, Integer.MAX_VALUE); cx <= xyz[0] + (radius * Chunk.X_INC); cx += Chunk.X_INC) {
 			for (int cy = Utils.clampI(xyz[1] - radius, 0, Integer.MAX_VALUE); cy <= xyz[1] + radius; cy++) {
-				chunksXYLoop.add(MapUtils.encode(Structure.CHUNK, cx, cy, xyz[2]));
+				chunksXYLoop.add(chunkId + cx + cy);
 			}
 		}
 		return chunksXYLoop;

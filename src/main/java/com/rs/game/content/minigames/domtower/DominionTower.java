@@ -177,7 +177,7 @@ public final class DominionTower {
 		player.lock();
 		Instance old = region;
 		region = new Instance(8, 8);
-		region.copyMapAllPlanes(BOSSES[getNextBossIndex()].arena[0], BOSSES[getNextBossIndex()].arena[1], () -> {
+		region.copyMapAllPlanes(BOSSES[getNextBossIndex()].arena[0], BOSSES[getNextBossIndex()].arena[1]).thenAccept(e -> {
 			teleportToArena(mode);
 			player.unlock();
 			if (old != null)
@@ -404,7 +404,7 @@ public final class DominionTower {
 			if (mode == ENDURANCE)
 				progress = 0;
 		}
-		region.destroy(() -> {
+		region.destroy().thenAccept(e -> {
 			if (!logout) {
 				region = null;
 				player.unlock();

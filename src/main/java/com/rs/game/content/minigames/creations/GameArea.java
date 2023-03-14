@@ -17,6 +17,8 @@
 package com.rs.game.content.minigames.creations;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -25,6 +27,7 @@ import com.rs.game.map.instance.Instance;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import jdk.incubator.concurrent.StructuredTaskScope;
 
 /**
@@ -123,101 +126,94 @@ public class GameArea {
 		if (region != null)
 			throw new RuntimeException("Area already created.");
 		region = new Instance(flags.length, flags.length);
-		region.requestChunkBound(() -> {
-			try (StructuredTaskScope scope = new StructuredTaskScope()) {
-				for (int x = 0; x < flags.length; x++) {
-					for (int y = 0; y < flags.length; y++) {
-						int type = getType(x, y);
-						int rot = getRotation(x, y);
-						int tier = getTier(x, y);
-						int[] copy;
-						switch (type) {
-							case 0: // base pad space
-								if (tier == 0)
-									copy = RESERVED_1;
-								else if (tier == 1)
-									copy = RESERVED_2;
-								else if (tier == 2)
-									copy = RESERVED_3;
-								else
-									copy = EMPTY;
-								break;
-							case 1:
-								copy = BASE;
-								break;
-							case 2:
+		region.requestChunkBound().thenAccept(e -> {
+			List<CompletableFuture<Boolean>> futures = new ObjectArrayList<>();
+			for (int x = 0; x < flags.length; x++) {
+				for (int y = 0; y < flags.length; y++) {
+					int type = getType(x, y);
+					int rot = getRotation(x, y);
+					int tier = getTier(x, y);
+					int[] copy;
+					switch (type) {
+						case 0: // base pad space
+							if (tier == 0)
+								copy = RESERVED_1;
+							else if (tier == 1)
+								copy = RESERVED_2;
+							else if (tier == 2)
+								copy = RESERVED_3;
+							else
 								copy = EMPTY;
-								break;
-							case 3:
-								copy = RIFT;
-								break;
-							case 4:
-								copy = WALL;
-								break;
-							case 5:
-								copy = FOG;
-								break;
-							case 6:
-								copy = ROCK;
-								break;
-							case 7:
-								copy = ALTAR;
-								break;
-							case 8:
-								copy = KILN;
-								break;
-							case 9:
-								copy = SKILL_ROCK;
-								break;
-							case 10:
-								copy = SKILL_TREE;
-								break;
-							case 11:
-								copy = SKILL_POOL;
-								break;
-							case 12:
-								copy = SKILL_SWARM;
-								break;
-							default:
-								copy = EMPTY;
-								break;
-						}
-
-						if (type >= 9 && type <= 12 && tier > 0) {
-							int[] r = new int[2];
-							r[0] = copy[0] - tier;
-							r[1] = copy[1];
-							copy = r;
-						} else if (type >= 9 && type <= 12 && tier <= 0)
+							break;
+						case 1:
+							copy = BASE;
+							break;
+						case 2:
 							copy = EMPTY;
-						final int fx = x, fy = y, fcopyx = copy[0], fcopyy = copy[1];
-						scope.fork(() -> {
-							region.copyChunk(fx, fy, 0, fcopyx, fcopyy, 0, rot, null);
-							return 1;
-						});
+							break;
+						case 3:
+							copy = RIFT;
+							break;
+						case 4:
+							copy = WALL;
+							break;
+						case 5:
+							copy = FOG;
+							break;
+						case 6:
+							copy = ROCK;
+							break;
+						case 7:
+							copy = ALTAR;
+							break;
+						case 8:
+							copy = KILN;
+							break;
+						case 9:
+							copy = SKILL_ROCK;
+							break;
+						case 10:
+							copy = SKILL_TREE;
+							break;
+						case 11:
+							copy = SKILL_POOL;
+							break;
+						case 12:
+							copy = SKILL_SWARM;
+							break;
+						default:
+							copy = EMPTY;
+							break;
 					}
+
+					if (type >= 9 && type <= 12 && tier > 0) {
+						int[] r = new int[2];
+						r[0] = copy[0] - tier;
+						r[1] = copy[1];
+						copy = r;
+					} else if (type >= 9 && type <= 12 && tier <= 0)
+						copy = EMPTY;
+					final int fx = x, fy = y, fcopyx = copy[0], fcopyy = copy[1];
+					futures.add(region.copyChunk(fx, fy, 0, fcopyx, fcopyy, 0, rot));
 				}
-				scope.join();
-			} catch(InterruptedException e) {
-				Logger.handle(GameArea.class, "create", e);
-			} finally {
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P1[0], getMinY() + Helper.BLUE_DOOR_P1[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P2[0], getMinY() + Helper.BLUE_DOOR_P2[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P3[0], getMinY() + Helper.BLUE_DOOR_P3[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P4[0], getMinY() + Helper.BLUE_DOOR_P4[1], 0));
-
-				World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[1], 0));
-
-				int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
-				int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
-
-				World.spawnNPC(managerBlue, Tile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				World.spawnNPC(managerRed, Tile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				callback.run();
 			}
+			futures.forEach(CompletableFuture::join);
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P1[0], getMinY() + Helper.BLUE_DOOR_P1[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P2[0], getMinY() + Helper.BLUE_DOOR_P2[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P3[0], getMinY() + Helper.BLUE_DOOR_P3[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P4[0], getMinY() + Helper.BLUE_DOOR_P4[1], 0));
+
+			World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[1], 0));
+
+			int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
+			int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
+
+			World.spawnNPC(managerBlue, Tile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+			World.spawnNPC(managerRed, Tile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+			callback.run();
 		});
 	}
 

@@ -497,13 +497,13 @@ public class FightKilnController extends Controller {
 		// finds empty map bounds
 		if (region == null) {
 			region = new Instance(8, 8);
-			region.copyMapAllPlanes(getMap()[0], getMap()[1], () -> {
+			region.copyMapAllPlanes(getMap()[0], getMap()[1]).thenAccept(e -> {
 				event.run();
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			});
 		} else if (!login && (currentWave == 11 || currentWave == 21 || currentWave == 31 || currentWave == 34))
-			region.copyMapAllPlanes(getMap()[0], getMap()[1], () -> {
+			region.copyMapAllPlanes(getMap()[0], getMap()[1]).thenAccept(e -> {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 				event.run();

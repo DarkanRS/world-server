@@ -290,7 +290,7 @@ public class DungeonManager {
 	public void openRoom(final Room room, final RoomReference reference, final VisibleRoom visibleRoom) {
 		int chunkOffX = reference.getRoomX() * 2;
 		int chunkOffY = reference.getRoomY() * 2;
-		instance.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
+		instance.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }).thenAccept(e -> {
 			for (Player player : party.getTeam()) {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
@@ -1492,8 +1492,8 @@ public class DungeonManager {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				instance = new Instance(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
-				instance.clearMap(new int[1], () -> {
+				instance = new Instance(dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
+				instance.clearMap(new int[1]).thenAccept(e -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());
 					stage = 1;

@@ -58,7 +58,7 @@ public class MerlinsCrystalCrateScene extends Controller {
     }
 
 	private void playCutscene() {
-		instance.copyMapAllPlanes(347, 1229, () -> {
+		instance.copyMapAllPlanes(347, 1229).thenAccept(e -> {
 			insideCrate = instance.getLocalTile(2, 7);
 			WorldTasks.schedule(new WorldTask() {
 				int tick;

@@ -60,11 +60,12 @@ public class InstancedChunk extends Chunk {
 
 	@Override
 	public void checkLoaded() {
-		super.checkLoaded();
+
 	}
 
 	public void loadMap(boolean copyNpcs) {
 		Chunk realChunk = World.getChunk(getFromChunkId(), true);
+		setMapDataLoaded();
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
 				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, fromPlane);
