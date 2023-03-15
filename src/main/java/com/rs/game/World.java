@@ -1106,7 +1106,7 @@ public final class World {
 
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
 		Set<Integer> chunksXYLoop = new IntOpenHashSet();
-		for (int cx = -radius * 0x800; cx <= radius * 0x800; cx += 0x800)
+		for (int cx = -radius * Chunk.X_INC; cx <= radius * Chunk.X_INC; cx += Chunk.X_INC)
 			for (int cy = -radius; cy <= radius; cy++)
 				chunksXYLoop.add(chunkId + cx + cy);
 		return chunksXYLoop;
