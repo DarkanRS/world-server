@@ -11,10 +11,10 @@ do
   WEB_PATH=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}" | jq -r '.web_url')
 
   # Retrieve the package repository ID using the GitLab API
-  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages?order_by=created_at&sort=desc" | jq -r '.[].id' | head -n 1)
+  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages" | jq -r 'max_by(.created_at) .id')
 
   # Retrieve the latest package repository release using the GitLab API
-  LATEST_RELEASE=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages/${PACKAGE_REPOSITORY_ID}/package_files?order_by=created_at&sort=desc" | jq -r '. | map(select(.file_name | endswith("-all.jar"))) | max_by(.created_at) | .id')
+  LATEST_RELEASE=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages/${PACKAGE_REPOSITORY_ID}/package_files" | jq -r '. | map(select(.file_name | endswith("-all.jar"))) | max_by(.created_at) | .id')
 
   # Extract the package name and download URL from the latest release
   PACKAGE_DOWNLOAD_URL="${WEB_PATH}/-/package_files/${LATEST_RELEASE}/download"
@@ -22,7 +22,7 @@ do
   # Download the package
   curl -L "${PACKAGE_DOWNLOAD_URL}" > world-server.jar
 
-  echo "Successfully downloaded the latest package release (${PACKAGE_NAME})"
+  echo "Successfully downloaded the latest package release (${LATEST_RELEASE})"
   java --enable-preview $DARKAN_JAVA_VM_ARGS -jar world-server.jar com.rs.Launcher >> mainlog.txt
 
   echo "You have 5 seconds to stop the server using Ctrl-C. Server will restart otherwise"
