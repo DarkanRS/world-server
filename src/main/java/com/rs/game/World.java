@@ -1065,6 +1065,7 @@ public final class World {
 	public static List<NPC> getNPCsInChunkRange(int chunkId, int chunkRadius) {
 		List<NPC> npcs = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
+		System.out.println(chunkIds);
 		for (int chunk : chunkIds) {
 			for (int pid : World.getChunk(chunk).getNPCsIndexes()) {
 				NPC npc = World.getNPCs().get(pid);
@@ -1104,13 +1105,10 @@ public final class World {
 	}
 
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
-		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
 		Set<Integer> chunksXYLoop = new IntOpenHashSet();
-		for (int cx = Utils.clampI(xyz[0] - (radius * Chunk.X_INC), 0, Integer.MAX_VALUE); cx <= xyz[0] + (radius * Chunk.X_INC); cx += Chunk.X_INC) {
-			for (int cy = Utils.clampI(xyz[1] - radius, 0, Integer.MAX_VALUE); cy <= xyz[1] + radius; cy++) {
+		for (int cx = -radius * 0x800; cx <= radius * 0x800; cx += 0x800)
+			for (int cy = -radius; cy <= radius; cy++)
 				chunksXYLoop.add(chunkId + cx + cy);
-			}
-		}
 		return chunksXYLoop;
 	}
 
