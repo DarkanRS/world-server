@@ -2,7 +2,7 @@
 
 while :
 do
-  git pull origin
+  git pull origin dev
   # Set the GitLab API endpoint and the project name
   GITLAB_API_URL="https://gitlab.com/api/v4"
   PROJECT_ID="42378996"
