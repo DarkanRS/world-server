@@ -111,7 +111,6 @@ public final class World {
 	}
 
 	public static final void markChunksUnviewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
 		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
 			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
 				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
@@ -124,7 +123,6 @@ public final class World {
 	}
 
 	public static final void markChunksViewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
 		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
 			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
 				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
