@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.npcs;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
@@ -66,14 +65,14 @@ public class LivingRock extends NPC {
 		final int remainsId = getId() + 5;
 		transformIntoNPC(remainsId);
 		setRandomWalk(false);
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(3), () -> {
 			try {
 				if (remainsId == getId())
 					takeRemains();
 			} catch (Throwable e) {
 				Logger.handle(LivingRock.class, "transformIntoRemains", e);
 			}
-		}, Ticks.fromMinutes(3));
+		});
 
 	}
 

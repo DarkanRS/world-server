@@ -426,10 +426,10 @@ public class WorldEncoder extends Encoder {
 		int mapHash = player.getMapSize().size >> 4;
 		int[] realRegionIds = new int[4 * mapHash * mapHash];
 		int realRegionIdsCount = 0;
-		for (int plane = 0; plane < 4; plane++) {
-			for (int chunkX = (player.getChunkX() - mapHash); chunkX <= ((player.getChunkX() + mapHash)); chunkX++) {
+		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC) {
+			for (int chunkX = (player.getChunkX() - mapHash) * Chunk.X_INC; chunkX <= ((player.getChunkX() + mapHash)) * Chunk.X_INC; chunkX += Chunk.X_INC) {
 				for (int chunkY = (player.getChunkY() - mapHash); chunkY <= ((player.getChunkY() + mapHash)); chunkY++) {
-					Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+					Chunk chunk = World.getChunk(chunkX + chunkY + plane);
 					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0)
 						stream.writeBits(1, 0);
 					else {

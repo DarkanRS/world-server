@@ -21,9 +21,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class KingArthurMerlinsCrystalD extends Conversation {
 	private final static int NPC = 251;
-	public KingArthurMerlinsCrystalD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
+	public KingArthurMerlinsCrystalD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.MERLINS_CRYSTAL)) {
 			case NOT_STARTED -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Welcome to my court. I am King Arthur.");
 				addOptions("Choose an option:", new Options() {
@@ -40,7 +40,7 @@ public class KingArthurMerlinsCrystalD extends Conversation {
 									public void create() {
 										option("Yes", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "I will see what I can do then.", ()->{
-													p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_KNIGHTS);
+													player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_KNIGHTS);
 												})
 												.addNPC(NPC, HeadE.CALM_TALK, "Talk to my knights if you need any help.")
 												.addNPC(NPC, HeadE.CALM_TALK, "You will need to find a way into Morgan LeFaye's stronghold.")
@@ -72,7 +72,7 @@ public class KingArthurMerlinsCrystalD extends Conversation {
 			case TALK_TO_ARTHUR -> {
 				addPlayer(HeadE.HAPPY_TALKING, "I have freed Merlin from his crystal!");
 				addNPC(NPC, HeadE.CALM_TALK, "Ah. A good job, well done. I dub thee a Knight Of The Round Table. You are now an honorary knight.");
-				addNext(()->{p.getQuestManager().completeQuest(Quest.MERLINS_CRYSTAL);});
+				addNext(()->{player.getQuestManager().completeQuest(Quest.MERLINS_CRYSTAL);});
 
 			}
 			case QUEST_COMPLETE ->  {

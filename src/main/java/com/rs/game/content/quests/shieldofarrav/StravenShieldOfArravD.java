@@ -24,9 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class StravenShieldOfArravD extends Conversation {
-    final int STRAVEN = 644;
-    final int INTEL_REPORT = 761;
-    final int WEAPONS_KEY = 759;
+    private final int STRAVEN = 644;
 
     public StravenShieldOfArravD(Player p) {
         super(p);
@@ -101,7 +99,7 @@ public class StravenShieldOfArravD extends Conversation {
             });
         else if (ShieldOfArrav.isStageInPlayerSave(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE)) {
             addNPC(STRAVEN, HeadE.SECRETIVE, "How's your little mission going?");
-            if (p.getInventory().containsItem(INTEL_REPORT)) {
+            if (p.getInventory().containsItem(761)) {
                 addPlayer(HeadE.HAPPY_TALKING, "I have the intelligence report!");
                 addNPC(STRAVEN, HeadE.CALM_TALK, "Let's see it then.");
                 addSimple("You hand over the report. The man reads the report.");
@@ -109,12 +107,12 @@ public class StravenShieldOfArravD extends Conversation {
                 addPlayer(HeadE.HAPPY_TALKING, "Nice to meet you.");
                 addNPC(STRAVEN, HeadE.HAPPY_TALKING, "You now have access to the inner sanctum of our subterranean hideout, and our weapons supply depot round the " +
                         "front of this building.", () -> {
-                    p.getInventory().deleteItem(INTEL_REPORT, 1);
+                    p.getInventory().deleteItem(761, 1);
                     ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE, true);
 					ShieldOfArrav.setGang(p, "Phoenix");
-                    p.getInventory().addItem(WEAPONS_KEY, 1);
+                    p.getInventory().addItem(759, 1);
                 });
-            } else if (p.getBank().containsItem(INTEL_REPORT, 1)) {
+            } else if (p.getBank().containsItem(761, 1)) {
                 addPlayer(HeadE.HAPPY_TALKING, "I have the intelligence report!");
                 addNPC(HeadE.CALM_TALK, "Let's see it then.");
                 addPlayer(HeadE.WORRIED, "Oh, its in my bank.");

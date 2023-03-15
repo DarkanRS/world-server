@@ -20,9 +20,9 @@ import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 @PluginEventHandler
 public class Tracker2TreeGnomeVillageD extends Conversation {
 	private static final int NPC = 482;
-	public Tracker2TreeGnomeVillageD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
+	public Tracker2TreeGnomeVillageD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
 			case NOT_STARTED, TALK_TO_MONTAI_ABOUT_WOOD, GET_WOOD, TALK_TO_MONTAI_ABOUT_TRACKERS -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello");
 				addNPC(NPC, HeadE.CALM_TALK, "I can't talk now. If the guards catch me i'll be dead gnome meat.");
@@ -34,7 +34,7 @@ public class Tracker2TreeGnomeVillageD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "I'm sorry little man.");
 				addNPC(NPC, HeadE.CALM_TALK, "Don't be. I have the position of the stronghold!");
 				addPlayer(HeadE.HAPPY_TALKING, "Well done.", ()->{
-					p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker2found", true);
+					player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker2found", true);
 				});
 				addNPC(NPC, HeadE.CALM_TALK, "Now leave before they find you and all is lost.");
 				addPlayer(HeadE.HAPPY_TALKING, "Hang in there.");

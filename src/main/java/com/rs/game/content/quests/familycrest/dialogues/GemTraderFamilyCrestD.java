@@ -16,9 +16,9 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class GemTraderFamilyCrestD extends Conversation {
 	private static final int NPC = 540;
-	public GemTraderFamilyCrestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FAMILY_CREST)) {
+	public GemTraderFamilyCrestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
 		case TALK_TO_GEM_TRADER -> {
 			addPlayer(HeadE.HAPPY_TALKING, "I'm in search of a man named Avan Fitzharmon.");
 			addNPC(NPC, HeadE.CALM_TALK, "Fitzharmon, eh? Hmmm... If I'm not mistaken, that's the family name of a member of the Varrockian nobility.");
@@ -27,7 +27,7 @@ public class GemTraderFamilyCrestD extends Conversation {
 					"like 'normal' gold just isn't good enough for 'little lord fancy pants' there!");
 			addNPC(NPC, HeadE.CALM_TALK, "I told him to head to the desert 'cos I know there's gold out there, in them there sand dunes. And if it's " +
 					"not up to his lordship's high standards of 'gold perfection', then...", ()-> {
-						p.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_AVAN);
+						player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_AVAN);
 					});
 			addNPC(NPC, HeadE.CALM_TALK, "Well, maybe we'll all get lucky and the scorpions will deal with him.");
 		}
@@ -38,7 +38,7 @@ public class GemTraderFamilyCrestD extends Conversation {
 				public void create() {
 					option("Yes, please", new Dialogue()
 							.addNext(()->{
-								ShopsHandler.openShop(p, "gem_trader");
+								ShopsHandler.openShop(player, "gem_trader");
 							})
 							);
 					option("No, thank you.", new Dialogue());

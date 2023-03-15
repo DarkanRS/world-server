@@ -30,13 +30,6 @@ public class WolfWhistle extends QuestOutline {
     public static final int SAVE_BOWLOFTRIX = 6;
     public static final int QUEST_COMPLETE = 7;
 
-    // attributes
-    public static final String ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE = "HARE_MEAT";
-    public static final String ATTRIB_OBTAINED_EMBROIDERED_POUCH_BEFORE = "EMBROIDERED_POUCH";
-    public static final String ATTRIB_OBTAINED_RARE_SUMMING_ITEMS_BEFORE = "RARE_ITEMS";
-    public static final String ATTRIB_OBTAINED_ANCIENT_WOLF_BONE_AMULET_BEFORE = "ANCIENT_AMULET";
-    public static final String ATTRIB_MADE_WOLPERTINGER_POUCH = "WOLPERTINGER_POUCH";
-    public static final String ATTRIB_ALREADY_BEEN_IN_WELL = "WELLWELL";
     // animations
     public static final int POUCH_INFUSION = 725;
     // item ids
@@ -70,7 +63,7 @@ public class WolfWhistle extends QuestOutline {
                     p.startConversation(new Dialogue()
                         .addItem(EMBROIDERED_POUCH, "You have found the embroidered pouch under some socks in this drawer.", () -> {
                             p.getInventory().addItem(EMBROIDERED_POUCH);
-                            p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_EMBROIDERED_POUCH_BEFORE, true);
+                            p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("EMBROIDERED_POUCH", true);
                         }));
                     return;
                 }
@@ -87,7 +80,7 @@ public class WolfWhistle extends QuestOutline {
             p.startConversation(new Dialogue()
                 .addItem(ANCIENT_WOLF_BONE_AMULET, "You take the amulet from the sad remains of Stikklebrix.", () -> {
                     p.getInventory().addItem(ANCIENT_WOLF_BONE_AMULET);
-                    p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_ANCIENT_WOLF_BONE_AMULET_BEFORE, true);
+                    p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("ANCIENT_AMULET", true);
                 }));
         }
     });
@@ -99,7 +92,7 @@ public class WolfWhistle extends QuestOutline {
             .addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH, "You craft the giant wolpertinger pouch. It thrums with barely contained power.", () -> {
                 p.getInventory().removeAllItems(WolfWhistle.EMBROIDERED_POUCH, WolfWhistle.RARE_SUMMONING_ITEMS, WolfWhistle.WHITE_HARE_MEAT, WolfWhistle.ANCIENT_WOLF_BONE_AMULET);
                 p.getInventory().addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH);
-                p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH, true);
+                p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("WOLPERTINGER_POUCH", true);
                 p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.WOLPERTINGER_POUCH_CHECK);
             })
             .addPlayer(HeadE.AMAZED, "I should check with Pikkupstix that this is how it is supposed to look.")

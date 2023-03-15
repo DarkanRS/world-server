@@ -47,6 +47,7 @@ public final class Settings {
 	private String ownerName;
 	private String cachePath;
 	private boolean debug = false;
+	private boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
 	private String mongoUser;
@@ -68,6 +69,7 @@ public final class Settings {
 		ownerName = "trent";
 		cachePath = "../cache/";
 		debug = false;
+		allowHighMemUseOptimizations = false;
 		lobbyIp = "dev.darkan.org";
 		mongoUrl = "localhost";
 		mongoPort = 27017;
@@ -171,6 +173,10 @@ public final class Settings {
 
 	public boolean isDebug() {
 		return debug;
+	}
+
+	public boolean isAllowHighMemUseOptimizations() {
+		return allowHighMemUseOptimizations;
 	}
 
 	public String getLoginMessage() {

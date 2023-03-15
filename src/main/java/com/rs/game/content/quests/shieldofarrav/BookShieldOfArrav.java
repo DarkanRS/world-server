@@ -23,9 +23,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class BookShieldOfArrav {
-	final static int BOOKINTERFACE = 937;//interface
-	final static int LEFTARROWCOMP = 66;
-	final static int RIGHTARROWCOMP = 67;
+	private final static int BOOKINTERFACE = 937;//interface
+	private final static int LEFTARROWCOMP = 66;
+	private final static int RIGHTARROWCOMP = 67;
 
 
 	public static void openBook(Player p) {

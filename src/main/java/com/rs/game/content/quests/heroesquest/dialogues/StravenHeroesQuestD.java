@@ -15,35 +15,35 @@ import com.rs.plugin.annotations.PluginEventHandler;
 public class StravenHeroesQuestD extends Conversation {
 	private static final int NPC = 644;
 
-	public StravenHeroesQuestD(Player p) {
-		super(p);
+	public StravenHeroesQuestD(Player player) {
+		super(player);
 		Dialogue impressedStraven = new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "Impressive work on getting the master thieves' armband.")
 				.addPlayer(HeadE.HAPPY_TALKING, "Thanks!");
-		switch (p.getQuestManager().getStage(Quest.HEROES_QUEST)) {
+		switch (player.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
-				if (p.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("got_armband_straven")) {
-					if (p.getInventory().containsItem(1579, 1))
+				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("got_armband_straven")) {
+					if (player.getInventory().containsItem(1579, 1))
 						addNext(impressedStraven);
 					else {
 						addPlayer(HeadE.SAD, "I lost the armband!");
 						addNPC(NPC, HeadE.CALM_TALK, "Oh, don't lose it again");
 						addSimple("He hands you another...", () -> {
-							p.getInventory().addItem(1579, 1);
+							player.getInventory().addItem(1579, 1);
 						});
 					}
 					return;
 				}
-				if (p.getInventory().containsItem(1577, 1)) {
+				if (player.getInventory().containsItem(1577, 1)) {
 					addPlayer(HeadE.HAPPY_TALKING, "I have retrieved a candlestick!");
 					addNPC(NPC, HeadE.CALM_TALK, "Hmmm. Not bad, not bad. Let's see it, make sure it's genuine.");
 					addSimple("You hand Straven the candlestick.");
 					addPlayer(HeadE.HAPPY_TALKING, "So is this enough to get me a Master Thief armband?");
 					addNPC(NPC, HeadE.CALM_TALK, "Hmm... I dunno... Aww, go on then. I suppose I'm in a generous mood today.");
 					addSimple("Straven hands you a Master Thief armband.", () -> {
-						p.getInventory().removeItems(new Item(1577, 1));
-						p.getInventory().addItem(1579, 1);
-						p.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("got_armband_straven", true);
+						player.getInventory().removeItems(new Item(1577, 1));
+						player.getInventory().addItem(1579, 1);
+						player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("got_armband_straven", true);
 					});
 					return;
 				}

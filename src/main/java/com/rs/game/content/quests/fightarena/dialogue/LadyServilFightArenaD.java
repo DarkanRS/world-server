@@ -18,9 +18,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class LadyServilFightArenaD extends Conversation {
 	private static final int NPC = 258;
-	public LadyServilFightArenaD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FIGHT_ARENA)) {
+	public LadyServilFightArenaD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FIGHT_ARENA)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hi there. It looks like your cart has broken down. Do you need any help?");
 				addNPC(NPC, HeadE.SAD_SNIFFLE, "*sob* Oh I don't care about the cart. *sob* If only Justin were here, he'd fix it. My poor Justin! *sob* " +
@@ -40,8 +40,8 @@ public class LadyServilFightArenaD extends Conversation {
 					public void create() {
 						option("Yes", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I'll try my best to return your family.", ()->{
-								p.getQuestManager().setStage(Quest.FIGHT_ARENA, FREE_JEREMY);
-								p.getVars().setVarBit(5626, 1);
+								player.getQuestManager().setStage(Quest.FIGHT_ARENA, FREE_JEREMY);
+								player.getVars().setVarBit(5626, 1);
 							})
 							.addNPC(NPC, HeadE.SAD, "Please do. My family can reward you for your troubles. I'll be waiting here for you")
 						);
@@ -65,10 +65,10 @@ public class LadyServilFightArenaD extends Conversation {
 						"would certainly be dead.");
 				addNPC(NPC, HeadE.CALM_TALK, "I am truly grateful for your service. All I can offer in return is a small amount of material wealth. " +
 						"Please take these coins as a sign of my gratitude.");
-				addNext(()->{p.getQuestManager().completeQuest(Quest.FIGHT_ARENA);});
+				addNext(()->{player.getQuestManager().completeQuest(Quest.FIGHT_ARENA);});
 			}
 			case QUEST_COMPLETE -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Thank you " + player.getDisplayName() + "! My family is alive and safe because of you.");
+				addNPC(NPC, HeadE.CALM_TALK, "Thank you " + this.player.getDisplayName() + "! My family is alive and safe because of you.");
 			}
 		}
 	}

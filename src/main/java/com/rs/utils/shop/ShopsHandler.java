@@ -20,10 +20,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.engine.Shop;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -54,13 +54,13 @@ public class ShopsHandler {
 	
 	@ServerStartupEvent
 	public static void addRestoreShopItemsTask() {
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(0, 0, () -> {
 			try {
 				ShopsHandler.restoreShops();
 			} catch (Throwable e) {
 				Logger.handle(World.class, "addRestoreShopItemsTask", e);
 			}
-		}, 0, 1);
+		});
 	}
 
 	private static void loadShopFiles() {

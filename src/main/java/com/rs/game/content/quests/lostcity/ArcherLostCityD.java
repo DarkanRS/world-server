@@ -16,9 +16,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class ArcherLostCityD extends Conversation {
-	public ArcherLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public ArcherLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Why are you guys hanging around here?");
 			addNPC(ARCHER, HeadE.SKEPTICAL, "(ahem)... 'Guys'?");

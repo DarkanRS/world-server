@@ -14,55 +14,12 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.quests.princealirescue;
+package com.rs.game.content.world.areas.barbarian_village;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
-public class AggiePrinceAliRescueD extends Conversation {
-	Player p;
-	public final static int AGGIE = 922;
-	final int CONVO1 = 0;
-	final int CONVO2 = 1;
-	final int CONVO3 = 2;
-
-	public AggiePrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
+public class BarbarianVillage {
 
 
-	}
-
-	public AggiePrinceAliRescueD(Player p, int convoID) {
-		super(p);
-		this.p = p;
-
-		switch(convoID) {
-		case CONVO1:
-			convo1(p);
-			break;
-		case CONVO2:
-			convo2(p);
-			break;
-		case CONVO3:
-			convo3(p);
-			break;
-		}
-
-	}
-
-	private void convo1(Player p) {
-
-	}
-
-	private void convo2(Player p) {
-
-	}
-
-	private void convo3(Player p) {
-
-	}
 }
-

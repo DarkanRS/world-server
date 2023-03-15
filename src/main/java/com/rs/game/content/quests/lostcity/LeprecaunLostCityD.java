@@ -156,24 +156,21 @@ public class LeprecaunLostCityD extends Conversation {
 	}
 
 	public static ObjectClickHandler handleTreeLep = new ObjectClickHandler(true, new Object[] { LEPRACAUN_TREE }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 			if(npc.getId() == LEPRACAUN)
 				return;
-		p.startConversation(new Conversation(p) {
+		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 			{
 				addNPC(LEPRACAUN, HeadE.FRUSTRATED, "Hey! Yer big elephant! Don't go choppin' down me house, now!");
 				addNPC(LEPRACAUN, HeadE.AMAZED_MILD, "Woah, woah!");
 				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 				addSimple("The leprechaun falls down", () -> {
+					NPC lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 					WorldTasks.schedule(new WorldTask() {
-						int tick;
-						NPC lepracaun;
+						private int tick;
 						@Override
 						public void run() {
-							if(tick == 0 )
-								lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 							if(tick == 1)
 								lepracaun.forceTalk("Ouch!!");
 							if(tick == 10)

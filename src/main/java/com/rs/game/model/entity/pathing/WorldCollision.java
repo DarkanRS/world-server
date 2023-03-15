@@ -1,5 +1,6 @@
 package com.rs.game.model.entity.pathing;
 
+import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -29,12 +30,12 @@ public class WorldCollision {
     @ServerStartupEvent(Priority.FILE_IO)
     public static void loadAllMapData() {
         Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
-        boolean preloadCollision = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
-        boolean preloadObjects = Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
+        boolean preloadCollision = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
+        boolean preloadObjects = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
 
         if (preloadCollision) {
             for (int regionId = 0; regionId < 0xFFFF; regionId++) {
-                if (regionId == 18754)
+                if (regionId == 18754) //citadel map that gets partially decoded with xteas but fails to pass gzip format tests
                     continue;
                 Region region = new Region(regionId);
                 region.loadRegionMap(false);
@@ -61,10 +62,6 @@ public class WorldCollision {
         synchronized (LOCK) {
             CLIP_FLAGS[chunkCollisionHash] = null;
         }
-    }
-
-    public static int getId(int chunkX, int chunkY, int plane) {
-        return MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
     }
 
     public static void removeFlag(Tile tile, ClipFlag... flags) {
@@ -282,7 +279,7 @@ public class WorldCollision {
 
     public static int getFlags(Tile tile) {
         synchronized (LOCK) {
-            int chunkId = getId(tile.getChunkX(), tile.getChunkY(), tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 return -1;
             return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
@@ -291,9 +288,7 @@ public class WorldCollision {
 
     public static void addFlag(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] |= flag;
@@ -302,9 +297,7 @@ public class WorldCollision {
 
     public static void removeFlag(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] &= ~flag;
@@ -313,9 +306,7 @@ public class WorldCollision {
 
     public static void setFlags(Tile tile, int flag) {
         synchronized (LOCK) {
-            int chunkX = tile.getChunkX();
-            int chunkY = tile.getChunkY();
-            int chunkId = getId(chunkX, chunkY, tile.getPlane());
+            int chunkId = tile.getChunkId();
             if (CLIP_FLAGS[chunkId] == null)
                 CLIP_FLAGS[chunkId] = new int[64];
             CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3] = flag;

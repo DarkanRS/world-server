@@ -46,6 +46,10 @@ public class InstancedChunk extends Chunk {
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);
+		loadingMapData.set(true);
+		loadedMapData.set(true);
+		loadingSpawnData.set(true);
+		loadedSpawnData.set(true);
 		this.fromChunkId = fromChunkId;
 		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);
 		this.fromChunkX = coords[0];
@@ -56,18 +60,18 @@ public class InstancedChunk extends Chunk {
 
 	@Override
 	public void checkLoaded() {
-		super.checkLoaded();
+
 	}
 
 	public void loadMap(boolean copyNpcs) {
-		clearCollisionData();
 		Chunk realChunk = World.getChunk(getFromChunkId(), true);
+		setMapDataLoaded();
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
 				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, fromPlane);
 				int[] coords = transform(x, y, rotation);
 				Tile toTile = Tile.of(getBaseX()+coords[0], getBaseY()+coords[1], getPlane());
-				WorldCollision.setFlags(toTile, WorldCollision.getFlags(original) & (ClipFlag.PFBW_FLOOR.flag | ClipFlag.UNDER_ROOF.flag));
+				WorldCollision.addFlag(toTile, WorldCollision.getFlags(original) & (ClipFlag.PFBW_FLOOR.flag | ClipFlag.UNDER_ROOF.flag));
 			}
 		}
 		for (WorldObject orig : realChunk.getBaseObjects()) {
@@ -75,7 +79,7 @@ public class InstancedChunk extends Chunk {
 			int[] coords = InstancedChunk.transform(orig.getTile().getXInChunk(),orig.getTile().getYInChunk(), rotation, orig.getDefinitions().getSizeX(), orig.getDefinitions().getSizeY(), orig.getRotation());
 			adjusted.setTile(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()));
 			adjusted.setRotation((adjusted.getRotation() + rotation) & 0x3);
-			addBaseObject(adjusted);
+			World.getChunk(adjusted.getTile().getChunkId()).addBaseObject(adjusted);
 		}
 		if (copyNpcs) {
 			List<NPCSpawn> npcSpawns = NPCSpawns.getSpawnsForChunk(getFromChunkId());

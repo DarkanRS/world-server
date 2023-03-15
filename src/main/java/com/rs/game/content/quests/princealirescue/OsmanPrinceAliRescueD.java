@@ -26,47 +26,43 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class OsmanPrinceAliRescueD extends Conversation {
-	Player p;
 	public final static int OSMAN = 5282;
-
-	final int PINK_SKIRT = 1013;
-
 	final int FIRSTTHING = 0;
 	final int SECONDTHING = 1;
-	final int CONVO3 = 2;
 
-	public OsmanPrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
-		if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.NOT_STARTED)
+	public OsmanPrinceAliRescueD(Player player) {
+		super(player);
+		if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.NOT_STARTED)
 			addNPC(OSMAN, HeadE.HAPPY_TALKING, "I have no reason to trust you regarding these affairs.");
-		if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.STARTED) {
+		if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.STARTED) {
 			addPlayer(HeadE.HAPPY_TALKING, "The chancellor trusts me. I have come for instructions.");
 			addNPC(OSMAN, HeadE.TALKING_ALOT, "Our prince is captive by the Lady Keli. We just need to make the rescue. There are two things we need you to do.");
 			addOptions("Choose an option:", new Options() {
 				@Override
 				public void create() {
 					option("What is the first thing I must do?", new Dialogue()
-							.addNext(()->{p.startConversation(new OsmanPrinceAliRescueD(p, FIRSTTHING));}));
+							.addNext(()->{
+								player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING));}));
 					option("What is the second thing you need?", new Dialogue()
-							.addNext(()->{p.startConversation(new OsmanPrinceAliRescueD(p, SECONDTHING));}));
+							.addNext(()->{
+								player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING));}));
 				}
 			});
 		}
 
-		if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK)
-			if(p.getInventory().containsItem(PrinceAliRescue.KEY_PRINT, 1) && p.getInventory().containsItem(PrinceAliRescue.BRONZE_BAR, 1) ) {
+		if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK)
+			if(player.getInventory().containsItem(PrinceAliRescue.KEY_PRINT, 1) && player.getInventory().containsItem(PrinceAliRescue.BRONZE_BAR, 1) ) {
 				addNPC(OSMAN, HeadE.HAPPY_TALKING, "Well done, we can make the key now.");
 				addSimple("Osman takes the key imprint and the bronze bar.", () -> {
-					p.getInventory().deleteItem(PrinceAliRescue.KEY_PRINT, 1);
-					p.getInventory().deleteItem(PrinceAliRescue.BRONZE_BAR, 1);
-					p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_has_key", true);
+					player.getInventory().deleteItem(PrinceAliRescue.KEY_PRINT, 1);
+					player.getInventory().deleteItem(PrinceAliRescue.BRONZE_BAR, 1);
+					player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_has_key", true);
 				});
 				addNPC(OSMAN, HeadE.HAPPY_TALKING, "Pick the key up from Leela.");
 				addPlayer(HeadE.HAPPY_TALKING, "Thank you. I will try to find the other items.");
 			} else {
 				addPlayer(HeadE.TALKING_ALOT, "Can you tell me what I still need to get?");
-				if (p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key"))
+				if (player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key"))
 					addNPC(OSMAN, HeadE.CALM_TALK, "Make sure to have the bronze key from Leela.");
 				else
 					addNPC(OSMAN, HeadE.CALM_TALK, "A print of the key in soft clay and a bronze bar. Then, collect the key from Leela.");
@@ -78,30 +74,24 @@ public class OsmanPrinceAliRescueD extends Conversation {
 			}
 
 
-		if(p.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
+		if(player.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(OSMAN, HeadE.HAPPY_TALKING, "Well done. A great rescue. I will remember you if I have anything dangerous to do.");
 		create();
 	}
 
-	public OsmanPrinceAliRescueD(Player p, int convoID) {
-		super(p);
-		this.p = p;
-
+	public OsmanPrinceAliRescueD(Player player, int convoID) {
+		super(player);
 		switch(convoID) {
-		case FIRSTTHING:
-			firsthing(p);
-			break;
-		case SECONDTHING:
-			secondthing(p);
-			break;
-		case CONVO3:
-			convo3(p);
-			break;
+			case FIRSTTHING:
+				firsthing();
+				break;
+			case SECONDTHING:
+				secondthing();
+				break;
 		}
-
 	}
 
-	private void firsthing(Player p) {
+	private void firsthing() {
 		addPlayer(HeadE.SKEPTICAL_THINKING, "What is the first thing I must do?");
 		addNPC(OSMAN, HeadE.CALM_TALK, "The prince is guarded by some stupid guards and a clever woman. The woman is our only way " +
 				"to get the prince out. Only she can walk freely about the area.");
@@ -117,9 +107,9 @@ public class OsmanPrinceAliRescueD extends Conversation {
 			@Override
 			public void create() {
 				option("Explain the first thing again.", new Dialogue()
-						.addNext(()->{p.startConversation(new OsmanPrinceAliRescueD(p, FIRSTTHING));}));
+						.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING));}));
 				option("What is the second thing you need?", new Dialogue()
-						.addNext(()->{p.startConversation(new OsmanPrinceAliRescueD(p, SECONDTHING));}));
+						.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING));}));
 				option("Okay, I better go find some things.", new Dialogue()
 						.addNPC(OSMAN, HeadE.TALKING_ALOT, "May good luck travel with you. Don't forget to find Leela. It can't be done without her help."));
 			}
@@ -127,17 +117,13 @@ public class OsmanPrinceAliRescueD extends Conversation {
 		create();
 	}
 
-	private void secondthing(Player p) {
+	private void secondthing() {
 		addNPC(OSMAN, HeadE.TALKING_ALOT, "We need the key, or we need a copy made. If you can get some soft clay then you can copy the key...");
 		addNPC(OSMAN, HeadE.TALKING_ALOT, "...If you can convince Lady Keli to show it to you for a moment. She is very boastful. It should not be too hard.");
 		addNPC(OSMAN, HeadE.TALKING_ALOT, "Bring the imprint to me, with a bar of bronze.", () -> {
-			p.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.GEAR_CHECK);});
+			player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.GEAR_CHECK);});
 		addPlayer(HeadE.HAPPY_TALKING, "Sounds like a mouthful, okay ill get on it!");
 		create();
-	}
-
-	private void convo3(Player p) {
-
 	}
 }
 

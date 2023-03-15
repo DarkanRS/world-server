@@ -24,7 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class BaraekShieldOfArravD extends Conversation {
-	final int BARAEK = 547;
+	private final int BARAEK = 547;
 
 	public BaraekShieldOfArravD(Player p) {
 		super(p);

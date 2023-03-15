@@ -4,6 +4,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.content.NpcID;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -14,7 +15,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Hans extends Conversation {
 
     //Identify NPC by ID
-    private static final int npcId = 0;
+    private static final int npcId = NpcID.NPCS.valueOf("Hans").getId();
     public static NPCClickHandler Hans = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
         //Start Conversation

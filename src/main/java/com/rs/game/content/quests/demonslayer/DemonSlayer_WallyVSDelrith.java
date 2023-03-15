@@ -61,7 +61,7 @@ public class DemonSlayer_WallyVSDelrith extends Controller {
 		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
 		player.lock();
 		instance = new Instance(4, 4);
-		instance.copyMapAllPlanes(401, 419, () -> {
+		instance.copyMapAllPlanes(401, 419).thenAccept(e -> {
 			spawn = instance.getLocalTile(19, 17);
 			Logger.debug(DemonSlayer_WallyVSDelrith.class, "playCutscene", spawn);
 

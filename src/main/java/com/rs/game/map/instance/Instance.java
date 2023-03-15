@@ -6,111 +6,122 @@ import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 
+import java.util.concurrent.CompletableFuture;
+
 public class Instance {
     private int[] chunkBase;
     private IntSet chunkIds = new IntOpenHashSet();
     private int width;
     private int height;
-    private boolean destroyed;
 
-    public Instance(int width, int height) {
+    private boolean copyNpcs;
+    private volatile boolean destroyed;
+
+    public Instance(int width, int height, boolean copyNpcs) {
         this.width = width;
         this.height = height;
         destroyed = false;
+        this.copyNpcs = copyNpcs;
     }
 
-    public void requestChunkBound(Runnable callback) {
+    public Instance(int width, int height) {
+        this(width, height, false);
+    }
+
+    public CompletableFuture<Boolean> requestChunkBound() {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         destroyed = false;
-        InstanceBuilder.findEmptyChunkBound(this, callback);
+        InstanceBuilder.findEmptyChunkBound(this, future);
+        return future;
     }
 
-    public void copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, Runnable callback) {
+    public CompletableFuture<Boolean> copyChunk(int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, callback);
+            InstanceBuilder.copyChunk(this, localChunkX, localChunkY, plane, fromChunkX, fromChunkY, fromPlane, rotation, future);
+        return future;
     }
 
-    public void clearChunk(int localChunkX, int localChunkY, int plane, Runnable callback) {
+    public CompletableFuture<Boolean> clearChunk(int localChunkX, int localChunkY, int plane) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, callback);
+            InstanceBuilder.clearChunk(this, localChunkX, localChunkY, plane, future);
+        return future;
     }
 
-    public void copy2x2ChunkSquare(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, Runnable callback) {
+    public CompletableFuture<Boolean> copy2x2ChunkSquare(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, callback);
+            InstanceBuilder.copy2x2ChunkSquare(this, localChunkX, localChunkY, fromChunkX, fromChunkY, rotation, planes, future);
+        return future;
     }
 
-    public void copyMap(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, Runnable callback) {
+    public CompletableFuture<Boolean> copyMap(int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, callback);
+            InstanceBuilder.copyMap(this, localChunkX, localChunkY, fromChunkX, fromChunkY, size, future);
+        return future;
     }
 
-    public void copyMapAllPlanes(int fromChunkX, int fromChunkY, int size, Runnable callback) {
-        copyMap(0, 0, fromChunkX, fromChunkY, size, callback);
+    public CompletableFuture<Boolean> copyMapAllPlanes(int fromChunkX, int fromChunkY, int size) {
+        return copyMap(0, 0, fromChunkX, fromChunkY, size);
     }
 
-    public void copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
+    public CompletableFuture<Boolean> copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
+            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, future);
+        return future;
     }
 
-    public void copyMap(int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, Runnable callback) {
-        copyMap(0, 0, planes, fromChunkX, fromChunkY, fromPlanes, width, height, callback);
+    public CompletableFuture<Boolean> copyMap(int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height) {
+        return copyMap(0, 0, planes, fromChunkX, fromChunkY, fromPlanes, width, height);
     }
 
-    public void copyMapSinglePlane(int fromChunkX, int fromChunkY, Runnable callback) {
-        copyMap(0, 0, new int[1], fromChunkX, fromChunkY, new int[1], width, height, callback);
+    public CompletableFuture<Boolean> copyMapSinglePlane(int fromChunkX, int fromChunkY) {
+        return copyMap(0, 0, new int[1], fromChunkX, fromChunkY, new int[1], width, height);
     }
 
-    public void copyMapAllPlanes(int fromChunkX, int fromChunkY, Runnable callback) {
-        copyMap(0, 0, new int[] { 0, 1, 2, 3 }, fromChunkX, fromChunkY, new int[] { 0, 1, 2, 3 }, width, height, callback);
+    public CompletableFuture<Boolean> copyMapAllPlanes(int fromChunkX, int fromChunkY) {
+        return copyMap(0, 0, new int[] { 0, 1, 2, 3 }, fromChunkX, fromChunkY, new int[] { 0, 1, 2, 3 }, width, height);
     }
 
-    public void clearMap(int chunkX, int chunkY, int width, int height, int[] planes, Runnable callback) {
+    public CompletableFuture<Boolean> clearMap(int chunkX, int chunkY, int width, int height, int[] planes) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound(() -> {
-                InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
-            });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, callback);
+            InstanceBuilder.clearMap(this, chunkX, chunkY, width, height, planes, future);
+        return future;
     }
 
-    public void clearMap(int width, int height, int[] planes, Runnable callback) {
-        clearMap(0, 0, width, height, planes, callback);
+    public CompletableFuture<Boolean> clearMap(int width, int height, int[] planes) {
+        return clearMap(0, 0, width, height, planes);
     }
 
-    public void clearMap(int[] planes, Runnable callback) {
-        clearMap(width, height, planes, callback);
+    public CompletableFuture<Boolean> clearMap(int[] planes) {
+        return clearMap(width, height, planes);
     }
 
-    public void destroy(Runnable callback) {
-        if (destroyed)
-            return;
+    public CompletableFuture<Boolean> destroy() {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        if (destroyed) {
+            future.complete(null);
+            return future;
+        }
         destroyed = true;
-        InstanceBuilder.destroyMap(this, callback);
-    }
-
-    public void destroy() {
-        destroy(null);
+        InstanceBuilder.destroyMap(this, future);
+        return future;
     }
 
     public int[] getChunkBase() {
@@ -171,6 +182,10 @@ public class Instance {
 
     public int getChunkId(int offsetX, int offsetY, int plane) {
         return MapUtils.encode(Structure.CHUNK, getBaseChunkX()+offsetX, getBaseChunkY()+offsetY, plane);
+    }
+
+    public boolean isCopyNpcs() {
+        return copyNpcs;
     }
 
     public boolean isDestroyed() {

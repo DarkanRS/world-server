@@ -15,15 +15,15 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class BootFamilyCrestD extends Conversation {
 	private static final int NPC = 665;
-	public BootFamilyCrestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FAMILY_CREST)) {
+	public BootFamilyCrestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
 		case TALK_TO_BOOT, GIVE_AVAN_JEWLERY -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello tall person");
 			addPlayer(HeadE.HAPPY_TALKING, "Hello. I'm in search of very high quality gold");
 			addNPC(NPC, HeadE.CALM_TALK, "High quality gold eh? Hmmm... Well, the very best quality gold that I know of can be found in an underground ruin near Witchaven.");
 			addNPC(NPC, HeadE.CALM_TALK, "I don't believe it's exactly easy to get to though...", ()->{
-				p.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY);
+				player.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY);
 			});
 		}
 		default -> {

@@ -68,7 +68,6 @@ public class PrinceAliRescue extends QuestOutline {
 	public final static int PASTE = 2424;
 
 	public final static int ROPE = 954;
-	//    public final static int
 
 	//NPCS
 	public final static int NED = 918;
@@ -82,7 +81,7 @@ public class PrinceAliRescue extends QuestOutline {
 	public final static int PRINCE_ALI2 = 921;
 
 	//Places
-	public final static int JAIL_REGION_ID = 12338;
+	public final static int JAIL_REGION_ID = 12338; //Update to new logic
 	@Override
 	public int getCompletedStage() {
 		return 5;

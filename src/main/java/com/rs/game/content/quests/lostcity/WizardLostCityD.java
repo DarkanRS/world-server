@@ -16,9 +16,9 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class WizardLostCityD extends Conversation {
-	public WizardLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public WizardLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Why are all of you standing around here?");
 			addNPC(WIZARD, HeadE.LAUGH, "Hahaha, you dare talk to a mighty wizard such as myself? I bet you can't even cast Air Strike yet, amateur!");

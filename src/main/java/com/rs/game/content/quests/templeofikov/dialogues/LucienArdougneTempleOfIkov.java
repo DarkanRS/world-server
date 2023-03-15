@@ -20,9 +20,9 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 	private static final int NPC = 8345;
 
 	class QuestPrompt extends Conversation {
-		public QuestPrompt(Player p) {
-			super(p);
-			if(TempleOfIkov.meetsRequirements(p)) {
+		public QuestPrompt(Player player) {
+			super(player);
+			if(TempleOfIkov.meetsRequirements(player)) {
 				addOptions("Start Temple Of Ikov?", new Options() {
 					@Override
 					public void create() {
@@ -32,8 +32,8 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "I'm up for it!")
 								.addNPC(NPC, HeadE.CALM_TALK, "You will need my pendent. Without it you will not be able to enter the Chamber of Fear.")
 								.addItem(86, "Lucien gives you his pendant", () -> {
-									p.getQuestManager().setStage(Quest.TEMPLE_OF_IKOV, HELP_LUCIEN);
-									p.getInventory().addItem(new Item(86, 1), true);
+									player.getQuestManager().setStage(Quest.TEMPLE_OF_IKOV, HELP_LUCIEN);
+									player.getInventory().addItem(new Item(86, 1), true);
 								})
 								.addNPC(NPC, HeadE.CALM_TALK, "I cannot stay here much longer. I will be west of the Grand Exchange in Varrock. I have a small holding up there.")
 						);
@@ -41,18 +41,18 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 					}
 				});
 			}
-			if(!TempleOfIkov.meetsRequirements(p)) {
+			if(!TempleOfIkov.meetsRequirements(player)) {
 				addNPC(NPC, HeadE.CALM_TALK, "A laugh you say? You do not seem to have the skill required...");
 				addNext(addNext(() -> {
-					p.getQuestManager().showQuestDetailInterface(Quest.TEMPLE_OF_IKOV);
+					player.getQuestManager().showQuestDetailInterface(Quest.TEMPLE_OF_IKOV);
 				}));
 			}
 		}
 	}
 
-	public LucienArdougneTempleOfIkov(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.TEMPLE_OF_IKOV)) {
+	public LucienArdougneTempleOfIkov(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.TEMPLE_OF_IKOV)) {
 			case NOT_STARTED -> {
 				Dialogue mainOptions = new Dialogue();
 				mainOptions.addOptions("Choose an option:", new Options() {
@@ -65,7 +65,7 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 						);
 						option("That sounds like a laugh!", new Dialogue()
 								.addPlayer(HeadE.LAUGH, "That sounds like a laugh!")
-								.addNext(() -> p.startConversation(new LucienArdougneTempleOfIkov.QuestPrompt(p).getStart()))
+								.addNext(() -> player.startConversation(new LucienArdougneTempleOfIkov.QuestPrompt(player).getStart()))
 						);
 						option("Oh no! Sounds far too dangerous.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Oh no! Sounds far too dangerous.")
@@ -81,7 +81,7 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 									public void create() {
 										option("That sounds like a laugh!", new Dialogue()
 												.addPlayer(HeadE.LAUGH, "That sounds like a laugh!")
-												.addNext(() -> p.startConversation(new LucienArdougneTempleOfIkov.QuestPrompt(p).getStart()))
+												.addNext(() -> player.startConversation(new LucienArdougneTempleOfIkov.QuestPrompt(player).getStart()))
 										);
 										option("I'll pass this time.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "I'll pass this time.")
@@ -114,17 +114,17 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Sorry! Can you remind me of my mission?");
 				addNPC(NPC, HeadE.CALM_TALK, "My patience grows thin hero! I need the Staff of Armadyl. It's in the Temple of Ikov, near Hemenster, north east of here.");
 				addPlayer(HeadE.HAPPY_TALKING, "Okay great.");
-				if(p.getInventory().getAmountOf(86) == 0) {
+				if(player.getInventory().getAmountOf(86) == 0) {
 					addPlayer(HeadE.SCARED, "Umm...");
 					addNPC(NPC, HeadE.FRUSTRATED, "What is it?");
 					addPlayer(HeadE.SECRETIVE, "I lost the pendent you gave me...");
 					addItem(86, "Lucien does a slight of hand and gives you his pendant", ()->{
-						p.getInventory().addItem(new Item(86, 1), true);
+						player.getInventory().addItem(new Item(86, 1), true);
 					});
 				}
 			}
 			case QUEST_COMPLETE ->  {
-				if(TempleOfIkov.isLucienSide(p)) {
+				if(TempleOfIkov.isLucienSide(player)) {
 					addNPC(NPC, HeadE.CALM_TALK, "I told you not to meet me here again!");
 					addPlayer(HeadE.AMAZED, "Geez, okay!");
 					return;

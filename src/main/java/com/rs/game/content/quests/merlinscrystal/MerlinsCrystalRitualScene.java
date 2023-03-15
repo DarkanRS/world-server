@@ -24,7 +24,6 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 
 public class MerlinsCrystalRitualScene extends Controller {
-	NPC spirit;
 	final int THRANTAX_SPIRIT = 238;
 
 	@Override

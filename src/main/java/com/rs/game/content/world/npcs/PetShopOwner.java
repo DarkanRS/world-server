@@ -26,7 +26,7 @@ public class PetShopOwner extends Conversation {
 				public void create() {
 
 					if (!p.getInventory().containsItem(WHITE_HARE_MEAT) && !p.getBank().containsItem(WHITE_HARE_MEAT, 1)) {
-						if (p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE)) {
+						if (p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("HARE_MEAT")) {
 							option("Ask about the white hare meat.", new Dialogue()
 									.addPlayer(HeadE.CONFUSED, "Hello there, do you sell white hare meat?")
 									.addNPC(PETSHOPOWNER, HeadE.CONFUSED, "Well I do, but what about the portion I gave you earlier?")
@@ -44,7 +44,7 @@ public class PetShopOwner extends Conversation {
 									.addNPC(PETSHOPOWNER, HeadE.CALM, "Well if it is an emergency I suppose I can let you have some. I hope things work out for you!")
 									.addItem(WHITE_HARE_MEAT, "The pet shop owner gives you a portion of white hare meat.", () -> {
 										p.getInventory().addItem(WHITE_HARE_MEAT);
-										p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE, true);
+										p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("HARE_MEAT", true);
 									})
 									.addNPC(PETSHOPOWNER, HeadE.CONFUSED, "Is there anything else I can help you with?")
 									.addNext(() -> p.startConversation(new PetShopOwner(p)))

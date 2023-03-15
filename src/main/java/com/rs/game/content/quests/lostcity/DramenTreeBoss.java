@@ -18,20 +18,19 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class DramenTreeBoss {
 
 	public static ObjectClickHandler handleDramenTree = new ObjectClickHandler(new Object[] { "Dramen tree" }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		if(p.getQuestManager().getStage(Quest.LOST_CITY) == LostCity.CHOP_DRAMEN_TREE) {
-			if(!p.inCombat()) {
+		if(e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) == LostCity.CHOP_DRAMEN_TREE) {
+			if(!e.getPlayer().inCombat()) {
 				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 4))
 					if (npc.getId() == TREE_SPIRIT) {
 						npc.forceTalk("You must defeat me before touching the tree!");
 						return;
 					}
 				NPC spirit = World.spawnNPC(TREE_SPIRIT, Tile.of(obj.getX(), obj.getY() + 2, obj.getPlane()), -1, false, true);
-				spirit.setTarget(p);
+				spirit.setTarget(e.getPlayer());
 				spirit.forceTalk("You must defeat me before touching the tree!");
 			}
-		}else if(p.isQuestComplete(Quest.LOST_CITY) || p.getQuestManager().getStage(Quest.LOST_CITY) >= LostCity.FIND_ZANARIS) {
+		}else if(e.getPlayer().isQuestComplete(Quest.LOST_CITY) || e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) >= LostCity.FIND_ZANARIS) {
 			if (e.getObject().getDefinitions().containsOption(0, "Chop down"))
 				e.getPlayer().getActionManager().setAction(new Woodcutting(e.getObject(), TreeType.DRAMEN) {
 					@Override
@@ -39,7 +38,7 @@ public class DramenTreeBoss {
 					}
 				});
 		} else
-			p.sendMessage("The tree seems to have a ominous aura to it. You do not feel like chopping it down.");
+			e.getPlayer().sendMessage("The tree seems to have a ominous aura to it. You do not feel like chopping it down.");
 	});
 
 	public static NPCDeathHandler handleTreeSpiritDeath = new NPCDeathHandler(TREE_SPIRIT, e -> {

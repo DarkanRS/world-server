@@ -32,14 +32,13 @@ public class DungeoneeringTutor extends Conversation {
 	private static final int DUNGEON_TUTOR = 9712;
 	
 	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }, e -> {
-		if (e.getNPC() instanceof Ugi ugi)
-			e.getPlayer().startConversation(new UgiDialogue(e.getPlayer(), ugi));
+		e.getPlayer().startConversation(new DungeoneeringTutor(e.getPlayer()));
 	});
 
 	public DungeoneeringTutor(Player player) {
 		super(player);
 		
-		addNPC(HeadE.CHEERFUL, "Greetings, adventurer!");
+		addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL, "Greetings, adventurer!");
 		if (!player.containsItem(15707)) {
 			addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL, "Before we carry on, let me give you this.");
 			if (player.getInventory().hasFreeSlots())
