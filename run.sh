@@ -1,5 +1,6 @@
 while :
 do
   git pull origin
-  ./gradlew clean build run >> mainlog.txt
+  ./download-latest.sh
+  java --enable-preview -jar world-server.jar com.rs.Launcher >> mainlog.txt
 done
