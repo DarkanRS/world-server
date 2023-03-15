@@ -6,12 +6,13 @@ do
   # Set the GitLab API endpoint and the project name
   GITLAB_API_URL="https://gitlab.com/api/v4"
   PROJECT_ID="42378996"
+  PROJECT_NAME="world-server"
 
   # Get the web path for the project ID for downloading the package file
   WEB_PATH=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}" | jq -r '.web_url')
 
   # Retrieve the package repository ID using the GitLab API
-  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages" | jq -r 'max_by(.created_at) .id')
+  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages" | jq -r 'map(select(.name == "rs/darkan/'${PROJECT_NAME}'")) | max_by(.created_at) .id')
 
   # Retrieve the latest package repository release using the GitLab API
   LATEST_RELEASE=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages/${PACKAGE_REPOSITORY_ID}/package_files" | jq -r '. | map(select(.file_name | endswith("-all.jar"))) | max_by(.created_at) | .id')
