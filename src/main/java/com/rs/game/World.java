@@ -1063,7 +1063,6 @@ public final class World {
 	public static List<NPC> getNPCsInChunkRange(int chunkId, int chunkRadius) {
 		List<NPC> npcs = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
-		System.out.println(chunkIds);
 		for (int chunk : chunkIds) {
 			for (int pid : World.getChunk(chunk).getNPCsIndexes()) {
 				NPC npc = World.getNPCs().get(pid);
