@@ -67,7 +67,7 @@ public enum Effect {
 				}
 		}
 	},
-	BARON_SHARK("baron shark",true) {
+	BARON_SHARK() {
 		@Override
 		public void tick(Entity entity, long tick) {
 			if (tick % 2 == 0) {

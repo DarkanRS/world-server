@@ -80,11 +80,6 @@ public class Debug {
 			Logger.debug(Debug.class, "coordsCommand", "Tile.of(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
 		});
 
-		Commands.add(Rights.PLAYER, "idslot", "Gets the item id of item in slot [x].", (p, args) -> {
-			int item = Integer.parseInt(Arrays.toString(args));
-			p.sendMessage("Name: " + p.getInventory().getItem(item).getName() + ". ID: " + p.getInventory().getItem(item).getId());
-		});
-
 		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
 			p.getPackets().sendDevConsoleMessage("Searching for items containing: " + Arrays.toString(args));
 			for (int i = 0; i < Utils.getItemDefinitionsSize(); i++) {
