@@ -38,7 +38,7 @@ public final class LowPriorityTaskExecutor {
 	public static void initExecutors() {
 		Logger.info(LowPriorityTaskExecutor.class, "startThreads", "Initializing world threads...");
 		WORLD_EXECUTOR = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
-		LOW_PRIORITY_EXECUTOR = Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors(), Thread.ofVirtual().factory());
+		LOW_PRIORITY_EXECUTOR = Executors.newScheduledThreadPool(16, Thread.ofVirtual().factory());
 	}
 
 	public class LowPriorityTaskScope<T> extends StructuredTaskScope<T> {

@@ -117,6 +117,7 @@ public class InstancedChunk extends Chunk {
 
 	@Override
 	public void destroy() {
+		clearCollisionData();
 		super.destroy();
 		for (NPC npc : npcSpawns) {
 			if (npc != null)

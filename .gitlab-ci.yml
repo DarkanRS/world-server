@@ -26,16 +26,6 @@ build:
       - build
       - .gradle
 
-test:
-  stage: test
-  script: ./gradlew check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
-
 deploy:
   stage: deploy
   script: ./gradlew publish

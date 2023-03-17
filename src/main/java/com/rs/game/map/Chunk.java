@@ -256,7 +256,6 @@ public class Chunk {
     }
 
     public void loadMapFromCache() {
-        clearCollisionData();
         baseObjects = new GameObject[8][8][4];
         Region region = new Region(getRegionId());
         region.loadRegionMap(false);
@@ -664,7 +663,6 @@ public class Chunk {
     }
 
     public void destroy() {
-        clearCollisionData();
         loadingMapData.set(false);
         loadedMapData.set(false);
         if (getAllGroundItems() != null)

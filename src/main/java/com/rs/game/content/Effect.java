@@ -26,6 +26,7 @@ import com.rs.utils.Ticks;
 
 import java.util.List;
 
+
 public enum Effect {
 	SKULL {
 		@Override
@@ -66,6 +67,14 @@ public enum Effect {
 				}
 		}
 	},
+	BARON_SHARK() {
+		@Override
+		public void tick(Entity entity, long tick) {
+			if (tick % 2 == 0) {
+				entity.heal(10);
+			}
+		}
+	},
 	STAFF_OF_LIGHT_SPEC("staff of light protection", true),
 	JUJU_MINING("juju mining potion", false),
 	JUJU_MINE_BANK,
@@ -83,11 +92,11 @@ public enum Effect {
 	REV_AGGRO_IMMUNE("revenant aggression immunity", false),
 
 	CHARGED("god charge", false),
-	
+
 	DUNG_HS_SCROLL_BOOST("hoardstalker boost", true),
-	
+
 	AGGRESSION_POTION("aggression potion", false),
-	
+
 	OVERLOAD_PVP_REDUCTION(true),
 
 	BONFIRE("bonfire boost", false) {

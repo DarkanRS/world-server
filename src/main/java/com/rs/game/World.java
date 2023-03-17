@@ -111,7 +111,6 @@ public final class World {
 	}
 
 	public static final void markChunksUnviewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
 		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
 			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
 				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
@@ -124,7 +123,6 @@ public final class World {
 	}
 
 	public static final void markChunksViewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
 		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
 			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
 				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
@@ -1104,13 +1102,10 @@ public final class World {
 	}
 
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
-		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
 		Set<Integer> chunksXYLoop = new IntOpenHashSet();
-		for (int cx = Utils.clampI(xyz[0] - (radius * Chunk.X_INC), 0, Integer.MAX_VALUE); cx <= xyz[0] + (radius * Chunk.X_INC); cx += Chunk.X_INC) {
-			for (int cy = Utils.clampI(xyz[1] - radius, 0, Integer.MAX_VALUE); cy <= xyz[1] + radius; cy++) {
+		for (int cx = -radius * Chunk.X_INC; cx <= radius * Chunk.X_INC; cx += Chunk.X_INC)
+			for (int cy = -radius; cy <= radius; cy++)
 				chunksXYLoop.add(chunkId + cx + cy);
-			}
-		}
 		return chunksXYLoop;
 	}
 
