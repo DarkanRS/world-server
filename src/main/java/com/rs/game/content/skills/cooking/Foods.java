@@ -56,12 +56,10 @@ public class Foods {
             player.sendMessage("I'm not going to eat that!");
             return true;
         }
-        String name = item.getName().toLowerCase();
-        player.sendMessage("You eat the " + name + ".", true);
+        player.sendMessage("You eat the " + item.getName().toLowerCase() + ".", true);
         player.incrementCount("Food eaten");
         player.setNextAnimation(EAT_ANIM);
-        int foodDelay = name.contains("half") ? 2 : 3;
-        player.addFoodDelay(foodDelay);
+        player.addFoodDelay(food.ids.length > 1 ? 2 : 3);
         player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 3);
         Item replace = new Item(item.getId(), item.getAmount());
         if (replace.getDefinitions().isStackable())
