@@ -175,8 +175,10 @@ public final class Launcher {
 			List<Integer> destroyed = new IntArrayList();
 			for (int chunkId : World.getUnloadableChunks()) {
 				Chunk chunk = World.getChunk(chunkId);
-				if (!(chunk instanceof InstancedChunk))
+				if (!(chunk instanceof InstancedChunk)) {
+					chunk.clearCollisionData();
 					chunk.destroy();
+				}
 			}
 			for (int chunkId : destroyed)
 				World.getUnloadableChunks().remove(chunkId);

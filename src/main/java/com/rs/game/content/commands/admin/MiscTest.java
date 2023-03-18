@@ -188,6 +188,8 @@ public class MiscTest {
 			p.sendMessage("Your bonus XP rates is now: " + p.getBonusXpRate());
 		});
 
+		Commands.add(Rights.DEVELOPER, "forcememclean", "Forces a mem clean op", (p, args) -> Launcher.cleanMemory(true));
+
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
