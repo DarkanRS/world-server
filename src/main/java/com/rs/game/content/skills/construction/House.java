@@ -19,6 +19,7 @@ package com.rs.game.content.skills.construction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -57,6 +58,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.RegionUtils;
 import com.rs.utils.RegionUtils.Structure;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 @PluginEventHandler
 public class House {
@@ -1295,21 +1297,26 @@ public class House {
 		if (instance != null && !instance.isDestroyed())
 			instance.destroy();
 		instance = new Instance(8, 8);
-		instance.requestChunkBound(() -> {
+		instance.requestChunkBound().thenAccept(e -> {
 			// builds data
-			for (int plane = 0; plane < data.length; plane++)
-				for (int x = 0; x < data[plane].length; x++)
-					for (int y = 0; y < data[plane][x].length; y++)
+			List<CompletableFuture<Boolean>> regionBuilding = new ObjectArrayList<>();
+			for (int plane = 0; plane < data.length; plane++) {
+				for (int x = 0; x < data[plane].length; x++) {
+					for (int y = 0; y < data[plane][x].length; y++) {
 						if (data[plane][x][y] != null)
-							instance.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2], null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2]));
 						else if ((x == 0 || x == 7 || y == 0 || y == 7) && plane == 1)
-							instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
 						else if (plane == 1)
-							instance.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0));
 						else if (plane == 0)
-							instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
 						else
-							instance.clearChunk(x, y, plane, null);
+							regionBuilding.add(instance.clearChunk(x, y, plane));
+					}
+				}
+			}
+			regionBuilding.forEach(CompletableFuture::join);
 			for (int chunkId : this.instance.getChunkIds()) {
 				Chunk chunk = World.getChunk(chunkId, true);
 				for (GameObject object : chunk.getSpawnedObjects())

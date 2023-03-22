@@ -30,7 +30,6 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
@@ -189,6 +188,8 @@ public class MiscTest {
 			p.sendMessage("Your bonus XP rates is now: " + p.getBonusXpRate());
 		});
 
+		Commands.add(Rights.DEVELOPER, "forcememclean", "Forces a mem clean op", (p, args) -> Launcher.cleanMemory(true));
+
 		Commands.add(Rights.DEVELOPER, "tilefree", "Checks if tile is free", (p, args) -> {
 			for (int x = -10;x < 10;x++)
 				for (int y = -10;y < 10;y++)
@@ -330,7 +331,7 @@ public class MiscTest {
 				type = ObjectDefinitions.getDefs(Integer.valueOf(args[0])).types[0];
 			GameObject before = World.getSpawnedObject(p.transform(0, -1, 0));
 			if (before != null)
-				TaskExecutor.schedule(() -> World.spawnObject(before), 3);
+				WorldTasks.schedule(3, () -> World.spawnObject(before));
 			World.spawnObjectTemporary(new GameObject(Integer.valueOf(args[0]), type, rotation, p.getX(), p.getY()-1, p.getPlane()), 1);
 		});
 
@@ -677,6 +678,8 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY() + ", hash: " + p.getTileHash());
 			p.sendMessage("ChunkId: " + p.getChunkId());
+			if (World.getChunk(p.getChunkId()) instanceof InstancedChunk instance)
+				p.sendMessage("In instanced chunk copied from: " + instance.getOriginalBaseX() + ", " + instance.getOriginalBaseY() + " rotation: " + instance.getRotation());
 			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInRegion()+","+p.getYInRegion());
 			p.sendMessage("Local coords: " + p.getXInRegion() + " , " + p.getYInRegion());
 			p.sendMessage("16x16: " +(p.getXInScene(p.getSceneBaseChunkId()) % 16) +", "+(p.getYInScene(p.getSceneBaseChunkId()) % 16));

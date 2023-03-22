@@ -81,7 +81,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 		player.lock();
 
 		instance = new Instance(4, 4);
-		instance.copyMapAllPlanes(401, 419, () -> {
+		instance.copyMapAllPlanes(401, 419).thenAccept(e -> {
 			spawn = instance.getLocalTile(19, 17);
 			combatStartTile = instance.getLocalTile(15, 20);
 

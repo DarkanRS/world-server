@@ -18,12 +18,11 @@ package com.rs.game.content.holidayevents.halloween;
 
 import java.util.List;
 
-import com.rs.cache.loaders.map.Region;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
 import com.rs.game.map.Chunk;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -47,14 +46,14 @@ public class PumpkinSpawning {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
 		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromHours(1), () -> {
 			try {
 				spawnPumpkins();
 				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
 				Logger.handle(PumpkinSpawning.class, "initSpawning", e);
 			}
-		}, Ticks.fromSeconds(30), Ticks.fromHours(1));
+		});
 	}
 
 	public static int countPumpkins(int chunkId) {

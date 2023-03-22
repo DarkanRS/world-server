@@ -30,7 +30,7 @@ import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.db.WorldDB;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
@@ -90,7 +90,7 @@ public final class Launcher {
 
 		GameDecoder.loadPacketDecoders();
 
-		TaskExecutor.initExecutors();
+		LowPriorityTaskExecutor.initExecutors();
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
 
@@ -115,7 +115,6 @@ public final class Launcher {
 			else
 				Logger.warn(Launcher.class, "main", "Failed to register world with lobby server... You can still login locally but social features will not work properly.");
 		});
-		addAccountsSavingTask();
 		addCleanMemoryTask();
 //		Runtime.getRuntime().addShutdownHook(new Thread() {
 //			@Override
@@ -141,7 +140,7 @@ public final class Launcher {
 	}
 
 	private static void addCleanMemoryTask() {
-		TaskExecutor.schedule(() -> {
+		LowPriorityTaskExecutor.schedule(() -> {
 			try {
 				cleanMemory(getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
 			} catch (Throwable e) {
@@ -150,22 +149,20 @@ public final class Launcher {
 		}, 0, Ticks.fromMinutes(10));
 	}
 
-	private static void addAccountsSavingTask() {
-		TaskExecutor.schedule(() -> {
-			try {
-				saveFiles();
-			} catch (Throwable e) {
-				Logger.handle(Launcher.class, "addAccountsSavingTask", e);
-			}
-
-		}, Ticks.fromMinutes(15));
-	}
-
-	public static void saveFiles() {
+	public static void saveFilesSync() {
 		for (Player player : World.getPlayers()) {
 			if (player == null || !player.hasStarted() || player.hasFinished())
 				continue;
 			WorldDB.getPlayers().saveSync(player);
+		}
+		WorldPersistentData.save();
+	}
+
+	public static void saveFilesAsync() {
+		for (Player player : World.getPlayers()) {
+			if (player == null || !player.hasStarted() || player.hasFinished())
+				continue;
+			WorldDB.getPlayers().save(player);
 		}
 		WorldPersistentData.save();
 	}
@@ -178,8 +175,10 @@ public final class Launcher {
 			List<Integer> destroyed = new IntArrayList();
 			for (int chunkId : World.getUnloadableChunks()) {
 				Chunk chunk = World.getChunk(chunkId);
-				if (!(chunk instanceof InstancedChunk))
+				if (!(chunk instanceof InstancedChunk)) {
+					chunk.clearCollisionData();
 					chunk.destroy();
+				}
 			}
 			for (int chunkId : destroyed)
 				World.getUnloadableChunks().remove(chunkId);
@@ -200,7 +199,7 @@ public final class Launcher {
 
 	public static void closeServices() {
 		ServerChannelHandler.shutdown();
-		TaskExecutor.shutdown();
+		LowPriorityTaskExecutor.shutdown();
 	}
 
 	private Launcher() {
@@ -212,7 +211,7 @@ public final class Launcher {
 	}
 
 	public static void executeCommand(Player player, String cmd) {
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				String line;
 				ProcessBuilder builder = new ProcessBuilder(cmd.split(" "));

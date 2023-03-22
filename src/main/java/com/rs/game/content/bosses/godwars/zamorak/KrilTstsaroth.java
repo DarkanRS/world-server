@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.bosses.godwars.zamorak;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -44,11 +44,11 @@ public class KrilTstsaroth extends NPC {
 	}
 
 	public void respawnMinions() {
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(2, () -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();
-		}, 2);
+		});
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6203, (npcId, tile) -> new KrilTstsaroth(npcId, tile, false));

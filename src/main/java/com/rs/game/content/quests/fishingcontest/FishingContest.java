@@ -149,17 +149,6 @@ public class FishingContest extends QuestOutline {
 		}
 	});
 
-	public static ItemClickHandler handleGiantCarp = new ItemClickHandler(new Object[] { 337 }, e -> {
-		Player p = e.getPlayer();
-		if(e.getOption().equalsIgnoreCase("eat"))
-			p.sendMessage("It doesn't appear edible...");
-		if(e.getOption().equalsIgnoreCase("drop")) {
-			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
-		}
-	});
-
 	/**
 	 * There is a clipflag on the garlic pipe and requires a distance or clip handling function.
 	 */

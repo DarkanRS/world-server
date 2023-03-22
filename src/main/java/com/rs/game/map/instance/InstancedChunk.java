@@ -60,17 +60,18 @@ public class InstancedChunk extends Chunk {
 
 	@Override
 	public void checkLoaded() {
-		super.checkLoaded();
+
 	}
 
 	public void loadMap(boolean copyNpcs) {
 		Chunk realChunk = World.getChunk(getFromChunkId(), true);
+		setMapDataLoaded();
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
 				Tile original = Tile.of(getOriginalBaseX()+x, getOriginalBaseY()+y, fromPlane);
 				int[] coords = transform(x, y, rotation);
 				Tile toTile = Tile.of(getBaseX()+coords[0], getBaseY()+coords[1], getPlane());
-				WorldCollision.setFlags(toTile, WorldCollision.getFlags(original) & (ClipFlag.PFBW_FLOOR.flag | ClipFlag.UNDER_ROOF.flag));
+				WorldCollision.addFlag(toTile, WorldCollision.getFlags(original) & (ClipFlag.PFBW_FLOOR.flag | ClipFlag.UNDER_ROOF.flag));
 			}
 		}
 		for (WorldObject orig : realChunk.getBaseObjects()) {
@@ -116,6 +117,7 @@ public class InstancedChunk extends Chunk {
 
 	@Override
 	public void destroy() {
+		clearCollisionData();
 		super.destroy();
 		for (NPC npc : npcSpawns) {
 			if (npc != null)

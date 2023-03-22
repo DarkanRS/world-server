@@ -88,7 +88,7 @@ public final class QueenBlackDragonController extends Controller {
 	public void start() {
 		player.lock();
 		bossRegion = new Instance(8, 8);
-		bossRegion.copyMapAllPlanes(176, 792, () -> {
+		bossRegion.copyMapAllPlanes(176, 792).thenAccept(e -> {
 			bossBase = bossRegion.getTileBase().transform(0, 0, 1);
 			player.fadeScreen(() -> {
 				player.resetReceivedHits();
@@ -120,7 +120,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.getPackets().sendVarc(184, -1);
 				npc.finish();
 				rewardRegion = new Instance(8, 8);
-				rewardRegion.copyMapAllPlanes(160, 760, () -> {
+				rewardRegion.copyMapAllPlanes(160, 760).thenAccept(e -> {
 					player.resetReceivedHits();
 					rewardBase = rewardRegion.getTileBase().transform(0, 0, 0);
 					player.setNextTile(rewardBase.transform(31, 36, 0));

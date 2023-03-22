@@ -29,9 +29,6 @@ import com.rs.game.model.object.OwnedObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
-import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.web.Telemetry;
 
 public final class WorldThread extends Thread {
@@ -46,7 +43,7 @@ public final class WorldThread extends Thread {
 
 	public static void init() {
 		WORLD_CYCLE = System.currentTimeMillis() / 600L;
-		TaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);
+		LowPriorityTaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);
 	}
 
 	public static Set<String> NAMES = new HashSet<>();

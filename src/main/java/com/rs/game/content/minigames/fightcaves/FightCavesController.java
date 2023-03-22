@@ -133,7 +133,7 @@ public class FightCavesController extends Controller {
 		stage = Stages.LOADING;
 		player.lock(); // locks player
 		region = new Instance(8, 8);
-		region.copyMapAllPlanes(552, 640, () -> {
+		region.copyMapAllPlanes(552, 640).thenAccept(e -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));
 			stage = Stages.RUNNING;

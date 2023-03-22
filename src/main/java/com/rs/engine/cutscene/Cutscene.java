@@ -83,7 +83,7 @@ public abstract class Cutscene {
 		constructingRegion = true;
 		Instance old = region;
 		region = new Instance(widthChunks, heightChunks);
-		region.copyMapAllPlanes(baseChunkX, baseChunkY, () -> {
+		region.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
 			player.setNextTile(Tile.of(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
 			constructingRegion = false;
 			if (old != null)

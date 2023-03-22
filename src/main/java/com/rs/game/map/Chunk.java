@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -27,13 +28,13 @@ import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Chunk {
+    public static final int PLANE_INC = 0x400000;
+    public static final int X_INC = 0x800;
+
     private int id;
     private int x;
     private int y;
@@ -255,14 +256,12 @@ public class Chunk {
     }
 
     public void loadMapFromCache() {
-        clearCollisionData();
         baseObjects = new GameObject[8][8][4];
         Region region = new Region(getRegionId());
         region.loadRegionMap(false);
         for (int xOff = 0;xOff < 8;xOff++)
             for (int yOff = 0;yOff < 8;yOff++)
-                for (int plane = 0;plane < 4;plane++)
-                    WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
+                WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
         if (region.getObjects() != null && !region.getObjects().isEmpty()) {
             for (WorldObject object : region.getObjects()) {
                 if (object.getTile().getChunkId() != id)
@@ -664,7 +663,6 @@ public class Chunk {
     }
 
     public void destroy() {
-        clearCollisionData();
         loadingMapData.set(false);
         loadedMapData.set(false);
         if (getAllGroundItems() != null)
@@ -674,11 +672,11 @@ public class Chunk {
         getBaseObjects().clear();
         getSpawnedObjects().clear();
         getRemovedObjects().clear();
-        for (int npcIndex : npcs) {
+        for (int npcIndex : new IntOpenHashSet(npcs)) {
             NPC npc = World.getNPCs().get(npcIndex);
             if (npc == null)
                 continue;
-            npc.finishAfterTicks(1);
+            npc.finish();
         }
         World.removeChunk(id);
         for (int playerIndex : players) {
@@ -688,6 +686,5 @@ public class Chunk {
             player.setForceNextMapLoadRefresh(true);
             player.loadMapRegions();
         }
-        WorldCollision.clearChunk(getId());
     }
 }

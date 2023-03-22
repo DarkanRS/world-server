@@ -34,6 +34,10 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class BarbarianOutpostAgility {
 
+	public static ObjectClickHandler handleTrapLadder = new ObjectClickHandler(new Object[] { 32015 }, e -> {
+		e.getPlayer().useLadder(Tile.of(2546, 3551, 0));
+	});
+
 	public static ObjectClickHandler handleObstaclePipe = new ObjectClickHandler(new Object[] { 20210 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 35))
 			return;

@@ -39,10 +39,10 @@ public class UpdateZone {
     }
 
     public void rebuildUpdateZone() {
-        for (int plane = 0;plane < 4;plane++) {
-            for (int chunkX = baseChunkX; chunkX < baseChunkX + (size.size / 8); chunkX++) {
-                for (int chunkY = baseChunkY; chunkY < baseChunkY + (size.size / 8); chunkY++) {
-                    Chunk chunk = World.getChunk(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+        for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+            for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
+                    Chunk chunk = World.getChunk(baseChunkId + chunkXOff + chunkYOff + planeOff);
                     if (!chunk.getUpdates().isEmpty()) {
                         chunkUpdates.add(new UpdateZonePartialEnclosed(baseChunkId, chunk.getId(), chunk.getUpdates()));
                     }

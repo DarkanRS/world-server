@@ -252,8 +252,6 @@ public class InventoryOptionsHandler {
 				player.sendMessage("You break the coconut open with the hammer.");
 			} else
 				player.sendMessage("You need a hammer to break this open.");
-		if (Foods.eat(player, item, slotId))
-			return;
 		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherSelectableLamp(itemId))
 			Lamps.processLampClick(player, slotId, itemId);
 		if (item.getId() == 405) {

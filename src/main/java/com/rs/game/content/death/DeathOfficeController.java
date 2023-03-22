@@ -217,7 +217,7 @@ public class DeathOfficeController extends Controller {
 		if (region == null)
 			region = new Instance(2, 2);
 
-		region.copyMapSinglePlane(246, 662, () -> {
+		region.copyMapSinglePlane(246, 662).thenAccept(b -> {
 			player.reset();
 			player.setNextTile(region.getLocalTile(10, 6));
 			WorldTasks.delay(1, () -> {

@@ -26,7 +26,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.cache.loaders.map.RegionSize;
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.db.WorldDB;
 import com.rs.game.content.ItemConstants;
@@ -71,6 +71,8 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.music.Music;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 
@@ -85,22 +87,15 @@ public final class World {
 	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
-	private static final Map<Integer, Chunk> CHUNKS = new HashMap<>();
+	private static final Map<Integer, Chunk> CHUNKS = new Int2ObjectOpenHashMap<>();
 	private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 	private static final Map<Integer, UpdateZone> UPDATE_ZONES = new HashMap<>();
 
 	@ServerStartupEvent
-	public static final void addSavePlayersTask() {
-		TaskExecutor.schedule(() -> {
-			for (Player player : getPlayers()) {
-				if (player == null || !player.hasStarted())
-					continue;
-				WorldDB.getPlayers().save(player);
-			}
-			WorldPersistentData.save();
-		}, 0, Ticks.fromSeconds(30));
+	public static final void addSaveFilesTask() {
+		LowPriorityTaskExecutor.schedule(() -> Launcher.saveFilesAsync(), 0, Ticks.fromSeconds(30));
 	}
 
 	public static final Chunk putChunk(int id, Chunk chunk) {
@@ -116,11 +111,10 @@ public final class World {
 	}
 
 	public static final void markChunksUnviewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
-		for (int plane = 0;plane < 4;plane++) {
-			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
-				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
-					int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane);
+		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
+					int chunkId = baseChunkId + planeOff + chunkXOff + chunkYOff;
 					if (!PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
 						UNLOADABLE_CHUNKS.add(chunkId);
 				}
@@ -129,11 +123,11 @@ public final class World {
 	}
 
 	public static final void markChunksViewed(int baseChunkId, RegionSize size) {
-		int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
-		for (int plane = 0;plane < 4;plane++) {
-			for (int chunkX = coords[0]; chunkX < coords[0] + (size.size / 8); chunkX++) {
-				for (int chunkY = coords[1]; chunkY < coords[1] + (size.size / 8); chunkY++) {
-					UNLOADABLE_CHUNKS.remove(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
+		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+			for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+				for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
+					int chunkId = baseChunkId + planeOff + chunkXOff + chunkYOff;
+					UNLOADABLE_CHUNKS.remove(chunkId);
 				}
 			}
 		}
@@ -927,20 +921,21 @@ public final class World {
 				continue;
 			player.getPackets().sendSystemUpdate(delay);
 		}
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(delay, () -> {
 			try {
 				for (Player player : World.getPlayers()) {
 					if (player == null || !player.hasStarted())
 						continue;
 					player.getPackets().sendLogout(true);
 					player.realFinish();
+					WorldDB.getPlayers().saveSync(player);
 				}
 				WorldPersistentData.save();
 				Launcher.shutdown();
 			} catch (Throwable e) {
 				Logger.handle(World.class, "safeShutdown", e);
 			}
-		}, delay);
+		});
 	}
 
 	public static WorldPersistentData getData() {
@@ -1107,13 +1102,10 @@ public final class World {
 	}
 
 	public static Set<Integer> getChunkRadius(int chunkId, int radius) {
-		int[] xyz = MapUtils.decode(Structure.CHUNK, chunkId);
 		Set<Integer> chunksXYLoop = new IntOpenHashSet();
-		for (int cx = Utils.clampI(xyz[0] - radius, 0, Integer.MAX_VALUE); cx <= xyz[0] + radius; cx++) {
-			for (int cy = Utils.clampI(xyz[1] - radius, 0, Integer.MAX_VALUE); cy <= xyz[1] + radius; cy++) {
-				chunksXYLoop.add(MapUtils.encode(Structure.CHUNK, cx, cy, xyz[2]));
-			}
-		}
+		for (int cx = -radius * Chunk.X_INC; cx <= radius * Chunk.X_INC; cx += Chunk.X_INC)
+			for (int cy = -radius; cy <= radius; cy++)
+				chunksXYLoop.add(chunkId + cx + cy);
 		return chunksXYLoop;
 	}
 
@@ -1277,13 +1269,13 @@ public final class World {
 					WorldDB.getLogs().logPickup(player, groundItem);
 			}
 			if (groundItem.isRespawn())
-				TaskExecutor.schedule(() -> {
+				WorldTasks.schedule(Ticks.fromSeconds(15), () -> { //TODO add variable respawn timers to various ground items
 					try {
 						addGroundItemForever(groundItem, groundItem.getTile());
 					} catch (Throwable e) {
 						Logger.handle(World.class, "removeGroundItem", e);
 					}
-				}, Ticks.fromSeconds(15));
+				});
 			return true;
 		}
 		return false;

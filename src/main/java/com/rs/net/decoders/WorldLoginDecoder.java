@@ -76,7 +76,7 @@ public final class WorldLoginDecoder extends Decoder {
 			session.sendClientPacket(6);
 			return -1;
 		}
-		boolean unknownEquals14 = stream.readUnsignedByte() == 1;
+		boolean gameStateIsUnk10 = stream.readUnsignedByte() == 1;
 		int rsaBlockSize = stream.readUnsignedShort();
 		if (rsaBlockSize > stream.getRemaining()) {
 			session.sendClientPacket(10);
@@ -97,9 +97,8 @@ public final class WorldLoginDecoder extends Decoder {
 			return -1;
 		}
 		String password = rsaStream.readString(); //old password
-		String unknown = Utils.longToString(rsaStream.readLong());
-		rsaStream.readLong(); // random value
-		rsaStream.readLong(); // random value
+		rsaStream.readLong();
+		rsaStream.readLong();
 		stream.decodeXTEA(isaacKeys, stream.getOffset(), stream.getLength());
 		boolean stringUsername = stream.readUnsignedByte() == 1; // unknown
 		String username = Utils.formatPlayerNameForProtocol(stringUsername ? stream.readString() : Utils.longToString(stream.readLong()));
@@ -139,6 +138,8 @@ public final class WorldLoginDecoder extends Decoder {
 		stream.readUnsignedByte();
 		int worldId = stream.readInt();
 		for (int index = 0; index < Cache.STORE.getIndices().length; index++) {
+			if (index > 35)
+				break;
 			int crc = Cache.STORE.getIndices()[index] == null ? -1011863738 : Cache.STORE.getIndices()[index].getCRC();
 			int receivedCRC = stream.readInt();
 			if (crc != receivedCRC && index < 32) {

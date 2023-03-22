@@ -29,7 +29,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.TaskExecutor;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
@@ -84,6 +84,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
+import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -289,15 +290,17 @@ public class DungeonManager {
 	public void openRoom(final Room room, final RoomReference reference, final VisibleRoom visibleRoom) {
 		int chunkOffX = reference.getRoomX() * 2;
 		int chunkOffY = reference.getRoomY() * 2;
-		instance.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }, () -> {
+		instance.copy2x2ChunkSquare(chunkOffX, chunkOffY, room.getChunkX(party.getComplexity()), room.getChunkY(party.getFloorType()), room.getRotation(), new int[] { 0, 1 }).thenAccept(e -> {
 			for (Player player : party.getTeam()) {
 				player.setForceNextMapLoadRefresh(true);
 				player.loadMapRegions();
 			}
 			if (isDestroyed())
 				return;
-			room.openRoom(DungeonManager.this, reference);
-			visibleRoom.openRoom();
+			WorldTasks.schedule(1, () -> {
+				room.openRoom(DungeonManager.this, reference);
+				visibleRoom.openRoom();
+			});
 			for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
 				Door door = room.getDoor(i);
 				if (door == null)
@@ -320,7 +323,6 @@ public class DungeonManager {
 			}
 			if (room.getRoom().allowResources())
 				setResources(room, reference, chunkOffX, chunkOffY);
-
 			if (room.getDropId() != -1)
 				setKey(room, reference);
 			visibleRoom.setLoaded();
@@ -1485,13 +1487,13 @@ public class DungeonManager {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
 		// slow executor loads dungeon as it may take up to few secs
-		TaskExecutor.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				instance = new Instance(dungeon.getMapWidth() * 2, (dungeon.getMapHeight() * 2));
-				instance.clearMap(new int[1], () -> {
+				instance = new Instance(dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
+				instance.clearMap(new int[1]).thenAccept(e -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());
 					stage = 1;

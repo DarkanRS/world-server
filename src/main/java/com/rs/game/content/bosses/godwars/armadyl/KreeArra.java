@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.bosses.godwars.armadyl;
 
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -46,11 +46,11 @@ public class KreeArra extends NPC {
 	}
 
 	public void respawnMinions() {
-		TaskExecutor.schedule(() -> {
+		WorldTasks.schedule(2, () -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();
-		}, 2);
+		});
 	}
 
 	@Override

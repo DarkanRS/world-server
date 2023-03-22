@@ -25,19 +25,20 @@ import java.util.stream.Stream;
 import com.rs.Settings;
 import com.rs.lib.thread.CatchExceptionRunnable;
 import com.rs.lib.util.Logger;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import jdk.incubator.concurrent.StructuredTaskScope;
 
-public final class TaskExecutor {
+public final class LowPriorityTaskExecutor {
 	public static volatile boolean SHUTDOWN;
 
 	private static ScheduledExecutorService WORLD_EXECUTOR;
 	private static ScheduledExecutorService LOW_PRIORITY_EXECUTOR;
-	private static List<Future<?>> PENDING_FUTURES = new ArrayList<>();
+	private static List<Future<?>> PENDING_FUTURES = new ObjectArrayList<>();
 
 	public static void initExecutors() {
-		Logger.info(TaskExecutor.class, "startThreads", "Initializing world threads...");
-		LOW_PRIORITY_EXECUTOR = Executors.newSingleThreadScheduledExecutor(Thread.ofVirtual().factory());
+		Logger.info(LowPriorityTaskExecutor.class, "startThreads", "Initializing world threads...");
 		WORLD_EXECUTOR = Executors.newSingleThreadScheduledExecutor(new WorldThreadFactory());
+		LOW_PRIORITY_EXECUTOR = Executors.newScheduledThreadPool(16, Thread.ofVirtual().factory());
 	}
 
 	public class LowPriorityTaskScope<T> extends StructuredTaskScope<T> {

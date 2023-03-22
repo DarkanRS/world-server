@@ -23,10 +23,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 
 import com.rs.lib.util.Logger;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class WorldTasks {
 
-	private static final List<WorldTaskInformation> TASKS = new CopyOnWriteArrayList<>();
+	private static final List<WorldTaskInformation> TASKS = new ObjectArrayList<>();
 
 	public static void processTasks() {
 		synchronized(TASKS) {

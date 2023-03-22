@@ -18,7 +18,6 @@ package com.rs.game.content.skills.woodcutting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.TaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -27,6 +26,7 @@ import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -134,14 +134,14 @@ public class Woodcutting extends Action {
 				@Override
 				public void fellTree() {
 					e.getPlayer().getVars().setVarBit(9776, 2);
-					TaskExecutor.schedule(() -> {
+					WorldTasks.schedule(Ticks.fromMinutes(2), () -> {
 						try {
 							if (e.getPlayer() != null && !e.getPlayer().hasFinished())
 								e.getPlayer().getVars().setVarBit(9776, 1);
 						} catch (Throwable e1) {
 							Logger.handle(Woodcutting.class, "handleBlisterwood", e1);
 						}
-					}, Ticks.fromMinutes(2));
+					});
 				}
 
 				@Override
