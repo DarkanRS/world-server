@@ -131,6 +131,7 @@ public enum TaskMonster {
 	CYCLOPES(108, 1, "cyclops"),
 	MUTATED_JADINKOS(109, 80, "mutated jadinko"),
 	VYREWATCH(110, 1, Quest.BRANCHES_OF_DARKMEYER, "vyrewatch", "vyrelord", "vyrelady"),
+	//111 GELATINOUS_ABOMINATIONS
 	GROTWORMS(112, 1, "grotworm");
 
 	private static HashMap<Integer, TaskMonster> MAP = new HashMap<>();
