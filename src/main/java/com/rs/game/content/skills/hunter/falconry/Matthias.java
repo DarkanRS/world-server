@@ -38,6 +38,8 @@ public class Matthias extends NPC {
 		List<GameObject> posts = POST_TILES.stream()
 				.filter(obj -> obj.getId() == (hasBird ? 19220 : 19221))
 				.toList();
+		if (posts.isEmpty())
+			return;
 		GameObject post = posts.get(Utils.random(posts.size()));
 		if (post == null)
 			return;

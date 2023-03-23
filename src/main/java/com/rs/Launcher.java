@@ -44,11 +44,7 @@ import com.rs.lib.net.ServerChannelHandler;
 import com.rs.lib.net.decoders.GameDecoder;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketEncoder;
-import com.rs.lib.util.Logger;
-import com.rs.lib.util.MapXTEAs;
-import com.rs.lib.util.PacketAdapter;
-import com.rs.lib.util.PacketEncoderAdapter;
-import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.*;
 import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
@@ -175,8 +171,10 @@ public final class Launcher {
 			List<Integer> destroyed = new IntArrayList();
 			for (int chunkId : World.getUnloadableChunks()) {
 				Chunk chunk = World.getChunk(chunkId);
-				if (!(chunk instanceof InstancedChunk))
+				if (!(chunk instanceof InstancedChunk)) {
+					chunk.clearCollisionData();
 					chunk.destroy();
+				}
 			}
 			for (int chunkId : destroyed)
 				World.getUnloadableChunks().remove(chunkId);

@@ -672,11 +672,11 @@ public class Chunk {
         getBaseObjects().clear();
         getSpawnedObjects().clear();
         getRemovedObjects().clear();
-        for (int npcIndex : npcs) {
+        for (int npcIndex : new IntOpenHashSet(npcs)) {
             NPC npc = World.getNPCs().get(npcIndex);
             if (npc == null)
                 continue;
-            npc.finishAfterTicks(1);
+            npc.finish();
         }
         World.removeChunk(id);
         for (int playerIndex : players) {

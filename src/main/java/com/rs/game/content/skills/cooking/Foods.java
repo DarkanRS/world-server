@@ -42,9 +42,7 @@ public class Foods {
 
     public static final Animation EAT_ANIM = new Animation(829);
 
-    public static ItemClickHandler eat = new ItemClickHandler(Food.foods.keySet().toArray(), new String[] { "Eat" }, e -> {
-        eat(e.getPlayer(), e.getItem(), e.getSlotId(), null);
-    });
+    public static ItemClickHandler eat = new ItemClickHandler(Food.foods.keySet().toArray(), new String[] { "Eat" }, e -> eat(e.getPlayer(), e.getItem(), e.getSlotId(), null));
 
     public static boolean eat(final Player player, Item item, int slot, Player givenFrom) {
         Food food = Food.forId(item.getId());
