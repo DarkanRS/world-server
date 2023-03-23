@@ -125,6 +125,8 @@ public class WerewolfAgility {
 	public static ObjectClickHandler handleStepStones = new ObjectClickHandler(false, new Object[] { 35996 }, e -> {
 		if(!Agility.hasLevel(e.getPlayer(), 60) || e.getPlayer().getTile().getY() > 9880)
 			return;
+		if(e.getObject().getTile().matches(e.getPlayer().getTile()))
+			return;
 		if(e.getObject().getTile().isAt(3538, 9875)) {
 			e.getPlayer().walkToAndExecute(Tile.of(3538, 9873, 0), jumpRock(e));
 		} else
