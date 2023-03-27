@@ -47,8 +47,28 @@ public class Potions {
 	public static final int JUJU_VIAL = 19996;
 	public static final int BEER_GLASS = 1919;
 	public static final int EMPTY_KEG = 5769;
+	private static int EMPTY_CUP = 4244;
+	private static int BOWL = 1923;
 
 	public enum Potion {
+		NETTLE_TEA_CUP(EMPTY_CUP, new int[] { 4245 }, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_CUP_MILKY(EMPTY_CUP, 4246, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_BOWL(BOWL, 4239,p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_BOWL_MILKY(BOWL, 4240, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_WATER(BOWL, 4237, p -> p.heal(10)),
+
 		ATTACK_POTION(VIAL, new int[] { 2428, 121, 123, 125 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.ATTACK)),
 		ATTACK_FLASK(-1, new int[] { 23195, 23197, 23199, 23201, 23203, 23205 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.ATTACK)),
 		ATTACK_MIX(VIAL, new int[] { 11429, 11431 }, p -> {
