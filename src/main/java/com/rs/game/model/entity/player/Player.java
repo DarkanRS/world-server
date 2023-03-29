@@ -1310,12 +1310,12 @@ public class Player extends Entity {
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		int farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
+		long farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
 		if (farmingTicksMissed > 768)
 			farmingTicksMissed = 768;
 		if (farmingTicksMissed <= 0)
 			farmingTicksMissed = 0;
-		for (int i = 0;i < farmingTicksMissed;i++)
+		for (long i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 
 		for (FarmPatch p : getPatches().values())

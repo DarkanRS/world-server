@@ -200,7 +200,7 @@ public class FlyingEntityHunter {
 				return;
 			}
 		} else if (e.getPlayer().getSkills().getLevel(Constants.HUNTER) < entity.getLevel()+10) {
-			e.getPlayer().sendMessage("You need a hunter level of " + entity.getLevel() + 10 + " in order to capture a " + e.getNPC().getName().toLowerCase() + " barehanded.");
+			e.getPlayer().sendMessage("You need a hunter level of " + (entity.getLevel() + 10) + " in order to capture a " + e.getNPC().getName().toLowerCase() + " barehanded.");
 			return;
 		}
 		e.getPlayer().lock(2);
