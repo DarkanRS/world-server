@@ -771,6 +771,8 @@ public abstract class Entity {
 			if (LOS_NPC_OVERRIDES.contains(npc.getId()) || LOS_NPC_OVERRIDES.contains(npc.getName()))
 				return true;
 			switch(npc.getId()) {
+				case 233: //Fishing contest player spot
+				case 234: //Fishing contest big carp spot
 				case 9712: //dung tutor
 				case 9710: //frem banker
 				case 706: //wizard mizgog
