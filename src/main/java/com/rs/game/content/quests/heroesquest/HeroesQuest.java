@@ -89,11 +89,20 @@ public class HeroesQuest extends QuestOutline {
 					lines.add("");
 				} else {
 					if (ShieldOfArrav.hasGang(player)) {
-						lines.add("To get the master thieves armband you");
-						if (ShieldOfArrav.isPhoenixGang(player))
+						if (ShieldOfArrav.isPhoenixGang(player)) {
+							lines.add("To get the master thieves armband you");
 							lines.add("should talk to Straven for a mission...");
-						if (ShieldOfArrav.isBlackArmGang(player))
-							lines.add("should talk to Katrine for a mission...");
+						}
+						if (ShieldOfArrav.isBlackArmGang(player)) {
+							if(player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_trick")) {
+								lines.add("The black arm gang has given me a mission to steal Pete's");
+								lines.add("candle sticks. I am to sneak in as a guard in black armour");
+								lines.add("by giving my paper ID then finding the chest with the sticks.");
+							} else {
+								lines.add("To get the master thieves armband you");
+								lines.add("should talk to Katrine for a mission...");
+							}
+						}
 					} else {
 						lines.add("Error, you don't have a gang, contact an admin!");
 					}
