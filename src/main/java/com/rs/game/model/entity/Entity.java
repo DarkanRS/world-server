@@ -636,7 +636,7 @@ public abstract class Entity {
 			if (needMapUpdate())
 				loadMapRegions();
 			if (player != null) {
-				if (World.getChunk(getChunkId(), true) instanceof InstancedChunk)
+				if (player.isHasNearbyInstancedChunks())
 					player.setLastNonDynamicTile(Tile.of(lastTile));
 				else
 					player.clearLastNonDynamicTile();
