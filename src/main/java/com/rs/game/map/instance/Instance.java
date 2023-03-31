@@ -78,9 +78,9 @@ public class Instance {
     public CompletableFuture<Boolean> copyMap(int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         if (chunkBase == null)
-            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
+            requestChunkBound().thenAccept(bool -> InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, future)).exceptionally(e -> { future.completeExceptionally(e); return null; });
         else
-            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, future);
+            InstanceBuilder.copyMap(this, localChunkX, localChunkY, planes, fromChunkX, fromChunkY, fromPlanes, width, height, copyNpcs, future);
         return future;
     }
 

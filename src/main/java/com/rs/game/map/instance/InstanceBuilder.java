@@ -265,7 +265,7 @@ public final class InstanceBuilder {
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, CompletableFuture<Boolean> future) {
 		LowPriorityTaskExecutor.execute(() -> {
 			try {
-				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size);
+				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size, ref.isCopyNpcs());
 				future.complete(true);
 			} catch (Throwable e) {
 				Logger.handle(InstanceBuilder.class, "copyMap", e);
@@ -274,29 +274,29 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size) {
+	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, boolean copyNpcs) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;
-		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, planes, planes);
+		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, planes, planes, copyNpcs);
 	}
 
 	@SuppressWarnings("unused")
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions) {
+	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions, boolean copyNpcs) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;
-		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, widthRegions, heightRegions, planes, planes);
+		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, widthRegions, heightRegions, planes, planes, copyNpcs);
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, int[] fromPlanes, int[] toPlanes) {
-		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes);
+	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
+		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes, copyNpcs);
 	}
 
-	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, CompletableFuture<Boolean> future) {
+	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, boolean copyNpcs, CompletableFuture<Boolean> future) {
 		LowPriorityTaskExecutor.execute(() -> {
 			try {
-				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes);
+				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes, copyNpcs);
 				future.complete(true);
 			} catch (Throwable e) {
 				Logger.handle(InstanceBuilder.class, "copyMap", e);
@@ -305,7 +305,7 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes) {
+	private static final void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
 		if (fromPlanes.length != toPlanes.length)
 			throw new RuntimeException("PLANES LENGTH ISNT SAME OF THE NEW PLANES ORDER!");
 		for (int planeIdx = 0; planeIdx < fromPlanes.length; planeIdx++) {
@@ -315,7 +315,7 @@ public final class InstanceBuilder {
 						MapUtils.encode(Structure.CHUNK, fromChunkX + xOffset, fromChunkY + yOffset, fromPlanes[planeIdx]),
 						MapUtils.encode(Structure.CHUNK, toChunkX + xOffset, toChunkY + yOffset, toPlanes[planeIdx]), 0
 					);
-					instance.loadMap(true);
+					instance.loadMap(copyNpcs);
 				}
 		}
 	}
