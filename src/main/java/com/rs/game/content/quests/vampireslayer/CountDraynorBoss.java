@@ -261,11 +261,11 @@ public class CountDraynorBoss extends OwnedNPC {
 	public static ItemOnNPCHandler hammerOnCountDraynor = new ItemOnNPCHandler(COUNT_DRAYNOR_ID, e -> {
 		if (e.getItem().getId() != STAKE_HAMMER && e.getItem().getId() != REGULAR_HAMMER)
 			return;
-		if (!(e.getNPC() instanceof CountDraynorBoss boss) || boss.isLocked()) {
-			e.getPlayer().sendMessage("I must weaken him first");
+		if ((e.getNPC() instanceof CountDraynorBoss boss) && boss.isLocked()) {
+			boss.die(e.getPlayer());
 			return;
 		}
-		boss.die(e.getPlayer());
+		e.getPlayer().sendMessage("I must weaken him first");
 	});
 
 }
