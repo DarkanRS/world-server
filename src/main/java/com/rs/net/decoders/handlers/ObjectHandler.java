@@ -50,7 +50,6 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 import com.rs.game.content.skills.smithing.ForgingInterface;
-import com.rs.game.content.skills.smithing.SmeltingD;
 import com.rs.game.content.skills.smithing.Smithing.Smithable;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.transportation.WildernessObelisk;
@@ -1541,8 +1540,6 @@ public final class ObjectHandler {
 			player.faceObject(object);
 			if (!player.getControllerManager().processObjectClick2(object) || player.getTreasureTrailsManager().useObject(object))
 				return;
-			if (object.getDefinitions(player).getName().equalsIgnoreCase("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))
-				player.startConversation(new SmeltingD(player, object));
 			else if (id == 17010) {
 				player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 					ops.add("Yes, replace my spellbook.", () -> {
