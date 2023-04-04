@@ -168,16 +168,16 @@ public final class Launcher {
 			ItemDefinitions.clearItemsDefinitions();
 			NPCDefinitions.clearNPCDefinitions();
 			ObjectDefinitions.clearObjectDefinitions();
-			List<Integer> destroyed = new IntArrayList();
-			for (int chunkId : World.getUnloadableChunks()) {
-				Chunk chunk = World.getChunk(chunkId);
-				if (!(chunk instanceof InstancedChunk)) {
-					chunk.clearCollisionData();
-					chunk.destroy();
-				}
-			}
-			for (int chunkId : destroyed)
-				World.getUnloadableChunks().remove(chunkId);
+//			List<Integer> destroyed = new IntArrayList();
+//			for (int chunkId : World.getUnloadableChunks()) {
+//				Chunk chunk = World.getChunk(chunkId);
+//				if (!(chunk instanceof InstancedChunk)) {
+//					chunk.clearCollisionData();
+//					chunk.destroy();
+//				}
+//			}
+//			for (int chunkId : destroyed)
+//				World.getUnloadableChunks().remove(chunkId);
 			Logger.debug(Launcher.class, "cleanMemory", "Force cleaning cached data.");
 		}
 		for (Index index : Cache.STORE.getIndices())
