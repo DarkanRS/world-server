@@ -2,6 +2,7 @@ package com.rs.game.map;
 
 import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -22,7 +23,7 @@ public final class ChunkManager {
     private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
     private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
 
-    public static Chunk getChunk(int chunkId) {
+    public static Chunk loadChunk(int chunkId) {
         synchronized (CHUNK_LOCK) {
             Chunk chunk = CHUNKS.get(chunkId);
             if (CHUNKS.get(chunkId) != null)
@@ -43,6 +44,8 @@ public final class ChunkManager {
             for (WorldObject object : region.getObjects()) {
                 int oCid = object.getTile().getChunkId();
                 Chunk oChunk = CHUNKS.get(chunkId);
+                if (oChunk instanceof InstancedChunk)
+                    continue;
                 if (oChunk == null)
                     oChunk = new Chunk(oCid);
                 oChunk.addBaseObject(new GameObject(object));
