@@ -42,7 +42,7 @@ public class UpdateZone {
         for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
             for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
                 for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
-                    Chunk chunk = World.getChunk(baseChunkId + chunkXOff + chunkYOff + planeOff);
+                    Chunk chunk = ChunkManager.getChunk(baseChunkId + chunkXOff + chunkYOff + planeOff);
                     if (!chunk.getUpdates().isEmpty()) {
                         chunkUpdates.add(new UpdateZonePartialEnclosed(baseChunkId, chunk.getId(), chunk.getUpdates()));
                     }
@@ -83,6 +83,6 @@ public class UpdateZone {
     public void removeWatcher(int pid) {
         watchers.remove(pid);
         if (watchers.isEmpty())
-            World.removeUpdateZone(baseChunkId, size);
+            ChunkManager.removeUpdateZone(baseChunkId, size);
     }
 }
