@@ -70,7 +70,7 @@ public final class ChunkManager {
 
     public static final void updateChunks(Entity entity) {
         if (entity instanceof NPC)
-            clipNPC((NPC) entity);
+            WorldCollision.clipNPC((NPC) entity);
         if (entity.hasFinished()) {
             if (entity instanceof Player) {
                 getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
