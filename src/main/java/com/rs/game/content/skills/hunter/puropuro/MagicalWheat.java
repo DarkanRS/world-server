@@ -3,6 +3,7 @@ package com.rs.game.content.skills.hunter.puropuro;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Skills;
@@ -75,6 +76,8 @@ public class MagicalWheat {
 
     @ServerStartupEvent
     public static void initMagicalWheat() {
+        for (MagicWheat wheat : MagicWheat.values())
+            ChunkManager.permanentlyPreloadChunks(wheat.tile1.getChunkId(), wheat.tile2.getChunkId());
         final int NO_WHEAT = 25000;
         final int HAS_WHEAT = 25021;
         final int GROWING_WHEAT = 25022;

@@ -17,6 +17,7 @@
 package com.rs.game.content.bosses.tormenteddemon;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -162,7 +163,7 @@ public final class TormentedDemon extends NPC {
 				setFinished(false);
 				World.addNPC(npc);
 				npc.setLastChunkId(0);
-				World.updateChunks(npc);
+				ChunkManager.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();
 				shieldTimer = 0;

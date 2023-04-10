@@ -35,6 +35,7 @@ import com.rs.db.WorldDB;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -168,16 +169,7 @@ public final class Launcher {
 			ItemDefinitions.clearItemsDefinitions();
 			NPCDefinitions.clearNPCDefinitions();
 			ObjectDefinitions.clearObjectDefinitions();
-//			List<Integer> destroyed = new IntArrayList();
-//			for (int chunkId : World.getUnloadableChunks()) {
-//				Chunk chunk = World.getChunk(chunkId);
-//				if (!(chunk instanceof InstancedChunk)) {
-//					chunk.clearCollisionData();
-//					chunk.destroy();
-//				}
-//			}
-//			for (int chunkId : destroyed)
-//				World.getUnloadableChunks().remove(chunkId);
+			ChunkManager.clearUnusedMemory();
 			Logger.debug(Launcher.class, "cleanMemory", "Force cleaning cached data.");
 		}
 		for (Index index : Cache.STORE.getIndices())

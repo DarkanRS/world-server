@@ -19,6 +19,7 @@ package com.rs.game.content.skills.slayer;
 import java.util.List;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -318,7 +319,7 @@ public class Slayer {
 	public static boolean isUsingBell(final Player player) {
 		player.lock(3);
 		player.setNextAnimation(new Animation(6083));
-		List<GameObject> objects = World.getChunk(player.getChunkId()).getAllObjects();
+		List<GameObject> objects = ChunkManager.getChunk(player.getChunkId()).getAllObjects();
 		if (objects == null)
 			return false;
 		for (final GameObject object : objects) {

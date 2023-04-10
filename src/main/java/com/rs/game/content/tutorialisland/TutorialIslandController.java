@@ -37,6 +37,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.engine.dialogue.statements.OptionStatement;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
@@ -79,7 +80,7 @@ public final class TutorialIslandController extends Controller {
 
 	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void init() {
-		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(TUTORIAL_REGIONS));
+		ChunkManager.permanentlyPreloadChunks(World.mapRegionIdsToChunks(TUTORIAL_REGIONS));
 	}
 
 	public enum Stage {
@@ -1346,7 +1347,7 @@ public final class TutorialIslandController extends Controller {
 
 	public NPC getNPC(int id) {
 		for (int chunkId : World.mapRegionIdsToChunks(TUTORIAL_REGIONS, 0)) {
-			Chunk r = World.getChunk(chunkId, true);
+			Chunk r = ChunkManager.getChunk(chunkId, true);
 			if (r == null || r.getNPCsIndexes() == null)
 				continue;
 			for (int npcIdx : r.getNPCsIndexes()) {

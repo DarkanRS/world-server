@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -77,7 +78,7 @@ public class Bonfire extends PlayerAction {
 	}
 
 	private boolean checkAll(Player player) {
-		if (!World.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
+		if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FIREMAKING) < log.level) {
 			player.simpleDialogue("You need level " + log.level + " Firemaking to add these logs to a bonfire.");

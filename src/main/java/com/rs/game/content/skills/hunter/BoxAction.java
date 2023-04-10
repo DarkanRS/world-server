@@ -21,6 +21,7 @@ import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.content.skills.hunter.traps.DeadfallTrap;
 import com.rs.game.content.skills.hunter.traps.MarasamawPlant;
 import com.rs.game.content.skills.hunter.traps.NetTrap;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -103,7 +104,7 @@ public class BoxAction extends PlayerAction {
 				player.getInventory().deleteItem(954, 1);
 				player.getInventory().deleteItem(303, 1);
 			} else {
-				GroundItem item = groundItem != null ? groundItem : World.getChunk(tile.getChunkId()).getGroundItem(type.getId(), tile, player);
+				GroundItem item = groundItem != null ? groundItem : ChunkManager.getChunk(tile.getChunkId()).getGroundItem(type.getId(), tile, player);
 				if (item != null)
 					World.removeGroundItem(player, item, false);
 			}

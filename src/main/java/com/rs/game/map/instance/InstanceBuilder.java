@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture;
 import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -58,16 +59,16 @@ public final class InstanceBuilder {
 	}
 
 	public static InstancedChunk createAndReserveChunk(int fromChunkId, int toChunkId, int rotation) {
-		Chunk chunk = World.getChunk(toChunkId);
+		Chunk chunk = ChunkManager.getChunk(toChunkId);
 		if (chunk != null)
 			chunk.destroy();
 		InstancedChunk newChunk = new InstancedChunk(fromChunkId, toChunkId, rotation);
-		World.putChunk(toChunkId, newChunk);
+		ChunkManager.putChunk(toChunkId, newChunk);
 		return newChunk;
 	}
 
 	public static void destroyChunk(int chunkId) {
-		Chunk chunk = World.getChunk(chunkId);
+		Chunk chunk = ChunkManager.getChunk(chunkId);
 		if (chunk != null)
 			chunk.destroy();
 	}

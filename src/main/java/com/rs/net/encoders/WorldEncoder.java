@@ -24,6 +24,7 @@ import java.util.Set;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -429,7 +430,7 @@ public class WorldEncoder extends Encoder {
 		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC) {
 			for (int chunkX = (player.getChunkX() - mapHash) * Chunk.X_INC; chunkX <= ((player.getChunkX() + mapHash)) * Chunk.X_INC; chunkX += Chunk.X_INC) {
 				for (int chunkY = (player.getChunkY() - mapHash); chunkY <= ((player.getChunkY() + mapHash)); chunkY++) {
-					Chunk chunk = World.getChunk(chunkX + chunkY + plane);
+					Chunk chunk = ChunkManager.getChunk(chunkX + chunkY + plane);
 					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0)
 						stream.writeBits(1, 0);
 					else {

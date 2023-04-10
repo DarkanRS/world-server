@@ -4,6 +4,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;
@@ -463,7 +464,7 @@ public class PyramidPlunder {
 
 	private static void activateTrap(PlayerStepEvent e, Direction trapDir) {
 		Tile trapTile = e.getTile();
-		for(GameObject obj : World.getChunk(trapTile.getChunkId()).getBaseObjects())
+		for(GameObject obj : ChunkManager.getChunk(trapTile.getChunkId()).getBaseObjects())
 			if(obj.getId() == 16517) {
 				if(trapTile.matches(obj.getTile()) || (obj.getX() - trapDir.getDx() == trapTile.getX() && obj.getY() - trapDir.getDy() == trapTile.getY())) {
 					obj.animate(new Animation(463));

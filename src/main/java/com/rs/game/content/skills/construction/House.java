@@ -36,6 +36,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -758,7 +759,7 @@ public class House {
 	}
 
 	private void refreshObject(RoomReference rref, ObjectReference oref, boolean remove) {
-		Chunk chunk = World.getChunk(this.instance.getChunkId(rref.x, rref.y, rref.plane));
+		Chunk chunk = ChunkManager.getChunk(this.instance.getChunkId(rref.x, rref.y, rref.plane));
 		for (int x = 0; x < 8; x++)
 			for (int y = 0; y < 8; y++) {
 				GameObject[] objects = chunk.getBaseObjects(Tile.of(chunk.getBaseX()+x, chunk.getBaseY()+y, rref.plane));
@@ -1215,7 +1216,7 @@ public class House {
 		int boundY = instance.getLocalY(reference.y, 0);
 		int realChunkX = reference.room.getChunkX();
 		int realChunkY = reference.room.getChunkY();
-		Chunk chunk = World.getChunk(RegionUtils.encode(Structure.CHUNK, reference.room.getChunkX(), reference.room.getChunkY(), look & 0x3), true);
+		Chunk chunk = ChunkManager.getChunk(RegionUtils.encode(Structure.CHUNK, reference.room.getChunkX(), reference.room.getChunkY(), look & 0x3), true);
 		if (reference.plane == 0)
 			for (int x = 0; x < 8; x++)
 				for (int y = 0; y < 8; y++) {
@@ -1318,19 +1319,19 @@ public class House {
 			}
 			regionBuilding.forEach(CompletableFuture::join);
 			for (int chunkId : this.instance.getChunkIds()) {
-				Chunk chunk = World.getChunk(chunkId, true);
+				Chunk chunk = ChunkManager.getChunk(chunkId, true);
 				for (GameObject object : chunk.getSpawnedObjects())
 					chunk.removeObject(object);
 			}
 			for (int chunkId : this.instance.getChunkIds()) {
-				Chunk chunk = World.getChunk(chunkId, true);
+				Chunk chunk = ChunkManager.getChunk(chunkId, true);
 				for (GameObject object : chunk.getRemovedObjects().values())
 					chunk.removeObject(object);
 			}
 			for (RoomReference reference : roomsR) {
 				for (int x = 0; x < 8; x++)
 					for (int y = 0; y < 8; y++) {
-						GameObject[] objects = World.getChunk(instance.getChunkId(reference.x, reference.y, reference.plane)).getBaseObjects(x, y);
+						GameObject[] objects = ChunkManager.getChunk(instance.getChunkId(reference.x, reference.y, reference.plane)).getBaseObjects(x, y);
 						if (objects != null)
 							skip: for (GameObject object : objects) {
 								if (object == null)
@@ -1389,7 +1390,7 @@ public class House {
 
 	public boolean containsAnyObject(int... ids) {
 		for (int chunkId : this.instance.getChunkIds()) {
-			Chunk chunk = World.getChunk(chunkId, true);
+			Chunk chunk = ChunkManager.getChunk(chunkId, true);
 			List<GameObject> spawnedObjects = chunk.getSpawnedObjects();
 			for (GameObject wo : spawnedObjects)
 				for (int id : ids)
