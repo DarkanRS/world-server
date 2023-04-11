@@ -53,12 +53,12 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.RegionUtils;
-import com.rs.utils.RegionUtils.Structure;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 @PluginEventHandler
@@ -1216,7 +1216,7 @@ public class House {
 		int boundY = instance.getLocalY(reference.y, 0);
 		int realChunkX = reference.room.getChunkX();
 		int realChunkY = reference.room.getChunkY();
-		Chunk chunk = ChunkManager.getChunk(RegionUtils.encode(Structure.CHUNK, reference.room.getChunkX(), reference.room.getChunkY(), look & 0x3), true);
+		Chunk chunk = ChunkManager.getChunk(MapUtils.encode(Structure.CHUNK, reference.room.getChunkX(), reference.room.getChunkY(), look & 0x3), true);
 		if (reference.plane == 0)
 			for (int x = 0; x < 8; x++)
 				for (int y = 0; y < 8; y++) {

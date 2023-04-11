@@ -27,12 +27,13 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Area;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.RegionUtils;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
@@ -45,11 +46,11 @@ public class FishingTrawler {
 
 	private static FishingTrawler instance;
 
-	public static final RegionUtils.Area NO_WATER_SHIP = RegionUtils.getArea(Tile.of(1885, 4824, 0), Tile.of(1892, 4826, 0));
-	public static final RegionUtils.Area WATER_SHIP = RegionUtils.getArea(Tile.of(2013, 4824, 0), Tile.of(2020, 4826, 0));
-	private static final RegionUtils.Area CRASHED_SHIP = RegionUtils.getArea(Tile.of(1950, 4824, 0), Tile.of(1956, 4826, 0));
+	public static final Area NO_WATER_SHIP = MapUtils.getArea(Tile.of(1885, 4824, 0), Tile.of(1892, 4826, 0));
+	public static final Area WATER_SHIP = MapUtils.getArea(Tile.of(2013, 4824, 0), Tile.of(2020, 4826, 0));
+	private static final Area CRASHED_SHIP = MapUtils.getArea(Tile.of(1950, 4824, 0), Tile.of(1956, 4826, 0));
 
-	public static RegionUtils.Area SHORE = RegionUtils.getArea(Tile.of(2670, 3221, 0), Tile.of(2675, 3223, 0));
+	public static Area SHORE = MapUtils.getArea(Tile.of(2670, 3221, 0), Tile.of(2675, 3223, 0));
 
 	private static final Tile END_TILE = Tile.of(2666, 3160, 0);
 
@@ -269,7 +270,7 @@ public class FishingTrawler {
 
 	public void leak() {
 		if(leaks.size() == 16) return;
-		RegionUtils.Area shipArea = onWaterShip() ? WATER_SHIP : NO_WATER_SHIP;
+		Area shipArea = onWaterShip() ? WATER_SHIP : NO_WATER_SHIP;
 		while(true) {
 			int y = Utils.random(2) == 1 ? shipArea.getY() - 1 : shipArea.getY() + 2;
 			int x = shipArea.getX() + Utils.random(8);

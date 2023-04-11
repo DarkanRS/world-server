@@ -1,10 +1,8 @@
 package com.rs.game.map;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -238,7 +236,7 @@ public class Chunk {
     public void checkLoaded() {
         if (!loadingMapData.get()) {
             loadingMapData.set(true);
-            ChunkManager.loadChunk(id);
+            ChunkManager.loadRegionMapDataByChunkId(id);
             loadedMapData.set(true);
         }
         if (!loadingSpawnData.get()) {

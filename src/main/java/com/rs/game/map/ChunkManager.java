@@ -13,6 +13,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -23,10 +24,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @PluginEventHandler
 public final class ChunkManager {
@@ -133,20 +131,27 @@ public final class ChunkManager {
         }
     }
 
-    public static Chunk loadChunk(int chunkId) {
+    public static void loadRegionMapDataByChunkId(int chunkId) {
         synchronized (CHUNK_LOCK) {
             Chunk chunk = CHUNKS.get(chunkId);
-            if (CHUNKS.get(chunkId) != null)
-                return chunk;
-            chunk = new Chunk(chunkId);
-            CHUNKS.put(chunkId, chunk);
+            if (chunk == null) {
+                chunk = new Chunk(chunkId);
+                CHUNKS.put(chunkId, chunk);
+                return;
+            }
+            System.out.println("Loading chunkId: " + chunkId + " - " + MapUtils.chunkToRegionId(chunkId));
+            System.out.println(Arrays.toString(MapUtils.decode(MapUtils.Structure.CHUNK, chunkId)));
+            System.out.println(CHUNKS.containsKey(chunkId) + " - " + chunk.loadedMapData.get() + " - " + CHUNKS.size());
+            if (chunk.loadingMapData.get() || chunk.loadedMapData.get())
+                return;
             int regionId = MapUtils.chunkToRegionId(chunkId);
             Region region = new Region(regionId);
+            verifyChunksInited(region);
             region.loadRegionMap(false);
             if (!region.hasData()) {
                 chunk.setMapDataLoaded();
                 chunk.checkLoaded();
-                return chunk;
+                return;
             }
             for (int x = 0; x < 64; x++)
                 for (int y = 0; y < 64; y++)
@@ -155,7 +160,7 @@ public final class ChunkManager {
             if (region.getObjects() == null || region.getObjects().isEmpty()) {
                 chunk.setMapDataLoaded();
                 chunk.checkLoaded();
-                return chunk;
+                return;
             }
             for (WorldObject object : region.getObjects()) {
                 int oCid = object.getTile().getChunkId();
@@ -170,7 +175,23 @@ public final class ChunkManager {
             }
             chunk.setMapDataLoaded();
             chunk.checkLoaded();
-            return chunk;
+        }
+    }
+
+    private static void verifyChunksInited(Region region) {
+        int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX(), region.getBaseY(), 0);
+        for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+            for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
+                    int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                    Chunk c = CHUNKS.get(cid);
+                    if (c == null) {
+                        c = new Chunk(cid);
+                        CHUNKS.put(cid, c);
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -179,9 +200,11 @@ public final class ChunkManager {
             Chunk chunk = CHUNKS.get(id);
             if (CHUNKS.get(id) != null)
                 return chunk;
+            chunk = new Chunk(id);
+            CHUNKS.put(id, chunk);
             if (load)
-                return loadChunk(id);
-            return new Chunk(id);
+                loadRegionMapDataByChunkId(id);
+            return chunk;
         }
     }
 
