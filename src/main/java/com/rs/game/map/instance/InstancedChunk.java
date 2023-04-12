@@ -47,10 +47,10 @@ public class InstancedChunk extends Chunk {
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);
-		loadingMapData.set(true);
-		loadedMapData.set(true);
-		loadingSpawnData.set(true);
-		loadedSpawnData.set(true);
+		loadingMapData = true;
+		loadedMapData = true;
+		loadingSpawnData = true;
+		loadedSpawnData = true;
 		this.fromChunkId = fromChunkId;
 		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);
 		this.fromChunkX = coords[0];

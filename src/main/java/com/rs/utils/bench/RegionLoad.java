@@ -3,6 +3,8 @@ package com.rs.utils.bench;
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.WorldThread;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.game.model.entity.pathing.RouteFinder;
@@ -45,10 +47,12 @@ public class RegionLoad {
         Cache.init(Settings.getConfig().getCachePath());
 
         MapXTEAs.loadKeys();
+        LowPriorityTaskExecutor.initExecutors();
 
-        ChunkManager.getChunk(Tile.of(3434, 3434, 0).getChunkId()).checkLoaded();
-        ChunkManager.getChunk(Tile.of(3460, 3460, 0).getChunkId()).checkLoaded();
-        ChunkManager.getChunk(Tile.of(3470, 3470, 0).getChunkId()).checkLoaded();
-        ChunkManager.getChunk(Tile.of(3470, 3470, 0).getChunkId()).checkLoaded();
+        ChunkManager.getChunk(Tile.of(3434, 3434, 0).getChunkId(), true);
+        ChunkManager.getChunk(Tile.of(3460, 3460, 0).getChunkId(), true);
+        ChunkManager.getChunk(Tile.of(3470, 3470, 0).getChunkId(), true);
+        ChunkManager.getChunk(Tile.of(3470, 3470, 0).getChunkId(), true);
+        WorldThread.init();
     }
 }

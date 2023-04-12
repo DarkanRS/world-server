@@ -959,7 +959,7 @@ public abstract class Entity {
 			for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
 				for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
 					int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
-					Chunk chunk = ChunkManager.getChunk(chunkId, true);
+					Chunk chunk = ChunkManager.getChunk(chunkId, (npc != null && npc.isLoadsUpdateZones()) || player != null);
 					if (chunk instanceof InstancedChunk)
 						hasNearbyInstancedChunks = true;
 					mapChunkIds.add(chunkId);

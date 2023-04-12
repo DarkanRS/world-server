@@ -50,11 +50,11 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    protected AtomicBoolean loadingSpawnData = new AtomicBoolean(false);
-    protected AtomicBoolean loadedSpawnData = new AtomicBoolean(false);
+    protected volatile boolean loadingSpawnData = false;
+    protected volatile boolean loadedSpawnData = false;
 
-    protected AtomicBoolean loadingMapData = new AtomicBoolean(false);
-    protected AtomicBoolean loadedMapData = new AtomicBoolean(false);
+    protected volatile boolean loadingMapData = false;
+    protected volatile boolean loadedMapData = false;
 
     private int[] musicIds;
 
@@ -234,23 +234,23 @@ public class Chunk {
     }
 
     public void checkLoaded() {
-        if (!loadingMapData.get()) {
-            loadingMapData.set(true);
+        if (!loadingMapData) {
+            loadingMapData = true;
             ChunkManager.loadRegionMapDataByChunkId(id);
-            loadedMapData.set(true);
+            loadedMapData = true;
         }
-        if (!loadingSpawnData.get()) {
-            loadingSpawnData.set(true);
+        if (!loadingSpawnData) {
+            loadingSpawnData = true;
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
-            loadedSpawnData.set(true);
+            loadedSpawnData = true;
         }
     }
 
     public void setMapDataLoaded() {
-        loadingMapData.set(true);
-        loadedMapData.set(true);
+        loadingMapData = true;
+        loadedMapData = true;
     }
 
 //    public void loadMapFromCache() {
@@ -270,7 +270,7 @@ public class Chunk {
 //    }
 
     public boolean isLoaded() {
-        return loadedSpawnData.get();
+        return loadedSpawnData && loadedMapData;
     }
 
     public void addBaseObject(GameObject obj) {
@@ -662,8 +662,8 @@ public class Chunk {
     }
 
     public void destroy() {
-        loadingMapData.set(false);
-        loadedMapData.set(false);
+        loadingMapData = false;
+        loadedMapData = false;
         if (getAllGroundItems() != null)
             getAllGroundItems().clear();
         if (getGroundItems() != null)

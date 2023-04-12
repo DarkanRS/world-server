@@ -14,23 +14,19 @@ import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.utils.music.Music;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntArrayList;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSets;
+import it.unimi.dsi.fastutil.ints.*;
 
 import java.util.*;
 
 @PluginEventHandler
 public final class ChunkManager {
-    private static final Object CHUNK_LOCK = new Object();
-
-    private static final Map<Integer, Chunk> CHUNKS = new Int2ObjectOpenHashMap<>();
+    private static final Map<Integer, Chunk> CHUNKS = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
     private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
     private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
@@ -132,17 +128,14 @@ public final class ChunkManager {
     }
 
     public static void loadRegionMapDataByChunkId(int chunkId) {
-        synchronized (CHUNK_LOCK) {
+        synchronized (CHUNKS) {
             Chunk chunk = CHUNKS.get(chunkId);
             if (chunk == null) {
                 chunk = new Chunk(chunkId);
                 CHUNKS.put(chunkId, chunk);
                 return;
             }
-            System.out.println("Loading chunkId: " + chunkId + " - " + MapUtils.chunkToRegionId(chunkId));
-            System.out.println(Arrays.toString(MapUtils.decode(MapUtils.Structure.CHUNK, chunkId)));
-            System.out.println(CHUNKS.containsKey(chunkId) + " - " + chunk.loadedMapData.get() + " - " + CHUNKS.size());
-            if (chunk.loadingMapData.get() || chunk.loadedMapData.get())
+            if (chunk.loadedMapData)
                 return;
             int regionId = MapUtils.chunkToRegionId(chunkId);
             Region region = new Region(regionId);
@@ -150,7 +143,6 @@ public final class ChunkManager {
             region.loadRegionMap(false);
             if (!region.hasData()) {
                 chunk.setMapDataLoaded();
-                chunk.checkLoaded();
                 return;
             }
             for (int x = 0; x < 64; x++)
@@ -159,7 +151,6 @@ public final class ChunkManager {
                         WorldCollision.addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
             if (region.getObjects() == null || region.getObjects().isEmpty()) {
                 chunk.setMapDataLoaded();
-                chunk.checkLoaded();
                 return;
             }
             for (WorldObject object : region.getObjects()) {
@@ -174,21 +165,22 @@ public final class ChunkManager {
                 CHUNKS.put(oCid, oChunk);
             }
             chunk.setMapDataLoaded();
-            chunk.checkLoaded();
         }
     }
 
     private static void verifyChunksInited(Region region) {
-        int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX(), region.getBaseY(), 0);
-        for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
-            for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
-                for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
-                    int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
-                    Chunk c = CHUNKS.get(cid);
-                    if (c == null) {
-                        c = new Chunk(cid);
-                        CHUNKS.put(cid, c);
-                        return;
+        synchronized (CHUNKS) {
+            int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX(), region.getBaseY(), 0);
+            for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
+                for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                    for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
+                        int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                        Chunk c = CHUNKS.get(cid);
+                        if (c == null) {
+                            c = new Chunk(cid);
+                            CHUNKS.put(cid, c);
+                            return;
+                        }
                     }
                 }
             }
@@ -196,14 +188,17 @@ public final class ChunkManager {
     }
 
     public static final Chunk getChunk(int id, boolean load) {
-        synchronized (CHUNK_LOCK) {
+        synchronized (CHUNKS) {
             Chunk chunk = CHUNKS.get(id);
-            if (CHUNKS.get(id) != null)
+            if (CHUNKS.get(id) != null) {
+                if (load)
+                    chunk.checkLoaded();
                 return chunk;
+            }
             chunk = new Chunk(id);
             CHUNKS.put(id, chunk);
             if (load)
-                loadRegionMapDataByChunkId(id);
+                chunk.checkLoaded();
             return chunk;
         }
     }
@@ -213,13 +208,13 @@ public final class ChunkManager {
     }
 
     public static final Chunk putChunk(int id, Chunk chunk) {
-        synchronized (CHUNK_LOCK) {
+        synchronized (CHUNKS) {
             return CHUNKS.put(id, chunk);
         }
     }
 
     public static final Chunk removeChunk(int id) {
-        synchronized (CHUNK_LOCK) {
+        synchronized (CHUNKS) {
             return CHUNKS.remove(id);
         }
     }
@@ -259,12 +254,11 @@ public final class ChunkManager {
             UNLOADABLE_CHUNKS.remove(chunkId);
     }
 
-    public static void permanentlyPreloadChunks(int centerChunkId, int radius) {
-        int[] coords = MapUtils.decode(MapUtils.Structure.CHUNK, centerChunkId);
-        for (int plane = 0;plane < 4;plane++) {
-            for (int chunkX = coords[0] - radius; chunkX < coords[0] + radius; chunkX++) {
-                for (int chunkY = coords[1] - radius; chunkY < coords[1] + radius; chunkY++) {
-                    permanentlyPreloadChunks(MapUtils.encode(MapUtils.Structure.CHUNK, chunkX, chunkY, plane));
+    public static void permanentlyPreloadChunkRadius(int centerChunkId, int radius) {
+        for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+            for (int chunkXOff = (-radius * Chunk.X_INC); chunkXOff < (radius * Chunk.X_INC); chunkXOff += Chunk.X_INC) {
+                for (int chunkYOff = -radius; chunkYOff < radius; chunkYOff++) {
+                    permanentlyPreloadChunks(centerChunkId + planeOff + chunkXOff + chunkYOff);
                 }
             }
         }
@@ -272,6 +266,8 @@ public final class ChunkManager {
 
     public static void permanentlyPreloadChunks(int... chunkIds) {
         for (int chunkId : chunkIds) {
+            if (PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
+                continue;
             getChunk(chunkId, true);
             PERMANENTLY_LOADED_CHUNKS.add(chunkId);
         }
@@ -279,6 +275,8 @@ public final class ChunkManager {
 
     public static void permanentlyPreloadChunks(Set<Integer> chunkIds) {
         for (int chunkId : chunkIds) {
+            if (PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
+                continue;
             getChunk(chunkId, true);
             PERMANENTLY_LOADED_CHUNKS.add(chunkId);
         }
