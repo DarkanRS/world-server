@@ -8,7 +8,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 
-//TODO: Check Fight Arena, Dragon Slayer, Vampire Slayer
+//TODO: Check Fight Arena, Dragon Slayer, Vampire Slayer, wally vs delrith cutscene, and the rest of the cutscenes
 public class DemonSlayer_WallyVSDelrithCutscene extends Cutscene {
 	@Override
 	public void construct(Player player) {
