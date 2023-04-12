@@ -249,7 +249,7 @@ public final class Familiar extends NPC {
 			owner.sendMessage("An abyssal familiar can only carry blank rune essence.");
 			return;
 		}
-		if (!canStoreEssOnly() && item.getId() == 1436 && item.getId() == 7936) {
+		if (!canStoreEssOnly() && (item.getId() == 1436 || item.getId() == 7936)) {
 			owner.sendMessage("Only an abyssal familiar can carry blank rune essence.");
 			return;
 		}
