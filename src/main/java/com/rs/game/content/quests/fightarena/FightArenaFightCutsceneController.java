@@ -79,7 +79,8 @@ public class FightArenaFightCutsceneController extends Controller {
 				NPC general_khazard;
 				@Override
 				public void run() {
-					if(playerHasDied) {
+					if(playerHasDied || player.getControllerManager().getController() == null
+							|| !(player.getControllerManager().getController() instanceof FightArenaFightCutsceneController)) {
 						tick = -1;
 						player.unlock();
 						stop();
@@ -402,5 +403,10 @@ public class FightArenaFightCutsceneController extends Controller {
 	private void removeDynamicNPCs() {
 		for(NPC npc : dynamicNPCs)
 			npc.finish();
+	}
+
+	@Override
+	public void magicTeleported(int type) {
+		forceClose();
 	}
 }

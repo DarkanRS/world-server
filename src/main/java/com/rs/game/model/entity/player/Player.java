@@ -1648,8 +1648,7 @@ public class Player extends Entity {
 	/**
 	 * Logs the player out.
 	 *
-	 * @param lobby
-	 *            If we're logging out to the lobby.
+	 * @param lobby: If we're logging out to the lobby.
 	 */
 	public void logout(boolean lobby) {
 		if (!running)
@@ -4274,10 +4273,11 @@ public class Player extends Entity {
 	}
 
 	private void checkWasInDynamicRegion() {
-		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
+		if (!getBool("dontTeleFromInstanceOnLogin") && lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
 			setNextTile(Tile.of(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}
+		getSavingAttributes().remove("dontTeleFromInstanceOnLogin");
 	}
 
 	public void clearLastNonDynamicTile() {
