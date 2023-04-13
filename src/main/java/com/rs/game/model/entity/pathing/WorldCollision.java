@@ -9,6 +9,8 @@ import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
@@ -21,41 +23,50 @@ import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 import static com.rs.cache.loaders.map.ClipFlag.*;
 
-@PluginEventHandler
 public class WorldCollision {
     private static final int CHUNK_SIZE = 2048; //2048 chunk size = max capacity 16384x16384 tiles
     private static final int[][] CLIP_FLAGS = new int[CHUNK_SIZE * CHUNK_SIZE * 4][];
     private static final Object LOCK = new Object();
 
-    @ServerStartupEvent(Priority.FILE_IO)
-    public static void loadAllMapData() {
-        Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
-        boolean preloadCollision = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
-        boolean preloadObjects = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
+    public static void clipNPC(NPC npc) {
+        if (!npc.blocksOtherNpcs())
+            return;
+        Tile lastTile = npc.getLastTile() == null ? npc.getTile() : npc.getLastTile();
+        fillNPCClip(lastTile, npc.getSize(), false);
+        if (!npc.hasFinished())
+            fillNPCClip(npc.getTile(), npc.getSize(), true);
+    }
 
-        if (preloadCollision) {
-            for (int regionId = 0; regionId < 0xFFFF; regionId++) {
-                if (regionId == 18754) //citadel map that gets partially decoded with xteas but fails to pass gzip format tests
-                    continue;
-                Region region = new Region(regionId);
-                region.loadRegionMap(false);
-                if (!region.hasData())
-                    continue;
-                for (int x = 0; x < 64; x++)
-                    for (int y = 0; y < 64; y++)
-                        for (int plane = 0; plane < 4; plane++)
-                            addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
-                if (preloadObjects) {
-                    if (region.getObjects() == null || region.getObjects().isEmpty())
-                        continue;
-                    for (WorldObject object : region.getObjects()) {
-                        Chunk chunk = World.getChunk(object.getTile().getChunkId());
-                        chunk.addBaseObject(new GameObject(object));
-                        chunk.setMapDataLoaded();
-                    }
-                }
+    public static void fillNPCClip(Tile tile, int size, boolean blocks) {
+        for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++) {
+                Tile local = tile.transform(x, y);
+                if (blocks)
+                    WorldCollision.addClipNPC(local);
+                else
+                    WorldCollision.removeClipNPC(local);
             }
-        }
+    }
+
+    public static boolean getClipNPC(Tile tile) {
+        return ClipFlag.flagged(getFlags(tile), ClipFlag.BW_NPC);
+    }
+
+    public static boolean checkNPCClip(NPC npc, Direction dir) {
+        int size = npc.getSize();
+        int toX = npc.getX() + dir.getDx();
+        int toY = npc.getY() + dir.getDy();
+        int eastMostX = npc.getX() + (size - 1);
+        int northMostY = npc.getY() + (size - 1);
+        for (int x = toX; x < (toX + size); x++)
+            for (int y = toY; y < (toY + size); y++) {
+                if (x >= npc.getX() && x <= eastMostX && y >= npc.getY() && y <= northMostY)
+                    /* stepping within itself, allow it */
+                    continue;
+                if (getClipNPC(Tile.of(x, y, npc.getPlane())))
+                    return false;
+            }
+        return true;
     }
 
     public static void clearChunk(int chunkCollisionHash) {

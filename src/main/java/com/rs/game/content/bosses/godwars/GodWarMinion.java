@@ -17,6 +17,7 @@
 package com.rs.game.content.bosses.godwars;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
 
@@ -34,7 +35,7 @@ public class GodWarMinion extends NPC {
 		setFinished(false);
 		World.addNPC(this);
 		setLastChunkId(0);
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 	}

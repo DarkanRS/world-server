@@ -99,6 +99,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -702,7 +703,7 @@ public class Player extends Entity {
 		if (pouchesType == null)
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
@@ -848,7 +849,7 @@ public class Player extends Entity {
 
 	public void initNewChunks() {
 		for (int chunkId : getMapChunksNeedInit()) {
-			World.getChunk(chunkId).init(this);
+			ChunkManager.getChunk(chunkId).init(this);
 		}
 	}
 
@@ -1739,11 +1740,11 @@ public class Player extends Entity {
 		WorldDB.getPlayers().save(this, () -> {
 			LobbyCommunicator.removeWorldPlayer(this);
 			World.removePlayer(this);
-			World.updateChunks(this);
+			ChunkManager.updateChunks(this);
 			WorldDB.getHighscores().save(this);
 			Logger.info(Player.class, "realFinish", "Finished Player: " + getUsername());
 		});
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 	}
 
 	public long getLastLoggedIn() {

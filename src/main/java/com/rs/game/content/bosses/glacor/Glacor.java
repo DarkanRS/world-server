@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.glacor;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -205,7 +206,7 @@ public class Glacor extends NPC {
 				setFinished(false);
 				World.addNPC(npc);
 				npc.setLastChunkId(0);
-				World.updateChunks(npc);
+				ChunkManager.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();
 			} catch (Throwable e) {

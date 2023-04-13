@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
@@ -58,7 +59,7 @@ public final class WorldThread extends Thread {
 		try {
 			long startTime = System.currentTimeMillis();
 			Timer timerChunk = new Timer().start();
-			World.processChunks();
+			ChunkManager.processChunks();
 			Logger.trace(WorldThread.class, "tick", "processChunks() - " + timerChunk.stop());
 			Timer timerTask = new Timer().start();
 			WorldTasks.processTasks();
@@ -129,7 +130,7 @@ public final class WorldThread extends Thread {
 			}
 			Logger.trace(WorldThread.class, "tick", "processPlayersPostSync() - " + timerEntityUpdate.stop());
 			Timer timerUpdateZones = new Timer().start();
-			World.processUpdateZones();
+			ChunkManager.processUpdateZones();
 			Logger.trace(WorldThread.class, "tick", "processUpdateZones() - " + timerUpdateZones.stop());
 			Timer timerFlushPackets = new Timer().start();
 			for (Player player : World.getPlayers()) {
@@ -152,9 +153,9 @@ public final class WorldThread extends Thread {
 			long time = (System.currentTimeMillis() - startTime);
 			Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 			Telemetry.queueTelemetryTick(time);
-			if (time > 600l && Settings.getConfig().getStaffWebhookUrl() != null) {
+			if (time > 250l && Settings.getConfig().getStaffWebhookUrl() != null) {
 				StringBuilder content = new StringBuilder();
-				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName());
+				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size());
 				content.append("```\n");
 				content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
 				content.append("Task: " + timerTask.getFormattedTime() + "\n");

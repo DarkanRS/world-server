@@ -24,6 +24,7 @@ import com.rs.game.content.skills.firemaking.Firemaking;
 import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.hunter.BoxAction;
 import com.rs.game.content.skills.hunter.BoxTrapType;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -49,7 +50,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
 		if (!player.getMapChunkIds().contains(tile.getChunkId()))
 			return;
-		final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
+		final GroundItem item = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 		if (item == null)
 			return;
 		if (packet.getOpcode() == ClientPacket.GROUND_ITEM_EXAMINE) {
@@ -70,7 +71,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP3:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem item1 = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem item1 = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (item1 == null || !player.getControllerManager().canTakeItem(item1))
 					return;
 				if (TreasureTrailsManager.isScroll(item1.getId()))
@@ -96,7 +97,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP4:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
+				final GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
 				if (groundItem == null)
 					return;
 

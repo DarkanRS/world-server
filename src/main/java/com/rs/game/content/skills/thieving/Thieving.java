@@ -21,6 +21,7 @@ import java.util.Set;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.world.doors.Doors;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
@@ -165,7 +166,7 @@ public class Thieving {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						if (!World.getChunk(object.getTile().getChunkId()).objectExists(object)) {
+						if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object)) {
 							stop();
 							return;
 						}

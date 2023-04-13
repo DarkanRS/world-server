@@ -21,6 +21,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
@@ -302,7 +303,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

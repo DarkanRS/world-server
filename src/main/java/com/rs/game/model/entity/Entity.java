@@ -41,6 +41,7 @@ import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
@@ -632,7 +633,7 @@ public abstract class Entity {
 			teleported = true;
 			if (player != null && player.getTemporaryMoveType() == null)
 				player.setTemporaryMoveType(MoveType.TELE);
-			World.updateChunks(this);
+			ChunkManager.updateChunks(this);
 			if (needMapUpdate())
 				loadMapRegions();
 			if (player != null) {
@@ -694,7 +695,7 @@ public abstract class Entity {
 						player.setRun(false);
 				}
 		}
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		if (needMapUpdate())
 			loadMapRegions();
 	}
@@ -937,61 +938,45 @@ public abstract class Entity {
 	}
 
 	public void loadMapRegions(RegionSize oldSize) {
-		if (this instanceof Player p) {
-			Set<Integer> old = new IntOpenHashSet(mapChunkIds);
-			World.getUpdateZone(sceneBaseChunkId, oldSize).removeWatcher(p.getIndex());
-			mapChunkIds.clear();
-			hasNearbyInstancedChunks = false;
-			int currChunkX = getChunkX();
-			int currChunkY = getChunkY();
-			int sceneChunkRadius = getMapSize().size / 16;
-			int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
-			int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
-			if (sceneBaseChunkX < 0)
-				sceneBaseChunkX = 0;
-			if (sceneBaseChunkY < 0)
-				sceneBaseChunkY = 0;
-			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
-			for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
-				for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
-					for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
-						int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
-						Chunk chunk = World.getChunk(chunkId, true);
-						if (chunk instanceof InstancedChunk)
-							hasNearbyInstancedChunks = true;
-						mapChunkIds.add(chunkId);
+		Player player = this instanceof Player p ? p : null;
+		NPC npc = this instanceof NPC n ? n : null;
+		Set<Integer> old = player != null ? new IntOpenHashSet(mapChunkIds) : null;
+		if (player != null)
+			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).removePlayerWatcher(player.getIndex());
+		if (npc != null && npc.isLoadsUpdateZones())
+			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).removeNPCWatcher(npc.getIndex());
+		mapChunkIds.clear();
+		hasNearbyInstancedChunks = false;
+		int currChunkX = getChunkX();
+		int currChunkY = getChunkY();
+		int sceneChunkRadius = getMapSize().size / 16;
+		int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
+		int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
+		if (sceneBaseChunkX < 0)
+			sceneBaseChunkX = 0;
+		if (sceneBaseChunkY < 0)
+			sceneBaseChunkY = 0;
+		sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
+		for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
+			for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
+				for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
+					int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
+					Chunk chunk = ChunkManager.getChunk(chunkId, (npc != null && npc.isLoadsUpdateZones()) || player != null);
+					if (chunk instanceof InstancedChunk)
+						hasNearbyInstancedChunks = true;
+					mapChunkIds.add(chunkId);
+					if (old != null) {
 						if (!old.contains(chunkId))
-							p.getMapChunksNeedInit().add(chunkId);
+							player.getMapChunksNeedInit().add(chunkId);
 						old.remove(chunkId);
 					}
 				}
 			}
-			World.getUpdateZone(sceneBaseChunkId, getMapSize()).addWatcher(p.getIndex());
-		} else {
-			mapChunkIds.clear();
-			hasNearbyInstancedChunks = false;
-			int currChunkX = getChunkX();
-			int currChunkY = getChunkY();
-			int sceneChunkRadius = getMapSize().size / 16;
-			int sceneBaseChunkX = (currChunkX - sceneChunkRadius);
-			int sceneBaseChunkY = (currChunkY - sceneChunkRadius);
-			if (sceneBaseChunkX < 0)
-				sceneBaseChunkX = 0;
-			if (sceneBaseChunkY < 0)
-				sceneBaseChunkY = 0;
-			sceneBaseChunkId = MapUtils.encode(Structure.CHUNK, sceneBaseChunkX, sceneBaseChunkY, 0);
-			for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
-				for (int chunkOffX = 0; chunkOffX <= sceneChunkRadius * Chunk.X_INC * 2; chunkOffX += Chunk.X_INC) {
-					for (int chunkOffY = 0; chunkOffY <= sceneChunkRadius * 2; chunkOffY++) {
-						int chunkId = sceneBaseChunkId + chunkOffX + chunkOffY + planeOff;
-						Chunk chunk = World.getChunk(chunkId, this instanceof Max);
-						if (chunk instanceof InstancedChunk)
-							hasNearbyInstancedChunks = true;
-						mapChunkIds.add(chunkId);
-					}
-				}
-			}
 		}
+		if (player != null)
+			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).addPlayerWatcher(player.getIndex());
+		if (npc != null && npc.isLoadsUpdateZones())
+			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).addNPCWatcher(npc.getIndex());
 	}
 
 	public void setIndex(int index) {
