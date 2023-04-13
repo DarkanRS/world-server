@@ -142,7 +142,7 @@ public final class ChunkManager {
             verifyChunksInited(region);
             region.loadRegionMap(false);
             if (!region.hasData()) {
-                chunk.setMapDataLoaded();
+                markAllChunksInRegionLoaded(region);
                 return;
             }
             for (int x = 0; x < 64; x++)
@@ -150,7 +150,7 @@ public final class ChunkManager {
                     for (int plane = 0; plane < 4; plane++)
                         WorldCollision.addFlag(Tile.of(region.getBaseX() + x, region.getBaseY() + y, plane), region.getClipFlags()[plane][x][y]);
             if (region.getObjects() == null || region.getObjects().isEmpty()) {
-                chunk.setMapDataLoaded();
+                markAllChunksInRegionLoaded(region);
                 return;
             }
             for (WorldObject object : region.getObjects()) {
@@ -161,27 +161,39 @@ public final class ChunkManager {
                 if (oChunk == null)
                     oChunk = new Chunk(oCid);
                 oChunk.addBaseObject(new GameObject(object));
-                oChunk.setMapDataLoaded();
                 CHUNKS.put(oCid, oChunk);
             }
-            chunk.setMapDataLoaded();
+            markAllChunksInRegionLoaded(region);
         }
     }
 
     private static void verifyChunksInited(Region region) {
-        synchronized (CHUNKS) {
-            int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX(), region.getBaseY(), 0);
-            for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
-                for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
-                    for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
-                        int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
-                        Chunk c = CHUNKS.get(cid);
-                        if (c == null) {
-                            c = new Chunk(cid);
-                            CHUNKS.put(cid, c);
-                            return;
-                        }
+        int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX() >> 3, region.getBaseY() >> 3, 0);
+        for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
+            for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
+                    int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                    Chunk c = CHUNKS.get(cid);
+                    if (c == null) {
+                        c = new Chunk(cid);
+                        CHUNKS.put(cid, c);
+                        return;
                     }
+                }
+            }
+        }
+    }
+
+    private static void markAllChunksInRegionLoaded(Region region) {
+        int chunkBaseId = MapUtils.encode(Structure.CHUNK, region.getBaseX() >> 3, region.getBaseY() >> 3, 0);
+        for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
+            for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
+                    int cid = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                    Chunk c = CHUNKS.get(cid);
+                    if (c == null)
+                        continue;
+                    c.setMapDataLoaded();
                 }
             }
         }
