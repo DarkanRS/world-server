@@ -19,6 +19,7 @@ package com.rs.game.map.instance;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -46,10 +47,10 @@ public class InstancedChunk extends Chunk {
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);
-		loadingMapData.set(true);
-		loadedMapData.set(true);
-		loadingSpawnData.set(true);
-		loadedSpawnData.set(true);
+		loadingMapData = true;
+		loadedMapData = true;
+		loadingSpawnData = true;
+		loadedSpawnData = true;
 		this.fromChunkId = fromChunkId;
 		int[] coords = MapUtils.decode(Structure.CHUNK, fromChunkId);
 		this.fromChunkX = coords[0];
@@ -64,7 +65,7 @@ public class InstancedChunk extends Chunk {
 	}
 
 	public void loadMap(boolean copyNpcs) {
-		Chunk realChunk = World.getChunk(getFromChunkId(), true);
+		Chunk realChunk = ChunkManager.getChunk(getFromChunkId(), true);
 		setMapDataLoaded();
 		for (int x = 0;x < 8;x++) {
 			for (int y = 0;y < 8;y++) {
@@ -79,7 +80,7 @@ public class InstancedChunk extends Chunk {
 			int[] coords = InstancedChunk.transform(orig.getTile().getXInChunk(),orig.getTile().getYInChunk(), rotation, orig.getDefinitions().getSizeX(), orig.getDefinitions().getSizeY(), orig.getRotation());
 			adjusted.setTile(Tile.of(getBaseX() + coords[0], getBaseY() + coords[1], getPlane()));
 			adjusted.setRotation((adjusted.getRotation() + rotation) & 0x3);
-			World.getChunk(adjusted.getTile().getChunkId()).addBaseObject(adjusted);
+			ChunkManager.getChunk(adjusted.getTile().getChunkId()).addBaseObject(adjusted);
 		}
 		if (copyNpcs) {
 			List<NPCSpawn> npcSpawns = NPCSpawns.getSpawnsForChunk(getFromChunkId());

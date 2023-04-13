@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
@@ -45,7 +46,7 @@ public class EasterEggSpawning {
 	public static void initSpawning() {
 		if (!ENABLED)
 			return;
-		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
 		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromMinutes(30), () -> {
 			try {
 				spawnEggs();
@@ -59,7 +60,7 @@ public class EasterEggSpawning {
 
 	public static int countEggs(int chunkId) {
 		eggsCount = 0;
-		List<GroundItem> itemSpawns = World.getChunk(chunkId).getAllGroundItems();
+		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1961)
@@ -70,7 +71,7 @@ public class EasterEggSpawning {
 
 	public static void spawnEggs() {
 		for (int chunkId : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
-			Chunk r = World.getChunk(chunkId);
+			Chunk r = ChunkManager.getChunk(chunkId);
 			int eggsNeeded = eggsPerChunk-countEggs(chunkId);
 			for (int i = 0; i < eggsNeeded; i++) {
 				int x = r.getBaseX()+Utils.random(8);

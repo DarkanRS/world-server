@@ -6,10 +6,10 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
+import com.rs.lib.util.MapUtils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.RegionUtils;
 
 @PluginEventHandler
 public class FishingTrawlerGameController extends Controller {
@@ -89,7 +89,7 @@ public class FishingTrawlerGameController extends Controller {
 
 	public static ObjectClickHandler fillLeak = new ObjectClickHandler(false, new Object[] { FishingTrawler.LEAK }, e -> {
 		e.getPlayer().resetWalkSteps();
-		RegionUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
+		MapUtils.Area area = FishingTrawler.getInstance().isWaterShip() ? FishingTrawler.WATER_SHIP : FishingTrawler.NO_WATER_SHIP;
 		Tile tile;
 		if(e.getObject().getY() == area.getY()-1)
 			tile = e.getObject().getTile().transform(0, 1);

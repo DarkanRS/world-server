@@ -47,8 +47,45 @@ public class Potions {
 	public static final int JUJU_VIAL = 19996;
 	public static final int BEER_GLASS = 1919;
 	public static final int EMPTY_KEG = 5769;
+	private static int EMPTY_CUP = 4244;
+	private static int BOWL = 1923;
 
 	public enum Potion {
+		CUP_OF_TEA_CLAY(7728, 7730, p -> {
+			p.getSkills().adjustStat(1, 0.1, Constants.CONSTRUCTION);
+		}),
+		CUP_OF_TEA_CLAY_MILK(7728, 7731, p -> {
+			p.getSkills().adjustStat(1, 0.1, Constants.CONSTRUCTION);
+		}),
+		CUP_OF_TEA_PORCELAIN(7732, 7733, p -> {
+			p.getSkills().adjustStat(2, 0.1, Constants.CONSTRUCTION);
+		}),
+		CUP_OF_TEA_PORCELAIN_MILK(7732, 7734, p -> {
+			p.getSkills().adjustStat(2, 0.1, Constants.CONSTRUCTION);
+		}),
+		CUP_OF_TEA_GOLD(7735, 7736, p -> {
+			p.getSkills().adjustStat(3, 0.1, Constants.CONSTRUCTION);
+		}),
+		CUP_OF_TEA_GOLD_MILK(7735, 7737, p -> {
+			p.getSkills().adjustStat(3, 0.1, Constants.CONSTRUCTION);
+		}),
+		NETTLE_TEA_CUP(EMPTY_CUP, 4245, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_CUP_MILK(EMPTY_CUP, 4246, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_BOWL(BOWL, 4239, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_TEA_BOWL_MILK(BOWL, 4240, p -> {
+			p.restoreRunEnergy(5);
+			p.heal(30);
+		}),
+		NETTLE_WATER(BOWL, 4237, p -> p.heal(10)),
 		ATTACK_POTION(VIAL, new int[] { 2428, 121, 123, 125 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.ATTACK)),
 		ATTACK_FLASK(-1, new int[] { 23195, 23197, 23199, 23201, 23203, 23205 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.ATTACK)),
 		ATTACK_MIX(VIAL, new int[] { 11429, 11431 }, p -> {
@@ -759,7 +796,6 @@ public class Potions {
 			p.getSkills().adjustStat(-2, 0, Constants.ATTACK, Constants.STRENGTH);
 			p.heal(20);
 		}),
-
 		SERUM_207(VIAL, new int[] { 3408, 3410, 3412, 3414 }),
 		SERUM_208(VIAL, new int[] { 3416, 3417, 3418, 3419 }),
 		OLIVE_OIL(VIAL, new int[] { 3422, 3424, 3426, 3428 }),

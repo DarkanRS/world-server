@@ -35,7 +35,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class BarbarianOutpostAgility {
 
 	public static ObjectClickHandler handleTrapLadder = new ObjectClickHandler(new Object[] { 32015 }, e -> {
-		e.getPlayer().useLadder(Tile.of(2546, 3551, 0));
+		if(e.getObject().getTile().matches(Tile.of(2547, 9951, 0)))
+			e.getPlayer().useLadder(Tile.of(2546, 3551, 0));
 	});
 
 	public static ObjectClickHandler handleObstaclePipe = new ObjectClickHandler(new Object[] { 20210 }, e -> {

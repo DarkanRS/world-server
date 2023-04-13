@@ -21,6 +21,7 @@ import java.util.Map;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -159,7 +160,7 @@ public class SiphonNodeAction extends PlayerAction {
 		}
 		if (!started && !player.withinDistance(node.getTile(), 6))
 			return true;
-		if (!World.getChunk(node.getTile().getChunkId()).objectExists(node)) {
+		if (!ChunkManager.getChunk(node.getTile().getChunkId()).objectExists(node)) {
 			stop(player);
 			return false;
 		}

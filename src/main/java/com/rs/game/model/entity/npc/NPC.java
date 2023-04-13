@@ -35,6 +35,7 @@ import com.rs.game.content.skills.slayer.SlayerMonsters;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.areas.dungeons.TzHaar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -43,13 +44,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.ClipType;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.DumbRouteFinder;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.Route;
-import com.rs.game.model.entity.pathing.RouteEvent;
-import com.rs.game.model.entity.pathing.RouteFinder;
+import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
@@ -86,7 +81,7 @@ public class NPC extends Entity {
 	public Tile forceWalk;
 	private int size;
 	private boolean hidden = false;
-
+	private transient boolean loadsUpdateZones = false;
 	private long lastAttackedByTarget;
 	private boolean cantInteract;
 	private int capDamage;
@@ -151,7 +146,7 @@ public class NPC extends Entity {
 		// npc is inited on creating instance
 		initEntity();
 		World.addNPC(this);
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		// npc is started on creating instance
 		loadMapRegions();
 		checkMultiArea();
@@ -184,6 +179,10 @@ public class NPC extends Entity {
 	@Override
 	public boolean needMasksUpdate() {
 		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || getBas() != -1 || changedCombatLevel || changedName || maskTest || permName;
+	}
+
+	public void setLoadsUpdateZones() {
+		loadsUpdateZones = true;
 	}
 
 	public void resetLevels() {
@@ -250,7 +249,7 @@ public class NPC extends Entity {
 	public boolean checkNPCCollision(Direction dir) {
 		if (isIgnoreNPCClipping() || isIntelligentRouteFinder() || isForceWalking())
 			return true;
-		return World.checkNPCClip(this, dir);
+		return WorldCollision.checkNPCClip(this, dir);
 	}
 	
 	private void restoreTick() {
@@ -382,8 +381,8 @@ public class NPC extends Entity {
 		if (hasFinished())
 			return;
 		setFinished(true);
-		World.updateChunks(this);
-		World.fillNPCClip(getTile(), getSize(), false);
+		ChunkManager.updateChunks(this);
+		WorldCollision.fillNPCClip(getTile(), getSize(), false);
 		World.removeNPC(this);
 	}
 
@@ -428,7 +427,7 @@ public class NPC extends Entity {
 		setFinished(false);
 		World.addNPC(this);
 		setLastChunkId(0);
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
 		onRespawn();
@@ -1381,5 +1380,9 @@ public class NPC extends Entity {
 
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
+	}
+
+	public boolean isLoadsUpdateZones() {
+		return loadsUpdateZones;
 	}
 }

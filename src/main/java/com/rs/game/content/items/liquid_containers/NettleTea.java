@@ -13,9 +13,7 @@ public class NettleTea {
     private static int emptyBowl = 1923;
     private static int milkBucket = 1927;
     private static int milkyNettleTea = 4246;
-    private static int milkyNettleteaBowl = 4240;
     private static int emptyBucket = 1925;
-    private static int nettleWaterBowl = 4237;
 
     public static ItemOnItemHandler handleNettleTeaBowl = new ItemOnItemHandler(nettleTea, emptyPorcelainCup, e -> {
         if (!e.getPlayer().getInventory().containsItem(nettleTea, 1) && !e.getPlayer().getInventory().containsItem(emptyPorcelainCup, 1))
@@ -30,22 +28,6 @@ public class NettleTea {
             return;
         e.getItem1().setId(milkyNettleTea);
         e.getItem2().setId(emptyBucket);
-        e.getPlayer().getInventory().refresh();
-    });
-
-
-    public static ItemClickHandler handleTeaCup = new ItemClickHandler(new Object[]{ cupOfNettleTea, milkyNettleTea }, new String[] { "Drink" }, e -> {
-        e.getItem().setId(emptyPorcelainCup);
-        e.getPlayer().heal(50);
-        e.getPlayer().restoreRunEnergy(20);
-        e.getPlayer().getInventory().refresh();
-    });
-
-
-    public static ItemClickHandler handleTeaBowl = new ItemClickHandler(new Object[]{ nettleTea, milkyNettleteaBowl, nettleWaterBowl }, new String[] { "Drink" }, e -> {
-        e.getItem().setId(emptyBowl);
-        e.getPlayer().heal(50);
-        e.getPlayer().restoreRunEnergy(20);
         e.getPlayer().getInventory().refresh();
     });
 }

@@ -50,7 +50,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	// Delrith animation
 	static final int RESURRECT = 4623;
 
-	private Instance instance;
+	private transient Instance instance;
 	Tile locationOnDeath = Tile.of(3211, 3382, 0);
 	Tile locationOnVictory = Tile.of(3228, 3368, 0);
 	Tile spawn;
@@ -250,6 +250,11 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	}
 
 	@Override
+	public void magicTeleported(int type) {
+		forceClose();
+	}
+
+	@Override
 	public boolean sendDeath() {
 		player.stopAll();
 		player.reset();
@@ -269,6 +274,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 
 	@Override
 	public boolean logout() {
+		player.save("dontTeleFromInstanceOnLogin", true);
 		removeInstance();
 		player.unlock();
 		return false;
@@ -285,6 +291,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 	}
 
 	private void removeInstance() {
-		instance.destroy();
+		if (instance != null)
+			instance.destroy();
 	}
 }

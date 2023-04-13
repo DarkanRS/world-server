@@ -22,6 +22,7 @@ import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
 import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
@@ -45,7 +46,7 @@ public class PumpkinSpawning {
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
-		World.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
 		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromHours(1), () -> {
 			try {
 				spawnPumpkins();
@@ -58,7 +59,7 @@ public class PumpkinSpawning {
 
 	public static int countPumpkins(int chunkId) {
 		pumpkinCount = 0;
-		List<GroundItem> itemSpawns = World.getChunk(chunkId).getAllGroundItems();
+		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1959)
@@ -69,7 +70,7 @@ public class PumpkinSpawning {
 
 	public static void spawnPumpkins() {
 		for (int id : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
-			Chunk r = World.getChunk(id);
+			Chunk r = ChunkManager.getChunk(id);
 			int eggsNeeded = pumpkinsPerChunk-countPumpkins(id);
 			for (int i = 0; i < eggsNeeded; i++) {
 				int x = r.getBaseX()+Utils.random(8);

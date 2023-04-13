@@ -99,6 +99,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -702,7 +703,7 @@ public class Player extends Entity {
 		if (pouchesType == null)
 			pouchesType = new boolean[4];
 		World.addPlayer(this);
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
 
 		// Do not delete >.>, useful for security purpose. this wont waste that
@@ -848,7 +849,7 @@ public class Player extends Entity {
 
 	public void initNewChunks() {
 		for (int chunkId : getMapChunksNeedInit()) {
-			World.getChunk(chunkId).init(this);
+			ChunkManager.getChunk(chunkId).init(this);
 		}
 	}
 
@@ -1310,12 +1311,12 @@ public class Player extends Entity {
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		int farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
+		long farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
 		if (farmingTicksMissed > 768)
 			farmingTicksMissed = 768;
 		if (farmingTicksMissed <= 0)
 			farmingTicksMissed = 0;
-		for (int i = 0;i < farmingTicksMissed;i++)
+		for (long i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 
 		for (FarmPatch p : getPatches().values())
@@ -1647,8 +1648,7 @@ public class Player extends Entity {
 	/**
 	 * Logs the player out.
 	 *
-	 * @param lobby
-	 *            If we're logging out to the lobby.
+	 * @param lobby: If we're logging out to the lobby.
 	 */
 	public void logout(boolean lobby) {
 		if (!running)
@@ -1740,11 +1740,11 @@ public class Player extends Entity {
 		WorldDB.getPlayers().save(this, () -> {
 			LobbyCommunicator.removeWorldPlayer(this);
 			World.removePlayer(this);
-			World.updateChunks(this);
+			ChunkManager.updateChunks(this);
 			WorldDB.getHighscores().save(this);
 			Logger.info(Player.class, "realFinish", "Finished Player: " + getUsername());
 		});
-		World.updateChunks(this);
+		ChunkManager.updateChunks(this);
 	}
 
 	public long getLastLoggedIn() {
@@ -4273,10 +4273,11 @@ public class Player extends Entity {
 	}
 
 	private void checkWasInDynamicRegion() {
-		if (lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
+		if (!getBool("dontTeleFromInstanceOnLogin") && lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
 			setNextTile(Tile.of(lastNonDynamicTile));
 			clearLastNonDynamicTile();
 		}
+		getSavingAttributes().remove("dontTeleFromInstanceOnLogin");
 	}
 
 	public void clearLastNonDynamicTile() {

@@ -45,6 +45,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.quest.Quest;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -645,10 +646,10 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadlocalmap", "Forces your local map to reload", (p, args) -> {
-			for (GameObject obj : World.getChunk(p.getChunkId()).getAllBaseObjects(true)) {
+			for (GameObject obj : ChunkManager.getChunk(p.getChunkId()).getAllBaseObjects(true)) {
 				p.sendMessage(obj.toString());
 			}
-			if (World.getChunk(p.getChunkId()) instanceof InstancedChunk c)
+			if (ChunkManager.getChunk(p.getChunkId()) instanceof InstancedChunk c)
 				p.sendMessage(c.getOriginalBaseX() + ", " + c.getOriginalBaseY() + " - " + c.getRotation());
 
 //			p.setForceNextMapLoadRefresh(true);
@@ -678,7 +679,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY() + ", hash: " + p.getTileHash());
 			p.sendMessage("ChunkId: " + p.getChunkId());
-			if (World.getChunk(p.getChunkId()) instanceof InstancedChunk instance)
+			if (ChunkManager.getChunk(p.getChunkId()) instanceof InstancedChunk instance)
 				p.sendMessage("In instanced chunk copied from: " + instance.getOriginalBaseX() + ", " + instance.getOriginalBaseY() + " rotation: " + instance.getRotation());
 			p.sendMessage("JagCoords: " + p.getPlane() + ","+p.getRegionX()+","+p.getRegionY()+","+p.getXInRegion()+","+p.getYInRegion());
 			p.sendMessage("Local coords: " + p.getXInRegion() + " , " + p.getYInRegion());
@@ -1143,7 +1144,7 @@ public class MiscTest {
 		Commands.add(Rights.DEVELOPER, "objectanimloop,oanimloop [x y (startId) (endId)]", "Loops through object animations.", (p, args) -> {
 			int x = Integer.parseInt(args[0]);
 			int y = Integer.parseInt(args[1]);
-			GameObject o = World.getChunk(p.getChunkId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
+			GameObject o = ChunkManager.getChunk(Tile.of(x, y, p.getPlane()).getChunkId()).getSpawnedObject(Tile.of(x, y, p.getPlane()));
 			if (o == null) {
 				p.getPackets().sendDevConsoleMessage("Could not find object at [x=" + x + ", y=" + y + ", z=" + p.getPlane() + "].");
 				return;

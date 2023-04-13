@@ -144,7 +144,6 @@ public final class PlayerLook {
 	}
 
 	public static ButtonClickHandler handleMageMakeOverButtons = new ButtonClickHandler(900, e -> {
-		e.getPlayer().sendMessage("icomp id : " + e.getComponentId());
 		if (e.getComponentId() == 14 || e.getComponentId() == 16 || e.getComponentId() == 15 || e.getComponentId() == 17)
 			e.getPlayer().getTempAttribs().setB("MageMakeOverGender", e.getComponentId() == 14 || e.getComponentId() == 16);
 		else if (e.getComponentId() >= 20 && e.getComponentId() <= 31) {

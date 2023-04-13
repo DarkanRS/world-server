@@ -18,7 +18,7 @@ before_script:
 
 build:
   stage: build
-  script: ./gradlew --build-cache assemble
+  script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
   cache:
     key: "$CI_COMMIT_REF_NAME"
     policy: push
@@ -28,5 +28,5 @@ build:
 
 deploy:
   stage: deploy
-  script: ./gradlew publish
+  script: ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
