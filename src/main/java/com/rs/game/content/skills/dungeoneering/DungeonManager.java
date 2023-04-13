@@ -297,10 +297,8 @@ public class DungeonManager {
 			}
 			if (isDestroyed())
 				return;
-			WorldTasks.schedule(1, () -> {
-				room.openRoom(DungeonManager.this, reference);
-				visibleRoom.openRoom();
-			});
+			room.openRoom(DungeonManager.this, reference);
+			visibleRoom.openRoom();
 			for (int i = 0; i < room.getRoom().getDoorDirections().length; i++) {
 				Door door = room.getDoor(i);
 				if (door == null)
