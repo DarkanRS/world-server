@@ -46,7 +46,7 @@ public class EasterEggSpawning {
 	public static void initSpawning() {
 		if (!ENABLED)
 			return;
-		ChunkManager.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
 		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromMinutes(30), () -> {
 			try {
 				spawnEggs();

@@ -28,8 +28,8 @@ import java.util.*;
 public final class ChunkManager {
     private static final Map<Integer, Chunk> CHUNKS = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     private static final Set<Integer> ACTIVE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
-    private static final Set<Integer> UNLOADABLE_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
-    private static final Set<Integer> PERMANENTLY_LOADED_CHUNKS = IntSets.synchronize(new IntOpenHashSet());
+    private static final Set<Integer> UNLOADABLE_REGIONS = IntSets.synchronize(new IntOpenHashSet());
+    private static final Set<Integer> PERMANENTLY_LOADED_REGIONS = IntSets.synchronize(new IntOpenHashSet());
     private static final Map<Integer, UpdateZone> UPDATE_ZONES = new HashMap<>();
 
     @ServerStartupEvent(ServerStartupEvent.Priority.FILE_IO)
@@ -256,41 +256,31 @@ public final class ChunkManager {
         }
     }
 
-    public static void markChunkUnloadable(int chunkId) {
-        if (!PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
-            UNLOADABLE_CHUNKS.add(chunkId);
+    public static void markRegionUnloadable(int regionId) {
+        if (!PERMANENTLY_LOADED_REGIONS.contains(regionId))
+            UNLOADABLE_REGIONS.add(regionId);
     }
 
-    public static void unmarkChunkUnloadable(int chunkId) {
-        if (!PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
-            UNLOADABLE_CHUNKS.remove(chunkId);
+    public static void unmarkRegionUnloadable(int regionId) {
+        if (!PERMANENTLY_LOADED_REGIONS.contains(regionId))
+            UNLOADABLE_REGIONS.remove(regionId);
     }
 
-    public static void permanentlyPreloadChunkRadius(int centerChunkId, int radius) {
-        for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
-            for (int chunkXOff = (-radius * Chunk.X_INC); chunkXOff < (radius * Chunk.X_INC); chunkXOff += Chunk.X_INC) {
-                for (int chunkYOff = -radius; chunkYOff < radius; chunkYOff++) {
-                    permanentlyPreloadChunks(centerChunkId + planeOff + chunkXOff + chunkYOff);
-                }
-            }
+    public static void permanentlyPreloadRegions(int... regionIds) {
+        for (int regionId : regionIds) {
+            if (PERMANENTLY_LOADED_REGIONS.contains(regionId))
+                continue;
+            getChunk(Tile.of((regionId >> 8) * 64 + 32, (regionId & 0xff) * 64 + 32, 0).getChunkId(), true);
+            PERMANENTLY_LOADED_REGIONS.add(regionId);
         }
     }
 
-    public static void permanentlyPreloadChunks(int... chunkIds) {
-        for (int chunkId : chunkIds) {
-            if (PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
+    public static void permanentlyPreloadRegions(Set<Integer> regionIds) {
+        for (int regionId : regionIds) {
+            if (PERMANENTLY_LOADED_REGIONS.contains(regionId))
                 continue;
-            getChunk(chunkId, true);
-            PERMANENTLY_LOADED_CHUNKS.add(chunkId);
-        }
-    }
-
-    public static void permanentlyPreloadChunks(Set<Integer> chunkIds) {
-        for (int chunkId : chunkIds) {
-            if (PERMANENTLY_LOADED_CHUNKS.contains(chunkId))
-                continue;
-            getChunk(chunkId, true);
-            PERMANENTLY_LOADED_CHUNKS.add(chunkId);
+            getChunk(Tile.of((regionId >> 8) * 64 + 32, (regionId & 0xff) * 64 + 32, 0).getChunkId(), true);
+            PERMANENTLY_LOADED_REGIONS.add(regionId);
         }
     }
 
@@ -320,16 +310,24 @@ public final class ChunkManager {
 
     public static void clearUnusedMemory() {
         List<Integer> destroyed = new IntArrayList();
-        for (int chunkId : UNLOADABLE_CHUNKS) {
-            if (ACTIVE_CHUNKS.contains(chunkId))
-                continue;
-            Chunk chunk = getChunk(chunkId);
-            if (!(chunk instanceof InstancedChunk)) {
-                chunk.clearCollisionData();
-                chunk.destroy();
+        for (int regionId : UNLOADABLE_REGIONS) {
+            int chunkBaseId = Tile.of((regionId >> 8) * 64, (regionId & 0xff) * 64, 0).getChunkId();
+            for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
+                for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
+                    for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
+                        int chunkId = chunkBaseId + chunkXOff + chunkYOff + planeOff;
+                        if (ACTIVE_CHUNKS.contains(chunkId))
+                            continue;
+                        Chunk chunk = getChunk(chunkId);
+                        if (!(chunk instanceof InstancedChunk)) {
+                            chunk.clearCollisionData();
+                            chunk.destroy();
+                        }
+                    }
+                }
             }
         }
-        for (int chunkId : destroyed)
-            UNLOADABLE_CHUNKS.remove(chunkId);
+        for (int regionId : destroyed)
+            UNLOADABLE_REGIONS.remove(regionId);
     }
 }

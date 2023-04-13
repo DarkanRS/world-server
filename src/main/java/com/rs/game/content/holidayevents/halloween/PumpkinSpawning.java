@@ -46,7 +46,7 @@ public class PumpkinSpawning {
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
-		ChunkManager.permanentlyPreloadChunks(World.mapRegionIdsToChunks(regionsToSpawn));
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
 		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromHours(1), () -> {
 			try {
 				spawnPumpkins();

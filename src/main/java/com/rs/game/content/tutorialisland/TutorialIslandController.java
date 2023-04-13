@@ -80,7 +80,7 @@ public final class TutorialIslandController extends Controller {
 
 	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void init() {
-		ChunkManager.permanentlyPreloadChunks(World.mapRegionIdsToChunks(TUTORIAL_REGIONS));
+		ChunkManager.permanentlyPreloadRegions(TUTORIAL_REGIONS);
 	}
 
 	public enum Stage {

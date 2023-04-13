@@ -689,13 +689,13 @@ public class Chunk {
 
     public void addUpdateZone(UpdateZone zone) {
         updateZones.add(zone);
-        ChunkManager.unmarkChunkUnloadable(id);
+        ChunkManager.unmarkRegionUnloadable(getRegionId());
     }
 
     public void removeUpdateZone(UpdateZone zone) {
         updateZones.remove(zone);
         if (updateZones.isEmpty())
-            ChunkManager.markChunkUnloadable(id);
+            ChunkManager.markRegionUnloadable(getRegionId());
     }
 
     public Set<UpdateZone> getUpdateZones() {
