@@ -19,6 +19,7 @@ package com.rs.game.content.skills.mining;
 import java.util.function.Supplier;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.npc.NPC;
@@ -217,7 +218,7 @@ public class Mining extends Action {
 	}
 
 	public boolean checkRock() {
-		return rockObj != null ? World.getChunk(rockObj.getTile().getChunkId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
+		return rockObj != null ? ChunkManager.getChunk(rockObj.getTile().getChunkId()).objectExists(new GameObject(rockObj).setIdNoRefresh(rockId)) : !rockNPC.hasFinished();
 	}
 
 	public static double getXPMultiplier(Player player) {

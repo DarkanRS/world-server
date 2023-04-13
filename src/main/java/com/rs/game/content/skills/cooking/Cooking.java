@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -220,7 +221,7 @@ public class Cooking extends PlayerAction {
 
 	@Override
 	public boolean process(Player player) {
-		if (!World.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
+		if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
 			player.simpleDialogue("You need a level of " + cook.getLvl() + " to cook this.");

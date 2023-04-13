@@ -1,10 +1,8 @@
 package com.rs.game.map;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -21,12 +19,11 @@ import com.rs.utils.music.Music;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawns;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMaps;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSets;
+import it.unimi.dsi.fastutil.ints.*;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSets;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -44,6 +41,7 @@ public class Chunk {
 
     protected Set<Integer> players = IntSets.synchronize(new IntOpenHashSet());
     protected Set<Integer> npcs = IntSets.synchronize(new IntOpenHashSet());
+    private Set<UpdateZone> updateZones = ObjectSets.synchronize(new ObjectOpenHashSet<>());
 
     protected GameObject[][][] baseObjects = new GameObject[8][8][4];
     protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
@@ -52,11 +50,11 @@ public class Chunk {
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
-    protected AtomicBoolean loadingSpawnData = new AtomicBoolean(false);
-    protected AtomicBoolean loadedSpawnData = new AtomicBoolean(false);
+    protected volatile boolean loadingSpawnData = false;
+    protected volatile boolean loadedSpawnData = false;
 
-    protected AtomicBoolean loadingMapData = new AtomicBoolean(false);
-    protected AtomicBoolean loadedMapData = new AtomicBoolean(false);
+    protected volatile boolean loadingMapData = false;
+    protected volatile boolean loadedMapData = false;
 
     private int[] musicIds;
 
@@ -177,7 +175,7 @@ public class Chunk {
     }
 
     public boolean addGroundItem(GroundItem item) {
-        World.markChunkActive(id);
+        ChunkManager.markChunkActive(id);
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null) {
             tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
@@ -208,7 +206,7 @@ public class Chunk {
     }
 
     public boolean deleteGroundItem(GroundItem item) {
-        World.markChunkActive(id);
+        ChunkManager.markChunkActive(id);
         int tileHash = item.getTile().getTileHash();
         Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
         if (tileMap == null)
@@ -236,43 +234,43 @@ public class Chunk {
     }
 
     public void checkLoaded() {
-        if (!loadingMapData.get()) {
-            loadingMapData.set(true);
-            loadMapFromCache();
-            loadedMapData.set(true);
+        if (!loadingMapData) {
+            loadingMapData = true;
+            ChunkManager.loadRegionMapDataByChunkId(id);
+            loadedMapData = true;
         }
-        if (!loadingSpawnData.get()) {
-            loadingSpawnData.set(true);
+        if (!loadingSpawnData) {
+            loadingSpawnData = true;
             NPCSpawns.loadNPCSpawns(id);
             ItemSpawns.loadItemSpawns(id);
             ObjectSpawns.loadObjectSpawns(id);
-            loadedSpawnData.set(true);
+            loadedSpawnData = true;
         }
     }
 
     public void setMapDataLoaded() {
-        loadingMapData.set(true);
-        loadedMapData.set(true);
+        loadingMapData = true;
+        loadedMapData = true;
     }
 
-    public void loadMapFromCache() {
-        baseObjects = new GameObject[8][8][4];
-        Region region = new Region(getRegionId());
-        region.loadRegionMap(false);
-        for (int xOff = 0;xOff < 8;xOff++)
-            for (int yOff = 0;yOff < 8;yOff++)
-                WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
-        if (region.getObjects() != null && !region.getObjects().isEmpty()) {
-            for (WorldObject object : region.getObjects()) {
-                if (object.getTile().getChunkId() != id)
-                    continue;
-                addBaseObject(new GameObject(object));
-            }
-        }
-    }
+//    public void loadMapFromCache() {
+//        baseObjects = new GameObject[8][8][4];
+//        Region region = new Region(getRegionId());
+//        region.loadRegionMap(false);
+//        for (int xOff = 0;xOff < 8;xOff++)
+//            for (int yOff = 0;yOff < 8;yOff++)
+//                WorldCollision.addFlag(Tile.of(getBaseX()+xOff, getBaseY()+yOff, plane), region.getClipFlags()[plane][(getBaseX()-region.getBaseX())+xOff][(getBaseY()-region.getBaseY())+yOff]);
+//        if (region.getObjects() != null && !region.getObjects().isEmpty()) {
+//            for (WorldObject object : region.getObjects()) {
+//                if (object.getTile().getChunkId() != id)
+//                    continue;
+//                addBaseObject(new GameObject(object));
+//            }
+//        }
+//    }
 
     public boolean isLoaded() {
-        return loadedSpawnData.get();
+        return loadedSpawnData && loadedMapData;
     }
 
     public void addBaseObject(GameObject obj) {
@@ -296,6 +294,7 @@ public class Chunk {
         } else if (baseObj != newObj) {
             if (!newObj.equals(baseObj))
                 addRemovedObject(baseObj);
+            ChunkManager.markChunkActive(id);
             spawnedObjects.add(newObj);
             if (clip && baseObj != null)
                 WorldCollision.unclip(baseObj);
@@ -570,7 +569,7 @@ public class Chunk {
     }
 
     public void addChunkUpdate(UpdateZonePacketEncoder update) {
-        World.markChunkActive(id);
+        ChunkManager.markChunkActive(id);
         updates.add(update);
     }
 
@@ -617,8 +616,8 @@ public class Chunk {
     public void process() {
         updates.clear();
         processGroundItems();
-        if (groundItems.isEmpty())
-            World.markChunkInactive(id);
+        if (groundItems.isEmpty() && spawnedObjects.isEmpty())
+            ChunkManager.markChunkInactive(id);
     }
 
     public int getBaseX() {
@@ -663,8 +662,8 @@ public class Chunk {
     }
 
     public void destroy() {
-        loadingMapData.set(false);
-        loadedMapData.set(false);
+        loadingMapData = false;
+        loadedMapData = false;
         if (getAllGroundItems() != null)
             getAllGroundItems().clear();
         if (getGroundItems() != null)
@@ -678,7 +677,7 @@ public class Chunk {
                 continue;
             npc.finish();
         }
-        World.removeChunk(id);
+        ChunkManager.removeChunk(id);
         for (int playerIndex : players) {
             Player player = World.getPlayers().get(playerIndex);
             if (player == null || !player.hasStarted() || player.hasFinished())
@@ -686,5 +685,20 @@ public class Chunk {
             player.setForceNextMapLoadRefresh(true);
             player.loadMapRegions();
         }
+    }
+
+    public void addUpdateZone(UpdateZone zone) {
+        updateZones.add(zone);
+        ChunkManager.unmarkRegionUnloadable(getRegionId());
+    }
+
+    public void removeUpdateZone(UpdateZone zone) {
+        updateZones.remove(zone);
+        if (updateZones.isEmpty())
+            ChunkManager.markRegionUnloadable(getRegionId());
+    }
+
+    public Set<UpdateZone> getUpdateZones() {
+        return updateZones;
     }
 }

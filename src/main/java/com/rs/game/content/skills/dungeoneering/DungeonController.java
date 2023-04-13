@@ -68,6 +68,7 @@ import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
 import com.rs.game.content.world.unorganized_dialogue.SmugglerD;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -1199,7 +1200,7 @@ public class DungeonController extends Controller {
 				if (packet == ClientPacket.IF_OP2) {
 					player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 					if (gatestone != null) {
-						GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
+						GroundItem item = ChunkManager.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, gatestone, player);
 						if (item == null)
 							return false;
 						World.removeGroundItem(player, item, false);
@@ -1255,7 +1256,7 @@ public class DungeonController extends Controller {
 		}
 
 		if (!group) {
-			GroundItem item = World.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
+			GroundItem item = ChunkManager.getChunk(gatestone.getChunkId()).getGroundItem(DungeonConstants.GATESTONE, tile, player);
 			if (item == null)
 				return;
 			World.removeGroundItem(player, item);

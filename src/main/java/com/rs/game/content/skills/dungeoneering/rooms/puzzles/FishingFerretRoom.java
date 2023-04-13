@@ -30,6 +30,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.misc.DungeonFishSpot;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing.Fish;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -186,7 +187,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 			public void run() {
 				World.sendSpotAnim(object.getTile(), new SpotAnim(2523));
 				World.addGroundItem(item, object.getTile(), null, false, 0, DropMethod.NORMAL, 40);
-				puzzle.getVileFishes().add(World.getChunk(player.getChunkId()).getGroundItem(item.getId(), object.getTile(), player));
+				puzzle.getVileFishes().add(ChunkManager.getChunk(player.getChunkId()).getGroundItem(item.getId(), object.getTile(), player));
 			}
 		}, p.getTaskDelay());
 		return true;

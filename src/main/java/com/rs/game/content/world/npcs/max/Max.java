@@ -50,6 +50,7 @@ public class Max extends NPC {
 		rank = RANK_DISPLAY;
 		RANK_DISPLAY++;
 		updateName();
+		setLoadsUpdateZones();
 	}
 	
 	public void setTask(Task task) {

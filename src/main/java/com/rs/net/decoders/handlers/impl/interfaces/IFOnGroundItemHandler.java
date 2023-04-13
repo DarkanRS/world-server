@@ -24,6 +24,7 @@ import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -51,7 +52,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
 		if (!player.getMapChunkIds().contains(tile.getChunkId()))
 			return;
-		GroundItem groundItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
+		GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 		if (groundItem == null)
 			return;
 		player.stopAll();
@@ -79,7 +80,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 				public boolean process() {
 					if (player.isDead() || player.hasFinished())
 						return false;
-					final GroundItem item = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
+					final GroundItem item = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 					if ((item == null) || (player.getPlane() != tile.getPlane()))
 						return false;
 					if (player.hasEffect(Effect.FREEZE))
@@ -103,7 +104,7 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 						player.getSkills().addXp(Constants.MAGIC, 43);
 						player.setNextSpotAnim(new SpotAnim(142, 2, 50, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
 						World.sendProjectile(player, tile, 143, 35, 0, 60, 1, 0, 0, p -> {
-							final GroundItem gItem = World.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
+							final GroundItem gItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getItemId(), tile, player);
 							if (gItem == null) {
 								player.sendMessage("Too late. It's gone!");
 								return;

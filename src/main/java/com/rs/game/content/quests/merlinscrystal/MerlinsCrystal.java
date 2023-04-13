@@ -8,6 +8,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -216,7 +217,7 @@ public class MerlinsCrystal extends QuestOutline {
 			public void run() {
 				if(tick == 1)
 					if(e.getPlayer().getInventory().containsItem(LIT_BLACK_CANDLE, 1))
-						for (GroundItem item : World.getChunk(e.getPlayer().getChunkId()).getAllGroundItems())
+						for (GroundItem item : ChunkManager.getChunk(e.getPlayer().getChunkId()).getAllGroundItems())
 							if (item.getId() == 530 && item.getTile().matches(Tile.of(2780, 3515, 0))) {
 								e.getPlayer().getControllerManager().startController(new MerlinsCrystalRitualScene());
 								stop();
