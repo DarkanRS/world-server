@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
 import com.rs.cache.Cache;
 import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;

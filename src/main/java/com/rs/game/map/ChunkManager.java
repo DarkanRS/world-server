@@ -75,15 +75,13 @@ public final class ChunkManager {
             return;
         }
         int chunkId = MapUtils.encode(MapUtils.Structure.CHUNK, entity.getChunkX(), entity.getChunkY(), entity.getPlane());
-        int chunkIdNoPlane = MapUtils.encode(MapUtils.Structure.CHUNK, entity.getChunkX(), entity.getChunkY());
         if (entity.getLastChunkId() != chunkId || entity.isForceUpdateEntityRegion()) {
             PluginManager.handle(new EnterChunkEvent(entity, chunkId));
-            PluginManager.handle(new EnterChunkEvent(entity, chunkIdNoPlane));
             entity.checkMultiArea();
 
             if (entity instanceof Player player) {
                 if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(player) == null && !(getChunk(player.getChunkId()) instanceof InstancedChunk))
-                    player.sendMessage(chunkIdNoPlane + " has no music genre!");
+                    player.sendMessage(chunkId + " has no music genre!");
                 if (entity.getLastChunkId() > 0)
                     getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
                 Chunk chunk = getChunk(chunkId);
