@@ -310,21 +310,27 @@ public final class ChunkManager {
 
     public static void clearUnusedMemory() {
         List<Integer> destroyed = new IntArrayList();
-        for (int regionId : UNLOADABLE_REGIONS) {
+        regionLoop: for (int regionId : UNLOADABLE_REGIONS) {
             int chunkBaseId = Tile.of((regionId >> 8) * 64, (regionId & 0xff) * 64, 0).getChunkId();
+            Set<Integer> chunksToDestroy = new IntOpenHashSet();
             for (int planeOff = 0; planeOff < 4 * Chunk.PLANE_INC; planeOff += Chunk.PLANE_INC) {
                 for (int chunkXOff = 0; chunkXOff < 8 * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
                     for (int chunkYOff = 0; chunkYOff < 8; chunkYOff++) {
                         int chunkId = chunkBaseId + chunkXOff + chunkYOff + planeOff;
-                        if (ACTIVE_CHUNKS.contains(chunkId))
-                            continue;
                         Chunk chunk = getChunk(chunkId);
-                        if (!(chunk instanceof InstancedChunk)) {
-                            chunk.clearCollisionData();
-                            chunk.destroy();
-                        }
+                        if (ACTIVE_CHUNKS.contains(chunkId))
+                            continue regionLoop;
+                        if (chunk != null && !(chunk instanceof InstancedChunk))
+                            chunksToDestroy.add(chunkId);
                     }
                 }
+            }
+            for (int chunkId : chunksToDestroy) {
+                Chunk chunk = getChunk(chunkId);
+                if (chunk != null)
+                    continue;
+                chunk.clearCollisionData();
+                chunk.destroy();
             }
         }
         for (int regionId : destroyed)
