@@ -143,8 +143,8 @@ public final class Launcher {
 			} catch (Throwable e) {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
-			//}, 0, Ticks.fromMinutes(10));
-		}, 0, Ticks.fromSeconds(10));
+		}, 0, Ticks.fromMinutes(10));
+		//}, 0, Ticks.fromSeconds(10));
 	}
 
 	public static void saveFilesSync() {
