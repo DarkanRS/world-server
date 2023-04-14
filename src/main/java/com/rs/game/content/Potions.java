@@ -52,22 +52,22 @@ public class Potions {
 
 	public enum Potion {
 		CUP_OF_TEA_CLAY(7728, 7730, p -> {
-			p.getSkills().adjustStat(1, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION);
 		}),
 		CUP_OF_TEA_CLAY_MILK(7728, 7731, p -> {
-			p.getSkills().adjustStat(1, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION);
 		}),
 		CUP_OF_TEA_PORCELAIN(7732, 7733, p -> {
-			p.getSkills().adjustStat(2, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION);
 		}),
 		CUP_OF_TEA_PORCELAIN_MILK(7732, 7734, p -> {
-			p.getSkills().adjustStat(2, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION);
 		}),
 		CUP_OF_TEA_GOLD(7735, 7736, p -> {
-			p.getSkills().adjustStat(3, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION);
 		}),
 		CUP_OF_TEA_GOLD_MILK(7735, 7737, p -> {
-			p.getSkills().adjustStat(3, 0.1, Constants.CONSTRUCTION);
+			p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION);
 		}),
 		NETTLE_TEA_CUP(EMPTY_CUP, 4245, p -> {
 			p.restoreRunEnergy(5);
