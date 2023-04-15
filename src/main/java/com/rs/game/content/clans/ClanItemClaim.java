@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.clans;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.Conversation;
@@ -24,7 +24,7 @@ import com.rs.game.model.entity.player.Player;
 public class ClanItemClaim extends Conversation {
 	public ClanItemClaim(Player player, int itemId) {
 		super(player);
-		addNPC(itemId == 20708 ? 13633 : 5915, HeadE.HAPPY_TALKING, "Why of course you can have a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + ".");
+		//addNPC(itemId == 20708 ? 13633 : 5915, HeadE.HAPPY_TALKING, "Why of course you can have a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + ".");
 		addItem(itemId, "You are handed a " + ItemDefinitions.getDefs(itemId).name.toLowerCase() + ".", () -> player.getInventory().addItem(itemId));
 	}
 }

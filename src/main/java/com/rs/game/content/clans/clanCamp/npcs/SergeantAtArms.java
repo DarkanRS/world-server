@@ -12,25 +12,28 @@ public class SergeantAtArms extends Conversation {
 
     private static final int npcId = 5914;
 
+    private boolean hasClan;
+
     public static NPCClickHandler SergeantAtArms = new NPCClickHandler(new Object[] { npcId }, e -> {
         if (e.getOption().equalsIgnoreCase("talk-to")) {
             e.getPlayer().startConversation(new SergeantAtArms(e.getPlayer()));
         }
         if (e.getOption().equalsIgnoreCase("badge")) {
+            if(e.getPlayer().getClan() != null)
             e.getPlayer().startConversation(new Dialogue()
                     .addPlayer(HeadE.HAPPY_TALKING,"I need a Rated Clan Wars badge.")
                     .addNext(() -> {
-                        if (e.getPlayer().getClan().getName() == null) {
+                        if (e.getPlayer().getClan() != null) {
                             e.getPlayer().startConversation(new Dialogue()
                                     .addNPC(npcId, HeadE.SHAKING_HEAD, "You need to be in a clan to get a badge. I can't just give them out to just anyone. Talk to the clan scribe over there. He can help you set up a clan."));
                             return;
                         }
-                        if (e.getPlayer().getClan().getName() != null && e.getPlayer().getInventory().containsItem(20710)) {
+                        if (e.getPlayer().getClan() != null && e.getPlayer().getInventory().containsItem(20710)) {
                             e.getPlayer().startConversation(new Dialogue()
                                     .addNPC(npcId, HeadE.SHAKING_HEAD, "You've already got a badge. Don't waste my time."));
                             return;
                         }
-                        if (e.getPlayer().getClan().getName() != null && !e.getPlayer().getInventory().containsItem(20710)) {
+                        if (e.getPlayer().getClan() != null && !e.getPlayer().getInventory().containsItem(20710)) {
                             if (e.getPlayer().getInventory().hasFreeSlots()) {
                                 e.getPlayer().startConversation(new Dialogue()
                                         .addNPC(npcId, HeadE.HAPPY_TALKING, "Sure, here you go."));
@@ -50,6 +53,8 @@ public class SergeantAtArms extends Conversation {
 
     public SergeantAtArms(Player player) {
         super(player);
+        if(player.getClan() != null)
+            hasClan = true;
         player.startConversation(new Dialogue()
                 .addNPC(npcId, HeadE.HAPPY_TALKING, "Want something?")
                 .addOptions(ops -> {
@@ -85,17 +90,17 @@ public class SergeantAtArms extends Conversation {
 
                     ops.add("I need a Rated Clan Wars badge.")
                             .addNext(() -> {
-                                if (player.getClan().getName() == null) {
+                                if (!hasClan) {
                                     player.startConversation(new Dialogue()
                                             .addNPC(npcId, HeadE.SHAKING_HEAD, "You need to be in a clan to get a badge. I can't just give them out to just anyone. Talk to the clan scribe over there. He can help you set up a clan."));
                                     return;
                                 }
-                                if (player.getClan().getName() != null && player.getInventory().containsItem(20710)) {
+                                if (hasClan && player.getInventory().containsItem(20710)) {
                                     player.startConversation(new Dialogue()
                                             .addNPC(npcId, HeadE.SHAKING_HEAD, "You've already got a badge. Don't waste my time."));
                                     return;
                                 }
-                                if (player.getClan().getName() != null && !player.getInventory().containsItem(20710)) {
+                                if (hasClan && !player.getInventory().containsItem(20710)) {
                                     if (player.getInventory().hasFreeSlots()) {
                                         player.getInventory().addItem(20710, 1);
                                         player.sendMessage("The sergeant hands you an RCW badge.");
