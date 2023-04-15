@@ -36,7 +36,6 @@ import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.content.transportation.BoatingD;
 import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
-import com.rs.game.content.clans.ClanItemClaim;
 import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
