@@ -699,10 +699,6 @@ public abstract class Entity {
 		ChunkManager.updateChunks(this);
 		if (needMapUpdate())
 			loadMapRegions();
-		if (nextTickUnlock) {
-			unlock();
-			nextTickUnlock = false;
-		}
 	}
 
 	public WalkStep previewNextWalkStep() {
@@ -936,6 +932,10 @@ public abstract class Entity {
 		processEffects();
 		interactionManager.process();
 		actionManager.process();
+		if (nextTickUnlock) {
+			unlock();
+			nextTickUnlock = false;
+		}
 	}
 
 	public void loadMapRegions() {
@@ -1298,11 +1298,14 @@ public abstract class Entity {
 			anim(animation);
 		lock();
 		resetWalkSteps();
-		setNextTile(destination);
 		setNextForceMovement(movement);
+		if (startClientCycles > 0) {
+			WorldTasks.schedule(movement.getStartTickDuration(), () -> setNextTile(destination));
+		} else
+			setNextTile(destination);
 		WorldTasks.schedule(movement.getTickDuration(), () -> {
 			if (autoUnlock)
-				unlockNextTick();
+				lock(1);
 			if (afterComplete != null)
 				afterComplete.run();
 		});

@@ -28,9 +28,9 @@ public class PollnivneachSlayerDungeon {
 	public static ObjectClickHandler handleBarriers = new ObjectClickHandler(new Object[] { 31435, 31436 }, e -> {
 		e.getPlayer().setNextSpotAnim(new SpotAnim(1659));
 		if (e.getObjectId() == 31435)
-			AgilityShortcuts.forceMovementInstant(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() > e.getObject().getX() ? -2 : 2, 0), 10584, 1);
+			e.getPlayer().forceMove(e.getPlayer().transform(e.getPlayer().getX() > e.getObject().getX() ? -2 : 2, 0), 10584, 0, 30);
 		else
-			AgilityShortcuts.forceMovementInstant(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2), 10584, 1);
+			e.getPlayer().forceMove(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2), 10584, 0, 30);
 	});
 
 	public static ObjectClickHandler handleDownStairsNE = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3374, 9426, 0) }, e -> {

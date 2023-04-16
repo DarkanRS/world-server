@@ -213,43 +213,20 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleMossGiantRopeSwings = new ObjectClickHandler(new Object[] { 2322, 2323 }, e -> {
 		final Tile toTile = e.getObjectId() == 2322 ? Tile.of(2704, 3209, 0) : Tile.of(2709, 3205, 0);
-		if (Agility.hasLevel(e.getPlayer(), 10))
-			if (e.isAtObject()) {
-				if (e.getObjectId() == 2322 ? e.getPlayer().getX() == 2704 : e.getPlayer().getX() == 2709) {
-					e.getPlayer().sendMessage("You can't reach that.", true);
-					return;
-				}
-				e.getPlayer().lock();
-				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().setNextAnimation(new Animation(751));
-				World.sendObjectAnimation(e.getObject(), new Animation(497));
-
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
-				e.getPlayer().sendMessage("You skillfully swing across the rope.", true);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().unlockNextTick();
-						e.getPlayer().getSkills().addXp(Constants.AGILITY, 0.1);
-						e.getPlayer().setNextTile(toTile);
-					}
-
-				});
-				e.getPlayer().unlock();
-			}
+		final Tile fromTile = e.getObjectId() == 2323 ? Tile.of(2704, 3209, 0) : Tile.of(2709, 3205, 0);
+		if (!Agility.hasLevel(e.getPlayer(), 10))
+			return;
+		if (e.getObjectId() == 2322 ? e.getPlayer().getX() == 2704 : e.getPlayer().getX() == 2709) {
+			e.getPlayer().sendMessage("You can't reach that.", true);
+			return;
+		}
+		Agility.swingOnRopeSwing(e.getPlayer(), fromTile, toTile, e.getObject(), 0.1);
 	});
 
 	public static ObjectClickHandler handleJogreWaterfallSteppingStones = new ObjectClickHandler(new Object[] { 2333, 2334, 2335 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 30))
 			return;
-		e.getPlayer().setNextAnimation(new Animation(741));
-		e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject().getTile(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				e.getPlayer().setNextTile(e.getObject().getTile());
-			}
-		}, 0);
+		e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 30);
 	});
 
 	public static ObjectClickHandler handleRareTreeDoors = new ObjectClickHandler(new Object[] { 9038, 9039 }, e -> {

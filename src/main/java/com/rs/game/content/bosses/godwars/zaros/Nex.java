@@ -131,9 +131,7 @@ public final class Nex extends NPC {
 					if (tile == null)
 						tile = Tile.of(target.getTile());
 					if (World.floorAndWallsFree(tile, getSize())) {
-						setNextForceMovement(new ForceMovement(Tile.of(this.getTile()), 0, tile, 1, Direction.forDelta(tile.getX() - getX(), tile.getY() - getY())));
-						setNextAnimation(new Animation(6985));
-						setNextTile(tile);
+						forceMove(tile, 6985, 0, 30);
 						return;
 					}
 				} else

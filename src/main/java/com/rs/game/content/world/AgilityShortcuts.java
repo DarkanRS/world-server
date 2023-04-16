@@ -32,12 +32,12 @@ public class AgilityShortcuts {
 	}
 
 	public static void climbOver(Player player, Tile toTile, int animId) {
-		player.forceMove(toTile, animId, 5, 60);
+		player.forceMove(toTile, animId, 0, 60);
 	}
 
 	public static void sidestep(final Player player, Tile toTile) {
 		player.lock();
-		WorldTasks.schedule(1, () -> player.forceMove(toTile, 3844, 5, 120));
+		WorldTasks.schedule(1, () -> player.forceMove(toTile, 3844, 0, 120));
 	}
 
 	public static void crawlUnder(final Player player, Tile toTile) {

@@ -46,7 +46,7 @@ public class Drag implements NexAttack {
 			final Player player = (Player) settedTarget;
 			player.lock(3);
 			player.setNextSpotAnim(new SpotAnim(2767));
-			player.forceMove(nex.getNearestTeleTile(1), 14386, 5, 60);
+			player.forceMove(nex.getNearestTeleTile(1), 14386, 0, 60);
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));

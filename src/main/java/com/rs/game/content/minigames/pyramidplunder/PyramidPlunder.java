@@ -480,25 +480,7 @@ public class PyramidPlunder {
 		Direction oppositeDir = Direction.rotateClockwise(e.getStep().getDir(), 4);//180 degree turn
 		int dX = oppositeDir.getDx();
 		int dY = oppositeDir.getDy();
-		Tile prevTile = Tile.of(e.getTile().getX() + dX, e.getTile().getY() + dY, e.getTile().getPlane());
-		p.lock(3);
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-			@Override
-			public void run() {
-				if(ticks == 0) {
-					p.setNextAnimation(new Animation(1832));
-					p.setNextForceMovement(new ForceMovement(prevTile, 1, e.getStep().getDir()));
-				}
-				else if (ticks == 1) {
-					p.setNextTile(prevTile);
-					p.forceTalk("Ouch!");
-				}
-				else if (ticks == 2)
-					stop();
-				ticks++;
-			}
-		}, 0, 1);
+		p.forceMove(Tile.of(e.getTile().getX() + dX, e.getTile().getY() + dY, e.getTile().getPlane()), 1832, 25, 45, () -> p.forceTalk("Ouch!"));
 	}
 
 }

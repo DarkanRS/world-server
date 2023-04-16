@@ -66,11 +66,7 @@ public class Piscatoris {
 				e.getPlayer().lock();
 				ticks++;
 				if (ticks == 1) {
-					e.getPlayer().setNextAnimation(new Animation(2589));
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getObject().getTile(), 1, isNorth ? Direction.SOUTH : Direction.NORTH));
-				} else if (ticks == 3) {
-					e.getPlayer().setNextTile(Tile.of(2344, 3652, 0));
-					e.getPlayer().setNextAnimation(new Animation(2590));
+					e.getPlayer().forceMove(e.getObject().getTile(), 2589, 0, 30, false, () -> e.getPlayer().setNextAnimation(new Animation(2590)));
 				} else if (ticks == 5)
 					e.getPlayer().setNextAnimation(new Animation(2591));
 				else if (ticks == 6) {
@@ -90,8 +86,8 @@ public class Piscatoris {
 			return;
 		}
 		if(obj.getTile().matches(Tile.of(2323, 3497, 0)))//above
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2322, 3502, 0), 2050, 1, 1, Direction.SOUTH);
+			p.forceMove(Tile.of(2322, 3502, 0), 2050, 25, 30);
 		if(obj.getTile().matches(Tile.of(2322, 3501, 0)))//below
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2323, 3496, 0), 2049, 1, 1, Direction.SOUTH);
+			p.forceMove(Tile.of(2323, 3496, 0), 2049, 25, 30);
 	});
 }

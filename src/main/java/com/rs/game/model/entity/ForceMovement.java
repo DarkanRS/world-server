@@ -52,6 +52,10 @@ public class ForceMovement {
 		return (int) Math.ceil((double) Math.max(startClientCycles, speedClientCycles) / 30.0);
 	}
 
+	public int getStartTickDuration() {
+		return (int) Math.ceil((double) startClientCycles / 30.0);
+	}
+
 	public int getDiffX1() {
 		return start.getX() - path[0].getX();
 	}

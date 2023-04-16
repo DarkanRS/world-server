@@ -98,32 +98,7 @@ public class SeersVillage {
 	public static ObjectClickHandler grubersWoodFence = new ObjectClickHandler(new Object[] { 51 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.lock(3);
-		if(p.getX() < obj.getX()) {
-			WorldTasks.scheduleTimer(0, tick -> {
-				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(Tile.of(2662, 3500, 0), 1, Direction.EAST));
-					p.setNextAnimation(new Animation(3844));
-				}
-				if (tick == 2) {
-					p.setNextTile(Tile.of(2662, 3500, 0));
-					return false;
-				}
-				return true;
-			});
-		} else {
-			WorldTasks.scheduleTimer(0, tick -> {
-				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(Tile.of(2661, 3500, 0), 1, Direction.WEST));
-					p.setNextAnimation(new Animation(3844));
-				}
-				if (tick == 2) {
-					p.setNextTile(Tile.of(2661, 3500, 0));
-					return false;
-				}
-				return true;
-			});
-		}
+		p.forceMove(p.getX() < obj.getX() ? Tile.of(2662, 3500, 0) : Tile.of(2661, 3500, 0), 3844, 0, 30);
 	});
 
 	public static ObjectClickHandler grubersShedDoor = new ObjectClickHandler(new Object[] { 99 }, e -> {
