@@ -146,14 +146,12 @@ public class GodwarsController extends Controller {
 					case 4 -> {
 						player.getAppearance().transformIntoNPC(266);
 						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
-						player.setNextForceMovement(new ForceMovement(Tile.of(player.getTile()), 0, tile, 6, withinArmadyl ? Direction.NORTH : Direction.SOUTH));
-					}
-					case 6 -> player.setNextTile(tile);
-					case 10 -> {
-						player.getAppearance().transformIntoNPC(-1);
-						player.setNextAnimation(new Animation(16672));
-						player.unlock();
-						player.resetReceivedHits();
+						player.forceMove(tile, 5, 180, false, () -> {
+							player.getAppearance().transformIntoNPC(-1);
+							player.setNextAnimation(new Animation(16672));
+							player.unlock();
+							player.resetReceivedHits();
+						});
 						return false;
 					}
 					}

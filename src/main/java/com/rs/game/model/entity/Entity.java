@@ -1272,12 +1272,24 @@ public abstract class Entity {
 		this.nextForceMovement = movement;
 	}
 
-	public void forceMoveVisually(Tile destination, int startClientCycles, int speedClientCycles) {
+	public void forceMoveVisually(Tile destination, int animation, int startClientCycles, int speedClientCycles) {
+		if (animation != -1)
+			anim(animation);
 		setNextForceMovement(new ForceMovement(getTile(), destination, startClientCycles, speedClientCycles));
 	}
 
-	public void forceMoveVisually(Direction dir, int distance, int startClientCycles, int speedClientCycles) {
+	public void forceMoveVisually(Direction dir, int distance, int animation, int startClientCycles, int speedClientCycles) {
+		if (animation != -1)
+			anim(animation);
 		setNextForceMovement(new ForceMovement(getTile(), transform(dir.getDx()*distance, dir.getDy()*distance), startClientCycles, speedClientCycles));
+	}
+
+	public void forceMoveVisually(Tile destination, int startClientCycles, int speedClientCycles) {
+		forceMoveVisually(destination, -1, startClientCycles, speedClientCycles);
+	}
+
+	public void forceMoveVisually(Direction dir, int distance, int startClientCycles, int speedClientCycles) {
+		forceMoveVisually(dir, distance, -1, startClientCycles, speedClientCycles);
 	}
 
 	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {

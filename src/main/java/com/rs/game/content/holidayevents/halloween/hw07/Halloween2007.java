@@ -69,7 +69,7 @@ public class Halloween2007 {
 
 	private static Animation WEB_PASS_ANIM = new Animation(7280);
 	private static Animation WEB_FAIL_ANIM = new Animation(7281);
-	private static Animation WEB_PASS_PANIM = new Animation(7275);
+	private static int WEB_PASS_PANIM = 7275;
 	private static Animation WEB_FAIL_PANIM = new Animation(7276);
 
 	private static Animation TAKE_ITEM = new Animation(833);
@@ -436,12 +436,10 @@ public class Halloween2007 {
 				e.getPlayer().setNextAnimation(new Animation(7274));
 			else if (stage == 9) {
 				e.getPlayer().setNextTile(e.getPlayer().transform(0, -1, 0));
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, Tile.of(1642, 4819, 0), 2));
-			} else if (stage == 12) {
-				e.getPlayer().setNextTile(Tile.of(1642, 4819, 0));
-				e.getPlayer().unlock();
-				e.getPlayer().getPackets().sendResetCamera();
-				ctrl.setRodeSlide(true);
+				e.getPlayer().forceMove(Tile.of(1642, 4819, 0), 1, 60, () -> {
+					e.getPlayer().getPackets().sendResetCamera();
+					ctrl.setRodeSlide(true);
+				});
 				return false;
 			}
 			return true;
@@ -457,15 +455,11 @@ public class Halloween2007 {
 				e.getPlayer().addWalkSteps(e.getObject().getTile(), 1, false);
 			else if (stage == 1) {
 				World.sendObjectAnimation(e.getObject(), new Animation(7268));
-				e.getPlayer().setNextAnimation(new Animation(toSlime ? 7269 : 7268));
 				if (toSlime) {
 					e.getPlayer().getAppearance().setBAS(616);
 					e.getPlayer().blockRun();
 				}
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, toTile, 1));
-			} else if (stage == 2) {
-				e.getPlayer().setNextTile(toTile);
-				e.getPlayer().unlock();
+				e.getPlayer().forceMove(toTile, toSlime ? 7269 : 7268, 1, 30);
 				return false;
 			}
 			return true;
@@ -478,13 +472,8 @@ public class Halloween2007 {
 			if (stage == 0)
 				e.getPlayer().faceObject(e.getObject());
 			else if (stage == 1) {
-				e.getPlayer().setNextAnimation(new Animation(7273));
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getPlayer().transform(0, 2, 0), 5));
+				e.getPlayer().forceMove(e.getPlayer().transform(0, 2, 0), 7273, 1, 150, () -> e.getPlayer().unblockRun());
 				e.getPlayer().getAppearance().setBAS(-1);
-			} else if (stage == 6) {
-				e.getPlayer().setNextTile(e.getPlayer().transform(0, 2, 0));
-				e.getPlayer().unlock();
-				e.getPlayer().unblockRun();
 				return false;
 			}
 			return true;
@@ -618,12 +607,8 @@ public class Halloween2007 {
 				if (stage == 0)
 					player.faceObject(object);
 				else if (stage == 1) {
-					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4));
-					player.setNextAnimation(WEB_PASS_PANIM);
+					player.forceMove(toTile, WEB_PASS_PANIM, 1, 120);
 					object.animate(WEB_PASS_ANIM);
-				} else if (stage == 5) {
-					player.setNextTile(toTile);
-					player.unlock();
 					stop();
 				}
 				stage++;

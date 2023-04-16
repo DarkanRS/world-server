@@ -46,26 +46,18 @@ public class GnomeAgility {
 					if (stage == 0)
 						e.getPlayer().faceObject(e.getObject());
 					else if (stage == 1) {
-						e.getPlayer().setNextAnimation(new Animation(11784));
-						e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, Tile.of(x, 3421, 3), 1));
+						e.getPlayer().forceMove(Tile.of(x, 3421, 3), 11784, 0, 30, false);
 					} else if (stage == 2) {
-						e.getPlayer().setNextAnimation(new Animation(11785));
-						e.getPlayer().setNextTile(Tile.of(x, 3421, 3));
-						e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(x, 3421, 3), 0, Tile.of(x, 3425, 3), 1));
-					} else if (stage == 3) {
-						e.getPlayer().setNextTile(Tile.of(x, 3425, 3));
-						e.getPlayer().setNextAnimation(new Animation(11789));
+						e.getPlayer().forceMove(Tile.of(x, 3425, 3), 11785, 0, 30, false, () -> e.getPlayer().setNextAnimation(new Animation(11789)));
 					} else if (stage == 6)
-						e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(x, 3425, 3), 1, Tile.of(x, 3429, 3), 2));
+						e.getPlayer().forceMove(Tile.of(x, 3429, 3), -1, 0, 60, false);
 					else if (stage == 11) {
-						e.getPlayer().setNextTile(Tile.of(x, 3429, 3));
-						e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(x, 3429, 3), 1, Tile.of(x, 3432, 3), 2));
-					} else if (stage == 15) {
-						e.getPlayer().setNextTile(Tile.of(x, 3432, 3));
-						e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
-						if (getGnomeStage(e.getPlayer()) == 1)
-							setGnomeStage(e.getPlayer(), 2);
-						e.getPlayer().unlock();
+						e.getPlayer().forceMove(Tile.of(x, 3432, 3), -1, 0, 60, false, () -> {
+							e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
+							if (getGnomeStage(e.getPlayer()) == 1)
+								setGnomeStage(e.getPlayer(), 2);
+							e.getPlayer().unlock();
+						});
 						stop();
 					}
 					stage++;
@@ -78,20 +70,11 @@ public class GnomeAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2476, 3418, 3), () -> {
-			e.getPlayer().lock();
-			e.getPlayer().setNextAnimation(new Animation(2922));
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, Tile.of(2484, 3418, 3), 3, Direction.EAST));
-			e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
-			e.getPlayer().sendMessage("You skillfully run across the board", true);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					e.getPlayer().unlock();
-					e.getPlayer().setNextTile(Tile.of(2484, 3418, 3));
-					if (getGnomeStage(e.getPlayer()) == 0)
-						setGnomeStage(e.getPlayer(), 1);
-				}
-			}, 2);
+			e.getPlayer().forceMove(Tile.of(2484, 3418, 3), 2922, 25, 90, () -> {
+				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
+				if (getGnomeStage(e.getPlayer()) == 0)
+					setGnomeStage(e.getPlayer(), 1);
+			});
 		}));
 	});
 
@@ -114,10 +97,8 @@ public class GnomeAgility {
 			@Override
 			public void run() {
 				if (tick == 0) {
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, Tile.of(2485, 3434, 3), 2));
-					e.getPlayer().setNextAnimation(new Animation(2923));
+					e.getPlayer().forceMove(Tile.of(2485, 3434, 3), 2923, 25, 60, false);
 				} else if (tick == 3) {
-					e.getPlayer().setNextTile(Tile.of(2485, 3436, 0));
 					e.getPlayer().setNextAnimation(new Animation(2924));
 				} else if (tick == 5) {
 					e.getPlayer().unlock();
