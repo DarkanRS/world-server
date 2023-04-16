@@ -84,24 +84,24 @@ public class Tirannwn {
 		Tile objTile = Tile.of(e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
 		if (p.withinDistance(Tile.of(2208, 3204, 0), 4))
 			if (p.getY() > objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2209, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+				p.forceMove(Tile.of(2209, 3201, 0), 10963, 5, 25);
 			else if (p.getY() < objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2209, 3205, 0), 10963, 1, 0, Direction.NORTH);
+				p.forceMove(Tile.of(2209, 3205, 0), 10963, 5, 25);
 		if (p.withinDistance(Tile.of(2267, 3202, 0), 4))
 			if (p.getY() > objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2267, 3201, 0), 10963, 1, 0, Direction.SOUTH);
+				p.forceMove(Tile.of(2267, 3201, 0), 10963, 5, 25);
 			else if (p.getY() < objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2267, 3205, 0), 10963, 1, 0, Direction.NORTH);
+				p.forceMove(Tile.of(2267, 3205, 0), 10963, 5, 25);
 		if (p.withinDistance(Tile.of(2274, 3174, 0), 4))
 			if (p.getY() > objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2274, 3172, 0), 10963, 1, 0, Direction.SOUTH);
+				p.forceMove(Tile.of(2274, 3172, 0), 10963, 5, 25);
 			else if (p.getY() < objTile.getY())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2274, 3176, 0), 10963, 1, 0, Direction.NORTH);
+				p.forceMove(Tile.of(2274, 3176, 0), 10963, 5, 25);
 		if (p.withinDistance(Tile.of(2278, 3262, 0), 4))
 			if (p.getX() > objTile.getX())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2275, 3262, 0), 10963, 1, 0, Direction.WEST);
+				p.forceMove(Tile.of(2275, 3262, 0), 10963, 5, 25);
 			else if (p.getX() < objTile.getX())
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2279, 3262, 0), 10963, 1, 0, Direction.EAST);
+				p.forceMove(Tile.of(2279, 3262, 0), 10963, 5, 25);
 	});
 
 	public static ObjectClickHandler handleGlouphrieCave = new ObjectClickHandler(new Object[] { 20750, 20753 }, e -> {
@@ -189,21 +189,21 @@ public class Tirannwn {
 					p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2338, 3253, 0), 2050, 1, 1, Direction.WEST);
+				p.forceMove(Tile.of(2338, 3253, 0), 2050, 5, 30);
 			}
 			if (obj.getTile().matches(Tile.of(2338, 3282, 0))) {
 				if (!Agility.hasLevel(p, 68)) {
 					p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2338, 3286, 0), 2050, 1, 1, Direction.SOUTH);
+				p.forceMove(Tile.of(2338, 3286, 0), 2050, 5, 30);
 			}
 			if (obj.getTile().matches(Tile.of(2346, 3299, 0))) {
 				if (!Agility.hasLevel(p, 59)) {
 					p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2344, 3294, 0), 2050, 1, 1, Direction.NORTH);
+				p.forceMove(Tile.of(2344, 3294, 0), 2050, 5, 30);
 			}
 		}
 
@@ -213,21 +213,21 @@ public class Tirannwn {
 					p.getPackets().sendGameMessage("You need level 85 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2332, 3252, 0), 2049, 1, 1, Direction.WEST);
+				p.forceMove(Tile.of(2332, 3252, 0), 2049, 5, 30);
 			}
 			if (obj.getTile().matches(Tile.of(2338, 3285, 0))) {
 				if (!Agility.hasLevel(p, 68)) {
 					p.getPackets().sendGameMessage("You need level 68 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2338, 3281, 0), 2049, 1, 1, Direction.SOUTH);
+				p.forceMove(Tile.of(2338, 3281, 0), 2049, 5, 30);
 			}
 			if (obj.getTile().matches(Tile.of(2344, 3295, 0))) {
 				if (!Agility.hasLevel(p, 59)) {
 					p.getPackets().sendGameMessage("You need level 59 agility to use this shortcut.");
 					return;
 				}
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2346, 3300, 0), 2049, 1, 1, Direction.NORTH);
+				p.forceMove(Tile.of(2346, 3300, 0), 2049, 5, 30);
 			}
 		}
 	});

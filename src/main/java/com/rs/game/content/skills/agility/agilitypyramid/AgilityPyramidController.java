@@ -283,14 +283,7 @@ public class AgilityPyramidController extends Controller {
 		} else {
 			final Tile toTile = player.transform(4, 0, 0);
 			player.setNextAnimation(new Animation(740));
-			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Direction.WEST));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.setNextAnimation(new Animation(-1));
-					player.setNextTile(toTile);
-				}
-			}, 3);
+			player.forceMove(toTile, 20, 120, () -> player.setNextAnimation(new Animation(-1)));
 		}
 	}
 
@@ -324,35 +317,17 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public void jumpGap(GameObject object) {
-		Direction direction = Direction.NORTH;
 		final Tile toTile;
 		if (object.getRotation() % 2 == 0)
 			toTile = player.transform(0, player.getY() < object.getY() ? 3 : -3, 0);
 		else
 			toTile = player.transform(player.getX() < object.getX() ? 3 : -3, 0, 0);
-		if (player.getX() < toTile.getX())
-			direction = Direction.EAST;
-		else if (player.getX() > toTile.getX())
-			direction = Direction.WEST;
-		else if (player.getY() < toTile.getY())
-			direction = Direction.NORTH;
-		else if (player.getY() > toTile.getY())
-			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlock();
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 22);
-			}
-		}, 1);
+		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 22));
 	}
 
 	public void climbOver(GameObject object) {
-		Direction direction = Direction.NORTH;
 		final Tile toTile;
 		if (failed()) {
 			player.applyHit(new Hit(null, 40, HitLook.TRUE_DAMAGE));
@@ -364,25 +339,9 @@ public class AgilityPyramidController extends Controller {
 			toTile = player.transform(player.getX() < object.getX() ? 2 : -2, 0, 0);
 		else
 			toTile = player.transform(0, player.getY() < object.getY() ? 2 : -2, 0);
-		if (player.getX() < toTile.getX())
-			direction = Direction.EAST;
-		else if (player.getX() > toTile.getX())
-			direction = Direction.WEST;
-		else if (player.getY() < toTile.getY())
-			direction = Direction.NORTH;
-		else if (player.getY() > toTile.getY())
-			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlock();
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 8);
-			}
-		}, 1);
+		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 8));
 	}
 
 	public void jumpRoller(RollingBlock block, boolean failed) {
@@ -412,36 +371,22 @@ public class AgilityPyramidController extends Controller {
 				y = -1856;
 				z = 1;
 			}
-			final Tile toTile = player.transform(x, y, z);
 			player.lock();
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
-			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, Utils.getDistance(player.getTile(), toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.unlock();
-					player.getVars().setVarBit(block.configId, 0);
-					player.setNextTile(toTile);
-					player.applyHit(new Hit(null, 60, HitLook.TRUE_DAMAGE));
-				}
-			}, 2);
+			player.forceMove(player.transform(x, y, z), 10, 60, () -> {
+				player.getVars().setVarBit(block.configId, 0);
+				player.applyHit(new Hit(null, 60, HitLook.TRUE_DAMAGE));
+			});
 			return;
 		}
-		final Tile toTile = (player.transform(dir[0]*2, dir[1]*2, 0));
 		player.lock();
 		player.getVars().setVarBit(block.configId, 1);
 		player.setNextAnimation(new Animation(1115));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.getVars().setVarBit(block.configId, 0);
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 12);
-				player.unlock();
-			}
-		}, 3);
+		player.forceMove(player.transform(dir[0]*2, dir[1]*2, 0), 5, 50, () -> {
+			player.getVars().setVarBit(block.configId, 0);
+			player.getSkills().addXp(Constants.AGILITY, 12);
+		});
 	}
 
 }

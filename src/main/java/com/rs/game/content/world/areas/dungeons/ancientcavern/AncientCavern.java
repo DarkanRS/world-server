@@ -87,27 +87,12 @@ public class AncientCavern {
 //	};
 
 	public static ObjectClickHandler handleWhirlpool = new ObjectClickHandler(new Object[] { 67966 }, e -> {
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-
-			@Override
-			public void run() {
-				if (e.getPlayer().getX() != 2512 || e.getPlayer().getY() != 3516 && ticks == 0)
-					e.getPlayer().addWalkStep(2512, 3516, e.getPlayer().getX(), e.getPlayer().getY(), true);
-				else {
-					if (ticks == 1) {
-						e.getPlayer().setNextAnimation(new Animation(6723));
-						e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
-						e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(2512, 3508, 0), 7, Direction.SOUTH));
-						ticks++;
-					} else if (ticks >= 7) {
-						e.getPlayer().setNextTile(Tile.of(1764, 5365, 1));
-						stop();
-					}
-					ticks++;
-				}
-			}
-		}, 0, 1);
+		e.getPlayer().lock();
+		e.getPlayer().walkToAndExecute(Tile.of(2512, 3516, 0), () -> {
+			e.getPlayer().setNextAnimation(new Animation(6723));
+			e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
+			e.getPlayer().forceMove(Tile.of(2512, 3508, 0), 6723, 10, 7*30, false, () -> e.getPlayer().setNextTile(Tile.of(1764, 5365, 1)));
+		});
 	});
 
 }

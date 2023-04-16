@@ -56,8 +56,7 @@ public class BrimhavenDungeon {
 		if (!Agility.hasLevel(e.getPlayer(), 12))
 			return;
 		e.getPlayer().lock();
-		e.getPlayer().setNextAnimation(new Animation(741));
-		e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject().getTile(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
+		e.getPlayer().forceMove(e.getObject().getTile(), 741, 5, 30, false);
 		if (e.getObject().getId() == 5110)
 			WorldTasks.schedule(new WorldTask() {
 				int ticks = 0;
@@ -70,36 +69,31 @@ public class BrimhavenDungeon {
 					else if (ticks == 2 || ticks == 3) {
 						Tile next = e.getPlayer().transform(0, -1, 0);
 						if (ticks == 2) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 4 || ticks == 5) {
 						Tile next = e.getPlayer().transform(-1, 0, 0);
 						if (ticks == 4) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 6 || ticks == 7) {
 						Tile next = e.getPlayer().transform(-1, 0, 0);
 						if (ticks == 6) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 8 || ticks == 9) {
 						Tile next = e.getPlayer().transform(0, -1, 0);
 						if (ticks == 8) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 10 || ticks == 11) {
 						Tile next = e.getPlayer().transform(0, -1, 0);
 						if (ticks == 10) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else {
@@ -121,36 +115,31 @@ public class BrimhavenDungeon {
 					else if (ticks == 2 || ticks == 3) {
 						Tile next = e.getPlayer().transform(0, 1, 0);
 						if (ticks == 2) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 4 || ticks == 5) {
 						Tile next = e.getPlayer().transform(0, 1, 0);
 						if (ticks == 4) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 6 || ticks == 7) {
 						Tile next = e.getPlayer().transform(1, 0, 0);
 						if (ticks == 6) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 8 || ticks == 9) {
 						Tile next = e.getPlayer().transform(1, 0, 0);
 						if (ticks == 8) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else if (ticks == 10 || ticks == 11) {
 						Tile next = e.getPlayer().transform(0, 1, 0);
 						if (ticks == 10) {
-							e.getPlayer().setNextAnimation(new Animation(741));
-							e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, next, 1, Utils.getAngleTo(next.getX() - e.getPlayer().getX(), next.getY() - e.getPlayer().getY())));
+							e.getPlayer().forceMove(next, 741, 5, 30, false);
 						} else
 							e.getPlayer().setNextTile(next);
 					} else {
@@ -166,16 +155,10 @@ public class BrimhavenDungeon {
 		if (!Agility.hasLevel(e.getPlayer(), 34))
 			return;
 		e.getPlayer().walkToAndExecute(Tile.of(2681, 9540, 0), () -> {
-			Tile face = Tile.of(2681, 9537, 0);
-			e.getPlayer().setNextAnimation(new Animation(14717));
-			e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, face, 1, Utils.getAngleTo(face.getX() - e.getPlayer().getX(), face.getY() - e.getPlayer().getY())));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					e.getPlayer().setNextAnimation(new Animation(14718));
-					e.getPlayer().setNextTile(Tile.of(2697, 9524, 0));
-				}
-			}, 1);
+			e.getPlayer().forceMove(Tile.of(2681, 9537, 0), 14717, 5, 30, () -> {
+				e.getPlayer().setNextAnimation(new Animation(14718));
+				e.getPlayer().setNextTile(Tile.of(2697, 9524, 0));
+			});
 		});
 	});
 

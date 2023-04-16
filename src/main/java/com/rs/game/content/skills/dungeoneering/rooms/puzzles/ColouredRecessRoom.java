@@ -141,10 +141,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 					if (!moved) {
 						moved = true;
 						addWalkSteps(getX() + dx, getY() + dy);
-						Tile fromTile = Tile.of(player.getX(), player.getY(), player.getPlane());
-						player.setNextTile(pTarget);
-						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
-						player.setNextAnimation(new Animation(push ? 3065 : 3065));
+						player.forceMove(pTarget, push ? 3065 : 3065, 5, 30);
 					} else {
 						checkComplete();
 						stop();

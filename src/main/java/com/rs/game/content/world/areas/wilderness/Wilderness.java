@@ -351,7 +351,7 @@ public class Wilderness {
 			e.getPlayer().getPackets().sendGameMessage("You need level 54 agility to use this shortcut.");
 			return;
 		}
-		AgilityShortcuts.forceMovement(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getY() > 3800 ? 1 : -1, e.getPlayer().getY() > 3800 ? -2 : 2), 4721, 1, 1);
+		e.getPlayer().forceMove(e.getPlayer().transform(e.getPlayer().getY() > 3800 ? 1 : -1, e.getPlayer().getY() > 3800 ? -2 : 2), 4721, 25, 30);
 	});
 
 	public static ObjectClickHandler handleGWDShortcut = new ObjectClickHandler(new Object[] { 26323, 26324, 26328, 26327 }, e -> {
@@ -364,16 +364,16 @@ public class Wilderness {
 
 		//Wildy
 		if(obj.getId() == 26327)
-			AgilityShortcuts.forceMovement(p, Tile.of(2943, 3767, 0), 2049, 1, 1);
+			e.getPlayer().forceMove(Tile.of(2943, 3767, 0), 2049, 25, 30);
 		if(obj.getId() == 26328) {
 			p.setNextTile(Tile.of(2943, 3767, 0));
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2950, 3767, 0), 2050, 1, 1, Direction.WEST);
+			e.getPlayer().forceMove(Tile.of(2950, 3767, 0), 2050, 25, 30);
 		}
 
 		//Outside GWD
 		if(obj.getId() == 26324)
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2928, 3757, 0), 2049, 1, 1, Direction.NORTH);
+			e.getPlayer().forceMove(Tile.of(2928, 3757, 0), 2049, 25, 30);
 		if(obj.getId() == 26323)
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2927, 3761, 0), 2050, 1, 1, Direction.NORTH);
+			e.getPlayer().forceMove(Tile.of(2927, 3761, 0), 2050, 25, 30);
 	});
 }

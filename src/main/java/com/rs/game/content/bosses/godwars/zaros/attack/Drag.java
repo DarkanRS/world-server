@@ -45,16 +45,14 @@ public class Drag implements NexAttack {
 		if (settedTarget != null) {
 			final Player player = (Player) settedTarget;
 			player.lock(3);
-			player.setNextAnimation(new Animation(14386));
 			player.setNextSpotAnim(new SpotAnim(2767));
-			player.setNextForceMovement(new ForceMovement(nex.getTile(), 2, Direction.forDelta(nex.getCoordFaceX(player.getSize()) - player.getX(), nex.getCoordFaceY(player.getSize()) - player.getY())));
+			player.forceMove(nex.getNearestTeleTile(1), 14386, 5, 60);
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					player.setNextTile(Tile.of(nex.getTile()));
 					player.sendMessage("You've been injured and you can't use protective prayers!");
 					player.setProtectionPrayBlock(12);
 					player.sendMessage("You're stunned.");

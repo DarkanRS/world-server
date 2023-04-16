@@ -25,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -697,22 +698,27 @@ public class NPC extends Entity {
 	}
 
 	public static void displayDropsFor(Player player, int npcId, int npcAmount) {
-		ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
-		if (dropCollection == null) {
-			player.sendMessage("No drops found for that NPC.");
-			return;
-		}
-		dropCollection.sortByItemId();
-		player.getTempAttribs().setB("viewingOtherBank", true);
-		player.getVars().setVarBit(8348, 0);
-		player.getVars().syncVarsToClient();
-		player.getInterfaceManager().sendInterface(762);
-		player.getPackets().sendRunScript(2319);
-		player.getPackets().setIFText(762, 47, npcAmount+" "+NPCDefinitions.getDefs(npcId).getName()+" kills");
-		player.getPackets().sendItems(95, dropCollection);
-		player.getPackets().setIFEvents(new IFEvents(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
-		player.getVars().setVarBit(4893, 1);
-		player.getVars().syncVarsToClient();
+		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
+		LowPriorityTaskExecutor.execute(() -> {
+			long start = System.currentTimeMillis();
+			ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
+			if (dropCollection == null) {
+				player.sendMessage("No drops found for that NPC.");
+				return;
+			}
+			dropCollection.sortByItemId();
+			player.getTempAttribs().setB("viewingOtherBank", true);
+			player.getVars().setVarBit(8348, 0);
+			player.getVars().syncVarsToClient();
+			player.getInterfaceManager().sendInterface(762);
+			player.getPackets().sendRunScript(2319);
+			player.getPackets().setIFText(762, 47, npcAmount+" "+NPCDefinitions.getDefs(npcId).getName()+" kills");
+			player.getPackets().sendItems(95, dropCollection);
+			player.getPackets().setIFEvents(new IFEvents(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
+			player.getVars().setVarBit(4893, 1);
+			player.getVars().syncVarsToClient();
+			player.sendMessage("<col=FF0000><shad=000000>Calculated drops in " + Utils.formatLong(System.currentTimeMillis() - start) + "ms");
+		});
 	}
 
 	@Override

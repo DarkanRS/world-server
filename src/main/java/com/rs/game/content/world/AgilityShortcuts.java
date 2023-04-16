@@ -27,132 +27,22 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class AgilityShortcuts {
-
-	public static void forceMovement(Player player, Tile tile, int animation, int delay) {
-		forceMovement(player, tile, animation, 0, delay);
-	}
-
-	public static void forceMovement(Player player, Tile tile, int animation, int useDelay, int delay) {
-		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay));
-		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(tile);
-				player.unlock();
-			}
-		}, delay+useDelay);
-	}
-
-	public static void forceMovement(Player player, Tile tile, int animation, int useDelay, int delay, Direction direction) {
-		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, delay+1+useDelay, direction));
-		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(tile);
-				player.unlock();
-			}
-		}, delay+useDelay);
-	}
-
-	public static void forceMovementInstant(Player player, Tile tile, int animation, int delay) {
-		forceMovementInstant(player, tile, animation, 0, delay);
-	}
-
-	public static void forceMovementInstant(Player player, Tile tile, int animation, int useDelay, int delay) {
-		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay));
-		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(tile);
-				player.unlock();
-			}
-		}, delay+useDelay);
-	}
-
-	public static void forceMovementInstant(Player player, Tile tile, int animation, int useDelay, int delay, Direction direction) {
-		player.setNextAnimation(new Animation(animation));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, delay+1+useDelay, direction));
-		player.lock();
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(tile);
-				player.unlock();
-			}
-		}, delay+useDelay);
-	}
-
 	public static void climbOver(Player player, Tile toTile) {
 		climbOver(player, toTile, 1560);
 	}
 
 	public static void climbOver(Player player, Tile toTile, int animId) {
-		Direction direction = null;
-		if (player.getX() < toTile.getX())
-			direction = Direction.EAST;
-		else if (player.getX() > toTile.getX())
-			direction = Direction.WEST;
-		else if (player.getY() < toTile.getY())
-			direction = Direction.NORTH;
-		else if (player.getY() > toTile.getY())
-			direction = Direction.SOUTH;
-		player.lock();
-		player.setNextAnimation(new Animation(animId));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				player.unlock();
-			}
-		}, 1);
+		player.forceMove(toTile, animId, 5, 60);
 	}
 
 	public static void sidestep(final Player player, Tile toTile) {
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-
-			@Override
-			public void run() {
-				player.lock();
-				ticks++;
-				if (ticks == 1) {
-					player.setNextAnimation(new Animation(3844));
-					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-				} else if (ticks == 4) {
-					player.setNextTile(toTile);
-					player.unlock();
-					stop();
-				}
-			}
-		}, 0, 0);
+		player.lock();
+		WorldTasks.schedule(1, () -> player.forceMove(toTile, 3844, 5, 120));
 	}
 
 	public static void crawlUnder(final Player player, Tile toTile) {
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-
-			@Override
-			public void run() {
-				player.lock();
-				ticks++;
-				if (ticks == 1) {
-					player.setNextAnimation(new Animation(2589));
-					player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Utils.getAngleTo(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-				} else if (ticks == 4) {
-					player.setNextAnimation(new Animation(2591));
-					player.setNextTile(toTile);
-					player.unlock();
-					stop();
-				}
-			}
-		}, 0, 0);
+		player.lock();
+		WorldTasks.schedule(1, () -> player.forceMove(toTile, 2589, 10, 150, false, () -> player.setNextAnimation(new Animation(2591))));
 	}
 
 	public static void walkLog(final Player player, Tile toTile, int delay) {
