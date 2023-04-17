@@ -116,17 +116,11 @@ public class ToxinMaze extends PuzzleRoom {
 				delay = 1;
 			}
 			final Tile target_ = target;
-			player.lock(delay + 1);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					Tile fromTile = Tile.of(player.getX(), player.getY(), player.getPlane());
-					player.setNextTile(target_);
-					player.setNextForceMovement(new ForceMovement(fromTile, 0, target_, 1, WorldUtil.getFaceDirection(target_, player)));
-					player.setNextAnimation(new Animation(9516)); //10584 faster
-					player.setNextSpotAnim(new SpotAnim(2609));
-				}
-			}, delay);
+			player.lock();
+			WorldTasks.schedule(delay, () -> {
+				player.forceMove(target_, 9516, 5, 30);
+				player.setNextSpotAnim(new SpotAnim(2609));
+			});
 			return false;
 		}
 

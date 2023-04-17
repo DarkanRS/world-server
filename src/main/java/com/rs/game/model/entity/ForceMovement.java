@@ -22,56 +22,75 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 public class ForceMovement {
+	private Tile start;
+	private Tile[] path;
+	private int startClientCycles;
+	private int speedClientCycles;
+	private int direction;
 
-	private Tile toFirstTile;
-	private Tile toSecondTile;
-	private int firstTileTicketDelay;
-	private int secondTileTicketDelay;
-	protected int direction;
-
-	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Direction direction) {
-		this(toFirstTile, firstTileTicketDelay, null, 0, WorldUtil.getAngleTo(direction));
-	}
-
-	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay) {
-		this(toFirstTile, firstTileTicketDelay, toSecondTile, secondTileTicketDelay, Utils.getAngleTo(toFirstTile, toSecondTile));
-	}
-
-	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay, Direction direction) {
-		this.toFirstTile = toFirstTile;
-		this.firstTileTicketDelay = firstTileTicketDelay;
-		if (toSecondTile != null)
-			this.toSecondTile = toSecondTile;
-		this.secondTileTicketDelay = secondTileTicketDelay;
-		this.direction = WorldUtil.getAngleTo(direction);
-	}
-
-	public ForceMovement(Tile toFirstTile, int firstTileTicketDelay, Tile toSecondTile, int secondTileTicketDelay, int direction) {
-		this.toFirstTile = toFirstTile;
-		this.firstTileTicketDelay = firstTileTicketDelay;
-		if (toSecondTile != null)
-			this.toSecondTile = toSecondTile;
-		this.secondTileTicketDelay = secondTileTicketDelay;
+	public ForceMovement(Tile start, Tile[] path, int startClientCycles, int speedClientCycles, int direction) {
+		this.start = start;
+		this.path = path;
+		this.startClientCycles = startClientCycles;
+		if (path.length < 2)
+			this.path = new Tile[] { start, path[0] };
+		this.speedClientCycles = speedClientCycles;
 		this.direction = direction;
+	}
+
+	public ForceMovement(Tile start, Tile destination, int startClientCycles, int speedClientCycles, int direction) {
+		this(start, new Tile[] { destination }, startClientCycles, speedClientCycles, direction);
+	}
+
+	public ForceMovement(Tile start, Tile destination, int startClientCycles, int speedClientCycles, Direction direction) {
+		this(start, destination, startClientCycles, speedClientCycles, WorldUtil.getAngleTo(direction));
+	}
+
+	public ForceMovement(Tile start, Tile destination, int startClientCycles, int speedClientCycles) {
+		this(start, destination, startClientCycles, speedClientCycles, Utils.getAngleTo(start, destination));
+	}
+
+	public int getTickDuration() {
+		return (int) Math.ceil((double) Math.max(startClientCycles, speedClientCycles) / 30.0);
+	}
+
+	public int getDiffX1() {
+		return path[0].getX() - start.getX();
+	}
+
+	public int getDiffX2() {
+		if (path.length <= 1)
+			return 0;
+		return path[1].getX() - start.getX();
+	}
+
+	public int getDiffY1() {
+		return path[0].getY() - start.getY();
+	}
+
+	public int getDiffY2() {
+		if (path.length <= 1)
+			return 0;
+		return path[1].getY() - start.getY();
+	}
+
+	public Tile getStart() {
+		return start;
+	}
+
+	public Tile[] getPath() {
+		return path;
+	}
+
+	public int getStartClientCycles() {
+		return startClientCycles;
+	}
+
+	public int getSpeedClientCycles() {
+		return speedClientCycles;
 	}
 
 	public int getDirection() {
 		return direction;
-	}
-
-	public Tile getToFirstTile() {
-		return toFirstTile;
-	}
-
-	public Tile getToSecondTile() {
-		return toSecondTile;
-	}
-
-	public int getFirstTileTicketDelay() {
-		return firstTileTicketDelay;
-	}
-
-	public int getSecondTileTicketDelay() {
-		return secondTileTicketDelay;
 	}
 }

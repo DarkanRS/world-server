@@ -255,12 +255,12 @@ public final class LocalNPCUpdate {
 	}
 
 	private void applyForceMovementMask(NPC n, OutputStream data) {
-		data.write128Byte(n.getNextForceMovement().getToFirstTile().getX() - n.getX());
-		data.writeByte128(n.getNextForceMovement().getToFirstTile().getY() - n.getY());
-		data.writeByteC(n.getNextForceMovement().getToSecondTile() == null ? 0 : n.getNextForceMovement().getToSecondTile().getX() - n.getX());
-		data.writeByte128(n.getNextForceMovement().getToSecondTile() == null ? 0 : n.getNextForceMovement().getToSecondTile().getY() - n.getY());
-		data.writeShortLE((n.getNextForceMovement().getFirstTileTicketDelay() * 600) / 20);
-		data.writeShortLE(n.getNextForceMovement().getToSecondTile() == null ? 0 : ((n.getNextForceMovement().getSecondTileTicketDelay() * 600) / 20));
+		data.write128Byte(n.getNextForceMovement().getDiffX1());
+		data.writeByte128(n.getNextForceMovement().getDiffY1());
+		data.writeByteC(n.getNextForceMovement().getDiffX2());
+		data.writeByte128(n.getNextForceMovement().getDiffY2());
+		data.writeShortLE(n.getNextForceMovement().getStartClientCycles());
+		data.writeShortLE(n.getNextForceMovement().getSpeedClientCycles());
 		data.writeShortLE128(n.getNextForceMovement().getDirection());
 	}
 

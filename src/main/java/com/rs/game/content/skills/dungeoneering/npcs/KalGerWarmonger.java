@@ -183,14 +183,10 @@ public class KalGerWarmonger extends DungeonBoss {
 			return;
 
 		if (typeTicks == 1) {
-			setNextAnimation(new Animation(14995));
 			setNextSpotAnim(new SpotAnim(2870));
 			final int[] FLY_LOCATION = FLY_COORDINATES[type - 1];
 			nextFlyTile = getManager().getTile(getReference(), FLY_LOCATION[0], FLY_LOCATION[1], SIZE, SIZE);
-			setNextForceMovement(new ForceMovement(getTile(), 1, nextFlyTile, 5, Utils.getAngleTo(nextFlyTile.getX() - getX(), nextFlyTile.getY() - getY())));
-		} else if (typeTicks == 6) {
-			setNextSpotAnim(new SpotAnim(2870));
-			setNextTile(nextFlyTile);
+			forceMove(nextFlyTile, 14995, 25, 150, () -> spotAnim(2870));
 		} else if (typeTicks == 9) {
 			if (type == 1) {
 				typeTicks = 16;

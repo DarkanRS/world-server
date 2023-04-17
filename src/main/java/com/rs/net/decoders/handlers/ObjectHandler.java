@@ -904,40 +904,13 @@ public final class ObjectHandler {
 					return;
 				}
 				player.lock();
-				WorldTasks.schedule(new WorldTask() {
-					int count = 0;
-
-					@Override
-					public void run() {
-						if (count == 0) {
-							player.setNextAnimation(new Animation(2594));
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -2 : +2), object.getY(), 0);
-							player.setNextForceMovement(new ForceMovement(tile, 4, Direction.forDelta(tile.getX() - player.getX(), tile.getY() - player.getY())));
-						} else if (count == 2) {
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -2 : +2), object.getY(), 0);
-							player.setNextTile(tile);
-						} else if (count == 5) {
-							player.setNextAnimation(new Animation(2590));
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -5 : +5), object.getY(), 0);
-							player.setNextForceMovement(new ForceMovement(tile, 4, Direction.forDelta(tile.getX() - player.getX(), tile.getY() - player.getY())));
-						} else if (count == 7) {
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -5 : +5), object.getY(), 0);
-							player.setNextTile(tile);
-						} else if (count == 10) {
-							player.setNextAnimation(new Animation(2595));
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -6 : +6), object.getY(), 0);
-							player.setNextForceMovement(new ForceMovement(tile, 4, Direction.forDelta(tile.getX() - player.getX(), tile.getY() - player.getY())));
-						} else if (count == 12) {
-							Tile tile = Tile.of(object.getX() + (object.getRotation() == 2 ? -6 : +6), object.getY(), 0);
-							player.setNextTile(tile);
-						} else if (count == 14) {
-							stop();
-							player.unlock();
-						}
-						count++;
-					}
-
-				}, 0, 0);
+				WorldTasks.schedule(0, () -> {
+					player.forceMove(Tile.of(object.getX() + (object.getRotation() == 2 ? -2 : +2), object.getY(), 0), 2594, 0, 120, false, () -> {
+						player.forceMove(Tile.of(object.getX() + (object.getRotation() == 2 ? -5 : +5), object.getY(), 0), 2590, 0, 120, false, () -> {
+							player.forceMove(Tile.of(object.getX() + (object.getRotation() == 2 ? -6 : +6), object.getY(), 0), 2595, 0, 75);
+						});
+					});
+				});
 
 				// rock living caverns
 			} else if (id == 45077) {
@@ -1030,12 +1003,7 @@ public final class ObjectHandler {
 					}
 				}).addNext(() -> {
 					player.stopAll();
-					player.lock(4);
-					player.setNextAnimation(new Animation(6132));
-					final Tile toTile = Tile.of(object.getRotation() == 3 || object.getRotation() == 1 ? object.getX() - 1 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() + 2 : player.getY(), object.getPlane());
-					player.setNextForceMovement(new ForceMovement(Tile.of(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.NORTH : Direction.WEST));
-					WorldTasks.schedule(2, () -> {
-						player.setNextTile(toTile);
+					player.forceMove(Tile.of(object.getRotation() == 3 || object.getRotation() == 1 ? object.getX() - 1 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() + 2 : player.getY(), object.getPlane()), 6132, 25, 60, () -> {
 						player.faceObject(object);
 						player.getControllerManager().startController(new WildernessController());
 						player.resetReceivedDamage();
@@ -1156,25 +1124,10 @@ public final class ObjectHandler {
 
 			} else if (id == 2878 || id == 2879) {
 				player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
-				final boolean isLeaving = id == 2879;
-				final Tile tile = isLeaving ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0);
-				player.setNextForceMovement(new ForceMovement(player.getTile(), 1, tile, 2, isLeaving ? Direction.SOUTH : Direction.NORTH));
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						player.setNextAnimation(new Animation(13842));
-						WorldTasks.schedule(new WorldTask() {
-
-							@Override
-							public void run() {
-								player.setNextAnimation(new Animation(-1));
-								player.setNextTile(isLeaving ? Tile.of(2542, 4718, 0) : Tile.of(2509, 4689, 0));
-							}
-						}, 2);
-					}
+				player.forceMove(id == 2879 ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0), 13842, 0, 60, () -> {
+					player.setNextAnimation(new Animation(-1));
+					player.setNextTile(id == 2879 ? Tile.of(2542, 4718, 0) : Tile.of(2509, 4689, 0));
 				});
-
 			} else if (id == 2873 || id == 2874 || id == 2875) {
 				player.sendMessage("You kneel and begin to chant to " + objectDef.getName().replace("Statue of ", "") + "...");
 				player.setNextAnimation(new Animation(645));

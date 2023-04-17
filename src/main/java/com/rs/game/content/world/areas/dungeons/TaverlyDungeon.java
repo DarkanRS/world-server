@@ -41,14 +41,8 @@ public class TaverlyDungeon {
 			return;
 		}
 		int x = e.getPlayer().getX() == 2886 ? 2892 : 2886;
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				e.getPlayer().setNextAnimation(new Animation(10580));
-			}
-		}, 0);
-		e.getPlayer().setNextForceMovement(new ForceMovement(Tile.of(x, 9799, 0), 3, e.getPlayer().getX() == 2886 ? Direction.WEST : Direction.EAST));
-		e.getPlayer().useStairs(-1, Tile.of(x, 9799, 0), 3, 4);
+		e.getPlayer().lock();
+		WorldTasks.schedule(0, () -> e.getPlayer().forceMove(Tile.of(x, 9799, 0), 10580, 0, 90));
 	});
 
 	public static ObjectClickHandler handleStrangeFloor = new ObjectClickHandler(new Object[] { 9294 }, e -> {
@@ -59,6 +53,7 @@ public class TaverlyDungeon {
 		final Tile tile = isSouth ? Tile.of(2878, 9812, 0) : Tile.of(2881, 9814, 0);
 		e.getPlayer().setRun(true);
 		e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
+		e.getPlayer().lock();
 		WorldTasks.schedule(new WorldTask() {
 			int ticks = 0;
 
@@ -68,15 +63,13 @@ public class TaverlyDungeon {
 				if (ticks == 2)
 					e.getPlayer().setNextFaceTile(e.getObject().getTile());
 				else if (ticks == 3) {
-					e.getPlayer().setNextAnimation(new Animation(1995));
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
+					e.getPlayer().forceMove(tile, 1995, 0, 100, false);
 				} else if (ticks == 4)
 					e.getPlayer().setNextAnimation(new Animation(1603));
 				else if (ticks == 7) {
-					e.getPlayer().setNextTile(tile);
 					e.getPlayer().setRun(isRunning);
+					e.getPlayer().unlock();
 					stop();
-					return;
 				}
 			}
 		}, 0, 0);

@@ -140,23 +140,13 @@ public class WildernessController extends Controller {
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
 		if (isDitch(object.getId())) {
-			player.lock();
-			player.setNextAnimation(new Animation(6132));
-			final Tile toTile = Tile.of(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(),
-					object.getPlane());
-
-			player.setNextForceMovement(new ForceMovement(Tile.of(player.getTile()), 1, toTile, 2, object.getRotation() == 0 || object.getRotation() == 2 ? Direction.SOUTH : Direction.EAST));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.setNextTile(toTile);
-					player.faceObject(object);
-					removeIcon();
-					removeController();
-					player.resetReceivedDamage();
-					player.unlock();
-				}
-			}, 2);
+			final Tile toTile = Tile.of(object.getRotation() == 1 || object.getRotation() == 3 ? object.getX() + 2 : player.getX(), object.getRotation() == 0 || object.getRotation() == 2 ? object.getY() - 1 : player.getY(), object.getPlane());
+			player.forceMove(toTile, 6132, 30, 60, () -> {
+				player.faceObject(object);
+				removeIcon();
+				removeController();
+				player.resetReceivedDamage();
+			});
 			return false;
 		}
 		if (object.getId() == 2557 || object.getId() == 65717) {

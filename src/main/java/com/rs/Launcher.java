@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.ToNumberPolicy;
 import com.rs.cache.Cache;
 import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -144,6 +145,7 @@ public final class Launcher {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
 		}, 0, Ticks.fromMinutes(10));
+		//}, 0, Ticks.fromSeconds(10));
 	}
 
 	public static void saveFilesSync() {

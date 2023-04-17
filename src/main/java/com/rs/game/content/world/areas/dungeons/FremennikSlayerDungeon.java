@@ -30,13 +30,13 @@ public class FremennikSlayerDungeon {
 			return;
 		final Tile toTile = e.getPlayer().getX() < 2772 ? Tile.of(2775, 10002, 0) : Tile.of(2768, 10002, 0);
 		e.getPlayer().walkToAndExecute(e.getPlayer().getX() > 2772 ? Tile.of(2775, 10002, 0) : Tile.of(2768, 10002, 0), () -> {
-			AgilityShortcuts.forceMovement(e.getPlayer(), toTile, 4721, 1, 1);
+			e.getPlayer().forceMove(toTile, 4721, 20, 85, () -> e.getPlayer().anim(-1));
 		});
 	});
 
 	public static ObjectClickHandler handleShortcut2 = new ObjectClickHandler(new Object[] { 9321 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 62))
 			return;
-		AgilityShortcuts.forceMovement(e.getPlayer(), e.getPlayer().transform(e.getObject().getRotation() == 0 ? 5 : -5, 0), 3844, 1, 1);
+		e.getPlayer().forceMove(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 5 : -5, 0), 3844, 25, 75);
 	});
 }

@@ -113,12 +113,8 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 												tile = Tile.of(target.getTile());
 										}
 										target.faceEntity(forger);
-										target.setNextAnimation(new Animation(10070));
-										target.setNextForceMovement(new ForceMovement(target.getTile(), 0, tile, 2, target.getFaceAngle()));
-									} else if (ticks == 2) {
-										target.setNextTile(tile);
+										target.forceMove(tile, 10070, 5, 60);
 										stop();
-										return;
 									}
 								}
 							}, 0, 0);

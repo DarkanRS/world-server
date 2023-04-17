@@ -213,8 +213,7 @@ public class CountDraynorBoss extends OwnedNPC {
 					countDraynor.setNextAnimation(new Animation(AWAKEN));
 				}
 				if(tick == 9) {
-					p.setNextAnimation(new Animation(PUSHED_BACK));
-					p.setNextForceMovement(new ForceMovement(Tile.of(p.getX()-1, p.getY(), p.getPlane()), 1, Direction.EAST));
+					p.forceMove(Tile.of(p.getX()-1, p.getY(), p.getPlane()), PUSHED_BACK, 0, 30);
 				}
 				if(tick == 10) {
 					p.setNextAnimation(new Animation(ON_FLOOR));

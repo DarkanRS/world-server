@@ -327,18 +327,7 @@ public class HouseController extends Controller {
 		}
 		if (target == null)
 			return;
-		player.lock(1);
-		player.setNextAnimation(new Animation(741));
-		final Tile toTile = target;
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-			}
-
-		}, 0);
+		player.forceMove(target, 741, 1, 35);
 	}
 
 	@Override
@@ -408,18 +397,7 @@ public class HouseController extends Controller {
 		}
 		if (target == null)
 			return;
-		player.lock(1);
-		player.setNextAnimation(new Animation(3688));
-		final Tile toTile = target;
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, direction));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-			}
-
-		}, 0);
+		player.forceMove(target, 3688, 1, 30);
 	}
 
 	@Override
