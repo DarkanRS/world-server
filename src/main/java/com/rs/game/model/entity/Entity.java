@@ -1293,19 +1293,16 @@ public abstract class Entity {
 	}
 
 	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
-		ForceMovement movement = new ForceMovement(getTile(), destination, startClientCycles, speedClientCycles);
+		ForceMovement movement = new ForceMovement(Tile.of(getTile()), destination, startClientCycles, speedClientCycles);
 		if (animation != -1)
 			anim(animation);
 		lock();
 		resetWalkSteps();
 		setNextForceMovement(movement);
-		if (startClientCycles > 0) {
-			WorldTasks.schedule(movement.getStartTickDuration(), () -> setNextTile(destination));
-		} else
-			setNextTile(destination);
+		WorldTasks.schedule(movement.getTickDuration()-1, () -> setNextTile(destination));
 		WorldTasks.schedule(movement.getTickDuration(), () -> {
 			if (autoUnlock)
-				lock(1);
+				unlock();
 			if (afterComplete != null)
 				afterComplete.run();
 		});

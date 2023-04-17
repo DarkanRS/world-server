@@ -32,6 +32,8 @@ public class ForceMovement {
 		this.start = start;
 		this.path = path;
 		this.startClientCycles = startClientCycles;
+		if (path.length < 2)
+			this.path = new Tile[] { start, path[0] };
 		this.speedClientCycles = speedClientCycles;
 		this.direction = direction;
 	}
@@ -52,28 +54,24 @@ public class ForceMovement {
 		return (int) Math.ceil((double) Math.max(startClientCycles, speedClientCycles) / 30.0);
 	}
 
-	public int getStartTickDuration() {
-		return (int) Math.ceil((double) startClientCycles / 30.0);
-	}
-
 	public int getDiffX1() {
-		return start.getX() - path[0].getX();
+		return path[0].getX() - start.getX();
 	}
 
 	public int getDiffX2() {
 		if (path.length <= 1)
 			return 0;
-		return start.getX() - path[1].getX();
+		return path[1].getX() - start.getX();
 	}
 
 	public int getDiffY1() {
-		return start.getY() - path[0].getY();
+		return path[0].getY() - start.getY();
 	}
 
 	public int getDiffY2() {
 		if (path.length <= 1)
 			return 0;
-		return start.getY() - path[1].getY();
+		return path[1].getY() - start.getY();
 	}
 
 	public Tile getStart() {
