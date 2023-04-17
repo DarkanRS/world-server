@@ -232,7 +232,7 @@ public class Varrock {
 				e.getPlayer().lock();
 				ticks++;
 				if (ticks == 1) {
-					e.getPlayer().forceMove(e.getObject().getTile(), 2589, 5, 30, false);
+					e.getPlayer().forceMove(e.getObject().getTile(), 2589, 5, 35, false);
 				} else if (ticks == 3) {
 					e.getPlayer().setNextAnimation(new Animation(2590));
 				} else if (ticks == 5) {

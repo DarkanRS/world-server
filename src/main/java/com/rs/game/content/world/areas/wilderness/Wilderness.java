@@ -364,16 +364,16 @@ public class Wilderness {
 
 		//Wildy
 		if(obj.getId() == 26327)
-			e.getPlayer().forceMove(Tile.of(2943, 3767, 0), 2049, 25, 30);
+			e.getPlayer().forceMove(Tile.of(2943, 3767, 0), 2049, 25, 60);
 		if(obj.getId() == 26328) {
 			p.setNextTile(Tile.of(2943, 3767, 0));
-			e.getPlayer().forceMove(Tile.of(2950, 3767, 0), 2050, 25, 30);
+			e.getPlayer().forceMove(Tile.of(2950, 3767, 0), 2050, 25, 60);
 		}
 
 		//Outside GWD
 		if(obj.getId() == 26324)
-			e.getPlayer().forceMove(Tile.of(2928, 3757, 0), 2049, 25, 30);
+			e.getPlayer().forceMove(Tile.of(2928, 3757, 0), 2049, 25, 60);
 		if(obj.getId() == 26323)
-			e.getPlayer().forceMove(Tile.of(2927, 3761, 0), 2050, 25, 30);
+			e.getPlayer().forceMove(Tile.of(2927, 3761, 0), 2050, 25, 60);
 	});
 }

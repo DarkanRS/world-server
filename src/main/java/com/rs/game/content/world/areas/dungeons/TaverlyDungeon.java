@@ -63,7 +63,7 @@ public class TaverlyDungeon {
 				if (ticks == 2)
 					e.getPlayer().setNextFaceTile(e.getObject().getTile());
 				else if (ticks == 3) {
-					e.getPlayer().forceMove(tile, 1995, 0, 120, false);
+					e.getPlayer().forceMove(tile, 1995, 0, 100, false);
 				} else if (ticks == 4)
 					e.getPlayer().setNextAnimation(new Animation(1603));
 				else if (ticks == 7) {

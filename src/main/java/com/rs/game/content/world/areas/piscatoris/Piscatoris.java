@@ -86,8 +86,8 @@ public class Piscatoris {
 			return;
 		}
 		if(obj.getTile().matches(Tile.of(2323, 3497, 0)))//above
-			p.forceMove(Tile.of(2322, 3502, 0), 2050, 25, 30);
+			p.forceMove(Tile.of(2322, 3502, 0), 2050, 25, 60);
 		if(obj.getTile().matches(Tile.of(2322, 3501, 0)))//below
-			p.forceMove(Tile.of(2323, 3496, 0), 2049, 25, 30);
+			p.forceMove(Tile.of(2323, 3496, 0), 2049, 25, 60);
 	});
 }

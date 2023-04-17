@@ -921,8 +921,11 @@ public abstract class Entity {
 
 	public void processEntity() {
 		tickCounter++;
-		if (routeEvent != null && routeEvent.processEvent(this))
-			routeEvent = null;
+		RouteEvent prevEvent = routeEvent;
+		if (routeEvent != null && routeEvent.processEvent(this)) {
+			if (routeEvent == prevEvent)
+				routeEvent = null;
+		}
 		poison.processPoison();
 		processReceivedHits();
 		processReceivedDamage();
