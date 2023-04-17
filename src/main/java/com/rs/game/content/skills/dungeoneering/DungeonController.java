@@ -1349,6 +1349,7 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean logout() {
+		player.save("dontTeleFromInstanceOnLogin", true);
 		return false;
 	}
 
