@@ -62,15 +62,7 @@ public class StealingCreationLobbyController extends Controller {
 				return;
 		} else
 			StealingCreationLobby.removePlayer(player);
-		player.setNextAnimation(new Animation(1560));
-		final Tile toTile = Tile.of(enterance ? object.getX() : object.getX() + 2, object.getY(), object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, enterance ? Direction.WEST : Direction.EAST));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-			}
-		}, 1);
+		player.forceMove(Tile.of(enterance ? object.getX() : object.getX() + 2, object.getY(), object.getPlane()), 1560, 5, 60);
 	}
 
 	@Override

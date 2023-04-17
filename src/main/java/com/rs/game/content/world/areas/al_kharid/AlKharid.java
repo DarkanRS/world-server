@@ -70,9 +70,9 @@ public class AlKharid {
 		WorldObject obj = e.getObject();
 
 		if(obj.getTile().matches(Tile.of(3306, 3315, 0)))//above
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(3303, 3315, 0), 2050, 1, 1, Direction.EAST);
+			p.forceMove(Tile.of(3303, 3315, 0), 2050, 10, 30);
 		if(obj.getTile().matches(Tile.of(3304, 3315, 0)))//below
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(3307, 3315, 0), 2049, 1, 1, Direction.EAST);
+			p.forceMove(Tile.of(3307, 3315, 0), 2049, 10, 30);
 	});
 
 }

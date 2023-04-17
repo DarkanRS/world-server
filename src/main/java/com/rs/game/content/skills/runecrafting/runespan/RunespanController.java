@@ -456,7 +456,7 @@ public class RunespanController extends Controller {
 						player.setNextAnimation(new Animation(plataform.startEmote));
 					if (plataform.startGraphic != -1)
 						player.setNextSpotAnim(new SpotAnim(plataform.startGraphic));
-					player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 5));
+					player.forceMove(toTile, 30, 150);
 				} else if (stage == 1) {
 					if (plataform.middleEmote != -1)
 						player.setNextAnimation(new Animation(plataform.middleEmote));
@@ -493,8 +493,6 @@ public class RunespanController extends Controller {
 						player.setNextAnimation(new Animation(plataform.endEmote));
 					if (plataform.endGraphic != -1)
 						player.setNextSpotAnim(new SpotAnim(plataform.endGraphic));
-					player.unlock();
-					player.setNextTile(toTile);
 				} else if (stage == 6)
 					World.sendSpotAnim(toTile, new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
 				stage++;
@@ -621,11 +619,8 @@ public class RunespanController extends Controller {
 							player.setNextAnimation(new Animation(16662));
 							player.setNextSpotAnim(new SpotAnim(3090));
 						} else if (stage == 4) {
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, dest, 35));
+							player.forceMove(dest, 30, 35*30);
 							player.setNextSpotAnim(new SpotAnim(3091));
-						} else if (stage == 36) {
-							player.unlock();
-							player.setNextTile(dest);
 							stop();
 						}
 						stage++;
@@ -646,11 +641,8 @@ public class RunespanController extends Controller {
 							player.setNextAnimation(new Animation(16662));
 							player.setNextSpotAnim(new SpotAnim(3090));
 						} else if (stage == 4) {
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, dest, 35));
+							player.forceMove(dest, 30, 35*30);
 							player.setNextSpotAnim(new SpotAnim(3091));
-						} else if (stage == 36) {
-							player.unlock();
-							player.setNextTile(dest);
 							stop();
 						}
 						stage++;

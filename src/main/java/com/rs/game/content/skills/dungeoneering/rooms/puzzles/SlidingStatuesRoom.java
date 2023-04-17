@@ -126,30 +126,17 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 					player.sendMessage("A party member is blocking the way.");
 					return;
 				}
-		}
-
-			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
-
-				private boolean moved;
-
-				@Override
-				public void run() {
-					if (!moved) {
-						moved = true;
-						WorldCollision.removeFlag(getTile(), ClipFlag.PF_FULL);
-						addWalkSteps(getX() + dx, getY() + dy);
-						Tile fromTile = Tile.of(player.getX(), player.getY(), player.getPlane());
-						player.setNextTile(pTarget);
-						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
-						player.setNextAnimation(new Animation(push ? 3065 : 3065));
-					} else {
-						WorldCollision.addFlag(getTile(), ClipFlag.PF_FULL);
-						checkComplete();
-						stop();
-					}
-		}
-			}, 0, 0);
+			}
+			player.lock();
+			WorldTasks.schedule(0, () -> {
+				WorldCollision.removeFlag(getTile(), ClipFlag.PF_FULL);
+				addWalkSteps(getX() + dx, getY() + dy);
+				player.setNextTile(pTarget);
+				player.forceMove(pTarget, push ? 3065 : 3065, 5, 30, () -> {
+					WorldCollision.addFlag(getTile(), ClipFlag.PF_FULL);
+					checkComplete();
+				});
+			});
 
 		}
 

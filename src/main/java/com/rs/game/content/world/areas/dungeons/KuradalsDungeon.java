@@ -65,19 +65,7 @@ public class KuradalsDungeon {
 						return;
 
 				if (ticks == 1) {
-					if(isPlayerNorth) {
-						e.getPlayer().setFaceAngle(Direction.getAngleTo(Direction.SOUTH));
-						p.setNextForceMovement(new ForceMovement(Tile.of(1641, 5260, 0), 1, Direction.SOUTH));
-					}
-					if(!isPlayerNorth) {
-						e.getPlayer().setFaceAngle(Direction.getAngleTo(Direction.NORTH));
-						p.setNextForceMovement(new ForceMovement(Tile.of(1641, 5268, 0), 1, Direction.NORTH));
-					}
-				} else if (ticks >= 2) {
-					if(isPlayerNorth)
-						p.setNextTile(Tile.of(1641, 5260, 0));
-					if(!isPlayerNorth)
-						p.setNextTile(Tile.of(1641, 5268, 0));
+					p.forceMove(isPlayerNorth ? Tile.of(1641, 5260, 0) : Tile.of(1641, 5268, 0), 0, 30);
 					stop();
 				}
 				ticks++;

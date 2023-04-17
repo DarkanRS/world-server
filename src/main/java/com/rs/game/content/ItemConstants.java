@@ -389,7 +389,10 @@ public class ItemConstants {
 	}
 
 	public static boolean isDungItem(int itemId) {
-		if (itemId >= 15750 && itemId <= 18329)
+		if (itemId < 15750)
+			return false;
+		//General dung items, dung pouches, dung only kinship rings
+		if ((itemId >= 15750 && itemId <= 18329) || (itemId >= 18511 && itemId <= 18570) || (itemId >= 18817 && itemId <= 18829))
 			return true;
 		return false;
 	}

@@ -536,22 +536,8 @@ public class StealingCreationController extends Controller {
 				direction = Direction.SOUTH;
 			}
 			final Tile toTile = Tile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
-			ForceMovement nextForceMovement;
-			if (isWall)
-				nextForceMovement = new ForceMovement(toTile, 2, direction);
-			else
-				nextForceMovement = new ForceMovement(player.getTile(), 0, toTile, 2, direction);
-			player.setNextForceMovement(nextForceMovement);
-			player.setNextAnimation(new Animation(object.getId() == 39602 ? 6132 : 10590));
-			final Direction finalDirection = direction;
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					player.setFaceAngle(WorldUtil.getAngleTo(finalDirection));
-					player.setNextTile(toTile);
-				}
-			}, 1);
+			final Direction finalDir = direction;
+			player.forceMove(toTile, object.getId() == 39602 ? 6132 : 10590, 5, 60, () -> player.setFaceAngle(WorldUtil.getAngleTo(finalDir)));
 		} else {
 			final String name = object.getDefinitions().getName().toLowerCase();
 			final int clayQuality = Integer.parseInt(name.substring(name.indexOf("(class")).replace("(class ", "").replace(")", "")) - 1;
@@ -815,12 +801,10 @@ public class StealingCreationController extends Controller {
 					return;
 				}
 				if (step == 0) {
-					Tile fromTile = Tile.of(p.getX(), p.getY(), p.getPlane());
 					Tile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
 					p.setNextTile(faceTile);
-					p.setNextForceMovement(new ForceMovement(fromTile, 0, faceTile, 1, Helper.getFaceDirection(faceTile, p)));
-					p.setNextAnimation(new Animation(10584));
+					p.forceMove(faceTile, 10584, 5, 30);
 					p.setNextSpotAnim(new SpotAnim(red ? 1871 : 1870));
 					step++;
 				} else if (step == 1) {

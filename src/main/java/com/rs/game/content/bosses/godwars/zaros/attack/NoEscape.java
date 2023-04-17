@@ -61,13 +61,12 @@ public class NoEscape implements NexAttack {
 					nex.setNextTile(dir);
 					nex.setNextForceTalk(new ForceTalk("NO ESCAPE!"));
 					nex.voiceEffect(3292);
-					nex.setNextForceMovement(new ForceMovement(dir, 1, center, 3, idx == 3 ? 1 : idx == 2 ? 0 : idx == 1 ? 3 : 2));
+					nex.forceMove(center, 25, 90);
 					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2))
 						if (entity instanceof Player player) {
 							player.getCutsceneManager().play(new NexCutScene(dir, idx));
 							player.applyHit(new Hit(nex, Utils.getRandomInclusive(650), HitLook.TRUE_DAMAGE));
-							player.setNextAnimation(new Animation(10070));
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));
+							player.forceMove(player.getTile(), 10070, 0, 30);
 						}
 				} else if (count == 3)
 					nex.setNextTile(center);

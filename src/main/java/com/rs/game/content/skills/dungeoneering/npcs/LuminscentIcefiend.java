@@ -41,7 +41,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 
 	private static final byte FIRST_STAGE = 3;
 	private static final SpotAnim ICE_SHARDS = new SpotAnim(2525);
-	private static final Animation KNOCKBACK = new Animation(10070);
+	private static final int KNOCKBACK = 10070;
 
 	private List<Tile> icicles;
 
@@ -148,9 +148,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 							player.setCantWalk(true);
 						if (player.getActionManager().getAction() != null)
 							player.getActionManager().forceStop();
-						player.setNextAnimation(KNOCKBACK);
-						player.setNextTile(nextTile);
-						player.setNextForceMovement(new ForceMovement(tile, 0, nextTile, 1, Utils.getAngleTo(tile.getX() - nextTile.getX(), tile.getY() - nextTile.getY())));
+						player.forceMove(nextTile, KNOCKBACK, 5, 30);
 						int damageCap = (int) (player.getMaxHitpoints() * .10);
 						if (player.getHitpoints() < damageCap)// If has 10% of HP.
 							continue;

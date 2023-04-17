@@ -43,11 +43,10 @@ public class Shilo {
 			dir = Direction.SOUTH;
 
 		final Direction direction = dir;
+		p.lock();
 		p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? Tile.of(2860, 2971, 0) : Tile.of(2860, 2977, 0), () -> {
-			AgilityShortcuts.forceMovementInstant(p, Tile.of(2860, 2974, 0), 741, 1, 0, direction);
-			WorldTasks.schedule(2, () -> {
-				AgilityShortcuts.forceMovementInstant(p, Tile.of(2860, 2977, 0), 741, 1, 0, direction);
-				p.unlock();
+			p.forceMove(Tile.of(2860, 2974, 0), 741, 0, 30, false, () -> {
+				p.forceMove(direction == Direction.NORTH ? Tile.of(2860, 2977, 0) : Tile.of(2860, 2971, 0), 741, 0, 30);
 			});
 		}));
 	});

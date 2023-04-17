@@ -35,7 +35,7 @@ import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
 public class FightArenaFightCutsceneController extends Controller {
-	public Instance instance;
+	public transient Instance instance;
 	List<NPC> dynamicNPCs = new ArrayList<>();
 	Tile locationOnFail = Tile.of(2617, 3167, 0);
 	Tile locationOnVictory = Tile.of(2617, 3172, 0);
@@ -346,6 +346,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	@Override
 	public boolean logout() {
+		player.save("dontTeleFromInstanceOnLogin", true);
 		removeInstance();
 		player.unlock();
 		return false;
@@ -361,6 +362,8 @@ public class FightArenaFightCutsceneController extends Controller {
 	}
 
 	private void removeInstance() {
+		if(instance == null)
+			return;
 		removeDynamicNPCs();
 		instance.destroy();
 	}

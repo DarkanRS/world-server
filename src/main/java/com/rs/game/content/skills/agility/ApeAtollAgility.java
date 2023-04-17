@@ -30,6 +30,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
+import javax.swing.*;
+
 public class ApeAtollAgility {
 
 	public static void ClimbDownTropicalTree(final Player player, final GameObject object) {
@@ -39,20 +41,10 @@ public class ApeAtollAgility {
 			player.getPackets().sendGameMessage("You need to transform into a ninja monkey to use the ape atoll courses.");
 			return;
 		}
-		player.lock();
-		final Tile toTile = Tile.of(2769, 2746, 1);
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 7, Direction.NORTH));
-		player.getAppearance().setBAS(760);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 55);
-				player.getAppearance().setBAS(-1);
-				player.unlock();
-				stop();
-			}
-		}, 2);
+		player.forceMove(Tile.of(2769, 2746, 1), 30, 7*30, () -> {
+			player.getSkills().addXp(Constants.AGILITY, 55);
+			player.getAppearance().setBAS(-1);
+		});
 	}
 
 	public static void ClimbDownVine(final Player player, GameObject object) {
@@ -63,16 +55,11 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(3);
-		final Tile toTile = Tile.of(player.getX(), player.getY(), 0);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextAnimation(new Animation(1381));
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 36);
-				stop();
-			}
-		}, 1);
+		WorldTasks.schedule(1, () -> {
+			player.setNextAnimation(new Animation(1381));
+			player.setNextTile(Tile.of(player.getX(), player.getY(), 0));
+			player.getSkills().addXp(Constants.AGILITY, 36);
+		});
 	}
 
 	public static void ClimbUpSkullSlope(final Player player, final GameObject object) {
@@ -82,19 +69,10 @@ public class ApeAtollAgility {
 			player.getPackets().sendGameMessage("You need to transform into a ninja monkey to use the ape atoll courses.");
 			return;
 		}
-		player.lock(4);
-		final Tile toTile = Tile.of(2743, 2741, 0);
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 3, Direction.WEST));
-		player.getAppearance().setBAS(739);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 45);
-				player.getAppearance().setBAS(-1);
-				stop();
-			}
-		}, 2);
+		player.forceMove(Tile.of(2743, 2741, 0), 10, 3*30, () -> {
+			player.getSkills().addXp(Constants.AGILITY, 45);
+			player.getAppearance().setBAS(-1);
+		});
 	}
 
 	public static void ClimbUpTropicalTree(final Player player, GameObject object) {
@@ -105,16 +83,11 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(3);
-		final Tile toTile = Tile.of(2752, 2742, 2);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextAnimation(new Animation(1382));
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 25);
-				stop();
-			}
-		}, 1);
+		WorldTasks.schedule(1, () -> {
+			player.setNextAnimation(new Animation(1382));
+			player.setNextTile(Tile.of(2752, 2742, 2));
+			player.getSkills().addXp(Constants.AGILITY, 25);
+		});
 	}
 
 	public static void crossMonkeyBars(final Player player, final GameObject object) {
@@ -125,19 +98,12 @@ public class ApeAtollAgility {
 			return;
 		}
 		player.lock(4);
-		final Tile toTile = Tile.of(2747, 2741, 0);
-		final Tile toTile2 = Tile.of(2747, 2741, 2);
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile2, 4, Direction.WEST));
 		player.getAppearance().setBAS(744);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.getAppearance().setBAS(-1);
-				player.setNextTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 35);
-				stop();
-			}
-		}, 3);
+		player.forceMove(Tile.of(2747, 2741, 2), 10, 4*30, () -> {
+			player.setNextTile(Tile.of(2747, 2741, 0));
+			player.getSkills().addXp(Constants.AGILITY, 35);
+			player.getAppearance().setBAS(-1);
+		});
 	}
 
 	public static void JumpToSteppingStone(final Player player, GameObject object) {
@@ -165,17 +131,11 @@ public class ApeAtollAgility {
 						if (Utils.random(5) == 0) {
 							player.setNextAnimation(new Animation(1381));
 							player.applyHit(new Hit(player, Utils.random(200), HitLook.TRUE_DAMAGE));
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 0, WaterTile, 3, Direction.NORTH));
 							player.getAppearance().setBAS(741);
-							WorldTasks.schedule(new WorldTask() {
-
-								@Override
-								public void run() {
-									player.getAppearance().setBAS(-1);
-									player.setNextTile(Land);
-									stop();
-								}
-							}, 1);
+							player.forceMove(WaterTile, 10, 90, () -> {
+								player.getAppearance().setBAS(-1);
+								player.setNextTile(Land);
+							});
 							stop();
 						} else {
 							player.setNextAnimation(new Animation(1381));
@@ -200,17 +160,7 @@ public class ApeAtollAgility {
 		player.lock(4);
 		player.setNextAnimation(new Animation(1392));
 		World.sendObjectAnimation(object, new Animation(497));
-		final Tile toTile = Tile.of(2756, 2731, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.EAST));
-		player.getSkills().addXp(Constants.AGILITY, 22);
+		player.forceMove(Tile.of(2756, 2731, object.getPlane()), 20, 90, () -> player.getSkills().addXp(Constants.AGILITY, 22));
 		player.getPackets().sendGameMessage("You skilfully swing across.", true);
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				stop();
-			}
-		}, 1);
 	}
 }
