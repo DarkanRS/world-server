@@ -74,6 +74,7 @@ public class WerewolfAgility {
 			int stickCount = e.getPlayer().getInventory().getAmountOf(4179);
 			e.getPlayer().getInventory().removeItems(new Item(4179, stickCount));
 			e.getPlayer().getSkills().addXp(Skills.AGILITY, 380*stickCount);
+			e.getPlayer().incrementCount("Werewolf agility sticks fetched");
 		}
 	});
 
@@ -102,6 +103,7 @@ public class WerewolfAgility {
 							e.getPlayer().setNextAnimation(new Animation(-1));
 							e.getPlayer().getSkills().addXp(Skills.AGILITY, 200);
 							e.getPlayer().setNextTile(Tile.of(3528, 9870, 0));
+							e.getPlayer().incrementCount("Werewolf agility laps completed");
 						});
 						return true;
 					}
