@@ -69,38 +69,12 @@ public class WildernessAgility {
 
 	private static void GateWalkEnd(final Player player, GameObject object) {
 		player.sendMessage("You walk carefully across the path...", true);
-		player.lock();
-		player.setNextAnimation(new Animation(9908));
-		final Tile toTile = Tile.of(object.getX(), 3931, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.NORTH));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				player.sendMessage("... and make it safely to the other side.", true);
-				player.unlock();
-			}
-
-		}, 15);
+		player.forceMove(Tile.of(object.getX(), 3931, object.getPlane()), 9908, 5, 16*30, () -> player.sendMessage("... and make it safely to the other side.", true));
 	}
 
 	private static void GateWalkEnd2(final Player player, GameObject object) {
 		player.sendMessage("You walk carefully across the path...", true);
-		player.lock();
-		player.setNextAnimation(new Animation(9908));
-		final Tile toTile = Tile.of(object.getX() + 1, 3916, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 16, Direction.SOUTH));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				player.sendMessage("... and make it safely to the other side.", true);
-				player.unlock();
-			}
-
-		}, 15);
+		player.forceMove(Tile.of(object.getX() + 1, 3916, object.getPlane()), 9908, 5, 16*30, () -> player.sendMessage("... and make it safely to the other side.", true));
 	}
 
 	public static void enterObstaclePipe(final Player player, int objectX, int objectY) {
@@ -139,24 +113,10 @@ public class WildernessAgility {
 			player.sendMessage("You can't see a good way to jump from here.");
 			return;
 		}
-		player.lock(4);
-		player.setNextAnimation(new Animation(751));
-		World.sendObjectAnimation(object, new Animation(497));
-		final Tile toTile = Tile.of(object.getX(), 3958, object.getPlane());
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 1, toTile, 3, Direction.NORTH));
-		player.getSkills().addXp(Constants.AGILITY, 22);
-		player.sendMessage("You skilfully swing across.", true);
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.setNextTile(toTile);
-				if (getWildernessStage(player) == 0)
-					setWildernessStage(player, 1);
-				player.getSkills().addXp(Constants.AGILITY, 15.5);
-			}
-
-		}, 1);
+		player.lock();
+		Agility.swingOnRopeSwing(player, player.getTile(), Tile.of(object.getX(), 3958, object.getPlane()), object, 15.5);
+		if (getWildernessStage(player) == 0)
+			setWildernessStage(player, 1);
 	}
 
 	/*
@@ -167,7 +127,6 @@ public class WildernessAgility {
 			return;
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
-
 			int x;
 
 			@Override
@@ -178,15 +137,7 @@ public class WildernessAgility {
 					return;
 				}
 				final Tile toTile = Tile.of(3002 - x, player.getY(), player.getPlane());
-				player.setNextForceMovement(new ForceMovement(toTile, 1, Direction.WEST));
-				player.setNextAnimation(new Animation(741));
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						player.setNextTile(toTile);
-					}
-				}, 0);
+				player.forceMove(toTile, 741, 5, 30);
 			}
 		}, 2, 1);
 		player.getSkills().addXp(Constants.AGILITY, 20);

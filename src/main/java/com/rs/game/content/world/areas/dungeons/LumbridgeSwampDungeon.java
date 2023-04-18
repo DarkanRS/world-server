@@ -66,17 +66,11 @@ public class LumbridgeSwampDungeon {
 				ticks++;
 				if (ticks == 2)
 					e.getPlayer().setNextFaceTile(e.getObject().getTile());
-				else if (ticks == 3) {
-					e.getPlayer().setNextAnimation(new Animation(1995));
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
-				} else if (ticks == 4)
+				else if (ticks == 3)
+					e.getPlayer().forceMove(tile, 1995, 0, 120, () -> e.getPlayer().setRun(isRunning));
+				else if (ticks == 4) {
 					e.getPlayer().setNextAnimation(new Animation(1603));
-				else if (ticks == 7) {
-					e.getPlayer().setNextTile(tile);
-					e.getPlayer().setRun(isRunning);
-					e.getPlayer().unlock();
 					stop();
-					return;
 				}
 			}
 		}, 0, 0);
@@ -97,17 +91,11 @@ public class LumbridgeSwampDungeon {
 				ticks++;
 				if (ticks == 2)
 					e.getPlayer().setNextFaceTile(e.getObject().getTile());
-				else if (ticks == 3) {
-					e.getPlayer().setNextAnimation(new Animation(1995));
-					e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, tile, 4, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
-				} else if (ticks == 4)
+				else if (ticks == 3)
+					e.getPlayer().forceMove(tile, 1995, 0, 120, () -> e.getPlayer().setRun(isRunning));
+				else if (ticks == 4) {
 					e.getPlayer().setNextAnimation(new Animation(1603));
-				else if (ticks == 7) {
-					e.getPlayer().setNextTile(tile);
-					e.getPlayer().setRun(isRunning);
-					e.getPlayer().unlock();
 					stop();
-					return;
 				}
 			}
 		}, 0, 0);

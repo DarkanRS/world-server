@@ -584,12 +584,6 @@ public class Player extends Entity {
 
 	private House house;
 
-	private transient boolean nextTickUnlock;
-
-	public void unlockNextTick() {
-		nextTickUnlock = true;
-	}
-
 	// creates Player and saved classes
 	public Player(Account account) {
 		super(Tile.of(Settings.getConfig().getPlayerStartTile()));
@@ -1168,11 +1162,6 @@ public class Player extends Entity {
 	@Override
 	public void processMovement() {
 		super.processMovement();
-		if (nextTickUnlock) {
-			unlock();
-			nextTickUnlock = false;
-		}
-		//Magic.teleControllersCheck(this, this);
 	}
 
 	@Override

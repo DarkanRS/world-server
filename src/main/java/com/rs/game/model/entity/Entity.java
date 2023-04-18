@@ -105,6 +105,7 @@ public abstract class Entity {
 	private transient int sceneBaseChunkId;
 	private transient int lastChunkId;
 	private transient boolean forceUpdateEntityRegion;
+	private transient boolean nextTickUnlock;
 	private transient Set<Integer> mapChunkIds;
 	protected transient GenericAttribMap temporaryAttributes;
 	protected transient GenericAttribMap nonsavingVars;
@@ -921,8 +922,11 @@ public abstract class Entity {
 
 	public void processEntity() {
 		tickCounter++;
-		if (routeEvent != null && routeEvent.processEvent(this))
-			routeEvent = null;
+		RouteEvent prevEvent = routeEvent;
+		if (routeEvent != null && routeEvent.processEvent(this)) {
+			if (routeEvent == prevEvent)
+				routeEvent = null;
+		}
 		poison.processPoison();
 		processReceivedHits();
 		processReceivedDamage();
@@ -932,6 +936,10 @@ public abstract class Entity {
 		processEffects();
 		interactionManager.process();
 		actionManager.process();
+		if (nextTickUnlock) {
+			unlock();
+			nextTickUnlock = false;
+		}
 	}
 
 	public void loadMapRegions() {
@@ -1264,31 +1272,92 @@ public abstract class Entity {
 		return nextForceMovement;
 	}
 
-	public void setNextForceMovement(ForceMovement nextForceMovement) {
-		this.nextForceMovement = nextForceMovement;
+	protected void setNextForceMovement(ForceMovement movement) {
+		this.nextForceMovement = movement;
 	}
 
-	public void forceMoveVis(Tile toTile, int delay, Direction dir) {
-		setNextForceMovement(new ForceMovement(toTile, delay, dir));
+	public void forceMoveVisually(Tile destination, int animation, int startClientCycles, int speedClientCycles) {
+		if (animation != -1)
+			anim(animation);
+		setNextForceMovement(new ForceMovement(getTile(), destination, startClientCycles, speedClientCycles));
 	}
 
-	public void forceMoveVis(Tile toFirstTile, int firstTileDelay, Tile toSecondTile, int secondTileDelay) {
-		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay));
+	public void forceMoveVisually(Direction dir, int distance, int animation, int startClientCycles, int speedClientCycles) {
+		if (animation != -1)
+			anim(animation);
+		setNextForceMovement(new ForceMovement(getTile(), transform(dir.getDx()*distance, dir.getDy()*distance), startClientCycles, speedClientCycles));
 	}
 
-	public void forceMoveVis(Tile toFirstTile, int firstTileDelay, Tile toSecondTile, int secondTileDelay, Direction direction) {
-		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay, direction));
+	public void forceMoveVisually(Tile destination, int startClientCycles, int speedClientCycles) {
+		forceMoveVisually(destination, -1, startClientCycles, speedClientCycles);
 	}
 
-	public void forceMoveVis(Tile toFirstTile, int firstTileDelay, Tile toSecondTile, int secondTileDelay, int direction) {
-		setNextForceMovement(new ForceMovement(toFirstTile, firstTileDelay, toSecondTile, secondTileDelay, direction));
+	public void forceMoveVisually(Direction dir, int distance, int startClientCycles, int speedClientCycles) {
+		forceMoveVisually(dir, distance, -1, startClientCycles, speedClientCycles);
 	}
 
-	public void forceMove(Direction dir, int distance, int delay, Runnable afterComplete) {
-		Tile toTile = transform(dir.getDx()*distance, dir.getDy()*distance);
-		forceMoveVis(toTile, delay, dir);
-		WorldTasks.schedule(delay, () -> setNextTile(toTile));
-		WorldTasks.schedule(delay+1, afterComplete);
+	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+		ForceMovement movement = new ForceMovement(Tile.of(getTile()), destination, startClientCycles, speedClientCycles);
+		if (animation != -1)
+			anim(animation);
+		lock();
+		resetWalkSteps();
+		setNextForceMovement(movement);
+		WorldTasks.schedule(movement.getTickDuration()-1, () -> setNextTile(destination));
+		WorldTasks.schedule(movement.getTickDuration(), () -> {
+			if (autoUnlock)
+				unlock();
+			if (afterComplete != null)
+				afterComplete.run();
+		});
+	}
+
+	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock) {
+		forceMove(destination, animation, startClientCycles, speedClientCycles, autoUnlock, null);
+	}
+
+	public void forceMove(Tile destination, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+		forceMove(destination, -1, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+	}
+
+	public void forceMove(Tile destination, int anim, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
+		forceMove(destination, anim, startClientCycles, speedClientCycles, true, afterComplete);
+	}
+
+	public void forceMove(Tile destination, int anim, int startClientCycles, int speedClientCycles) {
+		forceMove(destination, anim, startClientCycles, speedClientCycles, true, null);
+	}
+
+	public void forceMove(Direction dir, int distance, int anim, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+		forceMove(transform(dir.getDx()*distance, dir.getDy()*distance), anim, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+	}
+
+	public void forceMove(Direction dir, int distance, int anim, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
+		forceMove(dir, distance, anim, startClientCycles, speedClientCycles, true, afterComplete);
+	}
+
+	public void forceMove(Direction dir, int distance, int anim, int startClientCycles, int speedClientCycles) {
+		forceMove(dir, distance, anim, startClientCycles, speedClientCycles, true, null);
+	}
+
+	public void forceMove(Tile destination, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
+		forceMove(destination, -1, startClientCycles, speedClientCycles, true, afterComplete);
+	}
+
+	public void forceMove(Tile destination, int startClientCycles, int speedClientCycles) {
+		forceMove(destination, -1, startClientCycles, speedClientCycles, true, null);
+	}
+
+	public void forceMove(Direction dir, int distance, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+		forceMove(transform(dir.getDx()*distance, dir.getDy()*distance), -1, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+	}
+
+	public void forceMove(Direction dir, int distance, int startClientCycles, int speedClientCycles, Runnable afterComplete) {
+		forceMove(dir, distance, -1, startClientCycles, speedClientCycles, true, afterComplete);
+	}
+
+	public void forceMove(Direction dir, int distance, int startClientCycles, int speedClientCycles) {
+		forceMove(dir, distance, -1, startClientCycles, speedClientCycles, true, null);
 	}
 
 	public Poison getPoison() {
@@ -1892,5 +1961,9 @@ public abstract class Entity {
 
 	public void unlock() {
 		lockDelay = 0;
+	}
+
+	public void unlockNextTick() {
+		nextTickUnlock = true;
 	}
 }

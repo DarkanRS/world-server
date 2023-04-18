@@ -38,6 +38,7 @@ import org.json.simple.JSONObject;
 
 public final class WorldThread extends Thread {
 
+	public static long START_CYCLE;
 	public static volatile long WORLD_CYCLE;
 
 	protected WorldThread() {
@@ -47,7 +48,7 @@ public final class WorldThread extends Thread {
 	}
 
 	public static void init() {
-		WORLD_CYCLE = System.currentTimeMillis() / 600L;
+		WORLD_CYCLE = START_CYCLE = System.currentTimeMillis() / 600L;
 		LowPriorityTaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);
 	}
 
@@ -155,7 +156,7 @@ public final class WorldThread extends Thread {
 			Telemetry.queueTelemetryTick(time);
 			if (time > 250l && Settings.getConfig().getStaffWebhookUrl() != null) {
 				StringBuilder content = new StringBuilder();
-				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size());
+				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
 				content.append("```\n");
 				content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
 				content.append("Task: " + timerTask.getFormattedTime() + "\n");

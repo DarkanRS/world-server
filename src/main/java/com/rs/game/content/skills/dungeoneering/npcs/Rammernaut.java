@@ -71,33 +71,21 @@ public class Rammernaut extends DungeonBoss {
 				player.sendMessage("Your prayers have been disabled.");
 				player.setProtectionPrayBlock(2);
 			}
-			final NPC npc = this;
-			WorldTasks.schedule(new WorldTask() {
-				private int ticks;
-				private Tile tile;
-
-				@Override
-				public void run() {
-					ticks++;
-					if (ticks == 1) {
-						byte[] dirs = Utils.getDirection(getFaceAngle());
-						for (int distance = 6; distance >= 0; distance--) {
-							tile = Tile.of(Tile.of(entity.getX() + (dirs[0] * distance), entity.getY() + (dirs[1] * distance), entity.getPlane()));
-							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && getManager().isAtBossRoom(tile))
-								break;
-							if (distance == 0)
-								tile = Tile.of(entity.getTile());
-						}
-						entity.faceEntity(npc);
-						entity.setNextAnimation(new Animation(10070));
-						entity.setNextForceMovement(new ForceMovement(entity.getTile(), 0, tile, 2, entity.getFaceAngle()));
-					} else if (ticks == 2) {
-						entity.setNextTile(tile);
-						stop();
-						return;
-					}
+			WorldTasks.schedule(1, () -> {
+				Tile tile = null;
+				byte[] dirs = Utils.getDirection(getFaceAngle());
+				for (int distance = 6; distance >= 0; distance--) {
+					tile = Tile.of(Tile.of(entity.getX() + (dirs[0] * distance), entity.getY() + (dirs[1] * distance), entity.getPlane()));
+					if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && getManager().isAtBossRoom(tile))
+						break;
+					if (distance == 0)
+						tile = Tile.of(entity.getTile());
 				}
-			}, 0, 0);
+				if (tile == null)
+					return;
+				entity.faceEntity(this);
+				entity.forceMove(tile, 10070, 5, 60);
+			});
 		}
 	}
 

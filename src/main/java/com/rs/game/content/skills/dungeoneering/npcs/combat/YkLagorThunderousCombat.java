@@ -153,24 +153,17 @@ public class YkLagorThunderousCombat extends CombatScript {
 	}
 
 	public static void sendPullAttack(final Tile tile, final Player player, final boolean disablePrayers) {
-		player.lock(3);
+		player.lock();
 		player.resetWalkSteps();
-		player.setNextAnimation(new Animation(14388));
 		player.setNextSpotAnim(new SpotAnim(2767));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, 2, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.getActionManager().addActionDelay(10);
-				player.setNextTile(tile);
-				player.freeze(8);
-				if (disablePrayers) {
-					player.sendMessage("You've been injured and you cannot use protective " + (player.getPrayer().isCurses() ? "curses" : "protective prayers") + "!");
-					player.setProtectionPrayBlock(2);
-				}
+		player.forceMove(tile, 14388, 5, 60, () -> {
+			player.getActionManager().addActionDelay(10);
+			player.freeze(8);
+			if (disablePrayers) {
+				player.sendMessage("You've been injured and you cannot use protective " + (player.getPrayer().isCurses() ? "curses" : "protective prayers") + "!");
+				player.setProtectionPrayBlock(2);
 			}
-		}, 1);
+		});
 	}
 
 	public static void sendMagicalAttack(YkLagorThunderous npc, boolean specialAttack) {
