@@ -1841,6 +1841,7 @@ public class PlayerCombat extends PlayerAction {
 		if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
 			p2.sendMessage("Your potion heavily protects you from the dragon's fire.", true);
 			protection = 2;
+			chargeDragonfireShield(target);
 			return protection;
 		}
 		int shieldId = p2.getEquipment().getShieldId();
