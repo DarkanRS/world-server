@@ -323,8 +323,7 @@ public class Morytania  {
 			if (e.getPlayer().getInventory().addItemDrop(product.getProduct(), 1)) {
 				e.getPlayer().sendMessage("You pick a " + productName + ".");
 				e.getPlayer().incrementCount(productName + " bloomed", 1);
-				World.spawnObject(new GameObject(product.getObject()-1, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getTile()));
-
+				e.getObject().setId(product.getObject()-1);
 			}
 		});
 	});

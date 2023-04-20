@@ -65,7 +65,7 @@ public final class WorldThread extends Thread {
 			Timer timerTask = new Timer().start();
 			WorldTasks.processTasks();
 			Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
-			OwnedObject.process();
+			OwnedObject.processAll();
 			NAMES.clear();
 			Timer timerPlayerProc = new Timer().start();
 			for (Player player : World.getPlayers()) {

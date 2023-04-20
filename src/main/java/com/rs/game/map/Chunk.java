@@ -47,6 +47,8 @@ public class Chunk {
     protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GameObject> spawnedObjects = ObjectLists.synchronize(new ObjectArrayList<>());
 
+    protected Set<GameObject> flaggedObjectsForTickProcessing = ObjectSets.synchronize(new ObjectOpenHashSet<>());
+
     protected Map<Integer, Map<Integer, List<GroundItem>>> groundItems = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
     protected List<GroundItem> groundItemList = ObjectLists.synchronize(new ObjectArrayList<>());
 
@@ -117,6 +119,25 @@ public class Chunk {
         if (item == null)
             item = getGroundItem(itemId, tile, 0);
         return item;
+    }
+
+    public void processSpawnedObjects() {
+        if (flaggedObjectsForTickProcessing.isEmpty())
+            return;
+        Set<GameObject> toRemove = new ObjectOpenHashSet<>();
+        for (GameObject object : flaggedObjectsForTickProcessing)
+            if (!object.process())
+                toRemove.add(object);
+        for (GameObject object : toRemove)
+            unflagForProcess(object);
+    }
+
+    public void flagForProcess(GameObject object) {
+        flaggedObjectsForTickProcessing.add(object);
+    }
+
+    public void unflagForProcess(GameObject object) {
+        flaggedObjectsForTickProcessing.remove(object);
     }
 
     public void processGroundItems() {
@@ -616,7 +637,8 @@ public class Chunk {
     public void process() {
         updates.clear();
         processGroundItems();
-        if (groundItems.isEmpty() && spawnedObjects.isEmpty())
+        processSpawnedObjects();
+        if (groundItems.isEmpty() && spawnedObjects.isEmpty() && flaggedObjectsForTickProcessing.isEmpty())
             ChunkManager.markChunkInactive(id);
     }
 

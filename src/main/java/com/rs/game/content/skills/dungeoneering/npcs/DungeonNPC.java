@@ -16,17 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_RANGER;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_WARRIOR;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.GIANT_SKELETON;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HILL_GIANT;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HOBGOBLIN;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_WARRIOR;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_MELEE;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_RANGED;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_MELEE;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_RANGED;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +32,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.*;
 
 public class DungeonNPC extends NPC {
 
@@ -70,23 +61,17 @@ public class DungeonNPC extends NPC {
 	}
 
 	@Override
-	public List<Entity> getPossibleTargets(boolean includeNpcs) {//SHADOW SILK HOOD
-		List<Entity> possibleTargets = super.getPossibleTargets(includeNpcs);
+	public boolean canAggroPlayer(Player player) {
 		DungeonConstants.GuardianMonster mob = DungeonConstants.GuardianMonster.forId(getId());
 		if (mob == null)
-			return possibleTargets;
-		if(mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
+			return true;
+		if (mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
 				|| mob == ZOMBIE_MELEE || mob == ZOMBIE_RANGED || mob == HILL_GIANT || mob == GIANT_SKELETON
-				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR) {
-			List<Entity> shadowedTargets = new ArrayList<>();
-			for (Entity entity : possibleTargets) {
-				if (entity instanceof Player player && player.getEquipment().containsOneItem(17279, 15828)
-						&& !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
-					shadowedTargets.add(entity);
-			}
-			possibleTargets.removeAll(shadowedTargets);
+				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR || mob == ICE_WARRIOR) {
+			if (player.getEquipment().containsOneItem(17279, 15828) && !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
+				return false;
 		}
-		return possibleTargets;
+		return true;
 	}
 
 	public void resetBonuses() {
