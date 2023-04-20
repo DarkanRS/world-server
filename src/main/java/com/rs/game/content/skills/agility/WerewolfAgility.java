@@ -79,7 +79,7 @@ public class WerewolfAgility {
 	});
 
 	public static ObjectClickHandler handleZipLine = new ObjectClickHandler(false, new Object[] { 5139, 5140, 5141 }, e -> {
-		Tile endTile = Tile.of(3528, 9872, 0);
+		Tile endTile = Tile.of(3528, 9873, 0);
 		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () ->{
 			WorldTasks.scheduleTimer(1, 0, ticks -> {
 				switch(ticks) {
@@ -102,7 +102,6 @@ public class WerewolfAgility {
 						e.getPlayer().forceMove(endTile, 1602, 0, 240, () -> {
 							e.getPlayer().setNextAnimation(new Animation(-1));
 							e.getPlayer().getSkills().addXp(Skills.AGILITY, 200);
-							e.getPlayer().setNextTile(Tile.of(3528, 9870, 0));
 							e.getPlayer().incrementCount("Werewolf agility laps completed");
 						});
 						return true;
