@@ -496,6 +496,7 @@ public class DungeonManager {
 
 	public void setTableItems(RoomReference room) {
 		addItemToTable(room, new Item(16295)); //novite pickaxe, cuz of boss aswell so 1+
+		addItemToTable(room, new Item(16933)); //antifire shield
 		if (party.getComplexity() >= 2) {
 			addItemToTable(room, new Item(DungeonConstants.RUSTY_COINS, 5000 + Utils.random(10000)));
 			addItemToTable(room, new Item(17678)); //tinderbox
