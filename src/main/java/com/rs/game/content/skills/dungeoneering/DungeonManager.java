@@ -501,6 +501,7 @@ public class DungeonManager {
 			addItemToTable(room, new Item(17678)); //tinderbox
 			addItemToTable(room, new Item(16361)); //novite hatcher
 			addItemToTable(room, new Item(17794)); //fish rods
+			addItemToTable(room, new Item(16933)); //antifire shield
 		}
 		if (party.getComplexity() >= 3) { //set weap/gear in table
 			int rangeTier = DungeonUtils.getTier(party.getMaxLevel(Constants.RANGE));

@@ -348,7 +348,7 @@ public class MiscTest {
 			int radius = args.length > 0 ? Integer.valueOf(args[0]) : 0;
 			List<GameObject> objects = new ArrayList<>();
 			if (radius == 0) {
-				GameObject[] objs = World.getObjects(p.getTile());
+				GameObject[] objs = World.getBaseObjects(p.getTile());
 				if (objs != null)
 					for (GameObject obj : objs)
 						if (obj != null)
@@ -360,7 +360,7 @@ public class MiscTest {
 							Tile t = p.transform(x, y, z);
 							if (t.getPlane() >= 4 || t.getPlane() < 0)
 								continue;
-							GameObject[] objs = World.getObjects(t);
+							GameObject[] objs = World.getBaseObjects(t);
 							if (objs != null)
 								for (GameObject obj : objs)
 									if (obj != null)
