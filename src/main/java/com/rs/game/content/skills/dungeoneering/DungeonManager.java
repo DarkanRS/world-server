@@ -756,6 +756,7 @@ public class DungeonManager {
 				if (World.floorAndWallsFree(tile, size))
 					return spawnNPC(id, rotation, tile, reference, type);
 			}
+			return spawnNPC(GuardianMonster.FORGOTTEN_WARRIOR.getNPCIds()[0], rotation, tile, reference, type);
 		}
 		return spawnNPC(id, rotation, tile, reference, type);
 	}
