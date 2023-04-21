@@ -31,33 +31,37 @@ public class WorldTasks {
 
 	public static void processTasks() {
 		synchronized(TASKS) {
-			List<WorldTaskInformation> toRemove = new ArrayList<>();
-			Iterator<WorldTaskInformation> iter = TASKS.iterator();
-			while(iter.hasNext()) {
-				WorldTaskInformation task = iter.next();
-				if (task == null)
-					continue;
-				try {
-					if (task.currDelay > 0) {
-						task.currDelay--;
+			try {
+				List<WorldTaskInformation> toRemove = new ArrayList<>();
+				Iterator<WorldTaskInformation> iter = TASKS.iterator();
+				while (iter.hasNext()) {
+					WorldTaskInformation task = iter.next();
+					if (task == null)
 						continue;
-					}
 					try {
-						task.getTask().run();
+						if (task.currDelay > 0) {
+							task.currDelay--;
+							continue;
+						}
+						try {
+							task.getTask().run();
+						} catch (Throwable e) {
+							Logger.handle(WorldTasks.class, "processTasksRun:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+						}
+						if (task.getTask().needRemove)
+							toRemove.add(task);
+						else
+							task.currDelay = task.getLoopDelay();
 					} catch (Throwable e) {
-						Logger.handle(WorldTasks.class, "processTasksRun:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+						Logger.handle(WorldTasks.class, "processTasks:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
 					}
-					if (task.getTask().needRemove)
-						toRemove.add(task);
-					else
-						task.currDelay = task.getLoopDelay();
-				} catch (Throwable e) {
-					Logger.handle(WorldTasks.class, "processTasks:"+(task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
 				}
+				for (WorldTaskInformation task : toRemove)
+					if (task != null)
+						TASKS.remove(task);
+			} catch(Throwable e) {
+				Logger.handle(WorldTasks.class, "processTasks", e);
 			}
-			for (WorldTaskInformation task : toRemove)
-				if (task != null)
-					TASKS.remove(task);
 		}
 	}
 

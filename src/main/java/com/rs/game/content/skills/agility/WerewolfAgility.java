@@ -26,10 +26,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Tile;
-import com.rs.lib.game.WorldObject;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -74,11 +71,12 @@ public class WerewolfAgility {
 			int stickCount = e.getPlayer().getInventory().getAmountOf(4179);
 			e.getPlayer().getInventory().removeItems(new Item(4179, stickCount));
 			e.getPlayer().getSkills().addXp(Skills.AGILITY, 380*stickCount);
+			e.getPlayer().incrementCount("Werewolf agility sticks fetched");
 		}
 	});
 
 	public static ObjectClickHandler handleZipLine = new ObjectClickHandler(false, new Object[] { 5139, 5140, 5141 }, e -> {
-		Tile endTile = Tile.of(3528, 9870, 0);
+		Tile endTile = Tile.of(3528, 9873, 0);
 		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () ->{
 			WorldTasks.scheduleTimer(1, 0, ticks -> {
 				switch(ticks) {
@@ -98,9 +96,10 @@ public class WerewolfAgility {
 					case 1 -> { e.getPlayer().setNextAnimation(new Animation(1601)); return true; }
 					case 2 -> {
 						e.getPlayer().forceTalk("WAAAAAARRRGGGHHH!!!!!!");
-						e.getPlayer().forceMove(endTile, 1602, 5, 240, () -> {
+						e.getPlayer().forceMove(endTile, 1602, 0, 240, () -> {
 							e.getPlayer().setNextAnimation(new Animation(-1));
 							e.getPlayer().getSkills().addXp(Skills.AGILITY, 200);
+							e.getPlayer().incrementCount("Werewolf agility laps completed");
 						});
 						return true;
 					}
@@ -130,16 +129,13 @@ public class WerewolfAgility {
 	});
 
 	private static Runnable jumpRock(ObjectClickEvent e) {
-		return new Runnable() {
-			@Override
-			public void run() {
-				if(e.getObject().getTile().isAt(3538, 9875))
-					yellFetch(e);
-				e.getPlayer().lock();
-				WorldTasks.schedule(0, () -> {
-					e.getPlayer().forceMove(e.getObject().getTile(), 741, 5, 30, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 10));
-				});
-			}
+		return () -> {
+			if(e.getObject().getTile().isAt(3538, 9875))
+				yellFetch(e);
+			e.getPlayer().lock();
+			WorldTasks.schedule(0, () -> {
+				e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 35, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 10));
+			});
 		};
 	}
 
@@ -150,7 +146,7 @@ public class WerewolfAgility {
 			npcs.get(0).forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
 				npcs.get(0).setNextAnimation(new Animation(6547));
-				World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer());
+				World.sendProjectile(npcs.get(0), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, 50, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
 			});
 		}
 	}
@@ -161,7 +157,7 @@ public class WerewolfAgility {
 		Tile endTile = Tile.of(e.getObject().getX()+(e.getObjectId() == 5134 ? 0 : 1), e.getObject().getY() + 1, 0);
 		e.getPlayer().lock();
 		WorldTasks.schedule(0, () -> {
-			e.getPlayer().forceMove(endTile, 1603, 5, 30, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 20));
+			e.getPlayer().forceMove(endTile, 1603, 0, 45, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 20));
 		});
 	});
 
@@ -169,13 +165,13 @@ public class WerewolfAgility {
 		if(e.getPlayer().getTile().getY() > e.getObject().getY())
 			return;
 		final Tile toTile = Tile.of(e.getObject().getX(), e.getObject().getY()+4, e.getObject().getPlane());
-		e.getPlayer().forceMove(toTile, 10580, 5, 60, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 15));
+		e.getPlayer().forceMove(toTile, 10580, 0, 60, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 15));
 	});
 
 	public static ObjectClickHandler handleRockSlope = new ObjectClickHandler(new Object[] { 5136 }, e -> {
 		if(e.getPlayer().getX() < e.getObject().getX())
 			return;
-		e.getPlayer().forceMove(Tile.of(e.getObject().getX()-2, e.getObject().getY(), 0), 2049, 25, 30, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 25));
+		e.getPlayer().forceMove(Tile.of(e.getObject().getX()-2, e.getObject().getY(), 0), 2049, 30, 60, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 25));
 	});
 
 	public static ObjectClickHandler courseExitLadder = new ObjectClickHandler(new Object[] { 5130 }, e -> e.getPlayer().useLadder(Tile.of(3543, 3463, 0)));

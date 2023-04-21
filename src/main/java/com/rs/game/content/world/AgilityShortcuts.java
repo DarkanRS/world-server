@@ -42,7 +42,8 @@ public class AgilityShortcuts {
 
 	public static void crawlUnder(final Player player, Tile toTile) {
 		player.lock();
-		WorldTasks.schedule(1, () -> player.forceMove(toTile, 2589, 10, 150, false, () -> player.setNextAnimation(new Animation(2591))));
+		WorldTasks.schedule(1, () -> player.forceMove(toTile, 2589, 35, 130));
+		WorldTasks.schedule(4, () -> player.setNextAnimation(new Animation(2591)));
 	}
 
 	public static void walkLog(final Player player, Tile toTile, int delay) {

@@ -70,11 +70,11 @@ public class AntiSilkHoodMages extends Default {//default combat script
 			public void run() {
 				player.setNextSpotAnim(new SpotAnim(736, 0, 50));
 				player.getTempAttribs().setB("ShadowSilkSpellDisable", true);
-				player.sendMessage("<col=ff6f69>Your Shadow Silk hood loses its power...");
+				player.sendMessage("<col=ff6f69>Your shadow silk hood loses its power...");
 				WorldTasks.delay(Ticks.fromMinutes(2), () -> {
 					if(player.hasStarted()) {
 						if(player.getTempAttribs().getB("ShadowSilkSpellDisable"))
-							player.sendMessage("<col=96ceb4>Your Shadow Silk hood returns its power...");
+							player.sendMessage("<col=96ceb4>Your shadow silk hood returns its power...");
 						player.getTempAttribs().setB("ShadowSilkSpellDisable", false);
 					}
 				});

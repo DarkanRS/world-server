@@ -52,10 +52,15 @@ public class GraveStoneSelection {
 		int price = getStonePrice(slot);
 		String name = getStoneName(slot);
 		if (slot != -1) {
+			if (player.getGraveStone() == slot) {
+				player.sendMessage("You already have this gravestone selected.");
+				return;
+			}
 			if (!player.getInventory().hasCoins(price)) {
 				player.sendMessage("You need " + Utils.formatNumber(price) + " coins to purchase " + Utils.addArticle(name) + ".");
 				return;
 			}
+			player.getTempAttribs().removeI("graveSelection");
 			player.getInventory().removeCoins(price);
 			player.setGraveStone(slot);
 			player.closeInterfaces();

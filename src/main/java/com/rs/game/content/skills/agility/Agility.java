@@ -87,7 +87,7 @@ public class Agility {
 			player.faceObject(object);
 			player.setNextAnimation(new Animation(751));
 			World.sendObjectAnimation(object, new Animation(497));
-			player.forceMove(endTile, 20, 90, () -> {
+			player.forceMove(endTile, 30, 90, () -> {
 				player.sendMessage("You skillfully swing across the rope.", true);
 				player.getSkills().addXp(Constants.AGILITY, xp);
 			});

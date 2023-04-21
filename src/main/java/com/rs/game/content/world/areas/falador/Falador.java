@@ -27,12 +27,14 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
@@ -105,6 +107,11 @@ public class Falador {
 			}
 		});
 	});
+
+	@ServerStartupEvent
+	public static void addLoSOverrides() {
+		Entity.addLOSOverrides(2290);
+	}
 
 	public static NPCClickHandler handleSirTiffy = new NPCClickHandler(new Object[] { 2290 }, e -> {
 		ShopsHandler.openShop(e.getPlayer(), "initiate_rank_armory");
