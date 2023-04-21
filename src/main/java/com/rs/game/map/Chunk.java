@@ -673,6 +673,8 @@ public class Chunk {
             initUpdates.add(new RemoveObject(object.getTile().getChunkLocalHash(), object));
         for (GameObject object : getSpawnedObjects())
             initUpdates.add(new AddObject(object.getTile().getChunkLocalHash(), object));
+        for (GameObject object : flaggedObjectsForTickProcessing)
+            initUpdates.add(new AddObject(object.getTile().getChunkLocalHash(), object));
         for (GameObject object : getAllObjects())
             if (object.getMeshModifier() != null)
                 initUpdates.add(new CustomizeObject(object.getTile().getChunkLocalHash(), object.getMeshModifier().getObject(), object.getMeshModifier().getModelIds(), object.getMeshModifier().getModifiedColors(), object.getMeshModifier().getModifiedTextures()));
