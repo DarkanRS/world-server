@@ -26,10 +26,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Tile;
-import com.rs.lib.game.WorldObject;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
@@ -149,7 +146,7 @@ public class WerewolfAgility {
 			npcs.get(0).forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
 				npcs.get(0).setNextAnimation(new Animation(6547));
-				World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer());
+				World.sendProjectile(npcs.get(0), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, 50, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
 			});
 		}
 	}
