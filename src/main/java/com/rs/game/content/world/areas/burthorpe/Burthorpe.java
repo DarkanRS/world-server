@@ -28,6 +28,12 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Burthorpe {
 
+	//Cutscenes
+	//9 - morningstar jumping off the mountain into a house
+	//10 - player ambushes a group of trolls with a group of jewish archers
+	//11 - player gets given a weapon and rushes into the cave with ozan
+	//12 - player fires cannon that breaks the walls down to cover the cave entrance
+
 	public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}, e -> {
 		e.getPlayer().setNextTile(Tile.of(2292, 4516, 0));
 	});

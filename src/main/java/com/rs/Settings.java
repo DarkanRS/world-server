@@ -79,8 +79,8 @@ public final class Settings {
 		lobbyApiKey = "TEST_API_KEY";
 		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
 		loginMessage = "";
-		playerStartTile = Tile.of(3226, 3219, 0);
-		playerRespawnTile = Tile.of(3221, 3218, 0);
+		playerStartTile = Tile.of(2889, 3528, 0);
+		playerRespawnTile = Tile.of(2887, 3535, 0);
 		xpRate = 1;
 		dropModifier = 1.0;
 		startItems = new Item[] {
