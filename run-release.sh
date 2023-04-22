@@ -8,7 +8,7 @@ do
   PROJECT_ID="42378996"
 
   # Retrieve the package repository ID using the GitLab API
-  PACKAGE_DOWNLOAD_URL=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/releases" | jq -r 'max_by(.released_at) | .assets.links | map(select(.name | endswith("-jar"))) | .[0].direct_asset_url')
+  PACKAGE_DOWNLOAD_URL=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/releases?order_by=created_at&sort=desc" | jq -r 'max_by(.released_at) | .assets.links | map(select(.name | endswith("-jar"))) | .[0].direct_asset_url')
 
   # Download the package
   curl -L "${PACKAGE_DOWNLOAD_URL}" > world-server.jar
