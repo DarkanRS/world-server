@@ -129,6 +129,4 @@ public class Burthorpe {
                 }
             });
     });
-
-    public static NPCInteractionDistanceHandler rcShopsDistance = new NPCInteractionDistanceHandler(new Object[] { 14906, 14872 }, (p, n) -> 2);
 }
