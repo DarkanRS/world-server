@@ -1,5 +1,14 @@
 [
   {
+    "comment": "Xuan added by trent",
+    "npcId": 13727,
+    "tile": {
+      "x": 2928,
+      "y": 3560,
+      "plane": 0
+    }
+  },
+  {
     "tile": {
       "plane": 0,
       "x": 2922,
