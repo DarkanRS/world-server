@@ -28,6 +28,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
@@ -69,6 +70,7 @@ public class Burthorpe {
                     .addNPC(14846, HeadE.T_ANGRY, "Food!")
                     .addPlayer(HeadE.FRUSTRATED, "I'll see what I can find..")
     };
+
     public static NPCClickHandler talkToBabyTroll = new NPCClickHandler(new Object[] { 14846 }, new String[] { "Talk-to" }, e -> {
         e.getPlayer().startConversation(trollDialogues[Utils.random(trollDialogues.length)]);
     });
@@ -128,4 +130,5 @@ public class Burthorpe {
             });
     });
 
+    public static NPCInteractionDistanceHandler rcShopsDistance = new NPCInteractionDistanceHandler(new Object[] { 14906, 14872 }, (p, n) -> 2);
 }
