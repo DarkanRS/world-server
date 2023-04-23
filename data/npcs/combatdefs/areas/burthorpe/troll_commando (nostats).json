@@ -1,17 +1,17 @@
 {
   "names": [
-    "Troll chucker"
+    "Troll commando"
   ],
-  "attackAnim": -1,
+  "attackAnim": 13790,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 13792,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 13785,
+  "deathDelay": 4,
   "deathSound": -1,
-  "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "respawnDelay": 30,
+  "hitpoints": 50,
+  "maxHit": 15,
   "attackStyle": "MELEE",
   "attackRange": -1,
   "attackGfx": -1,
