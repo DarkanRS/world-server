@@ -164,13 +164,18 @@ public final class PetManager {
 				player.sendMessage("Your troll baby won't eat this item.");
 				return;
 			}
-			if (trollBabyName == null) {
-				trollBabyName = ItemDefinitions.getDefs(foodId).getName();
-				npc.setName(trollBabyName);
-				npc.setNextForceTalk(new ForceTalk("YUM! Me likes " + trollBabyName + "!"));
-			}
-			player.getInventory().deleteItem(foodId, 1);
-			player.sendMessage("Your pet happily eats the " + ItemDefinitions.getDefs(foodId).getName() + ".");
+			player.sendOptionDialogue("Are you sure you want to feed your " + ItemDefinitions.getDefs(foodId).getName() + " to the troll?", ops -> {
+				ops.add("Yes, I am sure. I know I won't get it back.", () -> {
+					if (!player.getInventory().containsItem(foodId))
+						return;
+					trollBabyName = ItemDefinitions.getDefs(foodId).getName();
+					npc.setName(trollBabyName);
+					npc.setNextForceTalk(new ForceTalk("YUM! Me likes " + trollBabyName + "!"));
+					player.getInventory().deleteItem(foodId, 1);
+					player.sendMessage("Your pet happily eats the " + ItemDefinitions.getDefs(foodId).getName() + ".");
+				});
+				ops.add("Nevermind.");
+			});
 			return;
 		}
 		for (int food : pets.getFood())
