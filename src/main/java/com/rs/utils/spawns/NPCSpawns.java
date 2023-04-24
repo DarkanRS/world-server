@@ -64,16 +64,24 @@ public final class NPCSpawns {
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(NPCSpawns.class, "init", "Loading NPC spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
-		for (File f : spawnFiles) {
-			if (f.getName().startsWith("_"))
-				continue;
-			NPCSpawn[] spawns = (NPCSpawn[]) JsonFileManager.loadJsonFile(f, NPCSpawn[].class);
-			if (spawns != null)
-				for(NPCSpawn spawn : spawns)
-					if (spawn != null)
-						add(spawn);
-		}
+		for (File f : spawnFiles)
+			load(f);
 		Logger.info(NPCSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " NPC spawns...");
+	}
+
+	public static void load(File file) throws IOException {
+		if (file.getName().startsWith("_"))
+			return;
+		if (file.isDirectory()) {
+			for (File f : file.listFiles())
+				load(f);
+			return;
+		}
+		NPCSpawn[] spawns = (NPCSpawn[]) JsonFileManager.loadJsonFile(file, NPCSpawn[].class);
+		if (spawns != null)
+			for(NPCSpawn spawn : spawns)
+				if (spawn != null)
+					add(spawn);
 	}
 
 	public static void add(NPCSpawn spawn) {
