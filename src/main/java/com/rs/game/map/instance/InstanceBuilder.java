@@ -29,10 +29,11 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSets;
 
 public final class InstanceBuilder {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
-
 	private static final Set<Integer> RESERVED_REGIONS = new HashSet<>();
 
 	private static final int MAX_REGION_X = 127;

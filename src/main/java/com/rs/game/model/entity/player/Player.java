@@ -100,6 +100,7 @@ import com.rs.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -212,7 +213,7 @@ public class Player extends Entity {
 	private transient String[] playerOptions = new String[10];
 	private transient Set<Sound> sounds = new HashSet<Sound>();
 
-	private Tile lastNonDynamicTile;
+	private Instance instancedArea;
 
 	private int hw07Stage;
 
@@ -854,24 +855,6 @@ public class Player extends Entity {
 		started = true;
 		Logger.info(Player.class, "start", "Started player: " + account.getUsername());
 		run();
-
-		if (getBool("isLoggedOutInDungeon")) {
-			if (getDungManager().getParty() == null) {
-				setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
-				this.reset();
-				getEquipment().reset();
-				getInventory().reset();
-				@SuppressWarnings("unchecked")
-				ArrayList<Double> itemsEnter = (ArrayList<Double>)savingAttributes.get("dungeoneering_enter_floor_inventory");
-				if(itemsEnter != null)
-					for(int i = 0; i < itemsEnter.size(); i++)
-						if ((i % 2) == 0)
-							getInventory().addItem(itemsEnter.get(i).intValue(), itemsEnter.get(i+1).intValue());
-			}
-			delete("isLoggedOutInDungeon");
-			delete("dungeoneering_enter_floor_inventory");
-		}
-		checkWasInDynamicRegion();
 		if (isDead())
 			sendDeath(null);
 	}
@@ -966,6 +949,7 @@ public class Player extends Entity {
 			getPackets().sendMapRegion(!started);
 			if (wasAtDynamicRegion)
 				localNPCUpdate.reset();
+			setInstancedArea(null);
 		}
 		forceNextMapLoadRefresh = false;
 	}
@@ -1292,6 +1276,7 @@ public class Player extends Entity {
 		updateMovementType = true;
 		pvpCombatLevelThreshhold = -1;
 		appearence.generateAppearanceData();
+		checkWasInDynamicRegion();
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
 		getVars().setVarBit(4322, 1);
@@ -4262,19 +4247,15 @@ public class Player extends Entity {
 	}
 
 	private void checkWasInDynamicRegion() {
-		if (!getBool("dontTeleFromInstanceOnLogin") && lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
-			setNextTile(Tile.of(lastNonDynamicTile));
-			clearLastNonDynamicTile();
+		if (instancedArea != null) {
+			Instance prevInstance = Instance.get(instancedArea.getId());
+			if (prevInstance != null && prevInstance.isPersistent()) {
+				prevInstance.teleportTo(this);
+				return;
+			}
+			setNextTile(instancedArea.getReturnTo());
+			instancedArea = null;
 		}
-		getSavingAttributes().remove("dontTeleFromInstanceOnLogin");
-	}
-
-	public void clearLastNonDynamicTile() {
-		lastNonDynamicTile = null;
-	}
-
-	public void setLastNonDynamicTile(Tile lastNonDynamicTile) {
-		this.lastNonDynamicTile = lastNonDynamicTile;
 	}
 
 	public Recorder getRecorder() {
@@ -4319,6 +4300,14 @@ public class Player extends Entity {
 	public void setBasNoReset(int bas) {
 		super.setBasNoReset(bas);
 		getAppearance().generateAppearanceData();
+	}
+
+	public void setInstancedArea(Instance instancedArea) {
+		this.instancedArea = instancedArea;
+	}
+
+	public Instance getInstancedArea() {
+		return instancedArea;
 	}
 
 	public Set<Integer> getMapChunksNeedInit() {

@@ -496,7 +496,7 @@ public class FightKilnController extends Controller {
 		};
 		// finds empty map bounds
 		if (region == null) {
-			region = new Instance(8, 8);
+			region = Instance.of(OUTSIDE, 8, 8);
 			region.copyMapAllPlanes(getMap()[0], getMap()[1]).thenAccept(e -> {
 				event.run();
 				player.setForceNextMapLoadRefresh(true);

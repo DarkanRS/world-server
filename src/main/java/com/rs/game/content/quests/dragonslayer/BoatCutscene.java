@@ -39,7 +39,7 @@ public class BoatCutscene extends Cutscene {
 		setEndTile(Tile.of(2849, 3239, 0));
 		fadeInBG(2);
 		hideMinimap();
-		dynamicRegion(256, 688, 8, 8);
+		dynamicRegion(player.getTile(), 256, 688, 8, 8);
 		npcCreate("ned", 6084, 18, 13, 1);
 		npcCreate("jenkins", 6085, 15, 14, 1);
 		playerMove(18, 12, 1, MoveType.TELE);

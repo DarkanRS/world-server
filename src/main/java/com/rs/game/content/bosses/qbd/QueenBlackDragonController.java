@@ -87,7 +87,7 @@ public final class QueenBlackDragonController extends Controller {
 	@Override
 	public void start() {
 		player.lock();
-		bossRegion = new Instance(8, 8);
+		bossRegion = Instance.of(OUTSIDE, 8, 8);
 		bossRegion.copyMapAllPlanes(176, 792).thenAccept(e -> {
 			bossBase = bossRegion.getTileBase().transform(0, 0, 1);
 			player.fadeScreen(() -> {
@@ -119,7 +119,7 @@ public final class QueenBlackDragonController extends Controller {
 				player.sendMessage("You descend the stairs that appeared when you defeated the Queen Black Dragon.");
 				player.getPackets().sendVarc(184, -1);
 				npc.finish();
-				rewardRegion = new Instance(8, 8);
+				rewardRegion = Instance.of(OUTSIDE, 8, 8);
 				rewardRegion.copyMapAllPlanes(160, 760).thenAccept(e -> {
 					player.resetReceivedHits();
 					rewardBase = rewardRegion.getTileBase().transform(0, 0, 0);

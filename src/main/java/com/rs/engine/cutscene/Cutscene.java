@@ -79,12 +79,12 @@ public abstract class Cutscene {
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
 	}
 
-	public void constructArea(final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
+	public void constructArea(final Tile returnTile, final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
 		constructingRegion = true;
 		Instance old = region;
-		region = new Instance(widthChunks, heightChunks);
+		region = Instance.of(returnTile, widthChunks, heightChunks);
 		region.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
-			player.setNextTile(Tile.of(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
+			region.teleportTo(player);
 			constructingRegion = false;
 			if (old != null)
 				old.destroy();
@@ -257,8 +257,8 @@ public abstract class Cutscene {
 		actions.add(new DialogueAction(dialogue, pause ? 1 : -1, pause));
 	}
 	
-	public void dynamicRegion(int baseX, int baseY, int widthChunks, int heightChunks) {
-		actions.add(new ConstructMapAction(baseX, baseY, widthChunks, heightChunks));
+	public void dynamicRegion(Tile returnTile, int baseX, int baseY, int widthChunks, int heightChunks) {
+		actions.add(new ConstructMapAction(returnTile, baseX, baseY, widthChunks, heightChunks));
 	}
 	
 	public void fadeIn(int delay) {

@@ -65,7 +65,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	private void playCutscene() {
 		player.lock();
-		instance = new Instance(10, 10);
+		instance = Instance.of(locationOnFail, 10, 10);
 		instance.copyMapAllPlanes(320, 391).thenAccept(e -> {
 			spawn = instance.getLocalTile(57, 39);
 
@@ -346,7 +346,6 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.save("dontTeleFromInstanceOnLogin", true);
 		removeInstance();
 		player.unlock();
 		return false;

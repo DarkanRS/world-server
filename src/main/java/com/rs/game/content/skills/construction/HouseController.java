@@ -83,7 +83,7 @@ public class HouseController extends Controller {
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
 					player.setNextAnimation(new Animation(-1));
-					player.setNextTile(house.getPortal());
+					house.teleportPlayer(player);
 					player.reset();
 					player.setCanPvp(false);
 					stop();
@@ -496,7 +496,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextTile(POHLocation.RIMMINGTON.getTile());
+		player.setNextTile(player.getHouse().getLocation().getTile());
 		return false;
 	}
 

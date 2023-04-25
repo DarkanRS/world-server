@@ -82,7 +82,7 @@ public class PestControl {
 	}
 
 	public PestControl create() {
-		region = new Instance(8, 8);
+		region = Instance.of(Lander.LanderRequirement.VETERAN.exit, 8, 8);
 		region.copyMapAllPlanes(328, 320).thenAccept(e -> {
 			sendBeginningWave();
 			unlockPortal();

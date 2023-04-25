@@ -83,11 +83,6 @@ public class FightCavesController extends Controller {
 	public void start() {
 		loadCave(false);
 	}
-	
-	@Override
-	public boolean reenableDynamicRegion() {
-		return true;
-	}
 
 	@Override
 	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
@@ -132,7 +127,7 @@ public class FightCavesController extends Controller {
 		this.login = login;
 		stage = Stages.LOADING;
 		player.lock(); // locks player
-		region = new Instance(8, 8);
+		region = Instance.of(OUTSIDE, 8, 8);
 		region.copyMapAllPlanes(552, 640).thenAccept(e -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));

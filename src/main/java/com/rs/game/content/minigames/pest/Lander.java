@@ -168,7 +168,7 @@ public class Lander {
 		return landers;
 	}
 
-	public LanderRequirement getLanderRequierment() {
+	public LanderRequirement getLanderRequirement() {
 		return landerRequirement;
 	}
 
@@ -184,8 +184,8 @@ public class Lander {
 
 	public static boolean canEnter(Player player, int landerIndex) {
 		Lander lander = landers[landerIndex];
-		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequierment().requirement) {
-			player.simpleDialogue("You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
+		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequirement().requirement) {
+			player.simpleDialogue("You need a combat level of " + lander.getLanderRequirement().getRequirement() + " or more to enter in boat.");
 			return false;
 		}
 		if (player.getPet() != null || player.getFamiliar() != null) {

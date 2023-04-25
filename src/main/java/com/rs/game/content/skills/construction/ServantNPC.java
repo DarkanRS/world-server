@@ -46,7 +46,7 @@ public class ServantNPC extends NPC {
 	private Item lastSawmillSend;
 
 	public ServantNPC(House house) {
-		super(house.getServant().getId(), house.getPortal().transform(1, 0, 0), true);
+		super(house.getServant().getId(), house.getPlayer().getTile().transform(0, 0, 0), true);
 		servant = house.getServant();
 		owner = house.getPlayer();
 		this.house = house;

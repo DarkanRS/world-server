@@ -69,7 +69,7 @@ public class PestControlGameController extends Controller {
 			if (control.getPortalCount() != 0)
 				if (control.getPlayers().contains(player))
 					control.getPlayers().remove(player);
-			player.useStairs(-1, Lander.getLanders()[control.getPestData().ordinal()].getLanderRequierment().getExitTile(), 1, 2);
+			player.useStairs(-1, Lander.getLanders()[control.getPestData().ordinal()].getLanderRequirement().getExitTile(), 1, 2);
 		} else
 			player.useStairs(-1, Tile.of(2657, 2639, 0), 1, 2);
 		player.setForceMultiArea(false);

@@ -97,8 +97,8 @@ import com.rs.lib.util.Utils;
 
 public class DungeonManager {
 
-	private static final Map<Object, DungeonManager> cachedDungeons = Collections.synchronizedMap(new HashMap<Object, DungeonManager>());
-	public static final AtomicLong keyMaker = new AtomicLong();
+	private static final Map<Object, DungeonManager> ACTIVE_DUNGEONS = Collections.synchronizedMap(new HashMap<>());
+	public static final AtomicLong KEY_MAKER = new AtomicLong();
 
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
@@ -982,8 +982,8 @@ public class DungeonManager {
 		if (player.getFamiliar() != null)
 			player.getFamiliar().sendDeath(player);
 		if (logout) {
-			player.save("isLoggedOutInDungeon", true);
-			player.getSkills().restoreSkills();
+			player.setTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+			player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
 		} else {
 			player.reset();
 			player.getDungManager().setRejoinKey(null);
@@ -998,7 +998,6 @@ public class DungeonManager {
 			player.getMusicsManager().reset();
 			player.getAppearance().setBAS(-1);
 		}
-
 	}
 
 	public void setWorldMap(Player player, boolean dungIcon) {
@@ -1026,7 +1025,7 @@ public class DungeonManager {
 	}
 
 	public void removeDungeon() {
-		cachedDungeons.remove(key);
+		ACTIVE_DUNGEONS.remove(key);
 	}
 
 	public void destroy() {
@@ -1457,8 +1456,8 @@ public class DungeonManager {
 	}
 
 	public void setDungeon() {
-		key = party.getLeader() + "_" + keyMaker.getAndIncrement();
-		cachedDungeons.put(key, this);
+		key = party.getLeader() + "_" + KEY_MAKER.getAndIncrement();
+		ACTIVE_DUNGEONS.put(key, this);
 		for (Player player : party.getTeam()) {
 			player.getDungManager().setRejoinKey(key);
 			player.getInterfaceManager().removeOverlay(true);
@@ -1470,8 +1469,7 @@ public class DungeonManager {
 		Object key = player.getDungManager().getRejoinKey();
 		if (key == null)
 			return;
-		DungeonManager dungeon = cachedDungeons.get(key);
-		//either doesnt exit / ur m8s moving next floor(reward screen)
+		DungeonManager dungeon = ACTIVE_DUNGEONS.get(key);
 		if (dungeon == null || !dungeon.hasLoadedNoRewardScreen()) {
 			player.getDungManager().setRejoinKey(null);
 			return;
@@ -1482,13 +1480,12 @@ public class DungeonManager {
 	public void load() {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
-		// slow executor loads dungeon as it may take up to few secs
 		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				instance = new Instance(dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
+				instance = Instance.of(DungeonConstants.OUTSIDE, dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
 				instance.clearMap(new int[1]).thenAccept(e -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());

@@ -328,7 +328,7 @@ public class PlayerCombat extends PlayerAction {
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
 			if (spell.isAOE() && hit)
-				attackTarget(target, getMultiAttackTargets(player, target), new MultiAttack() {
+				attackTarget(target, getMultiAttackTargets(player, target, 1, 9, false), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override

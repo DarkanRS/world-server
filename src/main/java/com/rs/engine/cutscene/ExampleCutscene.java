@@ -24,7 +24,7 @@ public class ExampleCutscene extends Cutscene {
 	@Override
 	public void construct(Player player) {
 		fadeIn(5);
-		dynamicRegion(178, 554, 4, 4);
+		dynamicRegion(player.getTile(), 178, 554, 4, 4);
 		playerMove(15, 20, 0, MoveType.TELE);
 		spawnObj(67500, 0, 14, 23, 0);
 		npcCreate("meme", 50, 14, 20, 0, 0);

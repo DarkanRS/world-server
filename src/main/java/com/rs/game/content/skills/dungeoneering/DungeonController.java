@@ -112,23 +112,6 @@ public class DungeonController extends Controller {
 
 	@Override
 	public void start() {
-		ArrayList<Integer> enterInventory = new ArrayList<>();
-		for (Item item : player.getEquipment().getItemsCopy())
-			if (!DungManager.isBannedDungItem(item)) {
-				if(item == null)
-					continue;
-				enterInventory.add(item.getId());
-				enterInventory.add(item.getAmount());
-			}
-		for (Item item : player.getInventory().getItems().array())
-			if (!DungManager.isBannedDungItem(item)) {
-				if(item == null)
-					continue;
-				enterInventory.add(item.getId());
-				enterInventory.add(item.getAmount());
-			}
-		player.delete("dungeoneering_enter_floor_inventory");
-		player.getSavingAttributes().put("dungeoneering_enter_floor_inventory", enterInventory.toArray());
 		showDeaths();
 		refreshDeaths();
 		player.setForceMultiArea(true);
@@ -1349,7 +1332,6 @@ public class DungeonController extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.save("dontTeleFromInstanceOnLogin", true);
 		return false;
 	}
 
