@@ -3,7 +3,7 @@ package com.rs.game.model.entity.player;
 import com.rs.game.map.instance.Instance;
 
 public abstract class InstancedController extends Controller {
-    private Instance instance;
+    private transient Instance instance;
 
     public InstancedController(Instance instance) {
         this.instance = instance;
@@ -24,16 +24,15 @@ public abstract class InstancedController extends Controller {
     }
 
     public final void _buildInstance() {
-        instance.requestChunkBound().thenAccept(b -> {
-           instance.teleportTo(player);
-           onBuildInstance();
-        });
+        instance.requestChunkBound().thenAccept(b -> onBuildInstance());
     }
 
     public abstract void onBuildInstance();
 
     public final void _destroyInstance() {
-        instance.destroy().thenAccept(b -> onDestroyInstance());
+        if (instance != null)
+            instance.destroy();
+        onDestroyInstance();
     }
 
     public abstract  void onDestroyInstance();

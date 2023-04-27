@@ -48,7 +48,7 @@ public abstract class Cutscene {
 	private boolean hideMap;
 	private boolean dialoguePaused;
 	private boolean constructingRegion;
-	private Instance region;
+	private Instance instance;
 	private Tile endTile;
 	
 	public abstract void construct(Player player);
@@ -65,8 +65,8 @@ public abstract class Cutscene {
 		player.getPoison().reset();
 		player.unlock();
 		deleteObjects();
-		if (region != null)
-			region.destroy();
+		if (instance != null)
+			instance.destroy();
 		player.getTempAttribs().removeB("CUTSCENE_INTERFACE_CLOSE_DISABLED");
 	}
 
@@ -81,10 +81,10 @@ public abstract class Cutscene {
 
 	public void constructArea(final Tile returnTile, final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
 		constructingRegion = true;
-		Instance old = region;
-		region = Instance.of(returnTile, widthChunks, heightChunks);
-		region.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
-			region.teleportTo(player);
+		Instance old = instance;
+		instance = Instance.of(returnTile, widthChunks, heightChunks);
+		instance.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
+			instance.teleportTo(player);
 			constructingRegion = false;
 			if (old != null)
 				old.destroy();
@@ -134,7 +134,7 @@ public abstract class Cutscene {
 	}
 
 	public void deleteObject(Object object) {
-		if (object instanceof NPC n)
+		if (object instanceof NPC n && !n.persistsBeyondCutscene())
 			n.finish();
 	}
 
@@ -144,11 +144,17 @@ public abstract class Cutscene {
 	}
 
 	public int getX(int x) {
-		return region != null && region.isCreated() ? region.getLocalX(x) : x;
+		Instance instance = this.instance;
+		if (instance == null)
+			instance = player.getInstancedArea();
+		return instance != null && instance.isCreated() ? instance.getLocalX(x) : x;
 	}
 	
 	public int getY(int y) {
-		return region != null && region.isCreated() ? region.getLocalY(y) : y;
+		Instance instance = this.instance;
+		if (instance == null)
+			instance = player.getInstancedArea();
+		return instance != null && instance.isCreated() ? instance.getLocalY(y) : y;
 	}
 	
 	public int getLocalX(int x) {
@@ -350,6 +356,14 @@ public abstract class Cutscene {
 	public void npcSpotAnim(String key, SpotAnim anim) {
 		npcSpotAnim(key, anim, -1);
 	}
+
+	public void npcSpotAnim(String key, int anim) {
+		npcSpotAnim(key, new SpotAnim(anim), -1);
+	}
+
+	public void npcSpotAnim(String key, int anim, int delay) {
+		npcSpotAnim(key, anim, delay);
+	}
 	
 	public void npcAnim(String key, Animation anim, int delay) {
 		actions.add(new NPCAnimationAction(key, anim, delay));
@@ -357,6 +371,14 @@ public abstract class Cutscene {
 	
 	public void npcAnim(String key, Animation anim) {
 		npcAnim(key, anim, -1);
+	}
+
+	public void npcAnim(String key, int id) {
+		npcAnim(key, new Animation(id));
+	}
+
+	public void npcAnim(String key, int id, int delay) {
+		npcAnim(key, new Animation(id), delay);
 	}
 
 	public void npcTransform(String key, int id, int delay) {
@@ -395,6 +417,14 @@ public abstract class Cutscene {
 
 	public void npcMove(String key, Tile tile, MoveType type, int delay) {
 		npcMove(key, tile.getX(), tile.getY(), player.getPlane(), type, delay);
+	}
+
+	public void npcWalk(String key, int x, int y, int delay) {
+		npcMove(key, x, y, player.getPlane(), MoveType.WALK, delay);
+	}
+
+	public void npcWalk(String key, int x, int y) {
+		npcMove(key, x, y, player.getPlane(), MoveType.WALK, -1);
 	}
 
 	public void playerMove(int x, int y, int z, MoveType type, int delay) {
@@ -527,5 +557,9 @@ public abstract class Cutscene {
 
 	public void restoreDefaultAspectRatio() {
 		player.getVars().setVar(1241, 3);
+	}
+
+	public Instance getInstance() {
+		return instance;
 	}
 }

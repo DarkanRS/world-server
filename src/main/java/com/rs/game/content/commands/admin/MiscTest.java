@@ -37,6 +37,7 @@ import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.pets.Pet;
+import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -112,6 +113,10 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
+
+		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
+			p.getControllerManager().startController(new PlayerVSDelrithController());
+		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
 			p.getNSV().setB("clanifyStuff", !p.getNSV().getB("clanifyStuff"));

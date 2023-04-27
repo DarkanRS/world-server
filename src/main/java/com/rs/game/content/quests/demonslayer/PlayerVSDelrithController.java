@@ -18,24 +18,34 @@ package com.rs.game.content.quests.demonslayer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
+import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Controller;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.model.entity.player.InstancedController;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
-public class PlayerVSDelrithController extends Controller {
+public class PlayerVSDelrithController extends InstancedController {
+	private static final Tile LOCATION_ON_DEATH = Tile.of(3211, 3382, 0);
 	static final int DELRITH = 879;
 	static final int DARK_WIZARD7 = 8872;
 	static final int DARK_WIZARD20 = 8873;
@@ -50,19 +60,13 @@ public class PlayerVSDelrithController extends Controller {
 	// Delrith animation
 	static final int RESURRECT = 4623;
 
-	private transient Instance instance;
-	Tile locationOnDeath = Tile.of(3211, 3382, 0);
-	Tile locationOnVictory = Tile.of(3228, 3368, 0);
-	Tile spawn;
-	Tile combatStartTile;
     boolean ambientMusicOn = false;
 
-	@Override
-	public void start() {
-		playCutscene();
+	public PlayerVSDelrithController() {
+		super(Instance.of(LOCATION_ON_DEATH, 4, 4).setEntranceOffset(new int[] { 19, 17, 0 }));
 	}
 
-    @Override
+	@Override
     public Genre getGenre() {
         return Music.getGenreByName("Other Dungeons");
     }
@@ -77,180 +81,114 @@ public class PlayerVSDelrithController extends Controller {
         return ambientMusicOn;
     }
 
-	private void playCutscene() {
+	@Override
+	public void onBuildInstance() {
+		int spawnX = 19, spawnY = 17;
+		int endX = 15, endY = 20;
 		player.lock();
-		instance = Instance.of(locationOnDeath, 4, 4);
-		instance.copyMapAllPlanes(401, 419).thenAccept(e -> {
-			spawn = instance.getLocalTile(19, 17);
-			combatStartTile = instance.getLocalTile(15, 20);
-
-			WorldTasks.schedule(new WorldTask() {
-				int tick;
-				NPC delrith;
-				List<NPC> wizards = new ArrayList<>();
-
-				@Override
-				public void run() {
-					if (tick == 0) {
-						player.musicTrack(-1);
-						player.getInterfaceManager().setFadingInterface(115);
-					} else if (tick == 2) {// setup player
-						player.musicTrack(195);
-						player.getPackets().setBlockMinimapState(2);
-						player.getAppearance().transformIntoNPC(266);
-						player.setNextTile(spawn);
-					} else if (tick == 3) {// Setup camera
-						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()) - 4, player.getYInScene(player.getSceneBaseChunkId()) + 6, 2000);
-						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()), 50);
-					} else if (tick == 4) {// Camera movement
-						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()) + 0, player.getYInScene(player.getSceneBaseChunkId()) + 6, 2000, 0, 5);
-						player.startConversation(new Conversation(player) {
-							{
-								addNPC(DENATH, HeadE.EVIL_LAUGH, "Arise, O mighty Delrith! Bring destruction to this soft weak city!");
-							}
-						});
-
-					} else if (tick == 5) {
-						player.getInterfaceManager().setFadingInterface(170);
-						wizards.add(World.spawnNPC(DARK_WIZARD7, Tile.of(spawn.getX() - 1, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DARK_WIZARD20, Tile.of(spawn.getX() + 2, spawn.getY() + 2, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DARK_WIZARD20, Tile.of(spawn.getX() - 1, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
-						wizards.add(World.spawnNPC(DENATH, Tile.of(spawn.getX() + 2, spawn.getY() - 1, spawn.getPlane()), -1, false, true));
-						for (NPC wizard : wizards) {
-							wizard.setRandomWalk(false);
-							wizard.faceTile(spawn);
-						}
-					} else if (tick == 6)
-						for (NPC wizard : wizards)
-							wizard.setNextAnimation(new Animation(SPELL1));
-					else if (tick == 7)
-						for (NPC wizard : wizards)
-							wizard.setNextAnimation(new Animation(SPELL2));
-					else if (tick == 8) {
-						player.startConversation(new Conversation(player) {
-							{
-								addNPC(DARK_WIZARD7, HeadE.EVIL_LAUGH, "Arise Delrith!");
-							}
-						});
-						for (NPC wizard : wizards) {
-							wizard.forceTalk("Arise Delrith!");
-							wizard.setNextAnimation(new Animation(SPELL1));
-						}
-					} else if (tick == 9)
-						for (NPC wizard : wizards)
-							wizard.setNextAnimation(new Animation(SPELL3));
-					else if (tick == 10) {
-						player.startConversation(new Conversation(player) {
-							{
-								addSimple("The wizards cast an evil spell...");
-							}
-						});
-						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) - 4, 1500);
-						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) + 1, 50);
-						player.getPackets().sendCameraShake(3, 100, 1, 30, 1);
-						delrith = World.spawnNPC(DELRITH, Tile.of(spawn.getX(), spawn.getY(), spawn.getPlane()), -1, false, true);
-						delrith.faceTile(Tile.of(spawn.getX() + 1, spawn.getY() - 1, spawn.getPlane()));
-						delrith.setRandomWalk(false);
-						delrith.setNextAnimation(new Animation(RESURRECT));
-					} else if (tick == 11) {
-						delrith.forceTalk("RaaawRRgh!");
-						for (NPC wizard : wizards) {
-							wizard.setNextSpotAnim(new SpotAnim(108));
-							wizard.setNextAnimation(new Animation(SPELL4));
-						}
-					} else if (tick == 12) {
-						player.getVars().setVarBit(2569, 1);
-						player.getPackets().sendCameraShake(3, 0, 0, 0, 0);
-						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) + 10, 250, 0, 1);
-					} else if (tick == 13)
-						delrith.setForceWalk(Tile.of(spawn.getX(), spawn.getY() - 2, 0));
-					else if (tick == 14) {
-						player.getPackets().sendCameraPos(player.getXInScene(player.getSceneBaseChunkId()) - 4, player.getYInScene(player.getSceneBaseChunkId()) + 6, 2000);
-						player.getPackets().sendCameraLook(player.getXInScene(player.getSceneBaseChunkId()), player.getYInScene(player.getSceneBaseChunkId()) - 1, 50);
-					} else if (tick == 15) {
-						for (NPC wizard : wizards) {
-							if (wizard.getId() == DENATH)
-								delrith.faceEntity(wizard);
-							wizard.faceEntity(delrith);
-						}
-						player.startConversation(new Conversation(player) {
-							{
-								addNPC(DENATH, HeadE.EVIL_LAUGH, "Ha ha ha! At last you are free, my demonic brother! Rest now and then have your revenge on this " + "pitiful city!");
-								addNPC(DENATH, HeadE.EVIL_LAUGH, "We will destroy-");
-								addNPC(DARK_WIZARD7, HeadE.SCARED, "Who's that?", () -> {
-									for (NPC wizard : wizards)
-										wizard.faceTile(Tile.of(spawn.getX() - 4, spawn.getY() + 4, 0));
-									delrith.faceTile(Tile.of(spawn.getX() - 4, spawn.getY() + 4, 0));
-								});
-								addNPC(DENATH, HeadE.SCARED, "Noo! Not Silverlight! Delrith is not ready yet!");
-								addNPC(DENATH, HeadE.SCARED, "I've got to get out of here.", () -> {
-									for (NPC wizard : wizards)
-										if (wizard.getId() == DENATH) {
-											wizard.setCantInteract(true);
-											WorldTasks.schedule(new WorldTask() {
-												@Override
-												public void run() {
-													wizard.finish();
-												}
-											}, Ticks.fromSeconds(13));
-											wizard.setForceWalk(Tile.of(spawn.getX() + 13, spawn.getY(), 0));
-											continue;
-										}
-								});
-								addNext(() -> {
-									tick++;
-								});
-								create();
-							}
-						});
-					} else if (tick == 16) {
-
-					} else if (tick == 18) {
-						player.setNextTile(combatStartTile);
-						player.getPackets().sendResetCamera();
-						player.getAppearance().transformIntoNPC(-1);
-						player.unlock();
-                        ambientMusicOn = true;
-					} else if (tick == 19) {
-						player.setForceMultiArea(true);
-						for (NPC wizard : wizards) {
-							wizard.setRandomWalk(true);
-							wizard.setForceMultiArea(true);
-							wizard.setForceAggroDistance(20);
-							wizard.setTarget(player);
-						}
-						delrith.setRandomWalk(true);
-						delrith.setForceMultiArea(true);
-						delrith.setForceAggroDistance(20);
-						delrith.setTarget(player);
-					} else if (tick == 21) {
-						if (((DelrithBoss) delrith).actuallyDead)
-							tick++;
-					} else if (tick == 24)
-						player.getInterfaceManager().setFadingInterface(115);
-					else if (tick == 26) {
-						player.getPackets().setBlockMinimapState(0);
-						player.setNextTile(locationOnVictory);
-                        ambientMusicOn = false;
-					} else if (tick == 28)
-						player.getInterfaceManager().setFadingInterface(170);
-					else if (tick == 31) {
-						player.getQuestManager().completeQuest(Quest.DEMON_SLAYER);
-						player.sendMessage("Congratulations! Quest complete!");
-						player.getControllerManager().forceStop();
-						player.unlock();
-						stop();
-					}
-					if (tick != 16 && tick != 21)
-						tick++;
-				}
-			}, 0, 1);
-		});
+		getInstance().copyMapAllPlanes(401, 419).thenAccept(b -> player.playCutscene(cs -> {
+			cs.fadeIn(5);
+			cs.action(() -> {
+				getInstance().teleportLocal(player, spawnX, spawnY, 0);
+				player.musicTrack(195);
+				player.getPackets().setBlockMinimapState(2);
+				player.getAppearance().transformIntoNPC(266);
+				cs.setEndTile(Tile.of(cs.getX(endX), cs.getY(endY), 0));
+			});
+			cs.delay(1);
+			cs.camPos(spawnX-4, spawnY+6, 2000);
+			cs.camLook(spawnX, spawnY, 50);
+			cs.delay(1);
+			cs.camPos(spawnX, spawnY+6, 2000, 0, 5);
+			cs.npcCreate("w1", DARK_WIZARD7, spawnX-1, spawnY+2, 0);
+			cs.npcCreate("w2", DARK_WIZARD20, spawnX+2, spawnY+2, 0);
+			cs.npcCreate("w3", DARK_WIZARD20, spawnX-1, spawnY-1, 0);
+			cs.npcCreate("denath", DENATH, spawnX+2, spawnY-1, 0);
+			cs.action(() -> {
+				Stream.of("w1", "w2", "w3", "denath").forEach(label -> {
+					if (!label.equals("denath"))
+						cs.getNPC(label).persistBeyondCutscene();
+					cs.getNPC(label).setRandomWalk(false);
+					cs.getNPC(label).faceTile(Tile.of(cs.getX(spawnX), cs.getY(spawnY), 0));
+				});
+			});
+			cs.fadeOut(5);
+			cs.delay(1);
+			cs.dialogue(new Dialogue().addNPC(DENATH, HeadE.EVIL_LAUGH, "Arise, O mighty Delrith! Bring destruction to this soft weak city!"));
+			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.getNPC(label).anim(SPELL1)));
+			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.getNPC(label).anim(SPELL2)));
+			cs.dialogue(new Dialogue().addNPC(DARK_WIZARD7, HeadE.EVIL_LAUGH, "Arise Delrith!"));
+			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> {
+				cs.getNPC(label).anim(SPELL1);
+				cs.getNPC(label).forceTalk("Arise Delrith!");
+			}));
+			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.getNPC(label).anim(SPELL3)));
+			cs.dialogue(new Dialogue().addSimple("The wizards cast an evil spell..."), 1);
+			cs.camPos(spawnX, spawnY-4, 1500);
+			cs.camLook(spawnX, spawnY+1, 50);
+			cs.camShake(3, 100, 1, 30, 1);
+			cs.npcCreate("delrith", DELRITH, Tile.of(cs.getX(spawnX), cs.getY(spawnY), 0));
+			cs.npcFaceDir("delrith", Direction.SOUTHEAST);
+			cs.npcAnim("delrith", RESURRECT);
+			cs.action(() -> {
+				cs.getNPC("delrith").persistBeyondCutscene();
+				cs.getNPC("delrith").setRandomWalk(false);
+			});
+			cs.delay(1);
+			cs.npcTalk("delrith", "RaawRRgh!");
+			Stream.of("w1", "w2", "w3", "denath").forEach(label -> {
+				cs.npcSpotAnim(label, 108);
+				cs.npcAnim(label, SPELL4);
+			});
+			cs.delay(1);
+			cs.action(() -> player.getVars().setVarBit(2569, 1));
+			cs.camShake(3, 0, 0, 0, 0);
+			cs.camLook(spawnX, spawnY+10, 250, 0, 1);
+			cs.delay(1);
+			cs.npcWalk("delrith", spawnX, spawnY-2);
+			cs.delay(1);
+			cs.camPos(spawnX-4, spawnY+6, 2000);
+			cs.camLook(spawnX, spawnY-1, 50);
+			cs.delay(1);
+			Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.npcFaceNPC(label, "delrith"));
+			cs.dialogue(new Dialogue()
+					.addNPC(DENATH, HeadE.EVIL_LAUGH, "Ha ha ha! At last you are free, my demonic brother! Rest now and then have your revenge on this pitiful city!")
+					.addNPC(DENATH, HeadE.EVIL_LAUGH, "We will destroy-"), true);
+			cs.npcFaceDir("delrith", Direction.NORTHWEST);
+			Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.npcFaceDir(label, Direction.NORTHWEST));
+			cs.dialogue(new Dialogue()
+					.addNPC(DENATH, HeadE.SCARED, "Noo! Not Silverlight! Delrith is not ready yet!")
+					.addNPC(DENATH, HeadE.SCARED, "I've got to get out of here."), true);
+			cs.npcWalk("denath", spawnX+13, spawnY);
+			cs.delay(3);
+			cs.playerMove(endX, endY, Entity.MoveType.TELE);
+			cs.camPosReset();
+			cs.action(() -> player.getAppearance().transformIntoNPC(-1));
+			cs.delay(2);
+			cs.action(() -> {
+				ambientMusicOn = true;
+				player.unlock();
+				player.setForceMultiArea(true);
+				Stream.of("w1", "w2", "w3").forEach(label -> {
+					cs.getNPC(label).setRandomWalk(true);
+					cs.getNPC(label).setForceMultiArea(true);
+					cs.getNPC(label).setForceAggroDistance(20);
+					cs.getNPC(label).setTarget(player);
+				});
+				cs.getNPC("delrith").setRandomWalk(true);
+				cs.getNPC("delrith").setForceMultiArea(true);
+				cs.getNPC("delrith").setForceAggroDistance(20);
+				cs.getNPC("delrith").setTarget(player);
+			});
+		}));
 	}
 
 	@Override
-	public void magicTeleported(int type) {
-		forceClose();
+	public void onDestroyInstance() {
+		player.getPackets().setBlockMinimapState(0);
+		player.setForceMultiArea(false);
+		player.getTempAttribs().setB("FinalDemonSlayerCutscene", false);
+		player.unlock();
 	}
 
 	@Override
@@ -258,38 +196,8 @@ public class PlayerVSDelrithController extends Controller {
 		player.stopAll();
 		player.reset();
 		player.sendMessage("You have been defeated!");
-		player.setNextTile(locationOnDeath);
+		Magic.sendNormalTeleportSpell(player, LOCATION_ON_DEATH);
 		player.getVars().setVarBit(2569, 0);
-		forceClose();
 		return false;
-	}
-
-	@Override
-	public boolean login() {
-		player.setNextTile(locationOnDeath);
-		forceClose();
-		return false;
-	}
-
-	@Override
-	public boolean logout() {
-		removeInstance();
-		player.unlock();
-		return false;
-	}
-
-	@Override
-	public void forceClose() {
-		player.getPackets().setBlockMinimapState(0);
-		player.setForceMultiArea(false);
-		removeInstance();
-		player.getTempAttribs().setB("FinalDemonSlayerCutscene", false);
-		player.unlock();
-		removeController();
-	}
-
-	private void removeInstance() {
-		if (instance != null)
-			instance.destroy();
 	}
 }
