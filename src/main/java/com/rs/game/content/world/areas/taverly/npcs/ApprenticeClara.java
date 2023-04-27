@@ -7,11 +7,14 @@ import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class ApprenticeClara extends Conversation {
     private static final int npcId = 14906;
+
+    public static NPCInteractionDistanceHandler rcShopsDistance = new NPCInteractionDistanceHandler(new Object[] { 14906, 14872 }, (p, n) -> 2);
 
     public ApprenticeClara(Player player) {
         super(player);

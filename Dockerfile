@@ -19,7 +19,7 @@ RUN apt-get install -y \
 		gnupg \
 		gnupg-agent \
 		software-properties-common \
-		openjdk-17-jdk
+		openjdk-19-jdk
 
 # Install Mongodb
 RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
@@ -37,8 +37,8 @@ EXPOSE 27017
 
 # Clone repositories
 RUN mkdir /darkan && cd /darkan && \
-		git clone https://github.com/DarkanRS/cache.git && \
-		git clone https://github.com/DarkanRS/world-server.git
+		git clone https://gitlab.com/darkanrs/cache.git && \
+		git clone https://gitlab.com/darkanrs/world-server.git
 
 RUN cd /darkan/world-server && ./gradlew build
 

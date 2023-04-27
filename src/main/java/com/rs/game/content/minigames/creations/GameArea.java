@@ -125,7 +125,7 @@ public class GameArea {
 	public void create(Runnable callback) {
 		if (region != null)
 			throw new RuntimeException("Area already created.");
-		region = new Instance(flags.length, flags.length);
+		region = Instance.of(Helper.EXIT, flags.length, flags.length);
 		region.requestChunkBound().thenAccept(e -> {
 			List<CompletableFuture<Boolean>> futures = new ObjectArrayList<>();
 			for (int x = 0; x < flags.length; x++) {

@@ -210,7 +210,7 @@ public class DemonSlayer extends QuestOutline {
 			if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(2402) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
 				return;
 			p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
-			p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+			p.getControllerManager().startController(new PlayerVSDelrithController());
 		}
 	});
 

@@ -637,12 +637,6 @@ public abstract class Entity {
 			ChunkManager.updateChunks(this);
 			if (needMapUpdate())
 				loadMapRegions();
-			if (player != null) {
-				if (player.isHasNearbyInstancedChunks())
-					player.setLastNonDynamicTile(Tile.of(lastTile));
-				else
-					player.clearLastNonDynamicTile();
-			}
 			resetWalkSteps();
 			return;
 		}

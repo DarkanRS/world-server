@@ -176,7 +176,7 @@ public final class DominionTower {
 		player.closeInterfaces();
 		player.lock();
 		Instance old = region;
-		region = new Instance(8, 8);
+		region = Instance.of(Tile.of(3744, 6425, 0), 8, 8);
 		region.copyMapAllPlanes(BOSSES[getNextBossIndex()].arena[0], BOSSES[getNextBossIndex()].arena[1]).thenAccept(e -> {
 			teleportToArena(mode);
 			player.unlock();

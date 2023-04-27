@@ -57,7 +57,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
         playing = true;
         fadeInBG(4);
         hideMinimap();
-        dynamicRegion(178, 554, 4, 4);
+        dynamicRegion(player.getTile(), 178, 554, 4, 4);
 
         spawnObj(BOWLOFTRIX_CAULDRON, 0, 14, 23, 0);
         npcCreate("giantwolpertinger", GIANT_WOLPERTINGER, 14, 0, 0);

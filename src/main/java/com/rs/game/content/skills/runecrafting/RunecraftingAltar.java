@@ -408,8 +408,8 @@ public class RunecraftingAltar {
 						}
 					}
 					player.unlock();
+					player.lastEssTele = Tile.of(player.getTile());
 					player.setNextTile(Tile.of(2911, 4832, 0));
-					player.lastEssTele = Tile.of(npc.getTile());
 					return false;
 				}
 			}

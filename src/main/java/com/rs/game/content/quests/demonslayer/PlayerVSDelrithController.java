@@ -35,7 +35,7 @@ import com.rs.utils.Ticks;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 
-public class DemonSlayer_PlayerVSDelrith extends Controller {
+public class PlayerVSDelrithController extends Controller {
 	static final int DELRITH = 879;
 	static final int DARK_WIZARD7 = 8872;
 	static final int DARK_WIZARD20 = 8873;
@@ -79,8 +79,7 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 
 	private void playCutscene() {
 		player.lock();
-
-		instance = new Instance(4, 4);
+		instance = Instance.of(locationOnDeath, 4, 4);
 		instance.copyMapAllPlanes(401, 419).thenAccept(e -> {
 			spawn = instance.getLocalTile(19, 17);
 			combatStartTile = instance.getLocalTile(15, 20);
@@ -274,7 +273,6 @@ public class DemonSlayer_PlayerVSDelrith extends Controller {
 
 	@Override
 	public boolean logout() {
-		player.save("dontTeleFromInstanceOnLogin", true);
 		removeInstance();
 		player.unlock();
 		return false;

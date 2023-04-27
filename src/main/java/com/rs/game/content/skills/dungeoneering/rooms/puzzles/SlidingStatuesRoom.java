@@ -131,8 +131,7 @@ public class SlidingStatuesRoom extends PuzzleRoom {
 			WorldTasks.schedule(0, () -> {
 				WorldCollision.removeFlag(getTile(), ClipFlag.PF_FULL);
 				addWalkSteps(getX() + dx, getY() + dy);
-				player.setNextTile(pTarget);
-				player.forceMove(pTarget, push ? 3065 : 3065, 5, 30, () -> {
+				player.forceMove(pTarget, push ? 3065 : 3065, 0, 30, () -> {
 					WorldCollision.addFlag(getTile(), ClipFlag.PF_FULL);
 					checkComplete();
 				});

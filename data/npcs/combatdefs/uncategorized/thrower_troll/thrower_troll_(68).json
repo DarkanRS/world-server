@@ -29,10 +29,10 @@
     "DEFENSE": 30,
     "MAGE": 0
   },
-  "attackRange": -1,
-  "attackGfx": -1,
+  "attackRange": 8,
+  "attackGfx": 2139,
   "attackProjectile": 1889,
-  "agressivenessType": "PASSIVE",
+  "agressivenessType": "AGGRESSIVE",
   "aggroDistance": 8,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1

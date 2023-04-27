@@ -160,14 +160,5 @@
     },
     "comment": "Corporal Keymans",
     "npcId": 14994
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2894,
-      "y": 3529
-    },
-    "comment": "Corporal Keymans",
-    "npcId": 14994
   }
 ]

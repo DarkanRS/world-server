@@ -328,7 +328,7 @@ public class PlayerCombat extends PlayerAction {
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
 			if (spell.isAOE() && hit)
-				attackTarget(target, getMultiAttackTargets(player, target), new MultiAttack() {
+				attackTarget(target, getMultiAttackTargets(player, target, 1, 9, false), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override
@@ -1414,7 +1414,7 @@ public class PlayerCombat extends PlayerAction {
 					}
 				if (weaponName.contains("battleaxe"))
 					return 395;
-				if (weaponName.contains("staff") || weaponName.contains("wand"))
+				if (weaponName.contains("mindspike") || weaponName.contains("staff") || weaponName.contains("wand"))
 					return 419;
 				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre"))
 					switch (attackStyle.getIndex()) {
@@ -1796,7 +1796,7 @@ public class PlayerCombat extends PlayerAction {
 					return 415;
 				if (weaponName.contains("chaotic staff"))
 					return 13046;
-				if (weaponName.contains("staff"))
+				if (weaponName.contains("mindspike") || weaponName.contains("staff"))
 					return 420;
 				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
 					return 403;
@@ -1841,6 +1841,7 @@ public class PlayerCombat extends PlayerAction {
 		if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
 			p2.sendMessage("Your potion heavily protects you from the dragon's fire.", true);
 			protection = 2;
+			chargeDragonfireShield(target);
 			return protection;
 		}
 		int shieldId = p2.getEquipment().getShieldId();

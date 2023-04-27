@@ -1044,34 +1044,14 @@ public class House {
 	}
 
 	public void teleportPlayer(Player player) {
-		player.setNextTile(getPortal());
-		player.setLastNonDynamicTile(getLocation().getTile());
+		teleportPlayer(player, getPortalRoom());
 	}
 
 	public void teleportPlayer(Player player, RoomReference room) {
-		player.setNextTile(Tile.of(instance.getLocalX(room.x, 3), instance.getLocalY(room.y, 3), room.plane));
-		player.setLastNonDynamicTile(getLocation().getTile());
-	}
-
-	public Tile getPortal() {
-		if (instance == null)
-			throw new RuntimeException("BoundChunks were null so room could not be entered.");
-		for (RoomReference room : roomsR) {
-			if (room == null) {
-				System.err.println("RoomReference 'room' object was null.");
-				continue;
-			}
-			if (room.room == HouseConstants.Room.GARDEN || room.room == HouseConstants.Room.FORMAL_GARDEN)
-				for (ObjectReference o : room.objects) {
-					if (o == null) {
-						System.err.println("ObjectReference instance was null");
-						continue;
-					}
-					if (o.getPiece() == HouseConstants.HObject.EXIT_PORTAL || o.getPiece() == HouseConstants.HObject.EXITPORTAL)
-						return Tile.of(instance.getLocalX(room.x, 3), instance.getLocalY(room.y, 3), room.plane);
-				}
-		}
-		return Tile.of(instance.getLocalX(32), instance.getLocalX(32), 1);
+		if (room == null)
+			player.sendMessage("Error, tried teleporting to room that doesn't exist.");
+		else
+			instance.teleportChunkLocal(player, room.x, 3, room.y, 3, room.plane);
 	}
 
 	public int getPortalCount() {
@@ -1297,7 +1277,7 @@ public class House {
 						}
 		if (instance != null && !instance.isDestroyed())
 			instance.destroy();
-		instance = new Instance(8, 8);
+		instance = Instance.of(getLocation().getTile(), 8, 8);
 		instance.requestChunkBound().thenAccept(e -> {
 			// builds data
 			List<CompletableFuture<Boolean>> regionBuilding = new ObjectArrayList<>();

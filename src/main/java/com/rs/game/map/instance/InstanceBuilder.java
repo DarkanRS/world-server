@@ -29,32 +29,31 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectSets;
 
 public final class InstanceBuilder {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
-
-	private static final Set<Integer> EXISTING_CHUNKS = new HashSet<>();
+	private static final Set<Integer> RESERVED_REGIONS = new HashSet<>();
 
 	private static final int MAX_REGION_X = 127;
 	private static final int MAX_REGION_Y = 255;
 
-	private static void reserveChunks(int fromChunkX, int fromChunkY, int width, int height, boolean remove) {
-		synchronized(EXISTING_CHUNKS) {
-			for (int plane = 0;plane < 4;plane++) {
-				for (int chunkX = fromChunkX; chunkX < fromChunkX + width; chunkX++) {
-					for (int chunkY = fromChunkY; chunkY < fromChunkY + height; chunkY++)
-						if (remove)
-							EXISTING_CHUNKS.remove(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane)); //TODO replace more of these calls with incremental pre-shifted values
-						else
-							EXISTING_CHUNKS.add(MapUtils.encode(Structure.CHUNK, chunkX, chunkY, plane));
-				}
-			}
+	private static void reserveRegions(int fromRegionX, int fromRegionY, int width, int height, boolean remove) {
+		synchronized(RESERVED_REGIONS) {
+			for (int regionX = fromRegionX; regionX < fromRegionX + width; regionX++)
+				for (int regionY = fromRegionY; regionY < fromRegionY + height; regionY++)
+					if (remove)
+						RESERVED_REGIONS.remove(MapUtils.encode(Structure.REGION, regionX, regionY));
+					else
+						RESERVED_REGIONS.add(MapUtils.encode(Structure.REGION, regionX, regionY));
+
 		}
 	}
 
-	private static boolean chunkExists(int chunkId) {
-		synchronized(EXISTING_CHUNKS) {
-			return EXISTING_CHUNKS.contains(chunkId);
+	private static boolean regionReserved(int regionId) {
+		synchronized(RESERVED_REGIONS) {
+			return RESERVED_REGIONS.contains(regionId);
 		}
 	}
 
@@ -103,21 +102,28 @@ public final class InstanceBuilder {
 	}
 
 	private static int findEmptyBaseChunkId(int widthChunks, int heightChunks) {
-		for (int chunkX = 8; chunkX <= MAX_REGION_X - widthChunks; chunkX++) {
-			skip: for (int chunkY = 8; chunkY <= MAX_REGION_Y - heightChunks; chunkY++) {
-				int chunkId = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);
-				for (int checkChunkX = chunkX - 1; checkChunkX <= chunkX + widthChunks; checkChunkX++) {
-					for (int checkChunkY = chunkY - 1; checkChunkY <= chunkY + heightChunks; checkChunkY++) {
-						int checkChunkId = MapUtils.encode(Structure.CHUNK, checkChunkX, checkChunkY, 0);
-						if (chunkExists(checkChunkId))
+		int regionsDistanceX = 1;
+		while (widthChunks > 8) {
+			regionsDistanceX += 1;
+			widthChunks -= 8;
+		}
+		int regionsDistanceY = 1;
+		while (heightChunks > 8) {
+			regionsDistanceY += 1;
+			heightChunks -= 8;
+		}
+		for (int regionX = 1; regionX <= MAX_REGION_X - regionsDistanceX; regionX++)
+			skip: for (int regionY = 1; regionY <= MAX_REGION_Y - regionsDistanceY; regionY++) {
+				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++)
+					for (int checkRegionY = regionY - 1; checkRegionY <= regionY + regionsDistanceY; checkRegionY++) {
+						int regionId = MapUtils.encode(Structure.REGION, checkRegionX, checkRegionY);
+						if (regionReserved(regionId))
 							continue skip;
 
 					}
-				}
-				reserveChunks(chunkX, chunkY, widthChunks, heightChunks, false);
-				return chunkId;
+				reserveRegions(regionX, regionY, regionsDistanceX, regionsDistanceY, false);
+				return MapUtils.encode(Structure.CHUNK, regionX << 3, regionY << 3);
 			}
-		}
 		return -1;
 	}
 
@@ -134,11 +140,24 @@ public final class InstanceBuilder {
 	}
 
 	private static final void destroyMap(int chunkX, int chunkY, int width, int height) {
+		int fromRegionX = chunkX / 8;
+		int fromRegionY = chunkY / 8;
+		int regionsDistanceX = 1;
+		while (width > 8) {
+			regionsDistanceX += 1;
+			width -= 8;
+		}
+		int regionsDistanceY = 1;
+		while (height > 8) {
+			regionsDistanceY += 1;
+			height -= 8;
+		}
+
 		for (int z = 0;z < 4;z++)
 			for (int x = chunkX; x < chunkX + width; x++)
 				for (int y = chunkY; y < chunkY + height; y++)
 					destroyChunk(MapUtils.encode(Structure.CHUNK, x, y, z));
-		reserveChunks(chunkX, chunkY, width, height, true);
+		reserveRegions(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
 	}
 
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, CompletableFuture<Boolean> future) {

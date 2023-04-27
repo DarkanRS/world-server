@@ -284,8 +284,12 @@ public final class ChunkManager {
 
     public static void processChunks() {
         synchronized(CHUNKS) {
-            for (int chunkId : new IntOpenHashSet(ACTIVE_CHUNKS))
-                ChunkManager.getChunk(chunkId).process();
+            try {
+                for (int chunkId : new IntOpenHashSet(ACTIVE_CHUNKS))
+                    ChunkManager.getChunk(chunkId).process();
+            } catch(Throwable e) {
+                Logger.handle(ChunkManager.class, "processChunks", e);
+            }
         }
     }
 

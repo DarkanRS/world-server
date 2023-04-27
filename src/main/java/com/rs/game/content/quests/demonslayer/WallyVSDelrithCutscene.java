@@ -9,15 +9,15 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 
 //TODO: Check Fight Arena, Dragon Slayer, Vampire Slayer, wally vs delrith cutscene, and the rest of the cutscenes
-public class DemonSlayer_WallyVSDelrithCutscene extends Cutscene {
+public class WallyVSDelrithCutscene extends Cutscene {
 	@Override
 	public void construct(Player player) {
 		music(-1);
 		fadeIn(0);
 		hideMinimap();
 		delay(4);
-		dynamicRegion(401, 419, 4, 4);
-		action(()->{player.getAppearance().transformIntoNPC(266);});
+		dynamicRegion(player.getTile(), 401, 419, 4, 4);
+		action(()-> player.getAppearance().transformIntoNPC(266));
 		playerMove(19, 17, 0, Entity.MoveType.TELE);
 		camShake(1, 0, 10, 5, 10);
 		camPos(19, 17, 1300);

@@ -12,7 +12,7 @@ do
   WEB_PATH=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}" | jq -r '.web_url')
 
   # Retrieve the package repository ID using the GitLab API
-  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages" | jq -r 'map(select(.name == "rs/darkan/'${PROJECT_NAME}'")) | max_by(.created_at) .id')
+  PACKAGE_REPOSITORY_ID=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages?order_by=created_at&sort=desc" | jq -r 'map(select(.name == "rs/darkan/'${PROJECT_NAME}'")) | max_by(.created_at) .id')
 
   # Retrieve the latest package repository release using the GitLab API
   LATEST_RELEASE=$(curl -s "${GITLAB_API_URL}/projects/${PROJECT_ID}/packages/${PACKAGE_REPOSITORY_ID}/package_files" | jq -r '. | map(select(.file_name | endswith("-all.jar"))) | max_by(.created_at) | .id')
@@ -23,7 +23,7 @@ do
   # Download the package
   curl -L "${PACKAGE_DOWNLOAD_URL}" > world-server.jar
 
-  echo "Successfully downloaded the latest package release (${LATEST_RELEASE})"
+  echo "Successfully downloaded the latest package release (${PACKAGE_REPOSITORY_ID}/${LATEST_RELEASE})"
   java --enable-preview $DARKAN_JAVA_VM_ARGS -jar world-server.jar com.rs.Launcher >> mainlog.txt
 
   echo "You have 5 seconds to stop the server using Ctrl-C. Server will restart otherwise"

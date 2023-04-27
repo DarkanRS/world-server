@@ -16,11 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicLong;
@@ -101,8 +97,8 @@ import com.rs.lib.util.Utils;
 
 public class DungeonManager {
 
-	private static final Map<Object, DungeonManager> cachedDungeons = Collections.synchronizedMap(new HashMap<Object, DungeonManager>());
-	public static final AtomicLong keyMaker = new AtomicLong();
+	private static final Map<Object, DungeonManager> ACTIVE_DUNGEONS = Collections.synchronizedMap(new HashMap<>());
+	public static final AtomicLong KEY_MAKER = new AtomicLong();
 
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
@@ -500,11 +496,13 @@ public class DungeonManager {
 
 	public void setTableItems(RoomReference room) {
 		addItemToTable(room, new Item(16295)); //novite pickaxe, cuz of boss aswell so 1+
+		addItemToTable(room, new Item(16933)); //antifire shield
 		if (party.getComplexity() >= 2) {
 			addItemToTable(room, new Item(DungeonConstants.RUSTY_COINS, 5000 + Utils.random(10000)));
 			addItemToTable(room, new Item(17678)); //tinderbox
 			addItemToTable(room, new Item(16361)); //novite hatcher
 			addItemToTable(room, new Item(17794)); //fish rods
+			addItemToTable(room, new Item(16933)); //antifire shield
 		}
 		if (party.getComplexity() >= 3) { //set weap/gear in table
 			int rangeTier = DungeonUtils.getTier(party.getMaxLevel(Constants.RANGE));
@@ -760,6 +758,7 @@ public class DungeonManager {
 				if (World.floorAndWallsFree(tile, size))
 					return spawnNPC(id, rotation, tile, reference, type);
 			}
+			return spawnNPC(GuardianMonster.FORGOTTEN_WARRIOR.getNPCIds()[0], rotation, tile, reference, type);
 		}
 		return spawnNPC(id, rotation, tile, reference, type);
 	}
@@ -983,10 +982,9 @@ public class DungeonManager {
 		if (player.getFamiliar() != null)
 			player.getFamiliar().sendDeath(player);
 		if (logout) {
-			player.save("isLoggedOutInDungeon", true);
-			player.getSkills().restoreSkills();
-		}
-		else {
+			player.setTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+			player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+		} else {
 			player.reset();
 			player.getDungManager().setRejoinKey(null);
 			player.useStairs(-1, Tile.of(DungeonConstants.OUTSIDE, 2), 0, 3);
@@ -1000,7 +998,6 @@ public class DungeonManager {
 			player.getMusicsManager().reset();
 			player.getAppearance().setBAS(-1);
 		}
-
 	}
 
 	public void setWorldMap(Player player, boolean dungIcon) {
@@ -1028,7 +1025,7 @@ public class DungeonManager {
 	}
 
 	public void removeDungeon() {
-		cachedDungeons.remove(key);
+		ACTIVE_DUNGEONS.remove(key);
 	}
 
 	public void destroy() {
@@ -1061,7 +1058,7 @@ public class DungeonManager {
 		load();
 	}
 
-	/*
+    /*
 		1 = M.V.P.
 		2 = Leecher
 		3 = Berserker
@@ -1296,26 +1293,26 @@ public class DungeonManager {
 		double roomMod = 1.0;
 		double sizeMod = 1.0;
 		switch(size) {
-		case 0 -> {
-			roomMod = roomsOpened / 16.0;
-		}
-		case 1 -> {
-			roomMod = roomsOpened / 32.0;
-			sizeMod = 2.0;
-		}
-		case 2 -> {
-			roomMod = roomsOpened / 64.0;
-			sizeMod = 3.5;
-		}
+			case 0 -> {
+				roomMod = roomsOpened / 16.0;
+			}
+			case 1 -> {
+				roomMod = roomsOpened / 32.0;
+				sizeMod = 2.0;
+			}
+			case 2 -> {
+				roomMod = roomsOpened / 64.0;
+				sizeMod = 3.5;
+			}
 		}
 		return (int) (baseXP * sizeMod * roomMod);
 	}
-	
+
 	public static void printXP(int floor, int size, int prestige, int roomsOpened) {
 		int baseXp = getFloorXP(floor, size, roomsOpened);
 		int presXp = getFloorXP(prestige, size, roomsOpened);
 		int avgXp = (int) ((baseXp+presXp) / 2);
-		
+
 		Logger.debug(DungeonManager.class, "printXP", "~~~Experience for floor " + floor + " size: " + size + " roomsOpened: " + roomsOpened + "~~~");
 		Logger.debug(DungeonManager.class, "printXP", "Base XP: " + baseXp);
 		Logger.debug(DungeonManager.class, "printXP", "Prestige " + prestige + " XP:" + presXp);
@@ -1459,8 +1456,8 @@ public class DungeonManager {
 	}
 
 	public void setDungeon() {
-		key = party.getLeader() + "_" + keyMaker.getAndIncrement();
-		cachedDungeons.put(key, this);
+		key = party.getLeader() + "_" + KEY_MAKER.getAndIncrement();
+		ACTIVE_DUNGEONS.put(key, this);
 		for (Player player : party.getTeam()) {
 			player.getDungManager().setRejoinKey(key);
 			player.getInterfaceManager().removeOverlay(true);
@@ -1472,8 +1469,7 @@ public class DungeonManager {
 		Object key = player.getDungManager().getRejoinKey();
 		if (key == null)
 			return;
-		DungeonManager dungeon = cachedDungeons.get(key);
-		//either doesnt exit / ur m8s moving next floor(reward screen)
+		DungeonManager dungeon = ACTIVE_DUNGEONS.get(key);
 		if (dungeon == null || !dungeon.hasLoadedNoRewardScreen()) {
 			player.getDungManager().setRejoinKey(null);
 			return;
@@ -1484,13 +1480,12 @@ public class DungeonManager {
 	public void load() {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
-		// slow executor loads dungeon as it may take up to few secs
 		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				instance = new Instance(dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
+				instance = Instance.of(DungeonConstants.OUTSIDE, dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
 				instance.clearMap(new int[1]).thenAccept(e -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());

@@ -587,8 +587,8 @@ public final class Familiar extends NPC {
 	 */
 	public void sendMainConfigs() {
 		owner.getVars().setVar(448, pouch.getId());// configures familiar type
-		owner.getVars().setVar(1174, 0); //refresh familiar head
-		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
+		owner.getVars().setVar(1174, 0, true); //refresh familiar head
+		owner.getVars().setVarBit(4282, pouch.getHeadAnimIndex()); //refresh familiar emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
 		owner.getVars().setVarBit(4288, pouch.getScroll().getPointCost());// check

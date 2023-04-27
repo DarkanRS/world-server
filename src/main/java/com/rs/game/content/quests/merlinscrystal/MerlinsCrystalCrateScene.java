@@ -37,8 +37,8 @@ public class MerlinsCrystalCrateScene extends Controller {
 	@Override
 	public void start() {
 		player.lock();
-		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
-		instance = new Instance(4, 4);
+		locationBeforeCutscene = Tile.of(player.getTile());
+		instance = Instance.of(locationBeforeCutscene, 4, 4);
 		playCutscene();
 	}
 
