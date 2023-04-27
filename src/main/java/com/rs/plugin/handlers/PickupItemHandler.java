@@ -16,10 +16,10 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.lib.game.Tile;
 import com.rs.plugin.events.PickupItemEvent;
+
+import java.util.function.Consumer;
 
 public class PickupItemHandler extends PluginHandler<PickupItemEvent> {
 

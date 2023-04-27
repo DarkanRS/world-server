@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.IFOnPlayerEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.IFOnPlayerEvent;
 
 public class InterfaceOnPlayerHandler extends PluginHandler<IFOnPlayerEvent> {
 	private boolean checkDistance = true;

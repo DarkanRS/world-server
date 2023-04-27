@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public enum DungSmithables {
 	NOVITE_BATTLEAXE(new Item(15753, 1), 5, 25.0, new Item[] { new Item(17650, 2) }),

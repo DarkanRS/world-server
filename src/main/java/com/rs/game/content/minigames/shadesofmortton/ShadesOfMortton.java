@@ -16,14 +16,10 @@
 //
 package com.rs.game.content.minigames.shadesofmortton;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -32,13 +28,12 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.handlers.EnterChunkHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
 import com.rs.utils.Ticks;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class ShadesOfMortton {

@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.combat;
 
+import com.rs.cache.loaders.ItemDefinitions;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.cache.loaders.ItemDefinitions;
 
 @SuppressWarnings("serial")
 public class AttackStyle {

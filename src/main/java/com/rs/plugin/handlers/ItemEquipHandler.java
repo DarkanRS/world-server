@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.ItemEquipEvent;
+
+import java.util.function.Consumer;
 
 public class ItemEquipHandler extends PluginHandler<ItemEquipEvent> {
 	public ItemEquipHandler(Object[] namesOrIds, Consumer<ItemEquipEvent> handler) {

@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.util;
 
-import java.util.Arrays;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
+
+import java.util.Arrays;
 
 public class CreationActionD extends Conversation {
 

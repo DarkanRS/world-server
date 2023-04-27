@@ -1,17 +1,11 @@
 package com.rs.game.content.quests.merlinscrystal;
 
-import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -21,6 +15,12 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
 
 @PluginEventHandler
 public class KeepLaFayeMerlinsCrystalLoc {

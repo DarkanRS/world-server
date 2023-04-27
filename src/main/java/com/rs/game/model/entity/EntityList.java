@@ -16,13 +16,13 @@
 //
 package com.rs.game.model.entity;
 
-import java.util.AbstractCollection;
-import java.util.Iterator;
-
 import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.AbstractCollection;
+import java.util.Iterator;
 
 public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public Object[] entities;

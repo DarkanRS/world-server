@@ -16,10 +16,12 @@
 //
 package com.rs.game.content.tutorialisland;
 
-import java.util.function.Consumer;
-
 import com.rs.Settings;
-import com.rs.cache.loaders.map.Region;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.dialogue.statements.OptionStatement;
 import com.rs.game.World;
 import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;
@@ -31,11 +33,6 @@ import com.rs.game.content.skills.smithing.Smelting;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.statements.NPCStatement;
-import com.rs.engine.dialogue.statements.OptionStatement;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Hit;
@@ -54,6 +51,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public final class TutorialIslandController extends Controller {

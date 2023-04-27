@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.events;
 
-import java.util.List;
-
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.List;
 
 public interface PluginEvent {
 

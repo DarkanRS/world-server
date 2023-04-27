@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.skills.fishing;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public enum Fish {
     CRAYFISH(13435, 1, 10, 60, 180),

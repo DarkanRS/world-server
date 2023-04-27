@@ -18,15 +18,7 @@ package com.rs.game.content.bosses.godwars.zaros;
 
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.Nex.Phase;
-import com.rs.game.content.bosses.godwars.zaros.attack.BloodSacrifice;
-import com.rs.game.content.bosses.godwars.zaros.attack.ContainThis;
-import com.rs.game.content.bosses.godwars.zaros.attack.Drag;
-import com.rs.game.content.bosses.godwars.zaros.attack.EmbraceDarkness;
-import com.rs.game.content.bosses.godwars.zaros.attack.IcePrison;
-import com.rs.game.content.bosses.godwars.zaros.attack.NoEscape;
-import com.rs.game.content.bosses.godwars.zaros.attack.ShadowTraps;
-import com.rs.game.content.bosses.godwars.zaros.attack.Siphon;
-import com.rs.game.content.bosses.godwars.zaros.attack.Virus;
+import com.rs.game.content.bosses.godwars.zaros.attack.*;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;

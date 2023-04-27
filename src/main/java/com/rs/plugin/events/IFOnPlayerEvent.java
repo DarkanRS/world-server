@@ -16,12 +16,12 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class IFOnPlayerEvent implements PluginEvent {
 

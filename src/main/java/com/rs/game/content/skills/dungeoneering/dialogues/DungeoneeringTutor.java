@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.dialogues;
 
-import com.rs.game.content.minigames.treasuretrails.Ugi;
-import com.rs.game.content.minigames.treasuretrails.UgiDialogue;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;

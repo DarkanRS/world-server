@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.world;
 
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+
+import java.util.Map;
 
 public class RestMusician extends PlayerAction {
 

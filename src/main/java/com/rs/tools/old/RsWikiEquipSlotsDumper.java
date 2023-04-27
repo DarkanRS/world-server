@@ -16,15 +16,15 @@
 //
 package com.rs.tools.old;
 
+import com.rs.lib.game.Item;
+import com.rs.tools.old.RsWikiEquipSlotsDumper.EquipSlot.SlotType;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.rs.lib.game.Item;
-import com.rs.tools.old.RsWikiEquipSlotsDumper.EquipSlot.SlotType;
 
 public class RsWikiEquipSlotsDumper {
 

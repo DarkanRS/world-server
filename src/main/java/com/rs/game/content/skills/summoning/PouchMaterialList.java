@@ -1,9 +1,9 @@
 package com.rs.game.content.skills.summoning;
 
+import com.rs.lib.game.Item;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.lib.game.Item;
 
 public enum PouchMaterialList {
 	SPIRIT_TERRORBIRD_POUCH(12007, new Item[] { new Item(12183, 12), new Item(12158, 1), new Item(12155, 1), new Item(9978, 1) }),

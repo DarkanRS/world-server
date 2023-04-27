@@ -16,11 +16,7 @@
 //
 package com.rs.game.content.skills.prayer.cremation;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public enum PyreLog {
 	NORMAL(5, 50, 1511, 3438, 2, 30468, 30478, 4094, 4100, Corpse.LOAR, Corpse.PHRIN),

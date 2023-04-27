@@ -1,8 +1,5 @@
 package com.rs.game.content.quests.heroesquest.dialogues;
 
-import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
-import static com.rs.game.content.quests.heroesquest.HeroesQuest.QUEST_COMPLETE;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -10,6 +7,9 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
+import static com.rs.game.content.quests.heroesquest.HeroesQuest.QUEST_COMPLETE;
 
 @PluginEventHandler
 public class KatrineHeroesQuestD extends Conversation {

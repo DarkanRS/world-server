@@ -16,12 +16,12 @@
 //
 package com.rs.tools.old;
 
+import com.rs.cache.loaders.ItemDefinitions;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import com.rs.cache.loaders.ItemDefinitions;
 
 public class DumpItemRenderIds {
 

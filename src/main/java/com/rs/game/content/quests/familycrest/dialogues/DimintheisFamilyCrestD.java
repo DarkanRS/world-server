@@ -1,18 +1,5 @@
 package com.rs.game.content.quests.familycrest.dialogues;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_CREST;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.NOT_STARTED;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.QUEST_COMPLETE;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_AVAN;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_BOOT;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_CALEB;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.meetsRequirements;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -22,6 +9,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
 
 @PluginEventHandler
 public class DimintheisFamilyCrestD extends Conversation {

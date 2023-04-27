@@ -16,12 +16,6 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-
-import com.rs.Settings;
-import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
@@ -36,6 +30,10 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public class Foods {

@@ -18,14 +18,11 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class Drag implements NexAttack {

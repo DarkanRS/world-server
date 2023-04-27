@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.achievements;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.model.entity.player.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum SetReward {
 	KARAMJA_GLOVES(Area.KARAMJA, new Difficulty[] { Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.ELITE }, new int[] { 11136, 11138, 11140, 19754 }),

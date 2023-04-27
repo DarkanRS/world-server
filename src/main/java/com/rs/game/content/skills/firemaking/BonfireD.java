@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.firemaking;
 
-import java.util.Arrays;
-
-import com.rs.game.content.skills.firemaking.Bonfire.Log;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.content.skills.firemaking.Bonfire.Log;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
+
+import java.util.Arrays;
 
 public class BonfireD extends Conversation {
 	public BonfireD(Player player, GameObject object, Log[] logs) {

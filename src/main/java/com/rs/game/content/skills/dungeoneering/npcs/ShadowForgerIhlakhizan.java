@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.List;
-
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -30,6 +28,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public final class ShadowForgerIhlakhizan extends DungeonBoss {
 

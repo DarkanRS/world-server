@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.ItemAddedToInventoryEvent;
+
+import java.util.function.Consumer;
 
 public class ItemAddedToInventoryHandler extends PluginHandler<ItemAddedToInventoryEvent> {
 	public ItemAddedToInventoryHandler(Object[] namesOrIds, Consumer<ItemAddedToInventoryEvent> handler) {

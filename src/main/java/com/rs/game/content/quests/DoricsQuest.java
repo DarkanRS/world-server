@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
-import com.rs.game.content.skills.smithing.ForgingInterface;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -26,11 +23,14 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.content.skills.smithing.ForgingInterface;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DORICS_QUEST)
 @PluginEventHandler

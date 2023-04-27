@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests.dwarfcannon;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.PlayerStatement;
@@ -37,6 +35,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DWARF_CANNON)
 @PluginEventHandler

@@ -16,16 +16,16 @@
 //
 package com.rs.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gson.JsonIOException;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.utils.drop.DropEntry;
 import com.rs.utils.drop.DropSet;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VerifyDrops {
 

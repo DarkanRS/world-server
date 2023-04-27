@@ -17,6 +17,10 @@
 package com.rs.game.content.minigames.wguild;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.game.World;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.AttackType;
@@ -25,10 +29,6 @@ import com.rs.game.content.combat.XPType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.ShotputD;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;

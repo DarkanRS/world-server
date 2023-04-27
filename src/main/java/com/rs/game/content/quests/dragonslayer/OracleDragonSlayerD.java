@@ -1,14 +1,14 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ORACLE_DOOR_KNOWLEDGE_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ORACLE_DOOR_KNOWLEDGE_ATTR;
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
 
 @PluginEventHandler
 public class OracleDragonSlayerD extends Conversation {

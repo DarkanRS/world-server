@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.skills.herblore;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
@@ -30,6 +26,10 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @PluginEventHandler
 public class Herblore extends PlayerAction {

@@ -16,9 +16,6 @@
 //
 package com.rs.game.model.entity.player.social;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.FriendsChat.Rank;
 import com.rs.lib.net.ClientPacket;
@@ -27,6 +24,9 @@ import com.rs.lib.web.dto.FCData;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class FCManager {

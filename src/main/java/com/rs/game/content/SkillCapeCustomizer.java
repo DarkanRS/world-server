@@ -16,12 +16,12 @@
 //
 package com.rs.game.content;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.Arrays;
 
 @PluginEventHandler
 public class SkillCapeCustomizer {

@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests.demonslayer;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -27,12 +25,10 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.EnterChunkHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler

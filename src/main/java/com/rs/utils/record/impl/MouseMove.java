@@ -1,10 +1,10 @@
 package com.rs.utils.record.impl;
 
-import java.util.List;
-
 import com.rs.lib.net.packets.decoders.mouse.MouseTrailStep;
 import com.rs.lib.net.packets.decoders.mouse.MouseTrailStep.Type;
 import com.rs.utils.record.RecordedAction;
+
+import java.util.List;
 
 public class MouseMove extends RecordedAction {
 	

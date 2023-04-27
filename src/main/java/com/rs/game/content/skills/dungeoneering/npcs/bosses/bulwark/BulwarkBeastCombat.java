@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.bulwark;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.bosses.kalphitequeen.KalphiteQueenCombat;
 import com.rs.game.model.entity.Entity;
@@ -33,6 +30,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BulwarkBeastCombat extends CombatScript {
 

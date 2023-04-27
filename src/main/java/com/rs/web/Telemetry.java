@@ -16,16 +16,15 @@
 //
 package com.rs.web;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.lib.web.APIUtil;
 import com.rs.lib.web.Route;
-
 import io.undertow.server.RoutingHandler;
 import io.undertow.util.StatusCodes;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Telemetry implements Route {
 

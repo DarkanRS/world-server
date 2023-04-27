@@ -16,8 +16,6 @@
 //
 package com.rs.game.model;
 
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
@@ -26,6 +24,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Projectile;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.function.Consumer;
 
 public class WorldProjectile extends Projectile {
 

@@ -16,9 +16,9 @@
 //
 package com.rs.engine.miniquest;
 
-import java.util.ArrayList;
-
 import com.rs.game.model.entity.player.Player;
+
+import java.util.ArrayList;
 
 public abstract class MiniquestOutline {
 

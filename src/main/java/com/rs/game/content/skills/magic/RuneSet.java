@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.magic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RuneSet {
 

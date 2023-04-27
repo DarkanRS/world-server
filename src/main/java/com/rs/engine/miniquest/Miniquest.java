@@ -16,16 +16,16 @@
 //
 package com.rs.engine.miniquest;
 
+import com.rs.engine.quest.Quest;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.util.Utils;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-
-import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.Skills;
-import com.rs.lib.util.Utils;
 
 public enum Miniquest {
 	ENTER_THE_ABYSS("Enter the Abyss", new Quest[] { Quest.RUNE_MYSTERIES }, null, null),

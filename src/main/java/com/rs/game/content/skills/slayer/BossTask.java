@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.slayer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BossTask {
 

@@ -16,14 +16,13 @@
 //
 package com.rs.game.tasks;
 
+import com.rs.lib.util.Logger;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
-
-import com.rs.lib.util.Logger;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class WorldTasks {
 

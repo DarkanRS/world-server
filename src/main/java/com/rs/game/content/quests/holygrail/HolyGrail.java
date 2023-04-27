@@ -1,15 +1,13 @@
 package com.rs.game.content.quests.holygrail;
 
-import java.util.ArrayList;
-
-import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestManager;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -17,11 +15,9 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PickupItemHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.handlers.*;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.HOLY_GRAIL)
 @PluginEventHandler

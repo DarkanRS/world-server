@@ -1,12 +1,9 @@
 package com.rs.game.content.quests.clocktower;
 
-import static com.rs.game.content.world.doors.Doors.handleGate;
-import static com.rs.game.content.world.doors.Doors.handleInPlaceSingleDoor;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -15,6 +12,9 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.content.world.doors.Doors.handleGate;
+import static com.rs.game.content.world.doors.Doors.handleInPlaceSingleDoor;
 
 @PluginEventHandler
 public class ClockTowerDungeon {

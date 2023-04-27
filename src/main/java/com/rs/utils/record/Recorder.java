@@ -1,20 +1,14 @@
 package com.rs.utils.record;
 
-import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
 import com.rs.utils.record.impl.ClickHW;
 import com.rs.utils.record.impl.MouseMove;
+
+import java.util.AbstractMap.SimpleEntry;
+import java.util.*;
 
 public class Recorder {	
 	private Player player;

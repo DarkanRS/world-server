@@ -16,10 +16,6 @@
 //
 package com.rs.engine.quest;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.engine.quest.data.QuestInformation;
@@ -28,6 +24,10 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class QuestManager {

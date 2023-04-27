@@ -1,11 +1,7 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
-import java.time.Instant;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.map.Region;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.EggHunt.Spawns;
 import com.rs.game.model.entity.npc.NPC;
@@ -16,6 +12,9 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
+
+import java.time.Instant;
+import java.util.concurrent.atomic.AtomicLong;
 
 @PluginEventHandler
 public class Easter2022 {

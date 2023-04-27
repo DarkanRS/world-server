@@ -1,21 +1,8 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.BLUE_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.GREEN_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.LESSER_DEMON_GREEN_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MAGENTA_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MAP_PART1;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MELZAR_MAZE_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MELZAR_THE_MAD_MEGENTA_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ORANGE_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.RED_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.YELLOW_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ZOMBIE_BLUE_KEY;
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
@@ -25,6 +12,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class MelzarsMaze {

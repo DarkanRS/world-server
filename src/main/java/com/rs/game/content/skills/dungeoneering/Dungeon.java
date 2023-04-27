@@ -16,17 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.io.IOException;
-import java.util.List;
-import java.util.Random;
-
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -36,6 +25,12 @@ import com.rs.game.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("unused")
 public final class Dungeon {

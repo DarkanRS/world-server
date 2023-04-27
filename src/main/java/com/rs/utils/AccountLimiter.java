@@ -16,12 +16,8 @@
 //
 package com.rs.utils;
 
-import com.rs.game.World;
-
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class AccountLimiter {
 

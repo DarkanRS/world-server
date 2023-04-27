@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.commands.admin;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.cache.ArchiveType;
@@ -30,6 +26,9 @@ import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.engine.command.Commands;
+import com.rs.engine.cutscene.ExampleCutscene;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
@@ -44,9 +43,6 @@ import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.command.Commands;
-import com.rs.engine.cutscene.ExampleCutscene;
-import com.rs.engine.quest.Quest;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit;
@@ -64,11 +60,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.packets.decoders.ReflectionCheckResponse.ResponseCode;
 import com.rs.lib.net.packets.encoders.HintTrail;
@@ -90,6 +82,10 @@ import com.rs.utils.reflect.ReflectionTest;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @PluginEventHandler
 public class MiscTest {

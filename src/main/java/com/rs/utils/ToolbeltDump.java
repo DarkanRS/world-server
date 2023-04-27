@@ -16,10 +16,10 @@
 //
 package com.rs.utils;
 
-import java.io.IOException;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
+
+import java.io.IOException;
 
 public class ToolbeltDump {
 

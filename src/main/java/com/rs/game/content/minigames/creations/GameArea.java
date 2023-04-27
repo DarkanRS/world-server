@@ -16,19 +16,18 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.model.object.GameObject;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import jdk.incubator.concurrent.StructuredTaskScope;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author mgi125, the almighty

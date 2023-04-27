@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars.zaros.attack;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
@@ -33,6 +30,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class ShadowTraps implements NexAttack {
 

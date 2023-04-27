@@ -16,15 +16,15 @@
 //
 package com.rs.game.ge;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Sets {

@@ -16,13 +16,13 @@
 //
 package com.rs.game.model.entity.pathing;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.lib.game.Tile;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public final class DumbRouteFinder {
 

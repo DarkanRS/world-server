@@ -16,16 +16,16 @@
 //
 package com.rs.game.content.skills.prayer.cremation;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.WeightedSet;
 import com.rs.utils.drop.WeightedTable;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum Corpse {
 	LOAR(new int[] { 3396 }, 35,

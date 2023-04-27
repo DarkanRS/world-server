@@ -1,7 +1,5 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -12,6 +10,8 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class LuthasPiratesTreasureD extends Conversation {

@@ -16,13 +16,13 @@
 //
 package com.rs.utils;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.lib.game.Item;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 
 public class DumpItemConfigs {
 

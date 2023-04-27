@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.items.liquid_containers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.world.unorganized_dialogue.FillingD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -26,6 +23,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class FillAction extends PlayerAction {

@@ -16,19 +16,14 @@
 //
 package com.rs.tools.old;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class NPCCombatConverter {
 

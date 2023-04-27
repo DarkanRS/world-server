@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.fletching;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fletching extends PlayerAction {
 

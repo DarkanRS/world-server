@@ -16,9 +16,6 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Equipment;
@@ -32,6 +29,9 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.XPGainHandler;
 import com.rs.utils.Millis;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class AuraManager {

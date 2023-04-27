@@ -16,16 +16,16 @@
 //
 package com.rs.tools.old;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.gson.JsonIOException;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.spawns.NPCSpawn;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpawnFormatChanger {
 

@@ -16,16 +16,16 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 public class InterfaceManager {
 

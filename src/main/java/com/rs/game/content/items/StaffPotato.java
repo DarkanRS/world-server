@@ -1,8 +1,6 @@
 package com.rs.game.content.items;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.function.Consumer;
-
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
@@ -10,9 +8,7 @@ import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.cooking.Foods;
-import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -22,6 +18,9 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public class StaffPotato {

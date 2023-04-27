@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.IFOnNPCEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.IFOnNPCEvent;
 
 public class InterfaceOnNPCHandler extends PluginHandler<IFOnNPCEvent> {
 	private boolean checkDistance = true;

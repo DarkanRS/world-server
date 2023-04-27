@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.agility;
 
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;

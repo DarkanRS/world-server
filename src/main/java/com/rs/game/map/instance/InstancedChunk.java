@@ -17,7 +17,6 @@
 package com.rs.game.map.instance;
 
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;

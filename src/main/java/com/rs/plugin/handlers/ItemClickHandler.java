@@ -16,12 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.ItemClickEvent;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.ItemClickEvent;
 
 public class ItemClickHandler extends PluginHandler<ItemClickEvent> {
 	private Set<String> options;

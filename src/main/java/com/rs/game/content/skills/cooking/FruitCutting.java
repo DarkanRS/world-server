@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FruitCutting extends PlayerAction {
 

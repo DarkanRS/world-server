@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
@@ -34,6 +31,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LexicusRunewright extends DungeonBoss {
 

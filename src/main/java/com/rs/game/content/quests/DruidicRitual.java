@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -26,6 +24,8 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.DRUIDIC_RITUAL)
 @PluginEventHandler

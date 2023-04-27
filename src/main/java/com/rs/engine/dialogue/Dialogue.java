@@ -16,25 +16,19 @@
 //
 package com.rs.engine.dialogue;
 
+import com.rs.engine.dialogue.statements.*;
+import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
+import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-
-import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
-import com.rs.engine.dialogue.statements.ItemStatement;
-import com.rs.engine.dialogue.statements.MakeXStatement;
-import com.rs.engine.dialogue.statements.NPCStatement;
-import com.rs.engine.dialogue.statements.OptionStatement;
-import com.rs.engine.dialogue.statements.PlayerStatement;
-import com.rs.engine.dialogue.statements.SimpleStatement;
-import com.rs.engine.dialogue.statements.Statement;
-import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
-import com.rs.lib.util.Utils;
 
 public class Dialogue {
 

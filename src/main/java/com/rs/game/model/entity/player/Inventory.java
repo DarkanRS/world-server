@@ -16,11 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
@@ -49,6 +44,11 @@ import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.ItemConfig;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @PluginEventHandler
 public final class Inventory {

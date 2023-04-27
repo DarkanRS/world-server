@@ -16,14 +16,14 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.pathing.WalkStep;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.PlayerStepHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayerStepEvent implements PluginEvent {
 

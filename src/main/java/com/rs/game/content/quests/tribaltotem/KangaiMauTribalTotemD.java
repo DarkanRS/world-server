@@ -1,12 +1,5 @@
 package com.rs.game.content.quests.tribaltotem;
 
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.GET_TOTEM;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.NOT_STARTED;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.QUEST_COMPLETE;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.TALK_TO_WIZARD;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.TOTEM;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -17,6 +10,8 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.tribaltotem.TribalTotem.*;
 
 @PluginEventHandler
 public class KangaiMauTribalTotemD extends Conversation {

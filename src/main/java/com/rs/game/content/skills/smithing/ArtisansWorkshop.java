@@ -16,20 +16,20 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /* INTERFACE 825 */
 /* INTERFACE 1070 */

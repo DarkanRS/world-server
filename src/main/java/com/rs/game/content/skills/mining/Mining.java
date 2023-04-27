@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.mining;
 
-import java.util.function.Supplier;
-
-import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
@@ -32,6 +29,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.function.Supplier;
 
 @PluginEventHandler
 public class Mining extends Action {

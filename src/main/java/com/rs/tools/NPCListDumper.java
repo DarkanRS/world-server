@@ -16,13 +16,13 @@
 //
 package com.rs.tools;
 
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.lib.util.Utils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.lib.util.Utils;
 
 public class NPCListDumper {
 

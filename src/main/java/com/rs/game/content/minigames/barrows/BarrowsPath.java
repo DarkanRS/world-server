@@ -15,12 +15,13 @@
 //  This file is part of project: Darkan
 //
 package com.rs.game.content.minigames.barrows;
-import java.util.ArrayList;
 
 import com.rs.game.content.minigames.barrows.BarrowsRoom.RoomType;
 import com.rs.game.content.minigames.barrows.Link.RoomStatus;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
+
+import java.util.ArrayList;
 
 public class BarrowsPath {
 

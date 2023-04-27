@@ -19,7 +19,6 @@ package com.rs.game.content.quests.demonslayer;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;

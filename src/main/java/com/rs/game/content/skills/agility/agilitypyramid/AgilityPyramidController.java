@@ -17,14 +17,14 @@
 package com.rs.game.content.skills.agility.agilitypyramid;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.World;
-import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.unorganized_dialogue.SimonTempletonD;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.ItemStatement;
 import com.rs.engine.dialogue.statements.PlayerStatement;
+import com.rs.game.World;
+import com.rs.game.content.skills.agility.Agility;
+import com.rs.game.content.world.unorganized_dialogue.SimonTempletonD;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

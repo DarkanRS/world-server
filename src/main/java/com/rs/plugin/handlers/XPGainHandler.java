@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.XPGainEvent;
+
+import java.util.function.Consumer;
 
 public class XPGainHandler extends PluginHandler<XPGainEvent> {
 	public XPGainHandler(Consumer<XPGainEvent> handler) {

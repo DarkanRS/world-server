@@ -16,10 +16,6 @@
 //
 package com.rs.engine.thread;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
 import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.game.World;
@@ -34,7 +30,10 @@ import com.rs.lib.util.Utils;
 import com.rs.lib.web.APIUtil;
 import com.rs.utils.Timer;
 import com.rs.web.Telemetry;
-import org.json.simple.JSONObject;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 public final class WorldThread extends Thread {
 

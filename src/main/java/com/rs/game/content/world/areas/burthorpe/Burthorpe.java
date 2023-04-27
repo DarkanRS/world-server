@@ -16,20 +16,18 @@
 //
 package com.rs.game.content.world.areas.burthorpe;
 
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
-import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @PluginEventHandler
 public class Burthorpe {

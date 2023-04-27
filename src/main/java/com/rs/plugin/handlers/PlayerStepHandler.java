@@ -16,12 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.lib.game.Tile;
+import com.rs.plugin.events.PlayerStepEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import com.rs.lib.game.Tile;
-import com.rs.plugin.events.PlayerStepEvent;
 
 public class PlayerStepHandler extends PluginHandler<PlayerStepEvent> {
 

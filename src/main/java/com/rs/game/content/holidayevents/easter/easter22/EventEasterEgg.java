@@ -1,9 +1,9 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.npcs.EasterChick;
-import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;

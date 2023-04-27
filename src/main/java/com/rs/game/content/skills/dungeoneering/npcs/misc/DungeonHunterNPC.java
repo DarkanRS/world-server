@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.misc;
 
-import java.util.List;
-
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.npcs.MastyxTrap;
@@ -28,6 +26,8 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class DungeonHunterNPC extends DungeonNPC {
 

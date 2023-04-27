@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.hunter.tracking;
 
+import com.rs.lib.game.Tile;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.rs.lib.game.Tile;
 
 public class Burrow {
 

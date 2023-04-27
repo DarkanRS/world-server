@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.slayer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class SlayerTaskManager {
 	private TaskMonster lastMonster = TaskMonster.ABYSSAL_DEMONS;

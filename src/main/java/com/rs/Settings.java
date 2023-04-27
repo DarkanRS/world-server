@@ -16,21 +16,21 @@
 //
 package com.rs;
 
+import com.google.common.net.PercentEscaper;
+import com.google.gson.JsonIOException;
+import com.rs.lib.Globals;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldInfo;
+import com.rs.lib.util.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
-import com.google.common.net.PercentEscaper;
-import com.google.gson.JsonIOException;
-import com.rs.lib.Globals;
-import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldInfo;
-import com.rs.lib.game.Tile;
-import com.rs.lib.util.Logger;
 
 public final class Settings {
 

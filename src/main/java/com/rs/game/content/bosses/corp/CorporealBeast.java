@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.corp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -32,6 +29,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class CorporealBeast extends NPC {

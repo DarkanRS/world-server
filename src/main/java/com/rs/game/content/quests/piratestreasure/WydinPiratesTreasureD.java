@@ -1,8 +1,5 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -15,6 +12,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class WydinPiratesTreasureD extends Conversation {

@@ -28,8 +28,6 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
-import java.util.Arrays;
-
 public class ReturnTheFlowRoom extends PuzzleRoom {
 
 	//private static final int[] PEDESTAL =

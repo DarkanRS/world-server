@@ -16,13 +16,6 @@
 //
 package com.rs.game.content.quests.princealirescue;
 
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BEER;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BLONDE_WIG;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BRONZE_KEY;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PINK_SKIRT;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.ROPE;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -31,6 +24,8 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.*;
 
 @PluginEventHandler
 public class LeelaPrinceAliRescueD extends Conversation {

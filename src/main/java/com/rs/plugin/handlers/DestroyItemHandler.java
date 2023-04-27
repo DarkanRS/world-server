@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.DestroyItemEvent;
+
+import java.util.function.Consumer;
 
 public class DestroyItemHandler extends PluginHandler<DestroyItemEvent> {
 	public DestroyItemHandler(Object[] namesOrIds, Consumer<DestroyItemEvent> handler) {

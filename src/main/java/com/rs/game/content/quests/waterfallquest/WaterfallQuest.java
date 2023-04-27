@@ -16,12 +16,10 @@
 //
 package com.rs.game.content.quests.waterfallquest;
 
-import java.util.ArrayList;
-
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -33,6 +31,8 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.WATERFALL_QUEST)
 @PluginEventHandler

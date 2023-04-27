@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.BiFunction;
-
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
+
+import java.util.function.BiFunction;
 
 public class NPCInteractionDistanceHandler extends PluginHandler<NPCInteractionDistanceEvent> {
 	

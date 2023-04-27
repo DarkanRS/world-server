@@ -1,11 +1,9 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import java.util.ArrayList;
-
-import com.rs.game.World;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -18,6 +16,8 @@ import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.PIRATES_TREASURE)
 @PluginEventHandler

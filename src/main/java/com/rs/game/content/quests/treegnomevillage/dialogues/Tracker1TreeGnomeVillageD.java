@@ -1,20 +1,13 @@
 package com.rs.game.content.quests.treegnomevillage.dialogues;
 
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.FIRE_BALLISTA;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.GET_WOOD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.KILL_WARLORD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.NOT_STARTED;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.ORB1;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST_COMPLETE;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.*;
 
 @PluginEventHandler
 public class Tracker1TreeGnomeVillageD extends Conversation {

@@ -1,15 +1,15 @@
 package com.rs.game.content.quests.heroesquest.dialogues;
 
-import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
-
-import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
 
 @PluginEventHandler
 public class TrobertHeroesQuestD extends Conversation {

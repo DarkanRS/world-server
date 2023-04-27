@@ -16,11 +16,11 @@
 //
 package com.rs.engine.dialogue.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.MakeXStatement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MakeXActionD extends Dialogue {
 

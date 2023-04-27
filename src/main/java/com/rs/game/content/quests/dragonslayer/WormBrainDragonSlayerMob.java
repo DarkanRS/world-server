@@ -1,15 +1,11 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MAP_PART2;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.WORM_BRAIN;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -18,6 +14,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class WormBrainDragonSlayerMob extends Conversation {

@@ -1,11 +1,8 @@
 package com.rs.game.content.skills.hunter.falconry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -15,6 +12,9 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class Matthias extends NPC {

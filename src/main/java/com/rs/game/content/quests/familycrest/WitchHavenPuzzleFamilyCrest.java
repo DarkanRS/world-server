@@ -1,13 +1,12 @@
 package com.rs.game.content.quests.familycrest;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 /**
  * Puzzle remake from this picture: https://gyazo.com/305b717ded771ca352b7cb50d51a91b8

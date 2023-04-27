@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.prayer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -27,6 +24,9 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Burying {
 

@@ -24,7 +24,6 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.ObjectOp;
-import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.ObjectHandler;
 
 public class ObjectOptionHandler implements PacketHandler<Player, ObjectOp> {

@@ -16,13 +16,13 @@
 //
 package com.rs.tools.old;
 
+import com.rs.cache.loaders.NPCDefinitions;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
-
-import com.rs.cache.loaders.NPCDefinitions;
 
 public class RuneWikiNPCDefinitionsDumper {
 

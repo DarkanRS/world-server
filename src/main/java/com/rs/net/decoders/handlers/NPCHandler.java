@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.Skillcapes;
@@ -39,7 +40,6 @@ import com.rs.game.content.transportation.TravelMethods.Carrier;
 import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.engine.quest.Quest;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.npc.NPC;

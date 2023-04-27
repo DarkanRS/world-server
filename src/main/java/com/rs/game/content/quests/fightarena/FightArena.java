@@ -1,9 +1,5 @@
 package com.rs.game.content.quests.fightarena;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -17,6 +13,10 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.FIGHT_ARENA)
 @PluginEventHandler

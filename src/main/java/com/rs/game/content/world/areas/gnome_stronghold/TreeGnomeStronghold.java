@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.areas.gnome_stronghold;
 
-import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;

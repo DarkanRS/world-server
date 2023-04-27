@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.minigames.ectofuntus;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.content.skills.agility.Agility;
@@ -31,6 +28,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Ectofuntus {

@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests.templeofikov;
 
-import java.util.ArrayList;
-
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -25,6 +23,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import java.util.ArrayList;
 
 
 @QuestHandler(Quest.TEMPLE_OF_IKOV)

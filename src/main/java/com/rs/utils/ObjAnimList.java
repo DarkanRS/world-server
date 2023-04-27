@@ -16,18 +16,18 @@
 //
 package com.rs.utils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.cache.loaders.BASDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.SpotAnimDefinitions;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ObjAnimList {
 

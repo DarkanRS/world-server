@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.combat;
 
-import com.rs.game.content.skills.magic.Rune;
 import com.rs.engine.dialogue.Conversation;
+import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;

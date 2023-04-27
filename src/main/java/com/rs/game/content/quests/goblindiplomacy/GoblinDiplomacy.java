@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests.goblindiplomacy;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -33,6 +31,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.GOBLIN_DIPLOMACY)
 @PluginEventHandler

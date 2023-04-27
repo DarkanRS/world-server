@@ -16,10 +16,10 @@
 //
 package com.rs.game.model.entity;
 
+import com.rs.game.model.entity.player.Player;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.game.model.entity.player.Player;
 
 public final class Hit {
 

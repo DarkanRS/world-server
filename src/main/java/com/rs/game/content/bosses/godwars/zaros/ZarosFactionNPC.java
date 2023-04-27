@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars.zaros;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
@@ -27,6 +24,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class ZarosFactionNPC extends NPC {

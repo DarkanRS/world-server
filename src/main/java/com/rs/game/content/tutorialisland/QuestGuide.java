@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.tutorialisland;
 
-import com.rs.game.content.tutorialisland.TutorialIslandController.Stage;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.game.content.tutorialisland.TutorialIslandController.Stage;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 

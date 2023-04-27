@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -30,6 +28,8 @@ import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
 
 @QuestHandler(Quest.IMP_CATCHER)
 @PluginEventHandler
