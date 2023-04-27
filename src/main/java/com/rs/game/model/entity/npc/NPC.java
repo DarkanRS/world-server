@@ -1391,4 +1391,12 @@ public class NPC extends Entity {
 	public boolean isLoadsUpdateZones() {
 		return loadsUpdateZones;
 	}
+
+    public void persistBeyondCutscene() {
+		getTempAttribs().setB("persistBeyondCutscene", true);
+    }
+
+	public boolean persistsBeyondCutscene() {
+		return getTempAttribs().getB("persistBeyondCutscene");
+	}
 }

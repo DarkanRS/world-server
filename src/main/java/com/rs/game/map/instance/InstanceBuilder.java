@@ -128,6 +128,10 @@ public final class InstanceBuilder {
 	}
 
 	static final void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
+		if (ref.getChunkBase() == null) {
+			future.complete(true);
+			return;
+		}
 		LowPriorityTaskExecutor.schedule(() -> {
 			try {
 				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
