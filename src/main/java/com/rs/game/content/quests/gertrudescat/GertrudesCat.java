@@ -34,6 +34,7 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.GERTRUDES_CAT)
 @PluginEventHandler
@@ -52,7 +53,7 @@ public class GertrudesCat extends QuestOutline {
 	 * based on the stage the player is on.
 	 */
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:

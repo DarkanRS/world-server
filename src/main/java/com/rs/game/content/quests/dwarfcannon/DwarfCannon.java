@@ -37,6 +37,7 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DWARF_CANNON)
 @PluginEventHandler
@@ -54,7 +55,7 @@ public class DwarfCannon extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:

@@ -30,6 +30,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.IMP_CATCHER)
 @PluginEventHandler
@@ -47,7 +48,7 @@ public class ImpCatcher extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:

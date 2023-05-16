@@ -33,6 +33,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.GOBLIN_DIPLOMACY)
 @PluginEventHandler
@@ -54,7 +55,7 @@ public class GoblinDiplomacy extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:

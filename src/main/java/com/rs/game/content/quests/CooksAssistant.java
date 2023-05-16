@@ -28,6 +28,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.COOKS_ASSISTANT)
 @PluginEventHandler
@@ -39,7 +40,7 @@ public class CooksAssistant extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:

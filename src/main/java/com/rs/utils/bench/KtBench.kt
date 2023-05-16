@@ -7,9 +7,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 fun main() {
-    for (i in 0..50) {
+    for (i in 0..50)
         runCoroutineTest()
-    }
     println("JVM heated up. Starting...");
 
     var results: MutableList<Double> = mutableListOf();
@@ -26,7 +25,7 @@ fun main() {
 fun runCoroutineTest() {
     Cache.init("../cache/");
     runBlocking {
-        (0 until 1000).map { i ->
+        (0 until 1000).map { _ ->
             launch {
                 RouteFinder.find(2888, 3452, 0, 1, FixedTileStrategy(2917, 3524), true)
             }

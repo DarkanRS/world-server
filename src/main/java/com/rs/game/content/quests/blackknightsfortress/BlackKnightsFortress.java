@@ -24,10 +24,7 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
@@ -67,7 +64,7 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED:

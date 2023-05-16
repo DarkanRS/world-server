@@ -25,6 +25,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.VAMPYRE_SLAYER)
 @PluginEventHandler
@@ -44,7 +45,7 @@ public class VampireSlayer extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

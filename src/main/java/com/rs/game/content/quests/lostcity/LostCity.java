@@ -14,6 +14,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.LOST_CITY)
 @PluginEventHandler
@@ -45,7 +46,7 @@ public class LostCity extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

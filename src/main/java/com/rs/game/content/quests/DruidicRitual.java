@@ -26,6 +26,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DRUIDIC_RITUAL)
 @PluginEventHandler
@@ -46,7 +47,7 @@ public class DruidicRitual extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:

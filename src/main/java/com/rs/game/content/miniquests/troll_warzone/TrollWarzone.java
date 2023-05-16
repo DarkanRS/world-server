@@ -8,6 +8,7 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @MiniquestHandler(Miniquest.TROLL_WARZONE)
 @PluginEventHandler
@@ -18,7 +19,7 @@ public class TrollWarzone extends MiniquestOutline {
     }
 
     @Override
-    public ArrayList<String> getJournalLines(Player player, int stage) {
+    public List<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<>();
         switch (stage) {
             case 0 -> {

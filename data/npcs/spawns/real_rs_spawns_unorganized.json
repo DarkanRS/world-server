@@ -36613,6 +36613,42 @@
     "npcId": 13935
   },
   {
+    "comment": "Mercenary leader",
+    "npcId": 14237,
+    "tile": {
+      "x": 2975,
+      "y": 3424,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Mercenary warrior",
+    "npcId": 14240,
+    "tile": {
+      "x": 2973,
+      "y": 3424,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Mercenary ranger",
+    "npcId": 14242,
+    "tile": {
+      "x": 2974,
+      "y": 3424,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Mercenary mage",
+    "npcId": 14244,
+    "tile": {
+      "x": 2972,
+      "y": 3424,
+      "plane": 0
+    }
+  },
+  {
     "tile": {
       "plane": 1,
       "x": 2906,

@@ -22,6 +22,7 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
@@ -55,7 +56,7 @@ public class WitchsHouse extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

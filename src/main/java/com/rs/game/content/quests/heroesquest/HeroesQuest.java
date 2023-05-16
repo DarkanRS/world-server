@@ -19,6 +19,7 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.HEROES_QUEST)
 @PluginEventHandler
@@ -34,7 +35,7 @@ public class HeroesQuest extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {

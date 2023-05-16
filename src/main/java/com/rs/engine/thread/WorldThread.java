@@ -153,7 +153,7 @@ public final class WorldThread extends Thread {
 			long time = (System.currentTimeMillis() - startTime);
 			Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 			Telemetry.queueTelemetryTick(time);
-			if (time > 250l && Settings.getConfig().getStaffWebhookUrl() != null) {
+			if (time > 500l && Settings.getConfig().getStaffWebhookUrl() != null) {
 				StringBuilder content = new StringBuilder();
 				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
 				content.append("```\n");

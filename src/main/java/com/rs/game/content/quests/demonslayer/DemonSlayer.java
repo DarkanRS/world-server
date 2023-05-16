@@ -29,6 +29,7 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler
@@ -50,7 +51,7 @@ public class DemonSlayer extends QuestOutline {
 		return QUEST_COMPLETE_STAGE;
 	}
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED_STAGE:

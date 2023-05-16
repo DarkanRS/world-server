@@ -19,6 +19,7 @@ import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.MERLINS_CRYSTAL)
 @PluginEventHandler
@@ -44,7 +45,7 @@ public class MerlinsCrystal extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
