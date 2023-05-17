@@ -1,13 +1,10 @@
 package com.rs.game.content.quests.wolfwhistle;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import com.rs.game.World;
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
@@ -16,6 +13,9 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class WolfWhistleWellCutscene extends Cutscene {
 

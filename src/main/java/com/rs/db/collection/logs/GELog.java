@@ -1,11 +1,11 @@
 package com.rs.db.collection.logs;
 
-import java.util.Objects;
-import java.util.UUID;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
+
+import java.util.Objects;
+import java.util.UUID;
 
 public class GELog {
 	private String uuid;

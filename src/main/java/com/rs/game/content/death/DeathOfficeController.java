@@ -16,28 +16,22 @@
 //
 package com.rs.game.content.death;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.player.Controller;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DeathOfficeController extends InstancedController {
 	

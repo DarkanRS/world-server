@@ -16,14 +16,14 @@
 //
 package com.rs.engine.quest.data;
 
-import java.util.HashMap;
-import java.util.HashSet;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Tile;
+
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class QuestInformationParser {
 

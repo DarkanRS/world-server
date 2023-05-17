@@ -1,11 +1,5 @@
 package com.rs.game.content.skills.dungeoneering;
 
-import static com.rs.game.model.entity.npc.combat.CombatScript.delayHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit;
-
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -18,6 +12,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.model.entity.npc.combat.CombatScript.*;
 
 public class FamiliarSpecs {
 	public static int snaringWave(Player owner, Familiar familiar, Entity target, int tier) {

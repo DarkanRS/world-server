@@ -16,12 +16,11 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -32,7 +31,6 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
-import com.rs.utils.WorldUtil;
 
 public class ColouredRecessRoom extends PuzzleRoom {
 

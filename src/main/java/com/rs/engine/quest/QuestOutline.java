@@ -16,9 +16,10 @@
 //
 package com.rs.engine.quest;
 
-import java.util.ArrayList;
-
 import com.rs.game.model.entity.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class QuestOutline {
 
@@ -27,6 +28,6 @@ public abstract class QuestOutline {
 	}
 
 	public abstract int getCompletedStage();
-	public abstract ArrayList<String> getJournalLines(Player player, int stage);
+	public abstract List<String> getJournalLines(Player player, int stage);
 	public abstract void complete(Player player);
 }

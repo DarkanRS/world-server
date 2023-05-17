@@ -16,12 +16,6 @@
 //
 package com.rs.game.content.quests.witchshouse;
 
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.BALL;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.BOY;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.FIND_BALL;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.NOT_STARTED;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.QUEST_COMPLETE;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -31,6 +25,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.witchshouse.WitchsHouse.*;
 
 @PluginEventHandler
 public class BoyWitchsHouseD extends Conversation {

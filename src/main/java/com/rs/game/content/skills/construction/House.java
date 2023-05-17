@@ -16,27 +16,18 @@
 //
 package com.rs.game.content.skills.construction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.World;
-import com.rs.game.content.pets.Pets;
-import com.rs.game.content.skills.construction.HouseConstants.Builds;
-import com.rs.game.content.skills.construction.HouseConstants.HObject;
-import com.rs.game.content.skills.construction.HouseConstants.POHLocation;
-import com.rs.game.content.skills.construction.HouseConstants.Room;
-import com.rs.game.content.skills.construction.HouseConstants.Servant;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.Statement;
+import com.rs.game.World;
+import com.rs.game.content.pets.Pets;
+import com.rs.game.content.skills.construction.HouseConstants.*;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -44,7 +35,6 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -60,6 +50,12 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @PluginEventHandler
 public class House {

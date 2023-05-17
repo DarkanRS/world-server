@@ -1,8 +1,8 @@
 package com.rs.game.content.items;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

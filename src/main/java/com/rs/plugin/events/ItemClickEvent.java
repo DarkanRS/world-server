@@ -16,13 +16,13 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ItemClickEvent implements PluginEvent {
 

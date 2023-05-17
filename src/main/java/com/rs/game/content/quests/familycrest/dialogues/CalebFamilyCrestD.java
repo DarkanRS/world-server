@@ -1,7 +1,5 @@
 package com.rs.game.content.quests.familycrest.dialogues;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -11,6 +9,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
 
 @PluginEventHandler
 public class CalebFamilyCrestD extends Conversation {

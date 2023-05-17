@@ -16,14 +16,14 @@
 //
 package com.rs.tools.old;
 
-import java.io.IOException;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
+
+import java.io.IOException;
 
 public class LocationFinder {
 

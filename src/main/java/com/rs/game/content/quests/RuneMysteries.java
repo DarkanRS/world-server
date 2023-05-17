@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
-import com.rs.game.World;
-import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -27,6 +23,8 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
+import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -36,6 +34,9 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.RUNE_MYSTERIES)
 @PluginEventHandler
@@ -48,7 +49,7 @@ public class RuneMysteries extends QuestOutline {
 		return 4;
 	}
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:

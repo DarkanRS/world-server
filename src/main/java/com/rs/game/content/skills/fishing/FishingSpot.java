@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.fishing;
 
+import com.rs.lib.game.Animation;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.rs.lib.game.Animation;
 
 public enum FishingSpot {
 

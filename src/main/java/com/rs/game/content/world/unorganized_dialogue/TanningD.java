@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.world.unorganized_dialogue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.model.entity.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TanningD extends Conversation {
 	

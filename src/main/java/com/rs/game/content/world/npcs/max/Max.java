@@ -1,19 +1,8 @@
 package com.rs.game.content.world.npcs.max;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.db.WorldDB;
-import com.rs.game.World;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskAlch;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskCook;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskFM;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskFarm;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskSmith;
-import com.rs.game.content.world.npcs.max.tasks.MaxTaskWC;
-import com.rs.game.content.world.npcs.max.tasks.Task;
+import com.rs.game.content.world.npcs.max.tasks.*;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
@@ -23,9 +12,12 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @PluginEventHandler
 public class Max extends NPC {

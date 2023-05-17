@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Hit;
@@ -29,6 +25,10 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Represents the Queen Black Dragon's fire wall attack.

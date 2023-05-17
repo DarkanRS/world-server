@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.world.areas.pollnivneach;
 
-import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;

@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.thieving;
 
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.world.doors.Doors;

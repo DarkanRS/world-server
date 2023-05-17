@@ -16,24 +16,19 @@
 //
 package com.rs.game.content.holidayevents.halloween.hw09;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.World;
-import com.rs.game.content.world.unorganized_dialogue.DestroyItem;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
+import com.rs.game.content.world.unorganized_dialogue.DestroyItem;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -43,6 +38,11 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 @PluginEventHandler
 public class Halloween2009 {

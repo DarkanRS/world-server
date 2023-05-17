@@ -16,11 +16,11 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
+
+import java.util.Map;
 
 public class DialogueAction extends CutsceneAction {
 	

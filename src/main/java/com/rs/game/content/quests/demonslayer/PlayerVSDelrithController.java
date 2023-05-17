@@ -16,33 +16,18 @@
 //
 package com.rs.game.content.quests.demonslayer;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Stream;
-
-import com.rs.engine.cutscene.Cutscene;
 import com.rs.engine.dialogue.Dialogue;
-import com.rs.game.World;
-import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.InstancedController;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
-import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.utils.Ticks;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
+
+import java.util.stream.Stream;
 
 public class PlayerVSDelrithController extends InstancedController {
 	private static final Tile LOCATION_ON_DEATH = Tile.of(3211, 3382, 0);
@@ -159,6 +144,7 @@ public class PlayerVSDelrithController extends InstancedController {
 			cs.dialogue(new Dialogue()
 					.addNPC(DENATH, HeadE.SCARED, "Noo! Not Silverlight! Delrith is not ready yet!")
 					.addNPC(DENATH, HeadE.SCARED, "I've got to get out of here."), true);
+			cs.npcFaceNPC("denath", null);
 			cs.npcWalk("denath", spawnX+13, spawnY);
 			cs.delay(3);
 			cs.playerMove(endX, endY, Entity.MoveType.TELE);

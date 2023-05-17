@@ -1,11 +1,11 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
-import com.rs.game.World;
-import com.rs.game.content.Effect;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
+import com.rs.game.content.Effect;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

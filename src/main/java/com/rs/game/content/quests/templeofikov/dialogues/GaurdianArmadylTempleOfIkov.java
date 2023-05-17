@@ -1,7 +1,5 @@
 package com.rs.game.content.quests.templeofikov.dialogues;
 
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.HELP_LUCIEN;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -13,6 +11,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.templeofikov.TempleOfIkov.HELP_LUCIEN;
 
 @PluginEventHandler
 public class GaurdianArmadylTempleOfIkov extends Conversation {

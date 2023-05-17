@@ -16,12 +16,10 @@
 //
 package com.rs.game.content.quests.waterfallquest;
 
-import java.util.ArrayList;
-
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -34,6 +32,9 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @QuestHandler(Quest.WATERFALL_QUEST)
 @PluginEventHandler
 public class WaterfallQuest extends QuestOutline {
@@ -44,7 +45,7 @@ public class WaterfallQuest extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:

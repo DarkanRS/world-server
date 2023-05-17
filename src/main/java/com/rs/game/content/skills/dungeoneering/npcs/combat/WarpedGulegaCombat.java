@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.WarpedGulega;
 import com.rs.game.model.entity.Entity;
@@ -33,6 +30,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class WarpedGulegaCombat extends CombatScript {
 

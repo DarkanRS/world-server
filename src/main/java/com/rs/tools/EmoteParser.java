@@ -16,10 +16,10 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
+
+import java.io.IOException;
 
 public class EmoteParser {
 

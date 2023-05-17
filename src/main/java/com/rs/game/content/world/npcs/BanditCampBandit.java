@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.world.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.bosses.godwars.saradomin.SaradominFactionNPC;
 import com.rs.game.content.bosses.godwars.zamorak.ZamorakFactionNPC;
 import com.rs.game.model.entity.Entity;
@@ -28,6 +25,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class BanditCampBandit extends NPC {

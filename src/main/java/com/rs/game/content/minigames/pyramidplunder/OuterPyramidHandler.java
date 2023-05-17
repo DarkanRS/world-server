@@ -1,9 +1,5 @@
 package com.rs.game.content.minigames.pyramidplunder;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -15,6 +11,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @PluginEventHandler
 public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one region.

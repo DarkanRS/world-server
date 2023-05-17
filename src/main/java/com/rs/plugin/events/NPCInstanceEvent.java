@@ -16,13 +16,13 @@
 //
 package com.rs.plugin.events;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class NPCInstanceEvent implements PluginEvent {
 

@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.world.npcs;
 
-import java.util.Random;
-
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
+
+import java.util.Random;
 
 public class Wolverine extends NPC {
 

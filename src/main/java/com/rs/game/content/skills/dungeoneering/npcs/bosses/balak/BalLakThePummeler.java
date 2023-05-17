@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.balak;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
@@ -31,6 +28,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class BalLakThePummeler extends DungeonBoss {
 

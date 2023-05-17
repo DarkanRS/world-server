@@ -16,20 +16,15 @@
 //
 package com.rs.game.content.combat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
@@ -54,6 +49,10 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @PluginEventHandler
 public class PlayerCombat extends PlayerAction {

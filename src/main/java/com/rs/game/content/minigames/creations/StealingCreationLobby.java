@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StealingCreationLobby {
 

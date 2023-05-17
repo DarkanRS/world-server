@@ -16,10 +16,6 @@
 //
 package com.rs.game.content;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -39,6 +35,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.utils.Ticks;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public class Potions {

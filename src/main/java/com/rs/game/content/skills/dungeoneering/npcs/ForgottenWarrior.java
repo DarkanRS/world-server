@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
@@ -26,6 +24,8 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
 
 public class ForgottenWarrior extends Guardian {
 

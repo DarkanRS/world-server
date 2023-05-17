@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
@@ -36,6 +33,9 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the Queen Black Dragon.

@@ -16,8 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.List;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
@@ -41,6 +39,8 @@ import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemConfig;
+
+import java.util.List;
 
 @PluginEventHandler
 public final class Equipment {

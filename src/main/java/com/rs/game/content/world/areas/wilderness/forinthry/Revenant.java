@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.world.areas.wilderness.forinthry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -32,6 +29,9 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class Revenant extends NPC {

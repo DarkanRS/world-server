@@ -16,19 +16,16 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
-import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
+
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public final class LocalNPCUpdate {
 

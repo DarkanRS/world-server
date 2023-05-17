@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.combat;
 
-import java.util.Map;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
+
+import java.util.Map;
 
 public final class CombatDefinitions {
 	

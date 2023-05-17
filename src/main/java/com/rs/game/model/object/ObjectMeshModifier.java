@@ -16,9 +16,9 @@
 //
 package com.rs.game.model.object;
 
-import java.util.Arrays;
-
 import com.rs.lib.util.Logger;
+
+import java.util.Arrays;
 
 public class ObjectMeshModifier {
 	

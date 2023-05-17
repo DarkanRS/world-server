@@ -16,27 +16,23 @@
 //
 package com.rs.game.content.world.areas.karamja;
 
-import com.rs.game.World;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.quests.dragonslayer.DragonSlayer;
-import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.ForceMovement;
+import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.quests.dragonslayer.DragonSlayer;
+import com.rs.game.content.skills.agility.Agility;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;

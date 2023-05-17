@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum BoxHunterType {
 

@@ -1,12 +1,5 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.CHEST_KEY;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.GET_TREASURE;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.NOT_STARTED;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.REDBEARD;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.RUM;
-import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.SMUGGLE_RUM;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -15,6 +8,8 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.piratestreasure.PiratesTreasure.*;
 
 @PluginEventHandler
 public class RedbeardFrankPiratesTreasureD extends Conversation {

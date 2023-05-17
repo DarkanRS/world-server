@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.model.entity.player.Player;
 
 public class FruitCuttingD extends Conversation {

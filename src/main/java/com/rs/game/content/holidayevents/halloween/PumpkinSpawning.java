@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.holidayevents.halloween;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
@@ -34,6 +32,8 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.List;
 
 @PluginEventHandler
 public class PumpkinSpawning {

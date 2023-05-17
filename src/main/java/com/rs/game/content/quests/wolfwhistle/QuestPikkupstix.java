@@ -1,11 +1,11 @@
 package com.rs.game.content.quests.wolfwhistle;
 
-import com.rs.game.content.world.npcs.Pikkupstix;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.world.npcs.Pikkupstix;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;

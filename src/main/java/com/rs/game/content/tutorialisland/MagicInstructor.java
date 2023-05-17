@@ -17,18 +17,13 @@
 package com.rs.game.content.tutorialisland;
 
 import com.rs.Settings;
-import com.rs.game.World;
-import com.rs.game.content.achievements.Achievement;
-import com.rs.game.content.tutorialisland.TutorialIslandController.Stage;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.statements.ItemStatement;
-import com.rs.engine.dialogue.statements.LegacyItemStatement;
-import com.rs.engine.dialogue.statements.NPCStatement;
-import com.rs.engine.dialogue.statements.OptionStatement;
-import com.rs.engine.dialogue.statements.PlayerStatement;
-import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.engine.dialogue.statements.*;
+import com.rs.game.World;
+import com.rs.game.content.achievements.Achievement;
+import com.rs.game.content.tutorialisland.TutorialIslandController.Stage;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;

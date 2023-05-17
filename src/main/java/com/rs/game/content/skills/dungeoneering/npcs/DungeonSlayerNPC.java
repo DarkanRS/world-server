@@ -16,12 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
@@ -32,6 +26,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.*;
 
 public class DungeonSlayerNPC extends DungeonNPC {
 

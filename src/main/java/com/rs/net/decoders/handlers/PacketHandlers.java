@@ -16,15 +16,6 @@
 //
 package com.rs.net.decoders.handlers;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketDecoder;
@@ -34,6 +25,11 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
+import java.util.*;
 
 @PluginEventHandler
 public class PacketHandlers {

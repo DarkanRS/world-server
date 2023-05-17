@@ -20,8 +20,6 @@ import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.NexArena;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.unorganized_dialogue.NexEntrance;
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;

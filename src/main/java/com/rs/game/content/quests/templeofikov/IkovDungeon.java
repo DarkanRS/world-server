@@ -1,15 +1,12 @@
 package com.rs.game.content.quests.templeofikov;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
-import com.rs.game.World;
-import com.rs.game.content.quests.templeofikov.dialogues.GaurdianArmadylTempleOfIkov;
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
+import com.rs.game.content.quests.templeofikov.dialogues.GaurdianArmadylTempleOfIkov;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -20,13 +17,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PickupItemHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @PluginEventHandler
 public class IkovDungeon {

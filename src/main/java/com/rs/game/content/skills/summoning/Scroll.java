@@ -16,19 +16,6 @@
 //
 package com.rs.game.content.skills.summoning;
 
-import static com.rs.game.model.entity.npc.combat.CombatScript.delayHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
@@ -64,6 +51,10 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
+
+import java.util.*;
+
+import static com.rs.game.model.entity.npc.combat.CombatScript.*;
 
 public enum Scroll {
 	/**

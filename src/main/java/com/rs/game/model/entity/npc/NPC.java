@@ -16,12 +16,6 @@
 //
 package com.rs.game.model.entity.npc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
@@ -69,6 +63,12 @@ import com.rs.utils.NPCClueDrops;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class NPC extends Entity {
 

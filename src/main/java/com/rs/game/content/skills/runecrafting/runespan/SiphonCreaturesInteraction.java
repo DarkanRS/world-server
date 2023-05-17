@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.runecrafting.runespan;
 
-import java.util.Arrays;
-
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -25,6 +23,8 @@ import com.rs.game.model.entity.player.interactions.PlayerEntityInteractionActio
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.Arrays;
 
 @PluginEventHandler
 public class SiphonCreaturesInteraction extends PlayerEntityInteractionAction<SiphonAction> {

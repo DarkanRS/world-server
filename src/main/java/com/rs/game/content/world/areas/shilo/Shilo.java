@@ -17,13 +17,11 @@
 package com.rs.game.content.world.areas.shilo;
 
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 

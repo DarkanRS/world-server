@@ -16,14 +16,14 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-import java.util.HashMap;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.Store;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.util.HashMap;
 
 public class ItemDefReplacer {
 

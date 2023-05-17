@@ -16,32 +16,19 @@
 //
 package com.rs.tools.old;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
-import javax.swing.JFrame;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
-import com.rs.cache.loaders.MapSpriteDefinitions;
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cache.loaders.OverlayDefinitions;
-import com.rs.cache.loaders.SpriteDefinitions;
-import com.rs.cache.loaders.TextureDefinitions;
-import com.rs.cache.loaders.UnderlayDefinitions;
+import com.rs.cache.loaders.*;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 public class MapGenerator extends JFrame implements MouseListener, MouseMotionListener, MouseWheelListener {
 

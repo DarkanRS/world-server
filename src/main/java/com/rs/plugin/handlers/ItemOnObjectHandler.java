@@ -16,10 +16,10 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.lib.game.Tile;
 import com.rs.plugin.events.ItemOnObjectEvent;
+
+import java.util.function.Consumer;
 
 public class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
 

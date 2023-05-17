@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.skills.summoning;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.common.collect.Streams;
 import com.rs.game.World;
 import com.rs.game.content.combat.XPType;
@@ -32,6 +28,10 @@ import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Pouch {
 	/**

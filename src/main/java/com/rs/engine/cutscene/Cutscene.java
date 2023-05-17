@@ -16,28 +16,28 @@
 //
 package com.rs.engine.cutscene;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.World;
 import com.rs.engine.cutscene.actions.*;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.World;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class Cutscene {
 	private Player player;
@@ -304,6 +304,8 @@ public abstract class Cutscene {
 	}
 	
 	public NPC getNPC(String key) {
+		if (key == null)
+			return null;
 		if (objects.get(key) != null)
 			return (NPC) objects.get(key);
 		return null;

@@ -16,8 +16,6 @@
 //
 package com.rs.engine;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
@@ -32,6 +30,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemConfig;
 import com.rs.utils.shop.ShopItem;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @PluginEventHandler
 public class Shop {

@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.asteafrostweb;
 
-import java.util.List;
-
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -31,6 +29,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class AsteaFrostwebCombat extends CombatScript {
 

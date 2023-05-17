@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.minigames.herblorehabitat;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.lib.Constants;
@@ -29,6 +26,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public enum HabitatFeature {

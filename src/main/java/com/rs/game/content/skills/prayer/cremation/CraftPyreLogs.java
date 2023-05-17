@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.prayer.cremation;
 
-import com.rs.game.content.Potions;
 import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.game.content.Potions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;

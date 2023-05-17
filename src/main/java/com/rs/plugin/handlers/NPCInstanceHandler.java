@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.BiFunction;
-
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.events.NPCInstanceEvent;
+
+import java.util.function.BiFunction;
 
 public class NPCInstanceHandler extends PluginHandler<NPCInstanceEvent> {
 	

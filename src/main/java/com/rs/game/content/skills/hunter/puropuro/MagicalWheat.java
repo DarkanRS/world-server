@@ -4,8 +4,6 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.map.ChunkManager;
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;

@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.slayer;
 
-import java.util.HashMap;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.engine.quest.Quest;
+
+import java.util.HashMap;
 
 public enum TaskMonster {
 	MONKEYS(1, 1, "monkey"),

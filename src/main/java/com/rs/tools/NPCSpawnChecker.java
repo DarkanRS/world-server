@@ -16,11 +16,11 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+
+import java.io.IOException;
 
 public class NPCSpawnChecker {
 

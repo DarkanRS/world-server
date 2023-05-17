@@ -16,16 +16,12 @@
 //
 package com.rs.game.content.minigames.fightcaves.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+
+import java.util.List;
 
 public class FightCavesNPC extends NPC {
 

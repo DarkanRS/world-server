@@ -17,7 +17,6 @@
 package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;

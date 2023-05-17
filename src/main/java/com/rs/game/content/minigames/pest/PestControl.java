@@ -16,26 +16,22 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.minigames.pest.npcs.PestMonsters;
-import com.rs.game.content.minigames.pest.npcs.PestPortal;
-import com.rs.game.content.minigames.pest.npcs.Shifter;
-import com.rs.game.content.minigames.pest.npcs.Spinner;
-import com.rs.game.content.minigames.pest.npcs.Splatter;
+import com.rs.game.content.minigames.pest.npcs.*;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PestControl {
 

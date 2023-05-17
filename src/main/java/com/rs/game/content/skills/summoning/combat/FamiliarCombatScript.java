@@ -1,7 +1,5 @@
 package com.rs.game.content.skills.summoning.combat;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -14,6 +12,8 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+
+import java.util.Arrays;
 
 public class FamiliarCombatScript extends CombatScript {
 	

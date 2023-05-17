@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.herblore;
 
+import com.rs.lib.game.Item;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.lib.game.Item;
 
 public enum CraftablePotion {
 

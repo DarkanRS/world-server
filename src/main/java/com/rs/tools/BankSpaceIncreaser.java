@@ -16,8 +16,6 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
@@ -25,6 +23,8 @@ import com.rs.cache.loaders.InventoryDefinitions;
 import com.rs.cache.loaders.cs2.CS2Definitions;
 import com.rs.cache.loaders.cs2.CS2Script;
 import com.rs.game.model.entity.player.Bank;
+
+import java.io.IOException;
 
 public class BankSpaceIncreaser {
 

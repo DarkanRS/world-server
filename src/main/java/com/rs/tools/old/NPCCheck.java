@@ -16,10 +16,10 @@
 //
 package com.rs.tools.old;
 
+import com.rs.cache.loaders.ItemDefinitions;
+
 import java.io.IOException;
 import java.util.Arrays;
-
-import com.rs.cache.loaders.ItemDefinitions;
 
 public class NPCCheck {
 

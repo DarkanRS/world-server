@@ -16,9 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.security.MessageDigest;
-import java.util.Arrays;
-
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
@@ -26,6 +23,8 @@ import com.rs.game.model.entity.HitBar;
 import com.rs.lib.Constants;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
+
+import java.security.MessageDigest;
 
 public final class LocalPlayerUpdate {
 

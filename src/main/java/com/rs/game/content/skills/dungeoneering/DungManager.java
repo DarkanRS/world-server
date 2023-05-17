@@ -16,19 +16,10 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonDifficulty;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonLeaveParty;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonPartyStart;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonSize;
-import com.rs.game.content.skills.dungeoneering.dialogues.PrestigeReset;
+import com.rs.game.content.skills.dungeoneering.dialogues.*;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -43,6 +34,11 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class DungManager {

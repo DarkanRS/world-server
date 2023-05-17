@@ -16,10 +16,6 @@
 //
 package com.rs.net;
 
-import java.io.IOException;
-import java.util.concurrent.ExecutionException;
-import java.util.function.Consumer;
-
 import com.rs.Settings;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.model.Account;
@@ -31,6 +27,10 @@ import com.rs.lib.web.dto.LoginRequest;
 import com.rs.lib.web.dto.PacketDto;
 import com.rs.lib.web.dto.UpdateFC;
 import com.rs.lib.web.dto.WorldPlayerAction;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 
 public class LobbyCommunicator {
 

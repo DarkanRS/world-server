@@ -16,11 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -32,37 +27,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.MapRoomIcon;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.SkillDoors;
-import com.rs.game.content.skills.dungeoneering.npcs.DivineSkinweaver;
-import com.rs.game.content.skills.dungeoneering.npcs.Dreadnaut;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonSkeletonBoss;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonSlayerNPC;
-import com.rs.game.content.skills.dungeoneering.npcs.FleshspoilerHaasghenahk;
-import com.rs.game.content.skills.dungeoneering.npcs.ForgottenWarrior;
-import com.rs.game.content.skills.dungeoneering.npcs.GluttonousBehemoth;
-import com.rs.game.content.skills.dungeoneering.npcs.Gravecreeper;
-import com.rs.game.content.skills.dungeoneering.npcs.Guardian;
-import com.rs.game.content.skills.dungeoneering.npcs.HobgoblinGeomancer;
-import com.rs.game.content.skills.dungeoneering.npcs.HopeDevourer;
-import com.rs.game.content.skills.dungeoneering.npcs.IcyBones;
-import com.rs.game.content.skills.dungeoneering.npcs.KalGerWarmonger;
-import com.rs.game.content.skills.dungeoneering.npcs.LakkTheRiftSplitter;
-import com.rs.game.content.skills.dungeoneering.npcs.LexicusRunewright;
-import com.rs.game.content.skills.dungeoneering.npcs.LuminscentIcefiend;
-import com.rs.game.content.skills.dungeoneering.npcs.MastyxTrap;
-import com.rs.game.content.skills.dungeoneering.npcs.NecroLord;
-import com.rs.game.content.skills.dungeoneering.npcs.NightGazerKhighorahk;
-import com.rs.game.content.skills.dungeoneering.npcs.Rammernaut;
-import com.rs.game.content.skills.dungeoneering.npcs.RuneboundBehemoth;
-import com.rs.game.content.skills.dungeoneering.npcs.Sagittare;
-import com.rs.game.content.skills.dungeoneering.npcs.ShadowForgerIhlakhizan;
-import com.rs.game.content.skills.dungeoneering.npcs.SkeletalAdventurer;
-import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
-import com.rs.game.content.skills.dungeoneering.npcs.ToKashBloodChiller;
-import com.rs.game.content.skills.dungeoneering.npcs.UnholyCrossbearer;
-import com.rs.game.content.skills.dungeoneering.npcs.WarpedGulega;
-import com.rs.game.content.skills.dungeoneering.npcs.WorldGorgerShukarhazh;
-import com.rs.game.content.skills.dungeoneering.npcs.YkLagorThunderous;
+import com.rs.game.content.skills.dungeoneering.npcs.*;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.asteafrostweb.AsteaFrostweb;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.balak.BalLakThePummeler;
@@ -77,16 +42,15 @@ import com.rs.game.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom.Poltergeist;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -94,6 +58,11 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class DungeonManager {
 

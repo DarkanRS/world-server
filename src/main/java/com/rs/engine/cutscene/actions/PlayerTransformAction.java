@@ -16,9 +16,9 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
+
+import java.util.Map;
 
 public class PlayerTransformAction extends CutsceneAction {
 

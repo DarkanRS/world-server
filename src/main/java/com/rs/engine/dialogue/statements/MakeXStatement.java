@@ -16,13 +16,13 @@
 //
 package com.rs.engine.dialogue.statements;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.dialogue.impl.MakeXItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.Arrays;
 
 @PluginEventHandler
 public class MakeXStatement implements Statement {

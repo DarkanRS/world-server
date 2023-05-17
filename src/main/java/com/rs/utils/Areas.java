@@ -16,31 +16,19 @@
 //
 package com.rs.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.stream.Collectors;
-
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.google.gson.ToNumberPolicy;
-import com.rs.Settings;
-import com.rs.cache.Cache;
-import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.json.DateAdapter;
-import com.rs.lib.net.packets.Packet;
-import com.rs.lib.net.packets.PacketEncoder;
-import com.rs.lib.util.*;
+import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.utils.json.ControllerAdapter;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
-import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @PluginEventHandler
 public class Areas {

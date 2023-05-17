@@ -16,12 +16,6 @@
 //
 package com.rs.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.rs.Settings;
@@ -37,6 +31,12 @@ import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.utils.json.ControllerAdapter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NPCCombatDefMerger {
 

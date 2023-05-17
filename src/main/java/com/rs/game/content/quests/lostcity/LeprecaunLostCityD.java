@@ -1,20 +1,12 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.LEPRACAUN;
-import static com.rs.game.content.quests.lostcity.LostCity.LEPRACAUN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-
-import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -25,6 +17,8 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.quests.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class LeprecaunLostCityD extends Conversation {

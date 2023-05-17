@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.nomad;
 
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

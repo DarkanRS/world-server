@@ -16,14 +16,14 @@
 //
 package com.rs.tools.old;
 
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.lib.util.Utils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.MalformedURLException;
-
-import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.lib.util.Utils;
 
 public class RuneWikiBonusDumper {
 

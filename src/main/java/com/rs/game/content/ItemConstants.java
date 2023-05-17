@@ -16,14 +16,10 @@
 //
 package com.rs.game.content;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.Settings;
-import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
-import com.rs.game.content.world.unorganized_dialogue.RepairStandD;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.world.unorganized_dialogue.RepairStandD;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -32,6 +28,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class ItemConstants {

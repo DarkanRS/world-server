@@ -3,6 +3,7 @@ package com.rs.game.content.combat.special_attacks;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.*;
+import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -22,7 +23,6 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.utils.Ticks;
 
 import java.util.Arrays;
@@ -30,16 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.rs.game.content.combat.PlayerCombat.delayNormalHit;
-import static com.rs.game.content.combat.PlayerCombat.delayMagicHit;
-import static com.rs.game.content.combat.PlayerCombat.delayHit;
-import static com.rs.game.content.combat.PlayerCombat.dropAmmo;
-import static com.rs.game.content.combat.PlayerCombat.calculateHit;
-import static com.rs.game.content.combat.PlayerCombat.getMaxHit;
-import static com.rs.game.content.combat.PlayerCombat.getMultiAttackTargets;
-import static com.rs.game.content.combat.PlayerCombat.addXp;
-import static com.rs.game.content.combat.PlayerCombat.attackTarget;
-import static com.rs.game.content.combat.PlayerCombat.getMeleeCombatDelay;
+import static com.rs.game.content.combat.PlayerCombat.*;
 
 @PluginEventHandler
 public class SpecialAttacks {

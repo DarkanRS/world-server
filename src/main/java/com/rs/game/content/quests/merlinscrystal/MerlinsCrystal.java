@@ -1,8 +1,5 @@
 package com.rs.game.content.quests.merlinscrystal;
 
-import java.util.ArrayList;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -18,12 +15,11 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.MERLINS_CRYSTAL)
 @PluginEventHandler
@@ -49,7 +45,7 @@ public class MerlinsCrystal extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

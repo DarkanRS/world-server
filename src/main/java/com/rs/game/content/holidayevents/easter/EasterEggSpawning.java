@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.holidayevents.easter;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
@@ -32,6 +30,8 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.List;
 
 @PluginEventHandler
 public class EasterEggSpawning {

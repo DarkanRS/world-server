@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.minigames.fightcaves;
 
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.engine.dialogue.HeadE;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

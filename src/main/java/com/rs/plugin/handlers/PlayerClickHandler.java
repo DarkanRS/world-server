@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.PlayerClickEvent;
+
+import java.util.function.Consumer;
 
 public class PlayerClickHandler extends PluginHandler<PlayerClickEvent> {
 

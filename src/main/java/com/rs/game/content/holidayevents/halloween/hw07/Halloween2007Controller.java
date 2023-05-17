@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.holidayevents.halloween.hw07;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
@@ -27,6 +24,9 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Halloween2007Controller extends Controller {
 

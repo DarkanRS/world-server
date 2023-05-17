@@ -17,11 +17,11 @@
 package com.rs.game.content.skills.fletching;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.skills.fletching.Fletching.Fletch;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.content.skills.fletching.Fletching.Fletch;
 import com.rs.game.model.entity.player.Player;
 
 public class FletchingD extends Conversation {

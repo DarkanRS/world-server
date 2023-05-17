@@ -16,14 +16,12 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import java.util.concurrent.CopyOnWriteArraySet;
-
 import com.rs.cache.loaders.Bonus;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.prayer.Leech;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.prayer.Sap;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -35,6 +33,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.concurrent.CopyOnWriteArraySet;
 
 @PluginEventHandler
 public class PrayerManager {

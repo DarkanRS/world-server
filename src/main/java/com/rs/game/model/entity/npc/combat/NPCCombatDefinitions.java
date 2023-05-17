@@ -16,10 +16,6 @@
 //
 package com.rs.game.model.entity.npc.combat;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.skills.summoning.Summoning;
@@ -28,6 +24,10 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class NPCCombatDefinitions {

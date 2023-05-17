@@ -1,11 +1,5 @@
 package com.rs.game.content.quests.fightarena.dialogue;
 
-import static com.rs.game.content.quests.fightarena.FightArena.FREE_JEREMY;
-import static com.rs.game.content.quests.fightarena.FightArena.GET_JAIL_KEYS;
-import static com.rs.game.content.quests.fightarena.FightArena.NOT_STARTED;
-import static com.rs.game.content.quests.fightarena.FightArena.QUEST_COMPLETE;
-import static com.rs.game.content.quests.fightarena.FightArena.RETURN_TO_LADY_SERVIL;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -14,6 +8,8 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.fightarena.FightArena.*;
 
 @PluginEventHandler
 public class LadyServilFightArenaD extends Conversation {

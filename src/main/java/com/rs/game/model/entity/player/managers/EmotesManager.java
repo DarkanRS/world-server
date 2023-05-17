@@ -16,9 +16,6 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
@@ -34,6 +31,9 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 @PluginEventHandler
 public final class EmotesManager {

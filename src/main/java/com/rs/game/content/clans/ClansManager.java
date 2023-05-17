@@ -16,19 +16,14 @@
 //
 package com.rs.game.content.clans;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Consumer;
-
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.engine.dialogue.statements.Statement;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.NPCBodyMeshModifier;
 import com.rs.game.model.entity.player.Player;
@@ -37,18 +32,8 @@ import com.rs.game.model.object.ObjectMeshModifier;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.model.MemberData;
-import com.rs.lib.model.clan.Clan;
-import com.rs.lib.model.clan.ClanPermission;
-import com.rs.lib.model.clan.ClanRank;
-import com.rs.lib.model.clan.ClanSetting;
-import com.rs.lib.model.clan.ClanVar;
-import com.rs.lib.net.packets.decoders.lobby.CCJoin;
-import com.rs.lib.net.packets.decoders.lobby.CCLeave;
-import com.rs.lib.net.packets.decoders.lobby.ClanAddMember;
-import com.rs.lib.net.packets.decoders.lobby.ClanCheckName;
-import com.rs.lib.net.packets.decoders.lobby.ClanCreate;
-import com.rs.lib.net.packets.decoders.lobby.ClanKickMember;
-import com.rs.lib.net.packets.decoders.lobby.ClanLeave;
+import com.rs.lib.model.clan.*;
+import com.rs.lib.net.packets.decoders.lobby.*;
 import com.rs.lib.net.packets.encoders.social.ClanSettingsFull;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.RSColor;
@@ -57,6 +42,11 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public class ClansManager {

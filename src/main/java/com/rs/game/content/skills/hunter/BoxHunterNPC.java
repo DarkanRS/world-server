@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
 import com.rs.game.World;
 import com.rs.game.content.minigames.herblorehabitat.JadinkoType;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
@@ -33,6 +29,10 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @PluginEventHandler
 public class BoxHunterNPC extends NPC {

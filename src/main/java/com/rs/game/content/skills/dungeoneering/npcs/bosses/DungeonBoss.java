@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.bosses;
 
-import java.util.List;
-
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -29,6 +27,8 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.List;
 
 public class DungeonBoss extends DungeonNPC {
 

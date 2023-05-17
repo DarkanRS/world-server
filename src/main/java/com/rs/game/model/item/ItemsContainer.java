@@ -16,11 +16,11 @@
 //
 package com.rs.game.model.item;
 
+import com.rs.lib.game.Item;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import com.rs.lib.game.Item;
 
 /**
  * Container class.

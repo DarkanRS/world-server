@@ -16,6 +16,14 @@
 //
 package com.rs.tools.old;
 
+import com.rs.game.content.ItemConstants;
+import com.rs.lib.util.Logger;
+import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+import com.rs.utils.drop.DropTable;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -24,14 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
-
-import com.rs.game.content.ItemConstants;
-import com.rs.lib.util.Logger;
-import com.rs.lib.util.Utils;
-import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
 public class CharmDrop {

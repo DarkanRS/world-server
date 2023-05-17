@@ -1,7 +1,6 @@
 package com.rs.game.content.items.liquid_containers;
 
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 @PluginEventHandler

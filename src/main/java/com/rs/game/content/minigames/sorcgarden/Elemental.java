@@ -16,12 +16,6 @@
 //
 package com.rs.game.content.minigames.sorcgarden;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import com.rs.game.World;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -32,6 +26,8 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Elemental extends NPC {

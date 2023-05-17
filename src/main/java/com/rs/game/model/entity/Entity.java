@@ -16,18 +16,6 @@
 //
 package com.rs.game.model.entity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
@@ -39,7 +27,6 @@ import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
-import com.rs.game.content.world.npcs.max.Max;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
@@ -48,16 +35,7 @@ import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.ClipType;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.DumbRouteFinder;
-import com.rs.game.model.entity.pathing.EntityStrategy;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.ObjectStrategy;
-import com.rs.game.model.entity.pathing.Route;
-import com.rs.game.model.entity.pathing.RouteEvent;
-import com.rs.game.model.entity.pathing.RouteFinder;
-import com.rs.game.model.entity.pathing.WalkStep;
+import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -81,6 +59,12 @@ import com.rs.utils.WorldUtil;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class Entity {
 	public enum MoveType {

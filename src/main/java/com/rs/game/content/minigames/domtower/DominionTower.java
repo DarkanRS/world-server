@@ -17,13 +17,13 @@
 package com.rs.game.content.minigames.domtower;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.world.unorganized_dialogue.StrangeFace;
-import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

@@ -1,7 +1,5 @@
 package com.rs.game.content.quests.monksfriend;
 
-import java.util.ArrayList;
-
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -11,6 +9,9 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.MONKS_FRIEND)
 @PluginEventHandler
@@ -29,7 +30,7 @@ public class MonksFriend extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
