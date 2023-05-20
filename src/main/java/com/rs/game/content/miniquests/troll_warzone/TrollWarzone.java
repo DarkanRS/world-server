@@ -5,7 +5,9 @@ import com.rs.engine.miniquest.MiniquestHandler;
 import com.rs.engine.miniquest.MiniquestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,4 +59,17 @@ public class TrollWarzone extends MiniquestOutline {
     public void updateStage(Player player) {
         //varbit 10683 updates corporal keymans to claim the baby troll
     }
+
+    public static ObjectClickHandler handleTrollCaveEnterExit = new ObjectClickHandler(new Object[] { 66533, 66534 }, e -> {
+        switch(e.getObjectId()) {
+            case 66533 -> {
+                if (e.getPlayer().getMiniquestManager().getStage(Miniquest.TROLL_WARZONE) < 1) {
+                    e.getPlayer().simpleDialogue("You should speak with Major Nigel Corothers before going in here. He's only just south of here.");
+                    return;
+                }
+                e.getPlayer().useStairs(-1, Tile.of(2208, 4364, 0), 0, 1);
+            }
+            case 66534 -> e.getPlayer().useStairs(-1, Tile.of(2878, 3573, 0), 0, 1);
+        }
+    });
 }

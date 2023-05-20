@@ -292,22 +292,14 @@ public final class ObjectHandler {
 				} else
 					player.sendMessage("You already have full prayer.");
 				return;
-			} else if (id == 65715) { // Armored zombie trapdoor
+			} else if (id == 65715) // Armored zombie trapdoor
 				player.setNextTile(Tile.of(3241, 9991, 0));
-				return;
-			} else if (id == 12328) { // Jadinko lair
+			else if (id == 12328) // Jadinko lair
 				player.setNextTile(Tile.of(3011, 9276, 0));
-				return;
-			} else if (id == 66533)
-				player.useStairs(-1, Tile.of(2208, 4364, 0), 0, 1);
-			else if (id == 66534)
-				player.useStairs(-1, Tile.of(2878, 3573, 0), 0, 1);
-
 			else if (id == 11209)
 				player.useStairs(-1, player.transform(3, 0, 1), 0, 1);
 			else if (id == 11210)
 				player.useStairs(-1, player.transform(-3, 0, -1), 0, 1);
-
 			else if (id == 11212)
 				player.useStairs(-1, player.transform(0, 3, -1), 0, 1);
 			else if (id == 11211)

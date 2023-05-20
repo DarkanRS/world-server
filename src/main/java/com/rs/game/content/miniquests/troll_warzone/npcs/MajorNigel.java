@@ -1,8 +1,36 @@
 package com.rs.game.content.miniquests.troll_warzone.npcs;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.miniquest.Miniquest;
+import com.rs.game.model.entity.npc.NPC;
+import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class MajorNigel {
+public class MajorNigel extends Conversation {
+    public static NPCClickHandler handleOps = new NPCClickHandler(new Object[] { 14850 }, e -> {
+        switch(e.getOption()) {
+            case "Talk-to" -> e.getPlayer().startConversation(new MajorNigel(e.getPlayer(), e.getNPC()));
+            case "Get-recommendation" ->  e.getPlayer().startConversation(new Dialogue().addNPC(14850, HeadE.FRUSTRATED, "If you're looking to train combat, soldier, I'd recommend ridding the local area of as many trolls as possible. Or there are some cows to the south."));
+        }
+    });
 
+    public MajorNigel(Player player, NPC npc) {
+        super(player);
+        switch(player.getMiniquestManager().getStage(Miniquest.TROLL_WARZONE)) {
+            case 0 -> {
+                addNPC(npc, HeadE.FRUSTRATED, "Burthorpe is still under dire threat. We need every hero we can get in top shape.").voiceEffect(12443);
+            }
+            case 4 -> {
+                addNPC(npc, HeadE.FRUSTRATED, "So you've thwarted the recent attack by defeating the general. Good work. Looks like the trolls have let up their attacks for now.").voiceEffect(12434);
+                addNPC(npc, HeadE.FRUSTRATED, "Here in Burthorpe we've been hit pretty hard. Taverly, the town to the south, has been sending us aid and they're in bad shape too.").voiceEffect(11121);
+                addNPC(npc, HeadE.FRUSTRATED, "What we need to do now is recover in time for the next attack. I need you to work your way around Burthorpe and Taverly lending your help where you can.").voiceEffect(12488);
+                addNPC(npc, HeadE.FRUSTRATED, "We have a lot of experts here, helping with the war effort. Check in with them to see what you can do.").voiceEffect(11208);
+            }
+        }
+    }
 }
