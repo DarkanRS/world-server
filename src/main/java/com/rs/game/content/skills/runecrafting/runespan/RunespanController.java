@@ -379,7 +379,10 @@ public class RunespanController extends Controller {
 			}
 			break;
 		case 29:
-			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			int selection = EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1));
+			if (selection == -1)
+				return;
+			reward = StructDefinitions.getStruct(selection);
 			if (reward != null) {
 				int amount = e.getPlayer().getVars().getVarBit(11106);
 				int totalPrice = (amount * reward.getIntValue(2379));
@@ -402,7 +405,10 @@ public class RunespanController extends Controller {
 			}
 			break;
 		case 7:
-			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			selection = EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1));
+			if (selection == -1)
+				return;
+			reward = StructDefinitions.getStruct(selection);
 			if (reward != null) {
 				int amount = e.getPlayer().getVars().getVarBit(11106);
 				int totalPrice = (amount * reward.getIntValue(2379));
