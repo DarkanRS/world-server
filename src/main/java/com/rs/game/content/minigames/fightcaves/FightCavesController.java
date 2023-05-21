@@ -257,28 +257,7 @@ public class FightCavesController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		player.lock(7);
-		player.stopAll();
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					player.setNextAnimation(new Animation(836));
-				else if (loop == 1)
-					player.sendMessage("You have been defeated!");
-				else if (loop == 3) {
-					player.reset();
-					exitCave(1);
-					player.setNextAnimation(new Animation(-1));
-				} else if (loop == 4) {
-					player.jingle(90);
-					stop();
-				}
-				loop++;
-			}
-		}, 0, 1);
+		player.safeDeath(Tile.of(OUTSIDE, 2), "You have been defeated!", p -> exitCave(1));
 		return false;
 	}
 

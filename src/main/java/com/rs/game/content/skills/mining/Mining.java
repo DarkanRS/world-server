@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.skills.mining;
 
+import com.rs.game.content.achievements.AchievementSetRewards;
+import com.rs.game.content.achievements.SetReward;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
@@ -30,7 +32,11 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @PluginEventHandler
 public class Mining extends Action {
@@ -144,6 +150,17 @@ public class Mining extends Action {
 		return checkAll(entity);
 	}
 
+	private static final Map<Ore, int[]> VARROCK_ARMOR_ORE_TIERS = Map.of(
+			Ore.COPPER, new int[] { 0, 4 },
+			Ore.TIN, new int[] { 0, 4 },
+			Ore.IRON, new int[] { 0, 4 },
+			Ore.COAL, new int[] { 0, 4 },
+			Ore.GOLD, new int[] { 0, 4 },
+			Ore.MITHRIL, new int[] { 1, 4 },
+			Ore.ADAMANT, new int[] { 2, 4 },
+			Ore.RUNE, new int[] { 3, 4 }
+	);
+
 	@Override
 	public int processWithDelay(Entity entity) {
 		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.MINING) + player.getInvisibleSkillBoost(Constants.MINING) : 99;
@@ -152,8 +169,12 @@ public class Mining extends Action {
 			return -1;
 		for (Ore ore : type.getOres()) {
 			if (ore.checkRequirements(entity instanceof Player player ? player : null) && ore.rollSuccess(entity instanceof Player player ? player : null, level)) {
-				if (entity instanceof Player player)
+				if (entity instanceof Player player) {
 					ore.giveOre(player);
+					int[] range = VARROCK_ARMOR_ORE_TIERS.get(ore);
+					if (range != null && Arrays.stream(SetReward.VARROCK_ARMOR.getItemIds(), range[0], range[1]).anyMatch(x -> x == player.getEquipment().getChestId()) && Utils.random(100) <= 10)
+						ore.giveOre(player);
+				}
 				success = true;
 				if (ore.getRollGem() == 1 && entity instanceof Player player)
 					rollForGem(player);

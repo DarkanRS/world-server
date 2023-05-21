@@ -2107,6 +2107,45 @@ public class Player extends Entity {
 
 	}
 
+	public void safeDeath(Tile respawnTile) {
+		safeDeath(null, respawnTile, "Oh dear, you are dead!", null);
+	}
+
+	public void safeDeath(Tile respawnTile, String message, Consumer<Player> onFall) {
+		safeDeath(null, respawnTile, message, onFall);
+	}
+
+	public void safeDeath(Tile respawnTile, Consumer<Player> onFall) {
+		safeDeath(null, respawnTile, "Oh dear, you are dead!", onFall);
+	}
+
+	public void safeDeath(Entity source, Tile respawnTile, String message, Consumer<Player> onFall) {
+		lock();
+		stopAll();
+		if (prayer.active(Prayer.RETRIBUTION))
+			retribution(source);
+		if (prayer.active(Prayer.WRATH))
+			wrath(source);
+		WorldTasks.scheduleTimer(0, 1, tick -> {
+			switch(tick) {
+				case 0 -> setNextAnimation(new Animation(836));
+				case 1 -> sendMessage(message);
+				case 3 -> {
+					reset();
+					setNextTile(respawnTile);
+					setNextAnimation(new Animation(-1));
+					if (onFall != null)
+						onFall.accept(this);
+				}
+				case 4 ->  {
+					jingle(90);
+					unlock();
+					return false;
+				}
+			}
+			return true;
+		});
+	}
 	@Override
 	public void sendDeath(final Entity source) {
 		incrementCount("Deaths");
@@ -2138,7 +2177,7 @@ public class Player extends Entity {
 				if (loop == 0)
 					setNextAnimation(new Animation(836));
 				else if (loop == 1)
-					sendMessage("Oh dear, you have died.");
+					sendMessage("Oh dear, you are dead!");
 				else if (loop == 2) {
 					reset();
 					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
@@ -4215,6 +4254,7 @@ public class Player extends Entity {
 			Instance prevInstance = Instance.get(instancedArea.getId());
 			if (prevInstance != null && prevInstance.isPersistent()) {
 				prevInstance.teleportTo(this);
+				setForceNextMapLoadRefresh(true);
 				return;
 			}
 			setNextTile(instancedArea.getReturnTo());

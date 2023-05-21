@@ -22,15 +22,20 @@ public class MajorNigel extends Conversation {
     public MajorNigel(Player player, NPC npc) {
         super(player);
         switch(player.getMiniquestManager().getStage(Miniquest.TROLL_WARZONE)) {
-            case 0 -> {
-                addNPC(npc, HeadE.FRUSTRATED, "Burthorpe is still under dire threat. We need every hero we can get in top shape.").voiceEffect(12443);
-            }
+            case 0 -> addOptions("Would you like to start the Troll Warzone miniquest?", ops -> {
+                ops.add("Yes.", () -> {
+                    player.getPackets().sendCutscene(11);
+                    player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 1);
+                });
+                ops.add("Not right now.");
+            });
             case 4 -> {
                 addNPC(npc, HeadE.FRUSTRATED, "So you've thwarted the recent attack by defeating the general. Good work. Looks like the trolls have let up their attacks for now.").voiceEffect(12434);
                 addNPC(npc, HeadE.FRUSTRATED, "Here in Burthorpe we've been hit pretty hard. Taverly, the town to the south, has been sending us aid and they're in bad shape too.").voiceEffect(11121);
                 addNPC(npc, HeadE.FRUSTRATED, "What we need to do now is recover in time for the next attack. I need you to work your way around Burthorpe and Taverly lending your help where you can.").voiceEffect(12488);
                 addNPC(npc, HeadE.FRUSTRATED, "We have a lot of experts here, helping with the war effort. Check in with them to see what you can do.").voiceEffect(11208);
             }
+            default -> addNPC(npc, HeadE.FRUSTRATED, "Burthorpe is still under dire threat. We need every hero we can get in top shape.").voiceEffect(12443);
         }
     }
 }
