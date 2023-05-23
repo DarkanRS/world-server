@@ -2,6 +2,8 @@ package com.rs.game.model.entity.player;
 
 import com.rs.game.map.instance.Instance;
 
+import java.util.function.Consumer;
+
 public abstract class InstancedController extends Controller {
     private transient Instance instance;
 
@@ -10,7 +12,7 @@ public abstract class InstancedController extends Controller {
     }
 
     public final void start() {
-        _buildInstance();
+        _buildInstance(() -> {  });
     }
 
     public void magicTeleported(int type) {
@@ -23,8 +25,11 @@ public abstract class InstancedController extends Controller {
         _destroyInstance();
     }
 
-    public final void _buildInstance() {
-        instance.requestChunkBound().thenAccept(b -> onBuildInstance());
+    public final void _buildInstance(Runnable onBuild) {
+        instance.requestChunkBound().thenAccept(b -> {
+            onBuild.run();
+            onBuildInstance();
+        });
     }
 
     public abstract void onBuildInstance();
@@ -39,7 +44,10 @@ public abstract class InstancedController extends Controller {
 
     public final boolean login() {
         if (instance.isPersistent())
-            _buildInstance();
+            _buildInstance(() -> {
+                player.setForceNextMapLoadRefresh(true);
+                player.loadMapRegions();
+            });
         return !instance.isPersistent();
     }
 

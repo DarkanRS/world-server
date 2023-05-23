@@ -311,16 +311,32 @@ public abstract class Cutscene {
 		return null;
 	}
 	
+	public void npcCreate(String key, int npcId, int x, int y, int z, int delay, Consumer<NPC> configureNpc) {
+		actions.add(new CreateNPCAction(key, npcId, x, y, z, delay, configureNpc));
+	}
+
 	public void npcCreate(String key, int npcId, int x, int y, int z, int delay) {
-		actions.add(new CreateNPCAction(key, npcId, x, y, z, delay));
+		npcCreate(key, npcId, x, y, z, delay, null);
 	}
 	
+	public void npcCreate(String key, int npcId, int x, int y, int z, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, x, y, z, -1, configureNpc);
+	}
+
 	public void npcCreate(String key, int npcId, int x, int y, int z) {
 		npcCreate(key, npcId, x, y, z, -1);
 	}
 
+	public void npcCreate(String key, int npcId, Tile tile, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), -1, configureNpc);
+	}
+
 	public void npcCreate(String key, int npcId, Tile tile) {
 		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), -1);
+	}
+
+	public void npcCreate(String key, int npcId, Tile tile, int delay, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), delay, configureNpc);
 	}
 
 	public void npcCreate(String key, int npcId, Tile tile, int delay) {

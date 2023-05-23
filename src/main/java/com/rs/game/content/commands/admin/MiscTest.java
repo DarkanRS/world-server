@@ -21,10 +21,8 @@ import com.rs.Settings;
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
-import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.*;
+import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
@@ -111,7 +109,7 @@ public class MiscTest {
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			p.getControllerManager().startController(new PlayerVSDelrithController());
+			p.sendMessage(AnimationDefinitions.getDefs(SpotAnimDefinitions.getDefs(2226).animationId).getUsedSynthSoundIds().toString());
 		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
