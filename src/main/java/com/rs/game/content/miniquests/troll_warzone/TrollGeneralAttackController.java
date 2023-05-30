@@ -26,8 +26,8 @@ public class TrollGeneralAttackController extends InstancedController {
         getInstance().copyMapAllPlanes(272, 544).thenAccept(b -> {
             player.playCutscene(cs -> {
                 cs.fadeIn(5);
+                cs.action(1, () -> getInstance().teleportLocal(player, 32, 12, 0));
                 cs.action(() -> {
-                    getInstance().teleportLocal(player, 32, 12, 0);
                     player.setForceNextMapLoadRefresh(true);
                     player.loadMapRegions();
                     cs.setEndTile(Tile.of(cs.getX(32), cs.getY(12), 0));
@@ -86,6 +86,8 @@ public class TrollGeneralAttackController extends InstancedController {
                                 stage = 1;
                                 ozan.getActionManager().setAction(new EntityFollow(player));
                                 keymans.getActionManager().setAction(new EntityFollow(ozan));
+                                player.getHintIconsManager().removeAll();
+                                player.getHintIconsManager().addHintIcon(getInstance().getLocalX(36), getInstance().getLocalY(53), 0, 5, 0, 0, -1, false);
                             }));
                 }
             }
