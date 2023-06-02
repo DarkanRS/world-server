@@ -76,9 +76,6 @@ public class InventoryOptionsHandler {
 		if (!player.getControllerManager().canUseItemOnItem(used, usedWith))
 			return false;
 
-		if (GodSwordCreation.handleGodSword(player, usedWithId, usedId) || WeaponPoison.poison(player, used, usedWith, false))
-			return true;
-
 		if (PrayerBooks.isGodBook(usedId, false) || PrayerBooks.isGodBook(usedWithId, false)) {
 			PrayerBooks.bindPages(player, used.getName().contains(" page ") ? usedWithId : usedId);
 			return true;
