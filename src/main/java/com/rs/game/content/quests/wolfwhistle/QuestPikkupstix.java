@@ -37,7 +37,7 @@ public class QuestPikkupstix extends Conversation {
                     .addPlayer(HeadE.CALM_TALK, "Why, have they gone missing?")
                     .addNPC(PIKKUPSTIX, HeadE.SAD, "Well, they are only slightly late compared to poor Feletrix...")
                     .addNPC(PIKKUPSTIX, HeadE.SHAKING_HEAD, "Actually they are quite late, to be honest. I sent them out this morning to gather supplies, and they have not returned. It is a little worrying.")
-                    .addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "They were over by the old dry well in west Taverleym opposite the watermill. Could you take a look for me?")
+                    .addNPC(PIKKUPSTIX, HeadE.CALM_TALK, "They were over by the old dry well in west Taverley opposite of the watermill. Could you take a look for me?")
                     .addPlayer(HeadE.CHEERFUL_EXPOSITION, "All right. I am sure they will be fine.")
                     .addPlayer(HeadE.CALM_TALK, "They are probably just taking their time, or maybe stopped for a chat.")
                     .addNPC(PIKKUPSTIX, HeadE.LAUGH, "Oh, I do hope so! Thank you my lad!")
