@@ -316,6 +316,7 @@
     "comment": "Covers whole desert",
     "isActive": true,
     "regionIds": [
+      707201,
       7749,
       13107,
       13106,
