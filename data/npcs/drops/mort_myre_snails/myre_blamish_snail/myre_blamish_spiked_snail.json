@@ -1,6 +1,6 @@
 {
-  "names": [
-    "Ochre Blamish Snail"
+  "ids": [
+    1277
   ],
   "tables": [
     {
@@ -9,7 +9,7 @@
       "dropOne": false,
       "drops": [
         {
-          "id": 3349,
+          "id": 3355,
           "min": 1,
           "max": 1
         }
