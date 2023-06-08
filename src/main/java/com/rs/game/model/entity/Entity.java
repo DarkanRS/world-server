@@ -32,6 +32,7 @@ import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
+import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -1788,6 +1789,10 @@ public abstract class Entity {
 
 	public ActionManager getActionManager() {
 		return actionManager;
+	}
+
+	public void follow(Entity target) {
+		actionManager.setAction(new EntityFollow(target));
 	}
 
 	public boolean canLowerStat(int skillId, double perc, double maxDrain) {

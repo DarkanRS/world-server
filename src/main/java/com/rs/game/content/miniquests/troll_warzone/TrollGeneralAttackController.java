@@ -2,6 +2,7 @@ package com.rs.game.content.miniquests.troll_warzone;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
@@ -14,7 +15,7 @@ public class TrollGeneralAttackController extends InstancedController {
     private static final Tile OUTSIDE = Tile.of(2878, 3573, 0);
 
     private transient int stage = 0;
-    private transient NPC ozan, keymans;
+    private transient NPC ozan, keymans, trollGeneral;
 
     public TrollGeneralAttackController() {
         super(Instance.of(OUTSIDE, 8, 8).persist().setEntranceOffset(new int[]{32, 12, 0}));
@@ -65,7 +66,6 @@ public class TrollGeneralAttackController extends InstancedController {
 
     @Override
     public void onDestroyInstance() {
-
     }
 
     @Override
@@ -84,10 +84,13 @@ public class TrollGeneralAttackController extends InstancedController {
                             .addNPC(npc, HeadE.CALM_TALK, "The trolls are bypassing Burthorpe's defenses through this tunnel!<br><br><col=2A32C9>Click the green button below or press the space bar.")
                             .addNPC(npc, HeadE.CALM_TALK, "You lead, we'll follow.", () -> {
                                 stage = 1;
-                                ozan.getActionManager().setAction(new EntityFollow(player));
-                                keymans.getActionManager().setAction(new EntityFollow(ozan));
+                                ozan.follow(player);
+                                keymans.follow(ozan);
                                 player.getHintIconsManager().removeAll();
-                                player.getHintIconsManager().addHintIcon(getInstance().getLocalX(36), getInstance().getLocalY(53), 0, 5, 0, 0, -1, false);
+                                trollGeneral = World.spawnNPC(14991, Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(53), 0), -1, true, true, true);
+                                trollGeneral.setRandomWalk(false);
+                                trollGeneral.setCantInteract(true);
+                                player.getHintIconsManager().addHintIcon(getInstance().getLocalX(37), getInstance().getLocalY(54), 0, 50, 0, 0, -1, false);
                             }));
                 }
             }
