@@ -138,8 +138,9 @@ public class SpecialAttacks {
         //Obliteration
         addSpec(new int[] { 24457 }, new SpecialAttack(Type.MAGIC, 20, (player, target) -> {
             //TODO
-            delayMagicHit(target, CombatSpell.WIND_RUSH.cast(player, target), Hit.magic(player, 50).setMaxHit(50), () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
-            return 3;
+            player.sync(16960, 3189);
+            delayMagicHit(target, 1, Hit.magic(player, 50).setMaxHit(50), () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
+            return 5;
         }));
 
         /**
@@ -345,8 +346,11 @@ public class SpecialAttacks {
         }));
 
         addSpec(RangedWeapon.DECIMATION.getIds(), new SpecialAttack(Type.RANGE, 20, (player, target) -> {
-            //TODO
-            return PlayerCombat.getRangeCombatDelay(player);
+            player.sync(16959, 3192);
+            WorldProjectile p = World.sendProjectile(player, target, 3188, 20, 100, 0.6, proj -> target.spotAnim(3191));
+            for (int i = 0;i < 4;i++)
+                delayHit(target, p.getTaskDelay(), calculateHit(player, target, true, true, 1.0, 1.0));
+            return 5;
         }));
 
         /**
@@ -783,6 +787,7 @@ public class SpecialAttacks {
         }));
 
         //Annihilation (16964 3193) obtaining
+        //Absorbing essence into it? (16962 43)
         addSpec(new int[] { 24455 }, new SpecialAttack(Type.MELEE, 20, (player, target) -> {
             player.sync(16961, 44);
             delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.2));
