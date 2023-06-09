@@ -1,6 +1,6 @@
 {
-  "names": [
-    "Bruise Blamish Snail"
+  "ids": [
+    1235
   ],
   "tables": [
     {
@@ -9,19 +9,7 @@
       "dropOne": false,
       "drops": [
         {
-          "id": 3351,
-          "min": 1,
-          "max": 1
-        }
-      ]
-    },
-    {
-      "chance": 0.0,
-      "outOf": 0.0,
-      "dropOne": false,
-      "drops": [
-        {
-          "id": 3351,
+          "id": 3361,
           "min": 1,
           "max": 1
         }
