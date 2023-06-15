@@ -68,6 +68,8 @@ public enum Rune {
 	}
 
 	public boolean hasInfinite(Player player) {
+		if (player.getEquipment().getWeaponId() == 24457)
+			return true;
 		switch(this) {
 		case AIR:
 			switch(player.getEquipment().getWeaponId()) {
