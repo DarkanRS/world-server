@@ -74,6 +74,8 @@ public class FishingFerretRoom extends PuzzleRoom {
 				}
 				if (vileFishes.size() > 0) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
+					if (item == null)
+						return;
 					Tile tile = item.getTile();
 					if (matches(tile)) {
 						removeVileFish();

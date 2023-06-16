@@ -335,6 +335,7 @@ public final class ChunkManager {
                     continue;
                 chunk.clearCollisionData();
                 chunk.destroy();
+                destroyed.add(chunkId);
             }
         }
         for (int regionId : destroyed)

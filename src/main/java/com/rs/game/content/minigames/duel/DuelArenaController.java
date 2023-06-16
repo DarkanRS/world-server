@@ -37,7 +37,10 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+@PluginEventHandler
 public class DuelArenaController extends Controller {
 
 	private transient Player target;
@@ -52,6 +55,10 @@ public class DuelArenaController extends Controller {
 		this.target = target;
 		ifFriendly = friendly;
 	}
+
+	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> {
+		e.getPlayer().sendMessage("I wouldn't want to fall in.");
+	});
 
 	@Override
 	public void start() {

@@ -1083,6 +1083,10 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
+		if (object.getId() == 36773) {
+			player.sendMessage("I should continue what I was doing.");
+			return false;
+		}
 		if (object.getId() == 3014 && pastStage(Stage.LEAVE_GUIDE_ROOM)) {
 			nextStage(Stage.TALK_TO_SURVIVAL_EXPERT);
 			player.handleOneWayDoor(object);
