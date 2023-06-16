@@ -2,11 +2,11 @@
   "names": [
     "Scabaras lancer"
   ],
-  "attackAnim": -1,
+  "attackAnim": 7612,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 7613,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 7614,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
