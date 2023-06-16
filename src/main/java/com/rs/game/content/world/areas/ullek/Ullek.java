@@ -16,24 +16,10 @@
 //
 package com.rs.game.content.world.areas.ullek;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.engine.quest.Quest;
+
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
-import com.rs.lib.game.WorldObject;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 //wrong animations
 @PluginEventHandler
