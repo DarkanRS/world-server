@@ -136,10 +136,12 @@ public final class FFAController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		switch (object.getId()) {
-		case 38700:
-			remove(true);
-			player.useStairs(-1, Tile.of(2993, 9679, 0), 0, 1);
-			return false;
+			case 38700 -> {
+				remove(true);
+				player.useStairs(-1, Tile.of(2993, 9679, 0), 0, 1);
+				return false;
+			}
+			case 42023 -> MinigameUtil.giveFoodAndPotions(player);
 		}
 		return true;
 	}
