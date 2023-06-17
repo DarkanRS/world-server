@@ -1326,10 +1326,6 @@ public final class ObjectHandler {
 					player.setNextTile(player.transform(-115, -1953, 0));
 			} else if (id == 26193)
 				PartyRoom.openChest(player);
-			else if (id == 67050 || id == 6282)
-				player.useStairs(-1, Tile.of(3359, 6110, 0), 0, 1);
-			else if (id == 67053)
-				player.useStairs(-1, Tile.of(3120, 3519, 0), 0, 1);
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))
 				return;
 			else

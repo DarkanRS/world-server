@@ -64,5 +64,16 @@
       "y": 4849,
       "plane": 0
     }
+  },
+  {
+    "comment": "Bandage table safe portal clan wars",
+    "objectId": 42023,
+    "type": 10,
+    "rotation": 0,
+    "tile": {
+      "x": 2818,
+      "y": 5509,
+      "plane": 0
+    }
   }
 ]

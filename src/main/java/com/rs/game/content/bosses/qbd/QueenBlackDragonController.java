@@ -237,7 +237,8 @@ public final class QueenBlackDragonController extends Controller {
 		case 1284:
 			switch (componentId) {
 			case 8:
-				player.getBank().addItems(npc.getRewards().toArray(), true);
+				for (Item item : npc.getRewards().toArray())
+					player.getBank().addItem(item, true);
 				npc.getRewards().clear();
 				player.sendMessage("All the items were moved to your bank.");
 				break;
@@ -336,7 +337,8 @@ public final class QueenBlackDragonController extends Controller {
 			player.setTile(OUTSIDE);
 		removeController();
 		if (npc != null)
-			player.getBank().addItems(npc.getRewards().toArray(), false);
+			for (Item item : npc.getRewards().toArray())
+				player.getBank().addItem(item, true);
 		bossRegion.destroy();
 		if (rewardRegion != null)
 			rewardRegion.destroy();

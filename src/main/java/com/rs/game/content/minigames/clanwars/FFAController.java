@@ -18,6 +18,7 @@ package com.rs.game.content.minigames.clanwars;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
+import com.rs.game.content.minigames.MinigameUtil;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -123,6 +124,7 @@ public final class FFAController extends Controller {
 	}
 
 	private void remove(boolean needRemove) {
+		MinigameUtil.checkAndDeleteFoodAndPotions(player);
 		if (needRemove)
 			removeController();
 		if (wasInArea)

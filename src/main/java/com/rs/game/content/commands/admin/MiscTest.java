@@ -387,6 +387,11 @@ public class MiscTest {
 			player.getAppearance().generateAppearanceData();
 		});
 
+		Commands.add(Rights.DEVELOPER, "skull", "Set custom skull.", (player, args) -> {
+			player.setSkullInfiniteDelay(Integer.valueOf(args[0]));
+			player.getAppearance().generateAppearanceData();
+		});
+
 		Commands.add(Rights.DEVELOPER, "sd", "Search for a door pair.", (p, args) -> {
 			Doors.searchDoors(Integer.valueOf(args[0]));
 		});
