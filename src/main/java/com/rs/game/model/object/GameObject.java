@@ -22,11 +22,9 @@ import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTaskInformation;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.GenericAttribMap;
 
 public class GameObject extends WorldObject {

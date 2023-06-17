@@ -16,15 +16,6 @@
 //
 package com.rs.utils.spawns;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.google.gson.JsonIOException;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
@@ -34,6 +25,15 @@ import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @PluginEventHandler
 public final class NPCSpawns {
@@ -64,16 +64,24 @@ public final class NPCSpawns {
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(NPCSpawns.class, "init", "Loading NPC spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
-		for (File f : spawnFiles) {
-			if (f.getName().startsWith("_"))
-				continue;
-			NPCSpawn[] spawns = (NPCSpawn[]) JsonFileManager.loadJsonFile(f, NPCSpawn[].class);
-			if (spawns != null)
-				for(NPCSpawn spawn : spawns)
-					if (spawn != null)
-						add(spawn);
-		}
+		for (File f : spawnFiles)
+			load(f);
 		Logger.info(NPCSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " NPC spawns...");
+	}
+
+	public static void load(File file) throws IOException {
+		if (file.getName().startsWith("_"))
+			return;
+		if (file.isDirectory()) {
+			for (File f : file.listFiles())
+				load(f);
+			return;
+		}
+		NPCSpawn[] spawns = (NPCSpawn[]) JsonFileManager.loadJsonFile(file, NPCSpawn[].class);
+		if (spawns != null)
+			for(NPCSpawn spawn : spawns)
+				if (spawn != null)
+					add(spawn);
 	}
 
 	public static void add(NPCSpawn spawn) {

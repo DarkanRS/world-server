@@ -16,23 +16,17 @@
 //
 package com.rs.tools.old;
 
-import java.awt.Color;
+import com.rs.cache.Cache;
+import com.rs.cache.IndexType;
+import com.rs.cache.loaders.*;
+import com.rs.lib.io.InputStream;
+import com.rs.lib.util.MapXTEAs;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import com.rs.cache.Cache;
-import com.rs.cache.IndexType;
-import com.rs.cache.loaders.MapSpriteDefinitions;
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cache.loaders.OverlayDefinitions;
-import com.rs.cache.loaders.SpriteDefinitions;
-import com.rs.cache.loaders.TextureDefinitions;
-import com.rs.cache.loaders.UnderlayDefinitions;
-import com.rs.lib.io.InputStream;
-import com.rs.lib.util.MapXTEAs;
 
 public class MapDump {
 

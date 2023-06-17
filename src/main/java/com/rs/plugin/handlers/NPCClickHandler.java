@@ -16,12 +16,12 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.NPCClickEvent;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.NPCClickEvent;
 
 public class NPCClickHandler extends PluginHandler<NPCClickEvent> {
 	private boolean checkDistance = true;

@@ -16,17 +16,11 @@
 //
 package com.rs.game.content.world.areas.draynor;
 
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.AGGIE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.ASHES;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BALL_WOOL;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.GEAR_CHECK;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.NED;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.REDBERRY;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WATER_BUCKET;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WIG;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
@@ -35,11 +29,6 @@ import com.rs.game.content.quests.dragonslayer.NedDragonSlayerD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.DoorPair;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -51,6 +40,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.*;
 
 @PluginEventHandler
 public class Draynor {

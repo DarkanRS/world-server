@@ -16,14 +16,14 @@
 //
 package com.rs.tools;
 
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.cs2.CS2ParamDefs;
+import com.rs.lib.util.Utils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.cs2.CS2ParamDefs;
-import com.rs.lib.util.Utils;
 
 public class ItemListDumper {
 

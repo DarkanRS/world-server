@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.interfacehandlers;
 
-import java.text.NumberFormat;
-import java.util.Locale;
-
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.world.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -29,6 +26,9 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ReportsManager;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 @PluginEventHandler
 public class GameFrame {

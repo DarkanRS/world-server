@@ -16,11 +16,11 @@
 //
 package com.rs.tools.old;
 
-import java.io.IOException;
-
 import com.rs.cache.IndexType;
 import com.rs.cache.Store;
 import com.rs.cache.utils.CacheUtil;
+
+import java.io.IOException;
 
 public class InterfaceName {
 

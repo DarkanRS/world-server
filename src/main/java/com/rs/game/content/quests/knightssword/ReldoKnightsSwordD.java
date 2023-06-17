@@ -1,14 +1,12 @@
 package com.rs.game.content.quests.knightssword;
 
-import static com.rs.game.content.quests.knightssword.KnightsSword.FIND_DWARF;
-import static com.rs.game.content.quests.knightssword.KnightsSword.RELDO;
-import static com.rs.game.content.quests.knightssword.KnightsSword.TALK_TO_RELDO;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.knightssword.KnightsSword.*;
 
 @PluginEventHandler
 public class ReldoKnightsSwordD extends Conversation {

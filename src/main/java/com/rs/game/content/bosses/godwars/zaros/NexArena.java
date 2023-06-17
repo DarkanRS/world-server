@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars.zaros;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -32,6 +28,10 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NexArena {
 

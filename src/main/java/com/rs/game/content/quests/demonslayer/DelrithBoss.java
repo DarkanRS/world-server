@@ -17,6 +17,7 @@
 package com.rs.game.content.quests.demonslayer;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -78,6 +79,9 @@ public class DelrithBoss extends NPC {
 	}
 
 	public void die() {
+		if (!p.getControllerManager().isIn(PlayerVSDelrithController.class) || p.isLocked())
+			return;
+		p.lock();
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			@Override
@@ -87,6 +91,21 @@ public class DelrithBoss extends NPC {
 					actuallyDead = true;
 				}
 				if(tick == 3) {
+					p.lock();
+					p.playCutscene(cs -> {
+						cs.fadeIn(5);
+						cs.hideMinimap(false);
+						cs.action(() -> {
+							p.getControllerManager().forceStop();
+							p.setNextTile(Tile.of(3228, 3368, 0));
+						});
+						cs.delay(1);
+						cs.fadeOut(5);
+						cs.action(() -> {
+							p.getQuestManager().completeQuest(Quest.DEMON_SLAYER);
+							p.sendMessage("Congratulations! Quest complete!");
+						});
+					});
 					finish();
 					stop();
 				}

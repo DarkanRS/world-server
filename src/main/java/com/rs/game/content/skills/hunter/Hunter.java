@@ -17,21 +17,17 @@
 package com.rs.game.content.skills.hunter;
 
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap.Status;
 import com.rs.game.content.skills.hunter.traps.NetTrap;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 
 @PluginEventHandler
 public final class Hunter {

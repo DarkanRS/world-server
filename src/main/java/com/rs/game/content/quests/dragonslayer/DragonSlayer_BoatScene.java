@@ -1,12 +1,12 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -58,7 +58,7 @@ public class DragonSlayer_BoatScene extends Controller {
 	}
 	
 	private void playCutscene() {
-		instance = new Instance(8, 8);
+		instance = Instance.of(crandor, 8, 8);
 		instance.copyMapAllPlanes(256, 688).thenAccept(e -> {
 			captainNed = World.spawnNPC(CAPTAIN_NED, instance.getLocalTile(18, 13, 1), -1, false, true);
 			cabinboyJenkins = World.spawnNPC(CABIN_BOY_JENKINS, instance.getLocalTile(15, 14, 1), -1, false, true);

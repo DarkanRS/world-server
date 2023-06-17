@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.minigames.sorcgarden;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.game.content.minigames.sorcgarden.SqirkFruitSqueeze.SqirkFruit;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
@@ -36,6 +32,10 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SorceressGardenController extends Controller {
 

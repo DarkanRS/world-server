@@ -16,12 +16,12 @@
 //
 package com.rs.plugin;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
 import com.rs.lib.util.Logger;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public class PluginMethodRepository {
 

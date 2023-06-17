@@ -16,15 +16,11 @@
 //
 package com.rs.game.content;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -43,6 +39,9 @@ import com.rs.lib.util.Vec2;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class DwarfMultiCannon extends OwnedObject {

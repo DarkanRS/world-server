@@ -109,6 +109,22 @@ public class Desert  {
 			e.getPlayer().useStairs(Tile.of(3370, 3129, 0));
 	});
 
+	public static ObjectClickHandler handleSophBankEntrance = new ObjectClickHandler(new Object[] { 20275 }, e -> {
+		e.getPlayer().useStairs(Tile.of(2765, 5131, 0));
+	});
+
+	public static ObjectClickHandler handleSophBankExit = new ObjectClickHandler(new Object[] { 20280 }, e -> {
+		e.getPlayer().useStairs(Tile.of(3315, 2796, 0));
+	});
+
+	public static ObjectClickHandler handleSophDungEntrance = new ObjectClickHandler(new Object[] { 20340 }, e -> {
+		e.getPlayer().useStairs(Tile.of(3286, 9273, 0));
+	});
+
+	public static ObjectClickHandler handleSophDungExit = new ObjectClickHandler(new Object[] { 20284 }, e -> {
+		e.getPlayer().useStairs(Tile.of(2766, 5131, 0));
+	});
+
 	public static LoginHandler unlockMonkeyColonyRugMerchant = new LoginHandler(e -> {
 		e.getPlayer().getVars().setVarBit(8628, 1);
 		e.getPlayer().getVars().setVarBit(8628, 1);

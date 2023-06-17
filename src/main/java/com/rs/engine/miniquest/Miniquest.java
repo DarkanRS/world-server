@@ -16,20 +16,22 @@
 //
 package com.rs.engine.miniquest;
 
+import com.rs.engine.quest.Quest;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.util.Utils;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.Skills;
-import com.rs.lib.util.Utils;
-
 public enum Miniquest {
 	ENTER_THE_ABYSS("Enter the Abyss", new Quest[] { Quest.RUNE_MYSTERIES }, null, null),
 	KNIGHTS_WAVE_TRAINING_GROUNDS("Knights Waves Training Grounds", new Quest[] { Quest.KINGS_RANSOM }, null, null),
+	TROLL_WARZONE("Troll Warzone Tutorial", null,null, null),
+	WITCHES_POTION("Witch's Potion", null,null, null),
 	;
 
 	static {

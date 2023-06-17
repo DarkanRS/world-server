@@ -16,16 +16,10 @@
 //
 package com.rs.game.content.holidayevents.halloween.hw07;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.World;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.model.entity.ForceMovement;
+import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -44,6 +38,11 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class Halloween2007 {

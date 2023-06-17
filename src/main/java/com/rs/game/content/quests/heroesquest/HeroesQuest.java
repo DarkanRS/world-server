@@ -1,15 +1,13 @@
 package com.rs.game.content.quests.heroesquest;
 
-import java.util.ArrayList;
-
-import com.rs.game.World;
-import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestManager;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
+import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
@@ -19,6 +17,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.HEROES_QUEST)
 @PluginEventHandler
@@ -34,7 +35,7 @@ public class HeroesQuest extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {

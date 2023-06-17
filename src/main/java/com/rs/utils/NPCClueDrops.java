@@ -16,17 +16,17 @@
 //
 package com.rs.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.utils.drop.ClueDrop;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NPCClueDrops {
 

@@ -1,31 +1,68 @@
 package com.rs.game.map.instance;
 
+import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class Instance {
-    private int[] chunkBase;
-    private IntSet chunkIds = new IntOpenHashSet();
+    private static final Map<UUID, Instance> INSTANCES = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+
+    private final UUID id = UUID.randomUUID();
+    private Tile returnTo;
+    private int[] entranceOffset;
+    private boolean persistent;
+    private transient int[] chunkBase;
+    private transient IntSet chunkIds = new IntOpenHashSet();
     private int width;
     private int height;
 
     private boolean copyNpcs;
-    private volatile boolean destroyed;
 
-    public Instance(int width, int height, boolean copyNpcs) {
+    private transient volatile boolean destroyed;
+
+    private Instance(Tile returnTo, int width, int height, boolean copyNpcs) {
+        this.returnTo = returnTo;
         this.width = width;
         this.height = height;
         destroyed = false;
         this.copyNpcs = copyNpcs;
     }
 
-    public Instance(int width, int height) {
-        this(width, height, false);
+    public static Instance of(Tile returnTo, int width, int height, boolean copyNpcs) {
+        Instance instance = new Instance(returnTo, width, height, copyNpcs);
+        INSTANCES.put(instance.id, instance);
+        return new Instance(returnTo, width, height, copyNpcs);
+    }
+
+    public static Instance of(Tile returnTo, int width, int height) {
+        return of(returnTo, width, height, false);
+    }
+
+    public static Instance get(UUID uuid) {
+        return INSTANCES.get(uuid);
+    }
+
+    public int[] getEntranceOffset() {
+        return entranceOffset;
+    }
+
+    public Instance setEntranceOffset(int[] entranceOffset) {
+        this.entranceOffset = entranceOffset;
+        return this;
+    }
+
+    public Instance persist() {
+        persistent = true;
+        return this;
     }
 
     public CompletableFuture<Boolean> requestChunkBound() {
@@ -115,6 +152,7 @@ public class Instance {
 
     public CompletableFuture<Boolean> destroy() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
+        INSTANCES.remove(id);
         if (destroyed) {
             future.complete(null);
             return future;
@@ -214,5 +252,31 @@ public class Instance {
 
     public int getHeight() {
         return height;
+    }
+
+    public Tile getReturnTo() {
+        return returnTo;
+    }
+
+    public void teleportLocal(Player player, int localX, int localY, int plane) {
+        player.setInstancedArea(this);
+        player.setNextTile(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
+    }
+
+    public void teleportChunkLocal(Player player, int chunkXOffset, int chunkYOffset, int xOffset, int yOffset, int plane) {
+        player.setInstancedArea(this);
+        player.setNextTile(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
+    }
+
+    public void teleportTo(Player player) {
+        teleportLocal(player, entranceOffset == null ? width * 4 : entranceOffset[0], entranceOffset == null ? height * 4 : entranceOffset[1], entranceOffset == null || entranceOffset.length < 3 ? 0 : entranceOffset[2]);
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public boolean isPersistent() {
+        return persistent;
     }
 }

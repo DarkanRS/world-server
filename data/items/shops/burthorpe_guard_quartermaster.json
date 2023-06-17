@@ -1,0 +1,50 @@
+{
+  "name": "Burthorpe Guard Quartermaster",
+  "generalStore": true,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1277,
+        "amount": 20
+      },
+      "restockTicks": 10
+    },
+    {
+      "item": {
+        "id": 19830,
+        "amount": 20
+      },
+      "restockTicks": 10
+    },
+    {
+      "item": {
+        "id": 2309,
+        "amount": 5
+      },
+      "restockTicks": 10
+    },
+    {
+      "item": {
+        "id": 882,
+        "amount": 200
+      },
+      "restockTicks": 1
+    },
+    {
+      "item": {
+        "id": 556,
+        "amount": 200
+      },
+      "restockTicks": 1
+    },
+    {
+      "item": {
+        "id": 1067,
+        "amount": 5
+      },
+      "restockTicks": 10
+    }
+  ]
+}

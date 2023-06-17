@@ -1,15 +1,11 @@
 package com.rs.game.content.quests.tribaltotem;
 
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.GET_TOTEM;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.TALK_TO_WIZARD;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -18,6 +14,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.tribaltotem.TribalTotem.*;
 
 @PluginEventHandler
 public class WizardCrompertyTribalTotemD extends Conversation {

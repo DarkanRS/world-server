@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.minigames.fightcaves;
 
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
 import com.rs.game.content.pets.Pets;
 import com.rs.game.content.skills.summoning.Summoning;
-import com.rs.engine.dialogue.HeadE;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -83,11 +83,6 @@ public class FightCavesController extends Controller {
 	public void start() {
 		loadCave(false);
 	}
-	
-	@Override
-	public boolean reenableDynamicRegion() {
-		return true;
-	}
 
 	@Override
 	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
@@ -132,7 +127,7 @@ public class FightCavesController extends Controller {
 		this.login = login;
 		stage = Stages.LOADING;
 		player.lock(); // locks player
-		region = new Instance(8, 8);
+		region = Instance.of(OUTSIDE, 8, 8);
 		region.copyMapAllPlanes(552, 640).thenAccept(e -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
 			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));
@@ -262,28 +257,7 @@ public class FightCavesController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		player.lock(7);
-		player.stopAll();
-		WorldTasks.schedule(new WorldTask() {
-			int loop;
-
-			@Override
-			public void run() {
-				if (loop == 0)
-					player.setNextAnimation(new Animation(836));
-				else if (loop == 1)
-					player.sendMessage("You have been defeated!");
-				else if (loop == 3) {
-					player.reset();
-					exitCave(1);
-					player.setNextAnimation(new Animation(-1));
-				} else if (loop == 4) {
-					player.jingle(90);
-					stop();
-				}
-				loop++;
-			}
-		}, 0, 1);
+		player.safeDeath(Tile.of(OUTSIDE, 2), "You have been defeated!", p -> exitCave(1));
 		return false;
 	}
 

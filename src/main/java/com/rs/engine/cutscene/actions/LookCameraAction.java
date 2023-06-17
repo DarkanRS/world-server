@@ -16,11 +16,11 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
+
+import java.util.Map;
 
 public class LookCameraAction extends CutsceneAction {
 

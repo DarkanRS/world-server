@@ -17,13 +17,13 @@
 package com.rs.game.content.minigames.domtower;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.world.unorganized_dialogue.StrangeFace;
-import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -176,7 +176,7 @@ public final class DominionTower {
 		player.closeInterfaces();
 		player.lock();
 		Instance old = region;
-		region = new Instance(8, 8);
+		region = Instance.of(Tile.of(3744, 6425, 0), 8, 8);
 		region.copyMapAllPlanes(BOSSES[getNextBossIndex()].arena[0], BOSSES[getNextBossIndex()].arena[1]).thenAccept(e -> {
 			teleportToArena(mode);
 			player.unlock();

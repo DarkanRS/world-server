@@ -16,15 +16,15 @@
 //
 package com.rs.engine.quest;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-
 import com.rs.engine.quest.data.QuestDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.List;
 
 public enum Quest {
 	COOKS_ASSISTANT(6, 1),

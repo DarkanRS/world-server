@@ -16,14 +16,13 @@
 //
 package com.rs.tools.old;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class WebPage {
 

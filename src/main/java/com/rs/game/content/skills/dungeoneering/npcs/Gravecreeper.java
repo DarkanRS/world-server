@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
@@ -39,6 +36,9 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
+
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Gravecreeper extends DungeonBoss {
 

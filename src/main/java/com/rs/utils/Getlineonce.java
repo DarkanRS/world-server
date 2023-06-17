@@ -16,13 +16,9 @@
 //
 package com.rs.utils;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-
 import com.rs.lib.util.Logger;
+
+import java.util.*;
 
 /**
  * My custom Runtime debugging tool

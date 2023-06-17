@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.minigames.partyroom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.World;
@@ -44,6 +41,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 @PluginEventHandler
 public class PartyRoom {

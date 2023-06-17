@@ -16,10 +16,10 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
+
+import java.util.Map;
 
 public class PlayerAnimationAction extends CutsceneAction {
 

@@ -16,28 +16,24 @@
 //
 package com.rs.game.content.death;
 
+import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.player.InstancedController;
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
+import com.rs.game.model.object.GameObject;
+import com.rs.lib.game.*;
+import com.rs.lib.net.ClientPacket;
+import com.rs.lib.util.Utils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.rs.game.content.skills.magic.Magic;
-import com.rs.engine.miniquest.Miniquest;
-import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.player.Controller;
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
-import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.Tile;
-import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.Utils;
-
-public class DeathOfficeController extends Controller {
+public class DeathOfficeController extends InstancedController {
 	
 	public enum Hub {
 		LUMBRIDGE(Tile.of(3222, 3219, 0)),
@@ -139,8 +135,6 @@ public class DeathOfficeController extends Controller {
 		return getCurrentHub(player, Tile.of(player.getTile()));
 	}
 
-	private transient Instance region = new Instance(2, 2);
-	private Stages stage;
 	private Integer[][] slots;
 	private Hub defaultHub;
 	private Hub currentHub;
@@ -149,26 +143,29 @@ public class DeathOfficeController extends Controller {
 	private boolean hadSkull;
 
 	public DeathOfficeController(Tile deathTile, boolean hadSkull) {
+		super(Instance.of(deathTile, 2, 2).persist().setEntranceOffset(new int[] { 10, 6, 0 }));
 		this.deathTile = Tile.of(deathTile);
 		this.hadSkull = hadSkull;
 	}
 
 	@Override
-	public void start() {
-		loadRoom();
+	public void onBuildInstance() {
+		player.lock();
+		getInstance().copyMapSinglePlane(246, 662).thenAccept(b -> {
+			player.reset();
+			getInstance().teleportLocal(player, 10, 6, 0);
+			player.setNextAnimation(new Animation(-1));
+			player.getMusicsManager().playSongAndUnlock(683);
+			player.getPackets().setBlockMinimapState(2);
+			sendInterfaces();
+			player.unlock();
+		});
 	}
 
 	@Override
-	public boolean login() {
-		loadRoom();
-		return false;
-	}
-
-	@Override
-	public boolean logout() {
-		player.setTile(Tile.of(1978, 5302, 0));
-		destroyRoom();
-		return false;
+	public void onDestroyInstance() {
+		player.getPackets().setBlockMinimapState(0);
+		player.getInterfaceManager().sendSubDefaults(InterfaceManager.Sub.TAB_COMBAT, InterfaceManager.Sub.TAB_ACHIEVEMENT, InterfaceManager.Sub.TAB_SKILLS, InterfaceManager.Sub.TAB_INVENTORY, InterfaceManager.Sub.TAB_EQUIPMENT, InterfaceManager.Sub.TAB_PRAYER, InterfaceManager.Sub.TAB_MAGIC, InterfaceManager.Sub.TAB_EMOTES);
 	}
 
 	@Override
@@ -201,34 +198,9 @@ public class DeathOfficeController extends Controller {
 		return false;
 	}
 
-	private static enum Stages {
-		LOADING, RUNNING, DESTROYING
-	}
-
 	@Override
 	public void sendInterfaces() {
 		player.getInterfaceManager().removeSubs(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
-	}
-
-	public void loadRoom() {
-		stage = Stages.LOADING;
-		player.lock();
-
-		if (region == null)
-			region = new Instance(2, 2);
-
-		region.copyMapSinglePlane(246, 662).thenAccept(b -> {
-			player.reset();
-			player.setNextTile(region.getLocalTile(10, 6));
-			WorldTasks.delay(1, () -> {
-				player.setNextAnimation(new Animation(-1));
-				player.getMusicsManager().playSongAndUnlock(683);
-				player.getPackets().setBlockMinimapState(2);
-				sendInterfaces();
-				player.unlock();
-				stage = Stages.RUNNING;
-			});
-		});
 	}
 
 	@Override
@@ -306,6 +278,8 @@ public class DeathOfficeController extends Controller {
 					player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
 			}
 			player.setCloseInterfacesEvent(null);
+			player.getPackets().setBlockMinimapState(0);
+			player.getInterfaceManager().sendSubDefaults(InterfaceManager.Sub.TAB_COMBAT, InterfaceManager.Sub.TAB_ACHIEVEMENT, InterfaceManager.Sub.TAB_SKILLS, InterfaceManager.Sub.TAB_INVENTORY, InterfaceManager.Sub.TAB_EQUIPMENT, InterfaceManager.Sub.TAB_PRAYER, InterfaceManager.Sub.TAB_MAGIC, InterfaceManager.Sub.TAB_EMOTES);
 			Magic.sendObjectTeleportSpell(player, true, currentHub.tile);
 		});
 	}
@@ -367,25 +341,4 @@ public class DeathOfficeController extends Controller {
 	public boolean hadSkull() {
 		return hadSkull;
 	}
-
-	@Override
-	public void magicTeleported(int type) {
-		destroyRoom();
-		player.getPackets().setBlockMinimapState(0);
-		player.getInterfaceManager().sendSubDefaults(Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_EMOTES);
-		removeController();
-	}
-
-	public void destroyRoom() {
-		if (stage != Stages.RUNNING)
-			return;
-		stage = Stages.DESTROYING;
-		region.destroy();
-	}
-
-	@Override
-	public void forceClose() {
-		destroyRoom();
-	}
-
 }

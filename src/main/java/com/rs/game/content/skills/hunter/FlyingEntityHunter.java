@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import com.rs.game.content.Effect;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.content.Effect;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

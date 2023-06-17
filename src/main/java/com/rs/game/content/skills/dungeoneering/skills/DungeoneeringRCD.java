@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.skills.dungeoneering.skills;
 
-import java.util.Arrays;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
 import com.rs.game.model.entity.player.Player;
+
+import java.util.Arrays;
 
 public class DungeoneeringRCD extends Conversation {
 	

@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.magic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -26,6 +23,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class TeleportTabs {

@@ -16,9 +16,9 @@
 //
 package com.rs.engine.dialogue.statements;
 
-import java.security.InvalidParameterException;
-
 import com.rs.game.model.entity.player.Player;
+
+import java.security.InvalidParameterException;
 
 public class OptionStatement implements Statement {
 

@@ -1,22 +1,5 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.FINISHED_DIALOGUE_GUILDMASTER_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.GUILD_MASTER;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_LOZAR_MAP_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_MELZAR_MAP_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_SHIP_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_THALZAR_MAP_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_MAP_EXISTS_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.MELZAR_MAZE_KEY;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NOT_STARTED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.QUEST_COMPLETE;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.STARTED_DIALOGUE_GUILDMASTER_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -26,6 +9,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class GuildMasterDragonSlayerD extends Conversation {

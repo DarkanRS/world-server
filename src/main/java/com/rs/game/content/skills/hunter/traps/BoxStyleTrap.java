@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.hunter.traps;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
@@ -34,6 +32,8 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
+
+import java.util.Arrays;
 
 public class BoxStyleTrap extends OwnedObject {
 

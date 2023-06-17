@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.summoning;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -30,11 +28,9 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.InterfaceOnNPCHandler;
-import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
+import com.rs.plugin.handlers.*;
+
+import java.util.Arrays;
 
 @PluginEventHandler
 public class Summoning {

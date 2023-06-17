@@ -16,14 +16,14 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.cs2.CS2Definitions;
 import com.rs.cache.loaders.cs2.CS2Instruction;
 import com.rs.cache.loaders.cs2.CS2Script;
 import com.rs.lib.io.InputStream;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class CS2ScriptPacker {
 

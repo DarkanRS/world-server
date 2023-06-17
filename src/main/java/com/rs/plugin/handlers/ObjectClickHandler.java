@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.events.ObjectClickEvent;
+
+import java.util.function.Consumer;
 
 public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 

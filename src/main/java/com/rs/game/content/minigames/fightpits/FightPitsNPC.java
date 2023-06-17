@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.minigames.fightpits;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FightPitsNPC extends NPC {
 

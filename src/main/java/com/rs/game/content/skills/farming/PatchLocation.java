@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.farming;
 
+import com.rs.cache.loaders.ObjectDefinitions;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.cache.loaders.ObjectDefinitions;
 
 public enum PatchLocation {
 	Taverly_tree(8388, PatchType.TREE),

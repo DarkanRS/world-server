@@ -16,18 +16,14 @@
 //
 package com.rs.game.content.combat;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
+
+import java.util.*;
 
 public enum RangedWeapon {
 

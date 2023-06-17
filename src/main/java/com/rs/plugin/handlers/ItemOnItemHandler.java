@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.ItemOnItemEvent;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.ItemOnItemEvent;
 
 public class ItemOnItemHandler extends PluginHandler<ItemOnItemEvent> {
 

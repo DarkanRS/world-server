@@ -16,17 +16,20 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
 import com.rs.engine.cutscene.Cutscene;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.game.Tile;
+
+import java.util.Map;
 
 public class ConstructMapAction extends CutsceneAction {
 
+	private Tile returnTile;
 	private int baseChunkX, baseChunkY, widthChunks, heightChunks;
 
-	public ConstructMapAction(int baseChunkX, int baseChunkY, int widthChunks, int heightChunks) {
+	public ConstructMapAction(Tile returnTile, int baseChunkX, int baseChunkY, int widthChunks, int heightChunks) {
 		super(null, 1);
+		this.returnTile = returnTile;
 		this.baseChunkX = baseChunkX;
 		this.baseChunkY = baseChunkY;
 		this.widthChunks = widthChunks;
@@ -36,6 +39,6 @@ public class ConstructMapAction extends CutsceneAction {
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		scene.constructArea(baseChunkX, baseChunkY, widthChunks, heightChunks);
+		scene.constructArea(returnTile, baseChunkX, baseChunkY, widthChunks, heightChunks);
 	}
 }

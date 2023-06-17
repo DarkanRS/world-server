@@ -1,15 +1,5 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.CAPTAIN_NED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.IS_BOAT_FIXED_ATTR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NOT_STARTED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.QUEST_COMPLETE;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -18,6 +8,8 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class CaptainNedDragonSlayerD extends Conversation {

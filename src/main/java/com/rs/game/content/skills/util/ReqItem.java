@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.skills.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ReqItem {
 	CANNON_COG(Category.ARTISANS, new Item(20475, 1), Constants.SMITHING, 62, 38.0, 20476, new Item[] { new Item(20638, 1) }),

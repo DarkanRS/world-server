@@ -25,8 +25,8 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldObject;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -144,7 +144,7 @@ public class Trollheim {
 			e.getPlayer().setNextTile(Tile.of(2848, 3687, 0));
 	});
 
-	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 66533, 67674, 67570 }, e -> {
+	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 67674, 67570 }, e -> {
 		if (e.getObject().getId() == 67568)
 			e.getPlayer().setNextTile(Tile.of(2858, 3577, 0));
 		else if (e.getObject().getId() == 67567)
@@ -153,8 +153,6 @@ public class Trollheim {
 			e.getPlayer().setNextTile(Tile.of(3405, 4284, 2));
 		else if (e.getObject().getId() == 67572)
 			e.getPlayer().setNextTile(Tile.of(2858, 3577, 0));
-		else if (e.getObject().getId() == 66533)
-			e.getPlayer().setNextTile(Tile.of(2208, 4364, 0));
 		else if (e.getObject().getId() == 67674) {
 			if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
 				Agility.handleObstacle(e.getPlayer(), 3382, 3, e.getPlayer().transform(-3, 0, -1), 1);

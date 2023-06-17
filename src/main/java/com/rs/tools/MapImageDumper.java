@@ -16,32 +16,21 @@
 //
 package com.rs.tools;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.RenderingHints;
+import com.rs.cache.Cache;
+import com.rs.cache.loaders.*;
+import com.rs.cache.loaders.map.Region;
+import com.rs.lib.game.WorldObject;
+import com.rs.lib.util.MapXTEAs;
+import com.rs.utils.BigBufferedImage;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import javax.imageio.ImageIO;
-
-import com.rs.cache.Cache;
-import com.rs.cache.loaders.AreaDefinitions;
-import com.rs.cache.loaders.MapSpriteDefinitions;
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cache.loaders.ObjectType;
-import com.rs.cache.loaders.OverlayDefinitions;
-import com.rs.cache.loaders.SpriteDefinitions;
-import com.rs.cache.loaders.UnderlayDefinitions;
-import com.rs.cache.loaders.map.Region;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldObject;
-import com.rs.lib.util.MapXTEAs;
-import com.rs.utils.BigBufferedImage;
 
 public class MapImageDumper {
 

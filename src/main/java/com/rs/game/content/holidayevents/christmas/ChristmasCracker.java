@@ -6,11 +6,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnPlayerHandler;
-import com.rs.utils.drop.Drop;
-import com.rs.utils.drop.DropSet;
-import com.rs.utils.drop.DropTable;
-import com.rs.utils.drop.WeightedSet;
-import com.rs.utils.drop.WeightedTable;
+import com.rs.utils.drop.*;
 
 @PluginEventHandler
 public class ChristmasCracker {

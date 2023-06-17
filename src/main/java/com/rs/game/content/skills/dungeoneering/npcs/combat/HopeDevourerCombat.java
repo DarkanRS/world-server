@@ -20,7 +20,6 @@ import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.HopeDevourer;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;

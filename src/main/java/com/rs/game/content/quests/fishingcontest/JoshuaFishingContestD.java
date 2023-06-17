@@ -1,11 +1,5 @@
 package com.rs.game.content.quests.fishingcontest;
 
-import static com.rs.game.content.quests.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.ENTER_COMPETITION;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.GIVE_TROPHY;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.NOT_STARTED;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -15,6 +9,8 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.fishingcontest.FishingContest.*;
 
 @PluginEventHandler
 public class JoshuaFishingContestD extends Conversation {

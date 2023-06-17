@@ -3,7 +3,6 @@ package com.rs.game.content.clans.clanCamp.npcs;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.clans.ClansManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

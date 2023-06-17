@@ -16,24 +16,27 @@
 //
 package com.rs.engine.cutscene.actions;
 
-import java.util.Map;
-
-import com.rs.game.World;
 import com.rs.engine.cutscene.Cutscene;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
 public class CreateNPCAction extends CutsceneAction {
 
 	private int id, x, y, plane;
+	private Consumer<NPC> configureNpc;
 
-	public CreateNPCAction(String key, int id, int x, int y, int plane, int actionDelay) {
+	public CreateNPCAction(String key, int id, int x, int y, int plane, int actionDelay, Consumer<NPC> configureNpc) {
 		super(key, actionDelay);
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.plane = plane;
+		this.configureNpc = configureNpc;
 	}
 
 	@Override
@@ -44,6 +47,8 @@ public class CreateNPCAction extends CutsceneAction {
 		NPC npc = World.spawnNPC(id, Tile.of(scene.getX(x), scene.getY(y), plane), -1, true, true);
 		objects.put(getObjectKey(), npc);
 		npc.setRandomWalk(false);
+		if (configureNpc != null)
+			configureNpc.accept(npc);
 	}
 
 }

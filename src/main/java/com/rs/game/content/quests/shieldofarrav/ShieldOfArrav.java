@@ -16,17 +16,14 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.rs.game.World;
-import com.rs.game.content.world.doors.Doors;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
+import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -36,13 +33,11 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnPlayerHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PickupItemHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.SHIELD_OF_ARRAV)
 @PluginEventHandler
@@ -80,7 +75,7 @@ public class ShieldOfArrav extends QuestOutline {
     }
 
     @Override
-    public ArrayList<String> getJournalLines(Player player, int stage) {
+    public List<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<>();
         switch (stage) {
             case NOT_STARTED_STAGE:

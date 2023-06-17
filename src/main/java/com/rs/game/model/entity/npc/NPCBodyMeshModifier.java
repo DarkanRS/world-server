@@ -16,10 +16,10 @@
 //
 package com.rs.game.model.entity.npc;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.lib.io.OutputStream;
+
+import java.util.Arrays;
 
 public class NPCBodyMeshModifier {
 	

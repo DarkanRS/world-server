@@ -1,7 +1,5 @@
 package com.rs.game.content.quests.wolfwhistle;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -15,6 +13,9 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.WOLF_WHISTLE)
 @PluginEventHandler
@@ -112,7 +113,7 @@ public class WolfWhistle extends QuestOutline {
     }
 
     @Override
-    public ArrayList<String> getJournalLines(Player player, int stage) {
+    public List<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<>();
 
         switch (stage) {

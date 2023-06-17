@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -29,6 +27,9 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @QuestHandler(Quest.COOKS_ASSISTANT)
 @PluginEventHandler
 public class CooksAssistant extends QuestOutline {
@@ -39,7 +40,7 @@ public class CooksAssistant extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:

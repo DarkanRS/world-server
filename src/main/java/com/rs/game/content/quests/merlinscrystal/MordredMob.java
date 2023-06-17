@@ -1,7 +1,7 @@
 package com.rs.game.content.quests.merlinscrystal;
 
-import com.rs.game.World;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;

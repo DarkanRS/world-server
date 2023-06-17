@@ -16,28 +16,24 @@
 //
 package com.rs.game.content.world.areas.lumbridge;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
-
-import com.rs.game.content.ItemConstants;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.quests.RuneMysteries;
-import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.ItemConstants;
+import com.rs.game.content.achievements.AchievementSystemDialogue;
+import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.quests.RuneMysteries;
+import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
 @PluginEventHandler
 public class Lumbridge {

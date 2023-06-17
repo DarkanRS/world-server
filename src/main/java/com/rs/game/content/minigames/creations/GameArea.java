@@ -16,19 +16,18 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.model.object.GameObject;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import jdk.incubator.concurrent.StructuredTaskScope;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author mgi125, the almighty
@@ -125,7 +124,7 @@ public class GameArea {
 	public void create(Runnable callback) {
 		if (region != null)
 			throw new RuntimeException("Area already created.");
-		region = new Instance(flags.length, flags.length);
+		region = Instance.of(Helper.EXIT, flags.length, flags.length);
 		region.requestChunkBound().thenAccept(e -> {
 			List<CompletableFuture<Boolean>> futures = new ObjectArrayList<>();
 			for (int x = 0; x < flags.length; x++) {

@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
@@ -31,6 +28,9 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class FlowerRootsRoom extends PuzzleRoom {
 

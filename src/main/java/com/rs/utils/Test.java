@@ -16,9 +16,6 @@
 //
 package com.rs.utils;
 
-import java.io.IOException;
-import java.util.Date;
-
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
@@ -32,6 +29,9 @@ import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.utils.json.ControllerAdapter;
+
+import java.io.IOException;
+import java.util.Date;
 
 public class Test {
 

@@ -18,6 +18,12 @@ package com.rs.net.decoders.handlers;
 
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.dialogue.statements.Statement;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
@@ -57,17 +63,9 @@ import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.StrongholdRewardD;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.statements.NPCStatement;
-import com.rs.engine.dialogue.statements.Statement;
-import com.rs.engine.quest.Quest;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
@@ -75,11 +73,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -298,22 +292,14 @@ public final class ObjectHandler {
 				} else
 					player.sendMessage("You already have full prayer.");
 				return;
-			} else if (id == 65715) { // Armored zombie trapdoor
+			} else if (id == 65715) // Armored zombie trapdoor
 				player.setNextTile(Tile.of(3241, 9991, 0));
-				return;
-			} else if (id == 12328) { // Jadinko lair
+			else if (id == 12328) // Jadinko lair
 				player.setNextTile(Tile.of(3011, 9276, 0));
-				return;
-			} else if (id == 66533)
-				player.useStairs(-1, Tile.of(2208, 4364, 0), 0, 1);
-			else if (id == 66534)
-				player.useStairs(-1, Tile.of(2878, 3573, 0), 0, 1);
-
 			else if (id == 11209)
 				player.useStairs(-1, player.transform(3, 0, 1), 0, 1);
 			else if (id == 11210)
 				player.useStairs(-1, player.transform(-3, 0, -1), 0, 1);
-
 			else if (id == 11212)
 				player.useStairs(-1, player.transform(0, 3, -1), 0, 1);
 			else if (id == 11211)
@@ -370,21 +356,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
 				StealingCreationLobbyController.climbOverStile(player, object, true);
-			else if (id == 29734) {
-				if (player.getEmotesManager().unlockedEmote(Emote.SAFETY_FIRST)) {
-					if (player.containsItem(12629))
-						player.sendMessage("You find nothing inside the chest.");
-					else
-						player.getInventory().addItem(12629, 1, true);
-					return;
-				}
-				player.save("sopsRew", true);
-				player.getInventory().addCoins(10000);
-				player.getInventory().addItem(12629, 1, true);
-				player.getInventory().addItem(12628, 2, true);
-				player.getEmotesManager().unlockEmote(Emote.SAFETY_FIRST);
-				player.simpleDialogue("You open the chest and find a large pile of gold, along with a pair", "of safety gloves and two antique lamps. Also in the chest is the", "secret of the 'Safety First' emote.");
-			} else if (id == 16135) {
+			else if (id == 16135) {
 				if (player.getEmotesManager().unlockedEmote(Emote.FLAP)) {
 					player.sendMessage("You have already claimed your reward from this level.");
 					return;

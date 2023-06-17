@@ -1,17 +1,12 @@
 package com.rs.game.content.minigames.trawler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.World;
-import com.rs.game.content.transportation.FadingScreen;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.game.World;
+import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
@@ -35,6 +30,11 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 @PluginEventHandler
 public class FishingTrawler {

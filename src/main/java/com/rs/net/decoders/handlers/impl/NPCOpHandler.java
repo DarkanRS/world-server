@@ -23,7 +23,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.NPCOp;
-import com.rs.lib.util.Utils;
 import com.rs.net.decoders.handlers.NPCHandler;
 
 public class NPCOpHandler implements PacketHandler<Player, NPCOp> {

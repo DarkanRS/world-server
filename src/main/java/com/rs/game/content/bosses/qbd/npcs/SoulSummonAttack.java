@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.Iterator;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
+
+import java.util.Iterator;
 
 /**
  * Handles the summoning of the tortured souls.

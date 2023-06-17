@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.construction;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
@@ -26,6 +23,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TabletMaking {
 

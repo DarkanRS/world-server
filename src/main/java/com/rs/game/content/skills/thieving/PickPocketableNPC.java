@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.thieving;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -26,6 +23,9 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum PickPocketableNPC {
 

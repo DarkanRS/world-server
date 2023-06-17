@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.game.model.entity.player.Player;
+import com.rs.lib.game.Item;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Item;
 
 public enum Rune {
 	//varbit 4540 = 2, 3 || varbit 5493 != 0 activates elemental/catalytic miniegame runes
@@ -68,6 +68,8 @@ public enum Rune {
 	}
 
 	public boolean hasInfinite(Player player) {
+		if (player.getEquipment().getWeaponId() == 24457)
+			return true;
 		switch(this) {
 		case AIR:
 			switch(player.getEquipment().getWeaponId()) {

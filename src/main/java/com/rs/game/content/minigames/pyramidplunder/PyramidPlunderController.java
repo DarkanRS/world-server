@@ -16,11 +16,6 @@
 //
 package com.rs.game.content.minigames.pyramidplunder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
@@ -30,6 +25,11 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PyramidPlunderController extends Controller {
 	final static int PLUNDER_INTERFACE = 428;

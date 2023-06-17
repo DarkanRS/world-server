@@ -1,11 +1,9 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.TREE_SPIRIT;
-
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -13,6 +11,8 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.quests.lostcity.LostCity.TREE_SPIRIT;
 
 @PluginEventHandler
 public class DramenTreeBoss {

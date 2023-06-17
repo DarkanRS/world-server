@@ -16,20 +16,15 @@
 //
 package com.rs.game.content.combat;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
-import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.WorldProjectile;
@@ -54,6 +49,10 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @PluginEventHandler
 public class PlayerCombat extends PlayerAction {
@@ -328,7 +327,7 @@ public class PlayerCombat extends PlayerAction {
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
 			if (spell.isAOE() && hit)
-				attackTarget(target, getMultiAttackTargets(player, target), new MultiAttack() {
+				attackTarget(target, getMultiAttackTargets(player, target, 1, 9, false), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override
@@ -1414,7 +1413,7 @@ public class PlayerCombat extends PlayerAction {
 					}
 				if (weaponName.contains("battleaxe"))
 					return 395;
-				if (weaponName.contains("staff") || weaponName.contains("wand"))
+				if (weaponName.contains("mindspike") || weaponName.contains("staff") || weaponName.contains("wand"))
 					return 419;
 				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre"))
 					switch (attackStyle.getIndex()) {
@@ -1796,7 +1795,7 @@ public class PlayerCombat extends PlayerAction {
 					return 415;
 				if (weaponName.contains("chaotic staff"))
 					return 13046;
-				if (weaponName.contains("staff"))
+				if (weaponName.contains("mindspike") || weaponName.contains("staff"))
 					return 420;
 				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
 					return 403;

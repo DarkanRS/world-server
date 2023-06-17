@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.magic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Enchanting {
 

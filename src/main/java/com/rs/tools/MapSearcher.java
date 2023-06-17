@@ -16,10 +16,6 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectType;
@@ -27,6 +23,10 @@ import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapSearcher {
 

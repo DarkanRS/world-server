@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.Arrays;
-
 import com.rs.game.content.skills.dungeoneering.rooms.HandledPuzzleRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.HandledRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.NormalRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.StartRoom;
+
+import java.util.Arrays;
 
 public class Room {
 

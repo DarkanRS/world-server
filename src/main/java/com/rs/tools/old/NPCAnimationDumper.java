@@ -16,17 +16,17 @@
 //
 package com.rs.tools.old;
 
+import com.rs.cache.loaders.BASDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.animations.AnimationDefinitions;
+import com.rs.lib.util.Utils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import com.rs.cache.loaders.BASDefinitions;
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.animations.AnimationDefinitions;
-import com.rs.lib.util.Utils;
 
 public class NPCAnimationDumper {
 

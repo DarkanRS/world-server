@@ -16,10 +16,7 @@
 //
 package com.rs.game.content.skills.firemaking;
 
-import java.util.ArrayList;
-
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
@@ -33,6 +30,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
 
 public class Bonfire extends PlayerAction {
 

@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.pets;
 
+import com.rs.game.model.entity.player.Player;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.game.model.entity.player.Player;
 
 /**
  * An enum containing all the pets and their info.

@@ -16,21 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.time.Clock;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.function.Consumer;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.EnumDefinitions;
@@ -38,15 +23,21 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.LoyaltyRewardDefinitions.Reward;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.db.WorldDB;
+import com.rs.engine.book.Book;
+import com.rs.engine.cutscene.Cutscene;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.miniquest.MiniquestManager;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestManager;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
-import com.rs.game.content.Effect;
-import com.rs.game.content.ItemConstants;
+import com.rs.game.content.*;
 import com.rs.game.content.ItemConstants.ItemDegrade;
-import com.rs.game.content.Notes;
-import com.rs.game.content.PlayerLook;
-import com.rs.game.content.SkillCapeCustomizer;
-import com.rs.game.content.Toolbelt;
 import com.rs.game.content.Toolbelt.Tools;
 import com.rs.game.content.achievements.AchievementInterface;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -67,7 +58,6 @@ import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.cooking.Brewery;
 import com.rs.game.content.skills.dungeoneering.DungManager;
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
@@ -86,55 +76,27 @@ import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.Musician;
-import com.rs.engine.book.Book;
-import com.rs.engine.cutscene.Cutscene;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.engine.dialogue.statements.SimpleStatement;
-import com.rs.engine.miniquest.Miniquest;
-import com.rs.engine.miniquest.MiniquestManager;
-import com.rs.engine.quest.Quest;
-import com.rs.engine.quest.QuestManager;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.Route;
-import com.rs.game.model.entity.pathing.RouteEvent;
-import com.rs.game.model.entity.pathing.RouteFinder;
-import com.rs.game.model.entity.player.managers.AuraManager;
-import com.rs.game.model.entity.player.managers.ControllerManager;
-import com.rs.game.model.entity.player.managers.CutsceneManager;
-import com.rs.game.model.entity.player.managers.EmotesManager;
-import com.rs.game.model.entity.player.managers.HintIconsManager;
-import com.rs.game.model.entity.player.managers.InterfaceManager;
+import com.rs.game.model.entity.pathing.*;
+import com.rs.game.model.entity.player.managers.*;
 import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.game.model.entity.player.managers.MusicsManager;
-import com.rs.game.model.entity.player.managers.PrayerManager;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.PublicChatMessage;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.VarManager;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.model.Account;
 import com.rs.lib.model.Social;
 import com.rs.lib.model.clan.Clan;
@@ -157,12 +119,7 @@ import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.handlers.PacketHandlers;
 import com.rs.net.encoders.WorldEncoder;
 import com.rs.plugin.PluginManager;
-import com.rs.plugin.events.EnterChunkEvent;
-import com.rs.plugin.events.InputHSLEvent;
-import com.rs.plugin.events.InputIntegerEvent;
-import com.rs.plugin.events.InputStringEvent;
-import com.rs.plugin.events.ItemEquipEvent;
-import com.rs.plugin.events.LoginEvent;
+import com.rs.plugin.events.*;
 import com.rs.utils.AccountLimiter;
 import com.rs.utils.MachineInformation;
 import com.rs.utils.Ticks;
@@ -170,6 +127,14 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.Clock;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 
 public class Player extends Entity {
 
@@ -212,9 +177,10 @@ public class Player extends Entity {
 	private transient String[] playerOptions = new String[10];
 	private transient Set<Sound> sounds = new HashSet<Sound>();
 
-	private Tile lastNonDynamicTile;
+	private Instance instancedArea;
 
 	private int hw07Stage;
+	public transient Runnable onPacketCutsceneFinish;
 
 	public void refreshChargeTimer() {
 		addEffect(Effect.CHARGED, 600);
@@ -854,24 +820,6 @@ public class Player extends Entity {
 		started = true;
 		Logger.info(Player.class, "start", "Started player: " + account.getUsername());
 		run();
-
-		if (getBool("isLoggedOutInDungeon")) {
-			if (getDungManager().getParty() == null) {
-				setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
-				this.reset();
-				getEquipment().reset();
-				getInventory().reset();
-				@SuppressWarnings("unchecked")
-				ArrayList<Double> itemsEnter = (ArrayList<Double>)savingAttributes.get("dungeoneering_enter_floor_inventory");
-				if(itemsEnter != null)
-					for(int i = 0; i < itemsEnter.size(); i++)
-						if ((i % 2) == 0)
-							getInventory().addItem(itemsEnter.get(i).intValue(), itemsEnter.get(i+1).intValue());
-			}
-			delete("isLoggedOutInDungeon");
-			delete("dungeoneering_enter_floor_inventory");
-		}
-		checkWasInDynamicRegion();
 		if (isDead())
 			sendDeath(null);
 	}
@@ -966,6 +914,7 @@ public class Player extends Entity {
 			getPackets().sendMapRegion(!started);
 			if (wasAtDynamicRegion)
 				localNPCUpdate.reset();
+			setInstancedArea(null);
 		}
 		forceNextMapLoadRefresh = false;
 	}
@@ -1292,6 +1241,7 @@ public class Player extends Entity {
 		updateMovementType = true;
 		pvpCombatLevelThreshhold = -1;
 		appearence.generateAppearanceData();
+		checkWasInDynamicRegion();
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
 		getVars().setVarBit(4322, 1);
@@ -2158,6 +2108,45 @@ public class Player extends Entity {
 
 	}
 
+	public void safeDeath(Tile respawnTile) {
+		safeDeath(null, respawnTile, "Oh dear, you are dead!", null);
+	}
+
+	public void safeDeath(Tile respawnTile, String message, Consumer<Player> onFall) {
+		safeDeath(null, respawnTile, message, onFall);
+	}
+
+	public void safeDeath(Tile respawnTile, Consumer<Player> onFall) {
+		safeDeath(null, respawnTile, "Oh dear, you are dead!", onFall);
+	}
+
+	public void safeDeath(Entity source, Tile respawnTile, String message, Consumer<Player> onFall) {
+		lock();
+		stopAll();
+		if (prayer.active(Prayer.RETRIBUTION))
+			retribution(source);
+		if (prayer.active(Prayer.WRATH))
+			wrath(source);
+		WorldTasks.scheduleTimer(0, 1, tick -> {
+			switch(tick) {
+				case 0 -> setNextAnimation(new Animation(836));
+				case 1 -> sendMessage(message);
+				case 3 -> {
+					reset();
+					setNextTile(respawnTile);
+					setNextAnimation(new Animation(-1));
+					if (onFall != null)
+						onFall.accept(this);
+				}
+				case 4 ->  {
+					jingle(90);
+					unlock();
+					return false;
+				}
+			}
+			return true;
+		});
+	}
 	@Override
 	public void sendDeath(final Entity source) {
 		incrementCount("Deaths");
@@ -2189,7 +2178,7 @@ public class Player extends Entity {
 				if (loop == 0)
 					setNextAnimation(new Animation(836));
 				else if (loop == 1)
-					sendMessage("Oh dear, you have died.");
+					sendMessage("Oh dear, you are dead!");
 				else if (loop == 2) {
 					reset();
 					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
@@ -4262,19 +4251,16 @@ public class Player extends Entity {
 	}
 
 	private void checkWasInDynamicRegion() {
-		if (!getBool("dontTeleFromInstanceOnLogin") && lastNonDynamicTile != null && (getControllerManager().getController() == null || !getControllerManager().getController().reenableDynamicRegion())) {
-			setNextTile(Tile.of(lastNonDynamicTile));
-			clearLastNonDynamicTile();
+		if (instancedArea != null) {
+			Instance prevInstance = Instance.get(instancedArea.getId());
+			if (prevInstance != null && prevInstance.isPersistent()) {
+				prevInstance.teleportTo(this);
+				setForceNextMapLoadRefresh(true);
+				return;
+			}
+			setNextTile(instancedArea.getReturnTo());
+			instancedArea = null;
 		}
-		getSavingAttributes().remove("dontTeleFromInstanceOnLogin");
-	}
-
-	public void clearLastNonDynamicTile() {
-		lastNonDynamicTile = null;
-	}
-
-	public void setLastNonDynamicTile(Tile lastNonDynamicTile) {
-		this.lastNonDynamicTile = lastNonDynamicTile;
 	}
 
 	public Recorder getRecorder() {
@@ -4303,6 +4289,10 @@ public class Player extends Entity {
 		WorldTasks.delay(ticks+1, () -> unlock());
 	}
 
+	public void playPacketCutscene(int id, Runnable onFinish) {
+		getPackets().sendCutscene(id);
+		onPacketCutsceneFinish = onFinish;
+	}
 	public void playCutscene(Consumer<Cutscene> constructor) {
 		getCutsceneManager().play(new Cutscene() {
 			@Override
@@ -4319,6 +4309,14 @@ public class Player extends Entity {
 	public void setBasNoReset(int bas) {
 		super.setBasNoReset(bas);
 		getAppearance().generateAppearanceData();
+	}
+
+	public void setInstancedArea(Instance instancedArea) {
+		this.instancedArea = instancedArea;
+	}
+
+	public Instance getInstancedArea() {
+		return instancedArea;
 	}
 
 	public Set<Integer> getMapChunksNeedInit() {

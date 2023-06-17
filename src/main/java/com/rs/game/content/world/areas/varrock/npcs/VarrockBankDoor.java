@@ -1,14 +1,14 @@
 package com.rs.game.content.world.areas.varrock.npcs;
 
 import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 
 @PluginEventHandler

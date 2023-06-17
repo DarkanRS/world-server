@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.world.unorganized_dialogue;
 
-import com.rs.game.content.skills.crafting.GemCutting;
-import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.content.skills.crafting.GemCutting;
+import com.rs.game.content.skills.crafting.GemCutting.Gem;
 import com.rs.game.model.entity.player.Player;
 
 public class GemCuttingD extends Conversation {

@@ -1,17 +1,12 @@
 package com.rs.game.content.quests.witchshouse;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
-import java.util.ArrayList;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -23,14 +18,14 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PickupItemHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.WITCHS_HOUSE)
 @PluginEventHandler
@@ -61,7 +56,7 @@ public class WitchsHouse extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

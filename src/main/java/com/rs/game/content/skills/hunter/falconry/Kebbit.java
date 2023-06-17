@@ -1,9 +1,5 @@
 package com.rs.game.content.skills.hunter.falconry;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.DropCleaners;
@@ -17,6 +13,10 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Kebbit extends NPC {

@@ -16,17 +16,17 @@
 //
 package com.rs.engine.thread;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.*;
-import java.util.stream.Stream;
-
 import com.rs.Settings;
 import com.rs.lib.thread.CatchExceptionRunnable;
 import com.rs.lib.util.Logger;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import jdk.incubator.concurrent.StructuredTaskScope;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.*;
+import java.util.stream.Stream;
 
 public final class LowPriorityTaskExecutor {
 	public static volatile boolean SHUTDOWN;

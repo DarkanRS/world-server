@@ -16,14 +16,11 @@
 //
 package com.rs.game.content.minigames.treasuretrails;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.World;
-import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
+import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
@@ -39,6 +36,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class TreasureTrailsManager {

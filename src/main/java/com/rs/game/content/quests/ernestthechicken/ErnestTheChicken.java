@@ -16,13 +16,6 @@
 //
 package com.rs.game.content.quests.ernestthechicken;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -30,6 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
@@ -40,11 +34,13 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.ERNEST_CHICKEN)
 @PluginEventHandler
@@ -71,7 +67,7 @@ public class ErnestTheChicken extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:

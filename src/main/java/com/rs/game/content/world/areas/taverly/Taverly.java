@@ -16,13 +16,11 @@
 //
 package com.rs.game.content.world.areas.taverly;
 
-import java.util.List;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;

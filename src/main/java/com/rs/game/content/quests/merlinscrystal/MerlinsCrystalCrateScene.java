@@ -19,8 +19,8 @@ package com.rs.game.content.quests.merlinscrystal;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
-import com.rs.game.model.entity.player.Controller;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -37,8 +37,8 @@ public class MerlinsCrystalCrateScene extends Controller {
 	@Override
 	public void start() {
 		player.lock();
-		locationBeforeCutscene = Tile.of(player.getX(), player.getY(), player.getPlane());
-		instance = new Instance(4, 4);
+		locationBeforeCutscene = Tile.of(player.getTile());
+		instance = Instance.of(locationBeforeCutscene, 4, 4);
 		playCutscene();
 	}
 

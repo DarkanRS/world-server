@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
@@ -37,12 +34,11 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class FishingFerretRoom extends PuzzleRoom {
 
@@ -78,6 +74,8 @@ public class FishingFerretRoom extends PuzzleRoom {
 				}
 				if (vileFishes.size() > 0) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
+					if (item == null)
+						return;
 					Tile tile = item.getTile();
 					if (matches(tile)) {
 						removeVileFish();

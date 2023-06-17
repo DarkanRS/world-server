@@ -14,7 +14,6 @@ import com.rs.lib.game.WorldObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -22,7 +21,10 @@ import com.rs.plugin.events.EnterChunkEvent;
 import com.rs.utils.music.Music;
 import it.unimi.dsi.fastutil.ints.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public final class ChunkManager {
@@ -333,6 +335,7 @@ public final class ChunkManager {
                     continue;
                 chunk.clearCollisionData();
                 chunk.destroy();
+                destroyed.add(chunkId);
             }
         }
         for (int regionId : destroyed)

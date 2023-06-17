@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.quests.demonslayer;
 
-import java.util.ArrayList;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
@@ -27,12 +25,11 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.EnterChunkHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Areas;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DEMON_SLAYER)
 @PluginEventHandler
@@ -54,7 +51,7 @@ public class DemonSlayer extends QuestOutline {
 		return QUEST_COMPLETE_STAGE;
 	}
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED_STAGE:
@@ -210,7 +207,7 @@ public class DemonSlayer extends QuestOutline {
 			if(p.getQuestManager().getStage(Quest.DEMON_SLAYER) != SILVERLIGHT_OBTAINED_STAGE || p.getTempAttribs().getB("FinalDemonSlayerCutscene") || (!p.getInventory().containsItem(2402) && !p.getEquipment().getWeaponName().equalsIgnoreCase("Silverlight")))
 				return;
 			p.getTempAttribs().setB("FinalDemonSlayerCutscene", true);
-			p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+			p.getControllerManager().startController(new PlayerVSDelrithController());
 		}
 	});
 

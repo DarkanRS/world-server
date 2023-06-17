@@ -1,19 +1,17 @@
 package com.rs.game.content.quests.templeofikov.dialogues;
 
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.HELP_LUCIEN;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.NOT_STARTED;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.QUEST_COMPLETE;
-
-import com.rs.game.content.quests.templeofikov.TempleOfIkov;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.templeofikov.TempleOfIkov;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.templeofikov.TempleOfIkov.*;
 
 @PluginEventHandler
 public class LucienArdougneTempleOfIkov extends Conversation {

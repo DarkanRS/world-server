@@ -16,8 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.ArrayList;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
@@ -28,6 +26,8 @@ import com.rs.lib.game.Item;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
 
 public class Appearance {
 

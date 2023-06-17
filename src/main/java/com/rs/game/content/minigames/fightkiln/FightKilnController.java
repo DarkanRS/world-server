@@ -17,20 +17,20 @@
 package com.rs.game.content.minigames.fightkiln;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.minigames.fightkiln.npcs.FightKilnNPC;
 import com.rs.game.content.minigames.fightkiln.npcs.HarAken;
 import com.rs.game.content.minigames.fightkiln.npcs.TokHaarKetDill;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -496,7 +496,7 @@ public class FightKilnController extends Controller {
 		};
 		// finds empty map bounds
 		if (region == null) {
-			region = new Instance(8, 8);
+			region = Instance.of(OUTSIDE, 8, 8);
 			region.copyMapAllPlanes(getMap()[0], getMap()[1]).thenAccept(e -> {
 				event.run();
 				player.setForceNextMapLoadRefresh(true);

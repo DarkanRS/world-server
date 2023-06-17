@@ -16,14 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.NECROMANCER;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_MAGE;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.Default;
@@ -33,6 +25,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.NECROMANCER;
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_MAGE;
 
 public class AntiSilkHoodMages extends Default {//default combat script
 

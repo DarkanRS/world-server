@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.blink;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
@@ -36,6 +33,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class BlinkCombat extends CombatScript {
 

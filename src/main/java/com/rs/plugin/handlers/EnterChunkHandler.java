@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.EnterChunkEvent;
+
+import java.util.function.Consumer;
 
 public class EnterChunkHandler extends PluginHandler<EnterChunkEvent> {
 	public EnterChunkHandler(Consumer<EnterChunkEvent> handler) {

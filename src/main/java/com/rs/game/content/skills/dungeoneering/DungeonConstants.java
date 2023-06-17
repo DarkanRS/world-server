@@ -16,32 +16,15 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.ObjectType;
-import com.rs.game.content.skills.dungeoneering.rooms.BossRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.HandledPuzzleRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.HandledRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.NormalRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.StartRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.CrystalPuzzleRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FlipTilesRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FremennikCampRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.LeverRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.ReturnTheFlowRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.SlidingStatuesRoom;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.ToxinMaze;
-import com.rs.game.content.skills.dungeoneering.rooms.puzzles.UnhappyGhostRoom;
+import com.rs.game.content.skills.dungeoneering.rooms.*;
+import com.rs.game.content.skills.dungeoneering.rooms.puzzles.*;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class DungeonConstants {
 

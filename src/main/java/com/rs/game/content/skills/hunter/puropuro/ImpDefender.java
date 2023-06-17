@@ -1,7 +1,5 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
@@ -17,6 +15,8 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+
+import java.util.List;
 
 @PluginEventHandler
 public class ImpDefender extends NPC {

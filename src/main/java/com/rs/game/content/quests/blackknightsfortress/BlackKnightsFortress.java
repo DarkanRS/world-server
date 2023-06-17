@@ -1,13 +1,5 @@
 package com.rs.game.content.quests.blackknightsfortress;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -15,6 +7,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -30,6 +23,10 @@ import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.*;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.BLACK_KNIGHTS_FORTRESS)
 @PluginEventHandler
@@ -67,7 +64,7 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED:

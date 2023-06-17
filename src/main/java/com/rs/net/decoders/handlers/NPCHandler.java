@@ -16,6 +16,7 @@
 //
 package com.rs.net.decoders.handlers;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.Effect;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.Skillcapes;
@@ -39,7 +40,6 @@ import com.rs.game.content.transportation.TravelMethods.Carrier;
 import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.engine.quest.Quest;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -290,18 +290,11 @@ public class NPCHandler {
 				PlayerLook.openMageMakeOver(player);
 			else if (npc.getId() == 598)
 				PlayerLook.openHairdresserSalon(player);
-			else if (npc instanceof Pet) {
-				if (npc != player.getPet()) {
-					player.sendMessage("This isn't your pet!");
-					return;
-				}
-				Pet pet = player.getPet();
-				player.getPackets().sendDevConsoleMessage("Pet [id=" + pet.getId() + ", hunger=" + pet.getDetails().getHunger() + ", growth=" + pet.getDetails().getGrowth() + ", stage=" + pet.getDetails().getStage() + "].");
-			} else if (PluginManager.handle(new NPCClickEvent(player, npc, 3, true)))
-				return;
+			else if (PluginManager.handle(new NPCClickEvent(player, npc, 3, true)))
+				;
 			else {
 				player.sendMessage("Nothing interesting happens." + npc.getId());
-				Logger.debug(NPCHandler.class, "handleOption2", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ")");
+				Logger.debug(NPCHandler.class, "handleOption2", "NPC: " + npc.getId() + ", (" + npc.getX() + ", " + npc.getY() + ", " + npc.getPlane() + ") op: " + npc.getDefinitions(player).getOption(2));
 			}
 		}));
 	}

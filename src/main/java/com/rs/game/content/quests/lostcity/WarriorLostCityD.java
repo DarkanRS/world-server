@@ -1,12 +1,5 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-import static com.rs.game.content.quests.lostcity.LostCity.WARRIOR;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -16,6 +9,8 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.lostcity.LostCity.*;
 
 @PluginEventHandler
 public class WarriorLostCityD extends Conversation {

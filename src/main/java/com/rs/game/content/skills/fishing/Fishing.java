@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.fishing;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.Entity;
@@ -36,6 +33,9 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Fishing extends PlayerAction {

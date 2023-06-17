@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -27,7 +24,6 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
-import com.rs.game.map.Chunk;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -35,16 +31,15 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public final class Stomp extends DungeonBoss {

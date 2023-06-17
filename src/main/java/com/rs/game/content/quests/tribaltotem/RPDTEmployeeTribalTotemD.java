@@ -1,14 +1,14 @@
 package com.rs.game.content.quests.tribaltotem;
 
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.GET_TOTEM;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.tribaltotem.TribalTotem.GET_TOTEM;
+import static com.rs.game.content.quests.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
 
 @PluginEventHandler
 public class RPDTEmployeeTribalTotemD extends Conversation {

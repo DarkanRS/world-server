@@ -16,13 +16,6 @@
 //
 package com.rs.db.collection;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.bson.Document;
-
 import com.google.gson.JsonIOException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
@@ -34,6 +27,12 @@ import com.rs.game.ge.Offer.State;
 import com.rs.lib.db.DBItemManager;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
+import org.bson.Document;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 public class GEManager extends DBItemManager {
 

@@ -16,11 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
@@ -32,37 +27,7 @@ import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.KeyDoors;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.MapRoomIcon;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.SkillDoors;
-import com.rs.game.content.skills.dungeoneering.npcs.DivineSkinweaver;
-import com.rs.game.content.skills.dungeoneering.npcs.Dreadnaut;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonSkeletonBoss;
-import com.rs.game.content.skills.dungeoneering.npcs.DungeonSlayerNPC;
-import com.rs.game.content.skills.dungeoneering.npcs.FleshspoilerHaasghenahk;
-import com.rs.game.content.skills.dungeoneering.npcs.ForgottenWarrior;
-import com.rs.game.content.skills.dungeoneering.npcs.GluttonousBehemoth;
-import com.rs.game.content.skills.dungeoneering.npcs.Gravecreeper;
-import com.rs.game.content.skills.dungeoneering.npcs.Guardian;
-import com.rs.game.content.skills.dungeoneering.npcs.HobgoblinGeomancer;
-import com.rs.game.content.skills.dungeoneering.npcs.HopeDevourer;
-import com.rs.game.content.skills.dungeoneering.npcs.IcyBones;
-import com.rs.game.content.skills.dungeoneering.npcs.KalGerWarmonger;
-import com.rs.game.content.skills.dungeoneering.npcs.LakkTheRiftSplitter;
-import com.rs.game.content.skills.dungeoneering.npcs.LexicusRunewright;
-import com.rs.game.content.skills.dungeoneering.npcs.LuminscentIcefiend;
-import com.rs.game.content.skills.dungeoneering.npcs.MastyxTrap;
-import com.rs.game.content.skills.dungeoneering.npcs.NecroLord;
-import com.rs.game.content.skills.dungeoneering.npcs.NightGazerKhighorahk;
-import com.rs.game.content.skills.dungeoneering.npcs.Rammernaut;
-import com.rs.game.content.skills.dungeoneering.npcs.RuneboundBehemoth;
-import com.rs.game.content.skills.dungeoneering.npcs.Sagittare;
-import com.rs.game.content.skills.dungeoneering.npcs.ShadowForgerIhlakhizan;
-import com.rs.game.content.skills.dungeoneering.npcs.SkeletalAdventurer;
-import com.rs.game.content.skills.dungeoneering.npcs.Stomp;
-import com.rs.game.content.skills.dungeoneering.npcs.ToKashBloodChiller;
-import com.rs.game.content.skills.dungeoneering.npcs.UnholyCrossbearer;
-import com.rs.game.content.skills.dungeoneering.npcs.WarpedGulega;
-import com.rs.game.content.skills.dungeoneering.npcs.WorldGorgerShukarhazh;
-import com.rs.game.content.skills.dungeoneering.npcs.YkLagorThunderous;
+import com.rs.game.content.skills.dungeoneering.npcs.*;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.asteafrostweb.AsteaFrostweb;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.balak.BalLakThePummeler;
@@ -77,16 +42,15 @@ import com.rs.game.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.PoltergeistRoom.Poltergeist;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringMining;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -95,10 +59,15 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicLong;
+
 public class DungeonManager {
 
-	private static final Map<Object, DungeonManager> cachedDungeons = Collections.synchronizedMap(new HashMap<Object, DungeonManager>());
-	public static final AtomicLong keyMaker = new AtomicLong();
+	private static final Map<Object, DungeonManager> ACTIVE_DUNGEONS = Collections.synchronizedMap(new HashMap<>());
+	public static final AtomicLong KEY_MAKER = new AtomicLong();
 
 	private DungeonPartyManager party;
 	private Dungeon dungeon;
@@ -496,11 +465,13 @@ public class DungeonManager {
 
 	public void setTableItems(RoomReference room) {
 		addItemToTable(room, new Item(16295)); //novite pickaxe, cuz of boss aswell so 1+
+		addItemToTable(room, new Item(16933)); //antifire shield
 		if (party.getComplexity() >= 2) {
 			addItemToTable(room, new Item(DungeonConstants.RUSTY_COINS, 5000 + Utils.random(10000)));
 			addItemToTable(room, new Item(17678)); //tinderbox
 			addItemToTable(room, new Item(16361)); //novite hatcher
 			addItemToTable(room, new Item(17794)); //fish rods
+			addItemToTable(room, new Item(16933)); //antifire shield
 		}
 		if (party.getComplexity() >= 3) { //set weap/gear in table
 			int rangeTier = DungeonUtils.getTier(party.getMaxLevel(Constants.RANGE));
@@ -756,6 +727,7 @@ public class DungeonManager {
 				if (World.floorAndWallsFree(tile, size))
 					return spawnNPC(id, rotation, tile, reference, type);
 			}
+			return spawnNPC(GuardianMonster.FORGOTTEN_WARRIOR.getNPCIds()[0], rotation, tile, reference, type);
 		}
 		return spawnNPC(id, rotation, tile, reference, type);
 	}
@@ -979,8 +951,8 @@ public class DungeonManager {
 		if (player.getFamiliar() != null)
 			player.getFamiliar().sendDeath(player);
 		if (logout) {
-			player.save("isLoggedOutInDungeon", true);
-			player.getSkills().restoreSkills();
+			player.setTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+			player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
 		} else {
 			player.reset();
 			player.getDungManager().setRejoinKey(null);
@@ -995,7 +967,6 @@ public class DungeonManager {
 			player.getMusicsManager().reset();
 			player.getAppearance().setBAS(-1);
 		}
-
 	}
 
 	public void setWorldMap(Player player, boolean dungIcon) {
@@ -1023,7 +994,7 @@ public class DungeonManager {
 	}
 
 	public void removeDungeon() {
-		cachedDungeons.remove(key);
+		ACTIVE_DUNGEONS.remove(key);
 	}
 
 	public void destroy() {
@@ -1454,8 +1425,8 @@ public class DungeonManager {
 	}
 
 	public void setDungeon() {
-		key = party.getLeader() + "_" + keyMaker.getAndIncrement();
-		cachedDungeons.put(key, this);
+		key = party.getLeader() + "_" + KEY_MAKER.getAndIncrement();
+		ACTIVE_DUNGEONS.put(key, this);
 		for (Player player : party.getTeam()) {
 			player.getDungManager().setRejoinKey(key);
 			player.getInterfaceManager().removeOverlay(true);
@@ -1467,8 +1438,7 @@ public class DungeonManager {
 		Object key = player.getDungManager().getRejoinKey();
 		if (key == null)
 			return;
-		DungeonManager dungeon = cachedDungeons.get(key);
-		//either doesnt exit / ur m8s moving next floor(reward screen)
+		DungeonManager dungeon = ACTIVE_DUNGEONS.get(key);
 		if (dungeon == null || !dungeon.hasLoadedNoRewardScreen()) {
 			player.getDungManager().setRejoinKey(null);
 			return;
@@ -1479,13 +1449,12 @@ public class DungeonManager {
 	public void load() {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
-		// slow executor loads dungeon as it may take up to few secs
 		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());
 				time = World.getServerTicks();
-				instance = new Instance(dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
+				instance = Instance.of(DungeonConstants.OUTSIDE, dungeon.getMapWidth() * 2, dungeon.getMapHeight() * 2);
 				instance.clearMap(new int[1]).thenAccept(e -> {
 					setDungeon();
 					loadRoom(dungeon.getStartRoomReference());

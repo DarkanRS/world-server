@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.slayer;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
@@ -35,6 +33,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnPlayerHandler;
 import com.rs.utils.Ticks;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Slayer {

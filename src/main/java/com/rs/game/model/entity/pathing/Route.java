@@ -17,8 +17,6 @@
 package com.rs.game.model.entity.pathing;
 
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.game.World;
-import com.rs.game.map.Chunk;
 import com.rs.lib.game.Tile;
 
 public class Route {

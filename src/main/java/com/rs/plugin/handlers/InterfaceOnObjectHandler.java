@@ -16,11 +16,11 @@
 //
 package com.rs.plugin.handlers;
 
+import com.rs.plugin.events.InterfaceOnObjectEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import com.rs.plugin.events.InterfaceOnObjectEvent;
 
 public class InterfaceOnObjectHandler extends PluginHandler<InterfaceOnObjectEvent> {
 	private boolean checkDistance = true;

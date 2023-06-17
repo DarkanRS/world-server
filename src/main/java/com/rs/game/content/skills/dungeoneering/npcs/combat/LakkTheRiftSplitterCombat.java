@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.LakkTheRiftSplitter;
@@ -35,6 +32,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class LakkTheRiftSplitterCombat extends CombatScript {
 

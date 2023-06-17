@@ -16,11 +16,6 @@
 //
 package com.rs.engine.quest.data;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
@@ -28,6 +23,11 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.HashMap;
 
 /**
  * @author Trenton

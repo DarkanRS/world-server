@@ -16,11 +16,11 @@
 //
 package com.rs.tools.old;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.File;
+import java.io.IOException;
 
 public class ItemCheck {
 

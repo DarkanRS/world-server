@@ -30,10 +30,11 @@ import com.rs.lib.game.SpotAnim;
 
 public class Alchemy {
 
+
 	public static boolean handleSuperheat(Player player, Item item, boolean useRunes) {
 		if (useRunes)
 			player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
-		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null))
+		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 43, false, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null))
 			return false;
 		player.stopAll(false, false, true);
 		SmeltingBar bar = SmeltingBar.forOre(player, item.getId());
@@ -55,7 +56,7 @@ public class Alchemy {
 			player.simpleDialogue("You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
 			return false;
 		}
-
+		Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null);
 		player.setNextAnimation(new Animation(722));
 		player.setNextSpotAnim(new SpotAnim(148));
 		for (Item itemReq : bar.getItemsRequired())

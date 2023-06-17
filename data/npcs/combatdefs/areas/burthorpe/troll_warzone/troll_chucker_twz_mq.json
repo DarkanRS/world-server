@@ -1,0 +1,23 @@
+{
+  "ids": [
+    14981
+  ],
+  "attackAnim": 13786,
+  "attackSound": -1,
+  "defenceAnim": 13792,
+  "defendSound": -1,
+  "deathAnim": 13785,
+  "deathDelay": 6,
+  "deathSound": -1,
+  "respawnDelay": 59,
+  "hitpoints": 50,
+  "maxHit": 1,
+  "attackStyle": "RANGE",
+  "attackRange": 6,
+  "attackGfx": -1,
+  "attackProjectile": 2139,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 4,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

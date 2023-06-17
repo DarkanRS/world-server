@@ -16,16 +16,8 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.content.skills.dungeoneering.*;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
-import com.rs.game.content.skills.dungeoneering.DungeonController;
-import com.rs.game.content.skills.dungeoneering.DungeonManager;
-import com.rs.game.content.skills.dungeoneering.DungeonUtils;
-import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.model.entity.Hit;
@@ -34,6 +26,10 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SlidingTilesRoom extends PuzzleRoom {
 

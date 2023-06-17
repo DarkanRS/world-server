@@ -16,18 +16,14 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.Settings;
 import com.rs.game.content.minigames.pest.PestControl.PestData;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
+
+import java.util.*;
 
 public class Lander {
 
@@ -168,7 +164,7 @@ public class Lander {
 		return landers;
 	}
 
-	public LanderRequirement getLanderRequierment() {
+	public LanderRequirement getLanderRequirement() {
 		return landerRequirement;
 	}
 
@@ -184,8 +180,8 @@ public class Lander {
 
 	public static boolean canEnter(Player player, int landerIndex) {
 		Lander lander = landers[landerIndex];
-		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequierment().requirement) {
-			player.simpleDialogue("You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
+		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequirement().requirement) {
+			player.simpleDialogue("You need a combat level of " + lander.getLanderRequirement().getRequirement() + " or more to enter in boat.");
 			return false;
 		}
 		if (player.getPet() != null || player.getFamiliar() != null) {

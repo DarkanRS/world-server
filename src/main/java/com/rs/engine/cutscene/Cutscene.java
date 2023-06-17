@@ -16,28 +16,28 @@
 //
 package com.rs.engine.cutscene;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.World;
 import com.rs.engine.cutscene.actions.*;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.World;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.map.instance.Instance;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 public abstract class Cutscene {
 	private Player player;
@@ -48,7 +48,7 @@ public abstract class Cutscene {
 	private boolean hideMap;
 	private boolean dialoguePaused;
 	private boolean constructingRegion;
-	private Instance region;
+	private Instance instance;
 	private Tile endTile;
 	
 	public abstract void construct(Player player);
@@ -65,8 +65,8 @@ public abstract class Cutscene {
 		player.getPoison().reset();
 		player.unlock();
 		deleteObjects();
-		if (region != null)
-			region.destroy();
+		if (instance != null)
+			instance.destroy();
 		player.getTempAttribs().removeB("CUTSCENE_INTERFACE_CLOSE_DISABLED");
 	}
 
@@ -79,12 +79,12 @@ public abstract class Cutscene {
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
 	}
 
-	public void constructArea(final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
+	public void constructArea(final Tile returnTile, final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
 		constructingRegion = true;
-		Instance old = region;
-		region = new Instance(widthChunks, heightChunks);
-		region.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
-			player.setNextTile(Tile.of(region.getBaseX() + widthChunks * 4, region.getBaseY() + heightChunks * 4, 0));
+		Instance old = instance;
+		instance = Instance.of(returnTile, widthChunks, heightChunks);
+		instance.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
+			instance.teleportTo(player);
 			constructingRegion = false;
 			if (old != null)
 				old.destroy();
@@ -134,7 +134,7 @@ public abstract class Cutscene {
 	}
 
 	public void deleteObject(Object object) {
-		if (object instanceof NPC n)
+		if (object instanceof NPC n && !n.persistsBeyondCutscene())
 			n.finish();
 	}
 
@@ -144,11 +144,17 @@ public abstract class Cutscene {
 	}
 
 	public int getX(int x) {
-		return region != null && region.isCreated() ? region.getLocalX(x) : x;
+		Instance instance = this.instance;
+		if (instance == null)
+			instance = player.getInstancedArea();
+		return instance != null && instance.isCreated() ? instance.getLocalX(x) : x;
 	}
 	
 	public int getY(int y) {
-		return region != null && region.isCreated() ? region.getLocalY(y) : y;
+		Instance instance = this.instance;
+		if (instance == null)
+			instance = player.getInstancedArea();
+		return instance != null && instance.isCreated() ? instance.getLocalY(y) : y;
 	}
 	
 	public int getLocalX(int x) {
@@ -257,8 +263,8 @@ public abstract class Cutscene {
 		actions.add(new DialogueAction(dialogue, pause ? 1 : -1, pause));
 	}
 	
-	public void dynamicRegion(int baseX, int baseY, int widthChunks, int heightChunks) {
-		actions.add(new ConstructMapAction(baseX, baseY, widthChunks, heightChunks));
+	public void dynamicRegion(Tile returnTile, int baseX, int baseY, int widthChunks, int heightChunks) {
+		actions.add(new ConstructMapAction(returnTile, baseX, baseY, widthChunks, heightChunks));
 	}
 	
 	public void fadeIn(int delay) {
@@ -298,21 +304,39 @@ public abstract class Cutscene {
 	}
 	
 	public NPC getNPC(String key) {
+		if (key == null)
+			return null;
 		if (objects.get(key) != null)
 			return (NPC) objects.get(key);
 		return null;
 	}
 	
+	public void npcCreate(String key, int npcId, int x, int y, int z, int delay, Consumer<NPC> configureNpc) {
+		actions.add(new CreateNPCAction(key, npcId, x, y, z, delay, configureNpc));
+	}
+
 	public void npcCreate(String key, int npcId, int x, int y, int z, int delay) {
-		actions.add(new CreateNPCAction(key, npcId, x, y, z, delay));
+		npcCreate(key, npcId, x, y, z, delay, null);
 	}
 	
+	public void npcCreate(String key, int npcId, int x, int y, int z, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, x, y, z, -1, configureNpc);
+	}
+
 	public void npcCreate(String key, int npcId, int x, int y, int z) {
 		npcCreate(key, npcId, x, y, z, -1);
 	}
 
+	public void npcCreate(String key, int npcId, Tile tile, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), -1, configureNpc);
+	}
+
 	public void npcCreate(String key, int npcId, Tile tile) {
 		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), -1);
+	}
+
+	public void npcCreate(String key, int npcId, Tile tile, int delay, Consumer<NPC> configureNpc) {
+		npcCreate(key, npcId, tile.getX(), tile.getY(), tile.getPlane(), delay, configureNpc);
 	}
 
 	public void npcCreate(String key, int npcId, Tile tile, int delay) {
@@ -350,6 +374,14 @@ public abstract class Cutscene {
 	public void npcSpotAnim(String key, SpotAnim anim) {
 		npcSpotAnim(key, anim, -1);
 	}
+
+	public void npcSpotAnim(String key, int anim) {
+		npcSpotAnim(key, new SpotAnim(anim), -1);
+	}
+
+	public void npcSpotAnim(String key, int anim, int delay) {
+		npcSpotAnim(key, anim, delay);
+	}
 	
 	public void npcAnim(String key, Animation anim, int delay) {
 		actions.add(new NPCAnimationAction(key, anim, delay));
@@ -357,6 +389,14 @@ public abstract class Cutscene {
 	
 	public void npcAnim(String key, Animation anim) {
 		npcAnim(key, anim, -1);
+	}
+
+	public void npcAnim(String key, int id) {
+		npcAnim(key, new Animation(id));
+	}
+
+	public void npcAnim(String key, int id, int delay) {
+		npcAnim(key, new Animation(id), delay);
 	}
 
 	public void npcTransform(String key, int id, int delay) {
@@ -395,6 +435,14 @@ public abstract class Cutscene {
 
 	public void npcMove(String key, Tile tile, MoveType type, int delay) {
 		npcMove(key, tile.getX(), tile.getY(), player.getPlane(), type, delay);
+	}
+
+	public void npcWalk(String key, int x, int y, int delay) {
+		npcMove(key, x, y, player.getPlane(), MoveType.WALK, delay);
+	}
+
+	public void npcWalk(String key, int x, int y) {
+		npcMove(key, x, y, player.getPlane(), MoveType.WALK, -1);
 	}
 
 	public void playerMove(int x, int y, int z, MoveType type, int delay) {
@@ -527,5 +575,9 @@ public abstract class Cutscene {
 
 	public void restoreDefaultAspectRatio() {
 		player.getVars().setVar(1241, 3);
+	}
+
+	public Instance getInstance() {
+		return instance;
 	}
 }

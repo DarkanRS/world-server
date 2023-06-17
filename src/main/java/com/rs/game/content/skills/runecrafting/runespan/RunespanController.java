@@ -19,11 +19,10 @@ package com.rs.game.content.skills.runecrafting.runespan;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -380,7 +379,10 @@ public class RunespanController extends Controller {
 			}
 			break;
 		case 29:
-			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			int selection = EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1));
+			if (selection == -1)
+				return;
+			reward = StructDefinitions.getStruct(selection);
 			if (reward != null) {
 				int amount = e.getPlayer().getVars().getVarBit(11106);
 				int totalPrice = (amount * reward.getIntValue(2379));
@@ -403,7 +405,10 @@ public class RunespanController extends Controller {
 			}
 			break;
 		case 7:
-			reward = StructDefinitions.getStruct(EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1)));
+			selection = EnumDefinitions.getEnum(5838).getIntValue(e.getPlayer().getTempAttribs().getI("rsShopRew", -1));
+			if (selection == -1)
+				return;
+			reward = StructDefinitions.getStruct(selection);
 			if (reward != null) {
 				int amount = e.getPlayer().getVars().getVarBit(11106);
 				int totalPrice = (amount * reward.getIntValue(2379));

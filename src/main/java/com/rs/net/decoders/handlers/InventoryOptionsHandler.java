@@ -23,7 +23,6 @@ import com.rs.game.content.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
-import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
 import com.rs.game.content.skills.crafting.GemCutting;
@@ -39,8 +38,6 @@ import com.rs.game.content.skills.fletching.FletchingD;
 import com.rs.game.content.skills.herblore.CoconutCracking;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.WeaponPoison;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Burying.Bone;
@@ -59,11 +56,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -82,9 +75,6 @@ public class InventoryOptionsHandler {
 
 		if (!player.getControllerManager().canUseItemOnItem(used, usedWith))
 			return false;
-
-		if (GodSwordCreation.handleGodSword(player, usedWithId, usedId) || WeaponPoison.poison(player, used, usedWith, false))
-			return true;
 
 		if (PrayerBooks.isGodBook(usedId, false) || PrayerBooks.isGodBook(usedWithId, false)) {
 			PrayerBooks.bindPages(player, used.getName().contains(" page ") ? usedWithId : usedId);

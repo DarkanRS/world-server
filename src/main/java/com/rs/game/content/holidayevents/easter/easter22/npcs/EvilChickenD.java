@@ -1,12 +1,12 @@
 package com.rs.game.content.holidayevents.easter.easter22.npcs;
 
-import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
-import com.rs.game.content.holidayevents.easter.easter22.EggHunt;
-import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
+import com.rs.game.content.holidayevents.easter.easter22.EggHunt;
+import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;

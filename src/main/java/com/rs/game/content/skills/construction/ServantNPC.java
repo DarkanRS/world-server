@@ -17,12 +17,12 @@
 package com.rs.game.content.skills.construction;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.skills.construction.House.RoomReference;
 import com.rs.game.content.skills.construction.HouseConstants.Builds;
 import com.rs.game.content.skills.construction.HouseConstants.Room;
 import com.rs.game.content.skills.construction.HouseConstants.Servant;
-import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Bank;
@@ -46,7 +46,7 @@ public class ServantNPC extends NPC {
 	private Item lastSawmillSend;
 
 	public ServantNPC(House house) {
-		super(house.getServant().getId(), house.getPortal().transform(1, 0, 0), true);
+		super(house.getServant().getId(), house.getPlayer().getTile().transform(0, 0, 0), true);
 		servant = house.getServant();
 		owner = house.getPlayer();
 		this.house = house;

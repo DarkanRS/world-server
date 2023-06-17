@@ -4,7 +4,7 @@ import com.google.common.base.Objects;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.net.packets.encoders.updatezone.*;
+import com.rs.lib.net.packets.encoders.updatezone.UpdateZonePartialEnclosed;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;

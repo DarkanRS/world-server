@@ -25,7 +25,6 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.PlayerOp;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerClickEvent;
 

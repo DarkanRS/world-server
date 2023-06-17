@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.skills.farming;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ProduceType {
 	Potato(5318, 1, new Item(1942), 6, 8, 9, 4, PatchType.ALLOTMENT, 100, 192, new Item(6032, 2)),

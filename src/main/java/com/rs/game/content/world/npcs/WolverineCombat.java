@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.npcs;
 
-import java.util.Random;
-
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
+
+import java.util.Random;
 
 public class WolverineCombat extends CombatScript {
 

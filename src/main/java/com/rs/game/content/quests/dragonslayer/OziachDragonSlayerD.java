@@ -1,14 +1,5 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ELVARG_HEAD;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NOT_STARTED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.QUEST_COMPLETE;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -16,6 +7,8 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class OziachDragonSlayerD extends Conversation {

@@ -1,19 +1,17 @@
 package com.rs.game.content.quests.templeofikov.dialogues;
 
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.HELP_LUCIEN;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.NOT_STARTED;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.QUEST_COMPLETE;
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import com.rs.game.content.quests.templeofikov.TempleOfIkov;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.templeofikov.TempleOfIkov;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.quests.templeofikov.TempleOfIkov.*;
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class LucienVarrockTempleOfIkov extends Conversation {

@@ -19,11 +19,11 @@ package com.rs.game.content.skills.summoning;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
-import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
@@ -587,8 +587,8 @@ public final class Familiar extends NPC {
 	 */
 	public void sendMainConfigs() {
 		owner.getVars().setVar(448, pouch.getId());// configures familiar type
-		owner.getVars().setVar(1174, 0); //refresh familiar head
-		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
+		owner.getVars().setVar(1174, 0, true); //refresh familiar head
+		owner.getVars().setVarBit(4282, pouch.getHeadAnimIndex()); //refresh familiar emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
 		owner.getVars().setVarBit(4288, pouch.getScroll().getPointCost());// check

@@ -16,17 +16,14 @@
 //
 package com.rs.game.content.minigames.barrows;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.minigames.barrows.npcs.BarrowsBrother;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -46,6 +43,9 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BarrowsController extends Controller {
 

@@ -16,12 +16,8 @@
 //
 package com.rs.utils.shop;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.rs.game.World;
 import com.rs.engine.Shop;
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.JsonFileManager;
@@ -30,6 +26,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class ShopsHandler {

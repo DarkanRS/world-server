@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.runecrafting.runespan;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.map.ChunkManager;
@@ -34,6 +31,9 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class SiphonNodeAction extends PlayerAction {

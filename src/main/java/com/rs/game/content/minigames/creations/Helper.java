@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
@@ -27,6 +25,8 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 /**
  * @author mgi125, the almighty

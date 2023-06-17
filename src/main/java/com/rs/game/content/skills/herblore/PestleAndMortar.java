@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.skills.herblore;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class PestleAndMortar  {
@@ -40,7 +40,9 @@ public class PestleAndMortar  {
 		CHARCOAL(973, 1, new Item(704, 1)),
 		RUNE_SHARDS(6466, 1, new Item(6467, 1)),
 		ASHES(592, 1, new Item(8865, 1)),
-		POISON_KARAMBWAN(3146, 1, new Item(3152, 1)),
+		RAW_KARAMBWAN(3142, 1, new Item(3152, 1)),
+		KARAMBWAN(3144, 1, new Item(3154, 1)),
+		POISON_KARAMBWAN(3146, 1, new Item(3153, 1)),
 		SUQAH_TOOTH(9079, 1, new Item(9082, 1)),
 		FISHING_BAIT(313, 1, new Item(12129, 1)),
 		DIAMOND_ROOT(14703, 1, new Item(14704, 1)),

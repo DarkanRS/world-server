@@ -1,25 +1,11 @@
 package com.rs.game.model.entity.pathing;
 
-import com.rs.Settings;
-import com.rs.cache.Cache;
-import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.cache.loaders.map.Region;
-import com.rs.game.World;
-import com.rs.game.map.Chunk;
-import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
-import com.rs.lib.game.WorldObject;
-import com.rs.lib.util.Logger;
-import com.rs.lib.util.MapUtils;
-import com.rs.lib.util.MapUtils.Structure;
-import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 import static com.rs.cache.loaders.map.ClipFlag.*;
 

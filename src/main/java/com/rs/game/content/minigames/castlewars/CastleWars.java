@@ -16,11 +16,6 @@
 //
 package com.rs.game.content.minigames.castlewars;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.skills.cooking.Foods.Food;
@@ -34,6 +29,11 @@ import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 @PluginEventHandler
 public final class CastleWars {

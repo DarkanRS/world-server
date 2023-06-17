@@ -16,22 +16,17 @@
 //
 package com.rs.game.content.commands.debug;
 
-import static com.rs.game.content.randomevents.RandomEvents.attemptSpawnRandom;
-
-import java.util.Arrays;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.command.Commands;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
-import com.rs.game.content.quests.demonslayer.DemonSlayer_PlayerVSDelrith;
-import com.rs.game.content.quests.demonslayer.DemonSlayer_WallyVSDelrith;
-import com.rs.game.content.quests.demonslayer.DemonSlayer_WallyVSDelrithCutscene;
+import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
+import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer_BoatScene;
 import com.rs.game.content.quests.merlinscrystal.MerlinsCrystalCrateScene;
-import com.rs.engine.command.Commands;
-import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
@@ -44,6 +39,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
+
+import java.util.Arrays;
+
+import static com.rs.game.content.randomevents.RandomEvents.attemptSpawnRandom;
 
 @PluginEventHandler
 public class Debug {
@@ -97,10 +96,10 @@ public class Debug {
 		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
 			switch (Integer.valueOf(args[0])) {
 				case 0 -> {
-					p.playCutscene(new DemonSlayer_WallyVSDelrithCutscene());
+					p.playCutscene(new WallyVSDelrithCutscene());
 				}
 				case 1 -> {
-					p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+					p.getControllerManager().startController(new PlayerVSDelrithController());
 				}
 				case 2 -> {
 					p.getControllerManager().startController(new DragonSlayer_BoatScene());

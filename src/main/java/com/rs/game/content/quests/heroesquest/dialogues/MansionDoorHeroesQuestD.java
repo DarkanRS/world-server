@@ -1,8 +1,5 @@
 package com.rs.game.content.quests.heroesquest.dialogues;
 
-import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
@@ -11,6 +8,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ObjectClickEvent;
+
+import static com.rs.game.content.quests.heroesquest.HeroesQuest.GET_ITEMS;
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class MansionDoorHeroesQuestD extends Conversation {
