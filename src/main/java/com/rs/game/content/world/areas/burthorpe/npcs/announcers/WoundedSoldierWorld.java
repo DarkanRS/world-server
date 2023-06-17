@@ -24,13 +24,13 @@ public class WoundedSoldierWorld extends NPC {
 	}
 
 	public void CallForHelp() {
-		switch (Utils.random(1, 7)) {
+		switch (Utils.random(1, 6)) {
 			case 1 -> setNextForceTalk(new ForceTalk("My duodenum!"));
 			case 2 -> setNextForceTalk(new ForceTalk("My spleen!"));
-			case 4 -> setNextForceTalk(new ForceTalk("Medic!"));
-			case 5 -> setNextForceTalk(new ForceTalk("Gods, all my organs hurt!"));
-			case 6 -> setNextForceTalk(new ForceTalk("So much pain!"));
-			case 7 -> setNextForceTalk(new ForceTalk("Urgh... my pancreas!"));
+			case 3 -> setNextForceTalk(new ForceTalk("Medic!"));
+			case 4 -> setNextForceTalk(new ForceTalk("Gods, all my organs hurt!"));
+			case 5 -> setNextForceTalk(new ForceTalk("So much pain!"));
+			case 6 -> setNextForceTalk(new ForceTalk("Urgh... my pancreas!"));
 		}
 	}
 
