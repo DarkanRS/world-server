@@ -31,7 +31,7 @@ public class Mandrith extends Conversation {
 
 	public static NPCClickHandler Mandrith = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Mandrith(e.getPlayer()));
 		}
 	});

@@ -31,7 +31,7 @@ public class Lilly extends Conversation {
 
 	public static NPCClickHandler Lilly = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Lilly(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "warrior_guild_potion_shop");
 		}

@@ -15,7 +15,7 @@ public class Egil extends Conversation {
 
     public static NPCClickHandler Egil = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new Egil(e.getPlayer()));
         }
     });

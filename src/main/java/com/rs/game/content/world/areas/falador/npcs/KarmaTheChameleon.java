@@ -16,7 +16,7 @@ public class KarmaTheChameleon extends Conversation {
 
     public static NPCClickHandler KarmaTheChameleon = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new KarmaTheChameleon(e.getPlayer()));
         }
     });

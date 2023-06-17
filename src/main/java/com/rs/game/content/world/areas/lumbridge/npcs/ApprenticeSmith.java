@@ -17,7 +17,7 @@ public class ApprenticeSmith extends Conversation {
 
     public static NPCClickHandler ApprenticeSmith = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new ApprenticeSmith(e.getPlayer()));
     	}
     });

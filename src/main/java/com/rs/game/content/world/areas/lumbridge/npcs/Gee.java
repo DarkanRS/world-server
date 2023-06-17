@@ -15,7 +15,7 @@ public class Gee extends Conversation {
     private static final int npcId = 2237;
     public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Gee(e.getPlayer()));
     	}
     });

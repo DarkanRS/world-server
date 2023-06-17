@@ -19,7 +19,7 @@ public class FatherAereck extends Conversation {
 	private static final int npcId = 456;
 	public static NPCClickHandler FatherAereck = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new FatherAereck(e.getPlayer()));
 		}
 	});

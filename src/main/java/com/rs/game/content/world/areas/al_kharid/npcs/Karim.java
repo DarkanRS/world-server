@@ -16,7 +16,7 @@ public class Karim extends Conversation {
 
     public static NPCClickHandler Karim = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Karim(e.getPlayer()));
     	}
     });

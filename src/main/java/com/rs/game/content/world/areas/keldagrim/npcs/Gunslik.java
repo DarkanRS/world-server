@@ -17,7 +17,7 @@ public class Gunslik extends Conversation {
 
     public static NPCClickHandler Gunslik = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Gunslik(e.getPlayer()));
         case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "gunsliks_assorted_items");
     	}

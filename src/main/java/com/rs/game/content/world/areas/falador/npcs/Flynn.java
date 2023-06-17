@@ -31,7 +31,7 @@ public class Flynn extends Conversation {
 
 	public static NPCClickHandler Flynn = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Flynn(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "flynns_mace_shop");
 		}

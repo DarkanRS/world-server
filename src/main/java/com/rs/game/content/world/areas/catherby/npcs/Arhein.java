@@ -17,7 +17,7 @@ public class Arhein extends Conversation {
 
     public static NPCClickHandler Arhein = new NPCClickHandler(new Object[]{npcId}, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new Arhein(e.getPlayer()));
             case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "arheins_shop");
         }

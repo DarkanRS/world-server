@@ -16,7 +16,7 @@ public class SirTiffyCashien extends Conversation {
 
     public static NPCClickHandler SirTiffyCashien = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new SirTiffyCashien(e.getPlayer()));
         }
     });
