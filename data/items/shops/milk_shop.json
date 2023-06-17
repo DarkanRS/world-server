@@ -1,0 +1,17 @@
+{
+  "name": "The Milk Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1927,
+        "amount": 200
+      }
+    }
+  ],
+  "npcIds": [
+    11547
+  ]
+}
