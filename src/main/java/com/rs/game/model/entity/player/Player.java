@@ -180,6 +180,7 @@ public class Player extends Entity {
 	private Instance instancedArea;
 
 	private int hw07Stage;
+	public transient Runnable onPacketCutsceneFinish;
 
 	public void refreshChargeTimer() {
 		addEffect(Effect.CHARGED, 600);
@@ -4288,6 +4289,10 @@ public class Player extends Entity {
 		WorldTasks.delay(ticks+1, () -> unlock());
 	}
 
+	public void playPacketCutscene(int id, Runnable onFinish) {
+		getPackets().sendCutscene(id);
+		onPacketCutsceneFinish = onFinish;
+	}
 	public void playCutscene(Consumer<Cutscene> constructor) {
 		getCutsceneManager().play(new Cutscene() {
 			@Override

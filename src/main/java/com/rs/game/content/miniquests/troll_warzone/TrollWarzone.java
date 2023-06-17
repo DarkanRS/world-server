@@ -57,9 +57,9 @@ public class TrollWarzone extends MiniquestOutline {
         player.getInventory().addItemDrop(8007, 5);
         player.getInventory().addItemDrop(8009, 5);
         player.getInventory().addItemDrop(2429, 5);
-        player.getInventory().addItemDrop(113, 5);
+        player.getInventory().addItemDrop(114, 5);
         player.getInventory().addItemDrop(2433, 5);
-        player.getInventory().addItemDrop(2434, 5);
+        player.getInventory().addItemDrop(2435, 5);
         getQuest().sendQuestCompleteInterface(player, 23030, "A baby troll!", "110 Cooking XP", "110 Mining XP", "110 Woodcutting XP", "Some teleport tablets", "Some combat potions");
     }
 
@@ -112,8 +112,8 @@ public class TrollWarzone extends MiniquestOutline {
 
     public static ObjectClickHandler handleCannonFire = new ObjectClickHandler(new Object[] { 66981 }, e -> {
        if (e.getPlayer().getMiniquestManager().getStage(Miniquest.TROLL_WARZONE) == 3) {
-           e.getPlayer().getPackets().sendCutscene(12);
            e.getPlayer().getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 4);
+           e.getPlayer().playPacketCutscene(12, () -> e.getPlayer().playerDialogue(HeadE.HAPPY_TALKING, "That just about does it. I should check in with Corothers."));
            return;
        }
        if (e.getPlayer().getMiniquestManager().getStage(Miniquest.TROLL_WARZONE) < 3)

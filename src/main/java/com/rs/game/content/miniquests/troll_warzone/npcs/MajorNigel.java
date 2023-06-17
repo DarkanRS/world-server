@@ -4,6 +4,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.game.content.miniquests.troll_warzone.TrollGeneralAttackController;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -24,7 +25,7 @@ public class MajorNigel extends Conversation {
         switch(player.getMiniquestManager().getStage(Miniquest.TROLL_WARZONE)) {
             case 0 -> addOptions("Would you like to start the Troll Warzone miniquest?", ops -> {
                 ops.add("Yes.", () -> {
-                    player.getPackets().sendCutscene(11);
+                    player.playPacketCutscene(11, () -> player.getControllerManager().startController(new TrollGeneralAttackController()));
                     player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 1);
                 });
                 ops.add("Not right now.");

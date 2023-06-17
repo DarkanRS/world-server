@@ -26,6 +26,7 @@ import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
@@ -751,6 +752,12 @@ public class MiscTest {
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+					p.getMiniquestManager().reset(quest);
+					p.sendMessage("Resetted miniquest: " + quest.name());
+					return;
+				}
 		});
 
 		Commands.add(Rights.DEVELOPER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
@@ -758,6 +765,12 @@ public class MiscTest {
 				if (quest.name().toLowerCase().contains(args[0])) {
 					p.getQuestManager().completeQuest(quest);
 					p.sendMessage("Completed quest: " + quest.name());
+					return;
+				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.name().toLowerCase().contains(args[0])) {
+					p.getMiniquestManager().complete(quest);
+					p.sendMessage("Completed miniquest: " + quest.name());
 					return;
 				}
 		});
@@ -768,6 +781,11 @@ public class MiscTest {
 					p.getQuestManager().completeQuest(quest);
 					p.sendMessage("Completed quest: " + quest.name());
 				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.isImplemented()) {
+					p.getMiniquestManager().complete(quest);
+					p.sendMessage("Completed miniquest: " + quest.name());
+				}
 		});
 
 		Commands.add(Rights.DEVELOPER, "resetallquests", "Resets all quests.", (p, args) -> {
@@ -775,6 +793,11 @@ public class MiscTest {
 				if (quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
 					p.sendMessage("Reset quest: " + quest.name());
+				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.isImplemented()) {
+					p.getMiniquestManager().reset(quest);
+					p.sendMessage("Reset miniquest: " + quest.name());
 				}
 		});
 
