@@ -31,7 +31,7 @@ public class Wayne extends Conversation {
 
 	public static NPCClickHandler Wayne = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Wayne(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "waynes_chains");
 		}

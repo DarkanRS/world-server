@@ -15,7 +15,7 @@ public class Wyson extends Conversation {
 
     public static NPCClickHandler Wyson = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new Wyson(e.getPlayer()));
         }
     });

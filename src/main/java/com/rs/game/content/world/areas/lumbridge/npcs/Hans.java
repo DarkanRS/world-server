@@ -17,7 +17,7 @@ public class Hans extends Conversation {
     private static final int npcId = 0;
     public static NPCClickHandler Hans = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Hans(e.getPlayer(), e.getNPC()));
     }
     });

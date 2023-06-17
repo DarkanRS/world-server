@@ -31,7 +31,7 @@ public class Herquin extends Conversation {
 
 	public static NPCClickHandler Herquin = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Herquin(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "herquins_gems");
 		}

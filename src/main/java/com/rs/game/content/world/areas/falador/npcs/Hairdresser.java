@@ -15,7 +15,7 @@ public class Hairdresser extends Conversation {
 
     public static NPCClickHandler Hairdresser = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new Hairdresser(e.getPlayer()));
             case "Hair-cut" -> PlayerLook.openHairdresserSalon(e.getPlayer());
         }

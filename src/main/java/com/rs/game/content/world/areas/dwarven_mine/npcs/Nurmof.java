@@ -29,7 +29,7 @@ public class Nurmof extends Conversation {
 
 	public static NPCClickHandler Nurmof = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Nurmof(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "nurmofs_pickaxe_shop");
 		}

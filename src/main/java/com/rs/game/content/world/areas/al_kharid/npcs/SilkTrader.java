@@ -16,7 +16,7 @@ public class SilkTrader extends Conversation {
 
     public static NPCClickHandler SilkTrader = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new SilkTrader(e.getPlayer()));
     	}
     });

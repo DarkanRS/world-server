@@ -34,7 +34,7 @@ public class Iconis extends Conversation {
 
 	public static NPCClickHandler Iconis = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-			//Start Conversation
+			
 			case "Talk-to" -> e.getPlayer().startConversation(new Iconis(e.getPlayer()));
 			case "Take-picture" -> e.getPlayer().startConversation(new Dialogue()
 					.addNPC(npcId, HeadE.SHAKING_HEAD, "Sorry, the imp is a little busy. There's a lot of demand, you see.")

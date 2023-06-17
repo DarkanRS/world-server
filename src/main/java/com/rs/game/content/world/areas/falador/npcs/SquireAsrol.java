@@ -18,7 +18,7 @@ public class SquireAsrol extends Conversation {
 
     public static NPCClickHandler SquireAsrol = new NPCClickHandler(new Object[]{ npcId }, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new SquireAsrol(e.getPlayer()));
         }
     });

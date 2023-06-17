@@ -31,7 +31,7 @@ public class Lidio extends Conversation {
 
 	public static NPCClickHandler Lidio = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Lidio(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "warrior_guild_food_shop");
 		}

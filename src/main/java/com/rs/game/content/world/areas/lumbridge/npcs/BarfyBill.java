@@ -14,7 +14,7 @@ public class BarfyBill extends Conversation {
     private static final int npcId = 3331;
     public static NPCClickHandler BarfyBill = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-To" -> e.getPlayer().startConversation(new BarfyBill(e.getPlayer()));
     	}
     });

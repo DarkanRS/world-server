@@ -39,7 +39,7 @@ public class Osman extends Conversation {
 	public static NPCClickHandler Osman = new NPCClickHandler(new Object[]{npcId}, e -> {
 		int convoID = 1;
 		switch (e.getOption()) {
-			//Start Conversation
+			
 			case "Talk-to" -> e.getPlayer().startConversation(new Osman(e.getPlayer(), convoID));
 		}
 	});
