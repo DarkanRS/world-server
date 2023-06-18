@@ -1245,6 +1245,8 @@ public class Player extends Entity {
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
 		getVars().setVarBit(4322, 1);
+		//unlock ability to use elemental and catalytic runes
+		getVars().setVarBit(5493, 1);
 		// screen
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);

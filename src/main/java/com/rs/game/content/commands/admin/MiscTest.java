@@ -519,6 +519,18 @@ public class MiscTest {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
 		});
 
+		Commands.add(Rights.DEVELOPER, "scriptargs", "Runs a clientscript with no arguments.", (p, args) -> {
+			Object[] scriptArgs = new Object[args.length-1];
+			for (int i = 1;i < args.length;i++) {
+				try {
+					scriptArgs[i - 1] = Integer.valueOf(args[i]);
+				} catch(Throwable e) {
+					scriptArgs[i - 1] = args[i];
+				}
+			}
+			p.getPackets().sendRunScript(Integer.valueOf(args[0]), scriptArgs);
+		});
+
 		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> {
 			World.allPlayers(target -> {
 				target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume

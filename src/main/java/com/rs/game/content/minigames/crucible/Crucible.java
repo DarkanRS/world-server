@@ -65,4 +65,23 @@ public class Crucible {
         else
             SAFE_PLAYERS.remove(player);
     }
+
+    /**
+     * -1 = none
+     * 0 = lowest rank (6)
+     * 1 = rank 5
+     * 2 = rank 4
+     * 3 = rank 3
+     * 4 = rank 2
+     * 5 = rank 1
+     * 6 = supreme champion
+     * 7 = temporarily invulnerable
+     */
+    public static void sendSupremeChampions(Player player, int tier) {
+        player.getPackets().sendRunScript(6284, tier);
+    }
+
+    public static void updateRankPoints(Player player, int amountToAddOrRemove) {
+        player.getPackets().sendRunScript(6288, amountToAddOrRemove);
+    }
 }
