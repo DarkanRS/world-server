@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.combat.CombatSpell;
@@ -74,6 +75,8 @@ public class Magic {
 	}
 
 	public static final boolean checkCombatSpell(Player player, CombatSpell spell, int set, boolean delete) {
+		if (spell == CombatSpell.STORM_OF_ARMADYL && !player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, "to cast Storm of Armadyl."))
+			return false;
 		if (set >= 0)
 			if (set == 0)
 				player.getCombatDefinitions().setAutoCastSpell(spell);
