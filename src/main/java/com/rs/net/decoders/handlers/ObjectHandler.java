@@ -597,36 +597,7 @@ public final class ObjectHandler {
 			} else if (id == 22600) {
 				player.useStairs(-1, player.transform(5, 0, 3), 1, 1);
 				return;
-			} else if (id == 6087)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-						break;
-				}
-			else if (id == 6088)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-				}
+			}
 			else if (id == 22937)
 				switch(object.getRotation()) {
 					case 0:
@@ -673,6 +644,21 @@ public final class ObjectHandler {
 						break;
 				}
 			else if (id == 22932)
+				switch(object.getRotation()) {
+					case 0:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
+				}
+			else if (id == 22933)
 				switch(object.getRotation()) {
 					case 0:
 						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
