@@ -809,7 +809,7 @@ public class Potions {
 
 		;
 
-		private static Map<Integer, Potion> POTS = new HashMap<>();
+		public static Map<Integer, Potion> POTS = new HashMap<>();
 
 		static {
 			for (Potion pot : Potion.values())

@@ -1424,7 +1424,7 @@ public class PlayerCombat extends PlayerAction {
 					}
 				if (weaponName.contains("granite mace"))
 					return 400;
-				if (weaponName.contains("mace"))
+				if (weaponName.contains("mace") || weaponName.contains("annihilation"))
 					switch (attackStyle.getIndex()) {
 						case 2:
 							return 400;

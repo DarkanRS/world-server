@@ -1,12 +1,18 @@
 package com.rs.game.content.minigames.crucible;
 
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSets;
 
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Set;
 
 @PluginEventHandler
@@ -18,10 +24,7 @@ public class Crucible {
     //1297 = rewards
     //1298 = bounty fee payment
 
-    private static Set<Player> SAFE_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
-    private static Set<Player> DANGEROUS_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
-
-    public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[] { 67052 }, e -> {
+    public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> {
         e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
             ops.add("Safe (No items lost on death)", () -> {
                 e.getPlayer().setNextTile(CrucibleController.getRespawnTile());
@@ -34,23 +37,29 @@ public class Crucible {
             ops.add("Nevermind");
         });
     });
-
-    public static ObjectClickHandler rewardHatch = new ObjectClickHandler(new Object[] { 67051 }, e -> {
-       switch(e.getOption()) {
-           case "Knock" -> e.getPlayer().sendOptionDialogue(ops -> {
-               ops.add("Help", () -> e.getPlayer().getInterfaceManager().sendInterface(1295));
-               ops.add("Rewards", () -> e.getPlayer().getInterfaceManager().sendInterface(1297));
-           });
-           case "Knock for rewards" -> e.getPlayer().getInterfaceManager().sendInterface(1297);
-       }
+    public static ObjectClickHandler rewardHatch = new ObjectClickHandler(new Object[]{67051}, e -> {
+        switch (e.getOption()) {
+            case "Knock" -> e.getPlayer().sendOptionDialogue(ops -> {
+                ops.add("Help", () -> e.getPlayer().getInterfaceManager().sendInterface(1295));
+                ops.add("Rewards", () -> e.getPlayer().getInterfaceManager().sendInterface(1297));
+            });
+            case "Knock for rewards" -> e.getPlayer().getInterfaceManager().sendInterface(1297);
+        }
     });
-
-    public static ObjectClickHandler stairs = new ObjectClickHandler(new Object[] { 67050, 67053 }, e -> {
-        switch(e.getObjectId()) {
+    public static ObjectClickHandler stairs = new ObjectClickHandler(new Object[]{67050, 67053}, e -> {
+        switch (e.getObjectId()) {
             case 67050 -> e.getPlayer().useStairs(-1, Tile.of(3359, 6110, 0), 1, 2);
             case 67053 -> e.getPlayer().useStairs(-1, Tile.of(3120, 3519, 0), 1, 2);
         }
     });
+    public static ButtonClickHandler handleFissureTravel = new ButtonClickHandler(1291, e -> {
+        int fissureIndex = e.getComponentId() - 4;
+        if (fissureIndex < 0 || fissureIndex >= Fissure.values().length)
+            return;
+        useFissure(e.getPlayer(), Fissure.values()[fissureIndex]);
+    });
+    private static Set<Player> SAFE_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
+    private static Set<Player> DANGEROUS_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
 
     public static void add(Player player, boolean dangerous) {
         if (dangerous)
@@ -66,6 +75,20 @@ public class Crucible {
             SAFE_PLAYERS.remove(player);
     }
 
+    public static void updateInterface(Player player, CrucibleController controller) {
+        updateRank(player, 0);
+        updateRankPoints(player, controller.points, 0);
+        updateParticipants(player, controller);
+    }
+
+    private static void updateParticipants(Player player, CrucibleController controller) {
+        StringBuilder participants = new StringBuilder();
+        participants.append((controller.dangerous ? "<col=FF0000>Dangerous" : "<col=00FF00>Safe") + " Participants:</col><br>");
+        for (Player participant : controller.dangerous ? DANGEROUS_PLAYERS : SAFE_PLAYERS)
+            participants.append(participant.getDisplayName()+"<br>");
+        player.getPackets().setIFText(1296, 0, participants.toString());
+    }
+
     /**
      * -1 = none
      * 0 = lowest rank (6)
@@ -77,11 +100,38 @@ public class Crucible {
      * 6 = supreme champion
      * 7 = temporarily invulnerable
      */
-    public static void sendSupremeChampions(Player player, int tier) {
+    public static void updateRank(Player player, int tier) {
         player.getPackets().sendRunScript(6284, tier);
     }
 
-    public static void updateRankPoints(Player player, int amountToAddOrRemove) {
-        player.getPackets().sendRunScript(6288, amountToAddOrRemove);
+    /**
+     * Positive values add points
+     * 0 or lower values remove all points
+     */
+    public static void updateRankPoints(Player player, int currPoints, int amountToAddOrRemove) {
+        if (amountToAddOrRemove != 0)
+            player.getPackets().sendRunScript(6288, amountToAddOrRemove);
+        player.getPackets().setIFText(1296, 27, Utils.formatNumber(currPoints));
+    }
+
+    public static void useFissure(Player player, GameObject object, boolean fast, boolean fastBank) {
+        Fissure fissure = Fissure.forLocation(object.getTile());
+        if (fissure == null) {
+            player.sendMessage("Invalid fissure location.");
+            return;
+        }
+        if (!fast && !fastBank) {
+            player.getInterfaceManager().sendInterface(1291);
+            player.getPackets().sendRunScript(6271, fissure.ordinal() + 1);
+            return;
+        }
+        Optional<Fissure> randomFissure = Arrays.stream(Fissure.values()).filter(f -> f != fissure && ((fastBank && f.name().contains("BANK")) || (!fastBank && !f.name().contains("BANK")))).findFirst();
+        if (randomFissure.isPresent())
+            useFissure(player, randomFissure.get());
+    }
+
+    public static void useFissure(Player player, Fissure fissure) {
+        player.setNextTile(World.getFreeTile(fissure.location, 2));
+        player.closeInterfaces();
     }
 }

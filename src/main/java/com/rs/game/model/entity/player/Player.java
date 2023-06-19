@@ -57,6 +57,7 @@ import com.rs.game.content.pets.Pet;
 import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.cooking.Brewery;
+import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.DungManager;
 import com.rs.game.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.content.skills.farming.FarmPatch;
@@ -2311,30 +2312,42 @@ public class Player extends Entity {
 		for (Item item : keptItems)
 			if (item.getId() != 1)
 				getInventory().addItem(item);
-		for (Item item : containedItems)
-			if (ItemConstants.isTradeable(item))
-				World.addGroundItem(item, getLastTile(), killer == null ? this : killer, true, 60);
+		List<Item> droppedItems = new ArrayList<>();
+		for (Item item : containedItems) {
+			if (ItemConstants.isTradeable(item) || item.getId() == 24444)
+				droppedItems.add(item);
+				//World.addGroundItem(item, getLastTile(), killer == null ? this : killer, true, 60);
 			else {
 				ItemDegrade deg = null;
-				for(ItemDegrade d : ItemDegrade.values())
+				for (ItemDegrade d : ItemDegrade.values()) {
 					if (d.getDegradedId() == item.getId() || d.getItemId() == item.getId()) {
 						deg = d;
 						break;
 					}
+				}
 				if (deg != null && deg.getBrokenId() != -1) {
 					Item broken = new Item(deg.getBrokenId(), item.getAmount());
-					if (!ItemConstants.isTradeable(broken) && (killer != null && killer != this)) {
-						Item money = new Item(995, 1);
-						money.setAmount(item.getDefinitions().getValue());
-						World.addGroundItem(money, getLastTile(), killer == null ? this : killer, true, 60);
-					} else
-						World.addGroundItem(broken, getLastTile(), killer == null ? this : killer, true, 60);
-				} else {
-					Item money = new Item(995, 1);
-					money.setAmount(item.getDefinitions().getValue());
-					World.addGroundItem(money, getLastTile(), killer == null ? this : killer, true, 60);
-				}
+					droppedItems.add((!ItemConstants.isTradeable(broken) && (killer != null && killer != this)) ? new Item(995, item.getDefinitions().getValue()) : broken);
+				} else
+					droppedItems.add(new Item(995, item.getDefinitions().getValue()));
 			}
+		}
+		if (killer == null) {
+			for (Item item : droppedItems)
+				World.addGroundItem(item, getLastTile(), this, true, 60);
+		} else {
+			List<Item> foodItems = new ArrayList<>();
+			List<Item> trophyItems = new ArrayList<>();
+			for (Item item : droppedItems) {
+				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()))
+					foodItems.add(item);
+				else
+					trophyItems.add(item);
+			}
+			World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
+			for (Item item : foodItems)
+				World.addGroundItem(item, getLastTile(), this, true, 60);
+		}
 		getAppearance().generateAppearanceData();
 	}
 

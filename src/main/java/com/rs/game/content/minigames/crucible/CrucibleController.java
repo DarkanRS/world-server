@@ -23,7 +23,8 @@ public class CrucibleController extends Controller {
     };
 
     private transient boolean wasInArea;
-    private boolean dangerous;
+    public final boolean dangerous;
+    public int points = 0;
 
     public CrucibleController(boolean dangerous) {
         this.dangerous = dangerous;
@@ -43,6 +44,7 @@ public class CrucibleController extends Controller {
     @Override
     public void sendInterfaces() {
         player.getInterfaceManager().sendOverlay(1296);
+        Crucible.updateInterface(player, this);
     }
 
     @Override
@@ -126,17 +128,16 @@ public class CrucibleController extends Controller {
     @Override
     public boolean processObjectClick1(GameObject object) {
         switch (object.getId()) {
+            //Quick travel on the fissure
+            case 72923, 72924, 72925, 72926, 72927, 72928, 72929, 72930, 72931, 72932, 72933, 72934, 72935 -> {
+                Crucible.useFissure(player, object, true, false);
+                return false;
+            }
             case 72936 -> {
                 player.sendOptionDialogue("What would you like to do?", ops -> {
                     ops.add("I'd like to open my bank please.", () -> player.getBank().open());
                     if (!dangerous)
-                        ops.add("Kit me out with some food and potions please.", () -> {
-                            player.getInventory().addItem(18715, 1);
-                            player.getInventory().addItem(22373, 2);
-                            player.getInventory().addItem(22379, 2);
-                            player.getInventory().addItem(22375, 1);
-                            player.getInventory().addItem(4049, player.getInventory().getFreeSlots());
-                        });
+                        ops.add("Kit me out with some food and potions please.", () -> MinigameUtil.giveFoodAndPotions(player));
                     ops.add("Nevermind.");
                 });
                 return false;
@@ -144,6 +145,30 @@ public class CrucibleController extends Controller {
             case 72922 -> {
                 remove(true);
                 player.useStairs(-1, Tile.of(3355, 6119, 0), 0, 1);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean processObjectClick2(GameObject object) {
+        switch (object.getId()) {
+            //Select location fissure
+            case 72923, 72924, 72925, 72926, 72927, 72928, 72929, 72930, 72931, 72932, 72933, 72934, 72935 -> {
+                Crucible.useFissure(player, object, false, false);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean processObjectClick3(GameObject object) {
+        switch (object.getId()) {
+            //Go-bank fissure
+            case 72927, 72928, 72929, 72930, 72931, 72932, 72933, 72934, 72935 -> {
+                Crucible.useFissure(player, object, true, true);
                 return false;
             }
         }
