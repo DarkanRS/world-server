@@ -1253,12 +1253,13 @@ public class Player extends Entity {
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		long farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
-		if (farmingTicksMissed > 768)
-			farmingTicksMissed = 768;
-		if (farmingTicksMissed <= 0)
-			farmingTicksMissed = 0;
-		for (long i = 0;i < farmingTicksMissed;i++)
+		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / FarmPatch.FARMING_TICK);
+		if (farmingTicksMissed > 768.0)
+			farmingTicksMissed = 768.0;
+		if (farmingTicksMissed < 1.0)
+			farmingTicksMissed = 0.0;
+		System.out.println("Ticks missed: " + farmingTicksMissed);
+		for (int i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 
 		for (FarmPatch p : getPatches().values())
@@ -1288,10 +1289,10 @@ public class Player extends Entity {
 		PluginManager.handle(new EnterChunkEvent(this, getChunkId()));
 	}
 
-	private int getTicksSinceLastLogout() {
+	private double getTicksSinceLastLogout() {
 		if (timeLoggedOut <= 0)
 			return 0;
-		return (int) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
+		return (double) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
 	}
 
 	public void processDailyTasks() {
