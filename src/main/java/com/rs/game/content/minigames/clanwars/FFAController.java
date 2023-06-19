@@ -96,7 +96,7 @@ public final class FFAController extends Controller {
 					killer.increaseKillCount(player);
 				}
 				if (dangerous) {
-					player.sendItemsOnDeath(killer);
+					player.sendPVPItemsOnDeath(killer);
 					player.getEquipment().init();
 					player.getInventory().init();
 				}

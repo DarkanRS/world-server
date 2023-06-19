@@ -189,7 +189,7 @@ public class WildernessController extends Controller {
 					killer.removeDamage(player);
 					killer.increaseKillCount(player);
 				}
-				player.sendItemsOnDeath(killer);
+				player.sendPVPItemsOnDeath(killer);
 				player.getEquipment().init();
 				player.getInventory().init();
 				player.reset();

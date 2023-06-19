@@ -2233,12 +2233,12 @@ public class Player extends Entity {
 		return Tile.of(Tile.of(2745, 3474, 0), 4);
 	}
 
-	public void sendItemsOnDeath(Player killer, boolean dropItems) {
+	public void sendPVEItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
+		sendPVEItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
 	}
 
-	public void sendItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
+	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
 		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
 			return;
 		auraManager.removeAura();
@@ -2276,9 +2276,9 @@ public class Player extends Entity {
 				new GraveStone(this, deathTile, items[1]);
 	}
 
-	public void sendItemsOnDeath(Player killer) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
-			return;
+	public void sendPVPItemsOnDeath(Player killer) {
+//		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
+//			return;
 		if (killer != null && !killer.getUsername().equals(getUsername()) && killer.isIronMan())
 			killer = null;
 		auraManager.removeAura();
@@ -2345,53 +2345,11 @@ public class Player extends Entity {
 					trophyItems.add(item);
 			}
 			if (!trophyItems.isEmpty())
-				World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
+				World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", getDisplayName()).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
 			for (Item item : foodItems)
 				World.addGroundItem(item, getLastTile(), killer, true, 60);
 		}
 		getAppearance().generateAppearanceData();
-	}
-
-
-	public void sendOSItemsOnDeath(Player killer) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
-			return;
-		auraManager.removeAura();
-		CopyOnWriteArrayList<Item> containedItems = new CopyOnWriteArrayList<>();
-		for (int i = 0; i < 14; i++)
-			if (equipment.getItem(i) != null && equipment.getItem(i).getId() != -1 && equipment.getItem(i).getAmount() != -1)
-				containedItems.add(new Item(equipment.getItem(i).getId(), equipment.getItem(i).getAmount()));
-		for (int i = 0; i < 28; i++)
-			if (inventory.getItem(i) != null && inventory.getItem(i).getId() != -1 && inventory.getItem(i).getAmount() != -1)
-				containedItems.add(new Item(getInventory().getItem(i).getId(), getInventory().getItem(i).getAmount()));
-		if (containedItems.isEmpty())
-			return;
-		int keptAmount = 0;
-
-		keptAmount = hasSkull() ? 0 : 3;
-		if (prayer.isProtectingItem())
-			keptAmount++;
-
-		CopyOnWriteArrayList<Item> keptItems = new CopyOnWriteArrayList<>();
-		Item lastItem = new Item(1, 1);
-		for (int i = 0; i < keptAmount; i++) {
-			for (Item item : containedItems) {
-				int price = item.getDefinitions().getValue();
-				if (price >= lastItem.getDefinitions().getValue())
-					lastItem = item;
-			}
-			this.sendMessage(lastItem.getDefinitions().getName() + ": " + lastItem.getDefinitions().getValue());
-			keptItems.add(lastItem);
-			containedItems.remove(lastItem);
-			lastItem = new Item(1, 1);
-		}
-		inventory.reset();
-		equipment.reset();
-		for (Item item : keptItems)
-			if (item.getId() != 1)
-				getInventory().addItem(item);
-		for (Item item : containedItems)
-			World.addGroundItem(item, getLastTile(), this, false, 60);
 	}
 
 	public void increaseKillCount(Player killed) {

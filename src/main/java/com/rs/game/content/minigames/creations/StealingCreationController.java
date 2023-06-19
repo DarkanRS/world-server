@@ -835,7 +835,7 @@ public class StealingCreationController extends Controller {
 						player.sendMessage("You have been killed by " + killer.getDisplayName());
 					}
 					player.getEquipment().deleteSlot(Equipment.CAPE);
-					player.sendItemsOnDeath(killer, true);
+					player.sendPVEItemsOnDeath(killer, true);
 					player.setNextTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();
 					player.reset();

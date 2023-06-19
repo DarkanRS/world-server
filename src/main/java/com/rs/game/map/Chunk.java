@@ -213,7 +213,7 @@ public class Chunk {
             tileMap.put(item.getTile().getTileHash(), items);
         }
         GroundItem existing = getGroundItem(item.getId(), item.getTile(), item.getVisibleToId());
-        if (item.getDefinitions().isStackable() && existing != null) {
+        if (item.getDefinitions().isStackable() && !item.containsMetaData() && existing != null) {
             int oldAmount = existing.getAmount();
             existing.setAmount(existing.getAmount() + item.getAmount());
             if (existing.getCreatorUsername() != null && World.getPlayerByUsername(existing.getCreatorUsername()) != null)

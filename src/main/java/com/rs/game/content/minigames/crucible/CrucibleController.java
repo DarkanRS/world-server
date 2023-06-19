@@ -56,22 +56,26 @@ public class CrucibleController extends Controller {
                 player.setNextAnimation(new Animation(836));
             else if (loop == 1)
                 player.sendMessage("Oh dear, you have died.");
-            else if (loop == 3) {
+            else if (loop == 4) {
                 Player killer = player.getMostDamageReceivedSourcePlayer();
                 if (killer != null) {
                     killer.removeDamage(player);
                     killer.increaseKillCount(player);
                 }
                 if (dangerous) {
-                    player.sendItemsOnDeath(killer);
+                    player.sendPVPItemsOnDeath(killer);
                     player.getEquipment().init();
                     player.getInventory().init();
                 }
                 player.reset();
                 player.setNextTile(getRespawnTile());
-                remove(true);
                 player.setNextAnimation(new Animation(-1));
-            } else if (loop == 4) {
+                if (dangerous) {
+                    Potions.checkOverloads(player);
+                    player.addEffect(Effect.OVERLOAD_PVP_REDUCTION, Integer.MAX_VALUE);
+                    player.setSkullInfiniteDelay(7);
+                }
+            } else if (loop == 5) {
                 player.jingle(90);
                 return false;
             }
@@ -202,7 +206,7 @@ public class CrucibleController extends Controller {
     public boolean canHit(Entity target) {
         if (target instanceof Player p) {
             if (p.getControllerManager().getController() != null && p.getControllerManager().getController() instanceof CrucibleController controller) {
-                if (dangerous && !controller.dangerous) {
+                if ((dangerous && !controller.dangerous) || (controller.dangerous && !dangerous)) {
                     player.sendMessage("That player isn't in " + (dangerous ? "dangerous" : "safe") + " mode with you.");
                     return false;
                 }

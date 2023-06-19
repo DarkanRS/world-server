@@ -71,7 +71,8 @@ public class LootInterface {
         }
     });
 
-    public static void open(Player player, ItemsContainer<Item> container, Runnable onClose) {
+    public static void open(String title, Player player, ItemsContainer<Item> container, Runnable onClose) {
+        player.getPackets().setIFText(1284, 28, title);
         player.getInterfaceManager().sendInterface(1284);
         player.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 7, 4, "Take", "Bank", "Discard", "Examine");
         player.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
@@ -88,8 +89,8 @@ public class LootInterface {
         });
     }
 
-    public static void open(Player player, ItemsContainer<Item> container) {
-        open(player, container, null);
+    public static void open(String title, Player player, ItemsContainer<Item> container) {
+        open(title, player, container, null);
     }
 
     public static void sendExamine(Player player, Item item) {

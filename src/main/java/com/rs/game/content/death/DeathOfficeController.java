@@ -273,7 +273,7 @@ public class DeathOfficeController extends InstancedController {
 		player.setCloseInterfacesEvent(() -> {
 			synchronized (slots) {
 				if (!player.hasRights(Rights.ADMIN))
-					player.sendItemsOnDeath(null, getDeathTile(), currentHub.tile, false, slots);
+					player.sendPVEItemsOnDeath(null, getDeathTile(), currentHub.tile, false, slots);
 				else
 					player.sendMessage("Slots saved: " + Arrays.deepToString(GraveStone.getItemsKeptOnDeath(player, slots)));
 			}

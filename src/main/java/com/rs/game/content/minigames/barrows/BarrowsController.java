@@ -244,7 +244,7 @@ public final class BarrowsController extends Controller {
 		}
 		ItemsContainer<Item> container = new ItemsContainer<>(rewards.length, false);
 		container.addAll(rewards);
-		LootInterface.open(player, container);
+		LootInterface.open("Barrows Chest", player, container);
 	}
 
 	@Override

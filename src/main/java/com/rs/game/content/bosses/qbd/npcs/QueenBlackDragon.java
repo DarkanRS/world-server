@@ -360,7 +360,7 @@ public final class QueenBlackDragon extends NPC {
 	 *            If the chest should be replaced with an opened one.
 	 */
 	public void openRewardChest(boolean replace) {
-		LootInterface.open(attacker, rewards);
+		LootInterface.open("Queen Black Dragon Spoils", attacker, rewards);
 		for (Item item : rewards.array()) {
 			if (item == null)
 				continue;

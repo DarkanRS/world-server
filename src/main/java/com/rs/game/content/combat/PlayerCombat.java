@@ -959,9 +959,16 @@ public class PlayerCombat extends PlayerAction {
 					if (p2.getFamiliarPouch() == Pouch.STEEL_TITAN)
 						def *= 1.15;
 			} else {
+				int wId = player.getEquipment().getWeaponId();
 				NPC n = (NPC) target;
+				if (wId == 15836 || wId == 17295 || wId == 21332) {
+					int mageLvl = Utils.clampI(n.getMagicLevel(), 0, 350);
+					double atkMul = (140.0 + Math.floor((3 * (double) mageLvl - 10.0) / 100.0) - Math.floor(Math.pow(0.3 * (double) mageLvl - 100.0, 2.0) / 100.0)) / 100.0;
+					atk *= atkMul;
+					double strMul = (250.0 + Math.floor((3 * (double) mageLvl - 14.0) / 100.0) - Math.floor(Math.pow(0.3 * (double) mageLvl - 140.0, 2.0) / 100.0)) / 100.0;
+					maxHit *= strMul;
+				}
 				if (n.getName().startsWith("Vyre")) {
-					int wId = player.getEquipment().getWeaponId();
 					if (wId == 21581 || wId == 21582) {
 						atk *= 2;
 						maxHit *= 2;
@@ -969,7 +976,6 @@ public class PlayerCombat extends PlayerAction {
 						maxHit = 0;
 				}
 				if (n.getName().equals("Turoth") || n.getName().equals("Kurask")) {
-					int wId = player.getEquipment().getWeaponId();
 					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().indexOf("bow") > -1 && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().indexOf("broad") > -1))
 						maxHit = 0;
 				}

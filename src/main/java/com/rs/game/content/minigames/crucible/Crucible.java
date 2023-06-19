@@ -11,9 +11,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSets;
 
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @PluginEventHandler
 public class Crucible {
@@ -102,6 +101,7 @@ public class Crucible {
      */
     public static void updateRank(Player player, int tier) {
         player.getPackets().sendRunScript(6284, tier);
+        updateParticipants(player, player.getControllerManager().getController(CrucibleController.class));
     }
 
     /**
@@ -125,8 +125,10 @@ public class Crucible {
             player.getPackets().sendRunScript(6271, fissure.ordinal() + 1);
             return;
         }
-        Optional<Fissure> randomFissure = Arrays.stream(Fissure.values()).filter(f -> f != fissure && ((fastBank && f.name().contains("BANK")) || (!fastBank && !f.name().contains("BANK")))).findFirst();
-        if (randomFissure.isPresent())
+        List<Fissure> shuffled = Arrays.stream(Fissure.values()).filter(f -> f != fissure && ((fastBank && f.name().contains("BANK")) || (!fastBank && !f.name().contains("BANK")))).collect(Collectors.toList());
+        Collections.shuffle(shuffled);
+        Optional<Fissure> randomFissure = shuffled.stream().findFirst();
+        if (shuffled.stream().findFirst().isPresent())
             useFissure(player, randomFissure.get());
     }
 

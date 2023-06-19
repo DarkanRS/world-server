@@ -25,14 +25,16 @@ public class TrophyBones {
             e.getPlayer().sendMessage("This isn't a proper bank.");
             return;
         }
+        e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), null);
+        e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+
         ItemsContainer<Item> items = trophyBoneToContainer(e.getItem());
         if (items == null) {
             e.getPlayer().sendMessage("Your trophy bones don't contain anything.");
             return;
         }
-        e.getPlayer().getInventory().getItems().set(e.getItem().getSlot(), null);
-        e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-        LootInterface.open(e.getPlayer(), items);
+        String name = e.getItem().getMetaDataO("trophyBoneOriginator");
+        LootInterface.open((name == null ? "Unknown" : name) + "'s Corpse", e.getPlayer(), items);
     });
 
     public static ItemsContainer<Item> trophyBoneToContainer(Item bones) {
