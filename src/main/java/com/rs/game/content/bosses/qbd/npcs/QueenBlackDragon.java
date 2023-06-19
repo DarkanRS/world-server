@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.qbd.npcs;
 
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.items.LootInterface;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -359,10 +360,7 @@ public final class QueenBlackDragon extends NPC {
 	 *            If the chest should be replaced with an opened one.
 	 */
 	public void openRewardChest(boolean replace) {
-		attacker.getInterfaceManager().sendInterface(1284);
-		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
-		attacker.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
-		attacker.getPackets().sendItems(100, rewards);
+		LootInterface.open(attacker, rewards);
 		for (Item item : rewards.array()) {
 			if (item == null)
 				continue;

@@ -2339,14 +2339,15 @@ public class Player extends Entity {
 			List<Item> foodItems = new ArrayList<>();
 			List<Item> trophyItems = new ArrayList<>();
 			for (Item item : droppedItems) {
-				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()))
+				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()) || item.getId() == 24444)
 					foodItems.add(item);
 				else
 					trophyItems.add(item);
 			}
-			World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
+			if (!trophyItems.isEmpty())
+				World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
 			for (Item item : foodItems)
-				World.addGroundItem(item, getLastTile(), this, true, 60);
+				World.addGroundItem(item, getLastTile(), killer, true, 60);
 		}
 		getAppearance().generateAppearanceData();
 	}
