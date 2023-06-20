@@ -1,0 +1,164 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3553,
+      "y": 9947
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3530,
+      "y": 9968
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3554,
+      "y": 9927
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3524,
+      "y": 9932
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3493,
+      "y": 9925
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3480,
+      "y": 9943
+    },
+    "comment": "Experiment(Wolf-woman)",
+    "npcId": 1676
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3549,
+      "y": 9955
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3565,
+      "y": 9950
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3552,
+      "y": 9940
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3534,
+      "y": 9925
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3498,
+      "y": 9937
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3488,
+      "y": 9946
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3473,
+      "y": 9943
+    },
+    "comment": "Experiment(Sheep-dog)",
+    "npcId": 1678
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3566,
+      "y": 9960
+    },
+    "comment": "Experiment(Spider-man)",
+    "npcId": 1677
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3539,
+      "y": 9958
+    },
+    "comment": "Experiment(Spider-man)",
+    "npcId": 1677
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3546,
+      "y": 9932
+    },
+    "comment": "Experiment(Spider-man)",
+    "npcId": 1677
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3487,
+      "y": 9933
+    },
+    "comment": "Experiment(Spider-man)",
+    "npcId": 1677
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3474,
+      "y": 9932
+    },
+    "comment": "Experiment(Spider-man)",
+    "npcId": 1677
+  }
+]
