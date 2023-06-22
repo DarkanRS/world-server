@@ -5,10 +5,12 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.ImpCatcher;
 import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PetShopOwner extends Conversation {
@@ -48,7 +50,7 @@ public class PetShopOwner extends Conversation {
 									})
 									.addNPC(PETSHOPOWNER, HeadE.CONFUSED, "Is there anything else I can help you with?")
 									.addNext(() -> p.startConversation(new PetShopOwner(p)))
-									);
+							);
 						}
 					} else {
 						option("Ask about the white hare meat.", new Dialogue()
@@ -65,7 +67,10 @@ public class PetShopOwner extends Conversation {
 	}
 
 	public static NPCClickHandler handlePetshopownerDialogue = new NPCClickHandler(new Object[] { PETSHOPOWNER }, e -> {
-		e.getPlayer().startConversation(new PetShopOwner(e.getPlayer()).getStart());
+		if (e.getOption().toLowerCase().equals("talk-to"))
+			e.getPlayer().startConversation(new PetShopOwner(e.getPlayer()));
+		else if (e.getOption().toLowerCase().equals("trade"))
+		ShopsHandler.openShop(e.getPlayer(), "taverly_pet_shop");
 	});
 
 }

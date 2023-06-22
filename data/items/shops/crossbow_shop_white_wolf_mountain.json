@@ -1,5 +1,5 @@
 {
-  "name": "Crossbow shop",
+  "name": "Holoy's Crossbow Shop",
   "generalStore": false,
   "buyOnly": false,
   "currency": 995,
@@ -120,6 +120,6 @@
     }
   ],
   "npcIds": [
-    4563
+    4559
   ]
 }

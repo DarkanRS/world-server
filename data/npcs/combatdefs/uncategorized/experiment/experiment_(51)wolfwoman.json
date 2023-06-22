@@ -1,24 +1,24 @@
 {
-  "names": [
-    "Rogue"
+  "ids": [
+    1676
   ],
-  "attackAnim": -1,
+  "attackAnim": 1626,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 1627,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 1628,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
-  "hitpoints": 170,
-  "maxHit": 20,
+  "respawnDelay": 39,
+  "hitpoints": 1000,
+  "maxHit": 10,
   "attackStyle": "MELEE",
   "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 13,
+    "ATTACK": 40,
     "RANGE": 1,
-    "STRENGTH": 13,
-    "DEFENSE": 13,
+    "STRENGTH": 50,
+    "DEFENSE": 50,
     "MAGE": 1
   },
   "attackRange": -1,

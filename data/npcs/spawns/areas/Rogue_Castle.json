@@ -1,0 +1,137 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3285,
+      "y": 3939
+    },
+    "comment": "Rogue (Varrock)",
+    "npcId": 8122
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3295,
+      "y": 3928
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3278,
+      "y": 3926
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 3932
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 3930
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 3937
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 3934
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3286,
+      "y": 3930
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 3928
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3292,
+      "y": 3933
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3291,
+      "y": 3940
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3287,
+      "y": 3930
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3289,
+      "y": 3931
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3281,
+      "y": 3939
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3279,
+      "y": 3935
+    },
+    "comment": "Rogue",
+    "npcId": 187
+  }
+]
