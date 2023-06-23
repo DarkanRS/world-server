@@ -116,7 +116,11 @@ public class Potions {
 
 		SUPER_ATTACK(VIAL, new int[] { 2436, 145, 147, 149 }, p -> p.getSkills().adjustStat(5, 0.15, Constants.ATTACK)),
 		SUPER_ATTACK_FLASK(-1, new int[] { 23255, 23257, 23259, 23261, 23263, 23265 }, p -> p.getSkills().adjustStat(5, 0.15, Constants.ATTACK)),
-		CW_SUPER_ATTACK_POTION(-1, new int[] { 18715, 18716, 18717, 18718 }, p -> p.getSkills().adjustStat(5, 0.15, Constants.ATTACK)),
+		CW_SUPER_ATTACK_POTION(-1, new int[] { 18715, 18716, 18717, 18718 }, p -> {
+			p.getSkills().adjustStat(5, 0.15, Constants.ATTACK, Constants.STRENGTH, Constants.DEFENSE);
+			p.getSkills().adjustStat(4, 0.10, Constants.RANGE);
+			p.getSkills().adjustStat(5, 0, Constants.MAGIC);
+		}),
 		SUPER_ATTACK_MIX(VIAL, new int[] { 11469, 11471 }, p -> {
 			p.getSkills().adjustStat(5, 0.15, Constants.ATTACK);
 			p.heal(30);
@@ -248,7 +252,9 @@ public class Potions {
 
 		SUPER_ENERGY(VIAL, new int[] { 3016, 3018, 3020, 3022 }, p -> p.restoreRunEnergy(40)),
 		SUPER_ENERGY_FLASK(-1, new int[] { 23387, 23389, 23391, 23393, 23395, 23397 }, p -> p.restoreRunEnergy(40)),
-		CW_SUPER_ENERGY_POTION(-1, new int[] { 18727, 18728, 18729, 18730 }, p -> p.restoreRunEnergy(40)),
+		CW_SUPER_ENERGY_POTION(-1, new int[] { 18727, 18728, 18729, 18730 }, p -> {
+			p.restoreRunEnergy(40);
+		}),
 		SUPER_ENERGY_MIX(VIAL, new int[] { 11481, 11483 }, p -> {
 			p.restoreRunEnergy(40);
 			p.heal(30);
@@ -384,7 +390,7 @@ public class Potions {
 
 		SUPER_PRAYER(VIAL, new int[] { 15328, 15329, 15330, 15331 }, p -> p.getPrayer().restorePrayer(((int) (70 + (p.getSkills().getLevelForXp(Constants.PRAYER) * 3.43))))),
 		SUPER_PRAYER_FLASK(-1, new int[] { 23525, 23526, 23527, 23528, 23529, 23530 }, p -> p.getPrayer().restorePrayer(((int) (70 + (p.getSkills().getLevelForXp(Constants.PRAYER) * 3.43))))),
-		DOM_SUPER_PRAYER(-1, new int[] { 22375, 22376 }),
+		DOM_SUPER_PRAYER(-1, new int[] { 22375, 22376 }, p -> p.getPrayer().restorePrayer(((int) (70 + (p.getSkills().getLevelForXp(Constants.PRAYER) * 3.43))))),
 
 		OVERLOAD(VIAL, new int[] { 15332, 15333, 15334, 15335 }, true, p -> {
 			p.addEffect(Effect.OVERLOAD, 500);
@@ -803,7 +809,7 @@ public class Potions {
 
 		;
 
-		private static Map<Integer, Potion> POTS = new HashMap<>();
+		public static Map<Integer, Potion> POTS = new HashMap<>();
 
 		static {
 			for (Potion pot : Potion.values())

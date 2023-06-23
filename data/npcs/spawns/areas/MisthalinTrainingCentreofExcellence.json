@@ -1,0 +1,11 @@
+[
+  {
+    "comment": "Jail Guard",
+    "npcId": 7142,
+    "tile": {
+      "x": 3083,
+      "y": 4244,
+      "plane": 0
+    }
+  }
+]

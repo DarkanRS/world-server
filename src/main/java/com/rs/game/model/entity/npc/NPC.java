@@ -1399,4 +1399,9 @@ public class NPC extends Entity {
 	public boolean persistsBeyondCutscene() {
 		return getTempAttribs().getB("persistBeyondCutscene");
 	}
+
+    public void stopAll() {
+		getActionManager().forceStop();
+		getInteractionManager().forceStop();
+    }
 }

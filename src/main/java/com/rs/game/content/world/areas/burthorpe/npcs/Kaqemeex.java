@@ -17,7 +17,7 @@ public class Kaqemeex extends Conversation {
 
     public static NPCClickHandler Kaqemeex = new NPCClickHandler(new Object[]{npcId}, e -> {
         switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-to" -> e.getPlayer().startConversation(new Kaqemeex(e.getPlayer()));
         }
     });

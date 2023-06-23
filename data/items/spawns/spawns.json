@@ -1900,8 +1900,8 @@
     }
   },
   {
-    "comment": "Beer",
-    "itemId": 1917,
+    "comment": "Ahab's Beer",
+    "itemId": 6561,
     "amount": 1,
     "tile": {
       "x": 3049,

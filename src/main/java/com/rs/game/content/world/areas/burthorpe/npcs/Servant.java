@@ -29,7 +29,7 @@ public class Servant extends Conversation {
 
 	public static NPCClickHandler Servant = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Servant(e.getPlayer()));
 		}
 	});

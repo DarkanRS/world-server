@@ -1038,6 +1038,8 @@ public final class World {
 	}
 
 	public static final void sendObjectAnimation(GameObject object, Animation animation) {
+		if (object == null)
+			return;
 		ChunkManager.getChunk(object.getTile().getChunkId()).addObjectAnim(object, animation);
 	}
 

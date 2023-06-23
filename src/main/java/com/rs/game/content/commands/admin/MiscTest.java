@@ -23,9 +23,14 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.*;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
@@ -109,7 +114,7 @@ public class MiscTest {
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			p.sendMessage(AnimationDefinitions.getDefs(SpotAnimDefinitions.getDefs(2226).animationId).getUsedSynthSoundIds().toString());
+			p.getInventory().addItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", "Test Key").addMetaData("trophyBoneItems", new ArrayList<>(List.of(new Item(4151, 1).addMetaData("combatCharges", 500), new Item(4151, 1), new Item(4151, 1), new Item(1044, 1), new Item(995, 50000)))));
 		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
@@ -386,6 +391,11 @@ public class MiscTest {
 			player.getAppearance().generateAppearanceData();
 		});
 
+		Commands.add(Rights.DEVELOPER, "skull", "Set custom skull.", (player, args) -> {
+			player.setSkullInfiniteDelay(Integer.valueOf(args[0]));
+			player.getAppearance().generateAppearanceData();
+		});
+
 		Commands.add(Rights.DEVELOPER, "sd", "Search for a door pair.", (p, args) -> {
 			Doors.searchDoors(Integer.valueOf(args[0]));
 		});
@@ -511,6 +521,18 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
+		});
+
+		Commands.add(Rights.DEVELOPER, "scriptargs", "Runs a clientscript with no arguments.", (p, args) -> {
+			Object[] scriptArgs = new Object[args.length-1];
+			for (int i = 1;i < args.length;i++) {
+				try {
+					scriptArgs[i - 1] = Integer.valueOf(args[i]);
+				} catch(Throwable e) {
+					scriptArgs[i - 1] = args[i];
+				}
+			}
+			p.getPackets().sendRunScript(Integer.valueOf(args[0]), scriptArgs);
 		});
 
 		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> {
@@ -751,6 +773,12 @@ public class MiscTest {
 					p.sendMessage("Resetted quest: " + quest.name());
 					return;
 				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
+					p.getMiniquestManager().reset(quest);
+					p.sendMessage("Resetted miniquest: " + quest.name());
+					return;
+				}
 		});
 
 		Commands.add(Rights.DEVELOPER, "completequest [questName]", "Resets the specified quest.", (p, args) -> {
@@ -758,6 +786,12 @@ public class MiscTest {
 				if (quest.name().toLowerCase().contains(args[0])) {
 					p.getQuestManager().completeQuest(quest);
 					p.sendMessage("Completed quest: " + quest.name());
+					return;
+				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.name().toLowerCase().contains(args[0])) {
+					p.getMiniquestManager().complete(quest);
+					p.sendMessage("Completed miniquest: " + quest.name());
 					return;
 				}
 		});
@@ -768,6 +802,11 @@ public class MiscTest {
 					p.getQuestManager().completeQuest(quest);
 					p.sendMessage("Completed quest: " + quest.name());
 				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.isImplemented()) {
+					p.getMiniquestManager().complete(quest);
+					p.sendMessage("Completed miniquest: " + quest.name());
+				}
 		});
 
 		Commands.add(Rights.DEVELOPER, "resetallquests", "Resets all quests.", (p, args) -> {
@@ -775,6 +814,11 @@ public class MiscTest {
 				if (quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
 					p.sendMessage("Reset quest: " + quest.name());
+				}
+			for (Miniquest quest : Miniquest.values())
+				if (quest.isImplemented()) {
+					p.getMiniquestManager().reset(quest);
+					p.sendMessage("Reset miniquest: " + quest.name());
 				}
 		});
 

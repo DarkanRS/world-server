@@ -62,8 +62,8 @@ public class PetShopOwner extends Conversation {
 					option("Ask about something else.");
 				}
 			});
-		}
-
+		} else
+			addNPC(PETSHOPOWNER, HeadE.CHEERFUL, "Hello!");
 	}
 
 	public static NPCClickHandler handlePetshopownerDialogue = new NPCClickHandler(new Object[] { PETSHOPOWNER }, e -> {

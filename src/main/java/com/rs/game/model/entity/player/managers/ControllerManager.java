@@ -226,6 +226,12 @@ public final class ControllerManager {
 		return controller.sendDeath();
 	}
 
+	public boolean canDepositItem(Item item) {
+		if (controller == null || !inited)
+			return true;
+		return controller.canDepositItem(item);
+	}
+
 	public boolean canEat(Food food) {
 		if (controller == null || !inited)
 			return true;

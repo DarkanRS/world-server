@@ -230,61 +230,6 @@ public final class QueenBlackDragonController extends Controller {
 	}
 
 	@Override
-	public boolean processButtonClick(int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
-		if (npc == null)
-			return true;
-		switch (interfaceId) {
-		case 1284:
-			switch (componentId) {
-			case 8:
-				player.getBank().addItems(npc.getRewards().toArray(), true);
-				npc.getRewards().clear();
-				player.sendMessage("All the items were moved to your bank.");
-				break;
-			case 9:
-				npc.getRewards().clear();
-				player.sendMessage("All the items were removed from the chest.");
-				break;
-			case 10:
-				for (int slot = 0; slot < npc.getRewards().toArray().length; slot++) {
-					Item item = npc.getRewards().get(slot);
-					if (item == null)
-						continue;
-					boolean added = true;
-					if (item.getDefinitions().isStackable() || item.getAmount() < 2) {
-						added = player.getInventory().addItem(item);
-						if (added)
-							npc.getRewards().toArray()[slot] = null;
-					} else
-						for (int i = 0; i < item.getAmount(); i++) {
-							Item single = new Item(item.getId());
-							if (!player.getInventory().addItem(single)) {
-								added = false;
-								break;
-							}
-							npc.getRewards().remove(single);
-						}
-					if (!added) {
-						player.sendMessage("You only had enough space in your inventory to accept some of the items.");
-						break;
-					}
-				}
-				break;
-			case 7:
-				Item item = npc.getRewards().get(slotId);
-				if (item == null)
-					return true;
-				break;
-			default:
-				return true;
-			}
-			npc.openRewardChest(false);
-			return false;
-		}
-		return true;
-	}
-
-	@Override
 	public void magicTeleported(int type) {
 		end(0);
 	}
@@ -336,7 +281,8 @@ public final class QueenBlackDragonController extends Controller {
 			player.setTile(OUTSIDE);
 		removeController();
 		if (npc != null)
-			player.getBank().addItems(npc.getRewards().toArray(), false);
+			for (Item item : npc.getRewards().toArray())
+				player.getBank().addItem(item, true);
 		bossRegion.destroy();
 		if (rewardRegion != null)
 			rewardRegion.destroy();

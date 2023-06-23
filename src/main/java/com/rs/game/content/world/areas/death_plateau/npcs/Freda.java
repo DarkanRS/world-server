@@ -18,7 +18,7 @@ public class Freda extends Conversation {
 
 	public static NPCClickHandler Freda = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Freda(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "fredas_boots");
 		}

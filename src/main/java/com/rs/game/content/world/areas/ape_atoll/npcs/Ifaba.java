@@ -32,7 +32,7 @@ public class Ifaba extends Conversation {
 
 	public static NPCClickHandler Ifaba = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Ifaba(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "ifaba_general_store");
 		}

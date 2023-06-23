@@ -71,7 +71,7 @@ public class CorporealBeastController extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.sendItemsOnDeath(null, false);
+					player.sendPVEItemsOnDeath(null, false);
 					player.reset();
 					player.setNextTile(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));

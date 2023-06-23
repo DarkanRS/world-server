@@ -40,7 +40,7 @@ public enum Rune {
 	SOUL(566, 17793, 16104, 12851),
 	ASTRAL(9075, 17790, 16101, 12851),
 	LAW(563, 17792, 16103, 20948, 12851),
-	ARMADYL(21773),
+	ARMADYL(21773, 12851),
 	STEAM(4694),
 	MIST(4695),
 	DUST(4696),
@@ -68,6 +68,8 @@ public enum Rune {
 	}
 
 	public boolean hasInfinite(Player player) {
+		if (player.getEquipment().getWeaponId() == 24457)
+			return true;
 		switch(this) {
 		case AIR:
 			switch(player.getEquipment().getWeaponId()) {

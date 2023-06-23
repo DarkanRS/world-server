@@ -356,21 +356,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
 				StealingCreationLobbyController.climbOverStile(player, object, true);
-			else if (id == 29734) {
-				if (player.getEmotesManager().unlockedEmote(Emote.SAFETY_FIRST)) {
-					if (player.containsItem(12629))
-						player.sendMessage("You find nothing inside the chest.");
-					else
-						player.getInventory().addItem(12629, 1, true);
-					return;
-				}
-				player.save("sopsRew", true);
-				player.getInventory().addCoins(10000);
-				player.getInventory().addItem(12629, 1, true);
-				player.getInventory().addItem(12628, 2, true);
-				player.getEmotesManager().unlockEmote(Emote.SAFETY_FIRST);
-				player.simpleDialogue("You open the chest and find a large pile of gold, along with a pair", "of safety gloves and two antique lamps. Also in the chest is the", "secret of the 'Safety First' emote.");
-			} else if (id == 16135) {
+			else if (id == 16135) {
 				if (player.getEmotesManager().unlockedEmote(Emote.FLAP)) {
 					player.sendMessage("You have already claimed your reward from this level.");
 					return;
@@ -1326,10 +1312,6 @@ public final class ObjectHandler {
 					player.setNextTile(player.transform(-115, -1953, 0));
 			} else if (id == 26193)
 				PartyRoom.openChest(player);
-			else if (id == 67050 || id == 6282)
-				player.useStairs(-1, Tile.of(3359, 6110, 0), 0, 1);
-			else if (id == 67053)
-				player.useStairs(-1, Tile.of(3120, 3519, 0), 0, 1);
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))
 				return;
 			else

@@ -35,6 +35,8 @@ import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.XPGainEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSets;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -93,7 +95,7 @@ public final class Skills {
 
 	private transient int currentCounter;
 	private transient Player player;
-	private transient Set<Integer> markedForUpdate = new HashSet<>();
+	private transient Set<Integer> markedForUpdate = IntSets.synchronize(new IntOpenHashSet());
 	private transient double bonusXpDrop;
 	private transient int markedForLevelUp = -1;
 	private transient int[] lastCheckedLevels = new int[25];
@@ -1039,7 +1041,7 @@ public final class Skills {
 		if (Utils.random(600) == 0)
 			RandomEvents.attemptSpawnRandom(player);
 
-		modifier += getBrawlerModifiers(skill);
+		modifier += getBrawlerModifiers(skill, exp);
 
 		if (player.hasEffect(Effect.DOUBLE_XP))
 			modifier += 1.0;
@@ -1059,7 +1061,10 @@ public final class Skills {
 			return;
 		int oldLevel = getLevelForXp(skill);
 		double oldXp = xp[skill];
-		xp[skill] += exp;
+		if ((skill == HITPOINTS || skill == MAGIC) && (player.getInventory().containsItem(12850, 1) || player.getInventory().containsItem(12851, 1)))
+			; //do not add any XP if they are using minigame runes
+		else
+			xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
 		double newXp = xp[skill];
 		for (int i = 0; i < trackSkills.length; i++)
@@ -1100,17 +1105,24 @@ public final class Skills {
 		markForRefresh(skill);
 	}
 
-	private double processBrawlers(Item gloves, int charges, int skill, int... validSkills) {
+	private double processBrawlers(Item gloves, int charges, int skill, double xp, int... validSkills) {
 		boolean validSkill = false;
 		for (int valid : validSkills)
 			if (valid == skill)
 				validSkill = true;
 		if (!validSkill)
 			return 0.0;
-		if (charges <= -1)
-			charges = 464;
-		else
-			charges--;
+		if (charges <= -1) {
+			charges = switch (gloves.getId()) {
+				case 13845, 13846, 13847 -> 300000;
+				default -> 464;
+			};
+		} else {
+			charges -= switch (gloves.getId()) {
+				case 13845, 13846, 13847 -> xp;
+				default -> 1;
+			};
+		}
 		gloves.addMetaData("brawlerCharges", charges);
 		if (charges <= 0) {
 			player.getEquipment().setSlot(Equipment.HANDS, null);
@@ -1121,38 +1133,38 @@ public final class Skills {
 		return 0.5;
 	}
 
-	public double getBrawlerModifiers(int skill) {
+	public double getBrawlerModifiers(int skill, double exp) {
 		Item gloves = player.getEquipment().get(Equipment.HANDS);
 		if (gloves == null)
 			return 0.0;
 		int charges = gloves.getMetaDataI("brawlerCharges", -1);
 		switch(gloves.getId()) {
 		case 13845:
-			return processBrawlers(gloves, charges, skill, Constants.ATTACK, Constants.STRENGTH, Constants.DEFENSE);
+			return processBrawlers(gloves, charges, skill, exp, Constants.ATTACK, Constants.STRENGTH, Constants.DEFENSE);
 		case 13846:
-			return processBrawlers(gloves, charges, skill, Constants.RANGE);
+			return processBrawlers(gloves, charges, skill, exp, Constants.RANGE);
 		case 13847:
-			return processBrawlers(gloves, charges, skill, Constants.MAGIC);
+			return processBrawlers(gloves, charges, skill, exp, Constants.MAGIC);
 		case 13848:
-			return processBrawlers(gloves, charges, skill, Constants.PRAYER);
+			return processBrawlers(gloves, charges, skill, exp, Constants.PRAYER);
 		case 13849:
-			return processBrawlers(gloves, charges, skill, Constants.AGILITY);
+			return processBrawlers(gloves, charges, skill, exp, Constants.AGILITY);
 		case 13850:
-			return processBrawlers(gloves, charges, skill, Constants.WOODCUTTING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.WOODCUTTING);
 		case 13851:
-			return processBrawlers(gloves, charges, skill, Constants.FIREMAKING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.FIREMAKING);
 		case 13852:
-			return processBrawlers(gloves, charges, skill, Constants.MINING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.MINING);
 		case 13853:
-			return processBrawlers(gloves, charges, skill, Constants.HUNTER);
+			return processBrawlers(gloves, charges, skill, exp, Constants.HUNTER);
 		case 13854:
-			return processBrawlers(gloves, charges, skill, Constants.THIEVING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.THIEVING);
 		case 13855:
-			return processBrawlers(gloves, charges, skill, Constants.SMITHING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.SMITHING);
 		case 13856:
-			return processBrawlers(gloves, charges, skill, Constants.FISHING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.FISHING);
 		case 13857:
-			return processBrawlers(gloves, charges, skill, Constants.COOKING);
+			return processBrawlers(gloves, charges, skill, exp, Constants.COOKING);
 		}
 		return 0.0;
 	}

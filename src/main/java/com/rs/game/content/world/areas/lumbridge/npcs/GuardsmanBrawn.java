@@ -14,7 +14,7 @@ public class GuardsmanBrawn extends Conversation {
 
     public static NPCClickHandler GuardsmanBrawn = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new GuardsmanBrawn(e.getPlayer()));
     }
     });

@@ -27,7 +27,7 @@ public class IFOpHandler implements PacketHandler<Player, IFOp> {
 
 	@Override
 	public void handle(Player player, IFOp packet) {
-		if ((packet.getInterfaceId() >= Utils.getInterfaceDefinitionsSize()) || player.isLocked() || player.isDead() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
+		if ((packet.getInterfaceId() >= Utils.getInterfaceDefinitionsSize()) || (player.isLocked() && !player.getTempAttribs().getB("TransformationRing")) || player.isDead() || !player.getInterfaceManager().topOpen(packet.getInterfaceId()))
 			return;
 		if ((packet.getComponentId() != 65535 && Utils.getInterfaceDefinitionsComponentsSize(packet.getInterfaceId()) <= packet.getComponentId()) || !player.getControllerManager().processButtonClick(packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), packet.getItemId(), packet.getOpcode()))
 			return;

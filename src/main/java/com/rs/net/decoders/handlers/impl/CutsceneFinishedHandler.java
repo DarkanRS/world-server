@@ -25,5 +25,9 @@ public class CutsceneFinishedHandler implements PacketHandler<Player, CutsceneFi
 	@Override
 	public void handle(Player player, CutsceneFinished packet) {
 		player.loadMapRegions();
+		if (player.onPacketCutsceneFinish != null) {
+			player.onPacketCutsceneFinish.run();
+			player.onPacketCutsceneFinish = null;
+		}
 	}
 }

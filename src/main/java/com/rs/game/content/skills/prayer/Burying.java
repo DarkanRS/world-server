@@ -33,6 +33,7 @@ public class Burying {
 	public enum Bone {
 		NORMAL(526, 4.5),
 		BURNT(528, 4.5),
+		TROLL_GENERAL(23031, 4.5),
 		WOLF(2859, 4.5),
 		MONKEY(3183, 4.5),
 		BAT(530, 5.2),
