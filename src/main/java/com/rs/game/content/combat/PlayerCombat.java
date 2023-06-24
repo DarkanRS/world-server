@@ -964,9 +964,9 @@ public class PlayerCombat extends PlayerAction {
 				if (wId == 15836 || wId == 17295 || wId == 21332) {
 					int mageLvl = Utils.clampI(n.getMagicLevel(), 0, 350);
 					double atkMul = (140.0 + Math.floor((3 * (double) mageLvl - 10.0) / 100.0) - Math.floor(Math.pow(0.3 * (double) mageLvl - 100.0, 2.0) / 100.0)) / 100.0;
-					atk *= atkMul;
+					atk *= Utils.clampD(atkMul, 1.0, 3.0);
 					double strMul = (250.0 + Math.floor((3 * (double) mageLvl - 14.0) / 100.0) - Math.floor(Math.pow(0.3 * (double) mageLvl - 140.0, 2.0) / 100.0)) / 100.0;
-					maxHit *= strMul;
+					maxHit *= Utils.clampD(strMul, 1.0, 3.0);
 				}
 				if (n.getName().startsWith("Vyre")) {
 					if (wId == 21581 || wId == 21582) {

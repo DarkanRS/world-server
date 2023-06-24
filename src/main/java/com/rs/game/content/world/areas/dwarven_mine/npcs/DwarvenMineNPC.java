@@ -13,7 +13,7 @@ public class DwarvenMineNPC {
     private static final int DwarfGeneralStore = 582;
     private static final int DwarfGuard = 4316;
     private static final int Hura = 4563;
-    private static final int Rolad = 4563;
+    private static final int Rolad = 1841;
 
     public static NPCClickHandler Dwarf = new NPCClickHandler(new Object[]{ DwarfGeneralStore }, e -> {
         switch (e.getOption()) {
@@ -84,7 +84,7 @@ public class DwarvenMineNPC {
     });
     public static NPCClickHandler HandleHura = new NPCClickHandler(new Object[]{ Hura }, e -> {
         switch (e.getOption()) {
-            case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "crossbow_shop");
+            case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "dwarven_mine_crossbow_shop");
             case "Talk-to" -> e.getPlayer().startConversation(new Dialogue()
                     .addNPC(Hura, HeadE.HAPPY_TALKING, "'Ello " + e.getPlayer().getDisplayName() + ".")
                     .addPlayer(HeadE.CONFUSED, "Hello, what's that you've got there?")
@@ -123,7 +123,7 @@ public class DwarvenMineNPC {
                                 .addNPC(Hura, HeadE.SKEPTICAL_THINKING ,"Find Hirko in Keldagrim, he also sells crossbow parts and I'm sure he has something you can use to store bolts in.")
                                 .addPlayer(HeadE.HAPPY_TALKING, "Thanks for the info.");
 
-                        ops.add("Can I buy some crossbow supplies?", () -> ShopsHandler.openShop(e.getPlayer(), "crossbow_shop"));
+                        ops.add("Can I buy some crossbow supplies?", () -> ShopsHandler.openShop(e.getPlayer(), "dwarven_mine_crossbow_shop"));
 
                         ops.add("Thanks for telling me. Bye!")
                                 .addPlayer(HeadE.HAPPY_TALKING, "Thanks for telling me. Bye!")

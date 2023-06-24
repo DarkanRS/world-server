@@ -39,7 +39,7 @@ public static ObjectClickHandler handletempleoflightstairswide = new ObjectClick
 	});
 //Citharede
 	public static ObjectClickHandler handlewinchladderup = new ObjectClickHandler(new Object[] { 63591 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3415, 3159, 1));
+		e.getPlayer().useLadder(Tile.of(3415, 3159, 1));
 	});
 
 	public static ObjectClickHandler handlewinchladderdown= new ObjectClickHandler(new Object[] { 63592 }, e -> {

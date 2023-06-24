@@ -927,7 +927,7 @@ public class DungeonManager {
 	}
 
 	public Map<Skill, Integer> getLevels(boolean boss, int level, int hitpoints) {
-		return NPCCombatDefinitions.generateLevels(level, hitpoints/10);
+		return NPCCombatDefinitions.generateLevels(level, hitpoints/10, boss ? 120 : 100, boss ? 120 : 100);
 	}
 
 	public void updateGuardian(RoomReference reference) {
