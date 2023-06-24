@@ -11,7 +11,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
-public class Bartender {
+public class BartenderBlueMoon {
     public static NPCClickHandler handleBlueMoonBartender = new NPCClickHandler(new Object[] { 733 }, e -> {
         Player p = e.getPlayer();
 

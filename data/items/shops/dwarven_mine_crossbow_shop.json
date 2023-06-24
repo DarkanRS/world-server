@@ -1,8 +1,8 @@
 {
-  "name": "Inventory 427",
+  "name": "Hura's Crossbow shop",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
     {
       "item": {
@@ -118,5 +118,8 @@
         "amount": 0
       }
     }
+  ],
+  "npcIds": [
+    4563
   ]
 }

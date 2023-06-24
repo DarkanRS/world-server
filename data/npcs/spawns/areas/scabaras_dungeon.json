@@ -1,0 +1,254 @@
+[
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3421,
+      "y": 9263
+    },
+    "comment": "Giant Scarab",
+    "npcId": 6771
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3400,
+      "y": 9231
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3408,
+      "y": 9230
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3407,
+      "y": 9227
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3295,
+      "y": 9226
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3369,
+      "y": 9226
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3362,
+      "y": 9231
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3369,
+      "y": 9254
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3367,
+      "y": 9254
+    },
+    "comment": "Scarab Mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3368,
+      "y": 9263
+    },
+    "comment": "High Priest Of Scabaras",
+    "npcId": 6790
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3389,
+      "y": 9241
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3391,
+      "y": 9238
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3392,
+      "y": 9230
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3382,
+      "y": 9225
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3357,
+      "y": 9232
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3368,
+      "y": 9233
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3363,
+      "y": 9246
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3372,
+      "y": 9246
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3377,
+      "y": 9243
+    },
+    "comment": "Scabaras Ranger",
+    "npcId": 6773
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3390,
+      "y": 9231
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3387,
+      "y": 9229
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3383,
+      "y": 9230
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3379,
+      "y": 9228
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3375,
+      "y": 9225
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3361,
+      "y": 9236
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3363,
+      "y": 9239
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3372,
+      "y": 9241
+    },
+    "comment": "Scabaras Lancer",
+    "npcId": 6774
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3442,
+      "y": 9245
+    },
+    "comment": "Clay Golem",
+    "npcId": 1910
+  }
+]

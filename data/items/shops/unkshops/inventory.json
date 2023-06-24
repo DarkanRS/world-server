@@ -1,24 +1,12 @@
 {
-  "name": "Inventory 344",
+  "name": "inventory",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
     {
       "item": {
-        "id": 1093,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1079,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1113,
+        "id": 1169,
         "amount": 10
       }
     },
@@ -36,13 +24,37 @@
     },
     {
       "item": {
-        "id": 1193,
+        "id": 1113,
         "amount": 10
       }
     },
     {
       "item": {
-        "id": 1151,
+        "id": 1079,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1093,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1303,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1289,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1432,
         "amount": 10
       }
     }

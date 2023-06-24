@@ -79,10 +79,4 @@ public class Keldagrim {
 		e.getPlayer().useStairs(e.getObjectId() == 9084 ? Tile.of(1939, 4958, 0) : Tile.of(2931, 10196, 0));
 	});
 
-	public static ObjectClickHandler handleBreweryStairCase = new ObjectClickHandler(new Object[] { 6085, 6086 }, e -> {
-		if (e.getPlayer().getPlane() == 0)
-			e.getPlayer().setNextTile(Tile.of(2914, 10196, 1));
-		else if (e.getPlayer().getPlane() == 1)
-			e.getPlayer().setNextTile(Tile.of(2917, 10196, 0));
-	});
 }
