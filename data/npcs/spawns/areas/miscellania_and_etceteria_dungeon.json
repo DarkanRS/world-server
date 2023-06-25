@@ -1,0 +1,326 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2517,
+      "y": 10263
+    },
+    "comment": "Alviss",
+    "npcId": 3933
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2572,
+      "y": 10277
+    },
+    "comment": "Armod",
+    "npcId": 3930
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2573,
+      "y": 10277
+    },
+    "comment": "Beigarth",
+    "npcId": 3931
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2529,
+      "y": 10256
+    },
+    "comment": "Donal",
+    "npcId": 3938
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2508,
+      "y": 10278
+    },
+    "comment": "Ferd",
+    "npcId": 3937
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2508,
+      "y": 10260
+    },
+    "comment": "Finn",
+    "npcId": 3922
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2519,
+      "y": 10263
+    },
+    "comment": "Fullangr",
+    "npcId": 3934
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2506,
+      "y": 10250
+    },
+    "comment": "Halla",
+    "npcId": 3921
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2573,
+      "y": 10278
+    },
+    "comment": "Hild",
+    "npcId": 3929
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2526,
+      "y": 10263
+    },
+    "comment": "Ingrid",
+    "npcId": 3926
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2516,
+      "y": 10262
+    },
+    "comment": "Jari",
+    "npcId": 3935
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2521,
+      "y": 10251
+    },
+    "comment": "Osvald",
+    "npcId": 3923
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2572,
+      "y": 10278
+    },
+    "comment": "Reinn",
+    "npcId": 3932
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2528,
+      "y": 10259
+    },
+    "comment": "Runa",
+    "npcId": 3920
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2509,
+      "y": 10257
+    },
+    "comment": "Runolf",
+    "npcId": 3924
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2571,
+      "y": 10278
+    },
+    "comment": "Signy",
+    "npcId": 3928
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2531,
+      "y": 10249
+    },
+    "comment": "Thora",
+    "npcId": 3927
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2504,
+      "y": 10280
+    },
+    "comment": "Thorodin",
+    "npcId": 3936
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2523,
+      "y": 10257
+    },
+    "comment": "Tjorvi",
+    "npcId": 3925
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2577,
+      "y": 10295
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2581,
+      "y": 10297
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2583,
+      "y": 10294
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2587,
+      "y": 10294
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2589,
+      "y": 10287
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2589,
+      "y": 10291
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2592,
+      "y": 10288
+    },
+    "comment": "Sea Snake Hatchling",
+    "npcId": 3940
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2595,
+      "y": 10271
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2595,
+      "y": 10280
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2597,
+      "y": 10263
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2597,
+      "y": 10275
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2598,
+      "y": 10253
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2599,
+      "y": 10257
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2599,
+      "y": 10267
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2604,
+      "y": 10247
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2605,
+      "y": 10251
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2611,
+      "y": 10251
+    },
+    "comment": "Sea Snake Young",
+    "npcId": 3939
+  }
+]

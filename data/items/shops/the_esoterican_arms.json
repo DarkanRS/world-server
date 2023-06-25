@@ -1,0 +1,35 @@
+{
+  "name": "The Esoterican Arms",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1917,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5763,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1978,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    3920
+  ]
+}

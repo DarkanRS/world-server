@@ -35496,24 +35496,8 @@
     "comment": "Wemund",
     "npcId": 2155
   },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Randivor",
-    "npcId": 2156
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Hervi",
-    "npcId": 2157
-  },
+
+
   {
     "tile": {
       "plane": 0,
@@ -35549,15 +35533,6 @@
     },
     "comment": "Librarian",
     "npcId": 2165
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Assistant",
-    "npcId": 2166
   },
   {
     "tile": {
@@ -35625,47 +35600,11 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Ulifed",
-    "npcId": 2193
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Karl",
-    "npcId": 2195
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2836,
       "y": 10195
     },
     "comment": "Gauss",
     "npcId": 2196
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Myndill",
-    "npcId": 2197
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Kjut",
-    "npcId": 2198
   },
   {
     "tile": {
@@ -35693,15 +35632,6 @@
     },
     "comment": "Audmann",
     "npcId": 2201
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Dwarven Boatman",
-    "npcId": 2206
   },
   {
     "tile": {
@@ -35882,15 +35812,6 @@
     },
     "comment": "Lava-flow miner",
     "npcId": 13403
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Lava-flow miner",
-    "npcId": 13406
   },
   {
     "tile": {

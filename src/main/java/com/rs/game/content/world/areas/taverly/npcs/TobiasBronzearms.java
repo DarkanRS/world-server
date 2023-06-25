@@ -31,7 +31,7 @@ public class TobiasBronzearms extends Conversation {
         if (e.getOption().equalsIgnoreCase("talk-to"))
             e.getPlayer().startConversation(new TobiasBronzearms(e.getPlayer()));
         if (e.getOption().equalsIgnoreCase("trade"))
-            ShopsHandler.openShop(e.getPlayer(), "tobias_mining_shopp");
+            ShopsHandler.openShop(e.getPlayer(), "tobias_mining_shop");
     });
 
 }

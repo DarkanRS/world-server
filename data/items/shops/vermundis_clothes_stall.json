@@ -1,0 +1,47 @@
+{
+  "name": "Vermundi's Clothes Stall",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 5048,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5036,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5042,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5024,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 5030,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 950,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    2162
+  ]
+}

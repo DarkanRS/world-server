@@ -1,0 +1,23 @@
+{
+  "name": "Tiadeche's Karambwan Stall",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 3142,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 3157,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    2484
+  ]
+}

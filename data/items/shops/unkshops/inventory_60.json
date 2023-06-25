@@ -1,9 +1,21 @@
 {
-  "name": "Inventory 60",
+  "name": "inventory_60",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
+    {
+      "item": {
+        "id": 307,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 309,
+        "amount": 10
+      }
+    },
     {
       "item": {
         "id": 313,
@@ -18,25 +30,13 @@
     },
     {
       "item": {
-        "id": 341,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 353,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
         "id": 363,
         "amount": 0
       }
     },
     {
       "item": {
-        "id": 359,
+        "id": 341,
         "amount": 0
       }
     },
@@ -48,19 +48,19 @@
     },
     {
       "item": {
+        "id": 353,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
         "id": 371,
         "amount": 0
       }
     },
     {
       "item": {
-        "id": 339,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 355,
+        "id": 359,
         "amount": 0
       }
     },
@@ -72,7 +72,7 @@
     },
     {
       "item": {
-        "id": 361,
+        "id": 339,
         "amount": 0
       }
     },
@@ -87,6 +87,13 @@
         "id": 373,
         "amount": 0
       }
+    },
+    {
+      "item": {
+        "id": 361,
+        "amount": 0
+      }
     }
+
   ]
 }
