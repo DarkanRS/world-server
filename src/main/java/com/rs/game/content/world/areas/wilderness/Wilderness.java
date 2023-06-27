@@ -374,4 +374,7 @@ public class Wilderness {
 		if(obj.getId() == 26323)
 			e.getPlayer().forceMove(Tile.of(2927, 3761, 0), 2050, 25, 60);
 	});
+
+
+
 }

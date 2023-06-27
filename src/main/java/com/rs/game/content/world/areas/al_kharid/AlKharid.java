@@ -74,5 +74,11 @@ public class AlKharid {
 		if(obj.getTile().matches(Tile.of(3304, 3315, 0)))//below
 			p.forceMove(Tile.of(3307, 3315, 0), 2049, 10, 30);
 	});
-
+	//brimhaven
+	public static ObjectClickHandler handlebrimhavenstairs = new ObjectClickHandler(new Object[] { 45, 46 }, e -> {
+		if (e.getObjectId() == 45)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? -4 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
+		else if (e.getObjectId() == 46)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? 4 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
+	});
 }

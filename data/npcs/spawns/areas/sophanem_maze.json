@@ -1,0 +1,110 @@
+[
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3292,
+      "y": 9256
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3299,
+      "y": 9220
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3276,
+      "y": 9268
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3277,
+      "y": 9252
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3277,
+      "y": 9275
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3279,
+      "y": 9234
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3289,
+      "y": 9236
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3296,
+      "y": 9256
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3301,
+      "y": 9275
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3305,
+      "y": 9256
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3308,
+      "y": 9221
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 2,
+      "x": 3311,
+      "y": 9226
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  }
+]

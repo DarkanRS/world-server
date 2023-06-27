@@ -5028,5 +5028,15 @@
       "y": 9505,
       "plane": 0
     }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2509,
+      "y": 10290,
+      "plane": 1
+    }
   }
 ]

@@ -368,4 +368,36 @@ public class Morytania  {
 		}
 		e.getPlayer().sendMessage("You need more prayer points to do this.");
 	});
+
+	//Fenkenstraincastle
+	public static ObjectClickHandler handleFenkenstraincastlestairs = new ObjectClickHandler(new Object[] { 5206, 5207 }, e -> {
+		if (e.getObjectId() == 5206)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 1 ? -0 : 0,  1));
+		else if (e.getObjectId() == 5207)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
+	});
+	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3577, 9927, 0));
+	});
+	public static ObjectClickHandler experimentcavegraveexit = new ObjectClickHandler(new Object[] { 1757 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3578, 3527, 0));
+	});
+
+	//TakenTemple
+	public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[] { 30722 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3415, 3485, 1));
+	});
+
+	public static ObjectClickHandler handleTemplespiralstairsdown = new ObjectClickHandler(new Object[] { 30723 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3414, 3486, 0));
+	});
+
+	public static ObjectClickHandler handleTemplespiralstairsup2 = new ObjectClickHandler(new Object[] { 30724 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3415, 3492, 1));
+	});
+
+	public static ObjectClickHandler handleTemplespiralstairsdown2 = new ObjectClickHandler(new Object[] { 30725  }, e -> {
+		e.getPlayer().setNextTile(Tile.of(3414, 3491, 0));
+	});
+
 }

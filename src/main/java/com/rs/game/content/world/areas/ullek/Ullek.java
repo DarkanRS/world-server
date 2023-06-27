@@ -20,6 +20,8 @@ package com.rs.game.content.world.areas.ullek;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 //wrong animations
 @PluginEventHandler
@@ -61,5 +63,13 @@ public class Ullek {
 		else
 			Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 2 : -2, 0), 0);
 	});//wrong animation and trap
+
+	public static ItemOnObjectHandler TEMPneedropedecendrock = new ItemOnObjectHandler(true, new Object[] { 28494 }, e -> {
+		if (e.getItem().getId() == 954)
+			if (e.getPlayer().getX() == 3382 && e.getPlayer().getY() == 2823) {
+				e.getPlayer().setNextTile(Tile.of(3382, 2826, 0));
+			} else
+				e.getPlayer().sendMessage("You are too far away to do this.");
+	});
 
 }

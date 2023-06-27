@@ -54,4 +54,11 @@ public class Meiyerditch {
 		e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18037 ? 3 : -3, 0, 0));
 	});
 
+	public static ObjectClickHandler handleMeiyerditchstairs = new ObjectClickHandler(new Object[] { 17976, 17978 }, e -> {
+		if (e.getObjectId() == 17976)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 2 ? -3 : e.getObject().getRotation() == 0 ? 3 : 0,  1));
+		else if (e.getObjectId() == 17978)
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 2 ? 3 : e.getObject().getRotation() == 0 ? -3 : 0, -1));
+	});
+
 }
