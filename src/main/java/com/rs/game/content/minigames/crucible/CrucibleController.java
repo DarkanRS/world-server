@@ -21,13 +21,14 @@ public class CrucibleController extends Controller {
             MapUtils.getArea(3204,6139,3212,6149),
             MapUtils.getArea(3255,6084,3266,6093)
     };
-
     private transient boolean wasInArea;
     public final boolean dangerous;
+    public int rank = 0;
     public int points = 0;
 
     public CrucibleController(boolean dangerous) {
         this.dangerous = dangerous;
+        this.rank = dangerous ? -1 : 0;
     }
 
     @Override
