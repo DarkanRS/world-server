@@ -1258,7 +1258,6 @@ public class Player extends Entity {
 			farmingTicksMissed = 768.0;
 		if (farmingTicksMissed < 1.0)
 			farmingTicksMissed = 0.0;
-		System.out.println("Ticks missed: " + farmingTicksMissed);
 		for (int i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 

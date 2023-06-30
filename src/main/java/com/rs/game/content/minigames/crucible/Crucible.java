@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.crucible;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

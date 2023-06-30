@@ -1473,9 +1473,10 @@ public abstract class Entity {
 		return forceMultiArea;
 	}
 
-	public void setForceMultiArea(boolean forceMultiArea) {
+	public NPC setForceMultiArea(boolean forceMultiArea) {
 		this.forceMultiArea = forceMultiArea;
 		checkMultiArea();
+		return this;
 	}
 
 	public Tile getLastTile() {
