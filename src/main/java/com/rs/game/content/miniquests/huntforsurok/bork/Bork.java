@@ -53,26 +53,32 @@ public class Bork extends NPC {
 		setForceAgressive(true);
 	}
 
+	public boolean blocksOtherNpcs() {
+		return false;
+	}
+
 	@Override
 	public void sendDeath(Entity source) {
 		for(NPC npc : World.getNPCsInChunkRange(source.getChunkId(), 3))
 			if(npc.getId() == 7135)
 				npc.sendDeath(source);
 		resetWalkSteps();
-		for (Entity e : getPossibleTargets())
-			if (e instanceof Player player) {
-//				player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(693);
-//				player.startConversation(new DagonHai(), 7137, player, 1);
-				WorldTasks.schedule(8, () -> player.stopAll());
-			}
 		getCombat().removeTarget();
-		setNextAnimation(new Animation(getCombatDefinitions().getDeathEmote()));
-		WorldTasks.schedule(4, () -> {
-			drop();
-			reset();
-			setLocation(getRespawnTile());
-			finish();
-		});
+		if (source instanceof Player player) {
+			player.resetReceivedHits();
+			player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(693);
+			WorldTasks.schedule(8, () -> {
+				player.getInterfaceManager().closeInterfacesOverGameWindow();
+				//player.startConversation(new DagonHai(), 7137);
+				setNextAnimation(new Animation(getCombatDefinitions().getDeathEmote()));
+				WorldTasks.schedule(4, () -> {
+					drop();
+					reset();
+					setLocation(getRespawnTile());
+					finish();
+				});
+			});
+		}
 	}
 
 	@Override

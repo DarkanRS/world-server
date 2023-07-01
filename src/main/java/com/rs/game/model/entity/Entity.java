@@ -1473,7 +1473,7 @@ public abstract class Entity {
 		return forceMultiArea;
 	}
 
-	public NPC setForceMultiArea(boolean forceMultiArea) {
+	public Entity setForceMultiArea(boolean forceMultiArea) {
 		this.forceMultiArea = forceMultiArea;
 		checkMultiArea();
 		return this;

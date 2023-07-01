@@ -389,7 +389,7 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	public interface MultiAttack {
-		public boolean attack(Entity nextTarget);
+		boolean attack(Entity nextTarget);
 	}
 
 	public static void attackTarget(Entity target, Entity[] targets, MultiAttack perform) {
@@ -741,7 +741,7 @@ public class PlayerCombat extends PlayerAction {
 			if (Utils.random(randomSeed) == 0) {
 				player.setNextAnimation(new Animation(14417));
 				final AttackStyle attack = attackStyle;
-				attackTarget(target, getMultiAttackTargets(player, target, 5, Integer.MAX_VALUE), new MultiAttack() {
+				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, false), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override

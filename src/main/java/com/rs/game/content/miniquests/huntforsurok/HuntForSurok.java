@@ -52,6 +52,9 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public void updateStage(Player player) {
-		player.getVars().setVarBit(4311, player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK) ? 1 : 0); //unlock portal to chaos tunnels from tunnel of chaos
+		player.getVars().setVarBit(3524, 1); //mine statue
+		player.getVars().setVarBit(4312, 1); //make surok appear outside the statue
+		player.getVars().setVarBit(4311, 1); //unlock portal to chaos tunnels from tunnel of chaos
+		//4314 turns surok into dagon hai?
 	}
 }

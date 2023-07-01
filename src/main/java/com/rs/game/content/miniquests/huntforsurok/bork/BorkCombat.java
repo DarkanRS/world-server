@@ -46,11 +46,11 @@ public class BorkCombat extends CombatScript {
 			npc.setCantInteract(true);
 			player.playCutscene(cs -> {
 				cs.action(2, () -> player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(691));
-				cs.delay(10);
+				cs.delay(6);
 				cs.action(() -> {
-					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceMultiArea(true).setForceAgressive(true);
-					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceMultiArea(true).setForceAgressive(true);
-					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceMultiArea(true).setForceAgressive(true);
+					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceAgressive(true).setForceMultiArea(true);
+					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceAgressive(true).setForceMultiArea(true);
+					World.spawnNPC(7135, Tile.of(npc.getTile(), 1), -1, true, true).setForceAgressive(true).setForceMultiArea(true);
 					player.getInterfaceManager().closeInterfacesOverGameWindow();
 					player.unlock();
 					player.resetReceivedHits();

@@ -45,7 +45,9 @@ public class BorkController extends InstancedController {
 				player.setForceMultiArea(true);
 				cs.setEndTile(Tile.of(cs.getX(43), cs.getY(24), 0));
 			});
-			cs.action(() -> player.getInterfaceManager().setFadingInterface(692));
+			cs.action(() -> player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(692));
+			cs.delay(15);
+			cs.action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 			cs.fadeOut(5);
 			cs.action(() -> {
 				World.spawnNPC(7134, Tile.of(cs.getX(27), cs.getY(33), 0), -1, true, true, true).setForceMultiArea(true);
@@ -69,8 +71,10 @@ public class BorkController extends InstancedController {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		if (object.getId() == 29537)
+		if (object.getId() == 29537) {
+			player.setNextTile(getInstance().getReturnTo());
 			player.getControllerManager().forceStop();
+		}
 		return true;
 	}
 }

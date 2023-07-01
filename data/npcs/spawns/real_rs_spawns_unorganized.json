@@ -57513,15 +57513,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3283,
-      "y": 3465
-    },
-    "comment": "Surok Magis",
-    "npcId": 7009
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3280,
       "y": 3524
     },
