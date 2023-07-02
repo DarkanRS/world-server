@@ -185,7 +185,31 @@ public class HeroesQuest extends QuestOutline {
 			player.sendMessage("You have gained " + xpAdded[i][1] + " in " + Skills.SKILL_NAME[(int) xpAdded[i][0]] + ".");
 			player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
 		}
-		getQuest().sendQuestCompleteInterface(player, 1377, "Access to the heroes guild", "Access to Heroes Guild Shop", "Total of 29,232XP over twelve skills");
+		sendQuestCompleteInterface(player, 1377);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Achiettes at the entrance to the Heroes' Guild in Burthorpe.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>" +
+				"If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>" +
+				"Fishing rod (and possibly bait), harralander potion (unf).<br>" +
+				"Ice gloves.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 77 enemy.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Total of 29,232 XP over twelve skills<br>"+
+				"Access to the Heroes' Guild";
 	}
 
 }

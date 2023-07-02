@@ -38,12 +38,12 @@ public enum Pickaxe {
 	INFERNO_ADZE(13661, 61, 10222, 3);
 
 	private int itemId, level, ticks;
-	private Animation animation;
+	private int animId;
 
 	private Pickaxe(int itemId, int level, int animId, int ticks) {
 		this.itemId = itemId;
 		this.level = level;
-		animation = new Animation(animId);
+		this.animId = animId;
 		this.ticks = ticks;
 	}
 
@@ -59,8 +59,8 @@ public enum Pickaxe {
 		return ticks;
 	}
 
-	public Animation getAnimation() {
-		return animation;
+	public int getAnimId() {
+		return animId;
 	}
 
 	public static Pickaxe getBest(Player player) {

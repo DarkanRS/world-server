@@ -114,7 +114,28 @@ public class GoblinDiplomacy extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.CRAFTING, 200);
-		getQuest().sendQuestCompleteInterface(player, 288, "Gold bar", "200 Crafting XP");
+		sendQuestCompleteInterface(player, 288);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to General Bentnoze or General Wartface in the Goblin Village, north of Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "200 Crafting XP<br>"+
+				"A gold bar";
 	}
 
 	static class GeneralsD extends Conversation {

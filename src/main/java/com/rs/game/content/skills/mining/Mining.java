@@ -146,7 +146,7 @@ public class Mining extends Action {
 
 	@Override
 	public boolean process(Entity entity) {
-		entity.setNextAnimation(pick.getAnimation());
+		entity.anim(pick.getAnimId());
 		return checkAll(entity);
 	}
 

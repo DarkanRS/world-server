@@ -5,13 +5,15 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.miniquest.MiniquestHandler;
 import com.rs.engine.miniquest.MiniquestOutline;
-import com.rs.game.content.miniquests.abyss.ZamorakMage;
-import com.rs.game.content.skills.runecrafting.Abyss;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.miniquests.huntforsurok.npcs.AnnaJones;
+import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.game.Tile;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.shop.ShopsHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +54,43 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public void updateStage(Player player) {
-		player.getVars().setVarBit(3524, 1); //mine statue
-		player.getVars().setVarBit(4312, 1); //make surok appear outside the statue
-		player.getVars().setVarBit(4311, 1); //unlock portal to chaos tunnels from tunnel of chaos
-		//4314 turns surok into dagon hai?
+		if (player.getMiniquestManager().getStage(Miniquest.HUNT_FOR_SUROK) > 1)
+			player.getVars().setVarBit(4311, 1);
 	}
+
+	public static ObjectClickHandler handleStairsOutOfStatue = new ObjectClickHandler(new Object[] { 23074 }, e -> {
+		e.getPlayer().useStairs(Tile.of(3284, 3467, 0));
+	});
+
+	public static ObjectClickHandler handleAnnasStatue = new ObjectClickHandler(new Object[] { 23096 }, e -> {
+		switch(e.getOption()) {
+			case "Excavate" -> {
+				if (!e.getPlayer().isQuestComplete(Quest.WHAT_LIES_BELOW)) {
+					e.getPlayer().startConversation(new Dialogue()
+							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "Excuse me. I am working on that statue at the moment. Please don't touch it.")
+							.addPlayer(HeadE.AMAZED_MILD, "You are? But you're just sitting there.")
+							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "Yes. I'm on a break.")
+							.addPlayer(HeadE.CONFUSED, "Oh, I see. When does your break finish?")
+							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "When I decide to start work again. Right now, I'm enjoying sitting on this bench."));
+					return;
+				}
+				Pickaxe pick = Pickaxe.getBest(e.getPlayer());
+				if (pick == null) {
+					e.getPlayer().simpleDialogue("You need a pickaxe to dig out the statue.");
+					return;
+				}
+				e.getPlayer().repeatAction(pick.getTicks(), num -> {
+					e.getPlayer().anim(pick.getAnimId());
+					if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.MINING), 16, 100)) {
+						e.getPlayer().anim(-1);
+						e.getPlayer().getVars().saveVarBit(3524, 1);
+						e.getPlayer().getVars().saveVarBit(4312, 1);
+						return false;
+					}
+					return true;
+				});
+			}
+			case "Enter" -> e.getPlayer().useStairs(Tile.of(3179, 5191, 0));
+		}
+	});
 }

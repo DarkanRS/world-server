@@ -111,7 +111,28 @@ public class KnightsSword extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.SMITHING, 12725);
-		getQuest().sendQuestCompleteInterface(player, BLURITE_SWORD, "12,725 Smithing XP");
+		sendQuestCompleteInterface(player, BLURITE_SWORD);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Squire Asrol in the courtyard of the White Knights' Castle in Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Redberry pie, 2 iron bars.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat or evade level 54 enemies.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "12,725 Smithing XP lamp<br>"+
+				"Ability to smith blurite (members)";
 	}
 
 	public static ObjectClickHandler handleVyvinCupboard = new ObjectClickHandler(new Object[] { 2271, 2272 }, e -> {

@@ -113,9 +113,29 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Sir Amik Varze, located on the 3rd floor in the western tower of the<br>White Knights' Castle in Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cabbage<br>Iron chainbody<br>Bronze med helm";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Ability to evade level 33 Black Knights";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,500 coins";
+	}
+
+	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(2500);
-		getQuest().sendQuestCompleteInterface(player, 9591, "2,500 coins");
+		sendQuestCompleteInterface(player, 9591);
 	}
 
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {

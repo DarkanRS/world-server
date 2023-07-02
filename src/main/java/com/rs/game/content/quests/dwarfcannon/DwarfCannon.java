@@ -130,7 +130,30 @@ public class DwarfCannon extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.CRAFTING, 750);
-		getQuest().sendQuestCompleteInterface(player, 1, "750 Crafting XP", "Permission to purchase and use a dwarf multicannon", "Ability to add the ammo mould to your tool belt", "Ability to smith cannonballs");
+		sendQuestCompleteInterface(player, 1);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Captain Lawgof, south of the coal truck mining site to the west of McGrubor's Wood.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "750 Crafting XP<br>" +
+				"Permission to purchase and use a dwarf multicannon<br>" +
+				"Ability to smith cannonballs<br>" +
+				"Ability to add the ammo mould to your tool belt";
 	}
 
 	public static LoginHandler login = new LoginHandler(e -> updateVars(e.getPlayer()));

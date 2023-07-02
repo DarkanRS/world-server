@@ -34,6 +34,7 @@ public class QuestInformation {
 	private Map<Integer, Integer> preReqSkillReqs = new HashMap<>();
 	private int qpReq;
 	private int slotId;
+	private boolean usesNewInterface;
 
 	public QuestInformation(int id, String name, int slotId) {
 		this.id = id;
@@ -51,6 +52,14 @@ public class QuestInformation {
 
 	public void setStartNpc(int startNpc) {
 		this.startNpc = startNpc;
+	}
+
+	public void setUsesNewInterface(boolean usesNewInterface) {
+		this.usesNewInterface = usesNewInterface;
+	}
+
+	public boolean usesNewInterface() {
+		return usesNewInterface;
 	}
 
 	public Tile getStartLocation() {

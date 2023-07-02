@@ -26,6 +26,8 @@ public class Crucible {
     //1297 = rewards
     //1298 = bounty fee payment
 
+    //591 classic BH interface
+
     public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> {
         e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
             ops.add("Safe (No items lost on death)", () -> {

@@ -208,6 +208,27 @@ public class FishingContest extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.FISHING, 2437);
-		getQuest().sendQuestCompleteInterface(player, FISHING_TROPHY, "2,437 Fishing XP");
+		sendQuestCompleteInterface(player, FISHING_TROPHY);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Vestri or Austri near White Wolf Mountain.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "5 coins, garlic.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,437 Fishing XP<br>" +
+				"Access to the White Wolf Mountain shortcut";
 	}
 }

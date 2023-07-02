@@ -89,7 +89,28 @@ public class RuneMysteries extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, 1438, "Access to the rune essence mine", "Air talisman");
+		sendQuestCompleteInterface(player, 1438);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Duke Horacio on the 2nd floor of Lumbridge Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "The ability to mine rune essence<br>" +
+				"An air talisman";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return null;
 	}
 
 	public static class DukeHoracioRuneMysteriesD extends Conversation {

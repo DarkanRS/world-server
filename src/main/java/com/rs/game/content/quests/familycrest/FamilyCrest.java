@@ -192,7 +192,28 @@ public class FamilyCrest extends QuestOutline {
 	public void complete(Player player) {
 		if(player.getInventory().hasFreeSlots())
 			player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
-		getQuest().sendQuestCompleteInterface(player, 778, "Family gauntlets");
+		sendQuestCompleteInterface(player, 778);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Dimintheis in south-east Varrock.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cooked shrimp, cooked salmon, cooked tuna, cooked bass, cooked swordfish, 2 cut rubies, antipoison potion. You will likely need a magic weapon to cast Air Blast, Water Blast, Earth Blast, Fire Blast (59 Magic) from the normal spellbook.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 84 demon.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>" +
+				"Access to the hellhounds in Witchaven Dungeon";
 	}
 
 	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}, e -> {

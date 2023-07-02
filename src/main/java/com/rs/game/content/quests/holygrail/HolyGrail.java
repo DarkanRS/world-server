@@ -227,7 +227,29 @@ public class HolyGrail extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.PRAYER, 11_000);
 		player.getSkills().addXpQuest(Skills.DEFENSE, 15_300);
-		getQuest().sendQuestCompleteInterface(player, 19, "11,000 Prayer XP", "15,300 Defence XP");
+		sendQuestCompleteInterface(player, 19);
 	}
 
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to King Arthur in Camelot Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Excalibur.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 28 enemy.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "15,300 Defence XP<br>"+
+				"11,000 Prayer XP<br>"+
+				"Access to the Fisher Realm<br>" +
+				"Ability to use the King Arthur picture in your player-owned house";
+	}
 }

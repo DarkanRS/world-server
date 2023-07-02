@@ -9,6 +9,10 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class PolyporeDungeon {
+
+	/**
+	 * interface 893-894 fungal storage
+	 */
 	
 	public static ObjectClickHandler vineClimbs = new ObjectClickHandler(new Object[] { 64359, 64360, 64361, 64362 }, e -> {
 		int id = e.getObjectId();

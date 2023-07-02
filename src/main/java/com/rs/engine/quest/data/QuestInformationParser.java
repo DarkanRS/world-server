@@ -22,6 +22,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Tile;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -90,13 +91,17 @@ public class QuestInformationParser {
 						if (map.get(q) != null)
 							numReqs++;
 					int[][] reqs = new int[numReqs][2];
-					for (int q = 0;q < reqs.length;q += 2) {
-						reqs[q][0] = (int) map.get(REQ_SKILL_START+q);
-						reqs[q][1] = (int) map.get(REQ_LEVEL_START+q);
-						qi.addSkillReq((int) map.get(REQ_SKILL_START+q), (int) map.get(REQ_LEVEL_START+q));
-						qi.addPreReqSkillReq((int) map.get(REQ_SKILL_START+q), (int) map.get(REQ_LEVEL_START+q));
+					for (int q = 0;q < reqs.length;q++) {
+						reqs[q][0] = (int) map.get(REQ_SKILL_START+(q*2));
+						reqs[q][1] = (int) map.get(REQ_LEVEL_START+(q*2));
+						qi.addSkillReq(reqs[q][0], reqs[q][1]);
+						qi.addPreReqSkillReq(reqs[q][0], reqs[q][1]);
 					}
 				}
+
+				if (map.get(USES_NEW_INTERFACE) != null && (int) map.get(USES_NEW_INTERFACE) == 1)
+					qi.setUsesNewInterface(true);
+
 				QUESTS_ID.put((int) i, qi);
 				QUESTS_SLOTID.put(qi.getSlotId(), qi);
 				QUESTS_NAME.put(qi.getName(), qi);
@@ -106,12 +111,6 @@ public class QuestInformationParser {
 		for (QuestInformation info : QUESTS_ID.values())
 			for (Quest quest : new HashSet<>(info.getPreReqs()))
 				addPreReqs(info, quest);
-		Quest.RITUAL_OF_MAHJARRAT.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 76);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MINING, 60);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.MAGIC, 65);
-		Quest.LUNAR_DIPLOMACY.getDefs().getExtraInfo().addSkillReq(Skills.WOODCUTTING, 55);
-		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.SMITHING, 70);
-		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.SUMMONING, 55);
 		Quest.VOID_STARES_BACK.getDefs().getExtraInfo().addSkillReq(Skills.DEFENSE, 25);
 	}
 

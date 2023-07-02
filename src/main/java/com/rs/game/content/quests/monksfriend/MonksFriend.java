@@ -101,7 +101,28 @@ public class MonksFriend extends QuestOutline {
 	public void complete(Player player) {
 		player.getInventory().addItem(563, 8, true);
 		player.getSkills().addXpQuest(Constants.WOODCUTTING, 2000);
-		getQuest().sendQuestCompleteInterface(player, 563, "8 Law Runes", "2,000 Woodcutting XP");
+		sendQuestCompleteInterface(player, 563);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Brother Omad at the monastery south of Ardougne.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Jug of water, logs (or a hatchet).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You can choose to defeat two level 21 thieves and a level 25 head thief.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,000 Woodcutting XP<br>"+
+				"8 law runes";
 	}
 
 }

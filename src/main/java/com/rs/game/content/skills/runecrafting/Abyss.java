@@ -90,11 +90,11 @@ public class Abyss {
 			if (ticks == 1)
 				player.faceObject(object);
 			else if (ticks == 2)
-				player.setNextAnimation(pick.getAnimation());
+				player.anim(pick.getAnimId());
 			else if (ticks == 4) {
 				if (!success(player, Constants.MINING)) {
 					player.unlock();
-					player.setNextAnimation(new Animation(-1));
+					player.anim(-1);
 					return false;
 				}
 			} else if (ticks >= 5 && ticks <= 7)

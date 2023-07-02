@@ -2395,6 +2395,14 @@ public class Player extends Entity {
 		useStairs(-1, dest, 1, 2);
 	}
 
+	public int getQuestStage(Quest quest) {
+		return getQuestManager().getStage(quest);
+	}
+
+	public int getMiniquestStage(Miniquest quest) {
+		return getMiniquestManager().getStage(quest);
+	}
+
 	public void useStairs(int animId, Tile dest) {
 		useStairs(animId, dest, 1, 2, null);
 	}
@@ -4253,6 +4261,13 @@ public class Player extends Entity {
 		return getMiniquestManager().isComplete(quest, actionString);
 	}
 
+	public boolean isQuestStarted(Quest quest) {
+		return getQuestStage(quest) > 0;
+	}
+
+	public boolean isMiniquestStarted(Miniquest quest) {
+		return getMiniquestStage(quest) > 0;
+	}
 	public boolean isMiniquestComplete(Miniquest quest) {
 		return isMiniquestComplete(quest, null);
 	}
