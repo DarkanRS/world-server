@@ -101,7 +101,7 @@ public class ClockTower extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

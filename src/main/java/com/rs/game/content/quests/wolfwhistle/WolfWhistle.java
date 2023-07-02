@@ -196,12 +196,12 @@ public class WolfWhistle extends QuestOutline {
 
     @Override
     public String getRequiredItemsString() {
-        return "";
+        return "None.";
     }
 
     @Override
     public String getCombatInformationString() {
-        return "";
+        return "None.";
     }
 
     @Override

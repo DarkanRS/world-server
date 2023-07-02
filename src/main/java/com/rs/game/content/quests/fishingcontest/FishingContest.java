@@ -223,7 +223,7 @@ public class FishingContest extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

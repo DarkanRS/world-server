@@ -100,7 +100,7 @@ public class DoricsQuest extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

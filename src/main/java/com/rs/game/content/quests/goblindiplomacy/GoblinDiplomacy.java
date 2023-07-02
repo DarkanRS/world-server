@@ -129,7 +129,7 @@ public class GoblinDiplomacy extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

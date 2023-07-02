@@ -132,7 +132,7 @@ public class LostCity extends QuestOutline {
 
 	@Override
 	public String getRequiredItemsString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

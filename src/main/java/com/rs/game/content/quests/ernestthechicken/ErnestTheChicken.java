@@ -126,7 +126,7 @@ public class ErnestTheChicken extends QuestOutline {
 
 	@Override
 	public String getRequiredItemsString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

@@ -99,7 +99,7 @@ public class RuneMysteries extends QuestOutline {
 
 	@Override
 	public String getRequiredItemsString() {
-		return "";
+		return "None.";
 	}
 
 	@Override

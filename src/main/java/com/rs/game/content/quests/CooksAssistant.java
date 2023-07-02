@@ -88,7 +88,7 @@ public class CooksAssistant extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "";
+		return "None.";
 	}
 
 	@Override
