@@ -324,7 +324,7 @@ public enum Quest {
 			player.getPackets().setIFHidden(1243, 58, false);
 		String reqStr = getRequirementsString(player);
 		player.getPackets().sendVarcString(359, reqStr);
-		if (!getDefs().getExtraInfo().usesNewInterface()) {
+		if (!isImplemented() || !getDefs().getExtraInfo().usesNewInterface()) {
 			WorldTasks.schedule(0, () -> {
 				int questState = player.isQuestStarted(this) ? 1 : 0;
 				int height = 0;
