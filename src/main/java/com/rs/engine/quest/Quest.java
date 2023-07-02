@@ -16,6 +16,7 @@
 //
 package com.rs.engine.quest;
 
+import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
 import com.rs.engine.quest.data.QuestDefinitions;
@@ -328,7 +329,7 @@ public enum Quest {
 				int questState = player.isQuestStarted(this) ? 1 : 0;
 				int height = 0;
 
-				String startPointDesc = getStartLocationDescription();
+				String startPointDesc = getStartLocationDescription(player);
 				player.getPackets().sendRunScript(4249, 81461265, 81461266, 81461267, -1, -1, questState, height, "<col=ebe076>" + "Start point:" + "</col>", startPointDesc);
 				height += Utils.getIFStringHeightAbs(startPointDesc, 495, 374);
 
@@ -354,11 +355,12 @@ public enum Quest {
 			player.getPackets().sendVarcString(359, reqStr);
 	}
 
-	private String getStartLocationDescription() {
+	private String getStartLocationDescription(Player player) {
 		QuestOutline handler = getHandler();
 		if (handler == null)
-			return "[" + getDefs().getExtraInfo().getStartLocation().getX() + ", " + getDefs().getExtraInfo().getStartLocation().getY() + ", " + getDefs().getExtraInfo().getStartLocation().getPlane() + "]";
-		return getHandler().getStartLocationDescription();
+			return "This quest is not yet implemented. Unimplemented quests will automatically complete upon all requirements being met for them.<br><br>" +
+					"You currently have " + (player.isQuestComplete(this) ? "<col=00FF00>COMPLETED</col>" : "<col=FF0000>NOT COMPLETED</col>") + " this quest.<br> ";
+		return getHandler().getStartLocationDescription() + (Settings.getConfig().isDebug() ? ("<br>[" + getDefs().getExtraInfo().getStartLocation().getX() + ", " + getDefs().getExtraInfo().getStartLocation().getY() + ", " + getDefs().getExtraInfo().getStartLocation().getPlane() + "]") : "");
 	}
 
 	private String getRequiredItemsString() {
