@@ -136,8 +136,7 @@ public class TribalTotem extends QuestOutline {
 
 	@Override
 	public String getRewardsString() {
-		return "1 Quest Point<br>"+
-				"1,775 Thieving XP<br>"+
+		return "1,775 Thieving XP<br>"+
 				"5 swordfish";
 	}
 
