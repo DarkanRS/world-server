@@ -1,0 +1,957 @@
+[
+{
+  "tile": {
+    "plane": 0,
+    "x": 3280,
+    "y": 4377
+  },
+  "comment": "Kurask",
+  "npcId": 1608
+},
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3275,
+      "y": 4381
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3267,
+      "y": 4382
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3281,
+      "y": 4384
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3274,
+      "y": 4388
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3279,
+      "y": 4397
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3285,
+      "y": 4395
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3291,
+      "y": 4391
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3269,
+      "y": 4406
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3271,
+      "y": 4409
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3275,
+      "y": 4405
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3280,
+      "y": 4410
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3290,
+      "y": 4408
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3294,
+      "y": 4402
+    },
+    "comment": "Kurask",
+    "npcId": 1609
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3285,
+      "y": 4403
+    },
+    "comment": "Kurask",
+    "npcId": 1608
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3319,
+      "y": 4373
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 4376
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3312,
+      "y": 4381
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3311,
+      "y": 4383
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3308,
+      "y": 4383
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3315,
+      "y": 4381
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3310,
+      "y": 4386
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 4387
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3320,
+      "y": 4384
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3317,
+      "y": 4392
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 4397
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3321,
+      "y": 4398
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3324,
+      "y": 4396
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3324,
+      "y": 4393
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3323,
+      "y": 4401
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 4401
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3313,
+      "y": 4401
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3310,
+      "y": 4398
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3307,
+      "y": 4397
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3304,
+      "y": 4397
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3302,
+      "y": 4394
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3301,
+      "y": 4413
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3306,
+      "y": 4410
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3308,
+      "y": 4407
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3311,
+      "y": 4407
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 4405
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3319,
+      "y": 4407
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3325,
+      "y": 4410
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3322,
+      "y": 4412
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3318,
+      "y": 4412
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3314,
+      "y": 4411
+    },
+    "comment": "Cave crawler",
+    "npcId": 7787
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3277,
+      "y": 4330
+    },
+    "comment": "Turoth",
+    "npcId": 1629
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3277,
+      "y": 4326
+    },
+    "comment": "Turoth",
+    "npcId": 1629
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3274,
+      "y": 4325
+    },
+    "comment": "Turoth",
+    "npcId": 1630
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3274,
+      "y": 4320
+    },
+    "comment": "Turoth",
+    "npcId": 1623
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3283,
+      "y": 4332
+    },
+    "comment": "Turoth",
+    "npcId": 1628
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 4326
+    },
+    "comment": "Turoth",
+    "npcId": 1626
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3287,
+      "y": 4328
+    },
+    "comment": "Turoth",
+    "npcId": 1630
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3288,
+      "y": 4323
+    },
+    "comment": "Turoth",
+    "npcId": 1626
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3290,
+      "y": 4320
+    },
+    "comment": "Turoth",
+    "npcId": 1626
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 4320
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3277,
+      "y": 4317
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3285,
+      "y": 4317
+    },
+    "comment": "Turoth",
+    "npcId": 1628
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 4314
+    },
+    "comment": "Turoth",
+    "npcId": 1623
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3280,
+      "y": 4308
+    },
+    "comment": "Turoth",
+    "npcId": 1623
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3267,
+      "y": 4313
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3268,
+      "y": 4303
+    },
+    "comment": "Turoth",
+    "npcId": 1629
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3275,
+      "y": 4305
+    },
+    "comment": "Turoth",
+    "npcId": 1629
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 4300
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3272,
+      "y": 4295
+    },
+    "comment": "Turoth",
+    "npcId": 1626
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3267,
+      "y": 4291
+    },
+    "comment": "Turoth",
+    "npcId": 1628
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 4291
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3283,
+      "y": 4291
+    },
+    "comment": "Turoth",
+    "npcId": 1628
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 4303
+    },
+    "comment": "Turoth",
+    "npcId": 1630
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3291,
+      "y": 4309
+    },
+    "comment": "Turoth",
+    "npcId": 1626
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3297,
+      "y": 4306
+    },
+    "comment": "Turoth",
+    "npcId": 1627
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3295,
+      "y": 4301
+    },
+    "comment": "Turoth",
+    "npcId": 1623
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3312,
+      "y": 4330
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3306,
+      "y": 4329
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3302,
+      "y": 4325
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3302,
+      "y": 4319
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3308,
+      "y": 4323
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3313,
+      "y": 4320
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3317,
+      "y": 4319
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3312,
+      "y": 4315
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3308,
+      "y": 4307
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3306,
+      "y": 4301
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3306,
+      "y": 4295
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3300,
+      "y": 4295
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3296,
+      "y": 4293
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3309,
+      "y": 4292
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3311,
+      "y": 4303
+    },
+    "comment": "Basilisk",
+    "npcId": 1617
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3318,
+      "y": 4304
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3324,
+      "y": 4302
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3320,
+      "y": 4295
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3322,
+      "y": 4292
+    },
+    "comment": "Basilisk",
+    "npcId": 1616
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3293,
+      "y": 4375
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7804
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3294,
+      "y": 4366
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7801
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3288,
+      "y": 4361
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7802
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 4356
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7802
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3279,
+      "y": 4349
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7803
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3283,
+      "y": 4347
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7801
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3287,
+      "y": 4350
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7803
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3293,
+      "y": 4352
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7803
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3297,
+      "y": 4347
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7802
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3307,
+      "y": 4350
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7801
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3315,
+      "y": 4346
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7804
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3310,
+      "y": 4355
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7804
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3304,
+      "y": 4363
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7801
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3304,
+      "y": 4369
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7803
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3299,
+      "y": 4341
+    },
+    "comment": "Aberrant spectre",
+    "npcId": 7802
+  }
+
+]
