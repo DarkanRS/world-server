@@ -17,6 +17,7 @@
 package com.rs.engine.dialogue;
 
 import com.rs.engine.dialogue.statements.*;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -147,6 +148,10 @@ public class Dialogue {
 		return addNext(new ItemStatement(item.getId(), text)).setFunc(() -> {
 			player.getInventory().addItem(item);
 		});
+	}
+
+	public Dialogue addQuestStart(Quest quest) {
+		return addNext(new QuestStartStatement(quest));
 	}
 	
 	public Dialogue addMakeX(int[] itemIds, int maxAmt) {

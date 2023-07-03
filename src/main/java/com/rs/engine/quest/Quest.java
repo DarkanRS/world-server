@@ -19,6 +19,7 @@ package com.rs.engine.quest;
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.engine.quest.data.QuestDefinitions;
 import com.rs.engine.quest.data.QuestInformation;
 import com.rs.game.model.entity.player.Player;
@@ -318,9 +319,13 @@ public enum Quest {
 	public void openQuestInfo(Player player, boolean promptStart) {
 		player.getPackets().sendVarc(699, getStructId());
 		player.getInterfaceManager().sendInterface(1243);
-		if (promptStart)
+		if (promptStart) {
 			player.getPackets().setIFHidden(1243, 45, false);
-		else
+			player.getPackets().setIFHidden(1243, 57, true);
+			player.getPackets().setIFHidden(1243, 56, true);
+			player.getPackets().setIFEvents(new IFEvents(1243, 46, -1, -1).enableContinueButton());
+			player.getPackets().setIFEvents(new IFEvents(1243, 51, -1, -1).enableContinueButton());
+		} else
 			player.getPackets().setIFHidden(1243, 58, false);
 		String reqStr = getRequirementsString(player);
 		player.getPackets().sendVarcString(359, reqStr);

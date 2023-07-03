@@ -17,6 +17,7 @@
 package com.rs.engine.dialogue;
 
 import com.rs.engine.dialogue.statements.*;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.world.unorganized_dialogue.StageSelectDialogue;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -321,6 +322,10 @@ public class Conversation {
 
 	public Dialogue addNPC(NPC npc, HeadE expression, String text, Runnable extraFunctionality) {
 		return addNext(new Dialogue(new NPCStatement(npc.getCustomName(), npc.getId(), expression, text), extraFunctionality));
+	}
+
+	public Dialogue addQuestStart(Quest quest) {
+		return addNext(new QuestStartStatement(quest));
 	}
 
 	public Dialogue addSimple(String... text) {

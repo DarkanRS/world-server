@@ -104,13 +104,13 @@ public class RuneMysteries extends QuestOutline {
 
 	@Override
 	public String getCombatInformationString() {
-		return "The ability to mine rune essence<br>" +
-				"An air talisman";
+		return "None.";
 	}
 
 	@Override
 	public String getRewardsString() {
-		return null;
+		return "The ability to mine rune essence<br>" +
+				"An air talisman";
 	}
 
 	public static class DukeHoracioRuneMysteriesD extends Conversation {

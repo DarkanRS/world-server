@@ -4311,4 +4311,8 @@ public class Player extends Entity {
 	public Set<Integer> getMapChunksNeedInit() {
 		return mapChunksNeedInit;
 	}
+
+    public void setQuestStage(Quest quest, int stage) {
+		getQuestManager().setStage(quest, stage, true);
+    }
 }

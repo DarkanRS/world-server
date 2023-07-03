@@ -25,6 +25,7 @@ import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +45,7 @@ public class QuestManager {
             e.getPlayer().getQuestManager().showQuestDetailInterface(quest);
         }
     });
+
     private transient Player player;
     private int sort;
     private boolean filter;

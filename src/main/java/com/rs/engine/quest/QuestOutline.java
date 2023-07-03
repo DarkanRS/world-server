@@ -42,9 +42,9 @@ public abstract class QuestOutline {
 			jingleNum+=152;
 		player.jingle(jingleNum);
 
+		player.getPackets().sendVarcString(359, getRewardsString());
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getQuest().getDefs().name+"!");
-		player.getPackets().setIFText(1244, 26, getRewardsString());
 	}
 }
