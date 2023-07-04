@@ -121,6 +121,8 @@ public class SurokMagis extends Conversation {
                                 .addNPC(ID, HeadE.CHEERFUL, "All in good time. I must prepare the spell first, and that will take a little time. While I am doing that, please take this letter to Rat, the trader outside the city who sent you here.")
                                 .addPlayer(HeadE.CALM_TALK, "Okay, but I'll be back for my gold.")
                                 .addNPC(ID, HeadE.CHEERFUL, "Yes, yes, yes. Now off you go!", () -> {
+                                    player.getInventory().deleteItem(1923, 1);
+                                    player.getInventory().deleteItem(11013, 1);
                                     player.getInventory().addItemDrop(11010, 1);
                                     player.setQuestStage(Quest.WHAT_LIES_BELOW, 5);
                                 });

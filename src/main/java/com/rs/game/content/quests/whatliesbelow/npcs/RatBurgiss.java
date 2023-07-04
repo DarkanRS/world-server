@@ -148,7 +148,57 @@ public class RatBurgiss extends Conversation {
                     .addNPC(ID, HeadE.CHEERFUL, "Yes, of course! I'd be happy to give you a reward, but I have a lot on my mind with...you know...trader...stuff!")
                     .addPlayer(HeadE.CONFUSED, "Indeed!");
 
-            case 5 -> new Dialogue();
+            case 5 -> {
+                Dialogue giveLetter = new Dialogue()
+                        .addNextIf(() -> !player.getInventory().containsItem(11010), new Dialogue()
+                                .addPlayer(HeadE.SAD_MILD, "Oh, wait! I've lost the letter! I guess I better go and get another one for you!")
+                                .addStop())
+                        .addNPC(ID, HeadE.SAD_MILD, "This letter is treasonous! This does indeed confirm my worst fears. It is time I let you into my secret and hopefully this will answer any questions you may have.")
+                        .addPlayer(HeadE.CALM_TALK, "Okay. Go on.")
+                        .addNPC(ID, HeadE.CALM_TALK, "I am not really a trader. I am the Commander of the Varrock Palace Secret Guard. VPSG for short.")
+                        .addPlayer(HeadE.CALM_TALK, "Okay, I had a feeling you weren't a real trader due to the fact that you had nothing to sell! So why the secrecy?")
+                        .addNPC(ID, HeadE.CALM_TALK, "I'm just getting to that. A short while ago, we received word that Surok had discovered a powerful mind-control spell and intended to use it on King Roald himself!")
+                        .addNPC(ID, HeadE.CALM_TALK, "He could control the whole kingdom that way!")
+                        .addPlayer(HeadE.AMAZED, "I think I can believe that. Surok's not the nicest person in Misthalin.")
+                        .addNPC(ID, HeadE.CALM_TALK, "Yes, but until now, the spell ahs been useless to him as he is currently under guard at the palace and not allowed to leave. He could not get the tools for the spell because if he left the palace, he would be arrested.")
+                        .addPlayer(HeadE.SAD_MILD, "Uh oh! I think I may have helped him by mistake, here. He promised be a big reward if I collected some items for him...but he said it was for a spell to make gold!")
+                        .addNPC(ID, HeadE.CALM_TALK, "Yes, we heard that somehow Surok had obtained the things he needed but we were not sure how. I thought it might have been you.")
+                        .addNPC(ID, HeadE.CALM_TALK, "However, I assumed you did not know of his plans; that is why you weren't arrested!")
+                        .addPlayer(HeadE.CONFUSED, "Thank you! How can I help fix this mistake?")
+                        .addNPC(ID, HeadE.CHEERFUL, "Okay, here's what I need you to do. One of my contacts has devised a spell that he is sure will be able to counteract the effects of the mind-control spell. I need you to visit him.")
+                        .addPlayer(HeadE.CHEERFUL, "Okay, who is it?")
+                        .addNPC(ID, HeadE.CHEERFUL, "His name is Zaff. He runs a staff shop in Varrock. Go and speak to him and he will tell you what you should do. I will send word to him to let him know that you are coming.")
+                        .addPlayer(HeadE.CHEERFUL, "Yes, sir! I'm on my way!", () -> {
+                            player.getInventory().deleteItem(11010, 1);
+                            player.setQuestStage(Quest.WHAT_LIES_BELOW, 6);
+                        })
+                        .getHead();
+
+                yield new Dialogue()
+                        .addNPC(ID, HeadE.CHEERFUL, "Ah, " + player.getDisplayName() + "! You've returned!")
+                        .addOptions(ops -> {
+                            ops.add("Yes! I have a letter for you.")
+                                    .addPlayer(HeadE.CHEERFUL, "Yes! I have a letter for you.")
+                                    .addNPC(ID, HeadE.CONFUSED, "A letter for me? Let me see.")
+                                    .addNext(giveLetter);
+
+                            ops.add("Yes, and you have some explaining to do!")
+                                    .addPlayer(HeadE.ANGRY, "Yes, and you have some explaining to do!")
+                                    .addNPC(ID, HeadE.AMAZED, "Why? Whatever do you mean?")
+                                    .addPlayer(HeadE.ANGRY, "This letter from Surok to you implies that you're involved in a treasonous plot! I should tell the guards about you!")
+                                    .addNPC(ID, HeadE.AMAZED, "I'm sure I don't know what you mean. Let me see the letter, please.")
+                                    .addNext(giveLetter);
+
+                            ops.add("What, you're still here?")
+                                    .addPlayer(HeadE.AMAZED, "What, you're still here?")
+                                    .addNPC(ID, HeadE.CHEERFUL, "Yes. I still haven't found someone to help me yet, but I hear you've been very busy yourself!")
+                                    .addPlayer(HeadE.CONFUSED, "You have? Who told you that?")
+                                    .addNPC(ID, HeadE.CHEERFUL, "Oh, I have my sources. Was there anything else?");
+                        });
+            }
+
+            case 6 -> new Dialogue()
+                ;
 
             default ->
                     throw new IllegalStateException("Unexpected value: " + player.getQuestStage(Quest.WHAT_LIES_BELOW));

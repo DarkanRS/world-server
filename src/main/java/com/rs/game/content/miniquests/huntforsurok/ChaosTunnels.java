@@ -4,6 +4,7 @@ import com.rs.cache.loaders.map.WorldMapDefinitions;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.game.content.miniquests.huntforsurok.bork.Bork;
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
+import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -121,7 +122,7 @@ public class ChaosTunnels {
         _64(Tile.of(3307, 5496, 0), Tile.of(3317, 5496, 0)),
         _65(Tile.of(3318, 5481, 0), Tile.of(3322, 5480, 0)),
         TUNNELS_OF_CHAOS(Tile.of(3326, 5469, 0), Tile.of(3159, 5208, 0), true),
-        CHAOS_ALTAR(Tile.of(3152, 5233, 0), Tile.of(2282, 4837, 0), true),
+        CHAOS_ALTAR(Tile.of(3152, 5233, 0), Tile.of(2282, 4837, 0)),
         BORK(Tile.of(3142, 5545, 0), Tile.of(3115, 5528, 0), true);
         private static Map<Integer, PortalPair> MAPPING = new Int2ObjectOpenHashMap<>();
 
@@ -161,6 +162,10 @@ public class ChaosTunnels {
                 boolean entering = tile1.getTileHash() == fromPortal.getTile().getTileHash();
                 if (entering)
                     player.getControllerManager().startController(new BorkController());
+                return;
+            }
+            if (this == CHAOS_ALTAR && !RunecraftingAltar.checkItems(player, RunecraftingAltar.Altar.CHAOS)) {
+                player.sendMessage("The portal doesn't respond without a tiara or talisman. This must be the Chaos Altar entrance.");
                 return;
             }
             player.setNextTile(tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1);

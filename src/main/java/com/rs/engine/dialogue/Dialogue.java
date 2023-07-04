@@ -328,6 +328,10 @@ public class Dialogue {
 		return addNext(dialogue);
 	}
 
+	public Dialogue addStop() {
+		return addNext(new Dialogue());
+	}
+
 	public Dialogue finish() {
 		return getHead();
 	}

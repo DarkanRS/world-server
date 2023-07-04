@@ -124,8 +124,9 @@ public class WhatLiesBelow extends QuestOutline {
             if (e.getPlayer().getInventory().containsItem(562, 15)) {
                 e.getPlayer().sync(6104, 1038);
                 e.getPlayer().delayLock(13, () -> {
-                    e.getPlayer().getInventory().deleteItem(392, 15);
+                    e.getPlayer().getInventory().deleteItem(562, 15);
                     e.getItem().setId(11013);
+                    e.getPlayer().getInventory().refresh(e.getItem().getSlot());
                     e.getPlayer().simpleDialogue("The metal wand bursts into life and crackles with arcane power. This is a powerful instrument indeed!");
                 });
             } else

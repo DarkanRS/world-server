@@ -33,8 +33,8 @@ public class KingRoald {
                                 .addPlayer(HeadE.CONFUSED, "Because I'm supposed to deliv...oh.")
                                 .addNPC(ID, HeadE.CALM_TALK, "It seems to me that if that letter were genuine, I would be forced to arrest its bearer for treason. You understand.")
                                 .addNPC(ID, HeadE.CONFUSED, "So what do you say?")
-                                .addNPC(ID, HeadE.SAD_MILD, "I...er...reckon it's a fake! ...I guess...")
-                                .addPlayer(HeadE.CHEERFUL, "Just as I thought! Now off you go!");
+                                .addPlayer(HeadE.SAD_MILD, "I...er...reckon it's a fake! ...I guess...")
+                                .addNPC(ID, HeadE.CHEERFUL, "Just as I thought! Now off you go!");
 
                     if (!e.getPlayer().isQuestStarted(Quest.PRIEST_IN_PERIL))
                         ops.add("Greet the king.")
