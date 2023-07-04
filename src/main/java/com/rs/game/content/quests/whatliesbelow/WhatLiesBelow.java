@@ -86,6 +86,8 @@ public class WhatLiesBelow extends QuestOutline {
     public void updateStage(Player player, int stage) {
         if (player.getVars().getVarBit(3524) >= 0 && stage == getCompletedStage())
             player.getVars().saveVarBit(4312, 1);
+        if (stage >= 6)
+            player.getVars().setVarBit(4314, 1);
         //4314 varbit - 0 surok the gray, 1 surok the dagonhai, 2 surok the disappeared man
     }
 

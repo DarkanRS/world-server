@@ -1,4 +1,4 @@
-package com.rs.game.content.world.areas.Misthalin_Training_Centre_of_Excellence;
+package com.rs.game.content.world.areas.stronghold_of_safety;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.player.managers.EmotesManager;
@@ -9,7 +9,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
 @PluginEventHandler
-public class MisthalinTrainingCentreofExcellence {
+public class StrongholdOfSafety {
     public static ObjectClickHandler handleTrainingCentreStairsDown = new ObjectClickHandler(new Object[] { 29592 }, Tile.of(3084, 3452, 0), e -> {
         e.getPlayer().useStairs(827, Tile.of(3086, 4247, 0));
     });

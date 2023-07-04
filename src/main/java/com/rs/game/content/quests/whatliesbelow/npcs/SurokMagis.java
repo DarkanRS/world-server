@@ -242,6 +242,13 @@ public class SurokMagis extends Conversation {
                     ops.add("Nevermind, I forgot the question.");
                 });
             }
+
+            case 6 -> {
+                addPlayer(HeadE.ANGRY, "I've been told of your foul plans, Surok! You lied to me about the gold, so I've come to stop you!");
+                addNPC(ID, HeadE.CHEERFUL, "Oh really? And what makes you think you have even the slightest chance of doing that?");
+                addPlayer(HeadE.ANGRY, "I'll fight you if I have to!");
+                addNPC(ID, HeadE.ANGRY, "Enough! You have been of use to me before but now you are wasting my time! Be gone!");
+            }
         }
         create();
     }

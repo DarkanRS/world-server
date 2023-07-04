@@ -198,7 +198,27 @@ public class RatBurgiss extends Conversation {
             }
 
             case 6 -> new Dialogue()
-                ;
+                    .addNPC(ID, HeadE.CONFUSED, "Yes, " + player.getDisplayName() + "?")
+                    .addOptions(ops -> {
+                       ops.add("What am I doing now?")
+                               .addPlayer(HeadE.CONFUSED, "What am I doing now?")
+                               .addNPC(ID, HeadE.CHEERFUL, "You need to go and see Zaff. He can be found at \"Zaff's Staffs\", the staff shop in Varrock. He will tell you what to do next.");
+
+                       ops.add("Do you think we can stop Surok?")
+                               .addPlayer(HeadE.CONFUSED, "Do you think we can stop Surok?")
+                               .addNPC(ID, HeadE.CALM_TALK, "Surok is a powerful mage and ruthless too. Who knows what will happen. I am sure that we will prevail, though. Don't worry, " + player.getDisplayName() + "! You'll be fine!");
+
+                       ops.add("Do you have anything to trade yet?")
+                               .addPlayer(HeadE.CONFUSED, "Do you have anything to trade yet?")
+                               .addNPC(ID, HeadE.SAD_MILD, "No, I'm afraid I have nothing in stock, largely due to the fact that I'm not really a trader, as I just mentioned.")
+                               .addPlayer(HeadE.CHEERFUL, "Ah yes, I remember!");
+
+                       ops.add("Hey, your cart has no donkey!")
+                               .addPlayer(HeadE.AMAZED, "Hey, your cart has no donkey!")
+                               .addNPC(ID, HeadE.CHEERFUL, "Yes, that would be because it's a rickshaw cart.")
+                               .addPlayer(HeadE.CHEERFUL, "Oh. I used to know a guy called Rick Shaw!")
+                               .addNPC(ID, HeadE.CHEERFUL, "You don't say...!");
+                    });
 
             default ->
                     throw new IllegalStateException("Unexpected value: " + player.getQuestStage(Quest.WHAT_LIES_BELOW));

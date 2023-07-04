@@ -14,7 +14,7 @@ public class DagonHaiHistory extends Book {
         super("The Fall of the Dagon'Hai",
                 new BookPage(
                         new String[] {
-                            "'...In scarred lands and",
+                                "'...In scarred lands and",
                                 "ruined fields"
                         },
                         new String[] {
