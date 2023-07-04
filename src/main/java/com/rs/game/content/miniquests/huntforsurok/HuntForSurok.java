@@ -65,13 +65,17 @@ public class HuntForSurok extends MiniquestOutline {
 	public static ObjectClickHandler handleAnnasStatue = new ObjectClickHandler(new Object[] { 23096 }, e -> {
 		switch(e.getOption()) {
 			case "Excavate" -> {
-				if (!e.getPlayer().isQuestComplete(Quest.WHAT_LIES_BELOW)) {
+				if (e.getPlayer().getQuestStage(Quest.WHAT_LIES_BELOW) < 4) {
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "Excuse me. I am working on that statue at the moment. Please don't touch it.")
 							.addPlayer(HeadE.AMAZED_MILD, "You are? But you're just sitting there.")
 							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "Yes. I'm on a break.")
 							.addPlayer(HeadE.CONFUSED, "Oh, I see. When does your break finish?")
 							.addNPC(AnnaJones.ID, HeadE.CALM_TALK, "When I decide to start work again. Right now, I'm enjoying sitting on this bench."));
+					return;
+				}
+				if (!e.getPlayer().getBool("annaTunnelTalk")) {
+					e.getPlayer().startConversation(new AnnaJones(e.getPlayer()));
 					return;
 				}
 				Pickaxe pick = Pickaxe.getBest(e.getPlayer());
@@ -84,7 +88,11 @@ public class HuntForSurok extends MiniquestOutline {
 					if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.MINING), 16, 100)) {
 						e.getPlayer().anim(-1);
 						e.getPlayer().getVars().saveVarBit(3524, 1);
-						e.getPlayer().getVars().saveVarBit(4312, 1);
+						if (e.getPlayer().isQuestComplete(Quest.WHAT_LIES_BELOW))
+							e.getPlayer().getVars().saveVarBit(4312, 1);
+						e.getPlayer().startConversation(new Dialogue()
+								.addNPC(AnnaJones.ID, HeadE.CHEERFUL, "You did it! Oh, well done! How exciting!")
+								.addPlayer(HeadE.CHEERFUL, "Right, well, I better see what's down there, then."));
 						return false;
 					}
 					return true;

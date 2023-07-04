@@ -3506,7 +3506,7 @@ public class Player extends Entity {
 		return getInventory().containsItem(id, 1) || getEquipment().containsOneItem(id) || getBank().containsItem(id, 1);
 	}
 
-	public boolean containsItems(int... ids) {
+	public boolean containsAnyItems(int... ids) {
 		for (int id : ids)
 			if (containsItem(id))
 				return true;

@@ -33,6 +33,9 @@ public abstract class QuestOutline {
 	public abstract String getRequiredItemsString();
 	public abstract String getCombatInformationString();
 	public abstract String getRewardsString();
+	public void updateStage(Player player, int stage) {
+
+	}
 
 	public final void sendQuestCompleteInterface(Player player, int itemId) {
 		int jingleNum = Utils.random(0, 4);

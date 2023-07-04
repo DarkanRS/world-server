@@ -188,6 +188,8 @@ public class QuestManager {
             quest.getDefs().sendCompleted(player);
         else if (getStage(quest) > 0)
             quest.getDefs().sendStarted(player);
+        if (refresh && quest.isImplemented())
+            quest.getHandler().updateStage(player, getStage(quest));
     }
 
     public Player getPlayer() {

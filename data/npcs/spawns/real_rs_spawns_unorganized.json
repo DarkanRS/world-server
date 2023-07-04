@@ -4242,6 +4242,15 @@
   {
     "tile": {
       "plane": 0,
+      "x": 3208,
+      "y": 3494
+    },
+    "comment": "Surok Magis (What Lies Below Varrock Library)",
+    "npcId": 5853
+  },
+  {
+    "tile": {
+      "plane": 0,
       "x": 4671,
       "y": 5157
     },

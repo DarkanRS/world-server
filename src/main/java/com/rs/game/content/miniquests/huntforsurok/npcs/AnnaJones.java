@@ -3,6 +3,8 @@ package com.rs.game.content.miniquests.huntforsurok.npcs;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -22,8 +24,25 @@ public class AnnaJones extends Conversation {
 
     public AnnaJones(Player player) {
         super(player);
-        addNPC(ID, HeadE.CHEERFUL, "Yes? Can I help you?");
+        if (player.getQuestStage(Quest.WHAT_LIES_BELOW) >= 4 && !player.getBool("annaTunnelTalk")) {
+            addNPC(ID, HeadE.CHEERFUL, "Ah, hello " + player.getDisplayName() + "! Here is a bronze pickaxe.", () -> player.getInventory().addItemDrop(Pickaxe.BRONZE.getItemId(), 1));
+            addNPC(ID, HeadE.CHEERFUL, "My employer, Surok Magis, sent word to me that you may come to use the tunnel. You will need something to help you get in there. The pickaxe I've given to you should help.");
+            addPlayer(HeadE.CHEERFUL, "Uh, thanks.");
+            addNPC(ID, HeadE.CHEERFUL, "Okay, then. The tunnel awaits...", () -> player.save("annaTunnelTalk", true));
+        } else
+            addNPC(ID, HeadE.CHEERFUL, "Yes? Can I help you?");
         addOptions(this, "startOps", ops -> {
+            if (player.getBool("annaTunnelTalk"))
+                ops.add("What tunnel?")
+                        .addPlayer(HeadE.CONFUSED, "What tunnel?")
+                        .addNPC(ID, HeadE.CALM_TALK, "Why, the Chaos Tunnel of course! I imagine Surok will have told you of it.")
+                        .addPlayer(HeadE.CALM_TALK, "Oh, I see. Well, what can you tell me about it?")
+                        .addNPC(ID, HeadE.CHEERFUL, "Well, story and rumor has it that the Dagon'hai built a tunnel here under the statue of Saradomin that would allow them to visit the Chaos Altar without having to go through the Wilderness.")
+                        .addPlayer(HeadE.CHEERFUL, "That's extremely handy!")
+                        .addNPC(ID, HeadE.SAD_MILD, "Yes, it is. Or, at least, it would be. Unfortunately, I haven't been able to get in there so far.")
+                        .addPlayer(HeadE.CONFUSED, "Why not?")
+                        .addNPC(ID, HeadE.CALM_TALK, "The tunnel entrance needs to be cleared before anyone can get in there. However, my Mining skill isn't high enough at all to do it myself. Perhaps you could have a go?");
+
             ops.add("Who are you?")
                     .addPlayer(HeadE.CONFUSED, "Who are you?")
                     .addNPC(ID, HeadE.CHEERFUL, "Well, now. Do you always go around asking about people like that? It's very rude, you know.")

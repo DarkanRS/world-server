@@ -288,8 +288,10 @@ public class Dialogue {
 	}
 	
 	public Dialogue addNextIf(BooleanSupplier condition, Dialogue dialogue) {
-		if (condition.getAsBoolean())
-			return addNext(dialogue);
+		if (condition.getAsBoolean()) {
+			addNext(dialogue.getHead());
+			return dialogue;
+		}
 		return this;
 	}
 

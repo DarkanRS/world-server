@@ -78,7 +78,7 @@ public class TzHaar {
 					@Override
 					public void create() {
 						boolean recTZ = player.getBool("recTokkulZo");
-						if (!player.containsItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
+						if (!player.containsAnyItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
 							if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo."))
 								option("Can I have a Tokkul-Zo?" + (recTZ ? " I've lost mine." : ""), new Dialogue()
 										.addPlayer(HeadE.CONFUSED, "Can I have a Tokkul-Zo?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))

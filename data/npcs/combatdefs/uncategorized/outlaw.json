@@ -2,14 +2,14 @@
   "names": [
     "Outlaw"
   ],
-  "attackAnim": -1,
-  "attackSound": -1,
-  "defenceAnim": -1,
+  "attackAnim": 390,
+  "attackSound": 836,
+  "defenceAnim": 388,
   "defendSound": -1,
   "deathAnim": -1,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
+  "respawnDelay": 10,
   "hitpoints": 200,
   "maxHit": 30,
   "attackStyle": "MELEE",

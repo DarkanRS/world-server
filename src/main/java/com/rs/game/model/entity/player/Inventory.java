@@ -417,6 +417,13 @@ public final class Inventory {
 		return false;
 	}
 
+	public boolean containsItems(int... itemIds) {
+		for (int itemId : itemIds)
+			if (!items.contains(new Item(itemId, 1)))
+				return false;
+		return true;
+	}
+
 	public boolean containsItems(Item... item) {
 		for (Item element : item)
 			if (!items.contains(element))

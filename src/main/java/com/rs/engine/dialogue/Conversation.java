@@ -34,7 +34,7 @@ public class Conversation {
 	private Dialogue firstDialogue;
 	protected Player player;
 	protected Dialogue current;
-	private int npcId;
+	protected int npcId;
 	private boolean created = false;
 
 	public Conversation(Dialogue current) {

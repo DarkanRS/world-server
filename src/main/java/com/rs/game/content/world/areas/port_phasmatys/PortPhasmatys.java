@@ -59,7 +59,7 @@ public class PortPhasmatys {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if (!player.containsItems(4251))
+							if (!player.containsAnyItems(4251))
 								if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
 									option("Can I have another ectophial?", new Dialogue()
 											.addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
