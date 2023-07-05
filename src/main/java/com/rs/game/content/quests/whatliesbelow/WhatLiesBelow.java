@@ -1,9 +1,12 @@
 package com.rs.game.content.quests.whatliesbelow;
 
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
+import com.rs.game.content.world.areas.varrock.npcs.Zaff;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -18,7 +21,6 @@ import java.util.List;
 @QuestHandler(Quest.WHAT_LIES_BELOW)
 @PluginEventHandler
 public class WhatLiesBelow extends QuestOutline {
-
     /**
      * inter 250/251
      */
@@ -88,16 +90,18 @@ public class WhatLiesBelow extends QuestOutline {
             player.getVars().saveVarBit(4312, 1);
         if (stage >= 6)
             player.getVars().setVarBit(4314, 1);
-        //4314 varbit - 0 surok the gray, 1 surok the dagonhai, 2 surok the disappeared man
+        if (stage >= 8)
+            player.getVars().setVarBit(4314, 2);
     }
 
-    public static ItemClickHandler readFolders = new ItemClickHandler(new Object[] { 11003, 11006, 11007, 11008, 11009, 11010 }, new String[] { "Read" }, e -> {
+    public static ItemClickHandler readFolders = new ItemClickHandler(new Object[] { 11003, 11006, 11007, 11008, 11009, 11010, 11011 }, new String[] { "Read" }, e -> {
         switch(e.getItem().getId()) {
             case 11003 -> e.getPlayer().sendMessage("The folder is empty at the moment so there is nothing inside to read!");
             case 11008, 11006 -> e.getPlayer().simpleDialogue("The piece of paper appears to contain lots of facts and figures. They look like accounts and lists of items. You're not sure what they all mean.");
             case 11007 -> e.getPlayer().sendMessage("A folder full of pages of facts and figures. You have found all the pages for which Rat was looking. You need to deliver the folder to him now.");
             case 11009 -> e.getPlayer().getInterfaceManager().sendInterface(249);
             case 11010 -> e.getPlayer().getInterfaceManager().sendInterface(250);
+            case 11011 -> e.getPlayer().getInterfaceManager().sendInterface(251);
         }
     });
 
@@ -134,5 +138,58 @@ public class WhatLiesBelow extends QuestOutline {
             } else
                 e.getPlayer().simpleDialogue("The wand sparks and glows, but the infusion does not appear to take hold. It looks like you will need more chaos runes to complete the infusion.");
         }
+    });
+
+    public static void addZaffOptions(Player player, Options ops) {
+        if (player.getQuestStage(Quest.WHAT_LIES_BELOW) == 6) {
+            ops.add("Rat Burgiss sent me.")
+                    .addPlayer(HeadE.CHEERFUL, "Rat Burgiss sent me!")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Ah, yes; You must be " + player.getDisplayName() + "! Rat sent word that you would be coming. Everything is prepared. I have created a spell that will remove the mind control from the king.")
+                    .addPlayer(HeadE.CONFUSED, "Okay, so what's the plan?")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Listen carefully. For the spell to succeed, the king must be made very weak. If his mind controlled, you will need to fight him until he is all but dead.")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Then and ONLY then, use your ring to summon me. I will teleport to you and cast the spell that will cure the king.")
+                    .addPlayer(HeadE.CONFUSED, "Why must I summon you? Can't you come with me?")
+                    .addNPC(Zaff.ID, HeadE.SAD_MILD, "I cannot. I must look after my shop here and I have lots to do. Rest assured, I will come when you summon me.")
+                    .addPlayer(HeadE.CHEERFUL, "Okay, so what do I do now?")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Take this beacon ring and some instructions.")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Once you have read the instructions, it will be time for you to arrest Surok.")
+                    .addPlayer(HeadE.AMAZED, "Won't he be disinclined to acquiesce to that request?")
+                    .addNPC(Zaff.ID, HeadE.CONFUSED, "Won't he what?")
+                    .addPlayer(HeadE.CONFUSED, "Won't he refuse?")
+                    .addNPC(Zaff.ID, HeadE.CALM_TALK, "I very much expect so. It may turn nasty, so be on your guard. I hope we can stop him before he can cast his spell! Make sure you have that ring I gave you.")
+                    .addPlayer(HeadE.CHEERFUL, "Okay, thanks, Zaff!")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Rat has told me that you are to be made an honorary member of the VPSG so that you can arrest Surok. If you have any questions about this, ask Rat.")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "One last thing: you must remember that as a part of the VPSG, we must remain secretive at all times. For this reason, I cannot discuss matters such as this unless absolutely necessary.")
+                    .addPlayer(HeadE.CHEERFUL, "Of course! Thanks again!", () -> {
+                        player.setQuestStage(Quest.WHAT_LIES_BELOW, 7);
+                        player.getInventory().addItemDrop(11014, 1);
+                        player.getInventory().addItemDrop(11011, 1);
+                    });
+        }
+
+        if (player.getQuestStage(Quest.WHAT_LIES_BELOW) == 7) {
+            ops.add("I need to ask you something else.")
+                    .addPlayer(HeadE.CALM_TALK, "I need to ask you something else.")
+                    .addNPC(Zaff.ID, HeadE.CONFUSED, "Go ahead!")
+                    .addOptions(questions -> {
+                        questions.add("What am I doing again?")
+                                .addPlayer(HeadE.CONFUSED, "What am I doing again?")
+
+                        ;
+
+                        questions.add("Can I have another ring?")
+                                .addPlayer(HeadE.CONFUSED, "Can I have another ring?")
+
+                        ;
+
+                        questions.add("Can I have the instructions again?")
+                                .addPlayer(HeadE.CONFUSED, "Can I have the instructions again?")
+                        ;
+                    });
+        }
+    }
+
+    public static ItemClickHandler summonBeaconRing = new ItemClickHandler(new Object[] { 11014 }, new String[] { "Summon" }, e -> {
+
     });
 }
