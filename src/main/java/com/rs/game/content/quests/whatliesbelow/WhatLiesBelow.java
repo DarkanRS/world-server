@@ -10,6 +10,7 @@ import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
 import com.rs.game.content.world.areas.varrock.npcs.Zaff;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -59,7 +60,8 @@ public class WhatLiesBelow extends QuestOutline {
 
     @Override
     public void complete(Player player) {
-        //TODO
+        player.getSkills().addXpQuest(Skills.RUNECRAFTING, 8000);
+        player.getSkills().addXpQuest(Skills.DEFENSE, 2000);
         sendQuestCompleteInterface(player, 11014);
     }
 
