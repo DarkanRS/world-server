@@ -19,7 +19,7 @@ public class Zaff extends Conversation {
     });
     public Zaff(Player player) {
         super(player);
-        addNPC(HeadE.CHEERFUL, "Would you like to buy or sell some staves or is there something else you need?");
+        addNPC(ID, HeadE.CHEERFUL, "Would you like to buy or sell some staves or is there something else you need?");
         addOptions(ops -> {
             ops.add("Yes, please.", () -> ShopsHandler.openShop(player, "zaffs_superior_staves"));
             ops.add("No, thank you.");

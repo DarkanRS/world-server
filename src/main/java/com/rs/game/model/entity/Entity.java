@@ -1568,6 +1568,10 @@ public abstract class Entity {
 		return World.findAdjacentFreeSpace(this.getTile(), size);
 	}
 
+	public Tile getNearestTeleTile(Direction... blacklistedDirections) {
+		return World.findAdjacentFreeSpace(this.getTile(), blacklistedDirections);
+	}
+
 	public Tile getTile() {
 		return tile;
 	}

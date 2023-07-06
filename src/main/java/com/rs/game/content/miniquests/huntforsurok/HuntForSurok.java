@@ -54,8 +54,10 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public void updateStage(Player player) {
-		if (player.getMiniquestManager().getStage(Miniquest.HUNT_FOR_SUROK) > 1)
+		if (player.getMiniquestManager().getStage(Miniquest.HUNT_FOR_SUROK) > 1) {
 			player.getVars().setVarBit(4311, 1);
+			player.getVars().setVarBit(4314, 2);
+		}
 	}
 
 	public static ObjectClickHandler handleStairsOutOfStatue = new ObjectClickHandler(new Object[] { 23074 }, e -> {

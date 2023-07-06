@@ -212,7 +212,7 @@ public class BlackKnightsFortress extends QuestOutline {
 				addNPC(611, HeadE.AMAZED_MILD, "Now, remember, Greldo, only a Draynor Manor cabbage will do! Don't get lazy and bring any old cabbage. THAT" + " would ENITERELY wreck the potion!");
 				addNPC(612, HeadE.CHILD_CALM_TALK, "Yeth, mithtreth");//random goblin
 				addNext(() -> {
-					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN, true);
+					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN);
 					p.setNextAnimation(new Animation(FINISH_LISTEN_GRILL));
 				});
 				create();
@@ -315,7 +315,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(170);
 
 					if (tick == 27) {
-						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON, true);
+						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON);
 						p.unlock();
 						stop();
 					}

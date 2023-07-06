@@ -368,7 +368,7 @@ public abstract class Cutscene {
 	}
 
 	public void npcSpotAnim(String key, SpotAnim anim, int delay) {
-		actions.add(new NPCGraphicAction(key, anim, delay));
+		actions.add(new NPCSpotAnimAction(key, anim, delay));
 	}
 	
 	public void npcSpotAnim(String key, SpotAnim anim) {
@@ -385,6 +385,15 @@ public abstract class Cutscene {
 	
 	public void npcAnim(String key, Animation anim, int delay) {
 		actions.add(new NPCAnimationAction(key, anim, delay));
+	}
+
+	public void npcSync(String key, int anim, int spotAnim, int delay) {
+		actions.add(new NPCAnimationAction(key, new Animation(anim), -1));
+		actions.add(new NPCSpotAnimAction(key, new SpotAnim(spotAnim), delay));
+	}
+
+	public void npcSync(String key, int anim, int spotAnim) {
+		npcSync(key, anim, spotAnim, -1);
 	}
 	
 	public void npcAnim(String key, Animation anim) {

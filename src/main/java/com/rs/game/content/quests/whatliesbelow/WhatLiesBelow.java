@@ -1,7 +1,9 @@
 package com.rs.game.content.quests.whatliesbelow;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
@@ -27,7 +29,7 @@ public class WhatLiesBelow extends QuestOutline {
 
     @Override
     public int getCompletedStage() {
-        return 6;
+        return 9;
     }
 
     @Override
@@ -90,7 +92,7 @@ public class WhatLiesBelow extends QuestOutline {
             player.getVars().saveVarBit(4312, 1);
         if (stage >= 6)
             player.getVars().setVarBit(4314, 1);
-        if (stage >= 8)
+        if (player.isMiniquestStarted(Miniquest.HUNT_FOR_SUROK))
             player.getVars().setVarBit(4314, 2);
     }
 
@@ -141,8 +143,8 @@ public class WhatLiesBelow extends QuestOutline {
     });
 
     public static void addZaffOptions(Player player, Options ops) {
-        if (player.getQuestStage(Quest.WHAT_LIES_BELOW) == 6) {
-            ops.add("Rat Burgiss sent me.")
+        switch(player.getQuestStage(Quest.WHAT_LIES_BELOW)) {
+            case 6 -> ops.add("Rat Burgiss sent me.")
                     .addPlayer(HeadE.CHEERFUL, "Rat Burgiss sent me!")
                     .addNPC(Zaff.ID, HeadE.CHEERFUL, "Ah, yes; You must be " + player.getDisplayName() + "! Rat sent word that you would be coming. Everything is prepared. I have created a spell that will remove the mind control from the king.")
                     .addPlayer(HeadE.CONFUSED, "Okay, so what's the plan?")
@@ -165,31 +167,51 @@ public class WhatLiesBelow extends QuestOutline {
                         player.getInventory().addItemDrop(11014, 1);
                         player.getInventory().addItemDrop(11011, 1);
                     });
-        }
 
-        if (player.getQuestStage(Quest.WHAT_LIES_BELOW) == 7) {
-            ops.add("I need to ask you something else.")
+            case 7 -> ops.add("I need to ask you something else.")
                     .addPlayer(HeadE.CALM_TALK, "I need to ask you something else.")
                     .addNPC(Zaff.ID, HeadE.CONFUSED, "Go ahead!")
                     .addOptions(questions -> {
                         questions.add("What am I doing again?")
                                 .addPlayer(HeadE.CONFUSED, "What am I doing again?")
-
-                        ;
+                                .addNPC(Zaff.ID, HeadE.CHEERFUL, "Make sure you have read the instructions I gave you about the ring. Then, when you are ready, go to Surok and arrest him!")
+                                .addPlayer(HeadE.CHEERFUL, "Okay, thanks!");
 
                         questions.add("Can I have another ring?")
                                 .addPlayer(HeadE.CONFUSED, "Can I have another ring?")
-
-                        ;
+                                .addNextIf(() -> player.containsItem(11014), new Dialogue()
+                                        .addNPC(Zaff.ID, HeadE.CALM_TALK, "You have one already.")
+                                        .addStop())
+                                .addNPC(Zaff.ID, HeadE.CALM_TALK, "Well, I do happen to have another one here that you can have. Please try and be a bit more careful with this one!", () -> player.getInventory().addItemDrop(11014, 1));
 
                         questions.add("Can I have the instructions again?")
                                 .addPlayer(HeadE.CONFUSED, "Can I have the instructions again?")
+                                .addNextIf(() -> player.containsItem(11011), new Dialogue()
+                                        .addNPC(Zaff.ID, HeadE.CALM_TALK, "You have one already.")
+                                        .addStop())
+                                .addNPC(Zaff.ID, HeadE.CALM_TALK, "Well, I do happen to have another one here that you can have. Please try and be a bit more careful with this one!", () -> player.getInventory().addItemDrop(11011, 1));
                         ;
                     });
+
+            case 8 -> ops.add("We did it! We beat Surok!")
+                    .addPlayer(HeadE.CHEERFUL, "We did it! We beat Surok!")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Yes. You have done well, " + player.getDisplayName() + ". You are to be commended for your actions!")
+                    .addPlayer(HeadE.CHEERFUL, "It was all in the call of duty!")
+                    .addPlayer(HeadE.CONFUSED, "What will happen with Surok now?")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Well, when I disrupted Surok's spell, he will have been sealed in the library, but we will still need to keep an eye on him, just in case.")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "When you are ready, report back to Rat and he will reward you.")
+                    .addPlayer(HeadE.CHEERFUL, "Okay, I will!")
+                    .addNPC(Zaff.ID, HeadE.SAD_MILD, "Sadly, however, after this I will not be able to discuss these matters with you again. They are secret and we must be vigilant. The VPSG will prevail!")
+                    .addPlayer(HeadE.CHEERFUL, "Of course. I understand. Goodbye!");
         }
     }
 
     public static ItemClickHandler summonBeaconRing = new ItemClickHandler(new Object[] { 11014 }, new String[] { "Summon" }, e -> {
-
+        PlayerVsKingFight ctrl = e.getPlayer().getControllerManager().getController(PlayerVsKingFight.class);
+        if (ctrl == null) {
+            e.getPlayer().sendMessage("You don't know how many charges the ring has left. You should probably not use it yet!");
+            return;
+        }
+        ctrl.attemptZaffSummon(e.getPlayer());
     });
 }

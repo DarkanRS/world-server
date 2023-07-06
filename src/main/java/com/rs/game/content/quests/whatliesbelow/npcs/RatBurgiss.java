@@ -197,7 +197,7 @@ public class RatBurgiss extends Conversation {
                         });
             }
 
-            case 6 -> new Dialogue()
+            case 6, 7 -> new Dialogue()
                     .addNPC(ID, HeadE.CONFUSED, "Yes, " + player.getDisplayName() + "?")
                     .addOptions(ops -> {
                        ops.add("What am I doing now?")
@@ -219,6 +219,24 @@ public class RatBurgiss extends Conversation {
                                .addPlayer(HeadE.CHEERFUL, "Oh. I used to know a guy called Rick Shaw!")
                                .addNPC(ID, HeadE.CHEERFUL, "You don't say...!");
                     });
+
+            case 8 -> new Dialogue()
+                    .addNPC(ID, HeadE.CONFUSED, "Well, " + player.getDisplayName() + ", how did it go?")
+                    .addPlayer(HeadE.CHEERFUL, "You should have been there! There was this...and Surok was like...and I was...and then the king...and, and...uh...ahem! The mission was accomplished and the king has been saved.")
+                    .addNPC(ID, HeadE.CHEERFUL, "I take it that it went alright, then? That's great news!")
+                    .addNPC(ID, HeadE.CHEERFUL, "Zaff has already briefed me on the events. We will arrange for Surok to be fed and watched. I think he will not be a problem any more.")
+                    .addPlayer(HeadE.CONFUSED, "You know, one thing bothers me. He's not stuck in the library, but wasn't that the reason we were in this mess in the first place?")
+                    .addNPC(ID, HeadE.CHEERFUL, "Yes, you are right. But rest assured, we will be watching him much more closely from now on.")
+                    .addNPC(ID, HeadE.CHEERFUL, "You've done very well and have been a credit to the VPSG; perhaps one day there may be a place for you here!")
+                    .addNPC(ID, HeadE.CHEERFUL, "In the meantime, let me reward you for what you've done. I will be sure to call on you if we ever need help in the future.")
+                    .addNext(() -> player.getQuestManager().completeQuest(Quest.WHAT_LIES_BELOW));
+
+            case 9 -> new Dialogue()
+                    .addNPC(ID, HeadE.CHEERFUL, "Ah! " + player.getDisplayName() + "! You did a fine service to use. You might make a good member of the VPSG one day, with a little training and a bit more muscle!")
+                    .addPlayer(HeadE.CONFUSED, "So, do you have any more jobs for me to do?")
+                    .addNPC(ID, HeadE.CALM_TALK, "At the moment, no. Things seem pretty quiet. However, I have heard a rumor about something strange going on in...hmm, no, I think we can handle this one for now.")
+                    .addNPC(ID, HeadE.CHEERFUL, "But, who knows? We may need your assistance again soon. Thank you, " + player.getDisplayName() + ".")
+                    .addPlayer(HeadE.CHEERFUL, "Any time, Rat!");
 
             default ->
                     throw new IllegalStateException("Unexpected value: " + player.getQuestStage(Quest.WHAT_LIES_BELOW));

@@ -95,15 +95,10 @@ public class QuestManager {
     }
 
     public void setStage(Quest quest, int stage) {
-        setStage(quest, stage, true);
-    }
-
-    public void setStage(Quest quest, int stage, boolean updateJournal) {
         if (!quest.isImplemented())
             return;
         questStages.put(quest.getId(), stage);
-        if (updateJournal)
-            sendQuestStage(quest, true);
+        sendQuestStage(quest);
     }
 
     public void completeQuest(Quest quest) {
@@ -113,7 +108,7 @@ public class QuestManager {
             setStage(quest, quest.getHandler().getCompletedStage());
             clearQuestAttributes(quest);
             quest.getHandler().complete(player);
-            sendQuestStage(quest, true);
+            sendQuestStage(quest);
             sendQuestPoints();
         }
     }
@@ -180,15 +175,15 @@ public class QuestManager {
 
     public void updateAllQuestStages() {
         for (Quest quest : Quest.values())
-            sendQuestStage(quest, false);
+            sendQuestStage(quest);
     }
 
-    public void sendQuestStage(Quest quest, boolean refresh) {
+    public void sendQuestStage(Quest quest) {
         if (!quest.isImplemented() || isComplete(quest))
             quest.getDefs().sendCompleted(player);
         else if (getStage(quest) > 0)
             quest.getDefs().sendStarted(player);
-        if (refresh && quest.isImplemented())
+        if (quest.isImplemented())
             quest.getHandler().updateStage(player, getStage(quest));
     }
 

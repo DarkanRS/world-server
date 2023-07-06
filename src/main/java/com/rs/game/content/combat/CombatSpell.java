@@ -357,7 +357,7 @@ public enum CombatSpell {
 			target.freeze(Ticks.fromSeconds(20), true);
 		}
 	},
-	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 178, new SpotAnim(1843), 202, 203, new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
+	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 1842, new SpotAnim(1843), 202, 203, new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p2) {

@@ -118,7 +118,7 @@ public class CooksAssistant extends QuestOutline {
 				addPlayer(HeadE.CONFUSED, "Where can I find those, then?");
 				addNPC(npcId, HeadE.CONFUSED, "That's the problem: I don't exactly know. I usually send my assistant to get them for me but he quit.");
 				addPlayer(HeadE.HAPPY_TALKING, "Well don't worry then, I'll be back with the ingredients soon.", () -> {
-					player.getQuestManager().setStage(Quest.COOKS_ASSISTANT, 1, true);
+					player.getQuestManager().setStage(Quest.COOKS_ASSISTANT, 1);
 				});
 			} else if (player.getQuestManager().getStage(Quest.COOKS_ASSISTANT) == 1) {
 				addNPC(npcId, HeadE.CONFUSED, "How are you getting with finding the ingredients?");

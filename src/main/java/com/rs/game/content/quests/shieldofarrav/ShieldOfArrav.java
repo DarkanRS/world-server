@@ -347,11 +347,6 @@ public class ShieldOfArrav extends QuestOutline {
         saveStageToPlayerSave(p, questStage);
     }
 
-    public static void setStage(Player p, int questStage, boolean updateJournal) {
-        p.getQuestManager().setStage(Quest.SHIELD_OF_ARRAV, questStage, updateJournal);
-        saveStageToPlayerSave(p, questStage);
-    }
-
     public static void setGang(Player p, String gang) {//"Phoenix", "Black", "None"
 		p.save("ThievingGang", gang);
     }

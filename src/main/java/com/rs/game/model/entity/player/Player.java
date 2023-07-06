@@ -3472,6 +3472,13 @@ public class Player extends Entity {
 		return ipAddresses;
 	}
 
+	public int getXInScene() {
+		return getXInScene(getSceneBaseChunkId());
+	}
+
+	public int getYInScene() {
+		return getYInScene(getSceneBaseChunkId());
+	}
 	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		int last = -1;
@@ -4313,6 +4320,6 @@ public class Player extends Entity {
 	}
 
     public void setQuestStage(Quest quest, int stage) {
-		getQuestManager().setStage(quest, stage, true);
+		getQuestManager().setStage(quest, stage);
     }
 }

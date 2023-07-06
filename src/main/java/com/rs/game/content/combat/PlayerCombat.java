@@ -741,7 +741,7 @@ public class PlayerCombat extends PlayerAction {
 			if (Utils.random(randomSeed) == 0) {
 				player.setNextAnimation(new Animation(14417));
 				final AttackStyle attack = attackStyle;
-				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, false), new MultiAttack() {
+				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, true), new MultiAttack() {
 					private boolean nextTarget;
 
 					@Override

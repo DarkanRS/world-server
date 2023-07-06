@@ -61,7 +61,7 @@ public class Kaqemeex extends Conversation {
                                                         "Sanfew who is working on the purification ritual. He knows better than I what is required to complete it.")
                                                 .addPlayer(HeadE.CALM_TALK, "Will do.")
                                                 .addNext(()->{
-                                                    player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 1, true);
+                                                    player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 1);
                                                 }));
                                         option("No, that doesn't sound very interesting.", ()->{});
                                     }

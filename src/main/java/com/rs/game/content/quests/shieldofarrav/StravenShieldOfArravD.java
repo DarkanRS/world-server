@@ -108,7 +108,7 @@ public class StravenShieldOfArravD extends Conversation {
                 addNPC(STRAVEN, HeadE.HAPPY_TALKING, "You now have access to the inner sanctum of our subterranean hideout, and our weapons supply depot round the " +
                         "front of this building.", () -> {
                     p.getInventory().deleteItem(761, 1);
-                    ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE, true);
+                    ShieldOfArrav.setStage(p, ShieldOfArrav.JOINED_PHOENIX_STAGE);
 					ShieldOfArrav.setGang(p, "Phoenix");
                     p.getInventory().addItem(759, 1);
                 });
@@ -150,7 +150,7 @@ public class StravenShieldOfArravD extends Conversation {
                                                     "were to kill him and bring back his intelligence report, they would be considered loyal enough to join.")
                                             .addPlayer(HeadE.TALKING_ALOT, "I'll get right on it.")
                                             .addNext(() -> {
-                                                ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE, false);
+                                                ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE);
                                             }));
                                     option("I want nothing. I was just making sure you were them.", new Dialogue()
                                             .addPlayer(HeadE.SCARED, "I want nothing. I was just making sure you were them.")

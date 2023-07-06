@@ -35,7 +35,7 @@ public class FatherAereck extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a quest.")
 							.addNPC(npcId, HeadE.CALM_TALK, "Well that's convenient. I seem to be having a bit of a<br>ghost problem. Could you go speak to " +
 									"speak to<br>Father Urhney down in the swamp about how to<br>exorcise the spirit?", () -> {
-								player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1, true);
+								player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1);
 							})
 					);
 				option("Can I have a different gravestone?", new Dialogue()

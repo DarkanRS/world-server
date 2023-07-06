@@ -1259,8 +1259,12 @@ public final class World {
 	/**
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
-	public static Tile findAdjacentFreeTile(Tile tile) {
+	public static Tile findAdjacentFreeTile(Tile tile, Direction... blacklistedDirections) {
 		List<Direction> unchecked = new ArrayList<>(Arrays.asList(Direction.values()));
+		if (blacklistedDirections != null) {
+			for (Direction dir : blacklistedDirections)
+				unchecked.remove(dir);
+		}
 		while(!unchecked.isEmpty()) {
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
 			if (World.checkWalkStep(tile, curr, 1))
@@ -1268,6 +1272,14 @@ public final class World {
 			unchecked.remove(curr);
 		}
 		return null;
+	}
+
+	public static Tile findAdjacentFreeTile(Tile tile) {
+		return findAdjacentFreeTile(tile, null);
+	}
+
+	public static Tile findAdjacentFreeSpace(Tile tile, Direction... blacklistedDirections) {
+		return findAdjacentFreeTile(tile, blacklistedDirections);
 	}
 
 	/**

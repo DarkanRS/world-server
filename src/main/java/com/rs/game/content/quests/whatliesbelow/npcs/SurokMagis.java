@@ -4,9 +4,11 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.whatliesbelow.PlayerVsKingFight;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -248,6 +250,36 @@ public class SurokMagis extends Conversation {
                 addNPC(ID, HeadE.CHEERFUL, "Oh really? And what makes you think you have even the slightest chance of doing that?");
                 addPlayer(HeadE.ANGRY, "I'll fight you if I have to!");
                 addNPC(ID, HeadE.ANGRY, "Enough! You have been of use to me before but now you are wasting my time! Be gone!");
+            }
+
+            case 7 -> {
+                addPlayer(HeadE.ANGRY, "Surok!! Your plans have been uncovered! You are hereby under arrest on the authority of the Varrock Palace Secret Guard!");
+                if (!player.getInventory().containsItem(11014) && !player.getEquipment().containsOneItem(11014)) {
+                    addNPC(ID, HeadE.ANGRY, "You fool! You are no match for my power! You don't have the means to stop me! Get out of my sight!", () -> player.setNextTile(Tile.of(3214, 3378, 0)));
+                    create();
+                    return;
+                }
+                addNPC(ID, HeadE.ANGRY, "So! You're with the Secret Guard, eh? I should have known! I knew you had ugly ears from the start...and your nose is too short!");
+                addPlayer(HeadE.ANGRY, "Give yourself up, Surok!");
+                addNPC(ID, HeadE.ANGRY, "Never! I am Surok Magis, descendant of the High Elder Sin'keth Magis, rightful heir of the Dagon'hai Order! I will have my revenge on those who destroyed my people!");
+                addPlayer(HeadE.ANGRY, "The place is surrounded. There is nowhere to run!");
+                addNPC(ID, HeadE.ANGRY, "Do you really wish to die so readily? Are you prepared to face your death?");
+                addOptions(ops -> {
+                   ops.add("Bring it on!")
+                           .addPlayer(HeadE.ANGRY, "Bring it on!")
+                           .addNPC(ID, HeadE.ANGRY, "I am a Dagon'hai! I run from nothing. My spell has been completed and it is time for you to meet your end, " + player.getDisplayName() +"! The king is now under my control!")
+                           .addNext(() -> player.getControllerManager().startController(new PlayerVsKingFight()));
+
+                   ops.add("Fine! You win this time!")
+                           .addPlayer(HeadE.ANGRY, "Fine! You win this time!")
+                           .addNPC(ID, HeadE.ANGRY, "Get out of my sight then!");
+                });
+            }
+
+            case 8 -> {
+                addNPC(ID, HeadE.CALM_TALK, "You have foiled my plans, " + player.getDisplayName()+"... I obviously underestimated you.");
+                addPlayer(HeadE.CALM_TALK, "Yes. Let this be a lesson to you.");
+                addNPC(ID, HeadE.AMAZED, "...");
             }
         }
         create();

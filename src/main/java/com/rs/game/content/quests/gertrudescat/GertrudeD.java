@@ -50,7 +50,7 @@ public class GertrudeD extends Conversation {
 			addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Really? Well, I generally let them do what they want, so I've no idea exactly what they would be doing. They are good lads, though. I'm sure they are just watching the passers-by in Varrock Marketplace.");
 			addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Oh, to be young and carefree again!");
 			addPlayer(HeadE.HAPPY_TALKING, "Alright then, I'll see what I can do. Two young lads in Varrock Marketplace; I can only hope that there's no school trip passing through when I arrive.", () -> {
-				player.getQuestManager().setStage(Quest.GERTRUDES_CAT, 1, true);
+				player.getQuestManager().setStage(Quest.GERTRUDES_CAT, 1);
 			});
 			break;
 		case 1:

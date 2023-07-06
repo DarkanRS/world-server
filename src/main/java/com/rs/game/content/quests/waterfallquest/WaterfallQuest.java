@@ -125,14 +125,6 @@ public class WaterfallQuest extends QuestOutline {
 				"Access to the Waterfall Dungeon";
 	}
 
-	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 292 }, new String[] { "Read" }, e -> {
-		if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 2) {
-			e.getPlayer().sendMessage("You read the book and find that a gnome named Golrie may be able to help find a way into the falls.");
-			e.getPlayer().getQuestManager().setStage(Quest.WATERFALL_QUEST, 3);
-		} else
-			e.getPlayer().sendMessage("You have already read this book. Golrie should be able to help.");
-	});
-
 	public static NPCClickHandler handleHudon = new NPCClickHandler(false, new Object[] { "Hudon" }, e -> {
 		if (e.getOpNum() == 1) {				
 			e.getNPC().resetWalkSteps();

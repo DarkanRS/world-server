@@ -22,11 +22,11 @@ import com.rs.lib.game.SpotAnim;
 
 import java.util.Map;
 
-public class NPCGraphicAction extends CutsceneAction {
+public class NPCSpotAnimAction extends CutsceneAction {
 
 	private SpotAnim gfx;
 
-	public NPCGraphicAction(String key, SpotAnim gfx, int actionDelay) {
+	public NPCSpotAnimAction(String key, SpotAnim gfx, int actionDelay) {
 		super(key, actionDelay);
 		this.gfx = gfx;
 	}

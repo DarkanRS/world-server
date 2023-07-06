@@ -134,7 +134,7 @@ public class RuneMysteries extends QuestOutline {
 								.addSimple("The duke hands you a talisman")
 								.addNext(()->{
 									player.getInventory().addItem(new Item(15361, 1), true);
-									player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 1, true);
+									player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 1);
 								}));
 						option("Not right now", () -> {
 
@@ -197,7 +197,7 @@ public class RuneMysteries extends QuestOutline {
 														.addNext(() -> {
 															player.getInventory().deleteItem(15361, 1);
 															player.getInventory().addItem(new Item(290, 1), true);
-															player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2, true);
+															player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2);
 														}));
 												option("No, i'm busy", () -> {
 												});
@@ -303,7 +303,7 @@ public class RuneMysteries extends QuestOutline {
 									option("Yes please", new Dialogue()
 											.addNext(() -> {
 												e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-												World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5, 0);
 												WorldTasks.schedule(new WorldTask() {
 													@Override
 													public void run() {
@@ -312,12 +312,12 @@ public class RuneMysteries extends QuestOutline {
 												}, 2);
 												player.getInventory().deleteItem(290, 1);
 												player.getInventory().addItem(new Item(291, 1), true);
-												player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3, true);
+												player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3);
 											}));
 									option("No thanks", () -> {
 										player.getInventory().deleteItem(290, 1);
 										player.getInventory().addItem(new Item(291, 1), true);
-										player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3, true);
+										player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3);
 									});
 								}
 							});
