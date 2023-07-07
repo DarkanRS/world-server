@@ -46,9 +46,10 @@ public class WhatLiesBelow extends QuestOutline {
                 lines.add("");
             }
             case 1 -> {
-                lines.add("I need to kill outlaws west of Varrock so that I can collect 5 of Rat's Papers.");
-                lines.add("I have to deliver those papers back to Rat in a folder he gave me.");
-                lines.add("");
+                lines.add("I need to kill outlaws west of Varrock so that I can collect 5 ");
+                lines.add("of Rat's Papers. I have to deliver those papers back to Rat in");
+                lines.add("a folder he gave me.");
+				lines.add("");
             }
             case 2 -> {
                 lines.add("I need to deliver Rat's letter to Surok Magis in Varrock.");
@@ -150,7 +151,7 @@ public class WhatLiesBelow extends QuestOutline {
                     .addPlayer(HeadE.CHEERFUL, "Rat Burgiss sent me!")
                     .addNPC(Zaff.ID, HeadE.CHEERFUL, "Ah, yes; You must be " + player.getDisplayName() + "! Rat sent word that you would be coming. Everything is prepared. I have created a spell that will remove the mind control from the king.")
                     .addPlayer(HeadE.CONFUSED, "Okay, so what's the plan?")
-                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Listen carefully. For the spell to succeed, the king must be made very weak. If his mind controlled, you will need to fight him until he is all but dead.")
+                    .addNPC(Zaff.ID, HeadE.CHEERFUL, "Listen carefully. For the spell to succeed, the king must be made very weak. If his mind becomes controlled, you will need to fight him until he is all but dead.")
                     .addNPC(Zaff.ID, HeadE.CHEERFUL, "Then and ONLY then, use your ring to summon me. I will teleport to you and cast the spell that will cure the king.")
                     .addPlayer(HeadE.CONFUSED, "Why must I summon you? Can't you come with me?")
                     .addNPC(Zaff.ID, HeadE.SAD_MILD, "I cannot. I must look after my shop here and I have lots to do. Rest assured, I will come when you summon me.")

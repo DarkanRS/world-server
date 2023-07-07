@@ -111,7 +111,7 @@ public class SurokMagis extends Conversation {
             case 4 -> {
                 boolean hasItems = player.getInventory().containsItems(1923, 11013);
                 if (hasItems)
-                    addNPC(HeadE.CONFUSED, "Well?");
+                    addNPC(ID, HeadE.CONFUSED, "Well?");
                 else
                     addNPC(ID, HeadE.CALM_TALK, "Ah! You're back. Have you found the things I need yet?");
                 addOptions(ops -> {

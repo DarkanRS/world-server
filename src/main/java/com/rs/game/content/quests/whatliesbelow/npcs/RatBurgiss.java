@@ -107,8 +107,6 @@ public class RatBurgiss extends Conversation {
                             .addNPC(ID, HeadE.CONFUSED, "Uhhh...no. No, that's not it. You know, on second thought, I think I'll keep my secret for now. Look, instead, you can do another job for me.")
                             .addPlayer(HeadE.SAD_MILD, "All work and no play makes " + player.getDisplayName() + " a dull adventurer!")
                             .addNPC(ID, HeadE.CALM_TALK, "Yes, well, I'm sure that may be the case. However, what I want you to do is take this letter to someone for me. It's in a different language so, trust me, you won't be able to read it.")
-                            .addPlayer(HeadE.SAD_MILD, "All work and no play makes " + player.getDisplayName() + " a dull adventurer!")
-                            .addNPC(ID, HeadE.CALM_TALK, "Yes, well, I'm sure that may be the case. However, what I want you to do is take this letter to someone for me. It's in a different language so, trust me, you won't be able to read it.")
                             .addNPC(ID, HeadE.CALM_TALK, "Take it to a wizard named Surok Magic who resides in the Varrock Palace Library. I'll see about some sort of reward for your work when I get myself sorted out here.")
                             .addPlayer(HeadE.CHEERFUL, "Letter. Wizard. Varrock. Got it!", () -> {
                                 player.getInventory().deleteItem(11007, 1);
@@ -160,8 +158,8 @@ public class RatBurgiss extends Conversation {
                         .addNPC(ID, HeadE.CALM_TALK, "I'm just getting to that. A short while ago, we received word that Surok had discovered a powerful mind-control spell and intended to use it on King Roald himself!")
                         .addNPC(ID, HeadE.CALM_TALK, "He could control the whole kingdom that way!")
                         .addPlayer(HeadE.AMAZED, "I think I can believe that. Surok's not the nicest person in Misthalin.")
-                        .addNPC(ID, HeadE.CALM_TALK, "Yes, but until now, the spell ahs been useless to him as he is currently under guard at the palace and not allowed to leave. He could not get the tools for the spell because if he left the palace, he would be arrested.")
-                        .addPlayer(HeadE.SAD_MILD, "Uh oh! I think I may have helped him by mistake, here. He promised be a big reward if I collected some items for him...but he said it was for a spell to make gold!")
+                        .addNPC(ID, HeadE.CALM_TALK, "Yes, but until now, the spell has been useless to him as he is currently under guard at the palace and not allowed to leave. He could not get the tools for the spell because if he left the palace, he would be arrested.")
+                        .addPlayer(HeadE.SAD_MILD, "Uh oh! I think I may have helped him by mistake, here. He promised me a big reward if I collected some items for him...but he said it was for a spell to make gold!")
                         .addNPC(ID, HeadE.CALM_TALK, "Yes, we heard that somehow Surok had obtained the things he needed but we were not sure how. I thought it might have been you.")
                         .addNPC(ID, HeadE.CALM_TALK, "However, I assumed you did not know of his plans; that is why you weren't arrested!")
                         .addPlayer(HeadE.CONFUSED, "Thank you! How can I help fix this mistake?")
