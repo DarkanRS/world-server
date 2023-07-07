@@ -37,14 +37,6 @@ public class WhatLiesBelow extends QuestOutline {
     public List<String> getJournalLines(Player player, int stage) {
         List<String> lines = new ArrayList<>();
         switch (stage) {
-            case 0 -> {
-                lines.add("I can start this quest by speaking to Rat Burgiss on the");
-                lines.add("road south of Varrock.");
-                lines.add("");
-                lines.add("<u>Requirements</u>");
-                lines.add("35 Runecrafting");
-                lines.add("");
-            }
             case 1 -> {
                 lines.add("I need to kill outlaws west of Varrock so that I can collect 5 ");
                 lines.add("of Rat's Papers. I have to deliver those papers back to Rat in");
@@ -53,6 +45,41 @@ public class WhatLiesBelow extends QuestOutline {
             }
             case 2 -> {
                 lines.add("I need to deliver Rat's letter to Surok Magis in Varrock.");
+                lines.add("");
+            }
+            case 3 -> {
+                lines.add("Surok destroyed Rat's letter immediately, I should ask him");
+                lines.add("what that was all about.");
+                lines.add("");
+            }
+            case 4 -> {
+                lines.add("Surok told me he was working on a spell to create gold and");
+                lines.add("that I could be a part of it!");
+                lines.add("");
+                lines.add("He gave me a metal wand that I need to charge using 15 chaos");
+                lines.add("runes at the chaos altar. He wants me to bring both the");
+                lines.add("charged wand, and an empty bowl to him.");
+                lines.add("");
+            }
+            case 5 -> {
+                lines.add("I gave the items that Surok needed to him and he gave me");
+                lines.add("a letter I need to deliver to Rat.");
+                lines.add("");
+            }
+            case 6 -> {
+                lines.add("Rat uncovered his secret about being a part of the VPSG to me");
+                lines.add("and that I could be a part of stopping Surok with them.");
+                lines.add("He told me to go speak to Zaff about what to do next.");
+                lines.add("");
+            }
+            case 7 -> {
+                lines.add("Zaff told me to go arrest Surok. He gave me a beacon ring to");
+                lines.add("summon him when Roald is 'all but dead'.");
+                lines.add("");
+            }
+            case 8 -> {
+                lines.add("I have defeated Surok with Zaff's help and should go report");
+                lines.add("back to Rat Burgiss.");
                 lines.add("");
             }
         }
