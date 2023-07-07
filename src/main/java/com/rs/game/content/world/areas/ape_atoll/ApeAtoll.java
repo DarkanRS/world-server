@@ -16,13 +16,12 @@
 //
 package com.rs.game.content.world.areas.ape_atoll;
 
-import com.rs.engine.quest.Quest;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class Ape_Atoll {
+public class ApeAtoll {
 
 	//Ape Atoll
 	public static ObjectClickHandler handlefallingdowncratecave = new ObjectClickHandler(new Object[] { 4714 }, e -> {

@@ -16,14 +16,13 @@
 //
 package com.rs.game.content.world.areas.miscellania;
 
-import com.rs.engine.quest.Quest;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class miscellania_and_etceteria_dungeon {
+public class MiscellaniaAndEtceteriaDungeon {
 
 	public static ObjectClickHandler secondcreviceentrance = new ObjectClickHandler(new Object[] { 15194 }, e -> {
 		e.getPlayer().setNextTile(Tile.of(2585, 10262, 0));

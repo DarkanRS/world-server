@@ -16,13 +16,12 @@
 //
 package com.rs.game.content.minigames.mage_training_arena;
 
-import com.rs.engine.quest.Quest;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class mage_training_arena {
+public class MageTrainingArena {
 	//Mage Training Arena
 	public static ObjectClickHandler handlemagetrainladderup = new ObjectClickHandler(new Object[] { 10775 }, e -> {
 		e.getPlayer().setNextTile(Tile.of(3357, 3307, 1));

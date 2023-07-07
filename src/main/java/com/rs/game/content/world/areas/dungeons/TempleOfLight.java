@@ -20,7 +20,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class Temple_of_Light {
+public class TempleOfLight {
 
 	//Temple of Light
 	public static ObjectClickHandler handletempleoflightstairswide = new ObjectClickHandler(new Object[] { 10015, 10016 }, e -> {

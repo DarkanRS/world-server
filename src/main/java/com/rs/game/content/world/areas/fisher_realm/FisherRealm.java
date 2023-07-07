@@ -16,13 +16,11 @@
 //
 package com.rs.game.content.world.areas.fisher_realm;
 
-import com.rs.engine.quest.Quest;
-import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-public class Fisher_Realm {
+public class FisherRealm {
 	//Fisher Realm
 	public static ObjectClickHandler handlefisherkingstairs = new ObjectClickHandler(new Object[] { 1730, 1731 }, e -> {
 		if (e.getObjectId() == 1730)
