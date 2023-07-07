@@ -80,6 +80,10 @@ public class HuntForSurok extends MiniquestOutline {
 					e.getPlayer().startConversation(new AnnaJones(e.getPlayer()));
 					return;
 				}
+				if (e.getPlayer().getSkills().getLevelForXp(Skills.MINING) < 42) {
+					e.getPlayer().simpleDialogue("You need a Mining level of 42 to excavate the statue.");
+					return;
+				}
 				Pickaxe pick = Pickaxe.getBest(e.getPlayer());
 				if (pick == null) {
 					e.getPlayer().simpleDialogue("You need a pickaxe to dig out the statue.");
