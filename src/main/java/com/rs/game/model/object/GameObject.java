@@ -42,18 +42,22 @@ public class GameObject extends WorldObject {
 
 	public GameObject(int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(int id, int rotation, int x, int y, int plane) {
 		super(id, rotation, x, y, plane);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(int id, ObjectType type, int rotation, int x, int y, int plane) {
 		super(id, type, rotation, x, y, plane);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(WorldObject object) {
 		super(object);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(GameObject object) {

@@ -53,6 +53,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.NPCInstanceEvent;
 import com.rs.utils.*;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 import java.util.*;
@@ -70,6 +71,8 @@ public final class World {
 	private static final Map<String, Player> PLAYER_MAP_DISPLAYNAME = new ConcurrentHashMap<>();
 
 	private static final EntityList<NPC> NPCS = new EntityList<>(Settings.NPCS_LIMIT);
+
+	private static final Map<Integer, GameObject.RouteType> GAMEOBJECT_ROUTE_TYPE_MAPPINGS = new Int2ObjectOpenHashMap<>();
 
 	@ServerStartupEvent
 	public static final void addSaveFilesTask() {
@@ -932,7 +935,16 @@ public final class World {
 		return ChunkManager.getChunk(tile.getChunkId()).getObject(tile, type);
 	}
 
-	public enum DropMethod {
+    public static void setObjectRouteType(int id, GameObject.RouteType routeType) {
+		GAMEOBJECT_ROUTE_TYPE_MAPPINGS.put(id, routeType);
+    }
+
+	public static GameObject.RouteType getRouteType(int id) {
+		GameObject.RouteType type = GAMEOBJECT_ROUTE_TYPE_MAPPINGS.get(id);
+		return type != null ? type : GameObject.RouteType.NORMAL;
+	}
+
+    public enum DropMethod {
 		NORMAL, TURN_UNTRADEABLES_TO_COINS
 	}
 

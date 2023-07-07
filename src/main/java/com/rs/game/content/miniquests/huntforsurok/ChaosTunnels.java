@@ -1,19 +1,24 @@
 package com.rs.game.content.miniquests.huntforsurok;
 
+import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.map.WorldMapDefinitions;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.bork.Bork;
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
 @PluginEventHandler
 public class ChaosTunnels {
@@ -47,6 +52,11 @@ public class ChaosTunnels {
             e.getPlayer().setNextTile(e.getPlayer().transform(-115, -1953, 0));
         e.getPlayer().getControllerManager().startController(new WildernessController());
     });
+
+    @ServerStartupEvent
+    public static void portalRouteTypeWalkOn() {
+        Stream.of(28779, 28888, 29537, 23095).forEach(id -> World.setObjectRouteType(id, GameObject.RouteType.WALK_ONTO));
+    }
 
     public static ObjectClickHandler handleChaosTunnelsPortals = new ObjectClickHandler(new Object[] { 28779, 28888, 29537, 23095 }, e -> {
         PortalPair portal = PortalPair.forTile(e.getObject().getTile());
@@ -168,7 +178,8 @@ public class ChaosTunnels {
                 player.sendMessage("The portal doesn't respond without a tiara or talisman. This must be the Chaos Altar entrance.");
                 return;
             }
-            player.setNextTile(tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1);
+            player.setNextSpotAnim(new SpotAnim(110, 10, 96));
+            player.useStairs(-1, tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1, 2, 3);
         }
     }
 }
