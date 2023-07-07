@@ -4153,6 +4153,15 @@
   {
     "tile": {
       "plane": 0,
+      "x": 3208,
+      "y": 3494
+    },
+    "comment": "Surok Magis (What Lies Below Varrock Library)",
+    "npcId": 5853
+  },
+  {
+    "tile": {
+      "plane": 0,
       "x": 4671,
       "y": 5157
     },
@@ -48372,15 +48381,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3183,
-      "y": 5205
-    },
-    "comment": "Mishkal\u0027un Dorn",
-    "npcId": 5839
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3181,
       "y": 5204
     },
@@ -48399,26 +48399,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3157,
-      "y": 5209
-    },
-    "comment": "Dakh\u0027thoulan Aegis",
-    "npcId": 5840
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3176,
       "y": 5215
-    },
-    "comment": "Sil\u0027as Dahcsnu",
-    "npcId": 5841
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3176,
-      "y": 5218
     },
     "comment": "Sil\u0027as Dahcsnu",
     "npcId": 5841
@@ -57185,15 +57167,6 @@
       "plane": 0,
       "x": 3282,
       "y": 3467
-    },
-    "comment": "Surok Magis",
-    "npcId": 7009
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3283,
-      "y": 3465
     },
     "comment": "Surok Magis",
     "npcId": 7009

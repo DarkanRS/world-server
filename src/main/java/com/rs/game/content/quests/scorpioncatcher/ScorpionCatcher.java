@@ -150,6 +150,27 @@ public class ScorpionCatcher extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.STRENGTH, 6625);
-		getQuest().sendQuestCompleteInterface(player, 456, "6,625 Strength XP");
+		sendQuestCompleteInterface(player, 456);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Thormac on the top floor of his tower south of the Seers' Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Dusty key (or 70 Agility).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 39 jailer.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "6,625 Strength XP<br>"+
+				"Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins";
 	}
 }

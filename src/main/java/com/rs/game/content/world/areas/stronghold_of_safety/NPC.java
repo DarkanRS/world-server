@@ -1,4 +1,4 @@
-package com.rs.game.content.world.areas.Misthalin_Training_Centre_of_Excellence;
+package com.rs.game.content.world.areas.stronghold_of_safety;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;

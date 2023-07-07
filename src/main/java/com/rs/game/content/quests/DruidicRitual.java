@@ -87,7 +87,32 @@ public class DruidicRitual extends QuestOutline {
 		player.getSkills().addXpQuest(Skills.HERBLORE, 250);
 		player.getInventory().addItem(200, 15);
 		player.getInventory().addItem(222, 15);
-		getQuest().sendQuestCompleteInterface(player, 195, "250 Herblore XP", "15 Grimy Guam and 15 eye of newt");
+		sendQuestCompleteInterface(player, 195);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Kaqemeex in the stone circle north of Taverley.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Raw bear meat<br>" +
+				"Raw rat meat<br>" +
+				"Raw beef<br>" +
+				"Raw chicken";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Ability to survive some skeletons in the Taverley Dungeon";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "250 Herblore XP<br>"+
+				"15 Grimy guam<br>"+
+				"15 Eye of newt<br>";
 	}
 
 	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }, e -> {

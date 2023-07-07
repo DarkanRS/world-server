@@ -16,15 +16,23 @@
 //
 package com.rs.engine.quest;
 
+import com.rs.Settings;
+import com.rs.cache.loaders.EnumDefinitions;
+import com.rs.cache.loaders.StructDefinitions;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.engine.quest.data.QuestDefinitions;
+import com.rs.engine.quest.data.QuestInformation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
+import com.rs.utils.WorldUtil;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum Quest {
 	COOKS_ASSISTANT(6, 1),
@@ -297,26 +305,110 @@ public enum Quest {
 
 	public String getQuestPointRewardLine() {
 		int qp = getDefs().questpointReward;
-		return "<br>"+qp+" Quest point"+(qp > 1 ? "s" : "")+"<br>";
+		return qp+" Quest point"+(qp > 1 ? "s" : "")+"<br>";
 	}
 
-	public void sendQuestCompleteInterface(Player player, int itemId, String... lines) {
-		String line = "" + getQuestPointRewardLine();
-		for (String l : lines)
-			line += l + "<br>";
+	public int getStructId() {
+		return EnumDefinitions.getEnum(2252).getIntValue(slotId);
+	}
 
-		//random quest jingle
-		int jingleNum = Utils.random(0, 4);
-		if(jingleNum == 3)
-			jingleNum = 318;
-		else
-			jingleNum+=152;
-		player.jingle(jingleNum);
+	public StructDefinitions getStruct() {
+		return StructDefinitions.getStruct(getStructId());
+	}
 
-		player.getInterfaceManager().sendInterface(1244);
-		player.getPackets().setIFItem(1244, 24, itemId, 1);
-		player.getPackets().setIFText(1244, 25, "You have completed "+getDefs().name+"!");
-		player.getPackets().setIFText(1244, 26, line);
+	public void openQuestInfo(Player player, boolean promptStart) {
+		player.getPackets().sendVarc(699, getStructId());
+		player.getInterfaceManager().sendInterface(1243);
+		if (promptStart) {
+			player.getPackets().setIFHidden(1243, 45, false);
+			player.getPackets().setIFHidden(1243, 57, true);
+			player.getPackets().setIFHidden(1243, 56, true);
+			player.getPackets().setIFEvents(new IFEvents(1243, 46, -1, -1).enableContinueButton());
+			player.getPackets().setIFEvents(new IFEvents(1243, 51, -1, -1).enableContinueButton());
+		} else
+			player.getPackets().setIFHidden(1243, 58, false);
+		String reqStr = getRequirementsString(player);
+		player.getPackets().sendVarcString(359, reqStr);
+		if (!isImplemented() || !getDefs().getExtraInfo().usesNewInterface()) {
+			WorldTasks.schedule(0, () -> {
+				int questState = player.isQuestStarted(this) ? 1 : 0;
+				int height = 0;
+
+				String startPointDesc = getStartLocationDescription(player);
+				player.getPackets().sendRunScript(4249, 81461265, 81461266, 81461267, -1, -1, questState, height, "<col=ebe076>" + "Start point:" + "</col>", startPointDesc);
+				height += Utils.getIFStringHeightAbs(startPointDesc, 495, 374);
+
+				player.getPackets().sendRunScript(4249, 81461268, 81461269, 81461270, -1, -1, questState, height, "<col=ebe076>" + "Requirements:" + "</col>", reqStr);
+				height += Utils.getIFStringHeightAbs(reqStr, 495, 357);
+
+				String requiredItemsStr = getRequiredItemsString();
+				player.getPackets().sendRunScript(4249, 81461271, 81461272, 81461273, 81461274, 81461279, questState, height, "<col=ebe076>" + "Required items:" + "</col>", requiredItemsStr);
+				height += Utils.getIFStringHeightAbs(requiredItemsStr, 495, 351);
+
+				String combatStuffStr = getCombatInformationString();
+				player.getPackets().sendRunScript(4249, 81461280, 81461281, 81461282, -1, -1, questState, height, "<col=ebe076>" + "Combat:" + "</col>", combatStuffStr);
+				height += Utils.getIFStringHeightAbs(combatStuffStr, 495, 393);
+
+				String rewardsStr = getRewardsString();
+				player.getPackets().sendRunScript(4249, 81461283, 81461284, 81461285, 81461286, 81461291, questState, height, "<col=ebe076>" + "Rewards:" + "</col>", rewardsStr);
+				height += Utils.getIFStringHeightAbs(rewardsStr, 495, 388);
+
+				player.getPackets().sendRunScript(5510, -1, 81461264, height, 0);
+				player.getPackets().sendRunScript(31, 81461292, 81461264, 5666, 5663, 5664, 5665, 5686, 5685);
+			});
+		} else
+			player.getPackets().sendVarcString(359, reqStr);
+	}
+
+	private String getStartLocationDescription(Player player) {
+		QuestOutline handler = getHandler();
+		if (handler == null)
+			return "This quest is not yet implemented. Unimplemented quests will automatically complete upon all requirements being met for them.<br><br>" +
+					"You currently have " + (player.isQuestComplete(this) ? "<col=00FF00>COMPLETED</col>" : "<col=FF0000>NOT COMPLETED</col>") + " this quest.<br> ";
+		return getHandler().getStartLocationDescription() + (Settings.getConfig().isDebug() ? ("<br>[" + getDefs().getExtraInfo().getStartLocation().getX() + ", " + getDefs().getExtraInfo().getStartLocation().getY() + ", " + getDefs().getExtraInfo().getStartLocation().getPlane() + "]") : "");
+	}
+
+	private String getRequiredItemsString() {
+		QuestOutline handler = getHandler();
+		if (handler == null)
+			return "None.";
+		return getHandler().getRequiredItemsString();
+	}
+
+	private String getCombatInformationString() {
+		QuestOutline handler = getHandler();
+		if (handler == null)
+			return "None.";
+		return getHandler().getCombatInformationString();
+	}
+
+	private String getRewardsString() {
+		QuestOutline handler = getHandler();
+		if (handler == null)
+			return getQuestPointRewardLine().replace("<br>", "");
+		return getQuestPointRewardLine()+getHandler().getRewardsString();
+	}
+
+	public String getRequirementsString(Player player) {
+		StringBuilder lines = new StringBuilder();
+		QuestInformation info = getDefs().getExtraInfo();
+
+		if (info.getPreReqs().size() > 0) {
+			for (Quest preReq : info.getPreReqs())
+				lines.append(Utils.strikeThroughIf(preReq.getDefs().getExtraInfo().getName(), () -> player.isQuestComplete(preReq)) + "<br>");
+		}
+
+		if (info.getSkillReq().size() > 0) {
+			for (int skillId : info.getSkillReq().keySet()) {
+				if (info.getSkillReq().get(skillId) == 0)
+					continue;
+				lines.append(Utils.strikeThroughIf(info.getSkillReq().get(skillId) + " " + Skills.SKILL_NAME[skillId], () -> player.getSkills().getLevelForXp(skillId) >= info.getSkillReq().get(skillId)) + "<br>");
+			}
+		}
+
+		if (info.getQpReq() > 0)
+			lines.append(info.getQpReq() + " quest points<br>");
+		return lines.toString().isEmpty() ? "None." : lines.toString();
 	}
 
 	public QuestDefinitions getDefs() {

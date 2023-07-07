@@ -122,7 +122,30 @@ public class LostCity extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, 772, "Access to Zanaris");
+		sendQuestCompleteInterface(player, 772);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to the warrior adventurer in Lumbridge Swamp.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 63 tree spirit.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Access to Zanaris<br>" +
+				"Ability to wield dragon longswords and dragon daggers<br>" +
+				"Ability to craft cosmic runes<br>" +
+				"Access to Chaeldar the Slayer master (requires level 75 combat)";
 	}
 
 }

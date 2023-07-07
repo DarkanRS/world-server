@@ -24,7 +24,7 @@ public class ReldoKnightsSwordD extends Conversation {
 		addNPC(RELDO, HeadE.CALM_TALK, "... you could try taking them some redberry pie. They REALLY like redberry pie. I believe I remember a couple living in " +
 				"Asgarnia near the cliffs on the Asgarnian southern peninsula.", ()->{
 					if(player.getQuestManager().getStage(Quest.KNIGHTS_SWORD) == TALK_TO_RELDO)
-						player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, FIND_DWARF, true);
+						player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, FIND_DWARF);
 				});
 	}
 }

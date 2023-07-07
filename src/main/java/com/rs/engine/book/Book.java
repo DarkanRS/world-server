@@ -16,9 +16,15 @@
 //
 package com.rs.engine.book;
 
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @PluginEventHandler
 public abstract class Book {
@@ -37,6 +43,11 @@ public abstract class Book {
 	public Book(String title, BookPage... pages) {
 		this.title = title;
 		this.pages = pages;
+	}
+
+	public Book(String title, String text) {
+		this.title = title;
+		this.pages = buildPages(text);
 	}
 
 	public static ButtonClickHandler handleInter = new ButtonClickHandler(INTERFACE, e -> {
@@ -77,9 +88,41 @@ public abstract class Book {
 			player.getPackets().setIFText(INTERFACE, 71, "Next");
 		}
 		for (int line = 0;line < LEFT_COMPONENTS.length;line++) {
-			player.getPackets().setIFText(INTERFACE, LEFT_COMPONENTS[line], pages[page].getLeftLine(line));
-			player.getPackets().setIFText(INTERFACE, RIGHT_COMPONENTS[line], pages[page].getRightLine(line));
+			player.getPackets().setIFText(INTERFACE, LEFT_COMPONENTS[line], pages[page].getLeftLine(line) == null ? "" :  pages[page].getLeftLine(line));
+			player.getPackets().setIFText(INTERFACE, RIGHT_COMPONENTS[line], pages[page].getRightLine(line) == null ? "" :  pages[page].getRightLine(line));
 		}
+	}
+
+	private BookPage[] buildPages(String text) {
+		List<BookPage> pages = new ArrayList<>();
+		String[] lines = Utils.splitTextIntoLines(text, 497, IComponentDefinitions.getInterfaceComponent(INTERFACE, RIGHT_COMPONENTS[0]).baseWidth);
+		int i = 0;
+		while (i < lines.length) {
+			String[] leftPageLines = new String[LEFT_COMPONENTS.length];
+			String[] rightPageLines = new String[RIGHT_COMPONENTS.length];
+
+			for (int j = 0; j < LEFT_COMPONENTS.length; j++) {
+				if (i < lines.length) {
+					leftPageLines[j] = lines[i];
+					i++;
+				} else {
+					break;
+				}
+			}
+
+			for (int k = 0; k < RIGHT_COMPONENTS.length; k++) {
+				if (i < lines.length) {
+					rightPageLines[k] = lines[i];
+					i++;
+				} else {
+					break;
+				}
+			}
+
+			pages.add(new BookPage(leftPageLines, rightPageLines));
+		}
+
+		return pages.toArray(BookPage[]::new);
 	}
 
 	public void nextPage() {

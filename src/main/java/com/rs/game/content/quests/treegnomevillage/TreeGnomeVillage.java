@@ -232,7 +232,29 @@ public class TreeGnomeVillage extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXp(Constants.ATTACK, 11450);
 		player.getInventory().addItem(new Item(589, 1), true);
-		getQuest().sendQuestCompleteInterface(player, 589, "11,450 Attack XP", "Spirit Tree Access");
+		sendQuestCompleteInterface(player, 589);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to King Bolren in the Tree Gnome Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "6 normal logs.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "11,450 Attack XP<br>"+
+				"Access to spirit tree teleportation<br>" +
+				"Gnome amulet of protection";
 	}
 
 }

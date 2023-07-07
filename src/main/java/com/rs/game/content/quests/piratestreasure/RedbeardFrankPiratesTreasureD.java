@@ -35,7 +35,7 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 								public void create() {
 									option("Ok, I will bring you some rum", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will bring you some rum.", () -> {
-												player.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM, true);
+												player.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM);
 												if(player.getInventory().containsItem(RUM, 1)) {
 													while(player.getInventory().containsItem(RUM, 1))
 														player.getInventory().removeItems(new Item(RUM, 1));
@@ -80,7 +80,7 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 				addSimple("Frank happily takes the rum... and... hands you a key.", ()->{
 					player.getInventory().removeItems(new Item(RUM, 1));
 					player.getInventory().addItem(new Item(CHEST_KEY, 1));
-					player.getQuestManager().setStage(Quest.PIRATES_TREASURE, GET_TREASURE, true);
+					player.getQuestManager().setStage(Quest.PIRATES_TREASURE, GET_TREASURE);
 				});
 				addNPC(REDBEARD, HeadE.CALM_TALK, "This be Hector's key. I believe it opens his chest on his old room in the Blue Moon Inn in Varrock. " +
 						"With any luck his treasure will be in there.");

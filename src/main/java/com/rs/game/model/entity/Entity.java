@@ -1473,9 +1473,10 @@ public abstract class Entity {
 		return forceMultiArea;
 	}
 
-	public void setForceMultiArea(boolean forceMultiArea) {
+	public Entity setForceMultiArea(boolean forceMultiArea) {
 		this.forceMultiArea = forceMultiArea;
 		checkMultiArea();
+		return this;
 	}
 
 	public Tile getLastTile() {
@@ -1565,6 +1566,10 @@ public abstract class Entity {
 
 	public Tile getNearestTeleTile(int size) {
 		return World.findAdjacentFreeSpace(this.getTile(), size);
+	}
+
+	public Tile getNearestTeleTile(Direction... blacklistedDirections) {
+		return World.findAdjacentFreeSpace(this.getTile(), blacklistedDirections);
 	}
 
 	public Tile getTile() {

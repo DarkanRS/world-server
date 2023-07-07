@@ -1258,7 +1258,6 @@ public class Player extends Entity {
 			farmingTicksMissed = 768.0;
 		if (farmingTicksMissed < 1.0)
 			farmingTicksMissed = 0.0;
-		System.out.println("Ticks missed: " + farmingTicksMissed);
 		for (int i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 
@@ -2396,6 +2395,14 @@ public class Player extends Entity {
 		useStairs(-1, dest, 1, 2);
 	}
 
+	public int getQuestStage(Quest quest) {
+		return getQuestManager().getStage(quest);
+	}
+
+	public int getMiniquestStage(Miniquest quest) {
+		return getMiniquestManager().getStage(quest);
+	}
+
 	public void useStairs(int animId, Tile dest) {
 		useStairs(animId, dest, 1, 2, null);
 	}
@@ -3465,6 +3472,13 @@ public class Player extends Entity {
 		return ipAddresses;
 	}
 
+	public int getXInScene() {
+		return getXInScene(getSceneBaseChunkId());
+	}
+
+	public int getYInScene() {
+		return getYInScene(getSceneBaseChunkId());
+	}
 	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		int last = -1;
@@ -3499,7 +3513,7 @@ public class Player extends Entity {
 		return getInventory().containsItem(id, 1) || getEquipment().containsOneItem(id) || getBank().containsItem(id, 1);
 	}
 
-	public boolean containsItems(int... ids) {
+	public boolean containsAnyItems(int... ids) {
 		for (int id : ids)
 			if (containsItem(id))
 				return true;
@@ -4254,6 +4268,13 @@ public class Player extends Entity {
 		return getMiniquestManager().isComplete(quest, actionString);
 	}
 
+	public boolean isQuestStarted(Quest quest) {
+		return getQuestStage(quest) > 0;
+	}
+
+	public boolean isMiniquestStarted(Miniquest quest) {
+		return getMiniquestStage(quest) > 0;
+	}
 	public boolean isMiniquestComplete(Miniquest quest) {
 		return isMiniquestComplete(quest, null);
 	}
@@ -4297,4 +4318,8 @@ public class Player extends Entity {
 	public Set<Integer> getMapChunksNeedInit() {
 		return mapChunksNeedInit;
 	}
+
+    public void setQuestStage(Quest quest, int stage) {
+		getQuestManager().setStage(quest, stage);
+    }
 }

@@ -38,8 +38,10 @@ import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.minigames.barrows.BarrowsController;
+import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
+import com.rs.game.content.quests.whatliesbelow.PlayerVsKingFight;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -114,7 +116,8 @@ public class MiscTest {
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			p.getInventory().addItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", "Test Key").addMetaData("trophyBoneItems", new ArrayList<>(List.of(new Item(4151, 1).addMetaData("combatCharges", 500), new Item(4151, 1), new Item(4151, 1), new Item(1044, 1), new Item(995, 50000)))));
+			p.getControllerManager().startController(new PlayerVsKingFight());
+			//p.getInventory().addItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", "Test Key").addMetaData("trophyBoneItems", new ArrayList<>(List.of(new Item(4151, 1).addMetaData("combatCharges", 500), new Item(4151, 1), new Item(4151, 1), new Item(1044, 1), new Item(995, 50000)))));
 		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {

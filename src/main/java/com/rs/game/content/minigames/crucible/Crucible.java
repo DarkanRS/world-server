@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.crucible;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -8,6 +9,8 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectSets;
 
@@ -22,6 +25,8 @@ public class Crucible {
     //1296 = overlay
     //1297 = rewards
     //1298 = bounty fee payment
+
+    //591 classic BH interface
 
     public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> {
         e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
@@ -60,6 +65,8 @@ public class Crucible {
     private static Set<Player> SAFE_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
     private static Set<Player> DANGEROUS_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
 
+    private static Map<String, String> BH_TARGETS = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+
     public static void add(Player player, boolean dangerous) {
         if (dangerous)
             DANGEROUS_PLAYERS.add(player);
@@ -68,22 +75,27 @@ public class Crucible {
     }
 
     public static void remove(Player player, boolean dangerous) {
-        if (dangerous)
+        if (dangerous) {
             DANGEROUS_PLAYERS.remove(player);
-        else
+            for (Player pt : DANGEROUS_PLAYERS)
+                updateParticipants(pt, true);
+        } else {
             SAFE_PLAYERS.remove(player);
+            for (Player pt : SAFE_PLAYERS)
+                updateParticipants(pt, false);
+        }
     }
 
     public static void updateInterface(Player player, CrucibleController controller) {
-        updateRank(player, 0);
+        updateRank(player, controller.rank);
         updateRankPoints(player, controller.points, 0);
-        updateParticipants(player, controller);
+        updateParticipants(player, controller.dangerous);
     }
 
-    private static void updateParticipants(Player player, CrucibleController controller) {
+    private static void updateParticipants(Player player, boolean dangerous) {
         StringBuilder participants = new StringBuilder();
-        participants.append((controller.dangerous ? "<col=FF0000>Dangerous" : "<col=00FF00>Safe") + " Participants:</col><br>");
-        for (Player participant : controller.dangerous ? DANGEROUS_PLAYERS : SAFE_PLAYERS)
+        participants.append((dangerous ? "<col=FF0000>Dangerous" : "<col=00FF00>Safe") + " Participants:</col><br>");
+        for (Player participant : dangerous ? DANGEROUS_PLAYERS : SAFE_PLAYERS)
             participants.append(participant.getDisplayName()+"<br>");
         player.getPackets().setIFText(1296, 0, participants.toString());
     }
@@ -99,9 +111,8 @@ public class Crucible {
      * 6 = supreme champion
      * 7 = temporarily invulnerable
      */
-    public static void updateRank(Player player, int tier) {
+    private static void updateRank(Player player, int tier) {
         player.getPackets().sendRunScript(6284, tier);
-        updateParticipants(player, player.getControllerManager().getController(CrucibleController.class));
     }
 
     /**

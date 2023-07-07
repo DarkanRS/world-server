@@ -97,17 +97,33 @@ public class WaterfallQuest extends QuestOutline {
 		player.getInventory().addItem(299, 40, true);
 		player.getInventory().addItem(1601, 2, true);
 		player.getInventory().addItem(2357, 2, true);
-
-		getQuest().sendQuestCompleteInterface(player, 1601, "13,750 Attack XP", "13,750 Strength XP", "2 diamonds", "2 gold bars", "40 Mithril seeds");
+		sendQuestCompleteInterface(player, 1601);
 	}
 
-	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 292 }, new String[] { "Read" }, e -> {
-		if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 2) {
-			e.getPlayer().sendMessage("You read the book and find that a gnome named Golrie may be able to help find a way into the falls.");
-			e.getPlayer().getQuestManager().setStage(Quest.WATERFALL_QUEST, 3);
-		} else
-			e.getPlayer().sendMessage("You have already read this book. Golrie should be able to help.");
-	});
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Almera in her house north-east of the Baxtorian Falls.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Rope, 6 air runes, 6 earth runes, 6 water runes.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None, but you must be able to survive some attacks from level 44 giant spiders and level 58 skeletons.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "13,750 Attack XP<br>" +
+				"13,750 Strength XP<br>" +
+				"2 gold bars<br>" +
+				"2 diamonds<br>" +
+				"40 mithril seeds<br>" +
+				"Access to the Waterfall Dungeon";
+	}
 
 	public static NPCClickHandler handleHudon = new NPCClickHandler(false, new Object[] { "Hudon" }, e -> {
 		if (e.getOpNum() == 1) {				

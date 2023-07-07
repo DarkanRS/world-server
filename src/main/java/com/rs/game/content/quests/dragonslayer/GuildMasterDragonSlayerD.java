@@ -37,7 +37,7 @@ public class GuildMasterDragonSlayerD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "So, what is this quest?")
 							.addNPC(GUILD_MASTER, HeadE.CALM_TALK, "You'll have to speak to Oziach, the maker of rune armour. He sets the quests that " +
 									"champions must complete in order to wear it. Oziach lives in a hut by the cliffs to the west of Edgeville. He can be a " +
-									"little ... odd ... sometimes, though.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_OZIACH, true);}));
+									"little ... odd ... sometimes, though.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_OZIACH);}));
 					option("No", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "On second thoughts, a mighty and perilous quest fit only for the most powerful champions " +
 									"isn't something I want to commit to at the moment. Maybe later.")
@@ -136,7 +136,7 @@ public class GuildMasterDragonSlayerD extends Conversation {
 	private void mainOptions(Player p, int previous) {
 		if(isFinished(p) && !p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(FINISHED_DIALOGUE_GUILDMASTER_ATTR)) {
 			p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(FINISHED_DIALOGUE_GUILDMASTER_ATTR, true);
-			p.getQuestManager().setStage(Quest.DRAGON_SLAYER, PREPARE_FOR_CRANDOR, true);
+			p.getQuestManager().setStage(Quest.DRAGON_SLAYER, PREPARE_FOR_CRANDOR);
 		}
 
 		addOptions("Choose an option:", new Options() {

@@ -23,6 +23,7 @@ import com.rs.lib.util.Utils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -32,6 +33,7 @@ public enum Miniquest {
 	KNIGHTS_WAVE_TRAINING_GROUNDS("Knights Waves Training Grounds", new Quest[] { Quest.KINGS_RANSOM }, null, null),
 	TROLL_WARZONE("Troll Warzone Tutorial", null,null, null),
 	WITCHES_POTION("Witch's Potion", null,null, null),
+	HUNT_FOR_SUROK("The Hunt for Surok", new Quest[] { Quest.WHAT_LIES_BELOW }, Map.of(Skills.MINING, 42, Skills.PRAYER, 43), null),
 	;
 
 	static {
