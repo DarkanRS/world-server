@@ -80,7 +80,7 @@ public class BorkController extends InstancedController {
 			cs.delay(15);
 			cs.action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
 			cs.camPosReset();
-			cs.fadeOut(5);
+			cs.fadeOut(3);
 			cs.hideMinimap(false);
 			cs.action(() -> {
 				World.spawnNPC(7134, Tile.of(cs.getX(27), cs.getY(33), 0), -1, true, true, true).setForceMultiArea(true);

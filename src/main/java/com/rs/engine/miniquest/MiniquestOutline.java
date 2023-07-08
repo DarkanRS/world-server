@@ -17,6 +17,7 @@
 package com.rs.engine.miniquest;
 
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;

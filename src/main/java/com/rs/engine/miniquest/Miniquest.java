@@ -118,7 +118,7 @@ public enum Miniquest {
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
 		player.getPackets().setIFText(1244, 25, "You have completed "+getName()+"!");
-		player.getPackets().setIFText(1244, 26, line);
+		player.getPackets().sendVarcString(359, line);
 	}
 
 	public String getName() {
