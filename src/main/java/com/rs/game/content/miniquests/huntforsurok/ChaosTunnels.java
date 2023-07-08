@@ -2,6 +2,8 @@ package com.rs.game.content.miniquests.huntforsurok;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.map.WorldMapDefinitions;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.bork.Bork;
@@ -14,6 +16,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
@@ -22,6 +25,134 @@ import java.util.stream.Stream;
 
 @PluginEventHandler
 public class ChaosTunnels {
+
+    public static NPCClickHandler aegis = new NPCClickHandler(new Object[] { 5840 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addNPC(5840, HeadE.CHEERFUL, "Hello. Can I help you?")
+            .addNextIf(() -> e.getPlayer().getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 2, new Dialogue()
+                    .addPlayer(HeadE.FRUSTRATED, "Where did he go?")
+                    .addNPC(5840, HeadE.CONFUSED, "Where did who go?")
+                    .addPlayer(HeadE.FRUSTRATED, "Surok! I saw him come in this way!")
+                    .addNPC(5840, HeadE.AMAZED, "Oh, Lord Magis? Why yes; he went through the portal here.")
+                    .addPlayer(HeadE.CHEERFUL, "Right! Thanks!")
+                    .addNPC(5840, HeadE.CHEERFUL, "Was there anything else?"))
+            .addPlayer(HeadE.CONFUSED, "Yes. What is this place?")
+            .addNPC(5840, HeadE.CHEERFUL, "These are the Dagon'hai tunnels. They radiate with the energy of chaos magic. At the far end of the tunnel, you will find a portal to the Chaos Altar itself, where chaos runes are crafted.")
+            .addOptions(ops -> {
+                ops.add("Why is the tunnel so short?")
+                        .addPlayer(HeadE.CONFUSED, "Why is the tunnel so short?")
+                        .addNPC(5840, HeadE.CHEERFUL, "The nature of chaos magic itself is mysterious and hard to understand.")
+                        .addPlayer(HeadE.CONFUSED, "What do you mean?")
+                        .addNPC(5840, HeadE.CALM_TALK, "The tunnel is here, and yet it is not here. We also are here, where we should be, yet we are somewhere else. And so, the tunnel goes from one place to another, yet touches neither.")
+                        .addPlayer(HeadE.CONFUSED, "I really don't understand.")
+                        .addNPC(5840, HeadE.CHEERFUL, "I told you you wouldn't. The best way to think of it is that the tunnel is like a gateway that allows you to travel from one place in the world to another in a more safe and convenient way.")
+                        .addPlayer(HeadE.CHEERFUL, "Ok, I think I see. So it is like a magical alternate route?")
+                        .addNPC(5840, HeadE.CHEERFUL, "Exactly! Well done! And at the end, there is a portal which will transport you to the Chaos Altar.")
+                        .addPlayer(HeadE.CHEERFUL, "Oh, ok.");
+
+                ops.add("Why are there only three of you?")
+                        .addPlayer(HeadE.CONFUSED, "Why are there only three of you?")
+                        .addNPC(5840, HeadE.CHEERFUL, "Our order is a secret one and those of us that remain and survive through the ages choose to hide ourselves away.")
+                        .addPlayer(HeadE.CONFUSED, "Where are the rest of you now?")
+                        .addNPC(5840, HeadE.CHEERFUL, "We have built or found many tunnels such as these. This is not the only one. Rest assured, there are many more of us around.");
+
+                ops.add("Is the Wilderness above us?")
+                        .addPlayer(HeadE.CONFUSED, "Is the Wilderness above us?")
+                        .addNPC(5840, HeadE.CHEERFUL, "Yes, I can understand you would expect it to be since the tunnel leads to the Chaos Altar. And yes, the tunnel does not enter the Wilderness, no.")
+                        .addNPC(5840, HeadE.CHEERFUL, "Rest assured, you are safe here and should not come to harm.");
+
+                ops.add("You seem quite nice for a Zamorakian.")
+                        .addPlayer(HeadE.CHEERFUL, "You seem quite nice for a Zamorakian.")
+                        .addNPC(5840, HeadE.CALM_TALK, "History is written by the strong and the influential.")
+                        .addPlayer(HeadE.CONFUSED, "What does that mean?")
+                        .addNPC(5840, HeadE.CHEERFUL, "It means we cannot always believe what we are told to believe. You would do well to remember that. Especially when thinking about how long it takes to cremate bodies.")
+                        .addPlayer(HeadE.CHEERFUL, "I will! Thank you!");
+
+                ops.add("Thanks for your time.")
+                        .addPlayer(HeadE.CHEERFUL, "Thanks for your time.");
+            })));
+
+    public static NPCClickHandler silasDahcsnu = new NPCClickHandler(new Object[] { 5841 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addPlayer(HeadE.CHEERFUL, "Hello there.")
+            .addNPC(5841, HeadE.FRUSTRATED, "Can't you see that I'm busy here?")
+            .addPlayer(HeadE.AMAZED, "Oh. Sorry, you don't look very busy.")
+            .addNPC(5841, HeadE.FRUSTRATED, "Don't look busy? I've got a lot of important work to do here.")
+            .addPlayer(HeadE.CONFUSED, "Really? What do you do?")
+            .addNPC(5841, HeadE.FRUSTRATED, "That doesn't concern you. What are you doing here anyway?")
+            .addOptions(ops -> {
+                ops.add("I'm not actually sure.")
+                        .addPlayer(HeadE.SAD_MILD, "I'm not actually sure.")
+                        .addNPC(5841, HeadE.FRUSTRATED, "Hmph! Well I can tell you what you ARE doing.")
+                        .addPlayer(HeadE.CONFUSED, "What's that?")
+                        .addNPC(5841, HeadE.FRUSTRATED, "Wasting my time! Now go away! If yo umust speak to someone, speak to one of the other monks around here!");
+
+                ops.add("I'm on an important quest!")
+                        .addPlayer(HeadE.CHEERFUL, "I'm on an important quest!")
+                        .addNPC(5841, HeadE.CALM_TALK, "Really...")
+                        .addPlayer(HeadE.CHEERFUL, "Yes! Do you want to know what my quest is?")
+                        .addNPC(5841, HeadE.CALM_TALK, "Let me see...you helped out a trader who in turn asked you to deliver something for him, and then you had to journey to some palace to see someone and they said thanks by sending you somewhere else.")
+                        .addPlayer(HeadE.CONFUSED, "Uhh...")
+                        .addNPC(5841, HeadE.CALM_TALK, "So, now you've ended up down here, bothering me?")
+                        .addPlayer(HeadE.CONFUSED, "Uh, yes, that's about right.")
+                        .addNPC(5841, HeadE.CALM_TALK, "Lucky me...")
+                        .addPlayer(HeadE.CONFUSED, "Sorry about that. I'll leave you alone, then.");
+
+                ops.add("None of your business!")
+                        .addPlayer(HeadE.FRUSTRATED, "None of your business!")
+                        .addNPC(5841, HeadE.FRUSTRATED, "Of course it isn't, but you were the one who came here bothering me! So, unless you want something, be off with you!");
+
+                ops.add("I am looking for something.")
+                        .addPlayer(HeadE.CONFUSED, "I am looking for something.")
+                        .addNPC(5841, HeadE.CONFUSED, "What are you looking for exactly?")
+                        .addPlayer(HeadE.CONFUSED, "The Chaos Altar, I think.")
+                        .addNPC(5841, HeadE.FRUSTRATED, "Hmph! Well, it's just a bit further down. Now if you don't mind, I'm very busy here!");
+
+                ops.add("I'm the leader of the Dagon'hai. Bow before me!")
+                        .addPlayer(HeadE.FRUSTRATED, "I'm the leader of the Dagon'hai. Bow before me!")
+                        .addNPC(5841, HeadE.CONFUSED, "You? Leader of the Dagon'hai? Hah! I've never heard of such rubbish! You call yourself a mage?")
+                        .addOptions(mage -> {
+                            mage.add("I'm a very powerful mage!")
+                                    .addPlayer(HeadE.FRUSTRATED, "I'm a very powerful mage!")
+                                    .addNPC(5841, HeadE.AMAZED, "Really?")
+                                    .addPlayer(HeadE.FRUSTRATED, "Yes! Be afraid! Be very afraid! Ha ha ha!")
+                                    .addNPC(5841, HeadE.CALM_TALK, "I see. Well then, let's see how you handle this!")
+                                    .addPlayer(HeadE.AMAZED, "What...?!?!")
+                                    //TODO deflect spell based on magic level?
+                                    //If fail, player jumps and says they can't stop jumping
+                                    //then CHEERFUL, "Hah! I knew you were no mage! Let that be a lesson to you! Now, please leave.
+                                    .addNPC(5841, HeadE.AMAZED, "So! You are a good mage! You deflected my spell.")
+                                    .addPlayer(HeadE.CALM_TALK, "Hah! Yes. I told you so! Now, I have work to be done.")
+                                    .addNPC(5841, HeadE.CALM_TALK, "Of course. Goodbye!");
+
+                            mage.add("No, you're right. I'm not a mage.")
+                                    .addPlayer(HeadE.SAD_MILD, "No, you're right. I'm not a mage.")
+                                    .addNPC(5841, HeadE.FRUSTRATED, "I didn't think so! Now go away. As I said, I'm very busy!");
+                        });
+            })));
+
+    public static NPCClickHandler mishkalDorn = new NPCClickHandler(new Object[] { 5839 }, e -> {
+        e.getPlayer().startConversation(new Dialogue()
+                .addNPC(5839, HeadE.CALM_TALK, "You are excused. And you are welcome.")
+                .addPlayer(HeadE.CONFUSED, "Excuse me...er...thanks.")
+                .addNPC(5839, HeadE.CALM_TALK, "We are the Order of the Dagon'hai.")
+                .addPlayer(HeadE.CONFUSED, "Who are you?")
+                .addNPC(5839, HeadE.CALM_TALK, "Through my magic, I can see a short way into the future.")
+                .addPlayer(HeadE.CONFUSED, "How do you seem to know what I'm going to say? ...Er...oh.")
+                .addNPC(5839, HeadE.CALM_TALK, "These are the Tunnels of Chaos.")
+                .addPlayer(HeadE.CONFUSED, "What is...uh...aha! I'm not going to ask that. So you got it wrong!")
+                .addNPC(5839, HeadE.CALM_TALK, "Indeed. You are very clever.")
+                .addPlayer(HeadE.CHEERFUL, "So I won!")
+                .addNPC(5839, HeadE.CALM_TALK, "Yes.")
+                .addPlayer(HeadE.CONFUSED, "So, what is this place?")
+                .addPlayer(HeadE.FRUSTRATED, "I mean...Argh! How do you do that?")
+                .addNPC(5839, HeadE.CALM_TALK, "I can tell that your mind is not suited to the paradoxicalities of precognition.")
+                .addPlayer(HeadE.CONFUSED, "Why what does what now?")
+                .addNPC(5839, HeadE.CALM_TALK, "You get confused very easily.")
+                .addPlayer(HeadE.CALM_TALK, "I knew that.")
+                .addNPC(5839, HeadE.CALM_TALK, "Of course you did. Speak to one of my order here. They will be able to explain in a manner more suited to your understanding.")
+                .addNPC(5839, HeadE.CALM_TALK, "You are welcome, " + e.getPlayer().getDisplayName() + ". There is a bed around here if you wish.")
+                .addPlayer(HeadE.CHEERFUL, "Thanks. My name's " + e.getPlayer().getDisplayName() + ", by the w...uh...okay, I think I need to lie down."));
+    });
+
     public static ObjectClickHandler handleRifts = new ObjectClickHandler(new Object[] { 65203 }, e -> {
             if (e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
                 e.getPlayer().sendMessage("You cannot enter the rift while you're under attack.");
@@ -131,7 +262,7 @@ public class ChaosTunnels {
         _63(Tile.of(3143, 5443, 0), Tile.of(3155, 5449, 0)),
         _64(Tile.of(3307, 5496, 0), Tile.of(3317, 5496, 0)),
         _65(Tile.of(3318, 5481, 0), Tile.of(3322, 5480, 0)),
-        TUNNELS_OF_CHAOS(Tile.of(3326, 5469, 0), Tile.of(3159, 5208, 0), true),
+        TUNNELS_OF_CHAOS(Tile.of(3326, 5469, 0), Tile.of(3159, 5208, 0)),
         CHAOS_ALTAR(Tile.of(3152, 5233, 0), Tile.of(2282, 4837, 0)),
         BORK(Tile.of(3142, 5545, 0), Tile.of(3115, 5528, 0), true);
         private static Map<Integer, PortalPair> MAPPING = new Int2ObjectOpenHashMap<>();
@@ -164,6 +295,12 @@ public class ChaosTunnels {
         public void travel(Player player, GameObject fromPortal) {
             if (surokLocked && !player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK, "to travel through this portal."))
                 return;
+            if (this == _16 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 2) {
+                //checkpoint 1 fire giant cutscene
+            }
+            if (this == _60 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 3) {
+                //checkpoint 2 wolf cutscene
+            }
             if (this == BORK) {
                 if (player.getDailyB("borkKilled")) {
                     player.sendMessage("You have already killed Bork today.");
@@ -171,11 +308,15 @@ public class ChaosTunnels {
                 }
                 boolean entering = tile1.getTileHash() == fromPortal.getTile().getTileHash();
                 if (entering)
-                    player.getControllerManager().startController(new BorkController());
+                    player.getControllerManager().startController(new BorkController(player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 4));
                 return;
             }
             if (this == CHAOS_ALTAR && !RunecraftingAltar.checkItems(player, RunecraftingAltar.Altar.CHAOS)) {
                 player.sendMessage("The portal doesn't respond without a tiara or talisman. This must be the Chaos Altar entrance.");
+                return;
+            }
+            if (this == TUNNELS_OF_CHAOS && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) < 2) {
+                player.sendMessage("The portal is unresponsive.");
                 return;
             }
             player.setNextSpotAnim(new SpotAnim(110, 10, 96));

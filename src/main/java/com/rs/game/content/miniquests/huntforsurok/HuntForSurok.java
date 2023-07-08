@@ -6,10 +6,15 @@ import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.miniquest.MiniquestHandler;
 import com.rs.engine.miniquest.MiniquestOutline;
 import com.rs.engine.quest.Quest;
+import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.npcs.AnnaJones;
 import com.rs.game.content.skills.mining.Pickaxe;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.model.entity.player.managers.EmotesManager;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -24,7 +29,7 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public int getCompletedStage() {
-		return 6;
+		return 4;
 	}
 
 	@Override
@@ -32,8 +37,8 @@ public class HuntForSurok extends MiniquestOutline {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case 0 -> {
-				lines.add("I can start this miniquest by speaking to the Zamorakian mage in the");
-				lines.add("wilderness north of Edgeville.");
+				lines.add("I can start this miniquest by speaking to Surok after mining the");
+				lines.add("statue of Saradomin to gain access to the Tunnels of Chaos.");
 				lines.add("");
 			}
 			case 4 -> {
@@ -54,10 +59,12 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public void updateStage(Player player) {
-		if (player.getMiniquestManager().getStage(Miniquest.HUNT_FOR_SUROK) > 1) {
-			player.getVars().setVarBit(4311, 1);
-			player.getVars().setVarBit(4314, 2);
+		if (player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) >= 1) {
+			player.getVars().saveVarBit(4312, 2);
+			player.getVars().saveVarBit(4314, 2);
 		}
+		if (player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) >= 2)
+			player.getVars().saveVarBit(4311, 1);
 	}
 
 	public static ObjectClickHandler handleStairsOutOfStatue = new ObjectClickHandler(new Object[] { 23074 }, e -> {
@@ -104,7 +111,39 @@ public class HuntForSurok extends MiniquestOutline {
 					return true;
 				});
 			}
-			case "Enter" -> e.getPlayer().useStairs(Tile.of(3179, 5191, 0));
+			case "Enter" -> {
+				if (e.getPlayer().getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 1) {
+					e.getPlayer().playCutscene(cs -> {
+						cs.setEndTile(Tile.of(3179, 5191, 0));
+						cs.fadeIn(5);
+						cs.action(() -> e.getPlayer().setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 2));
+						cs.dynamicRegion(Tile.of(3179, 5191, 0), 393, 649, 5, 5, false);
+						cs.npcCreate("surok", 7002, 21, 24, 0);
+						cs.npcCreate("aegis", 5840, 14, 19, 0);
+						cs.playerMove(21, 18, Entity.MoveType.TELE);
+						cs.npcFaceDir("aegis", Direction.EAST);
+						cs.camPos(27, 19, 7712);
+						cs.camLook(15, 16, 0);
+						cs.camPos(26, 25, 3087, 0, 10);
+						cs.fadeOut(5);
+						cs.npcTalk("aegis", "Goodness me! It's Lord Magis!");
+						cs.npcWalk("surok", 15, 16);
+						cs.delay(4);
+						cs.npcTalk("surok", "I must escape!");
+						cs.delay(2);
+						cs.npcSpotAnim("surok", new SpotAnim(110, 0, 96));
+						cs.delay(0);
+						cs.npcDestroy("surok");
+						cs.delay(5);
+						cs.fadeIn(5);
+						cs.camPosReset();
+						cs.returnPlayerFromInstance();
+						cs.fadeOut(5);
+					});
+					return;
+				}
+				e.getPlayer().useStairs(Tile.of(3179, 5191, 0));
+			}
 		}
 	});
 }

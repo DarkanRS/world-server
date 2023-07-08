@@ -27,11 +27,15 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 
 public class BorkController extends InstancedController {
-	public BorkController() {
+	private boolean quest;
+
+	public BorkController(boolean quest) {
 		super(Instance.of(ChaosTunnels.PortalPair.BORK.tile1, 8, 8).setEntranceOffset(new int[] { 43, 24, 0 }));
+		this.quest = quest;
 	}
 
 	@Override
@@ -72,8 +76,9 @@ public class BorkController extends InstancedController {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 29537) {
-			player.setNextTile(getInstance().getReturnTo());
 			player.getControllerManager().forceStop();
+			player.setNextSpotAnim(new SpotAnim(110, 10, 96));
+			player.useStairs(-1, getInstance().getReturnTo(), 2, 3);
 		}
 		return true;
 	}

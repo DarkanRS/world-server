@@ -24,6 +24,18 @@ public class AnnaJones extends Conversation {
 
     public AnnaJones(Player player) {
         super(player);
+        if (player.isQuestComplete(Quest.WHAT_LIES_BELOW) && player.getVars().getVarBit(3524) == 1) {
+            addNPC(ID, HeadE.CHEERFUL, "It's so exciting!");
+            addPlayer(HeadE.CONFUSED, "What is?");
+            addNPC(ID, HeadE.CHEERFUL, "Surok is here! He's looking at the tunnel right now! Gosh, isn't this the best thing ever?");
+            addPlayer(HeadE.AMAZED, "Surok is out here?");
+            addNPC(ID, HeadE.CHEERFUL, "Oh, yes. He's just over there. As soon as he's finished looking at the tunnel, I need to speak with him about getting paid!");
+            addPlayer(HeadE.AMAZED, "Oh - perhaps I should speak to him first.");
+            addNPC(ID, HeadE.CHEERFUL, "By all means, go ahead.");
+            addPlayer(HeadE.CHEERFUL, "Thanks.");
+            create();
+            return;
+        }
         if (player.getQuestStage(Quest.WHAT_LIES_BELOW) >= 4 && !player.getBool("annaTunnelTalk")) {
             addNPC(ID, HeadE.CHEERFUL, "Ah, hello " + player.getDisplayName() + "! Here is a bronze pickaxe.", () -> player.getInventory().addItemDrop(Pickaxe.BRONZE.getItemId(), 1));
             addNPC(ID, HeadE.CHEERFUL, "My employer, Surok Magis, sent word to me that you may come to use the tunnel. You will need something to help you get in there. The pickaxe I've given to you should help.");

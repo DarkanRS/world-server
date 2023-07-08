@@ -4322,4 +4322,7 @@ public class Player extends Entity {
     public void setQuestStage(Quest quest, int stage) {
 		getQuestManager().setStage(quest, stage);
     }
+	public void setMiniquestStage(Miniquest quest, int stage) {
+		getMiniquestManager().setStage(quest, stage);
+	}
 }

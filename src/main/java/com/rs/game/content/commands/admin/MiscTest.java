@@ -29,6 +29,7 @@ import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.Statement;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
@@ -49,7 +50,9 @@ import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -58,6 +61,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
+import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -110,14 +114,25 @@ public class MiscTest {
 
 	@ServerStartupEvent
 	public static void loadCommands() {
-
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			p.getControllerManager().startController(new PlayerVsKingFight());
-			//p.getInventory().addItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", "Test Key").addMetaData("trophyBoneItems", new ArrayList<>(List.of(new Item(4151, 1).addMetaData("combatCharges", 500), new Item(4151, 1), new Item(4151, 1), new Item(1044, 1), new Item(995, 50000)))));
+
+		});
+
+		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> {
+			p.getControllerManager().startController(new InstancedController(Instance.of(p.getTile(), Integer.valueOf(args[2]), Integer.valueOf(args[3]), false)) {
+				@Override
+				public void onBuildInstance() {
+					getInstance().copyMapAllPlanes(Integer.valueOf(args[0]), Integer.valueOf(args[1]))
+							.thenAccept(b -> player.playCutscene(cs -> getInstance().teleportLocal(player, (Integer.valueOf(args[2]) * 8) / 2, (Integer.valueOf(args[3]) * 8) / 2, 0)));
+				}
+
+				@Override
+				public void onDestroyInstance() { }
+			});
 		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {

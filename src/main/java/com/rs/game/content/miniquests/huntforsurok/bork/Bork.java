@@ -69,6 +69,7 @@ public class Bork extends NPC {
 			player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(693);
 			WorldTasks.schedule(8, () -> {
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
+				//It looks like Surok managed to escape during the fight. I wonder what he is up to now...
 				//player.startConversation(new DagonHai(), 7137);
 				setNextAnimation(new Animation(getCombatDefinitions().getDeathEmote()));
 				WorldTasks.schedule(4, () -> {
