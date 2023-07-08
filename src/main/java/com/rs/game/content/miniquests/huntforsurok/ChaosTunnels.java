@@ -8,8 +8,11 @@ import com.rs.engine.miniquest.Miniquest;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.bork.Bork;
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
+import com.rs.game.content.quests.whatliesbelow.npcs.SurokMagis;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
+import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.SpotAnim;
@@ -295,11 +298,76 @@ public class ChaosTunnels {
         public void travel(Player player, GameObject fromPortal) {
             if (surokLocked && !player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK, "to travel through this portal."))
                 return;
+            player.sendMessage("Travelling: " + this + " " + player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK));
             if (this == _16 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 2) {
-                //checkpoint 1 fire giant cutscene
+                player.playCutscene(cs -> {
+                    cs.setEndTile(Tile.of(3262, 5552, 0));
+                    cs.fadeIn(5);
+                    cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 3));
+                    cs.dynamicRegion(tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1, 405, 690, 5, 5);
+                    cs.npcCreate("surok", 7002, 13, 16, 0);
+                    cs.npcCreate("firegiant1", 110, 10, 16, 0, n -> n.setRandomWalk(false));
+                    cs.npcCreate("firegiant2", 110, 15, 17, 0, n -> n.setRandomWalk(false));
+                    cs.playerMove(17, 16, Entity.MoveType.TELE);
+                    cs.npcFaceTile("firegiant1", 13, 16);
+                    cs.npcFaceTile("firegiant2", 13, 16);
+                    cs.camPos(13, 6, 11338);
+                    cs.camLook(13, 16, 0);
+                    cs.camPos(13, 6, 3722, 0, 5);
+                    cs.fadeOut(5);
+                    cs.npcTalk("surok", "Pathetic creatures.");
+                    cs.npcSync("surok", 6098, 1009);
+                    cs.npcFaceTile("surok", 10, 16);
+                    cs.delay(1);
+                    cs.npcAnim("surok", -1);
+                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant1"), 1010, 5, 15, 0, 0.8, 10, 10, proj -> {
+                        cs.getNPC("firegiant1").applyHit(Hit.magic(cs.getNPC("surok"), cs.getNPC("firegiant1").getHitpoints()));
+                        cs.getNPC("firegiant1").spotAnim(1011);
+                    }));
+                    cs.delay(5);
+                    cs.npcTalk("firegiant2", "Grraaaah!");
+                    cs.npcSync("surok", 6098, 1009);
+                    cs.npcFaceTile("surok", 15, 17);
+                    cs.delay(1);
+                    cs.npcTalk("surok", "Feel the power of Zamorak!");
+                    cs.npcAnim("surok", -1);
+                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant2"), 1010, 5, 15, 0, 0.8, 10, 10, proj -> {
+                        cs.getNPC("firegiant2").applyHit(Hit.magic(cs.getNPC("surok"), cs.getNPC("firegiant2").getHitpoints()));
+                        cs.getNPC("firegiant2").spotAnim(1011);
+                    }));
+                    cs.delay(5);
+                    cs.npcWalk("surok", 18, 8);
+                    cs.delay(5);
+                    cs.fadeIn(5);
+                    cs.returnPlayerFromInstance();
+                    cs.fadeOut(5);
+                });
             }
             if (this == _60 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 3) {
-                //checkpoint 2 wolf cutscene
+                player.playCutscene(cs -> {
+                    cs.setEndTile(Tile.of(3262, 5552, 0));
+                    cs.fadeIn(5);
+                    //cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4));
+                    cs.dynamicRegion(tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1, 396, 684, 5, 5);
+                    cs.npcCreate("surok", 7002, 15, 20, 0);
+                    cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4));
+                    cs.playerMove(23, 23, Entity.MoveType.TELE);
+                    cs.npcFaceTile("surok", 19, 22);
+                    cs.camLook(18, 22, 0);
+                    cs.camPos(25, 5, 12000);
+                    cs.camPos(24, 28, 5125, 0, 5);
+                    cs.fadeOut(5);
+                    cs.playerMove(19, 22, Entity.MoveType.WALK);
+                    cs.delay(3);
+                    cs.playerFaceEntity("surok");
+                    cs.dialogue(new Dialogue().addPlayer(HeadE.FRUSTRATED, "Surok! Give yourself up. You can't get away."), true);
+
+
+                    cs.delay(5);
+                    cs.fadeIn(5);
+                    cs.returnPlayerFromInstance();
+                    cs.fadeOut(5);
+                });
             }
             if (this == BORK) {
                 if (player.getDailyB("borkKilled")) {
