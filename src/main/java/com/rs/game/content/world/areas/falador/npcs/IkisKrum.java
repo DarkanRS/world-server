@@ -32,7 +32,7 @@ public class IkisKrum extends Conversation {
 
 	public static NPCClickHandler IkisKrum = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-			//Start Conversation
+			
 			case "Talk-to" -> e.getPlayer().startConversation(new IkisKrum(e.getPlayer()));
 		}
 	});

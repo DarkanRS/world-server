@@ -57,6 +57,7 @@ import com.rs.game.content.pets.Pet;
 import com.rs.game.content.pets.PetManager;
 import com.rs.game.content.skills.construction.House;
 import com.rs.game.content.skills.cooking.Brewery;
+import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.dungeoneering.DungManager;
 import com.rs.game.content.skills.dungeoneering.DungeonRewards.HerbicideSetting;
 import com.rs.game.content.skills.farming.FarmPatch;
@@ -1245,17 +1246,19 @@ public class Player extends Entity {
 		controllerManager.login(); // checks what to do on login after welcome
 		//unlock robust glass
 		getVars().setVarBit(4322, 1);
+		//unlock ability to use elemental and catalytic runes
+		getVars().setVarBit(5493, 1);
 		// screen
 		if (machineInformation != null)
 			machineInformation.sendSuggestions(this);
 		notes.init();
 
-		long farmingTicksMissed = getTicksSinceLastLogout() / FarmPatch.FARMING_TICK;
-		if (farmingTicksMissed > 768)
-			farmingTicksMissed = 768;
-		if (farmingTicksMissed <= 0)
-			farmingTicksMissed = 0;
-		for (long i = 0;i < farmingTicksMissed;i++)
+		double farmingTicksMissed = Math.floor(getTicksSinceLastLogout() / FarmPatch.FARMING_TICK);
+		if (farmingTicksMissed > 768.0)
+			farmingTicksMissed = 768.0;
+		if (farmingTicksMissed < 1.0)
+			farmingTicksMissed = 0.0;
+		for (int i = 0;i < farmingTicksMissed;i++)
 			tickFarming();
 
 		for (FarmPatch p : getPatches().values())
@@ -1285,10 +1288,10 @@ public class Player extends Entity {
 		PluginManager.handle(new EnterChunkEvent(this, getChunkId()));
 	}
 
-	private int getTicksSinceLastLogout() {
+	private double getTicksSinceLastLogout() {
 		if (timeLoggedOut <= 0)
 			return 0;
-		return (int) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
+		return (double) ((System.currentTimeMillis() - timeLoggedOut) / 600L);
 	}
 
 	public void processDailyTasks() {
@@ -2230,12 +2233,12 @@ public class Player extends Entity {
 		return Tile.of(Tile.of(2745, 3474, 0), 4);
 	}
 
-	public void sendItemsOnDeath(Player killer, boolean dropItems) {
+	public void sendPVEItemsOnDeath(Player killer, boolean dropItems) {
 		Integer[][] slots = GraveStone.getItemSlotsKeptOnDeath(this, true, dropItems, prayer.isProtectingItem());
-		sendItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
+		sendPVEItemsOnDeath(killer, Tile.of(getTile()), Tile.of(getTile()), true, slots);
 	}
 
-	public void sendItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
+	public void sendPVEItemsOnDeath(Player killer, Tile deathTile, Tile respawnTile, boolean noGravestone, Integer[][] slots) {
 		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
 			return;
 		auraManager.removeAura();
@@ -2273,9 +2276,9 @@ public class Player extends Entity {
 				new GraveStone(this, deathTile, items[1]);
 	}
 
-	public void sendItemsOnDeath(Player killer) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
-			return;
+	public void sendPVPItemsOnDeath(Player killer) {
+//		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
+//			return;
 		if (killer != null && !killer.getUsername().equals(getUsername()) && killer.isIronMan())
 			killer = null;
 		auraManager.removeAura();
@@ -2309,73 +2312,44 @@ public class Player extends Entity {
 		for (Item item : keptItems)
 			if (item.getId() != 1)
 				getInventory().addItem(item);
-		for (Item item : containedItems)
-			if (ItemConstants.isTradeable(item))
-				World.addGroundItem(item, getLastTile(), killer == null ? this : killer, true, 60);
+		List<Item> droppedItems = new ArrayList<>();
+		for (Item item : containedItems) {
+			if (ItemConstants.isTradeable(item) || item.getId() == 24444)
+				droppedItems.add(item);
+				//World.addGroundItem(item, getLastTile(), killer == null ? this : killer, true, 60);
 			else {
 				ItemDegrade deg = null;
-				for(ItemDegrade d : ItemDegrade.values())
+				for (ItemDegrade d : ItemDegrade.values()) {
 					if (d.getDegradedId() == item.getId() || d.getItemId() == item.getId()) {
 						deg = d;
 						break;
 					}
+				}
 				if (deg != null && deg.getBrokenId() != -1) {
 					Item broken = new Item(deg.getBrokenId(), item.getAmount());
-					if (!ItemConstants.isTradeable(broken) && (killer != null && killer != this)) {
-						Item money = new Item(995, 1);
-						money.setAmount(item.getDefinitions().getValue());
-						World.addGroundItem(money, getLastTile(), killer == null ? this : killer, true, 60);
-					} else
-						World.addGroundItem(broken, getLastTile(), killer == null ? this : killer, true, 60);
-				} else {
-					Item money = new Item(995, 1);
-					money.setAmount(item.getDefinitions().getValue());
-					World.addGroundItem(money, getLastTile(), killer == null ? this : killer, true, 60);
-				}
+					droppedItems.add((!ItemConstants.isTradeable(broken) && (killer != null && killer != this)) ? new Item(995, item.getDefinitions().getValue()) : broken);
+				} else
+					droppedItems.add(new Item(995, item.getDefinitions().getValue()));
 			}
-		getAppearance().generateAppearanceData();
-	}
-
-
-	public void sendOSItemsOnDeath(Player killer) {
-		if (hasRights(Rights.ADMIN) || Settings.getConfig().isDebug())
-			return;
-		auraManager.removeAura();
-		CopyOnWriteArrayList<Item> containedItems = new CopyOnWriteArrayList<>();
-		for (int i = 0; i < 14; i++)
-			if (equipment.getItem(i) != null && equipment.getItem(i).getId() != -1 && equipment.getItem(i).getAmount() != -1)
-				containedItems.add(new Item(equipment.getItem(i).getId(), equipment.getItem(i).getAmount()));
-		for (int i = 0; i < 28; i++)
-			if (inventory.getItem(i) != null && inventory.getItem(i).getId() != -1 && inventory.getItem(i).getAmount() != -1)
-				containedItems.add(new Item(getInventory().getItem(i).getId(), getInventory().getItem(i).getAmount()));
-		if (containedItems.isEmpty())
-			return;
-		int keptAmount = 0;
-
-		keptAmount = hasSkull() ? 0 : 3;
-		if (prayer.isProtectingItem())
-			keptAmount++;
-
-		CopyOnWriteArrayList<Item> keptItems = new CopyOnWriteArrayList<>();
-		Item lastItem = new Item(1, 1);
-		for (int i = 0; i < keptAmount; i++) {
-			for (Item item : containedItems) {
-				int price = item.getDefinitions().getValue();
-				if (price >= lastItem.getDefinitions().getValue())
-					lastItem = item;
-			}
-			this.sendMessage(lastItem.getDefinitions().getName() + ": " + lastItem.getDefinitions().getValue());
-			keptItems.add(lastItem);
-			containedItems.remove(lastItem);
-			lastItem = new Item(1, 1);
 		}
-		inventory.reset();
-		equipment.reset();
-		for (Item item : keptItems)
-			if (item.getId() != 1)
-				getInventory().addItem(item);
-		for (Item item : containedItems)
-			World.addGroundItem(item, getLastTile(), this, false, 60);
+		if (killer == null) {
+			for (Item item : droppedItems)
+				World.addGroundItem(item, getLastTile(), this, true, 60);
+		} else {
+			List<Item> foodItems = new ArrayList<>();
+			List<Item> trophyItems = new ArrayList<>();
+			for (Item item : droppedItems) {
+				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()) || item.getId() == 24444)
+					foodItems.add(item);
+				else
+					trophyItems.add(item);
+			}
+			if (!trophyItems.isEmpty())
+				World.addGroundItem(new Item(24444, 1).addMetaData("trophyBoneOriginator", getDisplayName()).addMetaData("trophyBoneItems", trophyItems), getLastTile(), killer, true, 60);
+			for (Item item : foodItems)
+				World.addGroundItem(item, getLastTile(), killer, true, 60);
+		}
+		getAppearance().generateAppearanceData();
 	}
 
 	public void increaseKillCount(Player killed) {
@@ -2419,6 +2393,14 @@ public class Player extends Entity {
 
 	public void useStairs(Tile dest) {
 		useStairs(-1, dest, 1, 2);
+	}
+
+	public int getQuestStage(Quest quest) {
+		return getQuestManager().getStage(quest);
+	}
+
+	public int getMiniquestStage(Miniquest quest) {
+		return getMiniquestManager().getStage(quest);
 	}
 
 	public void useStairs(int animId, Tile dest) {
@@ -3490,6 +3472,13 @@ public class Player extends Entity {
 		return ipAddresses;
 	}
 
+	public int getXInScene() {
+		return getXInScene(getSceneBaseChunkId());
+	}
+
+	public int getYInScene() {
+		return getYInScene(getSceneBaseChunkId());
+	}
 	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		int last = -1;
@@ -3524,7 +3513,7 @@ public class Player extends Entity {
 		return getInventory().containsItem(id, 1) || getEquipment().containsOneItem(id) || getBank().containsItem(id, 1);
 	}
 
-	public boolean containsItems(int... ids) {
+	public boolean containsAnyItems(int... ids) {
 		for (int id : ids)
 			if (containsItem(id))
 				return true;
@@ -4279,6 +4268,13 @@ public class Player extends Entity {
 		return getMiniquestManager().isComplete(quest, actionString);
 	}
 
+	public boolean isQuestStarted(Quest quest) {
+		return getQuestStage(quest) > 0;
+	}
+
+	public boolean isMiniquestStarted(Miniquest quest) {
+		return getMiniquestStage(quest) > 0;
+	}
 	public boolean isMiniquestComplete(Miniquest quest) {
 		return isMiniquestComplete(quest, null);
 	}
@@ -4321,5 +4317,12 @@ public class Player extends Entity {
 
 	public Set<Integer> getMapChunksNeedInit() {
 		return mapChunksNeedInit;
+	}
+
+    public void setQuestStage(Quest quest, int stage) {
+		getQuestManager().setStage(quest, stage);
+    }
+	public void setMiniquestStage(Miniquest quest, int stage) {
+		getMiniquestManager().setStage(quest, stage);
 	}
 }

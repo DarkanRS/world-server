@@ -347,11 +347,6 @@ public class ShieldOfArrav extends QuestOutline {
         saveStageToPlayerSave(p, questStage);
     }
 
-    public static void setStage(Player p, int questStage, boolean updateJournal) {
-        p.getQuestManager().setStage(Quest.SHIELD_OF_ARRAV, questStage, updateJournal);
-        saveStageToPlayerSave(p, questStage);
-    }
-
     public static void setGang(Player p, String gang) {//"Phoenix", "Black", "None"
 		p.save("ThievingGang", gang);
     }
@@ -359,7 +354,27 @@ public class ShieldOfArrav extends QuestOutline {
     @Override
     public void complete(Player player) {
         player.getInventory().addCoins(1200);
-        getQuest().sendQuestCompleteInterface(player, 11164, "Speak to Historian Minas", "at the Varrock Museum for a lamp", "1200gp");
+        sendQuestCompleteInterface(player, 11164);
+    }
+
+    @Override
+    public String getStartLocationDescription() {
+        return "Talk to Reldo in the Varrock palace library.";
+    }
+
+    @Override
+    public String getRequiredItemsString() {
+        return "20 coins.";
+    }
+
+    @Override
+    public String getCombatInformationString() {
+        return "You will need to defeat a level 1 enemy.";
+    }
+
+    @Override
+    public String getRewardsString() {
+        return "1,200 coins";
     }
 
     public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}, e -> {

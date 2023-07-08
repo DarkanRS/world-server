@@ -1,0 +1,26 @@
+{
+  "name": "inventory91",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 2355,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 442,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1714,
+        "amount": 10
+      }
+    }
+  ]
+}

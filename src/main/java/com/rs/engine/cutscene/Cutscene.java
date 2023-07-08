@@ -79,10 +79,10 @@ public abstract class Cutscene {
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", true);
 	}
 
-	public void constructArea(final Tile returnTile, final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks) {
+	public void constructArea(final Tile returnTile, final int baseChunkX, final int baseChunkY, final int widthChunks, final int heightChunks, final boolean copyNpcs) {
 		constructingRegion = true;
 		Instance old = instance;
-		instance = Instance.of(returnTile, widthChunks, heightChunks);
+		instance = Instance.of(returnTile, widthChunks, heightChunks, copyNpcs);
 		instance.copyMapAllPlanes(baseChunkX, baseChunkY).thenAccept(e -> {
 			instance.teleportTo(player);
 			constructingRegion = false;
@@ -263,8 +263,12 @@ public abstract class Cutscene {
 		actions.add(new DialogueAction(dialogue, pause ? 1 : -1, pause));
 	}
 	
+	public void dynamicRegion(Tile returnTile, int baseX, int baseY, int widthChunks, int heightChunks, boolean copyNpcs) {
+		actions.add(new ConstructMapAction(returnTile, baseX, baseY, widthChunks, heightChunks, copyNpcs));
+	}
+
 	public void dynamicRegion(Tile returnTile, int baseX, int baseY, int widthChunks, int heightChunks) {
-		actions.add(new ConstructMapAction(returnTile, baseX, baseY, widthChunks, heightChunks));
+		dynamicRegion(returnTile, baseX, baseY, widthChunks, heightChunks, false);
 	}
 	
 	public void fadeIn(int delay) {
@@ -368,7 +372,7 @@ public abstract class Cutscene {
 	}
 
 	public void npcSpotAnim(String key, SpotAnim anim, int delay) {
-		actions.add(new NPCGraphicAction(key, anim, delay));
+		actions.add(new NPCSpotAnimAction(key, anim, delay));
 	}
 	
 	public void npcSpotAnim(String key, SpotAnim anim) {
@@ -385,6 +389,15 @@ public abstract class Cutscene {
 	
 	public void npcAnim(String key, Animation anim, int delay) {
 		actions.add(new NPCAnimationAction(key, anim, delay));
+	}
+
+	public void npcSync(String key, int anim, int spotAnim, int delay) {
+		actions.add(new NPCAnimationAction(key, new Animation(anim), -1));
+		actions.add(new NPCSpotAnimAction(key, new SpotAnim(spotAnim), delay));
+	}
+
+	public void npcSync(String key, int anim, int spotAnim) {
+		npcSync(key, anim, spotAnim, -1);
 	}
 	
 	public void npcAnim(String key, Animation anim) {
@@ -579,5 +592,12 @@ public abstract class Cutscene {
 
 	public Instance getInstance() {
 		return instance;
+	}
+
+	public void returnPlayerFromInstance() {
+		action(() -> {
+			if (instance != null)
+				player.setNextTile(getInstance().getReturnTo());
+		});
 	}
 }

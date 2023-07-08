@@ -31,7 +31,7 @@ public class Cassie extends Conversation {
 
 	public static NPCClickHandler Cassie = new NPCClickHandler(new Object[]{ npcId }, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Cassie(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "cassies_shield_shop");
 		}

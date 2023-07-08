@@ -1,0 +1,59 @@
+{
+  "name": "Hamab's Crafting Emporium",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1755,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1592,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1597,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4020,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1733,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1734,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 1759,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 11065,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    1437
+  ]
+}

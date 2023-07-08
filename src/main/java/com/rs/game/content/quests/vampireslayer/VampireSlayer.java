@@ -98,7 +98,27 @@ public class VampireSlayer extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.ATTACK, 4825);
-		getQuest().sendQuestCompleteInterface(player, STAKE, "4825 Attack XP");
+		sendQuestCompleteInterface(player, STAKE);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Morgan in Draynor Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Beer (or 2 coins to purchase a pint).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 28 enemy.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "4,825 Attack XP";
 	}
 
 	public static NPCInteractionDistanceHandler bartenderBlueMoonDistance = new NPCInteractionDistanceHandler(733, (player, npc) -> 5);

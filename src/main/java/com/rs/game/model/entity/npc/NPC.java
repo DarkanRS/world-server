@@ -1049,8 +1049,9 @@ public class NPC extends Entity {
 		return forceAgressive;
 	}
 
-	public void setForceAgressive(boolean forceAgressive) {
+	public NPC setForceAgressive(boolean forceAgressive) {
 		this.forceAgressive = forceAgressive;
+		return this;
 	}
 
 	public void setForceAggroDistance(int forceAggroDistance) {

@@ -794,8 +794,8 @@ public class SpecialAttacks {
         //Absorbing essence into it? (16962 43)
         addSpec(new int[] { 24455 }, new SpecialAttack(Type.MELEE, 20, (player, target) -> {
             player.sync(16961, 44);
-            delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.2));
-            return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
+            delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.5));
+            return 5;
         }));
     }
 

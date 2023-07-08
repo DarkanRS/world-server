@@ -1,12 +1,24 @@
 {
   "name": "Moon Clan General Store",
-  "generalStore": true,
+  "generalStore": false,
   "buyOnly": false,
   "currency": 995,
   "items": [
     {
       "item": {
-        "id": 1923,
+        "id": 1931,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1935,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1735,
         "amount": 10
       }
     },
@@ -18,13 +30,19 @@
     },
     {
       "item": {
-        "id": 1931,
-        "amount": 30
+        "id": 1923,
+        "amount": 10
       }
     },
     {
       "item": {
         "id": 1887,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 590,
         "amount": 10
       }
     },
@@ -42,33 +60,24 @@
     },
     {
       "item": {
-        "id": 1935,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 550,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
         "id": 9003,
         "amount": 10
       }
     },
     {
       "item": {
-        "id": 1735,
+        "id": 229,
         "amount": 10
       }
     },
     {
       "item": {
-        "id": 590,
-        "amount": 10
+        "id": 15362,
+        "amount": 20
       }
     }
+  ],
+  "npcIds": [
+    4516
   ]
 }

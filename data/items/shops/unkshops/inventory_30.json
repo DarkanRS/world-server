@@ -1,12 +1,24 @@
 {
-  "name": "Inventory 30",
+  "name": "inventory_30",
   "generalStore": false,
   "buyOnly": false,
-  "currency": -1,
+  "currency": 995,
   "items": [
     {
       "item": {
+        "id": 13431,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
         "id": 303,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 305,
         "amount": 10
       }
     },
@@ -25,18 +37,12 @@
     {
       "item": {
         "id": 311,
-        "amount": 1000
-      }
-    },
-    {
-      "item": {
-        "id": 301,
         "amount": 10
       }
     },
     {
       "item": {
-        "id": 13431,
+        "id": 301,
         "amount": 10
       }
     },
@@ -60,31 +66,13 @@
     },
     {
       "item": {
-        "id": 327,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 345,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
         "id": 321,
         "amount": 0
       }
     },
     {
       "item": {
-        "id": 335,
-        "amount": 0
-      }
-    },
-    {
-      "item": {
-        "id": 349,
+        "id": 325,
         "amount": 0
       }
     },
@@ -96,7 +84,49 @@
     },
     {
       "item": {
+        "id": 335,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 342,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 346,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 350,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 354,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
         "id": 359,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 363,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 371,
         "amount": 0
       }
     },
@@ -108,7 +138,7 @@
     },
     {
       "item": {
-        "id": 371,
+        "id": 383,
         "amount": 0
       }
     }

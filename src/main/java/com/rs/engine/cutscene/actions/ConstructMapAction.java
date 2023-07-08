@@ -26,19 +26,21 @@ public class ConstructMapAction extends CutsceneAction {
 
 	private Tile returnTile;
 	private int baseChunkX, baseChunkY, widthChunks, heightChunks;
+	private boolean copyNpcs;
 
-	public ConstructMapAction(Tile returnTile, int baseChunkX, int baseChunkY, int widthChunks, int heightChunks) {
+	public ConstructMapAction(Tile returnTile, int baseChunkX, int baseChunkY, int widthChunks, int heightChunks, boolean copyNpcs) {
 		super(null, 1);
 		this.returnTile = returnTile;
 		this.baseChunkX = baseChunkX;
 		this.baseChunkY = baseChunkY;
 		this.widthChunks = widthChunks;
 		this.heightChunks = heightChunks;
+		this.copyNpcs = copyNpcs;
 	}
 
 	@Override
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
-		scene.constructArea(returnTile, baseChunkX, baseChunkY, widthChunks, heightChunks);
+		scene.constructArea(returnTile, baseChunkX, baseChunkY, widthChunks, heightChunks, copyNpcs);
 	}
 }

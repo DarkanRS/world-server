@@ -1,0 +1,110 @@
+{
+  "name": "Gift Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 590,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2866,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 2878,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 314,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 1351,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 954,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1931,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 1925,
+        "amount": 30
+      }
+    },
+    {
+      "item": {
+        "id": 2347,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12561,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12563,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12565,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12567,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12568,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12559,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12570,
+        "amount": 0
+      }
+    }
+  ]
+}

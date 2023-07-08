@@ -32,7 +32,7 @@ public class Anton extends Conversation {
 
 	public static NPCClickHandler Anton = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Anton(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "warrior_guild_armory"); //TODO Guild Armoury: Stabbing Weapons / Slashing Weapons / Crushing Weapons / Armour separation
 		}

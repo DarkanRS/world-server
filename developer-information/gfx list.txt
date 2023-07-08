@@ -888,9 +888,9 @@
 981: Confused Birds above head
 982: Looks like a 'bolt of lightning'(it's black) hitting the ground
 983: Looks like, "low alch" but the GFX is black
-984: Black Vortex above head, Spiked black stars floating downwards
+984: Black Vortex above head, Spiked black stars floating downwards scabaras mage start attack
 985: Black explosion, looks like a bolt spell hit/endGFX
-986: Black Spiked Star falling
+986: Black Spiked Star falling scabaras mage projectile
 987: Scared Swarm floating upwards / Harbie bugs
 988: Scared Swarm/Harpie Bugs, GIANT swarm float upwards and expand
 989: Scared Swarm/Harpie Bugs, regular swarm float upwards and expand

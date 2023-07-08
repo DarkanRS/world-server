@@ -1,0 +1,200 @@
+[
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4230
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4236
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4240
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4230
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4236
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4240
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3153,
+      "y": 4230
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3153,
+      "y": 4237
+    },
+    "comment": "Cockroach drone",
+    "npcId": 7158
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4247
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4255
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4260
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3145,
+      "y": 4264
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4247
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4255
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4260
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3161,
+      "y": 4264
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3153,
+      "y": 4247
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3153,
+      "y": 4255
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3153,
+      "y": 4262
+    },
+    "comment": "Cockroach worker",
+    "npcId": 7159
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3164,
+      "y": 4274
+    },
+    "comment": "Cockroach soldier",
+    "npcId": 7160
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3168,
+      "y": 4277
+    },
+    "comment": "Cockroach soldier",
+    "npcId": 7160
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 3175,
+      "y": 4276
+    },
+    "comment": "Cockroach soldier",
+    "npcId": 7160
+  }
+]

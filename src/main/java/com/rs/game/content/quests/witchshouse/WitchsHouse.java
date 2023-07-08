@@ -326,7 +326,27 @@ public class WitchsHouse extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.HITPOINTS, 6325);
-		getQuest().sendQuestCompleteInterface(player, BALL, "6,325 Constitution XP");
+		sendQuestCompleteInterface(player, BALL);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Harvey, the crying boy west of Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cheese or cheese wheel, leather gloves, some combat equipment and food.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a shapeshifting enemy with forms up to level 49.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "6,325 Constitution XP";
 	}
 
 }

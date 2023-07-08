@@ -29,7 +29,7 @@ public class DrogoDwarf extends Conversation {
 
 	public static NPCClickHandler DrogoDwarf = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new DrogoDwarf(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "drogos_mining_emporium");
 		}

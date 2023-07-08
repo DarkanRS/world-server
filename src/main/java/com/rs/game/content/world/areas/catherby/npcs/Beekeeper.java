@@ -16,7 +16,7 @@ public class Beekeeper extends Conversation {
 
         public static NPCClickHandler Beekeeper = new NPCClickHandler(new Object[]{npcId}, e -> {
         	switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-To" -> e.getPlayer().startConversation(new Beekeeper(e.getPlayer()));
         	}
         });

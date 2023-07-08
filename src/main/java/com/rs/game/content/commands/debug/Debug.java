@@ -157,7 +157,7 @@ public class Debug {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					int stage = Integer.parseInt(args[1]);
-					p.getQuestManager().setStage(quest, stage, true);
+					p.getQuestManager().setStage(quest, stage);
 					p.sendMessage("Set " + quest.name() + " to stage " + stage);
 					return;
 				}

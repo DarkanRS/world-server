@@ -235,6 +235,26 @@ public class MerlinsCrystal extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, EXCALIBUR, "Excalibur");
+		sendQuestCompleteInterface(player, EXCALIBUR);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to King Arthur in Camelot Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bread, a bucket, insect repellent, bat bones.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 23 knight. You might anger a level 70 demon.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Excalibur";
 	}
 }

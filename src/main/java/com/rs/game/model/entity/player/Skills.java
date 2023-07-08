@@ -1061,7 +1061,10 @@ public final class Skills {
 			return;
 		int oldLevel = getLevelForXp(skill);
 		double oldXp = xp[skill];
-		xp[skill] += exp;
+		if ((skill == HITPOINTS || skill == MAGIC) && (player.getInventory().containsItem(12850, 1) || player.getInventory().containsItem(12851, 1)))
+			; //do not add any XP if they are using minigame runes
+		else
+			xp[skill] += exp;
 		int newLevel = getLevelForXp(skill);
 		double newXp = xp[skill];
 		for (int i = 0; i < trackSkills.length; i++)

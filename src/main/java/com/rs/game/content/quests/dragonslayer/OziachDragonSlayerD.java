@@ -134,7 +134,7 @@ public class OziachDragonSlayerD extends Conversation {
 								" of my face.")
 						.addPlayer(HeadE.HAPPY_TALKING, "But how can I defeat the dragon?")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Go talk to the Guildmaster in the Champions' Guild. He'll help ye out if yer so keen on doing a quest. " +
-								"I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER, true);}));
+								"I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER);}));
 				option("I may be a champion, but I don't think I'm, up to dragon-killing yet.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "I may be a champion, but I don't think I'm, up to dragon-killing yet.")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Yes, I can understand that. Yer a coward."));

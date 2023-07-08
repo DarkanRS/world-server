@@ -43,7 +43,7 @@ public class PotteryCrafting  {
 	});
 
 	public static ObjectClickHandler handleOvens = new ObjectClickHandler(new Object[] { "Pottery Oven", "Pottery oven" }, e -> {
-		if (e.getPlayer().containsItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue
+		if (e.getPlayer().containsAnyItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue
 			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_PRODS, FIRED_PRODS, XP, 899, REQS, Constants.CRAFTING, 4));
 		else if (!e.getPlayer().startConversation(new FireUrnD(e.getPlayer())))
 			e.getPlayer().sendMessage("You don't have anything to fire.");

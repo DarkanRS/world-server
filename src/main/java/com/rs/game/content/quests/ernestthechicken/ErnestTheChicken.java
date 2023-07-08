@@ -116,7 +116,29 @@ public class ErnestTheChicken extends QuestOutline {
 		player.getInventory().addCoins(3000);
 		player.getInventory().addItem(new Item(1945, 10), true);
 		player.getInventory().addItem(new Item(314, 300), true);
-		getQuest().sendQuestCompleteInterface(player, 314, "3,000 coins", "10 eggs", "300 feathers");
+		sendQuestCompleteInterface(player, 314);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Veronica outside Draynor Manor.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None, but watch out for those trees in the manor grounds.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "3,000 coins<br>" +
+				"10 eggs<br>" +
+				"300 feathers";
 	}
 
 	public static ObjectClickHandler handleManorFrontDoor = new ObjectClickHandler(new Object[] { 47424, 47421 }, e -> {

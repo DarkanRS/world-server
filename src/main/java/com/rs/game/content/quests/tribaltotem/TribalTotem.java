@@ -116,7 +116,28 @@ public class TribalTotem extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.THIEVING, 1775);
 		player.getInventory().addItem(3144, 5, true);//Karambwan
-		getQuest().sendQuestCompleteInterface(player, TOTEM, "1,775 Thieving XP", "5 Karambwan");
+		sendQuestCompleteInterface(player, TOTEM);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Kangai Mau in Brimhaven.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "1,775 Thieving XP<br>"+
+				"5 swordfish";
 	}
 
 	public static ObjectClickHandler handleFrontDoorMansion = new ObjectClickHandler(new Object[] { 2706 }, e -> {

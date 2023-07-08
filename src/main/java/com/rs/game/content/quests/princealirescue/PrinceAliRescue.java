@@ -221,7 +221,40 @@ public class PrinceAliRescue extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(700);
-		getQuest().sendQuestCompleteInterface(player, 6964, "700 coins");
+		sendQuestCompleteInterface(player, 6964);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Hassan in the palace at Al Kharid.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Soft clay<br>" +
+				"3 balls of wool<br>" +
+				"Yellow dye or 2 onions and 5 coins<br>" +
+				"Redberries<br>" +
+				"Ashes<br>" +
+				"Bucket of water or jug of water (obtainable during quest)<br>" +
+				"Pot of flour<br>" +
+				"Bronze bar<br>" +
+				"Pink skirt<br>" +
+				"3 beers<br>" +
+				"Rope (can be bought during the quest at Ned for 18 coins or 4 balls of wool)<br>" +
+				"At least 100 coins";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "The ability to get past aggressive combat level 26 jail guards.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "700 coins<br>" +
+				"Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>" +
+				"(Members) Access to the Sorceress's Garden Thieving minigame.";
 	}
 
 

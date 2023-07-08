@@ -23,9 +23,14 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.*;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
+import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
@@ -34,8 +39,10 @@ import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.minigames.barrows.BarrowsController;
+import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
+import com.rs.game.content.quests.whatliesbelow.PlayerVsKingFight;
 import com.rs.game.content.randomevents.RandomEvents;
 import com.rs.game.content.skills.runecrafting.runespan.RunespanController;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -43,7 +50,9 @@ import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -52,6 +61,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
+import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -104,13 +114,25 @@ public class MiscTest {
 
 	@ServerStartupEvent
 	public static void loadCommands() {
-
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			p.sendMessage(AnimationDefinitions.getDefs(SpotAnimDefinitions.getDefs(2226).animationId).getUsedSynthSoundIds().toString());
+
+		});
+
+		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> {
+			p.getControllerManager().startController(new InstancedController(Instance.of(p.getTile(), Integer.valueOf(args[2]), Integer.valueOf(args[3]), false)) {
+				@Override
+				public void onBuildInstance() {
+					getInstance().copyMapAllPlanes(Integer.valueOf(args[0]), Integer.valueOf(args[1]))
+							.thenAccept(b -> player.playCutscene(cs -> getInstance().teleportLocal(player, (Integer.valueOf(args[2]) * 8) / 2, (Integer.valueOf(args[3]) * 8) / 2, 0)));
+				}
+
+				@Override
+				public void onDestroyInstance() { }
+			});
 		});
 
 		Commands.add(Rights.DEVELOPER, "clanify", "Toggles the ability to clanify objects and npcs by examining them.", (p, args) -> {
@@ -387,6 +409,11 @@ public class MiscTest {
 			player.getAppearance().generateAppearanceData();
 		});
 
+		Commands.add(Rights.DEVELOPER, "skull", "Set custom skull.", (player, args) -> {
+			player.setSkullInfiniteDelay(Integer.valueOf(args[0]));
+			player.getAppearance().generateAppearanceData();
+		});
+
 		Commands.add(Rights.DEVELOPER, "sd", "Search for a door pair.", (p, args) -> {
 			Doors.searchDoors(Integer.valueOf(args[0]));
 		});
@@ -512,6 +539,18 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
 			p.getPackets().sendRunScriptBlank(Integer.valueOf(args[0]));
+		});
+
+		Commands.add(Rights.DEVELOPER, "scriptargs", "Runs a clientscript with no arguments.", (p, args) -> {
+			Object[] scriptArgs = new Object[args.length-1];
+			for (int i = 1;i < args.length;i++) {
+				try {
+					scriptArgs[i - 1] = Integer.valueOf(args[i]);
+				} catch(Throwable e) {
+					scriptArgs[i - 1] = args[i];
+				}
+			}
+			p.getPackets().sendRunScript(Integer.valueOf(args[0]), scriptArgs);
 		});
 
 		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> {

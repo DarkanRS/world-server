@@ -1,0 +1,56 @@
+{
+  "name": "Battle Runes",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 554,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 555,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 556,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 557,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 565,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 558,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 560,
+        "amount": 500
+      }
+    },
+    {
+      "item": {
+        "id": 562,
+        "amount": 500
+      }
+    }
+  ]
+}

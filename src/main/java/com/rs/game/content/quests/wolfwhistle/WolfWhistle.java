@@ -186,7 +186,28 @@ public class WolfWhistle extends QuestOutline {
         player.getInventory().addItem(GOLD_CHARM, 275);
         player.getInventory().removeAllItems(GIANT_WOLPERTINGER_POUCH);
         player.getSkills().addXp(Skills.SUMMONING, 276);
-        getQuest().sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH, "276 Summoning XP<br>275 gold charms");
+        sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH);
+    }
+
+    @Override
+    public String getStartLocationDescription() {
+        return "Talk to Pikkupstix in his house in Taverley.";
+    }
+
+    @Override
+    public String getRequiredItemsString() {
+        return "None.";
+    }
+
+    @Override
+    public String getCombatInformationString() {
+        return "None.";
+    }
+
+    @Override
+    public String getRewardsString() {
+        return "276 Summoning XP<br>"+
+                "275 gold charms";
     }
 
 }

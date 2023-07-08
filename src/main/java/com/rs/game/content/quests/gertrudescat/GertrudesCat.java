@@ -121,7 +121,31 @@ public class GertrudesCat extends QuestOutline {
 		player.getInventory().addItem(1555, 1);
 		player.getInventory().addItem(1897, 1);
 		player.getInventory().addItem(2003, 1);
-		getQuest().sendQuestCompleteInterface(player, 1555, "A kitten!", "1525 Cooking XP", "The ability to raise cats");
+		sendQuestCompleteInterface(player, 1555);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Gertrude in her house west of Varrock.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "1,525 Cooking XP<br>" +
+				"Chocolate cake<br>" +
+				"Bowl of stew<br>" +
+				"Kitten(!)<br>" +
+				"Ability to raise cats";
 	}
 
 	/**

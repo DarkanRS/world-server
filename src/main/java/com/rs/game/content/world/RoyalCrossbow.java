@@ -83,7 +83,7 @@ public class RoyalCrossbow {
 						option("Wormy?");
 						option("Who are you again?");
 						option("Don't worry, I eat peril for breakfast.");
-						if (!e.getPlayer().containsItems(24303, 24337, 24338, 24339))
+						if (!e.getPlayer().containsAnyItems(24303, 24337, 24338, 24339))
 							option("Would you happen to have found a Coral Crossbow?", new Dialogue()
 									.addNPC(e.getNPCId(), HeadE.DRUNK, "Why, yes I have! The Raptor passed by earlier. He said you might need it.")
 									.addItemToInv(e.getPlayer(), new Item(24303, 1), "You recieve the Coral Crossbow."));

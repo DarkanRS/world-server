@@ -86,6 +86,26 @@ public class ClockTower extends QuestOutline {
 	public void complete(Player player) {
 		player.sendMessage("Congratulations! You have completed: 'Clock Tower'.");
 		player.getInventory().addCoins(500);
-		getQuest().sendQuestCompleteInterface(player, 6964, "500 Coins");
+		sendQuestCompleteInterface(player, 6964);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Brother Kojo in the Clock Tower south of Ardougne.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bucket of water or ice gloves";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "500 coins";
 	}
 }

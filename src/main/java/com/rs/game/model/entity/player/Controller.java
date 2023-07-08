@@ -340,4 +340,8 @@ public abstract class Controller {
 	public boolean canTrade() {
 		return true;
 	}
+
+    public boolean canDepositItem(Item item) {
+		return true;
+    }
 }

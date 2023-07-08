@@ -156,7 +156,28 @@ public class PiratesTreasure extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addItem(new Item(CASKET), true);
-		getQuest().sendQuestCompleteInterface(player, 7956, "One-Eyed Hector's Treasure");
+		sendQuestCompleteInterface(player, 7956);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Redbeard Frank just south of The Rusty Anchor pub in Port Sarim.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "White apron, 60 coins (or an activated ring of Charos and 30 coins).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Optionally defeat a level 4 gardener.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>" +
+				"Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)";
 	}
 
 }

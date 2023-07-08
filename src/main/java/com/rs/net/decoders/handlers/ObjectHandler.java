@@ -583,36 +583,7 @@ public final class ObjectHandler {
 			} else if (id == 22600) {
 				player.useStairs(-1, player.transform(5, 0, 3), 1, 1);
 				return;
-			} else if (id == 6087)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, -3, 1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(3, 0, 1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, 3, 1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(-3, 0, 1), 1, 1);
-						break;
-				}
-			else if (id == 6088)
-				switch(object.getRotation()) {
-					case 0:
-						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
-						break;
-					case 1:
-						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
-						break;
-					case 2:
-						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
-						break;
-					case 3:
-						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
-						break;
-				}
+			}
 			else if (id == 22937)
 				switch(object.getRotation()) {
 					case 0:
@@ -659,6 +630,21 @@ public final class ObjectHandler {
 						break;
 				}
 			else if (id == 22932)
+				switch(object.getRotation()) {
+					case 0:
+						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
+						break;
+					case 1:
+						player.useStairs(-1, player.transform(-3, 0, -1), 1, 1);
+						break;
+					case 2:
+						player.useStairs(-1, player.transform(0, 3, -1), 1, 1);
+						break;
+					case 3:
+						player.useStairs(-1, player.transform(3, 0, -1), 1, 1);
+						break;
+				}
+			else if (id == 22933)
 				switch(object.getRotation()) {
 					case 0:
 						player.useStairs(-1, player.transform(0, -3, -1), 1, 1);
@@ -1297,39 +1283,8 @@ public final class ObjectHandler {
 				player.setNextTile(player.transform(object.getRotation() == 3 ? -3 : 3, 0, -1));
 			else if (id == 2347)
 				player.setNextTile(player.transform(object.getRotation() == 3 ? 3 : -3, 0, 1));
-				//start chaos tunnels
-			else if (id == 65203) {
-				if (player.inCombat(10000) || player.hasBeenHit(10000)) {
-					player.sendMessage("You cannot enter the rift while you're under attack.");
-					return;
-				}
-				if (x == 3058 && y == 3550)
-					player.setNextTile(player.transform(125, 1920, 0));
-				if (x == 3118 && y == 3570)
-					player.setNextTile(player.transform(130, 1920, 0));
-				if (x == 3129 && y == 3587)
-					player.setNextTile(player.transform(105, 1972, 0));
-				if (x == 3164 && y == 3561)
-					player.setNextTile(player.transform(128, 1918, 0));
-				if (x == 3176 && y == 3585)
-					player.setNextTile(Tile.of(3290, 5539, 0));
-			} else if (id == 28782) {
-				if (x == 3183 && y == 5470)
-					player.setNextTile(player.transform(-125, -1920, 0));
-				if (x == 3248 && y == 5490)
-					player.setNextTile(player.transform(-130, -1920, 0));
-				if (x == 3234 && y == 5559)
-					player.setNextTile(player.transform(-105, -1972, 0));
-				if (x == 3292 && y == 5479)
-					player.setNextTile(player.transform(-128, -1918, 0));
-				if (x == 3291 && y == 5538)
-					player.setNextTile(player.transform(-115, -1953, 0));
-			} else if (id == 26193)
+			else if (id == 26193)
 				PartyRoom.openChest(player);
-			else if (id == 67050 || id == 6282)
-				player.useStairs(-1, Tile.of(3359, 6110, 0), 0, 1);
-			else if (id == 67053)
-				player.useStairs(-1, Tile.of(3120, 3519, 0), 0, 1);
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))
 				return;
 			else

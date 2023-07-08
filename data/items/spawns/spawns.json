@@ -1900,8 +1900,8 @@
     }
   },
   {
-    "comment": "Beer",
-    "itemId": 1917,
+    "comment": "Ahab's Beer",
+    "itemId": 6561,
     "amount": 1,
     "tile": {
       "x": 3049,
@@ -5027,6 +5027,16 @@
       "x": 3501,
       "y": 9505,
       "plane": 0
+    }
+  },
+  {
+    "comment": "Plank",
+    "itemId": 960,
+    "amount": 1,
+    "tile": {
+      "x": 2509,
+      "y": 10290,
+      "plane": 1
     }
   }
 ]

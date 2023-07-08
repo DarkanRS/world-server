@@ -51,10 +51,10 @@ public class Sanfew extends Conversation {
                                 .addNPC(SANFEW, HeadE.CALM_TALK, "It is located somewhere in the mysterious underground halls which are located somewhere" +
                                         " in the woods just South of here. They are too dangerous for me to go myself however.")
                                 .addPlayer(HeadE.CALM_TALK, "Ok, I'll go do that then.", () -> {
-                                    player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 2, true);
+                                    player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 2);
                                 }));
                         option("Ok, I'll go do that then.",  () -> {
-                            player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 2, true);
+                            player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 2);
                         });
                     }
                 });
@@ -71,7 +71,7 @@ public class Sanfew extends Conversation {
                         player.getInventory().deleteItem(ENCHANTED_RAW_CHICKEN, 1);
                         player.getInventory().deleteItem(ENCHANTED_RAW_RAT_MEAT, 1);
                         player.getInventory().deleteItem(ENCHANTED_RAW_BEEF, 1);
-                        player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 3, true);
+                        player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 3);
                     });
 
                 } else {

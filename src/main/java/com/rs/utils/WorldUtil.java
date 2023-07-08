@@ -28,6 +28,9 @@ import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Vec2;
 import com.rs.lib.web.dto.FCData;
 
+import java.util.Arrays;
+import java.util.function.Supplier;
+
 public class WorldUtil {
 
 	public static byte[] completeQuickMessage(Player player, int fileId, byte[] data) {

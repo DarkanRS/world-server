@@ -202,7 +202,7 @@ public class SquireKnightsSwordD extends Conversation {
 			public void create() {
 				option("Ok, I'll give it a go.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll give it a go.", () -> {
-							player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, TALK_TO_RELDO, true);
+							player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, TALK_TO_RELDO);
 						})
 						.addNPC(SQUIRE, HeadE.CALM_TALK, "Thank you very much! As I say, the best place to " +
 								"start should be with Reldo..."));

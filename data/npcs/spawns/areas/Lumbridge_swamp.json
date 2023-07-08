@@ -1,0 +1,83 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3205,
+      "y": 3175
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3202,
+      "y": 3176
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3214,
+      "y": 3181
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3219,
+      "y": 3178
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3209,
+      "y": 3187
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3213,
+      "y": 3192
+    },
+    "comment": "Giant rat",
+    "npcId": 86
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3143,
+      "y": 3208
+    },
+    "comment": "Unicorn",
+    "npcId": 89
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3143,
+      "y": 3208
+    },
+    "comment": "Goblin",
+    "npcId": 11232
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3175,
+      "y": 3197
+    },
+    "comment": "Goblin",
+    "npcId": 11232
+  }
+]

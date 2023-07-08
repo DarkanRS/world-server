@@ -17,7 +17,7 @@ public class Faruq extends Conversation {
 
     public static NPCClickHandler Faruq = new NPCClickHandler(new Object[]{npcId}, e -> {
     	 switch (e.getOption()) {
-         //Start Conversation
+         
          case "Talk-to" -> e.getPlayer().startConversation(new Faruq(e.getPlayer()));
          case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "faruqs_tools_for_games");
     	 }

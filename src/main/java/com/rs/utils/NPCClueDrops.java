@@ -163,6 +163,10 @@ public class NPCClueDrops {
 		HARD.put("ice strykewyrm", new ClueDrop(128));
 		HARD.put("glacor", new ClueDrop(128));
 		HARD.put("mithril dragon", new ClueDrop(128));
+		HARD.put("scabaras ranger", new ClueDrop(128));
+		HARD.put("scabaras lancer", new ClueDrop(128));
+		HARD.put("locust lancer", new ClueDrop(128));
+		HARD.put("locust ranger", new ClueDrop(128));
 
 		ELITE.put("abyssal demon", new ClueDrop(1200));
 		ELITE.put("black dragon", new ClueDrop(500));

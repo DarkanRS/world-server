@@ -80,7 +80,29 @@ public class ImpCatcher extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.MAGIC, 875);
 		player.getInventory().addItemDrop(1478, 1);
-		getQuest().sendQuestCompleteInterface(player, 1891, "875 Magic XP", "Amulet of Accuracy");
+		sendQuestCompleteInterface(player, 1891);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Wizard Mizgog on the first floor of the Wizards' Tower, south of Draynor.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Must kill many imps";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "875 Magic XP<br>"+
+				"An amulet of accuracy<br>" +
+				"Access to Mizgog's amulet shop";
 	}
 
 	static class MizgogD extends Conversation {

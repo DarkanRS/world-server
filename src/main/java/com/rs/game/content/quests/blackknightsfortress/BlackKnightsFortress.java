@@ -113,9 +113,29 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Sir Amik Varze, located on the 3rd floor in the western tower of the<br>White Knights' Castle in Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cabbage<br>Iron chainbody<br>Bronze med helm";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Ability to evade level 33 Black Knights";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,500 coins";
+	}
+
+	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(2500);
-		getQuest().sendQuestCompleteInterface(player, 9591, "2,500 coins");
+		sendQuestCompleteInterface(player, 9591);
 	}
 
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
@@ -192,7 +212,7 @@ public class BlackKnightsFortress extends QuestOutline {
 				addNPC(611, HeadE.AMAZED_MILD, "Now, remember, Greldo, only a Draynor Manor cabbage will do! Don't get lazy and bring any old cabbage. THAT" + " would ENITERELY wreck the potion!");
 				addNPC(612, HeadE.CHILD_CALM_TALK, "Yeth, mithtreth");//random goblin
 				addNext(() -> {
-					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN, true);
+					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN);
 					p.setNextAnimation(new Animation(FINISH_LISTEN_GRILL));
 				});
 				create();
@@ -295,7 +315,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(170);
 
 					if (tick == 27) {
-						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON, true);
+						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON);
 						p.unlock();
 						stop();
 					}

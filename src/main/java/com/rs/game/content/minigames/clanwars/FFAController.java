@@ -18,6 +18,7 @@ package com.rs.game.content.minigames.clanwars;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
+import com.rs.game.content.minigames.MinigameUtil;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -95,7 +96,7 @@ public final class FFAController extends Controller {
 					killer.increaseKillCount(player);
 				}
 				if (dangerous) {
-					player.sendItemsOnDeath(killer);
+					player.sendPVPItemsOnDeath(killer);
 					player.getEquipment().init();
 					player.getInventory().init();
 				}
@@ -123,6 +124,7 @@ public final class FFAController extends Controller {
 	}
 
 	private void remove(boolean needRemove) {
+		MinigameUtil.checkAndDeleteFoodAndPotions(player);
 		if (needRemove)
 			removeController();
 		if (wasInArea)
@@ -134,10 +136,12 @@ public final class FFAController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		switch (object.getId()) {
-		case 38700:
-			remove(true);
-			player.useStairs(-1, Tile.of(2993, 9679, 0), 0, 1);
-			return false;
+			case 38700 -> {
+				remove(true);
+				player.useStairs(-1, Tile.of(2993, 9679, 0), 0, 1);
+				return false;
+			}
+			case 42023 -> MinigameUtil.giveFoodAndPotions(player);
 		}
 		return true;
 	}

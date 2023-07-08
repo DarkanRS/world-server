@@ -32,7 +32,7 @@ public class FaladorGeneralStoreAssistant extends Conversation {
 
 	public static NPCClickHandler FaladorGeneralStoreAssistant = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new FaladorGeneralStoreAssistant(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "falador_general_store");
 		}

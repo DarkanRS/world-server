@@ -83,7 +83,31 @@ public class DoricsQuest extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.MINING, 1300);
 		player.getInventory().addCoins(180);
-		getQuest().sendQuestCompleteInterface(player, 1891, "1300 Mining XP", "180 coins", "Use of Doric's Anvils");
+		sendQuestCompleteInterface(player, 1891);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Doric in the small house north of Falador, just outside the east gate of Taverley.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "6 clay (not soft clay)<br>" +
+				"4 copper ores<br>" +
+				"2 iron ores";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "1,300 Mining experience<br>" +
+				"180 coins<br>" +
+				"The ability to use Doric's anvils";
 	}
 
 	static class DoricD extends Conversation {

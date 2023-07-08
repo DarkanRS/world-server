@@ -3888,96 +3888,7 @@
       "plane": 0
     }
   },
-  {
-    "comment": "Kurask added by trent",
-    "npcId": 1608,
-    "tile": {
-      "x": 3271,
-      "y": 4384,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Kurask added by trent",
-    "npcId": 1608,
-    "tile": {
-      "x": 3270,
-      "y": 4380,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Kurask added by trent",
-    "npcId": 1608,
-    "tile": {
-      "x": 3275,
-      "y": 4377,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Kurask added by trent",
-    "npcId": 1608,
-    "tile": {
-      "x": 3279,
-      "y": 4384,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3313,
-      "y": 4380,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3310,
-      "y": 4386,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3313,
-      "y": 4388,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3318,
-      "y": 4387,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3316,
-      "y": 4402,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Cave crawler added by trent",
-    "npcId": 7787,
-    "tile": {
-      "x": 3318,
-      "y": 4399,
-      "plane": 0
-    }
-  },
+
   {
     "comment": "Fayeth added by trent",
     "npcId": 2342,
@@ -4238,6 +4149,15 @@
     },
     "comment": "null added by trent",
     "npcId": 647
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3208,
+      "y": 3494
+    },
+    "comment": "Surok Magis (What Lies Below Varrock Library)",
+    "npcId": 5853
   },
   {
     "tile": {
@@ -27390,123 +27310,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2688,
-      "y": 9952
-    },
-    "comment": "Pyrefiend",
-    "npcId": 1636
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2711,
       "y": 9971
     },
@@ -35496,24 +35299,8 @@
     "comment": "Wemund",
     "npcId": 2155
   },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Randivor",
-    "npcId": 2156
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Hervi",
-    "npcId": 2157
-  },
+
+
   {
     "tile": {
       "plane": 0,
@@ -35549,15 +35336,6 @@
     },
     "comment": "Librarian",
     "npcId": 2165
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Assistant",
-    "npcId": 2166
   },
   {
     "tile": {
@@ -35625,47 +35403,11 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Ulifed",
-    "npcId": 2193
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Karl",
-    "npcId": 2195
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2836,
       "y": 10195
     },
     "comment": "Gauss",
     "npcId": 2196
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Myndill",
-    "npcId": 2197
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Kjut",
-    "npcId": 2198
   },
   {
     "tile": {
@@ -35693,15 +35435,6 @@
     },
     "comment": "Audmann",
     "npcId": 2201
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Dwarven Boatman",
-    "npcId": 2206
   },
   {
     "tile": {
@@ -35882,15 +35615,6 @@
     },
     "comment": "Lava-flow miner",
     "npcId": 13403
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2840,
-      "y": 10176
-    },
-    "comment": "Lava-flow miner",
-    "npcId": 13406
   },
   {
     "tile": {
@@ -48657,15 +48381,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3183,
-      "y": 5205
-    },
-    "comment": "Mishkal\u0027un Dorn",
-    "npcId": 5839
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3181,
       "y": 5204
     },
@@ -48684,26 +48399,8 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3157,
-      "y": 5209
-    },
-    "comment": "Dakh\u0027thoulan Aegis",
-    "npcId": 5840
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3176,
       "y": 5215
-    },
-    "comment": "Sil\u0027as Dahcsnu",
-    "npcId": 5841
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3176,
-      "y": 5218
     },
     "comment": "Sil\u0027as Dahcsnu",
     "npcId": 5841
@@ -53027,42 +52724,6 @@
     },
     "comment": "Mysterious ghost",
     "npcId": 2389
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3224,
-      "y": 4320
-    },
-    "comment": "Kurask",
-    "npcId": 1608
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3224,
-      "y": 4320
-    },
-    "comment": "Kurask",
-    "npcId": 1608
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3224,
-      "y": 4320
-    },
-    "comment": "Kurask",
-    "npcId": 1609
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3224,
-      "y": 4320
-    },
-    "comment": "Kurask",
-    "npcId": 1609
   },
   {
     "tile": {
@@ -57513,15 +57174,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 3283,
-      "y": 3465
-    },
-    "comment": "Surok Magis",
-    "npcId": 7009
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3280,
       "y": 3524
     },
@@ -57536,375 +57188,6 @@
     },
     "comment": "Orry",
     "npcId": 8067
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3264,
-      "y": 4256
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3313,
-      "y": 4328
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3318,
-      "y": 4326
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3318,
-      "y": 4308
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3307,
-      "y": 4306
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3312,
-      "y": 4304
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3303,
-      "y": 4299
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3319,
-      "y": 4299
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3303,
-      "y": 4291
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3321,
-      "y": 4291
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3312,
-      "y": 4290
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3299,
-      "y": 4293
-    },
-    "comment": "Basilisk",
-    "npcId": 1616
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3308,
-      "y": 4330
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3306,
-      "y": 4330
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3310,
-      "y": 4325
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3320,
-      "y": 4321
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3305,
-      "y": 4316
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3307,
-      "y": 4314
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3320,
-      "y": 4306
-    },
-    "comment": "Basilisk",
-    "npcId": 1617
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3296,
-      "y": 4311
-    },
-    "comment": "Turoth",
-    "npcId": 1623
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3291,
-      "y": 4308
-    },
-    "comment": "Turoth",
-    "npcId": 1626
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3282,
-      "y": 4309
-    },
-    "comment": "Turoth",
-    "npcId": 1626
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3280,
-      "y": 4304
-    },
-    "comment": "Turoth",
-    "npcId": 1626
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3290,
-      "y": 4322
-    },
-    "comment": "Turoth",
-    "npcId": 1627
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3290,
-      "y": 4328
-    },
-    "comment": "Turoth",
-    "npcId": 1627
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3290,
-      "y": 4325
-    },
-    "comment": "Turoth",
-    "npcId": 1628
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3285,
-      "y": 4291
-    },
-    "comment": "Turoth",
-    "npcId": 1629
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3287,
-      "y": 4299
-    },
-    "comment": "Turoth",
-    "npcId": 1630
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3308,
-      "y": 4348
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7801
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3303,
-      "y": 4341
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7802
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3301,
-      "y": 4342
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7803
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3277,
-      "y": 4385
-    },
-    "comment": "Kurask",
-    "npcId": 1608
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3311,
-      "y": 4383
-    },
-    "comment": "Cave crawler",
-    "npcId": 7787
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3313,
-      "y": 4378
-    },
-    "comment": "Cave crawler",
-    "npcId": 7787
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3292,
-      "y": 4375
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7801
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3302,
-      "y": 4356
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7801
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3291,
-      "y": 4352
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7802
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3314,
-      "y": 4355
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7802
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3302,
-      "y": 4371
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7803
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3311,
-      "y": 4353
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7803
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3296,
-      "y": 4366
-    },
-    "comment": "Aberrant spectre",
-    "npcId": 7804
   },
   {
     "tile": {

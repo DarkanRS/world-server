@@ -144,7 +144,27 @@ public class DemonSlayer extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, 2402, "Silverlight");
+		sendQuestCompleteInterface(player, 2402);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Aris in the tent on the western side of Varrock Square.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bucket of water (can be obtained during the quest)<br>25 bones (can't be noted, but can be delivered in increments)<br>1 coin";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "The ability to defeat a level 27 demon aided by three level 20 Dark wizards and two level 7 Dark wizards using the Silverlight in melee.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Silverlight";
 	}
 
 	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, e -> {

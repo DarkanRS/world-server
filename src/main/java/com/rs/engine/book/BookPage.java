@@ -22,7 +22,7 @@ public class BookPage {
 	private String[] right;
 
 	public BookPage(String[] left, String[] right) {
-		if (left.length >= 15 || right.length >= 15)
+		if (left.length > 15 || right.length > 15)
 			throw new RuntimeException("Cannot create book page with longer than 15 lines of text.");
 		this.left = left;
 		this.right = right;

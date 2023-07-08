@@ -97,7 +97,7 @@ public class DraynorVillageNPC {
                                 //TODO
                                 //.addNPC(DIANGO, HeadE.HAPPY_TALKING, "Sure thing, let me just see what you're missing.")
                                 //.addNext(() -> {
-                                //    Open holiday item interface
+                                //    Open holiday item interface (468)
                                 //        })
                                 .addNPC(DIANGO, HeadE.SHAKING_HEAD, "I seem to have mislaid my crate of holiday items, Sorry!");
 

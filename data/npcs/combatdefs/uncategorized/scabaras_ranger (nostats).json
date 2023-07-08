@@ -1,0 +1,23 @@
+{
+  "names": [
+    "Scabaras ranger"
+  ],
+  "attackAnim": 7607,
+  "attackSound": -1,
+  "defenceAnim": 7608,
+  "defendSound": -1,
+  "deathAnim": 7609,
+  "deathDelay": 6,
+  "deathSound": -1,
+  "respawnDelay": 59,
+  "hitpoints": 900,
+  "maxHit": 130,
+  "attackStyle": "RANGE",
+  "attackRange": -1,
+  "attackGfx": 20,
+  "attackProjectile": 11,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 4,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

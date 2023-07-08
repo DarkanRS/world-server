@@ -160,5 +160,14 @@
     },
     "comment": "Corporal Keymans",
     "npcId": 14994
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2896,
+      "y": 3442
+    },
+    "comment": "Mess Sergeant Ramsey",
+    "npcId": 14881
   }
 ]

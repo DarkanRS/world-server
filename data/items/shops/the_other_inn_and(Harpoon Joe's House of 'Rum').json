@@ -1,0 +1,35 @@
+{
+  "name": "The Other Inn",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1917,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 7157,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2003,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    3164, 3163
+  ]
+}

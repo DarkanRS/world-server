@@ -24,8 +24,10 @@ import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.WorldUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,9 +52,9 @@ public class CooksAssistant extends QuestOutline {
 		case 1:
 			lines.add("The cook is having problems baking a cake for the Duke's");
 			lines.add("birthday party. He needs the following 3 items:");
-			lines.add((player.getInventory().containsItem(1944, 1) ? "<str>":"")+"An egg");
-			lines.add((player.getInventory().containsItem(1927, 1) ? "<str>":"")+"A bucket of milk");
-			lines.add((player.getInventory().containsItem(1933, 1) ? "<str>":"")+"A pot of flour");
+			lines.add(Utils.strikeThroughIf("An egg", () -> player.getInventory().containsItem(1944, 1)));
+			lines.add(Utils.strikeThroughIf("A bucket of milk", () -> player.getInventory().containsItem(1927, 1)));
+			lines.add(Utils.strikeThroughIf("A pot of flour", () -> player.getInventory().containsItem(1933, 1)));
 			break;
 		case 2:
 			lines.add("");
@@ -69,7 +71,32 @@ public class CooksAssistant extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.COOKING, 300);
-		getQuest().sendQuestCompleteInterface(player, 1891, "300 Cooking XP");
+		player.getInventory().addCoins(500);
+		player.getInventory().addItemDrop(326, 20);
+		sendQuestCompleteInterface(player, 1891);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to the cook in the kitchen of Lumbridge Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Empty pot (can be found in flour mill). Empty bucket (can be found near dairy cow).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "300 Cooking XP<br>"+
+				"500 coins<br>" +
+				"20 sardines<br>" +
+				"Access to the cook's range";
 	}
 
 	static class CookD extends Conversation {
@@ -91,7 +118,7 @@ public class CooksAssistant extends QuestOutline {
 				addPlayer(HeadE.CONFUSED, "Where can I find those, then?");
 				addNPC(npcId, HeadE.CONFUSED, "That's the problem: I don't exactly know. I usually send my assistant to get them for me but he quit.");
 				addPlayer(HeadE.HAPPY_TALKING, "Well don't worry then, I'll be back with the ingredients soon.", () -> {
-					player.getQuestManager().setStage(Quest.COOKS_ASSISTANT, 1, true);
+					player.getQuestManager().setStage(Quest.COOKS_ASSISTANT, 1);
 				});
 			} else if (player.getQuestManager().getStage(Quest.COOKS_ASSISTANT) == 1) {
 				addNPC(npcId, HeadE.CONFUSED, "How are you getting with finding the ingredients?");
