@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.miniquests.huntforsurok.bork;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.ChaosTunnels;
 import com.rs.game.map.instance.Instance;
@@ -26,6 +28,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
@@ -47,17 +50,42 @@ public class BorkController extends InstancedController {
 			cs.action(() -> {
 				getInstance().teleportLocal(player, 43, 24, 0);
 				player.setForceMultiArea(true);
-				cs.setEndTile(Tile.of(cs.getX(43), cs.getY(24), 0));
+				cs.setEndTile(quest ? Tile.of(cs.getX(39), cs.getY(25), 0) : Tile.of(cs.getX(43), cs.getY(24), 0));
 			});
+			cs.delay(0);
+			if (quest) {
+				cs.npcCreate("surok", 7002, 39, 26, 0);
+				cs.camLook(41, 24, 0);
+				cs.camPos(33, 16, 12324);
+				cs.camPos(29, 28, 3615, 0, 10);
+				cs.fadeOut(5);
+				cs.playerMove(39, 25, Entity.MoveType.WALK);
+				cs.delay(3);
+				cs.npcFaceTile("surok", 39, 25);
+				cs.playerFaceTile(39, 26);
+				cs.dialogue(new Dialogue()
+								.addPlayer(HeadE.FRUSTRATED, "It's a dead end, Surok. There's nowhere left to run.")
+								.addNPC(7002, HeadE.FRUSTRATED, "You're wrong, " + player.getDisplayName()+". I am right where I need to be.")
+								.addPlayer(HeadE.FRUSTRATED, "What do you mean? You won't escape.")
+								.addNPC(7002, HeadE.FRUSTRATED, "You cannot stop me, " + player.getDisplayName() + ". But just in case you try, allow me to introduce you to someone..."), true);
+				cs.npcFaceDir("surok", Direction.WEST);
+				cs.npcTalk("surok", "Bork! Kill the meddler!");
+				cs.delay(1);
+				cs.playerFaceDir(Direction.WEST);
+				cs.delay(2);
+				cs.playerAnim(EmotesManager.Emote.SCARED.getAnim());
+				cs.delay(3);
+			}
 			cs.action(() -> player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(692));
 			cs.delay(15);
 			cs.action(() -> player.getInterfaceManager().closeInterfacesOverGameWindow());
+			cs.camPosReset();
 			cs.fadeOut(5);
+			cs.hideMinimap(false);
 			cs.action(() -> {
 				World.spawnNPC(7134, Tile.of(cs.getX(27), cs.getY(33), 0), -1, true, true, true).setForceMultiArea(true);
 				player.resetReceivedHits();
 				player.unlock();
-				player.getPackets().setBlockMinimapState(0);
 			});
 		}));
 	}

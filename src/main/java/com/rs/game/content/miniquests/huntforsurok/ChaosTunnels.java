@@ -13,6 +13,7 @@ import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.SpotAnim;
@@ -267,7 +268,7 @@ public class ChaosTunnels {
         _65(Tile.of(3318, 5481, 0), Tile.of(3322, 5480, 0)),
         TUNNELS_OF_CHAOS(Tile.of(3326, 5469, 0), Tile.of(3159, 5208, 0)),
         CHAOS_ALTAR(Tile.of(3152, 5233, 0), Tile.of(2282, 4837, 0)),
-        BORK(Tile.of(3142, 5545, 0), Tile.of(3115, 5528, 0), true);
+        BORK(Tile.of(3142, 5545, 0), Tile.of(3115, 5528, 0));
         private static Map<Integer, PortalPair> MAPPING = new Int2ObjectOpenHashMap<>();
 
         static {
@@ -298,7 +299,6 @@ public class ChaosTunnels {
         public void travel(Player player, GameObject fromPortal) {
             if (surokLocked && !player.isMiniquestComplete(Miniquest.HUNT_FOR_SUROK, "to travel through this portal."))
                 return;
-            player.sendMessage("Travelling: " + this + " " + player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK));
             if (this == _16 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 2) {
                 player.playCutscene(cs -> {
                     cs.setEndTile(Tile.of(3262, 5552, 0));
@@ -345,31 +345,55 @@ public class ChaosTunnels {
             }
             if (this == _60 && player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 3) {
                 player.playCutscene(cs -> {
-                    cs.setEndTile(Tile.of(3262, 5552, 0));
+                    cs.setEndTile(Tile.of(3191, 5495, 0));
                     cs.fadeIn(5);
-                    //cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4));
+                    cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4));
                     cs.dynamicRegion(tile1.getTileHash() == fromPortal.getTile().getTileHash() ? tile2 : tile1, 396, 684, 5, 5);
                     cs.npcCreate("surok", 7002, 15, 20, 0);
-                    cs.action(() -> player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4));
                     cs.playerMove(23, 23, Entity.MoveType.TELE);
                     cs.npcFaceTile("surok", 19, 22);
                     cs.camLook(18, 22, 0);
                     cs.camPos(25, 5, 12000);
-                    cs.camPos(24, 28, 5125, 0, 5);
+                    cs.camPos(24, 28, 5125, 0, 20);
                     cs.fadeOut(5);
                     cs.playerMove(19, 22, Entity.MoveType.WALK);
                     cs.delay(3);
                     cs.playerFaceEntity("surok");
-                    cs.dialogue(new Dialogue().addPlayer(HeadE.FRUSTRATED, "Surok! Give yourself up. You can't get away."), true);
-
-
-                    cs.delay(5);
+                    cs.dialogue(new Dialogue()
+                            .addPlayer(HeadE.FRUSTRATED, "Surok! Give yourself up. You can't get away.")
+                            .addNPC(7002, HeadE.FRUSTRATED, "Fool! You are in my lair now. These tunnels belong to my people: the Dagon'hai. Here is where you meet your doom.")
+                            .addPlayer(HeadE.FRUSTRATED, "If you do not come peacefully, I will have to arrest you by force.")
+                            .addNPC(7002, HeadE.FRUSTRATED, "So be it. Let's see how you deal with some of my pets..."), true);
+                    cs.npcSync("surok", 6098, 1009);
+                    cs.delay(1);
+                    cs.npcAnim("surok", -1);
+                    cs.npcCreate("wolf1", 95, 17, 20, 0);
+                    cs.npcCreate("wolf2", 95, 15, 21, 0);
+                    cs.npcFaceTile("wolf1", 19, 22);
+                    cs.npcFaceTile("wolf2", 19, 22);
+                    cs.npcSync("wolf1", 8298, 1315);
+                    cs.npcSync("wolf2", 8298, 1315);
+                    cs.delay(3);
+                    cs.npcTalk("surok", "Kill " + player.getPronoun("him!", "her!"));
+                    cs.playerTalk("Aargh!");
+                    cs.delay(3);
                     cs.fadeIn(5);
                     cs.returnPlayerFromInstance();
+                    cs.delay(0);
+                    cs.action(() -> {
+                        new OwnedNPC(player, 95, Tile.of(3188, 5496, 0), false).setTarget(player);
+                        new OwnedNPC(player, 95, Tile.of(3188, 5493, 0), false).setTarget(player);
+                    });
                     cs.fadeOut(5);
+                    cs.action(() -> player.resetReceivedHits());
                 });
             }
             if (this == BORK) {
+                player.setMiniquestStage(Miniquest.HUNT_FOR_SUROK, 4);
+                if (player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) < 4) {
+                    player.sendMessage("The portal is unresponsive.");
+                    return;
+                }
                 if (player.getDailyB("borkKilled")) {
                     player.sendMessage("You have already killed Bork today.");
                     return;

@@ -29,7 +29,7 @@ public class HuntForSurok extends MiniquestOutline {
 
 	@Override
 	public int getCompletedStage() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -41,8 +41,27 @@ public class HuntForSurok extends MiniquestOutline {
 				lines.add("statue of Saradomin to gain access to the Tunnels of Chaos.");
 				lines.add("");
 			}
-			case 4 -> {
+			case 1 -> {
+				lines.add("I confronted Surok outside the statue and he fled into the");
+				lines.add("tunnels beneath.");
 				lines.add("");
+			}
+			case 2 -> {
+				lines.add("I found Surok fleeing from the Tunnels of Chaos and into a portal");
+				lines.add("leading into the Chaos Tunnels.");
+				lines.add("");
+			}
+			case 3 -> {
+				lines.add("I found Surok again near the fire giants but he fled off to the south.");
+				lines.add("");
+			}
+			case 4 -> {
+				lines.add("I found Surok again near the skeletons next to the moss giant room but");
+				lines.add("he got away again fleeing to the west.");
+				lines.add("");
+			}
+			case 5 -> {
+				lines.add("I managed to defeat Bork but Surok managed to escape somewhere unknown.");
 				lines.add("");
 				lines.add("MINIQUEST COMPLETE!");
 			}
