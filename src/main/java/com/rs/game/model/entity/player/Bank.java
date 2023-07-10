@@ -55,7 +55,7 @@ public class Bank {
 	private transient boolean sessionPin;
 	private Map<String, Long> enteredPin;
 
-	public static final int MAX_BANK_SIZE = 800;
+	public static final int MAX_BANK_SIZE = 1500;
 
 	public Bank() {
 		bankTabs = new Item[1][0];
