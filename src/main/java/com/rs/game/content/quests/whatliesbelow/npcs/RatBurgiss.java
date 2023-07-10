@@ -223,7 +223,7 @@ public class RatBurgiss extends Conversation {
                     .addPlayer(HeadE.CHEERFUL, "You should have been there! There was this...and Surok was like...and I was...and then the king...and, and...uh...ahem! The mission was accomplished and the king has been saved.")
                     .addNPC(ID, HeadE.CHEERFUL, "I take it that it went alright, then? That's great news!")
                     .addNPC(ID, HeadE.CHEERFUL, "Zaff has already briefed me on the events. We will arrange for Surok to be fed and watched. I think he will not be a problem any more.")
-                    .addPlayer(HeadE.CONFUSED, "You know, one thing bothers me. He's not stuck in the library, but wasn't that the reason we were in this mess in the first place?")
+                    .addPlayer(HeadE.CONFUSED, "You know, one thing bothers me. He's now stuck in the library, but wasn't that the reason we were in this mess in the first place?")
                     .addNPC(ID, HeadE.CHEERFUL, "Yes, you are right. But rest assured, we will be watching him much more closely from now on.")
                     .addNPC(ID, HeadE.CHEERFUL, "You've done very well and have been a credit to the VPSG; perhaps one day there may be a place for you here!")
                     .addNPC(ID, HeadE.CHEERFUL, "In the meantime, let me reward you for what you've done. I will be sure to call on you if we ever need help in the future.")
