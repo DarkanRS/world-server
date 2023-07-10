@@ -53,11 +53,11 @@ public class GameFrame {
 					return;
 				}
 				if (e.getPlayer().getEmotesManager().isAnimating()) {
-					e.getPlayer().sendMessage("You can't rest while perfoming an emote.");
+					e.getPlayer().sendMessage("You can't rest while performing an emote.");
 					return;
 				}
 				if (e.getPlayer().isLocked()) {
-					e.getPlayer().sendMessage("You can't rest while perfoming an action.");
+					e.getPlayer().sendMessage("You can't rest while performing an action.");
 					return;
 				}
 				e.getPlayer().stopAll();
