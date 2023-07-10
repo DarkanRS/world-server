@@ -151,7 +151,7 @@ public class WhatLiesBelow extends QuestOutline {
         } else if (folder.incMetaDataI("wlbPapersAdded") >= 5) {
             folder.setId(11007);
             folder.deleteMetaData();
-            e.getPlayer().simpleDialogue("You have added all the pages to the folder that Rat gave to you. You should that this folder back to Rat.");
+            e.getPlayer().simpleDialogue("You have added all the pages to the folder that Rat gave to you. You should take this folder back to Rat.");
         } else
             e.getPlayer().sendMessage("You add the page to the folder that Rat gave to you.<br>You need to find " + (5 - folder.getMetaDataI("wlbPapersAdded")) + " more pages.");
         e.getPlayer().getInventory().refresh(folder.getSlot());

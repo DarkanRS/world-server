@@ -107,7 +107,7 @@ public class RatBurgiss extends Conversation {
                             .addNPC(ID, HeadE.CONFUSED, "Uhhh...no. No, that's not it. You know, on second thought, I think I'll keep my secret for now. Look, instead, you can do another job for me.")
                             .addPlayer(HeadE.SAD_MILD, "All work and no play makes " + player.getDisplayName() + " a dull adventurer!")
                             .addNPC(ID, HeadE.CALM_TALK, "Yes, well, I'm sure that may be the case. However, what I want you to do is take this letter to someone for me. It's in a different language so, trust me, you won't be able to read it.")
-                            .addNPC(ID, HeadE.CALM_TALK, "Take it to a wizard named Surok Magic who resides in the Varrock Palace Library. I'll see about some sort of reward for your work when I get myself sorted out here.")
+                            .addNPC(ID, HeadE.CALM_TALK, "Take it to a wizard named Surok Magis who resides in the Varrock Palace Library. I'll see about some sort of reward for your work when I get myself sorted out here.")
                             .addPlayer(HeadE.CHEERFUL, "Letter. Wizard. Varrock. Got it!", () -> {
                                 player.getInventory().deleteItem(11007, 1);
                                 player.getInventory().addItemDrop(11009, 1);
