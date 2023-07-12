@@ -95,7 +95,7 @@ public class Potions {
 
 		STRENGTH_POTION(VIAL, new int[] { 113, 115, 117, 119 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH)),
 		STRENGTH_FLASK(-1, new int[] { 23207, 23209, 23211, 23213, 23215, 23217 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH)),
-		STRENGTH_MIX(VIAL, new int[] { 11441, 11443 }, p -> {
+		STRENGTH_MIX(VIAL, new int[] { 11443, 11441 }, p -> {
 			p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH);
 			p.heal(30);
 		}),
