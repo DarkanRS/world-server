@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.world.areas.entrana;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -30,7 +30,7 @@ public class Entrana {
 
 	public static ObjectClickHandler handleMagicDoor = new ObjectClickHandler(new Object[] { 2407 }, e -> {
 		Doors.handleDoor(e.getPlayer(), e.getObject());
-		Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3093, 3222, 0));
+		Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Tile.of(3093, 3222, 0));
 	});
 
 	public static ObjectClickHandler handleEntranaDungeonLadders = new ObjectClickHandler(new Object[] { 2408 }, e -> {
@@ -41,7 +41,7 @@ public class Entrana {
 				.addOption("Select an Option", "Well, that is a risk I will have to take.", "I don't think I'm strong enough to enter then.")
 				.addPlayer(HeadE.CALM_TALK, "Well, that's a risk I will have to take.")
 				.addNext(() -> {
-					e.getPlayer().useLadder(WorldTile.of(2822, 9774, 0));
+					e.getPlayer().useLadder(Tile.of(2822, 9774, 0));
 				}));
 	});
 

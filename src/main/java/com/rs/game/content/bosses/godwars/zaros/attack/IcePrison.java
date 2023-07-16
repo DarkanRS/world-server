@@ -28,7 +28,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class IcePrison implements NexAttack {
@@ -39,11 +39,11 @@ public class IcePrison implements NexAttack {
 		nex.voiceEffect(3308);
 		nex.setNextAnimation(new Animation(6987));
 		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
-		final WorldTile base = WorldTile.of(target.getX(), target.getY(), target.getPlane());
+		final Tile base = Tile.of(target.getX(), target.getY(), target.getPlane());
 		target.getTempAttribs().setB("inIcePrison", true);
 		for (int x = -1; x <= 1; x++)
 			for (int y = -1; y <= 1; y++) {
-				final WorldTile tile = base.transform(x, y, target.getPlane());
+				final Tile tile = base.transform(x, y, target.getPlane());
 				final GameObject object = new GameObject(57263, ObjectType.SCENERY_INTERACT, 0, tile);
 				if (!tile.matches(base) && World.floorAndWallsFree(tile, (object.getDefinitions().getSizeX() + object.getDefinitions().getSizeY()) / 2))
 					World.spawnObject(object);

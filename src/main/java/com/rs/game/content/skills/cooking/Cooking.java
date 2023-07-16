@@ -16,16 +16,16 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Cooking extends PlayerAction {
 
@@ -101,6 +101,7 @@ public class Cooking extends PlayerAction {
 		BOULDABASS(new Item(17809), 60, 70, 146, new Item(18191), new Item(18171), false, false),
 		SALVE_EEL(new Item(17811), 70, 70, 168, new Item(18193), new Item(18173), false, false),
 		BLUE_CRAB(new Item(17813), 80, 70, 191, new Item(18195), new Item(18175), false, false),
+		NETTLE_TEA(new Item(4237), 1, 1, 1, new Item(4239), new Item(4239), false, false),
 		CAVE_MORAY(new Item(17815), 90, 70, 215, new Item(18197), new Item(18177), false, false);
 
 		private static Map<Short, Cookables> ingredients = new HashMap<>();
@@ -219,7 +220,7 @@ public class Cooking extends PlayerAction {
 
 	@Override
 	public boolean process(Player player) {
-		if (!World.getRegion(object.getTile().getRegionId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
+		if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
 			player.simpleDialogue("You need a level of " + cook.getLvl() + " to cook this.");

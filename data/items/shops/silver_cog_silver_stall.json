@@ -6,21 +6,24 @@
   "items": [
     {
       "item": {
-        "id": 2355,
+        "id": 1714,
         "amount": 10
       }
     },
     {
       "item": {
         "id": 442,
-        "amount": 10
+        "amount": 0
       }
     },
     {
       "item": {
-        "id": 1714,
-        "amount": 10
+        "id": 2355,
+        "amount": 0
       }
     }
+  ],
+  "npcIds": [
+    2159
   ]
 }

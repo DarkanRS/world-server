@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.bosses.nomad;
 
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -28,7 +28,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.utils.Ticks;
 
 public class NomadCombat extends CombatScript {
@@ -39,7 +39,7 @@ public class NomadCombat extends CombatScript {
 		return new Object[] { 8528 };
 	}
 
-	private void spawnFlameVortex(WorldTile tile) {
+	private void spawnFlameVortex(Tile tile) {
 		if (!World.floorAndWallsFree(tile, 1))
 			return;
 		new FlameVortex(tile);
@@ -79,7 +79,7 @@ public class NomadCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(12701));
 				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's make things interesting!");
 				player.voiceEffect(8039);
-				final WorldTile middle = WorldTile.of(player.getTile());
+				final Tile middle = Tile.of(player.getTile());
 				WorldTasks.schedule(new WorldTask() {
 					int count;
 
@@ -133,7 +133,7 @@ public class NomadCombat extends CombatScript {
 				break;
 			case 1:
 				nomad.setCantFollowUnderCombat(true);
-				WorldTile throne = nomad.getThroneTile();
+				Tile throne = nomad.getThroneTile();
 				if (nomad.getX() != throne.getX() || nomad.getY() != throne.getY())
 					nomad.sendTeleport(nomad.getThroneTile());
 				WorldTasks.schedule(new WorldTask() {
@@ -184,7 +184,7 @@ public class NomadCombat extends CombatScript {
 							player.freeze(Ticks.fromSeconds(17));
 							player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's see how much punishment you can take!");
 							player.voiceEffect(8001);
-							player.setNextFaceWorldTile(WorldTile.of(player.getX(), player.getY() + 1, 0));
+							player.setNextFaceTile(Tile.of(player.getX(), player.getY() + 1, 0));
 							player.setNextSpotAnim(new SpotAnim(369));
 							player.unlock();
 							secondLoop = true;

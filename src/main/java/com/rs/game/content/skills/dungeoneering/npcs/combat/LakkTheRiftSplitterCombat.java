@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.LakkTheRiftSplitter;
@@ -32,9 +29,12 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class LakkTheRiftSplitterCombat extends CombatScript {
 
@@ -72,7 +72,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 			case 0:
 			case 1:
 			case 2:
-				final List<WorldTile> boundary = new LinkedList<>();
+				final List<Tile> boundary = new LinkedList<>();
 				for (int x = -1; x < 2; x++)
 					for (int y = -1; y < 2; y++)
 						boundary.add(target.transform(x, y, 0));
@@ -87,7 +87,7 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 					public void run() {
 						boss.setNextForceTalk(new ForceTalk(MESSAGES[type]));
 						boss.setNextAnimation(new Animation(14398));
-						boss.addPortalCluster(type, boundary.toArray(new WorldTile[1]));
+						boss.addPortalCluster(type, boundary.toArray(new Tile[1]));
 					}
 				}, 1);
 				return 5;

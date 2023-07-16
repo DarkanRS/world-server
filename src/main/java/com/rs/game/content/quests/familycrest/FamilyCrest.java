@@ -1,13 +1,11 @@
 package com.rs.game.content.quests.familycrest;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -18,6 +16,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.FAMILY_CREST)
 @PluginEventHandler
@@ -44,16 +45,13 @@ public class FamilyCrest extends QuestOutline {
 	public final static int CHAOS_GAUNTLETS = 777;
 	public final static int FAMILY_GAUNTLETS = 778;
 
-	//Attr
-	public static final String CALEB_ASKED_ATTR = "CALEB_ASKED";
-
 	@Override
 	public int getCompletedStage() {
 		return QUEST_COMPLETE;
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -74,7 +72,7 @@ public class FamilyCrest extends QuestOutline {
 			lines.add("Speak to Caleb in Catherby to ask about the family");
 			lines.add("crest.");
 			lines.add("");
-			if(player.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB(CALEB_ASKED_ATTR)) {
+			if(player.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB("CALEB_ASKED")) {
 				lines.add("I must get Caleb cooked shrimp, salmon, tuna, bass and");
 				lines.add("swordfish to get a piece of the crest.");
 				lines.add("");
@@ -194,7 +192,28 @@ public class FamilyCrest extends QuestOutline {
 	public void complete(Player player) {
 		if(player.getInventory().hasFreeSlots())
 			player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
-		getQuest().sendQuestCompleteInterface(player, 778, "Family gauntlets");
+		sendQuestCompleteInterface(player, 778);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Dimintheis in south-east Varrock.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cooked shrimp, cooked salmon, cooked tuna, cooked bass, cooked swordfish, 2 cut rubies, antipoison potion. You will likely need a magic weapon to cast Air Blast, Water Blast, Earth Blast, Fire Blast (59 Magic) from the normal spellbook.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 84 demon.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>" +
+				"Access to the hellhounds in Witchaven Dungeon";
 	}
 
 	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}, e -> {

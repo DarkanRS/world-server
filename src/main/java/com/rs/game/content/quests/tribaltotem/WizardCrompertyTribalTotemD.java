@@ -1,23 +1,21 @@
 package com.rs.game.content.quests.tribaltotem;
 
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.GET_TOTEM;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.REDIRECT_TELE_STONE;
-import static com.rs.game.content.quests.tribaltotem.TribalTotem.TALK_TO_WIZARD;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.tribaltotem.TribalTotem.*;
 
 @PluginEventHandler
 public class WizardCrompertyTribalTotemD extends Conversation {
@@ -38,7 +36,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
-						p.setNextWorldTile(WorldTile.of(2642, 3321, 0));//Mansion in ardy
+						p.setNextTile(Tile.of(2642, 3321, 0));//Mansion in ardy
 					}
 				}, 2);
 			});
@@ -70,7 +68,7 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 									option("Yes", new Dialogue()
 											.addNext(()->{
 												NPC wizard = null;
-												for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+												for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 													if(npc.getId() == NPC)
 														wizard = npc;
 												wizard.setNextForceTalk(new ForceTalk("Dipsolum sentento sententi!"));
@@ -80,9 +78,9 @@ public class WizardCrompertyTribalTotemD extends Conversation {
 													@Override
 													public void run() {
 														if(p.getQuestManager().getStage(Quest.TRIBAL_TOTEM) >= GET_TOTEM)
-															p.setNextWorldTile(WorldTile.of(2642, 3321, 0)); //Mansion in ardy
+															p.setNextTile(Tile.of(2642, 3321, 0)); //Mansion in ardy
 														else
-															p.setNextWorldTile(WorldTile.of(2649, 3271, 0)); //RPDT crates in ardy
+															p.setNextTile(Tile.of(2649, 3271, 0)); //RPDT crates in ardy
 													}
 												}, 2);
 											}));

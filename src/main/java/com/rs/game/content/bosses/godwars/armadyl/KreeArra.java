@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.bosses.godwars.armadyl;
 
-import com.rs.cores.CoresManager;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -30,7 +30,7 @@ public class KreeArra extends NPC {
 
 	private GodWarMinion[] minions = new GodWarMinion[3];
 
-	public KreeArra(int id, WorldTile tile, boolean spawned) {
+	public KreeArra(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIntelligentRouteFinder(true);
 		setIgnoreDocile(true);
@@ -46,11 +46,11 @@ public class KreeArra extends NPC {
 	}
 
 	public void respawnMinions() {
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(2, () -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();
-		}, 2);
+		});
 	}
 
 	@Override

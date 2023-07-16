@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
@@ -32,8 +28,12 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FleshspoilerHaasghenahk extends DungeonBoss {
 
@@ -43,7 +43,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 	private boolean secondStage, useMagicOnly;
 	private int fleshTicks;
 
-	public FleshspoilerHaasghenahk(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public FleshspoilerHaasghenahk(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11925, 11939), manager.getBossLevel()), tile, manager, reference);
 		useMagicOnly = true;
 		setHitpoints(getMaxHitpoints());
@@ -72,10 +72,10 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 	}
 
 	private void addFleshCreatures() {
-		final WorldTile centerTile = getManager().getTile(getReference(), 8, 7);
-		final List<WorldTile> tiles = new LinkedList<>();
+		final Tile centerTile = getManager().getTile(getReference(), 8, 7);
+		final List<Tile> tiles = new LinkedList<>();
 		for (int i = 0; i < 5; i++) {
-			WorldTile tile = World.getFreeTile(centerTile, 6);
+			Tile tile = World.getFreeTile(centerTile, 6);
 			World.sendProjectile(this, tile, 2765, 150, 0, 30, 1, 40, 0);
 			tiles.add(tile);
 		}

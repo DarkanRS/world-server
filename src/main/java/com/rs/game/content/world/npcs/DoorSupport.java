@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.npcs;
 
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -32,7 +32,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class DoorSupport extends NPC {
 
-	public DoorSupport(int id, WorldTile tile) {
+	public DoorSupport(int id, Tile tile) {
 		super(id, tile, true);
 		setCantFollowUnderCombat(true);
 	}
@@ -61,16 +61,16 @@ public class DoorSupport extends NPC {
 		final GameObject door = World.getObjectWithId(getTile(), 8967);
 		if (door != null)
 			World.removeObject(door);
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromSeconds(60), () -> {
 			try {
 				setNextNPCTransformation(getId() - 1);
 				reset();
 				if (door != null)
 					World.spawnObject(door);
 			} catch (Throwable e) {
-				Logger.handle(DoorSupport.class, "sendDeath", e);
+				Logger.handle(DoorSupport.class, "DoorSupport.sendDeath", e);
 			}
-		}, Ticks.fromSeconds(60));
+		});
 	}
 	
 	@ServerStartupEvent

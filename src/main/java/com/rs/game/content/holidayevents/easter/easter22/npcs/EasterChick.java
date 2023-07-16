@@ -1,9 +1,9 @@
 package com.rs.game.content.holidayevents.easter.easter22.npcs;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.easter.easter22.Easter2022;
 import com.rs.game.content.holidayevents.easter.easter22.EggHunt;
-import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
@@ -11,7 +11,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCDeathEvent;
@@ -21,7 +21,7 @@ public class EasterChick extends OwnedNPC {
 
     public int varbit;
 
-    public EasterChick(Player player, int id, WorldTile tile, int varbit) {
+    public EasterChick(Player player, int id, Tile tile, int varbit) {
         super(player, id, tile, true);
         this.varbit = varbit;
         setRandomWalk(true);
@@ -53,7 +53,7 @@ public class EasterChick extends OwnedNPC {
 		
         int attackStyle = getOwner().getCombatDefinitions().getAttackStyleId();
 		setNextAnimation(new Animation(16423));
-		World.sendSpotAnim(getOwner(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030), this.getTile());
+		World.sendSpotAnim(this.getTile(), attackStyle == 0 ? new SpotAnim(3031) : new SpotAnim(3030));
 
 		WorldTasks.scheduleTimer(0, (tick) -> {
 			if (tick == 1)

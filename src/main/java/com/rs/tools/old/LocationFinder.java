@@ -16,14 +16,14 @@
 //
 package com.rs.tools.old;
 
-import java.io.IOException;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
+
+import java.io.IOException;
 
 public class LocationFinder {
 
@@ -41,7 +41,7 @@ public class LocationFinder {
 
 		//		for (int regionId = 0; regionId < 16000;regionId++) {
 		//for (int y = 0; y < 10000; y += 64) {
-		//int regionId = WorldTile.of(x, y, 0).getRegionId();
+		//int regionId = Tile.of(x, y, 0).getRegionId();
 		int regionId = 11826;
 
 		int regionX = (regionId >> 8) * 64;

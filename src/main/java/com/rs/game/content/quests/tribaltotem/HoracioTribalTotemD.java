@@ -1,9 +1,9 @@
 package com.rs.game.content.quests.tribaltotem;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -11,8 +11,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class HoracioTribalTotemD extends Conversation {
 	private static final int NPC = 845;
-	public HoracioTribalTotemD(Player p) {
-		super(p);
+	public HoracioTribalTotemD(Player player) {
+		super(player);
 		addNPC(NPC, HeadE.CALM_TALK, "It's a fine day to be out in a garden, isn't it?");
 		addOptions("Choose an option:", new Options() {
 			@Override

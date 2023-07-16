@@ -19,11 +19,11 @@ package com.rs.game.content.skills.summoning;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.summoning.EnchantedHeadwear.Headwear;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
-import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
@@ -37,7 +37,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
@@ -65,7 +65,7 @@ public final class Familiar extends NPC {
 	private Pouch pouch;
 	private GenericAttribMap attribs = new GenericAttribMap();
 
-	public Familiar(Player owner, Pouch pouch, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public Familiar(Player owner, Pouch pouch, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(pouch.getBaseNpc(), tile, false);
 		this.owner = owner;
 		this.pouch = pouch;
@@ -156,7 +156,7 @@ public final class Familiar extends NPC {
 	public void dropInventory() {
 		if (inv == null)
 			return;
-		WorldTile tile = WorldTile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane());
+		Tile tile = Tile.of(getCoordFaceX(getSize()), getCoordFaceY(getSize()), getPlane());
 		for (int i = 0; i < inv.getSize(); i++) {
 			Item item = inv.get(i);
 			if (item != null)
@@ -249,7 +249,7 @@ public final class Familiar extends NPC {
 			owner.sendMessage("An abyssal familiar can only carry blank rune essence.");
 			return;
 		}
-		if (!canStoreEssOnly() && item.getId() == 1436 && item.getId() == 7936) {
+		if (!canStoreEssOnly() && (item.getId() == 1436 || item.getId() == 7936)) {
 			owner.sendMessage("Only an abyssal familiar can carry blank rune essence.");
 			return;
 		}
@@ -587,8 +587,8 @@ public final class Familiar extends NPC {
 	 */
 	public void sendMainConfigs() {
 		owner.getVars().setVar(448, pouch.getId());// configures familiar type
-		owner.getVars().setVar(1174, 0); //refresh familiar head
-		owner.getVars().setVarBit(4282, 1); //refresh familiar emote
+		owner.getVars().setVar(1174, 0, true); //refresh familiar head
+		owner.getVars().setVarBit(4282, pouch.getHeadAnimIndex()); //refresh familiar emote
 		refreshSpecialEnergy();
 		sendTimeRemaining();
 		owner.getVars().setVarBit(4288, pouch.getScroll().getPointCost());// check
@@ -671,7 +671,7 @@ public final class Familiar extends NPC {
 			sendMainConfigs();
 		else
 			removeTarget();
-		WorldTile teleTile = null;
+		Tile teleTile = null;
 		teleTile = owner.getNearestTeleTile(getSize());
 		if (teleTile == null) {
 			if (!sentRequestMoveMessage) {
@@ -682,7 +682,7 @@ public final class Familiar extends NPC {
 		}
 		sentRequestMoveMessage = false;
 		spotAnim(getSize() > 1 ? 1315 : 1314);
-		setNextWorldTile(teleTile);
+		setNextTile(teleTile);
 		getActionManager().forceStop();
 	}
 

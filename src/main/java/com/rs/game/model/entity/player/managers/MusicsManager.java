@@ -16,15 +16,8 @@
 //
 package com.rs.game.model.entity.player.managers;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.rs.cache.loaders.EnumDefinitions;
-import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
@@ -34,6 +27,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
 import com.rs.utils.music.Song;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 @PluginEventHandler
 public final class MusicsManager {
@@ -124,7 +120,7 @@ public final class MusicsManager {
 
     public void setPlayer(Player player) {
         this.player = player;
-        playingMusic = World.getRegion(player.getRegionId()).getMusicId();
+        playingMusic = ChunkManager.getChunk(player.getChunkId()).getMusicId();
     }
 
     public void switchShuffleOn() {
@@ -427,7 +423,7 @@ public final class MusicsManager {
 
     public void reset() {
         settedMusic = false;
-        player.getMusicsManager().checkMusic(World.getRegion(player.getRegionId()).getMusicId());
+        player.getMusicsManager().checkMusic(ChunkManager.getChunk(player.getChunkId()).getMusicId());
     }
 
     public void sendHint(int slotId) {

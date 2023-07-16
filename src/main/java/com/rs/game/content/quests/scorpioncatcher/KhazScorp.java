@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.quests.scorpioncatcher;
 
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class KhazScorp extends NPC {
 
-	public KhazScorp(int id, WorldTile tile) {
+	public KhazScorp(int id, Tile tile) {
 		super(id, tile);
 	}
 

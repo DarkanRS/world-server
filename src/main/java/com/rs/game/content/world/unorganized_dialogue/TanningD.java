@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.world.unorganized_dialogue;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.statements.MakeXStatement.MakeXType;
+import com.rs.game.model.entity.player.Player;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
-import com.rs.game.engine.dialogue.statements.MakeXStatement.MakeXType;
-import com.rs.game.model.entity.player.Player;
 
 public class TanningD extends Conversation {
 	
@@ -49,7 +49,7 @@ public class TanningD extends Conversation {
 		}
 	}
 	
-	public TanningD(Player player, boolean canifis) {
+	public TanningD(Player player, boolean canifis, int NPC) {
 		super(player);
 		
 		List<Leather> craftable = new ArrayList<>();
@@ -58,7 +58,7 @@ public class TanningD extends Conversation {
 				craftable.add(leather);
 		
 		if (craftable.isEmpty()) {
-			addNPC(canifis ? 1041 : 2824, HeadE.CHEERFUL, "You don't have any leather that I can tan. Bring me some raw leather and then I can be more help to you.");
+			addNPC(NPC, HeadE.CHEERFUL, "You don't have any leather that I can tan. Bring me some raw leather and then I can be more help to you.");
 			create();
 			return;
 		}

@@ -16,47 +16,37 @@
 //
 package com.rs.game.content.quests.princealirescue;
 
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BEER;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BLONDE_WIG;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BRONZE_KEY;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PINK_SKIRT;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.ROPE;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.*;
+
 @PluginEventHandler
 public class LeelaPrinceAliRescueD extends Conversation {
-	Player p;
 	public final static int LEELA = 915;
-	final int CONVO1 = 0;
-	final int CONVO2 = 1;
-	final int CONVO3 = 2;
 
-	public LeelaPrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
-		if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) <= PrinceAliRescue.STARTED) {
+	public LeelaPrinceAliRescueD(Player player) {
+		super(player);
+		if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) <= PrinceAliRescue.STARTED) {
 			addPlayer(HeadE.HAPPY_TALKING, "What are you waiting here for?");
 			addNPC(LEELA, HeadE.FRUSTRATED, "That is no concern of yours, adventurer.");
 		}
-		if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK)
+		if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.GEAR_CHECK)
 			//bronze key complete
-			if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key") && !p.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
-				if(p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_gave_key")) {
+			if(player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_has_key") && !player.getInventory().containsItem(PrinceAliRescue.BRONZE_KEY, 1)) {
+				if(player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).getB("Leela_gave_key")) {
 					addNPC(LEELA, HeadE.CALM_TALK, "You lost the key?");
 					addNPC(LEELA, HeadE.CALM_TALK, "I am going to need 15 coins from you to pay for the bronze.");
-					if(p.getInventory().hasCoins(15))
+					if(player.getInventory().hasCoins(15))
 						addSimple("Leela gives you a copy of the key to the prince's door.", () -> {
-							p.getInventory().removeCoins(15);
-							p.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
+							player.getInventory().removeCoins(15);
+							player.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
 						});
 					else {
 						addNPC(LEELA, HeadE.CALM_TALK, "Do you have that?");
@@ -66,18 +56,18 @@ public class LeelaPrinceAliRescueD extends Conversation {
 				else {
 					addNPC(LEELA, HeadE.CALM_TALK, "My father sent this key for you. Be careful not to lose it.");
 					addSimple("Leela gives you a copy of the key to the prince's door.", () -> {
-						p.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
-						p.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_gave_key", true);
+						player.getInventory().addItem(PrinceAliRescue.BRONZE_KEY, 1);
+						player.getQuestManager().getAttribs(Quest.PRINCE_ALI_RESCUE).setB("Leela_gave_key", true);
 					});
 					addNPC(LEELA, HeadE.CALM_TALK, "Don't forget to deal with the guard on the door. He is talkative, try to find a weakness in him.");
 				}
-			} else if(p.getInventory().containsItem(PrinceAliRescue.KEY_PRINT, 1)) {
+			} else if(player.getInventory().containsItem(PrinceAliRescue.KEY_PRINT, 1)) {
 				addNPC(LEELA, HeadE.CALM_TALK, "You can give the key print and a bronze bar to Osman in Al-kharid.");
 				addNPC(LEELA, HeadE.CALM_TALK, "Then come back to me to get the key");
 			}
-			else if(p.getInventory().containsItem(BEER, 3) && p.getInventory().containsItem(BRONZE_KEY, 1) &&
-					p.getInventory().containsItem(PASTE, 1) && p.getInventory().containsItem(BLONDE_WIG, 1) &&
-					p.getInventory().containsItem(PINK_SKIRT, 1) && p.getInventory().containsItem(ROPE, 1)) {
+			else if(player.getInventory().containsItem(BEER, 3) && player.getInventory().containsItem(BRONZE_KEY, 1) &&
+					player.getInventory().containsItem(PASTE, 1) && player.getInventory().containsItem(BLONDE_WIG, 1) &&
+					player.getInventory().containsItem(PINK_SKIRT, 1) && player.getInventory().containsItem(ROPE, 1)) {
 				addNPC(LEELA, HeadE.HAPPY_TALKING, "You have everything you need to start the breakout.");
 				addNPC(LEELA, HeadE.HAPPY_TALKING, "Don't forget the plan");
 				addNPC(LEELA, HeadE.SECRETIVE, "Get Joe the guard drunk with 3 beers, tie Lady Keli up with a rope, open the prison with the jail key" +
@@ -116,7 +106,7 @@ public class LeelaPrinceAliRescueD extends Conversation {
 
 			}
 
-		if(p.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
+		if(player.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 			addNPC(LEELA, HeadE.HAPPY_TALKING, "Thank you, Al-Kharid will forever owe you for your help. I think that if there is ever anything that " +
 					"needs to be done, you will be someone they can rely on.");
 

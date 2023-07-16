@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class ReldoShieldOfArravD extends Conversation {
@@ -45,7 +45,7 @@ public class ReldoShieldOfArravD extends Conversation {
 			break;
 		case ShieldOfArrav.FIND_BOOK_STAGE:
 			addPlayer(HeadE.SECRETIVE, "Where is that book...'The Shield of Arrav'?");
-			if (p.getInventory().containsItem(ShieldOfArrav.BOOK)) {
+			if (p.getInventory().containsItem(757)) {
 				addNPC(RELDO, HeadE.SECRETIVE, "Did you find the book?");
 				addPlayer(HeadE.SECRETIVE, "Yes");
 				addNPC(RELDO, HeadE.FRUSTRATED, "Why are you asking me where to find a book you've already found? Have you read it?");

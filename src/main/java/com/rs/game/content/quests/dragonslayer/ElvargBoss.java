@@ -1,12 +1,8 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ELVARG_HEAD;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
-
 import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
@@ -16,9 +12,11 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class ElvargBoss extends NPC {
@@ -29,7 +27,7 @@ public class ElvargBoss extends NPC {
 	private static final int ELVARG_REMOVE_HEAD_ANIM = 6654;
 	private static final int ELVARG_SHOW_OFF_HEAD_ANIM = 6655;
 
-	public ElvargBoss(WorldTile tile) {
+	public ElvargBoss(Tile tile) {
 		super(ELVARG_ID, tile);
 	}
 
@@ -57,15 +55,15 @@ public class ElvargBoss extends NPC {
 			WorldTasks.schedule(new WorldTask() {
 				int tick = 0;
 				int WALK_TO_TILE_TICK = 7;
-				WorldTile animTile;
+				Tile animTile;
 				GameObject elvargObj = null;
 
 				@Override
 				public void run() {
 					if(tick == 0)
-						elvarg.walkToAndExecute(WorldTile.of(2854, 9638, 0), ()->{
-							animTile = WorldTile.of(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
-							elvarg.setNextFaceWorldTile(WorldTile.of(getX()-1, getY()+1, getPlane()));
+						elvarg.walkToAndExecute(Tile.of(2854, 9638, 0), ()->{
+							animTile = Tile.of(elvarg.getX()-1, elvarg.getY()+1, elvarg.getPlane());
+							elvarg.setNextFaceTile(Tile.of(getX()-1, getY()+1, getPlane()));
 							tick++;
 						});
 

@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.areas.port_phasmatys;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -36,9 +36,9 @@ public class PortPhasmatys {
 			return;
 		e.getPlayer().sendOptionDialogue(ops -> {
 			if (e.getPlayer().getRegionId() == 14638)
-				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3713, 3497, 1)));
+				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextTile(Tile.of(3713, 3497, 1)));
 			else
-				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3682, 2949, 1)));
+				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextTile(Tile.of(3682, 2949, 1)));
 			ops.add("Nevermind.");
 		});
 	});
@@ -46,7 +46,7 @@ public class PortPhasmatys {
 	public static ItemClickHandler handleEctophial = new ItemClickHandler(new Object[] { 4251 }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.GHOSTS_AHOY, "to use the ectophial."))
 			return;
-		Ectofuntus.sendEctophialTeleport(e.getPlayer(), WorldTile.of(3659, 3523, 0));
+		Ectofuntus.sendEctophialTeleport(e.getPlayer(), Tile.of(3659, 3523, 0));
 	});
 
 	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> {
@@ -59,7 +59,7 @@ public class PortPhasmatys {
 					addOptions("What would you like to say?", new Options() {
 						@Override
 						public void create() {
-							if (!player.containsItems(4251))
+							if (!player.containsAnyItems(4251))
 								if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
 									option("Can I have another ectophial?", new Dialogue()
 											.addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
@@ -85,8 +85,8 @@ public class PortPhasmatys {
 	
 	public static ObjectClickHandler barTrapdoor = new ObjectClickHandler(new Object[] { 7433, 7434 }, e -> {
 		switch(e.getObjectId()) {
-		case 7433 -> e.getPlayer().useStairs(828, WorldTile.of(3681, 3497, 0), 1, 2);
-		case 7434 -> e.getPlayer().useStairs(828, WorldTile.of(3682, 9961, 0), 1, 2);
+		case 7433 -> e.getPlayer().useStairs(828, Tile.of(3681, 3497, 0), 1, 2);
+		case 7434 -> e.getPlayer().useStairs(828, Tile.of(3682, 9961, 0), 1, 2);
 		}
 	});
 }

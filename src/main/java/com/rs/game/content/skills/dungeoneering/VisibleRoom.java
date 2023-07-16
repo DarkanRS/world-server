@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.ArrayList;
-
 import com.rs.game.content.skills.dungeoneering.rooms.BossRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.HandledRoom;
 import com.rs.game.content.skills.dungeoneering.rooms.StartRoom;
@@ -25,7 +23,9 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
+
+import java.util.ArrayList;
 
 public class VisibleRoom {
 
@@ -149,7 +149,7 @@ public class VisibleRoom {
 		return true;
 	}
 
-	public boolean canMove(Player player, WorldTile to) {
+	public boolean canMove(Player player, Tile to) {
 		return true;
 	}
 

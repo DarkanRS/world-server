@@ -1,15 +1,12 @@
 package com.rs.game.content.quests.templeofikov;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.quests.templeofikov.dialogues.GaurdianArmadylTempleOfIkov;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -17,16 +14,14 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.NPCDeathHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.plugin.handlers.PickupItemHandler;
-import com.rs.plugin.handlers.PlayerStepHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @PluginEventHandler
 public class IkovDungeon {
@@ -36,8 +31,8 @@ public class IkovDungeon {
 			e.getNPC().sendDrop(p, new Item(87));
 	});
 	
-	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, WorldTile.of(2637, 9808, 0), e -> {
-		e.getPlayer().useLadder(WorldTile.of(2637, 3409, 0));	
+	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, Tile.of(2637, 9808, 0), e -> {
+		e.getPlayer().useLadder(Tile.of(2637, 3409, 0));	
 	});
 
 	public static ItemOnObjectHandler leverIceDoor = new ItemOnObjectHandler(false, new Object[] { 86 }, e -> {
@@ -53,14 +48,14 @@ public class IkovDungeon {
 			e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).setB("LeverIcePulled", true);
 	});
 
-	public static ObjectClickHandler handleLadderToMcGruborsShed = new ObjectClickHandler(new Object[]{ 32015 }, WorldTile.of(2659, 9892, 0), e -> e.getPlayer().useLadder(WorldTile.of(2658, 3492, 0)));
+	public static ObjectClickHandler handleLadderToMcGruborsShed = new ObjectClickHandler(new Object[]{ 32015 }, Tile.of(2659, 9892, 0), e -> e.getPlayer().useLadder(Tile.of(2658, 3492, 0)));
 
 	public static ObjectClickHandler handleFireWarriorDoorWithFight = new ObjectClickHandler(new Object[]{ 93 }, e -> {
 		if(e.getPlayer().getQuestManager().getAttribs(Quest.TEMPLE_OF_IKOV).getB("FireWarriorKilled")) {
 			handleDoor(e.getPlayer(), e.getObject());
 			return;
 		}
-		for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 			if(npc instanceof FireWarrior warrior && warrior.getOwner() == e.getPlayer())
 				return;
 		NPC warrior = new FireWarrior(e.getPlayer(), 277, e.getPlayer().getTile().transform(0, -1));
@@ -71,8 +66,8 @@ public class IkovDungeon {
 
 	public static ObjectClickHandler handleArmadylWall = new ObjectClickHandler(new Object[]{1586}, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
-	public static PickupItemHandler handleArmaStaffPickup = new PickupItemHandler(new Object[] { 84 }, WorldTile.of(2638, 9906, 0), e -> {
-		for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+	public static PickupItemHandler handleArmaStaffPickup = new PickupItemHandler(new Object[] { 84 }, Tile.of(2638, 9906, 0), e -> {
+		for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 			if (npc.getName().contains("Guardian of Armadyl") && npc.lineOfSightTo(e.getPlayer(), false)) {
 				e.cancelPickup();
 				e.getPlayer().startConversation(new Dialogue().addSimple("An Armadyl Guardian glares at you..."));
@@ -90,7 +85,7 @@ public class IkovDungeon {
 							.addPlayer(HeadE.HAPPY_TALKING, "A mighty hero!")
 							.addNPC(NPC, HeadE.CALM_TALK, "Pathetic fool! Prepare to die!")
 							.addNext(()->{
-								for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+								for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 3))
 									if(npc instanceof FireWarrior warrior && warrior.getOwner() == e.getPlayer())
 										warrior.setTarget(e.getPlayer());
 							})
@@ -169,7 +164,7 @@ public class IkovDungeon {
 		e.getPlayer().sendMessage("The door is firmly shut...");
 	});
 
-	public static PlayerStepHandler handleBridge = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2650, 9828, 0), WorldTile.of(2650, 9829, 0), WorldTile.of(2647, 9828, 0), WorldTile.of(2647, 9829, 0) }, e -> {
+	public static PlayerStepHandler handleBridge = new PlayerStepHandler(new Tile[] { Tile.of(2650, 9828, 0), Tile.of(2650, 9829, 0), Tile.of(2647, 9828, 0), Tile.of(2647, 9829, 0) }, e -> {
 		Player p = e.getPlayer();
 		if(p.getTempAttribs().getB("CrossingIkovBridge"))
 			return;
@@ -178,7 +173,7 @@ public class IkovDungeon {
 		p.getTempAttribs().setB("CrossingIkovBridge", true);
 		WorldTasks.scheduleTimer(i -> {
 			if(i == 1)
-				p.addWalkSteps(WorldTile.of((e.getTile().getX() == 2650 ? 2647 : 2650), e.getTile().getY(), 0), 4, false);
+				p.addWalkSteps(Tile.of((e.getTile().getX() == 2650 ? 2647 : 2650), e.getTile().getY(), 0), 4, false);
 			if(i == 2 && p.getWeight() > 0) {
 				p.resetWalkSteps();
 				p.sendMessage("The bridge gives way under the weight...");
@@ -187,7 +182,7 @@ public class IkovDungeon {
 			}
 			if(i == 4  && p.getWeight() > 0) {
 				p.sendMessage("Good thing the lava was shallow!");
-				p.setNextWorldTile(WorldTile.of(2648, 9826, 0));
+				p.setNextTile(Tile.of(2648, 9826, 0));
 				p.setRunHidden(true);
 				p.getTempAttribs().removeB("CrossingIkovBridge");
 				return false;

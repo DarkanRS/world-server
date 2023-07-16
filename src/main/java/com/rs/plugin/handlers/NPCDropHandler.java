@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.NPCDropEvent;
+
+import java.util.function.Consumer;
 
 public class NPCDropHandler extends PluginHandler<NPCDropEvent> {
 	private Object[] npcKeys, itemKeys;

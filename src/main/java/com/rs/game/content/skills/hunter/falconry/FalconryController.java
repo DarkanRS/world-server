@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.hunter.falconry;
 
-import java.util.Arrays;
-
 import com.rs.game.content.skills.hunter.falconry.Kebbit.KebbitType;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.player.Controller;
@@ -31,6 +29,8 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.Arrays;
 
 @PluginEventHandler
 public class FalconryController extends Controller {
@@ -109,7 +109,7 @@ public class FalconryController extends Controller {
 					e.getPlayer().getControllerManager().forceStop();
 					e.getPlayer().lock(2);
 					e.getPlayer().setNextAnimation(new Animation(1560));
-					WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+					WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 				});
 				ops.add("No");
 			});
@@ -117,7 +117,7 @@ public class FalconryController extends Controller {
 		}
 		e.getPlayer().lock(2);
 		e.getPlayer().setNextAnimation(new Animation(1560));
-		WorldTasks.schedule(() -> e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+		WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 	});
 
 	public static void beginFalconry(Player player) {

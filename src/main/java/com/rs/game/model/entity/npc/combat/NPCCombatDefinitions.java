@@ -16,18 +16,19 @@
 //
 package com.rs.game.model.entity.npc.combat;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class NPCCombatDefinitions {
@@ -277,6 +278,10 @@ public class NPCCombatDefinitions {
 	}
 
 	public static Map<Skill, Integer> generateLevels(int combat, int hp) {
+		return generateLevels(combat, hp, Integer.MAX_VALUE, Integer.MAX_VALUE);
+	}
+
+	public static Map<Skill, Integer> generateLevels(int combat, int hp, int clampAttack, int clampDefense) {
 		Map<Skill, Integer> levels = new HashMap<>();
 		int def = (int) (((combat/1.32 + 1) / 0.25) - hp);
 		combat -= (int) ((def + hp) * 0.25) + 1;
@@ -284,11 +289,11 @@ public class NPCCombatDefinitions {
 
 		int avg = (def+off)/2;
 
-		levels.put(Skill.ATTACK, avg);
-		levels.put(Skill.STRENGTH, avg);
-		levels.put(Skill.DEFENSE, avg);
-		levels.put(Skill.RANGE, avg);
-		levels.put(Skill.MAGE, avg);
+		levels.put(Skill.ATTACK, Utils.clampI(avg, 0, clampAttack));
+		levels.put(Skill.STRENGTH, Utils.clampI(avg, 0, clampAttack));
+		levels.put(Skill.DEFENSE, Utils.clampI(avg, 0, clampDefense));
+		levels.put(Skill.RANGE, Utils.clampI(avg, 0, clampAttack));
+		levels.put(Skill.MAGE, Utils.clampI(avg, 0, clampDefense));
 		return levels;
 	}
 

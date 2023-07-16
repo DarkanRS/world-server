@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -26,6 +23,9 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Smithing extends PlayerAction {
 	

@@ -16,31 +16,27 @@
 //
 package com.rs.game.content.skills.agility.agilitypyramid;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.World;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class AgilityPyramidBlock extends NPC {
 
 	private int timer;
-	private WorldTile dangerTile;
+	private Tile dangerTile;
 
-	public AgilityPyramidBlock(int id, WorldTile tile) {
+	public AgilityPyramidBlock(int id, Tile tile) {
 		super(id, tile);
 		dangerTile = transform(getId() == 3125 ? 2 : 0, getId() == 3125 ? 0 : 2, 0);
 	}
@@ -48,10 +44,9 @@ public class AgilityPyramidBlock extends NPC {
 	@Override
 	public void processNPC() {
 		if (timer-- <= 0) {
-			for (Player player : World.getPlayersInRegionRange(getRegionId()))
-				if (player.getPlane() == getPlane())
-					player.getVars().setVarBit(1550, getId() == 3125 ? 1 : 3);
-			setNextForceMovement(new ForceMovement(dangerTile, 2, getId() == 3125 ? Direction.EAST : Direction.NORTH));
+			for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
+				player.getVars().setVarBit(1550, getId() == 3125 ? 1 : 3);
+			forceMoveVisually(dangerTile, 20, 0);
 			timer = 10;
 		}
 		if (timer > 7)
@@ -65,26 +60,17 @@ public class AgilityPyramidBlock extends NPC {
 					dist = 2;
 				p.lock();
 				p.setNextAnimation(new Animation(3066));
-				final WorldTile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, 0);
-				p.setNextForceMovement(new ForceMovement(tile, dist, getId() == 3125 ? Direction.WEST : Direction.SOUTH));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						p.setNextWorldTile(tile.transform(0, 0, -1));
-						p.applyHit(new Hit(null, 80, HitLook.TRUE_DAMAGE));
-						p.unlock();
-					}
-				}, 2);
+				final Tile tile = p.transform(getId() == 3125 ? dist : 0, getId() == 3125 ? 0 : dist, -1);
+				p.forceMove(tile, 10, 30, () -> p.applyHit(new Hit(null, 80, HitLook.TRUE_DAMAGE)));
 			}
 		if (timer == 4)
-			for (Player player : World.getPlayersInRegionRange(getRegionId()))
-				if (player.getPlane() == getPlane())
-					player.getVars().setVarBit(1550, 0);
+			for (Player player : World.getPlayersInChunkRange(getChunkId(), 1))
+				player.getVars().setVarBit(1550, 0);
 	}
 
 	public List<Player> getHittablePlayers() {
 		List<Player> players = new ArrayList<>();
-		for (Player player : World.getPlayersInRegionRange(getRegionId())) {
+		for (Player player : World.getPlayersInChunkRange(getChunkId(), 1)) {
 			if (player.getPlane() != getPlane() || player.isLocked())
 				continue;
 			if (WorldUtil.collides(player.getTile(), dangerTile, 1, 2))

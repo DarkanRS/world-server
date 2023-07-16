@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.world.areas.port_phasmatys.npcs;
 
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class GhostShopkeeper {
-	private static int npcId = 1699;
+	private static final int npcId = 1699;
 
 	public static NPCClickHandler ghostShopkeeper = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch (e.getOption()) {

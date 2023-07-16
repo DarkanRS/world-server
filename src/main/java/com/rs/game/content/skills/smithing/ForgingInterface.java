@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.content.skills.smithing.Smithing.Smithable;
@@ -27,6 +24,9 @@ import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class ForgingInterface {

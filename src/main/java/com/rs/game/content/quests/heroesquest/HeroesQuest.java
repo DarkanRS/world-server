@@ -1,24 +1,25 @@
 package com.rs.game.content.quests.heroesquest;
 
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestManager;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
 import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestManager;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.HEROES_QUEST)
 @PluginEventHandler
@@ -34,7 +35,7 @@ public class HeroesQuest extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
@@ -89,11 +90,20 @@ public class HeroesQuest extends QuestOutline {
 					lines.add("");
 				} else {
 					if (ShieldOfArrav.hasGang(player)) {
-						lines.add("To get the master thieves armband you");
-						if (ShieldOfArrav.isPhoenixGang(player))
+						if (ShieldOfArrav.isPhoenixGang(player)) {
+							lines.add("To get the master thieves armband you");
 							lines.add("should talk to Straven for a mission...");
-						if (ShieldOfArrav.isBlackArmGang(player))
-							lines.add("should talk to Katrine for a mission...");
+						}
+						if (ShieldOfArrav.isBlackArmGang(player)) {
+							if(player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_trick")) {
+								lines.add("The black arm gang has given me a mission to steal Pete's");
+								lines.add("candle sticks. I am to sneak in as a guard in black armour");
+								lines.add("by giving my paper ID then finding the chest with the sticks.");
+							} else {
+								lines.add("To get the master thieves armband you");
+								lines.add("should talk to Katrine for a mission...");
+							}
+						}
 					} else {
 						lines.add("Error, you don't have a gang, contact an admin!");
 					}
@@ -141,7 +151,7 @@ public class HeroesQuest extends QuestOutline {
 			return;
 		else {
 			e.cancel();
-			World.addGroundItem(new Item(1583, 1), WorldTile.of(p.getTile()));
+			World.addGroundItem(new Item(1583, 1), Tile.of(p.getTile()));
 			p.startConversation(new Dialogue().addSimple("The feather is too hot to pick up with your bare hands..."));
 		}
 	});
@@ -159,7 +169,7 @@ public class HeroesQuest extends QuestOutline {
 		Player p = e.getPlayer();
 		if (e.getOption().equalsIgnoreCase("drop")) {
 			p.getInventory().removeItems(e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 			return;
 		}
@@ -175,7 +185,31 @@ public class HeroesQuest extends QuestOutline {
 			player.sendMessage("You have gained " + xpAdded[i][1] + " in " + Skills.SKILL_NAME[(int) xpAdded[i][0]] + ".");
 			player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
 		}
-		getQuest().sendQuestCompleteInterface(player, 1377, "Access to the heroes guild", "Access to Heroes Guild Shop", "Total of 29,232XP over twelve skills");
+		sendQuestCompleteInterface(player, 1377);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Achiettes at the entrance to the Heroes' Guild in Burthorpe.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>" +
+				"If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>" +
+				"Fishing rod (and possibly bait), harralander potion (unf).<br>" +
+				"Ice gloves.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 77 enemy.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Total of 29,232 XP over twelve skills<br>"+
+				"Access to the Heroes' Guild";
 	}
 
 }

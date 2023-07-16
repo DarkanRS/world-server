@@ -16,23 +16,17 @@
 //
 package com.rs.tools;
 
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
+import com.rs.lib.util.Utils;
+import com.rs.tools.old.WebPage;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.lib.util.Utils;
-import com.rs.tools.old.WebPage;
+import java.util.*;
 
 public class NPCCharmDumper {
 

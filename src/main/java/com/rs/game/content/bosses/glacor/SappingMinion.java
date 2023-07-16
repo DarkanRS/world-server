@@ -18,14 +18,14 @@ package com.rs.game.content.bosses.glacor;
 
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class SappingMinion extends NPC {
 
 	public Glacor parent;
 	public boolean defeated = false;
 
-	public SappingMinion(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
+	public SappingMinion(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, Glacor parent) {
 		super(id, tile, spawned);
 		this.parent = parent;
 		setForceAgressive(true);

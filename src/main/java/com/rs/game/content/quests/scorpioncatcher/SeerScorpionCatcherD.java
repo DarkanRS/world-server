@@ -1,8 +1,8 @@
 package com.rs.game.content.quests.scorpioncatcher;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 
@@ -10,9 +10,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 public class SeerScorpionCatcherD extends Conversation {
 	private final static int NPC = 388;
 
-	public SeerScorpionCatcherD(Player p) {
-		super(p);
-		if (!p.getInventory().containsOneItem(ScorpionCatcher.EMPTY_CAGE, ScorpionCatcher.CAUGHT_CAGE_1, ScorpionCatcher.CAUGHT_CAGE_2, ScorpionCatcher.CAUGHT_CAGE_3)) {
+	public SeerScorpionCatcherD(Player player) {
+		super(player);
+		if (!player.getInventory().containsOneItem(ScorpionCatcher.EMPTY_CAGE, ScorpionCatcher.CAUGHT_CAGE_1, ScorpionCatcher.CAUGHT_CAGE_2, ScorpionCatcher.CAUGHT_CAGE_3)) {
 			addNPC(NPC, HeadE.CALM_TALK, "Thormac has your cage.");
 			addPlayer(HeadE.FRUSTRATED, "Oh...");
 		} else {
@@ -20,7 +20,7 @@ public class SeerScorpionCatcherD extends Conversation {
             addPlayer(HeadE.HAPPY_TALKING, "Your friend Thormac sent me to speak to you.");
         }
 		
-		if (p.getInventory().containsItem(ScorpionCatcher.CAUGHT_CAGE_3, 1)) {
+		if (player.getInventory().containsItem(ScorpionCatcher.CAUGHT_CAGE_3, 1)) {
 			addPlayer(HeadE.HAPPY_TALKING, "I got all the scorpions!");
 			addNPC(NPC, HeadE.CALM_TALK, "Great!");
 			return;
@@ -34,12 +34,12 @@ public class SeerScorpionCatcherD extends Conversation {
 		addSimple("The seer gazes into the mirror");
 		addSimple("The seer smoothes his hair with his hand.");
 		addNPC(NPC, HeadE.CALM_TALK, "I can see a scorpion that you seek. It resides in a dark place, between a lake and a holy island. There by the " +
-				"entrance shall you find it. So close and yet so far.", () -> p.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp1LocKnown", true));
+				"entrance shall you find it. So close and yet so far.", () -> player.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp1LocKnown", true));
 		addPlayer(HeadE.CONFUSED, "That was cryptic. Can't you just tell me where it is?");
 		addNPC(NPC, HeadE.CALM_TALK, "Where would be the fun in that?");
 		addPlayer(HeadE.FRUSTRATED, "Any more scorpions?");
 		addNPC(NPC, HeadE.CALM_TALK, "Well, I've checked my looking glass. The second Kharid Scorpion has been spirited away by a brute of a man." +
-				" He runs a shop in a village two canoe trips from Lumbridge.", () -> p.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp2LocKnown", true));
+				" He runs a shop in a village two canoe trips from Lumbridge.", () -> player.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp2LocKnown", true));
 		addNPC(NPC, HeadE.CALM_TALK, "That's all I can tell you about that scorpion.");
 		addPlayer(HeadE.FRUSTRATED, "Any more scorpions?");
 		addNPC(NPC, HeadE.CALM_TALK, "It's good that you should ask. I have information on the last scorpion for you. It seems to be in some sort of " +
@@ -49,6 +49,6 @@ public class SeerScorpionCatcherD extends Conversation {
 		addPlayer(HeadE.HAPPY_TALKING, "Not really.");
 		addNPC(NPC, HeadE.FRUSTRATED, "Fine! You should go to where monks reside.");
 		addPlayer(HeadE.HAPPY_TALKING, "Up a tree?");
-		addNPC(NPC, HeadE.ANGRY, "MONKS! NOT MONKEYS!!!!", () -> p.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp3LocKnown", true));
+		addNPC(NPC, HeadE.ANGRY, "MONKS! NOT MONKEYS!!!!", () -> player.getQuestManager().getAttribs(Quest.SCORPION_CATCHER).setB("scorp3LocKnown", true));
 	}
 }

@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class KingRoaldShieldOfArravD extends Conversation {
@@ -31,15 +31,15 @@ public class KingRoaldShieldOfArravD extends Conversation {
 			return;
 		}
 
-		if(p.getInventory().containsItem(ShieldOfArrav.CERTIFICATE_FULL)) {
+		if(p.getInventory().containsItem(769)) {
 			addPlayer(HeadE.HAPPY_TALKING, "Your majesty, I have come to claim the reward for the return of the Shield Of Arrav.");
-			addItem(ShieldOfArrav.CERTIFICATE_FULL, "You show the certificate to King Roald");
+			addItem(769, "You show the certificate to King Roald");
 			addNPC(KING_ROALD, HeadE.AMAZED, "My goodness! My father set a bounty on this shield many years ago!");
 			addNPC(KING_ROALD, HeadE.AMAZED_MILD, "I never thought I would live to see the day when someone came forward to claim it.");
 			addNPC(KING_ROALD, HeadE.TALKING_ALOT, "1,200 coins was a fortune in my father's day. I hope it serves you well in your adventures.");
 			addNPC(KING_ROALD, HeadE.HAPPY_TALKING, "The museum of Varrock shall proudly display the Shield of Arrav once again.");
 			addNext(() -> {
-				p.getInventory().deleteItem(ShieldOfArrav.CERTIFICATE_FULL, 1);
+				p.getInventory().deleteItem(769, 1);
 				p.getQuestManager().completeQuest(Quest.SHIELD_OF_ARRAV);
 			});
 			return;
@@ -57,7 +57,7 @@ public class KingRoaldShieldOfArravD extends Conversation {
 			return;
 		}
 
-		if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_LEFT_HALF) || p.getInventory().containsItem(ShieldOfArrav.SHIELD_RIGHT_HALF)) {
+		if(p.getInventory().containsItem(763) || p.getInventory().containsItem(765)) {
 			addPlayer(HeadE.HAPPY_TALKING, " Your majesty, I have recovered the Shield Of Arrav; I would like to claim the reward.");
 			addNPC(KING_ROALD, HeadE.SKEPTICAL, "The Shield of Arrav, eh? Yes, I do recall my father, King Roald, put a reward out for that");
 			addNPC(KING_ROALD, HeadE.SKEPTICAL, "Very well, If you get the authenticity of the shield verified by the curator at the museum and then return" +

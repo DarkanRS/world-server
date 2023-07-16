@@ -16,11 +16,9 @@
 //
 package com.rs.game.content.skills.firemaking;
 
-import java.util.ArrayList;
-
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -30,8 +28,10 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
 
 public class Bonfire extends PlayerAction {
 
@@ -77,7 +77,7 @@ public class Bonfire extends PlayerAction {
 	}
 
 	private boolean checkAll(Player player) {
-		if (!World.getRegion(object.getTile().getRegionId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
+		if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(log.logId, 1))
 			return false;
 		if (player.getSkills().getLevel(Constants.FIREMAKING) < log.level) {
 			player.simpleDialogue("You need level " + log.level + " Firemaking to add these logs to a bonfire.");
@@ -123,7 +123,7 @@ public class Bonfire extends PlayerAction {
 	public boolean process(Player player) {
 		if (checkAll(player)) {
 			if (Utils.random(500) == 0) {
-				WorldTile tile = player.getNearestTeleTile(1);
+				Tile tile = player.getNearestTeleTile(1);
 				if (tile != null) {
 					new FireSpirit(tile, player);
 					player.sendMessage("<col=ff0000>A fire spirit emerges from the bonfire.");

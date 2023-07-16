@@ -27,7 +27,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 /**
@@ -90,7 +90,7 @@ public final class TorturedSoul extends NPC {
 	 * @param spawn
 	 *            The spawn location.
 	 */
-	public TorturedSoul(QueenBlackDragon dragon, Player victim, WorldTile spawn) {
+	public TorturedSoul(QueenBlackDragon dragon, Player victim, Tile spawn) {
 		super(15510, spawn, false);
 		super.setHitpoints(500);
 		super.getCombatDefinitions().setHitpoints(500);
@@ -121,9 +121,9 @@ public final class TorturedSoul extends NPC {
 	/**
 	 * Sends the special attack.
 	 */
-	public void specialAttack(WorldTile teleport) {
+	public void specialAttack(Tile teleport) {
 		super.getCombat().addCombatDelay(10);
-		super.setNextWorldTile(teleport);
+		super.setNextTile(teleport);
 		super.setNextSpotAnim(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();
@@ -156,7 +156,7 @@ public final class TorturedSoul extends NPC {
 
 					@Override
 					public void run() {
-						WorldTile current = WorldTile.of(x, y, 1);
+						Tile current = Tile.of(x, y, 1);
 						victim.getPackets().sendSpotAnim(SPECIAL_GRAPHIC, current);
 						Entity target = null;
 						for (TorturedSoul soul : dragon.getSouls())

@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.tzhaar.npcs;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.minigames.fightpits.FightPits;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 
 public class TzHaarMejKah extends Conversation {
-	private static int npcId = 2618;
+	private static final int npcId = 2618;
 
 	public static NPCClickHandler TzHaarMejKah = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch(e.getOption()) {

@@ -26,23 +26,52 @@ public class KeyPressHandler implements PacketHandler<Player, KeyPress> {
 	public void handle(Player player, KeyPress packet) {
 		player.refreshIdleTime();
 		switch(packet.getKeyCode()) {
-		case 13 -> {
-			if(!player.getTempAttribs().getB("CUTSCENE_INTERFACE_CLOSE_DISABLED"))
-				player.closeInterfaces();
-			if (player.getInterfaceManager().topOpen(755)) {//World map
-				//Send window pane
-				player.getPackets().sendWindowsPane(player.resizeable() ? 746 : 548, 2);
+			case 13 -> {
+				if(!player.getTempAttribs().getB("CUTSCENE_INTERFACE_CLOSE_DISABLED"))
+					player.closeInterfaces();
+				if (player.getInterfaceManager().topOpen(755)) {//World map
+					//Send window pane
+					player.getPackets().sendWindowsPane(player.resizeable() ? 746 : 548, 2);
 
-				//Reset top of interface stack on client
-				player.getInterfaceManager().setDefaultTopInterface();
+					//Reset top of interface stack on client
+					player.getInterfaceManager().setDefaultTopInterface();
+				}
 			}
-		}
+//			case 33, 48, 49, 50, 83 -> { //WASD walking lmao
+//				switch(packet.getKeyCode()) {
+//					case 33 -> {
+//						player.stopAll();
+//						player.resetWalkSteps();
+//						player.addWalkSteps(player.getX(), player.getY()+5);
+//					}
+//					case 48 -> {
+//						player.stopAll();
+//						player.resetWalkSteps();
+//						player.addWalkSteps(player.getX()-5, player.getY());
+//					}
+//					case 49 -> {
+//						player.stopAll();
+//						player.resetWalkSteps();
+//						player.addWalkSteps(player.getX(), player.getY()-5);
+//					}
+//					case 50 -> {
+//						player.stopAll();
+//						player.resetWalkSteps();
+//						player.addWalkSteps(player.getX()+5, player.getY());
+//					}
+//					case 83 -> {
+//						GameObject object = World.getObject(player.transform(player.getDirection().getDx(), player.getDirection().getDy(), player.getPlane()), ObjectType.SCENERY_INTERACT);
+//						if (object != null)
+//							PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true));
+//					}
+//				}
+//			}
 //		case 83 -> {
 //			if (player.getConversation() != null) {
 //				player.getConversation().process(0);
 //			}
 //		}
-		//default -> player.sendMessage("Keycode: " + packet.getKeyCode());
+//		default -> player.sendMessage("Keycode: " + packet.getKeyCode());
 		}
 	}
 

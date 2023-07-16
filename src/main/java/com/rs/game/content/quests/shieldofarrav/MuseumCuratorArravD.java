@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
@@ -35,15 +35,15 @@ public class MuseumCuratorArravD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "Can I have another half of my certificate?");
 			addNPC(CURATOR, HeadE.CALM_TALK, "Sure, though I don't see why you want one...");
 			addSimple("He scribbles on a piece of paper and tears it in half.");
-			addItem(ShieldOfArrav.CERTIFICATE_LEFT, "He hands you the certificate...", ()->{
+			addItem(11173, "He hands you the certificate...", ()->{
 				if(!ShieldOfArrav.hasGang(p)) {
 					p.sendMessage("You should talk to an admin, you don't have a gang!");
 					return;
 				}
 				if(ShieldOfArrav.isBlackArmGang(p))
-					p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_LEFT, 1);
+					p.getInventory().addItem(11173, 1);
 				if(ShieldOfArrav.isPhoenixGang(p))
-					p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_RIGHT, 1);
+					p.getInventory().addItem(11174, 1);
 			});
 			return;
 		}
@@ -75,14 +75,14 @@ public class MuseumCuratorArravD extends Conversation {
 		addNPC(CURATOR, HeadE.CALM, "Yes, certainly. Please hand over the shield.");
 		addSimple("You hand over the shield half.");
 		addSimple("The curator writes out two half-certificates.", () -> {
-			if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1)) {
-				p.getInventory().deleteItem(ShieldOfArrav.SHIELD_LEFT_HALF, 1);
-				p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_LEFT, 2);
+			if(p.getInventory().containsItem(763, 1)) {
+				p.getInventory().deleteItem(763, 1);
+				p.getInventory().addItem(11173, 2);
 				ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE_STAGE);
 			}
-			if(p.getInventory().containsItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1)) {
-				p.getInventory().deleteItem(ShieldOfArrav.SHIELD_RIGHT_HALF, 1);
-				p.getInventory().addItem(ShieldOfArrav.CERTIFICATE_RIGHT, 2);
+			if(p.getInventory().containsItem(765, 1)) {
+				p.getInventory().deleteItem(765, 1);
+				p.getInventory().addItem(11174, 2);
 				ShieldOfArrav.setStage(p, ShieldOfArrav.HAS_CERTIFICATE_STAGE);
 			}
 		});
@@ -99,7 +99,7 @@ public class MuseumCuratorArravD extends Conversation {
 
 
 	public static ItemOnNPCHandler handleItemOnCurator = new ItemOnNPCHandler(646, e -> {
-		if (e.getItem().getId() == ShieldOfArrav.SHIELD_LEFT_HALF || e.getItem().getId() == ShieldOfArrav.SHIELD_RIGHT_HALF)
+		if (e.getItem().getId() == 763 || e.getItem().getId() == 765)
 			e.getPlayer().startConversation(new MuseumCuratorArravD(e.getPlayer(), true).getStart());
 	});
 }

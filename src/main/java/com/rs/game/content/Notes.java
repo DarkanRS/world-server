@@ -16,13 +16,13 @@
 //
 package com.rs.game.content;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public final class Notes {

@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import com.rs.game.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 
 public class StealingCreationClay extends Conversation {

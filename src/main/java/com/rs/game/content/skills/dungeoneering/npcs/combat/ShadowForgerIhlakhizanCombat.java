@@ -20,7 +20,6 @@ import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.ShadowForgerIhlakhizan;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
@@ -33,7 +32,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -59,7 +58,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(13019));
 				npc.setNextSpotAnim(new SpotAnim(2370));
 				for (int i = 0; i < 10; i++) {
-					final WorldTile tile = ((ShadowForgerIhlakhizan) npc).getManager().getTile(forger.getReference(), 2 + Utils.random(12), 2 + Utils.random(12));
+					final Tile tile = ((ShadowForgerIhlakhizan) npc).getManager().getTile(forger.getReference(), 2 + Utils.random(12), 2 + Utils.random(12));
 					if (WorldUtil.collides(npc.getX(), npc.getY(), npc.getSize(), tile.getX(), tile.getY(), 1))
 						continue;
 					World.sendProjectile(npc, tile, 2371, 120, 30, 41, 30, 16, 0);
@@ -67,7 +66,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 
 						@Override
 						public void run() {
-							World.sendSpotAnim(npc, new SpotAnim(2374), tile);
+							World.sendSpotAnim(tile, new SpotAnim(2374));
 							for (Player player : forger.getManager().getParty().getTeam()) {
 								if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
 									continue;
@@ -94,7 +93,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 						if (t instanceof Player player) {
 							WorldTasks.schedule(new WorldTask() {
 								private int ticks;
-								private WorldTile tile;
+								private Tile tile;
 
 								@Override
 								public void run() {
@@ -106,19 +105,15 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 										}
 										byte[] dirs = Utils.getDirection(npc.getFaceAngle());
 										for (int distance = 2; distance >= 0; distance--) {
-											tile = WorldTile.of(WorldTile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
+											tile = Tile.of(Tile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
 											if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 												break;
 											if (distance == 0)
-												tile = WorldTile.of(target.getTile());
+												tile = Tile.of(target.getTile());
 										}
 										target.faceEntity(forger);
-										target.setNextAnimation(new Animation(10070));
-										target.setNextForceMovement(new ForceMovement(target.getTile(), 0, tile, 2, target.getFaceAngle()));
-									} else if (ticks == 2) {
-										target.setNextWorldTile(tile);
+										target.forceMove(tile, 10070, 5, 60);
 										stop();
-										return;
 									}
 								}
 							}, 0, 0);

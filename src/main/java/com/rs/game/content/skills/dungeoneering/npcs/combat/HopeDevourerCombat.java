@@ -20,7 +20,6 @@ import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.HopeDevourer;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -31,7 +30,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -94,7 +93,7 @@ public class HopeDevourerCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, damage));
 			WorldTasks.schedule(new WorldTask() {
 				private int ticks;
-				private WorldTile tile;
+				private Tile tile;
 
 				@Override
 				public void run() {
@@ -106,19 +105,15 @@ public class HopeDevourerCombat extends CombatScript {
 						}
 						byte[] dirs = Utils.getDirection(npc.getFaceAngle());
 						for (int distance = 2; distance >= 0; distance--) {
-							tile = WorldTile.of(WorldTile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
+							tile = Tile.of(Tile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
 							if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
 								break;
 							if (distance == 0)
-								tile = WorldTile.of(target.getTile());
+								tile = Tile.of(target.getTile());
 						}
 						target.faceEntity(boss);
-						target.setNextAnimation(new Animation(10070));
-						target.setNextForceMovement(new ForceMovement(target.getTile(), 0, tile, 2, target.getFaceAngle()));
-					} else if (ticks == 2) {
-						target.setNextWorldTile(tile);
+						target.forceMove(tile, 10070, 1, 60);
 						stop();
-						return;
 					}
 				}
 			}, 0, 0);

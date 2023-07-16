@@ -16,26 +16,27 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.RUNE_MYSTERIES)
 @PluginEventHandler
@@ -48,7 +49,7 @@ public class RuneMysteries extends QuestOutline {
 		return 4;
 	}
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:
@@ -88,7 +89,28 @@ public class RuneMysteries extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, 1438, "Access to the rune essence mine", "Air talisman");
+		sendQuestCompleteInterface(player, 1438);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Duke Horacio on the 2nd floor of Lumbridge Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "The ability to mine rune essence<br>" +
+				"An air talisman";
 	}
 
 	public static class DukeHoracioRuneMysteriesD extends Conversation {
@@ -112,7 +134,7 @@ public class RuneMysteries extends QuestOutline {
 								.addSimple("The duke hands you a talisman")
 								.addNext(()->{
 									player.getInventory().addItem(new Item(15361, 1), true);
-									player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 1, true);
+									player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 1);
 								}));
 						option("Not right now", () -> {
 
@@ -175,7 +197,7 @@ public class RuneMysteries extends QuestOutline {
 														.addNext(() -> {
 															player.getInventory().deleteItem(15361, 1);
 															player.getInventory().addItem(new Item(290, 1), true);
-															player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2, true);
+															player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 2);
 														}));
 												option("No, i'm busy", () -> {
 												});
@@ -281,21 +303,21 @@ public class RuneMysteries extends QuestOutline {
 									option("Yes please", new Dialogue()
 											.addNext(() -> {
 												e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
-												World.sendProjectile(e.getNPC(), e.getPlayer(), 50, 5, 5, 5, 1, 5, 0);
+												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5, 0);
 												WorldTasks.schedule(new WorldTask() {
 													@Override
 													public void run() {
-														e.getPlayer().setNextWorldTile(WorldTile.of(3113, 3175, 0, 0));
+														e.getPlayer().setNextTile(Tile.of(3113, 3175, 0, 0));
 													}
 												}, 2);
 												player.getInventory().deleteItem(290, 1);
 												player.getInventory().addItem(new Item(291, 1), true);
-												player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3, true);
+												player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3);
 											}));
 									option("No thanks", () -> {
 										player.getInventory().deleteItem(290, 1);
 										player.getInventory().addItem(new Item(291, 1), true);
-										player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3, true);
+										player.getQuestManager().setStage(Quest.RUNE_MYSTERIES, 3);
 									});
 								}
 							});

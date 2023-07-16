@@ -21,14 +21,14 @@ import com.rs.game.content.combat.RangedWeapon;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class Kurask extends NPC {
 
-	public Kurask(int id, WorldTile tile) {
+	public Kurask(int id, Tile tile) {
 		super(id, tile);
 	}
 

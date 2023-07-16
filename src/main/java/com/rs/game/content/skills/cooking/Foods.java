@@ -16,10 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.model.entity.ForceTalk;
@@ -30,626 +27,511 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.utils.Ticks;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Consumer;
+
+@PluginEventHandler
 public class Foods {
 
-	public static enum Food {
-
-		TURKEY_DRUMSTICK(15428, 1),
-		ROAST_POTATOES(15429, 1),
-		YULE_LOGS(15430, 1),
-		MULLED_WINE(15431, 1),
-
-		CRAYFISH(13433, 2),
-
-		KINGWORM(2162, 2),
-
-		ANCHOVIE(319, 1),
-
-		SHRIMP(315, 3),
-
-		FROG_SPAWN(5004, 2),
-
-		KARAMBWANJI(3151, 3),
-
-		SARDINE(325, 3),
-
-		POISON_KARAMBWANJI(3146, 0, Effect.POISION_KARMAMWANNJI_EFFECT),
-
-		KARAMBWANI(3144, 18),
-
-		SLIMY_EEL(3381, 7),
-
-		RAINBOW_FISH(10136, 11),
-
-		CAVE_EEL(5003, 8),
-
-		LAVA_EEL(2149, 7),
-
-		HERRING(347, 5),
-
-		EDIBLE_SEAWEED(403, 4),
-
-		MACKEREL(355, 6),
-
-		TROUT(333, 7),
-
-		COD(339, 7),
-
-		PIKE(351, 8),
-
-		SALMON(329, 9),
-
-		TUNA(361, 10),
-
-		LOBSTER(379, 12),
-
-		BASS(365, 13),
-
-		SWORDFISH(373, 14),
-
-		SWEETCORN(5988, 10),
-		STRAWBERRY(5504, 6),
-
-		MONKFISH(7946, 16),
-
-		SHARK(385, 20),
-
-		BARON_SHARK(19948, 28),
-
-		TURTLE(397, 21),
-
-		MANTA(391, 22),
-
-		CAVEFISH(15266, 22),
-
-		ROCKTAIL(15272, 23, 0, null, 10),
-
-		/**
-		 * Meats
-		 */
-		CHICKEN(2140, 3),
-
-		MEAT(2142, 3), // TODO
-
-		RABIT(3228, 5),
-
-		ROAST_RABIT(7223, 7),
-
-		KEBAB(1971, 7),
-		UGTHANKI_KEBAB_1(1883, 19),
-		UGTHANKI_KEBAB_2(1885, 19),
-
-		ROASTED_BIRD_MEAT(9980, 6),
-
-		CRAB_MEAT(7521, 10), // TODO
-
-		ROASTED_BEAST_MEAT(9988, 8),
-
-		CHOMPY(2878, 10),
-
-		JUBBLY(7568, 15),
-
-		OOMILE(2343, 14),
-
-		/**
-		 * Pies
-		 */
-		REDBERRY_PIE_FULL(2325, 5, 2333),
-
-		REDBERRY_PIE_HALF(2333, 5, 2313),
-
-		MEAT_PIE_FULL(2327, 6, 2331),
-
-		MEAT_PIE_HALF(2331, 6, 2313),
-
-		APPLE_PIE_FULL(2323, 7, 2335),
-
-		APPLE_PIE_HALF(2335, 7, 2313),
-
-		GARDEN_PIE_FULL(7178, 6, 7180, Effect.GARDEN_PIE),
-
-		GARDEN_PIE_HALF(7180, 6, 2313, Effect.GARDEN_PIE),
-
-		FISH_PIE_FULL(7188, 6, 7190, Effect.FISH_PIE),
-
-		FISH_PIE_HALF(7188, 6, 2313, Effect.FISH_PIE),
-
-		ADMIRAL_PIE_FULL(7198, 8, 7200, Effect.ADMIRAL_PIE),
-
-		ADMIRAL_PIE_HALF(7200, 8, 2313, Effect.ADMIRAL_PIE),
-
-		WILD_PIE_FULL(7208, 11, 7210, Effect.WILD_PIE),
-
-		WILD_PIE_HALF(7210, 11, 2313, Effect.WILD_PIE),
-
-		SUMMER_PIE_FULL(7218, 11, 7220, Effect.SUMMER_PIE),
-
-		SUMMER_PIE_HALF(7220, 11, 2313, Effect.SUMMER_PIE),
-
-		/**
-		 * Stews
-		 */
-
-		STEW(2003, 11, 1923),
-
-		SPICY_STEW(7513, 11, 1923, Effect.SPICY_STEW_EFFECT),
-
-		CURRY(2011, 19, 1923),
-
-		/**
-		 * Pizzas
-		 */
-		PLAIN_PIZZA_FULL(2289, 7, 2291),
-
-		PLAIN_PIZZA_HALF(2291, 7),
-
-		MEAT_PIZZA_FULL(2293, 8, 2295),
-
-		MEAT_PIZZA_HALF(2295, 8),
-
-		ANCHOVIE_PIZZA_FULL(2297, 9, 2299),
-
-		ANCHOVIE_PIZZA_HALF(2299, 9),
-
-		PINEAPPLE_PIZZA_FULL(2301, 11, 2303),
-
-		PINEAPPLE_PIZZA_HALF(2303, 11),
-
-		/**
-		 * Potato Toppings
-		 */
-		SPICEY_SAUCE(7072, 2, 1923),
-
-		CHILLI_CON_CARNIE(7062, 14, 1923),
-
-		SCRAMBLED_EGG(7078, 5, 1923),
-
-		EGG_AND_TOMATO(7064, 8, 1923),
-
-		FRIED_ONIONS(7084, 9, 1923),
-
-		MUSHROOM_AND_ONIONS(7066, 11, 1923),
-
-		FRIED_MUSHROOMS(7082, 5, 1923),
-
-		TUNA_AND_CORN(7068, 13, 1923),
-
-		/**
-		 * Baked Potato
-		 */
-		BAKED_POTATO(6701, 4),
-
-		POTATO_WITH_BUTTER(6703, 14),
-
-		CHILLI_POTATO(7054, 14),
-
-		POTATO_WITH_CHEESE(6705, 16),
-
-		EGG_POTATO(7056, 16),
-
-		MUSHROOM_AND_ONION_POTATO(7058, 20),
-
-		TUNA_POTATO(7060, 24),
-
-		/**
-		 * Gnome Food
-		 */
-		TOAD_CRUNCHIES(2217, 8),
-		PM_TOAD_CRUNCHIES(2243, 8),
-
-		SPICY_CRUNCHIES(2213, 7),
-		PM_SPICY_CRUNCHIES(2241, 7),
-
-		WORM_CRUNCHIES(2205, 8),
-		PM_WORM_CRUNCHIES(2237, 8),
-
-		CHOCOCHIP_CRUNCHIES(2209, 7),
-		PM_CHOCOCHIP_CRUNCHIES(2239, 7),
-
-		FRUIT_BATTA(2277, 11),
-		PM_FRUIT_BATTA(2225, 11),
-
-		TOAD_BATTA(2255, 11),
-		PM_TOAD_BATTA(2221, 11),
-
-		WORM_BATTA(2253, 11),
-		PM_WORM_BATTA(2219, 11),
-
-		VEGETABLE_BATTA(2281, 11),
-		PM_VEGETABLE_BATTA(2227, 11),
-
-		CHEESE_AND_TOMATO_BATTA(9535, 11),
-		PM_CHEESE_AND_TOMATO_BATTA(2223, 11),
-
-		WORM_HOLE(2191, 12),
-		PM_WORM_HOLE(2233, 12),
-
-		VEG_BALL(2195, 12),
-		PRE_MADE_VEG_BALL(2235, 12),
-
-		TANGLED_TOAD_LEGS(2187, 15),
-		PM_TANGLED_TOAD_LEGS(2231, 15),
-
-		CHOCOLATE_BOMB(2185, 15),
-		PM_CHOCOLATE_BOMB(2229, 15),
-
-		/**
-		 * Misc
-		 */
-		CHOCOLATE_BAR(1973, 2),
-		EASTER_EGG(1961, 12),
-		EASTER_EGG1(7928, 12),
-		EASTER_EGG2(7929, 12),
-		EASTER_EGG3(7930, 12),
-		EASTER_EGG4(7931, 12),
-		EASTER_EGG5(7932, 12),
-		EASTER_EGG6(7933, 12),
-
-		GGS(10960, 2),
-		FSG(10961, 2),
-		FB(10962, 2),
-		CFL(10963, 2),
-		BSH(10964, 2),
-		FINGERS(10965, 2),
-		GLM(10966, 2),
-		RF(10967, 2),
-		MUSHROOMS(10968, 2),
-		FILLETS(10969, 2),
-		LOACH(10970, 3),
-		EELSUSHI(10971, 10),
-
-		CAKE(1891, 4, 1893),
-
-		TWO_THIRDS_CAKE(1893, 4, 1895),
-
-		SLICE_OF_CAKE(1895, 4),
-
-		CHOCOLATE_CAKE(1897, 4, 1899),
-
-		TWO_THIRDS_CHOCOLATE_CAKE(1899, 4, 1901),
-
-		CHOCOLATE_SLICE(1901, 4),
-
-		FISHCAKE(7530, 11),
-
-		BREAD(2309, 5),
-
-		TEA(1978, 3, 1980, Effect.TEA_MESSAGE),
-		WINE(1993, 11, 1935),
-
-		CABBAGE(1965, 1, Effect.CABAGE_MESSAGE),
-
-		ONION(1957, 1, Effect.ONION_MESSAGE),
-
-		EVIL_TURNIP(12134, 6, 12136),
-		TWO_THIRDS_EVIL_TURNIP(12136, 6, 12138),
-		ONE_THIRD_EVIL_TURNIP(12138, 6),
-
-		POT_OF_CREAM(2130, 1),
-
-		CHEESE_WHEEL(18789, 2),
-		SPINACH_ROLL(1969, 2),
-
-		PAPAYA(5972, 8, Effect.PAPAYA),
-
-		BANANA(1963, 2),
-
-		THIN_SNAIL_MEAT(3369, 5 + Utils.random(2)),
-
-		LEAN_SNAIL_MEAT(3371, 8),
-
-		FAT_SNAIL_MEAT(3373, 8 + Utils.random(2)),
-
-		HEIM_CRAB(18159, 2),
-
-		BLUE_CRAB(18175, 22),
-
-		BOULDABASS(18171, 17),
-
-		CAVE_MORAY(18177, 25),
-
-		DUSK_EEL(18163, 7),
-
-		GIANT_FLATFISH(18165, 10),
-
-		RED_EYE(18161, 5),
-
-		SALVE_EEL(18173, 20),
-
-		SHORT_FINNED_EEL(18167, 12),
-
-		WEB_SNIPER(18169, 15),
-		EVIL_DRUMSTICK(24147, 8),
-		CHOCOTREAT(24148, 8);
-
-		/**
-		 * The food id
-		 */
-		private int id;
-
-		/**
-		 * The healing health
-		 */
-		private int heal;
-
-		/**
-		 * The new food id if needed
-		 */
-		private int newId;
-
-		private int extraHP;
-
-		/**
-		 * Our effect
-		 */
-		private Effect effect;
-
-		/**
-		 * A map of object ids to foods.
-		 */
-		private static Map<Integer, Food> foods = new HashMap<>();
-
-		/**
-		 * Gets a food by an object id.
-		 *
-		 * @param itemId
-		 *            The object id.
-		 * @return The food, or <code>null</code> if the object is not a food.
-		 */
-		public static Food forId(int itemId) {
-			return foods.get(itemId);
-		}
-
-		/**
-		 * Populates the tree map.
-		 */
-		static {
-			for (final Food food : Food.values())
-				foods.put(food.id, food);
-		}
-
-		/**
-		 * Represents a food being eaten
-		 *
-		 * @param id
-		 *            The food id
-		 * @param heal
-		 *            The healing health received
-		 */
-		private Food(int id, int heal) {
-			this.id = id;
-			this.heal = heal;
-		}
-
-		/**
-		 * Represents a part of a food item being eaten (example: cake)
-		 *
-		 * @param id
-		 *            The food id
-		 * @param heal
-		 *            The heal amount
-		 * @param newId
-		 *            The new food id
-		 */
-		private Food(int id, int heal, int newId) {
-			this(id, heal, newId, null);
-		}
-
-		private Food(int id, int heal, int newId, Effect effect) {
-			this(id, heal, newId, effect, 0);
-		}
-
-		private Food(int id, int heal, int newId, Effect effect, int extraHP) {
-			this.id = id;
-			this.heal = heal;
-			this.newId = newId;
-			this.effect = effect;
-			this.extraHP = extraHP;
-		}
-
-		private Food(int id, int heal, Effect effect) {
-			this(id, heal, 0, effect);
-		}
-
-		/**
-		 * Gets the id.
-		 *
-		 * @return The id.
-		 */
-		public int getId() {
-			return id;
-		}
-
-		/**
-		 * Gets the exp amount.
-		 *
-		 * @return The exp amount.
-		 */
-		public int getHeal() {
-			return heal;
-		}
-
-		/**
-		 * Gets the new food id
-		 *
-		 * @return The new food id.
-		 */
-		public int getNewId() {
-			return newId;
-		}
-
-		public int getExtraHP() {
-			return extraHP;
-		}
-	}
-
-	public static enum Effect {
-		SUMMER_PIE {
-
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int runEnergy = (int) (player.getRunEnergy() * 1.1);
-				if (runEnergy > 100)
-					runEnergy = 100;
-				player.setRunEnergy(runEnergy);
-				int level = player.getSkills().getLevel(Constants.AGILITY);
-				int realLevel = player.getSkills().getLevelForXp(Constants.AGILITY);
-				player.getSkills().set(Constants.AGILITY, level >= realLevel ? realLevel + 5 : level + 5);
-			}
-
-		},
-
-		GARDEN_PIE {
-
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int level = player.getSkills().getLevel(Constants.FARMING);
-				int realLevel = player.getSkills().getLevelForXp(Constants.FARMING);
-				player.getSkills().set(Constants.FARMING, level >= realLevel ? realLevel + 3 : level + 3);
-			}
-
-		},
-
-		FISH_PIE {
-
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int level = player.getSkills().getLevel(Constants.FISHING);
-				int realLevel = player.getSkills().getLevelForXp(Constants.FISHING);
-				player.getSkills().set(Constants.FISHING, level >= realLevel ? realLevel + 3 : level + 3);
-			}
-		},
-
-		ADMIRAL_PIE {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int level = player.getSkills().getLevel(Constants.FISHING);
-				int realLevel = player.getSkills().getLevelForXp(Constants.FISHING);
-				player.getSkills().set(Constants.FISHING, level >= realLevel ? realLevel + 5 : level + 5);
-			}
-		},
-
-		WILD_PIE {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int level = player.getSkills().getLevel(Constants.SLAYER);
-				int realLevel = player.getSkills().getLevelForXp(Constants.SLAYER);
-				player.getSkills().set(Constants.SLAYER, level >= realLevel ? realLevel + 4 : level + 4);
-				int level2 = player.getSkills().getLevel(Constants.RANGE);
-				int realLevel2 = player.getSkills().getLevelForXp(Constants.RANGE);
-				player.getSkills().set(Constants.RANGE, level2 >= realLevel2 ? realLevel2 + 4 : level2 + 4);
-			}
-		},
-
-		SPICY_STEW_EFFECT {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				if (Utils.random(100) > 5) {
-					int level = player.getSkills().getLevel(Constants.COOKING);
-					int realLevel = player.getSkills().getLevelForXp(Constants.COOKING);
-					player.getSkills().set(Constants.COOKING, level >= realLevel ? realLevel + 6 : level + 6);
-				} else {
-					int level = player.getSkills().getLevel(Constants.COOKING);
-					player.getSkills().set(Constants.COOKING, level <= 6 ? 0 : level - 6);
-				}
-			}
-
-		},
-
-		CABAGE_MESSAGE {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				player.sendMessage("You don't really like it much.", true);
-			}
-		},
-
-		PAPAYA {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				int restoredEnergy = (int) (player.getRunEnergy() + 5);
-				player.setRunEnergy(restoredEnergy > 100 ? 100 : restoredEnergy);
-			}
-		},
-
-		TEA_MESSAGE {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				player.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
-				player.removeEffect(com.rs.game.content.Effect.AGGRESSION_POTION);
-			}
-		},
-
-		ONION_MESSAGE {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				player.sendMessage("It hurts to see a grown " + (player.getAppearance().isMale() ? "male" : "female") + "cry.");
-			}
-		},
-
-		POISION_KARMAMWANNJI_EFFECT {
-			@Override
-			public void effect(Object object) {
-				Player player = (Player) object;
-				player.applyHit(new Hit(player, 50, HitLook.POISON_DAMAGE));
-			}
-		};
-
-		public void effect(Object object) {
-		}
-	}
-
-	public static final Animation EAT_ANIM = new Animation(829);
-
-	public static boolean eat(final Player player, Item item, int slot) {
-		return eat(player, item, slot, null);
-	}
-
-	public static boolean eat(final Player player, Item item, int slot, Player givenFrom) {
-		Food food = Food.forId(item.getId());
-		if (food == null)
-			return false;
-		if (!player.canEat() || !player.getControllerManager().canEat(food))
-			return true;
-		String name = ItemDefinitions.getDefs(food.getId()).getName().toLowerCase();
-		player.sendMessage("You eat the " + name + ".");
-		player.incrementCount("Food eaten");
-		player.setNextAnimation(EAT_ANIM);
-		int foodDelay = name.contains("half") ? 2 : 3;
-		player.addFoodDelay(foodDelay);
-		player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 3);
-		player.getInventory().getItems().set(slot, food.getNewId() == 0 ? null : new Item(food.getNewId(), 1));
-		player.getInventory().refresh(slot);
-		int hp = player.getHitpoints();
-		if (ItemConstants.isDungItem(item.getId())) {
-			int healed = food.getHeal()*10;
-			if (givenFrom != null && givenFrom.getDungManager().getActivePerk() == KinshipPerk.MEDIC)
-				healed *= 1.2 + (givenFrom.getDungManager().getKinshipTier(KinshipPerk.MEDIC) * 0.03);
-			player.applyHit(new Hit(player, healed, HitLook.HEALED_DAMAGE));
-		} else
-			player.heal(food.getHeal() * 10, food.getExtraHP() * 10);
-		if (player.getHitpoints() > hp)
-			player.sendMessage("It heals some health.");
-		player.getInventory().refresh();
-		if (food.effect != null)
-			food.effect.effect(player);
-		return true;
-	}
-
-	public static boolean isConsumable(Item item) {
-		Food food = Food.forId(item.getId());
-		if (food == null)
-			return false;
-		return true;
-	}
+    public static final Animation EAT_ANIM = new Animation(829);
+
+    public static ItemClickHandler eat = new ItemClickHandler(Food.foods.keySet().toArray(), new String[] { "Eat", "Heal" }, e -> eat(e.getPlayer(), e.getItem(), e.getSlotId(), null));
+
+    public static boolean eat(final Player player, Item item, int slot, Player givenFrom) {
+        Food food = Food.forId(item.getId());
+        if (food == null)
+            return false;
+        if (!player.canEat() || !player.getControllerManager().canEat(food))
+            return true;
+        if (food.heal < 0) {
+            player.sendMessage("I'm not going to eat that!");
+            return true;
+        }
+        player.sendMessage("You eat the " + item.getName().toLowerCase() + ".", true);
+        player.incrementCount("Food eaten");
+        player.setNextAnimation(EAT_ANIM);
+        player.addFoodDelay(food.ids.length > 1 ? 2 : 3);
+        player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 3);
+        Item replace = new Item(item.getId(), item.getAmount());
+        if (replace.getDefinitions().isStackable())
+            replace.setAmount(replace.getAmount()-1);
+        else
+            replace.setId(food.getReplaceIdFor(item.getId()));
+        player.getInventory().getItems().set(slot, replace.getId() <= 0 || replace.getAmount() <= 0 ? null : replace);
+        player.getInventory().refresh(slot);
+        int hp = player.getHitpoints();
+        if (ItemConstants.isDungItem(item.getId())) {
+            int healed = food.heal;
+            if (givenFrom != null && givenFrom.getDungManager().getActivePerk() == KinshipPerk.MEDIC)
+                healed *= 1.2 + (givenFrom.getDungManager().getKinshipTier(KinshipPerk.MEDIC) * 0.03);
+            player.applyHit(new Hit(player, healed, HitLook.HEALED_DAMAGE));
+        } else
+            player.heal(food.heal);
+        if (player.getHitpoints() > hp)
+            player.sendMessage("It heals some health.");
+        player.getInventory().refresh();
+        if (food.effect != null)
+            food.effect.accept(player);
+        return true;
+    }
+
+    public static boolean isConsumable(Item item) {
+        Food food = Food.forId(item.getId());
+        if (food == null)
+            return false;
+        return true;
+    }
+
+    public static enum Food {
+        ACAI(20270, 50),
+        ADMIRAL_PIE(new int[] { 7198, 7200 }, 2313, 80, p -> p.getSkills().adjustStat(5, 0.0, Constants.FISHING)),
+        AMPHIBIOUS_FRUIT(21381, 150),
+        ANCHOVY(319, 10),
+        ANCHOVY_PIZZA(new int[] { 2297, 2299 }, 90),
+        APPLE_PIE(new int[] { 2323, 2335 }, 2313, 70),
+        AQUATIC_FRUIT(21380, 150),
+        BAGUETTE(6961, 60),
+        BAKED_POTATO(6701, 40),
+        BANANA(1963, 20),
+        BANANA_STEW(4016, 110),
+        BARON_SHARK(19948, 200, p -> p.addEffect(Effect.BARON_SHARK, Ticks.fromSeconds(12))),
+        BASS(365, 130),
+        BAT_SHISH(10964, 20),
+        BISCUITS(19467, 20),
+        BLACK_MUSHROOM(4620, 0, p -> p.sendMessage("Eugh! It tastes horrible, and stains your fingers black.")),
+        BLUE_CRAB(18175, 220),
+        BLUE_SWEETS(4558, 2),
+        BLURBERRY_SPECIAL(2064, 2),
+        BOULDABASS(18171, 170),
+        BREAD(2309, 50),
+        BUTTON_MUSHROOM(13563, 10),
+        CABBAGE(1965, 10, p -> p.sendMessage("You don't really like it much.", true)),
+        CAMOUFLAGED_FRUIT(21384, 150),
+        CANNIBAL_FRUIT(21379, 150),
+        CARRION_FRUIT(21382, 150),
+        CAVEFISH(15266, 220),
+        CAVE_EEL(5003, 110),
+        CAVE_MORAY(18177, 250),
+        CAVE_NIGHTSHADE(2398, 0, player -> {
+            player.applyHit(new Hit(player, 15, HitLook.POISON_DAMAGE));
+            player.sendMessage("Ahhhh! What have I done");
+        }),
+        CAVIAR(11326, 50),
+        CELEBRATION_CAKE_1(20179, 20),
+        CELEBRATION_CAKE_2(20181, 20),
+        CELEBRATION_CAKE_3(20182, 20),
+        CHEESE(1985, 20),
+        CHEESEPTOM_BATTA(2259, 70),
+        CHEESE_AND_TOMATO_BATTA(9535, 110),
+        CHEESE_WHEEL(18789, 20),
+        CHICKEN(2140, 30),
+        CHILLI_CON_CARNIE(new int[] { 7062 }, 1923, 50),
+        CHILLI_POTATO(7054, 140),
+        CHOCCHIP_CRUNCHIES(2209, 70),
+        CHOCOLATEY_MILK(1977, 40),
+        CHOCOLATE_BAR(1973, 30),
+        CHOCOLATE_BOMB(2185, 150),
+        CHOCOLATE_CAKE(new int[] { 1897, 1899, 1901 }, 50),
+        CAKE(new int[] { 1891, 1893, 1895 }, 40),
+        CHOCOLATE_DROP(14083, 30),
+        CHOCOLATE_EGG_1(12646, 10),
+        CHOCOLATE_EGG(12648, 10),
+        CHOCOLATE_KEBBIT(11026, -1),
+        CHOCOTREAT(24148, 80),
+        CHOC_ICE(6794, 70),
+        CHOC_SATURDAY(2074, 50),
+        CHOMPY(2878, 60),
+        CHOPPED_ONION(new int[] { 1871 }, 1923, 50),
+        CHOPPED_TOMATO(new int[] { 1869 }, 1923, 50),
+        CHOPPED_TUNA(new int[] { 7086 }, 1923, 50),
+        COATED_FROGS_LEGS(10963, 20),
+        COD(339, 180),
+        COMMON_FRUIT(21376, 150),
+        COOKED_CHICKEN(2140, 30),
+        COOKED_CHOMPY(2878, 30),
+        COOKED_CRAB_MEAT_1(7521, 10),
+        COOKED_CRAB_MEAT_2(7523, 10),
+        COOKED_CRAB_MEAT_3(7524, 10),
+        COOKED_CRAB_MEAT_4(7525, 10),
+        COOKED_CRAB_MEAT_5(7526, 10),
+        COOKED_FISHCAKE(7530, 110),
+        COOKED_JUBBLY(7568, 150),
+        COOKED_KARAMBWAN(3144, 180),
+        COOKED_MEAT(2142, 30),
+        COOKED_OOMLIE_WRAP(2343, 140),
+        COOKED_RABBIT(3228, 20),
+        COOKED_SLIMY_EEL(3381, 70),
+        COOKED_SWEETCORN(5988, 0, p -> p.heal((int) Math.round(p.getMaxHitpoints() * 0.10))),
+        COOKED_TURKEY(14540, 30),
+        COOKED_TURKEY_DRUMSTICK(14543, 20),
+        CORONATION_CHICKEN_SANDWICH(24398, 20),
+        CRAB_MEAT(7521, -1),
+        CRAYFISH(13433, 20),
+        CREAM_TEA(24396, 20),
+        CRUMBLY_BITS(24179, 0),
+        CRUNCHY_RUNE_ROCKS(20838, 0),
+        CURRY(new int[] { 2011 }, 1923, 190),
+        DEEP_BLUE_SWEETS(4559, 20),
+        DISEASED_FRUIT(21383, 100),
+        DOUGHNUT(14665, 20),
+        DRACONIC_FRUIT(21385, 100),
+        DRUGGED_MEAT(15277, -1),
+        DUSK_EEL(18163, 70),
+        DWELLBERRIES(2126, 20),
+        EASTER_EGG(1961, 20),
+        EASTER_EGG1(7928, 20),
+        EASTER_EGG2(7929, 20),
+        EASTER_EGG3(7930, 20),
+        EASTER_EGG4(7931, 20),
+        EASTER_EGG5(7932, 20),
+        EASTER_EGG6(7933, 20),
+        EASTER_EGG7(12644, 20),
+        EASTER_EGG8(12643, 20),
+        EASTER_EGG9(1961, 20),
+        EASTER_EGG10(12642, 20),
+        EASTER_EGG11(12641, 20),
+        EASTER_EGG12(12640, 20),
+        EASTER_EGG13(12639, 20),
+        EASTER_EGG14(1961, 20),
+        EASTER_EGG15(1961, 20),
+        EASTER_EGG16(1961, 20),
+        EASTER_EGG17(1961, 20),
+        EASTER_EGG18(1961, 20),
+        EDIBLE_SEAWEED(403, 20),
+        EELSUSHI(10971, 20),
+        EGG_AND_TOMATO(new int[] { 7064 }, 1923, 80),
+        EGG_POTATO(7056, 160),
+        EQUA_LEAVES(2128, 10),
+        EVIL_DRUMSTICK(24147, 10),
+        EVIL_TURNIP(new int[] { 12134, 12136, 12138 }, 60),
+        FAT_SNAIL_MEAT(3373, 80, p -> p.heal(Utils.random(20))),
+        FIELD_RATION(7934, 50),
+        FILLETS(10969, 25),
+        FINGERS(10965, 20),
+        FISHCAKE(7530, 110),
+        FISH_LIKE_THING(6202, -1),
+        FISH_N_CHIPS(24400, 50),
+        FISH_PIE(new int[] { 7188, 7190 }, 2313, p -> p.getSkills().adjustStat(3, 0.0, Constants.FISHING)),
+        FOOD_CLASS_1(14162, 40),
+        FOOD_CLASS_2(14164, 80),
+        FOOD_CLASS_3(14166, 120),
+        FOOD_CLASS_4(14168, 160),
+        FOOD_CLASS_5(1417, 200),
+        FRESH_MONKFISH(7943, 100),
+        FRIED_MUSHROOMS(new int[] { 7082 }, 1923, 50),
+        FRIED_ONIONS(new int[] { 7084 }, 1923, 50),
+        FROGBURGER(10962, 20),
+        FROGSPAWN_GUMBO(10961, 20),
+        FROG_SPAWN(5004, 20),
+        FRUIT_BATTA(2277, 110),
+        FULL_BREAKFAST(24404, 100),
+        FURY_SHARK(20429, 280),
+        GARDEN_PIE(new int[] { 7178, 7180 }, 2313, p -> p.getSkills().adjustStat(3, 0.0, Constants.FARMING)),
+        GIANT_CARP(337, -1),
+        GIANT_FLATFISH(18165, 100),
+        GIANT_FROG_LEGS(4517, 60),
+        GOUT_TUBER(6311, 10, p -> p.restoreRunEnergy(100)),
+        GREEN_GLOOP_SOUP(10960, 20),
+        GREEN_SWEETS(4563, 20),
+        GRUBS_A_LA_MODE(10966, 25),
+        GUTHIX_FRUIT(21387, 200),
+        HALF_WINE_JUG(1989, 87),
+        HEIM_CRAB(18159, 20),
+        HERRING(347, 20),
+        HUMBLE_PIE(18767, -1),
+        IGNEOUS_FRUIT(21378, 150),
+        JANGERBERRIES(247, 20),
+        JUBBLY(7568, 150),
+        JUJU_GUMBO(19949, 320, p -> p.addEffect(Effect.BARON_SHARK, Ticks.fromSeconds(12))),
+        KARAMBWANI(3144, 30),
+        KARAMBWANJI(3151, 30),
+        KEBAB(1971, 0, KEBAB_EFFECT),
+        KING_WORM(2162, 20),
+        LAVA_EEL(2149, 110),
+        LEAN_SNAIL_MEAT(3371, 80),
+        LEMON(2102, 20),
+        LEMON_CHUNKS(2104, 20),
+        LEMON_SLICES(2106, 20),
+        LIME(2120, 20),
+        LIME_CHUNKS(2122, 20),
+        LIME_SLICES(2124, 20),
+        LOACH(10970, 30),
+        LOBSTER(379, 120),
+        LOCUST_MEAT(9052, 20),
+        MACKEREL(355, 60),
+        MAGIC_EGG(11023, 20),
+        MANTA(391, 220),
+        MEAT(2142, 30),
+        MEAT_PIE(new int[] { 2327, 2331 }, 2313, 60),
+        MEAT_PIZZA(new int[] { 2293, 2295 }, 80),
+        MINCED_MEAT(new int[] { 7070 }, 1923, 2),
+        MINT_CAKE(9475, 0, p -> p.restoreRunEnergy(100)),
+        MONKEY_BAR(4014, 90),
+        MONKEY_NUTS(4012, 20),
+        MONKFISH(7946, 160),
+        MUSHROOMS(10968, 25),
+        MUSHROOM_AND_ONIONS(new int[] { 7066 }, 1923, 110),
+        MUSHROOM_AND_ONION_POTATO(7058, 200),
+        NOT_MEAT(20837, 20),
+        ODD_CRUNCHIES(2197, 10),
+        OKTOBERFEST_PRETZEL(19778, 20),
+        ONION(1957, 10, p -> p.sendMessage("It hurts to see a grown " + (p.getAppearance().isMale() ? "man" : "woman") + "cry.")),
+        ONION_AND_TOMATO(new int[] { 1875 }, 1923, 20),
+        OOMILE(2343, 140),
+        ORANGE(2108, 20),
+        ORANGE_CHUNKS(211, 20),
+        ORANGE_SLICES(2112, 20),
+        PAPAYA(5972, 80, p -> p.restoreRunEnergy(5)),
+        PEACH(6883, 80),
+        PIKE(351, 80),
+        PINEAPPLE_CHUNKS(2116, 20),
+        PINEAPPLE_PIZZA(new int[] { 2301, 2303 }, 110),
+        PINEAPPLE_RING(2118, 20),
+        PINK_SWEETS(4564, 20),
+        PLAIN_PIZZA_FULL(new int[] { 2289, 2291 }, 70),
+        PLANT_BITS(2418, -1),
+        PM_CHEESE_AND_TOMATO_BATTA(2223, 110),
+        PM_CHOCOCHIP_CRUNCHIES(2239, 70),
+        PM_CHOCOLATE_BOMB(2229, 150),
+        PM_FRUIT_BATTA(2225, 110),
+        PM_SPICY_CRUNCHIES(2241, 70),
+        PM_TANGLED_TOAD_LEGS(2231, 150),
+        PM_TOAD_BATTA(2221, 110),
+        PM_TOAD_CRUNCHIES(2243, 80),
+        PM_VEGETABLE_BATTA(2227, 110),
+        PM_WORM_BATTA(2219, 110),
+        PM_WORM_CRUNCHIES(2237, 80),
+        PM_WORM_HOLE(2233, 120),
+        POISONED_CHEESE(6768, -1),
+        POISON_KARAMBWAN(3146, 0, p -> p.applyHit(new Hit(p, 50, HitLook.POISON_DAMAGE))),
+        POORLY_COOKED_BEAST_MEAT(23062, 20),
+        POORLY_COOKED_BIRD_MEAT(23060, 20),
+        POPCORN_BALL(14082, 30),
+        POTATO_WITH_BUTTER(6703, 140),
+        POTATO_WITH_CHEESE(6705, 160),
+        POT_OF_CREAM(2130, 20),
+        PUMPKIN(1959, 20),
+        PUNCH(22329, 20),
+        PURPLE_SWEETS(4561, 0, p -> {
+            p.heal(Utils.random(10, 30));
+            p.restoreRunEnergy(10);
+        }),
+        PURPLE_SWEETS2(10476, 0, p -> {
+            p.heal(Utils.random(10, 30));
+            p.restoreRunEnergy(10);
+        }),
+        RABBIT_SANDWICH(23065, 42),
+        RABIT(3228, 50),
+        RAINBOW_FISH(10136, 110),
+        REDBERRY_PIE(new int[] { 2325, 2333 }, 2313, 50),
+        RED_BANANA(7572, 50),
+        RED_EYE(18161, 50),
+        RED_SWEETS(4562, 20),
+        ROASTED_BEAST_MEAT(9988, 42),
+        ROASTED_BIRD_MEAT(9980, 42),
+        ROAST_BEAST_MEAT(9988, 42),
+        ROAST_BIRD_MEAT(998, 60),
+        ROAST_FROG(10967, 50),
+        ROAST_POTATOES(15429, 100),
+        ROAST_RABBIT(7223, 70),
+        ROCKTAIL(15272, 0, p -> p.heal(230, 100)),
+        BANDAGE(4049, 0, p -> p.heal(230, 100)),
+        ROE(11324, 30),
+        ROLL(6963, 20),
+        ROTTEN_APPLE(1984, -1),
+        SALMON(329, 90),
+        SALVE_EEL(18173, 200),
+        SARADOMIN_FRUIT(21386, 200),
+        SARDINE(325, 40),
+        SCORPION_MEAT(22342, 80),
+        SCRAMBLED_EGG(new int[] { 7078 }, 1923, 50),
+        SEASONED_LEGS(2158, 1),
+        SEAWEED_SANDWICH(3168, -1),
+        SEA_MEAT_1(20831, 250),
+        SEA_MEAT_2(24182, 250),
+        SEA_TURTLE(397, 210),
+        SHADOW_FRUIT(21377, 150),
+        SHARK(385, 200),
+        SHORT_FINNED_EEL(18167, 120),
+        SHRIMP(315, 30),
+        SHRUNK_OGLEROOT(11205, 20),
+        SKEWERED_KEBAB(15123, 90),
+        SLICED_BANANA(3162, 20),
+        SLICED_RED_BANANA(7574, 20),
+        SLIMY_EEL(3381, 70),
+        SPICEY_SAUCE(new int[] { 7072 }, 1923, 20),
+        SPICY_CRUNCHIES(2213, 20),
+        SPICY_MINCED_MEAT(9996, 20),
+        SPICY_SAUCE(7072, 20),
+        SPICY_TOADS_LEGS(2156, 20),
+        SPICY_TOMATO(9994, 20),
+        SPICY_WORM(216, 20),
+        SPIDER_ON_SHAFT(6299, 20),
+        SPIDER_ON_STICK(6297, 20),
+        SPINACH_ROLL(1969, 2),
+        SQUARE_SANDWICH(6965, 25),
+        STEAK_AND_KIDNEY_PIE(24402, 50),
+        STEW(new int[] { 2003 }, 1923, 110),
+        STRAWBERRY(5504, 10, p -> p.heal((int) (p.getMaxHitpoints() * 0.06))),
+        STUFFED_SNAKE(7579, 200),
+        SUMMER_PIE_FULL(new int[] { 7218, 7220 }, 2313, 110, p -> {
+            p.getSkills().adjustStat(5, 0.0, Constants.AGILITY);
+            p.restoreRunEnergy(10);
+        }),
+        SUMMER_SQIRKJUICE(10849, 150, p -> p.getSkills().adjustStat(2, 0.1, true, Constants.THIEVING)),
+        SUPER_KEBAB(4608, 0, KEBAB_EFFECT),
+        SWORDFISH(373, 140),
+        TANGLED_TOAD_LEGS(2187, 150),
+        TCHIKI_MONKEY_NUTS(7573, 2),
+        TCHIKI_NUT_PASTE(7575, 2),
+        TEA(new int[] { 1978 }, 1980, 20, player -> {
+            player.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
+            player.removeEffect(Effect.AGGRESSION_POTION);
+        }),
+        TEA_FLASK(10859, 20),
+        TENTH_ANNIVERSARY_CAKE(20111, 20),
+        THIN_SNAIL_MEAT(3369, 30),
+        THOK_RUNE(20841, 20),
+        TIGER_SHARK(21521, 100),
+        TOADS_LEGS(2152, 20),
+        TOAD_BATTA(2255, 110),
+        TOAD_CRUNCHIES(2217, 20),
+        TOMATO(1982, 20),
+        TRIANGLE_SANDWICH(6962, 20),
+        TROUT(333, 70),
+        TRUFFLE(12132, 20),
+        TUNA(361, 100),
+        TUNA_AND_CORN(new int[] { 7068 }, 1923, 130),
+        TUNA_POTATO(7060, 220),
+        TURKEY_DRUMSTICK(15428, 20),
+        UGTHANKI_KEBAB_1(1883, 190, p -> p.forceTalk("Yum!")),
+        UGTHANKI_KEBAB_2(1885, 190, p -> p.forceTalk("Yum!")),
+        UGTHANKI_MEAT(1861, 20),
+        UNFINISHED_BATTA(2261, 20),
+        UNFINISHED_BATTA1(2263, 20),
+        UNFINISHED_BATTA2(2265, 20),
+        UNFINISHED_BATTA3(2267, 20),
+        UNFINISHED_BATTA4(2269, 20),
+        UNFINISHED_BATTA5(2271, 20),
+        UNFINISHED_BATTA6(2273, 20),
+        VEGETABLE_BATTA7(2281, 20),
+        VEG_BALL(2195, 120),
+        WATERMELON_SLICE(5984, 20),
+        WEB_SNIPER(18169, 150),
+        WHITE_PEARL(4485, 20),
+        WHITE_SWEETS(456, 20),
+        WHITE_TREE_FRUIT(6469, 20),
+        WILD_PIE(new int[] { 7208, 7210 }, 2313, 110, p -> {
+            p.getSkills().adjustStat(4, 0.0, Constants.RANGE);
+            p.getSkills().adjustStat(5, 0.0, Constants.SLAYER);
+        }),
+        WORM_BATTA(2253, 110),
+        WORM_CRUNCHIES(2205, 80),
+        WORM_HOLE(2191, 120),
+        WRAPPED_CANDY(14084, 20),
+        YULE_LOG(1543, 20),
+        YULE_LOGS(15430, 20),
+        ZAMORAK_FRUIT(21388, 200);
+
+        private static Map<Integer, Food> foods = new HashMap<>();
+
+        static {
+            for (final Food food : Food.values())
+                for (int id : food.ids)
+                    foods.put(id, food);
+        }
+
+        private int[] ids;
+        private int container;
+        private int heal;
+
+        private Consumer<Player> effect;
+
+        private Food(int[] ids, int container, int heal, Consumer<Player> effect) {
+            this.ids = ids;
+            this.container = container;
+            this.heal = heal;
+            this.effect = effect;
+        }
+
+        private Food(int[] ids, int heal, Consumer<Player> effect) {
+            this(ids, -1, heal, effect);
+        }
+
+        private Food(int id, int heal, Consumer<Player> effect) {
+            this(new int[] { id }, -1, heal, effect);
+        }
+
+        private Food(int id, int heal) {
+            this.ids = new int[] { id };
+            this.heal = heal;
+        }
+
+        private Food(int[] ids, int container, int heal) {
+            this.ids = ids;
+            this.container = container;
+            this.heal = heal;
+        }
+
+        private Food(int[] ids, int heal) {
+            this(ids, -1, heal);
+        }
+
+        public static Food forId(int itemId) {
+            return foods.get(itemId);
+        }
+
+        public int getReplaceIdFor(int id) {
+            if (ids.length <= 1)
+                return -1;
+            int index = 0;
+            for (int i = 0;i < ids.length;i++) {
+                if (ids[i] == id)
+                    index = i;
+            }
+            index++;
+            if (index >= ids.length)
+                return container <= 0 ? -1 : container;
+            return ids[index];
+        }
+    }
+
+    private static Consumer<Player> KEBAB_EFFECT = player -> {
+        int roll = Utils.random(100);
+        if (roll >= 95) {
+            player.sendMessage("Wow, that was an amazing kebab! You feel really invigorated.");
+            int healChance = Utils.random(26, 32);
+            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
+            player.heal(hp);
+            player.getSkills().adjustStat(2, 0.1, true, Constants.ATTACK);
+            player.getSkills().adjustStat(2, 0.1, true, Constants.STRENGTH);
+            player.getSkills().adjustStat(2, 0.1, true, Constants.DEFENSE);
+        } else if (roll >= 90 && roll <= 94) {
+            player.sendMessage("That tasted very dodgy. You feel very ill. Eating the kebab has done damage to some of your stats.");
+            player.getSkills().adjustStat(-3, 0.1, true, Constants.ATTACK);
+            player.getSkills().adjustStat(-3, 0.1, true, Constants.STRENGTH);
+            player.getSkills().adjustStat(-3, 0.1, true, Constants.DEFENSE);
+        } else if (roll >= 40 && roll <= 89) {
+            player.sendMessage("It restores some life points.");
+            double healChance = Utils.random(7.3, 10.0);
+            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
+            player.heal(hp);
+        } else if (roll >= 25 && roll <= 39) {
+            player.sendMessage("That kebab didn't seem to do a lot.");
+        } else if (roll >= 10 && roll <= 24) {
+            player.sendMessage("That was a good kebab. You feel a lot better.");
+            double healChance = Utils.random(14.6, 20.0);
+            int hp = (int) Math.round(player.getMaxHitpoints() * healChance);
+            player.heal(hp);
+        } else if (roll >= 0 && roll <= 9) {
+            int skill = Utils.random(0, 25);
+            player.sendMessage("That tasted very dodgy. You feel very ill. Eating the kebab has done damage to some of your " + Constants.SKILL_NAME[skill] + " stats.");
+            player.getSkills().adjustStat(-3, 0.1, true, skill);
+        }
+    };
 }

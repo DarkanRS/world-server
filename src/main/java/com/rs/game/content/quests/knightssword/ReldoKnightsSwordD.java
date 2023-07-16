@@ -1,19 +1,17 @@
 package com.rs.game.content.quests.knightssword;
 
-import static com.rs.game.content.quests.knightssword.KnightsSword.FIND_DWARF;
-import static com.rs.game.content.quests.knightssword.KnightsSword.RELDO;
-import static com.rs.game.content.quests.knightssword.KnightsSword.TALK_TO_RELDO;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 
+import static com.rs.game.content.quests.knightssword.KnightsSword.*;
+
 @PluginEventHandler
 public class ReldoKnightsSwordD extends Conversation {
-	public ReldoKnightsSwordD(Player p) {
-		super(p);
+	public ReldoKnightsSwordD(Player player) {
+		super(player);
 		addPlayer(HeadE.HAPPY_TALKING, "What do you know about the Imcando dwarves?");
 		addNPC(RELDO, HeadE.CALM_TALK, "The Imcando dwarves, you say?");
 		addNPC(RELDO, HeadE.CALM_TALK, "Ah yes... for many hundreds of years they were the world's most skilled smiths. They used secret smithing knowledge " +
@@ -25,8 +23,8 @@ public class ReldoKnightsSwordD extends Conversation {
 				"people think the tribe is extinct. However...");
 		addNPC(RELDO, HeadE.CALM_TALK, "... you could try taking them some redberry pie. They REALLY like redberry pie. I believe I remember a couple living in " +
 				"Asgarnia near the cliffs on the Asgarnian southern peninsula.", ()->{
-					if(p.getQuestManager().getStage(Quest.KNIGHTS_SWORD) == TALK_TO_RELDO)
-						p.getQuestManager().setStage(Quest.KNIGHTS_SWORD, FIND_DWARF, true);
+					if(player.getQuestManager().getStage(Quest.KNIGHTS_SWORD) == TALK_TO_RELDO)
+						player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, FIND_DWARF);
 				});
 	}
 }

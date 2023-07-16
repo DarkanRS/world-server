@@ -16,19 +16,6 @@
 //
 package com.rs.game.content.skills.summoning;
 
-import static com.rs.game.model.entity.npc.combat.CombatScript.delayHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMagicHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMaxHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getMeleeHit;
-import static com.rs.game.model.entity.npc.combat.CombatScript.getRangeHit;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
@@ -59,11 +46,15 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.Ticks;
 import com.rs.utils.drop.DropTable;
+
+import java.util.*;
+
+import static com.rs.game.model.entity.npc.combat.CombatScript.*;
 
 public enum Scroll {
 	/**
@@ -110,12 +101,12 @@ public enum Scroll {
 			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
 				if (spawned.size() >= num)
 					break;
-				WorldTile tile = World.findAdjacentFreeTile(player.getTile());
+				Tile tile = World.findAdjacentFreeTile(player.getTile());
 				if (spawned.contains(tile.getTileHash()))
 					continue;
 				spawned.add(tile.getTileHash());
 				num++;
-				World.sendSpotAnim(player, new SpotAnim(1342), tile);
+				World.sendSpotAnim(tile, new SpotAnim(1342));
 				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(223, 1), tile, player, true, 120));
 			}
 			return true;
@@ -149,7 +140,7 @@ public enum Scroll {
 				owner.sendMessage("Your mosquito is already attacking something.");
 				return false;
 			}
-			WorldTile tile = target.getNearestTeleTile(familiar);
+			Tile tile = target.getNearestTeleTile(familiar);
 			if (tile == null) {
 				owner.sendMessage("The mosquito can't find a place to land on that target right now.");
 				return false;
@@ -159,7 +150,7 @@ public enum Scroll {
 			familiar.freeze(3);
 			familiar.sync(8040, 1440);
 			delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 90, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextWorldTile(target.getNearestTeleTile(familiar));
+				familiar.setNextTile(target.getNearestTeleTile(familiar));
 				familiar.sync(8041, 1442);
 			});
 			return true;
@@ -236,7 +227,7 @@ public enum Scroll {
 			owner.sync(7660, 1316);
 			familiar.sync(7775, 1461);
 			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
-				World.sendSpotAnim(owner, new SpotAnim(1460), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(1460));
 				owner.unlock();
 				boolean superCompost = Utils.random(10) == 0;
 				spot.lives = 15;
@@ -310,7 +301,7 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, WorldTile.of(2662, 2654, 0), 1, true, 1, null))
+			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, 1, null))
 				return false;
 			familiar.sync(switch(familiar.getPouch()) {
 			default -> 8097;
@@ -358,7 +349,7 @@ public enum Scroll {
 						owner.unlock();
 						return false;
 					}
-					World.addGroundItem(herb[0], WorldTile.of(familiar.getTile()), owner, true, 120);
+					World.addGroundItem(herb[0], Tile.of(familiar.getTile()), owner, true, 120);
 					owner.unlock();
 				}
 				}
@@ -479,7 +470,7 @@ public enum Scroll {
 		@Override
 		public boolean use(Player owner, Familiar familiar) {
 			familiar.sync(8199, 1337);
-			WorldTasks.schedule(2, () -> World.addGroundItem(new Item(new int[] { 317, 341, 363, 353 }[Utils.random(4)]), WorldTile.of(familiar.getTile()), owner, true, 120));
+			WorldTasks.schedule(2, () -> World.addGroundItem(new Item(new int[] { 317, 341, 363, 353 }[Utils.random(4)]), Tile.of(familiar.getTile()), owner, true, 120));
 			return true;
 		}
 	},
@@ -502,7 +493,7 @@ public enum Scroll {
 				owner.sendMessage("Your kyatt is already attacking something.");
 				return false;
 			}
-			WorldTile tile = target.getNearestTeleTile(familiar);
+			Tile tile = target.getNearestTeleTile(familiar);
 			if (tile == null) {
 				owner.sendMessage("Your kyatt can't find a place to land on that target right now.");
 				return false;
@@ -511,7 +502,7 @@ public enum Scroll {
 				return false;
 			familiar.freeze(2);
 			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 224, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextWorldTile(target.getNearestTeleTile(familiar));
+				familiar.setNextTile(target.getNearestTeleTile(familiar));
 				familiar.sync(7914, 1366);
 			});
 			return true;
@@ -600,7 +591,7 @@ public enum Scroll {
 			familiar.sync(8159, 1388);
 			item.setId(egg.toId);
 			owner.getInventory().refresh(item.getSlot());
-			WorldTasks.schedule(2, () -> World.sendProjectile(familiar.getMiddleWorldTile(), owner, 1389, 50, 30, 0, 0.15, 16, 0));
+			WorldTasks.schedule(2, () -> World.sendProjectile(familiar.getMiddleTile(), owner, 1389, 50, 30, 0, 0.15, 16, 0));
 			return true;
 		}
 	},
@@ -696,11 +687,11 @@ public enum Scroll {
 			for (int trycount = 0; trycount < Utils.getRandomInclusive(50); trycount++) {
 				if (spawned.size() >= num)
 					break;
-				WorldTile tile = World.findAdjacentFreeTile(owner.getTile());
+				Tile tile = World.findAdjacentFreeTile(owner.getTile());
 				if (spawned.contains(tile.getTileHash()))
 					continue;
 				spawned.add(tile.getTileHash());
-				World.sendSpotAnim(owner, new SpotAnim(1331), tile);
+				World.sendSpotAnim(tile, new SpotAnim(1331));
 				final boolean spawnPapaya = papaya;
 				WorldTasks.schedule(1, () -> World.addGroundItem(new Item(spawnPapaya ? 5972 : randomFruit(), 1), tile, owner, true, 120));
 				papaya = false;

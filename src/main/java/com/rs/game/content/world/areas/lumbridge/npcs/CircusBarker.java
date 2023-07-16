@@ -1,7 +1,7 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -10,10 +10,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class CircusBarker extends Conversation {
 
 	//Identify NPC by ID
-	private static int npcId = 8081;
+	private static final int npcId = 8081;
 	public static NPCClickHandler CircusBarker = new NPCClickHandler(new Object[]{8079, 8080, 8081}, e -> {
 		switch (e.getOption()) {
-		//			//Start Conversation
+		//			
 		case "Talk-to" -> e.getPlayer().startConversation(new CircusBarker(e.getPlayer()));
 		//		}
 		//	}

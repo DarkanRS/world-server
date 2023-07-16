@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class BulwarkBeast extends DungeonBoss {
@@ -33,7 +33,7 @@ public final class BulwarkBeast extends DungeonBoss {
 	private int shieldHP;
 	private int maxShieldHP;
 
-	public BulwarkBeast(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public BulwarkBeast(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10073, 10106, 2), manager.getBossLevel()), tile, manager, reference);
 		maxShieldHP = shieldHP = 500;
 		setHitpoints(getMaxHitpoints());

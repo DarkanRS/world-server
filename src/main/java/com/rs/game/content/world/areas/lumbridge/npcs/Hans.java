@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -14,10 +14,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Hans extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 0;
+    private static final int npcId = 0;
     public static NPCClickHandler Hans = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Hans(e.getPlayer(), e.getNPC()));
     }
     });

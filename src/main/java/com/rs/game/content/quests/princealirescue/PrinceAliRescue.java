@@ -16,24 +16,25 @@
 //
 package com.rs.game.content.quests.princealirescue;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.PRINCE_ALI_RESCUE)
 @PluginEventHandler
@@ -68,7 +69,6 @@ public class PrinceAliRescue extends QuestOutline {
 	public final static int PASTE = 2424;
 
 	public final static int ROPE = 954;
-	//    public final static int
 
 	//NPCS
 	public final static int NED = 918;
@@ -82,14 +82,14 @@ public class PrinceAliRescue extends QuestOutline {
 	public final static int PRINCE_ALI2 = 921;
 
 	//Places
-	public final static int JAIL_REGION_ID = 12338;
+	public final static int JAIL_REGION_ID = 12338; //Update to new logic
 	@Override
 	public int getCompletedStage() {
 		return 5;
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -160,7 +160,7 @@ public class PrinceAliRescue extends QuestOutline {
 	}
 
 	public static ObjectClickHandler handleJailCellDoor = new ObjectClickHandler(new Object[] { 3436 }, e -> {
-		if(e.getObject().getTile().matches(WorldTile.of(3128, 3243, 0))) {
+		if(e.getObject().getTile().matches(Tile.of(3128, 3243, 0))) {
 			if (e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1))
 				handleDoor(e.getPlayer(), e.getObject());
 			else
@@ -174,7 +174,7 @@ public class PrinceAliRescue extends QuestOutline {
 
 
 		if(e.getPlayer().getInventory().containsItem(BRONZE_KEY, 1)) {
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 2))
 				if(npc.getId() == LADY_KELI) {
 					e.getPlayer().sendMessage("You'd better get rid of Lady Keli before trying to go through there.");
 					return;
@@ -221,7 +221,40 @@ public class PrinceAliRescue extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(700);
-		getQuest().sendQuestCompleteInterface(player, 6964, "700 coins");
+		sendQuestCompleteInterface(player, 6964);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Speak to Hassan in the palace at Al Kharid.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Soft clay<br>" +
+				"3 balls of wool<br>" +
+				"Yellow dye or 2 onions and 5 coins<br>" +
+				"Redberries<br>" +
+				"Ashes<br>" +
+				"Bucket of water or jug of water (obtainable during quest)<br>" +
+				"Pot of flour<br>" +
+				"Bronze bar<br>" +
+				"Pink skirt<br>" +
+				"3 beers<br>" +
+				"Rope (can be bought during the quest at Ned for 18 coins or 4 balls of wool)<br>" +
+				"At least 100 coins";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "The ability to get past aggressive combat level 26 jail guards.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "700 coins<br>" +
+				"Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>" +
+				"(Members) Access to the Sorceress's Garden Thieving minigame.";
 	}
 
 

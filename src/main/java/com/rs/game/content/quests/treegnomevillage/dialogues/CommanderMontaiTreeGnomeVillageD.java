@@ -1,29 +1,22 @@
 package com.rs.game.content.quests.treegnomevillage.dialogues;
 
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.FIRE_BALLISTA;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.GET_WOOD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.KILL_WARLORD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.NOT_STARTED;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.ORB1;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST_COMPLETE;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.*;
+
 @PluginEventHandler
 public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 	private static final int NPC = 470;
-	public CommanderMontaiTreeGnomeVillageD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
+	public CommanderMontaiTreeGnomeVillageD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 				addNPC(NPC, HeadE.CALM_TALK, "I can't talk now. Can't you see we're trying to win a battle here? If we can't hold back Khazard's men we're all doomed.");
@@ -46,7 +39,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 						option("Ok, I'll gather some wood.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll gather some wood.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Please be as quick as you can, I don't know how much longer we can hold out.", ()->{
-									p.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, GET_WOOD);
+									player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, GET_WOOD);
 								})
 						);
 					}
@@ -55,11 +48,11 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 			case GET_WOOD -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 				addNPC(NPC, HeadE.CALM_TALK, "Hello again, we're still desperate for wood soldier.");
-				if(player.getInventory().getAmountOf(1511) >= 6) {
+				if(this.player.getInventory().getAmountOf(1511) >= 6) {
 					addPlayer(HeadE.HAPPY_TALKING, "I have some here");
 					addNPC(NPC, HeadE.CALM_TALK, "That's excellent, now we can make more defensive battlements.  Give me a moment to organise the troops and then come speak to me. I'll inform you of our next phase of attack.", ()->{
-						player.getInventory().deleteItem(1511, 6);
-						player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, TALK_TO_MONTAI_ABOUT_TRACKERS);
+						this.player.getInventory().deleteItem(1511, 6);
+						this.player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, TALK_TO_MONTAI_ABOUT_TRACKERS);
 					});
 					return;
 				}
@@ -84,7 +77,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 						);
 						option("I'll try my best.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "I'll try my best.", ()->{
-									p.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, FIRE_BALLISTA);
+									player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, FIRE_BALLISTA);
 								})
 								.addNPC(NPC, HeadE.CALM_TALK, "Thank you, you're braver than most.")
 								.addNPC(NPC, HeadE.CALM_TALK, "I don't know how long I will be able to hold out. Once you have the coordinates come back and fire " +
@@ -101,7 +94,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 						"be able to enter the stronghold and retrieve the orb.");
 			}
 			case ORB1 -> {
-				if(player.getInventory().containsItem(587)) {
+				if(this.player.getInventory().containsItem(587)) {
 					addNPC(NPC, HeadE.AMAZED, "Oh WOW!");
 					addPlayer(HeadE.CALM, "...");
 					addNPC(NPC, HeadE.SECRETIVE, "Return the Orb Of Protection to King Bolren, hurry!");

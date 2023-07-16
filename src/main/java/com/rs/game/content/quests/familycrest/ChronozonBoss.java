@@ -1,20 +1,20 @@
 package com.rs.game.content.quests.familycrest;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.JOHNATHAN_CREST;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
-
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatSpell;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import static com.rs.game.content.quests.familycrest.FamilyCrest.JOHNATHAN_CREST;
+import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
 
 @PluginEventHandler
 public class ChronozonBoss extends NPC {
@@ -23,7 +23,7 @@ public class ChronozonBoss extends NPC {
 	boolean hitFire = false;
 	boolean hitAir = false;
 
-	public ChronozonBoss(int id, WorldTile tile) {
+	public ChronozonBoss(int id, Tile tile) {
 		super(id, tile, false);
 	}
 
@@ -77,7 +77,7 @@ public class ChronozonBoss extends NPC {
 		if(e.getKiller() instanceof Player) {
 			Player p = (Player)e.getKiller();
 			if(p.getQuestManager().getStage(Quest.FAMILY_CREST) == KILL_CHRONOZON && !p.getInventory().containsItem(JOHNATHAN_CREST))
-				World.addGroundItem(new Item(JOHNATHAN_CREST, 1), WorldTile.of(e.getNPC().getTile()), p);
+				World.addGroundItem(new Item(JOHNATHAN_CREST, 1), Tile.of(e.getNPC().getTile()), p);
 		}
 	});
 

@@ -1,14 +1,16 @@
 package com.rs.game.content.world.npcs;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.ImpCatcher;
 import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class PetShopOwner extends Conversation {
@@ -26,7 +28,7 @@ public class PetShopOwner extends Conversation {
 				public void create() {
 
 					if (!p.getInventory().containsItem(WHITE_HARE_MEAT) && !p.getBank().containsItem(WHITE_HARE_MEAT, 1)) {
-						if (p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB(WolfWhistle.ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE)) {
+						if (p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).getB("HARE_MEAT")) {
 							option("Ask about the white hare meat.", new Dialogue()
 									.addPlayer(HeadE.CONFUSED, "Hello there, do you sell white hare meat?")
 									.addNPC(PETSHOPOWNER, HeadE.CONFUSED, "Well I do, but what about the portion I gave you earlier?")
@@ -44,11 +46,11 @@ public class PetShopOwner extends Conversation {
 									.addNPC(PETSHOPOWNER, HeadE.CALM, "Well if it is an emergency I suppose I can let you have some. I hope things work out for you!")
 									.addItem(WHITE_HARE_MEAT, "The pet shop owner gives you a portion of white hare meat.", () -> {
 										p.getInventory().addItem(WHITE_HARE_MEAT);
-										p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE, true);
+										p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("HARE_MEAT", true);
 									})
 									.addNPC(PETSHOPOWNER, HeadE.CONFUSED, "Is there anything else I can help you with?")
 									.addNext(() -> p.startConversation(new PetShopOwner(p)))
-									);
+							);
 						}
 					} else {
 						option("Ask about the white hare meat.", new Dialogue()
@@ -60,12 +62,15 @@ public class PetShopOwner extends Conversation {
 					option("Ask about something else.");
 				}
 			});
-		}
-
+		} else
+			addNPC(PETSHOPOWNER, HeadE.CHEERFUL, "Hello!");
 	}
 
 	public static NPCClickHandler handlePetshopownerDialogue = new NPCClickHandler(new Object[] { PETSHOPOWNER }, e -> {
-		e.getPlayer().startConversation(new PetShopOwner(e.getPlayer()).getStart());
+		if (e.getOption().toLowerCase().equals("talk-to"))
+			e.getPlayer().startConversation(new PetShopOwner(e.getPlayer()));
+		else if (e.getOption().toLowerCase().equals("trade"))
+		ShopsHandler.openShop(e.getPlayer(), "taverly_pet_shop");
 	});
 
 }

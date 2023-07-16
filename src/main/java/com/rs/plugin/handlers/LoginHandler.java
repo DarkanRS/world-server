@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.LoginEvent;
+
+import java.util.function.Consumer;
 
 public class LoginHandler extends PluginHandler<LoginEvent> {
 	public LoginHandler(Consumer<LoginEvent> handler) {

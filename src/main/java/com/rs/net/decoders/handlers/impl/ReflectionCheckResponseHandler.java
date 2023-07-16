@@ -16,8 +16,6 @@
 //
 package com.rs.net.decoders.handlers.impl;
 
-import java.util.ArrayList;
-
 import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
@@ -27,6 +25,8 @@ import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import com.rs.utils.reflect.ReflectionTest;
+
+import java.util.ArrayList;
 
 public class ReflectionCheckResponseHandler implements PacketHandler<Player, ReflectionCheckResponse> {
 

@@ -1,23 +1,24 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import java.util.ArrayList;
-
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.PIRATES_TREASURE)
 @PluginEventHandler
@@ -26,16 +27,6 @@ public class PiratesTreasure extends QuestOutline {
 	public final static int SMUGGLE_RUM = 1;
 	public final static int GET_TREASURE = 2;
 	public final static int QUEST_COMPLETE = 3;
-
-	//Attributes
-	public final static String KNOWS_TREASURE_LOC_ATTR = "TREASURE_LOC_KNOWN";
-	public final static String KILLED_GARDENER_ATTR = "KILLED_GARDENER";
-	public final static String HAS_SMUGGLED_RUM_ATTR = "HAS_SMUGGLED_RUM";
-	public static final String LUTHAS_EMPLOYMENT_ATTR = "LUTHAS_EMPLOYMENT";
-	public static final String RUM_IN_SARIM_CRATE_ATTR = "RUM_IN_SARIM_CRATE";
-	public static final String WYDIN_EMPLOYMENT_ATTR = "WYDIN_EMPLOYMENT";
-	public final static String BANANA_COUNT_ATTR = "BANANA_COUNT";
-	public final static String RUM_IN_KARAMJA_CRATE_ATTR = "RUM_IN_KARAMJA_CRATE";
 
 	//items
 	protected final static int SPADE = 952;
@@ -67,7 +58,7 @@ public class PiratesTreasure extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -102,45 +93,44 @@ public class PiratesTreasure extends QuestOutline {
 		return lines;
 	}
 
-	public static ObjectClickHandler handleTreasureChest = new ObjectClickHandler(new Object[] {BLUE_MOON_INN_CHEST }, e -> {
-		Player p = e.getPlayer();
+	public static ObjectClickHandler handleTreasureChest = new ObjectClickHandler(new Object[] {BLUE_MOON_INN_CHEST }, e -> {;
 		GameObject obj = e.getObject();
-		if(!p.getInventory().containsItem(CHEST_KEY))
+		if(!e.getPlayer().getInventory().containsItem(CHEST_KEY))
 			return;
 		if(e.getOption().equalsIgnoreCase("open")) {
-			p.setNextAnimation(new Animation(536));
-			p.lock(2);
+			e.getPlayer().setNextAnimation(new Animation(536));
+			e.getPlayer().lock(2);
 			GameObject openedChest = new GameObject(obj.getId() + 1, obj.getType(), obj.getRotation(), obj.getX(), obj.getY(), obj.getPlane());
-			p.faceObject(openedChest);
+			e.getPlayer().faceObject(openedChest);
 			World.spawnObjectTemporary(openedChest, Ticks.fromMinutes(1));
-			p.getInventory().addItem(new Item(PIRATE_MESSAGE, 1));
+			e.getPlayer().getInventory().addItem(new Item(PIRATE_MESSAGE, 1));
 		}
 	});
 
-	public static void findTreasure(Player p) {
-		if((p.getQuestManager().getStage(Quest.PIRATES_TREASURE) != GET_TREASURE) || !p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(PiratesTreasure.KNOWS_TREASURE_LOC_ATTR))
+	public static void findTreasure(Player player) {
+		if((player.getQuestManager().getStage(Quest.PIRATES_TREASURE) != GET_TREASURE) || !player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("TREASURE_LOC_KNOWN"))
 			return;
-		if(Utils.getDistance(p.getTile(), WorldTile.of(2999, 3383, 0)) <= 2) {
-			if(p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(KILLED_GARDENER_ATTR)) {
-				p.getQuestManager().completeQuest(Quest.PIRATES_TREASURE);
+		if(Utils.getDistance(player.getTile(), Tile.of(2999, 3383, 0)) <= 2) {
+			if(player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("KILLED_GARDENER")) {
+				player.getQuestManager().completeQuest(Quest.PIRATES_TREASURE);
 				return;
 			}
-			for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1))
 				if(npc.getId()== HOSTILE_GARDENER)
 					return;
-			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, WorldTile.of(p.getTile()), -1, false, true);
-			gardener.setTarget(p);
+			NPC gardener = World.spawnNPC(HOSTILE_GARDENER, Tile.of(player.getTile()), -1, false, true);
+			gardener.setTarget(player);
 			gardener.forceTalk("First moles, now this!? Take this, vandal!");
 		}
 	}
 
 	public static EnterChunkHandler handleBreakRum = new EnterChunkHandler(e -> {
-		if (e.getEntity() instanceof Player p && p.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
-			if (!p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB(HAS_SMUGGLED_RUM_ATTR) && p.getInventory().containsItem(RUM))
-				if (Utils.getDistance(p.getTile(), WorldTile.of(2928, 3143, 0)) > 70) {
-					while (p.getInventory().containsItem(RUM, 1))
-						p.getInventory().removeItems(new Item(RUM, 1));
-					p.sendMessage("Your Karamja rum gets broken and spilled.");
+		if (e.getEntity() instanceof Player player && player.getQuestManager().getStage(Quest.PIRATES_TREASURE) == SMUGGLE_RUM)
+			if (!player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).getB("HAS_SMUGGLED_RUM") && player.getInventory().containsItem(RUM))
+				if (Utils.getDistance(player.getTile(), Tile.of(2928, 3143, 0)) > 70) {
+					while (player.getInventory().containsItem(RUM, 1))
+						player.getInventory().removeItems(new Item(RUM, 1));
+					player.sendMessage("Your Karamja rum gets broken and spilled.");
 				}
 	});
 
@@ -155,7 +145,7 @@ public class PiratesTreasure extends QuestOutline {
 		e.getPlayer().getInterfaceManager().sendInterface(220);//Message interface
 		e.getPlayer().getPackets().setIFText(220, 8, "Visit the city of the White Knights. In the park,");
 		e.getPlayer().getPackets().setIFText(220, 9, "Saradomin points to the X which marks the spot.");
-		e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(KNOWS_TREASURE_LOC_ATTR, true);
+		e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("TREASURE_LOC_KNOWN", true);
 	});
 
 	public static ObjectClickHandler bananaTreePlantation = new ObjectClickHandler(new Object[] { BANANA_TREE_PLANT }, e -> {
@@ -166,7 +156,28 @@ public class PiratesTreasure extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addItem(new Item(CASKET), true);
-		getQuest().sendQuestCompleteInterface(player, 7956, "One-Eyed Hector's Treasure");
+		sendQuestCompleteInterface(player, 7956);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Redbeard Frank just south of The Rusty Anchor pub in Port Sarim.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "White apron, 60 coins (or an activated ring of Charos and 30 coins).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Optionally defeat a level 4 gardener.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>" +
+				"Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)";
 	}
 
 }

@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.slayer;
 
+import com.rs.cache.loaders.NPCDefinitions;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.cache.loaders.NPCDefinitions;
 
 public enum SlayerMonsters {
 	CRAWLING_HAND(1648, 5),

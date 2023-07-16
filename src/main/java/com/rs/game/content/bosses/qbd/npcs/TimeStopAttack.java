@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.Iterator;
-
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
+
+import java.util.Iterator;
 
 /**
  * Handles the Queen Black Dragon's time stop attack.
@@ -49,7 +49,7 @@ public final class TimeStopAttack implements QueenAttack {
 		if (npc.getSouls().isEmpty())
 			return 1;
 		final TorturedSoul soul = npc.getSouls().get(Utils.random(npc.getSouls().size()));
-		soul.setNextWorldTile(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
+		soul.setNextTile(Utils.random(2) == 0 ? npc.getBase().transform(24, 28, 0) : npc.getBase().transform(42, 28, 0));
 		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
 		soul.setLocked(true);

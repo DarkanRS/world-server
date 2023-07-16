@@ -16,15 +16,8 @@
 //
 package com.rs.game.content.skills.summoning;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.Skillcapes;
-import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
-import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -33,8 +26,10 @@ import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.utils.shop.ShopsHandler;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class EnchantedHeadwear {

@@ -16,20 +16,21 @@
 //
 package com.rs.game.content.quests;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.IMP_CATCHER)
 @PluginEventHandler
@@ -47,7 +48,7 @@ public class ImpCatcher extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
@@ -79,7 +80,29 @@ public class ImpCatcher extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.MAGIC, 875);
 		player.getInventory().addItemDrop(1478, 1);
-		getQuest().sendQuestCompleteInterface(player, 1891, "875 Magic XP", "Amulet of Accuracy");
+		sendQuestCompleteInterface(player, 1891);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Wizard Mizgog on the first floor of the Wizards' Tower, south of Draynor.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Must kill many imps";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "875 Magic XP<br>"+
+				"An amulet of accuracy<br>" +
+				"Access to Mizgog's amulet shop";
 	}
 
 	static class MizgogD extends Conversation {

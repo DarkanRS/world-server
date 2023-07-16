@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -29,16 +26,19 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HopeDevourer extends DungeonBoss {
 
 	private int auraTicks;
 	private int auraDamage;
 
-	public HopeDevourer(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public HopeDevourer(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12886, 12900), manager.getBossLevel()), tile, manager, reference);
 		setHitpoints(getMaxHitpoints());
 		setLureDelay(10000);

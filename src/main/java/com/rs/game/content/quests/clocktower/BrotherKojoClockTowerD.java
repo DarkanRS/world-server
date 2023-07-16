@@ -1,24 +1,22 @@
 package com.rs.game.content.quests.clocktower;
 
-import static com.rs.game.content.quests.clocktower.ClockTower.NOT_STARTED;
-import static com.rs.game.content.quests.clocktower.ClockTower.QUEST_COMPLETE;
-import static com.rs.game.content.quests.clocktower.ClockTower.REPAIR_CLOCK_TOWER;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.clocktower.ClockTower.*;
+
 @PluginEventHandler
 public class BrotherKojoClockTowerD extends Conversation {
 	private static final int NPC = 223;
-	public BrotherKojoClockTowerD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.CLOCK_TOWER)) {
+	public BrotherKojoClockTowerD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.CLOCK_TOWER)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello monk.");
 				addNPC(NPC, HeadE.CALM_TALK, "Hello adventurer. My name is Brother Kojo. Do you happen to know the time?");
@@ -30,9 +28,9 @@ public class BrotherKojoClockTowerD extends Conversation {
 					public void create() {
 						option("Yes", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "OK old monk, what can I do?", ()->{
-									p.getQuestManager().setStage(Quest.CLOCK_TOWER, REPAIR_CLOCK_TOWER);
+									player.getQuestManager().setStage(Quest.CLOCK_TOWER, REPAIR_CLOCK_TOWER);
 								})
-								.addNPC(NPC, HeadE.CALM_TALK, "Oh, thank you kind " + p.getPronoun("sir", "madam") + "! In the cellar below, you'll find four cogs. They're too heavy for me, but you should be able to carry them one at a time.")
+								.addNPC(NPC, HeadE.CALM_TALK, "Oh, thank you kind " + player.getPronoun("sir", "madam") + "! In the cellar below, you'll find four cogs. They're too heavy for me, but you should be able to carry them one at a time.")
 								.addNPC(NPC, HeadE.CALM_TALK, "I know one goes on each floor... but I can't exactly remember which goes where specifically. Oh well, I'm sure you can figure it out fairly easily.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Well, I'll do my best.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Thank you again! And remember to be careful, the cellar is full of strange beasts.")
@@ -44,13 +42,13 @@ public class BrotherKojoClockTowerD extends Conversation {
 			}
 			case REPAIR_CLOCK_TOWER-> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello again.");
-				if(ClockTower.allCogsFinished(p)) {
+				if(ClockTower.allCogsFinished(player)) {
 					addNPC(NPC, HeadE.CALM_TALK, "Hello.");
 					addPlayer(HeadE.HAPPY_TALKING, "I have replaced all the cogs!");
 					addNPC(NPC, HeadE.CALM_TALK, "Really...? Wait, listen! Well done, well done! Yes yes yes, you've done it! You ARE clever!");
 					addNPC(NPC, HeadE.CALM_TALK, "The townsfolk will be able to know the correct time now! Thank you so much for all of your help! And as promised, here is your reward!");
 					addNext(()->{
-						p.getQuestManager().completeQuest(Quest.CLOCK_TOWER);
+						player.getQuestManager().completeQuest(Quest.CLOCK_TOWER);
 					});
 					return;
 				}

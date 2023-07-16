@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.quests.demonslayer;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -32,32 +32,32 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class WizardTraibornDemonSlayerD extends Conversation {
-	Player p;
-	final int WIZARD_TRAIBORN = 881;
-	final int ABOUT_SIR_PRYSIN = 0;
-	final int KEYS_DIALOGUE = 1;
-	final int KEYS_OPTIONS = 2;
-	final int HAS_BONES = 3;
-	final int DOES_NOT_HAVE_BONES = 4;
-	final int RETRIEVE_KEY_AGAIN = 5;
+	private final int WIZARD_TRAIBORN = 881;
+	private final int ABOUT_SIR_PRYSIN = 0;
+	private final int KEYS_DIALOGUE = 1;
+	private final int KEYS_OPTIONS = 2;
+	private final int HAS_BONES = 3;
+	private final int DOES_NOT_HAVE_BONES = 4;
+	private final int RETRIEVE_KEY_AGAIN = 5;
 
-	public WizardTraibornDemonSlayerD(Player p) {
-		super(p);
-		this.p = p;
-
+	public WizardTraibornDemonSlayerD(Player player) {
+		super(player);
 		addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Ello young thingummywut.");
-		if(!p.isQuestComplete(Quest.DEMON_SLAYER) && p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR))
-			if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB(DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR)) {
-				if(!p.getInventory().containsItem(DemonSlayer.WIZARD_KEY)) {
-					addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, RETRIEVE_KEY_AGAIN).getStart());});
+		if(!player.isQuestComplete(Quest.DEMON_SLAYER) && player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("WIZARD_RITUAL_KNOWN"))
+			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("WIZARD_KEY_PREVIOUSLY_RETRIEVED")) {
+				if(!player.getInventory().containsItem(2399)) {
+					addNext(()->{
+						player.startConversation(new WizardTraibornDemonSlayerD(player, RETRIEVE_KEY_AGAIN).getStart());});
 					return;
 				}
-			} else if(p.getInventory().containsItem(526, 25)) {
-				addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, HAS_BONES).getStart());});
+			} else if(player.getInventory().containsItem(526, 25)) {
+				addNext(()->{
+					player.startConversation(new WizardTraibornDemonSlayerD(player, HAS_BONES).getStart());});
 				return;
 			}
 			else {
-				addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, DOES_NOT_HAVE_BONES).getStart());});
+				addNext(()->{
+					player.startConversation(new WizardTraibornDemonSlayerD(player, DOES_NOT_HAVE_BONES).getStart());});
 				return;
 			}
 		addOptions("Choose an option:", new Options() {
@@ -107,41 +107,39 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 										.addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Cheerio then. It was nice chatting to you."));
 							}
 						}));
-				if(!p.isQuestComplete(Quest.DEMON_SLAYER)
-						&& p.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
-						&& !p.getInventory().containsItem(DemonSlayer.WIZARD_KEY))
+				if(!player.isQuestComplete(Quest.DEMON_SLAYER)
+						&& player.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.AFTER_SIR_PRYSIN_INTRO_STAGE
+						&& !player.getInventory().containsItem(2399))
 					option("I need to get a key given to you by Sir Prysin.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I need to get a key given to you by Sir Prysin.")
 							.addNPC(WIZARD_TRAIBORN, HeadE.SKEPTICAL_THINKING, "Sir Prysin? Who's that? What would I want his key for?")
 							.addNext(() -> {
-								p.startConversation(new WizardTraibornDemonSlayerD(p, ABOUT_SIR_PRYSIN).getStart());
+								player.startConversation(new WizardTraibornDemonSlayerD(player, ABOUT_SIR_PRYSIN).getStart());
 							}));
 			}
 		});
 	}
 
-	public WizardTraibornDemonSlayerD(Player p, int convoID) {
-		super(p);
-		this.p = p;
-
+	public WizardTraibornDemonSlayerD(Player player, int convoID) {
+		super(player);
 		switch(convoID) {
 		case ABOUT_SIR_PRYSIN:
-			aboutSirPrysin(p);
+			aboutSirPrysin(player);
 			break;
 		case KEYS_DIALOGUE:
-			keyDialogue(p);
+			keyDialogue(player);
 			break;
 		case KEYS_OPTIONS:
-			keysOption(p);
+			keysOption(player);
 			break;
 		case HAS_BONES:
-			hasBones(p);
+			hasBones(player);
 			break;
 		case DOES_NOT_HAVE_BONES:
-			doesNotHaveBones(p);
+			doesNotHaveBones(player);
 			break;
 		case RETRIEVE_KEY_AGAIN:
-			retrieveKeyAgain(p);
+			retrieveKeyAgain(player);
 			break;
 		}
 
@@ -197,7 +195,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 						.addPlayer(HeadE.HAPPY_TALKING, "I'll help get the bones for you.")
 						.addNPC(WIZARD_TRAIBORN, HeadE.CALM_TALK, "Ooh that would be very good of you.")
 						.addPlayer(HeadE.HAPPY_TALKING, "Okay, I'll speak to you when I've got some bones.", ()-> {
-							p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.WIZARD_RITUAL_KNOWN_ATTR, true);
+							p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("WIZARD_RITUAL_KNOWN", true);
 						}));
 			}
 		});
@@ -224,8 +222,8 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 		addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Wings of dark and colour too, Spreading in the morning dew; Locked away I have a key; Return it now, " +
 				"please, unto me.", () -> {
 					p.getInventory().deleteItem(526, 25);
-					p.getInventory().addItem(new Item(DemonSlayer.WIZARD_KEY), false);
-					p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB(DemonSlayer.WIZARD_KEY_PREVIOUSLY_RETRIEVED_ATTR, true);
+					p.getInventory().addItem(new Item(2399), false);
+					p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("WIZARD_KEY_PREVIOUSLY_RETRIEVED", true);
 				});
 		addPlayer(HeadE.HAPPY_TALKING, "Thank you very much.");
 		addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Not a problem for a friend of Sir What's-his-face.");
@@ -247,18 +245,16 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 			addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Hurrah! That's all 25 sets of bones.");
 			addNPC(WIZARD_TRAIBORN, HeadE.HAPPY_TALKING, "Wings of dark and colour too, Spreading in the morning dew; Locked away I have a key; Return it now, " +
 					"please, unto me.", () -> {
-						for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+						for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 							if(npc.getId() == 881) {
 								npc.setNextAnimation(new Animation(716));
 								npc.setNextSpotAnim(new SpotAnim(102));
 							}
 						p.getInventory().deleteItem(526, 25);
-						p.getInventory().addItem(new Item(DemonSlayer.WIZARD_KEY), false);
+						p.getInventory().addItem(new Item(2399), false);
 					});
 			addPlayer(HeadE.HAPPY_TALKING, "Thank you very much.");
 		}
-
-
 	}
 
 

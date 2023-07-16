@@ -16,10 +16,8 @@
 //
 package com.rs.game.content.skills.fishing;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -28,13 +26,16 @@ import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Fishing extends PlayerAction {
@@ -84,6 +85,7 @@ public class Fishing extends PlayerAction {
     public static void addLoSOverrides() {
     	for (int id : FISHING_SPOTS.keySet())
     		Entity.addLOSOverride(id);
+		Entity.addLOSOverride(DungeonConstants.FISH_SPOT_NPC_ID);
     }
 
     public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray(), e -> {
@@ -126,12 +128,12 @@ public class Fishing extends PlayerAction {
 
     private FishingSpot spot;
     private NPC npc;
-    private WorldTile tile;
+    private Tile tile;
 
     public Fishing(FishingSpot spot, NPC npc) {
         this.spot = spot;
         this.npc = npc;
-        tile = WorldTile.of(npc.getTile());
+        tile = Tile.of(npc.getTile());
     }
 
     @Override

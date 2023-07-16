@@ -2,12 +2,11 @@ package com.rs.game.content.quests.heroesquest.icequeenlair;
 
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -15,27 +14,26 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class IceQueenDungeon {
 	public static ObjectClickHandler handleRockSlide = new ObjectClickHandler(new Object[]{2634}, e -> {
-		Player p = e.getPlayer();
-		if (!p.containsTool(1265) && Pickaxe.getBest(p) == null) {
-			p.sendMessage("You do not have a pickaxe...");
+		if (!e.getPlayer().containsTool(1265) && Pickaxe.getBest(e.getPlayer()) == null) {
+			e.getPlayer().sendMessage("You do not have a pickaxe...");
 			return;
 		}
-		if (p.getSkills().getLevel(Constants.MINING) < 50)
+		if (e.getPlayer().getSkills().getLevel(Constants.MINING) < 50)
 			return;
 		GameObject obj = e.getObject();
 		int id = e.getObjectId();
 		boolean hasRun = e.getPlayer().getRun();
 		if (e.isAtObject()) {
 			if (e.getOption().equalsIgnoreCase("Investigate"))
-				p.sendMessage("It appears to need 50 mining to clear...");
+				e.getPlayer().sendMessage("It appears to need 50 mining to clear...");
 			else //Clear rocks
 				WorldTasks.scheduleTimer(i -> {
 					if (i == 0)
-						p.lock();
+						e.getPlayer().lock();
 					if (i == 1)
-						p.faceObject(obj);
+						e.getPlayer().faceObject(obj);
 					if (i == 2)
-						p.setNextAnimation(new Animation(625));
+						e.getPlayer().setNextAnimation(new Animation(625));
 					if (i == 5)
 						obj.setId(472);
 					if (i == 9)
@@ -43,16 +41,16 @@ public class IceQueenDungeon {
 					if (i == 12)
 						obj.setId(474);
 					if (i == 15) {
-						p.setRun(false);
-						if (p.getX() < obj.getX())
-							p.addWalkSteps(WorldTile.of(2840, p.getY() - 1, 0), 4, false);
+						e.getPlayer().setRun(false);
+						if (e.getPlayer().getX() < obj.getX())
+							e.getPlayer().addWalkSteps(Tile.of(2840, e.getPlayer().getY() - 1, 0), 4, false);
 						else
-							p.addWalkSteps(WorldTile.of(2837, p.getY() + 1, 0), 4, false);
+							e.getPlayer().addWalkSteps(Tile.of(2837, e.getPlayer().getY() + 1, 0), 4, false);
 					}
 					if (i == 19) {
 						obj.setId(473);
-						p.setRun(hasRun);
-						p.unlock();
+						e.getPlayer().setRun(hasRun);
+						e.getPlayer().unlock();
 					}
 					if (i == 20)
 						obj.setId(472);
@@ -68,10 +66,10 @@ public class IceQueenDungeon {
 	public static ObjectClickHandler handleIceQueenLairLadders = new ObjectClickHandler(new Object[]{20987, 33184, 100}, e -> {
 		switch (e.getObjectId()) {
 		case 20987 -> {
-			e.getPlayer().useLadder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
+			e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
 		}
 		case 33184 -> {
-			e.getPlayer().useLadder(WorldTile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
+			e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
 		}
 	}
 	});

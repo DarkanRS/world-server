@@ -17,10 +17,10 @@
 package com.rs.game.content.world.areas.ape_atoll.npcs;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -28,11 +28,11 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Ifaba extends Conversation {
-	private static int npcId = 1436;
+	private static final int npcId = 1436;
 
 	public static NPCClickHandler Ifaba = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Ifaba(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "ifaba_general_store");
 		}

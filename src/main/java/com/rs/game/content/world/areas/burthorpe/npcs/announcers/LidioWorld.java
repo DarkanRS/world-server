@@ -18,16 +18,16 @@ package com.rs.game.content.world.areas.burthorpe.npcs.announcers;
 
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class LidioWorld extends NPC {
-	private static int npcId = 4293;
+	private static final int npcId = 4293;
 
-	public LidioWorld(int id, WorldTile tile) {
+	public LidioWorld(int id, Tile tile) {
 		super(id, tile);
 	}
 

@@ -18,22 +18,22 @@ package com.rs.game.content.minigames.fightpits;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FightPitsViewingOrb extends PlayerAction {
 
-	public static final WorldTile[] ORB_TELEPORTS = { WorldTile.of(4571, 5092, 0), WorldTile.of(4571, 5107, 0), WorldTile.of(4590, 5092, 0), WorldTile.of(4571, 5077, 0), WorldTile.of(4557, 5092, 0) };
+	public static final Tile[] ORB_TELEPORTS = { Tile.of(4571, 5092, 0), Tile.of(4571, 5107, 0), Tile.of(4590, 5092, 0), Tile.of(4571, 5077, 0), Tile.of(4557, 5092, 0) };
 
-	private WorldTile tile;
+	private Tile tile;
 
 	@Override
 	public boolean start(Player player) {
 		if (!process(player))
 			return false;
-		tile = WorldTile.of(player.getTile());
+		tile = Tile.of(player.getTile());
 		player.getAppearance().switchHidden();
 		player.getPackets().setBlockMinimapState(5);
-		player.setNextWorldTile(ORB_TELEPORTS[0]);
+		player.setNextTile(ORB_TELEPORTS[0]);
 		player.getInterfaceManager().sendInventoryInterface(374);
 		return true;
 	}
@@ -62,7 +62,7 @@ public class FightPitsViewingOrb extends PlayerAction {
 		player.getInterfaceManager().removeInventoryInterface();
 		player.getAppearance().switchHidden();
 		player.getPackets().setBlockMinimapState(0);
-		player.setNextWorldTile(tile);
+		player.setNextTile(tile);
 	}
 
 }

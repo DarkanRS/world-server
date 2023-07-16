@@ -1,24 +1,22 @@
 package com.rs.game.content.quests.merlinscrystal;
 
-import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
-import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.CONFRONT_KEEP_LA_FAYE;
+import static com.rs.game.content.quests.merlinscrystal.MerlinsCrystal.THE_BLACK_CANDLE;
+
 @PluginEventHandler
 public class MorganMerlinsCrystalD extends Conversation {
 	private final static int NPC = 248;
-	private final static String KNOWS_EXCALIBUR_ATTR = "KNOWS_E";
-	private final static String KNOWS_ABOUT_ENCANTATION_ATTR = "KNOWS_ABOUT_ENC";
 
 	public MorganMerlinsCrystalD(Player p) {
 		super(p);
@@ -53,27 +51,27 @@ public class MorganMerlinsCrystalD extends Conversation {
 				option("So where can I find Excalibur?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "So where can I find Excalibur?")
 						.addNPC(NPC, HeadE.CALM_TALK, "The lady of the lake has it. I don't know if she'll give it to you though, she can be rather temperamental.",
-								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(KNOWS_EXCALIBUR_ATTR, true);})
+								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_E", true);})
 						.addNext(()->{
-                            if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_EXCALIBUR_ATTR) && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_ABOUT_ENCANTATION_ATTR))
+                            if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_E") && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_ENC"))
                                 p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);
                             p.startConversation(new MorganMerlinsCrystalD(p, true).getStart());
                         }));
 				option("What are the magic words?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "What are the magic words?")
 						.addNPC(NPC, HeadE.CALM_TALK, "You will find the magic words at the base of one of the chaos altars. Which chaos altar I cannot remember.",
-								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB(KNOWS_ABOUT_ENCANTATION_ATTR, true);})
+								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_ENC", true);})
 						.addNext(()->{
-                            if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_EXCALIBUR_ATTR) && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_ABOUT_ENCANTATION_ATTR))
+                            if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_E") && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_ENC"))
                                 p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);
                             p.startConversation(new MorganMerlinsCrystalD(p, true).getStart());
                         }));
-				if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_EXCALIBUR_ATTR) && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB(KNOWS_ABOUT_ENCANTATION_ATTR))
+				if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_E") && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_ENC"))
 					option("Ok, I will go do all that.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will go do all that.")
 							.addSimple("Morgan Le Faye vanishes.", ()->{
 								p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+								for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 									if(npc.getId() == NPC)
 										npc.finish();
 							})

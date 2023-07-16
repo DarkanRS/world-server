@@ -1,24 +1,22 @@
 package com.rs.game.content.quests.holygrail.dialogue;
 
-import static com.rs.game.content.quests.holygrail.HolyGrail.GIVE_AURTHUR_HOLY_GRAIL;
-import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_FISHER_KING;
-import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.holygrail.HolyGrail.*;
+
 @PluginEventHandler
 public class TheFisherKingHolyGrailD extends Conversation {
 	private static final int NPC = 220;
-	public TheFisherKingHolyGrailD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+	public TheFisherKingHolyGrailD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case SPEAK_TO_FISHER_KING, SPEAK_TO_PERCIVAL, GIVE_AURTHUR_HOLY_GRAIL -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Ah! You got inside at last! You spent all that time fumbling around outside. I thought you'd never make it here.");
 				addOptions("Choose an option:", new Options() {
@@ -46,7 +44,7 @@ public class TheFisherKingHolyGrailD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "Who is your son?")
 								.addNPC(NPC, HeadE.CALM_TALK, "He is known as Percival. I believe he is a knight of the round table.")
 								.addPlayer(HeadE.HAPPY_TALKING, "I shall go and see if I can find him.", ()->{
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL);
+									player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL);
 								})
 						);
 					}

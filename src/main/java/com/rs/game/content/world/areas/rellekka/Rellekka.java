@@ -16,6 +16,10 @@
 //
 package com.rs.game.content.world.areas.rellekka;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
@@ -24,21 +28,13 @@ import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
@@ -143,7 +139,7 @@ public class Rellekka {
 		return 3690;
 	}
 
-	private static final void lyreTele(Player player, WorldTile loc, Item lyre, boolean reduceDaily) {
+	private static final void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
 		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, Magic.MAGIC_TELEPORT, null)) {
 			if (reduceDaily)
 				player.setDailyB("freeLyreTele", true);
@@ -161,12 +157,12 @@ public class Rellekka {
 		return new Dialogue().addOptions("Where would you like to teleport?", new Options() {
 			@Override
 			public void create() {
-				option("Rellekka", () -> Rellekka.lyreTele(player, WorldTile.of(2643, 3676, 0), item, reduceDaily));
+				option("Rellekka", () -> Rellekka.lyreTele(player, Tile.of(2643, 3676, 0), item, reduceDaily));
 				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
-					option("Waterbirth Island", () -> Rellekka.lyreTele(player, WorldTile.of(2547, 3757, 0), item, reduceDaily));
+					option("Waterbirth Island", () -> Rellekka.lyreTele(player, Tile.of(2547, 3757, 0), item, reduceDaily));
 				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
-					option("Jatizso", () -> Rellekka.lyreTele(player, WorldTile.of(2407, 3803, 0), item, reduceDaily));
-					option("Neitiznot", () -> Rellekka.lyreTele(player, WorldTile.of(2336, 3803, 0), item, reduceDaily));
+					option("Jatizso", () -> Rellekka.lyreTele(player, Tile.of(2407, 3803, 0), item, reduceDaily));
+					option("Neitiznot", () -> Rellekka.lyreTele(player, Tile.of(2336, 3803, 0), item, reduceDaily));
 				}
 			}
 		});
@@ -189,11 +185,11 @@ public class Rellekka {
 	});
 
 	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2773, 10162, 0));
+		e.getPlayer().setNextTile(Tile.of(2773, 10162, 0));
 	});
 
 	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2730, 3713, 0));
+		e.getPlayer().setNextTile(Tile.of(2730, 3713, 0));
 	});
 
 	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }, e -> {

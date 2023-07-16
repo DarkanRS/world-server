@@ -1,27 +1,27 @@
 package com.rs.game.content.quests.fishingcontest;
 
-import static com.rs.game.content.quests.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.ENTER_COMPETITION;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.fishingcontest.FishingContest.DO_ROUNDS;
+import static com.rs.game.content.quests.fishingcontest.FishingContest.ENTER_COMPETITION;
 
 @PluginEventHandler
 public class GrandpaJackFishingContestD extends Conversation {
 	private static final int NPC = 230;
 
 
-	public GrandpaJackFishingContestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
+	public GrandpaJackFishingContestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
 		case ENTER_COMPETITION, DO_ROUNDS -> {
-			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ p.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
+			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ player.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
 					"best fisherman these parts have seen!");
 			addOptions("Choose an option:", new Options() {
 				@Override
@@ -74,7 +74,7 @@ public class GrandpaJackFishingContestD extends Conversation {
 			});
 		}
 		default -> {
-			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ p.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
+			addNPC(NPC, HeadE.CALM_TALK, "Hello young "+ player.getPronoun("man", "lady") + "! Come to visit old Grandpa Jack? I can tell ye stories for sure. I used to be the " +
 					"best fisherman these parts have seen!");
 			addOptions("Choose an option:", new Options() {
 				@Override

@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars.zaros.attack;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -26,6 +23,9 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Virus implements NexAttack {
 

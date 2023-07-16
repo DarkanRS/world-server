@@ -1,9 +1,5 @@
 package com.rs.game.content.skills.hunter.falconry;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.DropCleaners;
@@ -12,11 +8,15 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Kebbit extends NPC {
@@ -62,7 +62,7 @@ public class Kebbit extends NPC {
 	private Player caughtBy;
 	private int hintIcon = -1;
 
-	public Kebbit(int id, WorldTile tile) {
+	public Kebbit(int id, Tile tile) {
 		super(id, tile);
 		this.type = KebbitType.forKebbit(id);
 		if (this.type == null)

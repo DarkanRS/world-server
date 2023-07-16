@@ -18,8 +18,8 @@ package com.rs.game.content;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -147,7 +147,6 @@ public final class PlayerLook {
 		if (e.getComponentId() == 14 || e.getComponentId() == 16 || e.getComponentId() == 15 || e.getComponentId() == 17)
 			e.getPlayer().getTempAttribs().setB("MageMakeOverGender", e.getComponentId() == 14 || e.getComponentId() == 16);
 		else if (e.getComponentId() >= 20 && e.getComponentId() <= 31) {
-
 			int skin;
 			if (e.getComponentId() == 31)
 				skin = 11;
@@ -179,23 +178,22 @@ public final class PlayerLook {
 			int skin = e.getPlayer().getTempAttribs().removeI("MageMakeOverSkin");
 			e.getPlayer().closeInterfaces();
 			if (male == e.getPlayer().getAppearance().isMale() && skin == e.getPlayer().getAppearance().getSkinColor())
-				if (male == e.getPlayer().getAppearance().isMale() && skin == e.getPlayer().getAppearance().getSkinColor())
-					e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "Whew! That was lucky."));
-				else {
-					e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "That is no different from what you already have. I guess I shouldn't charge you if I'm not changing anything."));
-					if (e.getPlayer().getAppearance().isMale() != male) {
-						if (e.getPlayer().getEquipment().wearingArmour()) {
-							e.getPlayer().simpleDialogue("You cannot have armor on while changing your gender.");
-							return;
-						}
-						if (male)
-							e.getPlayer().getAppearance().resetAppearance();
-						else
-							e.getPlayer().getAppearance().female();
+				e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "That is no different from what you already have. I guess I shouldn't charge you if I'm not changing anything."));
+			else {
+				e.getPlayer().startConversation(new Dialogue().addNPC(e.getPlayer().getAppearance().isMale() ? 599 : 2676, HeadE.CALM_TALK, "Whew! That was lucky."));
+				if (e.getPlayer().getAppearance().isMale() != male) {
+					if (e.getPlayer().getEquipment().wearingArmour()) {
+						e.getPlayer().simpleDialogue("You cannot have armor on while changing your gender.");
+						return;
 					}
-					e.getPlayer().getAppearance().setSkinColor(skin);
-					e.getPlayer().getAppearance().generateAppearanceData();
+					if (male)
+						e.getPlayer().getAppearance().resetAppearance();
+					else
+						e.getPlayer().getAppearance().female();
 				}
+				e.getPlayer().getAppearance().setSkinColor(skin);
+				e.getPlayer().getAppearance().generateAppearanceData();
+			}
 		}
 	});
 

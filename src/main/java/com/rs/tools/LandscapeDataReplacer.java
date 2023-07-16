@@ -16,20 +16,20 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.Store;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.cache.loaders.map.Region;
 import com.rs.cache.utils.Constants;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.MapXTEAs;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class LandscapeDataReplacer {
 

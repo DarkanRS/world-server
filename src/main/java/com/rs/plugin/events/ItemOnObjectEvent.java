@@ -16,17 +16,17 @@
 //
 package com.rs.plugin.events;
 
+import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.PluginHandler;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.rs.game.model.entity.player.Player;
-import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.PluginHandler;
 
 public class ItemOnObjectEvent implements PluginEvent {
 
@@ -102,7 +102,7 @@ public class ItemOnObjectEvent implements PluginEvent {
 				methods.add(handler);
 				locMap.put(0, methods);
 			} else
-				for (WorldTile tile : handler.getTiles()) {
+				for (Tile tile : handler.getTiles()) {
 					List<ItemOnObjectHandler> methods = locMap.get(tile.getTileHash());
 					if (methods == null)
 						methods = new ArrayList<>();

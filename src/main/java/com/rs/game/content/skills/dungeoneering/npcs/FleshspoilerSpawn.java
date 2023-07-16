@@ -18,13 +18,13 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class FleshspoilerSpawn extends DungeonNPC {
 
 	private FleshspoilerHaasghenahk boss;
 
-	public FleshspoilerSpawn(FleshspoilerHaasghenahk boss, WorldTile tile, DungeonManager manager) {
+	public FleshspoilerSpawn(FleshspoilerHaasghenahk boss, Tile tile, DungeonManager manager) {
 		super(getId(boss.getId()), tile, manager);
 		this.boss = boss;
 		setForceAgressive(true);

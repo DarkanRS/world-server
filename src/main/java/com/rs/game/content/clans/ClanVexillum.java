@@ -1,8 +1,5 @@
 package com.rs.game.content.clans;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
@@ -12,13 +9,16 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.model.clan.Clan;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class ClanVexillum extends OwnedNPC {
@@ -32,7 +32,7 @@ public class ClanVexillum extends OwnedNPC {
 	 * anim skeleton 3606 = clan teleports
 	 */
 
-	private ClanVexillum(Player owner, WorldTile tile, Clan clan) {
+	private ClanVexillum(Player owner, Tile tile, Clan clan) {
 		super(owner, 13634, tile, false);
 		this.clan = clan;
 		setAutoDespawnAtDistance(false);
@@ -66,7 +66,7 @@ public class ClanVexillum extends OwnedNPC {
 	
 	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place", "Recall", "Find" }, e -> {
 		if (e.getOption().equals("Teleport"))
-			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, WorldTile.of(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, Tile.of(2960, 3285, 0), 4, true, Magic.MAGIC_TELEPORT, null);
 		else if (e.getOption().equals("Place"))
 			create(e.getPlayer(), true);
 		else if (e.getOption().equals("Recall")) {
@@ -114,12 +114,12 @@ public class ClanVexillum extends OwnedNPC {
 			player.sendMessage("You can't place a vexillum here.");
 			return;
 		}
-		final WorldTile tile = player.transform(player.getDirection().getDx(), player.getDirection().getDy());
+		final Tile tile = player.transform(player.getDirection().getDx(), player.getDirection().getDy());
 		if (checkClip && !World.canLightFire(tile.getPlane(), tile.getX(), tile.getY())) {
 			player.sendMessage("You can't place a vexillum here.");
 			return;
 		}
-		for (NPC npc : World.getNPCsInRegionRange(player.getRegionId())) {
+		for (NPC npc : World.getNPCsInChunkRange(player.getChunkId(), 1)) {
 			if (npc == null || npc.hasFinished())
 				continue;
 			if (npc.withinDistance(tile, npc instanceof ClanVexillum ? 6 : 1)) {

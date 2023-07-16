@@ -3,6 +3,7 @@ package com.rs.game.content.combat.special_attacks;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.*;
+import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -10,7 +11,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -19,11 +20,10 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.utils.Ticks;
 
 import java.util.Arrays;
@@ -31,16 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import static com.rs.game.content.combat.PlayerCombat.delayNormalHit;
-import static com.rs.game.content.combat.PlayerCombat.delayMagicHit;
-import static com.rs.game.content.combat.PlayerCombat.delayHit;
-import static com.rs.game.content.combat.PlayerCombat.dropAmmo;
-import static com.rs.game.content.combat.PlayerCombat.calculateHit;
-import static com.rs.game.content.combat.PlayerCombat.getMaxHit;
-import static com.rs.game.content.combat.PlayerCombat.getMultiAttackTargets;
-import static com.rs.game.content.combat.PlayerCombat.addXp;
-import static com.rs.game.content.combat.PlayerCombat.attackTarget;
-import static com.rs.game.content.combat.PlayerCombat.getMeleeCombatDelay;
+import static com.rs.game.content.combat.PlayerCombat.*;
 
 @PluginEventHandler
 public class SpecialAttacks {
@@ -147,21 +138,25 @@ public class SpecialAttacks {
 
         //Obliteration
         addSpec(new int[] { 24457 }, new SpecialAttack(Type.MAGIC, 20, (player, target) -> {
-            //TODO
-            delayMagicHit(target, CombatSpell.WIND_RUSH.cast(player, target), Hit.magic(player, 50).setMaxHit(50), () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
-            return 3;
+            player.sync(16960, 3189);
+            WorldProjectile p =  World.sendProjectile(player, target, 3188, 15, 15, 15, 0.6, 0, 0);
+            for (Direction dir : Direction.values())
+                World.sendProjectile(Tile.of(target.getX() + (dir.getDx()*7), target.getY() + (dir.getDy()*7), target.getPlane()), target, 3188, 15, 15, 15, 0.6, 0, 0);
+            Hit hit = calculateMagicHit(player, target, 500, true);
+            delayMagicHit(target, p.getTaskDelay(), hit, () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
+            return 7;
         }));
 
         /**
          * RANGED WEAPONS
          */
         addSpec(RangedWeapon.QUICK_BOW.getIds(), new SpecialAttack(Type.RANGE, 75, (player, target) -> {
-            player.setNextAnimation(new Animation(426));
-            player.setNextSpotAnim(new SpotAnim(97));
-            WorldProjectile p = World.sendProjectile(player, target, 1099, 20, 50, 1, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
-            WorldProjectile p2 = World.sendProjectile(player, target, 1099, 30, 50, 1.5, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
-            delayHit(target, p.getTaskDelay(), Hit.range(player, 25));
-            delayHit(target, p2.getTaskDelay(), Hit.range(player, 25));
+            player.setNextAnimation(new Animation(1074));
+            player.setNextSpotAnim(new SpotAnim(250, 10, 100));
+            WorldProjectile p = World.sendProjectile(player, target, 249, 20, 50, 1.5);
+            WorldProjectile p2 = World.sendProjectile(player, target, 249, 30, 50, 1.5);
+            delayHit(target, p.getTaskDelay(), Hit.range(player, 25).setMaxHit(25));
+            delayHit(target, p2.getTaskDelay(), Hit.range(player, 25).setMaxHit(25));
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -355,8 +350,11 @@ public class SpecialAttacks {
         }));
 
         addSpec(RangedWeapon.DECIMATION.getIds(), new SpecialAttack(Type.RANGE, 20, (player, target) -> {
-            //TODO
-            return PlayerCombat.getRangeCombatDelay(player);
+            player.sync(16959, 3192);
+            WorldProjectile p = World.sendProjectile(player, target, 3188, 20, 100, 0.6, proj -> target.spotAnim(3191));
+            for (int i = 0;i < 4;i++)
+                delayHit(target, p.getTaskDelay(), calculateHit(player, target, true, true, 1.0, 1.0));
+            return 6;
         }));
 
         /**
@@ -365,15 +363,15 @@ public class SpecialAttacks {
         //Vine whip
         addSpec(new int[] { 21371, 21372, 21373, 21374, 21375 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
             final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
-            final WorldTile tile = WorldTile.of(target.getX(), target.getY(), target.getPlane());
+            final Tile tile = Tile.of(target.getX(), target.getY(), target.getPlane());
             player.setNextAnimation(new Animation(11971));
             player.setNextSpotAnim(new SpotAnim(476));
             WorldTasks.scheduleTimer(tick -> {
                 if (player == null || player.hasFinished())
                     return false;
                 if (tick % 5 == 0) {
-                    World.sendSpotAnim(player, new SpotAnim(478), tile);
-                    for (Entity entity : getMultiAttackTargets(player, WorldTile.of(target.getTile()), 1, 9)) {
+                    World.sendSpotAnim(tile, new SpotAnim(478));
+                    for (Entity entity : getMultiAttackTargets(player, Tile.of(target.getTile()), 1, 9)) {
                         Hit hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
                         addXp(player, entity, attackStyle.getXpType(), hit);
                         if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
@@ -444,7 +442,7 @@ public class SpecialAttacks {
 
         //Keenblade
         addSpec(new int[] { 23042 }, new SpecialAttack(Type.MELEE, 75, (player, target) -> {
-            player.setNextAnimation(new Animation(12019));
+            player.setNextAnimation(new Animation(16067));
             player.setNextSpotAnim(new SpotAnim(2109));
             delayNormalHit(target, new Hit(player, 50, HitLook.MELEE_DAMAGE).setMaxHit(50));
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
@@ -793,10 +791,11 @@ public class SpecialAttacks {
         }));
 
         //Annihilation (16964 3193) obtaining
+        //Absorbing essence into it? (16962 43)
         addSpec(new int[] { 24455 }, new SpecialAttack(Type.MELEE, 20, (player, target) -> {
             player.sync(16961, 44);
-            delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.2));
-            return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
+            delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.5));
+            return 5;
         }));
     }
 

@@ -16,21 +16,21 @@
 //
 package com.rs;
 
+import com.google.common.net.PercentEscaper;
+import com.google.gson.JsonIOException;
+import com.rs.lib.Globals;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.game.Item;
+import com.rs.lib.game.Tile;
+import com.rs.lib.game.WorldInfo;
+import com.rs.lib.util.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
-import com.google.common.net.PercentEscaper;
-import com.google.gson.JsonIOException;
-import com.rs.lib.Globals;
-import com.rs.lib.file.JsonFileManager;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldInfo;
-import com.rs.lib.game.WorldTile;
-import com.rs.lib.util.Logger;
 
 public final class Settings {
 
@@ -47,6 +47,7 @@ public final class Settings {
 	private String ownerName;
 	private String cachePath;
 	private boolean debug = false;
+	private boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
 	private String mongoUser;
@@ -56,18 +57,19 @@ public final class Settings {
 	private String lobbyApiKey;
 	private WorldInfo worldInfo;
 	private String loginMessage;
-	private WorldTile playerStartTile;
-	private WorldTile playerRespawnTile;
+	private Tile playerStartTile;
+	private Tile playerRespawnTile;
 	private int xpRate;
 	private double dropModifier;
 	private Item[] startItems;
-	private String chatGPTApiKey;
+	private String staffWebhookUrl;
 
 	public Settings() {
 		serverName = "Darkan";
 		ownerName = "trent";
 		cachePath = "../cache/";
 		debug = false;
+		allowHighMemUseOptimizations = false;
 		lobbyIp = "dev.darkan.org";
 		mongoUrl = "localhost";
 		mongoPort = 27017;
@@ -77,8 +79,8 @@ public final class Settings {
 		lobbyApiKey = "TEST_API_KEY";
 		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
 		loginMessage = "";
-		playerStartTile = WorldTile.of(3226, 3219, 0);
-		playerRespawnTile = WorldTile.of(3221, 3218, 0);
+		playerStartTile = Tile.of(2889, 3528, 0);
+		playerRespawnTile = Tile.of(2887, 3535, 0);
 		xpRate = 1;
 		dropModifier = 1.0;
 		startItems = new Item[] {
@@ -101,7 +103,7 @@ public final class Settings {
 				new Item(557, 4),
 				new Item(559, 2),
 		};
-		chatGPTApiKey = "YEE_HAW_LMAO";
+		staffWebhookUrl = null;
 	}
 
 	public static final long WORLD_CYCLE_NS = 600000000L;
@@ -113,7 +115,7 @@ public final class Settings {
 	public static final int LOCAL_PLAYERS_LIMIT = 250;
 	public static final int NPCS_LIMIT = 64000;
 	public static final int LOCAL_NPCS_LIMIT = 250;
-	public static final int MIN_FREE_MEM_ALLOWED = 300000000; // 30mb
+	public static final double HIGH_MEM_USE_THRESHOLD = 85.0;
 
 	public static ArrayList<String> COMMIT_HISTORY = new ArrayList<>();
 
@@ -173,6 +175,10 @@ public final class Settings {
 		return debug;
 	}
 
+	public boolean isAllowHighMemUseOptimizations() {
+		return allowHighMemUseOptimizations;
+	}
+
 	public String getLoginMessage() {
 		return loginMessage;
 	}
@@ -181,12 +187,12 @@ public final class Settings {
 		this.loginMessage = loginMessage;
 	}
 
-	public WorldTile getPlayerStartTile() {
-		return WorldTile.of(playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile);
+	public Tile getPlayerStartTile() {
+		return Tile.of(playerStartTile != null ? playerStartTile : DEFAULTS.playerStartTile);
 	}
 
-	public WorldTile getPlayerRespawnTile() {
-		return WorldTile.of(playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile);
+	public Tile getPlayerRespawnTile() {
+		return Tile.of(playerRespawnTile != null ? playerRespawnTile : DEFAULTS.playerRespawnTile);
 	}
 
 	public int getXpRate() {
@@ -236,7 +242,7 @@ public final class Settings {
 		return db;
 	}
 	
-	public String getChatGPTApiKey() {
-		return chatGPTApiKey;
+	public String getStaffWebhookUrl() {
+		return staffWebhookUrl;
 	}
 }

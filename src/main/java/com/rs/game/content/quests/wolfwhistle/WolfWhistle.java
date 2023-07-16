@@ -1,12 +1,10 @@
 package com.rs.game.content.quests.wolfwhistle;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
@@ -15,6 +13,9 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.WOLF_WHISTLE)
 @PluginEventHandler
@@ -30,13 +31,6 @@ public class WolfWhistle extends QuestOutline {
     public static final int SAVE_BOWLOFTRIX = 6;
     public static final int QUEST_COMPLETE = 7;
 
-    // attributes
-    public static final String ATTRIB_OBTAINED_WHITE_HARE_MEAT_BEFORE = "HARE_MEAT";
-    public static final String ATTRIB_OBTAINED_EMBROIDERED_POUCH_BEFORE = "EMBROIDERED_POUCH";
-    public static final String ATTRIB_OBTAINED_RARE_SUMMING_ITEMS_BEFORE = "RARE_ITEMS";
-    public static final String ATTRIB_OBTAINED_ANCIENT_WOLF_BONE_AMULET_BEFORE = "ANCIENT_AMULET";
-    public static final String ATTRIB_MADE_WOLPERTINGER_POUCH = "WOLPERTINGER_POUCH";
-    public static final String ATTRIB_ALREADY_BEEN_IN_WELL = "WELLWELL";
     // animations
     public static final int POUCH_INFUSION = 725;
     // item ids
@@ -70,7 +64,7 @@ public class WolfWhistle extends QuestOutline {
                     p.startConversation(new Dialogue()
                         .addItem(EMBROIDERED_POUCH, "You have found the embroidered pouch under some socks in this drawer.", () -> {
                             p.getInventory().addItem(EMBROIDERED_POUCH);
-                            p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_EMBROIDERED_POUCH_BEFORE, true);
+                            p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("EMBROIDERED_POUCH", true);
                         }));
                     return;
                 }
@@ -87,7 +81,7 @@ public class WolfWhistle extends QuestOutline {
             p.startConversation(new Dialogue()
                 .addItem(ANCIENT_WOLF_BONE_AMULET, "You take the amulet from the sad remains of Stikklebrix.", () -> {
                     p.getInventory().addItem(ANCIENT_WOLF_BONE_AMULET);
-                    p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_OBTAINED_ANCIENT_WOLF_BONE_AMULET_BEFORE, true);
+                    p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("ANCIENT_AMULET", true);
                 }));
         }
     });
@@ -99,7 +93,7 @@ public class WolfWhistle extends QuestOutline {
             .addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH, "You craft the giant wolpertinger pouch. It thrums with barely contained power.", () -> {
                 p.getInventory().removeAllItems(WolfWhistle.EMBROIDERED_POUCH, WolfWhistle.RARE_SUMMONING_ITEMS, WolfWhistle.WHITE_HARE_MEAT, WolfWhistle.ANCIENT_WOLF_BONE_AMULET);
                 p.getInventory().addItem(WolfWhistle.GIANT_WOLPERTINGER_POUCH);
-                p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB(WolfWhistle.ATTRIB_MADE_WOLPERTINGER_POUCH, true);
+                p.getQuestManager().getAttribs(Quest.WOLF_WHISTLE).setB("WOLPERTINGER_POUCH", true);
                 p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.WOLPERTINGER_POUCH_CHECK);
             })
             .addPlayer(HeadE.AMAZED, "I should check with Pikkupstix that this is how it is supposed to look.")
@@ -119,7 +113,7 @@ public class WolfWhistle extends QuestOutline {
     }
 
     @Override
-    public ArrayList<String> getJournalLines(Player player, int stage) {
+    public List<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<>();
 
         switch (stage) {
@@ -192,7 +186,28 @@ public class WolfWhistle extends QuestOutline {
         player.getInventory().addItem(GOLD_CHARM, 275);
         player.getInventory().removeAllItems(GIANT_WOLPERTINGER_POUCH);
         player.getSkills().addXp(Skills.SUMMONING, 276);
-        getQuest().sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH, "276 Summoning XP<br>275 gold charms");
+        sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH);
+    }
+
+    @Override
+    public String getStartLocationDescription() {
+        return "Talk to Pikkupstix in his house in Taverley.";
+    }
+
+    @Override
+    public String getRequiredItemsString() {
+        return "None.";
+    }
+
+    @Override
+    public String getCombatInformationString() {
+        return "None.";
+    }
+
+    @Override
+    public String getRewardsString() {
+        return "276 Summoning XP<br>"+
+                "275 gold charms";
     }
 
 }

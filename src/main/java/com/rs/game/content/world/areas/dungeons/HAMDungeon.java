@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -29,8 +29,8 @@ public class HAMDungeon {
 	public static ObjectClickHandler handleKeyTrapdoor = new ObjectClickHandler(new Object[] { 15766, 15747 }, e -> {
 		if (e.getObjectId() == 15766) {
 			if (e.getOption().equals("Climb-down"))
-				e.getPlayer().useLadder(WorldTile.of(2568, 5185, 0));
+				e.getPlayer().useLadder(Tile.of(2568, 5185, 0));
 		} else
-			e.getPlayer().useLadder(WorldTile.of(3166, 9623, 0));
+			e.getPlayer().useLadder(Tile.of(3166, 9623, 0));
 	});
 }

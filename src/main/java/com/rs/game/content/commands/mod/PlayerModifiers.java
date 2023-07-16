@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.commands.mod;
 
+import com.rs.engine.command.Commands;
 import com.rs.game.World;
-import com.rs.game.engine.command.Commands;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
@@ -81,7 +81,7 @@ public class PlayerModifiers {
 					p.sendMessage("You cannot teleport this player.");
 					return;
 				}
-				p.setNextWorldTile(target.getTile());
+				p.setNextTile(target.getTile());
 			}
 		});
 
@@ -98,7 +98,7 @@ public class PlayerModifiers {
 					p.sendMessage("Unable to teleport a developer to you.");
 					return;
 				}
-				target.setNextWorldTile(p.getTile());
+				target.setNextTile(p.getTile());
 			}
 		});
 

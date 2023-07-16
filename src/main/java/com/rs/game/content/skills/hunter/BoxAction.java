@@ -21,6 +21,7 @@ import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
 import com.rs.game.content.skills.hunter.traps.DeadfallTrap;
 import com.rs.game.content.skills.hunter.traps.MarasamawPlant;
 import com.rs.game.content.skills.hunter.traps.NetTrap;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -29,7 +30,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class BoxAction extends PlayerAction {
 
@@ -37,7 +38,7 @@ public class BoxAction extends PlayerAction {
 	private BoxStyleTrap trap;
 	private GroundItem groundItem;
 	private GameObject obj;
-	private WorldTile tile;
+	private Tile tile;
 
 	public BoxAction(BoxTrapType type, GroundItem groundItem, GameObject obj) {
 		this.type = type;
@@ -60,20 +61,20 @@ public class BoxAction extends PlayerAction {
 	@Override
 	public boolean start(Player player) {
 		player.resetWalkSteps();
-		tile = WorldTile.of(player.getTile());
+		tile = Tile.of(player.getTile());
 		if (type == BoxTrapType.MARASAMAW_PLANT)
-			trap = new MarasamawPlant(player, WorldTile.of(player.getTile()));
+			trap = new MarasamawPlant(player, Tile.of(player.getTile()));
 		else if (type == BoxTrapType.TREE_NET)
-			trap = new NetTrap(player, WorldTile.of(player.getTile()), obj);
+			trap = new NetTrap(player, Tile.of(player.getTile()), obj);
 		else if (type == BoxTrapType.DEAD_FALL)
 			trap = new DeadfallTrap(player, obj);
 		else
-			trap = new BoxStyleTrap(player, type, WorldTile.of(player.getTile()));
+			trap = new BoxStyleTrap(player, type, Tile.of(player.getTile()));
 		if (!checkAll(player))
 			return false;
 		if (groundItem == null && type != BoxTrapType.TREE_NET) {
 			player.getInventory().deleteItem(type.getId(), 1);
-			World.addGroundItem(new Item(type.getId(), 1), WorldTile.of(player.getTile()), player, true, 180);
+			World.addGroundItem(new Item(type.getId(), 1), Tile.of(player.getTile()), player, true, 180);
 		}
 		player.sendMessage("You start setting up the trap..");
 		player.setNextAnimation(type == BoxTrapType.TREE_NET ? new Animation(5215) : new Animation(5208));
@@ -103,7 +104,7 @@ public class BoxAction extends PlayerAction {
 				player.getInventory().deleteItem(954, 1);
 				player.getInventory().deleteItem(303, 1);
 			} else {
-				GroundItem item = groundItem != null ? groundItem : World.getRegion(tile.getRegionId()).getGroundItem(type.getId(), tile, player);
+				GroundItem item = groundItem != null ? groundItem : ChunkManager.getChunk(tile.getChunkId()).getGroundItem(type.getId(), tile, player);
 				if (item != null)
 					World.removeGroundItem(player, item, false);
 			}

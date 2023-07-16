@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.world.areas.port_phasmatys.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -25,7 +25,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class GhostVillager extends Conversation {
-	private static int npcId = 1697;
+	private static final int npcId = 1697;
 
 	public static NPCClickHandler GhostVillager = new NPCClickHandler(new Object[] { npcId }, e -> {
 		switch (e.getOption()) {

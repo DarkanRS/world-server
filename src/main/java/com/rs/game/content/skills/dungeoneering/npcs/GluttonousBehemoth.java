@@ -22,7 +22,7 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class GluttonousBehemoth extends DungeonBoss {
@@ -30,7 +30,7 @@ public final class GluttonousBehemoth extends DungeonBoss {
 	private GameObject heal;
 	private int ticks;
 
-	public GluttonousBehemoth(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public GluttonousBehemoth(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9948, 9964), manager.getBossLevel()), tile, manager, reference);
 		setHitpoints(getMaxHitpoints());
 		setCantFollowUnderCombat(true);

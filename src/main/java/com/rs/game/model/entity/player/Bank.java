@@ -16,11 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
@@ -37,6 +32,11 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemConfig;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class Bank {
@@ -55,7 +55,7 @@ public class Bank {
 	private transient boolean sessionPin;
 	private Map<String, Long> enteredPin;
 
-	public static final int MAX_BANK_SIZE = 800;
+	public static final int MAX_BANK_SIZE = 1500;
 
 	public Bank() {
 		bankTabs = new Item[1][0];
@@ -281,14 +281,9 @@ public class Bank {
 		Familiar familiar = player.getFamiliar();
 		if (familiar == null || familiar.getInventory() == null)
 			return;
-		int space = addItems(familiar.getInventory().array(), banking);
-		if (space != 0) {
-			for (int i = 0; i < space; i++)
+		for (int i = 0; i < familiar.getInventory().getSize(); i++) {
+			if (addItem(familiar.getInventory().get(i), banking))
 				familiar.getInventory().set(i, null);
-		}
-		if (space < familiar.getInventory().getSize()) {
-			player.sendMessage("Not enough space in your bank.");
-			return;
 		}
 	}
 
@@ -299,7 +294,7 @@ public class Bank {
 			Item prev = player.getEquipment().setSlot(i, null);
 			if (prev == null || prev.getId() == -1)
 				continue;
-			if (addItems(new Item[] { prev }, banking) <= 0) {
+			if (!addItem(prev, banking)) {
 				player.sendMessage("Not enough space in your bank.");
 				break;
 			}
@@ -722,44 +717,23 @@ public class Bank {
 			player.sendMessage("Not enough space in your bank.");
 			return;
 		}
-		player.getInventory().deleteItem(invSlot, new Item(originalId, item.getAmount(), item.getMetaData()));
-		addItem(item, refresh);
+		if (addItem(item, refresh))
+			player.getInventory().deleteItem(invSlot, new Item(originalId, item.getAmount(), item.getMetaData()));
 	}
 
 	//	public void addItem(Item item, boolean refresh) {
 	//		addItem(item.getId(), item.getAmount(), refresh);
 	//	}
 
-	public int addItems(Item[] items, boolean refresh) {
-		int space = MAX_BANK_SIZE - getBankSize();
-		if (space != 0) {
-			space = (space < items.length ? space : items.length);
-			for (int i = 0; i < space; i++) {
-				if (items[i] == null)
-					continue;
-				if (items[i].getId() == Easter2022.EGGSTERMINATOR) {
-					player.sendMessage("The banker drops the Eggsterminator as you hand it to them. You can obtain a new one from the Easter event, completing three hunts will unlock a more sturdy enchanted version.");
-					continue;
-				}
-				if (items[i].getDefinitions().isNoted() && items[i].getDefinitions().getCertId() != -1)
-					items[i].setId(items[i].getDefinitions().getCertId());
-				addItem(items[i], false);
-			}
-			if (refresh) {
-				refreshTabs();
-				refreshItems();
-			}
-		}
-		return space;
+	public boolean addItem(Item item, boolean refresh) {
+		return addItem(item, currentTab, refresh);
 	}
 
-	public void addItem(Item item, boolean refresh) {
-		addItem(item, currentTab, refresh);
-	}
-
-	public void addItem(Item item, int creationTab, boolean refresh) {
-		if (item.getId() == -1)
-			return;
+	public boolean addItem(Item item, int creationTab, boolean refresh) {
+		if (item == null || item.getId() == -1)
+			return false;
+		if (!player.getControllerManager().canDepositItem(item))
+			return false;
 		int[] slotInfo = getItemSlot(item.getId());
 		if (slotInfo == null || item.getMetaData() != null || bankTabs[slotInfo[0]][slotInfo[1]].getMetaData() != null) {
 			if (creationTab >= bankTabs.length)
@@ -779,6 +753,7 @@ public class Bank {
 		}
 		if (refresh)
 			refreshItems();
+		return true;
 	}
 
 	public boolean removeItem(int fakeSlot, int quantity, boolean refresh, boolean forceDestroy) {

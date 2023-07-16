@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.bosses.godwars.saradomin;
 
-import com.rs.cores.CoresManager;
 import com.rs.game.content.bosses.godwars.GodWarMinion;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
@@ -28,7 +28,7 @@ public class CommanderZilyana extends NPC {
 
 	private GodWarMinion[] minions = new GodWarMinion[3];
 
-	public CommanderZilyana(int id, WorldTile tile, boolean spawned) {
+	public CommanderZilyana(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIntelligentRouteFinder(true);
 		setForceFollowClose(true);
@@ -44,11 +44,11 @@ public class CommanderZilyana extends NPC {
 	}
 
 	public void respawnMinions() {
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(2, () -> {
 			for (GodWarMinion minion : minions)
 				if (minion.hasFinished() || minion.isDead())
 					minion.respawn();
-		}, 2);
+		});
 	}
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(6247, (npcId, tile) -> new CommanderZilyana(npcId, tile, false));

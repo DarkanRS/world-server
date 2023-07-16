@@ -22,7 +22,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
@@ -32,7 +32,7 @@ public class CorporealBeastController extends Controller {
 	public static ButtonClickHandler handleEnterWarning = new ButtonClickHandler(650, e -> {
 		if (e.getComponentId() == 15) {
 			e.getPlayer().stopAll();
-			e.getPlayer().setNextWorldTile(WorldTile.of(2974, 4384, e.getPlayer().getPlane()));
+			e.getPlayer().setNextTile(Tile.of(2974, 4384, e.getPlayer().getPlane()));
 			e.getPlayer().getControllerManager().startController(new CorporealBeastController());
 		} else if (e.getComponentId() == 16)
 			e.getPlayer().closeInterfaces();
@@ -48,7 +48,7 @@ public class CorporealBeastController extends Controller {
 		if (object.getId() == 37929 || object.getId() == 38811) {
 			removeController();
 			player.stopAll();
-			player.setNextWorldTile(WorldTile.of(2970, 4384, player.getPlane()));
+			player.setNextTile(Tile.of(2970, 4384, player.getPlane()));
 			return false;
 		}
 		return true;
@@ -71,9 +71,9 @@ public class CorporealBeastController extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.sendItemsOnDeath(null, false);
+					player.sendPVEItemsOnDeath(null, false);
 					player.reset();
-					player.setNextWorldTile(WorldTile.of(Settings.getConfig().getPlayerRespawnTile()));
+					player.setNextTile(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					removeController();

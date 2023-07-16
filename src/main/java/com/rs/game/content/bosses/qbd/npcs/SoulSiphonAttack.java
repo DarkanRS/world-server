@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.Iterator;
-
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -25,6 +23,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
+
+import java.util.Iterator;
 
 /**
  * The Queen Black Dragon's soul siphon attack.

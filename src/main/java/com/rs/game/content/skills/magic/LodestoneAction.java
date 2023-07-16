@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.Achievement;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -36,27 +36,27 @@ public class LodestoneAction extends PlayerAction {
 	private final int HOME_ANIMATION = 16385, HOME_GRAPHIC = 3017;
 
 	public static enum Lodestone {
-		LUMBRIDGE(69836, null, 47, 10907, WorldTile.of(3233, 3222, 0)),
-		BURTHORPE(69831, null, 42, 10902, WorldTile.of(2899, 3545, 0)),
-		LUNAR_ISLE(69828, null, 39, -1, WorldTile.of(2085, 3915, 0)),
-		BANDIT_CAMP(69827, null, 7, -1, WorldTile.of(3214, 2955, 0)),
-		TAVERLY(69839, Achievement.RITE_OF_PASSAGE_1005, 50, 10910, WorldTile.of(2878, 3443, 0)),
-		ALKARID(69829, Achievement.OPEN_SESAME_995, 40, 10900, WorldTile.of(3297, 3185, 0)),
-		VARROCK(69840, Achievement.WELCOME_TO_BARTERTOWN_1006, 51, 10911, WorldTile.of(3214, 3377, 0)),
-		EDGEVILLE(69834, Achievement.COMING_LIKE_A_GHOST_TOWN_1000, 45, 10905, WorldTile.of(3067, 3506, 0)),
-		FALADOR(69835, Achievement.FOLLOW_THAT_STAR_1001, 46, 10906, WorldTile.of(2967, 3404, 0)),
-		PORT_SARIM(69837, Achievement.SETTING_SAIL_1003, 48, 10908, WorldTile.of(3011, 3216, 0)),
-		DRAYNOR_VILLAGE(69833, Achievement.AT_A_CROSSROADS_999, 44, 10904, WorldTile.of(3105, 3299, 0)),
-		ARDOUGNE(69830, Achievement.OPEN_MARKET_996, 41, 10901, WorldTile.of(2634, 3349, 0)),
-		CATHERBAY(69832, Achievement.BEACHHEAD_998, 43, 10903, WorldTile.of(2831, 3452, 0)),
-		YANILLE(69841, Achievement.MAGICAL_MYSTERY_TOUR_1007, 52, 10912, WorldTile.of(2529, 3095, 0)),
-		SEERS_VILLAGE(69838, Achievement.FIND_ENLIGHTENMENT_1004, 49, 10909, WorldTile.of(2689, 3483, 0));
+		LUMBRIDGE(69836, null, 47, 10907, Tile.of(3233, 3222, 0)),
+		BURTHORPE(69831, null, 42, 10902, Tile.of(2899, 3545, 0)),
+		LUNAR_ISLE(69828, null, 39, -1, Tile.of(2085, 3915, 0)),
+		BANDIT_CAMP(69827, null, 7, -1, Tile.of(3214, 2955, 0)),
+		TAVERLY(69839, Achievement.RITE_OF_PASSAGE_1005, 50, 10910, Tile.of(2878, 3443, 0)),
+		ALKARID(69829, Achievement.OPEN_SESAME_995, 40, 10900, Tile.of(3297, 3185, 0)),
+		VARROCK(69840, Achievement.WELCOME_TO_BARTERTOWN_1006, 51, 10911, Tile.of(3214, 3377, 0)),
+		EDGEVILLE(69834, Achievement.COMING_LIKE_A_GHOST_TOWN_1000, 45, 10905, Tile.of(3067, 3506, 0)),
+		FALADOR(69835, Achievement.FOLLOW_THAT_STAR_1001, 46, 10906, Tile.of(2967, 3404, 0)),
+		PORT_SARIM(69837, Achievement.SETTING_SAIL_1003, 48, 10908, Tile.of(3011, 3216, 0)),
+		DRAYNOR_VILLAGE(69833, Achievement.AT_A_CROSSROADS_999, 44, 10904, Tile.of(3105, 3299, 0)),
+		ARDOUGNE(69830, Achievement.OPEN_MARKET_996, 41, 10901, Tile.of(2634, 3349, 0)),
+		CATHERBAY(69832, Achievement.BEACHHEAD_998, 43, 10903, Tile.of(2831, 3452, 0)),
+		YANILLE(69841, Achievement.MAGICAL_MYSTERY_TOUR_1007, 52, 10912, Tile.of(2529, 3095, 0)),
+		SEERS_VILLAGE(69838, Achievement.FIND_ENLIGHTENMENT_1004, 49, 10909, Tile.of(2689, 3483, 0));
 
 		private int objectId;
 		private Achievement achievement;
 		private int component;
 		private int configId;
-		private WorldTile tile;
+		private Tile tile;
 
 		public static Lodestone forComponent(int component) {
 			for (Lodestone stone : Lodestone.values())
@@ -72,7 +72,7 @@ public class LodestoneAction extends PlayerAction {
 			return null;
 		}
 
-		private Lodestone(int objectId, Achievement achievement, int component, int configId, WorldTile tile) {
+		private Lodestone(int objectId, Achievement achievement, int component, int configId, Tile tile) {
 			this.objectId = objectId;
 			this.achievement = achievement;
 			this.component = component;
@@ -92,7 +92,7 @@ public class LodestoneAction extends PlayerAction {
 			return configId;
 		}
 
-		public WorldTile getTile() {
+		public Tile getTile() {
 			return tile;
 		}
 	}
@@ -108,20 +108,18 @@ public class LodestoneAction extends PlayerAction {
 	public static ButtonClickHandler handleLodestoneButtons = new ButtonClickHandler(1092, e -> {
 		e.getPlayer().stopAll();
 		Lodestone stone = Lodestone.forComponent(e.getComponentId());
-		if (stone != null) {
-			if ((stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
-				return;
-			if (e.getPlayer().unlockedLodestone(stone))
-				e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
-			else
-				e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
-		}
+		if (stone == null || (stone == Lodestone.BANDIT_CAMP && !e.getPlayer().isQuestComplete(Quest.DESERT_TREASURE, "to use this lodestone.")) || (stone == Lodestone.LUNAR_ISLE && !e.getPlayer().isQuestComplete(Quest.LUNAR_DIPLOMACY, "to use this lodestone.")))
+			return;
+		if (e.getPlayer().unlockedLodestone(stone))
+			e.getPlayer().getActionManager().setAction(new LodestoneAction(stone.getTile()));
+		else
+			e.getPlayer().sendMessage("You have not unlocked this lodestone yet. Go find it and activate it!");
 	});
 
 	private int currentTime;
-	private WorldTile tile;
+	private Tile tile;
 
-	public LodestoneAction(WorldTile tile) {
+	public LodestoneAction(Tile tile) {
 		this.tile = tile;
 	}
 
@@ -142,8 +140,8 @@ public class LodestoneAction extends PlayerAction {
 			player.getControllerManager().magicTeleported(Magic.MAGIC_TELEPORT);
 			if (player.getControllerManager().getController() == null)
 				Magic.teleControllersCheck(player, tile);
-			player.setNextWorldTile(tile);
-			player.setNextFaceWorldTile(tile.transform(0, -1, 0));
+			player.setNextTile(tile);
+			player.setNextFaceTile(tile.transform(0, -1, 0));
 			WorldTasks.schedule(new WorldTask() {
 				int stage = 0;
 
@@ -155,7 +153,7 @@ public class LodestoneAction extends PlayerAction {
 					} else if (stage == 5)
 						player.setNextAnimation(new Animation(16393));
 					else if (stage == 7) {
-						player.setNextWorldTile(tile.transform(0, -1, 0));
+						player.setNextTile(tile.transform(0, -1, 0));
 						player.setNextAnimation(new Animation(-1));
 						player.setNextSpotAnim(new SpotAnim(-1));
 						player.unlock();

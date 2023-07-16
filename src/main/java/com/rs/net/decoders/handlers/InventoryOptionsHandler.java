@@ -23,7 +23,6 @@ import com.rs.game.content.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
-import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.cooking.FruitCutting.CuttableFruit;
 import com.rs.game.content.skills.cooking.FruitCuttingD;
 import com.rs.game.content.skills.crafting.GemCutting;
@@ -39,8 +38,6 @@ import com.rs.game.content.skills.fletching.FletchingD;
 import com.rs.game.content.skills.herblore.CoconutCracking;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.WeaponPoison;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter;
-import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Burying.Bone;
@@ -59,11 +56,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.Rights;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.PluginManager;
@@ -82,9 +75,6 @@ public class InventoryOptionsHandler {
 
 		if (!player.getControllerManager().canUseItemOnItem(used, usedWith))
 			return false;
-
-		if (GodSwordCreation.handleGodSword(player, usedWithId, usedId) || WeaponPoison.poison(player, used, usedWith, false))
-			return true;
 
 		if (PrayerBooks.isGodBook(usedId, false) || PrayerBooks.isGodBook(usedWithId, false)) {
 			PrayerBooks.bindPages(player, used.getName().contains(" page ") ? usedWithId : usedId);
@@ -252,8 +242,6 @@ public class InventoryOptionsHandler {
 				player.sendMessage("You break the coconut open with the hammer.");
 			} else
 				player.sendMessage("You need a hammer to break this open.");
-		if (Foods.eat(player, item, slotId))
-			return;
 		if (Lamps.isSelectable(itemId) || Lamps.isSkillLamp(itemId) || Lamps.isOtherSelectableLamp(itemId))
 			Lamps.processLampClick(player, slotId, itemId);
 		if (item.getId() == 405) {
@@ -310,12 +298,12 @@ public class InventoryOptionsHandler {
 		if (itemId == 299) {
 			if (player.isLocked())
 				return;
-			if (World.getObject(WorldTile.of(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
+			if (World.getObject(Tile.of(player.getTile()), ObjectType.SCENERY_INTERACT) != null) {
 				player.sendMessage("You cannot plant flowers here..");
 				return;
 			}
 			final double random = Utils.random(100.0);
-			final WorldTile tile = WorldTile.of(player.getTile());
+			final Tile tile = Tile.of(player.getTile());
 			int flower = Utils.random(2980, 2987);
 			if (random < 0.2)
 				flower = Utils.random(2987, 2989);
@@ -337,7 +325,7 @@ public class InventoryOptionsHandler {
 						stop();
 					if (step == 1) {
 						player.startConversation(new FlowerPickup(player, flowerObject, flowerId));
-						player.setNextFaceWorldTile(tile);
+						player.setNextFaceTile(tile);
 						player.unlock();
 						stop();
 					}
@@ -409,7 +397,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, WorldTile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
@@ -451,9 +439,6 @@ public class InventoryOptionsHandler {
 			Runecrafting.checkPouch(player, pouch);
 			return;
 		}
-		FlyingEntities impJar = FlyingEntities.forItem((short) itemId);
-		if (impJar != null)
-			FlyingEntityHunter.openJar(player, impJar, slotId);
 		else if (item.getDefinitions().containsOption("Teleport") && ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (player.hasRights(Rights.DEVELOPER))
@@ -516,7 +501,7 @@ public class InventoryOptionsHandler {
 		if (event.dropCancelled())
 			return;
 		player.getInventory().deleteItem(slotId, item);
-		World.addGroundItem(item, WorldTile.of(player.getTile()), player);
+		World.addGroundItem(item, Tile.of(player.getTile()), player);
 		player.soundEffect(ItemConfig.get(item.getId()).getDropSound());
 	}
 

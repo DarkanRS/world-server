@@ -1,14 +1,10 @@
 package com.rs.game.content.quests.fightarena;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -17,6 +13,11 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.FIGHT_ARENA)
 @PluginEventHandler
@@ -34,7 +35,7 @@ public class FightArena extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
@@ -158,7 +159,29 @@ public class FightArena extends QuestOutline {
 		player.getInventory().addCoins(1000);
 		player.getSkills().addXpQuest(Constants.ATTACK, 12_175);
 		player.getSkills().addXpQuest(Constants.THIEVING, 2_175);
-		getQuest().sendQuestCompleteInterface(player, 75, "12,175 Attack XP", "2,175 Thieving XP", "1,000 Coins");
+		sendQuestCompleteInterface(player, 75);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Lady Servil, just north-west of the fight arena.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Combat gear.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Be able to defeat level 50, 64 and 77 foes.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "12,175 Attack XP<br>" +
+				"2,175 Thieving XP<br>" +
+				"1,000 coins";
 	}
 
 }

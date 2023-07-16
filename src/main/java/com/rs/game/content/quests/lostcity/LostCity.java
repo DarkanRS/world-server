@@ -1,19 +1,20 @@
 package com.rs.game.content.quests.lostcity;
 
-import java.util.ArrayList;
-
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.content.transportation.FairyRings;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.LOST_CITY)
 @PluginEventHandler
@@ -23,13 +24,6 @@ public class LostCity extends QuestOutline {
 	public final static int CHOP_DRAMEN_TREE = 2;
 	public final static int FIND_ZANARIS = 3;
 	public final static int QUEST_COMPLETE = 4;
-
-
-	//Attributes
-
-
-	//items
-
 
 	//NPCs
 	protected final static int ARCHER = 649;
@@ -52,7 +46,7 @@ public class LostCity extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -99,25 +93,24 @@ public class LostCity extends QuestOutline {
 	}
 
 	public static ObjectClickHandler handleShedDoor = new ObjectClickHandler(new Object[] { 2406 }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		Doors.handleDoor(p, obj);
-		if(p.getX() <= obj.getX())
-			if(p.getEquipment().getWeaponId() == DRAMEN_STAFF
-                    && p.getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
+		Doors.handleDoor(e.getPlayer(), obj);
+		if(e.getPlayer().getX() <= obj.getX())
+			if(e.getPlayer().getEquipment().getWeaponId() == DRAMEN_STAFF
+                    && e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
 				WorldTasks.schedule(new WorldTask() {
 					int tick;
 					@Override
 					public void run() {
 						if(tick == 1) {
-							p.sendMessage("The world starts to shimmer...");
-							FairyRings.sendTeleport(p, WorldTile.of(2452, 4473, 0));
-							p.lock(4);
+							e.getPlayer().sendMessage("The world starts to shimmer...");
+							FairyRings.sendTeleport(e.getPlayer(), Tile.of(2452, 4473, 0));
+							e.getPlayer().lock(4);
 						}
 						if(tick == 4)
-							if(!p.isQuestComplete(Quest.LOST_CITY)) {
-								p.lock(3);//so players dont cancel it out by accident and not see it...
-								p.getQuestManager().completeQuest(Quest.LOST_CITY);
+							if(!e.getPlayer().isQuestComplete(Quest.LOST_CITY)) {
+								e.getPlayer().lock(3);//so players dont cancel it out by accident and not see it...
+								e.getPlayer().getQuestManager().completeQuest(Quest.LOST_CITY);
 							}
 						if(tick == 5)
 							stop();
@@ -129,7 +122,30 @@ public class LostCity extends QuestOutline {
 
 	@Override
 	public void complete(Player player) {
-		getQuest().sendQuestCompleteInterface(player, 772, "Access to Zanaris");
+		sendQuestCompleteInterface(player, 772);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to the warrior adventurer in Lumbridge Swamp.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 63 tree spirit.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "Access to Zanaris<br>" +
+				"Ability to wield dragon longswords and dragon daggers<br>" +
+				"Ability to craft cosmic runes<br>" +
+				"Access to Chaeldar the Slayer master (requires level 75 combat)";
 	}
 
 }

@@ -1,35 +1,28 @@
 package com.rs.game.content.quests.holygrail.dialogue;
 
-import static com.rs.game.content.quests.holygrail.HolyGrail.GIVE_AURTHUR_HOLY_GRAIL;
-import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_ENTRANA;
-import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_MCGRUBOR;
-import static com.rs.game.content.quests.holygrail.HolyGrail.NOT_STARTED;
-import static com.rs.game.content.quests.holygrail.HolyGrail.QUEST_COMPLETE;
-import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_FISHER_KING;
-import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
-import static com.rs.game.content.quests.holygrail.HolyGrail.TALK_TO_MERLIN;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.holygrail.HolyGrail;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 
+import static com.rs.game.content.quests.holygrail.HolyGrail.*;
+
 @PluginEventHandler
 public class KingArthurHolyGrailD extends Conversation {
 	private static final int NPC = 251;
-	public KingArthurHolyGrailD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
+	public KingArthurHolyGrailD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.HOLY_GRAIL)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Now I am a knight of the round table, do you have any more quests for me?");
 				addNPC(NPC, HeadE.CALM_TALK, "Aha! I'm glad you are here! I am sending out various knights on an important quest. I was wondering if you " +
 						"too would like to take up this quest?");
-				if(HolyGrail.meetsRequirements(p)) {
+				if(HolyGrail.meetsRequirements(player)) {
 					addOptions("Start Holy Grail?", new Options() {
 						@Override
 						public void create() {
@@ -40,7 +33,7 @@ public class KingArthurHolyGrailD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "I'd enjoy trying that.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Go speak to Merlin. He may be able to give a better clue as to where it is now you have freed him from that crystal. " +
 									"He has set up his workshop in the room next to the library.", () -> {
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, TALK_TO_MERLIN);
+									player.getQuestManager().setStage(Quest.HOLY_GRAIL, TALK_TO_MERLIN);
 								})
 							);
 							option("No.", new Dialogue());
@@ -48,7 +41,7 @@ public class KingArthurHolyGrailD extends Conversation {
 					});
 					return;
 				}
-				addNext(()->{p.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);});
+				addNext(()->{player.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);});
 			}
 			case TALK_TO_MERLIN, GO_TO_ENTRANA -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");
@@ -73,17 +66,17 @@ public class KingArthurHolyGrailD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Not exactly. We discovered some magic golden feathers that are said to point the way to the boots... ");
 				addNPC(NPC, HeadE.CALM_TALK, "They certainly point somewhere. Just blowing on them gently will supposedly show the way to go.");
 				addSimple("King Arthur gives you a feather.", ()->{
-					p.getInventory().addItem(new Item(18, 1), true);
+					player.getInventory().addItem(new Item(18, 1), true);
 				});
 			}
 			case GIVE_AURTHUR_HOLY_GRAIL -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");
-				if(p.getInventory().containsItem(19)) {
+				if(player.getInventory().containsItem(19)) {
 					addPlayer(HeadE.HAPPY_TALKING, "I have retrieved the Grail!");
 					addNPC(NPC, HeadE.CALM_TALK, "Wow! Incredible! You truly are a splendid knight!");
 					addNext(()->{
-						p.getInventory().deleteItem(new Item(19, 1));
-						p.getQuestManager().completeQuest(Quest.HOLY_GRAIL);
+						player.getInventory().deleteItem(new Item(19, 1));
+						player.getQuestManager().completeQuest(Quest.HOLY_GRAIL);
 					});
 					return;
 				}

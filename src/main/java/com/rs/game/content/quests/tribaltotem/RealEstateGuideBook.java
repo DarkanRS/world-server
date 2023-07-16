@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.quests.tribaltotem;
 
-import com.rs.game.engine.book.Book;
-import com.rs.game.engine.book.BookPage;
+import com.rs.engine.book.Book;
+import com.rs.engine.book.BookPage;
 
 public class RealEstateGuideBook extends Book {
 

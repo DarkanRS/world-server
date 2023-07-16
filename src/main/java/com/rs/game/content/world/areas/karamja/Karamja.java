@@ -16,27 +16,23 @@
 //
 package com.rs.game.content.world.areas.karamja;
 
-import com.rs.game.World;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -190,66 +186,43 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleBrimhavenDungeonEntrance = new ObjectClickHandler(new Object[] { 5083 }, e -> {
 		if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {//12 hours
-			e.getPlayer().setNextWorldTile(WorldTile.of(2713, 9564, 0));
+			e.getPlayer().setNextTile(Tile.of(2713, 9564, 0));
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addNPC(1595, HeadE.FRUSTRATED, "You can't go in there without paying!"));
 	});
 
-	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new WorldTile[] { WorldTile.of(2847, 3235, 1) }, e -> {
+	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new Tile[] { Tile.of(2847, 3235, 1) }, e -> {
 		e.getPlayer().useStairs(e.getPlayer().transform(0, 0, -1));
 	});
 
 	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2745, 3152, 0));
+		e.getPlayer().setNextTile(Tile.of(2745, 3152, 0));
 	});
 
 	public static ObjectClickHandler handleJogreLogWalk = new ObjectClickHandler(new Object[] { 2332 }, e -> {
 		if (e.getPlayer().getX() > 2908)
-			Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2906, 3049, 0), 0);
+			Agility.walkToAgility(e.getPlayer(), 155, Direction.WEST, 4, 4);
 		else
-			Agility.walkToAgility(e.getPlayer(), 155, WorldTile.of(2910, 3049, 0), 0);
+			Agility.walkToAgility(e.getPlayer(), 155, Direction.EAST, 4, 4);
 	});
 
 	public static ObjectClickHandler handleMossGiantRopeSwings = new ObjectClickHandler(new Object[] { 2322, 2323 }, e -> {
-		final WorldTile toTile = e.getObjectId() == 2322 ? WorldTile.of(2704, 3209, 0) : WorldTile.of(2709, 3205, 0);
-		if (Agility.hasLevel(e.getPlayer(), 10))
-			if (e.isAtObject()) {
-				if (e.getObjectId() == 2322 ? e.getPlayer().getX() == 2704 : e.getPlayer().getX() == 2709) {
-					e.getPlayer().sendMessage("You can't reach that.", true);
-					return;
-				}
-				e.getPlayer().lock();
-				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().setNextAnimation(new Animation(751));
-				World.sendObjectAnimation(e.getPlayer(), e.getObject(), new Animation(497));
-
-				e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 1, toTile, 3, Utils.getAngleTo(toTile.getX() - e.getPlayer().getX(), toTile.getY() - e.getPlayer().getY())));
-				e.getPlayer().sendMessage("You skillfully swing across the rope.", true);
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						e.getPlayer().unlockNextTick();
-						e.getPlayer().getSkills().addXp(Constants.AGILITY, 0.1);
-						e.getPlayer().setNextWorldTile(toTile);
-					}
-
-				});
-				e.getPlayer().unlock();
-			}
+		final Tile toTile = e.getObjectId() == 2322 ? Tile.of(2704, 3209, 0) : Tile.of(2709, 3205, 0);
+		final Tile fromTile = e.getObjectId() == 2323 ? Tile.of(2704, 3209, 0) : Tile.of(2709, 3205, 0);
+		if (!Agility.hasLevel(e.getPlayer(), 10))
+			return;
+		if (e.getObjectId() == 2322 ? e.getPlayer().getX() == 2704 : e.getPlayer().getX() == 2709) {
+			e.getPlayer().sendMessage("You can't reach that.", true);
+			return;
+		}
+		Agility.swingOnRopeSwing(e.getPlayer(), fromTile, toTile, e.getObject(), 0.1);
 	});
 
 	public static ObjectClickHandler handleJogreWaterfallSteppingStones = new ObjectClickHandler(new Object[] { 2333, 2334, 2335 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 30))
 			return;
-		e.getPlayer().setNextAnimation(new Animation(741));
-		e.getPlayer().setNextForceMovement(new ForceMovement(e.getPlayer().getTile(), 0, e.getObject().getTile(), 1, Utils.getAngleTo(e.getObject().getX() - e.getPlayer().getX(), e.getObject().getY() - e.getPlayer().getY())));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				e.getPlayer().setNextWorldTile(e.getObject().getTile());
-			}
-		}, 0);
+		e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 30);
 	});
 
 	public static ObjectClickHandler handleRareTreeDoors = new ObjectClickHandler(new Object[] { 9038, 9039 }, e -> {
@@ -286,19 +259,19 @@ public class Karamja  {
 			}
 		}
 
-		e.getPlayer().setNextWorldTile(WorldTile.of(2834, 9657, 0));
+		e.getPlayer().setNextTile(Tile.of(2834, 9657, 0));
 	});
 
 	public static ObjectClickHandler handleCrandorVolcanoRope = new ObjectClickHandler(new Object[] { 25213 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(2832, 3255, 0));
+		e.getPlayer().ladder(Tile.of(2832, 3255, 0));
 	});
 
 	public static ObjectClickHandler handleKaramjaVolcanoRocks = new ObjectClickHandler(new Object[] { 492 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2857, 9569, 0));
+		e.getPlayer().setNextTile(Tile.of(2857, 9569, 0));
 	});
 
 	public static ObjectClickHandler handleKaramjaVolcanoRope = new ObjectClickHandler(new Object[] { 1764 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(2855, 3169, 0));
+		e.getPlayer().ladder(Tile.of(2855, 3169, 0));
 	});
 
 	public static ObjectClickHandler handleElvargHiddenWall = new ObjectClickHandler(new Object[] { 2606 }, e -> {
@@ -322,19 +295,19 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleTzhaarEnter = new ObjectClickHandler(new Object[] { 68134 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(4667, 5059, 0));
+		e.getPlayer().setNextTile(Tile.of(4667, 5059, 0));
 	});
 
 	public static ObjectClickHandler handleTzhaarExit = new ObjectClickHandler(new Object[] { 68135 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2845, 3170, 0));
+		e.getPlayer().setNextTile(Tile.of(2845, 3170, 0));
 	});
 
 	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2830, 9522, 0));
+		e.getPlayer().setNextTile(Tile.of(2830, 9522, 0));
 	});
 
 	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }, e -> {
-		e.getPlayer().ladder(WorldTile.of(2824, 3120, 0));
+		e.getPlayer().ladder(Tile.of(2824, 3120, 0));
 	});
 
 	public static ObjectClickHandler handleShiloEnter = new ObjectClickHandler(new Object[] { 2216 }, e -> {
@@ -343,11 +316,11 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleShiloCartEnter = new ObjectClickHandler(new Object[] { 2230 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2833, 2954, 0));
+		e.getPlayer().setNextTile(Tile.of(2833, 2954, 0));
 	});
 
 	public static ObjectClickHandler handleShiloCartExit = new ObjectClickHandler(new Object[] { 2265 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2778, 3210, 0));
+		e.getPlayer().setNextTile(Tile.of(2778, 3210, 0));
 	});
 
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
@@ -372,9 +345,9 @@ public class Karamja  {
 						return;
 				} else if (ticks >= 1) {
 					if (goingEast)
-						p.setNextWorldTile(WorldTile.of(2847, p.getY(), 0));
+						p.setNextTile(Tile.of(2847, p.getY(), 0));
 					if (!goingEast)
-						p.setNextWorldTile(WorldTile.of(2845, p.getY(), 0));
+						p.setNextTile(Tile.of(2845, p.getY(), 0));
 					stop();
 				}
 				ticks++;

@@ -1,17 +1,12 @@
 package com.rs.game.content.minigames.trawler;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.game.World;
 import com.rs.game.content.transportation.FadingScreen;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.SimpleStatement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
@@ -24,16 +19,22 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Area;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.RegionUtils;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 @PluginEventHandler
 public class FishingTrawler {
@@ -45,13 +46,13 @@ public class FishingTrawler {
 
 	private static FishingTrawler instance;
 
-	public static final RegionUtils.Area NO_WATER_SHIP = RegionUtils.getArea(WorldTile.of(1885, 4824, 0), WorldTile.of(1892, 4826, 0));
-	public static final RegionUtils.Area WATER_SHIP = RegionUtils.getArea(WorldTile.of(2013, 4824, 0), WorldTile.of(2020, 4826, 0));
-	private static final RegionUtils.Area CRASHED_SHIP = RegionUtils.getArea(WorldTile.of(1950, 4824, 0), WorldTile.of(1956, 4826, 0));
+	public static final Area NO_WATER_SHIP = MapUtils.getArea(Tile.of(1885, 4824, 0), Tile.of(1892, 4826, 0));
+	public static final Area WATER_SHIP = MapUtils.getArea(Tile.of(2013, 4824, 0), Tile.of(2020, 4826, 0));
+	private static final Area CRASHED_SHIP = MapUtils.getArea(Tile.of(1950, 4824, 0), Tile.of(1956, 4826, 0));
 
-	public static RegionUtils.Area SHORE = RegionUtils.getArea(WorldTile.of(2670, 3221, 0), WorldTile.of(2675, 3223, 0));
+	public static Area SHORE = MapUtils.getArea(Tile.of(2670, 3221, 0), Tile.of(2675, 3223, 0));
 
-	private static final WorldTile END_TILE = WorldTile.of(2666, 3160, 0);
+	private static final Tile END_TILE = Tile.of(2666, 3160, 0);
 
 	private static final String[] MONTY_MESSAGES = {
 			"Let's get this net full with fishies!",
@@ -205,7 +206,7 @@ public class FishingTrawler {
 		running = true;
 		for(final Player player : lobby) {
 			FadingScreen.fade(player, 2, () -> {
-				player.setNextWorldTile(NO_WATER_SHIP.getRandomTile());
+				player.setNextTile(NO_WATER_SHIP.getRandomTile());
 				player.getInterfaceManager().sendOverlay(15);
 				player.getInterfaceManager().sendInterface(368);
 				game.forEach(this::refreshInterface);
@@ -231,7 +232,7 @@ public class FishingTrawler {
 			World.removeObject(leak);
 		for (final Player player : game) {
 			player.getInterfaceManager().removeOverlay();
-			player.setNextWorldTile(END_TILE);
+			player.setNextTile(END_TILE);
 			player.getControllerManager().forceStop();
 			player.sendMessage("Murphy turns the boat towards shore.");
 			ItemsContainer<Item> items = Rewards.generateRewards(player.getSkills().getLevel(Skills.FISHING), fishCaught);
@@ -259,7 +260,7 @@ public class FishingTrawler {
 
 	public void crash(Player player) {
 		player.getInterfaceManager().removeOverlay();
-		player.setNextWorldTile(CRASHED_SHIP.getRandomTile());
+		player.setNextTile(CRASHED_SHIP.getRandomTile());
 		player.getControllerManager().forceStop();
 		player.getControllerManager().startController(new FishingTrawlerCrashedController());
 		Equipment.remove(player, Equipment.WEAPON);
@@ -269,11 +270,11 @@ public class FishingTrawler {
 
 	public void leak() {
 		if(leaks.size() == 16) return;
-		RegionUtils.Area shipArea = onWaterShip() ? WATER_SHIP : NO_WATER_SHIP;
+		Area shipArea = onWaterShip() ? WATER_SHIP : NO_WATER_SHIP;
 		while(true) {
 			int y = Utils.random(2) == 1 ? shipArea.getY() - 1 : shipArea.getY() + 2;
 			int x = shipArea.getX() + Utils.random(8);
-			WorldTile tile = WorldTile.of(x, y, 0);
+			Tile tile = Tile.of(x, y, 0);
 			int rotation = tile.getY() == shipArea.getY()-1 || tile.getY() == shipArea.getY()-1 ? 3 : 1;
 			GameObject object = World.getSpawnedObject(tile);
 			if(object != null && object.getId() == LEAK) continue;
@@ -305,14 +306,14 @@ public class FishingTrawler {
 
 	public void switchToWaterShip() {
 		waterShip = true;
-		game.forEach(player -> player.setNextWorldTile(player.transform(128, 0)));
-		List<WorldTile> tiles = new ArrayList<>();
+		game.forEach(player -> player.setNextTile(player.transform(128, 0)));
+		List<Tile> tiles = new ArrayList<>();
 		for(GameObject leak : leaks) {
-			tiles.add(WorldTile.of(leak.getTile()).transform(128, 0));
+			tiles.add(Tile.of(leak.getTile()).transform(128, 0));
 			World.removeObject(leak);
 		}
 		leaks.clear();
-		for(WorldTile tile : tiles) {
+		for(Tile tile : tiles) {
 			int rotation = tile.getY() == WATER_SHIP.getY()-1 || tile.getY() == WATER_SHIP.getY()-1 ? 3 : 1;
 			GameObject leak = new GameObject(LEAK, ObjectType.SCENERY_INTERACT, rotation, tile);
 			World.spawnObject(leak);
@@ -330,18 +331,18 @@ public class FishingTrawler {
 		leaks.remove(object);
 		World.removeObject(object);
 		int rotation = object.getY() == NO_WATER_SHIP.getY()-1 || object.getY() == WATER_SHIP.getY()-1 ? 3 : 1;
-		World.spawnObject(new GameObject(REPAIRED_LEAK, ObjectType.SCENERY_INTERACT, rotation, WorldTile.of(object.getTile())));
+		World.spawnObject(new GameObject(REPAIRED_LEAK, ObjectType.SCENERY_INTERACT, rotation, Tile.of(object.getTile())));
 	}
 
 	public void spawnRepairedLeaks() {
 		for(int x = 0; x < 8; x++) {
-			WorldTile[] tiles = {
-					WorldTile.of(NO_WATER_SHIP.getX()+x, NO_WATER_SHIP.getY()-1, 0),
-					WorldTile.of(NO_WATER_SHIP.getX()+x, NO_WATER_SHIP.getY()+2, 0),
-					WorldTile.of(WATER_SHIP.getX()+x, WATER_SHIP.getY()-1, 0),
-					WorldTile.of(WATER_SHIP.getX()+x, WATER_SHIP.getY()+2, 0)
+			Tile[] tiles = {
+					Tile.of(NO_WATER_SHIP.getX()+x, NO_WATER_SHIP.getY()-1, 0),
+					Tile.of(NO_WATER_SHIP.getX()+x, NO_WATER_SHIP.getY()+2, 0),
+					Tile.of(WATER_SHIP.getX()+x, WATER_SHIP.getY()-1, 0),
+					Tile.of(WATER_SHIP.getX()+x, WATER_SHIP.getY()+2, 0)
 			};
-			for(WorldTile tile : tiles) {
+			for(Tile tile : tiles) {
 				int rotation = tile.getY() == NO_WATER_SHIP.getY()-1 || tile.getY() == WATER_SHIP.getY()-1 ? 3 : 1;
 				World.spawnObject(new GameObject(REPAIRED_LEAK, ObjectType.SCENERY_INTERACT, rotation, tile));
 			}
@@ -349,9 +350,9 @@ public class FishingTrawler {
 	}
 
 	public void spawnMontys() {
-		montys.add(new NPC(463, WorldTile.of(1887, 4825, 0), false));
-		montys.add(new NPC(463, WorldTile.of(2015, 4825, 0), false));
-		crashedMonty = new NPC(463, WorldTile.of(1947, 4827, 0), false);
+		montys.add(new NPC(463, Tile.of(1887, 4825, 0), false));
+		montys.add(new NPC(463, Tile.of(2015, 4825, 0), false));
+		crashedMonty = new NPC(463, Tile.of(1947, 4827, 0), false);
 	}
 
 	public void sendGameMessage(String message) {
@@ -435,7 +436,7 @@ public class FishingTrawler {
 		FadingScreen.fade(e.getPlayer(), 2, () -> {
 			e.getPlayer().sendMessage("You make it to the shore tired and weary.");
 			e.getPlayer().applyHit(new Hit(20, Hit.HitLook.TRUE_DAMAGE));
-			e.getPlayer().setNextWorldTile(SHORE.getRandomTile());
+			e.getPlayer().setNextTile(SHORE.getRandomTile());
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().getAppearance().setBAS(-1);
 			e.getPlayer().endConversation();
@@ -475,7 +476,7 @@ public class FishingTrawler {
 		e.getPlayer().setCloseInterfacesEvent(() -> {
 			for(final Item item : e.getPlayer().getTrawlerRewards().array()) {
 				if(item == null) continue;
-				World.addGroundItem(item, WorldTile.of(e.getPlayer().getTile()), e.getPlayer(), false, 180);
+				World.addGroundItem(item, Tile.of(e.getPlayer().getTile()), e.getPlayer(), false, 180);
 			}
 			e.getPlayer().getTrawlerRewards().clear();
 		});
@@ -486,7 +487,7 @@ public class FishingTrawler {
 			e.getPlayer().lock();
 			instance.lobby.remove(e.getPlayer());
 			e.getPlayer().getControllerManager().forceStop();
-			e.getPlayer().setNextWorldTile(WorldTile.of(2674, 3170, 0));
+			e.getPlayer().setNextTile(Tile.of(2674, 3170, 0));
 			WorldTasks.schedule(new WorldTask() {
 				private boolean tick;
 				private boolean run;
@@ -495,7 +496,7 @@ public class FishingTrawler {
 					if(!tick) {
 						run = e.getPlayer().getRun();
 						e.getPlayer().setRunHidden(false);
-						e.getPlayer().addWalkSteps(WorldTile.of(2676, 3170, 0), 10, false);
+						e.getPlayer().addWalkSteps(Tile.of(2676, 3170, 0), 10, false);
 						tick = true;
 						return;
 					}
@@ -510,7 +511,7 @@ public class FishingTrawler {
 				return;
 			}
 			e.getPlayer().lock();
-			WorldTile toTile = WorldTile.of(2674, 3170, 0);
+			Tile toTile = Tile.of(2674, 3170, 0);
 			boolean run = e.getPlayer().getRun();
 			e.getPlayer().setRunHidden(false);
 			e.getPlayer().addWalkSteps(toTile, 20, false);
@@ -521,7 +522,7 @@ public class FishingTrawler {
 					if(!tick) {
 						instance.lobby.add(e.getPlayer());
 						e.getPlayer().getControllerManager().startController(new FishingTrawlerLobbyController());
-						e.getPlayer().setNextWorldTile(WorldTile.of(2673, 3170, 1));
+						e.getPlayer().setNextTile(Tile.of(2673, 3170, 1));
 						e.getPlayer().setRunHidden(run);
 						e.getPlayer().unlock();
 						if(!instance.running) {
@@ -535,7 +536,7 @@ public class FishingTrawler {
 						tick = true;
 						return;
 					}
-					e.getPlayer().addWalkSteps(WorldTile.of(2672, 3170, 1), 10, true);
+					e.getPlayer().addWalkSteps(Tile.of(2672, 3170, 1), 10, true);
 					stop();
 				}
 			}, 2, 0);

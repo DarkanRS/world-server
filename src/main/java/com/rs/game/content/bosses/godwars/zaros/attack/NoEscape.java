@@ -19,26 +19,24 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.content.bosses.godwars.zaros.NexCutScene;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class NoEscape implements NexAttack {
 
-	public static WorldTile[] NO_ESCAPE_TELEPORTS = {
-			WorldTile.of(2924, 5213, 0), //north
-			WorldTile.of(2934, 5202, 0), //east,
-			WorldTile.of(2924, 5192, 0), //south
-			WorldTile.of(2913, 5202, 0), }; //west
+	public static Tile[] NO_ESCAPE_TELEPORTS = {
+			Tile.of(2924, 5213, 0), //north
+			Tile.of(2934, 5202, 0), //east,
+			Tile.of(2924, 5192, 0), //south
+			Tile.of(2913, 5202, 0), }; //west
 
 	@Override
 	public int attack(Nex nex, Entity target) {
@@ -47,8 +45,8 @@ public class NoEscape implements NexAttack {
 		nex.setCantInteract(true);
 		nex.getCombat().removeTarget();
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
-		final WorldTile dir = NO_ESCAPE_TELEPORTS[idx];
-		final WorldTile center = WorldTile.of(2924, 5202, 0);
+		final Tile dir = NO_ESCAPE_TELEPORTS[idx];
+		final Tile center = Tile.of(2924, 5202, 0);
 		WorldTasks.schedule(new WorldTask() {
 			private int count;
 
@@ -58,19 +56,18 @@ public class NoEscape implements NexAttack {
 					nex.setNextAnimation(new Animation(6321));
 					nex.setNextSpotAnim(new SpotAnim(1216));
 				} else if (count == 1) {
-					nex.setNextWorldTile(dir);
+					nex.setNextTile(dir);
 					nex.setNextForceTalk(new ForceTalk("NO ESCAPE!"));
 					nex.voiceEffect(3292);
-					nex.setNextForceMovement(new ForceMovement(dir, 1, center, 3, idx == 3 ? 1 : idx == 2 ? 0 : idx == 1 ? 3 : 2));
+					nex.forceMove(center, 25, 90);
 					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2))
 						if (entity instanceof Player player) {
 							player.getCutsceneManager().play(new NexCutScene(dir, idx));
 							player.applyHit(new Hit(nex, Utils.getRandomInclusive(650), HitLook.TRUE_DAMAGE));
-							player.setNextAnimation(new Animation(10070));
-							player.setNextForceMovement(new ForceMovement(player.getTile(), 1, idx == 3 ? Direction.WEST : idx == 2 ? Direction.SOUTH : idx == 1 ? Direction.EAST : Direction.NORTH));
+							player.forceMove(player.getTile(), 10070, 0, 30);
 						}
 				} else if (count == 3)
-					nex.setNextWorldTile(center);
+					nex.setNextTile(center);
 				else if (count == 4) {
 					nex.setTarget(target);
 					nex.setCantInteract(false);

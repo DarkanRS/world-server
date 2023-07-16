@@ -17,20 +17,18 @@
 package com.rs.game.content.skills.agility.agilitypyramid;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.ItemStatement;
+import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.World;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.unorganized_dialogue.SimonTempletonD;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.ItemStatement;
-import com.rs.game.engine.dialogue.statements.PlayerStatement;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -38,7 +36,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -47,17 +45,17 @@ public class AgilityPyramidController extends Controller {
 	private boolean grabbedTop;
 
 	private enum RollingBlock {
-		A(1551, WorldTile.of(3354, 2841, 1), 1),
-		B(1552, WorldTile.of(3368, 2849, 2), 2),
-		C(1553, WorldTile.of(3374, 2835, 1), 3),
-		D(1554, WorldTile.of(3048, 4699, 2), 3),
-		E(1555, WorldTile.of(3044, 4699, 3), 2);
+		A(1551, Tile.of(3354, 2841, 1), 1),
+		B(1552, Tile.of(3368, 2849, 2), 2),
+		C(1553, Tile.of(3374, 2835, 1), 3),
+		D(1554, Tile.of(3048, 4699, 2), 3),
+		E(1555, Tile.of(3044, 4699, 3), 2);
 
 		private int configId;
-		private WorldTile tile;
+		private Tile tile;
 		private int rotation;
 
-		private RollingBlock(int configId, WorldTile tile, int rotation) {
+		private RollingBlock(int configId, Tile tile, int rotation) {
 			this.configId = configId;
 			this.tile = tile;
 			this.rotation = rotation;
@@ -103,7 +101,7 @@ public class AgilityPyramidController extends Controller {
 			shimmySideways(object);
 		else if (object.getDefinitions(player).getFirstOption().equals("Cross") && object.getDefinitions(player).getName().equals("Gap")) {
 			if (object.getType() == ObjectType.STRAIGHT_INSIDE_WALL_DEC) {
-				for (GameObject surr : World.getSurroundingObjects(object, 2))
+				for (GameObject surr : World.getSurroundingBaseObjects(object, 2))
 					if (surr.getDefinitions(player).getFirstOption() != null && surr.getDefinitions(player).getFirstOption().equals("Cross") && surr.getDefinitions(player).getName().equals("Gap") && surr.getType() == ObjectType.SCENERY_INTERACT)
 						shimmyHandholds(new GameObject(surr.getId(), surr.getType(), surr.getRotation(), surr.getX(), surr.getY(), surr.getPlane()));
 			} else
@@ -154,7 +152,7 @@ public class AgilityPyramidController extends Controller {
 
 	public void finishCourse() {
 		if (grabbedTop) {
-			player.setNextWorldTile(WorldTile.of(3364, 2830, 0));
+			player.setNextTile(Tile.of(3364, 2830, 0));
 			//player.getSkills().addXp(Constants.AGILITY, 300+(player.getSkills().getLevelForXp(Constants.AGILITY)*8)); //osrs rates?
 			player.getSkills().addXp(Constants.AGILITY, 500);
 			grabbedTop = false;
@@ -165,7 +163,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	private void grabTop(GameObject object) {
-		player.setNextFaceWorldTile(player.transform(1, 0, 0));
+		player.setNextFaceTile(player.transform(1, 0, 0));
 		player.lock();
 		WorldTasks.schedule(new WorldTask() {
 			int ticks;
@@ -225,7 +223,7 @@ public class AgilityPyramidController extends Controller {
 			shimmy(object.getTile().transform(player.getX() < object.getX() ? 4 : -4, object.getRotation() == 3 ? 1 : 0, 0), startAnim, renderEmote, endAnim, failed);
 	}
 
-	public void shimmy(final WorldTile toTile, final int startAnim, final int renderEmote, final int endAnim, final boolean fail) {
+	public void shimmy(final Tile toTile, final int startAnim, final int renderEmote, final int endAnim, final boolean fail) {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock();
@@ -243,7 +241,7 @@ public class AgilityPyramidController extends Controller {
 					player.resetWalkSteps();
 				} else if (ticks >= 4) {
 					if (fail) {
-						player.setNextWorldTile(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
+						player.setNextTile(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
 						player.applyHit(new Hit(null, 100, HitLook.TRUE_DAMAGE));
 					} else {
 						player.setNextAnimation(new Animation(endAnim));
@@ -281,22 +279,15 @@ public class AgilityPyramidController extends Controller {
 				}
 			}, 0, 3);
 		} else {
-			final WorldTile toTile = player.transform(4, 0, 0);
+			final Tile toTile = player.transform(4, 0, 0);
 			player.setNextAnimation(new Animation(740));
-			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 4, Direction.WEST));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.setNextAnimation(new Animation(-1));
-					player.setNextWorldTile(toTile);
-				}
-			}, 3);
+			player.forceMove(toTile, 20, 120, () -> player.setNextAnimation(new Animation(-1)));
 		}
 	}
 
 	public void walkLog(GameObject object) {
 		final boolean running = player.getRun();
-		final WorldTile toTile;
+		final Tile toTile;
 		if (object.getRotation() % 2 == 0)
 			toTile = object.getTile().transform(object.getId() == 10867 ? 5 : -5, 0, 0);
 		else
@@ -324,36 +315,18 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	public void jumpGap(GameObject object) {
-		Direction direction = Direction.NORTH;
-		final WorldTile toTile;
+		final Tile toTile;
 		if (object.getRotation() % 2 == 0)
 			toTile = player.transform(0, player.getY() < object.getY() ? 3 : -3, 0);
 		else
 			toTile = player.transform(player.getX() < object.getX() ? 3 : -3, 0, 0);
-		if (player.getX() < toTile.getX())
-			direction = Direction.EAST;
-		else if (player.getX() > toTile.getX())
-			direction = Direction.WEST;
-		else if (player.getY() < toTile.getY())
-			direction = Direction.NORTH;
-		else if (player.getY() > toTile.getY())
-			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(3067));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlock();
-				player.setNextWorldTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 22);
-			}
-		}, 1);
+		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 22));
 	}
 
 	public void climbOver(GameObject object) {
-		Direction direction = Direction.NORTH;
-		final WorldTile toTile;
+		final Tile toTile;
 		if (failed()) {
 			player.applyHit(new Hit(null, 40, HitLook.TRUE_DAMAGE));
 			player.setNextForceTalk(new ForceTalk("Ouch!"));
@@ -364,25 +337,9 @@ public class AgilityPyramidController extends Controller {
 			toTile = player.transform(player.getX() < object.getX() ? 2 : -2, 0, 0);
 		else
 			toTile = player.transform(0, player.getY() < object.getY() ? 2 : -2, 0);
-		if (player.getX() < toTile.getX())
-			direction = Direction.EAST;
-		else if (player.getX() > toTile.getX())
-			direction = Direction.WEST;
-		else if (player.getY() < toTile.getY())
-			direction = Direction.NORTH;
-		else if (player.getY() > toTile.getY())
-			direction = Direction.SOUTH;
 		player.lock();
 		player.setNextAnimation(new Animation(1560));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 2, direction));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.unlock();
-				player.setNextWorldTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 8);
-			}
-		}, 1);
+		player.forceMove(toTile, 5, 60, () -> player.getSkills().addXp(Constants.AGILITY, 8));
 	}
 
 	public void jumpRoller(RollingBlock block, boolean failed) {
@@ -412,36 +369,22 @@ public class AgilityPyramidController extends Controller {
 				y = -1856;
 				z = 1;
 			}
-			final WorldTile toTile = player.transform(x, y, z);
 			player.lock();
 			player.getVars().setVarBit(block.configId, 1);
 			player.setNextAnimation(new Animation(3064));
-			player.setNextForceMovement(new ForceMovement(player.getTile(), 0, Utils.getDistance(player.getTile(), toTile) > 50 ? player.transform(2, 0, -1) : toTile, 2, Direction.forDelta(toTile.getX() - player.getX(), toTile.getY() - player.getY())));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					player.unlock();
-					player.getVars().setVarBit(block.configId, 0);
-					player.setNextWorldTile(toTile);
-					player.applyHit(new Hit(null, 60, HitLook.TRUE_DAMAGE));
-				}
-			}, 2);
+			player.forceMove(player.transform(x, y, z), 10, 60, () -> {
+				player.getVars().setVarBit(block.configId, 0);
+				player.applyHit(new Hit(null, 60, HitLook.TRUE_DAMAGE));
+			});
 			return;
 		}
-		final WorldTile toTile = (player.transform(dir[0]*2, dir[1]*2, 0));
 		player.lock();
 		player.getVars().setVarBit(block.configId, 1);
 		player.setNextAnimation(new Animation(1115));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, toTile, 1, WorldUtil.getFaceDirection(toTile, player)));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.getVars().setVarBit(block.configId, 0);
-				player.setNextWorldTile(toTile);
-				player.getSkills().addXp(Constants.AGILITY, 12);
-				player.unlock();
-			}
-		}, 3);
+		player.forceMove(player.transform(dir[0]*2, dir[1]*2, 0), 5, 50, () -> {
+			player.getVars().setVarBit(block.configId, 0);
+			player.getSkills().addXp(Constants.AGILITY, 12);
+		});
 	}
 
 }

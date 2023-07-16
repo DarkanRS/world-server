@@ -33,38 +33,38 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 	//private static final int[] PEDESTAL =
 	//{ 54110, 54111, 54112, 54113, 37202 };
 	private static final int[] PEDESTAL_FLOW =
-		{ 54114, 54115, 54116, 54117, 37203 };
+			{ 54114, 54115, 54116, 54117, 37203 };
 
 	//private static final int[] PILLAR =
 	//{ 54118, 54119, 54120, 54121, 37204 };
 	private static final int[] PILLAR_BROKEN =
-		{ 54122, 54123, 54124, 54125, 37207 };
+			{ 54122, 54123, 54124, 54125, 37207 };
 	private static final int[] PILLAR_REPAIRED =
-		{ 54126, 54127, 54128, 54129, 37219 };
+			{ 54126, 54127, 54128, 54129, 37219 };
 
 	//Rubble pieces receiving no flow (each rooms seems to have a few of these prespawned)
 	private static final int[] RUBBLE_PIECE =
-		{ 54130, 54131, 54132, 54133, 37220 };
+			{ 54130, 54131, 54132, 54133, 37220 };
 	private static final int[] RUBBLE_PIECE_CLEARED =
-		{ 54134, 54135, 54136, 54137, 37229 };
+			{ 54134, 54135, 54136, 54137, 37229 };
 	//Cleared rubble pieces receiving flow (they still have remnants on them)
 	private static final int[] RUBBLE_PIECE_FLOW =
-		{ 54138, 54139, 54140, 54141, 37232 };
+			{ 54138, 54139, 54140, 54141, 37232 };
 	private static final int[] RUBBLE_PIECE_CLEARED_FLOW =
-		{ 54142, 54143, 54144, 54145, 37249 };
+			{ 54142, 54143, 54144, 54145, 37249 };
 
 	//Clean straight pieces
 	private static final int[] STRAIGHT_PIECE_PATH =
 			//This must also be used as a base for the rubble pieces to make a groove in the ground
-		{ 54146, 54147, 54148, 54149, 37250 };
+			{ 54146, 54147, 54148, 54149, 37250 };
 	private static final int[] STRAIGHT_PIECE_PATH_FLOW =
-		{ 54150, 54151, 54152, 54153, 37251 };
+			{ 54150, 54151, 54152, 54153, 37251 };
 
 	//Clean corner pieces
 	private static final int[] CORNER_PIECE_PATH =
-		{ 54154, 54155, 54156, 54157, 37252 };
+			{ 54154, 54155, 54156, 54157, 37252 };
 	private static final int[] CORNER_PIECE_PATH_FLOW =
-		{ 54158, 54159, 54160, 54161, 37253 };
+			{ 54158, 54159, 54160, 54161, 37253 };
 
 	private static final int[][] pillars = {
 			{ 5, 5 },
@@ -188,7 +188,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 				return false;
 			}
 			int[] coords = manager.getRoomPos(object.getTile());
-			for (Flow flow : flows)
+			for (Flow flow : flows) {
 				if (flow.pillarX == coords[0] && flow.pillarY == coords[1]) {
 					giveXP(player, Constants.CONSTRUCTION);
 					player.setNextAnimation(new Animation(14566));
@@ -198,6 +198,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 					startFlow(flow.flow.start);
 					return false;
 				}
+			}
 		}
 		return true;
 	}

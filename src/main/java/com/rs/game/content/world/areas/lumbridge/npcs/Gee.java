@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -12,10 +12,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Gee extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 2237;
+    private static final int npcId = 2237;
     public static NPCClickHandler Gee = new NPCClickHandler(new Object[]{2237, 7932, 7923}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new Gee(e.getPlayer()));
     	}
     });

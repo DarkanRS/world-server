@@ -1,32 +1,27 @@
 package com.rs.game.content.quests.fishingcontest;
 
-import static com.rs.game.content.quests.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.ENTER_COMPETITION;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.GIVE_TROPHY;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.NOT_STARTED;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.PIPE_HAS_GARLIC;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.content.skills.fishing.FishingSpot;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.fishingcontest.FishingContest.*;
 
 @PluginEventHandler
 public class StrangerFishingContestD extends Conversation {
 	private static final int NPC = 3677;
 
 
-	public StrangerFishingContestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
+	public StrangerFishingContestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Hi, what are you doing here?");
 			addNPC(NPC, HeadE.CALM_TALK, "I am waiting for the fishing contest to start.");
@@ -81,26 +76,25 @@ public class StrangerFishingContestD extends Conversation {
 	public static NPCClickHandler handleDialogue = new NPCClickHandler(new Object[] { NPC }, e -> e.getPlayer().startConversation(new StrangerFishingContestD(e.getPlayer()).getStart()));
 
 	public static NPCClickHandler handleStrangerFishingSpot = new NPCClickHandler(new Object[] { 234 }, e -> {
-		Player p = e.getPlayer();
 		NPC npc = e.getNPC();
 		if(npc.getRegionId() == 10549) {
-			if (p.getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
-				p.sendMessage("Nothing interesting happens...");
+			if (e.getPlayer().getQuestManager().getStage(Quest.FISHING_CONTEST) >= GIVE_TROPHY) {
+				e.getPlayer().sendMessage("Nothing interesting happens...");
 				return;
 			}
 			e.getNPC().resetDirection();
-			if(p.getQuestManager().getStage(Quest.FISHING_CONTEST) == DO_ROUNDS && p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
+			if(e.getPlayer().getQuestManager().getStage(Quest.FISHING_CONTEST) == DO_ROUNDS && e.getPlayer().getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
 				e.getPlayer().getActionManager().setAction(new Fishing(FishingSpot.GIANT_CARP, e.getNPC()));
 			else
-				if(p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
-					p.startConversation(new Conversation(p) {
+				if(e.getPlayer().getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC))
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{
 							addNPC(225, HeadE.CALM_TALK, "Hey, you need to pay to enter the competition first! Only 5 coins for the entrance fee!");//Bonzo
 							create();
 						}
 					});
 				else
-					p.startConversation(new Conversation(p) {
+					e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 						{
 							addNPC(NPC, HeadE.CALM_TALK, "I think you will find that is my spot.");
 							addPlayer(HeadE.HAPPY_TALKING, "Can't you go to another spot?");

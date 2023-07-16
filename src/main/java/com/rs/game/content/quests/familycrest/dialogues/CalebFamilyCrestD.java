@@ -1,29 +1,16 @@
 package com.rs.game.content.quests.familycrest.dialogues;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.CALEB_ASKED_ATTR;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.CALEB_CREST;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.COOKING_GAUNTLETS;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_CREST;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.NOT_STARTED;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.QUEST_COMPLETE;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_AVAN;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_BOOT;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_CALEB;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
 
 @PluginEventHandler
 public class CalebFamilyCrestD extends Conversation {
@@ -35,19 +22,19 @@ public class CalebFamilyCrestD extends Conversation {
 	private static final int SALMON = 329;
 	private static final int SHRIMP = 315;
 
-	private static boolean hasFish(Player p) {
-		if(p.getInventory().containsItems(new int[]{SWORDFISH, BASS, TUNA, SALMON, SHRIMP}, new int[]{1, 1, 1, 1, 1}))
+	private boolean hasFish() {
+		if(player.getInventory().containsItems(new int[]{SWORDFISH, BASS, TUNA, SALMON, SHRIMP}, new int[]{1, 1, 1, 1, 1}))
 			return true;
 		return false;
 	}
-	private static void removeFish(Player p) {
-		p.getInventory().removeItems(new Item(SWORDFISH, 1), new Item(BASS, 1), new Item(TUNA, 1), new Item(SALMON, 1),
+	private void removeFish() {
+		player.getInventory().removeItems(new Item(SWORDFISH, 1), new Item(BASS, 1), new Item(TUNA, 1), new Item(SALMON, 1),
 				new Item(SHRIMP, 1));
 	}
 
-	public CalebFamilyCrestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FAMILY_CREST)) {
+	public CalebFamilyCrestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
 		case NOT_STARTED -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Who are you? What are you after?");
 			addPlayer(HeadE.HAPPY_TALKING, "I see you are a chef... could you cook me anything?");
@@ -55,14 +42,14 @@ public class CalebFamilyCrestD extends Conversation {
 					"a special and unique fish salad.");
 		}
 		case TALK_TO_CALEB -> {
-			if(p.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB(CALEB_ASKED_ATTR)) {
-				if(hasFish(p)) {
+			if(player.getQuestManager().getAttribs(Quest.FAMILY_CREST).getB("CALEB_ASKED")) {
+				if(hasFish()) {
 					addNPC(NPC, HeadE.CALM_TALK, "How is the fish collecting going?");
 					addPlayer(HeadE.HAPPY_TALKING, "Got them all with me.");
 					addSimple("You exchange the fish for Caleb's piece of the crest.", ()-> {
-						removeFish(p);
-						p.getInventory().addItem(CALEB_CREST, 1);
-						p.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_GEM_TRADER);
+						removeFish();
+						player.getInventory().addItem(CALEB_CREST, 1);
+						player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_GEM_TRADER);
 					});
 					addPlayer(HeadE.HAPPY_TALKING, "Uh... what happened to the rest of it?");
 					addNPC(NPC, HeadE.CALM_TALK, "Well... my brothers and I had a slight disagreement about it... we all wanted to be the heir of my " +
@@ -118,7 +105,7 @@ public class CalebFamilyCrestD extends Conversation {
 								public void create() {
 									option("Ok, I will get those", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get those", ()->{
-												p.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB(CALEB_ASKED_ATTR, true);
+												player.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB("CALEB_ASKED", true);
 											})
 											.addNPC(NPC, HeadE.CALM_TALK, "You will? It would help me a lot!")
 											);
@@ -133,11 +120,11 @@ public class CalebFamilyCrestD extends Conversation {
 			});
 		}
 		case TALK_TO_GEM_TRADER -> {
-			if(!p.getInventory().containsItem(CALEB_CREST, 1) && !p.getInventory().containsItem(FAMILY_CREST)) {
-				if(p.getInventory().hasFreeSlots()) {
+			if(!player.getInventory().containsItem(CALEB_CREST, 1) && !player.getInventory().containsItem(FAMILY_CREST)) {
+				if(player.getInventory().hasFreeSlots()) {
 					addNPC(NPC, HeadE.CALM_TALK, "You lost this.");
 					addSimple("Caleb gives you back his crest...", () -> {
-						p.getInventory().addItem(CALEB_CREST, 1);
+						player.getInventory().addItem(CALEB_CREST, 1);
 					});
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "I have my crest if you had room for it");
@@ -151,11 +138,11 @@ public class CalebFamilyCrestD extends Conversation {
 			addPlayer(HeadE.CALM_TALK, "Okay.");
 		}
 		case TALK_TO_AVAN, TALK_TO_BOOT, GIVE_AVAN_JEWLERY, TALK_TO_JOHNATHAN, KILL_CHRONOZON -> {
-			if(!p.getInventory().containsItem(CALEB_CREST, 1)) {
-				if(p.getInventory().hasFreeSlots()) {
+			if(!player.getInventory().containsItem(CALEB_CREST, 1)) {
+				if(player.getInventory().hasFreeSlots()) {
 					addNPC(NPC, HeadE.CALM_TALK, "You lost this.");
 					addSimple("Caleb gives you back his crest...", () -> {
-						p.getInventory().addItem(CALEB_CREST, 1);
+						player.getInventory().addItem(CALEB_CREST, 1);
 					});
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "I have my crest if you had room for it");
@@ -169,7 +156,7 @@ public class CalebFamilyCrestD extends Conversation {
 		}
 		case QUEST_COMPLETE ->  {
 			addNPC(NPC, HeadE.CALM_TALK, "I hear you brought the completed crest to my father. I must say, that was awfully impressive work.");
-			if(p.getInventory().containsItem(FAMILY_GAUNTLETS, 1)) {
+			if(player.getInventory().containsItem(FAMILY_GAUNTLETS, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I believe your father mentioned you would be able to improve these gauntlets for me...");
 				addNPC(NPC, HeadE.CALM_TALK, "Yes, that is correct. I can slightly alter these gauntlets to allow you some of my skill at preparing seafood by " +
 						"making them cooking gauntlets.");
@@ -180,8 +167,8 @@ public class CalebFamilyCrestD extends Conversation {
 								.addPlayer(HeadE.HAPPY_TALKING, "Yes, please do that for me.")
 								.addSimple("Caleb takes the gauntlets from you, pours some herbs and seasonings on them, bakes them on his range " +
 										"for a short time, then hands them back to you.", () -> {
-											p.getInventory().removeItems(new Item(FAMILY_GAUNTLETS, 1));
-											p.getInventory().addItem(COOKING_GAUNTLETS, 1);
+											player.getInventory().removeItems(new Item(FAMILY_GAUNTLETS, 1));
+											player.getInventory().addItem(COOKING_GAUNTLETS, 1);
 										})
 								);
 						option("I'll see what your brothers have to offer", new Dialogue()

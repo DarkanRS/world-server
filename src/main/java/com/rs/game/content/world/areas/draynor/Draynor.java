@@ -16,17 +16,11 @@
 //
 package com.rs.game.content.world.areas.draynor;
 
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.AGGIE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.ASHES;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.BALL_WOOL;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.GEAR_CHECK;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.NED;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.PASTE;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.POT_OF_FLOUR;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.REDBERRY;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WATER_BUCKET;
-import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.WIG;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
@@ -35,22 +29,19 @@ import com.rs.game.content.quests.dragonslayer.NedDragonSlayerD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.DoorPair;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.content.quests.princealirescue.PrinceAliRescue.*;
 
 @PluginEventHandler
 public class Draynor {
@@ -367,10 +358,10 @@ public class Draynor {
 	public static ObjectClickHandler handleEnterDraynorSewers = new ObjectClickHandler(new Object[] { 6435 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		if(obj.getTile().matches(WorldTile.of(3118, 3244, 0)))//south entrance
-			p.useStairs(827, WorldTile.of(3118, 9643, 0), 1, 1);
-		if(obj.getTile().matches(WorldTile.of(3084, 3272, 0)))//north entrance
-			p.useStairs(827, WorldTile.of(3085, 9672, 0), 1, 1);
+		if(obj.getTile().matches(Tile.of(3118, 3244, 0)))//south entrance
+			p.useStairs(827, Tile.of(3118, 9643, 0), 1, 1);
+		if(obj.getTile().matches(Tile.of(3084, 3272, 0)))//north entrance
+			p.useStairs(827, Tile.of(3085, 9672, 0), 1, 1);
 	});
 
 	public static ObjectClickHandler handleMorgansChest = new ObjectClickHandler(new Object[] { 46243 }, e -> {
@@ -380,15 +371,15 @@ public class Draynor {
 	public static ObjectClickHandler handleExitsDraynorSewers = new ObjectClickHandler(new Object[] { 26518, 32015 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		if(obj.getTile().matches(WorldTile.of(3118, 9643, 0)))//north
-			p.ladder(WorldTile.of(3118, 3245, 0));
-		if(obj.getTile().matches(WorldTile.of(3084, 9672, 0)))//south
-			p.ladder(WorldTile.of(3084, 3273, 0));
+		if(obj.getTile().matches(Tile.of(3118, 9643, 0)))//north
+			p.ladder(Tile.of(3118, 3245, 0));
+		if(obj.getTile().matches(Tile.of(3084, 9672, 0)))//south
+			p.ladder(Tile.of(3084, 3273, 0));
 	});
 
 	public static ObjectClickHandler handleEnterDraynorAvaSecret = new ObjectClickHandler(new Object[] { 160, 47404 }, e -> {
 		e.getPlayer().lock();
-		e.getPlayer().setNextFaceWorldTile(e.getObject().getTile());
+		e.getPlayer().setNextFaceTile(e.getObject().getTile());
 		e.getPlayer().setNextAnimation(new Animation(1548));
 		WorldTasks.delay(2, () -> {
 			e.getPlayer().addWalkSteps(e.getPlayer().transform(0, e.getObjectId() == 47404 ? -1 : 1), 1, true);
@@ -415,15 +406,15 @@ public class Draynor {
 		});
 	});
 
-	public static ObjectClickHandler handleClimbWizardsTowerBasement = new ObjectClickHandler(new Object[] { 32015 }, new WorldTile[] { WorldTile.of(3103, 9576, 0) }, e -> {
-		e.getPlayer().ladder(WorldTile.of(3105, 3162, 0));
+	public static ObjectClickHandler handleClimbWizardsTowerBasement = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] { Tile.of(3103, 9576, 0) }, e -> {
+		e.getPlayer().ladder(Tile.of(3105, 3162, 0));
 	});
 
 	public static ObjectClickHandler handleDraynorManorBasement = new ObjectClickHandler(new Object[] { 47643, 164 }, e -> {
 		if (e.getObjectId() == 47643)
-			e.getPlayer().useStairs(WorldTile.of(3080, 9776, 0));
+			e.getPlayer().useStairs(Tile.of(3080, 9776, 0));
 		else
-			e.getPlayer().useStairs(WorldTile.of(3115, 3355, 0));
+			e.getPlayer().useStairs(Tile.of(3115, 3355, 0));
 	});
 
 	public static ObjectClickHandler handleDraynorManorRailing = new ObjectClickHandler(new Object[] { 37703 }, e -> {
@@ -433,12 +424,12 @@ public class Draynor {
 			p.getPackets().sendGameMessage("You need level 28 agility to use this shortcut.");
 			return;
 		}
-		if(!obj.getTile().matches(WorldTile.of(3083, 3353, 0)))
+		if(!obj.getTile().matches(Tile.of(3083, 3353, 0)))
 			return;
 		if(p.getX() > obj.getX())
-			AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX(), obj.getY(), obj.getPlane()));
+			AgilityShortcuts.climbOver(p, Tile.of(obj.getX(), obj.getY(), obj.getPlane()));
 		if(p.getX() <= obj.getX())
-			AgilityShortcuts.climbOver(p, WorldTile.of(obj.getX()+1, obj.getY(), obj.getPlane()));
+			AgilityShortcuts.climbOver(p, Tile.of(obj.getX()+1, obj.getY(), obj.getPlane()));
 	});
 
 	public static ObjectClickHandler handleDraynorManorStairs = new ObjectClickHandler(new Object[] { 47364, 47657 }, e -> {

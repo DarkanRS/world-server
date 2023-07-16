@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.world.areas.burthorpe.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class Shanomi extends Conversation {
-	private static int npcId = 4290;
+	private static final int npcId = 4290;
 
 	public Shanomi(Player player) {
 		super(player);

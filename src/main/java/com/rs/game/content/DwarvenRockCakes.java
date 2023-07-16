@@ -16,8 +16,8 @@
 //
 package com.rs.game.content;
 
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;

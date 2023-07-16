@@ -16,16 +16,16 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -38,7 +38,7 @@ public class TzHaar {
 	public static final int TOKKUL_ZO_CHARGED = 23643;
 	public static final int TOKKUL_ZO_UNCHARGED = 23644;
 
-	private static WorldTile[] TOKKUL_ZO_TELEPORTS = { WorldTile.of(4744, 5156, 0), WorldTile.of(4599, 5062, 0), WorldTile.of(4613, 5128, 0), WorldTile.of(4744, 5170, 0) };
+	private static Tile[] TOKKUL_ZO_TELEPORTS = { Tile.of(4744, 5156, 0), Tile.of(4599, 5062, 0), Tile.of(4613, 5128, 0), Tile.of(4744, 5170, 0) };
 
 	public static ItemClickHandler handleCheckTokkulZoOptions = new ItemClickHandler(new Object[] { TOKKUL_ZO_CHARGED }, new String[] { "Check-charge", "Check-charges", "Teleport" }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.ELDER_KILN, "to use the Tokkul-Zo."))
@@ -78,7 +78,7 @@ public class TzHaar {
 					@Override
 					public void create() {
 						boolean recTZ = player.getBool("recTokkulZo");
-						if (!player.containsItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
+						if (!player.containsAnyItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
 							if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo."))
 								option("Can I have a Tokkul-Zo?" + (recTZ ? " I've lost mine." : ""), new Dialogue()
 										.addPlayer(HeadE.CONFUSED, "Can I have a Tokkul-Zo?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))

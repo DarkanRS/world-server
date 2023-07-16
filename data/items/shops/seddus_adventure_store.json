@@ -1,12 +1,24 @@
 {
-  "name": "Seddu's Adventure Store",
+  "name": "Seddus's Adventure Store",
   "generalStore": false,
   "buyOnly": false,
   "currency": 995,
   "items": [
     {
       "item": {
-        "id": 1169,
+        "id": 1093,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1079,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1113,
         "amount": 10
       }
     },
@@ -24,37 +36,13 @@
     },
     {
       "item": {
-        "id": 1113,
+        "id": 1193,
         "amount": 10
       }
     },
     {
       "item": {
-        "id": 1079,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1093,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1303,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1289,
-        "amount": 10
-      }
-    },
-    {
-      "item": {
-        "id": 1432,
+        "id": 1151,
         "amount": 10
       }
     }

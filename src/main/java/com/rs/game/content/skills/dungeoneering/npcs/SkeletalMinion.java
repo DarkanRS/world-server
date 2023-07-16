@@ -18,13 +18,13 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.model.entity.Entity;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class SkeletalMinion extends DungeonNPC {
 
 	private NecroLord boss;
 
-	public SkeletalMinion(NecroLord boss, int id, WorldTile tile, DungeonManager manager) {
+	public SkeletalMinion(NecroLord boss, int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
 		setForceAgressive(true);
 		this.boss = boss;

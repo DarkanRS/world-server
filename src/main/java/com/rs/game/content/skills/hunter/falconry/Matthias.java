@@ -1,15 +1,11 @@
 package com.rs.game.content.skills.hunter.falconry;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -17,13 +13,16 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Matthias extends NPC {
 	
 	private static List<GameObject> POST_TILES = new ArrayList<>();
 	private static final int BIRD_FREQUENCY = Ticks.fromSeconds(15);
 
-	public Matthias(WorldTile tile) {
+	public Matthias(Tile tile) {
 		super(5092, tile);
 	}
 	
@@ -39,6 +38,8 @@ public class Matthias extends NPC {
 		List<GameObject> posts = POST_TILES.stream()
 				.filter(obj -> obj.getId() == (hasBird ? 19220 : 19221))
 				.toList();
+		if (posts.isEmpty())
+			return;
 		GameObject post = posts.get(Utils.random(posts.size()));
 		if (post == null)
 			return;
@@ -68,8 +69,7 @@ public class Matthias extends NPC {
 	
 	@ServerStartupEvent
 	public static void init() {
-		Region region = World.getRegion(9528, true);
-		POST_TILES = region.getAllObjects()
+		POST_TILES = World.getAllObjectsInChunkRange(Tile.of(2374, 3605, 0).getChunkId(), 2)
 			.stream()
 			.filter(obj -> obj != null && (obj.getId() == 19220 || obj.getId() == 19221))
 			.toList();

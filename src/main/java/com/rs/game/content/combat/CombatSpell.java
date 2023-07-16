@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.combat;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
@@ -35,6 +32,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum CombatSpell {
 	WIND_RUSH(1, 2.7, 10, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(463), 7866, 7867, new RuneSet(Rune.AIR, 2)),
@@ -357,7 +357,7 @@ public enum CombatSpell {
 			target.freeze(Ticks.fromSeconds(20), true);
 		}
 	},
-	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 178, new SpotAnim(1843), 202, 203, new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
+	TELEPORT_BLOCK(85, 80, 30, new Animation(10503), new SpotAnim(1841), 1842, new SpotAnim(1843), 202, 203, new RuneSet(Rune.CHAOS, 1, Rune.LAW, 1, Rune.DEATH, 1)) {
 		@Override
 		public void onHit(Entity caster, Entity target, Hit hit) {
 			if (target instanceof Player p2) {

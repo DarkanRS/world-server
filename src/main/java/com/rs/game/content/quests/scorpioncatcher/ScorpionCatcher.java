@@ -16,15 +16,16 @@
 //
 package com.rs.game.content.quests.scorpioncatcher;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * How this is written: Each seer prophecy/premonition allows you to spawn a
@@ -53,7 +54,7 @@ public class ScorpionCatcher extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED -> {
@@ -149,6 +150,27 @@ public class ScorpionCatcher extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.STRENGTH, 6625);
-		getQuest().sendQuestCompleteInterface(player, 456, "6,625 Strength XP");
+		sendQuestCompleteInterface(player, 456);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Thormac on the top floor of his tower south of the Seers' Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Dusty key (or 70 Agility).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 39 jailer.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "6,625 Strength XP<br>"+
+				"Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins";
 	}
 }

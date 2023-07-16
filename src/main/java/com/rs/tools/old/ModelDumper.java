@@ -16,14 +16,14 @@
 //
 package com.rs.tools.old;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import com.rs.cache.Cache;
 import com.rs.cache.Index;
 import com.rs.cache.IndexType;
 import com.rs.cache.Store;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class ModelDumper {
 

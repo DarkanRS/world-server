@@ -16,10 +16,10 @@
 //
 package com.rs.tools.old;
 
-import java.io.IOException;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.IOException;
 
 public class ObjectCheck {
 

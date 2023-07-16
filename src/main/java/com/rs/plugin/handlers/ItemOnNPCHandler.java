@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.ItemOnNPCEvent;
+
+import java.util.function.Consumer;
 
 public class ItemOnNPCHandler extends PluginHandler<ItemOnNPCEvent> {
 	private boolean checkDistance = true;

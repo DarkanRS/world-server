@@ -1,16 +1,17 @@
 package com.rs.game.content.quests.monksfriend;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.MONKS_FRIEND)
 @PluginEventHandler
@@ -29,7 +30,7 @@ public class MonksFriend extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
@@ -64,23 +65,23 @@ public class MonksFriend extends QuestOutline {
 	}
 
 	//It is a circle around a null ladder. A varbit makes it visible.
-	private static WorldTile[] ladderTilesInACircle = new WorldTile[]{
-			WorldTile.of(2561, 3220, 0),
-			WorldTile.of(2560, 3220, 0),
-			WorldTile.of(2559, 3220, 0),
-			WorldTile.of(2559, 3221, 0),
-			WorldTile.of(2559, 3222, 0),
-			WorldTile.of(2559, 3223, 0),
-			WorldTile.of(2560, 3223, 0),
-			WorldTile.of(2560, 3224, 0),
-			WorldTile.of(2561, 3224, 0),
-			WorldTile.of(2562, 3224, 0),
-			WorldTile.of(2562, 3223, 0),
-			WorldTile.of(2563, 3223, 0),
-			WorldTile.of(2563, 3222, 0),
-			WorldTile.of(2563, 3221, 0),
-			WorldTile.of(2562, 3221, 0),
-			WorldTile.of(2562, 3220, 0)
+	private static Tile[] ladderTilesInACircle = new Tile[]{
+			Tile.of(2561, 3220, 0),
+			Tile.of(2560, 3220, 0),
+			Tile.of(2559, 3220, 0),
+			Tile.of(2559, 3221, 0),
+			Tile.of(2559, 3222, 0),
+			Tile.of(2559, 3223, 0),
+			Tile.of(2560, 3223, 0),
+			Tile.of(2560, 3224, 0),
+			Tile.of(2561, 3224, 0),
+			Tile.of(2562, 3224, 0),
+			Tile.of(2562, 3223, 0),
+			Tile.of(2563, 3223, 0),
+			Tile.of(2563, 3222, 0),
+			Tile.of(2563, 3221, 0),
+			Tile.of(2562, 3221, 0),
+			Tile.of(2562, 3220, 0)
 	};
 
 	public static PlayerStepHandler handleInvisibleLadder = new PlayerStepHandler(ladderTilesInACircle, e -> {
@@ -91,16 +92,37 @@ public class MonksFriend extends QuestOutline {
 	public static ObjectClickHandler handleThiefLadder = new ObjectClickHandler(new Object[]{42, 32015}, e -> {
 		Player p = e.getPlayer();
 		if (e.getObjectId() == 42)
-			p.useLadder(WorldTile.of(2561, 9621, 0));
-		else if (e.getObject().getTile().matches(WorldTile.of(2561, 9622, 0)))
-			p.useLadder(WorldTile.of(2560, 3222, 0));
+			p.useLadder(Tile.of(2561, 9621, 0));
+		else if (e.getObject().getTile().matches(Tile.of(2561, 9622, 0)))
+			p.useLadder(Tile.of(2560, 3222, 0));
 	});
 
 	@Override
 	public void complete(Player player) {
 		player.getInventory().addItem(563, 8, true);
 		player.getSkills().addXpQuest(Constants.WOODCUTTING, 2000);
-		getQuest().sendQuestCompleteInterface(player, 563, "8 Law Runes", "2,000 Woodcutting XP");
+		sendQuestCompleteInterface(player, 563);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Brother Omad at the monastery south of Ardougne.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Jug of water, logs (or a hatchet).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You can choose to defeat two level 21 thieves and a level 25 head thief.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,000 Woodcutting XP<br>"+
+				"8 law runes";
 	}
 
 }

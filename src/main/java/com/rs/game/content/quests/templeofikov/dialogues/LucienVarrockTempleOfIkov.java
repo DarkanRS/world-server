@@ -1,26 +1,24 @@
 package com.rs.game.content.quests.templeofikov.dialogues;
 
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.HELP_LUCIEN;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.NOT_STARTED;
-import static com.rs.game.content.quests.templeofikov.TempleOfIkov.QUEST_COMPLETE;
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.templeofikov.TempleOfIkov;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import static com.rs.game.content.quests.templeofikov.TempleOfIkov.*;
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+
 @PluginEventHandler
 public class LucienVarrockTempleOfIkov extends Conversation {
 	private static final int NPC = 8347;
-	public LucienVarrockTempleOfIkov(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.TEMPLE_OF_IKOV)) {
+	public LucienVarrockTempleOfIkov(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.TEMPLE_OF_IKOV)) {
 			case NOT_STARTED -> {
 				addNPC(NPC, HeadE.CALM_TALK, "You shouldn't in here!");
 				addPlayer(HeadE.HAPPY_TALKING, "Really?");
@@ -28,22 +26,22 @@ public class LucienVarrockTempleOfIkov extends Conversation {
 			}
 			case HELP_LUCIEN -> {
 				addNPC(NPC, HeadE.CALM_TALK, "Have you got the Staff of Armadyl yet?");
-				if(p.getInventory().containsItem(84)) {
+				if(player.getInventory().containsItem(84)) {
 					addPlayer(HeadE.HAPPY_TALKING, "Yes! Here it is.");
 					addItem(84, "You show him the Staff of Armadyl");
 					addNPC(NPC, HeadE.EVIL_LAUGH, "Muhahahhahahaha! I can feel the power of the staff running through me! I will be more powerful and they " +
 							"shall bow down to me! I suppose you want your reward? I shall grant you much power!");
 					addNext(()->{
-						p.getQuestManager().completeQuest(Quest.TEMPLE_OF_IKOV);
-						p.getInventory().removeItems(new Item(84, 1));
-						TempleOfIkov.setIkovLucienSide(p, true);
+						player.getQuestManager().completeQuest(Quest.TEMPLE_OF_IKOV);
+						player.getInventory().removeItems(new Item(84, 1));
+						TempleOfIkov.setIkovLucienSide(player, true);
 					});
 					return;
 				}
 				addPlayer(HeadE.HAPPY_TALKING, "Not yet, but i'm getting it!");
 			}
 			case QUEST_COMPLETE ->  {
-				if(TempleOfIkov.isLucienSide(p)) {
+				if(TempleOfIkov.isLucienSide(player)) {
 					addNPC(NPC, HeadE.EVIL_LAUGH, "Muhahahhahahaha! I can feel the power of the staff running through me! I will be more powerful and they shall bow down to me!");
 					return;
 				}

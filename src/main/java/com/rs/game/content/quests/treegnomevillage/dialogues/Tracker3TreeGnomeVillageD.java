@@ -1,33 +1,26 @@
 package com.rs.game.content.quests.treegnomevillage.dialogues;
 
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.FIRE_BALLISTA;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.GET_WOOD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.KILL_WARLORD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.NOT_STARTED;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.ORB1;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST_COMPLETE;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.*;
+
 @PluginEventHandler
 public class Tracker3TreeGnomeVillageD extends Conversation {
 	private static final int NPC = 483;
-	public Tracker3TreeGnomeVillageD(Player p) {
-		super(p);
-		int coordinate = p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
+	public Tracker3TreeGnomeVillageD(Player player) {
+		super(player);
+		int coordinate = player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
 		if(coordinate == 0) {
 			coordinate = Utils.randomInclusive(1, 4);
-			p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setI("tracker3coordinate", coordinate);
+			player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setI("tracker3coordinate", coordinate);
 		}
-		switch(p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
+		switch(player.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
 			case NOT_STARTED, TALK_TO_MONTAI_ABOUT_WOOD, GET_WOOD, TALK_TO_MONTAI_ABOUT_TRACKERS -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello");
 				addNPC(NPC, HeadE.CALM_TALK, "I can't talk now. Can't you see we're trying to win a battle here?");
@@ -44,19 +37,19 @@ public class Tracker3TreeGnomeVillageD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "What?");
 				if(coordinate == 1)
 					addNPC(NPC, HeadE.CALM_TALK, "Less than my hands", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
+						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 2)
 					addNPC(NPC, HeadE.CALM_TALK, "More than my head less than my fingers", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
+						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 3)
 					addNPC(NPC, HeadE.CALM_TALK, "More than we but less than our feet", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
+						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				if(coordinate == 4)
 					addNPC(NPC, HeadE.CALM_TALK, "My legs and your legs", ()->{
-						p.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
+						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
 					});
 				addPlayer(HeadE.HAPPY_TALKING, "You're mad.");
 				addNPC(NPC, HeadE.CALM_TALK, "Dance with me, and Khazard's men are beat.");

@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.randomevents;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -34,7 +34,7 @@ public class Genie extends OwnedNPC {
 	private int ticks = 0;
 	private boolean claimed = false;
 
-	public Genie(Player owner, WorldTile tile) {
+	public Genie(Player owner, Tile tile) {
 		super(owner, 3022, tile, false);
 		setRun(true);
 		setNextFaceEntity(owner);
@@ -73,9 +73,9 @@ public class Genie extends OwnedNPC {
 			owner.setNextAnimation(new Animation(836));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				WorldTile tile = RandomEvents.getRandomTile();
+				Tile tile = RandomEvents.getRandomTile();
 				owner.getControllerManager().processMagicTeleport(tile);
-				owner.setNextWorldTile(tile);
+				owner.setNextTile(tile);
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});

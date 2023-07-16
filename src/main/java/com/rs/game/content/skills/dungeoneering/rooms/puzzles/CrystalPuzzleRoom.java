@@ -25,7 +25,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class CrystalPuzzleRoom extends PuzzleRoom {
 
@@ -127,10 +127,10 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 						continue;
 					// ... and nobody is standing on it
 					for (Player player : manager.getParty().getTeam()) {
-						WorldTile last = player.getTile();
-						if (player.getLastWorldTile() != null)
-							last = player.getLastWorldTile();
-						WorldTile tile = manager.getTile(reference, POS_PLATE[color][0], POS_PLATE[color][1]);
+						Tile last = player.getTile();
+						if (player.getLastTile() != null)
+							last = player.getLastTile();
+						Tile tile = manager.getTile(reference, POS_PLATE[color][0], POS_PLATE[color][1]);
 						if (tile == null)
 							return;
 						if (last.withinDistance(tile, 0))

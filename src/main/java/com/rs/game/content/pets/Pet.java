@@ -21,7 +21,7 @@ import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public final class Pet extends NPC {
 
@@ -31,7 +31,7 @@ public final class Pet extends NPC {
 	private double growthRate;
 	private final Pets pet;
 
-	public Pet(int id, int itemId, Player owner, WorldTile tile, PetDetails details) {
+	public Pet(int id, int itemId, Player owner, Tile tile, PetDetails details) {
 		super(id, tile);
 		this.owner = owner;
 		this.itemId = itemId;
@@ -108,9 +108,9 @@ public final class Pet extends NPC {
 	}
 
 	public void call() {
-		WorldTile teleTile = owner.getNearestTeleTile(this);
+		Tile teleTile = owner.getNearestTeleTile(this);
 		if (teleTile != null)
-			setNextWorldTile(teleTile);
+			setNextTile(teleTile);
 	}
 
 	/**

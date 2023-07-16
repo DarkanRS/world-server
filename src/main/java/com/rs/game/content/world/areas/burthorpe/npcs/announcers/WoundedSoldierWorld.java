@@ -2,7 +2,7 @@ package com.rs.game.content.world.areas.burthorpe.npcs.announcers;
 
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
@@ -11,7 +11,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class WoundedSoldierWorld extends NPC {
 
-	public WoundedSoldierWorld(int id, WorldTile tile) {
+	public WoundedSoldierWorld(int id, Tile tile) {
 		super(id, tile);
 	}
 
@@ -24,13 +24,13 @@ public class WoundedSoldierWorld extends NPC {
 	}
 
 	public void CallForHelp() {
-		switch (Utils.random(1, 7)) {
+		switch (Utils.random(1, 6)) {
 			case 1 -> setNextForceTalk(new ForceTalk("My duodenum!"));
 			case 2 -> setNextForceTalk(new ForceTalk("My spleen!"));
-			case 4 -> setNextForceTalk(new ForceTalk("Medic!"));
-			case 5 -> setNextForceTalk(new ForceTalk("Gods, all my organs hurt!"));
-			case 6 -> setNextForceTalk(new ForceTalk("So much pain!"));
-			case 7 -> setNextForceTalk(new ForceTalk("Urgh... my pancreas!"));
+			case 3 -> setNextForceTalk(new ForceTalk("Medic!"));
+			case 4 -> setNextForceTalk(new ForceTalk("Gods, all my organs hurt!"));
+			case 5 -> setNextForceTalk(new ForceTalk("So much pain!"));
+			case 6 -> setNextForceTalk(new ForceTalk("Urgh... my pancreas!"));
 		}
 	}
 

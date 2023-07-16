@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
@@ -30,18 +27,18 @@ import com.rs.game.content.skills.dungeoneering.npcs.misc.DungeonFishSpot;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringFishing.Fish;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class FishingFerretRoom extends PuzzleRoom {
 
@@ -51,7 +48,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 	private static final int[] EMPTY_PLATE =
 		{ 49546, 49547, 49548, 54293, 35293 };
 
-	private WorldTile pressurePlate;
+	private Tile pressurePlate;
 	private List<GroundItem> vileFishes;
 	private DungeonFishSpot psuedoFishingSpot;// Cheap hax
 	private int fished = 3;
@@ -59,7 +56,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 
 	public class Ferret extends DungeonNPC {
 
-		public Ferret(int id, WorldTile tile, DungeonManager manager) {
+		public Ferret(int id, Tile tile, DungeonManager manager) {
 			super(id, tile, manager);
 		}
 
@@ -77,7 +74,9 @@ public class FishingFerretRoom extends PuzzleRoom {
 				}
 				if (vileFishes.size() > 0) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
-					WorldTile tile = item.getTile();
+					if (item == null)
+						return;
+					Tile tile = item.getTile();
 					if (matches(tile)) {
 						removeVileFish();
 						return;
@@ -93,7 +92,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 						@Override
 						public void run() {
 							resetWalkSteps();
-							setNextWorldTile(getRespawnTile());
+							setNextTile(getRespawnTile());
 							setNextAnimation(new Animation(-1));
 							removeAllVileFish();
 						}
@@ -184,9 +183,9 @@ public class FishingFerretRoom extends PuzzleRoom {
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
-				World.sendSpotAnim(player, new SpotAnim(2523), object.getTile());
+				World.sendSpotAnim(object.getTile(), new SpotAnim(2523));
 				World.addGroundItem(item, object.getTile(), null, false, 0, DropMethod.NORMAL, 40);
-				puzzle.getVileFishes().add(World.getRegion(player.getRegionId()).getGroundItem(item.getId(), object.getTile(), player));
+				puzzle.getVileFishes().add(ChunkManager.getChunk(object.getTile().getChunkId()).getGroundItem(item.getId(), object.getTile(), player));
 			}
 		}, p.getTaskDelay());
 		return true;

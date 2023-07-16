@@ -1,8 +1,6 @@
 package com.rs.game.content.items;
 
-import java.util.AbstractMap.SimpleImmutableEntry;
-import java.util.function.Consumer;
-
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions.Potion;
@@ -10,18 +8,19 @@ import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.cooking.Foods;
-import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.function.Consumer;
 
 @PluginEventHandler
 public class StaffPotato {
@@ -129,12 +128,11 @@ public class StaffPotato {
 		case "Eat" -> {
 			if (!e.getPlayer().canEat())
 				return;
-			e.getPlayer().sendMessage("I'm an island boi.");
 			e.getPlayer().incrementCount("Food eaten");
 			e.getPlayer().setNextAnimation(Foods.EAT_ANIM);
 			e.getPlayer().addFoodDelay(3);
 			e.getPlayer().getActionManager().setActionDelay(e.getPlayer().getActionManager().getActionDelay() + 3);
-			e.getPlayer().heal(Food.ROCKTAIL.getHeal() * 10, Food.ROCKTAIL.getExtraHP() * 10);
+			e.getPlayer().heal(280, 100);
 			e.getPlayer().addEffect(Effect.OVERLOAD, Ticks.fromHours(10));
 			e.getPlayer().addEffect(Effect.BONFIRE, Ticks.fromHours(10));
 			e.getPlayer().addEffect(Effect.ANTIPOISON, Ticks.fromHours(10));
@@ -170,7 +168,7 @@ public class StaffPotato {
 		}
 		case "CM-Tool" -> {
 			e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
-				SimpleImmutableEntry<WorldTile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
+				SimpleImmutableEntry<Tile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
 				if (lastLoc != null)
 					op.add("Teleport to saved location.", () -> {
 						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
@@ -181,7 +179,7 @@ public class StaffPotato {
 						});
 					});
 				op.add("Save current location.", () -> {
-					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<WorldTile, Controller>(WorldTile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<Tile, Controller>(Tile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
 					e.getPlayer().sendMessage("Location saved.");
 				});
 			});

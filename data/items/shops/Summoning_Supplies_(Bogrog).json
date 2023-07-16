@@ -1,0 +1,71 @@
+{
+  "name": "Summoning Supplies",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": -1,
+  "items": [
+    {
+      "item": {
+        "id": 12204,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12207,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 12210,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12213,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12216,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12219,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12222,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 12183,
+        "amount": 65000
+      }
+    },
+    {
+      "item": {
+        "id": 12155,
+        "amount": 5000
+      }
+    },
+    {
+      "item": {
+        "id": 15262,
+        "amount": 65000
+      }
+    }
+  ],
+  "npcIds": [
+    4472
+  ]
+}

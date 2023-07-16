@@ -1,29 +1,22 @@
 package com.rs.game.content.quests.treegnomevillage.dialogues;
 
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.FIRE_BALLISTA;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.GET_WOOD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.KILL_WARLORD;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.NOT_STARTED;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.ORB1;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.QUEST_COMPLETE;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_TRACKERS;
-import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.TALK_TO_MONTAI_ABOUT_WOOD;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.treegnomevillage.TreeGnomeVillage.*;
 
 @PluginEventHandler
 public class ElkoyTreeGnomeVillageD extends Conversation {
 	private static final int NPC = 473;
-	public ElkoyTreeGnomeVillageD(Player p) {
-		super(p);
+	public ElkoyTreeGnomeVillageD(Player player) {
+		super(player);
 		Dialogue goThroughMaze = new Dialogue().addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
@@ -36,7 +29,7 @@ public class ElkoyTreeGnomeVillageD extends Conversation {
 							});
 							player.fadeScreen(() -> {
 								player.sendMessage("Elkoy leads you through the maze...");
-								player.setNextWorldTile(player.getY() > 3177 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
+								player.setNextTile(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 							});
 						})
 				);
@@ -46,7 +39,7 @@ public class ElkoyTreeGnomeVillageD extends Conversation {
 				);
 			}
 		});
-		switch(p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
+		switch(player.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE)) {
 			case NOT_STARTED -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello there.");
 				addNPC(NPC, HeadE.CALM_TALK, "Hello, welcome to our maze. I'm Elkoy the tree gnome.");

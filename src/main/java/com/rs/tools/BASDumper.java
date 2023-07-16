@@ -16,19 +16,19 @@
 //
 package com.rs.tools;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.BASDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.lib.util.Utils;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BASDumper {
 

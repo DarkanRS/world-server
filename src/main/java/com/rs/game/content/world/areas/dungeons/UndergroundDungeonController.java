@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class UndergroundDungeonController extends Controller {
@@ -102,62 +102,62 @@ public class UndergroundDungeonController extends Controller {
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
 		if (object.getId() == 31316) {
-			player.useStairs(-1, WorldTile.of(3360, 2971, 0), 1, 2);
+			player.useStairs(-1, Tile.of(3360, 2971, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		}
 		if (object.getId() == 5946) {
-			player.useStairs(828, WorldTile.of(3168, 3171, 0), 1, 2);
+			player.useStairs(828, Tile.of(3168, 3171, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		}
 		if (object.getId() == 15811)
 			player.getControllerManager().forceStop();
 		else if (object.getId() == 32944) {
-			player.useStairs(-1, WorldTile.of(3219, 9532, 2), 1, 2);
+			player.useStairs(-1, Tile.of(3219, 9532, 2), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		} else if (object.getId() == 31435)
 			return false;
 		else if (object.getId() == 15811) {
-			player.useStairs(-1, WorldTile.of(3749, 2973, 0), 1, 2);
+			player.useStairs(-1, Tile.of(3749, 2973, 0), 1, 2);
 			return false;
 		} else if (object.getId() == 15790) {
 			if (object.getX() == 3829)
-				player.useStairs(-1, WorldTile.of(3831, 3062, 0), 1, 2);
+				player.useStairs(-1, Tile.of(3831, 3062, 0), 1, 2);
 			if (object.getX() == 3814)
-				player.useStairs(-1, WorldTile.of(3816, 3062, 0), 1, 2);
+				player.useStairs(-1, Tile.of(3816, 3062, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		} else if (object.getId() == 32953 || object.getId() == 32952) {
-			player.useStairs(-1, WorldTile.of(2747, 5374, 0), 0, 1);
+			player.useStairs(-1, Tile.of(2747, 5374, 0), 0, 1);
 			player.getControllerManager().forceStop();
 			return false;
 		} else if (object.getId() == 15812) {
-			player.useStairs(-1, WorldTile.of(3749, 2973, 0), 1, 2);
+			player.useStairs(-1, Tile.of(3749, 2973, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		} else if (object.getId() == 6912) {
 			player.setNextAnimation(new Animation(10578));
 			player.useStairs(-1, object.getTile(), 1, 2);
-			player.useStairs(10579, WorldTile.of(player.getX(), player.getY() == 9601 ? player.getY() + 2 : player.getY() - 2, 0), 1, 2);
+			player.useStairs(10579, Tile.of(player.getX(), player.getY() == 9601 ? player.getY() + 2 : player.getY() - 2, 0), 1, 2);
 			return false;
 		} else if (object.getId() == 6899) {
 			player.setNextAnimation(new Animation(10578));
 			player.useStairs(-1, object.getTile(), 1, 2);
-			player.useStairs(10579, WorldTile.of(3219, 9618, 0), 1, 2);
+			player.useStairs(10579, Tile.of(3219, 9618, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			player.sendMessage("You squeeze through the hole.");
 			return false;
 		} else if (object.getId() == 6439) {
-			player.useStairs(828, WorldTile.of(3310, 2961, 0), 1, 2);
+			player.useStairs(828, Tile.of(3310, 2961, 0), 1, 2);
 			player.getControllerManager().forceStop();
 			return false;
 		} else if (object.getId() == 31390) {
-			player.useStairs(-1, WorldTile.of(3318, 9355, 0), 1, 2, "You tumble into the darkness, arriving on a different cave level.");
+			player.useStairs(-1, Tile.of(3318, 9355, 0), 1, 2, "You tumble into the darkness, arriving on a different cave level.");
 			return false;
 		} else if (object.getId() == 31367) {
-			player.useStairs(-1, WorldTile.of(3338, 9350, 0), 1, 2, "You tumble into the darkness, arriving on a different cave level.");
+			player.useStairs(-1, Tile.of(3338, 9350, 0), 1, 2, "You tumble into the darkness, arriving on a different cave level.");
 			return false;
 		}
 		return true;

@@ -1,0 +1,122 @@
+{
+  "name": "Baba Yaga's Magic Shop",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 556,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 555,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 557,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 554,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 558,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 559,
+        "amount": 1000
+      }
+    },
+    {
+      "item": {
+        "id": 562,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 561,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 560,
+        "amount": 300
+      }
+    },
+    {
+      "item": {
+        "id": 563,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 565,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 566,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 9075,
+        "amount": 100
+      }
+    },
+    {
+      "item": {
+        "id": 1391,
+        "amount": 20
+      }
+    },
+    {
+      "item": {
+        "id": 1387,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1383,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1381,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1385,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 9078,
+        "amount": 10
+      }
+    }
+  ]
+}

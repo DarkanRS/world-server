@@ -83,6 +83,7 @@ fabric.properties
 serverConfig.json
 worldConfig.json
 mainlog.txt
+world-server.jar
 /dumps/
 /bin/
 /logs/

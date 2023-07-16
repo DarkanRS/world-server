@@ -16,13 +16,13 @@
 //
 package com.rs.game.content;
 
-import java.util.HashMap;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.net.decoders.handlers.InventoryOptionsHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.HashMap;
 
 @PluginEventHandler
 public class Toolbelt {

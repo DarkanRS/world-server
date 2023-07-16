@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.crafting;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.content.skills.crafting.urns.CreateUnfUrnD;
 import com.rs.game.content.skills.crafting.urns.FireUrnD;
 import com.rs.game.content.skills.util.CreateActionD;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -43,7 +43,7 @@ public class PotteryCrafting  {
 	});
 
 	public static ObjectClickHandler handleOvens = new ObjectClickHandler(new Object[] { "Pottery Oven", "Pottery oven" }, e -> {
-		if (e.getPlayer().containsItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue
+		if (e.getPlayer().containsAnyItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue
 			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_PRODS, FIRED_PRODS, XP, 899, REQS, Constants.CRAFTING, 4));
 		else if (!e.getPlayer().startConversation(new FireUrnD(e.getPlayer())))
 			e.getPlayer().sendMessage("You don't have anything to fire.");

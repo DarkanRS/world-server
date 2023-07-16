@@ -16,28 +16,26 @@
 //
 package com.rs.game.content.quests.princealirescue;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class HassanPrinceAliRescueD extends Conversation {
-	Player p;
-	public final static int HASSAN = 923;
+	private final static int HASSAN = 923;
 
-	public HassanPrinceAliRescueD(Player p) {
-		super(p);
-		this.p = p;
+	public HassanPrinceAliRescueD(Player player) {
+		super(player);
 		addNPC(HASSAN, HeadE.HAPPY_TALKING, "Greetings I am Hassan, Chancellor to the Emir of Al- Kharid.");
 		addOptions("Choose an option:", new Options() {
 			@Override
 			public void create() {
-				if(p.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.NOT_STARTED)
+				if(player.getQuestManager().getStage(Quest.PRINCE_ALI_RESCUE) == PrinceAliRescue.NOT_STARTED)
 					option("Can I help you? You must need some help here in the desert.", new Dialogue()
 							.addNPC(HASSAN, HeadE.TALKING_ALOT, "I need the services of someone, yes. If you are interested, see the spymaster, Osman. I manage " +
 									"the finances here. Come to me when you need payment.")
@@ -46,7 +44,7 @@ public class HassanPrinceAliRescueD extends Conversation {
 								public void create() {
 									option("Yes.", new Dialogue()
 											.addNPC(HASSAN, HeadE.HAPPY_TALKING, "Speak to Osman outside the palace, he will give you more details...", ()->{
-												p.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.STARTED);
+												player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.STARTED);
 											})
 											.addPlayer(HeadE.HAPPY_TALKING, "Okay..."));
 									option("No.", new Dialogue());

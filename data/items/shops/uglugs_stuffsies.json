@@ -1,0 +1,101 @@
+{
+  "name": "Uglug's Stuffsies",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 4844,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 10927,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 1777,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 2876,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 2878,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4850,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 946,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 4773,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4778,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4783,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4788,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4793,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4798,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4803,
+        "amount": 0
+      }
+    },
+    {
+      "item": {
+        "id": 4827,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    2039
+  ]
+}

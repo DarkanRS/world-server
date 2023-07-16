@@ -1,24 +1,20 @@
 package com.rs.game.content.quests.blackknightsfortress;
 
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.HEARD_PLAN;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.NOT_STARTED;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.QUEST_COMPLETE;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.RUINED_CAULDRON;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.SIR_AMIK_VARZE;
-import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.STARTED;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.blackknightsfortress.BlackKnightsFortress.*;
+
 @PluginEventHandler
 public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 	private final int QUEST_START_CONVO = 0;
+	private final static int SIR_AMIK_VARZE = 608;
 
 	public SirAmikVarzeBlackKnightsFortressD(Player p) {
 		super(p);

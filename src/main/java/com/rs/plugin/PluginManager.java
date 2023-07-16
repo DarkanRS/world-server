@@ -16,19 +16,6 @@
 //
 package com.rs.plugin;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.game.content.skills.smithing.ArtisansWorkshop;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Logger;
@@ -37,6 +24,10 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
+
+import java.io.IOException;
+import java.lang.reflect.*;
+import java.util.*;
 
 public class PluginManager {
 
@@ -157,7 +148,7 @@ public class PluginManager {
 	}
 
 	public static void executeStartupHooks() {
-		STARTUP_HOOKS.sort((m1, m2) -> m1.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal() - m2.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal());
+		STARTUP_HOOKS.sort(Comparator.comparingInt(m -> m.getAnnotationsByType(ServerStartupEvent.class)[0].value().ordinal()));
 		for (Method m : STARTUP_HOOKS) {
 			long start = System.currentTimeMillis();
 			try {

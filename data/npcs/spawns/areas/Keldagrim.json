@@ -1,0 +1,110 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2892,
+      "y": 10212
+    },
+    "comment": "Randivor",
+    "npcId": 2156
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2863,
+      "y": 10222
+    },
+    "comment": "Assistant",
+    "npcId": 2166
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2906,
+      "y": 10217
+    },
+    "comment": "Kjut",
+    "npcId": 2198
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2840,
+      "y": 10128
+    },
+    "comment": "Dwarven Boatman",
+    "npcId": 2206
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2857,
+      "y": 10217
+    },
+    "comment": "Myndill",
+    "npcId": 2197
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2901,
+      "y": 10227
+    },
+    "comment": "Karl",
+    "npcId": 2195
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2887,
+      "y": 10212
+    },
+    "comment": "Hervi",
+    "npcId": 2157
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2896,
+      "y": 10220
+    },
+    "comment": "Ulifed",
+    "npcId": 2193
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2889,
+      "y": 10233
+    },
+    "comment": "Lava-flow miner",
+    "npcId": 13406
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2885,
+      "y": 10196
+    },
+    "comment": "Gulldamar",
+    "npcId": 2159
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2886,
+      "y": 10186
+    },
+    "comment": "Vermundi",
+    "npcId": 2162
+  },
+  {
+    "tile": {
+      "plane": 1,
+      "x": 2915,
+      "y": 10188
+    },
+    "comment": "Blandebir",
+    "npcId": 2321
+  }
+]

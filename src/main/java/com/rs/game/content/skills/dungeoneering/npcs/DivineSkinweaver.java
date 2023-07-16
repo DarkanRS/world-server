@@ -16,11 +16,8 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
@@ -28,7 +25,6 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -37,8 +33,12 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class DivineSkinweaver extends DungeonBoss {
 
@@ -61,7 +61,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 	private final List<DungeonSkeletonBoss> skeletons;
 	private int killedCount;
 
-	public DivineSkinweaver(int id, WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public DivineSkinweaver(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager, reference);
 		holeClosed = new boolean[5];
 		skeletons = new CopyOnWriteArrayList<>();
@@ -113,11 +113,11 @@ public final class DivineSkinweaver extends DungeonBoss {
 				int cbLevel = getManager().getCombatLevelMonster();
 				cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
 				if (skeleType == 0)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, Tile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MELEE.getNPCIds(), cbLevel), 0, Tile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 2)
-					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), cbLevel), 0, WorldTile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
+					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_RANGED.getNPCIds(), cbLevel), 0, Tile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				respawnDelay = 20;
 			}
 		}

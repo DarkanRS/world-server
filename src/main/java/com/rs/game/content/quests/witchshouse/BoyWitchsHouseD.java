@@ -16,28 +16,24 @@
 //
 package com.rs.game.content.quests.witchshouse;
 
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.BALL;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.BOY;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.FIND_BALL;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.NOT_STARTED;
-import static com.rs.game.content.quests.witchshouse.WitchsHouse.QUEST_COMPLETE;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.witchshouse.WitchsHouse.*;
+
 @PluginEventHandler
 public class BoyWitchsHouseD extends Conversation {
 
-	public BoyWitchsHouseD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.WITCHS_HOUSE)) {
+	public BoyWitchsHouseD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.WITCHS_HOUSE)) {
 		case NOT_STARTED ->{
 			addPlayer(HeadE.HAPPY_TALKING, "Hello young man.");
 			addSimple("*The boy sobs");
@@ -53,7 +49,7 @@ public class BoyWitchsHouseD extends Conversation {
 								public void create() {
 									option("Yes.", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll see what I can do.", () -> {
-												p.getQuestManager().setStage(Quest.WITCHS_HOUSE, FIND_BALL);
+												player.getQuestManager().setStage(Quest.WITCHS_HOUSE, FIND_BALL);
 											})
 											.addNPC(BOY, HeadE.CHILD_CALM_TALK, "Thanks mister!")
 											);
@@ -70,13 +66,13 @@ public class BoyWitchsHouseD extends Conversation {
 
 		}
 		case FIND_BALL -> {
-			if(p.getInventory().containsItem(BALL, 1)) {
+			if(player.getInventory().containsItem(BALL, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "Hi, I have got your ball back. It was MUCH harder than I thought it would be.");
 				addSimple("You give the ball back.");
 				addNPC(BOY, HeadE.CHEERFUL, "Thank you so much!");
 				addNext(() -> {
-					p.getInventory().removeItems(new Item(BALL, 1));
-					p.getQuestManager().completeQuest(Quest.WITCHS_HOUSE);
+					player.getInventory().removeItems(new Item(BALL, 1));
+					player.getQuestManager().completeQuest(Quest.WITCHS_HOUSE);
 				});
 			} else {
 				addNPC(BOY, HeadE.CHILD_HAPPY_TALK, "I can't wait to get my ball...");

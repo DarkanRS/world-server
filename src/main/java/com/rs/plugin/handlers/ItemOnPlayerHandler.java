@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.ItemOnPlayerEvent;
+
+import java.util.function.Consumer;
 
 public class ItemOnPlayerHandler extends PluginHandler<ItemOnPlayerEvent> {
 	private boolean checkDistance = true;

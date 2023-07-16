@@ -16,44 +16,51 @@
 //
 package com.rs.game.content.holidayevents.easter;
 
-import java.util.List;
-
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
-import com.rs.game.region.Region;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
+import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.List;
 
 @PluginEventHandler
 public class EasterEggSpawning {
 
-	static int eggsCount = 0;
-	static int eggsPerRegion = 50;
-	static int[] regionsToSpawn = { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
+	private static boolean ENABLED = false;
 
-	//@ServerStartupEvent
+	static int eggsCount = 0;
+	static int eggsPerChunk = 2;
+	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
+
+	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void initSpawning() {
-		for (int id : regionsToSpawn)
-			World.getRegion(id, true);
-		CoresManager.schedule(() -> {
+		if (!ENABLED)
+			return;
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
+		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromMinutes(30), () -> {
 			try {
 				spawnEggs();
 				World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
 				Logger.handle(EasterEggSpawning.class, "initSpawning", e);
 			}
-		}, Ticks.fromSeconds(30), Ticks.fromMinutes(30));
+		});
 	}
 
 
-	public static int countEggs(int regionId) {
+	public static int countEggs(int chunkId) {
 		eggsCount = 0;
-		List<GroundItem> itemSpawns = World.getRegion(regionId).getAllGroundItems();
+		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1961)
@@ -63,19 +70,19 @@ public class EasterEggSpawning {
 	}
 
 	public static void spawnEggs() {
-		for (int id : regionsToSpawn) {
-			Region r = World.getRegion(id);
-			int eggsNeeded = eggsPerRegion-countEggs(id);
+		for (int chunkId : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
+			Chunk r = ChunkManager.getChunk(chunkId);
+			int eggsNeeded = eggsPerChunk-countEggs(chunkId);
 			for (int i = 0; i < eggsNeeded; i++) {
-				int x = r.getBaseX()+Utils.random(64);
-				int y = r.getBaseY()+Utils.random(64);
-				WorldTile tile = WorldTile.of(x, y, 0);
+				int x = r.getBaseX()+Utils.random(8);
+				int y = r.getBaseY()+Utils.random(8);
+				Tile tile = Tile.of(x, y, 0);
 				while (!World.floorAndWallsFree(tile, 1)) {
-					x = r.getBaseX()+Utils.random(64);
-					y = r.getBaseY()+Utils.random(64);
-					tile = WorldTile.of(x, y, 0);
+					x = r.getBaseX()+Utils.random(8);
+					y = r.getBaseY()+Utils.random(8);
+					tile = Tile.of(x, y, 0);
 				}
-				World.addGroundItem(new Item(1961), WorldTile.of(x, y, 0));
+				World.addGroundItem(new Item(1961), Tile.of(x, y, 0));
 			}
 		}
 	}

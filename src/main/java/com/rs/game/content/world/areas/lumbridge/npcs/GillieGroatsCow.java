@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -15,7 +15,7 @@ public class GillieGroatsCow extends Conversation {
     //Identify Cow by ID
     private static int objId = 47721;
     //Identify Gillie by ID
-    private static int npcId = 3807;
+    private static final int npcId = 3807;
 
     public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] {objId}, e -> {
     	 if (e.getOption().equals("Milk")) {

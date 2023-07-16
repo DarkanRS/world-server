@@ -16,12 +16,12 @@
 //
 package com.rs.game.content.skills.crafting.urns;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum Urn {
 	CRACKED_SMELTING(20271, new Animation(6384), new Animation(4580), Constants.SMITHING, 4, 200, 14, 23.1),

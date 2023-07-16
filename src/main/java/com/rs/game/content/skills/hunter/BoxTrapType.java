@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.hunter;
 
+import com.rs.lib.game.Animation;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.lib.game.Animation;
 
 public enum BoxTrapType {
 

@@ -84,4 +84,14 @@ public class EquipAndRemoveItems  {
 					}
 				}	
 			});
+
+	public static ItemEquipHandler handleBloodNecklace = new ItemEquipHandler(new Object[] {
+		15834, 17291 },
+			e -> {
+				if(e.equip())
+					e.getPlayer().addEffect(Effect.BLOOD_NECKLACE, Integer.MAX_VALUE);
+				if(e.dequip())
+					e.getPlayer().removeEffect(Effect.BLOOD_NECKLACE);
+			}
+	);
 }

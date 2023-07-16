@@ -16,15 +16,18 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import java.util.Arrays;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.map.instance.Instance;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author mgi125, the almighty
@@ -60,7 +63,7 @@ public class GameArea {
 	/**
 	 * Contains base positions.
 	 */
-	private DynamicRegionReference region;
+	private Instance region;
 
 	public GameArea(int size) {
 		flags = new int[size][size];
@@ -121,64 +124,65 @@ public class GameArea {
 	public void create(Runnable callback) {
 		if (region != null)
 			throw new RuntimeException("Area already created.");
-		region = new DynamicRegionReference(flags.length, flags.length);
-		region.requestChunkBound(() -> {
-			for (int x = 0; x < flags.length; x++)
+		region = Instance.of(Helper.EXIT, flags.length, flags.length);
+		region.requestChunkBound().thenAccept(e -> {
+			List<CompletableFuture<Boolean>> futures = new ObjectArrayList<>();
+			for (int x = 0; x < flags.length; x++) {
 				for (int y = 0; y < flags.length; y++) {
 					int type = getType(x, y);
 					int rot = getRotation(x, y);
 					int tier = getTier(x, y);
 					int[] copy;
 					switch (type) {
-					case 0: // base pad space
-						if (tier == 0)
-							copy = RESERVED_1;
-						else if (tier == 1)
-							copy = RESERVED_2;
-						else if (tier == 2)
-							copy = RESERVED_3;
-						else
+						case 0: // base pad space
+							if (tier == 0)
+								copy = RESERVED_1;
+							else if (tier == 1)
+								copy = RESERVED_2;
+							else if (tier == 2)
+								copy = RESERVED_3;
+							else
+								copy = EMPTY;
+							break;
+						case 1:
+							copy = BASE;
+							break;
+						case 2:
 							copy = EMPTY;
-						break;
-					case 1:
-						copy = BASE;
-						break;
-					case 2:
-						copy = EMPTY;
-						break;
-					case 3:
-						copy = RIFT;
-						break;
-					case 4:
-						copy = WALL;
-						break;
-					case 5:
-						copy = FOG;
-						break;
-					case 6:
-						copy = ROCK;
-						break;
-					case 7:
-						copy = ALTAR;
-						break;
-					case 8:
-						copy = KILN;
-						break;
-					case 9:
-						copy = SKILL_ROCK;
-						break;
-					case 10:
-						copy = SKILL_TREE;
-						break;
-					case 11:
-						copy = SKILL_POOL;
-						break;
-					case 12:
-						copy = SKILL_SWARM;
-						break;
-					default:
-						copy = EMPTY;
-						break;
+							break;
+						case 3:
+							copy = RIFT;
+							break;
+						case 4:
+							copy = WALL;
+							break;
+						case 5:
+							copy = FOG;
+							break;
+						case 6:
+							copy = ROCK;
+							break;
+						case 7:
+							copy = ALTAR;
+							break;
+						case 8:
+							copy = KILN;
+							break;
+						case 9:
+							copy = SKILL_ROCK;
+							break;
+						case 10:
+							copy = SKILL_TREE;
+							break;
+						case 11:
+							copy = SKILL_POOL;
+							break;
+						case 12:
+							copy = SKILL_SWARM;
+							break;
+						default:
+							copy = EMPTY;
+							break;
 					}
 
 					if (type >= 9 && type <= 12 && tier > 0) {
@@ -188,27 +192,27 @@ public class GameArea {
 						copy = r;
 					} else if (type >= 9 && type <= 12 && tier <= 0)
 						copy = EMPTY;
-					region.copyChunk(x, y, 0, copy[0], copy[1], 0, rot, null);
+					final int fx = x, fy = y, fcopyx = copy[0], fcopyy = copy[1];
+					futures.add(region.copyChunk(fx, fy, 0, fcopyx, fcopyy, 0, rot));
 				}
+			}
+			futures.forEach(CompletableFuture::join);
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P1[0], getMinY() + Helper.BLUE_DOOR_P1[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P2[0], getMinY() + Helper.BLUE_DOOR_P2[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P3[0], getMinY() + Helper.BLUE_DOOR_P3[1], 0));
+			World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P4[0], getMinY() + Helper.BLUE_DOOR_P4[1], 0));
 
-			World.executeAfterLoadRegion(region.getRegionId(), () -> {
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P1[0], getMinY() + Helper.BLUE_DOOR_P1[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 1, getMinX() + Helper.BLUE_DOOR_P2[0], getMinY() + Helper.BLUE_DOOR_P2[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_1, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P3[0], getMinY() + Helper.BLUE_DOOR_P3[1], 0));
-				World.spawnObject(new GameObject(Helper.BLUE_DOOR_2, ObjectType.WALL_STRAIGHT, 2, getMinX() + Helper.BLUE_DOOR_P4[0], getMinY() + Helper.BLUE_DOOR_P4[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[1], 0));
+			World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[1], 0));
 
-				World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P1[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 3, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P2[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_1, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P3[1], 0));
-				World.spawnObject(new GameObject(Helper.RED_DOOR_2, ObjectType.WALL_STRAIGHT, 0, getMinX() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_DOOR_P4[1], 0));
+			int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
+			int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
 
-				int managerBlue = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
-				int managerRed = Helper.MANAGER_NPCS[Utils.random(Helper.MANAGER_NPCS.length)];
-
-				World.spawnNPC(managerBlue, WorldTile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				World.spawnNPC(managerRed, WorldTile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
-				callback.run();
-			});
+			World.spawnNPC(managerBlue, Tile.of(getMinX() + Helper.BLUE_MANAGER_P[0], getMinY() + Helper.BLUE_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+			World.spawnNPC(managerRed, Tile.of(getMinX() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[0], getMinY() + ((flags.length - 1) * 8) + Helper.RED_MANAGER_P[1], 0), -1, false, true).setRandomWalk(false);
+			callback.run();
 		});
 	}
 

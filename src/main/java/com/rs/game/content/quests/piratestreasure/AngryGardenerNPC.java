@@ -1,13 +1,13 @@
 package com.rs.game.content.quests.piratestreasure;
 
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.NPCDeathEvent;
@@ -16,14 +16,14 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class AngryGardenerNPC extends NPC {
 
-	public AngryGardenerNPC(int id, WorldTile tile, boolean spawned) {
+	public AngryGardenerNPC(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 	}
 
 	@Override
 	public void sendDeath(Entity source) {
-		if(source instanceof Player p)
-			p.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB(PiratesTreasure.KILLED_GARDENER_ATTR, true);
+		if(source instanceof Player player)
+			player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("KILLED_GARDENER", true);
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		resetWalkSteps();
 		removeTarget();

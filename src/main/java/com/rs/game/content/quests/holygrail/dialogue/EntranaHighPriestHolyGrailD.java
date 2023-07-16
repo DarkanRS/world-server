@@ -1,26 +1,26 @@
 package com.rs.game.content.quests.holygrail.dialogue;
 
-import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_ENTRANA;
-import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_MCGRUBOR;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_ENTRANA;
+import static com.rs.game.content.quests.holygrail.HolyGrail.GO_TO_MCGRUBOR;
+
 @PluginEventHandler
 public class EntranaHighPriestHolyGrailD extends Conversation {
 	private static final int NPC = 216;
 	static class CroneDialogue extends Conversation {
-		public CroneDialogue(Player p) {
-			super(p);
+		public CroneDialogue(Player player) {
+			super(player);
 			Dialogue croneQuestions = new Dialogue();
 			croneQuestions.addOptions("Choose an option:", new Options() {
 				@Override
@@ -57,7 +57,7 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello. I am in search of the Holy Grail.");
 				addNPC(NPC, HeadE.CALM_TALK, "The object of which you speak did once pass through holy Entrana. I know not where it is now however. " +
 						"Nor do I really care.", ()->{
-					for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+					for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 						if(npc.getId() == 217 && npc instanceof OwnedNPC crone && crone.getOwner() == p)
 							return;
 					new OwnedNPC(p, 217, p.getTile(), true);

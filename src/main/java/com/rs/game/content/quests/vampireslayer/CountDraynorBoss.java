@@ -17,21 +17,18 @@
 package com.rs.game.content.quests.vampireslayer;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -71,7 +68,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 	public boolean actuallyDead = false;
 
-	public CountDraynorBoss(Player owner, WorldTile tile) {
+	public CountDraynorBoss(Player owner, Tile tile) {
 		super(owner, COUNT_DRAYNOR_ID, tile, false);
 	}
 
@@ -89,7 +86,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 			@Override
 			public void run() {
-				if(World.getPlayersInRegion(getRegionId()).isEmpty())
+				if(World.getPlayersInChunkRange(getChunkId(), 2).isEmpty())
 					finish();
 				if(tick == 1)
 					setNextAnimation(new Animation(STUNNED));
@@ -171,10 +168,10 @@ public class CountDraynorBoss extends OwnedNPC {
 		GameObject coffin = World.getObject(e.getObject().getTile(), ObjectType.forId(10));
 		p.getMusicsManager().playSongAndUnlock(COUNTING_ON_YOU);
 
-        CountDraynorBoss countDraynor = new CountDraynorBoss(p, WorldTile.of(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
+        CountDraynorBoss countDraynor = new CountDraynorBoss(p, Tile.of(coffin.getX()+1, coffin.getY()+1, coffin.getPlane()));
 
 		countDraynor.setLocked(true);
-		countDraynor.faceTile(WorldTile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
+		countDraynor.faceTile(Tile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 		countDraynor.transformIntoNPC(266);
 
 		WorldTasks.schedule(new WorldTask() {
@@ -194,7 +191,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == 0)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 3) {
-					p.setNextWorldTile(WorldTile.of(3079, 9786, 0));
+					p.setNextTile(Tile.of(3079, 9786, 0));
 					p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-8, 3000);
 					p.getPackets().sendCameraLook(coffin.getTile().getXInScene(p.getSceneBaseChunkId()), coffin.getTile().getYInScene(p.getSceneBaseChunkId()), 300);
 				}
@@ -214,8 +211,7 @@ public class CountDraynorBoss extends OwnedNPC {
 					countDraynor.setNextAnimation(new Animation(AWAKEN));
 				}
 				if(tick == 9) {
-					p.setNextAnimation(new Animation(PUSHED_BACK));
-					p.setNextForceMovement(new ForceMovement(WorldTile.of(p.getX()-1, p.getY(), p.getPlane()), 1, Direction.EAST));
+					p.forceMove(Tile.of(p.getX()-1, p.getY(), p.getPlane()), PUSHED_BACK, 0, 30);
 				}
 				if(tick == 10) {
 					p.setNextAnimation(new Animation(ON_FLOOR));
@@ -223,9 +219,9 @@ public class CountDraynorBoss extends OwnedNPC {
 					p.getPackets().sendCameraLook(coffin.getTile().getXInScene(p.getSceneBaseChunkId()), coffin.getTile().getYInScene(p.getSceneBaseChunkId())-5, 50, 5, 0);
 				}
 				if(tick == 14)
-					countDraynor.faceTile(WorldTile.of(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
+					countDraynor.faceTile(Tile.of(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
 				if(tick == 16) {
-					countDraynor.setNextWorldTile(WorldTile.of(3082, 9776, 0));
+					countDraynor.setNextTile(Tile.of(3082, 9776, 0));
 					countDraynor.setNextAnimation(new Animation(SPAWN));
 				}
 
@@ -262,11 +258,11 @@ public class CountDraynorBoss extends OwnedNPC {
 	public static ItemOnNPCHandler hammerOnCountDraynor = new ItemOnNPCHandler(COUNT_DRAYNOR_ID, e -> {
 		if (e.getItem().getId() != STAKE_HAMMER && e.getItem().getId() != REGULAR_HAMMER)
 			return;
-		if (!(e.getNPC() instanceof CountDraynorBoss boss) || boss.isLocked()) {
-			e.getPlayer().sendMessage("I must weaken him first");
+		if ((e.getNPC() instanceof CountDraynorBoss boss) && boss.isLocked()) {
+			boss.die(e.getPlayer());
 			return;
 		}
-		boss.die(e.getPlayer());
+		e.getPlayer().sendMessage("I must weaken him first");
 	});
 
 }

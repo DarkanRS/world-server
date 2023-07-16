@@ -1,24 +1,19 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-import static com.rs.game.content.quests.lostcity.LostCity.WIZARD;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.lostcity.LostCity.*;
+
 @PluginEventHandler
 public class WizardLostCityD extends Conversation {
-	public WizardLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public WizardLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Why are all of you standing around here?");
 			addNPC(WIZARD, HeadE.LAUGH, "Hahaha, you dare talk to a mighty wizard such as myself? I bet you can't even cast Air Strike yet, amateur!");

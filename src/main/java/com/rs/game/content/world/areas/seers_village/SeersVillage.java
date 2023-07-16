@@ -16,54 +16,37 @@
 //
 package com.rs.game.content.world.areas.seers_village;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.holygrail.HolyGrail;
 import com.rs.game.content.quests.holygrail.dialogue.KingArthurHolyGrailD;
 import com.rs.game.content.quests.holygrail.dialogue.MerlinHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirBedivereHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirGawainHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirKayHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirLancelotHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirLucanHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirPalomedesHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirPelleasHolyGrailD;
-import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.SirTristamHolyGrailD;
+import com.rs.game.content.quests.holygrail.dialogue.knightsroundtable.*;
 import com.rs.game.content.quests.merlinscrystal.KingArthurMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirBedivereMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirGawainMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirKayMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirLancelotMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirLucanMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirPalomedesMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirPelleasMerlinsCrystalD;
-import com.rs.game.content.quests.merlinscrystal.knightsroundtable.SirTristramMerlinsCrystalD;
+import com.rs.game.content.quests.merlinscrystal.knightsroundtable.*;
 import com.rs.game.content.quests.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.quests.scorpioncatcher.SeerScorpionCatcherD;
 import com.rs.game.content.quests.scorpioncatcher.ThormacScorpionCatcherD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @PluginEventHandler
 public class SeersVillage {
@@ -98,32 +81,7 @@ public class SeersVillage {
 	public static ObjectClickHandler grubersWoodFence = new ObjectClickHandler(new Object[] { 51 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		p.lock(3);
-		if(p.getX() < obj.getX()) {
-			WorldTasks.scheduleTimer(0, tick -> {
-				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(WorldTile.of(2662, 3500, 0), 1, Direction.EAST));
-					p.setNextAnimation(new Animation(3844));
-				}
-				if (tick == 2) {
-					p.setNextWorldTile(WorldTile.of(2662, 3500, 0));
-					return false;
-				}
-				return true;
-			});
-		} else {
-			WorldTasks.scheduleTimer(0, tick -> {
-				if (tick == 0) {
-					p.setNextForceMovement(new ForceMovement(WorldTile.of(2661, 3500, 0), 1, Direction.WEST));
-					p.setNextAnimation(new Animation(3844));
-				}
-				if (tick == 2) {
-					p.setNextWorldTile(WorldTile.of(2661, 3500, 0));
-					return false;
-				}
-				return true;
-			});
-		}
+		p.forceMove(p.getX() < obj.getX() ? Tile.of(2662, 3500, 0) : Tile.of(2661, 3500, 0), 3844, 25, 75);
 	});
 
 	public static ObjectClickHandler grubersShedDoor = new ObjectClickHandler(new Object[] { 99 }, e -> {

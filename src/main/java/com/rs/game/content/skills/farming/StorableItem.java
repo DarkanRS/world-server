@@ -16,11 +16,11 @@
 //
 package com.rs.game.content.skills.farming;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum StorableItem {
 	RAKE(1, 5341) {

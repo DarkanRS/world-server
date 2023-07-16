@@ -1,29 +1,29 @@
 package com.rs.game.content.quests.familycrest.dialogues;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_BOOT;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
+import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_BOOT;
+
 @PluginEventHandler
 public class BootFamilyCrestD extends Conversation {
 	private static final int NPC = 665;
-	public BootFamilyCrestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FAMILY_CREST)) {
+	public BootFamilyCrestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
 		case TALK_TO_BOOT, GIVE_AVAN_JEWLERY -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello tall person");
 			addPlayer(HeadE.HAPPY_TALKING, "Hello. I'm in search of very high quality gold");
 			addNPC(NPC, HeadE.CALM_TALK, "High quality gold eh? Hmmm... Well, the very best quality gold that I know of can be found in an underground ruin near Witchaven.");
 			addNPC(NPC, HeadE.CALM_TALK, "I don't believe it's exactly easy to get to though...", ()->{
-				p.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY);
+				player.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY);
 			});
 		}
 		default -> {

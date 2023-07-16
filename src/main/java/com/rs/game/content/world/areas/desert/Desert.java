@@ -16,13 +16,13 @@
 //
 package com.rs.game.content.world.areas.desert;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.LoginHandler;
@@ -34,18 +34,18 @@ import com.rs.utils.shop.ShopsHandler;
 public class Desert  {
 
 	private enum CarpetLocation {
-		SHANTAY_PASS(2291, WorldTile.of(3308, 3109, 0)),
-		BEDABIN_CAMP(2292, WorldTile.of(3180, 3045, 0)),
-		S_POLLNIVNEACH(2293, WorldTile.of(3351, 2942, 0)),
-		N_POLLNIVNEACH(2294, WorldTile.of(3349, 3003, 0)),
-		UZER(2295, WorldTile.of(3469, 3113, 0)),
-		SOPHANEM(2297, WorldTile.of(3285, 2813, 0)),
-		MENAPHOS(2299, WorldTile.of(3245, 2813, 0)),
-		NARDAH(3020, WorldTile.of(3401, 2916, 0)),
-		MONKEY_COLONY(13237, WorldTile.of(3227, 2988, 0));
+		SHANTAY_PASS(2291, Tile.of(3308, 3109, 0)),
+		BEDABIN_CAMP(2292, Tile.of(3180, 3045, 0)),
+		S_POLLNIVNEACH(2293, Tile.of(3351, 2942, 0)),
+		N_POLLNIVNEACH(2294, Tile.of(3349, 3003, 0)),
+		UZER(2295, Tile.of(3469, 3113, 0)),
+		SOPHANEM(2297, Tile.of(3285, 2813, 0)),
+		MENAPHOS(2299, Tile.of(3245, 2813, 0)),
+		NARDAH(3020, Tile.of(3401, 2916, 0)),
+		MONKEY_COLONY(13237, Tile.of(3227, 2988, 0));
 
 		private int npcId;
-		private WorldTile tile;
+		private Tile tile;
 
 		public static CarpetLocation forId(int npcId) {
 			for (CarpetLocation loc : CarpetLocation.values())
@@ -54,7 +54,7 @@ public class Desert  {
 			return null;
 		}
 
-		private CarpetLocation(int npcId, WorldTile tile) {
+		private CarpetLocation(int npcId, Tile tile) {
 			this.npcId = npcId;
 			this.tile = tile;
 		}
@@ -65,10 +65,10 @@ public class Desert  {
 		switch(loc) {
 		case SHANTAY_PASS:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Pollnivneach", () -> e.getPlayer().setNextWorldTile(CarpetLocation.N_POLLNIVNEACH.tile));
-				ops.add("Bedabin Camp", () -> e.getPlayer().setNextWorldTile(CarpetLocation.BEDABIN_CAMP.tile));
-				ops.add("Uzer", () -> e.getPlayer().setNextWorldTile(CarpetLocation.UZER.tile));
-				ops.add("Monkey Colony", () -> e.getPlayer().setNextWorldTile(CarpetLocation.MONKEY_COLONY.tile));
+				ops.add("Pollnivneach", () -> e.getPlayer().setNextTile(CarpetLocation.N_POLLNIVNEACH.tile));
+				ops.add("Bedabin Camp", () -> e.getPlayer().setNextTile(CarpetLocation.BEDABIN_CAMP.tile));
+				ops.add("Uzer", () -> e.getPlayer().setNextTile(CarpetLocation.UZER.tile));
+				ops.add("Monkey Colony", () -> e.getPlayer().setNextTile(CarpetLocation.MONKEY_COLONY.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -77,15 +77,15 @@ public class Desert  {
 		case BEDABIN_CAMP:
 		case MONKEY_COLONY:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Shantay Pass", () -> e.getPlayer().setNextWorldTile(CarpetLocation.SHANTAY_PASS.tile));
+				ops.add("Shantay Pass", () -> e.getPlayer().setNextTile(CarpetLocation.SHANTAY_PASS.tile));
 				ops.add("Nevermind");
 			});
 			break;
 		case S_POLLNIVNEACH:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Nardah", () -> e.getPlayer().setNextWorldTile(CarpetLocation.NARDAH.tile));
-				ops.add("Sophanem", () -> e.getPlayer().setNextWorldTile(CarpetLocation.SOPHANEM.tile));
-				ops.add("Menaphos", () -> e.getPlayer().setNextWorldTile(CarpetLocation.MENAPHOS.tile));
+				ops.add("Nardah", () -> e.getPlayer().setNextTile(CarpetLocation.NARDAH.tile));
+				ops.add("Sophanem", () -> e.getPlayer().setNextTile(CarpetLocation.SOPHANEM.tile));
+				ops.add("Menaphos", () -> e.getPlayer().setNextTile(CarpetLocation.MENAPHOS.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -93,7 +93,7 @@ public class Desert  {
 		case SOPHANEM:
 		case MENAPHOS:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Pollnivneach", () -> e.getPlayer().setNextWorldTile(CarpetLocation.S_POLLNIVNEACH.tile));
+				ops.add("Pollnivneach", () -> e.getPlayer().setNextTile(CarpetLocation.S_POLLNIVNEACH.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -104,9 +104,25 @@ public class Desert  {
 
 	public static ObjectClickHandler handleSpiritWaterfall = new ObjectClickHandler(new Object[] { 10417, 63173 }, e -> {
 		if (e.getObjectId() == 63173)
-			e.getPlayer().useStairs(WorldTile.of(3348, 9535, 0));
+			e.getPlayer().useStairs(Tile.of(3348, 9535, 0));
 		else
-			e.getPlayer().useStairs(WorldTile.of(3370, 3129, 0));
+			e.getPlayer().useStairs(Tile.of(3370, 3129, 0));
+	});
+
+	public static ObjectClickHandler handleSophBankEntrance = new ObjectClickHandler(new Object[] { 20275 }, e -> {
+		e.getPlayer().useStairs(Tile.of(2765, 5131, 0));
+	});
+
+	public static ObjectClickHandler handleSophBankExit = new ObjectClickHandler(new Object[] { 20280 }, e -> {
+		e.getPlayer().useStairs(Tile.of(3315, 2796, 0));
+	});
+
+	public static ObjectClickHandler handleSophDungEntrance = new ObjectClickHandler(new Object[] { 20340 }, e -> {
+		e.getPlayer().useStairs(Tile.of(3286, 9273, 0));
+	});
+
+	public static ObjectClickHandler handleSophDungExit = new ObjectClickHandler(new Object[] { 20284 }, e -> {
+		e.getPlayer().useStairs(Tile.of(2766, 5131, 0));
 	});
 
 	public static LoginHandler unlockMonkeyColonyRugMerchant = new LoginHandler(e -> {
@@ -124,11 +140,11 @@ public class Desert  {
 	});
 
 	public static ObjectClickHandler handleEnterTTMine = new ObjectClickHandler(new Object[] { 2675, 2676 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(3279, 9427, 0));
+		e.getPlayer().useStairs(Tile.of(3279, 9427, 0));
 	});
 
 	public static ObjectClickHandler handleExitTTMine = new ObjectClickHandler(new Object[] { 2690, 2691 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(3301, 3036, 0));
+		e.getPlayer().useStairs(Tile.of(3301, 3036, 0));
 	});
 
 	public static NPCClickHandler handleBanditBartender = new NPCClickHandler(new Object[] { 1921 }, e -> {
@@ -192,12 +208,12 @@ public class Desert  {
 	});
 
 	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(3233, 9310, 0));
+		e.getPlayer().setNextTile(Tile.of(3233, 9310, 0));
 	});
 
 	public static ObjectClickHandler handlePyramidSarcophagi = new ObjectClickHandler(new Object[] { 6516 }, e -> {
 		if (e.getObject().getTile().isAt(3233, 9309))
-			e.getPlayer().setNextWorldTile(WorldTile.of(3233, 2887, 0));
+			e.getPlayer().setNextTile(Tile.of(3233, 2887, 0));
 		else
 			e.getPlayer().sendMessage("You search the sarcophagus but find nothing.");
 	});

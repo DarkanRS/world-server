@@ -16,16 +16,16 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 @PluginEventHandler
 public class BookShieldOfArrav {
-	final static int BOOKINTERFACE = 937;//interface
-	final static int LEFTARROWCOMP = 66;
-	final static int RIGHTARROWCOMP = 67;
+	private final static int BOOKINTERFACE = 937;//interface
+	private final static int LEFTARROWCOMP = 66;
+	private final static int RIGHTARROWCOMP = 67;
 
 
 	public static void openBook(Player p) {

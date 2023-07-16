@@ -16,20 +16,16 @@
 //
 package com.rs.game.content.minigames.fightcaves.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
+
+import java.util.List;
 
 public class FightCavesNPC extends NPC {
 
-	public FightCavesNPC(int id, WorldTile tile) {
+	public FightCavesNPC(int id, Tile tile) {
 		super(id, tile, true);
 		setForceMultiArea(true);
 		setIgnoreDocile(true);
@@ -44,16 +40,7 @@ public class FightCavesNPC extends NPC {
 
 	@Override
 	public List<Entity> getPossibleTargets() {
-		List<Entity> possibleTarget = new ArrayList<>(1);
-		Set<Integer> playerIndexes = World.getRegion(getRegionId()).getPlayerIndexes();
-		if (playerIndexes != null)
-			for (int npcIndex : playerIndexes) {
-				Player player = World.getPlayers().get(npcIndex);
-				if (player == null || player.isDead() || player.hasFinished() || !player.isRunning())
-					continue;
-				possibleTarget.add(player);
-			}
-		return possibleTarget;
+		return queryNearbyPlayersByTileRangeAsEntityList(64, player -> !player.isDead());
 	}
 
 }

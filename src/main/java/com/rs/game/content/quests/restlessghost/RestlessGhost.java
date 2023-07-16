@@ -16,17 +16,18 @@
 //
 package com.rs.game.content.quests.restlessghost;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.RESTLESS_GHOST)
 @PluginEventHandler
@@ -40,7 +41,7 @@ public class RestlessGhost extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 
 		switch(stage) {
@@ -82,7 +83,28 @@ public class RestlessGhost extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.PRAYER, 1125);
-		getQuest().sendQuestCompleteInterface(player, 553, "1,125 Prayer XP");
+		sendQuestCompleteInterface(player, 553);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Father Aereck in the church east of Lumbridge Castle.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Armour to survive a level 7 skeleton warlock attack.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Facing a level 7 skeleton warlock.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "125 Prayer XP<br>" +
+				"Five ancient bones that each give 200 Prayer XP";
 	}
 
 	private static boolean hasSkull(Player player) {

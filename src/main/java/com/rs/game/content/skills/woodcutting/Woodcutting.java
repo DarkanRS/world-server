@@ -18,20 +18,21 @@ package com.rs.game.content.skills.woodcutting;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.summoning.Familiar;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -134,14 +135,14 @@ public class Woodcutting extends Action {
 				@Override
 				public void fellTree() {
 					e.getPlayer().getVars().setVarBit(9776, 2);
-					CoresManager.schedule(() -> {
+					WorldTasks.schedule(Ticks.fromMinutes(2), () -> {
 						try {
 							if (e.getPlayer() != null && !e.getPlayer().hasFinished())
 								e.getPlayer().getVars().setVarBit(9776, 1);
 						} catch (Throwable e1) {
 							Logger.handle(Woodcutting.class, "handleBlisterwood", e1);
 						}
-					}, Ticks.fromMinutes(2));
+					});
 				}
 
 				@Override
@@ -255,7 +256,7 @@ public class Woodcutting extends Action {
 				player.incrementCount("Choking ivy chopped");
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
@@ -266,7 +267,7 @@ public class Woodcutting extends Action {
 			}
 			if (Utils.random(256) == 0) {
 				for (Item rew : DropTable.calculateDrops(player, DropSets.getDropSet("nest_drop")))
-					World.addGroundItem(rew, WorldTile.of(player.getTile()), player, true, 30);
+					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			if (type.getLogsId() != null) {
@@ -302,7 +303,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
 	}
 
 	@Override

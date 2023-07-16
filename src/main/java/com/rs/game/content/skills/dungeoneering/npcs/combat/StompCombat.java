@@ -29,7 +29,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -56,8 +56,8 @@ public class StompCombat extends CombatScript {
 		// 3 - 0%
 
 		if (stomp.getStage() > 1 && Utils.random(10) == 0) {
-			final WorldTile tile = WorldTile.of(target.getTile());
-			World.sendSpotAnim(npc, new SpotAnim(2400), tile);
+			final Tile tile = Tile.of(target.getTile());
+			World.sendSpotAnim(tile, new SpotAnim(2400));
 			WorldTasks.schedule(new WorldTask() {
 
 				@Override

@@ -21,7 +21,6 @@ import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -34,11 +33,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -236,7 +231,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile tile) {
+	public boolean processMagicTeleport(Tile tile) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
@@ -535,23 +530,9 @@ public class StealingCreationController extends Controller {
 				yExtra -= totalDistance;
 				direction = Direction.SOUTH;
 			}
-			final WorldTile toTile = WorldTile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
-			ForceMovement nextForceMovement;
-			if (isWall)
-				nextForceMovement = new ForceMovement(toTile, 2, direction);
-			else
-				nextForceMovement = new ForceMovement(player.getTile(), 0, toTile, 2, direction);
-			player.setNextForceMovement(nextForceMovement);
-			player.setNextAnimation(new Animation(object.getId() == 39602 ? 6132 : 10590));
-			final Direction finalDirection = direction;
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					player.setFaceAngle(WorldUtil.getAngleTo(finalDirection));
-					player.setNextWorldTile(toTile);
-				}
-			}, 1);
+			final Tile toTile = Tile.of(player.getX() + xExtra, player.getY() + yExtra, player.getPlane());
+			final Direction finalDir = direction;
+			player.forceMove(toTile, object.getId() == 39602 ? 6132 : 10590, 5, 60, () -> player.setFaceAngle(WorldUtil.getAngleTo(finalDir)));
 		} else {
 			final String name = object.getDefinitions().getName().toLowerCase();
 			final int clayQuality = Integer.parseInt(name.substring(name.indexOf("(class")).replace("(class ", "").replace(")", "")) - 1;
@@ -591,7 +572,7 @@ public class StealingCreationController extends Controller {
 					if (game.isEmpty(flagX, flagY) || player.getInventory().getFreeSlots() == 0)
 						return false;
 					player.setNextAnimation(bestItem != null ? new Animation(skill.getBaseAnimation() + itemTier) : new Animation(10602));
-					player.setNextFaceWorldTile(object.getTile());
+					player.setNextFaceTile(object.getTile());
 					// player.getInventory().addItem(new Item(Helper.SACRED_CLAY[clayQuality], 1));
 
 					return true;
@@ -815,12 +796,10 @@ public class StealingCreationController extends Controller {
 					return;
 				}
 				if (step == 0) {
-					WorldTile fromTile = WorldTile.of(p.getX(), p.getY(), p.getPlane());
-					WorldTile faceTile = Helper.getFaceTile(o, p);
+					Tile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
-					p.setNextWorldTile(faceTile);
-					p.setNextForceMovement(new ForceMovement(fromTile, 0, faceTile, 1, Helper.getFaceDirection(faceTile, p)));
-					p.setNextAnimation(new Animation(10584));
+					p.setNextTile(faceTile);
+					p.forceMove(faceTile, 10584, 5, 30);
 					p.setNextSpotAnim(new SpotAnim(red ? 1871 : 1870));
 					step++;
 				} else if (step == 1) {
@@ -856,8 +835,8 @@ public class StealingCreationController extends Controller {
 						player.sendMessage("You have been killed by " + killer.getDisplayName());
 					}
 					player.getEquipment().deleteSlot(Equipment.CAPE);
-					player.sendItemsOnDeath(killer, true);
-					player.setNextWorldTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
+					player.sendPVEItemsOnDeath(killer, true);
+					player.setNextTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();
 					player.reset();
 					if (score != null) {

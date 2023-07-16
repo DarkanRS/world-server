@@ -26,7 +26,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
@@ -49,7 +49,7 @@ public class GravecreeperCombat extends CombatScript {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					boss.createBurnTiles(WorldTile.of(boss.getTile()));
+					boss.createBurnTiles(Tile.of(boss.getTile()));
 				}
 			}, 1);
 			boss.setSpecialDelay(World.getServerTicks() + Gravecreeper.BURN_DELAY);

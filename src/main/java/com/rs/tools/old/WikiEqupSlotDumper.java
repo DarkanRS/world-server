@@ -16,15 +16,15 @@
 //
 package com.rs.tools.old;
 
+import com.rs.lib.game.Item;
+import com.rs.lib.util.Utils;
+import com.rs.tools.old.WikiEqupSlotDumper.EquipSlot.SlotType;
+
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.rs.lib.game.Item;
-import com.rs.lib.util.Utils;
-import com.rs.tools.old.WikiEqupSlotDumper.EquipSlot.SlotType;
 
 public class WikiEqupSlotDumper {
 

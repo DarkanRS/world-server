@@ -16,15 +16,13 @@
 //
 package com.rs.game.content.quests.gertrudescat;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.SimpleStatement;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -34,6 +32,9 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.GERTRUDES_CAT)
 @PluginEventHandler
@@ -52,7 +53,7 @@ public class GertrudesCat extends QuestOutline {
 	 * based on the stage the player is on.
 	 */
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case 0:
@@ -120,7 +121,31 @@ public class GertrudesCat extends QuestOutline {
 		player.getInventory().addItem(1555, 1);
 		player.getInventory().addItem(1897, 1);
 		player.getInventory().addItem(2003, 1);
-		getQuest().sendQuestCompleteInterface(player, 1555, "A kitten!", "1525 Cooking XP", "The ability to raise cats");
+		sendQuestCompleteInterface(player, 1555);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Gertrude in her house west of Varrock.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "1,525 Cooking XP<br>" +
+				"Chocolate cake<br>" +
+				"Bowl of stew<br>" +
+				"Kitten(!)<br>" +
+				"Ability to raise cats";
 	}
 
 	/**

@@ -16,9 +16,9 @@
 //
 package com.rs.game.content.skills.crafting.urns;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.impl.MakeXActionD;
-import com.rs.game.engine.dialogue.impl.MakeXItem;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.impl.MakeXActionD;
+import com.rs.engine.dialogue.impl.MakeXItem;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;

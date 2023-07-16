@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.quests.shieldofarrav;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 
 public class CharlieTheTrampArravD extends Conversation {
-	int CHARLIE = 641;
+	private int CHARLIE = 641;
 
 	public CharlieTheTrampArravD(Player p) {
 		super(p);

@@ -16,7 +16,6 @@
 //
 package com.rs.game.content.bosses.godwars.armadyl;
 
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
@@ -24,6 +23,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.pathing.Direction;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
@@ -53,14 +53,14 @@ public class KreeArraCombat extends CombatScript {
 			} else {
 				WorldProjectile p = World.sendProjectile(npc, t, 1197, 60, 32, 50, 1, 0, 0);
 				delayHit(npc, p.getTaskDelay(), t, getRangeHit(npc, getMaxHit(npc, 720, AttackStyle.RANGE, t)));
-				CoresManager.schedule(() -> {
+				WorldTasks.schedule(p.getTaskDelay(), () -> {
 					Direction dir = WorldUtil.getDirectionTo(npc, target);
 					if (dir != null)
 						if (World.checkWalkStep(target.getTile(), dir, target.getSize())) {
 							target.resetWalkSteps();
-							target.setNextWorldTile(target.transform(dir.getDx(), dir.getDy()));
+							target.setNextTile(target.transform(dir.getDx(), dir.getDy()));
 						}
-				}, p.getTaskDelay());
+				});
 			}
 		return npc.getAttackSpeed();
 	}

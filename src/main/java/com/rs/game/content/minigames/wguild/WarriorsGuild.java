@@ -17,6 +17,10 @@
 package com.rs.game.content.minigames.wguild;
 
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.game.World;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.AttackType;
@@ -25,10 +29,6 @@ import com.rs.game.content.combat.XPType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.ShotputD;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.NPCStatement;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -45,7 +45,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 
@@ -87,18 +87,18 @@ public class WarriorsGuild extends Controller {
 	public static final int[][] ARMOUR_SETS = { { 1155, 1117, 1075 }, { 1153, 1115, 1067 }, { 1157, 1119, 1069 }, { 1165, 1125, 1077 }, { 1159, 1121, 1071 }, { 1161, 1123, 1073 }, { 1163, 1127, 1079 } };
 	private static final String[] ARMOUR_TYPE = { "Bronze", "Iron", "Steel", "Black", "Mithril", "Adamant", "Rune" };
 
-	private static final WorldTile[] DUMMY_LOCATIONS = { WorldTile.of(2860, 3549, 0), WorldTile.of(2860, 3547, 0), WorldTile.of(2859, 3545, 0), WorldTile.of(2857, 3545, 0), WorldTile.of(2855, 3546, 0), WorldTile.of(2855, 3548, 0), WorldTile.of(2856, 3550, 0), WorldTile.of(2858, 3550, 0) };
+	private static final Tile[] DUMMY_LOCATIONS = { Tile.of(2860, 3549, 0), Tile.of(2860, 3547, 0), Tile.of(2859, 3545, 0), Tile.of(2857, 3545, 0), Tile.of(2855, 3546, 0), Tile.of(2855, 3548, 0), Tile.of(2856, 3550, 0), Tile.of(2858, 3550, 0) };
 	private static final int[] DUMMY_ROTATIONS = { 1, 1, 2, 2, 3, 3, 0, 0 };
 
-	private static final WorldTile CATAPULT_TARGET = WorldTile.of(2842, 3541, 1);
-	private static final NPC CATAPULT_PROJECTILE_BASE = new NPC(1957, WorldTile.of(2842, 3550, 1));
+	private static final Tile CATAPULT_TARGET = Tile.of(2842, 3541, 1);
+	private static final NPC CATAPULT_PROJECTILE_BASE = new NPC(1957, Tile.of(2842, 3550, 1));
 	private static final Animation[] DEFENSIVE_ANIMATIONS = { new Animation(4169), new Animation(4168), new Animation(4171), new Animation(4170) };
 	private static final GameObject CATAPULT = new GameObject(15616, ObjectType.SCENERY_INTERACT, 0, 2840, 3548, 1);
 
-	private static final WorldTile SHOTPUT_FACE_18LB = WorldTile.of(2876, 3549, 1), SHOTPUT_FACE_22LB = WorldTile.of(2876, 3543, 1);
+	private static final Tile SHOTPUT_FACE_18LB = Tile.of(2876, 3549, 1), SHOTPUT_FACE_22LB = Tile.of(2876, 3543, 1);
 
 	public static final int[] DEFENDERS = { 20072, 8850, 8849, 8848, 8847, 8846, 8845, 8844 };
-	public static final WorldTile CYCLOPS_LOBBY = WorldTile.of(2843, 3535, 2);
+	public static final Tile CYCLOPS_LOBBY = Tile.of(2843, 3535, 2);
 
 	public static final int STRENGTH = 0, DEFENCE = 1, ATTACK = 2, COMBAT = 3, BARRELS = 4, ALL = 5;
 
@@ -252,7 +252,7 @@ public class WarriorsGuild extends Controller {
 				player.simpleDialogue("You must have both your hands and head free to balance kegs.");
 			return false;
 		} else if (object.getId() == 66599 || object.getId() == 66601) {
-			player.setNextFaceWorldTile(CYCLOPS_LOBBY);
+			player.setNextFaceTile(CYCLOPS_LOBBY);
 			boolean withinArea = player.getX() == object.getX();
 			if (!withinArea) {
 				Doors.handleDoubleDoor(player, object);
@@ -426,9 +426,9 @@ public class WarriorsGuild extends Controller {
 					player.sendMessage("You don't have enough points to complete this option.");
 					return false;
 				}
-				if (World.getSpawnedObject(WorldTile.of(2846, 3535, 2)) != null)
+				if (World.getSpawnedObject(Tile.of(2846, 3535, 2)) != null)
 					return false;
-				Doors.handleDoubleDoor(player, World.getObject(WorldTile.of(2846, 3535, 2)));
+				Doors.handleDoubleDoor(player, World.getObject(Tile.of(2846, 3535, 2)));
 				player.closeInterfaces();
 				inCyclopse = true;
 			}
@@ -510,7 +510,7 @@ public class WarriorsGuild extends Controller {
 
 	public void prepareShotput(final byte stage, final boolean is18LB) {
 		player.lock(7);
-		player.setNextFaceWorldTile(is18LB ? SHOTPUT_FACE_18LB : SHOTPUT_FACE_22LB);
+		player.setNextFaceTile(is18LB ? SHOTPUT_FACE_18LB : SHOTPUT_FACE_22LB);
 		if (stage == 0 || stage == 2)
 			player.sendMessage("You take a deep breath and prepare yourself.");
 		else if (stage == 1)
@@ -531,7 +531,7 @@ public class WarriorsGuild extends Controller {
 				int distance = Utils.random(1, (player.getSkills().getLevel(Constants.STRENGTH) / 10) + (is18LB ? 5 : 3));
 
 				if (ticks == 3) {
-					WorldTile tile = WorldTile.of(player.getX() + distance, player.getY(), 1);
+					Tile tile = Tile.of(player.getX() + distance, player.getY(), 1);
 					World.sendProjectile(player, tile, 690, 50, 0, 30, 1, 15, 0);
 				} else if (ticks == ((distance / 2) + 4)) {
 					player.getSkills().addXp(Constants.STRENGTH, distance);

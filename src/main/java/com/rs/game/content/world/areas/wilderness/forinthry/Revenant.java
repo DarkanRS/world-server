@@ -16,15 +16,12 @@
 //
 package com.rs.game.content.world.areas.wilderness.forinthry;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
@@ -33,10 +30,13 @@ import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Revenant extends NPC {
 
-	public Revenant(int id, WorldTile tile, boolean spawned) {
+	public Revenant(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setForceAggroDistance(4);
 	}

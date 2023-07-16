@@ -16,20 +16,14 @@
 //
 package com.rs.game.content.quests.ernestthechicken;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
@@ -38,13 +32,15 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemAddedToInventoryHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
+import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(Quest.ERNEST_CHICKEN)
 @PluginEventHandler
@@ -71,7 +67,7 @@ public class ErnestTheChicken extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -120,7 +116,29 @@ public class ErnestTheChicken extends QuestOutline {
 		player.getInventory().addCoins(3000);
 		player.getInventory().addItem(new Item(1945, 10), true);
 		player.getInventory().addItem(new Item(314, 300), true);
-		getQuest().sendQuestCompleteInterface(player, 314, "3,000 coins", "10 eggs", "300 feathers");
+		sendQuestCompleteInterface(player, 314);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Veronica outside Draynor Manor.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None, but watch out for those trees in the manor grounds.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "3,000 coins<br>" +
+				"10 eggs<br>" +
+				"300 feathers";
 	}
 
 	public static ObjectClickHandler handleManorFrontDoor = new ObjectClickHandler(new Object[] { 47424, 47421 }, e -> {
@@ -254,7 +272,7 @@ public class ErnestTheChicken extends QuestOutline {
 
 	public static ItemAddedToInventoryHandler handleRubberTubePickup = new ItemAddedToInventoryHandler(RUBBER_TUBE, e -> {
 		Player p = e.getPlayer();
-		List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+		List<NPC> npcs = World.getNPCsInChunkRange(p.getChunkId(), 1);
 		for(NPC npc : npcs)
 			if(npc.getId() == 3291)
 				npc.setTarget(p);
@@ -262,14 +280,14 @@ public class ErnestTheChicken extends QuestOutline {
 
 	public static ObjectClickHandler handleDraynorManorLadders = new ObjectClickHandler(new Object[] { 47574, 47575, 133, 32015 }, e -> {
 		GameObject obj = e.getObject();
-		if(obj.getTile().matches(WorldTile.of(3105, 3363, 2)))//To 2nd floor from professor
-			e.getPlayer().useLadder(WorldTile.of(3105, 3364, 1));
-		if(obj.getTile().matches(WorldTile.of(3105, 3363, 1)))//to 3rd floor to professor
-			e.getPlayer().useLadder(WorldTile.of(3105, 3362, 2));
-		if(obj.getTile().matches(WorldTile.of(3092, 3362, 0)))//To basement from 1st floor
-			e.getPlayer().useLadder(WorldTile.of(3117, 9753, 0));
-		if(obj.getTile().matches(WorldTile.of(3117, 9754, 0)))//To 1st floor from basement
-			e.getPlayer().useLadder(WorldTile.of(3092, 3361, 0));
+		if(obj.getTile().matches(Tile.of(3105, 3363, 2)))//To 2nd floor from professor
+			e.getPlayer().useLadder(Tile.of(3105, 3364, 1));
+		if(obj.getTile().matches(Tile.of(3105, 3363, 1)))//to 3rd floor to professor
+			e.getPlayer().useLadder(Tile.of(3105, 3362, 2));
+		if(obj.getTile().matches(Tile.of(3092, 3362, 0)))//To basement from 1st floor
+			e.getPlayer().useLadder(Tile.of(3117, 9753, 0));
+		if(obj.getTile().matches(Tile.of(3117, 9754, 0)))//To 1st floor from basement
+			e.getPlayer().useLadder(Tile.of(3092, 3361, 0));
 	});
 
 	public static LoginHandler onLogin = new LoginHandler(e -> {

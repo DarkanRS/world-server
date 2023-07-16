@@ -1,13 +1,11 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
@@ -15,15 +13,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemOnItemHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DRAGON_SLAYER)
 @PluginEventHandler
@@ -109,8 +106,8 @@ public class DragonSlayer extends QuestOutline {
 	public final static String INTRODUCED_ELVARG_ATTR = "INTRODUCED_ELVARG";
 
 	//Other
-	public final static WorldTile MELZAR_BASEMENT = WorldTile.of(2933, 9641, 0);
-	public final static WorldTile MELZAR_MAZE = WorldTile.of(2931, 3250, 0);
+	public final static Tile MELZAR_BASEMENT = Tile.of(2933, 9641, 0);
+	public final static Tile MELZAR_MAZE = Tile.of(2931, 3250, 0);
 	private final static int HAMMER_HITTING_REPAIR_ANIM = 3676;
 
 	@Override
@@ -119,7 +116,7 @@ public class DragonSlayer extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -204,7 +201,7 @@ public class DragonSlayer extends QuestOutline {
 			e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
 		if(e.getOption().equalsIgnoreCase("drop")) {
 			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 		}
 	});
@@ -214,7 +211,7 @@ public class DragonSlayer extends QuestOutline {
 			e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
 		if(e.getOption().equalsIgnoreCase("drop")) {
 			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
+			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
 			e.getPlayer().soundEffect(2739);
 		}
 	});
@@ -310,7 +307,7 @@ public class DragonSlayer extends QuestOutline {
 					if(tick == 0)
 						p.lock();
 					if(tick == 1)
-						p.walkToAndExecute(WorldTile.of(3050, 9840, 0), ()-> {
+						p.walkToAndExecute(Tile.of(3050, 9840, 0), ()-> {
 							p.faceEast();
 							tick++;
 						});
@@ -319,7 +316,7 @@ public class DragonSlayer extends QuestOutline {
 						obj.animate(new Animation(6636));
 					}
 					if(tick==3)
-						p.addWalkSteps(WorldTile.of(3051, 9840, 0), 3, false);
+						p.addWalkSteps(Tile.of(3051, 9840, 0), 3, false);
 					if(tick==5)
 						obj.animate(new Animation(6637));
 					if(tick==7) {
@@ -430,7 +427,7 @@ public class DragonSlayer extends QuestOutline {
 				}
 				if (tick == 3) {// setup p2, move p
 					p.getAppearance().transformIntoNPC(266);
-					p.setNextWorldTile(WorldTile.of(2845, 9636, 0));
+					p.setNextTile(Tile.of(2845, 9636, 0));
 				}
 				if (tick == 5) {// setup p3, camera
 					p.getPackets().sendCameraPos(p.getXInScene(p.getSceneBaseChunkId()), p.getYInScene(p.getSceneBaseChunkId()), 1300);
@@ -450,7 +447,7 @@ public class DragonSlayer extends QuestOutline {
 				if(tick == 15)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick==18) {
-					p.setNextWorldTile(WorldTile.of(2834, 9657, 0));
+					p.setNextTile(Tile.of(2834, 9657, 0));
 					p.getPackets().sendResetCamera();
 				}
 				if (tick == 21) {// closing p2
@@ -470,9 +467,31 @@ public class DragonSlayer extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.STRENGTH, 18650);
 		player.getSkills().addXpQuest(Constants.DEFENSE, 18650);
-		getQuest().sendQuestCompleteInterface(player, 11279, "18,650 Strength XP", "18,650 Defence XP");
+		sendQuestCompleteInterface(player, 11279);
 	}
 
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to the Guildmaster inside the Champions' Guild, south of Varrock.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "An unfired bowl, a wizard's mind bomb, a crayfish cage or lobster pot, a piece of silk, 2,000-12,000 coins (less if you bring Telekenetic Grab runes and a non-melee weapon), 3 regular planks and 90 steel nails.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 63 dragon, a level 56 demon, a level 39 mage, and various lesser foes. 50+ in combat skills and 37+ Prayer are recommended.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "18,650 Strength XP<br>" +
+				"18,650 Defense XP<br>" +
+				"Anti-dragon shield<br>" +
+				"Access to Crandor, Melzar's Maze, and the dragon crest on herald capes";
+	}
 
 
 }

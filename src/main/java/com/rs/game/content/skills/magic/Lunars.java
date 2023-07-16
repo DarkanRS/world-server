@@ -16,13 +16,8 @@
 //
 package com.rs.game.content.skills.magic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.game.content.AchievementTitles;
-import com.rs.game.content.items.water_stuff.FillAction.Filler;
+import com.rs.game.content.items.liquid_containers.FillAction.Filler;
 import com.rs.game.content.skills.construction.SawmillOperator;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
@@ -31,7 +26,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -41,6 +35,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @PluginEventHandler
 public class Lunars {
 
@@ -49,19 +46,10 @@ public class Lunars {
 
 	public static Player[] getNearPlayers(Player player, int distance, int maxTargets) {
 		List<Entity> possibleTargets = new ArrayList<>();
-		stop: for (int regionId : player.getMapRegionsIds()) {
-			Region region = World.getRegion(regionId);
-			Set<Integer> playerIndexes = region.getPlayerIndexes();
-			if (playerIndexes == null)
-				continue;
-			for (int playerIndex : playerIndexes) {
-				Player p2 = World.getPlayers().get(playerIndex);
-				if (p2 == null || p2 == player || p2.isDead() || !p2.hasStarted() || p2.hasFinished() || !p2.withinDistance(player.getTile(), distance))
-					continue;
-				possibleTargets.add(p2);
-				if (possibleTargets.size() == maxTargets)
-					break stop;
-			}
+		for (Player p2 : player.queryNearbyPlayersByTileRange(distance, p2 -> !p2.isDead() && p2 != player && p2.withinDistance(player.getTile(), distance))) {
+			possibleTargets.add(p2);
+			if (possibleTargets.size() == maxTargets)
+				break;
 		}
 		return possibleTargets.toArray(new Player[possibleTargets.size()]);
 	}
@@ -288,7 +276,7 @@ public class Lunars {
 		}
 		if (!Magic.checkMagicAndRunes(player, 83, true, new RuneSet(Rune.ASTRAL, 3, Rune.EARTH, 15, Rune.NATURE, 2)))
 			return;
-		player.setNextFaceWorldTile(object.getTile());
+		player.setNextFaceTile(object.getTile());
 		player.getSkills().addXp(Constants.FARMING, 18);
 		player.getSkills().addXp(Constants.MAGIC, 87);
 		player.setNextAnimation(new Animation(4411));
@@ -316,7 +304,7 @@ public class Lunars {
 		}
 		if (!Magic.checkMagicAndRunes(player, 66, true, new RuneSet(Rune.ASTRAL, 1, Rune.EARTH, 8)))
 			return;
-		player.setNextFaceWorldTile(object.getTile());
+		player.setNextFaceTile(object.getTile());
 		player.getSkills().addXp(Constants.FARMING, 90);
 		player.getSkills().addXp(Constants.MAGIC, 60);
 		player.setNextAnimation(new Animation(4411));

@@ -16,63 +16,49 @@
 //
 package com.rs.game.content.minigames.sorcgarden;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.rs.game.World;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.List;
 
 @PluginEventHandler
 public class Elemental extends NPC {
 
 	private boolean beingTeleported = false;
 
-	private static final WorldTile[][] tiles = { { WorldTile.of(2908, 5460, 0), WorldTile.of(2898, 5460, 0) }, { WorldTile.of(2900, 5448, 0), WorldTile.of(2900, 5455, 0) }, { WorldTile.of(2905, 5449, 0), WorldTile.of(2899, 5449, 0) }, { WorldTile.of(2903, 5451, 0), WorldTile.of(2903, 5455, 0), WorldTile.of(2905, 5455, 0), WorldTile.of(2905, 5451, 0) }, { WorldTile.of(2903, 5457, 0), WorldTile.of(2917, 5457, 0) }, { WorldTile.of(2908, 5455, 0), WorldTile.of(2917, 5455, 0) },
-			{ WorldTile.of(2922, 5471, 0), WorldTile.of(2922, 5459, 0) }, { WorldTile.of(2924, 5463, 0), WorldTile.of(2928, 5463, 0), WorldTile.of(2928, 5461, 0), WorldTile.of(2924, 5461, 0) }, { WorldTile.of(2924, 5461, 0), WorldTile.of(2926, 5461, 0), WorldTile.of(2926, 5458, 0), WorldTile.of(2924, 5458, 0) }, { WorldTile.of(2928, 5458, 0), WorldTile.of(2928, 5460, 0), WorldTile.of(2934, 5460, 0), WorldTile.of(2934, 5458, 0) },
-			{ WorldTile.of(2931, 5477, 0), WorldTile.of(2931, 5470, 0) }, { WorldTile.of(2935, 5469, 0), WorldTile.of(2928, 5469, 0) }, { WorldTile.of(2925, 5464, 0), WorldTile.of(2925, 5475, 0) }, { WorldTile.of(2931, 5477, 0), WorldTile.of(2931, 5470, 0) }, { WorldTile.of(2907, 5488, 0), WorldTile.of(2907, 5482, 0) }, { WorldTile.of(2907, 5490, 0), WorldTile.of(2907, 5495, 0) }, { WorldTile.of(2910, 5493, 0), WorldTile.of(2910, 5487, 0) },
-			{ WorldTile.of(2918, 5483, 0), WorldTile.of(2918, 5485, 0), WorldTile.of(2915, 5485, 0), WorldTile.of(2915, 5483, 0), WorldTile.of(2912, 5483, 0), WorldTile.of(2912, 5485, 0), WorldTile.of(2915, 5485, 0), WorldTile.of(2915, 5483, 0) }, { WorldTile.of(2921, 5486, 0), WorldTile.of(2923, 5486, 0), WorldTile.of(2923, 5490, 0), WorldTile.of(2923, 5486, 0) },
-			{ WorldTile.of(2921, 5491, 0), WorldTile.of(2923, 5491, 0), WorldTile.of(2923, 5495, 0), WorldTile.of(2921, 5495, 0) }, { WorldTile.of(2899, 5466, 0), WorldTile.of(2899, 5468, 0), WorldTile.of(2897, 5468, 0), WorldTile.of(2897, 5466, 0), WorldTile.of(2897, 5468, 0), WorldTile.of(2899, 5468, 0) }, { WorldTile.of(2897, 5470, 0), WorldTile.of(2891, 5470, 0) },
-			{ WorldTile.of(2897, 5471, 0), WorldTile.of(2899, 5471, 0), WorldTile.of(2899, 5478, 0), WorldTile.of(2897, 5478, 0) }, { WorldTile.of(2896, 5483, 0), WorldTile.of(2900, 5483, 0), WorldTile.of(2900, 5480, 0), WorldTile.of(2897, 5480, 0), WorldTile.of(2896, 5482, 0) }, { WorldTile.of(2896, 5483, 0), WorldTile.of(2896, 5481, 0), WorldTile.of(2891, 5481, 0), WorldTile.of(2891, 5483, 0) }, { WorldTile.of(2889, 5485, 0), WorldTile.of(2900, 5485, 0) } };
+	private static final Tile[][] tiles = { { Tile.of(2908, 5460, 0), Tile.of(2898, 5460, 0) }, { Tile.of(2900, 5448, 0), Tile.of(2900, 5455, 0) }, { Tile.of(2905, 5449, 0), Tile.of(2899, 5449, 0) }, { Tile.of(2903, 5451, 0), Tile.of(2903, 5455, 0), Tile.of(2905, 5455, 0), Tile.of(2905, 5451, 0) }, { Tile.of(2903, 5457, 0), Tile.of(2917, 5457, 0) }, { Tile.of(2908, 5455, 0), Tile.of(2917, 5455, 0) },
+			{ Tile.of(2922, 5471, 0), Tile.of(2922, 5459, 0) }, { Tile.of(2924, 5463, 0), Tile.of(2928, 5463, 0), Tile.of(2928, 5461, 0), Tile.of(2924, 5461, 0) }, { Tile.of(2924, 5461, 0), Tile.of(2926, 5461, 0), Tile.of(2926, 5458, 0), Tile.of(2924, 5458, 0) }, { Tile.of(2928, 5458, 0), Tile.of(2928, 5460, 0), Tile.of(2934, 5460, 0), Tile.of(2934, 5458, 0) },
+			{ Tile.of(2931, 5477, 0), Tile.of(2931, 5470, 0) }, { Tile.of(2935, 5469, 0), Tile.of(2928, 5469, 0) }, { Tile.of(2925, 5464, 0), Tile.of(2925, 5475, 0) }, { Tile.of(2931, 5477, 0), Tile.of(2931, 5470, 0) }, { Tile.of(2907, 5488, 0), Tile.of(2907, 5482, 0) }, { Tile.of(2907, 5490, 0), Tile.of(2907, 5495, 0) }, { Tile.of(2910, 5493, 0), Tile.of(2910, 5487, 0) },
+			{ Tile.of(2918, 5483, 0), Tile.of(2918, 5485, 0), Tile.of(2915, 5485, 0), Tile.of(2915, 5483, 0), Tile.of(2912, 5483, 0), Tile.of(2912, 5485, 0), Tile.of(2915, 5485, 0), Tile.of(2915, 5483, 0) }, { Tile.of(2921, 5486, 0), Tile.of(2923, 5486, 0), Tile.of(2923, 5490, 0), Tile.of(2923, 5486, 0) },
+			{ Tile.of(2921, 5491, 0), Tile.of(2923, 5491, 0), Tile.of(2923, 5495, 0), Tile.of(2921, 5495, 0) }, { Tile.of(2899, 5466, 0), Tile.of(2899, 5468, 0), Tile.of(2897, 5468, 0), Tile.of(2897, 5466, 0), Tile.of(2897, 5468, 0), Tile.of(2899, 5468, 0) }, { Tile.of(2897, 5470, 0), Tile.of(2891, 5470, 0) },
+			{ Tile.of(2897, 5471, 0), Tile.of(2899, 5471, 0), Tile.of(2899, 5478, 0), Tile.of(2897, 5478, 0) }, { Tile.of(2896, 5483, 0), Tile.of(2900, 5483, 0), Tile.of(2900, 5480, 0), Tile.of(2897, 5480, 0), Tile.of(2896, 5482, 0) }, { Tile.of(2896, 5483, 0), Tile.of(2896, 5481, 0), Tile.of(2891, 5481, 0), Tile.of(2891, 5483, 0) }, { Tile.of(2889, 5485, 0), Tile.of(2900, 5485, 0) } };
 
 	/**
 	 *
 	 * @param id
 	 *            NPC id
 	 * @param tile
-	 *            WorldTile
+	 *            Tile
 	 * @param spawned
 	 *            false
 	 */
-	public Elemental(int id, WorldTile tile, boolean spawned) {
+	public Elemental(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setCantFollowUnderCombat(true);
 		setCantInteract(true);
 	}
 
 	@Override
-	public List<Entity> getPossibleTargets() {
-		List<Entity> possibleTarget = new ArrayList<>();
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int playerIndex : playerIndexes) {
-					Player player = World.getPlayers().get(playerIndex);
-					if (player == null || player.isDead() || player.getAppearance().isHidden() || player.hasFinished() || player.isLocked() || !lineOfSightTo(player, false))
-						continue;
-					possibleTarget.add(player);
-				}
-		}
-		return possibleTarget;
+	public List<Entity> getPossibleTargets(int tileRadius) {
+		return queryNearbyPlayersByTileRangeAsEntityList(7, player -> !player.isDead() && !player.getAppearance().isHidden() && !player.isLocked() && lineOfSightTo(player, false));
 	}
 
 	private int steps;
@@ -89,7 +75,7 @@ public class Elemental extends NPC {
 					player.lock();
 					player.sendMessage("You've been spotted by an elemental and teleported out of its garden.");
 					FadingScreen.fade(player, () -> {
-						player.setNextWorldTile(SorceressGardenController.inAutumnGarden(player.getTile()) ? WorldTile.of(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player.getTile()) ? WorldTile.of(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player.getTile()) ? WorldTile.of(2910, 5476, 0) : WorldTile.of(2906, 5470, 0))));
+						player.setNextTile(SorceressGardenController.inAutumnGarden(player.getTile()) ? Tile.of(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player.getTile()) ? Tile.of(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player.getTile()) ? Tile.of(2910, 5476, 0) : Tile.of(2906, 5470, 0))));
 						player.lock(1);
 						beingTeleported = false;
 					});

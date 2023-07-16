@@ -8,10 +8,10 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class GillieGroats {
 
     //Identify NPC by ID
-    private static int npcId = 3807;
+    private static final int npcId = 3807;
     public static NPCClickHandler GillieGroats = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new GrilleGoatsDialogue(e.getPlayer()));
     	}
     });

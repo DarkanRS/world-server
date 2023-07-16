@@ -19,7 +19,7 @@ package com.rs.utils.spawns;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class ObjectSpawn {
 
@@ -27,13 +27,13 @@ public class ObjectSpawn {
 	private int objectId;
 	private int type;
 	private int rotation;
-	private WorldTile tile;
+	private Tile tile;
 
-	public ObjectSpawn(int objectId, int type, int rotation, WorldTile tile) {
+	public ObjectSpawn(int objectId, int type, int rotation, Tile tile) {
 		this(objectId, type, rotation, tile, null);
 	}
 
-	public ObjectSpawn(int objectId, int type, int rotation, WorldTile tile, String comment) {
+	public ObjectSpawn(int objectId, int type, int rotation, Tile tile, String comment) {
 		this.objectId = objectId;
 		this.type = type;
 		this.rotation = rotation;
@@ -57,7 +57,7 @@ public class ObjectSpawn {
 		return rotation;
 	}
 
-	public WorldTile getTile() {
+	public Tile getTile() {
 		return tile;
 	}
 

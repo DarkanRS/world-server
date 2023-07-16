@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.world.areas.dwarven_mine.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -25,11 +25,11 @@ import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class DrogoDwarf extends Conversation {
-	private static int npcId = 579;
+	private static final int npcId = 579;
 
 	public static NPCClickHandler DrogoDwarf = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new DrogoDwarf(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "drogos_mining_emporium");
 		}

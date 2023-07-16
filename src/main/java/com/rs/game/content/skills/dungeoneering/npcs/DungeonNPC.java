@@ -16,21 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_RANGER;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.FORGOTTEN_WARRIOR;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.GIANT_SKELETON;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HILL_GIANT;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.HOBGOBLIN;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.REBORN_WARRIOR;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_MELEE;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.SKELETON_RANGED;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_MELEE;
-import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.ZOMBIE_RANGED;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
@@ -41,15 +26,19 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+
+import static com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster.*;
 
 public class DungeonNPC extends NPC {
 
 	private DungeonManager manager;
 	private boolean marked;
 
-	public DungeonNPC(int id, WorldTile tile, DungeonManager manager) {
+	public DungeonNPC(int id, Tile tile, DungeonManager manager) {
 		super(id, tile, true);
 		setManager(manager);
 		if (getDefinitions().hasAttackOption()) {
@@ -60,26 +49,27 @@ public class DungeonNPC extends NPC {
 		setForceAggroDistance(20); //includes whole room
 	}
 
-
+	protected int getTier() {
+		int tier = getDefinitions().combatLevel / 11;
+		if (tier > 10)
+			tier = 11;
+		else if (tier < 1)
+			tier = 1;
+		return tier;
+	}
 
 	@Override
-	public List<Entity> getPossibleTargets(boolean includeNpcs) {//SHADOW SILK HOOD
-		List<Entity> possibleTargets = super.getPossibleTargets(includeNpcs);
+	public boolean canAggroPlayer(Player player) {
 		DungeonConstants.GuardianMonster mob = DungeonConstants.GuardianMonster.forId(getId());
 		if (mob == null)
-			return possibleTargets;
-		if(mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
+			return true;
+		if (mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
 				|| mob == ZOMBIE_MELEE || mob == ZOMBIE_RANGED || mob == HILL_GIANT || mob == GIANT_SKELETON
-				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR) {
-			List<Entity> shadowedTargets = new ArrayList<>();
-			for (Entity entity : possibleTargets) {
-				if (entity instanceof Player player && player.getEquipment().containsOneItem(17279, 15828)
-						&& !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
-					shadowedTargets.add(entity);
-			}
-			possibleTargets.removeAll(shadowedTargets);
+				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR || mob == ICE_WARRIOR) {
+			if (player.getEquipment().containsOneItem(17279, 15828) && !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
+				return false;
 		}
-		return possibleTargets;
+		return true;
 	}
 
 	public void resetBonuses() {
@@ -95,13 +85,10 @@ public class DungeonNPC extends NPC {
 	}
 
 	public NPC getNPC(int id) {
-		Set<Integer> npcsIndexes = World.getRegion(getRegionId()).getNPCsIndexes();
-		if (npcsIndexes != null)
-			for (int npcIndex : npcsIndexes) {
-				NPC npc = World.getNPCs().get(npcIndex);
-				if (npc.getId() == id)
-					return npc;
-			}
+		for (NPC npc : World.getNPCsInChunkRange(getChunkId(), 4)) {
+			if (npc.getId() == id)
+				return npc;
+		}
 		return null;
 	}
 
@@ -151,31 +138,31 @@ public class DungeonNPC extends NPC {
 		if (getId() != 10831 && getId() != 10821) //nature & ghost
 			drops.add(new Item(getBones()));
 		for (int i = 0; i < 1 + Utils.random(10); i++)
-			drops.add(new Item(DungeonUtils.getFood(1 + Utils.random(8))));
+			drops.add(new Item(DungeonUtils.getFood(Math.min(1+Utils.random(getTier()), 8))));
 
 		if (Utils.random(10) == 0)
-			drops.add(new Item(DungeonUtils.getDagger(1 + Utils.random(5))));
+			drops.add(new Item(DungeonUtils.getDagger(Math.min(1+Utils.random(getTier()), 5))));
 
 		if (Utils.random(5) == 0)
 			drops.add(new Item(DungeonConstants.RUNES[Utils.random(DungeonConstants.RUNES.length)], 90 + Utils.random(30)));
 
 		if (getManager().getParty().getComplexity() >= 5 && Utils.random(5) == 0) //torm bag, 1
-			drops.add(new Item(DungeonUtils.getTornBag(1 + Utils.random(10))));
+			drops.add(new Item(DungeonUtils.getTornBag(Math.min(1+Utils.random(getTier()), 10))));
 
 		if (getManager().getParty().getComplexity() >= 3 && Utils.random(5) == 0) //ore, up to 10
-			drops.add(new Item(DungeonUtils.getOre(1 + Utils.random(5)), 1 + Utils.random(10)));
+			drops.add(new Item(DungeonUtils.getOre(Math.min(1+Utils.random(getTier()), 5)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 2 && Utils.random(5) == 0) //branche, up to 10
-			drops.add(new Item(DungeonUtils.getBranche(1 + Utils.random(5)), 1 + Utils.random(10)));
+			drops.add(new Item(DungeonUtils.getBranche(Math.min(1+Utils.random(getTier()), 5)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 4 && Utils.random(5) == 0) //textile, up to 10
-			drops.add(new Item(DungeonUtils.getTextile(1 + Utils.random(10)), 1 + Utils.random(10)));
+			drops.add(new Item(DungeonUtils.getTextile(Math.min(1+Utils.random(getTier()), 5)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 5 && Utils.random(5) == 0) //herb, up to 10
-			drops.add(new Item(DungeonUtils.getHerb(1 + Utils.random(9)), 1 + Utils.random(10)));
+			drops.add(new Item(DungeonUtils.getHerb(Math.min(1+Utils.random(getTier()), 3)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 5 && Utils.random(5) == 0) //seed, up to 10
-			drops.add(new Item(DungeonUtils.getSeed(1 + Utils.random(12)), 1 + Utils.random(10)));
+			drops.add(new Item(DungeonUtils.getSeed(Math.min(1+Utils.random(getTier()), 3)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 5 && Utils.random(3) == 0) //charms, depending in mob size
 			drops.add(new Item(DungeonConstants.CHARMS[Utils.random(DungeonConstants.CHARMS.length)], size));
@@ -199,7 +186,7 @@ public class DungeonNPC extends NPC {
 			drops.add(new Item(17447, 10 + Utils.random(300)));
 
 		for (Item item : drops)
-			World.addGroundItem(item, WorldTile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
+			World.addGroundItem(item, Tile.of(getCoordFaceX(size), getCoordFaceY(size), getPlane()));
 	}
 
 	public DungeonManager getManager() {

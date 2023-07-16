@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.DropItemEvent;
+
+import java.util.function.Consumer;
 
 public class DropItemHandler extends PluginHandler<DropItemEvent> {
 	public DropItemHandler(Object[] namesOrIds, Consumer<DropItemEvent> handler) {

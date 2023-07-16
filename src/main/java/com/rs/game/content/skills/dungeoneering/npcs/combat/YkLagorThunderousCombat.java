@@ -16,13 +16,10 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs.combat;
 
-import java.util.List;
-
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.YkLagorMage;
 import com.rs.game.content.skills.dungeoneering.npcs.YkLagorThunderous;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -34,9 +31,11 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
+
+import java.util.List;
 
 public class YkLagorThunderousCombat extends CombatScript {
 
@@ -152,25 +151,18 @@ public class YkLagorThunderousCombat extends CombatScript {
 		return 4;
 	}
 
-	public static void sendPullAttack(final WorldTile tile, final Player player, final boolean disablePrayers) {
-		player.lock(3);
+	public static void sendPullAttack(final Tile tile, final Player player, final boolean disablePrayers) {
+		player.lock();
 		player.resetWalkSteps();
-		player.setNextAnimation(new Animation(14388));
 		player.setNextSpotAnim(new SpotAnim(2767));
-		player.setNextForceMovement(new ForceMovement(player.getTile(), 0, tile, 2, Utils.getAngleTo(tile.getX() - player.getX(), tile.getY() - player.getY())));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				player.getActionManager().addActionDelay(10);
-				player.setNextWorldTile(tile);
-				player.freeze(8);
-				if (disablePrayers) {
-					player.sendMessage("You've been injured and you cannot use protective " + (player.getPrayer().isCurses() ? "curses" : "protective prayers") + "!");
-					player.setProtectionPrayBlock(2);
-				}
+		player.forceMove(tile, 14388, 5, 60, () -> {
+			player.getActionManager().addActionDelay(10);
+			player.freeze(8);
+			if (disablePrayers) {
+				player.sendMessage("You've been injured and you cannot use protective " + (player.getPrayer().isCurses() ? "curses" : "protective prayers") + "!");
+				player.setProtectionPrayBlock(2);
 			}
-		}, 1);
+		});
 	}
 
 	public static void sendMagicalAttack(YkLagorThunderous npc, boolean specialAttack) {

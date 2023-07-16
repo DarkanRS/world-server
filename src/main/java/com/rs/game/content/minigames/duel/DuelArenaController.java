@@ -34,10 +34,13 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+@PluginEventHandler
 public class DuelArenaController extends Controller {
 
 	private transient Player target;
@@ -45,13 +48,17 @@ public class DuelArenaController extends Controller {
 
 	private final Item[] FUN_WEAPONS = { new Item(4566) };
 
-	private final WorldTile[] LOBBY_TELEPORTS = { WorldTile.of(3367, 3275, 0), WorldTile.of(3360, 3275, 0), WorldTile.of(3358, 3270, 0), WorldTile.of(3363, 3268, 0), WorldTile.of(3370, 3268, 0), WorldTile.of(3367, 3267, 0),
-			WorldTile.of(3376, 3275, 0), WorldTile.of(3377, 3271, 0), WorldTile.of(3375, 3269, 0), WorldTile.of(3381, 3277, 0) };
+	private final Tile[] LOBBY_TELEPORTS = { Tile.of(3367, 3275, 0), Tile.of(3360, 3275, 0), Tile.of(3358, 3270, 0), Tile.of(3363, 3268, 0), Tile.of(3370, 3268, 0), Tile.of(3367, 3267, 0),
+			Tile.of(3376, 3275, 0), Tile.of(3377, 3271, 0), Tile.of(3375, 3269, 0), Tile.of(3381, 3277, 0) };
 
 	public DuelArenaController(Player target, boolean friendly) {
 		this.target = target;
 		ifFriendly = friendly;
 	}
+
+	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> {
+		e.getPlayer().sendMessage("I wouldn't want to fall in.");
+	});
 
 	@Override
 	public void start() {
@@ -309,15 +316,15 @@ public class DuelArenaController extends Controller {
 	}
 
 	private void startEndingTeleport(Player player) {
-		WorldTile tile = LOBBY_TELEPORTS[Utils.random(LOBBY_TELEPORTS.length)];
-		WorldTile teleTile = tile;
+		Tile tile = LOBBY_TELEPORTS[Utils.random(LOBBY_TELEPORTS.length)];
+		Tile teleTile = tile;
 		for (int trycount = 0; trycount < 10; trycount++) {
-			teleTile = WorldTile.of(tile, 2);
+			teleTile = Tile.of(tile, 2);
 			if (World.floorAndWallsFree(teleTile, player.getSize()))
 				break;
 			teleTile = tile;
 		}
-		player.setNextWorldTile(teleTile);
+		player.setNextTile(teleTile);
 	}
 
 	private void removeEquipment() {
@@ -335,10 +342,10 @@ public class DuelArenaController extends Controller {
 
 	private void beginBattle(boolean started) {
 		if (started) {
-			WorldTile[] teleports = getPossibleWorldTiles();
+			Tile[] teleports = getPossibleTiles();
 			int random = Utils.getRandomInclusive(1);
-			player.setNextWorldTile(random == 0 ? teleports[0] : teleports[1]);
-			target.setNextWorldTile(random == 0 ? teleports[1] : teleports[0]);
+			player.setNextTile(random == 0 ? teleports[0] : teleports[1]);
+			target.setNextTile(random == 0 ? teleports[1] : teleports[0]);
 		}
 		player.stopAll();
 		player.lock(2); // fixes mass click steps
@@ -401,13 +408,13 @@ public class DuelArenaController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 		return false;
 	}
@@ -508,9 +515,9 @@ public class DuelArenaController extends Controller {
 		return true;
 	}
 
-	private WorldTile[] getPossibleWorldTiles() {
+	private Tile[] getPossibleTiles() {
 		final int arenaChoice = Utils.getRandomInclusive(2);
-		WorldTile[] locations = new WorldTile[2];
+		Tile[] locations = new Tile[2];
 		int[] arenaBoundariesX = { 3337, 3367, 3336 };
 		int[] arenaBoundariesY = { 3246, 3227, 3208 };
 		int[] maxOffsetX = { 14, 14, 16 };
@@ -526,7 +533,7 @@ public class DuelArenaController extends Controller {
 
 		int finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 		int finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
-		locations[0] = (WorldTile.of(finalX, finalY, 0));
+		locations[0] = (Tile.of(finalX, finalY, 0));
 		if (player.getLastDuelRules().getRule(25)) {
 			int direction = Utils.getRandomInclusive(1);
 			if (direction == 0)
@@ -537,7 +544,7 @@ public class DuelArenaController extends Controller {
 			finalX = arenaBoundariesX[arenaChoice] + Utils.getRandomInclusive(maxOffsetX[arenaChoice]);
 			finalY = arenaBoundariesY[arenaChoice] + Utils.getRandomInclusive(maxOffsetY[arenaChoice]);
 		}
-		locations[1] = (WorldTile.of(finalX, finalY, 0));
+		locations[1] = (Tile.of(finalX, finalY, 0));
 		return locations;
 	}
 

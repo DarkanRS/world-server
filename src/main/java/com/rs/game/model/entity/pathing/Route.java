@@ -16,10 +16,8 @@
 //
 package com.rs.game.model.entity.pathing;
 
-import com.rs.game.World;
-import com.rs.game.region.ClipFlag;
-import com.rs.game.region.ClipMap;
-import com.rs.game.region.Region;
+import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.lib.game.Tile;
 
 public class Route {
 	private static final int GRAPH_SIZE = 128;
@@ -487,23 +485,15 @@ public class Route {
 		int graphBaseX = x - (GRAPH_SIZE / 2);
 		int graphBaseY = y - (GRAPH_SIZE / 2);
 
-		for (int transmitRegionX = graphBaseX >> 6; transmitRegionX <= (graphBaseX + (GRAPH_SIZE - 1)) >> 6; transmitRegionX++)
+		for (int transmitRegionX = graphBaseX >> 6; transmitRegionX <= (graphBaseX + (GRAPH_SIZE - 1)) >> 6; transmitRegionX++) {
 			for (int transmitRegionY = graphBaseY >> 6; transmitRegionY <= (graphBaseY + (GRAPH_SIZE - 1)) >> 6; transmitRegionY++) {
 				int startX = Math.max(graphBaseX, transmitRegionX << 6), startY = Math.max(graphBaseY, transmitRegionY << 6);
 				int endX = Math.min(graphBaseX + GRAPH_SIZE, (transmitRegionX << 6) + 64), endY = Math.min(graphBaseY + GRAPH_SIZE, (transmitRegionY << 6) + 64);
-				Region region = World.getRegion(transmitRegionX << 8 | transmitRegionY, true);
-				ClipMap map = region.forceGetClipMap();
-				if (map == null || region.getLoadMapStage() != 2 || !region.isLoadedObjectSpawns())
-					for (int fillX = startX; fillX < endX; fillX++)
-						for (int fillY = startY; fillY < endY; fillY++)
-							clip[fillX - graphBaseX][fillY - graphBaseY] = -1;
-				else {
-					int[][] masks = map.getMasks()[z];
-					for (int fillX = startX; fillX < endX; fillX++)
-						for (int fillY = startY; fillY < endY; fillY++)
-							clip[fillX - graphBaseX][fillY - graphBaseY] = masks[fillX & 0x3F][fillY & 0x3F];
-				}
+				for (int fillX = startX; fillX < endX; fillX++)
+					for (int fillY = startY; fillY < endY; fillY++)
+						clip[fillX - graphBaseX][fillY - graphBaseY] = WorldCollision.getFlags(Tile.of(fillX, fillY, z));
 			}
+		}
 	}
 
 	public int[] getBufferX() {

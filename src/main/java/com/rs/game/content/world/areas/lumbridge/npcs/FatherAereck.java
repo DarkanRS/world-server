@@ -1,11 +1,11 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.world.GraveStoneSelection;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -16,10 +16,10 @@ public class FatherAereck extends Conversation {
 
 	//Identify NPC by ID
 	//NPC handler was 9827? check restless ghost quest..
-	private static int npcId = 456;
+	private static final int npcId = 456;
 	public static NPCClickHandler FatherAereck = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new FatherAereck(e.getPlayer()));
 		}
 	});
@@ -35,7 +35,7 @@ public class FatherAereck extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a quest.")
 							.addNPC(npcId, HeadE.CALM_TALK, "Well that's convenient. I seem to be having a bit of a<br>ghost problem. Could you go speak to " +
 									"speak to<br>Father Urhney down in the swamp about how to<br>exorcise the spirit?", () -> {
-								player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1, true);
+								player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1);
 							})
 					);
 				option("Can I have a different gravestone?", new Dialogue()

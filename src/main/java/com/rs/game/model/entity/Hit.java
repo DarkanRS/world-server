@@ -16,10 +16,10 @@
 //
 package com.rs.game.model.entity;
 
+import com.rs.game.model.entity.player.Player;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.rs.game.model.entity.player.Player;
 
 public final class Hit {
 
@@ -159,23 +159,23 @@ public final class Hit {
 		return this;
 	}
 
-	public static Hit miss(Player source) {
+	public static Hit miss(Entity source) {
 		return new Hit(source, 0, HitLook.MISSED);
 	}
 
-	public static Hit melee(Player source, int damage) {
+	public static Hit melee(Entity source, int damage) {
 		return new Hit(source, damage, HitLook.MELEE_DAMAGE);
 	}
 
-	public static Hit range(Player source, int damage) {
+	public static Hit range(Entity source, int damage) {
 		return new Hit(source, damage, HitLook.RANGE_DAMAGE);
 	}
 
-	public static Hit magic(Player source, int damage) {
+	public static Hit magic(Entity source, int damage) {
 		return new Hit(source, damage, HitLook.MAGIC_DAMAGE);
 	}
 
-	public static Hit flat(Player source, int damage) {
+	public static Hit flat(Entity source, int damage) {
 		return new Hit(source, damage, HitLook.TRUE_DAMAGE);
 	}
 

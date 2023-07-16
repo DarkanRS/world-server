@@ -16,19 +16,19 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.cache.loaders.ObjectType;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.events.ObjectClickEvent;
+
+import java.util.function.Consumer;
 
 public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 
-	private WorldTile[] tiles;
+	private Tile[] tiles;
 	private ObjectType type;
 	private boolean checkDistance = true;
 
-	public ObjectClickHandler(boolean checkDistance, Object[] namesOrIds, WorldTile[] tiles, Consumer<ObjectClickEvent> handler) {
+	public ObjectClickHandler(boolean checkDistance, Object[] namesOrIds, Tile[] tiles, Consumer<ObjectClickEvent> handler) {
 		super(namesOrIds, handler);
 		this.tiles = tiles;
 		this.checkDistance = checkDistance;
@@ -39,12 +39,12 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 		this.checkDistance = checkDistance;
 	}
 
-	public ObjectClickHandler(Object[] namesOrIds, WorldTile[] tiles, Consumer<ObjectClickEvent> handler) {
+	public ObjectClickHandler(Object[] namesOrIds, Tile[] tiles, Consumer<ObjectClickEvent> handler) {
 		this(true, namesOrIds, tiles, handler);
 	}
 	
-	public ObjectClickHandler(Object[] namesOrIds, WorldTile tile, Consumer<ObjectClickEvent> handler) {
-		this(true, namesOrIds, new WorldTile[] { tile }, handler);
+	public ObjectClickHandler(Object[] namesOrIds, Tile tile, Consumer<ObjectClickEvent> handler) {
+		this(true, namesOrIds, new Tile[] { tile }, handler);
 	}
 
 	public ObjectClickHandler(Object[] namesOrIds, ObjectType type, Consumer<ObjectClickEvent> handler) {
@@ -64,7 +64,7 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 		return checkDistance;
 	}
 
-	public WorldTile[] getTiles() {
+	public Tile[] getTiles() {
 		return tiles;
 	}
 }

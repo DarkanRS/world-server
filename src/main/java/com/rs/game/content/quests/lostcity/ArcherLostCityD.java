@@ -1,24 +1,19 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.ARCHER;
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.lostcity.LostCity.*;
+
 @PluginEventHandler
 public class ArcherLostCityD extends Conversation {
-	public ArcherLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public ArcherLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addPlayer(HeadE.HAPPY_TALKING, "Why are you guys hanging around here?");
 			addNPC(ARCHER, HeadE.SKEPTICAL, "(ahem)... 'Guys'?");

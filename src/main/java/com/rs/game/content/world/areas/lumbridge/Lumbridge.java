@@ -16,28 +16,24 @@
 //
 package com.rs.game.content.world.areas.lumbridge;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.RuneMysteries;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemOnNPCHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.shop.ShopsHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.KNOWS_ABOUT_DRAGON_BREATH_ATTR;
 
 @PluginEventHandler
 public class Lumbridge {
@@ -169,9 +165,9 @@ public class Lumbridge {
 
 	public static ObjectClickHandler handleCellarLadders = new ObjectClickHandler(new Object[] { 24360, 24365 }, e -> {
 		if (e.getObjectId() == 24360)
-			e.getPlayer().setNextWorldTile(WorldTile.of(3190, 9834, 0));
+			e.getPlayer().setNextTile(Tile.of(3190, 9834, 0));
 		else if (e.getObjectId() == 24365)
-			e.getPlayer().setNextWorldTile(WorldTile.of(3188, 3433, 0));
+			e.getPlayer().setNextTile(Tile.of(3188, 3433, 0));
 	});
 
 	public static ObjectClickHandler handleRFDChest = new ObjectClickHandler(new Object[] { 12308 }, e -> {
@@ -192,17 +188,17 @@ public class Lumbridge {
 
 	public static ObjectClickHandler handleLadders = new ObjectClickHandler(new Object[] { 36771, 36772 }, e -> {
 		if (e.getObjectId() == 36771)
-			e.getPlayer().useLadder(WorldTile.of(3207, 3222, 3));
+			e.getPlayer().useLadder(Tile.of(3207, 3222, 3));
 		else if (e.getObjectId() == 36772)
-			e.getPlayer().useLadder(WorldTile.of(3207, 3224, 2));
+			e.getPlayer().useLadder(Tile.of(3207, 3224, 2));
 	});
 
 	public static ObjectClickHandler handleThievesGuildExitLadder = new ObjectClickHandler(new Object[] { 52308 }, e -> {
-		e.getPlayer().useLadder(WorldTile.of(3223, 3269, 0));
+		e.getPlayer().useLadder(Tile.of(3223, 3269, 0));
 	});
 
 	public static ObjectClickHandler handleThievesGuildEntrance = new ObjectClickHandler(new Object[] { 52309 }, e -> {
-		e.getPlayer().useLadder(WorldTile.of(4762, 5891, 0));
+		e.getPlayer().useLadder(Tile.of(4762, 5891, 0));
 	});
 
 	public static ObjectClickHandler handleTakeFlour = new ObjectClickHandler(new Object[] { 36880 }, e -> {
@@ -238,16 +234,16 @@ public class Lumbridge {
 
 	public static ObjectClickHandler handleStaircases1 = new ObjectClickHandler(new Object[] { 45481, 45482 }, e -> {
 		if (e.getObjectId() == 45481)
-			e.getPlayer().setNextWorldTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
 		else if (e.getObjectId() == 45482)
-			e.getPlayer().setNextWorldTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
 	});
 
 	public static ObjectClickHandler handleStaircases2 = new ObjectClickHandler(new Object[] { 45483, 45484 }, e -> {
 		if (e.getObjectId() == 45483)
-			e.getPlayer().setNextWorldTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, 1));
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, 1));
 		else if (e.getObjectId() == 45484)
-			e.getPlayer().setNextWorldTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, -1));
+			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, -1));
 	});
 
 	public static ObjectClickHandler handleChurchLadders = new ObjectClickHandler(new Object[] { 36984, 36986 }, e -> {

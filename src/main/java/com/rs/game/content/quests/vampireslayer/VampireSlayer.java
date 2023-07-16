@@ -16,15 +16,16 @@
 //
 package com.rs.game.content.quests.vampireslayer;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.VAMPYRE_SLAYER)
 @PluginEventHandler
@@ -44,7 +45,7 @@ public class VampireSlayer extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -97,7 +98,27 @@ public class VampireSlayer extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.ATTACK, 4825);
-		getQuest().sendQuestCompleteInterface(player, STAKE, "4825 Attack XP");
+		sendQuestCompleteInterface(player, STAKE);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Morgan in Draynor Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Beer (or 2 coins to purchase a pint).";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 28 enemy.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "4,825 Attack XP";
 	}
 
 	public static NPCInteractionDistanceHandler bartenderBlueMoonDistance = new NPCInteractionDistanceHandler(733, (player, npc) -> 5);

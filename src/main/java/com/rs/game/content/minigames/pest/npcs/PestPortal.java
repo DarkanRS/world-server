@@ -22,7 +22,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class PestPortal extends NPC {
@@ -31,7 +31,7 @@ public class PestPortal extends NPC {
 	PestControl control;
 	int ticks;
 
-	public PestPortal(int id, boolean canbeAttackedOutOfArea, WorldTile tile, PestControl control) {
+	public PestPortal(int id, boolean canbeAttackedOutOfArea, Tile tile, PestControl control) {
 		super(id, tile, true);
 		this.control = control;
 		setCantFollowUnderCombat(true);

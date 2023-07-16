@@ -1,40 +1,35 @@
 package com.rs.game.content.quests.monksfriend.dialogues;
 
-import static com.rs.game.content.quests.monksfriend.MonksFriend.ASK_ABOUT_PARTY;
-import static com.rs.game.content.quests.monksfriend.MonksFriend.GET_BLANKET;
-import static com.rs.game.content.quests.monksfriend.MonksFriend.HELP_CEDRIC;
-import static com.rs.game.content.quests.monksfriend.MonksFriend.NOT_STARTED;
-import static com.rs.game.content.quests.monksfriend.MonksFriend.QUEST_COMPLETE;
-import static com.rs.game.content.quests.monksfriend.MonksFriend.RETURN_TO_OMAD;
-
-import java.util.ArrayList;
-
+import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.minigames.partyroom.Balloon;
 import com.rs.game.content.minigames.partyroom.PartyRoom;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.region.RenderFlag;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+
+import static com.rs.game.content.quests.monksfriend.MonksFriend.*;
 
 @PluginEventHandler
 public class BrotherOmadMonksFriendD extends Conversation {
 	private static final int NPC = 279;
 	private static final int PARTY_TICK_LENGTH = Ticks.fromSeconds(30);
 
-	public BrotherOmadMonksFriendD(Player p) {
-		super(p);
+	public BrotherOmadMonksFriendD(Player player) {
+		super(player);
 		Dialogue cedricOptions = new Dialogue();
 		cedricOptions.addOptions("Choose an option:", new Options() {
 			@Override
@@ -47,14 +42,14 @@ public class BrotherOmadMonksFriendD extends Conversation {
 						.addPlayer(HeadE.HAPPY_TALKING, "Where should I look?")
 						.addNPC(NPC, HeadE.CALM_TALK, "Oh, he won't be far. He might've taken a wrong turn between here and Ardougne.")
 						.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll go and find him.", () -> {
-							p.getQuestManager().setStage(Quest.MONKS_FRIEND, HELP_CEDRIC);
+							player.getQuestManager().setStage(Quest.MONKS_FRIEND, HELP_CEDRIC);
 						})
 				);
 				option("Can I come to the party?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "' Can I come to the party?")
 						.addNPC(NPC, HeadE.CALM_TALK, "Of course, but we need the wine first.")
 						.addNext(() -> {
-							p.startConversation(cedricOptions);
+							player.startConversation(cedricOptions);
 						})
 				);
 			}
@@ -73,7 +68,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "He most probably got drunk and lost in the forest!")
 								.addNPC(NPC, HeadE.CALM_TALK, "I don't suppose you could go look for him?")
 								.addNext(() -> {
-									p.startConversation(cedricOptions);
+									player.startConversation(cedricOptions);
 								})
 						);
 						option("Enjoy it! I'll see you soon!", new Dialogue()
@@ -82,14 +77,14 @@ public class BrotherOmadMonksFriendD extends Conversation {
 						);
 					}
 				});
-		switch (p.getQuestManager().getStage(Quest.MONKS_FRIEND)) {
+		switch (player.getQuestManager().getStage(Quest.MONKS_FRIEND)) {
 			case NOT_STARTED -> {
 				Dialogue start = new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Can I help at all?")
 						.addNPC(NPC, HeadE.CALM_TALK, "Would you? We won't be able to help you as we are peaceful men but we would be grateful for your help!")
 						.addPlayer(HeadE.HAPPY_TALKING, "Do you know where the thieves went?")
 						.addNPC(NPC, HeadE.CALM_TALK, "They hide in a secret cave near the battlefield to the west. It's hidden under a ring of stones.")
 						.addNPC(NPC, HeadE.CALM_TALK, "Please bring back the blanket!", () -> {
-							p.getQuestManager().setStage(Quest.MONKS_FRIEND, GET_BLANKET);
+							player.getQuestManager().setStage(Quest.MONKS_FRIEND, GET_BLANKET);
 						});
 				addPlayer(HeadE.HAPPY_TALKING, "Hello there. What's wrong?");
 				addNPC(NPC, HeadE.CALM_TALK, "*yawn* ...oh, hello... yawn* I'm sorry! I'm just so tired! I haven't slept in a week!");
@@ -111,12 +106,12 @@ public class BrotherOmadMonksFriendD extends Conversation {
 												.addNPC(NPC, HeadE.CALM_TALK, "Who knows? Young scallywags! You'll find hundreds of people in the marketplace, " +
 														"pilfering from the stalls while the owners' backs are turned.")
 												.addNext(() -> {
-													p.startConversation(start);
+													player.startConversation(start);
 												})
 										);
 										option("Can I help at all?", new Dialogue()
 												.addNext(() -> {
-													p.startConversation(start);
+													player.startConversation(start);
 												})
 										);
 									}
@@ -135,11 +130,11 @@ public class BrotherOmadMonksFriendD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello.");
 				addNPC(NPC, HeadE.CALM_TALK, "*yawn*...oh, hello again...*yawn*");
 				addNPC(NPC, HeadE.CALM_TALK, "Please tell me you have the blanket.");
-				if (p.getInventory().containsItems(new Item(90, 1))) {
+				if (player.getInventory().containsItems(new Item(90, 1))) {
 					addPlayer(HeadE.HAPPY_TALKING, "Yes! I've recovered it from the clutches of the evil thieves!");
 					addSimple("You hand the monk the child's blanket.", () -> {
-						p.getInventory().removeItems(new Item(90, 1));
-						p.getQuestManager().setStage(Quest.MONKS_FRIEND, ASK_ABOUT_PARTY);
+						player.getInventory().removeItems(new Item(90, 1));
+						player.getQuestManager().setStage(Quest.MONKS_FRIEND, ASK_ABOUT_PARTY);
 					});
 					addNPC(NPC, HeadE.CALM_TALK, "Really, that's excellent, well done! Maybe now I'll be able to get some sleep.");
 					addOptions("Choose an option:", new Options() {
@@ -149,7 +144,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 									.addPlayer(HeadE.HAPPY_TALKING, "Is there anything else I can help with?")
 									.addNPC(NPC, HeadE.CALM_TALK, "I'm glad you asked, you see there's this party.")
 									.addNext(() -> {
-										p.startConversation(party);
+										player.startConversation(party);
 									})
 							);
 							option("Farewell!", new Dialogue());
@@ -164,7 +159,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Hello, how are you?");
 				addNPC(NPC, HeadE.CALM_TALK, "Much better now I'm sleeping well! Now I can organise the party.");
 				addNext(() -> {
-					p.startConversation(party);
+					player.startConversation(party);
 				});
 			}
 			case HELP_CEDRIC -> {
@@ -178,21 +173,21 @@ public class BrotherOmadMonksFriendD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Good! Good! Now we can party!");
 				addNPC(NPC, HeadE.CALM_TALK, "I have little to repay you with, but I'd like to offer you some rune stones. But first, let's party!");
 				addNext(() -> {
-					partyTime(player);
+					partyTime(this.player);
 				});
 			}
 			case QUEST_COMPLETE -> {
-				if (System.currentTimeMillis() - p.getTempAttribs().getL("last_party_time") < 1000 * 60 * 30)
+				if (System.currentTimeMillis() - player.getTempAttribs().getL("last_party_time") < 1000 * 60 * 30)
 					addNPC(NPC, HeadE.DRUNK, "Dum dee do la la! *hiccup* That was some party!");
 				else {
-					addNPC(NPC, HeadE.CALM_TALK, "Wanna join our party " + player.getPronoun("brother ", "sister ") + p.getDisplayName() + "?");
+					addNPC(NPC, HeadE.CALM_TALK, "Wanna join our party " + this.player.getPronoun("brother ", "sister ") + player.getDisplayName() + "?");
 					addOptions("Join their party?", new Options() {
 						@Override
 						public void create() {
 							option("Let's party!", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "Let's party!")
 									.addNext(() -> {
-										partyTime(p);
+										partyTime(player);
 									})
 							);
 							option("No thank you.", new Dialogue());
@@ -215,7 +210,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		p.getTempAttribs().setL("last_party_time", System.currentTimeMillis());
 		String[] dancePhrases = new String[]{"Let's boogie!", "Get down!", "Let's dance!", "Party time!", "Feel the rhythm!", "Watch me go!", "Party!", "Woop!", "Oh my!"};
 		ArrayList<NPC> monks = new ArrayList<>();
-		for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
+		for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 			if (npc.getName().equalsIgnoreCase("Monk") || npc.getName().equalsIgnoreCase("Brother Omad"))
 				monks.add(npc);
 		WorldTasks.scheduleTimer(i -> {
@@ -244,7 +239,7 @@ public class BrotherOmadMonksFriendD extends Conversation {
 		ArrayList<Balloon> balloons = new ArrayList<>();
 		for (int x = 2601; x < 2612; x++)
 			for (int y = 3205; y < 3222; y++)
-				if (World.getObject(WorldTile.of(x, y, 0)) == null && (RenderFlag.flagged(World.getRenderFlags(0, x, y), RenderFlag.UNDER_ROOF)))
+				if (World.getObject(Tile.of(x, y, 0)) == null && (ClipFlag.flagged(World.getClipFlags(0, x, y), ClipFlag.UNDER_ROOF)))
 					if (Utils.randomInclusive(0, 1) == 0)
 						balloons.add(new Balloon(PartyRoom.getRandomBalloon(), 0, x, y, 0));
 		WorldTasks.scheduleTimer(i -> {

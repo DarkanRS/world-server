@@ -1,20 +1,13 @@
 package com.rs.game.content.quests.blackknightsfortress;
 
-import static com.rs.game.content.world.doors.Doors.handleDoor;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -23,13 +16,17 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.*;
+
+import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(Quest.BLACK_KNIGHTS_FORTRESS)
 @PluginEventHandler
@@ -39,20 +36,6 @@ public class BlackKnightsFortress extends QuestOutline {
 	public final static int HEARD_PLAN = 2;
 	public final static int RUINED_CAULDRON = 3;
 	public final static int QUEST_COMPLETE = 4;
-
-	// items
-	protected final static int IRON_CHAINBODY = 1101;
-	protected final static int BRONZE_MED_HELM = 1139;
-	protected final static int CABBAGE = 1965;
-
-	// Npc
-	protected final static int SIR_AMIK_VARZE = 608;
-	protected final static int BLACK_KNIGHT_CAPTAIN = 610;
-	protected final static int WITCH = 611;
-	protected final static int GRELDO = 612;
-	protected final static int FORTRESS_FRONT_GAURD = 4604;
-	protected final static int BLACK_CAT = 4607;
-	protected final static int NULL_NPC = 264;
 
 	// Animations
 	public final static int TOSS_CABBAGE = 9705;
@@ -81,7 +64,7 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED:
@@ -130,15 +113,35 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Sir Amik Varze, located on the 3rd floor in the western tower of the<br>White Knights' Castle in Falador.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Cabbage<br>Iron chainbody<br>Bronze med helm";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Ability to evade level 33 Black Knights";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,500 coins";
+	}
+
+	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(2500);
-		getQuest().sendQuestCompleteInterface(player, 9591, "2,500 coins");
+		sendQuestCompleteInterface(player, 9591);
 	}
 
 	public static EnterChunkHandler handleAgressiveKnights = new EnterChunkHandler(e -> {
 		if (e.getEntity() instanceof Player p && p.hasStarted() && FORTRESS_CHUNKS.contains(e.getChunkId())) {
 			if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) >= STARTED && !p.isQuestComplete(Quest.BLACK_KNIGHTS_FORTRESS)) {
-				for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId())) {
+				for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)) {
 					if (npc.getName().equalsIgnoreCase("Black Knight"))
 						if (npc.lineOfSightTo(p, false)) {
 							npc.setTarget(p);
@@ -155,7 +158,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		if (p.getX() < e.getObject().getX())
 			p.startConversation(new Conversation(p) {
 				{
-					addNPC(FORTRESS_FRONT_GAURD, HeadE.SKEPTICAL, "I wouldn't go in there if I were you. Those Black Knights are in an important meeting. " + "They said they'd kill anyone who went in there!");
+					addNPC(4604, HeadE.SKEPTICAL, "I wouldn't go in there if I were you. Those Black Knights are in an important meeting. " + "They said they'd kill anyone who went in there!");
 					addOptions("Select an option", new Options() {
 						@Override
 						public void create() {
@@ -179,10 +182,10 @@ public class BlackKnightsFortress extends QuestOutline {
 			handleDoor(p, e.getObject());
 			return;
 		}
-		if (p.getEquipment().getHatId() != BRONZE_MED_HELM || p.getEquipment().getChestId() != IRON_CHAINBODY) {
+		if (p.getEquipment().getHatId() != 1139 || p.getEquipment().getChestId() != 1101) {//bronze med iron chainbody
 			p.startConversation(new Conversation(p) {
 				{
-					addNPC(FORTRESS_FRONT_GAURD, HeadE.SKEPTICAL, "Password?");
+					addNPC(4604, HeadE.SKEPTICAL, "Password?");
 					addPlayer(HeadE.SKEPTICAL_THINKING, "I don't know...");
 					create();
 				}
@@ -197,19 +200,19 @@ public class BlackKnightsFortress extends QuestOutline {
 		if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) != STARTED)
 			return;
 		p.setNextAnimation(new Animation(LISTEN_GRILL));
-		p.startConversation(new Conversation(p) {
+		p.startConversation(new Conversation(p) {//610 black knight, 611 witch
 			{
-				addNPC(BLACK_KNIGHT_CAPTAIN, HeadE.CALM_TALK, "So... how's the secret weapon coming along?");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "The invincibility potion is almost ready...");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "It's taken me FIVE YEARS, but it's almost ready.");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "Greldo, the goblin here, is just going to fetch the last ingredient for me.");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "It's a special cabbage grown by my cousin Helda, who lives in Draynor Manor.");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "The soil there is slightly magical and it gives the cabbages slight magical properties...");
-				addNPC(WITCH, HeadE.HAPPY_TALKING, "...not to mention the trees!");
-				addNPC(WITCH, HeadE.AMAZED_MILD, "Now, remember, Greldo, only a Draynor Manor cabbage will do! Don't get lazy and bring any old cabbage. THAT" + " would ENITERELY wreck the potion!");
-				addNPC(GRELDO, HeadE.CHILD_CALM_TALK, "Yeth, mithtreth");
+				addNPC(610, HeadE.CALM_TALK, "So... how's the secret weapon coming along?");
+				addNPC(611, HeadE.HAPPY_TALKING, "The invincibility potion is almost ready...");
+				addNPC(611, HeadE.HAPPY_TALKING, "It's taken me FIVE YEARS, but it's almost ready.");
+				addNPC(611, HeadE.HAPPY_TALKING, "Greldo, the goblin here, is just going to fetch the last ingredient for me.");
+				addNPC(611, HeadE.HAPPY_TALKING, "It's a special cabbage grown by my cousin Helda, who lives in Draynor Manor.");
+				addNPC(611, HeadE.HAPPY_TALKING, "The soil there is slightly magical and it gives the cabbages slight magical properties...");
+				addNPC(611, HeadE.HAPPY_TALKING, "...not to mention the trees!");
+				addNPC(611, HeadE.AMAZED_MILD, "Now, remember, Greldo, only a Draynor Manor cabbage will do! Don't get lazy and bring any old cabbage. THAT" + " would ENITERELY wreck the potion!");
+				addNPC(612, HeadE.CHILD_CALM_TALK, "Yeth, mithtreth");//random goblin
 				addNext(() -> {
-					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN, true);
+					p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, HEARD_PLAN);
 					p.setNextAnimation(new Animation(FINISH_LISTEN_GRILL));
 				});
 				create();
@@ -221,12 +224,12 @@ public class BlackKnightsFortress extends QuestOutline {
 		Player p = e.getPlayer();
 		if (p.getQuestManager().getStage(Quest.BLACK_KNIGHTS_FORTRESS) != HEARD_PLAN)
 			return;
-		GameObject cauldron = World.getRegion(12086).getObjectWithId(CAULDRON, 0);
+		GameObject cauldron = World.getObjectWithId(Tile.of(3031, 3507, 0), CAULDRON);
 
-		WorldTile tileBeforeCutscene = WorldTile.of(p.getX(), p.getY(), p.getPlane());
-		if (e.getItem().getId() == CABBAGE) {
+		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
+		if (e.getItem().getId() == 1965) { //Cabbage
 			p.lock();
-			p.getInventory().removeItems(new Item(CABBAGE, 1));
+			p.getInventory().removeItems(new Item(1965, 1));
 			WorldTasks.schedule(new WorldTask() {
 				int tick;
 				final int WITCH_DIALOGUE1 = 10;
@@ -238,14 +241,14 @@ public class BlackKnightsFortress extends QuestOutline {
 
 					if (tick == 0) {
 						p.setNextAnimation(new Animation(TOSS_CABBAGE));
-						World.sendProjectile(p, WorldTile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
+						World.sendProjectile(p, Tile.of(p.getX() + 1, p.getY(), p.getPlane()), CABBAGE_PROJECTILE, 40, 0, 2, 0.1, 20, 0);
 					}
 					if (tick == 3)
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 6) {
-						p.setNextWorldTile(cauldron.getTile());
-						p.getAppearance().transformIntoNPC(NULL_NPC);
+						p.setNextTile(cauldron.getTile());
+						p.getAppearance().transformIntoNPC(264);
 					}
 
 					if (tick == 7)
@@ -254,7 +257,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					if (tick == WITCH_DIALOGUE1)
 						p.startConversation(new Conversation(p) {
 							{
-								addNPC(WITCH, HeadE.ANGRY, "Where has Greldo got to with that magic cabbage!");
+								addNPC(611, HeadE.ANGRY, "Where has Greldo got to with that magic cabbage!");
 								addNext(() -> {
 									tick++;
 								});
@@ -263,13 +266,13 @@ public class BlackKnightsFortress extends QuestOutline {
 						});
 
 					if (tick == KNIGHT_CAPTAIN_DIALOGUE1)
-						p.startConversation(new Conversation(p) {
+						p.startConversation(new Conversation(p) {//610: black knight captain
 							{
-								addNPC(BLACK_KNIGHT_CAPTAIN, HeadE.SKEPTICAL_THINKING, "What's that noise?");
-								addNPC(WITCH, HeadE.AMAZED_MILD, "Hopefully Greldo with that cabbage... yes look here it co....NOOOOOoooo!");
+								addNPC(610, HeadE.SKEPTICAL_THINKING, "What's that noise?");
+								addNPC(611, HeadE.AMAZED_MILD, "Hopefully Greldo with that cabbage... yes look here it co....NOOOOOoooo!");
 								addNext(() -> {
-									for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-										if (npc.getId() == WITCH || npc.getId() == BLACK_KNIGHT_CAPTAIN)
+									for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
+										if (npc.getId() == 611 || npc.getId() == 610)
 											npc.faceObject(cauldron);
 									tick++;
 								});
@@ -278,22 +281,22 @@ public class BlackKnightsFortress extends QuestOutline {
 						});
 
 					if (tick == 14)
-						World.sendProjectile(WorldTile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-							World.sendSpotAnim(p, new SpotAnim(CAULDRON_EXPLOSION_GFX), WorldTile.of(p.getX(), p.getY(), p.getPlane()));
+						World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
+							World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX));
 						});
 
 					if (tick == POTION_RUINED) {
 						p.getVars().setVarBit(CAULDRON_STATUS_VAR, 1);
-						p.startConversation(new Conversation(p) {
+						p.startConversation(new Conversation(p) {//610 black knight captain, 611 witch
 							{
-								addNPC(WITCH, HeadE.AMAZED_MILD, "My potion!");
-								addNPC(BLACK_KNIGHT_CAPTAIN, HeadE.SCARED, "Oh boy, this doesn't look good!");
-								addNPC(BLACK_CAT, HeadE.CAT_CALM_TALK, "Meow!");
+								addNPC(611, HeadE.AMAZED_MILD, "My potion!");
+								addNPC(610, HeadE.SCARED, "Oh boy, this doesn't look good!");
+								addNPC(4607, HeadE.CAT_CALM_TALK, "Meow!");
 								addNext(() -> {
 									tick++;
 								});
-								for (NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
-									if (npc.getId() == WITCH)
+								for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
+									if (npc.getId() == 611)
 										npc.setNextAnimation(new Animation(CRY));
 								create();
 							}
@@ -304,7 +307,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(115);
 
 					if (tick == 25) {
-						p.setNextWorldTile(tileBeforeCutscene);
+						p.setNextTile(tileBeforeCutscene);
 						p.getAppearance().transformIntoNPC(-1);
 					}
 
@@ -312,7 +315,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						p.getInterfaceManager().setFadingInterface(170);
 
 					if (tick == 27) {
-						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON, true);
+						p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, RUINED_CAULDRON);
 						p.unlock();
 						stop();
 					}

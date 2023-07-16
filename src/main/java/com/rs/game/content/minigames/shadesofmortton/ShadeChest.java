@@ -16,15 +16,15 @@
 //
 package com.rs.game.content.minigames.shadesofmortton;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public enum ShadeChest {
 

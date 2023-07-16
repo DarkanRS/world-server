@@ -1,0 +1,23 @@
+{
+  "ids": [
+    14982
+  ],
+  "attackAnim": 13786,
+  "attackSound": -1,
+  "defenceAnim": 13792,
+  "defendSound": -1,
+  "deathAnim": 13785,
+  "deathDelay": 4,
+  "deathSound": -1,
+  "respawnDelay": 30,
+  "hitpoints": 50,
+  "maxHit": 1,
+  "attackStyle": "MAGIC",
+  "attackRange": 8,
+  "attackGfx": -1,
+  "attackProjectile": 2718,
+  "agressivenessType": "PASSIVE",
+  "aggroDistance": 4,
+  "deAggroDistance": -1,
+  "maxDistFromSpawn": -1
+}

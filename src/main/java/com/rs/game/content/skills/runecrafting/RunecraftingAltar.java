@@ -16,12 +16,10 @@
 //
 package com.rs.game.content.skills.runecrafting;
 
-import java.util.ArrayList;
-
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -30,12 +28,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
 
 @PluginEventHandler
 public class RunecraftingAltar {
@@ -137,7 +137,7 @@ public class RunecraftingAltar {
 			e.getPlayer().getTempAttribs().removeO("whr");
 			sendWickedHoodInter(e.getPlayer());
 		} else
-			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, WorldTile.of(3106, 3162, 1), null, null);
+			Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Tile.of(3106, 3162, 1), null, null);
 	});
 
 	public static ButtonClickHandler handleWickedHoodInter = new ButtonClickHandler(new Object[] { WICKED_HOOD_INTER }, e -> {
@@ -223,28 +223,28 @@ public class RunecraftingAltar {
 	});
 
 	public enum Altar {
-		MIND(1, new int[] { 1448, 5529, 13631 }, WorldTile.of(2793, 4828, 0), WorldTile.of(2984, 3515, 0), 2453, 2466),
-		AIR(1, new int[] { 1438, 5527, 13630 }, WorldTile.of(2841, 4829, 0), WorldTile.of(3128, 3407, 0), 2452, 2465),
-		WATER(5, new int[] { 1444, 5531, 13632 }, WorldTile.of(3494, 4832, 0), WorldTile.of(3183, 3164, 0), 2454, 2467),
-		EARTH(9, new int[] { 1440, 5535, 13633 }, WorldTile.of(2655, 4830, 0), WorldTile.of(3306, 3472, 0), 2455, 2468),
-		FIRE(14, new int[] { 1442, 5537, 13634 }, WorldTile.of(2577, 4846, 0), WorldTile.of(3312, 3253, 0), 2456, 2469),
-		BODY(20, new int[] { 1446, 5533, 13635 }, WorldTile.of(2522, 4833, 0), WorldTile.of(3055, 3444, 0), 2457, 2470),
-		COSMIC(27, new int[] { 1454, 5539, 13636 }, WorldTile.of(2162, 4833, 0), WorldTile.of(2408, 4379, 0), 2458, 2471),
-		CHAOS(35, new int[] { 1452, 5543, 13637 }, WorldTile.of(2281, 4837, 0), WorldTile.of(3060, 3589, 0), 2461, 2474),
-		ASTRAL(40, new int[] { -1, -1 }, WorldTile.of(2156, 3863, 0), WorldTile.of(2156, 3863, 0), 17010, -1),
-		NATURE(44, new int[] { 1462, 5541, 13638 }, WorldTile.of(2400, 4835, 0), WorldTile.of(2868, 3017, 0), 2460, 2473),
-		LAW(54, new int[] { 1458, 5545, 13639 }, WorldTile.of(2464, 4818, 0), WorldTile.of(2857, 3380, 0), 2459, 2472),
-		DEATH(65, new int[] { 1456, 5547, 13640 }, WorldTile.of(2208, 4830, 0), WorldTile.of(1862, 4639, 0), 2462, 2475),
-		BLOOD(77, new int[] { 1450, 5549, 13641 }, WorldTile.of(2468, 4889, 1), WorldTile.of(3561, 9779, 0), 2464, 2477);
+		MIND(1, new int[] { 1448, 5529, 13631 }, Tile.of(2793, 4828, 0), Tile.of(2984, 3515, 0), 2453, 2466),
+		AIR(1, new int[] { 1438, 5527, 13630 }, Tile.of(2841, 4829, 0), Tile.of(3128, 3407, 0), 2452, 2465),
+		WATER(5, new int[] { 1444, 5531, 13632 }, Tile.of(3494, 4832, 0), Tile.of(3183, 3164, 0), 2454, 2467),
+		EARTH(9, new int[] { 1440, 5535, 13633 }, Tile.of(2655, 4830, 0), Tile.of(3306, 3472, 0), 2455, 2468),
+		FIRE(14, new int[] { 1442, 5537, 13634 }, Tile.of(2577, 4846, 0), Tile.of(3312, 3253, 0), 2456, 2469),
+		BODY(20, new int[] { 1446, 5533, 13635 }, Tile.of(2522, 4833, 0), Tile.of(3055, 3444, 0), 2457, 2470),
+		COSMIC(27, new int[] { 1454, 5539, 13636 }, Tile.of(2162, 4833, 0), Tile.of(2408, 4379, 0), 2458, 2471),
+		CHAOS(35, new int[] { 1452, 5543, 13637 }, Tile.of(2281, 4837, 0), Tile.of(3060, 3589, 0), 2461, 2474),
+		ASTRAL(40, new int[] { -1, -1 }, Tile.of(2156, 3863, 0), Tile.of(2156, 3863, 0), 17010, -1),
+		NATURE(44, new int[] { 1462, 5541, 13638 }, Tile.of(2400, 4835, 0), Tile.of(2868, 3017, 0), 2460, 2473),
+		LAW(54, new int[] { 1458, 5545, 13639 }, Tile.of(2464, 4818, 0), Tile.of(2857, 3380, 0), 2459, 2472),
+		DEATH(65, new int[] { 1456, 5547, 13640 }, Tile.of(2208, 4830, 0), Tile.of(1862, 4639, 0), 2462, 2475),
+		BLOOD(77, new int[] { 1450, 5549, 13641 }, Tile.of(2468, 4889, 1), Tile.of(3561, 9779, 0), 2464, 2477);
 
 		private int level;
 		private int[] talisman;
-		private WorldTile inside;
-		private WorldTile outside;
+		private Tile inside;
+		private Tile outside;
 		private int objectId;
 		private int portal;
 
-		private Altar(int level, int[] talisman, WorldTile inside, WorldTile outside, int objectId, int portal) {
+		private Altar(int level, int[] talisman, Tile inside, Tile outside, int objectId, int portal) {
 			this.level = level;
 			this.talisman = talisman;
 			this.inside = inside;
@@ -275,25 +275,25 @@ public class RunecraftingAltar {
 				if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
 					yield false;
 				if (teleport)
-					player.delayLock(1, () -> player.setNextWorldTile(inside));
+					player.delayLock(1, () -> player.setNextTile(inside));
 				yield true;
 			}
 			case BLOOD -> {
 				if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
 					yield false;
 				if (teleport)
-					player.delayLock(1, () -> player.setNextWorldTile(inside));
+					player.delayLock(1, () -> player.setNextTile(inside));
 				yield true;
 			}
 			default -> {
 				if (teleport)
-					player.delayLock(1, () -> player.setNextWorldTile(inside));
+					player.delayLock(1, () -> player.setNextTile(inside));
 				yield true;
 			}
 			};
 		}
 
-		public WorldTile getOutside() {
+		public Tile getOutside() {
 			return outside;
 		}
 
@@ -321,7 +321,7 @@ public class RunecraftingAltar {
 
 	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
 		if (e.getPlayer().lastEssTele != null)
-			e.getPlayer().setNextWorldTile(e.getPlayer().lastEssTele);
+			e.getPlayer().setNextTile(e.getPlayer().lastEssTele);
 		else
 			e.getPlayer().sendMessage("Couldn't lock on to your entry path to safely exit you. Teleport out another way.");
 	});
@@ -362,7 +362,7 @@ public class RunecraftingAltar {
 					break;
 				}
 			if (altar != null) {
-				e.getPlayer().setNextWorldTile(altar.getOutside());
+				e.getPlayer().setNextTile(altar.getOutside());
 				if (altar.name() == Altar.CHAOS.name())
 					e.getPlayer().getControllerManager().startController(new WildernessController());
 			}
@@ -408,8 +408,8 @@ public class RunecraftingAltar {
 						}
 					}
 					player.unlock();
-					player.setNextWorldTile(WorldTile.of(2911, 4832, 0));
-					player.lastEssTele = WorldTile.of(npc.getTile());
+					player.lastEssTele = Tile.of(player.getTile());
+					player.setNextTile(Tile.of(2911, 4832, 0));
 					return false;
 				}
 			}

@@ -1,0 +1,83 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2833,
+      "y": 10342
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2835,
+      "y": 10338
+    },
+    "comment": "Jelly",
+    "npcId": 7460
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2836,
+      "y": 10341
+    },
+    "comment": "Jelly",
+    "npcId": 7460
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2837,
+      "y": 10337
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2841,
+      "y": 10315
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2843,
+      "y": 10314
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2866,
+      "y": 10323
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2867,
+      "y": 10321
+    },
+    "comment": "Jelly",
+    "npcId": 7460
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2870,
+      "y": 10325
+    },
+    "comment": "Jelly",
+    "npcId": 7459
+  }
+]

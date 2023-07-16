@@ -16,24 +16,20 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import com.rs.game.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.content.skills.dungeoneering.*;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
-import com.rs.game.content.skills.dungeoneering.DungeonController;
-import com.rs.game.content.skills.dungeoneering.DungeonManager;
-import com.rs.game.content.skills.dungeoneering.DungeonUtils;
-import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SlidingTilesRoom extends PuzzleRoom {
 
@@ -93,14 +89,14 @@ public class SlidingTilesRoom extends PuzzleRoom {
 		for (int i = 0; i < 9; i++)
 			if (shuffledNpcOrder[i] != 0) {
 				int[] coords = DungeonManager.translate(TILE_COORDS[i][0], TILE_COORDS[i][1], 0, 2, 2, 0);
-				WorldTile base = manager.getRoomBaseTile(reference);
-				tiles[i] = new SlidingTile(shuffledNpcOrder[i], WorldTile.of(base.getX() + coords[0], base.getY() + coords[1], 0), manager);
+				Tile base = manager.getRoomBaseTile(reference);
+				tiles[i] = new SlidingTile(shuffledNpcOrder[i], Tile.of(base.getX() + coords[0], base.getY() + coords[1], 0), manager);
 			}
 	}
 
 	public static class SlidingTile extends DungeonNPC {
 
-		public SlidingTile(int id, WorldTile tile, DungeonManager manager) {
+		public SlidingTile(int id, Tile tile, DungeonManager manager) {
 			super(id, tile, manager);
 		}
 
@@ -159,7 +155,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 					puzzle.solveOrder[0] = -1;
 				}
 				int[] coords = DungeonManager.translate(TILE_COORDS[puzzle.freeIndex][0], TILE_COORDS[puzzle.freeIndex][1], 0, 2, 2, 0);
-				WorldTile base = puzzle.manager.getRoomBaseTile(puzzle.reference);
+				Tile base = puzzle.manager.getRoomBaseTile(puzzle.reference);
 				npc.addWalkSteps(base.getX() + coords[0], base.getY() + coords[1]);
 
 				puzzle.tiles[puzzle.freeIndex] = puzzle.tiles[i];

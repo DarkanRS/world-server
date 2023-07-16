@@ -16,18 +16,16 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.NPCDefinitions.MovementType;
-import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
+
+import java.util.Iterator;
+import java.util.LinkedList;
 
 public final class LocalNPCUpdate {
 
@@ -96,42 +94,35 @@ public final class LocalNPCUpdate {
 	}
 
 	private void addInScreenNPCs(OutputStream stream, OutputStream updateBlockData, boolean largeSceneView) {
-		for (int regionId : player.getMapRegionsIds()) {
-			Set<Integer> indexes = World.getRegion(regionId).getNPCsIndexes();
-			if (indexes == null)
-				continue;
-			for (int npcIndex : indexes) {
-				if (localNPCs.size() == Settings.LOCAL_NPCS_LIMIT)
-					break;
-				NPC n = World.getNPCs().get(npcIndex);
-				if (n == null || n.hasFinished() || localNPCs.contains(n) || !n.withinDistance(player, largeSceneView ? 126 : 14) || n.isDead())
-					continue;
-				stream.writeBits(15, n.getIndex());
-				boolean needUpdate = n.needMasksUpdate() || n.getLastFaceEntity() != -1;
-				int x = n.getX() - player.getX();
-				int y = n.getY() - player.getY();
-				if (largeSceneView) {
-					if (x < 127)
-						x += 256;
-					if (y < 127)
-						y += 256;
-				} else {
-					if (x < 15)
-						x += 32;
-					if (y < 15)
-						y += 32;
-				}
-				stream.writeBits(1, needUpdate ? 1 : 0);
-				stream.writeBits(largeSceneView ? 8 : 5, y);
-				stream.writeBits(3, (n.getFaceAngle() >> 11) - 4);
-				stream.writeBits(15, n.getId());
-				stream.writeBits(largeSceneView ? 8 : 5, x);
-				stream.writeBits(1, n.hasTeleported() ? 1 : 0);
-				stream.writeBits(2, n.getPlane());
-				localNPCs.add(n);
-				if (needUpdate)
-					appendUpdateBlock(n, updateBlockData, true);
+		int radius = largeSceneView ? 126 : 14;                        //TODO is isDead really necessary here?
+		for (NPC n : player.queryNearbyNPCsByTileRange(radius, n -> /*!n.isDead() && */!localNPCs.contains(n) && n.withinDistance(player, radius))) {
+			if (localNPCs.size() == Settings.LOCAL_NPCS_LIMIT)
+				break;
+			stream.writeBits(15, n.getIndex());
+			boolean needUpdate = n.needMasksUpdate() || n.getLastFaceEntity() != -1;
+			int x = n.getX() - player.getX();
+			int y = n.getY() - player.getY();
+			if (largeSceneView) {
+				if (x < 127)
+					x += 256;
+				if (y < 127)
+					y += 256;
+			} else {
+				if (x < 15)
+					x += 32;
+				if (y < 15)
+					y += 32;
 			}
+			stream.writeBits(1, needUpdate ? 1 : 0);
+			stream.writeBits(largeSceneView ? 8 : 5, y);
+			stream.writeBits(3, (n.getFaceAngle() >> 11) - 4);
+			stream.writeBits(15, n.getId());
+			stream.writeBits(largeSceneView ? 8 : 5, x);
+			stream.writeBits(1, n.hasTeleported() ? 1 : 0);
+			stream.writeBits(2, n.getPlane());
+			localNPCs.add(n);
+			if (needUpdate)
+				appendUpdateBlock(n, updateBlockData, true);
 		}
 	}
 
@@ -188,9 +179,9 @@ public final class LocalNPCUpdate {
 			applyChangeLevelMask(n, block);
 		}
 		//0x400000 unused outdated varn
-		if (n.getNextFaceWorldTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null) {
+		if (n.getNextFaceTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null) {
 			maskData |= 0x4;
-			applyFaceWorldTileMask(n, block);
+			applyFaceTileMask(n, block);
 		}
 		if (n.getNextBodyGlow() != null) {
 			maskData |= 0x20000;
@@ -261,18 +252,18 @@ public final class LocalNPCUpdate {
 	}
 
 	private void applyForceMovementMask(NPC n, OutputStream data) {
-		data.write128Byte(n.getNextForceMovement().getToFirstTile().getX() - n.getX());
-		data.writeByte128(n.getNextForceMovement().getToFirstTile().getY() - n.getY());
-		data.writeByteC(n.getNextForceMovement().getToSecondTile() == null ? 0 : n.getNextForceMovement().getToSecondTile().getX() - n.getX());
-		data.writeByte128(n.getNextForceMovement().getToSecondTile() == null ? 0 : n.getNextForceMovement().getToSecondTile().getY() - n.getY());
-		data.writeShortLE((n.getNextForceMovement().getFirstTileTicketDelay() * 600) / 20);
-		data.writeShortLE(n.getNextForceMovement().getToSecondTile() == null ? 0 : ((n.getNextForceMovement().getSecondTileTicketDelay() * 600) / 20));
+		data.write128Byte(n.getNextForceMovement().getDiffX1());
+		data.writeByte128(n.getNextForceMovement().getDiffY1());
+		data.writeByteC(n.getNextForceMovement().getDiffX2());
+		data.writeByte128(n.getNextForceMovement().getDiffY2());
+		data.writeShortLE(n.getNextForceMovement().getStartClientCycles());
+		data.writeShortLE(n.getNextForceMovement().getSpeedClientCycles());
 		data.writeShortLE128(n.getNextForceMovement().getDirection());
 	}
 
-	private void applyFaceWorldTileMask(NPC n, OutputStream data) {
-		data.writeShortLE128((n.getNextFaceWorldTile().getX() << 1) + 1);
-		data.writeShortLE((n.getNextFaceWorldTile().getY() << 1) + 1);
+	private void applyFaceTileMask(NPC n, OutputStream data) {
+		data.writeShortLE128((n.getNextFaceTile().getX() << 1) + 1);
+		data.writeShortLE((n.getNextFaceTile().getY() << 1) + 1);
 	}
 
 	private void applyHitMask(NPC n, OutputStream data) {

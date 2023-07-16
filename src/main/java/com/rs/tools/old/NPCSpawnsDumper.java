@@ -16,15 +16,15 @@
 //
 package com.rs.tools.old;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.lib.io.InputStream;
 import com.rs.lib.util.MapXTEAs;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class NPCSpawnsDumper {
 

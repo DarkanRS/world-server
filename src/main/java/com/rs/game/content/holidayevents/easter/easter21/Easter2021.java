@@ -16,23 +16,19 @@
 //
 package com.rs.game.content.holidayevents.easter.easter21;
 
-import com.rs.game.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Conversation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.ItemEquipHandler;
-import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.LoginHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 import com.rs.utils.spawns.ObjectSpawn;
@@ -49,15 +45,15 @@ public class Easter2021 {
 	public static void loadSpawns() {
 		if (!ENABLED)
 			return;
-		ObjectSpawns.add(new ObjectSpawn(23117, 10, 0, WorldTile.of(3210, 3424, 0), "Rabbit hole"));
-		NPCSpawns.add(new NPCSpawn(9687, WorldTile.of(3212, 3425, 0), "Easter Bunny"));
-		NPCSpawns.add(new NPCSpawn(9687, WorldTile.of(2463, 5355, 0), "Easter Bunny"));
-		NPCSpawns.add(new NPCSpawn(7411, WorldTile.of(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"));
-		NPCSpawns.add(new NPCSpawn(9686, WorldTile.of(2969, 3431, 0), "Charlie the Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3283, WorldTile.of(2968, 3429, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3284, WorldTile.of(2970, 3429, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3285, WorldTile.of(2969, 3428, 0), "Squirrel"));
-		NPCSpawns.add(new NPCSpawn(3285, WorldTile.of(2968, 3432, 0), "Squirrel"));
+		ObjectSpawns.add(new ObjectSpawn(23117, 10, 0, Tile.of(3210, 3424, 0), "Rabbit hole"));
+		NPCSpawns.add(new NPCSpawn(9687, Tile.of(3212, 3425, 0), "Easter Bunny"));
+		NPCSpawns.add(new NPCSpawn(9687, Tile.of(2463, 5355, 0), "Easter Bunny"));
+		NPCSpawns.add(new NPCSpawn(7411, Tile.of(2448, 5357, 0), "Easter Bunny Jr").setCustomName("Easter Bunny Jr (Trent with Easter 2021 Event)"));
+		NPCSpawns.add(new NPCSpawn(9686, Tile.of(2969, 3431, 0), "Charlie the Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3283, Tile.of(2968, 3429, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3284, Tile.of(2970, 3429, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3285, Tile.of(2969, 3428, 0), "Squirrel"));
+		NPCSpawns.add(new NPCSpawn(3285, Tile.of(2968, 3432, 0), "Squirrel"));
 	}
 
 	public static ObjectClickHandler handleEnterExit = new ObjectClickHandler(new Object[] { 23117, 30074 }, e -> {
@@ -65,7 +61,7 @@ public class Easter2021 {
 			e.getPlayer().sendMessage("You don't see a need to go down there yet!");
 			return;
 		}
-		e.getPlayer().useLadder(e.getObjectId() == 23117 ? WorldTile.of(2483, 5258, 0) : WorldTile.of(3212, 3425, 0));
+		e.getPlayer().useLadder(e.getObjectId() == 23117 ? Tile.of(2483, 5258, 0) : Tile.of(3212, 3425, 0));
 	});
 
 	public static ObjectClickHandler handleRabbitTunnel = new ObjectClickHandler(new Object[] { 30075, 30076 }, e -> useBunnyHole(e.getPlayer(), e.getObject(), e.getPlayer().transform(0, e.getObjectId() == 30075 ? 7 : -7)));
@@ -86,23 +82,23 @@ public class Easter2021 {
 	public static final int PISTON = 14720;
 	public static final int CHIMNEY = 14718;
 
-	private static final WorldTile[] COG_LOCATIONS = {
-			WorldTile.of(2469, 5328, 0),
-			WorldTile.of(2469, 5321, 0),
-			WorldTile.of(2454, 5334, 0),
-			WorldTile.of(2448, 5341, 0)
+	private static final Tile[] COG_LOCATIONS = {
+			Tile.of(2469, 5328, 0),
+			Tile.of(2469, 5321, 0),
+			Tile.of(2454, 5334, 0),
+			Tile.of(2448, 5341, 0)
 	};
 
-	private static final WorldTile[] PISTON_LOCATIONS = {
-			WorldTile.of(2468, 5324, 0),
-			WorldTile.of(2467, 5319, 0),
-			WorldTile.of(2454, 5335, 0)
+	private static final Tile[] PISTON_LOCATIONS = {
+			Tile.of(2468, 5324, 0),
+			Tile.of(2467, 5319, 0),
+			Tile.of(2454, 5335, 0)
 	};
 
-	private static final WorldTile[] CHIMNEY_LOCATIONS = {
-			WorldTile.of(2469, 5323, 0),
-			WorldTile.of(2444, 5329, 0),
-			WorldTile.of(2449, 5343, 0)
+	private static final Tile[] CHIMNEY_LOCATIONS = {
+			Tile.of(2469, 5323, 0),
+			Tile.of(2444, 5329, 0),
+			Tile.of(2449, 5343, 0)
 	};
 
 	public static LoginHandler loginEaster = new LoginHandler(e -> {
@@ -243,7 +239,7 @@ public class Easter2021 {
 		}
 	});
 
-	public static void useBunnyHole(Player player, GameObject object, WorldTile toTile) {
+	public static void useBunnyHole(Player player, GameObject object, Tile toTile) {
 		player.lock();
 		player.faceObject(object);
 		WorldTasks.delay(1, () -> {
@@ -251,7 +247,7 @@ public class Easter2021 {
 			player.setNextSpotAnim(new SpotAnim(1567));
 		});
 		WorldTasks.delay(13, () -> {
-			player.setNextWorldTile(toTile);
+			player.setNextTile(toTile);
 			player.setNextAnimation(new Animation(8902));
 		});
 		WorldTasks.delay(22, () -> {

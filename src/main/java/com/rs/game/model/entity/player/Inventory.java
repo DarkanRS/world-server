@@ -16,11 +16,6 @@
 //
 package com.rs.game.model.entity.player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
@@ -33,7 +28,7 @@ import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -49,6 +44,11 @@ import com.rs.plugin.handlers.InterfaceOnNPCHandler;
 import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.utils.ItemConfig;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @PluginEventHandler
 public final class Inventory {
@@ -417,6 +417,13 @@ public final class Inventory {
 		return false;
 	}
 
+	public boolean containsItems(int... itemIds) {
+		for (int itemId : itemIds)
+			if (!items.contains(new Item(itemId, 1)))
+				return false;
+		return true;
+	}
+
 	public boolean containsItems(Item... item) {
 		for (Item element : item)
 			if (!items.contains(element))
@@ -518,7 +525,7 @@ public final class Inventory {
 			numberToDrop = item.getAmount() - items.getFreeSlots();
 			items.add(new Item(item).setAmount(items.getFreeSlots()));
 			player.sendMessage("Not enough space in your inventory.");
-			World.addGroundItem(item.setAmount(numberToDrop), WorldTile.of(player.getTile()), player, true, 60);
+			World.addGroundItem(item.setAmount(numberToDrop), Tile.of(player.getTile()), player, true, 60);
 			refreshItems(itemsBefore);
 			return true;
 		}

@@ -16,20 +16,20 @@
 //
 package com.rs.utils.shop;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.rs.cores.CoresManager;
+import com.rs.engine.Shop;
 import com.rs.game.World;
-import com.rs.game.engine.Shop;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.plugin.handlers.NPCClickHandler;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class ShopsHandler {
@@ -54,13 +54,13 @@ public class ShopsHandler {
 	
 	@ServerStartupEvent
 	public static void addRestoreShopItemsTask() {
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(0, 0, () -> {
 			try {
 				ShopsHandler.restoreShops();
 			} catch (Throwable e) {
 				Logger.handle(World.class, "addRestoreShopItemsTask", e);
 			}
-		}, 0, 1);
+		});
 	}
 
 	private static void loadShopFiles() {

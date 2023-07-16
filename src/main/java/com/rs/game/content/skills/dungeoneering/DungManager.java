@@ -16,19 +16,10 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonDifficulty;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonLeaveParty;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonPartyStart;
-import com.rs.game.content.skills.dungeoneering.dialogues.DungeonSize;
-import com.rs.game.content.skills.dungeoneering.dialogues.PrestigeReset;
+import com.rs.game.content.skills.dungeoneering.dialogues.*;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -36,13 +27,18 @@ import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class DungManager {
@@ -69,21 +65,21 @@ public class DungManager {
 	private transient Player invitingPlayer;
 
 	public static enum ResourceDungeon {
-		EDGEVILLE_DUNGEON(10, 1100, 52849, WorldTile.of(3132, 9933, 0), 52867, WorldTile.of(991, 4585, 0)),
-		DWARVEN_MINE(15, 1500, 52855, WorldTile.of(3034, 9772, 0), 52864, WorldTile.of(1041, 4575, 0)),
-		EDGEVILLE_DUNGEON_2(20, 1600, 52853, WorldTile.of(3104, 9826, 0), 52868, WorldTile.of(1135, 4589, 0)),
-		KARAMJA_VOLCANO(25, 2100, 52850, WorldTile.of(2845, 9557, 0), 52869, WorldTile.of(1186, 4598, 0)),
-		DAEMONHEIM_PENINSULA(30, 2400, 52861, WorldTile.of(3513, 3666, 0), 52862, WorldTile.of(3498, 3633, 0)),
-		BAXTORIAN_FALLS(35, 3000, 52857, WorldTile.of(2578, 9898, 0), 52873, WorldTile.of(1256, 4592, 0)),
-		MINING_GUILD(45, 4400, 52856, WorldTile.of(3022, 9741, 0), 52866, WorldTile.of(1052, 4521, 0)),
-		TAVERLEY_DUNGEON_1(55, 6200, 52851, WorldTile.of(2854, 9841, 0), 52870, WorldTile.of(1394, 4588, 0)),
-		TAVERLEY_DUNGEON_2(60, 7000, 52852, WorldTile.of(2912, 9810, 0), 52865, WorldTile.of(1000, 4522, 0)),
-		VARROCK_SEWERS(65, 8500, 52863, WorldTile.of(3164, 9878, 0), 52876, WorldTile.of(1312, 4590, 0)),
-		CHAOS_TUNNELS(70, 9600, 52858, WorldTile.of(3160, 5521, 0), 52874, WorldTile.of(1238, 4524, 0)),
-		AL_KHARID(75, 11400, 52860, WorldTile.of(3298, 3307, 0), 52872, WorldTile.of(1182, 4515, 0)),
-		BRIMHAVEN_DUNGEON(80, 12800, 52854, WorldTile.of(2697, 9442, 0), 52871, WorldTile.of(1140, 4499, 0)),
-		POLYPORE_DUNGEON(82, 13500, 64291, WorldTile.of(4661, 5491, 3), 64291, WorldTile.of(4695, 5625, 3)),
-		ASGARNIAN_ICE_DUNGEON(85, 15000, 52859, WorldTile.of(3033, 9599, 0), 52875, WorldTile.of(1297, 4510, 0))
+		EDGEVILLE_DUNGEON(10, 1100, 52849, Tile.of(3132, 9933, 0), 52867, Tile.of(991, 4585, 0)),
+		DWARVEN_MINE(15, 1500, 52855, Tile.of(3034, 9772, 0), 52864, Tile.of(1041, 4575, 0)),
+		EDGEVILLE_DUNGEON_2(20, 1600, 52853, Tile.of(3104, 9826, 0), 52868, Tile.of(1135, 4589, 0)),
+		KARAMJA_VOLCANO(25, 2100, 52850, Tile.of(2845, 9557, 0), 52869, Tile.of(1186, 4598, 0)),
+		DAEMONHEIM_PENINSULA(30, 2400, 52861, Tile.of(3513, 3666, 0), 52862, Tile.of(3498, 3633, 0)),
+		BAXTORIAN_FALLS(35, 3000, 52857, Tile.of(2578, 9898, 0), 52873, Tile.of(1256, 4592, 0)),
+		MINING_GUILD(45, 4400, 52856, Tile.of(3022, 9741, 0), 52866, Tile.of(1052, 4521, 0)),
+		TAVERLEY_DUNGEON_1(55, 6200, 52851, Tile.of(2854, 9841, 0), 52870, Tile.of(1394, 4588, 0)),
+		TAVERLEY_DUNGEON_2(60, 7000, 52852, Tile.of(2912, 9810, 0), 52865, Tile.of(1000, 4522, 0)),
+		VARROCK_SEWERS(65, 8500, 52863, Tile.of(3164, 9878, 0), 52876, Tile.of(1312, 4590, 0)),
+		CHAOS_TUNNELS(70, 9600, 52858, Tile.of(3160, 5521, 0), 52874, Tile.of(1238, 4524, 0)),
+		AL_KHARID(75, 11400, 52860, Tile.of(3298, 3307, 0), 52872, Tile.of(1182, 4515, 0)),
+		BRIMHAVEN_DUNGEON(80, 12800, 52854, Tile.of(2697, 9442, 0), 52871, Tile.of(1140, 4499, 0)),
+		POLYPORE_DUNGEON(82, 13500, 64291, Tile.of(4661, 5491, 3), 64291, Tile.of(4695, 5625, 3)),
+		ASGARNIAN_ICE_DUNGEON(85, 15000, 52859, Tile.of(3033, 9599, 0), 52875, Tile.of(1297, 4510, 0))
 
 		;
 
@@ -106,9 +102,9 @@ public class DungManager {
 
 		private int level, outsideId, insideId;
 		private double xp;
-		private WorldTile inside, outside;
+		private Tile inside, outside;
 
-		private ResourceDungeon(int level, double xp, int outsideId, WorldTile outside, int insideId, WorldTile inside) {
+		private ResourceDungeon(int level, double xp, int outsideId, Tile outside, int insideId, Tile inside) {
 			this.level = level;
 			this.xp = xp;
 			this.outsideId = outsideId;
@@ -303,7 +299,7 @@ public class DungManager {
 	public static ItemClickHandler handleKinship = new ItemClickHandler(Utils.streamObjects(15707, Utils.range(18817, 18828)), new String[] { "Customise", "Quick-switch", "Teleport to Daemonheim", "Open party interface" }, e -> {
 		switch (e.getOption()) {
 		case "Teleport to Daemonheim":
-			Magic.sendDamonheimTeleport(e.getPlayer(), WorldTile.of(3449, 3698, 0));
+			Magic.sendDamonheimTeleport(e.getPlayer(), Tile.of(3449, 3698, 0));
 			break;
 		case "Open party interface":
 			e.getPlayer().getDungManager().openPartyInterface();

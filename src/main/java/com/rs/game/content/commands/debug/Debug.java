@@ -16,33 +16,33 @@
 //
 package com.rs.game.content.commands.debug;
 
-import static com.rs.game.content.randomevents.RandomEvents.attemptSpawnRandom;
-
-import java.util.Arrays;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.command.Commands;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
-import com.rs.game.content.quests.demonslayer.DemonSlayer_PlayerVSDelrith;
-import com.rs.game.content.quests.demonslayer.DemonSlayer_WallyVSDelrith;
+import com.rs.game.content.quests.demonslayer.PlayerVSDelrithController;
+import com.rs.game.content.quests.demonslayer.WallyVSDelrithCutscene;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer_BoatScene;
 import com.rs.game.content.quests.merlinscrystal.MerlinsCrystalCrateScene;
-import com.rs.game.engine.command.Commands;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.EnterChunkHandler;
 import com.rs.utils.music.Music;
+
+import java.util.Arrays;
+
+import static com.rs.game.content.randomevents.RandomEvents.attemptSpawnRandom;
 
 @PluginEventHandler
 public class Debug {
@@ -76,7 +76,7 @@ public class Debug {
 		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
 			p.sendMessage("JagCoords: " + p.getPlane() + "," + p.getRegionX() + "," + p.getRegionY() + "," + p.getXInScene(p.getSceneBaseChunkId()) + "," + p.getYInScene(p.getSceneBaseChunkId()));
-			Logger.debug(Debug.class, "coordsCommand", "WorldTile.of(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
+			Logger.debug(Debug.class, "coordsCommand", "Tile.of(" + p.getX() + "," + p.getY() + "," + p.getPlane() +")");
 		});
 
 		Commands.add(Rights.PLAYER, "search,si,itemid [item name]", "Searches for items containing the words searched.", (p, args) -> {
@@ -96,10 +96,10 @@ public class Debug {
 		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
 			switch (Integer.valueOf(args[0])) {
 				case 0 -> {
-					p.getControllerManager().startController(new DemonSlayer_WallyVSDelrith());
+					p.playCutscene(new WallyVSDelrithCutscene());
 				}
 				case 1 -> {
-					p.getControllerManager().startController(new DemonSlayer_PlayerVSDelrith());
+					p.getControllerManager().startController(new PlayerVSDelrithController());
 				}
 				case 2 -> {
 					p.getControllerManager().startController(new DragonSlayer_BoatScene());
@@ -157,7 +157,7 @@ public class Debug {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					int stage = Integer.parseInt(args[1]);
-					p.getQuestManager().setStage(quest, stage, true);
+					p.getQuestManager().setStage(quest, stage);
 					p.sendMessage("Set " + quest.name() + " to stage " + stage);
 					return;
 				}
@@ -329,6 +329,11 @@ public class Debug {
 			p.sendMessage("GODMODE: " + !god);
 		});
 
+		Commands.add(Rights.PLAYER, "infrunes", "Toggles infinite runes for the player.", (p, args) -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		});
+
 		Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
 			p.delete(args[0]);
 		});
@@ -387,14 +392,14 @@ public class Debug {
 			for (Item item : p.getEquipment().getItemsCopy()) {
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, WorldTile.of(p.getTile()));
+				World.addGroundItem(item, Tile.of(p.getTile()));
 			}
 			for (Item item : p.getInventory().getItems().array()) {
 				if (item != null)
 					Logger.debug(Debug.class, "droptest", item.getName() + ": " + item.getAmount());
 				if (item == null || item.getName().contains("(b)") || item.getName().contains("kinship"))
 					continue;
-				World.addGroundItem(item, WorldTile.of(p.getTile()));
+				World.addGroundItem(item, Tile.of(p.getTile()));
 			}
 		});
 
@@ -405,13 +410,13 @@ public class Debug {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(x, y, plane));
+				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0])));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setNextWorldTile(WorldTile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 		// case "load":

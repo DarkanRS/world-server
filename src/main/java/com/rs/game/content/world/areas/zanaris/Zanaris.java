@@ -16,14 +16,14 @@
 //
 package com.rs.game.content.world.areas.zanaris;
 
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.transportation.FairyRings;
 import com.rs.game.content.world.AgilityShortcuts;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -36,21 +36,21 @@ public class Zanaris {
 	public static ItemOnObjectHandler handleEnterBlackDragonPlane = new ItemOnObjectHandler(new Object[] { 12093 }, e -> {
 		if (e.getItem().getId() == 2138) {
 			e.getPlayer().getInventory().deleteItem(2138, 1);
-			FairyRings.sendTeleport(e.getPlayer(), WorldTile.of(1565, 4356, 0));
+			FairyRings.sendTeleport(e.getPlayer(), Tile.of(1565, 4356, 0));
 		}
 	});
 
 	public static ItemOnObjectHandler handleDownBabyBlackDragons = new ItemOnObjectHandler(new Object[] { 12253 }, e -> {
 		if (e.getItem().getId() == 954)
-			e.getPlayer().useLadder(WorldTile.of(1544, 4381, 0));
+			e.getPlayer().useLadder(Tile.of(1544, 4381, 0));
 	});
 
 	public static ObjectClickHandler handleUpBabyBlackDragons = new ObjectClickHandler(new Object[] { 12255 }, e -> {
-		e.getPlayer().useLadder(WorldTile.of(1561, 4380, 0));
+		e.getPlayer().useLadder(Tile.of(1561, 4380, 0));
 	});
 
 	public static ObjectClickHandler handleExitBlackDragonPlane = new ObjectClickHandler(new Object[] { 12260 }, e -> {
-		e.getPlayer().setNextWorldTile(WorldTile.of(2453, 4476, 0));
+		e.getPlayer().setNextTile(Tile.of(2453, 4476, 0));
 	});
 
 	public static ObjectClickHandler handleCosmicAltarShortcuts = new ObjectClickHandler(new Object[] { 12127 }, e -> {

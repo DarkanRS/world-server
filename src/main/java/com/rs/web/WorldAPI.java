@@ -30,7 +30,6 @@ import com.rs.lib.web.WebAPI;
 import com.rs.lib.web.dto.FCData;
 import com.rs.lib.web.dto.PacketDto;
 import com.rs.lib.web.dto.PacketEncoderDto;
-
 import io.undertow.util.StatusCodes;
 
 public class WorldAPI extends WebAPI {

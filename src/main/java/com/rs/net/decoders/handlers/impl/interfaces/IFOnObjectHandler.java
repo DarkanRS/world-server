@@ -23,7 +23,7 @@ import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.interfaces.IFOnObject;
 import com.rs.lib.util.Utils;
@@ -39,9 +39,8 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 			return;
 		if (player.isLocked() || player.getEmotesManager().isAnimating())
 			return;
-		final WorldTile tile = WorldTile.of(packet.getX(), packet.getY(), player.getPlane());
-		int regionId = tile.getRegionId();
-		if (!player.getMapRegionsIds().contains(regionId))
+		final Tile tile = Tile.of(packet.getX(), packet.getY(), player.getPlane());
+		if (!player.getMapChunkIds().contains(tile.getChunkId()))
 			return;
 		GameObject mapObject = World.getObjectWithId(tile, packet.getObjectId());
 		if (mapObject == null || mapObject.getId() != packet.getObjectId())

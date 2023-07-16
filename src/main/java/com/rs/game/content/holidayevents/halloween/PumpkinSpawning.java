@@ -16,48 +16,50 @@
 //
 package com.rs.game.content.holidayevents.halloween;
 
-import java.util.List;
-
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.holidayevents.halloween.hw07.Halloween2007;
 import com.rs.game.content.holidayevents.halloween.hw09.Halloween2009;
-import com.rs.game.region.Region;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 import com.rs.utils.Ticks;
+import it.unimi.dsi.fastutil.ints.IntSet;
+
+import java.util.List;
 
 @PluginEventHandler
 public class PumpkinSpawning {
 
-	static int[] regionsToSpawn = { 12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105 };
+	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
 	static int pumpkinCount = 0;
-	static int pumpkinsPerRegion = 50;
+	static int pumpkinsPerChunk = 2;
 
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void initSpawning() {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
-		for (int id : regionsToSpawn)
-			World.getRegion(id, true);
-		CoresManager.schedule(() -> {
+		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
+		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromHours(1), () -> {
 			try {
 				spawnPumpkins();
 				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);
 			} catch (Throwable e) {
 				Logger.handle(PumpkinSpawning.class, "initSpawning", e);
 			}
-		}, Ticks.fromSeconds(30), Ticks.fromHours(1));
+		});
 	}
 
-	public static int countPumpkins(int regionId) {
+	public static int countPumpkins(int chunkId) {
 		pumpkinCount = 0;
-		List<GroundItem> itemSpawns = World.getRegion(regionId).getAllGroundItems();
+		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1959)
@@ -67,19 +69,19 @@ public class PumpkinSpawning {
 	}
 
 	public static void spawnPumpkins() {
-		for (int id : regionsToSpawn) {
-			Region r = World.getRegion(id);
-			int eggsNeeded = pumpkinsPerRegion-countPumpkins(id);
+		for (int id : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
+			Chunk r = ChunkManager.getChunk(id);
+			int eggsNeeded = pumpkinsPerChunk-countPumpkins(id);
 			for (int i = 0; i < eggsNeeded; i++) {
-				int x = r.getBaseX()+Utils.random(64);
-				int y = r.getBaseY()+Utils.random(64);
-				WorldTile tile = WorldTile.of(x, y, 0);
+				int x = r.getBaseX()+Utils.random(8);
+				int y = r.getBaseY()+Utils.random(8);
+				Tile tile = Tile.of(x, y, 0);
 				while (!World.floorAndWallsFree(tile, 1)) {
-					x = r.getBaseX()+Utils.random(64);
-					y = r.getBaseY()+Utils.random(64);
-					tile = WorldTile.of(x, y, 0);
+					x = r.getBaseX()+Utils.random(8);
+					y = r.getBaseY()+Utils.random(8);
+					tile = Tile.of(x, y, 0);
 				}
-				World.addGroundItem(new Item(1959), WorldTile.of(x, y, 0));
+				World.addGroundItem(new Item(1959), Tile.of(x, y, 0));
 			}
 		}
 	}

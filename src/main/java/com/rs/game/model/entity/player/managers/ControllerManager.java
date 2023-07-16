@@ -27,7 +27,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 
 public final class ControllerManager {
@@ -226,6 +226,12 @@ public final class ControllerManager {
 		return controller.sendDeath();
 	}
 
+	public boolean canDepositItem(Item item) {
+		if (controller == null || !inited)
+			return true;
+		return controller.canDepositItem(item);
+	}
+
 	public boolean canEat(Food food) {
 		if (controller == null || !inited)
 			return true;
@@ -244,19 +250,19 @@ public final class ControllerManager {
 		return controller.useDialogueScript(key);
 	}
 
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		if (controller == null || !inited)
 			return true;
 		return controller.processMagicTeleport(toTile);
 	}
 
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		if (controller == null || !inited)
 			return true;
 		return controller.processItemTeleport(toTile);
 	}
 
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		if (controller == null || !inited)
 			return true;
 		return controller.processObjectTeleport(toTile);

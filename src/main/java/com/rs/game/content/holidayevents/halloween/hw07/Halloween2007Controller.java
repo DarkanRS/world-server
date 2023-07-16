@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.holidayevents.halloween.hw07;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class Halloween2007Controller extends Controller {
 
@@ -43,7 +43,7 @@ public class Halloween2007Controller extends Controller {
 	@Override
 	public void start() {
 		player.startConversation(new Dialogue().addPlayer(HeadE.CONFUSED, "Well, I'm still in one peice. A good start.."));
-		player.setNextWorldTile(Halloween2007.START_LOCATION);
+		player.setNextTile(Halloween2007.START_LOCATION);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class Halloween2007Controller extends Controller {
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					player.setNextWorldTile(WorldTile.of(1698, 4822, 0));
+					player.setNextTile(Tile.of(1698, 4822, 0));
 					player.setNextAnimation(new Animation(3640));
 					player.fadeScreen(() -> {
 						player.unlock();
@@ -86,7 +86,7 @@ public class Halloween2007Controller extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.setNextWorldTile(player.getHw07Stage() < 10 ? Halloween2007.START_LOCATION : WorldTile.of(3211, 3424, 0));
+					player.setNextTile(player.getHw07Stage() < 10 ? Halloween2007.START_LOCATION : Tile.of(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
@@ -133,19 +133,19 @@ public class Halloween2007Controller extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(WorldTile toTile) {
+	public boolean processMagicTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(WorldTile toTile) {
+	public boolean processItemTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
 
 	@Override
-	public boolean processObjectTeleport(WorldTile toTile) {
+	public boolean processObjectTeleport(Tile toTile) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}

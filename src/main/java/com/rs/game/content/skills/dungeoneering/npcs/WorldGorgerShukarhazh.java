@@ -22,7 +22,7 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class WorldGorgerShukarhazh extends DungeonBoss {
@@ -35,7 +35,7 @@ public class WorldGorgerShukarhazh extends DungeonBoss {
 
 	private FamishedEye[] eyes;
 
-	public WorldGorgerShukarhazh(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public WorldGorgerShukarhazh(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12478, 12492), manager.getBossLevel()), tile, manager, reference);
 		eyes = new FamishedEye[3];
 		for (int idx = 0; idx < eyes.length; idx++)

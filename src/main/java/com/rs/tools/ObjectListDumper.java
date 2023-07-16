@@ -16,14 +16,14 @@
 //
 package com.rs.tools;
 
+import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.lib.util.Utils;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.lib.util.Utils;
 
 public class ObjectListDumper {
 

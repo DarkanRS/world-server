@@ -16,15 +16,10 @@
 //
 package com.rs.tools;
 
-import java.io.IOException;
-import java.util.Date;
-
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
-import com.rs.cache.loaders.BASDefinitions;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
@@ -36,6 +31,9 @@ import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
 import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
+
+import java.io.IOException;
+import java.util.Date;
 
 public class Test {
 

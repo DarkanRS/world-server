@@ -19,18 +19,16 @@ package com.rs.game.model.object;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTaskInformation;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.GenericAttribMap;
 
 public class GameObject extends WorldObject {
-	
-	private transient WorldTaskInformation respawnTask;
-	private transient GenericAttribMap attribs = new GenericAttribMap();
+	protected transient GenericAttribMap attribs;
 
 	public enum RouteType {
 		NORMAL, WALK_ONTO
@@ -39,16 +37,27 @@ public class GameObject extends WorldObject {
 	protected RouteType routeType = RouteType.NORMAL;
 	private ObjectMeshModifier meshModifier;
 
-	public GameObject(int id, ObjectType type, int rotation, WorldTile tile) {
+	private transient int originalId = -1;
+	private transient int idChangeTicks = -1;
+
+	public GameObject(int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(int id, int rotation, int x, int y, int plane) {
 		super(id, rotation, x, y, plane);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(int id, ObjectType type, int rotation, int x, int y, int plane) {
 		super(id, type, rotation, x, y, plane);
+		this.routeType = World.getRouteType(id);
+	}
+
+	public GameObject(WorldObject object) {
+		super(object);
+		this.routeType = World.getRouteType(id);
 	}
 
 	public GameObject(GameObject object) {
@@ -72,9 +81,26 @@ public class GameObject extends WorldObject {
 		return hash;
 	}
 
+	public int positionHashCode() {
+		int hash = tile.getTileHash();
+		hash = ((hash << 5) - hash) + type.id;
+		return hash;
+	}
+
 	@Override
 	public String toString() {
 		return "[id:"+id+" loc:("+getX()+","+getY()+","+getPlane()+") type:"+type+" rot:"+rotation+" name:"+getDefinitions().getName()+"]";
+	}
+
+	public boolean process() {
+		boolean continueProcessing = false;
+		if (idChangeTicks > -1) {
+			if (idChangeTicks-- == 0)
+				setId(originalId);
+			else
+				continueProcessing = true;
+		}
+		return continueProcessing;
 	}
 
 	public GameObject setId(int id) {
@@ -82,8 +108,7 @@ public class GameObject extends WorldObject {
 		this.id = id;
 		if (lastId != id)
 			World.refreshObject(this);
-		if (respawnTask != null)
-			WorldTasks.remove(respawnTask);
+		idChangeTicks = -1;
 		return this;
 	}
 	
@@ -100,8 +125,11 @@ public class GameObject extends WorldObject {
 		if (this.id == id)
 			return;
 		final int original = this.id;
+		Chunk chunk = ChunkManager.getChunk(getTile().getChunkId(), true);
+		chunk.flagForProcess(this);
 		setId(id);
-		respawnTask = WorldTasks.schedule(ticks, () -> setId(original));
+		originalId = original;
+		idChangeTicks = ticks;
 	}
 
 	public GameObject setIdNoRefresh(int id) {
@@ -127,6 +155,8 @@ public class GameObject extends WorldObject {
 	}
 
 	public GenericAttribMap getAttribs() {
+		if (attribs == null)
+			attribs = new GenericAttribMap();
 		return attribs;
 	}
 

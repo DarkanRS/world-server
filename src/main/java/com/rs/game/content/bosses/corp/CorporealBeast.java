@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.bosses.corp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -27,18 +24,21 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class CorporealBeast extends NPC {
 
 	private DarkEnergyCore core;
 
-	public CorporealBeast(int id, WorldTile tile, boolean spawned) {
+	public CorporealBeast(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setCapDamage(1000);
 		setLureDelay(3000);

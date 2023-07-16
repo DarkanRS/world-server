@@ -1,29 +1,23 @@
 package com.rs.game.content.quests.fishingcontest;
 
-import static com.rs.game.content.quests.fishingcontest.FishingContest.DO_ROUNDS;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.ENTER_COMPETITION;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.FISHING_PASS;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.FISHING_TROPHY;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.GIVE_TROPHY;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.NOT_STARTED;
-import static com.rs.game.content.quests.fishingcontest.FishingContest.QUEST_COMPLETE;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.fishingcontest.FishingContest.*;
+
 @PluginEventHandler
 public class DwarfBrothersFishingContestD extends Conversation {
-	public DwarfBrothersFishingContestD(Player p, int NPC) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
+	public DwarfBrothersFishingContestD(Player player, int NPC) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FISHING_CONTEST)) {
 		case NOT_STARTED -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Hmmph. What do you want?");
 			addOptions("Choose an option:", new Options() {
@@ -61,7 +55,7 @@ public class DwarfBrothersFishingContestD extends Conversation {
 															.addPlayer(HeadE.HAPPY_TALKING, "Oh, sorry, I hadn't realised it was private")
 															.addNPC(NPC, HeadE.CALM_TALK, "Well, it is.")
 															);
-													if(p.getSkills().getLevel(Constants.FISHING) >= 10)
+													if(player.getSkills().getLevel(Constants.FISHING) >= 10)
 														option("If you were my friend I wouldn't mind it.", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "If you were my friend I wouldn't mind it.")
 																.addNPC(NPC, HeadE.CALM_TALK, "Yes, but I don't even know you.")
@@ -81,8 +75,8 @@ public class DwarfBrothersFishingContestD extends Conversation {
 																				.addNPC(NPC, HeadE.CALM_TALK, "Okay, I entrust you with our competition pass." +
 																						" Don't forget to take some gold with you for the entrance fee")
 																				.addSimple("You got the Fishing Contest Pass!", ()-> {
-																					p.getQuestManager().setStage(Quest.FISHING_CONTEST, ENTER_COMPETITION);
-																					p.getInventory().addItem(FISHING_PASS, 1);
+																					player.getQuestManager().setStage(Quest.FISHING_CONTEST, ENTER_COMPETITION);
+																					player.getInventory().addItem(FISHING_PASS, 1);
 																				})
 																				.addNPC(NPC, HeadE.CALM_TALK, "Go to Hemenster and do us proud!")
 																				);
@@ -121,30 +115,30 @@ public class DwarfBrothersFishingContestD extends Conversation {
 
 		}
 		case ENTER_COMPETITION, DO_ROUNDS -> {
-			if(p.getInventory().containsItem(FISHING_PASS, 1)) {
+			if(player.getInventory().containsItem(FISHING_PASS, 1)) {
 				addNPC(NPC, HeadE.CALM_TALK, "Have you won yet?");
 				addPlayer(HeadE.HAPPY_TALKING, "No, not yet.");
 				addNPC(NPC, HeadE.CALM_TALK, "Well don't give up! Maybe old Jack can give you a few tips.");
 			} else {
 				addPlayer(HeadE.HAPPY_TALKING, "I need another competition pass");
-				if(p.getInventory().hasFreeSlots())
+				if(player.getInventory().hasFreeSlots())
 					addNPC(NPC, HeadE.CALM_TALK, "Hmmm. It's a good job they sent us spares. There you go. Try not to lose that one.", ()->{
-						p.getInventory().addItem(FISHING_PASS, 1);
+						player.getInventory().addItem(FISHING_PASS, 1);
 					});
 				else
 					addNPC(NPC, HeadE.CALM_TALK, "You'll need inventory space first.");
 			}
 		}
 		case GIVE_TROPHY -> {
-			if(p.getInventory().containsItem(FISHING_TROPHY, 1)) {
+			if(player.getInventory().containsItem(FISHING_TROPHY, 1)) {
 				addNPC(NPC, HeadE.CALM_TALK, "Have you won yet?");
 				addPlayer(HeadE.HAPPY_TALKING, "Yes I have!");
 				addNPC(NPC, HeadE.CALM_TALK, "Well done! That's brilliant! Do you have the trophy with you?");
 				addPlayer(HeadE.HAPPY_TALKING, "Yep, I have it right here!");
 				addNPC(NPC, HeadE.CALM_TALK, "Oh! It's even more shiny and gold than I thought possible...");
 				addNext(()->{
-					p.getInventory().removeItems(new Item(FISHING_TROPHY, 1));
-					p.getQuestManager().completeQuest(Quest.FISHING_CONTEST);
+					player.getInventory().removeItems(new Item(FISHING_TROPHY, 1));
+					player.getQuestManager().completeQuest(Quest.FISHING_CONTEST);
 				});
 			} else {
 				addNPC(NPC, HeadE.CALM_TALK, "Have you won yet?");

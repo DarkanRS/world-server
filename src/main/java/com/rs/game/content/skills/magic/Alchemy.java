@@ -30,10 +30,11 @@ import com.rs.lib.game.SpotAnim;
 
 public class Alchemy {
 
+
 	public static boolean handleSuperheat(Player player, Item item, boolean useRunes) {
 		if (useRunes)
 			player.getInterfaceManager().openTab(Sub.TAB_MAGIC);
-		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null))
+		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 43, false, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null))
 			return false;
 		player.stopAll(false, false, true);
 		SmeltingBar bar = SmeltingBar.forOre(player, item.getId());
@@ -55,7 +56,7 @@ public class Alchemy {
 			player.simpleDialogue("You need a Smithing level of at least " + bar.getLevelRequired() + " to smelt " + bar.getProducedBar().getDefinitions().getName());
 			return false;
 		}
-
+		Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null);
 		player.setNextAnimation(new Animation(722));
 		player.setNextSpotAnim(new SpotAnim(148));
 		for (Item itemReq : bar.getItemsRequired())
@@ -110,7 +111,7 @@ public class Alchemy {
 				player.setNextSpotAnim(new SpotAnim(112));
 
 			}
-			World.soundEffect(player, 98);
+			World.soundEffect(player.getTile(), 98);
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addCoins(def.getSellPrice());
 			player.getSkills().addXp(Constants.MAGIC, 31);
@@ -123,7 +124,7 @@ public class Alchemy {
 				player.setNextAnimation(new Animation(713));
 				player.setNextSpotAnim(new SpotAnim(113));
 			}
-			World.soundEffect(player, 98); //low alch id... high alch doesnt match osrs... reeeee
+			World.soundEffect(player.getTile(), 98); //low alch id... high alch doesnt match osrs... reeeee
 			player.getInventory().deleteItem(item.getId(), 1);
 			player.getInventory().addCoins(def.getHighAlchPrice());
 			player.getSkills().addXp(Constants.MAGIC, 65);

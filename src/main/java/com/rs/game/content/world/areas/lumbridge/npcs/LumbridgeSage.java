@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class LumbridgeSage extends Conversation {
 
 	// Identify NPC by ID
-	private static int npcId = 2244;
+	private static final int npcId = 2244;
 	public static NPCClickHandler LumbridgeSage = new NPCClickHandler(new Object[] { 2244 }, e -> {
 		switch (e.getOption()) {
 		// Start Conversation

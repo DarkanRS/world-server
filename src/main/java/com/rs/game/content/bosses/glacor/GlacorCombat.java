@@ -31,7 +31,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
 
@@ -55,13 +55,13 @@ public class GlacorCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(9968));
 			npc.setNextSpotAnim(new SpotAnim(905));
 			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
-			final WorldTile targetPosition = WorldTile.of(target.getX(), target.getY(), target.getPlane());
+			final Tile targetPosition = Tile.of(target.getX(), target.getY(), target.getPlane());
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
 					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY()))
 						target.applyHit(new Hit(target, 500, HitLook.TRUE_DAMAGE));
-					World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
+					World.sendSpotAnim(targetPosition, new SpotAnim(2315));
 				}
 			}, p.getTaskDelay());
 			return 0;
@@ -107,13 +107,13 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9955));
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
-				final WorldTile targetPosition = WorldTile.of(player.getX(), player.getY(), player.getPlane());
+				final Tile targetPosition = Tile.of(player.getX(), player.getY(), player.getPlane());
 				WorldTasks.schedule(new WorldTask() {
 					@Override
 					public void run() {
 						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY()))
 							player.applyHit(new Hit(player, player.getHitpoints() / 2, HitLook.TRUE_DAMAGE));
-						World.sendSpotAnim(null, new SpotAnim(2315), targetPosition);
+						World.sendSpotAnim(targetPosition, new SpotAnim(2315));
 					}
 				}, p.getTaskDelay());
 			}

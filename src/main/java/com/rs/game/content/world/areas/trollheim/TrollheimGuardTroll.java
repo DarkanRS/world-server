@@ -3,14 +3,14 @@ package com.rs.game.content.world.areas.trollheim;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.DumbRouteFinder;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class TrollheimGuardTroll extends NPC {
 
-	public TrollheimGuardTroll(int id, WorldTile tile) {
+	public TrollheimGuardTroll(int id, Tile tile) {
 		super(id, tile);
 		if(isGWDGaurd())
 			setRandomWalk(false);
@@ -41,7 +41,7 @@ public class TrollheimGuardTroll extends NPC {
 
 	//    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1130, 1131, 1132, 1133, 1134) {
 		//        @Override
-		//        public NPC getNPC(int npcId, WorldTile tile) {
+		//        public NPC getNPC(int npcId, Tile tile) {
 	//            return new TrollheimGuardTroll(npcId, tile);
 	//        }
 	//    };

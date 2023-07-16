@@ -21,20 +21,20 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class SitChair extends PlayerAction {
 
-	private WorldTile originalTile;
-	private WorldTile chairTile;
+	private Tile originalTile;
+	private Tile chairTile;
 	private boolean tped;
 	private int animation;
 
 	public SitChair(Player player, GameObject object) {
 		animation = HouseConstants.getSitAnimation(object.getId());
-		originalTile = WorldTile.of(player.getTile());
+		originalTile = Tile.of(player.getTile());
 		chairTile = object.getTile();
-		WorldTile face = WorldTile.of(player.getTile());
+		Tile face = Tile.of(player.getTile());
 		if (object.getType() == ObjectType.SCENERY_INTERACT) {
 			if (object.getRotation() == 0)
 				face = face.transform(0, -1, 0);
@@ -53,7 +53,7 @@ public class SitChair extends PlayerAction {
 				face = face.transform(-1, -1, 0);
 			else if (object.getRotation() == 3)
 				face = face.transform(1, -1, 0);
-		player.setNextFaceWorldTile(face);
+		player.setNextFaceTile(face);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class SitChair extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		if (!tped) {
-			player.setNextWorldTile(chairTile);
+			player.setNextTile(chairTile);
 			tped = true;
 		}
 		player.setNextAnimation(new Animation(animation));
@@ -80,7 +80,7 @@ public class SitChair extends PlayerAction {
 	@Override
 	public void stop(final Player player) {
 		player.lock(1);
-		player.setNextWorldTile(originalTile);
+		player.setNextTile(originalTile);
 		player.setNextAnimation(new Animation(-1));
 	}
 }

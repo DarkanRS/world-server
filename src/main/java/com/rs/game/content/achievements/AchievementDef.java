@@ -16,21 +16,21 @@
 //
 package com.rs.game.content.achievements;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.StructDefinitions;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.data.QuestDefinitions;
-import com.rs.game.engine.quest.data.QuestInformationParser;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.data.QuestDefinitions;
+import com.rs.engine.quest.data.QuestInformationParser;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @PluginEventHandler
 public class AchievementDef {

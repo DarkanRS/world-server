@@ -16,9 +16,9 @@
 //
 package com.rs.plugin.handlers;
 
-import java.util.function.Consumer;
-
 import com.rs.plugin.events.ButtonClickEvent;
+
+import java.util.function.Consumer;
 
 public class ButtonClickHandler extends PluginHandler<ButtonClickEvent> {
 	public ButtonClickHandler(Object[] interfaceIds, Consumer<ButtonClickEvent> handler) {

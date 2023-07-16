@@ -1,35 +1,29 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.LEPRACAUN;
-import static com.rs.game.content.quests.lostcity.LostCity.LEPRACAUN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
+import static com.rs.game.content.quests.lostcity.LostCity.*;
+
 @PluginEventHandler
 public class LeprecaunLostCityD extends Conversation {
 	private final int FORGETTINGTOSAY = 0;
-	public LeprecaunLostCityD(Player p) {
+	public LeprecaunLostCityD(Player p, NPC leprechaun) {
 		super(p);
 		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
@@ -51,11 +45,11 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Ah, yer stupid elephant! The city isn't IN the shed! The doorway to the shed is a portal to " +
 									"Zanaris, so it is.")
 							.addPlayer(HeadE.HAPPY_TALKING, "So, I just walk into the shed and end up in Zanaris?")
-							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, FORGETTINGTOSAY).getStart());})
+							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart());})
 							);
 					option("I've been in that shed and I didn't see a city.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I've been in that shed and I didn't see a city.")
-							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, FORGETTINGTOSAY).getStart());})
+							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart());})
 							);
 				}
 			});
@@ -71,26 +65,16 @@ public class LeprecaunLostCityD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "Yes, please, a teleport would be useful.")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Right yer are. Hold on!")
 							.addNext(()-> {
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN) {
-										npc.resetWalkSteps();
-										npc.faceEntity(p);
-										npc.setNextAnimation(new Animation(5488));
-										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
-										break;
-									}
-							})
-							);
+								leprechaun.resetWalkSteps();
+								leprechaun.faceEntity(p);
+								leprechaun.setNextAnimation(new Animation(5488));
+								leprechaun.forceTalk("Avach Sarimporto!");
+								Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));
+							}));
 					option("No thanks, I'll get there on my own", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "No thanks, I'll get there on my own")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Fine, have it yer way. I'm off!")
-							.addNext(()-> {
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN)
-										npc.finish();
-							})
-							);
+							.addNext(()-> leprechaun.finish()));
 				}
 			});
 		}
@@ -103,26 +87,20 @@ public class LeprecaunLostCityD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "I'm not sure")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Ha! Look at yer! Look at the stupid elephant who tries to go catching a leprechaun " +
 									"when he don't even be knowing what he wants!")
-							.addNext(()->{
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN)
-										npc.finish();
+							.addNext(() -> {
+								leprechaun.finish();
 								p.sendMessage("The leprechaun magically disappears.");
-							})
-							);
+							}));
 					option("How do I get to Zanaris again?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "How do I get to Zanaris again?")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Yer stupid elephant! I'll tell yer again! Yer need to be entering the shed in the " +
 									"middle of the swamp while holding a dramen staff.")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Yer can make the dramen staff from a dramen tree branch, and there's a dramen tree on Entrana. " +
 									"now leave me alone, yer great elephant.")
-							.addNext(()->{
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN)
-										npc.finish();
-								p.sendMessage("The leprechaun magically disappears.");
-							})
-							);
+						.addNext(() -> {
+							leprechaun.finish();
+							p.sendMessage("The leprechaun magically disappears.");
+						}));
 				}
 			});
 
@@ -130,7 +108,7 @@ public class LeprecaunLostCityD extends Conversation {
 		}
 	}
 
-	public LeprecaunLostCityD(Player p, int id) {
+	public LeprecaunLostCityD(Player p, NPC leprechaun, int id) {
 		super(p);
 		switch(id) {
 		case FORGETTINGTOSAY -> {
@@ -150,15 +128,11 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Right yer are. Hold on!")
 							.addNext(()-> {
 								p.getQuestManager().setStage(Quest.LOST_CITY, CHOP_DRAMEN_TREE);
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN) {
-										npc.resetWalkSteps();
-										npc.faceEntity(p);
-										npc.setNextAnimation(new Animation(5488));
-										npc.forceTalk("Avach Sarimporto!");
-										Magic.sendObjectTeleportSpell(p, false, WorldTile.of(3047, 3236, 0));
-										break;
-									}
+								leprechaun.resetWalkSteps();
+								leprechaun.faceEntity(p);
+								leprechaun.setNextAnimation(new Animation(5488));
+								leprechaun.forceTalk("Avach Sarimporto!");
+								Magic.sendObjectTeleportSpell(p, false, Tile.of(3047, 3236, 0));
 							})
 							);
 					option("No thanks, I'll get there on my own", new Dialogue()
@@ -166,9 +140,7 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Fine, have it yer way. I'm off!")
 							.addNext(()-> {
 								p.getQuestManager().setStage(Quest.LOST_CITY, CHOP_DRAMEN_TREE);
-								for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
-									if(npc.getId() == LEPRACAUN)
-										npc.finish();
+								leprechaun.finish();
 							})
 							);
 				}
@@ -178,24 +150,21 @@ public class LeprecaunLostCityD extends Conversation {
 	}
 
 	public static ObjectClickHandler handleTreeLep = new ObjectClickHandler(true, new Object[] { LEPRACAUN_TREE }, e -> {
-		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
-		for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 			if(npc.getId() == LEPRACAUN)
 				return;
-		p.startConversation(new Conversation(p) {
+		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 			{
 				addNPC(LEPRACAUN, HeadE.FRUSTRATED, "Hey! Yer big elephant! Don't go choppin' down me house, now!");
 				addNPC(LEPRACAUN, HeadE.AMAZED_MILD, "Woah, woah!");
 				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 				addSimple("The leprechaun falls down", () -> {
+					NPC lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 					WorldTasks.schedule(new WorldTask() {
-						int tick;
-						NPC lepracaun;
+						private int tick;
 						@Override
 						public void run() {
-							if(tick == 0 )
-								lepracaun = World.spawnNPC(LEPRACAUN, WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
 							if(tick == 1)
 								lepracaun.forceTalk("Ouch!!");
 							if(tick == 10)
@@ -206,7 +175,7 @@ public class LeprecaunLostCityD extends Conversation {
 								lepracaun.forceTalk("Oww, that's sore...");
 							if(tick == 85) {
 								lepracaun.forceTalk("Welp, better head home...");
-								lepracaun.walkToAndExecute(WorldTile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
+								lepracaun.walkToAndExecute(Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), ()->{
 									lepracaun.forceTalk("Back up the tree...");
 									if(!lepracaun.hasFinished())
 										lepracaun.finish();
@@ -226,5 +195,5 @@ public class LeprecaunLostCityD extends Conversation {
 		});
 	});
 
-	public static NPCClickHandler handleLeprecaunDialogue = new NPCClickHandler(new Object[] { LEPRACAUN }, e -> e.getPlayer().startConversation(new LeprecaunLostCityD(e.getPlayer()).getStart()));
+	public static NPCClickHandler handleLeprecaunDialogue = new NPCClickHandler(new Object[] { LEPRACAUN }, e -> e.getPlayer().startConversation(new LeprecaunLostCityD(e.getPlayer(), e.getNPC()).getStart()));
 }

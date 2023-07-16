@@ -32,7 +32,7 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class SagittareCombat extends CombatScript {
@@ -101,7 +101,7 @@ public class SagittareCombat extends CombatScript {
 	private void sendRainDropAttack(final Sagittare boss) {
 		boss.setCantInteract(true);
 		boss.setNextForceTalk(new ForceTalk("Back off!"));
-		final WorldTile center = WorldTile.of(boss.getTile());
+		final Tile center = Tile.of(boss.getTile());
 		final DungeonManager manager = boss.getManager();
 		final RoomReference rRef = manager.getCurrentRoomReference(center);
 		if (rRef == null)
@@ -129,7 +129,7 @@ public class SagittareCombat extends CombatScript {
 					boss.setNextSpotAnim(new SpotAnim(1576));
 				} else if (cycles == 7) {
 					int stage = boss.getStage();
-					WorldTile teleport = World.getFreeTile(manager.getTile(rRef, 6, 6), 1);
+					Tile teleport = World.getFreeTile(manager.getTile(rRef, 6, 6), 1);
 
 					if (stage != 1 && stage != -1) {
 						int corner = Utils.random(4);
@@ -147,7 +147,7 @@ public class SagittareCombat extends CombatScript {
 					for (int x = -1; x < 2; x++)
 						for (int y = -1; y < 2; y++)
 							World.sendProjectile(boss, center.transform(x, y, 0), 2533, 250, 0, 40, 0, 0, 0);
-					boss.setNextWorldTile(teleport);
+					boss.setNextTile(teleport);
 					boss.setNextAnimation(new Animation(8941));
 					boss.setNextSpotAnim(new SpotAnim(1577));
 				} else if (cycles == 8) {
@@ -156,7 +156,7 @@ public class SagittareCombat extends CombatScript {
 							continue;
 						for (int x = -1; x < 2; x++)
 							for (int y = -1; y < 2; y++) {
-								WorldTile projectileTile = center.transform(x, y, 0);
+								Tile projectileTile = center.transform(x, y, 0);
 								if (player.getX() != projectileTile.getX() || player.getY() != projectileTile.getY())
 									continue targetL;
 							}

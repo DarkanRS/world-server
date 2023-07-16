@@ -16,17 +16,17 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
-import com.rs.game.engine.dialogue.HeadE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public class UnhappyGhostRoom extends PuzzleRoom {
@@ -143,7 +143,7 @@ public class UnhappyGhostRoom extends PuzzleRoom {
 
 	public class UnhappyGhost extends DungeonNPC {
 
-		public UnhappyGhost(WorldTile tile, DungeonManager manager) {
+		public UnhappyGhost(Tile tile, DungeonManager manager) {
 			super(GHOST, tile, manager);
 
 		}

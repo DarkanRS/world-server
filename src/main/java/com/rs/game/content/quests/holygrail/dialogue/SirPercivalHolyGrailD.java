@@ -1,26 +1,26 @@
 package com.rs.game.content.quests.holygrail.dialogue;
 
-import static com.rs.game.content.quests.holygrail.HolyGrail.GIVE_AURTHUR_HOLY_GRAIL;
-import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.holygrail.HolyGrail.GIVE_AURTHUR_HOLY_GRAIL;
+import static com.rs.game.content.quests.holygrail.HolyGrail.SPEAK_TO_PERCIVAL;
+
 @PluginEventHandler
 public class SirPercivalHolyGrailD extends Conversation {
 	private static final int NPC = 211;
-	public SirPercivalHolyGrailD(Player p) {
-		super(p);
-		if(p.getQuestManager().getStage(Quest.HOLY_GRAIL) == SPEAK_TO_PERCIVAL) {
+	public SirPercivalHolyGrailD(Player player) {
+		super(player);
+		if(player.getQuestManager().getStage(Quest.HOLY_GRAIL) == SPEAK_TO_PERCIVAL) {
 			Dialogue options = new Dialogue();
-			if(p.getInventory().containsItem(16))
+			if(player.getInventory().containsItem(16))
 				options.addOptions("Choose an option:", new Options() {
 					@Override
 					public void create() {
@@ -39,8 +39,8 @@ public class SirPercivalHolyGrailD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "I have been told that before. I have not been able to find the castle again though.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Well, I do have the means to get us there - a magic whistle!")
 								.addItem(16, "You show him the magic whistle and explain where to blow it...", () -> {
-									p.getInventory().deleteItem(new Item(16, 1));
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, GIVE_AURTHUR_HOLY_GRAIL);
+									player.getInventory().deleteItem(new Item(16, 1));
+									player.getQuestManager().setStage(Quest.HOLY_GRAIL, GIVE_AURTHUR_HOLY_GRAIL);
 								})
 								.addNPC(NPC, HeadE.CALM_TALK, "Ok, I will see you there then!")
 						);
@@ -51,14 +51,14 @@ public class SirPercivalHolyGrailD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "I have been told that before. I have not been able to find that castle again though.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Well, I do have the means to get us there - a magic whistle!")
 								.addItem(16, "You show him the magic whistle and explain where to blow it...", () -> {
-									p.getInventory().deleteItem(new Item(16, 1));
-									p.getQuestManager().setStage(Quest.HOLY_GRAIL, GIVE_AURTHUR_HOLY_GRAIL);
+									player.getInventory().deleteItem(new Item(16, 1));
+									player.getQuestManager().setStage(Quest.HOLY_GRAIL, GIVE_AURTHUR_HOLY_GRAIL);
 								})
 								.addNPC(NPC, HeadE.CALM_TALK, "Ok, I will see you there then!")
 						);
 					}
 				});
-			if(!p.getInventory().containsItem(16))
+			if(!player.getInventory().containsItem(16))
 				options.addPlayer(HeadE.AMAZED, "Found you!")
 						.addNPC(NPC, HeadE.CALM_TALK, "That you did...")
 						.addPlayer(HeadE.HAPPY_TALKING, "I need to give you a whistle...")

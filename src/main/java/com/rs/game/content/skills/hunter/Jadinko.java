@@ -19,14 +19,14 @@ package com.rs.game.content.skills.hunter;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class Jadinko extends NPC {
 
-	public Jadinko(int id, WorldTile tile) {
+	public Jadinko(int id, Tile tile) {
 		super(id, tile);
 	}
 

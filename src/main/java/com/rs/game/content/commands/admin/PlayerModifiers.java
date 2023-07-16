@@ -18,10 +18,10 @@ package com.rs.game.content.commands.admin;
 
 import com.rs.Settings;
 import com.rs.db.WorldDB;
+import com.rs.engine.command.Commands;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.quests.shieldofarrav.ShieldOfArrav;
-import com.rs.game.engine.command.Commands;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
@@ -77,7 +77,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				p.setNextWorldTile(target.getTile());
+				p.setNextTile(target.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "teletome [player name]", "Teleports another player to the user without exception.", (p, args) -> {
@@ -85,7 +85,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.setNextWorldTile(p.getTile());
+				target.setNextTile(p.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "kick [player name]", "Kicks a player from the game. Will force the player's character out of the game no matter what.", (p, args) -> {
@@ -182,8 +182,8 @@ public class PlayerModifiers {
 			else {
 				target.unlock();
 				target.getControllerManager().forceStop();
-				if (target.getNextWorldTile() == null)
-					target.setNextWorldTile(Settings.getConfig().getPlayerRespawnTile());
+				if (target.getNextTile() == null)
+					target.setNextTile(Settings.getConfig().getPlayerRespawnTile());
 				p.sendMessage("You have unnulled: " + target.getDisplayName() + ".");
 			}
 		});

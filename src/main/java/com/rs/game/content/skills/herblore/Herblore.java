@@ -16,12 +16,8 @@
 //
 package com.rs.game.content.skills.herblore;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.Constants;
@@ -30,6 +26,10 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnItemHandler;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 @PluginEventHandler
 public class Herblore extends PlayerAction {
@@ -90,9 +90,14 @@ public class Herblore extends PlayerAction {
 
 	public static ItemOnItemHandler craftPotion = new ItemOnItemHandler(true, CraftablePotion.MAP.keySet().toArray(), e -> {
 		CraftablePotion potion = CraftablePotion.forCombo(e.getItem1().getId(), e.getItem2().getId());
-		if (potion != null)
-			e.getPlayer().startConversation(new Conversation(e.getPlayer())
-					.addNext(new MakeXStatement(new int[] { potion.getProduct().getId() }, 28))
-					.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
+		if (potion == null)
+			return;
+		if (potion == CraftablePotion.ANCHOVY_OIL && !e.getPlayer().getInventory().containsItem(6097)) {
+			e.getPlayer().sendMessage("You need a sieve to make anchovy oil.");
+			return;
+		}
+		e.getPlayer().startConversation(new Conversation(e.getPlayer())
+			.addNext(new MakeXStatement(new int[]{potion.getProduct().getId()}, 28))
+			.addNext(() -> e.getPlayer().getActionManager().setAction(new Herblore(potion, MakeXStatement.getQuantity(e.getPlayer())))));
 	});
 }

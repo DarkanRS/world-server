@@ -16,12 +16,8 @@
 //
 package com.rs.game.content.minigames.partyroom;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
@@ -35,7 +31,7 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -45,6 +41,9 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 @PluginEventHandler
 public class PartyRoom {
@@ -62,7 +61,7 @@ public class PartyRoom {
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(2, 2, () -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -74,7 +73,7 @@ public class PartyRoom {
 			} catch (Throwable e) {
 				Logger.handle(World.class, "processPartyRoom", e);
 			}
-		}, 2, 2);
+		});
 	}
 
 	public static void openChest(Player player) {
@@ -129,7 +128,7 @@ public class PartyRoom {
 		isDancing = true;
 		final NPC[] npcs = new NPC[6];
 		for (int i = 0; i < 6; i++) {
-			npcs[i] = new NPC(660, WorldTile.of(3043 + i, 3378, 0));
+			npcs[i] = new NPC(660, Tile.of(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
 		WorldTasks.schedule(new WorldTask() {
@@ -172,7 +171,7 @@ public class PartyRoom {
 	}
 
 	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(WorldTile.of(e.getObject().getTile()), () -> {
+		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
 			e.getPlayer().sendOptionDialogue(ops -> {
 				ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
 				ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
@@ -212,21 +211,21 @@ public class PartyRoom {
 			for (int y = 3373; y < 3384; y++) {
 				if (x <= 3049 && x >= 3042 && y == 3378)
 					continue;
-				if (World.floorAndWallsFree(0, x, y, 1) && World.getObject(WorldTile.of(x, y, 0)) == null)
+				if (World.floorAndWallsFree(0, x, y, 1) && World.getObject(Tile.of(x, y, 0)) == null)
 					balloons.add(new Balloon(getRandomBalloon(), 0, x, y, 0));
 			}
 		Collections.shuffle(balloons);
 		for (Balloon balloon : balloons)
 			if (balloon != null)
 				World.spawnObjectTemporary(balloon.setItem(getNextItem()), Ticks.fromMinutes(2));
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(2), () -> {
 			try {
 				isDropping = false;
 				timer = -1;
 			} catch (Throwable e) {
 				Logger.handle(PartyRoom.class, "spawnBalloons", e);
 			}
-		}, Ticks.fromMinutes(2));
+		});
 	}
 
 	public static void startBalloonTimer() {

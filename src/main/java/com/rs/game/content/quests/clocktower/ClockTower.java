@@ -16,14 +16,15 @@
 //
 package com.rs.game.content.quests.clocktower;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @QuestHandler(Quest.CLOCK_TOWER)
@@ -39,7 +40,7 @@ public class ClockTower extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
@@ -85,6 +86,26 @@ public class ClockTower extends QuestOutline {
 	public void complete(Player player) {
 		player.sendMessage("Congratulations! You have completed: 'Clock Tower'.");
 		player.getInventory().addCoins(500);
-		getQuest().sendQuestCompleteInterface(player, 6964, "500 Coins");
+		sendQuestCompleteInterface(player, 6964);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Brother Kojo in the Clock Tower south of Ardougne.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Bucket of water or ice gloves";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "500 coins";
 	}
 }

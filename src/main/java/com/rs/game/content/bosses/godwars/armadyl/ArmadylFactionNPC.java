@@ -21,14 +21,14 @@ import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class ArmadylFactionNPC extends NPC {
 
-	public ArmadylFactionNPC(int id, WorldTile tile, boolean spawned) {
+	public ArmadylFactionNPC(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIgnoreDocile(true);
 		setCanAggroNPCs(true);

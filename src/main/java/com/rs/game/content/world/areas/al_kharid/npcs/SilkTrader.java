@@ -1,9 +1,9 @@
 package com.rs.game.content.world.areas.al_kharid.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -12,11 +12,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class SilkTrader extends Conversation {
 
     //Identify NPC by ID
-    private static int npcId = 539;
+    private static final int npcId = 539;
 
     public static NPCClickHandler SilkTrader = new NPCClickHandler(new Object[]{npcId}, e -> {
     	switch (e.getOption()) {
-        //Start Conversation
+        
         case "Talk-to" -> e.getPlayer().startConversation(new SilkTrader(e.getPlayer()));
     	}
     });

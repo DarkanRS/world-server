@@ -1,10 +1,10 @@
 package com.rs.game.content.world.areas.death_plateau.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.NPCStatement;
-import com.rs.game.engine.dialogue.statements.PlayerStatement;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.NPCStatement;
+import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -14,11 +14,11 @@ import com.rs.utils.shop.ShopsHandler;
 public class Freda extends Conversation {
 
 	//Identify NPC by ID
-	private static int npcId = 15099;
+	private static final int npcId = 15099;
 
 	public static NPCClickHandler Freda = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch (e.getOption()) {
-		//Start Conversation
+		
 		case "Talk-to" -> e.getPlayer().startConversation(new Freda(e.getPlayer()));
 		case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "fredas_boots");
 		}

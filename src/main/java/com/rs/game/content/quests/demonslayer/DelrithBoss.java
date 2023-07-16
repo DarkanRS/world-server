@@ -17,6 +17,7 @@
 package com.rs.game.content.quests.demonslayer;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
@@ -25,7 +26,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
 import com.rs.utils.Ticks;
@@ -42,9 +43,9 @@ public class DelrithBoss extends NPC {
 
 	public boolean actuallyDead = false;
 
-	public DelrithBoss(WorldTile tile) {
+	public DelrithBoss(Tile tile) {
 		super(DELRITH_ID, tile, true);
-		p = World.getPlayersInRegion(getRegionId()).get(0);
+		p = World.getPlayersInChunkRange(getChunkId(), 2).get(0);
 	}
 
 	@Override
@@ -66,10 +67,10 @@ public class DelrithBoss extends NPC {
 					stop();
 				}
 
-				if(!conversating && !p.inCombat() && p.withinDistance(WorldTile.of(getX(), getY(), getPlane()), 2)) {
+				if(!conversating && !p.inCombat() && p.withinDistance(Tile.of(getX(), getY(), getPlane()), 2)) {
 					conversating = true;
 					tick = -10;
-					p.faceTile(WorldTile.of(getX(), getY(), getPlane()));
+					p.faceTile(Tile.of(getX(), getY(), getPlane()));
 					p.startConversation(new EncantationOptionsD(p, DelrithBoss.this).getStart());
 				} else
 					tick++;
@@ -78,6 +79,9 @@ public class DelrithBoss extends NPC {
 	}
 
 	public void die() {
+		if (!p.getControllerManager().isIn(PlayerVSDelrithController.class) || p.isLocked())
+			return;
+		p.lock();
 		WorldTasks.schedule(new WorldTask() {
 			int tick = 0;
 			@Override
@@ -87,6 +91,21 @@ public class DelrithBoss extends NPC {
 					actuallyDead = true;
 				}
 				if(tick == 3) {
+					p.lock();
+					p.playCutscene(cs -> {
+						cs.fadeIn(5);
+						cs.hideMinimap(false);
+						cs.action(() -> {
+							p.getControllerManager().forceStop();
+							p.setNextTile(Tile.of(3228, 3368, 0));
+						});
+						cs.delay(1);
+						cs.fadeOut(5);
+						cs.action(() -> {
+							p.getQuestManager().completeQuest(Quest.DEMON_SLAYER);
+							p.sendMessage("Congratulations! Quest complete!");
+						});
+					});
 					finish();
 					stop();
 				}

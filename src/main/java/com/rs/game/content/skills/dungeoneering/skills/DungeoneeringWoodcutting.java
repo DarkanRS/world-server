@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.skills;
 
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
@@ -87,7 +88,7 @@ public final class DungeoneeringWoodcutting extends PlayerAction {
 	}
 
 	private boolean checkTree(Player player) {
-		return World.getRegion(treeObj.getTile().getRegionId()).objectExists(treeObj);
+		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(treeObj);
 	}
 
 	@Override

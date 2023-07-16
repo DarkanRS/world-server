@@ -1,10 +1,10 @@
 package com.rs.utils.reflect;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.lib.util.reflect.ReflectionChecks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReflectionAnalysis {
 	

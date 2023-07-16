@@ -16,10 +16,8 @@
 //
 package com.rs.game.content.bosses.tormenteddemon;
 
-import java.util.Set;
-
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -29,7 +27,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -44,7 +42,7 @@ public final class TormentedDemon extends NPC {
 	private int[] damageTaken = new int[3];
 	private int combatStyle;
 
-	public TormentedDemon(int id, WorldTile tile, boolean spawned) {
+	public TormentedDemon(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		shieldTimer = 0;
 		switchPrayers(0);
@@ -136,32 +134,18 @@ public final class TormentedDemon extends NPC {
 	}
 
 	private void sendRandomProjectile() {
-		WorldTile tile = WorldTile.of(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
-		for (int regionId : getMapRegionsIds()) {
-			Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-			if (playerIndexes != null)
-				for (int pid : playerIndexes) {
-					Player player = World.getPlayers().get(pid);
-					if (player != null && !player.isDead() && !player.hasFinished() && player.hasStarted() && player.withinDistance(getTile(), 7)) {
-						tile = WorldTile.of(player.getTile(), 2);
-						break;
-					}
-				}
+		Tile tile = Tile.of(getX() + Utils.random(7), getY() + Utils.random(7), getPlane());
+		for (Player player : queryNearbyPlayersByTileRange(7, player -> !player.isDead() && player.withinDistance(getTile(), 7))) {
+			tile = Tile.of(player.getTile(), 2);
+			break;
 		}
-		WorldTile finalTile = tile;
+		Tile finalTile = tile;
 		setNextAnimation(new Animation(10917));
 		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, 0, p -> {
-			World.sendSpotAnim(this, new SpotAnim(1883), finalTile);
-			for (int regionId : getMapRegionsIds()) {
-				Set<Integer> playerIndexes = World.getRegion(regionId).getPlayerIndexes();
-				if (playerIndexes != null)
-					for (int pid : playerIndexes) {
-						Player player = World.getPlayers().get(pid);
-						if (player == null || player.isDead() || player.hasFinished() || !player.hasStarted() || !player.withinDistance(finalTile, 1))
-							continue;
-						player.sendMessage("The demon's magical attack splashes on you.");
-						player.applyHit(new Hit(this, 281, HitLook.MAGIC_DAMAGE, 1));
-					}
+			World.sendSpotAnim(finalTile, new SpotAnim(1883));
+			for (Player player : queryNearbyPlayersByTileRange(7, player -> !player.isDead() && player.withinDistance(finalTile, 1))) {
+				player.sendMessage("The demon's magical attack splashes on you.");
+				player.applyHit(new Hit(this, 281, HitLook.MAGIC_DAMAGE, 1));
 			}
 		});
 	}
@@ -174,22 +158,22 @@ public final class TormentedDemon extends NPC {
 			finish();
 		}
 		final NPC npc = this;
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(getCombatDefinitions().getRespawnDelay(), () -> {
 			try {
 				setFinished(false);
 				World.addNPC(npc);
-				npc.setLastRegionId(0);
-				World.updateEntityRegion(npc);
+				npc.setLastChunkId(0);
+				ChunkManager.updateChunks(npc);
 				loadMapRegions();
 				checkMultiArea();
 				shieldTimer = 0;
 			} catch (Throwable e) {
 				Logger.handle(TormentedDemon.class, "setRespawnTask", e);
 			}
-		}, getCombatDefinitions().getRespawnDelay());
+		});
 	}
 
-	public static boolean atTD(WorldTile tile) {
+	public static boolean atTD(Tile tile) {
 		if ((tile.getX() >= 2560 && tile.getX() <= 2630) && (tile.getY() >= 5710 && tile.getY() <= 5753))
 			return true;
 		return false;

@@ -16,15 +16,16 @@
 //
 package com.rs.game.content.quests.templeofikov;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @QuestHandler(Quest.TEMPLE_OF_IKOV)
@@ -40,7 +41,7 @@ public class TempleOfIkov extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case NOT_STARTED -> {
@@ -94,6 +95,29 @@ public class TempleOfIkov extends QuestOutline {
 		player.sendMessage("Congratulations! You have completed: 'Temple of Ikov'.");
 		player.getSkills().addXpQuest(Constants.RANGE, 10_500);
 		player.getSkills().addXpQuest(Constants.FLETCHING, 8_000);
-		getQuest().sendQuestCompleteInterface(player, 855, "10,500 Ranged XP", "8,000 Fletching XP");
+		sendQuestCompleteInterface(player, 855);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Lucien in the Flying Horse Inn, Ardougne.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "Light source, 20 limpwurt roots.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "Be able to defeat a level 77 foe.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "10,500 Ranged XP<br>" +
+				"8,000 Fletching XP<br"+
+				"Boots of lightness<br>" +
+				"Access to the Temple of Ikov";
 	}
 }

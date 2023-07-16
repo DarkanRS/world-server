@@ -16,9 +16,8 @@
 //
 package com.rs.game.content.skills.smithing;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.rs.game.content.achievements.SetReward;
+import com.rs.game.content.skills.mining.Ore;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -29,6 +28,10 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Smelting extends PlayerAction {
@@ -211,6 +214,26 @@ public class Smelting extends PlayerAction {
 	public int processWithDelay(Player player) {
 		ticks--;
 		player.setNextAnimation(new Animation(3243));
+		smeltBar(player);
+		int[] range = VARROCK_ARMOR_BAR_TIERS.get(bar);
+		if (range != null && Arrays.stream(SetReward.VARROCK_ARMOR.getItemIds(), range[0], range[1]).anyMatch(x -> x == player.getEquipment().getChestId()) && Utils.random(100) <= 10)
+			smeltBar(player);
+		if (ticks > 0)
+			return 2;
+		return -1;
+	}
+
+	private static final Map<SmeltingBar, int[]> VARROCK_ARMOR_BAR_TIERS = Map.of(
+			SmeltingBar.BRONZE, new int[] { 0, 4 },
+			SmeltingBar.IRON, new int[] { 0, 4 },
+			SmeltingBar.STEEL, new int[] { 0, 4 },
+			SmeltingBar.GOLD, new int[] { 0, 4 },
+			SmeltingBar.MITHRIL, new int[] { 1, 4 },
+			SmeltingBar.ADAMANT, new int[] { 2, 4 },
+			SmeltingBar.RUNE, new int[] { 3, 4 }
+	);
+
+	public void smeltBar(Player player) {
 		for (Item required : bar.getItemsRequired())
 			if (required.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") > 0) {
 				int coalBag = player.getI("coalBag");
@@ -231,9 +254,6 @@ public class Smelting extends PlayerAction {
 			player.sendMessage("You retrieve a bar of " + bar.getProducedBar().getDefinitions().getName().toLowerCase().replace(" bar", "") + ".", true);
 		} else
 			player.sendMessage("The ore is too impure and you fail to refine it.", true);
-		if (ticks > 0)
-			return 2;
-		return -1;
 	}
 
 	@Override

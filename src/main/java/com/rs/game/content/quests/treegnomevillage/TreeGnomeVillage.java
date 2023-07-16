@@ -1,15 +1,13 @@
 package com.rs.game.content.quests.treegnomevillage;
 
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -17,12 +15,15 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.TREE_GNOME_VILLAGE)
 @PluginEventHandler
@@ -42,7 +43,7 @@ public class TreeGnomeVillage extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 			case NOT_STARTED -> {
@@ -125,10 +126,10 @@ public class TreeGnomeVillage extends QuestOutline {
 							stop();
 					} else if (tick >= 1) {
 						if (isPlayerNorth)
-							p.setNextWorldTile(WorldTile.of(2509, 3252, 0));
+							p.setNextTile(Tile.of(2509, 3252, 0));
 						if (!isPlayerNorth) {
-							p.setNextWorldTile(WorldTile.of(2509, 3254, 0));
-							for(NPC npc : World.getNPCsInRegion(p.getRegionId()))
+							p.setNextTile(Tile.of(2509, 3254, 0));
+							for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 									npc.forceTalk("Hey, what are you doing in here?");
 									npc.setTarget(p);
@@ -145,18 +146,18 @@ public class TreeGnomeVillage extends QuestOutline {
 		e.getPlayer().sendMessage("The wall is too tough to cross");
 	});
 
-	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new WorldTile[] { WorldTile.of(2503, 3254, 1), WorldTile.of(2504, 3254, 1), WorldTile.of(2502, 3254, 1) }, e -> {
+	public static PlayerStepHandler handleCommanderUpstairs = new PlayerStepHandler(new Tile[] { Tile.of(2503, 3254, 1), Tile.of(2504, 3254, 1), Tile.of(2502, 3254, 1) }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == 478 && npc.getPlane() == 1 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
 					npc.forceTalk("Hey, get out of here!");
 					npc.setTarget(e.getPlayer());
 				}
 	});
 
-	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(WorldTile.of(2505, 3256, 0), e -> {
+	public static PlayerStepHandler handleCommanderDownstairs = new PlayerStepHandler(Tile.of(2505, 3256, 0), e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1)
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == 478 && npc.getPlane() == 0 && npc.getTarget() != e.getPlayer()) {//Khazard Commander
 					npc.forceTalk("Get out! What are you doing here?!");
 					npc.setTarget(e.getPlayer());
@@ -165,7 +166,7 @@ public class TreeGnomeVillage extends QuestOutline {
 
 	public static NPCDeathHandler handleWarlordDrop = new NPCDeathHandler(new Object[] { 477 }, e -> {
 		if(e.getKiller() instanceof Player p && p.getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == KILL_WARLORD && !p.getInventory().containsItem(588))
-			World.addGroundItem(new Item(588, 1), WorldTile.of(e.getNPC().getTile()), p);
+			World.addGroundItem(new Item(588, 1), Tile.of(e.getNPC().getTile()), p);
 	});
 
 	public static ObjectClickHandler handleOrb1Chest = new ObjectClickHandler(new Object[] { 2183 }, e -> {
@@ -231,7 +232,29 @@ public class TreeGnomeVillage extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXp(Constants.ATTACK, 11450);
 		player.getInventory().addItem(new Item(589, 1), true);
-		getQuest().sendQuestCompleteInterface(player, 589, "11,450 Attack XP", "Spirit Tree Access");
+		sendQuestCompleteInterface(player, 589);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to King Bolren in the Tree Gnome Village.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "6 normal logs.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "11,450 Attack XP<br>"+
+				"Access to spirit tree teleportation<br>" +
+				"Gnome amulet of protection";
 	}
 
 }

@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 

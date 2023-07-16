@@ -25,13 +25,13 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class Spinner extends PestMonsters {
 
 	private byte healTicks;
 
-	public Spinner(int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
+	public Spinner(int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea, boolean spawned, int index, PestControl manager) {
 		super(id, tile, mapAreaNameHash, canBeAttackFromOutOfArea, spawned, index, manager);
 	}
 

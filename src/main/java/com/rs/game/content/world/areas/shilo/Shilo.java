@@ -17,13 +17,11 @@
 package com.rs.game.content.world.areas.shilo;
 
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -37,17 +35,16 @@ public class Shilo {
 		Player p = e.getPlayer();
 		WorldObject obj = e.getObject();
 		Direction dir = Direction.NORTH;
-		if(!obj.getTile().matches(WorldTile.of(2860, 2974, 0)))
+		if(!obj.getTile().matches(Tile.of(2860, 2974, 0)))
 			return;
 		if(p.getY() > obj.getY())
 			dir = Direction.SOUTH;
 
 		final Direction direction = dir;
-		p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? WorldTile.of(2860, 2971, 0) : WorldTile.of(2860, 2977, 0), () -> {
-			AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2860, 2974, 0), 741, 1, 0, direction);
-			WorldTasks.schedule(2, () -> {
-				AgilityShortcuts.forceMovementInstant(p, WorldTile.of(2860, 2977, 0), 741, 1, 0, direction);
-				p.unlock();
+		p.lock();
+		p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? Tile.of(2860, 2971, 0) : Tile.of(2860, 2977, 0), () -> {
+			p.forceMove(Tile.of(2860, 2974, 0), 741, 0, 30, false, () -> {
+				p.forceMove(direction == Direction.NORTH ? Tile.of(2860, 2977, 0) : Tile.of(2860, 2971, 0), 741, 0, 30);
 			});
 		}));
 	});

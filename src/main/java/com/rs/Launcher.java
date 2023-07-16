@@ -16,22 +16,17 @@
 //
 package com.rs;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.util.Date;
-import java.util.logging.Level;
-
 import com.google.gson.GsonBuilder;
 import com.rs.cache.Cache;
 import com.rs.cache.Index;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cores.CoresManager;
 import com.rs.db.WorldDB;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
@@ -40,11 +35,7 @@ import com.rs.lib.net.ServerChannelHandler;
 import com.rs.lib.net.decoders.GameDecoder;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketEncoder;
-import com.rs.lib.util.Logger;
-import com.rs.lib.util.MapXTEAs;
-import com.rs.lib.util.PacketAdapter;
-import com.rs.lib.util.PacketEncoderAdapter;
-import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.*;
 import com.rs.net.LobbyCommunicator;
 import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
@@ -52,6 +43,13 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.util.Date;
+import java.util.logging.Level;
 
 public final class Launcher {
 
@@ -69,26 +67,25 @@ public final class Launcher {
 				.disableHtmlEscaping()
 				.setPrettyPrinting()
 				.create());
-		
+
 		Settings.loadConfig();
 		if (!Settings.getConfig().isDebug())
 			Logger.setLevel(Level.WARNING);
-		
+
 		long currentTime = System.currentTimeMillis();
 
 		Cache.init(Settings.getConfig().getCachePath());
 
 		MapXTEAs.loadKeys();
 
-		CoresManager.startThreads();
+		DB = new WorldDB();
+		DB.init();
 
 		GameDecoder.loadPacketDecoders();
 
+		LowPriorityTaskExecutor.initExecutors();
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
-
-		DB = new WorldDB();
-		DB.init();
 
 		try {
 			ServerChannelHandler.init(Settings.getConfig().getWorldInfo().port(), BaseWorldDecoder.class);
@@ -98,6 +95,7 @@ public final class Launcher {
 			System.exit(1);
 			return;
 		}
+		WorldThread.init();
 		Logger.info(Launcher.class, "main", "Server launched in " + (System.currentTimeMillis() - currentTime) + " ms...");
 		Logger.info(Launcher.class, "main", "Server is listening at " + InetAddress.getLocalHost().getHostAddress() + ":" + Settings.getConfig().getWorldInfo().port() + "...");
 		Logger.info(Launcher.class, "main", "Player will be directed to "+Settings.getConfig().getWorldInfo()+"...");
@@ -110,7 +108,6 @@ public final class Launcher {
 			else
 				Logger.warn(Launcher.class, "main", "Failed to register world with lobby server... You can still login locally but social features will not work properly.");
 		});
-		addAccountsSavingTask();
 		addCleanMemoryTask();
 //		Runtime.getRuntime().addShutdownHook(new Thread() {
 //			@Override
@@ -136,31 +133,30 @@ public final class Launcher {
 	}
 
 	private static void addCleanMemoryTask() {
-		CoresManager.schedule(() -> {
+		LowPriorityTaskExecutor.schedule(() -> {
 			try {
-				cleanMemory(Runtime.getRuntime().freeMemory() < Settings.MIN_FREE_MEM_ALLOWED);
+				cleanMemory(getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
 			} catch (Throwable e) {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
 		}, 0, Ticks.fromMinutes(10));
+		//}, 0, Ticks.fromSeconds(10));
 	}
 
-	private static void addAccountsSavingTask() {
-		CoresManager.schedule(() -> {
-			try {
-				saveFiles();
-			} catch (Throwable e) {
-				Logger.handle(Launcher.class, "addAccountsSavingTask", e);
-			}
-
-		}, Ticks.fromMinutes(15));
-	}
-
-	public static void saveFiles() {
+	public static void saveFilesSync() {
 		for (Player player : World.getPlayers()) {
 			if (player == null || !player.hasStarted() || player.hasFinished())
 				continue;
 			WorldDB.getPlayers().saveSync(player);
+		}
+		WorldPersistentData.save();
+	}
+
+	public static void saveFilesAsync() {
+		for (Player player : World.getPlayers()) {
+			if (player == null || !player.hasStarted() || player.hasFinished())
+				continue;
+			WorldDB.getPlayers().save(player);
 		}
 		WorldPersistentData.save();
 	}
@@ -170,7 +166,7 @@ public final class Launcher {
 			ItemDefinitions.clearItemsDefinitions();
 			NPCDefinitions.clearNPCDefinitions();
 			ObjectDefinitions.clearObjectDefinitions();
-			World.cleanRegions();
+			ChunkManager.clearUnusedMemory();
 			Logger.debug(Launcher.class, "cleanMemory", "Force cleaning cached data.");
 		}
 		for (Index index : Cache.STORE.getIndices())
@@ -188,7 +184,7 @@ public final class Launcher {
 
 	public static void closeServices() {
 		ServerChannelHandler.shutdown();
-		CoresManager.shutdown();
+		LowPriorityTaskExecutor.shutdown();
 	}
 
 	private Launcher() {
@@ -200,7 +196,7 @@ public final class Launcher {
 	}
 
 	public static void executeCommand(Player player, String cmd) {
-		CoresManager.execute(() -> {
+		LowPriorityTaskExecutor.execute(() -> {
 			try {
 				String line;
 				ProcessBuilder builder = new ProcessBuilder(cmd.split(" "));
@@ -219,5 +215,9 @@ public final class Launcher {
 				Logger.handle(Launcher.class, "executeCommand", e);
 			}
 		});
+	}
+
+	public static double getMemUsedPerc() {
+		return 100.0 - (((double) Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory()) * 100.0);
 	}
 }

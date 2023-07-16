@@ -16,9 +16,6 @@
 //
 package com.rs.game.model.entity.npc.combat;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.util.Logger;
@@ -26,6 +23,9 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+
+import java.util.HashMap;
+import java.util.List;
 
 @PluginEventHandler
 public class CombatScriptsHandler {

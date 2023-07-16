@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
@@ -29,6 +26,9 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class DungeonRewards {

@@ -16,13 +16,10 @@
 //
 package com.rs.game.content.holidayevents.christmas.christ19;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.rs.game.content.pets.Pets;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -33,6 +30,9 @@ import com.rs.plugin.handlers.ItemEquipHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @PluginEventHandler
 public class Christmas2019 {
@@ -75,19 +75,19 @@ public class Christmas2019 {
 	}
 
 	public enum Location {
-		VARROCK_CASTLE(WorldTile.of(3202, 3491, 0), "Him seems to be somewhere in Varrock.."), CAMELOT_CASTLE(WorldTile.of(2765, 3506, 0), "Him seems to be somewhere near Seer's Village.."), ARDOUGNE_CASTLE(WorldTile.of(2571, 3292, 0), "Him seems to be somewhere in Ardougne.."),
+		VARROCK_CASTLE(Tile.of(3202, 3491, 0), "Him seems to be somewhere in Varrock.."), CAMELOT_CASTLE(Tile.of(2765, 3506, 0), "Him seems to be somewhere near Seer's Village.."), ARDOUGNE_CASTLE(Tile.of(2571, 3292, 0), "Him seems to be somewhere in Ardougne.."),
 
-		LUMBRIDGE_COOK(WorldTile.of(3211, 3211, 0), "Him seems to be somewhere near Lumbridge.."), YANILLE_COOK(WorldTile.of(2564, 3099, 0), "Him seems to be somewhere near Yanille.."), COOKING_GUILD(WorldTile.of(3140, 3444, 0), "Him seems to be somewhere near Varrock.."),
+		LUMBRIDGE_COOK(Tile.of(3211, 3211, 0), "Him seems to be somewhere near Lumbridge.."), YANILLE_COOK(Tile.of(2564, 3099, 0), "Him seems to be somewhere near Yanille.."), COOKING_GUILD(Tile.of(3140, 3444, 0), "Him seems to be somewhere near Varrock.."),
 
-		LUMBRIDGE_CHICKEN(WorldTile.of(3236, 3300, 0), "Him seems to be somewhere near Lumbridge.."), FALADOR_CHICKEN(WorldTile.of(3020, 3291, 0), "Him seems to be somewhere near Falador.."), PHASMATYS_CHICKEN(WorldTile.of(3620, 3522, 0), "Him seems to be somewhere near Canifis.."),
+		LUMBRIDGE_CHICKEN(Tile.of(3236, 3300, 0), "Him seems to be somewhere near Lumbridge.."), FALADOR_CHICKEN(Tile.of(3020, 3291, 0), "Him seems to be somewhere near Falador.."), PHASMATYS_CHICKEN(Tile.of(3620, 3522, 0), "Him seems to be somewhere near Canifis.."),
 
-		LUMBRIDGE_POTATO(WorldTile.of(3260, 3307, 0), "Him seems to be somewhere near Lumbridge.."), DRAYNOR_POTATO(WorldTile.of(3148, 3283, 0), "Him seems to be somewhere near Draynor.."), ARDOUGNE_POTATO(WorldTile.of(2628, 3364, 0), "Him seems to be somewhere near Ardougne..");
+		LUMBRIDGE_POTATO(Tile.of(3260, 3307, 0), "Him seems to be somewhere near Lumbridge.."), DRAYNOR_POTATO(Tile.of(3148, 3283, 0), "Him seems to be somewhere near Draynor.."), ARDOUGNE_POTATO(Tile.of(2628, 3364, 0), "Him seems to be somewhere near Ardougne..");
 
-		private WorldTile loc;
+		private Tile loc;
 		private String hint;
 		private int chunkId;
 
-		private Location(WorldTile loc, String hint) {
+		private Location(Tile loc, String hint) {
 			this.loc = loc;
 			this.hint = hint;
 			chunkId = loc.getChunkId();
@@ -110,15 +110,15 @@ public class Christmas2019 {
 			for (Location l : i.locs)
 				NPCSpawns.add(new NPCSpawn(i.npcId, l.loc, "Imp for Christmas event."));
 
-		NPCSpawns.add(new NPCSpawn(8540, WorldTile.of(2655, 5678, 0), "Queen of Snow"));
-		NPCSpawns.add(new NPCSpawn(8539, WorldTile.of(2654, 5679, 0), "Santa"));
+		NPCSpawns.add(new NPCSpawn(8540, Tile.of(2655, 5678, 0), "Queen of Snow"));
+		NPCSpawns.add(new NPCSpawn(8539, Tile.of(2654, 5679, 0), "Santa"));
 
-		NPCSpawns.add(new NPCSpawn(9386, WorldTile.of(2652, 5663, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9389, WorldTile.of(2658, 5663, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9392, WorldTile.of(2655, 5659, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9386, WorldTile.of(2662, 5654, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9389, WorldTile.of(2649, 5653, 0), "Partygoer"));
-		NPCSpawns.add(new NPCSpawn(9392, WorldTile.of(2655, 5668, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9386, Tile.of(2652, 5663, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9389, Tile.of(2658, 5663, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9392, Tile.of(2655, 5659, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9386, Tile.of(2662, 5654, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9389, Tile.of(2649, 5653, 0), "Partygoer"));
+		NPCSpawns.add(new NPCSpawn(9392, Tile.of(2655, 5668, 0), "Partygoer"));
 	}
 
 	public static EnterChunkHandler handleChunkEvents = new EnterChunkHandler(e -> {

@@ -16,16 +16,14 @@
 //
 package com.rs.game.content.quests.fishingcontest;
 
-import java.util.ArrayList;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.World;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.content.skills.fishing.FishingSpot;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -34,12 +32,14 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.FISHING_CONTEST)
 @PluginEventHandler
@@ -59,7 +59,7 @@ public class FishingContest extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
 		case NOT_STARTED:
@@ -149,24 +149,13 @@ public class FishingContest extends QuestOutline {
 		}
 	});
 
-	public static ItemClickHandler handleGiantCarp = new ItemClickHandler(new Object[] { 337 }, e -> {
-		Player p = e.getPlayer();
-		if(e.getOption().equalsIgnoreCase("eat"))
-			p.sendMessage("It doesn't appear edible...");
-		if(e.getOption().equalsIgnoreCase("drop")) {
-			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), WorldTile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
-		}
-	});
-
 	/**
 	 * There is a clipflag on the garlic pipe and requires a distance or clip handling function.
 	 */
 	public static ItemOnObjectHandler handlePipeGarlic = new ItemOnObjectHandler(false, new Object[] { 41 }, e -> {
 		Player p = e.getPlayer();
 		int stage = p.getQuestManager().getStage(Quest.FISHING_CONTEST);
-		p.walkToAndExecute(WorldTile.of(2638, 3445, 0), () -> {
+		p.walkToAndExecute(Tile.of(2638, 3445, 0), () -> {
 			if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
 				if (e.getItem().getId() == 1550) {//garlic
 					if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {
@@ -184,7 +173,7 @@ public class FishingContest extends QuestOutline {
 						@Override
 						public void run() {
 							if (tick == 0)
-								for (NPC npc : World.getNPCsInRegion(p.getRegionId()))
+								for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 									if (npc.getId() == 3677)//vampyre stranger
 									stranger = npc;
 							if (tick == 1) {
@@ -219,6 +208,27 @@ public class FishingContest extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.FISHING, 2437);
-		getQuest().sendQuestCompleteInterface(player, FISHING_TROPHY, "2,437 Fishing XP");
+		sendQuestCompleteInterface(player, FISHING_TROPHY);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Vestri or Austri near White Wolf Mountain.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "5 coins, garlic.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "2,437 Fishing XP<br>" +
+				"Access to the White Wolf Mountain shortcut";
 	}
 }

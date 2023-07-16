@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.dungeoneering.npcs;
 
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class MastyxTrap extends NPC {
 
@@ -26,7 +26,7 @@ public class MastyxTrap extends NPC {
 	private String playerName;
 	private int ticks;
 
-	public MastyxTrap(String playerName, int id, WorldTile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
+	public MastyxTrap(String playerName, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
 		super(id, tile);
 		this.playerName = playerName;
 	}

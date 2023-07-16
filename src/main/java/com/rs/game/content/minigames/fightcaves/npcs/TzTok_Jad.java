@@ -23,14 +23,14 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 
 public class TzTok_Jad extends FightCavesNPC {
 
 	private boolean spawnedMinions;
 	private FightCavesController controller;
 
-	public TzTok_Jad(int id, WorldTile tile, FightCavesController controller) {
+	public TzTok_Jad(int id, Tile tile, FightCavesController controller) {
 		super(id, tile);
 		this.controller = controller;
 		setNoDistanceCheck(true);

@@ -16,20 +16,20 @@
 //
 package com.rs.game.content.minigames.pyramidplunder;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PyramidPlunderController extends Controller {
 	final static int PLUNDER_INTERFACE = 428;
@@ -118,20 +118,20 @@ public class PyramidPlunderController extends Controller {
 	}
 
 	public void exitMinigame() {
-		player.setNextWorldTile(PyramidPlunder.EXIT_TILE);
+		player.setNextTile(PyramidPlunder.EXIT_TILE);
 		forceClose();
 	}
 
 	public void nextRoom() {
 		switch(currentRoom) {
-			case 0 -> player.setNextWorldTile(WorldTile.of(1927, 4477, 0));
-			case 1 -> player.setNextWorldTile(WorldTile.of(1977, 4471, 0));
-			case 2 -> player.setNextWorldTile(WorldTile.of(1954, 4477, 0));
-			case 3 -> player.setNextWorldTile(WorldTile.of(1927, 4453, 0));
-			case 4 -> player.setNextWorldTile(WorldTile.of(1965, 4444, 0));
-			case 5 -> player.setNextWorldTile(WorldTile.of(1927, 4424, 0));
-			case 6 -> player.setNextWorldTile(WorldTile.of(1943, 4421, 0));
-			case 7 -> player.setNextWorldTile(WorldTile.of(1974, 4420, 0));
+			case 0 -> player.setNextTile(Tile.of(1927, 4477, 0));
+			case 1 -> player.setNextTile(Tile.of(1977, 4471, 0));
+			case 2 -> player.setNextTile(Tile.of(1954, 4477, 0));
+			case 3 -> player.setNextTile(Tile.of(1927, 4453, 0));
+			case 4 -> player.setNextTile(Tile.of(1965, 4444, 0));
+			case 5 -> player.setNextTile(Tile.of(1927, 4424, 0));
+			case 6 -> player.setNextTile(Tile.of(1943, 4421, 0));
+			case 7 -> player.setNextTile(Tile.of(1974, 4420, 0));
 			case 8 -> {
 				player.startConversation(new Dialogue()
 						.addSimple("Opening this door will cause you to leave the pyramid.")

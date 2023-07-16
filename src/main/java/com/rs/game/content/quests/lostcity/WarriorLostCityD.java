@@ -1,29 +1,24 @@
 package com.rs.game.content.quests.lostcity;
 
-import static com.rs.game.content.quests.lostcity.LostCity.CHOP_DRAMEN_TREE;
-import static com.rs.game.content.quests.lostcity.LostCity.FIND_ZANARIS;
-import static com.rs.game.content.quests.lostcity.LostCity.NOT_STARTED;
-import static com.rs.game.content.quests.lostcity.LostCity.QUEST_COMPLETE;
-import static com.rs.game.content.quests.lostcity.LostCity.TALK_TO_LEPRAUCAN;
-import static com.rs.game.content.quests.lostcity.LostCity.WARRIOR;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.lostcity.LostCity.*;
+
 @PluginEventHandler
 public class WarriorLostCityD extends Conversation {
 	private final int LOOKINGFORZANARIS = 0;
 	private final int LOOKFORLEPRECAUN = 1;
-	public WarriorLostCityD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.LOST_CITY)) {
+	public WarriorLostCityD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.LOST_CITY)) {
 		case NOT_STARTED -> {
 			addNPC(WARRIOR, HeadE.CALM_TALK, "Hello there, traveler");
 			addOptions("Choose an option:", new Options() {
@@ -32,7 +27,7 @@ public class WarriorLostCityD extends Conversation {
 					option("Why are you camped out here?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Why are you camped out here?")
 							.addNPC(WARRIOR, HeadE.CALM_TALK, "We're looking for Zanaris...GAH! I mean we're not here for any particular reason at all")
-							.addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKINGFORZANARIS).getStart());})
+							.addNext(()->{player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart());})
 							);
 					option("Do you know any good adventurers I can go on?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Do you know any good adventurers I can go on?")
@@ -54,7 +49,7 @@ public class WarriorLostCityD extends Conversation {
 											.addNPC(WARRIOR, HeadE.CALM_TALK, "Hah! Adventurers of our caliber don't just hang around in forests for fun, whelp!")
 											.addPlayer(HeadE.HAPPY_TALKING, "Oh really? Why are you camped out here?")
 											.addNPC(WARRIOR, HeadE.CALM_TALK, "We're looking for Zanaris...GAH! I mean we're not here for any particular reason at all")
-											.addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKINGFORZANARIS).getStart());})
+											.addNext(()->{player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart());})
 											);
 								}
 							})

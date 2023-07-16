@@ -1,8 +1,8 @@
 package com.rs.game.content.world.areas.catherby.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -12,11 +12,11 @@ import com.rs.plugin.handlers.NPCClickHandler;
 public class Beekeeper extends Conversation {
     
         //Identify NPC by ID
-        private static int npcId = 8649;
+        private static final int npcId = 8649;
 
         public static NPCClickHandler Beekeeper = new NPCClickHandler(new Object[]{npcId}, e -> {
         	switch (e.getOption()) {
-            //Start Conversation
+            
             case "Talk-To" -> e.getPlayer().startConversation(new Beekeeper(e.getPlayer()));
         	}
         });

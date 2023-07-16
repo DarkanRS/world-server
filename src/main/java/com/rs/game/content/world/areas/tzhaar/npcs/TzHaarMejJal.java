@@ -16,8 +16,8 @@
 //
 package com.rs.game.content.world.areas.tzhaar.npcs;
 
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -27,7 +27,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 
 public class TzHaarMejJal extends Conversation {
-	private static int npcId = 2617;
+	private static final int npcId = 2617;
 
 	public static NPCClickHandler TzHaarMejJal = new NPCClickHandler(new Object[]{npcId}, e -> {
 		switch(e.getOption()) {

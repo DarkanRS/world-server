@@ -16,11 +16,9 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
+import com.rs.game.content.items.LootInterface;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -32,10 +30,13 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the Queen Black Dragon.
@@ -105,7 +106,7 @@ public final class QueenBlackDragon extends NPC {
 	/**
 	 * The region base location.
 	 */
-	private final WorldTile base;
+	private final Tile base;
 
 	/**
 	 * The list of tortured souls.
@@ -147,7 +148,7 @@ public final class QueenBlackDragon extends NPC {
 	 * @param base
 	 *            The dynamic region's base location.
 	 */
-	public QueenBlackDragon(Player attacker, WorldTile tile, WorldTile base) {
+	public QueenBlackDragon(Player attacker, Tile tile, Tile base) {
 		super(15509, tile, true);
 		super.setForceMultiArea(true);
 		super.setCantFollowUnderCombat(true);
@@ -225,7 +226,7 @@ public final class QueenBlackDragon extends NPC {
 
 	@Override
 	public void processNPC() {
-		if (ticks > 5 && !attacker.isAtDynamicRegion()) {
+		if (ticks > 5 && !attacker.isHasNearbyInstancedChunks()) {
 			finish();
 			return;
 		}
@@ -271,7 +272,7 @@ public final class QueenBlackDragon extends NPC {
 	public void spawnWorm() {
 		setNextAnimation(new Animation(16747));
 		attacker.sendMessage("Worms burrow through her rotting flesh.");
-		final WorldTile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
+		final Tile destination = base.transform(28 + Utils.random(12), 28 + Utils.random(6), 0);
 		WorldProjectile p = World.sendProjectile(this, destination, 3141, 128, 0, 60, 1.5, 5, 3);
 		WorldTasks.schedule(new WorldTask() {
 			@Override
@@ -359,10 +360,7 @@ public final class QueenBlackDragon extends NPC {
 	 *            If the chest should be replaced with an opened one.
 	 */
 	public void openRewardChest(boolean replace) {
-		attacker.getInterfaceManager().sendInterface(1284);
-		attacker.getPackets().sendInterSetItemsOptionsScript(1284, 7, 100, 8, 3, "Take", "Bank", "Discard", "Examine");
-		attacker.getPackets().setIFRightClickOps(1284, 7, 0, 10, 0, 1, 2, 3);
-		attacker.getPackets().sendItems(100, rewards);
+		LootInterface.open("Queen Black Dragon Spoils", attacker, rewards);
 		for (Item item : rewards.array()) {
 			if (item == null)
 				continue;
@@ -477,7 +475,7 @@ public final class QueenBlackDragon extends NPC {
 	 *
 	 * @return The base.
 	 */
-	public WorldTile getBase() {
+	public Tile getBase() {
 		return base;
 	}
 

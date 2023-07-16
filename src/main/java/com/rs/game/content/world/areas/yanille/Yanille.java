@@ -25,8 +25,8 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.game.WorldTile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -42,7 +42,7 @@ public class Yanille {
 	});
 
 	public static ObjectClickHandler handleMagicGuildStairs = new ObjectClickHandler(new Object[] { 1722, 1723 }, e -> {
-		e.getPlayer().setNextWorldTile(e.getPlayer().transform(0, e.getObjectId() == 1722 ? 4 : -4, e.getObjectId() == 1722 ? 1 : -1));
+		e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getObjectId() == 1722 ? 4 : -4, e.getObjectId() == 1722 ? 1 : -1));
 	});
 
 	public static ObjectClickHandler handleTreeGnomeVillageGateSqueeze = new ObjectClickHandler(new Object[] { 2186 }, e -> {
@@ -61,7 +61,7 @@ public class Yanille {
 		if (e.getOpNum() == 3)
 			e.getPlayer().fadeScreen(() -> {
 				e.getPlayer().sendMessage("Elkoy leads you through the maze...");
-				e.getPlayer().setNextWorldTile(e.getNPC().getId() == 473 ? WorldTile.of(2515, 3160, 0) : WorldTile.of(2502, 3193, 0));
+				e.getPlayer().setNextTile(e.getNPC().getId() == 473 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 			});
 	});
 
@@ -69,19 +69,19 @@ public class Yanille {
 		switch(e.getObjectId()) {
 		case 2518:
 			e.getPlayer().sendOptionDialogue("Teleport to Thormac's Tower?", ops -> {
-				ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(2702, 3403, 0)));
+				ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextTile(Tile.of(2702, 3403, 0)));
 				ops.add("Not right now.");
 			});
 			break;
 		case 2156:
 			e.getPlayer().sendOptionDialogue("Teleport to the Wizard's Tower?", ops -> {
-				ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(3109, 3164, 0)));
+				ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextTile(Tile.of(3109, 3164, 0)));
 				ops.add("Not right now.");
 			});
 			break;
 		case 2157:
 			e.getPlayer().sendOptionDialogue("Teleport to the Dark Wizard's Tower?", ops -> {
-				ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextWorldTile(WorldTile.of(2906, 3334, 0)));
+				ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextTile(Tile.of(2906, 3334, 0)));
 				ops.add("Not right now.");
 			});
 			break;
@@ -97,20 +97,20 @@ public class Yanille {
 	});
 
 	public static ObjectClickHandler handleGrottoBridge = new ObjectClickHandler(new Object[] { 2830, 2831 }, e -> {
-		WorldTile endLoc;
+		Tile endLoc;
 		if (e.getObjectId() == 2830)
-			endLoc = WorldTile.of(2530, 3029, 0);
+			endLoc = Tile.of(2530, 3029, 0);
 		else
-			endLoc = WorldTile.of(2531, 3026, 0);
+			endLoc = Tile.of(2531, 3026, 0);
 
 		e.getPlayer().lock();
-		e.getPlayer().setNextFaceWorldTile(endLoc);
+		e.getPlayer().setNextFaceTile(endLoc);
 		e.getPlayer().setNextAnimation(new Animation(769));
 		WorldTasks.schedule(new WorldTask() {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();
-				e.getPlayer().setNextWorldTile(endLoc);
+				e.getPlayer().setNextTile(endLoc);
 				e.getPlayer().setNextAnimation(new Animation(-1));
 			}
 		}, 0);
@@ -126,7 +126,7 @@ public class Yanille {
 		WorldObject obj = e.getObject();
 
 		if(obj.getId() == 20056) {
-			p.useLadder(WorldTile.of(2548, 3118, 1));
+			p.useLadder(Tile.of(2548, 3118, 1));
 			p.getSkills().addXp(Skills.AGILITY, 31);
 		}
 	});

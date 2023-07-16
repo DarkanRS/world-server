@@ -17,9 +17,9 @@
 package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.cache.loaders.ObjectType;
-import com.rs.cores.CoresManager;
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -52,24 +52,24 @@ public final class LivingRockCavern {
 
 	private static void respawnRock(final Rocks rock) {
 		World.spawnObject(rock.rock);
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(Utils.random(8) + 3), () -> {
 			try {
 				removeRock(rock);
 			} catch (Throwable e) {
 				Logger.handle(LivingRockCavern.class, "respawnRock", e);
 			}
-		}, Ticks.fromMinutes(Utils.random(8) + 3));
+		});
 	}
 
 	private static void removeRock(final Rocks rock) {
 		World.removeObject(rock.rock);
-		CoresManager.schedule(() -> {
+		WorldTasks.schedule(Ticks.fromMinutes(3), () -> {
 			try {
 				respawnRock(rock);
 			} catch (Throwable e) {
 				Logger.handle(LivingRockCavern.class, "removeRock", e);
 			}
-		}, Ticks.fromMinutes(3));
+		});
 	}
 
 	@ServerStartupEvent

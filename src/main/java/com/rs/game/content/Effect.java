@@ -17,9 +17,15 @@
 package com.rs.game.content;
 
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
+import com.rs.utils.Ticks;
+
+import java.util.List;
+
 
 public enum Effect {
 	SKULL {
@@ -61,6 +67,14 @@ public enum Effect {
 				}
 		}
 	},
+	BARON_SHARK() {
+		@Override
+		public void tick(Entity entity, long tick) {
+			if (tick % 2 == 0) {
+				entity.heal(10);
+			}
+		}
+	},
 	STAFF_OF_LIGHT_SPEC("staff of light protection", true),
 	JUJU_MINING("juju mining potion", false),
 	JUJU_MINE_BANK,
@@ -78,11 +92,11 @@ public enum Effect {
 	REV_AGGRO_IMMUNE("revenant aggression immunity", false),
 
 	CHARGED("god charge", false),
-	
+
 	DUNG_HS_SCROLL_BOOST("hoardstalker boost", true),
-	
+
 	AGGRESSION_POTION("aggression potion", false),
-	
+
 	OVERLOAD_PVP_REDUCTION(true),
 
 	BONFIRE("bonfire boost", false) {
@@ -96,6 +110,27 @@ public enum Effect {
 		public void expire(Entity entity) {
 			if (entity instanceof Player player)
 				player.getEquipment().refreshConfigs(false);
+		}
+	},
+
+	BLOOD_NECKLACE("blood necklace") {
+		@Override
+		public boolean sendWarnings() {
+			return false;
+		}
+
+		@Override
+		public void tick(Entity entity, long tick) {
+			if(entity instanceof Player player && player.getDungManager().isInsideDungeon()) {
+				List<NPC> npcs = player.queryNearbyNPCsByTileRange(1, npc -> !npc.isDead() && npc.withinDistance(player, 1)
+						&& npc.getDefinitions().hasAttackOption() && player.getControllerManager().canHit(npc) && npc.getTarget() instanceof Player);
+				for (NPC npc : npcs)
+					if (tick % Ticks.fromSeconds(10) == 0) {
+						int dmg = 40 * player.getSkills().getCombatLevelWithSummoning() / 138;
+						npc.applyHit(new Hit(player, dmg, Hit.HitLook.TRUE_DAMAGE));
+						player.heal(dmg);
+					}
+			}
 		}
 	},
 
@@ -143,6 +178,8 @@ public enum Effect {
 			}
 		}
 	},
+
+	FARMERS_AFFINITY("Farmer's affinity"),
 
 	;
 

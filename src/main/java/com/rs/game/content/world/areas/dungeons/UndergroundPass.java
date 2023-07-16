@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -24,15 +24,15 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class UndergroundPass {
 
 	public static ObjectClickHandler handleSkullDoorEnter = new ObjectClickHandler(new Object[] { 3220, 3221 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(2173, 4725, 1));
+		e.getPlayer().useStairs(Tile.of(2173, 4725, 1));
 	});
 
 	public static ObjectClickHandler handleSkullDoorExit = new ObjectClickHandler(new Object[] { 34288, 34289 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(2369, 9718, 0));
+		e.getPlayer().useStairs(Tile.of(2369, 9718, 0));
 	});
 
 	public static ObjectClickHandler handleWellDoorEnter = new ObjectClickHandler(new Object[] { 3333, 3334 }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? WorldTile.of(2145, 4648, 1) : WorldTile.of(2014, 4712, 1));
+		e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? Tile.of(2145, 4648, 1) : Tile.of(2014, 4712, 1));
 	});
 
 }

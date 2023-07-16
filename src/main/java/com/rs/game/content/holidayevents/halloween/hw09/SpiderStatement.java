@@ -17,7 +17,7 @@
 package com.rs.game.content.holidayevents.halloween.hw09;
 
 import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.game.engine.dialogue.statements.Statement;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.model.entity.player.Player;
 
 public class SpiderStatement implements Statement {

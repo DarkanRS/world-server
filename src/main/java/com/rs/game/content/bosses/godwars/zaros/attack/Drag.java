@@ -18,14 +18,11 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceMovement;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
 import com.rs.lib.util.Utils;
 
 public class Drag implements NexAttack {
@@ -45,16 +42,14 @@ public class Drag implements NexAttack {
 		if (settedTarget != null) {
 			final Player player = (Player) settedTarget;
 			player.lock(3);
-			player.setNextAnimation(new Animation(14386));
 			player.setNextSpotAnim(new SpotAnim(2767));
-			player.setNextForceMovement(new ForceMovement(nex.getTile(), 2, Direction.forDelta(nex.getCoordFaceX(player.getSize()) - player.getX(), nex.getCoordFaceY(player.getSize()) - player.getY())));
+			player.forceMove(nex.getNearestTeleTile(1), 14386, 0, 60);
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					player.setNextWorldTile(WorldTile.of(nex.getTile()));
 					player.sendMessage("You've been injured and you can't use protective prayers!");
 					player.setProtectionPrayBlock(12);
 					player.sendMessage("You're stunned.");

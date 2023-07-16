@@ -1,21 +1,14 @@
 package com.rs.game.content.quests.dragonslayer;
 
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.ELVARG_HEAD;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.NOT_STARTED;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.PREPARE_FOR_CRANDOR;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.QUEST_COMPLETE;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.REPORT_TO_OZIACH;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_GUILDMASTER;
-import static com.rs.game.content.quests.dragonslayer.DragonSlayer.TALK_TO_OZIACH;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
+
+import static com.rs.game.content.quests.dragonslayer.DragonSlayer.*;
 
 @PluginEventHandler
 public class OziachDragonSlayerD extends Conversation {
@@ -141,7 +134,7 @@ public class OziachDragonSlayerD extends Conversation {
 								" of my face.")
 						.addPlayer(HeadE.HAPPY_TALKING, "But how can I defeat the dragon?")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Go talk to the Guildmaster in the Champions' Guild. He'll help ye out if yer so keen on doing a quest. " +
-								"I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER, true);}));
+								"I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER);}));
 				option("I may be a champion, but I don't think I'm, up to dragon-killing yet.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "I may be a champion, but I don't think I'm, up to dragon-killing yet.")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Yes, I can understand that. Yer a coward."));

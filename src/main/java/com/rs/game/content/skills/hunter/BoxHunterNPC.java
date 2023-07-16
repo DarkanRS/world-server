@@ -16,10 +16,6 @@
 //
 package com.rs.game.content.skills.hunter;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Stream;
-
 import com.rs.game.World;
 import com.rs.game.content.minigames.herblorehabitat.JadinkoType;
 import com.rs.game.content.skills.hunter.traps.BoxStyleTrap;
@@ -29,17 +25,21 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCInstanceHandler;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 @PluginEventHandler
 public class BoxHunterNPC extends NPC {
 
 	private int captureTicks;
 
-	public BoxHunterNPC(int id, WorldTile tile, boolean spawned) {
+	public BoxHunterNPC(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);
 		setIgnoreNPCClipping(true);
 	}
@@ -58,7 +58,7 @@ public class BoxHunterNPC extends NPC {
 			captureTicks++;
 			return;
 		}
-		List<GameObject> objects = World.getRegion(getRegionId()).getSpawnedObjects();
+		List<GameObject> objects = World.getSpawnedObjectsInChunkRange(getChunkId(), 1);
 		if (objects == null)
 			return;
 		for (final GameObject o : objects) {

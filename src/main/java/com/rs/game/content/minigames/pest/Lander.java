@@ -16,18 +16,14 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.rs.Settings;
 import com.rs.game.content.minigames.pest.PestControl.PestData;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
+
+import java.util.*;
 
 public class Lander {
 
@@ -90,7 +86,7 @@ public class Lander {
 			WorldTasks.schedule(timer = new LobbyTimer(), 2, 2);
 		player.getControllerManager().startController(new PestControlLobbyController(landerRequirement.getId()));
 		add(player);
-		player.useStairs(-1, landerRequirement.getWorldTile(), 1, 2, "You board the lander.");
+		player.useStairs(-1, landerRequirement.getTile(), 1, 2, "You board the lander.");
 	}
 
 	public void exitLander(Player player) {
@@ -119,11 +115,11 @@ public class Lander {
 
 	public static enum LanderRequirement {
 
-		NOVICE(0, 40, WorldTile.of(2661, 2639, 0), WorldTile.of(2657, 2639, 0)),
+		NOVICE(0, 40, Tile.of(2661, 2639, 0), Tile.of(2657, 2639, 0)),
 
-		INTERMEDIATE(1, 70, WorldTile.of(2641, 2644, 0), WorldTile.of(2644, 2644, 0)),
+		INTERMEDIATE(1, 70, Tile.of(2641, 2644, 0), Tile.of(2644, 2644, 0)),
 
-		VETERAN(2, 100, WorldTile.of(2635, 2653, 0), WorldTile.of(2638, 2653, 0));
+		VETERAN(2, 100, Tile.of(2635, 2653, 0), Tile.of(2638, 2653, 0));
 
 		private static Map<Integer, LanderRequirement> landers = new HashMap<>();
 
@@ -138,9 +134,9 @@ public class Lander {
 
 		int id, requirement, reward;
 		int[] pests;
-		WorldTile tile, exit;
+		Tile tile, exit;
 
-		private LanderRequirement(int id, int requirement, WorldTile tile, WorldTile exit) {
+		private LanderRequirement(int id, int requirement, Tile tile, Tile exit) {
 			this.id = id;
 			this.requirement = requirement;
 			this.tile = tile;
@@ -155,11 +151,11 @@ public class Lander {
 			return requirement;
 		}
 
-		public WorldTile getWorldTile() {
+		public Tile getTile() {
 			return tile;
 		}
 
-		public WorldTile getExitTile() {
+		public Tile getExitTile() {
 			return exit;
 		}
 	}
@@ -168,7 +164,7 @@ public class Lander {
 		return landers;
 	}
 
-	public LanderRequirement getLanderRequierment() {
+	public LanderRequirement getLanderRequirement() {
 		return landerRequirement;
 	}
 
@@ -184,8 +180,8 @@ public class Lander {
 
 	public static boolean canEnter(Player player, int landerIndex) {
 		Lander lander = landers[landerIndex];
-		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequierment().requirement) {
-			player.simpleDialogue("You need a combat level of " + lander.getLanderRequierment().getRequirement() + " or more to enter in boat.");
+		if (player.getSkills().getCombatLevelWithSummoning() < lander.getLanderRequirement().requirement) {
+			player.simpleDialogue("You need a combat level of " + lander.getLanderRequirement().getRequirement() + " or more to enter in boat.");
 			return false;
 		}
 		if (player.getPet() != null || player.getFamiliar() != null) {

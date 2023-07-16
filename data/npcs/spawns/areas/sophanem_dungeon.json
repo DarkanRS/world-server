@@ -1,0 +1,407 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3270,
+      "y": 9264
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3272,
+      "y": 9246
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3273,
+      "y": 9251
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3274,
+      "y": 9223
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3274,
+      "y": 9262
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 9235
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3280,
+      "y": 9240
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3280,
+      "y": 9251
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3283,
+      "y": 9243
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 9247
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3284,
+      "y": 9252
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3287,
+      "y": 9268
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3290,
+      "y": 9232
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3291,
+      "y": 9262
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3294,
+      "y": 9233
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3295,
+      "y": 9251
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3296,
+      "y": 9229
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3296,
+      "y": 9261
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3299,
+      "y": 9244
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3299,
+      "y": 9254
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3302,
+      "y": 9232
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3303,
+      "y": 9266
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3304,
+      "y": 9252
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3305,
+      "y": 9234
+    },
+    "comment": "Locust rider",
+    "npcId": 5251
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3306,
+      "y": 9223
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3308,
+      "y": 9262
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3310,
+      "y": 9237
+    },
+    "comment": "Locust rider",
+    "npcId": 5252
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3273,
+      "y": 9263
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3275,
+      "y": 9226
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3276,
+      "y": 9248
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3279,
+      "y": 9222
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 9244
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3282,
+      "y": 9273
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3286,
+      "y": 9227
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3288,
+      "y": 9265
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3296,
+      "y": 9248
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3297,
+      "y": 9232
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3298,
+      "y": 9225
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3300,
+      "y": 9241
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3301,
+      "y": 9252
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3303,
+      "y": 9235
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3309,
+      "y": 9224
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3309,
+      "y": 9265
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3316,
+      "y": 9255
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3317,
+      "y": 9240
+    },
+    "comment": "Scarab mage",
+    "npcId": 5250
+  }
+]

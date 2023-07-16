@@ -16,12 +16,11 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.Options;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.model.entity.ForceMovement;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -30,9 +29,8 @@ import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
-import com.rs.utils.WorldUtil;
 
 public class ColouredRecessRoom extends PuzzleRoom {
 
@@ -60,7 +58,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 		used = new boolean[4];
 		for (int i = 0; i < blocks.length; i++)
 			while_: while (true) {
-				WorldTile tile = manager.getTile(reference, 4 + Utils.random(8), 4 + Utils.random(8));
+				Tile tile = manager.getTile(reference, 4 + Utils.random(8), 4 + Utils.random(8));
 				if (!World.floorFree(tile, 1))
 					continue;
 				for (int j = 0; j < i; j++)
@@ -93,7 +91,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 
 	public class Block extends DungeonNPC {
 
-		public Block(WorldTile tile) {
+		public Block(Tile tile) {
 			super(BASE_BLOCKS[type], tile, manager);
 		}
 
@@ -113,8 +111,8 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				player.sendMessage("You cannot push the block there.");
 				return;
 			}
-			final WorldTile nTarget = transform(dx, dy, 0);
-			final WorldTile pTarget = player.transform(dx, dy, 0);
+			final Tile nTarget = transform(dx, dy, 0);
+			final Tile pTarget = player.transform(dx, dy, 0);
 
 			if (!World.floorFree(nTarget, 1) || !World.floorFree(pTarget, 1)) {
 				player.sendMessage("Something is blocking the way.");
@@ -141,10 +139,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 					if (!moved) {
 						moved = true;
 						addWalkSteps(getX() + dx, getY() + dy);
-						WorldTile fromTile = WorldTile.of(player.getX(), player.getY(), player.getPlane());
-						player.setNextWorldTile(pTarget);
-						player.setNextForceMovement(new ForceMovement(fromTile, 0, pTarget, 1, WorldUtil.getFaceDirection(getTile(), player)));
-						player.setNextAnimation(new Animation(push ? 3065 : 3065));
+						player.forceMove(pTarget, push ? 3065 : 3065, 5, 30);
 					} else {
 						checkComplete();
 						stop();
@@ -169,7 +164,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 	}
 
 	@Override
-	public boolean canMove(Player player, WorldTile to) {
+	public boolean canMove(Player player, Tile to) {
 		for (Block block : blocks)
 			if (to.matches(block.getTile()))
 				return false;

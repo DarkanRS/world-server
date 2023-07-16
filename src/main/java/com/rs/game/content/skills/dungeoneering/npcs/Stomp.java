@@ -16,9 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -33,18 +30,16 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.Region;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
-import com.rs.lib.game.GroundItem;
-import com.rs.lib.game.Item;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.*;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public final class Stomp extends DungeonBoss {
@@ -57,7 +52,7 @@ public final class Stomp extends DungeonBoss {
 
 	private List<int[]> shadows;
 
-	public Stomp(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Stomp(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9782, 9796), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true); // force cant walk
 		freeze(5000000);
@@ -80,7 +75,7 @@ public final class Stomp extends DungeonBoss {
 	}
 
 	@Override
-	public WorldTile getMiddleWorldTile() {
+	public Tile getMiddleTile() {
 		return this.getTile();
 	}
 
@@ -217,11 +212,9 @@ public final class Stomp extends DungeonBoss {
 	}
 
 	public void removeCrystals() {
-		Region region = World.getRegion(getRegionId());
-		if (region.getGroundItems() != null)
-			for (GroundItem item : region.getAllGroundItems())
-				if (item.getId() == CRYSTAL[lodeStoneType])
-					World.removeGroundItem(item);
+		for (GroundItem item : World.getAllGroundItemsInChunkRange(getChunkId(), 2))
+			if (item.getId() == CRYSTAL[lodeStoneType])
+				World.removeGroundItem(item);
 	}
 
 	public boolean containsShadow(int x, int y) {

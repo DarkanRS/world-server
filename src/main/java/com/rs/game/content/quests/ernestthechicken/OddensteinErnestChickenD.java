@@ -16,14 +16,12 @@
 //
 package com.rs.game.content.quests.ernestthechicken;
 
-import java.util.List;
-
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
@@ -31,6 +29,8 @@ import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
+
+import java.util.List;
 
 @PluginEventHandler
 public class OddensteinErnestChickenD extends Conversation {
@@ -41,9 +41,9 @@ public class OddensteinErnestChickenD extends Conversation {
 	static int RUBBER_TUBE = 276;
 	static int OIL_CAN = 277;
 
-	public OddensteinErnestChickenD(Player p) {
-		super(p);
-		switch (p.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
+	public OddensteinErnestChickenD(Player player) {
+		super(player);
+		switch (player.getQuestManager().getStage(Quest.ERNEST_CHICKEN)) {
 		case ErnestTheChicken.NOT_STARTED:
 		case ErnestTheChicken.STARTED:
 		case ErnestTheChicken.KNOWS_ABOUT_CHICKEN:
@@ -52,8 +52,8 @@ public class OddensteinErnestChickenD extends Conversation {
 			addOptions("Choose an option:", new Options() {
 				@Override
 				public void create() {
-					if(p.getQuestManager().getStage(Quest.ERNEST_CHICKEN) == ErnestTheChicken.STARTED
-							|| p.getQuestManager().getStage(Quest.ERNEST_CHICKEN) == ErnestTheChicken.KNOWS_ABOUT_CHICKEN)
+					if(player.getQuestManager().getStage(Quest.ERNEST_CHICKEN) == ErnestTheChicken.STARTED
+							|| player.getQuestManager().getStage(Quest.ERNEST_CHICKEN) == ErnestTheChicken.KNOWS_ABOUT_CHICKEN)
 						option("I'm looking for a guy called Ernest", new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "I'm looking for a guy called Ernest.")
 								.addNPC(ODDENSTEIN, HeadE.HAPPY_TALKING, "Ah, Ernest - top notch bloke - he's helping me with my experiments.")
@@ -64,7 +64,7 @@ public class OddensteinErnestChickenD extends Conversation {
 										" pouletmorph machine. ")
 								.addNPC(ODDENSTEIN, HeadE.TALKING_ALOT, "It was originally going to be called a transmutation machine, but after testing it, pouletmorph " +
 										"seems more appropriate.", () -> {
-											p.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.KNOWS_ABOUT_CHICKEN);
+											player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.KNOWS_ABOUT_CHICKEN);
 										})
 								.addOptions("Choose an option:", new Options() {
 									@Override
@@ -82,7 +82,7 @@ public class OddensteinErnestChickenD extends Conversation {
 														"the gremlins never get further than the entrance gate.")
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "I'm missing the pressure gauge and a rubber tube. They've also taken my oil " +
 														"can, which I'm going to need to get this thing started again.", () -> {
-															p.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
+															player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
 														}));
 										option("Change him back this instant", new Dialogue()
 												.addPlayer(HeadE.ANGRY, "Change him back this instant!")
@@ -93,7 +93,7 @@ public class OddensteinErnestChickenD extends Conversation {
 														"the gremlins never get further than the entrance gate.")
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "I'm missing the pressure gauge and a rubber tube. They've also taken my oil " +
 														"can, which I'm going to need to get this thing started again.", () -> {
-															p.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
+															player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
 														}));
 									}
 								}));
@@ -110,12 +110,12 @@ public class OddensteinErnestChickenD extends Conversation {
 			});
 			break;
 		case ErnestTheChicken.NEEDS_PARTS:
-			if(p.getInventory().containsItem(OIL_CAN) && p.getInventory().containsItem(PRESSURE_GAUGE) && p.getInventory().containsItem(RUBBER_TUBE)) {
+			if(player.getInventory().containsItem(OIL_CAN) && player.getInventory().containsItem(PRESSURE_GAUGE) && player.getInventory().containsItem(RUBBER_TUBE)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I have gotten all your parts!");
 				addSimple("You give a rubber tube, a pressure gauge, and a can of oil to the professor.");
 				addSimple("Oddenstein starts up the machine.");
 				addSimple("The machine hums and shakes.", ()-> {
-					List<NPC> npcs = World.getNPCsInRegion(p.getRegionId());
+					List<NPC> npcs = World.getNPCsInChunkRange(player.getChunkId(), 1);
 					for(NPC npc : npcs)
 						if(npc.getId() == 3290)
 							npc.transformIntoNPC(287);
@@ -125,10 +125,10 @@ public class OddensteinErnestChickenD extends Conversation {
 							for(NPC npc : npcs)
 								if(npc.getId() == 287)
 									npc.transformIntoNPC(3290);
-							p.getVars().setVar(32, 3);
+							player.getVars().setVar(32, 3);
 						}
 					}, Ticks.fromSeconds(60));
-					p.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.ERNEST_NOT_CHICKEN);
+					player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.ERNEST_NOT_CHICKEN);
 
 				});
 				addNPC(ERNEST, HeadE.HAPPY_TALKING, "Thank you, it was dreadfully irritating being a chicken. How can *cluck* I ever thank you?");
@@ -136,15 +136,15 @@ public class OddensteinErnestChickenD extends Conversation {
 				addNPC(ERNEST, HeadE.HAPPY_TALKING, "Of course, of course. You may as well have these eggs and *cluck* feathers I mysteriously *bwark*" +
 						" found in my pockets.");
 				addNext(()->{
-					p.getVars().setVar(32, 3);
-					p.getInventory().deleteItem(OIL_CAN, 1);
-					p.getInventory().deleteItem(RUBBER_TUBE, 1);
-					p.getInventory().deleteItem(PRESSURE_GAUGE, 1);
-					p.getQuestManager().completeQuest(Quest.ERNEST_CHICKEN);});
+					player.getVars().setVar(32, 3);
+					player.getInventory().deleteItem(OIL_CAN, 1);
+					player.getInventory().deleteItem(RUBBER_TUBE, 1);
+					player.getInventory().deleteItem(PRESSURE_GAUGE, 1);
+					player.getQuestManager().completeQuest(Quest.ERNEST_CHICKEN);});
 
 			}
 			else {
-				p.getVars().setVar(32, 3);
+				player.getVars().setVar(32, 3);
 				addNPC(ODDENSTEIN, HeadE.HAPPY_TALKING, "Have you found them yet?");
 				addPlayer(HeadE.SAD_MILD, "I'm afraid I don't have all of them yet!");
 				addNPC(ODDENSTEIN, HeadE.HAPPY_TALKING, "Remember, I need a rubber tube, a pressure gauge and a can of oil. Then your friend can stop " +
@@ -154,10 +154,10 @@ public class OddensteinErnestChickenD extends Conversation {
 		case ErnestTheChicken.ERNEST_NOT_CHICKEN:
 			addNPC(ODDENSTEIN, HeadE.HAPPY_TALKING, "Ernest left this for you...");
 			addNext(()->{
-				p.getInventory().deleteItem(OIL_CAN, 1);
-				p.getInventory().deleteItem(RUBBER_TUBE, 1);
-				p.getInventory().deleteItem(PRESSURE_GAUGE, 1);
-				p.getQuestManager().completeQuest(Quest.ERNEST_CHICKEN);});
+				player.getInventory().deleteItem(OIL_CAN, 1);
+				player.getInventory().deleteItem(RUBBER_TUBE, 1);
+				player.getInventory().deleteItem(PRESSURE_GAUGE, 1);
+				player.getQuestManager().completeQuest(Quest.ERNEST_CHICKEN);});
 
 			break;
 		}

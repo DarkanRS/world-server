@@ -18,7 +18,7 @@ package com.rs.game.model.entity.pathing;
 
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.lib.util.Vec2;
 
@@ -90,10 +90,7 @@ public enum Direction {
 	}
 
 	public static Direction rotateClockwise(Direction dir, int rotation) {
-		rotation = dir.getId() + rotation;
-		if (rotation > 7)
-			rotation = rotation - 8;
-		return getById(rotation);
+		return getById((dir.getId() + rotation) & 0x7);
 	}
 
 	public static Direction fromAngle(int angle) {
@@ -128,7 +125,7 @@ public enum Direction {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
 
-	public static Direction getFaceDirection(WorldTile faceTile, Player player) {
+	public static Direction getFaceDirection(Tile faceTile, Player player) {
 		if (player.getX() < faceTile.getX())
 			return Direction.EAST;
 		if (player.getX() > faceTile.getX())
@@ -142,11 +139,11 @@ public enum Direction {
 	}
 
 	public static Direction getDirectionTo(Entity entity, Object target) {
-		Vec2 from = entity.getMiddleWorldTileAsVector();
-		Vec2 to = target instanceof Entity e ? e.getMiddleWorldTileAsVector() : new Vec2((WorldTile) target);
+		Vec2 from = entity.getMiddleTileAsVector();
+		Vec2 to = target instanceof Entity e ? e.getMiddleTileAsVector() : new Vec2((Tile) target);
 		Vec2 sub = to.sub(from);
 		sub.norm();
-		WorldTile delta = sub.toTile();
+		Tile delta = sub.toTile();
 		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 }

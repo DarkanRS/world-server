@@ -1,0 +1,31 @@
+{
+  "ids": [
+    1233
+  ],
+  "tables": [
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3357,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 0.0,
+      "outOf": 0.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 3367,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

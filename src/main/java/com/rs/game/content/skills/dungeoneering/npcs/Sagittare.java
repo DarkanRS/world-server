@@ -16,8 +16,6 @@
 //
 package com.rs.game.content.skills.dungeoneering.npcs;
 
-import java.util.List;
-
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
@@ -27,15 +25,17 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+
+import java.util.List;
 
 public class Sagittare extends DungeonBoss {
 
 	private int stage;
 	private boolean special;
 
-	public Sagittare(WorldTile tile, DungeonManager manager, RoomReference reference) {
+	public Sagittare(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9753, 9766), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true);
 		stage = -1;

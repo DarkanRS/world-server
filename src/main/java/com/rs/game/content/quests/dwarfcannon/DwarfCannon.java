@@ -16,27 +16,28 @@
 //
 package com.rs.game.content.quests.dwarfcannon;
 
-import java.util.ArrayList;
-
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.statements.PlayerStatement;
-import com.rs.game.engine.dialogue.statements.SimpleStatement;
-import com.rs.game.engine.quest.Quest;
-import com.rs.game.engine.quest.QuestHandler;
-import com.rs.game.engine.quest.QuestOutline;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.statements.PlayerStatement;
+import com.rs.engine.dialogue.statements.SimpleStatement;
+import com.rs.engine.quest.Quest;
+import com.rs.engine.quest.QuestHandler;
+import com.rs.engine.quest.QuestOutline;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @QuestHandler(Quest.DWARF_CANNON)
 @PluginEventHandler
@@ -54,7 +55,7 @@ public class DwarfCannon extends QuestOutline {
 	}
 
 	@Override
-	public ArrayList<String> getJournalLines(Player player, int stage) {
+	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch (stage) {
 		case 0:
@@ -129,7 +130,30 @@ public class DwarfCannon extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.CRAFTING, 750);
-		getQuest().sendQuestCompleteInterface(player, 1, "750 Crafting XP", "Permission to purchase and use a dwarf multicannon", "Ability to add the ammo mould to your tool belt", "Ability to smith cannonballs");
+		sendQuestCompleteInterface(player, 1);
+	}
+
+	@Override
+	public String getStartLocationDescription() {
+		return "Talk to Captain Lawgof, south of the coal truck mining site to the west of McGrubor's Wood.";
+	}
+
+	@Override
+	public String getRequiredItemsString() {
+		return "None.";
+	}
+
+	@Override
+	public String getCombatInformationString() {
+		return "None.";
+	}
+
+	@Override
+	public String getRewardsString() {
+		return "750 Crafting XP<br>" +
+				"Permission to purchase and use a dwarf multicannon<br>" +
+				"Ability to smith cannonballs<br>" +
+				"Ability to add the ammo mould to your tool belt";
 	}
 
 	public static LoginHandler login = new LoginHandler(e -> updateVars(e.getPlayer()));
@@ -188,12 +212,12 @@ public class DwarfCannon extends QuestOutline {
 	});
 
 	public static ObjectClickHandler handleEnterCaveEntrance = new ObjectClickHandler(new Object[] { 2 }, e -> {
-		e.getPlayer().useStairs(WorldTile.of(2620, 9796, 0));
+		e.getPlayer().useStairs(Tile.of(2620, 9796, 0));
 		if (e.getPlayer().getQuestManager().getStage(Quest.DWARF_CANNON) == 4)
 			e.getPlayer().getQuestManager().setStage(Quest.DWARF_CANNON, 5);
 	});
 
-	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }, e -> e.getPlayer().useStairs(WorldTile.of(2627, 3391, 0)));
+	public static ObjectClickHandler handleClimbMudPile = new ObjectClickHandler(new Object[] { 13 }, e -> e.getPlayer().useStairs(Tile.of(2627, 3391, 0)));
 
 	public static ObjectClickHandler handleDwarfRemains = new ObjectClickHandler(new Object[] { 0 }, e -> {
 		if (e.getOption().equals("Take"))

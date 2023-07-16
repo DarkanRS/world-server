@@ -16,18 +16,18 @@
 //
 package com.rs.game.content.minigames.agilityarena;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.utils.Ticks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class BrimhavenAgilityController extends Controller {
 
@@ -81,11 +81,11 @@ public final class BrimhavenAgilityController extends Controller {
 
 	private static class PlayingGame extends WorldTask {
 
-		private static WorldTile taggedDispenser;
+		private static Tile taggedDispenser;
 
-		private static WorldTile getNextDispenser() {
+		private static Tile getNextDispenser() {
 			while (true) {
-				WorldTile tile = WorldTile.of(2761 + 11 * Utils.random(5), 9546 + 11 * Utils.random(5), 3);
+				Tile tile = Tile.of(2761 + 11 * Utils.random(5), 9546 + 11 * Utils.random(5), 3);
 				if (!(tile.getX() == 2805 && tile.getY() == 9590) && !(taggedDispenser != null && tile.equals(taggedDispenser)))
 					return tile;
 			}

@@ -16,46 +16,46 @@
 //
 package com.rs.game.content.skills.construction;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.Statement;
 import com.rs.game.World;
 import com.rs.game.content.pets.Pets;
-import com.rs.game.content.skills.construction.HouseConstants.Builds;
-import com.rs.game.content.skills.construction.HouseConstants.HObject;
-import com.rs.game.content.skills.construction.HouseConstants.POHLocation;
-import com.rs.game.content.skills.construction.HouseConstants.Room;
-import com.rs.game.content.skills.construction.HouseConstants.Servant;
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.statements.Statement;
+import com.rs.game.content.skills.construction.HouseConstants.*;
+import com.rs.game.map.Chunk;
+import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.Instance;
+import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.region.DynamicRegion;
-import com.rs.game.region.Region;
-import com.rs.game.region.RegionBuilder.DynamicRegionReference;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Rights;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
+import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.RegionUtils;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @PluginEventHandler
 public class House {
@@ -76,7 +76,7 @@ public class House {
 	private transient CopyOnWriteArrayList<NPC> npcs;
 
 	private transient List<Player> players;
-	private transient DynamicRegionReference region;
+	private transient Instance instance;
 	private transient boolean loaded;
 	private transient boolean challengeMode;
 	private transient ServantNPC servantInstance;
@@ -96,7 +96,7 @@ public class House {
 	private boolean isOwnerInside() {
 		return players.contains(player);
 	}
-	
+
 	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray(), e -> {
 		e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
 			ops.add("Go to your house.", () -> {
@@ -169,8 +169,8 @@ public class House {
 	}
 
 	public void openRoomCreationMenu(GameObject door) {
-		int roomX = player.getChunkX() - region.getBaseChunkX(); // current room
-		int roomY = player.getChunkY() - region.getBaseChunkY(); // current room
+		int roomX = player.getChunkX() - instance.getBaseChunkX(); // current room
+		int roomY = player.getChunkY() - instance.getBaseChunkY(); // current room
 		int xInChunk = player.getXInChunk();
 		int yInChunk = player.getYInChunk();
 		if (xInChunk == 7)
@@ -185,8 +185,8 @@ public class House {
 	}
 
 	public void removeRoom() {
-		int roomX = player.getChunkX() - region.getBaseChunkX(); // current room
-		int roomY = player.getChunkY() - region.getBaseChunkY(); // current room
+		int roomX = player.getChunkX() - instance.getBaseChunkX(); // current room
+		int roomY = player.getChunkY() - instance.getBaseChunkY(); // current room
 		RoomReference room = getRoom(roomX, roomY, player.getPlane());
 		if (room == null)
 			return;
@@ -234,14 +234,14 @@ public class House {
 				}
 			}
 			player.startConversation(new Dialogue().
-					addOptions("Do you really want to remove the room?", ops -> {
-						ops.add("Yes")
-							.addOptions("You can't get anything back? Remove room?", conf -> {
-								conf.add("Yes, get rid of my money already!", () -> player.getHouse().removeRoom(room));
-								conf.add("No.");
-							});
-						ops.add("No");
-					}));
+				addOptions("Do you really want to remove the room?", ops -> {
+					ops.add("Yes")
+						.addOptions("You can't get anything back? Remove room?", conf -> {
+							conf.add("Yes, get rid of my money already!", () -> player.getHouse().removeRoom(room));
+							conf.add("No.");
+						});
+					ops.add("No");
+				}));
 		} else {
 			if (roomX == 0 || roomY == 0 || roomX == 7 || roomY == 7) {
 				player.simpleDialogue("You can't create a room here.");
@@ -269,8 +269,8 @@ public class House {
 	public void handleLever(Player player, GameObject object) {
 		if (buildMode || player.isLocked())
 			return;
-		final int roomX = player.getChunkX() - region.getBaseChunkX(); // current room
-		final int roomY = player.getChunkY() - region.getBaseChunkY(); // current room
+		final int roomX = player.getChunkX() - instance.getBaseChunkX(); // current room
+		final int roomY = player.getChunkY() - instance.getBaseChunkY(); // current room
 		RoomReference room = getRoom(roomX, roomY, player.getPlane());
 		int trap = room.getTrapObject();
 		player.setNextAnimation(new Animation(9497));
@@ -314,8 +314,8 @@ public class House {
 	}
 
 	public void kickTrapped(int roomX, int roomY, int... trapIds) {
-		int x = region.getLocalX(roomX, 3);
-		int y = region.getLocalY(roomY, 3);
+		int x = instance.getLocalX(roomX, 3);
+		int y = instance.getLocalY(roomY, 3);
 		for (final Player p : getTrappedPlayers(x, y)) {
 			if (isOwner(p)) {
 				p.setNextForceTalk(new ForceTalk("Trying to kick the house owner... Pfft.."));
@@ -332,15 +332,15 @@ public class House {
 			releasePlayers(roomX, roomY, trapIds);
 			return;
 		}
-		int x = region.getLocalX(roomX, 3);
-		int y = region.getLocalY(roomY, 3);
+		int x = instance.getLocalX(roomX, 3);
+		int y = instance.getLocalY(roomY, 3);
 		for (final Player p : getTrappedPlayers(x, y)) {
 			p.lock(10);
 			p.setNextAnimation(new Animation(1950));
 			WorldTasks.schedule(new WorldTask() {
 				@Override
 				public void run() {
-					p.setNextWorldTile(WorldTile.of(p.getX(), p.getY(), 0));
+					p.setNextTile(Tile.of(p.getX(), p.getY(), 0));
 					p.setNextAnimation(new Animation(3640));
 				}
 			}, 5);
@@ -349,54 +349,54 @@ public class House {
 	}
 
 	public void releasePlayers(int roomX, int roomY, int... trapIds) {
-		int x = region.getLocalX(roomX, 3);
-		int y = region.getLocalY(roomY, 3);
-		World.removeObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, WorldTile.of(x, y, player.getPlane())));
+		int x = instance.getLocalX(roomX, 3);
+		int y = instance.getLocalY(roomY, 3);
+		World.removeObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, Tile.of(x, y, player.getPlane())));
 		if (trapIds.length > 1)
-			World.removeObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, WorldTile.of(x + 1, y, player.getPlane())));
+			World.removeObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, Tile.of(x + 1, y, player.getPlane())));
 		if (trapIds.length > 2)
-			World.removeObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, WorldTile.of(x, y + 1, player.getPlane())));
+			World.removeObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, Tile.of(x, y + 1, player.getPlane())));
 		if (trapIds.length > 3)
-			World.removeObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, WorldTile.of(x + 1, y + 1, player.getPlane())));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x - 1, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x - 1, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 1, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 1, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 2, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
-		World.removeObject(World.getObjectWithType(WorldTile.of(x + 2, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+			World.removeObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, Tile.of(x + 1, y + 1, player.getPlane())));
+		World.removeObject(World.getObjectWithType(Tile.of(x - 1, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x - 1, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 1, y + 2, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 1, y - 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 2, y, player.getPlane()), ObjectType.WALL_STRAIGHT));
+		World.removeObject(World.getObjectWithType(Tile.of(x + 2, y + 1, player.getPlane()), ObjectType.WALL_STRAIGHT));
 		for (Player p : getTrappedPlayers(x, y))
 			p.resetWalkSteps();
 	}
 
 	public void trapPlayers(int roomX, int roomY, int... trapIds) {
-		int x = region.getLocalX(roomX, 3);
-		int y = region.getLocalY(roomY, 3);
-		World.spawnObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, WorldTile.of(x, y, player.getPlane())));
+		int x = instance.getLocalX(roomX, 3);
+		int y = instance.getLocalY(roomY, 3);
+		World.spawnObject(new GameObject(trapIds[0], ObjectType.SCENERY_INTERACT, 1, Tile.of(x, y, player.getPlane())));
 		if (trapIds.length > 1)
-			World.spawnObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, WorldTile.of(x + 1, y, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[1], ObjectType.SCENERY_INTERACT, 0, Tile.of(x + 1, y, player.getPlane())));
 		if (trapIds.length > 2)
-			World.spawnObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, WorldTile.of(x, y + 1, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[2], ObjectType.SCENERY_INTERACT, 2, Tile.of(x, y + 1, player.getPlane())));
 		if (trapIds.length > 3)
-			World.spawnObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, WorldTile.of(x + 1, y + 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(x - 1, y + 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, WorldTile.of(x - 1, y, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(x, y + 2, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, WorldTile.of(x + 1, y + 2, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(x, y - 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, WorldTile.of(x + 1, y - 1, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(x + 2, y, player.getPlane())));
-		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, WorldTile.of(x + 2, y + 1, player.getPlane())));
+			World.spawnObject(new GameObject(trapIds[3], ObjectType.SCENERY_INTERACT, 3, Tile.of(x + 1, y + 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, Tile.of(x - 1, y + 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 2, Tile.of(x - 1, y, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, Tile.of(x, y + 2, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 3, Tile.of(x + 1, y + 2, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, Tile.of(x, y - 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 1, Tile.of(x + 1, y - 1, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, Tile.of(x + 2, y, player.getPlane())));
+		World.spawnObject(new GameObject(13150, ObjectType.WALL_STRAIGHT, 0, Tile.of(x + 2, y + 1, player.getPlane())));
 		for (Player p : getTrappedPlayers(x, y))
 			p.resetWalkSteps();
 	}
 
 	public void climbLadder(Player player, GameObject object, boolean up) {
-		if (object == null || region == null)
+		if (object == null || instance == null)
 			return;
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -408,22 +408,22 @@ public class House {
 		if (roomTo == null) {
 			if (buildMode) {
 				player.startConversation(new Dialogue()
-						.addOptions("This "+(up ? "ladder" : "trapdoor")+" does not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
-							ops.add("Yes.").addOptions("Select a room", conf -> {
-								conf.add((room.getZ() == 1 && !up) ? "Oubliette" : "Throne room", () -> {
-									Room r = (room.getZ() == 1 && !up) ? Room.OUTBLIETTE : Room.THRONE_ROOM;
-									Builds ladderTrap = (room.getZ() == 1 && !up) ? Builds.OUB_LADDER : Builds.TRAPDOOR;
-									RoomReference newRoom = new RoomReference(r, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
-									int slot = room.getLadderTrapSlot();
-									if (slot != -1) {
-										newRoom.addObject(ladderTrap, slot);
-										player.getHouse().createRoom(newRoom);
-									}
-								});
-								conf.add("Nevermind.");
+					.addOptions("This "+(up ? "ladder" : "trapdoor")+" does not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
+						ops.add("Yes.").addOptions("Select a room", conf -> {
+							conf.add((room.getZ() == 1 && !up) ? "Oubliette" : "Throne room", () -> {
+								Room r = (room.getZ() == 1 && !up) ? Room.OUTBLIETTE : Room.THRONE_ROOM;
+								Builds ladderTrap = (room.getZ() == 1 && !up) ? Builds.OUB_LADDER : Builds.TRAPDOOR;
+								RoomReference newRoom = new RoomReference(r, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+								int slot = room.getLadderTrapSlot();
+								if (slot != -1) {
+									newRoom.addObject(ladderTrap, slot);
+									player.getHouse().createRoom(newRoom);
+								}
 							});
-							ops.add("No.");
-						}));
+							conf.add("Nevermind.");
+						});
+						ops.add("No.");
+					}));
 			} else
 				player.sendMessage("This does not lead anywhere.");
 			// start dialogue
@@ -448,13 +448,13 @@ public class House {
 			yOff = 1;
 			xOff = 2;
 		}
-		player.ladder(WorldTile.of(region.getLocalX(roomTo.getX(), xOff), region.getLocalY(roomTo.getY(), yOff), player.getPlane() + (up ? 1 : -1)));
+		player.ladder(Tile.of(instance.getLocalX(roomTo.getX(), xOff), instance.getLocalY(roomTo.getY(), yOff), player.getPlane() + (up ? 1 : -1)));
 	}
 
-	public WorldTile getCenterTile(RoomReference rRef) {
-		if (region == null || rRef == null)
+	public Tile getCenterTile(RoomReference rRef) {
+		if (instance == null || rRef == null)
 			return null;
-		return region.getLocalTile(rRef.x * 8 + 3, rRef.y * 8 + 3);
+		return instance.getLocalTile(rRef.x * 8 + 3, rRef.y * 8 + 3);
 	}
 
 	public int getPaymentStage() {
@@ -470,10 +470,10 @@ public class House {
 	}
 
 	public void climbStaircase(Player player, GameObject object, boolean up) {
-		if (object == null || region == null)
+		if (object == null || instance == null)
 			return;
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -485,36 +485,36 @@ public class House {
 		if (roomTo == null) {
 			if (buildMode) {
 				player.startConversation(new Dialogue()
-						.addOptions("These stairs do not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
-							ops.add("Yes.").addOptions("Select a room", conf -> {
-								conf.add("Skill hall", () -> {
-									RoomReference newRoom = new RoomReference(up ? Room.HALL_SKILL_DOWN : Room.HALL_SKILL, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
-									int slot = room.getStaircaseSlot();
-									if (slot != -1) {
-										newRoom.addObject(up ? Builds.STAIRCASE_DOWN : Builds.STAIRCASE, slot);
-										player.getHouse().createRoom(newRoom);
-									}
-								});
-								conf.add("Quest hall", () -> {
-									RoomReference newRoom = new RoomReference(up ? Room.HALL_QUEST_DOWN : Room.HALL_QUEST, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
-									int slot = room.getStaircaseSlot();
-									if (slot != -1) {
-										newRoom.addObject(up ? Builds.STAIRCASE_DOWN_1 : Builds.STAIRCASE_1, slot);
-										player.getHouse().createRoom(newRoom);
-									}
-								});
-								if (room.getZ() == 1 && !up)
-									conf.add("Dungeon stairs room", () -> {
-										RoomReference newRoom = new RoomReference(Room.DUNGEON_STAIRS, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
-										int slot = room.getStaircaseSlot();
-										if (slot != -1) {
-											newRoom.addObject(Builds.STAIRCASE_2, slot);
-											player.getHouse().createRoom(newRoom);
-										}
-									});
+					.addOptions("These stairs do not lead anywhere. Do you want to build a room at the " + (up ? "top" : "bottom") + "?", ops -> {
+						ops.add("Yes.").addOptions("Select a room", conf -> {
+							conf.add("Skill hall", () -> {
+								RoomReference newRoom = new RoomReference(up ? Room.HALL_SKILL_DOWN : Room.HALL_SKILL, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+								int slot = room.getStaircaseSlot();
+								if (slot != -1) {
+									newRoom.addObject(up ? Builds.STAIRCASE_DOWN : Builds.STAIRCASE, slot);
+									player.getHouse().createRoom(newRoom);
+								}
 							});
-							ops.add("No.");
-						}));
+							conf.add("Quest hall", () -> {
+								RoomReference newRoom = new RoomReference(up ? Room.HALL_QUEST_DOWN : Room.HALL_QUEST, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+								int slot = room.getStaircaseSlot();
+								if (slot != -1) {
+									newRoom.addObject(up ? Builds.STAIRCASE_DOWN_1 : Builds.STAIRCASE_1, slot);
+									player.getHouse().createRoom(newRoom);
+								}
+							});
+							if (room.getZ() == 1 && !up)
+								conf.add("Dungeon stairs room", () -> {
+									RoomReference newRoom = new RoomReference(Room.DUNGEON_STAIRS, room.getX(), room.getY(), room.getZ() + (up ? 1 : -1), room.getRotation());
+									int slot = room.getStaircaseSlot();
+									if (slot != -1) {
+										newRoom.addObject(Builds.STAIRCASE_2, slot);
+										player.getHouse().createRoom(newRoom);
+									}
+								});
+						});
+						ops.add("No.");
+					}));
 			} else
 				player.sendMessage("These stairs do not lead anywhere.");
 			// start dialogue
@@ -524,7 +524,7 @@ public class House {
 			player.sendMessage("These stairs do not lead anywhere.");
 			return;
 		}
-		player.useStairs(-1, WorldTile.of(player.getX(), player.getY(), player.getPlane() + (up ? 1 : -1)), 0, 1);
+		player.useStairs(-1, Tile.of(player.getX(), player.getY(), player.getPlane() + (up ? 1 : -1)), 0, 1);
 
 	}
 
@@ -644,8 +644,8 @@ public class House {
 			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -659,36 +659,36 @@ public class House {
 			if (hasRequirimentsToBuild(false, build, piece))
 				requirementsValue += Math.pow(2, index + 1);
 		}
-	
+
 		final int reqVal = requirementsValue;
-		
+
 		Dialogue buildD = new Dialogue()
-		.addNext(new Statement() {
-			@Override
-			public void send(Player player) {
-				player.getPackets().sendVarc(841, reqVal);
-				player.getPackets().sendItems(398, itemArray);
-				player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
-				// button
-				for (int i = 0; i < itemArray.length; i++)
-					player.getPackets().setIFEvents(new IFEvents(1306, 8 + 7 * i, 4, 4).enableContinueButton());
-				// options
-				player.getInterfaceManager().sendInterface(1306);
-				player.getTempAttribs().setO("OpenedBuild", build);
-				player.getTempAttribs().setO("OpenedBuildObject", object);
-			}
+			.addNext(new Statement() {
+				@Override
+				public void send(Player player) {
+					player.getPackets().sendVarc(841, reqVal);
+					player.getPackets().sendItems(398, itemArray);
+					player.getPackets().setIFEvents(new IFEvents(1306, 55, -1, -1).enableContinueButton()); // exit
+					// button
+					for (int i = 0; i < itemArray.length; i++)
+						player.getPackets().setIFEvents(new IFEvents(1306, 8 + 7 * i, 4, 4).enableContinueButton());
+					// options
+					player.getInterfaceManager().sendInterface(1306);
+					player.getTempAttribs().setO("OpenedBuild", build);
+					player.getTempAttribs().setO("OpenedBuildObject", object);
+				}
 
-			@Override
-			public int getOptionId(int componentId) {
-				return componentId == 55 ? Integer.MAX_VALUE : (componentId - 8) / 7;
-			}
+				@Override
+				public int getOptionId(int componentId) {
+					return componentId == 55 ? Integer.MAX_VALUE : (componentId - 8) / 7;
+				}
 
-			@Override
-			public void close(Player player) {
-				player.closeInterfaces();
-			}
-		});
-		
+				@Override
+				public void close(Player player) {
+					player.closeInterfaces();
+				}
+			});
+
 		for (int i = 0;i < itemArray.length;i++) {
 			final int index = i;
 			buildD.addNext(() -> player.getHouse().build(index));
@@ -725,8 +725,8 @@ public class House {
 		GameObject object = player.getTempAttribs().getO("OpenedBuildObject");
 		if (build == null || object == null || build.getPieces().length <= slot)
 			return;
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		final RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -755,12 +755,10 @@ public class House {
 	}
 
 	private void refreshObject(RoomReference rref, ObjectReference oref, boolean remove) {
-		int boundX = rref.x * 8;
-		int boundY = rref.y * 8;
-		Region region = World.getRegion(this.region.getRegionId(), true);
+		Chunk chunk = ChunkManager.getChunk(this.instance.getChunkId(rref.x, rref.y, rref.plane));
 		for (int x = 0; x < 8; x++)
 			for (int y = 0; y < 8; y++) {
-				GameObject[] objects = region.getObjects(rref.plane, boundX + x, boundY + y);
+				GameObject[] objects = chunk.getBaseObjects(Tile.of(chunk.getBaseX()+x, chunk.getBaseY()+y, rref.plane));
 				if (objects != null)
 					for (GameObject object : objects) {
 						if (object == null)
@@ -821,8 +819,8 @@ public class House {
 			player.simpleDialogue("Your house must have at least one exit portal.");
 			return;
 		}
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -850,8 +848,8 @@ public class House {
 			player.simpleDialogue("You can only do that in building mode.");
 			return;
 		}
-		int roomX = object.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = object.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = object.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = object.getTile().getChunkY() - instance.getBaseChunkY();
 		final RoomReference room = getRoom(roomX, roomY, object.getPlane());
 		if (room == null)
 			return;
@@ -1005,7 +1003,7 @@ public class House {
 			player.sendMessage("The house has no servant.");
 		else {
 			servantInstance.setFollowing(true);
-			servantInstance.setNextWorldTile(World.getFreeTile(player.getTile(), 1));
+			servantInstance.setNextTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
 			player.startConversation(new ServantDialogue(player, servantInstance));
 		}
@@ -1042,34 +1040,14 @@ public class House {
 	}
 
 	public void teleportPlayer(Player player) {
-		player.setNextWorldTile(getPortal());
-		player.setLastNonDynamicTile(getLocation().getTile());
+		teleportPlayer(player, getPortalRoom());
 	}
 
 	public void teleportPlayer(Player player, RoomReference room) {
-		player.setNextWorldTile(WorldTile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane));
-		player.setLastNonDynamicTile(getLocation().getTile());
-	}
-
-	public WorldTile getPortal() {
-		if (region == null)
-			throw new RuntimeException("BoundChunks were null so room could not be entered.");
-		for (RoomReference room : roomsR) {
-			if (room == null) {
-				System.err.println("RoomReference 'room' object was null.");
-				continue;
-			}
-			if (room.room == HouseConstants.Room.GARDEN || room.room == HouseConstants.Room.FORMAL_GARDEN)
-				for (ObjectReference o : room.objects) {
-					if (o == null) {
-						System.err.println("ObjectReference instance was null");
-						continue;
-					}
-					if (o.getPiece() == HouseConstants.HObject.EXIT_PORTAL || o.getPiece() == HouseConstants.HObject.EXITPORTAL)
-						return WorldTile.of(region.getLocalX(room.x, 3), region.getLocalY(room.y, 3), room.plane);
-				}
-		}
-		return WorldTile.of(region.getLocalX(32), region.getLocalX(32), 1);
+		if (room == null)
+			player.sendMessage("Error, tried teleporting to room that doesn't exist.");
+		else
+			instance.teleportChunkLocal(player, room.x, 3, room.y, 3, room.plane);
 	}
 
 	public int getPortalCount() {
@@ -1185,8 +1163,8 @@ public class House {
 	}
 
 	public RoomReference getRoom(GameObject o) {
-		int roomX = o.getTile().getChunkX() - region.getBaseChunkX();
-		int roomY = o.getTile().getChunkY() - region.getBaseChunkY();
+		int roomX = o.getTile().getChunkX() - instance.getBaseChunkX();
+		int roomY = o.getTile().getChunkY() - instance.getBaseChunkY();
 		return getRoom(roomX, roomY, o.getPlane());
 	}
 
@@ -1202,7 +1180,7 @@ public class House {
 	}
 
 	public boolean isSky(int x, int y, int plane) {
-		return buildMode && plane == 2 && getRoom((x / 8) - region.getBaseChunkX(), (y / 8) - region.getBaseChunkY(), plane) == null;
+		return buildMode && plane == 2 && getRoom((x / 8) - instance.getBaseChunkX(), (y / 8) - instance.getBaseChunkY(), plane) == null;
 	}
 
 	public void previewRoom(RoomReference reference, boolean remove) {
@@ -1210,11 +1188,11 @@ public class House {
 			Logger.debug(House.class, "previewRoom", "Preview cancelled.");
 			return;
 		}
-		int boundX = region.getLocalX(reference.x, 0);
-		int boundY = region.getLocalY(reference.y, 0);
+		int boundX = instance.getLocalX(reference.x, 0);
+		int boundY = instance.getLocalY(reference.y, 0);
 		int realChunkX = reference.room.getChunkX();
 		int realChunkY = reference.room.getChunkY();
-		Region region = World.getRegion(RegionUtils.encode(RegionUtils.Structure.REGION, realChunkX / 8, realChunkY / 8), true);
+		Chunk chunk = ChunkManager.getChunk(MapUtils.encode(Structure.CHUNK, reference.room.getChunkX(), reference.room.getChunkY(), look & 0x3), true);
 		if (reference.plane == 0)
 			for (int x = 0; x < 8; x++)
 				for (int y = 0; y < 8; y++) {
@@ -1226,7 +1204,7 @@ public class House {
 				}
 		for (int x = 0; x < 8; x++)
 			for (int y = 0; y < 8; y++) {
-				GameObject[] objects = region.getAllObjects(look & 0x3, (realChunkX & 0x7) * 8 + x, (realChunkY & 0x7) * 8 + y);
+				GameObject[] objects = chunk.getBaseObjects(Tile.of((realChunkX << 3) + x, (realChunkY << 3) + y, look & 0x3));
 				if (objects != null)
 					for (GameObject object : objects) {
 						if (object == null)
@@ -1234,8 +1212,8 @@ public class House {
 						ObjectDefinitions defs = object.getDefinitions();
 						if (reference.plane == 0 || defs.containsOption(4, "Build")) {
 							GameObject objectR = new GameObject(object);
-							int[] coords = DynamicRegion.translate(x, y, reference.rotation, defs.sizeX, defs.sizeY, object.getRotation());
-							objectR.setTile(WorldTile.of(boundX + coords[0], boundY + coords[1], reference.plane));
+							int[] coords = InstancedChunk.transform(x, y, reference.rotation, defs.sizeX, defs.sizeY, object.getRotation());
+							objectR.setTile(Tile.of(boundX + coords[0], boundY + coords[1], reference.plane));
 							objectR.setRotation((object.getRotation() + reference.rotation) & 0x3);
 							// just a preview. they're not realy there.
 							if (remove)
@@ -1266,8 +1244,8 @@ public class House {
 		removeServant();
 		npcs.clear();
 		pets.clear();
-		if (region != null)
-			region.destroy();
+		if (instance != null)
+			instance.destroy();
 	}
 
 	private static final int[] DOOR_DIR_X = { -1, 0, 1, 1 };
@@ -1293,105 +1271,108 @@ public class House {
 								continue skipY;
 							}
 						}
-		if (region != null && !region.isDestroyed())
-			region.destroy();
-		region = new DynamicRegionReference(8, 8);
-		region.requestChunkBound(() -> {
+		if (instance != null && !instance.isDestroyed())
+			instance.destroy();
+		instance = Instance.of(getLocation().getTile(), 8, 8);
+		instance.requestChunkBound().thenAccept(e -> {
 			// builds data
-			for (int plane = 0; plane < data.length; plane++)
-				for (int x = 0; x < data[plane].length; x++)
-					for (int y = 0; y < data[plane][x].length; y++)
+			List<CompletableFuture<Boolean>> regionBuilding = new ObjectArrayList<>();
+			for (int plane = 0; plane < data.length; plane++) {
+				for (int x = 0; x < data[plane].length; x++) {
+					for (int y = 0; y < data[plane][x].length; y++) {
 						if (data[plane][x][y] != null)
-							region.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2], null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, (int) data[plane][x][y][0] + (look >= 4 ? 8 : 0), (int) data[plane][x][y][1], look & 0x3, (byte) data[plane][x][y][2]));
 						else if ((x == 0 || x == 7 || y == 0 || y == 7) && plane == 1)
-							region.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
 						else if (plane == 1)
-							region.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.LAND[0] + (look >= 4 ? 8 : 0), HouseConstants.LAND[1], look & 0x3, 0));
 						else if (plane == 0)
-							region.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0, null);
+							regionBuilding.add(instance.copyChunk(x, y, plane, HouseConstants.BLACK[0], HouseConstants.BLACK[1], 0, 0));
 						else
-							region.clearChunk(x, y, plane, null);
-
-			World.executeAfterLoadRegion(region.getRegionId(), () -> {
-				Region r = World.getRegion(region.getRegionId(), true);
-				List<GameObject> spawnedObjects = r.getSpawnedObjects();
-				if (spawnedObjects != null)
-					for (GameObject object : spawnedObjects)
-						World.removeObject(object);
-				List<GameObject> removedObjects = new ArrayList<>(r.getRemovedObjects().values());
-				if (removedObjects != null)
-					for (GameObject object : removedObjects)
-						World.spawnObject(object);
-				for (RoomReference reference : roomsR) {
-					int boundX = reference.x * 8;
-					int boundY = reference.y * 8;
-					for (int x = 0; x < 8; x++)
-						for (int y = 0; y < 8; y++) {
-							GameObject[] objects = World.getRegion(region.getRegionId()).getObjects(reference.plane, boundX + x, boundY + y);
-							if (objects != null)
-								skip: for (GameObject object : objects) {
-									if (object == null)
-										continue;
-									if (object.getDefinitions().containsOption(4, "Build") || (reference.room == Room.MENAGERIE && object.getDefinitions().getName().contains("space"))) {
-										if (isDoor(object)) {
-											if (!buildMode && object.getPlane() == 2 && getRoom(((object.getX() / 8) - region.getBaseChunkX()) + DOOR_DIR_X[object.getRotation()], ((object.getY() / 8) - region.getBaseChunkY()) + DOOR_DIR_Y[object.getRotation()], object.getPlane()) == null) {
+							regionBuilding.add(instance.clearChunk(x, y, plane));
+					}
+				}
+			}
+			regionBuilding.forEach(CompletableFuture::join);
+			for (int chunkId : this.instance.getChunkIds()) {
+				Chunk chunk = ChunkManager.getChunk(chunkId, true);
+				for (GameObject object : chunk.getSpawnedObjects())
+					chunk.removeObject(object);
+			}
+			for (int chunkId : this.instance.getChunkIds()) {
+				Chunk chunk = ChunkManager.getChunk(chunkId, true);
+				for (GameObject object : chunk.getRemovedObjects().values())
+					chunk.removeObject(object);
+			}
+			for (RoomReference reference : roomsR) {
+				for (int x = 0; x < 8; x++)
+					for (int y = 0; y < 8; y++) {
+						GameObject[] objects = ChunkManager.getChunk(instance.getChunkId(reference.x, reference.y, reference.plane)).getBaseObjects(x, y);
+						if (objects != null)
+							skip: for (GameObject object : objects) {
+								if (object == null)
+									continue;
+								if (object.getDefinitions().containsOption(4, "Build") || (reference.room == Room.MENAGERIE && object.getDefinitions().getName().contains("space"))) {
+									if (isDoor(object)) {
+										if (!buildMode && object.getPlane() == 2 && getRoom(((object.getX() / 8) - instance.getBaseChunkX()) + DOOR_DIR_X[object.getRotation()], ((object.getY() / 8) - instance.getBaseChunkY()) + DOOR_DIR_Y[object.getRotation()], object.getPlane()) == null) {
+											GameObject objectR = new GameObject(object);
+											objectR.setId(HouseConstants.WALL_IDS[look]);
+											World.spawnObject(objectR);
+											continue;
+										}
+									} else
+										for (ObjectReference o : reference.objects) {
+											int slot = o.build.getIdSlot(object.getId());
+											if (slot != -1) {
 												GameObject objectR = new GameObject(object);
-												objectR.setId(HouseConstants.WALL_IDS[look]);
-												World.spawnObject(objectR);
-												continue;
-											}
-										} else
-											for (ObjectReference o : reference.objects) {
-												int slot = o.build.getIdSlot(object.getId());
-												if (slot != -1) {
-													GameObject objectR = new GameObject(object);
-													if (o.getId(slot) == -1)
-														World.spawnObject(new GameObject(-1, object.getType(), object.getRotation(), object.getTile()));
-													else if (!spawnNpcs(slot, o, object)) {
-														objectR.setId(o.getId(slot));
-														World.spawnObject(objectR);
-													}
-													continue skip;
+												if (o.getId(slot) == -1)
+													World.spawnObject(new GameObject(-1, object.getType(), object.getRotation(), object.getTile()));
+												else if (!spawnNpcs(slot, o, object)) {
+													objectR.setId(o.getId(slot));
+													World.spawnObject(objectR);
 												}
+												continue skip;
 											}
-										if (!buildMode)
-											World.removeObject(object);
-									} else if (object.getId() == HouseConstants.WINDOW_SPACE_ID) {
-										object = new GameObject(object);
-										object.setId(HouseConstants.WINDOW_IDS[look]);
-										World.spawnObject(object);
-									} else if (isDoorSpace(object))
+										}
+									if (!buildMode)
 										World.removeObject(object);
-								}
-						}
-				}
-				teleportPlayer(player);
-				player.setForceNextMapLoadRefresh(true);
-				player.loadMapRegions();
-				player.lock(1);
-				player.getInterfaceManager().setDefaultTopInterface();
-				if (!buildMode)
-					if (getMenagerie() != null)
-						for (Item item : petHouse.getPets().array())
-							if (item != null)
-								addPet(item, false);
-				refreshServant();
-				if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
-					player.getTempAttribs().removeO("CRef");
-					teleportPlayer(player, toRoom);
-				}
-				loaded = true;
-			});
+								} else if (object.getId() == HouseConstants.WINDOW_SPACE_ID) {
+									object = new GameObject(object);
+									object.setId(HouseConstants.WINDOW_IDS[look]);
+									World.spawnObject(object);
+								} else if (isDoorSpace(object))
+									World.removeObject(object);
+							}
+					}
+			}
+			teleportPlayer(player);
+			player.setForceNextMapLoadRefresh(true);
+			player.loadMapRegions();
+			player.lock(1);
+			WorldTasks.schedule(3, () -> player.getInterfaceManager().setDefaultTopInterface());
+			if (!buildMode)
+				if (getMenagerie() != null)
+					for (Item item : petHouse.getPets().array())
+						if (item != null)
+							addPet(item, false);
+			refreshServant();
+			if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
+				player.getTempAttribs().removeO("CRef");
+				teleportPlayer(player, toRoom);
+			}
+			loaded = true;
 		});
 	}
 
 	public boolean containsAnyObject(int... ids) {
-		Region region = World.getRegion(this.region.getRegionId(), true);
-		List<GameObject> spawnedObjects = region.getSpawnedObjects();
-		for (GameObject wo : spawnedObjects)
-			for (int id : ids)
-				if (wo.getId() == id)
-					return true;
+		for (int chunkId : this.instance.getChunkIds()) {
+			Chunk chunk = ChunkManager.getChunk(chunkId, true);
+			List<GameObject> spawnedObjects = chunk.getSpawnedObjects();
+			for (GameObject wo : spawnedObjects)
+				for (int id : ids)
+					if (wo.getId() == id)
+						return true;
+		}
 		return false;
 	}
 
@@ -1424,7 +1405,7 @@ public class House {
 		if (!buildMode)
 			if (getMenagerie() != null) {
 				RoomReference men = getMenagerie();
-				WorldTile spawn = WorldTile.of(region.getLocalX(men.x, 3), region.getLocalY(men.y, 3), men.plane);
+				Tile spawn = Tile.of(instance.getLocalX(men.x, 3), instance.getLocalY(men.y, 3), men.plane);
 
 				Pets pet = Pets.forId(item.getId());
 				if (pet == null)
@@ -1510,7 +1491,7 @@ public class House {
 	}
 
 	public void spawnNPC(int id, GameObject object) {
-		NPC npc = new NPC(id, WorldTile.of(object.getX(), object.getY(), object.getPlane()));
+		NPC npc = new NPC(id, Tile.of(object.getX(), object.getY(), object.getPlane()));
 		npcs.add(npc);
 		npc.setRandomWalk(false);
 		npc.setForceMultiArea(true);
@@ -1522,12 +1503,12 @@ public class House {
 	}
 
 	public GameObject getWorldObjectForBuild(RoomReference reference, Builds build) {
-		int boundX = region.getLocalX(reference.x, 0);
-		int boundY = region.getLocalY(reference.y, 0);
+		int boundX = instance.getLocalX(reference.x, 0);
+		int boundY = instance.getLocalY(reference.y, 0);
 		for (int x = -1; x < 8; x++)
 			for (int y = -1; y < 8; y++)
 				for (HObject piece : build.getPieces()) {
-					GameObject object = World.getObjectWithId(WorldTile.of(boundX + x, boundY + y, reference.plane), piece.getId());
+					GameObject object = World.getObjectWithId(Tile.of(boundX + x, boundY + y, reference.plane), piece.getId());
 					if (object != null)
 						return object;
 				}
@@ -1535,11 +1516,11 @@ public class House {
 	}
 
 	public GameObject getWorldObject(RoomReference reference, int id) {
-		int boundX = region.getLocalX(reference.x, 0);
-		int boundY = region.getLocalY(reference.y, 0);
+		int boundX = instance.getLocalX(reference.x, 0);
+		int boundY = instance.getLocalY(reference.y, 0);
 		for (int x = -1; x < 8; x++)
 			for (int y = -1; y < 8; y++) {
-				GameObject object = World.getObjectWithId(WorldTile.of(boundX + x, boundY + y, reference.plane), id);
+				GameObject object = World.getObjectWithId(Tile.of(boundX + x, boundY + y, reference.plane), id);
 				if (object != null)
 					return object;
 			}

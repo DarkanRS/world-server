@@ -1,35 +1,24 @@
 package com.rs.game.content.quests.familycrest.dialogues;
 
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_CREST;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.FAMILY_GAUNTLETS;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.GIVE_AVAN_JEWLERY;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.KILL_CHRONOZON;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.NOT_STARTED;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.QUEST_COMPLETE;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_AVAN;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_BOOT;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_CALEB;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_GEM_TRADER;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.TALK_TO_JOHNATHAN;
-import static com.rs.game.content.quests.familycrest.FamilyCrest.meetsRequirements;
-
-import com.rs.game.engine.dialogue.Conversation;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.dialogue.Options;
-import com.rs.game.engine.quest.Quest;
+import com.rs.engine.dialogue.Conversation;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
+import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
+
 @PluginEventHandler
 public class DimintheisFamilyCrestD extends Conversation {
 	private final int QUEST_INQUIRY = 0;
 	private static final int NPC = 664;
-	public DimintheisFamilyCrestD(Player p) {
-		super(p);
-		switch(p.getQuestManager().getStage(Quest.FAMILY_CREST)) {
+	public DimintheisFamilyCrestD(Player player) {
+		super(player);
+		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
 		case NOT_STARTED -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello. My name is Dimintheis, of the noble family Fitzharmon.");
 			addOptions("Choose an option:", new Options() {
@@ -51,7 +40,7 @@ public class DimintheisFamilyCrestD extends Conversation {
 									"ranks of the ruling classes at that time.")
 							.addNPC(NPC, HeadE.CALM_TALK, "When you captured a rival family's clan, you also captured their lands and wealth.")
 							.addNext(()->{
-								p.startConversation(new DimintheisFamilyCrestD(p, QUEST_INQUIRY).getStart());
+								player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
 							})
 
 							);
@@ -81,12 +70,12 @@ public class DimintheisFamilyCrestD extends Conversation {
 													"ranks of the ruling classes at that time.")
 											.addNPC(NPC, HeadE.CALM_TALK, "When you captured a rival family's clan, you also captured their lands and wealth.")
 											.addNext(()->{
-												p.startConversation(new DimintheisFamilyCrestD(p, QUEST_INQUIRY).getStart());
+												player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
 											})
 											);
 									option("So where is this crest?", new Dialogue()
 											.addNext(()->{
-												p.startConversation(new DimintheisFamilyCrestD(p, QUEST_INQUIRY).getStart());
+												player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
 											})
 											);
 									option("I'm not interested in that adventure right now", new Dialogue()
@@ -105,7 +94,7 @@ public class DimintheisFamilyCrestD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "Okay.");
 		}
 		case KILL_CHRONOZON -> {
-			if(p.getInventory().containsItem(FAMILY_CREST, 1)) {
+			if(player.getInventory().containsItem(FAMILY_CREST, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I have retrieved your crest.");
 				addNPC(NPC, HeadE.CALM_TALK, "Adventurer... I can only thank you for your kindness, although the words are insufficient to express the gratitude I feel!");
 				addNPC(NPC, HeadE.CALM_TALK, "You are truly a hero in every sense, and perhaps your efforts can begin to patch the wounds that have torn this family apart...");
@@ -113,8 +102,8 @@ public class DimintheisFamilyCrestD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "I will pledge these to you, and if you should lose them return to me, and they will be here.");
 				addNPC(NPC, HeadE.CALM_TALK, "They can also be granted extra powers. Take them to one of my sons, they should be able to imbue them with a skill for you.");
 				addNext(()-> {
-					p.getInventory().removeItems(new Item(FAMILY_CREST,1));
-					p.getQuestManager().completeQuest(Quest.FAMILY_CREST);
+					player.getInventory().removeItems(new Item(FAMILY_CREST,1));
+					player.getQuestManager().completeQuest(Quest.FAMILY_CREST);
 				});
 				return;
 			}
@@ -124,15 +113,15 @@ public class DimintheisFamilyCrestD extends Conversation {
 		case QUEST_COMPLETE ->  {
 			addNPC(NPC, HeadE.CALM_TALK, "Adventurer... I can only thank you for your kindness, although the words are insufficient to express the gratitude I feel!");
 			addNPC(NPC, HeadE.CALM_TALK, "You are truly a hero in every sense, and perhaps your efforts can begin to patch the wounds that have torn this family apart...");
-			if(p.getInventory().containsItem(FAMILY_GAUNTLETS, 1)) {
+			if(player.getInventory().containsItem(FAMILY_GAUNTLETS, 1)) {
 				addNPC(NPC, HeadE.CALM_TALK, "Please, enjoy those gauntlets.");
 				addPlayer(HeadE.HAPPY_TALKING, "..");
 				return;
 			}
-			if(p.getInventory().hasFreeSlots()) {
+			if(player.getInventory().hasFreeSlots()) {
 				addNPC(NPC, HeadE.CALM_TALK, "I found the family gauntlets, please take them...");
 				addSimple("He hands you the gauntlets.", () -> {
-					p.getInventory().addItem(FAMILY_GAUNTLETS, 1);
+					player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
 				});
 				addPlayer(HeadE.HAPPY_TALKING, "...");
 			} else {

@@ -1,20 +1,20 @@
 package com.rs.game.content.quests.clocktower;
 
-import static com.rs.game.content.world.doors.Doors.handleGate;
-import static com.rs.game.content.world.doors.Doors.handleInPlaceSingleDoor;
-
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.engine.dialogue.Dialogue;
-import com.rs.game.engine.dialogue.HeadE;
-import com.rs.game.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.WorldTile;
+import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
 import com.rs.utils.Ticks;
+
+import static com.rs.game.content.world.doors.Doors.handleGate;
+import static com.rs.game.content.world.doors.Doors.handleInPlaceSingleDoor;
 
 @PluginEventHandler
 public class ClockTowerDungeon {
@@ -28,7 +28,7 @@ public class ClockTowerDungeon {
 		e.getPlayer().sendMessage("The door is shut...");
 	});
 
-	public static ObjectClickHandler handleGateLeverRats = new ObjectClickHandler(new Object[]{ 33 }, WorldTile.of(2591, 9661, 0), e -> {
+	public static ObjectClickHandler handleGateLeverRats = new ObjectClickHandler(new Object[]{ 33 }, Tile.of(2591, 9661, 0), e -> {
 		e.getObject().setIdTemporary(34, Ticks.fromSeconds(20));
 		e.getPlayer().getTempAttribs().setB("ClockTowerGateOpenedRats", true);
 	});
@@ -46,7 +46,7 @@ public class ClockTowerDungeon {
 		e.getPlayer().sendMessage("The door is shut...");
 	});
 
-	public static PickupItemHandler handleBlackCogPickup = new PickupItemHandler(new Object[] { 21 }, WorldTile.of(2613, 9639, 0), e -> {
+	public static PickupItemHandler handleBlackCogPickup = new PickupItemHandler(new Object[] { 21 }, Tile.of(2613, 9639, 0), e -> {
 		if(e.getPlayer().getEquipment().getGlovesId() == 1580)//ice gloves
 			return;
 		if(e.getPlayer().getInventory().containsItem(1929, 1)) {//water bucket
@@ -63,10 +63,10 @@ public class ClockTowerDungeon {
 		if (e.getItem().getId() == 24) {
 			e.getPlayer().getInventory().removeItems(new Item(24, 1));
 			e.getPlayer().lock(5);
-			for(NPC npc : World.getNPCsInRegion(e.getPlayer().getRegionId()))
+			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
 				if(npc.getId() == 224) {
 					npc.setIgnoreNPCClipping(true);
-					npc.walkToAndExecute(WorldTile.of(2586, 9655, 0), ()->{
+					npc.walkToAndExecute(Tile.of(2586, 9655, 0), ()->{
 						npc.setIgnoreNPCClipping(false);
 						npc.sendDeath(e.getPlayer());
 					});

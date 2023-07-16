@@ -16,9 +16,6 @@
 //
 package com.rs.game.content;
 
-import java.util.Random;
-import java.util.stream.IntStream;
-
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
@@ -26,6 +23,9 @@ import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+
+import java.util.Random;
+import java.util.stream.IntStream;
 
 @PluginEventHandler
 public class Dicing {

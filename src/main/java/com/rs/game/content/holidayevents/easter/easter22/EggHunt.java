@@ -1,8 +1,5 @@
 package com.rs.game.content.holidayevents.easter.easter22;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.rs.Settings;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
@@ -13,6 +10,9 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.LoginHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class EggHunt {
@@ -75,7 +75,8 @@ public class EggHunt {
             return null;
         }
     }
-	private static int[] varbits = new int[] { 10954, 11014, 11015, 11016, 11017 };
+
+	private static int[] varbits = new int[] { 10954, 11014, 11015, 11016, 11017 };
 	private static List<Integer> eggs = new ArrayList<Integer>();
 	private static int hunt = 0;
 	private static int chocatriceScore = 0;
