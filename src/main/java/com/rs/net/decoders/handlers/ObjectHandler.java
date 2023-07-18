@@ -1739,12 +1739,7 @@ public final class ObjectHandler {
 					case "stove":
 					case "clay oven":
 					case "fireplace":
-						Cookables cook = Cooking.isCookingSkill(item);
-						if (cook != null) {
-							player.startConversation(new CookingD(player, cook, object));
-							return;
-						}
-						player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
+						player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
 						break;
 				}
 			}
