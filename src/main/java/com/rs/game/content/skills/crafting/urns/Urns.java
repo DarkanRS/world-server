@@ -118,7 +118,7 @@ public class Urns {
 		Item item = player.getItemFromInv(urn.fillId());
 		if (item != null) {
 			double newXp = item.getMetaDataD("xp") + xp;
-			if (newXp > urn.getFillXp()) {
+			if (newXp >= urn.getFillXp()) {
 				newXp = urn.getFillXp();
 				player.incrementCount(item.getName() + " filled");
 				item.setId(urn.fullId());
