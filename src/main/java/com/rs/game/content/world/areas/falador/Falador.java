@@ -84,7 +84,7 @@ public class Falador {
 			e.getPlayer().useStairs(-1, Tile.of(2969, 9672, 0), 1, 1);
 	});
 
-	public satatic ObjectClickHandler handleCrumblingWallShortcut = new ObjectClickHandler(new Object[] { 11844 }, e -> {
+	public static ObjectClickHandler handleCrumblingWallShortcut = new ObjectClickHandler(new Object[] { 11844 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 5))
 			return;
 		AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0));
