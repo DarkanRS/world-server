@@ -46,7 +46,7 @@ public enum Urn {
 	FRAGILE_MINING(20385, new Animation(11421), new Animation(10830), Constants.MINING, 17, 1000, 20, 31.8),
 	MINING(20391, new Animation(11425), new Animation(10831), Constants.MINING, 32, 1625, 28, 40.8),
 	STRONG_MINING(20397, new Animation(11447), new Animation(10947), Constants.MINING, 48, 2000, 36, 49.2),
-	DECORATED_MINING(20403, new Animation(11448), new Animation(11419), Constants.MINING, 78, 3125, 51, 57),
+	DECORATED_MINING(20403, new Animation(11448), new Animation(11419), Constants.MINING, 59, 3125, 51, 57),
 	IMPIOUS(20409, new Animation(4567), new Animation(4292), Constants.PRAYER, 2, 100, 12, 18),
 	ACCURSED(20415, new Animation(4569), new Animation(4541), Constants.PRAYER, 26, 312.5, 25, 37.5),
 	INFERNAL(20421, new Animation(4578), new Animation(4542), Constants.PRAYER, 62, 1562.5, 40, 60);
