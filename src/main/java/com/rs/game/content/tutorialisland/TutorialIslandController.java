@@ -1232,17 +1232,17 @@ public final class TutorialIslandController extends Controller {
 		} else if (itemId == Fish.SHRIMP.getId()) {
 			if (getStage() == Stage.CATCH_SHRIMP)
 				nextStage(Stage.BURN_SHRIMP);
-		} else if (itemId == Cooking.Cookables.RAW_SHRIMP.getBurntId().getId()) {
+		} else if (itemId == Cooking.Cookables.RAW_SHRIMP.getBurntItem().getId()) {
 			if (getStage() == Stage.COOK_SHRIMP) {
-				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getProduct());
+				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getProductItem());
 				return false;
 			}
 			nextStage(Stage.COOK_SHRIMP);
 		} else if (itemId == 2309 && getStage() == Stage.COOK_DOUGH)
 			nextStage(Stage.OPEN_MUSIC);
-		else if (itemId == Cooking.Cookables.RAW_SHRIMP.getProduct().getId()) {
+		else if (itemId == Cooking.Cookables.RAW_SHRIMP.getProductItem().getId()) {
 			if (getStage() == Stage.BURN_SHRIMP) {
-				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getBurntId());
+				player.getInventory().addItem(Cooking.Cookables.RAW_SHRIMP.getBurntItem());
 				return false;
 			}
 			nextStage(Stage.LEAVE_SURVIVAL_EXPERT);
