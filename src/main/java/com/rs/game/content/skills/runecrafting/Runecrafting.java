@@ -124,7 +124,7 @@ public class Runecrafting {
 					return;
 				}
 				if (player.getSkills().getLevel(Constants.RUNECRAFTING) < talisman.getStaffLevelReq()) {
-					player.sendMessage("You need a runecrafting level of " + talisman.getStaffLevelReq() + " to craft a " + new Item(talisman.getStaffId()).getDefinitions().getName() + ".");
+					player.sendMessage("You need a runecrafting level of " + talisman.getStaffLevelReq() + " to create a " + new Item(talisman.getStaffId()).getDefinitions().getName() + ".");
 					return;
 				}
 				player.getInventory().deleteItem(13629, 1);
