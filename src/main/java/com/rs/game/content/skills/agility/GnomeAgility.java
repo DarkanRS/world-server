@@ -36,31 +36,26 @@ public class GnomeAgility {
 		int x = Utils.clampI(e.getObject().getX(), 2485, 2487);
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(x, 3419, 3), () -> {
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
-				int stage = 0;
-
-				@Override
-				public void run() {
-					if (stage == 0)
-						e.getPlayer().faceObject(e.getObject());
-					else if (stage == 1) {
-						e.getPlayer().forceMove(Tile.of(x, 3421, 3), 11784, 0, 30, false);
-					} else if (stage == 2) {
-						e.getPlayer().forceMove(Tile.of(x, 3425, 3), 11785, 0, 30, false, () -> e.getPlayer().setNextAnimation(new Animation(11789)));
-					} else if (stage == 6)
-						e.getPlayer().forceMove(Tile.of(x, 3429, 3), -1, 0, 60, false);
-					else if (stage == 11) {
-						e.getPlayer().forceMove(Tile.of(x, 3432, 3), -1, 0, 60, false, () -> {
-							e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
-							if (getGnomeStage(e.getPlayer()) == 1)
-								setGnomeStage(e.getPlayer(), 2);
-							e.getPlayer().unlock();
-						});
-						stop();
-					}
-					stage++;
+			WorldTasks.scheduleTimer(stage -> {
+				if (stage == 0)
+					e.getPlayer().faceObject(e.getObject());
+				else if (stage == 1) {
+					e.getPlayer().forceMove(Tile.of(x, 3421, 3), 11784, 0, 30, false);
+				} else if (stage == 3) {
+					e.getPlayer().forceMove(Tile.of(x, 3425, 3), 11785, 0, 30, false, () -> e.getPlayer().anim(11789));
+				} else if (stage == 6)
+					e.getPlayer().forceMove(Tile.of(x, 3429, 3), -1, 0, 60, false);
+				else if (stage == 11) {
+					e.getPlayer().forceMove(Tile.of(x, 3432, 3), -1, 0, 60, false, () -> {
+						e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
+						if (getGnomeStage(e.getPlayer()) == 1)
+							setGnomeStage(e.getPlayer(), 2);
+						e.getPlayer().unlock();
+					});
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}));
 	});
 

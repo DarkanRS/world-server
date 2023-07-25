@@ -26,6 +26,9 @@ import com.rs.plugin.handlers.LoginHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 @PluginEventHandler
 public class Brewery {
 
@@ -86,7 +89,7 @@ public class Brewery {
 		}
 	});
 
-	public static ItemOnObjectHandler handleVats = new ItemOnObjectHandler(new Object[] { 7494, 7495 }, e -> {
+	public static ItemOnObjectHandler handleVats = new ItemOnObjectHandler(new Object[] { 7494, 7495 }, Stream.concat(Arrays.stream(Brewable.values()).map(Brewable::getIngredient), Stream.of(BUCKET_OF_WATER, BARLEY_MALT, ALE_YEAST, THE_STUFF)).toArray(), e -> {
 		Brewery brewery = e.getObjectId() == 7494 ? e.getPlayer().getKeldagrimBrewery() : e.getPlayer().getPhasmatysBrewery();
 		switch(e.getItem().getId()) {
 		case BUCKET_OF_WATER:

@@ -31,6 +31,9 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @PluginEventHandler
 public class Cremation {
 
@@ -54,7 +57,7 @@ public class Cremation {
 		e.getPlayer().useStairs(e.getObjectId() == 30621 ? Tile.of(3422, 9965, 0) : Tile.of(3425, 9899, 0));
 	});
 
-	public static ItemOnObjectHandler handlePyreLogSetup = new ItemOnObjectHandler(new Object[] { 4093, 30467 }, e -> {
+	public static ItemOnObjectHandler handlePyreLogSetup = new ItemOnObjectHandler(new Object[] { 4093, 30467 }, Arrays.stream(PyreLog.values()).map(log -> log.itemId).toArray(), e -> {
 		PyreLog log = PyreLog.forId(e.getItem().getId());
 		if (log != null) {
 			e.getPlayer().getInventory().deleteItem(log.itemId, 1);
@@ -63,7 +66,7 @@ public class Cremation {
 		}
 	});
 
-	public static ItemOnObjectHandler handlePyreLogCorpse = new ItemOnObjectHandler(new Object[] { 4094, 4095, 4096, 4097, 4098, 9006, 9007, 21271, 29166, 29181, 30468, 30469, 30470, 30471, 30472, 30473, 30474, 30475, 30476, 30477 }, e -> {
+	public static ItemOnObjectHandler handlePyreLogCorpse = new ItemOnObjectHandler(new Object[] { 4094, 4095, 4096, 4097, 4098, 9006, 9007, 21271, 29166, 29181, 30468, 30469, 30470, 30471, 30472, 30473, 30474, 30475, 30476, 30477 }, Arrays.stream(Corpse.values()).flatMap(corpse -> Arrays.stream(corpse.itemIds).boxed()).collect(Collectors.toList()).toArray(), e -> {
 		if (!(e.getObject() instanceof Pyre))
 			return;
 		Corpse corpse = Corpse.forId(e.getItem().getId());
@@ -103,11 +106,7 @@ public class Cremation {
 		openRecess(e.getPlayer());
 	});
 
-	public static ItemOnObjectHandler handleColumbariumKeyOnRecess = new ItemOnObjectHandler(new Object[] { 30537, 30538 }, e -> {
-		if (e.getItem().getId() != 13158)
-			return;
-		openRecess(e.getPlayer());
-	});
+	public static ItemOnObjectHandler handleColumbariumKeyOnRecess = new ItemOnObjectHandler(new Object[] { 30537, 30538 }, new Object[] { 13158 }, e -> openRecess(e.getPlayer()));
 
 	public static void openRecess(Player player) {
 		player.lock(2);

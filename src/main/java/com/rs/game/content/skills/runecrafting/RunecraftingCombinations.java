@@ -91,7 +91,7 @@ public class RunecraftingCombinations {
 		}
 	}
 
-	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, e -> {
+	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, null, e -> {
 		for (CombinationRunes cr : CombinationRunes.values())
 			for (int i = 0; i < cr.altars.length; i++)
 				if (e.getObject().getId() == cr.altars[i] && (e.getItem().getId() == cr.getTalismans()[i] || e.getItem().getId() == cr.getRunes()[i]))

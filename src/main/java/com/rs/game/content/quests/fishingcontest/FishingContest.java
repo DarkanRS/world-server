@@ -62,47 +62,47 @@ public class FishingContest extends QuestOutline {
 	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
 		switch(stage) {
-		case NOT_STARTED:
-			lines.add("The mountain dwarves' home would be an ideal way to get");
-			lines.add("across White Wolf mountain safely.");
-			lines.add("");
-			lines.add("However, the Dwarves aren't too fond of strangers. Austri");
-			lines.add("and Vestri will let you through the tunnel under the");
-			lines.add("mountain, however, if you can bring them a trophy. The");
-			lines.add("trophy is the prize for the annual Hemenster Fishing");
-			lines.add("competition.");
-			lines.add("");
-			lines.add("~~Requirements~~");
-			lines.add("10 fishing");
-			lines.add("");
-			break;
-		case ENTER_COMPETITION:
-			lines.add("I can take my fishing contest pass to a small contest");
-			lines.add("platform northeast of the fishing guild. There I can");
-			lines.add("Show my pass and enter. If I need another pass I can");
-			lines.add("get it from the Dwarven borthers in Catherby and");
-			lines.add("Taverley.");
-			lines.add("");
-			break;
-		case DO_ROUNDS:
-			lines.add("The contest has started but it appears I need to find");
-			lines.add("a way to get the biggest fish. Perhaps Grandpa Jack");
-			lines.add("can help.");
-			lines.add("");
-			break;
-		case GIVE_TROPHY:
-			lines.add("Now that I have the trophy I can give it to the");
-			lines.add("Dwarven brothers...");
-			lines.add("");
-			break;
-		case QUEST_COMPLETE:
-			lines.add("");
-			lines.add("");
-			lines.add("QUEST COMPLETE!");
-			break;
-		default:
-			lines.add("Invalid quest stage. Report this to an administrator.");
-			break;
+			case NOT_STARTED:
+				lines.add("The mountain dwarves' home would be an ideal way to get");
+				lines.add("across White Wolf mountain safely.");
+				lines.add("");
+				lines.add("However, the Dwarves aren't too fond of strangers. Austri");
+				lines.add("and Vestri will let you through the tunnel under the");
+				lines.add("mountain, however, if you can bring them a trophy. The");
+				lines.add("trophy is the prize for the annual Hemenster Fishing");
+				lines.add("competition.");
+				lines.add("");
+				lines.add("~~Requirements~~");
+				lines.add("10 fishing");
+				lines.add("");
+				break;
+			case ENTER_COMPETITION:
+				lines.add("I can take my fishing contest pass to a small contest");
+				lines.add("platform northeast of the fishing guild. There I can");
+				lines.add("Show my pass and enter. If I need another pass I can");
+				lines.add("get it from the Dwarven borthers in Catherby and");
+				lines.add("Taverley.");
+				lines.add("");
+				break;
+			case DO_ROUNDS:
+				lines.add("The contest has started but it appears I need to find");
+				lines.add("a way to get the biggest fish. Perhaps Grandpa Jack");
+				lines.add("can help.");
+				lines.add("");
+				break;
+			case GIVE_TROPHY:
+				lines.add("Now that I have the trophy I can give it to the");
+				lines.add("Dwarven brothers...");
+				lines.add("");
+				break;
+			case QUEST_COMPLETE:
+				lines.add("");
+				lines.add("");
+				lines.add("QUEST COMPLETE!");
+				break;
+			default:
+				lines.add("Invalid quest stage. Report this to an administrator.");
+				break;
 		}
 		return lines;
 	}
@@ -152,53 +152,51 @@ public class FishingContest extends QuestOutline {
 	/**
 	 * There is a clipflag on the garlic pipe and requires a distance or clip handling function.
 	 */
-	public static ItemOnObjectHandler handlePipeGarlic = new ItemOnObjectHandler(false, new Object[] { 41 }, e -> {
+	public static ItemOnObjectHandler handlePipeGarlic = new ItemOnObjectHandler(false, new Object[] { 41 }, new Object[] { 1550 }, e -> {
 		Player p = e.getPlayer();
 		int stage = p.getQuestManager().getStage(Quest.FISHING_CONTEST);
 		p.walkToAndExecute(Tile.of(2638, 3445, 0), () -> {
 			if (stage == ENTER_COMPETITION || stage == DO_ROUNDS)
-				if (e.getItem().getId() == 1550) {//garlic
-					if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {
-						p.sendMessage("There is already garlic...");
-						return;
-					}
-					p.getInventory().removeItems(new Item(1550, 1));
-					p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
-					p.sendMessage("You place the garlic in the pipe.");
-					p.lock(8);
-					WorldTasks.schedule(new WorldTask() {
-						int tick;
-						NPC stranger;
-
-						@Override
-						public void run() {
-							if (tick == 0)
-								for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
-									if (npc.getId() == 3677)//vampyre stranger
-									stranger = npc;
-							if (tick == 1) {
-								if (stranger == null)
-									stop();
-								stranger.forceTalk("What is that ghastly smell?");
-							}
-							if (tick == 2) {
-								p.startConversation(new Conversation(p) {
-									{
-										addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
-										addPlayer(HeadE.HAPPY_TALKING, "Sure...");
-										addNext(() -> {
-											p.unlock();
-										});
-										create();
-									}
-								});
-								stop();
-							}
-
-							tick++;
-						}
-					}, 0, 1);
+				if (p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).getB(PIPE_HAS_GARLIC)) {
+					p.sendMessage("There is already garlic...");
+					return;
 				}
+			p.getInventory().removeItems(new Item(1550, 1));
+			p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
+			p.sendMessage("You place the garlic in the pipe.");
+			p.lock(8);
+			WorldTasks.schedule(new WorldTask() {
+				int tick;
+				NPC stranger;
+
+				@Override
+				public void run() {
+					if (tick == 0)
+						for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
+							if (npc.getId() == 3677)//vampyre stranger
+								stranger = npc;
+					if (tick == 1) {
+						if (stranger == null)
+							stop();
+						stranger.forceTalk("What is that ghastly smell?");
+					}
+					if (tick == 2) {
+						p.startConversation(new Conversation(p) {
+							{
+								addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
+								addPlayer(HeadE.HAPPY_TALKING, "Sure...");
+								addNext(() -> {
+									p.unlock();
+								});
+								create();
+							}
+						});
+						stop();
+					}
+
+					tick++;
+				}
+			}, 0, 1);
 		});
 	});
 

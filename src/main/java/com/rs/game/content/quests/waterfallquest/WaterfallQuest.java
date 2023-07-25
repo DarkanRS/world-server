@@ -211,7 +211,7 @@ public class WaterfallQuest extends QuestOutline {
 				e.getPlayer().sendMessage("You find nothing of interest.");
 	});
 
-	public static ItemOnObjectHandler itemOnObjectClose = new ItemOnObjectHandler(new Object[] { 1991, 1992, 2002, 2004, 2006, 2014, 2020 }, e -> {
+	public static ItemOnObjectHandler itemOnObjectClose = new ItemOnObjectHandler(new Object[] { 1991, 1992, 2002, 2004, 2006, 2014, 2020 }, null, e -> {
 		if (e.getItem().getId() == 954 && e.getObject().getId() == 2020) {
 			e.getPlayer().sendMessage("You carefully climb down the tree using your rope.");
 			e.getPlayer().setNextTile(Tile.of(2511, 3463, 0));
@@ -269,12 +269,11 @@ public class WaterfallQuest extends QuestOutline {
 		}
 	});
 
-	public static ItemOnObjectHandler itemOnObjectFar = new ItemOnObjectHandler(false, new Object[] { 1996 }, e -> {
-		if (e.getItem().getId() == 954)
-			if (e.getPlayer().getX() == 2512 && e.getPlayer().getY() == 3476) {
-				e.getPlayer().sendMessage("You throw the rope over the rock and carefully pull yourself safely to land.");
-				e.getPlayer().setNextTile(Tile.of(2511, 3467, 0));
-			} else
-				e.getPlayer().sendMessage("You are too far away to do this.");
+	public static ItemOnObjectHandler ropeRock = new ItemOnObjectHandler(false, new Object[] { 1996 }, new Object[] { 954 }, e -> {
+		if (e.getPlayer().getX() == 2512 && e.getPlayer().getY() == 3476) {
+			e.getPlayer().sendMessage("You throw the rope over the rock and carefully pull yourself safely to land.");
+			e.getPlayer().setNextTile(Tile.of(2511, 3467, 0));
+		} else
+			e.getPlayer().sendMessage("You are too far away to do this.");
 	});
 }

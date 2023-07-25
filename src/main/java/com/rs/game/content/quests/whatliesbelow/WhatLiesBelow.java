@@ -157,19 +157,17 @@ public class WhatLiesBelow extends QuestOutline {
         e.getPlayer().getInventory().refresh(folder.getSlot());
     });
 
-    public static ItemOnObjectHandler chargeWand = new ItemOnObjectHandler(new Object[] { 2487 }, e -> {
-        if (e.getItem().getId() == 11012) {
-            if (e.getPlayer().getInventory().containsItem(562, 15)) {
-                e.getPlayer().sync(6104, 1038);
-                e.getPlayer().delayLock(13, () -> {
-                    e.getPlayer().getInventory().deleteItem(562, 15);
-                    e.getItem().setId(11013);
-                    e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-                    e.getPlayer().simpleDialogue("The metal wand bursts into life and crackles with arcane power. This is a powerful instrument indeed!");
-                });
-            } else
-                e.getPlayer().simpleDialogue("The wand sparks and glows, but the infusion does not appear to take hold. It looks like you will need more chaos runes to complete the infusion.");
-        }
+    public static ItemOnObjectHandler chargeWand = new ItemOnObjectHandler(new Object[] { 2487 }, new Object[] { 11012 }, e -> {
+        if (e.getPlayer().getInventory().containsItem(562, 15)) {
+            e.getPlayer().sync(6104, 1038);
+            e.getPlayer().delayLock(13, () -> {
+                e.getPlayer().getInventory().deleteItem(562, 15);
+                e.getItem().setId(11013);
+                e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+                e.getPlayer().simpleDialogue("The metal wand bursts into life and crackles with arcane power. This is a powerful instrument indeed!");
+            });
+        } else
+            e.getPlayer().simpleDialogue("The wand sparks and glows, but the infusion does not appear to take hold. It looks like you will need more chaos runes to complete the infusion.");
     });
 
     public static void addZaffOptions(Player player, Options ops) {

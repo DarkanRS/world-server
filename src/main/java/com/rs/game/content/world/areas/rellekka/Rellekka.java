@@ -125,9 +125,8 @@ public class Rellekka {
 		}
 	}
 
-	public static ItemOnObjectHandler handleChargeLyre = new ItemOnObjectHandler(new Object[] { 4141 }, e -> {
-		if (e.getItem().getDefinitions().getName().contains("Raw"))
-			rechargeLyre(e.getPlayer()); //TODO no way is this real in RS lmao
+	public static ItemOnObjectHandler handleChargeLyre = new ItemOnObjectHandler(new Object[] { 4141 }, new Object[] { 383, 395, 363 }, e -> {
+		rechargeLyre(e.getPlayer()); //TODO no way is this real in RS lmao
 	});
 
 	private static final int[] LYRE_IDS = { 3690, 3691, 6125, 6126, 6127, 14590, 14591 };

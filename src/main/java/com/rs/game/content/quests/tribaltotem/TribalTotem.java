@@ -296,12 +296,9 @@ public class TribalTotem extends QuestOutline {
 				});
 	});
 
-	public static ItemOnObjectHandler itemOnMansionCrate = new ItemOnObjectHandler(true, new Object[] { 2707 }, e -> {
-		Player p = e.getPlayer();
-		if(e.getItem().getId() == 1858) { //address label
-			p.getInventory().removeItems(new Item(1858, 1));
-			p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).setB("CHANGED_CRATE", true);
-			p.sendMessage("You switch the address labels... The stone now goes to the mansion.");
-		}
+	public static ItemOnObjectHandler addressLabelOnCrate = new ItemOnObjectHandler(new Object[] { 2707 }, new Object[] { 1858 }, e -> {
+		e.getPlayer().getInventory().removeItems(new Item(1858, 1));
+		e.getPlayer().getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).setB("CHANGED_CRATE", true);
+		e.getPlayer().sendMessage("You switch the address labels... The stone now goes to the mansion.");
 	});
 }

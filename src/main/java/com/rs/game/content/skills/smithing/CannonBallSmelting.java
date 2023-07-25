@@ -35,10 +35,13 @@ public class CannonBallSmelting  {
 	private static double[] xp = { 25.6 };
 	private static int[] anims = { 3243 }; //827, 899
 
-	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, e -> {
-		if ((e.getItem().getId() == AMMO_MOULD || e.getItem().getId() == STEEL_BAR) && e.getPlayer().getInventory().containsItem(AMMO_MOULD))
-			if (e.getPlayer().isQuestComplete(Quest.DWARF_CANNON, "before you can smith cannonballs."))
-				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), mats, prods, xp, anims, reqs, Constants.SMITHING, 7));
+	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, new Object[] { STEEL_BAR, AMMO_MOULD }, e -> {
+		if (!e.getPlayer().getInventory().containsItem(AMMO_MOULD)) {
+			e.getPlayer().sendMessage("You need an ammo mould to smelt cannonballs.");
+			return;
+		}
+		if (e.getPlayer().isQuestComplete(Quest.DWARF_CANNON, "before you can smith cannonballs."))
+			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), mats, prods, xp, anims, reqs, Constants.SMITHING, 7));
 	});
 
 }

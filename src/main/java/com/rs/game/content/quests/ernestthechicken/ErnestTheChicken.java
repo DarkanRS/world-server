@@ -178,16 +178,13 @@ public class ErnestTheChicken extends QuestOutline {
 		inv.addItem(POISONED_FISH_FOOD, 1);
 	});
 
-	public static ItemOnObjectHandler handleCompostHeapItem = new ItemOnObjectHandler(new Object[] { 152 }, e -> {
+	public static ItemOnObjectHandler handleCompostHeapItem = new ItemOnObjectHandler(new Object[] { 152 }, new Object[] { SPADE }, e -> {
 		if(e.getPlayer().getInventory().containsItem(GRIMY_KEY, 1)) {
 			e.getPlayer().sendMessage("I already have the key");
 			return;
 		}
-		if(e.getItem().getId() == SPADE) {
-			e.getPlayer().setNextAnimation(new Animation(830));
-			e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
-		} else
-			e.getPlayer().sendMessage("I appear to need a spade.");
+		e.getPlayer().setNextAnimation(new Animation(830));
+		e.getPlayer().getInventory().addItem(GRIMY_KEY, 1);
 	});
 
 	public static ObjectClickHandler handleCompostHeapSearch = new ObjectClickHandler(new Object[] { 152 }, e -> {
@@ -231,7 +228,7 @@ public class ErnestTheChicken extends QuestOutline {
 			});
 	});
 
-	public static ItemOnObjectHandler handleFountainItem = new ItemOnObjectHandler(new Object[] { 153 }, e -> {
+	public static ItemOnObjectHandler handleFountainItem = new ItemOnObjectHandler(new Object[] { 153 }, null, e -> {
 		Player p = e.getPlayer();
 		if(e.getItem().getId() != POISONED_FISH_FOOD) {
 			p.startConversation(new Conversation(p) {{

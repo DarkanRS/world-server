@@ -35,11 +35,9 @@ public class IkovDungeon {
 		e.getPlayer().useLadder(Tile.of(2637, 3409, 0));	
 	});
 
-	public static ItemOnObjectHandler leverIceDoor = new ItemOnObjectHandler(false, new Object[] { 86 }, e -> {
-		if (e.getItem().getId() == 83) {
-			e.getPlayer().getInventory().removeItems(new Item(83, 1));
-			e.getObject().setIdTemporary(e.getObjectId() + 1, Ticks.fromSeconds(30));
-		}
+	public static ItemOnObjectHandler leverIceDoor = new ItemOnObjectHandler(false, new Object[] { 86 }, new Object[] { 83 }, e -> {
+		e.getPlayer().getInventory().removeItems(new Item(83, 1));
+		e.getObject().setIdTemporary(e.getObjectId() + 1, Ticks.fromSeconds(30));
 	});
 
 	public static ObjectClickHandler handleIceLever = new ObjectClickHandler(new Object[]{ 87 }, e -> {

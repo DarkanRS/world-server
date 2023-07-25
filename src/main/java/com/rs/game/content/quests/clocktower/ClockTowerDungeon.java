@@ -59,31 +59,24 @@ public class ClockTowerDungeon {
 		e.cancelPickup();
 	});
 
-	public static ItemOnObjectHandler handleRatTrap = new ItemOnObjectHandler(new Object[] { 40 }, e -> {
-		if (e.getItem().getId() == 24) {
-			e.getPlayer().getInventory().removeItems(new Item(24, 1));
-			e.getPlayer().lock(5);
-			for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
-				if(npc.getId() == 224) {
-					npc.setIgnoreNPCClipping(true);
-					npc.walkToAndExecute(Tile.of(2586, 9655, 0), ()->{
-						npc.setIgnoreNPCClipping(false);
-						npc.sendDeath(e.getPlayer());
-					});
-				}
-			e.getPlayer().getTempAttribs().setB("ClockTowerPoisonedRats", true);
-		}
+	public static ItemOnObjectHandler handleRatTrap = new ItemOnObjectHandler(new Object[] { 40 }, new Object[] { 24 }, e -> {
+		e.getPlayer().getInventory().removeItems(new Item(24, 1));
+		e.getPlayer().lock(5);
+		for(NPC npc : World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1))
+			if(npc.getId() == 224) {
+				npc.setIgnoreNPCClipping(true);
+				npc.walkToAndExecute(Tile.of(2586, 9655, 0), ()->{
+					npc.setIgnoreNPCClipping(false);
+					npc.sendDeath(e.getPlayer());
+				});
+			}
+		e.getPlayer().getTempAttribs().setB("ClockTowerPoisonedRats", true);
 	});
 
-	public static ItemOnObjectHandler handleUnusedSpindles = new ItemOnObjectHandler(new Object[] { 25, 26, 27, 28 }, e -> {
-		if(e.getItem().getId() >= 20 && e.getItem().getId() <= 23) {
-			e.getPlayer().sendMessage("The cog doesn't fit...");
-			return;
-		}
-		e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.SKEPTICAL_THINKING, "What use is that?"));
-	});
+	public static ItemOnObjectHandler handleUnusedSpindles = new ItemOnObjectHandler(new Object[] { 25, 26, 27, 28 }, new Object[] { 20, 21, 22, 23 },
+			e -> e.getPlayer().sendMessage("The cog doesn't fit..."));
 
-	public static ItemOnObjectHandler handleUsedSpindles = new ItemOnObjectHandler(new Object[] { 29, 30, 31, 32 }, e -> {
+	public static ItemOnObjectHandler handleUsedSpindles = new ItemOnObjectHandler(new Object[] { 29, 30, 31, 32 }, new Object[] { 20, 21, 22, 23 }, e -> {
 		if(e.getItem().getId() >= 20 && e.getItem().getId() <= 23) {
 			if(e.getItem().getId() == 23 && e.getObjectId() == 29//red
 			|| e.getItem().getId() == 22 && e.getObjectId() == 32//blue

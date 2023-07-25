@@ -90,30 +90,27 @@ public class CoalBag {
 		e.getPlayer().sendMessage("You store " + coalToStore + " in your coal bag.");
 	});
 
-	public static ItemOnObjectHandler handleCoalBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }, e -> {
-		if (e.getItem().getId() != 18339)
-			return;
-		if (e.isAtObject())
-			if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank"))
-				e.getPlayer().startConversation(new Dialogue().addOptions("How much would you like to deposit?", new Options() {
-					@Override
-					public void create() {
-						option("All", () -> {
+	public static ItemOnObjectHandler handleCoalBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }, new Object[] { 18339 }, e -> {
+		if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank"))
+			e.getPlayer().startConversation(new Dialogue().addOptions("How much would you like to deposit?", new Options() {
+				@Override
+				public void create() {
+					option("All", () -> {
+						int coalBagAmount = e.getPlayer().getI("coalBag");
+						e.getPlayer().getBank().addItem(new Item(453, coalBagAmount), true);
+						e.getPlayer().save("coalBag", 0);
+						e.getPlayer().sendMessage("You store all of your coal in the bank.");
+					});
+					option("Deposit X", () -> {
+						e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
 							int coalBagAmount = e.getPlayer().getI("coalBag");
-							e.getPlayer().getBank().addItem(new Item(453, coalBagAmount), true);
-							e.getPlayer().save("coalBag", 0);
-							e.getPlayer().sendMessage("You store all of your coal in the bank.");
+							int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
+							e.getPlayer().getBank().addItem(new Item(453, coalToStore), true);
+							e.getPlayer().save("coalBag", coalBagAmount-coalToStore);
+							e.getPlayer().sendMessage("You store " + coalToStore + " coal in the bank.");
 						});
-						option("Deposit X", () -> {
-							e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
-								int coalBagAmount = e.getPlayer().getI("coalBag");
-								int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
-								e.getPlayer().getBank().addItem(new Item(453, coalToStore), true);
-								e.getPlayer().save("coalBag", coalBagAmount-coalToStore);
-								e.getPlayer().sendMessage("You store " + coalToStore + " coal in the bank.");
-							});
-						});
-					}
-				}));
+					});
+				}
+			}));
 	});
 }

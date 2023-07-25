@@ -167,37 +167,27 @@ public class DemonSlayer extends QuestOutline {
 		return "Silverlight";
 	}
 
-	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, e -> {
+	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, new Object[] { 1929 }, e -> {
 		Player p = e.getPlayer();
-		if(p.getVars().getVarBit(2568) == 0 && e.getItem().getId() == 1929) {
+		if(p.getVars().getVarBit(2568) == 0) {
 			p.getInventory().replace(e.getItem(), new Item(1925, 1));
 			e.getPlayer().getVars().setVarBit(2568, 1);
 			p.sendMessage("You pour the liquid down the drain.");
-			p.startConversation(new Conversation(p) {
-				{
-					addPlayer(HeadE.WORRIED, "OK, I think I've washed the key down into the sewer. I'd better go down and get it!");
-					create();
-				}
-			});
+			p.playerDialogue(HeadE.WORRIED, "OK, I think I've washed the key down into the sewer. I'd better go down and get it!");
 		}
 	});
 
 	public static ObjectClickHandler handleDrainSearch = new ObjectClickHandler(new Object[] { 31759 }, e -> {
 		Player p = e.getPlayer();
 		p.sendMessage("You peer into the drain.");
-        if(!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(2401) && p.getVars().getVarBit(2568) != 1)
-            p.getVars().setVarBit(2568, 0);
-		p.startConversation(new Conversation(p) {
-			{
-				if(p.getVars().getVarBit(2568) == 0)
-					addPlayer(HeadE.WORRIED, "It looks like I will need to wash the key down with a bucket of water.");
-				if(p.getVars().getVarBit(2568) == 1)
-					addPlayer(HeadE.HAPPY_TALKING, "Okay, time to go in the sewers and get that key...");
-				if(p.getVars().getVarBit(2568) == 2)
-					addPlayer(HeadE.SKEPTICAL_THINKING, "Filthy in there...");
-				create();
-			}
-		});
+        if (!p.isQuestComplete(Quest.DEMON_SLAYER) && !p.getInventory().containsItem(2401) && p.getVars().getVarBit(2568) != 1)
+			p.getVars().setVarBit(2568, 0);
+		if (p.getVars().getVarBit(2568) == 0)
+			p.playerDialogue(HeadE.WORRIED, "It looks like I will need to wash the key down with a bucket of water.");
+		if (p.getVars().getVarBit(2568) == 1)
+			p.playerDialogue(HeadE.HAPPY_TALKING, "Okay, time to go in the sewers and get that key...");
+		if (p.getVars().getVarBit(2568) == 2)
+			p.playerDialogue(HeadE.SKEPTICAL_THINKING, "Filthy in there...");
 	});
 
 	public static ItemClickHandler handleDarklightQuestRequirement = new ItemClickHandler(new Object[]{6746}, new String[]{"Wield"}, e -> {
