@@ -178,27 +178,24 @@ public class GemBag {
 		}
 	});
 
-	public static ItemOnObjectHandler handleGemBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }, e -> {
-		if (e.getItem().getId() != 18338)
-			return;
-		if (e.isAtObject())
-			if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank")) {
-				e.getPlayer().sendMessage("You store " + getNumGemsInBag(e.getPlayer()) + " gems in the bank.");
-				int sapphire = e.getPlayer().getI("gemBagSapphire");
-				int emerald = e.getPlayer().getI("gemBagEmerald");
-				int ruby = e.getPlayer().getI("gemBagRuby");
-				int diamond = e.getPlayer().getI("gemBagDiamond");
+	public static ItemOnObjectHandler handleGemBagOnObject = new ItemOnObjectHandler(new Object[] { "Bank", "Deposit Box", "Counter" }, new Object[] { 18338 }, e -> {
+		if (ObjectDefinitions.getDefs(e.getObject().getId()).getName().contains("Bank") || ObjectDefinitions.getDefs(e.getObject().getId()).containsOptionIgnoreCase("bank")) {
+			e.getPlayer().sendMessage("You store " + getNumGemsInBag(e.getPlayer()) + " gems in the bank.");
+			int sapphire = e.getPlayer().getI("gemBagSapphire");
+			int emerald = e.getPlayer().getI("gemBagEmerald");
+			int ruby = e.getPlayer().getI("gemBagRuby");
+			int diamond = e.getPlayer().getI("gemBagDiamond");
 
-				e.getPlayer().getBank().addItem(new Item(1623, sapphire), true);
-				e.getPlayer().getBank().addItem(new Item(1621, emerald), true);
-				e.getPlayer().getBank().addItem(new Item(1619, ruby), true);
-				e.getPlayer().getBank().addItem(new Item(1617, diamond), true);
+			e.getPlayer().getBank().addItem(new Item(1623, sapphire), true);
+			e.getPlayer().getBank().addItem(new Item(1621, emerald), true);
+			e.getPlayer().getBank().addItem(new Item(1619, ruby), true);
+			e.getPlayer().getBank().addItem(new Item(1617, diamond), true);
 
-				e.getPlayer().save("gemBagSapphire", 0);
-				e.getPlayer().save("gemBagEmerald", 0);
-				e.getPlayer().save("gemBagRuby", 0);
-				e.getPlayer().save("gemBagDiamond", 0);
-			}
+			e.getPlayer().save("gemBagSapphire", 0);
+			e.getPlayer().save("gemBagEmerald", 0);
+			e.getPlayer().save("gemBagRuby", 0);
+			e.getPlayer().save("gemBagDiamond", 0);
+		}
 	});
 
 	//Lmao... forgot I need to add checks to make sure this doesn't trigger when someone is withdrawing from the gem bag.

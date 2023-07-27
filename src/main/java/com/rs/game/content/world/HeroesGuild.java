@@ -26,7 +26,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class HeroesGuild  {
 
-	public static ItemOnObjectHandler handleFountainOfHeroes = new ItemOnObjectHandler(new Object[] { 36695 }, e -> {
+	public static ItemOnObjectHandler handleFountainOfHeroes = new ItemOnObjectHandler(new Object[] { 36695 }, null, e -> {
 		if (isGloryOrROW(e.getItem().getId()) && e.getItem().getName().toLowerCase().indexOf("(4)") < 0) {
 			for (Item item : e.getPlayer().getInventory().getItems().array())
 				if (item != null)

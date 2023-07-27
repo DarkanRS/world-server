@@ -105,15 +105,14 @@ public class ToxinMaze extends PuzzleRoom {
 			else if (player.matches(in))
 				target = out;
 			else {
-				player.addWalkSteps(object.getX(), object.getY(), 1, false);
 				target = in;
 				delay = 1;
 			}
 			final Tile target_ = target;
 			player.lock();
 			WorldTasks.schedule(delay, () -> {
-				player.forceMove(target_, 9516, 5, 30);
-				player.setNextSpotAnim(new SpotAnim(2609));
+				player.forceMove(target_, 9516, 10, 30);
+				player.spotAnim(2609);
 			});
 			return false;
 		}

@@ -555,7 +555,7 @@ public class PlayerCombat extends PlayerAction {
 					}, null);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				}
-				player.getEquipment().removeAmmo(Equipment.AMMO, 1);
+				dropAmmo(player, target, Equipment.AMMO, 1);
 			}
 			case HAND_CANNON -> {
 				if (Utils.getRandomInclusive(player.getSkills().getLevel(Constants.FIREMAKING) << 1) == 0) {
@@ -980,6 +980,36 @@ public class PlayerCombat extends PlayerAction {
 					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().indexOf("bow") > -1 && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().indexOf("broad") > -1))
 						maxHit = 0;
 				}
+				RangedWeapon weapon = RangedWeapon.forId(weaponId);
+				AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
+				if (ranging && weapon != null && weapon.getAmmos().contains(ammo)) {
+					switch(ammo) {
+						case DRAGONBANE_ARROW, DRAGONBANE_BOLT -> {
+							if (n.getName().toLowerCase().contains("dragon")) {
+								atk *= 1.6;
+								maxHit *= 1.6;
+							}
+						}
+						case ABYSSALBANE_ARROW, ABYSSALBANE_BOLT -> {
+							if (n.getName().toLowerCase().contains("abyssal")) {
+								atk *= 1.6;
+								maxHit *= 1.6;
+							}
+						}
+						case BASILISKBANE_ARROW, BASILISKBANE_BOLT -> {
+							if (n.getName().toLowerCase().contains("basilisk")) {
+								atk *= 1.6;
+								maxHit *= 1.6;
+							}
+						}
+						case WALLASALKIBANE_ARROW, WALLASALKIBANE_BOLT -> {
+							if (n.getName().toLowerCase().contains("wallasalki")) {
+								atk *= 1.6;
+								maxHit *= 1.6;
+							}
+						}
+					}
+				}
 				double defLvl = n.getDefenseLevel();
 				double defBonus = player.getCombatDefinitions().getAttackStyle().getAttackType().getDefenseBonus(n);
 				defLvl += 8;
@@ -993,6 +1023,8 @@ public class PlayerCombat extends PlayerAction {
 			if (prob <= Math.random() && !veracsProc)
 				return hit.setDamage(0);
 		}
+		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
+			player.sendMessage("Modified max hit: " + maxHit);
 		int finalHit = Utils.random(minHit, maxHit);
 		if (veracsProc)
 			finalHit += 1.0;

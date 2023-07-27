@@ -149,7 +149,7 @@ public class ShadesOfMortton {
 		}
 	});
 
-	public static ItemOnObjectHandler handleOilOnAltar = new ItemOnObjectHandler(new Object[] { 4090 }, e -> {
+	public static ItemOnObjectHandler handleOilOnAltar = new ItemOnObjectHandler(new Object[] { 4090 }, null, e -> {
 		if (e.getPlayer().getTempAttribs().getD("shadeSanctity") < 10) {
 			e.getPlayer().sendMessage("You need more sanctity to bless an item.");
 			return;

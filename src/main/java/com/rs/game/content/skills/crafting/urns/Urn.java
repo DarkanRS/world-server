@@ -46,14 +46,14 @@ public enum Urn {
 	FRAGILE_MINING(20385, new Animation(11421), new Animation(10830), Constants.MINING, 17, 1000, 20, 31.8),
 	MINING(20391, new Animation(11425), new Animation(10831), Constants.MINING, 32, 1625, 28, 40.8),
 	STRONG_MINING(20397, new Animation(11447), new Animation(10947), Constants.MINING, 48, 2000, 36, 49.2),
-	DECORATED_MINING(20403, new Animation(11448), new Animation(11419), Constants.MINING, 78, 3125, 51, 57),
+	DECORATED_MINING(20403, new Animation(11448), new Animation(11419), Constants.MINING, 59, 3125, 51, 57),
 	IMPIOUS(20409, new Animation(4567), new Animation(4292), Constants.PRAYER, 2, 100, 12, 18),
 	ACCURSED(20415, new Animation(4569), new Animation(4541), Constants.PRAYER, 26, 312.5, 25, 37.5),
 	INFERNAL(20421, new Animation(4578), new Animation(4542), Constants.PRAYER, 62, 1562.5, 40, 60);
 
-	public static Map<Integer, Urn> NR_IDS = new HashMap<>();
-	public static Map<Integer, Urn> FILL_IDS = new HashMap<>();
-	public static Map<Integer, Urn> FULL_IDS = new HashMap<>();
+	public final static Map<Integer, Urn> NR_IDS = new HashMap<>();
+	public final static Map<Integer, Urn> FILL_IDS = new HashMap<>();
+	public final static Map<Integer, Urn> FULL_IDS = new HashMap<>();
 
 	static {
 		for (Urn urn : Urn.values()) {
@@ -75,11 +75,11 @@ public enum Urn {
 		return FULL_IDS.get(id);
 	}
 
-	private Animation readyAnim, teleAnim;
-	private int unfId, skillId, level;
-	private double xpToFill, spinXp, fireXp;
+	private final Animation readyAnim, teleAnim;
+	private final int unfId, skillId, level;
+	private final double xpToFill, spinXp, fireXp;
 
-	private Urn(int unfId, Animation readyAnim, Animation teleAnim, int skillId, int level, double xpToFill, double spinXp, double fireXp) {
+	Urn(int unfId, Animation readyAnim, Animation teleAnim, int skillId, int level, double xpToFill, double spinXp, double fireXp) {
 		this.unfId = unfId;
 		this.readyAnim = readyAnim;
 		this.teleAnim = teleAnim;
@@ -123,19 +123,14 @@ public enum Urn {
 	}
 
 	public Rune getRune() {
-		switch(skillId) {
-		case Constants.COOKING:
-		case Constants.SMITHING:
-			return Rune.FIRE;
-		case Constants.FISHING:
-			return Rune.WATER;
-		case Constants.MINING:
-		case Constants.WOODCUTTING:
-			return Rune.EARTH;
-		case Constants.PRAYER:
-			return Rune.AIR;
-		}
-		return Rune.AIR;
+		return switch (skillId) {
+			case Constants.COOKING,
+				Constants.SMITHING -> Rune.FIRE;
+			case Constants.FISHING -> Rune.WATER;
+			case Constants.MINING,
+				Constants.WOODCUTTING -> Rune.EARTH;
+			default -> Rune.AIR;
+		};
 	}
 
 	public int getSkill() {
@@ -147,14 +142,10 @@ public enum Urn {
 	}
 
 	public double getTeleXp() {
-		switch(this) {
-		case IMPIOUS:
-		case ACCURSED:
-		case INFERNAL:
-			return xpToFill * 1.20;
-		default:
-			return xpToFill * 0.20;
-		}
+		return switch (this) {
+			case IMPIOUS, ACCURSED, INFERNAL -> xpToFill * 1.20;
+			default -> xpToFill * 0.20;
+		};
 	}
 
 	public double getUnfXp() {

@@ -98,6 +98,11 @@ public class PrayerManager {
 			}
 			break;
 		case CHIVALRY:
+			if (player.getSkills().getLevelForXp(Constants.DEFENSE) < 65) {
+				player.sendMessage("You need a defence level of at least 65 to use this prayer.");
+				return false;
+			}
+			break;
 		case PIETY:
 			if (player.getSkills().getLevelForXp(Constants.DEFENSE) < 70) {
 				player.sendMessage("You need a defence level of at least 70 to use this prayer.");

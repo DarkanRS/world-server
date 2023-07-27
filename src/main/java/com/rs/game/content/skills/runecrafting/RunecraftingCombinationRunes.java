@@ -26,7 +26,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 @PluginEventHandler
-public class RunecraftingCombinations {
+public class RunecraftingCombinationRunes {
 
 	public static final int BINDING_NECKLACE = 5521;
 
@@ -89,12 +89,13 @@ public class RunecraftingCombinations {
 		public double[] getXP() {
 			return xp;
 		}
+
 	}
 
-	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, e -> {
-		for (CombinationRunes cr : CombinationRunes.values())
-			for (int i = 0; i < cr.altars.length; i++)
-				if (e.getObject().getId() == cr.altars[i] && (e.getItem().getId() == cr.getTalismans()[i] || e.getItem().getId() == cr.getRunes()[i]))
+	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, null, e -> {
+		for (CombinationRunes cr : CombinationRunes.values()) {
+			for (int i = 0; i < cr.altars.length; i++) {
+				if (e.getObject().getId() == cr.altars[i] && (e.getItem().getId() == cr.getTalismans()[i] || e.getItem().getId() == cr.getRunes()[i])) {
 					if (e.getPlayer().getSkills().getLevel(Constants.RUNECRAFTING) >= cr.getLevel() && e.getPlayer().getInventory().getItems().getNumberOf(cr.getTalismans()[i]) > 0) {
 						int maxCraftable = 0;
 						int pureEss = e.getPlayer().getInventory().getItems().getNumberOf(Runecrafting.PURE_ESS);
@@ -131,19 +132,23 @@ public class RunecraftingCombinations {
 								e.getPlayer().getEquipment().deleteSlot(Equipment.NECK);
 								e.getPlayer().sendMessage("Your binding necklace disintegrates.");
 								e.getPlayer().bindingNecklaceCharges = 15;
-							};
+							}
+							;
 							e.getPlayer().sendMessage("You bind the temple's power into " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
 							e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable);
-							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*maxCraftable);
+							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp * maxCraftable);
 
 						} else {
 							e.getPlayer().sendMessage("You attempt to bind " + ItemDefinitions.getDefs(cr.getCombinationRune()).getName() + "s.");
-							e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable/2);
-							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp*(maxCraftable/2));
+							e.getPlayer().getInventory().addItem(cr.getCombinationRune(), maxCraftable / 2);
+							e.getPlayer().getSkills().addXp(Constants.RUNECRAFTING, xp * (maxCraftable / 2));
 						}
 						e.getPlayer().setNextSpotAnim(new SpotAnim(186));
 						e.getPlayer().setNextAnimation(new Animation(791));
 						e.getPlayer().lock(5);
 					}
+				}
+			}
+		}
 	});
 }

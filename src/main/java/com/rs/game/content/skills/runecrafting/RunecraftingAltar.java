@@ -30,10 +30,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.plugin.handlers.*;
 
 import java.util.ArrayList;
 
@@ -318,6 +315,14 @@ public class RunecraftingAltar {
 			return true;
 		return false;
 	}
+
+ 	public static ItemOnObjectHandler handleTalismanCreate = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2486, 2487, 2488, 30624 }, null, e -> {
+		Player player = e.getPlayer();
+		RunecraftingTalisman talisman = RunecraftingTalisman.forId(e.getObjectId());
+		if (talisman != null) {
+			Runecrafting.craftTalisman(player, talisman);
+		}
+	});
 
 	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
 		if (e.getPlayer().lastEssTele != null)

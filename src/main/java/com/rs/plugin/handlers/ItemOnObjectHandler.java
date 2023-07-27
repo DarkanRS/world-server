@@ -23,26 +23,29 @@ import java.util.function.Consumer;
 
 public class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
 
+	private Object[] objectKeys, itemKeys;
 	private Tile[] tiles;
 	private boolean checkDistance = true;
 
-	public ItemOnObjectHandler(boolean checkDistance, Object[] namesOrIds, Tile[] tiles, Consumer<ItemOnObjectEvent> handler) {
-		super(namesOrIds, handler);
+	public ItemOnObjectHandler(boolean checkDistance, Object[] objectNamesOrIds, Object[] itemNamesOrIds, Tile[] tiles, Consumer<ItemOnObjectEvent> handler) {
+		super(new Object[] { "meme" }, handler);
 		this.tiles = tiles;
 		this.checkDistance = checkDistance;
+		this.objectKeys = objectNamesOrIds;
+		this.itemKeys = itemNamesOrIds;
 	}
 
-	public ItemOnObjectHandler(Object[] namesOrIds, Tile[] tiles, Consumer<ItemOnObjectEvent> handler) {
-		this(true, namesOrIds, tiles, handler);
+	public ItemOnObjectHandler(Object[] objectNamesOrIds, Object[] itemNamesOrIds, Tile[] tiles, Consumer<ItemOnObjectEvent> handler) {
+		this(true, objectNamesOrIds, itemNamesOrIds, tiles, handler);
 	}
 	
-	public ItemOnObjectHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ItemOnObjectEvent> handler) {
-		this(true, namesOrIds, null, handler);
+	public ItemOnObjectHandler(boolean checkDistance, Object[] objectNamesOrIds, Object[] itemNamesOrIds, Consumer<ItemOnObjectEvent> handler) {
+		this(true, objectNamesOrIds, itemNamesOrIds, null, handler);
 		this.checkDistance = checkDistance;
 	}
 
-	public ItemOnObjectHandler(Object[] namesOrIds, Consumer<ItemOnObjectEvent> handler) {
-		this(true, namesOrIds, null, handler);
+	public ItemOnObjectHandler(Object[] objectNamesOrIds, Object[] itemNamesOrIds, Consumer<ItemOnObjectEvent> handler) {
+		this(true, objectNamesOrIds, itemNamesOrIds, null, handler);
 	}
 
 	public boolean isCheckDistance() {
@@ -51,5 +54,13 @@ public class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
 
 	public Tile[] getTiles() {
 		return tiles;
+	}
+
+	public Object[] getObjectKeys() {
+		return objectKeys;
+	}
+
+	public Object[] getItemKeys() {
+		return itemKeys;
 	}
 }

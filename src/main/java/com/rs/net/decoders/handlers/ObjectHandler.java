@@ -1662,7 +1662,7 @@ public final class ObjectHandler {
 
 			if (!player.getControllerManager().handleItemOnObject(object, item) || Ectofuntus.handleItemOnObject(player, itemId, object.getId()))
 				return;
-			if (itemId == Ectofuntus.EMPTY_BUCKET && objectDef.getName().toLowerCase().contains("sand") && objectDef.getName().toLowerCase().contains("pit")) {
+			if (itemId == 1925 && objectDef.getName().toLowerCase().contains("sand") && objectDef.getName().toLowerCase().contains("pit")) {
 				player.getActionManager().setAction(new SandBucketFill());
 				return;
 			}
@@ -1678,30 +1678,6 @@ public final class ObjectHandler {
 			}
 			if (object.getId() == 13715)
 				ItemConstants.handleRepairs(player, item, true, slot);
-			if (object.getId() == 2478 && itemId == 1438)
-				Runecrafting.craftTalisman(player, 1438, 5527, 13630, 25); //air
-			else if (object.getId() == 2479 && itemId == 1448)
-				Runecrafting.craftTalisman(player, 1448, 5529, 13631, 27); //mind
-			else if (object.getId() == 2480 && itemId == 1444)
-				Runecrafting.craftTalisman(player, 1444, 5531, 13632, 30); //water
-			else if (object.getId() == 2481 && itemId == 1440)
-				Runecrafting.craftTalisman(player, 1440, 5535, 13633, 32); //earth
-			else if (object.getId() == 2482 && itemId == 1442)
-				Runecrafting.craftTalisman(player, 1442, 5537, 13634, 35); //fire
-			else if (object.getId() == 2483 && itemId == 1446)
-				Runecrafting.craftTalisman(player, 1446, 5533, 13635, 37); //body
-			else if (object.getId() == 2484 && itemId == 1454)
-				Runecrafting.craftTalisman(player, 1454, 5539, 13636, 40); //cosmic
-			else if (object.getId() == 2487 && itemId == 1452)
-				Runecrafting.craftTalisman(player, 1452, 5543, 13637, 42); //chaos
-			else if (object.getId() == 2486 && itemId == 1462)
-				Runecrafting.craftTalisman(player, 1462, 5541, 13638, 45); //nature
-			else if (object.getId() == 2485 && itemId == 1458)
-				Runecrafting.craftTalisman(player, 1458, 5545, 13639, 47); //law
-			else if (object.getId() == 2488 && itemId == 1456)
-				Runecrafting.craftTalisman(player, 1456, 5547, 13640, 50); //death
-			else if (object.getId() == 30624 && itemId == 1450)
-				Runecrafting.craftTalisman(player, 1450, 5549, 13641, 52); //blood
 			else if (object.getId() == 28352 || object.getId() == 28550)
 				Incubator.useEgg(player, itemId);
 			else if (object.getId() == 733 || object.getId() == 64729) {
@@ -1739,12 +1715,7 @@ public final class ObjectHandler {
 					case "stove":
 					case "clay oven":
 					case "fireplace":
-						Cookables cook = Cooking.isCookingSkill(item);
-						if (cook != null) {
-							player.startConversation(new CookingD(player, cook, object));
-							return;
-						}
-						player.simpleDialogue("You can't cook that on a " + (objectDef.getName().contains("Fire") ? "fire" : "range") + ".");
+						player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
 						break;
 				}
 			}

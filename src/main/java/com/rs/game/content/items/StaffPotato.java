@@ -46,6 +46,10 @@ public class StaffPotato {
 			p.getNSV().setB("infRun", !p.getNSV().getB("infRun"));
 			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
 		}),
+		INF_RUNES("Toggle Infinite Runes", p -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		}),
 		INVISIBILITY("Toggle Invisibility", p -> {
 			p.getAppearance().setHidden(!p.getAppearance().isHidden());
 			p.sendMessage("HIDDEN: " + p.getAppearance().isHidden());

@@ -28,6 +28,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
+import java.util.Arrays;
+
 @PluginEventHandler
 public class BoneAltar  {
 
@@ -105,7 +107,7 @@ public class BoneAltar  {
 
 	}
 
-	public static ItemOnObjectHandler handleBonesOnAltar = new ItemOnObjectHandler(new Object[] { 13179, 13182, 13185, 13188, 13191, 13194, 13197 }, e -> {
+	public static ItemOnObjectHandler handleBonesOnAltar = new ItemOnObjectHandler(new Object[] { 13179, 13182, 13185, 13188, 13191, 13194, 13197 }, Arrays.stream(Bone.values()).map(Bone::getId).toArray(), e -> {
 		Altar altar = null;
 		Bone bone = null;
 		for (Altar altars : Altar.values())

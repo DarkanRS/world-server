@@ -21,11 +21,13 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -73,24 +75,23 @@ public class RoyalCrossbow {
 		}
 	});
 
-	public static NPCClickHandler talkToCerebrum = new NPCClickHandler(new Object[] { 15460 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.DRUNK, "Half, adventurer! Go no further! Mortal, wormy peril lies within this cave!");
-				addOptions(new Options() {
-					@Override
-					public void create() {
-						option("Wormy?");
-						option("Who are you again?");
-						option("Don't worry, I eat peril for breakfast.");
-						if (!e.getPlayer().containsAnyItems(24303, 24337, 24338, 24339))
-							option("Would you happen to have found a Coral Crossbow?", new Dialogue()
-									.addNPC(e.getNPCId(), HeadE.DRUNK, "Why, yes I have! The Raptor passed by earlier. He said you might need it.")
-									.addItemToInv(e.getPlayer(), new Item(24303, 1), "You recieve the Coral Crossbow."));
-					}
-				});
-			}
-		});
-	});
+	@ServerStartupEvent
+	public static void addCerebrumLOSOverride() {
+		Entity.addLOSOverrides(15460);
+	}
 
+	public static NPCClickHandler talkToCerebrum = new NPCClickHandler(new Object[] { 15460 }, e -> e.getPlayer().startConversation(new Dialogue()
+			.addNPC(e.getNPCId(), HeadE.DRUNK, "Half, adventurer! Go no further! Mortal, wormy peril lies within this cave!")
+			.addOptions(ops -> {
+				ops.add("Wormy?");
+
+				ops.add("Who are you again?");
+
+				ops.add("Don't worry, I eat peril for breakfast.");
+
+				if (!e.getPlayer().containsAnyItems(24303, 24337, 24338, 24339))
+					ops.add("Would you happen to have found a Coral Crossbow?", new Dialogue()
+							.addNPC(e.getNPCId(), HeadE.DRUNK, "Why, yes I have! The Raptor passed by earlier. He said you might need it.")
+							.addItemToInv(e.getPlayer(), new Item(24303, 1), "You receive a Coral Crossbow."));
+			})));
 }

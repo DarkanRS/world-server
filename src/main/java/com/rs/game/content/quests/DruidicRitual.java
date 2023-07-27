@@ -115,7 +115,7 @@ public class DruidicRitual extends QuestOutline {
 				"15 Eye of newt<br>";
 	}
 
-	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }, e -> {
+	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }, new Object[] { RAW_BEEF, RAW_CHICKEN, RAW_BEAR_MEAT, RAW_RAT_MEAT }, e -> {
 		Player player = e.getPlayer();
 		Item item = e.getItem();
 		int itemId = item.getId();

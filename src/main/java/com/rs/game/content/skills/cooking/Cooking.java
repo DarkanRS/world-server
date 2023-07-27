@@ -30,128 +30,142 @@ import java.util.Map;
 public class Cooking extends PlayerAction {
 
 	public enum Cookables {
-		RAW_MEAT(new Item(2132, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
-		RAW_RAT(new Item(2134, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
-		RAW_BEAR(new Item(2136, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
-		RAW_MEAT_GHOST(new Item(4287, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
-		RAW_CHICKEN_GHOST(new Item(4289, 1), 1, 5, 30, new Item(2146, 1), new Item(2142, 1), false, false),
-		BREAD(new Item(2307, 1), 1, 5, 40, new Item(2311, 1), new Item(2309, 1), false, false),
-		SINEW(new Item(2142, 1), 1, 1, 1, new Item(9436, 1), new Item(9436, 1), false, false),
-		RAW_CHICKEN(new Item(2138, 1), 1, 5, 30, new Item(2144, 1), new Item(2140, 1), false, false),
-		RAW_UGTHANKI_MEAT(new Item(1859, 1), 1, 20, 30, new Item(2146, 1), new Item(1861, 1), false, false),
-		RAW_RABBIT(new Item(3226, 1), 1, 20, 30, new Item(7222, 1), new Item(3228, 1), false, true),
-		RAW_BIRD_MEAT(new Item(9978, 1), 11, 90, 62, new Item(9982, 1), new Item(23060, 1), false, false),
-		RAW_BIRD_MEAT2(new Item(9984, 1), 11, 90, 62, new Item(9982, 1), new Item(9980, 1), false, true),
-		RAW_CRAB_MEAT(new Item(7518, 1), 21, 90, 100, new Item(7520, 1), new Item(7521, 1), false, false),
-		RAW_BEAST_MEAT(new Item(9986, 1), 21, 90, 82, new Item(9990, 1), new Item(9988, 1), true, false),
-		RAW_CHOMPY(new Item(2876, 1), 30, 90, 140, new Item(2880, 1), new Item(2878, 1), false, true),
-		RAW_JUBBLY(new Item(7566, 1), 41, 90, 160, new Item(7570, 1), new Item(7568, 1), true, false),
-		RAW_CRAYFISH(new Item(13435, 1), 1, 32, 30, new Item(13437, 1), new Item(13433, 1), false, false),
-		RAW_SHRIMP(new Item(317, 1), 1, 34, 30, new Item(7954, 1), new Item(315, 1), false, false),
-		RAW_KARAMBWANJI(new Item(3150, 1), 1, 35, 10, new Item(3148, 1), new Item(3151, 1), false, false),
-		RAW_SARDINE(new Item(327, 1), 1, 38, 40, new Item(369, 1), new Item(325, 1), false, false),
-		RAW_ANCHOVIES(new Item(321, 1), 1, 34, 30, new Item(323, 1), new Item(319, 1), false, false),
-		POISON_KARAMBWAN(new Item(3142, 1), 1, 20, 80, new Item(3148, 1), new Item(3151, 1), false, false),
-		RAW_HERRING(new Item(345, 1), 5, 37, 50, new Item(357, 1), new Item(347, 1), false, false),
-		RAW_MACKEREL(new Item(353, 1), 10, 45, 60, new Item(357, 1), new Item(355, 1), false, false),
-		RAW_TROUT(new Item(335, 1), 15, 50, 70, new Item(343, 1), new Item(333, 1), false, false),
-		RAW_COD(new Item(341, 1), 18, 39, 75, new Item(343, 1), new Item(339, 1), false, false),
-		RAW_PIKE(new Item(349, 1), 20, 52, 80, new Item(343, 1), new Item(351, 1), false, false),
-		RAW_SALMON(new Item(331, 1), 25, 58, 90, new Item(343, 1), new Item(329, 1), false, false),
-		RAW_SLIMY_EEL(new Item(3379, 1), 28, 58, 95, new Item(3383, 1), new Item(3381, 1), false, false),
-		RAW_TUNA(new Item(359, 1), 30, 63, 100, new Item(367, 1), new Item(361, 1), false, false),
-		RAW_BARON_SHARK(new Item(19947, 1), 80, 95, 210, new Item(387, 1), new Item(19948, 1), false, false),
-		RAW_RAINBOW_FISH(new Item(10138, 1), 35, 60, 110, new Item(10140, 1), new Item(10136, 1), false, false),
-		RAW_CAVE_EEL(new Item(5001, 1), 38, 40, 115, new Item(5006, 1), new Item(5003, 1), false, false),
-		RAW_LOBSTER(new Item(377, 1), 40, 66, 120, new Item(381, 1), new Item(379, 1), false, false),
-		RAW_BASS(new Item(363, 1), 43, 80, 130, new Item(367, 1), new Item(365, 1), false, false),
-		RAW_SWORDFISH(new Item(371, 1), 45, 86, 140, new Item(375, 1), new Item(373, 1), false, false),
-		RAW_LAVA_EEL(new Item(2148, 1), 53, 53, 30, new Item(-1, 1), new Item(2149, 1), false, false),
-		RAW_MONKFISH(new Item(7944, 1), 62, 90, 150, new Item(7948, 1), new Item(7946, 1), false, false),
-		RAW_SHARK(new Item(383, 1), 80, 100, 210, new Item(387, 1), new Item(385, 1), false, false),
-		RAW_SEA_TURTLE(new Item(395, 1), 82, 100, 212, new Item(399, 1), new Item(397, 1), false, false),
-		RAW_CAVEFISH(new Item(15264, 1), 88, 100, 214, new Item(15268, 1), new Item(15266, 1), false, false),
-		RAW_MANTA_RAY(new Item(389, 1), 91, 200, 216, new Item(393, 1), new Item(391, 1), false, false),
-		SWEETCORN(new Item(5986, 1), 28, 54, 104, new Item(5990, 1), new Item(5988, 1), false, false),
-		RAW_ROCKTAIL(new Item(15270, 1), 92, 100, 225, new Item(15274, 1), new Item(15272, 1), false, false),
-		RAW_REDBERRY_PIE(new Item(2321, 1), 10, 35, 78, new Item(2329, 1), new Item(2325, 1), false, false),
-		RAW_MEAT_PIE(new Item(2319, 1), 20, 59, 110, new Item(2329, 1), new Item(2327, 1), false, false),
-		RAW_MUD_PIE(new Item(7168, 1), 29, 67, 128, new Item(2329, 1), new Item(7170, 1), false, false),
-		RAW_APPLE_PIE(new Item(2317, 1), 30, 69, 130, new Item(2329, 1), new Item(2323, 1), false, false),
-		RAW_GARDEN_PIE(new Item(7176, 1), 34, 78, 138, new Item(2329, 1), new Item(7178, 1), false, false),
-		RAW_FISH_PIE(new Item(7186, 1), 47, 86, 164, new Item(2329, 1), new Item(7188, 1), false, false),
-		RAW_ADMIRAL_PIE(new Item(7196, 1), 70, 95, 210, new Item(2329, 1), new Item(7198, 1), false, false),
-		RAW_WILD_PIE(new Item(7206, 1), 85, 110, 240, new Item(2329, 1), new Item(7208, 1), false, false),
-		RAW_SUMMER_PIE(new Item(7216, 1), 95, 120, 260, new Item(2329, 1), new Item(7218, 1), false, false),
-		RAW_FISHCAKE(new Item(7529, 1), 31, 60, 100, new Item(7531, 1), new Item(7530, 1), false, false),
-		RAW_POTATO(new Item(1942, 1), 7, 200, 15, new Item(6699, 1), new Item(6701, 1), false, false),
+		SODA_ASH_1(401, 1781, 1781, 1, 0, 1),
+		SODA_ASH_2(7516, 1781, 1781, 1, 0, 1),
+		SODA_ASH_3(10978, 1781, 1781, 1, 0, 1),
+		SINEW(2142, 9436, 9436, 1, 0, 3),
+		NETTLE_TEA(4237, 4239, 4239, 1, 0, 61),
+		POISON_KARAMBWAN(3142, 3148, 3151, 1, 20, 80),
+		RAW_MEAT(2132, 2146, 2142, 1, 34, 30),
+		RAW_RAT(2134, 2146, 2142, 1, 34, 30),
+		RAW_BEAR(2136, 2146, 2142, 1, 34, 30),
+		RAW_RABBIT(3226, 7222, 3228, 1, 34, 30, false, true),
+		RAW_CHICKEN(2138, 2144, 2140, 1, 34, 30),
+		RAW_SHRIMP(317, 7954, 315, 1, 34, 30),
+		RAW_ANCHOVIES(321, 323, 319, 1, 34, 30),
+		RAW_CRAYFISH(13435, 13437, 13433, 1, 34, 30),
+		RAW_MEAT_GHOST(4287, 2146, 2142, 1, 34, 30),
+		RAW_CHICKEN_GHOST(4289, 2146, 2142, 1, 34, 30),
+		BREAD(2307, 2311, 2309, 1, 37, 40),
+		RAW_SARDINE(327, 369, 325, 1, 37, 40),
+		RAW_UGTHANKI_MEAT(1859, 2146, 1861, 1, 100, 40),
+		RAW_KARAMBWANJI(3150, 3148, 3151, 1, 28, 10),
+		RAW_HERRING(345, 357, 347, 5, 41, 50),
+		RAW_POTATO(1942, 6699, 6701, 7, 41, 15),
+		RAW_MACKEREL(353, 357, 355, 10, 45, 60),
+		RAW_REDBERRY_PIE(2321, 2329, 2325, 10, 45, 78),
+		RAW_BIRD_MEAT(9978, 9982, 23060, 11, 99, 62),
+		RAW_BIRD_MEAT2(9984, 9982, 9980, 11, 99, 62, false, true),
+		RAW_TROUT(335, 343, 333, 15, 49, 70),
+		RAW_COD(341, 343, 339, 18, 51, 75),
+		RAW_PIKE(349, 343, 351, 20, 53, 75),
+		RAW_MEAT_PIE(2319, 2329, 2327, 20, 53, 110),
+		RAW_CRAB_MEAT(7518, 7520, 7521, 21, 62, 100),
+		RAW_BEAST_MEAT(9986, 9990, 9988, 21, 99, 82.5D, true, false),
+		RAW_SALMON(331, 343, 329, 25, 58, 90),
+		RAW_SLIMY_EEL(3379, 3383, 3381, 28, 60, 95),
+		SWEETCORN(5986, 5990, 5988, 28, 53, 104),
+		RAW_MUD_PIE(7168, 2329, 7170, 29, 63, 128),
+		RAW_CHOMPY(2876, 2880, 2878, 30, 99, 140, true, true),
+		RAW_TUNA(359, 367, 361, 30, 63, 100),
+		RAW_APPLE_PIE(2317, 2329, 2323, 30, 63, 130),
+		RAW_FISHCAKE(7529, 7531, 7530, 31, 62, 100),
+		RAW_GARDEN_PIE(7176, 2329, 7178, 34, 78, 138),
+		RAW_RAINBOW_FISH(10138, 10140, 10136, 35, 64, 110),
+		RAW_CAVE_EEL(5001, 5006, 5003, 38, 74, 115),
+		RAW_LOBSTER(377, 381, 379, 40, 74, 120),
+		RAW_JUBBLY(7566, 7570, 7568, 41, 99, 160, true, false),
+		RAW_BASS(363, 367, 365, 43, 79, 130),
+		RAW_SWORDFISH(371, 375, 373, 45, 86, 140),
+		RAW_FISH_PIE(7186, 2329, 7188, 47, 74, 164),
+		RAW_LAVA_EEL(2148, -1, 2149, 53, 0, 30),
+		RAW_MONKFISH(7944, 7948, 7946, 62, 92, 150),
+		RAW_ADMIRAL_PIE(7196, 2329, 7198, 70, 94, 210),
+		RAW_BARON_SHARK(19947, 387, 19948, 80, 95, 210),
+		RAW_SHARK(383, 387, 385, 80, 100, 210),
+		RAW_SEA_TURTLE(395, 399, 397, 82, 100, 211.3D),
+//		HARDENED_STRAIT_ROOT(21349, -1, 21351, 83, 1, 379, false, true),
+		RAW_WILD_PIE(7206, 2329, 7208, 85, 100, 240),
+		RAW_CAVEFISH(15264, 15268, 15266, 88, 100, 214),
+		RAW_MANTA_RAY(389, 393, 391, 91, 100, 216),
+		RAW_ROCKTAIL(15270, 15274, 15272, 93, 100, 225),
+		RAW_SUMMER_PIE(7216, 2329, 7218, 95, 100, 260),
 
-		HARDENED_STRAIT_ROOT(new Item(21349), 83, 1, 379, new Item(-1), new Item(21351), false, true),
-		SODA_ASH_1(new Item(401), 1, 0, 3, new Item(1781), new Item(1781), false, false),
-		SODA_ASH_2(new Item(7516), 1, 0, 3, new Item(1781), new Item(1781), false, false),
-		SODA_ASH_3(new Item(10978), 1, 0, 3, new Item(1781), new Item(1781), false, false),
+		// Dungeoneering
+		CAVE_POTATO(17817, -1, 18093, 1, 1, 9),
+		HIEM_CRAB(17797, 18179, 18159, 1, 20, 22),
+		RED_EYE(17799, 18181, 18161, 10, 30, 41),
+		DUSK_EEL(17801, 18183, 18163, 20, 40, 61),
+		GIANT_FLATFISH(17803, 18185, 18165, 30, 50, 82),
+		SHORTFINNED_EEL(17805, 18187, 18167, 40, 60, 103),
+		WEB_SNIPPER(17807, 18189, 18169, 50, 70, 124),
+		BOULDABASS(17809, 18191, 18171, 60, 70, 146),
+		SALVE_EEL(17811, 18193, 18173, 70, 70, 168),
+		BLUE_CRAB(17813, 18195, 18175, 80, 70, 191),
+		CAVE_MORAY(17815, 18197, 18177, 90, 70, 215);
 
-		CAVE_POTATO(new Item(17817), 1, 0, 9, new Item(-1), new Item(18093), false, false),
-		HIEM_CRAB(new Item(17797), 1, 20, 22, new Item(18179), new Item(18159), false, false),
-		RED_EYE(new Item(17799), 10, 30, 41, new Item(18181), new Item(18161), false, false),
-		DUSK_EEL(new Item(17801), 20, 40, 61, new Item(18183), new Item(18163), false, false),
-		GIANT_FLATFISH(new Item(17803), 30, 50, 82, new Item(18185), new Item(18165), false, false),
-		SHORTFINNED_EEL(new Item(17805), 40, 60, 103, new Item(18187), new Item(18167), false, false),
-		WEB_SNIPPER(new Item(17807), 50, 70, 124, new Item(18189), new Item(18169), false, false),
-		BOULDABASS(new Item(17809), 60, 70, 146, new Item(18191), new Item(18171), false, false),
-		SALVE_EEL(new Item(17811), 70, 70, 168, new Item(18193), new Item(18173), false, false),
-		BLUE_CRAB(new Item(17813), 80, 70, 191, new Item(18195), new Item(18175), false, false),
-		NETTLE_TEA(new Item(4237), 1, 1, 1, new Item(4239), new Item(4239), false, false),
-		CAVE_MORAY(new Item(17815), 90, 70, 215, new Item(18197), new Item(18177), false, false);
+		private final static Map<Integer, Cookables> ingredients = new HashMap<>();
 
-		private static Map<Short, Cookables> ingredients = new HashMap<>();
-
-		public static Cookables forId(short itemId) {
+		public static Cookables forId(int itemId) {
 			return ingredients.get(itemId);
 		}
 
 		static {
 			for (Cookables ingredient : Cookables.values())
-				ingredients.put((short) ingredient.getRawItem().getId(), ingredient);
+				ingredients.put(ingredient.getRawItem().getId(), ingredient);
 		}
 
-		private Item raw;
-		private int lvl;
-		private int burningLvl;
-		private int xp;
-		private Item burnt;
-		private Item total;
-		private boolean spitRoast;
-		private boolean fireOnly;
+		private final Item raw;
+		private final int lvl;
+		private final int burningLvl;
+		private final double xp;
+		private final Item burnt;
+		private final Item product;
+		private final boolean spitRoast;
+		private final boolean fireOnly;
 
-		private Cookables(Item raw, int lvl, int burningLvl, int exp, Item burnt, Item total, boolean spitRoast, boolean fireOnly) {
+		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp, boolean spitRoast, boolean fireOnly)
+		{
 			this.raw = raw;
 			this.lvl = lvl;
 			this.burningLvl = burningLvl;
-			xp = exp;
+			this.xp = exp;
 			this.burnt = burnt;
-			this.total = total;
+			this.product = product;
 			this.spitRoast = spitRoast;
 			this.fireOnly = fireOnly;
+		}
+
+		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp)
+		{
+			this(raw, burnt, product, lvl, burningLvl, exp, false, false);
+		}
+
+		Cookables(int rawId, int burntId, int productId, int lvl, int burningLvl, double exp, boolean spitRoast, boolean fireOnly) {
+			this(new Item(rawId), new Item(burntId), new Item(productId), lvl, burningLvl, exp, spitRoast, fireOnly);
+		}
+
+		Cookables(int rawId, int burntId, int productId, int lvl, int burningLvl, double exp) {
+			this(new Item(rawId), new Item(burntId), new Item(productId), lvl, burningLvl, exp);
 		}
 
 		public Item getRawItem() {
 			return raw;
 		}
 
-		public int getLvl() {
+		public int getLevel() {
 			return lvl;
 		}
 
-		public Item getBurntId() {
+		public Item getBurntItem() {
 			return burnt;
 		}
 
-		public Item getProduct() {
-			return total;
+		public Item getProductItem() {
+			return product;
 		}
 
-		public int getXp() {
+		public double getXp() {
 			return xp;
 		}
 
@@ -159,11 +173,7 @@ public class Cooking extends PlayerAction {
 			return burningLvl;
 		}
 
-		public Item getTotal() {
-			return total;
-		}
-
-		public boolean isSpitRoast() {
+		public boolean isSpitRoastRequired() {
 			return spitRoast;
 		}
 
@@ -172,41 +182,32 @@ public class Cooking extends PlayerAction {
 		}
 	}
 
+	private final Animation animation;
+	private final String productName;
+
+	private final GameObject gameObject;
+	private final Cookables cookable;
 	private int amount;
-	private Cookables cook;
-	private Item item;
-	private GameObject object;
-	private Animation FIRE_COOKING = new Animation(897), RANGE_COOKING = new Animation(897);
 
-	public Cooking(GameObject object, Item item, int amount) {
+	public Cooking(Player player, GameObject gameObject, Cookables cookable, int amount) {
+		this.gameObject = gameObject;
 		this.amount = amount;
-		this.item = item;
-		this.object = object;
-	}
-
-	@Override
-	public boolean start(Player player) {
-		if ((cook = Cookables.forId((short) item.getId())) == null)
-			return false;
-		if (cook.isFireOnly() && !object.getDefinitions(player).getName().equals("Fire"))
-			player.simpleDialogue("You may only cook this on a fire.");
-		else if (cook.isSpitRoast() && object.getId() != 11363) {
-			player.simpleDialogue("You may only cook this on an iron spit.");
-			return false;
-		} else if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
-			player.simpleDialogue("You need a cooking level of " + cook.getLvl() + " to cook this food.");
-			return false;
+		this.cookable = cookable;
+		if (gameObject.getDefinitions(player).getName().equals("Fire")) {
+			this.animation = new Animation(897);
+		} else {
+			this.animation = new Animation(897);
 		}
-		player.sendMessage("You attempt to cook the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
-		player.faceObject(object);
-		return true;
+		this.productName = cookable.getProductItem().getName().toLowerCase();
 	}
 
-	private boolean isBurned(Cookables cook, Player player) {
+	private boolean rollIsBurnt(Cookables cook, Player player) {
 		int level = player.getSkills().getLevel(Constants.COOKING);
 		int burnLevel = cook.getBurningLvl();
 		if (player.getEquipment().getGlovesId() == 775)
 			burnLevel -= 6;
+		if (level >= burnLevel)
+			return false;
 
 		double chance = ((double) level / (double) burnLevel);
 		if (chance < 0.7)
@@ -214,44 +215,44 @@ public class Cooking extends PlayerAction {
 		return chance < Math.random();
 	}
 
-	public static Cookables isCookingSkill(Item item) {
-		return Cookables.forId((short) item.getId());
+	@Override
+	public boolean start(Player player) {
+		player.sendMessage("You attempt to cook the " + productName + ".", true);
+		player.faceObject(gameObject);
+		return true;
 	}
 
 	@Override
 	public boolean process(Player player) {
-		if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object) || !player.getInventory().containsItem(item.getId(), 1) || !player.getInventory().containsItem(cook.getRawItem().getId(), 1))
+		if (!ChunkManager.getChunk(gameObject.getTile().getChunkId()).objectExists(gameObject))
 			return false;
-		if (player.getSkills().getLevel(Constants.COOKING) < cook.getLvl()) {
-			player.simpleDialogue("You need a level of " + cook.getLvl() + " to cook this.");
-			return false;
-		}
-		return true;
+		return player.getInventory().containsItem(cookable.getRawItem().getId(), 1);
 	}
 
 	@Override
 	public int processWithDelay(Player player) {
 		amount--;
-		player.setNextAnimation(object.getDefinitions(player).getName().contains("fire") ? FIRE_COOKING : RANGE_COOKING);
-		if ((player.getSkills().getLevel(Constants.COOKING) >= cook.getBurningLvl()) ? false : isBurned(cook, player)) {
-			player.getInventory().deleteItem(item.getId(), 1);
-			player.getInventory().addItem(cook.getBurntId().getId(), cook.getBurntId().getAmount());
-			player.sendMessage("Oops! You accidently burnt the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
+		player.setNextAnimation(animation);
+		if (rollIsBurnt(cookable, player)) {
+			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
+			player.getInventory().addItem(cookable.getBurntItem().getId(), cookable.getBurntItem().getAmount());
+			player.sendMessage("Oops! You accidentally burnt the " + productName + ".", true);
 		} else {
-			player.getInventory().deleteItem(item.getId(), 1);
-			player.getInventory().addItem(cook.getProduct().getId(), cook.getProduct().getAmount());
-			player.getSkills().addXp(Constants.COOKING, cook.getXp());
-			player.sendMessage("You successfully cook the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
+			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
+			player.getInventory().addItem(cookable.getProductItem().getId(), cookable.getProductItem().getAmount());
+			player.getSkills().addXp(Constants.COOKING, cookable.getXp());
+			player.sendMessage("You successfully cook the " + productName + ".", true);
 		}
 		if (amount > 0) {
-			player.sendMessage("You attempt to cook the " + cook.getProduct().getDefinitions().getName().toLowerCase() + ".", true);
+			player.sendMessage("You attempt to cook the " + productName + ".", true);
 			return 3;
 		}
 		return -1;
 	}
 
 	@Override
-	public void stop(final Player player) {
+	public void stop(Player player) {
 		setActionDelay(player, 3);
 	}
+
 }
