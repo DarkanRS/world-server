@@ -23,6 +23,7 @@ import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
+import com.rs.plugin.handlers.ItemOnItemHandler;
 
 public class CookingD extends Conversation {
 
@@ -66,4 +67,5 @@ public class CookingD extends Conversation {
 				null));
 		addNext(() -> player.getActionManager().setAction(new Cooking(player, gameObject, cookable, MakeXStatement.getQuantity(player))));
 	}
+
 }

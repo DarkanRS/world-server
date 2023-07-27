@@ -528,17 +528,6 @@ public class Player extends Entity {
 	private int barrowsKillCount;
 	private int pestPoints;
 
-	// wine
-	private int ticksSinceLastWineCreate = -1;
-
-	public int getTicksSinceLastWineCreated() {
-		return ticksSinceLastWineCreate;
-	}
-
-	public void setWineCreated() {
-		ticksSinceLastWineCreate = 0;
-	}
-
 	// skill capes customizing
 	private int[] maxedCapeCustomized;
 	private int[] completionistCapeCustomized;
