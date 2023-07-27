@@ -21,10 +21,6 @@ import com.rs.lib.Constants;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 
-/**
- *
- * @author Humid
- */
 @PluginEventHandler
 public class GodSwordCreation {
 
