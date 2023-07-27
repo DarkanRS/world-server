@@ -99,7 +99,7 @@ public class NPCDropEvent implements PluginEvent {
 			}
 		} else {
 			for (Object key : handler.getItemKeys()) {
-				PluginHandler<? extends PluginEvent> old = ITEM_HANDLERS.put(key, (NPCDropHandler) method);
+				PluginHandler<? extends PluginEvent> old = ITEM_HANDLERS.put(key, handler);
 				if (old != null)
 					System.err.println("ERROR: Duplicate NPCDrop methods for item key: " + key);
 			}

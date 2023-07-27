@@ -126,11 +126,7 @@ public class Easter2021 {
 		e.getPlayer().getInventory().addItem(food);
 	});
 
-	public static ItemOnObjectHandler handleWaterIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42731 }, e -> {
-		if (e.getItem().getId() != 1929) {
-			e.getPlayer().sendMessage("Nothing interesting happens.");
-			return;
-		}
+	public static ItemOnObjectHandler handleWaterIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42731 }, new Object[] { 1929 }, e -> {
 		if (e.getPlayer().getI(Easter2021.STAGE_KEY) >= 3) {
 			e.getPlayer().sendMessage("You've already woken the bird up! It doesn't need any more water.");
 			return;
@@ -151,11 +147,7 @@ public class Easter2021 {
 			e.getPlayer().sendMessage("The bird still needs the correct food it seems.");
 	});
 
-	public static ItemOnObjectHandler handleFoodIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42732 }, e -> {
-		if (e.getItem().getId() < 14714 || e.getItem().getId() > 14717) {
-			e.getPlayer().sendMessage("Nothing interesting happens.");
-			return;
-		}
+	public static ItemOnObjectHandler handleFoodIntoBirdDish = new ItemOnObjectHandler(new Object[] { 42732 }, new Object[] { 14714, 14715, 14716, 14717 }, e -> {
 		if (e.getPlayer().getI(Easter2021.STAGE_KEY) >= 3) {
 			e.getPlayer().sendMessage("You've already woken the bird up! It doesn't need any more food.");
 			return;
@@ -202,7 +194,7 @@ public class Easter2021 {
 		e.getPlayer().sendMessage("You find nothing interesting.");
 	});
 
-	public static ItemOnObjectHandler handleFixIncubator = new ItemOnObjectHandler(new Object[] { 42733 }, e -> {
+	public static ItemOnObjectHandler handleFixIncubator = new ItemOnObjectHandler(new Object[] { 42733 }, new Object[] { COG, PISTON, CHIMNEY }, e -> {
 		if (e.getPlayer().getI(Easter2021.STAGE_KEY) < 5) {
 			e.getPlayer().sendMessage("It looks really broken.");
 			return;

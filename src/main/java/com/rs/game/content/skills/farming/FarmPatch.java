@@ -508,7 +508,7 @@ public class FarmPatch {
 		e.getPlayer().putPatch(patch);
 	});
 
-	public static ItemOnObjectHandler handleItemOnPatch = new ItemOnObjectHandler(PatchLocation.MAP.keySet().toArray(), e -> {
+	public static ItemOnObjectHandler handleItemOnPatch = new ItemOnObjectHandler(PatchLocation.MAP.keySet().toArray(), null, e -> {
 		PatchLocation loc = PatchLocation.forObject(e.getObjectId());
 		if (loc == null)
 			return;

@@ -150,7 +150,7 @@ public class FamilyCrest extends QuestOutline {
 	static final int RING_MOULD = 1592;
 	static final int NECKLACE_MOULD = 1597;
 
-	public static ItemOnObjectHandler perfectItemsOnFurnace = new ItemOnObjectHandler(true, new Object[] { "Furnace" }, e -> {
+	public static ItemOnObjectHandler perfectItemsOnFurnace = new ItemOnObjectHandler(new Object[] { "Furnace" }, new Object[] { PERFECT_ORE, PERFECT_BAR }, e -> {
 		Player p = e.getPlayer();
 		if(e.getItem().getId() == PERFECT_ORE) {
 			p.getInventory().replaceItem(PERFECT_BAR, 1, e.getItem().getSlot());

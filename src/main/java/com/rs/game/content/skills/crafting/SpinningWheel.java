@@ -38,7 +38,7 @@ public class SpinningWheel {
 			e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2));
 	});
 
-	public static ItemOnObjectHandler handleItemOn = new ItemOnObjectHandler(new Object[] { "Spinning wheel" }, e -> {
+	public static ItemOnObjectHandler handleItemOn = new ItemOnObjectHandler(new Object[] { "Spinning wheel" }, null, e -> {
 		for (int i = 0; i < materials.length; i++)
 			if (materials[i][0].getId() == e.getItem().getId())
 				e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), new Item[][] { { materials[i][0] } }, new Item[][] { { products[i][0] } }, new double[] { xp[i] }, new int[] { anims[i] }, Constants.CRAFTING, 2));

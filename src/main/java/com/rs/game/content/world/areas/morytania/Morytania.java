@@ -328,14 +328,12 @@ public class Morytania  {
 		});
 	});
 
-	public static ItemOnObjectHandler handleDipSickle = new ItemOnObjectHandler(new Object[] { 3521 }, e -> {
-		if (e.getItem().getId() == 2961) {
-			e.getPlayer().lock(2);
-			e.getPlayer().setNextAnimation(new Animation(9104));
-			e.getPlayer().getInventory().deleteItem(e.getItem());
-			e.getPlayer().getInventory().addItem(2963, 1);
-			e.getPlayer().itemDialogue(2963, "You dip the sickle into the grotto water and bless it.");
-		}
+	public static ItemOnObjectHandler handleDipSickle = new ItemOnObjectHandler(new Object[] { 3521 }, new Object[] { 2961 }, e -> {
+		e.getPlayer().lock(2);
+		e.getPlayer().setNextAnimation(new Animation(9104));
+		e.getPlayer().getInventory().deleteItem(e.getItem());
+		e.getPlayer().getInventory().addItem(2963, 1);
+		e.getPlayer().itemDialogue(2963, "You dip the sickle into the grotto water and bless it.");
 	});
 
 	public static ItemClickHandler handleBloom = new ItemClickHandler(new Object[] { 2963 }, new String[] { "Bloom" }, e -> {

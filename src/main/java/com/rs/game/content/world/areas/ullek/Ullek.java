@@ -64,12 +64,11 @@ public class Ullek {
 			Agility.handleObstacle(e.getPlayer(), 3303, 1, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 2 : -2, 0), 0);
 	});//wrong animation and trap
 
-	public static ItemOnObjectHandler TEMPneedropedecendrock = new ItemOnObjectHandler(true, new Object[] { 28494 }, e -> {
-		if (e.getItem().getId() == 954)
-			if (e.getPlayer().getX() == 3382 && e.getPlayer().getY() == 2823) {
-				e.getPlayer().setNextTile(Tile.of(3382, 2826, 0));
-			} else
-				e.getPlayer().sendMessage("You are too far away to do this.");
+	public static ItemOnObjectHandler TEMPneedropedecendrock = new ItemOnObjectHandler(new Object[] { 28494 }, new Object[] { 954 }, e -> {
+		if (e.getPlayer().getX() == 3382 && e.getPlayer().getY() == 2823) {
+			e.getPlayer().setNextTile(Tile.of(3382, 2826, 0));
+		} else
+			e.getPlayer().sendMessage("You are too far away to do this.");
 	});
 
 }

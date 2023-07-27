@@ -70,9 +70,9 @@ public class AlKharid {
 		WorldObject obj = e.getObject();
 
 		if(obj.getTile().matches(Tile.of(3306, 3315, 0)))//above
-			p.forceMove(Tile.of(3303, 3315, 0), 2050, 10, 30);
+			p.forceMove(Tile.of(3303, 3315, 0), 2050, 10, 60);
 		if(obj.getTile().matches(Tile.of(3304, 3315, 0)))//below
-			p.forceMove(Tile.of(3307, 3315, 0), 2049, 10, 30);
+			p.forceMove(Tile.of(3307, 3315, 0), 2049, 10, 60);
 	});
 	//brimhaven
 	public static ObjectClickHandler handlebrimhavenstairs = new ObjectClickHandler(new Object[] { 45, 46 }, e -> {

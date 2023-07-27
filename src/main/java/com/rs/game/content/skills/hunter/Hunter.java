@@ -141,7 +141,7 @@ public final class Hunter {
 				trap.check(e.getPlayer());
 	});
 
-	public static ItemOnObjectHandler handleBaitTraps = new ItemOnObjectHandler(new Object[] { "Boulder", "Deadfall", "Net trap", "Magic box", "Magic box failed", "Bird snare", "Box trap", "Shaking box", "Marasamaw plant", "Wilted marasamaw plant", "Shaking marasamaw plant" }, e -> {
+	public static ItemOnObjectHandler handleBaitTraps = new ItemOnObjectHandler(new Object[] { "Boulder", "Deadfall", "Net trap", "Magic box", "Magic box failed", "Bird snare", "Box trap", "Shaking box", "Marasamaw plant", "Wilted marasamaw plant", "Shaking marasamaw plant" }, null, e -> {
 		if (!(e.getObject() instanceof BoxStyleTrap)) {
 			e.getPlayer().sendMessage("This trap isn't baitable.");
 			return;

@@ -37,10 +37,7 @@ public class MoltenGlassMaking {
 	private static double[] xp = { 20 };
 	private static int[] anims = { 3243 };
 
-	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, e -> {
-		if (e.getItem().getId() == SODA_ASH || e.getItem().getId() == BUCKET_OF_SAND)
-			openDialogue(e.getPlayer());
-	});
+	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, new Object[] { SODA_ASH, BUCKET_OF_SAND }, e -> openDialogue(e.getPlayer()));
 
 	public static void openDialogue(Player player) {
 		player.startConversation(new CreateActionD(player, materials, products, xp, anims, reqs, Constants.CRAFTING, 2));

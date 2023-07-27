@@ -246,7 +246,7 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ItemOnObjectHandler handleVoDBookcase = new ItemOnObjectHandler(new Object[] { 27249 }, e -> {
+	public static ItemOnObjectHandler handleVoDBookcase = new ItemOnObjectHandler(new Object[] { 27249 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -257,7 +257,7 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ItemOnObjectHandler handleEyeShelf = new ItemOnObjectHandler(new Object[] { 27261 }, e -> {
+	public static ItemOnObjectHandler handleEyeShelf = new ItemOnObjectHandler(new Object[] { 27261 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -268,7 +268,7 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ItemOnObjectHandler handleBonesChest = new ItemOnObjectHandler(new Object[] { 27255 }, e -> {
+	public static ItemOnObjectHandler handleBonesChest = new ItemOnObjectHandler(new Object[] { 27255 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -279,7 +279,7 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ItemOnObjectHandler handleRobeFireplace = new ItemOnObjectHandler(new Object[] { 27251 }, e -> {
+	public static ItemOnObjectHandler handleRobeFireplace = new ItemOnObjectHandler(new Object[] { 27251 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -311,7 +311,7 @@ public class Halloween2007 {
 		});
 	});
 
-	public static ItemOnObjectHandler handleWillCouch = new ItemOnObjectHandler(new Object[] { 27252 }, e -> {
+	public static ItemOnObjectHandler handleWillCouch = new ItemOnObjectHandler(new Object[] { 27252 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
@@ -341,7 +341,7 @@ public class Halloween2007 {
 		});
 	});
 
-	public static ItemOnObjectHandler handleHourglassFishTank = new ItemOnObjectHandler(new Object[] { 27253 }, e -> {
+	public static ItemOnObjectHandler handleHourglassFishTank = new ItemOnObjectHandler(new Object[] { 27253 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();

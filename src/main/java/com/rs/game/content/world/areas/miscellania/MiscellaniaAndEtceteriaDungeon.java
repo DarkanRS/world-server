@@ -45,23 +45,20 @@ public class MiscellaniaAndEtceteriaDungeon {
 	public static ObjectClickHandler crawltunnelexit = new ObjectClickHandler(new Object[] { 15189 }, e -> {
 		e.getPlayer().setNextTile(Tile.of(2510, 10287, 1));
 	});
-	public static ItemOnObjectHandler TEMPneedropeswingrock = new ItemOnObjectHandler(true, new Object[] { 15252 }, e -> {
-		if (e.getItem().getId() == 954)
-			if (e.getPlayer().getX() == 2538 && e.getPlayer().getY() == 10299) {
-				e.getPlayer().setNextTile(Tile.of(2543, 10299, 0));
-			} else
-				e.getPlayer().sendMessage("You are too far away to do this.");
+	public static ItemOnObjectHandler TEMPneedropeswingrock = new ItemOnObjectHandler(new Object[] { 15252 }, new Object[] { 954 }, e -> {
+		if (e.getPlayer().getX() == 2538 && e.getPlayer().getY() == 10299) {
+			e.getPlayer().setNextTile(Tile.of(2543, 10299, 0));
+		} else
+			e.getPlayer().sendMessage("You are too far away to do this.");
 	});
 	public static ObjectClickHandler ropeswingexit = new ObjectClickHandler(new Object[] { 15216 }, e -> {
 		e.getPlayer().setNextTile(Tile.of(2536, 10296, 0));
 	});
-	public static ItemOnObjectHandler TEMPlightropeup = new ItemOnObjectHandler(true, new Object[] { 15193 }, e -> {
-		if (e.getItem().getId() == 954)
-			e.getPlayer().setNextTile(Tile.of(2620, 3864, 0));
+	public static ItemOnObjectHandler TEMPlightropeup = new ItemOnObjectHandler(new Object[] { 15193 }, new Object[] { 954 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(2620, 3864, 0));
 	});
-	public static ItemOnObjectHandler TEMPlightropedown = new ItemOnObjectHandler(true, new Object[] { 15200 }, e -> {
-		if (e.getItem().getId() == 954)
-			e.getPlayer().setNextTile(Tile.of(2617, 10265, 0));
+	public static ItemOnObjectHandler TEMPlightropedown = new ItemOnObjectHandler(new Object[] { 15200 }, new Object[] { 954 }, e -> {
+		e.getPlayer().setNextTile(Tile.of(2617, 10265, 0));
 	});
 
 
