@@ -89,6 +89,8 @@ public class ItemOnObjectEvent implements PluginEvent {
 			if (tileMaps == null)
 				tileMaps = ITEM_HANDLERS.get(item.getId());
 		}
+		if (tileMaps == null)
+			return null;
 		List<ItemOnObjectHandler> methods = tileMaps.get(getObject().getTile().getTileHash());
 		if (methods == null)
 			methods = tileMaps.get(-getObject().getType().id);
