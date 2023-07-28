@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.VarBitDefinitions;
 import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
@@ -57,11 +58,8 @@ public class Test {
 //		for (int i = 0;i < summ.length;i++)
 //			System.out.println(summ[i]);
 
-		for (int i = 0;i < Utils.getItemDefinitionsSize();i++) {
-			ItemDefinitions def = ItemDefinitions.getDefs(i);
-			if (def.containsOption("Dismantle"))
-				System.out.println(""+def.getName().toUpperCase().replace(" ", "_").replace("(", "").replace(")", "") + "(000000, 000000, "+i+"),");
-		}
+		VarBitDefinitions def = VarBitDefinitions.getDefs(4885);
+		System.out.println(def.startBit + ", " + def.endBit);
 	}
 
 //	public static void main(String[] args) throws IOException {
