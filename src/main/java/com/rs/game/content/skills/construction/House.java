@@ -930,8 +930,10 @@ public class House {
 					player.getInterfaceManager().setDefaultTopInterface();
 				}
 			}, 4);
-		} else
+		} else {
 			createHouse();
+		}
+		teleportServant();
 		return true;
 	}
 
@@ -981,8 +983,9 @@ public class House {
 	}
 
 	private void addServant() {
-		if (servantInstance == null && servant != null)
+		if (servantInstance == null && servant != null) {
 			servantInstance = new ServantNPC(this);
+		}
 	}
 
 	public Servant getServant() {
@@ -1043,11 +1046,34 @@ public class House {
 		teleportPlayer(player, getPortalRoom());
 	}
 
+	public void teleportServant() {
+		teleportServant(getPortalRoom());
+	}
+
+	public void teleportServant(RoomReference room) {
+		if (room == null)
+			return;
+
+		servantInstance.resetWalkSteps();
+		byte rotation = room.rotation;
+		if (rotation == 0) {
+			instance.teleportChunkLocal(servantInstance, room.x, 3, room.y - 1, 3, room.plane);
+		} else {
+			instance.teleportChunkLocal(servantInstance, room.x, 3, room.y, 3 + 1, room.plane);
+		}
+	}
+
 	public void teleportPlayer(Player player, RoomReference room) {
 		if (room == null)
 			player.sendMessage("Error, tried teleporting to room that doesn't exist.");
-		else
-			instance.teleportChunkLocal(player, room.x, 3, room.y, 3, room.plane);
+		else {
+			byte rotation = room.rotation;
+			if (rotation == 0) {
+				instance.teleportChunkLocal(player, room.x, 3, room.y - 1, 3, room.plane);
+			} else {
+				instance.teleportChunkLocal(player, room.x, 3, room.y, 3 + 1, room.plane);
+			}
+		}
 	}
 
 	public int getPortalCount() {
@@ -1345,6 +1371,7 @@ public class House {
 							}
 					}
 			}
+			refreshServant();
 			teleportPlayer(player);
 			player.setForceNextMapLoadRefresh(true);
 			player.loadMapRegions();
@@ -1355,7 +1382,6 @@ public class House {
 					for (Item item : petHouse.getPets().array())
 						if (item != null)
 							addPet(item, false);
-			refreshServant();
 			if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
 				player.getTempAttribs().removeO("CRef");
 				teleportPlayer(player, toRoom);
