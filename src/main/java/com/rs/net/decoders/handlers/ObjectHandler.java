@@ -1697,26 +1697,21 @@ public final class ObjectHandler {
 				if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, true)))
 					return;
 				switch (objectDef.getName().toLowerCase()) {
-					case "anvil":
+					case "anvil" -> {
 						int bar = Smithable.getHighestBar(player);
 						if (bar != -1)
 							ForgingInterface.sendSmithingInterface(player, bar);
 						else
 							player.sendMessage("You can't find a way to smith that.");
-						break;
-					case "fire":
+					}
+
+					case "fire" -> {
 						if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))
-							return;
-					case "range":
-					case "campfire":
-					case "oven":
-					case "cooking range":
-					case "sulphur pit":
-					case "stove":
-					case "clay oven":
-					case "fireplace":
-						player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
-						break;
+							;
+					}
+
+					case "range", "campfire", "oven", "cooking range", "sulphur pit", "stove", "clay oven", "fireplace" ->
+							player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
 				}
 			}
 		}));

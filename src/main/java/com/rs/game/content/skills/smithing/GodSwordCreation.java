@@ -27,33 +27,7 @@ public class GodSwordCreation {
 	public static boolean handleGodSword(Player player, int usedWith, int itemUsed) {
 		if (!player.getInventory().containsItem(usedWith, 1) || !player.getInventory().containsItem(itemUsed, 1))
 			return false;
-		if (itemUsed == 11702 && usedWith == 11690 || itemUsed == 11690 && usedWith == 11702) {
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().addItem(11694, 1);
-			player.sendMessage("You join the hilt and blade into a godsword.");
-			return true;
-		}
-		if (itemUsed == 11704 && usedWith == 11690 || usedWith == 11704 && itemUsed == 11690) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(11696, 1);
-			player.sendMessage("You join the hilt and blade into a godsword.");
-			return true;
-		}
-		if (itemUsed == 11706 && usedWith == 11690 || usedWith == 11706 && itemUsed == 11690) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(11698, 1);
-			player.sendMessage("You join the hilt and blade into a godsword.");
-			return true;
-		} else if (itemUsed == 11708 && usedWith == 11690 || usedWith == 11708 && itemUsed == 11690) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(11700, 1);
-			player.sendMessage("You join the hilt and blade into a godsword.");
-			return true;
-		} else if (itemUsed == 11710 && usedWith == 11712 || usedWith == 11710 && itemUsed == 11712) {
+		if (itemUsed == 11710 && usedWith == 11712 || usedWith == 11710 && itemUsed == 11712) {
 			player.getInventory().deleteItem(itemUsed, 1);
 			player.getInventory().deleteItem(usedWith, 1);
 			player.getInventory().addItem(11686, 1);
@@ -83,11 +57,6 @@ public class GodSwordCreation {
 			player.getInventory().addItem(11690, 1);
 			player.sendMessage("You join the shards together.");
 			return true;
-		} else if (itemUsed == 985 && usedWith == 987 || usedWith == 985 && itemUsed == 987) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(989, 1);
-			return true;
 		} else if (itemUsed == 2366 && usedWith == 2368 || usedWith == 2366 && itemUsed == 2368) {
 			player.getInventory().deleteItem(itemUsed, 1);
 			player.getInventory().deleteItem(usedWith, 1);
@@ -115,34 +84,7 @@ public class GodSwordCreation {
 				player.sendMessage("You need 85 prayer to bless a spirit shield.");
 				return true;
 			}
-		}
-		/*
-		 * Skull sceptre
-		 */
-		else if (itemUsed == 9007 && usedWith == 9008 || usedWith == 9007 && itemUsed == 9008) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(9009, 1);
-			player.sendMessage("You combine the skull halves into a strange looking skull.");
-			return true;
-		} else if (itemUsed == 9010 && usedWith == 9011 || usedWith == 9010 && itemUsed == 9011) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(9012, 1);
-			player.sendMessage("You put the two sceptre peices together and create a runed sceptre.");
-			return true;
-		} else if (itemUsed == 9012 && usedWith == 9009 || usedWith == 9012 && itemUsed == 9009) {
-			player.getInventory().deleteItem(itemUsed, 1);
-			player.getInventory().deleteItem(usedWith, 1);
-			player.getInventory().addItem(9013, 1);
-			player.sendMessage("You put the skull onto the sceptre and a strange magic begins to emnate from it.");
-			return true;
-		}
-
-		/*
-		 * START SPIRIT SHIELDS
-		 */
-		else if (itemUsed == 13736 && usedWith == 13746 || usedWith == 13736 && itemUsed == 13746) {
+		} else if (itemUsed == 13736 && usedWith == 13746 || usedWith == 13736 && itemUsed == 13746) {
 			if (player.getSkills().getLevel(Constants.PRAYER) >= 90 || player.getSkills().getLevel(Constants.SMITHING) >= 85) {
 				player.getInventory().deleteItem(itemUsed, 1);
 				player.getInventory().deleteItem(usedWith, 1);
@@ -186,31 +128,7 @@ public class GodSwordCreation {
 				player.sendMessage("You need 85 smithing and 90 prayer to attach the sigil.");
 				return true;
 			}
-		} else if (itemUsed == 21369 && usedWith == 4151 || usedWith == 21369 && itemUsed == 4151) {
-			player.getInventory().deleteItem(4151, 1);
-			player.getInventory().deleteItem(21369, 1); // WHIP VINE
-			player.getInventory().addItem(21371, 1);
-			return true;
-		} else if (itemUsed == 21358 && usedWith == 21359 || usedWith == 21358 && itemUsed == 21359) {
-			if (player.getInventory().containsItem(21359, 2) && player.getSkills().getLevel(Constants.FLETCHING) >= 72) {
-				player.getInventory().deleteItem(21358, 1);
-				player.getInventory().deleteItem(21359, 2); // BOLAS
-				player.getInventory().addItem(21365, 1);
-				player.getSkills().addXp(Constants.FLETCHING, 25);
-			} else
-				player.sendMessage("You need 2 excressence, 1 mutated vine, and 72 fletching to create bolas.");
-			return true;
 		}
-		//spotanim 450 sagie
 		return false;
 	}
-	public static ItemClickHandler handleAbyssalVineWhip = new ItemClickHandler(new Object[] { "Abyssal vine whip" }, new String[] { "Split" }, e -> {
-		if (e.getPlayer().getInventory().getFreeSlots() >= 1) {
-			e.getPlayer().getInventory().deleteItem(e.getItem());
-			e.getPlayer().getInventory().addItem(4151);
-			e.getPlayer().getInventory().addItem(21369);
-			e.getPlayer().sendMessage("You split the vine from the whip.");
-		} else
-			e.getPlayer().sendMessage("Not enough space in your inventory.");
-	});
 }
