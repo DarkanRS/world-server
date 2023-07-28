@@ -1745,7 +1745,7 @@ public abstract class Entity {
 			return true;
 		if(target instanceof Familiar && this.isForceMultiArea())
 			return true;
-		if (target instanceof NPC npc && npc.isForceMultiAttacked())
+		if ((this instanceof NPC n && n.isForceMultiAttacked()) || (target instanceof NPC npc && npc.isForceMultiAttacked()))
 			return true;
 		if (target.isAtMultiArea() && isAtMultiArea())
 			return true;
