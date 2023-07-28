@@ -1005,7 +1005,7 @@ public class House {
 			servantInstance.setFollowing(true);
 			servantInstance.setNextTile(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
-			player.startConversation(new ServantDialogue(player, servantInstance));
+			player.startConversation(new ServantHouseD(player, servantInstance, true));
 		}
 	}
 

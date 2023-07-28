@@ -31,9 +31,9 @@ public class ServantHouseD extends Conversation {
 		servant.setFollowing(true);
 		if (player.getHouse().getPaymentStage() >= 10) {
 			addNPC(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.CALM_TALK, "Excuse me, but before I can continue working you must pay my fee.");
-			addOptions("Would you you like to pay the fee of " + servant.getServantData().getCost() + "?", ops -> {
+			addOptions("Would you you like to pay the fee of " + servant.getServantData().getBankCost() + "?", ops -> {
 				ops.add("Yes.", () -> {
-					int cost = servant.getServantData().getCost();
+					int cost = servant.getServantData().getBankCost();
 					if (!player.getInventory().hasCoins(cost)) {
 						player.npcDialogue(servant.getId(), servant.getServantData() == Servant.DEMON_BUTLER ? HeadE.CAT_CALM_TALK2 : HeadE.UPSET, "You do not have enough coins to cover up my cost.");
 						return;
