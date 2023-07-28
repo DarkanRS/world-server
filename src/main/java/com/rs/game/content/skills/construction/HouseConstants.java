@@ -42,7 +42,7 @@ public class HouseConstants {
 			MAHOGANY_PLANK, SOFT_CLAY, LIMESTONE_BRICKS, STEEL_BAR,
 			BOLT_OF_CLOTH, GOLD_LEAF, MARBLE_BLOCK, MAGIC_STONE };
 
-	public static enum Builds {
+	public enum Builds {
 		// GARDEN
 		CENTREPIECE(15361, false, HObject.EXIT_PORTAL, HObject.DECORATIVE_ROCK, HObject.POND, HObject.IMP_STATUE, HObject.DUNGEON_ENTRACE),
 		BIG_TREE(15362, true, HObject.BIG_DEATH_TREE, HObject.BIG_NICE_TREE, HObject.BIG_OAK_TREE, HObject.BIG_WILLOW_TREE, HObject.BIG_MAPLE_TREE, HObject.BIG_YEW_TREE, HObject.BIG_MAGIC_TREE),
@@ -209,15 +209,15 @@ public class HouseConstants {
 		// todo find -1(Zenevivia)
 		WINDOW(new int[] { 13730, 13728, 13732, 13729, 13733, 13731, 7101 }, false, HObject.SHUTTERED_WINDOW, HObject.DECORATIVE_WINDOW, HObject.STAINED_GLASS), ;
 
-		private int[] ids;
-		private boolean water;
-		private HObject[] pieces;
+		private final int[] ids;
+		private final boolean water;
+		private final HObject[] pieces;
 
-		private Builds(int id, boolean water, HObject... pieces) {
+		Builds(int id, boolean water, HObject... pieces) {
 			this(new int[] { id }, water, pieces);
 		}
 
-		private Builds(int[] ids, boolean water, HObject... pieces) {
+		Builds(int[] ids, boolean water, HObject... pieces) {
 			this.ids = ids;
 			this.water = water;
 			this.pieces = pieces;
@@ -259,7 +259,7 @@ public class HouseConstants {
 		}
 	}
 
-	public static enum HObject {
+	public enum HObject {
 		// GARDEN
 
 		// CENTREPIECE
@@ -854,16 +854,16 @@ public class HouseConstants {
 		DECORATIVE_WINDOW(8077, new int[] { 13254, 13227, 13236, 13245, 13218, 13263, 39253 }, 69, 4, new Item(MOLTEN_GLASS, 8)),
 		STAINED_GLASS(8078, new int[] { 13255, 13228, 13237, 13246, 13219, 13264, 39254 }, 89, 5, new Item(MOLTEN_GLASS, 16));
 
-		private int itemId, level;
-		private int[] ids;
-		private double xp;
-		private Item[] reqs;
+		private final int itemId, level;
+		private final int[] ids;
+		private final double xp;
+		private final Item[] reqs;
 
-		private HObject(int itemId, int id, int level, double xp, Item... reqs) {
+		HObject(int itemId, int id, int level, double xp, Item... reqs) {
 			this(itemId, new int[] { id }, level, xp, reqs);
 		}
 
-		private HObject(int itemId, int[] ids, int level, double xp, Item... reqs) {
+		HObject(int itemId, int[] ids, int level, double xp, Item... reqs) {
 			this.itemId = itemId;
 			this.ids = ids;
 			this.level = level;
@@ -904,7 +904,7 @@ public class HouseConstants {
 		}
 	}
 
-	public static enum Room {
+	public enum Room {
 		PARLOUR(1000, 1, 232, 639, true, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
 		GARDEN(1000, 1, 232, 633, false, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
 		KITCHEN(5000, 5, 234, 639, true, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
@@ -931,15 +931,15 @@ public class HouseConstants {
 		HALL_SKILL_DOWN(15000, 25, 235, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST),
 		HALL_QUEST_DOWN(25000, 35, 239, 638, true, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.WEST);
 
-		private int price, level;
-		private int chunkX;
-		private int chunkY;
-		private boolean showRoof;
+		private final int price;
+		private int level;
+		private final int chunkX, chunkY;
+		private final boolean showRoof;
 		@SuppressWarnings("unused")
 		// might be useful on future
-		private int[] doorDirs;
+		private final int[] doorDirs;
 
-		private Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
+		Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
 			this.price = price;
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
@@ -969,19 +969,19 @@ public class HouseConstants {
 
 	}
 
-	public static enum Roof {
+	public enum Roof {
 
 		ROOF1(233, 634, InstanceBuilder.NORTH, InstanceBuilder.SOUTH),
 		ROOF2(235, 634, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH),
 		ROOF3(235, 634, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.NORTH),
 		DUNGEON_ROOF1(235, 632, InstanceBuilder.NORTH, InstanceBuilder.EAST, InstanceBuilder.SOUTH, InstanceBuilder.NORTH);
 
-		private int chunkX;
-		private int chunkY;
+		private final int chunkX;
+		private final int chunkY;
 		@SuppressWarnings("unused")
-		private int[] dirs;
+		private final int[] dirs;
 
-		private Roof(int chunkX, int chunkY, int... dirs) {
+		Roof(int chunkX, int chunkY, int... dirs) {
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
 			this.dirs = dirs;
@@ -996,7 +996,7 @@ public class HouseConstants {
 		}
 	}
 
-	public static enum POHLocation {
+	public enum POHLocation {
 
 		RIMMINGTON(15478, Tile.of(2953, 3224, 0), 1, 5000),
 
@@ -1010,10 +1010,10 @@ public class HouseConstants {
 
 		YANILLE(15482, Tile.of(2544, 3096, 0), 50, 25000);
 
-		private Tile tile;
-		private int objectId, levelRequired, cost;
+		private final Tile tile;
+		private final int objectId, levelRequired, cost;
 
-		private POHLocation(int objectId, Tile tile, int levelRequired, int cost) {
+		POHLocation(int objectId, Tile tile, int levelRequired, int cost) {
 			this.objectId = objectId;
 			this.tile = tile;
 			this.levelRequired = levelRequired;
@@ -1037,21 +1037,22 @@ public class HouseConstants {
 		}
 	}
 
-	public static enum Servant {
+	public enum Servant {
 
-		RICK(4235, 500, 20, 315, false, 6, 100),
-		MAID(4237, 1000, 25, 2003, false, 10, 50),
-		COOK(4239, 3000, 30, 2301, true, 16, 28),
-		BUTLER(4241, 5000, 40, 1897, true, 20, 20),
-		DEMON_BUTLER(4243, 10000, 50, 2011, true, 26, 12);
+		RICK(4235, 375, 500, 20, 315, false, 6, 100),
+		MAID(4237, 750, 1000, 25, 2003, false, 10, 50),
+		COOK(4239, 2250, 3000, 30, 2301, true, 16, 28),
+		BUTLER(4241, 3750, 5000, 40, 1897, true, 20, 20),
+		DEMON_BUTLER(4243, 7500, 10000, 50, 2011, true, 26, 12);
 
-		private final int id, cost, level, foodId, inventorySize;
+		private final int id, hirePrice, bankCost, level, foodId, inventorySize;
 		private final long bankDelay;
 		private final boolean sawmill;
 
-		private Servant(int id, int cost, int level, int foodId, boolean sawmill, int inventorySize, long bankDelay) {
+		Servant(int id, int hirePrice, int bankCost, int level, int foodId, boolean sawmill, int inventorySize, long bankDelay) {
 			this.id = id;
-			this.cost = cost;
+			this.hirePrice = hirePrice;
+			this.bankCost = bankCost;
 			this.level = level;
 			this.foodId = foodId;
 			this.sawmill = sawmill;
@@ -1063,8 +1064,12 @@ public class HouseConstants {
 			return id;
 		}
 
-		public int getCost() {
-			return cost;
+		public int getHirePrice() {
+			return hirePrice;
+		}
+
+		public int getBankCost() {
+			return bankCost;
 		}
 
 		public int getLevel() {

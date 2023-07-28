@@ -1,5 +1,6 @@
 package com.rs.game.map.instance;
 
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.MapUtils;
@@ -263,13 +264,25 @@ public class Instance {
         player.setNextTile(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
     }
 
+    public void teleportLocal(NPC npc, int localX, int localY, int plane) {
+        npc.setNextTile(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
+    }
+
     public void teleportChunkLocal(Player player, int chunkXOffset, int chunkYOffset, int xOffset, int yOffset, int plane) {
         player.setInstancedArea(this);
         player.setNextTile(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
     }
 
+    public void teleportChunkLocal(NPC npc, int chunkXOffset, int chunkYOffset, int xOffset, int yOffset, int plane) {
+        npc.setNextTile(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
+    }
+
     public void teleportTo(Player player) {
         teleportLocal(player, entranceOffset == null ? width * 4 : entranceOffset[0], entranceOffset == null ? height * 4 : entranceOffset[1], entranceOffset == null || entranceOffset.length < 3 ? 0 : entranceOffset[2]);
+    }
+
+    public void teleportTo(NPC npc) {
+        teleportLocal(npc, entranceOffset == null ? width * 4 : entranceOffset[0], entranceOffset == null ? height * 4 : entranceOffset[1], entranceOffset == null || entranceOffset.length < 3 ? 0 : entranceOffset[2]);
     }
 
     public UUID getId() {

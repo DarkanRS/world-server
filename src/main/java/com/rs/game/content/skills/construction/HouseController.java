@@ -195,7 +195,7 @@ public class HouseController extends Controller {
 		else if (HouseConstants.Builds.ROPE_BELL_PULL.containsObject(object)) {
 			if (!house.isOwner(player)) {
 				player.getPackets()
-				.sendGameMessage("I'd better not do this...");
+					.sendGameMessage("I'd better not do this...");
 				return false;
 			}
 			house.callServant(true);

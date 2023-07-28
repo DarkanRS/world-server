@@ -38,9 +38,9 @@ import com.rs.utils.WorldUtil;
 
 public class ServantNPC extends NPC {
 
-	private Servant servant;
-	private Player owner;
-	private House house;
+	private final Servant servant;
+	private final Player owner;
+	private final House house;
 	private boolean follow, greetGuests;
 	private Item lastBankRetrieve;
 	private Item lastSawmillSend;
@@ -52,7 +52,6 @@ public class ServantNPC extends NPC {
 		this.house = house;
 		if (owner.getSkills().getLevel(Constants.CONSTRUCTION) < servant.getLevel()) {
 			house.setServantOrdinal((byte) -1);
-			return;
 		}
 	}
 
@@ -82,7 +81,7 @@ public class ServantNPC extends NPC {
 			owner.sendMessage("Your servant cannot prepare food while in building mode.");
 			return;
 		}
-		String basicResponse = "I appologise, but I cannot serve " + (owner.getAppearance().isMale() ? "Sir" : "Madam") + " without";
+		String basicResponse = "I apologise, but I cannot serve " + (owner.getAppearance().isMale() ? "Sir" : "Madam") + " without";
 		final RoomReference kitchen = house.getRoom(Room.KITCHEN), diningRoom = house.getRoom(Room.DINING_ROOM);
 		if (kitchen == null) {
 			owner.npcDialogue(getId(), HeadE.CALM_TALK, basicResponse + " a proper kitchen.");
