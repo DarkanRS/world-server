@@ -18,9 +18,7 @@ import java.util.TreeMap;
 @PluginEventHandler
 public class TrophyBones {
 
-    public static ItemOnObjectHandler itemOnBank = new ItemOnObjectHandler(new Object[] { "Bank booth", "Bank", "Bank chest", "Bank table", "Counter", "Shantay chest", "Darkmeyer Treasury" }, e -> {
-        if (e.getItem().getId() != 24444)
-            return;
+    public static ItemOnObjectHandler onBank = new ItemOnObjectHandler(new Object[] { "Bank booth", "Bank", "Bank chest", "Bank table", "Counter", "Shantay chest", "Darkmeyer Treasury" }, new Object[] { 24444 }, e -> {
         if (!e.getObject().getDefinitions(e.getPlayer()).containsOption("Bank") && !e.getObject().getDefinitions(e.getPlayer()).containsOption("Use")) {
             e.getPlayer().sendMessage("This isn't a proper bank.");
             return;

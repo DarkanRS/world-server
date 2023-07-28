@@ -881,7 +881,7 @@ public class Player extends Entity {
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.removeInventoryInterface();
 		endConversation();
-		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
+		abortDialogue();
 		if (closeInterfacesEvent != null) {
 			Runnable event = closeInterfacesEvent;
 			closeInterfacesEvent = null;
@@ -892,6 +892,10 @@ public class Player extends Entity {
 			closeChatboxInterfaceEvent = null;
 			event.run();
 		}
+	}
+
+	public void abortDialogue() {
+		getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
 	}
 
 	public void setClientHasntLoadedMapRegion() {

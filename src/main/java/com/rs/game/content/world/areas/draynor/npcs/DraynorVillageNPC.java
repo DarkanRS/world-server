@@ -307,7 +307,7 @@ public class DraynorVillageNPC {
         }
     }
 
-    public static ItemOnObjectHandler HandleTreeGuardStew = new ItemOnObjectHandler(new Object[] { 10041 }, e -> {
+    public static ItemOnObjectHandler HandleTreeGuardStew = new ItemOnObjectHandler(new Object[] { 10041 }, null, e -> {
         if (e.getItem().getId() != 2003)
             e.getPlayer().startConversation(new Dialogue()
                     .addNPC(MARKET_GUARD, HeadE.ANGRY, "Why the demoninikin are you waving THAT at me?")

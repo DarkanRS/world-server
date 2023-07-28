@@ -106,25 +106,31 @@ public class Runecrafting {
 		e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
 	});
 
-	public static void craftTalisman(Player player, int talisman, int tiara, int staff, double xp) {
+	public static void craftTalisman(Player player, RunecraftingTalisman talisman) {
 		player.sendOptionDialogue("What would you like to imbue?", ops -> {
 			ops.add("Tiara", () -> {
-				if (player.getInventory().containsItem(5525, 1) && player.getInventory().containsItem(talisman, 1)) {
-					player.getInventory().deleteItem(5525, 1);
-					player.getInventory().deleteItem(talisman, 1);
-					player.getSkills().addXp(Constants.RUNECRAFTING, xp);
-					player.getInventory().addItem(tiara, 1);
-				} else
+				if (!player.getInventory().containsItem(5525, 1) || !player.getInventory().containsItem(talisman.getTalismanId(), 1)) {
 					player.sendMessage("You need a tiara to do this.");
+					return;
+				}
+				player.getInventory().deleteItem(5525, 1);
+				player.getInventory().deleteItem(talisman.getTalismanId(), 1);
+				player.getSkills().addXp(Constants.RUNECRAFTING, talisman.getTiaraExp());
+				player.getInventory().addItem(talisman.getTiaraId(), 1);
 			});
 			ops.add("Staff", () -> {
-				if (player.getInventory().containsItem(13629, 1) && player.getInventory().containsItem(talisman, 1)) {
-					player.getInventory().deleteItem(13629, 1);
-					player.getInventory().deleteItem(talisman, 1);
-					player.getSkills().addXp(Constants.RUNECRAFTING, xp);
-					player.getInventory().addItem(staff, 1);
-				} else
+				if (!player.getInventory().containsItem(13629, 1) || !player.getInventory().containsItem(talisman.getTalismanId(), 1)) {
 					player.sendMessage("You need a runecrafting staff to do this.");
+					return;
+				}
+				if (player.getSkills().getLevel(Constants.RUNECRAFTING) < talisman.getStaffLevelReq()) {
+					player.sendMessage("You need a runecrafting level of " + talisman.getStaffLevelReq() + " to create a " + new Item(talisman.getStaffId()).getDefinitions().getName() + ".");
+					return;
+				}
+				player.getInventory().deleteItem(13629, 1);
+				player.getInventory().deleteItem(talisman.getTalismanId(), 1);
+				player.getSkills().addXp(Constants.RUNECRAFTING, talisman.getStaffExp());
+				player.getInventory().addItem(talisman.getStaffId(), 1);
 			});
 		});
 	}

@@ -70,7 +70,7 @@ public class ShadeCatacombs {
 	public static ObjectClickHandler handleChestClick = new ObjectClickHandler(new Object[] { 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 59731 }, 
 			e -> e.getPlayer().sendMessage("The chest is locked."));
 
-	public static ItemOnObjectHandler handleChests = new ItemOnObjectHandler(new Object[] { 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 59731 }, e -> {
+	public static ItemOnObjectHandler handleChests = new ItemOnObjectHandler(new Object[] { 4111, 4112, 4113, 4114, 4115, 4116, 4117, 4118, 4119, 4120, 4121, 4122, 4123, 4124, 4125, 4126, 4127, 4128, 4129, 4130, 59731 }, null, e -> {
 		ShadeChest chest = ShadeChest.forId(e.getObjectId());
 		chest.open(e.getPlayer(), e.getObject(), e.getItem().getId());
 	});

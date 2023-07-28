@@ -1256,9 +1256,13 @@ public abstract class Entity {
 	}
 
 	public void forceMoveVisually(Tile destination, int animation, int startClientCycles, int speedClientCycles) {
+		forceMoveVisually(getTile(), destination, animation, startClientCycles, speedClientCycles);
+	}
+
+	public void forceMoveVisually(Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles) {
 		if (animation != -1)
 			anim(animation);
-		setNextForceMovement(new ForceMovement(getTile(), destination, startClientCycles, speedClientCycles));
+		setNextForceMovement(new ForceMovement(start, destination, startClientCycles, speedClientCycles));
 	}
 
 	public void forceMoveVisually(Direction dir, int distance, int animation, int startClientCycles, int speedClientCycles) {
@@ -1276,7 +1280,11 @@ public abstract class Entity {
 	}
 
 	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
-		ForceMovement movement = new ForceMovement(Tile.of(getTile()), destination, startClientCycles, speedClientCycles);
+		forceMove(Tile.of(getTile()), destination, animation, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
+	}
+
+	public void forceMove(Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+		ForceMovement movement = new ForceMovement(start, destination, startClientCycles, speedClientCycles);
 		if (animation != -1)
 			anim(animation);
 		lock();
@@ -1293,6 +1301,10 @@ public abstract class Entity {
 
 	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock) {
 		forceMove(destination, animation, startClientCycles, speedClientCycles, autoUnlock, null);
+	}
+
+	public void forceMove(Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock) {
+		forceMove(start, destination, animation, startClientCycles, speedClientCycles, autoUnlock, null);
 	}
 
 	public void forceMove(Tile destination, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {

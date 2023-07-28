@@ -1,0 +1,20 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1714,
+      "y": 5602
+    },
+    "comment": "Fiara",
+    "npcId": 7600
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 1697,
+      "y": 5605
+    },
+    "comment": "Reggie",
+    "npcId": 7601
+  }
+]

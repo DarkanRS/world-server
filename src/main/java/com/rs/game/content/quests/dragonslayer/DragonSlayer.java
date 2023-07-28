@@ -378,7 +378,7 @@ public class DragonSlayer extends QuestOutline {
 	static final int BOWL = 1791;
 	static final int CAGE = 13431;
 
-	public static ItemOnObjectHandler itemOnMagicDoor = new ItemOnObjectHandler(true, new Object[] { 25115 }, e -> {
+	public static ItemOnObjectHandler itemOnMagicDoor = new ItemOnObjectHandler(new Object[] { 25115 }, new Object[] { SILK, BOMB, BOWL, CAGE, 301 }, e -> {
 		Player p = e.getPlayer();
 		GenericAttribMap attr = p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER);
 		if (e.getItem().getId() == SILK)

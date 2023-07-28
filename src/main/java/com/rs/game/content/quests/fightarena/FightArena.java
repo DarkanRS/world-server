@@ -80,8 +80,8 @@ public class FightArena extends QuestOutline {
 		return lines;
 	}
 
-	public static ItemOnObjectHandler keyOnCell = new ItemOnObjectHandler(true, new Object[] { 80 }, e -> {
-		if (e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) == GET_JAIL_KEYS && e.getItem().getId() == 76) {
+	public static ItemOnObjectHandler keyOnCell = new ItemOnObjectHandler(new Object[] { 80 }, new Object[] { 76 }, e -> {
+		if (e.getPlayer().getQuestManager().getStage(Quest.FIGHT_ARENA) == GET_JAIL_KEYS) {
 			e.getPlayer().startConversation(new Dialogue()
 					.addPlayer(HeadE.HAPPY_TALKING, "Jeremy! Look, I have the keys.")
 					.addNPC(265, HeadE.CHILD_UNSURE, "Wow! Please set me free so we can find my dad. I overheard a guard talking. I think " +

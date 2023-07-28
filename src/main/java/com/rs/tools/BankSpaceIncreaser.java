@@ -16,6 +16,7 @@
 //
 package com.rs.tools;
 
+import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
@@ -23,12 +24,32 @@ import com.rs.cache.loaders.InventoryDefinitions;
 import com.rs.cache.loaders.cs2.CS2Definitions;
 import com.rs.cache.loaders.cs2.CS2Script;
 import com.rs.game.model.entity.player.Bank;
+import com.rs.game.model.entity.player.Controller;
+import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.json.DateAdapter;
+import com.rs.lib.net.packets.Packet;
+import com.rs.lib.net.packets.PacketEncoder;
+import com.rs.lib.util.PacketAdapter;
+import com.rs.lib.util.PacketEncoderAdapter;
+import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.utils.json.ControllerAdapter;
 
 import java.io.IOException;
+import java.util.Date;
 
 public class BankSpaceIncreaser {
 
 	public static void main(String[] args) throws IOException {
+		JsonFileManager.setGSON(new GsonBuilder()
+				.registerTypeAdapter(Controller.class, new ControllerAdapter())
+				.registerTypeAdapter(Date.class, new DateAdapter())
+				.registerTypeAdapter(PacketEncoder.class, new PacketEncoderAdapter())
+				.registerTypeAdapter(Packet.class, new PacketAdapter())
+				.registerTypeAdapterFactory(new RecordTypeAdapterFactory())
+				.disableHtmlEscaping()
+				.setPrettyPrinting()
+				.create());
+		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 
 		final int MAX_SIZE = Bank.MAX_BANK_SIZE;

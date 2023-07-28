@@ -8,7 +8,7 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 @PluginEventHandler
 public class LegendsGuild {
 
-	public static ItemOnObjectHandler handleFountainOfHeroes = new ItemOnObjectHandler(new Object[] { 2938 }, e -> {
+	public static ItemOnObjectHandler handleFountainOfHeroes = new ItemOnObjectHandler(new Object[] { 2938 }, null, e -> {
 		if (isSkillsNeckOrCombatBrace(e.getItem().getId()) && e.getItem().getName().toLowerCase().indexOf("(4)") < 0) {
 			for (Item item : e.getPlayer().getInventory().getItems().array())
 				if (item != null)

@@ -49,6 +49,7 @@ public class Potions {
 	public static final int EMPTY_KEG = 5769;
 	private static int EMPTY_CUP = 4244;
 	private static int BOWL = 1923;
+	private static int EMPTY_JUG = 1935;
 
 	public enum Potion {
 		CUP_OF_TEA_CLAY(7728, 7730, p -> {
@@ -95,7 +96,7 @@ public class Potions {
 
 		STRENGTH_POTION(VIAL, new int[] { 113, 115, 117, 119 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH)),
 		STRENGTH_FLASK(-1, new int[] { 23207, 23209, 23211, 23213, 23215, 23217 }, p -> p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH)),
-		STRENGTH_MIX(VIAL, new int[] { 11441, 11443 }, p -> {
+		STRENGTH_MIX(VIAL, new int[] { 11443, 11441 }, p -> {
 			p.getSkills().adjustStat(3, 0.1, Constants.STRENGTH);
 			p.heal(30);
 		}),
@@ -806,6 +807,14 @@ public class Potions {
 		SERUM_208(VIAL, new int[] { 3416, 3417, 3418, 3419 }),
 		OLIVE_OIL(VIAL, new int[] { 3422, 3424, 3426, 3428 }),
 		SACRED_OIL(VIAL, new int[] { 3430, 3432, 3434, 3436 }),
+
+		JUG_OF_BAD_WINE(EMPTY_JUG, 1991, p -> {
+			p.getSkills().lowerStat(Constants.ATTACK, 3);
+		}),
+		JUG_OF_WINE(EMPTY_JUG, 1993, p -> {
+			p.heal(110, 0);
+			p.getSkills().lowerStat(Constants.ATTACK, 2);
+		}),
 
 		;
 

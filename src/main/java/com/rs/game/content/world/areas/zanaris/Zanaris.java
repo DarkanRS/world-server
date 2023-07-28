@@ -33,16 +33,13 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Zanaris {
 
-	public static ItemOnObjectHandler handleEnterBlackDragonPlane = new ItemOnObjectHandler(new Object[] { 12093 }, e -> {
-		if (e.getItem().getId() == 2138) {
-			e.getPlayer().getInventory().deleteItem(2138, 1);
-			FairyRings.sendTeleport(e.getPlayer(), Tile.of(1565, 4356, 0));
-		}
+	public static ItemOnObjectHandler handleEnterBlackDragonPlane = new ItemOnObjectHandler(new Object[] { 12093 }, new Object[] { 2138 }, e -> {
+		e.getPlayer().getInventory().deleteItem(2138, 1);
+		FairyRings.sendTeleport(e.getPlayer(), Tile.of(1565, 4356, 0));
 	});
 
-	public static ItemOnObjectHandler handleDownBabyBlackDragons = new ItemOnObjectHandler(new Object[] { 12253 }, e -> {
-		if (e.getItem().getId() == 954)
-			e.getPlayer().useLadder(Tile.of(1544, 4381, 0));
+	public static ItemOnObjectHandler handleDownBabyBlackDragons = new ItemOnObjectHandler(new Object[] { 12253 }, new Object[] { 954 }, e -> {
+		e.getPlayer().useLadder(Tile.of(1544, 4381, 0));
 	});
 
 	public static ObjectClickHandler handleUpBabyBlackDragons = new ObjectClickHandler(new Object[] { 12255 }, e -> {

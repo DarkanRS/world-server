@@ -87,7 +87,7 @@ public class Foods {
         return true;
     }
 
-    public static enum Food {
+    public enum Food {
         ACAI(20270, 50),
         ADMIRAL_PIE(new int[] { 7198, 7200 }, 2313, 80, p -> p.getSkills().adjustStat(5, 0.0, Constants.FISHING)),
         AMPHIBIOUS_FRUIT(21381, 150),

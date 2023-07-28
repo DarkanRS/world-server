@@ -87,7 +87,7 @@ public class ChaosTunnels {
                         .addPlayer(HeadE.SAD_MILD, "I'm not actually sure.")
                         .addNPC(5841, HeadE.FRUSTRATED, "Hmph! Well I can tell you what you ARE doing.")
                         .addPlayer(HeadE.CONFUSED, "What's that?")
-                        .addNPC(5841, HeadE.FRUSTRATED, "Wasting my time! Now go away! If yo umust speak to someone, speak to one of the other monks around here!");
+                        .addNPC(5841, HeadE.FRUSTRATED, "Wasting my time! Now go away! If you must speak to someone, speak to one of the other monks around here!");
 
                 ops.add("I'm on an important quest!")
                         .addPlayer(HeadE.CHEERFUL, "I'm on an important quest!")

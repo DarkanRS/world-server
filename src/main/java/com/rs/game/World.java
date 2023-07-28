@@ -1287,7 +1287,7 @@ public final class World {
 	}
 
 	public static Tile findAdjacentFreeTile(Tile tile) {
-		return findAdjacentFreeTile(tile, null);
+		return findAdjacentFreeTile(tile, (Direction) null);
 	}
 
 	public static Tile findAdjacentFreeSpace(Tile tile, Direction... blacklistedDirections) {

@@ -24,6 +24,7 @@ import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class FillAction extends PlayerAction {
 	private Animation FILLING = new Animation(883);
 	private Filler fill;
 
-	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, e -> {
+	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
 		Filler fill = FillAction.isFillable(e.getItem());
 		if (fill != null)
 			e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));

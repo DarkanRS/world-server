@@ -213,7 +213,7 @@ public class WitchsHouse extends QuestOutline {
 			});
 	});
 
-	public static ItemOnObjectHandler handleMouseHole = new ItemOnObjectHandler(new Object[] { 2870 }, e -> {
+	public static ItemOnObjectHandler handleMouseHole = new ItemOnObjectHandler(new Object[] { 2870 }, null, e -> {
 		GameObject obj = e.getObject();
 		if(e.getPlayer().getQuestManager().getAttribs(Quest.WITCHS_HOUSE).getB("MOUSE_SOLVED")) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {

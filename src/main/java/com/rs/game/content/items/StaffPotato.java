@@ -46,6 +46,10 @@ public class StaffPotato {
 			p.getNSV().setB("infRun", !p.getNSV().getB("infRun"));
 			p.sendMessage("INFINITE RUN: " + p.getNSV().getB("infRun"));
 		}),
+		INF_RUNES("Toggle Infinite Runes", p -> {
+			p.getNSV().setB("infRunes", !p.getNSV().getB("infRunes"));
+			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
+		}),
 		INVISIBILITY("Toggle Invisibility", p -> {
 			p.getAppearance().setHidden(!p.getAppearance().isHidden());
 			p.sendMessage("HIDDEN: " + p.getAppearance().isHidden());
@@ -185,6 +189,16 @@ public class StaffPotato {
 			});
 		}
 		}
+	});
+
+	public static ItemClickHandler rub = new ItemClickHandler(new Object[] { 25357 }, new String[] { "Rub" }, e -> {
+		boolean set = !e.getPlayer().getNSV().getB("godMode");
+		e.getPlayer().getNSV().setB("godMode", set);
+		e.getPlayer().getNSV().setB("infSpecialAttack", set);
+		e.getPlayer().getNSV().setB("infPrayer", set);
+		e.getPlayer().getNSV().setB("infRun", set);
+		e.getPlayer().getNSV().setB("infRunes", set);
+		e.getPlayer().anim(set ? 529 : 528);
 	});
 	
 }

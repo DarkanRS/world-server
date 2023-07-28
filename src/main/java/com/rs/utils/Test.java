@@ -19,6 +19,8 @@ package com.rs.utils;
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.VarBitDefinitions;
 import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
@@ -28,6 +30,7 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
+import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
 
 import java.io.IOException;
@@ -51,9 +54,12 @@ public class Test {
 		Settings.getConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 		
-		IComponentDefinitions[] summ = IComponentDefinitions.getInterface(672);
-		for (int i = 0;i < summ.length;i++)
-			System.out.println(summ[i]);
+//		IComponentDefinitions[] summ = IComponentDefinitions.getInterface(672);
+//		for (int i = 0;i < summ.length;i++)
+//			System.out.println(summ[i]);
+
+		VarBitDefinitions def = VarBitDefinitions.getDefs(4885);
+		System.out.println(def.startBit + ", " + def.endBit);
 	}
 
 //	public static void main(String[] args) throws IOException {

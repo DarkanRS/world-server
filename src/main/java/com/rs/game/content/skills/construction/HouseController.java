@@ -195,7 +195,7 @@ public class HouseController extends Controller {
 		else if (HouseConstants.Builds.ROPE_BELL_PULL.containsObject(object)) {
 			if (!house.isOwner(player)) {
 				player.getPackets()
-				.sendGameMessage("I'd better not do this...");
+					.sendGameMessage("I'd better not do this...");
 				return false;
 			}
 			house.callServant(true);
@@ -430,12 +430,7 @@ public class HouseController extends Controller {
 				player.sendMessage("You boil the kettle of water.");
 				return false;
 			}
-			final Cookables cook = Cooking.isCookingSkill(item);
-			if (cook != null) {
-				player.startConversation(new CookingD(player, cook, object));
-				return false;
-			}
-			player.simpleDialogue("You can't cook that on a " + (object.getDefinitions().getName().equals("Fire") ? "fire" : "range") + ".");
+			player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
 			return false;
 		}
 		return true;
