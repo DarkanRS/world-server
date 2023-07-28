@@ -190,5 +190,15 @@ public class StaffPotato {
 		}
 		}
 	});
+
+	public static ItemClickHandler rub = new ItemClickHandler(new Object[] { 25357 }, new String[] { "Rub" }, e -> {
+		boolean set = !e.getPlayer().getNSV().getB("godMode");
+		e.getPlayer().getNSV().setB("godMode", set);
+		e.getPlayer().getNSV().setB("infSpecialAttack", set);
+		e.getPlayer().getNSV().setB("infPrayer", set);
+		e.getPlayer().getNSV().setB("infRun", set);
+		e.getPlayer().getNSV().setB("infRunes", set);
+		e.getPlayer().anim(set ? 529 : 528);
+	});
 	
 }
