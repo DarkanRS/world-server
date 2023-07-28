@@ -873,7 +873,7 @@ public class MiscTest {
 			p.setNextTile(objs.get(Integer.valueOf(args[1])).getTile());
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire (loaded) gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
 			int i = 0;
 			List<NPC> npcs = new ArrayList<>();
 			for (NPC npc : World.getNPCs())
