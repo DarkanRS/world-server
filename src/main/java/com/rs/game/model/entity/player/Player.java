@@ -881,7 +881,6 @@ public class Player extends Entity {
 		if (interfaceManager.containsInventoryInter())
 			interfaceManager.removeInventoryInterface();
 		endConversation();
-		abortDialogue();
 		if (closeInterfacesEvent != null) {
 			Runnable event = closeInterfacesEvent;
 			closeInterfacesEvent = null;
@@ -1803,13 +1802,19 @@ public class Player extends Entity {
 		getPackets().sendInputNameScript(question);
 		if (description != null)
 			getPackets().setIFText(1110, 70, description);
-		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginEnterName"));
+		setCloseChatboxInterfaceEvent(() -> {
+			getTempAttribs().removeO("pluginEnterName");
+			abortDialogue();
+		});
 	}
 
 	public void sendInputLongText(String question, InputStringEvent e) {
 		getTempAttribs().setO("pluginEnterLongText", e);
 		getPackets().sendInputLongTextScript(question);
-		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginEnterLongText"));
+		setCloseChatboxInterfaceEvent(() -> {
+			getTempAttribs().removeO("pluginEnterLongText");
+			abortDialogue();
+		});
 	}
 
 	public void sendInputInteger(String question, InputIntegerEvent e) {
@@ -1821,17 +1826,24 @@ public class Player extends Entity {
 				getTempAttribs().setB("viewingDepositBox", false);
 			}
 			getTempAttribs().removeO("pluginInteger");
+			abortDialogue();
 		});
 	}
 
 	public void sendInputHSL(InputHSLEvent e) {
 		getTempAttribs().setO("pluginHSL", e);
-		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginHSL"));
+		setCloseChatboxInterfaceEvent(() -> {
+			getTempAttribs().removeO("pluginHSL");
+			abortDialogue();
+		});
 	}
 
 	public void sendInputForumQFC(InputStringEvent e) {
 		getTempAttribs().setO("pluginQFCD", e);
-		setCloseChatboxInterfaceEvent(() -> getTempAttribs().removeO("pluginQFCD"));
+		setCloseChatboxInterfaceEvent(() -> {
+			getTempAttribs().removeO("pluginQFCD");
+			abortDialogue();
+		});
 	}
 
 	public boolean hasStarted() {
