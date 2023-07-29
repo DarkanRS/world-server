@@ -155,6 +155,26 @@ public class FairyRings {
 				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
 			}
 		},
+		DIR_AKS(-1, "Kethsi: Isle of Sann", Tile.of(4026, 5699, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, silent ? null : "to use this fairy ring code.");
+			}
+		},
+
+		AIR_DLR_DJQ_AJS(-1, "Fairy Queen's Hideout", Tile.of(1560, 4234, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.FAIRY_TALE_II_CURE_A_QUEEN, silent ? null : "to use this fairy ring code.");
+			}
+		},
+
+		BIR_DIP_CLR_ALP(-1, "Ork's Rift", Tile.of(1626, 4176, 0)) { //1567, 4133 during quest?
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.FAIRY_TALE_III_BATTLE_AT_ORKS_RIFT, silent ? null : "to use this fairy ring code.");
+			}
+		},
 
 		;
 
@@ -162,10 +182,18 @@ public class FairyRings {
 		private int logId;
 		private Tile tile;
 
-		private Ring(int logId, String name, Tile tile) {
+		Ring(int logId, String name, Tile tile) {
 			this.logId = logId;
 			this.name = name;
 			this.tile = tile;
+		}
+
+		public static Ring forHash(String hash) {
+			try {
+				return Ring.valueOf(hash);
+			} catch (Throwable e) {
+				return null;
+			}
 		}
 
 		public Tile getTile() {
@@ -229,7 +257,7 @@ public class FairyRings {
 	private static void sendTravelLog(Player player) {
 		player.getInterfaceManager().sendInventoryInterface(735);
 		for (Ring r : Ring.values())
-			if (r.meetsRequirements(player, true) && !r.name.equals("Nowhere"))
+			if (r.meetsRequirements(player, true) && !r.name.equals("Nowhere") && r.logId != -1)
 				player.getPackets().setIFText(735, r.logId, "          " + r.name);
 	}
 
@@ -258,15 +286,30 @@ public class FairyRings {
 	}
 
 	public static boolean sendRingTeleport(Player player, String hash) {
-		Ring ring;
-		try {
-			ring = Ring.valueOf(hash);
-		} catch (Throwable e) {
-			ring = null;
+		Ring ring = Ring.forHash(hash);
+		String historyHash = player.getTempAttribs().getO("fairyRingHistory");
+		if (historyHash != null) {
+			historyHash = player.getTempAttribs().getO("fairyRingHistory") + "_" + hash;
+			if (Ring.forHash(historyHash) != null) {
+				ring = Ring.forHash(historyHash);
+				player.getTempAttribs().removeO("fairyRingHistory");
+				player.sendMessage("The secret fairy ring network resets its prior programming.");
+			}
 		}
+		String newHistoryHash = historyHash == null ? ring.toString() : historyHash;
 		if (ring == null || ring.getTile() == null || !ring.meetsRequirements(player, false)) {
+			player.getTempAttribs().setO("fairyRingHistory", newHistoryHash);
+			if (player.getTempAttribs().getO("fairyRingHistory").toString().split("_").length > 4) {
+				player.getTempAttribs().removeO("fairyRingHistory");
+				player.sendMessage("The secret fairy ring network resets its prior programming.");
+			}
 			sendTeleport(player, Tile.of(FAIRY_SOURCE, 2));
 			return false;
+		}
+		player.getTempAttribs().setO("fairyRingHistory", newHistoryHash);
+		if (player.getTempAttribs().getO("fairyRingHistory").toString().split("_").length > 4) {
+			player.getTempAttribs().removeO("fairyRingHistory");
+			player.sendMessage("The secret fairy ring network resets its prior programming.");
 		}
 		sendTeleport(player, ring.getTile());
 		return true;

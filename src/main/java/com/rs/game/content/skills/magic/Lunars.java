@@ -23,6 +23,7 @@ import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
@@ -32,8 +33,10 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
+import com.rs.net.decoders.handlers.impl.interfaces.IFOnIFHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +79,22 @@ public class Lunars {
 			if (SawmillOperator.logs[i] == logId)
 				return i;
 		return -1;
+	}
+
+	public static InterfaceOnInterfaceHandler handleLunarOnInventory = new InterfaceOnInterfaceHandler(430, new int[] { 33, 35, 50, 72, 49 }, Inventory.INVENTORY_INTERFACE, null, e -> {
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		switch (e.getFromComponentId()) {
+			case 33 -> handlePlankMake(e.getPlayer(), item);
+			case 35 -> handleTuneBanite(e.getPlayer(), item);
+			case 50 -> handleRestorePotionShare(e.getPlayer(), item);
+			case 72 -> handleLeatherMake(e.getPlayer(), item);
+			case 49 -> handleBoostPotionShare(e.getPlayer(), item);
+		}
+	});
+
+	private static void handleTuneBanite(Player player, Item item) {
 	}
 
 	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082, e -> {

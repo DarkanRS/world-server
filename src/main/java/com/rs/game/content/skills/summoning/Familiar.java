@@ -29,6 +29,7 @@ import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Equipment;
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
@@ -43,6 +44,7 @@ import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -62,7 +64,7 @@ public final class Familiar extends NPC {
 	private int specialEnergy;
 	private boolean specOn = false;
 	private boolean trackDrain;
-	public int autoScrollMod;
+	public int autoScrollMod = 0;
 	private ItemsContainer<Item> inv;
 	private Pouch pouch;
 	private GenericAttribMap attribs = new GenericAttribMap();
@@ -128,6 +130,17 @@ public final class Familiar extends NPC {
 				e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().removeItem(e.getSlotId(), num));
 		} else if (e.getComponentId() == 29)
 			e.getPlayer().getFamiliar().takeInventory();
+	});
+
+	public static InterfaceOnInterfaceHandler orbOnInventory = new InterfaceOnInterfaceHandler(747, Inventory.INVENTORY_INTERFACE, e -> {
+		if (e.getPlayer().getFamiliar() == null)
+			return;
+
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		item.setSlot(e.getToSlotId());
+		e.getPlayer().getFamiliar().castSpecial(item);
 	});
 	
 	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take", "Withdraw" }, e -> {
