@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.skills.smithing;
 
+import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -23,11 +24,20 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@PluginEventHandler
 public class Smithing extends PlayerAction {
+
+	public static ItemOnObjectHandler barsOnAnvil = new ItemOnObjectHandler(new Object[] { "Anvil" }, Arrays.stream(Smelting.SmeltingBar.values()).map(bar -> bar.getProducedBar().getId()).toArray(), e -> {
+		if (e.getObject().getDefinitions(e.getPlayer()).containsOption("Smith"))
+			ForgingInterface.sendSmithingInterface(e.getPlayer(), e.getItem().getId());
+	});
 	
 	public enum Smithable {
 		BRONZE_ARROWHEADS(Slot.ARROW_TIPS, new Item(39, 15), 5, 12.5, new Item(2349, 1)),

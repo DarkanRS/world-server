@@ -23,11 +23,18 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@PluginEventHandler
 public class Cooking extends PlayerAction {
+
+	public static ItemOnObjectHandler foodOnCookingObj = new ItemOnObjectHandler(new Object[] { "Fire", "Range", "Campfire", "Oven", "Cooking range", "Sulphur pit", "Stove", "Clay oven", "Clay Oven", "Fireplace" }, Arrays.stream(Cookables.values()).map(item -> item.raw.getId()).toArray(), e ->
+			e.getPlayer().startConversation(new CookingD(e.getPlayer(), Cookables.forId(e.getItem().getId()), e.getObject())));
 
 	public enum Cookables {
 		SODA_ASH_1(401, 1781, 1781, 1, 0, 1),

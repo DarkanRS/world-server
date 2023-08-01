@@ -94,9 +94,6 @@ public class Lunars {
 		}
 	});
 
-	private static void handleTuneBanite(Player player, Item item) {
-	}
-
 	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082, e -> {
 		if (e.getPacket() == ClientPacket.IF_OP1)
 			if (e.getPlayer().getTempAttribs().getB("RemoteFarm")) {
@@ -170,6 +167,10 @@ public class Lunars {
 		//				player.getPackets().sendIComponentText(1082, names[i] + 1, "");
 		//			}
 		//		}
+	}
+
+	public static void handleTuneBanite(Player player, Item item) {
+
 	}
 
 	public static void handlePlankMake(Player player, Item item) {

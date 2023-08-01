@@ -1693,27 +1693,8 @@ public final class ObjectHandler {
 					return;
 				player.getInventory().deleteItem(954, 1);
 				player.setKalphiteLairEntrance();
-			} else {
-				if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, true)))
-					return;
-				switch (objectDef.getName().toLowerCase()) {
-					case "anvil" -> {
-						int bar = Smithable.getHighestBar(player);
-						if (bar != -1)
-							ForgingInterface.sendSmithingInterface(player, bar);
-						else
-							player.sendMessage("You can't find a way to smith that.");
-					}
-
-					case "fire" -> {
-						if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))
-							;
-					}
-
-					case "range", "campfire", "oven", "cooking range", "sulphur pit", "stove", "clay oven", "fireplace" ->
-							player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
-				}
-			}
+			} else
+				PluginManager.handle(new ItemOnObjectEvent(player, item, object, true));
 		}));
 	}
 }

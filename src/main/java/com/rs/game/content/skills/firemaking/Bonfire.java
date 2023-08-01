@@ -18,6 +18,8 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
+import com.rs.game.content.skills.cooking.Cooking;
+import com.rs.game.content.skills.cooking.CookingD;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
@@ -30,10 +32,19 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
+@PluginEventHandler
 public class Bonfire extends PlayerAction {
+
+	public static ItemOnObjectHandler logsOnFire = new ItemOnObjectHandler(new Object[] { "Fire" }, Arrays.stream(Log.values()).map(log -> log.logId).toArray(), e -> {
+		if (e.getObject().getDefinitions(e.getPlayer()).containsOption(4, "Add-logs"))
+			Bonfire.addLog(e.getPlayer(), e.getObject(), e.getItem());
+	});
 
 	public static enum Log {
 		LOG(1511, 3098, 1, 50, 6),

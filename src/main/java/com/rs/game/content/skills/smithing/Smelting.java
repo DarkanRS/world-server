@@ -67,6 +67,7 @@ public class Smelting extends PlayerAction {
 
 		private static Map<Integer, SmeltingBar> bars = new HashMap<>();
 		private static Map<Integer, SmeltingBar> forOres = new HashMap<>();
+		private static Map<Integer, SmeltingBar> forBars = new HashMap<>();
 
 		public static SmeltingBar forId(int buttonId) {
 			return bars.get(buttonId);
@@ -96,8 +97,15 @@ public class Smelting extends PlayerAction {
 		}
 
 		static {
-			for (SmeltingBar bar : SmeltingBar.values())
+			for (SmeltingBar bar : SmeltingBar.values()) {
 				bars.put(bar.getButtonId(), bar);
+				forBars.put(bar.getProducedBar().getId(), bar);
+				for (Item item : bar.getItemsRequired()) {
+					if (bar.getProducedBar().getId() == 2353)
+						continue;
+					forOres.put(item.getId(), bar);
+				}
+			}
 
 			for (SmeltingBar bar : SmeltingBar.values())
 				for (Item item : bar.getItemsRequired()) {
@@ -119,6 +127,10 @@ public class Smelting extends PlayerAction {
 			this.itemsRequired = itemsRequired;
 			this.producedBar = producedBar;
 			this.buttonId = buttonId;
+		}
+
+		public static SmeltingBar forBarId(int id) {
+			return forBars.get(id);
 		}
 
 		public Item[] getItemsRequired() {
