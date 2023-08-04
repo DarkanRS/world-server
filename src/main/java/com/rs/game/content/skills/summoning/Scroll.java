@@ -292,6 +292,7 @@ public enum Scroll {
 				owner.sendMessage("You need a woodcutting level of " + type.getLevel() + " to chop down this tree.");
 				return false;
 			}
+			familiar.stopAll();
 			familiar.faceObject(object);
 			familiar.setNextFaceEntity(null);
 			familiar.walkToAndExecute(object.getTile(), () -> familiar.getActionManager().setAction(new Woodcutting(object, type).setLevel(60)));

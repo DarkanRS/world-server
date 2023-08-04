@@ -754,6 +754,7 @@ public final class Skills {
 		refreshEnabledSkillsTargets();
 		refreshUsingLevelTargets();
 		refreshSkillsTargetsValues();
+		refreshSkillTargetStartValues();
 		updateXPDrops();
 	}
 

@@ -39,10 +39,7 @@ import com.rs.plugin.events.ItemAddedToInventoryEvent;
 import com.rs.plugin.events.ItemOnNPCEvent;
 import com.rs.plugin.events.ItemOnPlayerEvent;
 import com.rs.plugin.events.NPCInteractionDistanceEvent;
-import com.rs.plugin.handlers.ButtonClickHandler;
-import com.rs.plugin.handlers.InterfaceOnNPCHandler;
-import com.rs.plugin.handlers.InterfaceOnPlayerHandler;
-import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.plugin.handlers.*;
 import com.rs.utils.ItemConfig;
 
 import java.util.Arrays;
@@ -93,6 +90,22 @@ public final class Inventory {
 			else if (e.getPacket() == ClientPacket.IF_OP10)
 				InventoryOptionsHandler.handleItemOption8(e.getPlayer(), e.getSlotId(), e.getSlotId2(), item);
 		}
+	});
+
+	public static InterfaceOnInterfaceHandler handleItemOnItem = new InterfaceOnInterfaceHandler(INVENTORY_INTERFACE, INVENTORY_INTERFACE, e -> {
+		if (e.getPlayer().getInterfaceManager().containsInventoryInter())
+			return;
+		if (e.getFromSlotId() < 0 || e.getFromSlotId() >= 28 || e.getToSlotId() < 0 || e.getToSlotId() >= 28)
+			return;
+		Item usedWith = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		Item itemUsed = e.getPlayer().getInventory().getItem(e.getFromSlotId());
+		if (itemUsed == null || usedWith == null || itemUsed.getId() != e.getFromSlotId2() || usedWith.getId() != e.getToSlotId2())
+			return;
+		if (e.getFromSlotId() == e.getToSlotId())
+			return;
+		e.getPlayer().stopAll();
+		if (!InventoryOptionsHandler.handleItemOnItem(e.getPlayer(), itemUsed, usedWith, e.getFromSlotId(), e.getToSlotId()))
+			e.getPlayer().sendMessage("Nothing interesting happens.");
 	});
 	
 	public static InterfaceOnPlayerHandler handleItemOnPlayer = new InterfaceOnPlayerHandler(false, new int[] { 679 }, e -> {

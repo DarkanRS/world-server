@@ -427,10 +427,14 @@ public class MiscTest {
 			p.sendMessage("Visualizing chunks: " + p.getNSV().getB("visChunks"));
 		});
 
-		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns an invincible combat test NPC.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns a combat test NPC.", (p, args) -> {
 			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
+			n.setPermName("Losercien (punching bag)");
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
+			n.setForceMultiArea(true);
+			n.setForceMultiAttacked(true);
+			n.anim(10993);
 		});
 
 		Commands.add(Rights.ADMIN, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
@@ -869,7 +873,7 @@ public class MiscTest {
 			p.setNextTile(objs.get(Integer.valueOf(args[1])).getTile());
 		});
 
-		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire (loaded) gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
 			int i = 0;
 			List<NPC> npcs = new ArrayList<>();
 			for (NPC npc : World.getNPCs())

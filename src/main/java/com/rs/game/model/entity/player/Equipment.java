@@ -38,6 +38,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.events.ItemClickEvent;
 import com.rs.plugin.events.ItemEquipEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 import com.rs.utils.ItemConfig;
 
 import java.util.List;
@@ -546,6 +547,14 @@ public final class Equipment {
 			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
 		else if (e.getComponentId() == 11)
 			e.getPlayer().getCombatDefinitions().switchAutoRetaliate();
+	});
+
+	public static InterfaceOnInterfaceHandler handleCompareItem = new InterfaceOnInterfaceHandler(true,670, 667, e -> {
+		Item item1 = e.getFromInterfaceId() == 670 ? e.getPlayer().getInventory().getItem(e.getFromSlotId()) : e.getPlayer().getEquipment().get(e.getFromSlotId());
+		Item item2 = e.getToInterfaceId() == 670 ? e.getPlayer().getInventory().getItem(e.getToSlotId()) : e.getPlayer().getEquipment().get(e.getToSlotId());
+		if (item1 == null || item2 == null || item1 == item2)
+			return;
+		compareItems(e.getPlayer(), item1, item2);
 	});
 
 	public static void compareItems(Player p, Item item1, Item item2) {

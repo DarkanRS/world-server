@@ -27,6 +27,8 @@ public class FamiliarCombatScript extends CombatScript {
 	@Override
 	public final int attack(NPC npc, Entity target) {
 		if (npc instanceof Familiar familiar) {
+			if (familiar.autoScrollMod > 0 && (familiar.attackIndex++ % familiar.autoScrollMod) == 0 && familiar.getSpecialEnergy() >= familiar.getSpecCost())
+				familiar.setSpecActive(true);
 			int spec = familiar.castCombatSpecial(target);
 			if (spec != Familiar.CANCEL_SPECIAL)
 				return spec;

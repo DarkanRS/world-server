@@ -256,9 +256,21 @@ public class Runecrafting {
 				if (player.getPouchesType()[pouch]) {
 					runes += player.getPouches()[pouch];
 					player.getPouches()[pouch] = 0;
-				} else if (!rune.isPureEss()){
+				} else if (!rune.pureEss){
 					runes += player.getPouches()[pouch];
 					player.getPouches()[pouch] = 0;
+				}
+			}
+			switch(player.getFamiliarPouch()) {
+				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+					if (!rune.pureEss) {
+						runes += player.getFamiliar().getInventory().getUsedSlots();
+						player.getFamiliar().getInventory().removeAll(RUNE_ESS);
+						player.getFamiliar().getInventory().removeAll(PURE_ESS);
+					} else {
+						runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+						player.getFamiliar().getInventory().removeAll(PURE_ESS);
+					}
 				}
 			}
 		}

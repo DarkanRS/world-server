@@ -2,12 +2,12 @@
   "names": [
     "Abyssal leech"
   ],
-  "attackAnim": -1,
+  "attackAnim": 2181,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 2182,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 2183,
+  "deathDelay": 3,
   "deathSound": -1,
   "respawnDelay": 59,
   "hitpoints": 100,

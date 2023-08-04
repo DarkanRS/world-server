@@ -160,13 +160,16 @@ public class GE {
 	});
 
 	public static void open(Player player) {
-		player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
+		player.abortDialogue();
 		resetVars(player);
 		if (player.getInterfaceManager().containsInventoryInter())
 			player.getInterfaceManager().removeInventoryInterface();
 		if (!player.getInterfaceManager().topOpen(OFFER_SELECTION))
 			player.getInterfaceManager().sendInterface(OFFER_SELECTION);
-		player.setCloseInterfacesEvent(() -> Familiar.sendLeftClickOption(player));
+		player.setCloseInterfacesEvent(() -> {
+			player.abortDialogue();
+			Familiar.sendLeftClickOption(player);
+		});
 	}
 
 	public static void collectItems(Player player, int box, int slot, boolean noted) {

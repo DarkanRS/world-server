@@ -16,6 +16,9 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.MakeXStatement;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.AchievementTitles;
 import com.rs.game.content.items.liquid_containers.FillAction.Filler;
 import com.rs.game.content.skills.construction.SawmillOperator;
@@ -23,7 +26,9 @@ import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
@@ -32,11 +37,15 @@ import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.util.Utils;
+import com.rs.net.decoders.handlers.impl.interfaces.IFOnIFHandler;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @PluginEventHandler
 public class Lunars {
@@ -77,6 +86,19 @@ public class Lunars {
 				return i;
 		return -1;
 	}
+
+	public static InterfaceOnInterfaceHandler handleLunarOnInventory = new InterfaceOnInterfaceHandler(430, new int[] { 33, 35, 50, 72, 49 }, Inventory.INVENTORY_INTERFACE, null, e -> {
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		switch (e.getFromComponentId()) {
+			case 33 -> handlePlankMake(e.getPlayer(), item);
+			case 35 -> handleTuneBanite(e.getPlayer(), item);
+			case 50 -> handleRestorePotionShare(e.getPlayer(), item);
+			case 72 -> handleLeatherMake(e.getPlayer(), item);
+			case 49 -> handleBoostPotionShare(e.getPlayer(), item);
+		}
+	});
 
 	public static ButtonClickHandler handleRemoteFarmButtons = new ButtonClickHandler(1082, e -> {
 		if (e.getPacket() == ClientPacket.IF_OP1)
@@ -152,6 +174,50 @@ public class Lunars {
 		//			}
 		//		}
 	}
+
+	private static final Set<Integer> DRAGON_ITEMS = new IntOpenHashSet(new int[] { 534, 536, 243, 1753, 1751, 1749, 1747, 24372, 7980, 7987, 8265 });
+	private static final Set<Integer> ABYSSAL_ITEMS = new IntOpenHashSet(new int[] { 7979, 7986, 8264 });
+	private static final Set<Integer> WALLASALKI_ITEMS = new IntOpenHashSet(new int[] { 6163, 6165, 6167 });
+	private static final Set<Integer> BASILISK_ITEMS = new IntOpenHashSet(new int[] { 7977, 7984, 8262 });
+
+	public static void handleTuneBanite(Player player, Item item) {
+		if (!player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, "to tune banite ores."))
+			return;
+		if (!player.canCastSpell() || !Magic.checkMagicAndRunes(player, 87, false, new RuneSet(Rune.ASTRAL, 2, Rune.EARTH, 4)))
+			return;
+		if (!player.getInventory().containsItem(21778)) {
+			player.sendMessage("You need some banite ore to cast this spell.");
+			return;
+		}
+		int targetOre;
+		if (DRAGON_ITEMS.contains(item.getId()))
+			targetOre = 21779;
+		else if (ABYSSAL_ITEMS.contains(item.getId()))
+			targetOre = 21782;
+		else if (WALLASALKI_ITEMS.contains(item.getId()))
+			targetOre = 21780;
+		else if (BASILISK_ITEMS.contains(item.getId()))
+			targetOre = 21781;
+		else
+			targetOre = -1;
+		if (targetOre == -1) {
+			player.sendMessage("The spell fails to react with the targeted item.");
+			return;
+		}
+		player.stopAll(false, false, true);
+		player.startConversation(new Dialogue().addMakeX(targetOre, player.getInventory().getNumberOf(21778)).addNext(() -> {
+			for (int i = 0;i < MakeXStatement.getQuantity(player);i++) {
+				if (!player.getInventory().containsItem(21778) || !Magic.checkMagicAndRunes(player, 87, true, new RuneSet(Rune.ASTRAL, 2, Rune.EARTH, 4)))
+					return;
+				player.sync(11706, 1344);
+				player.getSkills().addXp(Skills.MAGIC, 90);
+				player.getInventory().deleteItem(21778, 1);
+				player.getInventory().addItem(targetOre, 1);
+			}
+		}));
+	}
+
+	//spotanim 1320 disruption shield
 
 	public static void handlePlankMake(Player player, Item item) {
 		player.getInterfaceManager().openTab(Sub.TAB_MAGIC);

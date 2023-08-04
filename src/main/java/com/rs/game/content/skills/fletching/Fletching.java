@@ -130,6 +130,10 @@ public class Fletching extends PlayerAction {
 		BROAD_BOLTS(13279, 314, new int[] { 13280 }, new int[] { 55 }, new double[] { 3 }, new Animation(-1)),
 
 		BROAD_ARROW(13278, 53, new int[] { 4160 }, new int[] { 52 }, new double[] { 15 }, new Animation(-1)),
+		DRAGONBANE_ARROW(21823, 53, new int[] { 21640 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		ABYSSALBANE_ARROW(21838, 53, new int[] { 21655 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		WALLASALKIBANE_ARROW(21828, 53, new int[] { 21645 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
+		BASILISKBANE_ARROW(21833, 53, new int[] { 21650 }, new int[] { 76 }, new double[] { 12.5 }, new Animation(-1)),
 
 		/**
 		 * Bolts
@@ -145,6 +149,10 @@ public class Fletching extends PlayerAction {
 		ADAMANT_BOLT(9380, 314, new int[] { 9143 }, new int[] { 61 }, new double[] { 7 }, new Animation(-1)),
 
 		RUNITE_BOLT(9381, 314, new int[] { 9144 }, new int[] { 69 }, new double[] { 10 }, new Animation(-1)),
+		DRAGONBANE_BOLT(21843, 314, new int[] { 21660 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		ABYSSALBANE_BOLT(21858, 314, new int[] { 21675 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		WALLASALKIBANE_BOLT(21853, 314, new int[] { 21665 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
+		BASILISKBANE_BOLT(21848, 314, new int[] { 21670 }, new int[] { 80 }, new double[] { 7 }, new Animation(-1)),
 
 		OPAL_BOLTS(45, 877, new int[] { 879 }, new int[] { 11 }, new double[] { 1.6 }, new Animation(-1)),
 

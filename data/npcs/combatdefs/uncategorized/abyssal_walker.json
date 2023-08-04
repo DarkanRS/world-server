@@ -1,24 +1,24 @@
 {
   "names": [
-    "Abyssal guardian"
+    "Abyssal walker"
   ],
-  "attackAnim": -1,
+  "attackAnim": 2192,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 2193,
   "defendSound": -1,
-  "deathAnim": -1,
-  "deathDelay": 6,
+  "deathAnim": 2194,
+  "deathDelay": 3,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 500,
-  "maxHit": 111,
+  "hitpoints": 950,
+  "maxHit": 131,
   "attackStyle": "MELEE",
-  "attackBonus": "STAB_ATT",
+  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 30,
+    "ATTACK": 5,
     "RANGE": 1,
-    "STRENGTH": 90,
-    "DEFENSE": 30,
+    "STRENGTH": 100,
+    "DEFENSE": 95,
     "MAGE": 1
   },
   "attackRange": -1,

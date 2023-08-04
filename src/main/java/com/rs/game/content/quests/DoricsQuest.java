@@ -212,6 +212,6 @@ public class DoricsQuest extends QuestOutline {
 		if (!e.getPlayer().isQuestComplete(Quest.DORICS_QUEST))
 			e.getPlayer().startConversation(new DoricD(e.getPlayer()));
 		else if (e.getObject().getDefinitions().containsOption(0, "Smith"))
-			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer());
+			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
 	});
 }

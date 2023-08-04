@@ -149,6 +149,13 @@ public final class ItemsContainer<T extends Item> {
 					data[i] = null;
 	}
 
+	public void removeAll(int item) {
+		for (int i = 0; i < data.length; i++)
+			if (data[i] != null)
+				if (data[i].getId() == item)
+					data[i] = null;
+	}
+
 	public boolean containsOne(T item) {
 		for (Item aData : data)
 			if (aData != null)

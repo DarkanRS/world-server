@@ -29,6 +29,7 @@ import com.rs.game.model.entity.actions.EntityFollow;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Equipment;
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.item.ItemsContainer;
@@ -43,6 +44,7 @@ import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
@@ -56,11 +58,13 @@ public final class Familiar extends NPC {
 	private transient Player owner;
 	private transient boolean finished = false;
 	private transient int forageTicks = 0;
+	public transient int attackIndex;
 	
 	private int ticks;
 	private int specialEnergy;
 	private boolean specOn = false;
 	private boolean trackDrain;
+	public int autoScrollMod = 0;
 	private ItemsContainer<Item> inv;
 	private Pouch pouch;
 	private GenericAttribMap attribs = new GenericAttribMap();
@@ -126,6 +130,17 @@ public final class Familiar extends NPC {
 				e.getPlayer().sendInputInteger("Enter Amount:", num -> e.getPlayer().getFamiliar().removeItem(e.getSlotId(), num));
 		} else if (e.getComponentId() == 29)
 			e.getPlayer().getFamiliar().takeInventory();
+	});
+
+	public static InterfaceOnInterfaceHandler orbOnInventory = new InterfaceOnInterfaceHandler(747, Inventory.INVENTORY_INTERFACE, e -> {
+		if (e.getPlayer().getFamiliar() == null)
+			return;
+
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		item.setSlot(e.getToSlotId());
+		e.getPlayer().getFamiliar().castSpecial(item);
 	});
 	
 	public static NPCClickHandler handleStore = new NPCClickHandler(Pouch.getAllNPCKeysWithInventory(), new String[] { "Store", "Take", "Withdraw" }, e -> {
@@ -797,6 +812,11 @@ public final class Familiar extends NPC {
 		owner.startConversation(new Dialogue().addOptions("What would you like to do?", ops -> {
 			if (inv != null)
 				ops.add("Open Familiar Inventory", () -> openInventory());
+			if (pouch.getScroll().getTarget() == ScrollTarget.COMBAT)
+				ops.add("Setup scroll auto-fire", () -> owner.sendInputInteger("How many attacks would you like your familiar to automatically cast specials?<br>Setting this value to 0 will turn it off.", i -> {
+					autoScrollMod = i;
+					owner.sendMessage("Your familiar will now automatically try to use a scroll every " + i + " attacks.");
+				}));
 			ops.add("Talk-to", Interactions.getTalkToDialogue(owner, this));
 			Interactions.addExtraOps(owner, ops, this);
 		}));

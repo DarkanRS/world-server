@@ -21,15 +21,29 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.skills.smithing.Smelting.SmeltingBar;
 import com.rs.game.model.entity.player.Equipment;
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 
+@PluginEventHandler
 public class Alchemy {
 
+	public static InterfaceOnInterfaceHandler handleAlchSuperheat = new InterfaceOnInterfaceHandler(192, new int[] { 38, 50, 59 }, Inventory.INVENTORY_INTERFACE, null, e -> {
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		switch(e.getFromComponentId()) {
+			case 38 -> handleAlchemy(e.getPlayer(), item, true, true);
+			case 50 -> handleSuperheat(e.getPlayer(), item, true);
+			case 59 -> handleAlchemy(e.getPlayer(), item, false, true);
+		}
+	});
 
 	public static boolean handleSuperheat(Player player, Item item, boolean useRunes) {
 		if (useRunes)

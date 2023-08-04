@@ -16,18 +16,36 @@
 //
 package com.rs.game.content.skills.smithing;
 
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.skills.smithing.ForgingInterface.Slot;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+@PluginEventHandler
 public class Smithing extends PlayerAction {
+
+	public static ItemOnObjectHandler barsOnAnvil = new ItemOnObjectHandler(new Object[] { "Anvil" }, Arrays.stream(Smelting.SmeltingBar.values()).map(bar -> bar.getProducedBar().getId()).toArray(), e -> {
+		if (e.getObject().getDefinitions(e.getPlayer()).containsOption("Smith"))
+			ForgingInterface.sendSmithingInterface(e.getPlayer(), e.getObject(), e.getItem().getId());
+	});
+
+	public static ObjectClickHandler smithAnvil = new ObjectClickHandler(new Object[] { "Anvil", "Kethsian anvil" }, e -> {
+		if (e.getOption().equals("Smith"))
+			ForgingInterface.openSmithingInterfaceForHighestBar(e.getPlayer(), e.getObject());
+	});
 	
 	public enum Smithable {
 		BRONZE_ARROWHEADS(Slot.ARROW_TIPS, new Item(39, 15), 5, 12.5, new Item(2349, 1)),
@@ -188,7 +206,16 @@ public class Smithing extends PlayerAction {
 		MITHRIL_LIMBS(Slot.CROSSBOW_LIMBS, 9427, 56, 50.0, new Item(2359, 1)),
 		ADAMANTITE_LIMBS(Slot.CROSSBOW_LIMBS, 9429, 76, 62.5, new Item(2361, 1)),
 		RUNITE_LIMBS(Slot.CROSSBOW_LIMBS, 9431, 91, 75.0, new Item(2363, 1)),
-		BLURITE_SWORD(Slot.SWORD, 667, 8, 17.5, new Item(9467, 1));
+		BLURITE_SWORD(Slot.SWORD, 667, 8, 17.5, new Item(9467, 1)),
+		DRAGONBANE_ARROWTIPS(Slot.ARROW_TIPS, new Item(21823, 50), 80, 62.5, new Item(21783, 1)),
+		WALLASALKIBANE_ARROWTIPS(Slot.ARROW_TIPS, new Item(21828, 50), 80, 62.5, new Item(21784, 1)),
+		BASILISKBANE_ARROWTIPS(Slot.ARROW_TIPS, new Item(21833, 50), 80, 62.5, new Item(21785, 1)),
+		ABYSSALBANE_ARROWTIPS(Slot.ARROW_TIPS, new Item(21838, 50), 80, 62.5, new Item(21786, 1)),
+		DRAGONBANE_BOLTS(Slot.CROSSBOW_BOLTS, new Item(21843, 50), 80, 62.5, new Item(21783, 1)),
+		WALLASALKIBANE_BOLTS(Slot.CROSSBOW_BOLTS, new Item(21853, 50), 80, 62.5, new Item(21784, 1)),
+		BASILISKBANE_BOLTS(Slot.CROSSBOW_BOLTS, new Item(21848, 50), 80, 62.5, new Item(21785, 1)),
+		ABYSSALBANE_BOLTS(Slot.CROSSBOW_BOLTS, new Item(21858, 50), 80, 62.5, new Item(21786, 1)),
+		;
 		
 		private static Map<Integer, Map<Slot, Smithable>> BAR_MAP = new HashMap<>();
 		
@@ -202,7 +229,7 @@ public class Smithing extends PlayerAction {
 				BAR_MAP.put(s.bar.getId(), map);
 			}
 		}
-		
+
 		public Slot slot;
 		public Item product, bar;
 		public int level;
@@ -245,12 +272,14 @@ public class Smithing extends PlayerAction {
 	}
 
 	public static final int HAMMER = 2347, DUNG_HAMMER = 17883;
+	private GameObject anvil;
 	private Smithable item;
 	private int ticks;
 
-	public Smithing(int ticks, Smithable item) {
+	public Smithing(int ticks, Smithable item, GameObject anvil) {
 		this.ticks = ticks;
 		this.item = item;
+		this.anvil = anvil;
 	}
 
 	@Override
@@ -304,6 +333,16 @@ public class Smithing extends PlayerAction {
 		if (player.getSkills().getLevel(Constants.SMITHING) < item.level) {
 			player.sendMessage("You need a Smithing level of " + item.level + " to create this.");
 			return false;
+		}
+		switch(item.bar.getId()) {
+			case 21783, 21784, 21785, 21786 -> {
+				if (!player.isQuestComplete(Quest.RITUAL_OF_MAHJARRAT, "to smith banite equipment."))
+					return false;
+				if (anvil.getId() != 6648) {
+					player.sendMessage("You can't figure out a way to work that metal on this anvil.");
+					return false;
+				}
+			}
 		}
 		return true;
 	}

@@ -1329,25 +1329,6 @@ public final class ObjectHandler {
 							slashWeb(player, object);
 						}
 						break;
-					case "anvil":
-						if (objectDef.containsOption(0, "Smith"))
-							ForgingInterface.openSmithingInterfaceForHighestBar(player);
-						break;
-					//					case "gate":
-					//					case "large door":
-					//					case "metal door":
-					//					case "city gate":
-					//						if (object.getType() == 0 && objectDef.containsOption(0, "Open"))
-					//							if (!handleGate(player, object))
-					//								handleDoor(player, object);
-					//						break;
-					//					case "door":
-					//					case "long hall door":
-					//					case "castle door":
-					//					case "heavy door":
-					//						if (object.getType() == 0 && (objectDef.containsOption(0, "Open") || objectDef.containsOption(0, "Unlock")))
-					//							handleDoor(player, object);
-					//						break;
 					case "ladder":
 						handleLadder(player, object, 1);
 						break;
@@ -1693,27 +1674,8 @@ public final class ObjectHandler {
 					return;
 				player.getInventory().deleteItem(954, 1);
 				player.setKalphiteLairEntrance();
-			} else {
-				if (PluginManager.handle(new ItemOnObjectEvent(player, item, object, true)))
-					return;
-				switch (objectDef.getName().toLowerCase()) {
-					case "anvil" -> {
-						int bar = Smithable.getHighestBar(player);
-						if (bar != -1)
-							ForgingInterface.sendSmithingInterface(player, bar);
-						else
-							player.sendMessage("You can't find a way to smith that.");
-					}
-
-					case "fire" -> {
-						if (objectDef.containsOption(4, "Add-logs") && Bonfire.addLog(player, object, item))
-							;
-					}
-
-					case "range", "campfire", "oven", "cooking range", "sulphur pit", "stove", "clay oven", "fireplace" ->
-							player.startConversation(new CookingD(player, Cookables.forId(item.getId()), object));
-				}
-			}
+			} else
+				PluginManager.handle(new ItemOnObjectEvent(player, item, object, true));
 		}));
 	}
 }

@@ -89,14 +89,26 @@ public class CharmDrop {
 	}
 
 	public static DropTable getCharmDrop(String npcName) {
-		int[] chances = charmDrops.get(npcName.toLowerCase().replace(" ", "_"));
+		String lowerName = npcName.toLowerCase();
+		int[] chances = charmDrops.get(lowerName.replace(" ", "_"));
 		if (chances == null)
 			return null;
 		int charmIndex = getCharmType(chances);
-		int amount = getCharmAmount(npcName.toLowerCase());
+		int amount = getCharmAmount(lowerName);
 
-		if (charmIndex == -1)
+		if (charmIndex == -1) {
+			switch(lowerName) {
+				case "abyssal walker" -> {
+					if (Utils.random(4) == 0)
+						return new DropTable(0, 0, 12161, 2, 2);
+				}
+				case "abyssal guardian", "abyssal leech" -> {
+					if (Utils.random(4) == 0)
+						return new DropTable(0, 0, 12161, 1, 1);
+				}
+			}
 			return null;
+		}
 
 		DropTable charm = new DropTable(0, 0, ItemConstants.CHARM_IDS[charmIndex], amount, amount);
 		return charm;

@@ -16,16 +16,20 @@
 //
 package com.rs.game.content.skills.magic;
 
+import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.InterfaceOnInterfaceHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@PluginEventHandler
 public class Enchanting {
 
 	public enum Sapphire {
@@ -219,6 +223,13 @@ public class Enchanting {
 			return enchanted;
 		}
 	}
+
+	public static InterfaceOnInterfaceHandler handleEnchantSpells = new InterfaceOnInterfaceHandler(192, new int[] { 29, 41, 53, 61, 76, 88 }, Inventory.INVENTORY_INTERFACE, null, e -> {
+		Item item = e.getPlayer().getInventory().getItem(e.getToSlotId());
+		if (item == null)
+			return;
+		handleEnchanting(e.getPlayer(), item, e.getFromComponentId());
+	});
 
 	public static void handleEnchanting(Player player, Item item, int comp1) {
 		player.getInterfaceManager().openTab(Sub.TAB_MAGIC);

@@ -109,7 +109,10 @@ public class Bank {
 		} else if (e.getComponentId() == 46) {
 			e.getPlayer().closeInterfaces();
 			e.getPlayer().getInterfaceManager().sendInterface(767);
-			e.getPlayer().setCloseInterfacesEvent(() -> e.getPlayer().getBank().open());
+			e.getPlayer().setCloseInterfacesEvent(() -> {
+				e.getPlayer().getBank().open();
+				e.getPlayer().abortDialogue();
+			});
 		} else if (e.getComponentId() >= 46 && e.getComponentId() <= 64) {
 			int tabId = 9 - ((e.getComponentId() - 46) / 2);
 			if (e.getPacket() == ClientPacket.IF_OP1)
@@ -413,7 +416,7 @@ public class Bank {
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
-			player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
+			player.abortDialogue();
 			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
 			player.getTempAttribs().setB("viewingDepositBox", false);
@@ -582,7 +585,7 @@ public class Bank {
 		sendItems();
 		refreshItems();
 		player.setCloseInterfacesEvent(() -> {
-			player.getSession().writeToQueue(ServerPacket.TRIGGER_ONDIALOGABORT);
+			player.abortDialogue();
 			Familiar.sendLeftClickOption(player);
 		});
 	}
@@ -599,6 +602,7 @@ public class Bank {
 		player.getPackets().sendItems(94, other.getEquipment().getItemsCopy());
 		player.getTempAttribs().setB("viewingOtherBank", true);
 		player.setCloseInterfacesEvent(() -> {
+			player.abortDialogue();
 			player.getInventory().refresh();
 			player.getEquipment().refresh();
 			Familiar.sendLeftClickOption(player);

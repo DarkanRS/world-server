@@ -16,42 +16,34 @@ public class BarbarianVillageNPC {
     private static final int LITARA = 4376;
     private static final int TASSIE_SLIPCAST = 1793;
 
-    public static NPCClickHandler HandleBarbarians = new NPCClickHandler(new Object[]{3246, 3247, 3248, 3249, 3250, 3251, 3252, 3253, 3255, 3256, 3257, 3258, 3259, 3260, 3261, 3262, 3263}, e -> {
-        switch (e.getOption()) {
-            case "Talk-to" -> {
-                String[] responses = new String[]{
-                        "Ah, you come for fight, ja?!",
-                        "You look funny!",
-                        "Wanna fight?",
-                        "Grrr!",
-                        "What you want?",
-                        "Go Away!"
-                };
-                e.getPlayer().startConversation(new Dialogue()
-                        .addNPC(e.getNPCId(), HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                        .addNext(() -> e.getNPC().setTarget(e.getPlayer())
-                        ));
-            }
-        }
+    public static NPCClickHandler talkToBarbarians = new NPCClickHandler(new Object[]{3246, 3247, 3248, 3249, 3250, 3251, 3252, 3253, 3255, 3256, 3257, 3258, 3259, 3260, 3261, 3262, 3263}, new String[] { "Talk-to" }, e -> {
+        String[] responses = new String[]{
+                "Ah, you come for fight, ja?!",
+                "You look funny!",
+                "Wanna fight?",
+                "Grrr!",
+                "What you want?",
+                "Go Away!"
+        };
+        e.getPlayer().startConversation(new Dialogue()
+                .addNPC(e.getNPCId(), HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
+                .addNext(() -> e.getNPC().setTarget(e.getPlayer())
+                ));
     });
 
-    public static NPCClickHandler HandleGunthor = new NPCClickHandler(new Object[]{ CHEIFTAIN_GUNTHOR }, e -> {
-        switch (e.getOption()) {
-            case "Talk-to" -> {
-                String[] responses = new String[]{
-                        "Ah, you've come for fight!",
-                        "You look funny!",
-                        "Wanna fight?",
-                        "Grrr!",
-                        "What you want?",
-                        "Go Away!"
-                };
-                e.getPlayer().startConversation(new Dialogue()
-                        .addNPC(CHEIFTAIN_GUNTHOR, HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
-                                        .addNext(() -> e.getNPC().setTarget(e.getPlayer())
+    public static NPCClickHandler talkToGunthor = new NPCClickHandler(new Object[]{ CHEIFTAIN_GUNTHOR }, new String[] { "Talk-to" }, e -> {
+        String[] responses = new String[]{
+                "Ah, you've come for fight!",
+                "You look funny!",
+                "Wanna fight?",
+                "Grrr!",
+                "What you want?",
+                "Go Away!"
+        };
+        e.getPlayer().startConversation(new Dialogue()
+                .addNPC(CHEIFTAIN_GUNTHOR, HeadE.VERY_FRUSTRATED, responses[(Utils.random(1,6))])
+                .addNext(() -> e.getNPC().setTarget(e.getPlayer())
                 ));
-            }
-        }
     });
 
 
@@ -115,37 +107,33 @@ public class BarbarianVillageNPC {
         }
     });
 
-    public static NPCClickHandler HandleHaakon = new NPCClickHandler(new Object[]{ HAAKON }, e -> {
-        switch (e.getOption()) {
-            case "Talk-to" -> {
-                if (!Quest.GUNNARS_GROUND.isImplemented() || !e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND))
-                    e.getPlayer().startConversation(new Dialogue()
-                            .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
-                            .addOptions(ops -> {
-                                ops.add("I challenge you!")
-                                        .addNPC(HAAKON, HeadE.EVIL_LAUGH, "Make peace with your god, outerlander!")
-                                        .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+    public static NPCClickHandler talkToHaakon = new NPCClickHandler(new Object[]{ HAAKON }, new String[] { "Talk-to" }, e -> {
+        if (!Quest.GUNNARS_GROUND.isImplemented() || !e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND))
+            e.getPlayer().startConversation(new Dialogue()
+                    .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
+                    .addOptions(ops -> {
+                        ops.add("I challenge you!")
+                                .addNPC(HAAKON, HeadE.EVIL_LAUGH, "Make peace with your god, outerlander!")
+                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
 
-                                ops.add("Er, no.")
-                                        .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
-                            }));
-                if (Quest.GUNNARS_GROUND.isImplemented() && e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND)) {
-                    e.getPlayer().startConversation(new Dialogue()
-                            .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
-                            .addOptions(ops -> {
-                                ops.add("I challenge you!")
-                                        .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
-                                        .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
+                        ops.add("Er, no.")
+                                .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
+                    }));
+        if (Quest.GUNNARS_GROUND.isImplemented() && e.getPlayer().getQuestManager().isComplete(Quest.GUNNARS_GROUND)) {
+            e.getPlayer().startConversation(new Dialogue()
+                    .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
+                    .addOptions(ops -> {
+                        ops.add("I challenge you!")
+                                .addNPC(HAAKON, HeadE.EVIL_LAUGH, "I am Haakon, champion of this village. Do you seek to challenge me?")
+                                .addNext(() -> e.getNPC().setTarget(e.getPlayer()));
 
-                                ops.add("Are you glad the village has settled finally?")
-                                        .addPlayer(HeadE.SHAKING_HEAD, "I do as my chieftain commands. I respect his wisdom.");
+                        ops.add("Are you glad the village has settled finally?")
+                                .addPlayer(HeadE.SHAKING_HEAD, "I do as my chieftain commands. I respect his wisdom.");
 
-                                ops.add("Er, no.")
-                                        .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
-                            })
-                    );
-                }
-            }
+                        ops.add("Er, no.")
+                                .addPlayer(HeadE.SHAKING_HEAD, "Er, no.");
+                    })
+            );
         }
     });
 
