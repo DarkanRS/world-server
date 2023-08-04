@@ -32,6 +32,8 @@ import java.util.stream.Stream;
 @PluginEventHandler
 public class ItemForging {
 
+	//TODO spotanim 2123 sparks off anvil
+
 	private enum ForgeableItem {
 		GODSWORD_S1_S2(11710, 11712, 11686, player -> {
 			if (player.getSkills().getLevel(Skills.SMITHING) < 80) {

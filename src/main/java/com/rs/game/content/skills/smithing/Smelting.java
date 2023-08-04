@@ -56,13 +56,13 @@ public class Smelting extends PlayerAction {
 
 		RUNE(85, 50, new Item[] { new Item(451), new Item(453, 8) }, new Item(2363), 8),
 
-		//		DRAGONBANE(80, 50, new Item[] { new Item(21779) }, new Item(21783, 1), 9),
-		//
-		//		WALLASALKIBANE(80, 50, new Item[] { new Item(21780) }, new Item(21784, 1), 10),
-		//
-		//		BASILISKBANE(80, 50, new Item[] { new Item(21781) }, new Item(21785, 1), 11),
-		//
-		//		ABYSSSALBANE(80, 50, new Item[] { new Item(21782) }, new Item(21786, 1), 12)
+		DRAGONBANE(80, 50, new Item[]{new Item(21779)}, new Item(21783, 1), 9),
+
+		WALLASALKIBANE(80, 50, new Item[]{new Item(21780)}, new Item(21784, 1), 10),
+
+		BASILISKBANE(80, 50, new Item[]{new Item(21781)}, new Item(21785, 1), 11),
+
+		ABYSSSALBANE(80, 50, new Item[]{new Item(21782)}, new Item(21786, 1), 12)
 		;
 
 		private static Map<Integer, SmeltingBar> bars = new HashMap<>();

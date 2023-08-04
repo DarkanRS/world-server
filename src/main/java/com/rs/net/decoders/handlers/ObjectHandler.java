@@ -1329,25 +1329,6 @@ public final class ObjectHandler {
 							slashWeb(player, object);
 						}
 						break;
-					case "anvil":
-						if (objectDef.containsOption(0, "Smith"))
-							ForgingInterface.openSmithingInterfaceForHighestBar(player);
-						break;
-					//					case "gate":
-					//					case "large door":
-					//					case "metal door":
-					//					case "city gate":
-					//						if (object.getType() == 0 && objectDef.containsOption(0, "Open"))
-					//							if (!handleGate(player, object))
-					//								handleDoor(player, object);
-					//						break;
-					//					case "door":
-					//					case "long hall door":
-					//					case "castle door":
-					//					case "heavy door":
-					//						if (object.getType() == 0 && (objectDef.containsOption(0, "Open") || objectDef.containsOption(0, "Unlock")))
-					//							handleDoor(player, object);
-					//						break;
 					case "ladder":
 						handleLadder(player, object, 1);
 						break;

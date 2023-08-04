@@ -982,7 +982,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 				RangedWeapon weapon = RangedWeapon.forId(weaponId);
 				AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
-				if (ranging && weapon != null && weapon.getAmmos().contains(ammo)) {
+				if (ranging && weapon != null && weapon.getAmmos() != null && weapon.getAmmos().contains(ammo)) {
 					switch(ammo) {
 						case DRAGONBANE_ARROW, DRAGONBANE_BOLT -> {
 							if (n.getName().toLowerCase().contains("dragon")) {

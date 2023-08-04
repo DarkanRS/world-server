@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.game.content.skills.smithing.Smithing.Smithable;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -89,6 +90,7 @@ public class ForgingInterface {
 
 	public static ButtonClickHandler handleSmithButtons = new ButtonClickHandler(SMITHING_INTERFACE, e -> {
 		int barId = e.getPlayer().getTempAttribs().getI("SmithingBar");
+		GameObject anvil = e.getPlayer().getTempAttribs().getO("SmithingAnvil");
 		Slot slot = Slot.forId(e.getComponentId());
 		if (slot == null)
 			return;
@@ -103,9 +105,9 @@ public class ForgingInterface {
 		default -> 1;
 		};
 		if (makeX < 0)
-			e.getPlayer().sendInputInteger("How many would you like to make?", amount -> e.getPlayer().getActionManager().setAction(new Smithing(amount, items.get(slot))));
+			e.getPlayer().sendInputInteger("How many would you like to make?", amount -> e.getPlayer().getActionManager().setAction(new Smithing(amount, items.get(slot), anvil)));
 		else
-			e.getPlayer().getActionManager().setAction(new Smithing(makeX, items.get(slot)));
+			e.getPlayer().getActionManager().setAction(new Smithing(makeX, items.get(slot), anvil));
 	});
 
 	public static String[] getStrings(Player player, Smithable item) {
@@ -122,16 +124,17 @@ public class ForgingInterface {
 		return new String[] { levelString.toString(), barName.toString() };
 	}
 	
-	public static void openSmithingInterfaceForHighestBar(Player player) {
+	public static void openSmithingInterfaceForHighestBar(Player player, GameObject object) {
 		int bar = Smithable.getHighestBar(player);
 		if (bar != -1)
-			sendSmithingInterface(player, bar);
+			sendSmithingInterface(player, object, bar);
 		else
 			player.sendMessage("You have no bars which you have smithing level to use.");
 	}
 
-	public static void sendSmithingInterface(Player player, int barId) {
+	public static void sendSmithingInterface(Player player, GameObject object, int barId) {
 		player.getTempAttribs().setI("SmithingBar", barId);
+		player.getTempAttribs().setO("SmithingAnvil", object);
 		Map<Slot, Smithable> items = Smithable.forBar(barId);
 		for (Slot slot : Slot.values()) {
 			Smithable item = items.get(slot);
