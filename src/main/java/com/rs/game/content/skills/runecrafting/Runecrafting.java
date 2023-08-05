@@ -533,9 +533,7 @@ public class Runecrafting {
 		if (e.getObject().getId() == 26847)
 			Runecrafting.craftZMIAltar(e.getPlayer());
 		else if (rune != null)
-			return;
-
-		Runecrafting.runecraft(e.getPlayer(), rune);
+			Runecrafting.runecraft(e.getPlayer(), rune);
 	});
 
 	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
