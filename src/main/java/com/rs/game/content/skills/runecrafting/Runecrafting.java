@@ -19,14 +19,18 @@ package com.rs.game.content.skills.runecrafting;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.drop.DropSet;
@@ -196,6 +200,36 @@ public class Runecrafting {
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
+
+		for (Item i : player.getInventory().getItems().array()) {
+			if (i == null)
+				continue;
+
+			int pouch = switch (i.getId()) {
+				case 5509 -> 0;
+				case 5510 -> 1;
+				case 5512 -> 2;
+				case 5514 -> 3;
+				default -> -1;
+			};
+
+			if (pouch == -1)
+				continue;
+
+			if (player.getPouchesType()[pouch] == true) { //only grab pure ess for ZMI altar
+				runes += player.getPouches()[pouch];
+				player.getPouches()[pouch] = 0;
+			}
+		}
+		if (player.getFamiliarPouch() != null) {
+			switch (player.getFamiliarPouch()) {
+				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+					runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+					player.getFamiliar().getInventory().removeAll(PURE_ESS);
+				}
+			}
+		}
+
 		for (int i = 0; i < RCRune.values().length; i++) {
 			if (RCRune.values()[i].req > level)
 				break;
@@ -261,15 +295,17 @@ public class Runecrafting {
 					player.getPouches()[pouch] = 0;
 				}
 			}
-			switch(player.getFamiliarPouch()) {
-				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
-					if (!rune.pureEss) {
-						runes += player.getFamiliar().getInventory().getUsedSlots();
-						player.getFamiliar().getInventory().removeAll(RUNE_ESS);
-						player.getFamiliar().getInventory().removeAll(PURE_ESS);
-					} else {
-						runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
-						player.getFamiliar().getInventory().removeAll(PURE_ESS);
+			if (player.getFamiliarPouch() != null) {
+				switch (player.getFamiliarPouch()) {
+					case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+						if (!rune.pureEss) {
+							runes += player.getFamiliar().getInventory().getUsedSlots();
+							player.getFamiliar().getInventory().removeAll(RUNE_ESS);
+							player.getFamiliar().getInventory().removeAll(PURE_ESS);
+						} else {
+							runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+							player.getFamiliar().getInventory().removeAll(PURE_ESS);
+						}
 					}
 				}
 			}
@@ -351,20 +387,21 @@ public class Runecrafting {
 		return false;
 	}
 
-	public static void locate(Player p, int xPos, int yPos) {
-		String x = "";
-		String y = "";
-		int absX = p.getX();
-		int absY = p.getY();
-		if (absX >= xPos)
-			x = "west";
-		if (absY > yPos)
-			y = "south";
-		if (absX < xPos)
-			x = "east";
-		if (absY <= yPos)
-			y = "north";
-		p.sendMessage("The talisman pulls towards " + y + "-" + x + ".", false);
+	public static void locate(Player p, int ruinsXPos, int ruinsYPos) {
+		String direction = "";
+		int playerXPos = p.getX();
+		int playerYPos = p.getY();
+
+		if (playerXPos < ruinsXPos && playerYPos < ruinsYPos) { direction = "north-east"; }
+		if (playerXPos < ruinsXPos && playerYPos == ruinsYPos) { direction = "east"; }
+		if (playerXPos < ruinsXPos && playerYPos > ruinsYPos) { direction = "south-east"; }
+		if (playerXPos == ruinsXPos && playerYPos > ruinsYPos) { direction = "south"; }
+		if (playerXPos > ruinsXPos && playerYPos > ruinsYPos) { direction = "south-west"; }
+		if (playerXPos > ruinsXPos && playerYPos == ruinsYPos) { direction = "west"; }
+		if (playerXPos > ruinsXPos && playerYPos < ruinsYPos) { direction = "north-west"; }
+		if (playerXPos == ruinsXPos && playerYPos < ruinsYPos) { direction = "north"; }
+
+		p.sendMessage("The talisman pulls towards the " + direction + ".", false);
 	}
 
 	public static void checkPouch(Player p, int i) {
@@ -468,4 +505,46 @@ public class Runecrafting {
 			return;
 		}
 	}
+
+	public static ObjectClickHandler handleCraftOnAltar = new ObjectClickHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 17010, 30624, 26847 }, e -> {
+		RCRune rune = switch (e.getObjectId()) {
+			case 2478 -> RCRune.AIR;
+			case 2479 -> RCRune.MIND;
+			case 2480 -> RCRune.WATER;
+			case 2481 -> RCRune.EARTH;
+			case 2482 -> RCRune.FIRE;
+			case 2483 -> RCRune.BODY;
+			case 2484 -> RCRune.COSMIC;
+			case 2485 -> RCRune.LAW;
+			case 2486 -> RCRune.NATURE;
+			case 2487 -> RCRune.CHAOS;
+			case 2488 -> RCRune.DEATH;
+			case 17010 -> RCRune.ASTRAL;
+			case 30624 -> RCRune.BLOOD;
+			default -> null;
+		};
+
+		if (e.getObject().getId() == 26847)
+			Runecrafting.craftZMIAltar(e.getPlayer());
+		else if (rune == null)
+			return;
+
+		Runecrafting.runecraft(e.getPlayer(), rune);
+	});
+
+	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
+		e.getPlayer().setNextAnimation(new Animation(828));
+		switch (e.getObjectId()) {
+			case 26849 -> { WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() { e.getPlayer().setNextTile(Tile.of(3271, 4861, 0));
+				}
+			}, 1); }
+			case 26850 -> { WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() { e.getPlayer().setNextTile(Tile.of(2452, 3232, 0));
+				}
+			}, 1); }
+		};
+	});
 }

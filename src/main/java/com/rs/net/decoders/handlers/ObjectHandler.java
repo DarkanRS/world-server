@@ -43,9 +43,6 @@ import com.rs.game.content.pets.Incubator;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
-import com.rs.game.content.skills.cooking.Cooking;
-import com.rs.game.content.skills.cooking.Cooking.Cookables;
-import com.rs.game.content.skills.cooking.CookingD;
 import com.rs.game.content.skills.cooking.CowMilkingAction;
 import com.rs.game.content.skills.crafting.Jewelry;
 import com.rs.game.content.skills.crafting.SandBucketFill;
@@ -53,10 +50,6 @@ import com.rs.game.content.skills.crafting.Silver;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.runecrafting.Runecrafting;
-import com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
-import com.rs.game.content.skills.smithing.ForgingInterface;
-import com.rs.game.content.skills.smithing.Smithing.Smithable;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.transportation.WildernessObelisk;
 import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
@@ -229,24 +222,6 @@ public final class ObjectHandler {
 					}
 				}, 1);
 				return;
-			} else if (id == 26849) { // ZMI Altar down ladder
-				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.setNextTile(Tile.of(3271, 4861, 0));
-					}
-				}, 1);
-				return;
-			} else if (id == 26850) { // ZMI Altar up ladder
-				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						player.setNextTile(Tile.of(2452, 3232, 0));
-					}
-				}, 1);
-				return;
 			} else if (id == 15653) {
 				if (World.isSpawnedObject(object) || !WarriorsGuild.canEnter(player))
 					return;
@@ -263,9 +238,7 @@ public final class ObjectHandler {
 			} else if (id == 25632) {
 				if (Lander.canEnter(player, 2))
 					return;
-			} else if (id == 26847)
-				Runecrafting.craftZMIAltar(player);
-			else if (id == 35391 || id == 2832) {
+			} else if (id == 35391 || id == 2832) {
 				if (!Agility.hasLevel(player, id == 2832 ? 20 : 41))
 					return;
 				player.addWalkSteps(x, y);
@@ -326,32 +299,6 @@ public final class ObjectHandler {
 				player.useStairs(828, Tile.of(3353, 3416, 0));
 			else if (id == 66115 || id == 66116)
 				Spade.dig(player);
-			else if (id == 2478)
-				Runecrafting.runecraft(player, RCRune.AIR);
-			else if (id == 2479)
-				Runecrafting.runecraft(player, RCRune.MIND);
-			else if (id == 2480)
-				Runecrafting.runecraft(player, RCRune.WATER);
-			else if (id == 2481)
-				Runecrafting.runecraft(player, RCRune.EARTH);
-			else if (id == 2482)
-				Runecrafting.runecraft(player, RCRune.FIRE);
-			else if (id == 2483)
-				Runecrafting.runecraft(player, RCRune.BODY);
-			else if (id == 2484)
-				Runecrafting.runecraft(player, RCRune.COSMIC);
-			else if (id == 2487)
-				Runecrafting.runecraft(player, RCRune.CHAOS);
-			else if (id == 17010)
-				Runecrafting.runecraft(player, RCRune.ASTRAL);
-			else if (id == 2486)
-				Runecrafting.runecraft(player, RCRune.NATURE);
-			else if (id == 2485)
-				Runecrafting.runecraft(player, RCRune.LAW);
-			else if (id == 2488)
-				Runecrafting.runecraft(player, RCRune.DEATH);
-			else if (id == 30624)
-				Runecrafting.runecraft(player, RCRune.BLOOD);
 			else if (id == 20604)
 				player.useStairs(-1, Tile.of(3018, 3404, 0), 0, 1);
 			else if (object.getId() == 39508 || object.getId() == 39509)
