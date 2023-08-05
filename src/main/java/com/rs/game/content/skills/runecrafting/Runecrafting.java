@@ -43,7 +43,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Runecrafting {
 
-	public final static int[] LEVEL_REQ = { 1, 25, 50, 75 };
+	public final static int[] LEVEL_REQ = { 1, 25, 50, 75, 90 };
 	public final static int AIR_TIARA = 5527, MIND_TIARA = 5529, WATER_TIARA = 5531, BODY_TIARA = 5533, EARTH_TIARA = 5535, FIRE_TIARA = 5537, COSMIC_TIARA = 5539, NATURE_TIARA = 5541, CHAOS_TIARA = 5543,
 			LAW_TIARA = 5545, DEATH_TIARA = 5547, BLOOD_TIARA = 5549, SOUL_TIARA = 5551, ASTRAL_TIARA = 9106, OMNI_TIARA = 13655, AIR_TALISMAN = 1438, MIND_TALISMAN = 1448, WATER_TALISMAN = 1444, BODY_TALISMAN = 1446, EARTH_TALISMAN = 1440, FIRE_TALISMAN = 1442,
 			COSMIC_TALISMAN = 1454, NATURE_TALISMAN = 1462, CHAOS_TALISMAN = 1452, LAW_TALISMAN = 1458, DEATH_TALISMAN = 1456, BLOOD_TALISMAN = 1450, SOUL_TALISMAN = 1460, ELEMENTAL_TALISMAN = 5516,
@@ -88,20 +88,30 @@ public class Runecrafting {
 		}
 	}
 
-	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514 }, new String[] { "Fill", "Empty" }, e -> {
+	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514, 24204, 24205 }, new String[] { "Fill", "Empty", "Check" }, e -> {
 		if (e.getOption().equals("Fill"))
 			switch(e.getItem().getId()) {
 			case 5509 -> fillPouch(e.getPlayer(), 0);
 			case 5510 -> fillPouch(e.getPlayer(), 1);
 			case 5512 -> fillPouch(e.getPlayer(), 2);
 			case 5514 -> fillPouch(e.getPlayer(), 3);
+			case 24205 -> fillPouch(e.getPlayer(), 4);
 			}
-		else
+		else if (e.getOption().equals("Empty"))
 			switch(e.getItem().getId()) {
 			case 5509 -> emptyPouch(e.getPlayer(), 0);
 			case 5510 -> emptyPouch(e.getPlayer(), 1);
 			case 5512 -> emptyPouch(e.getPlayer(), 2);
 			case 5514 -> emptyPouch(e.getPlayer(), 3);
+			case 24205 -> emptyPouch(e.getPlayer(), 4);
+			}
+		else if (e.getOption().equals("Check"))
+			switch(e.getItem().getId()) {
+			case 5509 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[0] + (e.getPlayer().getPouchesType()[0] ? " pure" : " rune")+ " essence in it.", false);
+			case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune")+ " essence in it.", false);
+			case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune")+ " essence in it.", false);
+			case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune")+ " essence in it.", false);
+			case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune")+ " essence in it.", false);
 			}
 		e.getPlayer().stopAll(false);
 	});
@@ -210,6 +220,7 @@ public class Runecrafting {
 				case 5510 -> 1;
 				case 5512 -> 2;
 				case 5514 -> 3;
+				case 24205 -> 4;
 				default -> -1;
 			};
 
@@ -281,6 +292,7 @@ public class Runecrafting {
 					case 5510 -> 1;
 					case 5512 -> 2;
 					case 5514 -> 3;
+					case 24205 -> 4;
 					default -> -1;
 				};
 
@@ -404,13 +416,7 @@ public class Runecrafting {
 		p.sendMessage("The talisman pulls towards the " + direction + ".", false);
 	}
 
-	public static void checkPouch(Player p, int i) {
-		if (i < 0)
-			return;
-		p.sendMessage("This pouch has " + p.getPouches()[i] + (p.getPouchesType()[i] ? " pure" : " rune")+ " essence in it.", false);
-	}
-
-	public static final int[] POUCH_SIZE = { 3, 6, 9, 12 };
+	public static final int[] POUCH_SIZE = { 3, 6, 9, 12, 18 };
 
 	public static final int RUNE_ESS = 1436;
 	public static final int PURE_ESS = 7936;
@@ -526,7 +532,7 @@ public class Runecrafting {
 
 		if (e.getObject().getId() == 26847)
 			Runecrafting.craftZMIAltar(e.getPlayer());
-		else if (rune == null)
+		else if (rune != null)
 			return;
 
 		Runecrafting.runecraft(e.getPlayer(), rune);

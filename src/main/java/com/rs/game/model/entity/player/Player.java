@@ -578,11 +578,11 @@ public class Player extends Entity {
 		questManager = new QuestManager();
 		miniquestManager = new MiniquestManager();
 		dungManager = new DungManager(this);
-		pouchesType = new boolean[4];
+		pouchesType = new boolean[5];
 		runEnergy = 100;
 		allowChatEffects = true;
 		mouseButtons = true;
-		pouches = new int[4];
+		pouches = new int[5];
 		taskBlocks = new TaskMonster[6];
 		for (int i = 0; i < 6; i++)
 			taskBlocks[i] = null;
@@ -662,7 +662,11 @@ public class Player extends Entity {
 		tempMoveType = null;
 		initEntity();
 		if (pouchesType == null)
-			pouchesType = new boolean[4];
+			pouchesType = new boolean[5];
+		if (pouches.length == 4)
+			pouches = new int[5];
+		if (pouchesType.length == 4)
+			pouchesType = new boolean[5];
 		World.addPlayer(this);
 		ChunkManager.updateChunks(this);
 		Logger.info(Player.class, "init", "Initiated player: " + account.getUsername());
