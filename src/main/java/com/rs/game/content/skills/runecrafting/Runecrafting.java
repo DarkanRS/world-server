@@ -272,6 +272,7 @@ public class Runecrafting {
 						player.getFamiliar().getInventory().removeAll(PURE_ESS);
 					}
 				}
+				case default, null -> {}
 			}
 		}
 
