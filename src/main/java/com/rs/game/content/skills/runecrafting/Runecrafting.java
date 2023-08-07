@@ -232,13 +232,12 @@ public class Runecrafting {
 				player.getPouches()[pouch] = 0;
 			}
 		}
-		if (player.getFamiliarPouch() != null) {
-			switch (player.getFamiliarPouch()) {
-				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
-					runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
-					player.getFamiliar().getInventory().removeAll(PURE_ESS);
-				}
+		switch (player.getFamiliarPouch()) {
+			case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+				runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+				player.getFamiliar().getInventory().removeAll(PURE_ESS);
 			}
+			case default, null -> {}
 		}
 
 		for (int i = 0; i < RCRune.values().length; i++) {
@@ -307,17 +306,15 @@ public class Runecrafting {
 					player.getPouches()[pouch] = 0;
 				}
 			}
-			if (player.getFamiliarPouch() != null) {
-				switch (player.getFamiliarPouch()) {
-					case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
-						if (!rune.pureEss) {
-							runes += player.getFamiliar().getInventory().getUsedSlots();
-							player.getFamiliar().getInventory().removeAll(RUNE_ESS);
-							player.getFamiliar().getInventory().removeAll(PURE_ESS);
-						} else {
-							runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
-							player.getFamiliar().getInventory().removeAll(PURE_ESS);
-						}
+			switch (player.getFamiliarPouch()) {
+				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+					if (!rune.pureEss) {
+						runes += player.getFamiliar().getInventory().getUsedSlots();
+						player.getFamiliar().getInventory().removeAll(RUNE_ESS);
+						player.getFamiliar().getInventory().removeAll(PURE_ESS);
+					} else {
+						runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+						player.getFamiliar().getInventory().removeAll(PURE_ESS);
 					}
 				}
 				case default, null -> {}
