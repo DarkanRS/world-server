@@ -45,9 +45,9 @@ public class BookOnBaxtorian extends Book {
     }
 
     public static ItemClickHandler read = new ItemClickHandler(new Object[] { 292 }, new String[] { "Read" }, e -> {
-        if (e.getPlayer().getQuestManager().getStage(Quest.WATERFALL_QUEST) == 2) {
+        if (e.getPlayer().getQuestStage(Quest.WATERFALL_QUEST) == 2) {
             e.getPlayer().sendMessage("You read the book and find that a gnome named Golrie may be able to help find a way into the falls.");
-            e.getPlayer().getQuestManager().setStage(Quest.WATERFALL_QUEST, 3);
+            e.getPlayer().setQuestStage(Quest.WATERFALL_QUEST, 3);
         }
         e.getPlayer().openBook(new BookOnBaxtorian());
     });

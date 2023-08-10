@@ -660,6 +660,17 @@ public final class Inventory {
 			return coins;
 		return total;
 	}
+
+	public long getPouchCoins() {
+		return coins;
+	}
+
+	public int getPouchCoinsAsInt() {
+		long coins = getPouchCoins();
+		if (coins > Integer.MAX_VALUE)
+			return Integer.MAX_VALUE;
+		return (int) coins;
+	}
 	
 	public int getCoinsAsInt() {
 		long coins = getCoins();

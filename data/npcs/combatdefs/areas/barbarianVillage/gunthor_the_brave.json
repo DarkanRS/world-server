@@ -1,23 +1,24 @@
 {
-  "names": [
-    "Gunthor the Brave"
+  "ids": [
+    2876
   ],
-  "attackAnim": -1,
+  "attackAnim": 422,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 425,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 836,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 350,
+  "maxHit": 40,
   "attackStyle": "MELEE",
+  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 0,
+    "ATTACK": 22,
     "RANGE": 0,
-    "STRENGTH": 0,
-    "DEFENSE": 0,
+    "STRENGTH": 22,
+    "DEFENSE": 25,
     "MAGE": 0
   },
   "attackRange": -1,

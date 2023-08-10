@@ -19,14 +19,18 @@ package com.rs.game.content.skills.runecrafting;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ItemEquipHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.drop.Drop;
 import com.rs.utils.drop.DropList;
 import com.rs.utils.drop.DropSet;
@@ -39,7 +43,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Runecrafting {
 
-	public final static int[] LEVEL_REQ = { 1, 25, 50, 75 };
+	public final static int[] LEVEL_REQ = { 1, 25, 50, 75, 90 };
 	public final static int AIR_TIARA = 5527, MIND_TIARA = 5529, WATER_TIARA = 5531, BODY_TIARA = 5533, EARTH_TIARA = 5535, FIRE_TIARA = 5537, COSMIC_TIARA = 5539, NATURE_TIARA = 5541, CHAOS_TIARA = 5543,
 			LAW_TIARA = 5545, DEATH_TIARA = 5547, BLOOD_TIARA = 5549, SOUL_TIARA = 5551, ASTRAL_TIARA = 9106, OMNI_TIARA = 13655, AIR_TALISMAN = 1438, MIND_TALISMAN = 1448, WATER_TALISMAN = 1444, BODY_TALISMAN = 1446, EARTH_TALISMAN = 1440, FIRE_TALISMAN = 1442,
 			COSMIC_TALISMAN = 1454, NATURE_TALISMAN = 1462, CHAOS_TALISMAN = 1452, LAW_TALISMAN = 1458, DEATH_TALISMAN = 1456, BLOOD_TALISMAN = 1450, SOUL_TALISMAN = 1460, ELEMENTAL_TALISMAN = 5516,
@@ -84,20 +88,30 @@ public class Runecrafting {
 		}
 	}
 
-	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514 }, new String[] { "Fill", "Empty" }, e -> {
+	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514, 24204, 24205 }, new String[] { "Fill", "Empty", "Check" }, e -> {
 		if (e.getOption().equals("Fill"))
 			switch(e.getItem().getId()) {
 			case 5509 -> fillPouch(e.getPlayer(), 0);
 			case 5510 -> fillPouch(e.getPlayer(), 1);
 			case 5512 -> fillPouch(e.getPlayer(), 2);
 			case 5514 -> fillPouch(e.getPlayer(), 3);
+			case 24205 -> fillPouch(e.getPlayer(), 4);
 			}
-		else
+		else if (e.getOption().equals("Empty"))
 			switch(e.getItem().getId()) {
 			case 5509 -> emptyPouch(e.getPlayer(), 0);
 			case 5510 -> emptyPouch(e.getPlayer(), 1);
 			case 5512 -> emptyPouch(e.getPlayer(), 2);
 			case 5514 -> emptyPouch(e.getPlayer(), 3);
+			case 24205 -> emptyPouch(e.getPlayer(), 4);
+			}
+		else if (e.getOption().equals("Check"))
+			switch(e.getItem().getId()) {
+			case 5509 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[0] + (e.getPlayer().getPouchesType()[0] ? " pure" : " rune")+ " essence in it.", false);
+			case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune")+ " essence in it.", false);
+			case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune")+ " essence in it.", false);
+			case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune")+ " essence in it.", false);
+			case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune")+ " essence in it.", false);
 			}
 		e.getPlayer().stopAll(false);
 	});
@@ -196,21 +210,47 @@ public class Runecrafting {
 	public static void craftZMIAltar(Player player) {
 		int level = player.getSkills().getLevel(Constants.RUNECRAFTING);
 		int runes = player.getInventory().getItems().getNumberOf(PURE_ESS);
+
+		for (Item i : player.getInventory().getItems().array()) {
+			if (i == null)
+				continue;
+
+			int pouch = switch (i.getId()) {
+				case 5509 -> 0;
+				case 5510 -> 1;
+				case 5512 -> 2;
+				case 5514 -> 3;
+				case 24205 -> 4;
+				default -> -1;
+			};
+
+			if (pouch == -1)
+				continue;
+
+			if (player.getPouchesType()[pouch] == true) { //only grab pure ess for ZMI altar
+				runes += player.getPouches()[pouch];
+				player.getPouches()[pouch] = 0;
+			}
+		}
+		switch (player.getFamiliarPouch()) {
+			case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
+				runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
+				player.getFamiliar().getInventory().removeAll(PURE_ESS);
+			}
+			case default, null -> {}
+		}
+
 		for (int i = 0; i < RCRune.values().length; i++) {
 			if (RCRune.values()[i].req > level)
 				break;
 		}
 		double xp = 0;
-		int craftedSoFar = 0;
 		if (runes == 0) {
 			player.simpleDialogue("You don't have pure essence.");
 			return;
 		}
 		player.getInventory().deleteItem(PURE_ESS, runes);
 		for (int i = 0; i < runes; i++) {
-			craftedSoFar++;
-			if (craftedSoFar >= runes)
-				break;
 			ZMIRune rune = rollZMIRune(player);
 			int amt = Utils.random(1, 3);
 			player.incrementCount(ItemDefinitions.getDefs(rune.id).getName() + " runecrafted", amt);
@@ -247,6 +287,7 @@ public class Runecrafting {
 					case 5510 -> 1;
 					case 5512 -> 2;
 					case 5514 -> 3;
+					case 24205 -> 4;
 					default -> -1;
 				};
 
@@ -261,7 +302,7 @@ public class Runecrafting {
 					player.getPouches()[pouch] = 0;
 				}
 			}
-			switch(player.getFamiliarPouch()) {
+			switch (player.getFamiliarPouch()) {
 				case ABYSSAL_PARASITE, ABYSSAL_LURKER, ABYSSAL_TITAN -> {
 					if (!rune.pureEss) {
 						runes += player.getFamiliar().getInventory().getUsedSlots();
@@ -272,6 +313,7 @@ public class Runecrafting {
 						player.getFamiliar().getInventory().removeAll(PURE_ESS);
 					}
 				}
+				case default, null -> {}
 			}
 		}
 
@@ -351,29 +393,24 @@ public class Runecrafting {
 		return false;
 	}
 
-	public static void locate(Player p, int xPos, int yPos) {
-		String x = "";
-		String y = "";
-		int absX = p.getX();
-		int absY = p.getY();
-		if (absX >= xPos)
-			x = "west";
-		if (absY > yPos)
-			y = "south";
-		if (absX < xPos)
-			x = "east";
-		if (absY <= yPos)
-			y = "north";
-		p.sendMessage("The talisman pulls towards " + y + "-" + x + ".", false);
+	public static void locate(Player p, int ruinsXPos, int ruinsYPos) {
+		String direction = "";
+		int playerXPos = p.getX();
+		int playerYPos = p.getY();
+
+		if (playerXPos < ruinsXPos && playerYPos < ruinsYPos) { direction = "north-east"; }
+		if (playerXPos < ruinsXPos && playerYPos == ruinsYPos) { direction = "east"; }
+		if (playerXPos < ruinsXPos && playerYPos > ruinsYPos) { direction = "south-east"; }
+		if (playerXPos == ruinsXPos && playerYPos > ruinsYPos) { direction = "south"; }
+		if (playerXPos > ruinsXPos && playerYPos > ruinsYPos) { direction = "south-west"; }
+		if (playerXPos > ruinsXPos && playerYPos == ruinsYPos) { direction = "west"; }
+		if (playerXPos > ruinsXPos && playerYPos < ruinsYPos) { direction = "north-west"; }
+		if (playerXPos == ruinsXPos && playerYPos < ruinsYPos) { direction = "north"; }
+
+		p.sendMessage("The talisman pulls towards the " + direction + ".", false);
 	}
 
-	public static void checkPouch(Player p, int i) {
-		if (i < 0)
-			return;
-		p.sendMessage("This pouch has " + p.getPouches()[i] + (p.getPouchesType()[i] ? " pure" : " rune")+ " essence in it.", false);
-	}
-
-	public static final int[] POUCH_SIZE = { 3, 6, 9, 12 };
+	public static final int[] POUCH_SIZE = { 3, 6, 9, 12, 18 };
 
 	public static final int RUNE_ESS = 1436;
 	public static final int PURE_ESS = 7936;
@@ -468,4 +505,44 @@ public class Runecrafting {
 			return;
 		}
 	}
+
+	public static ObjectClickHandler handleCraftOnAltar = new ObjectClickHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 17010, 30624, 26847 }, e -> {
+		RCRune rune = switch (e.getObjectId()) {
+			case 2478 -> RCRune.AIR;
+			case 2479 -> RCRune.MIND;
+			case 2480 -> RCRune.WATER;
+			case 2481 -> RCRune.EARTH;
+			case 2482 -> RCRune.FIRE;
+			case 2483 -> RCRune.BODY;
+			case 2484 -> RCRune.COSMIC;
+			case 2485 -> RCRune.LAW;
+			case 2486 -> RCRune.NATURE;
+			case 2487 -> RCRune.CHAOS;
+			case 2488 -> RCRune.DEATH;
+			case 17010 -> RCRune.ASTRAL;
+			case 30624 -> RCRune.BLOOD;
+			default -> null;
+		};
+
+		if (e.getObject().getId() == 26847)
+			Runecrafting.craftZMIAltar(e.getPlayer());
+		else if (rune != null)
+			Runecrafting.runecraft(e.getPlayer(), rune);
+	});
+
+	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
+		e.getPlayer().setNextAnimation(new Animation(828));
+		switch (e.getObjectId()) {
+			case 26849 -> { WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() { e.getPlayer().setNextTile(Tile.of(3271, 4861, 0));
+				}
+			}, 1); }
+			case 26850 -> { WorldTasks.schedule(new WorldTask() {
+				@Override
+				public void run() { e.getPlayer().setNextTile(Tile.of(2452, 3232, 0));
+				}
+			}, 1); }
+		};
+	});
 }
