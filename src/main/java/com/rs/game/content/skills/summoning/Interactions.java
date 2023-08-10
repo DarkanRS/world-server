@@ -10,6 +10,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.dungeons.UndergroundDungeonController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -32,6 +33,26 @@ public class Interactions {
 			return;
 		}
 		familiar.interact();
+	});
+
+	public static NPCClickHandler handleUnicornStallion = new NPCClickHandler(Pouch.UNICORN_STALLION.getIdKeys(), new String[] { "Cure" },e -> {
+		if (!(e.getNPC() instanceof Familiar familiar))
+			return;
+		if (familiar.getOwner() != e.getPlayer()) {
+			e.getPlayer().sendMessage("This isn't your familiar");
+			return;
+		}
+		if (e.getPlayer().getSkills().getLevel(Constants.SUMMONING) < 2) {
+			e.getPlayer().sendMessage("You do not have enough summoning points to do this.");
+			return;
+		}
+		if(!e.getPlayer().getPoison().isPoisoned()){
+			e.getPlayer().sendMessage("You're not suffering from poison!");
+			return;
+		}
+		familiar.sync(8267, 1356);
+		e.getPlayer().getPoison().reset();
+		e.getPlayer().getSkills().drainSummoning(2);
 	});
 	
 	public static ItemOnNPCHandler pyrelordFire = new ItemOnNPCHandler(Pouch.PYRELORD.getIdKeys(), e -> {
