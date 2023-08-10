@@ -48,6 +48,7 @@ public enum Ore {
 	SANDSTONE_5KG(6975, 35, 50, 6, 64, 0),
 	SANDSTONE_10KG(6977, 35, 60, 3, 30, 0),
 	ADAMANT(449, 70, 95, 2, 25, 1),
+	BANE(21778, 77, 90, 2, 25, 0),
 	RUNE(451, 85, 125, 11, 19, 0),
 	RUNE_ESSENCE(1436, 1, 5, 180, 380, 0) {
 		@Override

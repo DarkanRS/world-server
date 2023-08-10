@@ -78,6 +78,9 @@ public class Mining extends Action {
 	public static ObjectClickHandler handleAddy = new ObjectClickHandler(new Object[] { "Adamantite ore rocks", "Adamantite ore vein" },
 			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.ADAMANT, e.getObject())));
 
+	public static ObjectClickHandler handleBane = new ObjectClickHandler(new Object[] { "Bane ore rock" },
+			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.BANE, e.getObject())));
+
 	public static ObjectClickHandler handleRune = new ObjectClickHandler(new Object[] { "Runite ore rocks" },
 			e -> e.getPlayer().getActionManager().setAction(new Mining(RockType.RUNE, e.getObject())));
 
