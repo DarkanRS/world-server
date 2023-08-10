@@ -96,6 +96,8 @@ public class Bank {
 			e.getPlayer().getBank().depositAllBob(true);
 		else if (e.getComponentId() == 35) {
 			int amount = e.getPlayer().getInventory().getPouchCoinsAsInt();
+			if (amount <= 0)
+				return;
 			Item bankCoins = e.getPlayer().getBank().getItem(995);
 			int bankAmt = bankCoins == null ? 0 : bankCoins.getAmount();
 			if (amount + bankAmt <= 0)
