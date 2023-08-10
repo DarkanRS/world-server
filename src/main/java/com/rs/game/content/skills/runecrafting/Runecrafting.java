@@ -245,16 +245,12 @@ public class Runecrafting {
 				break;
 		}
 		double xp = 0;
-		int craftedSoFar = 0;
 		if (runes == 0) {
 			player.simpleDialogue("You don't have pure essence.");
 			return;
 		}
 		player.getInventory().deleteItem(PURE_ESS, runes);
 		for (int i = 0; i < runes; i++) {
-			craftedSoFar++;
-			if (craftedSoFar >= runes)
-				break;
 			ZMIRune rune = rollZMIRune(player);
 			int amt = Utils.random(1, 3);
 			player.incrementCount(ItemDefinitions.getDefs(rune.id).getName() + " runecrafted", amt);
