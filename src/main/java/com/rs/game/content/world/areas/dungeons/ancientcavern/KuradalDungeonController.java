@@ -32,14 +32,17 @@ import com.rs.plugin.handlers.ItemClickHandler;
 @PluginEventHandler
 public class KuradalDungeonController extends Controller {
 
-	public static ItemClickHandler handleFerociousRings = new ItemClickHandler(new Object[] { Utils.range(15398, 15402) }, new String[] { "Rub", "Kuradal" }, e -> {
-		if (Magic.sendItemTeleportSpell(e.getPlayer(), true, 9603, 1684, 3, Tile.of(1739, 5312, 1)))
+	public static ItemClickHandler handleFerociousRings = new ItemClickHandler(new Object[] { 15398, 15399, 15400, 15401, 15402 }, new String[] { "Rub", "Kuradal" }, e -> {
 			if (e.getItem().getId() == 15402) {
+				Magic.sendItemTeleportSpell(e.getPlayer(), true, 9603, 1684, 3, Tile.of(1739, 5312, 1));
 				if (e.isEquipped())
 					e.getPlayer().getEquipment().deleteSlot(Equipment.RING);
 				else
 					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
-			} else {
+			}
+			else
+			{
+				Magic.sendItemTeleportSpell(e.getPlayer(), true, 9603, 1684, 3, Tile.of(1739, 5312, 1));
 				e.getItem().setId(e.getItem().getId()+1);
 				e.getPlayer().getInventory().refresh();
 				e.getPlayer().getEquipment().refresh(Equipment.RING);
