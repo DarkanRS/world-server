@@ -1023,6 +1023,7 @@ public class Bank {
 			sessionPin = true;
 			return true;
 		}
+		return false;
 	}
 
 	public void setEnteredPIN() {
