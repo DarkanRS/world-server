@@ -134,6 +134,16 @@ public enum Effect {
 		}
 	},
 
+	EXCALIBUR_HEAL() {
+		@Override
+		public void tick(Entity entity, long tick) {
+			if (tick % 7 == 0) {
+				entity.heal(40);
+				entity.spotAnim(1507);
+			}
+		}
+	},
+
 	OVERLOAD("overload") {
 		@Override
 		public void apply(Entity entity) {
@@ -179,9 +189,7 @@ public enum Effect {
 		}
 	},
 
-	FARMERS_AFFINITY("Farmer's affinity"),
-
-	;
+	FARMERS_AFFINITY("Farmer's affinity");
 
 	private boolean removeOnDeath = true;
 	private String name;

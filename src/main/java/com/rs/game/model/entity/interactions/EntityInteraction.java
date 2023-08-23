@@ -61,6 +61,11 @@ public abstract class EntityInteraction extends Interaction {
 	}
 
 	@Override
+	public void stop(Entity entity) {
+		entity.setNextFaceEntity(null);
+	}
+
+	@Override
 	public final boolean process(Entity player) {
 		if (checkDistance(player) && checkAll(player)) {
 			if (isWithinDistance(player, target, true)) {
@@ -98,7 +103,7 @@ public abstract class EntityInteraction extends Interaction {
 		if (entity.hasEffect(Effect.FREEZE))
 			return !WorldUtil.collides(entity, target);
 		if (WorldUtil.collides(entity, target)) {
-			if (!target.hasWalkSteps() && !entity.hasWalkSteps()) {
+			if (!entity.hasWalkSteps() && !target.hasWalkSteps()) {
 				entity.resetWalkSteps();
 				return entity.calcFollow(target, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
 			}
@@ -120,7 +125,7 @@ public abstract class EntityInteraction extends Interaction {
 				}
 		}
 		if (!isWithinDistance(entity, target, false)) {
-			if (!entity.hasWalkSteps() || target.hasWalkSteps()) {
+			if (!entity.hasWalkSteps() && target.hasWalkSteps()) {
 				entity.resetWalkSteps();
 				entity.calcFollow(target, entity.getRun() ? 2 : 1, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
 			}

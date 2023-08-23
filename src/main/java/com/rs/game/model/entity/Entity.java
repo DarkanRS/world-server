@@ -849,7 +849,6 @@ public abstract class Entity {
 	}
 
 	private WalkStep getNextWalkStep() {
-
 		WalkStep step = walkSteps.poll();
 		if (step == null)
 			return null;

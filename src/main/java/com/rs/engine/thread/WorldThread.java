@@ -48,129 +48,145 @@ public final class WorldThread extends Thread {
 
 	public static void init() {
 		WORLD_CYCLE = START_CYCLE = System.currentTimeMillis() / 600L;
-		LowPriorityTaskExecutor.getWorldExecutor().scheduleAtFixedRate(new WorldThread(), 0, Settings.WORLD_CYCLE_MS, TimeUnit.MILLISECONDS);
+		LowPriorityTaskExecutor.getWorldExecutor().execute(new WorldThread());
 	}
 
 	public static Set<String> NAMES = new HashSet<>();
 
 	@Override
 	public void run() {
-		WORLD_CYCLE++;
-		try {
+		while(true) {
+			WORLD_CYCLE++;
 			long startTime = System.currentTimeMillis();
-			Timer timerChunk = new Timer().start();
-			ChunkManager.processChunks();
-			Logger.trace(WorldThread.class, "tick", "processChunks() - " + timerChunk.stop());
-			Timer timerTask = new Timer().start();
-			WorldTasks.processTasks();
-			Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
-			OwnedObject.processAll();
-			NAMES.clear();
-			Timer timerPlayerProc = new Timer().start();
-			for (Player player : World.getPlayers()) {
-				try {
-					if (player != null && player.getTempAttribs().getB("realFinished"))
-						player.realFinish();
-					if (player == null || !player.hasStarted() || player.hasFinished())
-						continue;
-					if (NAMES.contains(player.getUsername()))
-						player.logout(false);
-					else
-						NAMES.add(player.getUsername());
-					player.processEntity();
-				} catch(Throwable e) {
-					Logger.handle(WorldThread.class, "run:playerProcessEntity", "Error processing player: " + (player == null ? "NULL PLAYER" : player.getUsername()), e);
+			try {
+				Timer timerChunk = new Timer().start();
+				ChunkManager.processChunks();
+				Logger.trace(WorldThread.class, "tick", "processChunks() - " + timerChunk.stop());
+				Timer timerTask = new Timer().start();
+				WorldTasks.processTasks();
+				Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
+				OwnedObject.processAll();
+				NAMES.clear();
+				Timer timerNpcProc = new Timer().start();
+				for (NPC npc : World.getNPCs()) {
+					try {
+						if (npc == null || npc.hasFinished())
+							continue;
+						npc.processEntity();
+					} catch(Throwable e) {
+						Logger.handle(WorldThread.class, "run:npcProcessEntity", "Error processing NPC: " + (npc == null ? "NULL NPC" : npc.getId()), e);
+					}
 				}
-			}
-			Logger.trace(WorldThread.class, "tick", "playerProcessEntity() - " + timerPlayerProc.stop());
-			Timer timerNpcProc = new Timer().start();
-			for (NPC npc : World.getNPCs()) {
-				try {
+				Logger.trace(WorldThread.class, "tick", "npcProcessEntity() - " + timerNpcProc.stop());
+
+				Timer timerPlayerProc = new Timer().start();
+				for (Player player : World.getPlayers()) {
+					try {
+						if (player != null && player.getTempAttribs().getB("realFinished"))
+							player.realFinish();
+						if (player == null || !player.hasStarted() || player.hasFinished())
+							continue;
+						if (NAMES.contains(player.getUsername()))
+							player.logout(false);
+						else
+							NAMES.add(player.getUsername());
+						player.processEntity();
+					} catch(Throwable e) {
+						Logger.handle(WorldThread.class, "run:playerProcessEntity", "Error processing player: " + (player == null ? "NULL PLAYER" : player.getUsername()), e);
+					}
+				}
+				Logger.trace(WorldThread.class, "tick", "playerProcessEntity() - " + timerPlayerProc.stop());
+
+				Timer timerNpcMove = new Timer().start();
+				for (NPC npc : World.getNPCs()) {
 					if (npc == null || npc.hasFinished())
 						continue;
-					npc.processEntity();
-				} catch(Throwable e) {
-					Logger.handle(WorldThread.class, "run:npcProcessEntity", "Error processing NPC: " + (npc == null ? "NULL NPC" : npc.getId()), e);
+					try {
+						npc.processMovement();
+					} catch(Throwable e) {
+						Logger.handle(WorldThread.class, "processNPCMovement", e);
+					}
 				}
-			}
-			Logger.trace(WorldThread.class, "tick", "npcProcessEntity() - " + timerNpcProc.stop());
-			Timer timerPlayerMove = new Timer().start();
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished())
-					continue;
-				try {
-					player.processMovement();
-				} catch(Throwable e) {
-					Logger.handle(WorldThread.class, "processPlayerMovement", e);
+				Logger.trace(WorldThread.class, "tick", "processNPCMovement() - " + timerNpcMove.stop());
+
+				Timer timerPlayerMove = new Timer().start();
+				for (Player player : World.getPlayers()) {
+					if (player == null || !player.hasStarted() || player.hasFinished())
+						continue;
+					try {
+						player.processMovement();
+					} catch(Throwable e) {
+						Logger.handle(WorldThread.class, "processPlayerMovement", e);
+					}
 				}
-			}
-			Logger.trace(WorldThread.class, "tick", "processPlayerMovement() - " + timerPlayerMove.stop());
-			Timer timerNpcMove = new Timer().start();
-			for (NPC npc : World.getNPCs()) {
-				if (npc == null || npc.hasFinished())
-					continue;
-				try {
-					npc.processMovement();
-				} catch(Throwable e) {
-					Logger.handle(WorldThread.class, "processNPCMovement", e);
+				Logger.trace(WorldThread.class, "tick", "processPlayerMovement() - " + timerPlayerMove.stop());
+
+				Timer timerEntityUpdate = new Timer().start();
+				for (Player player : World.getPlayers()) {
+					if (player == null || !player.hasStarted() || player.hasFinished())
+						continue;
+					try {
+						player.getPackets().sendLocalPlayersUpdate();
+						player.getPackets().sendLocalNPCsUpdate();
+						player.postSync();
+					} catch(Throwable e) {
+						Logger.handle(WorldThread.class, "processPlayersPostSync", e);
+					}
 				}
-			}
-			Logger.trace(WorldThread.class, "tick", "processNPCMovement() - " + timerNpcMove.stop());
-			Timer timerEntityUpdate = new Timer().start();
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished())
-					continue;
-				try {
-					player.getPackets().sendLocalPlayersUpdate();
-					player.getPackets().sendLocalNPCsUpdate();
-					player.postSync();
-				} catch(Throwable e) {
-					Logger.handle(WorldThread.class, "processPlayersPostSync", e);
+				Logger.trace(WorldThread.class, "tick", "processPlayersPostSync() - " + timerEntityUpdate.stop());
+
+				Timer timerUpdateZones = new Timer().start();
+				ChunkManager.processUpdateZones();
+				Logger.trace(WorldThread.class, "tick", "processUpdateZones() - " + timerUpdateZones.stop());
+
+				Timer timerFlushPackets = new Timer().start();
+				for (Player player : World.getPlayers()) {
+					if (player == null || !player.hasStarted() || player.hasFinished())
+						continue;
+					player.getSession().flush();
 				}
+				Logger.trace(WorldThread.class, "tick", "flushPlayerPackets() - " + timerFlushPackets.stop());
+
+				for (Player player : World.getPlayers()) {
+					if (player == null || !player.hasStarted() || player.hasFinished())
+						continue;
+					player.resetMasks();
+				}
+				for (NPC npc : World.getNPCs()) {
+					if (npc == null || npc.hasFinished())
+						continue;
+					npc.resetMasks();
+				}
+				World.processEntityLists();
+				long time = (System.currentTimeMillis() - startTime);
+				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
+
+				Telemetry.queueTelemetryTick(time);
+				if (time > 500l && Settings.getConfig().getStaffWebhookUrl() != null) {
+					StringBuilder content = new StringBuilder();
+					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
+					content.append("```\n");
+					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
+					content.append("Task: " + timerTask.getFormattedTime() + "\n");
+					content.append("Update zone: " + timerUpdateZones.getFormattedTime() + "\n");
+					content.append("Player proc: " + timerPlayerProc.getFormattedTime() + "\n");
+					content.append("NPC proc: " + timerNpcProc.getFormattedTime() + "\n");
+					content.append("Player move: " + timerPlayerMove.getFormattedTime() + "\n");
+					content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
+					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
+					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
+					content.append("```");
+					APIUtil.post(Boolean.class, JsonFileManager.getGson().fromJson("{ \"content\": \""+content+"\" }", Object.class), Settings.getConfig().getStaffWebhookUrl(), "", null);
+				}
+			} catch (Throwable e) {
+				Logger.handle(WorldThread.class, "tick", e);
 			}
-			Logger.trace(WorldThread.class, "tick", "processPlayersPostSync() - " + timerEntityUpdate.stop());
-			Timer timerUpdateZones = new Timer().start();
-			ChunkManager.processUpdateZones();
-			Logger.trace(WorldThread.class, "tick", "processUpdateZones() - " + timerUpdateZones.stop());
-			Timer timerFlushPackets = new Timer().start();
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished())
-					continue;
-				player.getSession().flush();
-			}
-			Logger.trace(WorldThread.class, "tick", "flushPlayerPackets() - " + timerFlushPackets.stop());
-			for (Player player : World.getPlayers()) {
-				if (player == null || !player.hasStarted() || player.hasFinished())
-					continue;
-				player.resetMasks();
-			}
-			for (NPC npc : World.getNPCs()) {
-				if (npc == null || npc.hasFinished())
-					continue;
-				npc.resetMasks();
-			}
-			World.processEntityLists();
-			long time = (System.currentTimeMillis() - startTime);
-			Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
-			Telemetry.queueTelemetryTick(time);
-			if (time > 500l && Settings.getConfig().getStaffWebhookUrl() != null) {
-				StringBuilder content = new StringBuilder();
-				content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
-				content.append("```\n");
-				content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
-				content.append("Task: " + timerTask.getFormattedTime() + "\n");
-				content.append("Update zone: " + timerUpdateZones.getFormattedTime() + "\n");
-				content.append("Player proc: " + timerPlayerProc.getFormattedTime() + "\n");
-				content.append("NPC proc: " + timerNpcProc.getFormattedTime() + "\n");
-				content.append("Player move: " + timerPlayerMove.getFormattedTime() + "\n");
-				content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
-				content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
-				content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
-				content.append("```");
-				APIUtil.post(Boolean.class, JsonFileManager.getGson().fromJson("{ \"content\": \""+content+"\" }", Object.class), Settings.getConfig().getStaffWebhookUrl(), "", null);
-			}
-		} catch (Throwable e) {
-			Logger.handle(WorldThread.class, "tick", e);
+			long endTime = System.currentTimeMillis();
+			long timeToSleep = Math.max(600 - (endTime - startTime), 0);
+			try {
+				if (timeToSleep > 0)
+					Thread.sleep(timeToSleep);
+			} catch (InterruptedException e) { }
 		}
 	}
 }
