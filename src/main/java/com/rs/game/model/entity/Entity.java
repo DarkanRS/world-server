@@ -98,6 +98,7 @@ public abstract class Entity {
 	private transient Tile lastTile;
 	private transient Tile tileBehind;
 	private transient Tile nextTile;
+	private transient boolean walkedThisTick;
 	private transient Direction nextWalkDirection;
 	private transient Direction nextRunDirection;
 	private transient Tile nextFaceTile;
@@ -511,8 +512,8 @@ public abstract class Entity {
 			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), target instanceof GameObject go ? new ObjectStrategy(go) : target instanceof Entity e ? new EntityStrategy(e) : new FixedTileStrategy(((Tile) target).getX(), ((Tile) target).getY()), true);
 			if (route.getStepCount() == -1)
 				return false;
-			if (route.getStepCount() == 0)
-				return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
+//			if (route.getStepCount() == 0) //TODO why did I add this?
+//				return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
 			for (int step = route.getStepCount() - 1; step >= 0; step--)
 				if (!addWalkSteps(route.getBufferX()[step], route.getBufferY()[step], maxStepsCount, true, true))
 					break;
@@ -583,8 +584,12 @@ public abstract class Entity {
 	}
 
 	public boolean hasWalkSteps() {
-		return !walkSteps.isEmpty();
+		return !walkSteps.isEmpty() || walkedThisTick;
 	}
+
+//	public boolean isMoving() {
+//		return hasWalkSteps() || walkedThisTick;
+//	}
 
 	public abstract void sendDeath(Entity source);
 
@@ -628,7 +633,7 @@ public abstract class Entity {
 		teleported = false;
 		if (walkSteps.isEmpty())
 			return;
-
+		walkedThisTick = true;
 		if (player != null) {
 			if (player.getEmotesManager().isAnimating())
 				return;
@@ -828,6 +833,7 @@ public abstract class Entity {
 	}
 
 	public boolean addWalkStep(int nextX, int nextY, int lastX, int lastY, boolean check, boolean force) {
+		World.sendSpotAnim(Tile.of(nextX, nextY, 2), new SpotAnim(2000));
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
 		if (dir == null)
 			return false;
@@ -877,6 +883,7 @@ public abstract class Entity {
 	}
 
 	public void resetMasks() {
+		walkedThisTick = false;
 		nextBodyGlow = null;
 		nextAnimation = null;
 		nextSpotAnim1 = null;
