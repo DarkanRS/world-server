@@ -439,7 +439,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
-            player.getPrayer().restorePrayer((hit.getDamage() / 4) * 10);
+            player.getPrayer().restorePrayer(hit.getDamage() / 4.0);
             delayNormalHit(target, hit);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
