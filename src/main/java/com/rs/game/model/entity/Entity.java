@@ -833,7 +833,7 @@ public abstract class Entity {
 	}
 
 	public boolean addWalkStep(int nextX, int nextY, int lastX, int lastY, boolean check, boolean force) {
-		World.sendSpotAnim(Tile.of(nextX, nextY, 2), new SpotAnim(2000));
+		//World.sendSpotAnim(Tile.of(nextX, nextY, getPlane()), new SpotAnim(2000));
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
 		if (dir == null)
 			return false;

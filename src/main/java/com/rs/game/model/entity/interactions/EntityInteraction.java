@@ -62,6 +62,7 @@ public abstract class EntityInteraction extends Interaction {
 
 	@Override
 	public void stop(Entity entity) {
+		super.stop(entity);
 		entity.setNextFaceEntity(null);
 	}
 
@@ -72,8 +73,10 @@ public abstract class EntityInteraction extends Interaction {
 				interact(player);
 				if (stopFaceOnReached)
 					player.setNextFaceEntity(null);
-				if (stopWhenReached)
+				if (stopWhenReached) {
 					stop(player);
+					return false;
+				}
 			}
 			return true;
 		}

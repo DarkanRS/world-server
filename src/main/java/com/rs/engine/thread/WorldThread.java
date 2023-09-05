@@ -56,7 +56,6 @@ public final class WorldThread extends Thread {
 	@Override
 	public void run() {
 		while(true) {
-			WORLD_CYCLE++;
 			long startTime = System.currentTimeMillis();
 			try {
 				Timer timerChunk = new Timer().start();
@@ -187,6 +186,7 @@ public final class WorldThread extends Thread {
 				if (timeToSleep > 0)
 					Thread.sleep(timeToSleep);
 			} catch (InterruptedException e) { }
+			WORLD_CYCLE++;
 		}
 	}
 }
