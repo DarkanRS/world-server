@@ -38,7 +38,7 @@ public class AliKebabs {
                                 .addPlayer(HeadE.HAPPY_TALKING, "Thanks.  ")
                                 .addNext(() -> {
                                     if (player.getInventory().hasFreeSlots()) {
-                                        player.getInventory().addItem(1972);
+                                        player.getInventory().addItem(1971);
                                         player.getInventory().removeCoins(3);
                                     }
                                 });
