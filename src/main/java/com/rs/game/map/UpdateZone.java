@@ -20,6 +20,7 @@ public class UpdateZone {
     private int baseChunkY;
     private RegionSize size;
     private Set<Integer> chunkIds = new IntOpenHashSet();
+    private Set<Integer> regionIds = new IntOpenHashSet();
     protected Set<Integer> playerWatchers = IntSets.synchronize(new IntOpenHashSet());
     protected Set<Integer> npcWatchers = IntSets.synchronize(new IntOpenHashSet());
     private List<UpdateZonePartialEnclosed> chunkUpdates = new ObjectArrayList<>();
@@ -33,7 +34,9 @@ public class UpdateZone {
         for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
             for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {
                 for (int chunkYOff = 0; chunkYOff <= (size.size / 8); chunkYOff++) {
-                    chunkIds.add(baseChunkId + chunkXOff + chunkYOff + planeOff);
+                    int chunkId = baseChunkId + chunkXOff + chunkYOff + planeOff;
+                    chunkIds.add(chunkId);
+                    regionIds.add(MapUtils.chunkToRegionId(chunkId));
                 }
             }
         }
@@ -88,5 +91,9 @@ public class UpdateZone {
 
     public Set<Integer> getChunkIds() {
         return chunkIds;
+    }
+
+    public Set<Integer> getRegionIds() {
+        return regionIds;
     }
 }

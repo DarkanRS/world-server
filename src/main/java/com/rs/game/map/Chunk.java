@@ -723,8 +723,6 @@ public class Chunk {
 
     public void removeUpdateZone(UpdateZone zone) {
         updateZones.remove(zone);
-        if (updateZones.isEmpty())
-            ChunkManager.markRegionUnloadable(getRegionId());
     }
 
     public Set<UpdateZone> getUpdateZones() {
