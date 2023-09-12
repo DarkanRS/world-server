@@ -27,4 +27,8 @@ public class Timer {
             return Utils.formatLong(timeMs) + "ms";
         return Utils.formatDouble(time / 1000000.0) + "ms";
     }
+
+    public long getTimeMs() {
+        return timeMs;
+    }
 }

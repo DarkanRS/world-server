@@ -119,7 +119,11 @@ public class MiscTest {
 		//		});
 
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-
+			try {
+				Thread.sleep(500L);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
 		});
 
 		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> {

@@ -30,7 +30,21 @@ import com.rs.lib.util.Utils;
 import com.rs.lib.web.APIUtil;
 import com.rs.utils.Timer;
 import com.rs.web.Telemetry;
+import jdk.jfr.Configuration;
+import jdk.jfr.FlightRecorder;
+import jdk.jfr.Recording;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.ParseException;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -55,9 +69,25 @@ public final class WorldThread extends Thread {
 
 	@Override
 	public void run() {
+		Configuration config;
+		try {
+			config = Configuration.create(Paths.get("./darkan.jfc"));
+		} catch (IOException | ParseException e) {
+			Logger.handle(WorldThread.class, "run", e);
+			throw new RuntimeException(e);
+		}
+		if (config == null) {
+			RuntimeException e = new RuntimeException("Unable to load darkan flight recorder template.");
+			Logger.handle(WorldThread.class, "run", e);
+			throw e;
+		}
+		Logger.debug(WorldThread.class, "run", "WorldThread initialized...");
 		while(true) {
 			long startTime = System.currentTimeMillis();
-			try {
+			try(Recording tickRecording = new Recording(config)) {
+				Timer timerJFR = new Timer().start();
+				tickRecording.start();
+				Logger.trace(WorldThread.class, "tick", "JFR recording() - " + timerJFR.stop());
 				Timer timerChunk = new Timer().start();
 				ChunkManager.processChunks();
 				Logger.trace(WorldThread.class, "tick", "processChunks() - " + timerChunk.stop());
@@ -72,7 +102,7 @@ public final class WorldThread extends Thread {
 						if (npc == null || npc.hasFinished())
 							continue;
 						npc.processEntity();
-					} catch(Throwable e) {
+					} catch (Throwable e) {
 						Logger.handle(WorldThread.class, "run:npcProcessEntity", "Error processing NPC: " + (npc == null ? "NULL NPC" : npc.getId()), e);
 					}
 				}
@@ -90,7 +120,7 @@ public final class WorldThread extends Thread {
 						else
 							NAMES.add(player.getUsername());
 						player.processEntity();
-					} catch(Throwable e) {
+					} catch (Throwable e) {
 						Logger.handle(WorldThread.class, "run:playerProcessEntity", "Error processing player: " + (player == null ? "NULL PLAYER" : player.getUsername()), e);
 					}
 				}
@@ -102,7 +132,7 @@ public final class WorldThread extends Thread {
 						continue;
 					try {
 						npc.processMovement();
-					} catch(Throwable e) {
+					} catch (Throwable e) {
 						Logger.handle(WorldThread.class, "processNPCMovement", e);
 					}
 				}
@@ -114,7 +144,7 @@ public final class WorldThread extends Thread {
 						continue;
 					try {
 						player.processMovement();
-					} catch(Throwable e) {
+					} catch (Throwable e) {
 						Logger.handle(WorldThread.class, "processPlayerMovement", e);
 					}
 				}
@@ -128,7 +158,7 @@ public final class WorldThread extends Thread {
 						player.getPackets().sendLocalPlayersUpdate();
 						player.getPackets().sendLocalNPCsUpdate();
 						player.postSync();
-					} catch(Throwable e) {
+					} catch (Throwable e) {
 						Logger.handle(WorldThread.class, "processPlayersPostSync", e);
 					}
 				}
@@ -161,10 +191,12 @@ public final class WorldThread extends Thread {
 				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 
 				Telemetry.queueTelemetryTick(time);
-				if (time > 500l && Settings.getConfig().getStaffWebhookUrl() != null) {
+				if ((time-timerJFR.getTimeMs()) > 300l && Settings.getConfig().getStaffWebhookUrl() != null) {
+					tickRecording.stop();
 					StringBuilder content = new StringBuilder();
 					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
 					content.append("```\n");
+					content.append("JFR: " + timerJFR.getFormattedTime() + "\n");
 					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
 					content.append("Task: " + timerTask.getFormattedTime() + "\n");
 					content.append("Update zone: " + timerUpdateZones.getFormattedTime() + "\n");
@@ -175,7 +207,24 @@ public final class WorldThread extends Thread {
 					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
 					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
 					content.append("```");
-					APIUtil.post(Boolean.class, JsonFileManager.getGson().fromJson("{ \"content\": \""+content+"\" }", Object.class), Settings.getConfig().getStaffWebhookUrl(), "", null);
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					try (InputStream is = tickRecording.getStream(null, null)) {
+						byte[] buffer = new byte[1024];
+						int len;
+						while ((len = is.read(buffer)) > -1) {
+							baos.write(buffer, 0, len);
+						}
+						baos.flush();
+					}
+					APIUtil.request(Boolean.class, new Request.Builder()
+							.url(Settings.getConfig().getStaffWebhookUrl())
+							.post(new MultipartBody.Builder()
+									.setType(MultipartBody.FORM)
+									.addFormDataPart("content", content.toString())
+									.addFormDataPart("file", "tickRecord.jfr", RequestBody.create(baos.toByteArray(), MediaType.parse("application/octet-stream")))
+									.build())
+							.build(), null);
+					//APIUtil.post(Boolean.class, JsonFileManager.getGson().fromJson(jsonPayload, Object.class), Settings.getConfig().getStaffWebhookUrl(), "", null);
 				}
 			} catch (Throwable e) {
 				Logger.handle(WorldThread.class, "tick", e);
