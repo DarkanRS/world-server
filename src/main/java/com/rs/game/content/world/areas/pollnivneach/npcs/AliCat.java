@@ -10,7 +10,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class AliCat {
-    public static NPCClickHandler HandleAliTheKebabSeller = new NPCClickHandler(new Object[]{ 1865 }, new String[] { "Talk-to" }, e -> {
+    public static NPCClickHandler handle = new NPCClickHandler(new Object[]{ 7784 }, new String[] { "Talk-to" }, e -> {
         Player player = e.getPlayer();
         NPC npc = e.getNPC();
         if (ItemDefinitions.getDefs(e.getPlayer().getEquipment().getNeckId()).getName().contains("Catspeak"))
