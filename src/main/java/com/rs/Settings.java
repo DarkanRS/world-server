@@ -47,6 +47,7 @@ public final class Settings {
 	private String ownerName;
 	private String cachePath;
 	private boolean debug = false;
+	private boolean enableJFR = false;
 	private boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
@@ -69,6 +70,7 @@ public final class Settings {
 		ownerName = "trent";
 		cachePath = "../cache/";
 		debug = false;
+		enableJFR = false;
 		allowHighMemUseOptimizations = false;
 		lobbyIp = "dev.darkan.org";
 		mongoUrl = "localhost";
@@ -175,6 +177,10 @@ public final class Settings {
 		return debug;
 	}
 
+	public boolean isEnableJFR() {
+		return enableJFR;
+	}
+
 	public boolean isAllowHighMemUseOptimizations() {
 		return allowHighMemUseOptimizations;
 	}
@@ -245,4 +251,8 @@ public final class Settings {
 	public String getStaffWebhookUrl() {
 		return staffWebhookUrl;
 	}
+
+    public void setJFR(boolean b) {
+		enableJFR = b;
+    }
 }
