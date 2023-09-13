@@ -23,8 +23,8 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.ItemStatement;
 import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.World;
+import com.rs.game.content.minigames.pyramidplunder.SimonTempleton;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.unorganized_dialogue.SimonTempletonD;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -123,7 +123,7 @@ public class AgilityPyramidController extends Controller {
 	@Override
 	public boolean processNPCClick1(NPC npc) {
 		if (npc.getId() == 3123)
-			player.startConversation(new SimonTempletonD(player, npc.getId()));
+			player.startConversation(new SimonTempleton(player));
 		return false;
 	}
 

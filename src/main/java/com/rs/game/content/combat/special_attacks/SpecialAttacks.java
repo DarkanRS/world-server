@@ -96,23 +96,8 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(247));
             player.setNextForceTalk(new ForceTalk("For Camelot!"));
             final boolean enhanced = player.getEquipment().getWeaponId() == 14632;
-            player.getSkills().set(Constants.DEFENSE, enhanced ? (int) (player.getSkills().getLevelForXp(Constants.DEFENSE) * 1.15D) : (player.getSkills().getLevel(Constants.DEFENSE) + 8));
-            WorldTasks.schedule(new WorldTask() {
-                int count = 5;
-
-                @Override
-                public void run() {
-                    if (player.isDead() || player.hasFinished() || player.getHitpoints() >= player.getMaxHitpoints()) {
-                        stop();
-                        return;
-                    }
-                    player.heal(enhanced ? 80 : 40);
-                    if (count-- == 0) {
-                        stop();
-                        return;
-                    }
-                }
-            }, 4, 2);
+            player.getSkills().adjustStat(enhanced ? 0 : 8, enhanced ? 0.15 : 0, Skills.DEFENSE);
+            player.addEffect(Effect.EXCALIBUR_HEAL, enhanced ? 70 : 35);
             player.getCombatDefinitions().drainSpec(100);
             return 0;
         }));
@@ -454,7 +439,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
-            player.getPrayer().restorePrayer((hit.getDamage() / 4) * 10);
+            player.getPrayer().restorePrayer(hit.getDamage() / 4.0);
             delayNormalHit(target, hit);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));

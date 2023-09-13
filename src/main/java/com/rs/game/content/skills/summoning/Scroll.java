@@ -30,6 +30,7 @@ import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.content.skills.farming.ProduceType;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.content.skills.summoning.combat.impl.BarkerToad;
 import com.rs.game.content.skills.woodcutting.TreeType;
@@ -920,7 +921,7 @@ public enum Scroll {
 			owner.getBank().depositAllBob(false);
 			for (int i = 0;i < owner.getInventory().getItemsContainerSize();i++) {
 				Item item = owner.getInventory().getItem(i);
-				if (item == null)
+				if (item == null || (item.getId() != Runecrafting.RUNE_ESS && item.getId() != Runecrafting.PURE_ESS))
 					continue;
 				owner.getBank().depositItem(i, 1, false);
 			}

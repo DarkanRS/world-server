@@ -43,6 +43,7 @@ import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
+import jdk.jfr.FlightRecorder;
 
 import java.io.BufferedReader;
 import java.io.IOException;

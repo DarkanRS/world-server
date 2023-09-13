@@ -135,9 +135,6 @@ public final class NPCCombat {
 			distanceY = target.getY() - npc.getY();
 			if (distanceX > size + maxDistance || distanceX < -1 - maxDistance || distanceY > size + maxDistance || distanceY < -1 - maxDistance)
 				return false; // if target distance higher 16
-		} else {
-			distanceX = target.getX() - npc.getX();
-			distanceY = target.getY() - npc.getY();
 		}
 		if (!npc.canAttackMulti(target) || !target.canAttackMulti(npc))
 			return false;

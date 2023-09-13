@@ -1,0 +1,47 @@
+{
+  "name": "The Asp & Snake Bar",
+  "generalStore": false,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1917,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 2017,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1993,
+        "amount": 10
+      }
+    },
+	    {
+      "item": {
+        "id": 2015,
+        "amount": 10
+      }
+    },
+	    {
+      "item": {
+        "id": 2021,
+        "amount": 10
+      }
+    },
+    {
+      "item": {
+        "id": 1915,
+        "amount": 10
+      }
+    }
+  ],
+  "npcIds": [
+    1864
+  ]
+}

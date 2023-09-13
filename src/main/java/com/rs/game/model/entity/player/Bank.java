@@ -1019,7 +1019,11 @@ public class Bank {
 				toRemove.add(ip);
 		for (String ip : toRemove)
 			enteredPin.remove(ip);
-		return enteredPin.containsKey(player.getSession().getIP());
+		if (enteredPin.containsKey(player.getSession().getIP())) {
+			sessionPin = true;
+			return true;
+		}
+		return false;
 	}
 
 	public void setEnteredPIN() {

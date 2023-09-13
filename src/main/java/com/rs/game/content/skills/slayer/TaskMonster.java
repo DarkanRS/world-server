@@ -33,7 +33,7 @@ public enum TaskMonster {
 	ZOMBIES(10, 1, "zombie"),
 	SKELETONS(11, 1, "skeleton"),
 	GHOSTS(12, 1, "ghost", "revenant"),
-	BEARS(13, 1, " bear"),
+	BEARS(13, 1, " bear", "bear cub"),
 	HILL_GIANTS(14, 1, "hill giant"),
 	ICE_GIANTS(15, 1, "ice giant"),
 	FIRE_GIANTS(16, 1, "fire giant"),
