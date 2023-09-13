@@ -251,4 +251,8 @@ public final class Settings {
 	public String getStaffWebhookUrl() {
 		return staffWebhookUrl;
 	}
+
+    public void setJFR(boolean b) {
+		enableJFR = b;
+    }
 }
