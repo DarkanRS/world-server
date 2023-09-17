@@ -70,6 +70,17 @@
     "songs": []
   },
   {
+    "genre": "Dominion Lobby",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      14948
+    ],
+    "songs": [
+      1014, 1015, 1016, 1017, 1018, 1021, 1022, 1023
+    ]
+  },
+  {
     "genre": "Void Knight Outpost",
     "comment": "",
     "isActive": false,

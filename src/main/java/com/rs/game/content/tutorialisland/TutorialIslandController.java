@@ -1082,6 +1082,15 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	@Override
+	public boolean processNPCClick2(NPC npc) {
+		if (npc.getId() == SKIPPY) {
+			player.startConversation(new Skippy(player, npc, this));
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 36773) {
 			player.sendMessage("I should continue what I was doing.");
