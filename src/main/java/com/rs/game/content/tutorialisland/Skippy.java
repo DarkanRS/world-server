@@ -38,15 +38,14 @@ public class Skippy extends Conversation {
 		npc.faceEntity(player);
 		npc.resetWalkSteps();
 
-		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Hey. Do you wanna skip the Tutorial?", "I can send you straight to Lumbridge, easy."));
-		addNext(new OptionStatement("Do you want to go to the mainland?", "Yes, send me to Lumbridge now.", "No, I'd like to enjoy the nostalgic Tutorial Trent worked so hard on."));
+		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Hey. Do you wanna skip the Tutorial?", "I can send you straight to Burthorpe, easy."));
+		addNext(new OptionStatement("Do you want to go to the mainland?", "Yes, send me to Burthorpe now.", "No, I'd like to enjoy the nostalgic Tutorial Trent worked so hard on."));
 		addNext(new NPCStatement(npc.getId(), HeadE.DRUNK, "Right on. I'll read you the official messages first, then", "send you on your way. Ahem..."));
-		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "When you get to the mainland you will find yourself in", "the town of Lumbridge. If you want some ideas on", "where to go next, talk to my friend the Lumbridge", "Guide. You can't miss him; he's holding a big staff with"));
-		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "a question mark on the end. He also has a white beard", "and carries a rucksack full of scrolls. There are also", "many tutors willing to teach you about the many skills", "you could learn."));
-		addNext(new ItemStatement(5079, 1100, "", "When you get to Lumbridge, look for this icon on your", "mini-map. The Lumbridge Guide or one of the other", "tutors should be standing near there. The Lumbridge", "Guide should be standing slightly to the north-east of"));
-		addNext(new ItemStatement(5079, 1100, "", "the castle's courtyard and the others you will find", "scattered around Lumbridge."));
-		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "If all else fails, visit the " + Settings.getConfig().getServerName() + " website for a whole", "chestload of information on quests, skills and minigames", "as well as a very good starter's guide."));
-		addNext(new Dialogue(new SimpleStatement("Welcome to Lumbridge! To get more help, simply click on the", "Lumbridge Guide or one of the Tutors - these can be found by", "looking for the question mark icon on your mini map. If you find", "you are lost at any time, look for a signpost or use the Lumbridge", "Home Port spell."), () -> {
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "When you get to the mainland you will find yourself in", "the town of Burthorpe. If you want some ideas on", "where to go next, talk to my old drinking buddy Major", "Nigel Corothers You can't miss him; he's in grey armour"));
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "with a sword icon above him and always in a ", "standard confidence pose. There are also many beginner friendly locations", "and shops in Burthorpe for you to skill and learn from"));
+		addNext(new ItemStatement(2402, 1100, "", "When you get to Burthorpe, look for a sword icon on your", "mini-map. Major Nigel Corothers should be standing slightly off center where you start in Burthorpe, near a bank chest.", "All the other beginner locations you will find scattered around Burthorpe"));
+		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "If all else fails, visit the " + Settings.getConfig().getServerName() + " Discord for a whole", "chestload of information on quests, skills and minigames", "as well as a very good community."));
+		addNext(new Dialogue(new SimpleStatement("Welcome to Burthorpe!", "To further learn about Gielinor, simply talk to Major Nigel Corothers.", "He can be found by looking for the sword icon on your mini map. If you find", "you are lost at any time, use the home teleport spell to go to common destinations."), () -> {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
 			player.setNextTile(Tile.of(Settings.getConfig().getPlayerStartTile()));
 			player.getControllerManager().forceStop();

@@ -9047,7 +9047,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1014,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Tower I",
@@ -9055,7 +9055,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1015,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Tower IV",
@@ -9063,7 +9063,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1016,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Lobby I",
@@ -9079,7 +9079,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1018,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Tower V",
@@ -9087,7 +9087,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1021,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Tower II",
@@ -9095,7 +9095,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1022,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Dominion Lobby II",
@@ -9103,7 +9103,7 @@
     "comment": "",
     "allowAmbient": false,
     "id": 1023,
-    "regionIds": []
+    "regionIds": [14948]
   },
   {
     "name": "Traveller's Tale",
