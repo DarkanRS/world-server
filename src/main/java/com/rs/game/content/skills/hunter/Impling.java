@@ -25,9 +25,8 @@ public class Impling extends NPC {
         this.dynamic = dynamic;
         this.respawnTile = tile;
         this.puropuro = isPuroPuroImpling(id);
-        if (!puropuro) {
+        if (!puropuro)
             finishAfterTicks(Ticks.fromMinutes(30));
-        }
         setRandomWalk(true);
         setClipType(ClipType.FLYING);
         addLOSOverrides(id);
@@ -47,7 +46,8 @@ public class Impling extends NPC {
         reset();
         setTile(respawnTile);
         finish();
-        setNPC(rollImpRespawn());
+        int impId = rollImpRespawn();
+        setNPC(impId == -1 ? rollLowTierOverworldImp() : impId);
         if (!isSpawned())
             setRespawnTask(getRespawnTicks(getId()));
     }
@@ -162,7 +162,7 @@ public class Impling extends NPC {
         return switch (npcId) {
             case 6058, 6059, 7904 -> 50; //Earth, Essence, Spirit
             case 6055, 6056, 6057, 6060 -> 7; //Baby, Young, Gourmet, Eclectic
-            case default -> Ticks.fromMinutes(2); //Catch all for overworld
+            default -> Ticks.fromMinutes(2); //Catch all for overworld
         };
     }
 
