@@ -33,7 +33,7 @@ repositories {
 }
 
 group 'rs.darkan'
-version '1.4.0'
+version '1.4.1'
 
 dependencies {
 	implementation group: 'com.github.oshi', name: 'oshi-core', version: '6.4.5'
