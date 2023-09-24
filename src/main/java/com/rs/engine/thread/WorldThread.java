@@ -29,7 +29,9 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.lib.web.APIUtil;
 import com.rs.utils.Timer;
+import com.rs.utils.WorldUtil;
 import com.rs.web.Telemetry;
+import com.sun.management.OperatingSystemMXBean;
 import jdk.jfr.Configuration;
 import jdk.jfr.FlightRecorder;
 import jdk.jfr.Recording;
@@ -37,15 +39,24 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +64,8 @@ public final class WorldThread extends Thread {
 
 	public static long START_CYCLE;
 	public static volatile long WORLD_CYCLE;
+	public static long LOWEST_TICK = 50000;
+	public static long HIGHEST_TICK = 0;
 
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
@@ -87,6 +100,10 @@ public final class WorldThread extends Thread {
 		while(true) {
 			long startTime = System.currentTimeMillis();
 			Recording tickRecording = Settings.getConfig().isEnableJFR() ? new Recording(config) : null;
+			SystemInfo si = new SystemInfo();
+			HardwareAbstractionLayer hal = si.getHardware();
+			CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
+			long[] initialTicks = processor.getSystemCpuLoadTicks();
 			try {
 				if (Settings.getConfig().isEnableJFR()) {
 					Timer timerJFR = new Timer().start();
@@ -193,9 +210,13 @@ public final class WorldThread extends Thread {
 				}
 				World.processEntityLists();
 				long time = (System.currentTimeMillis() - startTime);
-				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
+				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(WorldUtil.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 
 				Telemetry.queueTelemetryTick(time);
+				if (time > HIGHEST_TICK)
+					HIGHEST_TICK = time;
+				if (time < LOWEST_TICK)
+					LOWEST_TICK = time;
 				if (time > 300l && Settings.getConfig().getStaffWebhookUrl() != null) {
 					if (Settings.getConfig().isEnableJFR())
 						tickRecording.stop();
@@ -211,7 +232,50 @@ public final class WorldThread extends Thread {
 					content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
 					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
 					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
-					content.append("```");
+					content.append("```\n");
+					content.append("JVM Stats:\n");
+					content.append("```\n");
+					/**
+					 * Memory and CPU usage stats
+					 */
+					MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+					MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+					MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+
+					long jvmHeapUsed = heapMemoryUsage.getUsed() / 1048576L; // in MB
+					long jvmNonHeapUsed = nonHeapMemoryUsage.getUsed() / 1048576L; // in MB
+					long jvmTotalUsed = jvmHeapUsed + jvmNonHeapUsed;
+
+					long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
+					double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
+					content.append("Total JVM memory usage: " + Utils.formatLong(jvmTotalUsed) + "mb/" + Utils.formatLong(jvmMaxMemory) + "mb (" + Utils.formatDouble(jvmMemUsedPerc) + "%)\n");
+
+					GlobalMemory memory = hal.getMemory();
+					long availableMemory = memory.getAvailable() / 1048576L;
+					long totalMemory = memory.getTotal() / 1048576L;
+					long usedMemory = totalMemory - availableMemory;
+
+					content.append("RAM usage: " + Utils.formatLong(usedMemory) + "mb/" + Utils.formatLong(totalMemory) + "mb (" + Utils.formatDouble(((double) usedMemory / (double) totalMemory) * 100.0) + "%)\n");
+					content.append("CPU usage: " + Utils.formatDouble(processor.getSystemCpuLoadBetweenTicks(initialTicks)*100.0) + "%\n");
+
+					/**
+					 * Garbage collection stats
+					 */
+					List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
+					long[] lastCollectionTimes = new long[gcBeans.size()];
+					long[] lastCollectionCounts = new long[gcBeans.size()];
+					for (int i = 0; i < gcBeans.size(); i++) {
+						lastCollectionTimes[i] = gcBeans.get(i).getCollectionTime();
+						lastCollectionCounts[i] = gcBeans.get(i).getCollectionCount();
+					}
+					for (int i = 0; i < gcBeans.size(); i++) {
+						GarbageCollectorMXBean gcBean = gcBeans.get(i);
+						long newTime = gcBean.getCollectionTime();
+						long newCount = gcBean.getCollectionCount();
+						if (lastCollectionCounts[i] != newCount)
+							content.append("GC: " + gcBean.getName() + " last collection took " + Utils.formatLong(newTime - lastCollectionTimes[i]) + " ms\n");
+					}
+					content.append("```\n");
 					MultipartBody.Builder builder = new MultipartBody.Builder()
 							.setType(MultipartBody.FORM)
 							.addFormDataPart("content", content.toString());

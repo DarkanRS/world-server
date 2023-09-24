@@ -28,6 +28,9 @@ import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Vec2;
 import com.rs.lib.web.dto.FCData;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
@@ -163,5 +166,19 @@ public class WorldUtil {
 		if (distanceX > size2 + maxDistance || distanceX < -size1 - maxDistance || distanceY > size2 + maxDistance || distanceY < -size1 - maxDistance)
 			return false;
 		return true;
+	}
+
+	public static double getMemUsedPerc() {
+		MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+		MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+		MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+
+		long jvmHeapUsed = heapMemoryUsage.getUsed() / 1048576L; // in MB
+		long jvmNonHeapUsed = nonHeapMemoryUsage.getUsed() / 1048576L; // in MB
+		long jvmTotalUsed = jvmHeapUsed + jvmNonHeapUsed;
+
+		long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
+		double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
+		return jvmMemUsedPerc;
 	}
 }
