@@ -41,6 +41,7 @@ import com.rs.net.decoders.BaseWorldDecoder;
 import com.rs.plugin.PluginManager;
 import com.rs.utils.Ticks;
 import com.rs.utils.WorldPersistentData;
+import com.rs.utils.WorldUtil;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
 import jdk.jfr.FlightRecorder;
@@ -136,7 +137,7 @@ public final class Launcher {
 	private static void addCleanMemoryTask() {
 		LowPriorityTaskExecutor.schedule(() -> {
 			try {
-				cleanMemory(getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
+				cleanMemory(WorldUtil.getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
 			} catch (Throwable e) {
 				Logger.handle(Launcher.class, "addCleanMemoryTask", e);
 			}
@@ -172,7 +173,7 @@ public final class Launcher {
 		}
 		for (Index index : Cache.STORE.getIndices())
 			index.resetCachedFiles();
-		System.gc();
+		System.gc(); System.gc();
 	}
 
 	public static void shutdown() {
@@ -216,9 +217,5 @@ public final class Launcher {
 				Logger.handle(Launcher.class, "executeCommand", e);
 			}
 		});
-	}
-
-	public static double getMemUsedPerc() {
-		return 100.0 - (((double) Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory()) * 100.0);
 	}
 }

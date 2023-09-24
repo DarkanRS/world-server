@@ -29,7 +29,9 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.lib.web.APIUtil;
 import com.rs.utils.Timer;
+import com.rs.utils.WorldUtil;
 import com.rs.web.Telemetry;
+import com.sun.management.OperatingSystemMXBean;
 import jdk.jfr.Configuration;
 import jdk.jfr.FlightRecorder;
 import jdk.jfr.Recording;
@@ -41,11 +43,14 @@ import okhttp3.RequestBody;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.management.GarbageCollectorMXBean;
+import java.lang.management.ManagementFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.Base64;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -53,6 +58,8 @@ public final class WorldThread extends Thread {
 
 	public static long START_CYCLE;
 	public static volatile long WORLD_CYCLE;
+	public static long LOWEST_TICK = 50000;
+	public static long HIGHEST_TICK = 0;
 
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
@@ -196,10 +203,22 @@ public final class WorldThread extends Thread {
 				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 
 				Telemetry.queueTelemetryTick(time);
+				if (time > HIGHEST_TICK)
+					HIGHEST_TICK = time;
+				if (time < LOWEST_TICK)
+					LOWEST_TICK = time;
 				if (time > 300l && Settings.getConfig().getStaffWebhookUrl() != null) {
 					if (Settings.getConfig().isEnableJFR())
 						tickRecording.stop();
 					StringBuilder content = new StringBuilder();
+					List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
+					long[] lastCollectionTimes = new long[gcBeans.size()];
+					long[] lastCollectionCounts = new long[gcBeans.size()];
+					for (int i = 0; i < gcBeans.size(); i++) {
+						lastCollectionTimes[i] = gcBeans.get(i).getCollectionTime();
+						lastCollectionCounts[i] = gcBeans.get(i).getCollectionCount();
+					}
+
 					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
 					content.append("```\n");
 					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
@@ -211,7 +230,26 @@ public final class WorldThread extends Thread {
 					content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
 					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
 					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
-					content.append("```");
+					content.append("```\n");
+					content.append("JVM Stats:\n");
+					content.append("```\n");
+					content.append("JVM memory usage: " + Utils.formatLong(Runtime.getRuntime().freeMemory()) + "/" + Utils.formatLong(Runtime.getRuntime().maxMemory()) + " (" + Utils.formatDouble(WorldUtil.getMemUsedPerc()) + "%)\n");
+					OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBeans(OperatingSystemMXBean.class).get(0);
+					double cpuLoad = osBean.getProcessCpuLoad() * 100.0;
+					long totalMemorySize = osBean.getTotalPhysicalMemorySize();
+					long freeMemorySize = osBean.getFreePhysicalMemorySize();
+					long usedMemorySize = totalMemorySize - freeMemorySize;
+					double memUsedPerc = ((double) usedMemorySize / totalMemorySize) * 100.0;
+					content.append("CPU usage: " + Utils.formatDouble(cpuLoad) + "%\n");
+					content.append("RAM usage: " + Utils.formatLong(usedMemorySize) + "/" + Utils.formatLong(totalMemorySize) + " (" + Utils.formatDouble(memUsedPerc) + "%)\n");
+					for (int i = 0; i < gcBeans.size(); i++) {
+						GarbageCollectorMXBean gcBean = gcBeans.get(i);
+						long newTime = gcBean.getCollectionTime();
+						long newCount = gcBean.getCollectionCount();
+						if (lastCollectionCounts[i] != newCount)
+							content.append("GC: " + gcBean.getName() + " last collection took " + Utils.formatLong(newTime - lastCollectionTimes[i]) + " ms\n");
+					}
+					content.append("```\n");
 					MultipartBody.Builder builder = new MultipartBody.Builder()
 							.setType(MultipartBody.FORM)
 							.addFormDataPart("content", content.toString());

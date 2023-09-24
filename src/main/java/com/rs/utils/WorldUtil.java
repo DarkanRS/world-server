@@ -164,4 +164,8 @@ public class WorldUtil {
 			return false;
 		return true;
 	}
+
+	public static double getMemUsedPerc() {
+		return 100.0 - (((double) Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory()) * 100.0);
+	}
 }
