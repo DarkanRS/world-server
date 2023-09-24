@@ -200,7 +200,7 @@ public final class WorldThread extends Thread {
 				}
 				World.processEntityLists();
 				long time = (System.currentTimeMillis() - startTime);
-				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(Launcher.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
+				Logger.trace(WorldThread.class, "tick", "Tick finished - Mem: " + (Utils.formatDouble(WorldUtil.getMemUsedPerc())) + "% - " + time + "ms - Players online: " + World.getPlayers().size());
 
 				Telemetry.queueTelemetryTick(time);
 				if (time > HIGHEST_TICK)
@@ -211,14 +211,6 @@ public final class WorldThread extends Thread {
 					if (Settings.getConfig().isEnableJFR())
 						tickRecording.stop();
 					StringBuilder content = new StringBuilder();
-					List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
-					long[] lastCollectionTimes = new long[gcBeans.size()];
-					long[] lastCollectionCounts = new long[gcBeans.size()];
-					for (int i = 0; i < gcBeans.size(); i++) {
-						lastCollectionTimes[i] = gcBeans.get(i).getCollectionTime();
-						lastCollectionCounts[i] = gcBeans.get(i).getCollectionCount();
-					}
-
 					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
 					content.append("```\n");
 					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
@@ -233,15 +225,29 @@ public final class WorldThread extends Thread {
 					content.append("```\n");
 					content.append("JVM Stats:\n");
 					content.append("```\n");
-					content.append("JVM memory usage: " + Utils.formatLong(Runtime.getRuntime().freeMemory()) + "/" + Utils.formatLong(Runtime.getRuntime().maxMemory()) + " (" + Utils.formatDouble(WorldUtil.getMemUsedPerc()) + "%)\n");
+					/**
+					 * Memory and CPU usage stats
+					 */
+					content.append("JVM memory usage: " + Utils.formatLong((Runtime.getRuntime().maxMemory()-Runtime.getRuntime().freeMemory()) / 1048576L) + "mb/" + Utils.formatLong(Runtime.getRuntime().maxMemory() / 1048576L) + "mb (" + Utils.formatDouble(WorldUtil.getMemUsedPerc()) + "%)\n");
 					OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBeans(OperatingSystemMXBean.class).get(0);
 					double cpuLoad = osBean.getProcessCpuLoad() * 100.0;
-					long totalMemorySize = osBean.getTotalPhysicalMemorySize();
-					long freeMemorySize = osBean.getFreePhysicalMemorySize();
+					long totalMemorySize = osBean.getTotalMemorySize() / 1048576L; //mb
+					long freeMemorySize = osBean.getFreeMemorySize() / 1048576L; //mb
 					long usedMemorySize = totalMemorySize - freeMemorySize;
 					double memUsedPerc = ((double) usedMemorySize / totalMemorySize) * 100.0;
 					content.append("CPU usage: " + Utils.formatDouble(cpuLoad) + "%\n");
-					content.append("RAM usage: " + Utils.formatLong(usedMemorySize) + "/" + Utils.formatLong(totalMemorySize) + " (" + Utils.formatDouble(memUsedPerc) + "%)\n");
+					content.append("RAM usage: " + Utils.formatLong(usedMemorySize) + "mb/" + Utils.formatLong(totalMemorySize) + "mb (" + Utils.formatDouble(memUsedPerc) + "%)\n");
+
+					/**
+					 * Garbage collection stats
+					 */
+					List<GarbageCollectorMXBean> gcBeans = ManagementFactory.getGarbageCollectorMXBeans();
+					long[] lastCollectionTimes = new long[gcBeans.size()];
+					long[] lastCollectionCounts = new long[gcBeans.size()];
+					for (int i = 0; i < gcBeans.size(); i++) {
+						lastCollectionTimes[i] = gcBeans.get(i).getCollectionTime();
+						lastCollectionCounts[i] = gcBeans.get(i).getCollectionCount();
+					}
 					for (int i = 0; i < gcBeans.size(); i++) {
 						GarbageCollectorMXBean gcBean = gcBeans.get(i);
 						long newTime = gcBean.getCollectionTime();
