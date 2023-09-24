@@ -36,6 +36,7 @@ group 'rs.darkan'
 version '1.4.0'
 
 dependencies {
+	implementation group: 'com.github.oshi', name: 'oshi-core', version: '6.4.5'
 	implementation group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.36'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.8.10'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '1.8.10'

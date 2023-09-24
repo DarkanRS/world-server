@@ -39,12 +39,18 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import oshi.SystemInfo;
+import oshi.hardware.CentralProcessor;
+import oshi.hardware.GlobalMemory;
+import oshi.hardware.HardwareAbstractionLayer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
@@ -94,6 +100,10 @@ public final class WorldThread extends Thread {
 		while(true) {
 			long startTime = System.currentTimeMillis();
 			Recording tickRecording = Settings.getConfig().isEnableJFR() ? new Recording(config) : null;
+			SystemInfo si = new SystemInfo();
+			HardwareAbstractionLayer hal = si.getHardware();
+			CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
+			long[] initialTicks = processor.getSystemCpuLoadTicks();
 			try {
 				if (Settings.getConfig().isEnableJFR()) {
 					Timer timerJFR = new Timer().start();
@@ -228,15 +238,25 @@ public final class WorldThread extends Thread {
 					/**
 					 * Memory and CPU usage stats
 					 */
-					content.append("JVM memory usage: " + Utils.formatLong((Runtime.getRuntime().maxMemory()-Runtime.getRuntime().freeMemory()) / 1048576L) + "mb/" + Utils.formatLong(Runtime.getRuntime().maxMemory() / 1048576L) + "mb (" + Utils.formatDouble(WorldUtil.getMemUsedPerc()) + "%)\n");
-					OperatingSystemMXBean osBean = ManagementFactory.getPlatformMXBeans(OperatingSystemMXBean.class).get(0);
-					double cpuLoad = osBean.getProcessCpuLoad() * 100.0;
-					long totalMemorySize = osBean.getTotalMemorySize() / 1048576L; //mb
-					long freeMemorySize = osBean.getFreeMemorySize() / 1048576L; //mb
-					long usedMemorySize = totalMemorySize - freeMemorySize;
-					double memUsedPerc = ((double) usedMemorySize / totalMemorySize) * 100.0;
-					content.append("CPU usage: " + Utils.formatDouble(cpuLoad) + "%\n");
-					content.append("RAM usage: " + Utils.formatLong(usedMemorySize) + "mb/" + Utils.formatLong(totalMemorySize) + "mb (" + Utils.formatDouble(memUsedPerc) + "%)\n");
+					MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
+					MemoryUsage heapMemoryUsage = memoryMXBean.getHeapMemoryUsage();
+					MemoryUsage nonHeapMemoryUsage = memoryMXBean.getNonHeapMemoryUsage();
+
+					long jvmHeapUsed = heapMemoryUsage.getUsed() / 1048576L; // in MB
+					long jvmNonHeapUsed = nonHeapMemoryUsage.getUsed() / 1048576L; // in MB
+					long jvmTotalUsed = jvmHeapUsed + jvmNonHeapUsed;
+
+					long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
+					double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
+					content.append("Total JVM memory usage: " + Utils.formatLong(jvmTotalUsed) + "mb/" + Utils.formatLong(jvmMaxMemory) + "mb (" + Utils.formatDouble(jvmMemUsedPerc) + "%)\n");
+
+					GlobalMemory memory = hal.getMemory();
+					long availableMemory = memory.getAvailable() / 1048576L;
+					long totalMemory = memory.getTotal() / 1048576L;
+					long usedMemory = totalMemory - availableMemory;
+
+					content.append("RAM usage: " + Utils.formatLong(usedMemory) + "mb/" + Utils.formatLong(totalMemory) + "mb (" + Utils.formatDouble(((double) usedMemory / (double) totalMemory) * 100.0) + "%)\n");
+					content.append("CPU usage: " + Utils.formatDouble(processor.getSystemCpuLoadBetweenTicks(initialTicks)*100.0) + "%\n");
 
 					/**
 					 * Garbage collection stats
