@@ -82,6 +82,9 @@ public final class WorldThread extends Thread {
 
 	@Override
 	public void run() {
+		SystemInfo si = new SystemInfo();
+		HardwareAbstractionLayer hal = si.getHardware();
+		CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
 		Configuration config = null;
 		if (Settings.getConfig().isEnableJFR()) {
 			try {
@@ -100,10 +103,6 @@ public final class WorldThread extends Thread {
 		while(true) {
 			long startTime = System.currentTimeMillis();
 			Recording tickRecording = Settings.getConfig().isEnableJFR() ? new Recording(config) : null;
-			SystemInfo si = new SystemInfo();
-			HardwareAbstractionLayer hal = si.getHardware();
-			CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
-			long[] initialTicks = processor.getSystemCpuLoadTicks();
 			try {
 				if (Settings.getConfig().isEnableJFR()) {
 					Timer timerJFR = new Timer().start();
@@ -116,6 +115,7 @@ public final class WorldThread extends Thread {
 				Timer timerTask = new Timer().start();
 				WorldTasks.processTasks();
 				Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
+				long[] initialTicks = processor.getSystemCpuLoadTicks();
 				OwnedObject.processAll();
 				NAMES.clear();
 				Timer timerNpcProc = new Timer().start();
