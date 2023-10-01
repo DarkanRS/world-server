@@ -16,7 +16,6 @@
 //
 package com.rs.engine.thread;
 
-import com.rs.Launcher;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
@@ -24,16 +23,13 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.lib.web.APIUtil;
 import com.rs.utils.Timer;
 import com.rs.utils.WorldUtil;
 import com.rs.web.Telemetry;
-import com.sun.management.OperatingSystemMXBean;
 import jdk.jfr.Configuration;
-import jdk.jfr.FlightRecorder;
 import jdk.jfr.Recording;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -51,14 +47,11 @@ import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 public final class WorldThread extends Thread {
 
@@ -82,9 +75,6 @@ public final class WorldThread extends Thread {
 
 	@Override
 	public void run() {
-		SystemInfo si = new SystemInfo();
-		HardwareAbstractionLayer hal = si.getHardware();
-		CentralProcessor processor = new SystemInfo().getHardware().getProcessor();
 		Configuration config = null;
 		if (Settings.getConfig().isEnableJFR()) {
 			try {
@@ -115,7 +105,6 @@ public final class WorldThread extends Thread {
 				Timer timerTask = new Timer().start();
 				WorldTasks.processTasks();
 				Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
-				long[] initialTicks = processor.getSystemCpuLoadTicks();
 				OwnedObject.processAll();
 				NAMES.clear();
 				Timer timerNpcProc = new Timer().start();
@@ -249,14 +238,6 @@ public final class WorldThread extends Thread {
 					long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
 					double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
 					content.append("Total JVM memory usage: " + Utils.formatLong(jvmTotalUsed) + "mb/" + Utils.formatLong(jvmMaxMemory) + "mb (" + Utils.formatDouble(jvmMemUsedPerc) + "%)\n");
-
-					GlobalMemory memory = hal.getMemory();
-					long availableMemory = memory.getAvailable() / 1048576L;
-					long totalMemory = memory.getTotal() / 1048576L;
-					long usedMemory = totalMemory - availableMemory;
-
-					content.append("RAM usage: " + Utils.formatLong(usedMemory) + "mb/" + Utils.formatLong(totalMemory) + "mb (" + Utils.formatDouble(((double) usedMemory / (double) totalMemory) * 100.0) + "%)\n");
-					content.append("CPU usage: " + Utils.formatDouble(processor.getSystemCpuLoadBetweenTicks(initialTicks)*100.0) + "%\n");
 
 					/**
 					 * Garbage collection stats

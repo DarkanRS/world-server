@@ -1513,7 +1513,7 @@ public class PlayerCombat extends PlayerAction {
 						default:
 							return 13691;
 					}
-				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm"))
+				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm") || weaponName.contains("hasta"))
 					switch (attackStyle.getIndex()) {
 						case 1:
 							return 440;
