@@ -189,9 +189,13 @@ public class FairyRings {
 		}
 
 		public static Ring forHash(String hash) {
+			for (Ring ring : Ring.values()) {
+				if (ring.name().length() > 3 && hash.endsWith(ring.name()))
+					return ring;
+			}
 			try {
 				return Ring.valueOf(hash);
-			} catch (Throwable e) {
+			} catch(IllegalArgumentException e) {
 				return null;
 			}
 		}
@@ -288,28 +292,16 @@ public class FairyRings {
 	public static boolean sendRingTeleport(Player player, String hash) {
 		Ring ring = Ring.forHash(hash);
 		String historyHash = player.getTempAttribs().getO("fairyRingHistory");
-		if (historyHash != null) {
-			historyHash = player.getTempAttribs().getO("fairyRingHistory") + "_" + hash;
-			if (Ring.forHash(historyHash) != null) {
-				ring = Ring.forHash(historyHash);
-				player.getTempAttribs().removeO("fairyRingHistory");
-				player.sendMessage("The secret fairy ring network resets its prior programming.");
-			}
-		}
-		String newHistoryHash = historyHash == null ? ring.toString() : historyHash;
+		historyHash = historyHash == null ? ring.toString() : (historyHash + "_" + hash);
+		if (historyHash.split("_").length > 4)
+			historyHash = historyHash.substring(4);
+		Ring specialRing = Ring.forHash(historyHash);
+		if (specialRing != null)
+			ring = specialRing;
+		player.getTempAttribs().setO("fairyRingHistory", historyHash);
 		if (ring == null || ring.getTile() == null || !ring.meetsRequirements(player, false)) {
-			player.getTempAttribs().setO("fairyRingHistory", newHistoryHash);
-			if (player.getTempAttribs().getO("fairyRingHistory").toString().split("_").length > 4) {
-				player.getTempAttribs().removeO("fairyRingHistory");
-				player.sendMessage("The secret fairy ring network resets its prior programming.");
-			}
 			sendTeleport(player, Tile.of(FAIRY_SOURCE, 2));
 			return false;
-		}
-		player.getTempAttribs().setO("fairyRingHistory", newHistoryHash);
-		if (player.getTempAttribs().getO("fairyRingHistory").toString().split("_").length > 4) {
-			player.getTempAttribs().removeO("fairyRingHistory");
-			player.sendMessage("The secret fairy ring network resets its prior programming.");
 		}
 		sendTeleport(player, ring.getTile());
 		return true;
