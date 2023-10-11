@@ -2,16 +2,16 @@
   "names": [
     "River troll"
   ],
-  "attackAnim": -1,
+  "attackAnim": 1158,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 5375,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 5209,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 400,
+  "maxHit": 40,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {

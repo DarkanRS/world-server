@@ -106,5 +106,14 @@
       "y": 4491,
       "plane": 0
     }
+  },
+  {
+    "comment": "Fishing spot added by trent",
+    "npcId": 8647,
+    "tile": {
+      "x": 3042,
+      "y": 4510,
+      "plane": 0
+    }
   }
 ]

@@ -2,6 +2,9 @@ package com.rs.game.content.world.areas.enchanted_valley;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.skills.dungeoneering.DungeonConstants;
+import com.rs.game.content.skills.fishing.Fishing;
+import com.rs.game.content.skills.fishing.FishingSpot;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.woodcutting.TreeType;
@@ -9,7 +12,10 @@ import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
+import com.rs.game.model.entity.player.Skills;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
@@ -57,6 +63,29 @@ public class EnchantedValley {
                 rockGolem.setTarget(e.getPlayer());
                 return true;
             }
+        });
+    });
+
+    @ServerStartupEvent
+    public static void addFishingSpotLOSOverride() {
+        Entity.addLOSOverride(8647);
+    }
+
+    public static NPCClickHandler fishFish = new NPCClickHandler(new Object[] { 8647 }, e -> {
+        if (e.getPlayer().inCombat()) {
+            e.getPlayer().sendMessage("You can't fish while you are under attack.");
+            return;
+        }
+        e.getPlayer().repeatAction(4, num -> {
+            if (Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.FISHING), 32, 192)) {
+                e.getPlayer().anim(-1);
+                NPC rockGolem = new OwnedNPC(e.getPlayer(), 8646, e.getPlayer().getNearestTeleTile(1), false);
+                rockGolem.forceTalk("Fishies be mine, leave dem fishies!");
+                rockGolem.setTarget(e.getPlayer());
+                return false;
+            }
+            e.getPlayer().anim(622);
+            return true;
         });
     });
 }

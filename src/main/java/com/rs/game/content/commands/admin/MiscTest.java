@@ -127,7 +127,7 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.ADMIN, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
 			NPCDropDumper.dumpNPC(args[0]);
 		});
 
