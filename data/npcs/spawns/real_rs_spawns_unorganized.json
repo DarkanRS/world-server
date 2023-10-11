@@ -15691,15 +15691,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2409,
-      "y": 4437
-    },
-    "comment": "Fairy Fixit",
-    "npcId": 4455
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2410,
       "y": 4456
     },

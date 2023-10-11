@@ -207,7 +207,7 @@ public class Woodcutting extends Action {
 		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.WOODCUTTING) + player.getInvisibleSkillBoost(Skills.WOODCUTTING) : wcLevel;
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
-			giveLog(entity, type);
+			giveLog(entity);
 			if (!type.isPersistent() || (Utils.random(8) == 0)) {
 				fellTree();
 				entity.setNextAnimation(new Animation(-1));
@@ -247,7 +247,7 @@ public class Woodcutting extends Action {
 		return xpBoost;
 	}
 
-	public static void giveLog(Entity entity, TreeType type) {
+	public void giveLog(Entity entity) {
 		if (entity instanceof Player player) {
 			if (type != TreeType.IVY) {
 				if (type.getLogsId() != null)

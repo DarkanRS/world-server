@@ -208,7 +208,7 @@ public class NPCDropDumper {
 					String[] memes = line.split("\\|");
 					for (String meme : memes) {
 						String[] key = meme.split("=");
-						if (key[0].equals("Name")) {
+						if (key[0].toLowerCase().equals("name")) {
 							name = key[1].replace("(", " (").replace("  (", " (");
 							name = name.replace(" axe", " hatchet");
 							name = name.replace("med helm", "helm");
@@ -225,7 +225,7 @@ public class NPCDropDumper {
 								}
 							if (CUSTOM_NAME_MAP.get(name) != null)
 								itemId = CUSTOM_NAME_MAP.get(name);
-						} else if (key[0].equals("Quantity")) {
+						} else if (key[0].toLowerCase().equals("quantity")) {
 							if (key[1].toLowerCase().contains("(noted)")) {
 								key[1] = key[1].toLowerCase().replace(" (noted)", "").replace("(noted)", "");
 								itemId = ItemDefinitions.getDefs(itemId).getCertId();
@@ -243,7 +243,7 @@ public class NPCDropDumper {
 								min = Integer.valueOf(key[1].replace(" ", "").trim());
 								max = min;
 							}
-						} else if (key[0].equals("Rarity")) {
+						} else if (key[0].toLowerCase().equals("rarity")) {
 							if (key[1].toLowerCase().contains("always")) {
 								num = 0;
 								den = 0;
@@ -253,7 +253,7 @@ public class NPCDropDumper {
 								num = Double.valueOf(frac[0].trim());
 								den = Double.valueOf(frac[1].trim());
 							}
-						} else if (key[0].equals("AltRarity")) {
+						} else if (key[0].toLowerCase().equals("altrarity")) {
 							if (key[1].toLowerCase().contains("always")) {
 								num = 0;
 								den = 0;
