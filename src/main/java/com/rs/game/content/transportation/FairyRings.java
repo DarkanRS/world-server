@@ -64,7 +64,12 @@ public class FairyRings {
 		BIP(30, "Islands: Polypore Dungeon", Tile.of(3410, 3324, 0)),
 		ALS(29, "Kandarin: McGrubor's Wood", Tile.of(2644, 3495, 0)),
 		ALR(28, "Other Realms: Abyss", Tile.of(3059, 4875, 0)),
-		ALQ(27, "Morytania: Haunted Woods", Tile.of(3597, 3495, 0)),
+		ALQ(27, "Morytania: Haunted Woods", Tile.of(3597, 3495, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.PRIEST_IN_PERIL, silent ? null : "to use this fairy ring code.");
+			}
+		},
 		ALP(26, "Kandarin: Feldip Hills", Tile.of(2468, 4189, 0)) {
 			@Override
 			public boolean meetsRequirements(Player player, boolean silent) {
@@ -104,7 +109,12 @@ public class FairyRings {
 		},
 		CLQ(59, "Nowhere", null),
 		CLP(58, "Islands: South of Draynor Village", Tile.of(3082, 3206, 0)),
-		CKS(57, "Morytania: Canifis", Tile.of(3447, 3470, 0)),
+		CKS(57, "Morytania: Canifis", Tile.of(3447, 3470, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.PRIEST_IN_PERIL, silent ? null : "to use this fairy ring code.");
+			}
+		},
 		CKR(56, "Karamja: South of Tai Bwo Wannai Village", Tile.of(2801, 3003, 0)),
 		CKQ(55, "Nowhere", null),
 		CKP(54, "Other Realms: Cosmic Entity's plane", Tile.of(2075, 4848, 0)),
@@ -131,7 +141,12 @@ public class FairyRings {
 		},
 		BLP(42, "Dungeons: TzHaar area", Tile.of(4622, 5147, 0)),
 		BKS(41, "Nowhere", null),
-		BKR(40, "Morytania: Mort Myre", Tile.of(3469, 3431, 0)),
+		BKR(40, "Morytania: Mort Myre", Tile.of(3469, 3431, 0)) {
+			@Override
+			public boolean meetsRequirements(Player player, boolean silent) {
+				return player.isQuestComplete(Quest.PRIEST_IN_PERIL, silent ? null : "to use this fairy ring code.");
+			}
+		},
 		BKQ(39, "Other Realms: Enchanted Valley", Tile.of(3041, 4532, 0)),
 		BKP(38, "Feldip Hills: South of Castle Wars", Tile.of(2385, 3035, 0)),
 		BJS(37, "Nowhere", null),

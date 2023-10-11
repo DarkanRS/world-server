@@ -28,10 +28,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Shilo {
 	public static ObjectClickHandler handleSteppingStone = new ObjectClickHandler(false, new Object[] { 10536 }, e -> {
-		if (!Agility.hasLevel(e.getPlayer(), 77)) {
-			e.getPlayer().sendMessage("You need 77 agility");
+		if (!Agility.hasLevel(e.getPlayer(), 77))
 			return;
-		}
 		Player p = e.getPlayer();
 		WorldObject obj = e.getObject();
 		Direction dir = Direction.NORTH;
