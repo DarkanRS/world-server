@@ -237,7 +237,7 @@ public class Runecrafting {
 				runes += player.getFamiliar().getInventory().getNumberOf(PURE_ESS);
 				player.getFamiliar().getInventory().removeAll(PURE_ESS);
 			}
-			case default, null -> {}
+			case null, default -> {}
 		}
 
 		for (int i = 0; i < RCRune.values().length; i++) {
@@ -313,7 +313,7 @@ public class Runecrafting {
 						player.getFamiliar().getInventory().removeAll(PURE_ESS);
 					}
 				}
-				case default, null -> {}
+				case null, default -> {}
 			}
 		}
 
