@@ -49,6 +49,7 @@ public class WitchSentry extends NPC {
 						if (player == null)
 							continue;
 						if (lineOfSightTo(player, false)) {
+							player.lock();
 							resetWalkSteps();
 							faceEntity(player);
 							setNextSpotAnim(new SpotAnim(108));
@@ -61,6 +62,7 @@ public class WitchSentry extends NPC {
 				if(tick == 1)
 					tick = 10;
 				if(tick == 2) {
+					player.unlock();
 					Magic.sendObjectTeleportSpell(player, false, Tile.of(2892, 3373, 0));
 					tick--;
 				}
