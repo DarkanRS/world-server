@@ -1,24 +1,23 @@
 {
   "names": [
-    "River troll"
+    "Rock golem"
   ],
-  "attackAnim": -1,
+  "attackAnim": 153,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 154,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 156,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 400,
+  "maxHit": 30,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 17,
-    "RANGE": 1,
-    "STRENGTH": 17,
-    "DEFENSE": 17,
+    "ATTACK": 22,
+    "RANGE": 20,
+    "STRENGTH": 22,
+    "DEFENSE": 22,
     "MAGE": 1
   },
   "attackRange": -1,

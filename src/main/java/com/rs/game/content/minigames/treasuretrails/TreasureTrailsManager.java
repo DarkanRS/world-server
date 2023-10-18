@@ -827,7 +827,7 @@ public class TreasureTrailsManager {
 				TILE,
 				55184739,
 				new Emote[] { Emote.BECKON, Emote.BOW },
-				new Item[] { new Item(3329, 1), new Item(6328, 1), new Item(6328, 1) },
+				new Item[] { new Item(3339, 1), new Item(6328, 1), new Item(1267, 1) },
 				"Beckon in the Digsite, near",
 				"the eastern winch.",
 				" Bow or curtsy before you talk to me.",

@@ -1,0 +1,115 @@
+{
+  "names": [
+    "Rock golem"
+  ],
+  "tables": [
+    {
+      "chance": 30.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 5,
+          "max": 5
+        }
+      ]
+    },
+    {
+      "chance": 13.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 1913,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 10.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2347,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 7.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 2349,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 4.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 557,
+          "min": 42,
+          "max": 42
+        }
+      ]
+    },
+    {
+      "chance": 4.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 562,
+          "min": 2,
+          "max": 2
+        }
+      ]
+    },
+    {
+      "chance": 4.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 440,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 438,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    },
+    {
+      "chance": 3.0,
+      "outOf": 78.0,
+      "dropOne": false,
+      "drops": [
+        {
+          "id": 436,
+          "min": 1,
+          "max": 1
+        }
+      ]
+    }
+  ]
+}

@@ -43,6 +43,8 @@ public class AbyssalDemon extends NPC {
 	}
 
 	private void sendTeleport(Entity entity) {
+		if (entity.isLocked())
+			return;
 		int entitySize = entity.getSize();
 		for (int c = 0; c < 10; c++) {
 			Direction dir = Direction.values()[Utils.random(Direction.values().length)];

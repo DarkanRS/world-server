@@ -1,0 +1,119 @@
+[
+  {
+    "comment": "Wood Dryad added by trent",
+    "npcId": 4441,
+    "tile": {
+      "x": 3026,
+      "y": 4517,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Centaur added by trent",
+    "npcId": 4438,
+    "tile": {
+      "x": 3024,
+      "y": 4507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Centaur added by trent",
+    "npcId": 4439,
+    "tile": {
+      "x": 3027,
+      "y": 4499,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rabbit added by trent",
+    "npcId": 1192,
+    "tile": {
+      "x": 3037,
+      "y": 4501,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rabbit added by trent",
+    "npcId": 1192,
+    "tile": {
+      "x": 3035,
+      "y": 4497,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rabbit added by trent",
+    "npcId": 1192,
+    "tile": {
+      "x": 3039,
+      "y": 4495,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Stag added by trent",
+    "npcId": 4440,
+    "tile": {
+      "x": 3038,
+      "y": 4502,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Butterfly added by trent",
+    "npcId": 4449,
+    "tile": {
+      "x": 3021,
+      "y": 4512,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Butterfly added by trent",
+    "npcId": 4450,
+    "tile": {
+      "x": 3031,
+      "y": 4494,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Rabbit added by trent",
+    "npcId": 1192,
+    "tile": {
+      "x": 3048,
+      "y": 4497,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Frog Princess added by trent",
+    "npcId": 1776,
+    "tile": {
+      "x": 3049,
+      "y": 4491,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Frog Prince added by trent",
+    "npcId": 1775,
+    "tile": {
+      "x": 3050,
+      "y": 4491,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Fishing spot added by trent",
+    "npcId": 8647,
+    "tile": {
+      "x": 3042,
+      "y": 4510,
+      "plane": 0
+    }
+  }
+]

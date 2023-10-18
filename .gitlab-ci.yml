@@ -10,7 +10,7 @@
 # https://gradle.org/
 # https://github.com/gradle/gradle
 
-image: gradle:8.0-jdk19-alpine
+image: titandino/darkan-runner:v1
 
 before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"

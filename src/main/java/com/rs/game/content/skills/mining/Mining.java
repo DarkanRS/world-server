@@ -184,14 +184,14 @@ public class Mining extends Action {
 				break;
 			}
 		}
-		if (success && depleteOre(entity)) {
+		if (success && depleteOre()) {
 			entity.setNextAnimation(new Animation(-1));
 			return -1;
 		}
 		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
 	}
 
-	public boolean depleteOre(Entity entity) {
+	public boolean depleteOre() {
 		if (type.depletes()) {
 			if (rockObj != null)
 				rockObj.setIdTemporary(DepletedOres.get(rockObj.getId()), type.getRespawnTime());

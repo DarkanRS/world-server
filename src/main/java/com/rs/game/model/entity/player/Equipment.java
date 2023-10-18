@@ -557,6 +557,14 @@ public final class Equipment {
 		compareItems(e.getPlayer(), item1, item2);
 	});
 
+	public static InterfaceOnInterfaceHandler handleCompareItemInv = new InterfaceOnInterfaceHandler(670, 670, e -> {
+		Item item1 = e.getFromInterfaceId() == 670 ? e.getPlayer().getInventory().getItem(e.getFromSlotId()) : e.getPlayer().getEquipment().get(e.getFromSlotId());
+		Item item2 = e.getToInterfaceId() == 670 ? e.getPlayer().getInventory().getItem(e.getToSlotId()) : e.getPlayer().getEquipment().get(e.getToSlotId());
+		if (item1 == null || item2 == null || item1 == item2)
+			return;
+		compareItems(e.getPlayer(), item1, item2);
+	});
+
 	public static void compareItems(Player p, Item item1, Item item2) {
 		if (item1 == null || item2 == null || item1.getDefinitions().getEquipSlot() != item2.getDefinitions().getEquipSlot()) {
 			p.sendMessage("These two items cannot be compared because they are not the same type.");

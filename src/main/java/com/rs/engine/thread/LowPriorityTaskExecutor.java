@@ -20,7 +20,6 @@ import com.rs.Settings;
 import com.rs.lib.thread.CatchExceptionRunnable;
 import com.rs.lib.util.Logger;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import jdk.incubator.concurrent.StructuredTaskScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +48,13 @@ public final class LowPriorityTaskExecutor {
 		}
 
 		@Override
-		protected void handleComplete(Future<T> future) {
-			switch(future.state()) {
+		protected void handleComplete(Subtask<? extends T> task) {
+			switch(task.state()) {
 				case SUCCESS -> {
-					T result = future.resultNow();
+					T result = task.get();
 					results.add(result);
 				}
-				case FAILED -> Logger.handle(LowPriorityTaskScope.class, "handleComplete", future.exceptionNow());
+				case FAILED -> Logger.handle(LowPriorityTaskScope.class, "handleComplete", task.exception());
 			}
 		}
 

@@ -80,6 +80,7 @@ import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.tools.MapSearcher;
+import com.rs.tools.NPCDropDumper;
 import com.rs.utils.DropSets;
 import com.rs.utils.ObjAnimList;
 import com.rs.utils.music.Genre;
@@ -124,6 +125,10 @@ public class MiscTest {
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
+		});
+
+		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
+			NPCDropDumper.dumpNPC(args[0]);
 		});
 
 		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> {
