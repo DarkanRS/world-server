@@ -1053,7 +1053,8 @@ public class House {
 	public void teleportServant(RoomReference room) {
 		if (room == null)
 			return;
-
+		if (servantInstance == null)
+			return;
 		servantInstance.resetWalkSteps();
 		byte rotation = room.rotation;
 		if (rotation == 0) {
