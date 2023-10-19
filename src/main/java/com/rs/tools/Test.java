@@ -20,7 +20,9 @@ import com.google.gson.GsonBuilder;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
+import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -33,13 +35,11 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Test {
 
-	public static void main(String[] args) throws IOException, ParseException {
+	public static void main(String[] args) throws IOException {
 		JsonFileManager.setGSON(new GsonBuilder()
 				.registerTypeAdapter(Controller.class, new ControllerAdapter())
 				.registerTypeAdapter(Date.class, new DateAdapter())
@@ -52,11 +52,11 @@ public class Test {
 		Settings.loadConfig();
 		Cache.init(Settings.getConfig().getCachePath());
 
-		String date = "Jan 1, 2023, 2:00:29 PM";
-		SimpleDateFormat format1 = new SimpleDateFormat("MMM dd, YYYY, h:mm:ss a");
-		SimpleDateFormat format2 = new SimpleDateFormat("MMM dd, YYYY h:mm:ss a");
-		System.out.println(format1.format(new Date()));
-		System.out.println(format1.parse(date.replace('\u00A0', ' ').replace('\u202F', ' ')));
+		for (int i = 0;i < Utils.getNPCDefinitionsSize();i++) {
+			NPCDefinitions def = NPCDefinitions.getDefs(i);
+			if ((def.hasOption("Pickpocket") || def.hasOption("Pick-pocket") || def.hasOption("Pick pocket")) && PickPocketableNPC.get(i) == null)
+				System.out.println("Missing pickpocket coded for: " + i + " - " + def.getName());
+		}
 	}
 
 }
