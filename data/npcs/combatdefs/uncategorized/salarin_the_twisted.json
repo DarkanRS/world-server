@@ -2,23 +2,23 @@
   "names": [
     "Salarin the Twisted"
   ],
-  "attackAnim": -1,
+  "attackAnim": 422,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 424,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 836,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
+  "respawnDelay": 50,
   "hitpoints": 700,
   "maxHit": 74,
   "attackStyle": "MELEE",
   "combatLevels": {
-    "ATTACK": 0,
-    "RANGE": 0,
-    "STRENGTH": 0,
-    "DEFENSE": 0,
-    "MAGE": 0
+    "ATTACK": 58,
+    "RANGE": 1,
+    "STRENGTH": 58,
+    "DEFENSE": 62,
+    "MAGE": 1
   },
   "attackRange": -1,
   "attackGfx": -1,
