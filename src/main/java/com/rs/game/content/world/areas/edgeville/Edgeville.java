@@ -22,6 +22,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.dragonslayer.OziachDragonSlayerD;
+import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.player.Player;
@@ -82,25 +83,9 @@ public class Edgeville  {
 	});
 
 	public static ObjectClickHandler handleEdgevilleMonkeybars = new ObjectClickHandler(new Object[] { 29375 }, e -> {
-		final boolean isNorth = e.getPlayer().getY() > 9964;
-		final Tile tile = Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isNorth ? -7 : 7), 0);
-		e.getPlayer().forceMove(tile, 745, 0, 150);
-		WorldTasks.schedule(new WorldTask() {
-			int ticks = 0;
-
-			@Override
-			public void run() {
-				ticks++;
-				if (ticks > 1)
-					e.getPlayer().setNextAnimation(new Animation(744));
-				if (ticks == 5) {
-					e.getPlayer().setNextTile(tile);
-					e.getPlayer().unlock();
-					stop();
-					return;
-				}
-			}
-		}, 0, 0);
+		if (!Agility.hasLevel(e.getPlayer(), 15))
+			return;
+		Agility.crossMonkeybars(e.getPlayer(), e.getObject().getTile(), e.getObject().getTile().transform(0, e.getPlayer().getY() > 9967 ? -5 : 5, 0), 20.0);
 	});
 
 	public static ObjectClickHandler handleMonastaryLadders = new ObjectClickHandler(new Object[] { 2641 }, e -> {

@@ -104,18 +104,44 @@ public class Agility {
 		});
 	}
 
-	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
+	public static void crossLedge(final Player player, Tile startTile, final Tile endTile, final double xp, final boolean left) {
+		player.lock(2);
 		player.walkToAndExecute(startTile, () -> {
-			player.faceTile(endTile);
-			walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp);
+			WorldTasks.schedule(0, () -> player.faceTile(endTile));
+			WorldTasks.schedule(1, () -> {
+				player.anim(left ? 752 : 753);
+				player.setBas(left ? 156 : 157);
+			});
+			WorldTasks.schedule(2, () -> walkToAgility(player, left ? 156 : 157, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, left ? 758 : 759));
 		});
 	}
 
+	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
+		player.lock(2);
+		player.walkToAndExecute(startTile, () -> {
+			player.lock();
+			WorldTasks.schedule(0, () -> player.faceTile(endTile));
+			WorldTasks.schedule(1, () -> {
+				player.anim(742);
+				player.setBas(2405);
+			});
+			WorldTasks.schedule(2, () -> walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, 743));
+		});
+	}
+
+	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay, final int stopAnim) {
+		walkToAgility(player, renderEmote, direction, distance, delay, 0.0, stopAnim);
+	}
+
 	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay) {
-		walkToAgility(player, renderEmote, direction, distance, delay, 0.0);
+		walkToAgility(player, renderEmote, direction, distance, delay, 0.0, -1);
 	}
 
 	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay, final double xp) {
+		walkToAgility(player, renderEmote, direction, distance, delay, xp, -1);
+	}
+
+	public static void walkToAgility(final Player player, final int renderEmote, final Direction direction, final int distance, final int delay, final double xp, final int stopAnim) {
 		if (direction != player.getDirection())
 			return;
 		player.lock();
@@ -128,6 +154,8 @@ public class Agility {
 		WorldTasks.schedule(delay+1, () -> {
 			if (xp > 0)
 				player.getSkills().addXp(Constants.AGILITY, xp);
+			if (stopAnim != -1)
+				player.anim(stopAnim);
 			player.setBas(-1);
 			player.unlockNextTick();
 			player.setRunHidden(running);

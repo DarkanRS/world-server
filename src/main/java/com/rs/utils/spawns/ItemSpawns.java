@@ -66,20 +66,34 @@ public final class ItemSpawns {
 	public static final void init() throws JsonIOException, IOException {
 		Logger.info(ItemSpawns.class, "init", "Loading item spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
-		for (File f : spawnFiles) {
-			ItemSpawn[] spawns = (ItemSpawn[]) JsonFileManager.loadJsonFile(f, ItemSpawn[].class);
-			if (spawns != null)
-				for(ItemSpawn spawn : spawns)
-					if (spawn != null) {
-						ALL_SPAWNS.add(spawn);
-						List<ItemSpawn> regionSpawns = ITEM_SPAWNS.get(spawn.getTile().getChunkId());
-						if (regionSpawns == null)
-							regionSpawns = new ArrayList<>();
-						regionSpawns.add(spawn);
-						ITEM_SPAWNS.put(spawn.getTile().getChunkId(), regionSpawns);
-					}
-		}
+		for (File f : spawnFiles)
+			load(f);
 		Logger.info(ItemSpawns.class, "init", "Loaded " + ALL_SPAWNS.size() + " item spawns...");
+	}
+
+	public static void load(File file) throws IOException {
+		if (file.getName().startsWith("_"))
+			return;
+		if (file.isDirectory()) {
+			for (File f : file.listFiles())
+				load(f);
+			return;
+		}
+		ItemSpawn[] spawns = (ItemSpawn[]) JsonFileManager.loadJsonFile(file, ItemSpawn[].class);
+		if (spawns != null)
+			for(ItemSpawn spawn : spawns)
+				add(spawn);
+	}
+
+	public static void add(ItemSpawn spawn) {
+		if (spawn != null) {
+			ALL_SPAWNS.add(spawn);
+			List<ItemSpawn> regionSpawns = ITEM_SPAWNS.get(spawn.getTile().getChunkId());
+			if (regionSpawns == null)
+				regionSpawns = new ArrayList<>();
+			regionSpawns.add(spawn);
+			ITEM_SPAWNS.put(spawn.getTile().getChunkId(), regionSpawns);
+		}
 	}
 
 	public static final void loadItemSpawns(int chunkId) {

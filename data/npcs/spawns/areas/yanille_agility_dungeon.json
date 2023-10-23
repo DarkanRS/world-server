@@ -1,0 +1,389 @@
+[
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2570,
+      "y": 9530,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2568,
+      "y": 9527,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2574,
+      "y": 9527,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2580,
+      "y": 9506,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2578,
+      "y": 9503,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2576,
+      "y": 9500,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2579,
+      "y": 9498,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2580,
+      "y": 9501,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2583,
+      "y": 9501,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2583,
+      "y": 9499,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2586,
+      "y": 9498,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2591,
+      "y": 9499,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2594,
+      "y": 9497,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid warrior added by trent",
+    "npcId": 193,
+    "tile": {
+      "x": 2599,
+      "y": 9497,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2564,
+      "y": 9509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2564,
+      "y": 9506,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2567,
+      "y": 9507,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2570,
+      "y": 9508,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2571,
+      "y": 9509,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Skeleton added by trent",
+    "npcId": 93,
+    "tile": {
+      "x": 2564,
+      "y": 9505,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2599,
+      "y": 9487,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2602,
+      "y": 9485,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2611,
+      "y": 9485,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2601,
+      "y": 9480,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Giant bat added by trent",
+    "npcId": 78,
+    "tile": {
+      "x": 2600,
+      "y": 9477,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2610,
+      "y": 9483,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2612,
+      "y": 9483,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2614,
+      "y": 9484,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2617,
+      "y": 9485,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2615,
+      "y": 9487,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2612,
+      "y": 9488,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2610,
+      "y": 9486,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Sigbert the Adventurer added by trent",
+    "npcId": 37,
+    "tile": {
+      "x": 2613,
+      "y": 9505,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2612,
+      "y": 9525,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2615,
+      "y": 9525,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2615,
+      "y": 9521,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Chaos druid added by trent",
+    "npcId": 181,
+    "tile": {
+      "x": 2612,
+      "y": 9521,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Salarin the Twisted added by trent",
+    "npcId": 205,
+    "tile": {
+      "x": 2613,
+      "y": 9523,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison spider added by trent",
+    "npcId": 134,
+    "tile": {
+      "x": 2572,
+      "y": 9569,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison spider added by trent",
+    "npcId": 134,
+    "tile": {
+      "x": 2578,
+      "y": 9576,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison spider added by trent",
+    "npcId": 134,
+    "tile": {
+      "x": 2588,
+      "y": 9574,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison spider added by trent",
+    "npcId": 134,
+    "tile": {
+      "x": 2599,
+      "y": 9566,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Poison spider added by trent",
+    "npcId": 134,
+    "tile": {
+      "x": 2599,
+      "y": 9555,
+      "plane": 0
+    }
+  }
+]

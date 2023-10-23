@@ -97,6 +97,7 @@ public class Doors {
 		switch(defs.id) {
 			case 39:
 			case 2267:
+			case 2559:
 			case 3437:
 			case 45856:
 			case 45857:
