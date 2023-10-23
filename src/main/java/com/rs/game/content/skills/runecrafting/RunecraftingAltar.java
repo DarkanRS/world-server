@@ -316,7 +316,7 @@ public class RunecraftingAltar {
 		return false;
 	}
 
- 	public static ItemOnObjectHandler handleTalismanCreate = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2486, 2487, 2488, 30624 }, null, e -> {
+ 	public static ItemOnObjectHandler handleTalismanCreate = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 30624 }, null, e -> {
 		Player player = e.getPlayer();
 		RunecraftingTalisman talisman = RunecraftingTalisman.forId(e.getObjectId());
 		if (talisman != null) {
