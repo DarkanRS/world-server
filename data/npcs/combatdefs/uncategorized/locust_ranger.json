@@ -1,19 +1,18 @@
 {
-  "ids": [
-    5252,
-    14612
+  "names": [
+    "Locust ranger"
   ],
-  "attackAnim": -1,
+  "attackAnim": 5451,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 7585,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 7581,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 39,
-  "hitpoints": 900,
-  "maxHit": 150,
-  "attackStyle": "MELEE",
+  "respawnDelay": 59,
+  "hitpoints": 1000,
+  "maxHit": 210,
+  "attackStyle": "RANGE",
   "combatLevels": {
     "ATTACK": 105,
     "RANGE": 90,
@@ -21,10 +20,10 @@
     "DEFENSE": 50,
     "MAGE": 1
   },
-  "attackRange": -1,
+  "attackRange": 6,
   "attackGfx": -1,
-  "attackProjectile": -1,
-  "agressivenessType": "AGGRESSIVE",
+  "attackProjectile": 15,
+  "agressivenessType": "PASSIVE",
   "aggroDistance": 4,
   "deAggroDistance": -1,
   "maxDistFromSpawn": -1

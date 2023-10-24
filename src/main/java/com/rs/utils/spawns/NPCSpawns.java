@@ -80,8 +80,7 @@ public final class NPCSpawns {
 		NPCSpawn[] spawns = (NPCSpawn[]) JsonFileManager.loadJsonFile(file, NPCSpawn[].class);
 		if (spawns != null)
 			for(NPCSpawn spawn : spawns)
-				if (spawn != null)
-					add(spawn);
+				add(spawn);
 	}
 
 	public static void add(NPCSpawn spawn) {

@@ -104,6 +104,7 @@ public enum CraftablePotion {
 	PRAYER_RENEWAL(new Item(21632, 1), 94, 190.0, new Item[] { new Item(21628, 1), new Item(21622, 1) }),
 
 	COCONUT_MILK(new Item(5935, 1), 1, 1.0, new Item[] { new Item(229, 1), new Item(5976, 1) }),
+	WEAPON_POISON(new Item(187, 1), 60, 137.5, new Item[] { new Item(105, 1), new Item(241, 1) }),
 	WEAPON_POISON_P_UNF(new Item(5936, 1), 73, 1.0, new Item[] { new Item(5935, 1), new Item(6016, 1) }),
 	WEAPON_POISON_P(new Item(5937, 1), 73, 165.0, new Item[] { new Item(5936, 1), new Item(223, 1) }),
 	WEAPON_POISON_PP_UNF(new Item(5939, 1), 82, 1.0, new Item[] { new Item(5935, 1), new Item(2398, 1) }),
@@ -202,7 +203,7 @@ public enum CraftablePotion {
 	STAT_RESTORE_POTION(new Item(17590, 1), 45, 93.0, new Item[] { new Item(17548, 1), new Item(17534, 1) }),
 	CURE_POTION(new Item(17592, 1), 48, 98.0, new Item[] { new Item(17548, 1), new Item(17536, 1) }),
 	REJUVENATION_POTION(new Item(17594, 1), 51, 105.0, new Item[] { new Item(17548, 1), new Item(17532, 1) }),
-	WEAPON_POISON(new Item(17596, 1), 54, 114.0, new Item[] { new Item(17544, 1), new Item(17536, 1) }),
+	WEAPON_POISON_D(new Item(17596, 1), 54, 114.0, new Item[] { new Item(17544, 1), new Item(17536, 1) }),
 	GATHERERS_POTION(new Item(17598, 1), 57, 123.0, new Item[] { new Item(17544, 1), new Item(17534, 1) }),
 	ARTISANS_POTION(new Item(17600, 1), 60, 131.0, new Item[] { new Item(17546, 1), new Item(17534, 1) }),
 	NATURALISTS_POTION(new Item(17602, 1), 63, 139.0, new Item[] { new Item(17544, 1), new Item(17532, 1) }),

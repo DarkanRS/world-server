@@ -1,24 +1,24 @@
 {
-  "names": [
-    "Chaos druid warrior"
+  "ids": [
+    5252,
+    14612
   ],
-  "attackAnim": -1,
+  "attackAnim": 7584,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 7585,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 7581,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
-  "hitpoints": 400,
-  "maxHit": 50,
+  "respawnDelay": 39,
+  "hitpoints": 900,
+  "maxHit": 150,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 32,
-    "RANGE": 1,
-    "STRENGTH": 34,
-    "DEFENSE": 25,
+    "ATTACK": 105,
+    "RANGE": 90,
+    "STRENGTH": 90,
+    "DEFENSE": 50,
     "MAGE": 1
   },
   "attackRange": -1,
