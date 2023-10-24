@@ -56,7 +56,7 @@ public class AgilityDungeon {
         if (e.getObject().getTile().isAt(2603, 9478) || e.getObjectId() == 32271)
             e.getPlayer().useStairs(e.getPlayer().getTile().transform(e.getObjectId() == 32271 ? -4 : 4, e.getObjectId() == 32271 ? 6400 : -6400));
         else
-            e.getPlayer().useStairs(e.getPlayer().getTile().transform(0, e.getObjectId() == 37023 ? 6400 : -6400));
+            e.getPlayer().useStairs(e.getPlayer().getTile().transform(0, e.getObjectId() == 37023 ? 6404 : -6404));
     });
 
 
