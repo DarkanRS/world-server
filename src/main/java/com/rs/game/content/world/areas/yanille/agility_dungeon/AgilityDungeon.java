@@ -52,8 +52,13 @@ public class AgilityDungeon {
         }
     });
 
-    public static ObjectClickHandler handleWebStairs = new ObjectClickHandler(new Object[] { 32270, 32271, 37023 }, e ->
-            e.getPlayer().useStairs(e.getPlayer().getTile().transform(0, e.getObjectId() == 37023 ? 6404 : -6404)));
+    public static ObjectClickHandler handleWebStairs = new ObjectClickHandler(new Object[] { 32270, 32271, 37023 }, e -> {
+        if (e.getObject().getTile().isAt(2603, 9478) || e.getObjectId() == 32271)
+            e.getPlayer().useStairs(e.getPlayer().getTile().transform(e.getObjectId() == 32271 ? -4 : 4, e.getObjectId() == 32271 ? 6400 : -6400));
+        else
+            e.getPlayer().useStairs(e.getPlayer().getTile().transform(0, e.getObjectId() == 37023 ? 6400 : -6400));
+    });
+
 
     public static ObjectClickHandler handleLockpickRoomStairs = new ObjectClickHandler(new Object[] { 1728, 1729 }, e ->
             e.getPlayer().useStairs(e.getPlayer().getTile().transform(0, e.getObjectId() == 1728 ? 68 : -68)));
@@ -118,7 +123,7 @@ public class AgilityDungeon {
         if (!Agility.hasLevel(e.getPlayer(), 67))
             return;
         e.getPlayer().useStairs(e.getPlayer().getTile().transform(e.getObjectId() == 2318 ? 1 : -1, e.getObjectId() == 2318 ? 65 : -65));
-        if (e.getObjectId() == 2318)
+        if (e.getObjectId() == 2317)
             e.getPlayer().getSkills().addXp(Skills.AGILITY, 5.5);
     });
 }
