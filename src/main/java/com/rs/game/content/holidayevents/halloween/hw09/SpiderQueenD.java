@@ -81,7 +81,7 @@ public class SpiderQueenD extends Conversation {
 			addPlayer(HeadE.CONFUSED, "Thank you, is that everything then?");
 			addNPC(8975, HeadE.SPIDER_CALM, "Yes! I am satisfied.");
 			addNPC(8975, HeadE.SPIDER_CALM, "I have a reward for you, mammal. Never let it be said that the Spider Queen is ungrateful.");
-			addItem(15352, "The Spider Queen gives you a cloak made of spider-webs.");
+			addItem(9924, "The Spider Queen gives you a spooky skeleton outfit.");
 			addItem(1053, "The Spider Queen gives you a few halloween masks.");
 			addNPC(8975, HeadE.SPIDER_CALM, "There! Our business is concluded. Eek, return to your web. Mammal, you may return to your world now.");
 			addNext(new SpiderStatement("Y-your majesty?"));
