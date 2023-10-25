@@ -31,7 +31,7 @@ repositories {
 }
 
 group 'rs.darkan'
-version '1.5.4'
+version '1.5.5'
 
 dependencies {
 	implementation group: 'org.openjdk.jmh', name: 'jmh-core', version: '1.36'
