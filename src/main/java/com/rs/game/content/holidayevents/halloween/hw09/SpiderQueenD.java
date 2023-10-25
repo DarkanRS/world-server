@@ -95,16 +95,28 @@ public class SpiderQueenD extends Conversation {
 			addNPC(8975, HeadE.SPIDER_CALM, "Now go, both of you.");
 			addNext(() -> {
 				player.save(Halloween2009.STAGE_KEY, 10);
-				player.getInventory().addItemDrop(new Item(15352, 1));
+				//player.getInventory().addItemDrop(new Item(15352, 1));
+				player.getInventory().addItemDrop(9921, 1);
+				player.getInventory().addItemDrop(9922, 1);
+				player.getInventory().addItemDrop(9923, 1);
+				player.getInventory().addItemDrop(9924, 1);
+				player.getInventory().addItemDrop(9925, 1);
 				player.getInventory().addItemDrop(1053, 1);
 				player.getInventory().addItemDrop(1055, 1);
 				player.getInventory().addItemDrop(1057, 1);
-				player.addDiangoReclaimItem(15352);
+				//player.addDiangoReclaimItem(15352);
+				player.addDiangoReclaimItem(9921);
+				player.addDiangoReclaimItem(9922);
+				player.addDiangoReclaimItem(9923);
+				player.addDiangoReclaimItem(9924);
+				player.addDiangoReclaimItem(9925);
 				player.addDiangoReclaimItem(15353);
 				player.getEmotesManager().unlockEmote(Emote.SCARED);
 				player.sendMessage("You've unlocked the Scared emote!");
 				player.getEmotesManager().unlockEmote(Emote.PUPPET_MASTER);
 				player.sendMessage("You've unlocked the Puppet Master emote!");
+				player.getEmotesManager().unlockEmote(Emote.TRICK);
+				player.sendMessage("You've unlocked the Trick emote!");
 			});
 			break;
 		default:
