@@ -59,7 +59,7 @@ public class PumpkinSpawning {
 
 	public static int countPumpkins(int chunkId) {
 		pumpkinCount = 0;
-		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId).getAllGroundItems();
+		List<GroundItem> itemSpawns = ChunkManager.getChunk(chunkId, true).getAllGroundItems();
 		if (itemSpawns != null && itemSpawns.size() > 0)
 			itemSpawns.forEach( spawn -> {
 				if (spawn.getId() == 1959)
@@ -70,16 +70,18 @@ public class PumpkinSpawning {
 
 	public static void spawnPumpkins() {
 		for (int id : World.mapRegionIdsToChunks(regionsToSpawn, 0)) {
-			Chunk r = ChunkManager.getChunk(id);
+			Chunk r = ChunkManager.getChunk(id, true);
 			int eggsNeeded = pumpkinsPerChunk-countPumpkins(id);
 			for (int i = 0; i < eggsNeeded; i++) {
 				int x = r.getBaseX()+Utils.random(8);
 				int y = r.getBaseY()+Utils.random(8);
 				Tile tile = Tile.of(x, y, 0);
-				while (!World.floorAndWallsFree(tile, 1)) {
+				int tries = 0;
+				while (!World.floorAndWallsFree(tile, 1) && tries < 5) {
 					x = r.getBaseX()+Utils.random(8);
 					y = r.getBaseY()+Utils.random(8);
 					tile = Tile.of(x, y, 0);
+					tries++;
 				}
 				World.addGroundItem(new Item(1959), Tile.of(x, y, 0));
 			}

@@ -47,8 +47,8 @@ import java.util.Set;
 @PluginEventHandler
 public class Halloween2009 {
 
-	public static String STAGE_KEY = "hw2022";
-	public static final boolean ENABLED = false;
+	public static String STAGE_KEY = "hw2023";
+	public static final boolean ENABLED = true;
 
 	static Tile WEB_RESET_LOC = Tile.of(3936, 5125, 2);
 
