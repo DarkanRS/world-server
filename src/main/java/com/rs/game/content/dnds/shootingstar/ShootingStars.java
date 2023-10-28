@@ -1,7 +1,12 @@
 package com.rs.game.content.dnds.shootingstar;
 
+import com.rs.game.content.skills.mining.Mining;
+import com.rs.game.content.skills.mining.RockType;
 import com.rs.lib.game.Tile;
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ObjectClickHandler;
 
+@PluginEventHandler
 public class ShootingStars {
     public enum Location {
         AL_KHARID(Tile.of(3286, 3197, 0)),
@@ -47,4 +52,20 @@ public class ShootingStars {
         }
     }
 
+    public static ObjectClickHandler handleStarClick = new ObjectClickHandler(new Object[] { "Crashed star" }, e -> {
+        if (!(e.getObject() instanceof Star star)) {
+            e.getPlayer().sendMessage("Star is not a real star. Report this to a staff member.");
+            return;
+        }
+        switch(e.getOption()) {
+            case "Prospect" -> e.getPlayer().simpleDialogue("This looks like a size " + star.getTier() + " star.");
+            case "Mine" -> {
+                try {
+                    e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf(STR."CRASHED_STAR_\{star.getTier()}"), e.getObject()));
+                } catch(Throwable throwable) {
+                    e.getPlayer().sendMessage("Invalid star tier.");
+                }
+            }
+        }
+    });
 }
