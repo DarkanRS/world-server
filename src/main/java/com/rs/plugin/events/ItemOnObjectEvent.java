@@ -21,8 +21,6 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCDropHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 import java.util.ArrayList;
@@ -108,26 +106,26 @@ public class ItemOnObjectEvent implements PluginEvent {
 		ItemOnObjectHandler handler = (ItemOnObjectHandler) method;
 		if (handler.getObjectKeys() != null) {
 			for (Object objectKey : handler.getObjectKeys()) {
-				Map<Object, Map<Integer, List<ItemOnObjectHandler>>> itemMap = OBJECT_HANDLERS.computeIfAbsent(objectKey, k -> new HashMap<>());
+				Map<Object, Map<Integer, List<ItemOnObjectHandler>>> itemMap = OBJECT_HANDLERS.computeIfAbsent(objectKey, _ -> new HashMap<>());
 				if (handler.getItemKeys() != null) {
 					for (Object itemKey : handler.getItemKeys())
-						updateLocationMap(handler, itemMap.computeIfAbsent(itemKey, k -> new HashMap<>()));
+						updateLocationMap(handler, itemMap.computeIfAbsent(itemKey, _ -> new HashMap<>()));
 				} else
-					updateLocationMap(handler, itemMap.computeIfAbsent(-1, k -> new HashMap<>()));
+					updateLocationMap(handler, itemMap.computeIfAbsent(-1, _ -> new HashMap<>()));
 			}
 		} else {
 			for (Object itemKey : handler.getItemKeys())
-				updateLocationMap(handler, ITEM_HANDLERS.computeIfAbsent(itemKey, k -> new HashMap<>()));
+				updateLocationMap(handler, ITEM_HANDLERS.computeIfAbsent(itemKey, _ -> new HashMap<>()));
 		}
 	}
 
 	private static void updateLocationMap(ItemOnObjectHandler handler, Map<Integer, List<ItemOnObjectHandler>> locMap) {
 		if (handler.getTiles() == null || handler.getTiles().length <= 0) {
-			List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(0, k -> new ArrayList<>());
+			List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(0, _ -> new ArrayList<>());
 			methods.add(handler);
 		} else {
 			for (Tile tile : handler.getTiles()) {
-				List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(tile.getTileHash(), k -> new ArrayList<>());
+				List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(tile.getTileHash(), _ -> new ArrayList<>());
 				methods.add(handler);
 			}
 		}
