@@ -106,26 +106,26 @@ public class ItemOnObjectEvent implements PluginEvent {
 		ItemOnObjectHandler handler = (ItemOnObjectHandler) method;
 		if (handler.getObjectKeys() != null) {
 			for (Object objectKey : handler.getObjectKeys()) {
-				Map<Object, Map<Integer, List<ItemOnObjectHandler>>> itemMap = OBJECT_HANDLERS.computeIfAbsent(objectKey, _ -> new HashMap<>());
+				Map<Object, Map<Integer, List<ItemOnObjectHandler>>> itemMap = OBJECT_HANDLERS.computeIfAbsent(objectKey, k -> new HashMap<>());
 				if (handler.getItemKeys() != null) {
 					for (Object itemKey : handler.getItemKeys())
-						updateLocationMap(handler, itemMap.computeIfAbsent(itemKey, _ -> new HashMap<>()));
+						updateLocationMap(handler, itemMap.computeIfAbsent(itemKey, k -> new HashMap<>()));
 				} else
-					updateLocationMap(handler, itemMap.computeIfAbsent(-1, _ -> new HashMap<>()));
+					updateLocationMap(handler, itemMap.computeIfAbsent(-1, k -> new HashMap<>()));
 			}
 		} else {
 			for (Object itemKey : handler.getItemKeys())
-				updateLocationMap(handler, ITEM_HANDLERS.computeIfAbsent(itemKey, _ -> new HashMap<>()));
+				updateLocationMap(handler, ITEM_HANDLERS.computeIfAbsent(itemKey, k -> new HashMap<>()));
 		}
 	}
 
 	private static void updateLocationMap(ItemOnObjectHandler handler, Map<Integer, List<ItemOnObjectHandler>> locMap) {
 		if (handler.getTiles() == null || handler.getTiles().length <= 0) {
-			List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(0, _ -> new ArrayList<>());
+			List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(0, k -> new ArrayList<>());
 			methods.add(handler);
 		} else {
 			for (Tile tile : handler.getTiles()) {
-				List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(tile.getTileHash(), _ -> new ArrayList<>());
+				List<ItemOnObjectHandler> methods = locMap.computeIfAbsent(tile.getTileHash(), k -> new ArrayList<>());
 				methods.add(handler);
 			}
 		}

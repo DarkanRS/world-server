@@ -38,6 +38,7 @@ import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
 import com.rs.game.content.pets.Pet;
@@ -118,14 +119,16 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			try {
-				Thread.sleep(500L);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		});
+			int index = p.getTempAttribs().getI("testIndex", 0);
+			if (index > ShootingStars.Location.values().length)
+				p.getTempAttribs().setI("testIndex", 0);
+			else
+				p.getTempAttribs().setI("testIndex", index+1);
+			ShootingStars.Location loc = ShootingStars.Location.values()[index];
+			World.spawnObject(new GameObject(38668, ObjectType.SCENERY_INTERACT, 0, loc.tile));
+			p.setNextTile(loc.tile);
+        });
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
 			NPCDropDumper.dumpNPC(args[0]);
