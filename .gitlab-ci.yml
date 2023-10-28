@@ -1,32 +1,33 @@
-# This file is a template, and might need editing before it works on your project.
-# You can copy and paste this template into a new `.gitlab-ci.yml` file.
-# You should not add this template to an existing `.gitlab-ci.yml` file by using the `include:` keyword.
-# To contribute improvements to CI/CD templates, please follow the Development guide at:
-# https://docs.gitlab.com/ee/development/cicd/templates.html
-# This specific template is located at:
-# https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Gradle.gitlab-ci.yml
-
-# This is the Gradle build system for JVM applications
-# https://gradle.org/
-# https://github.com/gradle/gradle
-
 image: titandino/darkan-runner:v1
 
 before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
+# Define a cache for Gradle dependencies
+.cache_gradle:
+  cache:
+    key: "$CI_COMMIT_REF_NAME-gradle"
+    policy: pull-push
+    paths:
+      - .gradle/caches/
+      - .gradle/wrapper/
+
 build:
   stage: build
   script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
+  # Define a separate cache for build artifacts
   cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
+    key: "$CI_COMMIT_REF_NAME-build"
+    policy: pull-push
     paths:
-      - build
-      - .gradle
+      - build/
+  extends:
+    - .cache_gradle
 
 deploy:
   stage: deploy
   script: ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
+  extends:
+    - .cache_gradle
