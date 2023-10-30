@@ -59,13 +59,7 @@ public class ShootingStars {
         }
         switch(e.getOption()) {
             case "Prospect" -> e.getPlayer().simpleDialogue("This looks like a size " + star.getTier() + " star.");
-            case "Mine" -> {
-                try {
-                    e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf(STR."CRASHED_STAR_\{star.getTier()}"), e.getObject()));
-                } catch(Throwable throwable) {
-                    e.getPlayer().sendMessage("Invalid star tier.");
-                }
-            }
+            case "Mine" -> e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf("CRASHED_STAR_" + star.getTier()), e.getObject()));
         }
     });
 }

@@ -12,14 +12,6 @@ java {
 	}
 }
 
-compileJava {
-	options.compilerArgs.addAll(['--enable-preview'])
-}
-
-application {
-	applicationDefaultJvmArgs = ['--enable-preview']
-}
-
 mainClassName = 'com.rs.Launcher'
 
 repositories {
