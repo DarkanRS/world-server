@@ -53,7 +53,7 @@ public class ShootingStars {
     }
 
     public static ObjectClickHandler handleStarClick = new ObjectClickHandler(new Object[] { "Crashed star" }, e -> {
-        if (!(e.getObject() instanceof Star star)) {
+        if (!(e.getObject() instanceof Star star) || star.getTier() < 1 || star.getTier() > 9) {
             e.getPlayer().sendMessage("Star is not a real star. Report this to a staff member.");
             return;
         }
