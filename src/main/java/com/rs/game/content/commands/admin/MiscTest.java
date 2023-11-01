@@ -130,6 +130,8 @@ public class MiscTest {
 			p.setNextTile(loc.tile);
         });
 
+		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
+
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
 			NPCDropDumper.dumpNPC(args[0]);
 		});

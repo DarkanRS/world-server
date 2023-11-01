@@ -189,7 +189,9 @@ public enum Effect {
 		}
 	},
 
-	FARMERS_AFFINITY("Farmer's affinity");
+	FARMERS_AFFINITY("Farmer's affinity"),
+
+	SHOOTING_STAR_MINING_BUFF("star sprite's power", false);
 
 	private boolean removeOnDeath = true;
 	private String name;

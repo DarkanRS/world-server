@@ -1,13 +1,19 @@
 package com.rs.game.content.dnds.shootingstar;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.Effect;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
 
 import java.util.*;
 
@@ -83,13 +89,78 @@ public class ShootingStars {
     }
 
     public static ObjectClickHandler handleStarClick = new ObjectClickHandler(new Object[] { "Crashed star" }, e -> {
-        if (!(e.getObject() instanceof Star star) || star.getTier() < 1 || star.getTier() > 9) {
+        if (!(e.getObject() instanceof Star star)) {
             e.getPlayer().sendMessage("Star is not a real star. Report this to a staff member.");
             return;
         }
-        switch(e.getOption()) {
-            case "Prospect" -> e.getPlayer().simpleDialogue("This looks like a size " + star.getTier() + " star.");
-            case "Mine" -> e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf("CRASHED_STAR_" + star.getTier()), e.getObject()));
+        if (star.getTier() < 1 || star.getTier() > 9) {
+            e.getPlayer().sendMessage("Invalid star tier " + star.getTier());
+            return;
         }
+        switch(e.getOption()) {
+            case "Prospect" -> e.getPlayer().simpleDialogue("It's a size " + star.getTier() + " star. It looks like it has about " + star.getLife() + "% of this layer remaining.");
+            case "Mine" -> {
+                if (!star.discovered) {
+                    star.discovered = true;
+                    e.getPlayer().getSkills().addXp(Skills.MINING, e.getPlayer().getSkills().getLevelForXp(Skills.MINING) * 75);
+                }
+                e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf("CRASHED_STAR_" + star.getTier()), e.getObject()));
+            }
+        }
+    });
+
+    public static NPCClickHandler handleStarSprite = new NPCClickHandler(new Object[] { 8091 }, e -> {
+       e.getNPC().resetDirection();
+       if (e.getPlayer().getDailyI("stardustHandedIn") < 200 && e.getPlayer().getInventory().containsItem(13727, 1)) {
+           int toHandIn = e.getPlayer().getInventory().getNumberOf(13727);
+           if (toHandIn > 200)
+               toHandIn = 200 - e.getPlayer().getDailyI("stardustHandedIn", 0);
+           int coins = (int) (50002.0 * ((double) toHandIn / 200.0));
+           int cosmics = (int) (152.0 * ((double) toHandIn / 200.0));
+           int astrals = (int) (52.0 * ((double) toHandIn / 200.0));
+           int gold = (int) (20.0 * ((double) toHandIn / 200.0));
+           int ticks = (int) (Ticks.fromMinutes(15) * ((double) toHandIn / 200.0));
+           e.getPlayer().getInventory().addCoins(coins);
+           e.getPlayer().getInventory().addItemDrop(564, cosmics);
+           e.getPlayer().getInventory().addItemDrop(9075, astrals);
+           e.getPlayer().getInventory().addItemDrop(445, gold);
+           e.getPlayer().addEffect(Effect.SHOOTING_STAR_MINING_BUFF, ticks);
+           e.getPlayer().startConversation(new Dialogue()
+                   .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Thank you for helping me out of here.")
+                   .addNPC(e.getNPCId(), HeadE.CHEERFUL, "I have rewarded you by making it so you can mine extra ore for the next " + Utils.ticksToTime(ticks))
+                   .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Also, have " + cosmics +" cosmic runes, " + astrals + " astral runes, " + gold + " gold ore and " + Utils.formatNumber(coins) + " coins."));
+       } else
+           e.getPlayer().startConversation(new Dialogue()
+                   .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, strange creature.")
+                   .addOptions(ops -> {
+                       ops.add("What are you? Where did you come from?")
+                               .addPlayer(HeadE.CONFUSED, "What are you? Where did you come from?")
+                               .addNPC(e.getNPCId(), HeadE.CHEERFUL, "I'm a star sprite! I was in my star in the sky, when it lost control and crashed into the ground. With half my star sticking in the ground, I became stuck. Fortunately, I was mined out by the kind creatures of your race.")
+                               .addOptions(moreOps -> {
+                                   moreOps.add("What's a star sprite?")
+                                           .addPlayer(HeadE.CONFUSED, "What's a star sprite?")
+                                           .addNPC(e.getNPCId(), HeadE.CHEERFUL, "We're what makes the stars in the sky shine. I made this star shine when it was in the sky.");
+
+                                   moreOps.add("What are you going to do without your star?")
+                                           .addPlayer(HeadE.CONFUSED, "What are you going to do without your star?")
+                                           .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Don't worry about me. I'm sure I'll find some good rocks around here and get back up into the sky in no time.");
+
+                                   moreOps.add("I thought stars were huge balls of burning gas.")
+                                           .addPlayer(HeadE.CALM_TALK, "I thought stars were huge balls of burning gas.")
+                                           .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Most of them are, but a lot of shooting stars on this plane of the multiverse are rocks with star sprites in them.");
+
+                                   moreOps.add("Well, I'm glad you're okay.")
+                                           .addPlayer(HeadE.CHEERFUL, "Well, I'm glad you're okay.")
+                                           .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Thank you.");
+                               });
+
+                       ops.add("Hello, strange glowing creature.")
+                               .addPlayer(HeadE.CHEERFUL, "Hello, strange glowing creature.")
+                               .addNPC(e.getNPCId(), HeadE.CONFUSED, "Isn't that funny? One of the things I find odd about you is that you DON'T glow.");
+
+                       ops.add("I'm not strange.")
+                               .addPlayer(HeadE.CONFUSED, "I'm not strange.")
+                               .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hehe. If you say so.");
+                   }));
     });
 }
