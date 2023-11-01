@@ -39,7 +39,7 @@ public class Star extends GameObject {
     }
 
     public int getMaxLife() {
-        return (int) (2258.2932 * (Math.pow(0.5726, getTier()))) / 10;
+        return (int) (2258.2932 * (Math.pow(0.5726, getTier())));
     }
 
     public String getLife() {
