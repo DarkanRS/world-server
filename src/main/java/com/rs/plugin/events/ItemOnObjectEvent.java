@@ -21,8 +21,6 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
-import com.rs.plugin.handlers.NPCDropHandler;
-import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PluginHandler;
 
 import java.util.ArrayList;

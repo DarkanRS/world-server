@@ -105,7 +105,17 @@ public enum Ore {
 			player.incDailyI("redSandstoneMined");
 			player.getVars().setVarBit(10133, player.getDailyI("redSandstoneMined"));
 		}
-	};
+	},
+	STARDUST_1(13727, 10, 14, 60, 400, 1),
+	STARDUST_2(13727, 20, 25, 40, 375, 1),
+	STARDUST_3(13727, 30, 29, 35, 320, 1),
+	STARDUST_4(13727, 40, 32, 20, 200, 1),
+	STARDUST_5(13727, 50, 47, 15, 180, 1),
+	STARDUST_6(13727, 60, 71, 9, 150, 1),
+	STARDUST_7(13727, 70, 114, 5, 110, 1),
+	STARDUST_8(13727, 80, 145, 2, 100, 1),
+	STARDUST_9(13727, 90, 210, 1, 85, 1),
+	;
 
 	private int id, level;
 	private int rate1, rate99;

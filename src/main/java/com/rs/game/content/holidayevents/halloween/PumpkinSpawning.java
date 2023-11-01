@@ -47,7 +47,7 @@ public class PumpkinSpawning {
 		if (!Halloween2007.ENABLED && !Halloween2009.ENABLED)
 			return;
 		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
-		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromHours(1), () -> {
+		WorldTasks.scheduleHalfHourly(() -> {
 			try {
 				spawnPumpkins();
 				World.sendWorldMessage("<col=EB6123><shad=000000>Pumpkins have spawned in various cities around the world!", false);

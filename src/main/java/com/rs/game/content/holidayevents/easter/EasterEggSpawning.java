@@ -47,7 +47,7 @@ public class EasterEggSpawning {
 		if (!ENABLED)
 			return;
 		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
-		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromMinutes(30), () -> {
+		WorldTasks.scheduleHalfHourly(() -> {
 			try {
 				spawnEggs();
 				World.sendWorldMessage("<col=FF0000><shad=000000>Easter Eggs have spawned in various cities around the world!", false);

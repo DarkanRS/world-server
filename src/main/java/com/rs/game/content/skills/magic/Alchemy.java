@@ -71,8 +71,8 @@ public class Alchemy {
 			return false;
 		}
 		Magic.checkMagicAndRunes(player, 43, true, useRunes ? new RuneSet(Rune.NATURE, 1, Rune.FIRE, 4) : null);
-		player.setNextAnimation(new Animation(722));
-		player.setNextSpotAnim(new SpotAnim(148));
+		player.anim(725);
+		player.spotAnim(148, 0, 96);
 		for (Item itemReq : bar.getItemsRequired())
 			if (itemReq.getId() == 453 && player.getInventory().containsItem(18339) && player.getI("coalBag") > 0) {
 				int coalBag = player.getI("coalBag");

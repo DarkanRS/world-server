@@ -40,29 +40,6 @@ public final class LowPriorityTaskExecutor {
 		LOW_PRIORITY_EXECUTOR = Executors.newScheduledThreadPool(16, Thread.ofVirtual().factory());
 	}
 
-	public class LowPriorityTaskScope<T> extends StructuredTaskScope<T> {
-		private final Queue<T> results = new ConcurrentLinkedQueue<>();
-
-		LowPriorityTaskScope() {
-			super("Low Priority Task Scope", Thread.ofVirtual().factory());
-		}
-
-		@Override
-		protected void handleComplete(Subtask<? extends T> task) {
-			switch(task.state()) {
-				case SUCCESS -> {
-					T result = task.get();
-					results.add(result);
-				}
-				case FAILED -> Logger.handle(LowPriorityTaskScope.class, "handleComplete", task.exception());
-			}
-		}
-
-		public Stream<T> results() {
-			return results.stream();
-		}
-	}
-
 	public static void execute(Runnable command) {
 		synchronized(PENDING_FUTURES) {
 			Future<?> future = LOW_PRIORITY_EXECUTOR.submit(new CatchExceptionRunnable(command));

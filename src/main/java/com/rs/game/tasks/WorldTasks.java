@@ -17,8 +17,11 @@
 package com.rs.game.tasks;
 
 import com.rs.lib.util.Logger;
+import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -102,6 +105,30 @@ public class WorldTasks {
 			TASKS.add(taskInfo);
 			return taskInfo;
 		}
+	}
+
+	public static WorldTaskInformation scheduleHalfHourly(Runnable task) {
+		ZonedDateTime now = ZonedDateTime.now();
+		ZonedDateTime nextHalfHour;
+		if (now.getMinute() < 30)
+			nextHalfHour = now.withMinute(30).withSecond(0).withNano(0);
+		else
+			nextHalfHour = now.plusHours(1).withMinute(0).withSecond(0).withNano(0);
+		int delay = (int) (Duration.between(now, nextHalfHour).toMillis() / 600L);
+		return schedule(delay, Ticks.fromMinutes(30), task);
+	}
+
+	public static WorldTaskInformation scheduleNthHourly(int hour, Runnable task) {
+		ZonedDateTime now = ZonedDateTime.now();
+		int currentHour = now.getHour();
+		int hoursUntilNextMark = hour - (currentHour % hour);
+		ZonedDateTime nextThreeHourMark = now.plusHours(hoursUntilNextMark).withMinute(0).withSecond(0).withNano(0);
+		int delay = (int) (Duration.between(now, nextThreeHourMark).toMillis() / 600L);
+		return schedule(delay, Ticks.fromHours(hour), task);
+	}
+
+	public static WorldTaskInformation scheduleHourly(Runnable task) {
+		return scheduleNthHourly(1, task);
 	}
 
 	public static WorldTaskInformation schedule(int startDelay, Runnable task) {

@@ -1,0 +1,22 @@
+{
+  "name": "Star Sprite's Celestial Rewards",
+  "generalStore": false,
+  "buyOnly": true,
+  "currency": 13727,
+  "items": [
+    {
+      "item": {
+        "id": 21413,
+        "amount": 15
+      },
+      "customPrice": 100000
+    },
+    {
+      "item": {
+        "id": 23786,
+        "amount": 100
+      },
+      "customPrice": 1000
+    }
+  ]
+}
