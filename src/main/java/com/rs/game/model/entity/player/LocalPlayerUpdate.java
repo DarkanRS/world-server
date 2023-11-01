@@ -324,7 +324,7 @@ public final class LocalPlayerUpdate {
 			applyGraphicsMask2(p, block);
 		}
 
-		if (added || (p.getNextFaceTile() != null && p.getNextRunDirection() == null && p.getNextWalkDirection() == null)) {
+		if (added || p.getFixedFaceTile() != null || (p.getNextFaceTile() != null && p.getNextRunDirection() == null && p.getNextWalkDirection() == null)) {
 			maskData |= 0x20;
 			applyFaceDirectionMask(p, block);
 		}

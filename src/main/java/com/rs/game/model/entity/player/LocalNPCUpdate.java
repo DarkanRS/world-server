@@ -21,6 +21,7 @@ import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.game.model.entity.npc.NPC;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
 
@@ -179,7 +180,7 @@ public final class LocalNPCUpdate {
 			applyChangeLevelMask(n, block);
 		}
 		//0x400000 unused outdated varn
-		if (n.getNextFaceTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null) {
+		if (n.getFixedFaceTile() != null || (n.getNextFaceTile() != null && n.getNextRunDirection() == null && n.getNextWalkDirection() == null)) {
 			maskData |= 0x4;
 			applyFaceTileMask(n, block);
 		}
@@ -262,8 +263,9 @@ public final class LocalNPCUpdate {
 	}
 
 	private void applyFaceTileMask(NPC n, OutputStream data) {
-		data.writeShortLE128((n.getNextFaceTile().getX() << 1) + 1);
-		data.writeShortLE((n.getNextFaceTile().getY() << 1) + 1);
+		Tile tile = n.getFixedFaceTile() != null ? n.getFixedFaceTile() : n.getNextFaceTile();
+		data.writeShortLE128((tile.getX() << 1) + 1);
+		data.writeShortLE((tile.getY() << 1) + 1);
 	}
 
 	private void applyHitMask(NPC n, OutputStream data) {

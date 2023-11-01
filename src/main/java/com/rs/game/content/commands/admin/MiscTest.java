@@ -120,15 +120,12 @@ public class MiscTest {
 		//
 		//		});
 		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			int index = p.getTempAttribs().getI("testIndex", 0);
-			if (index > ShootingStars.Location.values().length)
-				p.getTempAttribs().setI("testIndex", 0);
-			else
-				p.getTempAttribs().setI("testIndex", index+1);
-			ShootingStars.Location loc = ShootingStars.Location.values()[index];
-			World.spawnObject(new GameObject(38668, ObjectType.SCENERY_INTERACT, 0, loc.tile));
-			p.setNextTile(loc.tile);
-        });
+			for (NPC npc : World.getNPCs()) {
+				if (npc == null || npc.hasFinished())
+					continue;
+				npc.setFixedFaceTile(p.getTile());
+			}
+		});
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
 

@@ -48,6 +48,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -102,6 +103,7 @@ public abstract class Entity {
 	private transient Direction nextWalkDirection;
 	private transient Direction nextRunDirection;
 	private transient Tile nextFaceTile;
+	private transient Tile fixedFaceTile;
 	private transient boolean teleported;
 	private transient ConcurrentLinkedQueue<WalkStep> walkSteps;
 	protected transient RouteEvent routeEvent;
@@ -191,6 +193,24 @@ public abstract class Entity {
 	public void removeEffects(Effect... effects) {
 		for (Effect e : effects)
 			removeEffect(e);
+	}
+
+	public void walkToAndExecute(Tile startTile, Runnable event) {
+		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
+		int last = -1;
+		if (route.getStepCount() == -1)
+			return;
+		for (int i = route.getStepCount() - 1; i >= 0; i--)
+			if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
+				break;
+		if (this instanceof Player player) {
+			if (last != -1) {
+				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
+				player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
+			} else
+				player.getSession().writeToQueue(new MinimapFlag());
+		}
+		setRouteEvent(new RouteEvent(startTile, event));
 	}
 
 	private void processEffects() {
@@ -879,7 +899,7 @@ public abstract class Entity {
 	}
 
 	public boolean needMasksUpdate() {
-		return nextBodyGlow != null || nextFaceEntity != -2 || nextAnimation != null || nextSpotAnim1 != null || nextSpotAnim2 != null || nextSpotAnim3 != null || nextSpotAnim4 != null || (nextWalkDirection == null && nextFaceTile != null) || !nextHits.isEmpty() || !nextHitBars.isEmpty() || nextForceMovement != null || nextForceTalk != null || bodyModelRotator != null;
+		return nextBodyGlow != null || nextFaceEntity != -2 || nextAnimation != null || nextSpotAnim1 != null || nextSpotAnim2 != null || nextSpotAnim3 != null || nextSpotAnim4 != null || (nextWalkDirection == null && nextFaceTile != null) || fixedFaceTile != null || !nextHits.isEmpty() || !nextHitBars.isEmpty() || nextForceMovement != null || nextForceTalk != null || bodyModelRotator != null;
 	}
 
 	public boolean isDead() {
@@ -1117,6 +1137,10 @@ public abstract class Entity {
 		return nextFaceTile;
 	}
 
+	public Tile getFixedFaceTile() {
+		return fixedFaceTile;
+	}
+
 	public Direction getDirection() {
 		return Direction.fromAngle(getFaceAngle());
 	}
@@ -1131,6 +1155,10 @@ public abstract class Entity {
 			faceAngle = Utils.getAngleTo(nextFaceTile.getX() - nextTile.getX(), nextFaceTile.getY() - nextTile.getY());
 		else
 			faceAngle = Utils.getAngleTo(nextFaceTile.getX() - getX(), nextFaceTile.getY() - getY());
+	}
+
+	public void setFixedFaceTile(Tile tile) {
+		this.fixedFaceTile = tile;
 	}
 
 	public void faceNorth() {
