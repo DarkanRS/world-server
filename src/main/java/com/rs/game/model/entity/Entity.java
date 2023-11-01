@@ -159,6 +159,8 @@ public abstract class Entity {
 			return;
 		Map<Effect, Long> persisted = new HashMap<>();
 		for (Effect effect : effects.keySet()) {
+			if (effect == null)
+				continue;
 			if (!effect.isRemoveOnDeath())
 				persisted.put(effect, effects.get(effect));
 		}
@@ -196,6 +198,8 @@ public abstract class Entity {
 			return;
 		Set<Effect> expired = new HashSet<>();
 		for (Effect effect : effects.keySet()) {
+			if (effect == null)
+				continue;
 			long time = effects.get(effect);
 			time--;
 			effect.tick(this, time);
