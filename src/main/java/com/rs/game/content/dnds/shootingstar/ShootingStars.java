@@ -5,6 +5,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
@@ -109,22 +110,32 @@ public class ShootingStars {
         }
     });
 
+    @ServerStartupEvent
+    public static void addLoSOverride() {
+        Entity.addLOSOverride(8091);
+    }
+
     public static NPCClickHandler handleStarSprite = new NPCClickHandler(new Object[] { 8091 }, e -> {
        e.getNPC().resetDirection();
        if (e.getPlayer().getDailyI("stardustHandedIn") < 200 && e.getPlayer().getInventory().containsItem(13727, 1)) {
            int toHandIn = e.getPlayer().getInventory().getNumberOf(13727);
-           if (toHandIn > 200)
-               toHandIn = 200 - e.getPlayer().getDailyI("stardustHandedIn", 0);
+           int canHandIn = 200 - e.getPlayer().getDailyI("stardustHandedIn", 0);
+           if (toHandIn > canHandIn)
+               toHandIn = canHandIn;
+           if (toHandIn <= 0)
+               return;
            int coins = (int) (50002.0 * ((double) toHandIn / 200.0));
            int cosmics = (int) (152.0 * ((double) toHandIn / 200.0));
            int astrals = (int) (52.0 * ((double) toHandIn / 200.0));
            int gold = (int) (20.0 * ((double) toHandIn / 200.0));
            int ticks = (int) (Ticks.fromMinutes(15) * ((double) toHandIn / 200.0));
+           e.getPlayer().getInventory().deleteItem(13727, toHandIn);
            e.getPlayer().getInventory().addCoins(coins);
            e.getPlayer().getInventory().addItemDrop(564, cosmics);
            e.getPlayer().getInventory().addItemDrop(9075, astrals);
            e.getPlayer().getInventory().addItemDrop(445, gold);
            e.getPlayer().addEffect(Effect.SHOOTING_STAR_MINING_BUFF, ticks);
+           e.getPlayer().setDailyI("stardustHandedIn", e.getPlayer().getDailyI("stardustHandedIn", 0) + toHandIn);
            e.getPlayer().startConversation(new Dialogue()
                    .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Thank you for helping me out of here.")
                    .addNPC(e.getNPCId(), HeadE.CHEERFUL, "I have rewarded you by making it so you can mine extra ore for the next " + Utils.ticksToTime(ticks))
