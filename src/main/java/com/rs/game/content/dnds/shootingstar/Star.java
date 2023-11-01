@@ -11,17 +11,22 @@ import com.rs.lib.util.Utils;
 
 public class Star extends GameObject {
     public NPC sprite;
+    public final long landingTime;
+    public final ShootingStars.Location location;
     public boolean discovered = false;
     public int life = 0;
     public boolean minedThisTick = false;
 
     public Star(int tier, ShootingStars.Location location) {
         super(38668-tier, ObjectType.SCENERY_INTERACT, 0, location.tile);
+        this.location = location;
+        this.landingTime = World.getServerTicks();
         World.sendWorldMessage("<col=FF0000><shad=000000>A shooting star has crashed near " + location.description + "!", false);
         World.spawnObject(this);
         Chunk chunk = ChunkManager.getChunk(getTile().getChunkId(), true);
         chunk.flagForProcess(this);
         life = getMaxLife();
+        ShootingStars.addDiscoveredStar(this, "Not discovered yet...");
     }
 
     public int getTier() {

@@ -3499,6 +3499,7 @@ public class Player extends Entity {
 	public int getYInScene() {
 		return getYInScene(getSceneBaseChunkId());
 	}
+
 	public void walkToAndExecute(Tile startTile, Runnable event) {
 		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
 		int last = -1;

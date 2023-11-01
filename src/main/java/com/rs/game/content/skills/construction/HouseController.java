@@ -23,6 +23,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.PlayerLook;
+import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.items.liquid_containers.FillAction;
 import com.rs.game.content.items.liquid_containers.FillAction.Filler;
 import com.rs.game.content.skills.construction.House.ObjectReference;
@@ -147,7 +148,7 @@ public class HouseController extends Controller {
 			if (house.isDoor(object))
 				house.openRoomCreationMenu(object);
 			else
-				for (final Builds build : HouseConstants.Builds.values())
+				for (final Builds build : Builds.values())
 					if (build.containsId(object.getId())) {
 						house.openBuildInterface(object, build);
 						return false;
@@ -176,23 +177,25 @@ public class HouseController extends Controller {
 			directPortals(player, object);
 		else if (object.getId() >= 13615 && object.getId() <= 13635)
 			telePlayer(object.getId());
-		else if (HouseConstants.Builds.DRESSERS.containsObject(object))
+		else if (Builds.DRESSERS.containsObject(object))
 			PlayerLook.openHairdresserSalon(player);
-		else if (HouseConstants.Builds.WARDROBE.containsObject(object))
+		else if (Builds.WARDROBE.containsObject(object))
 			PlayerLook.openThessaliasMakeOver(player);
 		else if (object.getId() == HouseConstants.HObject.GLORY.getId())
 			ItemTeleports.transportationDialogue(player, 1712);
-		else if (HouseConstants.Builds.LARDER.containsObject(object))
+		else if (Builds.TELESCOPE.containsObject(object))
+			ShootingStars.viewTelescope(player);
+		else if (Builds.LARDER.containsObject(object))
 			handleLarders(object);
-		else if (HouseConstants.Builds.SHELVES.containsObject(object))
+		else if (Builds.SHELVES.containsObject(object))
 			handleShelves(object);
-		else if (HouseConstants.Builds.TOOL1.containsObject(object))
+		else if (Builds.TOOL1.containsObject(object))
 			handleTools(object);
-		else if (HouseConstants.Builds.WEAPONS_RACK.containsObject(object))
+		else if (Builds.WEAPONS_RACK.containsObject(object))
 			handleWeapons(object);
-		else if (HouseConstants.Builds.LEVER.containsObject(object))
+		else if (Builds.LEVER.containsObject(object))
 			handleLever(object);
-		else if (HouseConstants.Builds.ROPE_BELL_PULL.containsObject(object)) {
+		else if (Builds.ROPE_BELL_PULL.containsObject(object)) {
 			if (!house.isOwner(player)) {
 				player.getPackets()
 					.sendGameMessage("I'd better not do this...");
@@ -200,15 +203,15 @@ public class HouseController extends Controller {
 			}
 			house.callServant(true);
 			return false;
-		} else if (HouseConstants.Builds.LECTURN.containsObject(object)) {
+		} else if (Builds.LECTURN.containsObject(object)) {
 			if (house.isBuildMode()) {
 				player.sendMessage("You cannot do this while in building mode.");
 				return false;
 			}
 			TabletMaking.openTabInterface(player, object.getId() - 13642);
-		} else if (HouseConstants.Builds.BOOKCASE.containsObject(object))
+		} else if (Builds.BOOKCASE.containsObject(object))
 			player.sendMessage("You search the bookcase but find nothing.");
-		else if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object)) {
+		else if (Builds.STAIRCASE.containsObject(object) || Builds.STAIRCASE_DOWN.containsObject(object)) {
 			if (object.getDefinitions().getOption(1).equals("Climb"))
 				player.sendOptionDialogue("Would you like to climb up or down?", ops -> {
 					ops.add("Climb up", () -> house.climbStaircase(player, object, true));
@@ -216,16 +219,16 @@ public class HouseController extends Controller {
 				});
 			else
 				house.climbStaircase(player, object, object.getDefinitions().getOption(1).equals("Climb-up"));
-		} else if (HouseConstants.Builds.PETHOUSE.containsObject(object)) {
+		} else if (Builds.PETHOUSE.containsObject(object)) {
 			if (house.isOwner(player))
 				house.getPetHouse().open();
 			else
 				player.sendMessage("This isn't your pet house.");
-		} else if (HouseConstants.Builds.OUB_LADDER.containsObject(object) || HouseConstants.Builds.TRAPDOOR.containsObject(object))
+		} else if (Builds.OUB_LADDER.containsObject(object) || Builds.TRAPDOOR.containsObject(object))
 			house.climbLadder(player, object, object.getDefinitions().getOption(1).equals("Climb"));
-		else if (HouseConstants.Builds.DOOR.containsObject(object) || HouseConstants.Builds.OUB_CAGE.containsObject(object))
+		else if (Builds.DOOR.containsObject(object) || Builds.OUB_CAGE.containsObject(object))
 			handleDoor(object);
-		else if (HouseConstants.Builds.COMBAT_RING.containsObject(object))
+		else if (Builds.COMBAT_RING.containsObject(object))
 			handleCombatRing(object);
 		return false;
 	}
@@ -422,7 +425,7 @@ public class HouseController extends Controller {
 			Filler fill = FillAction.isFillable(item);
 			if (fill != null)
 				player.startConversation(new FillingD(player, fill));
-		} else if (HouseConstants.Builds.STOVE.containsObject(object)) {
+		} else if (Builds.STOVE.containsObject(object)) {
 			if (item.getId() == 7690) {
 				player.getInventory().deleteItem(7690, 1);
 				player.getInventory().addItem(7691, 1);
@@ -449,9 +452,9 @@ public class HouseController extends Controller {
 	public boolean processObjectClick2(GameObject object) {
 		if (object.getId() == HouseConstants.HObject.EXIT_PORTAL.getId())
 			house.switchLock(player);
-		else if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object))
+		else if (Builds.STAIRCASE.containsObject(object) || Builds.STAIRCASE_DOWN.containsObject(object))
 			house.climbStaircase(player, object, true);
-		else if (HouseConstants.Builds.LEVER.containsObject(object))
+		else if (Builds.LEVER.containsObject(object))
 			player.sendOptionDialogue("Would you like to toggle PVP challenge mode?", ops -> {
 				ops.add("Yes", () -> house.toggleChallengeMode(player));
 				ops.add("No");
@@ -461,14 +464,14 @@ public class HouseController extends Controller {
 
 	@Override
 	public boolean processObjectClick3(GameObject object) {
-		if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object))
+		if (Builds.STAIRCASE.containsObject(object) || Builds.STAIRCASE_DOWN.containsObject(object))
 			house.climbStaircase(player, object, false);
 		return false;
 	}
 
 	@Override
 	public boolean processObjectClick4(GameObject object) {
-		if (HouseConstants.Builds.STAIRCASE.containsObject(object) || HouseConstants.Builds.STAIRCASE_DOWN.containsObject(object))
+		if (Builds.STAIRCASE.containsObject(object) || Builds.STAIRCASE_DOWN.containsObject(object))
 			house.removeRoom();
 		return false;
 	}

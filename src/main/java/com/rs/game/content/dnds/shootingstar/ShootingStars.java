@@ -1,11 +1,16 @@
 package com.rs.game.content.dnds.shootingstar;
 
+import com.google.common.collect.Iterators;
+import com.google.common.collect.PeekingIterator;
+import com.google.gson.internal.LinkedTreeMap;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
@@ -20,6 +25,7 @@ import java.util.*;
 
 @PluginEventHandler
 public class ShootingStars {
+
     public enum Location {
         AL_KHARID(Tile.of(3286, 3197, 0), "Al Kharid"),
         LUMBRIDGE_SWAMP(Tile.of(3217, 3189, 0), "Lumbridge Swamp"),
@@ -68,26 +74,59 @@ public class ShootingStars {
 
     private static Star currentStar = null;
     private static final List<Location> LOCATIONS = new ArrayList<>(Arrays.stream(Location.values()).toList());
-    private static Iterator<Location> locIterator = LOCATIONS.iterator();
+    private static PeekingIterator<Location> locIterator = Iterators.peekingIterator(LOCATIONS.iterator());
 
     @ServerStartupEvent
     public static void schedule() {
         Collections.shuffle(LOCATIONS);
-        locIterator = LOCATIONS.iterator();
+        locIterator = Iterators.peekingIterator(LOCATIONS.iterator());
         WorldTasks.scheduleNthHourly(2, ShootingStars::spawnStar);
     }
 
     public static void spawnStar() {
         if (currentStar != null)
             currentStar.destroy();
-        currentStar = new Star(Utils.randomInclusive(1, 9), nextLocation());
+        currentStar = new Star(Utils.random(0, 9), nextLocation());
     }
 
     private static Location nextLocation() {
         if (!locIterator.hasNext())
-            locIterator = LOCATIONS.iterator();
+            locIterator = Iterators.peekingIterator(LOCATIONS.iterator());
         return locIterator.next();
     }
+
+    public static void viewTelescope(Player player) {
+        player.getInterfaceManager().sendInterface(782);
+        player.startConversation(new Dialogue());
+        player.simpleDialogue((currentStar != null ? "A star recently crashed near " + currentStar.location.description + "! " : "") + "The next star looks like it's going to land near " + (!locIterator.hasNext() ? LOCATIONS.getFirst() : locIterator.peek()).description + ".");
+    }
+
+    public static void addDiscoveredStar(Star star, String displayName) {
+        Map<String, String> discoveries = World.getData().getAttribs().getO("shootingStarDiscoveries");
+        if (discoveries == null)
+            discoveries = new LinkedTreeMap<>();
+        discoveries.put(Long.toString(star.landingTime), displayName);
+        Map<String, String> sortedDiscoveries = new LinkedTreeMap<>();
+        discoveries.entrySet().stream()
+                .sorted((entry1, entry2) -> Long.compare(Long.parseLong(entry2.getKey()), Long.parseLong(entry1.getKey())))
+                .limit(5)
+                .forEachOrdered(entry -> sortedDiscoveries.put(entry.getKey(), entry.getValue()));
+        World.getData().getAttribs().setO("shootingStarDiscoveries", sortedDiscoveries);
+    }
+
+    public static ObjectClickHandler handleNoticeboard = new ObjectClickHandler(new Object[] { 38669 }, e -> {
+        Map<String, String> discoveries = World.getData().getAttribs().getO("shootingStarDiscoveries");
+        if (discoveries == null)
+            discoveries = new HashMap<>();
+        int idx = 0;
+        for (String time : discoveries.keySet()) {
+            if (++idx > 5)
+                continue;
+            e.getPlayer().getPackets().setIFText(787, 5 + idx, "Crashed " + Utils.ticksToTime(World.getServerTicks() - Long.parseLong(time)).replace(".", "") + " ago");
+            e.getPlayer().getPackets().setIFText(787, 10 + idx, discoveries.get(time));
+        }
+        e.getPlayer().getInterfaceManager().sendInterface(787);
+    });
 
     public static ObjectClickHandler handleStarClick = new ObjectClickHandler(new Object[] { "Crashed star" }, e -> {
         if (!(e.getObject() instanceof Star star)) {
@@ -105,6 +144,7 @@ public class ShootingStars {
                     star.discovered = true;
                     e.getPlayer().getSkills().addXp(Skills.MINING, e.getPlayer().getSkills().getLevelForXp(Skills.MINING) * 75);
                     e.getPlayer().simpleDialogue("Congratulations, you were the first to find this star! You receive " + Utils.formatNumber(e.getPlayer().getSkills().getLevelForXp(Skills.MINING) * 75) + " Mining XP as a reward.");
+                    ShootingStars.addDiscoveredStar(star, e.getPlayer().getDisplayName());
                     return;
                 }
                 e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf("CRASHED_STAR_" + star.getTier()), e.getObject()));
