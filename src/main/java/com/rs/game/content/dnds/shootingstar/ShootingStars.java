@@ -104,6 +104,8 @@ public class ShootingStars {
                 if (!star.discovered) {
                     star.discovered = true;
                     e.getPlayer().getSkills().addXp(Skills.MINING, e.getPlayer().getSkills().getLevelForXp(Skills.MINING) * 75);
+                    e.getPlayer().simpleDialogue("Congratulations, you were the first to find this star! You receive " + Utils.formatNumber(e.getPlayer().getSkills().getLevelForXp(Skills.MINING) * 75) + " Mining XP as a reward.");
+                    return;
                 }
                 e.getPlayer().getActionManager().setAction(new Mining(RockType.valueOf("CRASHED_STAR_" + star.getTier()), e.getObject()));
             }
