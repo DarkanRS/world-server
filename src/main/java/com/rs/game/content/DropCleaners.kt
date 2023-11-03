@@ -30,13 +30,13 @@ class DropCleaners {
             }
         }
         var charmingImp = NPCDropHandler(null, arrayOf(12158, 12159, 12160, 12161, 12162, 12163, 12168)) { e ->
-            if (e.player.inventory.containsItem(25350, 1) && e.player.inventory.hasRoomFor(e.item)) {
+            if ((e.player.equipment.containsOneItem(25350) || e.player.inventory.containsItem(25350, 1)) && e.player.inventory.hasRoomFor(e.item)) {
                 e.player.inventory.addItem(Item(e.item))
                 e.deleteItem()
             }
         }
         var goldAccumulator = NPCDropHandler(null, arrayOf(995)) { e ->
-            if (e.player.inventory.containsItem(25351, 1) && e.player.inventory.hasRoomFor(e.item)) {
+            if ((e.player.equipment.containsOneItem(25351) || e.player.inventory.containsItem(25351, 1))) {
                 e.player.inventory.addCoins(e.item.amount)
                 e.deleteItem()
             }

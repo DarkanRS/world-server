@@ -20,6 +20,7 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.Ticks;
+import com.rs.utils.shop.ShopsHandler;
 
 import java.util.*;
 
@@ -214,6 +215,24 @@ public class ShootingStars {
                        ops.add("I'm not strange.")
                                .addPlayer(HeadE.CONFUSED, "I'm not strange.")
                                .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hehe. If you say so.");
+
+                       if (e.getPlayer().getInventory().containsItem(13727))
+                           ops.add("Are there any more rewards I can redeem for extra dust?")
+                                   .addOptions(rewards -> {
+                                       rewards.add("[1000 dust per hour] Buy more star sprite mining buff time", () ->
+                                               e.getPlayer().sendInputInteger("How much dust would you like to spend?", num ->
+                                                       e.getPlayer().sendOptionDialogue(conf -> {
+                                                           final int adjusted = num > e.getPlayer().getInventory().getNumberOf(13727) ? e.getPlayer().getInventory().getNumberOf(13727) : num;
+                                                           conf.add("Spend " + Utils.formatNumber(adjusted) + " stardust for " + Utils.ticksToTime(adjusted*6), () -> {
+                                                               if (e.getPlayer().getInventory().containsItem(13727, adjusted)) {
+                                                                   e.getPlayer().getInventory().deleteItem(13727, adjusted);
+                                                                   e.getPlayer().extendEffect(Effect.SHOOTING_STAR_MINING_BUFF, adjusted * 6);
+                                                               }
+                                                           });
+                                                           conf.add("Nevermind. That's too expensive.");
+                                                       })));
+                                        rewards.add("Open stardust shop", () -> ShopsHandler.openShop(e.getPlayer(), "stardust_shop"));
+                                   });
                    }));
     });
 }

@@ -181,6 +181,15 @@ public abstract class Entity {
 		effect.tick(this, ticks);
 	}
 
+	public void extendEffect(Effect effect, long ticks) {
+		if (effects == null)
+			effects = new HashMap<>();
+		if (effects.containsKey(effect))
+			effects.put(effect, effects.get(effect) + ticks);
+		else
+			addEffect(effect, ticks);
+	}
+
 	public void removeEffect(Effect effect) {
 		if (effects == null)
 			return;
