@@ -106,15 +106,15 @@ public enum Ore {
 			player.getVars().setVarBit(10133, player.getDailyI("redSandstoneMined"));
 		}
 	},
-	STARDUST_1(13727, 10, 14, 60, 400, 1),
-	STARDUST_2(13727, 20, 25, 40, 375, 1),
-	STARDUST_3(13727, 30, 29, 35, 320, 1),
-	STARDUST_4(13727, 40, 32, 20, 200, 1),
-	STARDUST_5(13727, 50, 47, 15, 180, 1),
-	STARDUST_6(13727, 60, 71, 9, 150, 1),
-	STARDUST_7(13727, 70, 114, 5, 110, 1),
-	STARDUST_8(13727, 80, 145, 2, 100, 1),
-	STARDUST_9(13727, 90, 210, 1, 85, 1),
+	STARDUST_1(13727, 10, 14, 59, 256, 1),
+	STARDUST_2(13727, 20, 25, 59, 146, 1),
+	STARDUST_3(13727, 30, 29, 59, 126, 1),
+	STARDUST_4(13727, 40, 32, 59, 113, 1),
+	STARDUST_5(13727, 50, 47, 59, 77, 1),
+	STARDUST_6(13727, 60, 71, 38, 51, 1),
+	STARDUST_7(13727, 70, 114, 25, 35, 1),
+	STARDUST_8(13727, 80, 145, 20, 30, 1),
+	STARDUST_9(13727, 90, 210, 15, 20, 1),
 	;
 
 	private int id, level;
@@ -166,7 +166,7 @@ public enum Ore {
 				player.addEffect(Effect.JUJU_MINE_BANK, 75);
 		}
 		player.sendMessage("You successfully mine " + Utils.addArticle(ore.getDefinitions().getName().toLowerCase()) + ".", true);
-		if (player.hasEffect(Effect.JUJU_MINE_BANK)) {
+		if (player.hasEffect(Effect.JUJU_MINE_BANK) && !name().startsWith("STARDUST")) {
 			player.getBank().addItem(ore, true);
 			player.setNextSpotAnim(new SpotAnim(2896));
 		} else

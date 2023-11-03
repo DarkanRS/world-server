@@ -6,10 +6,17 @@
   "items": [
     {
       "item": {
-        "id": 21413,
+        "id": 25351,
         "amount": 15
       },
-      "customPrice": 100000
+      "customPrice": 50000
+    },
+    {
+      "item": {
+        "id": 25352,
+        "amount": 15
+      },
+      "customPrice": 25000
     },
     {
       "item": {

@@ -6,6 +6,7 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.plugin.annotations.ServerStartupEvent.Priority;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ public class WorldPersistentData {
 	
 	private static WorldPersistentData ATTRIBUTES;
 	
-	@ServerStartupEvent
+	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadStorage() throws ClassNotFoundException {
 		File dataFile = new File(DATA_PATH);
 		if (!dataFile.exists())
@@ -26,6 +27,7 @@ public class WorldPersistentData {
 			try {
 				ATTRIBUTES = (WorldPersistentData) JsonFileManager.loadJsonFile(dataFile, WorldPersistentData.class);
 			} catch (Exception e) {
+				e.printStackTrace();
 				ATTRIBUTES = new WorldPersistentData();
 			}
 	}

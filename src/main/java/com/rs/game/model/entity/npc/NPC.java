@@ -166,17 +166,6 @@ public class NPC extends Entity {
 		return (getDefinitions().walkMask & 0x4) != 0;
 	}
 
-	public void walkToAndExecute(Tile startTile, Runnable event) {
-		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
-		//TODO expensive call for cutscenes
-		if (route.getStepCount() == -1)
-			return;
-		for (int i = route.getStepCount() - 1; i >= 0; i--)
-			if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-				break;
-		setRouteEvent(new RouteEvent(startTile, event));
-	}
-
 	@Override
 	public boolean needMasksUpdate() {
 		return super.needMasksUpdate() || nextTransformation != null || bodyMeshModifier != null || getBas() != -1 || changedCombatLevel || changedName || maskTest || permName;
