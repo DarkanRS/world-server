@@ -239,22 +239,22 @@ public class Karamja  {
 		if (e.getOpNum() == ClientPacket.OBJECT_OP2) {
 			if (e.getPlayer().getX() >= e.getObject().getX())
 				Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
-			else if (e.getPlayer().getInventory().containsItem(6306, 10)) {
+			else if (e.getPlayer().getInventory().containsItem(6306, 100)) {
 				Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
-				e.getPlayer().getInventory().deleteItem(6306, 10);
+				e.getPlayer().getInventory().deleteItem(6306, 100);
 			} else
-				e.getPlayer().sendMessage("You need 10 trading sticks to use this door.");
+				e.getPlayer().sendMessage("You need 100 trading sticks to use this door.");
 		} else if (e.getOpNum() == ClientPacket.OBJECT_OP1)
 			if (e.getPlayer().getX() >= e.getObject().getX())
 				Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
 			else
-				e.getPlayer().sendOptionDialogue("Pay 10 trading sticks to enter?", ops -> {
+				e.getPlayer().sendOptionDialogue("Pay 100 trading sticks to enter?", ops -> {
 					ops.add("Yes", () -> {
-						if (e.getPlayer().getInventory().containsItem(6306, 10)) {
+						if (e.getPlayer().getInventory().containsItem(6306, 100)) {
 							Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
-							e.getPlayer().getInventory().deleteItem(6306, 10);
+							e.getPlayer().getInventory().deleteItem(6306, 100);
 						} else
-							e.getPlayer().sendMessage("You need 10 trading sticks to use this door.");
+							e.getPlayer().sendMessage("You need 100 trading sticks to use this door.");
 					});
 					ops.add("No");
 				});
