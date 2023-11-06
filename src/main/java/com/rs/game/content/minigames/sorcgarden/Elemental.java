@@ -57,7 +57,7 @@ public class Elemental extends NPC {
 	}
 
 	@Override
-	public List<Entity> getPossibleTargets(int tileRadius) {
+	public List<Entity> getPossibleTargets() {
 		return queryNearbyPlayersByTileRangeAsEntityList(7, player -> !player.isDead() && !player.getAppearance().isHidden() && !player.isLocked() && lineOfSightTo(player, false));
 	}
 
@@ -66,7 +66,7 @@ public class Elemental extends NPC {
 	@Override
 	public void processNPC() {
 		if (!beingTeleported)
-			for (Entity t : getPossibleTargets())
+			for (Entity t : getPossibleTargets()) {
 				if (withinDistance(t.getTile(), 2) && Utils.getAngleTo(t.getX() - getX(), t.getY() - getY()) == getFaceAngle()) {
 					final Player player = (Player) t;
 					setNextAnimation(new Animation(5803));
@@ -81,6 +81,7 @@ public class Elemental extends NPC {
 					});
 					break;
 				}
+			}
 		int index = getId() - 5533;
 		if (!isForceWalking()) {
 			if (steps >= tiles[index].length)
