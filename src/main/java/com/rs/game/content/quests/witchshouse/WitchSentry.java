@@ -36,83 +36,82 @@ import static com.rs.game.content.quests.witchshouse.WitchsHouse.WITCH;
 @PluginEventHandler
 public class WitchSentry extends NPC {
 
-	public WitchSentry(Tile tile) {
-		super(WITCH, tile, true);
-		setRandomWalk(false);
-		WorldTasks.schedule(new WorldTask() {
-			int tick=10;
-			Player player;
-			@Override
-			public void run() {
-				if(tick > 3) {
-					for (Player player : World.getPlayersInChunkRange(getChunkId(), 1)) {
-						if (player == null)
-							continue;
-						if (lineOfSightTo(player, false)) {
-							player.lock();
-							resetWalkSteps();
-							faceEntity(player);
-							setNextSpotAnim(new SpotAnim(108));
-							setNextAnimation(new Animation(711));
-							forceTalk("Get out!");
-							tick = 3;
-						}
-					}
-				}
-				if(tick == 1)
-					tick = 10;
-				if(tick == 2) {
-					player.unlock();
-					Magic.sendObjectTeleportSpell(player, false, Tile.of(2892, 3373, 0));
-					tick--;
-				}
-				if(tick == 3)
-					tick--;
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(WITCH, (npcId, tile) -> new WitchSentry(tile));
 
+    public WitchSentry(Tile tile) {
+        super(WITCH, tile, true);
+        setRandomWalk(false);
+        WorldTasks.schedule(new WorldTask() {
+            int tick = 10;
+            Player player;
 
-				if(tick == 5)
-					walkToAndExecute(Tile.of(2895, 3363, 0), ()-> {
-						tick = 10;
-					});
-				if(tick == 10)
-					walkToAndExecute(Tile.of(2922, 3363, 0), ()-> {
-						tick = 5;
-					});
+            @Override
+            public void run() {
+                if (tick > 3) {
+                    for (Player p : World.getPlayersInChunkRange(getChunkId(), 1)) {
+                        if (p == null)
+                            continue;
+                        if (lineOfSightTo(p, false)) {
+							player = p;
+							p.lock();
+                            resetWalkSteps();
+                            faceEntity(p);
+                            setNextSpotAnim(new SpotAnim(108));
+                            setNextAnimation(new Animation(711));
+                            forceTalk("Get out!");
+                            tick = 3;
+							break;
+                        }
+                    }
+                }
+                if (tick == 1)
+                    tick = 10;
+                if (tick == 2) {
+                    player.unlock();
+                    Magic.sendObjectTeleportSpell(player, false, Tile.of(2892, 3373, 0));
+					player = null;
+                    tick--;
+                }
+                if (tick == 3)
+                    tick--;
 
-			}
-		}, 0, 1);
-	}
+                if (tick == 5)
+                    walkToAndExecute(Tile.of(2895, 3363, 0), () -> tick = 10);
+                if (tick == 10)
+                    walkToAndExecute(Tile.of(2922, 3363, 0), () -> tick = 5);
 
-	@Override
-	public void processEntity() {
-		super.processEntity();
-		processNPC();
-	}
+            }
+        }, 0, 1);
+    }
 
-	@Override
-	public boolean lineOfSightTo(Object target, boolean melee) {
-		Tile tile = WorldUtil.targetToTile(target);
-		if(World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile)) {
-			Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().getDx());
-			if (getDirection().getDx() == 1) {
-				if (tile.getX() > getX() && checkByConeSightX(tile))
-					return true;
-			} else if (getDirection().getDx() == -1 && checkByConeSightX(tile))
-				if (tile.getX() < getX())
-					return true;
-		}
-		return false;
-	}
+    @Override
+    public void processEntity() {
+        super.processEntity();
+        processNPC();
+    }
 
-	public boolean checkByConeSightX(Tile tile) {
-		int xDifference = Math.abs(tile.getX() - getX());
-		int yDifference = Math.abs(tile.getY() - getY());
-		if(yDifference <= xDifference)//one for one cone. Multiply difference by 2 for one for two cone.
-			return true;
-		return false;
-	}
+    @Override
+    public boolean lineOfSightTo(Object target, boolean melee) {
+        Tile tile = WorldUtil.targetToTile(target);
+        if (World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile)) {
+            Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().getDx());
+            if (getDirection().getDx() == 1) {
+                if (tile.getX() > getX() && checkByConeSightX(tile))
+                    return true;
+            } else if (getDirection().getDx() == -1 && checkByConeSightX(tile))
+                if (tile.getX() < getX())
+                    return true;
+        }
+        return false;
+    }
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(WITCH, (npcId, tile) -> new WitchSentry(tile));
+    public boolean checkByConeSightX(Tile tile) {
+        int xDifference = Math.abs(tile.getX() - getX());
+        int yDifference = Math.abs(tile.getY() - getY());
+        if (yDifference <= xDifference)//one for one cone. Multiply difference by 2 for one for two cone.
+            return true;
+        return false;
+    }
 
 
 }

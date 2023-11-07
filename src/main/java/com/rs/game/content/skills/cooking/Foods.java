@@ -446,39 +446,39 @@ public class Foods {
                     foods.put(id, food);
         }
 
-        private int[] ids;
+        private final int[] ids;
         private int container;
-        private int heal;
+        private final int heal;
 
         private Consumer<Player> effect;
 
-        private Food(int[] ids, int container, int heal, Consumer<Player> effect) {
+        Food(int[] ids, int container, int heal, Consumer<Player> effect) {
             this.ids = ids;
             this.container = container;
             this.heal = heal;
             this.effect = effect;
         }
 
-        private Food(int[] ids, int heal, Consumer<Player> effect) {
+        Food(int[] ids, int heal, Consumer<Player> effect) {
             this(ids, -1, heal, effect);
         }
 
-        private Food(int id, int heal, Consumer<Player> effect) {
+        Food(int id, int heal, Consumer<Player> effect) {
             this(new int[] { id }, -1, heal, effect);
         }
 
-        private Food(int id, int heal) {
+        Food(int id, int heal) {
             this.ids = new int[] { id };
             this.heal = heal;
         }
 
-        private Food(int[] ids, int container, int heal) {
+        Food(int[] ids, int container, int heal) {
             this.ids = ids;
             this.container = container;
             this.heal = heal;
         }
 
-        private Food(int[] ids, int heal) {
+        Food(int[] ids, int heal) {
             this(ids, -1, heal);
         }
 

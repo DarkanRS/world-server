@@ -17,11 +17,15 @@
 package com.rs.utils.music;
 
 import com.google.gson.JsonIOException;
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.World;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.file.JsonFileManager;
+import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+import com.rs.utils.spawns.ItemSpawn;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,15 +75,15 @@ public class Music {
 			}
 
 			parentGenres = JsonFileManager.loadJsonFile(new File("./data/music/parent-genres.json"), Genre[].class);
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/asgarnia.json"), Genre[].class)));
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/kandarin.json"), Genre[].class)));
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/misthalin.json"), Genre[].class)));
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/morytania.json"), Genre[].class)));
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/dungeons.json"), Genre[].class)));
-            genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/karamja.json"), Genre[].class)));
-			genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(new File("./data/music/regions/other.json"), Genre[].class)));
+			File[] genreFiles = new File("./data/music/regions/").listFiles();
+			for (File f : genreFiles)
+				genres.addAll(Arrays.asList(JsonFileManager.loadJsonFile(f, Genre[].class)));
 			addGenresToChunkMap();
 			addGenresToRegionMap();
+
+
+
+
 
 			//Auto-unlock songs list.
 			for(Song s : songs)

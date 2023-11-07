@@ -346,11 +346,13 @@ public class Chunk {
         GameObject spawned = getSpawnedObjectWithSlot(toRemove.getTile(), toRemove.getSlot());
         if (spawned != null) {
             spawnedObjects.remove(toRemove);
+            unflagForProcess(toRemove);
             WorldCollision.unclip(toRemove);
             if (baseObject != null)
                 WorldCollision.clip(baseObject);
             replace = true;
         } else if (toRemove.equals(baseObject)) {
+            unflagForProcess(toRemove);
             WorldCollision.unclip(toRemove);
             addRemovedObject(baseObject);
         } else {
