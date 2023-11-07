@@ -36,7 +36,7 @@ public class Rewards {
 		return rewards;
 	}
 
-	private static final int[] FISH_ORDER = { Fish.SHRIMP.getId(), Fish.SHRIMP.getId(), Fish.SARDINES.getId(), Fish.ANCHOVIES.getId(), Fish.OYSTER.getId(), Fish.TUNA.getId(), Fish.LOBSTER.getId(), Fish.SWORDFISH.getId(), Fish.SHARK.getId(), 395, 389 };
+	private static final int[] FISH_ORDER = { Fish.SHRIMP.getRawItemId(), Fish.SHRIMP.getRawItemId(), Fish.SARDINES.getRawItemId(), Fish.ANCHOVIES.getRawItemId(), Fish.OYSTER.getRawItemId(), Fish.TUNA.getRawItemId(), Fish.LOBSTER.getRawItemId(), Fish.SWORDFISH.getRawItemId(), Fish.SHARK.getRawItemId(), 395, 389 };
 
 	public static int getFishIdAtTier(int level, int tier) {
 		if (level >= 81)

@@ -1184,7 +1184,7 @@ public final class TutorialIslandController extends Controller {
 	public boolean processItemOnObject(GameObject object, Item item) {
 		if ((item.getId() == 438 || item.getId() == 436) && object.getId() == 3044)
 			player.getActionManager().setAction(new Smelting(Smelting.SmeltingBar.BRONZE, object, 1));
-		else if (item.getId() == Fish.SHRIMP.getId() || item.getId() == 2307)
+		else if (item.getId() == Fish.SHRIMP.getRawItemId() || item.getId() == 2307)
 			return true;
 		return false;
 	}
@@ -1238,7 +1238,7 @@ public final class TutorialIslandController extends Controller {
 		if (getStage() == Stage.CHOP_TREE && itemId == TreeType.NORMAL.getLogsId()[0]) {
 			nextStage(Stage.MAKE_A_FIRE);
 			player.startConversation(new Dialogue().addItem(itemId, "You get some logs."));
-		} else if (itemId == Fish.SHRIMP.getId()) {
+		} else if (itemId == Fish.SHRIMP.getRawItemId()) {
 			if (getStage() == Stage.CATCH_SHRIMP)
 				nextStage(Stage.BURN_SHRIMP);
 		} else if (itemId == Cooking.Cookables.RAW_SHRIMP.getBurntItem().getId()) {
