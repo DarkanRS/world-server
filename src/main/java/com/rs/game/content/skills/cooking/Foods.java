@@ -55,7 +55,7 @@ public class Foods {
         player.sendMessage("You eat the " + item.getName().toLowerCase() + ".", true);
         player.incrementCount("Food eaten");
         player.setNextAnimation(EAT_ANIM);
-        player.addFoodDelay(food.ids.length > 1 || food == Food.KARAMBWANI ? 2 : 3);
+        player.addFoodDelay(food.ids.length > 1 ? 2 : 3);
         player.getActionManager().setActionDelay(player.getActionManager().getActionDelay() + 3);
         Item replace = new Item(item.getId(), item.getAmount());
         if (replace.getDefinitions().isStackable())
