@@ -27,6 +27,7 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @PluginEventHandler
 public class GemBag {
@@ -85,7 +86,7 @@ public class GemBag {
 	private static boolean storeGems(Player player, int id, boolean upgrade) {
 		ArrayList<Double> bagContents = player.getO("gemBagContents");
 		if (bagContents == null)
-			bagContents = new ArrayList<>(5);
+			bagContents = new ArrayList<>(List.of(0.0, 0.0, 0.0, 0.0, 0.0));
 		int maxGems = upgrade ? 500 : 100;
 		int current = getTotalGemCount(player);
 		int room = 0;
@@ -138,7 +139,7 @@ public class GemBag {
 	public static int getTotalGemCount(Player p) {
 		ArrayList<Double> bagContents = p.getO("gemBagContents");
 		if (bagContents == null)
-			bagContents = new ArrayList<>(5);
+			bagContents = new ArrayList<>(List.of(0.0, 0.0, 0.0, 0.0, 0.0));
 		int total = 0;
 		for (double count : bagContents)
 			total += count;
