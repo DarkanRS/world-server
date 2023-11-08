@@ -139,8 +139,8 @@ public enum Fish {
         return Utils.skillSuccess(level, player.getAuraManager().getFishingMul(), rate1, rate99);
     }
 
-    public boolean giveFish(Player player, FishingSpot spot) {
-        Item fish = new Item(rawItemId);
+    public boolean giveFish(Player player, FishingSpot spot, Fish fish) {
+        Item fishId = new Item(fish.getRawItemId());
         int baitToDelete = -1;
         if (spot.getBait() != null)
             for (int bait : spot.getBait())
@@ -153,16 +153,16 @@ public enum Fish {
         double totalXp = xp;
         if (Fishing.hasFishingSuit(player))
             totalXp *= 1.025;
-        if (fish.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
+        if (fishId.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
             int random = Utils.random(100);
             if (random < 30)
-                fish.setId(19947);
+                fishId.setId(19947);
         }
         player.sendMessage(Fishing.getMessage(this), true);
-        if (fish.getId() != -1)
-            player.getInventory().addItem(fish);
+        if (fishId.getId() != -1)
+            player.getInventory().addItem(fishId);
         player.getSkills().addXp(Constants.FISHING, totalXp);
-        player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
+        player.incrementCount(fishId.getDefinitions().getName() + " caught fishing");
         if (extraRewards != null)
             extraRewards.accept(player);
         if (spot == FishingSpot.KARAMBWAN) {
@@ -175,7 +175,7 @@ public enum Fish {
         return true;
     }
 
-    public boolean failCatch(Player player, FishingSpot spot) {
+    public boolean failCatch(Player player, FishingSpot spot, Fish fish) {
         if (spot == FishingSpot.KARAMBWAN) {
             player.sendMessage(Fishing.getFailMessage(Fish.KARAMBWAN));
             player.getInventory().replace(3159, 3157);

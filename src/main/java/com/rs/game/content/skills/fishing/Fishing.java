@@ -99,7 +99,7 @@ public class Fishing extends PlayerAction {
     public Fishing(FishingSpot spot, NPC npc) {
         this.spot = spot;
         this.npc = npc;
-        tile = Tile.of(npc.getTile());
+        this.tile = Tile.of(npc.getTile());
     }
 
     @Override
@@ -122,10 +122,10 @@ public class Fishing extends PlayerAction {
         int level = player.getSkills().getLevel(Constants.FISHING) + player.getInvisibleSkillBoost(Skills.FISHING);
         for (Fish fish : spot.getFish()) {
             if (fish.checkRequirements(player) && fish.rollSuccess(player, level)) {
-                boolean shouldContinue = fish.giveFish(player, spot);
+                boolean shouldContinue = fish.giveFish(player, spot, fish);
                 return shouldContinue ? 4 : -1;
             } else {
-                boolean shouldContinue = fish.failCatch(player, spot);
+                boolean shouldContinue = fish.failCatch(player, spot, fish);
                 return shouldContinue ? 4 : -1;
             }
         }
