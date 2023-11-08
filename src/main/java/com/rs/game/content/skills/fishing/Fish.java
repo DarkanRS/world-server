@@ -185,7 +185,7 @@ public enum Fish {
             }
             return true;
         }
-        return false;
+        return true;
     }
 
 }
