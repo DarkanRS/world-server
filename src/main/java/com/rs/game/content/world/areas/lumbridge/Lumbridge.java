@@ -192,14 +192,6 @@ public class Lumbridge {
 			e.getPlayer().useLadder(Tile.of(3207, 3224, 2));
 	});
 
-	public static ObjectClickHandler handleThievesGuildExitLadder = new ObjectClickHandler(new Object[] { 52308 }, e -> {
-		e.getPlayer().useLadder(Tile.of(3223, 3269, 0));
-	});
-
-	public static ObjectClickHandler handleThievesGuildEntrance = new ObjectClickHandler(new Object[] { 52309 }, e -> {
-		e.getPlayer().useLadder(Tile.of(4762, 5891, 0));
-	});
-
 	public static ObjectClickHandler handleTakeFlour = new ObjectClickHandler(new Object[] { 36880 }, e -> {
 		if (e.getPlayer().getInventory().containsItem(1931, 1)) {
 			if (e.getPlayer().get(WHEAT_GRINDED) == Boolean.TRUE) {
