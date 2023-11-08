@@ -134,17 +134,8 @@ public class RestlessGhost extends QuestOutline {
 		}
 	});
 
-	public static NPCClickHandler talkToNpcs = new NPCClickHandler(new Object[] { 457, 458 }, e -> {
-		if (e.getOpNum() == 1) {
-			if (e.getNPC().getId() == 458) {
-				e.getPlayer().startConversation(new UrhneyD(e.getPlayer()));
-				return;
-			}
-			if (e.getNPC().getId() == 457) {
+	public static NPCClickHandler talkToNpcs = new NPCClickHandler(new Object[] { 457 }, e -> {
 				if (e.getPlayer().getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3)
 					e.getPlayer().startConversation(new RGhostD(e.getPlayer()));
-				return;
-			}
-		}
 	});
 }

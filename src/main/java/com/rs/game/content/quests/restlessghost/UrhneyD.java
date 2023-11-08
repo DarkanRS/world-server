@@ -3,12 +3,30 @@ package com.rs.game.content.quests.restlessghost;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.quests.buyersandcellars.npcs.FatherUrhney;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-
+import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.NPCClickHandler;
+@PluginEventHandler
 public class UrhneyD extends Conversation {
-	private int NPC = 458;
-	public UrhneyD(Player player) {
+	private static int NPC = 458;
+
+	public static NPCClickHandler Urhney = new NPCClickHandler(new Object[] { NPC }, new String[] {"Talk-to"}, e -> {
+		e.getPlayer().startConversation(new UrhneyD(e.getPlayer(), e.getNPC()));
+	});
+
+	public UrhneyD(Player player, NPC npc) {
 		super(player);
+
+		if (player.getQuestManager().getStage(Quest.BUYERS_AND_CELLARS) == 4 || player.getQuestManager().getStage(Quest.BUYERS_AND_CELLARS) == 5) {
+			FatherUrhney.stage4(player);
+			return;
+		}
+		if (player.getQuestManager().getStage(Quest.BUYERS_AND_CELLARS) >= 6) {
+			FatherUrhney.stage6(player, npc);
+			return;
+		}
 		if (player.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 0) {
 			addNPC(NPC, HeadE.FRUSTRATED, "Get out of my house!");
 			return;
