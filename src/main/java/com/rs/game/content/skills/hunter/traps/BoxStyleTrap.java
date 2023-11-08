@@ -53,8 +53,14 @@ public class BoxStyleTrap extends OwnedObject {
 	private BoxHunterType npcTrapped;
 
 	public BoxStyleTrap(Player player, BoxTrapType type, Tile tile) {
-		super(player, -1, ObjectType.SCENERY_INTERACT, 0, tile);
-		id = type.getObjectId();
+		super(player, type.getObjectId(), ObjectType.SCENERY_INTERACT, 0, tile);
+		this.type = type;
+		if (type != BoxTrapType.DEAD_FALL)
+			routeType = RouteType.WALK_ONTO;
+	}
+
+	public BoxStyleTrap(Player player, BoxTrapType type, Tile tile, int setId, int setRotation) {
+		super(player, setId, ObjectType.SCENERY_INTERACT, setRotation, tile);
 		this.type = type;
 		if (type != BoxTrapType.DEAD_FALL)
 			routeType = RouteType.WALK_ONTO;

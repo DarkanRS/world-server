@@ -71,6 +71,20 @@ public class GameObject extends WorldObject {
 		this.hashCode = genHashCode();
 	}
 
+	public GameObject(WorldObject object, int newId) {
+		super(object);
+		this.id = newId;
+		this.routeType = World.getRouteType(newId);
+		this.hashCode = genHashCode();
+	}
+
+	public GameObject(GameObject object, int newId) {
+		super(object);
+		this.id = newId;
+		this.routeType = object.getRouteType();
+		this.hashCode = genHashCode();
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if ((other == null) || !(other instanceof GameObject obj))
@@ -140,11 +154,6 @@ public class GameObject extends WorldObject {
 		setId(id);
 		originalId = original;
 		idChangeTicks = ticks;
-	}
-
-	public GameObject setIdNoRefresh(int id) {
-		this.id = id;
-		return this;
 	}
 
 	public GameObject setRouteType(RouteType routeType) {

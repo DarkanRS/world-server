@@ -93,7 +93,7 @@ public class BoxAction extends PlayerAction {
 			if (!player.addWalkSteps(player.getX() + 1, player.getY(), 1))
 				if (!player.addWalkSteps(player.getX(), player.getY() + 1, 1))
 					player.addWalkSteps(player.getX(), player.getY() - 1, 1);
-		boolean created = false;
+		boolean created;
 		if (type == BoxTrapType.DEAD_FALL) {
 			trap.createReplace();
 			created = true;

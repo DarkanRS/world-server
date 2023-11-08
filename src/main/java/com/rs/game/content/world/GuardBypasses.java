@@ -79,8 +79,8 @@ public class GuardBypasses {
 		GameObject gate1 = World.getObjectWithId(Tile.of(3312, 3331, 0), 45856);
 		GameObject gate2 = World.getObjectWithId(Tile.of(3312, 3332, 0), 45857);
 		if (gate1 != null && gate2 != null) {
-			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate1, 83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2, 83), 3, true);
 			World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate1), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(-1, 0, 0)), 3, true);
 			World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), gate2), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(-1, 0, 0)), 3, true);
 		}
@@ -99,8 +99,8 @@ public class GuardBypasses {
 		GameObject gate1 = World.getObjectWithId(Tile.of(3273, 3429, 0), 45853);
 		GameObject gate2 = World.getObjectWithId(Tile.of(3273, 3428, 0), 45855);
 		if (gate1 != null && gate2 != null) {
-			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate1, 83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2, 83), 3, true);
 			World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
 			World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
 		}
@@ -114,7 +114,7 @@ public class GuardBypasses {
 	public static PlayerStepHandler varrockNorthDoor = new PlayerStepHandler(new Tile[] { Tile.of(3245, 3501, 0), Tile.of(3245, 3502, 0) }, e -> {
 		GameObject door = World.getObjectWithId(Tile.of(3245, 3501, 0), 45853);
 		if (door != null) {
-			World.spawnObjectTemporary(new GameObject(door).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(door, 83), 3, true);
 			World.spawnObjectTemporary(new GameObject(door.getId(), door.getType(), door.getRotation(-1), door.getTile().transform(0, 1, 0)), 3, true);
 		}
 		e.getStep().setCheckClip(false);
@@ -145,8 +145,8 @@ public class GuardBypasses {
 		GameObject gate1 = World.getObjectWithId(Tile.of(3273, 3429, 0), 45853);
 		GameObject gate2 = World.getObjectWithId(Tile.of(3273, 3428, 0), 45855);
 		if (gate1 != null && gate2 != null) {
-			World.spawnObjectTemporary(new GameObject(gate1).setIdNoRefresh(83), 3, true);
-			World.spawnObjectTemporary(new GameObject(gate2).setIdNoRefresh(83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate1, 83), 3, true);
+			World.spawnObjectTemporary(new GameObject(gate2, 83), 3, true);
 			World.spawnObjectTemporary(new GameObject(gate1.getId(), gate1.getType(), gate1.getRotation(-1), gate1.getTile().transform(1, 0, 0)), 3, true);
 			World.spawnObjectTemporary(new GameObject(gate2.getId(), gate2.getType(), gate2.getRotation(1), gate2.getTile().transform(1, 0, 0)), 3, true);
 		}
