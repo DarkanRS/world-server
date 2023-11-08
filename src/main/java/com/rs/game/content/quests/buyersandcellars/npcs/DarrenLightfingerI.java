@@ -64,7 +64,7 @@ public class DarrenLightfingerI extends Dialogue {
                                                 .addPlayer(HeadE.CALM_TALK, "Not yet, but I'm on its trail")
                                         );
                                     }
-                                    case 5 -> {
+                                    case 5, 6 -> {
                                         player.startConversation(new Dialogue()
                                                 .addPlayer(HeadE.CALM_TALK, "I've tracked it down, but I've not yet retrieved it.")
                                         );
@@ -128,24 +128,24 @@ public class DarrenLightfingerI extends Dialogue {
                 .addOptions(ops -> {
                     ops.add("Don't let me stop you.")
                             .addPlayer(HeadE.CONFUSED, "Don't let me stop you.")
-                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Ladies and gentlemen of Lumbridge!" +
-                                    "Tonight, I stand before you to offer you the ultimate in opportunities! " +
-                                    "I offer you the chance to make your mark on a society rife with imbalance and folly. " +
-                                    "I offer you the chance to redistribute the wealth of our very civilization!" +
-                                    "I offer you the freedom to live your life without the need to worry whether your rent will be paid this month" +
-                                    "I offer you the skills to pay your way through the costs everyone must face." +
-                                    "I offer you vengeance against those who take and take yet give nothing in return." +
-                                    "I offer you justice at its most fundamental level!" +
-                                    "Some will say that I am a scofflaw, a thief, a brigand... These people are correct! " +
-                                    "But if I scoff at the law, it is because the law as we know it is a tool that 'The Man' is using purely to keep us in our place." +
-                                    "If I thieve, it is from those who have more than they deserve and more than they need. " +
-                                    "And if I am a brigand, it is only by the standards of those whom I, er, brig." +
-                                    "If you join me I can offer you every opportunity for reward and for fame, or at least infamy." +
-                                    "Ladies and gentlemen, welcome to your destiny. " +
-                                    "Welcome to the preliminary course, you fine members-in-waiting of the underworld gentry! " +
-                                    "Here you will discover the techniques, the tricks, the training and the trials that mark your passage into this hidden elite." +
-                                    "Here you will become the best of the best, joining the ranks of the steely-eyed exploiters of this world's bloated social parasites in a quest for community justice and personal enrichment!" +
-                                    "You will - Yes, we have a question?")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Ladies and gentlemen of Lumbridge!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Tonight, I stand before you to offer you the ultimate in opportunities!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the chance to make your mark on a society rife with imbalance and folly.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the chance to redistribute the wealth of our very civilization!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the freedom to live your life without the need to worry whether your rent will be paid this month")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the skills to pay your way through the costs everyone must face.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you vengeance against those who take and take yet give nothing in return.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you justice at its most fundamental level!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Some will say that I am a scofflaw, a thief, a brigand... These people are correct!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "But if I scoff at the law, it is because the law as we know it is a tool that 'The Man' is using purely to keep us in our place.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "If I thieve, it is from those who have more than they deserve and more than they need.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "And if I am a brigand, it is only by the standards of those whom I, er, brig.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "If you join me I can offer you every opportunity for reward and for fame, or at least infamy.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Ladies and gentlemen, welcome to your destiny.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Welcome to the preliminary course, you fine members-in-waiting of the underworld gentry!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Here you will discover the techniques, the tricks, the training and the trials that mark your passage into this hidden elite.")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Here you will become the best of the best, joining the ranks of the steely-eyed exploiters of this world's bloated social parasites in a quest for community justice and personal enrichment!")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "You will - Yes, we have a question?")
                             .addPlayer(HeadE.SKEPTICAL_THINKING, "Is this it? The 'world-renowned' guild is a cellar with two blokes and a straw dummy lurking in it?")
                             .addNPC(npcid,HeadE.CONFUSED, "Well...")
                             .addPlayer(HeadE.CONFUSED, "How long has this guild been in operation?")
@@ -157,10 +157,34 @@ public class DarrenLightfingerI extends Dialogue {
                             .addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "What are you doing down here?")
                             .addNPC(npcid, HeadE.HAPPY_TALKING, "Why, recruiting! Recruiting agents for a glorious destiny and fantastical missions of derring-do. White suits, classy cocktails, fast carts.. a wealth of rewards await my guild's members!")
                             .addNPC(npcid, HeadE.SHAKING_HEAD, "If only I could have convinced Ozan to sign on with us. SSuch a pity.. A master thief like him would have been perfect for my plans.")
-                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Anyway, would you like to staf for the explanation?")
+                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Anyway, would you like to stay for the explanation?")
                             .addOptions(ops2 -> {
                                 ops2.add("Do tell.")
-                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Placeholder");
+                                        .addPlayer(HeadE.CONFUSED, "Don't let me stop you.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Ladies and gentlemen of Lumbridge!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Tonight, I stand before you to offer you the ultimate in opportunities!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the chance to make your mark on a society rife with imbalance and folly.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the chance to redistribute the wealth of our very civilization!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the freedom to live your life without the need to worry whether your rent will be paid this month")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you the skills to pay your way through the costs everyone must face.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you vengeance against those who take and take yet give nothing in return.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "I offer you justice at its most fundamental level!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Some will say that I am a scofflaw, a thief, a brigand... These people are correct!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "But if I scoff at the law, it is because the law as we know it is a tool that 'The Man' is using purely to keep us in our place.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "If I thieve, it is from those who have more than they deserve and more than they need.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "And if I am a brigand, it is only by the standards of those whom I, er, brig.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "If you join me I can offer you every opportunity for reward and for fame, or at least infamy.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Ladies and gentlemen, welcome to your destiny.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Welcome to the preliminary course, you fine members-in-waiting of the underworld gentry!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Here you will discover the techniques, the tricks, the training and the trials that mark your passage into this hidden elite.")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "Here you will become the best of the best, joining the ranks of the steely-eyed exploiters of this world's bloated social parasites in a quest for community justice and personal enrichment!")
+                                        .addNPC(npcid, HeadE.HAPPY_TALKING, "You will - Yes, we have a question?")
+                                        .addPlayer(HeadE.SKEPTICAL_THINKING, "Is this it? The 'world-renowned' guild is a cellar with two blokes and a straw dummy lurking in it?")
+                                        .addNPC(npcid,HeadE.CONFUSED, "Well...")
+                                        .addPlayer(HeadE.CONFUSED, "How long has this guild been in operation?")
+                                        .addNPC(npcid, HeadE.CALM, "...")
+                                        .addPlayer(HeadE.CONFUSED, "Yes?")
+                                        .addNPC(npcid, HeadE.FRUSTRATED, "Two weeks.");
 
                                 ops2.add("What is it you need done?")
                                         .addPlayer(HeadE.CALM_TALK, "And what is it you need done?")
