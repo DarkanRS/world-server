@@ -8,9 +8,11 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
+
 public class DarrenLightfingerI extends Dialogue {
     private static final int npcid = 11273;
     public static NPCClickHandler DarrenLightfingerI = new NPCClickHandler(new Object[]{npcid}, new String[]{"Talk-to"}, e -> {
@@ -23,6 +25,30 @@ public class DarrenLightfingerI extends Dialogue {
             case 2 -> stage2(e.getPlayer());
             default -> stage3(e.getPlayer());
         }
+    });
+
+    public static ItemOnNPCHandler handleChaliceOnDarren = new ItemOnNPCHandler(new Object[] { npcid }, e -> {
+        Player player = e.getPlayer();
+        if(e.getItem().getId() == 18648)
+            player.startConversation(new Dialogue()
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Have you retrieved the chalice?")
+                    .addPlayer(HeadE.HAPPY_TALKING, "I have!")
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Fantastic work! I knew I had chosen wisely when I recruited you. Now we can expand the guild and do some proper training around here.")
+                    .addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "Your buyer is still interested, I hope?")
+                    .addNPC(npcid, HeadE.CALM_TALK, "Yes, of course, why?")
+                    .addPlayer(HeadE.CALM_TALK, "Well, the chalice wasn't where you said it was, nor was the owner; I just wanted to make sure you had something right in all of this.")
+                    .addNPC(npcid, HeadE.LAUGH, "Ha! I do appreciate a sense of humor in my members.")
+                    .addPlayer(HeadE.CALM_TALK, "It wasn't actually a joke, to be honest.")
+                    .addNPC(npcid, HeadE.SKEPTICAL_HEAD_SHAKE, "To be honest? You don't want to be honest; you're a member of the illustrious Thieves' Guild! Now get out there and make me proud... and both of us rich!")
+                    .addNext(() -> {
+                        player.fadeScreen(() -> {
+                            player.getInventory().deleteItem(18648, 1);
+                            player.setNextTile(Tile.of(3223, 3269, 0));
+                            player.getVars().saveVarBit(7792, 10);
+                            player.getVars().setVarBit(7793, 0);
+                        });
+                        player.getQuestManager().completeQuest(Quest.BUYERS_AND_CELLARS);
+                    }));
     });
 
     public static void stage3(Player player) {
@@ -59,8 +85,7 @@ public class DarrenLightfingerI extends Dialogue {
 
                                     case 7 -> player.startConversation(new Dialogue()
                                             .addPlayer(HeadE.CALM_TALK, "I have the key, but not the chalice.")
-                                            .addNPC(npcid, HeadE.CALM_TALK, "You've used several keys in the past, I'm sure; one more should pose no difficulty.")
-                                    );
+                                            .addNPC(npcid, HeadE.CALM_TALK, "You've used several keys in the past, I'm sure; one more should pose no difficulty."));
                                     case 8 -> player.startConversation(new Dialogue()
                                             .addPlayer(HeadE.HAPPY_TALKING, "I have!")
                                             .addNPC(npcid, HeadE.HAPPY_TALKING, "Fantastic work! I knew I had chosen wisely when I recruited you. Now we can expand the guild and do some proper training around here.")
@@ -185,7 +210,7 @@ public class DarrenLightfingerI extends Dialogue {
                                         .addNPC(npcid, HeadE.HAPPY_TALKING, "Then you must merely acquire the key by stealth or by force, open the vault, return the chalice and...")
                                         .addPlayer(HeadE.SKEPTICAL_THINKING, "You seem to be assuming a certain amount here.")
                                         .addNPC(npcid, HeadE.HAPPY_TALKING, "Oh, but of course you'll help! I can offer you the best of training and the greatest of rewards for your assistance.. In fact, Let me have a look at your technique and see what we can do with you.")
-                                        .addOptions(ops3 -> {
+                                        .addOptions( ops3 -> {
                                             ops3.add("Accept quest")
                                                     .addPlayer(HeadE.CALM_TALK, "Oh very well!", () -> player.setQuestStage(Quest.BUYERS_AND_CELLARS, 1))
                                                     .addNPC(npcid, HeadE.HAPPY_TALKING, "Splendid! Let's get you set up then.")
