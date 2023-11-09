@@ -40,6 +40,10 @@ public class OwnedObject extends GameObject {
 		this(player, object.getId(), object.getType(), object.getRotation(), object.getTile());
 	}
 
+	public OwnedObject(Player player, GameObject object, int newId) {
+		this(player, newId, object.getType(), object.getRotation(), object.getTile());
+	}
+
 	public OwnedObject(Player player, int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
 		owner = player.getUsername();

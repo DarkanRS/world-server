@@ -144,6 +144,8 @@ public class Player extends Entity {
 
 	private Map<String, Object> dailyAttributes;
 
+	private Map<String, Object> weeklyAttributes;
+
 	public transient int chatType;
 
 	private long timePlayed = 0;
@@ -500,6 +502,7 @@ public class Player extends Entity {
 	}
 
 	private int lastDate = 0;
+	private int weeklyDate = 0;
 
 	private int[] pouches;
 	private boolean[] pouchesType;
@@ -1277,6 +1280,7 @@ public class Player extends Entity {
 			if (!Settings.getConfig().getLoginMessage().isEmpty())
 				sendMessage(Settings.getConfig().getLoginMessage());
 			processDailyTasks();
+			processWeeklyTasks();
 		}
 
 		if (!isChosenAccountType()) {
@@ -1317,6 +1321,27 @@ public class Player extends Entity {
 		if (familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished())))
 			return true;
 		return false;
+	}
+
+	public void processWeeklyTasks() {
+		if (Utils.getTodayDate() >= weeklyDate) {
+			sendMessage("<col=FF0000>Your weekly tasks have been reset.</col>");
+			weeklyAttributes = new ConcurrentHashMap<>();
+			weeklyDate = setLastDateToNextWednesday();
+		}
+	}
+
+	public int setLastDateToNextWednesday() {
+		Calendar cal = new GregorianCalendar();
+		cal.setTimeZone(TimeZone.getTimeZone("UTC"));
+		int daysUntilNextWednesday = (Calendar.WEDNESDAY - cal.get(Calendar.DAY_OF_WEEK) + 7) % 7;
+		if (daysUntilNextWednesday == 0) {
+			daysUntilNextWednesday = 7;
+		}
+		cal.add(Calendar.DAY_OF_MONTH, daysUntilNextWednesday);
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int month = cal.get(Calendar.MONTH);
+		return (month * 100 + day);
 	}
 
 	private void sendUnlockedObjectConfigs() {
@@ -3329,6 +3354,38 @@ public class Player extends Entity {
 	public void incDailyI(String name) {
 		int newVal = getDailyI(name) + 1;
 		setDailyI(name, newVal);
+	}
+
+	public Map<String, Object> getWeeklyAttributes() {
+		if (weeklyAttributes == null)
+			weeklyAttributes = new ConcurrentHashMap<>();
+		return weeklyAttributes;
+	}
+
+	public void setWeeklyI(String name, int value) {
+		getWeeklyAttributes().put("weeklyI"+name, value);
+	}
+
+	public void incWeeklyI(String name) {
+		int newVal = getWeeklyI(name) + 1;
+		setWeeklyI(name, newVal);
+	}
+
+	public void incWeeklyI(String name, int i) {
+		int newVal = getWeeklyI(name) + i;
+		setWeeklyI(name, newVal);
+	}
+
+	public int getWeeklyI(String name) {
+		return getWeeklyI(name, 0);
+	}
+
+	public int getWeeklyI(String name, int def) {
+		if (getWeeklyAttributes().get("weeklyI"+name) == null)
+			return def;
+		if (getWeeklyAttributes().get("weeklyI"+name) != null && getWeeklyAttributes().get("weeklyI"+name) instanceof Integer)
+			return (int) getWeeklyAttributes().get("weeklyI"+name);
+		return (int) Math.floor(((double) getWeeklyAttributes().get("weeklyI"+name)));
 	}
 
 	public void setIronMan(boolean ironMan) {

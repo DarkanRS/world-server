@@ -303,7 +303,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj, treeId));
 	}
 
 	@Override

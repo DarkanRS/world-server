@@ -220,7 +220,7 @@ public class DwarfMultiCannon extends OwnedObject {
 			player.sendMessage("This is not your cannon.");
 			return;
 		}
-		int space = balls > 0 ? 5 : 4;
+		int space = balls > 0 && !player.getInventory().containsItem(2, 1) ? 5 : 4;
 		if (player.getInventory().getFreeSlots() < space) {
 			player.sendMessage("You need at least " + space + " inventory spaces to pick up your cannon.");
 			return;

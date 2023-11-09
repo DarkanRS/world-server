@@ -392,8 +392,8 @@ public class Draynor {
 					e.getObject().getTile().transform(e.getObjectId() == 47404 ? 0 : 1, e.getObjectId() == 47404 ? -2 : 1),
 					47529);
 			if (door1 != null && door2 != null) {
-				World.spawnObjectTemporary(new GameObject(door1).setIdNoRefresh(83), 2, true);
-				World.spawnObjectTemporary(new GameObject(door2).setIdNoRefresh(83), 2, true);
+				World.spawnObjectTemporary(new GameObject(door1, 83), 2, true);
+				World.spawnObjectTemporary(new GameObject(door2, 83), 2, true);
 				World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), door1),
 						door1.getType(), door1.getRotation(1), door1.getTile().transform(-1, 0, 0)), 2, true);
 				World.spawnObjectTemporary(new GameObject(DoorPair.getOpposingDoor(e.getPlayer(), door2),
