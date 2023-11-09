@@ -43,19 +43,8 @@ public class PickPocketHanky extends PlayerAction {
 
 	public static double calculateExperience(Player player) {
 		int playerLevel = player.getSkills().getLevel(Skills.THIEVING);
-		int baseLevel = 72;
-		double baseExperience = 62.0;
-		int nextLevel = 73;
-		double nextExperience = 62.5;
-
-		if (playerLevel == baseLevel) {
-			return baseExperience;
-		} else if (playerLevel == nextLevel) {
-			return nextExperience;
-		} else {
-			double experiencePerLevel = (nextExperience - baseExperience) / (nextLevel - baseLevel);
-			return baseExperience + (playerLevel - baseLevel) * experiencePerLevel;
-		}
+		double experience = 0.5 * playerLevel + 26;
+		return experience;
 	}
 
 	@Override
@@ -84,8 +73,8 @@ public class PickPocketHanky extends PlayerAction {
 			}
 			else
 				player.sendMessage("You have earned the maximum number of Hanky Points this week.");
-		stop(player);
-	}
+			stop(player);
+		}
 		return -1;
 	}
 
@@ -103,7 +92,7 @@ public class PickPocketHanky extends PlayerAction {
 		if(player.getSkills().getLevel(Skills.THIEVING) >= 95)
 			return true;
 		else
-		return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), player.getAuraManager().getThievingMul() + (hasArdyCloak(player) ? 0.1 : 0.0), 100, 255);
+			return Utils.skillSuccess(player.getSkills().getLevel(Constants.THIEVING), player.getAuraManager().getThievingMul() + (hasArdyCloak(player) ? 0.1 : 0.0), 100, 255);
 	}
 
 	public static boolean hasArdyCloak(Player player) {

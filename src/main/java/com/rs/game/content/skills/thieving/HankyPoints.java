@@ -136,7 +136,7 @@ public class HankyPoints {
         }
         else {
             player.getSkills().addXp(Skills.THIEVING, xp);
-            player.sendMessage("You gain " + xp + " Thieving XP. ");
+            player.sendMessage("You gain " + (int) xp + " Thieving XP. ");
             player.npcDialogue(npc.getId(), HeadE.CALM_TALK, "You may turn in up to " + (maxPoints(player) - player.getWeeklyI("ClaimedHankyPoints")) + " more points this week.");
             player.incWeeklyI("ClaimedHankyPoints", availablePoints);
         }

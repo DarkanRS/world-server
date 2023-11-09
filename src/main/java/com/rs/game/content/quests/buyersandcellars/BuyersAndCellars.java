@@ -7,8 +7,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Item;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.LoginHandler;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,24 +96,21 @@ public class BuyersAndCellars extends QuestOutline {
     @Override
     public void updateStage(Player player, int stage) {
         switch (stage) {
-            case 3:
-                player.getVars().setVarBit(7820, 1);
-                player.getVars().setVarBit(7793, 25);
-                break;
-            case 4, 5, 6, 7:
-                player.getVars().setVarBit(7820, 1);
-                player.getVars().setVarBit(7793, 10);
-                break;
-            case 8:
-                player.getVars().setVarBit(7820, 2);
-                player.getVars().setVarBit(7793, 25);
-                break;
-            default:
+            case 1, 2 -> {
                 player.getVars().setVarBit(7820, 1);
                 player.getVars().setVarBit(7793, 0);
-                break;
+            }
+            case 3, 8 -> {
+                player.getVars().setVarBit(7820, 1);
+                player.getVars().setVarBit(7793, 25);
+            }
+            case 4, 5, 6, 7 -> {
+                player.getVars().setVarBit(7820, 1);
+                player.getVars().setVarBit(7793, 10);
+            }
         }
     }
+
 
     @Override
     public String getStartLocationDescription() {
