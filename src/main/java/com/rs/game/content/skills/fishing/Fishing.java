@@ -167,6 +167,7 @@ public class Fishing extends PlayerAction {
     @Override
     public void stop(final Player player) {
         setActionDelay(player, 4);
+        player.anim(-1);
     }
 
     public static boolean hasFishingSuit(Player player) {
