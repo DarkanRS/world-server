@@ -120,13 +120,14 @@ public class Fishing extends PlayerAction {
     @Override
     public int processWithDelay(Player player) {
         int level = player.getSkills().getLevel(Constants.FISHING) + player.getInvisibleSkillBoost(Skills.FISHING);
-        for (Fish fish : spot.getFish()) {
-            if (fish.checkRequirements(player) && fish.rollSuccess(player, level)) {
-                boolean shouldContinue = fish.giveFish(player, spot, fish);
-                return shouldContinue ? 4 : -1;
-            } else {
-                boolean shouldContinue = fish.failCatch(player, spot, fish);
-                return shouldContinue ? 4 : -1;
+        for (Fish f : spot.getFish()) {
+            if (f.checkRequirements(player) && f.rollSuccess(player, level)) {
+                f.giveFish(player, spot);
+                return 4;
+            }
+            if (f == Fish.KARAMBWAN) {
+                f.deleteBait(player, spot);
+                player.sendMessage("A Karambwan deftly snatches the Karambwanji from your vessel!", true);
             }
         }
         return 4;
@@ -177,14 +178,8 @@ public class Fishing extends PlayerAction {
 
     public static String getMessage(Fish fish) {
         if (fish == Fish.ANCHOVIES || fish == Fish.SHRIMP)
-            return "You manage to catch some " + ItemDefinitions.getDefs(fish.getRawItemId()).getName().toLowerCase() + ".";
-        return "You manage to catch a " + ItemDefinitions.getDefs(fish.getRawItemId()).getName().toLowerCase() + ".";
-    }
-
-    public static String getFailMessage(Fish fish) {
-        if (fish == Fish.KARAMBWAN)
-            return "A Karambwan deftly snatches the Karambwanji from your vessel!";
-        return null;
+            return "You manage to catch some " + ItemDefinitions.getDefs(fish.getFishId()).getName().toLowerCase() + ".";
+        return "You manage to catch a " + ItemDefinitions.getDefs(fish.getFishId()).getName().toLowerCase() + ".";
     }
 
     public static NPCClickHandler handleFishingSpots = new NPCClickHandler(FISHING_SPOTS.keySet().toArray(), e -> {
