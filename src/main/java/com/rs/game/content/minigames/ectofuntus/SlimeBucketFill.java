@@ -53,6 +53,7 @@ public class SlimeBucketFill extends PlayerAction {
 		if (player.getInventory().containsItem(Ectofuntus.EMPTY_BUCKET, 1)) {
 			player.setNextAnimation(new Animation(4471));
 			player.getInventory().deleteItem(Ectofuntus.EMPTY_BUCKET, 1);
+			player.soundEffect(1132);
 			player.getInventory().addItem(Ectofuntus.BUCKET_OF_SLIME, 1);
 			return true;
 		}
