@@ -450,7 +450,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
-            player.getPrayer().restorePrayer((hit.getDamage() / 4) * 10);
+            player.getPrayer().restorePrayer(hit.getDamage() / 4);
             delayNormalHit(target, hit);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -498,9 +498,16 @@ public class SpecialAttacks {
         }));
 
         //Vesta's longsword
+        /**
+         * Its special attack, Feint, inflicts 20% more damage and is harder to defend against while only draining 25% of the special bar,
+         * making it deadly as it can be used four times in a row. When activated, the player thrusts the sword out with an exaggerated motion.
+         * The power and accuracy of this attack made the Longsword the only piece of Ancient Warrior's equipment to retain a high price during
+         * the excessive supply before the Anti-76k measures were put in place, due to its fatal capabilities. Only the non-corrupted version
+         * features this attack. After the sword has been used in combat it will become untradeable.
+         */
         addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(10502));
-            delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.25));
+            delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.20));
             player.soundEffect(2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -523,9 +530,14 @@ public class SpecialAttacks {
 
         //Vesta's spear
         addSpec(new int[] { 13905, 13907 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
+            final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
             player.setNextAnimation(new Animation(10499));
             player.setNextSpotAnim(new SpotAnim(1835));
-            delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.25));
+            player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5));
+            attackTarget(target, getMultiAttackTargets(player, target, 1, 20), next -> {
+                delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, true, true, 1.0, 1.15));
+                return true;
+            });
             player.soundEffect(2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -678,7 +690,7 @@ public class SpecialAttacks {
         }));
 
         //Dragon scimitar
-        addSpec(new int[] { 4587, 13477 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
+        addSpec(new int[] { 4587, 13477 }, new SpecialAttack(Type.MELEE, 55, (player, target) -> {
             player.setNextAnimation(new Animation(12031));
             player.setNextSpotAnim(new SpotAnim(2118));
             Hit hit5 = calculateHit(player, target, false, true, 1.25, 1.0);

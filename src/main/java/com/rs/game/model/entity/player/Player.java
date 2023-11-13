@@ -2023,6 +2023,10 @@ public class Player extends Entity {
 			hit.setDamage(0);
 			return;
 		}
+		if (hasEffect(Effect.MELEE_IMMUNE) && hit.getLook() == HitLook.MELEE_DAMAGE) {
+			hit.setDamage(0);
+			return;
+		}
 
 		Entity source = hit.getSource();
 		if (source == null)
