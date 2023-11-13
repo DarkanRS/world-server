@@ -18,7 +18,7 @@ build:
   script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
   # Define a separate cache for build artifacts
   cache:
-    key: "$CI_COMMIT_REF_NAME-build"
+    key: "$CI_COMMIT_REF_NAME-gradle"
     policy: pull-push
     paths:
       - build/
@@ -29,5 +29,10 @@ deploy:
   stage: deploy
   script: ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
+  cache:
+    key: "$CI_COMMIT_REF_NAME-gradle"
+    policy: pull-push
+    paths:
+      - build/
   extends:
     - .cache_gradle
