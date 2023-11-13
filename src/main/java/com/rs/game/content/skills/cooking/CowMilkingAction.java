@@ -47,6 +47,7 @@ public class CowMilkingAction extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		player.setNextAnimation(new Animation(2305));
+		player.soundEffect(372);
 		player.getInventory().deleteItem(new Item(EMPTY_BUCKET, 1));
 		player.getInventory().addItem(new Item(1927));
 		player.sendMessage("You milk the cow.");
