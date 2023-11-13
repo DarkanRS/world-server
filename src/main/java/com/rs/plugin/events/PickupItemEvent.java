@@ -59,7 +59,6 @@ public class PickupItemEvent implements PluginEvent {
 		List<PluginHandler<? extends PluginEvent>> valids = new ArrayList<>();
 		Map<Integer, List<PickupItemHandler>> methodMapping = HANDLERS.get(getItem().getId());
 		if (methodMapping == null)
-			player.soundEffect(2582);
 			methodMapping = HANDLERS.get(getItem().getName());
 		if (methodMapping == null)
 			return null;
