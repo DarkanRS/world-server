@@ -24,6 +24,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
+import com.rs.plugin.kts.KotlinGlobalsKt;
 
 import java.io.IOException;
 import java.lang.reflect.*;
@@ -89,6 +90,7 @@ public class PluginManager {
 					handlers += processField(field, eventTypes);
 				}
 			}
+			KotlinGlobalsKt.loadAndExecuteScripts();
 			Logger.info(PluginManager.class, "loadPlugins", "Loaded " + handlers + " plugin event handlers in " + (System.currentTimeMillis()-start) + "ms.");
 		} catch (ClassNotFoundException | IOException | IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
