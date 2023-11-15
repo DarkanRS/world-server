@@ -38,48 +38,48 @@ import java.util.Map;
 
 public enum CombatSpell {
 	WIND_RUSH(1, 2.7, 10, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(463), 7866, 7867, new RuneSet(Rune.AIR, 2)),
-	WIND_STRIKE(1, 5.5, 20, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(464), 7866, 7867, new RuneSet(Rune.AIR, 1, Rune.MIND, 1)),
-	WIND_BOLT(17, 13.5, 90, new Animation(10546), new SpotAnim(457), 459, new SpotAnim(2699), 7866, 7867, new RuneSet(Rune.AIR, 2, Rune.CHAOS, 1)) {
+	WIND_STRIKE(1, 5.5, 20, new Animation(10546), new SpotAnim(457), 458, new SpotAnim(464), 220, 221, new RuneSet(Rune.AIR, 1, Rune.MIND, 1)),
+	WIND_BOLT(17, 13.5, 90, new Animation(10546), new SpotAnim(457), 459, new SpotAnim(2699), 218, 219, new RuneSet(Rune.AIR, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 120 : baseDamage;
 		}
 	},
-	WIND_BLAST(41, 25.5, 130, new Animation(10546), new SpotAnim(457), 460, new SpotAnim(2699), 7866, 7867, new RuneSet(Rune.AIR, 3, Rune.DEATH, 1)),
-	WIND_WAVE(62, 36, 170, new Animation(10546), new SpotAnim(457), 461, new SpotAnim(2700), 7866, 7867, new RuneSet(Rune.AIR, 5, Rune.BLOOD, 1)),
+	WIND_BLAST(41, 25.5, 130, new Animation(10546), new SpotAnim(457), 460, new SpotAnim(2699), 216, 217, new RuneSet(Rune.AIR, 3, Rune.DEATH, 1)),
+	WIND_WAVE(62, 36, 170, new Animation(10546), new SpotAnim(457), 461, new SpotAnim(2700), 222, 223, new RuneSet(Rune.AIR, 5, Rune.BLOOD, 1)),
 	WIND_SURGE(81, 75, 220, new Animation(10546), new SpotAnim(457), 462, new SpotAnim(2700), 7866, 7867, new RuneSet(Rune.AIR, 7, Rune.BLOOD, 1, Rune.DEATH, 1)),
 
-	WATER_STRIKE(5, 7.5, 40, new Animation(14220), new SpotAnim(2701), 2703, new SpotAnim(2708), 7826, 7823, new RuneSet(Rune.AIR, 1, Rune.WATER, 1, Rune.MIND, 1)),
-	WATER_BOLT(23, 16.5, 100, new Animation(14220), new SpotAnim(2701), 2704, new SpotAnim(2709), 7834, 7823, new RuneSet(Rune.AIR, 2, Rune.WATER, 2, Rune.CHAOS, 1)) {
+	WATER_STRIKE(5, 7.5, 40, new Animation(14220), new SpotAnim(2701), 2703, new SpotAnim(2708), 211, 212, new RuneSet(Rune.AIR, 1, Rune.WATER, 1, Rune.MIND, 1)),
+	WATER_BOLT(23, 16.5, 100, new Animation(14220), new SpotAnim(2701), 2704, new SpotAnim(2709), 209, 210, new RuneSet(Rune.AIR, 2, Rune.WATER, 2, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 130 : baseDamage;
 		}
 	},
-	WATER_BLAST(47, 28.5, 140, new Animation(14220), new SpotAnim(2701), 2705, new SpotAnim(2710), 7834, 7825, new RuneSet(Rune.AIR, 3, Rune.WATER, 3, Rune.DEATH, 1)),
-	WATER_WAVE(65, 37.5, 180, new Animation(14220), new SpotAnim(2701), 2706, new SpotAnim(2711), 7834, 7825, new RuneSet(Rune.AIR, 5, Rune.WATER, 7, Rune.BLOOD, 1)),
+	WATER_BLAST(47, 28.5, 140, new Animation(14220), new SpotAnim(2701), 2705, new SpotAnim(2710), 207, 208, new RuneSet(Rune.AIR, 3, Rune.WATER, 3, Rune.DEATH, 1)),
+	WATER_WAVE(65, 37.5, 180, new Animation(14220), new SpotAnim(2701), 2706, new SpotAnim(2711), 213, 214, new RuneSet(Rune.AIR, 5, Rune.WATER, 7, Rune.BLOOD, 1)),
 	WATER_SURGE(85, 80, 240, new Animation(14220), new SpotAnim(2701), 2707, new SpotAnim(2712), 7834, 7822, new RuneSet(Rune.AIR, 7, Rune.WATER, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
 
-	EARTH_STRIKE(9, 9.5, 60, new Animation(14209), new SpotAnim(2713), 2718, new SpotAnim(2723), 7914, 7919, new RuneSet(Rune.AIR, 1, Rune.EARTH, 2, Rune.MIND, 1)),
-	EARTH_BOLT(29, 19.5, 110, new Animation(14209), new SpotAnim(2714), 2719, new SpotAnim(2724), 7914, 7919, new RuneSet(Rune.AIR, 2, Rune.EARTH, 3, Rune.CHAOS, 1)) {
+	EARTH_STRIKE(9, 9.5, 60, new Animation(14209), new SpotAnim(2713), 2718, new SpotAnim(2723), 132, 133, new RuneSet(Rune.AIR, 1, Rune.EARTH, 2, Rune.MIND, 1)),
+	EARTH_BOLT(29, 19.5, 110, new Animation(14209), new SpotAnim(2714), 2719, new SpotAnim(2724), 130, 131, new RuneSet(Rune.AIR, 2, Rune.EARTH, 3, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 140 : baseDamage;
 		}
 	},
-	EARTH_BLAST(53, 31.5, 150, new Animation(14209), new SpotAnim(2715), 2720, new SpotAnim(2725), 7914, 7919, new RuneSet(Rune.AIR, 3, Rune.EARTH, 4, Rune.DEATH, 1)),
-	EARTH_WAVE(70, 40, 190, new Animation(14209), new SpotAnim(2716), 2721, new SpotAnim(2726), 7914, 7919, new RuneSet(Rune.AIR, 5, Rune.EARTH, 7, Rune.BLOOD, 1)),
+	EARTH_BLAST(53, 31.5, 150, new Animation(14209), new SpotAnim(2715), 2720, new SpotAnim(2725), 128, 129, new RuneSet(Rune.AIR, 3, Rune.EARTH, 4, Rune.DEATH, 1)),
+	EARTH_WAVE(70, 40, 190, new Animation(14209), new SpotAnim(2716), 2721, new SpotAnim(2726), 134, 135, new RuneSet(Rune.AIR, 5, Rune.EARTH, 7, Rune.BLOOD, 1)),
 	EARTH_SURGE(90, 85, 260, new Animation(14209), new SpotAnim(2717), 2722, new SpotAnim(2727), 7914, 7919, new RuneSet(Rune.AIR, 7, Rune.EARTH, 10, Rune.DEATH, 1, Rune.BLOOD, 1)),
 
-	FIRE_STRIKE(13, 11.5, 80, new Animation(2791), new SpotAnim(2728), 2729, new SpotAnim(2737), 7932, 7933, new RuneSet(Rune.AIR, 2, Rune.FIRE, 3, Rune.MIND, 1)),
-	FIRE_BOLT(35, 22.5, 120, new Animation(2791), new SpotAnim(2728), 2731, new SpotAnim(2738), 7932, 7933, new RuneSet(Rune.AIR, 3, Rune.FIRE, 4, Rune.CHAOS, 1)) {
+	FIRE_STRIKE(13, 11.5, 80, new Animation(2791), new SpotAnim(2728), 2729, new SpotAnim(2737), 160, 161, new RuneSet(Rune.AIR, 2, Rune.FIRE, 3, Rune.MIND, 1)),
+	FIRE_BOLT(35, 22.5, 120, new Animation(2791), new SpotAnim(2728), 2731, new SpotAnim(2738), 157, 158, new RuneSet(Rune.AIR, 3, Rune.FIRE, 4, Rune.CHAOS, 1)) {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			return caster instanceof Player p && p.getEquipment().getGlovesId() == 777 ? 150 : baseDamage;
 		}
 	},
-	FIRE_BLAST(59, 34.5, 160, new Animation(2791), new SpotAnim(2728), 2733, new SpotAnim(2739), 7932, 7933, new RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
-	FIRE_WAVE(75, 42.5, 200, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2740), 7932, 7933, new RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
+	FIRE_BLAST(59, 34.5, 160, new Animation(2791), new SpotAnim(2728), 2733, new SpotAnim(2739), 155, 156, new RuneSet(Rune.AIR, 4, Rune.FIRE, 5, Rune.DEATH, 1)),
+	FIRE_WAVE(75, 42.5, 200, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2740), 162, 163, new RuneSet(Rune.AIR, 5, Rune.FIRE, 7, Rune.BLOOD, 1)),
 	FIRE_SURGE(95, 90, 280, new Animation(2791), new SpotAnim(2728), 2735, new SpotAnim(2741), 7932, 7933, new RuneSet(Rune.AIR, 7, Rune.FIRE, 10, Rune.DEATH, 1, Rune.BLOOD, 1)) {
 		@Override
 		public void onCast(Entity caster, Entity target) {

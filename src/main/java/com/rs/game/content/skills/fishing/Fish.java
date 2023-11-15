@@ -29,7 +29,7 @@ import java.util.function.Predicate;
 public enum Fish {
     CRAYFISH(13435, 1, 10, 60, 180),
     KARAMBWANJI(3150, 5, 5, 100, 250),
-    KARAMBWAN(3142, 65, 105, 106, 160),
+    KARAMBWAN(3142, 65, 50, 1, 160),
     SHRIMP(317, 1, 10, 60, 180),
     ANCHOVIES(321, 15, 40, 30, 90),
     SARDINES(327, 5, 20, 32, 180),
@@ -92,13 +92,13 @@ public enum Fish {
     CAVEFISH(15264, 85, 300, -40, 40),
     ROCKTAIL(15270, 90, 385, -35, 35);
 
-    private final int rawItemId, level, rate1, rate99;
+    private final int fishId, level, rate1, rate99;
     private final double xp;
     private final Predicate<Player> extraRequirements;
     private final Consumer<Player> extraRewards;
 
     Fish(int rawItemId, int level, double xp, int rate1, int rate99, Predicate<Player> extraRequirements, Consumer<Player> extraRewards) {
-        this.rawItemId = rawItemId;
+        this.fishId = rawItemId;
         this.level = level;
         this.xp = xp;
         this.rate1 = rate1;
@@ -119,8 +119,8 @@ public enum Fish {
         this(rawItemId, level, xp, rate1, rate99, null, null);
     }
 
-    public int getRawItemId() {
-        return rawItemId;
+    public int getFishId() {
+        return fishId;
     }
 
     public int getLevel() {
@@ -139,8 +139,27 @@ public enum Fish {
         return Utils.skillSuccess(level, player.getAuraManager().getFishingMul(), rate1, rate99);
     }
 
-    public boolean giveFish(Player player, FishingSpot spot, Fish fish) {
-        Item fishId = new Item(fish.getRawItemId());
+    public void giveFish(Player player, FishingSpot spot) {
+        Item fish = new Item(fishId);
+        deleteBait(player, spot);
+        double totalXp = xp;
+        if (Fishing.hasFishingSuit(player))
+            totalXp *= 1.025;
+        if (fish.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
+            int random = Utils.random(100);
+            if (random < 30)
+                fish.setId(19947);
+        }
+        player.sendMessage(Fishing.getMessage(this), true);
+        if (fish.getId() != -1)
+            player.getInventory().addItem(fish);
+        player.getSkills().addXp(Constants.FISHING, totalXp);
+        player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
+        if (extraRewards != null)
+            extraRewards.accept(player);
+    }
+
+    public void deleteBait(Player player, FishingSpot spot) {
         int baitToDelete = -1;
         if (spot.getBait() != null)
             for (int bait : spot.getBait())
@@ -150,42 +169,5 @@ public enum Fish {
                 }
         if (baitToDelete != -1)
             player.getInventory().deleteItem(baitToDelete, 1);
-        double totalXp = xp;
-        if (Fishing.hasFishingSuit(player))
-            totalXp *= 1.025;
-        if (fishId.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
-            int random = Utils.random(100);
-            if (random < 30)
-                fishId.setId(19947);
-        }
-        player.sendMessage(Fishing.getMessage(this), true);
-        if (fishId.getId() != -1)
-            player.getInventory().addItem(fishId);
-        player.getSkills().addXp(Constants.FISHING, totalXp);
-        player.incrementCount(fishId.getDefinitions().getName() + " caught fishing");
-        if (extraRewards != null)
-            extraRewards.accept(player);
-        if (spot == FishingSpot.KARAMBWAN) {
-            player.getInventory().replace(3159, 3157);
-            if (!player.getInventory().containsItem(3159)) {
-                player.setNextAnimation(new Animation(-1));
-                return false;
-            }
-        }
-        return true;
     }
-
-    public boolean failCatch(Player player, FishingSpot spot, Fish fish) {
-        if (spot == FishingSpot.KARAMBWAN) {
-            player.sendMessage(Fishing.getFailMessage(Fish.KARAMBWAN));
-            player.getInventory().replace(3159, 3157);
-            if (!player.getInventory().containsItem(3159)) {
-                player.setNextAnimation(new Animation(-1));
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
 }
