@@ -2,7 +2,6 @@ package com.rs.plugin.kts
 
 import com.rs.plugin.events.NPCClickEvent
 import com.rs.plugin.handlers.NPCClickHandler
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
 import javax.script.ScriptEngineManager
