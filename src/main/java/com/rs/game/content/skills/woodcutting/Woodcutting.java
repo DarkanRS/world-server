@@ -281,12 +281,12 @@ public class Woodcutting extends Action {
 						player.getInventory().addItemDrop(item, 1);
 				if (type == TreeType.FRUIT_TREE)
 					return;
-				if (type == TreeType.IVY)
-					player.sendMessage("You succesfully cut an ivy vine.", true);
-				else {
+				if (type == TreeType.IVY) {
+					player.sendMessage("You successfully cut an ivy vine.", true);
+				} else {
 					String logName = ItemDefinitions.getDefs(type.getLogsId()[0]).getName().toLowerCase();
 					player.sendMessage("You get some " + logName + ".", true);
-					if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY))
+					if (player.getEquipment().getWeaponId() == 13661)
 						if (Utils.getRandomInclusive(3) == 0) {
 							player.getSkills().addXp(Constants.FIREMAKING, type.getXp() * 1);
 							player.getInventory().deleteItem(type.getLogsId()[0], 1);
