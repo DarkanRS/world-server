@@ -98,6 +98,7 @@ public enum Effect {
 	AGGRESSION_POTION("aggression potion", false),
 
 	OVERLOAD_PVP_REDUCTION(true),
+	MELEE_IMMUNE(true),
 
 	BONFIRE("bonfire boost", false) {
 		@Override

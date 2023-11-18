@@ -91,6 +91,7 @@ public class Ectofuntus {
 	}
 
 	public static final void sendEctophialTeleport(Player player, Tile tile) {
+		player.soundEffect(4580);
 		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null);
 	}
 

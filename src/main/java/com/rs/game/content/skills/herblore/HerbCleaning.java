@@ -143,6 +143,7 @@ public class HerbCleaning {
 					return;
 				i.setId(herb.getCleanId());
 				player.getInventory().refresh(slotId);
+				player.soundEffect(5153);
 				player.getSkills().addXp(Constants.HERBLORE, herb.getExperience());
 				player.sendMessage("You clean the herb.", true);
 				player.incrementCount(item.getName() + " cleaned");
