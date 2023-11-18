@@ -3,8 +3,6 @@ package com.rs.plugin.kts
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import javax.script.ScriptException
-import kotlin.script.experimental.annotations.KotlinScript
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptEvaluationConfiguration
@@ -13,34 +11,42 @@ import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
 import kotlin.script.experimental.jvmhost.BasicJvmScriptingHost
 import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromTemplate
+import kotlin.system.exitProcess
 
 class KotlinScriptEvaluator {
     companion object {
         fun loadAndExecuteScripts(): Int {
             var scriptCount = 0;
-            Files.walk(Paths.get("./src/main"))
+            Files.walk(Paths.get("./plugins/"))
                 .filter { Files.isRegularFile(it) && it.toString().endsWith(".plugin.kts") }
                 .forEach { path ->
-                    try {
-                        evalFile(path.toFile())
-                        scriptCount++;
-                    } catch (e: ScriptException) {
-                        throw e;
-                    }
+                    val result = evalFile(path.toFile())
+                    if (result is ResultWithDiagnostics.Failure) {
+                        logScriptError(result)
+                        exitProcess(1)
+                    } else
+                        scriptCount++
                 }
             return scriptCount
         }
 
-        @KotlinScript(fileExtension = "plugin.kts")
-        abstract class PluginScript
-
         private fun evalFile(scriptFile: File): ResultWithDiagnostics<EvaluationResult> {
-            val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<PluginScript> {
+            val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<PluginScriptTemplate> {
                 jvm { dependenciesFromCurrentContext(wholeClasspath = true) }
             }
-            return BasicJvmScriptingHost().eval(scriptFile.toScriptSource(), compilationConfiguration, ScriptEvaluationConfiguration {
-                
-            })
+            return BasicJvmScriptingHost().eval(
+                scriptFile.toScriptSource(),
+                compilationConfiguration,
+                ScriptEvaluationConfiguration {
+
+                })
+        }
+
+        private fun logScriptError(result: ResultWithDiagnostics.Failure) {
+            println("Script evaluation failed:")
+            result.reports.forEach { report ->
+                println(" - ${report.message} (severity: ${report.severity})")
+            }
         }
     }
 }

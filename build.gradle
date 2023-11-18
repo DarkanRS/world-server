@@ -30,13 +30,11 @@ dependencies {
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-common', version: '1.9.20'
 	implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.7.3'
 
-//	implementation(project(':jvm:basic:jvm-maven-deps:script'))
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-common', version: '1.9.20'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm', version: '1.9.20'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-jvm-host', version: '1.9.20'
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-main-kts', version: '1.9.20'
-
-	//	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: '1.9.20'
+	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: '1.9.20'
 	//	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-compiler', version: '1.9.20'
 	//	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-scripting-compiler-impl', version: '1.9.20'
 	//	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-script-util', version: '1.8.22'
@@ -53,6 +51,10 @@ dependencies {
 	implementation group: 'com.trivago', name: 'fastutil-concurrent-wrapper', version: '0.1.0'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.11.0'
+}
+
+shadowJar {
+	zip64 = true
 }
 
 publishing {
