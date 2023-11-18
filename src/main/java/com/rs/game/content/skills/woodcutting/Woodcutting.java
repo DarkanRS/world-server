@@ -45,9 +45,9 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class Woodcutting extends Action {
 
-	private int treeId;
-	private GameObject treeObj;
-	private TreeType type;
+	private final int treeId;
+	private final GameObject treeObj;
+	private final TreeType type;
 	private Hatchet hatchet;
 	private int wcLevel = -1;
 
@@ -177,6 +177,7 @@ public class Woodcutting extends Action {
 				return false;
 			if (!player.getInventory().hasFreeSlots()) {
 				player.sendMessage("Not enough space in your inventory.");
+				player.setNextAnimation(new Animation(-1));
 				return false;
 			}
 		} else if (entity instanceof Familiar familiar && familiar.getInventory().freeSlots() == 0)
