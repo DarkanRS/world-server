@@ -78,7 +78,13 @@ public class NetTrap extends BoxStyleTrap {
 	public NetTrap(Player player, Tile tile, GameObject tree) {
 		super(player, BoxTrapType.TREE_NET, tile, TreeType.fromBase(tree.getId()).net, tree.getRotation());
 		treeType = TreeType.fromBase(tree.getId());
-		this.tree = new OwnedObject(player, tree, treeType.setUp);
+		if (tree != null)
+			this.tree = new OwnedObject(player, tree, treeType.setUp);
+	}
+
+	public NetTrap(Player player, Tile tile, TreeType type, int caught) {
+		super(player, BoxTrapType.TREE_NET, tile, caught, 0);
+		this.treeType = type;
 	}
 
 	@Override
@@ -90,7 +96,7 @@ public class NetTrap extends BoxStyleTrap {
 	@Override
 	public void onDestroy() {
 		if (tree != null)
-			tree.setId(treeType.base);
+			tree.destroy();
 	}
 
 	@Override
@@ -108,22 +114,18 @@ public class NetTrap extends BoxStyleTrap {
 		if (npcType == null)
 			return;
 		destroy();
-		NetTrap compTrap = new NetTrap(getOwner(), tree.getTile().transform(rotation == 3 ? -1 : 0, rotation == 2 ? -1 : 0, 0), null);
+		NetTrap compTrap = new NetTrap(getOwner(), tree.getTile().transform(rotation == 3 ? -1 : 0, rotation == 2 ? -1 : 0, 0), treeType, success ? treeType.catching : treeType.failing);
 		compTrap.setRouteType(RouteType.NORMAL);
 		compTrap.setRotation(tree.getRotation());
-		compTrap.setId(success ? treeType.catching : treeType.failing);
 		compTrap.createReplace();
 		if (success) {
 			npc.setNextAnimation(new Animation(-1));
 			npc.setRespawnTask();
 		}
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				compTrap.setNpcTrapped(npcType);
-				compTrap.setId(success ? treeType.caught : treeType.failed);
-				compTrap.setStatus(success ? Status.SUCCESS : Status.FAIL);
-			}
-		}, 0);
+		WorldTasks.schedule(0, () -> {
+			compTrap.setNpcTrapped(npcType);
+			compTrap.setId(success ? treeType.caught : treeType.failed);
+			compTrap.setStatus(success ? Status.SUCCESS : Status.FAIL);
+		});
 	}
 }
