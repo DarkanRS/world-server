@@ -226,6 +226,8 @@ public class PestControl {
 	}
 
 	public Tile getTile(int mapX, int mapY) {
+		if (region == null)
+			return null;
 		return region.getLocalTile(mapX, mapY);
 	}
 

@@ -772,7 +772,8 @@ public final class Skills {
 		else
 			player.getVars().setVar(2044, 0);
 		player.getVars().syncVarsToClient();
-		player.getPackets().updateStats(markedForUpdate.stream().mapToInt(e -> e.intValue()).toArray());
+		Set<Integer> toUpdate = new HashSet<>(markedForUpdate);
+		player.getPackets().updateStats(toUpdate.stream().mapToInt(e -> e.intValue()).toArray());
 		if (markedForLevelUp != -1)
 			sendLevelUp(markedForLevelUp);
 		markedForUpdate.clear();
