@@ -1,4 +1,4 @@
-onNpcClick(7875, options = arrayOf("Talk-to")) { e ->
+onNpcClick("Man", options = arrayOf("Talk-to")) { e ->
     e.player.startConversation {
         npc(e.npc.id, HAPPY_TALKING, "Hello there, adventurer! What brings you to our town?")
         options {
