@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class InterfaceOnInterfaceHandler extends PluginHandler<IFOnIFEvent> {
-	private boolean interchangeable;
+	private boolean bidirectional;
 	private Object[] fromKeys;
 	private Object[] toKeys;
-	public InterfaceOnInterfaceHandler(boolean interchangeable, int[] fromInterfaceIds, int[] fromComponentIds, int[] toInterfaceIds, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
+	public InterfaceOnInterfaceHandler(boolean bidirectional, int[] fromInterfaceIds, int[] fromComponentIds, int[] toInterfaceIds, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
 		super(new Object[] { "meme" }, handler);
-		this.interchangeable = interchangeable;
+		this.bidirectional = bidirectional;
 		List<Object> fromList = new ArrayList<>();
 		if (fromComponentIds == null || fromComponentIds.length <= 0)
 			for (Integer id : fromInterfaceIds)
@@ -55,16 +55,16 @@ public class InterfaceOnInterfaceHandler extends PluginHandler<IFOnIFEvent> {
 		this(false, fromInterfaceIds, fromComponentIds, toInterfaceIds, toComponentIds, handler);
 	}
 
-	public InterfaceOnInterfaceHandler(boolean interchangeable, int fromInterfaceId, int[] fromComponentIds, int toInterfaceId, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
-		this(interchangeable, new int[] {fromInterfaceId}, fromComponentIds, new int[] {toInterfaceId}, toComponentIds, handler);
+	public InterfaceOnInterfaceHandler(boolean bidirectional, int fromInterfaceId, int[] fromComponentIds, int toInterfaceId, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
+		this(bidirectional, new int[] {fromInterfaceId}, fromComponentIds, new int[] {toInterfaceId}, toComponentIds, handler);
 	}
 
-	public InterfaceOnInterfaceHandler(boolean interchangeable, int fromInterfaceId, int fromComponentId, int toInterfaceId, int toComponentId, Consumer<IFOnIFEvent> handler) {
-		this(interchangeable, fromInterfaceId, new int[] { fromComponentId }, toInterfaceId, new int[] {toComponentId}, handler);
+	public InterfaceOnInterfaceHandler(boolean bidirectional, int fromInterfaceId, int fromComponentId, int toInterfaceId, int toComponentId, Consumer<IFOnIFEvent> handler) {
+		this(bidirectional, fromInterfaceId, new int[] { fromComponentId }, toInterfaceId, new int[] {toComponentId}, handler);
 	}
 
-	public InterfaceOnInterfaceHandler(boolean interchangeable, int fromInterfaceId, int toInterfaceId, Consumer<IFOnIFEvent> handler) {
-		this(interchangeable, fromInterfaceId, null, toInterfaceId, null, handler);
+	public InterfaceOnInterfaceHandler(boolean bidirectional, int fromInterfaceId, int toInterfaceId, Consumer<IFOnIFEvent> handler) {
+		this(bidirectional, fromInterfaceId, null, toInterfaceId, null, handler);
 	}
 
 	public InterfaceOnInterfaceHandler(int fromInterfaceId, int[] fromComponentIds, int toInterfaceId, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
@@ -87,7 +87,7 @@ public class InterfaceOnInterfaceHandler extends PluginHandler<IFOnIFEvent> {
 		return toKeys;
 	}
 
-	public boolean isInterchangeable() {
-		return interchangeable;
+	public boolean isBidirectional() {
+		return bidirectional;
 	}
 }
