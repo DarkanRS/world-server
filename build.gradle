@@ -23,7 +23,7 @@ repositories {
 }
 
 group 'rs.darkan'
-version '1.6.1'
+version '1.6.2'
 
 dependencies {
 	implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.9.20'
@@ -55,6 +55,8 @@ dependencies {
 
 shadowJar {
 	zip64 = true
+	mergeServiceFiles()
+	configurations = [project.configurations.runtimeClasspath]
 }
 
 publishing {
