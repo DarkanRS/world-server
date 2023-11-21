@@ -131,7 +131,8 @@ public class PestControlGameController extends Controller {
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
 					player.reset();
-					player.setNextTile(control.getTile(35 - Utils.random(4), 54 - (Utils.random(3))));
+					Tile tile = control.getTile(35 - Utils.random(4), 54 - (Utils.random(3)));
+					player.setNextTile(tile == null ? Tile.of(2658, 2660, 0) : tile);
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					player.jingle(90);
