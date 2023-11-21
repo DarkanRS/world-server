@@ -6,6 +6,7 @@ import java.nio.file.Paths
 import kotlin.script.experimental.api.EvaluationResult
 import kotlin.script.experimental.api.ResultWithDiagnostics
 import kotlin.script.experimental.api.ScriptEvaluationConfiguration
+import kotlin.script.experimental.api.compilerOptions
 import kotlin.script.experimental.host.toScriptSource
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
 import kotlin.script.experimental.jvm.jvm
@@ -33,6 +34,7 @@ class KotlinScriptEvaluator {
         private fun evalFile(scriptFile: File): ResultWithDiagnostics<EvaluationResult> {
             val compilationConfiguration = createJvmCompilationConfigurationFromTemplate<PluginScriptTemplate> {
                 jvm { dependenciesFromCurrentContext(wholeClasspath = true) }
+                compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
             }
             return BasicJvmScriptingHost().eval(
                 scriptFile.toScriptSource(),
