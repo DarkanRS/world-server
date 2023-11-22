@@ -21,6 +21,7 @@ import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -63,6 +64,8 @@ public class CommendationExchange {// 1875 TODO
 	}
 
 	private static boolean exchangeCommendation(Player player, int price) {
+		if (player.getAccount().hasRights(Rights.DEVELOPER))
+			return true;
 		int currentPoints = player.getPestPoints();
 		if (currentPoints - price < 0) {
 			player.sendMessage("You don't have enough Commendations remaining to complete this exchange.");
