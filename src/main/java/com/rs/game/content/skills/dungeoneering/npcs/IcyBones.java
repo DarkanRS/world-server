@@ -57,7 +57,7 @@ public final class IcyBones extends DungeonBoss {
 		return 0.6;
 	}
 
-	private List<GameObject> spikes;
+	private final List<GameObject> spikes;
 
 	public void removeSpikes() {
 		if (spikes.isEmpty())

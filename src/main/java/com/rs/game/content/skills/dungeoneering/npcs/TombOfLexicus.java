@@ -22,7 +22,7 @@ import com.rs.lib.game.Tile;
 
 public class TombOfLexicus extends DungeonNPC {
 
-	private LexicusRunewright boss;
+	private final LexicusRunewright boss;
 
 	public TombOfLexicus(LexicusRunewright boss, int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);

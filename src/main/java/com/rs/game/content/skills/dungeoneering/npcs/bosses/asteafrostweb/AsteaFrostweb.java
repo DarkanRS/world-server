@@ -27,24 +27,25 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
+import com.rs.utils.Ticks;
 
 public final class AsteaFrostweb extends DungeonBoss {
 
-	private int meleeNPCId;
+	private final int meleeNPCId;
 	private int switchPrayersDelay;
 	private int spawnedSpiders;
-	private NPC[] spiders;
+	private final NPC[] spiders;
 
 	public AsteaFrostweb(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9965, 10021, 3), manager.getBossLevel()), tile, manager, reference);
-		spiders = new NPC[6];
 		setHitpoints(getMaxHitpoints());
-		meleeNPCId = getId();
 		resetSwitchPrayersDelay();
+		this.spiders = new NPC[6];
+		this.meleeNPCId = getId();
 	}
 
 	public void resetSwitchPrayersDelay() {
-		switchPrayersDelay = 35; // 25sec
+		switchPrayersDelay = Ticks.fromSeconds(25);
 	}
 
 	public void switchPrayers() {

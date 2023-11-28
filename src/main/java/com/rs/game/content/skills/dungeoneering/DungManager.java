@@ -64,7 +64,7 @@ public class DungManager {
 	private transient DungeonPartyManager party;
 	private transient Player invitingPlayer;
 
-	public static enum ResourceDungeon {
+	public enum ResourceDungeon {
 		EDGEVILLE_DUNGEON(10, 1100, 52849, Tile.of(3132, 9933, 0), 52867, Tile.of(991, 4585, 0)),
 		DWARVEN_MINE(15, 1500, 52855, Tile.of(3034, 9772, 0), 52864, Tile.of(1041, 4575, 0)),
 		EDGEVILLE_DUNGEON_2(20, 1600, 52853, Tile.of(3104, 9826, 0), 52868, Tile.of(1135, 4589, 0)),
@@ -83,7 +83,7 @@ public class DungManager {
 
 		;
 
-		private static Map<Integer, ResourceDungeon> ID_MAP = new HashMap<>();
+		private static final Map<Integer, ResourceDungeon> ID_MAP = new HashMap<>();
 
 		static {
 			for (ResourceDungeon d : ResourceDungeon.values()) {
@@ -96,15 +96,17 @@ public class DungManager {
 			return ID_MAP.get(id);
 		}
 
-		private ResourceDungeon(int level, int xp) {
+		ResourceDungeon(int level, int xp) {
 			outsideId = insideId = -1;
 		}
 
-		private int level, outsideId, insideId;
+		// TODO: This may be a huge bug, in which the level, xp, and inside/outside tiles fields are mutated (this is an enum)
+		private int level;
+		private final int outsideId, insideId;
 		private double xp;
 		private Tile inside, outside;
 
-		private ResourceDungeon(int level, double xp, int outsideId, Tile outside, int insideId, Tile inside) {
+		ResourceDungeon(int level, double xp, int outsideId, Tile outside, int insideId, Tile inside) {
 			this.level = level;
 			this.xp = xp;
 			this.outsideId = outsideId;
@@ -601,7 +603,7 @@ public class DungManager {
 				player.getPackets().setIFHidden(939, 105, true);// Complexity change
 				player.getPackets().setIFHidden(939, 111, true);// Floor change
 			}
-		} else if (party == null) {
+		} else {
 			player.getPackets().setIFHidden(939, 33, true);
 			player.getPackets().setIFHidden(939, 34, true); // Big Button leave Party
 			player.getPackets().setIFHidden(939, 36, false);
@@ -676,7 +678,7 @@ public class DungManager {
 	});
 
 	private void inspectPlayer(Player p) {
-		player.setCloseInterfacesEvent(() -> openPartyInterface());
+		player.setCloseInterfacesEvent(this::openPartyInterface);
 
 		player.getInterfaceManager().sendSub(Sub.TAB_QUEST, 936);
 		String name = p.getUsername();
@@ -1184,10 +1186,7 @@ public class DungManager {
 	public void refreshDungRingPlayerNames() {
 		for (Player player : party.getTeam())
 			for (int i = 0; i < 5; i++)
-				if (i >= party.getTeam().size())
-					hideICompRingPlayerText(player, i, true);
-				else
-					hideICompRingPlayerText(player, i, false);
+				hideICompRingPlayerText(player, i, i >= party.getTeam().size());
 	}
 
 	public static void hideICompRingPlayerText(Player p, int slot, boolean hidden) {

@@ -38,6 +38,7 @@ public class VisibleRoom {
 	protected DungeonManager manager;
 	protected int type;
 
+	// TODO: Remove this for a constructor, to satisfy synchronizing non-final field `manager`
 	public void init(DungeonManager manager, RoomReference ref, int type, HandledRoom room) {
 		this.type = type;
 		reference = ref;

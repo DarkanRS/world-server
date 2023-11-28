@@ -33,13 +33,13 @@ public enum DungPickaxe {
 	PROMETHIUM(16313, 90, 13083, 17),
 	PRIMAL(16315, 99, 13084, 20);
 
-	private int itemId, level, ticks;
-	private Animation animation;
+	private final int itemId, level, ticks;
+	private final Animation animation;
 
-	private DungPickaxe(int itemId, int level, int animId, int ticks) {
+	DungPickaxe(int itemId, int level, int animId, int ticks) {
 		this.itemId = itemId;
 		this.level = level;
-		animation = new Animation(animId);
+		this.animation = new Animation(animId);
 		this.ticks = ticks;
 	}
 
@@ -62,8 +62,8 @@ public enum DungPickaxe {
 	public static DungPickaxe getBest(Player player) {
 		for (int i = DungPickaxe.values().length-1; i >= 0; i--) {
 			DungPickaxe def = DungPickaxe.values()[i];
-			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId)
-				if (player.getSkills().getLevel(Constants.MINING) >= def.level)
+			if (player.getInventory().containsItem(def.getItemId()) || player.getEquipment().getWeaponId() == def.getItemId())
+				if (player.getSkills().getLevel(Constants.MINING) >= def.getLevel())
 					return def;
 		}
 		return null;

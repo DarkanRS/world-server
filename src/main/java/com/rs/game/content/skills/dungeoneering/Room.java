@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class Room {
 
 	private HandledRoom room;
-	private int rotation;
+	private final int rotation;
 	private int dropId;
 	//	private int creationIndex;
 

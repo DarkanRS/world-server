@@ -42,16 +42,19 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class DivineSkinweaver extends DungeonBoss {
 
-	private static final int[][] HOLES =
-		{
-				{ 0, 10 },
-				{ 5, 15 },
-				{ 11, 15 },
-				{ 15, 10 },
-				{ 15, 5 } };
+	private static final int[][] HOLES = {
+		{ 0, 10 },
+		{ 5, 15 },
+		{ 11, 15 },
+		{ 15, 10 },
+		{ 15, 5 }
+	};
 
-	private static final String[] CLOSE_HOLE_MESSAGES =
-		{ "Ride the wind and smite the tunnel.", "We have little time, tear down the tunnel.", "Churra! Bring down the tunnel while you can." };
+	private static final String[] CLOSE_HOLE_MESSAGES = {
+		"Ride the wind and smite the tunnel.",
+		"We have little time, tear down the tunnel.",
+		"Churra! Bring down the tunnel while you can."
+	};
 
 	private final boolean[] holeClosed;
 	private int count;
@@ -91,10 +94,9 @@ public final class DivineSkinweaver extends DungeonBoss {
 		for (int[] hole : HOLES) {
 			GameObject object = getManager().getObjectWithType(getReference(), 49289, ObjectType.WALL_STRAIGHT, hole[0], hole[1]);
 			if (object != null && object.getId() != 49289)
-				holes.add(new int[]
-						{ object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()] });
+				holes.add(new int[] { object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()] });
 		}
-		if (holes.size() == 0)
+		if (holes.isEmpty())
 			return null;
 		return holes.get(Utils.random(holes.size()));
 	}
@@ -102,16 +104,17 @@ public final class DivineSkinweaver extends DungeonBoss {
 	@Override
 	public void processNPC() {
 		List<Entity> targets = getPossibleTargets();
-		if(targets.size() == 0)
+		if(targets.isEmpty())
 			removeAllSkeletons();
 		if (respawnDelay > 0)
 			respawnDelay--;
-		else if (count < holeClosed.length && targets.size() != 0 && skeletons.size() < 20) { //blablala spawn skeletons
+		else if (count < holeClosed.length && !targets.isEmpty() && skeletons.size() < 20) { // blablala spawn skeletons
 			int[] coords = getOpenHole();
 			if (coords != null) {
 				int skeleType = Utils.random(3);
+				// TODO: cbLevel should be half of what they are *supposed* to be, I'm not sure if getCloestToCombatLevel is accurate for level selection here
 				int cbLevel = getManager().getCombatLevelMonster();
-				cbLevel = (int) (cbLevel - Math.ceil(cbLevel*0.20));
+				cbLevel = (int) (cbLevel - Math.ceil(cbLevel * 0.20));
 				if (skeleType == 0)
 					skeletons.add((DungeonSkeletonBoss) getManager().spawnNPC(DungeonUtils.getClosestToCombatLevel(GuardianMonster.SKELETON_MAGIC.getNPCIds(), cbLevel), 0, Tile.of(coords[0], coords[1], 0), getReference(), DungeonConstants.BOSS_NPC));
 				else if (skeleType == 1)
@@ -152,7 +155,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 			skeleton.sendDeath(skeleton);
 	}
 	public void talkTo(Player player) {
-		if (count < holeClosed.length || skeletons.size() > 0) {
+		if (count < holeClosed.length || !skeletons.isEmpty()) {
 			player.npcDialogue(getId(), HeadE.CALM_TALK, "Chat later and kill the skeletons now, brah.");
 			return;
 		}

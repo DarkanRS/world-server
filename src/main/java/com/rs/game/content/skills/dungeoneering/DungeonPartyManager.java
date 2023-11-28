@@ -34,7 +34,7 @@ public final class DungeonPartyManager {
 	private int difficulty;
 	private boolean guideMode;
 
-	private CopyOnWriteArrayList<Player> team;
+	private final CopyOnWriteArrayList<Player> team;
 	private DungeonManager dungeon;
 
 	public DungeonPartyManager() {
@@ -67,7 +67,7 @@ public final class DungeonPartyManager {
 		player.getDungManager().refreshPartyDetailsComponents();
 		player.sendMessage("You leave the party.");
 		player.getDungManager().refreshNames();
-		if (dungeon != null && team.size() == 0) {
+		if (dungeon != null && team.isEmpty()) {
 			if (dungeon.hasLoadedNoRewardScreen() && logout) // destroy timer cant exist with a party member on anyway, team must be 0
 				dungeon.setDestroyTimer();
 			else
@@ -108,7 +108,7 @@ public final class DungeonPartyManager {
 	public void setLeader(Player player) {
 		leader = player.getUsername();
 		if (team.size() > 1)
-			if (team.get(0).getUsername() != leader) {
+			if (team.get(0).getUsername().equals(leader)) {
 				Player positionZero = team.get(0);
 				team.remove(player);
 				team.set(0, player);
@@ -137,7 +137,7 @@ public final class DungeonPartyManager {
 
 	/**
 	 * Creates a seed for a dungeon to run off of
-	 * @param seed
+	 * @param seed starting seed
 	 */
 	public void setStartingSeed(long seed) {
 		customSeed = true;
@@ -213,7 +213,7 @@ public final class DungeonPartyManager {
 		return (diff > 50 ? ((diff - 50) * 0.01) : 0);
 	}
 
-	public int getMaxLevelDiference() {
+	public int getMaxLevelDifference() {
 		if (team.size() <= 1)
 			return 0;
 		int maxLevel = 0;
@@ -252,11 +252,11 @@ public final class DungeonPartyManager {
 		int level = 0;
 		for (Player player : team)
 			level += player.getSkills().getCombatLevelWithSummoning();
-		return team.size() == 0 ? 138 : level;
+		return team.isEmpty() ? 138 : level;
 	}
 
 	public int getAverageCombatLevel() {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 138;
 		int level = 0;
 		for (Player player : team)
@@ -265,7 +265,7 @@ public final class DungeonPartyManager {
 	}
 
 	public int getDefenceLevel() {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 99;
 		int level = 0;
 		for (Player player : team)
@@ -280,7 +280,7 @@ public final class DungeonPartyManager {
 	}
 
 	public int getMaxLevel(int skill) {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 1;
 		int level = 0;
 		for (Player player : team) {
@@ -292,7 +292,7 @@ public final class DungeonPartyManager {
 	}
 
 	public int getAttackLevel() {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 99;
 		int level = 0;
 		for (Player player : team)
@@ -301,7 +301,7 @@ public final class DungeonPartyManager {
 	}
 
 	public int getMagicLevel() {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 99;
 		int level = 0;
 		for (Player player : team)
@@ -310,7 +310,7 @@ public final class DungeonPartyManager {
 	}
 
 	public int getRangeLevel() {
-		if (team.size() == 0)
+		if (team.isEmpty())
 			return 99;
 		int level = 0;
 		for (Player player : team)

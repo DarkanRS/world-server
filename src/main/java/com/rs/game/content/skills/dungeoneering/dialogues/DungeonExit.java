@@ -25,8 +25,8 @@ public class DungeonExit extends Conversation {
 	public DungeonExit(Player player, DungeonController controller) {
 		super(player);
 		addSimple("This ladder leads back to the surface. You will not be able to come back to this dungeon if you leave.");
-		addOptions("Leave the dungeon and return to the surface?", ops -> {
-			ops.add("Yes.", () -> controller.leaveDungeon());
+		addOptions("Leave the dungeon and return to the surface?", (ops) -> {
+			ops.add("Yes.", controller::leaveDungeon);
 			ops.add("No.");
 		});
 	}

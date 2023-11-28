@@ -27,7 +27,7 @@ import com.rs.lib.util.Utils;
 
 public class DungeoneeringMining extends PlayerAction {
 
-	public static enum DungeoneeringRocks {
+	public enum DungeoneeringRocks {
 		NOVITE_ORE(1, 15, 17630, 10, 1),
 		BATHUS_ORE(10, 27.5, 17632, 15, 1),
 		MARMAROS_ORE(20, 41, 17634, 25, 1),
@@ -39,13 +39,13 @@ public class DungeoneeringMining extends PlayerAction {
 		GORGONITE_ORE(80, 131, 17646, 123, 22),
 		PROMETHIUM_ORE(90, 148, 17648, 130, 25);
 
-		private int level;
-		private double xp;
-		private int oreId;
-		private int oreBaseTime;
-		private int oreRandomTime;
+		private final int level;
+		private final double xp;
+		private final int oreId;
+		private final int oreBaseTime;
+		private final int oreRandomTime;
 
-		private DungeoneeringRocks(int level, double xp, int oreId, int oreBaseTime, int oreRandomTime) {
+		DungeoneeringRocks(int level, double xp, int oreId, int oreBaseTime, int oreRandomTime) {
 			this.level = level;
 			this.xp = xp;
 			this.oreId = oreId;
@@ -75,8 +75,8 @@ public class DungeoneeringMining extends PlayerAction {
 
 	}
 
-	private GameObject rock;
-	private DungeoneeringRocks definitions;
+	private final GameObject rock;
+	private final DungeoneeringRocks definitions;
 	private DungPickaxe pick;
 
 	public DungeoneeringMining(GameObject rock, DungeoneeringRocks definitions) {

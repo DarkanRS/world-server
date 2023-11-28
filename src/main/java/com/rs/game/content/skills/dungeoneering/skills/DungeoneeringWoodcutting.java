@@ -27,8 +27,8 @@ import com.rs.lib.util.Utils;
 
 public final class DungeoneeringWoodcutting extends PlayerAction {
 
-	private GameObject treeObj;
-	private DungTree type;
+	private final GameObject treeObj;
+	private final DungTree type;
 	private DungHatchet hatchet;
 
 	public DungeoneeringWoodcutting(GameObject treeObj, DungTree type) {

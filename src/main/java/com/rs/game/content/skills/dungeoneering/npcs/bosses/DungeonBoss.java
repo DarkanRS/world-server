@@ -60,6 +60,8 @@ public class DungeonBoss extends DungeonNPC {
 		DropTable[] drops = DropSets.getDropSet(getId()).getTables();
 		if (drops == null || drops.length == 0)
 			return;
+
+		// TODO: Possible drop table mismatch with MEDIUM_DUNGEON?
 		DropTable drop;
 		if (getManager().getParty().getSize() == DungeonConstants.LARGE_DUNGEON)
 			drop = drops[Utils.random(100) < 90 ? drops.length - 1 : Utils.random(drops.length)];
@@ -68,7 +70,7 @@ public class DungeonBoss extends DungeonNPC {
 		else
 			drop = drops[Utils.random(drops.length)];
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		Player killer = players.get(Utils.random(players.size()));
 		if (drop != null)
@@ -80,7 +82,7 @@ public class DungeonBoss extends DungeonNPC {
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		player.getInventory().addItemDrop(item);
 		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");

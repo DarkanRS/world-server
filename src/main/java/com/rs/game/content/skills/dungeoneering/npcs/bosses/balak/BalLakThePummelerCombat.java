@@ -48,7 +48,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 
-		boolean smash = Utils.random(5) == 0 && boss.getPoisionPuddles().size() == 0;
+		boolean smash = Utils.random(5) == 0 && boss.getPoisonPuddles().size() == 0;
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
@@ -64,7 +64,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 				@Override
 				public void run() {
 					for (int i = 0; i < 3; i++)
-						boss.addPoisionBubble(World.getFreeTile(center, 6));
+						boss.addPoisonBubble(World.getFreeTile(center, 6));
 				}
 			}, 1);
 			return npc.getAttackSpeed();

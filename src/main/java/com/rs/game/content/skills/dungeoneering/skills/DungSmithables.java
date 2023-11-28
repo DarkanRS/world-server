@@ -215,19 +215,19 @@ public enum DungSmithables {
 	GORGONITE_ARROWHEADS(new Item(17925, 20), 80, 82.0, new Item[] { new Item(17666, 1) }),
 	PROMETHIUM_ARROWHEADS(new Item(17930, 20), 90, 91.0, new Item[] { new Item(17668, 1) });
 
-	public Item product;
-	public int req;
-	public double xp;
-	public Item[] materials;
+	public final Item product;
+	public final int req;
+	public final double xp;
+	public final Item[] materials;
 
-	public static HashMap<Integer, DungSmithables[]> SMITHABLES = new HashMap<>();
+	public static final HashMap<Integer, DungSmithables[]> SMITHABLES = new HashMap<>();
 
 	static {
 		for (int i = 17650;i <= 17668;i += 2)
 			SMITHABLES.put(i, DungSmithables.genSortedArray(i));
 	}
 
-	private DungSmithables(Item product, int req, double xp, Item[] materials) {
+	DungSmithables(Item product, int req, double xp, Item[] materials) {
 		this.product = product;
 		this.req = req;
 		this.xp = xp;
@@ -243,6 +243,7 @@ public enum DungSmithables {
 		for (DungSmithables d : DungSmithables.values())
 			if (d.materials[0].getId() == barId)
 				prods.add(d);
+		// TODO: IntelliJ says to replace 247 with prods.sort(Comparator.comparingInt(ds -> ds.req));
 		prods.sort((ds1, ds2) -> ds1.req < ds2.req ? -1 : (ds1.req > ds2.req) ? 1 : 0);
 		DungSmithables[] arr = new DungSmithables[prods.size()];
 		for (int i = 0;i < arr.length;i++)

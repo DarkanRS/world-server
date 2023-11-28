@@ -34,19 +34,17 @@ import com.rs.lib.util.Utils;
 
 public class ColouredRecessRoom extends PuzzleRoom {
 
-	public static final int[] SHELVES =
-		{ 35243, 35242, 35241, 35245, 35246 };
+	public static final int[] SHELVES = { 35243, 35242, 35241, 35245, 35246 };
 
 	//+1-4 for colors
-	public static final int[] BASE_BLOCKS =
-		{ 13024, 13029, 13034, 13039, 13044 };
+	public static final int[] BASE_BLOCKS = { 13024, 13029, 13034, 13039, 13044 };
 
-	public static final int[][] LOCATIONS =
-		{
-				{ 5, 10 },
-				{ 10, 10 },
-				{ 10, 5 },
-				{ 5, 5 }, };
+	public static final int[][] LOCATIONS = {
+		{ 5, 10 },
+		{ 10, 10 },
+		{ 10, 5 },
+		{ 5, 5 },
+	};
 
 	private Block[] blocks;
 	private boolean[] used;
@@ -185,22 +183,11 @@ public class ColouredRecessRoom extends PuzzleRoom {
 	public boolean processObjectClick1(Player p, GameObject object) {
 		if (object.getId() == SHELVES[type]) {
 			p.startConversation(new Dialogue()
-					.addOptions("Choose an option:", new Options() {
-						@Override
-						public void create() {
-							option("Blue vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19869);})
-							);
-							option("Green vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19871);})
-							);
-							option("Yellow vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19873);})
-							);
-							option("Violet vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19875);})
-							);
-						}
+					.addOptions("Choose an option:", (ops) -> {
+						ops.add("Blue vial.", () -> getVial(p, 19869));
+						ops.add("Green vial.", () -> getVial(p, 19871));
+						ops.add("Yellow vial.", () -> getVial(p, 19873));
+						ops.add("Violet vial.", () -> getVial(p, 19875));
 					}));
 			return false;
 		}

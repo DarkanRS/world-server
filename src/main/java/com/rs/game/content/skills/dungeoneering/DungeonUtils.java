@@ -322,173 +322,103 @@ public final class DungeonUtils {
 	}
 
 	public static int getRandomGear(int tier) {
-		switch (Utils.random(29)) {
-		case 0:
-			return getLongbow(tier);
-		case 1:
-			return getShortbow(tier);
-		case 2:
-			return getChaps(tier);
-		case 3:
-			return getLeatherBoots(tier);
-		case 4:
-			return getVambrances(tier);
-		case 5:
-			return getLeatherBody(tier);
-		case 6:
-			return getCoif(tier);
-		case 7:
-			return getRobeTop(tier);
-		case 8:
-			return getElementalStaff(tier);
-		case 9:
-			return getBasicStaff(tier);
-		case 10:
-			return getGloves(tier);
-		case 11:
-			return getShoes(tier);
-		case 12:
-			return getRobeBottom(tier);
-		case 13:
-			return getHood(tier);
-		case 14:
-			return getKiteshield(tier);
-		case 15:
-			return getPlatebody(tier);
-		case 16:
-			return getSpear(tier);
-		case 17:
-			return getWarhammer(tier);
-		case 18:
-			return getRapier(tier);
-		case 19:
-			return get2HSword(tier);
-		case 20:
-			return getDagger(tier);
-		case 21:
-			return getChainbody(tier);
-		case 22:
-			return getFullHelm(tier);
-		case 23:
-			return getPlatelegs(tier, true);
-		case 24:
-			return getMaul(tier);
-		case 25:
-			return getLongsword(tier);
-		case 26:
-			return getBoots(tier);
-		case 27:
-			return getGauntlets(tier);
-		case 28:
-			return getBattleaxe(tier);
-		}
-		return getHatchet(tier); //shouldnt
+		return switch (Utils.random(29)) {
+			case 0 -> getLongbow(tier);
+			case 1 -> getShortbow(tier);
+			case 2 -> getChaps(tier);
+			case 3 -> getLeatherBoots(tier);
+			case 4 -> getVambrances(tier);
+			case 5 -> getLeatherBody(tier);
+			case 6 -> getCoif(tier);
+			case 7 -> getRobeTop(tier);
+			case 8 -> getElementalStaff(tier);
+			case 9 -> getBasicStaff(tier);
+			case 10 -> getGloves(tier);
+			case 11 -> getShoes(tier);
+			case 12 -> getRobeBottom(tier);
+			case 13 -> getHood(tier);
+			case 14 -> getKiteshield(tier);
+			case 15 -> getPlatebody(tier);
+			case 16 -> getSpear(tier);
+			case 17 -> getWarhammer(tier);
+			case 18 -> getRapier(tier);
+			case 19 -> get2HSword(tier);
+			case 20 -> getDagger(tier);
+			case 21 -> getChainbody(tier);
+			case 22 -> getFullHelm(tier);
+			case 23 -> getPlatelegs(tier, true);
+			case 24 -> getMaul(tier);
+			case 25 -> getLongsword(tier);
+			case 26 -> getBoots(tier);
+			case 27 -> getGauntlets(tier);
+			case 28 -> getBattleaxe(tier);
+			default -> getHatchet(tier); // shouldn't
+		};
 	}
 
 	public static int getRandomRangeGear(int tier) {
-		switch (Utils.random(7)) {
-		case 0:
-			return getLongbow(tier);
-		case 1:
-			return getShortbow(tier);
-		case 2:
-			return getChaps(tier);
-		case 3:
-			return getLeatherBoots(tier);
-		case 4:
-			return getVambrances(tier);
-		case 5:
-			return getLeatherBody(tier);
-		case 6:
-			return getCoif(tier);
-		}
-		return getHatchet(tier); //shouldnt
+		return switch (Utils.random(7)) {
+			case 0 -> getLongbow(tier);
+			case 1 -> getShortbow(tier);
+			case 2 -> getChaps(tier);
+			case 3 -> getLeatherBoots(tier);
+			case 4 -> getVambrances(tier);
+			case 5 -> getLeatherBody(tier);
+			case 6 -> getCoif(tier);
+			default -> getHatchet(tier); // shouldn't
+		};
 	}
 
 	public static int getRandomMagicGear(int tier) {
-		switch (Utils.random(7)) {
-		case 0:
-			return getRobeTop(tier);
-		case 1:
-			return getElementalStaff(tier);
-		case 2:
-			return getBasicStaff(tier);
-		case 3:
-			return getGloves(tier);
-		case 4:
-			return getShoes(tier);
-		case 5:
-			return getRobeBottom(tier);
-		case 6:
-			return getHood(tier);
-		}
-		return getHatchet(tier); //shouldnt
+		return switch (Utils.random(7)) {
+			case 0 -> getRobeTop(tier);
+			case 1 -> getElementalStaff(tier);
+			case 2 -> getBasicStaff(tier);
+			case 3 -> getGloves(tier);
+			case 4 -> getShoes(tier);
+			case 5 -> getRobeBottom(tier);
+			case 6 -> getHood(tier);
+			default -> getHatchet(tier); // shouldn't
+		};
 	}
 
 	public static int getRandomMeleeGear(int tier) {
-		switch (Utils.random(15)) {
-		case 0:
-			return getKiteshield(tier);
-		case 1:
-			return getPlatebody(tier);
-		case 2:
-			return getSpear(tier);
-		case 3:
-			return getWarhammer(tier);
-		case 4:
-			return getRapier(tier);
-		case 5:
-			return get2HSword(tier);
-		case 6:
-			return getDagger(tier);
-		case 7:
-			return getChainbody(tier);
-		case 8:
-			return getFullHelm(tier);
-		case 9:
-			return getPlatelegs(tier, true);
-		case 10:
-			return getMaul(tier);
-		case 11:
-			return getLongsword(tier);
-		case 12:
-			return getBoots(tier);
-		case 13:
-			return getGauntlets(tier);
-		case 14:
-			return getBattleaxe(tier);
-		}
-		return getHatchet(tier); //shouldnt
+		return switch (Utils.random(15)) {
+			case 0 -> getKiteshield(tier);
+			case 1 -> getPlatebody(tier);
+			case 2 -> getSpear(tier);
+			case 3 -> getWarhammer(tier);
+			case 4 -> getRapier(tier);
+			case 5 -> get2HSword(tier);
+			case 6 -> getDagger(tier);
+			case 7 -> getChainbody(tier);
+			case 8 -> getFullHelm(tier);
+			case 9 -> getPlatelegs(tier, true);
+			case 10 -> getMaul(tier);
+			case 11 -> getLongsword(tier);
+			case 12 -> getBoots(tier);
+			case 13 -> getGauntlets(tier);
+			case 14 -> getBattleaxe(tier);
+			default -> getHatchet(tier); // shouldn't
+		};
 	}
 
 	public static int getRandomWeapon(int tier) {
-		switch (Utils.random(12)) {
-		case 0:
-			return getLongbow(tier);
-		case 1:
-			return getShortbow(tier);
-		case 2:
-			return getElementalStaff(tier);
-		case 3:
-			return getBasicStaff(tier);
-		case 4:
-			return getSpear(tier);
-		case 5:
-			return getWarhammer(tier);
-		case 6:
-			return getRapier(tier);
-		case 7:
-			return get2HSword(tier);
-		case 8:
-			return getDagger(tier);
-		case 9:
-			return getMaul(tier);
-		case 10:
-			return getLongsword(tier);
-		case 11:
-			return getBattleaxe(tier);
-		}
-		return getHatchet(tier); //shouldnt
+		return switch (Utils.random(12)) {
+			case 0 -> getLongbow(tier);
+			case 1 -> getShortbow(tier);
+			case 2 -> getElementalStaff(tier);
+			case 3 -> getBasicStaff(tier);
+			case 4 -> getSpear(tier);
+			case 5 -> getWarhammer(tier);
+			case 6 -> getRapier(tier);
+			case 7 -> get2HSword(tier);
+			case 8 -> getDagger(tier);
+			case 9 -> getMaul(tier);
+			case 10 -> getLongsword(tier);
+			case 11 -> getBattleaxe(tier);
+			default -> getHatchet(tier); // shouldn't
+		};
 	}
 
 	public static int get2HSword(int tier) {

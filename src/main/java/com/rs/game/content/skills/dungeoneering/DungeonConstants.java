@@ -28,22 +28,15 @@ import java.util.*;
 
 public class DungeonConstants {
 
-	public static final int[] MIN_CRIT_PATH =
-		{ 5, 10, 19 }, MAX_CRIT_PATH =
-	{ 7, 13, 23 };
+	public static final int[] MIN_CRIT_PATH = { 5, 10, 19 };
+	public static final int[] MAX_CRIT_PATH = { 7, 13, 23 };
 
 	public static final Tile OUTSIDE = Tile.of(3460, 3720, 1);
-
 	public static final int ROTATIONS_COUNT = 4;
-
 	public static final int TINDERBOX = 17678;
-
 	public static final int SMUGGLER = 11226;
-
 	public static final int[] LADDERS = { 49696, 49698, 49700, 53748, 55484 };
-
 	public static final int FLOORS_COUNT = 60;
-
 	public static final int GROUP_GATESTONE = 18829, GATESTONE = 17489;
 
 	/*
@@ -52,102 +45,68 @@ public class DungeonConstants {
 	public static final int[] DUNGEON_DOORS = { 50342, 50343, 50344, 53948, 55762 };
 	public static final int[] DUNGEON_BOSS_DOORS = { 50350, 50351, 50352, 53950, 55764 };
 
-	public static final int[] DUNGEON_GUARDIAN_DOORS =
-		{ 50346, 50347, 50348, 53949, 55763 };
+	public static final int[] DUNGEON_GUARDIAN_DOORS = { 50346, 50347, 50348, 53949, 55763 };
 
 	/*
 	 * novite ores
 	 */
-	public static final int[] MINING_RESOURCES =
-		{ 49806, 49786, 49766, 53771, 55514 };
+	public static final int[] MINING_RESOURCES = { 49806, 49786, 49766, 53771, 55514 };
 
 	/*
 	 * Tangle gum tree
 	 */
-	public static final int[] WOODCUTTING_RESOURCES =
-		{ 49745, 49725, 49705, 53751, 55494 };
+	public static final int[] WOODCUTTING_RESOURCES = { 49745, 49725, 49705, 53751, 55494 };
 
 	/*
 	 * Salve nettles
 	 */
-	public static final int[] FARMING_RESOURCES =
-		{ 49866, 49846, 49826, 53791, 55534 };
+	public static final int[] FARMING_RESOURCES = { 49866, 49846, 49826, 53791, 55534 };
 
-	public static final int[] THIEF_CHEST_LOCKED =
-		{ 49345, 49346, 49347, 54407, 32462 };
-	public static final int[] THIEF_CHEST_OPEN =
-		{ 49348, 49349, 49350, 54408, 32679 };
-	public static final double[] THIEF_CHEST_XP =
-		{ 25.5, 57, 115, 209, 331.5, 485, 661.5, 876, 1118, 1410.5 };
+	public static final int[] THIEF_CHEST_LOCKED = { 49345, 49346, 49347, 54407, 32462 };
+	public static final int[] THIEF_CHEST_OPEN = { 49348, 49349, 49350, 54408, 32679 };
+	public static final double[] THIEF_CHEST_XP = { 25.5, 57, 115, 209, 331.5, 485, 661.5, 876, 1118, 1410.5 };
 
 	public static final int RUSTY_COINS = 18201, BANANA = 18199;
 
-	public static final int[] CHARMS =
-		{ 18017, 18018, 18019, 18020 };
+	public static final int[] CHARMS = { 18017, 18018, 18019, 18020 };
 
-	public static final int[] ARROWS =
-		{ 16427, 16432, 16437, 16442, 16447, 16452, 16457, 16462, 16467, 16472, 16477 };
+	public static final int[] ARROWS = { 16427, 16432, 16437, 16442, 16447, 16452, 16457, 16462, 16467, 16472, 16477 };
 
-	public static final int[] RUNES =
-		{ 17780, 17781, 17782, 17783, 17784, 17785, 17786, 17787, 17788, 17789, 17790, 17791, 17792, 17793 };
+	public static final int[] RUNES = { 17780, 17781, 17782, 17783, 17784, 17785, 17786, 17787, 17788, 17789, 17790, 17791, 17792, 17793 };
 
 	public static final int RUNE_ESSENCE = 17776, FEATHER = 17796;
 
-	public static final int[] DUNGEON_KEY_DOORS =
-		{ 50353, 50417, 50481, 53884, 55675 };
+	public static final int[] DUNGEON_KEY_DOORS = { 50353, 50417, 50481, 53884, 55675 };
 
-	public static enum SkillDoors {
-		RUNED_DOOR(Constants.RUNECRAFTING, new int[]
-				{ 50278, 50279, 50280, 53953, 55741 }, 791, 186, -1, -1, -1, -1, "You imbue the door with the wrong type of rune energy, and it reacts explosively."),
-		BARRED_DOOR(Constants.STRENGTH, new int[]
-				{ 50272, 50273, 50274, 53951, 55739 }, new int[]
-						{ 50275, 50276, 50277, 53952, 55740 }, -1, -1, -1, -1, -1, -1, "You pull a muscle while attempting to move the plank."),
-		PILE_OF_ROCKS(Constants.MINING, new int[]
-				{ 50305, 50306, 50307, 53962, 55750 }, -2, -1, 13559, -1, -1, 2420, "You fail to mine the obstruction, and are harmed by falling debris."),
-		FLAMMABLE_DEBRIS(Constants.FIREMAKING, new int[]
-				{ 50314, 50315, 50316, 53965, 55753 }, 16700, -1, 13562, 13563, -1, -1, "The pile of debris fails to ignite. The same cannot be said for your clothes."),
-		MAGICAL_BARRIER(Constants.MAGIC, new int[]
-				{ 50329, 50330, 50331, 53970, 55758 }, 4411, -1, 13551, 13550, -1, -1, "You fail to dispel the barrier and take a surge of magical energy to the face."),
-		DARK_SPIRIT(Constants.PRAYER, new int[]
-				{ 50332, 50333, 50334, 53971, 55759 }, 645, -1, 13557, 13556, -1, -1, "The gods snub your prayer, and the dark spirit attacks you."),
-		WOODEN_BARRICADE(Constants.WOODCUTTING, new int[]
-				{ 50317, 50318, 50319, 53966, 55754 }, new int[]
-						{ 50320, 50321, 50322, 53967, 55755 }, -3, -1, 13582, -1, -1, -1, "You swing the axe against the grain and are showered with sharp splinters of wood."),
-		BROKEN_KEY_DOOR(Constants.SMITHING, new int[]
-				{ 50308, 50309, 50310, 53963, 55751 }, new int[]
-						{ 50311, 50312, 50313, 53964, 55752 }, 13759, -1, -1, -1, -1, -1, "You hit your hand with the hammer. Needless to say, the key is still broken."),
-		BROKEN_PULLEY_DOOR(Constants.CRAFTING, new int[]
-				{ 50299, 50300, 50301, 53960, 55748 }, new int[]
-						{ 50302, 50303, 50304, 53961, 55749 }, 13547, -1, -1, -1, -1, -1, "The rope snaps again as you attempt to fix it, and you crush your hands in the mechanism."),
-		LOCKED_DOOR(Constants.AGILITY, new int[]
-				{ -1, 50288, 50289, 53956, 55744 }, new int[]
-						{ 50290, 50291, 50292, 53957, 55745 }, 14550, -1, -1, -1, -1, -1, "You miss the chain, and set off the trap."),
-		PADLOCKED_DOOR(Constants.THIEVING, new int[]
-				{ -1, 50294, 50295, 53958, 55746 }, new int[]
-						{ 50296, 50297, 50298, 53959, 55747 }, 14568, -1, -1, -1, 14569, -1, "You set off a booby trap inside the lock, and fail to pick it."),
-		RAMOKEE_EXILE(Constants.SUMMONING, new int[]
-				{ -1, 50327, 50328, 53969, 55757 }, 725, 1207, -1, -1, -1, -1, "You fail to dismiss the rogue familiar, and it punches you in anger."),
-		LIQUID_LOCK_DOOR(Constants.HERBLORE, new int[]
-				{ -1, 50336, 50337, 53972, 55760 }, new int[]
-						{ 50338, 50339, 50340, 53973, 55761 }, 14568, -1, -1, -1, -1, -1, "You incorrectly mix the ingredients, making it explode."),
-		VINE_COVERED_DOOR(Constants.FARMING, new int[]
-				{ -1, 50324, 50325, 53968, 55756 }, 2275, -1, 13572, -1, -1, -1, "You hurt your hands on the vicious thorns covering the vines."),
-		COLLAPSING_DOORFRAME(Constants.CONSTRUCTION, new int[]
-				{ -1, 50282, 50283, 53954, 55742 }, new int[]
-						{ 50284, 50285, 50286, 53955, 55743 }, 14566, -1, -1, -1, 14567, -1, "You dislodge some debris while attempting to fix the door, and it falls on you.");
+	public enum SkillDoors {
+		RUNED_DOOR(Constants.RUNECRAFTING, new int[] { 50278, 50279, 50280, 53953, 55741 }, 791, 186, -1, -1, -1, -1, "You imbue the door with the wrong type of rune energy, and it reacts explosively."),
+		BARRED_DOOR(Constants.STRENGTH, new int[] { 50272, 50273, 50274, 53951, 55739 }, new int[] { 50275, 50276, 50277, 53952, 55740 }, -1, -1, -1, -1, -1, -1, "You pull a muscle while attempting to move the plank."),
+		PILE_OF_ROCKS(Constants.MINING, new int[] { 50305, 50306, 50307, 53962, 55750 }, -2, -1, 13559, -1, -1, 2420, "You fail to mine the obstruction, and are harmed by falling debris."),
+		FLAMMABLE_DEBRIS(Constants.FIREMAKING, new int[] { 50314, 50315, 50316, 53965, 55753 }, 16700, -1, 13562, 13563, -1, -1, "The pile of debris fails to ignite. The same cannot be said for your clothes."),
+		MAGICAL_BARRIER(Constants.MAGIC, new int[] { 50329, 50330, 50331, 53970, 55758 }, 4411, -1, 13551, 13550, -1, -1, "You fail to dispel the barrier and take a surge of magical energy to the face."),
+		DARK_SPIRIT(Constants.PRAYER, new int[] { 50332, 50333, 50334, 53971, 55759 }, 645, -1, 13557, 13556, -1, -1, "The gods snub your prayer, and the dark spirit attacks you."),
+		WOODEN_BARRICADE(Constants.WOODCUTTING, new int[] { 50317, 50318, 50319, 53966, 55754 }, new int[] { 50320, 50321, 50322, 53967, 55755 }, -3, -1, 13582, -1, -1, -1, "You swing the axe against the grain and are showered with sharp splinters of wood."),
+		BROKEN_KEY_DOOR(Constants.SMITHING, new int[] { 50308, 50309, 50310, 53963, 55751 }, new int[] { 50311, 50312, 50313, 53964, 55752 }, 13759, -1, -1, -1, -1, -1, "You hit your hand with the hammer. Needless to say, the key is still broken."),
+		BROKEN_PULLEY_DOOR(Constants.CRAFTING, new int[] { 50299, 50300, 50301, 53960, 55748 }, new int[] { 50302, 50303, 50304, 53961, 55749 }, 13547, -1, -1, -1, -1, -1, "The rope snaps again as you attempt to fix it, and you crush your hands in the mechanism."),
+		LOCKED_DOOR(Constants.AGILITY, new int[] { -1, 50288, 50289, 53956, 55744 }, new int[] { 50290, 50291, 50292, 53957, 55745 }, 14550, -1, -1, -1, -1, -1, "You miss the chain, and set off the trap."),
+		PADLOCKED_DOOR(Constants.THIEVING, new int[] { -1, 50294, 50295, 53958, 55746 }, new int[] { 50296, 50297, 50298, 53959, 55747 }, 14568, -1, -1, -1, 14569, -1, "You set off a booby trap inside the lock, and fail to pick it."),
+		RAMOKEE_EXILE(Constants.SUMMONING, new int[] { -1, 50327, 50328, 53969, 55757 }, 725, 1207, -1, -1, -1, -1, "You fail to dismiss the rogue familiar, and it punches you in anger."),
+		LIQUID_LOCK_DOOR(Constants.HERBLORE, new int[] { -1, 50336, 50337, 53972, 55760 }, new int[] { 50338, 50339, 50340, 53973, 55761 }, 14568, -1, -1, -1, -1, -1, "You incorrectly mix the ingredients, making it explode."),
+		VINE_COVERED_DOOR(Constants.FARMING, new int[] { -1, 50324, 50325, 53968, 55756 }, 2275, -1, 13572, -1, -1, -1, "You hurt your hands on the vicious thorns covering the vines."),
+		COLLAPSING_DOORFRAME(Constants.CONSTRUCTION, new int[] { -1, 50282, 50283, 53954, 55742 }, new int[] { 50284, 50285, 50286, 53955, 55743 }, 14566, -1, -1, -1, 14567, -1, "You dislodge some debris while attempting to fix the door, and it falls on you.");
 
-		private SkillDoors(int skillId, int[] closedThemeObjects, int openAnim, int openGfx, int openObjectAnim, int failObjectAnim, int failAnim, int failGfx, String failMessage) {
+		SkillDoors(int skillId, int[] closedThemeObjects, int openAnim, int openGfx, int openObjectAnim, int failObjectAnim, int failAnim, int failGfx, String failMessage) {
 			this(skillId, closedThemeObjects, null, openAnim, openGfx, openObjectAnim, failObjectAnim, failAnim, failGfx, failMessage);
 		}
 
-		private int skillId, openAnim, openGfx, openObjectAnim, failObjectAnim, failAnim, failGfx;
-		private int[] closedThemeObjects, openThemeObjects;
-		private String failMessage;
+		private final int skillId, openAnim, openGfx, openObjectAnim, failObjectAnim, failAnim, failGfx;
+		private final int[] closedThemeObjects, openThemeObjects;
+		private final String failMessage;
 
 		/*
 		 * set openThemeObjects if u want it to disappear after open
 		 */
-		private SkillDoors(int skillId, int[] closedThemeObjects, int[] openThemeObjects, int openAnim, int openGfx, int openObjectAnim, int failObjectAnim, int failAnim, int failGfx, String failMessage) {
+		SkillDoors(int skillId, int[] closedThemeObjects, int[] openThemeObjects, int openAnim, int openGfx, int openObjectAnim, int failObjectAnim, int failAnim, int failGfx, String failMessage) {
 			this.skillId = skillId;
 			this.closedThemeObjects = closedThemeObjects;
 			this.openThemeObjects = openThemeObjects;
@@ -204,7 +163,7 @@ public class DungeonConstants {
 	/*
 	 * keydoors only require the unlock objectid and itemid
 	 */
-	public static enum KeyDoors {
+	public enum KeyDoors {
 		ORANGE_TRIANGLE(0),
 		ORANGE_DIAMOND(1),
 		ORANGE_RECTANGLE(2),
@@ -269,9 +228,10 @@ public class DungeonConstants {
 		GOLD_CRESCENT(61),
 		GOLD_WEDGE(62),
 		GOLD_SHIELD(63);
-		private int index;
 
-		private KeyDoors(int index) {
+		private final int index;
+
+		KeyDoors(int index) {
 			this.index = index;
 		}
 
@@ -316,16 +276,15 @@ public class DungeonConstants {
 
 	public static final double UNBALANCED_PARTY_PENALTY = 0.4;
 	public static final double[] DUNGEON_SIZE_BONUS = { 0, 0.0792, 0.1583 };
-	public static final double[] COMPLEXITY_PENALTY_BASE =
-		{ 0.32, 0.35, 0.37 };
+	public static final double[] COMPLEXITY_PENALTY_BASE = { 0.32, 0.35, 0.37 };
 	public static final double MAX_BONUS_ROOM = 0.1267;
-	public static final double[][] DUNGEON_DIFFICULTY_RATIO_BONUS =
-		{
-				{ 0 },
-				{ -0.076, 0.0507 },
-				{ -0.152, 0.019, 0.95 },
-				{ -0.228, -0.076, 0.0633, 0.1457 },
-				{ -0.304, -0.1267, 0.0380, 0.114, 0.19 } };
+	public static final double[][] DUNGEON_DIFFICULTY_RATIO_BONUS = {
+		{ 0 },
+		{ -0.076, 0.0507 },
+		{ -0.152, 0.019, 0.95 },
+		{ -0.228, -0.076, 0.0633, 0.1457 },
+		{ -0.304, -0.1267, 0.0380, 0.114, 0.19 }
+	};
 	/*
 	 * floor types
 	 */
@@ -339,11 +298,12 @@ public class DungeonConstants {
 	public static final double[] NPC_COMBAT_LEVEL_COMPLEXITY_MUL = { 0.70, 0.75, 0.80, 0.85, 0.95, 1.0 };
 
 	// 4x4, 4x8 and 4x8, 2x1(just boss room for test)
-	public static final int[][] DUNGEON_RATIO = { new int[]
-			{ 4, 4 }, new int[]
-					{ 4, 8 }, new int[]
-							{ 8, 8 }, new int[]
-									{ 2, 1 } };
+	public static final int[][] DUNGEON_RATIO = {
+		{ 4, 4 },
+		{ 4, 8 },
+		{ 8, 8 },
+		{ 2, 1 }
+	};
 
 	/*
 	 * door directions
@@ -352,27 +312,24 @@ public class DungeonConstants {
 
 	public static final int[] START_ROOM_MUSICS = { 822, 797, 765, 884, 935 };
 
-	public static final int[][] DANGEROUS_MUSICS =
-		{
-				{ 832, 834, 827, 811, 824, 808, 831, 810, 833, 837 }, //frozen
-				{ 779, 781, 799, 802, 794, 780, 771, 790, 775, 801 }, //abandoned
-				{ 748, 769, 741, 739, 742, 753, 761, 757, 747, 756 }, //furnished
-				{ 873, 882, 880, 860, 886, 872, 885, 889, 870, 864 }, //occult floor
-				{ 930, 914, 917, 911, 927, 939, 938, 920, 925, 936 }, //warped floor
-		};
+	public static final int[][] DANGEROUS_MUSICS = {
+		{ 832, 834, 827, 811, 824, 808, 831, 810, 833, 837 }, //frozen
+		{ 779, 781, 799, 802, 794, 780, 771, 790, 775, 801 }, //abandoned
+		{ 748, 769, 741, 739, 742, 753, 761, 757, 747, 756 }, //furnished
+		{ 873, 882, 880, 860, 886, 872, 885, 889, 870, 864 }, //occult floor
+		{ 930, 914, 917, 911, 927, 939, 938, 920, 925, 936 }, //warped floor
+	};
 
-	public static final int[][] SAFE_MUSICS =
-		{
-				// FROZEN_FLOORS
-				{ 804, 805, 806, 807, 809, 812, 813, 814, 812, 813, 814, 821, 822 }, //frozen
-				{ 772, 773, 775, 776, 777, 778, 788, 789, 791, 792, 793, 795, 796 }, //abandoned
-				{ 740, 744, 745, 749, 750, 751, 752, 754, 755, 758, 760, 762, 764 }, //furnished
-				{ 861, 862, 866, 867, 868, 869, 871, 874, 875, 878, 879, 881, 883 }, //occult
-				{ 912, 915, 918, 919, 921, 923, 926, 928, 929, 931, 932, 933, 934 } //warped floor
-		};
+	public static final int[][] SAFE_MUSICS = {
+		// FROZEN_FLOORS
+		{ 804, 805, 806, 807, 809, 812, 813, 814, 812, 813, 814, 821, 822 }, //frozen
+		{ 772, 773, 775, 776, 777, 778, 788, 789, 791, 792, 793, 795, 796 }, //abandoned
+		{ 740, 744, 745, 749, 750, 751, 752, 754, 755, 758, 760, 762, 764 }, //furnished
+		{ 861, 862, 866, 867, 868, 869, 871, 874, 875, 878, 879, 881, 883 }, //occult
+		{ 912, 915, 918, 919, 921, 923, 926, 928, 929, 931, 932, 933, 934 } //warped floor
+	};
 
-	public static final int[] OTHER_DUNGEONEERING_MUSIC =
-		{ 0, 738, 743, 746, 759, 767, 768, 782, 784, 785, 786, 787, 803, 815, 816, 817, 818, 819, 820, 863, 865, 876, 877, 890, 891, 892, 913, 916, 922, 924, 937, 940, 1089, 1090 };
+	public static final int[] OTHER_DUNGEONEERING_MUSIC =  new int[] { 0, 738, 743, 746, 759, 767, 768, 782, 784, 785, 786, 787, 803, 815, 816, 817, 818, 819, 820, 863, 865, 876, 877, 890, 891, 892, 913, 916, 922, 924, 937, 940, 1089, 1090 };
 
 	public enum GuardianMonster {
 		//ALL FLOORS
@@ -435,8 +392,8 @@ public class DungeonConstants {
 		REBORN_WARRIOR(new int[] { WARPED_FLOORS }, Utils.range(12941, 12951)),
 		ANKOU(new int[] { WARPED_FLOORS }, Utils.range(10736, 10743));
 
-		private static Map<Integer, GuardianMonster> MAP = new HashMap<>();
-		private static Map<Integer, Set<GuardianMonster>> FLOOR_MAP = new HashMap<>();
+		private static final Map<Integer, GuardianMonster> MAP = new HashMap<>();
+		private static final Map<Integer, Set<GuardianMonster>> FLOOR_MAP = new HashMap<>();
 
 		static {
 			for (GuardianMonster g : GuardianMonster.values()) {
@@ -452,10 +409,10 @@ public class DungeonConstants {
 			}
 		}
 
-		private int[] floors;
-		private int[] npcIds;
+		private final int[] floors;
+		private final int[] npcIds;
 
-		private GuardianMonster(int[] floors, int[]... npcIds) {
+		GuardianMonster(int[] floors, int[]... npcIds) {
 			this.floors = floors;
 
 			int totalLen = 0;
@@ -483,158 +440,157 @@ public class DungeonConstants {
 		}
 	}
 
-	public static final int[] HUNTER_CREATURES =
-		{ 11086, 11087, 11088, 11089, 11090, 11091, 11092, 11093, 11094, 11095 };
+	public static final int[] HUNTER_CREATURES = new int[] { 11086, 11087, 11088, 11089, 11090, 11091, 11092, 11093, 11094, 11095 };
 
 	public static final StartRoom[] START_ROOMS = {
-			// FROZEN_FLOORS
-			new StartRoom(14, 632, EAST_DOOR, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR),
-			new StartRoom(14, 624, SOUTH_DOOR),
-			new StartRoom(14, 626, WEST_DOOR, SOUTH_DOOR),
-			new StartRoom(14, 630, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR)
+		// FROZEN_FLOORS
+		new StartRoom(14, 632, EAST_DOOR, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR),
+		new StartRoom(14, 624, SOUTH_DOOR),
+		new StartRoom(14, 626, WEST_DOOR, SOUTH_DOOR),
+		new StartRoom(14, 630, WEST_DOOR, NORTH_DOOR, SOUTH_DOOR)
 	};
 
 	public static final NormalRoom[] NORMAL_ROOMS = {
-			new NormalRoom(8, 240, spot(3, 7), SOUTH_DOOR),
-			new NormalRoom(8, 242, spot(3, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(8, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(8, 246, spot(4, 13), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(8, 248, spot(3, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(8, 240, spot(3, 7), SOUTH_DOOR),
+		new NormalRoom(8, 242, spot(3, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(8, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(8, 246, spot(4, 13), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(8, 248, spot(3, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(8, 256, spot(12, 12), SOUTH_DOOR),
-			new NormalRoom(8, 258, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(8, 260, spot(11, 6), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(8, 262, spot(12, 6), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(8, 264, spot(12, 12), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(8, 256, spot(12, 12), SOUTH_DOOR),
+		new NormalRoom(8, 258, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(8, 260, spot(11, 6), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(8, 262, spot(12, 6), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(8, 264, spot(12, 12), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(10, 240, spot(3, 3), SOUTH_DOOR),
-			new NormalRoom(10, 242, spot(7, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(10, 244, spot(2, 4), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(10, 246, spot(2, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(10, 248, spot(2, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(10, 240, spot(3, 3), SOUTH_DOOR),
+		new NormalRoom(10, 242, spot(7, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(10, 244, spot(2, 4), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(10, 246, spot(2, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(10, 248, spot(2, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(10, 256, spot(8, 12), SOUTH_DOOR),
-			new NormalRoom(10, 258, spot(12, 2), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(10, 260, spot(3, 4), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(10, 262, spot(7, 8), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(10, 264, spot(5, 10), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(10, 256, spot(8, 12), SOUTH_DOOR),
+		new NormalRoom(10, 258, spot(12, 2), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(10, 260, spot(3, 4), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(10, 262, spot(7, 8), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(10, 264, spot(5, 10), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(12, 240, spot(3, 7), SOUTH_DOOR),
-			new NormalRoom(12, 242, spot(11, 7), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(12, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(12, 246, spot(10, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(12, 248, spot(10, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(12, 240, spot(3, 7), SOUTH_DOOR),
+		new NormalRoom(12, 242, spot(11, 7), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(12, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(12, 246, spot(10, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(12, 248, spot(10, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(12, 256, spot(9, 7), SOUTH_DOOR),
-			new NormalRoom(12, 258, spot(3, 6), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(12, 260, spot(4, 10), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(12, 262, spot(9, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(12, 264, spot(3, 6), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(12, 256, spot(9, 7), SOUTH_DOOR),
+		new NormalRoom(12, 258, spot(3, 6), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(12, 260, spot(4, 10), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(12, 262, spot(9, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(12, 264, spot(3, 6), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(14, 240, spot(7, 10), SOUTH_DOOR),
+		new NormalRoom(14, 240, spot(7, 10), SOUTH_DOOR),
 
-			new NormalRoom(14, 256, spot(4, 13), SOUTH_DOOR),
-			new NormalRoom(14, 258, spot(12, 9), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(14, 260, spot(12, 13), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(14, 262, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(14, 264, spot(11, 13), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(14, 256, spot(4, 13), SOUTH_DOOR),
+		new NormalRoom(14, 258, spot(12, 9), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(14, 260, spot(12, 13), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(14, 262, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(14, 264, spot(11, 13), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(16, 240, spot(7, 10), SOUTH_DOOR),
+		new NormalRoom(16, 240, spot(7, 10), SOUTH_DOOR),
 
-			new NormalRoom(16, 256, spot(4, 12), SOUTH_DOOR),
-			new NormalRoom(16, 258, spot(7, 11), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(16, 260, spot(4, 3), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(16, 262, spot(7, 8), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(16, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(16, 256, spot(4, 12), SOUTH_DOOR),
+		new NormalRoom(16, 258, spot(7, 11), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(16, 260, spot(4, 3), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(16, 262, spot(7, 8), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(16, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(18, 240, spot(7, 10), SOUTH_DOOR),
-			new NormalRoom(18, 260, spot(5, 12), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(18, 264, spot(3, 12), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(18, 240, spot(7, 10), SOUTH_DOOR),
+		new NormalRoom(18, 260, spot(5, 12), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(18, 264, spot(3, 12), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(20, 240, spot(9, 13), SOUTH_DOOR),
+		new NormalRoom(20, 240, spot(9, 13), SOUTH_DOOR),
 
-			new NormalRoom(20, 258, spot(11, 9), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(20, 258, spot(11, 9), SOUTH_DOOR, WEST_DOOR),
 
-			new NormalRoom(22, 240, spot(8, 9), SOUTH_DOOR),
+		new NormalRoom(22, 240, spot(8, 9), SOUTH_DOOR),
 
-			new NormalRoom(22, 256, spot(7, 10), SOUTH_DOOR),
-			new NormalRoom(22, 258, spot(11, 10), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(22, 260, spot(7, 8), SOUTH_DOOR, NORTH_DOOR),
-			new NormalRoom(22, 262, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
-			new NormalRoom(22, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(22, 256, spot(7, 10), SOUTH_DOOR),
+		new NormalRoom(22, 258, spot(11, 10), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(22, 260, spot(7, 8), SOUTH_DOOR, NORTH_DOOR),
+		new NormalRoom(22, 262, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR),
+		new NormalRoom(22, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(24, 242, spot(7, 7), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(24, 242, spot(7, 7), SOUTH_DOOR, WEST_DOOR),
 
-			new NormalRoom(24, 258, spot(12, 10), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(24, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(24, 258, spot(12, 10), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(24, 264, spot(7, 7), SOUTH_DOOR, NORTH_DOOR, WEST_DOOR, EAST_DOOR),
 
-			new NormalRoom(26, 242, spot(9, 9), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(26, 242, spot(9, 9), SOUTH_DOOR, WEST_DOOR),
 
-			new NormalRoom(28, 246, spot(11, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(30, 244, spot(3, 6), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(32, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(34, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(36, 248, spot(2, 13), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(38, 246, spot(12, 10), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(40, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(42, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(44, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(46, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(48, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(50, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(28, 246, spot(11, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(30, 244, spot(3, 6), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(32, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(34, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(36, 248, spot(2, 13), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(38, 246, spot(12, 10), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(40, 244, spot(3, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(42, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(44, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(46, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(48, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(50, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
 
-			new NormalRoom(52, 240, spot(7, 11), SOUTH_DOOR),
-			new NormalRoom(54, 240, spot(8, 11), SOUTH_DOOR),
-			new NormalRoom(56, 240, spot(3, 10), SOUTH_DOOR),
-			new NormalRoom(58, 240, spot(3, 12), SOUTH_DOOR),
-			new NormalRoom(60, 240, spot(9, 12), SOUTH_DOOR),
-			new NormalRoom(62, 240, spot(12, 12), SOUTH_DOOR),
-			new NormalRoom(64, 240, spot(2, 12), SOUTH_DOOR),
-			new NormalRoom(66, 240, spot(8, 10), SOUTH_DOOR),
-			new NormalRoom(68, 240, spot(3, 7), SOUTH_DOOR),
-			new NormalRoom(70, 240, spot(8, 12), SOUTH_DOOR),
-			new NormalRoom(72, 240, spot(12, 7), SOUTH_DOOR),
-			new NormalRoom(74, 240, spot(4, 10), SOUTH_DOOR),
-			new NormalRoom(76, 240, spot(8, 7), SOUTH_DOOR),
-			new NormalRoom(78, 240, spot(3, 4), SOUTH_DOOR),
+		new NormalRoom(52, 240, spot(7, 11), SOUTH_DOOR),
+		new NormalRoom(54, 240, spot(8, 11), SOUTH_DOOR),
+		new NormalRoom(56, 240, spot(3, 10), SOUTH_DOOR),
+		new NormalRoom(58, 240, spot(3, 12), SOUTH_DOOR),
+		new NormalRoom(60, 240, spot(9, 12), SOUTH_DOOR),
+		new NormalRoom(62, 240, spot(12, 12), SOUTH_DOOR),
+		new NormalRoom(64, 240, spot(2, 12), SOUTH_DOOR),
+		new NormalRoom(66, 240, spot(8, 10), SOUTH_DOOR),
+		new NormalRoom(68, 240, spot(3, 7), SOUTH_DOOR),
+		new NormalRoom(70, 240, spot(8, 12), SOUTH_DOOR),
+		new NormalRoom(72, 240, spot(12, 7), SOUTH_DOOR),
+		new NormalRoom(74, 240, spot(4, 10), SOUTH_DOOR),
+		new NormalRoom(76, 240, spot(8, 7), SOUTH_DOOR),
+		new NormalRoom(78, 240, spot(3, 4), SOUTH_DOOR),
 
-			new NormalRoom(62, 242, spot(13, 11), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(62, 244, spot(2, 3), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(62, 246, spot(13, 11), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(62, 248, spot(2, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(64, 242, spot(7, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(64, 244, spot(13, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(64, 246, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(64, 248, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(66, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(66, 244, spot(3, 4), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(66, 246, spot(12, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(66, 248, spot(3, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(68, 242, spot(12, 8), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(68, 244, spot(5, 8), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(68, 246, spot(5, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(70, 242, spot(11, 10), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(70, 244, spot(8, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(70, 246, spot(8, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(72, 242, spot(9, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(72, 244, spot(10, 8), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(72, 246, spot(11, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(72, 248, spot(8, 5), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(74, 242, spot(3, 6), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(74, 244, spot(7, 5), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(74, 246, spot(3, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(74, 248, spot(2, 6), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(76, 242, spot(11, 9), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(76, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(76, 246, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(76, 248, spot(7, 11), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
-			new NormalRoom(78, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(78, 244, spot(12, 12), NORTH_DOOR, SOUTH_DOOR),
-			new NormalRoom(78, 246, spot(12, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
-			new NormalRoom(78, 248, spot(2, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR), };
+		new NormalRoom(62, 242, spot(13, 11), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(62, 244, spot(2, 3), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(62, 246, spot(13, 11), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(62, 248, spot(2, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(64, 242, spot(7, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(64, 244, spot(13, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(64, 246, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(64, 248, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(66, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(66, 244, spot(3, 4), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(66, 246, spot(12, 12), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(66, 248, spot(3, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(68, 242, spot(12, 8), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(68, 244, spot(5, 8), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(68, 246, spot(5, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(70, 242, spot(11, 10), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(70, 244, spot(8, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(70, 246, spot(8, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(72, 242, spot(9, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(72, 244, spot(10, 8), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(72, 246, spot(11, 8), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(72, 248, spot(8, 5), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(74, 242, spot(3, 6), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(74, 244, spot(7, 5), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(74, 246, spot(3, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(74, 248, spot(2, 6), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(76, 242, spot(11, 9), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(76, 244, spot(7, 7), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(76, 246, spot(7, 7), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(76, 248, spot(7, 11), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+		new NormalRoom(78, 242, spot(12, 12), SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(78, 244, spot(12, 12), NORTH_DOOR, SOUTH_DOOR),
+		new NormalRoom(78, 246, spot(12, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR),
+		new NormalRoom(78, 248, spot(2, 3), NORTH_DOOR, SOUTH_DOOR, WEST_DOOR, EAST_DOOR),
+	};
 
-	public static enum MapRoomIcon {
-
+	public enum MapRoomIcon {
 		MAP_1(2791, true, SOUTH_DOOR),
 		MAP_2(2792, true, WEST_DOOR),
 		MAP_3(2793, true, NORTH_DOOR),
@@ -655,11 +611,11 @@ public class DungeonConstants {
 		MAP_18(2789, false, NORTH_DOOR),
 		MAP_19(2790, false, EAST_DOOR);
 
-		private int[] doorsDirections;
-		private int spriteId;
-		private boolean open;
+		private final int[] doorsDirections;
+		private final int spriteId;
+		private final boolean open;
 
-		private MapRoomIcon(int spriteId, boolean open, int... doorsDirections) {
+		MapRoomIcon(int spriteId, boolean open, int... doorsDirections) {
 			this.doorsDirections = doorsDirections;
 			this.open = open;
 			this.spriteId = spriteId;
@@ -702,17 +658,19 @@ public class DungeonConstants {
 	}
 
 	public static final int[][] PUZZLE_DOOR_ORDER = {
-			{ SOUTH_DOOR, WEST_DOOR },
-			{ SOUTH_DOOR, EAST_DOOR },
-			{ SOUTH_DOOR, NORTH_DOOR },
-			{ SOUTH_DOOR, NORTH_DOOR, WEST_DOOR },
-			{ SOUTH_DOOR, EAST_DOOR, WEST_DOOR },
-			{ SOUTH_DOOR, EAST_DOOR, NORTH_DOOR },
-			{ SOUTH_DOOR, EAST_DOOR, NORTH_DOOR, WEST_DOOR }, };
+		{ SOUTH_DOOR, WEST_DOOR },
+		{ SOUTH_DOOR, EAST_DOOR },
+		{ SOUTH_DOOR, NORTH_DOOR },
+		{ SOUTH_DOOR, NORTH_DOOR, WEST_DOOR },
+		{ SOUTH_DOOR, EAST_DOOR, WEST_DOOR },
+		{ SOUTH_DOOR, EAST_DOOR, NORTH_DOOR },
+		{ SOUTH_DOOR, EAST_DOOR, NORTH_DOOR, WEST_DOOR },
+	};
 
 	public static final HandledRoom[] PUZZLE_ROOMS;
 
-	public static enum Puzzle {
+	// TODO: Some dungeoneering puzzle rooms are disabled
+	public enum Puzzle {
 		CRYSTAL_PUZZLE(12, CrystalPuzzleRoom.class, all(spot(13, 5)), false),
 		TOXIN_MAZE(20, ToxinMaze.class, all(spot(7, 8)), false),
 		FLIP_TILES(24, FlipTilesRoom.class, list(spot(1, 3), spot(1, 12), spot(1, 3), spot(14, 11), spot(14, 11), spot(1, 9), spot(1, 3))),
@@ -728,20 +686,20 @@ public class DungeonConstants {
 		//SLIDING_TILES(76, SlidingTilesRoom.class, list(spot(1, 2), spot(13, 7), spot(1, 2), spot(13, 7), spot(1, 2), spot(13, 7), spot(1, 2)))
 		;
 
-		private int chunkX;
-		private Class<? extends VisibleRoom> clazz;
-		private boolean allowResources;
-		private int[][] keys;
+		private final int chunkX;
+		private final Class<? extends VisibleRoom> clazz;
+		private final boolean allowResources;
+		private final int[][] keys;
 
-		private Puzzle(int chunkX, Class<? extends VisibleRoom> clazz) {
+		Puzzle(int chunkX, Class<? extends VisibleRoom> clazz) {
 			this(chunkX, clazz, null);
 		}
 
-		private Puzzle(int chunkX, Class<? extends VisibleRoom> clazz, int[][] key) {
+		Puzzle(int chunkX, Class<? extends VisibleRoom> clazz, int[][] key) {
 			this(chunkX, clazz, key, true);
 		}
 
-		private Puzzle(int chunkX, Class<? extends VisibleRoom> clazz, int[][] keys, boolean allowResources) {
+		Puzzle(int chunkX, Class<? extends VisibleRoom> clazz, int[][] keys, boolean allowResources) {
 			this.chunkX = chunkX;
 			this.clazz = clazz;
 			this.keys = keys;
@@ -801,8 +759,7 @@ public class DungeonConstants {
 	}
 
 	private static int[] spot(int x, int y) {
-		return new int[]
-				{ x, y };
+		return new int[] { x, y };
 	}
 
 	static {
@@ -866,159 +823,119 @@ public class DungeonConstants {
 		//78 Coloured ferrets (1, 3), (14, 4), (2, 13), (2, 2), (3, 5), (2, 2), (1, 6)
 	}
 
-	public static final BossRoom[][] BOSS_ROOMS =
+	public static final BossRoom[][] BOSS_ROOMS = {
+		// FROZEN_FLOORS
 		{
-				// FROZEN_FLOORS
-				{
+			// To'Kash The Blood Chiller
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10024, 5, 10, false, DungeonConstants.BOSS_NPC), 820, 9, 26, 626),
 
-					//To'Kash The Blood Chiller
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10024, 5, 10, false, DungeonConstants.BOSS_NPC), 820, 9, 26, 626)
+			// Plane-freezer Lakhrahnaz
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9929, 7, 11, false, DungeonConstants.BOSS_NPC), 819, 6, 26, 624),
 
-					//Plane-freezer Lakhrahnaz
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9929, 7, 11, false, DungeonConstants.BOSS_NPC), 819, 6, 26, 624)
+			// Luminscent Icefiend
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9912, 7, 11, false, DungeonConstants.BOSS_NPC), 818, 3, 26, 626),
 
-					//Luminscent Icefiend
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9912, 7, 11, false, DungeonConstants.BOSS_NPC), 818, 3, 26, 626)
+			// Icy Bones
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10040, 7, 11, false, DungeonConstants.BOSS_NPC), 815, 1, 24, 626),
 
-					//Icy Bones
+			// Gluttonous behemoth
+			new BossRoom((dungeon, reference) -> {
+				dungeon.spawnNPC(reference, 9948, 5, 10, false, DungeonConstants.BOSS_NPC);
+				dungeon.spawnObject(reference, 49283, ObjectType.SCENERY_INTERACT, 3, 0, 11);
+				if (dungeon.getParty().getTeam().size() >= 2)
+					dungeon.spawnObject(reference, 49283, ObjectType.SCENERY_INTERACT, 0, 11, 11);
+			}, 817, 1, 28, 624),
 
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10040, 7, 11, false, DungeonConstants.BOSS_NPC), 815, 1, 24, 626)
+			// Astea Frostweb
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9965, 8, 12, false, DungeonConstants.BOSS_NPC), 816, 1, 30, 624),
+		},
+		// ABANDONED BOSSES
+		{
+			//Bal'Lak The Pummeler
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10128, 6, 8, false, DungeonConstants.BOSS_NPC), 786, 33, 26, 642),
 
-					// Gluttonous behemoth
+			//Shadow-forger Ihlakhizan
+			// new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10143, 6, 6, false, BOSS_NPC), 783, 30, 28, 640),
 
-					,
-					new BossRoom((dungeon, reference) -> {
-						dungeon.spawnNPC(reference, 9948, 5, 10, false, DungeonConstants.BOSS_NPC);
-						dungeon.spawnObject(reference, 49283, ObjectType.SCENERY_INTERACT, 3, 0, 11);
-						if (dungeon.getParty().getTeam().size() >= 2)
-							dungeon.spawnObject(reference, 49283, ObjectType.SCENERY_INTERACT, 0, 11, 11);
-					}, 817, 1, 28, 624),
+			//Unholy cursebearer
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10111, 6, 8, false, DungeonConstants.BOSS_NPC), 784, 15, 26, 640),
 
-					// Astea Frostweb
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9965, 8, 12, false, DungeonConstants.BOSS_NPC), 816, 1, 30, 624) },
-				//ABANDONED BOSSES
-				{
-						//Bal'Lak The Pummeler
-						new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10128, 6, 8, false, DungeonConstants.BOSS_NPC), 786, 33, 26, 642),
+			//Bulwark beast
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10073, 5, 10, false, DungeonConstants.BOSS_NPC), 785, 12, 24, 642),
 
-						/*//Shadow-forger Ihlakhizan
-			new BossRoom(new RoomEvent() {
-				@Override
-				public void openRoom(DungeonManager dungeon, RoomReference reference) {
-					dungeon.spawnNPC(reference, 10143, 6, 6, false, BOSS_NPC);
-				}
-			}, 783, 30, 28, 640),*/
+			//Hobgoblin Geomancer
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10059, 6, 8, false, DungeonConstants.BOSS_NPC), 787, 12, 24, 640),
 
-						//Unholy cursebearer
-						new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10111, 6, 8, false, DungeonConstants.BOSS_NPC), 784, 15, 26, 640),
+			//Divine Skinweaver
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10058, 5, 2, false, DungeonConstants.BOSS_NPC), 782, 12, 30, 640)
+		},
+		// FURNISHED BOSSES
+		{
+			//Night-gazer Khighorahk
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9725, 6, 6, false, DungeonConstants.BOSS_NPC), 759, 26, 24, 656),
 
-						//Bulwark beast
-						new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10073, 5, 10, false, DungeonConstants.BOSS_NPC), 785, 12, 24, 642),
+			//Sagittare
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9753, 6, 6, false, DungeonConstants.BOSS_NPC), 768, 23, 24, 658),
 
-						//Hobgoblin Geomancer
-						new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10059, 6, 8, false, DungeonConstants.BOSS_NPC), 787, 12, 24, 640),
+			//Lexicus Runewright
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9842, 8, 7, false, DungeonConstants.BOSS_NPC), 738, 20, 26, 658),
 
-						//Divine Skinweaver
-						new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 10058, 5, 2, false, DungeonConstants.BOSS_NPC), 782, 12, 30, 640) },
-				//FURNISHED BOSSES
-				{
+			//Lakk The Rift Splitter
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9898, 6, 6, false, DungeonConstants.BOSS_NPC), 767, 18, 28, 656),
 
-							//Night-gazer Khighorahk
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9725, 6, 6, false, DungeonConstants.BOSS_NPC), 759, 26, 24, 656)
+			//Stomp
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9782, 6, 9, false, DungeonConstants.BOSS_NPC), 743, 18, 30, 656),
 
-							//Sagittare
-							,
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9753, 6, 6, false, DungeonConstants.BOSS_NPC), 768, 23, 24, 658)
+			//Rammernaut
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9767, 7, 7, false, DungeonConstants.BOSS_NPC), 746, 18, 26, 656)
+		},
+		//
+		{
+			//Yk'lagoor the thunderous
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11872, 5, 5, false, DungeonConstants.BOSS_NPC), 890, 45, 26, 672),
 
-							//Lexicus Runewright
-							,
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9842, 8, 7, false, DungeonConstants.BOSS_NPC), 738, 20, 26, 658)
+			//Flesh-spoiler Haasghenahk
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11925, 8, 7, false, DungeonConstants.BOSS_NPC), 892, 42, 24, 674),
 
-							//Lakk The Rift Splitter
-							,
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9898, 6, 6, false, DungeonConstants.BOSS_NPC), 767, 18, 28, 656),
+			//Necro Lord
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11737, 7, 10, false, DungeonConstants.BOSS_NPC), 876, 39, 30, 672),
 
-							//Stomp
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9782, 6, 9, false, DungeonConstants.BOSS_NPC), 743, 18, 30, 656)
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11708, 5, 5, false, DungeonConstants.BOSS_NPC), 891, 36, 28, 672),
 
-							//Rammernaut
-							,
-							new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 9767, 7, 7, false, DungeonConstants.BOSS_NPC), 746, 18, 26, 656)
+			//Runebound Behemoth
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11812, 6, 8, false, DungeonConstants.BOSS_NPC), 877, 36, 26, 674),
 
-				},
+			//Skeletal Trio
+			new BossRoom((dungeon, reference) -> {
+				dungeon.spawnNPC(reference, 11940, 5, 6, false, DungeonConstants.BOSS_NPC);
+				dungeon.spawnNPC(reference, 12044, 7, 9, false, DungeonConstants.BOSS_NPC);
+				dungeon.spawnNPC(reference, 11999, 7, 6, false, DungeonConstants.BOSS_NPC);
+			}, 865, 36, 24, 672),
 
-				{
+		},
+		//
+		//201 5513 0 for blink
+		{
 
-					//Yk'lagoor the thunderous
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11872, 5, 5, false, DungeonConstants.BOSS_NPC), 890, 45, 26, 672)
+			// Warmonger
+			// new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12752, 6, 9, false, DungeonConstants.BOSS_NPC), 924, 57, 24, 690),
 
-					//Flesh-spoiler Haasghenahk
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11925, 8, 7, false, DungeonConstants.BOSS_NPC), 892, 42, 24, 674)
+			// World Gorger
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12478, 5, 6, false, DungeonConstants.BOSS_NPC), 937, 54, 26, 690),
 
-					//Necro Lord
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11737, 7, 10, false, DungeonConstants.BOSS_NPC), 876, 39, 30, 672)
+			// Hope Devourer
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12886, 8, 6, false, DungeonConstants.BOSS_NPC), 916, 51, 30, 688),
 
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11708, 5, 5, false, DungeonConstants.BOSS_NPC), 891, 36, 28, 672)
+			// Blink
+			// new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12865, 5, 6, false, BOSS_NPC), 940, 48, 24, 688),
 
-					//Runebound Behemoth
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 11812, 6, 8, false, DungeonConstants.BOSS_NPC), 877, 36, 26, 674)
+			// Dreadnaut
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12848, 7, 5, false, DungeonConstants.BOSS_NPC), 913, 48, 28, 688),
 
-					//Skeletal Trio
-					,
-					new BossRoom((dungeon, reference) -> {
-						dungeon.spawnNPC(reference, 11940, 5, 6, false, DungeonConstants.BOSS_NPC);
-						dungeon.spawnNPC(reference, 12044, 7, 9, false, DungeonConstants.BOSS_NPC);
-						dungeon.spawnNPC(reference, 11999, 7, 6, false, DungeonConstants.BOSS_NPC);
-					}, 865, 36, 24, 672)
-
-				},
-
-				//201 5513 0 for blink
-				{
-
-					/*//Warmonger
-			new BossRoom(new RoomEvent() {
-				@Override
-				public void openRoom(DungeonManager dungeon, RoomReference reference) {
-					dungeon.spawnNPC(reference, 12752, 6, 9, false, BOSS_NPC);
-				}
-
-			}, 924, 57, 24, 690)
-
-			//World Gorger
-			,*/
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12478, 5, 6, false, DungeonConstants.BOSS_NPC), 937, 54, 26, 690)
-
-					//Hope Devourer
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12886, 8, 6, false, DungeonConstants.BOSS_NPC), 916, 51, 30, 688)
-
-					//Blink
-					/*,
-			new BossRoom(new RoomEvent() {
-				@Override
-				public void openRoom(DungeonManager dungeon, RoomReference reference) {
-					dungeon.spawnNPC(reference, 12865, 5, 6, false, BOSS_NPC);
-				}
-
-			}, 940, 48, 24, 688)*/
-
-					//Dreadnaut
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12848, 7, 5, false, DungeonConstants.BOSS_NPC), 913, 48, 28, 688)
-
-					//Warped Gulega
-					,
-					new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12737, 8, 8, false, DungeonConstants.BOSS_NPC), 922, 48, 26, 688) }
-
-		};
+			// Warped Gulega
+			new BossRoom((dungeon, reference) -> dungeon.spawnNPC(reference, 12737, 8, 8, false, DungeonConstants.BOSS_NPC), 922, 48, 26, 688),
+		}
+	};
 
 	public static boolean isDungeonSong(int musicId) {
 		for(int dung_MusicId : START_ROOM_MUSICS)
@@ -1039,19 +956,18 @@ public class DungeonConstants {
 		return false;
 	}
 
-	public static final int[][] WALL_BASE_X_Y =
-		{
-				{ 14, 1, 0, 14 },
-				{ 1, 1, 14, 0 },
-				{ 1, 1, 0, 14 },
-				{ 1, 14, 14, 0 } };
+	public static final int[][] WALL_BASE_X_Y = {
+		{ 14, 1, 0, 14 },
+		{ 1, 1, 14, 0 },
+		{ 1, 1, 0, 14 },
+		{ 1, 14, 14, 0 }
+	};
 
 	public static final int SET_RESOURCES_MAX_TRY = 300;
 
 	public static final int FISH_SPOT_OBJECT_ID = 49922, FISH_SPOT_NPC_ID = 2859;
 
-	public static final long[] FARMING_CYCLES =
-		{ 0, 30000, 60000, Integer.MAX_VALUE };
+	public static final long[] FARMING_CYCLES = { 0, 30000, 60000, Integer.MAX_VALUE };
 	public static final int FARMING_PATCH_BEGINING = 50040, FARMING_PATCH_END = 50189;
 	public static final int EMPTY_FARMING_PATCH = 50038;
 
@@ -1059,23 +975,21 @@ public class DungeonConstants {
 
 	public static final int NORMAL_NPC = 0, GUARDIAN_NPC = 1, FISH_SPOT_NPC = 2, BOSS_NPC = 3, FORGOTTEN_WARRIOR = 4, SLAYER_NPC = 5, HUNTER_NPC = 6, PUZZLE_NPC = 7;
 
-	public static int[] GROUP_GATESTONE_RUNES =
-		{ 17792, 3 };
+	public static int[] GROUP_GATESTONE_RUNES = { 17792, 3 };
 
-	public static final int[][] HOARDSTALKER_ITEMS =
-		{
-				{ 17630, 17424, 17682, 17448, 17797 },
-				{ 17632, 17426, 17684, 17450, 17799 },
-				{ 17634, 17428, 17686, 17452, 17801 },
-				{ 17636, 17430, 17688, 17454, 17803 },
-				{ 17638, 17432, 17700, 17456, 17805 },
-				{ 17640, 17434, 17702, 17458, 17807 },
-				{ 17642, 17436, 17704, 17460, 17809 },
-				{ 17644, 17438, 17706, 17462, 17811 },
-				{ 17646, 17440, 17708, 17464, 17813 },
-				{ 17648, 17442, 17710, 17466, 17815 }, };
+	public static final int[][] HOARDSTALKER_ITEMS = {
+		{ 17630, 17424, 17682, 17448, 17797 },
+		{ 17632, 17426, 17684, 17450, 17799 },
+		{ 17634, 17428, 17686, 17452, 17801 },
+		{ 17636, 17430, 17688, 17454, 17803 },
+		{ 17638, 17432, 17700, 17456, 17805 },
+		{ 17640, 17434, 17702, 17458, 17807 },
+		{ 17642, 17436, 17704, 17460, 17809 },
+		{ 17644, 17438, 17706, 17462, 17811 },
+		{ 17646, 17440, 17708, 17464, 17813 },
+		{ 17648, 17442, 17710, 17466, 17815 },
+	};
 
-	public static final int[] SLAYER_LEVELS =
-		{ 5, 10, 17, 30, 41, 52, 63, 71, 80, 90, 99 };
+	public static final int[] SLAYER_LEVELS = { 5, 10, 17, 30, 41, 52, 63, 71, 80, 90, 99 };
 
 }

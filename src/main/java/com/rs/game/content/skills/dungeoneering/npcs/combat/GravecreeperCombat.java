@@ -46,22 +46,17 @@ public class GravecreeperCombat extends CombatScript {
 				return 4;
 			}
 			boss.setNextForceTalk(new ForceTalk("Burrnnn!"));
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					boss.createBurnTiles(Tile.of(boss.getTile()));
-				}
-			}, 1);
+			WorldTasks.scheduleTimer(1, (ticks) -> {
+				boss.createBurnTiles(Tile.of(boss.getTile()));
+				return false;
+			});
 			boss.setSpecialDelay(World.getServerTicks() + Gravecreeper.BURN_DELAY);
 			if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0)) {
 				boss.setForceFollowClose(true);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						boss.setForceFollowClose(false);
-					}
-				}, 7);
+				WorldTasks.scheduleTimer(7, (ticks) -> {
+					boss.setForceFollowClose(false);
+					return false;
+				});
 			}
 			return 4;
 		}

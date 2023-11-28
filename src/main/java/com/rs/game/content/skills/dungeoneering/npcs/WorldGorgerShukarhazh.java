@@ -33,7 +33,7 @@ public class WorldGorgerShukarhazh extends DungeonBoss {
 				{ 7, 15 },
 				{ 15, 8 } };
 
-	private FamishedEye[] eyes;
+	private final FamishedEye[] eyes;
 
 	public WorldGorgerShukarhazh(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12478, 12492), manager.getBossLevel()), tile, manager, reference);
