@@ -118,7 +118,7 @@ public class IFOnIFEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		InterfaceOnInterfaceHandler handler = (InterfaceOnInterfaceHandler) method;
 		map(handler, false);
-		if (handler.isInterchangeable())
+		if (handler.isBidirectional())
 			map(handler, true);
 	}
 

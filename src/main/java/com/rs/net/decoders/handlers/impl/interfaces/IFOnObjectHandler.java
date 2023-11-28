@@ -71,7 +71,7 @@ public class IFOnObjectHandler implements PacketHandler<Player, IFOnObject> {
 				return;
 			player.resetWalkSteps();
 			if ((packet.getInterfaceId() == 662 && packet.getComponentId() == 74) || (packet.getInterfaceId() == 747 && packet.getComponentId() == 18))
-				player.getFamiliar().executeSpecial(object);
+				player.getFamiliar().castSpecial(object);
 			break;
 		default:
 			PluginManager.handle(new InterfaceOnObjectEvent(player, object, packet.getInterfaceId(), packet.getComponentId(), packet.getSlotId(), false));

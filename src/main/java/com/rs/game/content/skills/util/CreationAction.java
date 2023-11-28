@@ -57,15 +57,14 @@ public class CreationAction extends PlayerAction {
 	}
 
 	public boolean checkAll(Player player) {
-		int pLvl = 1;
 		if (skill >= 0) {
-			pLvl = player.getSkills().getLevel(skill);
+			int pLvl = player.getSkills().getLevel(skill);
 			if (skill == Constants.SUMMONING)
 				pLvl = player.getSkills().getLevelForXp(skill);
-		}
-		if (pLvl < level) {
-			player.sendMessage("You need a " + Constants.SKILL_NAME[skill] + " level of " + level + " to make that.");
-			return false;
+			if (pLvl < level) {
+				player.sendMessage("You need a " + Constants.SKILL_NAME[skill] + " level of " + level + " to make that.");
+				return false;
+			}
 		}
 		return continueNextCycle(player);
 	}

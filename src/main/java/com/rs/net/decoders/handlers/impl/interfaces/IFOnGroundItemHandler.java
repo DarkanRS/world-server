@@ -92,8 +92,9 @@ public class IFOnGroundItemHandler implements PacketHandler<Player, IFOnGroundIt
 							player.sendMessage("You should finish the clue you are currently doing first.");
 							return false;
 						}
-					if (Magic.checkMagicAndRunes(player, 33, true, new RuneSet(Rune.AIR, 1, Rune.LAW, 1))) {
+					if (player.canCastSpell() && Magic.checkMagicAndRunes(player, 33, true, new RuneSet(Rune.AIR, 1, Rune.LAW, 1))) {
 						player.getActionManager().setActionDelay(3);
+						player.addSpellDelay(2);
 						player.resetWalkSteps();
 						player.setNextFaceTile(tile);
 						player.setNextAnimation(new Animation(711));

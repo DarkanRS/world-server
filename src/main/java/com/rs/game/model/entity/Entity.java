@@ -967,7 +967,7 @@ public abstract class Entity {
 	public void loadMapRegions(RegionSize oldSize) {
 		Player player = this instanceof Player p ? p : null;
 		NPC npc = this instanceof NPC n ? n : null;
-		Set<Integer> old = player != null ? new IntOpenHashSet(mapChunkIds) : null;
+		Set<Integer> old = player != null && mapChunkIds != null ? IntSets.synchronize(new IntOpenHashSet(mapChunkIds)) : null;
 		if (player != null)
 			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).removePlayerWatcher(player.getIndex());
 		if (npc != null && npc.isLoadsUpdateZones())
