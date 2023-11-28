@@ -248,9 +248,11 @@ public class FightCavesController extends Controller {
 	@Override
 	public void process() {
 		if (spawned) {
-			if (World.getNPCsInChunkRange(center.getChunkId(), 8).isEmpty()) {
-				spawned = false;
-				nextWave();
+			if (World.getServerTicks() % Ticks.fromSeconds(10) == 0) {
+				if (World.getNPCsInChunkRange(center.getChunkId(), 5).isEmpty()) {
+					spawned = false;
+					nextWave();
+				}
 			}
 		}
 	}

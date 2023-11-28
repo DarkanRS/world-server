@@ -21,6 +21,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -66,6 +67,7 @@ public class SpecialAttacks {
                 if (player.getEquipment().getWeaponId() == 4153)
                     player.setNextSpotAnim(new SpotAnim(340, 0, 96 << 16));
                 delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0));
+                player.soundEffect(2715);
                 return 0;
             }
             return 0;
@@ -87,6 +89,7 @@ public class SpecialAttacks {
             player.getSkills().set(Constants.MAGIC, magic);
             player.getSkills().set(Constants.STRENGTH, strength);
             player.getCombatDefinitions().drainSpec(100);
+            player.soundEffect(2538);
             return 0;
         }));
 
@@ -99,6 +102,7 @@ public class SpecialAttacks {
             player.getSkills().adjustStat(enhanced ? 0 : 8, enhanced ? 0.15 : 0, Skills.DEFENSE);
             player.addEffect(Effect.EXCALIBUR_HEAL, enhanced ? 70 : 35);
             player.getCombatDefinitions().drainSpec(100);
+            player.soundEffect(2539);
             return 0;
         }));
 
@@ -214,6 +218,7 @@ public class SpecialAttacks {
             delayHit(target, p.getTaskDelay(), calculateHit(player, target, true));
             delayHit(target, p2.getTaskDelay(), calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 2);
+            player.soundEffect(2545);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -236,6 +241,7 @@ public class SpecialAttacks {
             WorldProjectile p = World.sendProjectile(player, target, 698, 20, 50, 1);
             delayHit(target, p.getTaskDelay(), hit);
             dropAmmo(player, target, Equipment.AMMO, 1);
+            player.soundEffect(1080);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -256,6 +262,7 @@ public class SpecialAttacks {
                 WorldProjectile p2 = World.sendProjectile(player, target, 1099, 30, 50, 1.5, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
                 delayHit(target, p.getTaskDelay(), hit1);
                 delayHit(target, p2.getTaskDelay(), hit2);
+                player.soundEffect(3736);
             } else {
                 Hit hit1 = calculateHit(player, target, true, true, 1.0, 1.3);
                 if (hit1.getDamage() < 50)
@@ -267,6 +274,7 @@ public class SpecialAttacks {
                 WorldProjectile p2 = World.sendProjectile(player, target, 1101, 30, 50, 1.5);
                 delayHit(target, p.getTaskDelay(), hit1);
                 delayHit(target, p2.getTaskDelay(), hit2);
+                player.soundEffect(3737);
             }
             dropAmmo(player, target, Equipment.AMMO, 2);
             return PlayerCombat.getRangeCombatDelay(player);
@@ -331,6 +339,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0)
                 target.lowerStat(Skills.MAGIC, hit.getDamage()/10, 0.0);
             dropAmmo(player, target);
+            player.soundEffect(2546);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -378,6 +387,7 @@ public class SpecialAttacks {
             if (target instanceof Player p2)
                 p2.setRunEnergy(p2.getRunEnergy() > 25 ? p2.getRunEnergy() - 25 : 0);
             delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.0));
+            player.soundEffect(2713);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -421,6 +431,7 @@ public class SpecialAttacks {
             } else {
                 NPC n = (NPC) target;
                 n.freeze(Ticks.fromSeconds(3), false);
+                player.soundEffect(2544);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -439,7 +450,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
-            player.getPrayer().restorePrayer(hit.getDamage() / 4.0);
+            player.getPrayer().restorePrayer(hit.getDamage() / 4);
             delayNormalHit(target, hit);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -474,6 +485,7 @@ public class SpecialAttacks {
             delayNormalHit(target, hit3);
             if (target instanceof Player other)
                 other.getPrayer().drainPrayer(hit3.getDamage());
+            player.soundEffect(3592);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -486,14 +498,22 @@ public class SpecialAttacks {
         }));
 
         //Vesta's longsword
+        /**
+         * Its special attack, Feint, inflicts 20% more damage and is harder to defend against while only draining 25% of the special bar,
+         * making it deadly as it can be used four times in a row. When activated, the player thrusts the sword out with an exaggerated motion.
+         * The power and accuracy of this attack made the Longsword the only piece of Ancient Warrior's equipment to retain a high price during
+         * the excessive supply before the Anti-76k measures were put in place, due to its fatal capabilities. Only the non-corrupted version
+         * features this attack. After the sword has been used in combat it will become untradeable.
+         */
         addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(10502));
             delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.20));
+            player.soundEffect(2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
         //Statius' warhammer
-        addSpec(new int[] { 13902, 13904 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
+        addSpec(new int[] { 13902, 13904 }, new SpecialAttack(Type.MELEE, 35, (player, target) -> {
             Hit hit1 = calculateHit(player, target, false, true, 1.0, 1.25);
             player.setNextAnimation(new Animation(10505));
             player.setNextSpotAnim(new SpotAnim(1840));
@@ -504,14 +524,21 @@ public class SpecialAttacks {
                     n.lowerDefense(0.30, 0.0);
                 else if (target instanceof Player p)
                     p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
+            player.soundEffect(2520);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
         //Vesta's spear
         addSpec(new int[] { 13905, 13907 }, new SpecialAttack(Type.MELEE, 50, (player, target) -> {
+            final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
             player.setNextAnimation(new Animation(10499));
             player.setNextSpotAnim(new SpotAnim(1835));
-            delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.1));
+            player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5));
+            attackTarget(target, getMultiAttackTargets(player, target, 1, 20), next -> {
+                delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, true, true, 1.0, 1.15));
+                return true;
+            });
+            player.soundEffect(2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -524,6 +551,7 @@ public class SpecialAttacks {
                 delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, true, true, 1.0, 1.2));
                 return true;
             });
+            player.soundEffect(2530);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -583,6 +611,7 @@ public class SpecialAttacks {
                     delayHit(target, 1, hits[i]);
                 else
                     delayNormalHit(target, hits[i]);
+            player.soundEffect(2534);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -617,6 +646,10 @@ public class SpecialAttacks {
                     delayHit(target, 1, hits[i]);
                 else
                     delayNormalHit(target, hits[i]);
+            player.soundEffect(7464);
+            player.soundEffect(7465);
+            player.soundEffect(7466);
+            player.soundEffect(7467);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -628,6 +661,7 @@ public class SpecialAttacks {
             delayNormalHit(target, hitt);
             if (target instanceof Player other)
                 other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
+            player.soundEffect(3481);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -636,6 +670,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(12033));
             player.setNextSpotAnim(new SpotAnim(2117));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.25));
+            player.soundEffect(2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -650,6 +685,7 @@ public class SpecialAttacks {
             delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.1));
             if (target.getSize() > 1)
                 delayHit(target, 1, calculateHit(player, target, false, true, 1.0, 1.1));
+            player.soundEffect(2533);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -721,6 +757,7 @@ public class SpecialAttacks {
                 target.lowerStat(Skills.ATTACK, 0.05, 0.0);
                 target.lowerStat(Skills.STRENGTH, 0.05, 0.0);
                 target.lowerStat(Skills.DEFENSE, 0.05, 0.0);
+                player.soundEffect(225);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -733,6 +770,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0) {
                 target.lowerStat(Skills.DEFENSE, hit.getDamage()/10, 0.0);
                 target.lowerStat(Skills.MAGIC, hit.getDamage()/10, 0.0);
+                player.soundEffect(2531);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -758,6 +796,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0) {
                 target.lowerStat(Skills.DEFENSE, hit.getDamage()/10, 0.0);
             }
+            player.soundEffect(1084);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 

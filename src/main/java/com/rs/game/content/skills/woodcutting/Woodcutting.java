@@ -45,9 +45,9 @@ import com.rs.utils.drop.DropTable;
 @PluginEventHandler
 public class Woodcutting extends Action {
 
-	private int treeId;
-	private GameObject treeObj;
-	private TreeType type;
+	private final int treeId;
+	private final GameObject treeObj;
+	private final TreeType type;
 	private Hatchet hatchet;
 	private int wcLevel = -1;
 
@@ -177,6 +177,7 @@ public class Woodcutting extends Action {
 				return false;
 			if (!player.getInventory().hasFreeSlots()) {
 				player.sendMessage("Not enough space in your inventory.");
+				player.setNextAnimation(new Animation(-1));
 				return false;
 			}
 		} else if (entity instanceof Familiar familiar && familiar.getInventory().freeSlots() == 0)
@@ -280,12 +281,12 @@ public class Woodcutting extends Action {
 						player.getInventory().addItemDrop(item, 1);
 				if (type == TreeType.FRUIT_TREE)
 					return;
-				if (type == TreeType.IVY)
-					player.sendMessage("You succesfully cut an ivy vine.", true);
-				else {
+				if (type == TreeType.IVY) {
+					player.sendMessage("You successfully cut an ivy vine.", true);
+				} else {
 					String logName = ItemDefinitions.getDefs(type.getLogsId()[0]).getName().toLowerCase();
 					player.sendMessage("You get some " + logName + ".", true);
-					if (player.getEquipment().getWeaponId() == 13661 && !(type == TreeType.IVY))
+					if (player.getEquipment().getWeaponId() == 13661)
 						if (Utils.getRandomInclusive(3) == 0) {
 							player.getSkills().addXp(Constants.FIREMAKING, type.getXp() * 1);
 							player.getInventory().deleteItem(type.getLogsId()[0], 1);
@@ -303,7 +304,7 @@ public class Woodcutting extends Action {
 	}
 
 	public boolean checkTree() {
-		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj).setIdNoRefresh(treeId));
+		return ChunkManager.getChunk(treeObj.getTile().getChunkId()).objectExists(new GameObject(treeObj, treeId));
 	}
 
 	@Override

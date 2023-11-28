@@ -26,6 +26,8 @@ public enum FishingSpot {
 
 	CRAYFISH(new int[] { 13431 }, null, new Animation(619), Fish.CRAYFISH),
 	SHRIMP(new int[] { 303 }, null, new Animation(621), Fish.SHRIMP, Fish.ANCHOVIES),
+	KARAMBWANJI(new int[] { 303 }, null, new Animation(621), Fish.KARAMBWANJI),
+	KARAMBWAN(new int[] { 3159 }, new int[] { 3150 }, new Animation(1193), Fish.KARAMBWAN),
 	SEA_BAIT(new int[] { 307 }, new int[] { 313 }, new Animation(622), Fish.SARDINES, Fish.HERRING),
 	GIANT_CARP(new int[] { 307 }, new int[] { 25 }, new Animation(622), Fish.GIANT_CARP),
 	BIG_NET(new int[] { 305 }, null, new Animation(620), Fish.MACKEREL, Fish.COD, Fish.BASS, Fish.SEAWEED, Fish.OYSTER, Fish.CASKET, Fish.LEATHER_BOOTS, Fish.LEATHER_GLOVES),
@@ -46,14 +48,12 @@ public enum FishingSpot {
 	private final int[] bait;
 	private final Animation animation;
 
-	private FishingSpot(int[] tool, int[] bait, Animation animation, Fish... fish) {
+	FishingSpot(int[] tool, int[] bait, Animation animation, Fish... fish) {
 		this.tool = tool;
 		this.bait = bait;
 		this.animation = animation;
 		this.fish = new ArrayList<>(Arrays.asList(fish));
-		this.fish.sort((f1, f2) -> {
-			return f2.getLevel()-f1.getLevel();
-		});
+		this.fish.sort((f1, f2) -> f2.getLevel()-f1.getLevel());
 	}
 
 	public List<Fish> getFish() {

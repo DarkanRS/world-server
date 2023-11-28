@@ -1,0 +1,19 @@
+[
+  {
+    "genre": "Thieves Guild",
+    "comment": "",
+    "isActive": true,
+    "regionIds": [
+      18524, 
+	  19036, 
+	  18522, 
+	  19034
+    ],
+    "songs": [
+      842, 
+	  839, 
+	  838, 
+	  840
+    ]
+  }
+]

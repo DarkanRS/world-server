@@ -1,0 +1,425 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4662,
+      "y": 5903
+    },
+    "comment": "Darren Lightfinger",
+    "npcId": 11273
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4760,
+      "y": 5903
+    },
+    "comment": "Guildmaster Darren Lightfinger",
+    "npcId": 11273
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4632,
+      "y": 5775
+    },
+    "comment": "Guildmaster Darren Lightfinger",
+    "npcId": 11273
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4760,
+      "y": 5775
+    },
+    "comment": "Guildmaster Darren Lightfinger",
+    "npcId": 11273
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4664,
+      "y": 5904
+    },
+    "comment": "Chief Theif Robin",
+    "npcId": 11279
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4762,
+      "y": 5904
+    },
+    "comment": "Chief Theif Robin",
+    "npcId": 11279
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4634,
+      "y": 5776
+    },
+    "comment": "Chief Theif Robin",
+    "npcId": 11279
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4762,
+      "y": 5776
+    },
+    "comment": "Chief Theif Robin",
+    "npcId": 11279
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3209,
+      "y": 3208
+    },
+    "comment": "Chief Theif Robin",
+    "npcId": 11268
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4766,
+      "y": 5919
+    },
+    "comment": "Pickpocket Trainer",
+    "npcId": 11281
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4633,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11282
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4636,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11284
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4639,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11286
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4629,
+      "y": 5791
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11288
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4631,
+      "y": 5790
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11290
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4633,
+      "y": 5789
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11292
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4628,
+      "y": 5793
+    },
+    "comment": "Advanced Pickpocketing Trainer",
+    "npcId": 11296
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4646,
+      "y": 5789
+    },
+    "comment": "Locks and traps trainer",
+    "npcId": 11294
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4638,
+      "y": 5792
+    },
+    "comment": "Pickpocket Trainer",
+    "npcId": 11281
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4618,
+      "y": 5787
+    },
+    "comment": "Dodgy Derek",
+    "npcId": 11298
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4761,
+      "y": 5925
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11282
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4764,
+      "y": 5925
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11284
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4767,
+      "y": 5925
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11286
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4757,
+      "y": 5919
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11289
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4759,
+      "y": 5918
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11291
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4761,
+      "y": 5917
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11293
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4756,
+      "y": 5921
+    },
+    "comment": "Advanced Pickpocketing Trainer",
+    "npcId": 11297
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4774,
+      "y": 5917
+    },
+    "comment": "Locks and traps trainer",
+    "npcId": 11294
+  },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4761,
+        "y": 6053
+      },
+      "comment": "Pickpocketing volunteer",
+      "npcId": 11282
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4764,
+        "y": 6053
+      },
+      "comment": "Pickpocketing volunteer",
+      "npcId": 11284
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4767,
+        "y": 6053
+      },
+      "comment": "Pickpocketing volunteer",
+      "npcId": 11286
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4757,
+        "y": 6047
+      },
+      "comment": "Coshing volunteer",
+      "npcId": 11288
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4759,
+        "y": 6046
+      },
+      "comment": "Coshing volunteer",
+      "npcId": 11290
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4761,
+        "y": 6045
+      },
+      "comment": "Coshing volunteer",
+      "npcId": 11292
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4756,
+        "y": 6049
+      },
+      "comment": "Advanced Pickpocketing Trainer",
+      "npcId": 11296
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4774,
+        "y": 6045
+      },
+      "comment": "Locks and traps trainer",
+      "npcId": 11294
+    },
+    {
+      "tile": {
+        "plane": 0,
+        "x": 4746,
+        "y": 5788
+      },
+      "comment": "Dodgy Derek",
+      "npcId": 11298
+    },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4745,
+      "y": 5795
+    },
+    "comment": "Mr. P",
+    "npcId": 11299
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4761,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11282
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4764,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11284
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4767,
+      "y": 5797
+    },
+    "comment": "Pickpocketing volunteer",
+    "npcId": 11286
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4757,
+      "y": 5791
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11288
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4759,
+      "y": 5790
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11290
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4761,
+      "y": 5789
+    },
+    "comment": "Coshing volunteer",
+    "npcId": 11292
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4756,
+      "y": 5793
+    },
+    "comment": "Advanced Pickpocketing Trainer",
+    "npcId": 11296
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4774,
+      "y": 5789
+    },
+    "comment": "Locks and traps trainer",
+    "npcId": 11294
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 4766,
+      "y": 5792
+    },
+    "comment": "Pickpocket Trainer",
+    "npcId": 11281
+  }
+]

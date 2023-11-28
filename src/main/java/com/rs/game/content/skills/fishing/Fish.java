@@ -19,6 +19,7 @@ package com.rs.game.content.skills.fishing;
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
+import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
 
@@ -27,20 +28,17 @@ import java.util.function.Predicate;
 
 public enum Fish {
     CRAYFISH(13435, 1, 10, 60, 180),
-
+    KARAMBWANJI(3150, 5, 5, 100, 250),
+    KARAMBWAN(3142, 65, 50, 1, 160),
     SHRIMP(317, 1, 10, 60, 180),
     ANCHOVIES(321, 15, 40, 30, 90),
-
     SARDINES(327, 5, 20, 32, 180),
     GIANT_CARP(338, 10, 50, 32, 192),
     HERRING(345, 10, 30, 16, 96),
     TROUT(335, 20, 50, 32, 192),
     SALMON(331, 30, 70, 16, 96),
-
     PIKE(349, 25, 60, 16, 110),
-
     FROGSPAWN(5004, 33, 75, 16, 96),
-
     TUNA(359, 35, 80, 16, 70, (p) -> {
         if (Utils.random(10) == 0)
             if (p.getSkills().getLevel(Constants.AGILITY) >= 35) {
@@ -55,9 +53,7 @@ public enum Fish {
                 p.sendMessage("Your quick reflexes allow you to catch an extra fish!", true);
             }
     }),
-
     LOBSTER(377, 40, 90, 1, 120),
-
     MACKEREL(353, 16, 20, 10, 50),
     COD(341, 23, 45, 6, 30),
     BASS(363, 46, 100, 6, 20),
@@ -66,7 +62,6 @@ public enum Fish {
     LEATHER_GLOVES(1059, 16, 1, 4, 4),
     OYSTER(407, 16, 10, 4, 4),
     CASKET(405, 16, 10, 2, 3),
-
     LEAPING_TROUT(11328, 48, 50, 32, 192, (p) -> {
         return p.getSkills().getLevel(Constants.AGILITY) >= 15 && p.getSkills().getLevel(Constants.STRENGTH) >= 15;
     }, (p) -> {
@@ -86,9 +81,7 @@ public enum Fish {
         p.getSkills().addXp(Constants.AGILITY, 7);
         p.getSkills().addXp(Constants.STRENGTH, 7);
     }),
-
     MONKFISH(7944, 62, 120, 25, 80),
-
     SHARK(383, 76, 110, 1, 37, (p) -> {
         if (Utils.random(10) == 0)
             if (p.getSkills().getLevel(Constants.AGILITY) >= 76) {
@@ -96,41 +89,38 @@ public enum Fish {
                 p.sendMessage("Your quick reflexes allow you to catch an extra fish!", true);
             }
     }),
-
     CAVEFISH(15264, 85, 300, -40, 40),
-
     ROCKTAIL(15270, 90, 385, -35, 35);
 
-    private int id, level;
-    private int rate1, rate99;
-    private double xp;
-    private Predicate<Player> extraReqs;
-    private Consumer<Player> extraRewards;
+    private final int fishId, level, rate1, rate99;
+    private final double xp;
+    private final Predicate<Player> extraRequirements;
+    private final Consumer<Player> extraRewards;
 
-    private Fish(int id, int level, double xp, int rate1, int rate99, Predicate<Player> extraReqs, Consumer<Player> extraRewards) {
-        this.id = id;
+    Fish(int rawItemId, int level, double xp, int rate1, int rate99, Predicate<Player> extraRequirements, Consumer<Player> extraRewards) {
+        this.fishId = rawItemId;
         this.level = level;
         this.xp = xp;
         this.rate1 = rate1;
         this.rate99 = rate99;
-        this.extraReqs = extraReqs;
+        this.extraRequirements = extraRequirements;
         this.extraRewards = extraRewards;
     }
 
-    private Fish(int id, int level, double xp, int rate1, int rate99, Predicate<Player> extraReq) {
-        this(id, level, xp, rate1, rate99, extraReq, null);
+    Fish(int rawItemId, int level, double xp, int rate1, int rate99, Predicate<Player> extraReq) {
+        this(rawItemId, level, xp, rate1, rate99, extraReq, null);
     }
 
-    private Fish(int id, int level, double xp, int rate1, int rate99, Consumer<Player> extraRewards) {
-        this(id, level, xp, rate1, rate99, null, extraRewards);
+    Fish(int rawItemId, int level, double xp, int rate1, int rate99, Consumer<Player> extraRewards) {
+        this(rawItemId, level, xp, rate1, rate99, null, extraRewards);
     }
 
-    private Fish(int id, int level, double xp, int rate1, int rate99) {
-        this(id, level, xp, rate1, rate99, null, null);
+    Fish(int rawItemId, int level, double xp, int rate1, int rate99) {
+        this(rawItemId, level, xp, rate1, rate99, null, null);
     }
 
-    public int getId() {
-        return id;
+    public int getFishId() {
+        return fishId;
     }
 
     public int getLevel() {
@@ -142,7 +132,7 @@ public enum Fish {
     }
 
     public boolean checkRequirements(Player player) {
-        return player.getSkills().getLevel(Constants.FISHING) >= level && (extraReqs != null ? extraReqs.test(player) : true);
+        return player.getSkills().getLevel(Constants.FISHING) >= level && (extraRequirements == null || extraRequirements.test(player));
     }
 
     public boolean rollSuccess(Player player, int level) {
@@ -150,7 +140,26 @@ public enum Fish {
     }
 
     public void giveFish(Player player, FishingSpot spot) {
-        Item fish = new Item(id);
+        Item fish = new Item(fishId);
+        deleteBait(player, spot);
+        double totalXp = xp;
+        if (Fishing.hasFishingSuit(player))
+            totalXp *= 1.025;
+        if (fish.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
+            int random = Utils.random(100);
+            if (random < 30)
+                fish.setId(19947);
+        }
+        player.sendMessage(Fishing.getMessage(this), true);
+        if (fish.getId() != -1)
+            player.getInventory().addItem(fish);
+        player.getSkills().addXp(Constants.FISHING, totalXp);
+        player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
+        if (extraRewards != null)
+            extraRewards.accept(player);
+    }
+
+    public void deleteBait(Player player, FishingSpot spot) {
         int baitToDelete = -1;
         if (spot.getBait() != null)
             for (int bait : spot.getBait())
@@ -160,20 +169,5 @@ public enum Fish {
                 }
         if (baitToDelete != -1)
             player.getInventory().deleteItem(baitToDelete, 1);
-        double totalXp = xp;
-        if (Fishing.hasFishingSuit(player))
-            totalXp *= 1.025;
-        if (fish.getId() == 383 && player.hasEffect(Effect.JUJU_FISHING)) {
-            int random = Utils.random(100);
-            if (random < 30)
-                fish.setId(19947);
-        }
-        player.sendMessage(Fishing.getMessage(spot, this), true);
-        if (fish.getId() != -1)
-            player.getInventory().addItem(fish);
-        player.getSkills().addXp(Constants.FISHING, totalXp);
-        player.incrementCount(fish.getDefinitions().getName() + " caught fishing");
-        if (extraRewards != null)
-            extraRewards.accept(player);
     }
 }

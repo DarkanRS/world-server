@@ -182,7 +182,7 @@ public class PuzzleRoom {
 			toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
 			break;
 		}
-		World.spawnObjectTemporary(new GameObject(object).setIdNoRefresh(83), 2, true);
+		World.spawnObjectTemporary(new GameObject(object, 83), 2, true);
 		World.spawnObjectTemporary(opp, 2, true);
 		player.addWalkSteps(toTile, 3, false);
 
@@ -223,7 +223,7 @@ public class PuzzleRoom {
 			toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
 			break;
 		}
-		World.spawnObjectTemporary(new GameObject(object).setIdNoRefresh(83), 2, true);
+		World.spawnObjectTemporary(new GameObject(object, 83), 2, true);
 		World.spawnObjectTemporary(opp, 2, true);
 		player.addWalkSteps(toTile, 3, false);
 

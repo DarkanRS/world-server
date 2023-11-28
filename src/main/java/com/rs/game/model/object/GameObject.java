@@ -39,30 +39,50 @@ public class GameObject extends WorldObject {
 
 	private transient int originalId = -1;
 	private transient int idChangeTicks = -1;
+	private final int hashCode;
 
 	public GameObject(int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
 		this.routeType = World.getRouteType(id);
+		this.hashCode = genHashCode();
 	}
 
 	public GameObject(int id, int rotation, int x, int y, int plane) {
 		super(id, rotation, x, y, plane);
 		this.routeType = World.getRouteType(id);
+		this.hashCode = genHashCode();
 	}
 
 	public GameObject(int id, ObjectType type, int rotation, int x, int y, int plane) {
 		super(id, type, rotation, x, y, plane);
 		this.routeType = World.getRouteType(id);
+		this.hashCode = genHashCode();
 	}
 
 	public GameObject(WorldObject object) {
 		super(object);
 		this.routeType = World.getRouteType(id);
+		this.hashCode = genHashCode();
 	}
 
 	public GameObject(GameObject object) {
 		super(object);
 		routeType = object.getRouteType();
+		this.hashCode = genHashCode();
+	}
+
+	public GameObject(WorldObject object, int newId) {
+		super(object);
+		this.id = newId;
+		this.routeType = World.getRouteType(newId);
+		this.hashCode = genHashCode();
+	}
+
+	public GameObject(GameObject object, int newId) {
+		super(object);
+		this.id = newId;
+		this.routeType = object.getRouteType();
+		this.hashCode = genHashCode();
 	}
 
 	@Override
@@ -74,6 +94,10 @@ public class GameObject extends WorldObject {
 
 	@Override
 	public int hashCode() {
+		return hashCode;
+	}
+
+	public int genHashCode() {
 		int hash = tile.getTileHash();
 		hash = ((hash << 5) - hash) + id;
 		hash = ((hash << 5) - hash) + rotation;
@@ -130,11 +154,6 @@ public class GameObject extends WorldObject {
 		setId(id);
 		originalId = original;
 		idChangeTicks = ticks;
-	}
-
-	public GameObject setIdNoRefresh(int id) {
-		this.id = id;
-		return this;
 	}
 
 	public GameObject setRouteType(RouteType routeType) {

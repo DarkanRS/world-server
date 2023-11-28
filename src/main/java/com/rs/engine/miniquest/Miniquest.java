@@ -23,17 +23,19 @@ import com.rs.lib.util.Utils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
 public enum Miniquest {
-	ENTER_THE_ABYSS("Enter the Abyss", new Quest[] { Quest.RUNE_MYSTERIES }, null, null),
-	KNIGHTS_WAVE_TRAINING_GROUNDS("Knights Waves Training Grounds", new Quest[] { Quest.KINGS_RANSOM }, null, null),
-	TROLL_WARZONE("Troll Warzone Tutorial", null,null, null),
-	WITCHES_POTION("Witch's Potion", null,null, null),
-	HUNT_FOR_SUROK("The Hunt for Surok", new Quest[] { Quest.WHAT_LIES_BELOW }, Map.of(Skills.MINING, 42, Skills.PRAYER, 43), null),
+	ENTER_THE_ABYSS("Enter the Abyss", new Quest[]{Quest.RUNE_MYSTERIES}, null, null, null),
+	KNIGHTS_WAVE_TRAINING_GROUNDS("Knights Waves Training Grounds", new Quest[]{Quest.KINGS_RANSOM}, null, null, null),
+	TROLL_WARZONE("Troll Warzone Tutorial", null, null, null, null),
+	WITCHES_POTION("Witch's Potion", null, null, null, null),
+	HUNT_FOR_SUROK("The Hunt for Surok", new Quest[]{Quest.WHAT_LIES_BELOW}, null, Map.of(Skills.MINING, 42, Skills.PRAYER, 43), null),
+	FROM_TINY_ACORNS("From Tiny Acorns", new Quest[] { Quest.BUYERS_AND_CELLARS }, null, Map.of(Skills.THIEVING, 24), null),
+	LOST_HER_MARBLES("Lost Her Marbles", null, new Miniquest[] { Miniquest.FROM_TINY_ACORNS }, Map.of(Skills.THIEVING, 41), null),
+	A_GUILD_OF_OUR_OWN("A Guild of Our Own", null, new Miniquest[] { Miniquest.LOST_HER_MARBLES }, Map.of(Skills.THIEVING, 62, Skills.HERBLORE, 46, Skills.AGILITY, 40), null),
 	;
 
 	static {
@@ -55,15 +57,17 @@ public enum Miniquest {
 	}
 
 	private String name;
-	private Quest[] preReqs;
+	private Quest[] questPreReqs;
+	private Miniquest[] miniquestPreReqs;
 	private Map<Integer, Integer> skillReqs;
 	@SuppressWarnings("unused")
 	private Function<Player, Boolean> canStart;
 	private MiniquestOutline handler;
 
-	Miniquest(String name, Quest[] preReqs, Map<Integer, Integer> skillReqs, Function<Player, Boolean> canStart) {
+	Miniquest(String name, Quest[] questPreReqs, Miniquest[] miniquestPreReqs, Map<Integer, Integer> skillReqs, Function<Player, Boolean> canStart) {
 		this.name = name;
-		this.preReqs = preReqs;
+		this.questPreReqs = questPreReqs;
+		this.miniquestPreReqs = miniquestPreReqs;
 		this.skillReqs = skillReqs;
 		this.canStart = canStart;
 	}
@@ -82,10 +86,20 @@ public enum Miniquest {
 
 	public boolean meetsReqs(Player player, String actionStr) {
 		boolean meetsRequirements = true;
-		for (Quest preReq : preReqs) {
-			if (!player.isQuestComplete(preReq, actionStr)) {
-				player.sendMessage("You need to complete " + preReq.getDefs().name + " first.");
-				meetsRequirements = false;
+		if (questPreReqs != null) {
+			for (Quest preReq : questPreReqs) {
+				if (!player.isQuestComplete(preReq, actionStr)) {
+						player.sendMessage("You need to complete " + preReq.getDefs().name + " first.");
+					meetsRequirements = false;
+				}
+			}
+		}
+		if (miniquestPreReqs != null) {
+			for (Miniquest preReq : miniquestPreReqs) {
+				if (!player.isMiniquestComplete(preReq, actionStr)) {
+						player.sendMessage("You need to complete " + preReq.getName() + " first.");
+					meetsRequirements = false;
+				}
 			}
 		}
 		if (skillReqs != null) {
@@ -109,15 +123,15 @@ public enum Miniquest {
 
 		//random quest jingle
 		int jingleNum = Utils.random(0, 4);
-		if(jingleNum == 3)
+		if (jingleNum == 3)
 			jingleNum = 318;
 		else
-			jingleNum+=152;
+			jingleNum += 152;
 		player.jingle(jingleNum);
 
 		player.getInterfaceManager().sendInterface(1244);
 		player.getPackets().setIFItem(1244, 24, itemId, 1);
-		player.getPackets().setIFText(1244, 25, "You have completed "+getName()+"!");
+		player.getPackets().setIFText(1244, 25, "You have completed " + getName() + "!");
 		player.getPackets().sendVarcString(359, line);
 	}
 

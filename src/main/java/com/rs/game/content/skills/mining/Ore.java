@@ -165,7 +165,8 @@ public enum Ore {
 			if (random < 11)
 				player.addEffect(Effect.JUJU_MINE_BANK, 75);
 		}
-		player.sendMessage("You successfully mine " + Utils.addArticle(ore.getDefinitions().getName().toLowerCase()) + ".", true);
+		if (!name().startsWith("STARDUST"))
+			player.sendMessage("You successfully mine " + Utils.addArticle(ore.getDefinitions().getName().toLowerCase()) + ".", true);
 		if (player.hasEffect(Effect.JUJU_MINE_BANK) && !name().startsWith("STARDUST")) {
 			player.getBank().addItem(ore, true);
 			player.setNextSpotAnim(new SpotAnim(2896));

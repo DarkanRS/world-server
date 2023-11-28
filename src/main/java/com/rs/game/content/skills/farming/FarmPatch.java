@@ -19,6 +19,8 @@ package com.rs.game.content.skills.farming;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
+import com.rs.game.content.achievements.AchievementDef;
+import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.woodcutting.TreeType;
 import com.rs.game.content.skills.woodcutting.Woodcutting;
 import com.rs.game.model.entity.player.Player;
@@ -431,6 +433,8 @@ public class FarmPatch {
 		if (seed == null|| watered || diseaseProtected || fullyGrown())
 			return true;
 		if ((seed == ProduceType.Poison_ivy) || seed == ProduceType.Evil_turnip || location.type == PatchType.COMPOST || location == PatchLocation.Trollheim_herbs || location == PatchLocation.Burthorpe_potato_patch)
+			return true;
+		if (location == PatchLocation.Canifis_mushrooms && SetReward.MORYTANIA_LEGS.hasRequirements(player, AchievementDef.Area.MORYTANIA, AchievementDef.Difficulty.ELITE, false))
 			return true;
 		if (seed.type == PatchType.ALLOTMENT) {
 			ProduceType flower = seed.getFlowerProtection();
