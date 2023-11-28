@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.WorldTask;
@@ -49,6 +50,8 @@ public class Runecrafting {
 			COSMIC_TALISMAN = 1454, NATURE_TALISMAN = 1462, CHAOS_TALISMAN = 1452, LAW_TALISMAN = 1458, DEATH_TALISMAN = 1456, BLOOD_TALISMAN = 1450, SOUL_TALISMAN = 1460, ELEMENTAL_TALISMAN = 5516,
 			AIR_TALISMAN_STAFF = 13630, MIND_TALISMAN_STAFF = 13631,  WATER_TALISMAN_STAFF = 13632, EARTH_TALISMAN_STAFF = 13633,  FIRE_TALISMAN_STAFF = 13634,  BODY_TALISMAN_STAFF = 13635,  COSMIC_TALISMAN_STAFF = 13636, CHAOS_TALISMAN_STAFF = 13637,
 			NATURE_TALISMAN_STAFF = 13638, LAW_TALISMAN_STAFF = 13639, DEATH_TALISMAN_STAFF = 13640, BLOOD_TALISMAN_STAFF = 13641, OMNI_TALISMAN_STAFF = 13642, WICKED_HOOD = 22332;
+
+	public static final int BINDING_NECKLACE = 5521;
 
 	public enum RCRune {
 		AIR(1, 5.0, 556, false, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
@@ -147,6 +150,56 @@ public class Runecrafting {
 				player.getInventory().addItem(talisman.getStaffId(), 1);
 			});
 		});
+	}
+
+	public static void craftCombinationRune(Player player, AltarCombination combination) {
+		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < combination.getLevelReq()) {
+			player.sendMessage("You need a runecrafting level of " + combination.getLevelReq() + " to create " + new Item(combination.getOutputRuneId()).getName() + "s.");
+			return;
+		}
+
+		int pureEss = player.getInventory().getNumberOf(PURE_ESS);
+		if (pureEss == 0) {
+			player.simpleDialogue("You don't have enough pure essence.");
+			return;
+		}
+
+		int reagentRunes = player.getInventory().getNumberOf(combination.getReagentRune().id());
+		if (reagentRunes == 0) {
+			player.simpleDialogue("You don't have enough " + new Item(combination.getReagentRune().id()).getName() + "s to create " + new Item(combination.getOutputRuneId()).getName() + "s.");
+			return;
+		}
+
+		if (!player.isCastMagicImbue())
+			player.getInventory().deleteItem(combination.getTalisman().getTalismanId(), 1);
+
+		int maxCraftable = Math.min(reagentRunes, pureEss);
+		player.getInventory().deleteItem(PURE_ESS, maxCraftable);
+		player.getInventory().deleteItem(combination.getReagentRune().id(), maxCraftable);
+
+		double xp = combination.getXp();
+		if (Runecrafting.hasRcingSuit(player))
+			xp *= 1.025;
+
+		String runeName = new Item(combination.getOutputRuneId()).getName();
+		if (player.getEquipment().getAmuletId() == BINDING_NECKLACE) {
+			player.sendMessage("You bind the temple's power into " + runeName + "s.");
+			player.bindingNecklaceCharges--;
+			if (player.bindingNecklaceCharges <= 0) {
+				player.getEquipment().deleteSlot(Equipment.NECK);
+				player.sendMessage("Your binding necklace disintegrates.");
+				player.bindingNecklaceCharges = 15;
+			}
+		} else {
+			player.sendMessage("You attempt to bind " + runeName + "s.");
+			maxCraftable /= 2;
+		}
+		player.getInventory().addItem(combination.getOutputRuneId(), maxCraftable);
+		player.getSkills().addXp(Constants.RUNECRAFTING, xp * maxCraftable);
+	}
+
+	public static boolean canCreateCombinationRune(Player player, AltarCombination combination) {
+		return player.getInventory().containsItems(Runecrafting.PURE_ESS, combination.getReagentRune().id(), combination.getTalisman().getTalismanId());
 	}
 
 	private enum ZMIRune {

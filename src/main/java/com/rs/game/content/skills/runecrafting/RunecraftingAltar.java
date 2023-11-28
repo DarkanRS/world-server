@@ -19,6 +19,7 @@ package com.rs.game.content.skills.runecrafting;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -33,6 +34,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 @PluginEventHandler
 public class RunecraftingAltar {
@@ -62,14 +64,14 @@ public class RunecraftingAltar {
 		ELEMENTAL(-1, 96, 64, 8019, 5516, -1),
 		OMNI(-1, 95, 63, 8020, OMNI_TALISMAN, OMNI_TIARA);
 
-		private int buttonId;
-		private int runeId;
-		private int spriteComp;
-		private int spriteId;
-		private int talismanId;
-		private int tiaraId;
+		private final int buttonId;
+		private final int runeId;
+		private final int spriteComp;
+		private final int spriteId;
+		private final int talismanId;
+		private final int tiaraId;
 
-		private WickedHoodRune(int runeId, int componentId, int spriteComp, int spriteId, int talismanId, int tiaraId) {
+		WickedHoodRune(int runeId, int componentId, int spriteComp, int spriteId, int talismanId, int tiaraId) {
 			buttonId = componentId;
 			this.runeId = runeId;
 			this.spriteComp = spriteComp;
@@ -221,10 +223,10 @@ public class RunecraftingAltar {
 
 	public enum Altar {
 		MIND(1, new int[] { 1448, 5529, 13631 }, Tile.of(2793, 4828, 0), Tile.of(2984, 3515, 0), 2453, 2466),
-		AIR(1, new int[] { 1438, 5527, 13630 }, Tile.of(2841, 4829, 0), Tile.of(3128, 3407, 0), 2452, 2465),
-		WATER(5, new int[] { 1444, 5531, 13632 }, Tile.of(3494, 4832, 0), Tile.of(3183, 3164, 0), 2454, 2467),
-		EARTH(9, new int[] { 1440, 5535, 13633 }, Tile.of(2655, 4830, 0), Tile.of(3306, 3472, 0), 2455, 2468),
-		FIRE(14, new int[] { 1442, 5537, 13634 }, Tile.of(2577, 4846, 0), Tile.of(3312, 3253, 0), 2456, 2469),
+		AIR(1, new int[] { 1438, 5527, 13630 }, Tile.of(2841, 4829, 0), Tile.of(3128, 3407, 0), 2452, 2465, AltarCombination.AIR_TO_MIST, AltarCombination.AIR_TO_DUST, AltarCombination.AIR_TO_SMOKE),
+		WATER(5, new int[] { 1444, 5531, 13632 }, Tile.of(3494, 4832, 0), Tile.of(3183, 3164, 0), 2454, 2467, AltarCombination.WATER_TO_MIST, AltarCombination.WATER_TO_MUD, AltarCombination.WATER_TO_STEAM),
+		EARTH(9, new int[] { 1440, 5535, 13633 }, Tile.of(2655, 4830, 0), Tile.of(3306, 3472, 0), 2455, 2468, AltarCombination.EARTH_TO_DUST, AltarCombination.EARTH_TO_MUD, AltarCombination.EARTH_TO_LAVA),
+		FIRE(14, new int[] { 1442, 5537, 13634 }, Tile.of(2577, 4846, 0), Tile.of(3312, 3253, 0), 2456, 2469, AltarCombination.FIRE_TO_SMOKE, AltarCombination.FIRE_TO_STEAM, AltarCombination.FIRE_TO_LAVA),
 		BODY(20, new int[] { 1446, 5533, 13635 }, Tile.of(2522, 4833, 0), Tile.of(3055, 3444, 0), 2457, 2470),
 		COSMIC(27, new int[] { 1454, 5539, 13636 }, Tile.of(2162, 4833, 0), Tile.of(2408, 4379, 0), 2458, 2471),
 		CHAOS(35, new int[] { 1452, 5543, 13637 }, Tile.of(2281, 4837, 0), Tile.of(3060, 3589, 0), 2461, 2474),
@@ -234,20 +236,34 @@ public class RunecraftingAltar {
 		DEATH(65, new int[] { 1456, 5547, 13640 }, Tile.of(2208, 4830, 0), Tile.of(1862, 4639, 0), 2462, 2475),
 		BLOOD(77, new int[] { 1450, 5549, 13641 }, Tile.of(2468, 4889, 1), Tile.of(3561, 9779, 0), 2464, 2477);
 
-		private int level;
-		private int[] talisman;
-		private Tile inside;
-		private Tile outside;
-		private int objectId;
-		private int portal;
+		private static final HashMap<Integer, Altar> BY_OBJECT_ID = new HashMap<>();
 
-		private Altar(int level, int[] talisman, Tile inside, Tile outside, int objectId, int portal) {
+		static {
+			for (Altar value : values())
+				BY_OBJECT_ID.put(value.objectId, value);
+		}
+
+		public static Altar forId(int objectId) {
+			return BY_OBJECT_ID.get(objectId);
+		}
+
+		private final int level;
+		private final int[] talisman;
+		private final Tile inside;
+		private final Tile outside;
+		private final int objectId;
+		private final int portal;
+
+		private final AltarCombination[] combinationRunes;
+
+		Altar(int level, int[] talisman, Tile inside, Tile outside, int objectId, int portal, AltarCombination... combinationRunes) {
 			this.level = level;
 			this.talisman = talisman;
 			this.inside = inside;
 			this.outside = outside;
 			this.objectId = objectId;
 			this.portal = portal;
+			this.combinationRunes = combinationRunes;
 		}
 
 		public int getLevel() {
@@ -268,25 +284,25 @@ public class RunecraftingAltar {
 		
 		public boolean canEnter(Player player, boolean teleport) {
 			return switch(this) {
-			case COSMIC -> {
-				if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
-					yield false;
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
-			case BLOOD -> {
-				if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
-					yield false;
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
-			default -> {
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
+				case COSMIC -> {
+					if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
+						yield false;
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
+				case BLOOD -> {
+					if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
+						yield false;
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
+				default -> {
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
 			};
 		}
 
@@ -300,6 +316,19 @@ public class RunecraftingAltar {
 
 		public int getPortal() {
 			return portal;
+		}
+
+		public AltarCombination[] getCombinationRunes() {
+			return combinationRunes;
+		}
+
+		public AltarCombination getCombinationForTalisman(RunecraftingTalisman talisman) {
+			for (AltarCombination combo : combinationRunes) {
+				if (talisman != combo.getTalisman())
+					continue;
+				return combo;
+			}
+			return null;
 		}
 	}
 
@@ -316,12 +345,83 @@ public class RunecraftingAltar {
 		return false;
 	}
 
- 	public static ItemOnObjectHandler handleTalismanCreate = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 30624 }, null, e -> {
+	//	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, null, e -> {
+//		Player player = e.getPlayer();
+//		for (CombinationRunes cr : CombinationRunes.values()) {
+//			for (int i = 0; i < cr.altars.length; i++) {
+//				if (e.getObject().getId() == cr.altars[i] || (e.getItem().getId() != cr.getTalismans()[i] && e.getItem().getId() != cr.getRunes()[i])) {
+//					continue;
+//				}
+//				if (player.getSkills().getLevel(Constants.RUNECRAFTING) < cr.getLevel() || player.getInventory().getItems().getNumberOf(cr.getTalismans()[i]) <= 0) {
+//					continue;
+//				}
+//
+//				int pureEss = player.getInventory().getItems().getNumberOf(Runecrafting.PURE_ESS);
+//				int inputRune = player.getInventory().getItems().getNumberOf(cr.getRunes()[i]);
+//				if (pureEss == 0) {
+//					player.simpleDialogue("You don't have enough pure essence.");
+//					return;
+//				}
+//				if (inputRune == 0) {
+//					player.simpleDialogue("You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
+//					return;
+//				}
+//
+//				if (!player.isCastMagicImbue())
+//					player.getInventory().deleteItem(cr.getTalismans()[i], 1);
+//
+//				int maxCraftable = Math.min(inputRune, pureEss);
+//				player.getInventory().deleteItem(Runecrafting.PURE_ESS, maxCraftable);
+//				player.getInventory().deleteItem(cr.getRunes()[i], maxCraftable);
+//				player.setNextSpotAnim(new SpotAnim(186));
+//				player.setNextAnimation(new Animation(791));
+//				player.lock(5);
+//
+//				double xp = cr.getXP()[i];
+//				if (Runecrafting.hasRcingSuit(player))
+//					xp *= 1.025;
+//
+//				String runeName = ItemDefinitions.getDefs(cr.getCombinationRune()).getName();
+//				if (player.getEquipment().getAmuletId() == BINDING_NECKLACE) {
+//					player.sendMessage("You bind the temple's power into " + runeName + "s.");
+//					player.bindingNecklaceCharges--;
+//					if (player.bindingNecklaceCharges <= 0) {
+//						player.getEquipment().deleteSlot(Equipment.NECK);
+//						player.sendMessage("Your binding necklace disintegrates.");
+//						player.bindingNecklaceCharges = 15;
+//					}
+//					return;
+//				} else {
+//					player.sendMessage("You attempt to bind " + runeName + "s.");
+//					maxCraftable /= 2;
+//				}
+//				player.getInventory().addItem(cr.getCombinationRune(), maxCraftable);
+//				player.getSkills().addXp(Constants.RUNECRAFTING, xp * maxCraftable);
+//			}
+//		}
+//	});
+
+
+
+ 	public static ItemOnObjectHandler handleAtlarUse = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 30624, 7936 }, null, e -> {
 		Player player = e.getPlayer();
 		RunecraftingTalisman talisman = RunecraftingTalisman.forId(e.getObjectId());
-		if (talisman != null) {
-			Runecrafting.craftTalisman(player, talisman);
+		if (talisman == null) {
+			return;
 		}
+		Altar altar = Altar.forId(e.getObjectId());
+		if (altar == null) {
+			return;
+		}
+		AltarCombination[] combinations = altar.getCombinationRunes();
+		if (combinations != null) {
+			AltarCombination combination = altar.getCombinationForTalisman(talisman);
+			if (combination != null && Runecrafting.canCreateCombinationRune(player, combination)) {
+				Runecrafting.craftCombinationRune(player, combination);
+				return;
+			}
+		}
+		Runecrafting.craftTalisman(player, talisman);
 	});
 
 	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
