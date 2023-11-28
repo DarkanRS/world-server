@@ -491,7 +491,7 @@ public class PlayerCombat extends PlayerAction {
 							break;
 						case 9243:
 							hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
-							target.setNextSpotAnim(new SpotAnim(751));
+							target.setNextSpotAnim(new SpotAnim(758));
 							soundId = 2913;
 							break;
 						case 9244:
@@ -1808,7 +1808,7 @@ public class PlayerCombat extends PlayerAction {
 			if (weaponName != null && !weaponName.equals("null")) {
 				if (weaponName.contains("boxing gloves"))
 					return 3679;
-				if (weaponName.contains("scimitar") || weaponName.contains("korasi sword"))
+				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword"))
 					return 15074;
 				if (weaponName.contains("whip"))
 					return 11974;
@@ -1824,8 +1824,10 @@ public class PlayerCombat extends PlayerAction {
 					return 397;
 				if (weaponName.contains("mace"))
 					return 403;
+				if (weaponName.contains("dragon claws"))
+					return 13043;
 				if (weaponName.contains("claws"))
-					return 404;
+					return 403;
 				if (weaponName.contains("hatchet"))
 					return 397;
 				if (weaponName.contains("greataxe"))
@@ -1838,6 +1840,8 @@ public class PlayerCombat extends PlayerAction {
 					return 420;
 				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
 					return 403;
+				if (weaponName.contains("chaotic maul") || weaponName.contains("novite maul") || weaponName.contains("bathus maul") || weaponName.contains("marmaros maul") || weaponName.contains("kratonite maul") || weaponName.contains("fractite maul") || weaponName.contains("zephyrium maul") || weaponName.contains("argonite maul") || weaponName.contains("katagon maul") || weaponName.contains("gorgonite maul") || weaponName.contains("promethium maul") || weaponName.contains("primal maul"))
+					return 13054;
 				if (weaponName.contains("maul") || weaponName.contains("tzhaar-ket-om"))
 					return 1666;
 				if (weaponName.contains("zamorakian spear"))

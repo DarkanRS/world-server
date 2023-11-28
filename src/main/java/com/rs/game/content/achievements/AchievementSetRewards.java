@@ -78,6 +78,7 @@ public class AchievementSetRewards {
 			}
 			e.getPlayer().getSkills().set(Constants.SUMMONING, e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING));
 			e.getPlayer().setDailyB("ardyCloakSumm", true);
+			e.getPlayer().setNextSpotAnim(new SpotAnim(7));
 			e.getPlayer().sendMessage("You restore your summoning points.");
 		} else if (e.getOption().equals("Customise"))
 			SkillCapeCustomizer.startCustomizing(e.getPlayer(), e.getItem().getId());
@@ -223,6 +224,7 @@ public class AchievementSetRewards {
 				break;
 			}
 			e.getPlayer().incDailyI("fallyShieldPrayer");
+			e.getPlayer().setNextSpotAnim(new SpotAnim(1964));
 			e.getPlayer().sendMessage("The shield replenishes your prayer points.");
 		}
 	});
