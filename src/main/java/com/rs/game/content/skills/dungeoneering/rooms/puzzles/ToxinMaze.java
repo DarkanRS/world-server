@@ -27,7 +27,6 @@ import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
-import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
@@ -41,18 +40,15 @@ public class ToxinMaze extends PuzzleRoom {
 	private static final int BARRIER = 49341;
 	private static final int BARRIER_ENTRANCE = 49344;
 
-	private static final int[] SWITCH_DOWN =
-		{ 49384, 49385, 49386, 49386, 49386 //TODO: down of 54333, 33675
-		};
+	private static final int[] SWITCH_DOWN = { 49384, 49385, 49386, 49386, 49386 }; //TODO: down of 54333, 33675
 
-	private static final int[][] OBSTACLES =
-		{ //
-				{ 49370, 49371, 49372, 49373, 49374 }, //Frozen
-				{ 49360, 49361, 49362, 49363, 49364 }, //Aba?
-				{ 49365, 49366, 49367, 49368, 49369 }, //Furnished?
-				{ 54412, 54413, 54414, 54415, 54416 }, //Occult?
-				{ 55853, 55854, 55855, 55856, 55857 }, //Warped?
-		};
+	private static final int[][] OBSTACLES = {
+		{ 49370, 49371, 49372, 49373, 49374 }, //Frozen
+		{ 49360, 49361, 49362, 49363, 49364 }, //Abandoned?
+		{ 49365, 49366, 49367, 49368, 49369 }, //Furnished?
+		{ 54412, 54413, 54414, 54415, 54416 }, //Occult?
+		{ 55853, 55854, 55855, 55856, 55857 }, //Warped?
+	};
 
 	private boolean expired;
 	private WorldTask toxinTask;
@@ -98,7 +94,7 @@ public class ToxinMaze extends PuzzleRoom {
 		if (object.getId() == BARRIER || object.getId() == BARRIER_ENTRANCE) {
 			Tile in = Tile.of(object.getX() + Utils.ROTATION_DIR_X[object.getRotation()], object.getY() + Utils.ROTATION_DIR_Y[object.getRotation()], 0);
 			Tile out = Tile.of(object.getX(), object.getY(), 0);
-			Tile target = null;
+			Tile target;
 			int delay = 0;
 			if (player.matches(out))
 				target = in;
@@ -172,21 +168,18 @@ public class ToxinMaze extends PuzzleRoom {
 	 */
 	private int[] availableDoors;
 
-	/**
-	 * The barriers by depth (for linking only)
-	 */
-	private Barrier[][] layers;
-
-	private Set<Connector> connectors = new HashSet<>();
+	private final Set<Connector> connectors = new HashSet<>();
 
 	public void generate() {
 
 		//MAZE GRAPH DO NOT CHANGE, YOU WILL HORRIBLY FUCK THINGS UP
 
-		int[] doorsPerLayer =
-			{ 6, 3, 3, 2, 2 };
+		int[] doorsPerLayer = { 6, 3, 3, 2, 2 };
 
-		layers = new Barrier[doorsPerLayer.length][];
+		/*
+		 * The barriers by depth (for linking only)
+		 */
+		Barrier[][] layers = new Barrier[doorsPerLayer.length][];
 		for (int i = 0; i < layers.length; i++) {
 			layers[i] = new Barrier[doorsPerLayer[i]];
 			for (int j = 0; j < layers[i].length; j++)
@@ -198,7 +191,7 @@ public class ToxinMaze extends PuzzleRoom {
 		BarrierSide north = layers[0][2].outer; //directly connected
 		BarrierSide west = new Barrier(-1).outer;
 
-		//Visual maze graph
+		// Visual maze graph
 		//_________|______|___
 		//______|_______|_____
 		//____|____|__|_______
@@ -264,7 +257,7 @@ public class ToxinMaze extends PuzzleRoom {
 		if (!west.door.visited)
 			connectExit(west);
 
-		//Block ALL non critical connectors
+		//Block ALL non-critical connectors
 		for (Connector connector : connectors)
 			if (!connector.critical)
 				connector.blocked = true;
@@ -478,8 +471,8 @@ public class ToxinMaze extends PuzzleRoom {
 		/**
 		 * Coordinates of where an object can be placed on this path to block it
 		 */
-		private int x;
-		private int y;
+		private final int x;
+		private final int y;
 
 		/**
 		 * Flag set if this connector is a critical part of the generated path

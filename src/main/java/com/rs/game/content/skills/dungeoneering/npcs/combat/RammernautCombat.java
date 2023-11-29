@@ -49,7 +49,7 @@ public class RammernautCombat extends CombatScript {
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 		int chargeCount = getChargeCount(npc);
 
-		if (!(npc instanceof Rammernaut))
+		if (!(npc instanceof Rammernaut rammernaut))
 			return 0;
 
 		if (chargeCount > 1 && target instanceof Player player) {
@@ -74,13 +74,12 @@ public class RammernautCombat extends CombatScript {
 			return npc.getAttackSpeed();
 		}
 
-		if (((Rammernaut) npc).isRequestSpecNormalAttack() && target instanceof Player player) {
-			((Rammernaut) npc).setRequestSpecNormalAttack(false);
+		if (rammernaut.isRequestSpecNormalAttack() && target instanceof Player player) {
+			rammernaut.setRequestSpecNormalAttack(false);
 			player.sendMessage("Your prayers have been disabled.");
 			player.setProtectionPrayBlock(12);
 			player.sendMessage("Your defence been reduced.");
 			player.getSkills().drainLevel(Constants.DEFENSE, Utils.random(3) + 1);
-
 		}
 
 		// default melee attack can be protected with prayer

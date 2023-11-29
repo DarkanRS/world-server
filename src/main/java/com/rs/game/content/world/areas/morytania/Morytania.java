@@ -176,10 +176,6 @@ public class Morytania  {
 		e.getPlayer().ladder(Tile.of(3405, 3506, 0));
 	});
 
-	public static ObjectClickHandler handleHolyBarrier = new ObjectClickHandler(new Object[] { 3443 }, e -> {
-		e.getPlayer().ladder(Tile.of(3423, 3484, 0));
-	});
-
 	public static ObjectClickHandler handleSwampTrapdoorShortcut = new ObjectClickHandler(new Object[] { 5055, 5054 }, e -> {
 		e.getPlayer().ladder(e.getObjectId() == 5055 ? Tile.of(3477, 9845, 0) : Tile.of(3495, 3466, 0));
 	});

@@ -32,10 +32,10 @@ public enum DungHatchet {
 	PROMETHIUM(16379, 90, 1.9, 13127),
 	PRIMAL(16381, 99, 2.0, 13128);
 
-	private int itemId, useLevel, emoteId;
-	private double toolMod;
+	private final int itemId, useLevel, emoteId;
+	private final double toolMod;
 
-	private DungHatchet(int itemId, int useLevel, double toolMod, int emoteId) {
+	DungHatchet(int itemId, int useLevel, double toolMod, int emoteId) {
 		this.itemId = itemId;
 		this.useLevel = useLevel;
 		this.toolMod = toolMod;
@@ -61,8 +61,8 @@ public enum DungHatchet {
 	public static DungHatchet getHatchet(Player player) {
 		for (int i = DungHatchet.values().length-1; i >= 0; i--) {
 			DungHatchet def = DungHatchet.values()[i];
-			if (player.getInventory().containsItem(def.itemId) || player.getEquipment().getWeaponId() == def.itemId)
-				if (player.getSkills().getLevel(Constants.WOODCUTTING) >= def.useLevel)
+			if (player.getInventory().containsItem(def.getItemId()) || player.getEquipment().getWeaponId() == def.getItemId())
+				if (player.getSkills().getLevel(Constants.WOODCUTTING) >= def.getUseLevel())
 					return def;
 		}
 		return null;

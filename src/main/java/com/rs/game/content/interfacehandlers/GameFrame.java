@@ -21,6 +21,7 @@ import com.rs.game.content.world.Rest;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.managers.PriceChecker;
+import com.rs.lib.game.Animation;
 import com.rs.lib.net.ClientPacket;
 import com.rs.net.LobbyCommunicator;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -153,8 +154,10 @@ public class GameFrame {
 	});
 
 	public static ButtonClickHandler handleWorldMap = new ButtonClickHandler(755, e -> {
-		if (e.getComponentId() == 44)
+		if (e.getComponentId() == 44) {
 			e.getPlayer().getInterfaceManager().setWindowsPane(e.getPlayer().resizeable() ? 746 : 548);
+			e.getPlayer().setNextAnimation(new Animation(-1));
+		}
 		else if (e.getComponentId() == 42) {
 			e.getPlayer().getHintIconsManager().removeAll(); //TODO find hintIcon index
 			e.getPlayer().getVars().setVar(1159, 1);
@@ -193,6 +196,7 @@ public class GameFrame {
 				return;
 			}
 			e.getPlayer().getInterfaceManager().setTopInterface(755, false);
+			e.getPlayer().setNextAnimation(new Animation(840));
 			int posHash = e.getPlayer().getX() << 14 | e.getPlayer().getY();
 			e.getPlayer().getPackets().sendVarc(622, posHash); // map open center pos
 			e.getPlayer().getPackets().sendVarc(674, posHash); // player position

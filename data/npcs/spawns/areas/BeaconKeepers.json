@@ -1,0 +1,47 @@
+[
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3344,
+      "y": 3509
+    },
+    "comment": "Squire Fyre",
+    "npcId": 8042
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3169,
+      "y": 3536
+    },
+    "comment": "Waldo",
+    "npcId": 8069
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 3033,
+      "y": 3518
+    },
+    "comment": "Fintan",
+    "npcId": 8071
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2971,
+      "y": 3515
+    },
+    "comment": "Stubthumb",
+    "npcId": 8072
+  },
+  {
+    "tile": {
+      "plane": 0,
+      "x": 2945,
+      "y": 3622
+    },
+    "comment": "Crate",
+    "npcId": 8074
+  }
+  ]

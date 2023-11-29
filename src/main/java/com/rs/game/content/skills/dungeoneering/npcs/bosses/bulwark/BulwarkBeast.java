@@ -31,7 +31,7 @@ import com.rs.lib.util.Utils;
 public final class BulwarkBeast extends DungeonBoss {
 
 	private int shieldHP;
-	private int maxShieldHP;
+	private final int maxShieldHP;
 
 	public BulwarkBeast(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10073, 10106, 2), manager.getBossLevel()), tile, manager, reference);
@@ -50,7 +50,7 @@ public final class BulwarkBeast extends DungeonBoss {
 			return;
 		hit.setDamage(0);
 		Entity source = hit.getSource();
-		if (source == null || !(source instanceof Player playerSource) || (hit.getLook() != HitLook.MELEE_DAMAGE))
+		if (!(source instanceof Player playerSource) || (hit.getLook() != HitLook.MELEE_DAMAGE))
 			return;
 		int weaponId = playerSource.getEquipment().getWeaponId();
 		if (weaponId != -1 && DungPickaxe.getBest(playerSource) != null) {

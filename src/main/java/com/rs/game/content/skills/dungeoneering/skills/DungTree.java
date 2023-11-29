@@ -32,13 +32,10 @@ public enum DungTree {
 	ENTGALLOW_TREE(80, 285, 17698, 150, 170),
 	GRAVE_CREEPER_TREE(90, 330, 17700, 150, 170);
 
-	private int level;
-	private double xp;
-	private int logsId;
-	private int rate1;
-	private int rate99;
+	private final int level, logsId, rate1, rate99;
+	private final double xp;
 
-	private DungTree(int level, double xp, int logsId, int rate1, int rate99) {
+	DungTree(int level, double xp, int logsId, int rate1, int rate99) {
 		this.level = level;
 		this.xp = xp;
 		this.logsId = logsId;

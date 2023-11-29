@@ -1149,6 +1149,13 @@ public class MiscTest {
 			p.getPackets().setIFText(interId, compId, val);
 		});
 
+		Commands.add(Rights.DEVELOPER, "ifgraphic [interfaceId componentId graphicId]", "Sets the graphic of an interface.", (p, args) -> {
+			int interId = Integer.valueOf(args[0]);
+			int compId = Integer.valueOf(args[1]);
+			int graphicId = Integer.valueOf(args[2]);
+			p.getPackets().setIFGraphic(interId, compId, graphicId);
+		});
+
 		Commands.add(Rights.DEVELOPER, "imodels [interfaceId]", "Debugs an interface's models.", (p, args) -> {
 			int interId = Integer.valueOf(args[0]);
 			p.getInterfaceManager().sendInterface(interId);

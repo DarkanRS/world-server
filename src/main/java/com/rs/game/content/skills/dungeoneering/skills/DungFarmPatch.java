@@ -27,8 +27,8 @@ public class DungFarmPatch extends OwnedObject {
 
 	private int time;
 	private int stage = 1;
-	private Harvest harvest;
-	private DungeonManager manager;
+	private final Harvest harvest;
+	private final DungeonManager manager;
 
 	public DungFarmPatch(Player player, Harvest harvest, GameObject basePatch, DungeonManager manager) {
 		super(player, DungeonConstants.EMPTY_FARMING_PATCH + 1 + 1 + (harvest.ordinal() * 3), basePatch.getType(), basePatch.getRotation(), basePatch.getTile());

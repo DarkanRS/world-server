@@ -23,54 +23,37 @@ import com.rs.game.content.skills.dungeoneering.rooms.puzzles.ReturnTheFlowRoom.
 import com.rs.game.content.skills.dungeoneering.skills.DungPickaxe;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 
 public class ReturnTheFlowRoom extends PuzzleRoom {
 
-	//private static final int[] PEDESTAL =
-	//{ 54110, 54111, 54112, 54113, 37202 };
-	private static final int[] PEDESTAL_FLOW =
-			{ 54114, 54115, 54116, 54117, 37203 };
-
-	//private static final int[] PILLAR =
-	//{ 54118, 54119, 54120, 54121, 37204 };
-	private static final int[] PILLAR_BROKEN =
-			{ 54122, 54123, 54124, 54125, 37207 };
-	private static final int[] PILLAR_REPAIRED =
-			{ 54126, 54127, 54128, 54129, 37219 };
-
+	//private static final int[] PEDESTAL = { 54110, 54111, 54112, 54113, 37202 };
+	private static final int[] PEDESTAL_FLOW = { 54114, 54115, 54116, 54117, 37203 };
+	//private static final int[] PILLAR = { 54118, 54119, 54120, 54121, 37204 };
+	private static final int[] PILLAR_BROKEN = { 54122, 54123, 54124, 54125, 37207 };
+	private static final int[] PILLAR_REPAIRED = { 54126, 54127, 54128, 54129, 37219 };
 	//Rubble pieces receiving no flow (each rooms seems to have a few of these prespawned)
-	private static final int[] RUBBLE_PIECE =
-			{ 54130, 54131, 54132, 54133, 37220 };
-	private static final int[] RUBBLE_PIECE_CLEARED =
-			{ 54134, 54135, 54136, 54137, 37229 };
+	private static final int[] RUBBLE_PIECE = { 54130, 54131, 54132, 54133, 37220 };
+	private static final int[] RUBBLE_PIECE_CLEARED = { 54134, 54135, 54136, 54137, 37229 };
 	//Cleared rubble pieces receiving flow (they still have remnants on them)
-	private static final int[] RUBBLE_PIECE_FLOW =
-			{ 54138, 54139, 54140, 54141, 37232 };
-	private static final int[] RUBBLE_PIECE_CLEARED_FLOW =
-			{ 54142, 54143, 54144, 54145, 37249 };
-
+	private static final int[] RUBBLE_PIECE_FLOW = { 54138, 54139, 54140, 54141, 37232 };
+	private static final int[] RUBBLE_PIECE_CLEARED_FLOW = { 54142, 54143, 54144, 54145, 37249 };
 	//Clean straight pieces
-	private static final int[] STRAIGHT_PIECE_PATH =
-			//This must also be used as a base for the rubble pieces to make a groove in the ground
-			{ 54146, 54147, 54148, 54149, 37250 };
-	private static final int[] STRAIGHT_PIECE_PATH_FLOW =
-			{ 54150, 54151, 54152, 54153, 37251 };
-
+	//This must also be used as a base for the rubble pieces to make a groove in the ground
+	private static final int[] STRAIGHT_PIECE_PATH = { 54146, 54147, 54148, 54149, 37250 };
+	private static final int[] STRAIGHT_PIECE_PATH_FLOW = { 54150, 54151, 54152, 54153, 37251 };
 	//Clean corner pieces
-	private static final int[] CORNER_PIECE_PATH =
-			{ 54154, 54155, 54156, 54157, 37252 };
-	private static final int[] CORNER_PIECE_PATH_FLOW =
-			{ 54158, 54159, 54160, 54161, 37253 };
+	private static final int[] CORNER_PIECE_PATH = { 54154, 54155, 54156, 54157, 37252 };
+	private static final int[] CORNER_PIECE_PATH_FLOW = { 54158, 54159, 54160, 54161, 37253 };
 
 	private static final int[][] pillars = {
-			{ 5, 5 },
-			{ 5, 10 },
-			{ 10, 10 },
-			{ 10, 5 } };
+		{ 5, 5 },
+		{ 5, 10 },
+		{ 10, 10 },
+		{ 10, 5 }
+	};
 
 	private int roomRotation;
 	private Flow[] flows;
@@ -162,24 +145,22 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 			}
 			player.setNextAnimation(pick.getAnimation());
 			player.lock(4);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					final int[] coords = manager.getRoomPos(object.getTile());
-					FlowPiece node = findFlowPiece(coords[0], coords[1]);
-					if (node.blocked) { //players might click in same tick
-						giveXP(player, Constants.MINING);
-						player.setNextAnimation(new Animation(-1));
-						GameObject rubble = new GameObject(object);
-						rubble.setId(object.getId() == RUBBLE_PIECE[type] ? RUBBLE_PIECE_CLEARED[type] : RUBBLE_PIECE_CLEARED_FLOW[type]);
-						World.spawnObject(rubble);
-						node.blocked = false;
-						advance();
-						if (object.getId() == RUBBLE_PIECE_FLOW[type])
-							startFlow(node);
-					}
+			WorldTasks.scheduleTimer(3, (ticks) -> {
+				final int[] coords = manager.getRoomPos(object.getTile());
+				FlowPiece node = findFlowPiece(coords[0], coords[1]);
+				if (node.blocked) { //players might click in same tick
+					giveXP(player, Constants.MINING);
+					player.setNextAnimation(new Animation(-1));
+					GameObject rubble = new GameObject(object);
+					rubble.setId(object.getId() == RUBBLE_PIECE[type] ? RUBBLE_PIECE_CLEARED[type] : RUBBLE_PIECE_CLEARED_FLOW[type]);
+					World.spawnObject(rubble);
+					node.blocked = false;
+					advance();
+					if (object.getId() == RUBBLE_PIECE_FLOW[type])
+						startFlow(node);
 				}
-			}, 3);
+				return false;
+			});
 			return false;
 		}
 		if (object.getId() == PILLAR_BROKEN[type]) {

@@ -34,34 +34,36 @@ import java.util.List;
 
 public class YkLagorThunderous extends DungeonBoss {
 
-	private static int[][] BROKEN_FLOORS_TILES =
-		{
-				{ 5, 11 },
-				{ 2, 13 },
-				{ 10, 11 },
-				{ 13, 12 },
-				{ 11, 8 },
-				{ 11, 6 },
-				{ 13, 4 },
-				{ 9, 5 },
-				{ 10, 3 },
-				{ 3, 3 },
-				{ 4, 9 },
-				{ 7, 4 },
-				{ 4, 6 } };
-	private static int[][] PILLAR_SAFEZONE =
-		{
-				{ 1, 6 },
-				{ 1, 9 },
-				{ 14, 9 },
-				{ 14, 6 } };
+	private static final int[][] BROKEN_FLOORS_TILES = {
+		{ 5, 11 },
+		{ 2, 13 },
+		{ 10, 11 },
+		{ 13, 12 },
+		{ 11, 8 },
+		{ 11, 6 },
+		{ 13, 4 },
+		{ 9, 5 },
+		{ 10, 3 },
+		{ 3, 3 },
+		{ 4, 9 },
+		{ 7, 4 },
+		{ 4, 6 }
+	};
+
+	private static final int[][] PILLAR_SAFEZONE = {
+		{ 1, 6 },
+		{ 1, 9 },
+		{ 14, 9 },
+		{ 14, 6 }
+	};
+
 	private static final SpotAnim EARTH_QUAKE_GRAPHICS = new SpotAnim(1551, 10, 20);
 
 	private YkLagorMage[] mysteriousMages;
 	private int startCountdown;
 	private int nextAttack;
 
-	private boolean loaded;
+	private final boolean loaded;
 
 	public YkLagorThunderous(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11872, 11886), manager.getBossLevel()), tile, manager, reference);
@@ -72,23 +74,21 @@ public class YkLagorThunderous extends DungeonBoss {
 	}
 
 	private void setMages() {
-		int index = 0;
-		mysteriousMages = new YkLagorMage[8];
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 7, 3), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 4, 5), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 3, 8), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 4, 11), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 7, 12), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 10, 11), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 11, 8), getManager(), 1);
-		mysteriousMages[index++] = new YkLagorMage(this, 11887, getManager().getTile(getReference(), 10, 5), getManager(), 1);
+		mysteriousMages = new YkLagorMage[] {
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 7, 3), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 4, 5), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 3, 8), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 4, 11), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 7, 12), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 10, 11), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 11, 8), getManager(), 1),
+			new YkLagorMage(this, 11887, getManager().getTile(getReference(), 10, 5), getManager(), 1),
+		};
 	}
 
-	private final static String[] QUOTES =
-		{ "We will break you!", "You've outlived your use!", "You do not belong here.", "Your soul belongs to us!", "Mah zodas'bakh me'ah." };
+	private final static String[] QUOTES = { "We will break you!", "You've outlived your use!", "You do not belong here.", "Your soul belongs to us!", "Mah zodas'bakh me'ah." };
 
-	//private final static int[] QUOTES_SOUNDS =
-	//{ 1899, 1903, 1902, 1901, 1900 };
+	//private final static int[] QUOTES_SOUNDS = { 1899, 1903, 1902, 1901, 1900 };
 
 	public YkLagorMage[] getMages() {
 		return mysteriousMages;
@@ -156,9 +156,7 @@ public class YkLagorThunderous extends DungeonBoss {
 		if (special)
 			for (int[] element : PILLAR_SAFEZONE) {
 				Tile tile = getManager().getTile(getReference(), element[0], element[1]);
-				for (Entity t : possibleTargets)
-					if (t.getX() == tile.getX() && t.getY() == tile.getY())
-						possibleTargets.remove(t);
+				possibleTargets.removeIf(t -> t.getX() == tile.getX() && t.getY() == tile.getY());
 			}
 		return possibleTargets;
 	}

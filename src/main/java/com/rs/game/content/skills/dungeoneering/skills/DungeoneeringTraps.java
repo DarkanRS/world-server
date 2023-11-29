@@ -29,12 +29,9 @@ import com.rs.lib.util.Utils;
 
 public class DungeoneeringTraps {
 
-	public static final int[] ITEM_TRAPS =
-		{ 17756, 17758, 17760, 17762, 17764, 17766, 17768, 17770, 17772, 17774 };
-	private static final int[] MASTRYX_HIDES =
-		{ 17424, 17426, 17428, 17430, 17432, 17434, 17436, 17438, 17440, 17442 };
-	private static final int[] HUNTER_LEVELS =
-		{ 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+	public static final int[] ITEM_TRAPS = { 17756, 17758, 17760, 17762, 17764, 17766, 17768, 17770, 17772, 17774 };
+	private static final int[] MASTRYX_HIDES = { 17424, 17426, 17428, 17430, 17432, 17434, 17436, 17438, 17440, 17442 };
+	private static final int[] HUNTER_LEVELS = { 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
 
 	public static void placeTrap(final Player player, final DungeonManager manager, final int index) {
 		int levelRequired = HUNTER_LEVELS[index];
@@ -48,15 +45,12 @@ public class DungeoneeringTraps {
 		}
 		player.lock(2);
 		player.setNextAnimation(new Animation(827));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player.getTile(), -1, false));
-				player.getInventory().deleteItem(new Item(ITEM_TRAPS[index], 1));
-				player.sendMessage("You lay the trap onto the floor.");
-			}
-		}, 2);
+		WorldTasks.scheduleTimer(2, (ticks) -> {
+			manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player.getTile(), -1, false));
+			player.getInventory().deleteItem(new Item(ITEM_TRAPS[index], 1));
+			player.sendMessage("You lay the trap onto the floor.");
+			return false;
+		});
 	}
 
 	public static void removeTrap(Player player, MastyxTrap trap, DungeonManager manager) {

@@ -32,13 +32,13 @@ import java.util.List;
 
 public class Sagittare extends DungeonBoss {
 
-	private int stage;
+	private final int stage;
 	private boolean special;
 
 	public Sagittare(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9753, 9766), manager.getBossLevel()), tile, manager, reference);
 		setCantFollowUnderCombat(true);
-		stage = -1;
+		this.stage = -1;
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class Sagittare extends DungeonBoss {
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		player.getInventory().addItemDrop(item);
 		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");

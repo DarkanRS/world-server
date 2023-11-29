@@ -23,7 +23,7 @@ import com.rs.lib.game.Tile;
 
 public class Guardian extends DungeonNPC {
 
-	private RoomReference reference;
+	private final RoomReference reference;
 
 	public Guardian(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);

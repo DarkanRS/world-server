@@ -33,13 +33,13 @@ public class RuneboundBehemoth extends DungeonBoss {
 
 	private static final String[] ARTIFACT_TYPE =
 		{ "Melee", "Range", "Magic" };
-	private BehemothArtifact[] artifacts;
-	private int baseId;
+	private final BehemothArtifact[] artifacts;
+	private final int baseId;
 
 	public RuneboundBehemoth(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11812, 11826), manager.getBossLevel()), tile, manager, reference);
-		baseId = getId();
-		artifacts = new BehemothArtifact[3];
+		this.baseId = getId();
+		this.artifacts = new BehemothArtifact[3];
 		for (int idx = 0; idx < artifacts.length; idx++)
 			artifacts[idx] = new BehemothArtifact(idx);
 	}

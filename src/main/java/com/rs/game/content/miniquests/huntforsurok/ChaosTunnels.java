@@ -1,14 +1,10 @@
 package com.rs.game.content.miniquests.huntforsurok;
 
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.cache.loaders.map.WorldMapDefinitions;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.game.World;
-import com.rs.game.content.miniquests.huntforsurok.bork.Bork;
 import com.rs.game.content.miniquests.huntforsurok.bork.BorkController;
-import com.rs.game.content.quests.whatliesbelow.npcs.SurokMagis;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
@@ -403,7 +399,7 @@ public class ChaosTunnels {
                     player.getControllerManager().startController(new BorkController(player.getMiniquestStage(Miniquest.HUNT_FOR_SUROK) == 4));
                 return;
             }
-            if (this == CHAOS_ALTAR && !RunecraftingAltar.checkItems(player, RunecraftingAltar.Altar.CHAOS)) {
+            if (this == CHAOS_ALTAR && !RunecraftingAltar.checkItems(player, RunecraftingAltar.Ruins.CHAOS)) {
                 player.sendMessage("The portal doesn't respond without a tiara or talisman. This must be the Chaos Altar entrance.");
                 return;
             }

@@ -25,7 +25,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -49,48 +48,38 @@ public class NecroLordCombat extends CombatScript {
 		if (Utils.random(10) == 0) {
 			final int skeletonCount = boss.getManager().getParty().getTeam().size();
 			final List<Tile> projectileTile = new LinkedList<>();
-			WorldTasks.schedule(new WorldTask() {
-				int cycles;
-
-				@Override
-				public void run() {
-					cycles++;
-
-					if (cycles == 2)
-						for (int i = 0; i < skeletonCount; i++) {
-							Tile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
-							projectileTile.add(tile);
-							World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
-						}
-					else if (cycles == 4) {
-						for (Tile tile : projectileTile)
-							boss.addSkeleton(tile);
-						stop();
-						return;
+			WorldTasks.scheduleTimer((ticks) -> {
+				if (ticks == 2) {
+					for (int i = 0; i < skeletonCount; i++) {
+						Tile tile = World.getFreeTile(boss.getManager().getTile(boss.getReference(), Utils.random(2) == 0 ? 5 : 10, 5), 4);
+						projectileTile.add(tile);
+						World.sendProjectile(boss, tile, 2590, 65, 0, 30, 0, 16, 0);
 					}
+				} else if (ticks == 4) {
+					for (Tile tile : projectileTile)
+						boss.addSkeleton(tile);
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}
 
 		final int attack = Utils.random(4);
 		switch (attack) {
-		case 0:// main attack
-		case 1:
-			npc.setNextAnimation(new Animation(14209));
-			npc.setNextSpotAnim(new SpotAnim(2716));
-			World.sendProjectile(npc, target, 2721, 38, 18, 50, 50, 0, 0);
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			target.setNextSpotAnim(new SpotAnim(2726, 75, 80));
-			break;
-		case 2:
-		case 3:
-			final Tile tile = Tile.of(target.getTile());
-			npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
-			npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
-			World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
+			// main attack
+			case 0, 1 -> {
+				npc.setNextAnimation(new Animation(14209));
+				npc.setNextSpotAnim(new SpotAnim(2716));
+				World.sendProjectile(npc, target, 2721, 38, 18, 50, 50, 0, 0);
+				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				target.setNextSpotAnim(new SpotAnim(2726, 75, 80));
+			}
+			case 2, 3 -> {
+				final Tile tile = Tile.of(target.getTile());
+				npc.setNextAnimation(new Animation(attack == 2 ? 710 : 729));
+				npc.setNextSpotAnim(new SpotAnim(attack == 2 ? 177 : 167, 0, 65));
+				World.sendProjectile(npc, tile, attack == 2 ? 178 : 168, 40, 18, 55, 70, 5, 0);
+				WorldTasks.scheduleTimer(1, (ticks) -> {
 					for (Entity t : boss.getPossibleTargets()) {
 						int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MAGE, t);
 						if (!t.withinDistance(tile, 1))
@@ -108,10 +97,9 @@ public class NecroLordCombat extends CombatScript {
 							t.setNextSpotAnim(new SpotAnim(attack == 2 ? 179 : 169, 60, 65));
 						}
 					}
-				}
-			}, 1);
-
-			break;
+					return false;
+				});
+			}
 		}
 		return Utils.random(2) == 0 ? 4 : 5;
 	}

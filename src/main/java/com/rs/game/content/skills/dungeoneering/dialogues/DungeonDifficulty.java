@@ -23,16 +23,13 @@ import com.rs.game.model.entity.player.Player;
 public class DungeonDifficulty extends Conversation {
 	public DungeonDifficulty(Player player, int partySize) {
 		super(player);
-		addOptions("What difficulty of dungeon would you like?", new Options() {
-			@Override
-			public void create() {
-				for(int i = 1; i <= partySize; i++) {
-					final int size = i;
-					option(i + (i == partySize ? " (recommended)" : ""), new Dialogue().addNext(() -> {
-						player.getDungManager().setDificulty(size);
-						player.getDungManager().enterDungeon(true);
-					}));
-				}
+		addOptions("What difficulty of dungeon would you like?", (ops) -> {
+			for(int i = 1; i <= partySize; i++) {
+				final int size = i;
+				ops.option(i + (i == partySize ? " (recommended)" : ""), new Dialogue().addNext(() -> {
+					player.getDungManager().setDificulty(size);
+					player.getDungManager().enterDungeon(true);
+				}));
 			}
 		});
 		create();

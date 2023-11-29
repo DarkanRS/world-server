@@ -33,32 +33,31 @@ import java.util.List;
 
 public class SlidingTilesRoom extends PuzzleRoom {
 
-	private static final int[] BASE_TILE =
-		{ 12125, 12133, 12141, 12149, 12963 };
+	private static final int[] BASE_TILE = { 12125, 12133, 12141, 12149, 12963 };
 
-	private static final int[][] TILE_COORDS =
-		{
-				{ 5, 9 },
-				{ 7, 9 },
-				{ 9, 9 },
-				{ 5, 7 },
-				{ 7, 7 },
-				{ 9, 7 },
-				{ 5, 5 },
-				{ 7, 5 },
-				{ 9, 5 }, };
+	private static final int[][] TILE_COORDS = {
+		{ 5, 9 },
+		{ 7, 9 },
+		{ 9, 9 },
+		{ 5, 7 },
+		{ 7, 7 },
+		{ 9, 7 },
+		{ 5, 5 },
+		{ 7, 5 },
+		{ 9, 5 },
+	};
 
-	private static final int[][] VALID_MOVES =
-		{
-				{ 1, 3 },
-				{ 0, 2, 4 },
-				{ 1, 5 },
-				{ 0, 4, 6 },
-				{ 1, 3, 5, 7 },
-				{ 2, 4, 8 },
-				{ 3, 7 },
-				{ 4, 6, 8 },
-				{ 5, 7 } };
+	private static final int[][] VALID_MOVES = {
+		{ 1, 3 },
+		{ 0, 2, 4 },
+		{ 1, 5 },
+		{ 0, 4, 6 },
+		{ 1, 3, 5, 7 },
+		{ 2, 4, 8 },
+		{ 3, 7 },
+		{ 4, 6, 8 },
+		{ 5, 7 }
+	};
 
 	private DungeonNPC[] tiles;
 	private int freeIndex = 8;
@@ -137,7 +136,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 			return false;
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
 		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player.getTile()));
-		if ((room == null) || !(room instanceof SlidingTilesRoom puzzle))
+		if (!(room instanceof SlidingTilesRoom puzzle))
 			return false;
 		for (int i = 0; i < puzzle.tiles.length; i++)
 			if (puzzle.tiles[i] == npc) {

@@ -27,17 +27,18 @@ import com.rs.utils.WorldUtil;
 
 public class FamishedEye extends DungeonNPC {
 
-	private int weakness, type, sleepCycles;
+	private final int weakness, type;
+	private int sleepCycles;
 	private boolean firstHit;
-	private WorldGorgerShukarhazh boss;
+	private final WorldGorgerShukarhazh boss;
 
 	public FamishedEye(final WorldGorgerShukarhazh boss, int id, Tile tile, final DungeonManager manager) {
 		super(id, tile, manager);
 		this.boss = boss;
-		sleepCycles = -1;
+		this.sleepCycles = -1;
 		int rotationType = (id - 12436) / 15;
-		weakness = findWeakness(rotationType);
-		type = findType(rotationType);
+		this.weakness = findWeakness(rotationType);
+		this.type = findType(rotationType);
 		setCantFollowUnderCombat(true);
 		setForceAgressive(true);
 		int rotation = manager.getRoom(manager.getCurrentRoomReference(getTile())).getRotation() + rotationType;
@@ -115,25 +116,21 @@ public class FamishedEye extends DungeonNPC {
 	}
 
 	private int findType(int rotation) {
-		switch (type) {
-		case 0: //mage
-			return 2;
-		case 1: //warrior
-			return 0;
-		default: //range
-			return 1;
-		}
+		// mage, warrior, range
+		return switch (type) {
+			case 0 -> 2;
+			case 1 -> 0;
+			default -> 1;
+		};
 	}
 
 	private int findWeakness(int type) {
-		switch (type) {
-		case 0: //mage
-			return 1; //range was mage 2
-		case 1: //warrior
-			return 2; //mage was melee 0
-		default: //range
-			return 0; //melee was range 1
-		}
+		return switch (type) {
+			// mage, warrior, range
+			case 0 -> 1; //range was mage 2
+			case 1 -> 2; //mage was melee 0
+			default -> 0; //melee was range 1
+		};
 	}
 
 	public boolean isFirstHit() {

@@ -106,13 +106,13 @@ public class LexicusRunewrightCombat extends CombatScript {
 		WorldTasks.schedule(new WorldTask() {
 
 			private int cycle = 0;
-			private LinkedList<Tile> targets = new LinkedList<>();
+			private final LinkedList<Tile> targets = new LinkedList<>();
 
 			@Override
 			public void run() {
 				cycle++;
 
-				if (npc == null || npc.isDead()) {
+				if (npc.isDead()) {
 					stop();
 					return;
 				}
@@ -140,9 +140,9 @@ public class LexicusRunewrightCombat extends CombatScript {
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						tileLoop: for (Tile tile : targets) {
+						for (Tile tile : targets) {
 							if (entity.getX() != tile.getX() || entity.getY() != tile.getY())
-								continue tileLoop;
+								continue;
 							entity.applyHit(new Hit(npc, (int) (entity instanceof Familiar ? 1000 : Utils.random(entity.getMaxHitpoints() * .6, entity.getMaxHitpoints() * .9)), HitLook.TRUE_DAMAGE));
 						}
 					}

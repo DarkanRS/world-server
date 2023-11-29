@@ -18,7 +18,7 @@ package com.rs.game.content.skills.dungeoneering;
 
 public class RoomReference {
 
-	private int x, y;
+	private final int x, y;
 
 	public RoomReference(int x, int y) {
 		this.x = x;

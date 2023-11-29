@@ -31,18 +31,12 @@ import com.rs.lib.game.SpotAnim;
 public class FremennikCampRoom extends PuzzleRoom {
 
 	public static final int FREMENNIK_SCOUT = 11001;
-	private static final int[] RAW_FISH =
-		{ 49522, 49523, 49524, 49524, 49524 };
-	private static final int[] COOKED_FISH =
-		{ 49525, 49526, 49527, 49527, 49527 };
-	private static final int[] BARS =
-		{ 49528, 49529, 49530, 49530, 49530 };
-	private static final int[] BATTLE_AXES =
-		{ 49531, 49532, 49533, 49533, 49533 };
-	private static final int[] LOGS =
-		{ 49534, 49535, 49536, 49536, 49536 };
-	private static final int[] BOWS =
-		{ 49537, 49538, 49539, 49539, 49539 };
+	private static final int[] RAW_FISH = { 49522, 49523, 49524, 49524, 49524 };
+	private static final int[] COOKED_FISH = { 49525, 49526, 49527, 49527, 49527 };
+	private static final int[] BARS = { 49528, 49529, 49530, 49530, 49530 };
+	private static final int[] BATTLE_AXES = { 49531, 49532, 49533, 49533, 49533 };
+	private static final int[] LOGS = { 49534, 49535, 49536, 49536, 49536 };
+	private static final int[] BOWS = { 49537, 49538, 49539, 49539, 49539 };
 
 	private int stage = 0;
 
