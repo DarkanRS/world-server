@@ -25,7 +25,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -38,8 +37,7 @@ import java.util.List;
 
 public class LakkTheRiftSplitterCombat extends CombatScript {
 
-	//	private static final int[] VOICES =
-	//	{ 3034, 2993, 3007 };
+	//	private static final int[] VOICES = { 3034, 2993, 3007 };
 	private static final String[] MESSAGES = { "A flame portal will flush you out!", "Taste miasma!", "This will cut you down to size!" };
 
 	@Override
@@ -69,28 +67,23 @@ public class LakkTheRiftSplitterCombat extends CombatScript {
 		if (Utils.random(4) == 0) {
 			final int type = Utils.random(3);
 			switch (type) {
-			case 0:
-			case 1:
-			case 2:
-				final List<Tile> boundary = new LinkedList<>();
-				for (int x = -1; x < 2; x++)
-					for (int y = -1; y < 2; y++)
-						boundary.add(target.transform(x, y, 0));
-				if (boss.doesBoundaryOverlap(boundary)) {
-					regularMagicAttack(target, npc);
-					return 5;
-				}
-				// npc.playSoundEffect(VOICES[type]);
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
+				case 0, 1, 2:
+					final List<Tile> boundary = new LinkedList<>();
+					for (int x = -1; x < 2; x++)
+						for (int y = -1; y < 2; y++)
+							boundary.add(target.transform(x, y, 0));
+					if (boss.doesBoundaryOverlap(boundary)) {
+						regularMagicAttack(target, npc);
+						return 5;
+					}
+					// npc.playSoundEffect(VOICES[type]);
+					WorldTasks.scheduleTimer(1, (ticks) -> {
 						boss.setNextForceTalk(new ForceTalk(MESSAGES[type]));
 						boss.setNextAnimation(new Animation(14398));
 						boss.addPortalCluster(type, boundary.toArray(new Tile[1]));
-					}
-				}, 1);
-				return 5;
+						return false;
+					});
+					return 5;
 			}
 		}
 

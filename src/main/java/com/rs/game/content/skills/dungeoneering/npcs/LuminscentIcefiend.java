@@ -41,7 +41,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 	private static final SpotAnim ICE_SHARDS = new SpotAnim(2525);
 	private static final int KNOCKBACK = 10070;
 
-	private List<Tile> icicles;
+	private final List<Tile> icicles;
 
 	private int specialStage;
 	private boolean specialEnabled;
@@ -121,11 +121,11 @@ public class LuminscentIcefiend extends DungeonBoss {
 						continue;
 
 					Tile currentTile = player.getTempAttribs().getB("FIEND_FLAGGED") ? Tile.of(player.getTile()) : player.getLastTile();
-					tileLoop: for (int i = 0; i < icicles.size(); i++) {
+					for (int i = 0; i < icicles.size(); i++) {
 						Tile tile = icicles.remove(i);
 						player.getPackets().sendSpotAnim(ICE_SHARDS, tile);
 						if (player.getTempAttribs().getB("FIEND_FLAGGED") || player.getX() != tile.getX() || player.getY() != tile.getY())
-							continue tileLoop;
+							continue;
 						player.getTempAttribs().setB("FIEND_FLAGGED", true);
 					}
 					icicles.add(currentTile);
@@ -135,10 +135,10 @@ public class LuminscentIcefiend extends DungeonBoss {
 					return;
 
 				for (Tile tile : icicles) {
-					entityLoop: for (Entity t : getPossibleTargets()) {
+					for (Entity t : getPossibleTargets()) {
 						Player player = (Player) t;
 						if (!player.getTempAttribs().getB("FIEND_FLAGGED"))
-							continue entityLoop;
+							continue;
 
 						Tile nextTile = World.getFreeTile(player.getTile(), 1);
 

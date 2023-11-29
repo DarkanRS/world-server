@@ -34,7 +34,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Dreadnaut extends DungeonBoss {
 
-	private List<GassPuddle> puddles;
+	private final List<GassPuddle> puddles;
 
 	private int ticks;
 	private boolean reduceMagicLevel;
@@ -74,8 +74,7 @@ public class Dreadnaut extends DungeonBoss {
 			}
 			if (puddle.cycles % 2 != 0)
 				continue;
-			if (puddle.cycles % 2 == 0)
-				puddle.refreshGraphics();
+			puddle.refreshGraphics();
 			List<Entity> targets = getPossibleTargets(true);
 			for (Entity t : targets) {
 				if (!t.matches(puddle.tile))

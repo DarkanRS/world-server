@@ -27,12 +27,12 @@ import java.util.stream.Stream;
 public class DungeonStructure {
 
 	private RoomNode base;
-	private RoomNode[][] rooms;
+	private final RoomNode[][] rooms;
 	private List<RoomNode> roomList;
-	private List<Integer> availableKeys = IntStream.rangeClosed(0, 63).boxed().collect(Collectors.toList());
-	private Random random;
-	private int complexity;
-	private int size;
+	private final List<Integer> availableKeys = IntStream.rangeClosed(0, 63).boxed().collect(Collectors.toList());
+	private final Random random;
+	private final int complexity;
+	private final int size;
 
 	public DungeonStructure(int size, Random random, int complexity) {
 		this.complexity = complexity;
@@ -119,6 +119,7 @@ public class DungeonStructure {
 		if (boss.lock == -1) {
 			//Should we force a lock on the boss? RS has a lock about 95% of the time
 			//We could put the key anywhere on crit, because the lock doesn't actually lock out anything at all, and is redundant with keyshare on
+			//Perhaps the lock is to force bosses not to move if you stand under them, i.e. behemoth will stomp you until you move
 		}
 
 		//Bonus keys can be found anywhere that isn't the boss or has a key already

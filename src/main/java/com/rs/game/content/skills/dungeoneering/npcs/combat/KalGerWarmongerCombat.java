@@ -27,7 +27,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -65,14 +64,11 @@ public class KalGerWarmongerCombat extends CombatScript {
 					if (Utils.inCircle(player.getTile(), boss.getTile(), 5))// 5 square radius (imperfect circle)
 						player.applyHit(new Hit(boss, Utils.random(300, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
 				}
-				WorldTasks.schedule(new WorldTask() {
-
-					@Override
-					public void run() {
-						boss.setPullTicks(0);
-						for (Player player : manager.getParty().getTeam())// we obv need to reset the camera ^.^
-							player.getPackets().sendStopCameraShake();
-					}
+				WorldTasks.scheduleTimer((ticks) -> {
+					boss.setPullTicks(0);
+					for (Player player : manager.getParty().getTeam())// we obv need to reset the camera ^.^
+						player.getPackets().sendStopCameraShake();
+					return false;
 				});
 			} else if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0))
 				return 0;

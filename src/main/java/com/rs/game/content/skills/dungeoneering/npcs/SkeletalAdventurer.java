@@ -39,11 +39,11 @@ public final class SkeletalAdventurer extends DungeonBoss {
 
 	public static final int MELEE = 0, RANGE = 1, MAGE = 2;
 
-	private int npcId;
+	private final int npcId;
 
 	public SkeletalAdventurer(int type, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(type == MELEE ? DungeonUtils.getClosestToCombatLevel(Utils.range(11940, 11984, 3), manager.getBossLevel()) : type == RANGE ? DungeonUtils.getClosestToCombatLevel(Utils.range(12044, 12088, 3), manager.getBossLevel()) : DungeonUtils.getClosestToCombatLevel(Utils.range(11999, 12043, 3), manager.getBossLevel()), tile, manager, reference);
-		npcId = getId();
+		this.npcId = getId();
 	}
 
 	@Override
@@ -105,7 +105,7 @@ public final class SkeletalAdventurer extends DungeonBoss {
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		player.getInventory().addItemDrop(item);
 		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");

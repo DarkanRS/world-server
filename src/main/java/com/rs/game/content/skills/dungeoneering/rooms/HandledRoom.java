@@ -22,11 +22,10 @@ import com.rs.game.content.skills.dungeoneering.RoomReference;
 
 public class HandledRoom {
 
-	private int chunkX;
-	private int chunkY;
-	private int[] doorsDirections;
-	private RoomEvent event;
-	private int[] keySpot;
+	private final int chunkX, chunkY;
+	private final int[] doorsDirections;
+	private final RoomEvent event;
+	private final int[] keySpot;
 
 	public HandledRoom(int chunkX, int chunkY, RoomEvent event, int[] keySpot, int... doorDirections) {
 		this.chunkX = chunkX;

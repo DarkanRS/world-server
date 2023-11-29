@@ -25,14 +25,9 @@ public class DungeonPartyStart extends Conversation {
 	public DungeonPartyStart(Player player) {
 		super(player);
 		addSimple("You must be in a party to enter a dungeon.");
-		addOptions("Would you like to start a dungeon?", new Options() {
-			@Override
-			public void create() {
-				option("Yes.", new Dialogue()
-						.addNext(()->{player.getDungManager().formParty();})
-				);
-				option("No.", new Dialogue());
-			}
+		addOptions("Would you like to start a dungeon?", (ops) -> {
+			ops.add("Yes.", player.getDungManager()::formParty);
+			ops.add("No.");
 		});
 		create();
 	}

@@ -20,8 +20,8 @@ import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 
 public class BossRoom extends HandledRoom {
 
-	private int minFloor;
-	private int musicId;
+	private final int minFloor;
+	private final int musicId;
 
 	public BossRoom(RoomEvent event, int musicId, int minFloor, int chunkX, int chunkY) {
 		super(chunkX, chunkY, event, null, DungeonConstants.SOUTH_DOOR);

@@ -35,22 +35,21 @@ public class TomeOfLexicus extends CombatScript {
 	public int attack(NPC npc, Entity target) {
 		int type = npc.getId() - 9856;
 		switch (type) {
-		case 0:
-			npc.setNextAnimation(new Animation(13479));
-			delayHit(npc, 0, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			break;
-		case 1:
-		case 2:
-			boolean range_style = type == 1;
-			npc.setNextAnimation(new Animation(13480));
-			npc.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
-			World.sendProjectile(npc, target, range_style ? 2409 : 2425, 40, 40, 54, 35, 5, 0);
-			if (range_style)
-				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
-			else
-				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
-			break;
+			case 0 -> {
+				npc.setNextAnimation(new Animation(13479));
+				delayHit(npc, 0, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+			}
+			case 1, 2 -> {
+				boolean range_style = type == 1;
+				npc.setNextAnimation(new Animation(13480));
+				npc.setNextSpotAnim(new SpotAnim(range_style ? 2408 : 2424));
+				World.sendProjectile(npc, target, range_style ? 2409 : 2425, 40, 40, 54, 35, 5, 0);
+				if (range_style)
+					delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				else
+					delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				target.setNextSpotAnim(new SpotAnim(range_style ? 2410 : 2426, 75, 0));
+			}
 		}
 		return 4;
 	}

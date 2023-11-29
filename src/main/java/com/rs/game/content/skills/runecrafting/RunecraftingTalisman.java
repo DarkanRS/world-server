@@ -16,15 +16,21 @@ public enum RunecraftingTalisman {
 	DEATH(2488, 1456, 5547, 50, 13640, 65, 50),
 	BLOOD(30624, 1450, 5549, 52.5, 13641, 1, 52.5);
 
-	private static HashMap<Integer, RunecraftingTalisman> BY_ID = new HashMap<>();
+	private static final HashMap<Integer, RunecraftingTalisman> BY_OBJ_ID = new HashMap<>();
+	private static final HashMap<Integer, RunecraftingTalisman> BY_ITEM_ID = new HashMap<>();
 
 	static {
-		for (RunecraftingTalisman talismans : values())
-			BY_ID.put(talismans.altarId, talismans);
+		for (RunecraftingTalisman talisman : values()) {
+			BY_OBJ_ID.put(talisman.altarId, talisman);
+			BY_ITEM_ID.put(talisman.talismanId, talisman);
+		}
 	}
 
-	public static RunecraftingTalisman forId(int objectId) {
-		return BY_ID.get(objectId);
+	public static RunecraftingTalisman forObjectId(int objectId) {
+		return BY_OBJ_ID.get(objectId);
+	}
+	public static RunecraftingTalisman forItemId(int objectId) {
+		return BY_ITEM_ID.get(objectId);
 	}
 
 	private final int altarId;

@@ -59,27 +59,22 @@ public class GeomancerCombat extends CombatScript {
 
 		int attackType = Utils.random(6);
 		switch (attackType) {
-		case 0:// MELEE
-			if (atDistance)
-				sendEarthBlast(npc, target, true);
-			else {
-				npc.setNextAnimation(new Animation(12989));
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			// MELEE
+			case 0 -> {
+				if (atDistance) {
+					sendEarthBlast(npc, target, true);
+				} else {
+					npc.setNextAnimation(new Animation(12989));
+					delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+				}
 			}
-			break;
-		case 1:// EARTH BLAST
-		case 2:
-			sendEarthBlast(npc, target, attackType == 2);
-			break;
-		case 3:// WEAKEN
-			sendWeaken(npc, target);
-			break;
-		case 4:// SNARE
-			sendEntangle(npc, target);
-			break;
-		case 5:
-			sendPrayerSpell(npc);
-			break;
+			// EARTH BLAST
+			case 1, 2 -> sendEarthBlast(npc, target, attackType == 2);
+			// WEAKEN
+			case 3 -> sendWeaken(npc, target);
+			// SNARE
+			case 4 -> sendEntangle(npc, target);
+			case 5 -> sendPrayerSpell(npc);
 		}
 
 		return 4;

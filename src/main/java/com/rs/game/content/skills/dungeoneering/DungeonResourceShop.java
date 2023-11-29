@@ -71,11 +71,11 @@ public class DungeonResourceShop {
 		}
 		int openSlots = player.getInventory().getFreeSlots();
 		if (!def.isStackable())
-			quantity = quantity > openSlots ? openSlots : quantity;
-			if (quantity == 0)
-				return;
-			if (player.getInventory().addItem(item, quantity))
-				player.getInventory().deleteItem(new Item(DungeonConstants.RUSTY_COINS, price));
+			quantity = Math.min(quantity, openSlots);
+		if (quantity == 0)
+			return;
+		if (player.getInventory().addItem(item, quantity))
+			player.getInventory().deleteItem(new Item(DungeonConstants.RUSTY_COINS, price));
 	}
 
 	public static void handleSellOptions(Player player, int slotId, int itemId, int quantity) {

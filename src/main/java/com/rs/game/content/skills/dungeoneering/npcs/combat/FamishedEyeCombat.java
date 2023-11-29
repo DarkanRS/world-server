@@ -84,7 +84,6 @@ public class FamishedEyeCombat extends CombatScript {
 					}
 					tiles.clear();
 					stop();
-					return;
 				}
 			}
 		}, 0, 0);

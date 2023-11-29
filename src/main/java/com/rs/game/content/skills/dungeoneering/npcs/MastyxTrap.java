@@ -23,7 +23,7 @@ public class MastyxTrap extends NPC {
 
 	private static final int BASE_TRAP = 11076;
 
-	private String playerName;
+	private final String playerName;
 	private int ticks;
 
 	public MastyxTrap(String playerName, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {
@@ -37,7 +37,6 @@ public class MastyxTrap extends NPC {
 		ticks++;
 		if (ticks == 500) {
 			finish();
-			return;
 		}
 	}
 

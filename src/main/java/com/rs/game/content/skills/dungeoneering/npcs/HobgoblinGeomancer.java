@@ -39,15 +39,12 @@ public class HobgoblinGeomancer extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(12991, 70));
 		setNextSpotAnim(new SpotAnim(1576, 70, 0));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				setCantInteract(false);
-				setNextAnimation(new Animation(-1));
-				setNextTile(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
-				resetReceivedHits();
-			}
-		}, 5);
+		WorldTasks.scheduleTimer(5, (ticks) -> {
+			setCantInteract(false);
+			setNextAnimation(new Animation(-1));
+			setNextTile(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
+			resetReceivedHits();
+			return false;
+		});
 	}
 }

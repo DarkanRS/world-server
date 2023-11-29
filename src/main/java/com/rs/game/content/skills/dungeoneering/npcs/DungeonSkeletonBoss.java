@@ -23,7 +23,7 @@ import com.rs.lib.game.Tile;
 
 public class DungeonSkeletonBoss extends DungeonNPC {
 
-	private DivineSkinweaver boss;
+	private final DivineSkinweaver boss;
 
 	public DungeonSkeletonBoss(int id, Tile tile, DungeonManager manager, RoomReference reference) {
 		super(id, tile, manager);

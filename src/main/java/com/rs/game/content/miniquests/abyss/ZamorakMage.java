@@ -17,7 +17,7 @@ public class ZamorakMage extends Conversation {
 		addNPC(NPC, HeadE.CHEERFUL, "Ah, you again. What was it you wanted? The Wilderness is hardly the appropriate place for a conversation now, is it?");
 
 		switch(p.getMiniquestManager().getStage(Miniquest.ENTER_THE_ABYSS)) {
-			case 2 -> {
+			case EnterTheAbyss.SCRYING_ORB -> {
 				addNPC(NPC, HeadE.CONFUSED, "Well? Have you managed to use my scrying orb to obtain the information yet?");
 				if (!player.getInventory().containsOneItem(5518, 5519)) {
 					addPlayer(HeadE.WORRIED, "Uh... No.... I kind of lost that orb thingy that you gave me...");
@@ -88,7 +88,7 @@ public class ZamorakMage extends Conversation {
 											.addNPC(NPC, HeadE.CALM_TALK, "The important part is that you must teleport to the essence location from three entirely separate locations.")
 											.addNPC(NPC, HeadE.CALM_TALK, "More than three may be helpful to us, but we need a minimum of three in order to triangulate the position of this essence mine.")
 											.addNPC(NPC, HeadE.CONFUSED, "Is that all clear, stranger?", () -> {
-												player.getMiniquestManager().setStage(Miniquest.ENTER_THE_ABYSS, 2);
+												player.getMiniquestManager().setStage(Miniquest.ENTER_THE_ABYSS, EnterTheAbyss.SCRYING_ORB);
 												player.getInventory().addItemDrop(5519, 1);
 											})
 											.addPlayer(HeadE.CALM_TALK, "Yeah, I think so.")

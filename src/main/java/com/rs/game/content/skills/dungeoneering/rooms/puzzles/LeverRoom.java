@@ -36,9 +36,7 @@ public class LeverRoom extends PuzzleRoom {
 	};
 	 */
 
-	private static final int[] SWITCH_DOWN =
-		{ 49384, 49385, 49386, 49386, 49386 //TODO find down of 54333, 33675
-		};
+	private static final int[] SWITCH_DOWN = { 49384, 49385, 49386, 49386, 49386 }; //TODO find down of 54333, 33675
 
 	private int leverCount, leverTicks, maxTicks;
 	private WorldTask resetTask;

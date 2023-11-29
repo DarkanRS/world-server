@@ -59,26 +59,23 @@ public class HopeDevourerCombat extends CombatScript {
 
 		if (Utils.random(10) == 0) {
 			npc.setNextForceTalk(new ForceTalk("Grrrrrrrrrroooooooooaaaarrrrr"));
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					npc.setNextAnimation(new Animation(14460));
-					npc.setNextSpotAnim(new SpotAnim(2844, 30, 0));
-					int healedDamage = 0;
-					for (Entity t : npc.getPossibleTargets()) {
-						Player player = (Player) t;
-						int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MAGE) * .85, npc.getLevelForStyle(AttackStyle.MAGE));
-						if (damage > 0 && player.getPrayer().isUsingProtectionPrayer()) {
-							healedDamage += damage;
-							player.setProtectionPrayBlock(2);
-							t.setNextSpotAnim(new SpotAnim(2845, 75, 0));
-							delayHit(npc, 0, t, getMagicHit(npc, damage));
-						}
+			WorldTasks.scheduleTimer(2, (ticks) -> {
+				npc.setNextAnimation(new Animation(14460));
+				npc.setNextSpotAnim(new SpotAnim(2844, 30, 0));
+				int healedDamage = 0;
+				for (Entity t : npc.getPossibleTargets()) {
+					Player player = (Player) t;
+					int damage = (int) Utils.random(npc.getLevelForStyle(AttackStyle.MAGE) * .85, npc.getLevelForStyle(AttackStyle.MAGE));
+					if (damage > 0 && player.getPrayer().isUsingProtectionPrayer()) {
+						healedDamage += damage;
+						player.setProtectionPrayBlock(2);
+						t.setNextSpotAnim(new SpotAnim(2845, 75, 0));
+						delayHit(npc, 0, t, getMagicHit(npc, damage));
 					}
-					npc.heal(healedDamage);
 				}
-			}, 2);
+				npc.heal(healedDamage);
+				return false;
+			});
 			return 8;
 		}
 

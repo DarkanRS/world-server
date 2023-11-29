@@ -85,7 +85,7 @@ public final class ShadowForgerIhlakhizan extends DungeonBoss {
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		player.getInventory().addItemDrop(item);
 		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");

@@ -18,7 +18,7 @@ package com.rs.game.content.skills.dungeoneering;
 
 public class Door {
 
-	private int type, id, level;
+	private final int type, id, level;
 
 	public Door(int type, int id, int level) {
 		this.type = type;

@@ -54,16 +54,11 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 		}
 
 		if (!gazer.isSecondStage())
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					if (gazer.isDead())
-						return;
-					gazer.setNextAnimation(new Animation(13422));
-				}
-
-			}, 5);
+			WorldTasks.delay(5, () -> {
+				if (gazer.isDead())
+					return;
+				gazer.setNextAnimation(new Animation(13422));
+			});
 	}
 
 	@Override
@@ -89,7 +84,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 				WorldTasks.schedule(new WorldTask() {
 
 					private int ticks;
-					private List<Tile> tiles = new LinkedList<>();
+					private final List<Tile> tiles = new LinkedList<>();
 
 					@Override
 					public void run() {
@@ -106,10 +101,10 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 									}
 									byte[] dirs = Utils.getDirection(npc.getFaceAngle());
 									Tile tile = null;
-									distanceLoop: for (int distance = 2; distance >= 0; distance--) {
+									for (int distance = 2; distance >= 0; distance--) {
 										tile = Tile.of(Tile.of(t.getX() + (dirs[0] * distance), t.getY() + (dirs[1] * distance), t.getPlane()));
 										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
-											break distanceLoop;
+											break;
 										if (distance == 0)
 											tile = Tile.of(t.getTile());
 									}
@@ -138,14 +133,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 				return npc.getAttackSpeed() + 1;
 			}
 			npc.setNextAnimation(new Animation(13423));
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					sendRangeAoe(gazer);
-				}
-
-			}, 1);
+			WorldTasks.delay(1, () -> sendRangeAoe(gazer));
 			return npc.getAttackSpeed() + 6;
 		}
 		if (Utils.random(3) == 0) { // range single target

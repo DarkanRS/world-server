@@ -78,8 +78,6 @@ public class Rammernaut extends DungeonBoss {
 					if (distance == 0)
 						tile = Tile.of(entity.getTile());
 				}
-				if (tile == null)
-					return;
 				entity.faceEntity(this);
 				entity.forceMove(tile, 10070, 5, 60);
 			});

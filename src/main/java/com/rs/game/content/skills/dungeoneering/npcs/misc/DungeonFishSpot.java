@@ -24,14 +24,14 @@ import com.rs.lib.util.Utils;
 
 public class DungeonFishSpot extends DungeonNPC {
 
-	private Fish fish;
+	private final Fish fish;
 	private int fishes;
 
 	public DungeonFishSpot(int id, Tile tile, DungeonManager manager, Fish fish) {
 		super(id, tile, manager);
 		this.fish = fish;
+		this.fishes = 14;
 		setName(Utils.formatPlayerNameForDisplay(fish.toString()));
-		fishes = 14;
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class DungeonFishSpot extends DungeonNPC {
 		return fish;
 	}
 
-	public int desecreaseFishes() {
+	public int decreaseFishes() {
 		return fishes--;
 	}
 

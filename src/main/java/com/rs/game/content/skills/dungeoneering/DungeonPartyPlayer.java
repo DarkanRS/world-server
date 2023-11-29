@@ -20,7 +20,7 @@ import com.rs.game.model.entity.player.Player;
 
 public class DungeonPartyPlayer {
 
-	private Player player;
+	private final Player player;
 	private int deaths;
 
 	public DungeonPartyPlayer(Player player) {

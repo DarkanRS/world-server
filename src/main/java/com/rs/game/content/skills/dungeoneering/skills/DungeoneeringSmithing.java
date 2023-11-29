@@ -27,13 +27,13 @@ import com.rs.lib.util.Utils;
 
 public class DungeoneeringSmithing extends PlayerAction {
 
-	private static Item[][] materials = { { new Item(17630) }, { new Item(17632) }, { new Item(17634) }, { new Item(17636) }, { new Item(17638) }, { new Item(17640) }, { new Item(17642) }, { new Item(17644) }, { new Item(17646) }, { new Item(17648) } };
-	private static Item[][] products = { { new Item(17650) }, { new Item(17652) }, { new Item(17654) }, { new Item(17656) }, { new Item(17658) }, { new Item(17660) }, { new Item(17662) }, { new Item(17664) }, { new Item(17666) }, { new Item(17668) } };
-	private static int[] reqs = { 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
-	private static double[] xp = { 7.0, 13.0, 19.0, 25.0, 32.0, 38.0, 44.0, 51.0, 57.0, 63.0 };
-	private static int[] anims = { 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243 };
+	private static final Item[][] materials = { { new Item(17630) }, { new Item(17632) }, { new Item(17634) }, { new Item(17636) }, { new Item(17638) }, { new Item(17640) }, { new Item(17642) }, { new Item(17644) }, { new Item(17646) }, { new Item(17648) } };
+	private static final Item[][] products = { { new Item(17650) }, { new Item(17652) }, { new Item(17654) }, { new Item(17656) }, { new Item(17658) }, { new Item(17660) }, { new Item(17662) }, { new Item(17664) }, { new Item(17666) }, { new Item(17668) } };
+	private static final int[] reqs = { 1, 10, 20, 30, 40, 50, 60, 70, 80, 90 };
+	private static final double[] xp = { 7.0, 13.0, 19.0, 25.0, 32.0, 38.0, 44.0, 51.0, 57.0, 63.0 };
+	private static final int[] anims = { 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243, 3243 };
 
-	private static int[] BASE_COMPONENTS = { 113, 109, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105 };
+	private static final int[] BASE_COMPONENTS = { 113, 109, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105 };
 
 	public static void openSmelting(Player player) {
 		player.startConversation(new CreateActionD(player, materials, products, xp, anims, reqs, Constants.SMITHING, 3));
@@ -82,15 +82,12 @@ public class DungeoneeringSmithing extends PlayerAction {
 		else if (packetId == ClientPacket.IF_OP2)
 			player.getActionManager().setAction(new DungeoneeringSmithing(prods[index], 5));
 		else if (packetId == ClientPacket.IF_OP3) {
-			player.sendInputInteger("How many would you like to make?", number -> {
-				player.getActionManager().setAction(new DungeoneeringSmithing(prods[index], number));
-			});
-			return;
+			player.sendInputInteger("How many would you like to make?", number -> player.getActionManager().setAction(new DungeoneeringSmithing(prods[index], number)));
 		} else
 			player.getActionManager().setAction(new DungeoneeringSmithing(prods[index], 28));
 	}
 
-	private DungSmithables bar;
+	private final DungSmithables bar;
 	private int count;
 
 	public DungeoneeringSmithing(DungSmithables bar, int count) {

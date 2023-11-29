@@ -43,10 +43,8 @@ import java.util.List;
 public class FishingFerretRoom extends PuzzleRoom {
 
 	private static final int FERRET_ID = 11007, VILE_FISH = 17375;
-	private static final int[] PRESSURE_PLATE =
-		{ 49555, 49557, 49559, 54296, 54297 };
-	private static final int[] EMPTY_PLATE =
-		{ 49546, 49547, 49548, 54293, 35293 };
+	private static final int[] PRESSURE_PLATE = { 49555, 49557, 49559, 54296, 54297 };
+	private static final int[] EMPTY_PLATE = { 49546, 49547, 49548, 54293, 35293 };
 
 	private Tile pressurePlate;
 	private List<GroundItem> vileFishes;
@@ -72,7 +70,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 					removeAllVileFish();
 					return;
 				}
-				if (vileFishes.size() > 0) {
+				if (!vileFishes.isEmpty()) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
 					if (item == null)
 						return;
@@ -162,7 +160,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 			return false;
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
 		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player.getTile()));
-		if ((room == null) || !(room instanceof FishingFerretRoom puzzle))
+		if (!(room instanceof FishingFerretRoom puzzle))
 			return false;
 		if (puzzle.isComplete()) {
 			player.sendMessage("I know it smells, but littering is wrong!");

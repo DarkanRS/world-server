@@ -17,9 +17,9 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -50,6 +50,8 @@ public class Runecrafting {
 			AIR_TALISMAN_STAFF = 13630, MIND_TALISMAN_STAFF = 13631,  WATER_TALISMAN_STAFF = 13632, EARTH_TALISMAN_STAFF = 13633,  FIRE_TALISMAN_STAFF = 13634,  BODY_TALISMAN_STAFF = 13635,  COSMIC_TALISMAN_STAFF = 13636, CHAOS_TALISMAN_STAFF = 13637,
 			NATURE_TALISMAN_STAFF = 13638, LAW_TALISMAN_STAFF = 13639, DEATH_TALISMAN_STAFF = 13640, BLOOD_TALISMAN_STAFF = 13641, OMNI_TALISMAN_STAFF = 13642, WICKED_HOOD = 22332;
 
+	public static final int BINDING_NECKLACE = 5521;
+
 	public enum RCRune {
 		AIR(1, 5.0, 556, false, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
 		MIND(1, 5.5, 558, false, 14, 2, 28, 3, 42, 4, 56, 5, 70, 6, 84, 7, 98, 8),
@@ -66,12 +68,23 @@ public class Runecrafting {
 		BLOOD(77, 10.5, 565, true),
 		SOUL(90, 12.0, 566, true);
 
-		private int req, runeId;
-		private double xp;
-		private boolean pureEss;
-		private int[] multipliers;
+		private static final HashMap<Integer, RCRune> BY_RUNE_ID = new HashMap<>();
 
-		private RCRune(int req, double xp, int runeId, boolean pureEss, int... multipliers) {
+		static {
+			for (RCRune value : values())
+				BY_RUNE_ID.put(value.runeId, value);
+		}
+
+		public static RCRune forId(int itemId) {
+			return BY_RUNE_ID.get(itemId);
+		}
+
+		private final int req, runeId;
+		private final double xp;
+		private final boolean pureEss;
+		private final int[] multipliers;
+
+		RCRune(int req, double xp, int runeId, boolean pureEss, int... multipliers) {
 			this.req = req;
 			this.xp = xp;
 			this.runeId = runeId;
@@ -89,30 +102,35 @@ public class Runecrafting {
 	}
 
 	public static ItemClickHandler pouches = new ItemClickHandler(new Object[] { 5509, 5510, 5511, 5512, 5513, 5514, 24204, 24205 }, new String[] { "Fill", "Empty", "Check" }, e -> {
-		if (e.getOption().equals("Fill"))
-			switch(e.getItem().getId()) {
-			case 5509 -> fillPouch(e.getPlayer(), 0);
-			case 5510 -> fillPouch(e.getPlayer(), 1);
-			case 5512 -> fillPouch(e.getPlayer(), 2);
-			case 5514 -> fillPouch(e.getPlayer(), 3);
-			case 24205 -> fillPouch(e.getPlayer(), 4);
+		switch (e.getOption()) {
+			case "Fill" -> {
+				switch (e.getItem().getId()) {
+					case 5509 -> fillPouch(e.getPlayer(), 0);
+					case 5510 -> fillPouch(e.getPlayer(), 1);
+					case 5512 -> fillPouch(e.getPlayer(), 2);
+					case 5514 -> fillPouch(e.getPlayer(), 3);
+					case 24205 -> fillPouch(e.getPlayer(), 4);
+				}
 			}
-		else if (e.getOption().equals("Empty"))
-			switch(e.getItem().getId()) {
-			case 5509 -> emptyPouch(e.getPlayer(), 0);
-			case 5510 -> emptyPouch(e.getPlayer(), 1);
-			case 5512 -> emptyPouch(e.getPlayer(), 2);
-			case 5514 -> emptyPouch(e.getPlayer(), 3);
-			case 24205 -> emptyPouch(e.getPlayer(), 4);
+			case "Empty" -> {
+				switch (e.getItem().getId()) {
+					case 5509 -> emptyPouch(e.getPlayer(), 0);
+					case 5510 -> emptyPouch(e.getPlayer(), 1);
+					case 5512 -> emptyPouch(e.getPlayer(), 2);
+					case 5514 -> emptyPouch(e.getPlayer(), 3);
+					case 24205 -> emptyPouch(e.getPlayer(), 4);
+				}
 			}
-		else if (e.getOption().equals("Check"))
-			switch(e.getItem().getId()) {
-			case 5509 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[0] + (e.getPlayer().getPouchesType()[0] ? " pure" : " rune")+ " essence in it.", false);
-			case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune")+ " essence in it.", false);
-			case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune")+ " essence in it.", false);
-			case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune")+ " essence in it.", false);
-			case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune")+ " essence in it.", false);
+			case "Check" -> {
+				switch (e.getItem().getId()) {
+					case 5509 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[0] + (e.getPlayer().getPouchesType()[0] ? " pure" : " rune") + " essence in it.", false);
+					case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune") + " essence in it.", false);
+					case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune") + " essence in it.", false);
+					case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune") + " essence in it.", false);
+					case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune") + " essence in it.", false);
+				}
 			}
+		}
 		e.getPlayer().stopAll(false);
 	});
 	
@@ -149,6 +167,54 @@ public class Runecrafting {
 		});
 	}
 
+	public static boolean craftCombinationRune(Player player, AltarCombination combination) {
+		if (player.getSkills().getLevel(Constants.RUNECRAFTING) < combination.getLevelReq()) {
+			return false;
+		}
+
+		int pureEss = player.getInventory().getNumberOf(PURE_ESS);
+		if (pureEss == 0) {
+			return false;
+		}
+
+		int reagentRunes = player.getInventory().getNumberOf(combination.getReagentRune().getId());
+		if (reagentRunes == 0) {
+			return false;
+		}
+
+		if (!player.isCastMagicImbue()) {
+			if (!player.getInventory().containsItem(combination.getTalisman().getTalismanId(), 1)) {
+				return false;
+			}
+			player.getInventory().deleteItem(combination.getTalisman().getTalismanId(), 1);
+		}
+
+		int maxCraftable = Math.min(reagentRunes, pureEss);
+		player.getInventory().deleteItem(PURE_ESS, maxCraftable);
+		player.getInventory().deleteItem(combination.getReagentRune().getId(), maxCraftable);
+
+		double xp = combination.getXp();
+		if (Runecrafting.hasRcingSuit(player))
+			xp *= 1.025;
+
+		String runeName = new Item(combination.getOutputRuneId()).getName();
+		if (player.getEquipment().getAmuletId() == BINDING_NECKLACE) {
+			player.sendMessage("You bind the temple's power into " + runeName + "s.");
+			player.bindingNecklaceCharges--;
+			if (player.bindingNecklaceCharges <= 0) {
+				player.getEquipment().deleteSlot(Equipment.NECK);
+				player.sendMessage("Your binding necklace disintegrates.");
+				player.bindingNecklaceCharges = 15;
+			}
+		} else {
+			player.sendMessage("You attempt to bind " + runeName + "s.");
+			maxCraftable /= 2;
+		}
+		player.getInventory().addItem(combination.getOutputRuneId(), maxCraftable);
+		player.getSkills().addXp(Constants.RUNECRAFTING, xp * maxCraftable);
+		return true;
+	}
+
 	private enum ZMIRune {
 		AIR(5.0, 556, 		new double[] { 50.0, 15.0, 12.0, 7.0, 6.0, 5.0, 4.5, 3.0, 2.0, 1.0, 1.0 }),
 		MIND(5.5, 558, 		new double[] { 25.0, 18.0, 13.0, 8.0, 6.5, 5.5, 5.0, 3.0, 2.0, 1.0, 1.0 }),
@@ -165,12 +231,12 @@ public class Runecrafting {
 		BLOOD(10.5, 565, 	new double[] { 0.05, 0.06, 0.15, 0.4, 0.8, 1.7, 2.0, 5.0, 6.0, 10.0, 13.0 }),
 		SOUL(12.0, 566, 		new double[] { 0.02, 0.03, 0.08, 0.2, 0.4, 0.8, 1.0, 2.0, 4.0, 6.5, 9.0 });
 
-		private double xp;
-		private int id;
-		private double[] chances;
+		private final double xp;
+		private final int id;
+		private final double[] chances;
 
-		private static Map<Integer, DropList> CHANCES = new HashMap<>();
-		private static Map<Integer, ZMIRune> BY_ID = new HashMap<>();
+		private static final Map<Integer, DropList> CHANCES = new HashMap<>();
+		private static final Map<Integer, ZMIRune> BY_ID = new HashMap<>();
 
 		static {
 			for (ZMIRune r : ZMIRune.values())
@@ -203,7 +269,7 @@ public class Runecrafting {
 		}
 	}
 
-	public static ZMIRune rollZMIRune(Player player) {
+	private static ZMIRune rollZMIRune(Player player) {
 		return ZMIRune.calculate(Utils.clampI(player.getSkills().getLevel(Skills.RUNECRAFTING) >= 99 ? 10 : player.getSkills().getLevel(Skills.RUNECRAFTING) / 10, 0, 10));
 	}
 
@@ -227,7 +293,7 @@ public class Runecrafting {
 			if (pouch == -1)
 				continue;
 
-			if (player.getPouchesType()[pouch] == true) { //only grab pure ess for ZMI altar
+			if (player.getPouchesType()[pouch]) { //only grab pure ess for ZMI altar
 				runes += player.getPouches()[pouch];
 				player.getPouches()[pouch] = 0;
 			}
@@ -264,10 +330,6 @@ public class Runecrafting {
 		player.setNextAnimation(new Animation(791));
 		player.lock(5);
 		player.sendMessage("You bind the temple's power into assorted runes.");
-	}
-
-	public static void runecraft(Player player, RCRune rune) {
-		runecraft(player, rune, false);
 	}
 
 	public static void runecraft(Player player, RCRune rune, boolean span) {
@@ -388,9 +450,10 @@ public class Runecrafting {
 	}
 
 	public static boolean hasRcingSuit(Player player) {
-		if (player.getEquipment().getHatId() == 21485 && player.getEquipment().getChestId() == 21484 && player.getEquipment().getLegsId() == 21486 && player.getEquipment().getBootsId() == 21487)
-			return true;
-		return false;
+		return player.getEquipment().getHatId() == 21485
+				&& player.getEquipment().getChestId() == 21484
+				&& player.getEquipment().getLegsId() == 21486
+				&& player.getEquipment().getBootsId() == 21487;
 	}
 
 	public static void locate(Player p, int ruinsXPos, int ruinsYPos) {
@@ -431,20 +494,19 @@ public class Runecrafting {
 		if (essenceToAdd == POUCH_SIZE[i])
 			p.getPouchesType()[i] = p.getInventory().getItems().getNumberOf(PURE_ESS) > 0;
 
-			int essType = p.getPouchesType()[i] ? PURE_ESS : RUNE_ESS;
+		int essType = p.getPouchesType()[i] ? PURE_ESS : RUNE_ESS;
 
-			if (essenceToAdd > p.getInventory().getItems().getNumberOf(essType))
-				essenceToAdd = p.getInventory().getItems().getNumberOf(essType);
-			if (essenceToAdd > POUCH_SIZE[i] - p.getPouches()[i])
-				essenceToAdd = POUCH_SIZE[i] - p.getPouches()[i];
-			if (essenceToAdd > 0) {
-				p.getInventory().deleteItem(essType, essenceToAdd);
-				p.getPouches()[i] += essenceToAdd;
-			}
-			if (essenceToAdd == 0) {
-				p.sendMessage("Your pouch is full.", false);
-				return;
-			}
+		if (essenceToAdd > p.getInventory().getItems().getNumberOf(essType))
+			essenceToAdd = p.getInventory().getItems().getNumberOf(essType);
+		if (essenceToAdd > POUCH_SIZE[i] - p.getPouches()[i])
+			essenceToAdd = POUCH_SIZE[i] - p.getPouches()[i];
+		if (essenceToAdd > 0) {
+			p.getInventory().deleteItem(essType, essenceToAdd);
+			p.getPouches()[i] += essenceToAdd;
+		}
+		if (essenceToAdd == 0) {
+			p.sendMessage("Your pouch is full.", false);
+		}
 	}
 
 	public static void fillPouchesFromBank(Player p, int essence) {
@@ -482,7 +544,7 @@ public class Runecrafting {
 					}
 					if (essenceToAdd != 0) {
 						p.sendMessage(essenceToAdd + " " + ItemDefinitions.getDefs(essence).getName() + " has been placed into your " + i.getName().toLowerCase() + ".");
-						p.getPouchesType()[pouch] = (essence == PURE_ESS ? true : false);
+						p.getPouchesType()[pouch] = (essence == PURE_ESS);
 					}
 				}
 			}
@@ -502,7 +564,6 @@ public class Runecrafting {
 		}
 		if (toAdd == 0) {
 			p.sendMessage("Your pouch has no essence left in it.", false);
-			return;
 		}
 	}
 
@@ -527,22 +588,14 @@ public class Runecrafting {
 		if (e.getObject().getId() == 26847)
 			Runecrafting.craftZMIAltar(e.getPlayer());
 		else if (rune != null)
-			Runecrafting.runecraft(e.getPlayer(), rune);
+			Runecrafting.runecraft(e.getPlayer(), rune, false);
 	});
 
 	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
 		e.getPlayer().setNextAnimation(new Animation(828));
 		switch (e.getObjectId()) {
-			case 26849 -> { WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() { e.getPlayer().setNextTile(Tile.of(3271, 4861, 0));
-				}
-			}, 1); }
-			case 26850 -> { WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() { e.getPlayer().setNextTile(Tile.of(2452, 3232, 0));
-				}
-			}, 1); }
-		};
+			case 26849 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(3271, 4861, 0)));
+			case 26850 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(2452, 3232, 0)));
+		}
 	});
 }

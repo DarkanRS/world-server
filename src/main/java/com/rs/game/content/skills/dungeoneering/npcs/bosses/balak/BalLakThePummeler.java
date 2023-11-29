@@ -37,11 +37,11 @@ public class BalLakThePummeler extends DungeonBoss {
 	private boolean skip;
 	private int barPercentage;
 
-	private List<PoisionPuddle> puddles = new CopyOnWriteArrayList<>();
+	private final List<PoisonPuddle> puddles = new CopyOnWriteArrayList<>();
 
 	public BalLakThePummeler(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(10128, 10141), manager.getBossLevel()), tile, manager, reference);
-		setLureDelay(6000); //this way you can lure him hehe, still not as much as outside dung npcs
+		setLureDelay(6000); // this way you can lure him hehe, still not as much as outside dung npcs
 		setHitpoints(getMaxHitpoints());
 	}
 
@@ -53,9 +53,9 @@ public class BalLakThePummeler extends DungeonBoss {
 		skip = !skip;
 		if (!skip) {
 			boolean reduced = false;
-			for (PoisionPuddle puddle : puddles) {
+			for (PoisonPuddle puddle : puddles) {
 				puddle.cycles++;
-				if (puddle.canDestroyPoision()) {
+				if (puddle.canDestroyPoison()) {
 					puddles.remove(puddle);
 					continue;
 				}
@@ -110,21 +110,21 @@ public class BalLakThePummeler extends DungeonBoss {
 			getManager().showBar(getReference(), "Demon's Defence", barPercentage);
 	}
 
-	private static class PoisionPuddle {
+	private static class PoisonPuddle {
 		final Tile tile;
 		int cycles;
 
-		public PoisionPuddle(Tile tile, int barPercentage) {
+		public PoisonPuddle(Tile tile, int barPercentage) {
 			this.tile = tile;
 		}
 
-		public boolean canDestroyPoision() {
+		public boolean canDestroyPoison() {
 			return cycles == 15;
 		}
 	}
 
-	public void addPoisionBubble(Tile centerTile) {
-		puddles.add(new PoisionPuddle(centerTile, barPercentage));
+	public void addPoisonBubble(Tile centerTile) {
+		puddles.add(new PoisonPuddle(centerTile, barPercentage));
 		addPoisonBubbleSpotAnimations(centerTile);
 	}
 
@@ -140,7 +140,7 @@ public class BalLakThePummeler extends DungeonBoss {
 		World.sendSpotAnim(Tile.of(centerTile.getX()+1, centerTile.getY()-1, centerTile.getPlane()), new SpotAnim(2588));
 	}
 
-	public List<PoisionPuddle> getPoisionPuddles() {
+	public List<PoisonPuddle> getPoisonPuddles() {
 		return puddles;
 	}
 }
