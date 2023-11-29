@@ -22,9 +22,12 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Burying;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -90,10 +93,18 @@ public class Ectofuntus {
 		}
 	}
 
-	public static final void sendEctophialTeleport(Player player, Tile tile) {
-		player.soundEffect(4580);
-		Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null);
-	}
+public static final void sendEctophialTeleport(Player player, Tile tile) {
+	player.setNextAnimation(new Animation(9609)); // Set the animation with ID 9609
+	player.setNextSpotAnim(new SpotAnim(1688)); // Set the spot animation with ID 1688
+	WorldTasks.schedule(new WorldTask() {
+		@Override
+		public void run() {
+			player.soundEffect(4580);
+			Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.MAGIC_TELEPORT, null); // Send the teleport
+		}
+	}, 4);
+}
+
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 5268 }, e -> e.getPlayer().useLadder(Tile.of(3669, 9888, 3)));
 	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 5264 }, e -> e.getPlayer().useLadder(Tile.of(3654, 3519, 0)));

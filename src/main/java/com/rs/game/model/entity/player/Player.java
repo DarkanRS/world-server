@@ -898,6 +898,8 @@ public class Player extends Entity {
 			closeChatboxInterfaceEvent = null;
 			event.run();
 		}
+		if (getInterfaceManager().topOpen(755))
+			setNextAnimation(new Animation(-1));
 	}
 
 	public void abortDialogue() {
