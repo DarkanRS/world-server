@@ -246,11 +246,6 @@ public class NPCHandler {
 				return;
 			}
 
-			if (npc.getDefinitions().getName(player.getVars()).toLowerCase().equals("void knight")) {
-				CommendationExchange.openExchangeShop(player);
-				return;
-			}
-
 			if (npc.getId() == 9707)
 				FremennikShipmaster.sail(player, true);
 			else if (npc.getId() == 1686) {

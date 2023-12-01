@@ -13,22 +13,6 @@ import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromClassloader
 import kotlin.script.experimental.jvm.jvm
 
-object PluginCompilationConfiguration : ScriptCompilationConfiguration({
-    defaultImports(
-        "com.rs.plugin.kts.*",
-        "com.rs.engine.dialogue.DialogueDsl",
-        "com.rs.engine.dialogue.*",
-        "com.rs.engine.dialogue.HeadE.*"
-    )
-    jvm { dependenciesFromClassloader(wholeClasspath = true) }
-    ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
-    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
-})
-
-object PluginEvaluationConfiguration : ScriptEvaluationConfiguration({
-
-})
-
 @KotlinScript(
     displayName = "Plugin",
     fileExtension = "plugin.kts",
@@ -189,3 +173,19 @@ abstract class PluginScriptDefinition {
         XPGainEvent.registerMethod(XPGainEvent::class.java, XPGainHandler { eventHandler(it) })
     }
 }
+
+object PluginCompilationConfiguration : ScriptCompilationConfiguration({
+    defaultImports(
+        "com.rs.plugin.kts.*",
+        "com.rs.engine.dialogue.DialogueDsl",
+        "com.rs.engine.dialogue.*",
+        "com.rs.engine.dialogue.HeadE.*"
+    )
+    jvm { dependenciesFromClassloader(wholeClasspath = true) }
+    ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
+    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
+})
+
+object PluginEvaluationConfiguration : ScriptEvaluationConfiguration({
+
+})
