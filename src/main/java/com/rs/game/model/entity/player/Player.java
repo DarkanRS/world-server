@@ -2202,6 +2202,7 @@ public class Player extends Entity {
 	}
 	@Override
 	public void sendDeath(final Entity source) {
+		clearPendingTasks();
 		incrementCount("Deaths");
 
 		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel")) {

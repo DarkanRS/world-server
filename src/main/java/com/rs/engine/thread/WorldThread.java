@@ -102,6 +102,27 @@ public final class WorldThread extends Thread {
 				WorldTasks.processTasks();
 				Logger.trace(WorldThread.class, "tick", "processTasks() - " + timerTask.stop());
 				OwnedObject.processAll();
+				Timer timerNpcProcTasks = new Timer().start();
+				for (NPC npc : World.getNPCs()) {
+					try {
+						if (npc == null || npc.hasFinished())
+							continue;
+						npc.processTasks();
+					} catch (Throwable e) {
+						Logger.handle(WorldThread.class, "run:npcProcessEntityTasks", "Error processing NPC: " + (npc == null ? "NULL NPC" : npc.getId()), e);
+					}
+				}
+				Logger.trace(WorldThread.class, "tick", "npcProcessEntityTasks() - " + timerNpcProcTasks.stop());
+
+				Timer timerPlayerProcTasks = new Timer().start();
+				for (Player player : World.getPlayers()) {
+					try {
+						player.processTasks();
+					} catch (Throwable e) {
+						Logger.handle(WorldThread.class, "run:playerProcessEntityTasks", "Error processing player: " + (player == null ? "NULL PLAYER" : player.getUsername()), e);
+					}
+				}
+				Logger.trace(WorldThread.class, "tick", "playerProcessEntityTasks() - " + timerPlayerProcTasks.stop());
 				NAMES.clear();
 				Timer timerNpcProc = new Timer().start();
 				for (NPC npc : World.getNPCs()) {

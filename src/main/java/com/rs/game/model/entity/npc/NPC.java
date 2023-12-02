@@ -466,6 +466,7 @@ public class NPC extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
+		clearPendingTasks();
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		getInteractionManager().forceStop();
 		resetWalkSteps();

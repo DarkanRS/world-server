@@ -348,9 +348,12 @@ public abstract class Entity {
 			hit.setSource(f.getOwner());
 			PlayerCombat.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
 		}
-		if (delay < 0)
+		if (delay < 0) {
+			handlePostHit(hit);
+			if (onHit != null)
+				onHit.run();
 			receivedHits.add(hit);
-		else
+		} else
 			(hit.getSource() != null ? hit.getSource().getTasks() : tasks).schedule(delay, () -> {
 				if (isDead()) {
 					hit.setDamage(0);
@@ -947,7 +950,6 @@ public abstract class Entity {
 			if (routeEvent == prevEvent)
 				routeEvent = null;
 		}
-		tasks.processTasks();
 		poison.processPoison();
 		processReceivedHits();
 		processReceivedDamage();
@@ -2019,5 +2021,14 @@ public abstract class Entity {
 
 	public TaskManager getTasks() {
 		return tasks;
+	}
+
+	public void processTasks() {
+		if (tasks != null)
+			tasks.processTasks();
+	}
+
+	public void clearPendingTasks() {
+		tasks = new TaskManager();
 	}
 }
