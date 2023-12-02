@@ -27,9 +27,8 @@ import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
-import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
@@ -143,7 +142,7 @@ public class FightCavesController extends Controller {
 				playMusic();
 				player.unlock(); // unlocks player
 				if (!login) {
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							if (stage != Stages.RUNNING)
@@ -231,7 +230,7 @@ public class FightCavesController extends Controller {
 	public void setWaveEvent() {
 		if (getCurrentWave() == 63)
 			player.npcDialogue(THHAAR_MEJ_JAL, HeadE.T_CALM_TALK, "Look out, here comes TzTok-Jad!");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {

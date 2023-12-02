@@ -22,7 +22,7 @@ import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -155,7 +155,7 @@ public final class CastleWars {
 				player.lock(7);
 				player.stopAll();
 			}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				for (int i = 0; i < playing.length; i++)
@@ -308,7 +308,7 @@ public final class CastleWars {
 		return playingGame.isBarricadeAt(tile);
 	}
 
-	private static class PlayingGame extends WorldTask {
+	private static class PlayingGame extends Task {
 
 		private static final int SAFE = 0, TAKEN = 1, DROPPED = 2;
 		private int minutesLeft;

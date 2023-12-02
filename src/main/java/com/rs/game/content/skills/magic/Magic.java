@@ -27,7 +27,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -476,7 +476,7 @@ public class Magic {
 			return;
 		player.setNextAnimation(new Animation(2140));
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.unlock();
@@ -535,7 +535,7 @@ public class Magic {
 		if (teleType == MAGIC_TELEPORT)
 			player.voiceEffect(5527);
 		player.lock(3 + delay);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			boolean removeDamage;
 
@@ -642,7 +642,7 @@ public class Magic {
 		player.setNextAnimation(new Animation(8939));
 		player.setNextSpotAnim(new SpotAnim(1576));
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage;
 
 			@Override
@@ -678,7 +678,7 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage;
 
 			@Override
@@ -714,7 +714,7 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage;
 
 			@Override

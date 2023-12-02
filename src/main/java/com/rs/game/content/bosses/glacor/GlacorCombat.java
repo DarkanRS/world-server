@@ -27,7 +27,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -56,7 +56,7 @@ public class GlacorCombat extends CombatScript {
 			npc.setNextSpotAnim(new SpotAnim(905));
 			WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 2, 0, 0);
 			final Tile targetPosition = Tile.of(target.getX(), target.getY(), target.getPlane());
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					if ((target.getX() == targetPosition.getX()) && (target.getY() == targetPosition.getY()))
@@ -83,7 +83,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9967));
 				npc.setNextSpotAnim(new SpotAnim(902));
 				WorldProjectile p = World.sendProjectile(npc, target, MAGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						delayHit(npc, -1, target, getMagicHit(npc, getMaxHit(npc, 255, AttackStyle.MAGE, player)));
@@ -97,7 +97,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextAnimation(new Animation(9968));
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, RANGE_PROJECTILE, 60, 32, 50, 2, 0, 0);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						delayHit(npc, -1, target, getRangeHit(npc, getMaxHit(npc, 255, AttackStyle.RANGE, player)));
@@ -108,7 +108,7 @@ public class GlacorCombat extends CombatScript {
 				npc.setNextSpotAnim(new SpotAnim(905));
 				WorldProjectile p = World.sendProjectile(npc, target, SPECIAL_PROJECTILE, 60, 32, 50, 1, 0, 0);
 				final Tile targetPosition = Tile.of(player.getX(), player.getY(), player.getPlane());
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						if ((player.getX() == targetPosition.getX()) && (player.getY() == targetPosition.getY()))

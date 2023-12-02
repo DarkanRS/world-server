@@ -18,7 +18,7 @@ package com.rs.game.content.skills.slayer.npcs;
 
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -62,7 +62,7 @@ public class MutatedZygomite extends ConditionalDeath {
 		npc.getCombat().setTarget(player);
 		npc.setHitpoints(npc.getMaxHitpoints());
 		npc.resetLevels();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				npc.setCantInteract(false);

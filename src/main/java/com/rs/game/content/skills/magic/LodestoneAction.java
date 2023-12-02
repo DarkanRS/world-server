@@ -20,7 +20,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -142,7 +142,7 @@ public class LodestoneAction extends PlayerAction {
 				Magic.teleControllersCheck(player, tile);
 			player.setNextTile(tile);
 			player.setNextFaceTile(tile.transform(0, -1, 0));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int stage = 0;
 
 				@Override

@@ -27,7 +27,7 @@ import com.rs.game.World;
 import com.rs.game.content.skills.runecrafting.RunecraftingAltar;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -304,7 +304,7 @@ public class RuneMysteries extends QuestOutline {
 											.addNext(() -> {
 												e.getNPC().setNextForceTalk(new ForceTalk("Senventior Disthine Molenko!"));
 												World.sendProjectile(e.getNPC(), e.getPlayer(), 109, 5, 5, 5, 1, 5, 0);
-												WorldTasks.schedule(new WorldTask() {
+												WorldTasks.schedule(new Task() {
 													@Override
 													public void run() {
 														e.getPlayer().setNextTile(Tile.of(3113, 3175, 0, 0));

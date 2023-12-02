@@ -24,7 +24,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -96,7 +96,7 @@ public class Nomad extends NPC {
 			target.getVars().setVarBit(6962, 0);
 			target.npcDialogue(getId(), HeadE.ANGRY, "You...<br>You have doomed this world.");
 			target.voiceEffect(8260);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					FadingScreen.fade(target, () -> {
@@ -152,7 +152,7 @@ public class Nomad extends NPC {
 	public void sendTeleport(final Tile tile) {
 		setNextAnimation(new Animation(12729));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				setNextTile(tile);
@@ -187,7 +187,7 @@ public class Nomad extends NPC {
 		setNextSpotAnim(new SpotAnim(1576));
 		final int thisIndex = Utils.random(4);
 		final Nomad thisNpc = this;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				copies = new ArrayList<>();

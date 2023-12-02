@@ -27,7 +27,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -117,7 +117,7 @@ public class Blink extends DungeonBoss {
 		//playSoundEffect(FAILURE_SOUNDS[Utils.random(FAILURE_SOUNDS.length)]);
 		setNextForceTalk(new ForceTalk("Oof!"));
 		setNextAnimation(new Animation(14946));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -201,7 +201,7 @@ public class Blink extends DungeonBoss {
 		newPillar.setId(32196);//Our little secret :D
 		activePillar = Tile.of(selectedPillar.getTile());
 		World.spawnObjectTemporary(newPillar, 4);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

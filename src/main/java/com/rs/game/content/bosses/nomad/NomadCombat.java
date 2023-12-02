@@ -24,7 +24,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -80,7 +80,7 @@ public class NomadCombat extends CombatScript {
 				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's make things interesting!");
 				player.voiceEffect(8039);
 				final Tile middle = Tile.of(player.getTile());
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int count;
 
 					@Override
@@ -136,7 +136,7 @@ public class NomadCombat extends CombatScript {
 				Tile throne = nomad.getThroneTile();
 				if (nomad.getX() != throne.getX() || nomad.getY() != throne.getY())
 					nomad.sendTeleport(nomad.getThroneTile());
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					private boolean secondLoop;
 
@@ -173,7 +173,7 @@ public class NomadCombat extends CombatScript {
 				nomad.sendTeleport(nomad.getThroneTile());
 				Magic.sendObjectTeleportSpell(player, false, throne.transform(1, -3, 0));
 				player.lock();
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					private boolean secondLoop;
 
 					@Override
@@ -207,7 +207,7 @@ public class NomadCombat extends CombatScript {
 			int damage = getMaxHit(npc, 322, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getRegularHit(npc, damage));
 			if (damage == 0)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						target.setNextSpotAnim(new SpotAnim(85, 0, 100));

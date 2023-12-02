@@ -23,7 +23,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -47,7 +47,7 @@ public class NoEscape implements NexAttack {
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
 		final Tile dir = NO_ESCAPE_TELEPORTS[idx];
 		final Tile center = Tile.of(2924, 5202, 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			private int count;
 
 			@Override

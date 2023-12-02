@@ -27,7 +27,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -202,7 +202,7 @@ public class Firemaking extends Action {
 					entity.addWalkSteps(entity.getX(), entity.getY() - 1, 1);
 		if (player != null)
 			player.sendMessage("The fire catches and the logs begin to burn.", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				if (player != null) {

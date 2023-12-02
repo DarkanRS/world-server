@@ -16,11 +16,11 @@
 //
 package com.rs.game.tasks;
 
-public class WorldTaskLambda extends WorldTask {
+public class TaskLambda extends Task {
 
 	private Runnable task;
 
-	public WorldTaskLambda(Runnable task) {
+	public TaskLambda(Runnable task) {
 		this.task = task;
 	}
 

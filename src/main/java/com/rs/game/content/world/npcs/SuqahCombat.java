@@ -20,7 +20,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -41,7 +41,7 @@ public class SuqahCombat extends CombatScript {
 		if (!meleeOnly && Utils.getRandomInclusive(3) == 0) {// barrage
 			boolean hit = Utils.getRandomInclusive(1) == 0;
 			delayHit(npc, 2, target, getMagicHit(npc, hit ? 100 : 0));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(369));

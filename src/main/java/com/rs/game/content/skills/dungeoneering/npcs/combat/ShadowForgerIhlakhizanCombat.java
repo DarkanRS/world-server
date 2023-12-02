@@ -27,7 +27,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -83,7 +83,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets()) {
 					t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
 					if (t instanceof Player player) {
-						WorldTasks.schedule(new WorldTask() {
+						WorldTasks.schedule(new Task() {
 							private int ticks;
 							private Tile tile;
 

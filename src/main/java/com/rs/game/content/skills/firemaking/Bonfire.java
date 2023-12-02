@@ -18,13 +18,11 @@ package com.rs.game.content.skills.firemaking;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.content.Effect;
-import com.rs.game.content.skills.cooking.Cooking;
-import com.rs.game.content.skills.cooking.CookingD;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -189,7 +187,7 @@ public class Bonfire extends PlayerAction {
 	@Override
 	public void stop(final Player player) {
 		player.getEmotesManager().setNextEmoteEnd(4);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

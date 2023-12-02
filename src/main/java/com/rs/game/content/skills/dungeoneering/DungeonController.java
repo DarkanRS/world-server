@@ -59,7 +59,7 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -277,7 +277,7 @@ public class DungeonController extends Controller {
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override
@@ -418,7 +418,7 @@ public class DungeonController extends Controller {
 			player.setNextSpotAnim(new SpotAnim(fail ? s.getFailGfx() : s.getOpenGfx()));
 		if (s.getOpenObjectAnim() != -1 && !fail)
 			World.sendObjectAnimation(object, new Animation(s.getOpenObjectAnim()));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -584,7 +584,7 @@ public class DungeonController extends Controller {
 			}
 			player.setNextAnimation(defs.getAnimation());
 			player.lock(4);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
@@ -1220,7 +1220,7 @@ public class DungeonController extends Controller {
 		if (!group) {
 			player.setCantWalk(true);
 			player.getEmotesManager().setNextEmoteEnd(3); //prevents dropping etc
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setCantWalk(false);

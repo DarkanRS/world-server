@@ -18,7 +18,7 @@ package com.rs.game.content.skills.agility;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -36,7 +36,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY()) {
 			player.addWalkSteps(2998, 3916, 0, false);
 			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
@@ -53,7 +53,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY()) {
 			player.addWalkSteps(2998, 3931, 0, false);
 			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
@@ -83,7 +83,7 @@ public class WildernessAgility {
 		player.lock(7);
 		player.addWalkSteps(objectX, objectY == 3938 ? 3950 : 3937, -1, false);
 		player.sendMessage("You pulled yourself through the pipes.", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -123,7 +123,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY())
 			return;
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int x;
 
 			@Override
@@ -150,7 +150,7 @@ public class WildernessAgility {
 		player.lock();
 		player.addWalkSteps(2994, 3945, -1, false);
 		player.sendMessage("You walk carefully across the log...", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -179,7 +179,7 @@ public class WildernessAgility {
 		final Tile toTile = Tile.of(player.getX(), 3935, 0);
 
 		player.sendMessage("You climb up the rock.", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.setNextTile(toTile);

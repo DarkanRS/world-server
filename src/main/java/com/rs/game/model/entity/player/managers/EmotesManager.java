@@ -22,7 +22,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Rights;
@@ -490,7 +490,7 @@ public final class EmotesManager {
 					player.setNextAnimation(new Animation(13190));
 					player.setNextSpotAnim(new SpotAnim(2442));
 					player.lock();
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						int step;
 
 						@Override
@@ -526,7 +526,7 @@ public final class EmotesManager {
 						break;
 					player.setNextFaceTile(Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
 					player.lock();
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						int step;
 
 						@Override
@@ -593,7 +593,7 @@ public final class EmotesManager {
 					}
 					nextEmoteEnd = World.getServerTicks() + 25;
 					final Tile npcTile = spawnTile;
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						private int step;
 						private NPC npc;
 
@@ -649,7 +649,7 @@ public final class EmotesManager {
 						return;
 					}
 					nextEmoteEnd = World.getServerTicks() + 20;
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						private int step;
 						@Override
 						public void run() {
@@ -679,7 +679,7 @@ public final class EmotesManager {
 				}
 				return;
 			} else if (emote == Emote.GIVE_THANKS)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						if (step == 0) {
@@ -699,7 +699,7 @@ public final class EmotesManager {
 					private int step;
 				}, 0, 1);
 			else if (emote == Emote.SEAL_OF_APPROVAL)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int random = (int) (Math.random() * (2 + 1));
 					@Override
 					public void run() {

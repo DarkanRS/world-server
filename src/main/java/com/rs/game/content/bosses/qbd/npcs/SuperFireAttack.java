@@ -20,7 +20,7 @@ import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -51,7 +51,7 @@ public final class SuperFireAttack implements QueenAttack {
 		victim.sendMessage("<col=FFCC00>The Queen Black Dragon gathers her strength to breath extremely hot flames.</col>");
 		if (Utils.getDistance(npc.getBase().transform(33, 31, 0), victim.getTile()) <= 4)
 			victim.getTempAttribs().setB("canBrandish", true);
-		WorldTasks.schedule(new WorldTask() {
+		npc.getTasks().schedule(new Task() {
 			int count = 0;
 
 			@Override

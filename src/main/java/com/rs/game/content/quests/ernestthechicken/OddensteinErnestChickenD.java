@@ -24,7 +24,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
@@ -119,7 +119,7 @@ public class OddensteinErnestChickenD extends Conversation {
 					for(NPC npc : npcs)
 						if(npc.getId() == 3290)
 							npc.transformIntoNPC(287);
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							for(NPC npc : npcs)

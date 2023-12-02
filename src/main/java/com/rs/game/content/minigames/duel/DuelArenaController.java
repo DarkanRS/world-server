@@ -29,7 +29,7 @@ import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -109,7 +109,7 @@ public class DuelArenaController extends Controller {
 		Player oldTarget = target;
 		if (duelStage != DuelStage.DONE) {
 			target = null;
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
@@ -305,7 +305,7 @@ public class DuelArenaController extends Controller {
 		startEndingTeleport(loser);
 		loser.sendMessage("Oh dear, it seems you have lost to " + victor.getDisplayName() + ".");
 		victor.sendMessage("Congratulations! You easily defeated " + loser.getDisplayName() + ".");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -355,7 +355,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("canFight", false);
 		player.setCanPvp(true);
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int count = 3;
 
 			@Override
@@ -438,7 +438,7 @@ public class DuelArenaController extends Controller {
 	public boolean sendDeath() {
 		endDuel(target, player);
 		player.lock(7);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override

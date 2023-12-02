@@ -24,7 +24,7 @@ import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -69,7 +69,7 @@ public class FightArenaFightCutsceneController extends Controller {
 		instance.copyMapAllPlanes(320, 391).thenAccept(e -> {
 			spawn = instance.getLocalTile(57, 39);
 
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int tick;
 				NPC jeremy;
 				NPC ogre;
@@ -280,7 +280,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	public boolean processObjectClick1(GameObject object) {
 		if(object.getId() == 82 && canLeave) {
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int tick;
 				@Override
 				public void run() {

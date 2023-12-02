@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.kalphitequeen;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -53,7 +53,7 @@ public class KalphiteQueen extends NPC {
 					transformIntoNPC(1160);
 					setNextSpotAnim(new SpotAnim(1055));
 					setNextAnimation(new Animation(6270));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 
 						@Override
 						public void run() {

@@ -26,7 +26,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -83,7 +83,7 @@ public class BlinkCombat extends CombatScript {
 				boss.setNextFaceEntity(null);
 				boss.setNextFaceTile(beginningTile);// Faces the direction it throws into
 				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0, 0);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					private List<Tile> knifeTargets;
 					private int cycles;

@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -55,7 +55,7 @@ public class WarpedGulegaCombat extends CombatScript {
 				final List<Tile> attackTiles = new LinkedList<>();
 				for (Entity t : boss.getPossibleTargets(true))
 					attackTiles.add(Tile.of(t.getTile()));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {
@@ -91,7 +91,7 @@ public class WarpedGulegaCombat extends CombatScript {
 			}
 			case 0 -> {
 				npc.setNextAnimation(new Animation(15004));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					Tile center;
 					int cycles;

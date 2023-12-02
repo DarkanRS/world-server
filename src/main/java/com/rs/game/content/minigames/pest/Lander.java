@@ -19,7 +19,7 @@ package com.rs.game.content.minigames.pest;
 import com.rs.Settings;
 import com.rs.game.content.minigames.pest.PestControl.PestData;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 
@@ -39,7 +39,7 @@ public class Lander {
 		this.landerRequirement = landerRequirement;
 	}
 
-	public class LobbyTimer extends WorldTask {
+	public class LobbyTimer extends Task {
 
 		private int seconds = TIME;
 

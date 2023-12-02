@@ -21,12 +21,10 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.abyss.EnterTheAbyss;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -37,7 +35,6 @@ import com.rs.plugin.handlers.*;
 import static com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import static com.rs.game.content.skills.runecrafting.Runecrafting.PURE_ESS;
 

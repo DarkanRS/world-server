@@ -27,7 +27,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -298,7 +298,7 @@ public class RunespanController extends Controller {
 
 	public static void enterRunespan(final Player player, boolean high) {
 		player.useStairs(-1, high ? HIGHER_LEVEL_ENTER : LOWER_LEVEL, 0, 2);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.getControllerManager().startController(new RunespanController());
@@ -450,7 +450,7 @@ public class RunespanController extends Controller {
 		player.lock();
 		player.addWalkSteps(object.getX(), object.getY(), 1, false);
 		World.sendSpotAnim(object.getTile(), new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			private int stage;
 
@@ -614,7 +614,7 @@ public class RunespanController extends Controller {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
 				final Tile dest = Tile.of(4367, 6033, 1);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					private int stage;
 
 					@Override
@@ -636,7 +636,7 @@ public class RunespanController extends Controller {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
 				final Tile dest = Tile.of(4367, 6062, 1);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					private int stage;
 
 					@Override
@@ -657,7 +657,7 @@ public class RunespanController extends Controller {
 			}
 		if (object.getId() == 70508) {
 			player.useStairs(16668, HIGHER_LEVEL, 4, 5);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));
@@ -668,7 +668,7 @@ public class RunespanController extends Controller {
 		}
 		if (object.getId() == 70509) {
 			player.useStairs(16675, VINE_LADDER, 2, 3);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));
@@ -679,7 +679,7 @@ public class RunespanController extends Controller {
 		}
 		if (object.getId() == 70511) {
 			player.useStairs(16675, BONE_LADDER, 2, 3);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));
@@ -689,7 +689,7 @@ public class RunespanController extends Controller {
 			return false;
 		} else if (object.getId() == 70510) {
 			player.useStairs(16675, TOP_LEVEL, 2, 3);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextAnimation(new Animation(-1));

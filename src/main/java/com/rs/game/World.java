@@ -37,7 +37,7 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.*;
 import com.rs.lib.game.GroundItem.GroundItemType;
@@ -734,7 +734,7 @@ public final class World {
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks, boolean clip) {
 		spawnObject(object, clip);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {
@@ -756,7 +756,7 @@ public final class World {
 		if (object == null)
 			return false;
 		removeObject(object);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {
@@ -771,7 +771,7 @@ public final class World {
 
 	public static final void spawnTempGroundObject(final GameObject object, final int replaceId, int ticks) {
 		spawnObject(object);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {

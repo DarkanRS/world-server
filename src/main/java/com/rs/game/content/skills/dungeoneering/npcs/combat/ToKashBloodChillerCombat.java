@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -92,7 +92,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		FrozenAdventurer npc = new FrozenAdventurer(10023, player.getTile(), -1, false);
 		npc.setPlayer(player);
 		player.sendMessage("You have been frozen solid!");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int counter = 0;
 

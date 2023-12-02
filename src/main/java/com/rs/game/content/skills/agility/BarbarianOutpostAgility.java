@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -84,7 +84,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().sendMessage("You put your foot on the ledge and try to edge across...", true);
 		e.getPlayer().lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage = 0;
 
 			@Override
@@ -157,7 +157,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(e.getObject().getTile(), () -> {
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {
@@ -187,7 +187,7 @@ public class BarbarianOutpostAgility {
 			Tile toTile = Tile.of(2532, 3553, 3);
 
 			e.getPlayer().lock();
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {
@@ -225,7 +225,7 @@ public class BarbarianOutpostAgility {
 		e.getPlayer().lock();
 		e.getPlayer().setNextAnimation(new Animation(2586));
 		e.getPlayer().getAppearance().setBAS(-1);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();
@@ -246,7 +246,7 @@ public class BarbarianOutpostAgility {
 		e.getPlayer().setNextAnimation(new Animation(11792));
 		final Tile toTile = Tile.of(2544, e.getPlayer().getY(), 0);
 		e.getPlayer().forceMove(Tile.of(2544, e.getPlayer().getY(), 0), 5, 5*30);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage;
 
 			@Override

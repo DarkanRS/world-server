@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -57,7 +57,7 @@ public class LuminescentIcefiendCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(13337));
 			World.sendProjectile(npc, target, 2530, 30, 16, 35, 35, 0, 0);
 			delayHit(icefiend, 2, target, getRangeHit(npc, getMaxHit(npc, (int) (icefiend.getMaxHit() * .90), AttackStyle.RANGE, target)));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {

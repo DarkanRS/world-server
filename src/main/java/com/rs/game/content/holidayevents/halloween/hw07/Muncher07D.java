@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -58,7 +58,7 @@ public class Muncher07D extends Conversation {
 		op.addPlayer(HeadE.LAUGH, "Hehe. This'll make him think twice!")
 		.addNext(() -> {
 			player.lock();
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {

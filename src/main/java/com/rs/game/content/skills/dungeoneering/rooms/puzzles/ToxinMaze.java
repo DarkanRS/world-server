@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -51,7 +51,7 @@ public class ToxinMaze extends PuzzleRoom {
 	};
 
 	private boolean expired;
-	private WorldTask toxinTask;
+	private Task toxinTask;
 
 	@Override
 	public void openRoom() {
@@ -116,7 +116,7 @@ public class ToxinMaze extends PuzzleRoom {
 		return true;
 	}
 
-	private class ToxinTask extends WorldTask {
+	private class ToxinTask extends Task {
 
 		private int ticks = TOTAL_TICKS / TICK_SPEED;
 

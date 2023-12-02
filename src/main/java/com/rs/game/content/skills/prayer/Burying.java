@@ -18,7 +18,7 @@ package com.rs.game.content.skills.prayer;
 
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -103,7 +103,7 @@ public class Burying {
 				player.setNextSpotAnim(new SpotAnim(40));
 			player.sendMessage(bone.name().contains("ASHES") ? "You scatter the ashes in the wind..." : "You dig a hole in the ground...");
 
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					handleNecklaces(player, bone.getId());

@@ -18,7 +18,7 @@ package com.rs.game.content.skills.agility;
 
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -93,7 +93,7 @@ public class GnomeAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
 			return;
 		e.getPlayer().lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {
@@ -123,7 +123,7 @@ public class GnomeAgility {
 		e.getPlayer().lock();
 		e.getPlayer().addWalkSteps(2474, 3429, -1, false);
 		e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -147,7 +147,7 @@ public class GnomeAgility {
 	public static ObjectClickHandler handleObstacleNet = new ObjectClickHandler(new Object[] { 69383 }, e -> {
 		e.getPlayer().sendMessage("You climb the netting.", true);
 		e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), 3423, 1), 1, 2);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				if (getGnomeStage(e.getPlayer()) == 0)
@@ -160,7 +160,7 @@ public class GnomeAgility {
 	public static ObjectClickHandler handleTreeBranch = new ObjectClickHandler(new Object[] { 69508 }, e -> {
 		e.getPlayer().sendMessage("You climb the tree...", true);
 		e.getPlayer().useStairs(828, Tile.of(2473, 3420, 2), 1, 2, "... to the platform above.");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				if (getGnomeStage(e.getPlayer()) == 1)
@@ -177,7 +177,7 @@ public class GnomeAgility {
 		e.getPlayer().setRunHidden(false);
 		e.getPlayer().lock();
 		e.getPlayer().addWalkSteps(2483, 3420, -1, false);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -201,7 +201,7 @@ public class GnomeAgility {
 
 	public static ObjectClickHandler handleTreeBranch3 = new ObjectClickHandler(new Object[] { 69507 }, e -> {
 		e.getPlayer().useStairs(828, Tile.of(2487, 3421, 0), 1, 2, "You climbed the tree branch succesfully.");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				if (getGnomeStage(e.getPlayer()) == 3)
@@ -215,7 +215,7 @@ public class GnomeAgility {
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(Utils.clampI(e.getPlayer().getX(), 2483, 2488), e.getObject().getY()-1, 0), () -> {
 			e.getPlayer().sendMessage("You climb the netting.", true);
 			e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getObject().getY()+1, 0), 1, 2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					if (getGnomeStage(e.getPlayer()) == 4)
@@ -232,7 +232,7 @@ public class GnomeAgility {
 		e.getPlayer().lock(8);
 		e.getPlayer().addWalkSteps(e.getObject().getX(), e.getObject().getY() == 3431 ? 3437 : 3430, -1, false);
 		e.getPlayer().sendMessage("You pulled yourself through the pipes.", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean secondloop;
 
 			@Override

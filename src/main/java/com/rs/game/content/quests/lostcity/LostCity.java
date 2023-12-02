@@ -7,7 +7,7 @@ import com.rs.game.content.transportation.FairyRings;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -98,7 +98,7 @@ public class LostCity extends QuestOutline {
 		if(e.getPlayer().getX() <= obj.getX())
 			if(e.getPlayer().getEquipment().getWeaponId() == DRAMEN_STAFF
                     && e.getPlayer().getQuestManager().getStage(Quest.LOST_CITY) >= FIND_ZANARIS)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int tick;
 					@Override
 					public void run() {

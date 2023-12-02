@@ -28,7 +28,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -133,20 +133,20 @@ public class Gravecreeper extends DungeonBoss {
 		setNextFaceEntity(null);
 		setForceWalk(walkTo);
 		setNextForceTalk(new ForceTalk(SPECIAL_SHOUTS[specialDelay == -1 ? 2 : Utils.random(SPECIAL_SHOUTS.length)]));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				setNextAnimation(new Animation(14507));
 				activatePlinths();
 				activateTombs();
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						// finish();
 						setNextNPCTransformation(1957);
 						if (specialDelay == -1)
 							specialDelay = -2;
-						WorldTasks.schedule(new WorldTask() {
+						WorldTasks.schedule(new Task() {
 							@Override
 							public void run() {
 								if (getManager().isDestroyed())
@@ -154,7 +154,7 @@ public class Gravecreeper extends DungeonBoss {
 								setNextTile(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
 								setNextNPCTransformation(originalId);
 								setNextAnimation(new Animation(14506));
-								WorldTasks.schedule(new WorldTask() {
+								WorldTasks.schedule(new Task() {
 									@Override
 									public void run() {
 										if (getManager().isDestroyed())

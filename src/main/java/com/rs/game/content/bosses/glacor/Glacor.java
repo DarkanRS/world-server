@@ -26,7 +26,7 @@ import com.rs.game.model.entity.TimerBar;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -154,7 +154,7 @@ public class Glacor extends NPC {
 			if (!startedTimer && !hasExploded) {
 				getNextHitBars().add(new TimerBar(700));
 				startedTimer = true;
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						if (thisNpc.getHitpoints() <= 0 || thisNpc.isDead())

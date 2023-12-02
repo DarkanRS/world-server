@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.woodcutting.Hatchet;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -36,7 +36,7 @@ public class BrimhavenDungeon {
 		}
 		e.getPlayer().lock();
 		e.getPlayer().setNextAnimation(defs.animNormal());
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				Tile tile = Tile.of(e.getObject().getTile());
@@ -56,7 +56,7 @@ public class BrimhavenDungeon {
 		e.getPlayer().lock();
 		e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 30, false);
 		if (e.getObject().getId() == 5110)
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int ticks = 0;
 
 				@Override
@@ -102,7 +102,7 @@ public class BrimhavenDungeon {
 				}
 			}, 0, 0);
 		else
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int ticks = 0;
 
 				@Override
@@ -170,7 +170,7 @@ public class BrimhavenDungeon {
 		final boolean isRun = e.getPlayer().isRunning();
 		e.getPlayer().setRun(false);
 		e.getPlayer().addWalkSteps(tile.getX(), tile.getY(), -1, false);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				e.getPlayer().setRun(isRun);

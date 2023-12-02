@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
@@ -25,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -128,7 +127,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				}
 
 			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				private boolean moved;
 

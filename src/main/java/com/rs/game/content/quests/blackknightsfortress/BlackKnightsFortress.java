@@ -11,7 +11,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -229,7 +229,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		p.lock();
 		p.getInventory().removeItems(new Item(1965, 1));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick;
 			final int WITCH_DIALOGUE1 = 10;
 			final int KNIGHT_CAPTAIN_DIALOGUE1 = 12;

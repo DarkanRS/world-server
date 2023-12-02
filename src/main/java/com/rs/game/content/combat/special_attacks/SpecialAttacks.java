@@ -15,13 +15,12 @@ import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
-import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
@@ -298,7 +297,7 @@ public class SpecialAttacks {
             delayHit(target, p.getTaskDelay(), hit);
             if (hit.getDamage() > 0) {
                 final Entity finalTarget = target;
-                WorldTasks.schedule(new WorldTask() {
+                WorldTasks.schedule(new Task() {
                     int damage = hit.getDamage();
 
                     @Override
@@ -410,7 +409,7 @@ public class SpecialAttacks {
             if (!target.addWalkSteps(target.getX() - player.getX() + target.getX(), target.getY() - player.getY() + target.getY(), 1))
                 player.setNextFaceEntity(target);
             target.setNextFaceEntity(player);
-            WorldTasks.schedule(new WorldTask() {
+            WorldTasks.schedule(new Task() {
                 @Override
                 public void run() {
                     target.setNextFaceEntity(null);
@@ -421,7 +420,7 @@ public class SpecialAttacks {
                 other.lock();
                 other.addFoodDelay(3000);
                 other.setDisableEquip(true);
-                WorldTasks.schedule(new WorldTask() {
+                WorldTasks.schedule(new Task() {
                     @Override
                     public void run() {
                         other.setDisableEquip(false);

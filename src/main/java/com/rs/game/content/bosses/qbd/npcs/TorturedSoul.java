@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -127,7 +127,7 @@ public final class TorturedSoul extends NPC {
 		super.setNextSpotAnim(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				stop();
@@ -151,7 +151,7 @@ public final class TorturedSoul extends NPC {
 				setNextSpotAnim(SPECIAL_ATT_GFX_);
 				setNextAnimation(SPECIAL_ATT_ANIM_);
 				getCombat().setTarget(victim);
-				WorldTasks.schedule(new WorldTask() {
+				getTasks().schedule(new Task() {
 					int x = currentX, y = currentY;
 
 					@Override

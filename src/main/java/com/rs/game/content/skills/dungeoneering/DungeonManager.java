@@ -51,7 +51,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -435,7 +435,7 @@ public class DungeonManager {
 	}
 
 	public void linkPartyToDungeon() {
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				for (Player player : party.getTeam()) {
@@ -1365,7 +1365,7 @@ public class DungeonManager {
 		}
 	}
 
-	private class DestroyTimer extends WorldTask {
+	private class DestroyTimer extends Task {
 		private long timeLeft;
 
 		public DestroyTimer() {
@@ -1387,7 +1387,7 @@ public class DungeonManager {
 
 	}
 
-	private class RewardsTimer extends WorldTask {
+	private class RewardsTimer extends Task {
 
 		private long timeLeft;
 		private boolean gaveRewards;

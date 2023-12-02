@@ -31,7 +31,7 @@ import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -85,7 +85,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 				GameObject o = World.getObjectWithType(getTile(), ObjectType.GROUND_DECORATION);
 				if (o != null && o.getDefinitions().getName().equals("Hole")) {
 					setNextAnimation(new Animation(13797));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 
 						@Override
 						public void run() {
@@ -178,7 +178,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");
 		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15, 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				World.sendSpotAnim(object.getTile(), new SpotAnim(2523));

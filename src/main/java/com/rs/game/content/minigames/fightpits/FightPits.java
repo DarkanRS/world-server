@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -58,7 +58,7 @@ public final class FightPits {
 			e.getPlayer().stopAll();
 	});
 
-	private static class GameTask extends WorldTask {
+	private static class GameTask extends Task {
 
 		private int minutes;
 		private List<NPC> spawns;
@@ -87,7 +87,7 @@ public final class FightPits {
 								spawns.add(new FightPitsNPC(2739, Tile.of(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
 						else if (minutes == 10)
 							// alot hits appears on players
-							WorldTasks.schedule(new WorldTask() {
+							WorldTasks.schedule(new Task() {
 
 								@Override
 								public void run() {

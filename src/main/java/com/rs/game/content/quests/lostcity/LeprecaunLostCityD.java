@@ -10,7 +10,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -161,7 +161,7 @@ public class LeprecaunLostCityD extends Conversation {
 				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 				addSimple("The leprechaun falls down", () -> {
 					NPC lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						private int tick;
 						@Override
 						public void run() {

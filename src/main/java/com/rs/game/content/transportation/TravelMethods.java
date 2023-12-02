@@ -19,7 +19,7 @@ package com.rs.game.content.transportation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -247,7 +247,7 @@ public class TravelMethods {
 		else {
 			player.lock();
 			if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int tick;
 					@Override
 					public void run() {
@@ -273,7 +273,7 @@ public class TravelMethods {
 					}
 				}, 0, 1);
 			else
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int tick;
 					@Override
 					public void run() {

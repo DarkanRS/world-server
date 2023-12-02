@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -98,7 +98,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 			int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			if (damage != 0)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						target.setNextSpotAnim(new SpotAnim(2613));
@@ -108,7 +108,7 @@ public class GluttonousBehemothCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(13721));
 			World.sendProjectile(npc, target, 2610, 41, 16, 41, 35, 16, 0);
 			delayHit(npc, 2, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(2611));

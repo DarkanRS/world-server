@@ -23,7 +23,7 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -184,7 +184,7 @@ public class SiphonNodeAction extends PlayerAction {
 	@SuppressWarnings("unused")
 	private void processNodeDestroy(final Player player) {
 		player.sendMessage("The node you were siphoning from has been depleted of energy.", true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(16599));
@@ -210,7 +210,7 @@ public class SiphonNodeAction extends PlayerAction {
 			player.setNextFaceTile(node.getTile());
 			WorldProjectile p = World.sendProjectile(node, player, 3060, 31, 40, 35, 1, 2, 0);
 			final boolean succF = success;
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextSpotAnim(new SpotAnim(succF ? 3062 : 3071));

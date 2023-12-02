@@ -26,7 +26,7 @@ import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.hunter.BoxTrapType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -91,7 +91,7 @@ public class BoxStyleTrap extends OwnedObject {
 			setId(success ? npcType.getObjectCatch() : 19219);
 		else
 			setId(npcType.getObjectCatch());
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				if (!success && type == BoxTrapType.DEAD_FALL) {

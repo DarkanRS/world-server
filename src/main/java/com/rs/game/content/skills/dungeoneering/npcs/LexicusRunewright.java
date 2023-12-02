@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -68,7 +68,7 @@ public class LexicusRunewright extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(13499));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int cycles = 0;
 

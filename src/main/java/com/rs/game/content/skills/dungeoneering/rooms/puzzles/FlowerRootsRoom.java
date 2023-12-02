@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -89,8 +89,8 @@ public class FlowerRootsRoom extends PuzzleRoom {
 	private static final int LEAF_DESPAWN = 14954;
 
 	private Plant[][] plants;
-	private WorldTask colorTask;
-	private WorldTask objectTask;
+	private Task colorTask;
+	private Task objectTask;
 	private Plant bigPlant;
 	private Set<GameObject> leaves;
 
@@ -162,7 +162,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 					player.lock(4);
 					for (Player team : manager.getParty().getTeam())
 						team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							giveXP(player, Constants.WOODCUTTING);
@@ -197,7 +197,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 			for (GameObject leaf : leaves)
 				team.getPackets().sendObjectAnimation(leaf, new Animation(LEAF_DESPAWN));
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				for (int x = 0; x < 16; x++)
@@ -217,7 +217,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		super.setComplete();
 	}
 
-	public class ChangeColorTask extends WorldTask {
+	public class ChangeColorTask extends Task {
 
 		boolean odd;
 
@@ -242,7 +242,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 
 	}
 
-	public class ChangeObjectTask extends WorldTask {
+	public class ChangeObjectTask extends Task {
 
 		boolean odd;
 

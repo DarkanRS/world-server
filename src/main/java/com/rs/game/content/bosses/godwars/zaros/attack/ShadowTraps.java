@@ -24,7 +24,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -51,7 +51,7 @@ public class ShadowTraps implements NexAttack {
 				World.spawnObjectTemporary(new GameObject(57261, ObjectType.SCENERY_INTERACT, 0, t.getX(), t.getY(), 0), 4);
 			}
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			private boolean firstCall;
 
 			@Override

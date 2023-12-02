@@ -18,12 +18,12 @@ package com.rs.game.tasks;
 
 import java.util.function.Function;
 
-public class WorldTaskTimerLambda extends WorldTask {
+public class TaskTimerLambda extends Task {
 
 	int tick = 0;
 	private Function<Integer, Boolean> task;
 
-	public WorldTaskTimerLambda(Function<Integer, Boolean> task) {
+	public TaskTimerLambda(Function<Integer, Boolean> task) {
 		this.task = task;
 	}
 

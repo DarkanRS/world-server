@@ -17,7 +17,7 @@
 package com.rs.game.content.bosses.qbd.npcs;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
 
@@ -32,7 +32,7 @@ public final class ChangeArmour implements QueenAttack {
 	@Override
 	public int attack(final QueenBlackDragon npc, Player victim) {
 		npc.switchState(Utils.random(2) < 1 ? QueenState.CRYSTAL_ARMOUR : QueenState.HARDEN);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				npc.switchState(QueenState.DEFAULT);
