@@ -30,12 +30,12 @@ class KotlinScriptEvaluator {
         }
 
         private fun evalFile(scriptFile: File): ResultWithDiagnostics<EvaluationResult> {
-            return BasicJvmScriptingHost().eval(scriptFile.toScriptSource(), createJvmCompilationConfigurationFromTemplate<PluginScriptDefinition> {
+            return BasicJvmScriptingHost().eval(scriptFile.toScriptSource(), createJvmCompilationConfigurationFromTemplate<PluginScript> {
                 defaultImports("com.rs.plugin.kts.*", "com.rs.engine.dialogue.DialogueDsl", "com.rs.engine.dialogue.*", "com.rs.engine.dialogue.HeadE.*")
                 jvm { dependenciesFromCurrentContext(wholeClasspath = true) }
                 ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
                 compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
-            }, createJvmEvaluationConfigurationFromTemplate<PluginScriptDefinition> {
+            }, createJvmEvaluationConfigurationFromTemplate<PluginScript> {
 
             })
         }

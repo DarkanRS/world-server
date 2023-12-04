@@ -13,13 +13,24 @@ import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromClassloader
 import kotlin.script.experimental.jvm.jvm
 
+class PluginCompilationConfiguration : ScriptCompilationConfiguration({
+    defaultImports("com.rs.plugin.kts.*", "com.rs.engine.dialogue.DialogueDsl", "com.rs.engine.dialogue.*", "com.rs.engine.dialogue.HeadE.*")
+    jvm { dependenciesFromClassloader(wholeClasspath = true) }
+    ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
+    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
+})
+
+class PluginEvaluationConfiguration : ScriptEvaluationConfiguration({
+
+})
+
 @KotlinScript(
-    displayName = "Plugin",
+    displayName = "PluginScript",
     fileExtension = "plugin.kts",
     compilationConfiguration = PluginCompilationConfiguration::class,
     evaluationConfiguration = PluginEvaluationConfiguration::class
 )
-abstract class PluginScriptDefinition {
+abstract class PluginScript {
     fun overrideNpcLOS(vararg npcNamesOrIds: Any) {
         npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
         npcNamesOrIds.forEach {
@@ -173,19 +184,3 @@ abstract class PluginScriptDefinition {
         XPGainEvent.registerMethod(XPGainEvent::class.java, XPGainHandler { eventHandler(it) })
     }
 }
-
-object PluginCompilationConfiguration : ScriptCompilationConfiguration({
-    defaultImports(
-        "com.rs.plugin.kts.*",
-        "com.rs.engine.dialogue.DialogueDsl",
-        "com.rs.engine.dialogue.*",
-        "com.rs.engine.dialogue.HeadE.*"
-    )
-    jvm { dependenciesFromClassloader(wholeClasspath = true) }
-    ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
-    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
-})
-
-object PluginEvaluationConfiguration : ScriptEvaluationConfiguration({
-
-})
