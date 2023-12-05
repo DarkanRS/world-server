@@ -24,7 +24,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.PluginHandler;
-import com.rs.plugin.kts.KotlinScriptEvaluator;
+import com.rs.plugin.kts.PluginScriptHost;
 
 import java.io.IOException;
 import java.lang.reflect.*;
@@ -90,7 +90,7 @@ public class PluginManager {
 					handlers += processField(field, eventTypes);
 				}
 			}
-			int kotlinScripts = KotlinScriptEvaluator.Companion.loadAndExecuteScripts();
+			int kotlinScripts = PluginScriptHost.Companion.loadAndExecuteScripts();
 			handlers += kotlinScripts;
 			Logger.info(PluginManager.class, "loadPlugins", "Loaded " + kotlinScripts + " kotlin script plugins in " + (System.currentTimeMillis()-start) + "ms.");
 			Logger.info(PluginManager.class, "loadPlugins", "Loaded " + handlers + " plugin event handlers in " + (System.currentTimeMillis()-start) + "ms.");

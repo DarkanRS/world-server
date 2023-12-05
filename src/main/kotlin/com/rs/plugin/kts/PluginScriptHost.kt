@@ -12,7 +12,7 @@ import kotlin.script.experimental.jvmhost.createJvmCompilationConfigurationFromT
 import kotlin.script.experimental.jvmhost.createJvmEvaluationConfigurationFromTemplate
 import kotlin.system.exitProcess
 
-class KotlinScriptEvaluator {
+class PluginScriptHost {
     companion object {
         fun loadAndExecuteScripts(): Int {
             var scriptCount = 0;

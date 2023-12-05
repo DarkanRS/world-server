@@ -9,20 +9,6 @@ import com.rs.plugin.events.*
 import com.rs.plugin.handlers.*
 import com.rs.utils.TriFunction
 import kotlin.script.experimental.annotations.KotlinScript
-import kotlin.script.experimental.api.*
-import kotlin.script.experimental.jvm.dependenciesFromClassloader
-import kotlin.script.experimental.jvm.jvm
-
-class PluginCompilationConfiguration : ScriptCompilationConfiguration({
-    defaultImports("com.rs.plugin.kts.*", "com.rs.engine.dialogue.DialogueDsl", "com.rs.engine.dialogue.*", "com.rs.engine.dialogue.HeadE.*")
-    jvm { dependenciesFromClassloader(wholeClasspath = true) }
-    ide { acceptedLocations(ScriptAcceptedLocation.Everywhere) }
-    compilerOptions.append("-Xadd-modules=ALL-MODULE-PATH")
-})
-
-class PluginEvaluationConfiguration : ScriptEvaluationConfiguration({
-
-})
 
 @KotlinScript(
     displayName = "PluginScript",

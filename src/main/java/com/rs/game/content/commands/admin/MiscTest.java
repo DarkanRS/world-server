@@ -70,7 +70,7 @@ import com.rs.lib.util.Utils;
 import com.rs.lib.util.reflect.ReflectionCheck;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.kts.KotlinScriptEvaluator;
+import com.rs.plugin.kts.PluginScriptHost;
 import com.rs.tools.MapSearcher;
 import com.rs.tools.NPCDropDumper;
 import com.rs.utils.DropSets;
@@ -120,7 +120,7 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "reloadplugins", "legit test meme", (p, args) -> {
 			try {
-				KotlinScriptEvaluator.Companion.loadAndExecuteScripts();
+				PluginScriptHost.Companion.loadAndExecuteScripts();
 				p.sendMessage("Reloaded plugins successfully.");
 			} catch(Throwable e) {
 				p.sendMessage("Error compiling plugins.");

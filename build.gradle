@@ -12,6 +12,10 @@ java {
 	}
 }
 
+sourceSets {
+	main {}
+}
+
 mainClassName = 'com.rs.Launcher'
 
 repositories {
