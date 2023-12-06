@@ -764,12 +764,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3071, 3649, 0), 0, 1);
 			else if (id == 20600 && object.getX() == 3072 && object.getY() == 3648)
 				player.useStairs(-1, Tile.of(3077, 10058, 0), 0, 1);
-			else if (id == 42219)
-				player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1);
 			else if (id == 8689)
 				player.getActionManager().setAction(new CowMilkingAction());
-			else if (id == 42220)
-				player.useStairs(-1, Tile.of(3082, 3475, 0), 0, 1);
 				// start falador mininig
 			else if (id == 30942 && object.getX() == 3019 && object.getY() == 3450)
 				player.useStairs(828, Tile.of(3020, 9850, 0));

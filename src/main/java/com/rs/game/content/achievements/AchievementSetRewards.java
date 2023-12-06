@@ -18,7 +18,7 @@ package com.rs.game.content.achievements;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
-import com.rs.game.content.DropCleaners;
+import com.rs.game.content.DropCleanersKt;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
@@ -45,7 +45,8 @@ public class AchievementSetRewards {
 		if (e.getPlayer().getEquipment().getBootsId() == 19766)
 			e.getItem().setId(e.getItem().getDefinitions().getCertId());
 		else
-			DropCleaners.Companion.getBonecrusher().getHandler().accept(e);
+			if (DropCleanersKt.bonecrush(e.getPlayer(), e.getItem()))
+				e.deleteItem();
 	});
 
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }, e -> {

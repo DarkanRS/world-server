@@ -76,7 +76,7 @@ import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
-import com.rs.game.content.world.Musician;
+import com.rs.game.content.world.MusicianKt;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.map.ChunkManager;
@@ -992,7 +992,7 @@ public class Player extends Entity {
 			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
 			if (isResting()) {
 				energy = 1.68;
-				if (Musician.isNearby(this)) //TODO optimize this with its own resting variable
+				if (MusicianKt.isNearby(this)) //TODO optimize this with its own resting variable
 					energy = 2.28;
 			}
 			restoreRunEnergy(energy);

@@ -2,7 +2,7 @@ package com.rs.game.content.skills.hunter.falconry;
 
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.game.World;
-import com.rs.game.content.DropCleaners;
+import com.rs.game.content.DropCleanersKt;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
@@ -180,7 +180,7 @@ public class Kebbit extends NPC {
 		player.anim(827);
 		player.getSkills().addXp(Skills.HUNTER, type.xp);
 		player.getInventory().addItemDrop(type.furId, 1);
-		if (!DropCleaners.Companion.bonecrush(player, new Item(526, 1)))
+		if (!DropCleanersKt.bonecrush(player, new Item(526, 1)))
 			player.getInventory().addItemDrop(526, 1);
 		sendDeath(player);
 	}

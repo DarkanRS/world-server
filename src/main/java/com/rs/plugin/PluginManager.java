@@ -50,43 +50,29 @@ public class PluginManager {
 			Logger.info(PluginManager.class, "loadPlugins", "Loading plugins...");
 			List<Class<?>> eventTypes = Utils.getClasses("com.rs.plugin.events");
 			List<Class<?>> classes = Utils.getClassesWithAnnotation("com.rs", PluginEventHandler.class);
-			Set<Method> visitedMethods = new HashSet<>();
 			Set<Field> visitedFields = new HashSet<>();
 			Logger.info(PluginManager.class, "loadPlugins", "Loading " + eventTypes.size() + " event types and " + classes.size() + " plugin enabled classes.");
 			int handlers = 0;
+
+			List<Method> startupMethods = Utils.getMethodsWithAnnotation("com.rs", ServerStartupEvent.class);
+			Set<Method> visitedMethods = new HashSet<>();
+			for (Method method : startupMethods) {
+				if (visitedMethods.contains(method))
+					continue;
+				if (!Modifier.isStatic(method.getModifiers()))
+					throw new RuntimeException("Startup method should be static: " + method.getDeclaringClass() + "." + method.getName());
+				if (method.getParameterCount() > 0)
+					throw new RuntimeException("Startup method should have no parameters: " + method.getDeclaringClass() + "." + method.getName());
+				visitedMethods.add(method);
+				STARTUP_HOOKS.add(method);
+				handlers++;
+			}
+
 			for (Class<?> clazz : classes) {
-				for (Method method : clazz.getMethods()) {
-					if (!Modifier.isStatic(method.getModifiers()) || visitedMethods.contains(method))
-						continue;
-					visitedMethods.add(method);
-					switch(method.getParameterCount()) {
-					case 0:
-						if (method.isAnnotationPresent(ServerStartupEvent.class)) {
-							STARTUP_HOOKS.add(method);
-							handlers++;
-						}
-						break;
-					}
-				}
 				for (Field field : clazz.getFields()) {
 					if (!Modifier.isStatic(field.getModifiers()) || visitedFields.contains(field))
 						continue;
 					visitedFields.add(field);
-
-					if (field.getName().equals("Companion")) {
-						try {
-							Object kotlinCompanion = field.get(null);
-							for (Method method : kotlinCompanion.getClass().getDeclaredMethods()) {
-								if (visitedMethods.contains(method))
-									continue;
-								visitedMethods.add(method);
-								handlers += processKotlinCompanionGetter(method, eventTypes, kotlinCompanion);
-							}
-						} catch (Exception e) {
-							System.err.println("Failed to load Kotlin companion class for " + clazz.getName());
-						}
-						continue;
-					}
 					handlers += processField(field, eventTypes);
 				}
 			}
@@ -97,32 +83,6 @@ public class PluginManager {
 		} catch (ClassNotFoundException | IOException | IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static int processKotlinCompanionGetter(Method method, List<Class<?>> eventTypes, Object companion) throws IllegalAccessException, InvocationTargetException {
-		int found = 0;
-		for (Class<?> eventType : eventTypes) {
-			if (method.getReturnType() == PluginHandler.class) {
-				Class<?> type = ((Class<?>) ((ParameterizedType) method.getGenericReturnType()).getActualTypeArguments()[0]);
-				if (type != eventType)
-					continue;
-			} else if (method.getReturnType().getSuperclass() == PluginHandler.class) {
-				Class<?> type = ((Class<?>) ((ParameterizedType) method.getReturnType().getGenericSuperclass()).getActualTypeArguments()[0]);
-				if (type != eventType)
-					continue;
-			} else
-				continue;
-			method.setAccessible(true);
-			PluginHandler<PluginEvent> handler = (PluginHandler<PluginEvent>) method.invoke(companion);
-			if (handler.keys() == null || handler.keys().length <= 0) {
-				addUnmappedHandler(eventType.getName(), handler);
-			} else {
-				REPOSITORY.addMappedHandler(eventType, handler);
-			}
-			found++;
-		}
-		return found;
 	}
 
 	@SuppressWarnings("unchecked")

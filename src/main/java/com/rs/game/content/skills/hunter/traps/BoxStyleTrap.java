@@ -20,7 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.DropCleaners;
+import com.rs.game.content.DropCleanersKt;
 import com.rs.game.content.skills.hunter.BoxHunterNPC;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.hunter.BoxTrapType;
@@ -124,7 +124,7 @@ public class BoxStyleTrap extends OwnedObject {
 		player.incrementCount(NPCDefinitions.getDefs(getNpcTrapped().getNpcId()).getName()+" trapped");
 		player.setNextAnimation(getTrapType().getPickUpAnimation());
 		for (Item i : getNpcTrapped().getItems(player)) {
-			if (i == null || DropCleaners.Companion.bonecrush(player, i) || DropCleaners.Companion.herbicide(player, i))
+			if (i == null || DropCleanersKt.bonecrush(player, i) || DropCleanersKt.herbicide(player, i))
 				continue;
 			player.getInventory().addItemDrop(i);
 		}
