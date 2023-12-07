@@ -73563,24 +73563,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 1805,
-      "y": 3208
-    },
-    "comment": "Avatar of Creation",
-    "npcId": 8597
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1965,
-      "y": 3249
-    },
-    "comment": "Avatar of Destruction",
-    "npcId": 8596
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 3442,
       "y": 2912
     },
