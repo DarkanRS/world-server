@@ -51,23 +51,23 @@ val ACTIVE_GAME = SoulWars()
 
 @ServerStartupEvent
 fun mapHandlers() {
-    onObjectClick(42219) { e ->
-        e.player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1)
-        e.player.controllerManager.startController(SoulWarsLobbyController())
+    onObjectClick(42219) { (player) ->
+        player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1)
+        player.controllerManager.startController(SoulWarsLobbyController())
     }
 
-    onObjectClick(42220) { e ->
-        e.player.useStairs(-1, Tile.of(3082, 3475, 0), 0, 1)
-        e.player.controllerManager.forceStop()
+    onObjectClick(42220) { (player) ->
+        player.useStairs(-1, Tile.of(3082, 3475, 0), 0, 1)
+        player.controllerManager.forceStop()
     }
 
-    onNpcClick(8527, 8525, options = arrayOf("Rewards")) { e ->
-        e.player.interfaceManager.sendInterface(276)
+    onNpcClick(8527, 8525, options = arrayOf("Rewards")) { (player) ->
+        player.interfaceManager.sendInterface(276)
     }
 
-    onButtonClick(276) { e ->
-        when (e.componentId) {
-            else -> e.player.sendMessage("soulrewardcomp: ${e.componentId} - ${e.packet}")
+    onButtonClick(276) { (player, _, componentId, _, _, packet) ->
+        when (componentId) {
+            else -> player.sendMessage("soulrewardcomp: ${componentId} - ${packet}")
         }
     }
 }

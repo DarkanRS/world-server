@@ -44,4 +44,8 @@ public class LoginEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		HANDLERS.add(method);
 	}
+
+	public Player component1() {
+		return player;
+	}
 }

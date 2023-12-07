@@ -773,7 +773,7 @@ public class PlayerCombat extends PlayerAction {
 
 	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage, boolean applyMageLevelBoost) {
 		Hit hit = getMagicMaxHit(player, target, baseDamage, applyMageLevelBoost);
-		hit.setDamage(Utils.random(hit.getDamage() + 1));
+		hit.setDamage(Utils.random(1, hit.getDamage()));
 		if (hit.getDamage() > 0)
 			if (target instanceof NPC n)
 				if (n.getId() == 9463 && hasFireCape(player))
@@ -1068,8 +1068,6 @@ public class PlayerCombat extends PlayerAction {
 			str += 82;
 		double baseDamage = 5 + lvl * (str + 64) / 64;
 
-		//int multiplier = PluginManager.handle()
-
 		switch (weaponId) {
 			case 6523:
 			case 6525:
@@ -1113,6 +1111,9 @@ public class PlayerCombat extends PlayerAction {
 			default:
 				break;
 		}
+
+		//int multiplier = PluginManager.handle()
+
 		int maxHit = (int) Math.floor(baseDamage * damageMultiplier);
 		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 			player.sendMessage("Your max hit: " + maxHit);

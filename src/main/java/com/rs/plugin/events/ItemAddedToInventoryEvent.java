@@ -64,4 +64,12 @@ public class ItemAddedToInventoryEvent implements PluginEvent {
                 System.err.println("ERROR: Duplicate ItemAddedToInventory methods for key: " + key + ":");
         }
     }
+
+    public Player component1() {
+        return player;
+    }
+
+    public Item component2() {
+        return item;
+    }
 }
