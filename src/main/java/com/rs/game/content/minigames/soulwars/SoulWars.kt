@@ -1,8 +1,10 @@
 package com.rs.game.content.minigames.soulwars
 
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Controller
 import com.rs.game.model.entity.player.Player
+import com.rs.game.model.entity.player.Skills
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -10,6 +12,7 @@ import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onButtonClick
 import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
+import com.rs.utils.Ticks
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSets
@@ -45,9 +48,11 @@ const val REFRESH_RED_TEAM_COUNT_SCRIPT = 2075
 const val REFRESH_BLUE_TEAM_COUNT_SCRIPT = 2076
 const val REFRESH_TIME = 2077
 
+const val SPIRIT_SHARD = 14646
+
 val LOBBY_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
 val INGAME_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
-val ACTIVE_GAME = SoulWars()
+var ACTIVE_GAME: SoulWars? = null
 
 @ServerStartupEvent
 fun mapHandlers() {
@@ -75,6 +80,12 @@ fun mapHandlers() {
 class SoulAvatar(redTeam: Boolean) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
     var level = 99
 
+    override fun handlePreHit(hit: Hit?) {
+        super.handlePreHit(hit)
+        val player = hit?.source as? Player ?: return
+        if (player.skills.getLevel(Skills.SLAYER) < level)
+            hit.damage = 0
+    }
 }
 
 class SoulWars {
@@ -82,6 +93,20 @@ class SoulWars {
     val blueTeam: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
     var redAvatar = SoulAvatar(true)
     var blueAvatar = SoulAvatar(false)
+    var ticks = 0
+
+    fun tick() {
+        if (++ticks >= Ticks.fromMinutes(20)) {
+            endGame()
+            return
+        }
+
+
+    }
+
+    fun endGame() {
+
+    }
 }
 
 class SoulWarsLobbyController : Controller() {
@@ -95,6 +120,10 @@ class SoulWarsLobbyController : Controller() {
         LOBBY_PLAYERS.add(player)
         return false
     }
+
+    override fun processItemTeleport(toTile: Tile?): Boolean { return false }
+    override fun processMagicTeleport(toTile: Tile?): Boolean { return false }
+    override fun processObjectTeleport(toTile: Tile?): Boolean { return false }
 
     override fun logout(): Boolean {
         LOBBY_PLAYERS.remove(player)
@@ -118,6 +147,10 @@ class SoulWarsGameController : Controller() {
         INGAME_PLAYERS.add(player)
         return false
     }
+
+    override fun processItemTeleport(toTile: Tile?): Boolean { return false }
+    override fun processMagicTeleport(toTile: Tile?): Boolean { return false }
+    override fun processObjectTeleport(toTile: Tile?): Boolean { return false }
 
     override fun logout(): Boolean {
         INGAME_PLAYERS.remove(player)
