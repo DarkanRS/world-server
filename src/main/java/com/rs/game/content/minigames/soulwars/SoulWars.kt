@@ -51,6 +51,7 @@ const val SPIRIT_SHARD = 14646
 val LOBBY_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
 val INGAME_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
 var ACTIVE_GAME: SoulWars? = null
+var LOBBY_TICKS = 0;
 
 @ServerStartupEvent
 fun mapHandlers() {
@@ -87,14 +88,31 @@ fun mapHandlers() {
         }
     }
 
-    WorldTasks.schedule(Ticks.fromMinutes(1), Ticks.fromMinutes(1)) {
-        processLobbyMinute()
+    WorldTasks.schedule(1, 1) {
+        processSoulwars()
     }
 }
 
-fun processLobbyMinute() {
-
+fun processSoulwars() {
+    ACTIVE_GAME?.tick()
+    LOBBY_TICKS++
+    if (LOBBY_TICKS % 300 == 0) {
+        attemptStartGame()
+        LOBBY_TICKS = 0
+    }
+    if (LOBBY_TICKS % 10 == 0)
+        for (player in LOBBY_PLAYERS)
+            updateVars(player)
 }
+
+fun updateVars(player: Player) {
+    player.packets.sendVarc(GAME_ACTIVE_VARC, if (ACTIVE_GAME == null) 0 else 1)
+    player.packets.sendVarc(RED_TEAM_SIZE_VARC, ACTIVE_GAME?.redTeam?.size ?: LOBBY_PLAYERS.size)
+    player.packets.sendVarc(BLUE_TEAM_SIZE_VARC, ACTIVE_GAME?.blueTeam?.size ?: LOBBY_PLAYERS.size)
+    player.packets.sendVarc(LOBBY_MINUTES_PASSED_VARC, LOBBY_TICKS / 100)
+}
+
+
 
 class SoulAvatar(redTeam: Boolean) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
     var level = 99
