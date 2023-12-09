@@ -8,7 +8,6 @@ import com.rs.game.model.entity.player.Skills
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onButtonClick
 import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
@@ -16,7 +15,6 @@ import com.rs.utils.Ticks
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSets
-import kotlinx.coroutines.internal.synchronized
 
 const val LOBBY_OVERLAY = 837
 const val INGAME_OVERLAY = 836
@@ -58,12 +56,25 @@ var ACTIVE_GAME: SoulWars? = null
 fun mapHandlers() {
     onObjectClick(42219) { (player) ->
         player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1)
-        player.controllerManager.startController(SoulWarsLobbyController())
     }
 
     onObjectClick(42220) { (player) ->
         player.useStairs(-1, Tile.of(3082, 3475, 0), 0, 1)
-        player.controllerManager.forceStop()
+    }
+
+    onObjectClick(42029) { (player) ->
+        if (player.x < 1880) {
+            player.passThrough(Tile.of(1880, 3162, 0))
+            player.controllerManager.forceStop()
+        } else {
+            player.passThrough(Tile.of(1879, 3162, 0))
+            player.controllerManager.startController(SoulWarsLobbyController())
+        }
+    }
+
+    onObjectClick(42031) { (player) ->
+        player.nextTile = Tile.of(1875, 3162, 0)
+        player.controllerManager.startController(SoulWarsLobbyController())
     }
 
     onNpcClick(8527, 8525, options = arrayOf("Rewards")) { (player) ->
@@ -75,6 +86,14 @@ fun mapHandlers() {
             else -> player.sendMessage("soulrewardcomp: ${componentId} - ${packet}")
         }
     }
+
+    WorldTasks.schedule(Ticks.fromMinutes(1), Ticks.fromMinutes(1)) {
+        processLobbyMinute()
+    }
+}
+
+fun processLobbyMinute() {
+
 }
 
 class SoulAvatar(redTeam: Boolean) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
@@ -93,6 +112,8 @@ class SoulWars {
     val blueTeam: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
     var redAvatar = SoulAvatar(true)
     var blueAvatar = SoulAvatar(false)
+    var redKills = 0
+    var blueKills = 0
     var ticks = 0
 
     fun tick() {

@@ -3827,14 +3827,10 @@ public class Player extends Entity {
 		setRunHidden(false);
 		lock(5);
 		addWalkSteps(tile.getX(), tile.getY(), 3, false);
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				setRunHidden(running);
-				unlock();
-				stop();
-			}
-		}, 3);
+		getTasks().schedule(3, () -> {
+			setRunHidden(running);
+			unlock();
+		});
 	}
 
 	public int[] getWarriorPoints() {
