@@ -148,6 +148,7 @@ fun mapRewardsPlugins() {
                             if (player.soulWarsZeal >= imbue.zealCost)
                                 exec {
                                     if (player.soulWarsZeal >= imbue.zealCost) {
+                                        player.soulWarsZeal -= imbue.zealCost
                                         item.id = imbue.imbuedItemId
                                         player.inventory.refresh(item.slot)
                                     }
@@ -173,6 +174,7 @@ fun buyXp(player: Player, skillId: Int, packet: ClientPacket) {
         player.sendMessage("You don't have enough Zeal.")
         return
     }
+    player.soulWarsZeal -= zealCost
     player.skills.addXp(skillId, getXpPerZeal(player.skills.getLevelForXp(skillId), skillId).toDouble() * zealCost)
 }
 
