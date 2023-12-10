@@ -157,23 +157,20 @@ fun mapHandlers() {
         }
     }
 
-    onChunkEnter {(entity, chunkId) ->
-        val player = entity as? Player
-        if (player != null) {
-            if (MID_CAP_CHUNKS.contains(chunkId)) {
-                player.packets.setIFHidden(INGAME_OVERLAY, MID_CLAIM_BAR_COMP, false)
-                player.packets.setIFHidden(INGAME_OVERLAY, EAST_CLAIM_BAR_COMP, true)
-                player.packets.setIFHidden(INGAME_OVERLAY, WEST_CLAIM_BAR_COMP, true)
+    onChunkEnter { (entity, chunkId) ->
+        (entity as? Player)?.let { player ->
+            fun setBarsVisibility(mid: Boolean, east: Boolean, west: Boolean) {
+                player.packets.apply {
+                    setIFHidden(INGAME_OVERLAY, MID_CLAIM_BAR_COMP, !mid)
+                    setIFHidden(INGAME_OVERLAY, EAST_CLAIM_BAR_COMP, !east)
+                    setIFHidden(INGAME_OVERLAY, WEST_CLAIM_BAR_COMP, !west)
+                }
             }
-            if (EAST_CAP_CHUNKS.contains(chunkId)) {
-                player.packets.setIFHidden(INGAME_OVERLAY, MID_CLAIM_BAR_COMP, true)
-                player.packets.setIFHidden(INGAME_OVERLAY, EAST_CLAIM_BAR_COMP, false)
-                player.packets.setIFHidden(INGAME_OVERLAY, WEST_CLAIM_BAR_COMP, true)
-            }
-            if (WEST_CAP_CHUNKS.contains(chunkId)) {
-                player.packets.setIFHidden(INGAME_OVERLAY, MID_CLAIM_BAR_COMP, true)
-                player.packets.setIFHidden(INGAME_OVERLAY, EAST_CLAIM_BAR_COMP, true)
-                player.packets.setIFHidden(INGAME_OVERLAY, WEST_CLAIM_BAR_COMP, false)
+
+            when {
+                MID_CAP_CHUNKS.contains(chunkId) -> setBarsVisibility(mid = true, east = false, west = false)
+                EAST_CAP_CHUNKS.contains(chunkId) -> setBarsVisibility(mid = false, east = true, west = false)
+                WEST_CAP_CHUNKS.contains(chunkId) -> setBarsVisibility(mid = false, east = false, west = true)
             }
         }
     }
