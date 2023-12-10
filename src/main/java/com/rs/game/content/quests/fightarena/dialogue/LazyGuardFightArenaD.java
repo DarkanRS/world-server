@@ -6,7 +6,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -50,7 +50,7 @@ public class LazyGuardFightArenaD extends Conversation {
 						player.getInventory().deleteItem(77, 1);
 						player.faceTile(Tile.of(2617, 3144, 0));
 						player.getVars().setVarBit(5627, 1);
-						WorldTasks.schedule(new WorldTask() {
+						WorldTasks.schedule(new Task() {
 							int tick;
 							@Override
 							public void run() {

@@ -17,7 +17,7 @@
 package com.rs.game.content;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -96,7 +96,7 @@ public class Dicing {
 		player.getInventory().deleteItem(itemId, 1);
 		player.setNextAnimation(new Animation(11900));
 		player.setNextSpotAnim(new SpotAnim(graphic));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.getInventory().addItem(itemId, 1);

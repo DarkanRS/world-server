@@ -23,7 +23,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -66,7 +66,7 @@ public class CorporealBeastCombat extends CombatScript {
 			int delay = World.sendProjectile(npc, target, 1823, 41, 16, 10, 1, 16, 0).getTaskDelay();
 			delayHit(npc, delay, target, getMagicHit(npc, getMaxHit(npc, 550, AttackStyle.MAGE, target)));
 			if (target instanceof Player player)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						int skill = Utils.getRandomInclusive(2);
@@ -85,7 +85,7 @@ public class CorporealBeastCombat extends CombatScript {
 		} else if (attackStyle == 4) {
 			npc.setNextAnimation(new Animation(10410));
 			final Tile tile = Tile.of(target.getTile());
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					for (int i = 0; i < 6; i++) {
@@ -97,7 +97,7 @@ public class CorporealBeastCombat extends CombatScript {
 								continue;
 							delayHit(npc, 0, t, getMagicHit(npc, getMaxHit(npc, 350, AttackStyle.MAGE, t)));
 						}
-						WorldTasks.schedule(new WorldTask() {
+						WorldTasks.schedule(new Task() {
 							@Override
 							public void run() {
 								World.sendSpotAnim(newTile, new SpotAnim(1806));

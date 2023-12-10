@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -108,7 +108,7 @@ public class ServantNPC extends NPC {
 		setCantInteract(true);
 		house.incrementPaymentStage();
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int count = 0, totalCount = 0, index = 0;
 
@@ -206,7 +206,7 @@ public class ServantNPC extends NPC {
 		if (defs.isNoted())
 			item = defs.getCertId();
 		final int finalItem = item;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				setNextNPCTransformation(servant.getId());

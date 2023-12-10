@@ -28,7 +28,7 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -336,7 +336,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
 		Player p = e.getPlayer();
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 			boolean goingEast = true;
 

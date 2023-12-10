@@ -31,7 +31,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -268,7 +268,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
 				// 1delay because player cant walk while teleing :p,
 				// + possible issues avoid
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					int count = 0;
 					boolean run;
 
@@ -303,7 +303,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {
@@ -373,7 +373,7 @@ public class FightKilnController extends Controller {
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					int count = 0;
 
@@ -484,7 +484,7 @@ public class FightKilnController extends Controller {
 				});
 			} else if (login) { // LOGIN during
 				FightKilnController.this.login = login;
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						stage = Stages.RUNNING;
@@ -614,7 +614,7 @@ public class FightKilnController extends Controller {
 		aliveNPCSCount = WAVES[currentWave - 1].length;
 		for (int i = 0; i < WAVES[currentWave - 1].length; i += 4) {
 			final int next = i;
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					try {
@@ -757,7 +757,7 @@ public class FightKilnController extends Controller {
 	}
 
 	public void setWaveEvent() {
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -776,7 +776,7 @@ public class FightKilnController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override
@@ -1021,7 +1021,7 @@ public class FightKilnController extends Controller {
 		harAken.resetTimer();
 		harAken.setCantInteract(true);
 		harAken.setNextAnimation(new Animation(16234));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {

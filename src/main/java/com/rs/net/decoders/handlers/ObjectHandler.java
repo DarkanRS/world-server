@@ -63,7 +63,7 @@ import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -215,7 +215,7 @@ public final class ObjectHandler {
 				return;
 			} else if (id == 10230) { // dag down ladder
 				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						player.setNextTile(Tile.of(2900, 4449, 0));
@@ -242,7 +242,7 @@ public final class ObjectHandler {
 				if (!Agility.hasLevel(player, id == 2832 ? 20 : 41))
 					return;
 				player.addWalkSteps(x, y);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						boolean isTravelingWest = id == 2832 ? player.getX() >= 2508 : (x == 2834 && y == 3626) ? player.getX() >= 2834 : player.getX() >= 2900;
@@ -255,7 +255,7 @@ public final class ObjectHandler {
 					player.lock(5);
 					player.sendMessage("You pray to the gods...", true);
 					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							player.getPrayer().restorePrayer(maxPrayer1);
@@ -380,7 +380,7 @@ public final class ObjectHandler {
 				player.getControllerManager().startController(new UndergroundDungeonController(false, true));
 			} else if (id == 5947) {
 				player.useStairs(540, Tile.of(3170, 9571, 0), 8, 9);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new UndergroundDungeonController(false, true));
@@ -701,7 +701,7 @@ public final class ObjectHandler {
 				player.lock(8);
 				player.addWalkSteps(x == 3150 ? 3155 : 3149, 9906, -1, false);
 				player.sendMessage("You pulled yourself through the pipes.", true);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					boolean secondloop;
 
 					@Override
@@ -738,7 +738,7 @@ public final class ObjectHandler {
 					return;
 				}
 				player.setNextAnimation(new Animation(910));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {
@@ -764,12 +764,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(3071, 3649, 0), 0, 1);
 			else if (id == 20600 && object.getX() == 3072 && object.getY() == 3648)
 				player.useStairs(-1, Tile.of(3077, 10058, 0), 0, 1);
-			else if (id == 42219)
-				player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1);
 			else if (id == 8689)
 				player.getActionManager().setAction(new CowMilkingAction());
-			else if (id == 42220)
-				player.useStairs(-1, Tile.of(3082, 3475, 0), 0, 1);
 				// start falador mininig
 			else if (id == 30942 && object.getX() == 3019 && object.getY() == 3450)
 				player.useStairs(828, Tile.of(3020, 9850, 0));
@@ -822,7 +818,7 @@ public final class ObjectHandler {
 				player.lock();
 				if (player.getX() != object.getX() || player.getY() != object.getY())
 					player.addWalkSteps(object.getX(), object.getY(), -1, false);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					private int count;
 
@@ -1017,7 +1013,7 @@ public final class ObjectHandler {
 					player.lock(5);
 					player.sendMessage("You pray to the gods...", true);
 					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							player.getPrayer().restorePrayer(maxPrayer2);
@@ -1036,7 +1032,7 @@ public final class ObjectHandler {
 			} else if (id == 2873 || id == 2874 || id == 2875) {
 				player.sendMessage("You kneel and begin to chant to " + objectDef.getName().replace("Statue of ", "") + "...");
 				player.setNextAnimation(new Animation(645));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {
@@ -1091,7 +1087,7 @@ public final class ObjectHandler {
 				if (player.getX() != object.getX() || player.getY() != object.getY()) {
 					player.lock();
 					player.addWalkSteps(object.getX(), object.getY());
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							Spade.dig(player);
@@ -1303,7 +1299,7 @@ public final class ObjectHandler {
 								player.lock(5);
 								player.sendMessage("You pray to the gods...", true);
 								player.setNextAnimation(new Animation(645));
-								WorldTasks.schedule(new WorldTask() {
+								WorldTasks.schedule(new Task() {
 									@Override
 									public void run() {
 										player.getPrayer().restorePrayer(maxPrayer3);

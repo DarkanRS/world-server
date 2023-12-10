@@ -36,7 +36,7 @@ import java.util.List;
 public class HopeDevourer extends DungeonBoss {
 
 	private int auraTicks;
-	private int auraDamage;
+	private final int auraDamage;
 
 	public HopeDevourer(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(12886, 12900), manager.getBossLevel()), tile, manager, reference);
@@ -60,7 +60,7 @@ public class HopeDevourer extends DungeonBoss {
 	public boolean canMove(Direction dir) {
 		int nextX = dir.getDx() + getX();
 		int nextY = dir.getDy() + getY();
-		int size = getSize(); //i always do this instead of calling at loop cuz it grabs npcdef from hashmap every call
+		int size = getSize(); // I always do this instead of calling at loop cuz it grabs npcdef from hashmap every call
 		for (Player player : getManager().getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), nextX, nextY, size))
 				return false;

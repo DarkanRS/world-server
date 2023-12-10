@@ -20,7 +20,7 @@ import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -35,7 +35,7 @@ public final class FireBreathAttack implements QueenAttack {
 	public int attack(final QueenBlackDragon npc, final Player victim) {
 		npc.setNextAnimation(ANIMATION);
 		npc.setNextSpotAnim(GRAPHIC);
-		WorldTasks.schedule(new WorldTask() {
+		npc.getTasks().schedule(new Task() {
 			@Override
 			public void run() {
 				super.stop();

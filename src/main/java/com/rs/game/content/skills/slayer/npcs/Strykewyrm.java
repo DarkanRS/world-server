@@ -21,7 +21,7 @@ import com.rs.game.content.skills.slayer.TaskMonster;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -47,11 +47,11 @@ public class Strykewyrm extends NPC {
 		if (getId() != stompId && !isCantInteract() && !isUnderCombat()) {
 			setNextAnimation(new Animation(12796));
 			setCantInteract(true);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					transformIntoNPC(stompId);
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							setCantInteract(false);

@@ -8,7 +8,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -43,7 +43,7 @@ public class MelzarTheMadCombat extends CombatScript {
 			case 1 -> {
 				npc.setNextAnimation(new Animation(1163));
 				npc.setNextSpotAnim(new SpotAnim(102));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, 80, 30, 40, 5, 5, 0);
@@ -55,7 +55,7 @@ public class MelzarTheMadCombat extends CombatScript {
 			case 2 -> {
 				npc.setNextAnimation(new Animation(14209));
 				npc.setNextSpotAnim(new SpotAnim(2713));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						WorldProjectile p = World.sendProjectile(npc, target, 103, 80, 30, 40, 5, 5, 0);

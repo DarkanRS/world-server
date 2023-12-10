@@ -31,7 +31,7 @@ import com.rs.game.map.ChunkManager;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -43,10 +43,8 @@ import java.util.List;
 public class FishingFerretRoom extends PuzzleRoom {
 
 	private static final int FERRET_ID = 11007, VILE_FISH = 17375;
-	private static final int[] PRESSURE_PLATE =
-		{ 49555, 49557, 49559, 54296, 54297 };
-	private static final int[] EMPTY_PLATE =
-		{ 49546, 49547, 49548, 54293, 35293 };
+	private static final int[] PRESSURE_PLATE = { 49555, 49557, 49559, 54296, 54297 };
+	private static final int[] EMPTY_PLATE = { 49546, 49547, 49548, 54293, 35293 };
 
 	private Tile pressurePlate;
 	private List<GroundItem> vileFishes;
@@ -72,7 +70,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 					removeAllVileFish();
 					return;
 				}
-				if (vileFishes.size() > 0) {
+				if (!vileFishes.isEmpty()) {
 					GroundItem item = vileFishes.get(0);//Goes in chronological order
 					if (item == null)
 						return;
@@ -87,7 +85,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 				GameObject o = World.getObjectWithType(getTile(), ObjectType.GROUND_DECORATION);
 				if (o != null && o.getDefinitions().getName().equals("Hole")) {
 					setNextAnimation(new Animation(13797));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 
 						@Override
 						public void run() {
@@ -162,7 +160,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 			return false;
 		DungeonManager manager = player.getDungManager().getParty().getDungeon();
 		VisibleRoom room = manager.getVisibleRoom(manager.getCurrentRoomReference(player.getTile()));
-		if ((room == null) || !(room instanceof FishingFerretRoom puzzle))
+		if (!(room instanceof FishingFerretRoom puzzle))
 			return false;
 		if (puzzle.isComplete()) {
 			player.sendMessage("I know it smells, but littering is wrong!");
@@ -180,7 +178,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 		player.faceObject(object);
 		player.sendMessage("You throw the fish.");
 		WorldProjectile p = World.sendProjectile(player, object, 2522, 32, 0, 25, 1, 15, 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				World.sendSpotAnim(object.getTile(), new SpotAnim(2523));

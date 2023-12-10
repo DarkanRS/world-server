@@ -3,7 +3,7 @@ package com.rs.game.content.minigames.pyramidplunder;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -44,7 +44,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void enterMummyRoom(Player p, Tile tile) {
 		p.lock(5);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick;
 			@Override
 			public void run() {
@@ -76,7 +76,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void exitMummyRoom(Player p, Tile tile, int dir) {
 		p.lock(4);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick;
 			@Override
 			public void run() {

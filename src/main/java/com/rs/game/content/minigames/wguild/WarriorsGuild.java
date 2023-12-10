@@ -39,7 +39,7 @@ import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -60,7 +60,7 @@ public class WarriorsGuild extends Controller {
 			WorldTasks.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
 	}
 
-	public static class WarriorTimer extends WorldTask {
+	public static class WarriorTimer extends Task {
 		private int ticks;
 		private double lastDummy;
 		public byte projectileType;
@@ -149,7 +149,7 @@ public class WarriorsGuild extends Controller {
 	public void process() {
 		if (player.withinDistance(CATAPULT_TARGET, 0)) {
 			if (timer.ticks % 14 == 0)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						if (!player.withinDistance(CATAPULT_TARGET, 0))
@@ -282,7 +282,7 @@ public class WarriorsGuild extends Controller {
 			player.setNextAnimation(new Animation(827));
 			player.lock();
 			final int finalIndex = realIndex;
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int ticks;
 
 				@Override
@@ -335,7 +335,7 @@ public class WarriorsGuild extends Controller {
 
 	private void submitDummyHit(final GameObject object) {
 		player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -521,7 +521,7 @@ public class WarriorsGuild extends Controller {
 			player.unlock();
 			return;
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int ticks;
 
@@ -557,7 +557,7 @@ public class WarriorsGuild extends Controller {
 	private void balanceKeg(final GameObject object) {
 		player.lock(4);
 		player.setNextAnimation(new Animation(4180));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

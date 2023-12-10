@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -42,7 +42,7 @@ public class LexicusRunewright extends DungeonBoss {
 
 	private boolean completedFirstAttack;
 	private int attackStage;
-	private List<TombOfLexicus> books = new CopyOnWriteArrayList<>();
+	private final List<TombOfLexicus> books = new CopyOnWriteArrayList<>();
 
 	public LexicusRunewright(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9842, 9855), manager.getBossLevel()), tile, manager, reference);
@@ -68,7 +68,7 @@ public class LexicusRunewright extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(13499));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int cycles = 0;
 
@@ -77,7 +77,7 @@ public class LexicusRunewright extends DungeonBoss {
 				cycles++;
 				if (cycles == 2) {
 					int random = Utils.random(TELEPORT_LOCS.length);
-					if (random % 1 == 0 && random != 0)
+					if (random != 0)
 						random -= 1;
 					setNextTile(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
 					setNextAnimation(new Animation(13500));
@@ -93,20 +93,17 @@ public class LexicusRunewright extends DungeonBoss {
 	public boolean sendAlmanacArmyAttack(final Entity target) {
 		final LexicusRunewright boss = this;
 		boss.setNextForceTalk(new ForceTalk("Almanac Army, attack!"));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				for (int id = 0; id < 2; id++) {
-					if (reachedMaxBookSize())
-						break;
-					Tile tile = getManager().getTile(getReference(), 6 + Utils.random(4), 6 + Utils.random(4));
-					TombOfLexicus book = new TombOfLexicus(boss, 9856 + Utils.random(3), tile, getManager()); //TODO scale to combat level
-					book.setTarget(target);
-					books.add(book);
-				}
+		WorldTasks.scheduleTimer(2, (ticks) -> {
+			for (int id = 0; id < 2; id++) {
+				if (reachedMaxBookSize())
+					break;
+				Tile tile = getManager().getTile(getReference(), 6 + Utils.random(4), 6 + Utils.random(4));
+				TombOfLexicus book = new TombOfLexicus(boss, 9856 + Utils.random(3), tile, getManager()); //TODO scale to combat level
+				book.setTarget(target);
+				books.add(book);
 			}
-		}, 2);
+			return false;
+		});
 		return true;
 	}
 

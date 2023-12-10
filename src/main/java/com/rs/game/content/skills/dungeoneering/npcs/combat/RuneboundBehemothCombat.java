@@ -27,7 +27,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -42,8 +41,7 @@ public class RuneboundBehemothCombat extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[]
-				{ "Runebound behemoth" };
+		return new Object[] { "Runebound behemoth" };
 	}
 
 	@Override
@@ -67,78 +65,71 @@ public class RuneboundBehemothCombat extends CombatScript {
 		if (Utils.random(15) == 0) {// Special attack
 			final List<Tile> explosions = new LinkedList<>();
 			boss.setNextForceTalk(new ForceTalk("Raaaaaaaaaaaaaaaaaaaaaaaaaawr!"));
-			WorldTasks.schedule(new WorldTask() {
-
-				int cycles;
-
-				@Override
-				public void run() {
-					cycles++;
-					if (cycles == 1)
-						boss.setNextSpotAnim(new SpotAnim(2769));
-					else if (cycles == 4)
-						boss.setNextSpotAnim(new SpotAnim(2770));
-					else if (cycles == 5) {
-						boss.setNextSpotAnim(new SpotAnim(2771));
-						for (Entity t : boss.getPossibleTargets())
-							tileLoop: for (int i = 0; i < 4; i++) {
-								Tile tile = World.getFreeTile(t.getTile(), 2);
-								if (!manager.isAtBossRoom(tile))
-									continue tileLoop;
-								explosions.add(tile);
-								World.sendProjectile(boss, tile, 2414, 120, 0, 20, 0, 20, 0);
-							}
-					} else if (cycles == 8) {
-						for (Tile tile : explosions)
-							World.sendSpotAnim(tile, new SpotAnim(2399));
-						for (Entity t : boss.getPossibleTargets())
-							tileLoop: for (Tile tile : explosions) {
-								if (t.getX() != tile.getX() || t.getY() != tile.getY())
-									continue tileLoop;
-								t.applyHit(new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
-							}
-						boss.resetTransformation();
-						stop();
-						return;
-					}
+			WorldTasks.scheduleTimer((ticks) -> {
+				if (ticks == 1)
+					boss.setNextSpotAnim(new SpotAnim(2769));
+				else if (ticks == 4)
+					boss.setNextSpotAnim(new SpotAnim(2770));
+				else if (ticks == 5) {
+					boss.setNextSpotAnim(new SpotAnim(2771));
+					for (Entity t : boss.getPossibleTargets())
+						for (int i = 0; i < 4; i++) {
+							Tile tile = World.getFreeTile(t.getTile(), 2);
+							if (!manager.isAtBossRoom(tile))
+								continue;
+							explosions.add(tile);
+							World.sendProjectile(boss, tile, 2414, 120, 0, 20, 0, 20, 0);
+						}
+				} else if (ticks == 8) {
+					for (Tile tile : explosions)
+						World.sendSpotAnim(tile, new SpotAnim(2399));
+					for (Entity t : boss.getPossibleTargets())
+						for (Tile tile : explosions) {
+							if (t.getX() != tile.getX() || t.getY() != tile.getY())
+								continue;
+							t.applyHit(new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6, boss.getMaxHit()), HitLook.TRUE_DAMAGE));
+						}
+					boss.resetTransformation();
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 			return 8;
 		}
 		int[] possibleAttacks = { 0, 1, 2 };
 		if (target instanceof Player player)
 			if (player.getPrayer().isProtectingMelee())
-				possibleAttacks = new int[]
-						{ 1, 2 };
+				possibleAttacks = new int[] { 1, 2 };
 			else if (player.getPrayer().isProtectingRange())
-				possibleAttacks = new int[]
-						{ 0, 1 };
+				possibleAttacks = new int[] { 0, 1 };
 			else if (player.getPrayer().isProtectingMage())
-				possibleAttacks = new int[]
-						{ 0, 2 };
+				possibleAttacks = new int[] { 0, 2 };
 		boolean distanced = !WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0);
 		int attack = possibleAttacks[Utils.random(possibleAttacks.length)];
 		if (attack == 0 && distanced)
 			attack = possibleAttacks[1];
 		switch (attack) {
-		case 0://melee
-			boss.setNextAnimation(new Animation(14423));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
-			break;
-		case 1://green exploding blob attack (magic)
-			boss.setNextAnimation(new Animation(14427));
-			//boss.setNextGraphics(new Graphics(2413));
-			World.sendProjectile(npc, target, 2414, 41, 16, 50, 40, 0, 0);
-			delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
-			break;
-		case 2://green blob attack (range)
-			boss.setNextAnimation(new Animation(14424));
-			boss.setNextSpotAnim(new SpotAnim(2394));
-			World.sendProjectile(npc, target, 2395, 41, 16, 50, 40, 0, 2);
-			delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
-			target.setNextSpotAnim(new SpotAnim(2396, 80, 0));
-			break;
+			//melee
+			case 0 -> {
+				boss.setNextAnimation(new Animation(14423));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			}
+			//green exploding blob attack (magic)
+			case 1 -> {
+				boss.setNextAnimation(new Animation(14427));
+				//boss.setNextGraphics(new Graphics(2413));
+				World.sendProjectile(npc, target, 2414, 41, 16, 50, 40, 0, 0);
+				delayHit(npc, 1, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+				target.setNextSpotAnim(new SpotAnim(2417, 80, 0));
+			}
+			//green blob attack (range)
+			case 2 -> {
+				boss.setNextAnimation(new Animation(14424));
+				boss.setNextSpotAnim(new SpotAnim(2394));
+				World.sendProjectile(npc, target, 2395, 41, 16, 50, 40, 0, 2);
+				delayHit(npc, 1, target, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				target.setNextSpotAnim(new SpotAnim(2396, 80, 0));
+			}
 		}
 		return 6;
 	}

@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -175,7 +175,7 @@ public final class Nex extends NPC {
 		sendWrathProj(this, Tile.of(getX() - 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, Tile.of(getX() + 2, getY() + 2, getPlane()), 0.4);
 		sendWrathProj(this, Tile.of(getX() - 2, getY() - 2, getPlane()), 0.4);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				List<Entity> possibleTargets = getPossibleTargets();

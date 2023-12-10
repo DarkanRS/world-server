@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -60,7 +60,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 	private void playCutscene() {
 		instance.copyMapAllPlanes(347, 1229).thenAccept(e -> {
 			insideCrate = instance.getLocalTile(2, 7);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int tick;
 				static final int CROUCH_CRATE_ANIM = 14592;
 				@Override

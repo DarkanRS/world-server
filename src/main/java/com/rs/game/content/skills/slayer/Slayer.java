@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -326,7 +326,7 @@ public class Slayer {
 			if (!object.getTile().withinDistance(player.getTile(), 3) || object.getId() != 22545)
 				continue;
 			player.sendMessage("The bell re-sounds loudly throughout the cavern.");
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					NPC npc = World.spawnNPC(5751, Tile.of(player.getTile()), -1, true);

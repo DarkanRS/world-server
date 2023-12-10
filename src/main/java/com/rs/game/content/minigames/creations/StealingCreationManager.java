@@ -17,7 +17,7 @@
 package com.rs.game.content.minigames.creations;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 
@@ -27,12 +27,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class StealingCreationManager {
 
 	private static final List<StealingCreationGameController> running = new CopyOnWriteArrayList<>();
-	private static WorldTask watcher;
+	private static Task watcher;
 
 	public synchronized static void createGame(int size, List<Player> blueTeam, List<Player> redTeam) {
 		running.add(new StealingCreationGameController(size, blueTeam, redTeam));
 		if (watcher == null)
-			WorldTasks.schedule(watcher = new WorldTask() {
+			WorldTasks.schedule(watcher = new Task() {
 				@Override
 				public void run() {
 					try {

@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -238,7 +238,7 @@ public class ErnestTheChicken extends QuestOutline {
 			return;
 		}
 		p.getInventory().deleteItem(POISONED_FISH_FOOD, 1);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {

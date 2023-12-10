@@ -17,6 +17,7 @@
 package com.rs.net.decoders.handlers.impl;
 
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.game.Animation;
 import com.rs.lib.net.packets.PacketHandler;
 import com.rs.lib.net.packets.decoders.KeyPress;
 

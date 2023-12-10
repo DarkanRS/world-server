@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
 import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
@@ -25,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -34,19 +33,17 @@ import com.rs.lib.util.Utils;
 
 public class ColouredRecessRoom extends PuzzleRoom {
 
-	public static final int[] SHELVES =
-		{ 35243, 35242, 35241, 35245, 35246 };
+	public static final int[] SHELVES = { 35243, 35242, 35241, 35245, 35246 };
 
 	//+1-4 for colors
-	public static final int[] BASE_BLOCKS =
-		{ 13024, 13029, 13034, 13039, 13044 };
+	public static final int[] BASE_BLOCKS = { 13024, 13029, 13034, 13039, 13044 };
 
-	public static final int[][] LOCATIONS =
-		{
-				{ 5, 10 },
-				{ 10, 10 },
-				{ 10, 5 },
-				{ 5, 5 }, };
+	public static final int[][] LOCATIONS = {
+		{ 5, 10 },
+		{ 10, 10 },
+		{ 10, 5 },
+		{ 5, 5 },
+	};
 
 	private Block[] blocks;
 	private boolean[] used;
@@ -130,7 +127,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				}
 
 			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				private boolean moved;
 
@@ -185,22 +182,11 @@ public class ColouredRecessRoom extends PuzzleRoom {
 	public boolean processObjectClick1(Player p, GameObject object) {
 		if (object.getId() == SHELVES[type]) {
 			p.startConversation(new Dialogue()
-					.addOptions("Choose an option:", new Options() {
-						@Override
-						public void create() {
-							option("Blue vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19869);})
-							);
-							option("Green vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19871);})
-							);
-							option("Yellow vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19873);})
-							);
-							option("Violet vial.", new Dialogue()
-									.addNext(()->{getVial(p, 19875);})
-							);
-						}
+					.addOptions("Choose an option:", (ops) -> {
+						ops.add("Blue vial.", () -> getVial(p, 19869));
+						ops.add("Green vial.", () -> getVial(p, 19871));
+						ops.add("Yellow vial.", () -> getVial(p, 19873));
+						ops.add("Violet vial.", () -> getVial(p, 19875));
 					}));
 			return false;
 		}

@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.qbd.npcs;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
 
@@ -53,7 +53,7 @@ public final class TimeStopAttack implements QueenAttack {
 		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
 		soul.setLocked(true);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage = -1;
 
 			@Override

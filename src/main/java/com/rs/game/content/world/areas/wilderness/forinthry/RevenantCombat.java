@@ -24,7 +24,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -138,7 +138,7 @@ public class RevenantCombat extends CombatScript {
 			delayHit(npc, 2, target, getMagicHit(npc, damage));
 			World.sendProjectile(npc, target, 1276, 34, 16, 30, 35, 16, 0);
 			if (damage > 0)
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {

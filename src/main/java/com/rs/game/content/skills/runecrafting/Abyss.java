@@ -24,7 +24,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -50,18 +50,18 @@ public class Abyss {
 
 	public static ObjectClickHandler handleAltarEntries = new ObjectClickHandler(new Object[] { 7137, 7139, 7140, 7131, 7130, 7129, 7136, 7135, 7133, 7132, 7141, 7134, 7138 }, e -> {
 		switch(e.getObjectId()) {
-		case 7137 -> RunecraftingAltar.Altar.WATER.canEnter(e.getPlayer(), true);
-		case 7139 -> RunecraftingAltar.Altar.AIR.canEnter(e.getPlayer(), true);
-		case 7140 -> RunecraftingAltar.Altar.MIND.canEnter(e.getPlayer(), true);
-		case 7131 -> RunecraftingAltar.Altar.BODY.canEnter(e.getPlayer(), true);
-		case 7130 -> RunecraftingAltar.Altar.EARTH.canEnter(e.getPlayer(), true);
-		case 7129 -> RunecraftingAltar.Altar.FIRE.canEnter(e.getPlayer(), true);
-		case 7136 -> RunecraftingAltar.Altar.DEATH.canEnter(e.getPlayer(), true);
-		case 7135 -> RunecraftingAltar.Altar.LAW.canEnter(e.getPlayer(), true);
-		case 7133 -> RunecraftingAltar.Altar.NATURE.canEnter(e.getPlayer(), true);
-		case 7132 -> RunecraftingAltar.Altar.COSMIC.canEnter(e.getPlayer(), true);
-		case 7141 -> RunecraftingAltar.Altar.BLOOD.canEnter(e.getPlayer(), true);
-		case 7134 -> RunecraftingAltar.Altar.CHAOS.canEnter(e.getPlayer(), true);
+		case 7137 -> RunecraftingAltar.Ruins.WATER.canEnter(e.getPlayer(), true);
+		case 7139 -> RunecraftingAltar.Ruins.AIR.canEnter(e.getPlayer(), true);
+		case 7140 -> RunecraftingAltar.Ruins.MIND.canEnter(e.getPlayer(), true);
+		case 7131 -> RunecraftingAltar.Ruins.BODY.canEnter(e.getPlayer(), true);
+		case 7130 -> RunecraftingAltar.Ruins.EARTH.canEnter(e.getPlayer(), true);
+		case 7129 -> RunecraftingAltar.Ruins.FIRE.canEnter(e.getPlayer(), true);
+		case 7136 -> RunecraftingAltar.Ruins.DEATH.canEnter(e.getPlayer(), true);
+		case 7135 -> RunecraftingAltar.Ruins.LAW.canEnter(e.getPlayer(), true);
+		case 7133 -> RunecraftingAltar.Ruins.NATURE.canEnter(e.getPlayer(), true);
+		case 7132 -> RunecraftingAltar.Ruins.COSMIC.canEnter(e.getPlayer(), true);
+		case 7141 -> RunecraftingAltar.Ruins.BLOOD.canEnter(e.getPlayer(), true);
+		case 7134 -> RunecraftingAltar.Ruins.CHAOS.canEnter(e.getPlayer(), true);
 		case 7138 -> e.getPlayer().sendMessage("A strange power blocks your exit..");
 		}
 	});
@@ -116,7 +116,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -148,7 +148,7 @@ public class Abyss {
 
 	public static void clearEyes(final Player player, final GameObject object, final Tile tile) {
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -180,7 +180,7 @@ public class Abyss {
 
 	public static void clearGap(final Player player, final GameObject object, final Tile tile, final boolean quick) {
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -215,7 +215,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -262,7 +262,7 @@ public class Abyss {
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
 		npc.setNextSpotAnim(new SpotAnim(343));
 		player.setNextSpotAnim(new SpotAnim(342));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);

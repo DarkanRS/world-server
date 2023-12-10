@@ -25,7 +25,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -161,7 +161,7 @@ public class Thieving {
 
 				player.setNextAnimation(new Animation(881));
 				player.lock(2);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object)) {

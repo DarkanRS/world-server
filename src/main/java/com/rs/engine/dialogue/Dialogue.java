@@ -328,6 +328,14 @@ public class Dialogue {
 		return addNext(dialogue);
 	}
 
+	public Dialogue addNPC(int npcId, HeadE expression, String text, String nameOverride) {
+		return addNext(new Dialogue(new NPCStatement(nameOverride, npcId, expression, text)));
+	}
+
+	public Dialogue addNPC(int npcId, HeadE expression, String text, String nameOverride, Runnable extraFunctionality) {
+		return addNext(new Dialogue(new NPCStatement(nameOverride, npcId, expression, text), extraFunctionality));
+	}
+
 	public Dialogue addStop() {
 		return addNext(new Dialogue());
 	}

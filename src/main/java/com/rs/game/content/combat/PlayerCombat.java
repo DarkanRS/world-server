@@ -39,8 +39,6 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.entity.player.managers.AuraManager.Aura;
-import com.rs.game.tasks.WorldTask;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -307,24 +305,21 @@ public class PlayerCombat extends PlayerAction {
 			Hit hit = calculateMagicHit(player, target, 1000);
 			if (hit.getDamage() > 0)
 				spell.onHit(player, target, null);
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					if (hit.getDamage() > 0) {
-						if (spell.getHitSpotAnim() != null) {
-							target.setNextSpotAnim(spell.getHitSpotAnim());
-							if (spell.landSound != -1)
-								playSound(spell.landSound, player, target);
-						}
-					} else {
-						target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-						if (spell.splashSound != -1)
+			target.getTasks().schedule(delay, () -> {
+				if (hit.getDamage() > 0) {
+					if (spell.getHitSpotAnim() != null) {
+						target.setNextSpotAnim(spell.getHitSpotAnim());
+						if (spell.landSound != -1)
 							playSound(spell.landSound, player, target);
-						else
-							playSound(227, player, target);
 					}
+				} else {
+					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
+					if (spell.splashSound != -1)
+						playSound(spell.landSound, player, target);
+					else
+						playSound(227, player, target);
 				}
-			}, delay);
+			});
 		} else {
 			boolean hit = castSpellAtTarget(player, target, spell, delay);
 			if (spell.isAOE() && hit)
@@ -423,7 +418,7 @@ public class PlayerCombat extends PlayerAction {
 				target.setNextSpotAnim(new SpotAnim(44));
 				target.resetWalkSteps();
 				if (target instanceof NPC npc) {
-					WorldTasks.delay(p.getTaskDelay(), () -> {
+					target.getTasks().delay(p.getTaskDelay(), () -> {
 						npc.setCapDamage(-1);
 						target.applyHit(new Hit(player, target.getHitpoints(), HitLook.TRUE_DAMAGE));
 					});
@@ -440,7 +435,7 @@ public class PlayerCombat extends PlayerAction {
 					public boolean attack(Entity next) {
 						Hit hit = calculateHit(player, next, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
 						player.setNextAnimation(new Animation(2779));
-						WorldTasks.delay(p.getTaskDelay(), () -> next.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
+						next.getTasks().delay(p.getTaskDelay(), () -> next.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
 						delayHit(next, p.getTaskDelay(), weaponId, attackStyle, hit);
 						if (!nextTarget) {
 							if (hit.getDamage() <= 0)
@@ -491,7 +486,7 @@ public class PlayerCombat extends PlayerAction {
 							break;
 						case 9243:
 							hit = calculateHit(player, target, weaponId, attackStyle, true, false, 1.0, 1.15);
-							target.setNextSpotAnim(new SpotAnim(751));
+							target.setNextSpotAnim(new SpotAnim(758));
 							soundId = 2913;
 							break;
 						case 9244:
@@ -542,16 +537,8 @@ public class PlayerCombat extends PlayerAction {
 						int maxHit = getMaxHit(player, target, weaponId, attackStyle, true, 1.0);
 						int minBleed = (int) (maxHit * (lockedOn ? 0.25 : 0.20));
 						int maxBleed = (int) (minBleed * 0.70);
-						WorldTasks.delay(14, () -> {
-							if (target == null || target.isDead() || target.hasFinished())
-								return;
-							delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed)));
-						});
-						WorldTasks.delay(28, () -> {
-							if (target == null || target.isDead() || target.hasFinished())
-								return;
-							delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed)));
-						});
+						target.getTasks().delay(14, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
+						target.getTasks().delay(28, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
 					}, null);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				}
@@ -597,7 +584,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 				if (calculateHit(player, target, weaponId, attackStyle, true).getDamage() > 0) {
 					target.freeze(delay, true);
-					WorldTasks.schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
+					target.getTasks().schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
 				}
 				playSound(soundId, player, target);
 				player.getEquipment().removeAmmo(Equipment.WEAPON, 1);
@@ -673,23 +660,21 @@ public class PlayerCombat extends PlayerAction {
 		 * Recovered automatically: 2/3
 		 *
 		 * Ava's Accumulator
+		 * Max cape
+		 * Comp capes
+		 * Soul wars capes
 		 * Drop onto floor: 1/9
 		 * Recovered automatically: 8/9
 		 */
 		switch (player.getEquipment().getCapeId()) {
-			case 10498:
+			case 10498 -> {
 				if (Utils.random(3) != 0)
 					return;
-				break;
-			case 10499:
-			case 20068:
-			case 20769:
-			case 20771:
+			}
+			case 10499, 20068, 20769, 20771, 14641, 14642 -> {
 				if (Utils.random(9) != 0)
 					return;
-				break;
-			default:
-				break;
+			}
 		}
 		player.getEquipment().removeAmmo(slot, quantity);
 		if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely
@@ -749,7 +734,7 @@ public class PlayerCombat extends PlayerAction {
 						next.freeze(Ticks.fromSeconds(10), true);
 						next.setNextSpotAnim(new SpotAnim(181, 0, 96));
 						final Entity t = next;
-						WorldTasks.schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
+						t.getTasks().schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
 						if (next instanceof Player p) {
 							for (int i = 0; i < 7; i++)
 								if (i != 3 && i != 5)
@@ -786,7 +771,7 @@ public class PlayerCombat extends PlayerAction {
 
 	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage, boolean applyMageLevelBoost) {
 		Hit hit = getMagicMaxHit(player, target, baseDamage, applyMageLevelBoost);
-		hit.setDamage(Utils.random(hit.getDamage() + 1));
+		hit.setDamage(Utils.random(1, hit.getDamage()));
 		if (hit.getDamage() > 0)
 			if (target instanceof NPC n)
 				if (n.getId() == 9463 && hasFireCape(player))
@@ -1081,8 +1066,6 @@ public class PlayerCombat extends PlayerAction {
 			str += 82;
 		double baseDamage = 5 + lvl * (str + 64) / 64;
 
-		//int multiplier = PluginManager.handle()
-
 		switch (weaponId) {
 			case 6523:
 			case 6525:
@@ -1126,6 +1109,9 @@ public class PlayerCombat extends PlayerAction {
 			default:
 				break;
 		}
+
+		//int multiplier = PluginManager.handle()
+
 		int maxHit = (int) Math.floor(baseDamage * damageMultiplier);
 		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 			player.sendMessage("Your max hit: " + maxHit);
@@ -1808,7 +1794,7 @@ public class PlayerCombat extends PlayerAction {
 			if (weaponName != null && !weaponName.equals("null")) {
 				if (weaponName.contains("boxing gloves"))
 					return 3679;
-				if (weaponName.contains("scimitar") || weaponName.contains("korasi sword"))
+				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword"))
 					return 15074;
 				if (weaponName.contains("whip"))
 					return 11974;
@@ -1824,8 +1810,10 @@ public class PlayerCombat extends PlayerAction {
 					return 397;
 				if (weaponName.contains("mace"))
 					return 403;
+				if (weaponName.contains("dragon claws"))
+					return 13043;
 				if (weaponName.contains("claws"))
-					return 404;
+					return 403;
 				if (weaponName.contains("hatchet"))
 					return 397;
 				if (weaponName.contains("greataxe"))
@@ -1838,6 +1826,8 @@ public class PlayerCombat extends PlayerAction {
 					return 420;
 				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
 					return 403;
+				if (weaponName.contains("chaotic maul") || weaponName.contains("novite maul") || weaponName.contains("bathus maul") || weaponName.contains("marmaros maul") || weaponName.contains("kratonite maul") || weaponName.contains("fractite maul") || weaponName.contains("zephyrium maul") || weaponName.contains("argonite maul") || weaponName.contains("katagon maul") || weaponName.contains("gorgonite maul") || weaponName.contains("promethium maul") || weaponName.contains("primal maul"))
+					return 13054;
 				if (weaponName.contains("maul") || weaponName.contains("tzhaar-ket-om"))
 					return 1666;
 				if (weaponName.contains("zamorakian spear"))

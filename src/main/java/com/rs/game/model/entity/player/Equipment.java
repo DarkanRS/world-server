@@ -45,7 +45,7 @@ import java.util.List;
 
 @PluginEventHandler
 public final class Equipment {
-	public static final byte
+	public static final int
 			HEAD = 0,
 			CAPE = 1,
 			NECK = 2,

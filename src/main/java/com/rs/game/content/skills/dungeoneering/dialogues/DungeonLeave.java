@@ -24,8 +24,8 @@ public class DungeonLeave extends Conversation {
 
 	public DungeonLeave(Player player, DungeonController controller) {
 		super(player);
-		addOptions("Leave the dungeon permanently?", ops -> {
-			ops.add("Yes.", () -> controller.leaveDungeonPermanently());
+		addOptions("Leave the dungeon permanently?", (ops) -> {
+			ops.add("Yes.", controller::leaveDungeonPermanently);
 			ops.add("No.");
 		});
 	}

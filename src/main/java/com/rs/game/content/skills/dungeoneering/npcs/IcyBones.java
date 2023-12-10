@@ -26,7 +26,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -57,7 +57,7 @@ public final class IcyBones extends DungeonBoss {
 		return 0.6;
 	}
 
-	private List<GameObject> spikes;
+	private final List<GameObject> spikes;
 
 	public void removeSpikes() {
 		if (spikes.isEmpty())
@@ -86,7 +86,7 @@ public final class IcyBones extends DungeonBoss {
 					if (player.getX() == object.getX() && player.getY() == object.getY())
 						player.applyHit(new Hit(this, 1 + Utils.random(getMaxHit()), HitLook.TRUE_DAMAGE));
 			}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

@@ -1,18 +1,19 @@
 {
-  "names": [
-    "Avatar of Destruction"
+  "ids": [
+    8596
   ],
-  "attackAnim": -1,
+  "attackAnim": 11197,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 11198,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 11199,
   "deathDelay": 6,
   "deathSound": -1,
   "respawnDelay": 59,
-  "hitpoints": 10,
+  "hitpoints": 15000,
   "maxHit": 500,
   "attackStyle": "MELEE",
+  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
     "ATTACK": 160,
     "RANGE": 0,

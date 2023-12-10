@@ -22,7 +22,7 @@ import com.rs.lib.game.Tile;
 
 public class SkeletalMinion extends DungeonNPC {
 
-	private NecroLord boss;
+	private final NecroLord boss;
 
 	public SkeletalMinion(NecroLord boss, int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);

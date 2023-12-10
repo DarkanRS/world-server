@@ -23,7 +23,7 @@ import com.rs.game.World;
 import com.rs.game.content.world.unorganized_dialogue.DestroyItem;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -160,7 +160,7 @@ public class Halloween2009 {
 		boolean needStart = !e.getPlayer().matches(from);
 		if (needStart)
 			e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			boolean started;
 			int failTimer = 3;
 

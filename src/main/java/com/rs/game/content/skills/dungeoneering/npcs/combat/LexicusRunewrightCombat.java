@@ -29,7 +29,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -103,16 +103,16 @@ public class LexicusRunewrightCombat extends CombatScript {
 			}
 
 		npc.setNextForceTalk(new ForceTalk("Book barrage!"));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			private int cycle = 0;
-			private LinkedList<Tile> targets = new LinkedList<>();
+			private final LinkedList<Tile> targets = new LinkedList<>();
 
 			@Override
 			public void run() {
 				cycle++;
 
-				if (npc == null || npc.isDead()) {
+				if (npc.isDead()) {
 					stop();
 					return;
 				}
@@ -140,9 +140,9 @@ public class LexicusRunewrightCombat extends CombatScript {
 					for (Entity entity : npc.getPossibleTargets(true)) {
 						if (entity instanceof DungeonNPC)
 							continue;
-						tileLoop: for (Tile tile : targets) {
+						for (Tile tile : targets) {
 							if (entity.getX() != tile.getX() || entity.getY() != tile.getY())
-								continue tileLoop;
+								continue;
 							entity.applyHit(new Hit(npc, (int) (entity instanceof Familiar ? 1000 : Utils.random(entity.getMaxHitpoints() * .6, entity.getMaxHitpoints() * .9)), HitLook.TRUE_DAMAGE));
 						}
 					}

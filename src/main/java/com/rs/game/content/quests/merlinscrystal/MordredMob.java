@@ -6,7 +6,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
@@ -32,7 +32,7 @@ public class MordredMob extends NPC {
 				morgan.forceTalk("Stop! Spare my son!");
 				morgan.faceSouth();
 				morgan.setRandomWalk(false);
-                WorldTasks.schedule(new WorldTask() {
+                WorldTasks.schedule(new Task() {
                     @Override
                     public void run() {
                         resetNPC(null);

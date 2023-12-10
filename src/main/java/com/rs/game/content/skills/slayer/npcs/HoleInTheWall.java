@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -65,13 +65,13 @@ public class HoleInTheWall extends NPC {
 						player.lock(4);
 						player.setNextAnimation(new Animation(425));
 						player.sendMessage("A giant hand appears and grabs your head.");
-						WorldTasks.schedule(new WorldTask() {
+						WorldTasks.schedule(new Task() {
 
 							@Override
 							public void run() {
 								player.applyHit(new Hit(player, Utils.getRandomInclusive(44), HitLook.TRUE_DAMAGE));
 								setNextAnimation(new Animation(-1));
-								WorldTasks.schedule(new WorldTask() {
+								WorldTasks.schedule(new Task() {
 
 									@Override
 									public void run() {

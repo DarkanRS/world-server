@@ -84,7 +84,7 @@ public final class ChunkManager {
 
             if (entity instanceof Player player) {
                 if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(player) == null && !(getChunk(player.getChunkId()) instanceof InstancedChunk))
-                    player.sendMessage(chunkId + " has no music genre!");
+                    player.sendMessage(chunkId + " has no music genre!", true);
                 if (entity.getLastChunkId() > 0)
                     getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
                 Chunk chunk = getChunk(chunkId);

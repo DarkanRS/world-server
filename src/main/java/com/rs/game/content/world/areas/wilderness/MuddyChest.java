@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.wilderness;
 
 import com.rs.game.World;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -44,7 +44,7 @@ public class MuddyChest {
 			e.getPlayer().setNextAnimation(new Animation(536));
 			e.getPlayer().lock(2);
 			e.getPlayer().sendMessage("You unlock the chest with your key.");
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					GameObject openedChest = new GameObject(e.getObject().getId() + 1, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());

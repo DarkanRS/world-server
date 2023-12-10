@@ -76,7 +76,7 @@ import com.rs.game.content.skills.summoning.Pouch;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.content.tutorialisland.GamemodeSelection;
 import com.rs.game.content.tutorialisland.TutorialIslandController;
-import com.rs.game.content.world.Musician;
+import com.rs.game.content.world.MusicianKt;
 import com.rs.game.ge.GE;
 import com.rs.game.ge.Offer;
 import com.rs.game.map.ChunkManager;
@@ -94,7 +94,7 @@ import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.entity.player.social.FCManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -106,7 +106,6 @@ import com.rs.lib.net.ServerPacket;
 import com.rs.lib.net.Session;
 import com.rs.lib.net.packets.Packet;
 import com.rs.lib.net.packets.PacketHandler;
-import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.net.packets.encoders.ReflectionCheckRequest;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
@@ -243,6 +242,7 @@ public class Player extends Entity {
 	private boolean ironMan;
 
 	private int jadinkoFavor;
+	public int soulWarsZeal;
 
 	private long lastLoggedIn = 0;
 
@@ -898,6 +898,8 @@ public class Player extends Entity {
 			closeChatboxInterfaceEvent = null;
 			event.run();
 		}
+		if (getInterfaceManager().topOpen(755))
+			setNextAnimation(new Animation(-1));
 	}
 
 	public void abortDialogue() {
@@ -991,7 +993,7 @@ public class Player extends Entity {
 			double energy = (8.0 + Math.floor(getSkills().getLevel(Constants.AGILITY) / 6.0)) / 100.0;
 			if (isResting()) {
 				energy = 1.68;
-				if (Musician.isNearby(this)) //TODO optimize this with its own resting variable
+				if (MusicianKt.isNearby(this)) //TODO optimize this with its own resting variable
 					energy = 2.28;
 			}
 			restoreRunEnergy(energy);
@@ -1065,7 +1067,7 @@ public class Player extends Entity {
 	private void processMusic() {
 		if (!getTempAttribs().getB("MUSIC_BREAK") && musicsManager.musicEnded()) {
 			getTempAttribs().setB("MUSIC_BREAK", true);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					musicsManager.nextAmbientSong();
@@ -2107,7 +2109,7 @@ public class Player extends Entity {
 		if (castedVeng && hit.getDamage() >= 4) {
 			castedVeng = false;
 			setNextForceTalk(new ForceTalk("Taste vengeance!"));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					source.applyHit(new Hit(Player.this, (int) (hit.getDamage() * 0.75), HitLook.TRUE_DAMAGE));
@@ -2201,6 +2203,7 @@ public class Player extends Entity {
 	}
 	@Override
 	public void sendDeath(final Entity source) {
+		clearPendingTasks();
 		incrementCount("Deaths");
 
 		if (prayer.hasPrayersOn() && !getTempAttribs().getB("startedDuel")) {
@@ -2222,7 +2225,7 @@ public class Player extends Entity {
 		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override
@@ -2515,7 +2518,7 @@ public class Player extends Entity {
 		if (useDelay == 0)
 			setNextTile(dest);
 		else {
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					if (isDead())
@@ -3045,7 +3048,7 @@ public class Player extends Entity {
 
 	public void ladder(final Tile toTile) {
 		setNextAnimation(new Animation(828));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				setNextTile(toTile);
@@ -3825,14 +3828,10 @@ public class Player extends Entity {
 		setRunHidden(false);
 		lock(5);
 		addWalkSteps(tile.getX(), tile.getY(), 3, false);
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				setRunHidden(running);
-				unlock();
-				stop();
-			}
-		}, 3);
+		getTasks().schedule(3, () -> {
+			setRunHidden(running);
+			unlock();
+		});
 	}
 
 	public int[] getWarriorPoints() {

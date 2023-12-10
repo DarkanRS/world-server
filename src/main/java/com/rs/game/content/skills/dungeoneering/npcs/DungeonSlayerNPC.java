@@ -44,7 +44,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 		EDIMMU(10703, 90, new int[] { DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 5, new DropTable(1, 20, 17291, 1)), //40 damage every 15 seconds
 		SOULGAZER(10704, 99, new int[] { DungeonConstants.OCCULT_FLOORS, DungeonConstants.WARPED_FLOORS }, 5, new DropTable(1, 20, 17295, 1));
 
-		private static Map<Integer, DungeonSlayerType> MAP = new HashMap<>();
+		private static final Map<Integer, DungeonSlayerType> MAP = new HashMap<>();
 
 		static {
 			for (DungeonSlayerType type : DungeonSlayerType.values())
@@ -55,11 +55,11 @@ public class DungeonSlayerNPC extends DungeonNPC {
 			return MAP.get(id);
 		}
 
-		private int id, req, weight;
+		private final int id, req, weight;
 		private int[] floors;
-		private DropSet drops;
+		private final DropSet drops;
 
-		private DungeonSlayerType(int id, int req, int[] floors, int weight, DropTable... drops) {
+		DungeonSlayerType(int id, int req, int[] floors, int weight, DropTable... drops) {
 			this.id = id;
 			this.req = req;
 			this.floors = floors;
@@ -67,7 +67,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 			this.drops = new DropSet(drops);
 		}
 
-		private DungeonSlayerType(int id, int req, int weight, DropTable... drops) {
+		DungeonSlayerType(int id, int req, int weight, DropTable... drops) {
 			this.id = id;
 			this.req = req;
 			this.weight = weight;
@@ -88,7 +88,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 		}
 	}
 
-	private DungeonSlayerType type;
+	private final DungeonSlayerType type;
 
 	public DungeonSlayerNPC(int id, Tile tile, DungeonManager manager) {
 		super(id, tile, manager);
@@ -115,9 +115,9 @@ public class DungeonSlayerNPC extends DungeonNPC {
 				if (player.getSkills().getLevel(Constants.SLAYER) >= type.req && type.containsFloor(party.getFloorType())) {
 					for (int i = 0;i < type.weight;i++)
 						monsters.add(type.id);
-					continue;
 				}
 		Collections.shuffle(monsters);
-		return monsters.size() > 0 ? monsters.get(0) : -1;
+		return !monsters.isEmpty() ? monsters.get(0) : -1;
 	}
+
 }

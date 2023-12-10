@@ -17,7 +17,7 @@
 package com.rs.game.content.skills.herblore;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -135,7 +135,7 @@ public class HerbCleaning {
 			player.sendMessage("You do not have the required level to clean this.", true);
 			return true;
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				Item i = player.getInventory().getItem(slotId);

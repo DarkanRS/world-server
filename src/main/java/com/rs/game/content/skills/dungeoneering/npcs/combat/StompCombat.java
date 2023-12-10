@@ -25,7 +25,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -58,15 +57,11 @@ public class StompCombat extends CombatScript {
 		if (stomp.getStage() > 1 && Utils.random(10) == 0) {
 			final Tile tile = Tile.of(target.getTile());
 			World.sendSpotAnim(tile, new SpotAnim(2400));
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					for (Entity target : npc.getPossibleTargets())
-						if (target.getX() == tile.getX() && target.getY() == tile.getY())
-							target.applyHit(new Hit(npc, (int) (target.getMaxHitpoints() * 0.25), HitLook.RANGE_DAMAGE));
-				}
-			}, 4);
+			WorldTasks.delay(4, () -> {
+				for (Entity entity : npc.getPossibleTargets())
+					if (entity.getX() == tile.getX() && entity.getY() == tile.getY())
+						entity.applyHit(new Hit(npc, (int) (entity.getMaxHitpoints() * 0.25), HitLook.RANGE_DAMAGE));
+			});
 		}
 
 		int attackStyle = Utils.random(/* stomp.getStage() > 1 ? 4 : */stomp.getStage() > 0 ? 3 : 2);
@@ -74,27 +69,26 @@ public class StompCombat extends CombatScript {
 			attackStyle = 1;
 
 		switch (attackStyle) {
-		case 0:
-			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
-			break;
-		case 1:
-			npc.setNextAnimation(new Animation(13449));
-			npc.setNextSpotAnim(new SpotAnim(2401));
-			for (Entity t : npc.getPossibleTargets()) {
-				World.sendProjectile(npc, t, 2402, 16, 16, 41, 30, 0, 0);
-				t.setNextSpotAnim(new SpotAnim(2403, 70, 0));
-				delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+			case 0 -> {
+				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
 			}
-			break;
-		case 2:
-			npc.setNextAnimation(new Animation(13450));
-			npc.setNextSpotAnim(new SpotAnim(2404));
-			World.sendProjectile(npc, target, 2405, 30, 16, 41, 65, 0, 0);
-			target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
-			delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			break;
-
+			case 1 -> {
+				npc.setNextAnimation(new Animation(13449));
+				npc.setNextSpotAnim(new SpotAnim(2401));
+				for (Entity t : npc.getPossibleTargets()) {
+					World.sendProjectile(npc, t, 2402, 16, 16, 41, 30, 0, 0);
+					t.setNextSpotAnim(new SpotAnim(2403, 70, 0));
+					delayHit(npc, 1, t, getRangeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.RANGE, target)));
+				}
+			}
+			case 2 -> {
+				npc.setNextAnimation(new Animation(13450));
+				npc.setNextSpotAnim(new SpotAnim(2404));
+				World.sendProjectile(npc, target, 2405, 30, 16, 41, 65, 0, 0);
+				target.setNextSpotAnim(new SpotAnim(2406, 120, 0));
+				delayHit(npc, 2, target, getMagicHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
+			}
 		}
 		return npc.getAttackSpeed();
 	}

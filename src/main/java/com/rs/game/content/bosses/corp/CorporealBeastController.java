@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.corp;
 import com.rs.Settings;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -61,7 +61,7 @@ public class CorporealBeastController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override

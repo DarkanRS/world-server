@@ -25,14 +25,9 @@ public class DungeonLeaveParty extends Conversation {
 	public DungeonLeaveParty(Player player) {
 		super(player);
 		addSimple("Warning: If you leave the dungeon, you will not be able to return to it!");
-		addOptions("Leave the dungeon for good?", new Options() {
-			@Override
-			public void create() {
-				option("Yes.", new Dialogue()
-						.addNext(()->{player.getDungManager().leaveParty();})
-				);
-				option("No.", new Dialogue());
-			}
+		addOptions("Leave the dungeon for good?", (ops) -> {
+			ops.add("Yes.", player.getDungManager()::leaveParty);
+			ops.add("No.", new Dialogue());
 		});
 		create();
 	}

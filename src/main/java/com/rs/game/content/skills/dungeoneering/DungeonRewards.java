@@ -52,7 +52,7 @@ public class DungeonRewards {
 		FELLSTALK(Herbs.FELLSTALK, 47),
 		TORSTOL(Herbs.TORSTOL, 50);
 
-		private static Map<Integer, HerbicideSetting> BY_GRIMY = new HashMap<>();
+		private static final Map<Integer, HerbicideSetting> BY_GRIMY = new HashMap<>();
 
 		static {
 			for (HerbicideSetting setting : values())
@@ -63,10 +63,10 @@ public class DungeonRewards {
 			return BY_GRIMY.get(herbId);
 		}
 
-		private Herbs herb;
-		private int buttonId;
+		private final Herbs herb;
+		private final int buttonId;
 
-		private HerbicideSetting(Herbs herb, int buttonId) {
+		HerbicideSetting(Herbs herb, int buttonId) {
 			this.herb = herb;
 			this.buttonId = buttonId;
 		}
@@ -115,7 +115,7 @@ public class DungeonRewards {
 		GEM_BAG(18338, 10, 25, 2000),
 		COAL_BAG(18339, 35, 35, 4000);
 
-		private static Map<Integer, DungeonReward> rewards = new HashMap<>();
+		private static final Map<Integer, DungeonReward> rewards = new HashMap<>();
 
 		public static DungeonReward forId(int id) {
 			return rewards.get(id);
@@ -126,18 +126,15 @@ public class DungeonRewards {
 				rewards.put(monster.slotId, monster);
 		}
 
-		private int id;
-		private int req;
-		private int cost;
-		private int slotId;
-		private String name;
+		private final int id, req, cost, slotId;
+		private final String name;
 
-		private DungeonReward(int id, int slotId, int req, int cost) {
+		DungeonReward(int id, int slotId, int req, int cost) {
 			this.id = id;
 			this.req = req;
 			this.cost = cost;
 			this.slotId = slotId;
-			name = ItemDefinitions.getDefs(id).getName();
+			this.name = ItemDefinitions.getDefs(id).getName();
 		}
 
 		public int getId() {

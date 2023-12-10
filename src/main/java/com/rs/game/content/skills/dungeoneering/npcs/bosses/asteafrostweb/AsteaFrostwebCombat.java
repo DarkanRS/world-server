@@ -24,7 +24,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -36,8 +35,7 @@ public class AsteaFrostwebCombat extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[]
-				{ "Astea Frostweb" };
+		return new Object[] { "Astea Frostweb" };
 	}
 
 	@Override
@@ -70,33 +68,27 @@ public class AsteaFrostwebCombat extends CombatScript {
 			int d = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target);
 			delayHit(npc, 1, target, getMagicHit(npc, d));
 			if (d != 0) {
-				WorldTasks.schedule(new WorldTask() {
-					@Override
-					public void run() {
-						if (target.hasEffect(Effect.FREEZE))
-							target.setNextSpotAnim(new SpotAnim(1677, 0, 100));
-						else {
-							target.setNextSpotAnim(new SpotAnim(369));
-							target.freeze(8);
-						}
+				WorldTasks.delay(1, () -> {
+					if (target.hasEffect(Effect.FREEZE))
+						target.setNextSpotAnim(new SpotAnim(1677, 0, 100));
+					else {
+						target.setNextSpotAnim(new SpotAnim(369));
+						target.freeze(8);
 					}
-				}, 1);
+				});
 				for (final Entity t : possibleTargets)
 					if (t != target && t.withinDistance(target.getTile(), 2)) {
 						int damage = getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, t);
 						delayHit(npc, 1, t, getMagicHit(npc, damage));
 						if (damage != 0)
-							WorldTasks.schedule(new WorldTask() {
-								@Override
-								public void run() {
-									if (t.hasEffect(Effect.FREEZE))
-										t.setNextSpotAnim(new SpotAnim(1677, 0, 100));
-									else {
-										t.setNextSpotAnim(new SpotAnim(369));
-										t.freeze(8);
-									}
+							WorldTasks.delay(1, () -> {
+								if (t.hasEffect(Effect.FREEZE))
+									t.setNextSpotAnim(new SpotAnim(1677, 0, 100));
+								else {
+									t.setNextSpotAnim(new SpotAnim(369));
+									t.freeze(8);
 								}
-							}, 1);
+							});
 
 					}
 			}

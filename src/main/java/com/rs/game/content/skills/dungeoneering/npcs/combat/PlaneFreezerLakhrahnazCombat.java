@@ -47,20 +47,20 @@ public class PlaneFreezerLakhrahnazCombat extends CombatScript {
 			if (attackStyle == 1 && !WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0))
 				attackStyle = 0;
 			switch (attackStyle) {
-			case 0:
-				npc.setNextAnimation(new Animation(13775));
-				for (Entity t : npc.getPossibleTargets()) {
-					World.sendProjectile(npc, t, 2577, 16, 16, 41, 30, 0, 0);
-					t.setNextSpotAnim(new SpotAnim(2578, 70, 0));
-					delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
+				case 0 -> {
+					npc.setNextAnimation(new Animation(13775));
+					for (Entity t : npc.getPossibleTargets()) {
+						World.sendProjectile(npc, t, 2577, 16, 16, 41, 30, 0, 0);
+						t.setNextSpotAnim(new SpotAnim(2578, 70, 0));
+						delayHit(npc, 1, t, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
+					}
 				}
-				break;
-			case 1:
-				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-				Direction dir = Direction.random();
-				target.addWalkSteps(target.getX() + dir.getDx(), target.getY() + dir.getDy(), 1);
-				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 100, AttackStyle.MELEE, target)));
-				break;
+				case 1 -> {
+					npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+					Direction dir = Direction.random();
+					target.addWalkSteps(target.getX() + dir.getDx(), target.getY() + dir.getDy(), 1);
+					delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 100, AttackStyle.MELEE, target)));
+				}
 			}
 			return npc.getAttackSpeed();
 		}

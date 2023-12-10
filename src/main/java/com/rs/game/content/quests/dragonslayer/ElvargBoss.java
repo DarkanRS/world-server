@@ -8,7 +8,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -52,7 +52,7 @@ public class ElvargBoss extends NPC {
 			ElvargBoss elvarg = this;
 			removeTarget();
 			elvarg.setCantInteract(true);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				int tick = 0;
 				int WALK_TO_TILE_TICK = 7;
 				Tile animTile;

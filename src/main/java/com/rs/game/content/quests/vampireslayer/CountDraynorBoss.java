@@ -25,7 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -80,7 +80,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		setLocked(true);
 		faceEntity(source);
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick = 0;
 			int finalTick = Ticks.fromSeconds(12);
 
@@ -113,7 +113,7 @@ public class CountDraynorBoss extends OwnedNPC {
             player.sendMessage("This is not your vampyre to kill!");
             return;
         }
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick = 0;
 
 			@Override
@@ -174,7 +174,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		countDraynor.faceTile(Tile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
 		countDraynor.transformIntoNPC(266);
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				World.removeObject(coffin);
@@ -183,7 +183,7 @@ public class CountDraynorBoss extends OwnedNPC {
 			}
 		}, Ticks.fromMinutes(3));
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int tick = 0;
 
 			@Override

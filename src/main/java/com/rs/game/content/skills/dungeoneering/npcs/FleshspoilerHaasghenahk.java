@@ -24,7 +24,6 @@ import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -37,7 +36,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class FleshspoilerHaasghenahk extends DungeonBoss {
 
-	private List<FleshspoilerSpawn> creatures = new CopyOnWriteArrayList<>();
+	private final List<FleshspoilerSpawn> creatures = new CopyOnWriteArrayList<>();
 
 	private Entity cachedTarget;
 	private boolean secondStage, useMagicOnly;
@@ -80,14 +79,11 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			tiles.add(tile);
 		}
 		final FleshspoilerHaasghenahk boss = this;
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				for (int index = 0; index < 5; index++)
-					creatures.add(new FleshspoilerSpawn(boss, tiles.get(index), getManager()));
-			}
-		}, 3);
+		WorldTasks.scheduleTimer(3, (ticks) -> {
+			for (int index = 0; index < 5; index++)
+				creatures.add(new FleshspoilerSpawn(boss, tiles.get(index), getManager()));
+			return false;
+		});
 	}
 
 	public void removeFleshCreature(FleshspoilerSpawn spoiler_spawn) {
@@ -101,19 +97,16 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			calculateNextTarget();
 			setNextAnimation(new Animation(14467));
 			setNextSpotAnim(new SpotAnim(2765, 240, 0));
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					setNextAnimation(new Animation(-1));
-					addFleshCreatures();
-					setNextNPCTransformation(getId() - 30);
-					setHitpoints(getMaxHitpoints());
-					setLureDelay(Integer.MAX_VALUE);
-					setCantFollowUnderCombat(true);
-					resetBonuses();
-				}
-			}, 5);
+			WorldTasks.scheduleTimer(5, (ticks) -> {
+				setNextAnimation(new Animation(-1));
+				addFleshCreatures();
+				setNextNPCTransformation(getId() - 30);
+				setHitpoints(getMaxHitpoints());
+				setLureDelay(Integer.MAX_VALUE);
+				setCantFollowUnderCombat(true);
+				resetBonuses();
+				return false;
+			});
 			return;
 		}
 		for (DungeonNPC npc : creatures)

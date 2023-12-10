@@ -74,7 +74,8 @@ public class WerewolfAgility {
 
 	public static ObjectClickHandler handleZipLine = new ObjectClickHandler(false, new Object[] { 5139, 5140, 5141 }, e -> {
 		Tile endTile = Tile.of(3528, 9873, 0);
-		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () ->{
+		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () -> {
+			e.getPlayer().lock();
 			WorldTasks.scheduleTimer(1, 0, ticks -> {
 				switch(ticks) {
 					default -> { return true; }
@@ -119,6 +120,8 @@ public class WerewolfAgility {
 			return;
 		if(e.getObject().getTile().matches(e.getPlayer().getTile()))
 			return;
+		if (!e.getObject().getTile().withinDistance(e.getPlayer().getTile(), 2))
+			return;
 		if(e.getObject().getTile().isAt(3538, 9875)) {
 			e.getPlayer().walkToAndExecute(Tile.of(3538, 9873, 0), jumpRock(e));
 		} else
@@ -130,9 +133,7 @@ public class WerewolfAgility {
 			if(e.getObject().getTile().isAt(3538, 9875))
 				yellFetch(e);
 			e.getPlayer().lock();
-			WorldTasks.schedule(0, () -> {
-				e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 35, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 10));
-			});
+			WorldTasks.schedule(0, () -> e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 35, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 10)));
 		};
 	}
 

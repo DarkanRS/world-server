@@ -19,7 +19,7 @@ package com.rs.game.content.bosses.godwars.zaros.attack;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -47,7 +47,7 @@ public class Drag implements NexAttack {
 			nex.setNextAnimation(new Animation(6986));
 			nex.setTarget(player);
 			player.setNextAnimation(new Animation(-1));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.sendMessage("You've been injured and you can't use protective prayers!");

@@ -24,8 +24,8 @@ public class DungeonClimbLadder extends Conversation {
 
 	public DungeonClimbLadder(Player player, DungeonController controller) {
 		super(player);
-		addOptions("Are you sure you wish to proceed and take your party with you?", ops -> {
-			ops.add("Yes.", () -> controller.voteToMoveOn());
+		addOptions("Are you sure you wish to proceed and take your party with you?", (ops) -> {
+			ops.add("Yes.", controller::voteToMoveOn);
 			ops.add("No.");
 		});
 	}

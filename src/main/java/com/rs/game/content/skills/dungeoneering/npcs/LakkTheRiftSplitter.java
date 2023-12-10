@@ -36,10 +36,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class LakkTheRiftSplitter extends DungeonBoss {
 
-	private static final int[] RAIN_GRAPHICS =
-		{ 2581, 2583, 2585 };
+	private static final int[] RAIN_GRAPHICS = { 2581, 2583, 2585 };
 
-	private List<PortalCluster> clusters;
+	private final List<PortalCluster> clusters;
 
 	public LakkTheRiftSplitter(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9898, 9911), manager.getBossLevel()), tile, manager, reference);
@@ -97,7 +96,7 @@ public class LakkTheRiftSplitter extends DungeonBoss {
 		clusters.add(cluster);
 	}
 
-	public static void submitGraphics(PortalCluster cluster, NPC creator) {
+	private static void submitGraphics(PortalCluster cluster, NPC creator) {
 		for (Tile tile : cluster.getBoundary())
 			World.sendSpotAnim(tile, new SpotAnim((Utils.random(3) == 0 ? 1 : 0) + RAIN_GRAPHICS[cluster.getType()]));
 	}

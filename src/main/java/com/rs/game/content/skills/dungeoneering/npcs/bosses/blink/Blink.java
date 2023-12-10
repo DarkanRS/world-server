@@ -27,7 +27,7 @@ import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -37,42 +37,42 @@ import com.rs.utils.WorldUtil;
 
 public class Blink extends DungeonBoss {
 
-	private static final int[][] RUSH_COORDINATES =
-		{
-				{ 2, 3, 13, 3 },
-				{ 2, 6, 13, 6 },
-				{ 2, 9, 13, 9 },
-				{ 2, 12, 13, 12 },
-				{ 3, 2, 3, 13 },
-				{ 6, 2, 6, 13 },
-				{ 9, 2, 9, 13 },
-				{ 12, 2, 12, 13 }, };
-	//	private static final int[] FAILURE_SOUNDS = new int[]
-	//	{ 3005, 3006, 3010, 3014, 3048, 2978 };
-	//	private static final int[] RUSH_SOUNDS =
-	//	{ 2982, 2987, 2988, 2989, 2990, 2992, 2998, 3002, 3004, 3009, 3015, 3017, 3018, 3021, 3026, 3027, 3031, 3042, 3043, 3047, 3049 };
-	private static final String[] RUSH_MESSAGES =
-		{
-				"Grrrr...",
-				"More t...tea Alice?",
-				"Where...who?",
-				"H..here it comes!",
-				"See you all next year!",
-				"",
-				"",
-				"",
-				"Coo-coo-ca-choo!",
-				"Ah! Grrrr...",
-				"Aha! Huh? Ahaha!",
-				"",
-				"",
-				"A face! A huuuge face!",
-				"Aaahaahaha!",
-				"C...can't catch me!",
-				"A whole new world!",
-				"Over here!",
-				"There's no place like home.",
-		"The...spire...doors...everywhere..." };
+	private static final int[][] RUSH_COORDINATES = {
+		{ 2, 3, 13, 3 },
+		{ 2, 6, 13, 6 },
+		{ 2, 9, 13, 9 },
+		{ 2, 12, 13, 12 },
+		{ 3, 2, 3, 13 },
+		{ 6, 2, 6, 13 },
+		{ 9, 2, 9, 13 },
+		{ 12, 2, 12, 13 },
+	};
+
+	//	private static final int[] FAILURE_SOUNDS = new int[] { 3005, 3006, 3010, 3014, 3048, 2978 };
+	//	private static final int[] RUSH_SOUNDS = { 2982, 2987, 2988, 2989, 2990, 2992, 2998, 3002, 3004, 3009, 3015, 3017, 3018, 3021, 3026, 3027, 3031, 3042, 3043, 3047, 3049 };
+
+	private static final String[] RUSH_MESSAGES = {
+		"Grrrr...",
+		"More t...tea Alice?",
+		"Where...who?",
+		"H..here it comes!",
+		"See you all next year!",
+		"",
+		"",
+		"",
+		"Coo-coo-ca-choo!",
+		"Ah! Grrrr...",
+		"Aha! Huh? Ahaha!",
+		"",
+		"",
+		"A face! A huuuge face!",
+		"Aaahaahaha!",
+		"C...can't catch me!",
+		"A whole new world!",
+		"Over here!",
+		"There's no place like home.",
+		"The...spire...doors...everywhere..."
+	};
 
 	private int rushCount, rushStage;
 	private int[] selectedPath;
@@ -117,7 +117,7 @@ public class Blink extends DungeonBoss {
 		//playSoundEffect(FAILURE_SOUNDS[Utils.random(FAILURE_SOUNDS.length)]);
 		setNextForceTalk(new ForceTalk("Oof!"));
 		setNextAnimation(new Animation(14946));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -181,7 +181,7 @@ public class Blink extends DungeonBoss {
 						continue;
 					int damage = Utils.random(200, 600);
 					if (player.getPrayer().isProtectingMage() || player.getPrayer().isProtectingRange())
-						damage *= .5D;
+						damage *= 0.5D;
 					player.setNextSpotAnim(new SpotAnim(2854));
 					player.applyHit(new Hit(this, damage, HitLook.TRUE_DAMAGE, 35));
 
@@ -201,7 +201,7 @@ public class Blink extends DungeonBoss {
 		newPillar.setId(32196);//Our little secret :D
 		activePillar = Tile.of(selectedPillar.getTile());
 		World.spawnObjectTemporary(newPillar, 4);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

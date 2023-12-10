@@ -43,6 +43,7 @@ import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
+import com.rs.game.tasks.TaskInformation;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -110,6 +111,7 @@ public class NPC extends Entity {
 	private transient boolean locked;
 	private transient boolean skipWalkStep;
 	private transient boolean deleted = false;
+	private transient TaskInformation respawnTask;
 
 	public boolean switchWalkStep() {
 		return skipWalkStep = !skipWalkStep;
@@ -401,7 +403,12 @@ public class NPC extends Entity {
 			setTile(respawnTile);
 			finish();
 		}
-		WorldTasks.schedule(time < 0 ? getCombatDefinitions().getRespawnDelay() : time, () -> spawn());
+		respawnTask = WorldTasks.schedule(time < 0 ? getCombatDefinitions().getRespawnDelay() : time, () -> spawn());
+	}
+
+	public void cancelRespawnTask() {
+		if (respawnTask != null)
+			WorldTasks.remove(respawnTask);
 	}
 
 	public void deserialize() {
@@ -466,6 +473,7 @@ public class NPC extends Entity {
 
 	@Override
 	public void sendDeath(final Entity source) {
+		clearPendingTasks();
 		final NPCCombatDefinitions defs = getCombatDefinitions();
 		getInteractionManager().forceStop();
 		resetWalkSteps();

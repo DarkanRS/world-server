@@ -32,7 +32,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -44,15 +44,15 @@ import java.util.List;
 public class KalGerWarmonger extends DungeonBoss {
 
 	private static final int SIZE = 5;
-	private static final int[] WEAPONS =
-		{ -1, 56057, 56054, 56056, 56055, 56053 };
-	private static final int[][] FLY_COORDINATES =
-		{ { 4, 2 },//correct
-				{ 0, 0 },//correct cuz he doesn't even fly
-				{ 10, 10 },//correct
-				{ 10, 2 },//correct
-				{ 5, 10 },//correct
-				{ 5, 3 } };//correct
+	private static final int[] WEAPONS = { -1, 56057, 56054, 56056, 56055, 56053 };
+	private static final int[][] FLY_COORDINATES = {
+		{ 4, 2 }, // correct
+		{ 0, 0 }, // correct cuz he doesn't even fly
+		{ 10, 10 }, // correct
+		{ 10, 2 }, // correct
+		{ 5, 10 }, // correct
+		{ 5, 3 } // correct
+	};
 
 	private WarpedSphere sphere;
 	private Tile nextFlyTile;
@@ -65,16 +65,13 @@ public class KalGerWarmonger extends DungeonBoss {
 		setCapDamage(5000);
 		setCantInteract(true);
 		typeTicks = -1;
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				//playSoundEffect(3033);
-				setNextForceTalk(new ForceTalk("NOW IT'S YOUR TURN!"));
-				sphere = new WarpedSphere(reference, 12842, manager.getTile(reference, 11, 12), manager);
-				beginFlyCount();
-			}
-		}, 3);
+		WorldTasks.scheduleTimer(3, (ticks) -> {
+			//playSoundEffect(3033);
+			setNextForceTalk(new ForceTalk("NOW IT'S YOUR TURN!"));
+			sphere = new WarpedSphere(reference, 12842, manager.getTile(reference, 11, 12), manager);
+			beginFlyCount();
+			return false;
+		});
 	}
 
 	private void beginFlyCount() {
@@ -125,7 +122,6 @@ public class KalGerWarmonger extends DungeonBoss {
 			pullTicks++;
 			if (isMaximumPullTicks()) {
 				submitPullAttack();
-				return;
 			}
 		}
 	}
@@ -141,7 +137,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("Impossible!"));
 
 		final NPC boss = this;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
@@ -223,8 +219,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("You dare hide from me? BURN!"));
 		setNextAnimation(new Animation(14996));
 		final NPC boss = this;
-		WorldTasks.schedule(new WorldTask() {
-
+		WorldTasks.schedule(new Task() {
 			private int ticks;
 			private List<Entity> possibleTargets;
 
@@ -244,7 +239,6 @@ public class KalGerWarmonger extends DungeonBoss {
 						t.setNextTile(Tile.of(boss.getTile()));
 					stop();
 					pullTicks = 0;
-					return;
 				} else if (ticks > 3)
 					for (Entity t : possibleTargets) {
 						if (!getManager().isAtBossRoom(t.getTile()))

@@ -85,4 +85,20 @@ public class ItemClickEvent implements PluginEvent {
 				System.err.println("ERROR: Duplicate ItemClick methods for key: " + key);
 		}
 	}
+
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
+
+	public String component3() {
+		return option;
+	}
+
+	public boolean component4() {
+		return isEquipped;
+	}
 }

@@ -20,6 +20,5 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 
 public interface RoomEvent {
-
-	public void openRoom(DungeonManager dungeon, RoomReference reference);
+	void openRoom(DungeonManager dungeon, RoomReference reference);
 }

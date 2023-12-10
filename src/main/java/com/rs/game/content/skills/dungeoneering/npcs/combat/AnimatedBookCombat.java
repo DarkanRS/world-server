@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -32,8 +32,7 @@ public class AnimatedBookCombat extends CombatScript {
 
 	@Override
 	public Object[] getKeys() {
-		return new Object[]
-				{ "Animated book" };
+		return new Object[] { "Animated book" };
 	}
 
 	@Override
@@ -57,7 +56,7 @@ public class AnimatedBookCombat extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(2728));
 		delayHit(npc, 1, target, getMagicHit(npc, getMaxHit(npc, 100, AttackStyle.MAGE, target)));
 		World.sendProjectile(npc, target, 2731, 34, 16, 30, 35, 16, 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {

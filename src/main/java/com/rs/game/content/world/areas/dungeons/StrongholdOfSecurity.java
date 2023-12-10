@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -84,7 +84,7 @@ public class StrongholdOfSecurity {
 	public static ObjectClickHandler handleGates = new ObjectClickHandler(new Object[] { 16123, 16124, 16065, 16066, 16089, 16090, 16043, 16044 }, e -> {
 		e.getPlayer().lock(3);
 		e.getPlayer().setNextAnimation(new Animation(4282));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				Tile tile = switch (e.getObject().getRotation()) {

@@ -29,9 +29,7 @@ public class DungeoneeringTutor extends Conversation {
 	
 	private static final int DUNGEON_TUTOR = 9712;
 	
-	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }, e -> {
-		e.getPlayer().startConversation(new DungeoneeringTutor(e.getPlayer()));
-	});
+	public static NPCClickHandler talk = new NPCClickHandler(new Object[] { DUNGEON_TUTOR }, e -> e.getPlayer().startConversation(new DungeoneeringTutor(e.getPlayer())));
 
 	public DungeoneeringTutor(Player player) {
 		super(player);
@@ -47,7 +45,7 @@ public class DungeoneeringTutor extends Conversation {
 				return;
 			}
 		}
-		addOptions(ops -> {
+		addOptions((ops) -> {
 			ops.add("What is this place?", new Dialogue()
 					.addPlayer(HeadE.CONFUSED, "What is this place?")
 					.addNPC(DUNGEON_TUTOR, HeadE.CHEERFUL_EXPOSITION, "This is a place of treasures, fierce battles and bitter defeats.")

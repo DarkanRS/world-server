@@ -18,6 +18,8 @@ package com.rs.utils;
 
 import com.rs.cache.loaders.QCMesDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.minigames.soulwars.SoulWars;
+import com.rs.game.content.minigames.soulwars.SoulWarsKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
@@ -42,6 +44,8 @@ public class WorldUtil {
 			return null;
 
 		OutputStream stream = new OutputStream();
+		System.out.println(Arrays.toString(defs.types));
+		System.out.println(defs);
 
 		for (int i = 0;i < defs.types.length;i++)
 			switch(defs.types[i]) {
@@ -86,7 +90,10 @@ public class WorldUtil {
 					stream.writeByte(count);
 				}
 			}
-			case COUNTDIALOG, ENUM_STRING_CLAN, TOSTRING_SHARED -> { /*TODO*/ }
+			case TOSTRING_SHARED -> {
+				stream.writeInt(SoulWarsKt.getQuickchatVar(defs.configs[i][0]));
+			}
+			case COUNTDIALOG, ENUM_STRING_CLAN -> { /*TODO*/ }
 			default -> {}
 			}
 

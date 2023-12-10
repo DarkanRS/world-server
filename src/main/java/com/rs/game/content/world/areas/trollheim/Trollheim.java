@@ -22,7 +22,7 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -72,7 +72,7 @@ public class Trollheim {
 		int liftAnimation = isReturning ? 3624 :3725;
 		int squeezeAnimation = isReturning ? 3465 : 3466;
 		Tile destination = Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isReturning ? -4 : 4), 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int stage = 0;
 
 			@Override
@@ -205,7 +205,7 @@ public class Trollheim {
 			if(obj.getTile().matches(Tile.of(2951, 3681, 0)) && p.getX() < obj.getX()) {
 				Tile destinationTile = Tile.of(2954, 3682, 0);
 				p.faceTile(destinationTile);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						p.setNextAnimation(new Animation(3382));
@@ -213,7 +213,7 @@ public class Trollheim {
 				}, 1);
 
 				p.lock();
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						p.setNextTile(destinationTile);

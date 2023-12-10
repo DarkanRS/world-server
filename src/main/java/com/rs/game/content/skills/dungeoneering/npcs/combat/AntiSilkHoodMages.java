@@ -20,7 +20,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.Default;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -65,20 +64,18 @@ public class AntiSilkHoodMages extends Default {//default combat script
 			animation = 11130;
 		npc.setNextAnimation(new Animation(animation));
 		npc.setNextSpotAnim(new SpotAnim(1059));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				player.setNextSpotAnim(new SpotAnim(736, 0, 50));
-				player.getTempAttribs().setB("ShadowSilkSpellDisable", true);
-				player.sendMessage("<col=ff6f69>Your shadow silk hood loses its power...");
-				WorldTasks.delay(Ticks.fromMinutes(2), () -> {
-					if(player.hasStarted()) {
-						if(player.getTempAttribs().getB("ShadowSilkSpellDisable"))
-							player.sendMessage("<col=96ceb4>Your shadow silk hood returns its power...");
-						player.getTempAttribs().setB("ShadowSilkSpellDisable", false);
-					}
-				});
-			}
-		}, 2);
+		WorldTasks.scheduleTimer(2, (ticks) -> {
+			player.setNextSpotAnim(new SpotAnim(736, 0, 50));
+			player.getTempAttribs().setB("ShadowSilkSpellDisable", true);
+			player.sendMessage("<col=ff6f69>Your shadow silk hood loses its power...");
+			WorldTasks.delay(Ticks.fromMinutes(2), () -> {
+				if(player.hasStarted()) {
+					if(player.getTempAttribs().getB("ShadowSilkSpellDisable"))
+						player.sendMessage("<col=96ceb4>Your shadow silk hood returns its power...");
+					player.getTempAttribs().setB("ShadowSilkSpellDisable", false);
+				}
+			});
+			return false;
+		});
 	}
 }

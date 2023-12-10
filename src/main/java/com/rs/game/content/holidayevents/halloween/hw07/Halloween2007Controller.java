@@ -19,7 +19,7 @@ package com.rs.game.content.holidayevents.halloween.hw07;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Controller;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -52,7 +52,7 @@ public class Halloween2007Controller extends Controller {
 			player.setNextAnimation(new Animation(1950));
 			player.lock();
 
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					player.setNextTile(Tile.of(1698, 4822, 0));
@@ -76,7 +76,7 @@ public class Halloween2007Controller extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override

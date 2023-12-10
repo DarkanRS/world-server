@@ -23,7 +23,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 
@@ -100,12 +99,10 @@ public class FlipTilesRoom extends PuzzleRoom {
 		tile.setId(id == GREEN ? YELLOW : GREEN); //instantly update so 2 players pressing the same tiles at once will not bug it out, although visual may be weird, rs might lock the whole puzzle up for 1 sec, not sure tho
 		for (Player team : manager.getParty().getTeam())
 			team.getPackets().sendObjectAnimation(tile, new Animation(id == GREEN ? GREEN_TO_YELLOW : YELLOW_TO_GREEN));
-		WorldTasks.schedule(new WorldTask() {
-			@Override
-			public void run() {
-				World.spawnObject(new GameObject(id == GREEN ? YELLOW : GREEN, ObjectType.GROUND_DECORATION, 0, tile.getTile()));
-			}
-		}, 1);
+		WorldTasks.scheduleTimer(1, (ticks) -> {
+			World.spawnObject(new GameObject(id == GREEN ? YELLOW : GREEN, ObjectType.GROUND_DECORATION, 0, tile.getTile()));
+			return false;
+		});
 	}
 
 	@Override

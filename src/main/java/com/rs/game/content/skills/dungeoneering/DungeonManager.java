@@ -51,7 +51,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
@@ -69,7 +69,7 @@ public class DungeonManager {
 	private static final Map<Object, DungeonManager> ACTIVE_DUNGEONS = Collections.synchronizedMap(new HashMap<>());
 	public static final AtomicLong KEY_MAKER = new AtomicLong();
 
-	private DungeonPartyManager party;
+	private final DungeonPartyManager party;
 	private Dungeon dungeon;
 	private VisibleRoom[][] visibleMap;
 	private Instance instance;
@@ -77,17 +77,17 @@ public class DungeonManager {
 	private RewardsTimer rewardsTimer;
 	private DestroyTimer destroyTimer;
 	private long time;
-	private List<KeyDoors> keyList;
-	private List<OwnedObject> farmingPatches;
+	private final List<KeyDoors> keyList;
+	private final List<OwnedObject> farmingPatches;
 	private String key;
 
 	private Tile groupGatestone;
-	private List<MastyxTrap> mastyxTraps;
+	private final List<MastyxTrap> mastyxTraps;
 
 	//force saving deaths
-	private Map<String, Integer> partyDeaths;
+	private final Map<String, Integer> partyDeaths;
 
-	private boolean tutorialMode;
+	private final boolean tutorialMode;
 
 	private DungeonBoss temporaryBoss; //must for gravecreeper, cuz... it gets removed from npc list :/
 
@@ -136,8 +136,7 @@ public class DungeonManager {
 			return false;
 		if (check) {
 			BossRoom bRoom = (BossRoom) room.getRoom();
-			if (x != bRoom.getChunkX() || y != bRoom.getChunkY())
-				return false;
+			return x == bRoom.getChunkX() && y == bRoom.getChunkY();
 		}
 		return true;
 	}
@@ -436,7 +435,7 @@ public class DungeonManager {
 	}
 
 	public void linkPartyToDungeon() {
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				for (Player player : party.getTeam()) {
@@ -535,8 +534,8 @@ public class DungeonManager {
 			int magicTier = DungeonUtils.getTier(player.getSkills().getLevelForXp(Constants.MAGIC));
 			if (magicTier > 8)
 				magicTier = 8;
-			player.getInventory().addItem(new Item(DungeonUtils.getRobeTop(defenceTier < magicTier ? defenceTier : magicTier)));
-			player.getInventory().addItem(new Item(DungeonUtils.getRobeBottom(defenceTier < magicTier ? defenceTier : magicTier)));
+			player.getInventory().addItem(new Item(DungeonUtils.getRobeTop(Math.min(defenceTier, magicTier))));
+			player.getInventory().addItem(new Item(DungeonUtils.getRobeBottom(Math.min(defenceTier, magicTier))));
 			if (party.getComplexity() <= 2) {
 				player.getInventory().addItem(new Item(DungeonConstants.RUNES[0], 90 + Utils.random(30)));
 				player.getInventory().addItem(new Item(DungeonUtils.getStartRunes(player.getSkills().getLevelForXp(Constants.MAGIC)), 90 + Utils.random(30)));
@@ -545,8 +544,8 @@ public class DungeonManager {
 			int rangeTier = DungeonUtils.getTier(player.getSkills().getLevelForXp(Constants.RANGE));
 			if (rangeTier > 8)
 				rangeTier = 8;
-			player.getInventory().addItem(new Item(DungeonUtils.getLeatherBody(defenceTier < rangeTier ? defenceTier : rangeTier)));
-			player.getInventory().addItem(new Item(DungeonUtils.getChaps(defenceTier < rangeTier ? defenceTier : rangeTier)));
+			player.getInventory().addItem(new Item(DungeonUtils.getLeatherBody(Math.min(defenceTier, rangeTier))));
+			player.getInventory().addItem(new Item(DungeonUtils.getChaps(Math.min(defenceTier, rangeTier))));
 			if (party.getComplexity() <= 2) {
 				player.getInventory().addItem(new Item(DungeonUtils.getShortbow(rangeTier)));
 				player.getInventory().addItem(new Item(DungeonUtils.getArrows(rangeTier), 90 + Utils.random(30)));
@@ -1141,7 +1140,7 @@ public class DungeonManager {
 			if (mostHealedDmg)
 				achievements.add(38);
 		}
-		if (achievements.size() == 0)
+		if (achievements.isEmpty())
 			achievements.add(33);
 		return achievements.toArray(new Integer[achievements.size()]);
 
@@ -1173,7 +1172,7 @@ public class DungeonManager {
 					continue;
 				player.getPackets().sendVarcString(310 + i, partyPlayer.getDisplayName());
 				Integer[] achievements = getAchievements(partyPlayer);
-				for (int i2 = 0; i2 < (achievements.length > 6 ? 6 : achievements.length); i2++)
+				for (int i2 = 0; i2 < (Math.min(achievements.length, 6)); i2++)
 					player.getPackets().sendVarc(1203 + (i * 6) + i2, achievements[i2]);
 			}
 			player.getPackets().setIFText(933, 331, Utils.formatTime((World.getServerTicks() - time) * 600));
@@ -1202,7 +1201,7 @@ public class DungeonManager {
 			player.getPackets().sendVarc(1321, (int) (levelDiffPenalty * 10000));
 			multiplier -= levelDiffPenalty;
 			Integer deaths = partyDeaths.get(player.getUsername());
-			double countedDeaths = Math.min(deaths == null ? 0 : deaths.intValue(), 6);
+			double countedDeaths = Math.min(deaths == null ? 0 : deaths, 6);
 			multiplier *= (1.0 - (countedDeaths * 0.1)); //adds FLAT 10% reduction per death, upto 6
 			//base xp is based on a ton of factors, including opened rooms, resources harvested, ... but this is most imporant one
 			double floorXP = getFloorXP(party.getFloor(), party.getSize(), getVisibleRoomsCount());
@@ -1262,9 +1261,7 @@ public class DungeonManager {
 		double roomMod = 1.0;
 		double sizeMod = 1.0;
 		switch(size) {
-			case 0 -> {
-				roomMod = roomsOpened / 16.0;
-			}
+			case 0 -> roomMod = roomsOpened / 16.0;
 			case 1 -> {
 				roomMod = roomsOpened / 32.0;
 				sizeMod = 2.0;
@@ -1280,7 +1277,7 @@ public class DungeonManager {
 	public static void printXP(int floor, int size, int prestige, int roomsOpened) {
 		int baseXp = getFloorXP(floor, size, roomsOpened);
 		int presXp = getFloorXP(prestige, size, roomsOpened);
-		int avgXp = (int) ((baseXp+presXp) / 2);
+		int avgXp = (baseXp+presXp) / 2;
 
 		Logger.debug(DungeonManager.class, "printXP", "~~~Experience for floor " + floor + " size: " + size + " roomsOpened: " + roomsOpened + "~~~");
 		Logger.debug(DungeonManager.class, "printXP", "Base XP: " + baseXp);
@@ -1368,7 +1365,7 @@ public class DungeonManager {
 		}
 	}
 
-	private class DestroyTimer extends WorldTask {
+	private class DestroyTimer extends Task {
 		private long timeLeft;
 
 		public DestroyTimer() {
@@ -1390,13 +1387,13 @@ public class DungeonManager {
 
 	}
 
-	private class RewardsTimer extends WorldTask {
+	private class RewardsTimer extends Task {
 
 		private long timeLeft;
 		private boolean gaveRewards;
 
 		public RewardsTimer() {
-			timeLeft = party.getTeam().size() * 60;
+			timeLeft = party.getTeam().size() * 60L;
 		}
 
 		public void increaseReadyCount() {

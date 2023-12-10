@@ -18,7 +18,7 @@ package com.rs.game.content.achievements;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
-import com.rs.game.content.DropCleaners;
+import com.rs.game.content.DropCleanersKt;
 import com.rs.game.content.SkillCapeCustomizer;
 import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
@@ -45,7 +45,8 @@ public class AchievementSetRewards {
 		if (e.getPlayer().getEquipment().getBootsId() == 19766)
 			e.getItem().setId(e.getItem().getDefinitions().getCertId());
 		else
-			DropCleaners.Companion.getBonecrusher().getHandler().accept(e);
+			if (DropCleanersKt.bonecrush(e.getPlayer(), e.getItem()))
+				e.deleteItem();
 	});
 
 	public static ItemClickHandler handleArdougneCloak = new ItemClickHandler(new Object[] { 15345, 15347, 15349, 19748, 20767, 20769, 20771 }, new String[] { "Teleports", "Teleport", "Kandarin Monastery", "Summoning-restore", "Ardougne Farm", "Customise", "Features" }, e -> {
@@ -78,6 +79,7 @@ public class AchievementSetRewards {
 			}
 			e.getPlayer().getSkills().set(Constants.SUMMONING, e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING));
 			e.getPlayer().setDailyB("ardyCloakSumm", true);
+			e.getPlayer().setNextSpotAnim(new SpotAnim(7));
 			e.getPlayer().sendMessage("You restore your summoning points.");
 		} else if (e.getOption().equals("Customise"))
 			SkillCapeCustomizer.startCustomizing(e.getPlayer(), e.getItem().getId());
@@ -224,6 +226,7 @@ public class AchievementSetRewards {
 				break;
 			}
 			e.getPlayer().incDailyI("fallyShieldPrayer");
+			e.getPlayer().setNextSpotAnim(new SpotAnim(1964));
 			e.getPlayer().sendMessage("The shield replenishes your prayer points.");
 		}
 	});

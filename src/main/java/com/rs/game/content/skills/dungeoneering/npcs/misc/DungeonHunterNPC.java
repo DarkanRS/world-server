@@ -20,7 +20,6 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.npcs.DungeonNPC;
 import com.rs.game.content.skills.dungeoneering.npcs.MastyxTrap;
 import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringTraps;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -58,49 +57,35 @@ public class DungeonHunterNPC extends DungeonNPC {
 
 			setCantInteract(true);
 			if (failed)
-				WorldTasks.schedule(new WorldTask() {
-
-					int ticks = 0;
-
-					@Override
-					public void run() {
-						ticks++;
-						if (ticks == 5)
-							setNextAnimation(new Animation(13264));
-						else if (ticks == 8) {
-							trap.setNextNPCTransformation(1957);
-							trap.setNextSpotAnim(new SpotAnim(2561 + trap_tier));
-						} else if (ticks == 16) {
-							getManager().removeMastyxTrap(trap);
-							setCantInteract(false);
-							stop();
-							return;
-						}
+				WorldTasks.scheduleTimer((ticks) -> {
+					if (ticks == 5)
+						setNextAnimation(new Animation(13264));
+					else if (ticks == 8) {
+						trap.setNextNPCTransformation(1957);
+						trap.setNextSpotAnim(new SpotAnim(2561 + trap_tier));
+					} else if (ticks == 16) {
+						getManager().removeMastyxTrap(trap);
+						setCantInteract(false);
+						return false;
 					}
-				}, 0, 0);
+					return true;
+				});
 			else
-				WorldTasks.schedule(new WorldTask() {
-
-					int ticks = 0;
-
-					@Override
-					public void run() {
-						ticks++;
-						if (ticks == 9) {
-							trap.setNextNPCTransformation(1957);
-							trap.setNextSpotAnim(new SpotAnim(2551 + trap_tier));
-						} else if (ticks == 13)
-							setNextAnimation(new Animation(13260));
-						else if (ticks == 18)
-							setNextNPCTransformation(getId() + 10);
-						else if (ticks == 20) {
-							setCantInteract(false);
-							getManager().removeMastyxTrap(trap);
-							stop();
-							return;
-						}
+				WorldTasks.scheduleTimer((ticks) -> {
+					if (ticks == 9) {
+						trap.setNextNPCTransformation(1957);
+						trap.setNextSpotAnim(new SpotAnim(2551 + trap_tier));
+					} else if (ticks == 13)
+						setNextAnimation(new Animation(13260));
+					else if (ticks == 18)
+						setNextNPCTransformation(getId() + 10);
+					else if (ticks == 20) {
+						setCantInteract(false);
+						getManager().removeMastyxTrap(trap);
+						return false;
 					}
-				}, 0, 0);
+					return true;
+				});
 		}
 	}
 

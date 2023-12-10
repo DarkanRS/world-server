@@ -7,7 +7,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -101,7 +101,7 @@ public class SiphonAction extends PlayerAction {
 
 	public void processEsslingDeath(final Player player) {
 		creature.setNextAnimation(new Animation(creatures.deathEmote));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.sendMessage("The creature has been broken down.");

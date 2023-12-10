@@ -15,7 +15,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -488,7 +488,7 @@ public class FishingTrawler {
 			instance.lobby.remove(e.getPlayer());
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().setNextTile(Tile.of(2674, 3170, 0));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				private boolean tick;
 				private boolean run;
 				@Override
@@ -515,7 +515,7 @@ public class FishingTrawler {
 			boolean run = e.getPlayer().getRun();
 			e.getPlayer().setRunHidden(false);
 			e.getPlayer().addWalkSteps(toTile, 20, false);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				private boolean tick;
 				@Override
 				public void run() {

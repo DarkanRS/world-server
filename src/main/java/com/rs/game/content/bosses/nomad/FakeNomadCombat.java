@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -41,7 +41,7 @@ public class FakeNomadCombat extends CombatScript {
 		delayHit(npc, 2, target, getRegularHit(npc, hit ? 50 : 0));
 		World.sendProjectile(npc, target, 1657, 30, 30, 75, 25, 0, 0);
 		if (hit)
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(2278, 0, 100));

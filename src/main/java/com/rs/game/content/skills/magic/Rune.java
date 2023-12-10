@@ -48,7 +48,7 @@ public enum Rune {
 	MUD(4698),
 	LAVA(4699);
 
-	private static Map<Integer, Rune> MAP = new HashMap<>();
+	private final static Map<Integer, Rune> MAP = new HashMap<>();
 
 	static {
 		for (Rune r : Rune.values())
@@ -59,10 +59,10 @@ public enum Rune {
 		return MAP.get(itemId);
 	}
 
-	private int[] runeIds;
-	private int id;
+	private final int[] runeIds;
+	private final int id;
 
-	private Rune(int... runeIds) {
+	Rune(int... runeIds) {
 		this.runeIds = runeIds;
 		id = runeIds[0];
 	}

@@ -48,11 +48,11 @@ public class DungeoneeringRunecrafting extends PlayerAction {
 			player.simpleDialogue("You need a runecrafting level of " + levelRequirement + " to craft this rune.");
 			return false;
 		}
-		int essense = player.getInventory().getNumberOf(DungeonConstants.ESSENCE);
-		if (essense == 0)
+		int essence = player.getInventory().getNumberOf(DungeonConstants.ESSENCE);
+		if (essence == 0)
 			return false;
-		if (cycles < essense)
-			cycles = essense;
+		if (cycles < essence)
+			cycles = essence;
 		if (cycles > 200)
 			cycles = 200;
 		return true;

@@ -23,7 +23,7 @@ import com.rs.lib.game.Tile;
 
 public class YkLagorMage extends DungeonNPC {
 
-	private YkLagorThunderous boss;
+	private final YkLagorThunderous boss;
 	private int cycle;
 
 	public YkLagorMage(YkLagorThunderous ykLagorThunderous, int id, Tile tile, DungeonManager manager, double multiplier) {

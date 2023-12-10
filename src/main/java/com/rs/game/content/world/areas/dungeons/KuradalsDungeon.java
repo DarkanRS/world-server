@@ -21,7 +21,7 @@ import com.rs.game.content.world.areas.dungeons.ancientcavern.KuradalDungeonCont
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -46,7 +46,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 
@@ -79,7 +79,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 

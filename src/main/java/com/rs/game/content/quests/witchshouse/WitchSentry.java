@@ -21,7 +21,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -41,7 +41,7 @@ public class WitchSentry extends NPC {
     public WitchSentry(Tile tile) {
         super(WITCH, tile, true);
         setRandomWalk(false);
-        WorldTasks.schedule(new WorldTask() {
+        WorldTasks.schedule(new Task() {
             int tick = 10;
             Player player;
 

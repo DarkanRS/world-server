@@ -34,7 +34,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -176,10 +176,6 @@ public class Morytania  {
 		e.getPlayer().ladder(Tile.of(3405, 3506, 0));
 	});
 
-	public static ObjectClickHandler handleHolyBarrier = new ObjectClickHandler(new Object[] { 3443 }, e -> {
-		e.getPlayer().ladder(Tile.of(3423, 3484, 0));
-	});
-
 	public static ObjectClickHandler handleSwampTrapdoorShortcut = new ObjectClickHandler(new Object[] { 5055, 5054 }, e -> {
 		e.getPlayer().ladder(e.getObjectId() == 5055 ? Tile.of(3477, 9845, 0) : Tile.of(3495, 3466, 0));
 	});
@@ -222,7 +218,7 @@ public class Morytania  {
 		e.getPlayer().lock();
 		e.getPlayer().setNextFaceTile(endTile);
 		e.getPlayer().setNextAnimation(new Animation(769));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();

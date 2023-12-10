@@ -26,7 +26,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -53,21 +53,17 @@ public class BlinkCombat extends CombatScript {
 			boss.setSpecialRequired(false);
 			boss.setNextForceTalk(new ForceTalk("H...Here it comes..."));
 			// boss.playSoundEffect(2989);
-			WorldTasks.schedule(new WorldTask() {
-
-				@Override
-				public void run() {
-					boss.setNextAnimation(new Animation(14956));
-					boss.setNextForceTalk(new ForceTalk("Kapow!!"));
-					// boss.playSoundEffect(3002);
-					for (Entity t : boss.getPossibleTargets()) {
-						if (t instanceof Player player)
-							player.sendMessage("You are hit by a powerful magical blast.");
-						t.setNextSpotAnim(new SpotAnim(2855, 0, 50));
-						delayHit(boss, 0, t, new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6D, boss.getMaxHit()), HitLook.MAGIC_DAMAGE));
-					}
+			WorldTasks.delay(5, () -> {
+				boss.setNextAnimation(new Animation(14956));
+				boss.setNextForceTalk(new ForceTalk("Kapow!!"));
+				// boss.playSoundEffect(3002);
+				for (Entity t : boss.getPossibleTargets()) {
+					if (t instanceof Player player)
+						player.sendMessage("You are hit by a powerful magical blast.");
+					t.setNextSpotAnim(new SpotAnim(2855, 0, 50));
+					delayHit(boss, 0, t, new Hit(boss, (int) Utils.random(boss.getMaxHit() * .6D, boss.getMaxHit()), HitLook.MAGIC_DAMAGE));
 				}
-			}, 5);
+			});
 			return 8;
 		}
 
@@ -87,7 +83,7 @@ public class BlinkCombat extends CombatScript {
 				boss.setNextFaceEntity(null);
 				boss.setNextFaceTile(beginningTile);// Faces the direction it throws into
 				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0, 0);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					private List<Tile> knifeTargets;
 					private int cycles;
@@ -106,9 +102,9 @@ public class BlinkCombat extends CombatScript {
 							for (Tile tile : knifeTargets) {
 								// outdated method projectile
 								int delay = 3;
-								entityLoop: for (Entity t : boss.getPossibleTargets()) {
+								for (Entity t : boss.getPossibleTargets()) {
 									if (!t.matches(tile))
-										continue entityLoop;
+										continue;
 									delayHit(boss, delay, t, getRangeHit(boss, getMaxHit(boss, boss.getMaxHit(), AttackStyle.RANGE, t)));
 								}
 							}
@@ -125,14 +121,14 @@ public class BlinkCombat extends CombatScript {
 		} else {
 			if (Utils.random(7) == 0)
 				boss.setNextForceTalk(new ForceTalk("Magicinyaface!"));
-			// boss.playSoundEffect(3022);//MAGIC IN YA FACE
+			// boss.playSoundEffect(3022); //MAGIC IN YA FACE
 			boss.setNextAnimation(new Animation(14956));
 			boss.setNextSpotAnim(new SpotAnim(2854));
 			target.setNextSpotAnim(new SpotAnim(2854, 5, 0));
 			int damage = getMaxHit(boss, boss.getMaxHit(), AttackStyle.MAGE, target);
 			if (target instanceof Player player)
 				if (player.getPrayer().isProtectingMage())
-					damage *= .5D;
+					damage *= 0.5D;
 			delayHit(boss, 1, target, getMagicHit(boss, damage));
 		}
 		return 5;

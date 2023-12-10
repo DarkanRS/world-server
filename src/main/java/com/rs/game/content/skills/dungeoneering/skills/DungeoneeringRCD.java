@@ -27,28 +27,29 @@ import java.util.Arrays;
 public class DungeoneeringRCD extends Conversation {
 	
 	public enum DungRCRune {
+		// Elemental
 		AIR(17780, 1, .10, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
 		WATER(17781, 5, .12, 19, 2, 38, 3, 57, 4, 76, 5, 95, 6),
 		EARTH(17782, 9, .13, 26, 2, 52, 3, 78, 4),
 		FIRE(17783, 14, .14, 35, 2, 70, 3),
-		
+		// Combat
 		MIND(17784, 2, .11, 14, 2, 28, 3, 42, 4, 56, 5, 70, 6, 84, 7, 98, 8),
 		CHAOS(17785, 35, .17, 74, 2),
 		DEATH(17786, 65, .20, 74, 2),
 		BLOOD(17787, 77, .21),
-		
+		// Catalytic
 		BODY(17788, 20, .15, 46, 2, 92, 3),
 		COSMIC(17789, 27, .16, 59, 2),
 		ASTRAL(17790, 40, .174, 82, 2),
 		NATURE(17791, 44, .18, 91, 2),
 		LAW(17792, 54, .19);
 		
-		int runeId;
-		int level;
-		double xp;
-		int[] multipliers;
+		final int runeId;
+		final int level;
+		final double xp;
+		final int[] multipliers;
 		
-		private DungRCRune(int runeId, int level, double xp, int... multipliers) {
+		DungRCRune(int runeId, int level, double xp, int... multipliers) {
 			this.runeId = runeId;
 			this.level = level;
 			this.xp  = xp;
@@ -62,7 +63,7 @@ public class DungeoneeringRCD extends Conversation {
 		OTHER(DungRCRune.BODY, DungRCRune.COSMIC, DungRCRune.ASTRAL, DungRCRune.NATURE, DungRCRune.LAW),
 		STAVES();
 
-		private DungRCRune[] runes;
+		private final DungRCRune[] runes;
 		
 		DungRCSet(DungRCRune... runes) {
 			this.runes = runes;

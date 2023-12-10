@@ -25,7 +25,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -48,7 +48,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 
 		final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 
-		boolean smash = Utils.random(5) == 0 && boss.getPoisionPuddles().size() == 0;
+		boolean smash = Utils.random(5) == 0 && boss.getPoisonPuddles().size() == 0;
 		for (Player player : manager.getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), npc.getX(), npc.getY(), npc.getSize())) {
 				smash = true;
@@ -59,12 +59,12 @@ public class BalLakThePummelerCombat extends CombatScript {
 			npc.setNextForceTalk(new ForceTalk("Rrrraargh!"));
 			//npc.playSoundEffect(3038);
 			final Tile center = manager.getRoomCenterTile(boss.getReference());
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
 					for (int i = 0; i < 3; i++)
-						boss.addPoisionBubble(World.getFreeTile(center, 6));
+						boss.addPoisonBubble(World.getFreeTile(center, 6));
 				}
 			}, 1);
 			return npc.getAttackSpeed();
@@ -96,7 +96,7 @@ public class BalLakThePummelerCombat extends CombatScript {
 			boss.setNextAnimation(new Animation(firstHand ? defs.getAttackEmote() : defs.getAttackEmote() + 1));
 			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
 			delayHit(npc, 2, target, getMeleeHit(npc, getMaxHit(npc, (int) (npc.getLevelForStyle(AttackStyle.MELEE) * 0.8), AttackStyle.MELEE, target)));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {

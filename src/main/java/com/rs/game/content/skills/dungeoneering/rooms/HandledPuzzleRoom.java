@@ -22,7 +22,7 @@ import com.rs.game.content.skills.dungeoneering.VisibleRoom;
 
 public class HandledPuzzleRoom extends HandledRoom {
 
-	private Puzzle puzzle;
+	private final Puzzle puzzle;
 
 	public HandledPuzzleRoom(int i, Puzzle puzzle) {
 		this(i, puzzle, null);

@@ -27,7 +27,6 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -52,76 +51,60 @@ public class YkLagorThunderousCombat extends CombatScript {
 			if (boss.getNextAttack() == 0) {
 				boss.setNextForceTalk(new ForceTalk("Come closer!"));
 				// boss.playSoundEffect(1930);
-				WorldTasks.schedule(new WorldTask() {
-
-					int cycles;
-
-					@Override
-					public void run() {
-						cycles++;
-						if (cycles == 3) {
-							boss.setNextAnimation(new Animation(14390));
-							boss.setNextSpotAnim(new SpotAnim(2768));
-						} else if (cycles == 7) {
-							List<Entity> targets = boss.getPossibleTargets();
-							boolean recovered = false;
-							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
-									continue;
-								if (targets.contains(player)) {
-									sendPullAttack(boss.transform(2, 2, 0), player, true);
-									player.sendMessage("Yk'Lagor sees you and pulls you closer, energising him.");
-									boss.heal((int) (boss.getMaxHitpoints() * 0.15));
-									if (!recovered) {
-										boss.setNextForceTalk(new ForceTalk("There is no escape!"));
-										// boss.playSoundEffect(1934);
-										recovered = true;
-									}
-								} else
-									player.sendMessage("Hiding behind the pillar manages to stop Yk'Lagor from pulling you in.");
-							}
-							stop();
-							return;
+				WorldTasks.scheduleTimer((ticks) -> {
+					if (ticks == 3) {
+						boss.setNextAnimation(new Animation(14390));
+						boss.setNextSpotAnim(new SpotAnim(2768));
+					} else if (ticks == 7) {
+						List<Entity> targets = boss.getPossibleTargets();
+						boolean recovered = false;
+						for (Player player : boss.getManager().getParty().getTeam()) {
+							if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
+								continue;
+							if (targets.contains(player)) {
+								sendPullAttack(boss.transform(2, 2, 0), player, true);
+								player.sendMessage("Yk'Lagor sees you and pulls you closer, energising him.");
+								boss.heal((int) (boss.getMaxHitpoints() * 0.15));
+								if (!recovered) {
+									boss.setNextForceTalk(new ForceTalk("There is no escape!"));
+									// boss.playSoundEffect(1934);
+									recovered = true;
+								}
+							} else
+								player.sendMessage("Hiding behind the pillar manages to stop Yk'Lagor from pulling you in.");
 						}
+						return false;
 					}
-				}, 0, 0);
+					return true;
+				});
 			} else if (boss.getNextAttack() == 1) {// earthquake shit
 				boss.setNextForceTalk(new ForceTalk("This is..."));
 				// boss.playSoundEffect(1929);
-				WorldTasks.schedule(new WorldTask() {
-
-					int cycles;
-
-					@Override
-					public void run() {
-						cycles++;
-
-						if (cycles == 2) {
-							boss.setNextAnimation(new Animation(14384));
-							boss.setNextSpotAnim(new SpotAnim(2776));
-							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
-									continue;
-								player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
-							}
-						} else if (cycles == 5) {
-							boss.setNextForceTalk(new ForceTalk("TRUE POWER!"));
-							// boss.playSoundEffect(1936);
-							boss.sendBrokenFloor();
-						} else if (cycles == 7) {
-							for (Player player : boss.getManager().getParty().getTeam()) {
-								if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
-									continue;
-								player.getPackets().sendStopCameraShake();
-							}
-							for (Entity t : boss.getPossibleTargets())
-								t.applyHit(new Hit(boss, Utils.random(t.getMaxHitpoints()) + 1, HitLook.TRUE_DAMAGE));
-
-							stop();
-							return;
+				WorldTasks.scheduleTimer((ticks) -> {
+					if (ticks == 2) {
+						boss.setNextAnimation(new Animation(14384));
+						boss.setNextSpotAnim(new SpotAnim(2776));
+						for (Player player : boss.getManager().getParty().getTeam()) {
+							if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
+								continue;
+							player.getPackets().sendCameraShake(3, 25, 50, 25, 50);
 						}
+					} else if (ticks == 5) {
+						boss.setNextForceTalk(new ForceTalk("TRUE POWER!"));
+						// boss.playSoundEffect(1936);
+						boss.sendBrokenFloor();
+					} else if (ticks == 7) {
+						for (Player player : boss.getManager().getParty().getTeam()) {
+							if (player.isDead() || !boss.getManager().isAtBossRoom(player.getTile()))
+								continue;
+							player.getPackets().sendStopCameraShake();
+						}
+						for (Entity t : boss.getPossibleTargets())
+							t.applyHit(new Hit(boss, Utils.random(t.getMaxHitpoints()) + 1, HitLook.TRUE_DAMAGE));
+						return false;
 					}
-				}, 0, 0);
+					return true;
+				});
 			}
 			boss.increaseNextAttack((boss.getNextAttack() == 0 ? 3 : 1) + Utils.random(4, 10) * 2);
 			return 10;
@@ -136,17 +119,15 @@ public class YkLagorThunderousCombat extends CombatScript {
 				useMagic = true;
 		int style = !useMelee ? 1 : !useMagic ? 0 : Utils.random(2);
 		switch (style) {
-		case 0:
-			npc.setNextAnimation(new Animation(14392));
-			int damage = 0;
-			if (target instanceof Player player)
-				if (player.getPrayer().getPoints() > 0 && damage > 0)
-					player.getPrayer().drainPrayer((int) (damage * .5));
-			delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
-			break;
-		case 1:
-			sendMagicalAttack(boss, false);
-			break;
+			case 0 -> {
+				npc.setNextAnimation(new Animation(14392));
+				int damage = 0;
+				if (target instanceof Player player)
+					if (player.getPrayer().getPoints() > 0 && damage > 0)
+						player.getPrayer().drainPrayer((int) (damage * .5));
+				delayHit(npc, 0, target, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, target)));
+			}
+			case 1 -> sendMagicalAttack(boss, false);
 		}
 		return 4;
 	}
@@ -174,7 +155,7 @@ public class YkLagorThunderousCombat extends CombatScript {
 		else if (Utils.random(5) == 0)
 			npc.setNextForceTalk(new ForceTalk("Fear my wrath!"));
 		///////// npc.playSoundEffect(1927);
-		if (npc.getPossibleTargets().size() > 0)
+		if (!npc.getPossibleTargets().isEmpty())
 			for (Player player : npc.getManager().getParty().getTeam()) {
 				if (player.isDead() || !npc.getManager().isAtBossRoom(player.getTile()))
 					continue;

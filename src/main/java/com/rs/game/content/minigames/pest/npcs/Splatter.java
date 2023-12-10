@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -42,13 +42,13 @@ public class Splatter extends PestMonsters {
 	private void sendExplosion() {
 		final Splatter splatter = this;
 		setNextAnimation(new Animation(3888));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
 				setNextAnimation(new Animation(3889));
 				setNextSpotAnim(new SpotAnim(649 + (getId() - 3727)));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {

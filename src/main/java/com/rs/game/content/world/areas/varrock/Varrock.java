@@ -31,7 +31,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -138,7 +138,7 @@ public class Varrock {
 				p.lock(5);
 				p.sendMessage("You pray to the gods...", true);
 				p.setNextAnimation(new Animation(645));
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						p.getPrayer().restorePrayer(maxPrayer);
@@ -193,7 +193,7 @@ public class Varrock {
 	public static ObjectClickHandler handleGrandExchangeShortcut = new ObjectClickHandler(new Object[] { 9311, 9312 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 21))
 			return;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override

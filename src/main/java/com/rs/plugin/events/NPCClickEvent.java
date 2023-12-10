@@ -136,4 +136,15 @@ public class NPCClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public NPC component2() {
+		return npc;
+	}
+
+	public String component3() {
+		return option;
+	}
 }

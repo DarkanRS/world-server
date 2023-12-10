@@ -27,7 +27,7 @@ import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -62,19 +62,14 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 					if (WorldUtil.collides(npc.getX(), npc.getY(), npc.getSize(), tile.getX(), tile.getY(), 1))
 						continue;
 					World.sendProjectile(npc, tile, 2371, 120, 30, 41, 30, 16, 0);
-					WorldTasks.schedule(new WorldTask() {
-
-						@Override
-						public void run() {
-							World.sendSpotAnim(tile, new SpotAnim(2374));
-							for (Player player : forger.getManager().getParty().getTeam()) {
-								if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
-									continue;
-								player.applyHit(new Hit(npc, Utils.random(npc.getLevelForStyle(AttackStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
-							}
+					WorldTasks.delay(2, () -> {
+						World.sendSpotAnim(tile, new SpotAnim(2374));
+						for (Player player : forger.getManager().getParty().getTeam()) {
+							if (player.isDead() || player.getX() != tile.getX() || player.getY() != tile.getY())
+								continue;
+							player.applyHit(new Hit(npc, Utils.random(npc.getLevelForStyle(AttackStyle.RANGE)) + 1, HitLook.RANGE_DAMAGE));
 						}
-
-					}, 2);
+					});
 				}
 				return npc.getAttackSpeed();
 			}
@@ -83,74 +78,69 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				if (t instanceof Player player)
 					player.sendMessage("The shadow-forger starts to glow.");
 			forger.setUsedShadow();
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.delay(3, () -> {
+				npc.setNextAnimation(new Animation(13016));
+				for (Entity t : npc.getPossibleTargets()) {
+					t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
+					if (t instanceof Player player) {
+						WorldTasks.schedule(new Task() {
+							private int ticks;
+							private Tile tile;
 
-				@Override
-				public void run() {
-					npc.setNextAnimation(new Animation(13016));
-					for (Entity t : npc.getPossibleTargets()) {
-						t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
-						if (t instanceof Player player) {
-							WorldTasks.schedule(new WorldTask() {
-								private int ticks;
-								private Tile tile;
-
-								@Override
-								public void run() {
-									ticks++;
-									if (ticks == 1) {
-										if (target instanceof Player player) {
-											player.lock(2);
-											player.stopAll();
-										}
-										byte[] dirs = Utils.getDirection(npc.getFaceAngle());
-										for (int distance = 2; distance >= 0; distance--) {
-											tile = Tile.of(Tile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
-											if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
-												break;
-											if (distance == 0)
-												tile = Tile.of(target.getTile());
-										}
-										target.faceEntity(forger);
-										target.forceMove(tile, 10070, 5, 60);
-										stop();
+							@Override
+							public void run() {
+								ticks++;
+								if (ticks == 1) {
+									if (target instanceof Player player) {
+										player.lock(2);
+										player.stopAll();
 									}
+									byte[] dirs = Utils.getDirection(npc.getFaceAngle());
+									for (int distance = 2; distance >= 0; distance--) {
+										tile = Tile.of(Tile.of(target.getX() + (dirs[0] * distance), target.getY() + (dirs[1] * distance), target.getPlane()));
+										if (World.floorFree(tile.getPlane(), tile.getX(), tile.getY()) && manager.isAtBossRoom(tile))
+											break;
+										if (distance == 0)
+											tile = Tile.of(target.getTile());
+									}
+									target.faceEntity(forger);
+									target.forceMove(tile, 10070, 5, 60);
+									stop();
 								}
-							}, 0, 0);
-							for (int stat = 0; stat < 7; stat++) {
-								if (stat == Constants.HITPOINTS)
-									continue;
-								int drain = player.getSkills().getLevel(stat) / 2;
-								if (stat == Constants.PRAYER)
-									player.getPrayer().drainPrayer(drain * 10);
-								player.getSkills().drainLevel(stat, drain);
 							}
+						}, 0, 0);
+						for (int stat = 0; stat < 7; stat++) {
+							if (stat == Constants.HITPOINTS)
+								continue;
+							int drain = player.getSkills().getLevel(stat) / 2;
+							if (stat == Constants.PRAYER)
+								player.getPrayer().drainPrayer(drain * 10);
+							player.getSkills().drainLevel(stat, drain);
 						}
 					}
 				}
-
-			}, 3);
+			});
 			return npc.getAttackSpeed() + 3;
 		}
 
 		int attackStyle = Utils.random(WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), target.getX(), target.getY(), target.getSize(), 0) ? 2 : 1);
 
 		switch (attackStyle) {
-		case 0:
-			npc.setNextAnimation(new Animation(13025));
-			npc.setNextSpotAnim(new SpotAnim(2375));
-			World.sendProjectile(npc, target, 2376, 120, 30, 60, 70, 16, 0);
-			target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
-			delayHit(npc, 3, target, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
-			break;
-		case 1:
-			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			for (Entity t : npc.getPossibleTargets()) {
-				if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
-					continue;
-				delayHit(npc, 0, t, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
+			case 0 -> {
+				npc.setNextAnimation(new Animation(13025));
+				npc.setNextSpotAnim(new SpotAnim(2375));
+				World.sendProjectile(npc, target, 2376, 120, 30, 60, 70, 16, 0);
+				target.setNextSpotAnim(new SpotAnim(2377, 120, 0));
+				delayHit(npc, 3, target, getRegularHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MAGE, target)));
 			}
-			break;
+			case 1 -> {
+				npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+				for (Entity t : npc.getPossibleTargets()) {
+					if (!WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 0))
+						continue;
+					delayHit(npc, 0, t, getMeleeHit(npc, getMaxHitFromAttackStyleLevel(npc, AttackStyle.MELEE, t)));
+				}
+			}
 		}
 
 		return npc.getAttackSpeed();

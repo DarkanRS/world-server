@@ -24,7 +24,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -43,42 +43,45 @@ public class FlowerRootsRoom extends PuzzleRoom {
 	//yybbpPRr
 
 
-	private static final int[] DOOR_LEAVES =
-		{ 35838, 35839, 35842, 35847, 35849 };
-	private static final int[][][] PLANTS =
-		{
-				{
-					//LARGE
-					{ 35507, 35520 },
-					{ 35523, 35525 },
-					{ 35562, 35568 },
-					{ 35569, 35576 } },
-				{
-						//SMALL 1
-						{ 35577, 35588 },
-						{ 35602, 35604 },
-						{ 35606, 35609 },
-						{ 35611, 35613 } },
-				{
-							//SMALL 2
-							{ 35616, 35625 },
-							{ 35655, 35685 },
-							{ 35689, 35708 },
-							{ 35709, 35712 } },
-				{
-								//SMALL 3
-								{ 35715, 35718 },
-								{ 35719, 35720 },
-								{ 35734, 35739 },
-								{ 35778, 35780 } },
-				{
-									//SMALL 4
-									{ 35799, 35800 },
-									{ 35804, 35808 },
-									{ 35809, 35812 },
-									{ 35830, 35835 } },
+	private static final int[] DOOR_LEAVES = { 35838, 35839, 35842, 35847, 35849 };
 
-		};
+	private static final int[][][] PLANTS = {
+		{
+			//LARGE
+			{ 35507, 35520 },
+			{ 35523, 35525 },
+			{ 35562, 35568 },
+			{ 35569, 35576 }
+		},
+		{
+			//SMALL 1
+			{ 35577, 35588 },
+			{ 35602, 35604 },
+			{ 35606, 35609 },
+			{ 35611, 35613 }
+		},
+		{
+			//SMALL 2
+			{ 35616, 35625 },
+			{ 35655, 35685 },
+			{ 35689, 35708 },
+			{ 35709, 35712 }
+		},
+		{
+			//SMALL 3
+			{ 35715, 35718 },
+			{ 35719, 35720 },
+			{ 35734, 35739 },
+			{ 35778, 35780 }
+		},
+		{
+			//SMALL 4
+			{ 35799, 35800 },
+			{ 35804, 35808 },
+			{ 35809, 35812 },
+			{ 35830, 35835 }
+		},
+	};
 
 	//TODO: need end animations: tested 14900-15200 14954 could be useable
 	private static final int BIG_FLOWER_DESPAWN = 14954;
@@ -86,8 +89,8 @@ public class FlowerRootsRoom extends PuzzleRoom {
 	private static final int LEAF_DESPAWN = 14954;
 
 	private Plant[][] plants;
-	private WorldTask colorTask;
-	private WorldTask objectTask;
+	private Task colorTask;
+	private Task objectTask;
 	private Plant bigPlant;
 	private Set<GameObject> leaves;
 
@@ -159,7 +162,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 					player.lock(4);
 					for (Player team : manager.getParty().getTeam())
 						team.getPackets().sendObjectAnimation(object, new Animation(SMALL_FLOWER_DESPAWN));
-					WorldTasks.schedule(new WorldTask() {
+					WorldTasks.schedule(new Task() {
 						@Override
 						public void run() {
 							giveXP(player, Constants.WOODCUTTING);
@@ -194,7 +197,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 			for (GameObject leaf : leaves)
 				team.getPackets().sendObjectAnimation(leaf, new Animation(LEAF_DESPAWN));
 		}
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				for (int x = 0; x < 16; x++)
@@ -214,7 +217,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		super.setComplete();
 	}
 
-	public class ChangeColorTask extends WorldTask {
+	public class ChangeColorTask extends Task {
 
 		boolean odd;
 
@@ -239,7 +242,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 
 	}
 
-	public class ChangeObjectTask extends WorldTask {
+	public class ChangeObjectTask extends Task {
 
 		boolean odd;
 

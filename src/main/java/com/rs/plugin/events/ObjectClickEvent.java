@@ -134,4 +134,15 @@ public class ObjectClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public GameObject component2() {
+		return object;
+	}
+
+	public String component3() {
+		return option;
+	}
 }

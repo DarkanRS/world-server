@@ -21,7 +21,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -114,13 +114,13 @@ public class ApeAtollAgility {
 		final Tile toTile2 = Tile.of(player.getX() == 2755 ? 2753 : 2755, 2742, object.getPlane());
 		final Tile WaterTile = Tile.of(2756, 2746, object.getPlane());
 		final Tile Land = Tile.of(2757, 2746, object.getPlane());
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(1381));
 				player.setNextTile(toTile);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 
 					@Override
 					public void run() {

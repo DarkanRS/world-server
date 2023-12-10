@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -52,7 +52,7 @@ public class FamishedEyeCombat extends CombatScript {
 		}
 
 		npc.setNextAnimation(new Animation(14916));
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			private List<Tile> tiles;
 			private Tile targetTile;
@@ -84,7 +84,6 @@ public class FamishedEyeCombat extends CombatScript {
 					}
 					tiles.clear();
 					stop();
-					return;
 				}
 			}
 		}, 0, 0);

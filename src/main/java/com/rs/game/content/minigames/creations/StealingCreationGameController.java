@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -386,7 +386,7 @@ public class StealingCreationGameController {
 			final StealingCreationGameController game = this;
 			for (final Player player : blueTeam) {
 				Helper.spawn(this, player, false);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new StealingCreationController(game, false));
@@ -396,7 +396,7 @@ public class StealingCreationGameController {
 			}
 			for (final Player player : redTeam) {
 				Helper.spawn(this, player, true);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						player.getControllerManager().startController(new StealingCreationController(game, true));
@@ -417,7 +417,7 @@ public class StealingCreationGameController {
 			int totalRed = Score.totalXP(allScores, true, false);
 			final int winner = totalBlue > totalRed ? 1 : (totalBlue == totalRed ? 0 : 2);
 			lockPeople(7);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					for (Player player : blueTeam) {

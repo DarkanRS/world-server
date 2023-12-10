@@ -21,7 +21,6 @@ import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.DungeonUtils;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -39,15 +38,12 @@ public class HobgoblinGeomancer extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(12991, 70));
 		setNextSpotAnim(new SpotAnim(1576, 70, 0));
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				setCantInteract(false);
-				setNextAnimation(new Animation(-1));
-				setNextTile(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
-				resetReceivedHits();
-			}
-		}, 5);
+		WorldTasks.scheduleTimer(5, (ticks) -> {
+			setCantInteract(false);
+			setNextAnimation(new Animation(-1));
+			setNextTile(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
+			resetReceivedHits();
+			return false;
+		});
 	}
 }

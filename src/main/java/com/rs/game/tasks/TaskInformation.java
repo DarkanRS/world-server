@@ -1,12 +1,12 @@
 package com.rs.game.tasks;
 
-public final class WorldTaskInformation {
+public final class TaskInformation {
 
-	WorldTask task;
+	Task task;
 	int loopDelay;
 	int currDelay;
 
-	public WorldTaskInformation(WorldTask task, int startDelay, int loopDelay) {
+	public TaskInformation(Task task, int startDelay, int loopDelay) {
 		this.task = task;
 		this.currDelay = startDelay;
 		this.loopDelay = loopDelay;
@@ -14,7 +14,7 @@ public final class WorldTaskInformation {
 			task.needRemove = true;
 	}
 
-	public WorldTask getTask() {
+	public Task getTask() {
 		return task;
 	}
 

@@ -16,14 +16,15 @@
 //
 package com.rs.game.content.skills.runecrafting;
 
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
+import com.rs.game.content.miniquests.abyss.EnterTheAbyss;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -31,8 +32,11 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.*;
+import static com.rs.game.content.skills.runecrafting.Runecrafting.RCRune;
 
 import java.util.ArrayList;
+
+import static com.rs.game.content.skills.runecrafting.Runecrafting.PURE_ESS;
 
 @PluginEventHandler
 public class RunecraftingAltar {
@@ -62,14 +66,14 @@ public class RunecraftingAltar {
 		ELEMENTAL(-1, 96, 64, 8019, 5516, -1),
 		OMNI(-1, 95, 63, 8020, OMNI_TALISMAN, OMNI_TIARA);
 
-		private int buttonId;
-		private int runeId;
-		private int spriteComp;
-		private int spriteId;
-		private int talismanId;
-		private int tiaraId;
+		private final int buttonId;
+		private final int runeId;
+		private final int spriteComp;
+		private final int spriteId;
+		private final int talismanId;
+		private final int tiaraId;
 
-		private WickedHoodRune(int runeId, int componentId, int spriteComp, int spriteId, int talismanId, int tiaraId) {
+		WickedHoodRune(int runeId, int componentId, int spriteComp, int spriteId, int talismanId, int tiaraId) {
 			buttonId = componentId;
 			this.runeId = runeId;
 			this.spriteComp = spriteComp;
@@ -191,9 +195,9 @@ public class RunecraftingAltar {
 					if (e.getPlayer().hasWickedHoodTalisman(selection)) {
 						if (e.getPlayer().getDailyI("wickedTeles") < 2) {
 							e.getPlayer().incDailyI("wickedTeles");
-							Altar altar = Altar.valueOf(selection.name());
-							if (altar != null && altar.canEnter(e.getPlayer(), false))
-								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Altar.valueOf(selection.name()).inside, null, null);
+							Ruins ruins = Ruins.valueOf(selection.name());
+							if (ruins.canEnter(e.getPlayer(), false))
+								Magic.sendNormalTeleportSpell(e.getPlayer(), 0, 0, Ruins.valueOf(selection.name()).inside, null, null);
 						}
 					} else
 						e.getPlayer().sendMessage("The hood has not learned this rune type yet.");
@@ -219,7 +223,7 @@ public class RunecraftingAltar {
 		}
 	});
 
-	public enum Altar {
+	public enum Ruins {
 		MIND(1, new int[] { 1448, 5529, 13631 }, Tile.of(2793, 4828, 0), Tile.of(2984, 3515, 0), 2453, 2466),
 		AIR(1, new int[] { 1438, 5527, 13630 }, Tile.of(2841, 4829, 0), Tile.of(3128, 3407, 0), 2452, 2465),
 		WATER(5, new int[] { 1444, 5531, 13632 }, Tile.of(3494, 4832, 0), Tile.of(3183, 3164, 0), 2454, 2467),
@@ -234,14 +238,14 @@ public class RunecraftingAltar {
 		DEATH(65, new int[] { 1456, 5547, 13640 }, Tile.of(2208, 4830, 0), Tile.of(1862, 4639, 0), 2462, 2475),
 		BLOOD(77, new int[] { 1450, 5549, 13641 }, Tile.of(2468, 4889, 1), Tile.of(3561, 9779, 0), 2464, 2477);
 
-		private int level;
-		private int[] talisman;
-		private Tile inside;
-		private Tile outside;
-		private int objectId;
-		private int portal;
+		private final int level;
+		private final int[] talisman;
+		private final Tile inside;
+		private final Tile outside;
+		private final int objectId;
+		private final int portal;
 
-		private Altar(int level, int[] talisman, Tile inside, Tile outside, int objectId, int portal) {
+		Ruins(int level, int[] talisman, Tile inside, Tile outside, int objectId, int portal) {
 			this.level = level;
 			this.talisman = talisman;
 			this.inside = inside;
@@ -268,25 +272,25 @@ public class RunecraftingAltar {
 		
 		public boolean canEnter(Player player, boolean teleport) {
 			return switch(this) {
-			case COSMIC -> {
-				if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
-					yield false;
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
-			case BLOOD -> {
-				if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
-					yield false;
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
-			default -> {
-				if (teleport)
-					player.delayLock(1, () -> player.setNextTile(inside));
-				yield true;
-			}
+				case COSMIC -> {
+					if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
+						yield false;
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
+				case BLOOD -> {
+					if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
+						yield false;
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
+				default -> {
+					if (teleport)
+						player.delayLock(1, () -> player.setNextTile(inside));
+					yield true;
+				}
 			};
 		}
 
@@ -301,27 +305,117 @@ public class RunecraftingAltar {
 		public int getPortal() {
 			return portal;
 		}
+
 	}
 
-	public static boolean checkItems(Player player, Altar altar) {
+	public static boolean checkItems(Player player, Ruins ruins) {
 		if ((player.getInventory().containsOneItem(WICKED_HOOD) || player.getEquipment().getHatId() == WICKED_HOOD))
 			for (WickedHoodRune r : WickedHoodRune.values())
-				if (r.getTalismanId() == altar.getTalisman())
+				if (r.getTalismanId() == ruins.getTalisman())
 					if (player.hasWickedHoodTalisman(r))
 						return true;
-		if (player.getInventory().containsItem(altar.getTalisman(), 1) || player.getInventory().containsItem(OMNI_TALISMAN, 1) || player.getEquipment().getHatId() == altar.getTiara() || player.getEquipment().getHatId() == OMNI_TIARA)
+		if (player.getInventory().containsItem(ruins.getTalisman(), 1) || player.getInventory().containsItem(OMNI_TALISMAN, 1) || player.getEquipment().getHatId() == ruins.getTiara() || player.getEquipment().getHatId() == OMNI_TIARA)
 			return true;
-		if (player.getEquipment().getWeaponId() == altar.getStaff() || player.getEquipment().getWeaponId() == OMNI_TALISMAN_STAFF)
+		if (player.getEquipment().getWeaponId() == ruins.getStaff() || player.getEquipment().getWeaponId() == OMNI_TALISMAN_STAFF)
 			return true;
 		return false;
 	}
 
- 	public static ItemOnObjectHandler handleTalismanCreate = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 30624 }, null, e -> {
+	//	public static ItemOnObjectHandler craft = new ItemOnObjectHandler(new Object[] { AIR_ALTAR, WATER_ALTAR, EARTH_ALTAR, FIRE_ALTAR }, null, e -> {
+//		Player player = e.getPlayer();
+//		for (CombinationRunes cr : CombinationRunes.values()) {
+//			for (int i = 0; i < cr.altars.length; i++) {
+//				if (e.getObject().getId() == cr.altars[i] || (e.getItem().getId() != cr.getTalismans()[i] && e.getItem().getId() != cr.getRunes()[i])) {
+//					continue;
+//				}
+//				if (player.getSkills().getLevel(Constants.RUNECRAFTING) < cr.getLevel() || player.getInventory().getItems().getNumberOf(cr.getTalismans()[i]) <= 0) {
+//					continue;
+//				}
+//
+//				int pureEss = player.getInventory().getItems().getNumberOf(Runecrafting.PURE_ESS);
+//				int inputRune = player.getInventory().getItems().getNumberOf(cr.getRunes()[i]);
+//				if (pureEss == 0) {
+//					player.simpleDialogue("You don't have enough pure essence.");
+//					return;
+//				}
+//				if (inputRune == 0) {
+//					player.simpleDialogue("You don't have enough " + ItemDefinitions.getDefs(cr.getRunes()[i]).getName() + "s.");
+//					return;
+//				}
+//
+//				if (!player.isCastMagicImbue())
+//					player.getInventory().deleteItem(cr.getTalismans()[i], 1);
+//
+//				int maxCraftable = Math.min(inputRune, pureEss);
+//				player.getInventory().deleteItem(Runecrafting.PURE_ESS, maxCraftable);
+//				player.getInventory().deleteItem(cr.getRunes()[i], maxCraftable);
+//				player.setNextSpotAnim(new SpotAnim(186));
+//				player.setNextAnimation(new Animation(791));
+//				player.lock(5);
+//
+//				double xp = cr.getXP()[i];
+//				if (Runecrafting.hasRcingSuit(player))
+//					xp *= 1.025;
+//
+//				String runeName = ItemDefinitions.getDefs(cr.getCombinationRune()).getName();
+//				if (player.getEquipment().getAmuletId() == BINDING_NECKLACE) {
+//					player.sendMessage("You bind the temple's power into " + runeName + "s.");
+//					player.bindingNecklaceCharges--;
+//					if (player.bindingNecklaceCharges <= 0) {
+//						player.getEquipment().deleteSlot(Equipment.NECK);
+//						player.sendMessage("Your binding necklace disintegrates.");
+//						player.bindingNecklaceCharges = 15;
+//					}
+//					return;
+//				} else {
+//					player.sendMessage("You attempt to bind " + runeName + "s.");
+//					maxCraftable /= 2;
+//				}
+//				player.getInventory().addItem(cr.getCombinationRune(), maxCraftable);
+//				player.getSkills().addXp(Constants.RUNECRAFTING, xp * maxCraftable);
+//			}
+//		}
+//	});
+
+
+
+ 	public static ItemOnObjectHandler handleAtlarUse = new ItemOnObjectHandler(new Object[] { 2478, 2479, 2480, 2481, 2482, 2483, 2484, 2485, 2486, 2487, 2488, 30624, 7936 }, null, e -> {
 		Player player = e.getPlayer();
-		RunecraftingTalisman talisman = RunecraftingTalisman.forId(e.getObjectId());
-		if (talisman != null) {
-			Runecrafting.craftTalisman(player, talisman);
+		RunecraftingTalisman talisman = null;
+		if (e.getItem().getId() == PURE_ESS) {
+			if (player.getInventory().containsItem(RCRune.AIR.getId()))
+				talisman = RunecraftingTalisman.AIR;
+			else if (player.getInventory().containsItem(RCRune.WATER.getId()))
+				talisman = RunecraftingTalisman.WATER;
+			else if (player.getInventory().containsItem(RCRune.EARTH.getId()))
+				talisman = RunecraftingTalisman.EARTH;
+			else if (player.getInventory().containsItem(RCRune.FIRE.getId()))
+				talisman = RunecraftingTalisman.FIRE;
+			else {
+				RCRune rune = switch (e.getObjectId()) {
+					case 2478 -> RCRune.AIR;
+					case 2480 -> RCRune.WATER;
+					case 2481 -> RCRune.EARTH;
+					case 2482 -> RCRune.FIRE;
+					default -> null;
+				};
+
+				if (rune != null) {
+					Runecrafting.runecraft(player, rune, false);
+				}
+			}
+		} else {
+			talisman = RunecraftingTalisman.forItemId(e.getItem().getId());
 		}
+		if (talisman == null) {
+			return;
+		}
+		AltarCombination combination = AltarCombination.getCombinationForTalisman(talisman, e.getObjectId());
+		if (combination != null) {
+			if (Runecrafting.craftCombinationRune(player, combination))
+				return;
+		}
+		Runecrafting.craftTalisman(player, talisman);
 	});
 
 	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
@@ -332,43 +426,35 @@ public class RunecraftingAltar {
 	});
 
 	public static ObjectClickHandler handleEntrances = new ObjectClickHandler(new Object[] { 2452, 2453, 2454, 2455, 2456, 2457, 2458, 2461, 2460, 2459, 2462, 2464 }, e -> {
-		Altar altar = null;
-		for (Altar altars : Altar.values())
+		Ruins ruins = null;
+		for (Ruins altars : Ruins.values())
 			if (e.getObjectId() == altars.getObjectId()) {
-				altar = altars;
+				ruins = altars;
 				break;
 			}
-		if (altar != null) {
+		if (ruins != null) {
 			e.getPlayer().sendMessage("You touch the mysterious ruin...");
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					Altar altar = null;
-					for (Altar altars : Altar.values())
-						if (e.getObjectId() == altars.getObjectId()) {
-							altar = altars;
-							break;
-						}
-					if (altar != null && checkItems(e.getPlayer(), altar) && altar.canEnter(e.getPlayer(), true))
-						e.getPlayer().sendMessage("...and you appear within the ruin!");
-					else
-						e.getPlayer().sendMessage("...and nothing happens...");
-				}
-			}, 2);
+			final Ruins alterRuins = ruins;
+			WorldTasks.delay(2, () -> {
+				if (checkItems(e.getPlayer(), alterRuins) && alterRuins.canEnter(e.getPlayer(), true))
+					e.getPlayer().sendMessage("...and you appear within the ruin!");
+				else
+					e.getPlayer().sendMessage("...and nothing happens...");
+			});
 		}
 	});
 
 	public static ObjectClickHandler handleExitPortals = new ObjectClickHandler(new Object[] { 2465, 2466, 2467, 2468, 2469, 2470, 2471, 2474, 2473, 2472, 2475, 2477 }, e -> {
 		if (e.getObject().getDefinitions().getName().equals("Portal")) {
-			Altar altar = null;
-			for (Altar altars : Altar.values())
+			Ruins ruins = null;
+			for (Ruins altars : Ruins.values())
 				if (e.getObjectId() == altars.getPortal()) {
-					altar = altars;
+					ruins = altars;
 					break;
 				}
-			if (altar != null) {
-				e.getPlayer().setNextTile(altar.getOutside());
-				if (altar.name() == Altar.CHAOS.name())
+			if (ruins != null) {
+				e.getPlayer().setNextTile(ruins.getOutside());
+				if (ruins.name().equals(Ruins.CHAOS.name()))
 					e.getPlayer().getControllerManager().startController(new WildernessController());
 			}
 		}
@@ -394,21 +480,23 @@ public class RunecraftingAltar {
 				case 0 -> World.sendProjectile(npc, player, 109, 5, 5, 5, 0.6, 5, 0);
 				case 1 -> player.setNextSpotAnim(new SpotAnim(110, 35, 96));
 				case 3 -> {
-					if (player.getInventory().containsItem(5519, 1)) {
-						Item item = player.getInventory().getItemById(5519);
-						if (item != null) {
-							ArrayList<Double> visited = item.getMetaDataO("visited");
-							if (visited == null)
-								visited = new ArrayList<>();
-							if (!visited.contains((double) npc.getId()))
-								visited.add((double) npc.getId());
-							item.setMetaDataO("visited", visited);
-							player.sendMessage("The orb in your inventory glows as it absorbs the teleport information. It contains " + visited.size() + " locations.");
-							if (visited.size() >= 3) {
-								item.setId(5518);
-								item.deleteMetaData();
-								player.getInventory().refresh();
-								player.sendMessage("The orb in your inventory glows brightly. It looks like it's gathered enough information.");
+					if (player.getMiniquestStage(Miniquest.ENTER_THE_ABYSS) == EnterTheAbyss.SCRYING_ORB) {
+						if (player.getInventory().containsItem(5519, 1)) {
+							Item item = player.getInventory().getItemById(5519);
+							if (item != null) {
+								ArrayList<Double> visited = item.getMetaDataO("visited");
+								if (visited == null)
+									visited = new ArrayList<>();
+								if (!visited.contains((double) npc.getId()))
+									visited.add((double) npc.getId());
+								item.setMetaDataO("visited", visited);
+								player.sendMessage("The orb in your inventory glows as it absorbs the teleport information. It contains " + visited.size() + " locations.");
+								if (visited.size() >= 3) {
+									item.setId(5518);
+									item.deleteMetaData();
+									player.getInventory().refresh();
+									player.sendMessage("The orb in your inventory glows brightly. It looks like it's gathered enough information.");
+								}
 							}
 						}
 					}

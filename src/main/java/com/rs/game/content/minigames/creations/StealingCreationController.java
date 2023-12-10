@@ -30,7 +30,7 @@ import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.*;
@@ -109,7 +109,7 @@ public class StealingCreationController extends Controller {
 			player.getAppearance().transformIntoNPC(-1);
 			player.getAppearance().setHidden(false);
 			if (!player.getRun())
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
 						player.setRunHidden(true);
@@ -482,7 +482,7 @@ public class StealingCreationController extends Controller {
 				return false;
 			player.getActionManager().addActionDelay(combatDelay);
 			player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(weaponId, attackStyle)));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					game.damageBarrier(x, y);
@@ -682,7 +682,7 @@ public class StealingCreationController extends Controller {
 				otherPlayer.lock(3);
 			}
 			player.lock(2);
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				private int step = 0;
 
 				@Override
@@ -746,7 +746,7 @@ public class StealingCreationController extends Controller {
 					return false;
 				}
 				player.lock(2);
-				WorldTasks.schedule(new WorldTask() {
+				WorldTasks.schedule(new Task() {
 					private int step = 0;
 
 					@Override
@@ -782,7 +782,7 @@ public class StealingCreationController extends Controller {
 			player.unlock();
 		final Player p = player;
 		final GameObject o = object;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			private int step = 0;
 
 			@Override
@@ -812,7 +812,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int loop;
 
 			@Override

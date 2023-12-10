@@ -62848,7 +62848,7 @@
       "y": 9902
     },
     "comment": "Cerberus",
-    "npcId": 7711
+    "npcId": 15255
   },
   {
     "tile": {
@@ -73559,24 +73559,6 @@
     },
     "comment": "Avan",
     "npcId": 663
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1805,
-      "y": 3208
-    },
-    "comment": "Avatar of Creation",
-    "npcId": 8597
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 1965,
-      "y": 3249
-    },
-    "comment": "Avatar of Destruction",
-    "npcId": 8596
   },
   {
     "tile": {

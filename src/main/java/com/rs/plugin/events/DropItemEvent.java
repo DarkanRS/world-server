@@ -70,4 +70,11 @@ public class DropItemEvent implements PluginEvent {
 		this.cancelDrop = true;
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
 }

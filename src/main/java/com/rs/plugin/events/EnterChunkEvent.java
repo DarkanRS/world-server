@@ -64,4 +64,12 @@ public class EnterChunkEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		HANDLERS.add(method);
 	}
+
+	public Entity component1() {
+		return entity;
+	}
+
+	public int component2() {
+		return chunkId;
+	}
 }

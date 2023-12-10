@@ -7,8 +7,9 @@ import java.util.Arrays;
 public class MinigameUtil {
     private static final int[] MINIGAME_SUPPLIES = { 12850, 12851, 4049, 4050, 18715, 18716, 18717, 18718, 22373, 22374, 22375, 22376, 22379, 22380 };
     public static void giveFoodAndPotions(Player player) {
-        player.getInventory().addItem(12850, 1000);
-        player.getInventory().addItem(12851, 1000);
+        checkAndDeleteFoodAndPotions(player);
+        player.getInventory().addItem(12850, 10000);
+        player.getInventory().addItem(12851, 10000);
         player.getInventory().addItem(18715, 1);
         player.getInventory().addItem(22373, 2);
         player.getInventory().addItem(22379, 2);

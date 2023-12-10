@@ -35,7 +35,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class NecroLord extends DungeonBoss {
 
 	private int resetTicks;
-	private List<SkeletalMinion> skeletons;
+	private final List<SkeletalMinion> skeletons;
 
 	public NecroLord(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(11737, 11751), manager.getBossLevel()), tile, manager, reference);
@@ -47,12 +47,11 @@ public class NecroLord extends DungeonBoss {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		if (!isUnderCombat() && skeletons != null && skeletons.size() > 0) {
+		if (!isUnderCombat() && skeletons != null && !skeletons.isEmpty()) {
 			resetTicks++;
 			if (resetTicks == 50) {
 				resetSkeletons();
 				resetTicks = 0;
-				return;
 			}
 		}
 	}
@@ -97,7 +96,7 @@ public class NecroLord extends DungeonBoss {
 	@Override
 	public void sendDrop(Player player, Item item) {
 		List<Player> players = getManager().getParty().getTeam();
-		if (players.size() == 0)
+		if (players.isEmpty())
 			return;
 		player.getInventory().addItemDrop(item);
 		player.sendMessage("<col=D2691E>You received: " + item.getAmount() + " " + item.getName() + ".");

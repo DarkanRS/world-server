@@ -23,7 +23,7 @@ import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -39,7 +39,7 @@ public class BloodSacrifice implements NexAttack {
 		final Player player = (Player) target;
 		player.getAppearance().setGlowRed(true);
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				player.getAppearance().setGlowRed(false);

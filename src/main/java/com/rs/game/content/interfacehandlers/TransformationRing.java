@@ -18,7 +18,7 @@ package com.rs.game.content.interfacehandlers;
 
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -44,7 +44,7 @@ public class TransformationRing {
 			e.getPlayer().lock();
 			e.getPlayer().setNextAnimation(new Animation(14870));
 			e.getPlayer().setNextSpotAnim(new SpotAnim(2838));
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					transformInto(e.getPlayer(), 12373);

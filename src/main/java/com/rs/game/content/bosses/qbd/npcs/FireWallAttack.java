@@ -21,7 +21,7 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.util.Utils;
@@ -60,17 +60,17 @@ public final class FireWallAttack implements QueenAttack {
 		Collections.shuffle(wallIds);
 		victim.sendMessage("<col=FF9900>The Queen Black Dragon takes a huge breath.</col>");
 		final int wallCount = waves;
-		WorldTasks.schedule(new WorldTask() {
+		npc.getTasks().schedule(new Task() {
 			@Override
 			public void run() {
 				for (int i = 0; i < wallCount; i++) {
 					final int wallId = wallIds.get(i);
-					WorldTasks.schedule(new WorldTask() {
+					npc.getTasks().schedule(new Task() {
 						@Override
 						public void run() {
 							for (int j = 0; j < 2; j++) {
 								final boolean second = j == 1;
-								WorldTasks.schedule(new WorldTask() {
+								WorldTasks.schedule(new Task() {
 									int y = 37 + (second ? 1 : 0);
 									@Override
 									public void run() {

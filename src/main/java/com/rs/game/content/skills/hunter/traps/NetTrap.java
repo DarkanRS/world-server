@@ -23,12 +23,10 @@ import com.rs.game.content.skills.hunter.BoxTrapType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.model.object.OwnedObject;
-import com.rs.game.tasks.WorldTask;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
-import com.rs.lib.util.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

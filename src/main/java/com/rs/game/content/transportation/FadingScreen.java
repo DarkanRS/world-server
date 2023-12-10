@@ -17,7 +17,7 @@
 package com.rs.game.content.transportation;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 
@@ -38,7 +38,7 @@ public final class FadingScreen {
 	public static void unfade(final Player player, int startDelay, int delay, final Runnable event) {
 		int leftTime = startDelay + delay;
 		if (startDelay > 0)
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
 					try {
@@ -55,7 +55,7 @@ public final class FadingScreen {
 	public static void unfade(final Player player, Runnable event) {
 		event.run();
 		player.getInterfaceManager().setFadingInterface(170);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				try {

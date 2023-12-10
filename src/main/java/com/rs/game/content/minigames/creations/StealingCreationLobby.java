@@ -17,7 +17,7 @@
 package com.rs.game.content.minigames.creations;
 
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.utils.Ticks;
@@ -36,7 +36,7 @@ public class StealingCreationLobby {
 		reset();
 	}
 
-	private static class LobbyTimer extends WorldTask {
+	private static class LobbyTimer extends Task {
 
 		public int minutes;
 

@@ -42,7 +42,9 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
+import com.rs.game.tasks.TaskInformation;
+import com.rs.game.tasks.TaskManager;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -148,6 +150,7 @@ public abstract class Entity {
 	private boolean run;
 	private Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
+	private transient TaskManager tasks = new TaskManager();
 
 	// creates Entity and saved classes
 	public Entity(Tile tile) {
@@ -310,6 +313,7 @@ public abstract class Entity {
 		nextHits = new ArrayList<>();
 		nextHitBars = new ArrayList<>();
 		actionManager = new ActionManager(this);
+		tasks = new TaskManager();
 		interactionManager = new InteractionManager(this);
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
@@ -344,22 +348,22 @@ public abstract class Entity {
 			hit.setSource(f.getOwner());
 			PlayerCombat.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
 		}
-		if (delay < 0)
+		if (delay < 0) {
+			handlePostHit(hit);
+			if (onHit != null)
+				onHit.run();
 			receivedHits.add(hit);
-		else
-			WorldTasks.schedule(new WorldTask() {
-				@Override
-				public void run() {
-					if (isDead()) {
-						hit.setDamage(0);
-						return;
-					}
-					handlePostHit(hit);
-					if (onHit != null)
-						onHit.run();
-					receivedHits.add(hit);
+		} else
+			(hit.getSource() != null ? hit.getSource().getTasks() : tasks).schedule(delay, () -> {
+				if (isDead()) {
+					hit.setDamage(0);
+					return;
 				}
-			}, delay);
+				handlePostHit(hit);
+				if (onHit != null)
+					onHit.run();
+				receivedHits.add(hit);
+			});
 	}
 
 	public abstract void handlePreHit(Hit hit);
@@ -372,6 +376,7 @@ public abstract class Entity {
 		resetCombat();
 		walkSteps.clear();
 		poison.reset();
+		tasks = new TaskManager();
 		resetReceivedDamage();
 		clearEffects();
 		if (attributes)
@@ -412,7 +417,7 @@ public abstract class Entity {
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
 		if (this instanceof Player p)
 			p.getPrayer().drainPrayer(hit.getDamage() / 5);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				setNextSpotAnim(new SpotAnim(2264));
@@ -1337,8 +1342,8 @@ public abstract class Entity {
 		lock();
 		resetWalkSteps();
 		setNextForceMovement(movement);
-		WorldTasks.schedule(movement.getTickDuration()-1, () -> setNextTile(destination));
-		WorldTasks.schedule(movement.getTickDuration(), () -> {
+		tasks.schedule(movement.getTickDuration()-1, () -> setNextTile(destination));
+		tasks.schedule(movement.getTickDuration(), () -> {
 			if (autoUnlock)
 				unlock();
 			if (afterComplete != null)
@@ -2012,5 +2017,18 @@ public abstract class Entity {
 
 	public void unlockNextTick() {
 		nextTickUnlock = true;
+	}
+
+	public TaskManager getTasks() {
+		return tasks;
+	}
+
+	public void processTasks() {
+		if (tasks != null)
+			tasks.processTasks();
+	}
+
+	public void clearPendingTasks() {
+		tasks = new TaskManager();
 	}
 }

@@ -22,7 +22,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.npcs.Banker;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
@@ -55,7 +55,7 @@ public class Piscatoris {
 			return;
 		final boolean isNorth = e.getPlayer().getY() > 3653;
 		final Tile tile = isNorth ? Tile.of(2344, 3650, 0) : Tile.of(2344, 3655, 0);
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			int ticks = 0;
 
 			@Override

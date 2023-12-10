@@ -22,7 +22,7 @@ import com.rs.game.content.minigames.pest.npcs.*;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
@@ -50,7 +50,7 @@ public class PestControl {
 
 	private byte portalCount = 5;
 
-	private class PestGameTimer extends WorldTask {
+	private class PestGameTimer extends Task {
 
 		int seconds = 1200;
 
@@ -137,7 +137,7 @@ public class PestControl {
 		for (final Player player : team) {
 			final int knightZeal = (int) ((PestControlGameController) player.getControllerManager().getController()).getPoints();
 			player.getControllerManager().forceStop();
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {
@@ -186,7 +186,7 @@ public class PestControl {
 			unlockPortal();
 		else {
 			portalCount--;
-			WorldTasks.schedule(new WorldTask() {
+			WorldTasks.schedule(new Task() {
 
 				@Override
 				public void run() {

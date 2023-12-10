@@ -77,4 +77,27 @@ public class ButtonClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public int component2() {
+		return interfaceId;
+	}
+
+	public int component3() {
+		return componentId;
+	}
+
+	public int component4() {
+		return slotId;
+	}
+
+	public int component5() {
+		return slotId2;
+	}
+
+	public ClientPacket component6() {
+		return packet;
+	}
 }

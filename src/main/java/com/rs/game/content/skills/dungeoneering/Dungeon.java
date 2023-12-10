@@ -29,21 +29,22 @@ import com.rs.lib.util.Utils;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serial;
 import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("unused")
 public final class Dungeon {
 
-	private int type;
-	private int complexity;
-	private int size;
+	private final int type, complexity, size;
+	private final Room[][] map;
+
+	@SuppressWarnings("unused")
+	private final DungeonManager manager;
+	private final RoomReference startRoom;
 	private long seed;
-	private Room[][] map;
 	private int creationCount;
 	private int critCount;
-	private DungeonManager manager;
-	private RoomReference startRoom;
 
 	private static Dungeon test;
 
@@ -52,6 +53,7 @@ public final class Dungeon {
 		Cache.init(Settings.getConfig().getCachePath());
 
 		JFrame frame = new JFrame() {
+			@Serial
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -210,7 +212,7 @@ public final class Dungeon {
 		startRoom = new RoomReference(base.x, base.y);
 		List<RoomNode> children = base.getChildrenR();
 		children.add(base);
-		long eligiblePuzzleRooms = children.stream().filter(r -> r.children.size() > 0 && r.children.stream().allMatch(c -> c.lock == -1)).count();
+		long eligiblePuzzleRooms = children.stream().filter(r -> !r.children.isEmpty() && r.children.stream().allMatch(c -> c.lock == -1)).count();
 		double puzzleChance = complexity < 6 ? 0 : 0.1 * children.size() / eligiblePuzzleRooms;
 		for (RoomNode node : children) {
 			creationCount++;
@@ -219,7 +221,7 @@ public final class Dungeon {
 				possibilities = DungeonUtils.selectPossibleRooms(DungeonConstants.START_ROOMS, complexity, type, base.north(), base.east(), base.south(), base.west());
 			else if (node.isBoss)
 				possibilities = DungeonUtils.selectPossibleBossRooms(type, complexity, floorId, node.north(), node.east(), node.south(), node.west(), node.rotation());
-			else if (node.children.size() > 0 && node.children.stream().allMatch(c -> c.lock == -1) && puzzleChance > random.nextDouble()) {
+			else if (!node.children.isEmpty() && node.children.stream().allMatch(c -> c.lock == -1) && puzzleChance > random.nextDouble()) {
 				puzzle = true;
 				possibilities = DungeonUtils.selectPossibleRooms(DungeonConstants.PUZZLE_ROOMS, complexity, type, node.north(), node.east(), node.south(), node.west(), node.rotation());
 			} else

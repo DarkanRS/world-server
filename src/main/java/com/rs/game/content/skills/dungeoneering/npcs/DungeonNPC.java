@@ -66,8 +66,7 @@ public class DungeonNPC extends NPC {
 		if (mob == FORGOTTEN_WARRIOR || mob == FORGOTTEN_RANGER || mob == SKELETON_MELEE || mob == SKELETON_RANGED
 				|| mob == ZOMBIE_MELEE || mob == ZOMBIE_RANGED || mob == HILL_GIANT || mob == GIANT_SKELETON
 				|| mob == HOBGOBLIN || mob == REBORN_WARRIOR || mob == ICE_WARRIOR) {
-			if (player.getEquipment().containsOneItem(17279, 15828) && !player.getTempAttribs().getB("ShadowSilkSpellDisable"))
-				return false;
+			return !player.getEquipment().containsOneItem(17279, 15828) || player.getTempAttribs().getB("ShadowSilkSpellDisable");
 		}
 		return true;
 	}
@@ -77,7 +76,7 @@ public class DungeonNPC extends NPC {
 	}
 
 	/*
-	 * they dont respawn anyway, and this way stomp will be fine
+	 * they don't respawn anyway, and this way stomp will be fine
 	 */
 	@Override
 	public int getRespawnDirection() {
@@ -146,13 +145,13 @@ public class DungeonNPC extends NPC {
 		if (Utils.random(5) == 0)
 			drops.add(new Item(DungeonConstants.RUNES[Utils.random(DungeonConstants.RUNES.length)], 90 + Utils.random(30)));
 
-		if (getManager().getParty().getComplexity() >= 5 && Utils.random(5) == 0) //torm bag, 1
+		if (getManager().getParty().getComplexity() >= 5 && Utils.random(5) == 0) // torn bag, 1
 			drops.add(new Item(DungeonUtils.getTornBag(Math.min(1+Utils.random(getTier()), 10))));
 
 		if (getManager().getParty().getComplexity() >= 3 && Utils.random(5) == 0) //ore, up to 10
 			drops.add(new Item(DungeonUtils.getOre(Math.min(1+Utils.random(getTier()), 5)), 1 + Utils.random(10)));
 
-		if (getManager().getParty().getComplexity() >= 2 && Utils.random(5) == 0) //branche, up to 10
+		if (getManager().getParty().getComplexity() >= 2 && Utils.random(5) == 0) // branch, up to 10
 			drops.add(new Item(DungeonUtils.getBranche(Math.min(1+Utils.random(getTier()), 5)), 1 + Utils.random(10)));
 
 		if (getManager().getParty().getComplexity() >= 4 && Utils.random(5) == 0) //textile, up to 10
@@ -180,7 +179,7 @@ public class DungeonNPC extends NPC {
 			drops.add(new Item(16933));
 		if ((getManager().getParty().getComplexity() >= 4 && Utils.random(10) == 0)) //bowstring, 1
 			drops.add(new Item(17752));
-		if ((getManager().getParty().getComplexity() >= 2 && Utils.random(10) == 0)) //fly fishing rod, 1
+		if ((getManager().getParty().getComplexity() >= 2 && Utils.random(10) == 0)) // fly-fishing rod, 1
 			drops.add(new Item(17794));
 		if ((getManager().getParty().getComplexity() >= 4 && Utils.random(5) == 0)) //thread, 10 up to 300
 			drops.add(new Item(17447, 10 + Utils.random(300)));

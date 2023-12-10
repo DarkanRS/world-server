@@ -71,4 +71,15 @@ public class PlayerClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Player component2() {
+		return otherPlayer;
+	}
+
+	public String component3() {
+		return option;
+	}
 }

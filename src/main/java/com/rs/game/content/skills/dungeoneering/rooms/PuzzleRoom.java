@@ -26,8 +26,7 @@ import com.rs.lib.util.Utils;
 public abstract class PuzzleRoom extends VisibleRoom {
 
 	private boolean complete;
-	private int[] requirements = new int[25];
-	private int[] giveXPCount = new int[25];
+	private final int[] requirements = new int[25], giveXPCount = new int[25];
 
 	public final boolean hasRequirement(Player p, int skill) {
 		return p.getSkills().getLevel(skill) >= getRequirement(skill);

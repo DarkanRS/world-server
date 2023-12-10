@@ -1,7 +1,7 @@
 package com.rs.game.content.quests.familycrest;
 
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
@@ -63,7 +63,7 @@ public class WitchHavenPuzzleFamilyCrest {
 		}
 		obj.setIdTemporary(e.getObjectId()+1, TICKS_UP);
 		northNorthLeverUp = true;
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
 				northNorthLeverUp = false;

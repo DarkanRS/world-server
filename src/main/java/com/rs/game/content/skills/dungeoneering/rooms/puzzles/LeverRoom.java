@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -36,12 +36,10 @@ public class LeverRoom extends PuzzleRoom {
 	};
 	 */
 
-	private static final int[] SWITCH_DOWN =
-		{ 49384, 49385, 49386, 49386, 49386 //TODO find down of 54333, 33675
-		};
+	private static final int[] SWITCH_DOWN = { 49384, 49385, 49386, 49386, 49386 }; //TODO find down of 54333, 33675
 
 	private int leverCount, leverTicks, maxTicks;
-	private WorldTask resetTask;
+	private Task resetTask;
 
 	@Override
 	public void openRoom() {
@@ -87,7 +85,7 @@ public class LeverRoom extends PuzzleRoom {
 		resetTask = null;
 	}
 
-	private class ResetTask extends WorldTask {
+	private class ResetTask extends Task {
 
 		@Override
 		public void run() {

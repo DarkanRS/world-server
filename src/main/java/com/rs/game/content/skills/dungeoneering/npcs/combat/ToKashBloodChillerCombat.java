@@ -28,7 +28,7 @@ import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.player.Player;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -49,13 +49,11 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		boolean perfectDamage = false;
 
 		if (target instanceof Player player)
-			if (player.getAppearance().isNPC())
+			if (player.getAppearance().isNPC()) {
 				perfectDamage = true;
-
-		if (perfectDamage) {
-			((Player) target).getAppearance().transformIntoNPC(-1);
-			target.applyHit(new Hit(npc, (int) Utils.random(boss.getMaxHit() * .90, boss.getMaxHit()), HitLook.MAGIC_DAMAGE));
-		}
+				player.getAppearance().transformIntoNPC(-1);
+				player.applyHit(new Hit(npc, (int) Utils.random(boss.getMaxHit() * .90, boss.getMaxHit()), HitLook.MAGIC_DAMAGE));
+			}
 
 		boolean special = boss.canSpecialAttack() && Utils.random(10) == 0;
 
@@ -75,17 +73,13 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		npc.setNextForceTalk(new ForceTalk("Sleep now, in the bitter cold..."));
 		// npc.playSoundEffect(2896);
 		boss.setSpecialAttack(true);
-		WorldTasks.schedule(new WorldTask() {
-
-			@Override
-			public void run() {
-				npc.setNextForceTalk(new ForceTalk("DEEP FREEZE!"));
-				npc.setNextAnimation(new Animation(14396));
-				npc.setNextSpotAnim(new SpotAnim(2544));
-				for (Entity t : boss.getPossibleTargets())
-					setSpecialFreeze((Player) t, boss, manager);
-			}
-		}, 3);
+		WorldTasks.delay(3, () -> {
+			npc.setNextForceTalk(new ForceTalk("DEEP FREEZE!"));
+			npc.setNextAnimation(new Animation(14396));
+			npc.setNextSpotAnim(new SpotAnim(2544));
+			for (Entity t : boss.getPossibleTargets())
+				setSpecialFreeze((Player) t, boss, manager);
+		});
 		return 8;
 	}
 
@@ -98,7 +92,7 @@ public class ToKashBloodChillerCombat extends CombatScript {
 		FrozenAdventurer npc = new FrozenAdventurer(10023, player.getTile(), -1, false);
 		npc.setPlayer(player);
 		player.sendMessage("You have been frozen solid!");
-		WorldTasks.schedule(new WorldTask() {
+		WorldTasks.schedule(new Task() {
 
 			int counter = 0;
 

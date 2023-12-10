@@ -118,6 +118,8 @@ public class GameObject extends WorldObject {
 
 	public boolean process() {
 		boolean continueProcessing = false;
+		if (idChangeTicks == -2)
+			return true;
 		if (idChangeTicks > -1) {
 			if (idChangeTicks-- == 0)
 				setId(originalId);
@@ -132,7 +134,13 @@ public class GameObject extends WorldObject {
 		this.id = id;
 		if (lastId != id)
 			World.refreshObject(this);
-		idChangeTicks = -1;
+		if (id != originalId) {
+			ChunkManager.getChunk(getTile().getChunkId(), true).flagForProcess(this);
+			idChangeTicks = -2;
+		} else {
+			ChunkManager.getChunk(getTile().getChunkId(), true).unflagForProcess(this);
+			idChangeTicks = -1;
+		}
 		return this;
 	}
 	
@@ -181,5 +189,9 @@ public class GameObject extends WorldObject {
 
 	public ObjectMeshModifier getMeshModifier() {
 		return meshModifier;
+	}
+
+	public int getOriginalId() {
+		return originalId;
 	}
 }

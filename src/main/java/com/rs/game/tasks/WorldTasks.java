@@ -29,158 +29,62 @@ import java.util.function.Function;
 
 public class WorldTasks {
 
-	private static final List<WorldTaskInformation> TASKS = new ObjectArrayList<>();
+	private static final TaskManager TASKS = new TaskManager();
 
 	public static void processTasks() {
-		synchronized(TASKS) {
-			try {
-				List<WorldTaskInformation> toRemove = new ArrayList<>();
-				Iterator<WorldTaskInformation> iter = TASKS.iterator();
-				while (iter.hasNext()) {
-					WorldTaskInformation task = iter.next();
-					if (task == null)
-						continue;
-					try {
-						if (task.currDelay > 0) {
-							task.currDelay--;
-							continue;
-						}
-						try {
-							task.getTask().run();
-						} catch (Throwable e) {
-							Logger.handle(WorldTasks.class, "processTasksRun:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
-						}
-						if (task.getTask().needRemove)
-							toRemove.add(task);
-						else
-							task.currDelay = task.getLoopDelay();
-					} catch (Throwable e) {
-						Logger.handle(WorldTasks.class, "processTasks:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
-					}
-				}
-				for (WorldTaskInformation task : toRemove)
-					if (task != null)
-						TASKS.remove(task);
-			} catch(Throwable e) {
-				Logger.handle(WorldTasks.class, "processTasks", e);
-			}
-		}
+		TASKS.processTasks();
 	}
 
-	public static WorldTaskInformation schedule(WorldTask task, int startDelay, int loopDelay) {
-		synchronized(TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(task, startDelay, loopDelay);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(Task task, int startDelay, int loopDelay) {
+		return TASKS.schedule(task, startDelay, loopDelay);
 	}
 
-	public static WorldTaskInformation schedule(WorldTask task, int delayCount) {
-		synchronized(TASKS) {
-			if (task == null || delayCount < 0)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(task, delayCount, -1);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(Task task, int delayCount) {
+		return TASKS.schedule(task, delayCount);
 	}
 
-	public static WorldTaskInformation schedule(WorldTask task) {
-		synchronized(TASKS) {
-			if (task == null)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(task, 0, -1);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(Task task) {
+		return TASKS.schedule(task);
 	}
 
-	public static WorldTaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-		synchronized(TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, loopDelay);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
+		return TASKS.schedule(startDelay, loopDelay, task);
 	}
 
-	public static WorldTaskInformation scheduleHalfHourly(Runnable task) {
-		ZonedDateTime now = ZonedDateTime.now();
-		ZonedDateTime nextHalfHour;
-		if (now.getMinute() < 30)
-			nextHalfHour = now.withMinute(30).withSecond(0).withNano(0);
-		else
-			nextHalfHour = now.plusHours(1).withMinute(0).withSecond(0).withNano(0);
-		int delay = (int) (Duration.between(now, nextHalfHour).toMillis() / 600L);
-		return schedule(delay, Ticks.fromMinutes(30), task);
+	public static TaskInformation scheduleHalfHourly(Runnable task) {
+		return TASKS.scheduleHalfHourly(task);
 	}
 
-	public static WorldTaskInformation scheduleNthHourly(int hour, Runnable task) {
-		ZonedDateTime now = ZonedDateTime.now();
-		int currentHour = now.getHour();
-		int hoursUntilNextMark = hour - (currentHour % hour);
-		ZonedDateTime nextThreeHourMark = now.plusHours(hoursUntilNextMark).withMinute(0).withSecond(0).withNano(0);
-		int delay = (int) (Duration.between(now, nextThreeHourMark).toMillis() / 600L);
-		return schedule(delay, Ticks.fromHours(hour), task);
+	public static TaskInformation scheduleNthHourly(int hour, Runnable task) {
+		return TASKS.scheduleNthHourly(hour, task);
 	}
 
-	public static WorldTaskInformation scheduleHourly(Runnable task) {
+	public static TaskInformation scheduleHourly(Runnable task) {
 		return scheduleNthHourly(1, task);
 	}
 
-	public static WorldTaskInformation schedule(int startDelay, Runnable task) {
-		synchronized(TASKS) {
-			if (task == null || startDelay < 0)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), startDelay, -1);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(int startDelay, Runnable task) {
+		return TASKS.schedule(startDelay, task);
 	}
 
-	public static WorldTaskInformation schedule(Runnable task) {
-		synchronized(TASKS) {
-			if (task == null)
-				return null;
-			WorldTaskInformation taskInfo = new WorldTaskInformation(new WorldTaskLambda(task), 0, -1);
-			TASKS.add(taskInfo);
-			return taskInfo;
-		}
+	public static TaskInformation schedule(Runnable task) {
+		return TASKS.schedule(task);
 	}
 
 	public static void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
-		synchronized(TASKS) {
-			if (task == null || startDelay < 0 || loopDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, loopDelay));
-		}
+		TASKS.scheduleTimer(startDelay, loopDelay, task);
 	}
 
 	public static void scheduleTimer(Function<Integer, Boolean> task) {
-		synchronized(TASKS) {
-			if (task == null)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), 0, 0));
-		}
+		TASKS.scheduleTimer(task);
 	}
 
 	public static void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
-		synchronized(TASKS) {
-			if (task == null || startDelay < 0)
-				return;
-			TASKS.add(new WorldTaskInformation(new WorldTaskTimerLambda(task), startDelay, 0));
-		}
+		TASKS.scheduleTimer(startDelay, task);
 	}
-	
-	public static void remove(WorldTaskInformation task) {
-		synchronized(TASKS) {
-			if (task == null)
-				return;
-			TASKS.remove(task);
-		}
+
+	public static void remove(TaskInformation task) {
+		TASKS.remove(task);
 	}
 
 	private WorldTasks() {
@@ -188,7 +92,7 @@ public class WorldTasks {
 	}
 
 	public static void delay(int ticks, Runnable task) {
-		schedule(new WorldTask() {
+		schedule(new Task() {
 			@Override
 			public void run() {
 				task.run();

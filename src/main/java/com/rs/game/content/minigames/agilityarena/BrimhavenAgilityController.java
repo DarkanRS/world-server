@@ -19,7 +19,7 @@ package com.rs.game.content.minigames.agilityarena;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTask;
+import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
@@ -71,7 +71,7 @@ public final class BrimhavenAgilityController extends Controller {
 		bladesManager = null;
 	}
 
-	private static class BladesManager extends WorldTask {
+	private static class BladesManager extends Task {
 
 		@Override
 		public void run() {
@@ -79,7 +79,7 @@ public final class BrimhavenAgilityController extends Controller {
 		}
 	}
 
-	private static class PlayingGame extends WorldTask {
+	private static class PlayingGame extends Task {
 
 		private static Tile taggedDispenser;
 
