@@ -242,6 +242,7 @@ public class Player extends Entity {
 	private boolean ironMan;
 
 	private int jadinkoFavor;
+	public int soulWarsZeal;
 
 	private long lastLoggedIn = 0;
 

@@ -660,23 +660,21 @@ public class PlayerCombat extends PlayerAction {
 		 * Recovered automatically: 2/3
 		 *
 		 * Ava's Accumulator
+		 * Max cape
+		 * Comp capes
+		 * Soul wars capes
 		 * Drop onto floor: 1/9
 		 * Recovered automatically: 8/9
 		 */
 		switch (player.getEquipment().getCapeId()) {
-			case 10498:
+			case 10498 -> {
 				if (Utils.random(3) != 0)
 					return;
-				break;
-			case 10499:
-			case 20068:
-			case 20769:
-			case 20771:
+			}
+			case 10499, 20068, 20769, 20771, 14641, 14642 -> {
 				if (Utils.random(9) != 0)
 					return;
-				break;
-			default:
-				break;
+			}
 		}
 		player.getEquipment().removeAmmo(slot, quantity);
 		if (Utils.random(5) == 0) //1/5 chance to just break the ammo entirely

@@ -858,6 +858,19 @@ public final class World {
 		return players;
 	}
 
+	public static List<Player> getPlayersInChunks(int... chunkIds) {
+		List<Player> players = new ArrayList<>();
+		for (int chunk : chunkIds) {
+			for (int pid : ChunkManager.getChunk(chunk).getPlayerIndexes()) {
+				Player player = World.getPlayers().get(pid);
+				if (player == null || !player.hasStarted() || player.hasFinished())
+					continue;
+				players.add(player);
+			}
+		}
+		return players;
+	}
+
 	public static List<GroundItem> getAllGroundItemsInChunkRange(int chunkId, int chunkRadius) {
 		List<GroundItem> objects = new ArrayList<>();
 		Set<Integer> chunkIds = getChunkRadius(chunkId, chunkRadius);
