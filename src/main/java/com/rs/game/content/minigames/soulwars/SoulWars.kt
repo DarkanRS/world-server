@@ -1,5 +1,9 @@
 package com.rs.game.content.minigames.soulwars
 
+import com.rs.cache.loaders.ObjectType
+import com.rs.engine.dialogue.Dialogue
+import com.rs.engine.dialogue.HeadE
+import com.rs.engine.dialogue.startConversation
 import com.rs.game.World
 import com.rs.game.content.minigames.MinigameUtil
 import com.rs.game.model.entity.Entity
@@ -24,6 +28,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
 import it.unimi.dsi.fastutil.objects.ObjectSet
 import it.unimi.dsi.fastutil.objects.ObjectSets
 import kotlin.math.ceil
+import kotlin.math.min
 import kotlin.math.sign
 
 const val LOBBY_OVERLAY = 837
@@ -55,17 +60,13 @@ const val WEST_CLAIM_BAR_COMP = 50
 
 const val PLAYER_ACTIVITY_BAR_VAR = 1380 //0-1000
 
-const val REFRESH_RED_TEAM_COUNT_SCRIPT = 2075
-const val REFRESH_BLUE_TEAM_COUNT_SCRIPT = 2076
-const val REFRESH_TIME = 2077
-
 const val BONES = 14638
 const val SOUL_FRAGMENT = 14646
 const val RED_CAPE = 14641
 const val BLUE_CAPE = 14642
 
-const val PLAYER_MINIMUM = 1
-const val TICKS_BETWEEN_GAMES = 30
+const val PLAYER_MINIMUM = 4
+const val TICKS_BETWEEN_GAMES = 300
 
 val RED_AVATAR_DANGER_CHUNKS = setOf(504215, 502167, 502166, 504214, 504213, 502165)
 val BLUE_AVATAR_DANGER_CHUNKS = setOf(463248, 461200, 461201, 463249, 463250, 461202)
@@ -88,10 +89,10 @@ val WEST_CAP_CHUNKS = intArrayOf(471442, 469394, 469393, 471441)
 val LOBBY_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
 val INGAME_PLAYERS: ObjectSet<Player> = ObjectSets.synchronize(ObjectOpenHashSet())
 var ACTIVE_GAME: SoulWars? = null
-var LOBBY_TICKS = 0;
+var LOBBY_TICKS = 0
 
 @ServerStartupEvent
-fun mapHandlers() {
+fun mapSoulwars() {
     onObjectClick(42219) { (player) ->
         player.useStairs(-1, Tile.of(1886, 3178, 0), 0, 1)
     }
@@ -122,17 +123,6 @@ fun mapHandlers() {
         player.controllerManager.startController(SoulWarsLobbyController())
     }
 
-    onNpcClick(8527, 8525, options = arrayOf("Rewards")) { (player) ->
-        player.interfaceManager.sendInterface(276)
-    }
-
-    onButtonClick(276) { (player, _, componentId, _, _, packet) ->
-        when (componentId) {
-            5 -> player.sendMessage("five")
-            else -> player.sendMessage("soulrewardcomp: $componentId - $packet")
-        }
-    }
-
     onItemClick(BONES, options = arrayOf("Bury")) { (player, item) ->
         val ctrl = player.controllerManager.getController(SoulWarsGameController::class.java)
         if (ctrl != null) {
@@ -147,7 +137,7 @@ fun mapHandlers() {
     onItemEquip(RED_CAPE, BLUE_CAPE) { e ->
         e.apply {
             if (dequip()) {
-                if (player.controllerManager.isIn(SoulWarsGameController::class.java)) {
+                if (!player.controllerManager.isIn(SoulWarsGameController::class.java)) {
                     player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
                     player.equipment.refresh(Equipment.CAPE)
                     player.appearance.generateAppearanceData()
@@ -241,6 +231,15 @@ class SoulAvatar(val redTeam: Boolean, val game: SoulWars) : NPC(if (redTeam) 85
         capDamage = 700
     }
 
+    override fun sendDeath(source: Entity?) {
+        super.sendDeath(source)
+        level = 100
+        if (redTeam)
+            game.redDeaths++
+        else
+            game.blueDeaths++
+    }
+
     override fun handlePreHit(hit: Hit?) {
         super.handlePreHit(hit)
         val player = hit?.source as? Player ?: return
@@ -301,6 +300,18 @@ class SoulWars {
         }
     }
 
+    private fun getObelisk(): GameObject {
+        return World.getObjectWithType(Tile.of(1886, 3231, 0), ObjectType.SCENERY_INTERACT)
+    }
+
+    private fun getEastBarrier(): GameObject {
+        return World.getObjectWithType(Tile.of(1933, 3243, 0), ObjectType.WALL_STRAIGHT)
+    }
+
+    private fun getWestBarrier(): GameObject {
+        return World.getObjectWithType(Tile.of(1842, 3220, 0), ObjectType.WALL_STRAIGHT)
+    }
+
     fun closestRespawnPoint(redTeam: Boolean, tile: Tile): Tile {
         val possibleTiles = ArrayList<Tile>()
         possibleTiles.add(if (redTeam) RED_RESPAWN_AREA.randomTile else BLUE_RESPAWN_AREA.randomTile)
@@ -327,14 +338,36 @@ class SoulWars {
         if (++ticks >= Ticks.fromMinutes(20)) return endGame()
         if (ticks % 5 == 0) {
             listOf(EAST_CAP_CHUNKS to EAST_GRAVEYARD_CAP_ZONE, MID_CAP_CHUNKS to MID_CAP_ZONE, WEST_CAP_CHUNKS to WEST_GRAVEYARD_CAP_ZONE).forEach { (chunks, zone) ->
-                val side = World.getPlayersInChunks(*chunks).count { zone.within(it.tile) && redTeam.contains(it) } - World.getPlayersInChunks(*chunks).count { zone.within(it.tile) && blueTeam.contains(it) }
+                val side = World.getPlayersInChunks(*chunks).count { it.isCanPvp && zone.within(it.tile) && redTeam.contains(it) } - World.getPlayersInChunks(*chunks).count { it.isCanPvp && zone.within(it.tile) && blueTeam.contains(it) }
                 when (zone) {
                     EAST_GRAVEYARD_CAP_ZONE -> eastCapVal = Utils.clampI(eastCapVal + side.sign, 0, 30)
                     MID_CAP_ZONE -> midCapVal = Utils.clampI(midCapVal + side.sign, 0, 30)
                     WEST_GRAVEYARD_CAP_ZONE -> westCapVal = Utils.clampI(westCapVal + side.sign, 0, 30)
                 }
             }
+            updateObjectTeam(getObelisk(), 42012, 42011, 42010, midCapVal)?.let { color ->
+                INGAME_PLAYERS.forEach { it.sendMessage("The $color team has taken control of the soul obelisk.") }
+            }
+            updateObjectTeam(getEastBarrier(), 42016, 42013, 42019, eastCapVal)?.let { color ->
+                INGAME_PLAYERS.forEach { it.sendMessage("The $color team has taken control of the eastern graveyard.") }
+            }
+            updateObjectTeam(getWestBarrier(), 42017, 42014, 42020, westCapVal)?.let { color ->
+                INGAME_PLAYERS.forEach { it.sendMessage("The $color team has taken control of the western graveyard.") }
+            }
         }
+    }
+
+    private fun updateObjectTeam(obj: GameObject, redId: Int, blueId: Int, neutralId: Int, capVal: Int): String? {
+        val newId = when {
+            capVal >= 25 -> redId
+            capVal <= 5 -> blueId
+            else -> neutralId
+        }
+        if (obj.id != newId) {
+            obj.setId(newId)
+            return if (newId == redId) "<col=A31818>red</col>" else "<col=3232D1>blue</col>"
+        }
+        return null
     }
 
     private fun endGame() {
@@ -351,7 +384,9 @@ class SoulWars {
                 player.soulWarsZeal += zeal
                 player.incrementCount("Soul Wars Zeal earned", zeal)
                 when (zeal) {
-                    1 -> ""
+                    1 -> player.sendMessage("Your team lost. You are awarded 1 Zeal. You now have ${Utils.formatNumber(player.soulWarsZeal)} Zeal.")
+                    2 -> player.sendMessage("The game was a draw. You are awarded 2 Zeal. You now have ${Utils.formatNumber(player.soulWarsZeal)} Zeal.")
+                    3 -> player.sendMessage("Your team won. You are awarded 3 Zeal. You now have ${Utils.formatNumber(player.soulWarsZeal)} Zeal.")
                 }
             }
         }
@@ -389,27 +424,57 @@ class SoulWarsLobbyController : Controller() {
     }
 }
 
-class SoulWarsGameController(
-    val redTeam: Boolean, @Transient val game: SoulWars?
-) : Controller() {
-
+class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars?) : Controller() {
     @Transient
     var activity: Int = 1000
 
     override fun processObjectClick1(obj: GameObject): Boolean {
-        when (obj.id) {
-            42023 -> MinigameUtil.giveFoodAndPotions(player)
+        fun checkPositionAndPassThrough(check: Boolean, deltaX: Int, deltaY: Int) {
+            if (check) {
+                player.sendMessage("Onward! You have no reason to go back inside.")
+                return
+            }
+            player.passThrough(obj.tile.transform(deltaX, deltaY, 0))
+            player.isCanPvp = true
         }
-        return true
-    }
 
-    override fun processItemOnObject(obj: GameObject?, item: Item?): Boolean {
-
+        when (obj.id) {
+            42021, 42022 -> player.sendOptionDialogue {
+                it.add("Yes, leave. (You won't receive any rewards for doing so)") { player.controllerManager.forceStop() }
+                it.add("Nevermind.")
+            }
+            42023, 42024 -> MinigameUtil.giveFoodAndPotions(player)
+            42015 -> checkPositionAndPassThrough(player.x < obj.x, -1, 0)
+            42018 -> checkPositionAndPassThrough(player.x >= obj.x, 0, 0)
+            in arrayOf(42016, 42013, 42019) -> checkPositionAndPassThrough(player.y > obj.y, 0, -1)
+            in arrayOf(42017, 42014, 42020) -> checkPositionAndPassThrough(player.y >= obj.y, 0, 0)
+        }
         return false
     }
 
-    override fun canAttack(target: Entity?): Boolean {
-        return (target as? Player)?.nsv?.getB("SWSafeZone")?.not() ?: true
+    override fun processItemOnObject(obj: GameObject, item: Item): Boolean {
+        if (item.id == SOUL_FRAGMENT && (obj.id == 42010 || obj.id == 42011 || obj.id == 42012)) {
+            val isCorrectTeamControl = (redTeam && obj.id == 42012) || (!redTeam && obj.id == 42011)
+            if (!isCorrectTeamControl) {
+                player.sendMessage("The obelisk is unresponsive as your team is not in control of it.")
+                return false
+            }
+
+            val avatarLevel = (if (redTeam) game?.blueAvatar else game?.redAvatar)?.level ?: -1
+            val numToUse = min(item.amount, avatarLevel)
+
+            if (numToUse <= 0) {
+                player.sendMessage("Your opponent's avatar cannot be weakened any further.")
+                return false
+            }
+
+            player.inventory.deleteItem(SOUL_FRAGMENT, numToUse)
+            if (redTeam)
+                game?.blueAvatar?.let { avatar -> avatar.level -= numToUse }
+            else
+                game?.redAvatar?.let { avatar -> avatar.level -= numToUse }
+        }
+        return false
     }
 
     override fun sendDeath(): Boolean {
@@ -419,7 +484,7 @@ class SoulWarsGameController(
             when (loop) {
                 0 -> player.anim(836)
                 1 -> player.sendMessage("Oh dear, you have died.")
-                3 -> {
+                4 -> {
                     val killer = player.mostDamageReceivedSourcePlayer
                     if (killer != null) {
                         killer.removeDamage(player)
@@ -433,12 +498,13 @@ class SoulWarsGameController(
                     World.addGroundItem(Item(BONES, 1), Tile.of(player.tile))
                     player.reset()
                     player.nextTile = game?.closestRespawnPoint(redTeam, player.tile) ?: player.tile
-                    player.nsv.setB("SWSafeZone", true)
+                    player.isCanPvp = false
                     player.anim(-1)
+                    activity = 1000
                 }
-                4 -> {
+                5 -> {
                     player.jingle(90)
-                    false
+                    return@scheduleTimer false
                 }
             }
             true
@@ -450,7 +516,7 @@ class SoulWarsGameController(
         if (player.inCombat())
             activity = Utils.clampI(activity + 10, 0, 1000);
         else
-            activity -= 3
+            activity -= 2
         player.vars.setVar(PLAYER_ACTIVITY_BAR_VAR, activity)
         if (activity <= 0) {
             player.nextTile = RED_EXIT_AREA.randomTile
@@ -466,9 +532,14 @@ class SoulWarsGameController(
         player.equipment.setNoPluginTrigger(Equipment.CAPE, Item(if (redTeam) RED_CAPE else BLUE_CAPE, 1))
         player.equipment.refresh(Equipment.CAPE)
         player.appearance.generateAppearanceData()
+        player.isCanPvp = false
+        player.startConversation {
+            npc(8528, HeadE.EVIL_LAUGH, "The time is now! Crush their souls!")
+        }
     }
 
     override fun login(): Boolean {
+        player.isCanPvp = false
         MinigameUtil.checkAndDeleteFoodAndPotions(player)
         player.nextTile = Tile.of(1886, 3172, 0)
         player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
@@ -483,6 +554,7 @@ class SoulWarsGameController(
     override fun processObjectTeleport(toTile: Tile?): Boolean { return false }
 
     override fun logout(): Boolean {
+        player.isCanPvp = false
         MinigameUtil.checkAndDeleteFoodAndPotions(player)
         INGAME_PLAYERS.remove(player)
         if (redTeam)
@@ -498,6 +570,7 @@ class SoulWarsGameController(
     }
 
     override fun onRemove() {
+        player.isCanPvp = false
         MinigameUtil.checkAndDeleteFoodAndPotions(player)
         player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
         player.equipment.refresh(Equipment.CAPE)
@@ -512,5 +585,15 @@ class SoulWarsGameController(
             game?.redTeam?.remove(player)
         else
             game?.blueTeam?.remove(player)
+    }
+}
+
+fun getQuickchatVar(varId: Int): Int {
+    return when(varId) {
+        850 -> ACTIVE_GAME?.blueAvatar?.level ?: 0
+        851 -> ACTIVE_GAME?.redAvatar?.level ?: 0
+        866 -> ACTIVE_GAME?.blueAvatar?.getHealthVarc() ?: 0
+        867 -> ACTIVE_GAME?.redAvatar?.getHealthVarc() ?: 0
+        else -> 0
     }
 }

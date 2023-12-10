@@ -33,6 +33,7 @@ public class IFDragOntoIFHandler implements PacketHandler<Player, IFDragOntoIF> 
 			return;
 
 		if (packet.getFromInter() == Inventory.INVENTORY_INTERFACE && packet.getFromComp() == 0 && packet.getToInter() == Inventory.INVENTORY_INTERFACE && packet.getToComp() == 0) {
+			player.closeInterfaces();
 			if (packet.getToSlot()-28 < 0 || packet.getToSlot()-28 >= player.getInventory().getItemsContainerSize() || packet.getFromSlot() >= player.getInventory().getItemsContainerSize())
 				return;
 			player.getInventory().switchItem(packet.getFromSlot(), packet.getToSlot()-28);
