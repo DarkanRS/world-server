@@ -17,6 +17,8 @@
 package com.rs.game.content.holidayevents.christmas;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.World;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -67,6 +69,15 @@ public class LandOfSnow {
 		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, Tile.of(2665, 5670, 0), "Ice fishing"));
 		NPCSpawns.add(new NPCSpawn(334, Tile.of(2665, 5670, 0), "Fishing spot"));
 		NPCSpawns.add(new NPCSpawn(328, Tile.of(2665, 5670, 0), "Fishing spot"));
+
+		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), -1, true, false);
+		n.setLoadsUpdateZones();
+		n.setPermName("Yule-cien");
+		n.setHitpoints(Integer.MAX_VALUE / 2);
+		n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
+		n.setCapDamage(750);
+		n.setForceMultiArea(true);
+		n.setForceMultiAttacked(true);
 	}
 
 	public static XPGainHandler handleXPGain = new XPGainHandler(e -> {

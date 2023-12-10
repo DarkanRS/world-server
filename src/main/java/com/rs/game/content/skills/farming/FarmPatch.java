@@ -443,31 +443,23 @@ public class FarmPatch {
 			switch(location) {
 			case Ardougne_allotment_north:
 			case Ardougne_allotment_south:
-				if (player.isGrowing(PatchLocation.Ardougne_flower, ProduceType.White_lily))
+				if (player.isGrowing(PatchLocation.Ardougne_flower, flower) || player.isGrowing(PatchLocation.Ardougne_flower, ProduceType.White_lily))
 					return true;
-				if (!player.isGrowing(PatchLocation.Ardougne_flower, flower))
-					return false;
 				break;
 			case Canifis_allotment_north:
 			case Canifis_allotment_south:
-				if (player.isGrowing(PatchLocation.Canifis_flower, ProduceType.White_lily))
+				if (player.isGrowing(PatchLocation.Canifis_flower, flower) || player.isGrowing(PatchLocation.Canifis_flower, ProduceType.White_lily))
 					return true;
-				if (!player.isGrowing(PatchLocation.Canifis_flower, flower))
-					return false;
 				break;
 			case Catherby_allotment_north:
 			case Catherby_allotment_south:
-				if (player.isGrowing(PatchLocation.Catherby_flower, ProduceType.White_lily))
+				if (player.isGrowing(PatchLocation.Catherby_flower, flower) || player.isGrowing(PatchLocation.Catherby_flower, ProduceType.White_lily))
 					return true;
-				if (!player.isGrowing(PatchLocation.Catherby_flower, flower))
-					return false;
 				break;
 			case Falador_allotment_north:
 			case Falador_allotment_south:
-				if (player.isGrowing(PatchLocation.Falador_flower, ProduceType.White_lily))
+				if (player.isGrowing(PatchLocation.Falador_flower, flower) || player.isGrowing(PatchLocation.Falador_flower, ProduceType.White_lily))
 					return true;
-				if (!player.isGrowing(PatchLocation.Falador_flower, flower))
-					return false;
 				break;
 			default:
 				break;

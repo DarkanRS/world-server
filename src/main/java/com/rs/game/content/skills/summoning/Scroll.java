@@ -285,7 +285,7 @@ public enum Scroll {
 		@Override
 		public boolean object(Player owner, Familiar familiar, GameObject object) {
 			TreeType type = TreeType.forObject(owner, object);
-			if (type == null || !object.getDefinitions().containsOption(0, "Chop down")) {
+			if (type == null || (!object.getDefinitions().containsOption(0, "Chop down") && !object.getDefinitions().containsOption(0, "Cut down"))) {
 				owner.sendMessage("You can't chop that down.");
 				return false;
 			}

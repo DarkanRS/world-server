@@ -445,6 +445,7 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "spawntestnpc", "Spawns a combat test NPC.", (p, args) -> {
 			NPC n = World.spawnNPC(14256, Tile.of(p.getTile()), -1, true, true);
+			n.setLoadsUpdateZones();
 			n.setPermName("Losercien (punching bag)");
 			n.setHitpoints(Integer.MAX_VALUE / 2);
 			n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
