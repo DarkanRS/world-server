@@ -35,7 +35,7 @@ public class SpiderHeraldD extends Conversation {
 	public SpiderHeraldD(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2009.STAGE_KEY)) {
+		switch(player.getI(Halloween2009.STAGE_KEY, 0)) {
 		case 3:
 			addNPC(8976, HeadE.SPIDER_CALM, "Who goes there? Four-limbed intruder! Come no further! State your business!");
 			addOptions(new Options() {

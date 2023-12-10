@@ -56,7 +56,7 @@ public class ResourceImpD extends Conversation {
 	public ResourceImpD(Player player, String noun, int stage) {
 		super(player);
 
-		switch(player.getI(Christmas2019.STAGE_KEY)) {
+		switch(player.getI(Christmas2019.STAGE_KEY, 0)) {
 		case 2:
 		case 4:
 		case 6:

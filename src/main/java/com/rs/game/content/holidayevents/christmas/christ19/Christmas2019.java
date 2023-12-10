@@ -165,7 +165,7 @@ public class Christmas2019 {
 		e.getPlayer().getVars().setVarBit(6929, 1);
 		e.getPlayer().getVars().setVarBit(6930, 1);
 		e.getPlayer().getVars().setVarBit(6931, 1);
-		if (e.getPlayer().getI(Christmas2019.STAGE_KEY) == 10)
+		if (e.getPlayer().getI(Christmas2019.STAGE_KEY, 0) == 10)
 			e.getPlayer().getVars().setVarBit(6934, 1);
 	});
 

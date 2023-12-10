@@ -39,7 +39,7 @@ public class SnowImpD extends Conversation {
 	public SnowImpD(Player player) {
 		super(player);
 
-		switch(player.getI(Christmas2019.STAGE_KEY)) {
+		switch(player.getI(Christmas2019.STAGE_KEY, 0)) {
 		case 1:
 			addPlayer(HeadE.CALM_TALK, "Hey, you're Rasmus right?");
 			addNPC(IMP_HEAD, HeadE.CHEERFUL, "Yep, dats me. Heard ya need help findin summa dem rogue imps.");

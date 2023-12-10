@@ -33,8 +33,7 @@ public class Santa2019D extends Conversation {
 
 	public Santa2019D(Player player) {
 		super(player);
-
-		switch(player.getI(Christmas2019.STAGE_KEY)) {
+		switch(player.getI(Christmas2019.STAGE_KEY, 0)) {
 		case 0:
 			addPlayer(HeadE.HAPPY_TALKING, "Merry Christmas, guys!");
 			addNPC(SANTA, HeadE.SAD_MILD_LOOK_DOWN, "Ho ho ho hohhh noooo...");

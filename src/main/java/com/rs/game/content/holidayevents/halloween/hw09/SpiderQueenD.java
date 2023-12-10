@@ -35,7 +35,7 @@ public class SpiderQueenD extends Conversation {
 	public SpiderQueenD(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2009.STAGE_KEY)) {
+		switch(player.getI(Halloween2009.STAGE_KEY, 0)) {
 		case 4:
 			addNPC(8975, HeadE.SPIDER_CALM, "Who approaches the Spider Queen?");
 			addPlayer(HeadE.CALM_TALK, "A messenger of the Grim Reaper.");

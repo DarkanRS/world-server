@@ -35,8 +35,8 @@ public class GrimReaper2009D extends Conversation {
 	public GrimReaper2009D(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2009.STAGE_KEY)) {
-		case -1:
+		switch(player.getI(Halloween2009.STAGE_KEY, 0)) {
+		case 0:
 			addNPC(8867, HeadE.CALM_TALK, "Welcome to the house of Death, mortal.");
 			addOptions(new Options() {
 				@Override
