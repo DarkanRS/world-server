@@ -43,7 +43,7 @@ public class FamiliarSpecs {
 
 	public static boolean aptitude(Player player, Familiar familiar, int boost) {
 		if (player.hasEffect(Effect.DUNG_HS_SCROLL_BOOST)) {
-			player.sendMessage("You already are benefitting from an invisible skill boost.");
+			player.sendMessage("You already are benefiting from an invisible skill boost.");
 			return false;
 		}
 		familiar.setNextAnimation(new Animation(13213));
