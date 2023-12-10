@@ -21,13 +21,16 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
 
@@ -259,6 +262,11 @@ public class PriestInPeril extends QuestOutline {
 		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
 				e.getPlayer().getInventory().replace(1925, 1929);
 
+	});
+
+	public static NPCDeathHandler handleMonkKeys = new NPCDeathHandler(new Object[] {1044, 1045, 1046}, e -> {
+		if (e.getKiller() instanceof Player player && (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 4 || player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 5))
+			World.addGroundItem(new Item(2944), e.getNPC().getTile(), player);
 	});
 
 	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> {
