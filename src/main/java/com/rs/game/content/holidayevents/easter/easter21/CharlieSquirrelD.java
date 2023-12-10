@@ -32,7 +32,7 @@ public class CharlieSquirrelD extends Conversation {
 	public CharlieSquirrelD(Player player) {
 		super(player);
 
-		switch(player.getI(Easter2021.STAGE_KEY)) {
+		switch(player.getI(Easter2021.STAGE_KEY, 0)) {
 		case 7:
 			addPlayer(HeadE.CONFUSED, "Hey, are you Charlie?");
 			addNPC(CHARLIE, HeadE.CAT_CHEERFUL, "Yeah, that's me! Can I help you?");

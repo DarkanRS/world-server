@@ -41,8 +41,8 @@ public class GrimReaper2007D extends Conversation {
 	public GrimReaper2007D(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2007.STAGE_KEY)) {
-		case -1:
+		switch(player.getI(Halloween2007.STAGE_KEY, 0)) {
+		case 0:
 			addPlayer(HeadE.SCARED, "Erm... Excuse me... Could I ask...");
 			addNPC(8867, HeadE.CALM_TALK, "Speak, mortal.");
 			addPlayer(HeadE.SCARED, "Well, sir, lord, erm, your highness...");

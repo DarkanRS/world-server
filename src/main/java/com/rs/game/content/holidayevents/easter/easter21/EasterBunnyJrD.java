@@ -32,7 +32,7 @@ public class EasterBunnyJrD extends Conversation {
 	public EasterBunnyJrD(Player player) {
 		super(player);
 
-		switch(player.getI(Easter2021.STAGE_KEY)) {
+		switch(player.getI(Easter2021.STAGE_KEY, 0)) {
 		case 4:
 			addPlayer(HeadE.CHEERFUL, "Hello!");
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_PURRING, "What do you want?..");

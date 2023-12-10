@@ -35,7 +35,7 @@ public class BathtubSpiderD extends Conversation {
 	public BathtubSpiderD(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2009.STAGE_KEY)) {
+		switch(player.getI(Halloween2009.STAGE_KEY, 0)) {
 		case 1:
 			addNPC(8979, HeadE.SPIDER_CALM, "Wot?");
 			addOptions(new Options("startOps", BathtubSpiderD.this) {

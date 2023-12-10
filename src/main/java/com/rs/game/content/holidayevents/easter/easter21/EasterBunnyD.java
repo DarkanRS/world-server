@@ -34,8 +34,8 @@ public class EasterBunnyD extends Conversation {
 	public EasterBunnyD(Player player) {
 		super(player);
 
-		switch(player.getI(Easter2021.STAGE_KEY)) {
-		case -1:
+		switch(player.getI(Easter2021.STAGE_KEY, 0)) {
+		case 0:
 			addPlayer(HeadE.CHEERFUL, "Hello!");
 			addNPC(EASTER_BUNNY, HeadE.CAT_SAD, "...");
 			addPlayer(HeadE.CONFUSED, "Hello?");
