@@ -77,7 +77,7 @@ public class PlayerVSDelrithController extends InstancedController {
 				getInstance().teleportLocal(player, spawnX, spawnY, 0);
 				player.musicTrack(195);
 				player.getPackets().setBlockMinimapState(2);
-				player.getAppearance().transformIntoNPC(266);
+				player.getAppearance().setHidden(true);
 				cs.setEndTile(Tile.of(cs.getX(endX), cs.getY(endY), 0));
 			});
 			cs.delay(1);
@@ -149,7 +149,7 @@ public class PlayerVSDelrithController extends InstancedController {
 			cs.delay(3);
 			cs.playerMove(endX, endY, Entity.MoveType.TELE);
 			cs.camPosReset();
-			cs.action(() -> player.getAppearance().transformIntoNPC(-1));
+			cs.action(() -> player.getAppearance().setHidden(false));
 			cs.delay(2);
 			cs.action(() -> {
 				ambientMusicOn = true;
