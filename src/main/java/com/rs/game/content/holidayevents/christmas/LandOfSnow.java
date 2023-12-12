@@ -46,7 +46,7 @@ public class LandOfSnow {
 		Tile center = Tile.of(3212, 3428, 3);
 		for (int x = -10; x < 10; x++)
 			for (int y = -10; y < 10; y++)
-				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 3, y * 3, 0)));
+				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 5, y * 5, 0)));
 
 		ObjectSpawns.add(new ObjectSpawn(12258, 10, 0, Tile.of(3210, 3425, 0), "Cupboard to Christmas event."));
 
@@ -104,9 +104,7 @@ public class LandOfSnow {
 	});
 
 	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
-		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0));
-		});
+		e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0)));
 	});
 
 	public static ObjectClickHandler handleSnowCollect = new ObjectClickHandler(new Object[] { 28296 }, e -> {
