@@ -170,8 +170,7 @@ public class PriestInPeril extends QuestOutline {
 	@Override
 	public String getRequiredItemsString() {
 		return
-				"50 unnoted rune essence or pure essence"+
-						"Bucket";
+				"50 unnoted rune essence or pure essence and a Bucket.";
 	}
 
 	@Override
@@ -192,7 +191,7 @@ public class PriestInPeril extends QuestOutline {
 				handleDoubleDoor(e.getPlayer(), e.getObject());
 				return;
 			}
-		else {
+			else {
 				e.getPlayer().simpleDialogue("The door is securely locked.");
 				return;
 			}
@@ -253,14 +252,14 @@ public class PriestInPeril extends QuestOutline {
 		}
 
 		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 7 || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 8) {
-				e.getPlayer().getInventory().replace(1925, 2953);
-				e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
-				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
+			e.getPlayer().getInventory().replace(1925, 2953);
+			e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
+			e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
 			return;
 		}
 
 		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
-				e.getPlayer().getInventory().replace(1925, 1929);
+			e.getPlayer().getInventory().replace(1925, 1929);
 
 	});
 
@@ -331,7 +330,7 @@ public class PriestInPeril extends QuestOutline {
 			if (e.getItem().getId() == 2954) {
 				e.getPlayer().sendMessage("You pour the blessed water over the coffin...");
 				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 9);
-				e.getPlayer().getInventory().deleteItem(2954, 1);
+				e.getPlayer().getInventory().replace(2954, 1925);
 				e.getPlayer().setNextAnimation(new Animation(2771));
 			}
 		}
