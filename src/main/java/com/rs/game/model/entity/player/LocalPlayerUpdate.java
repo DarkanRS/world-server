@@ -21,6 +21,8 @@ import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.lib.Constants;
+import com.rs.lib.game.SpotAnim;
+import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
 
@@ -221,77 +223,79 @@ public final class LocalPlayerUpdate {
 					regionHashes[playerIndex] = hash;
 				}
 				localPlayers[playerIndex] = null;
-			} else {
-				boolean needAppearenceUpdate = needAppearenceUpdate(p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
-				boolean needUpdate = p.needMasksUpdate() || needAppearenceUpdate;
-				if (needUpdate)
-					appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, false);
-				if (p.hasTeleported()) {
-					stream.writeBits(1, 1); // needs update
-					stream.writeBits(1, needUpdate ? 1 : 0);
-					stream.writeBits(2, 3);
-					int xOffset = p.getX() - p.getLastTile().getX();
-					int yOffset = p.getY() - p.getLastTile().getY();
-					int planeOffset = p.getPlane() - p.getLastTile().getPlane();
-					if (Math.abs(p.getX() - p.getLastTile().getX()) <= 14 && Math.abs(p.getY() - p.getLastTile().getY()) <= 14) {
-						stream.writeBits(1, 0);
-						if (xOffset < 0)
-							xOffset += 32;
-						if (yOffset < 0)
-							yOffset += 32;
-						stream.writeBits(12, yOffset + (xOffset << 5) + (planeOffset << 10));
-					} else {
-						stream.writeBits(1, 1);
-						stream.writeBits(30, (yOffset & 0x3fff) + ((xOffset & 0x3fff) << 14) + ((planeOffset & 0x3) << 28));
-					}
-				} else if (p.getNextWalkDirection() != null) {
-					int dx = p.getNextWalkDirection().getDx();
-					int dy = p.getNextWalkDirection().getDy();
-					boolean running;
-					int opcode;
-					if (p.getNextRunDirection() != null) {
-						dx += p.getNextRunDirection().getDx();
-						dy += p.getNextRunDirection().getDy();
-						opcode = Utils.getPlayerRunningDirection(dx, dy);
-						if (opcode == -1) {
-							running = false;
-							opcode = Utils.getPlayerWalkingDirection(dx, dy);
-						} else
-							running = true;
-					} else {
+				continue;
+			}
+			boolean needAppearenceUpdate = needAppearenceUpdate(p.getIndex(), p.getAppearance().getMD5AppeareanceDataHash());
+			boolean needUpdate = p.needMasksUpdate() || needAppearenceUpdate;
+			if (needUpdate)
+				appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, false);
+			if (p.hasTeleported()) {
+				stream.writeBits(1, 1); // needs update
+				stream.writeBits(1, needUpdate ? 1 : 0);
+				stream.writeBits(2, 3);
+				int xOffset = p.getX() - p.getLastTile().getX();
+				int yOffset = p.getY() - p.getLastTile().getY();
+				int planeOffset = p.getPlane() - p.getLastTile().getPlane();
+				World.sendSpotAnim(p.getLastTile(), new SpotAnim(2000));
+				World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(5));
+				System.out.println(p.getLastTile().getX() + ", " + p.getLastTile().getY() + " -> " + p.getX() + ", " + p.getY());
+				if (Math.abs(xOffset) <= 14 && Math.abs(yOffset) <= 14) {
+					stream.writeBits(1, 0);
+					if (xOffset < 0)
+						xOffset += 32;
+					if (yOffset < 0)
+						yOffset += 32;
+					stream.writeBits(12, yOffset + (xOffset << 5) + (planeOffset << 10));
+				} else {
+					stream.writeBits(1, 1);
+					stream.writeBits(30, (yOffset & 0x3fff) + ((xOffset & 0x3fff) << 14) + ((planeOffset & 0x3) << 28));
+				}
+			} else if (p.getNextWalkDirection() != null) {
+				int dx = p.getNextWalkDirection().getDx();
+				int dy = p.getNextWalkDirection().getDy();
+				boolean running;
+				int opcode;
+				if (p.getNextRunDirection() != null) {
+					dx += p.getNextRunDirection().getDx();
+					dy += p.getNextRunDirection().getDy();
+					opcode = Utils.getPlayerRunningDirection(dx, dy);
+					if (opcode == -1) {
 						running = false;
 						opcode = Utils.getPlayerWalkingDirection(dx, dy);
-					}
-					stream.writeBits(1, 1);
-					if ((dx == 0 && dy == 0)) {
-						stream.writeBits(1, 1); // quick fix
-						stream.writeBits(2, 0);
-						if (!needUpdate) // hasnt been sent yet
-							appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, false);
-					} else {
-						stream.writeBits(1, needUpdate ? 1 : 0);
-						stream.writeBits(2, running ? 2 : 1);
-						stream.writeBits(running ? 4 : 3, opcode);
-					}
-				} else if (needUpdate) {
-					stream.writeBits(1, 1); // needs update
-					stream.writeBits(1, 1);
-					stream.writeBits(2, 0);
-				} else { // skip
-					stream.writeBits(1, 0); // no update needed
-					for (int i2 = i + 1; i2 < localPlayersIndexesCount; i2++) {
-						int p2Index = localPlayersIndexes[i2];
-						if (nsn0 ? (0x1 & slotFlags[p2Index]) != 0 : (0x1 & slotFlags[p2Index]) == 0)
-							continue;
-						Player p2 = localPlayers[p2Index];
-						if (needsRemove(p2) || p2.hasTeleported() || p2.getNextWalkDirection() != null || (p2.needMasksUpdate() || needAppearenceUpdate(p2.getIndex(), p2.getAppearance().getMD5AppeareanceDataHash())))
-							break;
-						skip++;
-					}
-					skipPlayers(stream, skip);
-					slotFlags[playerIndex] = (byte) (slotFlags[playerIndex] | 2);
+					} else
+						running = true;
+				} else {
+					running = false;
+					opcode = Utils.getPlayerWalkingDirection(dx, dy);
 				}
-
+				stream.writeBits(1, 1);
+				if ((dx == 0 && dy == 0)) {
+					stream.writeBits(1, 1); // quick fix
+					stream.writeBits(2, 0);
+					if (!needUpdate) // hasnt been sent yet
+						appendUpdateBlock(p, updateBlockData, needAppearenceUpdate, false);
+				} else {
+					stream.writeBits(1, needUpdate ? 1 : 0);
+					stream.writeBits(2, running ? 2 : 1);
+					stream.writeBits(running ? 4 : 3, opcode);
+				}
+			} else if (needUpdate) {
+				stream.writeBits(1, 1); // needs update
+				stream.writeBits(1, 1);
+				stream.writeBits(2, 0);
+			} else { // skip
+				stream.writeBits(1, 0); // no update needed
+				for (int i2 = i + 1; i2 < localPlayersIndexesCount; i2++) {
+					int p2Index = localPlayersIndexes[i2];
+					if (nsn0 ? (0x1 & slotFlags[p2Index]) != 0 : (0x1 & slotFlags[p2Index]) == 0)
+						continue;
+					Player p2 = localPlayers[p2Index];
+					if (needsRemove(p2) || p2.hasTeleported() || p2.getNextWalkDirection() != null || (p2.needMasksUpdate() || needAppearenceUpdate(p2.getIndex(), p2.getAppearance().getMD5AppeareanceDataHash())))
+						break;
+					skip++;
+				}
+				skipPlayers(stream, skip);
+				slotFlags[playerIndex] = (byte) (slotFlags[playerIndex] | 2);
 			}
 		}
 		stream.finishBitAccess();
@@ -474,7 +478,7 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyMoveTypeMask(Player p, OutputStream data) {
-		data.write128Byte(p.getRun() ? 2 : 1);
+		data.write128Byte(p.getMovementType().getId());
 	}
 
 	private void applyTemporaryMoveTypeMask(Player p, OutputStream data) {
@@ -520,6 +524,7 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyForceMovementMask(Player p, OutputStream data) {
+		System.out.println("ExactMove: " + p.getNextForceMovement().getDirection() + " - " + p.getNextForceMovement().getDiffX1() + ", " + p.getNextForceMovement().getDiffY1() + " -> " + p.getNextForceMovement().getDiffX2() + ", " + p.getNextForceMovement().getDiffY2());
 		data.writeByteC(p.getNextForceMovement().getDiffX1());
 		data.write128Byte(p.getNextForceMovement().getDiffY1());
 		data.writeByte128(p.getNextForceMovement().getDiffX2());

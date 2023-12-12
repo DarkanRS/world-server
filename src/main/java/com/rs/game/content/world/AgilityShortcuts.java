@@ -25,11 +25,11 @@ import com.rs.lib.game.Tile;
 
 public class AgilityShortcuts {
 	public static void climbOver(Player player, Tile toTile) {
-		climbOver(player, toTile, 1560);
+		climbOver(player, toTile, 839);
 	}
 
 	public static void climbOver(Player player, Tile toTile, int animId) {
-		player.forceMove(toTile, animId, 0, 60);
+		player.forceMove(toTile, animId, 33, 60);
 	}
 
 	public static void sidestep(final Player player, Tile toTile) {

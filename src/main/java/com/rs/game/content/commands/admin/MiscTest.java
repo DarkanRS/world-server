@@ -779,12 +779,13 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "killnpcs", "Kills all npcs around the player.", (p, args) -> {
-			for (NPC npc : World.getNPCs()) {
+			for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 3)) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane()) {
 					for (int i = 0; i < 100; ++i)
 						npc.applyHit(new Hit(p, 10000, HitLook.TRUE_DAMAGE));
+				}
 			}
 		});
 
