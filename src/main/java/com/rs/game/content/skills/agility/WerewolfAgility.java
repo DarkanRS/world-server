@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.agility;
 
 import com.rs.game.World;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Skills;

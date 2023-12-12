@@ -44,6 +44,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -1005,12 +1006,15 @@ public class MiscTest {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
