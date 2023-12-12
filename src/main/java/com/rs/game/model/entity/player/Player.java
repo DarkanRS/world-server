@@ -288,7 +288,7 @@ public class Player extends Entity {
 	private transient LocalNPCUpdate localNPCUpdate;
 
 	private MoveType tempMoveType;
-	private boolean updateMovementType;
+	public boolean updateMovementType;
 
 	// player stages
 	private transient boolean started;
@@ -2875,7 +2875,7 @@ public class Player extends Entity {
 	public MoveType getMovementType() {
 		if (getTemporaryMoveType() != null)
 			return getTemporaryMoveType();
-		return getRun() ? MoveType.RUN : MoveType.WALK;
+		return moveType;
 	}
 
 	public void setDisableEquip(boolean equip) {

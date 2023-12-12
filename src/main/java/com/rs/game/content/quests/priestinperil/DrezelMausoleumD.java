@@ -41,8 +41,9 @@ public class DrezelMausoleumD extends Conversation {
 			);
 		}
 		if (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 10) {
-			if (player.getInventory().containsItem(1436)) {
+			if (player.getInventory().containsItem(1436) || player.getInventory().containsItem(7936)) {
 				int essence = player.getInventory().getAmountOf(1436);
+				int pureEssence = player.getInventory().getAmountOf(7936);
 				if (remainingEssence == 0) {
 					player.startConversation(new Dialogue()
 							.addNPC(Drezel, HeadE.CALM_TALK, "Excellent! That should do it! I will bless these stones and place them within the well. With the river safe, Misthalin should be protected from the vampyres once more!")
@@ -56,7 +57,9 @@ public class DrezelMausoleumD extends Conversation {
 				if (remainingEssence > 0) {
 					if (essence <= remainingEssence) {
 						player.getInventory().deleteItem(1436, essence);
+						player.getInventory().deleteItem(7936, pureEssence);
 						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", essence + player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"));
+						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", pureEssence + player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"));
 						remainingEssence = 50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence");
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "I brought you some rune essence.")
@@ -65,6 +68,7 @@ public class DrezelMausoleumD extends Conversation {
 						);
 					} else {
 						player.getInventory().deleteItem(1436, remainingEssence);
+						player.getInventory().deleteItem(7936, remainingEssence);
 						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", 50);
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "I brought you some more essence.")

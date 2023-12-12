@@ -147,7 +147,7 @@ public abstract class Entity {
 	private Tile tile;
 	private RegionSize regionSize;
 
-	private boolean run;
+	protected MoveType moveType = MoveType.WALK;
 	private Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
 	private transient TaskManager tasks = new TaskManager();
@@ -322,6 +322,8 @@ public abstract class Entity {
 		if (!(this instanceof NPC))
 			faceAngle = 2;
 		poison.setEntity(this);
+		if (moveType == null)
+			moveType = MoveType.WALK;
 	}
 
 	public int getClientIndex() {
@@ -660,7 +662,7 @@ public abstract class Entity {
 			tileBehind = getBackfacingTile();
 			nextTile = null;
 			teleported = true;
-			if (player != null && player.getTemporaryMoveType() == null)
+			if (player != null && player.getTemporaryMoveType() == null && !tile.withinDistance(lastTile, 14))
 				player.setTemporaryMoveType(MoveType.TELE);
 			ChunkManager.updateChunks(this);
 			if (needMapUpdate())
@@ -686,7 +688,7 @@ public abstract class Entity {
 				if (npc.switchWalkStep())
 					return;
 
-		for (int stepCount = 0; stepCount < (run ? 2 : 1); stepCount++) {
+		for (int stepCount = 0; stepCount < (moveType == MoveType.RUN ? 2 : 1); stepCount++) {
 			WalkStep nextStep = getNextWalkStep();
 			if (nextStep == null)
 				break;
@@ -702,7 +704,7 @@ public abstract class Entity {
 				nextRunDirection = nextStep.getDir();
 			tileBehind = Tile.of(getTile());
 			moveLocation(nextStep.getDir().getDx(), nextStep.getDir().getDy(), 0);
-			if (run && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
+			if (moveType == MoveType.RUN && stepCount == 0) { // fixes impossible steps TODO is this even necessary?
 				WalkStep previewStep = previewNextWalkStep();
 				if (previewStep == null)
 					break;
@@ -1140,11 +1142,11 @@ public abstract class Entity {
 	}
 
 	public void setRun(boolean run) {
-		this.run = run;
+		this.moveType = run ? MoveType.RUN : MoveType.WALK;
 	}
 
 	public boolean getRun() {
-		return run;
+		return this.moveType == MoveType.RUN;
 	}
 
 	public Tile getNextFaceTile() {
@@ -1341,8 +1343,10 @@ public abstract class Entity {
 			anim(animation);
 		lock();
 		resetWalkSteps();
+		if (startClientCycles == 0 && this instanceof Player player)
+			player.setTemporaryMoveType(MoveType.TELE);
+		setNextTile(destination);
 		setNextForceMovement(movement);
-		tasks.schedule(movement.getTickDuration()-1, () -> setNextTile(destination));
 		tasks.schedule(movement.getTickDuration(), () -> {
 			if (autoUnlock)
 				unlock();

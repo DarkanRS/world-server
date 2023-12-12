@@ -17,7 +17,7 @@ public class WallyVSDelrithCutscene extends Cutscene {
 		hideMinimap();
 		delay(4);
 		dynamicRegion(player.getTile(), 401, 419, 4, 4);
-		action(()-> player.getAppearance().transformIntoNPC(266));
+		action(()-> player.getAppearance().setHidden(true));
 		playerMove(19, 17, 0, Entity.MoveType.TELE);
 		camShake(1, 0, 10, 5, 10);
 		camPos(19, 17, 1300);
@@ -60,7 +60,7 @@ public class WallyVSDelrithCutscene extends Cutscene {
 				, true);
 		fadeIn(0);
 		delay(4);
-		action(()->{player.getAppearance().transformIntoNPC(-1);});
+		action(()->{player.getAppearance().setHidden(false);});
 		action(()->{player.setNextTile(getEndTile());});
 		camShakeReset();
 		delay(1);

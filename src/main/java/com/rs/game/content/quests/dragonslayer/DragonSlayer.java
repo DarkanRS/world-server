@@ -426,7 +426,7 @@ public class DragonSlayer extends QuestOutline {
 					p.getPackets().setBlockMinimapState(2);
 				}
 				if (tick == 3) {// setup p2, move p
-					p.getAppearance().transformIntoNPC(266);
+					p.getAppearance().setHidden(true);
 					p.setNextTile(Tile.of(2845, 9636, 0));
 				}
 				if (tick == 5) {// setup p3, camera
@@ -451,7 +451,7 @@ public class DragonSlayer extends QuestOutline {
 					p.getPackets().sendResetCamera();
 				}
 				if (tick == 21) {// closing p2
-					p.getAppearance().transformIntoNPC(-1);
+					p.getAppearance().setHidden(false);
 					p.getInterfaceManager().setFadingInterface(170);
 					p.getPackets().setBlockMinimapState(0);
 					p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(INTRODUCED_ELVARG_ATTR, true);

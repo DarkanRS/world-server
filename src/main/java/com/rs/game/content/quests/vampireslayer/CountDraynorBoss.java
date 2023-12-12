@@ -172,7 +172,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 		countDraynor.setLocked(true);
 		countDraynor.faceTile(Tile.of(coffin.getX()+1, coffin.getY() - 5, coffin.getPlane()));
-		countDraynor.transformIntoNPC(266);
+		countDraynor.setHidden(true);
 
 		WorldTasks.schedule(new Task() {
 			@Override
@@ -202,7 +202,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == 6) {
 					p.setNextAnimation(new Animation(OPEN_COFFIN));
 					p.getPackets().sendObjectAnimation(coffin, new Animation(COFFIN_OPEN));
-					countDraynor.transformIntoNPC(COUNT_DRAYNOR_ID);
+					countDraynor.setHidden(false);
 					countDraynor.setNextAnimation(new Animation(ASLEEP_IN_COFFIN));
 				}
 				if(tick == 8) {

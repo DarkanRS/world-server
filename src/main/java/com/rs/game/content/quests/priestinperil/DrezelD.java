@@ -47,7 +47,7 @@ public class DrezelD extends Conversation {
 					.addPlayer(HeadE.CALM_TALK, "My name's " + player.getDisplayName() + ". King Roald sent me to find out what was going on at the temple. I take it you are Drezel?")
 					.addNPC(Drezel, HeadE.CALM_TALK, "That's right! Oh, praise be to Saradomin! All is not yet lost!")
 					.addNPC(Drezel, HeadE.CALM_TALK, "I feared that when those Zamorakians attacked this place and imprisoned me up here, Misthalin would be doomed!")
-					.addNPC(Drezel, HeadE.CALM_TALK, "If they should manage to desecrate the holy River Salve, we will be defenceless against the vampyres of Morytania!")
+					.addNPC(Drezel, HeadE.CALM_TALK, "If they should manage to desecrate the holy River Salve, we will be defenseless against the vampyres of Morytania!")
 					.addOptions(ops -> {
 						ops.add("Why is the river such a good defence?")
 								.addPlayer(HeadE.CALM_TALK, "Why is the river such a good defence?")
@@ -56,7 +56,7 @@ public class DrezelD extends Conversation {
 								.addNPC(Drezel, HeadE.CALM_TALK, "Morytania wasn't enough for them though. Soon, they set their sights on these lands as well.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "Misthalin would have quickly fallen to the vampyres, were it not for the bravery of the Seven Priestly Warriors.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "They led the armies of Misthalin against the vampyres in a great battle that took place right where this temple stands.")
-								.addNPC(Drezel, HeadE.CALM_TALK, "For ten days and nights they fought, never sleeping, never eating, fuelled by their desire to make the world a better place for humans to live.")
+								.addNPC(Drezel, HeadE.CALM_TALK, "For ten days and nights they fought, never sleeping, never eating, fueled by their desire to make the world a better place for humans to live.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "On the eleventh day they were to be joined by reinforcements. However, when those reinforcements arrived, they found the Seven Priestly Warriors and their forces had been slain by the vampyres.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "Their sacrifice was not in vain though. Before they were defeated, the Seven Priestly Warriors managed to bless the Salve with the holy power of Saradomin.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "Their blessings remain to this day, ensuring no vampyre can cross the river.")
@@ -72,32 +72,7 @@ public class DrezelD extends Conversation {
 								.addOptions(ops2 -> {
 									ops2.add("Yes, of course.")
 											.addPlayer(HeadE.CALM_TALK, "Yes, of course.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "Thank you, adventurer.There is a well in the mausoleum beneath the temple that provides direct access to the source of the Salve. That will be where the Zamorakians will attempt their sabotage.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "We need to get to that well. However, the immediate problem is that I 'm trapped in this cell.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "The key must be somewhere nearby.One of the Zamorakians might have it, or they might have hidden it somewhere.That 's not the only problem though.")
-											.addPlayer(HeadE.CALM_TALK, "What else is there?")
-											.addNPC(Drezel, HeadE.CALM_TALK, "When the Salve was blessed, a small number of vampyres were left trapped on this side of it. They were heavily weakened, but still posed a dangerous threat.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "This coffin here contains one of those vampyres.The Zamorakians somehow found it and brought it here with them.")
-											.addPlayer(HeadE.CALM_TALK, "I see.It doesn 't seem to be posing a threat right now though.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "No, but as those fiendish Zamorakians pointed out to me with delight, as I am the descendant of one of the Seven Priestly Warriors who blessed the river, it will likely recognise the smell of my blood.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "If I get too close, it will probably wake up and kill me, very slowly and painfully.")
-											.addPlayer(HeadE.CALM_TALK, "Maybe I could kill it somehow?")
-											.addNPC(Drezel, HeadE.CALM_TALK, "No adventurer, you should not risk waking it.Even now, it could pose a huge threat.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "The priests of old would incapacitate trapped vampyres with the blessings of Saradomin.I suggest you do the same.")
-											.addPlayer(HeadE.CALM_TALK, "Right.So, I need to find the key to your cell and do something about the vampyre.Got it.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "Good luck.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 5));
-									ops2.add("No.")
-											.addPlayer(HeadE.CALM_TALK, "No.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "Oooooh...I knew it was too good to be true...Then leave me to my fate villain, there's no need to taunt me as well as keeping me imprisoned.");
-								});
-						ops.add("So, what now?")
-								.addPlayer(HeadE.CALM_TALK, "So, what now?")
-								.addNPC(Drezel, HeadE.CALM_TALK, "Well, let's just say if we cannot undo whatever damage has been done here, the entire land is in grave peril!")
-								.addNPC(Drezel, HeadE.CALM_TALK, "So what do you say adventurer? Will you aid me and all of Misthalin in foiling this Zamorakian plot?")
-								.addOptions(ops2 -> {
-									ops2.add("Yes, of course.")
-											.addPlayer(HeadE.CALM_TALK, "Yes, of course.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "Thank you, adventurer.There is a well in the mausoleum beneath the temple that provides direct access to the source of the Salve. That will be where the Zamorakians will attempt their sabotage.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "Thank you, adventurer. There is a well in the mausoleum beneath the temple that provides direct access to the source of the Salve. That will be where the Zamorakians will attempt their sabotage.")
 											.addNPC(Drezel, HeadE.CALM_TALK, "We need to get to that well. However, the immediate problem is that I'm trapped in this cell.")
 											.addNPC(Drezel, HeadE.CALM_TALK, "The key must be somewhere nearby. One of the Zamorakians might have it, or they might have hidden it somewhere. That's not the only problem though.")
 											.addPlayer(HeadE.CALM_TALK, "What else is there?")
@@ -113,7 +88,32 @@ public class DrezelD extends Conversation {
 											.addNPC(Drezel, HeadE.CALM_TALK, "Good luck.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 5));
 									ops2.add("No.")
 											.addPlayer(HeadE.CALM_TALK, "No.")
-											.addNPC(Drezel, HeadE.CALM_TALK, "Oooooh...I knew it was too good to be true... Then leave me to my fate villain, there's no need to taunt me as well as keeping me imprisoned.");
+											.addNPC(Drezel, HeadE.CALM_TALK, "Oooooh... I knew it was too good to be true... Then leave me to my fate villain, there's no need to taunt me as well as keeping me imprisoned.");
+								});
+						ops.add("So, what now?")
+								.addPlayer(HeadE.CALM_TALK, "So, what now?")
+								.addNPC(Drezel, HeadE.CALM_TALK, "Well, let's just say if we cannot undo whatever damage has been done here, the entire land is in grave peril!")
+								.addNPC(Drezel, HeadE.CALM_TALK, "So what do you say adventurer? Will you aid me and all of Misthalin in foiling this Zamorakian plot?")
+								.addOptions(ops2 -> {
+									ops2.add("Yes, of course.")
+											.addPlayer(HeadE.CALM_TALK, "Yes, of course.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "Thank you, adventurer. There is a well in the mausoleum beneath the temple that provides direct access to the source of the Salve. That will be where the Zamorakians will attempt their sabotage.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "We need to get to that well. However, the immediate problem is that I'm trapped in this cell.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "The key must be somewhere nearby. One of the Zamorakians might have it, or they might have hidden it somewhere. That's not the only problem though.")
+											.addPlayer(HeadE.CALM_TALK, "What else is there?")
+											.addNPC(Drezel, HeadE.CALM_TALK, "When the Salve was blessed, a small number of vampyres were left trapped on this side of it. They were heavily weakened, but still posed a dangerous threat.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "This coffin here contains one of those vampyres. The Zamorakians somehow found it and brought it here with them.")
+											.addPlayer(HeadE.CALM_TALK, "I see. It doesn't seem to be posing a threat right now though.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "No, but as those fiendish Zamorakians pointed out to me with delight, as I am the descendant of one of the Seven Priestly Warriors who blessed the river, it will likely recognise the smell of my blood.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "If I get too close, it will probably wake up and kill me, very slowly and painfully.")
+											.addPlayer(HeadE.CALM_TALK, "Maybe I could kill it somehow?")
+											.addNPC(Drezel, HeadE.CALM_TALK, "No adventurer, you should not risk waking it. Even now, it could pose a huge threat.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "The priests of old would incapacitate trapped vampyres with the blessings of Saradomin. I suggest you do the same.")
+											.addPlayer(HeadE.CALM_TALK, "Right. So, I need to find the key to your cell and do something about the vampyre. Got it.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "Good luck.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 5));
+									ops2.add("No.")
+											.addPlayer(HeadE.CALM_TALK, "No.")
+											.addNPC(Drezel, HeadE.CALM_TALK, "Oooooh... I knew it was too good to be true...  Then leave me to my fate villain, there's no need to taunt me as well as keeping me imprisoned.");
 								});
 
 					})

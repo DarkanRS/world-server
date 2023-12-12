@@ -134,7 +134,7 @@ public class GodwarsController extends Controller {
 				boolean withinArmadyl = player.getY() < 5276;
 				final Tile tile = Tile.of(2871, withinArmadyl ? 5279 : 5269, 2);
 				player.lock();
-				WorldTasks.scheduleTimer(tick -> {
+				player.getTasks().scheduleTimer(tick -> {
 					switch(tick) {
 					case 1 -> {
 						player.setNextFaceTile(tile);
@@ -142,10 +142,10 @@ public class GodwarsController extends Controller {
 					}
 					case 3 -> player.setNextAnimation(new Animation(16635));
 					case 4 -> {
-						player.getAppearance().transformIntoNPC(266);
+						player.getAppearance().setHidden(true);
 						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
 						player.forceMove(tile, 0, 180, false, () -> {
-							player.getAppearance().transformIntoNPC(-1);
+							player.getAppearance().setHidden(false);
 							player.setNextAnimation(new Animation(16672));
 							player.unlock();
 							player.resetReceivedHits();

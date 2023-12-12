@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.world;
 
+import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.Task;
@@ -25,11 +26,11 @@ import com.rs.lib.game.Tile;
 
 public class AgilityShortcuts {
 	public static void climbOver(Player player, Tile toTile) {
-		climbOver(player, toTile, 1560);
+		climbOver(player, toTile, 839);
 	}
 
 	public static void climbOver(Player player, Tile toTile, int animId) {
-		player.forceMove(toTile, animId, 0, 60);
+		player.forceMove(toTile, animId, 33, AnimationDefinitions.getDefs(animId).getEmoteTime() / 20 - 5);
 	}
 
 	public static void sidestep(final Player player, Tile toTile) {

@@ -257,7 +257,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 	private void cutscene(Player p) {
 		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))
 			if(npc.getId() == SIR_PRYSIN) {
-				npc.transformIntoNPC(266);
+				npc.setHidden(true);
 				NPC dummy = World.spawnNPC(SIR_PRYSIN, Tile.of(3204, 3470, 0), -1, false, true);
 				dummy.setRandomWalk(false);
 				dummy.faceTile(Tile.of(3204, 3469, 0));
@@ -297,7 +297,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 							p.unlock();
 							p.setNextTile(playerTile);
 							dummy.finish();
-							npc.transformIntoNPC(SIR_PRYSIN);
+							npc.setHidden(false);
 							stop();
 						}
 						tick++;

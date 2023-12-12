@@ -54,6 +54,7 @@ public class LandOfSnow {
 		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2650, 5666, 0), "Bonfire"));
 		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, Tile.of(2662, 5667, 0), "Bank chest"));
 		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2660, 5666, 0), "Bonfire"));
+		ObjectSpawns.add(new ObjectSpawn(24887, 10, 0, Tile.of(2665, 5661, 0), "Furnace"));
 
 		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, Tile.of(2645, 5671, 0), "Arctic pine bottom"));
 		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, Tile.of(2644, 5671, 0), "Arctic pine presents"));
@@ -92,7 +93,7 @@ public class LandOfSnow {
 			if (Math.random() < chance) {
 				e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
 				if (e.getPlayer().getInventory().hasFreeSlots())
-					e.getPlayer().getInventory().addItem(TRADEABLE_REWARD, 1);
+					e.getPlayer().getInventory().addItemDrop(TRADEABLE_REWARD, 1);
 				else {
 					e.getPlayer().sendMessage("<shad=000000><col=ff0000>as you did not have room in your inventory, it has been added to your bank.");
 					e.getPlayer().getBank().addItem(new Item(TRADEABLE_REWARD, 1), true);

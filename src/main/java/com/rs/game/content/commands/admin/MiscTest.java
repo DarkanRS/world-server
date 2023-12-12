@@ -44,6 +44,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -779,12 +780,13 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "killnpcs", "Kills all npcs around the player.", (p, args) -> {
-			for (NPC npc : World.getNPCs()) {
+			for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 3)) {
 				if (npc instanceof Familiar || npc instanceof Pet)
 					continue;
-				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane())
+				if (Utils.getDistance(npc.getTile(), p.getTile()) < 9 && npc.getPlane() == p.getPlane()) {
 					for (int i = 0; i < 100; ++i)
 						npc.applyHit(new Hit(p, 10000, HitLook.TRUE_DAMAGE));
+				}
 			}
 		});
 
@@ -1004,12 +1006,15 @@ public class MiscTest {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
+				p.setTemporaryMoveType(Entity.MoveType.TELE);
 				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});

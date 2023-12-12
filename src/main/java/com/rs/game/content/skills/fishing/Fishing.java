@@ -106,6 +106,7 @@ public class Fishing extends PlayerAction {
     public boolean start(Player player) {
         if (!checkAll(player))
             return false;
+        player.setNextFaceTile(npc.getTile());
         player.sendMessage("You attempt to capture a fish...", true);
         setActionDelay(player, 4);
         return true;
