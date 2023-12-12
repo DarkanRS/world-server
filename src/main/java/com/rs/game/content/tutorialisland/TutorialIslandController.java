@@ -1211,7 +1211,7 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public boolean gainXP(int skillId, double exp) {
-		if (skillId == Skills.HITPOINTS)
+		if (skillId == Skills.HITPOINTS || player.getSkills().getLevelForXp(skillId) >= 3)
 			return false;
 		double currXp = player.getSkills().getXp(skillId);
 		int levelPost = Skills.getLevelForXp(skillId, (long) (currXp + exp));
@@ -1219,8 +1219,6 @@ public final class TutorialIslandController extends Controller {
 			player.getSkills().set(skillId, 3);
 			return false;
 		}
-		if (player.getSkills().getLevelForXp(skillId) >= 3)
-			return false;
 		return true;
 	}
 
