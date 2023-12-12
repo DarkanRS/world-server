@@ -236,9 +236,6 @@ public final class LocalPlayerUpdate {
 				int xOffset = p.getX() - p.getLastTile().getX();
 				int yOffset = p.getY() - p.getLastTile().getY();
 				int planeOffset = p.getPlane() - p.getLastTile().getPlane();
-				World.sendSpotAnim(p.getLastTile(), new SpotAnim(2000));
-				World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(5));
-				System.out.println(p.getLastTile().getX() + ", " + p.getLastTile().getY() + " -> " + p.getX() + ", " + p.getY());
 				if (Math.abs(xOffset) <= 14 && Math.abs(yOffset) <= 14) {
 					stream.writeBits(1, 0);
 					if (xOffset < 0)
@@ -302,9 +299,18 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void skipPlayers(OutputStream stream, int amount) {
-		stream.writeBits(2, amount == 0 ? 0 : amount > 255 ? 3 : (amount > 31 ? 2 : 1));
-		if (amount > 0)
-			stream.writeBits(amount > 255 ? 11 : (amount > 31 ? 8 : 5), amount);
+		if (amount == 0) {
+			stream.writeBits(2, 0);
+		} else if (amount < 32) {
+			stream.writeBits(2, 1);
+			stream.writeBits(5, amount);
+		} else if (amount < 256) {
+			stream.writeBits(2, 2);
+			stream.writeBits(8, amount);
+		} else if (amount < 2048) {
+			stream.writeBits(2, 3);
+			stream.writeBits(11, amount);
+		}
 	}
 
 	private void appendUpdateBlock(Player p, OutputStream data, boolean needAppearenceUpdate, boolean added) {
@@ -524,7 +530,6 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyForceMovementMask(Player p, OutputStream data) {
-		System.out.println("ExactMove: " + p.getNextForceMovement().getDirection() + " - " + p.getNextForceMovement().getDiffX1() + ", " + p.getNextForceMovement().getDiffY1() + " -> " + p.getNextForceMovement().getDiffX2() + ", " + p.getNextForceMovement().getDiffY2());
 		data.writeByteC(p.getNextForceMovement().getDiffX1());
 		data.write128Byte(p.getNextForceMovement().getDiffY1());
 		data.writeByte128(p.getNextForceMovement().getDiffX2());

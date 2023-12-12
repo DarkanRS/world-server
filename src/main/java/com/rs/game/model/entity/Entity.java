@@ -662,7 +662,7 @@ public abstract class Entity {
 			tileBehind = getBackfacingTile();
 			nextTile = null;
 			teleported = true;
-			if (player != null && player.getTemporaryMoveType() == null)
+			if (!tile.withinDistance(lastTile, 14))
 				player.setTemporaryMoveType(MoveType.TELE);
 			ChunkManager.updateChunks(this);
 			if (needMapUpdate())
