@@ -980,6 +980,8 @@ public abstract class Entity {
 		if (npc != null && npc.isLoadsUpdateZones())
 			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).removeNPCWatcher(npc.getIndex());
 		mapChunkIds.clear();
+		if (player != null)
+			player.getMapChunksNeedInit().clear();
 		hasNearbyInstancedChunks = false;
 		int currChunkX = getChunkX();
 		int currChunkY = getChunkY();
