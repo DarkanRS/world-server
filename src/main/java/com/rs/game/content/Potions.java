@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
+import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -52,6 +53,11 @@ public class Potions {
 	private static int EMPTY_JUG = 1935;
 
 	public enum Potion {
+		CUP_OF_TEA(1980, new int[] { 712, 1978, 4242, 4243, 4245, 4246, 4838, 7730, 7731, 7733, 7734, 7736, 7737 }, p -> {
+			p.heal(30);
+			p.getSkills().adjustStat(3, 0, Constants.ATTACK);
+			p.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
+		}),
 		CUP_OF_TEA_CLAY(7728, 7730, p -> {
 			p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION);
 		}),

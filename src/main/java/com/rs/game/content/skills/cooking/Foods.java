@@ -389,10 +389,6 @@ public class Foods {
         TANGLED_TOAD_LEGS(2187, 150),
         TCHIKI_MONKEY_NUTS(7573, 2),
         TCHIKI_NUT_PASTE(7575, 2),
-        TEA(new int[] { 1978 }, 1980, 20, player -> {
-            player.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
-            player.removeEffect(Effect.AGGRESSION_POTION);
-        }),
         TEA_FLASK(10859, 20),
         TENTH_ANNIVERSARY_CAKE(20111, 20),
         THIN_SNAIL_MEAT(3369, 30),
