@@ -17,6 +17,7 @@
 package com.rs.game.content.minigames.pest;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -26,40 +27,39 @@ import com.rs.lib.game.Rights;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ItemOnNPCHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.DropSets;
 import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
-public class CommendationExchange {// 1875 TODO
-
-	// can be static :) 1513 cs for names (useless really)
-
-	private static final int INTERFACE = 1011, RATE_ONE = 1, RATE_TEN = 10, RATE_HUNDRED = 100;
-	/**
-	 * EXP related stuff
-	 */
-	private static final int[] SKILL_BASE_COMPONENTS = { 100, 116, 132, 148, 164, 180 };
-	private static final int[] SKILLS = { Constants.STRENGTH, Constants.DEFENSE, Constants.CONSTRUCTION, Constants.RANGE, Constants.MAGIC, Constants.PRAYER };
-
-	/**
-	 * Void related stuff
-	 */
-	private static final int[] VOID_BASE_COMPONENTS = { 15, 196, 208, 220, 232, 166, 256, 268, 280 };
-	private static final int[] VOID = { 11676, 11675, 11674, 8839, 8840, 8842, 8841, 19711, 11666 };
-	private static final int[] VOID_POINTS_COST = { 200, 200, 200, 250, 250, 150, 250, 150, 10 };
-
-	/**
-	 * Charm related stuff
-	 */
-	private static final int[] CHARM_BASE_COMPONENTS = { 324, 339, 354, 369 };
-	private static final int[] CHARMS = { 12166, 12167, 12164, 12165 };
+public class CommendationExchange {
+	private static final int INTERFACE = 1011;
 
 	public static void openExchangeShop(Player player) {
 		player.getInterfaceManager().sendInterface(INTERFACE);
 		player.getVars().setVar(1875, 1250);
 		refreshPoints(player);
 	}
+
+	public static ItemOnNPCHandler handleEliteUpgrade = new ItemOnNPCHandler(new Object[] { 11681 }, e -> {
+		if (e.getItem().getId() == 10611 || e.getItem().getId() == 8840) {
+			if (!e.getPlayer().isQuestComplete(Quest.VOID_STARES_BACK, "to upgrade void knight armor"))
+				return;
+			if (e.getPlayer().getPestPoints() < 100) {
+				e.getPlayer().sendMessage("You need 100 Void Knight Commendations to upgrade void knight armor.");
+				return;
+			}
+			e.getPlayer().sendOptionDialogue("Upgrade this piece to elite for 100 commendations?", ops -> {
+				ops.add("Yes, upgrade my armor.", () -> {
+					if (e.getPlayer().getPestPoints() >= 100) {
+						e.getPlayer().setPestPoints(e.getPlayer().getPestPoints()-100);
+						e.getItem().setId(e.getItem().getId() == 10611 ? 19785 : 19786);
+					}
+				});
+			});
+		}
+	});
 
 	public static NPCClickHandler handleVoidExchange = new NPCClickHandler(new Object[] { 12195, "Void Knight" }, new String[] { "Exchange" }, e ->
 			openExchangeShop(e.getPlayer()));
