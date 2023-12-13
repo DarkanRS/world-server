@@ -42,6 +42,22 @@ public class CommendationExchange {
 		refreshPoints(player);
 	}
 
+	public static NPCClickHandler tyrKorasiBuy = new NPCClickHandler(new Object[] { 11681 }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.VOID_STARES_BACK, "to buy Korasi's sword"))
+			return;
+		e.getPlayer().sendOptionDialogue("Would you like to buy Korasi's sword for 200,000 coins?", ops -> {
+			ops.add("Yes, that sounds like a fair price.", () -> {
+				if (e.getPlayer().getInventory().getCoinsAsInt() < 200_000) {
+					e.getPlayer().sendMessage("You don't have enough money for that.");
+					return;
+				}
+				e.getPlayer().getInventory().removeCoins(200_000);
+				e.getPlayer().getInventory().addItemDrop(19784, 1);
+			});
+			ops.add("Nevermind.");
+		});
+	});
+
 	public static ItemOnNPCHandler handleEliteUpgrade = new ItemOnNPCHandler(new Object[] { 11681 }, e -> {
 		if (e.getItem().getId() == 10611 || e.getItem().getId() == 8840) {
 			if (!e.getPlayer().isQuestComplete(Quest.VOID_STARES_BACK, "to upgrade void knight armor"))
@@ -57,6 +73,7 @@ public class CommendationExchange {
 						e.getItem().setId(e.getItem().getId() == 10611 ? 19785 : 19786);
 					}
 				});
+				ops.add("Nevermind.");
 			});
 		}
 	});
