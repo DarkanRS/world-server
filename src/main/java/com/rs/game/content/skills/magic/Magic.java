@@ -678,15 +678,10 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasks.schedule(new Task() {
-			int stage;
-
-			@Override
-			public void run() {
-				if (stage == 0) {
-					player.setNextAnimation(new Animation(4731));
-					stage = 1;
-				} else if (stage == 1) {
+		player.getTasks().scheduleTimer(1, 0, tick -> {
+			switch (tick) {
+				case 0 -> player.setNextAnimation(new Animation(4731));
+				case 2 -> {
 					player.getControllerManager().magicTeleported(ITEM_TELEPORT);
 					if (!player.getHouse().arriveOutsideHouse()) {
 						player.getHouse().setBuildMode(false);
@@ -694,17 +689,18 @@ public class Magic {
 						player.setFaceAngle(6);
 					} else
 						player.setNextTile(Tile.of(player.getHouse().getLocation().getTile()));
+					player.setFaceAngle(6);
 					player.setNextAnimation(new Animation(-1));
-					stage = 2;
-				} else if (stage == 2) {
+				}
+				case 3 -> {
 					player.resetReceivedHits();
 					player.resetReceivedDamage();
 					player.unlock();
-					stop();
+					return false;
 				}
-
 			}
-		}, 2, 1);
+			return true;
+		});
 		return true;
 	}
 
@@ -714,15 +710,10 @@ public class Magic {
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
 		player.setNextSpotAnim(new SpotAnim(1680));
-		WorldTasks.schedule(new Task() {
-			int stage;
-
-			@Override
-			public void run() {
-				if (stage == 0) {
-					player.setNextAnimation(new Animation(4731));
-					stage = 1;
-				} else if (stage == 1) {
+		player.getTasks().scheduleTimer(1, 0, tick -> {
+			switch (tick) {
+				case 0 -> player.setNextAnimation(new Animation(4731));
+				case 2 -> {
 					Tile teleTile = tile;
 					// attemps to randomize tile by 4x4 area
 					for (int trycount = 0; trycount < 10; trycount++) {
@@ -738,16 +729,16 @@ public class Magic {
 					player.setNextFaceTile(Tile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 					player.setFaceAngle(6);
 					player.setNextAnimation(new Animation(-1));
-					stage = 2;
-				} else if (stage == 2) {
+				}
+				case 3 -> {
 					player.resetReceivedHits();
 					player.resetReceivedDamage();
 					player.unlock();
-					stop();
+					return false;
 				}
-
 			}
-		}, 2, 1);
+			return true;
+		});
 		return true;
 	}
 
