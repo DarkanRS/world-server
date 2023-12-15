@@ -336,9 +336,7 @@ public class Uncategorizeddumpfixes {
     public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[]{5167}, e -> {
         e.getPlayer().setNextTile(Tile.of(3577, 9927, 0));
     });
-    public static ObjectClickHandler experimentcavegraveexit = new ObjectClickHandler(new Object[]{1757}, e -> {
-        e.getPlayer().setNextTile(Tile.of(3578, 3527, 0));
-    });
+    public static ObjectClickHandler ladder1757 = new ObjectClickHandler(new Object[]{1757}, e -> e.getPlayer().useLadder(e.getPlayer().transform(0, -6400, 0)));
 
     //Meiyerditch
     public static ObjectClickHandler handleMeiyerditchstairs = new ObjectClickHandler(new Object[]{17976, 17978}, e -> {
