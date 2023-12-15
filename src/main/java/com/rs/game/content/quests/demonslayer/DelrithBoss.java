@@ -93,6 +93,7 @@ public class DelrithBoss extends NPC {
 				if(tick == 3) {
 					p.lock();
 					p.playCutscene(cs -> {
+                        cs.setEndTile(Tile.of(3228, 3368, 0));
 						cs.fadeIn(5);
 						cs.hideMinimap(false);
 						cs.action(() -> {
