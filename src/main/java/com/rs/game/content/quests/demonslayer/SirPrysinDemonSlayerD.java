@@ -207,7 +207,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addPlayer(HeadE.CALM_TALK, "Where does the wizard live?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Wizard Traiborn?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "He is one of the wizards who lives in the tower on the little island just off the south coast. " +
-								"I believe his quarters are on the first floor of the tower.", ()->{
+								"I believe his quarters are on the third floor of the tower.", ()->{
 									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY2_WIZARD_LOC_KNOWN", true);
 								})
 						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));

@@ -83,7 +83,7 @@ public class DemonSlayer extends QuestOutline {
 
 			//---Sir Prysin---
 			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY1_DRAIN_LOC_KNOWN")) {
-				lines.add("Sir Prysin's key is stuck in a drain North West");
+				lines.add("Sir Prysin's key is stuck in a drain northeast of the castle");
 				lines.add("of Varrock castle. I can use a bucket of water");
 				lines.add("to push it into the sewers.");
 				lines.add("");
