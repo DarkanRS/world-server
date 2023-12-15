@@ -72,7 +72,7 @@ public class GuildMasterDragonSlayerD extends Conversation {
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "But the dragon still won the fight. She emerged and laid waste to the whole of Crandor with her fire " +
 					"breath! Some refugees managed to escape in fishing boats.");
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "They landed on the coast, north of Rimmington, and set up camp but the dragon followed them and burned " +
-					"the cramp to the ground. Out of all of the people of Crandor there were only three survivors: a trio of wizards who used magic to escape.");
+					"the camp to the ground. Out of all of the people of Crandor there were only three survivors: a trio of wizards who used magic to escape.");
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "Their names were Thalzar, Lozar, and Melzar. If you're serious about taking on Elvarg, first you'll need to " +
 					"get to Crandor. The island is surrounded by dangerous reefs, so you'll need a ship capable of getting through them and a map to show you the way.");
 			addNPC(GUILD_MASTER, HeadE.CALM_TALK, "When you reach Crandor, you'll also need some kind of protection against the dragon's breath.");
