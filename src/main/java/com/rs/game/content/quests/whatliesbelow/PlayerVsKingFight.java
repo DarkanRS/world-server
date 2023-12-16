@@ -118,7 +118,7 @@ public class PlayerVsKingFight extends InstancedController {
             player.lock();
             player.fadeScreen(() -> {
                 player.getControllerManager().forceStop();
-                player.setNextTile(Tile.of(3214, 3378, 0));
+                player.tele(Tile.of(3214, 3378, 0));
                 player.resetReceivedHits();
                 player.unlock();
             });
@@ -145,7 +145,7 @@ public class PlayerVsKingFight extends InstancedController {
                 cs.delay(1);
                 cs.action(() -> {
                     player.getControllerManager().forceStop();
-                    player.setNextTile(Tile.of(3202, 3432, 0));
+                    player.tele(Tile.of(3202, 3432, 0));
                 });
             });
             return;
@@ -226,7 +226,7 @@ public class PlayerVsKingFight extends InstancedController {
             cs.fadeIn(5);
             cs.action(() -> {
                 player.getControllerManager().forceStop();
-                player.setNextTile(OUTSIDE);
+                player.tele(OUTSIDE);
             });
             cs.fadeOut(5);
         });

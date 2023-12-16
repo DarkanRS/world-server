@@ -2182,7 +2182,7 @@ public class Player extends Entity {
 				case 1 -> sendMessage(message);
 				case 3 -> {
 					reset();
-					setNextTile(respawnTile);
+					tele(respawnTile);
 					setNextAnimation(new Animation(-1));
 					if (onFall != null)
 						onFall.accept(this);
@@ -2232,7 +2232,7 @@ public class Player extends Entity {
 				else if (loop == 2) {
 					reset();
 					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
-						setNextTile(Settings.getConfig().getPlayerRespawnTile());
+						tele(Settings.getConfig().getPlayerRespawnTile());
 					else
 						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
 				} else if (loop == 3) {
@@ -2511,7 +2511,7 @@ public class Player extends Entity {
 		if (emoteId != -1)
 			setNextAnimation(new Animation(emoteId));
 		if (useDelay == 0)
-			setNextTile(dest);
+			tele(dest);
 		else {
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -2520,7 +2520,7 @@ public class Player extends Entity {
 						return;
 					if (resetAnimation)
 						setNextAnimation(new Animation(-1));
-					setNextTile(dest);
+					tele(dest);
 					if (message != null)
 						sendMessage(message);
 				}
@@ -3017,12 +3017,7 @@ public class Player extends Entity {
 
 	public void ladder(final Tile toTile) {
 		setNextAnimation(new Animation(828));
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				setNextTile(toTile);
-			}
-		}, 1);
+		getTasks().schedule(1, () -> tele(toTile));
 	}
 
 	public void giveStarter() {
@@ -3191,9 +3186,9 @@ public class Player extends Entity {
 	public void useLadder(int anim, final Tile tile) {
 		lock();
 		setNextAnimation(new Animation(anim));
-		WorldTasks.scheduleTimer(tick -> {
+		getTasks().scheduleTimer(tick -> {
 			if (tick == 1)
-				setNextTile(tile);
+				tele(tile);
 			if (tick == 2) {
 				unlock();
 				return false;
@@ -3819,7 +3814,7 @@ public class Player extends Entity {
 			if (controller == null || !(controller instanceof WarriorsGuild guild))
 				return;
 			guild.inCyclopse = false;
-			setNextTile(WarriorsGuild.CYCLOPS_LOBBY);
+			tele(WarriorsGuild.CYCLOPS_LOBBY);
 			warriorPoints[index] = 0;
 		} else if (warriorPoints[index] > 65535)
 			warriorPoints[index] = 65535;
@@ -4281,7 +4276,7 @@ public class Player extends Entity {
 				setForceNextMapLoadRefresh(true);
 				return;
 			}
-			setNextTile(instancedArea.getReturnTo());
+			tele(instancedArea.getReturnTo());
 			instancedArea = null;
 		}
 	}

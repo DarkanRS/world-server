@@ -110,7 +110,7 @@ public final class Pet extends NPC {
 	public void call() {
 		Tile teleTile = owner.getNearestTeleTile(this);
 		if (teleTile != null)
-			setNextTile(teleTile);
+			tele(teleTile);
 	}
 
 	/**

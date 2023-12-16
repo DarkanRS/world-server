@@ -37,7 +37,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePyramidExits = new ObjectClickHandler(new Object[] { 16458 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -53,7 +53,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePlunderUrns = new ObjectClickHandler(new Object[] { 16518, 16519, 16520, 16521, 16522, 16523, 16524, 16525, 16526, 16527, 16528, 16529, 16530, 16531, 16532 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -114,7 +114,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleGrandChest = new ObjectClickHandler(new Object[] { 16537 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -130,7 +130,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleSarcophagus = new ObjectClickHandler(new Object[] { 16547 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -174,7 +174,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleEngravedSarcophagus = new ObjectClickHandler(new Object[] { 59795 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -195,7 +195,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handlePyramidTombDoors = new ObjectClickHandler((Object[]) DOORS, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}
@@ -371,7 +371,7 @@ public class PyramidPlunder {
 	public static ObjectClickHandler handleSpearTrap = new ObjectClickHandler(new Object[] { 16517 }, e -> {
 		PyramidPlunderController ctrl = e.getPlayer().getControllerManager().getController(PyramidPlunderController.class);
 		if (ctrl == null) {
-			e.getPlayer().setNextTile(EXIT_TILE);
+			e.getPlayer().tele(EXIT_TILE);
 			e.getPlayer().sendMessage("No idea how you got in here. But get out bad boy.");
 			return;
 		}

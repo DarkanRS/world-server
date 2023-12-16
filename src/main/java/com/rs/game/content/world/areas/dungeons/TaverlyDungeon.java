@@ -73,7 +73,7 @@ public class TaverlyDungeon {
 	});
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }, e -> {
-		e.getPlayer().setNextTile(e.getObjectId() == 66991 ? Tile.of(2885, 9795, 0) : Tile.of(2885, 3395, 0));
+		e.getPlayer().tele(e.getObjectId() == 66991 ? Tile.of(2885, 9795, 0) : Tile.of(2885, 3395, 0));
 	});
 
 }

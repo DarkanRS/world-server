@@ -140,7 +140,7 @@ public class LodestoneAction extends PlayerAction {
 			player.getControllerManager().magicTeleported(Magic.MAGIC_TELEPORT);
 			if (player.getControllerManager().getController() == null)
 				Magic.teleControllersCheck(player, tile);
-			player.setNextTile(tile);
+			player.tele(tile);
 			player.setNextFaceTile(tile.transform(0, -1, 0));
 			WorldTasks.schedule(new Task() {
 				int stage = 0;
@@ -153,7 +153,7 @@ public class LodestoneAction extends PlayerAction {
 					} else if (stage == 5)
 						player.setNextAnimation(new Animation(16393));
 					else if (stage == 7) {
-						player.setNextTile(tile.transform(0, -1, 0));
+						player.tele(tile.transform(0, -1, 0));
 						player.setNextAnimation(new Animation(-1));
 						player.setNextSpotAnim(new SpotAnim(-1));
 						player.unlock();

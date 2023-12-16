@@ -13,11 +13,11 @@ import com.rs.utils.shop.ShopsHandler;
 public class LunarIsle {
 
     public static NPCClickHandler enterBabaYagaHouse = new NPCClickHandler(new Object[] { 4512 }, e -> {
-        e.getPlayer().moveTo(Tile.of(3103, 4447, 0));
+        e.getPlayer().tele(Tile.of(3103, 4447, 0));
     });
 
     public static ObjectClickHandler exitBabaYagaHouse = new ObjectClickHandler(new Object[] { 16774 }, e -> {
-        e.getPlayer().moveTo(Tile.of(2087, 3930, 0));
+        e.getPlayer().tele(Tile.of(2087, 3930, 0));
     });
 
     public static NPCClickHandler babaYaga = new NPCClickHandler(new Object[] { 4513 }, e -> {

@@ -115,9 +115,9 @@ public class Falador {
 	//falador
 	public static ObjectClickHandler handlefaladorcastlestairs = new ObjectClickHandler(new Object[] { 11736, 11737 }, e -> {
 		if (e.getObjectId() == 11736)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
 		else if (e.getObjectId() == 11737)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
 	});
 
 }

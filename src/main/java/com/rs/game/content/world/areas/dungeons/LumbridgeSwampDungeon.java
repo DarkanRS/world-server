@@ -36,17 +36,17 @@ public class LumbridgeSwampDungeon {
 		//spotanims 1932 1933
 		if (e.getItem().getId() == 4702)
 			e.getPlayer().sendOptionDialogue(e.getNPC().getId() == 2021 ? "Would you like to go down into the chasm?" : "Would you like to go back up the chasm?", ops -> {
-				ops.add("Yes", () -> e.getPlayer().setNextTile(e.getNPC().getId() == 2021 ? Tile.of(2520, 5884, 0) : Tile.of(3219, 9527, 2)));
+				ops.add("Yes", () -> e.getPlayer().tele(e.getNPC().getId() == 2021 ? Tile.of(2520, 5884, 0) : Tile.of(3219, 9527, 2)));
 				ops.add("No, that's scary");
 			});
 	});
 
 	public static ObjectClickHandler enterJunaArea = new ObjectClickHandler(new Object[] { 32944 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3219, 9532, 2));
+		e.getPlayer().tele(Tile.of(3219, 9532, 2));
 	});
 
 	public static ObjectClickHandler exitJunaArea = new ObjectClickHandler(new Object[] { 6658 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3226, 9542, 0));
+		e.getPlayer().tele(Tile.of(3226, 9542, 0));
 	});
 
 	public static ObjectClickHandler handleSteppingStone1 = new ObjectClickHandler(false, new Object[] { 5948 }, e -> {

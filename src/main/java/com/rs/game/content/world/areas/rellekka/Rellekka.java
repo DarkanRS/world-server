@@ -184,11 +184,11 @@ public class Rellekka {
 	});
 
 	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2773, 10162, 0));
+		e.getPlayer().tele(Tile.of(2773, 10162, 0));
 	});
 
 	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2730, 3713, 0));
+		e.getPlayer().tele(Tile.of(2730, 3713, 0));
 	});
 
 	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }, e -> {

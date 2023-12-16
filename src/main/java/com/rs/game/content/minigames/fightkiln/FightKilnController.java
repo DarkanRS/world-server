@@ -263,7 +263,7 @@ public class FightKilnController extends Controller {
 			player.stopAll();
 			if (currentWave == 0) { // SCENE 0
 				player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
-				player.setNextTile(getTile(31, 51));
+				player.tele(getTile(31, 51));
 				tokHaarHok = new NPC(TOKHAAR_HOK, getTile(30, 36), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
 				// 1delay because player cant walk while teleing :p,
@@ -297,7 +297,7 @@ public class FightKilnController extends Controller {
 
 				}, 1, 6);
 			} else if (currentWave == 38) { // SCENE 7, WIN
-				player.setNextTile(getTile(38, 25));
+				player.tele(getTile(38, 25));
 				player.setNextFaceTile(getTile(38, 26));
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getTile(37, 30), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
@@ -347,7 +347,7 @@ public class FightKilnController extends Controller {
 					}
 				}, 1);
 			} else if (currentWave == 37) { // SCENE 6
-				player.setNextTile(getTile(38, 25));
+				player.tele(getTile(38, 25));
 				player.setNextFaceTile(getTile(38, 26));
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getTile(37, 30), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, -1));
@@ -389,7 +389,7 @@ public class FightKilnController extends Controller {
 							player.getPackets().sendCameraLook(player.getSceneX(lookTo.getX()), player.getSceneY(lookTo.getY()), 3000);
 							Tile posTile = getTile(42, 36);
 							player.getPackets().sendCameraPos(player.getSceneX(posTile.getX()), player.getSceneY(posTile.getY()), 3000);
-							player.setNextTile(getTile(33, 39));
+							player.tele(getTile(33, 39));
 							player.setNextFaceTile(getTile(32, 39));
 						} else if (count == 12) {
 							stop();
@@ -412,7 +412,7 @@ public class FightKilnController extends Controller {
 
 				}, 1, 0);
 			} else if (currentWave == 31) { // SCENE 4
-				player.setNextTile(getTile(21, 21));
+				player.tele(getTile(21, 21));
 				player.setNextFaceTile(getTile(20, 20));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
@@ -467,7 +467,7 @@ public class FightKilnController extends Controller {
 				player.getInventory().removeItems(new Item(23653, Integer.MAX_VALUE), new Item(23654, Integer.MAX_VALUE), new Item(23655, Integer.MAX_VALUE), new Item(23656, Integer.MAX_VALUE), new Item(23657, Integer.MAX_VALUE), new Item(23658, Integer.MAX_VALUE));
 				tokHaarHok = new NPC(TOKHAAR_HOK_SCENE, getTile(30, 36), true);
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
-				player.setNextTile(getTile(31, 39));
+				player.tele(getTile(31, 39));
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
 				player.setNextFaceTile(tokHaarHok.getMiddleTile());
@@ -729,7 +729,7 @@ public class FightKilnController extends Controller {
 	}
 
 	public void teleportPlayerToMiddle() {
-		player.setNextTile(getTile(31, 32));
+		player.tele(getTile(31, 32));
 	}
 
 	public void removeTokHaarTok() {
@@ -821,7 +821,7 @@ public class FightKilnController extends Controller {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
 			if (type == 1 || type == 4) {
-				player.setNextTile(outside);
+				player.tele(outside);
 				if (type == 4) {
 					player.incrementCount("Fight Kiln clears");
 					player.sendMessage("You were victorious!!");

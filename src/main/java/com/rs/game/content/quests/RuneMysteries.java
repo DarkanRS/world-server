@@ -307,7 +307,7 @@ public class RuneMysteries extends QuestOutline {
 												WorldTasks.schedule(new Task() {
 													@Override
 													public void run() {
-														e.getPlayer().setNextTile(Tile.of(3113, 3175, 0, 0));
+														e.getPlayer().tele(Tile.of(3113, 3175, 0, 0));
 													}
 												}, 2);
 												player.getInventory().deleteItem(290, 1);

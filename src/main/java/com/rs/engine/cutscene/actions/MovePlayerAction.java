@@ -40,7 +40,7 @@ public class MovePlayerAction extends CutsceneAction {
 	public void process(Player player, Map<String, Object> objects) {
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (movementType == MoveType.TELE) {
-			player.setNextTile(Tile.of(scene.getX(x), scene.getY(y), plane));
+			player.tele(Tile.of(scene.getX(x), scene.getY(y), plane));
 			return;
 		}
 		player.setRun(movementType == MoveType.RUN);

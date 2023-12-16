@@ -151,7 +151,7 @@ public class Gravecreeper extends DungeonBoss {
 							public void run() {
 								if (getManager().isDestroyed())
 									return;
-								setNextTile(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
+								tele(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
 								setNextNPCTransformation(originalId);
 								setNextAnimation(new Animation(14506));
 								WorldTasks.schedule(new Task() {

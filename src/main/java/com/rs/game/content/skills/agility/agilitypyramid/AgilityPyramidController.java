@@ -152,7 +152,7 @@ public class AgilityPyramidController extends Controller {
 
 	public void finishCourse() {
 		if (grabbedTop) {
-			player.setNextTile(Tile.of(3364, 2830, 0));
+			player.tele(Tile.of(3364, 2830, 0));
 			//player.getSkills().addXp(Constants.AGILITY, 300+(player.getSkills().getLevelForXp(Constants.AGILITY)*8)); //osrs rates?
 			player.getSkills().addXp(Constants.AGILITY, 500);
 			grabbedTop = false;
@@ -241,7 +241,7 @@ public class AgilityPyramidController extends Controller {
 					player.resetWalkSteps();
 				} else if (ticks >= 4) {
 					if (fail) {
-						player.setNextTile(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
+						player.tele(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
 						player.applyHit(new Hit(null, 100, HitLook.TRUE_DAMAGE));
 					} else {
 						player.setNextAnimation(new Animation(endAnim));

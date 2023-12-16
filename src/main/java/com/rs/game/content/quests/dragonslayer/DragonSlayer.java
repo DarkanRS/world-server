@@ -427,7 +427,7 @@ public class DragonSlayer extends QuestOutline {
 				}
 				if (tick == 3) {// setup p2, move p
 					p.getAppearance().setHidden(true);
-					p.setNextTile(Tile.of(2845, 9636, 0));
+					p.tele(Tile.of(2845, 9636, 0));
 				}
 				if (tick == 5) {// setup p3, camera
 					p.getPackets().sendCameraPos(p.getXInScene(p.getSceneBaseChunkId()), p.getYInScene(p.getSceneBaseChunkId()), 1300);
@@ -447,7 +447,7 @@ public class DragonSlayer extends QuestOutline {
 				if(tick == 15)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick==18) {
-					p.setNextTile(Tile.of(2834, 9657, 0));
+					p.tele(Tile.of(2834, 9657, 0));
 					p.getPackets().sendResetCamera();
 				}
 				if (tick == 21) {// closing p2

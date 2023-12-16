@@ -196,7 +196,7 @@ public class Karamja  {
 
 	public static ObjectClickHandler handleBrimhavenDungeonEntrance = new ObjectClickHandler(new Object[] { 5083 }, e -> {
 		if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {//12 hours
-			e.getPlayer().setNextTile(Tile.of(2713, 9564, 0));
+			e.getPlayer().tele(Tile.of(2713, 9564, 0));
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addNPC(1595, HeadE.FRUSTRATED, "You can't go in there without paying!"));
@@ -207,7 +207,7 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2745, 3152, 0));
+		e.getPlayer().tele(Tile.of(2745, 3152, 0));
 	});
 
 	public static ObjectClickHandler handleJogreLogWalk = new ObjectClickHandler(new Object[] { 2332 }, e -> {
@@ -269,7 +269,7 @@ public class Karamja  {
 			}
 		}
 
-		e.getPlayer().setNextTile(Tile.of(2834, 9657, 0));
+		e.getPlayer().tele(Tile.of(2834, 9657, 0));
 	});
 
 	public static ObjectClickHandler handleCrandorVolcanoRope = new ObjectClickHandler(new Object[] { 25213 }, e -> {
@@ -277,7 +277,7 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleKaramjaVolcanoRocks = new ObjectClickHandler(new Object[] { 492 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2857, 9569, 0));
+		e.getPlayer().tele(Tile.of(2857, 9569, 0));
 	});
 
 	public static ObjectClickHandler handleKaramjaVolcanoRope = new ObjectClickHandler(new Object[] { 1764 }, e -> {
@@ -305,15 +305,15 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleTzhaarEnter = new ObjectClickHandler(new Object[] { 68134 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(4667, 5059, 0));
+		e.getPlayer().tele(Tile.of(4667, 5059, 0));
 	});
 
 	public static ObjectClickHandler handleTzhaarExit = new ObjectClickHandler(new Object[] { 68135 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2845, 3170, 0));
+		e.getPlayer().tele(Tile.of(2845, 3170, 0));
 	});
 
 	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2830, 9522, 0));
+		e.getPlayer().tele(Tile.of(2830, 9522, 0));
 	});
 
 	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }, e -> {
@@ -326,11 +326,11 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleShiloCartEnter = new ObjectClickHandler(new Object[] { 2230 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2833, 2954, 0));
+		e.getPlayer().tele(Tile.of(2833, 2954, 0));
 	});
 
 	public static ObjectClickHandler handleShiloCartExit = new ObjectClickHandler(new Object[] { 2265 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2778, 3210, 0));
+		e.getPlayer().tele(Tile.of(2778, 3210, 0));
 	});
 
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
@@ -355,9 +355,9 @@ public class Karamja  {
 						return;
 				} else if (ticks >= 1) {
 					if (goingEast)
-						p.setNextTile(Tile.of(2847, p.getY(), 0));
+						p.tele(Tile.of(2847, p.getY(), 0));
 					if (!goingEast)
-						p.setNextTile(Tile.of(2845, p.getY(), 0));
+						p.tele(Tile.of(2845, p.getY(), 0));
 					stop();
 				}
 				ticks++;

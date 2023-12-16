@@ -25,16 +25,16 @@ public class TempleOfLight {
 	//Temple of Light
 	public static ObjectClickHandler handletempleoflightstairswide = new ObjectClickHandler(new Object[] { 10015, 10016 }, e -> {
 		if (e.getObjectId() == 10015)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : e.getObject().getRotation() == 3 ? -4 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 2 ? -4 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : e.getObject().getRotation() == 3 ? -4 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 2 ? -4 : 0, 1));
 		else if (e.getObjectId() == 10016)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -4 : e.getObject().getRotation() == 3 ? 4 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 2 ? 4 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -4 : e.getObject().getRotation() == 3 ? 4 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 2 ? 4 : 0, -1));
 	});
 
 	public static ObjectClickHandler handletempleoflightstairsthin = new ObjectClickHandler(new Object[] { 10018, 10017 }, e -> {
 		if (e.getObjectId() == 10018)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -4 : e.getObject().getRotation() == 3 ? 4 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 2 ? 4 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -4 : e.getObject().getRotation() == 3 ? 4 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 2 ? 4 : 0, -1));
 		else if (e.getObjectId() == 10017)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : e.getObject().getRotation() == 3 ? -4 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 2 ? -4 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : e.getObject().getRotation() == 3 ? -4 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 2 ? -4 : 0, 1));
 	});
 
 

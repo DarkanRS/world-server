@@ -79,7 +79,7 @@ public class LexicusRunewright extends DungeonBoss {
 					int random = Utils.random(TELEPORT_LOCS.length);
 					if (random != 0)
 						random -= 1;
-					setNextTile(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
+					tele(World.getFreeTile(getManager().getTile(getReference(), TELEPORT_LOCS[random], TELEPORT_LOCS[random + 1]), 2));
 					setNextAnimation(new Animation(13500));
 					setNextSpotAnim(new SpotAnim(1577));
 				} else if (cycles == 4) {

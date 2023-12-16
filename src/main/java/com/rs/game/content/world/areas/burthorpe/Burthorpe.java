@@ -74,11 +74,11 @@ public class Burthorpe {
     });
 
     public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}, e -> {
-        e.getPlayer().setNextTile(Tile.of(2292, 4516, 0));
+        e.getPlayer().tele(Tile.of(2292, 4516, 0));
     });
 
     public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}, e -> {
-        e.getPlayer().setNextTile(Tile.of(2876, 3502, 0));
+        e.getPlayer().tele(Tile.of(2876, 3502, 0));
     });
 
     public static ObjectClickHandler handleCastleLockedDoor = new ObjectClickHandler(new Object[]{66967}, e -> {

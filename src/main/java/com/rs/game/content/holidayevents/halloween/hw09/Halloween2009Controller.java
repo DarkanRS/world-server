@@ -43,7 +43,7 @@ public class Halloween2009Controller extends Controller {
 
 	@Override
 	public void start() {
-		player.setNextTile(Halloween2009.START_LOCATION);
+		player.tele(Halloween2009.START_LOCATION);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class Halloween2009Controller extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.setNextTile(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : Tile.of(3211, 3424, 0));
+					player.tele(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : Tile.of(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {

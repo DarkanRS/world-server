@@ -100,7 +100,7 @@ public class Abyss {
 			} else if (ticks >= 5 && ticks <= 7)
 				demolish(7158 + (ticks - 5), object);
 			else if (ticks == 9) {
-				player.setNextTile(Tile.of(object.getX(), object.getY() + 13, 0));
+				player.tele(Tile.of(object.getX(), object.getY() + 13, 0));
 				player.resetReceivedHits();
 				player.unlock();
 				return false;
@@ -136,7 +136,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7161 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -168,7 +168,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7168 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -199,7 +199,7 @@ public class Abyss {
 							return;
 						}
 				} else if (ticks == 4) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -235,7 +235,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7165 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;

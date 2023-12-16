@@ -109,7 +109,7 @@ public class FalconryController extends Controller {
 					e.getPlayer().getControllerManager().forceStop();
 					e.getPlayer().lock(2);
 					e.getPlayer().setNextAnimation(new Animation(1560));
-					WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+					WorldTasks.schedule(() -> e.getPlayer().tele(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 				});
 				ops.add("No");
 			});
@@ -117,7 +117,7 @@ public class FalconryController extends Controller {
 		}
 		e.getPlayer().lock(2);
 		e.getPlayer().setNextAnimation(new Animation(1560));
-		WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+		WorldTasks.schedule(() -> e.getPlayer().tele(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 	});
 
 	public static void beginFalconry(Player player) {

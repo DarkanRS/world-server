@@ -340,7 +340,7 @@ public class House {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					p.setNextTile(Tile.of(p.getX(), p.getY(), 0));
+					p.tele(Tile.of(p.getX(), p.getY(), 0));
 					p.setNextAnimation(new Animation(3640));
 				}
 			}, 5);
@@ -1006,7 +1006,7 @@ public class House {
 			player.sendMessage("The house has no servant.");
 		else {
 			servantInstance.setFollowing(true);
-			servantInstance.setNextTile(World.getFreeTile(player.getTile(), 1));
+			servantInstance.tele(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
 			player.startConversation(new ServantHouseD(player, servantInstance, true));
 		}

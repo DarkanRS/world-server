@@ -164,7 +164,7 @@ public class Blink extends DungeonBoss {
 					rushCount = 5;
 				setNextNPCTransformation(1957);
 			} else if (rushCount == 8)
-				setNextTile(getNextPath());
+				tele(getNextPath());
 			else if (rushCount == 9) {
 				setNextNPCTransformation(12865);
 				toPath = getManager().getTile(getReference(), selectedPath[inversedPath ? 2 : 0], selectedPath[inversedPath ? 3 : 1]);

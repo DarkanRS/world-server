@@ -269,7 +269,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						if (tick == 0) {
 							p.lock();
 							playerTile = p.getTile();
-							p.setNextTile(Tile.of(3204, 3471, 0));
+							p.tele(Tile.of(3204, 3471, 0));
 							p.faceEntity(dummy);
 						} else if (tick == 1) {
 							dummy.setNextAnimation(new Animation(2579));
@@ -295,7 +295,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 							p.getInventory().deleteItem(2400, 1);
 						} else if(tick == 9) {
 							p.unlock();
-							p.setNextTile(playerTile);
+							p.tele(playerTile);
 							dummy.finish();
 							npc.setHidden(false);
 							stop();

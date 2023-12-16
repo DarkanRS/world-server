@@ -31,11 +31,11 @@ public class Crucible {
     public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> {
         e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
             ops.add("Safe (No items lost on death)", () -> {
-                e.getPlayer().setNextTile(CrucibleController.getRespawnTile());
+                e.getPlayer().tele(CrucibleController.getRespawnTile());
                 e.getPlayer().getControllerManager().startController(new CrucibleController(false));
             });
             ops.add("<col=FF0000><shad=000000>Dangerous (All but one item lost on death)", () -> {
-                e.getPlayer().setNextTile(CrucibleController.getRespawnTile());
+                e.getPlayer().tele(CrucibleController.getRespawnTile());
                 e.getPlayer().getControllerManager().startController(new CrucibleController(true));
             });
             ops.add("Nevermind");
@@ -144,7 +144,7 @@ public class Crucible {
     }
 
     public static void useFissure(Player player, Fissure fissure) {
-        player.setNextTile(World.getFreeTile(fissure.location, 2));
+        player.tele(World.getFreeTile(fissure.location, 2));
         player.closeInterfaces();
     }
 }

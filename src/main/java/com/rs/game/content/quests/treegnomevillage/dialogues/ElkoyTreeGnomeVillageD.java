@@ -29,7 +29,7 @@ public class ElkoyTreeGnomeVillageD extends Conversation {
 							});
 							player.fadeScreen(() -> {
 								player.sendMessage("Elkoy leads you through the maze...");
-								player.setNextTile(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
+								player.tele(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 							});
 						})
 				);

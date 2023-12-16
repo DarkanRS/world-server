@@ -65,10 +65,10 @@ public class Desert  {
 		switch(loc) {
 		case SHANTAY_PASS:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Pollnivneach", () -> e.getPlayer().setNextTile(CarpetLocation.N_POLLNIVNEACH.tile));
-				ops.add("Bedabin Camp", () -> e.getPlayer().setNextTile(CarpetLocation.BEDABIN_CAMP.tile));
-				ops.add("Uzer", () -> e.getPlayer().setNextTile(CarpetLocation.UZER.tile));
-				ops.add("Monkey Colony", () -> e.getPlayer().setNextTile(CarpetLocation.MONKEY_COLONY.tile));
+				ops.add("Pollnivneach", () -> e.getPlayer().tele(CarpetLocation.N_POLLNIVNEACH.tile));
+				ops.add("Bedabin Camp", () -> e.getPlayer().tele(CarpetLocation.BEDABIN_CAMP.tile));
+				ops.add("Uzer", () -> e.getPlayer().tele(CarpetLocation.UZER.tile));
+				ops.add("Monkey Colony", () -> e.getPlayer().tele(CarpetLocation.MONKEY_COLONY.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -77,15 +77,15 @@ public class Desert  {
 		case BEDABIN_CAMP:
 		case MONKEY_COLONY:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Shantay Pass", () -> e.getPlayer().setNextTile(CarpetLocation.SHANTAY_PASS.tile));
+				ops.add("Shantay Pass", () -> e.getPlayer().tele(CarpetLocation.SHANTAY_PASS.tile));
 				ops.add("Nevermind");
 			});
 			break;
 		case S_POLLNIVNEACH:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Nardah", () -> e.getPlayer().setNextTile(CarpetLocation.NARDAH.tile));
-				ops.add("Sophanem", () -> e.getPlayer().setNextTile(CarpetLocation.SOPHANEM.tile));
-				ops.add("Menaphos", () -> e.getPlayer().setNextTile(CarpetLocation.MENAPHOS.tile));
+				ops.add("Nardah", () -> e.getPlayer().tele(CarpetLocation.NARDAH.tile));
+				ops.add("Sophanem", () -> e.getPlayer().tele(CarpetLocation.SOPHANEM.tile));
+				ops.add("Menaphos", () -> e.getPlayer().tele(CarpetLocation.MENAPHOS.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -93,7 +93,7 @@ public class Desert  {
 		case SOPHANEM:
 		case MENAPHOS:
 			e.getPlayer().sendOptionDialogue("Where would you like to travel?", ops -> {
-				ops.add("Pollnivneach", () -> e.getPlayer().setNextTile(CarpetLocation.S_POLLNIVNEACH.tile));
+				ops.add("Pollnivneach", () -> e.getPlayer().tele(CarpetLocation.S_POLLNIVNEACH.tile));
 				ops.add("Nevermind");
 			});
 			break;
@@ -208,12 +208,12 @@ public class Desert  {
 	});
 
 	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3233, 9310, 0));
+		e.getPlayer().tele(Tile.of(3233, 9310, 0));
 	});
 
 	public static ObjectClickHandler handlePyramidSarcophagi = new ObjectClickHandler(new Object[] { 6516 }, e -> {
 		if (e.getObject().getTile().isAt(3233, 9309))
-			e.getPlayer().setNextTile(Tile.of(3233, 2887, 0));
+			e.getPlayer().tele(Tile.of(3233, 2887, 0));
 		else
 			e.getPlayer().sendMessage("You search the sarcophagus but find nothing.");
 	});

@@ -1296,7 +1296,7 @@ public final class TutorialIslandController extends Controller {
 	@Override
 	public void start() {
 		if (getStage() == Stage.TALK_TO_GUIDE)
-			player.setNextTile(Tile.of(3094, 3107, 0));
+			player.tele(Tile.of(3094, 3107, 0));
 		sendInterfaces();
 	}
 

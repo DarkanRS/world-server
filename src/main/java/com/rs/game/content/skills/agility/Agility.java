@@ -98,7 +98,7 @@ public class Agility {
 		WorldTasks.schedule(1, () -> player.setNextAnimation(new Animation(animationId)));
 		WorldTasks.schedule(delay+1, () -> {
 			player.unlockNextTick();
-			player.setNextTile(toTile);
+			player.tele(toTile);
 			player.setNextAnimation(new Animation(-1));
 			player.getSkills().addXp(Constants.AGILITY, xp);
 		});

@@ -64,7 +64,7 @@ public class Wilderness {
 	});
 
 	public static ObjectClickHandler handleFireGiantDungeonExit = new ObjectClickHandler(new Object[] { 32048 }, new Tile[] { Tile.of(3043, 10328, 0) }, e -> {
-		e.getPlayer().setNextTile(e.getPlayer().transform(3, -6400, 0));
+		e.getPlayer().tele(e.getPlayer().transform(3, -6400, 0));
 		e.getPlayer().getControllerManager().startController(new WildernessController());
 	});
 
@@ -88,7 +88,7 @@ public class Wilderness {
 		if(obj.getId() == 26327)
 			e.getPlayer().forceMove(Tile.of(2943, 3767, 0), 2049, 25, 60);
 		if(obj.getId() == 26328) {
-			p.setNextTile(Tile.of(2943, 3767, 0));
+			p.tele(Tile.of(2943, 3767, 0));
 			e.getPlayer().forceMove(Tile.of(2950, 3767, 0), 2050, 25, 60);
 		}
 

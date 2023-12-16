@@ -75,7 +75,7 @@ public class Genie extends OwnedNPC {
 			owner.fadeScreen(() -> {
 				Tile tile = RandomEvents.getRandomTile();
 				owner.getControllerManager().processMagicTeleport(tile);
-				owner.setNextTile(tile);
+				owner.tele(tile);
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});

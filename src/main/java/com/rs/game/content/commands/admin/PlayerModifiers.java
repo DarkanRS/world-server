@@ -77,7 +77,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				p.setNextTile(target.getTile());
+				p.tele(target.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "teletome [player name]", "Teleports another player to the user without exception.", (p, args) -> {
@@ -85,7 +85,7 @@ public class PlayerModifiers {
 			if (target == null)
 				p.sendMessage("Couldn't find player.");
 			else
-				target.setNextTile(p.getTile());
+				target.tele(p.getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "kick [player name]", "Kicks a player from the game. Will force the player's character out of the game no matter what.", (p, args) -> {
@@ -182,8 +182,8 @@ public class PlayerModifiers {
 			else {
 				target.unlock();
 				target.getControllerManager().forceStop();
-				if (target.getNextTile() == null)
-					target.setNextTile(Settings.getConfig().getPlayerRespawnTile());
+				if (target.getMoveTile() == null)
+					target.tele(Settings.getConfig().getPlayerRespawnTile());
 				p.sendMessage("You have unnulled: " + target.getDisplayName() + ".");
 			}
 		});

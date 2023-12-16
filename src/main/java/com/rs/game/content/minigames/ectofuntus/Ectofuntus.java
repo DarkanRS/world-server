@@ -62,20 +62,20 @@ public class Ectofuntus {
         switch (e.getObjectId()) {
             case 5262:
                 if (e.getPlayer().getPlane() == 2)
-                    e.getPlayer().setNextTile(Tile.of(3692, 9888, 3));
+                    e.getPlayer().tele(Tile.of(3692, 9888, 3));
                 if (e.getPlayer().getPlane() == 1)
-                    e.getPlayer().setNextTile(Tile.of(3671, 9888, 2));
+                    e.getPlayer().tele(Tile.of(3671, 9888, 2));
                 if (e.getPlayer().getPlane() == 0)
-                    e.getPlayer().setNextTile(Tile.of(3687, 9888, 1));
+                    e.getPlayer().tele(Tile.of(3687, 9888, 1));
                 return;
 
             case 5263:
                 if (e.getPlayer().getPlane() == 3)
-                    e.getPlayer().setNextTile(Tile.of(3688, 9888, 2));
+                    e.getPlayer().tele(Tile.of(3688, 9888, 2));
                 if (e.getPlayer().getPlane() == 2)
-                    e.getPlayer().setNextTile(Tile.of(3675, 9887, 1));
+                    e.getPlayer().tele(Tile.of(3675, 9887, 1));
                 if (e.getPlayer().getPlane() == 1)
-                    e.getPlayer().setNextTile(Tile.of(3683, 9888, 0));
+                    e.getPlayer().tele(Tile.of(3683, 9888, 0));
                 return;
         }
     });

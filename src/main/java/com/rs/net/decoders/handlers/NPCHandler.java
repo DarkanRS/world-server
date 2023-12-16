@@ -108,12 +108,12 @@ public class NPCHandler {
 				return;
 			if (npc.getId() == 2825)
 				player.sendOptionDialogue("Would you like to travel to Braindeath Island?", ops -> {
-					ops.add("Yes", () -> player.setNextTile(Tile.of(2163, 5112, 1)));
+					ops.add("Yes", () -> player.tele(Tile.of(2163, 5112, 1)));
 					ops.add("No");
 				});
 			else if (npc.getId() == 2826)
 				player.sendOptionDialogue("Would you like to travel back to Port Phasmatys?", ops -> {
-					ops.add("Yes", () -> player.setNextTile(Tile.of(3680, 3536, 0)));
+					ops.add("Yes", () -> player.tele(Tile.of(3680, 3536, 0)));
 					ops.add("No");
 				});
 			else if (npc.getId() == 9707)
@@ -276,9 +276,9 @@ public class NPCHandler {
 			else if (npc.getId() == 2824 || npc.getId() == 1041)
 				player.startConversation(new TanningD(player, npc.getId() == 1041, npc.getId()));
 			else if (npc.getId() == 1843)
-				player.setNextTile(Tile.of(2836, 10142, 0));
+				player.tele(Tile.of(2836, 10142, 0));
 			else if (npc.getId() == 1844)
-				player.setNextTile(Tile.of(2839, 10131, 0));
+				player.tele(Tile.of(2839, 10131, 0));
 			else if (npc.getId() == 1419)
 				GE.open(player);
 			else if (npc.getId() == 2676 || npc.getId() == 599)

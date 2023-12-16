@@ -194,9 +194,9 @@ public class WildernessController extends Controller {
 				player.getInventory().init();
 				player.reset();
 				if (player.get("customspawn") instanceof Tile spawn)
-					player.setNextTile(spawn);
+					player.tele(spawn);
 				else
-					player.setNextTile(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
+					player.tele(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
 				player.setNextAnimation(new Animation(-1));
 			} else if (loop == 4) {
 				removeIcon();

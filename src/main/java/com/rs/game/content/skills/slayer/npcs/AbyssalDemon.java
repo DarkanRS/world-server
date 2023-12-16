@@ -50,7 +50,7 @@ public class AbyssalDemon extends NPC {
 			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
 			if (World.checkWalkStep(entity.getPlane(), entity.getX(), entity.getY(), dir, entitySize)) {
 				entity.setNextSpotAnim(new SpotAnim(409));
-				entity.setNextTile(entity.transform(dir.getDx(), dir.getDy(), 0));
+				entity.tele(entity.transform(dir.getDx(), dir.getDy(), 0));
 				break;
 			}
 		}

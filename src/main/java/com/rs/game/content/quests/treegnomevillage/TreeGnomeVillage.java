@@ -126,9 +126,9 @@ public class TreeGnomeVillage extends QuestOutline {
 							stop();
 					} else if (tick >= 1) {
 						if (isPlayerNorth)
-							p.setNextTile(Tile.of(2509, 3252, 0));
+							p.tele(Tile.of(2509, 3252, 0));
 						if (!isPlayerNorth) {
-							p.setNextTile(Tile.of(2509, 3254, 0));
+							p.tele(Tile.of(2509, 3254, 0));
 							for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 									npc.forceTalk("Hey, what are you doing in here?");

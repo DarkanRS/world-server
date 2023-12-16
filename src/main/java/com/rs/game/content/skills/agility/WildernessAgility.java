@@ -92,7 +92,7 @@ public class WildernessAgility {
 					secondloop = true;
 					player.getAppearance().setBAS(295);
 				} else {
-					player.setNextTile(toTile);
+					player.tele(toTile);
 					player.getAppearance().setBAS(-1);
 					setWildernessStage(player, 0);
 					player.setRunHidden(running);
@@ -182,7 +182,7 @@ public class WildernessAgility {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				player.setNextTile(toTile);
+				player.tele(toTile);
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().setBAS(-1);
 				stop();

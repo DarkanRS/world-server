@@ -11,7 +11,7 @@ public class Kethsi {
     //sync 11705 1340 (get stone of jas buff)
 
     public static ObjectClickHandler handleGlacorCavePassBarrier = new ObjectClickHandler(new Object[] { 61584 }, e ->
-            e.getPlayer().setNextTile(e.getPlayer().transform(e.getPlayer().getX() == 4206 ? -1 : 1, 0, 0)));
+            e.getPlayer().tele(e.getPlayer().transform(e.getPlayer().getX() == 4206 ? -1 : 1, 0, 0)));
 
     public static ObjectClickHandler statueArmRubble = new ObjectClickHandler(new Object[] { 6655 }, e -> {
        if (e.getPlayer().getVars().getVarBit(9833) == 1 || e.getPlayer().getInventory().containsItem(21797)) {
