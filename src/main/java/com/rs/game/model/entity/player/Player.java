@@ -816,9 +816,8 @@ public class Player extends Entity {
 	}
 
 	public void initNewChunks() {
-		for (int chunkId : getMapChunksNeedInit()) {
+		for (int chunkId : getMapChunksNeedInit())
 			ChunkManager.getChunk(chunkId).init(this);
-		}
 	}
 
 	// now that we inited we can start showing game
@@ -2591,6 +2590,7 @@ public class Player extends Entity {
 	}
 
 	public void setForceNextMapLoadRefresh(boolean forceNextMapLoadRefresh) {
+		this.getMapChunkIds().clear();
 		this.forceNextMapLoadRefresh = forceNextMapLoadRefresh;
 		setForceUpdateEntityRegion(true);
 	}
