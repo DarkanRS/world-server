@@ -107,8 +107,8 @@ public class Fletching extends PlayerAction {
 
 		RUNITE_CBOW(9465, 9438, new int[] { 9185 }, new int[] { 69 }, new double[] { 50 }, new Animation(6677)),
 
-		MITH_GRAPPLE(9418, 9142, new int[] { 9416 }, new int[] { 59 }, new double[] { 11 }, new Animation(-1)),
-		MITH_GRAPPLE_ROPE(9419, 954, new int[] { 9418 }, new int[] { 59 }, new double[] { 0 }, new Animation(-1)),
+		MITH_GRAPPLE(9416, 9142, new int[] { 9418 }, new int[] { 59 }, new double[] { 11 }, new Animation(-1)),
+		MITH_GRAPPLE_ROPE(9418, 954, new int[] { 9419 }, new int[] { 59 }, new double[] { 0 }, new Animation(-1)),
 
 		/**
 		 * Arrows
