@@ -99,15 +99,15 @@ public final class ObjectHandler {
 
 			if (object.getId() == 5259) {
 				if (player.getY() == 3507)
-					player.setNextTile(Tile.of(player.getX(), player.getY() + 2, 0));
+					player.tele(Tile.of(player.getX(), player.getY() + 2, 0));
 				else if (player.getY() == 3509)
-					player.setNextTile(Tile.of(player.getX(), player.getY() - 2, 0));
+					player.tele(Tile.of(player.getX(), player.getY() - 2, 0));
 				return;
 			} else if (object.getId() == 29099) {
 				if (player.getY() > object.getY())
-					player.setNextTile(object.getTile().transform(1, -1, 0));
+					player.tele(object.getTile().transform(1, -1, 0));
 				else
-					player.setNextTile(object.getTile().transform(1, 1, 0));
+					player.tele(object.getTile().transform(1, 1, 0));
 			} else if (object.getId() == 2331) {
 				int amount = player.getInventory().getNumberOf(23194);
 				if (amount > 0) {
@@ -196,7 +196,7 @@ public final class ObjectHandler {
 				WildernessObelisk.activateObelisk(id, player);
 			else if (id == 10229) { // dag up ladder
 				player.setNextAnimation(new Animation(828));
-				WorldTasks.schedule(1, () -> player.setNextTile(Tile.of(1910, 4367, 0)));
+				WorldTasks.schedule(1, () -> player.tele(Tile.of(1910, 4367, 0)));
 				return;
 			} else if (id == 17757) {
 				Agility.handleObstacle(player, 3303, 1, player.transform(0, player.getY() < object.getY() ? 2 : -2, 0), 0);
@@ -209,16 +209,16 @@ public final class ObjectHandler {
 				return;
 			} else if (id == 27126) { // HARBLORE HARBITAT
 				if (player.getX() >= 2961 && player.getX() <= 2964)
-					player.setNextTile(Tile.of(player.getX() + 12, player.getY() + 2, player.getPlane()));
+					player.tele(Tile.of(player.getX() + 12, player.getY() + 2, player.getPlane()));
 				else if (player.getX() >= 2975 && player.getX() <= 2979)
-					player.setNextTile(Tile.of(player.getX() - 12, player.getY() - 2, player.getPlane()));
+					player.tele(Tile.of(player.getX() - 12, player.getY() - 2, player.getPlane()));
 				return;
 			} else if (id == 10230) { // dag down ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						player.setNextTile(Tile.of(2900, 4449, 0));
+						player.tele(Tile.of(2900, 4449, 0));
 					}
 				}, 1);
 				return;
@@ -266,9 +266,9 @@ public final class ObjectHandler {
 					player.sendMessage("You already have full prayer.");
 				return;
 			} else if (id == 65715) // Armored zombie trapdoor
-				player.setNextTile(Tile.of(3241, 9991, 0));
+				player.tele(Tile.of(3241, 9991, 0));
 			else if (id == 12328) // Jadinko lair
-				player.setNextTile(Tile.of(3011, 9276, 0));
+				player.tele(Tile.of(3011, 9276, 0));
 			else if (id == 11209)
 				player.useStairs(-1, player.transform(3, 0, 1), 0, 1);
 			else if (id == 11210)
@@ -280,18 +280,18 @@ public final class ObjectHandler {
 			else if (id == 38279 && x == 1696 && y == 5460)
 				player.useStairs(-1, Tile.of(3106, 3160, 1), 0, 1);
 			else if (id == 12327) { // jadinko lair out
-				player.setNextTile(Tile.of(2948, 2955, 0));
+				player.tele(Tile.of(2948, 2955, 0));
 				return;
 			} else if (id == 4495) { // Slayer tower stairs up
-				player.setNextTile(Tile.of(3417, 3541, 2));
+				player.tele(Tile.of(3417, 3541, 2));
 				return;
 			} else if (id == 4496) { // Slayer tower stairs down
-				player.setNextTile(Tile.of(3412, 3540, 1));
+				player.tele(Tile.of(3412, 3540, 1));
 				return;
 			} else if (id == 39191) { // Armored zombie up ladder
 				player.setNextAnimation(new Animation(828));
 				WorldTasks.schedule(1, () -> {
-					player.setNextTile(Tile.of(3240, 3607, 0));
+					player.tele(Tile.of(3240, 3607, 0));
 					player.getControllerManager().startController(new WildernessController());
 				});
 				return;
@@ -828,7 +828,7 @@ public final class ObjectHandler {
 							player.setNextFaceTile(Tile.of(object.getX() - 1, object.getY(), 0));
 							player.setNextAnimation(new Animation(12216));
 						} else if (count == 2) {
-							player.setNextTile(Tile.of(3651, 5122, 0));
+							player.tele(Tile.of(3651, 5122, 0));
 							player.setNextFaceTile(Tile.of(3651, 5121, 0));
 							player.setNextAnimation(new Animation(12217));
 						} else if (count == 3) {
@@ -1027,7 +1027,7 @@ public final class ObjectHandler {
 				player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
 				player.forceMove(id == 2879 ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0), 13842, 0, 60, () -> {
 					player.setNextAnimation(new Animation(-1));
-					player.setNextTile(id == 2879 ? Tile.of(2542, 4718, 0) : Tile.of(2509, 4689, 0));
+					player.tele(id == 2879 ? Tile.of(2542, 4718, 0) : Tile.of(2509, 4689, 0));
 				});
 			} else if (id == 2873 || id == 2874 || id == 2875) {
 				player.sendMessage("You kneel and begin to chant to " + objectDef.getName().replace("Statue of ", "") + "...");
@@ -1135,17 +1135,17 @@ public final class ObjectHandler {
 				player.resetWalkSteps();
 				player.addWalkSteps(2461, player.getY() > object.getY() ? object.getY() - 1 : object.getY() + 3, -1, false);
 			} else if (id == 12230 && object.getX() == 1752 && object.getY() == 5136)
-				player.setNextTile(Tile.of(2996, 3378, 0));
+				player.tele(Tile.of(2996, 3378, 0));
 			else if (id == 38811 || id == 37929) {// corp beast
 				if (object.getX() == 2971 && object.getY() == 4382)
 					player.getInterfaceManager().sendInterface(650);
 				else if (object.getX() == 2918 && object.getY() == 4382) {
 					player.stopAll();
-					player.setNextTile(Tile.of(player.getX() == 2921 ? 2917 : 2921, player.getY(), player.getPlane()));
+					player.tele(Tile.of(player.getX() == 2921 ? 2917 : 2921, player.getY(), player.getPlane()));
 				}
 			} else if (id == 37928 && object.getX() == 2883 && object.getY() == 4370) {
 				player.stopAll();
-				player.setNextTile(Tile.of(3214, 3782, 0));
+				player.tele(Tile.of(3214, 3782, 0));
 				player.getControllerManager().startController(new WildernessController());
 			} else if (id == 38815 && object.getX() == 3209 && object.getY() == 3780 && object.getPlane() == 0) {
 				if (player.getSkills().getLevelForXp(Constants.WOODCUTTING) < 37 || player.getSkills().getLevelForXp(Constants.MINING) < 45 || player.getSkills().getLevelForXp(Constants.SUMMONING) < 23
@@ -1154,13 +1154,13 @@ public final class ObjectHandler {
 					return;
 				}
 				player.stopAll();
-				player.setNextTile(Tile.of(2885, 4372, 2));
+				player.tele(Tile.of(2885, 4372, 2));
 				player.getControllerManager().forceStop();
 				// TODO all reqs, skills not added
 			} else if (id == 48803 && player.isKalphiteLairSetted())
-				player.setNextTile(Tile.of(3508, 9494, 0));
+				player.tele(Tile.of(3508, 9494, 0));
 			else if (id == 48802 && player.isKalphiteLairEntranceSetted())
-				player.setNextTile(Tile.of(3483, 9510, 2));
+				player.tele(Tile.of(3483, 9510, 2));
 			else if (id == 3829) {
 				if (object.getX() == 3483 && object.getY() == 9510)
 					player.useStairs(828, Tile.of(3226, 3108, 0));
@@ -1223,9 +1223,9 @@ public final class ObjectHandler {
 			else if (id == 32048 && object.getX() == 3043 && object.getY() == 10328)
 				player.useStairs(-1, Tile.of(3045, 3927, 0), 0, 1);
 			else if (id == 2348)
-				player.setNextTile(player.transform(object.getRotation() == 3 ? -3 : 3, 0, -1));
+				player.tele(player.transform(object.getRotation() == 3 ? -3 : 3, 0, -1));
 			else if (id == 2347)
-				player.setNextTile(player.transform(object.getRotation() == 3 ? 3 : -3, 0, 1));
+				player.tele(player.transform(object.getRotation() == 3 ? 3 : -3, 0, 1));
 			else if (id == 26193)
 				PartyRoom.openChest(player);
 			else if (PluginManager.handle(new ObjectClickEvent(player, object, ClientPacket.OBJECT_OP1, true)))

@@ -434,7 +434,7 @@ public class Halloween2007 {
 			} else if (stage == 1)
 				e.getPlayer().setNextAnimation(new Animation(7274));
 			else if (stage == 9) {
-				e.getPlayer().setNextTile(e.getPlayer().transform(0, -1, 0));
+				e.getPlayer().tele(e.getPlayer().transform(0, -1, 0));
 				e.getPlayer().forceMove(Tile.of(1642, 4819, 0), 1, 60, () -> {
 					e.getPlayer().getPackets().sendResetCamera();
 					ctrl.setRodeSlide(true);
@@ -490,7 +490,7 @@ public class Halloween2007 {
 					handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 				} else
 					handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
-						e.getPlayer().setNextTile(Tile.of(1641, 4828, 0));
+						e.getPlayer().tele(Tile.of(1641, 4828, 0));
 						e.getPlayer().save(Halloween2007.STAGE_KEY, 8);
 						e.getPlayer().startConversation(new Dialogue()
 								.addPlayer(HeadE.CONFUSED, "Huh? What happened there?")
@@ -503,7 +503,7 @@ public class Halloween2007 {
 				handleDenyGargoyleEntry(e.getPlayer(), e.getObject());
 			} else
 				handleDenyGargoyleEntry(e.getPlayer(), e.getObject(), () -> {
-					e.getPlayer().setNextTile(Tile.of(1641, 4840, 0));
+					e.getPlayer().tele(Tile.of(1641, 4840, 0));
 					e.getPlayer().save(Halloween2007.STAGE_KEY, 9);
 					e.getPlayer().startConversation(new Dialogue()
 							.addNPC(8867, HeadE.CALM_TALK, "That is sufficient.")

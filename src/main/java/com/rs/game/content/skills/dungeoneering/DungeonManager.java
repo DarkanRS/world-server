@@ -220,7 +220,7 @@ public class DungeonManager {
 			return false;
 		int xOffset = x - roomReference.getRoomX();
 		int yOffset = y - roomReference.getRoomY();
-		player.setNextTile(Tile.of(player.getX() + xOffset * 3, player.getY() + yOffset * 3, 0));
+		player.tele(Tile.of(player.getX() + xOffset * 3, player.getY() + yOffset * 3, 0));
 		playMusic(player, new RoomReference(x, y));
 		return true;
 	}
@@ -423,7 +423,7 @@ public class DungeonManager {
 	public void telePartyToRoom(RoomReference reference) {
 		Tile tile = getRoomCenterTile(reference);
 		for (Player player : party.getTeam()) {
-			player.setNextTile(tile);
+			player.tele(tile);
 			playMusic(player, reference);
 		}
 	}
@@ -578,7 +578,7 @@ public class DungeonManager {
 		party.add(player);
 		sendSettings(player);
 		refreshKeys(player);
-		player.setNextTile(getHomeTile());
+		player.tele(getHomeTile());
 		playMusic(player, dungeon.getStartRoomReference());
 	}
 
@@ -951,7 +951,7 @@ public class DungeonManager {
 			player.getFamiliar().sendDeath(player);
 		if (logout) {
 			player.setTile(Tile.of(DungeonConstants.OUTSIDE, 2));
-			player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+			player.tele(Tile.of(DungeonConstants.OUTSIDE, 2));
 		} else {
 			player.reset();
 			player.getDungManager().setRejoinKey(null);

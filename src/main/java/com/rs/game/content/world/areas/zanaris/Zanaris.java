@@ -47,7 +47,7 @@ public class Zanaris {
 	});
 
 	public static ObjectClickHandler handleExitBlackDragonPlane = new ObjectClickHandler(new Object[] { 12260 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2453, 4476, 0));
+		e.getPlayer().tele(Tile.of(2453, 4476, 0));
 	});
 
 	public static ObjectClickHandler handleCosmicAltarShortcuts = new ObjectClickHandler(new Object[] { 12127 }, e -> {

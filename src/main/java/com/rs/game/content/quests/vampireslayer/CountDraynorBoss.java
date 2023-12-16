@@ -193,7 +193,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == 0)
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 3) {
-					p.setNextTile(Tile.of(3079, 9786, 0));
+					p.tele(Tile.of(3079, 9786, 0));
 					p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-8, 3000);
 					p.getPackets().sendCameraLook(coffin.getTile().getXInScene(p.getSceneBaseChunkId()), coffin.getTile().getYInScene(p.getSceneBaseChunkId()), 300);
 				}
@@ -223,7 +223,7 @@ public class CountDraynorBoss extends OwnedNPC {
 				if(tick == 14)
 					countDraynor.faceTile(Tile.of(countDraynor.getX(), countDraynor.getY()+3, countDraynor.getPlane()));
 				if(tick == 16) {
-					countDraynor.setNextTile(Tile.of(3082, 9776, 0));
+					countDraynor.tele(Tile.of(3082, 9776, 0));
 					countDraynor.setNextAnimation(new Animation(SPAWN));
 				}
 

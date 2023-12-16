@@ -33,12 +33,12 @@ public class Meiyerditch {
 		if (e.getObjectId() == 12945)
 			e.getPlayer().walkToAndExecute(Tile.of(3525, 3170, 0), () -> {
 				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(Tile.of(3605, 3163, 0)));
+				e.getPlayer().fadeScreen(() -> e.getPlayer().tele(Tile.of(3605, 3163, 0)));
 			});
 		else
 			e.getPlayer().walkToAndExecute(Tile.of(3605, 3163, 0), () -> {
 				e.getPlayer().faceObject(e.getObject());
-				e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(Tile.of(3525, 3170, 0)));
+				e.getPlayer().fadeScreen(() -> e.getPlayer().tele(Tile.of(3525, 3170, 0)));
 			});
 	});
 
@@ -56,9 +56,9 @@ public class Meiyerditch {
 
 	public static ObjectClickHandler handleMeiyerditchstairs = new ObjectClickHandler(new Object[] { 17976, 17978 }, e -> {
 		if (e.getObjectId() == 17976)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 2 ? -3 : e.getObject().getRotation() == 0 ? 3 : 0,  1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 2 ? -3 : e.getObject().getRotation() == 0 ? 3 : 0,  1));
 		else if (e.getObjectId() == 17978)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 2 ? 3 : e.getObject().getRotation() == 0 ? -3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 2 ? 3 : e.getObject().getRotation() == 0 ? -3 : 0, -1));
 	});
 
 }

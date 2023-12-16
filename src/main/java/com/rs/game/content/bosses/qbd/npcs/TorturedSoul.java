@@ -123,7 +123,7 @@ public final class TorturedSoul extends NPC {
 	 */
 	public void specialAttack(Tile teleport) {
 		super.getCombat().addCombatDelay(10);
-		super.setNextTile(teleport);
+		super.tele(teleport);
 		super.setNextSpotAnim(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();

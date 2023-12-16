@@ -44,7 +44,7 @@ public class FishingTrawlerGameController extends Controller {
 	@Override
 	public boolean login() {
 		FishingTrawler.getInstance().removeGamePlayer(player);
-		player.setNextTile(FishingTrawler.SHORE.getRandomTile());
+		player.tele(FishingTrawler.SHORE.getRandomTile());
 		return true;
 	}
 

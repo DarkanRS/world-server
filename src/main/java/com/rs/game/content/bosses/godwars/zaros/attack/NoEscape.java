@@ -56,7 +56,7 @@ public class NoEscape implements NexAttack {
 					nex.setNextAnimation(new Animation(6321));
 					nex.setNextSpotAnim(new SpotAnim(1216));
 				} else if (count == 1) {
-					nex.setNextTile(dir);
+					nex.tele(dir);
 					nex.setNextForceTalk(new ForceTalk("NO ESCAPE!"));
 					nex.voiceEffect(3292);
 					nex.forceMove(center, 25, 90);
@@ -67,7 +67,7 @@ public class NoEscape implements NexAttack {
 							player.forceMove(player.getTile(), 10070, 0, 30);
 						}
 				} else if (count == 3)
-					nex.setNextTile(center);
+					nex.tele(center);
 				else if (count == 4) {
 					nex.setTarget(target);
 					nex.setCantInteract(false);

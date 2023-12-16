@@ -110,11 +110,11 @@ public class Neitiznot  {
 	});
 
 	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }, e -> {
-		e.getPlayer().setNextTile(e.getNPC().getId() == 5507 ? Tile.of(2644, 3709, 0) : Tile.of(2310, 3781, 0));
+		e.getPlayer().tele(e.getNPC().getId() == 5507 ? Tile.of(2644, 3709, 0) : Tile.of(2310, 3781, 0));
 	});
 
 	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }, e -> {
-		e.getPlayer().setNextTile(e.getNPC().getId() == 5482 ? Tile.of(2644, 3709, 0) : Tile.of(2420, 3781, 0));
+		e.getPlayer().tele(e.getNPC().getId() == 5482 ? Tile.of(2644, 3709, 0) : Tile.of(2420, 3781, 0));
 	});
 
 	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }, e -> {

@@ -698,7 +698,7 @@ public final class Familiar extends NPC {
 		}
 		sentRequestMoveMessage = false;
 		spotAnim(getSize() > 1 ? 1315 : 1314);
-		setNextTile(teleTile);
+		tele(teleTile);
 		getActionManager().forceStop();
 	}
 

@@ -52,7 +52,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
 					p.faceNorth();
-					p.setNextTile(Tile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
+					p.tele(Tile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
@@ -91,7 +91,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 						p.faceSouth();
 					if(dir ==3)
 						p.faceWest();
-					p.setNextTile(tile);
+					p.tele(tile);
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
@@ -116,6 +116,6 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					return;
 		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))//else finish
 			if(npc.getId() == 4476)
-				npc.setNextTile(MUMMY_LOCATIONS[MUMMY_ROOM]);
+				npc.tele(MUMMY_LOCATIONS[MUMMY_ROOM]);
 	}
 }

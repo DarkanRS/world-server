@@ -34,7 +34,7 @@ public class StrongholdOfSecurity {
 	});
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1859, 5243, 0));
+		e.getPlayer().tele(Tile.of(1859, 5243, 0));
 	});
 
 	public static ObjectClickHandler handleExitLadders = new ObjectClickHandler(new Object[] { 16148, 16080, 16078, 16112, 16049, 16048 }, e -> {
@@ -43,18 +43,18 @@ public class StrongholdOfSecurity {
 
 	public static ObjectClickHandler handleF1Shortcut = new ObjectClickHandler(new Object[] { 16150 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.FLAP))
-			e.getPlayer().setNextTile(Tile.of(1907, 5221, 0));
+			e.getPlayer().tele(Tile.of(1907, 5221, 0));
 		else
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
 
 	public static ObjectClickHandler handleF1DownLadder = new ObjectClickHandler(new Object[] { 16149 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2042, 5245, 0));
+		e.getPlayer().tele(Tile.of(2042, 5245, 0));
 	});
 
 	public static ObjectClickHandler handleF2Shortcut = new ObjectClickHandler(new Object[] { 16082 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.SLAP_HEAD))
-			e.getPlayer().setNextTile(Tile.of(2022, 5214, 0));
+			e.getPlayer().tele(Tile.of(2022, 5214, 0));
 		else
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
@@ -65,7 +65,7 @@ public class StrongholdOfSecurity {
 
 	public static ObjectClickHandler handleF3Shortcut = new ObjectClickHandler(new Object[] { 16116 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.IDEA))
-			e.getPlayer().setNextTile(Tile.of(2144, 5279, 0));
+			e.getPlayer().tele(Tile.of(2144, 5279, 0));
 		else
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
@@ -76,7 +76,7 @@ public class StrongholdOfSecurity {
 
 	public static ObjectClickHandler handleF4Shortcut = new ObjectClickHandler(new Object[] { 16050 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.STOMP))
-			e.getPlayer().setNextTile(Tile.of(2344, 5213, 0));
+			e.getPlayer().tele(Tile.of(2344, 5213, 0));
 		else
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
@@ -94,7 +94,7 @@ public class StrongholdOfSecurity {
 				case 3 -> Tile.of(e.getPlayer().getX(), e.getObject().getY() == e.getPlayer().getY() ? e.getObject().getY() - 1 : e.getObject().getY(), 0);
 				default -> null;
 				};
-				e.getPlayer().setNextTile(tile);
+				e.getPlayer().tele(tile);
 				e.getPlayer().setNextAnimation(new Animation(4283));
 				e.getPlayer().faceObject(e.getObject());
 			}

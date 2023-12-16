@@ -174,7 +174,7 @@ public class Halloween2009 {
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(767));
 						e.getPlayer().unlock();
-						e.getPlayer().setNextTile(WEB_RESET_LOC);
+						e.getPlayer().tele(WEB_RESET_LOC);
 					});
 					stop();
 				}
@@ -211,7 +211,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
+						e.getPlayer().tele(Tile.of(3936, 5125, 2));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -219,7 +219,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextTile(Tile.of(3744, 5287, 0));
+						e.getPlayer().tele(Tile.of(3744, 5287, 0));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -228,7 +228,7 @@ public class Halloween2009 {
 			e.getPlayer().setNextAnimation(new Animation(12776));
 			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
-				e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
+				e.getPlayer().tele(Tile.of(3936, 5125, 2));
 				e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 			});
 		}
@@ -238,7 +238,7 @@ public class Halloween2009 {
 		e.getPlayer().setNextAnimation(new Animation(12776));
 		WorldTasks.delay(1, () -> {
 			e.getPlayer().setNextAnimation(new Animation(12777));
-			e.getPlayer().setNextTile(Tile.of(3805, 5149, 0));
+			e.getPlayer().tele(Tile.of(3805, 5149, 0));
 		});
 	});
 

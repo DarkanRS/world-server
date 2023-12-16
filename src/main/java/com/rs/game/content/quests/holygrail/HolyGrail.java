@@ -173,7 +173,7 @@ public class HolyGrail extends QuestOutline {
 			e.getPlayer().startConversation(new Dialogue()
 					.addSimple("Ting-a-ling!")
 					.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-					.addNext(() -> e.getPlayer().setNextTile(Tile.of(2762, 4692, 0))));
+					.addNext(() -> e.getPlayer().tele(Tile.of(2762, 4692, 0))));
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));

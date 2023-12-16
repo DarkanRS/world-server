@@ -67,7 +67,7 @@ public class Piscatoris {
 				} else if (ticks == 5)
 					e.getPlayer().setNextAnimation(new Animation(2591));
 				else if (ticks == 6) {
-					e.getPlayer().setNextTile(Tile.of(tile.getX(), tile.getY(), tile.getPlane()));
+					e.getPlayer().tele(Tile.of(tile.getX(), tile.getY(), tile.getPlane()));
 					e.getPlayer().unlock();
 					stop();
 				}

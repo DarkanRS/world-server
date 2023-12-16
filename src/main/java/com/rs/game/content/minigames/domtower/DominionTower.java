@@ -189,7 +189,7 @@ public final class DominionTower {
 		player.setNextFaceTile(Tile.of(getBaseX() + 11, getBaseY() + 29, 0));
 		player.getControllerManager().startController(new DomTowerController(mode));
 		player.unlock();
-		player.setNextTile(Tile.of(getBaseX() + 10, getBaseY() + 29, 2));
+		player.tele(Tile.of(getBaseX() + 10, getBaseY() + 29, 2));
 		player.getMusicsManager().playSongAndUnlock(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
 	}
 
@@ -218,7 +218,7 @@ public final class DominionTower {
 			boss.setNextFaceTile(Tile.of(boss.getX() - 1, boss.getY(), 0));
 		}
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 25, getBaseY() + 32, 2));
+		player.tele(Tile.of(getBaseX() + 25, getBaseY() + 32, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 26, getBaseY() + 32, 0));
 		final int index = getNextBossIndex();
 		WorldTasks.schedule(new Task() {
@@ -292,13 +292,13 @@ public final class DominionTower {
 	public void loss(final int mode) {
 		/*
 		 * if(mapBaseCoords == null) { //died on logout
-		 * player.setNextTile(Tile.of(3744, 6425, 0));
+		 * player.tele(Tile.of(3744, 6425, 0));
 		 * player.getControllerManager().removeControllerWithoutCheck(); return; }
 		 */
 		removeItem();
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(player.getX() + 1, player.getY(), 0));
 
 		WorldTasks.schedule(new Task() {
@@ -353,7 +353,7 @@ public final class DominionTower {
 		}
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 36, getBaseY() + 31, 0));
 
 		WorldTasks.schedule(new Task() {
@@ -400,7 +400,7 @@ public final class DominionTower {
 		else {
 			player.getControllerManager().removeControllerWithoutCheck();
 			player.lock();
-			player.setNextTile(tile);
+			player.tele(tile);
 			if (mode == ENDURANCE)
 				progress = 0;
 		}

@@ -55,7 +55,7 @@ public abstract class Cutscene {
 
 	public final void stopCutscene() {
 		if (player.getX() != endTile.getX() || player.getY() != endTile.getY() || player.getPlane() != endTile.getPlane())
-			player.setNextTile(endTile);
+			player.tele(endTile);
 		if (hideMap)
 			player.getPackets().setBlockMinimapState(0);
 		restoreDefaultAspectRatio();
@@ -597,7 +597,7 @@ public abstract class Cutscene {
 	public void returnPlayerFromInstance() {
 		action(() -> {
 			if (instance != null)
-				player.setNextTile(getInstance().getReturnTo());
+				player.tele(getInstance().getReturnTo());
 		});
 	}
 }

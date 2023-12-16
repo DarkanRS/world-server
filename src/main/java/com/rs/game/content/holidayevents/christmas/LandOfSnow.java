@@ -116,7 +116,7 @@ public class LandOfSnow {
 	});
 
 	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
-		e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0)));
+		e.getPlayer().fadeScreen(() -> e.getPlayer().tele(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0)));
 	});
 
 	public static ObjectClickHandler handleSnowCollect = new ObjectClickHandler(new Object[] { 28296 }, e -> {

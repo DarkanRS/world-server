@@ -74,7 +74,7 @@ public class ServantHouseD extends Conversation {
 						.addNext(() -> {
 							servant.setGreetGuests(true);
 							servant.setFollowing(false);
-							servant.setNextTile(servant.getRespawnTile());
+							servant.tele(servant.getRespawnTile());
 						});
 				});
 			

@@ -119,7 +119,7 @@ fun mapSoulwars() {
     }
 
     onObjectClick(42031) { (player) ->
-        player.nextTile = Tile.of(1875, 3162, 0)
+        player.tele(Tile.of(1875, 3162, 0))
         player.controllerManager.startController(SoulWarsLobbyController())
     }
 
@@ -378,7 +378,7 @@ class SoulWars {
         }
         arrayOf(redTeam to RED_EXIT_AREA, blueTeam to BLUE_EXIT_AREA).forEach { (team, exitArea) ->
             team.forEach { player ->
-                player.nextTile = exitArea.randomTile
+                player.tele(exitArea.randomTile)
                 player.controllerManager.forceStop()
                 val zeal = if (winningTeam == null) 2 else if (winningTeam == team) 3 else 1
                 player.soulWarsZeal += zeal
@@ -402,7 +402,7 @@ class SoulWarsLobbyController : Controller() {
     }
 
     override fun login(): Boolean {
-        player.nextTile = Tile.of(1880, 3162, 0)
+        player.tele(Tile.of(1880, 3162, 0))
         player.controllerManager.forceStop()
         return true
     }
@@ -413,7 +413,7 @@ class SoulWarsLobbyController : Controller() {
 
     override fun logout(): Boolean {
         LOBBY_PLAYERS.remove(player)
-        player.nextTile = Tile.of(1880, 3162, 0)
+        player.tele(Tile.of(1880, 3162, 0))
         player.tile = Tile.of(1880, 3162, 0)
         return false
     }
@@ -497,7 +497,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
                     }
                     World.addGroundItem(Item(BONES, 1), Tile.of(player.tile))
                     player.reset()
-                    player.nextTile = game?.closestRespawnPoint(redTeam, player.tile) ?: player.tile
+                    player.tele(game?.closestRespawnPoint(redTeam, player.tile) ?: player.tile)
                     player.isCanPvp = false
                     player.anim(-1)
                     activity = 1000
@@ -519,7 +519,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
             activity -= 2
         player.vars.setVar(PLAYER_ACTIVITY_BAR_VAR, activity)
         if (activity <= 0) {
-            player.nextTile = RED_EXIT_AREA.randomTile
+            player.tele(RED_EXIT_AREA.randomTile)
             player.controllerManager.forceStop()
         }
     }
@@ -528,7 +528,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         player.interfaceManager.sendOverlay(INGAME_OVERLAY)
         INGAME_PLAYERS.add(player)
         updateIngameVars(player)
-        player.nextTile = if (redTeam) RED_RESPAWN_AREA.randomTile else BLUE_RESPAWN_AREA.randomTile
+        player.tele(if (redTeam) RED_RESPAWN_AREA.randomTile else BLUE_RESPAWN_AREA.randomTile)
         player.equipment.setNoPluginTrigger(Equipment.CAPE, Item(if (redTeam) RED_CAPE else BLUE_CAPE, 1))
         player.equipment.refresh(Equipment.CAPE)
         player.appearance.generateAppearanceData()
@@ -541,7 +541,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
     override fun login(): Boolean {
         player.isCanPvp = false
         MinigameUtil.checkAndDeleteFoodAndPotions(player)
-        player.nextTile = Tile.of(1886, 3172, 0)
+        player.tele(Tile.of(1886, 3172, 0))
         player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
         player.equipment.refresh(Equipment.CAPE)
         player.appearance.generateAppearanceData()
@@ -561,7 +561,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
             game?.redTeam?.remove(player)
         else
             game?.blueTeam?.remove(player)
-        player.nextTile = Tile.of(1886, 3172, 0)
+        player.tele(Tile.of(1886, 3172, 0))
         player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
         player.equipment.refresh(Equipment.CAPE)
         player.appearance.generateAppearanceData()

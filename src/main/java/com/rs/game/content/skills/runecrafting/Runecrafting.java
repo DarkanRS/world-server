@@ -594,8 +594,8 @@ public class Runecrafting {
 	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
 		e.getPlayer().setNextAnimation(new Animation(828));
 		switch (e.getObjectId()) {
-			case 26849 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(3271, 4861, 0)));
-			case 26850 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(2452, 3232, 0)));
+			case 26849 -> WorldTasks.delay(1, () -> e.getPlayer().tele(Tile.of(3271, 4861, 0)));
+			case 26850 -> WorldTasks.delay(1, () -> e.getPlayer().tele(Tile.of(2452, 3232, 0)));
 		}
 	});
 }

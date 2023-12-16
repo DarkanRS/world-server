@@ -98,7 +98,7 @@ public class DelrithBoss extends NPC {
 						cs.hideMinimap(false);
 						cs.action(() -> {
 							p.getControllerManager().forceStop();
-							p.setNextTile(Tile.of(3228, 3368, 0));
+							p.tele(Tile.of(3228, 3368, 0));
 						});
 						cs.delay(1);
 						cs.fadeOut(5);

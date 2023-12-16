@@ -112,8 +112,8 @@ public class TrollGeneralAttackController extends InstancedController {
                                 cs.npcCreate("babyTroll", 14846, 28, 48, 0);
                                 cs.action(() -> {
                                     player.getHintIconsManager().removeUnsavedHintIcon();
-                                    ozan.setNextTile(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(51), 0));
-                                    player.setNextTile(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(48), 0));
+                                    ozan.tele(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(51), 0));
+                                    player.tele(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(48), 0));
                                 });
                                 cs.camPos(36, 51, 1000);
                                 cs.camLook(31, 51, 0);
@@ -126,7 +126,7 @@ public class TrollGeneralAttackController extends InstancedController {
                                     ozan.addWalkSteps(getInstance().getLocalX(33), getInstance().getLocalY(51));
                                 });
                                 cs.action(1, () -> ozan.faceTile(Tile.of(getInstance().getLocalX(20), getInstance().getLocalY(51), 0)));
-                                cs.action(() -> ozan.setNextTile(Tile.of(getInstance().getLocalX(31), getInstance().getLocalY(51), 0)));
+                                cs.action(() -> ozan.tele(Tile.of(getInstance().getLocalX(31), getInstance().getLocalY(51), 0)));
                                 cs.npcDestroy("babyTroll");
                                 cs.action(() -> {
                                     ozan.transformIntoNPC(14987);
@@ -200,13 +200,13 @@ public class TrollGeneralAttackController extends InstancedController {
             if (stage == 5) {
                 player.getHintIconsManager().removeUnsavedHintIcon();
                 player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 2);
-                player.setNextTile(OUTSIDE);
+                player.tele(OUTSIDE);
                 player.getControllerManager().forceStop();
                 return false;
             }
             player.sendOptionDialogue("Would you like to leave the tutorial area?", ops -> {
                 ops.add("Yes, please.", () -> {
-                    player.setNextTile(OUTSIDE);
+                    player.tele(OUTSIDE);
                     player.getControllerManager().forceStop();
                 });
                 ops.add("No, I'm not done here yet.");
@@ -227,9 +227,9 @@ public class TrollGeneralAttackController extends InstancedController {
                 cs.action(() -> {
                     ozan.stopAll();
                     keymans.stopAll();
-                    player.setNextTile(Tile.of(getInstance().getLocalX(34), getInstance().getLocalY(50), 0));
-                    ozan.setNextTile(Tile.of(getInstance().getLocalX(33), getInstance().getLocalY(51), 0));
-                    keymans.setNextTile(Tile.of(getInstance().getLocalX(35), getInstance().getLocalY(49), 0));
+                    player.tele(Tile.of(getInstance().getLocalX(34), getInstance().getLocalY(50), 0));
+                    ozan.tele(Tile.of(getInstance().getLocalX(33), getInstance().getLocalY(51), 0));
+                    keymans.tele(Tile.of(getInstance().getLocalX(35), getInstance().getLocalY(49), 0));
                 });
                 cs.camPos(33, 45, 2000, 0, 5);
                 cs.camLook(trollGeneral.getXInRegion(), trollGeneral.getYInRegion(), 10, 0, 5);

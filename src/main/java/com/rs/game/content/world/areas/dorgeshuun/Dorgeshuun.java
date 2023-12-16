@@ -26,15 +26,15 @@ public class Dorgeshuun {
 	//Dorgeshuun
 	public static ObjectClickHandler handleDorgeshuunboilerstairs = new ObjectClickHandler(new Object[] { 22651, 22650 }, e -> {
 		if (e.getObjectId() == 22651)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 3 ? -0 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 3 ? -0 : 0, -1));
 		else if (e.getObjectId() == 22650)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? 3 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? 3 : 0, 1));
 	});
 	public static ObjectClickHandler handleDorgeshuunboilerstairs2 = new ObjectClickHandler(new Object[] { 22608, 22609 }, e -> {
 		if (e.getObjectId() == 22608)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -0 : e.getObject().getRotation() == 0 ? -3 : 0, e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 0 ? -0 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -0 : e.getObject().getRotation() == 0 ? -3 : 0, e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 0 ? -0 : 0, 1));
 		else if (e.getObjectId() == 22609)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 1 ? 0 : e.getObject().getRotation() == 0 ? 3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 1 ? 0 : e.getObject().getRotation() == 0 ? 3 : 0, -1));
 	});
 
 }

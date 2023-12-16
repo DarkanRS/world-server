@@ -41,20 +41,20 @@ public class GnomeAgility {
 					case 0 -> e.getPlayer().faceObject(e.getObject());
 					case 1 -> e.getPlayer().forceMoveVisually(Tile.of(x, 3421, 3), 11784, 0, 30);
 					case 2 -> {
-						e.getPlayer().setNextTile(Tile.of(x, 3421, 3));
+						e.getPlayer().tele(Tile.of(x, 3421, 3));
 						e.getPlayer().forceMoveVisually(Tile.of(x, 3421, 3), Tile.of(x, 3425, 3), 11785, 0, 30);
 					}
 					case 3 -> {
 						e.getPlayer().anim(11789);
-						e.getPlayer().setNextTile(Tile.of(x, 3425, 3));
+						e.getPlayer().tele(Tile.of(x, 3425, 3));
 					}
 					case 6 -> e.getPlayer().forceMoveVisually(Tile.of(x, 3429, 3), -1, 20, 60);
 					case 11 -> {
-						e.getPlayer().setNextTile(Tile.of(x, 3429, 3));
+						e.getPlayer().tele(Tile.of(x, 3429, 3));
 						e.getPlayer().forceMoveVisually(Tile.of(x, 3429, 3), Tile.of(x, 3432, 3), -1, 20, 60);
 					}
 					case 15 -> {
-						e.getPlayer().setNextTile(Tile.of(x, 3432, 3));
+						e.getPlayer().tele(Tile.of(x, 3432, 3));
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);
 						if (getGnomeStage(e.getPlayer()) == 1)
 							setGnomeStage(e.getPlayer(), 2);
@@ -101,7 +101,7 @@ public class GnomeAgility {
 					e.getPlayer().forceMove(Tile.of(2485, 3434, 3), 2923, 25, 60, false);
 				} else if (tick == 3) {
 					e.getPlayer().setNextAnimation(new Animation(2924));
-					e.getPlayer().setNextTile(Tile.of(2485, 3436, 0));
+					e.getPlayer().tele(Tile.of(2485, 3436, 0));
 				} else if (tick == 5) {
 					e.getPlayer().unlock();
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 25);

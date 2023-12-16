@@ -53,7 +53,7 @@ public class KuradalDungeonController extends Controller {
 
 	@Override
 	public void start() {
-		player.setNextTile(Tile.of(1661, 5257, 0));
+		player.tele(Tile.of(1661, 5257, 0));
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class KuradalDungeonController extends Controller {
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 47231) {
-			player.setNextTile(Tile.of(1735, 5313, 1));
+			player.tele(Tile.of(1735, 5313, 1));
 			removeController();
 		}
 		return true;

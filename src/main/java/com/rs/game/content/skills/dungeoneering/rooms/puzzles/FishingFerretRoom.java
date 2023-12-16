@@ -90,7 +90,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 						@Override
 						public void run() {
 							resetWalkSteps();
-							setNextTile(getRespawnTile());
+							tele(getRespawnTile());
 							setNextAnimation(new Animation(-1));
 							removeAllVileFish();
 						}

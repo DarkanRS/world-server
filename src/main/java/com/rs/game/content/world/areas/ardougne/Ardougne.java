@@ -232,14 +232,14 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleZMIShortcut = new ObjectClickHandler(new Object[] { 26844, 26845 }, e -> {
 		if (e.getObject().getId() == 26844)
-			e.getPlayer().setNextTile(Tile.of(3312, 4817, 0));
+			e.getPlayer().tele(Tile.of(3312, 4817, 0));
 		else if (e.getObject().getId() == 26845)
-			e.getPlayer().setNextTile(Tile.of(3308, 4819, 0));
+			e.getPlayer().tele(Tile.of(3308, 4819, 0));
 	});
 
 	public static ObjectClickHandler handleWitchahavenDungeonEntrance = new ObjectClickHandler(new Object[] { 18266 }, e -> {
 		Player p = e.getPlayer();
-		p.setNextTile(Tile.of(2696, 9683, 0));
+		p.tele(Tile.of(2696, 9683, 0));
 	});
 
 	public static ObjectClickHandler handleClockTowerDungeonEntrances = new ObjectClickHandler(new Object[] { 1754, 1756 }, new Tile[] { Tile.of(2566, 3242, 0), Tile.of(2566, 3231, 0), Tile.of(2569, 3231, 0), Tile.of(2566, 3227, 0), Tile.of(2569, 3227, 0), Tile.of(2572, 3227, 0), Tile.of(2621, 3261, 0) }, e -> {
@@ -272,7 +272,7 @@ public class Ardougne  {
 
 	public static ObjectClickHandler handleWitchahavenDungeonExit = new ObjectClickHandler(new Object[] { 33246 }, e -> {
 		Player p = e.getPlayer();
-		p.setNextTile(Tile.of(2697, 3283, 0));
+		p.tele(Tile.of(2697, 3283, 0));
 	});
 
 	public static ObjectClickHandler handleClocktowerDungeonLadders = new ObjectClickHandler(new Object[] { 1755, 1756 }, e -> {
@@ -290,7 +290,7 @@ public class Ardougne  {
 	});
 
 	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 36000 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2312, 3217, 0));
+		e.getPlayer().tele(Tile.of(2312, 3217, 0));
 	});
 
 	public static NPCClickHandler handleDarkMage = new NPCClickHandler(new Object[] { 1001 }, e -> {
@@ -354,11 +354,11 @@ public class Ardougne  {
 	});
 
 	public static ObjectClickHandler handleEnterLegendsGuildBasement = new ObjectClickHandler(new Object[] { 41425 }, e -> {
-		e.getPlayer().setNextTile(e.getPlayer().transform(-3, 6400, 0));
+		e.getPlayer().tele(e.getPlayer().transform(-3, 6400, 0));
 	});
 
 	public static ObjectClickHandler handleExitLegendsGuildBasement = new ObjectClickHandler(new Object[] { 32048 }, Tile.of(2717, 9773, 0), e -> {
-		e.getPlayer().setNextTile(e.getPlayer().transform(3, -6400, 0));
+		e.getPlayer().tele(e.getPlayer().transform(3, -6400, 0));
 	});
 
 	public static ObjectClickHandler handleMournerTrapdoor = new ObjectClickHandler(new Object[] { 8783 }, e -> {
@@ -425,94 +425,94 @@ public class Ardougne  {
 	//Legend's Guild
 	public static ObjectClickHandler handleLegendsGuildstairs = new ObjectClickHandler(new Object[] { 41435, 41436 }, e -> {
 		if (e.getObjectId() == 41435)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 3 ? -0 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 3 ? -0 : 0, 1));
 		else if (e.getObjectId() == 41436)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 3 ? 3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 3 ? 3 : 0, -1));
 	});
 	//Clocktower
 	public static ObjectClickHandler handleclocktowerspiralstairs = new ObjectClickHandler(new Object[] { 21871, 21872 }, e -> {
 		if (e.getObjectId() == 21871)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 1 ? -2 : 0, e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 1 ? 2 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 1 ? -2 : 0, e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 1 ? 2 : 0, 1));
 		else if (e.getObjectId() == 21872)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 1 ? 2 : 0, e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 1 ? -2 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 1 ? 2 : 0, e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 1 ? -2 : 0, -1));
 	});
 
 	public static ObjectClickHandler handleclocktowerandMeiyerditchstairs = new ObjectClickHandler(new Object[] { 17974, 17975 }, e -> {
 		if (e.getObjectId() == 17974)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 2 : e.getObject().getRotation() == 3 ? -2 : 0, e.getObject().getRotation() == 2 ? -2 : e.getObject().getRotation() == 0 ? 2 : 0,  1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 2 : e.getObject().getRotation() == 3 ? -2 : 0, e.getObject().getRotation() == 2 ? -2 : e.getObject().getRotation() == 0 ? 2 : 0,  1));
 		else if (e.getObjectId() == 17975)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -2 : e.getObject().getRotation() == 3 ? 2 : 0, e.getObject().getRotation() == 2 ? 2 : e.getObject().getRotation() == 0 ? -2 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -2 : e.getObject().getRotation() == 3 ? 2 : 0, e.getObject().getRotation() == 2 ? 2 : e.getObject().getRotation() == 0 ? -2 : 0, -1));
 	});
 
 	//Carnillean
 	public static ObjectClickHandler handlecarnilleanstairsup = new ObjectClickHandler(new Object[] { 73418 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2569, 3267, 1));
+		e.getPlayer().tele(Tile.of(2569, 3267, 1));
 	});
 
 	public static ObjectClickHandler handlecarnilleanstairsdown = new ObjectClickHandler(new Object[] { 73419 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2568, 3269, 0));
+		e.getPlayer().tele(Tile.of(2568, 3269, 0));
 	});
 
 	public static ObjectClickHandler handlecarnilleankitchenstairsup = new ObjectClickHandler(new Object[] { 34829 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2569, 3268, 0));
+		e.getPlayer().tele(Tile.of(2569, 3268, 0));
 	});
 
 	public static ObjectClickHandler handlecarnilleankitchenstairsdown = new ObjectClickHandler(new Object[] { 36703 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2569, 9668, 0));
+		e.getPlayer().tele(Tile.of(2569, 9668, 0));
 	});
 	//Fight Arena
 	public static ObjectClickHandler handlefightarenastairs = new ObjectClickHandler(new Object[] { 41121, 41122 }, e -> {
 		if (e.getObjectId() == 41121)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 4 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 4 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
 		else if (e.getObjectId() == 41122)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 4 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 4 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
 	});
 
 	//West Ardougne
 	public static ObjectClickHandler handlewestardougnespiralstairs = new ObjectClickHandler(new Object[] { 34388, 34390 }, e -> {
 		if (e.getObjectId() == 34388)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, e.getObject().getRotation() == 3 ? 3 : e.getObject().getRotation() == 1 ? -3 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, e.getObject().getRotation() == 3 ? 3 : e.getObject().getRotation() == 1 ? -3 : 0, 1));
 		else if (e.getObjectId() == 34390)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, e.getObject().getRotation() == 3 ? -3 : e.getObject().getRotation() == 1 ? 3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, e.getObject().getRotation() == 3 ? -3 : e.getObject().getRotation() == 1 ? 3 : 0, -1));
 	});
 
 	public static ObjectClickHandler handlewestardougnestairs = new ObjectClickHandler(new Object[] { 34397, 34398 }, e -> {
 		if (e.getObjectId() == 34397)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 4 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 4 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, 1));
 		else if (e.getObjectId() == 34398)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 4 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? -3 : e.getObject().getRotation() == 3 ? 3 : 0, e.getObject().getRotation() == 4 ? -3 : e.getObject().getRotation() == 2 ? 3 : 0, -1));
 	});
 
 	public static ObjectClickHandler handlehadleyspiralstairs = new ObjectClickHandler(new Object[] { 1738, 1740 }, e -> {
 		if (e.getObjectId() == 1738)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 4 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 4 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, 1));
 		else if (e.getObjectId() == 1740)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 4 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 4 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
 	});
 
 	public static ObjectClickHandler handlehadleystairsup = new ObjectClickHandler(new Object[] { 2536 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2517, 3426, 1));
+		e.getPlayer().tele(Tile.of(2517, 3426, 1));
 	});
 
 	public static ObjectClickHandler handlehadleystairsdown = new ObjectClickHandler(new Object[] { 2535 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2516, 3423, 0));
+		e.getPlayer().tele(Tile.of(2516, 3423, 0));
 	});
 
 	//Observatory goblin kitchen dungeon-Note the stairs(25429) at (2335, 9350, 0) south of the ruin one is supposed to be a cutscene leading to the end of the quest but shares an ID
 	public static ObjectClickHandler handlegoblinladderup = new ObjectClickHandler(new Object[] { 25429 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2458, 3185, 0));
+		e.getPlayer().tele(Tile.of(2458, 3185, 0));
 	});
 
 	public static ObjectClickHandler handlegoblinladderdown = new ObjectClickHandler(new Object[] { 25432 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2335, 9394, 0));
+		e.getPlayer().tele(Tile.of(2335, 9394, 0));
 	});
 
 	public static ObjectClickHandler handleObservatoryladderup = new ObjectClickHandler(new Object[] { 25431 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2443, 3158, 1));
+		e.getPlayer().tele(Tile.of(2443, 3158, 1));
 	});
 
 	public static ObjectClickHandler handleObservatoryladderdown = new ObjectClickHandler(new Object[] { 25437 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2444, 3162, 0));
+		e.getPlayer().tele(Tile.of(2444, 3162, 0));
 	});
 
 }

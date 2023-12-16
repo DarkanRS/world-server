@@ -43,7 +43,7 @@ public class DarrenLightfingerI extends Dialogue {
                     .addNext(() -> {
                         player.fadeScreen(() -> {
                             player.getInventory().deleteItem(18648, 1);
-                            player.setNextTile(Tile.of(3223, 3269, 0));
+                            player.tele(Tile.of(3223, 3269, 0));
                             player.getVars().saveVarBit(7792, 10);
                             player.getVars().setVarBit(7793, 0);
                         });
@@ -97,7 +97,7 @@ public class DarrenLightfingerI extends Dialogue {
                                             .addNPC(npcid, HeadE.SKEPTICAL_HEAD_SHAKE, "To be honest? You don't want to be honest; you're a member of the illustrious Thieves' Guild! Now get out there and make me proud... and both of us rich!")
                                             .addNext(() -> player.fadeScreen(() -> {
                                                 player.getInventory().deleteItem(18648, 1);
-                                                player.setNextTile(Tile.of(3223, 3269, 0));
+                                                player.tele(Tile.of(3223, 3269, 0));
                                                 player.getVars().saveVarBit(7792, 10);
                                                 player.getVars().setVarBit(7793, 0);
                                                 player.getQuestManager().completeQuest(Quest.BUYERS_AND_CELLARS);

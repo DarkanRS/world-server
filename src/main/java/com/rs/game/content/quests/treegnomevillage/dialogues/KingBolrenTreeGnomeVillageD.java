@@ -58,7 +58,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 													});
 													KingBolrenTreeGnomeVillageD.this.player.fadeScreen(() -> {
 														KingBolrenTreeGnomeVillageD.this.player.sendMessage("Elkoy leads you through the maze...");
-														KingBolrenTreeGnomeVillageD.this.player.setNextTile(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
+														KingBolrenTreeGnomeVillageD.this.player.tele(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 													});
 												})
 										);
@@ -114,7 +114,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 										});
 										KingBolrenTreeGnomeVillageD.this.player.fadeScreen(() -> {
 											KingBolrenTreeGnomeVillageD.this.player.sendMessage("Elkoy leads you through the maze...");
-											KingBolrenTreeGnomeVillageD.this.player.setNextTile(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
+											KingBolrenTreeGnomeVillageD.this.player.tele(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 										});
 									})
 							);

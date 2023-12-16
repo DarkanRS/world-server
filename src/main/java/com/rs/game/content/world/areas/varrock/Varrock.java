@@ -181,7 +181,7 @@ public class Varrock {
 	});
 
 	public static ObjectClickHandler handleKeldagrimTrapdoor = new ObjectClickHandler(new Object[] { 28094 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2911, 10176, 0));
+		e.getPlayer().tele(Tile.of(2911, 10176, 0));
 	});
 
 	public static ObjectClickHandler handleRiverLumSteppingStones = new ObjectClickHandler(new Object[] { 9315 }, e -> {
@@ -208,9 +208,9 @@ public class Varrock {
 					e.getPlayer().setNextAnimation(new Animation(2590));
 				} else if (ticks == 5) {
 					e.getPlayer().setNextAnimation(new Animation(2591));
-					e.getPlayer().setNextTile(tile);
+					e.getPlayer().tele(tile);
 				} else if (ticks == 6) {
-					e.getPlayer().setNextTile(Tile.of(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
+					e.getPlayer().tele(Tile.of(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
 					e.getPlayer().unlock();
 					stop();
 				}

@@ -302,7 +302,7 @@ public class DungeonController extends Controller {
 							//npc.playSoundEffect(1928);
 						}
 						Tile startRoom = dungeon.getHomeTile();
-						player.setNextTile(startRoom);
+						player.tele(startRoom);
 						dungeon.playMusic(player, dungeon.getCurrentRoomReference(startRoom));
 						increaseDeaths();
 						player.reset();
@@ -1022,7 +1022,7 @@ public class DungeonController extends Controller {
 	 */
 	@Override
 	public void magicTeleported(int type) {
-		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getNextTile()));
+		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getMoveTile()));
 		hideBar();
 	}
 
@@ -1293,7 +1293,7 @@ public class DungeonController extends Controller {
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextTile(Tile.of(DungeonConstants.OUTSIDE, 2));
+		player.tele(Tile.of(DungeonConstants.OUTSIDE, 2));
 		return false;
 	}
 

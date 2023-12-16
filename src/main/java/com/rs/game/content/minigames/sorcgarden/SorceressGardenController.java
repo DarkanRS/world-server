@@ -222,7 +222,7 @@ public class SorceressGardenController extends Controller {
 		player.lock();
 		player.sendMessage("An elemental force enamating from the garden teleports you away.");
 		FadingScreen.fade(player, () -> {
-			player.setNextTile(Tile.of(2913, 5467, 0));
+			player.tele(Tile.of(2913, 5467, 0));
 			player.lock(3);
 		});
 	}

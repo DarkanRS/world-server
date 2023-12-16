@@ -62,7 +62,7 @@ public class DarkEnergyCore extends NPC {
 					return;
 				}
 				target = possibleTarget.get(Utils.getRandomInclusive(possibleTarget.size() - 1));
-				setNextTile(Tile.of(target.getTile()));
+				tele(Tile.of(target.getTile()));
 				delay += World.sendProjectile(this, target, 1828, 0, 0, 35, 1, 20, 0).getTaskDelay();
 			}
 			changeTarget--;

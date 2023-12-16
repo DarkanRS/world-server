@@ -86,14 +86,14 @@ public class StealingCreationLobbyController extends Controller {
 	@Override
 	public boolean logout() {
 		StealingCreationLobby.removePlayer(player);
-		player.setNextTile(Helper.EXIT);
+		player.tele(Helper.EXIT);
 		return true;
 	}
 
 	@Override
 	public boolean login() {
 		StealingCreationLobby.removePlayer(player);
-		player.setNextTile(Helper.EXIT);
+		player.tele(Helper.EXIT);
 		return true;
 	}
 

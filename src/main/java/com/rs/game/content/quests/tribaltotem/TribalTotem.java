@@ -169,7 +169,7 @@ public class TribalTotem extends QuestOutline {
 			else {
 				p.applyHit(new Hit(25, Hit.HitLook.TRUE_DAMAGE));
 				p.sendMessage("You activate the trap stairs!");
-				p.setNextTile(Tile.of(2638, 9721, 0));
+				p.tele(Tile.of(2638, 9721, 0));
 			}
 		if(e.getOption().equalsIgnoreCase("investigate"))
 			if(p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getB("DISARMED_STAIRS"))

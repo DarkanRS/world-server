@@ -159,28 +159,28 @@ public class ChaosTunnels {
                 return;
             }
             if (e.objectAt(3058, 3550))
-                e.getPlayer().setNextTile(e.getPlayer().transform(125, 1920, 0));
+                e.getPlayer().tele(e.getPlayer().transform(125, 1920, 0));
             if (e.objectAt(3118, 3570))
-                e.getPlayer().setNextTile(e.getPlayer().transform(130, 1920, 0));
+                e.getPlayer().tele(e.getPlayer().transform(130, 1920, 0));
             if (e.objectAt(3129, 3587))
-                e.getPlayer().setNextTile(e.getPlayer().transform(105, 1972, 0));
+                e.getPlayer().tele(e.getPlayer().transform(105, 1972, 0));
             if (e.objectAt(3164, 3561))
-                e.getPlayer().setNextTile(e.getPlayer().transform(128, 1918, 0));
+                e.getPlayer().tele(e.getPlayer().transform(128, 1918, 0));
             if (e.objectAt(3176, 3585))
-                e.getPlayer().setNextTile(Tile.of(3290, 5539, 0));
+                e.getPlayer().tele(Tile.of(3290, 5539, 0));
     });
 
     public static ObjectClickHandler handleExitRopes = new ObjectClickHandler(new Object[] { 28782 }, e -> {
         if (e.objectAt(3183, 5470))
-            e.getPlayer().setNextTile(e.getPlayer().transform(-125, -1920, 0));
+            e.getPlayer().tele(e.getPlayer().transform(-125, -1920, 0));
         if (e.objectAt(3248, 5490))
-            e.getPlayer().setNextTile(e.getPlayer().transform(-130, -1920, 0));
+            e.getPlayer().tele(e.getPlayer().transform(-130, -1920, 0));
         if (e.objectAt(3234, 5559))
-            e.getPlayer().setNextTile(e.getPlayer().transform(-105, -1972, 0));
+            e.getPlayer().tele(e.getPlayer().transform(-105, -1972, 0));
         if (e.objectAt(3292, 5479))
-            e.getPlayer().setNextTile(e.getPlayer().transform(-128, -1918, 0));
+            e.getPlayer().tele(e.getPlayer().transform(-128, -1918, 0));
         if (e.objectAt(3291, 5538))
-            e.getPlayer().setNextTile(e.getPlayer().transform(-115, -1953, 0));
+            e.getPlayer().tele(e.getPlayer().transform(-115, -1953, 0));
         e.getPlayer().getControllerManager().startController(new WildernessController());
     });
 

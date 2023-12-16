@@ -40,7 +40,7 @@ public class Shifter extends PestMonsters {
 	}
 
 	private void teleportSpinner(Tile tile) { // def 3902, death 3903
-		setNextTile(Tile.of(tile));
+		tele(Tile.of(tile));
 		setNextAnimation(new Animation(3904));
 		WorldTasks.schedule(new Task() {
 

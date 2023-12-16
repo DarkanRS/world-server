@@ -81,7 +81,7 @@ public class PlayerModifiers {
 					p.sendMessage("You cannot teleport this player.");
 					return;
 				}
-				p.setNextTile(target.getTile());
+				p.tele(target.getTile());
 			}
 		});
 
@@ -98,7 +98,7 @@ public class PlayerModifiers {
 					p.sendMessage("Unable to teleport a developer to you.");
 					return;
 				}
-				target.setNextTile(p.getTile());
+				target.tele(p.getTile());
 			}
 		});
 

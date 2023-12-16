@@ -276,19 +276,19 @@ public class RunecraftingAltar {
 					if (!player.isQuestComplete(Quest.LOST_CITY, "for the ruin to respond."))
 						yield false;
 					if (teleport)
-						player.delayLock(1, () -> player.setNextTile(inside));
+						player.delayLock(1, () -> player.tele(inside));
 					yield true;
 				}
 				case BLOOD -> {
 					if (!player.isQuestComplete(Quest.LEGACY_OF_SEERGAZE, "for the ruin to respond."))
 						yield false;
 					if (teleport)
-						player.delayLock(1, () -> player.setNextTile(inside));
+						player.delayLock(1, () -> player.tele(inside));
 					yield true;
 				}
 				default -> {
 					if (teleport)
-						player.delayLock(1, () -> player.setNextTile(inside));
+						player.delayLock(1, () -> player.tele(inside));
 					yield true;
 				}
 			};
@@ -420,7 +420,7 @@ public class RunecraftingAltar {
 
 	public static ObjectClickHandler handleExitEssMines = new ObjectClickHandler(new Object[] { 2273 }, e -> {
 		if (e.getPlayer().lastEssTele != null)
-			e.getPlayer().setNextTile(e.getPlayer().lastEssTele);
+			e.getPlayer().tele(e.getPlayer().lastEssTele);
 		else
 			e.getPlayer().sendMessage("Couldn't lock on to your entry path to safely exit you. Teleport out another way.");
 	});
@@ -453,7 +453,7 @@ public class RunecraftingAltar {
 					break;
 				}
 			if (ruins != null) {
-				e.getPlayer().setNextTile(ruins.getOutside());
+				e.getPlayer().tele(ruins.getOutside());
 				if (ruins.name().equals(Ruins.CHAOS.name()))
 					e.getPlayer().getControllerManager().startController(new WildernessController());
 			}
@@ -502,7 +502,7 @@ public class RunecraftingAltar {
 					}
 					player.unlock();
 					player.lastEssTele = Tile.of(player.getTile());
-					player.setNextTile(Tile.of(2911, 4832, 0));
+					player.tele(Tile.of(2911, 4832, 0));
 					return false;
 				}
 			}

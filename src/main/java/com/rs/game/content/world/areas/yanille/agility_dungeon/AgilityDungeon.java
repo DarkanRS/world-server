@@ -89,7 +89,7 @@ public class AgilityDungeon {
         if (!Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.AGILITY), -67, 416)) {
             Agility.crossLedge(e.getPlayer(), isNorth ? north : south, e.getPlayer().transform(0, isNorth ? -2 : 2), 20, isNorth);
             WorldTasks.schedule(6, () -> {
-                e.getPlayer().setNextTile(Tile.of(2572, 9568, 0));
+                e.getPlayer().tele(Tile.of(2572, 9568, 0));
                 e.getPlayer().applyHit(Hit.flat(e.getPlayer(), (int) (e.getPlayer().getMaxHitpoints() * 0.2)));
             });
             return;
@@ -111,7 +111,7 @@ public class AgilityDungeon {
         if (!Utils.skillSuccess(e.getPlayer().getSkills().getLevel(Skills.AGILITY), -15, 323)) {
             Agility.crossMonkeybars(e.getPlayer(), e.getObject().getTile(), e.getObject().getTile().transform(0, e.getPlayer().getY() > 9491 ? -2 : 2), 0);
             WorldTasks.schedule(6, () -> {
-                e.getPlayer().setNextTile(Tile.of(2572, 9568, 0));
+                e.getPlayer().tele(Tile.of(2572, 9568, 0));
                 e.getPlayer().applyHit(Hit.flat(e.getPlayer(), (int) (e.getPlayer().getMaxHitpoints() * 0.2)));
             });
             return;

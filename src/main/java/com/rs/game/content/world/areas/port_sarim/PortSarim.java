@@ -142,28 +142,28 @@ public class PortSarim {
 	});
 
 	public static ObjectClickHandler handleEnterIceDungeon = new ObjectClickHandler(new Object[]{9472}, e -> {
-		e.getPlayer().setNextTile(Tile.of(3007, 9550, 0));
+		e.getPlayer().tele(Tile.of(3007, 9550, 0));
 	});
 
 	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, new Tile[]{Tile.of(3008, 9550, 0)}, e -> {
-		e.getPlayer().setNextTile(Tile.of(3008, 3149, 0));
+		e.getPlayer().tele(Tile.of(3008, 3149, 0));
 	});
 
 	public static ObjectClickHandler handleEnterWyvern = new ObjectClickHandler(new Object[]{33173}, e -> {
-		e.getPlayer().setNextTile(Tile.of(3056, 9555, 0));
+		e.getPlayer().tele(Tile.of(3056, 9555, 0));
 	});
 
 	public static ObjectClickHandler handleExitWyvern = new ObjectClickHandler(new Object[]{33174}, e -> {
-		e.getPlayer().setNextTile(Tile.of(3056, 9562, 0));
+		e.getPlayer().tele(Tile.of(3056, 9562, 0));
 	});
 
 	public static ObjectClickHandler handleEnterLadyLumbridgeBoat = new ObjectClickHandler(new Object[]{2594, 2593}, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (p.getY() > obj.getY())
-			e.getPlayer().setNextTile(Tile.of(3047, 3204, 0));
+			e.getPlayer().tele(Tile.of(3047, 3204, 0));
 		if (p.getY() < obj.getY())
-			e.getPlayer().setNextTile(Tile.of(3047, 3207, 1));
+			e.getPlayer().tele(Tile.of(3047, 3207, 1));
 	});
 
 	public static ObjectClickHandler handleEnterLadyLumbridgeBoatUpperLadder = new ObjectClickHandler(new Object[]{2590}, e -> {

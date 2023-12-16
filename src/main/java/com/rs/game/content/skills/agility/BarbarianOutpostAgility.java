@@ -144,7 +144,7 @@ public class BarbarianOutpostAgility {
 			else if (tick == 1)
 				e.getPlayer().setNextAnimation(new Animation(10492));
 			else if (tick == 7) {
-				e.getPlayer().setNextTile(e.getPlayer().transform(0, 0, 2));
+				e.getPlayer().tele(e.getPlayer().transform(0, 0, 2));
 				e.getPlayer().forceMove(Tile.of(2538, 3545, 2), 10493, 10, 30, () -> e.getPlayer().getSkills().addXp(Constants.AGILITY, 15));
 				return false;
 			}
@@ -166,7 +166,7 @@ public class BarbarianOutpostAgility {
 					else if (stage == 1)
 						e.getPlayer().setNextAnimation(new Animation(10023));
 					else if (stage == 3) {
-						e.getPlayer().setNextTile(Tile.of(2536, 3546, 3));
+						e.getPlayer().tele(Tile.of(2536, 3546, 3));
 						e.getPlayer().setNextAnimation(new Animation(11794));
 					} else if (stage == 4) {
 						e.getPlayer().unlock();
@@ -230,7 +230,7 @@ public class BarbarianOutpostAgility {
 			public void run() {
 				e.getPlayer().unlockNextTick();
 				e.getPlayer().getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_MAGIC, Sub.TAB_EMOTES, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER);
-				e.getPlayer().setNextTile(Tile.of(2538, 3553, 2));
+				e.getPlayer().tele(Tile.of(2538, 3553, 2));
 				e.getPlayer().setNextAnimation(new Animation(2588));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
 				stop();
@@ -252,7 +252,7 @@ public class BarbarianOutpostAgility {
 			@Override
 			public void run() {
 				if (stage == 0) {
-					e.getPlayer().setNextTile(Tile.of(2541, e.getPlayer().getY(), 1));
+					e.getPlayer().tele(Tile.of(2541, e.getPlayer().getY(), 1));
 					e.getPlayer().setNextAnimation(new Animation(11790));
 					stage = 1;
 				} else if (stage == 1)

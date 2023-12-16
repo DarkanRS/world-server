@@ -180,7 +180,7 @@ public class IkovDungeon {
 			}
 			if(i == 4  && p.getWeight() > 0) {
 				p.sendMessage("Good thing the lava was shallow!");
-				p.setNextTile(Tile.of(2648, 9826, 0));
+				p.tele(Tile.of(2648, 9826, 0));
 				p.setRunHidden(true);
 				p.getTempAttribs().removeB("CrossingIkovBridge");
 				return false;

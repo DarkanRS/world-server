@@ -151,7 +151,7 @@ public enum Scroll {
 			familiar.freeze(3);
 			familiar.sync(8040, 1440);
 			delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 90, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextTile(target.getNearestTeleTile(familiar));
+				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(8041, 1442);
 			});
 			return true;
@@ -504,7 +504,7 @@ public enum Scroll {
 				return false;
 			familiar.freeze(2);
 			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 224, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextTile(target.getNearestTeleTile(familiar));
+				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(7914, 1366);
 			});
 			return true;
