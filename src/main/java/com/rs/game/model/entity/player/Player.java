@@ -287,8 +287,8 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private MoveType tempMoveType;
-	public boolean updateMovementType;
+	private transient MoveType tempMoveType = moveType;
+	public transient boolean updateMovementType = true;
 
 	// player stages
 	private transient boolean started;
