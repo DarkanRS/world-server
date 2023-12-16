@@ -4,7 +4,6 @@ before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-# Define a cache for Gradle dependencies
 .cache_gradle:
   cache:
     key: "$CI_COMMIT_REF_NAME-gradle"
@@ -16,7 +15,6 @@ before_script:
 build:
   stage: build
   script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
-  # Define a separate cache for build artifacts
   cache:
     key: "$CI_COMMIT_REF_NAME-gradle"
     policy: pull-push
@@ -27,7 +25,11 @@ build:
 
 deploy:
   stage: deploy
-  script: ./gradlew publish --parallel --max-workers=$(nproc)
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "master"'
+  script:
+    - echo "Deploying build artifacts..."
+    - ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
   cache:
     key: "$CI_COMMIT_REF_NAME-gradle"
