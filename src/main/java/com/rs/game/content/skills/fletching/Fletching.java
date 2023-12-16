@@ -79,7 +79,6 @@ public class Fletching extends PlayerAction {
 		/**
 		 * Crossbows
 		 */
-
 		U_BRONZE_CBOW(9440, 9420, new int[] { 9454 }, new int[] { 9 }, new double[] { 6 }, new Animation(-1)),
 
 		U_IRON_CBOW(9444, 9423, new int[] { 9457 }, new int[] { 39 }, new double[] { 22 }, new Animation(-1)),
@@ -107,6 +106,9 @@ public class Fletching extends PlayerAction {
 		ADAMANT_CBOW(9463, 9438, new int[] { 9183 }, new int[] { 61 }, new double[] { 41 }, new Animation(6676)),
 
 		RUNITE_CBOW(9465, 9438, new int[] { 9185 }, new int[] { 69 }, new double[] { 50 }, new Animation(6677)),
+
+		MITH_GRAPPLE(9418, 9142, new int[] { 9416 }, new int[] { 59 }, new double[] { 11 }, new Animation(-1)),
+		MITH_GRAPPLE_ROPE(9419, 954, new int[] { 9418 }, new int[] { 59 }, new double[] { 0 }, new Animation(-1)),
 
 		/**
 		 * Arrows
