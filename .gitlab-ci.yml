@@ -20,6 +20,10 @@ build:
     policy: pull-push
     paths:
       - build/
+  artifacts:
+    paths:
+      - build/
+    expire_in: 1 hour
   extends:
     - .cache_gradle
 
@@ -31,10 +35,7 @@ deploy:
     - echo "Deploying build artifacts..."
     - ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
-  cache:
-    key: "$CI_COMMIT_REF_NAME-gradle"
-    policy: pull-push
-    paths:
-      - build/
+  dependencies:
+    - build
   extends:
     - .cache_gradle
