@@ -111,15 +111,7 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			for (NPC npc : World.getNPCs()) {
-				if (npc == null || npc.hasFinished())
-					continue;
-				npc.setFixedFaceTile(p.getTile());
-			}
-		});
-
-		Commands.add(Rights.ADMIN, "reloadplugins", "legit test meme", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "reloadplugins", "legit test meme", (p, args) -> {
 			try {
 				PluginScriptHost.Companion.loadAndExecuteScripts();
 				p.sendMessage("Reloaded plugins successfully.");
