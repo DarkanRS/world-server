@@ -46,7 +46,7 @@ public class LandOfSnow {
 		Tile center = Tile.of(3212, 3428, 3);
 		for (int x = -10; x < 10; x++)
 			for (int y = -10; y < 10; y++)
-				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 3, y * 3, 0)));
+				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 5, y * 5, 0)));
 
 		ObjectSpawns.add(new ObjectSpawn(12258, 10, 0, Tile.of(3210, 3425, 0), "Cupboard to Christmas event."));
 
@@ -70,6 +70,18 @@ public class LandOfSnow {
 		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, Tile.of(2665, 5670, 0), "Ice fishing"));
 		NPCSpawns.add(new NPCSpawn(334, Tile.of(2665, 5670, 0), "Fishing spot"));
 		NPCSpawns.add(new NPCSpawn(328, Tile.of(2665, 5670, 0), "Fishing spot"));
+
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2666, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2667, 5644, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2664, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2665, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2670, 5646, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2672, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2673, 5649, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5650, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5645, 0), "Carnivorous chinchompa"));
+
+		ObjectSpawns.add(new ObjectSpawn(67036, 10, 0, Tile.of(2672, 5679, 0), "Summoning obelisk"));
 
 		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), -1, true, false);
 		n.setLoadsUpdateZones();
@@ -104,9 +116,7 @@ public class LandOfSnow {
 	});
 
 	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
-		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0));
-		});
+		e.getPlayer().fadeScreen(() -> e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0)));
 	});
 
 	public static ObjectClickHandler handleSnowCollect = new ObjectClickHandler(new Object[] { 28296 }, e -> {

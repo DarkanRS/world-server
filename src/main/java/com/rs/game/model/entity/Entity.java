@@ -980,6 +980,8 @@ public abstract class Entity {
 		if (npc != null && npc.isLoadsUpdateZones())
 			ChunkManager.getUpdateZone(sceneBaseChunkId, oldSize).removeNPCWatcher(npc.getIndex());
 		mapChunkIds.clear();
+		if (player != null)
+			player.getMapChunksNeedInit().clear();
 		hasNearbyInstancedChunks = false;
 		int currChunkX = getChunkX();
 		int currChunkY = getChunkY();
@@ -1336,6 +1338,40 @@ public abstract class Entity {
 	public void forceMove(Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
 		forceMove(Tile.of(getTile()), destination, animation, startClientCycles, speedClientCycles, autoUnlock, afterComplete);
 	}
+
+    /**
+     * Force moves entity to destination while they face a certain direction
+     * Useful for cutscenes...
+     */
+    public void forceMoveWhileFacing(Direction faceDir, Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
+        ForceMovement movement = new ForceMovement(start, destination, startClientCycles, speedClientCycles, faceDir);
+        if (animation != -1)
+            anim(animation);
+        lock();
+        resetWalkSteps();
+        if (startClientCycles == 0 && this instanceof Player player)
+            player.setTemporaryMoveType(MoveType.TELE);
+        setNextTile(destination);
+        setNextForceMovement(movement);
+        tasks.schedule(movement.getTickDuration(), () -> {
+            if (autoUnlock)
+                unlock();
+            if (afterComplete != null)
+                afterComplete.run();
+        });
+    }
+
+    public void forceMoveWhileFacing(Direction faceDir, Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock) {
+        forceMoveWhileFacing(faceDir, start, destination, animation, startClientCycles, speedClientCycles, autoUnlock, null);
+    }
+
+    public void forceMoveWhileFacing(Direction faceDir, Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles) {
+        forceMoveWhileFacing(faceDir, start, destination, animation, startClientCycles, speedClientCycles, true, null);
+    }
+
+    public void forceMoveWhileFacing(Direction faceDir, Tile destination, int animation, int startClientCycles, int speedClientCycles) {
+        forceMoveWhileFacing(faceDir, getTile(), destination, animation, startClientCycles, speedClientCycles, true, null);
+    }
 
 	public void forceMove(Tile start, Tile destination, int animation, int startClientCycles, int speedClientCycles, boolean autoUnlock, Runnable afterComplete) {
 		ForceMovement movement = new ForceMovement(start, destination, startClientCycles, speedClientCycles);

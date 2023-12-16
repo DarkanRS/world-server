@@ -18,6 +18,7 @@ package com.rs.game.model.entity.player;
 
 import com.rs.Settings;
 import com.rs.game.World;
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.lib.Constants;
@@ -484,7 +485,7 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyMoveTypeMask(Player p, OutputStream data) {
-		data.write128Byte(p.getMovementType().getId());
+		data.write128Byte(p.getMovementType() == Entity.MoveType.RUN ? 2 : 1);
 	}
 
 	private void applyTemporaryMoveTypeMask(Player p, OutputStream data) {

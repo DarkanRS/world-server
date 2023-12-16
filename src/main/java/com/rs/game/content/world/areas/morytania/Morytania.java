@@ -373,9 +373,6 @@ public class Morytania  {
 	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e -> {
 		e.getPlayer().setNextTile(Tile.of(3577, 9927, 0));
 	});
-	public static ObjectClickHandler experimentcavegraveexit = new ObjectClickHandler(new Object[] { 1757 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3578, 3527, 0));
-	});
 
 	//TakenTemple
 	public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[] { 30722 }, e -> {

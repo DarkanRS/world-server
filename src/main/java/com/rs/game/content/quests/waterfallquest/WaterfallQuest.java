@@ -148,7 +148,7 @@ public class WaterfallQuest extends QuestOutline {
 		}
 	});
 	
-	public static ObjectClickHandler onObjectClick = new ObjectClickHandler(new Object[] { 1987, 1990, 1757, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }, e -> {
+	public static ObjectClickHandler onObjectClick = new ObjectClickHandler(new Object[] { 1987, 1990, 5251, 5250, 10283, 2020, 33047, 33066, 2022, 2014, 37247, 31139, 2002, 1991, 1989 }, e -> {
 		if (e.getObjectId() == 1987) {
 			e.getPlayer().sendMessage("You board the log raft and crash on a small spit of land.");
 			e.getPlayer().setNextTile(Tile.of(2512, 3481, 0));
@@ -158,9 +158,7 @@ public class WaterfallQuest extends QuestOutline {
 				e.getPlayer().getInventory().addItem(298, 1);
 			} else
 				e.getPlayer().sendMessage("You find nothing interesting.");
-		} else if (e.getObjectId() == 1757)
-			e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0), 1, 2);
-		else if (e.getObjectId() == 5251)
+		} else if (e.getObjectId() == 5251)
 			e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0), 1, 2);
 		else if (e.getObjectId() == 5250)
 			e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0), 1, 2);

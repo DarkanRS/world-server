@@ -78,6 +78,7 @@ public class PlayerVSDelrithController extends InstancedController {
 				player.musicTrack(195);
 				player.getPackets().setBlockMinimapState(2);
 				player.getAppearance().setHidden(true);
+                player.getAppearance().getAppeareanceData();
 				cs.setEndTile(Tile.of(cs.getX(endX), cs.getY(endY), 0));
 			});
 			cs.delay(1);
@@ -97,8 +98,7 @@ public class PlayerVSDelrithController extends InstancedController {
 					cs.getNPC(label).faceTile(Tile.of(cs.getX(spawnX), cs.getY(spawnY), 0));
 				});
 			});
-			cs.fadeOut(5);
-			cs.delay(1);
+			cs.fadeOut(3);
 			cs.dialogue(new Dialogue().addNPC(DENATH, HeadE.EVIL_LAUGH, "Arise, O mighty Delrith! Bring destruction to this soft weak city!"));
 			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.getNPC(label).anim(SPELL1)));
 			cs.action(1, () -> Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.getNPC(label).anim(SPELL2)));
@@ -139,18 +139,22 @@ public class PlayerVSDelrithController extends InstancedController {
 			cs.dialogue(new Dialogue()
 					.addNPC(DENATH, HeadE.EVIL_LAUGH, "Ha ha ha! At last you are free, my demonic brother! Rest now and then have your revenge on this pitiful city!")
 					.addNPC(DENATH, HeadE.EVIL_LAUGH, "We will destroy-"), true);
-			cs.npcFaceDir("delrith", Direction.NORTHWEST);
-			Stream.of("w1", "w2", "w3", "denath").forEach(label -> cs.npcFaceDir(label, Direction.NORTHWEST));
+            Stream.of("w1", "w2", "w3", "denath", "delrith").forEach(label -> cs.npcFaceNPC(label, null));
+            Stream.of("w1", "w2", "w3", "denath", "delrith").forEach(label -> cs.npcFaceDir(label, Direction.NORTHWEST));
 			cs.dialogue(new Dialogue()
 					.addNPC(DENATH, HeadE.SCARED, "Noo! Not Silverlight! Delrith is not ready yet!")
 					.addNPC(DENATH, HeadE.SCARED, "I've got to get out of here."), true);
-			cs.npcFaceNPC("denath", null);
-			cs.npcWalk("denath", spawnX+13, spawnY);
-			cs.delay(3);
+            cs.npcFaceNPC("denath", null);
+			cs.npcWalk("denath", spawnX+13, spawnY-1);
 			cs.playerMove(endX, endY, Entity.MoveType.TELE);
-			cs.camPosReset();
-			cs.action(() -> player.getAppearance().setHidden(false));
 			cs.delay(2);
+            cs.playerFaceDir(Direction.SOUTHEAST);
+            cs.delay(2);
+            cs.camPosReset();
+            cs.action(() ->  {
+                player.getAppearance().setHidden(false);
+                player.getAppearance().getAppeareanceData();
+            });
 			cs.action(() -> {
 				ambientMusicOn = true;
 				player.unlock();

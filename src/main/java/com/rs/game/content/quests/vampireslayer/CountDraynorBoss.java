@@ -23,6 +23,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.OwnedNPC;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -70,6 +71,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 	public CountDraynorBoss(Player owner, Tile tile) {
 		super(owner, COUNT_DRAYNOR_ID, tile, false);
+        setAutoDespawnAtDistance(false);
 	}
 
 	@Override
@@ -209,10 +211,10 @@ public class CountDraynorBoss extends OwnedNPC {
 					p.getInventory().deleteItem(STAKE, 1);
 					p.setNextAnimation(new Animation(MISSING_STAKE_IN_COFFIN));
 					countDraynor.setNextAnimation(new Animation(AWAKEN));
+                    countDraynor.setAutoDespawnAtDistance(true);
 				}
-				if(tick == 9) {
-					p.forceMove(Tile.of(p.getX()-1, p.getY(), p.getPlane()), PUSHED_BACK, 0, 30);
-				}
+				if(tick == 9)
+					p.forceMoveWhileFacing(Direction.EAST, Tile.of(p.getX()-1, p.getY(), p.getPlane()), PUSHED_BACK, 0, 30);
 				if(tick == 10) {
 					p.setNextAnimation(new Animation(ON_FLOOR));
 					p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-16, 2200, 0, 5);

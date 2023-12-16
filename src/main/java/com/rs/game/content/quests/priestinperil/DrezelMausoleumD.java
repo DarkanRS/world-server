@@ -5,6 +5,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 
@@ -18,7 +19,7 @@ public class DrezelMausoleumD extends Conversation {
 
 	public DrezelMausoleumD(Player player) {
 		super(player);
-		int remainingEssence = 50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence");
+		int remainingEssence = Utils.clampI(50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50);
 		if (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 9) {
 			player.startConversation(new Dialogue()
 					.addNPC(Drezel, HeadE.CALM_TALK, "Ah, " + player.getDisplayName() + ". Glad you made it. Things are worse than I feared down here. I'm not sure if I will be able to repair the damage.")
@@ -58,9 +59,9 @@ public class DrezelMausoleumD extends Conversation {
 					if (essence <= remainingEssence) {
 						player.getInventory().deleteItem(1436, essence);
 						player.getInventory().deleteItem(7936, pureEssence);
-						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", essence + player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"));
-						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", pureEssence + player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"));
-						remainingEssence = 50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence");
+						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", essence + Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50));
+						player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).setI("essence", pureEssence + Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50));
+						remainingEssence = Utils.clampI(50 - player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50);
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "I brought you some rune essence.")
 								.addNPC(Drezel, HeadE.CALM_TALK, "Quickly, give them to me!")
@@ -82,7 +83,7 @@ public class DrezelMausoleumD extends Conversation {
 						return;
 					}
 				}
-				if (player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence") > 0) {
+				if (Utils.clampI(player.getQuestManager().getAttribs(Quest.PRIEST_IN_PERIL).getI("essence"), 0, 50) > 0) {
 					player.startConversation(new Dialogue()
 							.addPlayer(HeadE.CALM_TALK, "How much more essence do I need to bring you ?")
 							.addNPC(Drezel, HeadE.CALM_TALK, "I need " + remainingEssence + " more.")

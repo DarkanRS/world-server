@@ -85,7 +85,7 @@ public class ImpCatcher extends QuestOutline {
 
 	@Override
 	public String getStartLocationDescription() {
-		return "Talk to Wizard Mizgog on the first floor of the Wizards' Tower, south of Draynor.";
+		return "Talk to Wizard Mizgog on the third floor of the Wizards' Tower, south of Draynor.";
 	}
 
 	@Override

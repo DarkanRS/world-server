@@ -118,7 +118,7 @@ fun onItemOnNpc(vararg npcNamesOrIds: Any, checkDistance: Boolean = true, eventH
     ItemOnNPCEvent.registerMethod(IFOnNPCEvent::class.java, ItemOnNPCHandler(checkDistance, npcNamesOrIds) { eventHandler(it) })
 }
 
-fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>, tiles: Array<Tile>?, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
+fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>, tiles: Array<Tile>? = null, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
     objectNamesOrIds.forEach { require(it is String || it is Int) { "objectNamesOrIds must contain only String or Int types" } }
     ItemOnObjectEvent.registerMethod(ItemOnObjectEvent::class.java, ItemOnObjectHandler(checkDistance, objectNamesOrIds, itemNamesOrIds, tiles) { eventHandler(it) })
 }

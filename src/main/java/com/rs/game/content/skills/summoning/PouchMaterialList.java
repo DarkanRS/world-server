@@ -10,7 +10,7 @@ public enum PouchMaterialList {
 	GRANITE_CRAB_POUCH(12009, new Item[] { new Item(12183, 7), new Item(12158, 1), new Item(12155, 1), new Item(440, 1) }),
 	PRAYING_MANTIS_POUCH(12011, new Item[] { new Item(12183, 168), new Item(12160, 1), new Item(12155, 1), new Item(2466, 1) }),
 	GIANT_ENT_POUCH(12013, new Item[] { new Item(12183, 124), new Item(12159, 1), new Item(12155, 1), new Item(5933, 1) }),
-	SPIRIT_COBRA_POUCH(12015, new Item[] { new Item(12183, 116), new Item(12160, 1), new Item(12155, 1), new Item(0, 1) }),
+	SPIRIT_COBRA_POUCH(12015, new Item[] { new Item(12183, 116), new Item(12160, 1), new Item(12155, 1), new Item(6287, 1) }),
 	SPIRIT_DAGANNOTH_POUCH(12017, new Item[] { new Item(12183, 1), new Item(12160, 1), new Item(12155, 1), new Item(6155, 1) }),
 	THORNY_SNAIL_POUCH(12019, new Item[] { new Item(12183, 9), new Item(12158, 1), new Item(12155, 1), new Item(3363, 1) }),
 	BEAVER_POUCH(12021, new Item[] { new Item(12183, 72), new Item(12159, 1), new Item(12155, 1), new Item(1519, 1) }),
