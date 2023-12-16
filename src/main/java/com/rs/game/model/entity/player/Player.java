@@ -377,8 +377,6 @@ public class Player extends Entity {
 	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
-	private int privateChatSetup;
-	private int friendChatSetup;
 	public int totalDonated;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
@@ -1199,8 +1197,6 @@ public class Player extends Entity {
 		getPackets().sendRunEnergy(runEnergy);
 		refreshAllowChatEffects();
 		refreshMouseButtons();
-		refreshPrivateChatSetup();
-		refreshOtherChatsSetup();
 		sendRunButtonConfig();
 		if (!hasRights(Rights.ADMIN)) {
 			removeDungItems();
@@ -2556,33 +2552,6 @@ public class Player extends Entity {
 
 	public void refreshMouseButtons() {
 		getVars().setVar(170, mouseButtons ? 0 : 1);
-	}
-
-	public void refreshPrivateChatSetup() {
-		getVars().setVar(287, privateChatSetup);
-	}
-
-	public void refreshOtherChatsSetup() {
-		int value = friendChatSetup << 6;
-		getVars().setVar(1438, value);
-	}
-
-	public void setPrivateChatSetup(int privateChatSetup) {
-		this.privateChatSetup = privateChatSetup;
-	}
-
-	public void setFriendChatSetup(int friendChatSetup) {
-		this.friendChatSetup = friendChatSetup;
-	}
-
-	public void setClanChatSetup(int clanChatSetup) {
-	}
-
-	public void setGuestChatSetup(int guestChatSetup) {
-	}
-
-	public int getPrivateChatSetup() {
-		return privateChatSetup;
 	}
 
 	public boolean isForceNextMapLoadRefresh() {
