@@ -71,6 +71,16 @@ public class LandOfSnow {
 		NPCSpawns.add(new NPCSpawn(334, Tile.of(2665, 5670, 0), "Fishing spot"));
 		NPCSpawns.add(new NPCSpawn(328, Tile.of(2665, 5670, 0), "Fishing spot"));
 
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2666, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2667, 5644, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2664, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2665, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2670, 5646, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2672, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2673, 5649, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5650, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5645, 0), "Carnivorous chinchompa"));
+
 		ObjectSpawns.add(new ObjectSpawn(67036, 10, 0, Tile.of(2672, 5679, 0), "Summoning obelisk"));
 
 		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), -1, true, false);
