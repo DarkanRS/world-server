@@ -196,11 +196,11 @@ public class Morytania  {
 	});
 
 	public static ObjectClickHandler handleSwampBoatFromMorton = new ObjectClickHandler(new Object[] { 6969 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3500, 3380, 0));
+		e.getPlayer().tele(Tile.of(3500, 3380, 0));
 	});
 
 	public static ObjectClickHandler handleSwampBoatToMorton = new ObjectClickHandler(new Object[] { 6970 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3521, 3284, 0));
+		e.getPlayer().tele(Tile.of(3521, 3284, 0));
 	});
 
 	public static ObjectClickHandler handleGrottoTree = new ObjectClickHandler(new Object[] { 3517 }, e -> {
@@ -222,7 +222,7 @@ public class Morytania  {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();
-				e.getPlayer().setNextTile(endTile);
+				e.getPlayer().tele(endTile);
 				e.getPlayer().setNextAnimation(new Animation(-1));
 			}
 		}, 1);
@@ -284,7 +284,7 @@ public class Morytania  {
 		if (!e.getPlayer().isQuestComplete(Quest.BRANCHES_OF_DARKMEYER, "to enter the cave."))
 			return;
 		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextTile(e.getObjectId() == 59921 ? Tile.of(2273, 5152, 0) : Tile.of(3498, 3204, 0));
+			e.getPlayer().tele(e.getObjectId() == 59921 ? Tile.of(2273, 5152, 0) : Tile.of(3498, 3204, 0));
 		});
 	});
 
@@ -366,29 +366,29 @@ public class Morytania  {
 	//Fenkenstraincastle
 	public static ObjectClickHandler handleFenkenstraincastlestairs = new ObjectClickHandler(new Object[] { 5206, 5207 }, e -> {
 		if (e.getObjectId() == 5206)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 1 ? -0 : 0,  1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 1 ? -0 : 0,  1));
 		else if (e.getObjectId() == 5207)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
 	});
 	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3577, 9927, 0));
+		e.getPlayer().tele(Tile.of(3577, 9927, 0));
 	});
 
 	//TakenTemple
 	public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[] { 30722 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3415, 3485, 1));
+		e.getPlayer().tele(Tile.of(3415, 3485, 1));
 	});
 
 	public static ObjectClickHandler handleTemplespiralstairsdown = new ObjectClickHandler(new Object[] { 30723 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3414, 3486, 0));
+		e.getPlayer().tele(Tile.of(3414, 3486, 0));
 	});
 
 	public static ObjectClickHandler handleTemplespiralstairsup2 = new ObjectClickHandler(new Object[] { 30724 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3415, 3492, 1));
+		e.getPlayer().tele(Tile.of(3415, 3492, 1));
 	});
 
 	public static ObjectClickHandler handleTemplespiralstairsdown2 = new ObjectClickHandler(new Object[] { 30725  }, e -> {
-		e.getPlayer().setNextTile(Tile.of(3414, 3491, 0));
+		e.getPlayer().tele(Tile.of(3414, 3491, 0));
 	});
 
 }

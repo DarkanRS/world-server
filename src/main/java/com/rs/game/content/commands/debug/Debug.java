@@ -410,13 +410,13 @@ public class Debug {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setNextTile(Tile.of(x, y, plane));
+				p.tele(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
+				p.tele(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.tele(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 		// case "load":

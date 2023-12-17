@@ -287,8 +287,8 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private MoveType tempMoveType;
-	public boolean updateMovementType;
+	private transient MoveType tempMoveType = moveType;
+	public transient boolean updateMovementType = true;
 
 	// player stages
 	private transient boolean started;
@@ -377,8 +377,6 @@ public class Player extends Entity {
 	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
-	private int privateChatSetup;
-	private int friendChatSetup;
 	public int totalDonated;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
@@ -816,9 +814,8 @@ public class Player extends Entity {
 	}
 
 	public void initNewChunks() {
-		for (int chunkId : getMapChunksNeedInit()) {
+		for (int chunkId : getMapChunksNeedInit())
 			ChunkManager.getChunk(chunkId).init(this);
-		}
 	}
 
 	// now that we inited we can start showing game
@@ -1200,8 +1197,6 @@ public class Player extends Entity {
 		getPackets().sendRunEnergy(runEnergy);
 		refreshAllowChatEffects();
 		refreshMouseButtons();
-		refreshPrivateChatSetup();
-		refreshOtherChatsSetup();
 		sendRunButtonConfig();
 		if (!hasRights(Rights.ADMIN)) {
 			removeDungItems();
@@ -2187,7 +2182,7 @@ public class Player extends Entity {
 				case 1 -> sendMessage(message);
 				case 3 -> {
 					reset();
-					setNextTile(respawnTile);
+					tele(respawnTile);
 					setNextAnimation(new Animation(-1));
 					if (onFall != null)
 						onFall.accept(this);
@@ -2237,7 +2232,7 @@ public class Player extends Entity {
 				else if (loop == 2) {
 					reset();
 					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
-						setNextTile(Settings.getConfig().getPlayerRespawnTile());
+						tele(Settings.getConfig().getPlayerRespawnTile());
 					else
 						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
 				} else if (loop == 3) {
@@ -2516,7 +2511,7 @@ public class Player extends Entity {
 		if (emoteId != -1)
 			setNextAnimation(new Animation(emoteId));
 		if (useDelay == 0)
-			setNextTile(dest);
+			tele(dest);
 		else {
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -2525,7 +2520,7 @@ public class Player extends Entity {
 						return;
 					if (resetAnimation)
 						setNextAnimation(new Animation(-1));
-					setNextTile(dest);
+					tele(dest);
 					if (message != null)
 						sendMessage(message);
 				}
@@ -2559,38 +2554,12 @@ public class Player extends Entity {
 		getVars().setVar(170, mouseButtons ? 0 : 1);
 	}
 
-	public void refreshPrivateChatSetup() {
-		getVars().setVar(287, privateChatSetup);
-	}
-
-	public void refreshOtherChatsSetup() {
-		int value = friendChatSetup << 6;
-		getVars().setVar(1438, value);
-	}
-
-	public void setPrivateChatSetup(int privateChatSetup) {
-		this.privateChatSetup = privateChatSetup;
-	}
-
-	public void setFriendChatSetup(int friendChatSetup) {
-		this.friendChatSetup = friendChatSetup;
-	}
-
-	public void setClanChatSetup(int clanChatSetup) {
-	}
-
-	public void setGuestChatSetup(int guestChatSetup) {
-	}
-
-	public int getPrivateChatSetup() {
-		return privateChatSetup;
-	}
-
 	public boolean isForceNextMapLoadRefresh() {
 		return forceNextMapLoadRefresh;
 	}
 
 	public void setForceNextMapLoadRefresh(boolean forceNextMapLoadRefresh) {
+		this.getMapChunkIds().clear();
 		this.forceNextMapLoadRefresh = forceNextMapLoadRefresh;
 		setForceUpdateEntityRegion(true);
 	}
@@ -3048,12 +3017,7 @@ public class Player extends Entity {
 
 	public void ladder(final Tile toTile) {
 		setNextAnimation(new Animation(828));
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				setNextTile(toTile);
-			}
-		}, 1);
+		getTasks().schedule(1, () -> tele(toTile));
 	}
 
 	public void giveStarter() {
@@ -3222,9 +3186,9 @@ public class Player extends Entity {
 	public void useLadder(int anim, final Tile tile) {
 		lock();
 		setNextAnimation(new Animation(anim));
-		WorldTasks.scheduleTimer(tick -> {
+		getTasks().scheduleTimer(tick -> {
 			if (tick == 1)
-				setNextTile(tile);
+				tele(tile);
 			if (tick == 2) {
 				unlock();
 				return false;
@@ -3850,7 +3814,7 @@ public class Player extends Entity {
 			if (controller == null || !(controller instanceof WarriorsGuild guild))
 				return;
 			guild.inCyclopse = false;
-			setNextTile(WarriorsGuild.CYCLOPS_LOBBY);
+			tele(WarriorsGuild.CYCLOPS_LOBBY);
 			warriorPoints[index] = 0;
 		} else if (warriorPoints[index] > 65535)
 			warriorPoints[index] = 65535;
@@ -4312,7 +4276,7 @@ public class Player extends Entity {
 				setForceNextMapLoadRefresh(true);
 				return;
 			}
-			setNextTile(instancedArea.getReturnTo());
+			tele(instancedArea.getReturnTo());
 			instancedArea = null;
 		}
 	}

@@ -1087,8 +1087,10 @@ public abstract class Entity {
 		}
 	}
 
-	public void moveTo(Tile worldtile) {
-		setNextTile(worldtile);
+	public void tele(Tile tile) {
+		if (this instanceof Player player)
+			player.setTemporaryMoveType(MoveType.TELE);
+		move(tile);
 	}
 
 	public SpotAnim getNextSpotAnim1() {
@@ -1123,11 +1125,11 @@ public abstract class Entity {
 		return finished;
 	}
 
-	public void setNextTile(Tile nextTile) {
-		this.nextTile = Tile.of(nextTile);
+	protected void move(Tile tile) {
+		this.nextTile = Tile.of(tile);
 	}
 
-	public Tile getNextTile() {
+	public Tile getMoveTile() {
 		return nextTile;
 	}
 
@@ -1351,7 +1353,7 @@ public abstract class Entity {
         resetWalkSteps();
         if (startClientCycles == 0 && this instanceof Player player)
             player.setTemporaryMoveType(MoveType.TELE);
-        setNextTile(destination);
+        move(destination);
         setNextForceMovement(movement);
         tasks.schedule(movement.getTickDuration(), () -> {
             if (autoUnlock)
@@ -1381,7 +1383,7 @@ public abstract class Entity {
 		resetWalkSteps();
 		if (startClientCycles == 0 && this instanceof Player player)
 			player.setTemporaryMoveType(MoveType.TELE);
-		setNextTile(destination);
+		move(destination);
 		setNextForceMovement(movement);
 		tasks.schedule(movement.getTickDuration(), () -> {
 			if (autoUnlock)

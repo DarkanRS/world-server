@@ -239,7 +239,7 @@ public class Easter2021 {
 			player.setNextSpotAnim(new SpotAnim(1567));
 		});
 		WorldTasks.delay(13, () -> {
-			player.setNextTile(toTile);
+			player.tele(toTile);
 			player.setNextAnimation(new Animation(8902));
 		});
 		WorldTasks.delay(22, () -> {

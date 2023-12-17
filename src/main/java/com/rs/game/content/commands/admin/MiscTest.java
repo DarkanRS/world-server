@@ -111,15 +111,7 @@ public class MiscTest {
 		//		Commands.add(Rights.ADMIN, "command [args]", "Desc", (p, args) -> {
 		//
 		//		});
-		Commands.add(Rights.ADMIN, "test", "legit test meme", (p, args) -> {
-			for (NPC npc : World.getNPCs()) {
-				if (npc == null || npc.hasFinished())
-					continue;
-				npc.setFixedFaceTile(p.getTile());
-			}
-		});
-
-		Commands.add(Rights.ADMIN, "reloadplugins", "legit test meme", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "reloadplugins", "legit test meme", (p, args) -> {
 			try {
 				PluginScriptHost.Companion.loadAndExecuteScripts();
 				p.sendMessage("Reloaded plugins successfully.");
@@ -339,7 +331,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "runespan", "Teleports to runespan.", (p, args) -> {
-			p.setNextTile(Tile.of(3995, 6103, 1));
+			p.tele(Tile.of(3995, 6103, 1));
 			p.getControllerManager().startController(new RunespanController());
 		});
 
@@ -638,8 +630,8 @@ public class MiscTest {
 					continue;
 				player.unlock();
 				player.getControllerManager().forceStop();
-				if (player.getNextTile() == null)
-					player.setNextTile(Settings.getConfig().getPlayerRespawnTile());
+				if (player.getMoveTile() == null)
+					player.tele(Settings.getConfig().getPlayerRespawnTile());
 			}
 		});
 
@@ -886,10 +878,10 @@ public class MiscTest {
 			for (GameObject obj : objs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
 			if(args.length == 1) {
-				p.setNextTile(objs.get(0).getTile());
+				p.tele(objs.get(0).getTile());
 				return;
 			}
-			p.setNextTile(objs.get(Integer.valueOf(args[1])).getTile());
+			p.tele(objs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire (loaded) gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
@@ -902,10 +894,10 @@ public class MiscTest {
 			for(NPC npc : npcs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
 			if (args.length == 1) {
-				p.setNextTile(Tile.of(npcs.get(0).getTile()));
+				p.tele(Tile.of(npcs.get(0).getTile()));
 				return;
 			}
-			p.setNextTile(npcs.get(Integer.valueOf(args[1])).getTile());
+			p.tele(npcs.get(Integer.valueOf(args[1])).getTile());
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {
@@ -1006,16 +998,13 @@ public class MiscTest {
 				int x = Integer.valueOf(args[1]) << 6 | Integer.valueOf(args[3]);
 				int y = Integer.valueOf(args[2]) << 6 | Integer.valueOf(args[4]);
 				p.resetWalkSteps();
-				p.setTemporaryMoveType(Entity.MoveType.TELE);
-				p.setNextTile(Tile.of(x, y, plane));
+				p.tele(Tile.of(x, y, plane));
 			} else if (args.length == 1) {
 				p.resetWalkSteps();
-				p.setTemporaryMoveType(Entity.MoveType.TELE);
-				p.setNextTile(Tile.of(Integer.valueOf(args[0])));
+				p.tele(Tile.of(Integer.valueOf(args[0])));
 			} else {
 				p.resetWalkSteps();
-				p.setTemporaryMoveType(Entity.MoveType.TELE);
-				p.setNextTile(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
+				p.tele(Tile.of(Integer.valueOf(args[0]), Integer.valueOf(args[1]), args.length >= 3 ? Integer.valueOf(args[2]) : p.getPlane()));
 			}
 		});
 
@@ -1023,14 +1012,14 @@ public class MiscTest {
 			int regionX = (Integer.valueOf(args[0]) >> 8) * 64 + 32;
 			int regionY = (Integer.valueOf(args[0]) & 0xff) * 64 + 32;
 			p.resetWalkSteps();
-			p.setNextTile(Tile.of(regionX, regionY, 0));
+			p.tele(Tile.of(regionX, regionY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "telec,tpc [chunkX chunkY]", "Teleports the player to chunk coordinates.", (p, args) -> {
 			int chunkX = Integer.valueOf(args[0]) * 8 + 4;
 			int chunkY = Integer.valueOf(args[1]) * 8 + 4;
 			p.resetWalkSteps();
-			p.setNextTile(Tile.of(chunkX, chunkY, 0));
+			p.tele(Tile.of(chunkX, chunkY, 0));
 		});
 
 		Commands.add(Rights.ADMIN, "settitle [new title]", "Sets player title.", (p, args) -> {

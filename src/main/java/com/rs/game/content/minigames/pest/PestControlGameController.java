@@ -132,7 +132,7 @@ public class PestControlGameController extends Controller {
 				else if (loop == 3) {
 					player.reset();
 					Tile tile = control.getTile(35 - Utils.random(4), 54 - (Utils.random(3)));
-					player.setNextTile(tile == null ? Tile.of(2658, 2660, 0) : tile);
+					player.tele(tile == null ? Tile.of(2658, 2660, 0) : tile);
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					player.jingle(90);

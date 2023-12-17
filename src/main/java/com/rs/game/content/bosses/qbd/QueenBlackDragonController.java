@@ -92,7 +92,7 @@ public final class QueenBlackDragonController extends Controller {
 			player.fadeScreen(() -> {
 				player.resetReceivedHits();
 				npc = new QueenBlackDragon(player, bossBase.transform(31, 37, 0), bossBase);
-				player.setNextTile(bossBase.transform(33, 28, 0));
+				player.tele(bossBase.transform(33, 28, 0));
 				player.setLargeSceneView(true);
 				player.setForceMultiArea(true);
 				player.unlock();
@@ -122,7 +122,7 @@ public final class QueenBlackDragonController extends Controller {
 				rewardRegion.copyMapAllPlanes(160, 760).thenAccept(e -> {
 					player.resetReceivedHits();
 					rewardBase = rewardRegion.getTileBase().transform(0, 0, 0);
-					player.setNextTile(rewardBase.transform(31, 36, 0));
+					player.tele(rewardBase.transform(31, 36, 0));
 					player.setForceNextMapLoadRefresh(true);
 					player.loadMapRegions();
 					player.getInterfaceManager().removeSub(Sub.FULL_GAMESPACE_BG);

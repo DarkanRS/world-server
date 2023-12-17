@@ -44,7 +44,7 @@ public class MutatedZygomite extends ConditionalDeath {
 
 	private void resetNPC() {
 		setNextNPCTransformation(lvl74 ? 3344 : 3345);
-		setNextTile(getRespawnTile());
+		tele(getRespawnTile());
 	}
 
 	@Override

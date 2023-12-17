@@ -77,7 +77,7 @@ public class GiantMole extends NPC {
 				World.sendSpotAnim(Tile.of(middle.getX() + 1, middle.getY() + 1, middle.getPlane()), new SpotAnim(571));
 				World.sendSpotAnim(Tile.of(middle.getX() - 1, middle.getY(), middle.getPlane()), new SpotAnim(571));
 				World.sendSpotAnim(Tile.of(middle.getX() + 1, middle.getY(), middle.getPlane()), new SpotAnim(571));
-				setNextTile(Tile.of(COORDS[Utils.random(COORDS.length)]));
+				tele(Tile.of(COORDS[Utils.random(COORDS.length)]));
 				setNextAnimation(new Animation(3315));
 
 			}

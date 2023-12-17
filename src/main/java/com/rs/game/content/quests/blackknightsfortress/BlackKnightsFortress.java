@@ -246,7 +246,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.getInterfaceManager().setFadingInterface(115);
 
 				if (tick == 6) {
-					p.setNextTile(cauldron.getTile());
+					p.tele(cauldron.getTile());
 					p.getAppearance().transformIntoNPC(264);
 				}
 
@@ -306,7 +306,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.getInterfaceManager().setFadingInterface(115);
 
 				if (tick == 25) {
-					p.setNextTile(tileBeforeCutscene);
+					p.tele(tileBeforeCutscene);
 					p.getAppearance().transformIntoNPC(-1);
 				}
 

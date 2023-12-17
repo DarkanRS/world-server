@@ -40,8 +40,10 @@ fun mapDrops() {
     }
 
     onNpcDrop(null, arrayOf(995)) { e ->
-        e.player.inventory.addCoins(e.item.amount)
-        e.deleteItem()
+        if (e.player.equipment.containsOneItem(25351) || e.player.inventory.containsItem(25351, 1)) {
+            e.player.inventory.addCoins(e.item.amount)
+            e.deleteItem()
+        }
     }
 }
 

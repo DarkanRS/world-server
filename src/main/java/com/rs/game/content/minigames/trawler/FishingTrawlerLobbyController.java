@@ -12,7 +12,7 @@ public class FishingTrawlerLobbyController extends Controller {
 
 	public boolean login() {
 		leaveLobby();
-		player.setNextTile(Tile.of(2676, 3170, 0));
+		player.tele(Tile.of(2676, 3170, 0));
 		return true;
 	}
 

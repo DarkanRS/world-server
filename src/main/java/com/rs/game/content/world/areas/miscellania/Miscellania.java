@@ -48,7 +48,7 @@ public class Miscellania {
 	});
 
 	public static ObjectClickHandler handleUndergroundCrevices = new ObjectClickHandler(new Object[] { 15186, 15187 }, e -> {
-		e.getPlayer().setNextTile(e.getObjectId() == 15186 ? Tile.of(2505, 10283, 0) : Tile.of(2505, 10280, 0));
+		e.getPlayer().tele(e.getObjectId() == 15186 ? Tile.of(2505, 10283, 0) : Tile.of(2505, 10280, 0));
 	});
 
 	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { 46274, 46275, 46277, 15062 }, e -> {

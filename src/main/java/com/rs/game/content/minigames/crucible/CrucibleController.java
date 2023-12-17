@@ -69,7 +69,7 @@ public class CrucibleController extends Controller {
                     player.getInventory().init();
                 }
                 player.reset();
-                player.setNextTile(getRespawnTile());
+                player.tele(getRespawnTile());
                 player.setNextAnimation(new Animation(-1));
                 if (dangerous) {
                     Potions.checkOverloads(player);

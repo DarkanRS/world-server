@@ -42,7 +42,7 @@ public class Yanille {
 	});
 
 	public static ObjectClickHandler handleMagicGuildStairs = new ObjectClickHandler(new Object[] { 1722, 1723 }, e -> {
-		e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getObjectId() == 1722 ? 4 : -4, e.getObjectId() == 1722 ? 1 : -1));
+		e.getPlayer().tele(e.getPlayer().transform(0, e.getObjectId() == 1722 ? 4 : -4, e.getObjectId() == 1722 ? 1 : -1));
 	});
 
 	public static ObjectClickHandler handleTreeGnomeVillageGateSqueeze = new ObjectClickHandler(new Object[] { 2186 }, e -> {
@@ -61,7 +61,7 @@ public class Yanille {
 		if (e.getOpNum() == 3)
 			e.getPlayer().fadeScreen(() -> {
 				e.getPlayer().sendMessage("Elkoy leads you through the maze...");
-				e.getPlayer().setNextTile(e.getNPC().getId() == 473 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
+				e.getPlayer().tele(e.getNPC().getId() == 473 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
 			});
 	});
 
@@ -69,19 +69,19 @@ public class Yanille {
 		switch(e.getObjectId()) {
 		case 2518:
 			e.getPlayer().sendOptionDialogue("Teleport to Thormac's Tower?", ops -> {
-				ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().setNextTile(Tile.of(2702, 3403, 0)));
+				ops.add("Yes, teleport me to Thormac's Tower.", () -> e.getPlayer().tele(Tile.of(2702, 3403, 0)));
 				ops.add("Not right now.");
 			});
 			break;
 		case 2156:
 			e.getPlayer().sendOptionDialogue("Teleport to the Wizard's Tower?", ops -> {
-				ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().setNextTile(Tile.of(3109, 3164, 0)));
+				ops.add("Yes, teleport me to the Wizard's Tower.", () -> e.getPlayer().tele(Tile.of(3109, 3164, 0)));
 				ops.add("Not right now.");
 			});
 			break;
 		case 2157:
 			e.getPlayer().sendOptionDialogue("Teleport to the Dark Wizard's Tower?", ops -> {
-				ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().setNextTile(Tile.of(2906, 3334, 0)));
+				ops.add("Yes, teleport me to the Dark Wizard's Tower.", () -> e.getPlayer().tele(Tile.of(2906, 3334, 0)));
 				ops.add("Not right now.");
 			});
 			break;
@@ -110,7 +110,7 @@ public class Yanille {
 			@Override
 			public void run() {
 				e.getPlayer().unlockNextTick();
-				e.getPlayer().setNextTile(endLoc);
+				e.getPlayer().tele(endLoc);
 				e.getPlayer().setNextAnimation(new Animation(-1));
 			}
 		}, 0);

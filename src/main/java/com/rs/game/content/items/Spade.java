@@ -27,7 +27,7 @@ public class Spade {
 			if (player.getX() == 3005 && player.getY() == 3376 || player.getX() == 2999 && player.getY() == 3375 || player.getX() == 2996 && player.getY() == 3377 || player.getX() == 2989 && player.getY() == 3378 || player.getX() == 2987
 					&& player.getY() == 3387 || player.getX() == 2984 && player.getY() == 3387) {
 				// mole
-				player.setNextTile(Tile.of(1752, 5137, 0));
+				player.tele(Tile.of(1752, 5137, 0));
 				player.sendMessage("You seem to have dropped down into a network of mole tunnels.");
 				return;
 			}

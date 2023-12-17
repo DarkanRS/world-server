@@ -36,9 +36,9 @@ public class PortPhasmatys {
 			return;
 		e.getPlayer().sendOptionDialogue(ops -> {
 			if (e.getPlayer().getRegionId() == 14638)
-				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextTile(Tile.of(3713, 3497, 1)));
+				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().tele(Tile.of(3713, 3497, 1)));
 			else
-				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextTile(Tile.of(3682, 2949, 1)));
+				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().tele(Tile.of(3682, 2949, 1)));
 			ops.add("Nevermind.");
 		});
 	});

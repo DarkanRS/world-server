@@ -41,7 +41,7 @@ public class HobgoblinGeomancer extends DungeonBoss {
 		WorldTasks.scheduleTimer(5, (ticks) -> {
 			setCantInteract(false);
 			setNextAnimation(new Animation(-1));
-			setNextTile(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
+			tele(World.getFreeTile(getManager().getRoomCenterTile(room), 6));
 			resetReceivedHits();
 			return false;
 		});

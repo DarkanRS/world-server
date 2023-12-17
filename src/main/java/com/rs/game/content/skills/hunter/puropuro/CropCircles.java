@@ -88,7 +88,7 @@ public class CropCircles {
                 hideMinimap();
                 action(() -> {
                     player.lock();
-                    player.moveTo(loc1);
+                    player.tele(loc1);
                     player.getAppearance().setHidden(true);
                 });
                 delay(2);
@@ -103,7 +103,7 @@ public class CropCircles {
                 delay(4);
 
                 fadeIn(3);
-                action(() -> { player.moveTo(loc2); });
+                action(() -> { player.tele(loc2); });
                 delay(2);
                 camPos(loc2.getX()-3, loc2.getY()-3, 2500);
                 camLook(loc2.getX(), loc2.getY(), 0);

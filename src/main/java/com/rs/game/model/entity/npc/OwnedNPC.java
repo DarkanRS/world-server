@@ -65,7 +65,7 @@ public class OwnedNPC extends NPC {
 	public void teleToOwner() {
 		Tile tile = owner.getNearestTeleTile(this);
 		if (tile != null)
-			setNextTile(tile);
+			tele(tile);
 	}
 
 	public boolean isAutoDespawnAtDistance() {

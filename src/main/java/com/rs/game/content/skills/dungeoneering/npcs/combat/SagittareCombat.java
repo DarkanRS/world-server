@@ -134,7 +134,7 @@ public class SagittareCombat extends CombatScript {
 				for (int x = -1; x < 2; x++)
 					for (int y = -1; y < 2; y++)
 						World.sendProjectile(boss, center.transform(x, y, 0), 2533, 250, 0, 40, 0, 0, 0);
-				boss.setNextTile(teleport);
+				boss.tele(teleport);
 				boss.setNextAnimation(new Animation(8941));
 				boss.setNextSpotAnim(new SpotAnim(1577));
 			} else if (ticks == 8) {

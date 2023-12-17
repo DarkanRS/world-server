@@ -798,7 +798,7 @@ public class StealingCreationController extends Controller {
 				if (step == 0) {
 					Tile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
-					p.setNextTile(faceTile);
+					p.tele(faceTile);
 					p.forceMove(faceTile, 10584, 5, 30);
 					p.setNextSpotAnim(new SpotAnim(red ? 1871 : 1870));
 					step++;
@@ -836,7 +836,7 @@ public class StealingCreationController extends Controller {
 					}
 					player.getEquipment().deleteSlot(Equipment.CAPE);
 					player.sendPVEItemsOnDeath(killer, true);
-					player.setNextTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
+					player.tele(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();
 					player.reset();
 					if (score != null) {

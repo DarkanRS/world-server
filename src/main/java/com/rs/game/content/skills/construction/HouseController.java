@@ -483,7 +483,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean logout() {
 		player.setTile(house.getLocation().getTile());
-		player.setNextTile(house.getLocation().getTile());
+		player.tele(house.getLocation().getTile());
 		house.leaveHouse(player, House.LOGGED_OUT);
 		return false;
 	}
@@ -491,7 +491,7 @@ public class HouseController extends Controller {
 	@Override
 	public boolean login() {
 		removeController();
-		player.setNextTile(player.getHouse().getLocation().getTile());
+		player.tele(player.getHouse().getLocation().getTile());
 		return false;
 	}
 
@@ -504,7 +504,7 @@ public class HouseController extends Controller {
 	@Override
 	public void forceClose() {
 		player.setTile(house.getLocation().getTile());
-		player.setNextTile(house.getLocation().getTile());
+		player.tele(house.getLocation().getTile());
 		player.removeHouseOnlyItems();
 		house.leaveHouse(player, House.TELEPORTED);
 	}

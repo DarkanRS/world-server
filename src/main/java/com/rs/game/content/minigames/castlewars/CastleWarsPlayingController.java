@@ -211,7 +211,7 @@ public class CastleWarsPlayingController extends Controller {
 					}
 
 					player.reset();
-					player.setNextTile(Tile.of(team == CastleWars.ZAMORAK ? CastleWars.ZAMO_BASE : CastleWars.SARA_BASE, 1));
+					player.tele(Tile.of(team == CastleWars.ZAMORAK ? CastleWars.ZAMO_BASE : CastleWars.SARA_BASE, 1));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					player.jingle(90);

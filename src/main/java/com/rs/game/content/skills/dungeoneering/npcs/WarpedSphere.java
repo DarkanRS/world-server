@@ -85,6 +85,6 @@ public class WarpedSphere extends DungeonNPC {
 			return;
 		Tile nextTile = getManager().getTile(reference, TELEPORT_TILE[0], TELEPORT_TILE[1]);
 		setRespawnTile(nextTile);
-		setNextTile(nextTile);
+		tele(nextTile);
 	}
 }

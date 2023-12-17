@@ -290,7 +290,7 @@ public class NPC extends Entity {
 								break;
 					}
 					if (!hasWalkSteps()) { // failing finding route
-						setNextTile(Tile.of(forceWalk));
+						tele(Tile.of(forceWalk));
 						forceWalk = null; // so ofc reached forcewalk place
 					}
 				} else

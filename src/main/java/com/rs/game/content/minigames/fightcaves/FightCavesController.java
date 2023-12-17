@@ -129,7 +129,7 @@ public class FightCavesController extends Controller {
 		region = Instance.of(OUTSIDE, 8, 8);
 		region.copyMapAllPlanes(552, 640).thenAccept(e -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
-			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));
+			player.tele(!login ? getTile(46, 61) : getTile(32, 32));
 			stage = Stages.RUNNING;
 			WorldTasks.delay(1, () -> {
 				if (!login) {
@@ -297,7 +297,7 @@ public class FightCavesController extends Controller {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
 			if (type == 1 || type == 4) {
-				player.setNextTile(outside);
+				player.tele(outside);
 				if (type == 4) {
 					player.incrementCount("Fight Caves clears");
 					player.refreshFightKilnEntrance();

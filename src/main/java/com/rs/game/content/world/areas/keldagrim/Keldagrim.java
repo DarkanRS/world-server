@@ -60,19 +60,19 @@ public class Keldagrim {
 	});
 
 	public static ObjectClickHandler handleRellekkaEntrance = new ObjectClickHandler(new Object[] { 5973 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2838, 10124, 0));
+		e.getPlayer().tele(Tile.of(2838, 10124, 0));
 	});
 
 	public static ObjectClickHandler handleRellekkaExit = new ObjectClickHandler(new Object[] { 5998 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2780, 10161, 0));
+		e.getPlayer().tele(Tile.of(2780, 10161, 0));
 	});
 
 	public static ObjectClickHandler handleChaosDwarfBattlefieldEnter = new ObjectClickHandler(new Object[] { 45060 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1520, 4704, 0));
+		e.getPlayer().tele(Tile.of(1520, 4704, 0));
 	});
 
 	public static ObjectClickHandler handleChaosDwarfBattlefieldExit = new ObjectClickHandler(new Object[] { 45008 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2817, 10155, 0));
+		e.getPlayer().tele(Tile.of(2817, 10155, 0));
 	});
 
 	public static ObjectClickHandler handleBlastFurnaceEntrances = new ObjectClickHandler(new Object[] { 9084, 9138 }, e -> {

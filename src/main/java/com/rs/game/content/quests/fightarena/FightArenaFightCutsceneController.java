@@ -89,7 +89,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.getInterfaceManager().setFadingInterface(115);
 					if (tick == 2) {// setup player
 						player.getPackets().setBlockMinimapState(2);
-						player.setNextTile(spawn);
+						player.tele(spawn);
 					}
 					if (tick == 3) {
 						addAllFightArenaNPCs();
@@ -141,8 +141,8 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.getPackets().sendCameraLook(Tile.of(instance.getLocalX(44), instance.getLocalY(26), 0), 0);
 						player.faceNorth();
 						jeremy.faceNorth();
-						player.setNextTile(Tile.of(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));
-						jeremy.setNextTile(Tile.of(instance.getLocalX(42), instance.getLocalY(26), 0));
+						player.tele(Tile.of(instance.getLocalX(43), instance.getLocalY(26), player.getPlane()));
+						jeremy.tele(Tile.of(instance.getLocalX(42), instance.getLocalY(26), 0));
 					}
 					if(tick == 15) {
 						player.faceEntity(jeremy);
@@ -156,7 +156,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						);
 					}
 					if(tick == 17) {
-						ogre.setNextTile(Tile.of(instance.getLocalX(42), instance.getLocalY(40), 0));
+						ogre.tele(Tile.of(instance.getLocalX(42), instance.getLocalY(40), 0));
 						ogre.setRandomWalk(false);
 						ogre.faceEntity(father);
 						father.faceEntity(ogre);
@@ -227,7 +227,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					}
 					if(tick == 36) {
 						player.getPackets().setBlockMinimapState(2);
-						bouncer.setNextTile(Tile.of(instance.getLocalX(45), instance.getLocalY(34), 0));
+						bouncer.tele(Tile.of(instance.getLocalX(45), instance.getLocalY(34), 0));
 					}
 					if(tick == 38) {
 						player.getPackets().setBlockMinimapState(0);
@@ -289,7 +289,7 @@ public class FightArenaFightCutsceneController extends Controller {
 					}
 					if (tick == 2) {// setup player
 						player.getPackets().setBlockMinimapState(2);
-						player.setNextTile(locationOnVictory);
+						player.tele(locationOnVictory);
 						player.getQuestManager().setStage(Quest.FIGHT_ARENA, FightArena.RETURN_TO_LADY_SERVIL);
 					}
 					if(tick == 5) {
@@ -331,7 +331,7 @@ public class FightArenaFightCutsceneController extends Controller {
 		player.stopAll();
 		player.reset();
 		player.sendMessage("You have been defeated!");
-		player.setNextTile(locationOnFail);
+		player.tele(locationOnFail);
 		player.getVars().setVarBit(2569, 0);
 		forceClose();
 		return false;
@@ -339,7 +339,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	@Override
 	public boolean login() {
-		player.setNextTile(locationOnFail);
+		player.tele(locationOnFail);
 		forceClose();
 		return false;
 	}

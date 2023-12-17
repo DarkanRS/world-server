@@ -124,7 +124,7 @@ public class ServantNPC extends NPC {
 					setNextAnimation(new Animation(858));
 					totalCount = (builds.length * 3) + count;
 				} else if (count == 2)
-					setNextTile(Tile.of(World.getFreeTile(kitchenTile, 2)));
+					tele(Tile.of(World.getFreeTile(kitchenTile, 2)));
 				else if (totalCount > 0 && index < builds.length) {
 					int calculatedCount = totalCount - count;
 					Builds build = builds[index];
@@ -134,7 +134,7 @@ public class ServantNPC extends NPC {
 					} else if (calculatedCount % 1 == 0)
 						calcFollow(house.getWorldObjectForBuild(kitchen, build), true);
 				} else if (count == totalCount + 3)
-					setNextTile(World.getFreeTile(diningRoomTile, 2));
+					tele(World.getFreeTile(diningRoomTile, 2));
 				else if (count == totalCount + 4 || count == totalCount + 5) {
 					GameObject diningTable = house.getWorldObjectForBuild(diningRoom, Builds.DINING_TABLE);
 					if (count == totalCount + 4)
@@ -237,7 +237,7 @@ public class ServantNPC extends NPC {
 	public void call() {
 		Tile teleTile = owner.getNearestTeleTile(this);
 		if (teleTile != null)
-			setNextTile(teleTile);
+			tele(teleTile);
 	}
 
 	private void sendFollow() {

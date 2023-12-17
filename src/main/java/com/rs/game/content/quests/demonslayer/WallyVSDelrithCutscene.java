@@ -61,7 +61,7 @@ public class WallyVSDelrithCutscene extends Cutscene {
 		fadeIn(0);
 		delay(4);
 		action(()->{player.getAppearance().setHidden(false);});
-		action(()->{player.setNextTile(getEndTile());});
+		action(()->{player.tele(getEndTile());});
 		camShakeReset();
 		delay(1);
 		fadeOut(0);

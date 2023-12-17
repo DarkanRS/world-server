@@ -324,7 +324,7 @@ public class DuelArenaController extends Controller {
 				break;
 			teleTile = tile;
 		}
-		player.setNextTile(teleTile);
+		player.tele(teleTile);
 	}
 
 	private void removeEquipment() {
@@ -344,8 +344,8 @@ public class DuelArenaController extends Controller {
 		if (started) {
 			Tile[] teleports = getPossibleTiles();
 			int random = Utils.getRandomInclusive(1);
-			player.setNextTile(random == 0 ? teleports[0] : teleports[1]);
-			target.setNextTile(random == 0 ? teleports[1] : teleports[0]);
+			player.tele(random == 0 ? teleports[0] : teleports[1]);
+			target.tele(random == 0 ? teleports[1] : teleports[0]);
 		}
 		player.stopAll();
 		player.lock(2); // fixes mass click steps

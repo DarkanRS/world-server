@@ -116,7 +116,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 							for (int index = 0; index < tiles.size(); index++) {
 								Entity t = targets.get(index);
 								if (WorldUtil.isInRange(npc.getX(), npc.getY(), npc.getSize(), t.getX(), t.getY(), t.getSize(), 1))
-									t.setNextTile(tiles.get(index));
+									t.tele(tiles.get(index));
 							}
 							stop();
 						}

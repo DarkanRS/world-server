@@ -92,7 +92,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 					if (tick == 9) {
 						player.getInterfaceManager().sendInterface(BOAT_TO_CRANDOR);
-						player.setNextTile(instance.getLocalTile(18, 12, 1));
+						player.tele(instance.getLocalTile(18, 12, 1));
 					}
 
 					if (tick == 11) {
@@ -551,7 +551,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.getInterfaceManager().setFadingInterface(115);
 					if(tick == 51) {
 						player.getInterfaceManager().setFadingInterface(516);
-						player.setNextTile(crandor);//crandor
+						player.tele(crandor);//crandor
 					}
 
 					if(tick == PAUSE_FOR_PLAYER5) {
@@ -604,7 +604,7 @@ public class DragonSlayer_BoatScene extends Controller {
 	@Override
 	public boolean login() {
 		player.getTempAttribs().setB("CUTSCENE_INTERFACE_CLOSE_DISABLED", false);
-		player.setNextTile(startingTile);
+		player.tele(startingTile);
 		forceClose();
 		return false;
 	}

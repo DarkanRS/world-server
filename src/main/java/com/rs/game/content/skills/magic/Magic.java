@@ -551,7 +551,7 @@ public class Magic {
 								break;
 							teleTile = tile;
 						}
-					player.setNextTile(teleTile);
+					player.tele(teleTile);
 					if (teleType != -1) {
 						player.getControllerManager().magicTeleported(teleType);
 						if (player.getControllerManager().getController() == null)
@@ -600,7 +600,7 @@ public class Magic {
 					teleTile = tile;
 				}
 			}
-			npc.setNextTile(teleTile);
+			npc.tele(teleTile);
 			if (downEmoteId != -1)
 				npc.setNextAnimation(new Animation(downEmoteId == -2 ? -1 : downEmoteId));
 			if (downGraphicId != -1)
@@ -657,7 +657,7 @@ public class Magic {
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
 					} else
-						player.setNextTile(Tile.of(player.getHouse().getLocation().getTile()));
+						player.tele(Tile.of(player.getHouse().getLocation().getTile()));
 					player.setNextAnimation(new Animation(-1));
 					stage = 2;
 				} else if (stage == 2) {
@@ -688,7 +688,7 @@ public class Magic {
 						player.getHouse().enterMyHouse();
 						player.setFaceAngle(6);
 					} else
-						player.setNextTile(Tile.of(player.getHouse().getLocation().getTile()));
+						player.tele(Tile.of(player.getHouse().getLocation().getTile()));
 					player.setFaceAngle(6);
 					player.setNextAnimation(new Animation(-1));
 				}
@@ -722,7 +722,7 @@ public class Magic {
 							break;
 						teleTile = tile;
 					}
-					player.setNextTile(teleTile);
+					player.tele(teleTile);
 					player.getControllerManager().magicTeleported(ITEM_TELEPORT);
 					if (player.getControllerManager().getController() == null)
 						teleControllersCheck(player, teleTile);

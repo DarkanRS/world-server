@@ -99,7 +99,7 @@ public final class BarrowsController extends Controller {
 	}
 
 	private void exit(Tile outside) {
-		player.setNextTile(outside);
+		player.tele(outside);
 		leave(false);
 	}
 
