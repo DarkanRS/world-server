@@ -134,27 +134,33 @@ public class TaskManager {
         }
     }
 
-    public void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
+    public TaskInformation scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
         synchronized(tasks) {
             if (task == null || startDelay < 0 || loopDelay < 0)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), startDelay, loopDelay));
+                return null;
+            TaskInformation taskInfo = new TaskInformation(new TaskTimerLambda(task), startDelay, loopDelay);
+            tasks.add(taskInfo);
+            return taskInfo;
         }
     }
 
-    public void scheduleTimer(Function<Integer, Boolean> task) {
+    public TaskInformation scheduleTimer(Function<Integer, Boolean> task) {
         synchronized(tasks) {
             if (task == null)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), 0, 0));
+                return null;
+            TaskInformation taskInfo = new TaskInformation(new TaskTimerLambda(task), 0, 0);
+            tasks.add(taskInfo);
+            return taskInfo;
         }
     }
 
-    public void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
+    public TaskInformation scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
         synchronized(tasks) {
             if (task == null || startDelay < 0)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), startDelay, 0));
+                return null;
+            TaskInformation taskInfo = new TaskInformation(new TaskTimerLambda(task), startDelay, 0);
+            tasks.add(taskInfo);
+            return taskInfo;
         }
     }
 

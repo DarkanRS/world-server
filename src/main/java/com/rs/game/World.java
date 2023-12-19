@@ -734,18 +734,15 @@ public final class World {
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks, boolean clip) {
 		spawnObject(object, clip);
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				try {
-					if (!World.isSpawnedObject(object))
-						return;
-					removeObject(object);
-				} catch (Throwable e) {
-					Logger.handle(World.class, "spawnObjectTemporary", e);
-				}
+		WorldTasks.schedule(Utils.clampI(ticks - 1, 0, Integer.MAX_VALUE), () -> {
+			try {
+				if (!World.isSpawnedObject(object))
+					return;
+				removeObject(object);
+			} catch (Throwable e) {
+				Logger.handle(World.class, "spawnObjectTemporary", e);
 			}
-		}, Utils.clampI(ticks - 1, 0, Integer.MAX_VALUE));
+		});
 	}
 
 	public static final void spawnObjectTemporary(final GameObject object, int ticks) {
