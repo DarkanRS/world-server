@@ -199,6 +199,15 @@ public class TaskManager {
         }
     }
 
+    public void remove(String mapping) {
+        synchronized(tasks) {
+            TaskInformation task = mappedTasks.remove(mapping);
+            if (task == null)
+                return;
+            tasks.remove(task);
+        }
+    }
+
     private TaskInformation mapTaskInformation(String mapping, TaskInformation taskInfo) {
         tasks.add(taskInfo);
         if (mapping != null) {
