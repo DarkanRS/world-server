@@ -2,16 +2,22 @@ package com.rs.game.tasks;
 
 public final class TaskInformation {
 
+	String mapping;
 	Task task;
 	int loopDelay;
 	int currDelay;
 
-	public TaskInformation(Task task, int startDelay, int loopDelay) {
+	public TaskInformation(String mapping, Task task, int startDelay, int loopDelay) {
+		this.mapping = mapping;
 		this.task = task;
 		this.currDelay = startDelay;
 		this.loopDelay = loopDelay;
 		if (loopDelay == -1)
 			task.needRemove = true;
+	}
+
+	public String getMapping() {
+		return mapping;
 	}
 
 	public Task getTask() {

@@ -418,7 +418,7 @@ public class PlayerCombat extends PlayerAction {
 				target.setNextSpotAnim(new SpotAnim(44));
 				target.resetWalkSteps();
 				if (target instanceof NPC npc) {
-					target.getTasks().delay(p.getTaskDelay(), () -> {
+					target.getTasks().schedule(p.getTaskDelay(), () -> {
 						npc.setCapDamage(-1);
 						target.applyHit(new Hit(player, target.getHitpoints(), HitLook.TRUE_DAMAGE));
 					});
@@ -435,7 +435,7 @@ public class PlayerCombat extends PlayerAction {
 					public boolean attack(Entity next) {
 						Hit hit = calculateHit(player, next, weaponId, attackStyle, true, true, 1.0, weaponId == 10034 ? 1.2 : 1.0);
 						player.setNextAnimation(new Animation(2779));
-						next.getTasks().delay(p.getTaskDelay(), () -> next.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
+						next.getTasks().schedule(p.getTaskDelay(), () -> next.setNextSpotAnim(new SpotAnim(2739, 0, 96 << 16)));
 						delayHit(next, p.getTaskDelay(), weaponId, attackStyle, hit);
 						if (!nextTarget) {
 							if (hit.getDamage() <= 0)
@@ -537,8 +537,8 @@ public class PlayerCombat extends PlayerAction {
 						int maxHit = getMaxHit(player, target, weaponId, attackStyle, true, 1.0);
 						int minBleed = (int) (maxHit * (lockedOn ? 0.25 : 0.20));
 						int maxBleed = (int) (minBleed * 0.70);
-						target.getTasks().delay(14, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
-						target.getTasks().delay(28, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
+						target.getTasks().schedule(14, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
+						target.getTasks().schedule(28, () -> delayHit(target, 0, weaponId, attackStyle, Hit.range(player, Utils.random(minBleed, maxBleed))));
 					}, null);
 					checkSwiftGlovesEffect(player, p.getTaskDelay(), attackStyle, weaponId, hit, p);
 				}
