@@ -208,6 +208,12 @@ public class TaskManager {
         }
     }
 
+    public boolean hasTask(String mapping) {
+        synchronized (tasks) {
+            return mappedTasks.containsKey(mapping);
+        }
+    }
+
     private TaskInformation mapTaskInformation(String mapping, TaskInformation taskInfo) {
         tasks.add(taskInfo);
         if (mapping != null) {
