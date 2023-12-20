@@ -227,10 +227,10 @@ public final class ControllerManager {
 		controller.processNPCDeath(id);
 	}
 
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		if (controller == null || !inited)
 			return;
-		controller.magicTeleported(type);
+		controller.onTeleported(type);
 	}
 
 	public void sendInterfaces() {

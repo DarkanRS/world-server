@@ -229,7 +229,7 @@ public final class QueenBlackDragonController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		end(0);
 	}
 

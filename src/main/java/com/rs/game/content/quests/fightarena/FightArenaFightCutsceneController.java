@@ -409,7 +409,7 @@ public class FightArenaFightCutsceneController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		forceClose();
 	}
 }

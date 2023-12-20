@@ -58,7 +58,7 @@ public class FightPitsController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		FightPits.leaveArena(player, 3); // teled out somehow, impossible usualy
 	}
 

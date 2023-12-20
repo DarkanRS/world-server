@@ -11,7 +11,7 @@ public class FishingTrawlerCrashedController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		player.getAppearance().setBAS(-1);
 		player.getControllerManager().forceStop();
 	}

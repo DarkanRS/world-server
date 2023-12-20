@@ -91,7 +91,7 @@ public class FalconryController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

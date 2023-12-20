@@ -137,7 +137,7 @@ public class LodestoneAction extends PlayerAction {
 			player.setNextSpotAnim(new SpotAnim(HOME_GRAPHIC));
 		} else if (currentTime == 18) {
 			player.lock();
-			player.getControllerManager().magicTeleported(Magic.TeleType.MAGIC);
+			player.getControllerManager().onTeleported(Magic.TeleType.MAGIC);
 			if (player.getControllerManager().getController() == null)
 				Magic.teleControllersCheck(player, tile);
 			player.tele(tile);

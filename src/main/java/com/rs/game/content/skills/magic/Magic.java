@@ -552,7 +552,7 @@ public class Magic {
 						}
 					player.tele(teleTile);
 					if (teleType != TeleType.NONE) {
-						player.getControllerManager().magicTeleported(teleType);
+						player.getControllerManager().onTeleported(teleType);
 						if (player.getControllerManager().getController() == null)
 							teleControllersCheck(player, teleTile);
 					}
@@ -650,7 +650,7 @@ public class Magic {
 					player.getControllerManager().removeControllerWithoutCheck();
 					stage = 1;
 				} else if (stage == 1) {
-					player.getControllerManager().magicTeleported(TeleType.MAGIC);
+					player.getControllerManager().onTeleported(TeleType.MAGIC);
 					if (!player.getHouse().arriveOutsideHouse()) {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
@@ -681,7 +681,7 @@ public class Magic {
 			switch (tick) {
 				case 0 -> player.setNextAnimation(new Animation(4731));
 				case 2 -> {
-					player.getControllerManager().magicTeleported(TeleType.ITEM);
+					player.getControllerManager().onTeleported(TeleType.ITEM);
 					if (!player.getHouse().arriveOutsideHouse()) {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
@@ -722,7 +722,7 @@ public class Magic {
 						teleTile = tile;
 					}
 					player.tele(teleTile);
-					player.getControllerManager().magicTeleported(TeleType.ITEM);
+					player.getControllerManager().onTeleported(TeleType.ITEM);
 					if (player.getControllerManager().getController() == null)
 						teleControllersCheck(player, teleTile);
 					player.setNextFaceTile(Tile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));

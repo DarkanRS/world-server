@@ -1020,7 +1020,7 @@ public class DungeonController extends Controller {
 	 * called once teleport is performed
 	 */
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getMoveTile()));
 		hideBar();
 	}

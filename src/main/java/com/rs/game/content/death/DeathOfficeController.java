@@ -211,7 +211,7 @@ public class DeathOfficeController extends InstancedController {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		removeController();
 	}
 

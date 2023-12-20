@@ -157,7 +157,7 @@ public class DomTowerController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		if (type != Magic.TeleType.OBJECT)
 			player.getDominionTower().destroyArena(false, getMode());
 	}

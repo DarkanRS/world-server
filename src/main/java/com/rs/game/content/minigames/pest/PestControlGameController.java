@@ -79,7 +79,7 @@ public class PestControlGameController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType teleType) {
+	public void onTeleported(Magic.TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 

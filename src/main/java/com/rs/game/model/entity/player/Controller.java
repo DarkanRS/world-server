@@ -191,7 +191,7 @@ public abstract class Controller {
 	/**
 	 * called once teleport is performed
 	 */
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 
 	}
 

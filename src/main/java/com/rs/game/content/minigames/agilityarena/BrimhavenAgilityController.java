@@ -161,7 +161,7 @@ public final class BrimhavenAgilityController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		removePlayer(player);
 		removeController();
 	}

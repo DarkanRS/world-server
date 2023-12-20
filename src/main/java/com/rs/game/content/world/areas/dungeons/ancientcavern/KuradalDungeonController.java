@@ -82,7 +82,7 @@ public class KuradalDungeonController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(Magic.TeleType type) {
+	public void onTeleported(Magic.TeleType type) {
 		removeController();
 	}
 
