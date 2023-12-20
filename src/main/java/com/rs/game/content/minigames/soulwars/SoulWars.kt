@@ -6,6 +6,7 @@ import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.World
 import com.rs.game.content.minigames.MinigameUtil
+import com.rs.game.content.skills.magic.Magic.TeleType
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
@@ -407,9 +408,7 @@ class SoulWarsLobbyController : Controller() {
         return true
     }
 
-    override fun processItemTeleport(toTile: Tile?): Boolean { return false }
-    override fun processMagicTeleport(toTile: Tile?): Boolean { return false }
-    override fun processObjectTeleport(toTile: Tile?): Boolean { return false }
+    override fun processTeleport(toTile: Tile?, teleType: TeleType): Boolean { return false }
 
     override fun logout(): Boolean {
         LOBBY_PLAYERS.remove(player)
@@ -549,9 +548,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         return false
     }
 
-    override fun processItemTeleport(toTile: Tile?): Boolean { return false }
-    override fun processMagicTeleport(toTile: Tile?): Boolean { return false }
-    override fun processObjectTeleport(toTile: Tile?): Boolean { return false }
+    override fun processTeleport(toTile: Tile?, teleType: TeleType): Boolean { return false }
 
     override fun logout(): Boolean {
         player.isCanPvp = false
