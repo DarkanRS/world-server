@@ -20,6 +20,7 @@ import com.rs.game.content.minigames.sorcgarden.SqirkFruitSqueeze.SqirkFruit;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -110,7 +111,7 @@ public class SorceressGardenController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 
 	}
@@ -129,7 +130,7 @@ public class SorceressGardenController extends Controller {
 		if (!broomstick)
 			teleport = Magic.sendNormalTeleportSpell(player, 0, 0, MIDDLE);
 		else
-			teleport = Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, Magic.TeleType.MAGIC, null);
+			teleport = Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, TeleType.MAGIC, null);
 		if (teleport)
 			WorldTasks.schedule(new Task() {
 

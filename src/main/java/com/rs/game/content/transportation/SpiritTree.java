@@ -19,6 +19,7 @@ package com.rs.game.content.transportation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -68,7 +69,7 @@ public class SpiritTree {
 
 	private static void sendTeleport(Player player, Tile tile) {
 		player.sendMessage("You place your hands on the dry tough bark of the spirit tree, and feel a surge of energy run through your veins.");
-		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, Magic.TeleType.OBJECT, null);
+		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, TeleType.OBJECT, null);
 	}
 
 	public static void handleSpiritTree(Player player, int slot) {

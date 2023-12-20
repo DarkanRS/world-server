@@ -165,6 +165,10 @@ public final class Settings {
 		Logger.info(Settings.class, "loadConfig", "Loaded lobby IP: " + getConfig().lobbyIp);
 	}
 
+	public static void saveConfig() throws IOException {
+		JsonFileManager.saveJsonFile(SETTINGS, new File("./worldConfig.json"));
+	}
+
 	public String getServerName() {
 		return serverName;
 	}

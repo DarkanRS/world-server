@@ -18,9 +18,10 @@ package com.rs.game.model.entity.player.managers;
 
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
@@ -42,7 +43,7 @@ public final class ControllerManager {
 	private transient Player player;
 	private transient boolean inited;
 
-	private transient Set<TriFunction<Player, Tile, Magic.TeleType, Boolean>> teleportHooks = new ObjectOpenHashSet<>();
+	private transient Set<BiFunction<Player, Teleport, Boolean>> teleportHooks = new ObjectOpenHashSet<>();
 	private transient Set<BiFunction<Player, Entity, Boolean>> keepCombatingHooks = new ObjectOpenHashSet<>();
 	private transient Set<BiFunction<Player, Entity, Boolean>> canAttackHooks = new ObjectOpenHashSet<>();
 	private transient Set<BiFunction<Player, Entity, Boolean>> canHitHooks = new ObjectOpenHashSet<>();
@@ -227,7 +228,7 @@ public final class ControllerManager {
 		controller.processNPCDeath(id);
 	}
 
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		if (controller == null || !inited)
 			return;
 		controller.onTeleported(type);
@@ -279,11 +280,11 @@ public final class ControllerManager {
 		return controller.useDialogueScript(key);
 	}
 
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+	public boolean processTeleport(Teleport tele) {
 		if (controller != null && inited)
-			return controller.processTeleport(toTile, type);
+			return controller.processTeleport(tele);
 		for (var teleportHook : teleportHooks) {
-			if (!teleportHook.apply(player, toTile, type))
+			if (!teleportHook.apply(player, tele))
 				return false;
 		}
 		return true;
@@ -417,7 +418,7 @@ public final class ControllerManager {
 		return (T) controller;
 	}
 
-	public void addTeleportHook(TriFunction<Player, Tile, Magic.TeleType, Boolean> func) {
+	public void addTeleportHook(BiFunction<Player, Teleport, Boolean> func) {
 		teleportHooks.add(func);
 	}
 

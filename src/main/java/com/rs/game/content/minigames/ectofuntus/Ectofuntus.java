@@ -20,6 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.prayer.Burying;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
@@ -111,14 +112,14 @@ public class Ectofuntus {
     public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[]{11164}, e -> bin(e.getPlayer()));
 
     public static final void sendEctophialTeleport(Player player, Tile tile) {
-		if (!player.getControllerManager().processTeleport(tile, Magic.TeleType.MAGIC))
+		if (!player.getControllerManager().processTeleport(TeleType.MAGIC))
 			return;
 		player.lock();
 		player.sync(9609, 1688);
 		WorldTasks.schedule(4, () -> {
 			player.soundEffect(4580);
 			player.unlock();
-			Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, Magic.TeleType.MAGIC, null);
+			Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, TeleType.MAGIC, null);
 		});
     }
 

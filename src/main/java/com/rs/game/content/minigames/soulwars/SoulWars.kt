@@ -1,14 +1,13 @@
 package com.rs.game.content.minigames.soulwars
 
 import com.rs.cache.loaders.ObjectType
-import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.World
 import com.rs.game.content.minigames.MinigameUtil
-import com.rs.game.content.skills.magic.Magic.TeleType
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
+import com.rs.game.model.entity.Teleport
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Controller
 import com.rs.game.model.entity.player.Equipment
@@ -16,7 +15,6 @@ import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.MapUtils
@@ -408,7 +406,7 @@ class SoulWarsLobbyController : Controller() {
         return true
     }
 
-    override fun processTeleport(toTile: Tile?, teleType: TeleType): Boolean { return false }
+    override fun processTeleport(tele: Teleport): Boolean { return false }
 
     override fun logout(): Boolean {
         LOBBY_PLAYERS.remove(player)
@@ -548,7 +546,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         return false
     }
 
-    override fun processTeleport(toTile: Tile?, teleType: TeleType): Boolean { return false }
+    override fun processTeleport(tele: Teleport): Boolean { return false }
 
     override fun logout(): Boolean {
         player.isCanPvp = false

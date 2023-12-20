@@ -18,7 +18,8 @@ package com.rs.game.content.holidayevents.halloween.hw07;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -118,7 +119,7 @@ public class Halloween2007Controller extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeItems();
 	}
 
@@ -134,7 +135,7 @@ public class Halloween2007Controller extends Controller {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+	public boolean processTeleport(Teleport tele) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}

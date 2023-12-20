@@ -16,7 +16,8 @@
 //
 package com.rs.game.content.minigames.creations;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -62,8 +63,8 @@ public class StealingCreationLobbyController extends Controller {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
-		if (type != Magic.TeleType.OBJECT) {
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT) {
 			player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
 			return false;
 		}
@@ -71,7 +72,7 @@ public class StealingCreationLobbyController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		StealingCreationLobby.removePlayer(player);
 	}
 

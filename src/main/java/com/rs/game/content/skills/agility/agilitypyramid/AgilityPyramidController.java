@@ -25,7 +25,7 @@ import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.World;
 import com.rs.game.content.minigames.pyramidplunder.SimonTempleton;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -129,7 +129,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 

@@ -24,7 +24,7 @@ import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.items.LootInterface;
 import com.rs.game.content.minigames.barrows.npcs.BarrowsBrother;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -124,7 +124,7 @@ public final class BarrowsController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		leave(false);
 	}
 

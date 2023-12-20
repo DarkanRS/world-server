@@ -16,10 +16,10 @@
 //
 package com.rs.game.content.minigames.pest;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class PestControlLobbyController extends Controller {
@@ -46,13 +46,13 @@ public final class PestControlLobbyController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType teleType) {
+	public void onTeleported(TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
-		if (type != Magic.TeleType.OBJECT)
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT)
 			player.getControllerManager().forceStop();
 		return true;
 	}

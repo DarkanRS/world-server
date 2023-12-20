@@ -24,6 +24,7 @@ import com.rs.game.content.achievements.AchievementDef.Area;
 import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.content.skills.magic.Alchemy;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.rellekka.Rellekka;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.player.Player;
@@ -57,20 +58,20 @@ public class AchievementSetRewards {
 						e.getPlayer().sendMessage("You already used your teleport for today.");
 						return;
 					}
-					if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, Magic.TeleType.ITEM, null))
+					if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, null))
 						e.getPlayer().setDailyB("ardyCloakFarmTele", true);
 				});
-				ops.add("Kandarin Monastery", () -> Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.TeleType.ITEM, null));
+				ops.add("Kandarin Monastery", () -> Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, TeleType.ITEM, null));
 				ops.add("Nowhere.");
 			});
 		} else if (e.getOption().contains("Kandarin Monastery") || e.getOption().equals("Teleport"))
-			Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, Magic.TeleType.ITEM, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, TeleType.ITEM, null);
 		else if (e.getOption().contains("Ardougne Farm")) {
 			if (e.getPlayer().getDailyB("ardyCloakFarmTele") && (e.getItem().getId() == 15345 || e.getItem().getId() == 15347 || e.getItem().getId() == 15349)) {
 				e.getPlayer().sendMessage("You already used your teleport for today.");
 				return;
 			}
-			if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, Magic.TeleType.ITEM, null))
+			if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, null))
 				e.getPlayer().setDailyB("ardyCloakFarmTele", true);
 		} else if (e.getOption().equals("Summoning-restore")) {
 			if (e.getPlayer().getDailyB("ardyCloakSumm")) {
@@ -88,7 +89,7 @@ public class AchievementSetRewards {
 	public static ItemClickHandler handleExplorersRing = new ItemClickHandler(new Object[] { 13560, 13561, 13562, 19760 }, new String[] { "Cabbage-port", "Run-replenish", "Low-alchemy", "Low-Alchemy", "High-Alchemy", "Superheat", "Alchemy-or-superheat" }, e -> {
 		switch(e.getOption()) {
 		case "Cabbage-port":
-			Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, Tile.of(3053, 3291, 0), 4, true, Magic.TeleType.ITEM, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 9984, 9986, 1731, 1732, 0, 0, Tile.of(3053, 3291, 0), 4, true, TeleType.ITEM, null);
 			break;
 		case "Run-replenish":
 			if ((e.getItem().getId() == 13560 && e.getPlayer().getDailyI("eRingRunRep") >= 1) || (e.getItem().getId() == 13561 && e.getPlayer().getDailyI("eRingRunRep") >= 2)) {
@@ -242,7 +243,7 @@ public class AchievementSetRewards {
 			e.getPlayer().sendMessage("You already used your teleports for today.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, Tile.of(3683, 9888, 0), 3, false, Magic.TeleType.ITEM, null))
+		if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, Tile.of(3683, 9888, 0), 3, false, TeleType.ITEM, null))
 			e.getPlayer().incDailyI("moryLegSlimeTeles");
 	}
 	});

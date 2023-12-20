@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.bosses.godwars.zaros;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Controller;
 
 public class NexController extends Controller {
@@ -64,7 +64,7 @@ public class NexController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		remove();
 		removeController();
 	}

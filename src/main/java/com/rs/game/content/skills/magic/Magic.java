@@ -24,6 +24,7 @@ import com.rs.game.content.skills.construction.HouseController;
 import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
@@ -42,14 +43,6 @@ import java.util.function.Consumer;
 
 @PluginEventHandler
 public class Magic {
-
-	//342 343 teleother spotanims
-	public enum TeleType {
-		NONE,
-		MAGIC,
-		ITEM,
-		OBJECT
-	}
 
 	public static boolean isSlayerStaff(int weaponId) {
 		switch(weaponId) {
@@ -423,7 +416,7 @@ public class Magic {
 	}
 
 	public static final void sendNormalTeleportNoType(Player player, Tile tile) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, true, TeleType.NONE, null);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, true, TeleType.BYPASS_HOOKS, null);
 	}
 
 	public static final void sendDamonheimTeleport(Player player, Tile tile) {
@@ -476,17 +469,8 @@ public class Magic {
 	}
 
 	public static void pushLeverTeleport(final Player player, final Tile tile) {
-		if (!player.getControllerManager().processTeleport(tile, TeleType.OBJECT))
-			return;
 		player.setNextAnimation(new Animation(2140));
-		player.lock();
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				player.unlock();
-				Magic.sendObjectTeleportSpell(player, false, tile, null);
-			}
-		}, 1);
+		player.getTasks().schedule(1, () -> Magic.sendObjectTeleportSpell(player, false, tile, null));
 	}
 	
 	public static final void sendObjectTeleportSpell(Player player, boolean randomize, Tile tile) {
@@ -506,77 +490,63 @@ public class Magic {
 	}
 
 	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Consumer<Player> onArrive) {
-		if (player.isLocked())
-			return false;
-		if (player.getSkills().getLevel(Constants.MAGIC) < level) {
-			player.sendMessage("Your Magic level is not high enough for this spell.");
-			return false;
-		}
-		if (runes != null && !runes.meetsRequirements(player))
-			return false;
-		if (teleType != TeleType.NONE) {
-			if (!player.getControllerManager().processTeleport(tile, teleType)) {
-				player.getTempAttribs().removeB("glory");
+		Teleport tele = new Teleport(Tile.of(player.getTile()), tile, teleType, () -> {
+			if (player.isLocked())
+				return false;
+			if (player.getSkills().getLevel(Constants.MAGIC) < level) {
+				player.sendMessage("Your Magic level is not high enough for this spell.");
 				return false;
 			}
-		}
-		if (runes != null) {
-			List<Item> runeList = runes.getRunesToDelete(player);
-			for (Item rune : runeList)
-				if (rune != null)
-					player.getInventory().deleteItem(rune);
-		}
-		player.stopAll();
-		if (upEmoteId != -1)
-			player.setNextAnimation(new Animation(upEmoteId));
-		if (upGraphicId != -1)
-			player.setNextSpotAnim(new SpotAnim(upGraphicId));
-		if (teleType == TeleType.MAGIC)
-			player.voiceEffect(5527);
-		player.lock(3 + delay);
-		WorldTasks.schedule(new Task() {
-
-			boolean removeDamage;
-
-			@Override
-			public void run() {
-				if (!removeDamage) {
-					Tile teleTile = tile;
-					if (randomize)
-						// attemps to randomize tile by 4x4 area
-						for (int trycount = 0; trycount < 10; trycount++) {
-							teleTile = Tile.of(tile, 2);
-							if (World.floorAndWallsFree(teleTile, player.getSize()))
-								break;
-							teleTile = tile;
-						}
-					player.tele(teleTile);
-					if (teleType != TeleType.NONE) {
-						player.getControllerManager().onTeleported(teleType);
-						if (player.getControllerManager().getController() == null)
-							teleControllersCheck(player, teleTile);
-					}
-					if (xp != 0)
-						player.getSkills().addXp(Constants.MAGIC, xp);
-					if (downEmoteId != -1)
-						player.setNextAnimation(new Animation(downEmoteId == -2 ? -1 : downEmoteId));
-					if (downGraphicId != -1)
-						player.setNextSpotAnim(new SpotAnim(downGraphicId));
-					if (teleType == TeleType.MAGIC) {
-						player.voiceEffect(5524);
-						player.setNextFaceTile(Tile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
-						player.setFaceAngle(6);
-					}
-					if (onArrive != null)
-						onArrive.accept(player);
-					removeDamage = true;
-				} else {
-					player.resetReceivedHits();
-					player.resetReceivedDamage();
-					stop();
+			if (runes != null && !runes.meetsRequirements(player))
+				return false;
+			return true;
+		}, () -> {
+			if (runes != null) {
+				List<Item> runeList = runes.getRunesToDelete(player);
+				for (Item rune : runeList)
+					if (rune != null)
+						player.getInventory().deleteItem(rune);
+			}
+			player.stopAll();
+			if (upEmoteId != -1)
+				player.setNextAnimation(new Animation(upEmoteId));
+			if (upGraphicId != -1)
+				player.setNextSpotAnim(new SpotAnim(upGraphicId));
+			if (teleType == TeleType.MAGIC)
+				player.voiceEffect(5527);
+			player.lock(3 + delay);
+		}, () -> {
+			Tile toTile = tile;
+			if (randomize) {
+				for (int trycount = 0; trycount < 10; trycount++) {
+					toTile = Tile.of(tile, 2);
+					if (World.floorAndWallsFree(toTile, player.getSize()))
+						break;
+					toTile = tile;
 				}
 			}
-		}, delay, 0);
+			player.tele(toTile);
+			if (teleType != TeleType.BYPASS_HOOKS) {
+				player.getControllerManager().onTeleported(teleType);
+				if (player.getControllerManager().getController() == null)
+					teleControllersCheck(player, toTile);
+			}
+			if (xp != 0)
+				player.getSkills().addXp(Constants.MAGIC, xp);
+			if (downEmoteId != -1)
+				player.anim(downEmoteId == -2 ? -1 : downEmoteId);
+			if (downGraphicId != -1)
+				player.spotAnim(downGraphicId);
+			if (teleType == TeleType.MAGIC) {
+				player.voiceEffect(5524);
+				player.setNextFaceTile(Tile.of(toTile.getX(), toTile.getY() - 1, toTile.getPlane()));
+				player.setFaceAngle(6);
+			}
+			if (onArrive != null)
+				onArrive.accept(player);
+			player.resetReceivedHits();
+			player.resetReceivedDamage();
+		});
 		return true;
 	}
 	
@@ -632,9 +602,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTeleport(final Player player) {
-		//		if (player.getControllerManager().getController() instanceof HouseController)
-		//			return false;
-		if (!player.getControllerManager().processTeleport(Tile.of(3217, 3426, 0), TeleType.MAGIC) || player.isLocked())
+		if (!player.getControllerManager().processTeleport(TeleType.MAGIC) || player.isLocked())
 			return false;
 
 		player.lock();
@@ -672,7 +640,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTab(final Player player) {
-		if (!player.getControllerManager().processTeleport(Tile.of(3217, 3426, 0), TeleType.ITEM) || (player.getControllerManager().getController() instanceof HouseController))
+		if (!player.getControllerManager().processTeleport(TeleType.ITEM) || (player.getControllerManager().getController() instanceof HouseController))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
@@ -704,7 +672,7 @@ public class Magic {
 	}
 
 	public static boolean useTeleTab(final Player player, final Tile tile) {
-		if (!player.getControllerManager().processTeleport(tile, TeleType.ITEM))
+		if (!player.getControllerManager().processTeleport(TeleType.ITEM))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));

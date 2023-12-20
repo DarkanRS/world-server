@@ -1,6 +1,6 @@
 package com.rs.game.content.minigames.trawler;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
@@ -21,7 +21,7 @@ public class FishingTrawlerGameController extends Controller {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+	public boolean processTeleport(Teleport tele) {
 		sendMessage();
 		return false;
 	}

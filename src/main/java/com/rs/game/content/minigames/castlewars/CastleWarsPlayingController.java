@@ -17,10 +17,11 @@
 package com.rs.game.content.minigames.castlewars;
 
 import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
@@ -231,7 +232,7 @@ public class CastleWarsPlayingController extends Controller {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+	public boolean processTeleport(Teleport tele) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
@@ -414,7 +415,7 @@ public class CastleWarsPlayingController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 		leave();
 	}
