@@ -209,6 +209,12 @@ public class DeathOfficeController extends InstancedController {
 			return false;
 		return true;
 	}
+
+	@Override
+	public void magicTeleported(Magic.TeleType type) {
+		removeController();
+	}
+
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 45803) {
