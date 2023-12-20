@@ -204,15 +204,11 @@ public class DeathOfficeController extends InstancedController {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return false;
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+		if (type != Magic.TeleType.OBJECT)
+			return false;
+		return true;
 	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
-	}
-
 	@Override
 	public boolean processObjectClick1(GameObject object) {
 		if (object.getId() == 45803) {

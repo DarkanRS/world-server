@@ -18,6 +18,7 @@ package com.rs.game.model.entity.player.managers;
 
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
@@ -29,9 +30,11 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import com.rs.utils.TriFunction;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public final class ControllerManager {
@@ -39,6 +42,10 @@ public final class ControllerManager {
 	private transient Player player;
 	private transient boolean inited;
 
+	private transient Set<TriFunction<Player, Tile, Magic.TeleType, Boolean>> teleportHooks = new ObjectOpenHashSet<>();
+	private transient Set<BiFunction<Player, Entity, Boolean>> keepCombatingHooks = new ObjectOpenHashSet<>();
+	private transient Set<BiFunction<Player, Entity, Boolean>> canAttackHooks = new ObjectOpenHashSet<>();
+	private transient Set<BiFunction<Player, Entity, Boolean>> canHitHooks = new ObjectOpenHashSet<>();
 	private transient Set<Function<Player, Boolean>> deathHooks = new ObjectOpenHashSet<>();
 
 	private Controller controller;
@@ -94,9 +101,13 @@ public final class ControllerManager {
 	}
 
 	public boolean keepCombating(Entity target) {
-		if (controller == null || !inited)
-			return true;
-		return controller.keepCombating(target);
+		if (controller != null && inited)
+			return controller.keepCombating(target);
+		for (var keepCombatingHook : keepCombatingHooks) {
+			if (!keepCombatingHook.apply(player, target))
+				return false;
+		}
+		return true;
 	}
 
 	public boolean canEquip(int slotId, int itemId) {
@@ -136,9 +147,13 @@ public final class ControllerManager {
 	}
 
 	public boolean canAttack(Entity entity) {
-		if (controller == null || !inited)
-			return true;
-		return controller.canAttack(entity);
+		if (controller != null && inited)
+			return controller.canAttack(entity);
+		for (var canAttackHook : canAttackHooks) {
+			if (!canAttackHook.apply(player, entity))
+				return false;
+		}
+		return true;
 	}
 
 	public boolean canPlayerOption1(Player target) {
@@ -166,9 +181,13 @@ public final class ControllerManager {
 	}
 
 	public boolean canHit(Entity entity) {
-		if (controller == null || !inited)
-			return true;
-		return controller.canHit(entity);
+		if (controller != null && inited)
+			return controller.canHit(entity);
+		for (var canHitHook : canHitHooks) {
+			if (!canHitHook.apply(player, entity))
+				return false;
+		}
+		return true;
 	}
 
 	public void moved() {
@@ -208,7 +227,7 @@ public final class ControllerManager {
 		controller.processNPCDeath(id);
 	}
 
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		if (controller == null || !inited)
 			return;
 		controller.magicTeleported(type);
@@ -227,9 +246,7 @@ public final class ControllerManager {
 	}
 
 	public boolean sendDeath() {
-		if (!inited)
-			return true;
-		if (controller != null)
+		if (controller != null && inited)
 			return controller.sendDeath();
 		for (var deathHook : deathHooks) {
 			if (deathHook.apply(player))
@@ -262,22 +279,14 @@ public final class ControllerManager {
 		return controller.useDialogueScript(key);
 	}
 
-	public boolean processMagicTeleport(Tile toTile) {
-		if (controller == null || !inited)
-			return true;
-		return controller.processMagicTeleport(toTile);
-	}
-
-	public boolean processItemTeleport(Tile toTile) {
-		if (controller == null || !inited)
-			return true;
-		return controller.processItemTeleport(toTile);
-	}
-
-	public boolean processObjectTeleport(Tile toTile) {
-		if (controller == null || !inited)
-			return true;
-		return controller.processObjectTeleport(toTile);
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+		if (controller != null && inited)
+			return controller.processTeleport(toTile, type);
+		for (var teleportHook : teleportHooks) {
+			if (!teleportHook.apply(player, toTile, type))
+				return false;
+		}
+		return true;
 	}
 
 	public boolean processObjectClick1(GameObject object) {
@@ -406,6 +415,22 @@ public final class ControllerManager {
 		if (controller == null || !controller.getClass().isAssignableFrom(clazz))
 			return null;
 		return (T) controller;
+	}
+
+	public void addTeleportHook(TriFunction<Player, Tile, Magic.TeleType, Boolean> func) {
+		teleportHooks.add(func);
+	}
+
+	public void addCanAttackHook(BiFunction<Player, Entity, Boolean> func) {
+		canAttackHooks.add(func);
+	}
+
+	public void addKeepFightingHook(BiFunction<Player, Entity, Boolean> func) {
+		keepCombatingHooks.add(func);
+	}
+
+	public void addCanHitHook(BiFunction<Player, Entity, Boolean> func) {
+		canHitHooks.add(func);
 	}
 
 	public void addDeathHook(Function<Player, Boolean> func) {

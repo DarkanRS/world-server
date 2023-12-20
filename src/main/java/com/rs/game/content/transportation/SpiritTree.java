@@ -68,7 +68,7 @@ public class SpiritTree {
 
 	private static void sendTeleport(Player player, Tile tile) {
 		player.sendMessage("You place your hands on the dry tough bark of the spirit tree, and feel a surge of energy run through your veins.");
-		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, Magic.TeleType.OBJECT, null);
 	}
 
 	public static void handleSpiritTree(Player player, int slot) {

@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class StrongholdOfSecurity {
 
 	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }, e -> {
-		Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+		Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, Magic.TeleType.ITEM, null);
 	});
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }, e -> {

@@ -18,6 +18,7 @@ package com.rs.game.content.holidayevents.halloween.hw09;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -109,7 +110,7 @@ public class Halloween2009Controller extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 
 	}
 
@@ -119,19 +120,7 @@ public class Halloween2009Controller extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}

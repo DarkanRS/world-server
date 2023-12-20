@@ -395,7 +395,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.TeleType.ITEM, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}

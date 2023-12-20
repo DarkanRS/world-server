@@ -24,6 +24,7 @@ import com.rs.game.World;
 import com.rs.game.content.minigames.fightkiln.npcs.FightKilnNPC;
 import com.rs.game.content.minigames.fightkiln.npcs.HarAken;
 import com.rs.game.content.minigames.fightkiln.npcs.TokHaarKetDill;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.map.instance.Instance;
@@ -800,7 +801,7 @@ public class FightKilnController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		exitCave(2);
 	}
 

@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.trawler;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.game.Tile;
 
@@ -24,7 +25,7 @@ public class FishingTrawlerLobbyController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		leaveLobby();
 	}
 

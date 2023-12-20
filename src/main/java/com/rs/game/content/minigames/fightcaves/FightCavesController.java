@@ -22,6 +22,7 @@ import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
 import com.rs.game.content.pets.Pets;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.player.Controller;
@@ -263,24 +264,12 @@ public class FightCavesController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		exitCave(2);
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}

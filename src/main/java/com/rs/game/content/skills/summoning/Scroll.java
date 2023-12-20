@@ -303,7 +303,7 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, 1, null))
+			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, Magic.TeleType.MAGIC, null))
 				return false;
 			familiar.sync(switch(familiar.getPouch()) {
 			default -> 8097;

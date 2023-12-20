@@ -526,7 +526,7 @@ public class RunespanController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int teleType) {
+	public void magicTeleported(Magic.TeleType teleType) {
 		exitRunespan();
 	}
 

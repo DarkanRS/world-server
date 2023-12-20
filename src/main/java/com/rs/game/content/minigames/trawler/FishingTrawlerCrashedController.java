@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.trawler;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 
 public class FishingTrawlerCrashedController extends Controller {
@@ -10,7 +11,7 @@ public class FishingTrawlerCrashedController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		player.getAppearance().setBAS(-1);
 		player.getControllerManager().forceStop();
 	}

@@ -330,7 +330,7 @@ public class FairyRings {
 	}
 
 	public static void sendTeleport(final Player player, final Tile tile) {
-		Magic.sendTeleportSpell(player, FIRST_ANIMATION, SECOND_ANIMATION, FIRST_GRAPHICS, SECOND_GRAPHICS, 0, 0, tile, 2, false, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, FIRST_ANIMATION, SECOND_ANIMATION, FIRST_GRAPHICS, SECOND_GRAPHICS, 0, 0, tile, 2, false, Magic.TeleType.OBJECT, null);
 	}
 
 	public static void handleDialButtons(final Player player, int componentId) {

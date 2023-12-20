@@ -27,6 +27,7 @@ import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.content.skills.fishing.FishingSpot;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.smithing.Smelting;
@@ -1373,13 +1374,10 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+		if (type != Magic.TeleType.OBJECT)
+			return false;
+		return true;
 	}
 
 	public void removeHint() {

@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.duel;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
@@ -61,17 +62,12 @@ public class DuelController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
 		return true;
 	}
 
 	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return true;
-	}
-
-	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		removeController();
 		remove();
 	}

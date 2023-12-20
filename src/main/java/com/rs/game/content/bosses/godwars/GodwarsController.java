@@ -287,7 +287,7 @@ public class GodwarsController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		remove();
 		removeController();
 	}

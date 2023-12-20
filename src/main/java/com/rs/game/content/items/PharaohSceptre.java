@@ -25,15 +25,15 @@ public class PharaohSceptre {
             e.getPlayer().sendMessage("Teleporting");
             e.getPlayer().sendOptionDialogue("Where would you like to go?", ops -> {
                 ops.add("Jalsavrah", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALSAVRAH, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALSAVRAH, 3, true, Magic.TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Jaleustrophos", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALEUSTROPHOS, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALEUSTROPHOS, 3, true, Magic.TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Jaldraocht", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALDRAOCHT, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALDRAOCHT, 3, true, Magic.TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Nowhere.");

@@ -44,8 +44,12 @@ import java.util.function.Consumer;
 public class Magic {
 
 	//342 343 teleother spotanims
-
-	public static final int MAGIC_TELEPORT = 0, ITEM_TELEPORT = 1, OBJECT_TELEPORT = 2;
+	public enum TeleType {
+		NONE,
+		MAGIC,
+		ITEM,
+		OBJECT
+	}
 
 	public static boolean isSlayerStaff(int weaponId) {
 		switch(weaponId) {
@@ -419,39 +423,39 @@ public class Magic {
 	}
 
 	public static final void sendNormalTeleportNoType(Player player, Tile tile) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, true, -1, null);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, true, TeleType.NONE, null);
 	}
 
 	public static final void sendDamonheimTeleport(Player player, Tile tile) {
-		sendTeleportSpell(player, 13652, 13654, 2602, 2603, 0, 0, tile, 10, true, MAGIC_TELEPORT, null);
+		sendTeleportSpell(player, 13652, 13654, 2602, 2603, 0, 0, tile, 10, true, TeleType.MAGIC, null);
 	}
 	
 	public static final void sendLunarTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes) {
-		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, null);
+		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, TeleType.MAGIC, runes, null);
 	}
 
 	public static final void sendLunarTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes, Consumer<Player> onArrive) {
-		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, onArrive);
+		sendTeleportSpell(player, 9606, -1, 1685, -1, level, xp, tile, 5, true, TeleType.MAGIC, runes, onArrive);
 	}
 	
 	public static final void sendAncientTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes, Consumer<Player> onArrive) {
-		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, onArrive);
+		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, TeleType.MAGIC, runes, onArrive);
 	}
 	
 	public static final void sendAncientTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes) {
-		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, MAGIC_TELEPORT, runes, null);
+		sendTeleportSpell(player, 9599, -2, 1681, -1, level, xp, tile, 5, true, TeleType.MAGIC, runes, null);
 	}
 	
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, Tile tile) {
-		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, null, null);
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, TeleType.MAGIC, null, null);
 	}
 	
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes) {
-		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes, null);
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, TeleType.MAGIC, runes, null);
 	}
 
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, Tile tile, RuneSet runes, Consumer<Player> onArrive) {
-		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, MAGIC_TELEPORT, runes, onArrive);
+		return sendTeleportSpell(player, 8939, 8941, 1576, 1577, level, xp, tile, 3, true, TeleType.MAGIC, runes, onArrive);
 	}
 
 	public static final boolean sendNormalTeleportSpell(Player player, int level, double xp, Tile tile, Consumer<Player> onArrive) {
@@ -468,11 +472,11 @@ public class Magic {
 
 	public static final boolean sendItemTeleportSpell(Player player, boolean randomize, int upEmoteId, int upGraphicId, int delay, Tile tile) {
 		player.getTempAttribs().setB("glory", true);
-		return sendTeleportSpell(player, upEmoteId, -2, upGraphicId, -1, 0, 0, tile, delay, randomize, ITEM_TELEPORT, null);
+		return sendTeleportSpell(player, upEmoteId, -2, upGraphicId, -1, 0, 0, tile, delay, randomize, TeleType.ITEM, null);
 	}
 
 	public static void pushLeverTeleport(final Player player, final Tile tile) {
-		if (!player.getControllerManager().processObjectTeleport(tile))
+		if (!player.getControllerManager().processTeleport(tile, TeleType.OBJECT))
 			return;
 		player.setNextAnimation(new Animation(2140));
 		player.lock();
@@ -486,22 +490,22 @@ public class Magic {
 	}
 	
 	public static final void sendObjectTeleportSpell(Player player, boolean randomize, Tile tile) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, OBJECT_TELEPORT, null, null);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, TeleType.OBJECT, null, null);
 	}
 
 	public static final void sendObjectTeleportSpell(Player player, boolean randomize, Tile tile, Consumer<Player> onArrive) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, OBJECT_TELEPORT, null, onArrive);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, 3, randomize, TeleType.OBJECT, null, onArrive);
 	}
 
 	public static final void sendDelayedObjectTeleportSpell(Player player, int delay, boolean randomize, Tile tile, Consumer<Player> onArrive) {
-		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, delay, randomize, OBJECT_TELEPORT, null, onArrive);
+		sendTeleportSpell(player, 8939, 8941, 1576, 1577, 0, 0, tile, delay, randomize, TeleType.OBJECT, null, onArrive);
 	}
 
-	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final int teleType, Consumer<Player> onArrive) {
+	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, Consumer<Player> onArrive) {
 		return sendTeleportSpell(player, upEmoteId, downEmoteId, upGraphicId, downGraphicId, level, xp, tile, delay, randomize, teleType, null, onArrive);
 	}
 
-	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final int teleType, RuneSet runes, Consumer<Player> onArrive) {
+	public static final boolean sendTeleportSpell(final Player player, int upEmoteId, final int downEmoteId, int upGraphicId, final int downGraphicId, int level, final double xp, final Tile tile, int delay, final boolean randomize, final TeleType teleType, RuneSet runes, Consumer<Player> onArrive) {
 		if (player.isLocked())
 			return false;
 		if (player.getSkills().getLevel(Constants.MAGIC) < level) {
@@ -510,17 +514,12 @@ public class Magic {
 		}
 		if (runes != null && !runes.meetsRequirements(player))
 			return false;
-		if (teleType == MAGIC_TELEPORT) {
-			if (!player.getControllerManager().processMagicTeleport(tile))
-				return false;
-		} else if (teleType == ITEM_TELEPORT) {
-			if (!player.getControllerManager().processItemTeleport(tile)) {
-				player.getTempAttribs().setB("glory", false);
+		if (teleType != TeleType.NONE) {
+			if (!player.getControllerManager().processTeleport(tile, teleType)) {
+				player.getTempAttribs().removeB("glory");
 				return false;
 			}
-		} else if (teleType == OBJECT_TELEPORT)
-			if (!player.getControllerManager().processObjectTeleport(tile))
-				return false;
+		}
 		if (runes != null) {
 			List<Item> runeList = runes.getRunesToDelete(player);
 			for (Item rune : runeList)
@@ -532,7 +531,7 @@ public class Magic {
 			player.setNextAnimation(new Animation(upEmoteId));
 		if (upGraphicId != -1)
 			player.setNextSpotAnim(new SpotAnim(upGraphicId));
-		if (teleType == MAGIC_TELEPORT)
+		if (teleType == TeleType.MAGIC)
 			player.voiceEffect(5527);
 		player.lock(3 + delay);
 		WorldTasks.schedule(new Task() {
@@ -552,7 +551,7 @@ public class Magic {
 							teleTile = tile;
 						}
 					player.tele(teleTile);
-					if (teleType != -1) {
+					if (teleType != TeleType.NONE) {
 						player.getControllerManager().magicTeleported(teleType);
 						if (player.getControllerManager().getController() == null)
 							teleControllersCheck(player, teleTile);
@@ -563,7 +562,7 @@ public class Magic {
 						player.setNextAnimation(new Animation(downEmoteId == -2 ? -1 : downEmoteId));
 					if (downGraphicId != -1)
 						player.setNextSpotAnim(new SpotAnim(downGraphicId));
-					if (teleType == MAGIC_TELEPORT) {
+					if (teleType == TeleType.MAGIC) {
 						player.voiceEffect(5524);
 						player.setNextFaceTile(Tile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));
 						player.setFaceAngle(6);
@@ -635,7 +634,7 @@ public class Magic {
 	public static boolean useHouseTeleport(final Player player) {
 		//		if (player.getControllerManager().getController() instanceof HouseController)
 		//			return false;
-		if (!player.getControllerManager().processMagicTeleport(Tile.of(3217, 3426, 0)) || player.isLocked())
+		if (!player.getControllerManager().processTeleport(Tile.of(3217, 3426, 0), TeleType.MAGIC) || player.isLocked())
 			return false;
 
 		player.lock();
@@ -651,7 +650,7 @@ public class Magic {
 					player.getControllerManager().removeControllerWithoutCheck();
 					stage = 1;
 				} else if (stage == 1) {
-					player.getControllerManager().magicTeleported(MAGIC_TELEPORT);
+					player.getControllerManager().magicTeleported(TeleType.MAGIC);
 					if (!player.getHouse().arriveOutsideHouse()) {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
@@ -673,7 +672,7 @@ public class Magic {
 	}
 
 	public static boolean useHouseTab(final Player player) {
-		if (!player.getControllerManager().processItemTeleport(Tile.of(3217, 3426, 0)) || (player.getControllerManager().getController() instanceof HouseController))
+		if (!player.getControllerManager().processTeleport(Tile.of(3217, 3426, 0), TeleType.ITEM) || (player.getControllerManager().getController() instanceof HouseController))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
@@ -682,7 +681,7 @@ public class Magic {
 			switch (tick) {
 				case 0 -> player.setNextAnimation(new Animation(4731));
 				case 2 -> {
-					player.getControllerManager().magicTeleported(ITEM_TELEPORT);
+					player.getControllerManager().magicTeleported(TeleType.ITEM);
 					if (!player.getHouse().arriveOutsideHouse()) {
 						player.getHouse().setBuildMode(false);
 						player.getHouse().enterMyHouse();
@@ -705,7 +704,7 @@ public class Magic {
 	}
 
 	public static boolean useTeleTab(final Player player, final Tile tile) {
-		if (!player.getControllerManager().processItemTeleport(tile))
+		if (!player.getControllerManager().processTeleport(tile, TeleType.ITEM))
 			return false;
 		player.lock();
 		player.setNextAnimation(new Animation(9597));
@@ -723,7 +722,7 @@ public class Magic {
 						teleTile = tile;
 					}
 					player.tele(teleTile);
-					player.getControllerManager().magicTeleported(ITEM_TELEPORT);
+					player.getControllerManager().magicTeleported(TeleType.ITEM);
 					if (player.getControllerManager().getController() == null)
 						teleControllersCheck(player, teleTile);
 					player.setNextFaceTile(Tile.of(teleTile.getX(), teleTile.getY() - 1, teleTile.getPlane()));

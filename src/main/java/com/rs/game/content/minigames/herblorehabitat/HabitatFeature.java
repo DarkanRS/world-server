@@ -82,5 +82,5 @@ public enum HabitatFeature {
 		}
 	});
 
-	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null));
+	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.TeleType.ITEM, null));
 }

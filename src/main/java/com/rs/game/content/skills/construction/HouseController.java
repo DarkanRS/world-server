@@ -496,7 +496,7 @@ public class HouseController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		house.leaveHouse(player, House.TELEPORTED);
 	}
 

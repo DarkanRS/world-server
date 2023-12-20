@@ -18,6 +18,7 @@ package com.rs.game.model.entity.player;
 
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
@@ -190,7 +191,7 @@ public abstract class Controller {
 	/**
 	 * called once teleport is performed
 	 */
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 
 	}
 
@@ -208,21 +209,7 @@ public abstract class Controller {
 	/**
 	 * return can teleport
 	 */
-	public boolean processMagicTeleport(Tile toTile) {
-		return true;
-	}
-
-	/**
-	 * return can teleport
-	 */
-	public boolean processItemTeleport(Tile toTile) {
-		return true;
-	}
-
-	/**
-	 * return can teleport
-	 */
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
 		return true;
 	}
 

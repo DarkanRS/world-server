@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.pest;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.pathing.Direction;
@@ -78,20 +79,17 @@ public class PestControlGameController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int teleType) {
+	public void magicTeleported(Magic.TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave the pest control area like this.");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave the pest control area like this.");
-		return false;
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
+		if (type != Magic.TeleType.OBJECT) {
+			player.simpleDialogue("You can't leave the pest control area like this.");
+			return false;
+		}
+		return true;
 	}
 
 	@Override

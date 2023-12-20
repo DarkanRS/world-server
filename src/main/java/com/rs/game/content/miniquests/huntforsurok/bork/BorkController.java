@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.ChaosTunnels;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -97,8 +98,8 @@ public class BorkController extends InstancedController {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return true;
+	public void magicTeleported(Magic.TeleType type) {
+		player.getControllerManager().forceStop();
 	}
 
 	@Override

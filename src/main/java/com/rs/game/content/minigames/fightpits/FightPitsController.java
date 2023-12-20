@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.fightpits;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -51,25 +52,13 @@ public class FightPitsController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
+	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
 		player.sendMessage("You can't teleport out of the arena!");
 		return false;
 	}
 
 	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.sendMessage("You can't teleport out of the arena!");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
-		player.sendMessage("You can't teleport out of the arena!");
-		return false;
-	}
-
-	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		FightPits.leaveArena(player, 3); // teled out somehow, impossible usualy
 	}
 

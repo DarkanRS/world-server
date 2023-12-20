@@ -60,7 +60,7 @@ public class WildernessObelisk {
 							continue;
 						int offsetX = p.getX() - center.getX();
 						int offsetY = p.getY() - center.getY();
-						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, Tile.of(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.OBJECT_TELEPORT, null);
+						Magic.sendTeleportSpell(p, 8939, 8941, 1690, -1, 0, 0, Tile.of(newCenter.getX() + offsetX, newCenter.getY() + offsetY, 0), 3, false, Magic.TeleType.OBJECT, null);
 					}
 				IS_ACTIVE[index] = false;
 			}

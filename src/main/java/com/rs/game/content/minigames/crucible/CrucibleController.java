@@ -3,6 +3,7 @@ package com.rs.game.content.minigames.crucible;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
 import com.rs.game.content.minigames.MinigameUtil;
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -95,19 +96,7 @@ public class CrucibleController extends Controller {
     }
 
     @Override
-    public boolean processMagicTeleport(Tile toTile) {
-        player.sendMessage("A mysterious force prevents you from teleporting.");
-        return false;
-    }
-
-    @Override
-    public boolean processItemTeleport(Tile toTile) {
-        player.sendMessage("A mysterious force prevents you from teleporting.");
-        return false;
-    }
-
-    @Override
-    public boolean processObjectTeleport(Tile toTile) {
+    public boolean processTeleport(Tile toTile, Magic.TeleType type) {
         player.sendMessage("A mysterious force prevents you from teleporting.");
         return false;
     }

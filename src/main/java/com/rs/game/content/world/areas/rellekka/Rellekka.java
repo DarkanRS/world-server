@@ -139,7 +139,7 @@ public class Rellekka {
 	}
 
 	private static final void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
-		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, Magic.MAGIC_TELEPORT, null)) {
+		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, Magic.TeleType.ITEM, null)) {
 			if (reduceDaily)
 				player.setDailyB("freeLyreTele", true);
 			if (lyre != null) {

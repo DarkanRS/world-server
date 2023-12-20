@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.agilityarena;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -160,7 +161,7 @@ public final class BrimhavenAgilityController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		removePlayer(player);
 		removeController();
 	}

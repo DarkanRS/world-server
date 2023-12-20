@@ -74,7 +74,7 @@ public class CropCircles {
                 e.getPlayer().sendMessage("You feel the magic of the crop circle grant you a Farmer's affinity.");
             }
         });
-        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, Tile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, Magic.OBJECT_TELEPORT, null);
+        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, Tile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, Magic.TeleType.OBJECT, null);
     });
 
     public static NPCClickHandler handleWanderingImpling = new NPCClickHandler(new Object[] { 6073 }, e -> {

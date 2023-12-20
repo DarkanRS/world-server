@@ -125,7 +125,7 @@ public class LodestoneAction extends PlayerAction {
 
 	@Override
 	public boolean start(final Player player) {
-		if (!player.getControllerManager().processMagicTeleport(tile))
+		if (!player.getControllerManager().processTeleport(tile, Magic.TeleType.MAGIC))
 			return false;
 		return process(player);
 	}
@@ -137,7 +137,7 @@ public class LodestoneAction extends PlayerAction {
 			player.setNextSpotAnim(new SpotAnim(HOME_GRAPHIC));
 		} else if (currentTime == 18) {
 			player.lock();
-			player.getControllerManager().magicTeleported(Magic.MAGIC_TELEPORT);
+			player.getControllerManager().magicTeleported(Magic.TeleType.MAGIC);
 			if (player.getControllerManager().getController() == null)
 				Magic.teleControllersCheck(player, tile);
 			player.tele(tile);

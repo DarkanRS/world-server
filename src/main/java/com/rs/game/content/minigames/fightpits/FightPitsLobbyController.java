@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.minigames.fightpits;
 
+import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 
@@ -33,7 +34,7 @@ public class FightPitsLobbyController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void magicTeleported(Magic.TeleType type) {
 		FightPits.leaveLobby(player, 2);
 	}
 
