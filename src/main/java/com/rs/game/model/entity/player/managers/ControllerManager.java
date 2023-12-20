@@ -29,11 +29,17 @@ import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
+import java.util.Set;
+import java.util.function.Function;
 
 public final class ControllerManager {
 
 	private transient Player player;
 	private transient boolean inited;
+
+	private transient Set<Function<Player, Boolean>> deathHooks = new ObjectOpenHashSet<>();
 
 	private Controller controller;
 
@@ -221,9 +227,15 @@ public final class ControllerManager {
 	}
 
 	public boolean sendDeath() {
-		if (controller == null || !inited)
+		if (!inited)
 			return true;
-		return controller.sendDeath();
+		if (controller != null)
+			return controller.sendDeath();
+		for (var deathHook : deathHooks) {
+			if (deathHook.apply(player))
+				return false;
+		}
+		return true;
 	}
 
 	public boolean canDepositItem(Item item) {
@@ -394,5 +406,9 @@ public final class ControllerManager {
 		if (controller == null || !controller.getClass().isAssignableFrom(clazz))
 			return null;
 		return (T) controller;
+	}
+
+	public void addDeathHook(Function<Player, Boolean> func) {
+		deathHooks.add(func);
 	}
 }

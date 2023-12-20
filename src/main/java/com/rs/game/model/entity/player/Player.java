@@ -2196,6 +2196,7 @@ public class Player extends Entity {
 			return true;
 		});
 	}
+
 	@Override
 	public void sendDeath(final Entity source) {
 		clearPendingTasks();
