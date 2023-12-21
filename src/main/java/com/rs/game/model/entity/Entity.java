@@ -176,6 +176,10 @@ public abstract class Entity {
 		return effects != null && effects.containsKey(effect);
 	}
 
+	public long getEffectTicks(Effect effect) {
+		return effects != null && effects.containsKey(effect) ? effects.get(effect) : 0;
+	}
+
 	public void addEffect(Effect effect, long ticks) {
 		if (effects == null)
 			effects = new HashMap<>();
