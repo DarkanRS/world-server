@@ -17,7 +17,7 @@
 package com.rs.game.content.bosses.corp;
 
 import com.rs.Settings;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -56,7 +56,7 @@ public class CorporealBeastController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 

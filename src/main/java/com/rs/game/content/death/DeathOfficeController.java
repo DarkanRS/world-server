@@ -19,7 +19,9 @@ package com.rs.game.content.death;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -204,14 +206,14 @@ public class DeathOfficeController extends InstancedController {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
-		if (type != Magic.TeleType.OBJECT)
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT)
 			return false;
 		return true;
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 

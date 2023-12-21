@@ -2,6 +2,7 @@ package com.rs.game.content.clans;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.OwnedNPC;
@@ -66,7 +67,7 @@ public class ClanVexillum extends OwnedNPC {
 	
 	public static ItemClickHandler vexOps = new ItemClickHandler(new Object[] { 20709 }, new String[] { "Teleport", "Place", "Recall", "Find" }, e -> {
 		if (e.getOption().equals("Teleport"))
-			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, Tile.of(2960, 3285, 0), 4, true, Magic.TeleType.ITEM, null);
+			Magic.sendTeleportSpell(e.getPlayer(), 7389, 7312, 537, 538, 0, 0, Tile.of(2960, 3285, 0), 4, true, TeleType.ITEM, null);
 		else if (e.getOption().equals("Place"))
 			create(e.getPlayer(), true);
 		else if (e.getOption().equals("Recall")) {

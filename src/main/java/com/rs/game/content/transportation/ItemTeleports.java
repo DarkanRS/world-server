@@ -17,6 +17,7 @@
 package com.rs.game.content.transportation;
 
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.HeroesGuild;
 import com.rs.game.content.world.unorganized_dialogue.Transportation;
 import com.rs.game.model.entity.player.Equipment;
@@ -133,7 +134,7 @@ public class ItemTeleports {
 			player.sendMessage("Error handling teleport option. Report this to administrators.");
 			return;
 		}
-		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.TeleType.ITEM, null);
+		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, TeleType.ITEM, null);
 	}
 
 	public static void sendTeleport(Player player, Item item, int optionIndex, boolean equipmentTeleport) {
@@ -146,7 +147,7 @@ public class ItemTeleports {
 			return;
 		if (HeroesGuild.isGloryOrROW(item.getId()))
 			player.getTempAttribs().setB("glory", true);
-		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.TeleType.ITEM, null)) {
+		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, TeleType.ITEM, () -> {
 			int newItemId = item.getId() + ((isNegative(index) ? -1 : 1) * (isIncremented(index) ? 2 : 1)), slot = equipmentTeleport ? Equipment.getItemSlot(item.getId()) : player.getInventory().getItems().getThisItemSlot(item);
 			if (item.getId() == LOWEST_AMOUNT[index] && destroyOnEmpty(index)) {
 				if (equipmentTeleport)
@@ -163,7 +164,7 @@ public class ItemTeleports {
 				else
 					player.getInventory().refresh(slot);
 			}
-		}
+		});
 	}
 
 	private static boolean isScrollTeleport(int index) {

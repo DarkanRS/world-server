@@ -26,7 +26,7 @@ import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.XPType;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.ShotputD;
@@ -496,7 +496,7 @@ public class WarriorsGuild extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType teleType) {
+	public void onTeleported(TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 

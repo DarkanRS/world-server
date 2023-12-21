@@ -19,9 +19,10 @@ package com.rs.game.content.world.areas.wilderness;
 import com.rs.Settings;
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -91,8 +92,8 @@ public class WildernessController extends Controller {
 	}
 
 	@Override
-	public boolean processTeleport(Tile toTile, Magic.TeleType type) {
-		if ((type != Magic.TeleType.OBJECT && getWildLevel() > (player.getTempAttribs().getB("glory") ? 30 : 20)) || player.hasEffect(Effect.TELEBLOCK)) {
+	public boolean processTeleport(Teleport tele) {
+		if ((tele.type() != TeleType.OBJECT && getWildLevel() > (player.getTempAttribs().getB("glory") ? 30 : 20)) || player.hasEffect(Effect.TELEBLOCK)) {
 			player.sendMessage("A mysterious force prevents you from teleporting.");
 			return false;
 		}

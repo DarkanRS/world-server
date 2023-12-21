@@ -175,10 +175,10 @@ public class StaffPotato {
 				SimpleImmutableEntry<Tile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
 				if (lastLoc != null)
 					op.add("Teleport to saved location.", () -> {
-						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), p -> {
+						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), () -> {
 							if (lastLoc.getValue() != null) {
-								p.getControllerManager().setController(lastLoc.getValue());
-								p.getControllerManager().sendInterfaces();
+								e.getPlayer().getControllerManager().setController(lastLoc.getValue());
+								e.getPlayer().getControllerManager().sendInterfaces();
 							}
 						});
 					});

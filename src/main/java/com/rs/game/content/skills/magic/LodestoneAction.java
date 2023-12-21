@@ -18,6 +18,7 @@ package com.rs.game.content.skills.magic;
 
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.achievements.Achievement;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.game.tasks.Task;
@@ -125,7 +126,8 @@ public class LodestoneAction extends PlayerAction {
 
 	@Override
 	public boolean start(final Player player) {
-		if (!player.getControllerManager().processTeleport(tile, Magic.TeleType.MAGIC))
+		Teleport tele = new Teleport(Tile.of(player.getTile()), tile, TeleType.MAGIC, null, null, null, true);
+		if (!player.getControllerManager().processTeleport(tele))
 			return false;
 		return process(player);
 	}
@@ -137,31 +139,28 @@ public class LodestoneAction extends PlayerAction {
 			player.setNextSpotAnim(new SpotAnim(HOME_GRAPHIC));
 		} else if (currentTime == 18) {
 			player.lock();
-			player.getControllerManager().onTeleported(Magic.TeleType.MAGIC);
+			player.getControllerManager().onTeleported(TeleType.MAGIC);
 			if (player.getControllerManager().getController() == null)
-				Magic.teleControllersCheck(player, tile);
+				Teleport.checkDestinationControllers(player, tile);
 			player.tele(tile);
 			player.setNextFaceTile(tile.transform(0, -1, 0));
-			WorldTasks.schedule(new Task() {
-				int stage = 0;
-
-				@Override
-				public void run() {
-					if (stage == 0) {
-						player.setNextAnimation(new Animation(HOME_ANIMATION+1));
-						player.setNextSpotAnim(new SpotAnim(HOME_GRAPHIC+1));
-					} else if (stage == 5)
-						player.setNextAnimation(new Animation(16393));
-					else if (stage == 7) {
-						player.tele(tile.transform(0, -1, 0));
-						player.setNextAnimation(new Animation(-1));
-						player.setNextSpotAnim(new SpotAnim(-1));
-						player.unlock();
-						stop();
-					}
-					stage++;
+			player.getTasks().scheduleTimer("lodestoneArrive", stage -> {
+				if (stage == 0) {
+					player.setNextAnimation(new Animation(HOME_ANIMATION+1));
+					player.setNextSpotAnim(new SpotAnim(HOME_GRAPHIC+1));
+				} else if (stage == 5)
+					player.setNextAnimation(new Animation(16393));
+				else if (stage == 7) {
+					player.tele(tile.transform(0, -1, 0));
+					player.setNextAnimation(new Animation(-1));
+					player.setNextSpotAnim(new SpotAnim(-1));
+					player.resetReceivedHits();
+					player.resetReceivedDamage();
+					player.unlock();
+					return false;
 				}
-			}, 0, 0);
+				return true;
+			});
 		} else if (currentTime == 19)
 			return -1;
 		return 0;

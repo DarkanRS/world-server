@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.dungeoneering;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
@@ -58,7 +58,7 @@ public class DamonheimController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		setInviteOption(false);
 		player.getDungManager().leaveParty();
 		removeController();

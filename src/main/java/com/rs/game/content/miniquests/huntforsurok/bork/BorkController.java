@@ -20,15 +20,11 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.miniquests.huntforsurok.ChaosTunnels;
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.ForceTalk;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.InstancedController;
-import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.EmotesManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.SpotAnim;
@@ -98,7 +94,7 @@ public class BorkController extends InstancedController {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

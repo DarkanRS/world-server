@@ -97,17 +97,12 @@ public class TeleportTabs {
 				return;
 
 			if (e.getItem().getId() == 8013) {
-				if (!Magic.useHouseTab(e.getPlayer()))
-					e.getPlayer().sendMessage("You can't teleport here!");
-				else
-					e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+				Magic.useHouseTab(e.getPlayer());
 				return;
 			}
 
 			TeleTab t = TeleTab.forId(e.getItem().getId());
-
-			if (Magic.useTeleTab(e.getPlayer(), t.teleToTile))
-				e.getPlayer().getInventory().deleteItem(e.getItem().getId(), 1);
+			Magic.useTeleTab(e.getPlayer(), t.teleToTile, e.getItem().getId());
 		}
 		case "Modify" -> {
 			if (!e.getPlayer().isQuestComplete(Quest.LOVE_STORY, "to modify house teleports."))

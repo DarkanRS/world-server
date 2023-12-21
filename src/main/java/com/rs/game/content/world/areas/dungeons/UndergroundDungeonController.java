@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.slayer.Slayer;
 import com.rs.game.content.world.LightSource;
 import com.rs.game.model.entity.Hit;
@@ -165,7 +165,7 @@ public class UndergroundDungeonController extends Controller {
 	}
 
 	@Override
-	public void onTeleported(Magic.TeleType type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

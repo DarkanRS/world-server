@@ -6,6 +6,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -74,7 +75,7 @@ public class CropCircles {
                 e.getPlayer().sendMessage("You feel the magic of the crop circle grant you a Farmer's affinity.");
             }
         });
-        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, Tile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, Magic.TeleType.OBJECT, null);
+        Magic.sendTeleportSpell(e.getPlayer(), 6601, -1, 1118, -1, 0, 0, Tile.of(2590 + Utils.randomInclusive(0, 3), 4318 + Utils.randomInclusive(0, 3), 0), 9, false, TeleType.OBJECT, null);
     });
 
     public static NPCClickHandler handleWanderingImpling = new NPCClickHandler(new Object[] { 6073 }, e -> {

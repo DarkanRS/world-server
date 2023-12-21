@@ -45,26 +45,13 @@ public class TzHaar {
 			return;
 		if (e.getOption().equals("Teleport")) {
 			if (e.isEquipped()) {
-				if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2]))
-					depleteTokkulZo(e.getPlayer());
+				Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2], () -> depleteTokkulZo(e.getPlayer()));
 			} else
 				e.getPlayer().sendOptionDialogue("Where would you like to teleport?", ops -> {
-					ops.add("Main Plaza", () -> {
-						if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[0]))
-							depleteTokkulZo(e.getPlayer());
-					});
-					ops.add("Fight Pits", () -> {
-						if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[1]))
-							depleteTokkulZo(e.getPlayer());
-					});
-					ops.add("Fight Caves", () -> {
-						if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2]))
-							depleteTokkulZo(e.getPlayer());
-					});
-					ops.add("Fight Kiln", () -> {
-						if (Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[3]))
-							depleteTokkulZo(e.getPlayer());
-					});
+					ops.add("Main Plaza", () -> Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[0], () -> depleteTokkulZo(e.getPlayer())));
+					ops.add("Fight Pits", () -> Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[1], () -> depleteTokkulZo(e.getPlayer())));
+					ops.add("Fight Caves", () -> Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[2], () -> depleteTokkulZo(e.getPlayer())));
+					ops.add("Fight Kiln", () -> Magic.sendNormalTeleportSpell(e.getPlayer(), TOKKUL_ZO_TELEPORTS[3], () -> depleteTokkulZo(e.getPlayer())));
 				});
 		} else
 			e.getPlayer().sendMessage("Your Tokkul-Zo has " + e.getItem().getMetaDataI("tzhaarCharges") + " charges left.");
