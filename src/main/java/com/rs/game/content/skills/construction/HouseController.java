@@ -512,10 +512,12 @@ public class HouseController extends Controller {
 
 	@Override
 	public void onRemove() {
-		player.setTile(house.getLocation().getTile());
-		player.tele(house.getLocation().getTile());
 		player.removeHouseOnlyItems();
-		house.leaveHouse(player, House.TELEPORTED);
+		if (house != null) {
+			player.setTile(house.getLocation().getTile());
+			player.tele(house.getLocation().getTile());
+			house.leaveHouse(player, House.TELEPORTED);
+		}
 	}
 
 	@Override
