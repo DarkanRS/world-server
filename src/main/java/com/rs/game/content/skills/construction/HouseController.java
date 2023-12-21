@@ -514,7 +514,6 @@ public class HouseController extends Controller {
 	public void onRemove() {
 		player.removeHouseOnlyItems();
 		if (house != null) {
-			player.setTile(house.getLocation().getTile());
 			player.tele(house.getLocation().getTile());
 			house.leaveHouse(player, House.TELEPORTED, true);
 		}

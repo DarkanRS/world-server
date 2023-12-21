@@ -366,7 +366,10 @@ public class Magic {
 				sendNormalTeleportSpell(player, 37, 48, Tile.of(2964, 3379, 0), new RuneSet(Rune.WATER, 1, Rune.AIR, 3, Rune.LAW, 1));
 				break;
 			case 48:
-				sendNormalTeleportSpell(player, 40, 48, Tile.of(player.getHouse().getLocation().getTile()), new RuneSet(Rune.AIR, 1, Rune.EARTH, 1, Rune.LAW, 1), () -> enterHouseAndResetDamage(player));
+				sendNormalTeleportSpell(player, 40, 48, Tile.of(player.getHouse().getLocation().getTile()), new RuneSet(Rune.AIR, 1, Rune.EARTH, 1, Rune.LAW, 1), () -> {
+					player.tele(Tile.of(player.getTile())); //cancel teleport tile movement
+					enterHouseAndResetDamage(player);
+				});
 				break;
 			case 51: // camelot
 				sendNormalTeleportSpell(player, 45, 55.5, Tile.of(2757, 3478, 0), new RuneSet(Rune.AIR, 5, Rune.LAW, 1));
@@ -637,7 +640,6 @@ public class Magic {
 				case 0 -> player.anim(4731);
 				case 2 -> {
 					player.getControllerManager().onTeleported(teleport.type());
-					player.tele(teleport.destination());
 					if (teleport.end() != null)
 						teleport.end().run();
 					player.anim(-1);
