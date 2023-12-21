@@ -238,11 +238,12 @@ public class Morytania  {
 			player.sendMessage("The medallion seems unresponsive. It probably needs recharging.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, TeleType.ITEM, null))
+		Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, TeleType.ITEM, () -> {
 			if (player.getX() >= 3398 && player.getX() <= 3841 && player.getY() >= 3161 && player.getY() <= 3586)
 				player.sendMessage("Due to the short nature of your teleport, the medallion does not use a charge.");
 			else
 				player.sendMessage("Your medallion has " + item.decMetaDataI("drakanCharges") + " charges left.");
+		});
 	}
 
 	public static ItemClickHandler handleDrakansMedallion = new ItemClickHandler(new Object[] { 21576 }, new String[] { "Teleport", "Check-charges" }, e -> {

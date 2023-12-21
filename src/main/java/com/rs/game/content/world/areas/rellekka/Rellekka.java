@@ -140,14 +140,14 @@ public class Rellekka {
 	}
 
 	private static final void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
-		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, TeleType.ITEM, null)) {
+		Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, TeleType.ITEM, () -> {
 			if (reduceDaily)
 				player.setDailyB("freeLyreTele", true);
 			if (lyre != null) {
 				lyre.setId(getLowerLyreId(lyre.getId()));
 				player.getInventory().refresh();
 			}
-		}
+		});
 	}
 	
 	public static Dialogue getLyreTeleOptions(Player player, Item item, boolean reduceDaily) {

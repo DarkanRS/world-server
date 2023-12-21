@@ -223,9 +223,7 @@ fun attemptStartGame() {
         ACTIVE_GAME = SoulWars()
 }
 
-class SoulAvatar(val redTeam: Boolean, val game: SoulWars) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
-    var level = 100
-
+class SoulAvatar(val redTeam: Boolean, val game: SoulWars, var level: Int = 100) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
     init {
         capDamage = 700
     }
@@ -536,12 +534,8 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
     }
 
     override fun login(): Boolean {
-        player.isCanPvp = false
-        MinigameUtil.checkAndDeleteFoodAndPotions(player)
+        clearMinigameValues(player)
         player.tele(Tile.of(1886, 3172, 0))
-        player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
-        player.equipment.refresh(Equipment.CAPE)
-        player.appearance.generateAppearanceData()
         player.controllerManager.forceStop()
         return false
     }
@@ -549,27 +543,19 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
     override fun processTeleport(tele: Teleport): Boolean { return false }
 
     override fun logout(): Boolean {
-        player.isCanPvp = false
-        MinigameUtil.checkAndDeleteFoodAndPotions(player)
+        clearMinigameValues(player)
         INGAME_PLAYERS.remove(player)
         if (redTeam)
             game?.redTeam?.remove(player)
         else
             game?.blueTeam?.remove(player)
         player.tele(Tile.of(1886, 3172, 0))
-        player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
-        player.equipment.refresh(Equipment.CAPE)
-        player.appearance.generateAppearanceData()
         player.tile = Tile.of(1886, 3172, 0)
         return false
     }
 
     override fun onRemove() {
-        player.isCanPvp = false
-        MinigameUtil.checkAndDeleteFoodAndPotions(player)
-        player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
-        player.equipment.refresh(Equipment.CAPE)
-        player.appearance.generateAppearanceData()
+        clearMinigameValues(player)
         player.inventory.items.array().map {
             if (it != null && (it.id == BONES || it.id == SOUL_FRAGMENT))
                 player.inventory.deleteItem(it)
@@ -581,6 +567,14 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         else
             game?.blueTeam?.remove(player)
     }
+}
+
+fun clearMinigameValues(player: Player) {
+    player.isCanPvp = false
+    MinigameUtil.checkAndDeleteFoodAndPotions(player)
+    player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
+    player.equipment.refresh(Equipment.CAPE)
+    player.appearance.generateAppearanceData()
 }
 
 fun getQuickchatVar(varId: Int): Int {

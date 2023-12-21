@@ -58,8 +58,7 @@ public class AchievementSetRewards {
 						e.getPlayer().sendMessage("You already used your teleport for today.");
 						return;
 					}
-					if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, null))
-						e.getPlayer().setDailyB("ardyCloakFarmTele", true);
+					Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, () -> e.getPlayer().setDailyB("ardyCloakFarmTele", true));
 				});
 				ops.add("Kandarin Monastery", () -> Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, KANDARIN_MONASTERY, 3, true, TeleType.ITEM, null));
 				ops.add("Nowhere.");
@@ -71,8 +70,7 @@ public class AchievementSetRewards {
 				e.getPlayer().sendMessage("You already used your teleport for today.");
 				return;
 			}
-			if (Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, null))
-				e.getPlayer().setDailyB("ardyCloakFarmTele", true);
+			Magic.sendTeleportSpell(e.getPlayer(), 4454, 12438, 761, 762, 0, 0, ARDY_FARM, 4, true, TeleType.ITEM, () -> e.getPlayer().setDailyB("ardyCloakFarmTele", true));
 		} else if (e.getOption().equals("Summoning-restore")) {
 			if (e.getPlayer().getDailyB("ardyCloakSumm")) {
 				e.getPlayer().sendMessage("You've already restored your summoning points today.");
@@ -243,8 +241,7 @@ public class AchievementSetRewards {
 			e.getPlayer().sendMessage("You already used your teleports for today.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, Tile.of(3683, 9888, 0), 3, false, TeleType.ITEM, null))
-			e.getPlayer().incDailyI("moryLegSlimeTeles");
+		Magic.sendTeleportSpell(e.getPlayer(), 8939, 8941, 1678, 1679, 0, 0, Tile.of(3683, 9888, 0), 3, false, TeleType.ITEM, () -> e.getPlayer().incDailyI("moryLegSlimeTeles"));
 	}
 	});
 	

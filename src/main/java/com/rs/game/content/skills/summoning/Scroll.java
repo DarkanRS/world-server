@@ -304,15 +304,16 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, TeleType.MAGIC, null))
-				return false;
-			familiar.sync(switch(familiar.getPouch()) {
-			default -> 8097;
-			case VOID_SPINNER -> 8181;
-			case VOID_TORCHER -> 8243;
-			case VOID_SHIFTER -> 8139;
-			}, 1506);
-			return true;
+			Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, TeleType.MAGIC, () -> {
+				familiar.decrementScroll();
+				familiar.sync(switch(familiar.getPouch()) {
+					default -> 8097;
+					case VOID_SPINNER -> 8181;
+					case VOID_TORCHER -> 8243;
+					case VOID_SHIFTER -> 8139;
+				}, 1506);
+			}, null);
+			return false;
 		}
 	},
 	BRONZE_BULL(12461, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 80 damage.", 3.6, 6) {

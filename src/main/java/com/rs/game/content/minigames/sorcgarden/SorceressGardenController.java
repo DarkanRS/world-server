@@ -128,17 +128,9 @@ public class SorceressGardenController extends Controller {
 		}
 		boolean teleport;
 		if (!broomstick)
-			teleport = Magic.sendNormalTeleportSpell(player, 0, 0, MIDDLE);
+			Magic.sendNormalTeleportSpell(player, 0, 0, MIDDLE, () -> player.getControllerManager().startController(new SorceressGardenController()));
 		else
-			teleport = Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, TeleType.MAGIC, null);
-		if (teleport)
-			WorldTasks.schedule(new Task() {
-
-				@Override
-				public void run() {
-					player.getControllerManager().startController(new SorceressGardenController());
-				}
-			}, 4);
+			Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, TeleType.MAGIC, () -> player.getControllerManager().startController(new SorceressGardenController()));
 	}
 
 	@Override

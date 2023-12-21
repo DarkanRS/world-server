@@ -21,6 +21,7 @@ import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.content.skills.woodcutting.Hatchet;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -262,16 +263,13 @@ public class Abyss {
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
 		npc.setNextSpotAnim(new SpotAnim(343));
 		player.setNextSpotAnim(new SpotAnim(342));
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
-				player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
-				Magic.teleControllersCheck(player, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
-				player.getPrayer().drainPrayer(player.getPrayer().getPoints());
-				player.setWildernessSkull();
-			}
-		}, 2);
+		WorldTasks.schedule(2, () -> {
+			int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
+			player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
+			Teleport.checkDestinationControllers(player, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
+			player.getPrayer().drainPrayer(player.getPrayer().getPoints());
+			player.setWildernessSkull();
+		});
 	}
 }
 
