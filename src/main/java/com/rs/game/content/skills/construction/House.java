@@ -955,7 +955,7 @@ public class House {
 	public void leaveHouse(Player player, int type) {
 		player.setCanPvp(false);
 		player.removeHouseOnlyItems();
-		player.getControllerManager().removeControllerWithoutCheck();
+		player.getControllerManager().forceStop();
 		if (type == LOGGED_OUT)
 			player.setTile(location.getTile());
 		else if (type == KICKED)
