@@ -511,6 +511,14 @@ public class HouseController extends Controller {
 	}
 
 	@Override
+	public void onRemove() {
+		player.setTile(house.getLocation().getTile());
+		player.tele(house.getLocation().getTile());
+		player.removeHouseOnlyItems();
+		house.leaveHouse(player, House.TELEPORTED);
+	}
+
+	@Override
 	public void process() {
 		if ((house.isChallengeMode() && player.getPlane() == 0) || player.getTempAttribs().getB("inBoxingArena")) {
 			if (!player.isCanPvp())
