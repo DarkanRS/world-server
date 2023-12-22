@@ -34,6 +34,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.utils.ItemConfig;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -207,6 +208,21 @@ public class Bank {
 		this.player = player;
 		if (bankTabs == null || bankTabs.length == 0)
 			bankTabs = new Item[1][0];
+	}
+
+	public boolean sortCurrentTab() {
+		if (currentTab < 0 || currentTab >= bankTabs.length)
+			return false;
+		Item[] tab = bankTabs[currentTab];
+		Arrays.sort(tab, (o1, o2) -> {
+			int o1Id = o1 == null ? Integer.MAX_VALUE : o1.getId();
+			int o2Id = o2 == null ? Integer.MAX_VALUE : o2.getId();
+			return o1Id - o2Id;
+		});
+		refreshItems();
+		refreshTabs();
+		refreshViewingTab();
+		return true;
 	}
 
 	@SuppressWarnings("null")

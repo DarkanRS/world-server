@@ -114,6 +114,13 @@ public class Normal {
             p.sendMessage("Ping: " + p.getNSV().getI("ping", -1));
         });
 
+        Commands.add(Rights.PLAYER, "organizetab", "Organizes the currently open tab of your bank by item id", (p, args) -> {
+            p.sendOptionDialogue("Organize tab " + p.getBank().getCurrentTab() + "?", ops -> {
+                ops.add("Yes, organize it.", () -> p.getBank().sortCurrentTab());
+                ops.add("Nevermind.");
+            });
+        });
+
         Commands.add(Rights.PLAYER, "dunginfo", "Shows dungeon seed", (p, args) -> {
             try {
                 int floor = p.getDungManager().getParty().getFloor();

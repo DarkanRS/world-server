@@ -1363,6 +1363,11 @@ public class Player extends Entity {
 			sendMessage("This lodestone doesn't respond.");
 			return;
 		}
+		if (object == null) {
+			lodestones[stone.ordinal()] = true;
+			refreshLodestoneNetwork();
+			return;
+		}
 		final Tile tile = object.getTile();
 		if (object != null) {
 			playCutscene(cs -> {
