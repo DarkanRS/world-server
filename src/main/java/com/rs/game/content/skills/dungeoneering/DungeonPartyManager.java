@@ -108,7 +108,7 @@ public final class DungeonPartyManager {
 	public void setLeader(Player player) {
 		leader = player.getUsername();
 		if (team.size() > 1)
-			if (team.get(0).getUsername().equals(leader)) {
+			if (!team.get(0).getUsername().equals(leader)) {
 				Player positionZero = team.get(0);
 				team.remove(player);
 				team.set(0, player);

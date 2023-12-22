@@ -27,6 +27,7 @@ import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.content.skills.fishing.FishingSpot;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.smithing.Smelting;
@@ -36,6 +37,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Inventory;
@@ -1373,13 +1375,10 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT)
+			return false;
+		return true;
 	}
 
 	public void removeHint() {

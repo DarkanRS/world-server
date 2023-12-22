@@ -22,8 +22,10 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
@@ -408,20 +410,17 @@ public class DuelArenaController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT) {
+			player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
-		return false;
-	}
-
-	@Override
-	public void magicTeleported(int type) {
-		if (type != -1)
+	public void onTeleported(TeleType type) {
+		if (type != TeleType.BYPASS_HOOKS)
 			return;
 	}
 

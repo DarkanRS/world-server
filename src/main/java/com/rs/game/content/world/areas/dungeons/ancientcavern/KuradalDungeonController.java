@@ -17,6 +17,7 @@
 package com.rs.game.content.world.areas.dungeons.ancientcavern;
 
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
@@ -82,7 +83,7 @@ public class KuradalDungeonController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 

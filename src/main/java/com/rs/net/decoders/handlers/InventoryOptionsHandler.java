@@ -39,6 +39,7 @@ import com.rs.game.content.skills.herblore.CoconutCracking;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.prayer.Burying.Bone;
 import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
@@ -395,7 +396,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, TeleType.ITEM, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}

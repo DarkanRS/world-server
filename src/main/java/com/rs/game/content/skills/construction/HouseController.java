@@ -35,6 +35,7 @@ import com.rs.game.content.skills.cooking.CookingD;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.content.world.unorganized_dialogue.FillingD;
 import com.rs.game.model.entity.npc.NPC;
@@ -496,7 +497,7 @@ public class HouseController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		house.leaveHouse(player, House.TELEPORTED);
 	}
 
@@ -506,7 +507,16 @@ public class HouseController extends Controller {
 		player.setTile(house.getLocation().getTile());
 		player.tele(house.getLocation().getTile());
 		player.removeHouseOnlyItems();
-		house.leaveHouse(player, House.TELEPORTED);
+		house.leaveHouse(player, House.TELEPORTED, true);
+	}
+
+	@Override
+	public void onRemove() {
+		player.removeHouseOnlyItems();
+		if (house != null) {
+			player.tele(house.getLocation().getTile());
+			house.leaveHouse(player, House.TELEPORTED, true);
+		}
 	}
 
 	@Override

@@ -1031,7 +1031,8 @@ public final class Skills {
 
 	public void addXp(int skill, double exp) {
 		player.getControllerManager().trackXP(skill, (int) exp);
-		PluginManager.handle(new XPGainEvent(player, skill, exp));
+		XPGainEvent event = new XPGainEvent(player, skill, exp);
+		PluginManager.handle(event);
 		if (player.isXpLocked())
 			return;
 
@@ -1050,6 +1051,9 @@ public final class Skills {
 
 		if (player.getBonusXpRate() > 0.0)
 			modifier += player.getBonusXpRate();
+
+		if (event.getMultiplier() > 1.0)
+			modifier += event.getMultiplier();
 
 		if (player.getAuraManager().isActivated(Aura.WISDOM))
 			modifier += 0.025;

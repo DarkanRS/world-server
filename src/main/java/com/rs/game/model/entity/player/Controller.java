@@ -18,14 +18,15 @@ package com.rs.game.model.entity.player;
 
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;
-import com.rs.lib.game.Tile;
 import com.rs.lib.net.ClientPacket;
 import com.rs.utils.music.Genre;
 import com.rs.utils.music.Music;
@@ -190,7 +191,7 @@ public abstract class Controller {
 	/**
 	 * called once teleport is performed
 	 */
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 
 	}
 
@@ -208,21 +209,7 @@ public abstract class Controller {
 	/**
 	 * return can teleport
 	 */
-	public boolean processMagicTeleport(Tile toTile) {
-		return true;
-	}
-
-	/**
-	 * return can teleport
-	 */
-	public boolean processItemTeleport(Tile toTile) {
-		return true;
-	}
-
-	/**
-	 * return can teleport
-	 */
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		return true;
 	}
 

@@ -952,10 +952,11 @@ public class House {
 	/*
 	 * 0 - logout, 1 kicked/tele outside outside, 2 tele somewhere else
 	 */
-	public void leaveHouse(Player player, int type) {
+	public void leaveHouse(Player player, int type, boolean controllerRemoved) {
 		player.setCanPvp(false);
 		player.removeHouseOnlyItems();
-		player.getControllerManager().removeControllerWithoutCheck();
+		if (!controllerRemoved)
+			player.getControllerManager().removeControllerWithoutCheck();
 		if (type == LOGGED_OUT)
 			player.setTile(location.getTile());
 		else if (type == KICKED)
@@ -973,6 +974,10 @@ public class House {
 		player.getTempAttribs().setB("inBoxingArena", false);
 		player.setCanPvp(false);
 		player.setForceMultiArea(false);
+	}
+
+	public void leaveHouse(Player player, int type) {
+		leaveHouse(player, type, false);
 	}
 
 	private void removeServant() {

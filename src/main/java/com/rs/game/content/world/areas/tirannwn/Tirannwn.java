@@ -321,10 +321,10 @@ public class Tirannwn {
 	});
 
 	public static ItemClickHandler handleTeleportCrystal = new ItemClickHandler(new Object[] { 6099, 6100, 6101, 6102 }, new String[] { "Activate" }, e -> {
-		if (Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2340, 3172, 0))) {
+		Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2340, 3172, 0), () -> {
 			e.getItem().setId(e.getItem().getId() + 1);
 			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-		}
+		});
 	});
 
 }

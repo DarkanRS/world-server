@@ -534,7 +534,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(1835));
             player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5));
             attackTarget(target, getMultiAttackTargets(player, target, 1, 20), next -> {
-                delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, true, true, 1.0, 1.15));
+                delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, false, true, 1.0, 1.15));
                 return true;
             });
             player.soundEffect(2529);
@@ -547,7 +547,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(7078));
             player.setNextSpotAnim(new SpotAnim(1225));
             attackTarget(target, getMultiAttackTargets(player, target, 1, 20), next -> {
-                delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, true, true, 1.0, 1.2));
+                delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, false, true, 1.0, 1.2));
                 return true;
             });
             player.soundEffect(2530);

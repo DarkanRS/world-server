@@ -17,6 +17,7 @@
 package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.managers.EmotesManager.Emote;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -30,7 +31,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class StrongholdOfSecurity {
 
 	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }, e -> {
-		Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, Magic.MAGIC_TELEPORT, null);
+		Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, TeleType.ITEM, null);
 	});
 
 	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }, e -> {

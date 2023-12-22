@@ -2,6 +2,8 @@ package com.rs.game.tasks;
 
 import com.rs.lib.util.Logger;
 import com.rs.utils.Ticks;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.time.Duration;
@@ -9,10 +11,12 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class TaskManager {
     private List<TaskInformation> tasks = new ObjectArrayList<>();
+    private Map<String, TaskInformation> mappedTasks = new Object2ObjectOpenHashMap<>();
 
     public void processTasks() {
         synchronized(tasks) {
@@ -42,52 +46,63 @@ public class TaskManager {
                     }
                 }
                 for (TaskInformation task : toRemove)
-                    if (task != null)
+                    if (task != null) {
                         tasks.remove(task);
+                        if (task.mapping != null)
+                            mappedTasks.remove(task.mapping);
+                    }
             } catch(Throwable e) {
                 Logger.handle(WorldTasks.class, "processTasks", e);
             }
         }
     }
 
-    public TaskInformation schedule(Task task, int startDelay, int loopDelay) {
+    public TaskInformation schedule(String mapping, Task task, int startDelay, int loopDelay) {
         synchronized(tasks) {
             if (task == null || startDelay < 0 || loopDelay < 0)
                 return null;
-            TaskInformation taskInfo = new TaskInformation(task, startDelay, loopDelay);
-            tasks.add(taskInfo);
-            return taskInfo;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, task, startDelay, loopDelay));
+        }
+    }
+
+    public TaskInformation schedule(Task task, int startDelay, int loopDelay) {
+        return schedule(null, task, startDelay, loopDelay);
+    }
+
+    public TaskInformation schedule(String mapping, Task task, int delayCount) {
+        synchronized(tasks) {
+            if (task == null || delayCount < 0)
+                return null;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, task, delayCount, -1));
         }
     }
 
     public TaskInformation schedule(Task task, int delayCount) {
+        return schedule(null, task, delayCount);
+    }
+
+    public TaskInformation schedule(String mapping, Task task) {
         synchronized(tasks) {
-            if (task == null || delayCount < 0)
+            if (task == null)
                 return null;
-            TaskInformation taskInfo = new TaskInformation(task, delayCount, -1);
-            tasks.add(taskInfo);
-            return taskInfo;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, task, 0, -1));
         }
     }
 
     public TaskInformation schedule(Task task) {
+        return schedule(null, task);
+    }
+
+    public TaskInformation schedule(String mapping, int startDelay, int loopDelay, Runnable task) {
         synchronized(tasks) {
-            if (task == null)
+            if (task == null || startDelay < 0 || loopDelay < 0)
                 return null;
-            TaskInformation taskInfo = new TaskInformation(task, 0, -1);
-            tasks.add(taskInfo);
-            return taskInfo;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskLambda(task), startDelay, loopDelay));
         }
     }
 
     public TaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-        synchronized(tasks) {
-            if (task == null || startDelay < 0 || loopDelay < 0)
-                return null;
-            TaskInformation taskInfo = new TaskInformation(new TaskLambda(task), startDelay, loopDelay);
-            tasks.add(taskInfo);
-            return taskInfo;
-        }
+        return schedule(null, startDelay, loopDelay, task);
     }
 
     public TaskInformation scheduleHalfHourly(Runnable task) {
@@ -114,48 +129,64 @@ public class TaskManager {
         return scheduleNthHourly(1, task);
     }
 
-    public TaskInformation schedule(int startDelay, Runnable task) {
+    public TaskInformation schedule(String mapping, int startDelay, Runnable task) {
         synchronized(tasks) {
             if (task == null || startDelay < 0)
                 return null;
-            TaskInformation taskInfo = new TaskInformation(new TaskLambda(task), startDelay, -1);
-            tasks.add(taskInfo);
-            return taskInfo;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskLambda(task), startDelay, -1));
+        }
+    }
+
+    public TaskInformation schedule(int startDelay, Runnable task) {
+        return schedule(null, startDelay, task);
+    }
+
+    public TaskInformation schedule(String mapping, Runnable task) {
+        synchronized(tasks) {
+            if (task == null)
+                return null;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskLambda(task), 0, -1));
         }
     }
 
     public TaskInformation schedule(Runnable task) {
+        return schedule(null, task);
+    }
+
+    public TaskInformation scheduleTimer(String mapping, int startDelay, int loopDelay, Function<Integer, Boolean> task) {
+        synchronized(tasks) {
+            if (task == null || startDelay < 0 || loopDelay < 0)
+                return null;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskTimerLambda(task), startDelay, loopDelay));
+        }
+    }
+
+    public TaskInformation scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
+        return scheduleTimer(null, startDelay, loopDelay, task);
+    }
+
+    public TaskInformation scheduleTimer(String mapping, Function<Integer, Boolean> task) {
         synchronized(tasks) {
             if (task == null)
                 return null;
-            TaskInformation taskInfo = new TaskInformation(new TaskLambda(task), 0, -1);
-            tasks.add(taskInfo);
-            return taskInfo;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskTimerLambda(task), 0, 0));
         }
     }
 
-    public void scheduleTimer(int startDelay, int loopDelay, Function<Integer, Boolean> task) {
-        synchronized(tasks) {
-            if (task == null || startDelay < 0 || loopDelay < 0)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), startDelay, loopDelay));
-        }
+    public TaskInformation scheduleTimer(Function<Integer, Boolean> task) {
+        return scheduleTimer(null, task);
     }
 
-    public void scheduleTimer(Function<Integer, Boolean> task) {
-        synchronized(tasks) {
-            if (task == null)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), 0, 0));
-        }
-    }
-
-    public void scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
+    public TaskInformation scheduleTimer(String mapping, int startDelay, Function<Integer, Boolean> task) {
         synchronized(tasks) {
             if (task == null || startDelay < 0)
-                return;
-            tasks.add(new TaskInformation(new TaskTimerLambda(task), startDelay, 0));
+                return null;
+            return mapTaskInformation(mapping, new TaskInformation(mapping, new TaskTimerLambda(task), startDelay, 0));
         }
+    }
+
+    public TaskInformation scheduleTimer(int startDelay, Function<Integer, Boolean> task) {
+        return scheduleTimer(null, startDelay, task);
     }
 
     public void remove(TaskInformation task) {
@@ -163,15 +194,34 @@ public class TaskManager {
             if (task == null)
                 return;
             tasks.remove(task);
+            if (task.mapping != null)
+                mappedTasks.remove(task.mapping);
         }
     }
 
-    public void delay(int ticks, Runnable task) {
-        schedule(new Task() {
-            @Override
-            public void run() {
-                task.run();
-            }
-        }, ticks);
+    public void remove(String mapping) {
+        synchronized(tasks) {
+            TaskInformation task = mappedTasks.remove(mapping);
+            if (task == null)
+                return;
+            tasks.remove(task);
+        }
+    }
+
+    public boolean hasTask(String mapping) {
+        synchronized (tasks) {
+            return mappedTasks.containsKey(mapping);
+        }
+    }
+
+    private TaskInformation mapTaskInformation(String mapping, TaskInformation taskInfo) {
+        tasks.add(taskInfo);
+        if (mapping != null) {
+            TaskInformation existing = mappedTasks.get(mapping);
+            if (existing != null)
+                tasks.remove(mappedTasks.get(mapping));
+            mappedTasks.put(mapping, taskInfo);
+        }
+        return taskInfo;
     }
 }

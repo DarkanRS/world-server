@@ -20,6 +20,8 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -73,9 +75,7 @@ public class Genie extends OwnedNPC {
 			owner.setNextAnimation(new Animation(836));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				Tile tile = RandomEvents.getRandomTile();
-				owner.getControllerManager().processMagicTeleport(tile);
-				owner.tele(tile);
+				Magic.sendNormalTeleportSpell(owner, RandomEvents.getRandomTile());
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});

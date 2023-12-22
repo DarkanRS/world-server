@@ -23,6 +23,7 @@ import com.rs.game.World;
 import com.rs.game.content.bosses.qbd.npcs.QueenBlackDragon;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -229,7 +230,7 @@ public final class QueenBlackDragonController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		end(0);
 	}
 

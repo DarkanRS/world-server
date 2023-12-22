@@ -29,6 +29,7 @@ public class XPGainEvent implements PluginEvent {
 	private Player player;
 	private int skillId;
 	private double xp;
+	private double multiplier = 1.0;
 
 	public XPGainEvent(Player player, int skillId, double xp) {
 		this.player = player;
@@ -46,6 +47,14 @@ public class XPGainEvent implements PluginEvent {
 
 	public double getXp() {
 		return xp;
+	}
+
+	public double getMultiplier() {
+		return multiplier;
+	}
+
+	public void setMultiplier(double multiplier) {
+		this.multiplier = multiplier;
 	}
 
 	@Override

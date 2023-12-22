@@ -19,8 +19,10 @@ package com.rs.game.content.minigames.creations;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -231,9 +233,12 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile tile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT) {
+			player.simpleDialogue("You can't leave just like that!");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -250,7 +255,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

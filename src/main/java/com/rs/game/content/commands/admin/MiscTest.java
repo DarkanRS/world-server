@@ -86,6 +86,7 @@ import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
 import com.rs.utils.spawns.NPCSpawns;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -728,7 +729,12 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "loginmessage,loginmes [announcement]", "Sets the server login announcement.", (p, args) -> {
 			Settings.getConfig().setLoginMessage("<shad=000000><col=ff0000>" + Utils.concat(args));
-			p.sendMessage(Settings.getConfig().getLoginMessage());
+            try {
+                Settings.saveConfig();
+            } catch (IOException e) {
+               	p.sendMessage("Failed to save config");
+            }
+            p.sendMessage(Settings.getConfig().getLoginMessage());
 		});
 
 		Commands.add(Rights.DEVELOPER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {

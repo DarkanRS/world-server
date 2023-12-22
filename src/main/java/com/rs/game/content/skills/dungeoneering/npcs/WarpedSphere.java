@@ -19,6 +19,7 @@ package com.rs.game.content.skills.dungeoneering.npcs;
 import com.rs.game.content.skills.dungeoneering.DungeonManager;
 import com.rs.game.content.skills.dungeoneering.RoomReference;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -65,7 +66,7 @@ public class WarpedSphere extends DungeonNPC {
 				for (Player player : getManager().getParty().getTeam())
 					if (!player.isLocked() && player.matches(previousTile)) {
 						player.applyHit(new Hit(this, 100, HitLook.REFLECTED_DAMAGE));
-						Magic.sendTeleportSpell(player, 13493, 13494, 2437, 2435, 0, 0, getManager().getTile(reference, TELEPORT_TILE[0], TELEPORT_TILE[1]), 6, false, 0, null);
+						Magic.sendTeleportSpell(player, 13493, 13494, 2437, 2435, 0, 0, getManager().getTile(reference, TELEPORT_TILE[0], TELEPORT_TILE[1]), 6, false, TeleType.MAGIC, null);
 					}
 			}
 

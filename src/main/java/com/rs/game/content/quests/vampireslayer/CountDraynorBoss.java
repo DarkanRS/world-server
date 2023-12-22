@@ -214,7 +214,7 @@ public class CountDraynorBoss extends OwnedNPC {
                     countDraynor.setAutoDespawnAtDistance(true);
 				}
 				if(tick == 9)
-					p.forceMoveWhileFacing(Direction.EAST, Tile.of(p.getX()-1, p.getY(), p.getPlane()), PUSHED_BACK, 0, 30);
+					p.forceMove(Tile.of(p.getX()-1, p.getY(), p.getPlane()), Direction.EAST, PUSHED_BACK, 0, 30);
 				if(tick == 10) {
 					p.setNextAnimation(new Animation(ON_FLOOR));
 					p.getPackets().sendCameraPos(coffin.getTile().getXInScene(p.getSceneBaseChunkId())-4, coffin.getTile().getYInScene(p.getSceneBaseChunkId())-16, 2200, 0, 5);

@@ -41,6 +41,7 @@ import com.rs.game.content.skills.dungeoneering.skills.DungeoneeringRCD.DungRCSe
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.Rune;
 import com.rs.game.content.skills.magic.RuneSet;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.content.skills.util.Category;
@@ -53,6 +54,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
@@ -340,15 +342,14 @@ public class DungeonController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() == TeleType.ITEM)
+			return false;
+		if (tele.type() == TeleType.OBJECT)
+			return true;
 		if (dungeon == null || !player.getCombatDefinitions().isDungSpellbook() || !dungeon.hasStarted() || dungeon.isAtRewardsScreen())
 			return false;
-		return !(Utils.getDistance(toTile, dungeon.getHomeTile()) > 500);
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
+		return !(Utils.getDistance(tele.destination(), dungeon.getHomeTile()) > 500);
 	}
 
 	@Override
@@ -1021,7 +1022,7 @@ public class DungeonController extends Controller {
 	 * called once teleport is performed
 	 */
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getMoveTile()));
 		hideBar();
 	}
@@ -1216,7 +1217,7 @@ public class DungeonController extends Controller {
 		}
 		if (!Magic.checkRunes(player, true, new RuneSet(Rune.LAW, 3)))
 			return;
-		Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, group ? 64 : 32, 0, tile, 3, false, Magic.MAGIC_TELEPORT, null);
+		Magic.sendTeleportSpell(player, 13288, 13285, 2516, 2517, group ? 64 : 32, 0, tile, 3, false, TeleType.MAGIC, null);
 		if (!group) {
 			player.setCantWalk(true);
 			player.getEmotesManager().setNextEmoteEnd(3); //prevents dropping etc
@@ -1233,7 +1234,7 @@ public class DungeonController extends Controller {
 		Tile tile = dungeon.getGroupGatestone();
 		if (tile == null) //cant happen
 			return;
-		Magic.sendTeleportSpell(player, 14279, 13285, 2518, 2517, 1, 0, tile, 1, false, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, 14279, 13285, 2518, 2517, 1, 0, tile, 1, false, TeleType.OBJECT, null);
 	}
 
 	private boolean canCreateGatestone() {

@@ -22,6 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
@@ -526,7 +527,7 @@ public class RunespanController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int teleType) {
+	public void onTeleported(TeleType teleType) {
 		exitRunespan();
 	}
 

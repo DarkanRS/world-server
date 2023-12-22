@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.hunter.falconry;
 
 import com.rs.game.content.skills.hunter.falconry.Kebbit.KebbitType;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
@@ -90,7 +91,7 @@ public class FalconryController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

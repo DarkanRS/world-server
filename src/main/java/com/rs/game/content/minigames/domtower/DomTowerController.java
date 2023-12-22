@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.minigames.domtower;
 
-import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
@@ -157,8 +157,8 @@ public class DomTowerController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
-		if (type != Magic.OBJECT_TELEPORT)
+	public void onTeleported(TeleType type) {
+		if (type != TeleType.OBJECT)
 			player.getDominionTower().destroyArena(false, getMode());
 	}
 

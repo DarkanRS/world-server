@@ -28,6 +28,7 @@ import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.Hit;
@@ -229,7 +230,7 @@ public class Morytania  {
 	});
 
 	public static ItemClickHandler handleBonesackTele = new ItemClickHandler(new Object[] { 15215 }, new String[] { "Teleport" }, e -> {
-		Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, Tile.of(3362, 3504, 0), 3, true, Magic.MAGIC_TELEPORT, null);
+		Magic.sendTeleportSpell(e.getPlayer(), 12055, 12057, 2133, 2134, 0, 0, Tile.of(3362, 3504, 0), 3, true, TeleType.ITEM, null);
 	});
 
 	private static void drakanTeleport(Player player, Item item, Tile location) {
@@ -237,11 +238,12 @@ public class Morytania  {
 			player.sendMessage("The medallion seems unresponsive. It probably needs recharging.");
 			return;
 		}
-		if (Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, Magic.MAGIC_TELEPORT, null))
+		Magic.sendTeleportSpell(player, 8939, 8941, 1864, 1864, 0, 0, location, 2, true, TeleType.ITEM, () -> {
 			if (player.getX() >= 3398 && player.getX() <= 3841 && player.getY() >= 3161 && player.getY() <= 3586)
 				player.sendMessage("Due to the short nature of your teleport, the medallion does not use a charge.");
 			else
 				player.sendMessage("Your medallion has " + item.decMetaDataI("drakanCharges") + " charges left.");
+		});
 	}
 
 	public static ItemClickHandler handleDrakansMedallion = new ItemClickHandler(new Object[] { 21576 }, new String[] { "Teleport", "Check-charges" }, e -> {
