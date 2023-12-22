@@ -4,24 +4,25 @@ before_script:
   - GRADLE_USER_HOME="$(pwd)/.gradle"
   - export GRADLE_USER_HOME
 
-.cache_gradle:
-  cache:
-    key: "$CI_COMMIT_REF_NAME-gradle"
-    policy: pull-push
-    paths:
-      - .gradle/caches/
-      - .gradle/wrapper/
+# .cache_gradle:
+#   cache:
+#     key: "$CI_COMMIT_REF_NAME-gradle"
+#     policy: pull-push
+#     paths:
+#       - .gradle/caches/
+#       - .gradle/wrapper/
 
 build:
   stage: build
-  script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
+  # script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
+  script: ./gradlew assemble --parallel --max-workers=$(nproc)
   cache:
     key: "$CI_COMMIT_REF_NAME-gradle"
     policy: pull-push
     paths:
       - build/
-  extends:
-    - .cache_gradle
+  # extends:
+  #   - .cache_gradle
 
 deploy:
   stage: deploy
@@ -31,10 +32,10 @@ deploy:
     - echo "Deploying build artifacts..."
     - ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
-  cache:
-    key: "$CI_COMMIT_REF_NAME-gradle"
-    policy: pull-push
-    paths:
-      - build/
-  extends:
-    - .cache_gradle
+  # cache:
+  #   key: "$CI_COMMIT_REF_NAME-gradle"
+  #   policy: pull-push
+  #   paths:
+  #     - build/
+  # extends:
+  #   - .cache_gradle
