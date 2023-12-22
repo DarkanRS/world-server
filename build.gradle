@@ -67,7 +67,7 @@ publishing {
 	publications {
 		shadow(MavenPublication) { publication ->
 			from project.shadow.component(publication)
-			version = "${project.version.toString()}-${(System.getenv("CI_PIPELINE_ID") ?: "timestamp-not-set")}"
+			version = "${project.version}-${(System.getenv("CI_PIPELINE_ID") ?: "local")}"
 		}
 	}
 	repositories {
