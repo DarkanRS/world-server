@@ -1,12 +1,12 @@
 {
   "ids": [
-    9733
+    9725,9726,9727,9728,9729,9730,9731,9732,9733,9734,9735,9736,9737,9738
   ],
   "attackAnim": -1,
   "attackSound": -1,
   "defenceAnim": -1,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 13764,
   "deathDelay": 4,
   "deathSound": -1,
   "respawnDelay": 0,

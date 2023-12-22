@@ -520,6 +520,7 @@ public class Runecrafting {
 				case 5510 -> 1;
 				case 5512 -> 2;
 				case 5514 -> 3;
+				case 24205 -> 4;
 				default -> -1;
 			};
 

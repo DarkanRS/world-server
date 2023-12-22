@@ -37,7 +37,7 @@ public class Xuan {
 		switch (e.getOpNum()) {
 		case 1:
 			if (e.getPlayer().getAuraManager().getJotSkills() >= 10) {
-				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(13727, HeadE.CHEERFUL, "Before we go any further, I have a reward for you.").addItem(20960, "Xuan hands you a reward book for completing the Jack of Trades.", () -> {
+				e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(13727, HeadE.CHEERFUL, "Good day, my friend! Good day!").voiceEffect(12253).addNPC(13727, HeadE.CHEERFUL, "Wait! I have something here for you...").voiceEffect(11083).addItem(20960, "Xuan hands you a reward book for completing the Jack of Trades.", () -> {
 					e.getPlayer().getInventory().addItemDrop(20960, 1);
 					e.getPlayer().getAuraManager().deactivate();
 					e.getPlayer().getAuraManager().clearJotFlags();
@@ -45,7 +45,8 @@ public class Xuan {
 				}));
 				return;
 			}
-			e.getPlayer().sendOptionDialogue("What would you like help with?", ops -> {
+			e.getPlayer().startConversation(new Conversation(e.getPlayer()).addNPC(13727, HeadE.CHEERFUL, "It is my privilege to offer you access to an exclusive stock of the finest and most exotic wares.").voiceEffect(13331)
+                .addOptions("What would you like help with?", ops -> {
 				ops.add("Check the Loyalty Point Shop", () -> LoyaltyShop.open(e.getPlayer()));
 				ops.add("Re-apply my account type title", () -> e.getPlayer().applyAccountTitle());
 				ops.add("See your available titles", () -> AchievementTitles.openInterface(e.getPlayer()));
@@ -53,7 +54,7 @@ public class Xuan {
 					ops2.add("Yes", () -> e.getPlayer().clearTitle());
 					ops2.add("No");
 				}));
-			});
+			}));
 			break;
 		case 3:
 			LoyaltyShop.open(e.getPlayer());
