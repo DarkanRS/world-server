@@ -469,9 +469,10 @@ public class Chunk {
             for (int y = 0; y < 8; y++) {
                 if (baseObjects[x][y] == null)
                     continue;
-                for (GameObject o : baseObjects[x][y])
-                    if (o != null && (ignoreRemoved || getRemovedObject(o) != null))
+                for (GameObject o : baseObjects[x][y]) {
+                    if (o != null && (ignoreRemoved || getRemovedObject(o) == null))
                         list.add(o);
+                }
             }
         return list;
     }
