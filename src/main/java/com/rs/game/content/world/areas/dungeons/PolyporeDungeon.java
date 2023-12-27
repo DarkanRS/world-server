@@ -1,11 +1,20 @@
 package com.rs.game.content.world.areas.dungeons;
 
+import com.rs.game.World;
+import com.rs.game.content.skills.slayer.npcs.PolyporeNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.handlers.ItemClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
+import com.rs.utils.Ticks;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @PluginEventHandler
 public class PolyporeDungeon {
@@ -83,4 +92,54 @@ public class PolyporeDungeon {
 		player.useStairs(down ? 15458 : 15456, tile, 2, 3); // TODO find correct emote
 		WorldTasks.schedule(1, () -> player.setNextAnimation(new Animation(down ? 15459 : 15457)));
 	}
+
+	public static ObjectClickHandler neemDrupePick = new ObjectClickHandler(new Object[] { "Neem drupes" }, e -> {
+		if ("Pick".equals(e.getOption())) {
+			e.getPlayer().getInventory().addItemDrop(22445, 1);
+			int vb = e.getObject().getDefinitions().varpBit;
+			e.getPlayer().getVars().setVarBit(vb, e.getPlayer().getVars().getVarBit(vb) + 1);
+			e.getPlayer().getTasks().schedule("neemRespawn"+vb, Ticks.fromSeconds(10), () -> e.getPlayer().getVars().setVarBit(vb, 0));
+		}
+	});
+
+	public static ItemClickHandler squishDrupes = new ItemClickHandler(new Object[] { 22445 }, new String[] { "Squish" }, e -> {
+		Item jugOrOil = e.getPlayer().getInventory().getItemById(22444);
+		if (jugOrOil == null)
+			jugOrOil = e.getPlayer().getInventory().getItemById(1935);
+		if (jugOrOil == null) {
+			e.getPlayer().sendMessage("You need a jug to hold your oil.");
+			return;
+		}
+		if (jugOrOil.getId() == 1935) {
+			jugOrOil.setId(22444);
+			e.getPlayer().getInventory().refresh(jugOrOil.getSlot());
+		}
+		jugOrOil.addMetaData("neemCharges", e.getItem().getAmount() + jugOrOil.getMetaDataI("neemCharges", 0));
+		e.getPlayer().sendMessage("You add " + Utils.formatNumber(e.getItem().getAmount()) + " charges to your jug. It now contains " + Utils.formatNumber(e.getItem().getMetaDataI("neemCharges", 0)) + " charges.");
+		e.getPlayer().getInventory().deleteItem(e.getItem());
+ 	});
+
+	public static ItemClickHandler neemOil = new ItemClickHandler(new Object[] { 22444 }, new String[] { "Sprinkle", "Check" }, e -> {
+		switch(e.getOption()) {
+			case "Sprinkle" -> {
+				List<PolyporeNPC> polypores = World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 1)
+						.stream()
+						.filter(n -> !n.isDead() && !n.hasFinished() && Utils.getDistance(n.getTile(), e.getPlayer().getTile()) <= 5 && n instanceof PolyporeNPC poly && poly.canInfect())
+						.map(n -> (PolyporeNPC) n)
+						.toList();
+				if (polypores.isEmpty()) {
+					e.getPlayer().sendMessage("There aren't any creatures around that would be affected.");
+					return;
+				}
+				e.getPlayer().sync(9954, 2014);
+				if (e.getItem().decMetaDataI("neemCharges") <= 0) {
+					e.getItem().setId(1935);
+					e.getPlayer().getInventory().refresh(e.getSlotId());
+				}
+				for (PolyporeNPC npc : polypores)
+					npc.neem();
+			}
+			case "Check" -> e.getPlayer().sendMessage("This jug contains " + Utils.formatNumber(e.getItem().getMetaDataI("neemCharges", 0)) + " ounces of oil.");
+		}
+	});
 }
