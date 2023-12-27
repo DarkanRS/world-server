@@ -115,7 +115,7 @@ public class PolyporeDungeon {
 			e.getPlayer().getInventory().refresh(jugOrOil.getSlot());
 		}
 		jugOrOil.addMetaData("neemCharges", e.getItem().getAmount() + jugOrOil.getMetaDataI("neemCharges", 0));
-		e.getPlayer().sendMessage("You add " + Utils.formatNumber(e.getItem().getAmount()) + " charges to your jug. It now contains " + Utils.formatNumber(e.getItem().getMetaDataI("neemCharges", 0)) + " charges.");
+		e.getPlayer().sendMessage("You add " + Utils.formatNumber(e.getItem().getAmount()) + " charges to your jug. It now contains " + Utils.formatNumber(jugOrOil.getMetaDataI("neemCharges", 0)) + " charges.");
 		e.getPlayer().getInventory().deleteItem(e.getItem());
  	});
 
