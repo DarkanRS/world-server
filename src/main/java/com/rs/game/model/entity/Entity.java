@@ -661,7 +661,7 @@ public abstract class Entity {
 			}
 		}
 		nextWalkDirection = nextRunDirection = null;
-		if (nextTile != null) {
+		if (nextTile != null && nextTile.getX() > 32 && nextTile.getY() > 32) {
 			tile = nextTile;
 			tileBehind = getBackfacingTile();
 			nextTile = null;
