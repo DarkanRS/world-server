@@ -22,6 +22,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.Potions;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.RuneMysteries;
@@ -205,6 +206,17 @@ public class Lumbridge {
 			}
 		} else
 			e.getPlayer().sendMessage("You need an empty pot to gather the flour.");
+	});
+
+	public static ItemOnObjectHandler handleTakeFlourWithPot = new ItemOnObjectHandler(new Object[] { 36880 }, new Object[] { 1931 }, e -> {
+			if (e.getPlayer().get(WHEAT_GRINDED) == Boolean.TRUE) {
+				e.getPlayer().save(WHEAT_GRINDED, Boolean.FALSE);
+				e.getPlayer().save(WHEAT_DEPOSITED, Boolean.FALSE);
+				e.getPlayer().sendMessage("You take the ground flour.");
+				e.getPlayer().setNextAnimation(new Animation(832));
+				e.getPlayer().getInventory().replace(1931, 1933);
+				updateWheat(e.getPlayer());
+			}
 	});
 
 	public static ObjectClickHandler handleWindmillLever = new ObjectClickHandler(new Object[] { 2718 }, e -> {
