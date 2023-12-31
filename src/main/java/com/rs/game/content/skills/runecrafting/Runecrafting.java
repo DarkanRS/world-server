@@ -109,6 +109,18 @@ public class Runecrafting {
 					case 5510 -> fillPouch(e.getPlayer(), 1);
 					case 5512 -> fillPouch(e.getPlayer(), 2);
 					case 5514 -> fillPouch(e.getPlayer(), 3);
+					case 24204 -> {
+						if (e.getPlayer().getInventory().containsItem(24205, 1) || e.getPlayer().getBank().containsItem(24205, 1)) {
+							e.getPlayer().sendMessage("You already have a massive pouch.");
+							return;
+						}
+						if (!e.getPlayer().getInventory().hasFreeSlots()) {
+							e.getPlayer().sendMessage("Not enough space in your inventory.");
+							return;
+						}
+						e.getPlayer().getInventory().deleteItem(24204, 1);
+						e.getPlayer().getInventory().addItem(24205, 1);
+					}
 					case 24205 -> fillPouch(e.getPlayer(), 4);
 				}
 			}
@@ -118,6 +130,7 @@ public class Runecrafting {
 					case 5510 -> emptyPouch(e.getPlayer(), 1);
 					case 5512 -> emptyPouch(e.getPlayer(), 2);
 					case 5514 -> emptyPouch(e.getPlayer(), 3);
+					case 24204 -> e.getPlayer().sendMessage("This pouch contains no essence in it.");
 					case 24205 -> emptyPouch(e.getPlayer(), 4);
 				}
 			}
@@ -127,6 +140,7 @@ public class Runecrafting {
 					case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune") + " essence in it.", false);
 					case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune") + " essence in it.", false);
 					case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune") + " essence in it.", false);
+					case 24204 -> e.getPlayer().sendMessage("An empty pouch.");
 					case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune") + " essence in it.", false);
 				}
 			}
