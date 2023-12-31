@@ -49,23 +49,21 @@ public class CrystalChest {
 
 	private static void openChest(Player player, GameObject object) {
 		if (player.getInventory().containsItem(989)) {
+			player.lock();
 			player.getInventory().deleteItem(989, 1);
 			double random = Utils.random(0, 100);
 			final int reward = random <= 39.69 ? 0 : random <= 56.41 ? 1 : random <= 64.41 ? 2 : random <= 67.65 ? 3 : random <= 74.2 ? 4 : random <= 76.95 ? 5 : random <= 81.18 ? 6 : random <= 91.75 ? 7 : random <= 95.01 ? 8 : random <= 98.68 ? 9 : random <= 99.74 ? 10 : 11;
 			player.setNextAnimation(new Animation(536));
-			player.lock(2);
 			player.sendMessage("You unlock the chest with your key.");
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					GameObject openedChest = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
-					World.spawnObjectTemporary(openedChest, 1);
-					player.incrementCount("Crystal chests opened");
-					player.sendMessage("You find some treasure in the chest!");
-					for (Item item : REWARDS[reward])
-						player.getInventory().addItem(item.getId(), item.getAmount(), true);
-				}
-			}, 0);
+			player.getTasks().schedule(1, () -> {
+				GameObject openedChest = new GameObject(object.getId() + 1, object.getType(), object.getRotation(), object.getX(), object.getY(), object.getPlane());
+				World.spawnObjectTemporary(openedChest, 1);
+				player.incrementCount("Crystal chests opened");
+				player.sendMessage("You find some treasure in the chest!");
+				for (Item item : REWARDS[reward])
+					player.getInventory().addItem(item.getId(), item.getAmount(), true);
+				player.unlock();
+			});
 		} else
 			player.sendMessage("You need a crystal key to unlock this chest.");
 	}
