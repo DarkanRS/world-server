@@ -37,11 +37,8 @@ public class WorldAPI extends WebAPI {
 	public WorldAPI() {
 		super("api", Settings.getConfig().getWorldInfo().port()+1);
 
-		routes.post("/players", ex -> {
-			ex.dispatch(() -> {
-				APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size());
-			});
-		});
+		routes.get("/players", ex ->
+				ex.dispatch(() -> APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size())));
 		
 		routes.post("/logout", ex -> {
 			ex.dispatch(() -> {

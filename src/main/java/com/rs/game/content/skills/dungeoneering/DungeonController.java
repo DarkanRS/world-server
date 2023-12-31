@@ -1023,7 +1023,7 @@ public class DungeonController extends Controller {
 	 */
 	@Override
 	public void onTeleported(TeleType type) {
-		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getMoveTile()));
+		dungeon.playMusic(player, dungeon.getCurrentRoomReference(player.getTile()));
 		hideBar();
 	}
 

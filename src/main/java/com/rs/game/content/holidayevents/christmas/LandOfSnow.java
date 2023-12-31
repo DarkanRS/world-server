@@ -37,7 +37,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 public class LandOfSnow {
 
 	private static int TRADEABLE_REWARD = 1050;
-	private static boolean ACTIVE = true;
+	private static boolean ACTIVE = false;
 
 	@ServerStartupEvent
 	public static void initObjects() {
