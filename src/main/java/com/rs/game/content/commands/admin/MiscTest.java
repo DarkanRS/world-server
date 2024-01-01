@@ -516,9 +516,12 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) -> {
-			p.soundEffect(Integer.valueOf(args[0]));
-		});
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) ->
+				p.soundEffect(Integer.valueOf(args[0])));
+
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "tilesound [id]", "Plays a tile sound effect.", (p, args) ->
+				World.soundEffect(p.getTile(), Integer.valueOf(args[0])));
+
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
 			p.getMusicsManager().playSongWithoutUnlocking(Integer.valueOf(args[0]));
