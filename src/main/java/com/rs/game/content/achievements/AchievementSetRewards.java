@@ -246,19 +246,14 @@ public class AchievementSetRewards {
 	});
 	
 	public static ItemClickHandler handleFremmyBoots = new ItemClickHandler(new Object[] { 14571, 14572, 14573, 19766 }, new String[] { "Operate", "Contact the Fossegrimen", "Free lyre teleport" }, e -> {
-		if (e.getOption().equals("Operate")) {
-			e.getPlayer().startConversation(new Dialogue().addOptions(new Options() {
-				@Override
-				public void create() {
-					option("Contact the Fossegrimen", new Dialogue().addNext(() -> Rellekka.rechargeLyre(e.getPlayer())));
-					if (e.getItem().getId() > 14571)
-						option("Free lyre teleport", new Dialogue().addNext(() -> e.getPlayer().startConversation(Rellekka.getLyreTeleOptions(e.getPlayer(), null, true))));
-				}
-			}));
-		} else if (e.getOption().equals("Free lyre teleport")) {
-			e.getPlayer().startConversation(Rellekka.getLyreTeleOptions(e.getPlayer(), null, true));
-		} else if (e.getOption().equals("Contact the Fossegrimen")) {
-			Rellekka.rechargeLyre(e.getPlayer());
+		switch(e.getOption()) {
+			case "Operate" -> e.getPlayer().sendOptionDialogue(ops -> {
+				ops.add("Contact the Fossegrimen", () -> Rellekka.rechargeLyre(e.getPlayer()));
+				ops.add("Free lyre teleport", () -> e.getPlayer().startConversation(Rellekka.getLyreTeleOptions(e.getPlayer(), null, true)));
+			});
+
+			case "Free lyre teleport" -> e.getPlayer().startConversation(Rellekka.getLyreTeleOptions(e.getPlayer(), null, true));
+			case "Contact the Fossegrimen" -> Rellekka.rechargeLyre(e.getPlayer());
 		}
 	});
 }
