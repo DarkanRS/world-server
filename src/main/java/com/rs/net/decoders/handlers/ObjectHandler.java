@@ -44,7 +44,7 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.skills.agility.WildernessAgility;
 import com.rs.game.content.skills.agility.agilitypyramid.AgilityPyramidController;
 import com.rs.game.content.skills.cooking.CowMilkingAction;
-import com.rs.game.content.skills.crafting.Jewelry;
+import com.rs.game.content.skills.crafting.JewelryCraftingKt;
 import com.rs.game.content.skills.crafting.SandBucketFill;
 import com.rs.game.content.skills.crafting.Silver;
 import com.rs.game.content.skills.dungeoneering.rooms.puzzles.FishingFerretRoom;
@@ -1590,8 +1590,8 @@ public final class ObjectHandler {
 				player.getActionManager().setAction(new SandBucketFill());
 				return;
 			}
-			if (itemId == Jewelry.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
-				Jewelry.openJewelryInterface(player, false);
+			if (itemId == JewelryCraftingKt.GOLD_BAR && (objectDef.getName().toLowerCase().contains("furnace") || object.getDefinitions(player).getName().equalsIgnoreCase("clay forge") || object.getDefinitions(player).getName().equalsIgnoreCase("lava furnace"))) {
+				JewelryCraftingKt.openInterface(player, false);
 				player.getTempAttribs().setO("jewelryObject", object);
 				return;
 			}

@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.crafting;
 
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.skills.crafting.Jewelry.Bling;
 import com.rs.game.content.skills.summoning.Scroll;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
