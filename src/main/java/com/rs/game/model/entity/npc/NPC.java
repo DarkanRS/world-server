@@ -1342,7 +1342,7 @@ public class NPC extends Entity {
 	}
 	
 	public void soundEffect(int soundId, int delay) {
-		playSound(soundId, delay, SoundType.EFFECT);
+		playSound(soundId, delay, SoundType.EFFECT).radius(10);
 	}
 	
 	public void soundEffect(int soundId) {

@@ -84,6 +84,7 @@ import com.rs.utils.reflect.ReflectionAnalysis;
 import com.rs.utils.reflect.ReflectionTest;
 import com.rs.utils.shop.ShopsHandler;
 import com.rs.utils.spawns.ItemSpawns;
+import com.rs.utils.spawns.NPCSpawn;
 import com.rs.utils.spawns.NPCSpawns;
 
 import java.io.IOException;
@@ -516,9 +517,12 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) -> {
-			p.soundEffect(Integer.valueOf(args[0]));
-		});
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) ->
+				p.soundEffect(Integer.valueOf(args[0])));
+
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "tilesound [id]", "Plays a tile sound effect.", (p, args) ->
+				World.soundEffect(p.getTile(), Integer.valueOf(args[0])));
+
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
 			p.getMusicsManager().playSongWithoutUnlocking(Integer.valueOf(args[0]));
@@ -892,12 +896,8 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "searchnpc,sn [npcId index]", "Searches the entire (loaded) gameworld for an NPC matching the ID and teleports you to it.", (p, args) -> {
 			int i = 0;
-			List<NPC> npcs = new ArrayList<>();
-			for (NPC npc : World.getNPCs())
-				if (npc.getId() == Integer.valueOf(args[0])) {
-					npcs.add(npc);
-				}
-			for(NPC npc : npcs)
+			List<NPCSpawn> npcs = NPCSpawns.getAllSpawns().stream().filter(n -> n.getNPCId() == Integer.valueOf(args[0])).toList();
+			for(NPCSpawn npc : npcs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
 			if (args.length == 1) {
 				p.tele(Tile.of(npcs.get(0).getTile()));

@@ -1152,7 +1152,7 @@ public final class World {
 		return sound;
 	}
 
-	private static Sound playSound(Tile source, int soundId, int delay, SoundType type) {
+	public static Sound playSound(Tile source, int soundId, int delay, SoundType type) {
 		return playSound(source, new Sound(soundId, delay, type));
 	}
 
@@ -1177,7 +1177,7 @@ public final class World {
 	}
 
 	public static void soundEffect(Tile source, int soundId, int delay) {
-		playSound(source, soundId, delay, SoundType.EFFECT);
+		playSound(source, soundId, delay, SoundType.EFFECT).radius(10);
 	}
 
 	public static void soundEffect(Tile source, int soundId) {
