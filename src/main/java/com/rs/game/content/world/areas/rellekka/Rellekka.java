@@ -141,8 +141,10 @@ public class Rellekka {
 
 	private static final void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
 		Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, TeleType.ITEM, () -> {
-			if (reduceDaily)
+			if (reduceDaily) {
 				player.setDailyB("freeLyreTele", true);
+				return;
+			}
 			if (lyre != null) {
 				lyre.setId(getLowerLyreId(lyre.getId()));
 				player.getInventory().refresh();
@@ -151,19 +153,15 @@ public class Rellekka {
 	}
 	
 	public static Dialogue getLyreTeleOptions(Player player, Item item, boolean reduceDaily) {
-		if (player.getDailyB("freeLyreTele"))
+		if (reduceDaily && player.getDailyB("freeLyreTele"))
 			return new Dialogue().addNext(() -> player.sendMessage("You've already used your free teleport today."));
-		
-		return new Dialogue().addOptions("Where would you like to teleport?", new Options() {
-			@Override
-			public void create() {
-				option("Rellekka", () -> Rellekka.lyreTele(player, Tile.of(2643, 3676, 0), item, reduceDaily));
-				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
-					option("Waterbirth Island", () -> Rellekka.lyreTele(player, Tile.of(2547, 3757, 0), item, reduceDaily));
-				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
-					option("Jatizso", () -> Rellekka.lyreTele(player, Tile.of(2407, 3803, 0), item, reduceDaily));
-					option("Neitiznot", () -> Rellekka.lyreTele(player, Tile.of(2336, 3803, 0), item, reduceDaily));
-				}
+		return new Dialogue().addOptions("Where would you like to teleport?", ops -> {
+			ops.add("Rellekka", () -> Rellekka.lyreTele(player, Tile.of(2643, 3676, 0), item, reduceDaily));
+			if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
+				ops.add("Waterbirth Island", () -> Rellekka.lyreTele(player, Tile.of(2547, 3757, 0), item, reduceDaily));
+			if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
+				ops.add("Jatizso", () -> Rellekka.lyreTele(player, Tile.of(2407, 3803, 0), item, reduceDaily));
+				ops.add("Neitiznot", () -> Rellekka.lyreTele(player, Tile.of(2336, 3803, 0), item, reduceDaily));
 			}
 		});
 	}
