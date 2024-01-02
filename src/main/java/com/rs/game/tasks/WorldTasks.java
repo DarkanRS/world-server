@@ -100,4 +100,8 @@ public class WorldTasks {
 		}, ticks);
 	}
 
+	public static int getSize() {
+		return TASKS.getSize();
+	}
+
 }
