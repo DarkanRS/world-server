@@ -53,8 +53,11 @@ public final class WorldThread extends Thread {
 
 	public static long START_CYCLE;
 	public static volatile long WORLD_CYCLE;
-	public static long LOWEST_TICK = 50000;
-	public static long HIGHEST_TICK = 0;
+	private static long LOWEST_TICK = 50000;
+	private static long TICKS;
+	private static long AVERAGE_TICK = 0;
+	private static long TOTAL_TIME = 0;
+	private static long HIGHEST_TICK = 0;
 
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
@@ -223,11 +226,24 @@ public final class WorldThread extends Thread {
 					HIGHEST_TICK = time;
 				if (time < LOWEST_TICK)
 					LOWEST_TICK = time;
+				TICKS++;
+				TOTAL_TIME += time;
+				AVERAGE_TICK = TOTAL_TIME / TICKS;
+
 				if (time > 300l && Settings.getConfig().getStaffWebhookUrl() != null) {
 					if (Settings.getConfig().isEnableJFR())
 						tickRecording.stop();
 					StringBuilder content = new StringBuilder();
-					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
+					content.append("__**Tick concern**__\n");
+					content.append("__**World Data**__\n");
+					content.append("```\n");
+					content.append("World: " + Settings.getConfig().getServerName() + "("+Settings.getConfig().getWorldInfo().number()+"@"+Settings.getConfig().getLobbyIp()+")\n");
+					content.append("Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE) + "\n");
+					content.append("Players loaded: " + Utils.formatNumber(World.getPlayers().size()) + "\n");
+					content.append("NPCs loaded: " + Utils.formatNumber(World.getNPCs().size()) + "\n");
+					content.append("Active world task count: " + Utils.formatNumber(WorldTasks.getSize()) + "\n");
+					content.append("```\n");
+					content.append("__**Tick Time: " + time + "ms (min: " + Utils.formatLong(LOWEST_TICK) + "ms avg: " + Utils.formatLong(AVERAGE_TICK) + "ms max: " + Utils.formatLong(HIGHEST_TICK) + "ms)**__\n");
 					content.append("```\n");
 					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
 					content.append("Task: " + timerTask.getFormattedTime() + "\n");
@@ -238,9 +254,8 @@ public final class WorldThread extends Thread {
 					content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
 					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
 					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
-					content.append("Lowest/Highest tick time: " + LOWEST_TICK + "/"+HIGHEST_TICK);
 					content.append("```\n");
-					content.append("JVM Stats:\n");
+					content.append("__**JVM Stats:**__\n");
 					content.append("```\n");
 					/**
 					 * Memory and CPU usage stats

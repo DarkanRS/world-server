@@ -2296,6 +2296,8 @@ public class Player extends Entity {
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(this);
 		inventory.reset();
 		equipment.reset();
 		appearence.generateAppearanceData();
@@ -2359,6 +2361,8 @@ public class Player extends Entity {
 			containedItems.remove(lastItem);
 			lastItem = new Item(1, 1);
 		}
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(killer);
 		inventory.reset();
 		equipment.reset();
 		WorldDB.getPlayers().save(this);
