@@ -37,23 +37,26 @@ import java.util.function.BiFunction;
 public class CombatScriptsHandler {
 
 	private static final HashMap<Object, BiFunction<NPC, Entity, Integer>> MAPPED_SCRIPTS = new HashMap<>();
-	private static final BiFunction<NPC, Entity, Integer> DEFAULT_SCRIPT = (npc, target) -> {
-		NPCCombatDefinitions defs = npc.getCombatDefinitions();
-		NPCCombatDefinitions.AttackStyle attackStyle = defs.getAttackStyle();
-		if (attackStyle == NPCCombatDefinitions.AttackStyle.MELEE)
-			CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
-		else {
-			int damage = CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
-			WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2, 0);
-			CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == NPCCombatDefinitions.AttackStyle.RANGE ? CombatScript.getRangeHit(npc, damage) : CombatScript.getMagicHit(npc, damage));
-		}
-		if (defs.getAttackGfx() != -1)
-			npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
-		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-		if (target instanceof Player p)
-			npc.soundEffect(npc.getCombatDefinitions().getAttackSound());
-		return npc.getAttackSpeed();
-	};
+
+	static {
+		MAPPED_SCRIPTS.put("DEFAULT", (npc, target) -> {
+			NPCCombatDefinitions defs = npc.getCombatDefinitions();
+			NPCCombatDefinitions.AttackStyle attackStyle = defs.getAttackStyle();
+			if (attackStyle == NPCCombatDefinitions.AttackStyle.MELEE)
+				CombatScript.delayHit(npc, 0, target, CombatScript.getMeleeHit(npc, CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target)));
+			else {
+				int damage = CombatScript.getMaxHit(npc, npc.getMaxHit(), attackStyle, target);
+				WorldProjectile p = World.sendProjectile(npc, target, defs.getAttackProjectile(), 32, 32, 50, 2, 2, 0);
+				CombatScript.delayHit(npc, p.getTaskDelay(), target, attackStyle == NPCCombatDefinitions.AttackStyle.RANGE ? CombatScript.getRangeHit(npc, damage) : CombatScript.getMagicHit(npc, damage));
+			}
+			if (defs.getAttackGfx() != -1)
+				npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
+			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
+			if (target instanceof Player p)
+				npc.soundEffect(npc.getCombatDefinitions().getAttackSound());
+			return npc.getAttackSpeed();
+		});
+	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static final void loadScripts() {
@@ -86,9 +89,13 @@ public class CombatScriptsHandler {
 		if (script == null) {
 			script = MAPPED_SCRIPTS.get(npc.getDefinitions().getName());
 			if (script == null)
-				script = DEFAULT_SCRIPT;
+				script = getDefaultCombat();
 		}
 		return script.apply(npc, target);
+	}
+
+	public static BiFunction<NPC, Entity, Integer> getDefaultCombat() {
+		return MAPPED_SCRIPTS.get("DEFAULT");
 	}
 
 	public static void addCombatScript(Object npcNameOrId, BiFunction<NPC, Entity, Integer> script) {
