@@ -3,6 +3,7 @@ package com.rs.plugin.kts
 import com.rs.cache.loaders.ObjectType
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
+import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
 import com.rs.plugin.events.*
@@ -165,4 +166,9 @@ fun onPlayerStep(vararg tiles: Tile, eventHandler: (PlayerStepEvent) -> Unit) {
 
 fun onXpDrop(eventHandler: (XPGainEvent) -> Unit) {
     XPGainEvent.registerMethod(XPGainEvent::class.java, XPGainHandler { eventHandler(it) })
+}
+
+fun npcCombat(vararg npcNamesOrIds: Any, script: (NPC, Entity) -> Int) {
+    npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
+    CombatScriptsHandler.addCombatScript(npcNamesOrIds) { player, npc -> script(player, npc) }
 }
