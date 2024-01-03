@@ -21,6 +21,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.minigames.creations.StealingCreationController;
 import com.rs.game.content.skills.crafting.JewelryCraftingKt;
@@ -954,9 +955,14 @@ public enum Scroll {
 				owner.sendMessage("Your bank is full!");
 				return false;
 			}
+			if (MinigameUtilKt.isMinigameSupply(item.getId())) {
+				owner.sendMessage("You can't bank that like this.");
+				return false;
+			}
+			if (!owner.getBank().depositItem(item.getSlot(), 1, true))
+				return false;
 			familiar.spotAnim(1358);
 			owner.incrementCount("Items banked with yak");
-			owner.getBank().depositItem(item.getSlot(), 1, true);
 			owner.sendMessage("Your pack yak has sent an item to your bank.", true);
 			return true;
 		}

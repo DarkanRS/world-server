@@ -4,7 +4,8 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.World
-import com.rs.game.content.minigames.MinigameUtil
+import com.rs.game.content.minigames.checkAndDeleteFoodAndPotions
+import com.rs.game.content.minigames.giveFoodAndPotions
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.Teleport
@@ -438,7 +439,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
                 it.add("Yes, leave. (You won't receive any rewards for doing so)") { player.controllerManager.forceStop() }
                 it.add("Nevermind.")
             }
-            42023, 42024 -> MinigameUtil.giveFoodAndPotions(player)
+            42023, 42024 -> giveFoodAndPotions(player)
             42015 -> checkPositionAndPassThrough(player.x < obj.x, -1, 0)
             42018 -> checkPositionAndPassThrough(player.x >= obj.x, 0, 0)
             in arrayOf(42016, 42013, 42019) -> checkPositionAndPassThrough(player.y > obj.y, 0, -1)
@@ -540,6 +541,11 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         return false
     }
 
+    override fun canDepositItem(item: Item?): Boolean {
+        player.sendMessage("You can't bank items here.")
+        return false;
+    }
+
     override fun processTeleport(tele: Teleport): Boolean { return false }
 
     override fun logout(): Boolean {
@@ -571,7 +577,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 
 fun clearMinigameValues(player: Player) {
     player.isCanPvp = false
-    MinigameUtil.checkAndDeleteFoodAndPotions(player)
+    checkAndDeleteFoodAndPotions(player)
     player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
     player.equipment.refresh(Equipment.CAPE)
     player.appearance.generateAppearanceData()
