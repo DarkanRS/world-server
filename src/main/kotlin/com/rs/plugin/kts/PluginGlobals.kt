@@ -85,6 +85,11 @@ fun onItemAddedToInventory(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedT
     ItemAddedToInventoryEvent.registerMethod(ItemAddedToInventoryEvent::class.java, ItemAddedToInventoryHandler(itemNamesOrIds) { eventHandler(it) })
 }
 
+fun onItemAddedToBank(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedToBankEvent) -> Unit) {
+    itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
+    ItemAddedToBankEvent.registerMethod(ItemAddedToBankEvent::class.java, ItemAddedToBankHandler(itemNamesOrIds) { eventHandler(it) })
+}
+
 fun onItemClick(vararg itemNamesOrIds: Any, options: Array<String>? = null, eventHandler: (ItemClickEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     ItemClickEvent.registerMethod(ItemClickEvent::class.java, ItemClickHandler(itemNamesOrIds, options) { eventHandler(it) })
