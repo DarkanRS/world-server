@@ -1,3 +1,4 @@
+
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
@@ -54,6 +55,7 @@ public class KingBlackDragonCombat extends CombatScript {
 		if (attackStyle == 1 || attackStyle == 2) {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
+			npc.soundEffect(3750);
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = Utils.getRandomInclusive(150);
@@ -66,6 +68,7 @@ public class KingBlackDragonCombat extends CombatScript {
 		} else if (attackStyle == 3) {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
+			npc.soundEffect(587);
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
@@ -79,6 +82,7 @@ public class KingBlackDragonCombat extends CombatScript {
 		} else if (attackStyle == 4) {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
+			npc.soundEffect(586);
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
@@ -92,6 +96,7 @@ public class KingBlackDragonCombat extends CombatScript {
 		} else {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
+			npc.soundEffect(584);
 			int protection = PlayerCombat.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
@@ -104,3 +109,4 @@ public class KingBlackDragonCombat extends CombatScript {
 		return npc.getAttackSpeed();
 	}
 }
+

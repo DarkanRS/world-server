@@ -228,9 +228,9 @@ public class Lunars {
 			player.sendMessage("You can only cast this spell on a log.");
 			return;
 		}
-		
+
 		int price = (int) (SawmillOperator.prices[index] * 0.7);
-		
+
 		if (!player.getInventory().hasCoins(price)) {
 			player.sendMessage("You need " + Utils.formatNumber(price) + " gold to convert this log.");
 			return;
@@ -246,6 +246,7 @@ public class Lunars {
 		player.getInventory().addItem(SawmillOperator.planks[index], 1);
 		player.getSkills().addXp(Constants.MAGIC, 90);
 		player.addSpellDelay(2);
+		player.soundEffect(3617);
 	}
 
 	public static void handleVengeance(Player player) {
@@ -259,6 +260,7 @@ public class Lunars {
 		player.setNextSpotAnim(new SpotAnim(726, 0, 100));
 		player.setNextAnimation(new Animation(4410));
 		player.setCastVeng(true);
+		player.soundEffect(2907);
 		player.getSkills().addXp(Constants.MAGIC, 112);
 		player.getTempAttribs().setL("LAST_VENG", System.currentTimeMillis());
 	}
@@ -270,6 +272,7 @@ public class Lunars {
 				player.setNextAnimation(new Animation(6294));
 				player.getSkills().addXp(Constants.MAGIC, 65);
 				fillFillables(player);
+				player.soundEffect(3614);
 			}
 		} else
 			player.sendMessage("You need to have something to humidify before using this spell.");
@@ -312,6 +315,7 @@ public class Lunars {
 					if (strungId != -1) {
 						player.getInventory().deleteItem(item.getId(), 1);
 						player.getInventory().addItem(strung[strungId], 1);
+						player.soundEffect(2903);
 					}
 				}
 			}
@@ -456,6 +460,7 @@ public class Lunars {
 				if ((chance > 0.0) && Utils.randomD() <= chance) {
 					player.getInventory().addItem(1775, 1);
 					player.getSkills().addXp(Constants.CRAFTING, 10);
+					player.soundEffect(2896);
 
 				}
 			}
@@ -481,6 +486,7 @@ public class Lunars {
 			player.setNextSpotAnim(new SpotAnim(141, 0, 100));
 			player.setNextAnimation(new Animation(722));
 			player.setCastMagicImbue(true);
+			player.soundEffect(2888);
 			player.getSkills().addXp(Constants.MAGIC, 86);
 			player.getTempAttribs().setL("LAST_IMBUE", System.currentTimeMillis());
 		}
@@ -501,6 +507,7 @@ public class Lunars {
 			player.setNextSpotAnim(new SpotAnim(725, 0, 100));
 			player.setNextAnimation(new Animation(4411));
 			player.setCastVeng(true);
+			player.soundEffect(2908);
 			player.getSkills().addXp(Constants.MAGIC, 112);
 			player.getTempAttribs().setL("LAST_VENG", System.currentTimeMillis());
 			for (Player other : getNearPlayers(player, 3, 10)) {

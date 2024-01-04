@@ -45,6 +45,7 @@ public class SuqahCombat extends CombatScript {
 				@Override
 				public void run() {
 					target.setNextSpotAnim(new SpotAnim(369));
+					npc.soundEffect(168);
 					target.freeze(Ticks.fromSeconds(5));
 				}
 			});
