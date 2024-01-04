@@ -50,6 +50,7 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.util.GenericAttribMap;
 import com.rs.lib.util.MapUtils;
@@ -101,6 +102,7 @@ public abstract class Entity {
 	private transient Tile lastTile;
 	private transient Tile tileBehind;
 	private transient Tile nextTile;
+	public transient Walk walkRequest;
 	private transient boolean walkedThisTick;
 	private transient Direction nextWalkDirection;
 	private transient Direction nextRunDirection;
@@ -951,6 +953,24 @@ public abstract class Entity {
 
 	public void processEntity() {
 		tickCounter++;
+		if (walkRequest != null) {
+			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(walkRequest.getX(), walkRequest.getY()), true);
+			int last = -1;
+			if (route.getStepCount() == -1)
+				return;
+			if (this instanceof Player player)
+				player.stopAll();
+			setNextFaceEntity(null);
+			for (int i = route.getStepCount() - 1; i >= 0; i--)
+				if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
+					break;
+			if (last != -1) {
+				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
+				if (this instanceof Player player)
+					player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
+			}
+			walkRequest = null;
+		}
 		RouteEvent prevEvent = routeEvent;
 		if (routeEvent != null && routeEvent.processEvent(this)) {
 			if (routeEvent == prevEvent)
