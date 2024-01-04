@@ -313,11 +313,21 @@ public class Karamja  {
 	});
 
 	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }, e -> {
-		e.getPlayer().tele(Tile.of(2830, 9522, 0));
+		e.getPlayer().startConversation(new Dialogue()
+				.addSimple("You search the rocks and find an entrance into some caves.")
+				.addOptions((ops) -> {
+					ops.add("Yes, I'll enter the cave.")
+							.addSimple("You decide to enter the caves.<br>You climb down several steep rock faces into the cavern below.")
+							.addNext(() -> e.getPlayer().tele(Tile.of(2830, 9522, 0)));
+					ops.add("No, thanks.")
+							.addSimple("You decide to stay where you are!");
+				}));
 	});
 
 	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }, e -> {
-		e.getPlayer().ladder(Tile.of(2824, 3120, 0));
+		e.getPlayer().startConversation(new Dialogue()
+				.addSimple("You climb the rocks to get back out.")
+				.addNext(() -> e.getPlayer().ladder(Tile.of(2824, 3120, 0))));
 	});
 
 	public static ObjectClickHandler handleShiloEnter = new ObjectClickHandler(new Object[] { 2216 }, e -> {
