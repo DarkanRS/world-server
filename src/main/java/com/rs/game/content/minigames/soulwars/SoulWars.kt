@@ -224,7 +224,7 @@ fun attemptStartGame() {
         ACTIVE_GAME = SoulWars()
 }
 
-class SoulAvatar(val redTeam: Boolean, val game: SoulWars, var level: Int = 100) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
+class SoulAvatar(private val redTeam: Boolean, val game: SoulWars, var level: Int = 100) : NPC(if (redTeam) 8596 else 8597, if (redTeam) Tile.of(1965, 3249, 0) else Tile.of(1805, 3208, 0)) {
     init {
         capDamage = 700
     }
