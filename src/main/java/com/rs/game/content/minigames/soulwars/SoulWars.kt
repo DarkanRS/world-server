@@ -534,6 +534,13 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
         }
     }
 
+    override fun canAttack(target: Entity): Boolean {
+        return if (redTeam)
+            game?.blueTeam?.contains(target) ?: false
+        else
+            game?.redTeam?.contains(target) ?: false
+    }
+
     override fun login(): Boolean {
         clearMinigameValues(player)
         player.tele(Tile.of(1886, 3172, 0))
@@ -578,9 +585,12 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 fun clearMinigameValues(player: Player) {
     player.isCanPvp = false
     checkAndDeleteFoodAndPotions(player)
+    player.inventory.deleteItem(BONES, 28)
+    player.inventory.deleteItem(SOUL_FRAGMENT, Integer.MAX_VALUE)
     player.equipment.setNoPluginTrigger(Equipment.CAPE, null)
     player.equipment.refresh(Equipment.CAPE)
     player.appearance.generateAppearanceData()
+    player.reset()
 }
 
 fun getQuickchatVar(varId: Int): Int {
