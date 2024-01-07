@@ -113,36 +113,6 @@ public class Karamja  {
 		}
 	});
 
-	public static NPCClickHandler handleKalebParamaya = new NPCClickHandler(new Object[] { 512 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
-					}
-				});
-                create();
-			}
-		});
-	});
-
-	public static NPCClickHandler handleJungleForesters = new NPCClickHandler(new Object[] { 401, 402 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what are you after?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
-					}
-				});
-                create();
-			}
-		});
-	});
-
 	public static ObjectClickHandler handleBrimhavenDungeonEntrance = new ObjectClickHandler(new Object[] { 5083 }, e -> {
 		if(e.getPlayer().getTempAttribs().getB("paid_brimhaven_entrance_fee")) {//12 hours
 			e.getPlayer().tele(Tile.of(2713, 9564, 0));
