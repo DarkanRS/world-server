@@ -4348,4 +4348,9 @@ public class Player extends Entity {
 	public void setMiniquestStage(Miniquest quest, int stage) {
 		getMiniquestManager().setStage(quest, stage);
 	}
+
+	@Override
+	public String toString() {
+		return "["+getDisplayName() + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
+	}
 }

@@ -1038,7 +1038,7 @@ public class NPC extends Entity {
 
 	@Override
 	public String toString() {
-		return getDefinitions().getName() + " - " + id + " - " + getX() + " " + getY() + " " + getPlane();
+		return "["+getDefinitions().getName() + " - id: " + id + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
 	}
 
 	public boolean isForceAgressive() {
