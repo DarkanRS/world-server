@@ -1,18 +1,14 @@
 {
   "ids": [
-    92,
     5337,
-    5338,
-    5339,
-    5340
   ],
   "attackAnim": 5485,
-  "attackSound": -1,
+  "attackSound": 775,
   "defenceAnim": 5489,
-  "defendSound": -1,
+  "defendSound": 774,
   "deathAnim": 5491,
   "deathDelay": 4,
-  "deathSound": -1,
+  "deathSound": 777,
   "respawnDelay": 29,
   "hitpoints": 290,
   "maxHit": 40,

@@ -48,8 +48,8 @@ public enum Prayer {
 	CHIVALRY			(false, 3826, 25, 5967, 5996, 60, 10d/3),
 	RAPID_RENEWAL		(false, -1/*TODO*/, 26, 7768, 7770, 65, 5d/2),
 	PIETY				(false, 3825, 27, 5968, 5997, 70, 4),
-	RIGOUR				(false, -1/*TODO*/, 28, 7381, 7382, 74, 3),
-	AUGURY				(false, -1/*TODO*/, 29, 7769, 7771, 77, 10d/3),
+	RIGOUR				(false, 2685, 28, 7381, 7382, 74, 3),
+	AUGURY				(false, 2670, 29, 7769, 7771, 77, 10d/3),
 
 	PROTECT_ITEM_C		(true, 11000, 0, 6820, 6862, 50, 1d/3),
 	SAP_WARRIOR			(true, 2675, 1, 6821, 6863, 50, 5d/2),

@@ -286,6 +286,8 @@ public final class EmotesManager {
 			}
 			if (emote.animation != null) {
 				player.setNextAnimation(emote.animation);
+				if(emote == Emote.AIR_GUITAR)
+					player.jingle(302);
 				if (emote.spotAnim != null)
 					player.setNextSpotAnim(emote.spotAnim);
 			} else if (emote == Emote.TASKMASTER) {

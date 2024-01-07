@@ -66,7 +66,7 @@ public class SpecialAttacks {
                 if (player.getEquipment().getWeaponId() == 4153)
                     player.setNextSpotAnim(new SpotAnim(340, 0, 96 << 16));
                 delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0));
-                player.soundEffect(2715);
+                World.soundEffect(player.getTile(), 2715);
                 return 0;
             }
             return 0;
@@ -88,7 +88,7 @@ public class SpecialAttacks {
             player.getSkills().set(Constants.MAGIC, magic);
             player.getSkills().set(Constants.STRENGTH, strength);
             player.getCombatDefinitions().drainSpec(100);
-            player.soundEffect(2538);
+            World.soundEffect(player.getTile(), 2538);
             return 0;
         }));
 
@@ -101,7 +101,7 @@ public class SpecialAttacks {
             player.getSkills().adjustStat(enhanced ? 0 : 8, enhanced ? 0.15 : 0, Skills.DEFENSE);
             player.addEffect(Effect.EXCALIBUR_HEAL, enhanced ? 70 : 35);
             player.getCombatDefinitions().drainSpec(100);
-            player.soundEffect(2539);
+            World.soundEffect(player.getTile(), 2539);
             return 0;
         }));
 
@@ -217,7 +217,7 @@ public class SpecialAttacks {
             delayHit(target, p.getTaskDelay(), calculateHit(player, target, true));
             delayHit(target, p2.getTaskDelay(), calculateHit(player, target, true));
             dropAmmo(player, target, Equipment.AMMO, 2);
-            player.soundEffect(2545);
+            World.soundEffect(player.getTile(), 2545);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -240,7 +240,7 @@ public class SpecialAttacks {
             WorldProjectile p = World.sendProjectile(player, target, 698, 20, 50, 1);
             delayHit(target, p.getTaskDelay(), hit);
             dropAmmo(player, target, Equipment.AMMO, 1);
-            player.soundEffect(1080);
+            World.soundEffect(player.getTile(), 1080);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -261,7 +261,7 @@ public class SpecialAttacks {
                 WorldProjectile p2 = World.sendProjectile(player, target, 1099, 30, 50, 1.5, proj -> target.setNextSpotAnim(new SpotAnim(1100, 0, 100)));
                 delayHit(target, p.getTaskDelay(), hit1);
                 delayHit(target, p2.getTaskDelay(), hit2);
-                player.soundEffect(3736);
+                World.soundEffect(player.getTile(), 3736);
             } else {
                 Hit hit1 = calculateHit(player, target, true, true, 1.0, 1.3);
                 if (hit1.getDamage() < 50)
@@ -273,7 +273,7 @@ public class SpecialAttacks {
                 WorldProjectile p2 = World.sendProjectile(player, target, 1101, 30, 50, 1.5);
                 delayHit(target, p.getTaskDelay(), hit1);
                 delayHit(target, p2.getTaskDelay(), hit2);
-                player.soundEffect(3737);
+                World.soundEffect(player.getTile(), 3737);
             }
             dropAmmo(player, target, Equipment.AMMO, 2);
             return PlayerCombat.getRangeCombatDelay(player);
@@ -338,7 +338,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0)
                 target.lowerStat(Skills.MAGIC, hit.getDamage()/10, 0.0);
             dropAmmo(player, target);
-            player.soundEffect(2546);
+            World.soundEffect(player.getTile(), 2546);
             return PlayerCombat.getRangeCombatDelay(player);
         }));
 
@@ -386,7 +386,7 @@ public class SpecialAttacks {
             if (target instanceof Player p2)
                 p2.setRunEnergy(p2.getRunEnergy() > 25 ? p2.getRunEnergy() - 25 : 0);
             delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.0));
-            player.soundEffect(2713);
+            World.soundEffect(player.getTile(), 2713);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -396,7 +396,7 @@ public class SpecialAttacks {
             target.setNextSpotAnim(new SpotAnim(1194));
             delayNormalHit(target, new Hit(player, 50 + Utils.getRandomInclusive(100), HitLook.MELEE_DAMAGE).setMaxHit(150));
             delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.1));
-            player.soundEffect(3853);
+            World.soundEffect(player.getTile(), 3853);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -430,7 +430,7 @@ public class SpecialAttacks {
             } else {
                 NPC n = (NPC) target;
                 n.freeze(Ticks.fromSeconds(3), false);
-                player.soundEffect(2544);
+                World.soundEffect(player.getTile(), 2544);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -484,7 +484,7 @@ public class SpecialAttacks {
             delayNormalHit(target, hit3);
             if (target instanceof Player other)
                 other.getPrayer().drainPrayer(hit3.getDamage());
-            player.soundEffect(3592);
+            World.soundEffect(player.getTile(), 3592);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -507,7 +507,7 @@ public class SpecialAttacks {
         addSpec(new int[] { 13899, 13901 }, new SpecialAttack(Type.MELEE, 25, (player, target) -> {
             player.setNextAnimation(new Animation(10502));
             delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.20));
-            player.soundEffect(2529);
+            World.soundEffect(player.getTile(), 2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -523,7 +523,7 @@ public class SpecialAttacks {
                     n.lowerDefense(0.30, 0.0);
                 else if (target instanceof Player p)
                     p.getSkills().adjustStat(0, -0.30, Constants.DEFENSE);
-            player.soundEffect(2520);
+            World.soundEffect(player.getTile(), 2520);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -537,7 +537,7 @@ public class SpecialAttacks {
                 delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, false, true, 1.0, 1.15));
                 return true;
             });
-            player.soundEffect(2529);
+            World.soundEffect(player.getTile(), 2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -550,7 +550,7 @@ public class SpecialAttacks {
                 delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, false, true, 1.0, 1.2));
                 return true;
             });
-            player.soundEffect(2530);
+            World.soundEffect(player.getTile(), 2530);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -610,7 +610,7 @@ public class SpecialAttacks {
                     delayHit(target, 1, hits[i]);
                 else
                     delayNormalHit(target, hits[i]);
-            player.soundEffect(2534);
+            World.soundEffect(player.getTile(), 2534);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -660,7 +660,7 @@ public class SpecialAttacks {
             delayNormalHit(target, hitt);
             if (target instanceof Player other)
                 other.getSkills().drainLevel(Constants.DEFENSE, hitt.getDamage() / 10);
-            player.soundEffect(3481);
+            World.soundEffect(player.getTile(), 3481);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -669,7 +669,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(12033));
             player.setNextSpotAnim(new SpotAnim(2117));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.25));
-            player.soundEffect(2529);
+            World.soundEffect(player.getTile(), 2529);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -684,7 +684,7 @@ public class SpecialAttacks {
             delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.1));
             if (target.getSize() > 1)
                 delayHit(target, 1, calculateHit(player, target, false, true, 1.0, 1.1));
-            player.soundEffect(2533);
+            World.soundEffect(player.getTile(), 2533);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -697,7 +697,7 @@ public class SpecialAttacks {
                 if (hit5.getDamage() > 0)
                     p2.setProtectionPrayBlock(10);
             delayNormalHit(target, hit5);
-            player.soundEffect(2540);
+            World.soundEffect(player.getTile(), 2540);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -707,7 +707,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(252, 0, 100));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15));
-            player.soundEffect(2537);
+            World.soundEffect(player.getTile(), 2537);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -716,7 +716,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(1060));
             player.setNextSpotAnim(new SpotAnim(251));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.5));
-            player.soundEffect(2541);
+            World.soundEffect(player.getTile(), 2541);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -726,7 +726,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(1060));
             player.setNextSpotAnim(new SpotAnim(251));
             delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0));
-            player.soundEffect(2541);
+            World.soundEffect(player.getTile(), 2541);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -756,7 +756,7 @@ public class SpecialAttacks {
                 target.lowerStat(Skills.ATTACK, 0.05, 0.0);
                 target.lowerStat(Skills.STRENGTH, 0.05, 0.0);
                 target.lowerStat(Skills.DEFENSE, 0.05, 0.0);
-                player.soundEffect(225);
+                World.soundEffect(player.getTile(), 225);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -769,7 +769,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0) {
                 target.lowerStat(Skills.DEFENSE, hit.getDamage()/10, 0.0);
                 target.lowerStat(Skills.MAGIC, hit.getDamage()/10, 0.0);
-                player.soundEffect(2531);
+                World.soundEffect(player.getTile(), 2531);
             }
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
@@ -795,7 +795,7 @@ public class SpecialAttacks {
             if (hit.getDamage() > 0) {
                 target.lowerStat(Skills.DEFENSE, hit.getDamage()/10, 0.0);
             }
-            player.soundEffect(1084);
+            World.soundEffect(player.getTile(), 1084);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 

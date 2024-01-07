@@ -1,24 +1,24 @@
 {
   "names": [
-    "Ugthanki"
+    "Desert Wolf"
   ],
-  "attackAnim": -1,
-  "attackSound": -1,
-  "defenceAnim": -1,
-  "defendSound": -1,
-  "deathAnim": -1,
+  "attackAnim": 6559,
+  "attackSound": 909,
+  "defenceAnim": 6557,
+  "defendSound": 912,
+  "deathAnim": 6558,
   "deathDelay": 6,
-  "deathSound": -1,
-  "respawnDelay": 59,
-  "hitpoints": 460,
-  "maxHit": 40,
+  "deathSound": 911,
+  "respawnDelay": 39,
+  "hitpoints": 340,
+  "maxHit": 30,
   "attackStyle": "MELEE",
-  "attackBonus": "STAB_ATT",
+  "attackBonus": "SLASH_ATT",
   "combatLevels": {
-    "ATTACK": 35,
+    "ATTACK": 20,
     "RANGE": 0,
-    "STRENGTH": 35,
-    "DEFENSE": 35,
+    "STRENGTH": 21,
+    "DEFENSE": 22,
     "MAGE": 0
   },
   "attackRange": -1,
