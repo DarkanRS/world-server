@@ -111,7 +111,7 @@ public class Kebbit extends NPC {
 			if (hintIcon != -1)
 				returnPlayer.getHintIconsManager().removeHintIcon(hintIcon);
 			returnPlayer.lock();
-			returnPlayer.soundEffect(2633);
+			returnPlayer.soundEffect(2633, true);
 			World.sendProjectile(this, caughtBy, 922, 24, 8, 0, 1.0, 15, 15, backProj -> {
 				unlock();
 				returnPlayer.unlock();

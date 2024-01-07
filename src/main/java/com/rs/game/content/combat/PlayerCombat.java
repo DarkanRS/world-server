@@ -174,7 +174,7 @@ public class PlayerCombat extends PlayerAction {
 					target.setNextSpotAnim(new SpotAnim(2036, 0, 96));
 				else {
 					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-					playSound(227, player, target);
+					player.soundEffect(target, 227, true);
 				}
 			}, null, null);
 			return 4;
@@ -310,14 +310,14 @@ public class PlayerCombat extends PlayerAction {
 					if (spell.getHitSpotAnim() != null) {
 						target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 					}
 				} else {
 					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
 					if (spell.splashSound != -1)
-						playSound(spell.landSound, player, target);
+						player.soundEffect(target, spell.splashSound, true);
 					else
-						playSound(227, player, target);
+						player.soundEffect(target, 227, true);
 				}
 			});
 		} else {
@@ -361,21 +361,21 @@ public class PlayerCombat extends PlayerAction {
 						else
 							target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 						break;
 					default:
 						if (spell.getHitSpotAnim() != null)
 							target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 						break;
 				}
 			else {
 				target.setNextSpotAnim(new SpotAnim(85, 0, 96));
 				if (spell.splashSound != -1)
-					playSound(spell.landSound, player, target);
+					player.soundEffect(target, spell.splashSound, true);
 				else
-					playSound(227, player, target);
+					player.soundEffect(target, 227, true);
 			}
 		}, () -> {
 			spell.onHit(player, target, hit);
@@ -753,16 +753,8 @@ public class PlayerCombat extends PlayerAction {
 		}
 		delayNormalHit(target, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, false));
 		player.setNextAnimation(new Animation(getWeaponAttackEmote(weaponId, attackStyle)));
-		playSound(soundId, player, target);
+		player.soundEffect(target, soundId, true);
 		return combatDelay;
-	}
-
-	public static void playSound(int soundId, Player player, Entity target) {
-		if (soundId == -1)
-			return;
-		player.soundEffect(soundId);
-		if (target instanceof Player p2)
-			p2.soundEffect(soundId);
 	}
 
 	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage) {

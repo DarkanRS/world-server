@@ -52,8 +52,7 @@ public class CombatScriptsHandler {
 			if (defs.getAttackGfx() != -1)
 				npc.setNextSpotAnim(new SpotAnim(defs.getAttackGfx()));
 			npc.setNextAnimation(new Animation(defs.getAttackEmote()));
-			if (target instanceof Player p)
-				npc.soundEffect(npc.getCombatDefinitions().getAttackSound());
+			npc.soundEffect(target, npc.getCombatDefinitions().getAttackSound(), true);
 			return npc.getAttackSpeed();
 		});
 	}

@@ -32,7 +32,7 @@ public class Siphon implements NexAttack {
 	public int attack(Nex nex, Entity target) {
 		nex.killBloodReavers();
 		nex.setNextForceTalk(new ForceTalk("A siphon will solve this!"));
-		nex.voiceEffect(3317);
+		nex.voiceEffect(target, 3317, true);
 		nex.setNextAnimation(new Animation(6948));
 		nex.setNextSpotAnim(new SpotAnim(1201));
 		nex.getTempAttribs().setB("siphoning", true);

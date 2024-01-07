@@ -489,8 +489,7 @@ public class NPC extends Entity {
 		WorldTasks.scheduleTimer(loop -> {
 			if (loop == 0) {
 				setNextAnimation(new Animation(defs.getDeathEmote()));
-				if (source instanceof Player p)
-					soundEffect(getCombatDefinitions().getDeathSound(), 1);
+				soundEffect(source, getCombatDefinitions().getDeathSound(), true);
 			}
 			else if (loop >= defs.getDeathDelay()) {
 				if (source instanceof Player player)
@@ -1310,51 +1309,6 @@ public class NPC extends Entity {
 
 	public void setIgnoreNPCClipping(boolean ignoreNPCClipping) {
 		this.ignoreNPCClipping = ignoreNPCClipping;
-	}
-	
-	private Sound playSound(Sound sound) {
-		World.playSound(getTile(), sound);
-		return sound;
-	}
-	
-	private Sound playSound(int soundId, int delay, SoundType type) {
-		return playSound(new Sound(soundId, delay, type));
-	}
-	
-	public void jingle(int jingleId, int delay) {
-		playSound(jingleId, delay, SoundType.JINGLE);
-	}
-	
-	public void jingle(int jingleId) {
-		playSound(jingleId, 0, SoundType.JINGLE);
-	}
-	
-	public void musicTrack(int trackId, int delay, int volume) {
-		playSound(trackId, delay, SoundType.MUSIC).volume(volume);
-	}
-	
-	public void musicTrack(int trackId, int delay) {
-		playSound(trackId, delay, SoundType.MUSIC);
-	}
-	
-	public void musicTrack(int trackId) {
-		musicTrack(trackId, 100);
-	}
-	
-	public void soundEffect(int soundId, int delay) {
-		playSound(soundId, delay, SoundType.EFFECT).radius(10);
-	}
-	
-	public void soundEffect(int soundId) {
-		soundEffect(soundId, 0);
-	}
-	
-	public void voiceEffect(int voiceId, int delay) {
-		playSound(voiceId, delay, SoundType.VOICE);
-	}
-	
-	public void voiceEffect(int voiceId) {
-		voiceEffect(voiceId, 0);
 	}
 
 	public NPCBodyMeshModifier getBodyMeshModifier() {
