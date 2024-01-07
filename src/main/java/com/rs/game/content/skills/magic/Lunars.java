@@ -247,7 +247,7 @@ public class Lunars {
 		player.getInventory().addItem(SawmillOperator.planks[index], 1);
 		player.getSkills().addXp(Constants.MAGIC, 90);
 		player.addSpellDelay(2);
-		World.soundEffect(player.getTile(), 3617);
+		player.soundEffect(3617, true);
 	}
 
 	public static void handleVengeance(Player player) {
@@ -261,7 +261,7 @@ public class Lunars {
 		player.setNextSpotAnim(new SpotAnim(726, 0, 100));
 		player.setNextAnimation(new Animation(4410));
 		player.setCastVeng(true);
-		World.soundEffect(player.getTile(), 2907);
+		player.soundEffect(2907, true);
 		player.getSkills().addXp(Constants.MAGIC, 112);
 		player.getTempAttribs().setL("LAST_VENG", System.currentTimeMillis());
 	}
@@ -273,7 +273,7 @@ public class Lunars {
 				player.setNextAnimation(new Animation(6294));
 				player.getSkills().addXp(Constants.MAGIC, 65);
 				fillFillables(player);
-				World.soundEffect(player.getTile(), 3614);
+				player.soundEffect(3614, true);
 			}
 		} else
 			player.sendMessage("You need to have something to humidify before using this spell.");
@@ -316,7 +316,7 @@ public class Lunars {
 					if (strungId != -1) {
 						player.getInventory().deleteItem(item.getId(), 1);
 						player.getInventory().addItem(strung[strungId], 1);
-						World.soundEffect(player.getTile(), 2903);
+						player.soundEffect(2903, true);
 					}
 				}
 			}
@@ -461,7 +461,7 @@ public class Lunars {
 				if ((chance > 0.0) && Utils.randomD() <= chance) {
 					player.getInventory().addItem(1775, 1);
 					player.getSkills().addXp(Constants.CRAFTING, 10);
-					World.soundEffect(player.getTile(), 2896);;
+					player.soundEffect(2896, true);
 
 				}
 			}
@@ -487,7 +487,7 @@ public class Lunars {
 			player.setNextSpotAnim(new SpotAnim(141, 0, 100));
 			player.setNextAnimation(new Animation(722));
 			player.setCastMagicImbue(true);
-			World.soundEffect(player.getTile(), 2888);
+			player.soundEffect(2888, true);
 			player.getSkills().addXp(Constants.MAGIC, 86);
 			player.getTempAttribs().setL("LAST_IMBUE", System.currentTimeMillis());
 		}
