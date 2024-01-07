@@ -148,23 +148,17 @@ public class HolyGrail extends QuestOutline {
 		}
 	});
 
-	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(new Object[] { 16 }, e -> {
-		if(e.getOption().equalsIgnoreCase("Blow")) {
-			if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
-				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2757, 3475, 0));
-			}
-			if (e.getPlayer().getTile().withinDistance(Tile.of(2742, 3236, 0), 2)) {
-				if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
-					Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2678, 4713, 0));
-					return;
-				}
-				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2803, 4713, 0));
-			}
+	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(new Object[] { 16 }, new String[] { "Blow" }, e -> {
+		if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
+			Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2757, 3475, 0));
+			return;
 		}
-		if(e.getOption().equalsIgnoreCase("drop")) {
-			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
+		if (e.getPlayer().getTile().withinDistance(Tile.of(2742, 3236, 0), 2)) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
+				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2678, 4713, 0));
+				return;
+			}
+			Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2803, 4713, 0));
 		}
 	});
 

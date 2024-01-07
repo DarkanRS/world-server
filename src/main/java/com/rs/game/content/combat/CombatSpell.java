@@ -838,8 +838,8 @@ public enum CombatSpell {
 			caster.setNextAnimation(castAnim);
 		if (castSpotAnim != null)
 			caster.setNextSpotAnim(castSpotAnim);
-		if (castSound != -1 && caster instanceof Player player)
-			PlayerCombat.playSound(castSound, player, target);
+		if (castSound != -1)
+			caster.soundEffect(target, castSound, true);
 		onCast(caster, target);
 		return World.sendProjectile(caster, target, projAnim, castSpotAnim != null && castSpotAnim.getHeight() > 50 ? 20 : 0, 50, 1).getTaskDelay();
 	}

@@ -525,7 +525,7 @@ public class Magic {
 			if (upGraphicId != -1)
 				player.setNextSpotAnim(new SpotAnim(upGraphicId));
 			if (teleType == TeleType.MAGIC)
-				player.voiceEffect(5527);
+				player.voiceEffect(5527, true);
 			player.lock(3 + delay);
 		}, () -> {
 			Tile toTile = tile;
@@ -547,7 +547,7 @@ public class Magic {
 			if (downGraphicId != -1)
 				player.spotAnim(downGraphicId);
 			if (teleType == TeleType.MAGIC) {
-				player.voiceEffect(5524);
+				player.voiceEffect(5524, true);
 				player.setNextFaceTile(Tile.of(toTile.getX(), toTile.getY() - 1, toTile.getPlane()));
 				player.setFaceAngle(6);
 			}

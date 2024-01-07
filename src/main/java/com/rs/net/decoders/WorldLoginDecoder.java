@@ -188,7 +188,7 @@ public final class WorldLoginDecoder extends Decoder {
 				return;
 			}
 			player.init(session, account, displayMode, screenWidth, screenHeight, mInformation);
-			session.write(new WorldLoginDetails(Settings.getConfig().isDebug() ? 2 : player.getRights().getCrown(), player.getIndex(), player.getDisplayName()));
+			session.write(new WorldLoginDetails(Settings.getConfig().isDebug() ? 2 : player.getRights().getCrown(), player.getIndex(), player.getDisplayName(), 0, false, Settings.getConfig().getWorldInfo().members()));
 			session.setIsaac(new IsaacKeyPair(isaacKeys));
 			session.setDecoder(new GameDecoder(session));
 			session.setEncoder(new WorldEncoder(player, session));

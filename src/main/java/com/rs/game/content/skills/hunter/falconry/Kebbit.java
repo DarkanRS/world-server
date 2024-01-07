@@ -111,7 +111,7 @@ public class Kebbit extends NPC {
 			if (hintIcon != -1)
 				returnPlayer.getHintIconsManager().removeHintIcon(hintIcon);
 			returnPlayer.lock();
-			returnPlayer.soundEffect(2633);
+			returnPlayer.soundEffect(2633, true);
 			World.sendProjectile(this, caughtBy, 922, 24, 8, 0, 1.0, 15, 15, backProj -> {
 				unlock();
 				returnPlayer.unlock();
@@ -144,7 +144,7 @@ public class Kebbit extends NPC {
 		player.faceEntity(this);
 		player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.EMPTY_GLOVE));
 		player.getAppearance().generateAppearanceData();
-		player.soundEffect(2634);
+		player.soundEffect(2634, true);
 		World.sendProjectile(player, this, 922, 24, 8, 0, 1.0, 15, 15, toProj -> {
 			if (Utils.skillSuccess(player.getSkills().getLevel(Skills.HUNTER), type.rate1, type.rate99)) {
 				hintIcon = player.getHintIconsManager().addHintIcon(this, 0, -1, false);
@@ -155,7 +155,7 @@ public class Kebbit extends NPC {
 				player.unlock();
 				return;
 			}
-			player.soundEffect(2633);
+			player.soundEffect(2633, true);
 			World.sendProjectile(this, player, 922, 24, 8, 0, 1.0, 15, 15, backProj -> {
 				unlock();
 				player.unlock();

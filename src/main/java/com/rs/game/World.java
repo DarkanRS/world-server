@@ -1147,37 +1147,37 @@ public final class World {
 		return WildernessController.isAtWild(player.getTile());
 	}
 
-	public static Sound playSound(Tile tile, Sound sound) {
-		ChunkManager.getChunk(tile.getChunkId()).addSound(tile, sound);
-		return sound;
-	}
-
-	public static Sound playSound(Tile source, int soundId, int delay, SoundType type) {
-		return playSound(source, new Sound(soundId, delay, type));
-	}
-
 	public static void jingle(Tile source, int jingleId, int delay) {
-		playSound(source, jingleId, delay, SoundType.JINGLE);
+		sound(source, jingleId, delay, SoundType.JINGLE);
 	}
 
 	public static void jingle(Tile source, int jingleId) {
-		playSound(source, jingleId, 0, SoundType.JINGLE);
+		sound(source, jingleId, 0, SoundType.JINGLE);
 	}
 
 	public static void musicTrack(Tile source, int trackId, int delay, int volume) {
-		playSound(source, trackId, delay, SoundType.MUSIC).volume(volume);
+		sound(source, trackId, delay, SoundType.MUSIC).volume(volume);
 	}
 
 	public static void musicTrack(Tile source, int trackId, int delay) {
-		playSound(source, trackId, delay, SoundType.MUSIC);
+		sound(source, trackId, delay, SoundType.MUSIC);
 	}
 
 	public static void musicTrack(Tile source, int trackId) {
 		musicTrack(source, trackId, 100);
 	}
 
+	public static Sound sound(Tile tile, Sound sound) {
+		ChunkManager.getChunk(tile.getChunkId()).addSound(tile, sound);
+		return sound;
+	}
+
+	public static Sound sound(Tile source, int soundId, int delay, SoundType type) {
+		return sound(source, new Sound(soundId, delay, type));
+	}
+
 	public static void soundEffect(Tile source, int soundId, int delay) {
-		playSound(source, soundId, delay, SoundType.EFFECT).radius(10);
+		sound(source, soundId, delay, SoundType.EFFECT).radius(10);
 	}
 
 	public static void soundEffect(Tile source, int soundId) {
@@ -1185,7 +1185,7 @@ public final class World {
 	}
 
 	public static void voiceEffect(Tile source, int voiceId, int delay) {
-		playSound(source, voiceId, delay, SoundType.VOICE);
+		sound(source, voiceId, delay, SoundType.VOICE);
 	}
 
 	public static void voiceEffect(Tile source, int voiceId) {

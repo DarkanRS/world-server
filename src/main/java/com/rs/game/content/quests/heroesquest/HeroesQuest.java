@@ -165,15 +165,8 @@ public class HeroesQuest extends QuestOutline {
 
 	public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}, e -> e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily...")));
 
-	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, e -> {
-		Player p = e.getPlayer();
-		if (e.getOption().equalsIgnoreCase("drop")) {
-			p.getInventory().removeItems(e.getItem());
-			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
-			return;
-		}
-		p.sendMessage("You know... I'd really rather not.");
+	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, new String[] { "Drink" }, e -> {
+		e.getPlayer().sendMessage("You know... I'd really rather not.");
 	});
 
 	@Override

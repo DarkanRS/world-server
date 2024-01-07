@@ -41,7 +41,7 @@ public class NoEscape implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("There is..."));
-		nex.voiceEffect(3294);
+		nex.voiceEffect(target, 3294, true);
 		nex.setCantInteract(true);
 		nex.getCombat().removeTarget();
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
@@ -58,7 +58,7 @@ public class NoEscape implements NexAttack {
 				} else if (count == 1) {
 					nex.tele(dir);
 					nex.setNextForceTalk(new ForceTalk("NO ESCAPE!"));
-					nex.voiceEffect(3292);
+					nex.voiceEffect(target, 3292, true);
 					nex.forceMove(center, 25, 90);
 					for (Entity entity : nex.calculatePossibleTargets(center, dir, idx == 0 || idx == 2))
 						if (entity instanceof Player player) {
