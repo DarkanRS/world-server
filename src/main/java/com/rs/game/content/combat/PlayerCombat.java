@@ -586,7 +586,7 @@ public class PlayerCombat extends PlayerAction {
 					target.freeze(delay, true);
 					target.getTasks().schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
 				}
-				playSound(soundId, player, target);
+				player.soundEffect(target, soundId, true);
 				player.getEquipment().removeAmmo(Equipment.WEAPON, 1);
 			}
 			case DARK_BOW -> {
@@ -616,7 +616,7 @@ public class PlayerCombat extends PlayerAction {
 		SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 		if (attackSpotAnim != null)
 			player.setNextSpotAnim(attackSpotAnim);
-		playSound(soundId, player, target);
+		player.soundEffect(target, soundId, true);
 		return combatDelay;
 	}
 
@@ -1229,7 +1229,7 @@ public class PlayerCombat extends PlayerAction {
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 			if (target instanceof NPC n)
-				n.soundEffect(n.getCombatDefinitions().getDefendSound());
+				n.soundEffect(player, n.getCombatDefinitions().getDefendSound(), true);
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())
@@ -1240,7 +1240,7 @@ public class PlayerCombat extends PlayerAction {
 					n.setTarget(player);
 			}
 		});
-		int damage = hit.getDamage() > target.getHitpoints() ? target.getHitpoints() : hit.getDamage();
+		int damage = Math.min(hit.getDamage(), target.getHitpoints());
 		if (hit.getMaxHit() > 0 && (damage >= hit.getMaxHit() * 0.90) && (hit.getLook() == HitLook.MAGIC_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MELEE_DAMAGE))
 			hit.setCriticalMark();
 		if (damage > 0) {
