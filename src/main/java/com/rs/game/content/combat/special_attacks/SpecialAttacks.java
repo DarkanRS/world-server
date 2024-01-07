@@ -493,6 +493,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(11989));
             player.setNextSpotAnim(new SpotAnim(2113));
             delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.25));
+            player.soundEffect(target, 3865, true);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -645,10 +646,10 @@ public class SpecialAttacks {
                     delayHit(target, 1, hits[i]);
                 else
                     delayNormalHit(target, hits[i]);
-            player.soundEffect(7464);
-            player.soundEffect(7465);
-            player.soundEffect(7466);
-            player.soundEffect(7467);
+            player.soundEffect(target, 7464, true);
+            player.soundEffect(target, 7465, true);
+            player.soundEffect(target, 7466, true);
+            player.soundEffect(target, 7467, true);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
