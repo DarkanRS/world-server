@@ -189,7 +189,7 @@ public class GE {
 			item.setAmount(player.getInventory().getFreeSlots());
 		if (item.getAmount() <= 0 || !player.getInventory().hasRoomFor(item)) {
 			player.sendMessage("Not enough space in your inventory.");
-			player.soundEffect(2277);
+			player.soundEffect(2277, false);
 			return;
 		}
 		player.getTempAttribs().setB("geLocked", true);
@@ -264,7 +264,7 @@ public class GE {
 	public static void selectItem(Player player, int itemId, int amount) {
 		if (!ItemDefinitions.getDefs(itemId).canExchange()) {
 			player.sendMessage("That item can't be exchanged.");
-			player.soundEffect(2277);
+			player.soundEffect(2277, false);
 			return;
 		}
 		player.getVars().setVar(VAR_ITEM, itemId);

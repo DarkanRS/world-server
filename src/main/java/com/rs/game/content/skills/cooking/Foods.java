@@ -77,7 +77,7 @@ public class Foods {
         player.getInventory().refresh();
         if (food.effect != null)
             food.effect.accept(player);
-        player.soundEffect(2393);
+        player.soundEffect(2393,false);
         return true;
     }
 
