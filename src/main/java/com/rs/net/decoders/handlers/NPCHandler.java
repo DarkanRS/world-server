@@ -370,7 +370,7 @@ public class NPCHandler {
 		case 2162: // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
 			return -1; // TODO
 		case 517: // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
-			return -1; // TODO
+			return -1; // TODO implemented in Karamja.java
 		case 1433: // Solihib's food stall", Solihib. (2769, 2789, 0)
 			return -1; // TODO
 		case 1862: // Ali's Discount Wares", Ali. (3301, 3211, 0)
