@@ -102,7 +102,7 @@ public class AchievementSetRewards {
 			e.getPlayer().setNextAnimation(new Animation(9988));
 			e.getPlayer().setNextSpotAnim(new SpotAnim(1733));
 			e.getPlayer().restoreRunEnergy(50);
-			e.getPlayer().soundEffect(5035);
+			e.getPlayer().soundEffect(5035, true);
 			e.getPlayer().sendMessage("The ring replenishes your run energy.");
 			break;
 		case "Low-alchemy":

@@ -86,14 +86,14 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 					PickupItemEvent e1 = new PickupItemEvent(player, item1, false);
 					PluginManager.handle(e1);
 					if (!e1.isCancelPickup()) {
-						player.soundEffect(2582);
+						player.soundEffect(2582, false);
 						World.removeGroundItem(player, item1, true);
 					}
 				} else {
 					PickupItemEvent e2 = new PickupItemEvent(player, item1, false);
 					PluginManager.handle(e2);
 					if (!e2.isCancelPickup()) {
-						player.soundEffect(2582);
+						player.soundEffect(2582, false);
 						World.removeGroundItem(player, item1, true);
 					}
 				}

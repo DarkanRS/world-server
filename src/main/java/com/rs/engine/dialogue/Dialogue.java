@@ -370,7 +370,7 @@ public class Dialogue {
 		if (statement != null)
 			statement.send(player);
 		if (voiceEffectId != -1)
-			player.voiceEffect(voiceEffectId);
+			player.voiceEffect(voiceEffectId, false);
 	}
 
 	public Dialogue getPrev() {

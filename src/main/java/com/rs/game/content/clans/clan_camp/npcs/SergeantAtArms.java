@@ -1,4 +1,4 @@
-package com.rs.game.content.clans.clanCamp.npcs;
+package com.rs.game.content.clans.clan_camp.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;

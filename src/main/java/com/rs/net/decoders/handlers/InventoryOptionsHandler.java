@@ -488,7 +488,7 @@ public class InventoryOptionsHandler {
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, Tile.of(player.getTile()), player);
-		player.soundEffect(ItemConfig.get(item.getId()).getDropSound());
+		player.soundEffect(ItemConfig.get(item.getId()).getDropSound(), false);
 	}
 
 	public static void handleItemOption8(Player player, int slotId, int itemId, Item item) {

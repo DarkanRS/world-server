@@ -396,11 +396,11 @@ public class GE {
 				if (diff)
 					if (player.getTempAttribs().getL("GENotificationTime") == 0) {
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.soundEffect(4042);
+						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					} else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000*60*1) { //1 minute
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.soundEffect(4042);
+						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					}
 			});

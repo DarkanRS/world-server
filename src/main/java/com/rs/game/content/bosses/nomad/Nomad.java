@@ -95,7 +95,7 @@ public class Nomad extends NPC {
 			target.lock();
 			target.getVars().setVarBit(6962, 0);
 			target.npcDialogue(getId(), HeadE.ANGRY, "You...<br>You have doomed this world.");
-			target.voiceEffect(8260);
+			target.voiceEffect(8260, false);
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
@@ -122,11 +122,11 @@ public class Nomad extends NPC {
 				}
 				final Player player = (Player) target;
 				setNextForceTalk(new ForceTalk("Face me!"));
-				player.voiceEffect(7992);
+				player.voiceEffect(7992, false);
 			} else if (notAttacked == 20) {
 				final Player player = (Player) target;
 				setNextForceTalk(new ForceTalk("Coward."));
-				player.voiceEffect(8055);
+				player.voiceEffect(8055, false);
 				reset();
 				setNextFaceEntity(null);
 				sendTeleport(getThroneTile());

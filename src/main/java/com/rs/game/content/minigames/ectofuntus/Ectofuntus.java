@@ -112,7 +112,7 @@ public class Ectofuntus {
     public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[]{11164}, e -> bin(e.getPlayer()));
 
     public static final void sendEctophialTeleport(Player player, Tile tile) {
-        Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, TeleType.MAGIC, () -> player.soundEffect(4580), null);
+        Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, TeleType.MAGIC, () -> player.soundEffect(4580, true), null);
     }
 
     public static boolean handleItemOnObject(Player player, int itemId, int objectId) {

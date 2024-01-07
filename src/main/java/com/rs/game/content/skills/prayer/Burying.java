@@ -92,7 +92,7 @@ public class Burying {
 			final Bone bone = Bone.forId(item.getId());
 			final ItemDefinitions itemDef = new ItemDefinitions(item.getId());
 			player.lock();
-			player.soundEffect(2738);
+			player.soundEffect(2738, true);
 
 			player.setNextAnimation(bone.name().contains("ASHES") ? SCATTER_ANIMATION : BURY_ANIMATION);
 			if (bone == Bone.ACCURSED_ASHES)

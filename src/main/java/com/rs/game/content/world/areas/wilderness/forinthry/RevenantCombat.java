@@ -127,8 +127,8 @@ public class RevenantCombat extends CombatScript {
 				attackStyle = Utils.random(2);
 		}
 
-		if (attackStyle != 2 && target instanceof Player player)
-			player.soundEffect(202);
+		if (attackStyle != 2)
+			npc.soundEffect(target, 202, true);
 
 		switch (attackStyle) {
 		case 0: // magic

@@ -113,8 +113,8 @@ public class PlayerModifiers {
 			});
 		});
 		
-		Commands.add(Rights.MOD, "actions [player_name ...]", "Displays the last recorded actions the players specified have done.", (p, args) -> Recorder.showConcatenatedActions(p, args));
-		Commands.add(Rights.MOD, "watch [player_name ...]", "Continuously displays recorded actions for the players specified.", (p, args) -> Recorder.watchPlayers(p, args));
+		Commands.add(Rights.MOD, "actions [player_name ...]", "Displays the last recorded actions the players specified have done.", Recorder::showConcatenatedActions);
+		Commands.add(Rights.MOD, "watch [player_name ...]", "Continuously displays recorded actions for the players specified.", Recorder::watchPlayers);
 		Commands.add(Rights.MOD, "stopwatch", "Stops watching players.", (p, args) -> p.getNSV().setB("stopWatchActionLoop", true));
 
 	}

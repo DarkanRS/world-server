@@ -417,7 +417,7 @@ public class StealingCreationController extends Controller {
 						} else
 							player.getPrayer().restorePrayer((int) (Math.floor(player.getSkills().getLevelForXp(Constants.PRAYER) * .5 + (superPotion ? 250 : 200))));
 						player.setNextAnimation(new Animation(829));
-						player.soundEffect(4580);
+						player.soundEffect(4580, false);
 					}
 					return false;
 				}

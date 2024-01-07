@@ -174,7 +174,7 @@ public class PlayerCombat extends PlayerAction {
 					target.setNextSpotAnim(new SpotAnim(2036, 0, 96));
 				else {
 					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
-					playSound(227, player, target);
+					player.soundEffect(target, 227, true);
 				}
 			}, null, null);
 			return 4;
@@ -310,14 +310,14 @@ public class PlayerCombat extends PlayerAction {
 					if (spell.getHitSpotAnim() != null) {
 						target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 					}
 				} else {
 					target.setNextSpotAnim(new SpotAnim(85, 0, 96));
 					if (spell.splashSound != -1)
-						playSound(spell.landSound, player, target);
+						player.soundEffect(target, spell.splashSound, true);
 					else
-						playSound(227, player, target);
+						player.soundEffect(target, 227, true);
 				}
 			});
 		} else {
@@ -361,21 +361,21 @@ public class PlayerCombat extends PlayerAction {
 						else
 							target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 						break;
 					default:
 						if (spell.getHitSpotAnim() != null)
 							target.setNextSpotAnim(spell.getHitSpotAnim());
 						if (spell.landSound != -1)
-							playSound(spell.landSound, player, target);
+							player.soundEffect(target, spell.landSound, true);
 						break;
 				}
 			else {
 				target.setNextSpotAnim(new SpotAnim(85, 0, 96));
 				if (spell.splashSound != -1)
-					playSound(spell.landSound, player, target);
+					player.soundEffect(target, spell.splashSound, true);
 				else
-					playSound(227, player, target);
+					player.soundEffect(target, 227, true);
 			}
 		}, () -> {
 			spell.onHit(player, target, hit);
@@ -586,7 +586,7 @@ public class PlayerCombat extends PlayerAction {
 					target.freeze(delay, true);
 					target.getTasks().schedule(2, () -> target.setNextSpotAnim(new SpotAnim(469, 0, 96)));
 				}
-				playSound(soundId, player, target);
+				player.soundEffect(target, soundId, true);
 				player.getEquipment().removeAmmo(Equipment.WEAPON, 1);
 			}
 			case DARK_BOW -> {
@@ -616,7 +616,7 @@ public class PlayerCombat extends PlayerAction {
 		SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 		if (attackSpotAnim != null)
 			player.setNextSpotAnim(attackSpotAnim);
-		playSound(soundId, player, target);
+		player.soundEffect(target, soundId, true);
 		return combatDelay;
 	}
 
@@ -753,16 +753,8 @@ public class PlayerCombat extends PlayerAction {
 		}
 		delayNormalHit(target, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, false));
 		player.setNextAnimation(new Animation(getWeaponAttackEmote(weaponId, attackStyle)));
-		playSound(soundId, player, target);
+		player.soundEffect(target, soundId, true);
 		return combatDelay;
-	}
-
-	public static void playSound(int soundId, Player player, Entity target) {
-		if (soundId == -1)
-			return;
-		player.soundEffect(soundId);
-		if (target instanceof Player p2)
-			p2.soundEffect(soundId);
 	}
 
 	public static Hit calculateMagicHit(Player player, Entity target, int baseDamage) {
@@ -1237,7 +1229,7 @@ public class PlayerCombat extends PlayerAction {
 				afterDelay.run();
 			target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 			if (target instanceof NPC n)
-				n.soundEffect(n.getCombatDefinitions().getDefendSound());
+				n.soundEffect(player, n.getCombatDefinitions().getDefendSound(), true);
 			if (target instanceof Player p2) {
 				p2.closeInterfaces();
 				if (!p2.isLocked() && p2.getCombatDefinitions().isAutoRetaliate() && !p2.getActionManager().hasSkillWorking() && p2.getInteractionManager().getInteraction() == null && !p2.hasWalkSteps())
@@ -1248,7 +1240,7 @@ public class PlayerCombat extends PlayerAction {
 					n.setTarget(player);
 			}
 		});
-		int damage = hit.getDamage() > target.getHitpoints() ? target.getHitpoints() : hit.getDamage();
+		int damage = Math.min(hit.getDamage(), target.getHitpoints());
 		if (hit.getMaxHit() > 0 && (damage >= hit.getMaxHit() * 0.90) && (hit.getLook() == HitLook.MAGIC_DAMAGE || hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MELEE_DAMAGE))
 			hit.setCriticalMark();
 		if (damage > 0) {

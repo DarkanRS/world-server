@@ -72,7 +72,7 @@ public final class DominionTower {
 	}
 
 	public void growFace() {
-		player.voiceEffect(7913);
+		player.voiceEffect(7913, false);
 		player.simpleDialogue("The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
 	}
 
@@ -250,7 +250,7 @@ public final class DominionTower {
 					if (BOSSES[index].text != null)
 						bosses[0].setNextForceTalk(new ForceTalk(BOSSES[index].text));
 					if (BOSSES[index].voice != -1)
-						player.voiceEffect(BOSSES[index].voice);
+						player.voiceEffect(BOSSES[index].voice, false);
 				} else if (count == 6) {
 					player.getControllerManager().sendInterfaces();
 					player.getInterfaceManager().sendInterface(1172);
@@ -260,7 +260,7 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 10, true);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 36), 0);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 16), 5000);
-					player.voiceEffect(7882);
+					player.voiceEffect(7882, false);
 				} else if (count == 8) {
 					if (nextBossIndex != -1 && BOSSES[index].item != null)
 						World.addGroundItem(BOSSES[index].item, Tile.of(getBaseX() + 26, getBaseY() + 33, 2));
@@ -317,7 +317,7 @@ public final class DominionTower {
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
-					player.voiceEffect(7874);
+					player.voiceEffect(7874, false);
 				} else if (count == 4) {
 					player.setForceMultiArea(false);
 					player.reset();
@@ -372,7 +372,7 @@ public final class DominionTower {
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
-					player.voiceEffect(7897);
+					player.voiceEffect(7897, false);
 				} else if (count == 4) {
 					player.reset();
 					player.closeInterfaces();
@@ -483,7 +483,7 @@ public final class DominionTower {
 			player.startConversation(new StrangeFace(player));
 		else {
 			if (!fromDialogue)
-				player.voiceEffect(7893);
+				player.voiceEffect(7893, false);
 			player.getInterfaceManager().sendInterface(1160);
 		}
 	}
@@ -493,7 +493,7 @@ public final class DominionTower {
 			talkToFace();
 			return;
 		}
-		player.voiceEffect(7893);
+		player.voiceEffect(7893, false);
 		player.getInterfaceManager().sendInterface(1156);
 	}
 
