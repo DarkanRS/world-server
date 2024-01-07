@@ -53,11 +53,8 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
 import com.rs.lib.net.packets.encoders.Sound;
-import com.rs.lib.util.GenericAttribMap;
-import com.rs.lib.util.MapUtils;
+import com.rs.lib.util.*;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.lib.util.Utils;
-import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
@@ -454,6 +451,7 @@ public abstract class Entity {
 	}
 
 	public Sound sound(Entity playTo, Sound sound, boolean alsoAmbient) {
+		Logger.info(Entity.class, "sound", this + " playing " + sound.getType() + " sound to " + playTo + ", " + alsoAmbient + " -> [id: " + sound.getId() + ", rad: " + sound.getRadius() + ", vol: " + sound.getVolume() + "]");
 		if (this instanceof Player player)
 			player.addSound(sound);
 		if (playTo instanceof Player player && this != playTo)
@@ -463,12 +461,12 @@ public abstract class Entity {
 		return sound;
 	}
 
-	public Sound sound(Entity playTo, int soundId, int delay, Sound.SoundType type, boolean alsoAmbient) {
-		return sound(playTo, new Sound(soundId, delay, type), alsoAmbient);
+	public Sound sound(Entity playTo, int soundId, int delay, Sound.SoundType type, int radius, boolean alsoAmbient) {
+		return sound(playTo, new Sound(soundId, delay, type).radius(radius), alsoAmbient);
 	}
 
 	public Sound soundEffect(Entity playTo, int soundId, int delay, boolean alsoAmbient) {
-		return sound(playTo, soundId, delay, Sound.SoundType.EFFECT, alsoAmbient).radius(10);
+		return sound(playTo, soundId, delay, Sound.SoundType.EFFECT, 10, alsoAmbient);
 	}
 
 	public Sound soundEffect(Entity playTo, int soundId, boolean alsoAmbient) {
@@ -476,7 +474,7 @@ public abstract class Entity {
 	}
 
 	public Sound voiceEffect(Entity playTo, int voiceId, int delay, boolean alsoAmbient) {
-		return sound(playTo, voiceId, delay, Sound.SoundType.VOICE, alsoAmbient);
+		return sound(playTo, voiceId, delay, Sound.SoundType.VOICE, 10, alsoAmbient);
 	}
 
 	public Sound voiceEffect(Entity playTo, int voiceId, boolean alsoAmbient) {
@@ -488,7 +486,7 @@ public abstract class Entity {
 	}
 
 	public Sound soundEffect(int soundId, int delay, boolean alsoAmbient) {
-		return sound(null, soundId, delay, Sound.SoundType.EFFECT, alsoAmbient).radius(10);
+		return sound(null, soundId, delay, Sound.SoundType.EFFECT, 10, alsoAmbient);
 	}
 
 	public Sound soundEffect(int soundId, boolean alsoAmbient) {
@@ -496,7 +494,7 @@ public abstract class Entity {
 	}
 
 	public Sound voiceEffect(int voiceId, int delay, boolean alsoAmbient) {
-		return sound(null, voiceId, delay, Sound.SoundType.VOICE, alsoAmbient);
+		return sound(null, voiceId, delay, Sound.SoundType.VOICE, 10, alsoAmbient);
 	}
 
 	public Sound voiceEffect(int voiceId, boolean alsoAmbient) {
