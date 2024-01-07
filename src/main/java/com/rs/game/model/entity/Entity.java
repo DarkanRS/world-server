@@ -50,12 +50,11 @@ import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
+import com.rs.lib.net.packets.decoders.Walk;
 import com.rs.lib.net.packets.encoders.MinimapFlag;
-import com.rs.lib.util.GenericAttribMap;
-import com.rs.lib.util.MapUtils;
+import com.rs.lib.net.packets.encoders.Sound;
+import com.rs.lib.util.*;
 import com.rs.lib.util.MapUtils.Structure;
-import com.rs.lib.util.Utils;
-import com.rs.lib.util.Vec2;
 import com.rs.plugin.PluginManager;
 import com.rs.plugin.events.PlayerStepEvent;
 import com.rs.utils.TriFunction;
@@ -101,6 +100,7 @@ public abstract class Entity {
 	private transient Tile lastTile;
 	private transient Tile tileBehind;
 	private transient Tile nextTile;
+	public transient Walk walkRequest;
 	private transient boolean walkedThisTick;
 	private transient Direction nextWalkDirection;
 	private transient Direction nextRunDirection;
@@ -450,6 +450,58 @@ public abstract class Entity {
 			addHitBars();
 	}
 
+	public Sound sound(Entity playTo, Sound sound, boolean alsoAmbient) {
+		Logger.info(Entity.class, "sound", this + " playing " + sound.getType() + " sound to " + playTo + ", " + alsoAmbient + " -> [id: " + sound.getId() + ", rad: " + sound.getRadius() + ", vol: " + sound.getVolume() + "]");
+		if (this instanceof Player player)
+			player.addSound(sound);
+		if (playTo instanceof Player player && this != playTo)
+			player.addSound(sound);
+		if (alsoAmbient)
+			ChunkManager.getChunk(getChunkId()).addSound(tile, sound);
+		return sound;
+	}
+
+	public Sound sound(Entity playTo, int soundId, int delay, Sound.SoundType type, int radius, boolean alsoAmbient) {
+		return sound(playTo, new Sound(soundId, delay, type).radius(radius), alsoAmbient);
+	}
+
+	public Sound soundEffect(Entity playTo, int soundId, int delay, boolean alsoAmbient) {
+		return sound(playTo, soundId, delay, Sound.SoundType.EFFECT, 10, alsoAmbient);
+	}
+
+	public Sound soundEffect(Entity playTo, int soundId, boolean alsoAmbient) {
+		return soundEffect(playTo, soundId, 0, alsoAmbient);
+	}
+
+	public Sound voiceEffect(Entity playTo, int voiceId, int delay, boolean alsoAmbient) {
+		return sound(playTo, voiceId, delay, Sound.SoundType.VOICE, 10, alsoAmbient);
+	}
+
+	public Sound voiceEffect(Entity playTo, int voiceId, boolean alsoAmbient) {
+		return voiceEffect(playTo, voiceId, 0, alsoAmbient);
+	}
+
+	public Sound sound(int soundId, int delay, Sound.SoundType type, boolean alsoAmbient) {
+		return sound(null, new Sound(soundId, delay, type), alsoAmbient);
+	}
+
+	public Sound soundEffect(int soundId, int delay, boolean alsoAmbient) {
+		return sound(null, soundId, delay, Sound.SoundType.EFFECT, 10, alsoAmbient);
+	}
+
+	public Sound soundEffect(int soundId, boolean alsoAmbient) {
+		return soundEffect(null, soundId, 0, alsoAmbient);
+	}
+
+	public Sound voiceEffect(int voiceId, int delay, boolean alsoAmbient) {
+		return sound(null, voiceId, delay, Sound.SoundType.VOICE, 10, alsoAmbient);
+	}
+
+	public Sound voiceEffect(int voiceId, boolean alsoAmbient) {
+		return voiceEffect(null, voiceId, 0, alsoAmbient);
+	}
+
+
 	public void addHitBars() {
 		nextHitBars.add(new EntityHitBar(this));
 	}
@@ -483,7 +535,7 @@ public abstract class Entity {
 					hit.getSource().applyHit(new Hit(player, (int) (hit.getDamage() * 0.1), HitLook.REFLECTED_DAMAGE));
 			if (player.getPrayer().hasPrayersOn())
 				if ((hitpoints < player.getMaxHitpoints() * 0.1) && player.getPrayer().active(Prayer.REDEMPTION)) {
-					player.soundEffect(2681);
+					player.soundEffect(hit.getSource(), 2681, true);
 					setNextSpotAnim(new SpotAnim(436));
 					setHitpoints((int) (hitpoints + player.getSkills().getLevelForXp(Constants.PRAYER) * 2.5));
 					player.getPrayer().setPoints(0);
@@ -951,6 +1003,24 @@ public abstract class Entity {
 
 	public void processEntity() {
 		tickCounter++;
+		if (walkRequest != null) {
+			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(walkRequest.getX(), walkRequest.getY()), true);
+			int last = -1;
+			if (route.getStepCount() == -1)
+				return;
+			if (this instanceof Player player)
+				player.stopAll();
+			setNextFaceEntity(null);
+			for (int i = route.getStepCount() - 1; i >= 0; i--)
+				if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
+					break;
+			if (last != -1) {
+				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
+				if (this instanceof Player player)
+					player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
+			}
+			walkRequest = null;
+		}
 		RouteEvent prevEvent = routeEvent;
 		if (routeEvent != null && routeEvent.processEvent(this)) {
 			if (routeEvent == prevEvent)
@@ -1051,6 +1121,10 @@ public abstract class Entity {
 		return mapChunkIds;
 	}
 
+	/**
+	 * use .anim(id) instead
+	 */
+	@Deprecated()
 	public void setNextAnimation(Animation nextAnimation) {
 		if (nextAnimation != null && nextAnimation.getIds()[0] >= 0)
 			lastAnimationEnd = World.getServerTicks() + AnimationDefinitions.getDefs(nextAnimation.getIds()[0]).getEmoteGameTicks();
@@ -1067,6 +1141,11 @@ public abstract class Entity {
 		return nextAnimation;
 	}
 
+	/**
+	 * Use .spotAnim(id) instead
+	 * @param nextSpotAnim
+	 */
+	@Deprecated
 	public void setNextSpotAnim(SpotAnim nextSpotAnim) {
 		if (nextSpotAnim == null) {
 			if (nextSpotAnim4 != null)
@@ -1435,6 +1514,11 @@ public abstract class Entity {
 		return nextForceTalk;
 	}
 
+	/**
+	 * Use forceTalk(string message) instead
+	 * @param nextForceTalk
+	 */
+	@Deprecated
 	public void setNextForceTalk(ForceTalk nextForceTalk) {
 		this.nextForceTalk = nextForceTalk;
 	}

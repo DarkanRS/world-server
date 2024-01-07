@@ -18,7 +18,7 @@ package com.rs.game.content.minigames.clanwars;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
-import com.rs.game.content.minigames.MinigameUtil;
+import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Controller;
@@ -26,6 +26,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
@@ -125,7 +126,7 @@ public final class FFAController extends Controller {
 	}
 
 	private void remove(boolean needRemove) {
-		MinigameUtil.checkAndDeleteFoodAndPotions(player);
+		MinigameUtilKt.checkAndDeleteFoodAndPotions(player);
 		if (needRemove)
 			removeController();
 		if (wasInArea)
@@ -142,7 +143,7 @@ public final class FFAController extends Controller {
 				player.useStairs(-1, Tile.of(2993, 9679, 0), 0, 1);
 				return false;
 			}
-			case 42023 -> MinigameUtil.giveFoodAndPotions(player);
+			case 42023 -> MinigameUtilKt.giveFoodAndPotions(player);
 		}
 		return true;
 	}
@@ -157,6 +158,12 @@ public final class FFAController extends Controller {
 			player.setCanPvp(false);
 			wasInArea = false;
 		}
+	}
+
+	@Override
+	public boolean canDepositItem(Item item) {
+		player.sendMessage("You can't bank items here.");
+		return false;
 	}
 
 	@Override

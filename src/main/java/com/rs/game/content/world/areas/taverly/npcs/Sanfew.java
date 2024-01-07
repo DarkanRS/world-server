@@ -33,7 +33,7 @@ public class Sanfew extends Conversation {
             case 1:
                 addPlayer(HeadE.CALM_TALK, "Hello there.");
                 addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", () -> {
-                    player.voiceEffect(77263);
+                    player.voiceEffect(77263, false);
                 });
                 addPlayer(HeadE.CALM_TALK, "I've been sent to assist you with the ritual to purify the Varrockian stone circle.", ()->{
                     player.getPackets().resetSounds();
@@ -82,7 +82,7 @@ public class Sanfew extends Conversation {
                 break;
             default:
                 addNPC(SANFEW, HeadE.CALM_TALK, "What can I do for you young 'un?", ()->{
-                    player.voiceEffect(77263);
+                    player.voiceEffect(77263, false);
                 });
                 addPlayer(HeadE.CALM_TALK, "Nothing at the moment.", ()->{
 

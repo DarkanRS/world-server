@@ -258,9 +258,9 @@ public class PrayerManager {
 			if (isOverhead(prayer))
 				player.getAppearance().generateAppearanceData();
 			if (prayer.getActivateSound() != -1)
-				player.soundEffect(prayer.getActivateSound());
+				player.soundEffect(prayer.getActivateSound(), false);
 			else
-				player.soundEffect(2662);
+				player.soundEffect(2662, false);
 		}
 		refresh();
 		return true;
@@ -313,7 +313,7 @@ public class PrayerManager {
 		active.remove(prayer);
 		if (isOverhead(prayer))
 			player.getAppearance().generateAppearanceData();
-		player.soundEffect(2663);
+		player.soundEffect(2663, false);
 		if (active.isEmpty())
 			setQuickPrayersOn(false);
 		refresh();
@@ -381,7 +381,7 @@ public class PrayerManager {
 			drainPrayer(drain);
 			if (!checkPrayer()) {
 				closeAllPrayers();
-				player.soundEffect(2673);
+				player.soundEffect(2673, false);
 			}
 		}
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
@@ -481,7 +481,7 @@ public class PrayerManager {
 
 	public boolean checkPrayer() {
 		if (points <= 0) {
-			player.soundEffect(2672);
+			player.soundEffect(2672, false);
 			player.sendMessage("Please recharge your prayer at the Lumbridge Church.");
 			return false;
 		}

@@ -3,6 +3,7 @@ package com.rs.plugin.kts
 import com.rs.cache.loaders.ObjectType
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
+import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
 import com.rs.plugin.events.*
@@ -85,6 +86,11 @@ fun onItemAddedToInventory(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedT
     ItemAddedToInventoryEvent.registerMethod(ItemAddedToInventoryEvent::class.java, ItemAddedToInventoryHandler(itemNamesOrIds) { eventHandler(it) })
 }
 
+fun onItemAddedToBank(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedToBankEvent) -> Unit) {
+    itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
+    ItemAddedToBankEvent.registerMethod(ItemAddedToBankEvent::class.java, ItemAddedToBankHandler(itemNamesOrIds) { eventHandler(it) })
+}
+
 fun onItemClick(vararg itemNamesOrIds: Any, options: Array<String>? = null, eventHandler: (ItemClickEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     ItemClickEvent.registerMethod(ItemClickEvent::class.java, ItemClickHandler(itemNamesOrIds, options) { eventHandler(it) })
@@ -160,4 +166,9 @@ fun onPlayerStep(vararg tiles: Tile, eventHandler: (PlayerStepEvent) -> Unit) {
 
 fun onXpDrop(eventHandler: (XPGainEvent) -> Unit) {
     XPGainEvent.registerMethod(XPGainEvent::class.java, XPGainHandler { eventHandler(it) })
+}
+
+fun npcCombat(vararg npcNamesOrIds: Any, script: (NPC, Entity) -> Int) {
+    npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
+    CombatScriptsHandler.addCombatScript(npcNamesOrIds) { player, npc -> script(player, npc) }
 }

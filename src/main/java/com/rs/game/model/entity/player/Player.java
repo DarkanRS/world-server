@@ -2296,6 +2296,8 @@ public class Player extends Entity {
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(this);
 		inventory.reset();
 		equipment.reset();
 		appearence.generateAppearanceData();
@@ -2359,6 +2361,8 @@ public class Player extends Entity {
 			containedItems.remove(lastItem);
 			lastItem = new Item(1, 1);
 		}
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(killer);
 		inventory.reset();
 		equipment.reset();
 		WorldDB.getPlayers().save(this);
@@ -4219,51 +4223,35 @@ public class Player extends Entity {
 		getAppearance().generateAppearanceData();
 	}
 
-	public Sound playSound(Sound sound) {
+	public Sound addSound(Sound sound) {
 		if (sound.getId() == -1)
 			return null;
 		sounds.add(sound);
 		return sound;
 	}
 
-	private Sound playSound(int soundId, int delay, SoundType type) {
-		return playSound(new Sound(soundId, delay, type));
+	private Sound addSound(int soundId, int delay, SoundType type) {
+		return addSound(new Sound(soundId, delay, type));
 	}
 
 	public void jingle(int jingleId, int delay) {
-		playSound(jingleId, delay, SoundType.JINGLE);
+		addSound(jingleId, delay, SoundType.JINGLE);
 	}
 
 	public void jingle(int jingleId) {
-		playSound(jingleId, 0, SoundType.JINGLE);
+		addSound(jingleId, 0, SoundType.JINGLE);
 	}
 
 	public void musicTrack(int trackId, int delay, int volume) {
-		playSound(trackId, delay, SoundType.MUSIC).volume(volume);
+		addSound(trackId, delay, SoundType.MUSIC).volume(volume);
 	}
 
 	public void musicTrack(int trackId, int delay) {
-		playSound(trackId, delay, SoundType.MUSIC);
+		addSound(trackId, delay, SoundType.MUSIC);
 	}
 
 	public void musicTrack(int trackId) {
 		musicTrack(trackId, 100);
-	}
-
-	public void soundEffect(int soundId, int delay) {
-		playSound(soundId, delay, SoundType.EFFECT);
-	}
-
-	public void soundEffect(int soundId) {
-		soundEffect(soundId, 0);
-	}
-
-	public void voiceEffect(int voiceId, int delay) {
-		playSound(voiceId, delay, SoundType.VOICE);
-	}
-
-	public void voiceEffect(int voiceId) {
-		voiceEffect(voiceId, 0);
 	}
 
 	public Map<Integer, MachineInformation> getMachineMap() {
@@ -4359,5 +4347,10 @@ public class Player extends Entity {
     }
 	public void setMiniquestStage(Miniquest quest, int stage) {
 		getMiniquestManager().setStage(quest, stage);
+	}
+
+	@Override
+	public String toString() {
+		return "["+getDisplayName() + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
 	}
 }

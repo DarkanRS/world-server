@@ -224,4 +224,8 @@ public class TaskManager {
         }
         return taskInfo;
     }
+
+    public int getSize() {
+        return tasks.size();
+    }
 }

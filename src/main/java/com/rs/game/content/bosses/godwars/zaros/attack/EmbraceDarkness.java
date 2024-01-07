@@ -32,7 +32,7 @@ public class EmbraceDarkness implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Embrace darkness!"));
-		nex.voiceEffect(3322);
+		nex.voiceEffect(target, 3322, true);
 		nex.setNextAnimation(new Animation(6355));
 		nex.setNextSpotAnim(new SpotAnim(1217));
 		WorldTasks.schedule(new Task() {

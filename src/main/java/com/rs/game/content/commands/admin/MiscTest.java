@@ -518,7 +518,7 @@ public class MiscTest {
 		});
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "sound [id]", "Plays a sound effect.", (p, args) ->
-				p.soundEffect(Integer.valueOf(args[0])));
+				p.soundEffect(Integer.valueOf(args[0]), true));
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "tilesound [id]", "Plays a tile sound effect.", (p, args) ->
 				World.soundEffect(p.getTile(), Integer.valueOf(args[0])));
@@ -942,7 +942,7 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "voice, v [id]", "Plays voices.", (p, args) -> {
 			p.getSession().write(ServerPacket.RESET_SOUNDS);
-			p.voiceEffect(Integer.valueOf(args[0]));
+			p.voiceEffect(Integer.valueOf(args[0]), true);
 		});
 
 		Commands.add(Rights.DEVELOPER, "familiarhead", "Tests familiar/pet chathead icons", (p, args) -> {
@@ -987,7 +987,7 @@ public class MiscTest {
 
 					if(!Voices.voicesMarked.contains(voiceID)) {
 						p.sendMessage("Playing voice " + voiceID);
-						p.voiceEffect(voiceID++);
+						p.voiceEffect(voiceID++, true);
 					}
 
 					if(voiceID > Integer.valueOf(args[1]))

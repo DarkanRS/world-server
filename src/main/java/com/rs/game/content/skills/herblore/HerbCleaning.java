@@ -89,7 +89,14 @@ public class HerbCleaning {
 
 		SHENGO(19987, 11.7, 58, 19992),
 
-		SAMADEN(19988, 11.7, 59, 19993);
+		SAMADEN(19988, 11.7, 59, 19993),
+		SNAKE_WEED(1525, 2.5, 3, 1526),
+		ARDRIGAL(1527, 2.5, 3, 1528),
+		SITO_FOIL(1529, 2.5, 3, 1530),
+		VOLENCIA_MOSS(1531, 2.5, 3, 1532),
+		ROGUES_PURSE(1533, 2.5, 3, 1534),
+
+		;
 
 		private int herbId;
 		private int level;
@@ -143,7 +150,7 @@ public class HerbCleaning {
 					return;
 				i.setId(herb.getCleanId());
 				player.getInventory().refresh(slotId);
-				player.soundEffect(5153);
+				player.soundEffect(5153, false);
 				player.getSkills().addXp(Constants.HERBLORE, herb.getExperience());
 				player.sendMessage("You clean the herb.", true);
 				player.incrementCount(item.getName() + " cleaned");

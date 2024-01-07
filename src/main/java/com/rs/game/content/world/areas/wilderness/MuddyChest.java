@@ -38,7 +38,7 @@ public class MuddyChest {
 			new DropTable(5, 100, 989, 1));
 
 	public static ObjectClickHandler openChest = new ObjectClickHandler(new Object[] { 170 }, e -> {
-		if (e.getPlayer().containsItem(991)) {
+		if (e.getPlayer().getInventory().containsItem(991)) {
 			e.getPlayer().lock();
 			e.getPlayer().getInventory().deleteItem(991, 1);
 			Item[] loot = DropTable.calculateDrops(e.getPlayer(), REWARDS);
