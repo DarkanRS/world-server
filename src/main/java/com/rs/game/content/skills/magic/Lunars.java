@@ -508,7 +508,7 @@ public class Lunars {
 			player.setNextSpotAnim(new SpotAnim(725, 0, 100));
 			player.setNextAnimation(new Animation(4411));
 			player.setCastVeng(true);
-			World.soundEffect(player.getTile(), 2908);
+			player.soundEffect(2908, true);
 			player.getSkills().addXp(Constants.MAGIC, 112);
 			player.getTempAttribs().setL("LAST_VENG", System.currentTimeMillis());
 			for (Player other : getNearPlayers(player, 3, 10)) {
