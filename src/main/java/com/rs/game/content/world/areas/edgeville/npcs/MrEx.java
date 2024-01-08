@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.world.areas.edgeville.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;

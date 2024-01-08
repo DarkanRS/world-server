@@ -19,6 +19,8 @@ package com.rs.game.content.skills.dungeoneering;
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.World.DropMethod;
 import com.rs.game.content.combat.AttackType;
@@ -48,7 +50,6 @@ import com.rs.game.content.skills.util.Category;
 import com.rs.game.content.skills.util.CreateActionD;
 import com.rs.game.content.skills.util.CreationActionD;
 import com.rs.game.content.skills.util.ReqItem;
-import com.rs.game.content.world.unorganized_dialogue.SmugglerD;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
@@ -469,7 +470,45 @@ public class DungeonController extends Controller {
 		}
 		if (npc.getId() == DungeonConstants.SMUGGLER) {
 			npc.faceEntity(player);
-			player.startConversation(new SmugglerD(player, dungeon.getParty().getComplexity()));
+			player.startConversation(new Dialogue()
+					.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Hail, " + player.getDisplayName() + ". Need something?")
+					.addOptions(ops -> {
+						ops.add("What can you tell me about this place?")
+								.addPlayer(HeadE.CONFUSED, "What can you tell me about this place?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "You know all that I can teach you already, friend, having conquered many floors yourself.");
+
+						ops.add("Who are you?")
+								.addPlayer(HeadE.CONFUSED, "Who are you?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.SECRETIVE, "A friend.")
+								.addPlayer(HeadE.CONFUSED, "Okay, what are you doing here, friend?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.SECRETIVE, "I'm here to help out.")
+								.addPlayer(HeadE.CONFUSED, "With what?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.SECRETIVE, "Well, let's say you find yourself in need of an adventuring kit, and you've a heavy pile of rusty coins weighing you down. I can help you with both those problems. Savvy?")
+								.addPlayer(HeadE.AMAZED, "Ah, so your a trader?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.ANGRY, "Keep it down, you fool!")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.SECRETIVE, "Yes, I'm a trader. But I'm not supposed to be trading here.")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.SECRETIVE, "If you want my goods, you'll learn not to talk about me.")
+								.addPlayer(HeadE.CALM_TALK, "Right, got you.")
+								.addPlayer(HeadE.CONFUSED, "Is there anything else you can do for me?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Well, there's the job I'm supposed to be doing down here.")
+								.addPlayer(HeadE.CONFUSED, "Which is?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Say you chance upon an object that you know little about. Show it to me, and I'll tell you what it's used for.")
+								.addPlayer(HeadE.CALM_TALK, "That's good to know.")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "I can also offer you knowledge about the behaviour of powerful opponents you might meet in the area. I've spent a long time down here, observing them.")
+								.addPlayer(HeadE.CALM_TALK, "I'll be sure to come back if I find a particularly strong opponent, then.")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "You'd be wise to " + player.getDisplayName() + ".")
+								.addPlayer(HeadE.CONFUSED, "How do you know my name?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "Nothing gets in or out of Daemonhiem without me knowing about it.")
+								.addPlayer(HeadE.CALM_TALK, "Fair enough.");
+
+						ops.add("Do I have any rewards to claim?")
+								.addPlayer(HeadE.CONFUSED, "Do I have any rewards to claim?")
+								.addNPC(DungeonConstants.SMUGGLER, HeadE.CALM_TALK, "I have no rewards for you at the moment.");
+
+						ops.add("I'm here to trade.")
+								.addPlayer(HeadE.CALM_TALK, "I'm here to trade.")
+								.addNext(() -> DungeonResourceShop.openResourceShop(player, dungeon.getParty().getComplexity()));
+			}));
 			return false;
 		} else if (npc.getId() >= 11076 && npc.getId() <= 11085) {
 			DungeoneeringTraps.removeTrap(player, (MastyxTrap) npc, dungeon);

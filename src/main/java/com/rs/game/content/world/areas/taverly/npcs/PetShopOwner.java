@@ -1,11 +1,10 @@
-package com.rs.game.content.world.npcs;
+package com.rs.game.content.world.areas.taverly.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.quests.ImpCatcher;
 import com.rs.game.content.quests.wolfwhistle.WolfWhistle;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;

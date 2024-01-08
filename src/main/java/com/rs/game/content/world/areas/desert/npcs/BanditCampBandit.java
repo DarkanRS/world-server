@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.npcs;
+package com.rs.game.content.world.areas.desert.npcs;
 
 import com.rs.game.content.bosses.godwars.saradomin.SaradominFactionNPC;
 import com.rs.game.content.bosses.godwars.zamorak.ZamorakFactionNPC;
