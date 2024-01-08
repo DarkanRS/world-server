@@ -56,16 +56,13 @@ public class RestMusician extends PlayerAction {
 			Map.entry(8701, 657),//violin
 			Map.entry(8700, 657),//violin
 			Map.entry(8713, 656)//ghost
-			);
+	);
 
 	private int musicId;
 	private int index;
 
 	public RestMusician(int musicianId) {
-		if(musicListing.containsKey(musicianId))
-			musicId = musicListing.get(musicianId);
-		else
-			musicId = -1;
+		musicId = musicListing.getOrDefault(musicianId, -1);
 	}
 
 	@Override
@@ -74,7 +71,7 @@ public class RestMusician extends PlayerAction {
 			return false;
 		index = Utils.random(REST_DEFS.length);
 		player.setResting(true);
-		player.setNextAnimation(new Animation(REST_DEFS[index][0]));
+		player.anim(REST_DEFS[index][0]);
 		player.getAppearance().setBAS(REST_DEFS[index][1]);
 		return true;
 	}
@@ -102,7 +99,7 @@ public class RestMusician extends PlayerAction {
 	@Override
 	public void stop(Player player) {
 		player.setResting(false);
-		player.setNextAnimation(new Animation(REST_DEFS[index][2]));
+		player.anim(REST_DEFS[index][2]);
 		player.getEmotesManager().setNextEmoteEnd();
 		player.getAppearance().setBAS(-1);
 		if(musicId != -1)

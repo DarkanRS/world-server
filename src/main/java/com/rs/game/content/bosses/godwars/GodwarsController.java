@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.bosses.godwars;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.NexArena;
+import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.content.world.unorganized_dialogue.NexEntrance;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;
@@ -254,7 +255,13 @@ public class GodwarsController extends Controller {
 		}
 
 		if (object.getId() == 57225) {
-			player.startConversation(new NexEntrance(NexArena.getGlobalInstance(), player));
+			final NexArena globalInstance = NexArena.getGlobalInstance();
+			player.startConversation(new Dialogue().addSimple("The room beyond this point is a prison! There is no way out other than death or teleport. Only those who endure dangerous encounters should proceed.")
+					.addOption("There are currently " + globalInstance.getPlayersCount() + " people fighting.<br>Do you wish to join them?", "Climb down.", "Stay here.")
+					.addNext(() -> {
+						player.tele(Tile.of(2911, 5204, 0));
+						player.getControllerManager().startController(new NexController(globalInstance));
+					}));
 			return false;
 		}
 		return true;

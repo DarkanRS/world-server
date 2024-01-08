@@ -1,6 +1,5 @@
 package com.rs.game.content.world.areas.lumbridge.npcs;
 
-import com.rs.game.content.world.unorganized_dialogue.GrilleGoatsDialogue;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 

@@ -80,7 +80,7 @@ public class NPC extends Entity {
 	private boolean spawned;
 	private transient NPCCombat combat;
 	private transient boolean ignoreNPCClipping;
-	public Tile forceWalk;
+	private Tile forceWalk;
 	private int size;
 	private boolean hidden = false;
 	private transient boolean loadsUpdateZones = false;

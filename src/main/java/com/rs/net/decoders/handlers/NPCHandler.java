@@ -23,7 +23,6 @@ import com.rs.game.content.Skillcapes;
 import com.rs.game.content.death.GraveStone;
 import com.rs.game.content.minigames.creations.StealingCreationShop;
 import com.rs.game.content.minigames.ectofuntus.Ectofuntus;
-import com.rs.game.content.minigames.pest.CommendationExchange;
 import com.rs.game.content.pets.Pet;
 import com.rs.game.content.quests.piratestreasure.CustomsOfficerPiratesTreasureD;
 import com.rs.game.content.quests.piratestreasure.PiratesTreasure;
@@ -37,7 +36,7 @@ import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.content.transportation.BoatingD;
 import com.rs.game.content.transportation.TravelMethods;
 import com.rs.game.content.transportation.TravelMethods.Carrier;
-import com.rs.game.content.world.unorganized_dialogue.FremennikShipmaster;
+import com.rs.game.content.world.areas.rellekka.npcs.FremennikShipmaster;
 import com.rs.game.content.world.unorganized_dialogue.TanningD;
 import com.rs.game.content.world.unorganized_dialogue.skillmasters.GenericSkillcapeOwnerD;
 import com.rs.game.ge.GE;
@@ -370,7 +369,7 @@ public class NPCHandler {
 		case 2162: // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
 			return -1; // TODO
 		case 517: // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
-			return -1; // TODO
+			return -1; // TODO implemented in Karamja.java
 		case 1433: // Solihib's food stall", Solihib. (2769, 2789, 0)
 			return -1; // TODO
 		case 1862: // Ali's Discount Wares", Ali. (3301, 3211, 0)

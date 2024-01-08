@@ -34,8 +34,9 @@ public class Duck extends NPC {
 	public void processNPC() {
 		super.processNPC();
 		if (Utils.random(50) == 0)
-			setNextForceTalk(new ForceTalk("Quack!"));
+			forceTalk("Quack!");
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Duck", "Drake" }, (npcId, tile) -> new Duck(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Duck", "Drake" }, Duck::new);
+
 }

@@ -16,11 +16,12 @@
 //
 package com.rs.game.content.skills.dungeoneering.rooms.puzzles;
 
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants;
 import com.rs.game.content.skills.dungeoneering.rooms.PuzzleRoom;
 import com.rs.game.content.skills.fletching.Fletching;
 import com.rs.game.content.skills.smithing.Smithing;
-import com.rs.game.content.world.unorganized_dialogue.FremennikScoutD;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -95,14 +96,28 @@ public class FremennikCampRoom extends PuzzleRoom {
 	public void advance(Player player) {
 		if (++stage == 3) {
 			setComplete();
-			player.startConversation(new FremennikScoutD(player, this));
+			Dialogue fremennikAdvance = new Dialogue();
+			if (isComplete()) {
+				fremennikAdvance.addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CHEERFUL_EXPOSITION, "Wonderful! That was the last of them. As promised, I'll unlock the door for you.");
+			} else {
+				fremennikAdvance.addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CONFUSED, "Need some tools?");
+				fremennikAdvance.addItem(Fletching.DUNGEONEERING_KNIFE, "The scout hands you a knife.", () -> player.getInventory().addItem(Fletching.DUNGEONEERING_KNIFE, 1));
+			}
+			player.startConversation(fremennikAdvance);
 		}
 	}
 
 	@Override
 	public boolean processNPCClick1(Player player, NPC npc) {
 		if (npc.getId() == FREMENNIK_SCOUT) {
-			player.startConversation(new FremennikScoutD(player, this));
+			Dialogue fremennikAdvance = new Dialogue();
+			if (isComplete()) {
+				fremennikAdvance.addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CHEERFUL_EXPOSITION, "Wonderful! That was the last of them. As promised, I'll unlock the door for you.");
+			} else {
+				fremennikAdvance.addNPC(FremennikCampRoom.FREMENNIK_SCOUT, HeadE.CONFUSED, "Need some tools?");
+				fremennikAdvance.addItem(Fletching.DUNGEONEERING_KNIFE, "The scout hands you a knife.", () -> player.getInventory().addItem(Fletching.DUNGEONEERING_KNIFE, 1));
+			}
+			player.startConversation(fremennikAdvance);
 			return false;
 		}
 		return true;

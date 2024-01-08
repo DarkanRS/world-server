@@ -219,65 +219,63 @@ public class Desert  {
 	});
 
 	public static ItemClickHandler handleSplittingGranite = new ItemClickHandler(new Object[] { 6979, 6981, 6983 }, new String[] { "Craft" }, e -> {
-		if (!e.getPlayer().getInventory().containsItem(1755, 1, true)) {
-			e.getPlayer().sendMessage("You must have a chisel in order to craft granite.");
+		Player player = e.getPlayer();
+		if (!player.getInventory().containsItem(1755, 1, true)) {
+			player.sendMessage("You must have a chisel in order to craft granite.");
 			return;
 		}
 
-		if (e.getPlayer().getInventory().getFreeSlots() < 3) {
-			e.getPlayer().sendMessage("You do not have enough room in your inventory to split the granite.");
+		if (player.getInventory().getFreeSlots() < 3) {
+			player.sendMessage("You do not have enough room in your inventory to split the granite.");
 			return;
 		}
 
-		e.getPlayer().lock(2);
-
+		player.lock(2);
 		switch(e.getItem().getId()) {
-		case 6983: //5kg - splits into 2x 2kg and 2x 500g
-			e.getPlayer().getInventory().deleteItem(6983, 1);
-			e.getPlayer().getInventory().addItem(6981, 2);
-			e.getPlayer().getInventory().addItem(6979, 2);
-			e.getPlayer().setNextAnimation(new Animation(11146));
-			break;
-		case 6981: //2kg - splits into 4x 500g
-			e.getPlayer().getInventory().deleteItem(6981, 1);
-			e.getPlayer().getInventory().addItem(6979, 4);
-			e.getPlayer().setNextAnimation(new Animation(11146));
-			break;
-		case 6979: //500g
-			e.getPlayer().sendMessage("This block of granite is too small to craft into anything.");
-			break;
+			case 6983: //5kg - splits into 2x 2kg and 2x 500g
+				player.getInventory().deleteItem(6983, 1);
+				player.getInventory().addItem(6981, 2);
+				player.getInventory().addItem(6979, 2);
+				break;
+			case 6981: //2kg - splits into 4x 500g
+				player.getInventory().deleteItem(6981, 1);
+				player.getInventory().addItem(6979, 4);
+				break;
+			case 6979: //500g
+				player.sendMessage("This block of granite is too small to craft into anything.");
+				return;
 		}
+		player.anim(11146);
 	});
 
 	public static ItemClickHandler handleSplittingSandstone = new ItemClickHandler(new Object[] { 6973, 6975, 6977 }, new String[] { "Craft" }, e -> {
-		if (!e.getPlayer().getInventory().containsItem(1755, 1, true)) {
-			e.getPlayer().sendMessage("You must have a chisel in order to craft sandstone.");
+		Player player = e.getPlayer();
+		if (!player.getInventory().containsItem(1755, 1, true)) {
+			player.sendMessage("You must have a chisel in order to craft sandstone.");
 			return;
 		}
 
-		if (e.getPlayer().getInventory().getFreeSlots() < (e.getItem().getId() == 6975 ? 2 : 1)) {
-			e.getPlayer().sendMessage("You do not have enough room in your inventory to split the sandstone.");
+		if (player.getInventory().getFreeSlots() < (e.getItem().getId() == 6975 ? 2 : 1)) {
+			player.sendMessage("You do not have enough room in your inventory to split the sandstone.");
 			return;
 		}
 
-		e.getPlayer().lock(2);
+		player.lock(2);
+		player.anim(11146);
 
 		switch(e.getItem().getId()) {
 		case 6977: //10kg - splits into 2x 5kg
-			e.getPlayer().getInventory().deleteItem(6977, 1);
-			e.getPlayer().getInventory().addItem(6975, 2);
-			e.getPlayer().setNextAnimation(new Animation(11146));
+			player.getInventory().deleteItem(6977, 1);
+			player.getInventory().addItem(6975, 2);
 			break;
 		case 6975: //5kg - splits into 2x 2kg and 1x 1kg
-			e.getPlayer().getInventory().deleteItem(6975, 1);
-			e.getPlayer().getInventory().addItem(6973, 2);
-			e.getPlayer().getInventory().addItem(6971, 1);
-			e.getPlayer().setNextAnimation(new Animation(11146));
+			player.getInventory().deleteItem(6975, 1);
+			player.getInventory().addItem(6973, 2);
+			player.getInventory().addItem(6971, 1);
 			break;
 		case 6973: //2kg - splits into 2x 1kg
-			e.getPlayer().getInventory().deleteItem(6973, 1);
-			e.getPlayer().getInventory().addItem(6971, 2);
-			e.getPlayer().setNextAnimation(new Animation(11146));
+			player.getInventory().deleteItem(6973, 1);
+			player.getInventory().addItem(6971, 2);
 			break;
 		}
 	});

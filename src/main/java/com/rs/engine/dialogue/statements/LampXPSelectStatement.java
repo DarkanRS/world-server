@@ -2,7 +2,7 @@ package com.rs.engine.dialogue.statements;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.game.content.Lamp;
+import com.rs.game.content.items.Lamp;
 import com.rs.game.model.entity.player.Player;
 
 public class LampXPSelectStatement implements Statement {
