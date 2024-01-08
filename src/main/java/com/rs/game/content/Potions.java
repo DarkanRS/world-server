@@ -45,6 +45,7 @@ import java.util.function.Consumer;
 public class Potions {
 
 	public static final int VIAL = 229;
+	public static final int FLASK = 23191;
 	public static final int JUJU_VIAL = 19996;
 	public static final int BEER_GLASS = 1919;
 	public static final int EMPTY_KEG = 5769;
@@ -911,6 +912,8 @@ public class Potions {
 		public boolean isVial() {
 			return emptyId == VIAL || emptyId == JUJU_VIAL;
 		}
+
+		public boolean isFlask() { return emptyId == FLASK; }
 	}
 
 	public static ItemClickHandler clickOps = new ItemClickHandler(Potion.POTS.keySet().toArray(), new String[] { "Drink", "Empty" }, e -> {
