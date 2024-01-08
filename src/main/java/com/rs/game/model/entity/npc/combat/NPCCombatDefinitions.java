@@ -72,6 +72,7 @@ public class NPCCombatDefinitions {
 	private int deathDelay;
 	private int deathSound = -1;
 	private int respawnDelay;
+	private int respawnAnim = -1;
 	private int hitpoints;
 	private int maxHit;
 	private AttackStyle attackStyle;
@@ -96,6 +97,7 @@ public class NPCCombatDefinitions {
 		maxHit = 1;
 		attackGfx = -1;
 		attackProjectile = -1;
+		respawnAnim = -1;
 	}
 
 	public NPCCombatDefinitions(int... ids) {
@@ -393,5 +395,9 @@ public class NPCCombatDefinitions {
 
 	public int getDeathSound() {
 		return deathSound;
+	}
+
+	public int getRespawnAnim() {
+		return respawnAnim;
 	}
 }

@@ -28,7 +28,14 @@ import java.util.*;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.BLACK_KNIGHTS_FORTRESS)
+@QuestHandler(
+		quest = Quest.BLACK_KNIGHTS_FORTRESS,
+		startText = "2,500 coins",
+		itemsText = "Cabbage<br>Iron chainbody<br>Bronze med helm",
+		combatText = "Ability to evade level 33 Black Knights",
+		rewardsText = "2,500 coins",
+		completedStage = 4
+)
 @PluginEventHandler
 public class BlackKnightsFortress extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -57,11 +64,6 @@ public class BlackKnightsFortress extends QuestOutline {
 
 	// Black knight fortress chunks
 	protected final static Set<Integer> FORTRESS_CHUNKS = new HashSet<>(Arrays.asList(6180280, 6163896, 6196656, 6196664));
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -110,26 +112,6 @@ public class BlackKnightsFortress extends QuestOutline {
 				break;
 		}
 		return lines;
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Sir Amik Varze, located on the 3rd floor in the western tower of the<br>White Knights' Castle in Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Cabbage<br>Iron chainbody<br>Bronze med helm";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Ability to evade level 33 Black Knights";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "2,500 coins";
 	}
 
 	@Override

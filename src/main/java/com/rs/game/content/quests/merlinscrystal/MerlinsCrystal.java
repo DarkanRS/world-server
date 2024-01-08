@@ -21,7 +21,14 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.MERLINS_CRYSTAL)
+@QuestHandler(
+		quest = Quest.MERLINS_CRYSTAL,
+		startText = "Excalibur",
+		itemsText = "Bread, a bucket, insect repellent, bat bones.",
+		combatText = "You will need to defeat a level 23 knight. You might anger a level 70 demon.",
+		rewardsText = "Excalibur",
+		completedStage = 8
+)
 @PluginEventHandler
 public class MerlinsCrystal extends QuestOutline {
 	public static final int NOT_STARTED = 0;
@@ -38,11 +45,6 @@ public class MerlinsCrystal extends QuestOutline {
 	protected static final int EXCALIBUR = 35;
 
 	protected Tile crate = Tile.of(2778, 9839, 0);
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -238,23 +240,4 @@ public class MerlinsCrystal extends QuestOutline {
 		sendQuestCompleteInterface(player, EXCALIBUR);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Arthur in Camelot Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bread, a bucket, insect repellent, bat bones.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 23 knight. You might anger a level 70 demon.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Excalibur";
-	}
 }

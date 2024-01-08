@@ -13,7 +13,14 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.MONKS_FRIEND)
+@QuestHandler(
+		quest = Quest.MONKS_FRIEND,
+		startText = "2,000 Woodcutting XP<br>8 law runes",
+		itemsText = "Jug of water, logs (or a hatchet).",
+		combatText = "You can choose to defeat two level 21 thieves and a level 25 head thief.",
+		rewardsText = "2,000 Woodcutting XP<br>8 law runes",
+		completedStage = 5
+)
 @PluginEventHandler
 public class MonksFriend extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -22,12 +29,6 @@ public class MonksFriend extends QuestOutline {
 	public final static int HELP_CEDRIC = 3;
 	public final static int RETURN_TO_OMAD = 4;
 	public final static int QUEST_COMPLETE = 5;
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -103,26 +104,4 @@ public class MonksFriend extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.WOODCUTTING, 2000);
 		sendQuestCompleteInterface(player, 563);
 	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Brother Omad at the monastery south of Ardougne.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Jug of water, logs (or a hatchet).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You can choose to defeat two level 21 thieves and a level 25 head thief.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "2,000 Woodcutting XP<br>"+
-				"8 law runes";
-	}
-
 }

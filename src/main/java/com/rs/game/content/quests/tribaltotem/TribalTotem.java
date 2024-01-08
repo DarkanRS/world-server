@@ -42,7 +42,14 @@ import java.util.List;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.TRIBAL_TOTEM)
+@QuestHandler(
+		quest = Quest.TRIBAL_TOTEM,
+		startText = "1,775 Thieving XP<br>5 swordfish",
+		itemsText = "None.",
+		combatText = "None.",
+		rewardsText = "1,775 Thieving XP<br>5 swordfish",
+		completedStage = 4
+)
 @PluginEventHandler
 public class TribalTotem extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -53,11 +60,6 @@ public class TribalTotem extends QuestOutline {
 
 	//Item
 	public static final int TOTEM = 1857;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -117,27 +119,6 @@ public class TribalTotem extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.THIEVING, 1775);
 		player.getInventory().addItem(3144, 5, true);//Karambwan
 		sendQuestCompleteInterface(player, TOTEM);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Kangai Mau in Brimhaven.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,775 Thieving XP<br>"+
-				"5 swordfish";
 	}
 
 	public static ObjectClickHandler handleFrontDoorMansion = new ObjectClickHandler(new Object[] { 2706 }, e -> {

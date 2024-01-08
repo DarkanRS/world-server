@@ -19,7 +19,14 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.KNIGHTS_SWORD)
+@QuestHandler(
+		quest = Quest.KNIGHTS_SWORD,
+		startText = "12,725 Smithing XP lamp<br>Ability to smith blurite (members)",
+		itemsText = "Redberry pie, 2 iron bars.",
+		combatText = "You will need to defeat or evade level 54 enemies.",
+		rewardsText = "12,725 Smithing XP lamp<br>Ability to smith blurite (members)",
+		completedStage = 6
+)
 @PluginEventHandler
 public class KnightsSword extends QuestOutline {
 	public static final int NOT_STARTED = 0;
@@ -44,11 +51,6 @@ public class KnightsSword extends QuestOutline {
 
 	//objects
 	protected static final int CUPBOARD = 2271;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -112,27 +114,6 @@ public class KnightsSword extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.SMITHING, 12725);
 		sendQuestCompleteInterface(player, BLURITE_SWORD);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Squire Asrol in the courtyard of the White Knights' Castle in Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Redberry pie, 2 iron bars.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat or evade level 54 enemies.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "12,725 Smithing XP lamp<br>"+
-				"Ability to smith blurite (members)";
 	}
 
 	public static ObjectClickHandler handleVyvinCupboard = new ObjectClickHandler(new Object[] { 2271, 2272 }, e -> {

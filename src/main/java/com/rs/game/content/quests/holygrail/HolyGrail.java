@@ -20,7 +20,14 @@ import com.rs.plugin.handlers.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.HOLY_GRAIL)
+@QuestHandler(
+		quest = Quest.HOLY_GRAIL,
+		startText = "15,300 Defence XP<br>11,000 Prayer XP<br>Access to the Fisher Realm<br>Ability to use the King Arthur picture in your player-owned house",
+		itemsText = "Excalibur.",
+		combatText = "You will need to defeat a level 28 enemy.",
+		rewardsText = "15,300 Defence XP<br>11,000 Prayer XP<br>Access to the Fisher Realm<br>Ability to use the King Arthur picture in your player-owned house",
+		completedStage = 7
+)
 @PluginEventHandler
 public class HolyGrail extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -31,11 +38,6 @@ public class HolyGrail extends QuestOutline {
 	public final static int SPEAK_TO_PERCIVAL = 5;
 	public final static int GIVE_AURTHUR_HOLY_GRAIL = 6;
 	public final static int QUEST_COMPLETE = 7;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -222,28 +224,5 @@ public class HolyGrail extends QuestOutline {
 		player.getSkills().addXpQuest(Skills.PRAYER, 11_000);
 		player.getSkills().addXpQuest(Skills.DEFENSE, 15_300);
 		sendQuestCompleteInterface(player, 19);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Arthur in Camelot Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Excalibur.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 28 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "15,300 Defence XP<br>"+
-				"11,000 Prayer XP<br>"+
-				"Access to the Fisher Realm<br>" +
-				"Ability to use the King Arthur picture in your player-owned house";
 	}
 }

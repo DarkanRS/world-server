@@ -19,20 +19,36 @@ package com.rs.engine.quest;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class QuestOutline {
 	public final Quest getQuest() {
-		return getClass().getAnnotation(QuestHandler.class).value();
+		return getClass().getAnnotation(QuestHandler.class).quest();
 	}
-	public abstract int getCompletedStage();
+
+	public final int getCompletedStage() {
+		return getClass().getAnnotation(QuestHandler.class).completedStage();
+	};
+
 	public abstract List<String> getJournalLines(Player player, int stage);
 	public abstract void complete(Player player);
-	public abstract String getStartLocationDescription();
-	public abstract String getRequiredItemsString();
-	public abstract String getCombatInformationString();
-	public abstract String getRewardsString();
+
+	public final String getStartLocationDescription() {
+		return getClass().getAnnotation(QuestHandler.class).startText();
+	}
+
+	public final String getRequiredItemsString() {
+		return getClass().getAnnotation(QuestHandler.class).itemsText();
+	}
+
+	public final String getCombatInformationString() {
+		return getClass().getAnnotation(QuestHandler.class).combatText();
+	}
+
+	public final String getRewardsString() {
+		return getClass().getAnnotation(QuestHandler.class).rewardsText();
+	}
+
 	public void updateStage(Player player, int stage) {
 
 	}

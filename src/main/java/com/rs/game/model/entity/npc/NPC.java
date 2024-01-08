@@ -262,7 +262,7 @@ public class NPC extends Entity {
 		if (getTickCounter() % 100 == 0)
 			restoreTick();
 		if (!combat.process() && routeEvent == null) {
-			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
+			if (getTickCounter() % 3 == 0 && !isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
 				if (!hasWalkSteps() && shouldRandomWalk()) {
 					boolean can = Math.random() > 0.9;
 					if (can) {
@@ -427,6 +427,8 @@ public class NPC extends Entity {
 		ChunkManager.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
+		if (getCombatDefinitions().getRespawnAnim() != -1)
+			anim(getCombatDefinitions().getRespawnAnim());
 		onRespawn();
 	}
 

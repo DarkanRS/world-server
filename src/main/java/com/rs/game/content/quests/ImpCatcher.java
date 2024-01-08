@@ -32,7 +32,14 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.IMP_CATCHER)
+@QuestHandler(
+		quest = Quest.IMP_CATCHER,
+		startText = "875 Magic XP<br>An amulet of accuracy<br>Access to Mizgog's amulet shop",
+		itemsText = "None.",
+		combatText = "Must kill many imps",
+		rewardsText = "875 Magic XP<br>An amulet of accuracy<br>Access to Mizgog's amulet shop",
+		completedStage = 2
+)
 @PluginEventHandler
 public class ImpCatcher extends QuestOutline {
 
@@ -41,11 +48,6 @@ public class ImpCatcher extends QuestOutline {
 	private final static int YELLOW_BEAD = 1472;
 	private final static int BLACK_BEAD = 1474;
 	private final static int WHITE_BEAD = 1476;
-
-	@Override
-	public int getCompletedStage() {
-		return 2;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -81,28 +83,6 @@ public class ImpCatcher extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.MAGIC, 875);
 		player.getInventory().addItemDrop(1478, 1);
 		sendQuestCompleteInterface(player, 1891);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Wizard Mizgog on the third floor of the Wizards' Tower, south of Draynor.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Must kill many imps";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "875 Magic XP<br>"+
-				"An amulet of accuracy<br>" +
-				"Access to Mizgog's amulet shop";
 	}
 
 	static class MizgogD extends Conversation {

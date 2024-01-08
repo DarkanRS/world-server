@@ -1,24 +1,25 @@
 {
   "ids": [
-    1053
+    14036, 14039
   ],
-  "attackAnim": -1,
+  "attackAnim": 9466,
   "attackSound": -1,
-  "defenceAnim": -1,
+  "defenceAnim": 9468,
   "defendSound": -1,
-  "deathAnim": -1,
+  "deathAnim": 9467,
   "deathDelay": 6,
   "deathSound": -1,
-  "respawnDelay": 59,
-  "hitpoints": 450,
-  "maxHit": 30,
+  "respawnDelay": 40,
+  "respawnAnim": 6782,
+  "hitpoints": 1350,
+  "maxHit": 80,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "SLASH_ATT",
   "combatLevels": {
-    "ATTACK": 135,
+    "ATTACK": 110,
     "RANGE": 30,
-    "STRENGTH": 110,
-    "DEFENSE": 80,
+    "STRENGTH": 70,
+    "DEFENSE": 70,
     "MAGE": 30
   },
   "attackRange": -1,

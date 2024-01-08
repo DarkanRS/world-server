@@ -20,7 +20,14 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.FAMILY_CREST)
+@QuestHandler(
+		quest = Quest.FAMILY_CREST,
+		startText = "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>Access to the hellhounds in Witchaven Dungeon",
+		itemsText = "Cooked shrimp, cooked salmon, cooked tuna, cooked bass, cooked swordfish, 2 cut rubies, antipoison potion. You will likely need a magic weapon to cast Air Blast, Water Blast, Earth Blast, Fire Blast (59 Magic) from the normal spellbook.",
+		combatText = "You will need to defeat a level 84 demon.",
+		rewardsText = "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>Access to the hellhounds in Witchaven Dungeon",
+		completedStage = 8
+)
 @PluginEventHandler
 public class FamilyCrest extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -44,11 +51,6 @@ public class FamilyCrest extends QuestOutline {
 	public final static int GOLDSMITH_GAUNTLETS = 776;
 	public final static int CHAOS_GAUNTLETS = 777;
 	public final static int FAMILY_GAUNTLETS = 778;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -193,27 +195,6 @@ public class FamilyCrest extends QuestOutline {
 		if(player.getInventory().hasFreeSlots())
 			player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
 		sendQuestCompleteInterface(player, 778);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Dimintheis in south-east Varrock.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Cooked shrimp, cooked salmon, cooked tuna, cooked bass, cooked swordfish, 2 cut rubies, antipoison potion. You will likely need a magic weapon to cast Air Blast, Water Blast, Earth Blast, Fire Blast (59 Magic) from the normal spellbook.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 84 demon.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>" +
-				"Access to the hellhounds in Witchaven Dungeon";
 	}
 
 	public static ItemClickHandler handleFamilyGauntletsQuestRequirement = new ItemClickHandler(new Object[]{775, 776, 777}, new String[]{"Wear"}, e -> {

@@ -12,102 +12,102 @@ annotation class DialogueDsl
 
 @DialogueDsl
 open class DialogueBuilder() {
-    private val dialogue = Dialogue()
+    private var dialogue = Dialogue()
 
     fun player(expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
-        dialogue.addPlayer(expression, text, extraFunctionality)
+        dialogue = dialogue.addPlayer(expression, text, extraFunctionality)
     }
 
     fun npc(id: Int, expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
-        dialogue.addNPC(id, expression, text, extraFunctionality)
+        dialogue = dialogue.addNPC(id, expression, text, extraFunctionality)
     }
 
     fun item(itemId: Int, text: String, extraFunctionality: Runnable? = null) {
-        dialogue.addItem(itemId, text, extraFunctionality)
+        dialogue = dialogue.addItem(itemId, text, extraFunctionality)
     }
 
     fun simple(vararg text: String, extraFunctionality: Runnable? = null) {
         if (extraFunctionality != null) {
-            dialogue.addSimple(text.first(), extraFunctionality)
+            dialogue = dialogue.addSimple(text.first(), extraFunctionality)
         } else {
-            dialogue.addSimple(*text)
+            dialogue = dialogue.addSimple(*text)
         }
     }
 
     fun exec(extraFunctionality: Runnable) {
-        dialogue.addNext(extraFunctionality)
+        dialogue = dialogue.addNext(extraFunctionality)
     }
 
     fun addItemToInv(player: Player, item: Item, text: String) {
-        dialogue.addItemToInv(player, item, text)
+        dialogue = dialogue.addItemToInv(player, item, text)
     }
 
     fun questStart(quest: Quest) {
-        dialogue.addQuestStart(quest)
+        dialogue = dialogue.addQuestStart(quest)
     }
 
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
-        dialogue.addOptions(title) { options ->
+        dialogue = dialogue.addOptions(title) { options ->
             OptionsBuilder().apply(setup).applyToOptions(options)
         }
     }
 
     fun makeX(itemId: Int, maxAmt: Int = 60) {
-        dialogue.addMakeX(itemId, maxAmt)
+        dialogue = dialogue.addMakeX(itemId, maxAmt)
     }
 
     fun makeX(itemIds: IntArray, maxAmt: Int = 60) {
-        dialogue.addMakeX(itemIds, maxAmt)
+        dialogue = dialogue.addMakeX(itemIds, maxAmt)
     }
 
     fun gotoStage(stageName: String, conversation: Conversation) {
-        dialogue.addGotoStage(stageName, conversation)
+        dialogue = dialogue.addGotoStage(stageName, conversation)
     }
 
     fun statementWithOptions(statement: Statement, vararg options: DialogueBuilder.() -> Unit) {
         val optionDialogues = options.map { DialogueBuilder().apply(it).build() }
-        dialogue.addStatementWithOptions(statement, *optionDialogues.toTypedArray())
+        dialogue = dialogue.addStatementWithOptions(statement, *optionDialogues.toTypedArray())
     }
 
     fun statementWithActions(statement: Statement, vararg events: Runnable) {
-        dialogue.addStatementWithActions(statement, *events)
+        dialogue = dialogue.addStatementWithActions(statement, *events)
     }
 
     fun item(itemId: Int, text: String) {
-        dialogue.addItem(itemId, text)
+        dialogue = dialogue.addItem(itemId, text)
     }
 
     fun simple(text: String) {
-        dialogue.addSimple(text)
+        dialogue = dialogue.addSimple(text)
     }
 
     fun npc(npc: NPC, expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
-        dialogue.addNPC(npc, expression, text, extraFunctionality)
+        dialogue = dialogue.addNPC(npc, expression, text, extraFunctionality)
     }
 
     fun makeX(itemId: Int) {
-        dialogue.addMakeX(itemId)
+        dialogue = dialogue.addMakeX(itemId)
     }
 
     fun makeX(itemIds: IntArray) {
-        dialogue.addMakeX(itemIds)
+        dialogue = dialogue.addMakeX(itemIds)
     }
 
     fun nextIf(condition: BooleanSupplier, dialogueSetup: DialogueBuilder.() -> Unit) {
         val nextDialogue = DialogueBuilder().apply(dialogueSetup).build()
-        dialogue.addNextIf(condition, nextDialogue)
+        dialogue = dialogue.addNextIf(condition, nextDialogue)
     }
 
     fun stop() {
-        dialogue.addStop()
+        dialogue = dialogue.addStop()
     }
 
     fun setStage(stageName: String, conversation: Conversation) {
-        dialogue.setStage(stageName, conversation)
+        dialogue = dialogue.setStage(stageName, conversation)
     }
 
     fun voiceEffect(voiceId: Int) {
-        dialogue.voiceEffect(voiceId)
+        dialogue = dialogue.voiceEffect(voiceId)
     }
 
     internal open fun build(): Dialogue = dialogue

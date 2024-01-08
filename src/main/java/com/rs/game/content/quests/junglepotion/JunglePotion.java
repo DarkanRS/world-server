@@ -14,8 +14,15 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
+@QuestHandler(
+		quest = Quest.JUNGLE_POTION,
+		startText = "775 Herblore XP",
+		itemsText = "None.",
+		combatText = "None.",
+		rewardsText = "775 Herblore XP",
+		completedStage = 6
+)
 @PluginEventHandler
-@QuestHandler(Quest.JUNGLE_POTION)
 public class JunglePotion extends QuestOutline {
 
 	// Quest Stages
@@ -33,12 +40,6 @@ public class JunglePotion extends QuestOutline {
 	public static final int GRIMY_SITO_FOIL = 1529;
 	public static final int GRIMY_VOLENCIA_MOSS = 1531;
 	public static final int GRIMY_ROGUES_PURSE = 1533;
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -64,26 +65,6 @@ public class JunglePotion extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.HERBLORE, 775);
 		sendQuestCompleteInterface(player, HERB);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Trufitus in his hut north-east of Tai Bwo Wannai.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "775 Herblore XP";
 	}
 
 	public static ObjectClickHandler handleMarshyVines = new ObjectClickHandler(new Object[] { 2575, 32106 }, (e) -> {

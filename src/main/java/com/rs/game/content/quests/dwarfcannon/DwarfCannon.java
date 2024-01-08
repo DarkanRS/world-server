@@ -39,7 +39,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.DWARF_CANNON)
+@QuestHandler(
+		quest = Quest.DWARF_CANNON,
+		startText = "750 Crafting XP<br>Permission to purchase and use a dwarf multicannon<br>Ability to smith cannonballs<br>Ability to add the ammo mould to your tool belt",
+		itemsText = "None.",
+		combatText = "None.",
+		rewardsText = "750 Crafting XP<br>Permission to purchase and use a dwarf multicannon<br>Ability to smith cannonballs<br>Ability to add the ammo mould to your tool belt",
+		completedStage = 11
+)
 @PluginEventHandler
 public class DwarfCannon extends QuestOutline {
 
@@ -48,11 +55,6 @@ public class DwarfCannon extends QuestOutline {
 	public static final int TOOLKIT = 1;
 	public static final int NULODIONS_NOTES = 3;
 	public static final int AMMO_MOULD = 4;
-
-	@Override
-	public int getCompletedStage() {
-		return 11;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -131,29 +133,6 @@ public class DwarfCannon extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.CRAFTING, 750);
 		sendQuestCompleteInterface(player, 1);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Captain Lawgof, south of the coal truck mining site to the west of McGrubor's Wood.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "750 Crafting XP<br>" +
-				"Permission to purchase and use a dwarf multicannon<br>" +
-				"Ability to smith cannonballs<br>" +
-				"Ability to add the ammo mould to your tool belt";
 	}
 
 	public static LoginHandler login = new LoginHandler(e -> updateVars(e.getPlayer()));

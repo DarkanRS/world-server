@@ -10,7 +10,6 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
-@QuestHandler(Quest.COOKS_ASSISTANT)
 public class GillieGroatsCow extends Conversation {
     //Identify Cow by ID
     private static int objId = 47721;

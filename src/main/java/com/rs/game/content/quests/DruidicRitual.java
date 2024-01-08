@@ -28,7 +28,14 @@ import com.rs.plugin.handlers.ItemOnObjectHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.DRUIDIC_RITUAL)
+@QuestHandler(
+		quest = Quest.DRUIDIC_RITUAL,
+		startText = "250 Herblore XP<br>15 Grimy guam<br>15 Eye of newt<br>",
+		itemsText = "Raw bear meat<br>Raw rat meat<br>Raw beef<br>Raw chicken",
+		combatText = "Ability to survive some skeletons in the Taverley Dungeon",
+		rewardsText = "250 Herblore XP<br>15 Grimy guam<br>15 Eye of newt<br>",
+		completedStage = 4
+)
 @PluginEventHandler
 public class DruidicRitual extends QuestOutline {
 	final static int RAW_BEAR_MEAT = 2136;
@@ -40,11 +47,6 @@ public class DruidicRitual extends QuestOutline {
 	final static int ENCHANTED_RAW_RAT_MEAT = 523;
 	final static int ENCHANTED_RAW_CHICKEN = 525;
 	final static int ENCHANTED_RAW_BEEF = 522;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -88,31 +90,6 @@ public class DruidicRitual extends QuestOutline {
 		player.getInventory().addItem(200, 15);
 		player.getInventory().addItem(222, 15);
 		sendQuestCompleteInterface(player, 195);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Speak to Kaqemeex in the stone circle north of Taverley.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Raw bear meat<br>" +
-				"Raw rat meat<br>" +
-				"Raw beef<br>" +
-				"Raw chicken";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Ability to survive some skeletons in the Taverley Dungeon";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "250 Herblore XP<br>"+
-				"15 Grimy guam<br>"+
-				"15 Eye of newt<br>";
 	}
 
 	public static ItemOnObjectHandler handleCauldron = new ItemOnObjectHandler(new Object[] { 2142 }, new Object[] { RAW_BEEF, RAW_CHICKEN, RAW_BEAR_MEAT, RAW_RAT_MEAT }, e -> {

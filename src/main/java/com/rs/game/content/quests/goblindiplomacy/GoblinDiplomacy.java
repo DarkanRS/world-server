@@ -35,7 +35,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.GOBLIN_DIPLOMACY)
+@QuestHandler(
+		quest = Quest.GOBLIN_DIPLOMACY,
+		startText = "200 Crafting XP<br>A gold bar",
+		itemsText = "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).",
+		combatText = "None.",
+		rewardsText = "200 Crafting XP<br>A gold bar",
+		completedStage = 4
+)
 @PluginEventHandler
 public class GoblinDiplomacy extends QuestOutline {
 
@@ -48,11 +55,6 @@ public class GoblinDiplomacy extends QuestOutline {
 	static final int YELLOW_DYE = 1765;
 	static final int BLUE_DYE = 1767;
 	static final int ORANGE_DYE = 1769;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -115,27 +117,6 @@ public class GoblinDiplomacy extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.CRAFTING, 200);
 		sendQuestCompleteInterface(player, 288);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to General Bentnoze or General Wartface in the Goblin Village, north of Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "200 Crafting XP<br>"+
-				"A gold bar";
 	}
 
 	static class GeneralsD extends Conversation {

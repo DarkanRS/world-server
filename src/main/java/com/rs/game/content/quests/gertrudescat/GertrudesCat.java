@@ -36,18 +36,16 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.GERTRUDES_CAT)
+@QuestHandler(
+		quest = Quest.GERTRUDES_CAT,
+		startText = "1,525 Cooking XP<br>Chocolate cake<br>Bowl of stew<br>Kitten(!)<br>Ability to raise cats",
+		itemsText = "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.",
+		combatText = "None.",
+		rewardsText = "1,525 Cooking XP<br>Chocolate cake<br>Bowl of stew<br>Kitten(!)<br>Ability to raise cats",
+		completedStage = 9
+)
 @PluginEventHandler
 public class GertrudesCat extends QuestOutline {
-
-	/**
-	 * Defines the completed stage of the quest. Number should always be the final stage.
-	 */
-	@Override
-	public int getCompletedStage() {
-		return 9;
-	}
-
 	/**
 	 * Defines the journal lines that get displayed when the player opens their quest book
 	 * based on the stage the player is on.
@@ -124,30 +122,6 @@ public class GertrudesCat extends QuestOutline {
 		sendQuestCompleteInterface(player, 1555);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Gertrude in her house west of Varrock.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,525 Cooking XP<br>" +
-				"Chocolate cake<br>" +
-				"Bowl of stew<br>" +
-				"Kitten(!)<br>" +
-				"Ability to raise cats";
-	}
-
 	/**
 	 * Updates whether Fluffs is visible to the player or not. In this case:
 	 * var 180 = 2 = Fluffs is only visible at the Lumber Yard
@@ -174,7 +148,7 @@ public class GertrudesCat extends QuestOutline {
 	 * NPC id 759 is spawned at the Lumber Yard upstairs.
 	 * NPC id 7744 is spawned in Gertrude's home.
 	 *
-	 * @param Player to update Fluffs for.
+	 * @param com.rs.game.model.entity.player.Player to update Fluffs for.
 	 */
 	public static void updateFluffs(Player player) {
 		if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 2 && player.getQuestManager().getStage(Quest.GERTRUDES_CAT) < 8)
