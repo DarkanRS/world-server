@@ -15,8 +15,6 @@ public class Fernahei {
 	public static NPCClickHandler handleFernahei = new NPCClickHandler(new Object[] { 517 }, new String[] { "Talk-to" }, e -> {
 		Player player = e.getPlayer();
 		NPC npc = e.getNPC();
-		if (!player.isQuestStarted(Quest.SHILO_VILLAGE))
-			return;
 
 		player.startConversation(new Dialogue()
 				.addNPC(npc, HeadE.CALM_TALK, "Welcome to Fernahei's Fishing Shop Bwana! Would you like to see my items?")

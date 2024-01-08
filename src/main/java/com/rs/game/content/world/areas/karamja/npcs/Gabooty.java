@@ -8,7 +8,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Gabooty {
 
-	public static NPCClickHandler handleGabooty = new NPCClickHandler(new Object[] { 2520 }, e -> {
+	public static NPCClickHandler handleGabooty = new NPCClickHandler(new Object[] { 2520 }, new String[] { "Trade-Co-op", "Trade-Drinks" }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.JUNGLE_POTION))
 			return;
 		switch (e.getOption()) {

@@ -16,21 +16,15 @@
 //
 package com.rs.game.content.world.areas.karamja;
 
-import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.Furnaces;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
-import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -39,19 +33,13 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.net.ClientPacket;
 import com.rs.plugin.annotations.PluginEventHandler;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
-import com.rs.utils.shop.ShopsHandler;
-
-import java.util.function.Consumer;
 
 @PluginEventHandler
 public class Karamja  {
 
 	public static ObjectClickHandler handleShiloFurnace = new ObjectClickHandler(new Object[] { 11666 }, (e) -> {
 		Player player = e.getPlayer();
-		if (!player.isQuestComplete(Quest.SHILO_VILLAGE))
-			return;
 		if (!e.getOption().equals("Smelt"))
 			return;
 
@@ -62,8 +50,6 @@ public class Karamja  {
 		if (e.getObjectId() == 2267)
 			return;
 		Player player = e.getPlayer();
-		if (!player.isQuestStarted(Quest.SHILO_VILLAGE))
-			return;
 
 		int yohnus = 513;
 		int blacksmithPays = player.getI("shilo_blacksmith_pay");

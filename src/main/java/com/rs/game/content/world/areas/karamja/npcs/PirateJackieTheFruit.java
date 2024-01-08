@@ -12,13 +12,13 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class PirateJackieTheFruit {
 
-	public static NPCClickHandler handlePirateJackieFruit = new NPCClickHandler(new Object[] { 1055 }, e -> {
+	public static NPCClickHandler handlePirateJackieFruit = new NPCClickHandler(new Object[] { 1055 }, new String[] { "Talk-to" }, e -> {
 		Player player = e.getPlayer();
-		NPC npc = e.getNPC();
+		int npcId = e.getNPC().getId();
 		player.startConversation(new Dialogue()
-				.addNPC(npc, HeadE.CHEERFUL, "Hello, what are you after?")
+				.addNPC(npcId, HeadE.CHEERFUL, "Hello, what are you after?")
 				.addOptions("What would you like to say?", (ops) -> {
-					ops.option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.KARAMJA_GLOVES).getStart());
+					ops.option("About the Achievement System...", new AchievementSystemDialogue(player, npcId, SetReward.KARAMJA_GLOVES).getStart());
 				}));
 	});
 

@@ -23,16 +23,14 @@ public class Yohnus {
 				.addNPC(npc, HeadE.CALM_TALK, "Sorry but the blacksmiths is closed. But I can let you use the furnace at the cost of 20 gold pieces.")
 				.addOptions((ops) -> {
 					ops.add("Use Furnace - 20 Gold")
-							.addNext(() -> {
-								if (!player.getInventory().hasCoins(20)) {
-									player.startConversation(new Dialogue()
-											.addNPC(npc, HeadE.SAD_MILD_LOOK_DOWN, "Sorry Bwana, you do not have enough gold!"));
-									return;
-								}
+							.addNextIf(() -> !player.getInventory().hasCoins(20), () -> {
+								player.startConversation(new Dialogue()
+										.addNPC(npc, HeadE.SAD_MILD_LOOK_DOWN, "Sorry Bwana, you do not have enough gold!"));
+							})
+							.addNPC(npc, HeadE.HAPPY_TALKING, "Thanks Bwana! Enjoy the facilities!", () -> {
 								player.getInventory().removeCoins(20);
 								player.save("shilo_blacksmith_pay", blacksmithPays + 1);
-							})
-							.addNPC(npc, HeadE.HAPPY_TALKING, "Thanks Bwana! Enjoy the facilities!");
+							});
 					ops.add("No thanks!")
 							.addPlayer(HeadE.CALM_TALK, "No thanks!")
 							.addNPC(npc, HeadE.CALM_TALK, "Very well Bwana, have a nice day.");
