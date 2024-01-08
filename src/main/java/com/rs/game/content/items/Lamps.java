@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content;
+package com.rs.game.content.items;
 
 import com.rs.cache.loaders.EnumDefinitions;
 import com.rs.engine.dialogue.Dialogue;

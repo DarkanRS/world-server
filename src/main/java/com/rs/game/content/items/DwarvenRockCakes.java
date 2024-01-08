@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content;
+package com.rs.game.content.items;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.Options;
@@ -28,27 +28,18 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class DwarvenRockCakes {
 
-	public static ItemClickHandler rockCakeClick = new ItemClickHandler(new Object[] { 7509, 7510 }, new String[] { "Eat" }, e -> {
+	public static ItemClickHandler handleRockCakeClick = new ItemClickHandler(new Object[] { 7509, 7510 }, new String[] { "Eat" }, e -> {
 		if (e.getItem().getId() == 7509 && e.getPlayer().getHitpoints() > 20) {
 			Hit h = new Hit(20, HitLook.TRUE_DAMAGE);
 			e.getPlayer().removeHitpoints(h);
 			e.getPlayer().fakeHit(h);
-			e.getPlayer().setNextForceTalk(new ForceTalk("Ow! Ow! That's hot!"));
+			e.getPlayer().forceTalk("Ow! Ow! That's hot!");
 		} else if (e.getItem().getId() == 7510 && e.getPlayer().getHitpoints() > 100) {
 			Hit h = new Hit(100, HitLook.TRUE_DAMAGE);
 			e.getPlayer().removeHitpoints(h);
 			e.getPlayer().fakeHit(h);
-			e.getPlayer().setNextForceTalk(new ForceTalk("Ow! I nearly broke a tooth!"));
+			e.getPlayer().forceTalk("Ow! I nearly broke a tooth!");
 		}
 	});
 
-	public static NPCClickHandler clickRohak = new NPCClickHandler(new Object[] { "Rohak" }, e -> {
-		e.getPlayer().startConversation(new Dialogue().addOptions(new Options() {
-			@Override
-			public void create() {
-				option("Hot Dwarven Rock Cake", () -> e.getPlayer().getInventory().addItemDrop(7509, 1));
-				option("Cool Dwarven Rock Cake", () -> e.getPlayer().getInventory().addItemDrop(7510, 1));
-			}
-		}));
-	});
 }

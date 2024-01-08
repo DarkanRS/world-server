@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world;
+package com.rs.game.content.world.areas.burthorpe;
 
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -27,14 +27,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class HeroesGuild  {
 
 	public static ItemOnObjectHandler handleFountainOfHeroes = new ItemOnObjectHandler(new Object[] { 36695 }, null, e -> {
-		if (isGloryOrROW(e.getItem().getId()) && e.getItem().getName().toLowerCase().indexOf("(4)") < 0) {
+		if (isGloryOrROW(e.getItem().getId()) && !e.getItem().getName().toLowerCase().contains("(4)")) {
 			for (Item item : e.getPlayer().getInventory().getItems().array())
 				if (item != null)
 					if (isGloryOrROW(item.getId())) {
 						int fullyChargedItemId = getChargedId(item.getId());
 						if (fullyChargedItemId != -1) {
 							e.getPlayer().getInventory().replace(item, new Item(fullyChargedItemId));
-							e.getPlayer().setNextAnimation(new Animation(899));
+							e.getPlayer().anim(899);
 						}
 					}
 			e.getPlayer().sendMessage("You dip it into the fountain restoring all charges.");
@@ -49,9 +49,9 @@ public class HeroesGuild  {
 	});
 
 	public static boolean isGloryOrROW(int itemId) {
-		if ((itemId == 1704) || (itemId == 1706) || (itemId == 1708) || (itemId == 1710) || (itemId == 1712) || (itemId == 10354) || (itemId == 10356) || (itemId == 10358) || (itemId == 10360) || (itemId == 10362) || (itemId == 2572) || (itemId == 20653) || (itemId == 20655) || (itemId == 20657) || (itemId == 20659))
-			return true;
-		return false;
+		return (itemId == 1704) || (itemId == 1706) || (itemId == 1708) || (itemId == 1710) || (itemId == 1712)
+				|| (itemId == 10354) || (itemId == 10356) || (itemId == 10358) || (itemId == 10360) || (itemId == 10362)
+				|| (itemId == 2572) || (itemId == 20653) || (itemId == 20655) || (itemId == 20657) || (itemId == 20659);
 	}
 
 	public static int getChargedId(int itemId) {

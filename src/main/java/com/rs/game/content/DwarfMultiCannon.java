@@ -46,11 +46,11 @@ import java.util.Map;
 @PluginEventHandler
 public class DwarfMultiCannon extends OwnedObject {
 
-	public static int[][] CANNON_PIECES = { { 6, 8, 10, 12 }, { 20494, 20495, 20496, 20497 }, { 20498, 20499, 20500, 20501 } };
-	private static int[][] CANNON_OBJECTS = { { 7, 8, 9, 6 }, { 29398, 29401, 29402, 29406 }, { 29403, 29404, 29405, 29408 } };
-	private static int[] CANNON_EMOTES = { 303, 305, 307, 289, 184, 182, 178, 291 };
+	public static final int[][] CANNON_PIECES = { { 6, 8, 10, 12 }, { 20494, 20495, 20496, 20497 }, { 20498, 20499, 20500, 20501 } };
+	private static final int[][] CANNON_OBJECTS = { { 7, 8, 9, 6 }, { 29398, 29401, 29402, 29406 }, { 29403, 29404, 29405, 29408 } };
+	private static final int[] CANNON_EMOTES = { 303, 305, 307, 289, 184, 182, 178, 291 };
 
-	private int type;
+	private final int type;
 	private int balls = 0;
 	private int decay = 0;
 	private Direction spinRot = Direction.NORTH;
@@ -77,7 +77,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		KALPHITE_QUEEN(13972),
 		KING_BLACK_DRAGON(9033);
 
-		private static Map<Integer, BannedArea> MAP = new HashMap<>();
+		private final static Map<Integer, BannedArea> MAP = new HashMap<>();
 
 		static {
 			for (BannedArea area : values()) {
@@ -86,8 +86,8 @@ public class DwarfMultiCannon extends OwnedObject {
 			}
 		}
 
-		private String message;
-		private int[] regionIds;
+		private final String message;
+		private final int[] regionIds;
 
 		BannedArea(String message, int... regionIds) {
 			this.message = message == null ? "It is not permitted to set up a cannon here." : message;
@@ -150,7 +150,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		player.setNextFaceTile(pos);
 		DwarfMultiCannon cannon = new DwarfMultiCannon(player, pos, type);
 		WorldTasks.scheduleTimer(0, 0, stage -> {
-			player.setNextAnimation(new Animation(827));
+			player.anim(827);
 			if (stage == 0) {
 				player.sendMessage("You place the cannon base on the ground.");
 				cannon.createNoReplace();
@@ -164,7 +164,7 @@ public class DwarfMultiCannon extends OwnedObject {
 				cannon.setId(CANNON_OBJECTS[type][2]);
 				player.getInventory().deleteItem(CANNON_PIECES[type][2], 1);
 			} else if (stage == 6) {
-				player.sendMessage("You add the furnance.");
+				player.sendMessage("You add the furnace.");
 				cannon.setId(CANNON_OBJECTS[type][3]);
 				player.getInventory().deleteItem(CANNON_PIECES[type][3], 1);
 				player.setPlacedCannon(type+1);
@@ -177,13 +177,12 @@ public class DwarfMultiCannon extends OwnedObject {
 	}
 
 	public static ObjectClickHandler handleOptions = new ObjectClickHandler(new Object[] { "Dwarf multicannon", "Gold dwarf multicannon", "Royale dwarf multicannon" }, e -> {
-		if (!(e.getObject() instanceof DwarfMultiCannon))
-			return;
-		DwarfMultiCannon cannon = (DwarfMultiCannon) e.getObject();
-		if (e.getOption().equals("Fire"))
-			cannon.fire(e.getPlayer());
-		else if (e.getOption().equals("Pick-up"))
-			cannon.pickUp(e.getPlayer(), e.getObject());
+		if (e.getObject() instanceof DwarfMultiCannon cannon) {
+			if (e.getOption().equals("Fire"))
+				cannon.fire(e.getPlayer());
+			else if (e.getOption().equals("Pick-up"))
+				cannon.pickUp(e.getPlayer(), e.getObject());
+		}
 	});
 	
 	public int getMaxBalls() {

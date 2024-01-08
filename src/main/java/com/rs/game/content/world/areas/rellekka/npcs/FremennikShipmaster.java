@@ -14,25 +14,32 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.unorganized_dialogue;
+package com.rs.game.content.world.areas.rellekka.npcs;
 
 import com.rs.engine.dialogue.Conversation;
-import com.rs.game.content.bosses.godwars.zaros.NexArena;
-import com.rs.game.content.bosses.godwars.zaros.NexController;
+import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 
-public class NexEntrance extends Conversation {
+public class FremennikShipmaster extends Conversation {
 
-	public NexEntrance(NexArena arena, Player player) {
+	public FremennikShipmaster(Player player, int npcId, boolean backing) {
 		super(player);
-
-		addSimple("The room beyond this point is a prison! There is no way out other than death or teleport. Only those who endure dangerous encounters should proceed.");
-		addOption("There are currently " + arena.getPlayersCount() + " people fighting.<br>Do you wish to join them?", "Climb down.", "Stay here.");
-		addNext(() -> {
-			player.tele(Tile.of(2911, 5204, 0));
-			player.getControllerManager().startController(new NexController(arena));
+		
+		addNPC(npcId, HeadE.CONFUSED, backing ? "Do you want a lift back to the south?" : "You want passage to Daemonheim?");
+		addOptions(ops -> {
+			ops.add("Yes, please.", () -> sail(player, backing));
+			ops.add("Not right now, thanks.");
 		});
 		create();
+	}
+	
+	public static void sail(Player player, boolean backing) {
+		player.useStairs(-1, backing ? Tile.of(3254, 3171, 0) : Tile.of(3511, 3692, 0), 2, 3);
+		if (backing)
+			player.getControllerManager().forceStop();
+		else
+			player.getControllerManager().startController(new DamonheimController());
 	}
 }

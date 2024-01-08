@@ -34,9 +34,10 @@ public class TownCrier extends NPC {
 	@Override
 	public void processNPC() {
 		if (Settings.getConfig().getLoginMessage() != null && Utils.random(100) == 0)
-			setNextForceTalk(new ForceTalk(Settings.getConfig().getLoginMessage()));
+			forceTalk(Settings.getConfig().getLoginMessage());
 		super.processNPC();
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6135, 6136, 6137, 6138, 6139 }, (npcId, tile) -> new TownCrier(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6135, 6136, 6137, 6138, 6139 }, TownCrier::new);
+
 }
