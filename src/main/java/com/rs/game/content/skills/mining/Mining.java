@@ -230,11 +230,13 @@ public class Mining extends Action {
 		if (entity instanceof Player player) {
 			if (player.getSkills().getLevel(Constants.MINING) < type.getLevel()) {
 				player.sendMessage("You need a mining level of " + type.getLevel() + " to mine here.");
+				player.soundEffect(2661, false);
 				return false;
 			}
 			if (!player.getInventory().hasFreeSlots()) {
 				player.setNextAnimation(new Animation(-1));
 				player.sendMessage("You don't have enough inventory space.");
+				player.soundEffect(2277, false);
 				return false;
 			}
 		}

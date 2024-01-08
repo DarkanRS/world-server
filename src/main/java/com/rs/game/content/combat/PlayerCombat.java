@@ -1765,6 +1765,7 @@ public class PlayerCombat extends PlayerAction {
 						p.setNextAnimation(new Animation(6695));
 						p.setNextSpotAnim(new SpotAnim(1164));
 						p.sendMessage("Your shield becomes a little stronger as it absorbs the dragonfire.", true);
+						p.soundEffect(3740, true);
 						p.getCombatDefinitions().refreshBonuses();
 					}
 				}
