@@ -108,14 +108,6 @@ public final class ObjectHandler {
 					player.tele(object.getTile().transform(1, -1, 0));
 				else
 					player.tele(object.getTile().transform(1, 1, 0));
-			} else if (object.getId() == 2331) {
-				int amount = player.getInventory().getNumberOf(23194);
-				if (amount > 0) {
-					player.getInventory().deleteItem(23194, amount);
-					player.getInventory().addItem(23193, amount);
-					player.sendMessage("You magically turn the sandstone into glass without moving since Trent can't find the object and player animations!");
-				} else
-					player.sendMessage("You do not have any sandstone to turn into glass!");
 			}
 
 			if (object.getId() == 36687) {

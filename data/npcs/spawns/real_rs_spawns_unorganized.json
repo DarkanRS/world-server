@@ -22135,15 +22135,6 @@
   {
     "tile": {
       "plane": 0,
-      "x": 2585,
-      "y": 2844
-    },
-    "comment": "Kringk",
-    "npcId": 7099
-  },
-  {
-    "tile": {
-      "plane": 0,
       "x": 2581,
       "y": 2845
     },
@@ -22155,15 +22146,6 @@
       "plane": 0,
       "x": 2586,
       "y": 2840
-    },
-    "comment": "Thump",
-    "npcId": 7100
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 2587,
-      "y": 2841
     },
     "comment": "Thump",
     "npcId": 7100
