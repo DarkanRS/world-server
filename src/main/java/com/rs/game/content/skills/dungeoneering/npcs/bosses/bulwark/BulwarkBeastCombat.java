@@ -17,12 +17,12 @@
 package com.rs.game.content.skills.dungeoneering.npcs.bosses.bulwark;
 
 import com.rs.game.World;
-import com.rs.game.content.bosses.kalphitequeen.KalphiteQueenCombat;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
+import com.rs.game.model.entity.npc.combat.NPCCombatUtil;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
@@ -30,7 +30,9 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BulwarkBeastCombat extends CombatScript {
 
@@ -61,9 +63,9 @@ public class BulwarkBeastCombat extends CombatScript {
 		int attackStyle = Utils.random(WorldUtil.isInRange(target.getX(), target.getY(), target.getSize(), npc.getX(), npc.getY(), npc.getSize(), 0) ? 3 : 2);
 		switch (attackStyle) {
 			case 0 -> {
-				npc.setNextAnimation(new Animation(13004));
-				npc.setNextSpotAnim(new SpotAnim(2397));
-				WorldTasks.schedule(() -> KalphiteQueenCombat.attackMageTarget(new ArrayList<>(), npc, npc, target, 2398, 2399));
+				npc.sync(13004, 2397);
+				NPCCombatUtil.projectileBounce(npc, target, Set.of(target), 2398, 2399, 1.8, null, nextTarget ->
+					delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), NPCCombatDefinitions.AttackStyle.MAGE, nextTarget))));
 			}
 			case 1 -> {
 				npc.setNextAnimation(new Animation(13006));
