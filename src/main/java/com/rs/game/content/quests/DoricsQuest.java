@@ -33,7 +33,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.DORICS_QUEST)
+@QuestHandler(
+		quest = Quest.DORICS_QUEST,
+		startText = "1,300 Mining experience<br>180 coins<br>The ability to use Doric's anvils",
+		itemsText = "6 clay (not soft clay)<br>4 copper ores<br>2 iron ores",
+		combatText = "None.",
+		rewardsText = "1,300 Mining experience<br>180 coins<br>The ability to use Doric's anvils",
+		completedStage = 2
+)
 @PluginEventHandler
 public class DoricsQuest extends QuestOutline {
 
@@ -42,11 +49,6 @@ public class DoricsQuest extends QuestOutline {
 	private final static int COPPER_ORE = 436;
 	private final static int IRON_ORE = 440;
 	private final static int BRONZE_PICKAXE = 1265;
-
-	@Override
-	public int getCompletedStage() {
-		return 2;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -84,30 +86,6 @@ public class DoricsQuest extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.MINING, 1300);
 		player.getInventory().addCoins(180);
 		sendQuestCompleteInterface(player, 1891);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Speak to Doric in the small house north of Falador, just outside the east gate of Taverley.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "6 clay (not soft clay)<br>" +
-				"4 copper ores<br>" +
-				"2 iron ores";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,300 Mining experience<br>" +
-				"180 coins<br>" +
-				"The ability to use Doric's anvils";
 	}
 
 	static class DoricD extends Conversation {

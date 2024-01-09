@@ -24,6 +24,7 @@ import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.minigames.creations.StealingCreationController;
+import com.rs.game.content.skills.cooking.Foods;
 import com.rs.game.content.skills.crafting.JewelryCraftingKt;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.farming.FarmPatch;
@@ -713,8 +714,14 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7998, 1346);
 			World.sendProjectile(familiar, target, 1347, 34, 16, 30, 1.5, 16, 0, proj -> target.spotAnim(1348));
-			if (target instanceof Player) {
-				//TODO should eat player food but let's be real who is gonna pk with this right now
+			if (target instanceof Player player) {
+				var foods = Arrays.stream(player.getInventory().getItems().array()).filter(it -> it != null && Foods.isConsumable(it)).toList();
+				if (!foods.isEmpty()) {
+					var food = foods.get(Utils.random(foods.size()));
+					food.setId(2959);
+					food.setAmount(1);
+					player.getInventory().refresh();
+				}
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}

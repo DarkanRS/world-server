@@ -42,6 +42,7 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
 import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.tasks.TaskInformation;
 import com.rs.game.tasks.WorldTasks;
@@ -80,7 +81,7 @@ public class NPC extends Entity {
 	private boolean spawned;
 	private transient NPCCombat combat;
 	private transient boolean ignoreNPCClipping;
-	public Tile forceWalk;
+	private Tile forceWalk;
 	private int size;
 	private boolean hidden = false;
 	private transient boolean loadsUpdateZones = false;
@@ -262,7 +263,7 @@ public class NPC extends Entity {
 		if (getTickCounter() % 100 == 0)
 			restoreTick();
 		if (!combat.process() && routeEvent == null) {
-			if (!isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
+			if (getTickCounter() % 3 == 0 && !isForceWalking() && !cantInteract && !checkAggressivity() && !hasEffect(Effect.FREEZE)) {
 				if (!hasWalkSteps() && shouldRandomWalk()) {
 					boolean can = Math.random() > 0.9;
 					if (can) {
@@ -354,8 +355,17 @@ public class NPC extends Entity {
 
 	@Override
 	public void handlePostHit(Hit hit) {
+		super.handlePostHit(hit);
 		if (capDamage != -1 && hit.getDamage() > capDamage)
 			hit.setDamage(capDamage);
+		if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
+			if (hit.getSource() instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.DARK_MAGIC) && hit.getData("darkMagicBleed") == null && Utils.random(100) < 13) {
+				for (int i = 1; i <= 4; i++) {
+					int finalI = i;
+					getTasks().schedule(2 * i, () -> applyHit(new Hit(hit.getSource(), 26 - finalI, hit.getLook()).setData("darkMagicBleed", true)));
+				}
+			}
+		}
 	}
 
 	@Override
@@ -427,6 +437,8 @@ public class NPC extends Entity {
 		ChunkManager.updateChunks(this);
 		loadMapRegions();
 		checkMultiArea();
+		if (getCombatDefinitions().getRespawnAnim() != -1)
+			anim(getCombatDefinitions().getRespawnAnim());
 		onRespawn();
 	}
 

@@ -55,7 +55,7 @@ public final class BulwarkBeast extends DungeonBoss {
 		int weaponId = playerSource.getEquipment().getWeaponId();
 		if (weaponId != -1 && DungPickaxe.getBest(playerSource) != null) {
 			hit.setDamage(Utils.random(50));
-			hit.setSoaking(hit);
+			hit.addSoaking(hit.getDamage());
 			shieldHP -= hit.getDamage();
 			playerSource.sendMessage(shieldHP > 0 ? "Your pickaxe chips away at the beast's armour plates." : "Your pickaxe finally breaks through the heavy armour plates.");
 			refreshBar();

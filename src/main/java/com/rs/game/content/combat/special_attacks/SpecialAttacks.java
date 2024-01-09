@@ -493,6 +493,7 @@ public class SpecialAttacks {
             player.setNextAnimation(new Animation(11989));
             player.setNextSpotAnim(new SpotAnim(2113));
             delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.25));
+            // Plays the sound double times.       player.soundEffect(target, 3865, true);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 

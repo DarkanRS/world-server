@@ -17,7 +17,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.WOLF_WHISTLE)
+@QuestHandler(
+        quest = Quest.WOLF_WHISTLE,
+        startText = "276 Summoning XP<br>275 gold charms",
+        itemsText = "None.",
+        combatText = "None.",
+        rewardsText = "276 Summoning XP<br>275 gold charms",
+        completedStage = 7
+)
 @PluginEventHandler
 public class WolfWhistle extends QuestOutline {
 
@@ -108,11 +115,6 @@ public class WolfWhistle extends QuestOutline {
     }
 
     @Override
-    public int getCompletedStage() {
-        return QUEST_COMPLETE;
-    }
-
-    @Override
     public List<String> getJournalLines(Player player, int stage) {
         ArrayList<String> lines = new ArrayList<>();
 
@@ -188,26 +190,4 @@ public class WolfWhistle extends QuestOutline {
         player.getSkills().addXp(Skills.SUMMONING, 276);
         sendQuestCompleteInterface(player, GIANT_WOLPERTINGER_POUCH);
     }
-
-    @Override
-    public String getStartLocationDescription() {
-        return "Talk to Pikkupstix in his house in Taverley.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "None.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "None.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "276 Summoning XP<br>"+
-                "275 gold charms";
-    }
-
 }

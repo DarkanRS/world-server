@@ -27,7 +27,7 @@ repositories {
 }
 
 group 'rs.darkan'
-version '1.6.27'
+version '1.6.28'
 
 dependencies {
 	implementation group: 'rs.darkan', name: 'core', version: '1.5.8'

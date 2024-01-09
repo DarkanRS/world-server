@@ -38,16 +38,20 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.RUNE_MYSTERIES)
+@QuestHandler(
+		quest = Quest.RUNE_MYSTERIES,
+		startText = "The ability to mine rune essence<br>An air talisman",
+		itemsText = "None.",
+		combatText = "None.",
+		rewardsText = "The ability to mine rune essence<br>An air talisman",
+		completedStage = 4
+)
 @PluginEventHandler
 public class RuneMysteries extends QuestOutline {
 	final static int DUKEHORACIO = 741;
 	final static int SEDRIDOR = 300;
 	final static int AUBURY = 5913;
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
+
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
@@ -90,27 +94,6 @@ public class RuneMysteries extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		sendQuestCompleteInterface(player, 1438);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Speak to Duke Horacio on the 2nd floor of Lumbridge Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "The ability to mine rune essence<br>" +
-				"An air talisman";
 	}
 
 	public static class DukeHoracioRuneMysteriesD extends Conversation {

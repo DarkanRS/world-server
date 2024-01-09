@@ -20,7 +20,14 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.PIRATES_TREASURE)
+@QuestHandler(
+		quest = Quest.PIRATES_TREASURE,
+		startText = "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)",
+		itemsText = "White apron, 60 coins (or an activated ring of Charos and 30 coins).",
+		combatText = "Optionally defeat a level 4 gardener.",
+		rewardsText = "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)",
+		completedStage = 3
+)
 @PluginEventHandler
 public class PiratesTreasure extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -48,14 +55,6 @@ public class PiratesTreasure extends QuestOutline {
 	//Objects
 	protected final static int BANANA_TREE_PLANT = 2073;
 	protected final static int BLUE_MOON_INN_CHEST = 2079;
-
-
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -158,26 +157,4 @@ public class PiratesTreasure extends QuestOutline {
 		player.getInventory().addItem(new Item(CASKET), true);
 		sendQuestCompleteInterface(player, 7956);
 	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Redbeard Frank just south of The Rusty Anchor pub in Port Sarim.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "White apron, 60 coins (or an activated ring of Charos and 30 coins).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Optionally defeat a level 4 gardener.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>" +
-				"Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)";
-	}
-
 }

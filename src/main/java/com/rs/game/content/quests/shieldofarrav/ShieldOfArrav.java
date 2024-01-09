@@ -39,7 +39,14 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.SHIELD_OF_ARRAV)
+@QuestHandler(
+        quest = Quest.SHIELD_OF_ARRAV,
+        startText = "1,200 coins",
+        itemsText = "20 coins.",
+        combatText = "You will need to defeat a level 1 enemy.",
+        rewardsText = "1,200 coins",
+        completedStage = 27
+)
 @PluginEventHandler
 public class ShieldOfArrav extends QuestOutline {
     //---Stages---
@@ -69,10 +76,6 @@ public class ShieldOfArrav extends QuestOutline {
     final public static int SPOKE_TO_KING_STAGE = 25;
     final public static int HAS_CERTIFICATE_STAGE = 26;
     final static int QUEST_COMPLETE_STAGE = 27;
-    @Override
-    public int getCompletedStage() {
-        return QUEST_COMPLETE_STAGE;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -355,26 +358,6 @@ public class ShieldOfArrav extends QuestOutline {
     public void complete(Player player) {
         player.getInventory().addCoins(1200);
         sendQuestCompleteInterface(player, 11164);
-    }
-
-    @Override
-    public String getStartLocationDescription() {
-        return "Talk to Reldo in the Varrock palace library.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "20 coins.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "You will need to defeat a level 1 enemy.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "1,200 coins";
     }
 
     public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}, e -> {

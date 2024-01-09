@@ -41,7 +41,14 @@ import java.util.List;
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 import static com.rs.game.content.world.doors.Doors.handleGate;
 
-@QuestHandler(Quest.PRIEST_IN_PERIL)
+@QuestHandler(
+		quest = Quest.PRIEST_IN_PERIL,
+		startText = "1,406 Prayer XP<br>The Wolfbane Dagger<br>Access to Morytania.",
+		itemsText = "50 unnoted rune essence or pure essence and a Bucket.",
+		combatText = "You will need to defeat a level 30 enemy.",
+		rewardsText = "1,406 Prayer XP<br>The Wolfbane Dagger<br>Access to Morytania.",
+		completedStage = 11
+)
 @PluginEventHandler
 public class PriestInPeril extends QuestOutline {
 
@@ -82,11 +89,6 @@ public class PriestInPeril extends QuestOutline {
 	}
 
 	private static final int Drezel = 1047;
-
-	@Override
-	public int getCompletedStage() {
-		return 11;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -160,29 +162,6 @@ public class PriestInPeril extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.PRAYER,1406);
 		player.getInventory().addItem(2952, 1, true);
 		sendQuestCompleteInterface(player, 2952);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Roald in the Varrock Palace.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return
-				"50 unnoted rune essence or pure essence and a Bucket.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 30 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,406 Prayer XP<br>"+
-				"The Wolfbane Dagger<br>"+
-				"Access to Morytania.";
 	}
 
 	public static ObjectClickHandler handleTempleDoor = new ObjectClickHandler(new Object[] { 30707, 30708 }, e -> {

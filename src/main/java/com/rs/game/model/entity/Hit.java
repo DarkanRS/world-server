@@ -142,8 +142,23 @@ public final class Hit {
 		return soaking;
 	}
 
-	public void setSoaking(Hit soaking) {
+	private void setSoaking(Hit soaking) {
 		this.soaking = soaking;
+	}
+
+	public void addSoaking(int damage) {
+		if (soaking == null)
+			setSoaking(new Hit(source, damage, HitLook.ABSORB_DAMAGE));
+		else
+			soaking.damage += damage;
+	}
+
+	public void soakDamage(double reductionPerc) {
+		int reduction = (int) ((double) this.damage * reductionPerc);
+		if (reduction <= 0)
+			return;
+		this.damage -= reduction;
+		addSoaking(reduction);
 	}
 
 	public int getDelay() {

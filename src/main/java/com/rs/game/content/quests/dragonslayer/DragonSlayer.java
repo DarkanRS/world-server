@@ -22,7 +22,14 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.DRAGON_SLAYER)
+@QuestHandler(
+        quest = Quest.DRAGON_SLAYER,
+        startText = "18,650 Strength XP<br>18,650 Defense XP<br>Anti-dragon shield<br>Access to Crandor, Melzar's Maze, and the dragon crest on herald capes",
+        itemsText = "An unfired bowl, a wizard's mind bomb, a crayfish cage or lobster pot, a piece of silk, 2,000-12,000 coins (less if you bring Telekenetic Grab runes and a non-melee weapon), 3 regular planks and 90 steel nails.",
+        combatText = "You will need to defeat a level 63 dragon, a level 56 demon, a level 39 mage, and various lesser foes. 50+ in combat skills and 37+ Prayer are recommended.",
+        rewardsText = "18,650 Strength XP<br>18,650 Defense XP<br>Anti-dragon shield<br>Access to Crandor, Melzar's Maze, and the dragon crest on herald capes",
+        completedStage = 5
+)
 @PluginEventHandler
 public class DragonSlayer extends QuestOutline {
     //	public final static int
@@ -109,11 +116,6 @@ public class DragonSlayer extends QuestOutline {
     public final static Tile MELZAR_BASEMENT = Tile.of(2933, 9641, 0);
     public final static Tile MELZAR_MAZE = Tile.of(2931, 3250, 0);
     private final static int HAMMER_HITTING_REPAIR_ANIM = 3676;
-
-    @Override
-    public int getCompletedStage() {
-        return QUEST_COMPLETE;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -456,30 +458,5 @@ public class DragonSlayer extends QuestOutline {
         player.getSkills().addXpQuest(Constants.DEFENSE, 18650);
         sendQuestCompleteInterface(player, 11279);
     }
-
-    @Override
-    public String getStartLocationDescription() {
-        return "Talk to the Guildmaster inside the Champions' Guild, south of Varrock.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "An unfired bowl, a wizard's mind bomb, a crayfish cage or lobster pot, a piece of silk, 2,000-12,000 coins (less if you bring Telekenetic Grab runes and a non-melee weapon), 3 regular planks and 90 steel nails.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "You will need to defeat a level 63 dragon, a level 56 demon, a level 39 mage, and various lesser foes. 50+ in combat skills and 37+ Prayer are recommended.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "18,650 Strength XP<br>" +
-                "18,650 Defense XP<br>" +
-                "Anti-dragon shield<br>" +
-                "Access to Crandor, Melzar's Maze, and the dragon crest on herald capes";
-    }
-
-
 }
 

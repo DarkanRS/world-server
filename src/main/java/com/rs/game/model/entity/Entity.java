@@ -365,7 +365,6 @@ public abstract class Entity {
 					hit.setDamage(0);
 					return;
 				}
-				handlePostHit(hit);
 				if (onHit != null)
 					onHit.run();
 				receivedHits.add(hit);
@@ -451,6 +450,8 @@ public abstract class Entity {
 	}
 
 	public Sound sound(Entity playTo, Sound sound, boolean alsoAmbient) {
+		if (sound.getId() == -1)
+			return sound;
 		Logger.info(Entity.class, "sound", this + " playing " + sound.getType() + " sound to " + playTo + ", " + alsoAmbient + " -> [id: " + sound.getId() + ", rad: " + sound.getRadius() + ", vol: " + sound.getVolume() + "]");
 		if (this instanceof Player player)
 			player.addSound(sound);

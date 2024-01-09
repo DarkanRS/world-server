@@ -25,7 +25,14 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.TREE_GNOME_VILLAGE)
+@QuestHandler(
+		quest = Quest.TREE_GNOME_VILLAGE,
+		startText = "11,450 Attack XP<br>Access to spirit tree teleportation<br>Gnome amulet of protection",
+		itemsText = "6 normal logs.",
+		combatText = "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.",
+		rewardsText = "11,450 Attack XP<br>Access to spirit tree teleportation<br>Gnome amulet of protection",
+		completedStage = 7
+)
 @PluginEventHandler
 public class TreeGnomeVillage extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -36,11 +43,6 @@ public class TreeGnomeVillage extends QuestOutline {
 	public final static int ORB1 = 5;
 	public final static int KILL_WARLORD = 6;
 	public final static int QUEST_COMPLETE = 7;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -234,27 +236,4 @@ public class TreeGnomeVillage extends QuestOutline {
 		player.getInventory().addItem(new Item(589, 1), true);
 		sendQuestCompleteInterface(player, 589);
 	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Bolren in the Tree Gnome Village.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "6 normal logs.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "11,450 Attack XP<br>"+
-				"Access to spirit tree teleportation<br>" +
-				"Gnome amulet of protection";
-	}
-
 }

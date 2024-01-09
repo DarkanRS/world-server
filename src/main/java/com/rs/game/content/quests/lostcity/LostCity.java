@@ -16,7 +16,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.LOST_CITY)
+@QuestHandler(
+		quest = Quest.LOST_CITY,
+		startText = "Access to Zanaris<br>Ability to wield dragon longswords and dragon daggers<br>Ability to craft cosmic runes<br>Access to Chaeldar the Slayer master (requires level 75 combat)",
+		itemsText = "None.",
+		combatText = "You will need to defeat a level 63 tree spirit.",
+		rewardsText = "Access to Zanaris<br>Ability to wield dragon longswords and dragon daggers<br>Ability to craft cosmic runes<br>Access to Chaeldar the Slayer master (requires level 75 combat)",
+		completedStage = 4
+)
 @PluginEventHandler
 public class LostCity extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -37,13 +44,6 @@ public class LostCity extends QuestOutline {
 	protected final static int LEPRACAUN_TREE = 2409;
 	//    protected final static int
 	protected final static int DRAMEN_STAFF = 772;
-
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -123,29 +123,6 @@ public class LostCity extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		sendQuestCompleteInterface(player, 772);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to the warrior adventurer in Lumbridge Swamp.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 63 tree spirit.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Access to Zanaris<br>" +
-				"Ability to wield dragon longswords and dragon daggers<br>" +
-				"Ability to craft cosmic runes<br>" +
-				"Access to Chaeldar the Slayer master (requires level 75 combat)";
 	}
 
 }

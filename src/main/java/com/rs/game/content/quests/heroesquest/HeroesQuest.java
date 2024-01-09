@@ -21,18 +21,19 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.HEROES_QUEST)
+@QuestHandler(
+		quest = Quest.HEROES_QUEST,
+		startText = "Total of 29,232 XP over twelve skills<br>Access to the Heroes' Guild",
+		itemsText = "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>Fishing rod (and possibly bait), harralander potion (unf).<br>Ice gloves.",
+		combatText = "You will need to defeat a level 77 enemy.",
+		rewardsText = "Total of 29,232 XP over twelve skills<br>Access to the Heroes' Guild",
+		completedStage = 2
+)
 @PluginEventHandler
 public class HeroesQuest extends QuestOutline {
 	public final static int NOT_STARTED = 0;
 	public final static int GET_ITEMS = 1;
 	public final static int QUEST_COMPLETE = 2;
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -179,30 +180,6 @@ public class HeroesQuest extends QuestOutline {
 			player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
 		}
 		sendQuestCompleteInterface(player, 1377);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Achiettes at the entrance to the Heroes' Guild in Burthorpe.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>" +
-				"If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>" +
-				"Fishing rod (and possibly bait), harralander potion (unf).<br>" +
-				"Ice gloves.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 77 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Total of 29,232 XP over twelve skills<br>"+
-				"Access to the Heroes' Guild";
 	}
 
 }

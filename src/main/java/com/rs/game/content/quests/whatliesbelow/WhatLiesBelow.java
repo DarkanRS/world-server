@@ -21,17 +21,19 @@ import com.rs.plugin.handlers.NPCDeathHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.WHAT_LIES_BELOW)
+@QuestHandler(
+        quest = Quest.WHAT_LIES_BELOW,
+        startText = "8,000 Runecrafting XP<br>2,000 Defence XP<br>Beacon ring<br>Safe access to the chaos tunnels",
+        itemsText = "Bowl, 15 chaos runes or 15 un-noted pure essence, access to the chaos altar.",
+        combatText = "You will need to defeat a level 47 enemy and 5 level 32 enemies.",
+        rewardsText = "8,000 Runecrafting XP<br>2,000 Defence XP<br>Beacon ring<br>Safe access to the chaos tunnels",
+        completedStage = 9
+)
 @PluginEventHandler
 public class WhatLiesBelow extends QuestOutline {
     /**
      * inter 250/251
      */
-
-    @Override
-    public int getCompletedStage() {
-        return 9;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -91,29 +93,6 @@ public class WhatLiesBelow extends QuestOutline {
         player.getSkills().addXpQuest(Skills.RUNECRAFTING, 8000);
         player.getSkills().addXpQuest(Skills.DEFENSE, 2000);
         sendQuestCompleteInterface(player, 11014);
-    }
-
-    @Override
-    public String getStartLocationDescription() {
-        return "Talk to Rat Burgiss, south of Varrock.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "Bowl, 15 chaos runes or 15 un-noted pure essence, access to the chaos altar.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "You will need to defeat a level 47 enemy and 5 level 32 enemies.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "8,000 Runecrafting XP<br>"+
-                "2,000 Defence XP<br>"+
-                "Beacon ring<br>" +
-                "Safe access to the chaos tunnels";
     }
 
     @Override

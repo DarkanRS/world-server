@@ -31,7 +31,14 @@ import com.rs.utils.Areas;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.DEMON_SLAYER)
+@QuestHandler(
+		quest = Quest.DEMON_SLAYER,
+		startText = "Silverlight",
+		itemsText = "Bucket of water (can be obtained during the quest)<br>25 bones (can't be noted, but can be delivered in increments)<br>1 coin",
+		combatText = "The ability to defeat a level 27 demon aided by three level 20 Dark wizards and two level 7 Dark wizards using the Silverlight in melee.",
+		rewardsText = "Silverlight",
+		completedStage = 9
+)
 @PluginEventHandler
 public class DemonSlayer extends QuestOutline {
 	//stages
@@ -46,10 +53,6 @@ public class DemonSlayer extends QuestOutline {
 	final static int SILVERLIGHT_OBTAINED_STAGE = 8;
 	final static int QUEST_COMPLETE_STAGE = 9;
 
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE_STAGE;
-	}
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
 		ArrayList<String> lines = new ArrayList<>();
@@ -145,26 +148,6 @@ public class DemonSlayer extends QuestOutline {
 	@Override
 	public void complete(Player player) {
 		sendQuestCompleteInterface(player, 2402);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Speak to Aris in the tent on the western side of Varrock Square.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bucket of water (can be obtained during the quest)<br>25 bones (can't be noted, but can be delivered in increments)<br>1 coin";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "The ability to defeat a level 27 demon aided by three level 20 Dark wizards and two level 7 Dark wizards using the Silverlight in melee.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Silverlight";
 	}
 
 	public static ItemOnObjectHandler handleBucketOfWaterOnDrain = new ItemOnObjectHandler(new Object[] { 31759 }, new Object[] { 1929 }, e -> {

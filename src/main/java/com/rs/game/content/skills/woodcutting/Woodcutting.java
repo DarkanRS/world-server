@@ -26,6 +26,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -210,6 +211,10 @@ public class Woodcutting extends Action {
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
 			giveLog(entity);
 			if (!type.isPersistent() || (Utils.random(8) == 0)) {
+				if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+					player.sendMessage("Your resourceful aura prevents the tree from being felled.");
+					return 3;
+				}
 				fellTree();
 				entity.setNextAnimation(new Animation(-1));
 				return -1;

@@ -75,7 +75,7 @@ public class AuraManager {
 		AEGIS						(22889, Millis.fromMinutes(30), Millis.fromHours(5)),
 		REGENERATION				(22893, Millis.fromHours(1), Millis.fromHours(3)),
 		DARK_MAGIC					(22891, Millis.fromHours(1), Millis.fromHours(3)),
-		BERSERKER					(22897, Millis.fromMinutes(30), Millis.fromHours(5)),
+		BERSERKER					(22897, Millis.fromMinutes(10), Millis.fromHours(5)),
 		ANCESTOR_SPIRITS			(22895, Millis.fromMinutes(30), Millis.fromHours(5)),
 		GREENFINGERS				(22883, Millis.fromMinutes(20), Millis.fromHours(1)),
 		GREATER_GREENFINGERS		(22885, Millis.fromMinutes(20), Millis.fromHours(1)),

@@ -238,7 +238,7 @@ public enum Quest {
 				QuestHandler handler = clazz.getAnnotation(QuestHandler.class);
 				if (handler == null || clazz.getSuperclass() != QuestOutline.class)
 					continue;
-				handler.value().handler = (QuestOutline) clazz.getConstructor().newInstance();
+				handler.quest().handler = (QuestOutline) clazz.getConstructor().newInstance();
 			}
 		} catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
