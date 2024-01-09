@@ -357,7 +357,7 @@ public final class ChunkManager {
                 }
                 for (int chunkId : chunksToDestroy) {
                     Chunk chunk = getChunk(chunkId);
-                    if (chunk != null)
+                    if (chunk == null)
                         continue;
                     chunk.clearCollisionData();
                     chunk.destroy();
