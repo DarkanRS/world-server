@@ -1,15 +1,15 @@
 {
-  "names": [
-    "Kalphite Queen"
+  "ids": [
+    1160
   ],
-  "attackAnim": 6241,
+  "attackAnim": 6235,
   "attackSound": -1,
-  "defenceAnim": 6232,
+  "defenceAnim": 6237,
   "defendSound": -1,
-  "deathAnim": 6242,
-  "deathDelay": 4,
+  "deathAnim": 6233,
+  "deathDelay": 8,
   "deathSound": -1,
-  "respawnDelay": 0,
+  "respawnDelay": 60,
   "hitpoints": 2550,
   "maxHit": 314,
   "attackStyle": "RANGE",

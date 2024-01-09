@@ -192,22 +192,19 @@ public class Mining extends Action {
 		if (rockObj != null && rockObj instanceof Star star && success)
 			star.minedThisTick = true;
 
-		int loopTicks = (pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0 ? -2 : -1;
-		if (success) {
-			if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
-				player.sendMessage("Your resourceful aura prevents the rock from being depleted.");
-				return loopTicks;
-			}
-			if (depleteOre()) {
-				entity.setNextAnimation(new Animation(-1));
-				return -1;
-			}
+		if (success && depleteOre(entity)) {
+			entity.setNextAnimation(new Animation(-1));
+			return -1;
 		}
-		return loopTicks;
+		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
 	}
 
-	public boolean depleteOre() {
+	public boolean depleteOre(Entity entity) {
 		if (type.depletes()) {
+			if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+				player.sendMessage("Your resourceful aura prevents the rock from being depleted.");
+				return false;
+			}
 			if (rockObj != null)
 				rockObj.setIdTemporary(DepletedOres.get(rockObj.getId()), type.getRespawnTime());
 			if (rockNPC != null) {

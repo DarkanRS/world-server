@@ -57,7 +57,7 @@ public class EnchantedValley {
         }
         e.getPlayer().getActionManager().setAction(new Mining(RockType.CLAY, e.getObject()) {
             @Override
-            public boolean depleteOre() {
+            public boolean depleteOre(Entity entity) {
                 NPC rockGolem = new OwnedNPC(e.getPlayer(), 8648, e.getPlayer().getNearestTeleTile(1), false);
                 rockGolem.forceTalk("Raarrrgghh! Flee human!");
                 rockGolem.setTarget(e.getPlayer());

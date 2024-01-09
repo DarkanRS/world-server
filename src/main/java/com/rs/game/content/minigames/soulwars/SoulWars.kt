@@ -535,6 +535,8 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
     }
 
     override fun canAttack(target: Entity): Boolean {
+        if (target is NPC)
+            return true
         return if (redTeam)
             game?.blueTeam?.contains(target) ?: false
         else

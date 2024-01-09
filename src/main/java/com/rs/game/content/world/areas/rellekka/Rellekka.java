@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
@@ -88,6 +89,7 @@ public class Rellekka {
 		}
 		Item branch = e.getUsedWith(3694);
 		if (branch != null) {
+			e.getPlayer().getInventory().deleteItem(3694, 1);
 			branch.setId(3689);
 			e.getPlayer().getInventory().refresh(branch.getSlot());
 		}
@@ -96,14 +98,15 @@ public class Rellekka {
 	public static ItemOnItemHandler handleCutLyre = new ItemOnItemHandler(946, new int[] { 3692 }, e -> {
 		Item branch = e.getUsedWith(946);
 		if (branch != null) {
-			e.getPlayer().getInventory().deleteItem(3692, 1);
 			branch.setId(3688);
 			e.getPlayer().getInventory().refresh(branch.getSlot());
-			e.getPlayer().setNextAnimation(new Animation(6702));
+			e.getPlayer().anim(6702);
 		}
 	});
 
 	public static void rechargeLyre(Player player) {
+		if (!player.isQuestComplete(Quest.FREMENNIK_TRIALS, "to charge a lyre."))
+			return;
 		if (!player.getInventory().containsItem(383, 1)) {
 			player.sendMessage("The Fossegrimen is unresponsive.");
 			return;
