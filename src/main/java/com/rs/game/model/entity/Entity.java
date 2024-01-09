@@ -365,7 +365,6 @@ public abstract class Entity {
 					hit.setDamage(0);
 					return;
 				}
-				handlePostHit(hit);
 				if (onHit != null)
 					onHit.run();
 				receivedHits.add(hit);

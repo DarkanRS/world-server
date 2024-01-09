@@ -222,7 +222,7 @@ public class DungeonController extends Controller {
 				int damage = hit.getDamage() / 10;
 				if (Utils.random(100) < procChance)
 					for (int i = 1;i <= 5;i++)
-						WorldTasks.delay(2*i, () -> target.applyHit(new Hit(player, damage, HitLook.MAGIC_DAMAGE).setData("blazerBleed", true)));
+						target.getTasks().schedule(2*i, () -> target.applyHit(new Hit(player, damage, HitLook.MAGIC_DAMAGE).setData("blazerBleed", true)));
 			}
 		}
 	}

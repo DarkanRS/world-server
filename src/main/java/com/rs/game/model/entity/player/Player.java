@@ -1739,6 +1739,8 @@ public class Player extends Entity {
 			toRegen += 4;
 		if (getEquipment().getGlovesId() == 11133)
 			toRegen *= 2;
+		if (getAuraManager().isActivated(AuraManager.Aura.REGENERATION))
+			toRegen *= 2;
 		if ((getHitpoints() + toRegen) > getMaxHitpoints())
 			toRegen = getMaxHitpoints() - getHitpoints();
 		if (getHitpoints() < getMaxHitpoints())
@@ -2035,7 +2037,7 @@ public class Player extends Entity {
 			return;
 
 		if (hasEffect(Effect.STAFF_OF_LIGHT_SPEC) && hit.getLook() == HitLook.MELEE_DAMAGE) {
-			hit.setDamage((int) (hit.getDamage() * 0.5));
+			hit.soakDamage(0.5);
 			spotAnim(2320);
 		}
 		if (prayer.hasPrayersOn() && hit.getDamage() != 0)
@@ -2075,34 +2077,30 @@ public class Player extends Entity {
 						setNextAnimation(new Animation(12573));
 					}
 				}
-		if (hit.getDamage() >= 200)
-			if (hit.getLook() == HitLook.MELEE_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_MELEE) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
-			} else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_RANGE) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
-			} else if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_MAGIC) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
+		if (hit.getDamage() >= 200) {
+			Bonus bonus = switch(hit.getLook()) {
+				case MELEE_DAMAGE -> Bonus.ABSORB_MELEE;
+				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
+				default -> Bonus.ABSORB_MAGIC;
+			};
+			int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(bonus) / 100;
+			if (reducedDamage > 0) {
+				hit.setDamage(hit.getDamage() - reducedDamage);
+				hit.addSoaking(reducedDamage);
 			}
+		}
+		if (hit.getDamage() > 0 && auraManager.isActivated(AuraManager.Aura.AEGIS) && Utils.skillSuccess(skills.getLevel(Skills.DEFENSE), 15, 128)) {
+			hit.soakDamage(0.10);
+			spotAnim(2180);
+		}
 		int shieldId = equipment.getShieldId();
 		if (shieldId == 13742) {
 			if (Utils.getRandomInclusive(100) <= 70)
-				hit.setDamage((int) (hit.getDamage() * 0.75));
+				hit.soakDamage(0.25);
 		} else if (shieldId == 13740) { // divine
 			int drain = (int) (Math.ceil(hit.getDamage() * 0.3) / 2);
 			if (prayer.getPoints() >= drain) {
-				hit.setDamage((int) (hit.getDamage() * 0.70));
+				hit.soakDamage(0.3);
 				prayer.drainPrayer(drain);
 			}
 		}
@@ -2159,7 +2157,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePostHit(Hit hit) {
-
+		super.handlePostHit(hit);
 	}
 
 	public void safeDeath(Tile respawnTile) {

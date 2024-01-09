@@ -20,6 +20,7 @@ import com.rs.cache.loaders.Bonus;
 import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
 import com.rs.lib.game.Item;
 
@@ -405,7 +406,16 @@ public final class CombatDefinitions {
 			player.getFamiliar().restoreSpecialAttack(15);
 		if (specialAttackPercentage == 100)
 			return;
-		restoreSpecialAttack(10);
+		int toRestore = 10;
+		if (player.getAuraManager().isActivated(AuraManager.Aura.INVIGORATE))
+			toRestore = 12;
+		else if (player.getAuraManager().isActivated(AuraManager.Aura.GREATER_INVIGORATE))
+			toRestore = 15;
+		else if (player.getAuraManager().isActivated(AuraManager.Aura.MASTER_INVIGORATE))
+			toRestore = 17;
+		else if (player.getAuraManager().isActivated(AuraManager.Aura.SUPREME_INVIGORATE))
+			toRestore = 20;
+		restoreSpecialAttack(toRestore);
 		if (specialAttackPercentage == 100 || specialAttackPercentage == 50)
 			player.sendMessage("<col=00FF00>Your special attack energy is now " + specialAttackPercentage + "%.", true);
 	}

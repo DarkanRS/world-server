@@ -25,6 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -190,11 +191,19 @@ public class Mining extends Action {
 		}
 		if (rockObj != null && rockObj instanceof Star star && success)
 			star.minedThisTick = true;
-		if (success && depleteOre()) {
-			entity.setNextAnimation(new Animation(-1));
-			return -1;
+
+		int loopTicks = (pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0 ? -2 : -1;
+		if (success) {
+			if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+				player.sendMessage("Your resourceful aura prevents the rock from being depleted.");
+				return loopTicks;
+			}
+			if (depleteOre()) {
+				entity.setNextAnimation(new Animation(-1));
+				return -1;
+			}
 		}
-		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
+		return loopTicks;
 	}
 
 	public boolean depleteOre() {
