@@ -30,7 +30,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.DRUIDIC_RITUAL,
-		startText = "250 Herblore XP<br>15 Grimy guam<br>15 Eye of newt<br>",
+		startText = "Talk to Kaqemeex at the stone circle north of Taverley south of the Heroes' Guild.",
 		itemsText = "Raw bear meat<br>Raw rat meat<br>Raw beef<br>Raw chicken",
 		combatText = "Ability to survive some skeletons in the Taverley Dungeon",
 		rewardsText = "250 Herblore XP<br>15 Grimy guam<br>15 Eye of newt<br>",

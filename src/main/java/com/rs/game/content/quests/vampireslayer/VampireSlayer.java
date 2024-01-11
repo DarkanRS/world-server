@@ -29,7 +29,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.VAMPYRE_SLAYER,
-		startText = "4,825 Attack XP",
+		startText = "Talk to Morgan in Draynor Village.",
 		itemsText = "Beer (or 2 coins to purchase a pint).",
 		combatText = "You will need to defeat a level 28 enemy.",
 		rewardsText = "4,825 Attack XP",

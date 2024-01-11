@@ -38,7 +38,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(
 		quest = Quest.PRINCE_ALI_RESCUE,
-		startText = "700 coins<br>Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>(Members) Access to the Sorceress's Garden Thieving minigame.",
+		startText = "Speak to Hassan in the palace at Al Kharid.",
 		itemsText = "Soft clay<br>3 balls of wool<br>Yellow dye or 2 onions and 5 coins<br>Redberries<br>Ashes<br>Bucket of water or jug of water (obtainable during quest)<br>Pot of flour<br>Bronze bar<br>Pink skirt<br>3 beers<br>Rope (can be bought during the quest at Ned for 18 coins or 4 balls of wool)<br>At least 100 coins",
 		combatText = "The ability to get past aggressive combat level 26 jail guards.",
 		rewardsText = "700 coins<br>Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>(Members) Access to the Sorceress's Garden Thieving minigame.",

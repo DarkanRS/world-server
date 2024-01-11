@@ -37,7 +37,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.WATERFALL_QUEST,
-		startText = "13,750 Attack XP<br>13,750 Strength XP<br>2 gold bars<br>2 diamonds<br>40 mithril seeds<br>Access to the Waterfall Dungeon",
+		startText = "Speak to Almera in her house north-east of the Baxtorian Falls.",
 		itemsText = "Rope, 6 air runes, 6 earth runes, 6 water runes.",
 		combatText = "None, but you must be able to survive some attacks from level 44 giant spiders and level 58 skeletons.",
 		rewardsText = "13,750 Attack XP<br>13,750 Strength XP<br>2 gold bars<br>2 diamonds<br>40 mithril seeds<br>Access to the Waterfall Dungeon",

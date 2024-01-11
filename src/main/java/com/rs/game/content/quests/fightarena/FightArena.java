@@ -21,7 +21,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(
 		quest = Quest.FIGHT_ARENA,
-		startText = "12,175 Attack XP<br>2,175 Thieving XP<br>1,000 coins",
+		startText = "Talk to Lady Servil, just north-west of the fight arena, which is south of Ardougne.",
 		itemsText = "Combat gear.",
 		combatText = "Be able to defeat level 50, 64 and 77 foes.",
 		rewardsText = "12,175 Attack XP<br>2,175 Thieving XP<br>1,000 coins",

@@ -18,7 +18,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.LOST_CITY,
-		startText = "Access to Zanaris<br>Ability to wield dragon longswords and dragon daggers<br>Ability to craft cosmic runes<br>Access to Chaeldar the Slayer master (requires level 75 combat)",
+		startText = "Talk to warrior adventurer in the Lumbridge Swamp.",
 		itemsText = "None.",
 		combatText = "You will need to defeat a level 63 tree spirit.",
 		rewardsText = "Access to Zanaris<br>Ability to wield dragon longswords and dragon daggers<br>Ability to craft cosmic runes<br>Access to Chaeldar the Slayer master (requires level 75 combat)",

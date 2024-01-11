@@ -22,7 +22,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.HOLY_GRAIL,
-		startText = "15,300 Defence XP<br>11,000 Prayer XP<br>Access to the Fisher Realm<br>Ability to use the King Arthur picture in your player-owned house",
+		startText = "Speak to King Arthur in Camelot.",
 		itemsText = "Excalibur.",
 		combatText = "You will need to defeat a level 28 enemy.",
 		rewardsText = "15,300 Defence XP<br>11,000 Prayer XP<br>Access to the Fisher Realm<br>Ability to use the King Arthur picture in your player-owned house",

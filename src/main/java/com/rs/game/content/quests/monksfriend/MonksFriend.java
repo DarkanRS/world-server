@@ -15,7 +15,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.MONKS_FRIEND,
-		startText = "2,000 Woodcutting XP<br>8 law runes",
+		startText = "Speak to Brother Omad at the Monastery south of Ardougne.",
 		itemsText = "Jug of water, logs (or a hatchet).",
 		combatText = "You can choose to defeat two level 21 thieves and a level 25 head thief.",
 		rewardsText = "2,000 Woodcutting XP<br>8 law runes",

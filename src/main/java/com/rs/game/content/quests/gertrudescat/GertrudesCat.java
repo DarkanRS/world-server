@@ -38,7 +38,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.GERTRUDES_CAT,
-		startText = "1,525 Cooking XP<br>Chocolate cake<br>Bowl of stew<br>Kitten(!)<br>Ability to raise cats",
+		startText = "Speak to Gertrude in her house west of Varrock.",
 		itemsText = "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.",
 		combatText = "None.",
 		rewardsText = "1,525 Cooking XP<br>Chocolate cake<br>Bowl of stew<br>Kitten(!)<br>Ability to raise cats",

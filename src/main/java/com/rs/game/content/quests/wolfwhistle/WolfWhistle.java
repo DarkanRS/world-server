@@ -19,7 +19,7 @@ import java.util.List;
 
 @QuestHandler(
         quest = Quest.WOLF_WHISTLE,
-        startText = "276 Summoning XP<br>275 gold charms",
+        startText = "Talk to Pikkupstix in his house in Taverley.",
         itemsText = "None.",
         combatText = "None.",
         rewardsText = "276 Summoning XP<br>275 gold charms",

@@ -49,7 +49,7 @@ public enum Miniquest {
 				MiniquestHandler handler = clazz.getAnnotation(MiniquestHandler.class);
 				if (handler == null || clazz.getSuperclass() != MiniquestOutline.class)
 					continue;
-				handler.value().handler = (MiniquestOutline) clazz.getConstructor().newInstance();
+				handler.miniquest().handler = (MiniquestOutline) clazz.getConstructor().newInstance();
 			}
 		} catch (ClassNotFoundException | IOException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			e.printStackTrace();
@@ -114,25 +114,6 @@ public enum Miniquest {
 		if (!meetsRequirements && actionStr != null)
 			player.sendMessage("You must meet the requirements for the miniquest: " + getName() + " " + actionStr);
 		return meetsRequirements;
-	}
-
-	public void sendQuestCompleteInterface(Player player, int itemId, String... lines) {
-		String line = "";
-		for (String l : lines)
-			line += l + "<br>";
-
-		//random quest jingle
-		int jingleNum = Utils.random(0, 4);
-		if (jingleNum == 3)
-			jingleNum = 318;
-		else
-			jingleNum += 152;
-		player.jingle(jingleNum);
-
-		player.getInterfaceManager().sendInterface(1244);
-		player.getPackets().setIFItem(1244, 24, itemId, 1);
-		player.getPackets().setIFText(1244, 25, "You have completed " + getName() + "!");
-		player.getPackets().sendVarcString(359, line);
 	}
 
 	public String getName() {

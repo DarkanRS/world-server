@@ -34,7 +34,7 @@ import java.util.List;
  */
 @QuestHandler(
 		quest = Quest.SCORPION_CATCHER,
-		startText = "6,625 Strength XP<br>Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins",
+		startText = "Talk to Thormac on the top floor of the Sorcerer's Tower south of Seers' Village, near the Ranging Guild.",
 		itemsText = "Dusty key (or 70 Agility).",
 		combatText = "You will need to defeat a level 39 jailer.",
 		rewardsText = "6,625 Strength XP<br>Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins",

@@ -34,7 +34,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.IMP_CATCHER,
-		startText = "875 Magic XP<br>An amulet of accuracy<br>Access to Mizgog's amulet shop",
+		startText = "Talk to Wizard Mizgog on the 2nd floor of the Wizards' Tower, south of Draynor Village.",
 		itemsText = "None.",
 		combatText = "Must kill many imps",
 		rewardsText = "875 Magic XP<br>An amulet of accuracy<br>Access to Mizgog's amulet shop",

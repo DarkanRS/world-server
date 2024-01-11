@@ -15,16 +15,17 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@MiniquestHandler(Miniquest.ENTER_THE_ABYSS)
+@MiniquestHandler(
+        miniquest = Miniquest.ENTER_THE_ABYSS,
+		startText = "The Mage of Zamorak at the beginning of the above-ground River Lum in the Wilderness (roams levels 4-7).",
+		itemsText = "None",
+		combatText = "None",
+		rewardsText = "1,000 Runecrafting XP<br>Small pouch<br>Abyssal book<br>Access to the Abyss.",
+		completedStage = 4
+)
 @PluginEventHandler
 public class EnterTheAbyss extends MiniquestOutline {
-
 	public static final int SCRYING_ORB = 2;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -64,7 +65,7 @@ public class EnterTheAbyss extends MiniquestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.RUNECRAFTING, 1000);
 		player.getInventory().addItemDrop(5509, 1);
-		getQuest().sendQuestCompleteInterface(player, 5509, "1,000 Runecrafting XP", "Small pouch", "Access to the Abyss");
+		sendQuestCompleteInterface(player, 5509);
 	}
 
 	@Override

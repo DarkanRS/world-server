@@ -23,7 +23,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.MERLINS_CRYSTAL,
-		startText = "Excalibur",
+		startText = "Talk to King Arthur in Camelot.",
 		itemsText = "Bread, a bucket, insect repellent, bat bones.",
 		combatText = "You will need to defeat a level 23 knight. You might anger a level 70 demon.",
 		rewardsText = "Excalibur",
