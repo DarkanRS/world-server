@@ -35,14 +35,14 @@ public class TaskManager {
                         try {
                             task.getTask().run();
                         } catch (Throwable e) {
-                            Logger.handle(WorldTasks.class, "processTasksRun:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+                            Logger.handle(WorldTasks.class, "processTasksRun:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), task.toString(), e);
                         }
                         if (task.getTask().needRemove)
                             toRemove.add(task);
                         else
                             task.currDelay = task.getLoopDelay();
                     } catch (Throwable e) {
-                        Logger.handle(WorldTasks.class, "processTasks:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), e);
+                        Logger.handle(WorldTasks.class, "processTasks:" + (task.getClass().getDeclaringClass() != null ? task.getClass().getDeclaringClass().getSimpleName() : "UnknownSource"), task.toString(), e);
                     }
                 }
                 for (TaskInformation task : toRemove)

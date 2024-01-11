@@ -237,7 +237,7 @@ public final class ChunkManager {
             UpdateZone zone = UPDATE_ZONES.remove(UpdateZone.getId(baseChunkId, size));
             if (zone == null)
                 return null;
-            Logger.debug(ChunkManager.class, "removeUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone removed");
+            //Logger.debug(ChunkManager.class, "removeUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone removed");
             for (int chunkId : zone.getChunkIds())
                 ChunkManager.getChunk(chunkId).removeUpdateZone(zone);
             for (int regionId : zone.getRegionIds()) {
@@ -261,7 +261,7 @@ public final class ChunkManager {
             if (zone == null) {
                 zone = new UpdateZone(baseChunkId, size);
                 UPDATE_ZONES.put(id, zone);
-                Logger.debug(ChunkManager.class, "getUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone added");
+                //Logger.debug(ChunkManager.class, "getUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone added");
                 for (int regionId : zone.getRegionIds()) {
                     List<UpdateZone> zones = UPDATE_ZONES_REGION.get(regionId);
                     if (zones == null) {
@@ -280,7 +280,7 @@ public final class ChunkManager {
     public static void markRegionUnloadable(int regionId) {
         if (!PERMANENTLY_LOADED_REGIONS.contains(regionId)) {
             UNLOADABLE_REGIONS.add(regionId);
-            Logger.debug(ChunkManager.class, "markRegionUnloadable", regionId + " UNLOADABLE");
+            //Logger.debug(ChunkManager.class, "markRegionUnloadable", regionId + " UNLOADABLE");
         }
     }
 

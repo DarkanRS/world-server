@@ -111,6 +111,11 @@ public class Shop {
 					shop.handleShop(e.getPlayer(), e.getSlotId(), 50);
 				else if (e.getPacket() == ClientPacket.IF_OP6)
 					shop.handleShop(e.getPlayer(), e.getSlotId(), 500);
+				else if (e.getPacket() == ClientPacket.IF_OP7)
+					e.getPlayer().sendOptionDialogue("Really buy out the shop? This could be absurdly expensive.", ops -> {
+						ops.add("Yes, I am sure.", () -> shop.handleShop(e.getPlayer(), e.getSlotId(), Integer.MAX_VALUE));
+						ops.add("Nevermind.");
+					});
 				else if (e.getPacket() == ClientPacket.IF_OP10)
 					shop.sendExamine(e.getPlayer(), e.getSlotId());
 			} else if (e.getComponentId() == 201) {
@@ -272,7 +277,7 @@ public class Shop {
 		int price = getBuyPrice(item);
 		int amountCoins = currency == 995 ? player.getInventory().getCoinsAsInt() : player.getInventory().getItems().getNumberOf(currency);
 		int maxQuantity = amountCoins / price;
-		int buyQ = item.getItem().getAmount() > quantity ? quantity : item.getItem().getAmount();
+		int buyQ = Math.min(item.getItem().getAmount(), quantity);
 		boolean enoughCoins = maxQuantity >= buyQ;
 		if (!enoughCoins) {
 			player.sendMessage("You don't have enough " + ItemDefinitions.getDefs(currency).name.toLowerCase() + ".");
