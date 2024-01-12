@@ -74,7 +74,7 @@ fun mapHandlers() {
                 e.player.anim(10267)
                 e.npc.anim(837)
                 e.npc.freeze(Ticks.fromSeconds(10))
-                e.npc.tasks.delay(Ticks.fromSeconds(10)) {
+                e.npc.tasks.schedule(Ticks.fromSeconds(10)) {
                     e.npc.anim(-1)
                     e.npc.tempAttribs.removeO<Player>("K.O")
                 }
@@ -86,13 +86,13 @@ fun mapHandlers() {
                         "You fail to pick the " + e.npc.definitions.name
                             .lowercase(Locale.getDefault()) + "'s pocket."
                     )
-                    e.npc.setNextAnimation(Animation(422))
+                    e.npc.anim(422)
                     e.npc.faceEntity(e.player)
-                    e.player.setNextAnimation(Animation(424))
-                    e.player.setNextSpotAnim(SpotAnim(80, 5, 60))
+                    e.player.anim(424)
+                    e.player.spotAnim(80, 5, 60)
                     e.player.sendMessage("You've been stunned.")
                     e.player.applyHit(Hit(e.player, 1, Hit.HitLook.TRUE_DAMAGE))
-                    e.npc.nextForceTalk = ForceTalk(response[Utils.random(2)])
+                    e.npc.forceTalk(response[Utils.random(2)])
                 }
             }
         }
@@ -127,7 +127,7 @@ fun mapHandlers() {
                 e.player.anim(10267)
                 e.npc.anim(837)
                 e.npc.freeze(Ticks.fromSeconds(10))
-                e.npc.tasks.delay(Ticks.fromSeconds(10)) {
+                e.npc.tasks.schedule(Ticks.fromSeconds(10)) {
                     e.npc.anim(-1)
                     e.npc.tempAttribs.removeO<Player>("K.O")
                 }
