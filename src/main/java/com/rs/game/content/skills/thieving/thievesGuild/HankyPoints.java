@@ -1,5 +1,6 @@
-package com.rs.game.content.skills.thieving;
+package com.rs.game.content.skills.thieving.thievesGuild;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
 import com.rs.game.model.entity.npc.NPC;
@@ -163,8 +164,50 @@ public class HankyPoints {
         checkPoints(e.getPlayer(), e.getNPC());
     });
 
-    public static NPCClickHandler pickpocket = new NPCClickHandler(new Object[] { 11281, 11282, 11284, 11286 }, new String[] {"Pickpocket"}, e -> {
-        e.getPlayer().getActionManager().setAction(new PickPocketHanky(e.getNPC()));
+    public static NPCClickHandler pickpockethandler = new NPCClickHandler(new Object[] { 11281, 11282, 11284, 11286 }, new String[] {"Pickpocket"}, e -> {
+        e.getPlayer().getActionManager().setAction(new PickPocket(e.getNPC()));
+    });
+
+    public static NPCClickHandler loothandler = new NPCClickHandler(new Object[] { 11290, 11292, 11288, 11296 }, new String[] {"Loot"}, e -> {
+        if(e.getNPC().getTempAttribs().getO("K.O") == null) {
+            e.getPlayer().sendMessage("You should knock him out before attempting to loot him.");
+            return;
+        }
+        if(e.getNPC().getTempAttribs().getO("K.O") == e.getPlayer()) {
+            e.getPlayer().getActionManager().setAction(new Loot(e.getNPC()));
+        }
+        else
+            e.getPlayer().sendMessage("Someone else knocked out that target.");
+    });
+
+    public static NPCClickHandler lure = new NPCClickHandler(new Object[] { 11290, 11292, 11288, 11296 }, new String[] {"Lure"}, e -> {
+        String[] responses = new String[]{
+                "Watch out! The fellow behind you has a club!",
+                "Behind you! A three-headed monkey!",
+                "That's the third biggest platypus I've ever seen!",
+                "Look over THERE!",
+                "Look! An eagle!",
+                "Your shoelace is untied."
+        };
+        int npcId = e.getNPCId();
+        String npcMessage = "Oh nooooo!";
+        if (npcId == 11296) {
+            npcMessage = "Wha?";
+        }
+        e.getPlayer().startConversation(new Dialogue()
+                .addPlayer(HeadE.SKEPTICAL, responses[Utils.random(5)])
+                .addNPC(npcId, HeadE.SCARED, npcMessage)
+                .addNext(() -> {
+                    e.getNPC().follow(e.getPlayer());
+                    e.getNPC().getTempAttribs().setO("lured", e.getPlayer());
+                    e.getPlayer().sendMessage();
+
+                    WorldTasks.delay(Ticks.fromSeconds(10), () -> {
+                        e.getNPC().getTempAttribs().setO("lured", e.getPlayer());
+                        e.getNPC().getActionManager().forceStop();
+                    });
+                })
+        );
     });
 
     public static ObjectClickHandler handleNorthDoors = new ObjectClickHandler(new Object[] { 52302 }, e -> {

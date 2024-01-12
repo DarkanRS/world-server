@@ -1,4 +1,4 @@
-package com.rs.game.content.skills.thieving;
+package com.rs.game.content.skills.thieving.thievesGuild;
 
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -14,10 +14,10 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
-public class PickPocketHanky extends PlayerAction {
+public class PickPocket extends PlayerAction {
 	private NPC npc;
 	private boolean success = false;
-	public PickPocketHanky(NPC npc) {
+	public PickPocket(NPC npc) {
 		this.npc = npc;
 	}
 	@Override
