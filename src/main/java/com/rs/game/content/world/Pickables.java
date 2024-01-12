@@ -12,7 +12,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class Pickables {
 
-	public static ObjectClickHandler handle = new ObjectClickHandler(new Object[] { "Flax", "Cabbage", "Potato", "Wheat", "Onion" }, e -> {
+	public static ObjectClickHandler handle = new ObjectClickHandler(new Object[] { "Flax", "Cabbage", "Potato", "Wheat", "Onion", "Pineapple Plant" }, e -> {
 		if (e.getOption().equals("Pick")) {
 			switch (e.getObject().getDefinitions(e.getPlayer()).getName()) {
 			case "Flax" -> pick(e.getPlayer(), e.getObject(), 1779);
@@ -20,16 +20,30 @@ public class Pickables {
 			case "Potato" -> pick(e.getPlayer(), e.getObject(), 1942);
 			case "Wheat" -> pick(e.getPlayer(), e.getObject(), 1947);
 			case "Onion" -> pick(e.getPlayer(), e.getObject(), 1957);
+			case "Pineapple Plant" -> pick(e.getPlayer(), e.getObject(), 2114);
 			}
 		}
 	});
 	
 	public static void pick(Player player, GameObject object, int itemId) {
+		if (object.getId() == 1413) {
+			player.sendMessage("There aren't any pineapples left to pick.");
+			return;
+		}
 		if (player.getInventory().addItem(itemId, 1)) {
 			player.setNextAnimation(new Animation(827));
 			player.lock(2);
-			if (itemId != 1779 || Utils.random(5) == 0)
-				World.removeObjectTemporary(object, Ticks.fromMinutes(1));
+			switch(itemId) {
+				case 1799 -> {
+					if (Utils.random(5) == 0)
+						World.removeObjectTemporary(object, Ticks.fromMinutes(1));
+				}
+				case 2114 -> {
+					if (Utils.random(5) == 0)
+						object.setIdTemporary(1413, Ticks.fromMinutes(1));
+				}
+				default -> World.removeObjectTemporary(object, Ticks.fromMinutes(1));
+			}
 		}
 	}
 	
