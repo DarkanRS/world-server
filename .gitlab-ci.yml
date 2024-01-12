@@ -10,8 +10,8 @@ default:
   cache:
     key:
       files:
-        - settings.gradle
-        - build.gradle
+        - settings.gradle.kts
+        - build.gradle.kts
     policy: pull-push
     paths:
       - .gradle
