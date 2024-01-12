@@ -1,29 +1,34 @@
 image: titandino/darkan-runner:v1
 
-before_script:
-  - GRADLE_USER_HOME="$(pwd)/.gradle"
-  - export GRADLE_USER_HOME
+stages:
+  - build
+  - deploy
 
-# .cache_gradle:
-#   cache:
-#     key: "$CI_COMMIT_REF_NAME-gradle"
-#     policy: pull-push
-#     paths:
-#       - .gradle/caches/
-#       - .gradle/wrapper/
-
-build:
-  stage: build
-  # script: ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
-  script: ./gradlew assemble --parallel --max-workers=$(nproc)
+# Cache is based on whether settings.gradle/build.gradle changes
+# This executes per job first
+default:
   cache:
-    key: "$CI_COMMIT_REF_NAME-gradle"
+    key:
+      files:
+        - settings.gradle.kts
+        - build.gradle.kts
     policy: pull-push
     paths:
-      - build/
-  # extends:
-  #   - .cache_gradle
+      - .gradle
+  before_script:
+    - export GRADLE_USER_HOME="$(pwd)/.gradle"
 
+# Build and output artifacts (tag agnostic for simplicity)
+build:
+  stage: build
+  script:
+    - echo "Building java project..."
+    - ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
+  artifacts:
+    paths:
+      - build/libs
+
+# Deploy
 deploy:
   stage: deploy
   rules:
@@ -32,10 +37,3 @@ deploy:
     - echo "Deploying build artifacts..."
     - ./gradlew publish --parallel --max-workers=$(nproc)
   environment: production
-  # cache:
-  #   key: "$CI_COMMIT_REF_NAME-gradle"
-  #   policy: pull-push
-  #   paths:
-  #     - build/
-  # extends:
-  #   - .cache_gradle

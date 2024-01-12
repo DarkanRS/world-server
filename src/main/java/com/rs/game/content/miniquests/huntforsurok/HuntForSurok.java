@@ -23,14 +23,16 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@MiniquestHandler(Miniquest.HUNT_FOR_SUROK)
+@MiniquestHandler(
+        miniquest = Miniquest.HUNT_FOR_SUROK,
+		startText = "Speak to Surok by the statue of Saradomin, east of Varrock.",
+		itemsText = "Combat equipment to fight a strong level 107 ork who is resistant to range attacks and survive taking multiple hits from different types of monsters.",
+		combatText = "Bork (level 107)",
+		rewardsText = "5,000 Slayer XP<br>Ability to slay Bork daily (for 1,500 Slayer XP, <br>Summoning charms, big bones, and gems in the<br>Chaos Tunnels<br>Ability to wear Dagon'hai robes",
+		completedStage = 5
+)
 @PluginEventHandler
 public class HuntForSurok extends MiniquestOutline {
-
-	@Override
-	public int getCompletedStage() {
-		return 5;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -73,7 +75,7 @@ public class HuntForSurok extends MiniquestOutline {
 	@Override
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.SLAYER, 5000);
-		getQuest().sendQuestCompleteInterface(player, 11014, "5,000 Slayer XP", "Ability to slay Bork daily (for 1,500 Slayer XP)", "Summoning charms, big bones and gems) in the", "Chaos Tunnels", "Ability to wear Dagon 'hai robes");
+		sendQuestCompleteInterface(player, 11014);
 	}
 
 	@Override

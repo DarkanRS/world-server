@@ -40,7 +40,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.RUNE_MYSTERIES,
-		startText = "The ability to mine rune essence<br>An air talisman",
+		startText = "Speak to Duke Horacio on the 2nd floor of Lumbridge Castle.",
 		itemsText = "None.",
 		combatText = "None.",
 		rewardsText = "The ability to mine rune essence<br>An air talisman",

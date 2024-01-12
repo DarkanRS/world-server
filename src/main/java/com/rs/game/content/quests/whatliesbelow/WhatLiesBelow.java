@@ -23,7 +23,7 @@ import java.util.List;
 
 @QuestHandler(
         quest = Quest.WHAT_LIES_BELOW,
-        startText = "8,000 Runecrafting XP<br>2,000 Defence XP<br>Beacon ring<br>Safe access to the chaos tunnels",
+        startText = "Talk to Rat Burgiss south of Varrock.",
         itemsText = "Bowl, 15 chaos runes or 15 un-noted pure essence, access to the chaos altar.",
         combatText = "You will need to defeat a level 47 enemy and 5 level 32 enemies.",
         rewardsText = "8,000 Runecrafting XP<br>2,000 Defence XP<br>Beacon ring<br>Safe access to the chaos tunnels",

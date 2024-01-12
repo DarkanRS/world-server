@@ -44,7 +44,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(
 		quest = Quest.TRIBAL_TOTEM,
-		startText = "1,775 Thieving XP<br>5 swordfish",
+		startText = "Speak to Kangai Mau in Brimhaven.",
 		itemsText = "None.",
 		combatText = "None.",
 		rewardsText = "1,775 Thieving XP<br>5 swordfish",

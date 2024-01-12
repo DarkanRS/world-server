@@ -41,7 +41,7 @@ import java.util.List;
 
 @QuestHandler(
         quest = Quest.SHIELD_OF_ARRAV,
-        startText = "1,200 coins",
+        startText = "Talk to Reldo in the Varrock palace library.",
         itemsText = "20 coins.",
         combatText = "You will need to defeat a level 1 enemy.",
         rewardsText = "1,200 coins",

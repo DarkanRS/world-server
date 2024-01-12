@@ -31,7 +31,7 @@ import com.rs.plugin.kts.onNpcClick
 
 @QuestHandler(
 		quest = Quest.COOKS_ASSISTANT,
-		startText = "300 Cooking XP<br>500 coins<br>20 sardines<br>Access to the cook's range",
+		startText = "Speak to the cook in the kitchen of Lumbridge Castle.",
 		itemsText = "Empty pot (can be found in flour mill). Empty bucket (can be found near dairy cow).",
 		combatText = "None.",
 		rewardsText = "300 Cooking XP<br>500 coins<br>20 sardines<br>Access to the cook's range",

@@ -35,7 +35,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.DORICS_QUEST,
-		startText = "1,300 Mining experience<br>180 coins<br>The ability to use Doric's anvils",
+		startText = "Speak with Doric north of Falador.",
 		itemsText = "6 clay (not soft clay)<br>4 copper ores<br>2 iron ores",
 		combatText = "None.",
 		rewardsText = "1,300 Mining experience<br>180 coins<br>The ability to use Doric's anvils",

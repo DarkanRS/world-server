@@ -1,4 +1,4 @@
-package com.rs.game.content.skills.thieving;
+package com.rs.game.content.skills.thieving.thievesGuild;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;

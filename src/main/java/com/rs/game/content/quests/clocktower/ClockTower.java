@@ -29,7 +29,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.CLOCK_TOWER,
-		startText = "500 coins",
+		startText = "Speak to Brother Kojo in the Clock Tower south of Ardougne.",
 		itemsText = "Bucket of water or ice gloves",
 		combatText = "None.",
 		rewardsText = "500 coins",

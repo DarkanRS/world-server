@@ -30,7 +30,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.TEMPLE_OF_IKOV,
-		startText = "10,500 Ranged XP<br>8,000 Fletching XP<brBoots of lightness<br>Access to the Temple of Ikov",
+		startText = "Speak to Lucien in the Flying Horse Inn, in the north-west of East Ardougne.",
 		itemsText = "Light source, 20 limpwurt roots.",
 		combatText = "Be able to defeat a level 77 foe.",
 		rewardsText = "10,500 Ranged XP<br>8,000 Fletching XP<brBoots of lightness<br>Access to the Temple of Ikov",

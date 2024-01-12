@@ -31,7 +31,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.RESTLESS_GHOST,
-		startText = "125 Prayer XP<br>Five ancient bones that each give 200 Prayer XP",
+		startText = "Speak to Father Aereck in the Lumbridge Church, east of Lumbridge Castle.",
 		itemsText = "Armour to survive a level 7 skeleton warlock attack.",
 		combatText = "Facing a level 7 skeleton warlock.",
 		rewardsText = "125 Prayer XP<br>Five ancient bones that each give 200 Prayer XP",

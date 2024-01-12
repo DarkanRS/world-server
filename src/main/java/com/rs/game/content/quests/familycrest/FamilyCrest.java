@@ -22,7 +22,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.FAMILY_CREST,
-		startText = "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>Access to the hellhounds in Witchaven Dungeon",
+		startText = "Talk to Dimintheis in south-east Varrock, next to the Fancy Dress Shop.",
 		itemsText = "Cooked shrimp, cooked salmon, cooked tuna, cooked bass, cooked swordfish, 2 cut rubies, antipoison potion. You will likely need a magic weapon to cast Air Blast, Water Blast, Earth Blast, Fire Blast (59 Magic) from the normal spellbook.",
 		combatText = "You will need to defeat a level 84 demon.",
 		rewardsText = "Family gauntlets (chaos gauntlets, cooking gauntlets, smelting gauntlets)<br>Access to the hellhounds in Witchaven Dungeon",

@@ -21,7 +21,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.KNIGHTS_SWORD,
-		startText = "12,725 Smithing XP lamp<br>Ability to smith blurite (members)",
+		startText = "Talk to Squire Asrol located in the White Knights' Castle's courtyard in Falador.",
 		itemsText = "Redberry pie, 2 iron bars.",
 		combatText = "You will need to defeat or evade level 54 enemies.",
 		rewardsText = "12,725 Smithing XP lamp<br>Ability to smith blurite (members)",

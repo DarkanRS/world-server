@@ -398,7 +398,7 @@ public class NPC extends Entity {
 	 */
 	public void finishAfterTicks(final int ticks) {
 		WorldTasks.scheduleTimer(tick -> {
-			if (tick == ticks) {
+			if (tick >= ticks) {
 				if (!hasFinished())
 					finish();
 				return false;

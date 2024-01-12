@@ -12,7 +12,7 @@ import java.util.List;
 
 @QuestHandler(
         quest = Quest.BUYERS_AND_CELLARS,
-        startText = "500 Thieving XP<br>Access to the Thieves' guild<br>3 Thieves' Guild pamphlets<br>Ability to collect Hanky Points<br>",
+        startText = "Speak to Darren Lightfinger in his cellar, accessed through a trapdoor next to a small house just north of the Lumbridge furnace.",
         itemsText = "Logs.",
         combatText = "None.",
         rewardsText = "500 Thieving XP<br>Access to the Thieves' guild<br>3 Thieves' Guild pamphlets<br>Ability to collect Hanky Points<br>",

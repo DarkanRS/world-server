@@ -22,7 +22,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.PIRATES_TREASURE,
-		startText = "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)",
+		startText = "Speak to Redbeard Frank just south of The Rusty Anchor pub in Port Sarim.",
 		itemsText = "White apron, 60 coins (or an activated ring of Charos and 30 coins).",
 		combatText = "Optionally defeat a level 4 gardener.",
 		rewardsText = "One-Eyed Hector's treasure casket (containing 450 coins, an emerald and a gold ring)<br>Ability to work as a menial labourer on a banana plantation (30 coins for each export crate you fill with 10 bananas)",

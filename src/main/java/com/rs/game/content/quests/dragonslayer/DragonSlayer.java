@@ -24,7 +24,7 @@ import java.util.List;
 
 @QuestHandler(
         quest = Quest.DRAGON_SLAYER,
-        startText = "18,650 Strength XP<br>18,650 Defense XP<br>Anti-dragon shield<br>Access to Crandor, Melzar's Maze, and the dragon crest on herald capes",
+        startText = "Talk to the Guildmaster inside the Champions' Guild, south of Varrock.",
         itemsText = "An unfired bowl, a wizard's mind bomb, a crayfish cage or lobster pot, a piece of silk, 2,000-12,000 coins (less if you bring Telekenetic Grab runes and a non-melee weapon), 3 regular planks and 90 steel nails.",
         combatText = "You will need to defeat a level 63 dragon, a level 56 demon, a level 39 mage, and various lesser foes. 50+ in combat skills and 37+ Prayer are recommended.",
         rewardsText = "18,650 Strength XP<br>18,650 Defense XP<br>Anti-dragon shield<br>Access to Crandor, Melzar's Maze, and the dragon crest on herald capes",

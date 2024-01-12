@@ -27,7 +27,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.TREE_GNOME_VILLAGE,
-		startText = "11,450 Attack XP<br>Access to spirit tree teleportation<br>Gnome amulet of protection",
+		startText = "Talk to King Bolren at the centre of the Tree Gnome Village maze.",
 		itemsText = "6 normal logs.",
 		combatText = "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.",
 		rewardsText = "11,450 Attack XP<br>Access to spirit tree teleportation<br>Gnome amulet of protection",

@@ -16,7 +16,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.JUNGLE_POTION,
-		startText = "775 Herblore XP",
+		startText = "Speak to Trufitus near Tai Bwo Wannai.",
 		itemsText = "None.",
 		combatText = "None.",
 		rewardsText = "775 Herblore XP",

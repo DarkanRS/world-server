@@ -43,7 +43,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.FISHING_CONTEST,
-		startText = "2,437 Fishing XP<br>Access to the White Wolf Mountain shortcut",
+		startText = "Talk to Vestri or Austri, near the White Wolf Mountain.",
 		itemsText = "5 coins, garlic.",
 		combatText = "None.",
 		rewardsText = "2,437 Fishing XP<br>Access to the White Wolf Mountain shortcut",

@@ -23,7 +23,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.HEROES_QUEST,
-		startText = "Total of 29,232 XP over twelve skills<br>Access to the Heroes' Guild",
+		startText = "Speak with Achietties at the entrance to the Heroes' Guild in Burthorpe.",
 		itemsText = "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>Fishing rod (and possibly bait), harralander potion (unf).<br>Ice gloves.",
 		combatText = "You will need to defeat a level 77 enemy.",
 		rewardsText = "Total of 29,232 XP over twelve skills<br>Access to the Heroes' Guild",

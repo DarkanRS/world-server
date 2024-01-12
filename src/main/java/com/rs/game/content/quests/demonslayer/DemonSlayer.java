@@ -33,7 +33,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.DEMON_SLAYER,
-		startText = "Silverlight",
+		startText = "Speak to Aris in the tent on the western side of Varrock Square.",
 		itemsText = "Bucket of water (can be obtained during the quest)<br>25 bones (can't be noted, but can be delivered in increments)<br>1 coin",
 		combatText = "The ability to defeat a level 27 demon aided by three level 20 Dark wizards and two level 7 Dark wizards using the Silverlight in melee.",
 		rewardsText = "Silverlight",

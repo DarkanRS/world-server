@@ -29,7 +29,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(
 		quest = Quest.WITCHS_HOUSE,
-		startText = "6,325 Constitution XP",
+		startText = "Talk to Harvey, the crying boy west of Falador.",
 		itemsText = "Cheese or cheese wheel, leather gloves, some combat equipment and food.",
 		combatText = "You will need to defeat a shapeshifting enemy with forms up to level 49.",
 		rewardsText = "6,325 Constitution XP",

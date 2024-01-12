@@ -43,7 +43,7 @@ import static com.rs.game.content.world.doors.Doors.handleGate;
 
 @QuestHandler(
 		quest = Quest.PRIEST_IN_PERIL,
-		startText = "1,406 Prayer XP<br>The Wolfbane Dagger<br>Access to Morytania.",
+		startText = "Speak to King Roald in the Varrock Palace.",
 		itemsText = "50 unnoted rune essence or pure essence and a Bucket.",
 		combatText = "You will need to defeat a level 30 enemy.",
 		rewardsText = "1,406 Prayer XP<br>The Wolfbane Dagger<br>Access to Morytania.",

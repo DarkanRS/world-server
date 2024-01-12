@@ -41,7 +41,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.DWARF_CANNON,
-		startText = "750 Crafting XP<br>Permission to purchase and use a dwarf multicannon<br>Ability to smith cannonballs<br>Ability to add the ammo mould to your tool belt",
+		startText = "Talk to Captain Lawgof, south of the Coal Trucks, north-west of the Fishing Guild.",
 		itemsText = "None.",
 		combatText = "None.",
 		rewardsText = "750 Crafting XP<br>Permission to purchase and use a dwarf multicannon<br>Ability to smith cannonballs<br>Ability to add the ammo mould to your tool belt",

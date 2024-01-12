@@ -44,7 +44,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
 @QuestHandler(
 		quest = Quest.ERNEST_CHICKEN,
-		startText = "3,000 coins<br>10 eggs<br>300 feathers",
+		startText = "Talk to Veronica, south of Draynor Manor gates.",
 		itemsText = "None.",
 		combatText = "None, but watch out for those trees in the manor grounds.",
 		rewardsText = "3,000 coins<br>10 eggs<br>300 feathers",

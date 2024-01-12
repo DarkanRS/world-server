@@ -30,7 +30,7 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 
 @QuestHandler(
 		quest = Quest.BLACK_KNIGHTS_FORTRESS,
-		startText = "2,500 coins",
+		startText = "Speak to Sir Amik Varze on the 3rd floor of the White Knights' Castle's western tower in Falador.",
 		itemsText = "Cabbage<br>Iron chainbody<br>Bronze med helm",
 		combatText = "Ability to evade level 33 Black Knights",
 		rewardsText = "2,500 coins",

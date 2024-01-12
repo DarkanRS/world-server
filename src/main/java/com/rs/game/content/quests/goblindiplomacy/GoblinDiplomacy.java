@@ -37,7 +37,7 @@ import java.util.List;
 
 @QuestHandler(
 		quest = Quest.GOBLIN_DIPLOMACY,
-		startText = "200 Crafting XP<br>A gold bar",
+		startText = "Go to Goblin Village and talk to General Bentnoze or General Wartface.",
 		itemsText = "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).",
 		combatText = "None.",
 		rewardsText = "200 Crafting XP<br>A gold bar",
