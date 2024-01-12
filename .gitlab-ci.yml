@@ -15,7 +15,6 @@ default:
     policy: pull-push
     paths:
       - .gradle
-      - build/libs
   before_script:
     - export GRADLE_USER_HOME="$(pwd)/.gradle"
 
@@ -27,8 +26,7 @@ build:
     - ./gradlew assemble --build-cache --parallel --max-workers=$(nproc)
   artifacts:
     paths:
-    - build/distributions/world-server-*.zip # no point
-      # - build/distributions/world-server-shadow-*.zip
+      - build/libs
 
 # Deploy
 deploy:
