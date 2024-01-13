@@ -35,19 +35,19 @@ public abstract class MiniquestOutline {
 	public abstract void updateStage(Player player);
 
 	public final String getStartLocationDescription() {
-		return getClass().getAnnotation(QuestHandler.class).startText();
+		return getClass().getAnnotation(MiniquestHandler.class).startText();
 	}
 
 	public final String getRequiredItemsString() {
-		return getClass().getAnnotation(QuestHandler.class).itemsText();
+		return getClass().getAnnotation(MiniquestHandler.class).itemsText();
 	}
 
 	public final String getCombatInformationString() {
-		return getClass().getAnnotation(QuestHandler.class).combatText();
+		return getClass().getAnnotation(MiniquestHandler.class).combatText();
 	}
 
 	public final String getRewardsString() {
-		return getClass().getAnnotation(QuestHandler.class).rewardsText();
+		return getClass().getAnnotation(MiniquestHandler.class).rewardsText();
 	}
 
 	public final void sendQuestCompleteInterface(Player player, int itemId) {
