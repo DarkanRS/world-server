@@ -13,19 +13,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 
-public class DarrenLightfingerI extends Dialogue {
+public class DarrenLightfinger extends Dialogue {
     private static final int npcid = 11273;
-    public static NPCClickHandler DarrenLightfingerI = new NPCClickHandler(new Object[]{npcid}, new String[]{"Talk-to"}, e -> {
-        if (!e.getPlayer().isQuestStarted(Quest.BUYERS_AND_CELLARS)) {
-            preQuest(e.getPlayer());
-            return;
-        }
-        switch (e.getPlayer().getQuestStage(Quest.BUYERS_AND_CELLARS)) {
-            case 1 -> preQuest(e.getPlayer());
-            case 2 -> stage2(e.getPlayer());
-            default -> stage3(e.getPlayer());
-        }
-    });
 
     public static ItemOnNPCHandler handleChaliceOnDarren = new ItemOnNPCHandler(new Object[] { npcid }, e -> {
         Player player = e.getPlayer();
@@ -50,64 +39,6 @@ public class DarrenLightfingerI extends Dialogue {
                         player.getQuestManager().completeQuest(Quest.BUYERS_AND_CELLARS);
                     }));
     });
-
-    public static void stage3(Player player) {
-        player.startConversation(new Dialogue()
-                .addNPC(npcid, HeadE.HAPPY_TALKING, "Greetings, my young recruit!")
-                .addOptions(ops -> {
-                    ops.add("Can we try out that testing dummy again?")
-                            .addPlayer(HeadE.CALM_TALK, "Can we try out that testing dummy again?")
-                            .addNext(() -> {
-                                player.npcDialogue(npcid, HeadE.HAPPY_TALKING, "Of course!");
-                                player.walkToAndExecute(Tile.of(4664, 5903, 0), () -> player.getActionManager().setAction(new PickPocketDummy(new GameObject(52316, 1, 4665, 5903, 0))));
-                            });
-
-
-                    ops.add("How's the guild coming along these days?")
-                            .addPlayer(HeadE.CALM_TALK, "How's the guild coming along these days?")
-                            .addNPC(npcid, HeadE.HAPPY_TALKING, "We're really only getting started at the moment. I've made a training dummy to practice on, but we'll need funds if we're to begin to command any respect. Anything else I can do for you?");
-
-
-                    ops.add("I'd like to talk about the caper I'm doing for you.")
-                            .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you.")
-                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Have you retrieved the chalice?")
-                            .addNext(() -> {
-                                switch (player.getQuestStage(Quest.BUYERS_AND_CELLARS)) {
-                                    case 3 -> player.startConversation(new Dialogue()
-                                            .addPlayer(HeadE.CALM_TALK, "Not yet.")
-                                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Head to Lumbridge Castle as soon as you may, then; Robin will meet you there."));
-
-                                    case 4 -> player.startConversation(new Dialogue()
-                                            .addPlayer(HeadE.CALM_TALK, "Not yet, but I'm on its trail"));
-
-                                    case 5, 6 -> player.startConversation(new Dialogue()
-                                            .addPlayer(HeadE.CALM_TALK, "I've tracked it down, but I've not yet retrieved it."));
-
-                                    case 7 -> player.startConversation(new Dialogue()
-                                            .addPlayer(HeadE.CALM_TALK, "I have the key, but not the chalice.")
-                                            .addNPC(npcid, HeadE.CALM_TALK, "You've used several keys in the past, I'm sure; one more should pose no difficulty."));
-                                    case 8 -> player.startConversation(new Dialogue()
-                                            .addPlayer(HeadE.HAPPY_TALKING, "I have!")
-                                            .addNPC(npcid, HeadE.HAPPY_TALKING, "Fantastic work! I knew I had chosen wisely when I recruited you. Now we can expand the guild and do some proper training around here.")
-                                            .addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "Your buyer is still interested, I hope?")
-                                            .addNPC(npcid, HeadE.CALM_TALK, "Yes, of course, why?")
-                                            .addPlayer(HeadE.CALM_TALK, "Well, the chalice wasn't where you said it was, nor was the owner; I just wanted to make sure you had something right in all of this.")
-                                            .addNPC(npcid, HeadE.LAUGH, "Ha! I do appreciate a sense of humor in my members.")
-                                            .addPlayer(HeadE.CALM_TALK, "It wasn't actually a joke, to be honest.")
-                                            .addNPC(npcid, HeadE.SKEPTICAL_HEAD_SHAKE, "To be honest? You don't want to be honest; you're a member of the illustrious Thieves' Guild! Now get out there and make me proud... and both of us rich!")
-                                            .addNext(() -> player.fadeScreen(() -> {
-                                                player.getInventory().deleteItem(18648, 1);
-                                                player.tele(Tile.of(3223, 3269, 0));
-                                                player.getVars().saveVarBit(7792, 10);
-                                                player.getVars().setVarBit(7793, 0);
-                                                player.getQuestManager().completeQuest(Quest.BUYERS_AND_CELLARS);
-                                            })));
-                                }
-                            });
-                    ops.add("Sorry, I was just leaving.")
-                            .addPlayer(HeadE.CALM, "Sorry, I was just leaving.");
-                }));
-    }
 
     public static void stage2(Player player) {
         player.startConversation(new Dialogue()
