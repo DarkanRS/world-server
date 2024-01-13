@@ -845,6 +845,7 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
+		walkRequest = null;
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
