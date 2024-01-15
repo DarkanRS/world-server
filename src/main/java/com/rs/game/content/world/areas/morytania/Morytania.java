@@ -53,40 +53,6 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class Morytania  {
 
-	public static enum BloomResource {
-
-		FUNGI_ON_LOG(3509, 1, 2970),
-		BUDDING_BRANCH(3511, 2, 2972),
-		GOLDEN_PEAR_BUSH(3513, 3, 2974);
-
-		private final int objectId, product, druidPouch;
-
-		private BloomResource(int objectId, int druidPouch, int product) {
-			this.objectId = objectId;
-			this.druidPouch = druidPouch;
-			this.product = product;
-		}
-
-		public int getObject() {
-			return objectId;
-		}
-
-		public int getDruidPouch() {
-			return druidPouch;
-		}
-
-		public int getProduct() {
-			return product;
-		}
-
-		public static BloomResource forObject(int id) {
-			for (BloomResource harvest : BloomResource.values())
-				if (harvest.objectId == id)
-					return harvest;
-			return null;
-		}
-	}
-
 	public static NPCClickHandler handleHiylikMyna = new NPCClickHandler(new Object[] { 1514 }, e -> {
 		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 			{
@@ -309,60 +275,6 @@ public class Morytania  {
 			});
 			ops.add("No, I'm scared!", new Dialogue().addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Veliaf did ask me to search everywhere."));
 		});
-	});
-
-	public static ObjectClickHandler handlePickBloomed = new ObjectClickHandler(new Object[] { 3509, 3511, 3513, 50736 }, e -> {
-		final BloomResource product = BloomResource.forObject(e.getObjectId());
-		final String productName = ItemDefinitions.getDefs(product.getProduct()).getName().toLowerCase();
-
-		e.getPlayer().setNextAnimation(new Animation(3659));
-		e.getPlayer().lock(1);
-		WorldTasks.delay(0, () -> {
-			if (e.getPlayer().getInventory().addItemDrop(product.getProduct(), 1)) {
-				e.getPlayer().sendMessage("You pick a " + productName + ".");
-				e.getPlayer().incrementCount(productName + " bloomed", 1);
-				e.getObject().setId(product.getObject()-1);
-			}
-		});
-	});
-
-	public static ItemOnObjectHandler handleDipSickle = new ItemOnObjectHandler(new Object[] { 3521 }, new Object[] { 2961 }, e -> {
-		e.getPlayer().lock(2);
-		e.getPlayer().setNextAnimation(new Animation(9104));
-		e.getPlayer().getInventory().deleteItem(e.getItem());
-		e.getPlayer().getInventory().addItem(2963, 1);
-		e.getPlayer().itemDialogue(2963, "You dip the sickle into the grotto water and bless it.");
-	});
-
-	public static ItemClickHandler handleBloom = new ItemClickHandler(new Object[] { 2963 }, new String[] { "Bloom" }, e -> {
-		int randomPrayerCost = Utils.random(10, 60);
-		if (e.getPlayer().getPrayer().getPoints() >= 60) {
-			e.getPlayer().getPrayer().drainPrayer(randomPrayerCost);
-			e.getPlayer().lock(2);
-			e.getPlayer().setNextAnimation(new Animation(9104));
-			for (int x = -1;x <= 1;x++)
-				for (int y = -1;y <= 1;y++) {
-					if (x == 0 && y == 0)
-						continue;
-					World.sendSpotAnim(e.getPlayer().transform(x, y), new SpotAnim(263));
-					GameObject object = World.getObject(e.getPlayer().transform(x, y), ObjectType.SCENERY_INTERACT);
-					if (object == null)
-						continue;
-					switch (object.getId()) {
-					case 3512://other
-					case 3510:
-						object.setIdTemporary(object.getId()+1, Ticks.fromSeconds(30));
-						break;
-					case 3508://fungi
-					case 50718:
-					case 50746:
-						object.setIdTemporary(3509, Ticks.fromSeconds(30));
-						break;
-					}
-				}
-			return;
-		}
-		e.getPlayer().sendMessage("You need more prayer points to do this.");
 	});
 
 	//Fenkenstraincastle

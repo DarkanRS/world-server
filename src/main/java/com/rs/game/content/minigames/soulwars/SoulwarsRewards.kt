@@ -4,7 +4,6 @@ import com.rs.cache.loaders.ItemDefinitions
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.content.ItemConstants
-import com.rs.game.content.skills.summoning.Summoning
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.net.ClientPacket
@@ -13,7 +12,6 @@ import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onButtonClick
 import com.rs.plugin.kts.onItemOnNpc
 import com.rs.plugin.kts.onNpcClick
-import com.rs.tools.old.CharmDrop
 import com.rs.utils.DropSets
 import com.rs.utils.drop.DropTable
 import kotlin.math.floor
@@ -134,13 +132,13 @@ fun mapRewardsPlugins() {
                 player.startConversation {
                     npc(npc.id, HeadE.CALM_TALK, "Are you sure you'd like me to remove your enchantment? You won't be refunded any Zeal for this process.")
                     options {
-                        option("Yes, please restore my ring to its original state.") {
+                        op("Yes, please restore my ring to its original state.") {
                             exec {
                                 item.id = imbue.itemId
                                 player.inventory.refresh(item.slot)
                             }
                         }
-                        option("Nevermind.")
+                        op("Nevermind.")
                     }
                 }
             }
@@ -148,7 +146,7 @@ fun mapRewardsPlugins() {
                 player.startConversation {
                     npc(npc.id, HeadE.CALM_TALK, "I can imbue that ring for you for " + imbue.zealCost + " Zeal. Is that alright with you?")
                     options {
-                        option("Yes, please imbue my ring.") {
+                        op("Yes, please imbue my ring.") {
                             if (player.soulWarsZeal >= imbue.zealCost)
                                 exec {
                                     if (player.soulWarsZeal >= imbue.zealCost) {
@@ -160,7 +158,7 @@ fun mapRewardsPlugins() {
                             else
                                 npc(npc.id, HeadE.CALM_TALK, "You don't have enough Zeal.")
                         }
-                        option("Nevermind.")
+                        op("Nevermind.")
                     }
                 }
             }

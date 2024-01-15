@@ -155,7 +155,7 @@ fun getInteractionDistance(vararg npcNamesOrIds: Any, calc: (Player, NPC) -> Int
     NPCInteractionDistanceEvent.registerMethod(NPCInteractionDistanceEvent::class.java, NPCInteractionDistanceHandler(npcNamesOrIds) { player, npc -> calc(player, npc) })
 }
 
-fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>?, eventHandler: (PickupItemEvent) -> Unit) {
+fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>? = null, eventHandler: (PickupItemEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     PickupItemEvent.registerMethod(PickupItemEvent::class.java, PickupItemHandler(itemNamesOrIds, tiles) { eventHandler(it) })
 }

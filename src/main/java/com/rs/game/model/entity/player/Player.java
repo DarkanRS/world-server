@@ -127,6 +127,7 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -4352,4 +4353,9 @@ public class Player extends Entity {
 	public String toString() {
 		return "["+getDisplayName() + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
 	}
+
+    @NotNull
+    public String genderTerm(@NotNull String male, @NotNull String female) {
+        return getAppearance().isMale() ? male : female;
+    }
 }

@@ -30,6 +30,11 @@ class Ghast(id: Int, tile: Tile) : NPC(id, tile) {
         return false
     }
 
+    override fun getPossibleTargets(): MutableList<Entity> {
+        //Can't attack in filliman's grotto zone
+        return super.getPossibleTargets().filter { !intArrayOf(879008, 881056, 881057, 879009).contains(it.chunkId) }.toMutableList()
+    }
+
     override fun sendDeath(source: Entity?) {
         spotAnim(265)
         if (source != null && source is Player)

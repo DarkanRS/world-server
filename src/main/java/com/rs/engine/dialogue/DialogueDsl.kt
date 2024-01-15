@@ -11,8 +11,9 @@ import java.util.function.BooleanSupplier
 annotation class DialogueDsl
 
 @DialogueDsl
-open class DialogueBuilder() {
+open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMapOf()) {
     private var dialogue = Dialogue()
+    val start = dialogue;
 
     fun player(expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addPlayer(expression, text, extraFunctionality)
@@ -27,10 +28,10 @@ open class DialogueBuilder() {
     }
 
     fun simple(vararg text: String, extraFunctionality: Runnable? = null) {
-        if (extraFunctionality != null) {
-            dialogue = dialogue.addSimple(text.first(), extraFunctionality)
+        dialogue = if (extraFunctionality != null) {
+            dialogue.addSimple(text.first(), extraFunctionality)
         } else {
-            dialogue = dialogue.addSimple(*text)
+            dialogue.addSimple(*text)
         }
     }
 
@@ -48,7 +49,7 @@ open class DialogueBuilder() {
 
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
         dialogue = dialogue.addOptions(title) { options ->
-            OptionsBuilder().apply(setup).applyToOptions(options)
+            OptionsBuilder(stages).apply(setup).applyToOptions(options)
         }
     }
 
@@ -60,12 +61,19 @@ open class DialogueBuilder() {
         dialogue = dialogue.addMakeX(itemIds, maxAmt)
     }
 
-    fun gotoStage(stageName: String, conversation: Conversation) {
-        dialogue = dialogue.addGotoStage(stageName, conversation)
+    fun label(stageName: String) {
+        stages[stageName] = dialogue
+    }
+
+    fun goto(stageName: String, conversation: Conversation? = null) {
+        dialogue = if (conversation != null)
+            dialogue.addGotoStage(stageName, conversation)
+        else
+            dialogue.addGotoStage(stages[stageName])
     }
 
     fun statementWithOptions(statement: Statement, vararg options: DialogueBuilder.() -> Unit) {
-        val optionDialogues = options.map { DialogueBuilder().apply(it).build() }
+        val optionDialogues = options.map { DialogueBuilder(stages).apply(it).build() }
         dialogue = dialogue.addStatementWithOptions(statement, *optionDialogues.toTypedArray())
     }
 
@@ -94,7 +102,7 @@ open class DialogueBuilder() {
     }
 
     fun nextIf(condition: BooleanSupplier, dialogueSetup: DialogueBuilder.() -> Unit) {
-        val nextDialogue = DialogueBuilder().apply(dialogueSetup).build()
+        val nextDialogue = DialogueBuilder(stages).apply(dialogueSetup).build()
         dialogue = dialogue.addNextIf(condition, nextDialogue)
     }
 
@@ -110,27 +118,27 @@ open class DialogueBuilder() {
         dialogue = dialogue.voiceEffect(voiceId)
     }
 
-    internal open fun build(): Dialogue = dialogue
+    internal open fun build(): Dialogue = start
 }
 
 @DialogueDsl
-class OptionsBuilder() {
+class OptionsBuilder(val stages: MutableMap<String, Dialogue>) {
     private val optionBuilders = mutableListOf<Pair<String, OptionBuilder.() -> Unit>>()
 
-    fun option(name: String, setup: OptionBuilder.() -> Unit = {}) {
+    fun op(name: String, setup: OptionBuilder.() -> Unit = {}) {
         optionBuilders.add(name to setup)
     }
 
     fun applyToOptions(options: Options) {
         optionBuilders.forEach { (name, setup) ->
-            val builder = OptionBuilder().apply(setup)
+            val builder = OptionBuilder(stages).apply(setup)
             options.add(name, builder.build())
         }
     }
 }
 
 @DialogueDsl
-class OptionBuilder : DialogueBuilder()
+class OptionBuilder(stages: MutableMap<String, Dialogue>) : DialogueBuilder(stages)
 
 fun dialogue(block: DialogueBuilder.() -> Unit): Dialogue {
     val builder = DialogueBuilder()
