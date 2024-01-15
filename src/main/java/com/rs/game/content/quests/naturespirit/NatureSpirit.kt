@@ -8,17 +8,15 @@ import com.rs.engine.quest.QuestOutline
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.lib.game.Animation
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ItemOnObjectEvent
-import com.rs.plugin.handlers.ItemOnObjectHandler
 import com.rs.plugin.kts.*
 
 const val STAGE_UNSTARTED = 0
 const val STAGE_FIND_FILLIMAN = 1
 const val STAGE_PROVE_GHOST = 2
-const val STAGE_GET_BLESSED = 3
+const val STAGE_GAVE_JOURNAL = 3
+const val STAGE_GET_BLESSED = 4
 
 const val FILLIMAN = 1050
 
@@ -40,8 +38,8 @@ class NatureSpirit : QuestOutline() {
         STAGE_UNSTARTED -> listOf("I should speak to Drezel under the Saradomin temple!")
         STAGE_FIND_FILLIMAN -> listOf("I need to look for Filliman Tarlock in the Swamps of Mort Myre. I should be wary of the Ghasts.")
         STAGE_PROVE_GHOST -> listOf("I think I need to convince this poor fellow Tarlock that he's actually dead!")
-        STAGE_GET_BLESSED -> listOf("Filliman might need my help with his plan.")
-        4 -> listOf()
+        STAGE_GAVE_JOURNAL -> listOf("Filliman might need my help with his plan.")
+        STAGE_GET_BLESSED -> listOf("Filliman gave me a 'bloom' spell but I need to be blessed at the mausoleum near the temple before I can cast it. I am supposed to collect 'something from nature'.")
         5 -> listOf()
         6 -> listOf()
         7 -> listOf("QUEST COMPLETE!")
@@ -66,7 +64,7 @@ fun mapNatureSpirit() {
             }
 
             "Enter" -> when(player.getQuestStage(Quest.NATURE_SPIRIT)) {
-                STAGE_FIND_FILLIMAN, STAGE_PROVE_GHOST, STAGE_GET_BLESSED -> { fillimanDialogue(player) }
+                STAGE_FIND_FILLIMAN, STAGE_PROVE_GHOST, STAGE_GAVE_JOURNAL, STAGE_GET_BLESSED -> { fillimanDialogue(player) }
                 else -> player.sendMessage("Nothing interesting happens.")
             }
         }
@@ -106,5 +104,5 @@ fun mapNatureSpirit() {
 
 class Filliman(id: Int, tile: Tile) : NPC(id, tile) {
     override fun withinDistance(player: Player, distance: Int) =
-        player.getQuestStage(Quest.NATURE_SPIRIT) in STAGE_FIND_FILLIMAN..STAGE_FIND_FILLIMAN && super.withinDistance(tile, distance)
+        player.getQuestStage(Quest.NATURE_SPIRIT) in STAGE_FIND_FILLIMAN..STAGE_GET_BLESSED && super.withinDistance(tile, distance)
 }

@@ -133,7 +133,7 @@ fun fillimanDialogue(player: Player) {
                         item(2967, "~ The spirit starts leafing through the journal ~<br>~ He seems quite distant as he regards the pages ~<br>~ After some time the druid faces you again ~")
                         npc(FILLIMAN, SAD, "It's all coming back to me now. It looks like I came to a violent and bitter end but that's not important now. I just have to figure out what I am going to do now?")
                         exec {
-                            player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_GET_BLESSED)
+                            player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_GAVE_JOURNAL)
                             player.inventory.deleteItem(2967, 1)
                         }
                     } else {
@@ -176,12 +176,46 @@ fun fillimanDialogue(player: Player) {
             }
         }
 
-        STAGE_GET_BLESSED -> player.startConversation {
+        STAGE_GAVE_JOURNAL -> player.startConversation {
             if (!player.canSpeakWithGhosts()) {
                 npc(FILLIMAN, SAD, "Ahhrs Ooooooh arhhhhAHhhh.")
                 return@startConversation
             }
-
+            npc(FILLIMAN, SAD, "Thanks for the journal, I've been reading it. It looks like I came to a violent and bitter end but that's not really important. I just have to figure out what I am going to do now?")
+            label("startOptions")
+            options {
+                op("Being dead, what options do you think you have?") {
+                    player(CONFUSED, "Being dead, what options do you think you have? I'm not trying to be rude or anything, but it's not like you have many options is it? I mean, it's either up or down for you isn't it?")
+                    npc(FILLIMAN, SAD, "Hmm, well you're a poetic one aren't you. Your material world logic stands you in good stead... If you're standing in the material world...")
+                    goto("startOptions")
+                }
+                op("So, what's your plan?") {
+                    player(CONFUSED, "So, what's your plan?")
+                    npc(FILLIMAN, CHEERFUL, "In my former incarnation I was Filliman Tarlock, a great druid of some power. I spent many years in this place, which was once a forest and I would wish to protect it as a nature spirit.")
+                    goto("startOptions")
+                }
+                op("Well, good luck with that.") {
+                    player(SKEPTICAL, "Well, good luck with that.")
+                    npc(FILLIMAN, SAD, "Won't you help me to become a nature spirit? I could really use your help!")
+                    goto("startOptions")
+                }
+                op("How can I help?") {
+                    player(CONFUSED, "How can I help?")
+                    npc(FILLIMAN, CONFUSED, "Will you help me to become a nature spirit? The directions for becoming one are a bit vague, I need three things but I know how to get one of them. Perhaps you can help collect the rest?")
+                    player(SKEPTICAL, "I might be interested, what's involved?")
+                    npc(FILLIMAN, SKEPTICAL_THINKING, "Well, the book says, that I need, and I quote:- 'Something with faith', 'something from nature' and the 'spirit-to-become' freely given'. Hmm, I know how to get something from nature.")
+                    player(SKEPTICAL_THINKING, "Well, that does seem a bit vague.")
+                    npc(FILLIMAN, SAD, "Hmm, it does and I could understand if you didn't want to help. However, if you could perhaps at least get the item from nature, that would be a start. Perhaps we can figure out the rest as we go along.")
+                    item(2968, "The druid produces a small sheet of papyrus with some writing on it.")
+                    npc(FILLIMAN, CHEERFUL, "This spell needs to be cast in the swamp after you have been blessed. I'm afraid you'll need to go to the temple to the North and ask a member of the clergy to bless you.")
+                    player(CONFUSED, "Blessed, what does that do?")
+                    npc(FILLIMAN, CHEERFUL, "It is required if you're to cast this druid spell. Once you've cast the spell, you should find something from nature. Bring it back to me and then we'll try to figure out the other things we need.") {
+                        player.inventory.addItem(2968)
+                        player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_GET_BLESSED)
+                    }
+                }
+                op("Ok, thanks.")
+            }
         }
     }
 }

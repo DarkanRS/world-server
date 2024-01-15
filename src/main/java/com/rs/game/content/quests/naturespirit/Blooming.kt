@@ -2,7 +2,9 @@ package com.rs.game.content.quests.naturespirit
 
 import com.rs.cache.loaders.ItemDefinitions
 import com.rs.cache.loaders.ObjectType
+import com.rs.engine.quest.Quest
 import com.rs.game.World
+import com.rs.game.model.entity.player.Player
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Animation
 import com.rs.lib.game.SpotAnim
@@ -45,22 +47,31 @@ fun mapBlooming() {
         }
     }
 
-    onItemClick(2963, options = arrayOf("Bloom")) { e ->
-        if (e.player.prayer.points >= 60) {
-            e.player.prayer.drainPrayer(Utils.random(10.0, 60.0))
-            e.player.lock(2)
-            e.player.anim(9104)
-            for (x in -1..1) for (y in -1..1) {
-                if (x == 0 && y == 0) continue
-                World.sendSpotAnim(e.player.transform(x, y), SpotAnim(263))
-                val obj = World.getObject(e.player.transform(x, y), ObjectType.SCENERY_INTERACT) ?: continue
-                when (obj.id) {
-                    3512, 3510 -> obj.setIdTemporary(obj.id + 1, Ticks.fromSeconds(30))
-                    3508, 50718, 50746 -> obj.setIdTemporary(3509, Ticks.fromSeconds(30))
-                }
-            }
+    onItemClick(2963, options = arrayOf("Bloom")) { castBloom(it.player) }
+    onItemClick(2968, options = arrayOf("Cast")) { e ->
+        if (e.player.getQuestStage(Quest.NATURE_SPIRIT) <= STAGE_GET_BLESSED) {
+            e.player.sendMessage("You need to be blessed before you can cast this.")
             return@onItemClick
         }
-        e.player.sendMessage("You need more prayer points to do this.")
+        castBloom(e.player)
+    }
+}
+
+fun castBloom(player: Player) {
+    if (player.prayer.points < 60) {
+        player.sendMessage("You need more prayer points to do this.")
+        return
+    }
+    player.prayer.drainPrayer(Utils.random(10.0, 60.0))
+    player.lock(2)
+    player.anim(9104)
+    for (x in -1..1) for (y in -1..1) {
+        if (x == 0 && y == 0) continue
+        World.sendSpotAnim(player.transform(x, y), SpotAnim(263))
+        val obj = World.getObject(player.transform(x, y), ObjectType.SCENERY_INTERACT) ?: continue
+        when (obj.id) {
+            3512, 3510 -> obj.setIdTemporary(obj.id + 1, Ticks.fromSeconds(30))
+            3508, 50718, 50746 -> obj.setIdTemporary(3509, Ticks.fromSeconds(30))
+        }
     }
 }
