@@ -123,16 +123,32 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
 
 @DialogueDsl
 class OptionsBuilder(val stages: MutableMap<String, Dialogue>) {
-    private val optionBuilders = mutableListOf<Pair<String, OptionBuilder.() -> Unit>>()
+    private sealed class OptionOperation {
+        data class BuilderOp(val name: String, val setup: OptionBuilder.() -> Unit) : OptionOperation()
+        data class ExecOp(val name: String, val exec: Runnable) : OptionOperation()
+    }
+
+    private val operations = mutableListOf<OptionOperation>()
 
     fun op(name: String, setup: OptionBuilder.() -> Unit = {}) {
-        optionBuilders.add(name to setup)
+        operations.add(OptionOperation.BuilderOp(name, setup))
+    }
+
+    fun opExec(name: String, exec: Runnable) {
+        operations.add(OptionOperation.ExecOp(name, exec))
     }
 
     fun applyToOptions(options: Options) {
-        optionBuilders.forEach { (name, setup) ->
-            val builder = OptionBuilder(stages).apply(setup)
-            options.add(name, builder.build())
+        operations.forEach { operation ->
+            when (operation) {
+                is OptionOperation.BuilderOp -> {
+                    val builder = OptionBuilder(stages).apply(operation.setup)
+                    options.add(operation.name, builder.build())
+                }
+                is OptionOperation.ExecOp -> {
+                    options.add(operation.name, operation.exec)
+                }
+            }
         }
     }
 }

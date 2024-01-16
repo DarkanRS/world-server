@@ -170,15 +170,6 @@ public class Morytania  {
 		e.getPlayer().tele(Tile.of(3521, 3284, 0));
 	});
 
-	public static ObjectClickHandler handleGrottoTree = new ObjectClickHandler(new Object[] { 3517 }, e -> {
-		if (e.getOpNum() == ClientPacket.OBJECT_OP2)
-			e.getPlayer().useLadder(Tile.of(2272, 5334, e.getPlayer().isQuestComplete(Quest.NATURE_SPIRIT) ? 1 : 0));
-	});
-
-	public static ObjectClickHandler handleExitNatureGrotto = new ObjectClickHandler(new Object[] { 3525, 3526 }, e -> {
-		e.getPlayer().useLadder(Tile.of(3440, 3337, 0));
-	});
-
 	public static ObjectClickHandler handleGrottoBridge = new ObjectClickHandler(new Object[] { 3522 }, e -> {
 		int jumpTo = ((e.getObject().getY() <= 3329) ? e.getObject().getY()+2 : e.getObject().getY()-2);
 		Tile endTile = Tile.of(e.getObject().getX(), jumpTo, e.getObject().getPlane());

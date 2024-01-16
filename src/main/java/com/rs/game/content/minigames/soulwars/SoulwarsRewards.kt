@@ -132,11 +132,9 @@ fun mapRewardsPlugins() {
                 player.startConversation {
                     npc(npc.id, HeadE.CALM_TALK, "Are you sure you'd like me to remove your enchantment? You won't be refunded any Zeal for this process.")
                     options {
-                        op("Yes, please restore my ring to its original state.") {
-                            exec {
-                                item.id = imbue.itemId
-                                player.inventory.refresh(item.slot)
-                            }
+                        opExec("Yes, please restore my ring to its original state.") {
+                            item.id = imbue.itemId
+                            player.inventory.refresh(item.slot)
                         }
                         op("Nevermind.")
                     }
@@ -146,17 +144,13 @@ fun mapRewardsPlugins() {
                 player.startConversation {
                     npc(npc.id, HeadE.CALM_TALK, "I can imbue that ring for you for " + imbue.zealCost + " Zeal. Is that alright with you?")
                     options {
-                        op("Yes, please imbue my ring.") {
-                            if (player.soulWarsZeal >= imbue.zealCost)
-                                exec {
-                                    if (player.soulWarsZeal >= imbue.zealCost) {
-                                        player.soulWarsZeal -= imbue.zealCost
-                                        item.id = imbue.imbuedItemId
-                                        player.inventory.refresh(item.slot)
-                                    }
-                                }
-                            else
-                                npc(npc.id, HeadE.CALM_TALK, "You don't have enough Zeal.")
+                        opExec("Yes, please imbue my ring.") {
+                            if (player.soulWarsZeal >= imbue.zealCost) {
+                                player.soulWarsZeal -= imbue.zealCost
+                                item.id = imbue.imbuedItemId
+                                player.inventory.refresh(item.slot)
+                            } else
+                                player.npcDialogue(npc.id, HeadE.CALM_TALK, "You don't have enough Zeal.")
                         }
                         op("Nevermind.")
                     }

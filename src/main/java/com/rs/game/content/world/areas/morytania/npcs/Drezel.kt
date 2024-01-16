@@ -18,7 +18,7 @@ fun mapDrezel() {
                     startConversation(DrezelMausoleumD(this))
                 }
 
-                drezelNatureSpiritOptions(this, it)
+                drezelNatureSpiritOptions(this, e.npc, it)
             }
         }
     }

@@ -4358,4 +4358,8 @@ public class Player extends Entity {
     public String genderTerm(@NotNull String male, @NotNull String female) {
         return getAppearance().isMale() ? male : female;
     }
+
+	public void completeQuest(@NotNull Quest quest) {
+		getQuestManager().completeQuest(quest);
+	}
 }

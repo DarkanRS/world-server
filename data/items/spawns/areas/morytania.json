@@ -8,5 +8,15 @@
       "y": 3337,
       "plane": 0
     }
+  },
+  {
+    "comment": "Druid pouch added by trent",
+    "itemId": 2957,
+    "amount": 1,
+    "tile": {
+      "x": 2273,
+      "y": 5341,
+      "plane": 0
+    }
   }
 ]
