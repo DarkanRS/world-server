@@ -70,7 +70,7 @@ fun mapCooksAssistant() {
 				npc(n, HeadE.SAD_MILD, "I'll never get them in time now. He'll sack me!<br>Whatever will I do?")
 				npc(n, HeadE.UPSET, "I have four children and a goat to look after. Would you help me? Please?")
 				options {
-					option("Of course. What is it you are looking for?") {
+					op("Of course. What is it you are looking for?") {
 						player(HeadE.HAPPY_TALKING, "Of course. What is it you are looking for?")
 						npc(n, HeadE.HAPPY_TALKING, "Oh, thank you, thank you. I must tell you that this is no ordinary cake, though - only the best ingredients will do!")
 						npc(n, HeadE.HAPPY_TALKING, "I need an egg, some milk, and a pot of flour.")
@@ -80,7 +80,7 @@ fun mapCooksAssistant() {
 							player.questManager.setStage(Quest.COOKS_ASSISTANT, 1)
 						}
 					}
-					option("Sorry, I can't help right now.")
+					op("Sorry, I can't help right now.")
 				}
 			}
 			1 -> player.startConversation {

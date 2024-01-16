@@ -1,5 +1,6 @@
-package com.rs.game.content.world.areas.morytania.npcs
+package com.rs.game.content.quests.naturespirit
 
+import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.skills.cooking.Foods
 import com.rs.game.model.entity.Entity
@@ -12,8 +13,9 @@ import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
+import com.rs.plugin.kts.onItemClick
 
-val GHASTS = arrayOf(1052, 1053, 14035, 14036, 14037, 14038, 14039, 14040);
+val GHASTS = arrayOf(1052, 1053, 14035, 14036, 14037, 14038, 14039, 14040)
 
 class Ghast(id: Int, tile: Tile) : NPC(id, tile) {
     override fun processNPC() {
@@ -28,6 +30,11 @@ class Ghast(id: Int, tile: Tile) : NPC(id, tile) {
 
     override fun canBeAutoRetaliated(): Boolean {
         return false
+    }
+
+    override fun getPossibleTargets(): MutableList<Entity> {
+        //Can't attack in filliman's grotto zone
+        return super.getPossibleTargets().filter { !intArrayOf(879008, 881056, 881057, 879009).contains(it.chunkId) }.toMutableList()
     }
 
     override fun sendDeath(source: Entity?) {

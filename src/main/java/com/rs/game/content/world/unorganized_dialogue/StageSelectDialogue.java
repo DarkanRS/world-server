@@ -19,14 +19,21 @@ package com.rs.game.content.world.unorganized_dialogue;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 
+import java.awt.*;
+
 public class StageSelectDialogue extends Dialogue {
 
 	private String stageName;
 	private Conversation conversation;
+	private Dialogue directNextReference;
 
 	public StageSelectDialogue(String stageName, Conversation conversation) {
 		this.stageName = stageName;
 		this.conversation = conversation;
+	}
+
+	public StageSelectDialogue(Dialogue directNextReference) {
+		this.directNextReference = directNextReference;
 	}
 
 	public String getStageName() {
@@ -35,6 +42,10 @@ public class StageSelectDialogue extends Dialogue {
 
 	public Conversation getConversation() {
 		return conversation;
+	}
+
+	public Dialogue getDirectNextReference() {
+		return directNextReference;
 	}
 
 }
