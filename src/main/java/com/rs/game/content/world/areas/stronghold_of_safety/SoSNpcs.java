@@ -8,7 +8,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
-public class NPC {
+public class SoSNpcs {
     private static final int JAILGUARD = 7142;
     private static final int PROFESSOR_HENRY = 7143;
 

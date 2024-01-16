@@ -270,7 +270,7 @@ public class PriestInPeril extends QuestOutline {
 				return;
 			}
 			else
-				new DrezelD(e.getPlayer());
+				new DrezelInJailD(e.getPlayer());
 		}
 		if(e.getOption().equalsIgnoreCase("Open")) {
 			if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 6) {
@@ -291,7 +291,7 @@ public class PriestInPeril extends QuestOutline {
 				return;
 			}
 			else
-				new DrezelD(e.getPlayer());
+				new DrezelInJailD(e.getPlayer());
 
 		}
 	});

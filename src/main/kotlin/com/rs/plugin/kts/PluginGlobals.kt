@@ -124,7 +124,7 @@ fun onItemOnNpc(vararg npcNamesOrIds: Any, checkDistance: Boolean = true, eventH
     ItemOnNPCEvent.registerMethod(IFOnNPCEvent::class.java, ItemOnNPCHandler(checkDistance, npcNamesOrIds) { eventHandler(it) })
 }
 
-fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>, tiles: Array<Tile>? = null, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
+fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>? = null, tiles: Array<Tile>? = null, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
     objectNamesOrIds.forEach { require(it is String || it is Int) { "objectNamesOrIds must contain only String or Int types" } }
     ItemOnObjectEvent.registerMethod(ItemOnObjectEvent::class.java, ItemOnObjectHandler(checkDistance, objectNamesOrIds, itemNamesOrIds, tiles) { eventHandler(it) })
 }
@@ -155,7 +155,7 @@ fun getInteractionDistance(vararg npcNamesOrIds: Any, calc: (Player, NPC) -> Int
     NPCInteractionDistanceEvent.registerMethod(NPCInteractionDistanceEvent::class.java, NPCInteractionDistanceHandler(npcNamesOrIds) { player, npc -> calc(player, npc) })
 }
 
-fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>?, eventHandler: (PickupItemEvent) -> Unit) {
+fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>? = null, eventHandler: (PickupItemEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     PickupItemEvent.registerMethod(PickupItemEvent::class.java, PickupItemHandler(itemNamesOrIds, tiles) { eventHandler(it) })
 }
