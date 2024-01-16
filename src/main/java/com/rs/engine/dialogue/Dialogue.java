@@ -86,6 +86,10 @@ public class Dialogue {
 		return addNext(new StageSelectDialogue(stageName, conversation));
 	}
 
+	public Dialogue addGotoStage(Dialogue directNextReference) {
+		return addNext(new StageSelectDialogue(directNextReference));
+	}
+
 	public Dialogue addStatementWithOptions(Statement statement, Dialogue... options) {
 		Dialogue option = addNext(statement);
 		for (Dialogue option2 : options)

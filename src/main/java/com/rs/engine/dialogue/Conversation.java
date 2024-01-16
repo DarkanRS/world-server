@@ -360,7 +360,10 @@ public class Conversation {
 		if (current instanceof StageSelectDialogue d) {
 			if (d.getFunc() != null)
 				d.getFunc().run();
-			current = d.getConversation().getStage(d.getStageName());
+			if (d.getConversation() != null)
+				current = d.getConversation().getStage(d.getStageName());
+			else
+				current = d.getDirectNextReference();
 		}
 		if (player.getInterfaceManager().containsChatBoxInter())
 			player.getInterfaceManager().closeChatBoxInterface();
