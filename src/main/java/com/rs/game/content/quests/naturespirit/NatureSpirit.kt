@@ -179,9 +179,9 @@ class Filliman(id: Int, tile: Tile) : NPC(id, tile) {
     override fun withinDistance(player: Player, distance: Int): Boolean {
         val stage = player.getQuestStage(Quest.NATURE_SPIRIT)
         if (stage in STAGE_FIND_FILLIMAN..STAGE_PUZZLING_IT_OUT)
-            return super.withinDistance(tile, distance)
+            return super.withinDistance(player, distance)
         if (stage == STAGE_MEET_IN_GROTTO)
-            return super.withinDistance(tile, distance) && setOf(580251, 580250, 582298, 582299).contains(player.chunkId)
+            return super.withinDistance(player, distance) && setOf(580251, 580250, 582298, 582299).contains(player.chunkId)
         return false
     }
 }
