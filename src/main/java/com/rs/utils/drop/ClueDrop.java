@@ -21,8 +21,8 @@ import java.util.Set;
 
 public class ClueDrop {
 
-	private Set<Integer> combatLevels = new HashSet<>();
-	private int weight;
+	private final Set<Integer> combatLevels = new HashSet<>();
+	private final int weight;
 
 	public ClueDrop(int weight, int... combatLevels) {
 		this.weight = weight;

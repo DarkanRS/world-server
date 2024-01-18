@@ -230,7 +230,7 @@ public enum Scroll {
 			owner.lock();
 			owner.sync(7660, 1316);
 			familiar.sync(7775, 1461);
-			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
+			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, proj -> {
 				World.sendSpotAnim(object.getTile(), new SpotAnim(1460));
 				owner.unlock();
 				boolean superCompost = Utils.random(10) == 0;
@@ -335,7 +335,7 @@ public enum Scroll {
 			}
 			familiar.sync(7903, 1382);
 			player.spotAnim(1300);
-			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
+			int runEnergy = (int) (player.getRunEnergy() + (Math.round((float) player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
 			return true;
 		}
@@ -445,7 +445,7 @@ public enum Scroll {
 			familiar.sync(8229, 1521);
 			player.spotAnim(1300);
 			player.getSkills().adjustStat(2, 0.0, Constants.AGILITY);
-			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
+			int runEnergy = (int) (player.getRunEnergy() + (Math.round((float) player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
 			return true;
 		}
@@ -572,7 +572,8 @@ public enum Scroll {
 			PENGUIN(12483, 12117),
 			VULTURE(11965, 12121);
 			
-			private int id, toId;
+			private final int id;
+            private final int toId;
 			
 			Egg(int id, int toId) {
 				this.id = id;
@@ -655,7 +656,8 @@ public enum Scroll {
 			CAVEFISH(15264, 22),
 			ROCKTAIL(15270, 23);
 			
-			int id, heal;
+			final int id;
+            final int heal;
 			
 			Fish(int id, int heal) {
 				this.id = id;
@@ -713,7 +715,7 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7998, 1346);
-			World.sendProjectile(familiar, target, 1347, 34, 16, 30, 1.5, 16, 0, proj -> target.spotAnim(1348));
+			World.sendProjectile(familiar, target, 1347, 34, 16, 30, 1.5, 16, proj -> target.spotAnim(1348));
 			if (target instanceof Player player) {
 				var foods = Arrays.stream(player.getInventory().getItems().array()).filter(it -> it != null && Foods.isConsumable(it)).toList();
 				if (!foods.isEmpty()) {
@@ -1252,12 +1254,11 @@ public enum Scroll {
 	CLAY_DEPOSIT(14421, ScrollTarget.CLICK, "Sends all held clay back to the base.", 0.0, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) { 
-			if (owner.getControllerManager().getController() == null || !(owner.getControllerManager().getController() instanceof StealingCreationController)) {
+			if (owner.getControllerManager().getController() == null || !(owner.getControllerManager().getController() instanceof StealingCreationController sc)) {
 				familiar.dismiss();
 				return false;
 			}
-			StealingCreationController sc = (StealingCreationController) owner.getControllerManager().getController();
-			Score score = sc.getGame().getScore(owner);
+            Score score = sc.getGame().getScore(owner);
 			if (score == null)
 				return false;
 			for (Item item : familiar.getInventory().array()) {
@@ -1269,19 +1270,19 @@ public enum Scroll {
 		}
 	};
 	
-	private static Map<Integer, Scroll> MAP = new HashMap<>();
+	private static final Map<Integer, Scroll> MAP = new HashMap<>();
 	
 	static {
 		for (Scroll s : Scroll.values())
 			MAP.put(s.id, s);
 	}
 	
-	private ScrollTarget target;
-	private String name;
-	private String description;
-	private int id;
-	private double xp;
-	private int pointCost;
+	private final ScrollTarget target;
+	private final String name;
+	private final String description;
+	private final int id;
+	private final double xp;
+	private final int pointCost;
 	private List<Pouch> fromPouches;
 
 	private Scroll(int scrollId, ScrollTarget target, String description, double xp, int pointCost) {

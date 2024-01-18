@@ -9,10 +9,10 @@ public class LogEntry {
 		GE, PICKUP, GRAVE, COMMAND, REPORT, TRADE
     }
 
-    private Date date;
-    private LogType type;
-    private long hash;
-    private Object data;
+    private final Date date;
+    private final LogType type;
+    private final long hash;
+    private final Object data;
 
     public LogEntry(LogType type, long hash, Object data) {
         this.date = new Date();

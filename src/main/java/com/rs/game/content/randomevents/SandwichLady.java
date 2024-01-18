@@ -83,7 +83,7 @@ public class SandwichLady extends OwnedNPC {
 			forceTalk(randomQuote(getOwner()));
 	}
 	
-	private static final String randomQuote(Player player) {
+	private static String randomQuote(Player player) {
 		return switch(Utils.randomInclusive(0, 8)) {
 		case 0 -> "All types of sandwiches, " + player.getDisplayName() + ".";
 		case 1 -> "Come on " + player.getDisplayName() + ", I made these specifically!!";
@@ -93,9 +93,8 @@ public class SandwichLady extends OwnedNPC {
 	}
 
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }, e -> {
-		if (e.getNPC() instanceof SandwichLady) {
-			SandwichLady npc = (SandwichLady) e.getNPC();
-			if (npc.ticks >= DURATION)
+		if (e.getNPC() instanceof SandwichLady npc) {
+            if (npc.ticks >= DURATION)
 				return;
 			if (npc.getOwner() != e.getPlayer()) {
 				e.getPlayer().startConversation(new Conversation(new Dialogue()

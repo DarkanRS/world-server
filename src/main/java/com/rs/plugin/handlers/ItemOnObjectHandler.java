@@ -23,8 +23,9 @@ import java.util.function.Consumer;
 
 public class ItemOnObjectHandler extends PluginHandler<ItemOnObjectEvent> {
 
-	private Object[] objectKeys, itemKeys;
-	private Tile[] tiles;
+	private final Object[] objectKeys;
+    private final Object[] itemKeys;
+	private final Tile[] tiles;
 	private boolean checkDistance = true;
 
 	public ItemOnObjectHandler(boolean checkDistance, Object[] objectNamesOrIds, Object[] itemNamesOrIds, Tile[] tiles, Consumer<ItemOnObjectEvent> handler) {

@@ -31,9 +31,7 @@ public class Aemad extends Conversation {
             public void create() {
 
                 option("Oh that sounds interesting..", new Dialogue()
-                        .addNext(() -> {
-                            ShopsHandler.openShop(player, "aemads_adventuring_supplies");
-                        }));
+                        .addNext(() -> ShopsHandler.openShop(player, "aemads_adventuring_supplies")));
 
                 option("No, I've come to the wrong place.", new Dialogue()
                         .addPlayer(HeadE.CONFUSED, "No, I've come to the wrong place.")

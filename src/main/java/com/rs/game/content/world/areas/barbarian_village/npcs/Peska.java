@@ -20,8 +20,7 @@ public class Peska {
                             option("I could be, yes.", new Dialogue()
                                     .addPlayer(HeadE.HAPPY_TALKING, "I could be, yes.")
                                     .addNPC(NPC, HeadE.CALM_TALK, "Let me show you my inventory then...")
-                                    .addNext(()->{
-                                        ShopsHandler.openShop(e.getPlayer(), "helmet_shop");})
+                                    .addNext(()-> ShopsHandler.openShop(e.getPlayer(), "helmet_shop"))
                             );
                             option("No, I'll pass on that.", new Dialogue()
                                     .addPlayer(HeadE.HAPPY_TALKING, "No, I'll pass on that.")

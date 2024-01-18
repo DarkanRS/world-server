@@ -48,18 +48,14 @@ public class Santa2020D extends Conversation {
 			addPlayer(HeadE.CONFUSED, "So there's nothing for me to do for you guys?");
 			addNPC(SANTA, HeadE.LAUGH, "Ho ho hohhh! You could guess a number between 1-1000 for me if that would make you feel more deserving of your presents this year.");
 			addPlayer(HeadE.CHEERFUL, "That's a lot more simple than last year, I guess!");
-			addNPC(SANTA, HeadE.CHEERFUL, "Yeah, when Torpid Trent has things he'd rather do. It seems to make our jobs easier.", () -> {
-				player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000));
-			});
+			addNPC(SANTA, HeadE.CHEERFUL, "Yeah, when Torpid Trent has things he'd rather do. It seems to make our jobs easier.", () -> player.getTempAttribs().setI("santaRandNum", Utils.random(1, 1000)));
 			addNext(() -> {
 				player.save(Christmas2020.STAGE_KEY, 1);
 				guessNumber(player);
 			});
 			break;
 		case 1:
-			addNext(() -> {
-				guessNumber(player);
-			});
+			addNext(() -> guessNumber(player));
 			break;
 		case 2:
 			addNPC(SANTA, HeadE.CHEERFUL, "Good job. Do you feel deserving of your Christmas presents now?");

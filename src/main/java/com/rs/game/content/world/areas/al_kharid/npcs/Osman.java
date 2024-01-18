@@ -111,11 +111,9 @@ public class Osman extends Conversation {
 				public void create() {
 					if(!player.isQuestComplete(Quest.PRINCE_ALI_RESCUE))
 						option("About Prince Ali To The Rescue", new Dialogue() //TODO Non-vanilla dialogue
-								.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player));}));
+								.addNext(()-> player.startConversation(new OsmanPrinceAliRescueD(player))));
 					option("Sorcerer's Garden", new Dialogue()
-							.addNext(()->{
-								player.startConversation(new Osman(player, 0).getStart());
-							}));
+							.addNext(()-> player.startConversation(new Osman(player, 0).getStart())));
 				}
 			});
 

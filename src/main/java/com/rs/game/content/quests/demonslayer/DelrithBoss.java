@@ -34,7 +34,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class DelrithBoss extends NPC {
 	Player p;
-	private static int DELRITH_ID = 879;
+	private static final int DELRITH_ID = 879;
 
 	//Delrith animations
 	static final int STUNNED = 4619;
@@ -45,7 +45,7 @@ public class DelrithBoss extends NPC {
 
 	public DelrithBoss(Tile tile) {
 		super(DELRITH_ID, tile, true);
-		p = World.getPlayersInChunkRange(getChunkId(), 2).get(0);
+		p = World.getPlayersInChunkRange(getChunkId(), 2).getFirst();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class DelrithBoss extends NPC {
 
 		WorldTasks.schedule(new Task() {
 			int tick = 0;
-			int finalTick = Ticks.fromSeconds(12);
+			final int finalTick = Ticks.fromSeconds(12);
 			boolean conversating = false;
 			@Override
 			public void run() {
@@ -117,9 +117,8 @@ public class DelrithBoss extends NPC {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		if (hit.getSource() instanceof Player) {
-			Player source = (Player) hit.getSource();
-			if (source.getEquipment().getWeaponId() != -1)
+		if (hit.getSource() instanceof Player source) {
+            if (source.getEquipment().getWeaponId() != -1)
 				if (ItemDefinitions.getDefs(source.getEquipment().getWeaponId()).getName().contains("Silverlight") ||
 						ItemDefinitions.getDefs(source.getEquipment().getWeaponId()).getName().contains("Darklight"))
 					super.handlePreHit(hit);

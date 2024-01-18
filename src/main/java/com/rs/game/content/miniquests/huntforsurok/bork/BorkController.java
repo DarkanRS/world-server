@@ -31,7 +31,7 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 
 public class BorkController extends InstancedController {
-	private boolean quest;
+	private final boolean quest;
 
 	public BorkController(boolean quest) {
 		super(Instance.of(ChaosTunnels.PortalPair.BORK.tile1, 8, 8).setEntranceOffset(new int[] { 43, 24, 0 }));

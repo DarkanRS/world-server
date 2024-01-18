@@ -16,15 +16,7 @@
 //
 package com.rs.game.model.entity.npc;
 
-public final class Transformation {
+public record Transformation(int toNPCId) {
 
-	private int toNPCId;
 
-	public Transformation(int toNPCId) {
-		this.toNPCId = toNPCId;
-	}
-
-	public int getToNPCId() {
-		return toNPCId;
-	}
 }

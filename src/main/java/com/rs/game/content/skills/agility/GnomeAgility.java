@@ -70,13 +70,11 @@ public class GnomeAgility {
 	public static ObjectClickHandler handleBoard = new ObjectClickHandler(false, new Object[] { 69514 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
 			return;
-		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2476, 3418, 3), () -> {
-			e.getPlayer().forceMove(Tile.of(2484, 3418, 3), 2922, 25, 90, () -> {
-				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
-				if (getGnomeStage(e.getPlayer()) == 0)
-					setGnomeStage(e.getPlayer(), 1);
-			});
-		}));
+		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2476, 3418, 3), () -> e.getPlayer().forceMove(Tile.of(2484, 3418, 3), 2922, 25, 90, () -> {
+            e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
+            if (getGnomeStage(e.getPlayer()) == 0)
+                setGnomeStage(e.getPlayer(), 1);
+        })));
 	});
 
 	public static ObjectClickHandler handleTreeBranch2 = new ObjectClickHandler(new Object[] { 69506 }, e -> {
@@ -211,20 +209,18 @@ public class GnomeAgility {
 		}, 1);
 	});
 
-	public static ObjectClickHandler handleObstacleNet2 = new ObjectClickHandler(false, new Object[] { 69384 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(Utils.clampI(e.getPlayer().getX(), 2483, 2488), e.getObject().getY()-1, 0), () -> {
-			e.getPlayer().sendMessage("You climb the netting.", true);
-			e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getObject().getY()+1, 0), 1, 2);
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					if (getGnomeStage(e.getPlayer()) == 4)
-						setGnomeStage(e.getPlayer(), 5);
-					e.getPlayer().getSkills().addXp(Constants.AGILITY, 8);
-				}
-			}, 1);
-		}));
-	});
+	public static ObjectClickHandler handleObstacleNet2 = new ObjectClickHandler(false, new Object[] { 69384 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(Utils.clampI(e.getPlayer().getX(), 2483, 2488), e.getObject().getY()-1, 0), () -> {
+        e.getPlayer().sendMessage("You climb the netting.", true);
+        e.getPlayer().useStairs(828, Tile.of(e.getPlayer().getX(), e.getObject().getY()+1, 0), 1, 2);
+        WorldTasks.schedule(new Task() {
+            @Override
+            public void run() {
+                if (getGnomeStage(e.getPlayer()) == 4)
+                    setGnomeStage(e.getPlayer(), 5);
+                e.getPlayer().getSkills().addXp(Constants.AGILITY, 8);
+            }
+        }, 1);
+    })));
 
 	public static ObjectClickHandler handlePipe = new ObjectClickHandler(new Object[] { 69377, 69378 }, e -> {
 		final boolean running = e.getPlayer().getRun();

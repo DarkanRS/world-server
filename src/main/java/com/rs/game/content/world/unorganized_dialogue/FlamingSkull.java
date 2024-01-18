@@ -26,11 +26,9 @@ import com.rs.plugin.handlers.ItemClickHandler;
 @PluginEventHandler
 public class FlamingSkull extends Conversation {
 
-	private static final String COLORS[] = { "Green", "Purple", "Blue", "Red" };
+	private static final String[] COLORS = { "Green", "Purple", "Blue", "Red" };
 	
-	public static ItemClickHandler handleSwitchColor = new ItemClickHandler(new Object[] { 24437, 24439, 24440, 24441 }, new String[] { "Change-colour", "Change colour" }, e -> {
-		e.getPlayer().startConversation(new FlamingSkull(e.getPlayer(), e.getItem(), e.isEquipped()));
-	});
+	public static ItemClickHandler handleSwitchColor = new ItemClickHandler(new Object[] { 24437, 24439, 24440, 24441 }, new String[] { "Change-colour", "Change colour" }, e -> e.getPlayer().startConversation(new FlamingSkull(e.getPlayer(), e.getItem(), e.isEquipped())));
 	
 	public FlamingSkull(Player player, Item item, boolean worn) {
 		super(player);

@@ -35,7 +35,7 @@ import static com.rs.game.content.combat.PlayerCombat.*;
 
 @PluginEventHandler
 public class SpecialAttacks {
-    private static Map<Integer, SpecialAttack> SPECIAL_ATTACKS = new HashMap<>();
+    private static final Map<Integer, SpecialAttack> SPECIAL_ATTACKS = new HashMap<>();
 
     @ServerStartupEvent
     public static void loadSpecs() {
@@ -195,9 +195,7 @@ public class SpecialAttacks {
                                         next3.applyHit(calculateHit(player, next3, 1, maxHit, true, true, 1.0));
                                         for (Entity next4 : getMultiAttackTargets(player, next3, 5, 1, false)) {
                                             WorldProjectile p5 = World.sendProjectile(next3, next4, 258, 20, 50, 1);
-                                            WorldTasks.schedule(p5.getTaskDelay(), () -> {
-                                                next4.applyHit(calculateHit(player, next4, 1, maxHit, true, true, 1.0));
-                                            });
+                                            WorldTasks.schedule(p5.getTaskDelay(), () -> next4.applyHit(calculateHit(player, next4, 1, maxHit, true, true, 1.0)));
                                         }
                                     });
                                 }
@@ -449,7 +447,7 @@ public class SpecialAttacks {
             player.setNextSpotAnim(new SpotAnim(2109));
             Hit hit = calculateHit(player, target, false, true, 2.0, 1.1);
             player.heal(hit.getDamage() / 2);
-            player.getPrayer().restorePrayer(hit.getDamage() / 4);
+            player.getPrayer().restorePrayer((double) hit.getDamage() / 4);
             delayNormalHit(target, hit);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));

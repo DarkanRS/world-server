@@ -19,9 +19,9 @@ package com.rs.utils.record;
 import com.rs.game.World;
 
 public class RecordedAction implements Comparable<RecordedAction> {
-	private int time;
-	private long tick;
-	private long timeLogged;
+	private final int time;
+	private final long tick;
+	private final long timeLogged;
 
 	public RecordedAction(long timeLogged, int time) {
 		this.timeLogged = timeLogged;

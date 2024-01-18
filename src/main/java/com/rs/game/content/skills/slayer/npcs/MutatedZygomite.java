@@ -70,5 +70,5 @@ public class MutatedZygomite extends ConditionalDeath {
 		}, 1);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3344, 3345, 3346, 3347 }, (npcId, tile) -> new MutatedZygomite(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3344, 3345, 3346, 3347 }, MutatedZygomite::new);
 }

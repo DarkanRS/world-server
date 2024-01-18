@@ -34,7 +34,7 @@ public enum ShadeChest {
 	SILVER(Utils.range(4126, 4130), Utils.range(10621, 10625), Utils.range(3465, 3469), "shade_silver_chest"),
 	GOLD(new int[] { 59731 }, new int[] { 59732 }, new int[] { 21511 }, "shade_gold_chest");
 
-	private static Map<Integer, ShadeChest> OBJECT_MAP = new HashMap<>();
+	private static final Map<Integer, ShadeChest> OBJECT_MAP = new HashMap<>();
 
 	static {
 		for (ShadeChest chest : ShadeChest.values())
@@ -46,10 +46,10 @@ public enum ShadeChest {
 		return OBJECT_MAP.get(objectId);
 	}
 
-	private int[] objectIds;
-	private Map<Integer, Integer> opened = new HashMap<>();
-	private int[] keyIds;
-	private String dropSet;
+	private final int[] objectIds;
+	private final Map<Integer, Integer> opened = new HashMap<>();
+	private final int[] keyIds;
+	private final String dropSet;
 
 	private ShadeChest(int[] objectIds, int[] openedIds, int[] keyIds, String dropSet) {
 		this.objectIds = objectIds;

@@ -30,13 +30,12 @@ import java.util.List;
 
 public class MapSearcher {
 
-	private static int SEARCH = 27241;
-
-	public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 		//Cache.init();
 		MapXTEAs.loadKeys();
 
-		for (GameObject obj : getObjectsById(SEARCH))
+        int SEARCH = 27241;
+        for (GameObject obj : getObjectsById(SEARCH))
 			System.out.println(obj);
 		//System.out.println("PITFALLS.add("+obj.getTileHash()+");");
 	}

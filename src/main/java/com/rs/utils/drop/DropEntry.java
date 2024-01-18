@@ -17,9 +17,9 @@
 package com.rs.utils.drop;
 
 public class DropEntry {
-	private DropTable table;
-	private double min;
-	private double max;
+	private final DropTable table;
+	private final double min;
+	private final double max;
 	private boolean always;
 
 	public DropEntry(DropTable table) {

@@ -23,7 +23,7 @@ public enum Fissure {
 
     public final Tile location;
 
-    private static Map<Integer, Fissure> LOC_MAP = new HashMap<>();
+    private static final Map<Integer, Fissure> LOC_MAP = new HashMap<>();
 
     static {
         for (Fissure fissure : Fissure.values())

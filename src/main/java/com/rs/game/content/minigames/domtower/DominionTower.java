@@ -78,7 +78,7 @@ public final class DominionTower {
 	public void openModes() {
 		if (!hasRequiriments()) {
 			player.startConversation(new Dialogue().addSimple("You don't have the requirements to play this content, but you can spectate some of the matches" +
-					" taking place if you would like.", () -> {player.getDominionTower().openSpectate();}));
+					" taking place if you would like.", () -> player.getDominionTower().openSpectate()));
 			return;
 		}
 		if (!talkedWithFace) {
@@ -126,13 +126,13 @@ public final class DominionTower {
 
 	public static final class Boss {
 
-		private String name;
-		private String text;
-		private int[] ids;
-		private boolean forceMulti;
-		private Item item;
-		private int voice;
-		private int[] arena;
+		private final String name;
+		private final String text;
+		private final int[] ids;
+		private final boolean forceMulti;
+		private final Item item;
+		private final int voice;
+		private final int[] arena;
 
 		public Boss(String name, String text, int... ids) {
 			this(name, text, -1, false, null, NORMAL_ARENA, ids);
@@ -193,16 +193,12 @@ public final class DominionTower {
 	}
 
 	public String getStartFightText(int message) {
-		switch (message) {
-		case 0:
-			return "Kick my ass!";
-		case 1:
-			return "Please don't hit my face";
-		case 2:
-			return "Argh!";
-		default:
-			return "Bring it on!";
-		}
+        return switch (message) {
+            case 0 -> "Kick my ass!";
+            case 1 -> "Please don't hit my face";
+            case 2 -> "Argh!";
+            default -> "Bring it on!";
+        };
 	}
 
 	public int getNextBossIndex() {

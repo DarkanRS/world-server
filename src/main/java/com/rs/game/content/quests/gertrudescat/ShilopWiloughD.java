@@ -108,9 +108,7 @@ public class ShilopWiloughD extends Conversation {
 			addPlayer(HeadE.SCARED, "Pardon?");
 			addNPC(npcId, HeadE.CHILD_ANGRY, "I can beat anyone up!");
 			addPlayer(HeadE.ROLL_EYES, "Really?");
-			addSimple("The boy begins to jump around with his fists up. You wonder what sort of desperado he'll grow up to be.", () -> {
-				npc.setNextAnimation(new Animation(12447));
-			});
+			addSimple("The boy begins to jump around with his fists up. You wonder what sort of desperado he'll grow up to be.", () -> npc.setNextAnimation(new Animation(12447)));
 		}
 
 		create();

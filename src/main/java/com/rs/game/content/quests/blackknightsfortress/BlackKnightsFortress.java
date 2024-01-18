@@ -145,9 +145,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						@Override
 						public void create() {
 							option("Okay, I won't", new Dialogue().addPlayer(HeadE.SCARED, "Okay, I won't."));
-							option("I don't care: i'm going in anyway", new Dialogue().addPlayer(HeadE.LAUGH, "I am going in anyway").addNext(() -> {
-								handleDoor(p, e.getObject());
-							}));
+							option("I don't care: i'm going in anyway", new Dialogue().addPlayer(HeadE.LAUGH, "I am going in anyway").addNext(() -> handleDoor(p, e.getObject())));
 						}
 					});
 					addPlayer(HeadE.SKEPTICAL_THINKING, "I don't know...");
@@ -239,9 +237,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.startConversation(new Conversation(p) {
 						{
 							addNPC(611, HeadE.ANGRY, "Where has Greldo got to with that magic cabbage!");
-							addNext(() -> {
-								tick++;
-							});
+							addNext(() -> tick++);
 							create();
 						}
 					});
@@ -262,9 +258,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					});
 
 				if (tick == 14)
-					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-						World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX));
-					});
+					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, proj -> World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX)));
 
 				if (tick == POTION_RUINED) {
 					p.getVars().setVarBit(CAULDRON_STATUS_VAR, 1);
@@ -273,9 +267,7 @@ public class BlackKnightsFortress extends QuestOutline {
 							addNPC(611, HeadE.AMAZED_MILD, "My potion!");
 							addNPC(610, HeadE.SCARED, "Oh boy, this doesn't look good!");
 							addNPC(4607, HeadE.CAT_CALM_TALK, "Meow!");
-							addNext(() -> {
-								tick++;
-							});
+							addNext(() -> tick++);
 							for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 								if (npc.getId() == 611)
 									npc.setNextAnimation(new Animation(CRY));

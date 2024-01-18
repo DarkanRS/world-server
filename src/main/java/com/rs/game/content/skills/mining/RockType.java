@@ -60,8 +60,8 @@ public enum RockType {
 
 	;
 
-	private int respawnTime;
-	private List<Ore> ores;
+	private final int respawnTime;
+	private final List<Ore> ores;
 
 	private RockType(int respawnTime, Ore... ores) {
 		this.respawnTime = respawnTime;
@@ -74,7 +74,7 @@ public enum RockType {
 	}
 
 	public int getLevel() {
-		return ores.get(ores.size()-1).getLevel();
+		return ores.getLast().getLevel();
 	}
 
 	public int getRespawnTime() {

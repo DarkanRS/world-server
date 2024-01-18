@@ -24,19 +24,19 @@ import com.rs.lib.game.Item;
 import com.rs.lib.util.Logger;
 
 public class Offer {
-	private String owner;
-	private int box;
-	private boolean selling;
+	private final String owner;
+	private final int box;
+	private final boolean selling;
 	private State state;
-	private int itemId;
-	private int amount;
-	private int price;
+	private final int itemId;
+	private final int amount;
+	private final int price;
 	private int completedAmount;
 	private int totalGold;
 	private GE.GrandExchangeType currentType;
 	private final GE.OfferType offerType;
 	private boolean aborted = false;
-	private ItemsContainer<Item> processedItems = new ItemsContainer<>(2, true);
+	private final ItemsContainer<Item> processedItems = new ItemsContainer<>(2, true);
 
 	public Offer(String owner, int box, boolean selling, int itemId, int amount, int price, GE.OfferType type) {
 		this.owner = owner;
@@ -126,7 +126,7 @@ public class Offer {
 		completedAmount += num;
 		if (completedAmount >= amount) {
 			if (completedAmount > amount)
-				Logger.handle(Offer.class, "addCompleted", "GE completed amount higher than sale amount: " + this.toString(), null);
+				Logger.handle(Offer.class, "addCompleted", "GE completed amount higher than sale amount: " + this, null);
 			state = State.FINISHED;
 		}
 	}

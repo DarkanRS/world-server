@@ -104,9 +104,7 @@ public class DwarfMultiCannon extends OwnedObject {
 		this.type = type;
 	}
 
-	public static ItemClickHandler handlePlace = new ItemClickHandler(new Object[] { 6, 20494, 20498 }, new String[] { "Set-up" }, e -> {
-		setUp(e.getPlayer(), e.getItem().getId() == 6 ? 0 : e.getItem().getId() == 20494 ? 1 : 2);
-	});
+	public static ItemClickHandler handlePlace = new ItemClickHandler(new Object[] { 6, 20494, 20498 }, new String[] { "Set-up" }, e -> setUp(e.getPlayer(), e.getItem().getId() == 6 ? 0 : e.getItem().getId() == 20494 ? 1 : 2));
 
 	public static boolean canFreelyReplace(Player player) {
 		return player.getPlacedCannon() > 0 && OwnedObject.getNumOwned(player, DwarfMultiCannon.class) == 0;
@@ -263,7 +261,7 @@ public class DwarfMultiCannon extends OwnedObject {
 				Hit hit = PlayerCombat.calculateHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
 				WorldProjectile proj = World.sendProjectile(Tile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, hit.getDamage(), HitLook.CANNON_DAMAGE)));
-				owner.getSkills().addXp(Constants.RANGE, hit.getDamage() / 5);
+				owner.getSkills().addXp(Constants.RANGE, (double) hit.getDamage() / 5);
 				balls--;
 				npc.setTarget(owner);
 				npc.setAttackedBy(owner);

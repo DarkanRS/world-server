@@ -192,9 +192,7 @@ public class ErnestTheChicken extends QuestOutline {
 		if(p.getTempAttribs().getB("FountainFishDead"))
 			p.startConversation(new Conversation(p) {
 				{
-					addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> {
-						p.getInventory().addItem(PRESSURE_GAUGE, 1);
-					});
+					addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> p.getInventory().addItem(PRESSURE_GAUGE, 1));
 					addPlayer(HeadE.CALM_TALK, "... and a lot of dead fish.");
 					create();
 				}

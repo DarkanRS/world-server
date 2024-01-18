@@ -24,7 +24,7 @@ public class EntityHitBar extends HitBar {
 		this.entity = entity;
 	}
 
-	private Entity entity;
+	private final Entity entity;
 
 	@Override
 	public int getPercentage() {

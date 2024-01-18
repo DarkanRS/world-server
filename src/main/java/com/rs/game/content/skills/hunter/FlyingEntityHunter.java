@@ -176,9 +176,7 @@ public class FlyingEntityHunter {
 		};
 	}
 
-	public static NPCInteractionDistanceHandler flyingEntitiesDistance = new NPCInteractionDistanceHandler(FlyingEntities.flyingEntitiesByNPC.keySet().toArray(), (player, npc) -> {
-		return 0;
-	});
+	public static NPCInteractionDistanceHandler flyingEntitiesDistance = new NPCInteractionDistanceHandler(FlyingEntities.flyingEntitiesByNPC.keySet().toArray(), (player, npc) -> 0);
 
 	public static NPCClickHandler captureFlyingEntity = new NPCClickHandler(true, FlyingEntities.flyingEntitiesByNPC.keySet().toArray(), e -> {
 		if (!e.getOption().equals("Catch") || !e.isAtNPC())

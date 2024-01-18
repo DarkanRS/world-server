@@ -45,9 +45,7 @@ public class Herquin extends Conversation {
 			public void create() {
 
 				option("Yes, please.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "herquins_gems");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "herquins_gems")));
 				option("Sorry, I don't want to talk to you, actually.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Sorry, I don't want to talk to you, actually.")
 						.addNPC(npcId, HeadE.SHAKING_HEAD, "Huh, charming.")

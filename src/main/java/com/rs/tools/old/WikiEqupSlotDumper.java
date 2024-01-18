@@ -28,7 +28,7 @@ import java.util.Iterator;
 
 public class WikiEqupSlotDumper {
 
-	private static ArrayList<EquipSlot> slots = new ArrayList<>();
+	private static final ArrayList<EquipSlot> slots = new ArrayList<>();
 
 	private static boolean dumpEquipmentSlot(Item item) {
 		if (!item.getDefinitions().isWearItem() || item.getDefinitions().isNoted())
@@ -143,8 +143,8 @@ public class WikiEqupSlotDumper {
 
 	public static class EquipSlot {
 
-		private int id;
-		private SlotType type;
+		private final int id;
+		private final SlotType type;
 
 		public EquipSlot(int id, SlotType type) {
 			this.id = id;

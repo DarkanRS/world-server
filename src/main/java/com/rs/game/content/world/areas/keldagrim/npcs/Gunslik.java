@@ -31,9 +31,7 @@ public class Gunslik extends Conversation {
             public void create() {
 
                 option("Oh good!", new Dialogue()
-                        .addNext(() -> {
-                            ShopsHandler.openShop(player, "gunsliks_assorted_items");
-                        }));
+                        .addNext(() -> ShopsHandler.openShop(player, "gunsliks_assorted_items")));
 
                 option("Nothing, thanks.", new Dialogue()
                         .addPlayer(HeadE.CONFUSED, "Nothing, thanks.")

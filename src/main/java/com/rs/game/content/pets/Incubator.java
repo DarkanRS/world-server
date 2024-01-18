@@ -22,7 +22,7 @@ import com.rs.lib.game.Animation;
 
 public class Incubator {
 
-	public static enum Egg {
+	public enum Egg {
 		PEGUIN_EGG(30, 12483, 12481),
 		RAVEN_EGG(50, 11964, 12484),
 		BIRD_EGG_ZAMMY(70, 5076, 12506),
@@ -35,9 +35,11 @@ public class Incubator {
 		GREEN_DRAGON_EGG(99, 12479, 12473),
 		BLACK_DRAGON_EGG(99, 12480, 12475);
 
-		private int summoningLevel, eggId, petId;
+		private final int summoningLevel;
+        private final int eggId;
+        private final int petId;
 
-		private Egg(int summoningLevel, int eggId, int petId) {
+		Egg(int summoningLevel, int eggId, int petId) {
 			this.summoningLevel = summoningLevel;
 			this.eggId = eggId;
 			this.petId = petId;

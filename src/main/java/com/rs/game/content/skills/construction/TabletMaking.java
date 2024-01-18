@@ -46,7 +46,7 @@ public class TabletMaking {
 		CAMELOT_TELEPORT(8010, 45, new RuneSet(Rune.AIR, 5, Rune.LAW, 1), 55.5, 5),
 		BONES_TO_PEACHES(8015, 60, new RuneSet(Rune.WATER, 4, Rune.EARTH, 4, Rune.NATURE, 2), 35.5, 4);
 
-		private static Map<Integer, Tablet> MAP = new HashMap<>();
+		private static final Map<Integer, Tablet> MAP = new HashMap<>();
 
 		static {
 			for (Tablet t : Tablet.values())
@@ -57,11 +57,11 @@ public class TabletMaking {
 			return MAP.get(componentId);
 		}
 
-		private int id;
-		private int levelReq;
-		private RuneSet runeReq;
-		private double experience;
-		private int componentId;
+		private final int id;
+		private final int levelReq;
+		private final RuneSet runeReq;
+		private final double experience;
+		private final int componentId;
 
 		private Tablet(int id, int level, RuneSet runes, double experience, int componentId) {
 			this.id = id;

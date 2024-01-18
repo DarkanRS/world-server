@@ -18,8 +18,9 @@ package com.rs.game.model.entity.pathing;
 
 public class WalkStep {
 
-	private Direction dir;
-	private int x, y;
+	private final Direction dir;
+	private final int x;
+    private final int y;
 	private boolean clip;
 
 	public WalkStep(Direction dir, int x, int y, boolean clip) {

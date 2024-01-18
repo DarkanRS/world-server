@@ -33,7 +33,7 @@ import java.util.Map;
 @PluginEventHandler
 public class ControllerAdapter implements JsonSerializer<Controller>, JsonDeserializer<Controller> {
 	
-	private static Map<String, Class<?>> CONTROLLER_CLASSES = new HashMap<>();
+	private static final Map<String, Class<?>> CONTROLLER_CLASSES = new HashMap<>();
 	
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {

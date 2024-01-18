@@ -101,15 +101,13 @@ public class CoalBag {
 						e.getPlayer().save("coalBag", 0);
 						e.getPlayer().sendMessage("You store all of your coal in the bank.");
 					});
-					option("Deposit X", () -> {
-						e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
-							int coalBagAmount = e.getPlayer().getI("coalBag");
-							int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
-							e.getPlayer().getBank().addItem(new Item(453, coalToStore), true);
-							e.getPlayer().save("coalBag", coalBagAmount-coalToStore);
-							e.getPlayer().sendMessage("You store " + coalToStore + " coal in the bank.");
-						});
-					});
+					option("Deposit X", () -> e.getPlayer().sendInputInteger("How much coal would you like to deposit?", amount -> {
+                        int coalBagAmount = e.getPlayer().getI("coalBag");
+                        int coalToStore = (amount > coalBagAmount ? coalBagAmount : amount);
+                        e.getPlayer().getBank().addItem(new Item(453, coalToStore), true);
+                        e.getPlayer().save("coalBag", coalBagAmount-coalToStore);
+                        e.getPlayer().sendMessage("You store " + coalToStore + " coal in the bank.");
+                    }));
 				}
 			}));
 	});

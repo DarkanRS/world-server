@@ -26,8 +26,10 @@ import java.util.Map;
 
 public class MoveNPCAction extends CutsceneAction {
 
-	private int x, y, plane;
-	private MoveType movementType;
+	private final int x;
+    private final int y;
+    private final int plane;
+	private final MoveType movementType;
 
 	public MoveNPCAction(String key, int x, int y, boolean run, int actionDelay) {
 		this(key, x, y, 0, run ? MoveType.RUN : MoveType.WALK, actionDelay);

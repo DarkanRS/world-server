@@ -49,14 +49,14 @@ public final class Nex extends NPC {
 		ZAROS
 	}
 
-	private NexArena arena;
+	private final NexArena arena;
 	private boolean followTarget;
 	private Phase phase;
 	private int minionStage;
 	private int attackCount = 0;
 	private long ticksLastAttack;
 
-	private NPC[] bloodReavers;
+	private final NPC[] bloodReavers;
 
 	public Nex(NexArena arena, Tile tile) {
 		super(13447, tile, true);
@@ -191,9 +191,7 @@ public final class Nex extends NPC {
 	}
 
 	public static void sendWrathProj(Entity nex, Tile tile, double speed) {
-		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, 0, p -> {
-			World.sendSpotAnim(tile, new SpotAnim(2260));
-		});
+		World.sendProjectile(nex, tile, 2261, 24, 0, 1, speed, 30, p -> World.sendSpotAnim(tile, new SpotAnim(2260)));
 	}
 
 	public ArrayList<Entity> calculatePossibleTargets(Tile current, Tile position, boolean northSouth) {

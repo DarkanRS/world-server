@@ -101,9 +101,7 @@ public class PortSarimNPC {
                                         });
 
                                 ops.add("Can I see your wares?")
-                                        .addNext(() -> {
-                                            ShopsHandler.openShop(e.getPlayer(), "bettys_magic_emporium");
-                                        });
+                                        .addNext(() -> ShopsHandler.openShop(e.getPlayer(), "bettys_magic_emporium"));
 
                                 ops.add("No thanks, Betty.")
                                         .addPlayer(HeadE.HAPPY_TALKING, "No thanks, Betty. Good luck with the shop. I might be back for some dye later.")
@@ -115,9 +113,7 @@ public class PortSarimNPC {
                             .addOptions(ops -> {
 
                                 ops.add("Can I see your wares? ")
-                                        .addNext(() -> {
-                                            ShopsHandler.openShop(e.getPlayer(), "bettys_magic_emporium");
-                                        });
+                                        .addNext(() -> ShopsHandler.openShop(e.getPlayer(), "bettys_magic_emporium"));
 
                                 ops.add("Sorry, I'm not into magic.")
                                         .addPlayer(HeadE.HAPPY_TALKING, "Sorry, I'm not into magic.")
@@ -138,9 +134,7 @@ public class PortSarimNPC {
                         ops.add("So, are you selling something? ")
                                 .addPlayer(HeadE.CALM_TALK, "So, are you selling something?")
                                 .addNPC(BRIAN, HeadE.HAPPY_TALKING, "Yep, take a look at these great axes.")
-                                .addNext(() -> {
-                                    ShopsHandler.openShop(e.getPlayer(), "brians_battleaxe_bazaar");
-                                });
+                                .addNext(() -> ShopsHandler.openShop(e.getPlayer(), "brians_battleaxe_bazaar"));
 
                         ops.add("'Ello'")
                                 .addPlayer(HeadE.HAPPY_TALKING, "'Ello.")
@@ -151,9 +145,7 @@ public class PortSarimNPC {
 
     public static NPCClickHandler DrunkenSailor = new NPCClickHandler(new Object[]{ DRUNKEN_SAILOR }, e -> {
         switch (e.getOption()) {
-            case "Talk-to" -> {
-                e.getPlayer().simpleDialogue("You shake the snoring sailor by the shoulder. It doesn't look like he's going to wake up any time soon. ");
-            }
+            case "Talk-to" -> e.getPlayer().simpleDialogue("You shake the snoring sailor by the shoulder. It doesn't look like he's going to wake up any time soon. ");
             case "Search" -> {
                 if (e.getPlayer().getInventory().hasFreeSlots()) {
                     e.getPlayer().simpleDialogue("You find the sailor's hat in one of his pockets. You put it in your inventory. ");
@@ -183,9 +175,7 @@ public class PortSarimNPC {
                     .addNPC(GRUM, HeadE.HAPPY_TALKING, " Would you like to buy or sell some gold jewellery?")
                     .addOptions(ops -> {
                         ops.add("Yes, please.")
-                                .addNext(() -> {
-                                    ShopsHandler.openShop(e.getPlayer(), "grums_gold_exchange");
-                                });
+                                .addNext(() -> ShopsHandler.openShop(e.getPlayer(), "grums_gold_exchange"));
                         ops.add("No, I'm not that rich.")
                                 .addPlayer(HeadE.SHAKING_HEAD, "No, I'm not that rich. ")
                                 .addNPC(GRUM, HeadE.ANGRY, " Get out, then! We don't want any riff-raff in here.");
@@ -235,9 +225,7 @@ public class PortSarimNPC {
                     .addOptions(ops -> {
                         if (!e.getPlayer().isQuestComplete(Quest.PIRATES_TREASURE))
                             ops.add("About Pirate's Treasure", new Dialogue()
-                                    .addNext(() -> {
-                                        e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()));
-                                    }));
+                                    .addNext(() -> e.getPlayer().startConversation(new RedbeardFrankPiratesTreasureD(e.getPlayer()))));
 
                         ops.add("About the Achievement System...",
                                 new AchievementSystemDialogue(e.getPlayer(), REDBEARD_FRANK, SetReward.FALADOR_SHIELD)

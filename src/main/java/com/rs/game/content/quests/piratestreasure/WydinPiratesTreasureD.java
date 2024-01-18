@@ -30,7 +30,7 @@ public class WydinPiratesTreasureD extends Conversation {
 					public void create() {
 						option("Yes please.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Yes please.")
-								.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
+								.addNext(()-> ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store"))
 						);
 						option("No, thank you.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "No, thank you.")
@@ -44,7 +44,7 @@ public class WydinPiratesTreasureD extends Conversation {
 										option("Hmm, I think I'll try one.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "Hmm, I think I'll try one.")
 												.addNPC(NPC, HeadE.CALM_TALK, "Great. You might as well take a look at the rest of my wares as well.")
-												.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
+												.addNext(()-> ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store"))
 										);
 
 										option("I don't like the sound of that.", new Dialogue()
@@ -63,9 +63,7 @@ public class WydinPiratesTreasureD extends Conversation {
 				addNPC(WYDIN, HeadE.CALM_TALK, "Well, you're keen, I'll give you that. Okay, I'll give you a go. Have you got your own white apron?");
 				if(player.getInventory().containsItem(APRON, 1) || player.getEquipment().getChestId() == APRON) {
 					addPlayer(HeadE.HAPPY_TALKING, "Yes, I have one right here.");
-					addNPC(WYDIN, HeadE.CALM_TALK, "Wow - you are well prepared! You're hired. Go through to the back and tidy up for me, please.", ()->{
-						player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("WYDIN_EMPLOYMENT", true);
-					});
+					addNPC(WYDIN, HeadE.CALM_TALK, "Wow - you are well prepared! You're hired. Go through to the back and tidy up for me, please.", ()-> player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("WYDIN_EMPLOYMENT", true));
 				}
 				else {
 					addPlayer(HeadE.HAPPY_TALKING, "No, I haven't.");
@@ -98,7 +96,7 @@ public class WydinPiratesTreasureD extends Conversation {
 						option("Can I buy something please?", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Can I buy something please?")
 								.addNPC(NPC, HeadE.CALM_TALK, "Yes, of course.")
-								.addNext(()->{ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store");})
+								.addNext(()-> ShopsHandler.openShop(WydinPiratesTreasureD.this.player, "wydins_food_store"))
 						);
 					}
 				});

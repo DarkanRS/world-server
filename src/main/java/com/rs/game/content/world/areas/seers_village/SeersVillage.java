@@ -51,13 +51,9 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 @PluginEventHandler
 public class SeersVillage {
 
-	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }, e -> {
-		e.getPlayer().startConversation(new Dialogue()
-				.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?")
-				.addOptions("What would you like to say?", ops -> {
-					ops.add("About the Achievement System...", new AchievementSystemDialogue(e.getPlayer(), e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
-				}));
-	});
+	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?")
+            .addOptions("What would you like to say?", ops -> ops.add("About the Achievement System...", new AchievementSystemDialogue(e.getPlayer(), e.getNPCId(), SetReward.SEERS_HEADBAND).getStart()))));
 	
 	public static ObjectClickHandler beehives = new ObjectClickHandler(new Object[] { 68 }, e -> {
 		if (e.getPlayer().getInventory().containsItem(28)) {
@@ -92,22 +88,20 @@ public class SeersVillage {
 		e.getPlayer().sendMessage("It is locked...");
 	});
 
-	public static NPCClickHandler handleSeer = new NPCClickHandler(new Object[] { 388 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.DRUNK, "Uh, what was that dark force? I've never sensed anything like it...");
-				addNPC(e.getNPCId(), HeadE.NO_EXPRESSION, "Anyway, sorry about that.");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
-							option("About Scorpion Catcher", new SeerScorpionCatcherD(e.getPlayer()).getStart());
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
-					}
-				});
-			}
-		});
-	});
+	public static NPCClickHandler handleSeer = new NPCClickHandler(new Object[] { 388 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addNPC(e.getNPCId(), HeadE.DRUNK, "Uh, what was that dark force? I've never sensed anything like it...");
+            addNPC(e.getNPCId(), HeadE.NO_EXPRESSION, "Anyway, sorry about that.");
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    if (e.getPlayer().getQuestManager().getStage(Quest.SCORPION_CATCHER) == ScorpionCatcher.LOOK_FOR_SCORPIONS)
+                        option("About Scorpion Catcher", new SeerScorpionCatcherD(e.getPlayer()).getStart());
+                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                }
+            });
+        }
+    }));
 	
 	public static int[] battlestaves = { 1397, 1395, 1399, 1393, 3053, 6562, 11736 };
 	public static int[] mystics = { 1405, 1403, 1407, 1401, 3054, 6563, 11738 };
@@ -137,25 +131,23 @@ public class SeersVillage {
 
 	//---Camelot Castle
 
-	public static NPCClickHandler handleSirKay = new NPCClickHandler(new Object[] { 241 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
-						if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
-							option("About Holy Grail", new Dialogue()
-									.addNext(()->{e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart());}));
-						if (!player.isQuestComplete(Quest.MERLINS_CRYSTAL))
-							option("About Merlin's Crystal", new Dialogue()
-									.addNext(()->{e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart());}));
-					}
-				});
-			}
-		});
-	});
+	public static NPCClickHandler handleSirKay = new NPCClickHandler(new Object[] { 241 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.SEERS_HEADBAND).getStart());
+                    if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED)
+                        option("About Holy Grail", new Dialogue()
+                                .addNext(()-> e.getPlayer().startConversation(new SirKayHolyGrailD(e.getPlayer()).getStart())));
+                    if (!player.isQuestComplete(Quest.MERLINS_CRYSTAL))
+                        option("About Merlin's Crystal", new Dialogue()
+                                .addNext(()-> e.getPlayer().startConversation(new SirKayMerlinsCrystalD(e.getPlayer()).getStart())));
+                }
+            });
+        }
+    }));
 
 	public static NPCClickHandler handleSirBedivere = new NPCClickHandler(new Object[] { 242 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) > HolyGrail.NOT_STARTED) {
@@ -232,13 +224,9 @@ public class SeersVillage {
 
 	//--End Camelot Castle
 
-	public static ObjectClickHandler handleRoofLadder = new ObjectClickHandler(new Object[] { 26118, 26119 }, e -> {
-		e.getPlayer().ladder(e.getPlayer().transform(0, 0, e.getObjectId() == 26118 ? 2 : -2));
-	});
+	public static ObjectClickHandler handleRoofLadder = new ObjectClickHandler(new Object[] { 26118, 26119 }, e -> e.getPlayer().ladder(e.getPlayer().transform(0, 0, e.getObjectId() == 26118 ? 2 : -2)));
 
-	public static ObjectClickHandler handleIkovTrapDoor = new ObjectClickHandler(new Object[] { 6278 }, e -> {
-		e.getPlayer().sendMessage("It appears locked from the inside...");
-	});
+	public static ObjectClickHandler handleIkovTrapDoor = new ObjectClickHandler(new Object[] { 6278 }, e -> e.getPlayer().sendMessage("It appears locked from the inside..."));
 
 	public static ObjectClickHandler handleCoalTruckLogBalance = new ObjectClickHandler(new Object[] { 2296 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 20))

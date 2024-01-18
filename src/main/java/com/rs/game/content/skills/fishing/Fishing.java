@@ -40,7 +40,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Fishing extends PlayerAction {
 
-    private static Map<Integer, FishingSpot[]> FISHING_SPOTS = new HashMap<>();
+    private static final Map<Integer, FishingSpot[]> FISHING_SPOTS = new HashMap<>();
 
     static {
         FISHING_SPOTS.put(1174, new FishingSpot[]{FishingSpot.KARAMBWANJI});

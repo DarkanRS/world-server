@@ -39,14 +39,14 @@ public class PestControl {
 	private final static int[] KNIGHT_IDS = { 3782, 3784, 3785 };
 
 	private Instance region;
-	private int[] pestCounts = new int[5];
+	private final int[] pestCounts = new int[5];
 
-	private List<Player> team;
-	private List<NPC> brawlers = new LinkedList<>();
-	private PestPortal[] portals = new PestPortal[4];
+	private final List<Player> team;
+	private final List<NPC> brawlers = new LinkedList<>();
+	private final PestPortal[] portals = new PestPortal[4];
 
 	private PestPortal knight;
-	private PestData data;
+	private final PestData data;
 
 	private byte portalCount = 5;
 
@@ -131,8 +131,7 @@ public class PestControl {
 	}
 
 	public void endGame() {
-		final List<Player> team = new LinkedList<>();
-		team.addAll(this.team);
+        final List<Player> team = new LinkedList<>(this.team);
 		this.team.clear();
 		for (final Player player : team) {
 			final int knightZeal = (int) ((PestControlGameController) player.getControllerManager().getController()).getPoints();
@@ -254,8 +253,9 @@ public class PestControl {
 		VETERAN(new int[] { /* Shifters */3736, 3737, 3738, 3739, 3740, 3741 /* Ravagers */, 3744, 3745, 3746, /* Brawler */3776, 3774,/* Splatter */3729, 3730, 3731, /* Spinner */3749, 3750, 3751, /* Torcher */3758, 3759, 3760, 3761,/* Defiler */
 				3770, 3771 }, new int[] { 3736, 3737, 3738, 3739, 3740, 3741 }, 7);
 
-		private int[] pests, shifters;
-		private int reward;
+		private final int[] pests;
+        private final int[] shifters;
+		private final int reward;
 
 		private PestData(int[] pests, int[] shifters, int reward) {
 			this.pests = pests;

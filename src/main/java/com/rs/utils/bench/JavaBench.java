@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JavaBench {
-    private static ExecutorService service = Executors.newFixedThreadPool(1);
+    private static final ExecutorService service = Executors.newFixedThreadPool(1);
     public static void main(String[] args) throws IOException, InterruptedException {
         Cache.init("../cache/");
         for (int i = 0;i <= 50;i++) {

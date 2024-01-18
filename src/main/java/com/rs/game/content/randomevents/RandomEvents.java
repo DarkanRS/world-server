@@ -27,7 +27,7 @@ import java.util.List;
 
 public class RandomEvents {
 
-	private static List<Tile> RANDOM_TILES = new ArrayList<>();
+	private static final List<Tile> RANDOM_TILES = new ArrayList<>();
 	static {
 		RANDOM_TILES.add(Tile.of(3208, 3219, 3));
 		RANDOM_TILES.add(Tile.of(2707, 3472, 1));

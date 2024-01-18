@@ -61,7 +61,7 @@ public class Lunars {
 			if (possibleTargets.size() == maxTargets)
 				break;
 		}
-		return possibleTargets.toArray(new Player[possibleTargets.size()]);
+		return possibleTargets.toArray(new Entity[0]);
 	}
 
 	public static boolean hasUnstrungs(Player player) {

@@ -65,12 +65,8 @@ public class IceQueenDungeon {
 
 	public static ObjectClickHandler handleIceQueenLairLadders = new ObjectClickHandler(new Object[]{20987, 33184, 100}, e -> {
 		switch (e.getObjectId()) {
-		case 20987 -> {
-			e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
-		}
-		case 33184 -> {
-			e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
-		}
+		case 20987 -> e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 6400, 0));
+		case 33184 -> e.getPlayer().useLadder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 6400, 0));
 	}
 	});
 

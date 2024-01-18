@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 
 public abstract class Options {
 
-	private Map<String, Option> options = new LinkedHashMap<>(); //LinkedHashMap O(1) but allows ordered keys
+	private final Map<String, Option> options = new LinkedHashMap<>(); //LinkedHashMap O(1) but allows ordered keys
 	private String stageName;
 	private Conversation conv;
 

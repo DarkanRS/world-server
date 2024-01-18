@@ -409,7 +409,7 @@ public class PrayerManager {
 				sap.activate(player, target);
 				player.setNextAnimation(new Animation(12569));
 				player.setNextSpotAnim(new SpotAnim(sap.getSpotAnimStart()));
-				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
+				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
 				});
@@ -418,7 +418,7 @@ public class PrayerManager {
 			if (active(leech.getPrayer()) && Utils.random(7) == 0) {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
-				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
+				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
 				});
@@ -749,24 +749,11 @@ public class PrayerManager {
 	}
 
 	public static boolean isOverhead(Prayer p) {
-		switch(p) {
-		case PROTECT_MAGIC:
-		case PROTECT_SUMMONING:
-		case PROTECT_RANGE:
-		case PROTECT_MELEE:
-		case RETRIBUTION:
-		case REDEMPTION:
-		case SMITE:
-		case DEFLECT_MELEE:
-		case DEFLECT_SUMMONING:
-		case DEFLECT_MAGIC:
-		case DEFLECT_RANGE:
-		case WRATH:
-		case SOUL_SPLIT:
-			return true;
-		default:
-			return false;
-		}
+        return switch (p) {
+            case PROTECT_MAGIC, PROTECT_SUMMONING, PROTECT_RANGE, PROTECT_MELEE, RETRIBUTION, REDEMPTION, SMITE, DEFLECT_MELEE, DEFLECT_SUMMONING, DEFLECT_MAGIC, DEFLECT_RANGE, WRATH, SOUL_SPLIT ->
+                    true;
+            default -> false;
+        };
 	}
 
 	public boolean isProtectingItem() {

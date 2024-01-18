@@ -43,9 +43,7 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 											option("I laugh in the face of danger", new Dialogue()
 													.addPlayer(HeadE.LAUGH, "I laugh in the face of danger")
 													.addNPC(SIR_AMIK_VARZE, HeadE.CALM_TALK, "Well that's good. Don't get too overconfident though.")
-													.addNext(() -> {
-														p.startConversation(new SirAmikVarzeBlackKnightsFortressD(p, QUEST_START_CONVO).getStart());
-													}));
+													.addNext(() -> p.startConversation(new SirAmikVarzeBlackKnightsFortressD(p, QUEST_START_CONVO).getStart())));
 
 											option("I go and cower in a corner at the first sign of danger", new Dialogue()
 													.addPlayer(HeadE.SCARED, "I go and cower in a corner at the first sign of danger")
@@ -57,9 +55,7 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 														public void create() {
 															option("Oh I suppose I'll give it a go then", new Dialogue()
 																	.addPlayer(HeadE.HAPPY_TALKING, "Oh I suppose I'll give it a go then")
-																	.addNext(() -> {
-																		p.startConversation(new SirAmikVarzeBlackKnightsFortressD(p, QUEST_START_CONVO).getStart());
-																	}));
+																	.addNext(() -> p.startConversation(new SirAmikVarzeBlackKnightsFortressD(p, QUEST_START_CONVO).getStart())));
 															option("No I'm not convinced", new Dialogue().addPlayer(HeadE.SCARED, "No I'm not convinced"));
 														}
 													}));
@@ -90,9 +86,7 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 						" story.");
 				addPlayer(HeadE.CALM_TALK, "Now I believe there was some talk of a cash reward...");
 				addNPC(SIR_AMIK_VARZE, HeadE.CALM_TALK, "Absoluely right. Please accept this reward.");
-				addNext(()-> {
-					p.getQuestManager().completeQuest(Quest.BLACK_KNIGHTS_FORTRESS);
-				});
+				addNext(()-> p.getQuestManager().completeQuest(Quest.BLACK_KNIGHTS_FORTRESS));
 				}
 			case QUEST_COMPLETE -> {
 				addNPC(SIR_AMIK_VARZE, HeadE.CALM_TALK, "Thank you for saving us from the Black Knights!");
@@ -121,9 +115,7 @@ public class SirAmikVarzeBlackKnightsFortressD extends Conversation {
 				@Override
 				public void create() {
 					option("Yes", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "OK I'll give it a try.", ()->{
-								p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, STARTED);
-							}));
+							.addPlayer(HeadE.HAPPY_TALKING, "OK I'll give it a try.", ()-> p.getQuestManager().setStage(Quest.BLACK_KNIGHTS_FORTRESS, STARTED)));
 					option("No", new Dialogue());
 				}
 			});

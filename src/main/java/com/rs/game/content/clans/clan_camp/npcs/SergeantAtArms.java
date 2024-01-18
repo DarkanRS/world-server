@@ -68,7 +68,6 @@ public class SergeantAtArms extends Conversation {
                             .addNPC(npcId, HeadE.HAPPY_TALKING, "Rated Clan Wars is a pitched battle between two clans. You need to be in a clan to take part, and you need a Rated Clan Wars badge.")
                             .addNext(() -> {
                                 if (player.getInventory().containsItem(20712)) {
-                                    return;
                                 } else {
                                     player.startConversation(new Dialogue()
                                             .addNPC(npcId, HeadE.CALM_TALK, "There's a rulebook if you want to know more.")

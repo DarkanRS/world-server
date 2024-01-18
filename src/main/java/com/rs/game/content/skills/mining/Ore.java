@@ -122,10 +122,12 @@ public enum Ore {
 	STARDUST_9(13727, 90, 210, 15, 20, 1),
 	;
 
-	private int id, level;
-	private int rate1, rate99;
-	private double xp;
-	private int rollGem;
+	private final int id;
+    private final int level;
+	private final int rate1;
+    private final int rate99;
+	private final double xp;
+	private final int rollGem;
 
 	private Ore(int id, int level, double xp, int rate1, int rate99, int rollGem) {
 		this.id = id;

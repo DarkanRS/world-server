@@ -45,9 +45,7 @@ public class Lidio extends Conversation {
 			public void create() {
 
 				option("With food preferably.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "warrior_guild_food_shop");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "warrior_guild_food_shop")));
 
 				option("I think I'll give it a miss.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "I think I'll give it a miss.")

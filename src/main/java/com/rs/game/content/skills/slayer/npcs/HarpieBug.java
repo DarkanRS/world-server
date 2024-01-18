@@ -32,14 +32,13 @@ public class HarpieBug extends NPC {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		if (hit.getSource() instanceof Player) {
-			Player player = (Player) hit.getSource();
-			if (player.getEquipment().getShieldId() != 7053)
+		if (hit.getSource() instanceof Player player) {
+            if (player.getEquipment().getShieldId() != 7053)
 				hit.setDamage(0);
 		}
 		super.handlePreHit(hit);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3153, (npcId, tile) -> new HarpieBug(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(3153, HarpieBug::new);
 
 }

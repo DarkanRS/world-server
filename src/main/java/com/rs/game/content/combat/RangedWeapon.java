@@ -183,15 +183,15 @@ public enum RangedWeapon {
 
 	OZANS_LONGBOW(new Animation(426), 6, new int[] { 20859 }, AmmoType.OZANS_KRATONITE_ARROWS);
 
-	private Animation attackAnim;
+	private final Animation attackAnim;
 	private int attackSpeed = 6;
 	private Set<AmmoType> ammos;
 	private boolean thrown;
-	private int[] itemIds;
-	private int projAnim;
-	private int drawbackSpotAnim;
+	private final int[] itemIds;
+	private final int projAnim;
+	private final int drawbackSpotAnim;
 
-	private static Map<Integer, RangedWeapon> MAP = new HashMap<>();
+	private static final Map<Integer, RangedWeapon> MAP = new HashMap<>();
 
 	static {
 		for (RangedWeapon t : RangedWeapon.values())

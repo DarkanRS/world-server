@@ -54,7 +54,7 @@ public class ElnockInquisitor extends Conversation {
                     .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "very desirable to humans then it certainly is possible that the most expert implings may try to obtain such equipment.")
                     .addPlayer(HeadE.CALM, "So, it's true then? Cool!")
                     .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "I should warn you, though, if the impling is strong enough to collect dragon equipment, then you will have to be very skilled at hunting implings in order to catch them.")
-                        .addNext(() -> { player.getTempAttribs().setB("puropuro_introduction", true); });
+                        .addNext(() -> player.getTempAttribs().setB("puropuro_introduction", true));
             });
         } else {
             addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "Ah, good day, it's you again. What can I do for you?");
@@ -105,8 +105,8 @@ public class ElnockInquisitor extends Conversation {
                                         .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "There you go. You have everything you need now.")
                                         .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "If you are ready to start hunting implings, then enter the main part of the maze. Just push through the wheat that surrounds the centre of the maze and get catching!");
                         });
-                ops.add("Can I trade some jarred implings, please?").addNext(() -> { openPuroPuroInterface(player); });
-                ops.add("Can I buy a few impling jars?").addNext(() -> { ShopsHandler.openShop(player, "elnocks_backup_supply"); });
+                ops.add("Can I trade some jarred implings, please?").addNext(() -> openPuroPuroInterface(player));
+                ops.add("Can I buy a few impling jars?").addNext(() -> ShopsHandler.openShop(player, "elnocks_backup_supply"));
                 if (player.getBool("puropuro_equipment_claimed"))
                     ops.add("Do you have some spare equipment I can use?")
                             .addNPC(ELNOCK_INQUISITOR, HeadE.CALM, "I have already given you some equipment.")
@@ -167,11 +167,11 @@ public class ElnockInquisitor extends Conversation {
 
     public static NPCClickHandler handleElnock = new NPCClickHandler(new Object[] { ELNOCK_INQUISITOR }, e -> {
         switch(e.getOption()) {
-            case "Talk-to" -> { e.getPlayer().startConversation(new ElnockInquisitor(e.getPlayer()));}
-            case "Trade" -> { ShopsHandler.openShop(e.getPlayer(), "elnocks_backup_supply"); }
-            case "Exchange" -> { openPuroPuroInterface(e.getPlayer()); }
-            case "Quick-start" -> { e.getPlayer().sendMessage("If you are ready to start hunting implings, then enter the main part of the maze."); }
-            default -> { e.getPlayer().sendMessage("Unhandled option."); }
+            case "Talk-to" -> e.getPlayer().startConversation(new ElnockInquisitor(e.getPlayer()));
+            case "Trade" -> ShopsHandler.openShop(e.getPlayer(), "elnocks_backup_supply");
+            case "Exchange" -> openPuroPuroInterface(e.getPlayer());
+            case "Quick-start" -> e.getPlayer().sendMessage("If you are ready to start hunting implings, then enter the main part of the maze.");
+            default -> e.getPlayer().sendMessage("Unhandled option.");
         }
     });
 

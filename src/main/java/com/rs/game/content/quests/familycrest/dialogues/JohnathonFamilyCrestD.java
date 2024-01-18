@@ -16,8 +16,7 @@ import static com.rs.game.content.quests.familycrest.FamilyCrest.*;
 @PluginEventHandler
 public class JohnathonFamilyCrestD extends Conversation {
 	private final int DEMON_INQUIRY = 0;
-	private final int SECOND = 1;
-	private static final int NPC = 668;
+    private static final int NPC = 668;
 	public JohnathonFamilyCrestD(Player player) {
 		super(player);
 		switch(player.getQuestManager().getStage(Quest.FAMILY_CREST)) {
@@ -49,7 +48,7 @@ public class JohnathonFamilyCrestD extends Conversation {
 				return;
 			}
 			addPlayer(HeadE.HAPPY_TALKING, "I'm trying to kill this demon Chronozon that you mentioned...");
-			addNext(()->{player.startConversation(new JohnathonFamilyCrestD(player, DEMON_INQUIRY).getStart());});
+			addNext(()-> player.startConversation(new JohnathonFamilyCrestD(player, DEMON_INQUIRY).getStart()));
 		}
 		case QUEST_COMPLETE ->  {
 			addNPC(NPC, HeadE.CALM_TALK, "I have heard word from my father, thank you for helping to restore our family honour");
@@ -79,40 +78,37 @@ public class JohnathonFamilyCrestD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "You're welcome!");
 
 		}
-		default -> {
-			addNPC(NPC, HeadE.DIZZY, "I am so very tired... Leave me be... to rest...");
-		}
+		default -> addNPC(NPC, HeadE.DIZZY, "I am so very tired... Leave me be... to rest...");
 		}
 	}
 
 	public JohnathonFamilyCrestD(Player p, int id) {
 		super(p);
-		switch(id) {
-		case DEMON_INQUIRY -> {
-			addOptions("Choose an option:", new Options() {
-				@Override
-				public void create() {
-					option("So is this Chronozon hard to defeat?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "So is this Chronozon hard to defeat?")
-							.addNPC(NPC, HeadE.CALM_TALK, "Well... you will have to be a skilled Mage to defeat him, and my powers are not good enough" +
-									" yet. You will need to hit him once with each of the four elemental spells of death before he will be defeated.")
-							);
-					option("Where can I find Chronozon?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Where can I find Chronozon?")
-							.addNPC(NPC, HeadE.CALM_TALK, "The fiend has made his lair in Edgeville Dungeon. When you come in down the ladder in Edgeville, " +
-									"follow the corridor north until you reach a room with skeletons. That passageway to the left will lead you to him.")
-							);
-					option("So how did you end up getting poisoned?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "So how did you end up getting poisoned?")
-							.addNPC(NPC, HeadE.CALM_TALK, "Those accursed poison spiders that surround the entrance to Chronozon's lair... I must have taken a nip from one of them as I attempted to make my escape.")
-							);
-					option("I will be on my way now.", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "I will be on my way now.")
-							.addNPC(NPC, HeadE.CALM_TALK, "My thanks for the assistance adventurer.")
-							);
-				}
-			});
-		}
+        int SECOND = 1;
+        switch(id) {
+		case DEMON_INQUIRY -> addOptions("Choose an option:", new Options() {
+            @Override
+            public void create() {
+                option("So is this Chronozon hard to defeat?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "So is this Chronozon hard to defeat?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Well... you will have to be a skilled Mage to defeat him, and my powers are not good enough" +
+                                " yet. You will need to hit him once with each of the four elemental spells of death before he will be defeated.")
+                        );
+                option("Where can I find Chronozon?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "Where can I find Chronozon?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "The fiend has made his lair in Edgeville Dungeon. When you come in down the ladder in Edgeville, " +
+                                "follow the corridor north until you reach a room with skeletons. That passageway to the left will lead you to him.")
+                        );
+                option("So how did you end up getting poisoned?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "So how did you end up getting poisoned?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Those accursed poison spiders that surround the entrance to Chronozon's lair... I must have taken a nip from one of them as I attempted to make my escape.")
+                        );
+                option("I will be on my way now.", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "I will be on my way now.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "My thanks for the assistance adventurer.")
+                        );
+            }
+        });
 		case SECOND -> {
 
 		}

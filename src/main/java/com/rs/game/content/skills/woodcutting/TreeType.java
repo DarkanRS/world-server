@@ -43,13 +43,13 @@ public enum TreeType {
 	STRAIGHT_VINE(83, 140, null, 6, 35, 72, false),
 	STRAIGHT_VINE_COLLECTABLE(83, 140, new int[] { 21349, 21349, 21349, 21349 }, 6, 35, 72, false);
 
-	private int level;
-	private double xp;
-	private int[] logsId;
-	private int rate1;
-	private int rate99;
-	private int respawnDelay;
-	private boolean persistent;
+	private final int level;
+	private final double xp;
+	private final int[] logsId;
+	private final int rate1;
+	private final int rate99;
+	private final int respawnDelay;
+	private final boolean persistent;
 
 	private TreeType(int level, double xp, int[] logsId, int rate1, int rate99, int respawnDelay, boolean persistent) {
 		this.level = level;

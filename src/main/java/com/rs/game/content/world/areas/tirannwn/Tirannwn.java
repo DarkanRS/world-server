@@ -147,9 +147,7 @@ public class Tirannwn {
 		AgilityShortcuts.walkLog(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -7 : 7, 0), 6);
 	});
 
-	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 4006 }, e -> {
-		e.getPlayer().tele(Tile.of(2438, 3315, 0));
-	});
+	public static ObjectClickHandler handleEnterUndergroundPass = new ObjectClickHandler(new Object[] { 4006 }, e -> e.getPlayer().tele(Tile.of(2438, 3315, 0)));
 
 	public static ObjectClickHandler handleLletyaTreePass = new ObjectClickHandler(new Object[] { 8742 }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.ROVING_ELVES, "to navigate the forest."))
@@ -320,11 +318,9 @@ public class Tirannwn {
 		}
 	});
 
-	public static ItemClickHandler handleTeleportCrystal = new ItemClickHandler(new Object[] { 6099, 6100, 6101, 6102 }, new String[] { "Activate" }, e -> {
-		Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2340, 3172, 0), () -> {
-			e.getItem().setId(e.getItem().getId() + 1);
-			e.getPlayer().getInventory().refresh(e.getItem().getSlot());
-		});
-	});
+	public static ItemClickHandler handleTeleportCrystal = new ItemClickHandler(new Object[] { 6099, 6100, 6101, 6102 }, new String[] { "Activate" }, e -> Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2340, 3172, 0), () -> {
+        e.getItem().setId(e.getItem().getId() + 1);
+        e.getPlayer().getInventory().refresh(e.getItem().getSlot());
+    }));
 
 }

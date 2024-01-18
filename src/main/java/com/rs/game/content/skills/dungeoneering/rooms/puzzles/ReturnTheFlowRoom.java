@@ -55,14 +55,13 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		{ 10, 5 }
 	};
 
-	private int roomRotation;
-	private Flow[] flows;
+    private Flow[] flows;
 	private int tasks;
 
 	@Override
 	public void openRoom() {
 		flows = new Flow[4];
-		roomRotation = manager.getRoom(reference).getRotation();
+        int roomRotation = manager.getRoom(reference).getRotation();
 		for (int x = 5; x <= 10; x++)
 			for (int y = 5; y <= 10; y++) {
 				GameObject object = manager.getObjectWithType(reference, ObjectType.SCENERY_INTERACT, x, y);
@@ -218,7 +217,7 @@ public class ReturnTheFlowRoom extends PuzzleRoom {
 		throw new RuntimeException();
 	}
 
-	private int endY = 1 + (int) (Math.random() * 2);
+	private final int endY = 1 + (int) (Math.random() * 2);
 
 	public class Flow {
 

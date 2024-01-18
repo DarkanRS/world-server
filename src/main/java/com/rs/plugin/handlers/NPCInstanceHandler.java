@@ -24,7 +24,7 @@ import java.util.function.BiFunction;
 
 public class NPCInstanceHandler extends PluginHandler<NPCInstanceEvent> {
 	
-	private BiFunction<Integer, Tile, NPC> instantiator;
+	private final BiFunction<Integer, Tile, NPC> instantiator;
 
 	public NPCInstanceHandler(Object[] keys, BiFunction<Integer, Tile, NPC> instantiator) {
 		super(keys, null);

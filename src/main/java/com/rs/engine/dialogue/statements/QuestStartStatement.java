@@ -5,7 +5,7 @@ import com.rs.game.model.entity.player.Player;
 
 public class QuestStartStatement implements Statement {
 
-	private Quest quest;
+	private final Quest quest;
 
 	public QuestStartStatement(Quest quest) {
 		this.quest = quest;

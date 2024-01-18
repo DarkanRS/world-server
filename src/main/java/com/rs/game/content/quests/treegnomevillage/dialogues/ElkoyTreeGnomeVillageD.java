@@ -24,9 +24,7 @@ public class ElkoyTreeGnomeVillageD extends Conversation {
 						.addPlayer(HeadE.HAPPY_TALKING, "Yes please")
 						.addSimple("Elkoy guides you through the maze.", () -> {
 							player.lock(3);
-							WorldTasks.delay(3, () -> {
-								player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "Here we are, " + (player.getY() > 3177 ? "feel free to have a look around." : "off you go.")));
-							});
+							WorldTasks.delay(3, () -> player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "Here we are, " + (player.getY() > 3177 ? "feel free to have a look around." : "off you go."))));
 							player.fadeScreen(() -> {
 								player.sendMessage("Elkoy leads you through the maze...");
 								player.tele(player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));

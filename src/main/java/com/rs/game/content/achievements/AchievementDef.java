@@ -35,9 +35,9 @@ import java.util.Set;
 @PluginEventHandler
 public class AchievementDef {
 
-	private static Map<Integer, AchievementDef> CACHE = new HashMap<>();
-	private static Map<Area, Map<Difficulty, Set<AchievementDef>>> TASK_SETS = new HashMap<>();
-	private static Map<Area, Map<Difficulty, Map<Integer, Integer>>> TASK_SET_LEVEL_REQS = new HashMap<>();
+	private static final Map<Integer, AchievementDef> CACHE = new HashMap<>();
+	private static final Map<Area, Map<Difficulty, Set<AchievementDef>>> TASK_SETS = new HashMap<>();
+	private static final Map<Area, Map<Difficulty, Map<Integer, Integer>>> TASK_SET_LEVEL_REQS = new HashMap<>();
 
 	public enum Area {
 		//0=3000, 1=346, 2=426, 3=115, 4=221, 5=0, 6=182, 7=152, 8=531, 9=944, 10=995, 11=4091, 12=4091, 13=4091, 14=4091, 15=4091, 16=4091, 17=4091, 18=4091, 19=4091, 20=4091, 60=3522, 62=4091, 63=4090
@@ -67,7 +67,7 @@ public class AchievementDef {
 		DAMONHEIM(62),
 		ELSEWHERE(63);
 
-		private int id;
+		private final int id;
 
 		Area(int id) {
 			this.id = id;
@@ -85,16 +85,15 @@ public class AchievementDef {
 		NONE, BEGINNER, EASY, MEDIUM, HARD, ELITE;
 	}
 
-	private int id;
-	private int next;
-	private String name;
-	private Difficulty difficulty;
-	private Area area;
-	private Area taskSet;
-	private Map<Integer, Integer> skillReqs;
-	private Set<Quest> quests;
+	private final int id;
+	private final int next;
+	private final String name;
+	private final Difficulty difficulty;
+	private final Area area;
+	private final Area taskSet;
+	private final Map<Integer, Integer> skillReqs;
 
-	private static final int TASK_SET = 1293;
+    private static final int TASK_SET = 1293;
 	private static final int AREA = 1267;
 	private static final int DIFFICULTY = 1272;
 	private static final int NAME = 1266;
@@ -111,7 +110,7 @@ public class AchievementDef {
 		area = Area.forId(struct.getIntValue(AREA));
 		taskSet = Area.forId(struct.getIntValue(TASK_SET, 63));
 		skillReqs = new HashMap<>();
-		quests = new HashSet<>();
+        Set<Quest> quests = new HashSet<>();
 		for (int i = REQUIREMENTS_START;i <= REQUIREMENTS_END;i += 2)
 			if (struct.getIntValue(i, -1) != -1 && struct.getIntValue(i+1, -1) != -1)
 				if (struct.getIntValue(i, -1) >= 1 && struct.getIntValue(i, -1) <= 25)

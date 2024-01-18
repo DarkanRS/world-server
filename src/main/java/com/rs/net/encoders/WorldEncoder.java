@@ -58,7 +58,7 @@ import java.util.Set;
 
 public class WorldEncoder extends Encoder {
 
-	private Player player;
+	private final Player player;
 
 	public WorldEncoder(Player player, Session session) {
 		super(session);

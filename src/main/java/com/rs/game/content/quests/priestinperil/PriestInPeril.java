@@ -68,7 +68,7 @@ public class PriestInPeril extends QuestOutline {
 		private final int itemID;
 
 		private final int goldenID;
-		private String message;
+		private final String message;
 
 		Monuments(int monumentID, Tile tile, int itemID, int goldenID, String message){
 			this.monumentID = monumentID;
@@ -247,13 +247,9 @@ public class PriestInPeril extends QuestOutline {
 			World.addGroundItem(new Item(2944), e.getNPC().getTile(), player);
 	});
 
-	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2));
 
-	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2));
 
 	public static ObjectClickHandler HandleCoffin = new ObjectClickHandler( new Object[] { 30728 }, e -> {
 		if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 8)

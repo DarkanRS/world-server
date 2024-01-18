@@ -9,8 +9,6 @@ import com.rs.game.World
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.game.tasks.Task
-import com.rs.game.tasks.WorldTasks
 import com.rs.lib.Constants
 import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent

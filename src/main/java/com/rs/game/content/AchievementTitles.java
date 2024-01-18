@@ -58,13 +58,13 @@ public class AchievementTitles {
 
 		;
 
-		private String color;
-		private String title;
-		private String req;
-		private int number;
-		private boolean npcKills;
+		private final String color;
+		private final String title;
+		private final String req;
+		private final int number;
+		private final boolean npcKills;
 
-		private TitleReward(String color, String title, String req, int number, boolean npcKills) {
+		TitleReward(String color, String title, String req, int number, boolean npcKills) {
 			this.color = color;
 			this.title = title;
 			this.req = req;
@@ -107,7 +107,7 @@ public class AchievementTitles {
 					player.setTitleAfter(true);
 				}
 
-				player.sendMessage("You have set your title to "+getShadeColor(color)+""+title+"</col></shad>.");
+				player.sendMessage("You have set your title to "+getShadeColor(color)+title+"</col></shad>.");
 				player.getAppearance().generateAppearanceData();
 			} else
 				player.sendMessage("You don't meet the requirements for this title.");
@@ -115,12 +115,9 @@ public class AchievementTitles {
 
 		public boolean hasRequirements(Player player) {
 			if (npcKills) {
-				if (player.getNumberKilled(req) >= number)
-					return true;
-			} else if (player.getCounterValue(req) >= number)
-				return true;
-			return false;
-		}
+                return player.getNumberKilled(req) >= number;
+			} else return player.getCounterValue(req) >= number;
+        }
 	}
 
 	public static String getShadeColor(String color) {

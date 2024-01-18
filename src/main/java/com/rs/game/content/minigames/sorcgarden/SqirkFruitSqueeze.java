@@ -34,7 +34,9 @@ public class SqirkFruitSqueeze extends Conversation {
 		AUTUMM(10846, 3, 10850),
 		SUMMER(10845, 2, 10849);
 
-		private int fruitId, amtRequired, resultId;
+		private final int fruitId;
+        private final int amtRequired;
+        private final int resultId;
 
 		private SqirkFruit(int fruitId, int amtRequired, int resultId) {
 			this.fruitId = fruitId;

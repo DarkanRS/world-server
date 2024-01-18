@@ -133,7 +133,7 @@ public enum HeadE {
 
 	;
 
-	private int emoteId;
+	private final int emoteId;
 
 	private HeadE(int emoteId) {
 		this.emoteId = emoteId;

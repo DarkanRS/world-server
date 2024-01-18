@@ -45,9 +45,9 @@ public class ItemsKeptOnDeath {
 		long riskedWealth = 0;
 		long carriedWealth = 0;
 		for (Item item : items[1])
-			carriedWealth = riskedWealth += item.getDefinitions().getValue() * item.getAmount();
+			carriedWealth = riskedWealth += (long) item.getDefinitions().getValue() * item.getAmount();
 		for (Item item : items[0])
-			carriedWealth += item.getDefinitions().getValue() * item.getAmount();
+			carriedWealth += (long) item.getDefinitions().getValue() * item.getAmount();
 		if (slots[0].length > 0) {
 			for (int i = 0; i < slots[0].length; i++)
 				player.getVars().setVarBit(9222 + i, slots[0][i]);
@@ -61,7 +61,7 @@ public class ItemsKeptOnDeath {
 		player.getVars().setVarBit(9226, wilderness ? 1 : 0);
 		player.getTempAttribs().setB("wildy", wilderness ? true : false);
 		player.getVars().setVarBit(9229, skulled ? 1 : 0);
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		text.append("The number of items kept on").append("<br>").append("death is normally 3.").append("<br>").append("<br>").append("<br>");
 		if (wilderness)
 			text.append("Your gravestone will not").append("<br>").append("appear.");
@@ -71,13 +71,13 @@ public class ItemsKeptOnDeath {
 			int minutes = seconds / 60;
 			seconds -= minutes * 60;
 
-			text.append("Gravestone:").append("<br>").append(EnumDefinitions.getEnum(1099).getStringValue(player.getGraveStone())).append("<br>").append("<br>").append("Initial duration:").append("<br>").append(minutes + ":" + (seconds < 10 ? "0" : "") + seconds).append("<br>");
+			text.append("Gravestone:").append("<br>").append(EnumDefinitions.getEnum(1099).getStringValue(player.getGraveStone())).append("<br>").append("<br>").append("Initial duration:").append("<br>").append(minutes).append(":").append(seconds < 10 ? "0" : "").append(seconds).append("<br>");
 		}
 		text.append("<br>").append("<br>").append("Carried wealth:").append("<br>").append(carriedWealth > Integer.MAX_VALUE ? "Too high!" : Utils.getFormattedNumber((int) carriedWealth)).append("<br>").append("<br>").append("Risked wealth:").append("<br>").append(riskedWealth > Integer.MAX_VALUE ? "Too high!" : Utils.getFormattedNumber((int) riskedWealth)).append("<br>").append("<br>");
 		if (wilderness)
 			text.append("Your hub will be set to:").append("<br>").append("Edgeville.");
 		else
-			text.append("Current hub: " + EnumDefinitions.getEnum(3792).getStringValue(DeathOfficeController.getCurrentHub(player, player.getTile()).ordinal()));
+			text.append("Current hub: ").append(EnumDefinitions.getEnum(3792).getStringValue(DeathOfficeController.getCurrentHub(player, player.getTile()).ordinal()));
 		player.getPackets().sendVarcString(352, text.toString());
 	}
 

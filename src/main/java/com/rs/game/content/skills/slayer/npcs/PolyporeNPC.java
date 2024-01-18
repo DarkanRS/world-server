@@ -29,7 +29,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class PolyporeNPC extends NPC {
 
-	private int realId;
+	private final int realId;
 	private int neemedTicks = 0;
 
 	public PolyporeNPC(int id, Tile tile, boolean spawned) {

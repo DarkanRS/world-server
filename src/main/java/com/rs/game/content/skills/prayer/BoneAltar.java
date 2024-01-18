@@ -45,8 +45,8 @@ public class BoneAltar  {
 		MARBLE(13194, 3.0f),
 		GILDED(13197, 3.5f);
 
-		int objectId;
-		float xpMul;
+		final int objectId;
+		final float xpMul;
 
 		private Altar(int objectId, float xpMul) {
 			this.objectId = objectId;
@@ -64,9 +64,9 @@ public class BoneAltar  {
 
 	static class BoneAction extends PlayerAction {
 
-		private Altar altar;
-		private Bone bone;
-		private GameObject object;
+		private final Altar altar;
+		private final Bone bone;
+		private final GameObject object;
 
 		public BoneAction(Altar altar, Bone bone, GameObject object) {
 			this.altar = altar;

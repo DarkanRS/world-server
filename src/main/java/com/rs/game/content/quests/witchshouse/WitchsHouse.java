@@ -290,9 +290,7 @@ public class WitchsHouse extends QuestOutline {
         else
             p.startConversation(new Conversation(e.getPlayer()) {
                 {
-                    addSimple("As your bare hands touch the gate you feel a shock", () -> {
-                        p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE));
-                    });
+                    addSimple("As your bare hands touch the gate you feel a shock", () -> p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE)));
                     addPlayer(HeadE.SCARED, "I will need some gloves to stop the electric current...");
                     create();
                 }

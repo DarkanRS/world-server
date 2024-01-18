@@ -54,9 +54,7 @@ public class NulodionD extends Conversation {
 				e.getPlayer().startConversation(new Conversation(new Dialogue().addNPC(NULODION, HeadE.CONFUSED, "I haven't found any cannons of yours.")));
 	});
 
-	public static ItemClickHandler handleNotes = new ItemClickHandler(new Object[] { NULODIONS_NOTES }, new String[] { "Read" }, e -> {
-		e.getPlayer().sendMessage("Ammo for the Dwarf Multi Cannon must be made from steel bars. The bars must be heated in a furnace and used with the ammo mould.");
-	});
+	public static ItemClickHandler handleNotes = new ItemClickHandler(new Object[] { NULODIONS_NOTES }, new String[] { "Read" }, e -> e.getPlayer().sendMessage("Ammo for the Dwarf Multi Cannon must be made from steel bars. The bars must be heated in a furnace and used with the ammo mould."));
 
 	public NulodionD(Player player) {
 		super(player);
@@ -77,9 +75,7 @@ public class NulodionD extends Conversation {
 			addPlayer(HeadE.UPSET, "Hello again.");
 			addPlayer(HeadE.UPSET, "I've lost the cannonball mould.");
 			addNPC(NULODION, HeadE.SHAKING_HEAD, "Deary me, you are trouble. Here, take this one.");
-			addItem(AMMO_MOULD, "The cannon engineer gives you another ammo mould.", () -> {
-				player.getInventory().addItemDrop(AMMO_MOULD, 1);
-			});
+			addItem(AMMO_MOULD, "The cannon engineer gives you another ammo mould.", () -> player.getInventory().addItemDrop(AMMO_MOULD, 1));
 		} else {
 			addPlayer(HeadE.NO_EXPRESSION, "Hello again.");
 			addNPC(NULODION, HeadE.NO_EXPRESSION, "Hello.");

@@ -35,9 +35,7 @@ public class ReldoShieldOfArravD extends Conversation {
 			addOption("Shield Of Arrav", "Accept quest", "Not right now");
 			addNPC(RELDO, HeadE.CALM_TALK, " Ah, yes. I know. If you look in a book called 'The Shield of Arrav', you'll find a quest in there. I'm not " +
 					"sure where the book is mind you... but I'm sure it's around here somewhere.")
-			.addNext(() -> {
-				ShieldOfArrav.setStage(p, ShieldOfArrav.FIND_BOOK_STAGE);
-			});
+			.addNext(() -> ShieldOfArrav.setStage(p, ShieldOfArrav.FIND_BOOK_STAGE));
 			addPlayer(HeadE.CALM_TALK, "On second thoughts, I don't want a quest after all.")
 			.addNPC(RELDO, HeadE.CALM_TALK, "Oh. But you said you're in search of a quest.")
 			.addPlayer(HeadE.CALM_TALK, "I was. I am. I changed my mind.")
@@ -60,9 +58,7 @@ public class ReldoShieldOfArravD extends Conversation {
 			addNPC(RELDO, HeadE.SECRETIVE, "No, I don't. I think I know someone who might, however. If I were you I would talk to Baraek, the fur trader " +
 					"in the market place. I've heard he has connections with the Phoenix Gang.");
 			addPlayer(HeadE.HAPPY_TALKING, "Thanks. I'll try that!");
-			addNext(() -> {
-				ShieldOfArrav.setStage(p, ShieldOfArrav.TALK_TO_BARAEK_STAGE);
-			});
+			addNext(() -> ShieldOfArrav.setStage(p, ShieldOfArrav.TALK_TO_BARAEK_STAGE));
 			break;
 		case ShieldOfArrav.TALK_TO_BARAEK_STAGE:
 			addPlayer(HeadE.SECRETIVE, "Remind me again where I can find the Phoenix Gang?");

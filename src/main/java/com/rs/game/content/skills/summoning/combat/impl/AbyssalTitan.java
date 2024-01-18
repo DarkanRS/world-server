@@ -39,7 +39,7 @@ public class AbyssalTitan extends FamiliarCombatScript {
 		delayHit(npc, 0, target, getMeleeHit(npc, getMaxHit(npc, 220, AttackStyle.MELEE, target)));
 		if (target instanceof Player player)
 			if (hit.getDamage() > 0 && player.getPrayer().getPoints() > 0)
-				player.getPrayer().drainPrayer(hit.getDamage() / 2);
+				player.getPrayer().drainPrayer((double) hit.getDamage() / 2);
 		return npc.getAttackSpeed();
 	}
 }

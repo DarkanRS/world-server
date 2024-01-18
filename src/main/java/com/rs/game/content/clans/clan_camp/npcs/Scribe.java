@@ -16,9 +16,9 @@ public class Scribe extends Conversation {
 
     private boolean hasClan;
 
-    private int Vexilum = 20709;
+    private final int Vexilum = 20709;
 
-    private String title = player.getAppearance().isMale() ? "sir" : "ma'am";
+    private final String title = player.getAppearance().isMale() ? "sir" : "ma'am";
 
     public static NPCClickHandler Scribe = new NPCClickHandler(new Object[] { npcId }, e -> {
         String t = e.getPlayer().getAppearance().isMale() ? "sir" : "ma'am";
@@ -42,7 +42,6 @@ public class Scribe extends Conversation {
                 e.getPlayer().startConversation(new Dialogue()
                         .addNPC(npcId, HeadE.HAPPY_TALKING, "You can only have one clan vexillum, " + t + ". Those are the rules")
                 );
-                return;
             }
             else {
                 e.getPlayer().startConversation(new Dialogue()

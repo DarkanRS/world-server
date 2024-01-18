@@ -56,35 +56,40 @@ import java.util.Random;
 @PluginEventHandler
 public class PlayerCombat extends PlayerAction {
 
-	private Entity target;
+	private final Entity target;
 
 	public static ItemClickHandler handleDFS = new ItemClickHandler(new Object[]{"Dragonfire shield"}, new String[]{"Inspect", "Activate", "Empty"}, e -> {
-		if (e.getOption().equals("Inspect")) {
-			if (e.getItem().getId() == 11284)
-				e.getPlayer().sendMessage("The shield is empty and unresponsive.");
-			else
-				e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
-		} else if (e.getOption().equals("Activate")) {
-			if (e.getItem().getMetaDataI("dfsCharges") > 0) {
-				if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
-					e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
-					e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
-				} else
-					e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
-			} else
-				e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
-		} else if (e.getOption().equals("Empty"))
-			if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
-				e.getPlayer().sendMessage("The shield is already empty.");
-			else
-				e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
-					ops.add("Yes, I understand the shield will lose all its stats.", () -> {
-						e.getItem().deleteMetaData();
-						e.getItem().setId(11284);
-						e.getPlayer().getInventory().refresh();
-					});
-					ops.add("No, I want to keep them.");
-				});
+        switch (e.getOption()) {
+            case "Inspect" -> {
+                if (e.getItem().getId() == 11284)
+                    e.getPlayer().sendMessage("The shield is empty and unresponsive.");
+                else
+                    e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
+            }
+            case "Activate" -> {
+                if (e.getItem().getMetaDataI("dfsCharges") > 0) {
+                    if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
+                        e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
+                        e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
+                    } else
+                        e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
+                } else
+                    e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
+            }
+            case "Empty" -> {
+                if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
+                    e.getPlayer().sendMessage("The shield is already empty.");
+                else
+                    e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
+                        ops.add("Yes, I understand the shield will lose all its stats.", () -> {
+                            e.getItem().deleteMetaData();
+                            e.getItem().setId(11284);
+                            e.getPlayer().getInventory().refresh();
+                        });
+                        ops.add("No, I want to keep them.");
+                    });
+            }
+        }
 	});
 
 	public PlayerCombat(Entity target) {
@@ -153,9 +158,7 @@ public class PlayerCombat extends PlayerAction {
 			player.setNextSpotAnim(new SpotAnim(1165));
 			player.setNextAnimation(new Animation(6696));
 			WorldProjectile p = World.sendProjectile(player, target, 1166, 32, 32, 50, 2, 15, 0);
-			delayMagicHit(target, p.getTaskDelay(), new Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), () -> {
-				target.setNextSpotAnim(new SpotAnim(1167, 0, 96));
-			}, null, null);
+			delayMagicHit(target, p.getTaskDelay(), new Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), () -> target.setNextSpotAnim(new SpotAnim(1167, 0, 96)), null, null);
 			player.getTempAttribs().setB("dfsActive", false);
 			player.getTempAttribs().setL("dfsCd", World.getServerTicks() + 200);
 			shield.addMetaData("dfsCharges", shield.getMetaDataI("dfsCharges") - 1);
@@ -227,7 +230,7 @@ public class PlayerCombat extends PlayerAction {
 			Entity target = player.getTempAttribs().getO("last_target");
 			if (target != null && !target.isDead() && !target.hasFinished() && target.withinDistance(tile, maxDistance) && (!(target instanceof NPC n) || n.getDefinitions().hasAttackOption()))
 				possibleTargets.add(target);
-			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+			return possibleTargets.toArray(new Entity[0]);
 		}
 
 		for (Player p2 : player.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(tile, maxDistance) && player.getControllerManager().canHit(p2))) {
@@ -242,7 +245,7 @@ public class PlayerCombat extends PlayerAction {
 					break;
 			}
 		}
-		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+		return possibleTargets.toArray(new Entity[0]);
 	}
 
 	public static Entity[] getMultiAttackTargets(Player player, Entity target, int maxDistance, int maxAmtTargets) {
@@ -254,7 +257,7 @@ public class PlayerCombat extends PlayerAction {
 		if (includeOriginalTarget)
 			possibleTargets.add(target);
 		if (!target.isAtMultiArea())
-			return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+			return possibleTargets.toArray(new Entity[0]);
 		for (Player p2 : target.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(p2))) {
 			possibleTargets.add(p2);
 			if (possibleTargets.size() >= maxAmtTargets)
@@ -267,7 +270,7 @@ public class PlayerCombat extends PlayerAction {
 					break;
 			}
 		}
-		return possibleTargets.toArray(new Entity[possibleTargets.size()]);
+		return possibleTargets.toArray(new Entity[0]);
 	}
 
 	public int mageAttack(final Player player, CombatSpell spell, boolean autoCast) {
@@ -377,9 +380,7 @@ public class PlayerCombat extends PlayerAction {
 				else
 					player.soundEffect(target, 227, true);
 			}
-		}, () -> {
-			spell.onHit(player, target, hit);
-		}, null);
+		}, () -> spell.onHit(player, target, hit), null);
 		return hit.getDamage() > 0;
 	}
 
@@ -846,7 +847,7 @@ public class PlayerCombat extends PlayerAction {
 			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
 				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet())
 					maxHit *= 1.15;
-		int finalMaxHit = (int) Math.floor(maxHit);
+		int finalMaxHit = (int) (double) maxHit;
 		if (Settings.getConfig().isDebug() && player.getNSV().getB("hitChance"))
 			player.sendMessage("Your max hit: " + finalMaxHit);
 		return new Hit(player, finalMaxHit, HitLook.MAGIC_DAMAGE).setMaxHit(finalMaxHit);
@@ -954,7 +955,7 @@ public class PlayerCombat extends PlayerAction {
 						maxHit = 0;
 				}
 				if (n.getName().equals("Turoth") || n.getName().equals("Kurask")) {
-					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().indexOf("bow") > -1 && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().indexOf("broad") > -1))
+					if (!(wId == 4158 || wId == 13290) && !(player.getEquipment().getWeaponName().contains("bow") && ItemDefinitions.getDefs(player.getEquipment().getAmmoId()).name.toLowerCase().contains("broad")))
 						maxHit = 0;
 				}
 				RangedWeapon weapon = RangedWeapon.forId(weaponId);
@@ -1022,11 +1023,11 @@ public class PlayerCombat extends PlayerAction {
 		return hit;
 	}
 
-	public static final int getMaxHit(Player player, Entity target, boolean ranging, double damageMultiplier) {
+	public static int getMaxHit(Player player, Entity target, boolean ranging, double damageMultiplier) {
 		return getMaxHit(player, target, player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle(), ranging, damageMultiplier);
 	}
 
-	public static final int getMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, double damageMultiplier) {
+	public static int getMaxHit(Player player, Entity target, int weaponId, AttackStyle attackStyle, boolean ranging, double damageMultiplier) {
 		if (ranging) {
 			if (target != null && weaponId == 24338 && target instanceof Player) {
 				player.sendMessage("The royal crossbow feels weak and unresponsive against other players.");
@@ -1115,7 +1116,7 @@ public class PlayerCombat extends PlayerAction {
 		return capeId == 6570 || capeId == 20769 || capeId == 20771;
 	}
 
-	public static final boolean fullVanguardEquipped(Player player) {
+	public static boolean fullVanguardEquipped(Player player) {
 		int helmId = player.getEquipment().getHatId();
 		int chestId = player.getEquipment().getChestId();
 		int legsId = player.getEquipment().getLegsId();
@@ -1129,7 +1130,7 @@ public class PlayerCombat extends PlayerAction {
 				&& ItemDefinitions.getDefs(glovesId).getName().contains("Vanguard");
 	}
 
-	public static final boolean usingGoliathGloves(Player player) {
+	public static boolean usingGoliathGloves(Player player) {
 		String name = player.getEquipment().getItem(Equipment.SHIELD) != null ? player.getEquipment().getItem(Equipment.SHIELD).getDefinitions().getName().toLowerCase() : "";
 		if (player.getEquipment().getItem((Equipment.HANDS)) != null)
 			if (player.getEquipment().getItem(Equipment.HANDS).getDefinitions().getName().toLowerCase().contains("goliath") && player.getEquipment().getWeaponId() == -1) {
@@ -1140,7 +1141,7 @@ public class PlayerCombat extends PlayerAction {
 		return false;
 	}
 
-	public static final boolean fullVeracsEquipped(Player player) {
+	public static boolean fullVeracsEquipped(Player player) {
 		int helmId = player.getEquipment().getHatId();
 		int chestId = player.getEquipment().getChestId();
 		int legsId = player.getEquipment().getLegsId();
@@ -1151,7 +1152,7 @@ public class PlayerCombat extends PlayerAction {
 				&& ItemDefinitions.getDefs(weaponId).getName().contains("Verac's");
 	}
 
-	public static final boolean fullDharokEquipped(Player player) {
+	public static boolean fullDharokEquipped(Player player) {
 		int helmId = player.getEquipment().getHatId();
 		int chestId = player.getEquipment().getChestId();
 		int legsId = player.getEquipment().getLegsId();
@@ -1162,7 +1163,7 @@ public class PlayerCombat extends PlayerAction {
 				&& ItemDefinitions.getDefs(weaponId).getName().contains("Dharok's");
 	}
 
-	public static final boolean fullVoidEquipped(Player player, int... helmid) {
+	public static boolean fullVoidEquipped(Player player, int... helmid) {
 		boolean hasDeflector = player.getEquipment().getShieldId() == 19712;
 		if (player.getEquipment().getGlovesId() != 8842) {
 			if (!hasDeflector)
@@ -1408,15 +1409,13 @@ public class PlayerCombat extends PlayerAction {
 	public static int getWeaponAttackEmote(int weaponId, AttackStyle attackStyle) {
 		if (weaponId != -1) {
 			if (weaponId == -2) {
-				switch (attackStyle.getIndex()) {
-					case 1:
-						return 14307;
-					default:
-						return 14393;
-				}
-			}
+                if (attackStyle.getIndex() == 1) {
+                    return 14307;
+                }
+                return 14393;
+            }
 			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-			if (weaponName != null && !weaponName.equals("null")) {
+			if (!weaponName.equals("null")) {
 				if (weaponName.contains("boxing gloves"))
 					return 3678;
 				if (weaponName.contains("staff of light"))
@@ -1433,186 +1432,148 @@ public class PlayerCombat extends PlayerAction {
 				if (weaponName.contains("mindspike") || weaponName.contains("staff") || weaponName.contains("wand"))
 					return 419;
 				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 15072;
-						default:
-							return 15071;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 15072;
+                    } else {
+                        return 15071;
+                    }
 				if (weaponName.contains("granite mace"))
 					return 400;
 				if (weaponName.contains("mace") || weaponName.contains("annihilation"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 400;
-						default:
-							return 401;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 400;
+                    } else {
+                        return 401;
+                    }
 				if (weaponName.contains("hatchet"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 401;
-						default:
-							return 395;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 401;
+                    } else {
+                        return 395;
+                    }
 				if (weaponName.contains("warhammer"))
-					switch (attackStyle.getIndex()) {
-						default:
-							return 401;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        default -> 401;
+                    };
 				if (weaponName.contains("claws"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 1067;
-						default:
-							return 393;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 1067;
+                    } else {
+                        return 393;
+                    }
 				if (weaponName.contains("whip"))
-					switch (attackStyle.getIndex()) {
-						case 1:
-							return 11969;
-						case 2:
-							return 11970;
-						default:
-							return 11968;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        case 1 -> 11969;
+                        case 2 -> 11970;
+                        default -> 11968;
+                    };
 				if (weaponName.contains("anchor"))
-					switch (attackStyle.getIndex()) {
-						default:
-							return 5865;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        default -> 5865;
+                    };
 				if (weaponName.contains("tzhaar-ket-em"))
-					switch (attackStyle.getIndex()) {
-						default:
-							return 401;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        default -> 401;
+                    };
 				if (weaponName.contains("tzhaar-ket-om"))
-					switch (attackStyle.getIndex()) {
-						default:
-							return 13691;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        default -> 13691;
+                    };
 				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm") || weaponName.contains("hasta"))
-					switch (attackStyle.getIndex()) {
-						case 1:
-							return 440;
-						default:
-							return 428;
-					}
+                    if (attackStyle.getIndex() == 1) {
+                        return 440;
+                    } else {
+                        return 428;
+                    }
 				if (weaponName.contains("zamorakian spear"))
-					switch (attackStyle.getIndex()) {
-						case 1:
-							return 12005;
-						case 2:
-							return 12009;
-						default:
-							return 12006;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        case 1 -> 12005;
+                        case 2 -> 12009;
+                        default -> 12006;
+                    };
 				if (weaponName.contains("spear"))
-					switch (attackStyle.getIndex()) {
-						case 1:
-							return 440;
-						case 2:
-							return 429;
-						default:
-							return 428;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        case 1 -> 440;
+                        case 2 -> 429;
+                        default -> 428;
+                    };
 				if (weaponName.contains("flail"))
 					return 2062;
 				if (weaponName.contains("pickaxe"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 400;
-						default:
-							return 401;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 400;
+                    } else {
+                        return 401;
+                    }
 				if (weaponName.contains("dragon dagger"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 377;
-						default:
-							return 376;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 377;
+                    } else {
+                        return 376;
+                    }
 				if (weaponName.contains("dagger") || weaponName.contains("wolfbane"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 390;
-						default:
-							return 400;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 390;
+                    } else {
+                        return 400;
+                    }
 				if (weaponName.contains("2h sword") || weaponName.equals("dominion sword") || weaponName.equals("thok's sword") || weaponName.contains("saradomin sword") || weaponName.contains("keenblade"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 7048;
-						case 3:
-							return 7049;
-						default:
-							return 7041;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        case 2 -> 7048;
+                        case 3 -> 7049;
+                        default -> 7041;
+                    };
 				if (weaponName.contains(" sword"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 12311;
-						default:
-							return 12310;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 12311;
+                    } else {
+                        return 12310;
+                    }
 				if (weaponName.contains("saber") || weaponName.contains("longsword") || weaponName.contains("light") || weaponName.contains("excalibur"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 12310;
-						default:
-							return 12311;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 12310;
+                    } else {
+                        return 12311;
+                    }
 				if (weaponName.contains("rapier") || weaponName.contains("brackish"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 13048;
-						default:
-							return 13049;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 13048;
+                    } else {
+                        return 13049;
+                    }
 				if (weaponName.contains("katana"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 1882;
-						default:
-							return 1884;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 1882;
+                    } else {
+                        return 1884;
+                    }
 				if (weaponName.contains("godsword"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 11980;
-						case 3:
-							return 11981;
-						default:
-							return 11979;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        case 2 -> 11980;
+                        case 3 -> 11981;
+                        default -> 11979;
+                    };
 				if (weaponName.contains("greataxe") || weaponName.contains("balmung"))
-					switch (attackStyle.getIndex()) {
-						case 2:
-							return 12003;
-						default:
-							return 12002;
-					}
+                    if (attackStyle.getIndex() == 2) {
+                        return 12003;
+                    } else {
+                        return 12002;
+                    }
 				if (weaponName.contains("granite maul"))
-					switch (attackStyle.getIndex()) {
-						default:
-							return 1665;
-					}
+                    return switch (attackStyle.getIndex()) {
+                        default -> 1665;
+                    };
 
 				if (weaponName.contains(" maul"))
 					return 2661;
 
 			}
 		}
-		switch (weaponId) {
-			default:
-				switch (attackStyle.getIndex()) {
-					case 1:
-						return 423;
-					default:
-						return 422; // todo default emote
-				}
-		}
-	}
+        if (attackStyle.getIndex() == 1) {
+            return 423;
+        }
+        return 422; // todo default emote
+    }
 
 	public static int getMeleeCombatDelay(Player player, int weaponId) {
 		if (weaponId != -1) {
@@ -1632,17 +1593,15 @@ public class PlayerCombat extends PlayerAction {
 					|| weaponName.contains("hasta") || weaponName.contains("warspear") || weaponName.contains("flail") || weaponName.contains("hammers"))
 				return 4;
 		}
-		switch (weaponId) {
-			case 6527:// tzhaar-ket-em
-				return 4;
-			case 10887:// barrelchest anchor
-				return 5;
-			case 15403:// balmung
-			case 6528:// tzhaar-ket-om
-				return 6;
-			default:
-				return 3;
-		}
+        return switch (weaponId) {
+            case 6527 ->// tzhaar-ket-em
+                    4;
+            case 10887 ->// barrelchest anchor
+                    5;// balmung
+            case 15403, 6528 ->// tzhaar-ket-om
+                    6;
+            default -> 3;
+        };
 	}
 
 	@Override
@@ -1838,28 +1797,23 @@ public class PlayerCombat extends PlayerAction {
 			if (shieldName.contains("defender"))
 				return 4177;
 		}
-		switch (shieldId) {
-			case -1:
-			default:
-				return 424;
-		}
+        return switch (shieldId) {
+            default -> 424;
+        };
 	}
 
 	public static int getSlayerLevelForNPC(int id) {
-		switch (id) {
-			case 9463:
-				return 93;
-			default:
-				return 0;
-		}
+        return switch (id) {
+            case 9463 -> 93;
+            default -> 0;
+        };
 	}
 
 	public static int getAntifireLevel(Entity target, boolean prayerWorks) {
-		if (!(target instanceof Player))
+		if (!(target instanceof Player p2))
 			return 0;
 		int protection = 0;
-		Player p2 = (Player) target;
-		if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
+        if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
 			p2.sendMessage("Your potion heavily protects you from the dragon's fire.", true);
 			protection = 2;
 			chargeDragonfireShield(target);

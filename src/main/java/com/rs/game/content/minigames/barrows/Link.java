@@ -22,8 +22,8 @@ public class Link {
 		CLOSED, OPEN, UNDETERMINED;
 	}
 
-	private BarrowsRoom roomA;
-	private BarrowsRoom roomB;
+	private final BarrowsRoom roomA;
+	private final BarrowsRoom roomB;
 	private RoomStatus state;
 
 	public Link(BarrowsRoom a, BarrowsRoom b) {

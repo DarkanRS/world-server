@@ -72,8 +72,8 @@ public enum Prayer {
 	SOUL_SPLIT			(true, 2675, 18, 6838, 6880, 92, 3),
 	TURMOIL				(true, 11000, 19, 6839, 6881, 95, 3);
 
-	private static Map<Integer, Prayer> NORMALS = new HashMap<>();
-	private static Map<Integer, Prayer> CURSES = new HashMap<>();
+	private static final Map<Integer, Prayer> NORMALS = new HashMap<>();
+	private static final Map<Integer, Prayer> CURSES = new HashMap<>();
 
 	static {
 		for (Prayer p : Prayer.values())
@@ -89,10 +89,13 @@ public enum Prayer {
 		return NORMALS.get(slotId);
 	}
 
-	private boolean curse;
-	private int activateSound;
-	private int slotId, req, varBit, qpVarBit;
-	private double drain;
+	private final boolean curse;
+	private final int activateSound;
+	private final int slotId;
+    private final int req;
+    private final int varBit;
+    private final int qpVarBit;
+	private final double drain;
 
 	private Prayer(boolean curse, int activateSound, int slotId, int varBit, int qpVarBit, int req, double drain) {
 		this.curse = curse;

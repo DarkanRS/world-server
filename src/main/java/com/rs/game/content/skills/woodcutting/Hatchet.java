@@ -42,9 +42,10 @@ public enum Hatchet {
 	DRAGON(6739, 61, 1.3, 		12336, 6745, 3260, 17092, 9992, 2846, 4008, 12346, 11601, 870, 10078),
 	INFERNO(13661, 61, 1.3, 	12337, 10249, 3325, 17093, 10250, 10251, 4402, 12347, 11604, 12323, 7383);
 
-	private int itemId, useLevel;
-	private int[] animations;
-	private double toolMod;
+	private final int itemId;
+    private final int useLevel;
+	private final int[] animations;
+	private final double toolMod;
 
 	private Hatchet(int itemId, int useLevel, double toolMod, int... animations) {
 		this.itemId = itemId;

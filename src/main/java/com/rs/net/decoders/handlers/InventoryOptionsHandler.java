@@ -415,8 +415,8 @@ public class InventoryOptionsHandler {
 	}
 	
 	public static void handleItemOption2(final Player player, final int slotId, final int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId))
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId)) {
+        }
 	}
 
 	public static void handleItemOption3(Player player, int slotId, int itemId, Item item) {
@@ -432,13 +432,13 @@ public class InventoryOptionsHandler {
 	}
 
 	public static void handleItemOption4(Player player, int slotId, int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating())
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating()) {
+        }
 	}
 
 	public static void handleItemOption5(Player player, int slotId, int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating())
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating()) {
+        }
 	}
 
 	public static void handleItemOption6(Player player, int slotId, int itemId, Item item) {

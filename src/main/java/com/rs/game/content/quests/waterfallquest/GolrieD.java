@@ -48,9 +48,7 @@ public class GolrieD extends Conversation {
 				return;
 			}
 			addPlayer(HeadE.SAD, "Yes I have...");
-			addNPC(NPC, HeadE.HAPPY_TALKING, "Here. Take this one I just found.", ()->{
-				player.getInventory().addItem(294, 1);
-			});
+			addNPC(NPC, HeadE.HAPPY_TALKING, "Here. Take this one I just found.", ()-> player.getInventory().addItem(294, 1));
 			return;
 		}
 		addNPC(NPC, HeadE.CONFUSED, "What are you doing here?");

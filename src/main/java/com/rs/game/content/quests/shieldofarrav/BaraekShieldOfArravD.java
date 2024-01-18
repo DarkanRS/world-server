@@ -63,9 +63,7 @@ public class BaraekShieldOfArravD extends Conversation {
 																.addNPC(BARAEK, HeadE.CALM_TALK, "Hey now...the Phoenix Gang make it their business to not be easy to find.")
 																.addNPC(BARAEK, HeadE.CALM_TALK, " Look, if you get lost, talk to Charlie the tramp near the Varrock south gate. " +
 																		"He can give you better directions.")
-																.addNext(() -> {
-																	p.startConversation(new BaraekShieldOfArravD(p).getStart());
-																}));
+																.addNext(() -> p.startConversation(new BaraekShieldOfArravD(p).getStart())));
 														option("Thanks!", () -> {});
 													}
 												}));
@@ -73,21 +71,15 @@ public class BaraekShieldOfArravD extends Conversation {
 										option("I haven't got that much.", new Dialogue()
 												.addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "I haven't got that much")
 												.addNPC(BARAEK, HeadE.ANGRY, "In that case I wouldn't dare tell you anything about the Phoenix Gang.")
-												.addNext(() -> {
-													p.startConversation(new BaraekShieldOfArravD(p).getStart());
-												}));
+												.addNext(() -> p.startConversation(new BaraekShieldOfArravD(p).getStart())));
 									option("Yes. I'd like to be 10 gold coins richer.", new Dialogue()
 											.addNPC(BARAEK, HeadE.FRUSTRATED, "What? You're meant to bribe me, not the other way around... Oh, forget it!")
-											.addNext(() -> {
-												p.startConversation(new BaraekShieldOfArravD(p).getStart());
-											}));
+											.addNext(() -> p.startConversation(new BaraekShieldOfArravD(p).getStart())));
 									option("No, I don't like things like bribery.", new Dialogue()
 											.addPlayer(HeadE.SKEPTICAL, "No, I don't like things like bribery.")
 											.addNPC(BARAEK, HeadE.LAUGH, "Heh. And you want to deal with the Phoenix Gang? They're involved in much worse than a " +
 													"bit of bribery.")
-											.addNext(() -> {
-												p.startConversation(new BaraekShieldOfArravD(p).getStart());
-											}));
+											.addNext(() -> p.startConversation(new BaraekShieldOfArravD(p).getStart())));
 									option("Farewell.");
 								}
 							}));
@@ -113,9 +105,7 @@ public class BaraekShieldOfArravD extends Conversation {
 											.addNPC(BARAEK, HeadE.CALM_TALK, "Hey now...the Phoenix Gang make it their business to not be easy to find.")
 											.addNPC(BARAEK, HeadE.CALM_TALK, " Look, if you get lost, talk to Charlie the tramp near the Varrock south gate. " +
 													"He can give you better directions.")
-											.addNext(() -> {
-												p.startConversation(new BaraekShieldOfArravD(p).getStart());
-											}));
+											.addNext(() -> p.startConversation(new BaraekShieldOfArravD(p).getStart())));
 									option("Thanks!", () -> {});
 								}
 							}));
@@ -124,9 +114,7 @@ public class BaraekShieldOfArravD extends Conversation {
 			});
 			break;
 		default:
-			addNext(() -> {
-				p.sendMessage("Nothing interesting happens.");
-			});
+			addNext(() -> p.sendMessage("Nothing interesting happens."));
 
 			break;
 		}

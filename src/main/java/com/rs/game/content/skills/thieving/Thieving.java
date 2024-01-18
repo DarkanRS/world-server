@@ -89,13 +89,13 @@ public class Thieving {
 		GEM_STALL(34385, 75, new int[] { 1623, 1621, 1619, 1617 }, 1, 180, 16, 34381),
 		GEM_STALL2(6162, 75, new int[] { 1623, 1621, 1619, 1617 }, 1, 180, 16, 6984);
 
-		private int[] item;
-		private int level;
-		private int amount;
-		private int objectId;
-		private int replaceObject;
-		private double experience;
-		private int seconds;
+		private final int[] item;
+		private final int level;
+		private final int amount;
+		private final int objectId;
+		private final int replaceObject;
+		private final double experience;
+		private final int seconds;
 
 		Stalls(int objectId, int level, int[] item, int amount, int seconds, double experience, int replaceObject) {
 			this.objectId = objectId;
@@ -226,7 +226,7 @@ public class Thieving {
 		int increasedChance = getIncreasedChance(player);
 		int decreasedChance = player.getTempAttribs().getI("numbFingers");
 		int level = Utils.getRandomInclusive(thievingLevel + (increasedChance - decreasedChance)) + 1;
-		double ratio = level / (Utils.getRandomInclusive(45 + 5) + 1);
+		double ratio = (double) level / (Utils.getRandomInclusive(45 + 5) + 1);
 		if (Math.round(ratio * thievingLevel) < (player.inCombat() ? 50 : 40)) {
 			player.sendMessage("You fail to unlock the door and your hands begin to numb down.");
 			player.getTempAttribs().setI("numbFingers", decreasedChance + 1);

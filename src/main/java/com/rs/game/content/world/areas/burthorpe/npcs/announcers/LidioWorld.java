@@ -42,5 +42,5 @@ public class LidioWorld extends NPC {
 			setNextForceTalk(new ForceTalk("Stew to fill the belly, on sale here!"));
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, (npcId, tile) -> new LidioWorld(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, LidioWorld::new);
 }

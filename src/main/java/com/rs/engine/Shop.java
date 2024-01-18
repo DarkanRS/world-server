@@ -40,14 +40,14 @@ public class Shop {
 
 	private static final int MAX_SHOP_ITEMS = 40;
 
-	private String name;
-	private ShopItem[] mainStock;
-	private int[] defaultQuantity;
+	private final String name;
+	private final ShopItem[] mainStock;
+	private final int[] defaultQuantity;
 	private ShopItem[] generalStock;
-	private boolean buyOnly;
-	private int currency;
+	private final boolean buyOnly;
+	private final int currency;
 
-	private transient CopyOnWriteArrayList<Player> viewingPlayers;
+	private final transient CopyOnWriteArrayList<Player> viewingPlayers;
 
 	public Shop(String name, int money, ShopItem[] shopItems, boolean isGeneralStore, boolean buyOnly) {
 		viewingPlayers = new CopyOnWriteArrayList<>();

@@ -41,9 +41,7 @@ public class VeronicaErnestChickenD extends Conversation {
 				@Override
 				public void create() {
 					option("Accept Quest", new Dialogue()
-							.addNPC(VERONICA, HeadE.HAPPY_TALKING, "Thank you, thank you. I'm very grateful.", () -> {
-								player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.STARTED);
-							})
+							.addNPC(VERONICA, HeadE.HAPPY_TALKING, "Thank you, thank you. I'm very grateful.", () -> player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.STARTED))
 							.addNPC(VERONICA, HeadE.TALKING_ALOT, "I think I spotted some lights flashing in one of the top floor windows, so you may want to " +
 									"head up there first."));
 					option("Not right now", new Dialogue()

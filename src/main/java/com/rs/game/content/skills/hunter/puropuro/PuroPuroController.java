@@ -26,7 +26,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class PuroPuroController extends Controller {
 
-	private Tile entranceTile;
+	private final Tile entranceTile;
 
 	public PuroPuroController(Tile tile) {
 		this.entranceTile = tile;

@@ -22,8 +22,8 @@ import java.security.InvalidParameterException;
 
 public class OptionStatement implements Statement {
 
-	private String title;
-	private String[] options;
+	private final String title;
+	private final String[] options;
 
 	public OptionStatement(String title, String... options) {
 		this.title = title;

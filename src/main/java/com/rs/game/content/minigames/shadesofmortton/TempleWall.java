@@ -21,7 +21,7 @@ import com.rs.lib.util.Utils;
 
 public class TempleWall extends GameObject {
 
-	private int baseId;
+	private final int baseId;
 	private int buildProgress;
 
 	public TempleWall(GameObject object) {

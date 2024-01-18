@@ -19,9 +19,7 @@ public class AylethBeaststalker extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need hunter supplies", () -> {
-                    ShopsHandler.openShop(player, "ayleths_hunting_supplies");
-                });
+                option("I need hunter supplies", () -> ShopsHandler.openShop(player, "ayleths_hunting_supplies"));
                 option("Farewell");
             }
         });

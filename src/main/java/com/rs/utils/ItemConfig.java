@@ -19,7 +19,7 @@ import java.util.Map;
 @PluginEventHandler
 public class ItemConfig {
 	private static Map<Integer, ItemConfig> CONFIG_CACHE = new HashMap<>();
-	private static Map<String, Integer> UID_TO_ID = new HashMap<>();
+	private static final Map<String, Integer> UID_TO_ID = new HashMap<>();
 	private final static String PATH = "./data/items/config.json";
 	
 	private String uidName;
@@ -33,7 +33,7 @@ public class ItemConfig {
 	private String examine;
 	
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		if (new File(PATH).exists())
 			CONFIG_CACHE = JsonFileManager.loadJsonFile(new File(PATH), new TypeToken<Map<Integer, ItemConfig>>(){}.getType());
 		else
@@ -59,7 +59,9 @@ public class ItemConfig {
 
 	/**
 	 * TODO
-	 *
+	 * Dump all sounds into the config
+	 * Dump all existing anims into the config
+	 * Automatically dump any equippable item that is wieldable but does not have an animation
 	 */
 
 	public int getAttackSound(int attackStyleIndex) {

@@ -31,7 +31,7 @@ import com.rs.utils.WorldUtil;
 
 public final class NPCCombat {
 
-	private NPC npc;
+	private final NPC npc;
 	private int combatDelay;
 	private Entity target;
 
@@ -89,7 +89,7 @@ public final class NPCCombat {
 		return CombatScriptsHandler.attack(npc, target);
 	}
 
-	protected void doDefenceEmote(Entity target) {
+	void doDefenceEmote(Entity target) {
 		target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
 	}
 
@@ -99,7 +99,7 @@ public final class NPCCombat {
 
 	public void addAttackedByDelay(Entity target) {
 		target.setAttackedBy(npc);
-		target.setAttackedByDelay(System.currentTimeMillis() + npc.getAttackSpeed() * 600 + 600); // 8seconds
+		target.setAttackedByDelay(System.currentTimeMillis() + npc.getAttackSpeed() * 600L + 600); // 8seconds
 	}
 
 	public void setTarget(Entity target) {
@@ -107,8 +107,7 @@ public final class NPCCombat {
 		npc.setNextFaceEntity(target);
 		if (!checkAll()) {
 			removeTarget();
-			return;
-		}
+        }
 	}
 
 	public boolean checkAll() {

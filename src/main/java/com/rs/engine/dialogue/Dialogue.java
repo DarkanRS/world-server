@@ -149,9 +149,7 @@ public class Dialogue {
 	}
 
 	public Dialogue addItemToInv(Player player, Item item, String text) {
-		return addNext(new ItemStatement(item.getId(), text)).setFunc(() -> {
-			player.getInventory().addItem(item);
-		});
+		return addNext(new ItemStatement(item.getId(), text)).setFunc(() -> player.getInventory().addItem(item));
 	}
 
 	public Dialogue addQuestStart(Quest quest) {
@@ -247,8 +245,7 @@ public class Dialogue {
 			String[] ops = new String[options.getOptions().keySet().size()];
 			options.getOptions().keySet().toArray(ops);
 			String[] baseOptions = new String[5];
-			for (int i = 0;i < 4;i++)
-				baseOptions[i] = ops[i];
+            System.arraycopy(ops, 0, baseOptions, 0, 4);
 			baseOptions[4] = "More options...";
 			Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
 			Dialogue currPage = baseOption;
@@ -391,14 +388,14 @@ public class Dialogue {
 
 	@Override
 	public String toString() {
-		String str = "[Dialogue] { stmt: " + statement + " next: [ ";
+		StringBuilder str = new StringBuilder("[Dialogue] { stmt: " + statement + " next: [ ");
 		for (Dialogue d : next) {
 			if (d == null)
 				continue;
-			str += d.getClass().getSimpleName() + "("+d.getStatement()+")\n\t";
+			str.append(d.getClass().getSimpleName()).append("(").append(d.getStatement()).append(")\n\t");
 		}
-		str += " ] }";
-		return str;
+		str.append(" ] }");
+		return str.toString();
 	}
 
 	public Dialogue cutPrev() {

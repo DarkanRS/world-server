@@ -34,7 +34,7 @@ public final class CombatDefinitions {
 		LUNAR(430),
 		DUNGEONEERING(950);
 		
-		private int interfaceId;
+		private final int interfaceId;
 		
 		private Spellbook(int interfaceId) {
 			this.interfaceId = interfaceId;
@@ -107,159 +107,62 @@ public final class CombatDefinitions {
 		if (autoCast == null)
 			return 0;
 		if (dungSpellbook)
-			switch (autoCast) {
-			case WIND_STRIKE:
-				return 103;
-			case WATER_STRIKE:
-				return 105;
-			case EARTH_STRIKE:
-				return 107;
-			case FIRE_STRIKE:
-				return 109;
-			case WIND_BOLT:
-				return 111;
-			case WATER_BOLT:
-				return 113;
-			case EARTH_BOLT:
-				return 115;
-			case FIRE_BOLT:
-				return 117;
-			case WIND_BLAST:
-				return 119;
-			case WATER_BLAST:
-				return 121;
-			case EARTH_BLAST:
-				return 123;
-			case FIRE_BLAST:
-				return 125;
-			case WIND_WAVE:
-				return 127;
-			case WATER_WAVE:
-				return 129;
-			case EARTH_WAVE:
-				return 131;
-			case FIRE_WAVE:
-				return 133;
-			case WIND_SURGE:
-				return 135;
-			case WATER_SURGE:
-				return 137;
-			case EARTH_SURGE:
-				return 139;
-			case FIRE_SURGE:
-				return 141;
-			default:
-				return 0;
-			}
+            return switch (autoCast) {
+                case WIND_STRIKE -> 103;
+                case WATER_STRIKE -> 105;
+                case EARTH_STRIKE -> 107;
+                case FIRE_STRIKE -> 109;
+                case WIND_BOLT -> 111;
+                case WATER_BOLT -> 113;
+                case EARTH_BOLT -> 115;
+                case FIRE_BOLT -> 117;
+                case WIND_BLAST -> 119;
+                case WATER_BLAST -> 121;
+                case EARTH_BLAST -> 123;
+                case FIRE_BLAST -> 125;
+                case WIND_WAVE -> 127;
+                case WATER_WAVE -> 129;
+                case EARTH_WAVE -> 131;
+                case FIRE_WAVE -> 133;
+                case WIND_SURGE -> 135;
+                case WATER_SURGE -> 137;
+                case EARTH_SURGE -> 139;
+                case FIRE_SURGE -> 141;
+                default -> 0;
+            };
 		if (spellbook == Spellbook.MODERN)
-			switch (autoCast) {
-			case WIND_STRIKE:
-				return 3;
-			case WATER_STRIKE:
-				return 5;
-			case EARTH_STRIKE:
-				return 7;
-			case FIRE_STRIKE:
-				return 9;
-			case WIND_BOLT:
-				return 11;
-			case WATER_BOLT:
-				return 13;
-			case EARTH_BOLT:
-				return 15;
-			case FIRE_BOLT:
-				return 17;
-			case CRUMBLE_UNDEAD:
-				return 35;
-			case WIND_BLAST:
-				return 19;
-			case WATER_BLAST:
-				return 21;
-			case EARTH_BLAST:
-				return 23;
-			case FIRE_BLAST:
-				return 25;
-			case IBAN_BLAST:
-				return 45;
-			case MAGIC_DART:
-				return 37;
-			case SARADOMIN_STRIKE:
-				return 41;
-			case CLAWS_OF_GUTHIX:
-				return 39;
-			case FLAMES_OF_ZAMORAK:
-				return 43;
-			case WIND_WAVE:
-				return 27;
-			case WATER_WAVE:
-				return 29;
-			case EARTH_WAVE:
-				return 31;
-			case FIRE_WAVE:
-				return 33;
-			case WIND_SURGE:
-				return 47;
-			case WATER_SURGE:
-				return 49;
-			case EARTH_SURGE:
-				return 51;
-			case FIRE_SURGE:
-				return 53;
-			case WIND_RUSH:
-				return 143;
-			case STORM_OF_ARMADYL:
-				return 145;
-			default:
-				return 0;
-			}
-		else if (spellbook == Spellbook.ANCIENT)
-			switch (autoCast) {
-			case SMOKE_RUSH:
-				return 63;
-			case SHADOW_RUSH:
-				return 65;
-			case BLOOD_RUSH:
-				return 67;
-			case ICE_RUSH:
-				return 69;
-			case SMOKE_BURST:
-				return 71;
-			case SHADOW_BURST:
-				return 73;
-			case BLOOD_BURST:
-				return 75;
-			case ICE_BURST:
-				return 77;
-			case SMOKE_BLITZ:
-				return 79;
-			case SHADOW_BLITZ:
-				return 81;
-			case BLOOD_BLITZ:
-				return 83;
-			case ICE_BLITZ:
-				return 85;
-			case SMOKE_BARRAGE:
-				return 87;
-			case SHADOW_BARRAGE:
-				return 89;
-			case BLOOD_BARRAGE:
-				return 91;
-			case ICE_BARRAGE:
-				return 93;
-			case MIASMIC_RUSH:
-				return 95;
-			case MIASMIC_BURST:
-				return 97;
-			case MIASMIC_BLITZ:
-				return 99;
-			case MIASMIC_BARRAGE:
-				return 101;
-			default:
-				return 0;
-			}
-		else
-			return 0;
-	}
+            return switch (autoCast) {
+                case WIND_STRIKE -> 3;
+                case WATER_STRIKE -> 5;
+                case EARTH_STRIKE -> 7;
+                case FIRE_STRIKE -> 9;
+                case WIND_BOLT -> 11;
+                case WATER_BOLT -> 13;
+                case EARTH_BOLT -> 15;
+                case FIRE_BOLT -> 17;
+                case CRUMBLE_UNDEAD -> 35;
+                case WIND_BLAST -> 19;
+                case WATER_BLAST -> 21;
+                case EARTH_BLAST -> 23;
+                case FIRE_BLAST -> 25;
+                case IBAN_BLAST -> 45;
+                case MAGIC_DART -> 37;
+                case SARADOMIN_STRIKE -> 41;
+                case CLAWS_OF_GUTHIX -> 39;
+                case FLAMES_OF_ZAMORAK -> 43;
+                case WIND_WAVE -> 27;
+                case WATER_WAVE -> 29;
+                case EARTH_WAVE -> 31;
+                case FIRE_WAVE -> 33;
+                case WIND_SURGE -> 47;
+                case WATER_SURGE -> 49;
+                case EARTH_SURGE -> 51;
+                case FIRE_SURGE -> 53;
+                case WIND_RUSH -> 143;
+                case STORM_OF_ARMADYL -> 145;
+                default -> 0;
+            };
+    }
 
 	public CombatDefinitions() {
 		specialAttackPercentage = 100;
@@ -350,15 +253,12 @@ public final class CombatDefinitions {
 		player.getVars().setVarBit(2668, defensiveCasting ? 1 : 0);
 	}
 
-	public static final Bonus getMeleeDefenceBonus(Bonus attackType) {
-		switch(attackType) {
-		case STAB_ATT:
-			return Bonus.STAB_DEF;
-		case SLASH_ATT:
-			return Bonus.SLASH_DEF;
-		default:
-			return Bonus.CRUSH_DEF;
-		}
+	public static Bonus getMeleeDefenceBonus(Bonus attackType) {
+        return switch (attackType) {
+            case STAB_ATT -> Bonus.STAB_DEF;
+            case SLASH_ATT -> Bonus.SLASH_DEF;
+            default -> Bonus.CRUSH_DEF;
+        };
 	}
 
 	public void setPlayer(Player player) {

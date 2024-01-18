@@ -18,7 +18,7 @@ public class ThrantaxMerlinsCrystalD extends Conversation {
 		super(player);
 		addSimple("Suddenly a mighty spirit appears!");
 		addPlayer(HeadE.HAPPY_TALKING, "Now what were those magic words again?");
-		addNext(()->{player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart());});
+		addNext(()-> player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart()));
 	}
 
 
@@ -30,7 +30,7 @@ public class ThrantaxMerlinsCrystalD extends Conversation {
 				option("Snarthtrick Candanto Termon", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Snarthtrick... Candanto... Termon!")
 						.addPlayer(HeadE.HAPPY_TALKING, "No, that wasn't right")
-						.addNext(()->{player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart());}));
+						.addNext(()-> player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart())));
 				option("Snarthon Candtrick Termanto", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Snarthon... Candtrick... Termanto!")
 						.addNPC(NPC, HeadE.CALM_TALK, "GRAAAAAAGH! Thou hast me in thine control. So that I mayst return from whence I am, I must grant " +
@@ -47,7 +47,7 @@ public class ThrantaxMerlinsCrystalD extends Conversation {
 				option("Snarthanto Candon Termtrick", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Snarthanto... Candon... Termtrick!")
 						.addPlayer(HeadE.HAPPY_TALKING, "No, that wasn't right")
-						.addNext(()->{player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart());}));
+						.addNext(()-> player.startConversation(new ThrantaxMerlinsCrystalD(player, true).getStart())));
 			}
 		});
 	}

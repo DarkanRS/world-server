@@ -56,7 +56,7 @@ public class DoughMaking  {
 
 	static class DoughMakeAction extends PlayerAction {
 
-		private int doughId;
+		private final int doughId;
 
 		public DoughMakeAction(int doughId) {
 			this.doughId = doughId;

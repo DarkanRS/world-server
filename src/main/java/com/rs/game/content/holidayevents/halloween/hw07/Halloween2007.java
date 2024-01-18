@@ -64,14 +64,14 @@ public class Halloween2007 {
 
 	public static final int[] ALL_ITEMS = { 11780, 11781, 11782, 11783, 11784, 11785, 11786, 11787, 11788 };
 
-	private static Animation GARGOYLE_ANIM = new Animation(7285);
+	private static final Animation GARGOYLE_ANIM = new Animation(7285);
 
-	private static Animation WEB_PASS_ANIM = new Animation(7280);
-	private static Animation WEB_FAIL_ANIM = new Animation(7281);
-	private static int WEB_PASS_PANIM = 7275;
-	private static Animation WEB_FAIL_PANIM = new Animation(7276);
+	private static final Animation WEB_PASS_ANIM = new Animation(7280);
+	private static final Animation WEB_FAIL_ANIM = new Animation(7281);
+	private static final int WEB_PASS_PANIM = 7275;
+	private static final Animation WEB_FAIL_PANIM = new Animation(7276);
 
-	private static Animation TAKE_ITEM = new Animation(833);
+	private static final Animation TAKE_ITEM = new Animation(833);
 
 	public static int[] DEAD_END_WEBS = { 27955946, 28005096, 27661029, 27775726, 27726573, 27628265 };
 	public static int[][] SPIDER_PATHS = {
@@ -85,9 +85,9 @@ public class Halloween2007 {
 			{ 27808496, 27775726, 27759341, 27742955, 27955940, 27923173, 27759336 },
 	};
 
-	private static Map<Integer, Integer> SPRINGBOARD_PAIRS = new HashMap<>();
+	private static final Map<Integer, Integer> SPRINGBOARD_PAIRS = new HashMap<>();
 	private static final int[] PITFALL_LOCS = { 26743532, 26743537, 26743539, 26759918, 26776300, 26776301, 26776306, 26792688, 26825456, 26825459, 26841838, 26858224, 26874611, 26890989, 26890993, 26923756, 26923759, 26923761, 26923763 };
-	private static Set<Integer> PITFALLS = new HashSet<>();
+	private static final Set<Integer> PITFALLS = new HashSet<>();
 
 	static {
 		mapSpringboard(Tile.toInt(1637, 4817, 0), Tile.toInt(1637, 4820, 0));
@@ -125,9 +125,7 @@ public class Halloween2007 {
 		}
 		e.getPlayer().startConversation(new Dialogue()
 				.addPlayer(HeadE.SCARED, "I can't believe I'm doing this.. Oh well, here goes nothing!")
-				.addNext(new Dialogue(() -> {
-					e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
-				})));
+				.addNext(new Dialogue(() -> e.getPlayer().getControllerManager().startController(new Halloween2007Controller()))));
 	});
 
 	public static ObjectClickHandler handleExit = new ObjectClickHandler(new Object[] { 27254 }, e -> {
@@ -290,26 +288,24 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ObjectClickHandler handleCouch = new ObjectClickHandler(new Object[] { 27252 }, e -> {
-		e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
-			ops.add("Under the sofa", () -> {
-				e.getPlayer().lock();
-				WorldTasks.scheduleTimer(stage -> {
-					if (stage == 0)
-						e.getPlayer().setNextAnimation(new Animation(7271));
-					else if (stage == 1)
-						World.sendSpotAnim(e.getPlayer().transform(-1, 0, 0), new SpotAnim(1244, 0, 0, 2));
-					else if (stage == 4) {
-						e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
-						e.getPlayer().unlock();
-						return false;
-					}
-					return true;
-				});
-			});
-			ops.add("Under the cushions", () -> searchItem(e.getPlayer(), HUMAN_EYE, "You found someone's eye."));
-		});
-	});
+	public static ObjectClickHandler handleCouch = new ObjectClickHandler(new Object[] { 27252 }, e -> e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
+        ops.add("Under the sofa", () -> {
+            e.getPlayer().lock();
+            WorldTasks.scheduleTimer(stage -> {
+                if (stage == 0)
+                    e.getPlayer().setNextAnimation(new Animation(7271));
+                else if (stage == 1)
+                    World.sendSpotAnim(e.getPlayer().transform(-1, 0, 0), new SpotAnim(1244, 0, 0, 2));
+                else if (stage == 4) {
+                    e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
+                    e.getPlayer().unlock();
+                    return false;
+                }
+                return true;
+            });
+        });
+        ops.add("Under the cushions", () -> searchItem(e.getPlayer(), HUMAN_EYE, "You found someone's eye."));
+    }));
 
 	public static ItemOnObjectHandler handleWillCouch = new ItemOnObjectHandler(new Object[] { 27252 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
@@ -322,24 +318,22 @@ public class Halloween2007 {
 			e.getPlayer().startConversation(new Dialogue().addSimple("You don't recall the diary mentioning that going in there."));
 	});
 
-	public static ObjectClickHandler handleFishTank = new ObjectClickHandler(new Object[] { 27253 }, e -> {
-		e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
-			ops.add("To the left", () -> {
-				e.getPlayer().lock();
-				WorldTasks.scheduleTimer(stage -> {
-					if (stage == 0)
-						e.getPlayer().setNextAnimation(new Animation(7271));
-					else if (stage == 4) {
-						e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
-						e.getPlayer().unlock();
-						return false;
-					}
-					return true;
-				});
-			});
-			ops.add("To the right", () -> searchItem(e.getPlayer(), HUMAN_BONES, "You found some bones. They look decidedly human."));
-		});
-	});
+	public static ObjectClickHandler handleFishTank = new ObjectClickHandler(new Object[] { 27253 }, e -> e.getPlayer().sendOptionDialogue("Where do you want to search?", ops -> {
+        ops.add("To the left", () -> {
+            e.getPlayer().lock();
+            WorldTasks.scheduleTimer(stage -> {
+                if (stage == 0)
+                    e.getPlayer().setNextAnimation(new Animation(7271));
+                else if (stage == 4) {
+                    e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.NERVOUS, "That wasn't such a good idea."));
+                    e.getPlayer().unlock();
+                    return false;
+                }
+                return true;
+            });
+        });
+        ops.add("To the right", () -> searchItem(e.getPlayer(), HUMAN_BONES, "You found some bones. They look decidedly human."));
+    }));
 
 	public static ItemOnObjectHandler handleHourglassFishTank = new ItemOnObjectHandler(new Object[] { 27253 }, null, e -> {
 		if (e.getPlayer().getControllerManager().getController() == null)
@@ -562,21 +556,21 @@ public class Halloween2007 {
 					player.faceObject(object);
 				else if (stage == 2) {
 					int x = 0, y = 0;
-					switch(object.getRotation()) {
-					case 0:
-					case 1:
-						x = -1;
-						y = -1;
-						break;
-					case 2:
-						x = -1;
-						y = 0;
-						break;
-					case 3:
-						x = 0;
-						y = -1;
-						break;
-					}
+                    y = switch (object.getRotation()) {
+                        case 0, 1 -> {
+                            x = -1;
+                            yield -1;
+                        }
+                        case 2 -> {
+                            x = -1;
+                            yield 0;
+                        }
+                        case 3 -> {
+                            x = 0;
+                            yield -1;
+                        }
+                        default -> y;
+                    };
 					GameObject lightning = new GameObject(27277, ObjectType.SCENERY_INTERACT, object.getRotation(), object.getTile().transform(x, y, 0));
 					World.spawnObjectTemporary(lightning, Ticks.fromSeconds(3));
 				} else if (stage == 3) {

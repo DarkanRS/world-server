@@ -23,7 +23,7 @@ import com.rs.lib.util.Utils;
 
 public class CastleWarBarricade extends NPC {
 
-	private int team;
+	private final int team;
 
 	public CastleWarBarricade(int team, Tile tile) {
 		super(1532, tile, true);

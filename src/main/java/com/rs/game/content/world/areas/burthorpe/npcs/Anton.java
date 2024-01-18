@@ -48,9 +48,7 @@ public class Anton extends Conversation {
 			public void create() {
 
 				option("Okay, show me what you have.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "warrior_guild_armory");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "warrior_guild_armory")));
 
 				option("I think I'll give it a miss.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "I think I'll give it a miss.")

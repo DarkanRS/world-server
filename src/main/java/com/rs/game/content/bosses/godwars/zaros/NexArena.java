@@ -41,7 +41,7 @@ public class NexArena {
 		return GLOBAL_INSTANCE;
 	}
 
-	private List<Player> players = Collections.synchronizedList(new ArrayList<Player>());
+	private final List<Player> players = Collections.synchronizedList(new ArrayList<>());
 	public Nex nex;
 	public NexMinion fumus;
 	public NexMinion umbra;

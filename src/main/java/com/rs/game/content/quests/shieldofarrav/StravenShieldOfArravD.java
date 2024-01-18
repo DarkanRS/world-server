@@ -68,21 +68,15 @@ public class StravenShieldOfArravD extends Conversation {
                                         "So they split off to form their own gang. The Black Arm Gang.")
                                 .addNPC(STRAVEN, HeadE.TALKING_ALOT, "On their way out they looted what treasures they could from us - which included " +
                                         "one of the halves of the shield. We've been rivals with the Black Arms ever since.")
-                                .addNext(() -> {
-                                    p.startConversation(new StravenShieldOfArravD(p, true).getStart());
-                                }));
+                                .addNext(() -> p.startConversation(new StravenShieldOfArravD(p, true).getStart())));
                     else
                         option("I lost my weapons store key.", new Dialogue()
                                 .addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "I lost my weapons store key.")
                                 .addNPC(STRAVEN, HeadE.SKEPTICAL, "Indeed you have.")
-                                .addSimple("He hands you another key", () -> {
-                                    p.getInventory().addItem(759, 1, true);
-                                }));
+                                .addSimple("He hands you another key", () -> p.getInventory().addItem(759, 1, true)));
                     option("Any suggestions for where I can go thieving?", new Dialogue()
                             .addNPC(STRAVEN, HeadE.HAPPY_TALKING, "You can always try the marketplace in Ardougne. LOTS of opportunity there!")
-                            .addNext(() -> {
-                                p.startConversation(new StravenShieldOfArravD(p, true).getStart());
-                            }));
+                            .addNext(() -> p.startConversation(new StravenShieldOfArravD(p, true).getStart())));
                     option("Where's the Black Arm Gang hideout?", new Dialogue()
                             .addPlayer(HeadE.TALKING_ALOT, "Where's the Black Arm Gang hideout? I wanna go sabotage 'em!")
                             .addNPC(STRAVEN, HeadE.AMAZED_MILD, "That would be a little tricky; their security is pretty good. Not as good as ours, obviously.")
@@ -91,9 +85,7 @@ public class StravenShieldOfArravD extends Conversation {
                             .addNPC(STRAVEN, HeadE.TALKING_ALOT, "One of our operatives is often near the alley - a red haired tramp, goes by the name of Charlie. " +
                                     "He may be able to give you some ideas.")
                             .addPlayer(HeadE.HAPPY_TALKING, "Thanks for the help!")
-                            .addNext(() -> {
-                                p.startConversation(new StravenShieldOfArravD(p, true).getStart());
-                            }));
+                            .addNext(() -> p.startConversation(new StravenShieldOfArravD(p, true).getStart())));
                     option("Farewell.");
                 }
             });
@@ -149,9 +141,7 @@ public class StravenShieldOfArravD extends Conversation {
                                             .addNPC(STRAVEN, HeadE.FRUSTRATED, "OBVIOUSLY I know NOTHING about the dealings of the Phoenix Gang, but I bet if SOMEBODY " +
                                                     "were to kill him and bring back his intelligence report, they would be considered loyal enough to join.")
                                             .addPlayer(HeadE.TALKING_ALOT, "I'll get right on it.")
-                                            .addNext(() -> {
-                                                ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE);
-                                            }));
+                                            .addNext(() -> ShieldOfArrav.setStage(p, ShieldOfArrav.PROVING_LOYALTY_PHOENIX_STAGE)));
                                     option("I want nothing. I was just making sure you were them.", new Dialogue()
                                             .addPlayer(HeadE.SCARED, "I want nothing. I was just making sure you were them.")
                                             .addNPC(STRAVEN, HeadE.ANGRY, "Well, then get lost and stop wasting my time. ...if you know what's good for you."));
@@ -161,15 +151,11 @@ public class StravenShieldOfArravD extends Conversation {
                             .addPlayer(HeadE.SECRETIVE, "How do I get a job with the VTAM corporation?")
                             .addNPC(STRAVEN, HeadE.CALM_TALK, "Get a copy of the Varrock Herald. If we have any positions right now, they'll be advertised " +
                                     "in there.")
-                            .addNext(() -> {
-                                p.startConversation(new StravenShieldOfArravD(p, true).getStart());
-                            }));
+                            .addNext(() -> p.startConversation(new StravenShieldOfArravD(p, true).getStart())));
                     option("Why not?", new Dialogue()
                             .addPlayer(HeadE.SECRETIVE, "Why not?")
                             .addNPC(STRAVEN, HeadE.SECRETIVE, " Sorry. That's classified information.")
-                            .addNext(() -> {
-                                p.startConversation(new StravenShieldOfArravD(p, true).getStart());
-                            }));
+                            .addNext(() -> p.startConversation(new StravenShieldOfArravD(p, true).getStart())));
                     option("Farewell.");
                 }
             });

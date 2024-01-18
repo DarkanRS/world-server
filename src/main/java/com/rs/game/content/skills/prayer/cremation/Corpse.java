@@ -78,7 +78,7 @@ public enum Corpse {
 					new WeightedTable(1, new Drop(13158))
 					));
 
-	private static Map<Integer, Corpse> ID_MAP = new HashMap<>();
+	private static final Map<Integer, Corpse> ID_MAP = new HashMap<>();
 
 	static {
 		for (Corpse corpse : Corpse.values())

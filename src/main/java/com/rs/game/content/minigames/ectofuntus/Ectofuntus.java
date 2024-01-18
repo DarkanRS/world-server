@@ -111,7 +111,7 @@ public class Ectofuntus {
     public static ObjectClickHandler handleGrinder = new ObjectClickHandler(new Object[]{11163}, e -> grinder(e.getPlayer()));
     public static ObjectClickHandler handleBin = new ObjectClickHandler(new Object[]{11164}, e -> bin(e.getPlayer()));
 
-    public static final void sendEctophialTeleport(Player player, Tile tile) {
+    public static void sendEctophialTeleport(Player player, Tile tile) {
         Magic.sendTeleportSpell(player, 8939, 8941, 1678, 1679, 0, 0, tile, 3, true, TeleType.MAGIC, () -> player.soundEffect(4580, true), null);
     }
 
@@ -200,8 +200,8 @@ public class Ectofuntus {
         ACCURSED_ASHES(20266, 20266),
         INFERNAL_ASHES(20268, 20268);
 
-        private static Map<Integer, BoneMeal> bonemeals = new HashMap<>();
-        private static Map<Integer, BoneMeal> bones = new HashMap<>();
+        private static final Map<Integer, BoneMeal> bonemeals = new HashMap<>();
+        private static final Map<Integer, BoneMeal> bones = new HashMap<>();
 
         static {
             for (final BoneMeal bonemeal : BoneMeal.values())
@@ -210,8 +210,8 @@ public class Ectofuntus {
                 bones.put(bonemeal.boneMealId, bonemeal);
         }
 
-        private int boneId;
-        private int boneMealId;
+        private final int boneId;
+        private final int boneMealId;
 
         private BoneMeal(int boneId, int boneMealId) {
             this.boneId = boneId;

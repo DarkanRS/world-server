@@ -142,18 +142,15 @@ public class NPCBodyMeshModifier {
 	}
 
 	public void encodeModels(OutputStream stream) {
-		for (int i = 0;i < modelIds.length;i++)
-			stream.writeBigSmart(modelIds[i]);
+        for (int modelId : modelIds) stream.writeBigSmart(modelId);
 	}
 
 	public void encodeColors(OutputStream stream) {
-		for (int i = 0;i < modifiedColors.length;i++)
-			stream.writeShort(modifiedColors[i]);
+        for (short modifiedColor : modifiedColors) stream.writeShort(modifiedColor);
 	}
 
 	public void encodeTextures(OutputStream stream) {
-		for (int i = 0;i < modifiedTextures.length;i++)
-			stream.writeShort(modifiedTextures[i]);
+        for (short modifiedTexture : modifiedTextures) stream.writeShort(modifiedTexture);
 	}
 
 	public int getModificationFlags() {

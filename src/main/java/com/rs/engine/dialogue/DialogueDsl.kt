@@ -1,4 +1,4 @@
-package com.rs.engine.dialogue;
+package com.rs.engine.dialogue
 
 import com.rs.engine.dialogue.statements.Statement
 import com.rs.engine.quest.Quest
@@ -13,7 +13,7 @@ annotation class DialogueDsl
 @DialogueDsl
 open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMapOf()) {
     private var dialogue = Dialogue()
-    val start = dialogue;
+    val start = dialogue
 
     fun player(expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addPlayer(expression, text, extraFunctionality)

@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class TreeStumps {
 
-	private static Map<Integer, Integer> STUMPS = new HashMap<>();
+	private static final Map<Integer, Integer> STUMPS = new HashMap<>();
 
 	static {
 		STUMPS.put(139, 5554);

@@ -40,7 +40,7 @@ import java.util.List;
 
 public class CastleWarsPlayingController extends Controller {
 
-	private int team;
+	private final int team;
 
 	public CastleWarsPlayingController(int team) {
 		this.team = team;

@@ -21,14 +21,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public final class AccountLimiter {
 
-	private static Map<String, Integer> CONNECTIONS = new ConcurrentHashMap<>();
+	private static final Map<String, Integer> CONNECTIONS = new ConcurrentHashMap<>();
 
 	public static void add(String ip) {
-		Integer amount = CONNECTIONS.get(ip);
-		if (amount != null)
-			CONNECTIONS.put(ip, amount+1);
-		else
-			CONNECTIONS.put(ip, 1);
+        CONNECTIONS.merge(ip, 1, Integer::sum);
 	}
 
 	public static void remove(String ip) {

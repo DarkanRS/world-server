@@ -57,16 +57,11 @@ public class Jade extends Conversation {
                 option("I'd like to change my theshold for valuable loot notifications.", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "I'd like to change my theshold for valuable loot notifications.")
                         .addNPC(npc.getId(), HeadE.HAPPY_TALKING, "Okay, your current threshold is " + player.getI("lootbeamThreshold", 90000) + " GP. What would you like to set it to?")
-                        .addNext(() -> {
-                            player.sendInputInteger("What would you like to set it to?", new InputIntegerEvent() {
-                                @Override
-                                public void run(int amount) {
-                                    if (amount < 0)
-                                        return;
-                                    player.save("lootbeamThreshold", amount);
-                                }
-                            });
-                        }));
+                        .addNext(() -> player.sendInputInteger("What would you like to set it to?", amount -> {
+                            if (amount < 0)
+                                return;
+                            player.save("lootbeamThreshold", amount);
+                        })));
             }
         });
 

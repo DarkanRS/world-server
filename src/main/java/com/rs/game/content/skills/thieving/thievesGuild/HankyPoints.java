@@ -160,13 +160,9 @@ public class HankyPoints {
             player.npcDialogue(npc.getId(), HeadE.CALM_TALK,"You have " + availablePoints + " ready to turn in. You may claim the reward for up to " + (maxPoints(player) - player.getWeeklyI("ClaimedHankyPoints")) + " more hanky points this week.");
     }
 
-    public static NPCClickHandler checkPoints = new NPCClickHandler(new Object[] { 11281, 11294, 11282, 11284, 11286 }, new String[] {"Check-points"}, e -> {
-        checkPoints(e.getPlayer(), e.getNPC());
-    });
+    public static NPCClickHandler checkPoints = new NPCClickHandler(new Object[] { 11281, 11294, 11282, 11284, 11286 }, new String[] {"Check-points"}, e -> checkPoints(e.getPlayer(), e.getNPC()));
 
-    public static NPCClickHandler pickpockethandler = new NPCClickHandler(new Object[] { 11281, 11282, 11284, 11286 }, new String[] {"Pickpocket"}, e -> {
-        e.getPlayer().getActionManager().setAction(new PickPocket(e.getNPC()));
-    });
+    public static NPCClickHandler pickpockethandler = new NPCClickHandler(new Object[] { 11281, 11282, 11284, 11286 }, new String[] {"Pickpocket"}, e -> e.getPlayer().getActionManager().setAction(new PickPocket(e.getNPC())));
 
     public static NPCClickHandler loothandler = new NPCClickHandler(new Object[] { 11290, 11292, 11288, 11296 }, new String[] {"Loot"}, e -> {
         if(e.getNPC().getTempAttribs().getO("K.O") == null) {
@@ -236,9 +232,7 @@ public class HankyPoints {
                             return false;
                         }
                     }
-                    case 6 -> {
-                        e.getPlayer().unlock();
-                    }
+                    case 6 -> e.getPlayer().unlock();
                 }
                 return true;
             });
@@ -279,9 +273,7 @@ public class HankyPoints {
                             return false;
                         }
                     }
-                    case 6 -> {
-                        e.getPlayer().unlock();
-                    }
+                    case 6 -> e.getPlayer().unlock();
                 }
                 return true;
             });

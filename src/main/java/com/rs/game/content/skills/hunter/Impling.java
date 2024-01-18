@@ -16,9 +16,9 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class Impling extends NPC {
 
-    private boolean dynamic;
-    private boolean puropuro;
-    private Tile respawnTile;
+    private final boolean dynamic;
+    private final boolean puropuro;
+    private final Tile respawnTile;
 
     public Impling(int id, Tile tile, boolean dynamic) {
         super(id, tile);
@@ -56,7 +56,7 @@ public class Impling extends NPC {
     public void onRespawn() {
         if (dynamic || !puropuro) {
             setHidden(true);
-            WorldTasks.schedule(Ticks.fromMinutes(Utils.randomInclusive(1, 3)), () -> { setHidden(false); });
+            WorldTasks.schedule(Ticks.fromMinutes(Utils.randomInclusive(1, 3)), () -> setHidden(false));
         }
     }
 

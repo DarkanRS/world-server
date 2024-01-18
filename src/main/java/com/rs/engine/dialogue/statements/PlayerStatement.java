@@ -21,8 +21,8 @@ import com.rs.game.model.entity.player.Player;
 
 public class PlayerStatement implements Statement {
 
-	private HeadE emote;
-	private String[] texts;
+	private final HeadE emote;
+	private final String[] texts;
 
 	public PlayerStatement(HeadE emote, String... texts) {
 		this.emote = emote;
@@ -33,7 +33,7 @@ public class PlayerStatement implements Statement {
 	public void send(Player player) {
 		StringBuilder builder = new StringBuilder();
 		for (String text2 : texts)
-			builder.append(" " + text2);
+			builder.append(" ").append(text2);
 		String text = builder.toString();
 		player.getInterfaceManager().sendChatBoxInterface(1191);
 		player.getPackets().setIFText(1191, 8, player.getDisplayName());

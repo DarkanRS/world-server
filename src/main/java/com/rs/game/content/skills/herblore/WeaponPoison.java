@@ -124,8 +124,8 @@ public class WeaponPoison {
 		PROMETHIUM_SPEAR(17135, -1, -1, -1, -1, 17137, 17139, 17141),
 		PRIMAL_SPEAR(17143, -1, -1, -1, -1, 17145, 17147, 17149);
 
-		private static Map<Integer, Integer> POISON_TO_BASE_IDS = new HashMap<>();
-		private static Map<Integer, PoisonableItem> BASE_IDS_TO_WEAPON = new HashMap<>();
+		private static final Map<Integer, Integer> POISON_TO_BASE_IDS = new HashMap<>();
+		private static final Map<Integer, PoisonableItem> BASE_IDS_TO_WEAPON = new HashMap<>();
 		static {
 			for (PoisonableItem wep : PoisonableItem.values()) {
 				BASE_IDS_TO_WEAPON.put(wep.id, wep);
@@ -144,8 +144,8 @@ public class WeaponPoison {
 			return BASE_IDS_TO_WEAPON.get(baseId);
 		}
 
-		private int id;
-		private int[] poisonIds;
+		private final int id;
+		private final int[] poisonIds;
 
 		private PoisonableItem(int id, int... poisonIds) {
 			this.id = id;
@@ -191,7 +191,7 @@ public class WeaponPoison {
 		e.getPlayer().sendMessage("You dip the tip of the " + targetItem.getName().toLowerCase() + " in the poison.");
 	});
 
-	public static ItemOnItemHandler handleClean = new ItemOnItemHandler(PoisonableItem.POISON_TO_BASE_IDS.keySet().stream().mapToInt(key -> key.intValue()).toArray(), 3188, e -> {
+	public static ItemOnItemHandler handleClean = new ItemOnItemHandler(PoisonableItem.POISON_TO_BASE_IDS.keySet().stream().mapToInt(key -> key).toArray(), 3188, e -> {
 		Item targetItem = e.getUsedWith(3188);
 		if (targetItem == null)
 			return;

@@ -23,7 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.game.model.entity.player.Player;
 
 public class CharlieTheTrampArravD extends Conversation {
-	private int CHARLIE = 641;
+	private final int CHARLIE = 641;
 
 	public CharlieTheTrampArravD(Player p) {
 		super(p);
@@ -56,9 +56,7 @@ public class CharlieTheTrampArravD extends Conversation {
 						}));
 				option("10 gold? That's too much. (Pay 5 gold.)", new Dialogue()
 						.addNPC(CHARLIE, HeadE.HAPPY_TALKING, "I guess that'll have to do, then.")
-						.addSimple("You give him 5 gold", () -> {
-							p.getInventory().removeCoins(5);
-						})
+						.addSimple("You give him 5 gold", () -> p.getInventory().removeCoins(5))
 						.addNPC(CHARLIE, HeadE.HAPPY_TALKING, "Great, thanks.")
 						.addPlayer(HeadE.SECRETIVE, "So where is the hideout, then?")
 						.addNPC(CHARLIE, HeadE.LAUGH, "If you pay me the other 5 gold, I'll tell you.")
@@ -97,9 +95,7 @@ public class CharlieTheTrampArravD extends Conversation {
 							.addPlayer(HeadE.TALKING_ALOT, "What's in it for me?")
 							.addNPC(CHARLIE, HeadE.TALKING_ALOT, "'What's in it for me?' Whatever happened to charity? Have you no consideration for those " +
 									"less fortunate than yourself?")
-							.addNext(() -> {
-								p.startConversation(new CharlieTheTrampArravD(p, true).getStart());
-							}));
+							.addNext(() -> p.startConversation(new CharlieTheTrampArravD(p, true).getStart())));
 					option("Do you know where I can find the Black Arm Gang hideout?", new Dialogue()
 							.addPlayer(HeadE.TALKING_ALOT, "Do you know where I can find the Black Arm Gang hideout?")
 							.addNPC(CHARLIE, HeadE.TALKING_ALOT, "Short memory, eh?")

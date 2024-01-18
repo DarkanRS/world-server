@@ -36,8 +36,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 @PluginEventHandler
 public class LandOfSnow {
 
-	private static int TRADEABLE_REWARD = 1050;
-	private static boolean ACTIVE = false;
+    private static final boolean ACTIVE = false;
 
 	@ServerStartupEvent
 	public static void initObjects() {
@@ -103,7 +102,8 @@ public class LandOfSnow {
 			}
 			double chance = e.getXp() / 75000.0;
 			if (Math.random() < chance) {
-				e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
+                int TRADEABLE_REWARD = 1050;
+                e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
 				if (e.getPlayer().getInventory().hasFreeSlots())
 					e.getPlayer().getInventory().addItemDrop(TRADEABLE_REWARD, 1);
 				else {
@@ -115,9 +115,7 @@ public class LandOfSnow {
 			e.getPlayer().setBonusXpRate(0);
 	});
 
-	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
-		e.getPlayer().fadeScreen(() -> e.getPlayer().tele(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0)));
-	});
+	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> e.getPlayer().fadeScreen(() -> e.getPlayer().tele(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0))));
 
 	public static ObjectClickHandler handleSnowCollect = new ObjectClickHandler(new Object[] { 28296 }, e -> {
 		if (!ACTIVE)

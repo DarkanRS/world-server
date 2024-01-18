@@ -45,7 +45,7 @@ public final class CastleWars {
 	private static final List<Player>[] waiting = new List[2];
 	@SuppressWarnings("unchecked")
 	private static final List<Player>[] playing = new List[2];
-	private static int[] seasonWins = new int[2];
+	private static final int[] seasonWins = new int[2];
 	public static final Tile LOBBY = Tile.of(2442, 3090, 0), SARA_WAITING = Tile.of(2381, 9489, 0), ZAMO_WAITING = Tile.of(2421, 9523, 0), SARA_BASE = Tile.of(2426, 3076, 1), ZAMO_BASE = Tile.of(2373, 3131, 1);
 
 	private static PlayingGame playingGame;
@@ -56,9 +56,9 @@ public final class CastleWars {
 
 	public static void init() {
 		for (int i = 0; i < waiting.length; i++)
-			waiting[i] = Collections.synchronizedList(new LinkedList<Player>());
+			waiting[i] = Collections.synchronizedList(new LinkedList<>());
 		for (int i = 0; i < playing.length; i++)
-			playing[i] = Collections.synchronizedList(new LinkedList<Player>());
+			playing[i] = Collections.synchronizedList(new LinkedList<>());
 	}
 
 	public static void viewScoreBoard(Player player) {
@@ -159,7 +159,7 @@ public final class CastleWars {
 			@Override
 			public void run() {
 				for (int i = 0; i < playing.length; i++)
-					for (Player player : playing[i].toArray(new Player[playing[i].size()])) {
+					for (Player player : playing[i].toArray(new Player[0])) {
 						forceRemovePlayingPlayer(player);
 						if (winner != -1)
 							if (winner == -2) {
@@ -196,7 +196,7 @@ public final class CastleWars {
 
 	public static void startGame() {
 		for (int i = 0; i < waiting.length; i++)
-			for (Player player : waiting[i].toArray(new Player[waiting[i].size()]))
+			for (Player player : waiting[i].toArray(new Player[0]))
 				joinPlayingGame(player, i);
 	}
 

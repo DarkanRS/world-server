@@ -201,7 +201,7 @@ public abstract class CombatScript {
 				int defLvl = n.getDefenseLevel();
 				int defBonus = n.getDefinitions().getRangeDef();
 				defLvl += 8;
-				yield Math.floor(defLvl * (defBonus + 64));
+				yield (double) (defLvl * (defBonus + 64));
 			}
 			case MAGIC_ATT -> {
 				double defLvl = n.getMagicLevel();

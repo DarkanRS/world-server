@@ -117,7 +117,7 @@ public class DungeonSlayerNPC extends DungeonNPC {
 						monsters.add(type.id);
 				}
 		Collections.shuffle(monsters);
-		return !monsters.isEmpty() ? monsters.get(0) : -1;
+		return !monsters.isEmpty() ? monsters.getFirst() : -1;
 	}
 
 }

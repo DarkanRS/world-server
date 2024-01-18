@@ -51,7 +51,7 @@ public class BarrowsPath {
 			{"SOUTHEAST", "SOUTHEDGE", 483},
 			{"SOUTHWEST", "SOUTHEAST", 484}};
 
-	private static java.util.Random random = new java.util.Random(System.currentTimeMillis());
+	private static final java.util.Random random = new java.util.Random(System.currentTimeMillis());
 
 	public static void init() {
 		BarrowsRoom topleft = new BarrowsRoom(RoomType.CORNER, "NORTHWEST");

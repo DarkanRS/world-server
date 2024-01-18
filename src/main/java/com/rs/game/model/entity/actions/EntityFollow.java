@@ -27,7 +27,7 @@ import com.rs.utils.WorldUtil;
 
 public class EntityFollow extends Action {
 
-	private Entity target;
+	private final Entity target;
 
 	public EntityFollow(Entity target) {
 		this.target = target;

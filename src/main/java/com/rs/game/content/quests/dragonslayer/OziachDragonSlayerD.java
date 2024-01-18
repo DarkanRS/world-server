@@ -57,7 +57,7 @@ public class OziachDragonSlayerD extends Conversation {
 															.addPlayer(HeadE.HAPPY_TALKING, "I thought you were going to give me a quest.")
 															.addNPC(OZIACH, HeadE.CALM_TALK, "*sigh* All right, I'll give ye a quest. I'll let ye wear my " +
 																	"rune platemail if ye.. Slay the dragon of Crandor!")
-															.addNext(()->{p.startConversation(new OziachDragonSlayerD(p, DRAGON_SOUNDS_FUN).getStart());}));
+															.addNext(()-> p.startConversation(new OziachDragonSlayerD(p, DRAGON_SOUNDS_FUN).getStart())));
 													option("That's a pity. I'm not a hero", new Dialogue()
 															.addPlayer(HeadE.HAPPY_TALKING, "That's a pity. I'm not a hero.")
 															.addNPC(OZIACH, HeadE.CALM_TALK, "Aye, I ken tell!"));
@@ -74,7 +74,7 @@ public class OziachDragonSlayerD extends Conversation {
 															.addPlayer(HeadE.HAPPY_TALKING, "I thought you were going to give me a quest.")
 															.addNPC(OZIACH, HeadE.CALM_TALK, "*sigh* All right, I'll give ye a quest. I'll let ye wear my " +
 																	"rune platemail if ye.. Slay the dragon of Crandor!")
-															.addNext(()->{p.startConversation(new OziachDragonSlayerD(p, DRAGON_SOUNDS_FUN).getStart());}));
+															.addNext(()-> p.startConversation(new OziachDragonSlayerD(p, DRAGON_SOUNDS_FUN).getStart())));
 													option("That's a pity. I'm not a hero.", new Dialogue()
 															.addPlayer(HeadE.HAPPY_TALKING, "That's a pity. I'm not a hero.")
 															.addNPC(OZIACH, HeadE.CALM_TALK, "Aye, I ken tell!"));
@@ -104,7 +104,7 @@ public class OziachDragonSlayerD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "I have its head here.");
 			addNPC(OZIACH, HeadE.CALM_TALK, "You actually did it? I underestimated ye, adventurer. I apologise. Yer a true hero, and I'd be happy to sell " +
 					"ye rune platebodies.");
-			addNext(()->{p.getQuestManager().completeQuest(Quest.DRAGON_SLAYER);});
+			addNext(()-> p.getQuestManager().completeQuest(Quest.DRAGON_SLAYER));
 		}
 
 		case QUEST_COMPLETE ->  {
@@ -118,9 +118,7 @@ public class OziachDragonSlayerD extends Conversation {
 	public OziachDragonSlayerD(Player p, int convoID) {
 		super(p);
 		switch(convoID) {
-		case DRAGON_SOUNDS_FUN -> {
-			dragonSoundsFun(p);
-		}
+		case DRAGON_SOUNDS_FUN -> dragonSoundsFun(p);
 		}
 	}
 
@@ -134,7 +132,7 @@ public class OziachDragonSlayerD extends Conversation {
 								" of my face.")
 						.addPlayer(HeadE.HAPPY_TALKING, "But how can I defeat the dragon?")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Go talk to the Guildmaster in the Champions' Guild. He'll help ye out if yer so keen on doing a quest. " +
-								"I'm not going to be handholding any adventurers.", ()->{p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER);}));
+								"I'm not going to be handholding any adventurers.", ()-> p.getQuestManager().setStage(Quest.DRAGON_SLAYER, TALK_TO_GUILDMASTER)));
 				option("I may be a champion, but I don't think I'm, up to dragon-killing yet.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "I may be a champion, but I don't think I'm, up to dragon-killing yet.")
 						.addNPC(OZIACH, HeadE.CALM_TALK, "Yes, I can understand that. Yer a coward."));

@@ -56,12 +56,18 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 
 	}
 
-	private int xPos, yPos, planePos, maxRX, maxRY, rxPos, ryPos, ratio;
+	private int xPos;
+    private int yPos;
+    private int planePos;
+    private int maxRX;
+    private int maxRY;
+    private int rxPos;
+    private int ryPos;
+    private final int ratio;
 	private double scale;
 
 	private BufferedImage map;
-	private BufferedImage screen;
-	private boolean loading;
+    private boolean loading;
 	private boolean forceNoRefresh;
 
 	public void checkLoad() {
@@ -73,21 +79,16 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 			if (Math.abs(newRX - rxPos) >= ratio / 2 || Math.abs(newRY - ryPos) >= ratio / 2 || newMaxRX != maxRX || newMaxRY != maxRY || forceNoRefresh) {
 				loading = true;
 				repaint();
-				Thread t = new Thread() {
-
-					@Override
-					public void run() {
-						map = getMap(newRX, newRY, newMaxRX, newMaxRY);
-						rxPos = newRX;
-						ryPos = newRY;
-						maxRX = newMaxRX;
-						maxRY = newMaxRY;
-						loading = false;
-						forceNoRefresh = false;
-						repaint();
-					}
-
-				};
+				Thread t = new Thread(() -> {
+                    map = getMap(newRX, newRY, newMaxRX, newMaxRY);
+                    rxPos = newRX;
+                    ryPos = newRY;
+                    maxRX = newMaxRX;
+                    maxRY = newMaxRY;
+                    loading = false;
+                    forceNoRefresh = false;
+                    repaint();
+                });
 				t.setPriority(Thread.MIN_PRIORITY);
 				t.setDaemon(true);
 				t.start();
@@ -109,7 +110,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 		//			}
 		//		}
 
-		screen = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+        BufferedImage screen = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 		Graphics g2 = screen.getGraphics();
 		int localX = xPos & 63;
 		int localY = yPos & 63;
@@ -342,7 +343,7 @@ public class MapGenerator extends JFrame implements MouseListener, MouseMotionLi
 
 	}
 
-	public static final int getV(int i, int i_1_, int i_2_) {
+	public static int getV(int i, int i_1_, int i_2_) {
 		if (i_2_ > 243)
 			i_1_ >>= 4;
 			else if (i_2_ > 217)

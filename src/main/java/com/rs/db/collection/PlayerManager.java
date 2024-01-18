@@ -43,9 +43,7 @@ public class PlayerManager extends DBItemManager {
 	}
 
 	public void getByUsername(String username, Consumer<Player> func) {
-		execute(() -> {
-			func.accept(getSyncUsername(username));
-		});
+		execute(() -> func.accept(getSyncUsername(username)));
 	}
 
 	public void save(Player player) {

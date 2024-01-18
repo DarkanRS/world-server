@@ -107,13 +107,9 @@ public class Karamja  {
 		e.getPlayer().startConversation(new Dialogue().addNPC(1595, HeadE.FRUSTRATED, "You can't go in there without paying!"));
 	});
 
-	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new Tile[] { Tile.of(2847, 3235, 1) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(0, 0, -1));
-	});
+	public static ObjectClickHandler handleBoatLadder = new ObjectClickHandler(new Object[] { 273 }, new Tile[] { Tile.of(2847, 3235, 1) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(0, 0, -1)));
 
-	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }, e -> {
-		e.getPlayer().tele(Tile.of(2745, 3152, 0));
-	});
+	public static ObjectClickHandler handleBrimhavenDungeonExit = new ObjectClickHandler(new Object[] { 5084 }, e -> e.getPlayer().tele(Tile.of(2745, 3152, 0)));
 
 	public static ObjectClickHandler handleJogreLogWalk = new ObjectClickHandler(new Object[] { 2332 }, e -> {
 		if (e.getPlayer().getX() > 2908)
@@ -177,17 +173,11 @@ public class Karamja  {
 		e.getPlayer().tele(Tile.of(2834, 9657, 0));
 	});
 
-	public static ObjectClickHandler handleCrandorVolcanoRope = new ObjectClickHandler(new Object[] { 25213 }, e -> {
-		e.getPlayer().ladder(Tile.of(2832, 3255, 0));
-	});
+	public static ObjectClickHandler handleCrandorVolcanoRope = new ObjectClickHandler(new Object[] { 25213 }, e -> e.getPlayer().ladder(Tile.of(2832, 3255, 0)));
 
-	public static ObjectClickHandler handleKaramjaVolcanoRocks = new ObjectClickHandler(new Object[] { 492 }, e -> {
-		e.getPlayer().tele(Tile.of(2857, 9569, 0));
-	});
+	public static ObjectClickHandler handleKaramjaVolcanoRocks = new ObjectClickHandler(new Object[] { 492 }, e -> e.getPlayer().tele(Tile.of(2857, 9569, 0)));
 
-	public static ObjectClickHandler handleKaramjaVolcanoRope = new ObjectClickHandler(new Object[] { 1764 }, e -> {
-		e.getPlayer().ladder(Tile.of(2855, 3169, 0));
-	});
+	public static ObjectClickHandler handleKaramjaVolcanoRope = new ObjectClickHandler(new Object[] { 1764 }, e -> e.getPlayer().ladder(Tile.of(2855, 3169, 0)));
 
 	public static ObjectClickHandler handleElvargHiddenWall = new ObjectClickHandler(new Object[] { 2606 }, e -> {
 		if (e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER) || e.getPlayer().getQuestManager().getAttribs(Quest.DRAGON_SLAYER).getB(DragonSlayer.FINISHED_BOAT_SCENE_ATTR)) {
@@ -197,31 +187,23 @@ public class Karamja  {
 			e.getPlayer().sendMessage("You see nothing but a wall...");
 	});
 
-	public static ObjectClickHandler handleTzhaarEnter = new ObjectClickHandler(new Object[] { 68134 }, e -> {
-		e.getPlayer().tele(Tile.of(4667, 5059, 0));
-	});
+	public static ObjectClickHandler handleTzhaarEnter = new ObjectClickHandler(new Object[] { 68134 }, e -> e.getPlayer().tele(Tile.of(4667, 5059, 0)));
 
-	public static ObjectClickHandler handleTzhaarExit = new ObjectClickHandler(new Object[] { 68135 }, e -> {
-		e.getPlayer().tele(Tile.of(2845, 3170, 0));
-	});
+	public static ObjectClickHandler handleTzhaarExit = new ObjectClickHandler(new Object[] { 68135 }, e -> e.getPlayer().tele(Tile.of(2845, 3170, 0)));
 
-	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }, e -> {
-		e.getPlayer().startConversation(new Dialogue()
-				.addSimple("You search the rocks and find an entrance into some caves.")
-				.addOptions((ops) -> {
-					ops.add("Yes, I'll enter the cave.")
-							.addSimple("You decide to enter the caves.<br>You climb down several steep rock faces into the cavern below.")
-							.addNext(() -> e.getPlayer().tele(Tile.of(2830, 9522, 0)));
-					ops.add("No, thanks.")
-							.addSimple("You decide to stay where you are!");
-				}));
-	});
+	public static ObjectClickHandler handleJogreCaveEnter = new ObjectClickHandler(new Object[] { 2584 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addSimple("You search the rocks and find an entrance into some caves.")
+            .addOptions((ops) -> {
+                ops.add("Yes, I'll enter the cave.")
+                        .addSimple("You decide to enter the caves.<br>You climb down several steep rock faces into the cavern below.")
+                        .addNext(() -> e.getPlayer().tele(Tile.of(2830, 9522, 0)));
+                ops.add("No, thanks.")
+                        .addSimple("You decide to stay where you are!");
+            })));
 
-	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }, e -> {
-		e.getPlayer().startConversation(new Dialogue()
-				.addSimple("You climb the rocks to get back out.")
-				.addNext(() -> e.getPlayer().ladder(Tile.of(2824, 3120, 0))));
-	});
+	public static ObjectClickHandler handleJogreCaveExit = new ObjectClickHandler(new Object[] { 2585 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addSimple("You climb the rocks to get back out.")
+            .addNext(() -> e.getPlayer().ladder(Tile.of(2824, 3120, 0)))));
 
 	public static ObjectClickHandler handleSteppingStone = new ObjectClickHandler(false, new Object[] { 10536 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 77))
@@ -236,11 +218,7 @@ public class Karamja  {
 
 		final Direction direction = dir;
 		p.lock();
-		p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? Tile.of(2860, 2971, 0) : Tile.of(2860, 2977, 0), () -> {
-			p.forceMove(Tile.of(2860, 2974, 0), 741, 0, 30, false, () -> {
-				p.forceMove(direction == Direction.NORTH ? Tile.of(2860, 2977, 0) : Tile.of(2860, 2971, 0), 741, 0, 30);
-			});
-		}));
+		p.setRouteEvent(new RouteEvent(direction == Direction.NORTH ? Tile.of(2860, 2971, 0) : Tile.of(2860, 2977, 0), () -> p.forceMove(Tile.of(2860, 2974, 0), 741, 0, 30, false, () -> p.forceMove(direction == Direction.NORTH ? Tile.of(2860, 2977, 0) : Tile.of(2860, 2971, 0), 741, 0, 30))));
 	});
 
 	public static ObjectClickHandler handleShiloEnter = new ObjectClickHandler(new Object[] { 2216 }, e -> {
@@ -248,13 +226,9 @@ public class Karamja  {
 		e.getPlayer().ladder(e.getPlayer().getX() > e.getObject().getX() ? e.getPlayer().transform(-4, 0, 0) : e.getPlayer().transform(4, 0, 0));
 	});
 
-	public static ObjectClickHandler handleShiloCartEnter = new ObjectClickHandler(new Object[] { 2230 }, e -> {
-		e.getPlayer().tele(Tile.of(2833, 2954, 0));
-	});
+	public static ObjectClickHandler handleShiloCartEnter = new ObjectClickHandler(new Object[] { 2230 }, e -> e.getPlayer().tele(Tile.of(2833, 2954, 0)));
 
-	public static ObjectClickHandler handleShiloCartExit = new ObjectClickHandler(new Object[] { 2265 }, e -> {
-		e.getPlayer().tele(Tile.of(2778, 3210, 0));
-	});
+	public static ObjectClickHandler handleShiloCartExit = new ObjectClickHandler(new Object[] { 2265 }, e -> e.getPlayer().tele(Tile.of(2778, 3210, 0)));
 
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
 		Player p = e.getPlayer();

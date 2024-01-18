@@ -58,15 +58,13 @@ public class MonksFriend extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
 
 	//It is a circle around a null ladder. A varbit makes it visible.
-	private static Tile[] ladderTilesInACircle = new Tile[]{
+	private static final Tile[] ladderTilesInACircle = new Tile[]{
 			Tile.of(2561, 3220, 0),
 			Tile.of(2560, 3220, 0),
 			Tile.of(2559, 3220, 0),

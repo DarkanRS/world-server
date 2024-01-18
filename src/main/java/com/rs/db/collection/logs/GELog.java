@@ -8,12 +8,13 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class GELog {
-	private String uuid;
-	private String from, to;
-	private String item;
-	private int itemId;
-	private int amount;
-	private int price;
+	private final String uuid;
+	private final String from;
+    private final String to;
+	private final String item;
+	private final int itemId;
+	private final int amount;
+	private final int price;
 
 	public GELog(Offer offer1, Offer offer2, int amount, int price) {
 		Offer sellOffer = offer1.getOfferType() == GE.OfferType.SELL ? offer1 : offer2;

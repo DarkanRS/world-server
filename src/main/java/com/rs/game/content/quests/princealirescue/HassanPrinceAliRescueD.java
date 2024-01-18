@@ -43,9 +43,7 @@ public class HassanPrinceAliRescueD extends Conversation {
 								@Override
 								public void create() {
 									option("Yes.", new Dialogue()
-											.addNPC(HASSAN, HeadE.HAPPY_TALKING, "Speak to Osman outside the palace, he will give you more details...", ()->{
-												player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.STARTED);
-											})
+											.addNPC(HASSAN, HeadE.HAPPY_TALKING, "Speak to Osman outside the palace, he will give you more details...", ()-> player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.STARTED))
 											.addPlayer(HeadE.HAPPY_TALKING, "Okay..."));
 									option("No.", new Dialogue());
 								}

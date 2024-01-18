@@ -47,6 +47,7 @@ import com.rs.utils.drop.DropSet;
 import com.rs.utils.drop.DropTable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class BarrowsController extends Controller {
@@ -66,8 +67,8 @@ public final class BarrowsController extends Controller {
 		TORAG_HILL(Tile.of(3553, 3281, 0), Tile.of(3568, 9683, 3)),
 		VERAC_HILL(Tile.of(3556, 3296, 0), Tile.of(3578, 9706, 3));
 
-		private Tile outBound;
-		private Tile inside;
+		private final Tile outBound;
+		private final Tile inside;
 
 		private Hills(Tile outBound, Tile in) {
 			this.outBound = outBound;
@@ -156,8 +157,7 @@ public final class BarrowsController extends Controller {
 			points = 1012;
 		List<Drop> equipment = new ArrayList<>();
 		for (int i = 0;i < BROTHERS_LOOT.length-1;i++)
-			for (Drop d : BROTHERS_LOOT[i])
-				equipment.add(d);
+            equipment.addAll(Arrays.asList(BROTHERS_LOOT[i]));
 		int rolls = Utils.clampI(brothersKilled+1, 1, 7);
 		int equipmentChance = Utils.clampI(450 - (58 * brothersKilled), 73, 450);
 		for (int i = 0;i < rolls;i++) {
@@ -198,8 +198,7 @@ public final class BarrowsController extends Controller {
 		List<Drop> equipment = new ArrayList<>();
 		for (int i = 0;i < player.getKilledBarrowBrothers().length;i++)
 			if (player.getKilledBarrowBrothers()[i]) {
-				for (Drop d : BROTHERS_LOOT[i])
-					equipment.add(d);
+                equipment.addAll(Arrays.asList(BROTHERS_LOOT[i]));
 				brothersKilled++;
 				points += 110;
 			}
@@ -352,22 +351,15 @@ public final class BarrowsController extends Controller {
 	}
 
 	public int getSarcophagusId(int objectId) {
-		switch (objectId) {
-		case 66017:
-			return 0;
-		case 63177:
-			return 1;
-		case 66020:
-			return 2;
-		case 66018:
-			return 3;
-		case 66019:
-			return 4;
-		case 66016:
-			return 5;
-		default:
-			return -1;
-		}
+        return switch (objectId) {
+            case 66017 -> 0;
+            case 63177 -> 1;
+            case 66020 -> 2;
+            case 66018 -> 3;
+            case 66019 -> 4;
+            case 66016 -> 5;
+            default -> -1;
+        };
 	}
 
 	public void targetDied() {

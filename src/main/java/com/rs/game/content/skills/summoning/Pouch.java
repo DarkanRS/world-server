@@ -253,17 +253,21 @@ public enum Pouch {
 		return pouches.get(id);
 	}
 	
-	private int headAnimIndex, baseNpc, pvpNpc, spawnAnim, despawnAnim;
-	private XPType xpType;
-	private Scroll scroll;
-	private int id;
-	private int level;
-	private int summoningCost;
-	private double summonXp;
-	private double experience;
-	private int pouchTime;
-	private int bobSize;
-	private String forageDropTable;
+	private final int headAnimIndex;
+    private final int baseNpc;
+    private final int pvpNpc;
+    private final int spawnAnim;
+    private final int despawnAnim;
+	private final XPType xpType;
+	private final Scroll scroll;
+	private final int id;
+	private final int level;
+	private final int summoningCost;
+	private final double summonXp;
+	private final double experience;
+	private final int pouchTime;
+	private final int bobSize;
+	private final String forageDropTable;
 	
 	private Pouch(int headAnimIndex, int baseNpc, int pvpNpc, XPType xpType, int spawnAnimation, int despawnAnim, Scroll scroll, int realPouchId, int level, double minorExperience, double experience, int pouchTime, int summoningCost) {
 		this(headAnimIndex, baseNpc, pvpNpc, xpType, spawnAnimation, despawnAnim, scroll, realPouchId, level, minorExperience, experience, pouchTime, summoningCost, 0, null);

@@ -27,8 +27,11 @@ import java.util.function.Consumer;
 
 public class CreateNPCAction extends CutsceneAction {
 
-	private int id, x, y, plane;
-	private Consumer<NPC> configureNpc;
+	private final int id;
+    private final int x;
+    private final int y;
+    private final int plane;
+	private final Consumer<NPC> configureNpc;
 
 	public CreateNPCAction(String key, int id, int x, int y, int plane, int actionDelay, Consumer<NPC> configureNpc) {
 		super(key, actionDelay);

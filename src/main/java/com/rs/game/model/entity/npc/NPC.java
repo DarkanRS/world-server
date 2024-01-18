@@ -314,16 +314,11 @@ public class NPC extends Entity {
 	}
 
 	private static boolean forceRandomWalk(int npcId) {
-		switch (npcId) {
-		case 11226:
-			return true;
-		case 3341:
-		case 3342:
-		case 3343:
-			return true;
-		default:
-			return false;
-		}
+        return switch (npcId) {
+            case 11226 -> true;
+            case 3341, 3342, 3343 -> true;
+            default -> false;
+        };
 	}
 
 	@Override
@@ -413,7 +408,7 @@ public class NPC extends Entity {
 			setTile(respawnTile);
 			finish();
 		}
-		respawnTask = WorldTasks.schedule(time < 0 ? getCombatDefinitions().getRespawnDelay() : time, () -> spawn());
+		respawnTask = WorldTasks.schedule(time < 0 ? getCombatDefinitions().getRespawnDelay() : time, this::spawn);
 	}
 
 	public void cancelRespawnTask() {
@@ -563,12 +558,10 @@ public class NPC extends Entity {
 			if (charm != null)
 				for (Drop d : charm.getDrops())
 					sendDrop(killer, d.toItem());
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (Error e) {
+		} catch (Exception | Error e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	public void drop() {
 		try {
@@ -576,12 +569,10 @@ public class NPC extends Entity {
 			if (killer == null)
 				return;
 			drop(killer);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (Error e) {
+		} catch (Exception | Error e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	public static boolean yellDrop(int itemId) {
 		//Nex
@@ -595,51 +586,18 @@ public class NPC extends Entity {
 		//New GWD Items
 		if (itemId >= 24974 && itemId <= 25039)
 			return true;
-		switch (itemId) {
-		//KBD
-		case 25312:
-		case 25314:
-		case 25316:
-		case 25318:
-		case 11286:
-			//Slayer Drops
-		case 11732:
-		case 15486:
-		case 11235:
-		case 4151:
-		case 21369:
-			//Dagganoth Drops
-		case 6731:
-		case 6733:
-		case 6735:
-		case 6737:
-		case 6739:
-			//Glacors
-		case 21777:
-		case 21787:
-		case 21790:
-		case 21793:
-			//KQ
-		case 3140:
-			//Tormented Demons
-		case 14484:
-			//Original GWD
-		case 11702:
-		case 11704:
-		case 11706:
-		case 11708:
-		case 11718:
-		case 11722:
-		case 11720:
-		case 11724:
-		case 11726:
-		case 11728:
-		case 11716:
-		case 11730:
-			return true;
-		default:
-			return false;
-		}
+        return switch (itemId) {
+            //KBD
+            //Slayer Drops
+            //Dagganoth Drops
+            //Glacors
+            //KQ
+            //Tormented Demons
+            //Original GWD
+            case 25312, 25314, 25316, 25318, 11286, 11732, 15486, 11235, 4151, 21369, 6731, 6733, 6735, 6737, 6739, 21777, 21787, 21790, 21793, 3140, 14484, 11702, 11704, 11706, 11708, 11718, 11722, 11720, 11724, 11726, 11728, 11716, 11730 ->
+                    true;
+            default -> false;
+        };
 	}
 
 	public void sendDrop(Player player, Item item) {
@@ -811,7 +769,7 @@ public class NPC extends Entity {
 
 	public void lowerStat(Skill stat, int levelDrain, double maxDrain) {
 		if (combatLevels != null)
-			setStat(stat, Utils.clampI((int) getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+			setStat(stat, Utils.clampI(getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
 	}
 
 	public int getBonus(Bonus bonus) {
@@ -956,30 +914,24 @@ public class NPC extends Entity {
 		possibleTarget.addAll(queryNearbyPlayersByTileRange(tileRadius, player -> {
 			if (isRevenant() && player.hasEffect(Effect.REV_AGGRO_IMMUNE))
 				return false;
-			if (player.isDead()
-				|| !canAggroPlayer(player)
-				|| (isNormallyPassive && !player.hasEffect(Effect.AGGRESSION_POTION))
-				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && player.isDocile() && !ignoreDocile)
-				|| player.getAppearance().isHidden()
-				|| !WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
-				|| (!forceMultiAttacked && (!isAtMultiArea() || !player.isAtMultiArea()) && player.getAttackedBy() != this && (player.inCombat() || player.getFindTargetDelay() > System.currentTimeMillis()))
-				|| !lineOfSightTo(player, false)
-				|| (!player.hasEffect(Effect.AGGRESSION_POTION) && !forceAgressive && !WildernessController.isAtWild(this.getTile()) && player.getSkills().getCombatLevelWithSummoning() >= getCombatLevel() * 2))
-				return false;
-			return true;
-		}));
+            return !player.isDead()
+                    && canAggroPlayer(player)
+                    && (!isNormallyPassive || player.hasEffect(Effect.AGGRESSION_POTION))
+                    && (player.hasEffect(Effect.AGGRESSION_POTION) || !player.isDocile() || ignoreDocile)
+                    && !player.getAppearance().isHidden()
+                    && WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
+                    && (forceMultiAttacked || (isAtMultiArea() && player.isAtMultiArea()) || player.getAttackedBy() == this || (!player.inCombat() && player.getFindTargetDelay() <= System.currentTimeMillis()))
+                    && lineOfSightTo(player, false)
+                    && (player.hasEffect(Effect.AGGRESSION_POTION) || forceAgressive || WildernessController.isAtWild(this.getTile()) || player.getSkills().getCombatLevelWithSummoning() < getCombatLevel() * 2);
+        }));
 		if (includeNpcs && !isNormallyPassive) {
-			possibleTarget.addAll(queryNearbyNPCsByTileRange(tileRadius, npc -> {
-				if (npc == this
-					|| npc.isDead()
-					|| !canAggroNPC(npc)
-					|| !WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
-					|| !npc.getDefinitions().hasAttackOption()
-					|| (!forceMultiAttacked && (!isAtMultiArea() || !npc.isAtMultiArea()) && npc.getAttackedBy() != this && (npc.inCombat() || npc.getFindTargetDelay() > System.currentTimeMillis()))
-					|| !lineOfSightTo(npc, false))
-					return false;
-				return true;
-			}));
+			possibleTarget.addAll(queryNearbyNPCsByTileRange(tileRadius, npc -> npc != this
+                    && !npc.isDead()
+                    && canAggroNPC(npc)
+                    && WorldUtil.isInRange(getX(), getY(), getSize(), npc.getX(), npc.getY(), npc.getSize(), getAggroDistance())
+                    && npc.getDefinitions().hasAttackOption()
+                    && (forceMultiAttacked || (isAtMultiArea() && npc.isAtMultiArea()) || npc.getAttackedBy() == this || (!npc.inCombat() && npc.getFindTargetDelay() <= System.currentTimeMillis()))
+                    && lineOfSightTo(npc, false)));
 		}
 		return possibleTarget;
 	}
@@ -1210,89 +1162,12 @@ public class NPC extends Entity {
 	}
 
 	private boolean isTzhaarMonster() {
-		switch(getId()) {
-		case 2591:
-		case 2592:
-		case 2594:
-		case 2595:
-		case 2596:
-		case 2597:
-		case 2600:
-		case 2601:
-		case 2602:
-		case 2603:
-		case 2605:
-		case 2606:
-		case 2607:
-		case 2608:
-		case 2609:
-		case 2611:
-		case 2614:
-		case 2615:
-		case 2616:
-		case 2617:
-		case 2628:
-		case 2629:
-		case 2630:
-		case 2631:
-		case 2632:
-		case 2734:
-		case 2735:
-		case 2736:
-		case 2737:
-		case 2738:
-		case 2739:
-		case 2740:
-		case 2741:
-		case 2742:
-		case 2743:
-		case 2744:
-		case 2745:
-		case 2746:
-		case 7767:
-		case 7768:
-		case 7769:
-		case 7770:
-		case 7771:
-		case 7772:
-		case 7773:
-		case 15170:
-		case 15171:
-		case 15177:
-		case 15178:
-		case 15181:
-		case 15182:
-		case 15183:
-		case 15184:
-		case 15186:
-		case 15187:
-		case 15188:
-		case 15189:
-		case 15190:
-		case 15191:
-		case 15192:
-		case 15196:
-		case 15197:
-		case 15198:
-		case 15199:
-		case 15201:
-		case 15202:
-		case 15203:
-		case 15204:
-		case 15205:
-		case 15206:
-		case 15207:
-		case 15208:
-		case 15209:
-		case 15210:
-		case 15211:
-		case 15212:
-		case 15213:
-		case 15214:
-			return true;
-		}
-		return false;
-	}
+        return switch (getId()) {
+            case 2591, 2592, 2594, 2595, 2596, 2597, 2600, 2601, 2602, 2603, 2605, 2606, 2607, 2608, 2609, 2611, 2614, 2615, 2616, 2617, 2628, 2629, 2630, 2631, 2632, 2734, 2735, 2736, 2737, 2738, 2739, 2740, 2741, 2742, 2743, 2744, 2745, 2746, 7767, 7768, 7769, 7770, 7771, 7772, 7773, 15170, 15171, 15177, 15178, 15181, 15182, 15183, 15184, 15186, 15187, 15188, 15189, 15190, 15191, 15192, 15196, 15197, 15198, 15199, 15201, 15202, 15203, 15204, 15205, 15206, 15207, 15208, 15209, 15210, 15211, 15212, 15213, 15214 ->
+                    true;
+            default -> false;
+        };
+    }
 
 	public boolean canBeAttackedBy(Player player) {
 		if (getId() == 879 || getId() == 14578)

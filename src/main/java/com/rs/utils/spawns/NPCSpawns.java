@@ -61,7 +61,7 @@ public final class NPCSpawns {
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		Logger.info(NPCSpawns.class, "init", "Loading NPC spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles)

@@ -28,19 +28,17 @@ public class Crucible {
 
     //591 classic BH interface
 
-    public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> {
-        e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
-            ops.add("Safe (No items lost on death)", () -> {
-                e.getPlayer().tele(CrucibleController.getRespawnTile());
-                e.getPlayer().getControllerManager().startController(new CrucibleController(false));
-            });
-            ops.add("<col=FF0000><shad=000000>Dangerous (All but one item lost on death)", () -> {
-                e.getPlayer().tele(CrucibleController.getRespawnTile());
-                e.getPlayer().getControllerManager().startController(new CrucibleController(true));
-            });
-            ops.add("Nevermind");
+    public static ObjectClickHandler entrance = new ObjectClickHandler(new Object[]{67052}, e -> e.getPlayer().sendOptionDialogue("Which Bounty Hunter mode would you like to enter as?", ops -> {
+        ops.add("Safe (No items lost on death)", () -> {
+            e.getPlayer().tele(CrucibleController.getRespawnTile());
+            e.getPlayer().getControllerManager().startController(new CrucibleController(false));
         });
-    });
+        ops.add("<col=FF0000><shad=000000>Dangerous (All but one item lost on death)", () -> {
+            e.getPlayer().tele(CrucibleController.getRespawnTile());
+            e.getPlayer().getControllerManager().startController(new CrucibleController(true));
+        });
+        ops.add("Nevermind");
+    }));
     public static ObjectClickHandler rewardHatch = new ObjectClickHandler(new Object[]{67051}, e -> {
         switch (e.getOption()) {
             case "Knock" -> e.getPlayer().sendOptionDialogue(ops -> {
@@ -62,10 +60,10 @@ public class Crucible {
             return;
         useFissure(e.getPlayer(), Fissure.values()[fissureIndex]);
     });
-    private static Set<Player> SAFE_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
-    private static Set<Player> DANGEROUS_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
+    private static final Set<Player> SAFE_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
+    private static final Set<Player> DANGEROUS_PLAYERS = ObjectSets.synchronize(new ObjectOpenHashSet<>());
 
-    private static Map<String, String> BH_TARGETS = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+    private static final Map<String, String> BH_TARGETS = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 
     public static void add(Player player, boolean dangerous) {
         if (dangerous)
@@ -94,9 +92,9 @@ public class Crucible {
 
     private static void updateParticipants(Player player, boolean dangerous) {
         StringBuilder participants = new StringBuilder();
-        participants.append((dangerous ? "<col=FF0000>Dangerous" : "<col=00FF00>Safe") + " Participants:</col><br>");
+        participants.append(dangerous ? "<col=FF0000>Dangerous" : "<col=00FF00>Safe").append(" Participants:</col><br>");
         for (Player participant : dangerous ? DANGEROUS_PLAYERS : SAFE_PLAYERS)
-            participants.append(participant.getDisplayName()+"<br>");
+            participants.append(participant.getDisplayName()).append("<br>");
         player.getPackets().setIFText(1296, 0, participants.toString());
     }
 

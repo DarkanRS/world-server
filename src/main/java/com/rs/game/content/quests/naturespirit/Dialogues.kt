@@ -137,7 +137,7 @@ fun drezelNatureSpiritOptions(player: Player, npc: NPC, options: Options) {
                 options {
                     opExec("Yes, please.") {
                         npc.anim(811)
-                        Magic.sendNormalTeleportSpell(player, Tile.of(3439, 3335, 0));
+                        Magic.sendNormalTeleportSpell(player, Tile.of(3439, 3335, 0))
                     }
                     op("No thank you.") {
                         npc(DREZEL, CHEERFUL, "I will keep them then, unless you manage to find our own way there.")

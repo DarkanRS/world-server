@@ -29,6 +29,7 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,8 +53,8 @@ public class QuestManager {
     private int sort;
     private boolean filter;
     private boolean hideDone;
-    private Map<Integer, Integer> questStages;
-    private Map<Integer, GenericAttribMap> questAttribs;
+    private final Map<Integer, Integer> questStages;
+    private final Map<Integer, GenericAttribMap> questAttribs;
 
     public QuestManager() {
         questStages = new HashMap<>();
@@ -77,8 +78,7 @@ public class QuestManager {
                 }
             }
             for (String line : quest.getHandler().getJournalLines(player, player.getQuestManager().getStage(quest)))
-                for (String subLine : Utils.splitTextIntoLines(line, IComponentDefinitions.getInterfaceComponent(275, 10).fontId, 380))
-                    journalLines.add(subLine);
+                journalLines.addAll(Arrays.asList(Utils.splitTextIntoLines(line, IComponentDefinitions.getInterfaceComponent(275, 10).fontId, 380)));
             player.getInterfaceManager().sendInterface(275);
             player.getPackets().sendRunScriptReverse(1207, journalLines.size());
             player.getPackets().setIFText(275, 1, info.getName());
@@ -131,11 +131,7 @@ public class QuestManager {
     }
 
     public GenericAttribMap getAttribs(Quest quest) {
-        GenericAttribMap map = questAttribs.get(quest.getId());
-        if (map == null) {
-            map = new GenericAttribMap();
-            questAttribs.put(quest.getId(), map);
-        }
+        GenericAttribMap map = questAttribs.computeIfAbsent(quest.getId(), k -> new GenericAttribMap());
         return map;
     }
 

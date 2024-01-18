@@ -50,7 +50,7 @@ public class PestleAndMortar  {
 		MUD_RUNES(4698, 1, new Item(9594, 1)),
 		SHARD_OF_ARMADYL(21776, 1, new Item(21774, 8));
 
-		private static Map<Short, PestleMortar> rawIngredients = new HashMap<>();
+		private static final Map<Short, PestleMortar> rawIngredients = new HashMap<>();
 
 		public static PestleMortar forId(int itemId) {
 			return rawIngredients.get((short) itemId);

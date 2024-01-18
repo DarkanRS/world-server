@@ -24,25 +24,17 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class ApeAtoll {
 
 	//Ape Atoll
-	public static ObjectClickHandler handlefallingdowncratecave = new ObjectClickHandler(new Object[] { 4714 }, e -> {
-		e.getPlayer().tele(Tile.of(2803, 9170, 0));
-	});
-	public static ObjectClickHandler handlebambooladderbridge = new ObjectClickHandler(new Object[] { 4743 }, e -> {
-		e.getPlayer().tele(Tile.of(2803, 2725, 0));
-	});
+	public static ObjectClickHandler handlefallingdowncratecave = new ObjectClickHandler(new Object[] { 4714 }, e -> e.getPlayer().tele(Tile.of(2803, 9170, 0)));
+	public static ObjectClickHandler handlebambooladderbridge = new ObjectClickHandler(new Object[] { 4743 }, e -> e.getPlayer().tele(Tile.of(2803, 2725, 0)));
 	public static ObjectClickHandler handlebambooladder = new ObjectClickHandler(new Object[] { 4773, 4779 }, e -> {
 		if (e.getObjectId() == 4773)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? -2 : 0, 1));
 		else if (e.getObjectId() == 4779)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? 2 : 0, -1));
 	});
-	public static ObjectClickHandler handleclimbingropeup = new ObjectClickHandler(new Object[] { 4728 }, e -> {
-		e.getPlayer().tele(Tile.of(2765, 2768, 0));
-	});
+	public static ObjectClickHandler handleclimbingropeup = new ObjectClickHandler(new Object[] { 4728 }, e -> e.getPlayer().tele(Tile.of(2765, 2768, 0)));
 
-	public static ObjectClickHandler handleclimbingropeup2 = new ObjectClickHandler(new Object[] { 4889 }, e -> {
-		e.getPlayer().tele(Tile.of(2748, 2767, 0));
-	});
+	public static ObjectClickHandler handleclimbingropeup2 = new ObjectClickHandler(new Object[] { 4889 }, e -> e.getPlayer().tele(Tile.of(2748, 2767, 0)));
 
 
 

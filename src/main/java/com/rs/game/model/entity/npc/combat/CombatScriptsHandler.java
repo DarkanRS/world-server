@@ -58,7 +58,7 @@ public class CombatScriptsHandler {
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void loadScripts() {
+	public static void loadScripts() {
 		List<Class<?>> classes;
 		try {
 			classes = Utils.getSubClasses("com.rs", CombatScript.class);

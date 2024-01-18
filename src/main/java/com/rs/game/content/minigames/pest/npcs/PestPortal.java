@@ -59,40 +59,25 @@ public class PestPortal extends NPC {
 	}
 
 	private String getStringForId() {
-		switch (getId()) {
-		case 6142:
-			return "The purple, western";
-		case 6143:
-			return "The blue, eastern";
-		case 6144:
-			return "The yellow, south-eastern";
-		case 6145:
-			return "The red, south-western";
-		}
-		return "THIS SHOULDN'T EVER HAPPEN.";
-	}
+        return switch (getId()) {
+            case 6142 -> "The purple, western";
+            case 6143 -> "The blue, eastern";
+            case 6144 -> "The yellow, south-eastern";
+            case 6145 -> "The red, south-western";
+            default -> "THIS SHOULDN'T EVER HAPPEN.";
+        };
+    }
 
 	private int getIndexForId() {
-		switch (getId()) {
-		case 6146:
-		case 6142:
-			return 0;
-		case 6147:
-		case 6143:
-			return 1;
-		case 6148:
-		case 6144:
-			return 2;
-		case 6149:
-		case 6145:
-			return 3;
-		case 3782:
-		case 3784:
-		case 3785:
-			return 4;
-		}
-		return -1;
-	}
+        return switch (getId()) {
+            case 6146, 6142 -> 0;
+            case 6147, 6143 -> 1;
+            case 6148, 6144 -> 2;
+            case 6149, 6145 -> 3;
+            case 3782, 3784, 3785 -> 4;
+            default -> -1;
+        };
+    }
 
 	@Override
 	public void processNPC() {

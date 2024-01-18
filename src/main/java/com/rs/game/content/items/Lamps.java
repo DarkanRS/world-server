@@ -101,12 +101,12 @@ public class Lamps {
 	}
 
 	private static int getLampsLevelReq(int id) {
-		switch (id) {
-		case 4447:// Shield of Arrav
-			return 20;
-		}
-		return 1;
-	}
+        return switch (id) {
+            case 4447 ->// Shield of Arrav
+                    20;
+            default -> 1;
+        };
+    }
 
 	public static void openSelectableInterface(Player player, int slot, int id) {
 		Lamp lamp = new Lamp(id, slot, getLampsLevelReq(id));
@@ -138,9 +138,7 @@ public class Lamps {
 			player.sendMessage("You have been awarded " + Utils.getFormattedNumber(exp, ',') + " XP in " + Skills.SKILL_NAME[lamp.getSelectedSkill()] + "!");
 			player.getTempAttribs().removeO("lampInstance");
 		});
-		lampD.addNext(() -> {
-			player.getTempAttribs().removeO("lampInstance");
-		});
+		lampD.addNext(() -> player.getTempAttribs().removeO("lampInstance"));
 		player.startConversation(lampD);
 		player.setCloseInterfacesEvent(() -> player.getTempAttribs().removeO("lampInstance"));
 	}
@@ -200,10 +198,10 @@ public class Lamps {
 	}
 
 	private static int skillLampType(int id) {
-		for (int skillId = 0; skillId < SKILL_LAMPS.length; skillId++)
-			for (int i = 0; i < SKILL_LAMPS[skillId].length; i++)
-				if (SKILL_LAMPS[skillId][i] == id)
-					return LAMP_SMALL+i;
+        for (int[] skillLamp : SKILL_LAMPS)
+            for (int i = 0; i < skillLamp.length; i++)
+                if (skillLamp[i] == id)
+                    return LAMP_SMALL + i;
 		return -1;
 	}
 

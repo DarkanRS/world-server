@@ -24,10 +24,10 @@ import com.rs.lib.game.Tile;
 
 public class NPCSpawn {
 
-	private String comment;
-	private int npcId;
-	private Tile tile;
-	private Direction dir;
+	private final String comment;
+	private final int npcId;
+	private final Tile tile;
+	private final Direction dir;
 	private String customName;
 
 	public NPCSpawn(int npcId, Tile tile, Direction dir, String comment) {

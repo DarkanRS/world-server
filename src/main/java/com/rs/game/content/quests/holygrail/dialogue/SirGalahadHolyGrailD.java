@@ -46,9 +46,7 @@ public class SirGalahadHolyGrailD extends Conversation {
 						player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_FISHER_KING);
 				});
 			}
-			default -> {
-				addPlayer(HeadE.HAPPY_TALKING, "No, no thank you, I will be heading out.");
-			}
+			default -> addPlayer(HeadE.HAPPY_TALKING, "No, no thank you, I will be heading out.");
 		}
 	}
 

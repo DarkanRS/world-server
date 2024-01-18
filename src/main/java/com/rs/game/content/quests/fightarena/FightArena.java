@@ -74,9 +74,7 @@ public class FightArena extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -88,7 +86,7 @@ public class FightArena extends QuestOutline {
 					.addNPC(265, HeadE.CHILD_UNSURE, "Wow! Please set me free so we can find my dad. I overheard a guard talking. I think " +
 							"they've taken him to the arena.")
 					.addPlayer(HeadE.HAPPY_TALKING, "Okay, we'd better hurry.")
-					.addNext(()->{e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController());})
+					.addNext(()-> e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController()))
 			);
 		}
 	});
@@ -129,7 +127,7 @@ public class FightArena extends QuestOutline {
 			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
 				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
 						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
+						.addNext(()-> handleDoor(e.getPlayer(), e.getObject()))
 				);
 				return;
 			}
@@ -145,7 +143,7 @@ public class FightArena extends QuestOutline {
 			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
 				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
 						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
+						.addNext(()-> handleDoor(e.getPlayer(), e.getObject()))
 				);
 				return;
 			}

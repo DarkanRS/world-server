@@ -51,18 +51,10 @@ public class ImperialGuard extends Conversation {
         addPlayer(HeadE.HAPPY_TALKING, "Hi!");
         addNPC(npcId, HeadE.SHAKING_HEAD, responses[(Utils.random(25))]);
         switch (Utils.random(1,4)) {
-            case 1 -> {
-                addPlayer(HeadE.CONFUSED, "What?!");
-            }
-            case 2 -> {
-                addPlayer(HeadE.CONFUSED, "Huh?!");
-            }
-            case 3 -> {
-                addPlayer(HeadE.CONFUSED, "Er...");
-            }
-            case 4 -> {
-                addPlayer(HeadE.CONFUSED, "OK...");
-            }
+            case 1 -> addPlayer(HeadE.CONFUSED, "What?!");
+            case 2 -> addPlayer(HeadE.CONFUSED, "Huh?!");
+            case 3 -> addPlayer(HeadE.CONFUSED, "Er...");
+            case 4 -> addPlayer(HeadE.CONFUSED, "OK...");
         }
             if(Utils.random(100) <= 25)
             {

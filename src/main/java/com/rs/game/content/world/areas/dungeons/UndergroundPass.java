@@ -23,16 +23,10 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class UndergroundPass {
 
-	public static ObjectClickHandler handleSkullDoorEnter = new ObjectClickHandler(new Object[] { 3220, 3221 }, e -> {
-		e.getPlayer().useStairs(Tile.of(2173, 4725, 1));
-	});
+	public static ObjectClickHandler handleSkullDoorEnter = new ObjectClickHandler(new Object[] { 3220, 3221 }, e -> e.getPlayer().useStairs(Tile.of(2173, 4725, 1)));
 
-	public static ObjectClickHandler handleSkullDoorExit = new ObjectClickHandler(new Object[] { 34288, 34289 }, e -> {
-		e.getPlayer().useStairs(Tile.of(2369, 9718, 0));
-	});
+	public static ObjectClickHandler handleSkullDoorExit = new ObjectClickHandler(new Object[] { 34288, 34289 }, e -> e.getPlayer().useStairs(Tile.of(2369, 9718, 0)));
 
-	public static ObjectClickHandler handleWellDoorEnter = new ObjectClickHandler(new Object[] { 3333, 3334 }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? Tile.of(2145, 4648, 1) : Tile.of(2014, 4712, 1));
-	});
+	public static ObjectClickHandler handleWellDoorEnter = new ObjectClickHandler(new Object[] { 3333, 3334 }, e -> e.getPlayer().useStairs(e.getPlayer().getX() < e.getObject().getX() ? Tile.of(2145, 4648, 1) : Tile.of(2014, 4712, 1)));
 
 }

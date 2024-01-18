@@ -56,5 +56,5 @@ public class AbyssalDemon extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(new Object[] { 1615 }, (npcId, tile) -> new AbyssalDemon(npcId, tile));
+	public static NPCInstanceHandler toAbyssalDemon = new NPCInstanceHandler(new Object[] { 1615 }, AbyssalDemon::new);
 }

@@ -20,10 +20,10 @@ import com.rs.game.model.entity.Entity;
 
 public class EntityStrategy extends RouteStrategy {
 
-	private int x;
-	private int y;
-	private int size;
-	private int accessBlockFlag;
+	private final int x;
+	private final int y;
+	private final int size;
+	private final int accessBlockFlag;
 
 	public EntityStrategy(Entity entity) {
 		this(entity, 0);

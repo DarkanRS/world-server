@@ -39,31 +39,24 @@ public class SirPrysinDemonSlayerD extends Conversation {
 	private final int ASK_ABOUT_SILVERLIGHT = 0;
 	private final int ASK_ABOUT_KEYS_OPTIONS = 1;
 	private final int GIVE_KEYS_DIALOGUE = 2;
-	private final int KEY_OPTIONS = 3;
-	private final int KEY_LOCATIONS_OPTIONS = 4;
+    private final int KEY_LOCATIONS_OPTIONS = 4;
 	private final int SILVERLIGHT_CUTSCENE = 5;
 
 	public SirPrysinDemonSlayerD(Player player) {
 		super(player);
 		if(player.getQuestManager().getStage(Quest.DEMON_SLAYER) >= DemonSlayer.SILVERLIGHT_OBTAINED_STAGE) {
 			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
-			addNext(() -> {
-				player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart());
-			});
+			addNext(() -> player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart()));
 			return;
 		}
 
 		if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("AFTER_PRYSIN_INTRO")) {
 			if(hasAllKeys(player)) {
 				addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again!");
-				addNext(() -> {
-					player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart());
-				});
+				addNext(() -> player.startConversation(new SirPrysinDemonSlayerD(player, SILVERLIGHT_CUTSCENE).getStart()));
 			} else {
 				addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello again.");
-				addNext(() -> {
-					player.startConversation(new SirPrysinDemonSlayerD(player, KEY_LOCATIONS_OPTIONS).getStart());
-				});
+				addNext(() -> player.startConversation(new SirPrysinDemonSlayerD(player, KEY_LOCATIONS_OPTIONS).getStart()));
 			}
 		} else {
 			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Hello, who are you?");
@@ -85,15 +78,13 @@ public class SirPrysinDemonSlayerD extends Conversation {
 									@Override
 									public void create() {
 										option("I need to find Silverlight.", new Dialogue()
-												.addNext(() -> {
-													player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart());}));
+												.addNext(() -> player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart())));
 										option("Yes, she is still alive.", new Dialogue()
 												.addPlayer(HeadE.CALM_TALK, "Yes she is still alive. She lives right outside the castle!")
 												.addNPC(SIR_PRYSIN, HeadE.AMAZED_MILD, "Oh, is that the same gypsy? I would have thought she would have died by now. She was " +
 														"pretty old when I was a lad.")
 												.addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "Anyway, what can I do for you?")
-												.addNext(() -> {
-													player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart());}));
+												.addNext(() -> player.startConversation(new SirPrysinDemonSlayerD(player, ASK_ABOUT_SILVERLIGHT).getStart())));
 									}
 								}));
 
@@ -106,7 +97,8 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		super(player);
 		this.player = player;
 
-		switch(convoID) {
+        int KEY_OPTIONS = 3;
+        switch(convoID) {
 		case ASK_ABOUT_SILVERLIGHT:
 			askAboutSilverlight(player);
 			break;
@@ -144,7 +136,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addPlayer(HeadE.AMAZED_MILD, "You mean you don't have it?")
 						.addNPC(SIR_PRYSIN, HeadE.NERVOUS, "Oh I do have it, but it is so powerful that the king made me put it in a special box which " +
 								"needs three different keys to open it. That way it won't fall into the wrong hands.")
-						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_KEYS_OPTIONS).getStart());}));
+						.addNext(() -> p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_KEYS_OPTIONS).getStart())));
 				option("He's back and unfortunately I've got to deal with him.", new Dialogue()
 						.addPlayer(HeadE.AMAZED_MILD, "He's back and unfortunately I've got to deal with him.")
 						.addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "You don't look up to much. I suppose Silverlight may be good enough to carry you through though.")
@@ -152,7 +144,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addPlayer(HeadE.WORRIED, "You mean you don't have it?")
 						.addNPC(SIR_PRYSIN, HeadE.NERVOUS, "Oh I do have it, but it is so powerful that the king made me put it in a special box which " +
 								"needs three different keys to open it. That way it won't fall into the wrong hands.")
-						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_KEYS_OPTIONS).getStart());}));
+						.addNext(() -> p.startConversation(new SirPrysinDemonSlayerD(p, ASK_ABOUT_KEYS_OPTIONS).getStart())));
 			}
 		});
 	}
@@ -175,10 +167,10 @@ public class SirPrysinDemonSlayerD extends Conversation {
 			public void create() {
 				option("So give me the keys!", new Dialogue()
 						.addPlayer(HeadE.AMAZED_MILD, "So give me the keys!")
-						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart());}));
+						.addNext(() -> p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart())));
 				option("And why is this a problem?", new Dialogue()
 						.addPlayer(HeadE.FRUSTRATED, "And why is this a problem?")
-						.addNext(() -> {p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart());}));
+						.addNext(() -> p.startConversation(new SirPrysinDemonSlayerD(p, GIVE_KEYS_DIALOGUE).getStart())));
 			}
 		});
 	}
@@ -192,30 +184,24 @@ public class SirPrysinDemonSlayerD extends Conversation {
 						.addNPC(SIR_PRYSIN, HeadE.WORRIED, "Um.... ah....")
 						.addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "Well there's a problem there as well.")
 						.addNPC(SIR_PRYSIN, HeadE.SAD_MILD_LOOK_DOWN, "I managed to drop the key in the drain just outside the palace kitchen. " +
-								"It is just inside and I can't reach it.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY1_DRAIN_LOC_KNOWN", true);
-								})
-						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
+								"It is just inside and I can't reach it.", ()-> p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY1_DRAIN_LOC_KNOWN", true))
+						.addNext(()-> p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart())));
 				option("Where can I find Captain Rovin?", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Where can I find Captain Rovin?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Captain Rovin lives at the top of the guards' quarters in the north-west wing of this" +
-								" palace.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY3_ROVIN_LOC_KNOWN", true);
-								})
-						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
+								" palace.", ()-> p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY3_ROVIN_LOC_KNOWN", true))
+						.addNext(()-> p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart())));
 				option("Where does the wizard live?", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Where does the wizard live?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Wizard Traiborn?")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "He is one of the wizards who lives in the tower on the little island just off the south coast. " +
-								"I believe his quarters are on the third floor of the tower.", ()->{
-									p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY2_WIZARD_LOC_KNOWN", true);
-								})
-						.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
+								"I believe his quarters are on the third floor of the tower.", ()-> p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("KEY2_WIZARD_LOC_KNOWN", true))
+						.addNext(()-> p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart())));
 				if(p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("KEY1_DRAIN_LOC_KNOWN"))
 					option("So what does the drain lead to?", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL_THINKING, "So what does the drain connect to?")
 							.addNPC(SIR_PRYSIN, HeadE.CALM_TALK, "It is the drain for the drainpipe running from the sink in the kitchen down to the palace sewers.")
-							.addNext(()->{p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart());}));
+							.addNext(()-> p.startConversation(new SirPrysinDemonSlayerD(p, KEY_LOCATIONS_OPTIONS).getStart())));
 				option("Farewell.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Well I'd better go key hunting.")
 						.addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Ok, goodbye."));
@@ -242,14 +228,14 @@ public class SirPrysinDemonSlayerD extends Conversation {
 				addPlayer(HeadE.FRUSTRATED, "Oh, good thing you found it. I will make room.");
 				return;
 			}
-			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Good thing I found Silverlight again.", ()-> {cutscene(p);});
+			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Good thing I found Silverlight again.", ()-> cutscene(p));
 			addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "That sword belonged to my great-grandfather. Make sure you treat it with respect!");
 			return;
 		}
 
 		//first time reaching this function without silverlightin inventory
 		addPlayer(HeadE.HAPPY_TALKING, "I've got all three keys!");
-		addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Excellent! Now I can give you Silverlight.", ()-> {cutscene(p);});
+		addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Excellent! Now I can give you Silverlight.", ()-> cutscene(p));
 		addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "That sword belonged to my great-grandfather. Make sure you treat it with respect!");
 		addNPC(SIR_PRYSIN, HeadE.HAPPY_TALKING, "Now go kill that demon!");
 	}

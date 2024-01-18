@@ -107,7 +107,7 @@ public enum StorableItem {
 			VB_BUCKET = 1441, VB_COMPOST = 1442, VB_SUPERCOMPOST = 1443, VB_SECATEURS = 1438, VB_IS_MAGIC_SECATEURS = 1848,
 			VB_WATERING_CAN = 1439, VB_EXTRA_BUCKETS = 10204, VB_PLANT_CURE = 10205;
 
-	private static Map<Integer, StorableItem> MAP = new HashMap<>();
+	private static final Map<Integer, StorableItem> MAP = new HashMap<>();
 
 	static {
 		for (StorableItem item : StorableItem.values())
@@ -119,8 +119,8 @@ public enum StorableItem {
 		return MAP.get(itemId);
 	}
 
-	public int maxAmount;
-	public int[] validIds;
+	public final int maxAmount;
+	public final int[] validIds;
 	public abstract void updateVars(Player player);
 
 	private StorableItem(int maxAmount, int... validIds) {

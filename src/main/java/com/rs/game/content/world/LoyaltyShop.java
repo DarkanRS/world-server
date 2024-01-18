@@ -32,9 +32,7 @@ import com.rs.plugin.handlers.LoginHandler;
 @PluginEventHandler
 public class LoyaltyShop {
 
-	public static LoginHandler sendLoyaltyPoints = new LoginHandler(e -> {
-		e.getPlayer().getVars().setVar(2225, e.getPlayer().loyaltyPoints);
-	});
+	public static LoginHandler sendLoyaltyPoints = new LoginHandler(e -> e.getPlayer().getVars().setVar(2225, e.getPlayer().loyaltyPoints));
 
 	public static void refresh(Player player) {
 		player.getVars().setVar(2225, player.loyaltyPoints);

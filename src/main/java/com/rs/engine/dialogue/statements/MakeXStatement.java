@@ -47,11 +47,11 @@ public class MakeXStatement implements Statement {
 		ADD
 	}
 
-	private MakeXType type;
+	private final MakeXType type;
 	private int maxQuantity = -50;
-	private String question;
-	private int[] items;
-	private String[] options;
+	private final String question;
+	private final int[] items;
+	private final String[] options;
 
 	public MakeXStatement(MakeXType type, int maxQuantity, String question, int[] items, String[] options) {
 		this.type = type;
@@ -62,7 +62,7 @@ public class MakeXStatement implements Statement {
 	}
 
 	public MakeXStatement(MakeXItem[] items, int maxQuantity) {
-		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", Arrays.stream(items).mapToInt(item -> item.getItemId()).toArray(), null);
+		this(MakeXType.MAKE, maxQuantity, "How many would you like to make?", Arrays.stream(items).mapToInt(MakeXItem::getItemId).toArray(), null);
 	}
 	
 	public MakeXStatement(MakeXType type, String question, int[] items, int maxQuantity) {

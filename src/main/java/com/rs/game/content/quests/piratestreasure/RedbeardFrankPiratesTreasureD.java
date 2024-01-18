@@ -19,56 +19,53 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 	public RedbeardFrankPiratesTreasureD(Player player) {
 		super(player);
 		switch (player.getQuestManager().getStage(Quest.PIRATES_TREASURE)) {
-		case NOT_STARTED -> {
-			addOptions("Choose an option:", new Options() {
-				@Override
-				public void create() {
-					option("I'm in search of treasure.", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "I'm in search of treasure.")
-							.addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, treasure you be after eh? Well I might be able to tell you where to find some... " +
-									"For a price...")
-							.addPlayer(HeadE.HAPPY_TALKING, "What sort of price?")
-							.addNPC(REDBEARD, HeadE.CALM_TALK, "Well for example if you can get me a bottle of rum... Not just any rum mind... I'd like " +
-									"some rum made on Karamja Island. There's no rum like Karamja Rum!")
-							.addOptions("Start Pirate's Treasure?:", new Options() {
-								@Override
-								public void create() {
-									option("Ok, I will bring you some rum", new Dialogue()
-											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will bring you some rum.", () -> {
-												player.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM);
-												if(player.getInventory().containsItem(RUM, 1)) {
-													while(player.getInventory().containsItem(RUM, 1))
-														player.getInventory().removeItems(new Item(RUM, 1));
-													player.sendMessage("Your Karamja rum gets broken and spilled.");
-												}
-											})
-											.addNPC(REDBEARD, HeadE.CALM_TALK, "Yer a saint, although it'll take a miracle to get it off Karamja.")
-											.addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
-											.addNPC(REDBEARD, HeadE.CALM_TALK, "The Customs office has been clampin' down on the export of spirits. You seem " +
-													"like a resourceful young lad, I'm sure ye'll be able to find a way to slip the stuff past them.")
-											.addPlayer(HeadE.HAPPY_TALKING, "Well I'll give it a shot.")
-											.addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, that's the spirit!"));
-									option("Not right now", new Dialogue()
-											.addPlayer(HeadE.HAPPY_TALKING, "Not right now.")
-											.addNPC(REDBEARD, HeadE.CALM_TALK, "Fair enough. I'll still be here and thirsty whenever you feel like helpin' out."));
-								}
-							}));
-					option("Arr!", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Arr!")
-							.addNPC(REDBEARD, HeadE.CALM_TALK, "Arr!")
-							.addNext(()->{
-								player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
-							}));
-					option("Do you have anything for trade?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Do you have anything for trade?")
-							.addNPC(REDBEARD, HeadE.CALM_TALK, "Nothin' at the moment, but then again the Customs Agents are on the warpath right now.")
-							.addNext(()->{
-								player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
-							}));
-				}
-			});
-
-		}
+		case NOT_STARTED -> addOptions("Choose an option:", new Options() {
+            @Override
+            public void create() {
+                option("I'm in search of treasure.", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "I'm in search of treasure.")
+                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, treasure you be after eh? Well I might be able to tell you where to find some... " +
+                                "For a price...")
+                        .addPlayer(HeadE.HAPPY_TALKING, "What sort of price?")
+                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Well for example if you can get me a bottle of rum... Not just any rum mind... I'd like " +
+                                "some rum made on Karamja Island. There's no rum like Karamja Rum!")
+                        .addOptions("Start Pirate's Treasure?:", new Options() {
+                            @Override
+                            public void create() {
+                                option("Ok, I will bring you some rum", new Dialogue()
+                                        .addPlayer(HeadE.HAPPY_TALKING, "Ok, I will bring you some rum.", () -> {
+                                            player.getQuestManager().setStage(Quest.PIRATES_TREASURE, SMUGGLE_RUM);
+                                            if(player.getInventory().containsItem(RUM, 1)) {
+                                                while(player.getInventory().containsItem(RUM, 1))
+                                                    player.getInventory().removeItems(new Item(RUM, 1));
+                                                player.sendMessage("Your Karamja rum gets broken and spilled.");
+                                            }
+                                        })
+                                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Yer a saint, although it'll take a miracle to get it off Karamja.")
+                                        .addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
+                                        .addNPC(REDBEARD, HeadE.CALM_TALK, "The Customs office has been clampin' down on the export of spirits. You seem " +
+                                                "like a resourceful young lad, I'm sure ye'll be able to find a way to slip the stuff past them.")
+                                        .addPlayer(HeadE.HAPPY_TALKING, "Well I'll give it a shot.")
+                                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, that's the spirit!"));
+                                option("Not right now", new Dialogue()
+                                        .addPlayer(HeadE.HAPPY_TALKING, "Not right now.")
+                                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Fair enough. I'll still be here and thirsty whenever you feel like helpin' out."));
+                            }
+                        }));
+                option("Arr!", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "Arr!")
+                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Arr!")
+                        .addNext(()->{
+                            player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
+                        }));
+                option("Do you have anything for trade?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "Do you have anything for trade?")
+                        .addNPC(REDBEARD, HeadE.CALM_TALK, "Nothin' at the moment, but then again the Customs Agents are on the warpath right now.")
+                        .addNext(()->{
+                            player.startConversation(new RedbeardFrankPiratesTreasureD(player).getStart());
+                        }));
+            }
+        });
 		case SMUGGLE_RUM -> {
 			addNPC(REDBEARD, HeadE.CALM_TALK, "Arr, Matey! Have ye brought some rum from yer ol' mate Frank?");
 			if(player.getInventory().containsItem(RUM, 1)) {
@@ -109,9 +106,7 @@ public class RedbeardFrankPiratesTreasureD extends Conversation {
 			if(!player.getInventory().containsItem(CHEST_KEY, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I lost the chest key!");
 				addNPC(REDBEARD, HeadE.CALM_TALK, "Good thing I keep a copy.");
-				addSimple("Redbeard hands you another key.", ()->{
-					player.getInventory().addItem(new Item(CHEST_KEY, 1));
-				});
+				addSimple("Redbeard hands you another key.", ()-> player.getInventory().addItem(new Item(CHEST_KEY, 1)));
 				return;
 			}
 			addPlayer(HeadE.HAPPY_TALKING, "Would you like a share of the treasure?");

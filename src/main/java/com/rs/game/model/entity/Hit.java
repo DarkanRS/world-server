@@ -23,7 +23,7 @@ import java.util.Map;
 
 public final class Hit {
 
-	public static enum HitLook {
+	public enum HitLook {
 		MISSED(8),
 		TRUE_DAMAGE(3),
 		MELEE_DAMAGE(0),
@@ -36,9 +36,9 @@ public final class Hit {
 		HEALED_DAMAGE(9),
 		CANNON_DAMAGE(13);
 
-		private int mark;
+		private final int mark;
 
-		private HitLook(int mark) {
+		HitLook(int mark) {
 			this.mark = mark;
 		}
 
@@ -54,8 +54,8 @@ public final class Hit {
 	private int damage;
 	private boolean critical;
 	private Hit soaking;
-	private int delay;
-	private Map<String, Object> data = new HashMap<>();
+	private final int delay;
+	private final Map<String, Object> data = new HashMap<>();
 
 	public void setCriticalMark() {
 		critical = true;

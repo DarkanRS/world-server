@@ -52,9 +52,9 @@ public class AgilityPyramidController extends Controller {
 		D(1554, Tile.of(3048, 4699, 2), 3),
 		E(1555, Tile.of(3044, 4699, 3), 2);
 
-		private int configId;
-		private Tile tile;
-		private int rotation;
+		private final int configId;
+		private final Tile tile;
+		private final int rotation;
 
 		private RollingBlock(int configId, Tile tile, int rotation) {
 			this.configId = configId;
@@ -347,24 +347,25 @@ public class AgilityPyramidController extends Controller {
 		byte[] dir = Utils.getDirection(player.getFaceAngle());
 		if (dir[0] != 0 && dir[1] != 0 || failed) {
 			int x = 0, y = 0, z = -1;
-			switch(block.rotation) {
-			case 0:
-				x = 0;
-				y = -2;
-				break;
-			case 1:
-				x = -2;
-				y = 0;
-				break;
-			case 2:
-				x = 0;
-				y = 2;
-				break;
-			case 3:
-				x = 2;
-				y = 0;
-				break;
-			}
+            y = switch (block.rotation) {
+                case 0 -> {
+                    x = 0;
+                    yield -2;
+                }
+                case 1 -> {
+                    x = -2;
+                    yield 0;
+                }
+                case 2 -> {
+                    x = 0;
+                    yield 2;
+                }
+                case 3 -> {
+                    x = 2;
+                    yield 0;
+                }
+                default -> y;
+            };
 			if (block == RollingBlock.D) {
 				x = 322;
 				y = -1856;

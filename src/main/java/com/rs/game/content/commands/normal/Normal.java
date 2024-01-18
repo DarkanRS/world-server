@@ -64,35 +64,31 @@ public class Normal {
             NPC.displayDropsFor(p, npcId, npcAmount);
         });
 
-        Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> {
-            WorldDB.getGE().getAllOffersOfType(false, offers -> {
-                p.getPackets().sendRunScript(1207, offers.size());
-                p.getInterfaceManager().sendInterface(275);
-                p.getPackets().setIFText(275, 1, "Grand Exchange Buy Offers");
-                int num = 10;
-                for (Offer offer : offers) {
-                    if (num > 288)
-                        break;
-                    p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
-                    num++;
-                }
-            });
-        });
+        Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> WorldDB.getGE().getAllOffersOfType(false, offers -> {
+            p.getPackets().sendRunScript(1207, offers.size());
+            p.getInterfaceManager().sendInterface(275);
+            p.getPackets().setIFText(275, 1, "Grand Exchange Buy Offers");
+            int num = 10;
+            for (Offer offer : offers) {
+                if (num > 288)
+                    break;
+                p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
+                num++;
+            }
+        }));
 
-        Commands.add(Rights.PLAYER, "selloffers", "Displays all sell offers currently active in the Grand Exchange.", (p, args) -> {
-            WorldDB.getGE().getAllOffersOfType(true, offers -> {
-                p.getPackets().sendRunScript(1207, offers.size());
-                p.getInterfaceManager().sendInterface(275);
-                p.getPackets().setIFText(275, 1, "Grand Exchange Sell Offers");
-                int num = 10;
-                for (Offer offer : offers) {
-                    if (num > 288)
-                        break;
-                    p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
-                    num++;
-                }
-            });
-        });
+        Commands.add(Rights.PLAYER, "selloffers", "Displays all sell offers currently active in the Grand Exchange.", (p, args) -> WorldDB.getGE().getAllOffersOfType(true, offers -> {
+            p.getPackets().sendRunScript(1207, offers.size());
+            p.getInterfaceManager().sendInterface(275);
+            p.getPackets().setIFText(275, 1, "Grand Exchange Sell Offers");
+            int num = 10;
+            for (Offer offer : offers) {
+                if (num > 288)
+                    break;
+                p.getPackets().setIFText(275, num, "[" + Utils.formatPlayerNameForDisplay(offer.getOwner()) + "]: " + offer.amountLeft() + " " + ItemDefinitions.getDefs(offer.getItemId()).getName() + " for " + offer.getPrice() + " ea");
+                num++;
+            }
+        }));
 
         Commands.add(Rights.PLAYER, "searchnpc,searchn,findnpc,getnpcid [npc name]", "Displays all NPC ids containing the query searched.", (p, args) -> {
             p.getPackets().sendDevConsoleMessage("Searching for npcs containing name: " + Utils.concat(args));
@@ -110,16 +106,12 @@ public class Normal {
 //            p.sendMessage("You have turned " + (p.isYellOff() ? "off" : "on") + " yell.");
 //        });
 
-        Commands.add(Rights.PLAYER, "ping", "Checks your ping if you have gotten it recently.", (p, args) -> {
-            p.sendMessage("Ping: " + p.getNSV().getI("ping", -1));
-        });
+        Commands.add(Rights.PLAYER, "ping", "Checks your ping if you have gotten it recently.", (p, args) -> p.sendMessage("Ping: " + p.getNSV().getI("ping", -1)));
 
-        Commands.add(Rights.PLAYER, "organizetab", "Organizes the currently open tab of your bank by item id", (p, args) -> {
-            p.sendOptionDialogue("Organize tab " + p.getBank().getCurrentTab() + "?", ops -> {
-                ops.add("Yes, organize it.", () -> p.getBank().sortCurrentTab());
-                ops.add("Nevermind.");
-            });
-        });
+        Commands.add(Rights.PLAYER, "organizetab", "Organizes the currently open tab of your bank by item id", (p, args) -> p.sendOptionDialogue("Organize tab " + p.getBank().getCurrentTab() + "?", ops -> {
+            ops.add("Yes, organize it.", () -> p.getBank().sortCurrentTab());
+            ops.add("Nevermind.");
+        }));
 
         Commands.add(Rights.PLAYER, "dunginfo", "Shows dungeon seed", (p, args) -> {
             try {

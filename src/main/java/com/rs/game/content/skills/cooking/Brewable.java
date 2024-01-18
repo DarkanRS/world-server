@@ -32,14 +32,14 @@ public enum Brewable {
 	SLAYERS_RESPITE(new int[] { 5759, 5761 }, new int[] { 5841, 5921 }, 59, 6002, 4, 479),
 	CIDER(new int[] { 5763, 5765 }, new int[] { 5849, 5929 }, 14, 5992, 4, 182);
 
-	private int[] beerGlassId;
-	private int[] calquatId;
-	private int levelRequirement;
-	private int ingredient;
-	private int ingredientAmount;
-	private int xp;
+	private final int[] beerGlassId;
+	private final int[] calquatId;
+	private final int levelRequirement;
+	private final int ingredient;
+	private final int ingredientAmount;
+	private final int xp;
 
-	private static Map<Integer, Brewable> MAP = new HashMap<>();
+	private static final Map<Integer, Brewable> MAP = new HashMap<>();
 
 	public static Brewable forId(int itemId) {
 		return MAP.get(itemId);

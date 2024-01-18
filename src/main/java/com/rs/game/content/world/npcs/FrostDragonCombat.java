@@ -70,9 +70,7 @@ public class FrostDragonCombat extends CombatScript {
 		} else if (mageRange == 0) {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));
-			delayHit(npc, World.sendProjectile(npc, target, 2705, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getMagicHit(npc, damage), () -> {
-				target.setNextSpotAnim(new SpotAnim(2711));
-			});
+			delayHit(npc, World.sendProjectile(npc, target, 2705, 28, 16, 35, 2, 16, 0).getTaskDelay(), target, getMagicHit(npc, damage), () -> target.setNextSpotAnim(new SpotAnim(2711)));
 		} else {
 			damage = Utils.getRandomInclusive(250);
 			npc.setNextAnimation(new Animation(13155));

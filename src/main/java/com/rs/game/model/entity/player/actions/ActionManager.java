@@ -21,7 +21,7 @@ import com.rs.game.model.entity.actions.Action;
 
 public final class ActionManager {
 
-	private Entity entity;
+	private final Entity entity;
 	private Action action;
 	private int actionDelay;
 

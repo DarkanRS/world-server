@@ -30,10 +30,12 @@ public enum BoxTrapType {
 	MARASAMAW_PLANT(19965, 56806, new Animation(451), 70),
 	MAGIC_BOX(10025, 19223, new Animation(451), 71);
 
-	private int itemId, objectId, baseLevel;
-	private Animation pickUpAnimation;
+	private final int itemId;
+    private final int objectId;
+    private final int baseLevel;
+	private final Animation pickUpAnimation;
 
-	private static Map<Integer, BoxTrapType> TRAPS_BY_ITEM = new HashMap<>();
+	private static final Map<Integer, BoxTrapType> TRAPS_BY_ITEM = new HashMap<>();
 
 	static {
 		for (BoxTrapType t : BoxTrapType.values())

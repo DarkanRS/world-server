@@ -486,7 +486,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
                         killer.removeDamage(player)
                         killer.increaseKillCount(player)
                     }
-                    val soulFrags = player.inventory.getItemById(SOUL_FRAGMENT);
+                    val soulFrags = player.inventory.getItemById(SOUL_FRAGMENT)
                     if (soulFrags != null) {
                         World.addGroundItem(soulFrags, Tile.of(player.tile))
                         player.inventory.deleteItem(soulFrags)
@@ -510,7 +510,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 
     override fun process() {
         if (player.inCombat())
-            activity = Utils.clampI(activity + 10, 0, 1000);
+            activity = Utils.clampI(activity + 10, 0, 1000)
         else
             activity -= 2
         player.vars.setVar(PLAYER_ACTIVITY_BAR_VAR, activity)
@@ -552,7 +552,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 
     override fun canDepositItem(item: Item?): Boolean {
         player.sendMessage("You can't bank items here.")
-        return false;
+        return false
     }
 
     override fun processTeleport(tele: Teleport): Boolean { return false }

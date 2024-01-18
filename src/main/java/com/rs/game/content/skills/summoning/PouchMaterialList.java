@@ -145,7 +145,7 @@ public enum PouchMaterialList {
 	ADEPT_DEATHSLINGER_POUCH(17993, new Item[] { new Item(18020, 1), new Item(17698, 2) }),
 	SACHEM_DEATHSLINGER_POUCH(17994, new Item[] { new Item(18020, 1), new Item(17700, 2) });
 	
-	private static Map<Integer, PouchMaterialList> MAP = new HashMap<>();
+	private static final Map<Integer, PouchMaterialList> MAP = new HashMap<>();
 	
 	static {
 		for (PouchMaterialList l : PouchMaterialList.values())
@@ -156,8 +156,8 @@ public enum PouchMaterialList {
 		return MAP.get(pouchId);
 	}
 	
-	private int pouchId;
-	private Item[] materials;
+	private final int pouchId;
+	private final Item[] materials;
 	
 	private PouchMaterialList(int pouchId, Item[] materials) {
 		this.pouchId = pouchId;

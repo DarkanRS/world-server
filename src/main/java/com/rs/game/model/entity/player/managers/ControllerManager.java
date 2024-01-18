@@ -43,11 +43,11 @@ public final class ControllerManager {
 	private transient Player player;
 	private transient boolean inited;
 
-	private transient Set<BiFunction<Player, Teleport, Boolean>> teleportHooks = new ObjectOpenHashSet<>();
-	private transient Set<BiFunction<Player, Entity, Boolean>> keepCombatingHooks = new ObjectOpenHashSet<>();
-	private transient Set<BiFunction<Player, Entity, Boolean>> canAttackHooks = new ObjectOpenHashSet<>();
-	private transient Set<BiFunction<Player, Entity, Boolean>> canHitHooks = new ObjectOpenHashSet<>();
-	private transient Set<Function<Player, Boolean>> deathHooks = new ObjectOpenHashSet<>();
+	private final transient Set<BiFunction<Player, Teleport, Boolean>> teleportHooks = new ObjectOpenHashSet<>();
+	private final transient Set<BiFunction<Player, Entity, Boolean>> keepCombatingHooks = new ObjectOpenHashSet<>();
+	private final transient Set<BiFunction<Player, Entity, Boolean>> canAttackHooks = new ObjectOpenHashSet<>();
+	private final transient Set<BiFunction<Player, Entity, Boolean>> canHitHooks = new ObjectOpenHashSet<>();
+	private final transient Set<Function<Player, Boolean>> deathHooks = new ObjectOpenHashSet<>();
 
 	private Controller controller;
 

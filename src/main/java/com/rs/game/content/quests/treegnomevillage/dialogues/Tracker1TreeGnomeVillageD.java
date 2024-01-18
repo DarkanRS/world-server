@@ -22,9 +22,7 @@ public class Tracker1TreeGnomeVillageD extends Conversation {
 			case FIRE_BALLISTA -> {
 				addPlayer(HeadE.HAPPY_TALKING, "Do you know the coordinates of the Khazard stronghold?");
 				addNPC(NPC, HeadE.CALM_TALK, "I managed to get one, although it wasn't easy.");
-				addPlayer(HeadE.HAPPY_TALKING, "Well done.", ()->{
-					this.player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker1found", true);
-				});
+				addPlayer(HeadE.HAPPY_TALKING, "Well done.", ()-> this.player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker1found", true));
 				addNPC(NPC, HeadE.CALM_TALK, "The other two tracker gnomes should have the other coordinates if they're still alive.");
 				addPlayer(HeadE.HAPPY_TALKING, "OK, take care.");
 			}

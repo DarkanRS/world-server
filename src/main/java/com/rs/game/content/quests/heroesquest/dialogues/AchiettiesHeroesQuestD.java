@@ -50,9 +50,7 @@ public class AchiettiesHeroesQuestD extends Conversation {
 							public void create() {
 								option("Yes", new Dialogue()
 										.addNPC(NPC, HeadE.CALM_TALK, "Well, you have a lot of quest points, and you have done all of the required quests, " +
-												"so you may now begin the tasks to meet the entry requirements for membership in the Heroes' Guild.", () -> {
-											player.getQuestManager().setStage(Quest.HEROES_QUEST, 1);
-										})
+												"so you may now begin the tasks to meet the entry requirements for membership in the Heroes' Guild.", () -> player.getQuestManager().setStage(Quest.HEROES_QUEST, 1))
 										.addNPC(NPC, HeadE.CALM_TALK, "The three items required for entrance are: An Entranan Firebird feather, a Master " +
 												"Thieves' armband, and a cooked Lava Eel.")
 										.addNext(itemsOptions));
@@ -73,9 +71,7 @@ public class AchiettiesHeroesQuestD extends Conversation {
 											"points to file an application.")
 									.addNPC(NPC, HeadE.CALM_TALK, "Additionally you must have completed the Shield of Arrav, Lost City, Merlin's Crystal " +
 											"and Dragon Slayer.")
-									.addNext(() -> {
-										player.getQuestManager().showQuestDetailInterface(Quest.HEROES_QUEST);
-									})
+									.addNext(() -> player.getQuestManager().showQuestDetailInterface(Quest.HEROES_QUEST))
 							);
 						option("Good for the foremost heroes of the land.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Good for the foremost heroes of the land.")
@@ -114,7 +110,7 @@ public class AchiettiesHeroesQuestD extends Conversation {
 	public static NPCClickHandler handleAchietties = new NPCClickHandler(new Object[] { 796 }, e -> {
 		if (e.getPlayer().isQuestComplete(Quest.HEROES_QUEST)) {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				int NPC = e.getNPCId();
+				final int NPC = e.getNPCId();
 
 				{
 					addNPC(NPC, HeadE.CALM_TALK, "Greetings, welcome to the heroes guild!");

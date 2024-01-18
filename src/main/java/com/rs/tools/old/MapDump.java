@@ -234,7 +234,7 @@ public class MapDump {
 
 	}
 
-	public static final int getV(int i, int i_1_, int i_2_) {
+	public static int getV(int i, int i_1_, int i_2_) {
 		if (i_2_ > 243)
 			i_1_ >>= 4;
 			else if (i_2_ > 217)

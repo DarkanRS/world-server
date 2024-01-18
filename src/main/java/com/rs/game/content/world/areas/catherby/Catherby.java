@@ -25,9 +25,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Catherby {
 
-	public static ObjectClickHandler taverlyDungeonClimbToWaterObelisk = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] { Tile.of(2842, 9824, 0) }, e -> {
-		e.getPlayer().ladder(Tile.of(2842, 3423, 0));
-	});
+	public static ObjectClickHandler taverlyDungeonClimbToWaterObelisk = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] { Tile.of(2842, 9824, 0) }, e -> e.getPlayer().ladder(Tile.of(2842, 3423, 0)));
 
 	public static ObjectClickHandler ArheinsShip = new ObjectClickHandler(new Object[] { 69 }, new Tile[] { Tile.of(2805, 3421, 0) }, e -> {
 		int npcId = 563;

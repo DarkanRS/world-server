@@ -52,7 +52,7 @@ public class BossTask {
 		TORMENTED_DEMON		(8349, 8, 12, 10000);
 
 
-		private static Map<Integer, BossTasks> monsters = new HashMap<>();
+		private static final Map<Integer, BossTasks> monsters = new HashMap<>();
 
 		public static BossTasks forId(int id) {
 			return monsters.get(id);
@@ -63,10 +63,10 @@ public class BossTask {
 				monsters.put(monster.id, monster);
 		}
 
-		private int id;
-		private int minAmount;
-		private int maxAmount;
-		private int xp;
+		private final int id;
+		private final int minAmount;
+		private final int maxAmount;
+		private final int xp;
 
 		private BossTasks(int id, int minAmount, int maxAmount, int xp) {
 			this.id = id;

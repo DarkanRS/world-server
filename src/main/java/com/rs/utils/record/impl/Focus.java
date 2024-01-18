@@ -4,7 +4,7 @@ import com.rs.utils.record.RecordedAction;
 
 public class Focus extends RecordedAction {
 	
-	private boolean focused;
+	private final boolean focused;
 
 	public Focus(long timeLogged, boolean focused) {
 		super(timeLogged, 0);

@@ -1,6 +1,5 @@
 package com.rs.game.content.quests.naturespirit
 
-import com.rs.engine.quest.Quest
 import com.rs.game.World
 import com.rs.game.content.skills.cooking.Foods
 import com.rs.game.model.entity.Entity
@@ -13,7 +12,6 @@ import com.rs.lib.game.Tile
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
-import com.rs.plugin.kts.onItemClick
 
 val GHASTS = arrayOf(1052, 1053, 14035, 14036, 14037, 14038, 14039, 14040)
 
@@ -67,7 +65,7 @@ fun mapGhasts() {
             val pouch = target.inventory.getItemById(2958)
             if (pouch != null) {
                 npc.anim(npc.combatDefinitions.attackEmote)
-                pouch.amount--;
+                pouch.amount--
                 if (pouch.amount <= 0) {
                     pouch.amount = 1
                     pouch.id = 2957

@@ -935,17 +935,14 @@ public class HouseConstants {
 		private int level;
 		private final int chunkX, chunkY;
 		private final boolean showRoof;
-		@SuppressWarnings("unused")
-		// might be useful on future
-		private final int[] doorDirs;
 
-		Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
+        Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
 			this.price = price;
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
 			this.showRoof = showRoof;
-			this.doorDirs = doorDirs;
-		}
+            // might be useful on future
+        }
 
 		public int getChunkX() {
 			return chunkX;
@@ -978,14 +975,11 @@ public class HouseConstants {
 
 		private final int chunkX;
 		private final int chunkY;
-		@SuppressWarnings("unused")
-		private final int[] dirs;
 
-		Roof(int chunkX, int chunkY, int... dirs) {
+        Roof(int chunkX, int chunkY, int... dirs) {
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
-			this.dirs = dirs;
-		}
+        }
 
 		public int getChunkX() {
 			return chunkX;

@@ -24,7 +24,8 @@ import java.util.Map;
 
 public class PlayerFaceTileAction extends CutsceneAction {
 
-	private int x, y;
+	private final int x;
+    private final int y;
 
 	public PlayerFaceTileAction(int x, int y, int actionDelay) {
 		super(null, actionDelay);

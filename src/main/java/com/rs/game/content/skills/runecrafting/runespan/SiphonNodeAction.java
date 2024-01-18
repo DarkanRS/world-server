@@ -65,7 +65,7 @@ public class SiphonNodeAction extends PlayerAction {
 		LIVING_SOUL(70470, 16596, 213, 90, 24226),
 		UNDEAD_SOUL(70471, 16596, Utils.random(144, 255.5), 95, 24219, 24226);
 
-		private static Map<Integer, Node> MAP = new HashMap<>();
+		private static final Map<Integer, Node> MAP = new HashMap<>();
 
 		static {
 			for (Node n : Node.values())
@@ -80,7 +80,7 @@ public class SiphonNodeAction extends PlayerAction {
 		private int emoteId;
 		private double xp;
 		private int levelRequired;
-		private int[] runeId;
+		private final int[] runeId;
 
 		Node(int objectId, int emoteId, double xp, int levelRequired, int... runeId) {
 			this.objectId = objectId;

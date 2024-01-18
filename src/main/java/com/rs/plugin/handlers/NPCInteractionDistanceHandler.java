@@ -24,7 +24,7 @@ import java.util.function.BiFunction;
 
 public class NPCInteractionDistanceHandler extends PluginHandler<NPCInteractionDistanceEvent> {
 	
-	private BiFunction<Player, NPC, Integer> supplier;
+	private final BiFunction<Player, NPC, Integer> supplier;
 
 	public NPCInteractionDistanceHandler(Object[] keys, BiFunction<Player, NPC, Integer> supplier) {
 		super(keys, null);

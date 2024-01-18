@@ -118,9 +118,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "And this is a mighty fine ship. She don't look much but she handles like a dream.");
-								addNext(() -> {
-									tick++;
-								});
+								addNext(() -> tick++);
 								create();
 							}
 						});
@@ -129,9 +127,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addPlayer(HeadE.CALM_TALK, "How much longer until we reach Crandor?");
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -141,9 +137,7 @@ public class DragonSlayer_BoatScene extends Controller {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Not long now! According to the chart, we'd be able to see Crandor if it wasn't for " +
 										"the clouds on the horizon.");
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -182,9 +176,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.HAPPY_TALKING, "Oh, well. The weather had been so good up until now.", () -> {});
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -198,9 +190,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addPlayer(HeadE.SCARED, "Did you see that?");
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -209,9 +199,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.CALM_TALK, "See what?", () -> {});
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -220,9 +208,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addPlayer(HeadE.SCARED, "I thought I saw something above us.");
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -237,24 +223,22 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						player.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick==30) {
 						player.startConversation(new Conversation(player) {
@@ -264,68 +248,62 @@ public class DragonSlayer_BoatScene extends Controller {
 							}
 						});
 						Tile tile = Tile.of(instance.getLocalX(16), instance.getLocalY(12), 1);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 31) {
 						Tile tile = Tile.of(instance.getLocalX(15), instance.getLocalY(12), 1);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 32) {
 						player.getInterfaceManager().setFadingInterface(546);
 						Tile tile = Tile.of(instance.getLocalX(13), instance.getLocalY(12), 1);
 						int fireHeight = 500;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 
 					if(tick == 34) {
@@ -338,162 +316,148 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
 						int fireHeight = 500;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 35) {
 						Tile tile = Tile.of(instance.getLocalX(15), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_SHAKE));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                    cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_SHAKE));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 36) {
 						Tile tile = Tile.of(instance.getLocalX(16), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-										captainNed.setNextAnimation(new Animation(ANIM_NED_FEAR));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                    captainNed.setNextAnimation(new Animation(ANIM_NED_FEAR));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 37) {
 						Tile tile = Tile.of(instance.getLocalX(17), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_FEAR));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                    cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_FEAR));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 38) {
 						Tile tile = Tile.of(instance.getLocalX(18), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_DIE));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    cabinboyJenkins.setNextAnimation(new Animation(ANIM_JENKINS_DIE));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 
 					if(tick == 39) {
 						Tile tile = Tile.of(instance.getLocalX(19), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 
 					if(tick == 40) {
 						Tile tile = Tile.of(instance.getLocalX(41), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, 0, proj -> {
-							WorldTasks.schedule(new Task() {
-								int tick;
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+                            int tick;
 
-								@Override
-								public void run() {
-									if (tick == 0) {
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
-									}
-									if (tick > 1)
-										World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
-									if(instance.isDestroyed() || tick == 80)
-										stop();
-									tick++;
-								}
-							}, 0, 1);
-						});
+                            @Override
+                            public void run() {
+                                if (tick == 0) {
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(1154, fireHeight));
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(2588, fireHeight));
+                                }
+                                if (tick > 1)
+                                    World.sendSpotAnim(Tile.of(tile.getX(), tile.getY(), tile.getPlane()), new SpotAnim(453, 0, fireHeight));
+                                if(instance.isDestroyed() || tick == 80)
+                                    stop();
+                                tick++;
+                            }
+                        }, 0, 1));
 					}
 					if(tick == 41) {
 						player.getPackets().sendCameraPos(Tile.of(instance.getLocalX(34), instance.getLocalY(14), 0), 1900);
@@ -517,9 +481,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addPlayer(HeadE.SCARED, "Look! Land ahead!");
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -532,9 +494,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addNPC(CAPTAIN_NED, HeadE.CALM_TALK, "We're going to crash!", () -> {});
-								addNext(()->{
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -561,9 +521,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addSimple("You are knocked unconscious and later awake on an ash-shrewn beach.");
-								addNext(()-> {
-									tick++;
-								});
+								addNext(()-> tick++);
 								create();
 							}
 						});

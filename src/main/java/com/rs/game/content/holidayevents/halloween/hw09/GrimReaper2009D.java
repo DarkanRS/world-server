@@ -80,9 +80,7 @@ public class GrimReaper2009D extends Conversation {
 													.addGotoStage("taskResponses", GrimReaper2009D.this));
 											option("I'll deal with the spider.", new Dialogue()
 													.addPlayer(HeadE.CALM_TALK, "I'll deal with the spider.")
-													.addNPC(8867, HeadE.CALM_TALK, "Good. You will find the bathroom on the upper floor.", () -> {
-														player.save(Halloween2009.STAGE_KEY, 1);
-													}));
+													.addNPC(8867, HeadE.CALM_TALK, "Good. You will find the bathroom on the upper floor.", () -> player.save(Halloween2009.STAGE_KEY, 1)));
 											option("I'm not doing your chores!", new Dialogue()
 													.addPlayer(HeadE.CHUCKLE, "I'm not doing your chores!")
 													.addNPC(8867, HeadE.CALM_TALK, "Then begone, mortal."));
@@ -150,9 +148,7 @@ public class GrimReaper2009D extends Conversation {
 		case 8:
 			addNPC(8867, HeadE.CALM_TALK, "Have you finished spinning cobwebs on my furniture?");
 			addNext(new SpiderStatement("Yes! All done! All done!"));
-			addNPC(8867, HeadE.CALM_TALK, "Then please return to the Spider Queen and tell her that you are done here, so that she can tell the spider to move from my bath.", () -> {
-				player.save(Halloween2009.STAGE_KEY, 9);
-			});
+			addNPC(8867, HeadE.CALM_TALK, "Then please return to the Spider Queen and tell her that you are done here, so that she can tell the spider to move from my bath.", () -> player.save(Halloween2009.STAGE_KEY, 9));
 			break;
 		case 9:
 			addNPC(8867, HeadE.CALM_TALK, "Have you spoken with the Queen about getting that spider gone yet?");

@@ -22,8 +22,8 @@ import com.rs.lib.game.Item;
 
 public class FillCompostBin extends PlayerAction {
 
-	private FarmPatch patch;
-	private Item item;
+	private final FarmPatch patch;
+	private final Item item;
 	private int compostType;
 
 	public FillCompostBin(FarmPatch patch, Item item) {

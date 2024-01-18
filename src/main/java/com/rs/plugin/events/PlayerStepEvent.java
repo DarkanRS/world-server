@@ -27,11 +27,11 @@ import java.util.Map;
 
 public class PlayerStepEvent implements PluginEvent {
 
-	private static Map<Object, PlayerStepHandler> METHODS = new HashMap<>();
+	private static final Map<Object, PlayerStepHandler> METHODS = new HashMap<>();
 
-	private Player player;
-	private Tile tile;
-	private WalkStep step;
+	private final Player player;
+	private final Tile tile;
+	private final WalkStep step;
 
 	public PlayerStepEvent(Player player, WalkStep step, Tile tile) {
 		this.player = player;

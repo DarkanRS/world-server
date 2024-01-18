@@ -124,7 +124,7 @@ public enum CombatSpell {
 		@Override
 		public int getBaseDamage(Entity caster) {
 			if (caster instanceof Player p)
-				return (int) (100.0 + Math.floor(p.getSkills().getLevel(Constants.MAGIC)));
+				return (int) (100.0 + (double) p.getSkills().getLevel(Constants.MAGIC));
 			return 100;
 		}
 	},
@@ -548,7 +548,7 @@ public enum CombatSpell {
 		}
 	};
 
-	private static Map<Integer, Map<Integer, CombatSpell>> SPELL_MAP = new HashMap<>();
+	private static final Map<Integer, Map<Integer, CombatSpell>> SPELL_MAP = new HashMap<>();
 
 	static {
 		Map<Integer, CombatSpell> MODERN = new HashMap<>();
@@ -661,17 +661,17 @@ public enum CombatSpell {
 		return SPELL_MAP.get(spellBook).get(spellId);
 	}
 
-	protected int req;
-	protected double splashXp;
-	protected int castSound;
-	protected int landSound;
-	protected int splashSound;
-	protected int baseDamage;
-	protected Animation castAnim;
-	protected SpotAnim castSpotAnim;
-	protected int projAnim;
-	protected SpotAnim hitSpotAnim;
-	protected RuneSet runes;
+	protected final int req;
+	protected final double splashXp;
+	protected final int castSound;
+	protected final int landSound;
+	protected final int splashSound;
+	protected final int baseDamage;
+	protected final Animation castAnim;
+	protected final SpotAnim castSpotAnim;
+	protected final int projAnim;
+	protected final SpotAnim hitSpotAnim;
+	protected final RuneSet runes;
 	
 //	private CombatSpell(int req, double splashXp, int baseDamage, Animation castAnim, SpotAnim castSpotAnim, int projAnim, SpotAnim hitSpotAnim, RuneSet runes) {
 //		this(req, splashXp, baseDamage, castAnim, castSpotAnim, projAnim, hitSpotAnim, -1, -1, -1, runes);
@@ -708,76 +708,41 @@ public enum CombatSpell {
 	}
 
 	public Animation getCastAnim(Entity caster) {
-		switch(this) {
-		case EARTH_BLAST:
-		case EARTH_BOLT:
-		case EARTH_STRIKE:
-		case EARTH_SURGE:
-		case EARTH_WAVE:
-			return caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new Animation(14222) : castAnim;
-		case WIND_BLAST:
-		case WIND_BOLT:
-		case WIND_RUSH:
-		case WIND_STRIKE:
-		case WIND_SURGE:
-		case WIND_WAVE:
-			return caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new Animation(14221) : castAnim;
-		default:
-			break;
-		}
-		return castAnim;
-	}
+        return switch (this) {
+            case EARTH_BLAST, EARTH_BOLT, EARTH_STRIKE, EARTH_SURGE, EARTH_WAVE ->
+                    caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new Animation(14222) : castAnim;
+            case WIND_BLAST, WIND_BOLT, WIND_RUSH, WIND_STRIKE, WIND_SURGE, WIND_WAVE ->
+                    caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new Animation(14221) : castAnim;
+            default -> castAnim;
+        };
+    }
 
 	public boolean isFireSpell() {
-		switch(this) {
-		case FIRE_STRIKE:
-		case FIRE_BOLT:
-		case FIRE_BLAST:
-		case FIRE_WAVE:
-		case FIRE_SURGE:
-			return true;
-		default:
-			return false;
-		}
+        return switch (this) {
+            case FIRE_STRIKE, FIRE_BOLT, FIRE_BLAST, FIRE_WAVE, FIRE_SURGE -> true;
+            default -> false;
+        };
 	}
 
 	public boolean isWaterSpell() {
-		switch(this) {
-		case WATER_STRIKE:
-		case WATER_BOLT:
-		case WATER_BLAST:
-		case WATER_WAVE:
-		case WATER_SURGE:
-			return true;
-		default:
-			return false;
-		}
+        return switch (this) {
+            case WATER_STRIKE, WATER_BOLT, WATER_BLAST, WATER_WAVE, WATER_SURGE -> true;
+            default -> false;
+        };
 	}
 
 	public boolean isEarthSpell() {
-		switch(this) {
-		case EARTH_STRIKE:
-		case EARTH_BOLT:
-		case EARTH_BLAST:
-		case EARTH_WAVE:
-		case EARTH_SURGE:
-			return true;
-		default:
-			return false;
-		}
+        return switch (this) {
+            case EARTH_STRIKE, EARTH_BOLT, EARTH_BLAST, EARTH_WAVE, EARTH_SURGE -> true;
+            default -> false;
+        };
 	}
 
 	public boolean isAirSpell() {
-		switch(this) {
-		case WIND_STRIKE:
-		case WIND_BOLT:
-		case WIND_BLAST:
-		case WIND_WAVE:
-		case WIND_SURGE:
-			return true;
-		default:
-			return false;
-		}
+        return switch (this) {
+            case WIND_STRIKE, WIND_BOLT, WIND_BLAST, WIND_WAVE, WIND_SURGE -> true;
+            default -> false;
+        };
 	}
 
 	public boolean isFireBlast() {
@@ -810,18 +775,12 @@ public enum CombatSpell {
 
 
 	public SpotAnim getCastSpotAnim(Entity caster) {
-		switch(this) {
-		case WATER_BLAST:
-		case WATER_BOLT:
-		case WATER_STRIKE:
-		case WATER_SURGE:
-		case WATER_WAVE:
-			return caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new SpotAnim(2702) : castSpotAnim;
-		default:
-			break;
-		}
-		return castSpotAnim;
-	}
+        return switch (this) {
+            case WATER_BLAST, WATER_BOLT, WATER_STRIKE, WATER_SURGE, WATER_WAVE ->
+                    caster instanceof Player p && p.getEquipment().getWeaponName().toLowerCase().contains("staff") ? new SpotAnim(2702) : castSpotAnim;
+            default -> castSpotAnim;
+        };
+    }
 
 	public SpotAnim getHitSpotAnim() {
 		return hitSpotAnim;
@@ -863,21 +822,11 @@ public enum CombatSpell {
 	}
 
 	public boolean isAOE() {
-		switch(this) {
-		case BLOOD_BARRAGE:
-		case BLOOD_BURST:
-		case ICE_BARRAGE:
-		case ICE_BURST:
-		case MIASMIC_BARRAGE:
-		case MIASMIC_BURST:
-		case SHADOW_BARRAGE:
-		case SHADOW_BURST:
-		case SMOKE_BARRAGE:
-		case SMOKE_BURST:
-			return true;
-		default:
-			return false;
-		}
+        return switch (this) {
+            case BLOOD_BARRAGE, BLOOD_BURST, ICE_BARRAGE, ICE_BURST, MIASMIC_BARRAGE, MIASMIC_BURST, SHADOW_BARRAGE, SHADOW_BURST, SMOKE_BARRAGE, SMOKE_BURST ->
+                    true;
+            default -> false;
+        };
 	}
 
 	public boolean extraReqs(Player player, Entity target) {

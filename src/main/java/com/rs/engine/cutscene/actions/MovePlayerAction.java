@@ -25,8 +25,10 @@ import java.util.Map;
 
 public class MovePlayerAction extends CutsceneAction {
 
-	private int x, y, plane;
-	private MoveType movementType;
+	private final int x;
+    private final int y;
+    private final int plane;
+	private final MoveType movementType;
 
 	public MovePlayerAction(int x, int y, int plane, MoveType movementType, int actionDelay) {
 		super(null, actionDelay);

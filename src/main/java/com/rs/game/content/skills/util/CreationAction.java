@@ -27,15 +27,16 @@ import com.rs.lib.game.SpotAnim;
 
 public class CreationAction extends PlayerAction {
 
-	private Item[] mats;
-	private Item product;
-	private int nonRemReq;
-	private int skill;
-	private int cycles, level;
-	private double experience;
-	private int animationId;
-	private int gfx;
-	private int delay;
+	private final Item[] mats;
+	private final Item product;
+	private final int nonRemReq;
+	private final int skill;
+	private int cycles;
+    private final int level;
+	private final double experience;
+	private final int animationId;
+	private final int gfx;
+	private final int delay;
 	private boolean consistentAnim = false;
 
 	public CreationAction(ReqItem product, int animationId, int gfx, int delay, int cycles) {
@@ -122,13 +123,13 @@ public class CreationAction extends PlayerAction {
 		if (consistentAnim)
 			player.setNextAnimation(new Animation(animationId));
 		if (mats != null && !player.getInventory().containsItems(mats)) {
-			String mat = "";
+			StringBuilder mat = new StringBuilder();
 			for (Item item : mats)
 				if (item != null) {
-					mat += item.getAmount() + " ";
-					mat += item.getDefinitions().getName() + ", ";
+					mat.append(item.getAmount()).append(" ");
+					mat.append(item.getDefinitions().getName()).append(", ");
 				}
-			player.sendMessage("You need " + mat.toLowerCase().trim().substring(0, mat.length() - 2) + " to create a " + product.getName().toLowerCase() + ".");
+			player.sendMessage("You need " + mat.toString().toLowerCase().trim().substring(0, mat.length() - 2) + " to create a " + product.getName().toLowerCase() + ".");
 			return false;
 		}
 		if (nonRemReq != -1 && !player.getInventory().containsItem(nonRemReq, 1)) {

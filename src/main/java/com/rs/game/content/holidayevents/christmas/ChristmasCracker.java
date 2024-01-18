@@ -10,7 +10,7 @@ import com.rs.utils.drop.*;
 
 @PluginEventHandler
 public class ChristmasCracker {
-	private static DropSet PARTY_HATS = new WeightedSet(
+	private static final DropSet PARTY_HATS = new WeightedSet(
 			new WeightedTable(32, new Drop(1038)),
 			new WeightedTable(28, new Drop(1040)),
 			new WeightedTable(23, new Drop(1048)),
@@ -19,7 +19,7 @@ public class ChristmasCracker {
 			new WeightedTable(10, new Drop(1046))
 			);
 
-	private static DropSet CRACKER_SECONDARIES = new WeightedSet(
+	private static final DropSet CRACKER_SECONDARIES = new WeightedSet(
 			new WeightedTable(11, new Drop(1718)),
 			new WeightedTable(11, new Drop(950)),
 			new WeightedTable(9, new Drop(1635)),

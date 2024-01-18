@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class NPCForceTalkAction extends CutsceneAction {
 
-	private String text;
+	private final String text;
 
 	public NPCForceTalkAction(String key, String text, int actionDelay) {
 		super(key, actionDelay);

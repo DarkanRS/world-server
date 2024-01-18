@@ -12,7 +12,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class GillieGroatsCow extends Conversation {
     //Identify Cow by ID
-    private static int objId = 47721;
+    private static final int objId = 47721;
     //Identify Gillie by ID
     private static final int npcId = 3807;
 

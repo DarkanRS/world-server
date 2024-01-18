@@ -94,16 +94,12 @@ public class TreeGnomeVillage extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
 
-	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }, e -> {
-		Doors.handleDoor(e.getPlayer(), e.getObject());
-	});
+	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject()));
 
 	public static ObjectClickHandler handleWallBallistaHit = new ObjectClickHandler(new Object[] { 12762 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1) {
@@ -192,9 +188,7 @@ public class TreeGnomeVillage extends QuestOutline {
 	public static ObjectClickHandler handleBallista = new ObjectClickHandler(new Object[] { 69527 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == FIRE_BALLISTA && has3TrackerCoordinates(e.getPlayer())) {
 			Dialogue rightCoordinate = new Dialogue().addSimple("The huge spear flies through the air and screams down directly into the Khazard stronghold. " +
-					"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()->{
-				e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1);
-			});
+					"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()-> e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1));
 			Dialogue wrongCoordinate = new Dialogue().addSimple("The huge spear completely misses the Khazard stronghold!");
 			int coordinate = e.getPlayer().getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
 			e.getPlayer().startConversation(new Dialogue()

@@ -31,8 +31,9 @@ import com.rs.utils.ItemConfig;
 @PluginEventHandler
 public class Trade {
 
-	private Player player, target;
-	private ItemsContainer<Item> items;
+	private final Player player;
+    private Player target;
+	private final ItemsContainer<Item> items;
 	private boolean tradeModified;
 	private boolean accepted;
 	private boolean logged = false;
@@ -401,7 +402,7 @@ public class Trade {
 		return items;
 	}
 
-	private static enum CloseTradeStage {
+	private enum CloseTradeStage {
 		CANCEL, NO_SPACE, DONE
 	}
 

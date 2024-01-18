@@ -32,8 +32,8 @@ import com.rs.utils.drop.DropTable;
 
 public class PickPocketAction extends PlayerAction {
 
-	private NPC npc;
-	private PickPocketableNPC npcData;
+	private final NPC npc;
+	private final PickPocketableNPC npcData;
 	private static final Animation STUN_ANIMATION = new Animation(422),
 			PICKPOCKETING_ANIMATION = new Animation(881),
 			DOUBLE_LOOT_ANIMATION = new Animation(5074),
@@ -147,19 +147,15 @@ public class PickPocketAction extends PlayerAction {
 	private String getMessage(Player player) {
 		if (npcData.equals(PickPocketableNPC.DESERT_PHOENIX))
 			return "You grab a tail-feather.";
-		switch (index) {
-		case 0:
-			return "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
-		case 1:
-			return "Your lighting-fast reactions allow you to steal double loot.";
-		case 2:
-			return "Your lighting-fast reactions allow you to steal triple loot.";
-		case 3:
-			return "Your lighting-fast reactions allow you to steal quadruple loot.";
-		}
-		return null;
+        return switch (index) {
+            case 0 -> "You succesfully pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket.";
+            case 1 -> "Your lighting-fast reactions allow you to steal double loot.";
+            case 2 -> "Your lighting-fast reactions allow you to steal triple loot.";
+            case 3 -> "Your lighting-fast reactions allow you to steal quadruple loot.";
+            default -> null;
+        };
 
-	}
+    }
 
 	private boolean checkAll(Player player) {
 		if (player.isDead() || player.hasFinished() || npc.isDead() || npc.hasFinished() || player.hasPendingHits())
@@ -189,31 +185,23 @@ public class PickPocketAction extends PlayerAction {
 	}
 
 	private Animation getAnimation() {
-		switch (index) {
-		case 0:
-			return PICKPOCKETING_ANIMATION;
-		case 1:
-			return DOUBLE_LOOT_ANIMATION;
-		case 2:
-			return TRIPLE_LOOT_ANIMATION;
-		case 3:
-			return QUADRUPLE_LOOT_ANIMATION;
-		}
-		return null;
-	}
+        return switch (index) {
+            case 0 -> PICKPOCKETING_ANIMATION;
+            case 1 -> DOUBLE_LOOT_ANIMATION;
+            case 2 -> TRIPLE_LOOT_ANIMATION;
+            case 3 -> QUADRUPLE_LOOT_ANIMATION;
+            default -> null;
+        };
+    }
 
 	private SpotAnim getGraphics() {
-		switch (index) {
-		case 0:
-			return null;
-		case 1:
-			return DOUBLE_LOOT_GFX;
-		case 2:
-			return TRIPLE_LOOT_GFX;
-		case 3:
-			return QUADRUPLE_LOOT_GFX;
-		}
-		return null;
-	}
+        return switch (index) {
+            case 0 -> null;
+            case 1 -> DOUBLE_LOOT_GFX;
+            case 2 -> TRIPLE_LOOT_GFX;
+            case 3 -> QUADRUPLE_LOOT_GFX;
+            default -> null;
+        };
+    }
 
 }

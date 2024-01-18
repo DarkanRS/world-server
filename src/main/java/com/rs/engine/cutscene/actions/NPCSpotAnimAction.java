@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class NPCSpotAnimAction extends CutsceneAction {
 
-	private SpotAnim gfx;
+	private final SpotAnim gfx;
 
 	public NPCSpotAnimAction(String key, SpotAnim gfx, int actionDelay) {
 		super(key, actionDelay);

@@ -20,9 +20,7 @@ public class JackOval extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need crafting supplies", () -> {
-                    ShopsHandler.openShop(player, "jack_crafting_shop");
-                });
+                option("I need crafting supplies", () -> ShopsHandler.openShop(player, "jack_crafting_shop"));
                 option("I need you to tan some leather for me.", () -> player.startConversation(new TanningD(player, false, npcId)));
                 option("Farewell");
             }

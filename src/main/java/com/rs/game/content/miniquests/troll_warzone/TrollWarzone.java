@@ -97,15 +97,13 @@ public class TrollWarzone extends MiniquestOutline {
         switch(player.getMiniquestManager().getStage(Miniquest.TROLL_WARZONE)) {
             case 0 -> dialogue.addNPC(npc, HeadE.FRUSTRATED, "The trolls are overrunning us! Major Nigel has been trying to find recruits.");
             case 1 -> dialogue.addNPC(npc, HeadE.FRUSTRATED, "Get back in the cave over there to help Ozan and Keymans!");
-            case 2 -> {
-                dialogue.addNPC(npc, HeadE.CALM_TALK, "Ozan tells me that you defeated one of the troll generals.")
-                        .addNPC(npc, HeadE.CALM_TALK, "The trolls are getting into that cave through a back entrance high on Death Plateau. If we try to collapse this end, we could collapse the whole castle with it!")
-                        .addNPC(npc, HeadE.CALM_TALK, "Death Plateau itself is too dangerous to assault. I need you to get to the top of the castle and direct cannon fire onto that back entrance!")
-                        .addOptions(ops -> {
-                            ops.add("I'll do it right away!", () -> player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 3));
-                            ops.add("I want to kill more trolls!");
-                        });
-            }
+            case 2 -> dialogue.addNPC(npc, HeadE.CALM_TALK, "Ozan tells me that you defeated one of the troll generals.")
+                    .addNPC(npc, HeadE.CALM_TALK, "The trolls are getting into that cave through a back entrance high on Death Plateau. If we try to collapse this end, we could collapse the whole castle with it!")
+                    .addNPC(npc, HeadE.CALM_TALK, "Death Plateau itself is too dangerous to assault. I need you to get to the top of the castle and direct cannon fire onto that back entrance!")
+                    .addOptions(ops -> {
+                        ops.add("I'll do it right away!", () -> player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 3));
+                        ops.add("I want to kill more trolls!");
+                    });
             case 3 -> dialogue.addNPC(npc, HeadE.CALM_TALK, "What are you waiting for? Get up on top of the castle and fire a cannon into that cavern back entrance!");
             default -> dialogue.addNPC(npc, HeadE.CALM_TALK, "Excellent work bringing down the cavern entrance. You should go check in with Corothers.");
         }

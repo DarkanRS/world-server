@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class PlayerAnimationAction extends CutsceneAction {
 
-	private Animation anim;
+	private final Animation anim;
 
 	public PlayerAnimationAction(Animation anim, int actionDelay) {
 		super(null, actionDelay);

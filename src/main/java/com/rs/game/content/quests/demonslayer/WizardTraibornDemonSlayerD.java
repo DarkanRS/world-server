@@ -46,18 +46,15 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 		if(!player.isQuestComplete(Quest.DEMON_SLAYER) && player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("WIZARD_RITUAL_KNOWN"))
 			if(player.getQuestManager().getAttribs(Quest.DEMON_SLAYER).getB("WIZARD_KEY_PREVIOUSLY_RETRIEVED")) {
 				if(!player.getInventory().containsItem(2399)) {
-					addNext(()->{
-						player.startConversation(new WizardTraibornDemonSlayerD(player, RETRIEVE_KEY_AGAIN).getStart());});
+					addNext(()-> player.startConversation(new WizardTraibornDemonSlayerD(player, RETRIEVE_KEY_AGAIN).getStart()));
 					return;
 				}
 			} else if(player.getInventory().containsItem(526, 25)) {
-				addNext(()->{
-					player.startConversation(new WizardTraibornDemonSlayerD(player, HAS_BONES).getStart());});
+				addNext(()-> player.startConversation(new WizardTraibornDemonSlayerD(player, HAS_BONES).getStart()));
 				return;
 			}
 			else {
-				addNext(()->{
-					player.startConversation(new WizardTraibornDemonSlayerD(player, DOES_NOT_HAVE_BONES).getStart());});
+				addNext(()-> player.startConversation(new WizardTraibornDemonSlayerD(player, DOES_NOT_HAVE_BONES).getStart()));
 				return;
 			}
 		addOptions("Choose an option:", new Options() {
@@ -113,9 +110,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 					option("I need to get a key given to you by Sir Prysin.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I need to get a key given to you by Sir Prysin.")
 							.addNPC(WIZARD_TRAIBORN, HeadE.SKEPTICAL_THINKING, "Sir Prysin? Who's that? What would I want his key for?")
-							.addNext(() -> {
-								player.startConversation(new WizardTraibornDemonSlayerD(player, ABOUT_SIR_PRYSIN).getStart());
-							}));
+							.addNext(() -> player.startConversation(new WizardTraibornDemonSlayerD(player, ABOUT_SIR_PRYSIN).getStart())));
 			}
 		});
 	}
@@ -152,7 +147,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 				option("He told me you were looking after it for him.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "He told me you were looking after it for him.")
 						.addNPC(WIZARD_TRAIBORN, HeadE.CALM_TALK, "Oh that's great, if it wouldn't be too much trouble.")
-						.addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_OPTIONS).getStart());}));
+						.addNext(()-> p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_OPTIONS).getStart())));
 				option("He's one of the King's knights.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "He's one of the King's knights.")
 						.addNPC(WIZARD_TRAIBORN, HeadE.CALM_TALK, "Say, I remember one of the King's knights. He had nice shoes...")
@@ -163,14 +158,14 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 								option("Yes please.", new Dialogue()
 										.addPlayer(HeadE.HAPPY_TALKING, "Yes please.")
 										.addSimple("Traiborn digs around in the pockets of his robes. After a few moments he triumphantly presents you with " +
-												"a spinach roll.", ()-> {p.getInventory().addItem(new Item(1969, 1), true);})
+												"a spinach roll.", ()-> p.getInventory().addItem(new Item(1969, 1), true))
 										.addPlayer(HeadE.HAPPY_TALKING, "Thank you very much.")
-										.addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, ABOUT_SIR_PRYSIN).getStart());}));
+										.addNext(()-> p.startConversation(new WizardTraibornDemonSlayerD(p, ABOUT_SIR_PRYSIN).getStart())));
 								option("No thanks.", new Dialogue());
 							}
 						}));
 				option("Well, have you got any keys knocking around?", new Dialogue()
-						.addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_DIALOGUE).getStart());}));
+						.addNext(()-> p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_DIALOGUE).getStart())));
 			}
 		});
 	}
@@ -194,9 +189,7 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 				option("I'll get the bones for you.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "I'll help get the bones for you.")
 						.addNPC(WIZARD_TRAIBORN, HeadE.CALM_TALK, "Ooh that would be very good of you.")
-						.addPlayer(HeadE.HAPPY_TALKING, "Okay, I'll speak to you when I've got some bones.", ()-> {
-							p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("WIZARD_RITUAL_KNOWN", true);
-						}));
+						.addPlayer(HeadE.HAPPY_TALKING, "Okay, I'll speak to you when I've got some bones.", ()-> p.getQuestManager().getAttribs(Quest.DEMON_SLAYER).setB("WIZARD_RITUAL_KNOWN", true)));
 			}
 		});
 	}
@@ -207,9 +200,9 @@ public class WizardTraibornDemonSlayerD extends Conversation {
 			public void create() {
 				option("Err I'd better be off really.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Err I'd better be off really.")
-						.addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, ABOUT_SIR_PRYSIN).getStart());}));
+						.addNext(()-> p.startConversation(new WizardTraibornDemonSlayerD(p, ABOUT_SIR_PRYSIN).getStart())));
 				option("Well, have you got any keys knocking around?", new Dialogue()
-						.addNext(()->{p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_DIALOGUE).getStart());}));
+						.addNext(()-> p.startConversation(new WizardTraibornDemonSlayerD(p, KEYS_DIALOGUE).getStart())));
 			}
 		});
 	}

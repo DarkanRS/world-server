@@ -124,9 +124,7 @@ public class FightArenaFightCutsceneController extends Controller {
 							jeremy.forceTalk("I'll run ahead");
 							tick++;
 						});
-						player.walkToAndExecute(instance.getLocalTile(57, 40), () -> {
-							player.faceSouth();
-						});
+						player.walkToAndExecute(instance.getLocalTile(57, 40), () -> player.faceSouth());
 					}
 					if(tick == 11) {
 						jeremeysCell(false);
@@ -151,9 +149,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.startConversation(new Dialogue()
 								.addPlayer(HeadE.SCARED, "Jeremy, where's your father?")
 								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "Quick, help him! That beast will kill him. He's too old to fight.")
-								.addNext(()->{
-									tick = 17;
-								})
+								.addNext(()-> tick = 17)
 						);
 					}
 					if(tick == 17) {
@@ -185,16 +181,12 @@ public class FightArenaFightCutsceneController extends Controller {
 									player.faceEntity(father);
 								})
 								.addNPC(7551, HeadE.CALM_TALK, "Haha! Well done, well done. That was rather entertaining. I am the great General Khazard" +
-										" and the two men you just \'saved\' are my property.", () ->{
-									general_khazard.faceEntity(player);
-								})
-								.addPlayer(HeadE.HAPPY_TALKING, "They belong to nobody.", ()->{
-									player.faceEntity(general_khazard);
-								})
+										" and the two men you just \'saved\' are my property.", () -> general_khazard.faceEntity(player))
+								.addPlayer(HeadE.HAPPY_TALKING, "They belong to nobody.", ()-> player.faceEntity(general_khazard))
 								.addNPC(7551, HeadE.CALM_TALK, "Well, I suppose we could make some arrangement for their freedom.")
 								.addPlayer(HeadE.HAPPY_TALKING, "What do you mean?")
 								.addNPC(7551, HeadE.CALM_TALK, "I'll let them go, but you must stay and fight!")
-								.addNext(()->{tick = 24;})
+								.addNext(()-> tick = 24)
 						);
 					}
 					if(tick == 24) {
@@ -220,7 +212,7 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.lock();
 						player.startConversation(new Dialogue()
 								.addNPC(7551, HeadE.EVIL_LAUGH, "Let's see how you do against this!")
-								.addNext(()->{tick = 33;})
+								.addNext(()-> tick = 33)
 						);
 					}
 					if(tick == 33) {
@@ -244,13 +236,11 @@ public class FightArenaFightCutsceneController extends Controller {
 						player.lock();
 						player.startConversation(new Dialogue()
 								.addNPC(7551, HeadE.AMAZED, "Nooooo! Bouncer! How dare you? For his sake you'll suffer, traveller." +
-										" Prepare to meet your maker.", () ->{general_khazard.faceEntity(player);})
-								.addPlayer(HeadE.HAPPY_TALKING, "You agreed to let the Servils go if I stayed to fight.", ()->{player.faceEntity(general_khazard);})
+										" Prepare to meet your maker.", () -> general_khazard.faceEntity(player))
+								.addPlayer(HeadE.HAPPY_TALKING, "You agreed to let the Servils go if I stayed to fight.", ()-> player.faceEntity(general_khazard))
 								.addNPC(7551, HeadE.CALM_TALK, "Indeed you shall see that I am not cowardly enough to make false promises. They may go.")
 								.addNPC(7551, HeadE.CALM_TALK, "You, however, have caused me much trouble today. You will remain here so that I may have the pleasure of killing you myself.")
-								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "No, you don't have to fight him! Come with us, " + player.getDisplayName() + "!", ()->{
-									jeremy.faceEntity(player);
-								})
+								.addNPC(jeremy.getId(), HeadE.CHILD_UNSURE, "No, you don't have to fight him! Come with us, " + player.getDisplayName() + "!", ()-> jeremy.faceEntity(player))
 								.addNext(()->{
 									canLeave = true;
 									tick = 42;

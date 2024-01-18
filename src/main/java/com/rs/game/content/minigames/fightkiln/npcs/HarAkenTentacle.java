@@ -25,7 +25,7 @@ import java.util.List;
 
 public class HarAkenTentacle extends NPC {
 
-	private HarAken aken;
+	private final HarAken aken;
 
 	public HarAkenTentacle(int id, Tile tile, HarAken aken) {
 		super(id, tile, true);

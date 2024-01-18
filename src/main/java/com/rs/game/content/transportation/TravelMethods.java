@@ -67,9 +67,10 @@ public class TravelMethods {
 		EDGEVILLE_CANOE(null, null, Tile.of(3130, 3505, 0), null),
 		WILDERNESS_CANOE(null, null, Tile.of(3147, 3799, 0), null);
 
-		private int[] fares;
-		private Tile destination, origin;
-		private String secondDest;
+		private final int[] fares;
+		private final Tile destination;
+        private final Tile origin;
+		private final String secondDest;
 
 		private Carrier(int[] fare, String secondDest, Tile destination, Tile origin) {
 			fares = fare;

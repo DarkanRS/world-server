@@ -46,9 +46,7 @@ public class Asyff extends Conversation {
             public void create() {
                 option("Okay, lets see what you've got then.", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Okay, lets see what you've got then.")
-                        .addNext(() -> {
-                            ShopsHandler.openShop(player, "fancy_clothes_store");
-                        }));
+                        .addNext(() -> ShopsHandler.openShop(player, "fancy_clothes_store")));
 
                 option("Can you make clothing suitable for hunting in?", new Dialogue()
                         .addPlayer(HeadE.HAPPY_TALKING, "Can you make clothing suitable for hunting in?")
@@ -87,7 +85,7 @@ public class Asyff extends Conversation {
         SPOT_CAPE(10069, 400, 2, 10125),
         SPOTICAPE(10071, 800, 2, 10127);
 
-        private static Map<Integer, FurItem> BY_ITEMID = new HashMap<>();
+        private static final Map<Integer, FurItem> BY_ITEMID = new HashMap<>();
 
         static {
             for (FurItem item : FurItem.values())

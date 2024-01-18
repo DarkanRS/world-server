@@ -75,58 +75,32 @@ public class BoatingD extends Conversation {
 	}
 
 	public static Object[] getBoatForShip(Player player, int npcId) {
-		switch (npcId) {
-		case 376:
-		case 377:
-		case 378:
-			return new Object[] { Carrier.KARAMJA_FARE, false };
-		case 380:
-			return player.withinDistance(Tile.of(2772, 3227, 0), 30) ?
-					new Object[] { Carrier.BRIMHAVEN_FARE, true } : new Object[] { Carrier.KARAMJA_FARE, true };
-
-		case 381:
-			return new Object[] { Carrier.BRIMHAVEN_FARE, true };
-		case 744:
-			return new Object[] { Carrier.CRANDOR_FARE, false };
-		case 2728:
-		case 2729:
-		case 657:
-			return new Object[] { Carrier.ENTRANA_FARE, false };
-		case 2730:
-			return new Object[] { Carrier.ENTRANA_FARE, true };
-		case 3801:
-			return new Object[] { Carrier.VOID_OUTPOST_FARE, false };
-		case 3800:
-			return new Object[] { Carrier.VOID_OUTPOST_FARE, true };
-		case 4962:
-			return new Object[] { Carrier.BRIMHAVEN_FARE, false };
-		case 5482:
-			return new Object[] { Carrier.JATIZO, true };
-		case 5481:
-			return new Object[] { Carrier.JATIZO, false };
-		case 5508:
-			return new Object[] { Carrier.NEITZNOT, false };
-		case 5507:
-			return new Object[] { Carrier.NEITZNOT, true };
-		case 1304:
-			return new Object[] { Carrier.MISCELLENIA, false };
-		case 1385:
-			return new Object[] { Carrier.MISCELLENIA, true };
-		case 413:
-			return new Object[] { Carrier.PIRATES_COVE, false };
-		case 4537:
-			return new Object[] { Carrier.PIRATES_COVE, true };
-		case 407:
-			return new Object[] { Carrier.LUNAR_ISLE, false };
-		case 408:
-			return new Object[] { Carrier.LUNAR_ISLE, true };
-		case 2435:
-			return new Object[] { Carrier.WATERBIRTH, false };
-		case 2438:
-			return new Object[] { Carrier.WATERBIRTH, true };
-		case 3160:
-			return new Object[] { Carrier.TEACH_MOS_LE_HARMLESS, player.withinDistance(Tile.of(3714, 3499, 1)) ? false : true };
-		}
-		return null;
-	}
+        return switch (npcId) {
+            case 376, 377, 378 -> new Object[]{Carrier.KARAMJA_FARE, false};
+            case 380 -> player.withinDistance(Tile.of(2772, 3227, 0), 30) ?
+                    new Object[]{Carrier.BRIMHAVEN_FARE, true} : new Object[]{Carrier.KARAMJA_FARE, true};
+            case 381 -> new Object[]{Carrier.BRIMHAVEN_FARE, true};
+            case 744 -> new Object[]{Carrier.CRANDOR_FARE, false};
+            case 2728, 2729, 657 -> new Object[]{Carrier.ENTRANA_FARE, false};
+            case 2730 -> new Object[]{Carrier.ENTRANA_FARE, true};
+            case 3801 -> new Object[]{Carrier.VOID_OUTPOST_FARE, false};
+            case 3800 -> new Object[]{Carrier.VOID_OUTPOST_FARE, true};
+            case 4962 -> new Object[]{Carrier.BRIMHAVEN_FARE, false};
+            case 5482 -> new Object[]{Carrier.JATIZO, true};
+            case 5481 -> new Object[]{Carrier.JATIZO, false};
+            case 5508 -> new Object[]{Carrier.NEITZNOT, false};
+            case 5507 -> new Object[]{Carrier.NEITZNOT, true};
+            case 1304 -> new Object[]{Carrier.MISCELLENIA, false};
+            case 1385 -> new Object[]{Carrier.MISCELLENIA, true};
+            case 413 -> new Object[]{Carrier.PIRATES_COVE, false};
+            case 4537 -> new Object[]{Carrier.PIRATES_COVE, true};
+            case 407 -> new Object[]{Carrier.LUNAR_ISLE, false};
+            case 408 -> new Object[]{Carrier.LUNAR_ISLE, true};
+            case 2435 -> new Object[]{Carrier.WATERBIRTH, false};
+            case 2438 -> new Object[]{Carrier.WATERBIRTH, true};
+            case 3160 ->
+                    new Object[]{Carrier.TEACH_MOS_LE_HARMLESS, player.withinDistance(Tile.of(3714, 3499, 1)) ? false : true};
+            default -> null;
+        };
+    }
 }

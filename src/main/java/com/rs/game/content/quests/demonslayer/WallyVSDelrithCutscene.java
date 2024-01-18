@@ -60,13 +60,13 @@ public class WallyVSDelrithCutscene extends Cutscene {
 				, true);
 		fadeIn(0);
 		delay(4);
-		action(()->{player.getAppearance().setHidden(false);});
-		action(()->{player.tele(getEndTile());});
+		action(()-> player.getAppearance().setHidden(false));
+		action(()-> player.tele(getEndTile()));
 		camShakeReset();
 		delay(1);
 		fadeOut(0);
 		music(125);
-		action(()->{player.getTempAttribs().setB("DemonSlayerCutscenePlayed", true);});
+		action(()-> player.getTempAttribs().setB("DemonSlayerCutscenePlayed", true));
 		dialogue(new GypsyArisDemonSlayerD(player, 1).getStart(), false);
 	}
 }

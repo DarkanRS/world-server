@@ -158,14 +158,12 @@ public class MagicalWheat {
                 case 2 -> e.getPlayer().sendMessage("You push through the wheat.");
                 case 4 -> e.getPlayer().sendMessage("You push through the wheat. It's hard work, though.");
             }
-            WorldTasks.schedule(0, () -> {
-                e.getPlayer().forceMove(finalTile, (6573 + speed / 2), 0, finalSpeed * 30, () -> {
-                    if (e.getPlayer().getO("ppStrengthEnabled") == null)
-                        e.getPlayer().save("ppStrengthEnabled", true);
-                    if (e.getPlayer().getBool("ppStrengthEnabled"))
-                        e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4 - speed);
-                });
-            });
+            WorldTasks.schedule(0, () -> e.getPlayer().forceMove(finalTile, (6573 + speed / 2), 0, finalSpeed * 30, () -> {
+                if (e.getPlayer().getO("ppStrengthEnabled") == null)
+                    e.getPlayer().save("ppStrengthEnabled", true);
+                if (e.getPlayer().getBool("ppStrengthEnabled"))
+                    e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4 - speed);
+            }));
         }
     });
 }

@@ -5,7 +5,7 @@ import com.rs.game.map.instance.Instance;
 import java.util.function.Consumer;
 
 public abstract class InstancedController extends Controller {
-    private Instance instance;
+    private final Instance instance;
 
     public InstancedController(Instance instance) {
         this.instance = instance;

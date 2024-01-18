@@ -35,9 +35,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Piscatoris {
 
-	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> {
-		Doors.handleDoubleDoors.getHandler().accept(e);
-	});
+	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> Doors.handleDoubleDoors.getHandler().accept(e));
 
 	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(new Object[] { 3824 }, e -> {
 		if (e.getOption().equalsIgnoreCase("Talk-to"))

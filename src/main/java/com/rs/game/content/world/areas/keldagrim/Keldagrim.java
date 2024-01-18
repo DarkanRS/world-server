@@ -33,9 +33,7 @@ public class Keldagrim {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Can I help you at all?");
-					addNext(() -> {
-						ShopsHandler.openShop(e.getPlayer(), "keldagrim_crossbow_shop");
-					});
+					addNext(() -> ShopsHandler.openShop(e.getPlayer(), "keldagrim_crossbow_shop"));
 					create();
 				}
 			});
@@ -49,9 +47,7 @@ public class Keldagrim {
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
 				{
 					addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Can I help you at all?");
-					addNext(() -> {
-						ShopsHandler.openShop(e.getPlayer(), "carefree_crafting_stall");
-					});
+					addNext(() -> ShopsHandler.openShop(e.getPlayer(), "carefree_crafting_stall"));
 					create();
 				}
 			});
@@ -59,24 +55,14 @@ public class Keldagrim {
 			ShopsHandler.openShop(e.getPlayer(), "carefree_crafting_stall");
 	});
 
-	public static ObjectClickHandler handleRellekkaEntrance = new ObjectClickHandler(new Object[] { 5973 }, e -> {
-		e.getPlayer().tele(Tile.of(2838, 10124, 0));
-	});
+	public static ObjectClickHandler handleRellekkaEntrance = new ObjectClickHandler(new Object[] { 5973 }, e -> e.getPlayer().tele(Tile.of(2838, 10124, 0)));
 
-	public static ObjectClickHandler handleRellekkaExit = new ObjectClickHandler(new Object[] { 5998 }, e -> {
-		e.getPlayer().tele(Tile.of(2780, 10161, 0));
-	});
+	public static ObjectClickHandler handleRellekkaExit = new ObjectClickHandler(new Object[] { 5998 }, e -> e.getPlayer().tele(Tile.of(2780, 10161, 0)));
 
-	public static ObjectClickHandler handleChaosDwarfBattlefieldEnter = new ObjectClickHandler(new Object[] { 45060 }, e -> {
-		e.getPlayer().tele(Tile.of(1520, 4704, 0));
-	});
+	public static ObjectClickHandler handleChaosDwarfBattlefieldEnter = new ObjectClickHandler(new Object[] { 45060 }, e -> e.getPlayer().tele(Tile.of(1520, 4704, 0)));
 
-	public static ObjectClickHandler handleChaosDwarfBattlefieldExit = new ObjectClickHandler(new Object[] { 45008 }, e -> {
-		e.getPlayer().tele(Tile.of(2817, 10155, 0));
-	});
+	public static ObjectClickHandler handleChaosDwarfBattlefieldExit = new ObjectClickHandler(new Object[] { 45008 }, e -> e.getPlayer().tele(Tile.of(2817, 10155, 0)));
 
-	public static ObjectClickHandler handleBlastFurnaceEntrances = new ObjectClickHandler(new Object[] { 9084, 9138 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 9084 ? Tile.of(1939, 4958, 0) : Tile.of(2931, 10196, 0));
-	});
+	public static ObjectClickHandler handleBlastFurnaceEntrances = new ObjectClickHandler(new Object[] { 9084, 9138 }, e -> e.getPlayer().useStairs(e.getObjectId() == 9084 ? Tile.of(1939, 4958, 0) : Tile.of(2931, 10196, 0)));
 
 }

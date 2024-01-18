@@ -75,7 +75,7 @@ public abstract class Entity {
 		RUN(2),
 		TELE(127);
 
-		private int id;
+		private final int id;
 
 		MoveType(int id) {
 			this.id = id;
@@ -88,7 +88,7 @@ public abstract class Entity {
 
 	// transient stuff
 	private transient int index;
-	private String uuid;
+	private final String uuid;
 	private transient int sceneBaseChunkId;
 	private transient int lastChunkId;
 	private transient boolean forceUpdateEntityRegion;
@@ -148,7 +148,7 @@ public abstract class Entity {
 	private RegionSize regionSize;
 
 	protected MoveType moveType = MoveType.WALK;
-	private Poison poison;
+	private final Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
 	private transient TaskManager tasks = new TaskManager();
 
@@ -265,8 +265,7 @@ public abstract class Entity {
 			if (getX() > other.getX())
 				return true;
 		if (other.getFaceAngle() <= 14336 && other.getFaceAngle() >= 10240)
-			if (getX() < other.getX())
-				return true;
+            return getX() < other.getX();
 		return false;
 	}
 
@@ -421,7 +420,7 @@ public abstract class Entity {
 		if (user instanceof Player p)
 			p.incrementCount("Health soulsplitted back", hit.getDamage() / 5);
 		if (this instanceof Player p)
-			p.getPrayer().drainPrayer(hit.getDamage() / 5);
+			p.getPrayer().drainPrayer((double) hit.getDamage() / 5);
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
@@ -784,9 +783,7 @@ public abstract class Entity {
 
 	public WalkStep previewNextWalkStep() {
 		WalkStep step = walkSteps.peek();
-		if (step == null)
-			return null;
-		return step;
+        return step;
 	}
 
 	public void moveLocation(int xOffset, int yOffset, int planeOffset) {
@@ -799,7 +796,7 @@ public abstract class Entity {
 	}
 
 	public boolean needMapUpdate(Tile tile) {
-		int baseChunk[] = MapUtils.decode(Structure.CHUNK, sceneBaseChunkId);
+		int[] baseChunk = MapUtils.decode(Structure.CHUNK, sceneBaseChunkId);
 		// chunks length - offset. if within 16 tiles of border it updates map
 		int limit = getMapSize().size / 8 - 2;
 
@@ -822,8 +819,8 @@ public abstract class Entity {
 		return false;
 	}
 
-	private static Set<Object> LOS_NPC_OVERRIDES = new HashSet<>();
-	private static List<TriFunction<Entity, Object, Boolean, Boolean>> LOS_FUNCTION_OVERRIDES = new ArrayList<>();
+	private static final Set<Object> LOS_NPC_OVERRIDES = new HashSet<>();
+	private static final List<TriFunction<Entity, Object, Boolean, Boolean>> LOS_FUNCTION_OVERRIDES = new ArrayList<>();
 
 	public static void addLOSOverride(int npcId) {
 		LOS_NPC_OVERRIDES.add(npcId);
@@ -874,7 +871,7 @@ public abstract class Entity {
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
 			if (func.apply(this, target, melee))
 				return true;
-		if (melee && !(target instanceof Entity e ? e.ignoreWallsWhenMeleeing() : false))
+		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing()))
 			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
 		return World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
 	}
@@ -953,9 +950,7 @@ public abstract class Entity {
 
 	private WalkStep getNextWalkStep() {
 		WalkStep step = walkSteps.poll();
-		if (step == null)
-			return null;
-		return step;
+        return step;
 	}
 
 	public boolean restoreHitPoints() {
@@ -1372,7 +1367,7 @@ public abstract class Entity {
 	}
 
 	public void checkMultiArea() {
-		multiArea = forceMultiArea ? true : World.isMultiArea(this.getTile());
+		multiArea = forceMultiArea || World.isMultiArea(this.getTile());
 	}
 
 	public boolean isAtMultiArea() {
@@ -1934,8 +1929,7 @@ public abstract class Entity {
 		} else if (this instanceof NPC n) {
 			if (inCombat() && getAttackedBy() != target)
 				return false;
-			if (target.inCombat() && target.getAttackedBy() != this)
-				return false;
+            return !target.inCombat() || target.getAttackedBy() == this;
 		}
 		return true;
 	}
@@ -1975,8 +1969,7 @@ public abstract class Entity {
 
 	public boolean canLowerStat(int skillId, double perc, double maxDrain) {
 		if (this instanceof Player player) {
-			if (player.getSkills().getLevel(skillId) < (player.getSkills().getLevelForXp(skillId) * maxDrain))
-				return false;
+            return !(player.getSkills().getLevel(skillId) < (player.getSkills().getLevelForXp(skillId) * maxDrain));
 		} else if (this instanceof NPC npc) {
 			for (int skill : Skills.SKILLING)
 				if (skillId == skill)

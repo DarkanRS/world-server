@@ -28,9 +28,7 @@ public class Freda extends Conversation {
 		super(player);
 
 		addNext(new PlayerStatement(HeadE.NO_EXPRESSION, "Can I buy some climbing boots?"));
-		addNext(new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "I don't see why not. Let me see what I've got in your size."), () -> {
-			ShopsHandler.openShop(player, "fredas_boots");
-		}));
+		addNext(new Dialogue(new NPCStatement(npcId, HeadE.CHEERFUL, "I don't see why not. Let me see what I've got in your size."), () -> ShopsHandler.openShop(player, "fredas_boots")));
 
 		create();
 	}

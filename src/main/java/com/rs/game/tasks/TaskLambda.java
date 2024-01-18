@@ -18,7 +18,7 @@ package com.rs.game.tasks;
 
 public class TaskLambda extends Task {
 
-	private Runnable task;
+	private final Runnable task;
 	private String stack;
 
 	public TaskLambda(Runnable task) {

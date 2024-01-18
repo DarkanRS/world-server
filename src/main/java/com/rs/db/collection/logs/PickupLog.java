@@ -9,12 +9,12 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class PickupLog {
-	private String uuid;
-	private String player;
-	private String itemName;
-	private Item item;
-	private Tile tile;
-	private String owner;
+	private final String uuid;
+	private final String player;
+	private final String itemName;
+	private final Item item;
+	private final Tile tile;
+	private final String owner;
 
 	public PickupLog(Player player, GroundItem item) {
 		this.player = player.getUsername();
