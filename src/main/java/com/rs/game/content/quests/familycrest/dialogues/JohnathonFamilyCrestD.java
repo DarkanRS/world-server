@@ -84,7 +84,7 @@ public class JohnathonFamilyCrestD extends Conversation {
 
 	public JohnathonFamilyCrestD(Player p, int id) {
 		super(p);
-        int SECOND = 1;
+        final int SECOND = 1;
         switch(id) {
 		case DEMON_INQUIRY -> addOptions("Choose an option:", new Options() {
             @Override

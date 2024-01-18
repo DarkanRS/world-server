@@ -162,6 +162,7 @@ public final class CombatDefinitions {
                 case STORM_OF_ARMADYL -> 145;
                 default -> 0;
             };
+        return 0;
     }
 
 	public CombatDefinitions() {

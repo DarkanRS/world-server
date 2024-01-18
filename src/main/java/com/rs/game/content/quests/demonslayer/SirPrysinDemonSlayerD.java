@@ -97,7 +97,7 @@ public class SirPrysinDemonSlayerD extends Conversation {
 		super(player);
 		this.player = player;
 
-        int KEY_OPTIONS = 3;
+        final int KEY_OPTIONS = 3;
         switch(convoID) {
 		case ASK_ABOUT_SILVERLIGHT:
 			askAboutSilverlight(player);
