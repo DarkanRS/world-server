@@ -9,6 +9,7 @@ import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.annotations.ServerStartupEvent.Priority;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,10 @@ public class ItemConfig {
 	private String uidName;
 	private int dropSound;
 	private int equipSound;
+	private Int2IntMap attackAnims;
+	private Int2IntMap attackSounds;
+	private int defendAnim;
+	private int defendSound;
 	private double weight;
 	private String examine;
 	
@@ -50,6 +55,27 @@ public class ItemConfig {
 
 	public int getEquipSound() {
 		return equipSound <= 0 ? 2240 : equipSound;
+	}
+
+	/**
+	 * TODO
+	 *
+	 */
+
+	public int getAttackSound(int attackStyleIndex) {
+		return attackSounds == null ? -1 : attackSounds.getOrDefault(attackStyleIndex, attackSounds.get(0));
+	}
+
+	public int getDefendSound() {
+		return defendSound <= 0 ? 2240 : defendSound;
+	}
+
+	public int getAttackAnim(int attackStyleIndex) {
+		return attackAnims == null ? 422 : attackAnims.getOrDefault(attackStyleIndex, attackAnims.get(0));
+	}
+
+	public int getDefendAnim() {
+		return defendAnim;
 	}
 
 	public double getWeight(boolean equipped) {
