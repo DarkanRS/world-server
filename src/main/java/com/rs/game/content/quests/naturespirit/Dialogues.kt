@@ -417,7 +417,7 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                         player.inventory.addItem(2963, 1)
                     }
                 }
-                simple("~ Your sickle has been blessed! sickle, you can bless ~<br>~ a new sickle by dipping it in the grotto waters. ~")
+                simple("~ Your sickle has been blessed! You can bless ~<br>~ a new sickle by dipping it in the grotto waters. ~")
                 npc(NATURE_SPIRIT, CHEERFUL, "Now you can go forth and make the swamp bloom. Collect nature's bounty to fill a druids pouch. So armed will the Ghasts be bound to you until, you flee or they are defeated.")
                 npc(NATURE_SPIRIT, CHEERFUL, "Before I can make this grotto into an Altar of Nature, I need to be sure that the Ghasts will be kept at bay. Go forth into Mort Myre and slay three Ghasts. You'll be releasing their souls from Mort Myre.")
                 item(2957, "The nature spirit gives you an empty druid pouch.") { player.inventory.addItem(2957) }
