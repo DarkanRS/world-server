@@ -43,27 +43,27 @@ public final class Settings {
 		return SETTINGS;
 	}
 
-	private final String serverName;
-	private final String ownerName;
-	private final String cachePath;
+	private String serverName;
+	private String ownerName;
+	private String cachePath;
 	private boolean debug = false;
 	private boolean enableJFR = false;
 	private final boolean allowHighMemUseOptimizations;
-	private final String mongoUrl;
-	private final int mongoPort;
-	private final String mongoUser;
-	private final String mongoPass;
-	private final String mongoDbName;
-	private final String lobbyIp;
-	private final String lobbyApiKey;
-	private final WorldInfo worldInfo;
+	private String mongoUrl;
+	private int mongoPort;
+	private String mongoUser;
+	private String mongoPass;
+	private String mongoDbName;
+	private String lobbyIp;
+	private String lobbyApiKey;
+	private WorldInfo worldInfo;
 	private String loginMessage;
-	private final Tile playerStartTile;
-	private final Tile playerRespawnTile;
-	private final int xpRate;
-	private final double dropModifier;
-	private final Item[] startItems;
-	private final String staffWebhookUrl;
+	private Tile playerStartTile;
+	private Tile playerRespawnTile;
+	private int xpRate;
+	private double dropModifier;
+	private Item[] startItems;
+	private String staffWebhookUrl;
 
 	public Settings() {
 		serverName = "Darkan";

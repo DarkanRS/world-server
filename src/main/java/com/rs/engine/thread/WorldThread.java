@@ -277,7 +277,8 @@ public final class WorldThread extends Thread {
 
 					if (Settings.getConfig().isEnableJFR()) {
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						try (InputStream is = tickRecording.getStream(null, null)) {
+                        assert tickRecording != null;
+                        try (InputStream is = tickRecording.getStream(null, null)) {
 							byte[] buffer = new byte[1024];
 							int len;
 							while ((len = is.read(buffer)) > -1) {
