@@ -321,7 +321,7 @@ fun fillimanDialogue(player: Player, npc: NPC) {
             player(CONFUSED, "Hello, I've been blessed but I don't know what to do now.")
             npc(FILLIMAN, CALM_TALK, "Well, you need to bring 'something from nature', 'something from faith', and 'something of the spirit-to-become freely given'.")
             player(CONFUSED, "Yeah, but what does that mean?")
-            npc(FILLIMAN, CONFUSED, "Hmm, it is a conundrum, however, if you use that spell I gave you, you should be able to get from nature. Once you have that, we may be puzzle the rest out.")
+            npc(FILLIMAN, CONFUSED, "Hmm, it is a conundrum, however, if you use that spell I gave you, you should be able to get from nature. Once you have that, we may be able to puzzle the rest out.")
             if (!player.containsItem(2968)) {
                 player(CONFUSED, "Could I have another bloom scroll please?")
                 npc(FILLIMAN, CALM_TALK, "Sure, but please look after this one.")
