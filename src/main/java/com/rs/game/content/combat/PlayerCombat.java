@@ -47,6 +47,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemClickHandler;
+import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
 
 import java.util.ArrayList;
@@ -211,8 +212,8 @@ public class PlayerCombat extends PlayerAction {
 		target.setAttackedByDelay(System.currentTimeMillis() + 8000); // 8seconds
 	}
 
-	public static int getRangeCombatDelay(RangedWeapon weapon, AttackStyle attackStyle) {
-		int delay = weapon.getAttackDelay();
+	public static int getRangeCombatDelay(int weaponId, AttackStyle attackStyle) {
+		int delay = ItemConfig.get(weaponId).getAttackDelay();
 		if (attackStyle.getAttackType() == AttackType.RAPID)
 			delay--;
 		else if (attackStyle.getAttackType() == AttackType.LONG_RANGE)
@@ -399,23 +400,24 @@ public class PlayerCombat extends PlayerAction {
 		RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
 		if (weapon == null)
 			return 4;
-		return getRangeCombatDelay(weapon, player.getCombatDefinitions().getAttackStyle());
+		return getRangeCombatDelay(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle());
 	}
 
 	private int rangeAttack(final Player player) {
 		final int weaponId = player.getEquipment().getWeaponId();
 		final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
-		int soundId = getSoundId(weaponId, attackStyle);
+		ItemConfig weaponConfig = ItemConfig.get(weaponId);
+		int soundId = weaponConfig.getAttackSound(attackStyle.getIndex());
 		RangedWeapon weapon = RangedWeapon.forId(weaponId);
 		AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
-		int combatDelay = getRangeCombatDelay(weapon, attackStyle);
+		int combatDelay = getRangeCombatDelay(weaponId, attackStyle);
 
 		if (player.getCombatDefinitions().isUsingSpecialAttack())
 			return SpecialAttacks.execute(Type.RANGE, player, target);
-		WorldProjectile p = weapon.getProjectile(player, target);
+		WorldProjectile p = weapon.getProjectile(player, target, combatDelay);
 		switch (weapon) {
 			case DEATHTOUCHED_DART -> {
-				player.setNextAnimation(weapon.getAttackAnimation());
+				player.anim(weaponConfig.getAttackAnim(0));
 				target.setNextSpotAnim(new SpotAnim(44));
 				target.resetWalkSteps();
 				if (target instanceof NPC npc) {
@@ -613,7 +615,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 			}
 		}
-		player.setNextAnimation(weapon.getAttackAnimation());
+		player.anim(weaponConfig.getAttackAnim(attackStyle.getIndex()));
 		SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 		if (attackSpotAnim != null)
 			player.setNextSpotAnim(attackSpotAnim);
@@ -708,8 +710,9 @@ public class PlayerCombat extends PlayerAction {
 		}
 		int weaponId = player.getEquipment().getWeaponId();
 		AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
+		ItemConfig weaponConfig = ItemConfig.get(weaponId);
 		int combatDelay = getMeleeCombatDelay(player, weaponId);
-		int soundId = getSoundId(weaponId, attackStyle);
+		int soundId = weaponConfig.getAttackSound(attackStyle.getIndex());
 		if (weaponId == -1) {
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
 			if (gloves != null && gloves.getDefinitions().getName().contains("Goliath gloves"))
@@ -1253,21 +1256,6 @@ public class PlayerCombat extends PlayerAction {
 		checkPoison(player, target, weaponId, hit);
 	}
 
-	public static int getSoundId(int weaponId, AttackStyle attackStyle) {
-		if (weaponId != -1) {
-			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-			if (weaponName.contains("dart") || weaponName.contains("blisterwood stake") || weaponName.contains("knife"))
-				return 2707;
-			if (weaponName.contains("crossbow"))
-				return (Utils.randomInclusive(0, 1) == 1 ? 2695 : 2696);
-			if (weaponName.contains("longbow"))
-				return (Utils.randomInclusive(0, 1) == 1 ? 2699 : 2700);
-			if (weaponName.contains("shortbow"))
-				return (Utils.randomInclusive(0, 1) == 1 ? 2693 : 2699);
-		}
-		return -1;
-	}
-
 	public static void checkPoison(Player player, Entity target, int weaponId, Hit hit) {
 		if (hit.getLook() == HitLook.RANGE_DAMAGE || hit.getLook() == HitLook.MELEE_DAMAGE)
 			if (hit.getDamage() > 0)
@@ -1407,201 +1395,17 @@ public class PlayerCombat extends PlayerAction {
 	}
 
 	public static int getWeaponAttackEmote(int weaponId, AttackStyle attackStyle) {
-		if (weaponId != -1) {
-			if (weaponId == -2) {
-                if (attackStyle.getIndex() == 1) {
-                    return 14307;
-                }
-                return 14393;
-            }
-			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-			if (!weaponName.equals("null")) {
-				if (weaponName.contains("boxing gloves"))
-					return 3678;
-				if (weaponName.contains("staff of light"))
-					switch (attackStyle.getIndex()) {
-						case 0:
-							return 15072;
-						case 1:
-							return 15071;
-						case 2:
-							return 414;
-					}
-				if (weaponName.contains("battleaxe"))
-					return 395;
-				if (weaponName.contains("mindspike") || weaponName.contains("staff") || weaponName.contains("wand"))
-					return 419;
-				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword") || weaponName.contains("brine sabre"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 15072;
-                    } else {
-                        return 15071;
-                    }
-				if (weaponName.contains("granite mace"))
-					return 400;
-				if (weaponName.contains("mace") || weaponName.contains("annihilation"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 400;
-                    } else {
-                        return 401;
-                    }
-				if (weaponName.contains("hatchet"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 401;
-                    } else {
-                        return 395;
-                    }
-				if (weaponName.contains("warhammer"))
-                    return switch (attackStyle.getIndex()) {
-                        default -> 401;
-                    };
-				if (weaponName.contains("claws"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 1067;
-                    } else {
-                        return 393;
-                    }
-				if (weaponName.contains("whip"))
-                    return switch (attackStyle.getIndex()) {
-                        case 1 -> 11969;
-                        case 2 -> 11970;
-                        default -> 11968;
-                    };
-				if (weaponName.contains("anchor"))
-                    return switch (attackStyle.getIndex()) {
-                        default -> 5865;
-                    };
-				if (weaponName.contains("tzhaar-ket-em"))
-                    return switch (attackStyle.getIndex()) {
-                        default -> 401;
-                    };
-				if (weaponName.contains("tzhaar-ket-om"))
-                    return switch (attackStyle.getIndex()) {
-                        default -> 13691;
-                    };
-				if (weaponName.contains("halberd") || weaponName.contains("blisterwood polearm") || weaponName.contains("hasta"))
-                    if (attackStyle.getIndex() == 1) {
-                        return 440;
-                    } else {
-                        return 428;
-                    }
-				if (weaponName.contains("zamorakian spear"))
-                    return switch (attackStyle.getIndex()) {
-                        case 1 -> 12005;
-                        case 2 -> 12009;
-                        default -> 12006;
-                    };
-				if (weaponName.contains("spear"))
-                    return switch (attackStyle.getIndex()) {
-                        case 1 -> 440;
-                        case 2 -> 429;
-                        default -> 428;
-                    };
-				if (weaponName.contains("flail"))
-					return 2062;
-				if (weaponName.contains("pickaxe"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 400;
-                    } else {
-                        return 401;
-                    }
-				if (weaponName.contains("dragon dagger"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 377;
-                    } else {
-                        return 376;
-                    }
-				if (weaponName.contains("dagger") || weaponName.contains("wolfbane"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 390;
-                    } else {
-                        return 400;
-                    }
-				if (weaponName.contains("2h sword") || weaponName.equals("dominion sword") || weaponName.equals("thok's sword") || weaponName.contains("saradomin sword") || weaponName.contains("keenblade"))
-                    return switch (attackStyle.getIndex()) {
-                        case 2 -> 7048;
-                        case 3 -> 7049;
-                        default -> 7041;
-                    };
-				if (weaponName.contains(" sword"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 12311;
-                    } else {
-                        return 12310;
-                    }
-				if (weaponName.contains("saber") || weaponName.contains("longsword") || weaponName.contains("light") || weaponName.contains("excalibur"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 12310;
-                    } else {
-                        return 12311;
-                    }
-				if (weaponName.contains("rapier") || weaponName.contains("brackish"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 13048;
-                    } else {
-                        return 13049;
-                    }
-				if (weaponName.contains("katana"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 1882;
-                    } else {
-                        return 1884;
-                    }
-				if (weaponName.contains("godsword"))
-                    return switch (attackStyle.getIndex()) {
-                        case 2 -> 11980;
-                        case 3 -> 11981;
-                        default -> 11979;
-                    };
-				if (weaponName.contains("greataxe") || weaponName.contains("balmung"))
-                    if (attackStyle.getIndex() == 2) {
-                        return 12003;
-                    } else {
-                        return 12002;
-                    }
-				if (weaponName.contains("granite maul"))
-                    return switch (attackStyle.getIndex()) {
-                        default -> 1665;
-                    };
-
-				if (weaponName.contains(" maul"))
-					return 2661;
-
-			}
-		}
-        if (attackStyle.getIndex() == 1) {
-            return 423;
-        }
-        return 422; // todo default emote
+		if (weaponId == -1)
+			return attackStyle.getIndex() == 1 ? 423 : 422;
+		if (weaponId == -2)
+			return attackStyle.getIndex() == 1 ? 14307 : 14393;
+		return ItemConfig.get(weaponId).getAttackAnim(attackStyle.getIndex());
     }
 
 	public static int getMeleeCombatDelay(Player player, int weaponId) {
-		if (weaponId != -1) {
-			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-
-			// Interval 2.4
-			if (weaponName.equals("zamorakian spear") || weaponName.equals("korasi's sword") || weaponName.contains("saradomin sword") || weaponName.contains("keenblade"))
-				return 3;
-			// Interval 3.6
-			if (weaponName.contains("godsword") || weaponName.contains("warhammer") || weaponName.contains("battleaxe") || weaponName.contains("maul") || weaponName.equals("dominion sword"))
-				return 5;
-			// Interval 4.2
-			if (weaponName.contains("greataxe") || weaponName.contains("halberd") || weaponName.contains("2h sword") || weaponName.contains("two handed sword") || weaponName.contains("katana") || weaponName.equals("thok's sword"))
-				return 6;
-			// Interval 3.0
-			if (weaponName.contains("spear") || weaponName.contains(" sword") || weaponName.contains("longsword") || weaponName.contains("light") || weaponName.contains("hatchet") || weaponName.contains("pickaxe") || weaponName.contains("mace")
-					|| weaponName.contains("hasta") || weaponName.contains("warspear") || weaponName.contains("flail") || weaponName.contains("hammers"))
-				return 4;
-		}
-        return switch (weaponId) {
-            case 6527 ->// tzhaar-ket-em
-                    4;
-            case 10887 ->// barrelchest anchor
-                    5;// balmung
-            case 15403, 6528 ->// tzhaar-ket-om
-                    6;
-            default -> 3;
-        };
+		if (weaponId != -1)
+			return ItemConfig.get(weaponId).getAttackDelay();
+		return 3;
 	}
 
 	@Override
@@ -1655,48 +1459,12 @@ public class PlayerCombat extends PlayerAction {
 		if (player.getCombatDefinitions().getSpell() != null)
 			return 10;
 		if (isRanging(player)) {
-			int atkRange = 8;
-			String weaponName = player.getEquipment().getWeaponName().toLowerCase();
-			if (weaponName.contains("swamp lizard") || weaponName.contains("salamander"))
-				return 1;
-			if (weaponName.contains(" dart") || weaponName.contains("blisterwood stake"))
-				atkRange = 3;
-			else if (weaponName.contains(" knife"))
-				atkRange = 4;
-			else if (weaponName.contains(" thrownaxe"))
-				atkRange = 4;
-			else if (weaponName.contains(" comp ogre bow"))
-				atkRange = 5;
-			else if (weaponName.contains("dorgeshuun c'bow"))
-				atkRange = 6;
-			else if (weaponName.contains(" crossbow"))
-				atkRange = 7;
-			else if (weaponName.contains(" shortbow"))
-				atkRange = 7;
-			else if (weaponName.contains(" karil"))
-				atkRange = 8;
-			else if (weaponName.contains("seercull"))
-				atkRange = 8;
-			else if (weaponName.contains(" longbow"))
-				atkRange = 9;
-			else if (weaponName.contains("chinchompa"))
-				atkRange = 9;
-			else if (weaponName.contains("ogre bow"))
-				atkRange = 10;
-			else if (weaponName.contains("composite bow"))
-				atkRange = 10;
-			else if (weaponName.contains("crystal bow"))
-				atkRange = 10;
-			else if (weaponName.contains("dark bow"))
-				atkRange = 10;
-
+			int atkRange = ItemConfig.get(player.getEquipment().getWeaponId()).getAttackRange();
 			if (player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE)
 				atkRange += 2;
 			return Utils.clampI(atkRange, 0, 10);
 		}
-		if (player.getEquipment().getWeaponId() != -1 && ItemDefinitions.getDefs(player.getEquipment().getWeaponId()).name.contains("halberd"))
-			return 1;
-		return 0;
+		return ItemConfig.get(player.getEquipment().getWeaponId()).getAttackRange();
 	}
 
 	private boolean isAttackExeption(Player player, NPC n) {
@@ -1736,70 +1504,17 @@ public class PlayerCombat extends PlayerAction {
 		if (target instanceof NPC n)
 			return n.getCombatDefinitions().getDefenceEmote();
 		Player p = (Player) target;
-		int shieldId = p.getEquipment().getShieldId();
-		String shieldName = shieldId == -1 ? null : ItemDefinitions.getDefs(shieldId).getName().toLowerCase();
-		if (shieldId == -1 || (shieldName.contains("book") && shieldId != 18346)) {
-			int weaponId = p.getEquipment().getWeaponId();
-			if (weaponId == -1)
-				return 424;
-			String weaponName = ItemDefinitions.getDefs(weaponId).getName().toLowerCase();
-			if (weaponName != null && !weaponName.equals("null")) {
-				if (weaponName.contains("boxing gloves"))
-					return 3679;
-				if (weaponName.contains("scimitar") || weaponName.contains("korasi's sword"))
-					return 15074;
-				if (weaponName.contains("whip"))
-					return 11974;
-				if (weaponName.contains("staff of light"))
-					return 12806;
-				if (weaponName.contains("longsword") || weaponName.contains("darklight") || weaponName.contains("silverlight") || weaponName.contains("excalibur"))
-					return 388;
-				if (weaponName.contains("dagger"))
-					return 378;
-				if (weaponName.contains("rapier"))
-					return 13038;
-				if (weaponName.contains("pickaxe"))
-					return 397;
-				if (weaponName.contains("mace"))
-					return 403;
-				if (weaponName.contains("dragon claws"))
-					return 13043;
-				if (weaponName.contains("claws"))
-					return 403;
-				if (weaponName.contains("hatchet"))
-					return 397;
-				if (weaponName.contains("greataxe"))
-					return 12004;
-				if (weaponName.contains("wand"))
-					return 415;
-				if (weaponName.contains("chaotic staff"))
-					return 13046;
-				if (weaponName.contains("mindspike") || weaponName.contains("staff"))
-					return 420;
-				if (weaponName.contains("warhammer") || weaponName.contains("tzhaar-ket-em"))
-					return 403;
-				if (weaponName.contains("chaotic maul") || weaponName.contains("novite maul") || weaponName.contains("bathus maul") || weaponName.contains("marmaros maul") || weaponName.contains("kratonite maul") || weaponName.contains("fractite maul") || weaponName.contains("zephyrium maul") || weaponName.contains("argonite maul") || weaponName.contains("katagon maul") || weaponName.contains("gorgonite maul") || weaponName.contains("promethium maul") || weaponName.contains("primal maul"))
-					return 13054;
-				if (weaponName.contains("maul") || weaponName.contains("tzhaar-ket-om"))
-					return 1666;
-				if (weaponName.contains("zamorakian spear"))
-					return 12008;
-				if (weaponName.contains("spear") || weaponName.contains("halberd") || weaponName.contains("hasta"))
-					return 430;
-				if (weaponName.contains("2h sword") || weaponName.contains("godsword") || weaponName.equals("saradomin sword"))
-					return 7050;
-			}
-			return 424;
+		ItemConfig shieldConfig = ItemConfig.get(p.getEquipment().getShieldId());
+		if (shieldConfig != null) {
+			if (shieldConfig.getDefendAnim() > 0)
+				return shieldConfig.getDefendAnim();
 		}
-		if (shieldName != null) {
-			if (shieldName.contains("shield") || shieldName.contains("-ket-xil"))
-				return 1156;
-			if (shieldName.contains("defender"))
-				return 4177;
+		ItemConfig weaponConfig = ItemConfig.get(p.getEquipment().getWeaponId());
+		if (weaponConfig != null) {
+			if (weaponConfig.getDefendAnim() > 0)
+				return weaponConfig.getDefendAnim();
 		}
-        return switch (shieldId) {
-            default -> 424;
-        };
+		return 424;
 	}
 
 	public static int getSlayerLevelForNPC(int id) {

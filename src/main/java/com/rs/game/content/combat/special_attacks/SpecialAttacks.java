@@ -24,6 +24,7 @@ import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.utils.ItemConfig;
 import com.rs.utils.Ticks;
 
 import java.util.Arrays;
@@ -228,7 +229,7 @@ public class SpecialAttacks {
         }));
 
         addSpec(RangedWeapon.DORGESHUUN_CBOW.getIds(), new SpecialAttack(Type.RANGE, 75, (player, target) -> {
-            player.setNextAnimation(RangedWeapon.DORGESHUUN_CBOW.getAttackAnimation());
+            player.anim(ItemConfig.get(RangedWeapon.DORGESHUUN_CBOW.getIds()[0]).getAttackAnim(0));
             SpotAnim attackSpotAnim = RangedWeapon.DORGESHUUN_CBOW.getAttackSpotAnim(player, AmmoType.forId(player.getEquipment().getAmmoId()));
             if (attackSpotAnim != null)
                 player.setNextSpotAnim(attackSpotAnim);
@@ -244,7 +245,7 @@ public class SpecialAttacks {
 
         addSpec(RangedWeapon.DARK_BOW.getIds(), new SpecialAttack(Type.RANGE, 65, (player, target) -> {
             int ammoId = player.getEquipment().getAmmoId();
-            player.setNextAnimation(RangedWeapon.DARK_BOW.getAttackAnimation());
+            player.anim(ItemConfig.get(RangedWeapon.DARK_BOW.getIds()[0]).getAttackAnim(0));
             SpotAnim attackSpotAnim = RangedWeapon.DARK_BOW.getAttackSpotAnim(player, AmmoType.forId(player.getEquipment().getAmmoId()));
             if (attackSpotAnim != null)
                 player.setNextSpotAnim(attackSpotAnim);
@@ -278,7 +279,7 @@ public class SpecialAttacks {
         }));
 
         addSpec(RangedWeapon.ZANIKS_CROSSBOW.getIds(), new SpecialAttack(Type.RANGE, 50, (player, target) -> {
-            player.setNextAnimation(RangedWeapon.ZANIKS_CROSSBOW.getAttackAnimation());
+            player.anim(ItemConfig.get(RangedWeapon.ZANIKS_CROSSBOW.getIds()[0]).getAttackAnim(0));
             player.setNextSpotAnim(new SpotAnim(1714));
             WorldProjectile p = World.sendProjectile(player, target, 2001, 20, 50, 1.5);
             Hit hit = calculateHit(player, target, true, true, 1.0, 1.0);
@@ -329,7 +330,7 @@ public class SpecialAttacks {
 
         addSpec(RangedWeapon.SEERCULL.getIds(), new SpecialAttack(Type.RANGE, 100, (player, target) -> {
             Hit hit = calculateHit(player, target, true, true, 1.0, 1.0);
-            player.setNextAnimation(RangedWeapon.SEERCULL.getAttackAnimation());
+            player.anim(ItemConfig.get(RangedWeapon.SEERCULL.getIds()[0]).getAttackAnim(0));
             player.spotAnim(472, 0, 100);
             WorldProjectile p = World.sendProjectile(player, target, 473, 20, 50, 1.5, proj -> target.spotAnim(474));
             delayHit(target, p.getTaskDelay(), hit);
