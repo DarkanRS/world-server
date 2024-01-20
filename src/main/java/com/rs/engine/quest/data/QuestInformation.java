@@ -25,15 +25,15 @@ import java.util.Map;
 import java.util.Set;
 
 public class QuestInformation {
-	private int id;
-	private String name;
+	private final int id;
+	private final String name;
 	private int startNpc;
 	private Tile startLocation;
-	private Set<Quest> preReqs = new HashSet<>();
-	private Map<Integer, Integer> skillReqs = new HashMap<>();
-	private Map<Integer, Integer> preReqSkillReqs = new HashMap<>();
+	private final Set<Quest> preReqs = new HashSet<>();
+	private final Map<Integer, Integer> skillReqs = new HashMap<>();
+	private final Map<Integer, Integer> preReqSkillReqs = new HashMap<>();
 	private int qpReq;
-	private int slotId;
+	private final int slotId;
 	private boolean usesNewInterface;
 
 	public QuestInformation(int id, String name, int slotId) {

@@ -48,9 +48,7 @@ public class BoyWitchsHouseD extends Conversation {
 								@Override
 								public void create() {
 									option("Yes.", new Dialogue()
-											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll see what I can do.", () -> {
-												player.getQuestManager().setStage(Quest.WITCHS_HOUSE, FIND_BALL);
-											})
+											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll see what I can do.", () -> player.getQuestManager().setStage(Quest.WITCHS_HOUSE, FIND_BALL))
 											.addNPC(BOY, HeadE.CHILD_CALM_TALK, "Thanks mister!")
 											);
 									option("No.", new Dialogue());

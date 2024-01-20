@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 
 public class RuneWikiBonusDumper {
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
 		for (int itemId = 22067; itemId < Utils.getItemDefinitionsSize(); itemId++)
@@ -174,8 +174,6 @@ public class RuneWikiBonusDumper {
 				e.printStackTrace();
 			}
 			return true;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

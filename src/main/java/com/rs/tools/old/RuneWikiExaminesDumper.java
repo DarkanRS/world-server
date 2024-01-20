@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 
 public class RuneWikiExaminesDumper {
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
 		for (int itemId = 0; itemId < Utils.getItemDefinitionsSize(); itemId++)

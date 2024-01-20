@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 
 public class Option {
 
-	private Dialogue dialogue;
-	private Supplier<Boolean> constraint;
+	private final Dialogue dialogue;
+	private final Supplier<Boolean> constraint;
 
 	public Option(Supplier<Boolean> constraint, Dialogue dialogue) {
 		this.constraint = constraint;

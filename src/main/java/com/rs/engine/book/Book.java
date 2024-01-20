@@ -37,8 +37,8 @@ public abstract class Book {
 	private Player player;
 	private int page;
 
-	private String title;
-	private BookPage[] pages;
+	private final String title;
+	private final BookPage[] pages;
 
 	public Book(String title, BookPage... pages) {
 		this.title = title;
@@ -63,9 +63,7 @@ public abstract class Book {
 	public void open(Player player) {
 		this.player = player;
 		this.player.getTempAttribs().setO("currBook", this);
-		this.player.setCloseInterfacesEvent(() -> {
-			this.player.getTempAttribs().removeO("currBook");
-		});
+		this.player.setCloseInterfacesEvent(() -> this.player.getTempAttribs().removeO("currBook"));
 		player.getPackets().setIFText(INTERFACE, 69, title);
 		page = 0;
 		update();

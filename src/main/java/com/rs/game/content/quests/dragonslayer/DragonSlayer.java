@@ -196,13 +196,9 @@ public class DragonSlayer extends QuestOutline {
     }
 
 
-    public static ItemClickHandler handleClickOnCrandorMap = new ItemClickHandler(new Object[]{CRANDOR_MAP}, new String[]{"Study"}, e -> {
-        e.getPlayer().sendMessage("The map shows a sea path to Crandor...");
-    });
+    public static ItemClickHandler handleClickOnCrandorMap = new ItemClickHandler(new Object[]{CRANDOR_MAP}, new String[]{"Study"}, e -> e.getPlayer().sendMessage("The map shows a sea path to Crandor..."));
 
-    public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(new Object[]{MAP_PART1, MAP_PART2, MAP_PART3}, new String[]{"Study"}, e -> {
-        e.getPlayer().sendMessage("The map shows part of a sea path to Crandor...");
-    });
+    public static ItemClickHandler handleClickOnMapPart = new ItemClickHandler(new Object[]{MAP_PART1, MAP_PART2, MAP_PART3}, new String[]{"Study"}, e -> e.getPlayer().sendMessage("The map shows part of a sea path to Crandor..."));
 
     public static ItemOnItemHandler createMapFromParts = new ItemOnItemHandler(new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, new int[]{MAP_PART1, MAP_PART2, MAP_PART3}, e -> {
         if (e.getPlayer().getInventory().containsItem(MAP_PART1, 1))

@@ -35,8 +35,8 @@ public enum AttackType {
 
 	MAGIC(Bonus.MAGIC_ATT, Bonus.MAGIC_DEF);
 
-	private Bonus attBonus;
-	private Bonus defBonus;
+	private final Bonus attBonus;
+	private final Bonus defBonus;
 
 	private AttackType(Bonus attBonus, Bonus defBonus) {
 		this.attBonus = attBonus;

@@ -54,9 +54,7 @@ public class HarlowVampireSlayerD extends Conversation {
 							.addPlayer(HeadE.AMAZED_MILD, "His village is being terrorised by a vampyre! He told me to ask you about how I can stop it.")
 							.addNPC(HARLOW, HeadE.DRUNK, "Buy me a beer... then I'll teash you what you need to know...")
 							.addPlayer(HeadE.FRUSTRATED, "But this is your friend Morgan we're talking about!")
-							.addNPC(HARLOW, HeadE.DRUNK, "Buy ush a drink anyway...", () -> {
-								player.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.HARLOW_NEED_DRINK);
-							}));
+							.addNPC(HARLOW, HeadE.DRUNK, "Buy ush a drink anyway...", () -> player.getQuestManager().setStage(Quest.VAMPYRE_SLAYER, VampireSlayer.HARLOW_NEED_DRINK)));
 				}
 			});
 			break;
@@ -72,7 +70,7 @@ public class HarlowVampireSlayerD extends Conversation {
 			else if(player.getInventory().containsItem(BEER, 1)) {
 				addNPC(HARLOW, HeadE.DRUNK, "Buy me a drrink pleassh...");
 				addPlayer(HeadE.CALM_TALK, "Here you go");
-				addSimple("You give a beer to Dr Harlow.", () -> {player.getInventory().deleteItem(BEER, 1);});
+				addSimple("You give a beer to Dr Harlow.", () -> player.getInventory().deleteItem(BEER, 1));
 				addNPC(HARLOW, HeadE.DRUNK, "Cheersh matey...");
 				addPlayer(HeadE.HAPPY_TALKING, "So tell me how to kill vampyres then.");
 				addNPC(HARLOW, HeadE.DRUNK, "Yesh Yesh vampyres, I was very good at killing em once...");
@@ -108,7 +106,7 @@ public class HarlowVampireSlayerD extends Conversation {
 			} else if(player.getInventory().containsItem(BEER, 1)) {
 				addNPC(HARLOW, HeadE.DRUNK, "Buy me a drrink pleassh...");
 				addPlayer(HeadE.CALM_TALK, "Here you go");
-				addSimple("You give a beer to Dr Harlow.", () -> {player.getInventory().deleteItem(BEER, 1);});
+				addSimple("You give a beer to Dr Harlow.", () -> player.getInventory().deleteItem(BEER, 1));
 				addNPC(HARLOW, HeadE.DRUNK, "Cheersh matey...");
 				addPlayer(HeadE.HAPPY_TALKING, "So tell me how to kill vampyres then.");
 				addNPC(HARLOW, HeadE.DRUNK, "Yesh Yesh vampyres, I was very good at killing em once...");

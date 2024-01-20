@@ -18,9 +18,14 @@ public enum Creature {
 	BLOOD_ESSWRAITH(15415, 73.1, 16596, Runecrafting.RCRune.BLOOD, 16644, 10, 77, 16641, 3),
 	SOUL_ESSWRAITH(15416, 106.5, 16596, Runecrafting.RCRune.SOUL, 16644, 10, 90, 16641, 3.5);
 
-	public Runecrafting.RCRune rune;
-	public int npcId, playerEmoteId, npcEmoteId, npcLife, levelRequired, deathEmote;
-	public double pointValue;
+	public final Runecrafting.RCRune rune;
+	public final int npcId;
+    public final int playerEmoteId;
+    public final int npcEmoteId;
+    public final int npcLife;
+    public final int levelRequired;
+    public final int deathEmote;
+	public final double pointValue;
 
 	Creature(int npcId, double xp, int playerEmoteId, Runecrafting.RCRune rune, int npcEmoteId, int npcLife, int levelRequired, int deathEmote, double pointValue) {
 		this.npcId = npcId;

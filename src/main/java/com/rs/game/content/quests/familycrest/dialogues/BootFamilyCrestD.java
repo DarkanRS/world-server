@@ -22,9 +22,7 @@ public class BootFamilyCrestD extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello tall person");
 			addPlayer(HeadE.HAPPY_TALKING, "Hello. I'm in search of very high quality gold");
 			addNPC(NPC, HeadE.CALM_TALK, "High quality gold eh? Hmmm... Well, the very best quality gold that I know of can be found in an underground ruin near Witchaven.");
-			addNPC(NPC, HeadE.CALM_TALK, "I don't believe it's exactly easy to get to though...", ()->{
-				player.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY);
-			});
+			addNPC(NPC, HeadE.CALM_TALK, "I don't believe it's exactly easy to get to though...", ()-> player.getQuestManager().setStage(Quest.FAMILY_CREST, GIVE_AVAN_JEWLERY));
 		}
 		default -> {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello tall person.");

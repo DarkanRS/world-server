@@ -39,7 +39,7 @@ public class Christmas2019 {
 
 	public static final String STAGE_KEY = "christ2025";
 
-	private static boolean ACTIVE = false;
+	private static final boolean ACTIVE = false;
 
 	public enum Imp {
 		WINE(9372, 6928, Location.VARROCK_CASTLE, Location.CAMELOT_CASTLE, Location.ARDOUGNE_CASTLE),
@@ -47,11 +47,11 @@ public class Christmas2019 {
 		TURKEY(9374, 6930, Location.LUMBRIDGE_CHICKEN, Location.FALADOR_CHICKEN, Location.PHASMATYS_CHICKEN),
 		POTATOES(9375, 6931, Location.LUMBRIDGE_POTATO, Location.DRAYNOR_POTATO, Location.ARDOUGNE_POTATO);
 
-		private int npcId;
-		private int varBit;
-		private Location[] locs;
+		private final int npcId;
+		private final int varBit;
+		private final Location[] locs;
 
-		private static Map<Integer, Imp> CHUNK_MAP = new HashMap<>();
+		private static final Map<Integer, Imp> CHUNK_MAP = new HashMap<>();
 
 		static {
 			for (Imp i : Imp.values())
@@ -83,9 +83,9 @@ public class Christmas2019 {
 
 		LUMBRIDGE_POTATO(Tile.of(3260, 3307, 0), "Him seems to be somewhere near Lumbridge.."), DRAYNOR_POTATO(Tile.of(3148, 3283, 0), "Him seems to be somewhere near Draynor.."), ARDOUGNE_POTATO(Tile.of(2628, 3364, 0), "Him seems to be somewhere near Ardougne..");
 
-		private Tile loc;
-		private String hint;
-		private int chunkId;
+		private final Tile loc;
+		private final String hint;
+		private final int chunkId;
 
 		private Location(Tile loc, String hint) {
 			this.loc = loc;

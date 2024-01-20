@@ -30,8 +30,8 @@ public enum PyreLog {
 	YEW(65, 255, 1515, 3446, 4, 30475, 30486, 4098, 4104, Corpse.LOAR, Corpse.PHRIN, Corpse.RIYL, Corpse.VYRE, Corpse.ASYN),
 	MAGIC(80, 404.5, 1513, 3448, 4, 30477, 30487, 29181, 29182, Corpse.LOAR, Corpse.PHRIN, Corpse.RIYL, Corpse.VYRE, Corpse.ASYN, Corpse.FIYR);
 
-	private static Map<Integer, PyreLog> BASELOG_MAP = new HashMap<>();
-	private static Map<Integer, PyreLog> ID_MAP = new HashMap<>();
+	private static final Map<Integer, PyreLog> BASELOG_MAP = new HashMap<>();
+	private static final Map<Integer, PyreLog> ID_MAP = new HashMap<>();
 
 	static {
 		for (PyreLog l : PyreLog.values()) {

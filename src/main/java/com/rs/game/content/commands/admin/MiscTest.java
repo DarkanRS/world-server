@@ -124,22 +124,18 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
 
-		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> {
-			NPCDropDumper.dumpNPC(args[0]);
-		});
+		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
 
-		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> {
-			p.getControllerManager().startController(new InstancedController(Instance.of(p.getTile(), Integer.parseInt(args[2]), Integer.parseInt(args[3]), false)) {
-				@Override
-				public void onBuildInstance() {
-					getInstance().copyMapAllPlanes(Integer.parseInt(args[0]), Integer.parseInt(args[1]))
-							.thenAccept(b -> player.playCutscene(cs -> getInstance().teleportLocal(player, (Integer.parseInt(args[2]) * 8) / 2, (Integer.parseInt(args[3]) * 8) / 2, 0)));
-				}
+		Commands.add(Rights.DEVELOPER, "createinstance [chunkX, chunkY, width, height]", "create a test instance for getting coordinates and setting up cutscenes", (p, args) -> p.getControllerManager().startController(new InstancedController(Instance.of(p.getTile(), Integer.parseInt(args[2]), Integer.parseInt(args[3]), false)) {
+            @Override
+            public void onBuildInstance() {
+                getInstance().copyMapAllPlanes(Integer.parseInt(args[0]), Integer.parseInt(args[1]))
+                        .thenAccept(b -> player.playCutscene(cs -> getInstance().teleportLocal(player, (Integer.parseInt(args[2]) * 8) / 2, (Integer.parseInt(args[3]) * 8) / 2, 0)));
+            }
 
-				@Override
-				public void onDestroyInstance() { }
-			});
-		});
+            @Override
+            public void onDestroyInstance() { }
+        }));
 
 		Commands.add(Rights.DEVELOPER, "togglejfr", "Toggles JFR for the staff webhook tick profiler", (p, args) -> {
 			Settings.getConfig().setJFR(!Settings.getConfig().isEnableJFR());
@@ -177,13 +173,9 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> {
-			World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true);
-		});
+		Commands.add(Rights.DEVELOPER, "spawnmax", "Spawns another max into the world on top of the player.", (p, args) -> World.spawnNPC(3373, Tile.of(p.getTile()), -1, true, true, true));
 
-		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> {
-			p.getCutsceneManager().play(new ExampleCutscene());
-		});
+		Commands.add(Rights.DEVELOPER, "playcs", "Plays a cutscene using new cutscene system", (p, args) -> p.getCutsceneManager().play(new ExampleCutscene()));
 
 //		Commands.add(Rights.DEVELOPER, "modeldebug", "Spawns a ton of models of a certain color around you.", (p, args) -> {
 //			List<RSModel> meshes = new ArrayList<>();
@@ -233,13 +225,9 @@ public class MiscTest {
 						World.sendSpotAnim(Tile.of(p.getX() + x, p.getY() + y, p.getPlane()), new SpotAnim(2000, 0, 96));
 		});
 
-		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> {
-			p.getControllerManager().startController(new TutorialIslandController());
-		});
+		Commands.add(Rights.DEVELOPER, "tutisland", "Start tutorial island", (p, args) -> p.getControllerManager().startController(new TutorialIslandController()));
 
-		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> {
-			p.getControllerManager().startController(new QueenBlackDragonController());
-		});
+		Commands.add(Rights.DEVELOPER, "qbd", "Start qbd", (p, args) -> p.getControllerManager().startController(new QueenBlackDragonController()));
 
 		/**
 		 * 31 orange glow
@@ -302,9 +290,7 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> {
-			p.setTileMan(true);
-		});
+		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> p.setTileMan(true));
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
 			String name = Utils.concat(args);
@@ -320,17 +306,11 @@ public class MiscTest {
 				p.getControllerManager().getController(BarrowsController.class).cheat();
 		});
 
-		Commands.add(Rights.DEVELOPER, "random", "Forces a random event.", (p, args) -> {
-			RandomEvents.attemptSpawnRandom(p, true);
-		});
+		Commands.add(Rights.DEVELOPER, "random", "Forces a random event.", (p, args) -> RandomEvents.attemptSpawnRandom(p, true));
 
-		Commands.add(Rights.DEVELOPER, "freezeme [ticks]", "Freezes you for specific timeframe.", (p, args) -> {
-			p.freeze(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.DEVELOPER, "freezeme [ticks]", "Freezes you for specific timeframe.", (p, args) -> p.freeze(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "farm", "Force a farming tick.", (p, args) -> {
-			p.tickFarming();
-		});
+		Commands.add(Rights.DEVELOPER, "farm", "Force a farming tick.", (p, args) -> p.tickFarming());
 
 		Commands.add(Rights.DEVELOPER, "runespan", "Teleports to runespan.", (p, args) -> {
 			p.tele(Tile.of(3995, 6103, 1));
@@ -371,13 +351,9 @@ public class MiscTest {
 			World.spawnObjectTemporary(new GameObject(Integer.parseInt(args[0]), type, rotation, p.getX(), p.getY()-1, p.getPlane()), 1);
 		});
 
-		Commands.add(Rights.DEVELOPER, "cutscene [id]", "Plays a predefined cutscene", (p, args) -> {
-			p.getPackets().sendCutscene(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.DEVELOPER, "cutscene [id]", "Plays a predefined cutscene", (p, args) -> p.getPackets().sendCutscene(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "pin", "Opens bank pin interface.", (p, args) -> {
-			p.getBank().openPin();
-		});
+		Commands.add(Rights.DEVELOPER, "pin", "Opens bank pin interface.", (p, args) -> p.getBank().openPin());
 
 		Commands.add(Rights.DEVELOPER, "areaobj [(radius)]", "Lists out nearby objects.", (p, args) -> {
 			int radius = args.length > 0 ? Integer.parseInt(args[0]) : 0;
@@ -425,13 +401,9 @@ public class MiscTest {
 			player.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.DEVELOPER, "sd", "Search for a door pair.", (p, args) -> {
-			Doors.searchDoors(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.DEVELOPER, "sd", "Search for a door pair.", (p, args) -> Doors.searchDoors(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "getapp", "Prints out appearance data", (p, args) -> {
-			p.getAppearance().printDebug();
-		});
+		Commands.add(Rights.DEVELOPER, "getapp", "Prints out appearance data", (p, args) -> p.getAppearance().printDebug());
 
 		Commands.add(Rights.DEVELOPER, "vischunks", "Toggles the visualization of chunks.", (p, args) -> {
 			p.getNSV().setB("visChunks", !p.getNSV().getB("visChunks"));
@@ -449,22 +421,16 @@ public class MiscTest {
 			n.anim(10993);
 		});
 
-		Commands.add(Rights.ADMIN, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-			p.sendOptionDialogue("Clear bank?", ops -> {
-				ops.add("Yes", () -> p.getBank().clear());
-				ops.add("No");
-			});
-		});
+		Commands.add(Rights.ADMIN, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> p.sendOptionDialogue("Clear bank?", ops -> {
+            ops.add("Yes", () -> p.getBank().clear());
+            ops.add("No");
+        }));
 
 		if (!Settings.getConfig().isDebug()) {
-			Commands.add(Rights.DEVELOPER, "exec [command to execute]", "Executes a command-line command on the remote server.", (p, args) -> {
-				Launcher.executeCommand(p, Utils.concat(args));
-			});
+			Commands.add(Rights.DEVELOPER, "exec [command to execute]", "Executes a command-line command on the remote server.", (p, args) -> Launcher.executeCommand(p, Utils.concat(args)));
 		}
 
-		Commands.add(Rights.DEVELOPER, "shop [name]", "Opens a shop container of specified id.", (p, args) -> {
-			ShopsHandler.openShop(p, args[0]);
-		});
+		Commands.add(Rights.DEVELOPER, "shop [name]", "Opens a shop container of specified id.", (p, args) -> ShopsHandler.openShop(p, args[0]));
 
 		Commands.add(Rights.DEVELOPER, "dial [npcId animId]", "Dialogue box", (p, args) -> {
 			p.getInterfaceManager().sendChatBoxInterface(1184);
@@ -524,9 +490,7 @@ public class MiscTest {
 				World.soundEffect(p.getTile(), Integer.parseInt(args[0])));
 
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> {
-			p.getMusicsManager().playSongWithoutUnlocking(Integer.parseInt(args[0]));
-		});
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "music [id (volume)]", "Plays a music track.", (p, args) -> p.getMusicsManager().playSongWithoutUnlocking(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "unusedmusic", "Shows unused music.", (p, args) -> {
 			int count = 0;
@@ -543,9 +507,7 @@ public class MiscTest {
 			Logger.debug(MiscTest.class, "unusedmusic", "Unused is " + Math.ceil(count/1099.0*100) + "%");
 		});
 
-		Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> {
-			p.getMusicsManager().nextAmbientSong();
-		});
+		Commands.add(Rights.DEVELOPER, "nextm", "Plays a music track.", (p, args) -> p.getMusicsManager().nextAmbientSong());
 
 		Commands.add(Rights.DEVELOPER, "genre", "Shows genre", (p, args) -> {
             Genre genre = p.getMusicsManager().getPlayingGenre();
@@ -556,9 +518,7 @@ public class MiscTest {
 		});
 
 
-		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> {
-			p.getPackets().sendRunScriptBlank(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.DEVELOPER, "script", "Runs a clientscript with no arguments.", (p, args) -> p.getPackets().sendRunScriptBlank(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "scriptargs", "Runs a clientscript with no arguments.", (p, args) -> {
 			Object[] scriptArgs = new Object[args.length-1];
@@ -572,39 +532,25 @@ public class MiscTest {
 			p.getPackets().sendRunScript(Integer.parseInt(args[0]), scriptArgs);
 		});
 
-		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> {
-			World.allPlayers(target -> {
-				target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
-				target.musicTrack(409);
-			});
-		});
+		Commands.add(Rights.DEVELOPER, "frogland", "Plays frogland to everyone on the server.", (p, args) -> World.allPlayers(target -> {
+            target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
+            target.musicTrack(409);
+        }));
 
-		Commands.add(Rights.DEVELOPER, "musicall [id]", "Plays music to everyone on the server.", (p, args) -> {
-			World.allPlayers(target -> {
-				target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
-				target.musicTrack(Integer.parseInt(args[0]));
-			});
-		});
+		Commands.add(Rights.DEVELOPER, "musicall [id]", "Plays music to everyone on the server.", (p, args) -> World.allPlayers(target -> {
+            target.getPackets().sendRunScript(1764, 12451857, 12451853, 20, 0); //0 music volume, 1 sound effect volume, 2 ambient sound volume
+            target.musicTrack(Integer.parseInt(args[0]));
+        }));
 
-		Commands.add(Rights.DEVELOPER, "jingle [id]", "plays jingles", (p, args) -> {
-			p.jingle(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.DEVELOPER, "jingle [id]", "plays jingles", (p, args) -> p.jingle(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> {
-			p.sendMessage("" + ClipFlag.getFlags(WorldCollision.getFlags(p.getTile())));
-		});
+		Commands.add(Rights.DEVELOPER, "tileflags", "Get the tile flags for the tile you're standing on.", (p, args) -> p.sendMessage("" + ClipFlag.getFlags(WorldCollision.getFlags(p.getTile()))));
 
-		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> {
-			p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.parseInt(args[0])));
-		});
+		Commands.add(Rights.DEVELOPER, "cheev [id]", "Sends achievement complete interface.", (p, args) -> p.getInterfaceManager().sendAchievementComplete(Achievement.forId(Integer.parseInt(args[0]))));
 
-		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> {
-			World.safeShutdown(Integer.parseInt(args[0]));
-		});
+		Commands.add(Rights.ADMIN, "update,restart [ticks]", "Restarts the server after specified number of ticks.", (p, args) -> World.safeShutdown(Integer.parseInt(args[0])));
 
-		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> {
-			World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false);
-		});
+		Commands.add(Rights.DEVELOPER, "npc [npcId]", "Spawns an NPC with specified ID.", (p, args) -> World.spawnNPC(Integer.parseInt(args[0]), Tile.of(p.getTile()), -1, true, true, false));
 
 		Commands.add(Rights.DEVELOPER, "addnpc [npcId]", "Spawns an NPC permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
@@ -613,9 +559,7 @@ public class MiscTest {
 				p.sendMessage("Added spawn.");
 		});
 
-		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> {
-			World.addGroundItem(new Item(Integer.parseInt(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane()));
-		});
+		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> World.addGroundItem(new Item(Integer.parseInt(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane())));
 
 		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
@@ -716,9 +660,7 @@ public class MiscTest {
 //			p.loadMapRegions();
 		});
 
-		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> {
-			ShopsHandler.reloadShops();
-		});
+		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> ShopsHandler.reloadShops());
 
 		Commands.add(Rights.DEVELOPER, "reloadcombat", "Reloads the NPC combat definitions files.", (p, args) -> {
 			NPCCombatDefinitions.reload();
@@ -727,9 +669,7 @@ public class MiscTest {
 					npc.resetLevels();
 		});
 
-		Commands.add(Rights.DEVELOPER, "reloaddrops", "Reloads the drop table files.", (p, args) -> {
-			DropSets.reloadDrops();
-		});
+		Commands.add(Rights.DEVELOPER, "reloaddrops", "Reloads the drop table files.", (p, args) -> DropSets.reloadDrops());
 
 		Commands.add(Rights.DEVELOPER, "loginmessage,loginmes [announcement]", "Sets the server login announcement.", (p, args) -> {
 			Settings.getConfig().setLoginMessage("<shad=000000><col=ff0000>" + Utils.concat(args));
@@ -777,9 +717,7 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.ADMIN, "ironman [true/false]", "Changes ironman status of the player.", (p, args) -> {
-			p.setIronMan(Boolean.valueOf(args[0]));
-		});
+		Commands.add(Rights.ADMIN, "ironman [true/false]", "Changes ironman status of the player.", (p, args) -> p.setIronMan(Boolean.valueOf(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "killnpcs", "Kills all npcs around the player.", (p, args) -> {
 			for (NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 3)) {
@@ -874,9 +812,7 @@ public class MiscTest {
 			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
 		});
 
-		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> {
-			p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0));
-		});
+		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0)));
 
 		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.parseInt(args[0]));
@@ -888,7 +824,7 @@ public class MiscTest {
 			for (GameObject obj : objs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + obj.toString());
 			if(args.length == 1) {
-				p.tele(objs.get(0).getTile());
+				p.tele(objs.getFirst().getTile());
 				return;
 			}
 			p.tele(objs.get(Integer.parseInt(args[1])).getTile());
@@ -900,7 +836,7 @@ public class MiscTest {
 			for(NPCSpawn npc : npcs)
 				p.getPackets().sendDevConsoleMessage(i++ + ": " + npc.toString());
 			if (args.length == 1) {
-				p.tele(Tile.of(npcs.get(0).getTile()));
+				p.tele(Tile.of(npcs.getFirst().getTile()));
 				return;
 			}
 			p.tele(npcs.get(Integer.parseInt(args[1])).getTile());
@@ -1029,10 +965,10 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "settitle [new title]", "Sets player title.", (p, args) -> {
-			String title = "";
+			StringBuilder title = new StringBuilder();
 			for (int i = 0; i < args.length; i++)
-				title += args[i] + ((i == args.length - 1) ? "" : " ");
-			p.setTitle(title);
+				title.append(args[i]).append((i == args.length - 1) ? "" : " ");
+			p.setTitle(title.toString());
 			p.setTitleColor(null);
 			p.setTitleShading(null);
 			p.getAppearance().generateAppearanceData();
@@ -1045,13 +981,9 @@ public class MiscTest {
 			p.getAppearance().generateAppearanceData();
 		});
 
-		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops recieved from monsters directly to the bank.", (p, args) -> {
-			p.getNSV().setB("sendingDropsToBank", true);
-		});
+		Commands.add(Rights.DEVELOPER, "dropstobank,bankdrops", "Will send all drops recieved from monsters directly to the bank.", (p, args) -> p.getNSV().setB("sendingDropsToBank", true));
 
-		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id height]", "Creates a spot animation on top of the player.", (p, args) -> {
-			p.setNextSpotAnim(new SpotAnim(Integer.parseInt(args[0]), 0, args.length == 1 ? 0 : Integer.parseInt(args[1])));
-		});
+		Commands.add(Rights.DEVELOPER, "spotanim,gfx [id height]", "Creates a spot animation on top of the player.", (p, args) -> p.setNextSpotAnim(new SpotAnim(Integer.parseInt(args[0]), 0, args.length == 1 ? 0 : Integer.parseInt(args[1]))));
 
 		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "anim,emote [id]", "Animates the player with specified ID.", (p, args) -> {
 			if (Integer.parseInt(args[0]) > Utils.getAnimationDefinitionsSize())
@@ -1066,9 +998,7 @@ public class MiscTest {
 			p.setNextSpotAnim(new SpotAnim(Integer.parseInt(args[1])));
 		});
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "bas,render [id]", "Sets the BAS of the player to specified ID.", (p, args) -> {
-			p.getAppearance().setBAS(Integer.parseInt(args[0]));
-		});
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.DEVELOPER, "bas,render [id]", "Sets the BAS of the player to specified ID.", (p, args) -> p.getAppearance().setBAS(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "camlook [localX localY z (speed1 speed2)]", "Points the camera at the specified tile.", (p, args) -> {
 			if(args.length == 3)
@@ -1084,17 +1014,11 @@ public class MiscTest {
 				p.getPackets().sendCameraPos(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 		});
 
-		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, args) -> {
-			p.getPackets().sendResetCamera();
-		});
+		Commands.add(Rights.DEVELOPER, "resetcam", "Resets the camera back on the player.", (p, args) -> p.getPackets().sendResetCamera());
 
-		Commands.add(Rights.ADMIN, "spec", "Restores special attack energy to full.", (p, args) -> {
-			p.getCombatDefinitions().resetSpecialAttack();
-		});
+		Commands.add(Rights.ADMIN, "spec", "Restores special attack energy to full.", (p, args) -> p.getCombatDefinitions().resetSpecialAttack());
 
-		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> {
-			p.getBank().open();
-		});
+		Commands.add(Rights.ADMIN, "bank", "Opens the bank.", (p, args) -> p.getBank().open());
 
 		Commands.add(Rights.ADMIN, "empty", "Empties the player's inventory.", (p, args) -> {
 			p.stopAll();
@@ -1107,13 +1031,9 @@ public class MiscTest {
 			p.getAppearance().transformIntoNPC(Integer.parseInt(args[0]));
 		});
 
-		Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> {
-			p.getPackets().sendCameraShake(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
-		});
+		Commands.add(Rights.ADMIN, "camshake [slot, v1, v2, v3, v4]", "Transforms the player into an NPC.", (p, args) -> p.getPackets().sendCameraShake(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4])));
 
-		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> {
-			p.getInterfaceManager().sendInterface(Integer.parseInt(args[0]));
-		});
+		Commands.add(Settings.getConfig().isDebug() ? Rights.PLAYER : Rights.ADMIN, "inter [interfaceId]", "Opens an interface with specific ID.", (p, args) -> p.getInterfaceManager().sendInterface(Integer.parseInt(args[0])));
 
 		Commands.add(Rights.DEVELOPER, "winter [interfaceId componentId]", "Sends an interface to the window specified component.", (p, args) -> {
 			if (Integer.parseInt(args[1]) > Utils.getInterfaceDefinitionsComponentsSize(p.resizeable() ? InterfaceManager.RESIZEABLE_TOP : InterfaceManager.FIXED_TOP))
@@ -1176,9 +1096,7 @@ public class MiscTest {
 			Logger.debug(MiscTest.class, "companim", defs.getCompatibleAnimations().toString());
 		});
 
-		Commands.add(Rights.DEVELOPER, "varcstr [id value]", "Sets a varc string value.", (p, args) -> {
-			p.getPackets().sendVarcString(Integer.parseInt(args[0]), Utils.concat(args, 1));
-		});
+		Commands.add(Rights.DEVELOPER, "varcstr [id value]", "Sets a varc string value.", (p, args) -> p.getPackets().sendVarcString(Integer.parseInt(args[0]), Utils.concat(args, 1)));
 
 		Commands.add(Rights.DEVELOPER, "varcstrloop [startId endId]", "Sets a varc string value.", (p, args) -> {
 			for (int i = Integer.parseInt(args[0]); i < Integer.parseInt(args[1]); i++) {
@@ -1188,9 +1106,7 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> {
-			p.getPackets().sendVarc(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-		});
+		Commands.add(Rights.DEVELOPER, "varc [id value]", "Sets a varc value.", (p, args) -> p.getPackets().sendVarc(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
 
 		Commands.add(Rights.DEVELOPER, "varcloop [startId endId value]", "Sets varc value for all varcs between 2 ids.", (p, args) -> {
 			for (int i = Integer.parseInt(args[0]); i < Integer.parseInt(args[1]); i++) {
@@ -1200,13 +1116,9 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> {
-			p.getVars().setVar(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-		});
+		Commands.add(Rights.DEVELOPER, "var [id value]", "Sets a var value.", (p, args) -> p.getVars().setVar(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
 
-		Commands.add(Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> {
-			p.getPackets().sendDevConsoleMessage("Var: " + Integer.parseInt(args[0]) + " -> " + p.getVars().getVar(Integer.parseInt(args[0])));
-		});
+		Commands.add(Rights.DEVELOPER, "getvar [id]", "Gets a var value.", (p, args) -> p.getPackets().sendDevConsoleMessage("Var: " + Integer.parseInt(args[0]) + " -> " + p.getVars().getVar(Integer.parseInt(args[0]))));
 
 		Commands.add(Rights.DEVELOPER, "varloop [startId endId value]", "Sets var value for all vars between 2 ids.", (p, args) -> {
 			for (int i = Integer.parseInt(args[0]); i < Integer.parseInt(args[1]); i++) {
@@ -1216,13 +1128,9 @@ public class MiscTest {
 			}
 		});
 
-		Commands.add(Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> {
-			p.getPackets().sendDevConsoleMessage("Varbit: " + Integer.parseInt(args[0]) + " -> " + p.getVars().getVarBit(Integer.parseInt(args[0])));
-		});
+		Commands.add(Rights.DEVELOPER, "getvarbit [id]", "Gets a varbit value.", (p, args) -> p.getPackets().sendDevConsoleMessage("Varbit: " + Integer.parseInt(args[0]) + " -> " + p.getVars().getVarBit(Integer.parseInt(args[0]))));
 
-		Commands.add(Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> {
-			p.getVars().setVarBit(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-		});
+		Commands.add(Rights.DEVELOPER, "varbit [id value]", "Sets a varbit value.", (p, args) -> p.getVars().setVarBit(Integer.parseInt(args[0]), Integer.parseInt(args[1])));
 
 		Commands.add(Rights.DEVELOPER, "varbitloop [startId endId value]", "Sets varbit value for all varbits between 2 ids.", (p, args) -> {
 			for (int i = Integer.parseInt(args[0]); i < Integer.parseInt(args[1]); i++) {
@@ -1283,24 +1191,16 @@ public class MiscTest {
 			}, 0, 2);
 		});
 
-		Commands.add(Rights.ADMIN, "killme", "Kills yourself.", (p, args) -> {
-			p.applyHit(new Hit(null, p.getHitpoints(), HitLook.TRUE_DAMAGE));
-		});
+		Commands.add(Rights.ADMIN, "killme", "Kills yourself.", (p, args) -> p.applyHit(new Hit(null, p.getHitpoints(), HitLook.TRUE_DAMAGE)));
 
-		Commands.add(Rights.DEVELOPER, "killallstaff", "Kills all staff members.", (p, args) -> {
-			World.allPlayers(other -> {
-				if (other.hasRights(Rights.ADMIN))
-					other.applyHit(new Hit(null, p.getHitpoints(), HitLook.TRUE_DAMAGE));
-			});
-		});
+		Commands.add(Rights.DEVELOPER, "killallstaff", "Kills all staff members.", (p, args) -> World.allPlayers(other -> {
+            if (other.hasRights(Rights.ADMIN))
+                other.applyHit(new Hit(null, p.getHitpoints(), HitLook.TRUE_DAMAGE));
+        }));
 
-		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> {
-			p.getPackets().setIFHidden(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Boolean.valueOf(args[2]));
-		});
+		Commands.add(Rights.DEVELOPER, "hidec [interfaceId componentId hidden]", "show hide comp.", (p, args) -> p.getPackets().setIFHidden(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Boolean.valueOf(args[2])));
 
-		Commands.add(Rights.DEVELOPER, "ifgraphic [interfaceId componentId graphicId]", "interface set graphic.", (p, args) -> {
-			p.getPackets().setIFGraphic(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
-		});
+		Commands.add(Rights.DEVELOPER, "ifgraphic [interfaceId componentId graphicId]", "interface set graphic.", (p, args) -> p.getPackets().setIFGraphic(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2])));
 
 		Commands.add(Rights.ADMIN, "checkclient [player name]", "Verifies the user's client.", (p, args) -> {
 			Player target = World.getPlayerByDisplay(args[0]);
@@ -1308,35 +1208,23 @@ public class MiscTest {
 				p.sendMessage("Couldn't find player.");
 			else
 				target.queueReflectionAnalysis(new ReflectionAnalysis()
-						.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final");
-						}))
-						.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static");
-						}))
-						.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> {
-							return check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown();
-						}))
-						.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> {
-							return check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594;
-						}))
-						.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> {
-							return check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d");
-						}))
+						.addTest(new ReflectionTest("Client", "validates client class", new ReflectionCheck("com.Loader", "MAJOR_BUILD"), check -> check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static final")))
+						.addTest(new ReflectionTest("Loader", "validates launcher class", new ReflectionCheck("com.darkan.Loader", "DOWNLOAD_URL"), check -> check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getStringData().equals("public static")))
+						.addTest(new ReflectionTest("Player rights", "validates player rights client sided", new ReflectionCheck("com.jagex.client", "PLAYER_RIGHTS", true), check -> check.getResponse().getCode() == ResponseCode.SUCCESS && check.getResponse().getData() == target.getRights().getCrown()))
+						.addTest(new ReflectionTest("Lobby port method", "validates getPort", new ReflectionCheck("com.Loader", "I", "getPort", new Object[] { Integer.valueOf(1115) }), check -> check.getResponse().getCode() == ResponseCode.NUMBER && check.getResponse().getData() == 43594))
+						.addTest(new ReflectionTest("Local checksum method", "validates getLocalChecksum", new ReflectionCheck("com.darkan.Download", "java.lang.String", "getLocalChecksum", new Object[] { }), check -> check.getResponse().getCode() == ResponseCode.STRING && check.getResponse().getStringData().equals("e4d95327297ffca1698dff85eda6622d")))
 						.build());
 		});
 
-		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> {
-			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
-				if (target == null)
-					p.sendMessage("Couldn't find player.");
-				else {
-					p.sendMessage("<col=ff0000>IP addresses for " + Utils.concat(args));
-					for (String ip : target.getIpAddresses())
-						p.sendMessage("<col=ff0000>" + ip);
-				}
-			});
-		});
+		Commands.add(Rights.DEVELOPER, "getip [player name]", "Verifies the user's client.", (p, args) -> World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
+            if (target == null)
+                p.sendMessage("Couldn't find player.");
+            else {
+                p.sendMessage("<col=ff0000>IP addresses for " + Utils.concat(args));
+                for (String ip : target.getIpAddresses())
+                    p.sendMessage("<col=ff0000>" + ip);
+            }
+        }));
 
 		Commands.add(Rights.ADMIN, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
 			Player target = World.getPlayerByDisplay(Utils.concat(args));

@@ -31,9 +31,7 @@ public class SquireAsrol extends Conversation {
             public void create() {
                 if(!player.isQuestComplete(Quest.KNIGHTS_SWORD))
                     option("About Knight's Sword.", new Dialogue()
-                            .addNext(()->{
-                                player.startConversation(new SquireKnightsSwordD(player));
-                            })
+                            .addNext(()-> player.startConversation(new SquireKnightsSwordD(player)))
                     );
                 option("About the Achievement System...",
                         new AchievementSystemDialogue(player, npcId, SetReward.FALADOR_SHIELD)

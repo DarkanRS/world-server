@@ -105,7 +105,7 @@ fun mapRewardsPlugins() {
                             player.sendMessage("You need 2 Zeal to gamble.")
                             return@onButtonClick
                         }
-                        player.soulWarsZeal -= 2;
+                        player.soulWarsZeal -= 2
                         DropTable.calculateDrops(player, DropSets.getDropSet("sw_gamble")).forEach { player.inventory.addItemDrop(it) }
                         if (Utils.random(50) == 0) {
                             player.npcDialogue(8526, HeadE.CHEERFUL, "Oi, guv! I'm feeling generous so I've conscripted one of my friends to gather charms for you.")

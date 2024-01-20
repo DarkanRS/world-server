@@ -217,15 +217,15 @@ public class ItemConstants {
 		VIRTUS_BOOTS(24986, 24987, 24988, Ticks.fromHours(10), 100000),
 		ZARYTE_BOW(20171, 20173, 20174, Ticks.fromHours(10), 2000000);
 
-		private int itemId;
-		private int degradedId;
-		private int brokenId;
-		private int defaultCharges;
-		private int cost;
+		private final int itemId;
+		private final int degradedId;
+		private final int brokenId;
+		private final int defaultCharges;
+		private final int cost;
 
-		private static Map<Integer, ItemDegrade> BROKEN = new HashMap<>();
-		private static Map<Integer, ItemDegrade> DEGRADE = new HashMap<>();
-		private static Map<Integer, ItemDegrade> REPAIRED = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> BROKEN = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> DEGRADE = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> REPAIRED = new HashMap<>();
 
 		static {
 			for (ItemDegrade item : ItemDegrade.values()) {
@@ -262,7 +262,7 @@ public class ItemConstants {
 			return REPAIRED.get(itemId);
 		}
 
-		private ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
+		ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
 			this.itemId = itemId;
 			this.degradedId = degradedId;
 			this.brokenId = brokenId;
@@ -391,16 +391,12 @@ public class ItemConstants {
 		if (itemId < 15750)
 			return false;
 		//General dung items, dung pouches, dung only kinship rings
-		if ((itemId >= 15750 && itemId <= 18329) || (itemId >= 18511 && itemId <= 18570) || (itemId >= 18817 && itemId <= 18829))
-			return true;
-		return false;
-	}
+        return (itemId >= 15750 && itemId <= 18329) || (itemId >= 18511 && itemId <= 18570) || (itemId >= 18817 && itemId <= 18829);
+    }
 
 	public static boolean isHouseOnlyItem(int itemId) {
-		if (itemId >= 7671 && itemId <= 7755)
-			return true;
-		return false;
-	}
+        return itemId >= 7671 && itemId <= 7755;
+    }
 
 	public static boolean isTradeable(Item item) {
 		if (item.getMetaData() != null)

@@ -137,7 +137,7 @@ fun drezelNatureSpiritOptions(player: Player, npc: NPC, options: Options) {
                 options {
                     opExec("Yes, please.") {
                         npc.anim(811)
-                        Magic.sendNormalTeleportSpell(player, Tile.of(3439, 3335, 0));
+                        Magic.sendNormalTeleportSpell(player, Tile.of(3439, 3335, 0))
                     }
                     op("No thank you.") {
                         npc(DREZEL, CHEERFUL, "I will keep them then, unless you manage to find our own way there.")
@@ -222,7 +222,6 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                 player(CONFUSED, "Hello?")
                 npc(FILLIMAN, AMAZED_MILD, "Oh, I understand you! At last, someone who doesn't just mumble. I understand what you're saying!")
             }
-            label("options")
             options {
                 op("I'm wearing an amulet of ghost speak!") {
                     player(CHEERFUL, "I'm wearing an amulet of ghost speak!")
@@ -233,21 +232,18 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                     npc(FILLIMAN, SAD, "Yes!")
                     player(CONFUSED, "Well, please don't be upset or anything... But you're the ghost!")
                     npc(FILLIMAN, AMAZED_MILD, "Don't be silly now! That in no way reflects the truth!") { if (player.getQuestStage(Quest.NATURE_SPIRIT) < STAGE_PROVE_GHOST) player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_PROVE_GHOST) }
-                    goto("options")
                 }
                 op("How long have you been a ghost?") {
                     player(CONFUSED, "How long have you been a ghost?")
                     npc(FILLIMAN, AMAZED_MILD, "What?! Don't be preposterous! I'm not a ghost! How could you say something like that?")
                     player(CONFUSED, "But it's true, you're a ghost... well, at least that is to say, you're sort of not alive anymore.")
                     npc(FILLIMAN, SAD, "Don't be silly, I can see you. I can see that tree. If I were dead, I wouldn't be able to see anything. What you say just doesn't reflect the truth. You'll have to try harder to put one over on me!") { if (player.getQuestStage(Quest.NATURE_SPIRIT) < STAGE_PROVE_GHOST) player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_PROVE_GHOST) }
-                    goto("options")
                 }
                 op("What's it like being a ghost?") {
                     player(CONFUSED, "What's it like being a ghost?")
                     npc(FILLIMAN, SAD, "Oh, it's quite.... Oh... Trying to catch me out were you! Anyone can clearly see that I am not a ghost!")
                     player(CONFUSED, "But you are a ghost, look at yourself! I can see straight through you! You're as dead as this swamp! Err... No offence or anything...")
                     npc(FILLIMAN, SAD, "No I won't take offence because I'm not dead and I'm afraid you'll have to come up with some pretty conclusive proof before I believe it. What a strange dream this is.") { if (player.getQuestStage(Quest.NATURE_SPIRIT) < STAGE_PROVE_GHOST) player.setQuestStage(Quest.NATURE_SPIRIT, STAGE_PROVE_GHOST) }
-                    goto("options")
                 }
                 op("Ok, thanks.")
             }
@@ -321,7 +317,7 @@ fun fillimanDialogue(player: Player, npc: NPC) {
             player(CONFUSED, "Hello, I've been blessed but I don't know what to do now.")
             npc(FILLIMAN, CALM_TALK, "Well, you need to bring 'something from nature', 'something from faith', and 'something of the spirit-to-become freely given'.")
             player(CONFUSED, "Yeah, but what does that mean?")
-            npc(FILLIMAN, CONFUSED, "Hmm, it is a conundrum, however, if you use that spell I gave you, you should be able to get from nature. Once you have that, we may be puzzle the rest out.")
+            npc(FILLIMAN, CONFUSED, "Hmm, it is a conundrum, however, if you use that spell I gave you, you should be able to get from nature. Once you have that, we may be able to puzzle the rest out.")
             if (!player.containsItem(2968)) {
                 player(CONFUSED, "Could I have another bloom scroll please?")
                 npc(FILLIMAN, CALM_TALK, "Sure, but please look after this one.")
@@ -417,7 +413,7 @@ fun fillimanDialogue(player: Player, npc: NPC) {
                         player.inventory.addItem(2963, 1)
                     }
                 }
-                simple("~ Your sickle has been blessed! sickle, you can bless ~<br>~ a new sickle by dipping it in the grotto waters. ~")
+                simple("~ Your sickle has been blessed! You can bless ~<br>~ a new sickle by dipping it in the grotto waters. ~")
                 npc(NATURE_SPIRIT, CHEERFUL, "Now you can go forth and make the swamp bloom. Collect nature's bounty to fill a druids pouch. So armed will the Ghasts be bound to you until, you flee or they are defeated.")
                 npc(NATURE_SPIRIT, CHEERFUL, "Before I can make this grotto into an Altar of Nature, I need to be sure that the Ghasts will be kept at bay. Go forth into Mort Myre and slay three Ghasts. You'll be releasing their souls from Mort Myre.")
                 item(2957, "The nature spirit gives you an empty druid pouch.") { player.inventory.addItem(2957) }

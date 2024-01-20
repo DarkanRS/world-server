@@ -61,7 +61,7 @@ public class ConfigurationParser {
 	/**
 	 * The reader object which the configuration is parsed from
 	 */
-	private BufferedReader reader;
+	private final BufferedReader reader;
 
 	public ConfigurationParser(InputStream input) {
 		reader = new BufferedReader(new InputStreamReader(input));

@@ -36,15 +36,15 @@ public enum ItemPack {
 	JUJU_VIAL(20047, new Item(19997, 50)),
 	VIAL(15362, new Item(230, 50));
 
-	private static Map<Integer, ItemPack> MAP = new HashMap<>();
+	private static final Map<Integer, ItemPack> MAP = new HashMap<>();
 
 	static {
 		for (ItemPack pack : ItemPack.values())
 			MAP.put(pack.itemId, pack);
 	}
 
-	private int itemId;
-	private Item contents;
+	private final int itemId;
+	private final Item contents;
 
 	private ItemPack(int itemId, Item contents) {
 		this.itemId = itemId;
@@ -63,7 +63,7 @@ public enum ItemPack {
 		return contents;
 	}
 
-	public static ItemClickHandler onClick = new ItemClickHandler(ItemPack.MAP.keySet().toArray(), e -> {
+	public static final ItemClickHandler onClick = new ItemClickHandler(ItemPack.MAP.keySet().toArray(), e -> {
 		ItemPack pack = ItemPack.forId(e.getItem().getId());
 		if (pack != null) {
 			if (e.getOption().equals("Open"))

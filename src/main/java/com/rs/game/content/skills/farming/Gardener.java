@@ -68,7 +68,7 @@ public enum Gardener {
 
 	ZOMBIE_FARMER(13101, PatchLocation.Herblore_Habitat_fruit_tree, PatchLocation.Herblore_Habitat_bush, PatchLocation.Herblore_Habitat_west_herbs);
 
-	static Map<Integer, Gardener> MAP = new HashMap<>();
+	static final Map<Integer, Gardener> MAP = new HashMap<>();
 
 	static {
 		for (Gardener g : Gardener.values())
@@ -79,15 +79,15 @@ public enum Gardener {
 		return MAP.get(npcId);
 	}
 
-	private int npcId;
-	private PatchLocation[] locations;
+	private final int npcId;
+	private final PatchLocation[] locations;
 
 	private Gardener(int npcId, PatchLocation... locations) {
 		this.npcId = npcId;
 		this.locations = locations;
 	}
 
-	public static NPCClickHandler handleGardeners = new NPCClickHandler(new Object[] {  871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101 }, e -> {
+	public static final NPCClickHandler handleGardeners = new NPCClickHandler(new Object[] {  871, 1037, 2323, 2324, 2325, 2326, 2327, 2330, 2331, 2332, 2333, 2334, 2335, 2336, 2337, 2338, 2339, 2340, 2341, 2342, 2343, 2344, 2860, 4560, 4561, 4562, 13101 }, e -> {
 		Gardener gardener = Gardener.forNPC(e.getNPCId());
 		if (e.getOption().contains("Pay")) {
 			int patchIdx = e.getOpNum()-3;

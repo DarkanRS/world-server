@@ -24,8 +24,8 @@ import java.util.Map;
 
 public class DialogueAction extends CutsceneAction {
 	
-	private Dialogue dialogue;
-	private boolean pause;
+	private final Dialogue dialogue;
+	private final boolean pause;
 
 	public DialogueAction(Dialogue dialogue, int delay, boolean pause) {
 		super(null, delay);

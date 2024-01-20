@@ -43,7 +43,7 @@ public class WorldPersistentData {
 		}
 	}
 	
-	private GenericAttribMap counters;
+	private final GenericAttribMap counters;
 	private ItemsContainer<Item> partyRoomStorage;
 	private ItemsContainer<Item> partyRoomDrop;
 	

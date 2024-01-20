@@ -18,9 +18,7 @@ public class MarcusEverburn extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need firemaking supplies", () -> {
-                    ShopsHandler.openShop(player, "marcus_firemaking_shop");
-                });
+                option("I need firemaking supplies", () -> ShopsHandler.openShop(player, "marcus_firemaking_shop"));
                 option("Farewell");
             }
         });

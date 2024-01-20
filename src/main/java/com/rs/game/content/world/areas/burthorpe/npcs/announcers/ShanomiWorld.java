@@ -44,7 +44,7 @@ public class ShanomiWorld extends NPC {
 					return false;
 				if (tick == 0) {
 					setNextForceTalk(new ForceTalk("Think not dishonestly."));
-				} else if (tick == 1 * 13) {
+				} else if (tick == 13) {
 					setNextForceTalk(new ForceTalk("The Way in training is."));
 				} else if (tick == 2 * 13) {
 					setNextForceTalk(new ForceTalk("Acquainted with every art become."));
@@ -68,5 +68,5 @@ public class ShanomiWorld extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, (npcId, tile) -> new ShanomiWorld(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { npcId }, ShanomiWorld::new);
 }

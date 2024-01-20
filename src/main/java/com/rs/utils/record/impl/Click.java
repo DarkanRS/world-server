@@ -4,7 +4,9 @@ import com.rs.utils.record.RecordedAction;
 
 public class Click extends RecordedAction {
 	
-	private int x, y, button;
+	private final int x;
+    private final int y;
+    private final int button;
 
 	public Click(long timeLogged, int time, int x, int y, int button) {
 		super(timeLogged, time);

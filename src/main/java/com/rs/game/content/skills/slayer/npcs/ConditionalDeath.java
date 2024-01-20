@@ -29,9 +29,9 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class ConditionalDeath extends NPC {
 
-	private int requiredItem;
-	private String deathMessage;
-	private boolean remove;
+	private final int requiredItem;
+	private final String deathMessage;
+	private final boolean remove;
 
 	public ConditionalDeath(int requiredItem, String deathMessage, boolean remove, int id, Tile tile) {
 		super(id, tile);

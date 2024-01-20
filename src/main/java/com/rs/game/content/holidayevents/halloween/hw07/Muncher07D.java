@@ -33,8 +33,8 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class Muncher07D extends Conversation {
 
-	private static Animation FLINCH = new Animation(6563);
-	private static Animation BITE = new Animation(6565);
+	private static final Animation FLINCH = new Animation(6563);
+	private static final Animation BITE = new Animation(6565);
 
 	public Muncher07D(Player player, NPC muncher) {
 		super(player);

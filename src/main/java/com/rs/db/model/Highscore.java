@@ -20,12 +20,12 @@ import com.rs.game.model.entity.player.Player;
 
 public class Highscore {
 
-	private String username;
-	private String displayName;
-	private boolean ironman;
-	private int totalLevel;
-	private long totalXp;
-	private int[] xp;
+	private final String username;
+	private final String displayName;
+	private final boolean ironman;
+	private final int totalLevel;
+	private final long totalXp;
+	private final int[] xp;
 
 	public Highscore(Player player) {
 		if (player.getDisplayName() == null)

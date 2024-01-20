@@ -45,9 +45,7 @@ public class Flynn extends Conversation {
 			public void create() {
 
 				option("Well, I'll have a look, at least.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "flynns_mace_shop");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "flynns_mace_shop")));
 				option("I think I'll give it a miss.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "I think I'll give it a miss.")
 						.addNPC(npcId, HeadE.HAPPY_TALKING, "Okay, come back soon.")

@@ -87,7 +87,7 @@ public class DeathOfficeController extends InstancedController {
 		CAMELOT(Tile.of(2758, 3486, 0)),
 		SOUL_WARS(Tile.of(1891, 3177, 0));
 		
-		private Tile tile;
+		private final Tile tile;
 		
 		Hub(Tile tile) {
 			this.tile = tile;
@@ -141,8 +141,8 @@ public class DeathOfficeController extends InstancedController {
 	private Hub defaultHub;
 	private Hub currentHub;
 	private List<Hub> optionalHubs;
-	private Tile deathTile;
-	private boolean hadSkull;
+	private final Tile deathTile;
+	private final boolean hadSkull;
 
 	public DeathOfficeController(Tile deathTile, boolean hadSkull) {
 		super(Instance.of(deathTile, 2, 2).persist().setEntranceOffset(new int[] { 10, 6, 0 }));
@@ -207,10 +207,8 @@ public class DeathOfficeController extends InstancedController {
 
 	@Override
 	public boolean processTeleport(Teleport tele) {
-		if (tele.type() != TeleType.OBJECT)
-			return false;
-		return true;
-	}
+        return tele.type() == TeleType.OBJECT;
+    }
 
 	@Override
 	public void onTeleported(TeleType type) {

@@ -322,10 +322,8 @@ public class Appearance {
 		if (title >= 58 && title <= 65)
 			return true;
 
-		if (title == 40 || title == 43 || title == 45 || title == 47 || title == 49 || title == 53 || title == 55 || title == 56 || title == 72 || title == 73)
-			return true;
-		return false;
-	}
+        return title == 40 || title == 43 || title == 45 || title == 47 || title == 49 || title == 53 || title == 55 || title == 56 || title == 72 || title == 73;
+    }
 
 	public int getTransformedNPC() {
 		return transformedNpcId;
@@ -567,22 +565,15 @@ public class Appearance {
 	}
 
 	private static int getSetStruct(StructDefinitions struct, int slot, boolean female) {
-		switch (slot) {
-		case 0:
-			return struct.getIntValue(female ? 1175 : 1169, -1);
-		case 1:
-			return struct.getIntValue(female ? 1176: 1170, -1);
-		case 2:
-			return struct.getIntValue(female ? 1177 : 1171, -1);
-		case 3:
-			return struct.getIntValue(female ? 1178 : 1172, -1);
-		case 4:
-			return struct.getIntValue(female ? 1179 : 1173, -1);
-		case 5:
-			return struct.getIntValue(female ? 1180 : 1174, -1);
-		default:
-			return -1;
-		}
+        return switch (slot) {
+            case 0 -> struct.getIntValue(female ? 1175 : 1169, -1);
+            case 1 -> struct.getIntValue(female ? 1176 : 1170, -1);
+            case 2 -> struct.getIntValue(female ? 1177 : 1171, -1);
+            case 3 -> struct.getIntValue(female ? 1178 : 1172, -1);
+            case 4 -> struct.getIntValue(female ? 1179 : 1173, -1);
+            case 5 -> struct.getIntValue(female ? 1180 : 1174, -1);
+            default -> -1;
+        };
 	}
 
 	public void printDebug() {

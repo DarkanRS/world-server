@@ -37,8 +37,10 @@ public enum Pickaxe {
 	DRAGON_G(20786, 61, 250, 3),
 	INFERNO_ADZE(13661, 61, 10222, 3);
 
-	private int itemId, level, ticks;
-	private int animId;
+	private final int itemId;
+    private final int level;
+    private final int ticks;
+	private final int animId;
 
 	private Pickaxe(int itemId, int level, int animId, int ticks) {
 		this.itemId = itemId;

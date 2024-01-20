@@ -377,7 +377,7 @@ public enum Pets {
 	 * @param food
 	 *            The food item ids the pet uses.
 	 */
-	private Pets(int babyItemId, int grownItemId, int overgrownItemId, int babyNpcId, int grownNpcId, int overgrownNpcId, double growthRate, int summoningLevel, int... food) {
+    Pets(int babyItemId, int grownItemId, int overgrownItemId, int babyNpcId, int grownNpcId, int overgrownNpcId, double growthRate, int summoningLevel, int... food) {
 		this.babyItemId = babyItemId;
 		this.grownItemId = grownItemId;
 		this.overgrownItemId = overgrownItemId;
@@ -478,16 +478,13 @@ public enum Pets {
 	 * @return The NPc id.
 	 */
 	public int getNpcId(int stage) {
-		switch (stage) {
-		case 0:
-			return babyNpcId;
-		case 1:
-			return grownNpcId;
-		case 2:
-			return overgrownNpcId;
-		}
-		return 0;
-	}
+        return switch (stage) {
+            case 0 -> babyNpcId;
+            case 1 -> grownNpcId;
+            case 2 -> overgrownNpcId;
+            default -> 0;
+        };
+    }
 
 	/**
 	 * Gets the item id for this pet.
@@ -497,14 +494,11 @@ public enum Pets {
 	 * @return The item id.
 	 */
 	public int getItemId(int stage) {
-		switch (stage) {
-		case 0:
-			return babyItemId;
-		case 1:
-			return grownItemId;
-		case 2:
-			return overgrownItemId;
-		}
-		return 0;
-	}
+        return switch (stage) {
+            case 0 -> babyItemId;
+            case 1 -> grownItemId;
+            case 2 -> overgrownItemId;
+            default -> 0;
+        };
+    }
 }

@@ -26,12 +26,15 @@ import java.util.Map;
 
 public class IFOnNPCEvent implements PluginEvent {
 
-	private static Map<Object, InterfaceOnNPCHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, InterfaceOnNPCHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private NPC target;
-	private int interfaceId, componentId, slotId, slotId2;
-	private boolean atNPC;
+	private final Player player;
+	private final NPC target;
+	private final int interfaceId;
+    private final int componentId;
+    private final int slotId;
+    private final int slotId2;
+	private final boolean atNPC;
 
 	public IFOnNPCEvent(Player player, NPC target, int interfaceId, int componentId, int slotId, int slotId2, boolean atNPC) {
 		this.player = player;

@@ -90,9 +90,7 @@ public class BonzoFishingContestD extends Conversation {
 			} else {
 				addNPC(NPC, HeadE.CALM_TALK, "Hey you lost your trophy");
 				if(player.getInventory().hasFreeSlots())
-					addItem(FISHING_TROPHY, "Bonzo gives you your trophy...", ()->{
-						player.getInventory().addItem(FISHING_TROPHY, 1);
-					});
+					addItem(FISHING_TROPHY, "Bonzo gives you your trophy...", ()-> player.getInventory().addItem(FISHING_TROPHY, 1));
 				else
 					addSimple("You need to make space for your trophy.");
 			}

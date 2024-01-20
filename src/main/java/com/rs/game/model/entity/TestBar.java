@@ -18,11 +18,11 @@ package com.rs.game.model.entity;
 
 public class TestBar extends HitBar {
 
-	private int type;
-	private int delay;
-	private int perc;
-	private int toPerc;
-	private int timer;
+	private final int type;
+	private final int delay;
+	private final int perc;
+	private final int toPerc;
+	private final int timer;
 
 	public TestBar(int type, int delay, int perc, int toPerc, int timer) {
 		this.type = type;

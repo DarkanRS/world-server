@@ -34,5 +34,5 @@ public class SkippyWorld extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2795 }, (npcId, tile) -> new SkippyWorld(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2795 }, SkippyWorld::new);
 }

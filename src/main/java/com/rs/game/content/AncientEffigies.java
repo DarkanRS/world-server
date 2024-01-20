@@ -39,7 +39,7 @@ public class AncientEffigies {
 		int type = -1;
 		if(e.getItem().getMetaData("effigyType") != null) {
 			type = e.getItem().getMetaDataI("effigyType");
-			if (((int) Math.floor(type)) >= SKILL_1.length) {
+			if (((int) (double) type) >= SKILL_1.length) {
 				type = Utils.getRandomInclusive(7);
 				e.getPlayer().getInventory().replace(e.getItem(), new Item(e.getItem().getId(), e.getItem().getAmount()).addMetaData("effigyType", type));
 			}
@@ -99,54 +99,38 @@ public class AncientEffigies {
 	});
 
 	public static int getRequiredLevel(int id) {
-		switch (id) {
-		case STARVED_ANCIENT_EFFIGY:
-			return 91;
-		case NOURISHED_ANCIENT_EFFIGY:
-			return 93;
-		case SATED_ANCIENT_EFFIGY:
-			return 95;
-		case GORGED_ANCIENT_EFFIGY:
-			return 97;
-		}
-		return -1;
-	}
+        return switch (id) {
+            case STARVED_ANCIENT_EFFIGY -> 91;
+            case NOURISHED_ANCIENT_EFFIGY -> 93;
+            case SATED_ANCIENT_EFFIGY -> 95;
+            case GORGED_ANCIENT_EFFIGY -> 97;
+            default -> -1;
+        };
+    }
 
 	public static String getMessage(int skill) {
-		switch (skill) {
-		case Constants.AGILITY:
-			return "deftness and precision";
-		case Constants.CONSTRUCTION:
-			return "buildings and security";
-		case Constants.COOKING:
-			return "fire and preparation";
-		case Constants.FISHING:
-			return "life and cultivation";
-		case Constants.FLETCHING:
-			return "lumber and woodworking";
-		case Constants.HERBLORE:
-			return "flora and fuana";
-		case Constants.MINING:
-			return "metalwork and minerals";
-		case Constants.SUMMONING:
-			return "binding essence and spirits";
-		}
-		return null;
-	}
+        return switch (skill) {
+            case Constants.AGILITY -> "deftness and precision";
+            case Constants.CONSTRUCTION -> "buildings and security";
+            case Constants.COOKING -> "fire and preparation";
+            case Constants.FISHING -> "life and cultivation";
+            case Constants.FLETCHING -> "lumber and woodworking";
+            case Constants.HERBLORE -> "flora and fuana";
+            case Constants.MINING -> "metalwork and minerals";
+            case Constants.SUMMONING -> "binding essence and spirits";
+            default -> null;
+        };
+    }
 
 	public static int getExp(int itemId) {
-		switch (itemId) {
-		case STARVED_ANCIENT_EFFIGY:
-			return 15000;
-		case NOURISHED_ANCIENT_EFFIGY:
-			return 20000;
-		case SATED_ANCIENT_EFFIGY:
-			return 25000;
-		case GORGED_ANCIENT_EFFIGY:
-			return 30000;
-		}
-		return -1;
-	}
+        return switch (itemId) {
+            case STARVED_ANCIENT_EFFIGY -> 15000;
+            case NOURISHED_ANCIENT_EFFIGY -> 20000;
+            case SATED_ANCIENT_EFFIGY -> 25000;
+            case GORGED_ANCIENT_EFFIGY -> 30000;
+            default -> -1;
+        };
+    }
 
 	public static void effigyInvestigation(Player player, Item item) {
 		Inventory inv = player.getInventory();

@@ -51,7 +51,7 @@ import java.util.function.Consumer;
 @PluginEventHandler
 public class ClansManager {
 	
-	private static Map<String, Clan> CACHED_CLANS = new ConcurrentHashMap<>();
+	private static final Map<String, Clan> CACHED_CLANS = new ConcurrentHashMap<>();
 	
 	public static Clan getClan(String name) {
 		if (name == null)
@@ -154,8 +154,7 @@ public class ClansManager {
 		player.sendOptionDialogue("The name " + name + " is available. Create the clan?", ops -> {
 			ops.add("Yes, create " + name + ".", () -> LobbyCommunicator.forwardPacket(player, new ClanCreate(name), cb -> { }));
 			ops.add("No, I want to pick another name.");
-			return;
-		});
+        });
 	}
 
 	public static void promptName(Player player) {
@@ -165,9 +164,7 @@ public class ClansManager {
 				return;
 			}
 			player.getTempAttribs().setB("ccCreateLock", true);
-			LobbyCommunicator.forwardPacket(player, new ClanCheckName(name, false), cb -> {
-				player.getTempAttribs().removeB("ccCreateLock");
-			});
+			LobbyCommunicator.forwardPacket(player, new ClanCheckName(name, false), cb -> player.getTempAttribs().removeB("ccCreateLock"));
 		});
 	}
 	
@@ -311,7 +308,7 @@ public class ClansManager {
 		}
 	});
 	
-	private static BiMap<ClanSetting, Integer> KEYWORD_INDICES = HashBiMap.create(10);
+	private static final BiMap<ClanSetting, Integer> KEYWORD_INDICES = HashBiMap.create(10);
 	
 	static {
 		KEYWORD_INDICES.put(ClanSetting.KEYWORD0_CATEGORY, 9155);
@@ -658,10 +655,7 @@ public class ClansManager {
 		player.getPackets().sendRunScript(5136, tab);
 		player.getPackets().setIFHidden(1096, 26, true);
 		for (int i = 16;i <= 20;i++)
-			if (tab == i-15)
-				player.getPackets().setIFHidden(1096, i, false);
-			else
-				player.getPackets().setIFHidden(1096, i, true);
+            player.getPackets().setIFHidden(1096, i, tab != i - 15);
 	}
 
 	private static void showClanSettingsClanMates(Player player) {

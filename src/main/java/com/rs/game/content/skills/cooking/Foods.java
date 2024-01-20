@@ -435,7 +435,7 @@ public class Foods {
         YULE_LOGS(15430, 20),
         ZAMORAK_FRUIT(21388, 200);
 
-        private static Map<Integer, Food> foods = new HashMap<>();
+        private static final Map<Integer, Food> foods = new HashMap<>();
 
         static {
             for (final Food food : Food.values())
@@ -498,7 +498,7 @@ public class Foods {
         }
     }
 
-    private static Consumer<Player> KEBAB_EFFECT = player -> {
+    private static final Consumer<Player> KEBAB_EFFECT = player -> {
         int roll = Utils.random(100);
         if (roll >= 95) {
             player.sendMessage("Wow, that was an amazing kebab! You feel really invigorated.");

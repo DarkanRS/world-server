@@ -38,37 +38,21 @@ public class Uncategorizeddumpfixes {
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 4 : e.getObject().getRotation() == 3 ? -4 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 2 ? -4 : 0, 1));
     });
     //Citharede
-    public static ObjectClickHandler handlewinchladderup = new ObjectClickHandler(new Object[]{63591}, e -> {
-        e.getPlayer().useLadder(Tile.of(3415, 3159, 1));
-    });
+    public static ObjectClickHandler handlewinchladderup = new ObjectClickHandler(new Object[]{63591}, e -> e.getPlayer().useLadder(Tile.of(3415, 3159, 1)));
 
-    public static ObjectClickHandler handlewinchladderdown = new ObjectClickHandler(new Object[]{63592}, e -> {
-        e.getPlayer().tele(Tile.of(3415, 3161, 0));
-    });
+    public static ObjectClickHandler handlewinchladderdown = new ObjectClickHandler(new Object[]{63592}, e -> e.getPlayer().tele(Tile.of(3415, 3161, 0)));
 
-    public static ObjectClickHandler handlespiraltowerup = new ObjectClickHandler(new Object[]{63583}, e -> {
-        e.getPlayer().tele(Tile.of(3449, 3174, 1));
-    });
+    public static ObjectClickHandler handlespiraltowerup = new ObjectClickHandler(new Object[]{63583}, e -> e.getPlayer().tele(Tile.of(3449, 3174, 1)));
 
-    public static ObjectClickHandler handlespiraltowerdown = new ObjectClickHandler(new Object[]{63584}, e -> {
-        e.getPlayer().tele(Tile.of(3446, 3177, 0));
-    });
+    public static ObjectClickHandler handlespiraltowerdown = new ObjectClickHandler(new Object[]{63584}, e -> e.getPlayer().tele(Tile.of(3446, 3177, 0)));
 
-    public static ObjectClickHandler handlespiraltowerup2 = new ObjectClickHandler(new Object[]{63585}, e -> {
-        e.getPlayer().tele(Tile.of(3447, 3179, 2));
-    });
+    public static ObjectClickHandler handlespiraltowerup2 = new ObjectClickHandler(new Object[]{63585}, e -> e.getPlayer().tele(Tile.of(3447, 3179, 2)));
 
-    public static ObjectClickHandler handlespiraltowerdown2 = new ObjectClickHandler(new Object[]{63586}, e -> {
-        e.getPlayer().tele(Tile.of(3451, 3176, 1));
-    });
+    public static ObjectClickHandler handlespiraltowerdown2 = new ObjectClickHandler(new Object[]{63586}, e -> e.getPlayer().tele(Tile.of(3451, 3176, 1)));
 
-    public static ObjectClickHandler handlespiraltowerup3 = new ObjectClickHandler(new Object[]{63587}, e -> {
-        e.getPlayer().tele(Tile.of(3447, 3179, 3));
-    });
+    public static ObjectClickHandler handlespiraltowerup3 = new ObjectClickHandler(new Object[]{63587}, e -> e.getPlayer().tele(Tile.of(3447, 3179, 3)));
 
-    public static ObjectClickHandler handlespiraltowerdown3 = new ObjectClickHandler(new Object[]{63588}, e -> {
-        e.getPlayer().tele(Tile.of(3450, 3175, 2));
-    });
+    public static ObjectClickHandler handlespiraltowerdown3 = new ObjectClickHandler(new Object[]{63588}, e -> e.getPlayer().tele(Tile.of(3450, 3175, 2)));
 
 
     public static ObjectClickHandler handlepirateshipladders = new ObjectClickHandler(new Object[]{16945, 16946, 16947}, e -> {
@@ -81,21 +65,13 @@ public class Uncategorizeddumpfixes {
 
     });
     //Observatory goblin kitchen dungeon-Note the stairs(25429) at (2335, 9350, 0) south of the ruin one is supposed to be a cutscene leading to the end of the quest but shares an ID
-    public static ObjectClickHandler handlegoblinladderup = new ObjectClickHandler(new Object[]{25429}, e -> {
-        e.getPlayer().tele(Tile.of(2458, 3185, 0));
-    });
+    public static ObjectClickHandler handlegoblinladderup = new ObjectClickHandler(new Object[]{25429}, e -> e.getPlayer().tele(Tile.of(2458, 3185, 0)));
 
-    public static ObjectClickHandler handlegoblinladderdown = new ObjectClickHandler(new Object[]{25432}, e -> {
-        e.getPlayer().tele(Tile.of(2335, 9394, 0));
-    });
+    public static ObjectClickHandler handlegoblinladderdown = new ObjectClickHandler(new Object[]{25432}, e -> e.getPlayer().tele(Tile.of(2335, 9394, 0)));
 
-    public static ObjectClickHandler handleObservatoryladderup = new ObjectClickHandler(new Object[]{25431}, e -> {
-        e.getPlayer().tele(Tile.of(2443, 3158, 1));
-    });
+    public static ObjectClickHandler handleObservatoryladderup = new ObjectClickHandler(new Object[]{25431}, e -> e.getPlayer().tele(Tile.of(2443, 3158, 1)));
 
-    public static ObjectClickHandler handleObservatoryladderdown = new ObjectClickHandler(new Object[]{25437}, e -> {
-        e.getPlayer().tele(Tile.of(2444, 3162, 0));
-    });
+    public static ObjectClickHandler handleObservatoryladderdown = new ObjectClickHandler(new Object[]{25437}, e -> e.getPlayer().tele(Tile.of(2444, 3162, 0)));
     //West Ardougne
     public static ObjectClickHandler handlewestardougnespiralstairs = new ObjectClickHandler(new Object[]{34388, 34390}, e -> {
         if (e.getObjectId() == 34388)
@@ -118,30 +94,18 @@ public class Uncategorizeddumpfixes {
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 4 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
     });
 
-    public static ObjectClickHandler handlehadleystairsup = new ObjectClickHandler(new Object[]{2536}, e -> {
-        e.getPlayer().tele(Tile.of(2517, 3426, 1));
-    });
+    public static ObjectClickHandler handlehadleystairsup = new ObjectClickHandler(new Object[]{2536}, e -> e.getPlayer().tele(Tile.of(2517, 3426, 1)));
 
-    public static ObjectClickHandler handlehadleystairsdown = new ObjectClickHandler(new Object[]{2535}, e -> {
-        e.getPlayer().tele(Tile.of(2516, 3423, 0));
-    });
+    public static ObjectClickHandler handlehadleystairsdown = new ObjectClickHandler(new Object[]{2535}, e -> e.getPlayer().tele(Tile.of(2516, 3423, 0)));
 
     //Carnillean
-    public static ObjectClickHandler handlecarnilleanstairsup = new ObjectClickHandler(new Object[]{73418}, e -> {
-        e.getPlayer().tele(Tile.of(2569, 3267, 1));
-    });
+    public static ObjectClickHandler handlecarnilleanstairsup = new ObjectClickHandler(new Object[]{73418}, e -> e.getPlayer().tele(Tile.of(2569, 3267, 1)));
 
-    public static ObjectClickHandler handlecarnilleanstairsdown = new ObjectClickHandler(new Object[]{73419}, e -> {
-        e.getPlayer().tele(Tile.of(2568, 3269, 0));
-    });
+    public static ObjectClickHandler handlecarnilleanstairsdown = new ObjectClickHandler(new Object[]{73419}, e -> e.getPlayer().tele(Tile.of(2568, 3269, 0)));
 
-    public static ObjectClickHandler handlecarnilleankitchenstairsup = new ObjectClickHandler(new Object[]{34829}, e -> {
-        e.getPlayer().tele(Tile.of(2569, 3268, 0));
-    });
+    public static ObjectClickHandler handlecarnilleankitchenstairsup = new ObjectClickHandler(new Object[]{34829}, e -> e.getPlayer().tele(Tile.of(2569, 3268, 0)));
 
-    public static ObjectClickHandler handlecarnilleankitchenstairsdown = new ObjectClickHandler(new Object[]{36703}, e -> {
-        e.getPlayer().tele(Tile.of(2569, 9668, 0));
-    });
+    public static ObjectClickHandler handlecarnilleankitchenstairsdown = new ObjectClickHandler(new Object[]{36703}, e -> e.getPlayer().tele(Tile.of(2569, 9668, 0)));
     //Fight Arena
     public static ObjectClickHandler handlefightarenastairs = new ObjectClickHandler(new Object[]{41121, 41122}, e -> {
         if (e.getObjectId() == 41121)
@@ -186,25 +150,17 @@ public class Uncategorizeddumpfixes {
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 3 ? 3 : 0, -1));
     });
     //Ape Atoll
-    public static ObjectClickHandler handlefallingdowncratecave = new ObjectClickHandler(new Object[]{4714}, e -> {
-        e.getPlayer().tele(Tile.of(2803, 9170, 0));
-    });
-    public static ObjectClickHandler handlebambooladderbridge = new ObjectClickHandler(new Object[]{4743}, e -> {
-        e.getPlayer().tele(Tile.of(2803, 2725, 0));
-    });
+    public static ObjectClickHandler handlefallingdowncratecave = new ObjectClickHandler(new Object[]{4714}, e -> e.getPlayer().tele(Tile.of(2803, 9170, 0)));
+    public static ObjectClickHandler handlebambooladderbridge = new ObjectClickHandler(new Object[]{4743}, e -> e.getPlayer().tele(Tile.of(2803, 2725, 0)));
     public static ObjectClickHandler handlebambooladder = new ObjectClickHandler(new Object[]{4773, 4779}, e -> {
         if (e.getObjectId() == 4773)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -2 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 3 ? -2 : 0, 1));
         else if (e.getObjectId() == 4779)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 2 : e.getObject().getRotation() == 3 ? -0 : 0, e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 3 ? 2 : 0, -1));
     });
-    public static ObjectClickHandler handleclimbingropeup = new ObjectClickHandler(new Object[]{4728}, e -> {
-        e.getPlayer().tele(Tile.of(2765, 2768, 0));
-    });
+    public static ObjectClickHandler handleclimbingropeup = new ObjectClickHandler(new Object[]{4728}, e -> e.getPlayer().tele(Tile.of(2765, 2768, 0)));
 
-    public static ObjectClickHandler handleclimbingropeup2 = new ObjectClickHandler(new Object[]{4889}, e -> {
-        e.getPlayer().tele(Tile.of(2748, 2767, 0));
-    });
+    public static ObjectClickHandler handleclimbingropeup2 = new ObjectClickHandler(new Object[]{4889}, e -> e.getPlayer().tele(Tile.of(2748, 2767, 0)));
 
     //brimhaven
     public static ObjectClickHandler handlebrimhavenstairs = new ObjectClickHandler(new Object[]{45, 46}, e -> {
@@ -240,17 +196,11 @@ public class Uncategorizeddumpfixes {
         else if (e.getObjectId() == 6088)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? 3 : e.getObject().getRotation() == 0 ? -0 : 0, -1));
     });
-    public static ObjectClickHandler handleboatmanladderup = new ObjectClickHandler(new Object[]{45005}, e -> {
-        e.getPlayer().tele(Tile.of(2871, 10176, 1));
-    });
+    public static ObjectClickHandler handleboatmanladderup = new ObjectClickHandler(new Object[]{45005}, e -> e.getPlayer().tele(Tile.of(2871, 10176, 1)));
 
-    public static ObjectClickHandler handleboatmanladderdown = new ObjectClickHandler(new Object[]{45006}, e -> {
-        e.getPlayer().tele(Tile.of(2871, 10173, 0));
-    });
+    public static ObjectClickHandler handleboatmanladderdown = new ObjectClickHandler(new Object[]{45006}, e -> e.getPlayer().tele(Tile.of(2871, 10173, 0)));
 
-    public static ObjectClickHandler handleboatmanladderup2 = new ObjectClickHandler(new Object[]{45007}, e -> {
-        e.getPlayer().tele(Tile.of(2873, 10173, 2));
-    });
+    public static ObjectClickHandler handleboatmanladderup2 = new ObjectClickHandler(new Object[]{45007}, e -> e.getPlayer().tele(Tile.of(2873, 10173, 2)));
     //Zemouregal's fort
     public static ObjectClickHandler handleZemouregalstairs = new ObjectClickHandler(new Object[]{44253, 44255}, e -> {
         if (e.getObjectId() == 44253)
@@ -258,9 +208,7 @@ public class Uncategorizeddumpfixes {
         else if (e.getObjectId() == 44255)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? 3 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -3 : 0, -1));
     });
-    public static ObjectClickHandler handleZemouregalrightstairsuponly = new ObjectClickHandler(new Object[]{44254}, e -> {
-        e.getPlayer().tele(Tile.of(2836, 3868, 1));
-    });
+    public static ObjectClickHandler handleZemouregalrightstairsuponly = new ObjectClickHandler(new Object[]{44254}, e -> e.getPlayer().tele(Tile.of(2836, 3868, 1)));
     //Nora T. Hagg House
     public static ObjectClickHandler handlenorathaggstairs = new ObjectClickHandler(new Object[]{24672, 24673}, e -> {
         if (e.getObjectId() == 24672)
@@ -276,9 +224,7 @@ public class Uncategorizeddumpfixes {
         else if (e.getObjectId() == 47144)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? 1 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? 4 : 0, -1));
     });
-    public static ObjectClickHandler handlefrozenwasterightstairsuponly = new ObjectClickHandler(new Object[]{47143}, e -> {
-        e.getPlayer().tele(Tile.of(2921, 3931, 1));
-    });
+    public static ObjectClickHandler handlefrozenwasterightstairsuponly = new ObjectClickHandler(new Object[]{47143}, e -> e.getPlayer().tele(Tile.of(2921, 3931, 1)));
     //falador
     public static ObjectClickHandler handlefaladorstairs = new ObjectClickHandler(new Object[]{11736, 11737}, e -> {
         if (e.getObjectId() == 11736)
@@ -287,45 +233,25 @@ public class Uncategorizeddumpfixes {
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
     });
     //Mage Training Arena
-    public static ObjectClickHandler handlemagetrainladderup = new ObjectClickHandler(new Object[]{10775}, e -> {
-        e.getPlayer().tele(Tile.of(3357, 3307, 1));
-    });
+    public static ObjectClickHandler handlemagetrainladderup = new ObjectClickHandler(new Object[]{10775}, e -> e.getPlayer().tele(Tile.of(3357, 3307, 1)));
 
-    public static ObjectClickHandler handlemagetrainladderdown = new ObjectClickHandler(new Object[]{10776}, e -> {
-        e.getPlayer().tele(Tile.of(3360, 3306, 0));
-    });
+    public static ObjectClickHandler handlemagetrainladderdown = new ObjectClickHandler(new Object[]{10776}, e -> e.getPlayer().tele(Tile.of(3360, 3306, 0)));
 
-    public static ObjectClickHandler handlemagetrainladderup2 = new ObjectClickHandler(new Object[]{10771}, e -> {
-        e.getPlayer().tele(Tile.of(3369, 3307, 1));
-    });
+    public static ObjectClickHandler handlemagetrainladderup2 = new ObjectClickHandler(new Object[]{10771}, e -> e.getPlayer().tele(Tile.of(3369, 3307, 1)));
 
-    public static ObjectClickHandler handlemagetrainladderdown2 = new ObjectClickHandler(new Object[]{10773}, e -> {
-        e.getPlayer().tele(Tile.of(3367, 3306, 0));
-    });
+    public static ObjectClickHandler handlemagetrainladderdown2 = new ObjectClickHandler(new Object[]{10773}, e -> e.getPlayer().tele(Tile.of(3367, 3306, 0)));
 
-    public static ObjectClickHandler handlerunemechanicup = new ObjectClickHandler(new Object[]{528}, e -> {
-        e.getPlayer().tele(Tile.of(3358, 3305, 0));
-    });
+    public static ObjectClickHandler handlerunemechanicup = new ObjectClickHandler(new Object[]{528}, e -> e.getPlayer().tele(Tile.of(3358, 3305, 0)));
 
-    public static ObjectClickHandler handlerunemechanicdown = new ObjectClickHandler(new Object[]{527}, e -> {
-        e.getPlayer().tele(Tile.of(3619, 4814, 0));
-    });
+    public static ObjectClickHandler handlerunemechanicdown = new ObjectClickHandler(new Object[]{527}, e -> e.getPlayer().tele(Tile.of(3619, 4814, 0)));
     //Templebarriermort
-    public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[]{30722}, e -> {
-        e.getPlayer().tele(Tile.of(3415, 3485, 1));
-    });
+    public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[]{30722}, e -> e.getPlayer().tele(Tile.of(3415, 3485, 1)));
 
-    public static ObjectClickHandler handleTemplespiralstairsdown = new ObjectClickHandler(new Object[]{30723}, e -> {
-        e.getPlayer().tele(Tile.of(3414, 3486, 0));
-    });
+    public static ObjectClickHandler handleTemplespiralstairsdown = new ObjectClickHandler(new Object[]{30723}, e -> e.getPlayer().tele(Tile.of(3414, 3486, 0)));
 
-    public static ObjectClickHandler handleTemplespiralstairsup2 = new ObjectClickHandler(new Object[]{30724}, e -> {
-        e.getPlayer().tele(Tile.of(3415, 3492, 1));
-    });
+    public static ObjectClickHandler handleTemplespiralstairsup2 = new ObjectClickHandler(new Object[]{30724}, e -> e.getPlayer().tele(Tile.of(3415, 3492, 1)));
 
-    public static ObjectClickHandler handleTemplespiralstairsdown2 = new ObjectClickHandler(new Object[]{30725}, e -> {
-        e.getPlayer().tele(Tile.of(3414, 3491, 0));
-    });
+    public static ObjectClickHandler handleTemplespiralstairsdown2 = new ObjectClickHandler(new Object[]{30725}, e -> e.getPlayer().tele(Tile.of(3414, 3491, 0)));
     //Fenkenstraincastle
     public static ObjectClickHandler handleFenkenstraincastlestairs = new ObjectClickHandler(new Object[]{5206, 5207}, e -> {
         if (e.getObjectId() == 5206)
@@ -333,9 +259,7 @@ public class Uncategorizeddumpfixes {
         else if (e.getObjectId() == 5207)
             e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
     });
-    public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[]{5167}, e -> {
-        e.getPlayer().tele(Tile.of(3577, 9927, 0));
-    });
+    public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[]{5167}, e -> e.getPlayer().tele(Tile.of(3577, 9927, 0)));
     public static ObjectClickHandler ladder1757 = new ObjectClickHandler(new Object[]{1757}, e -> e.getPlayer().useLadder(e.getPlayer().transform(0, -6400, 0)));
 
     //Meiyerditch

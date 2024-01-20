@@ -149,15 +149,15 @@ public class Sets {
 		CANNON(11967, 6, 8, 10, 12),
 		DAGON_HAI(14525, 14497, 14499, 14501);
 
-		private int setId;
-		private int[] items;
+		private final int setId;
+		private final int[] items;
 
-		private Set(int setId, int... items) {
+		Set(int setId, int... items) {
 			this.setId = setId;
 			this.items = items;
 		}
 
-		private static Map<Integer, Set> SETS = new HashMap<>();
+		private static final Map<Integer, Set> SETS = new HashMap<>();
 
 		public static Set forId(int itemId) {
 			return SETS.get(itemId);
@@ -215,9 +215,9 @@ public class Sets {
 
 	public static void printSet(Player player, Set set) {
 		if (set != null) {
-			String components = "";
+			StringBuilder components = new StringBuilder();
 			for (int i = 0;i < set.getItems().length;i++)
-				components += ItemDefinitions.getDefs(set.getItems()[i]).name.toLowerCase() + (i == set.getItems().length-1 ? "" : ", ");
+				components.append(ItemDefinitions.getDefs(set.getItems()[i]).name.toLowerCase()).append(i == set.getItems().length - 1 ? "" : ", ");
 			player.sendMessage("This set contains " + components + ".");
 		}
 	}

@@ -18,9 +18,7 @@ public class AlisonElmshaper extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need fletching supplies", () -> {
-                    ShopsHandler.openShop(player, "alison_fletch_shop");
-                });
+                option("I need fletching supplies", () -> ShopsHandler.openShop(player, "alison_fletch_shop"));
                 option("Farewell");
             }
         });

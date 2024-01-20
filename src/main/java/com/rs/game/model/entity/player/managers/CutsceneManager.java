@@ -21,7 +21,7 @@ import com.rs.game.model.entity.player.Player;
 
 public final class CutsceneManager {
 
-	private Player player;
+	private final Player player;
 	private Cutscene cutscene;
 	
 	public CutsceneManager(Player player) {

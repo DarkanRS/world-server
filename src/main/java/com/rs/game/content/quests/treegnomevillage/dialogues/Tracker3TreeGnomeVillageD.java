@@ -36,21 +36,13 @@ public class Tracker3TreeGnomeVillageD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Who holds the stronghold?");
 				addPlayer(HeadE.HAPPY_TALKING, "What?");
 				if(coordinate == 1)
-					addNPC(NPC, HeadE.CALM_TALK, "Less than my hands", ()->{
-						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "Less than my hands", ()-> player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true));
 				if(coordinate == 2)
-					addNPC(NPC, HeadE.CALM_TALK, "More than my head less than my fingers", ()->{
-						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "More than my head less than my fingers", ()-> player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true));
 				if(coordinate == 3)
-					addNPC(NPC, HeadE.CALM_TALK, "More than we but less than our feet", ()->{
-						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "More than we but less than our feet", ()-> player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true));
 				if(coordinate == 4)
-					addNPC(NPC, HeadE.CALM_TALK, "My legs and your legs", ()->{
-						player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "My legs and your legs", ()-> player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker3found", true));
 				addPlayer(HeadE.HAPPY_TALKING, "You're mad.");
 				addNPC(NPC, HeadE.CALM_TALK, "Dance with me, and Khazard's men are beat.");
 				addPlayer(HeadE.HAPPY_TALKING, "I'll pray for you little man.");

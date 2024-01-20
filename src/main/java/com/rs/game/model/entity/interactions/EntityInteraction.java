@@ -55,10 +55,8 @@ public abstract class EntityInteraction extends Interaction {
 		entity.setNextFaceEntity(target);
 		if (!canStart(entity))
 			return false;
-		if (checkDistance(entity) && checkAll(entity))
-			return true;
-		return false;
-	}
+        return checkDistance(entity) && checkAll(entity);
+    }
 
 	@Override
 	public void stop(Entity entity) {
@@ -89,10 +87,8 @@ public abstract class EntityInteraction extends Interaction {
 		boolean los = entity.lineOfSightTo(target, distance == 0);
 		boolean inRange = WorldUtil.isInRange(entity, target, distance + (addRunSteps ? (target.getRun() ? target.hasWalkSteps() ? 2 : 1 : target.hasWalkSteps() ? 1 : 0) : 0));
 		//boolean collides = WorldUtil.collides(player, target);
-		if (!los || !inRange)
-			return false;
-		return true;
-	}
+        return los && inRange;
+    }
 
 	public final boolean checkDistance(Entity entity) {
 		if (entity.isDead() || entity.hasFinished() || target.isDead() || target.hasFinished())
@@ -108,9 +104,9 @@ public abstract class EntityInteraction extends Interaction {
 		if (WorldUtil.collides(entity, target)) {
 			if (!entity.hasWalkSteps() && !target.hasWalkSteps()) {
 				entity.resetWalkSteps();
-				return entity.calcFollow(target, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
+				return entity.calcFollow(target, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
 			}
-			return target instanceof Player ? true : entity instanceof Player ? target.hasWalkSteps() ? target instanceof NPC ? true : false : entity.calcFollow(target, true) : entity.calcFollow(target, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
+			return target instanceof Player || (entity instanceof Player ? target.hasWalkSteps() ? target instanceof NPC : entity.calcFollow(target, true) : entity.calcFollow(target, !(entity instanceof NPC n) || n.isIntelligentRouteFinder()));
 		}
 		if (distance == 0 && !target.hasWalkSteps() && target.getSize() == 1) {
 			Direction dir = Direction.forDelta(target.getX() - entity.getX(), target.getY() - entity.getY());
@@ -123,19 +119,19 @@ public abstract class EntityInteraction extends Interaction {
 					break;
 				default:
 					entity.resetWalkSteps();
-					entity.calcFollow(target, entity.getRun() ? 2 : 1, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
+					entity.calcFollow(target, entity.getRun() ? 2 : 1, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
 					return true;
 				}
 		}
 		if (!isWithinDistance(entity, target, false)) {
 			if (!entity.hasWalkSteps()) {
 				entity.resetWalkSteps();
-				entity.calcFollow(target, entity.getRun() ? 2 : 1, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
+				entity.calcFollow(target, entity.getRun() ? 2 : 1, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
 			}
 		} else {
 			entity.resetWalkSteps();
 			if (distance == 0 && target.getRun() == entity.getRun())
-				entity.calcFollow(target, entity.getRun() ? 2 : 1, entity instanceof NPC n ? n.isIntelligentRouteFinder() : true);
+				entity.calcFollow(target, entity.getRun() ? 2 : 1, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
 		}
 		return true;
 	}

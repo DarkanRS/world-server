@@ -29,9 +29,9 @@ public class ItemDefReplacer {
 
 	private static Store NEW;
 
-	private static HashMap<Integer, Integer> PACKED_MAP = new HashMap<>();
+	private static final HashMap<Integer, Integer> PACKED_MAP = new HashMap<>();
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		//Cache.init();
 		NEW = new Store("D:/RSPS/cache_742_cleaned/");
 

@@ -27,7 +27,7 @@ public class WarriorLostCityD extends Conversation {
 					option("Why are you camped out here?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Why are you camped out here?")
 							.addNPC(WARRIOR, HeadE.CALM_TALK, "We're looking for Zanaris...GAH! I mean we're not here for any particular reason at all")
-							.addNext(()->{player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart());})
+							.addNext(()-> player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart()))
 							);
 					option("Do you know any good adventurers I can go on?", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Do you know any good adventurers I can go on?")
@@ -49,7 +49,7 @@ public class WarriorLostCityD extends Conversation {
 											.addNPC(WARRIOR, HeadE.CALM_TALK, "Hah! Adventurers of our caliber don't just hang around in forests for fun, whelp!")
 											.addPlayer(HeadE.HAPPY_TALKING, "Oh really? Why are you camped out here?")
 											.addNPC(WARRIOR, HeadE.CALM_TALK, "We're looking for Zanaris...GAH! I mean we're not here for any particular reason at all")
-											.addNext(()->{player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart());})
+											.addNext(()-> player.startConversation(new WarriorLostCityD(player, LOOKINGFORZANARIS).getStart()))
 											);
 								}
 							})
@@ -85,43 +85,41 @@ public class WarriorLostCityD extends Conversation {
 	public WarriorLostCityD(Player p, int id) {
 		super(p);
 		switch(id) {
-		case LOOKINGFORZANARIS -> {
-			addOptions("Choose an option:", new Options() {
-				@Override
-				public void create() {
-					option("Who's Zanaris?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Who's Zanaris?")
-							.addNPC(WARRIOR, HeadE.CALM_TALK, "Ahahahaha! Zanaris isn't a person! It's a magical hidden city filled with treasures and " +
-									"rich... uh, nothing, it's nothing.")
-							.addOptions("Choose an option:", new Options() {
-								@Override
-								public void create() {
-									option("If it's hidden, how are you planning to find it?", new Dialogue()
-											.addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKFORLEPRECAUN).getStart());})
-											);
-									option("There's no such thing", new Dialogue()
-											.addPlayer(HeadE.HAPPY_TALKING, "There's no such thing!")
-											.addNPC(WARRIOR, HeadE.CALM_TALK, "When we've found Zanaris, you'll... GAH! I mean, we're not here for any " +
-													"particular reason at all.")
-											.addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKINGFORZANARIS).getStart());})
-											);
-								}
-							})
-							);
-					option("What's Zanaris?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "What's Zanaris?")
-							.addNPC(WARRIOR, HeadE.CALM_TALK, "I don't think we want other people competing with us to find it. Forget I said anything.")
-							);
-					option("What makes you think it's out here?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "What makes you think it's out here?")
-							.addNPC(WARRIOR, HeadE.CALM_TALK, "Don't you know of the legends that tell of the magical city, hidden in the swam... " +
-									"Uh, no, you're right, we're wasting our time here.")
-							.addPlayer(HeadE.HAPPY_TALKING, "If it's hidden, how are you planning to find it?")
-							.addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKFORLEPRECAUN).getStart());})
-							);
-				}
-			});
-		}
+		case LOOKINGFORZANARIS -> addOptions("Choose an option:", new Options() {
+            @Override
+            public void create() {
+                option("Who's Zanaris?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "Who's Zanaris?")
+                        .addNPC(WARRIOR, HeadE.CALM_TALK, "Ahahahaha! Zanaris isn't a person! It's a magical hidden city filled with treasures and " +
+                                "rich... uh, nothing, it's nothing.")
+                        .addOptions("Choose an option:", new Options() {
+                            @Override
+                            public void create() {
+                                option("If it's hidden, how are you planning to find it?", new Dialogue()
+                                        .addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKFORLEPRECAUN).getStart());})
+                                        );
+                                option("There's no such thing", new Dialogue()
+                                        .addPlayer(HeadE.HAPPY_TALKING, "There's no such thing!")
+                                        .addNPC(WARRIOR, HeadE.CALM_TALK, "When we've found Zanaris, you'll... GAH! I mean, we're not here for any " +
+                                                "particular reason at all.")
+                                        .addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKINGFORZANARIS).getStart());})
+                                        );
+                            }
+                        })
+                        );
+                option("What's Zanaris?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "What's Zanaris?")
+                        .addNPC(WARRIOR, HeadE.CALM_TALK, "I don't think we want other people competing with us to find it. Forget I said anything.")
+                        );
+                option("What makes you think it's out here?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "What makes you think it's out here?")
+                        .addNPC(WARRIOR, HeadE.CALM_TALK, "Don't you know of the legends that tell of the magical city, hidden in the swam... " +
+                                "Uh, no, you're right, we're wasting our time here.")
+                        .addPlayer(HeadE.HAPPY_TALKING, "If it's hidden, how are you planning to find it?")
+                        .addNext(()->{p.startConversation(new WarriorLostCityD(p, LOOKFORLEPRECAUN).getStart());})
+                        );
+            }
+        });
 		case LOOKFORLEPRECAUN -> {
 			addPlayer(HeadE.HAPPY_TALKING, "If it's hidden, how are you planning to find it?");
 			addNPC(WARRIOR, HeadE.CALM_TALK, "Well, we don't want to tell anyone else about that, because we don't want anyone else sharing in all the " +
@@ -148,9 +146,7 @@ public class WarriorLostCityD extends Conversation {
 								public void create() {
 									if(p.getSkills().getLevel(Constants.CRAFTING) >= 31 && p.getSkills().getLevel(Constants.WOODCUTTING) >= 36)
 										option("Yes", new Dialogue()
-												.addPlayer(HeadE.HAPPY_TALKING, "Thanks for the help!", () -> {
-													p.getQuestManager().setStage(Quest.LOST_CITY, TALK_TO_LEPRAUCAN);
-												})
+												.addPlayer(HeadE.HAPPY_TALKING, "Thanks for the help!", () -> p.getQuestManager().setStage(Quest.LOST_CITY, TALK_TO_LEPRAUCAN))
 												.addNPC(WARRIOR, HeadE.CALM_TALK, "Help, What help? I didn't help! Please don't say I did, I'll get in trouble!")
 												);
 									else

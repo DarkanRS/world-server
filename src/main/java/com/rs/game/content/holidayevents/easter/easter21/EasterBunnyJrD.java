@@ -42,9 +42,7 @@ public class EasterBunnyJrD extends Conversation {
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_SAD, "I don't really care and I don't remember.. All I know is that 3 parts went flying off when it exploded. Leave me alone now, I'm trying to sleep.");
 			addPlayer(HeadE.ANGRY, "That doesn't help much at all!");
 			addNPC(EASTER_BUNNY_JR, HeadE.CAT_DISAPPOINTED2, "Ok boomer.");
-			addPlayer(HeadE.ROLL_EYES, "*What a lazy sack of garbage.*", () -> {
-				player.save(Easter2021.STAGE_KEY, 5);
-			});
+			addPlayer(HeadE.ROLL_EYES, "*What a lazy sack of garbage.*", () -> player.save(Easter2021.STAGE_KEY, 5));
 			break;
 		case 5:
 			addPlayer(HeadE.ANGRY, "Tell me where the incubator parts are.");

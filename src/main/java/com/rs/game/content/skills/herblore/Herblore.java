@@ -34,7 +34,7 @@ import java.util.List;
 @PluginEventHandler
 public class Herblore extends PlayerAction {
 
-	private CraftablePotion potion;
+	private final CraftablePotion potion;
 	private int ticks;
 
 	public Herblore(CraftablePotion potion, int amount) {

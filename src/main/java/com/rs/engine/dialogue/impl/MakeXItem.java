@@ -24,7 +24,7 @@ import com.rs.lib.game.Item;
 
 public class MakeXItem extends Dialogue {
 
-	private int itemId;
+	private final int itemId;
 
 	public MakeXItem(Player player, Item[] materials, Item[] products, double xp, int anim, int req, int skill, int delay) {
 		itemId = products[0].getId();

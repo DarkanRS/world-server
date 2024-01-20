@@ -41,9 +41,9 @@ public class Daemonheim {
 			p.startConversation(new Dialogue()
 					.addNPC(e.getNPCId(), HeadE.HAPPY_TALKING, "Good day. How may I help you?")
 					.addOptions("Select an option", ops -> {
-						ops.add("I'd like to access my bank account, please.", new Dialogue().addNext(()->{p.getBank().open();}));
-						ops.add("I'd like to check my PIN settings.", new Dialogue().addNext(()->{p.getBank().openPinSettings();}));
-						ops.add("I'd like to see my collection box", new Dialogue().addNext(()->{GE.openCollection(p);}));
+						ops.add("I'd like to access my bank account, please.", new Dialogue().addNext(()-> p.getBank().open()));
+						ops.add("I'd like to check my PIN settings.", new Dialogue().addNext(()-> p.getBank().openPinSettings()));
+						ops.add("I'd like to see my collection box", new Dialogue().addNext(()-> GE.openCollection(p)));
 					}));
 	});
 

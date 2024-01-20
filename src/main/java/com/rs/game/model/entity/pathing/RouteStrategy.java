@@ -47,23 +47,19 @@ public abstract class RouteStrategy {
 			if (targetRotation == 0) {
 				if (currentX == (targetX + 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_W))
 					return true;
-				if (currentX == targetX && currentY == (targetY - 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_N))
-					return true;
+                return currentX == targetX && currentY == (targetY - 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_N);
 			} else if (targetRotation == 1) {
 				if (currentX == (targetX - 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_E))
 					return true;
-				if (currentX == targetX && currentY == (targetY - 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_N))
-					return true;
+                return currentX == targetX && currentY == (targetY - 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_N);
 			} else if (targetRotation == 2) {
 				if (currentX == (targetX - 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_E))
 					return true;
-				if (currentX == targetX && currentY == (targetY + 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_S))
-					return true;
+                return currentX == targetX && currentY == (targetY + 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_S);
 			} else if (targetRotation == 3) {
 				if (currentX == (targetX + 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_W))
 					return true;
-				if (currentX == targetX && currentY == (targetY + 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_S))
-					return true;
+                return currentX == targetX && currentY == (targetY + 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_S);
 			}
 		} else if (targetType == ObjectType.DIAGONAL_INWALL_DEC) {
 			if (currentX == targetX && currentY == (targetY + 1) && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_S))
@@ -72,8 +68,7 @@ public abstract class RouteStrategy {
 				return true;
 			if (currentX == (targetX - 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_E))
 				return true;
-			if (currentX == (targetX + 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_W))
-				return true;
+            return currentX == (targetX + 1) && currentY == targetY && !ClipFlag.flagged(clip[currentX][currentY], ClipFlag.BW_W);
 		}
 		return false;
 	}

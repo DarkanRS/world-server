@@ -32,7 +32,7 @@ public class CaptainNedDragonSlayerD extends Conversation {
 					option("Yes, let's go!", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Yes, let's go!")
 							.addSimple("Ship begins to set sail")
-							.addNext(()->{player.getControllerManager().startController(new DragonSlayer_BoatScene());}));
+							.addNext(()-> player.getControllerManager().startController(new DragonSlayer_BoatScene())));
 					option("No, I'm not quite ready yet.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "No, I'm not quite ready yet.")
 							.addNPC(NED, HeadE.CALM_TALK, "Well, you go do whatever you need to do. I'll wait here for you until you're ready."));

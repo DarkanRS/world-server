@@ -19,13 +19,13 @@ fun main() {
 
     for (i in 0..50)
         runLoomCoroutineTest()
-    println("JVM heated up. Starting...");
+    println("JVM heated up. Starting...")
 
-    var results: MutableList<Double> = mutableListOf();
+    var results: MutableList<Double> = mutableListOf()
     for (i in 0..50) {
         var start = System.nanoTime()
         runLoomCoroutineTest()
-        results.add((System.nanoTime() - start) / 1000000.0);
+        results.add((System.nanoTime() - start) / 1000000.0)
     }
 
     println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.")
@@ -33,7 +33,7 @@ fun main() {
 }
 
 fun runLoomCoroutineTest() {
-    Cache.init("../cache/");
+    Cache.init("../cache/")
     runBlocking(executorCoroutineDispatcher) {
         (0 until 1000).map { _ ->
             launch {

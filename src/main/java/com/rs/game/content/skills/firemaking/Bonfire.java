@@ -59,8 +59,11 @@ public class Bonfire extends PlayerAction {
 		BLISTERWOOD(21600, 3113, 76, 378, 60),
 		CURSED_MAGIC(13567, 3116, 82, 378, 60);
 
-		private int logId, gfxId, level, boostTime;
-		private double xp;
+		private final int logId;
+        private final int gfxId;
+        private final int level;
+        private final int boostTime;
+		private final double xp;
 
 		private Log(int logId, int gfxId, int level, double xp, int boostTime) {
 			this.logId = logId;
@@ -76,8 +79,8 @@ public class Bonfire extends PlayerAction {
 
 	}
 
-	private Log log;
-	private GameObject object;
+	private final Log log;
+	private final GameObject object;
 	private int count;
 
 	public Bonfire(Log log, GameObject object) {
@@ -109,7 +112,7 @@ public class Bonfire extends PlayerAction {
 		for (Log log : Log.values())
 			if (player.getInventory().containsItem(log.logId, 1))
 				possiblities.add(log);
-		Log[] logs = possiblities.toArray(new Log[possiblities.size()]);
+		Log[] logs = possiblities.toArray(new Log[0]);
 		if (logs.length == 0)
 			player.sendMessage("You do not have any logs to add to this fire.");
 		else if (logs.length == 1)
@@ -153,7 +156,7 @@ public class Bonfire extends PlayerAction {
 		player.setNextSpotAnim(new SpotAnim(log.gfxId));
 		player.sendMessage("You add a log to the fire.", true);
 		if (count++ == 4 && !player.hasEffect(Effect.BONFIRE)) {
-			player.addEffect(Effect.BONFIRE, log.boostTime * 100);
+			player.addEffect(Effect.BONFIRE, log.boostTime * 100L);
 			int percentage = (int) (getBonfireBoostMultiplier(player) * 100 - 100);
 			player.sendMessage("<col=00ff00>The bonfire's warmth increases your maximum health by " + percentage + "%. This will last " + log.boostTime + " minutes.");
 		}

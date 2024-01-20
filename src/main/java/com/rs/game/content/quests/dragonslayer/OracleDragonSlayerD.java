@@ -23,9 +23,7 @@ public class OracleDragonSlayerD extends Conversation {
 			addNPC(746, HeadE.CALM_TALK, "The map's behind a door below, but entering is rather tough. This is what you need to know: You must " +
 					"use the following stuff");
 			addNPC(746, HeadE.CALM_TALK, "First, a drink used by a mage. Next, some worm string, changed to sheet. Then, a small crustacean cage. " +
-					"Last, a bowl that's not seen heat. Use that stuff on the door...", () -> {
-						p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(ORACLE_DOOR_KNOWLEDGE_ATTR, true);
-					});
+					"Last, a bowl that's not seen heat. Use that stuff on the door...", () -> p.getQuestManager().getAttribs(Quest.DRAGON_SLAYER).setB(ORACLE_DOOR_KNOWLEDGE_ATTR, true));
 			addPlayer(HeadE.HAPPY_TALKING, "Got it, a crayfish cage, an unfired bowl, silk and a wizard mind bomb. I should use all of them on the door.");
 
 		}

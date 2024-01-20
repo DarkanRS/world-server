@@ -26,7 +26,6 @@ import java.nio.channels.FileChannel.MapMode;
 
 public class NPCDropConverter {
 
-	@SuppressWarnings("resource")
 	public static void main(String[] args) throws IOException {
 		RandomAccessFile in = new RandomAccessFile("./data/npcs/npcDrops.bin", "r");
 		FileChannel channel = in.getChannel();
@@ -51,25 +50,16 @@ public class NPCDropConverter {
 				int chanceTypeOrdinal = buffer.getInt(); // ChanceType Enum
 				// Ordinal
 
-				String rarity = "";
-				switch (chanceTypeOrdinal) {
-				case 0:
-					rarity = "ALWAYS";
-					break;
-				case 1:
-					rarity = "COMMON";
-					break;
-				case 2:
-					rarity = "UNCOMMON";
-					break;
-				case 3:
-					rarity = "RARE";
-					break;
-				case 4:
-					rarity = "VERYRARE";
-					break;
-				} // TODO organize the drops in rarity order
-				writer.write(npcId + ":");
+				// TODO organize the drops in rarity order
+                String rarity = switch (chanceTypeOrdinal) {
+                    case 0 -> "ALWAYS";
+                    case 1 -> "COMMON";
+                    case 2 -> "UNCOMMON";
+                    case 3 -> "RARE";
+                    case 4 -> "VERYRARE";
+                    default -> "";
+                };
+                writer.write(npcId + ":");
 				writer.write(itemId + "-" + rarity + "-" + minItemAmount + "-" + maxItemAmount + ":");
 				writer.newLine();
 				writer.flush();

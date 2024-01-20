@@ -61,13 +61,9 @@ public class StrongholdRewardD extends Conversation {
 					Dialogue op = addOption("Choose your style of boots", "I'll take the colourful ones.", "I'll take the fighting ones.");
 					if (player.getEmotesManager().unlockedEmote(Emote.STOMP)) {
 						op.addPlayer(HeadE.CHEERFUL, "I'll take the colourful ones.")
-								.addSimple("Enjoy your new boots.", () -> {
-									player.getInventory().addItem(9005, 1);
-								});
+								.addSimple("Enjoy your new boots.", () -> player.getInventory().addItem(9005, 1));
 						op.addPlayer(HeadE.CHEERFUL, "I'll take the fighting ones.")
-								.addSimple("Enjoy your new boots.", () -> {
-									player.getInventory().addItem(9006, 1);
-								});
+								.addSimple("Enjoy your new boots.", () -> player.getInventory().addItem(9006, 1));
 					} else {
 						op.addPlayer(HeadE.CHEERFUL, "I'll take the colourful ones.")
 								.addSimple("Congratulations! You have succefully nagivated the Stronghold of secuity and learned to secure your account. You have unlocked the 'Stamp Foot'emote. Remember to keep your account secured in the future!", () -> {

@@ -38,7 +38,7 @@ import com.rs.utils.Ticks;
 
 @PluginEventHandler
 public class CountDraynorBoss extends OwnedNPC {
-	private static int COUNT_DRAYNOR_ID = 9356;
+	private static final int COUNT_DRAYNOR_ID = 9356;
 
 	//Vampyre animations
 	static final int STUNNED = 1568;
@@ -84,7 +84,7 @@ public class CountDraynorBoss extends OwnedNPC {
 
 		WorldTasks.schedule(new Task() {
 			int tick = 0;
-			int finalTick = Ticks.fromSeconds(12);
+			final int finalTick = Ticks.fromSeconds(12);
 
 			@Override
 			public void run() {

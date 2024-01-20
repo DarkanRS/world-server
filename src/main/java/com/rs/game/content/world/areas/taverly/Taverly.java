@@ -121,9 +121,7 @@ public class Taverly {
 		}
 	});
 
-	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> {
-		Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
-	});
+	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
 	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new Tile[] { Tile.of(2946, 3474, 0), Tile.of(2946, 3473, 0) }, e -> {
 		if (!e.isTelegrabbed()) {

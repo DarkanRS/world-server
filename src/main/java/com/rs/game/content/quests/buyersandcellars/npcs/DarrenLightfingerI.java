@@ -119,9 +119,7 @@ public class DarrenLightfingerI extends Dialogue {
                             .addPlayer(HeadE.CALM_TALK, "Yes.")
                             .addNPC(npcid, HeadE.HAPPY_TALKING, "Best of luck then.")
                             .addPlayer(HeadE.CALM_TALK, "Thanks.")
-                            .addNext(() -> {
-                                player.setQuestStage(Quest.BUYERS_AND_CELLARS, 3);
-                            });
+                            .addNext(() -> player.setQuestStage(Quest.BUYERS_AND_CELLARS, 3));
 
                     ops4.add("Remind me again?")
                             .addPlayer(HeadE.CALM_TALK, "Remind me again?")

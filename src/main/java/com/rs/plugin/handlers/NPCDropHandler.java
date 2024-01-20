@@ -21,7 +21,8 @@ import com.rs.plugin.events.NPCDropEvent;
 import java.util.function.Consumer;
 
 public class NPCDropHandler extends PluginHandler<NPCDropEvent> {
-	private Object[] npcKeys, itemKeys;
+	private final Object[] npcKeys;
+    private final Object[] itemKeys;
 	
 	public NPCDropHandler(Object[] npcNamesOrIds, Object[] itemNamesOrIds, Consumer<NPCDropEvent> handler) {
 		super(new Object[] { "meme" }, handler);

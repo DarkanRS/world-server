@@ -47,9 +47,7 @@ public class Lilly extends Conversation {
 			public void create() {
 
 				option("I'd like to see what you have for sale.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "warrior_guild_potion_shop");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "warrior_guild_potion_shop")));
 
 				option("That's a pretty wall hanging.", new Dialogue()
 						.addPlayer(HeadE.CONFUSED, "That's a pretty wall hanging.")

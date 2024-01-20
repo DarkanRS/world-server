@@ -226,7 +226,7 @@ public class ShootingStars {
                                                            conf.add("Spend " + Utils.formatNumber(adjusted) + " stardust for " + Utils.ticksToTime(adjusted*6), () -> {
                                                                if (e.getPlayer().getInventory().containsItem(13727, adjusted)) {
                                                                    e.getPlayer().getInventory().deleteItem(13727, adjusted);
-                                                                   e.getPlayer().extendEffect(Effect.SHOOTING_STAR_MINING_BUFF, adjusted * 6);
+                                                                   e.getPlayer().extendEffect(Effect.SHOOTING_STAR_MINING_BUFF, adjusted * 6L);
                                                                }
                                                            });
                                                            conf.add("Nevermind. That's too expensive.");

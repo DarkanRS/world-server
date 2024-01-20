@@ -24,7 +24,7 @@ import java.io.IOException;
 
 public class ItemCheck {
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		//Cache.init();
 		int total = 0;
 		for (int itemId = 0; itemId < Utils.getItemDefinitionsSize(); itemId++)

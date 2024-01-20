@@ -67,12 +67,10 @@ public class Xuan {
 						}));
 			}
 			case 3 -> LoyaltyShop.open(player);
-			case 4 -> {
-				player.sendOptionDialogue("Really clear your title?", (ops) -> {
-					ops.add("Yes", player::clearTitle);
-					ops.add("No");
-				});
-			}
+			case 4 -> player.sendOptionDialogue("Really clear your title?", (ops) -> {
+                ops.add("Yes", player::clearTitle);
+                ops.add("No");
+            });
 		}
 	});
 

@@ -169,13 +169,13 @@ public class DropTable {
 
 	@Override
 	public String toString() {
-		String s = "[ (" + chance + "/" + outOf + ") - ";
+		StringBuilder s = new StringBuilder("[ (" + chance + "/" + outOf + ") - ");
 		if (rollTable != null)
 			return s + rollTable;
 		if (drops == null)
 			return s + "Nothing";
 		for (Drop d : drops)
-			s += "("+d.getId()+"("+ItemDefinitions.getDefs(d.getId()).name+"),"+d.getMin()+","+d.getMax()+") ]";
-		return s;
+			s.append("(").append(d.getId()).append("(").append(ItemDefinitions.getDefs(d.getId()).name).append("),").append(d.getMin()).append(",").append(d.getMax()).append(") ]");
+		return s.toString();
 	}
 }

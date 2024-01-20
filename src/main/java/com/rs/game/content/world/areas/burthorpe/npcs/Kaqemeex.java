@@ -60,9 +60,7 @@ public class Kaqemeex extends Conversation {
                                                 .addNPC(npcId, HeadE.CALM_TALK, "Excellent. Go to the village south of this place and speak to my fellow " +
                                                         "Sanfew who is working on the purification ritual. He knows better than I what is required to complete it.")
                                                 .addPlayer(HeadE.CALM_TALK, "Will do.")
-                                                .addNext(()->{
-                                                    player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 1);
-                                                }));
+                                                .addNext(()-> player.getQuestManager().setStage(Quest.DRUIDIC_RITUAL, 1)));
                                         option("No, that doesn't sound very interesting.", ()->{});
                                     }
                                 }));
@@ -107,9 +105,7 @@ public class Kaqemeex extends Conversation {
                 addPlayer(HeadE.CALM_TALK, "Hello there.");
                 addNPC(npcId, HeadE.CALM_TALK, "I have word from Sanfew that you have been very helpful in assisting him with his preparations for " +
                         "the purification ritual. As promised I will now teach you the ancient arts of Herblore.");
-                addNext(()->{
-                    player.getQuestManager().completeQuest(Quest.DRUIDIC_RITUAL);
-                });
+                addNext(()-> player.getQuestManager().completeQuest(Quest.DRUIDIC_RITUAL));
                 break;
             default:
                 addPlayer(HeadE.CALM_TALK, "Hello there.");

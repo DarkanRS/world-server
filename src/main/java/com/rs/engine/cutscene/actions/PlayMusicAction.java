@@ -22,9 +22,9 @@ import java.util.Map;
 
 public class PlayMusicAction extends CutsceneAction {
 
-	private int id;
-	private int delay;
-	private int volume;
+	private final int id;
+	private final int delay;
+	private final int volume;
 
 	public PlayMusicAction(int id, int delay, int volume, int actionDelay) {
 		super(null, actionDelay);

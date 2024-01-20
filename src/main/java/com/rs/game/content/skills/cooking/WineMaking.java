@@ -44,9 +44,7 @@ public class WineMaking extends PlayerAction {
 		return true;
 	}
 
-	private final int WINE_CREATE_TICKS = 1;
-
-	@Override
+    @Override
 	public int processWithDelay(Player player) {
 		amount--;
 		if (!player.getInventory().containsItem(GRAPES) || !player.getInventory().containsItem(JUG_OF_WATER)) {
@@ -61,14 +59,13 @@ public class WineMaking extends PlayerAction {
 			player.getInventory().addItem(JUG_OF_BAD_WINE);
 		}
 		player.sendMessage("You squeeze the grapes into the jug. The wine begins to ferment.");
-		return amount > 0 ? WINE_CREATE_TICKS : -1;
+        int WINE_CREATE_TICKS = 1;
+        return amount > 0 ? WINE_CREATE_TICKS : -1;
 	}
 
 	@Override
 	public void stop(Player player) {}
 
-	public static ItemOnItemHandler makeXWine = new ItemOnItemHandler(JUG_OF_WATER, GRAPES, (e) -> {
-		e.getPlayer().startConversation(new WineMakingD(e.getPlayer()));
-	});
+	public static ItemOnItemHandler makeXWine = new ItemOnItemHandler(JUG_OF_WATER, GRAPES, (e) -> e.getPlayer().startConversation(new WineMakingD(e.getPlayer())));
 
 }

@@ -43,7 +43,7 @@ public class AlmeraD extends Conversation {
 							@Override
 							public void create() {
 								option("Of course.", new Dialogue()
-										.addPlayer(HeadE.HAPPY_TALKING, "Of course I will.", () ->{player.getQuestManager().setStage(Quest.WATERFALL_QUEST, 1);})
+										.addPlayer(HeadE.HAPPY_TALKING, "Of course I will.", () -> player.getQuestManager().setStage(Quest.WATERFALL_QUEST, 1))
 										.addNPC(NPC, HeadE.CALM_TALK, "Thank you so much!")
 								);
 								option("No thanks, I don't have time right now.", new Dialogue()

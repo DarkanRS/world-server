@@ -156,8 +156,6 @@ public class RuneWikiNPCDefinitionsDumper {
 				e.printStackTrace();
 			}
 			return true;
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

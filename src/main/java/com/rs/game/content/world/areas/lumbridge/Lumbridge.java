@@ -42,42 +42,36 @@ public class Lumbridge {
 	public static final String WHEAT_DEPOSITED = "wheatInMill";
 	public static final String WHEAT_GRINDED = "wheatGrinded";
 	
-	public static ItemOnNPCHandler handleBobRepairs = new ItemOnNPCHandler(new Object[] { 519 }, e -> {
-		ItemConstants.handleRepairs(e.getPlayer(), e.getItem(), false, e.getItem().getSlot());
-	});
+	public static ItemOnNPCHandler handleBobRepairs = new ItemOnNPCHandler(new Object[] { 519 }, e -> ItemConstants.handleRepairs(e.getPlayer(), e.getItem(), false, e.getItem().getSlot()));
 
-	public static NPCClickHandler handleExplorerJack = new NPCClickHandler(new Object[] { 7969 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
-					}
-				});
-			}
-		});
-	});
+	public static NPCClickHandler handleExplorerJack = new NPCClickHandler(new Object[] { 7969 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.EXPLORERS_RING).getStart());
+                }
+            });
+        }
+    }));
 
-	public static NPCClickHandler handleLachtopher = new NPCClickHandler(new Object[] { 7870 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addPlayer(HeadE.CALM_TALK, "Hello there");
-				addNPC(e.getNPCId(), HeadE.DRUNK, "Hello, I suppose. I'm Lachtopher. Could you lend me some money?");
-				addPlayer(HeadE.SKEPTICAL, "Lend you money? I really don't think so. Don't you have any of your own?");
-				addNPC(e.getNPCId(), HeadE.DRUNK, "I spend it all and I can't be bothered to earn any more");
-				addPlayer(HeadE.VERY_FRUSTRATED, "Right, and you want my hard earned money instead? no chance!");
-				addNPC(e.getNPCId(), HeadE.DRUNK, "You are just like my sister, Victoria. She wont give me any money");
-				addPlayer(HeadE.VERY_FRUSTRATED, "Your sister sounds like she has the right idea");
-				addNPC(e.getNPCId(), HeadE.DRUNK, "Yeah, i've heard it all before. 'Oh', she says, 'it is easy to make money: just complete tasks for cash'");
-				addPlayer(HeadE.VERY_FRUSTRATED, "Well, if you want to make money...");
-				addNPC(e.getNPCId(), HeadE.DRUNK, "That's just it. I don't want to make money. I just want to have money");
-				addPlayer(HeadE.VERY_FRUSTRATED, "I've had it with you!");
-				create();
-			}
-		});
-	});
+	public static NPCClickHandler handleLachtopher = new NPCClickHandler(new Object[] { 7870 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addPlayer(HeadE.CALM_TALK, "Hello there");
+            addNPC(e.getNPCId(), HeadE.DRUNK, "Hello, I suppose. I'm Lachtopher. Could you lend me some money?");
+            addPlayer(HeadE.SKEPTICAL, "Lend you money? I really don't think so. Don't you have any of your own?");
+            addNPC(e.getNPCId(), HeadE.DRUNK, "I spend it all and I can't be bothered to earn any more");
+            addPlayer(HeadE.VERY_FRUSTRATED, "Right, and you want my hard earned money instead? no chance!");
+            addNPC(e.getNPCId(), HeadE.DRUNK, "You are just like my sister, Victoria. She wont give me any money");
+            addPlayer(HeadE.VERY_FRUSTRATED, "Your sister sounds like she has the right idea");
+            addNPC(e.getNPCId(), HeadE.DRUNK, "Yeah, i've heard it all before. 'Oh', she says, 'it is easy to make money: just complete tasks for cash'");
+            addPlayer(HeadE.VERY_FRUSTRATED, "Well, if you want to make money...");
+            addNPC(e.getNPCId(), HeadE.DRUNK, "That's just it. I don't want to make money. I just want to have money");
+            addPlayer(HeadE.VERY_FRUSTRATED, "I've had it with you!");
+            create();
+        }
+    }));
 
 	public static NPCClickHandler handleBob = new NPCClickHandler(new Object[] { 519 }, e -> {
 		if (e.getOpNum() == 1)
@@ -137,18 +131,14 @@ public class Lumbridge {
 										.addNPC(NPC, HeadE.LAUGH, "He has not given you an easy task has he?")
 										.addPlayer(HeadE.CALM, "...")
 										.addNPC(NPC, HeadE.CALM_TALK, "Okay, for this specific purpose I can give you a shield.")
-										.addSimple("The duke hands you the shield.", ()->{
-											e.getPlayer().getInventory().addItem(1540, 1);
-										})
+										.addSimple("The duke hands you the shield.", ()-> e.getPlayer().getInventory().addItem(1540, 1))
 								);
 							if(e.getPlayer().getQuestManager().getStage(Quest.DRAGON_SLAYER) >= DragonSlayer.REPORT_TO_OZIACH)
 								option("I seek a shield that will protect me from dragonbreath.", new Dialogue()
 										.addPlayer(HeadE.HAPPY_TALKING, "I seek a shield that will protect me from dragonbreath.")
 										.addNPC(NPC, HeadE.CALM_TALK, "A knight going on a dragon quest, hmm? What dragon do you intend to slay?")
 										.addNPC(NPC, HeadE.CALM_TALK, "Ah, well, nvm. Of course, now you've slain Elvarg, you've earned the right to it!")
-										.addSimple("The duke hands you the shield.", ()->{
-											e.getPlayer().getInventory().addItem(1540, 1);
-										})
+										.addSimple("The duke hands you the shield.", ()-> e.getPlayer().getInventory().addItem(1540, 1))
 								);
 							option("About Rune Mysteries", new RuneMysteries.DukeHoracioRuneMysteriesD(e.getPlayer()).getCurrent());
 							option("Where can I find money?", new Dialogue()
@@ -249,15 +239,9 @@ public class Lumbridge {
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 1 ? 3 : e.getObject().getRotation() == 3 ? -3 : 0, e.getObject().getRotation() == 0 ? 3 : e.getObject().getRotation() == 2 ? -3 : 0, -1));
 	});
 
-	public static ObjectClickHandler handleChurchLadders = new ObjectClickHandler(new Object[] { 36984, 36986 }, e -> {
-		e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36984 ? -2 : 2, 0, 1));
-	});
+	public static ObjectClickHandler handleChurchLadders = new ObjectClickHandler(new Object[] { 36984, 36986 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36984 ? -2 : 2, 0, 1)));
 
-	public static ObjectClickHandler handleChurchLaddersT2Up = new ObjectClickHandler(new Object[] { 36988, 36989 }, e -> {
-		e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36988 ? -1 : 1, -1, 1));
-	});
+	public static ObjectClickHandler handleChurchLaddersT2Up = new ObjectClickHandler(new Object[] { 36988, 36989 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36988 ? -1 : 1, -1, 1)));
 
-	public static ObjectClickHandler handleChurchLaddersT2Down = new ObjectClickHandler(new Object[] { 36990, 36991 }, e -> {
-		e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36990 ? 1 : -1, 1, -1));
-	});
+	public static ObjectClickHandler handleChurchLaddersT2Down = new ObjectClickHandler(new Object[] { 36990, 36991 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 36990 ? 1 : -1, 1, -1)));
 }

@@ -40,5 +40,5 @@ public class AvalaniChickens extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13827 }, (npcId, tile) -> new AvalaniChickens(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13827 }, AvalaniChickens::new);
 }

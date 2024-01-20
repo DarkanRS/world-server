@@ -55,7 +55,7 @@ public class NPCAnimationChecker {
 							if (check.frameSetIds[0] == frameSetId)
 								animsUsingSet.add(i);
 						}
-						writer.append(npcId + " ("+npcDef.getName()+") set#" + frameSetId + ": " + animsUsingSet.toString());
+						writer.append(String.valueOf(npcId)).append(" (").append(npcDef.getName()).append(") set#").append(String.valueOf(frameSetId)).append(": ").append(animsUsingSet.toString());
 						writer.newLine();
 						writer.flush();
 					}

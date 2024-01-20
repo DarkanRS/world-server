@@ -31,9 +31,7 @@ public class KingArthurMerlinsCrystalD extends Conversation {
 									@Override
 									public void create() {
 										option("Yes", new Dialogue()
-												.addPlayer(HeadE.HAPPY_TALKING, "I will see what I can do then.", ()->{
-													player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_KNIGHTS);
-												})
+												.addPlayer(HeadE.HAPPY_TALKING, "I will see what I can do then.", ()-> player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, TALK_TO_KNIGHTS))
 												.addNPC(NPC, HeadE.CALM_TALK, "Talk to my knights if you need any help.")
 												.addNPC(NPC, HeadE.CALM_TALK, "You will need to find a way into Morgan LeFaye's stronghold.")
 												);
@@ -57,14 +55,12 @@ public class KingArthurMerlinsCrystalD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Talk to my knights about breaking the crystal.");
 				addPlayer(HeadE.HAPPY_TALKING, "Okay");
 			}
-			case THE_BLACK_CANDLE, OBTAINING_EXCALIBUR, PERFORM_RITUAL, BREAK_MERLIN_CRYSTAL -> {
-				addNPC(NPC, HeadE.CALM_TALK, "I am amazed you broke into Morgan La Faye's stronghold!");
-			}
+			case THE_BLACK_CANDLE, OBTAINING_EXCALIBUR, PERFORM_RITUAL, BREAK_MERLIN_CRYSTAL -> addNPC(NPC, HeadE.CALM_TALK, "I am amazed you broke into Morgan La Faye's stronghold!");
 
 			case TALK_TO_ARTHUR -> {
 				addPlayer(HeadE.HAPPY_TALKING, "I have freed Merlin from his crystal!");
 				addNPC(NPC, HeadE.CALM_TALK, "Ah. A good job, well done. I dub thee a Knight Of The Round Table. You are now an honorary knight.");
-				addNext(()->{player.getQuestManager().completeQuest(Quest.MERLINS_CRYSTAL);});
+				addNext(()-> player.getQuestManager().completeQuest(Quest.MERLINS_CRYSTAL));
 
 			}
 			case QUEST_COMPLETE ->  {

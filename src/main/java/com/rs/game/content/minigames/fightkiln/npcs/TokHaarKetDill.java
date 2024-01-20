@@ -37,11 +37,10 @@ public class TokHaarKetDill extends FightKilnNPC {
 			return;
 		if (receivedHits != -1) {
 			Entity source = hit.getSource();
-			if (source == null || !(source instanceof Player))
+			if (source == null || !(source instanceof Player playerSource))
 				return;
 			hit.setDamage(0);
-			Player playerSource = (Player) source;
-			int weaponId = playerSource.getEquipment().getWeaponId();
+            int weaponId = playerSource.getEquipment().getWeaponId();
 			if (weaponId == 1275 || weaponId == 13661 || weaponId == 15259) {
 				receivedHits++;
 				if ((weaponId == 1275 && receivedHits >= 5) || ((weaponId == 13661 || weaponId == 15259) && receivedHits >= 3)) {

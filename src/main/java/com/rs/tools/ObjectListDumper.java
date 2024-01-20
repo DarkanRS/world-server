@@ -46,7 +46,7 @@ public class ObjectListDumper {
 			//				continue;
 			//			writer.append(id + " - " + def.getName() + def.getConfigInfoString());
 
-			writer.append(id + " - " + def.getName() + " " + Arrays.toString(def.types) + " " + Arrays.toString(def.options));
+			writer.append(String.valueOf(id)).append(" - ").append(def.getName()).append(" ").append(Arrays.toString(def.types)).append(" ").append(Arrays.toString(def.options));
 
 			writer.newLine();
 			writer.flush();

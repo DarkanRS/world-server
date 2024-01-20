@@ -28,13 +28,9 @@ public class LightSource {
 
 	private static final int[][] LIGHT_SOURCES = { { 596, 36, 38, 4529, 4522, 4537, 7051, 4548, 5014, 4701 }, { 594, 33, 32, 4534, 4524, 4539, 7053, 4550, 5013, 4702 } };
 	
-	public static ItemOnItemHandler lightTinder = new ItemOnItemHandler(LIGHT_SOURCES[0], new int[] { 590 }, e -> {
-		lightSource(e.getPlayer(), e.getUsedWith(590).getSlot());
-	});
+	public static ItemOnItemHandler lightTinder = new ItemOnItemHandler(LIGHT_SOURCES[0], new int[] { 590 }, e -> lightSource(e.getPlayer(), e.getUsedWith(590).getSlot()));
 	
-	public static ItemClickHandler handleExtinguish = new ItemClickHandler(new Object[] { LIGHT_SOURCES[1] }, new String[] { "Extinguish" }, e -> {
-		extinguishSource(e.getPlayer(), e.getSlotId(), false);
-	});
+	public static ItemClickHandler handleExtinguish = new ItemClickHandler(new Object[] { LIGHT_SOURCES[1] }, new String[] { "Extinguish" }, e -> extinguishSource(e.getPlayer(), e.getSlotId(), false));
 
 	public static boolean hasExplosiveSource(Player player) {
 		for (Item item : player.getInventory().getItems().array()) {

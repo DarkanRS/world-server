@@ -51,7 +51,7 @@ public class Matthias extends NPC {
 				forceTalk("Gouge 'em, Valor!");
 			transformIntoNPC(5093);
 			setBas(1);
-			World.sendProjectile(this, post, 922, 41, 16, 31, 0.8, 16, 0, proj -> {
+			World.sendProjectile(this, post, 922, 41, 16, 31, 0.8, 16, proj -> {
 				post.setId(19221);
 				unfreeze();
 			});
@@ -59,7 +59,7 @@ public class Matthias extends NPC {
 			if (Utils.random(10) == 0)
 				forceTalk("Valor, to me!");
 			post.setId(19220);
-			World.sendProjectile(post, this, 922, 41, 16, 31, 0.8, 16, 0, proj -> {
+			World.sendProjectile(post, this, 922, 41, 16, 31, 0.8, 16, proj -> {
 				transformIntoNPC(5092);
 				setBas(-1);
 				unfreeze();
@@ -77,35 +77,33 @@ public class Matthias extends NPC {
 
 	public static NPCClickHandler handleMatthias = new NPCClickHandler(new Object[] { 5092, 5093 }, e -> {
 		switch(e.getOption()) {
-		case "Talk-to" -> {
-			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				{
-					addPlayer(HeadE.CHEERFUL, "Hello there.");
-					addNPC(e.getNPCId(), HeadE.CONFUSED, "Greetings. Can I help you at all?");
-					addOptions(ops -> {
-						ops.add("Do you have any quests I could do?")
-							.addNPC(e.getNPCId(), HeadE.CONFUSED, "A quest? What a strange notion. Do you normally go around asking complete strangers for quests?")
-							.addPlayer(HeadE.SKEPTICAL, "Er, yes, now that you come to mention it.")
-							.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Oh, ok then. Well, no, I don't. Sorry.");
-						
-						ops.add("What is this place?")
-							.addNPC(e.getNPCId(), HeadE.CHEERFUL, "A good question; straight and to the point.")
-							.addNPC(e.getNPCId(), HeadE.CHEERFUL, "My name is Matthias, I am a falconer, and this is where I train my birds.")
-							.addOptions(watOp -> {
-								watOp.add("That sounds like fun; could I have a go?", () -> FalconryController.beginFalconry(e.getPlayer()));
-								
-								watOp.add("That doesn't sound like my sort of thing.")
-									.addNPC(e.getNPCId(), HeadE.CALM_TALK, "Fair enough; it does require a great deal of patience and skill, so I can understand if you might feel intimidated.");
-								
-								watOp.add("What's this falconry thing all about then?")
-									.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Well, some people see it as a sport, although such a term does not really convey the amount of patience and dedication to be profiecient at the task.")
-									.addNPC(e.getNPCId(), HeadE.CHEERFUL, "Putting it simply, it is the training and use of birds of prey in hunting quarry.");
-							});
-					});
-					create();
-				}
-			});
-		}
+		case "Talk-to" -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+            {
+                addPlayer(HeadE.CHEERFUL, "Hello there.");
+                addNPC(e.getNPCId(), HeadE.CONFUSED, "Greetings. Can I help you at all?");
+                addOptions(ops -> {
+                    ops.add("Do you have any quests I could do?")
+                        .addNPC(e.getNPCId(), HeadE.CONFUSED, "A quest? What a strange notion. Do you normally go around asking complete strangers for quests?")
+                        .addPlayer(HeadE.SKEPTICAL, "Er, yes, now that you come to mention it.")
+                        .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Oh, ok then. Well, no, I don't. Sorry.");
+
+                    ops.add("What is this place?")
+                        .addNPC(e.getNPCId(), HeadE.CHEERFUL, "A good question; straight and to the point.")
+                        .addNPC(e.getNPCId(), HeadE.CHEERFUL, "My name is Matthias, I am a falconer, and this is where I train my birds.")
+                        .addOptions(watOp -> {
+                            watOp.add("That sounds like fun; could I have a go?", () -> FalconryController.beginFalconry(e.getPlayer()));
+
+                            watOp.add("That doesn't sound like my sort of thing.")
+                                .addNPC(e.getNPCId(), HeadE.CALM_TALK, "Fair enough; it does require a great deal of patience and skill, so I can understand if you might feel intimidated.");
+
+                            watOp.add("What's this falconry thing all about then?")
+                                .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Well, some people see it as a sport, although such a term does not really convey the amount of patience and dedication to be profiecient at the task.")
+                                .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Putting it simply, it is the training and use of birds of prey in hunting quarry.");
+                        });
+                });
+                create();
+            }
+        });
 		case "Falconry" -> FalconryController.beginFalconry(e.getPlayer());
 		}
 	});

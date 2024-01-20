@@ -116,7 +116,7 @@ public class AnimationDumper {
 				}
 				};
 
-				writer.append(i + ": " + name);
+				writer.append(String.valueOf(i)).append(": ").append(name);
 				writer.newLine();
 				writer.flush();
 		}
@@ -124,7 +124,7 @@ public class AnimationDumper {
 		List<Integer> keys = new ArrayList<>(UNIDS.keySet());
 		Collections.sort(keys);
 		for (int skele : keys) {
-			writer2.append(UNIDS.get(skele) + ",");
+			writer2.append(String.valueOf(UNIDS.get(skele))).append(",");
 			writer2.newLine();
 			writer2.flush();
 		}

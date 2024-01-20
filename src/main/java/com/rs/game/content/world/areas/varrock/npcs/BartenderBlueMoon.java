@@ -20,7 +20,7 @@ public class BartenderBlueMoon {
             if (p.getTreasureTrailsManager().useNPC(e.getNPC()))
                 return;
             p.startConversation(new Conversation(p) {
-                int BARTENDER = 733;
+                final int BARTENDER = 733;
                 {
                     addNPC(BARTENDER, HeadE.HAPPY_TALKING, "What can I do yer for?");
                     addOptions("Choose an option:", new Options() {

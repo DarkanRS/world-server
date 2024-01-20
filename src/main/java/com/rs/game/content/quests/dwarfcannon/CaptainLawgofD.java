@@ -43,17 +43,13 @@ public class CaptainLawgofD extends Conversation {
 			addPlayer(HeadE.NO_EXPRESSION, "Sure, I'd be honoured to join.");
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "That's the spirit! Now trooper, we have no time to waste - the goblins are attacking from the forests to the South. There are so many of them,");
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "they are overwhelming my men and breaking through our perimeter defences; could you please try to fix the stockade by replacing the broken rails with these new ones?");
-			addPlayer(HeadE.NO_EXPRESSION, "Sure, sounds easy enough...", () -> {
-				player.getQuestManager().setStage(Quest.DWARF_CANNON, 1);
-			});
+			addPlayer(HeadE.NO_EXPRESSION, "Sure, sounds easy enough...", () -> player.getQuestManager().setStage(Quest.DWARF_CANNON, 1));
 
 		case 1:
 			if (DwarfCannon.checkRemainingRepairs(player) > 0) {
 				int amount = DwarfCannon.checkRemainingRepairs(player) - player.getInventory().getNumberOf(DwarfCannon.RAILINGS);
 				if (amount > 0)
-					addSimple("The Dwarf Captain gives you some railings.", () -> {
-						player.getInventory().addItemDrop(DwarfCannon.RAILINGS, DwarfCannon.checkRemainingRepairs(player) - player.getInventory().getNumberOf(DwarfCannon.RAILINGS));
-					});
+					addSimple("The Dwarf Captain gives you some railings.", () -> player.getInventory().addItemDrop(DwarfCannon.RAILINGS, DwarfCannon.checkRemainingRepairs(player) - player.getInventory().getNumberOf(DwarfCannon.RAILINGS)));
 			}
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "Report back to me once you've fixed the railings.");
 			addPlayer(HeadE.NO_EXPRESSION, "Yes Sir, Captain!");
@@ -124,9 +120,7 @@ public class CaptainLawgofD extends Conversation {
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "I can't leave this post, could you go to the Black Guard base and find out what this thing actually shoots?");
 			addPlayer(HeadE.NO_EXPRESSION, "Okay then, just for you!");
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "That's great, we were lucky you came along when you did. The base is located just South of the Ice Mountain. You'll need to speak to Nulodion, the Dwarf Cannon engineer. He's the Weapon Development Chief for the Black Guard, so if anyone knows how to fire this thing, it'll be him.");
-			addPlayer(HeadE.NO_EXPRESSION, "Okay, I'll see what I can do.", () -> {
-				player.getQuestManager().setStage(Quest.DWARF_CANNON, 9);
-			});
+			addPlayer(HeadE.NO_EXPRESSION, "Okay, I'll see what I can do.", () -> player.getQuestManager().setStage(Quest.DWARF_CANNON, 9));
 			break;
 		case 9:
 			addPlayer(HeadE.NO_EXPRESSION, "Hi.");
@@ -144,9 +138,7 @@ public class CaptainLawgofD extends Conversation {
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "Aah, of course, we make the ammo! This is great, now we will be able to defend ourselves. I don't know how to thank you...");
 			addPlayer(HeadE.NO_EXPRESSION, "You could give me a cannon...");
 			addNPC(CAPTAIN_LAWGOF, HeadE.HAPPY_TALKING, "Hah! You'd be lucky, those things are worth a fortune. I'll tell you what though, I'll write to the Cannon Engineer requesting him to sell you one. He controls production of the cannons. He won't be able to give you one, but for the right price, I'm sure he'll sell one to you.");
-			addPlayer(HeadE.NO_EXPRESSION, "Hmmm... sounds interesting. I might take you up on that.", () -> {
-				player.getQuestManager().completeQuest(Quest.DWARF_CANNON);
-			});
+			addPlayer(HeadE.NO_EXPRESSION, "Hmmm... sounds interesting. I might take you up on that.", () -> player.getQuestManager().completeQuest(Quest.DWARF_CANNON));
 		}
 		create();
 	}

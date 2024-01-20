@@ -32,7 +32,7 @@ import java.util.Set;
 
 public class Halloween2007Controller extends Controller {
 
-	private static int[] DEAD_END_WEBS = { 27955946, 28005096, 27661029, 27775726, 27726573, 27628265 };
+	private static final int[] DEAD_END_WEBS = { 27955946, 28005096, 27661029, 27775726, 27726573, 27628265 };
 
 	private int[] webPath;
 	private Set<Integer> returnedItems = new HashSet<>();

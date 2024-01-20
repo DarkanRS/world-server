@@ -32,7 +32,8 @@ public class UndergroundDungeonController extends Controller {
 	private transient int ticks;
 	private transient boolean initial;
 
-	private boolean hasStench, requiresLightSource;
+	private final boolean hasStench;
+    private final boolean requiresLightSource;
 
 	public UndergroundDungeonController(boolean hasStench, boolean requiresLightSource) {
 		this.hasStench = hasStench;

@@ -267,9 +267,7 @@ public class TribalTotem extends QuestOutline {
 					{
 						addSimple("The address label says this crate is headed to Handlemort's mansion.");
 						if(p.getInventory().hasFreeSlots())
-							addSimple("You take off the label.", ()->{
-								p.getInventory().addItem(1858, 1);
-							});
+							addSimple("You take off the label.", ()-> p.getInventory().addItem(1858, 1));
 						else
 							addSimple("You need to make room for the label...");
 						create();

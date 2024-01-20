@@ -21,7 +21,7 @@ fun overrideNpcLOS(vararg npcNamesOrIds: Any) {
 }
 
 fun overrideNpcLOS(func: TriFunction<Entity, Any, Boolean, Boolean>) {
-    Entity.addLOSOverride(func);
+    Entity.addLOSOverride(func)
 }
 
 fun onNpcClick(vararg npcNamesOrIds: Any, checkDistance: Boolean = true, options: Array<String>? = null, eventHandler: (NPCClickEvent) -> Unit) {

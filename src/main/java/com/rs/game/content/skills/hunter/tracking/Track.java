@@ -29,9 +29,6 @@ public enum Track {
 			new Trail(19375, Tile.of(2347, 3607, 0), 2976, 4)
 			));
 
-	private Burrow burrow;
-
-	private Track(Burrow burrow) {
-		this.burrow = burrow;
-	}
+    private Track(Burrow burrow) {
+    }
 }

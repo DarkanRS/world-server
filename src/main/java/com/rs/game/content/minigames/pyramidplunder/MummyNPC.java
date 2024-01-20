@@ -83,9 +83,7 @@ public class MummyNPC {
 											.addOptions(("Sure"), option3 -> {
 
 												option3.add("I am ready to give it a go now.")
-														.addNext(() -> {
-															player.getControllerManager().startController(new PyramidPlunderController());
-														});
+														.addNext(() -> player.getControllerManager().startController(new PyramidPlunderController()));
 
 												option3.add("Not right now.", new Dialogue()
 														.addPlayer(HeadE.HAPPY_TALKING, "Not right now.")

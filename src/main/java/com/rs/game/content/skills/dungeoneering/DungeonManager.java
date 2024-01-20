@@ -1142,7 +1142,7 @@ public class DungeonManager {
 		}
 		if (achievements.isEmpty())
 			achievements.add(33);
-		return achievements.toArray(new Integer[achievements.size()]);
+		return achievements.toArray(new Integer[0]);
 
 	}
 

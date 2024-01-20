@@ -27,9 +27,7 @@ public class BrotherKojoClockTowerD extends Conversation {
 					@Override
 					public void create() {
 						option("Yes", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "OK old monk, what can I do?", ()->{
-									player.getQuestManager().setStage(Quest.CLOCK_TOWER, REPAIR_CLOCK_TOWER);
-								})
+								.addPlayer(HeadE.HAPPY_TALKING, "OK old monk, what can I do?", ()-> player.getQuestManager().setStage(Quest.CLOCK_TOWER, REPAIR_CLOCK_TOWER))
 								.addNPC(NPC, HeadE.CALM_TALK, "Oh, thank you kind " + player.getPronoun("sir", "madam") + "! In the cellar below, you'll find four cogs. They're too heavy for me, but you should be able to carry them one at a time.")
 								.addNPC(NPC, HeadE.CALM_TALK, "I know one goes on each floor... but I can't exactly remember which goes where specifically. Oh well, I'm sure you can figure it out fairly easily.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Well, I'll do my best.")
@@ -47,9 +45,7 @@ public class BrotherKojoClockTowerD extends Conversation {
 					addPlayer(HeadE.HAPPY_TALKING, "I have replaced all the cogs!");
 					addNPC(NPC, HeadE.CALM_TALK, "Really...? Wait, listen! Well done, well done! Yes yes yes, you've done it! You ARE clever!");
 					addNPC(NPC, HeadE.CALM_TALK, "The townsfolk will be able to know the correct time now! Thank you so much for all of your help! And as promised, here is your reward!");
-					addNext(()->{
-						player.getQuestManager().completeQuest(Quest.CLOCK_TOWER);
-					});
+					addNext(()-> player.getQuestManager().completeQuest(Quest.CLOCK_TOWER));
 					return;
 				}
 				addNPC(NPC, HeadE.CALM_TALK, "Oh hello, are you having trouble? The cogs are in four rooms below us. Place one cog on a pole on each of the four tower levels.");

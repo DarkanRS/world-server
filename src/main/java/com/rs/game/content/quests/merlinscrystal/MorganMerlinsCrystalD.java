@@ -29,9 +29,7 @@ public class MorganMerlinsCrystalD extends Conversation {
 					"can find. You will then need to drop some bat's bones on the magic symbol while holding a lit black candle.");
 			addNPC(NPC, HeadE.CALM_TALK, "This will summon a mighty spirit named Thrantax. You will need to bind him with magic words. Then you will need the " +
 					"sword Excalibur with which the spell was bound in order to shatter the crystal.");
-			addNext(() -> {
-				p.startConversation(new MorganMerlinsCrystalD(p, true).getStart());
-			});
+			addNext(() -> p.startConversation(new MorganMerlinsCrystalD(p, true).getStart()));
 		}else if(p.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) == THE_BLACK_CANDLE) {
             addNPC(NPC, HeadE.CALM_TALK, "That's all I know, I swear!");
             addPlayer(HeadE.SECRETIVE, "...");
@@ -51,7 +49,7 @@ public class MorganMerlinsCrystalD extends Conversation {
 				option("So where can I find Excalibur?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "So where can I find Excalibur?")
 						.addNPC(NPC, HeadE.CALM_TALK, "The lady of the lake has it. I don't know if she'll give it to you though, she can be rather temperamental.",
-								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_E", true);})
+								()-> p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_E", true))
 						.addNext(()->{
                             if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_E") && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_ENC"))
                                 p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);
@@ -60,7 +58,7 @@ public class MorganMerlinsCrystalD extends Conversation {
 				option("What are the magic words?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "What are the magic words?")
 						.addNPC(NPC, HeadE.CALM_TALK, "You will find the magic words at the base of one of the chaos altars. Which chaos altar I cannot remember.",
-								()-> {p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_ENC", true);})
+								()-> p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_ENC", true))
 						.addNext(()->{
                             if(p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_E") && p.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_ABOUT_ENC"))
                                 p.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, THE_BLACK_CANDLE);

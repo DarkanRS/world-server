@@ -40,7 +40,7 @@ public class Burthorpe {
 
     public static ItemClickHandler handleWalkWithBabyTroll = new ItemClickHandler(new Object[] { 23030 }, new String[] { "Walk with" }, e -> e.getPlayer().getPetManager().spawnPet(e.getItem().getId(), true));
 
-    private static Dialogue[] trollDialogues = {
+    private static final Dialogue[] trollDialogues = {
             new Dialogue()
                     .addNPC(14846, HeadE.T_CONFUSED, "Dadda?")
                     .addPlayer(HeadE.CONFUSED, "No, I'm not your dad.")
@@ -69,44 +69,26 @@ public class Burthorpe {
                     .addPlayer(HeadE.FRUSTRATED, "I'll see what I can find..")
     };
 
-    public static NPCClickHandler talkToBabyTroll = new NPCClickHandler(new Object[] { 14846 }, new String[] { "Talk-to" }, e -> {
-        e.getPlayer().startConversation(trollDialogues[Utils.random(trollDialogues.length)]);
-    });
+    public static NPCClickHandler talkToBabyTroll = new NPCClickHandler(new Object[] { 14846 }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(trollDialogues[Utils.random(trollDialogues.length)]));
 
-    public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}, e -> {
-        e.getPlayer().tele(Tile.of(2292, 4516, 0));
-    });
+    public static ObjectClickHandler handleCaveEntrance = new ObjectClickHandler(new Object[]{66876}, e -> e.getPlayer().tele(Tile.of(2292, 4516, 0)));
 
-    public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}, e -> {
-        e.getPlayer().tele(Tile.of(2876, 3502, 0));
-    });
+    public static ObjectClickHandler handleCaveExit = new ObjectClickHandler(new Object[]{67002}, e -> e.getPlayer().tele(Tile.of(2876, 3502, 0)));
 
-    public static ObjectClickHandler handleCastleLockedDoor = new ObjectClickHandler(new Object[]{66967}, e -> {
-        e.getPlayer().sendMessage("This door is securely locked");
-    });
+    public static ObjectClickHandler handleCastleLockedDoor = new ObjectClickHandler(new Object[]{66967}, e -> e.getPlayer().sendMessage("This door is securely locked"));
 
     public static ObjectClickHandler handleCastleLadders = new ObjectClickHandler(new Object[]{66986, 66988}, e -> {
         switch (e.getObjectId()) {
-            case 66986 -> {
-                e.getPlayer().ladder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 2, 2));
-            }
-            case 66988 -> {
-                e.getPlayer().ladder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 2, 0));
-            }
+            case 66986 -> e.getPlayer().ladder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 2, 2));
+            case 66988 -> e.getPlayer().ladder(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 2, 0));
         }
     });
 
     public static ObjectClickHandler handleCastleStairs = new ObjectClickHandler(new Object[]{66971, 66970, 66972, 66969}, e -> {
         switch (e.getObjectId()) {
-            case 66970 -> {
-                e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 2));
-            }
-            case 66971, 66969 -> {
-                e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 4, 1));
-            }
-            case 66972 -> {
-                e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 0));
-            }
+            case 66970 -> e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 2));
+            case 66971, 66969 -> e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + 4, 1));
+            case 66972 -> e.getPlayer().useStairs(Tile.of(e.getPlayer().getX(), e.getPlayer().getY() - 4, 0));
         }
     });
 
@@ -116,7 +98,7 @@ public class Burthorpe {
             e.getPlayer().getMusicsManager().playSpecificAmbientSong(77, true);
         } else
             e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                int NPC = 796;
+                final int NPC = 796;
 
                 {
                     addNPC(NPC, HeadE.FRUSTRATED, "Hey! Only heroes are allowed in there.");

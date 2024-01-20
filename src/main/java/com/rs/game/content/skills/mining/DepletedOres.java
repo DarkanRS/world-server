@@ -23,8 +23,8 @@ import java.util.Set;
 
 public class DepletedOres {
 
-	private static Map<Integer, Integer> ORE_MAP = new HashMap<>();
-	private static Set<Integer> DEPLETED_ORES = new HashSet<>();
+	private static final Map<Integer, Integer> ORE_MAP = new HashMap<>();
+	private static final Set<Integer> DEPLETED_ORES = new HashSet<>();
 
 	static {
 		ORE_MAP.put(25368, 25371);
@@ -377,8 +377,7 @@ public class DepletedOres {
 		ORE_MAP.put(4028, 4029);
 		ORE_MAP.put(17962, 17965);
 
-		for (int depleted : ORE_MAP.values())
-			DEPLETED_ORES.add(depleted);
+        DEPLETED_ORES.addAll(ORE_MAP.values());
 	}
 
 	public static int get(int id) {

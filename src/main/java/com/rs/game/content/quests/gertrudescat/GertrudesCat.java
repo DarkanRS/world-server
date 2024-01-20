@@ -193,9 +193,7 @@ public class GertrudesCat extends QuestOutline {
 			if (e.getPlayer().containsItem(13236))
 				return;
 			e.getPlayer().startConversation(new Conversation(new Dialogue()
-					.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> {
-						e.getPlayer().getInventory().addItem(13236, 1);
-					})));
+					.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> e.getPlayer().getInventory().addItem(13236, 1))));
 		}
 	});
 
@@ -220,13 +218,11 @@ public class GertrudesCat extends QuestOutline {
 	 * Handles the creation of doogle sardines.
 	 * @param The event to handle.
 	 */
-	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573, e -> {
-		e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
-			e.getPlayer().getInventory().deleteItem(327, 1);
-			e.getPlayer().getInventory().deleteItem(1573, 1);
-			e.getPlayer().getInventory().addItem(1552, 1);
-		})));
-	});
+	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573, e -> e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
+        e.getPlayer().getInventory().deleteItem(327, 1);
+        e.getPlayer().getInventory().deleteItem(1573, 1);
+        e.getPlayer().getInventory().addItem(1552, 1);
+    }))));
 
 	/**
 	 * Handles the various items you must use on Fluffs at the Lumber Yard to get her to trust you.

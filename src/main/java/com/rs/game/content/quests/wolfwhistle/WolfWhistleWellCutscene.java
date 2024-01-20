@@ -174,7 +174,7 @@ public class WolfWhistleWellCutscene extends Cutscene {
                 whiners.add(getNPC("t"+i));
             Random random = new Random();
             WorldTasks.scheduleTimer(0, 4, tick -> {
-                int range[] = new int[]{-1, -1, -1};
+                int[] range = new int[]{-1, -1, -1};
                 int iter = 0;
                 while (iter != 3) {
                     int rand = random.nextInt(0, whiners.size());

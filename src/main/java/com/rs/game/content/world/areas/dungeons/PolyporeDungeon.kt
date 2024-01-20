@@ -1,14 +1,14 @@
-package com.rs.game.content.world.areas.dungeons;
+package com.rs.game.content.world.areas.dungeons
 
-import com.rs.game.World;
-import com.rs.game.content.skills.slayer.npcs.PolyporeNPC;
-import com.rs.game.model.entity.player.Player;
-import com.rs.lib.game.Tile;
-import com.rs.lib.util.Utils;
+import com.rs.game.World
+import com.rs.game.content.skills.slayer.npcs.PolyporeNPC
+import com.rs.game.model.entity.player.Player
+import com.rs.lib.game.Tile
+import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onItemClick
 import com.rs.plugin.kts.onObjectClick
-import com.rs.utils.Ticks;
+import com.rs.utils.Ticks
 
 /**
  * interface 893-894 fungal storage
@@ -63,10 +63,10 @@ fun mapPolypore() {
 
 	onObjectClick("Neem drupes") { e ->
 		if (e.option == "Pick") {
-			e.player.inventory.addItemDrop(22445, 1);
-			val vb = e.getObject().definitions.varpBit;
-			e.player.vars.setVarBit(vb, e.player.vars.getVarBit(vb) + 1);
-			e.player.tasks.schedule("neemRespawn$vb", Ticks.fromSeconds(10)) { e.player.vars.setVarBit(vb, 0) }
+			e.player.inventory.addItemDrop(22445, 1)
+            val vb = e.getObject().definitions.varpBit
+            e.player.vars.setVarBit(vb, e.player.vars.getVarBit(vb) + 1)
+            e.player.tasks.schedule("neemRespawn$vb", Ticks.fromSeconds(10)) { e.player.vars.setVarBit(vb, 0) }
 		}
 	}
 
@@ -95,17 +95,17 @@ fun mapPolypore() {
 					.filter { !it.isDead && !it.hasFinished() && Utils.getDistance(it.tile, e.player.tile) <= 5 && it is PolyporeNPC && it.canInfect() }
 					.map { it as PolyporeNPC }
 				if (polypores.isEmpty()) {
-					e.player.sendMessage("There aren't any creatures around that would be affected.");
-					return@onItemClick;
-				}
-				e.player.sync(9954, 2014);
-				if (e.item.decMetaDataI("neemCharges") <= 0) {
-					e.item.id = 1935;
-					e.player.inventory.refresh(e.slotId);
-				}
+					e.player.sendMessage("There aren't any creatures around that would be affected.")
+                    return@onItemClick
+                }
+				e.player.sync(9954, 2014)
+                if (e.item.decMetaDataI("neemCharges") <= 0) {
+					e.item.id = 1935
+                    e.player.inventory.refresh(e.slotId)
+                }
 				polypores.forEach { it.neem() }
 			}
-			"Check" -> e.player.sendMessage("This jug contains " + Utils.formatNumber(e.item.getMetaDataI("neemCharges", 0)) + " ounces of oil.");
-		}
+			"Check" -> e.player.sendMessage("This jug contains " + Utils.formatNumber(e.item.getMetaDataI("neemCharges", 0)) + " ounces of oil.")
+        }
 	}
 }

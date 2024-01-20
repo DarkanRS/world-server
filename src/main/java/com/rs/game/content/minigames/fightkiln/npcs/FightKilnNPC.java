@@ -29,7 +29,7 @@ import java.util.List;
 
 public class FightKilnNPC extends NPC {
 
-	private FightKilnController controller;
+	private final FightKilnController controller;
 
 	public FightKilnNPC(int id, Tile tile, FightKilnController controller) {
 		super(id, tile, true);
@@ -41,29 +41,16 @@ public class FightKilnNPC extends NPC {
 	}
 
 	private int getDeathGfx() {
-		switch (getId()) {
-		case 15201:
-			return 2926;
-		case 15202:
-			return 2927;
-		case 15203:
-			return 2957;
-		case 15213:
-		case 15214:
-		case 15204:
-			return 2928;
-		case 15205:
-			return 2959;
-		case 15206:
-		case 15207:
-			return 2929;
-		case 15208:
-		case 15211:
-		case 15212:
-			return 2973;
-		default:
-			return 2926;
-		}
+        return switch (getId()) {
+            case 15201 -> 2926;
+            case 15202 -> 2927;
+            case 15203 -> 2957;
+            case 15213, 15214, 15204 -> 2928;
+            case 15205 -> 2959;
+            case 15206, 15207 -> 2929;
+            case 15208, 15211, 15212 -> 2973;
+            default -> 2926;
+        };
 	}
 
 	@Override

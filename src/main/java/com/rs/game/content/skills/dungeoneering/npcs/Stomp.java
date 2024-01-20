@@ -48,9 +48,9 @@ public final class Stomp extends DungeonBoss {
 	private int stage;
 	private int count;
 	private int lodeStoneType;
-	private boolean[] lodestones;
+	private final boolean[] lodestones;
 
-	private List<int[]> shadows;
+	private final List<int[]> shadows;
 
 	public Stomp(Tile tile, DungeonManager manager, RoomReference reference) {
 		super(DungeonUtils.getClosestToCombatLevel(Utils.range(9782, 9796), manager.getBossLevel()), tile, manager, reference);

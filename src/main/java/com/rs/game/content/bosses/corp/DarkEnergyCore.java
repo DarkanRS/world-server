@@ -30,7 +30,7 @@ import java.util.List;
 
 public class DarkEnergyCore extends NPC {
 
-	private CorporealBeast beast;
+	private final CorporealBeast beast;
 	private Entity target;
 
 	public DarkEnergyCore(CorporealBeast beast) {
@@ -63,7 +63,7 @@ public class DarkEnergyCore extends NPC {
 				}
 				target = possibleTarget.get(Utils.getRandomInclusive(possibleTarget.size() - 1));
 				setHidden(true);
-				delay += World.sendProjectile(this, target.getTile(), 1828, 0, 0, 0, 0.6, 20, 0, proj -> {
+				delay += World.sendProjectile(this, target.getTile(), 1828, 0, 0, 0, 0.6, 20, proj -> {
 					tele(proj.getDestination());
 					setHidden(false);
 				}).getTaskDelay();

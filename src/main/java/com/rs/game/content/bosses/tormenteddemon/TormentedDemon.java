@@ -76,9 +76,8 @@ public final class TormentedDemon extends NPC {
 	@Override
 	public void handlePreHit(final Hit hit) {
 		super.handlePreHit(hit);
-		if (hit.getSource() instanceof Player) {
-			Player player = (Player) hit.getSource();
-			if (player.getEquipment().getWeaponId() == 6746 && hit.getLook() == HitLook.MELEE_DAMAGE && hit.getDamage() > 0) {
+		if (hit.getSource() instanceof Player player) {
+            if (player.getEquipment().getWeaponId() == 6746 && hit.getLook() == HitLook.MELEE_DAMAGE && hit.getDamage() > 0) {
 				shieldTimer = 100;
 				player.sendMessage("The demon is temporarily weakened by your weapon.");
 			}
@@ -141,7 +140,7 @@ public final class TormentedDemon extends NPC {
 		}
 		Tile finalTile = tile;
 		setNextAnimation(new Animation(10917));
-		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, 0, p -> {
+		World.sendProjectile(this, tile, 1884, 100, 16, 40, 0.6, 16, p -> {
 			World.sendSpotAnim(finalTile, new SpotAnim(1883));
 			for (Player player : queryNearbyPlayersByTileRange(7, player -> !player.isDead() && player.withinDistance(finalTile, 1))) {
 				player.sendMessage("The demon's magical attack splashes on you.");

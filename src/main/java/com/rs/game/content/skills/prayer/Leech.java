@@ -28,9 +28,10 @@ public enum Leech {
 	SPECIAL(Prayer.LEECH_SPECIAL, 2256, 2258),
 	ENERGY(Prayer.LEECH_ENERGY, 2252, 2254);
 
-	private Prayer prayer;
+	private final Prayer prayer;
 
-	private int projAnim, spotAnimHit;
+	private final int projAnim;
+    private final int spotAnimHit;
 
 	private Leech(Prayer prayer, int projAnim, int spotAnimHit) {
 		this.prayer = prayer;

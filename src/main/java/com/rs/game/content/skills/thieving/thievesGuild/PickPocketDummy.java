@@ -16,7 +16,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class PickPocketDummy extends PlayerAction {
 
-	private GameObject object;
+	private final GameObject object;
 
 	private boolean success = false;
 
@@ -28,9 +28,7 @@ public class PickPocketDummy extends PlayerAction {
 		if (checkAll(player)) {
 			success = successful(player);
 			player.faceObject(object);
-			WorldTasks.delay(0, () -> {
-				player.setNextAnimation(getAnimation());
-			});
+			WorldTasks.delay(0, () -> player.setNextAnimation(getAnimation()));
 			setActionDelay(player, 2);
 			player.lock();
 			return true;

@@ -15,7 +15,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class PickPocket extends PlayerAction {
-	private NPC npc;
+	private final NPC npc;
 	private boolean success = false;
 	public PickPocket(NPC npc) {
 		this.npc = npc;
@@ -26,9 +26,7 @@ public class PickPocket extends PlayerAction {
 			success = successful(player);
 			player.faceEntity(npc);
 			player.sendMessage("You attempt to pick the " + npc.getDefinitions().getName().toLowerCase() + "'s pocket...");
-			WorldTasks.delay(0, () -> {
-				player.setNextAnimation(new Animation(881));
-			});
+			WorldTasks.delay(0, () -> player.setNextAnimation(new Animation(881)));
 			setActionDelay(player, 2);
 			player.lock();
 			return true;
@@ -96,15 +94,10 @@ public class PickPocket extends PlayerAction {
 	}
 
 	public static boolean hasArdyCloak(Player player) {
-		switch(player.getEquipment().getCapeId()) {
-			case 15349:
-			case 19748:
-			case 9777:
-			case 9778:
-				return true;
-			default:
-				return false;
-		}
+        return switch (player.getEquipment().getCapeId()) {
+            case 15349, 19748, 9777, 9778 -> true;
+            default -> false;
+        };
 	}
 
 	private boolean successful(Player player) {

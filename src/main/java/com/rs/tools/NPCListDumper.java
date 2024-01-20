@@ -43,9 +43,9 @@ public class NPCListDumper {
 			NPCDefinitions def = NPCDefinitions.getDefs(id);
 			if (def.varp == -1 && def.varpBit == -1)
 				continue;
-			writer.append(id + " - " + def.getName() + " transforms to ");
+			writer.append(String.valueOf(id)).append(" - ").append(def.getName()).append(" transforms to ");
 			for (int tf : def.transformTo)
-				writer.append(tf + " (" +NPCDefinitions.getDefs(tf).getName()+ "), ");
+				writer.append(String.valueOf(tf)).append(" (").append(NPCDefinitions.getDefs(tf).getName()).append("), ");
 			writer.newLine();
 			writer.flush();
 		}

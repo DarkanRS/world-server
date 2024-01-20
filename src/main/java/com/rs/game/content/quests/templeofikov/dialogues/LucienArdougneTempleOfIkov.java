@@ -41,9 +41,7 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 			}
 			if(!TempleOfIkov.meetsRequirements(player)) {
 				addNPC(NPC, HeadE.CALM_TALK, "A laugh you say? You do not seem to have the skill required...");
-				addNext(addNext(() -> {
-					player.getQuestManager().showQuestDetailInterface(Quest.TEMPLE_OF_IKOV);
-				}));
+				addNext(addNext(() -> player.getQuestManager().showQuestDetailInterface(Quest.TEMPLE_OF_IKOV)));
 			}
 		}
 	}
@@ -116,9 +114,7 @@ public class LucienArdougneTempleOfIkov extends Conversation {
 					addPlayer(HeadE.SCARED, "Umm...");
 					addNPC(NPC, HeadE.FRUSTRATED, "What is it?");
 					addPlayer(HeadE.SECRETIVE, "I lost the pendent you gave me...");
-					addItem(86, "Lucien does a slight of hand and gives you his pendant", ()->{
-						player.getInventory().addItem(new Item(86, 1), true);
-					});
+					addItem(86, "Lucien does a slight of hand and gives you his pendant", ()-> player.getInventory().addItem(new Item(86, 1), true));
 				}
 			}
 			case QUEST_COMPLETE ->  {

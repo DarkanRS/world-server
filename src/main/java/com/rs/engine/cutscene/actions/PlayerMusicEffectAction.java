@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class PlayerMusicEffectAction extends CutsceneAction {
 
-	private int id;
+	private final int id;
 
 	public PlayerMusicEffectAction(int id, int actionDelay) {
 		super(null, actionDelay);

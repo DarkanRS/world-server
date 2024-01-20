@@ -26,12 +26,12 @@ import java.util.Map;
 
 public class ItemOnPlayerEvent implements PluginEvent {
 
-	private static Map<Object, ItemOnPlayerHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, ItemOnPlayerHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Player otherPlayer;
-	private Item item;
-	private boolean atPlayer;
+	private final Player player;
+	private final Player otherPlayer;
+	private final Item item;
+	private final boolean atPlayer;
 
 	public ItemOnPlayerEvent(Player player, Player otherPlayer, Item item, boolean atPlayer) {
 		this.player = player;

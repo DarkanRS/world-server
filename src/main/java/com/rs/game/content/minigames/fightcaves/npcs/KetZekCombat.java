@@ -44,7 +44,7 @@ public class KetZekCombat extends CombatScript {
 		int size = npc.getSize();
 		int hit = 0;
 		if (distanceX > size || distanceX < -1 || distanceY > size || distanceY < -1) {
-			commenceMagicAttack(npc, target, hit);
+			commenceMagicAttack(npc, target);
 			return npc.getAttackSpeed();
 		}
 		int attackStyle = Utils.getRandomInclusive(1);
@@ -55,14 +55,14 @@ public class KetZekCombat extends CombatScript {
 			delayHit(npc, 0, target, getMeleeHit(npc, hit));
 			break;
 		case 1:
-			commenceMagicAttack(npc, target, hit);
+			commenceMagicAttack(npc, target);
 			break;
 		}
 		return npc.getAttackSpeed();
 	}
 
-	private void commenceMagicAttack(final NPC npc, final Entity target, int hit) {
-		hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, AttackStyle.MAGE, target);
+	private void commenceMagicAttack(final NPC npc, final Entity target) {
+        int hit = getMaxHit(npc, npc.getCombatDefinitions().getMaxHit() - 50, AttackStyle.MAGE, target);
 		npc.setNextAnimation(new Animation(16136));
 		// npc.setNextGraphics(new Graphics(1622, 0, 96 << 16));
 		World.sendProjectile(npc, target, 2984, 34, 16, 30, 2, 16, 0);

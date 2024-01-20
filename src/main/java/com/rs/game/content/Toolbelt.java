@@ -86,7 +86,7 @@ public class Toolbelt {
 		DUNG_NEEDLE(11052, 17446),
 		DUNG_TINDERBOX(11049, 17678);
 
-		private static HashMap<Integer, Tools> MAP = new HashMap<>();
+		private static final HashMap<Integer, Tools> MAP = new HashMap<>();
 
 		static {
 			for (Tools tool : Tools.values())
@@ -98,14 +98,14 @@ public class Toolbelt {
 			return MAP.get(itemId);
 		}
 
-		private int varpBit;
-		private int[] itemIds;
+		private final int varpBit;
+		private final int[] itemIds;
 
 		public void sendUnlocked(Player player, int value) {
 			player.getVars().setVarBit(varpBit, value);
 		}
 
-		private Tools(int varpBit, int... itemIds) {
+		Tools(int varpBit, int... itemIds) {
 			this.varpBit = varpBit;
 			this.itemIds = itemIds;
 		}

@@ -65,9 +65,7 @@ public class Santa2019D extends Conversation {
 			if (!player.containsItem(14599)) {
 				addPlayer(HeadE.WORRIED, "I seem to have lost the amulet you gave me..");
 				addNPC(SNOW_QUEEN, HeadE.CHEERFUL, "Oh no worries. I can spin you up a new one right now. Here you go!");
-				addPlayer(HeadE.CHEERFUL, "Thanks! Sorry for the inconvenience.", () -> {
-					player.getInventory().addItemDrop(14599, 1);
-				});
+				addPlayer(HeadE.CHEERFUL, "Thanks! Sorry for the inconvenience.", () -> player.getInventory().addItemDrop(14599, 1));
 			} else
 				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that.");
 			break;

@@ -34,9 +34,7 @@ public class DrezelInJailD extends Conversation {
 		Entity.addLOSOverride( Drezel );
 	}
 
-	public static NPCClickHandler HandleDrezel = new NPCClickHandler(new Object[] { Drezel }, new String[] { "Talk-to" }, e -> {
-			e.getPlayer().startConversation(new DrezelInJailD(e.getPlayer()));
-	});
+	public static NPCClickHandler HandleDrezel = new NPCClickHandler(new Object[] { Drezel }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new DrezelInJailD(e.getPlayer())));
 
 	public DrezelInJailD(Player player) {
 		super(player);

@@ -30,7 +30,7 @@ public class MaxTaskFarm implements Task {
 		}
 		if (!reached) {
 			if (!max.hasWalkSteps())
-				max.setRouteEvent(new RouteEvent(patch, () -> { reached = true; }));
+				max.setRouteEvent(new RouteEvent(patch, () -> reached = true));
 			return 10;
 		}
 		if (max.getActionManager().hasSkillWorking())

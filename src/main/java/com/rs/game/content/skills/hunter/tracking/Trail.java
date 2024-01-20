@@ -24,21 +24,11 @@ import java.util.List;
 public class Trail {
 
 	private Trail prev;
-	private List<Trail> next;
 
-	private int nextObj;
-	private Tile nextObjTile;
-	private int varbit;
-	private int value;
-
-	public Trail(int nextObj, Tile nextObjTile, int varbit, int value, Trail... nexts) {
-		this.nextObj = nextObj;
-		this.nextObjTile = nextObjTile;
-		this.varbit = varbit;
-		this.value = value;
-		if (nexts.length <= 0)
+    public Trail(int nextObj, Tile nextObjTile, int varbit, int value, Trail... nexts) {
+        if (nexts.length <= 0)
 			return;
-		next = new ArrayList<>();
+        List<Trail> next = new ArrayList<>();
 		for (Trail t : nexts) {
 			t.prev = this;
 			next.add(t);

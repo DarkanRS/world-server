@@ -114,7 +114,7 @@ public class DungeonStructure {
 		rooms().filter(r -> !r.isBoss && r.children.stream().noneMatch(c -> c.isCritPath) && r.isCritPath).forEach(r -> assignKey(r, true));
 
 		//Some extra crit locks, to make things more interesting, these may 'fail' to add, but it doesn't matter
-		shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && r.key == -1).limit((size * 2) +1).forEach(r -> assignKey(r, true));
+		shuffledRooms().filter(r -> !r.isBoss && r.isCritPath && r.key == -1).limit((size * 2L) +1).forEach(r -> assignKey(r, true));
 
 		if (boss.lock == -1) {
 			//Should we force a lock on the boss? RS has a lock about 95% of the time
@@ -196,7 +196,7 @@ public class DungeonStructure {
 		candidates.removeAll(children);
 		if (!candidates.isEmpty()) {
 			RoomNode lockRoom = random(candidates);
-			keyRoom.key = availableKeys.remove(0);
+			keyRoom.key = availableKeys.removeFirst();
 			lockRoom.lock = keyRoom.key;
 
 		}

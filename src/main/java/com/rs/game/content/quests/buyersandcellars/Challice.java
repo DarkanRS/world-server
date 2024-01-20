@@ -8,9 +8,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class Challice {
 
-	public static ObjectClickHandler handleShackDoor = new ObjectClickHandler(new Object[] { 45539, 45540 }, e -> {
-		Doors.handleDoor(e.getPlayer(), e.getObject());
-	});
+	public static ObjectClickHandler handleShackDoor = new ObjectClickHandler(new Object[] { 45539, 45540 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject()));
 
 	public static ObjectClickHandler handleCase = new ObjectClickHandler(new Object[] { 51653 }, e -> {
 		if(e.getPlayer().getQuestStage(Quest.BUYERS_AND_CELLARS) != 7){

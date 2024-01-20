@@ -31,10 +31,10 @@ public class FruitCutting extends PlayerAction {
 	public enum CuttableFruit {
 		BANANA(1963, 3162), RED_BANANA(7572, 7574), LEMON(2102, 2104, 2106), ORANGE(2108, 2110, 2112), PINEAPPLE(2114, 2116, 2118), LIME(2120, 2122, 2124), WATERMELON(5982, 5984);
 
-		int fruitId;
-		int[] productIds;
+		final int fruitId;
+		final int[] productIds;
 
-		private static Map<Integer, CuttableFruit> items = new HashMap<>();
+		private static final Map<Integer, CuttableFruit> items = new HashMap<>();
 
 		public static CuttableFruit forId(int itemId) {
 			return items.get(itemId);

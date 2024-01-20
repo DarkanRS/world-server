@@ -55,9 +55,7 @@ import java.util.logging.Level;
 
 public final class Launcher {
 
-	private static WorldDB DB;
-
-	public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 		Logger.setupFormat();
 		Logger.setLevel(Level.FINE); //FINER for traces
 		JsonFileManager.setGSON(new GsonBuilder()
@@ -80,7 +78,7 @@ public final class Launcher {
 
 		MapXTEAs.loadKeys();
 
-		DB = new WorldDB();
+        WorldDB DB = new WorldDB();
 		DB.init();
 
 		GameDecoder.loadPacketDecoders();

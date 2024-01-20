@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 
 public class WikiNpcDropDumper {
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		System.out.println("Starting..");
 		//Cache.init();
 		for (int npcId = 0; npcId < Utils.getNPCDefinitionsSize(); npcId++)
@@ -36,7 +36,6 @@ public class WikiNpcDropDumper {
 					System.out.println("DUMPED NPC : " + npcId);
 	}
 
-	@SuppressWarnings("resource")
 	public static boolean dumpDrops(int npcId) {
 		String pageName = NPCDefinitions.getDefs(npcId).getName();
 		String rarity = "null";

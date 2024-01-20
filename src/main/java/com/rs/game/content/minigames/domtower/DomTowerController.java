@@ -23,7 +23,7 @@ import com.rs.game.model.object.GameObject;
 
 public class DomTowerController extends Controller {
 
-	private transient int mode;
+	private final transient int mode;
 
 	public DomTowerController(int mode) {
 		this.mode = mode;

@@ -47,7 +47,7 @@ public final class LivingRockCavern {
 			this.rock = rock;
 		}
 
-		private GameObject rock;
+		private final GameObject rock;
 	}
 
 	private static void respawnRock(final Rocks rock) {

@@ -29,9 +29,9 @@ import java.util.List;
 
 public class DropList {
 
-	private static double MAX_ROLL = Math.nextDown(1.0);
+	private static final double MAX_ROLL = Math.nextDown(1.0);
 
-	private List<DropEntry> drops = new ArrayList<>();
+	private final List<DropEntry> drops = new ArrayList<>();
 	private double nothingRate = 0.0;
 	private boolean overflowed;
 	private double overflow;
@@ -151,7 +151,7 @@ public class DropList {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		for (DropEntry d : drops)
-			str.append(d + "\n");
+			str.append(d).append("\n");
 		return str.toString();
 	}
 

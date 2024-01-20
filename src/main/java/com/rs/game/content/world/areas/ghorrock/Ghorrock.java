@@ -41,9 +41,7 @@ public class Ghorrock {
 		else if (e.getObjectId() == 47144)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? -0 : e.getObject().getRotation() == 0 ? 1 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? 4 : 0, -1));
 	});
-	public static ObjectClickHandler handleGhorrockstairsuponly = new ObjectClickHandler(new Object[] { 47143 }, e -> {
-		e.getPlayer().tele(Tile.of(2921, 3931, 1));
-	});
+	public static ObjectClickHandler handleGhorrockstairsuponly = new ObjectClickHandler(new Object[] { 47143 }, e -> e.getPlayer().tele(Tile.of(2921, 3931, 1)));
 	public static LoginHandler makeghorrockcanoe = new LoginHandler(e -> e.getPlayer().getVars().setVarBit(6075, 1));
 	public static ObjectClickHandler handlecanoetoghorrock = new ObjectClickHandler(new Object[] { 42886 }, e -> {
 		if (e.getPlayer().isQuestComplete(Quest.TALE_OF_MUSPAH)) {
@@ -79,9 +77,7 @@ public class Ghorrock {
 		else if (e.getObjectId() == 44255)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 3 ? 3 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 3 ? 0 : e.getObject().getRotation() == 0 ? -3 : 0, -1));
 	});
-	public static ObjectClickHandler handleZemouregalrightstairsuponly = new ObjectClickHandler(new Object[] { 44254 }, e -> {
-		e.getPlayer().tele(Tile.of(2836, 3868, 1));
-	});
+	public static ObjectClickHandler handleZemouregalrightstairsuponly = new ObjectClickHandler(new Object[] { 44254 }, e -> e.getPlayer().tele(Tile.of(2836, 3868, 1)));
 
 
 

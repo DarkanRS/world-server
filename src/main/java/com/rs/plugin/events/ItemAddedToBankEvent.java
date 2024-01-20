@@ -25,10 +25,10 @@ import java.util.Map;
 
 public class ItemAddedToBankEvent implements PluginEvent {
 
-    private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+    private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-    private Player player;
-    private Item item;
+    private final Player player;
+    private final Item item;
     private boolean cancelled;
 
     public ItemAddedToBankEvent(Player player, Item item) {

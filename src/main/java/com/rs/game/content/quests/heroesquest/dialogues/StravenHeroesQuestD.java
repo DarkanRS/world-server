@@ -28,9 +28,7 @@ public class StravenHeroesQuestD extends Conversation {
 					else {
 						addPlayer(HeadE.SAD, "I lost the armband!");
 						addNPC(NPC, HeadE.CALM_TALK, "Oh, don't lose it again");
-						addSimple("He hands you another...", () -> {
-							player.getInventory().addItem(1579, 1);
-						});
+						addSimple("He hands you another...", () -> player.getInventory().addItem(1579, 1));
 					}
 					return;
 				}
@@ -53,9 +51,7 @@ public class StravenHeroesQuestD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "His security is excellent, and the target very valuable, so that might be enough to get you the rank. Go talk to our" +
 						" man Alfonse, the waiter at the Shrimp and Parrot. Use the secret key word 'gherkin' to show you're one of us.");
 			}
-			case QUEST_COMPLETE -> {
-				addNext(impressedStraven);
-			}
+			case QUEST_COMPLETE -> addNext(impressedStraven);
 		}
 	}
 

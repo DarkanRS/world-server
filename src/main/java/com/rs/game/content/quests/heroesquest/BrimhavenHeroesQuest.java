@@ -62,9 +62,7 @@ public class BrimhavenHeroesQuest {
 									.addPlayer(HeadE.CALM_TALK, "Four leaved clover")
 									.addNPC(789, HeadE.HAPPY_TALKING, "Oh, you're one of the gang are you? Ok, hold up a second, I'll just let you in" +
 											" through here.")
-									.addSimple("You hear the door being unbarred from inside.", () -> {
-										e.getPlayer().getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_hideout_open", true);
-									}));
+									.addSimple("You hear the door being unbarred from inside.", () -> e.getPlayer().getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("black_arm_hideout_open", true)));
 							option("Lucky horseshoe", new Dialogue().addNPC(789, HeadE.CALM_TALK, "No idea what you are talking about, go away!"));
 							option("Black cat", new Dialogue().addNPC(789, HeadE.CALM_TALK, "No idea what you are talking about, go away!"));
 						}

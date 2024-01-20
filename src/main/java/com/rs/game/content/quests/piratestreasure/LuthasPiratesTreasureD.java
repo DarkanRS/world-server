@@ -35,9 +35,7 @@ public class LuthasPiratesTreasureD extends Conversation {
 									.addNPC(LUTHAS, HeadE.CALM_TALK, "Yes, I can sort something out. There's a crate ready to be loaded onto the ship. " +
 											"You wouldn't believe the demand for bananas from Wydin's shop over in Port Sarim. ")
 									.addNPC(LUTHAS, HeadE.CALM_TALK, "I think this is the third crate I've shipped him this month.. If you could fill it up with " +
-											"bananas, I'll pay you 30 gold.", ()-> {
-												player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI("LUTHAS_EMPLOYMENT", EMPLOYED);
-											})
+											"bananas, I'll pay you 30 gold.", ()-> player.getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setI("LUTHAS_EMPLOYMENT", EMPLOYED))
 									);
 							option("That customs officer is annoying isn't she?", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "That customs officer is annoying isn't she?")

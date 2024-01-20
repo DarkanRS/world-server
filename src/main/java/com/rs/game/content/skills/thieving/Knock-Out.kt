@@ -1,12 +1,9 @@
 package com.rs.game.content.skills.thieving
 
 import com.rs.engine.dialogue.HeadE
-import com.rs.game.model.entity.ForceTalk
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
-import com.rs.lib.game.Animation
-import com.rs.lib.game.SpotAnim
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onNpcClick
@@ -23,8 +20,7 @@ fun rollSuccess(player: Player): Boolean {
 }
 
 private fun successful(player: Player): Boolean {
-    if (!rollSuccess(player)) return false
-    return true
+    return rollSuccess(player)
 }
 
 private fun checkAll(player: Player): Boolean {

@@ -27,12 +27,12 @@ import java.util.Map;
 
 public class NPCDropEvent implements PluginEvent {
 
-	private static Map<Object, Map<Object, NPCDropHandler>> NPC_HANDLERS = new HashMap<>();
-	private static Map<Object, NPCDropHandler> ITEM_HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Object, NPCDropHandler>> NPC_HANDLERS = new HashMap<>();
+	private static final Map<Object, NPCDropHandler> ITEM_HANDLERS = new HashMap<>();
 
-	private Player player;
-	private NPC npc;
-	private Item item;
+	private final Player player;
+	private final NPC npc;
+	private final Item item;
 
 	public NPCDropEvent(Player player, NPC npc, Item item) {
 		this.player = player;

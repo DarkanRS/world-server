@@ -32,9 +32,9 @@ import java.util.*;
 
 public class PluginManager {
 
-	private static Map<String, HashSet<PluginHandler<PluginEvent>>> UNMAPPED_HANDLERS = new HashMap<>();
-	private static List<Method> STARTUP_HOOKS = new ArrayList<>();
-	private static PluginMethodRepository REPOSITORY = new PluginMethodRepository();
+	private static final Map<String, HashSet<PluginHandler<PluginEvent>>> UNMAPPED_HANDLERS = new HashMap<>();
+	private static final List<Method> STARTUP_HOOKS = new ArrayList<>();
+	private static final PluginMethodRepository REPOSITORY = new PluginMethodRepository();
 
 	private static void addUnmappedHandler(String type, PluginHandler<PluginEvent> method) {
 		HashSet<PluginHandler<PluginEvent>> methods = UNMAPPED_HANDLERS.get(type);

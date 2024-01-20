@@ -228,7 +228,7 @@ public class WildernessController extends Controller {
 		player.removeEffect(Effect.OVERLOAD_PVP_REDUCTION);
 	}
 
-	public static final boolean isAtWild(Tile tile) {// TODO fix this
+	public static boolean isAtWild(Tile tile) {// TODO fix this
 		return (tile.getX() >= 3011 && tile.getX() <= 3132 && tile.getY() >= 10052 && tile.getY() <= 10175)
 				|| (tile.getX() >= 2940 && tile.getX() <= 3395 && tile.getY() >= 3525 && tile.getY() <= 4000)
 				|| (tile.getX() >= 3078 && tile.getX() <= 3139 && tile.getY() >= 9923 && tile.getY() <= 10002)

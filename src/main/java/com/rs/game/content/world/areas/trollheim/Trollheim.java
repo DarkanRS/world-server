@@ -39,13 +39,9 @@ public class Trollheim {
 		e.getPlayer().getVars().setVarBit(10762, 3); //1 = mineable, 2 = being mined, 3 = mined
 	});
 
-	public static ObjectClickHandler handleTrollweissCaveEnter = new ObjectClickHandler(new Object[] { 5012 }, e -> {
-		e.getPlayer().tele(Tile.of(2799, 10134, 0));
-	});
+	public static ObjectClickHandler handleTrollweissCaveEnter = new ObjectClickHandler(new Object[] { 5012 }, e -> e.getPlayer().tele(Tile.of(2799, 10134, 0)));
 
-	public static ObjectClickHandler handleTrollweissCaveExit = new ObjectClickHandler(new Object[] { 5013 }, e -> {
-		e.getPlayer().tele(Tile.of(2796, 3719, 0));
-	});
+	public static ObjectClickHandler handleTrollweissCaveExit = new ObjectClickHandler(new Object[] { 5013 }, e -> e.getPlayer().tele(Tile.of(2796, 3719, 0)));
 
 	public static ObjectClickHandler handleTrollheimCaveExits = new ObjectClickHandler(new Object[] { 3758 }, e -> {
 		if (e.objectAt(2906, 10036))

@@ -34,14 +34,13 @@ import java.util.*;
 @PluginEventHandler
 public class PacketHandlers {
 
-	private static Map<ClientPacket, PacketHandler<?, ? extends Packet>> PACKET_HANDLERS = new HashMap<>();
+	private static final Map<ClientPacket, PacketHandler<?, ? extends Packet>> PACKET_HANDLERS = new HashMap<>();
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPacketDecoders() {
 		loadHandlersFromPackage("com.rs.net.decoders.handlers.impl");
 	}
 
-	@SuppressWarnings("unchecked")
 	public static void loadHandlersFromPackage(String pack) {
 		try {
 			Logger.info(PacketHandlers.class, "loadHandlersFromPackage", "Initializing packet handlers ("+pack+")...");

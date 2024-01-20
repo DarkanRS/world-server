@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class CrystalChest {
 
-	private final static Item REWARDS[][] = {
+	private final static Item[][] REWARDS = {
 			{ new Item(1631), new Item(1969), new Item(995, 2000) },
 			{ new Item(1631) }, { new Item(1631), new Item(554, 50), new Item(556, 50), new Item(555, 50), new Item(557, 50), new Item(559, 50), new Item(558, 50), new Item(560, 10), new Item(561, 10), new Item(562, 10), new Item(563, 10), new Item(564, 10) }, { new Item(1631), new Item(2363, 10) },
 			{ new Item(1631), new Item(454, 100) },

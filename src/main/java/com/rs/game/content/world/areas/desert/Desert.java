@@ -44,8 +44,8 @@ public class Desert  {
 		NARDAH(3020, Tile.of(3401, 2916, 0)),
 		MONKEY_COLONY(13237, Tile.of(3227, 2988, 0));
 
-		private int npcId;
-		private Tile tile;
+		private final int npcId;
+		private final Tile tile;
 
 		public static CarpetLocation forId(int npcId) {
 			for (CarpetLocation loc : CarpetLocation.values())
@@ -109,21 +109,13 @@ public class Desert  {
 			e.getPlayer().useStairs(Tile.of(3370, 3129, 0));
 	});
 
-	public static ObjectClickHandler handleSophBankEntrance = new ObjectClickHandler(new Object[] { 20275 }, e -> {
-		e.getPlayer().useStairs(Tile.of(2765, 5131, 0));
-	});
+	public static ObjectClickHandler handleSophBankEntrance = new ObjectClickHandler(new Object[] { 20275 }, e -> e.getPlayer().useStairs(Tile.of(2765, 5131, 0)));
 
-	public static ObjectClickHandler handleSophBankExit = new ObjectClickHandler(new Object[] { 20280 }, e -> {
-		e.getPlayer().useStairs(Tile.of(3315, 2796, 0));
-	});
+	public static ObjectClickHandler handleSophBankExit = new ObjectClickHandler(new Object[] { 20280 }, e -> e.getPlayer().useStairs(Tile.of(3315, 2796, 0)));
 
-	public static ObjectClickHandler handleSophDungEntrance = new ObjectClickHandler(new Object[] { 20340 }, e -> {
-		e.getPlayer().useStairs(Tile.of(3286, 9273, 0));
-	});
+	public static ObjectClickHandler handleSophDungEntrance = new ObjectClickHandler(new Object[] { 20340 }, e -> e.getPlayer().useStairs(Tile.of(3286, 9273, 0)));
 
-	public static ObjectClickHandler handleSophDungExit = new ObjectClickHandler(new Object[] { 20284 }, e -> {
-		e.getPlayer().useStairs(Tile.of(2766, 5131, 0));
-	});
+	public static ObjectClickHandler handleSophDungExit = new ObjectClickHandler(new Object[] { 20284 }, e -> e.getPlayer().useStairs(Tile.of(2766, 5131, 0)));
 
 	public static LoginHandler unlockMonkeyColonyRugMerchant = new LoginHandler(e -> {
 		e.getPlayer().getVars().setVarBit(8628, 1);
@@ -139,17 +131,11 @@ public class Desert  {
 			e.getPlayer().walkOneStep(0, e.getPlayer().getY() == e.getObject().getY() ? -1 : 1, false);
 	});
 
-	public static ObjectClickHandler handleEnterTTMine = new ObjectClickHandler(new Object[] { 2675, 2676 }, e -> {
-		e.getPlayer().useStairs(Tile.of(3279, 9427, 0));
-	});
+	public static ObjectClickHandler handleEnterTTMine = new ObjectClickHandler(new Object[] { 2675, 2676 }, e -> e.getPlayer().useStairs(Tile.of(3279, 9427, 0)));
 
-	public static ObjectClickHandler handleExitTTMine = new ObjectClickHandler(new Object[] { 2690, 2691 }, e -> {
-		e.getPlayer().useStairs(Tile.of(3301, 3036, 0));
-	});
+	public static ObjectClickHandler handleExitTTMine = new ObjectClickHandler(new Object[] { 2690, 2691 }, e -> e.getPlayer().useStairs(Tile.of(3301, 3036, 0)));
 
-	public static NPCClickHandler handleBanditBartender = new NPCClickHandler(new Object[] { 1921 }, e -> {
-		ShopsHandler.openShop(e.getPlayer(), "the_big_heist_lodge");
-	});
+	public static NPCClickHandler handleBanditBartender = new NPCClickHandler(new Object[] { 1921 }, e -> ShopsHandler.openShop(e.getPlayer(), "the_big_heist_lodge"));
 
 	public static NPCClickHandler aliSnakeCharmer = new NPCClickHandler(new Object[] { 1872 }, e -> {
 		Player p = e.getPlayer();
@@ -168,9 +154,7 @@ public class Desert  {
 									public void create() {
 										if(p.getInventory().hasCoins(1))
 											option("Yes.", new Dialogue()
-													.addItem(995, "You give the charmer 1 coin", ()->{
-														p.getInventory().removeCoins(1);
-													})
+													.addItem(995, "You give the charmer 1 coin", ()-> p.getInventory().removeCoins(1))
 													.addNPC(1872, HeadE.CHEERFUL, "Oh thank you so much! Please please come again")
 													.addSimple("You feel swindled...")
 													);
@@ -196,9 +180,7 @@ public class Desert  {
 								.addPlayer(HeadE.SECRETIVE, "Umm, sure.")
 								.addSimple("He pulls out a set of flutes...")
 								.addNPC(1872, HeadE.FRUSTRATED, "I will give you one, just leave me alone")
-								.addItem(4605, "He gives you a flute", ()-> {
-									p.getInventory().addItem(4605, 1);
-								})
+								.addItem(4605, "He gives you a flute", ()-> p.getInventory().addItem(4605, 1))
 								);
 					}
 				});
@@ -207,9 +189,7 @@ public class Desert  {
 		});
 	});
 
-	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }, e -> {
-		e.getPlayer().tele(Tile.of(3233, 9310, 0));
-	});
+	public static ObjectClickHandler handlePyramidBackEntrance = new ObjectClickHandler(new Object[] { 6481 }, e -> e.getPlayer().tele(Tile.of(3233, 9310, 0)));
 
 	public static ObjectClickHandler handlePyramidSarcophagi = new ObjectClickHandler(new Object[] { 6516 }, e -> {
 		if (e.getObject().getTile().isAt(3233, 9309))

@@ -26,9 +26,9 @@ public class BarrowsRoom {
 
 	protected ArrayList<Link> links;
 
-	private RoomType type;
+	private final RoomType type;
 
-	private String name;
+	private final String name;
 
 	public BarrowsRoom(RoomType type, String name) {
 		this.name = name;

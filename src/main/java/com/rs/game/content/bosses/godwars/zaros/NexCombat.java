@@ -93,7 +93,7 @@ public class NexCombat extends CombatScript {
 				nex.setNextSpotAnim(new SpotAnim(1214));
 				for (Entity t : nex.getPossibleTargets()) {
 					int damage = getMaxHit(nex, 250, AttackStyle.MAGE, t);
-					delayHit(nex, World.sendProjectile(nex, t, 306, 41, 16, 41, 1.6, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(nex, damage));
+					delayHit(nex, World.sendProjectile(nex, t, 306, 41, 16, 41, 1.6, 16, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(nex, damage));
 					if (damage > 0 && Utils.getRandomInclusive(5) == 0)
 						t.getPoison().makePoisoned(88);
 				}
@@ -104,7 +104,7 @@ public class NexCombat extends CombatScript {
 					int distance = (int) Utils.getDistance(t.getX(), t.getY(), nex.getX(), nex.getY());
 					if (distance <= 10) {
 						int damage = 800 - (distance * 800 / 11);
-						delayHit(nex, World.sendProjectile(nex, t, 380, 41, 16, 41, 1.6, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getRangeHit(nex, getMaxHit(nex, damage, AttackStyle.RANGE, t)));
+						delayHit(nex, World.sendProjectile(nex, t, 380, 41, 16, 41, 1.6, 16, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getRangeHit(nex, getMaxHit(nex, damage, AttackStyle.RANGE, t)));
 					}
 				}
 				break;
@@ -128,7 +128,7 @@ public class NexCombat extends CombatScript {
 				nex.setNextAnimation(new Animation(6987));
 				for (Entity t : nex.getPossibleTargets()) {
 					int damage = getMaxHit(nex, 350, AttackStyle.MAGE, t);
-					delayHit(nex, World.sendProjectile(nex, t, 306, 41, 16, 41, 1.6, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(nex, damage));
+					delayHit(nex, World.sendProjectile(nex, t, 306, 41, 16, 41, 1.6, 16, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(nex, damage));
 				}
 				break;
 			}
@@ -144,7 +144,7 @@ public class NexCombat extends CombatScript {
 		npc.setNextSpotAnim(new SpotAnim(1214));
 		for (Entity t : npc.getPossibleTargets()) {
 			int damage = getMaxHit(npc, 250, AttackStyle.MAGE, t);
-			delayHit(npc, World.sendProjectile(npc, t, 306, 41, 16, 41, 1.6, 16, 0, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(npc, damage));
+			delayHit(npc, World.sendProjectile(npc, t, 306, 41, 16, 41, 1.6, 16, p -> t.setNextSpotAnim(new SpotAnim(471))).getTaskDelay(), t, getMagicHit(npc, damage));
 			if (damage > 0 && Utils.getRandomInclusive(5) == 0)
 				t.getPoison().makePoisoned(88);
 		}

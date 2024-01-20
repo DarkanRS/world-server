@@ -24,9 +24,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 				addSimple("He splashes water on your face...", ()->{
 					guardian.setLockedForTicks(4);
 					guardian.faceEntity(player);
-					WorldTasks.delay(1, () -> {
-						guardian.setNextAnimation(new Animation(805));
-					});
+					WorldTasks.delay(1, () -> guardian.setNextAnimation(new Animation(805)));
 				});
 				addNPC(NPC, HeadE.CALM_TALK, "You have been cleansed!");
 				addNPC(NPC, HeadE.CALM_TALK, "Lucien must not get hold of the staff! He would become too powerful!");
@@ -48,11 +46,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 						);
 						option("No! I shall not turn against my employer!", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "No! I shall not turn against my employer!")
-								.addNPC(NPC, HeadE.CALM_TALK, "Fool! You will die for your sins!", ()->{
-									WorldTasks.delay(3, () -> {
-										guardian.setTarget(player);
-									});
-								})
+								.addNPC(NPC, HeadE.CALM_TALK, "Fool! You will die for your sins!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
 						);
 						option("I need to think.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "I need to think.")
@@ -80,9 +74,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 						return;
 					addPlayer(HeadE.HAPPY_TALKING, "Oh, and I lost that pendant...");
 					addNPC(NPC, HeadE.CALM_TALK, "Okay, I have another.");
-					addItem(87, "The Gaurdian gives you a pendant...", ()->{
-						player.getInventory().addItem(new Item(87, 1), true);
-					});
+					addItem(87, "The Gaurdian gives you a pendant...", ()-> player.getInventory().addItem(new Item(87, 1), true));
 					return;
 				}
 				addNPC(NPC, HeadE.CALM_TALK, "Thou hast ventured deep into the tunnels, you have reached the temple of our master. It is many ages since a pilgrim has come here.");
@@ -103,19 +95,11 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 													public void create() {
 														option("How dare you call me a fool?", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "How dare you call me a fool?")
-																.addNPC(NPC, HeadE.CALM_TALK, "We must cleanse the temple!", ()->{
-																	WorldTasks.delay(3, () -> {
-																		guardian.setTarget(player);
-																	});
-																})
+																.addNPC(NPC, HeadE.CALM_TALK, "We must cleanse the temple!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
 														);
 														option("I just thought of something I must do!", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "I just thought of something I must do!")
-																.addNPC(NPC, HeadE.CALM_TALK, "An agent of evil cannot be allowed to leave!", ()->{
-																	WorldTasks.delay(3, () -> {
-																		guardian.setTarget(player);
-																	});
-																})
+																.addNPC(NPC, HeadE.CALM_TALK, "An agent of evil cannot be allowed to leave!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
 														);
 														option("You're right, it's time for my yearly bath.", new Dialogue()
 																.addPlayer(HeadE.HAPPY_TALKING, "You're right, it's time for my yearly bath.")
@@ -147,11 +131,7 @@ public class GaurdianArmadylTempleOfIkov extends Conversation {
 										);
 										option("Then you must die!", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "Then you must die!")
-												.addNPC(NPC, HeadE.CALM_TALK, "So be it!", ()->{
-													WorldTasks.delay(3, () -> {
-														guardian.setTarget(player);
-													});
-												})
+												.addNPC(NPC, HeadE.CALM_TALK, "So be it!", ()-> WorldTasks.delay(3, () -> guardian.setTarget(player)))
 										);
 										option("You're right, I will go now.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "You're right, I will go now.")

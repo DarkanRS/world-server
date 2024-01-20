@@ -26,14 +26,14 @@ import java.util.Map;
 
 public class InterfaceOnObjectEvent implements PluginEvent {
 
-	private static Map<Object, InterfaceOnObjectHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, InterfaceOnObjectHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private int interfaceId;
-	private int componentId;
-	private int slotId;
-	private GameObject object;
-	private boolean atObject;
+	private final Player player;
+	private final int interfaceId;
+	private final int componentId;
+	private final int slotId;
+	private final GameObject object;
+	private final boolean atObject;
 
 	public InterfaceOnObjectEvent(Player player, GameObject object, int interfaceId, int componentId, int slotId, boolean atObject) {
 		this.player = player;

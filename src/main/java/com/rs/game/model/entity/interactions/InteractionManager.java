@@ -20,7 +20,7 @@ import com.rs.game.model.entity.Entity;
 
 public final class InteractionManager {
 
-	private Entity player;
+	private final Entity player;
 	private Interaction interaction;
 
 	public InteractionManager(Entity player) {

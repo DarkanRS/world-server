@@ -76,9 +76,7 @@ public class PrinceAliPrinceAliRescueD extends Conversation {
 //						}, 0, 1);
 			});
 			addNPC(PRINCE_ALI2, HeadE.HAPPY_TALKING, "Thank you my friend, I must leave you now. My father will pay you well for this.");
-			addSimple("The prince has escaped, well done! You are now a friend of Al-Kharid and may pass through the Al-Kharid toll gate for free.", ()->{
-				player.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE);
-			});
+			addSimple("The prince has escaped, well done! You are now a friend of Al-Kharid and may pass through the Al-Kharid toll gate for free.", ()-> player.getQuestManager().completeQuest(Quest.PRINCE_ALI_RESCUE));
 		}
 		else {
 			addNPC(PRINCE_ALI, HeadE.CALM_TALK, "Hello.");

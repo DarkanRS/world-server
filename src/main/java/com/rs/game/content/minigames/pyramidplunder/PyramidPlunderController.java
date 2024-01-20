@@ -39,8 +39,8 @@ public class PyramidPlunderController extends Controller {
 	private int currentRoom = 0;
 
 	private int correctDoor = 0;
-	private List<Integer> checkedDoors = new ArrayList<>();
-	private Map<Integer, Integer> varbits = new HashMap<>();
+	private final List<Integer> checkedDoors = new ArrayList<>();
+	private final Map<Integer, Integer> varbits = new HashMap<>();
 
 	@Override
 	public void start() {
@@ -91,7 +91,7 @@ public class PyramidPlunderController extends Controller {
 	public boolean login() {
 		player.getInterfaceManager().sendOverlay(PLUNDER_INTERFACE);
 		for (Integer vb : varbits.keySet())
-			player.getVars().setVarBit(vb.intValue(), varbits.get(vb).intValue());
+			player.getVars().setVarBit(vb, varbits.get(vb));
 		updatePlunderInterface();
 		return false;
 	}
@@ -133,17 +133,15 @@ public class PyramidPlunderController extends Controller {
 			case 5 -> player.tele(Tile.of(1927, 4424, 0));
 			case 6 -> player.tele(Tile.of(1943, 4421, 0));
 			case 7 -> player.tele(Tile.of(1974, 4420, 0));
-			case 8 -> {
-				player.startConversation(new Dialogue()
-						.addSimple("Opening this door will cause you to leave the pyramid.")
-						.addOptions("Would you like to exit?", new Options() {
-							@Override
-							public void create() {
-								option("Yes", new Dialogue().addNext(() -> exitMinigame()));
-								option("No", new Dialogue());
-							}
-						}));
-			}
+			case 8 -> player.startConversation(new Dialogue()
+                    .addSimple("Opening this door will cause you to leave the pyramid.")
+                    .addOptions("Would you like to exit?", new Options() {
+                        @Override
+                        public void create() {
+                            option("Yes", new Dialogue().addNext(() -> exitMinigame()));
+                            option("No", new Dialogue());
+                        }
+                    }));
 		}
 		if (currentRoom < 8) {
 			correctDoor = PyramidPlunder.DOORS[Utils.random(PyramidPlunder.DOORS.length)];

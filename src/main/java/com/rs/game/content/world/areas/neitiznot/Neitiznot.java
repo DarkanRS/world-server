@@ -66,9 +66,7 @@ public class Neitiznot  {
 			e.getPlayer().useLadder(e.getObjectId() == 21514 ? e.getPlayer().transform(-2, 0, 1) : e.getPlayer().transform(2, 0, -1));
 	});
 
-	public static NPCClickHandler handleMawnis = new NPCClickHandler(new Object[] { 5503 }, e -> {
-		e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer()));
-	});
+	public static NPCClickHandler handleMawnis = new NPCClickHandler(new Object[] { 5503 }, e -> e.getPlayer().startConversation(new MawnisBurowgarD(e.getPlayer())));
 
 	public static NPCClickHandler handleShops = new NPCClickHandler(new Object[] { 5509, 5487, 5484, 5486, 5485, 5483, 5495 }, e -> {
 		switch(e.getNPC().getId()) {
@@ -96,28 +94,20 @@ public class Neitiznot  {
 		}
 	});
 
-	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }, e -> {
-		e.getPlayer().sendOptionDialogue("What can I help you with?", ops -> {
-			ops.add("Cure my yak-hide, please.", () -> {
-				if (e.getPlayer().getInventory().containsItem(10818, 1)) {
-					int number = e.getPlayer().getInventory().getAmountOf(10818);
-					e.getPlayer().getInventory().deleteItem(10818, number);
-					e.getPlayer().getInventory().addItem(10820, number);
-				}
-			});
-			ops.add("Nothing, thanks.");
-		});
-	});
+	public static NPCClickHandler handleCureHide = new NPCClickHandler(new Object[] { 5506 }, e -> e.getPlayer().sendOptionDialogue("What can I help you with?", ops -> {
+        ops.add("Cure my yak-hide, please.", () -> {
+            if (e.getPlayer().getInventory().containsItem(10818, 1)) {
+                int number = e.getPlayer().getInventory().getAmountOf(10818);
+                e.getPlayer().getInventory().deleteItem(10818, number);
+                e.getPlayer().getInventory().addItem(10820, number);
+            }
+        });
+        ops.add("Nothing, thanks.");
+    }));
 
-	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }, e -> {
-		e.getPlayer().tele(e.getNPC().getId() == 5507 ? Tile.of(2644, 3709, 0) : Tile.of(2310, 3781, 0));
-	});
+	public static NPCClickHandler handleNeitzTravel = new NPCClickHandler(new Object[] { 5507, 5508 }, e -> e.getPlayer().tele(e.getNPC().getId() == 5507 ? Tile.of(2644, 3709, 0) : Tile.of(2310, 3781, 0)));
 
-	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }, e -> {
-		e.getPlayer().tele(e.getNPC().getId() == 5482 ? Tile.of(2644, 3709, 0) : Tile.of(2420, 3781, 0));
-	});
+	public static NPCClickHandler handleJatizoTravel = new NPCClickHandler(new Object[] { 5482, 5481 }, e -> e.getPlayer().tele(e.getNPC().getId() == 5482 ? Tile.of(2644, 3709, 0) : Tile.of(2420, 3781, 0)));
 
-	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }, e -> {
-		e.getPlayer().getBank().open();
-	});
+	public static NPCClickHandler handleMagnusBanker = new NPCClickHandler(new Object[] { 5488 }, e -> e.getPlayer().getBank().open());
 }

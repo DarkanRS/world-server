@@ -87,9 +87,8 @@ public class Genie extends OwnedNPC {
 	}
 
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }, e -> {
-		if (e.getNPC() instanceof Genie) {
-			Genie npc = (Genie) e.getNPC();
-			if (npc.ticks >= 149)
+		if (e.getNPC() instanceof Genie npc) {
+            if (npc.ticks >= 149)
 				return;
 			if (npc.getOwner() != e.getPlayer()) {
 				e.getPlayer().startConversation(new Conversation(new Dialogue()

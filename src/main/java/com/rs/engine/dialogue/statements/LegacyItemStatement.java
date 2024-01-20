@@ -20,9 +20,9 @@ import com.rs.game.model.entity.player.Player;
 
 public class LegacyItemStatement implements Statement {
 
-	private int[] itemIds;
-	private String title;
-	private String[] text;
+	private final int[] itemIds;
+	private final String title;
+	private final String[] text;
 
 	public LegacyItemStatement(int item, String title, String... text) {
 		itemIds = new int[] { item };
@@ -39,12 +39,12 @@ public class LegacyItemStatement implements Statement {
 	@Override
 	public void send(Player player) {
 		int interfaceId = itemIds.length > 1 ? 131 : 519;
-		String text = "";
-		text += title+"<br>";
+		StringBuilder text = new StringBuilder();
+		text.append(title).append("<br>");
 		for (String s : this.text)
-			text += s + "<br>";
+			text.append(s).append("<br>");
 		player.getInterfaceManager().sendChatBoxInterface(interfaceId);
-		player.getPackets().setIFText(interfaceId, 1, text);
+		player.getPackets().setIFText(interfaceId, 1, text.toString());
 		player.getPackets().setIFItem(interfaceId, 0, itemIds[0], 1);
 		if (itemIds.length > 1)
 			player.getPackets().setIFItem(interfaceId, 2, itemIds[1], 1);

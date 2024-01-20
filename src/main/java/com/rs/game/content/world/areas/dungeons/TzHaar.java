@@ -38,7 +38,7 @@ public class TzHaar {
 	public static final int TOKKUL_ZO_CHARGED = 23643;
 	public static final int TOKKUL_ZO_UNCHARGED = 23644;
 
-	private static Tile[] TOKKUL_ZO_TELEPORTS = { Tile.of(4744, 5156, 0), Tile.of(4599, 5062, 0), Tile.of(4613, 5128, 0), Tile.of(4744, 5170, 0) };
+	private static final Tile[] TOKKUL_ZO_TELEPORTS = { Tile.of(4744, 5156, 0), Tile.of(4599, 5062, 0), Tile.of(4613, 5128, 0), Tile.of(4744, 5170, 0) };
 
 	public static ItemClickHandler handleCheckTokkulZoOptions = new ItemClickHandler(new Object[] { TOKKUL_ZO_CHARGED }, new String[] { "Check-charge", "Check-charges", "Teleport" }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.ELDER_KILN, "to use the Tokkul-Zo."))
@@ -57,56 +57,52 @@ public class TzHaar {
 			e.getPlayer().sendMessage("Your Tokkul-Zo has " + e.getItem().getMetaDataI("tzhaarCharges") + " charges left.");
 	});
 
-	public static NPCClickHandler handleTzhaarMejJeh = new NPCClickHandler(new Object[] { 15166 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(15166, HeadE.CONFUSED, "What do you need from me?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						boolean recTZ = player.getBool("recTokkulZo");
-						if (!player.containsAnyItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
-							if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo."))
-								option("Can I have a Tokkul-Zo?" + (recTZ ? " I've lost mine." : ""), new Dialogue()
-										.addPlayer(HeadE.CONFUSED, "Can I have a Tokkul-Zo?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
-										.addNPC(15166, HeadE.CALM_TALK, "Alright, you have proven yourself. Try not to lose it."
-												+ (recTZ ? "" : " As this is your first time receiving the ring, I have fully charged it for you for free."))
-										.addPlayer(HeadE.CHEERFUL, "Thank you!")
-										.addItem(TOKKUL_ZO_CHARGED, "TzHaar-Mej-Jeh hands you a ring. It is extremely hot.", () -> {
-											if (!player.getInventory().hasFreeSlots()) {
-												player.sendMessage("You don't have enough inventory space.");
-												return;
-											}
-											if (!recTZ) {
-												player.getInventory().addItem(new Item(TOKKUL_ZO_CHARGED).addMetaData("tzhaarCharges", 3000));
-												player.save("recTokkulZo", true);
-											} else
-												player.getInventory().addItem(TOKKUL_ZO_UNCHARGED);
-										}));
+	public static NPCClickHandler handleTzhaarMejJeh = new NPCClickHandler(new Object[] { 15166 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addNPC(15166, HeadE.CONFUSED, "What do you need from me?");
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    boolean recTZ = player.getBool("recTokkulZo");
+                    if (!player.containsAnyItems(TOKKUL_ZO_UNCHARGED, TOKKUL_ZO_CHARGED))
+                        if (player.isQuestComplete(Quest.ELDER_KILN, "to obtain a Tokkul-Zo."))
+                            option("Can I have a Tokkul-Zo?" + (recTZ ? " I've lost mine." : ""), new Dialogue()
+                                    .addPlayer(HeadE.CONFUSED, "Can I have a Tokkul-Zo?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
+                                    .addNPC(15166, HeadE.CALM_TALK, "Alright, you have proven yourself. Try not to lose it."
+                                            + (recTZ ? "" : " As this is your first time receiving the ring, I have fully charged it for you for free."))
+                                    .addPlayer(HeadE.CHEERFUL, "Thank you!")
+                                    .addItem(TOKKUL_ZO_CHARGED, "TzHaar-Mej-Jeh hands you a ring. It is extremely hot.", () -> {
+                                        if (!player.getInventory().hasFreeSlots()) {
+                                            player.sendMessage("You don't have enough inventory space.");
+                                            return;
+                                        }
+                                        if (!recTZ) {
+                                            player.getInventory().addItem(new Item(TOKKUL_ZO_CHARGED).addMetaData("tzhaarCharges", 3000));
+                                            player.save("recTokkulZo", true);
+                                        } else
+                                            player.getInventory().addItem(TOKKUL_ZO_UNCHARGED);
+                                    }));
 
-						option("About the Tokkul-Zo", new Dialogue()
-								.addNPC(15166, HeadE.CONFUSED, "You want to know more about Tokkul-Zo?")
-								.addPlayer(HeadE.CONFUSED, "Yes, what does it do?")
-								.addNPC(15166, HeadE.CALM_TALK, "This ring has a piece of Tokkul in it. When worn, it will guide "
-										+ "your hand and make you better when fighting TzHaar, fire creatures, and maybe even TokHaar.")
-								.addPlayer(HeadE.CONFUSED, "How does it do that?")
-								.addNPC(15166, HeadE.CALM_TALK, "My magic taps into the memories in the ring, so you better at fighting like a TzHaar. "
-										+ "The magic will fade after time. When this happens, return to me and I will recharge it for you... for a price.")
-								.addPlayer(HeadE.CONFUSED, "What's your price?")
-								.addNPC(15166, HeadE.CALM_TALK, "48,000 Tokkul for a full recharge. Normally I would do it for free, but we need all the Tokkul we can "
-										+ "get, so they we can melt it down in the sacred lave, and release our ancestors from their suffering."));
+                    option("About the Tokkul-Zo", new Dialogue()
+                            .addNPC(15166, HeadE.CONFUSED, "You want to know more about Tokkul-Zo?")
+                            .addPlayer(HeadE.CONFUSED, "Yes, what does it do?")
+                            .addNPC(15166, HeadE.CALM_TALK, "This ring has a piece of Tokkul in it. When worn, it will guide "
+                                    + "your hand and make you better when fighting TzHaar, fire creatures, and maybe even TokHaar.")
+                            .addPlayer(HeadE.CONFUSED, "How does it do that?")
+                            .addNPC(15166, HeadE.CALM_TALK, "My magic taps into the memories in the ring, so you better at fighting like a TzHaar. "
+                                    + "The magic will fade after time. When this happens, return to me and I will recharge it for you... for a price.")
+                            .addPlayer(HeadE.CONFUSED, "What's your price?")
+                            .addNPC(15166, HeadE.CALM_TALK, "48,000 Tokkul for a full recharge. Normally I would do it for free, but we need all the Tokkul we can "
+                                    + "get, so they we can melt it down in the sacred lave, and release our ancestors from their suffering."));
 
-						if (player.getItemWithPlayer(TOKKUL_ZO_UNCHARGED) != null || player.getItemWithPlayer(TOKKUL_ZO_CHARGED) != null)
-							option("Recharging the Tokkul-Zo", new Dialogue()
-									.addPlayer(HeadE.CONFUSED, "Could you please recharge my ring?")
-									.addNPC(15166, HeadE.CALM_TALK, player.getInventory().containsItem(TOKKUL, 16) ? "Of course. Here you go." : "You don't have enough Tokkul with you.", () -> {
-										rechargeTokkulZo(player);
-									}));
-					}
-				});
-			}
-		});
-	});
+                    if (player.getItemWithPlayer(TOKKUL_ZO_UNCHARGED) != null || player.getItemWithPlayer(TOKKUL_ZO_CHARGED) != null)
+                        option("Recharging the Tokkul-Zo", new Dialogue()
+                                .addPlayer(HeadE.CONFUSED, "Could you please recharge my ring?")
+                                .addNPC(15166, HeadE.CALM_TALK, player.getInventory().containsItem(TOKKUL, 16) ? "Of course. Here you go." : "You don't have enough Tokkul with you.", () -> rechargeTokkulZo(player)));
+                }
+            });
+        }
+    }));
 
 	public static void rechargeTokkulZo(Player player) {
 		Item ring = player.getItemWithPlayer(TOKKUL_ZO_UNCHARGED);

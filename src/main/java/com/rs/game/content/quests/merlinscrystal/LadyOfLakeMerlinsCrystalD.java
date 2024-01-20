@@ -39,9 +39,7 @@ public class LadyOfLakeMerlinsCrystalD extends Conversation {
                                     "away lightly. I would want to give it away only to the one who is worthy and good.")
                             .addPlayer(HeadE.HAPPY_TALKING, "And how am I meant to prove that?")
                             .addNPC(NPC, HeadE.CALM_TALK, "I shall set a test for you. First I need you to travel to Port Sarim. Then go to the upstairs room of the " +
-                                    "jeweller' shop there.", ()->{
-                                        player.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("LADY_TEST", true);
-                                    })
+                                    "jeweller' shop there.", ()-> player.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("LADY_TEST", true))
                             .addPlayer(HeadE.HAPPY_TALKING, "Okay, that seems easy enough.")
                             );
                 if(player.getQuestManager().getStage(Quest.MERLINS_CRYSTAL) >= MerlinsCrystal.PERFORM_RITUAL && !player.getInventory().containsItem(EXCALIBUR))
@@ -50,9 +48,7 @@ public class LadyOfLakeMerlinsCrystalD extends Conversation {
                             .addNPC(NPC, HeadE.CALM_TALK, "I found it!")
                             .addPlayer(HeadE.AMAZED, "Really!?")
                             .addNPC(NPC, HeadE.FRUSTRATED, "Yes, please be worthy of it.")
-                            .addItem(EXCALIBUR, "She gives you the sword", ()-> {
-                                player.getInventory().addItem(EXCALIBUR, 1);
-                            }));
+                            .addItem(EXCALIBUR, "She gives you the sword", ()-> player.getInventory().addItem(EXCALIBUR, 1)));
 				option("Good day.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Good day.")
 						);

@@ -29,9 +29,7 @@ public class Snowglobe {
 		e.getPlayer().setNextAnimation(new Animation(2926));
 		e.getPlayer().startConversation(new Dialogue().addNext(new Dialogue(() -> {
 			e.getPlayer().getInterfaceManager().sendInterface(659);
-			e.getPlayer().setCloseInterfacesEvent(() -> {
-				e.getPlayer().setNextAnimation(new Animation(7538));
-			});
+			e.getPlayer().setCloseInterfacesEvent(() -> e.getPlayer().setNextAnimation(new Animation(7538)));
 		})).addNext(new Dialogue(() -> {
 			e.getPlayer().closeInterfaces();
 			e.getPlayer().setNextAnimation(new Animation(7528));

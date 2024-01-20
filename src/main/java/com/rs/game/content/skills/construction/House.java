@@ -97,27 +97,25 @@ public class House {
 		return players.contains(player);
 	}
 
-	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray(), e -> {
-		e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
-			ops.add("Go to your house.", () -> {
-				e.getPlayer().getHouse().setBuildMode(false);
-				e.getPlayer().getHouse().enterMyHouse();
-			});
-			ops.add("Go to your house (building mode).", () -> {
-				e.getPlayer().getHouse().kickGuests();
-				e.getPlayer().getHouse().setBuildMode(true);
-				e.getPlayer().getHouse().enterMyHouse();
-			});
-			ops.add("Go to a friend's house.", () -> {
-				if (e.getPlayer().isIronMan()) {
-					e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
-					return;
-				}
-				e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
-			});
-			ops.add("Nevermind.");
-		}));
-	});
+	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(POHLocation::getObjectId).toArray(), e -> e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
+        ops.add("Go to your house.", () -> {
+            e.getPlayer().getHouse().setBuildMode(false);
+            e.getPlayer().getHouse().enterMyHouse();
+        });
+        ops.add("Go to your house (building mode).", () -> {
+            e.getPlayer().getHouse().kickGuests();
+            e.getPlayer().getHouse().setBuildMode(true);
+            e.getPlayer().getHouse().enterMyHouse();
+        });
+        ops.add("Go to a friend's house.", () -> {
+            if (e.getPlayer().isIronMan()) {
+                e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
+                return;
+            }
+            e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
+        });
+        ops.add("Nevermind.");
+    })));
 
 	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398, e -> {
 		if (e.getComponentId() == 19)
@@ -1562,7 +1560,7 @@ public class House {
 	public static class ObjectReference {
 
 		private int slot;
-		private Builds build;
+		private final Builds build;
 
 		public ObjectReference(Builds build, int slot) {
 			this.build = build;
@@ -1636,9 +1634,12 @@ public class House {
 			return -1;
 		}
 
-		private HouseConstants.Room room;
-		private byte x, y, plane, rotation;
-		private List<ObjectReference> objects;
+		private final HouseConstants.Room room;
+		private final byte x;
+        private final byte y;
+        private final byte plane;
+        private byte rotation;
+		private final List<ObjectReference> objects;
 
 		public int getLadderTrapSlot() {
 			for (ObjectReference object : objects)

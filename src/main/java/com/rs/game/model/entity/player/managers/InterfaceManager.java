@@ -34,7 +34,7 @@ public class InterfaceManager {
 	public static final int CHATBOX_TOP = 752;
 	public static final int CHATBOX_SUB = 13;
 	
-	private Player player;
+	private final Player player;
 	private int top;
 
 	private final Map<Integer, Integer> openedInterfaces = new ConcurrentHashMap<>();
@@ -92,13 +92,13 @@ public class InterfaceManager {
 		/* CONFIRMED */	ORB_HP(196, 160, 748),
 		/* CONFIRMED */	ORB_PRAYER(197, 161, 749),
 		/* CONFIRMED */	ORB_SUMMONING(199, 164, 747),
-		/* CONFIRMED */	ORB_RUN(198, 162, 750, p -> p.sendRunButtonConfig()),
+		/* CONFIRMED */	ORB_RUN(198, 162, 750, Player::sendRunButtonConfig),
 		/* CONFIRMED */	ORB_MONEYPOUCH(208, 167),
 		
 		/* CONFIRMED */ INVENTORY_OVERLAY(109, 172),
 		
 		/* CONFIRMED */	TAB_COMBAT(112, 176, 884, p -> p.getCombatDefinitions().sendUnlockAttackStylesButtons()),
-		/* CONFIRMED */	TAB_ACHIEVEMENT(113, 177, 1056, p -> AchievementInterface.init(p)),
+		/* CONFIRMED */	TAB_ACHIEVEMENT(113, 177, 1056, AchievementInterface::init),
 		/* CONFIRMED */	TAB_SKILLS(114, 178, 320),
 		/* CONFIRMED */	TAB_QUEST(115, 179, 190, p -> p.getQuestManager().unlockQuestTabOptions()),
 		/* CONFIRMED */	TAB_INVENTORY(116, 180, Inventory.INVENTORY_INTERFACE, p -> p.getInventory().unlockInventoryOptions()),
@@ -120,7 +120,7 @@ public class InterfaceManager {
 		/* CONFIRMED */	TAB_NOTES(127, 191, 34);
 		
 		public static final Sub[] ALL_GAME_TABS = { Sub.TAB_COMBAT, Sub.TAB_ACHIEVEMENT, Sub.TAB_SKILLS, Sub.TAB_QUEST, Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER, Sub.TAB_MAGIC, Sub.TAB_FOLLOWER, Sub.TAB_FRIENDS, Sub.TAB_FRIENDS_CHAT, Sub.TAB_CLAN_CHAT, Sub.TAB_SETTINGS, Sub.TAB_EMOTES, Sub.TAB_MUSIC, Sub.TAB_NOTES, Sub.ORB_RUN };
-		private static Map<Integer, Sub> BY_HASH = new HashMap<>();
+		private static final Map<Integer, Sub> BY_HASH = new HashMap<>();
 		
 		static {
 			for (Sub sub : Sub.values()) {
@@ -135,7 +135,8 @@ public class InterfaceManager {
 			return BY_HASH.get(hash);
 		}
 		
-		private int resizeable, fixed;
+		private final int resizeable;
+        private final int fixed;
 		private int defaultInter = -1;
 		private Consumer<Player> defaultProcedure = p -> {};
 		
@@ -387,7 +388,7 @@ public class InterfaceManager {
 		//	sendSubDefault(sub);
 			Integer prev = old.get(sub.getHash(oldMode));
 			if (prev != null) {
-				sendSub(sub, prev, sub == Sub.CENTRAL ? false : true);
+				sendSub(sub, prev, sub != Sub.CENTRAL);
 				if (sub.defaultProcedure != null)
 					sub.defaultProcedure.accept(player);
 			}

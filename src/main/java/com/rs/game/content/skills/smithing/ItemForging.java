@@ -156,9 +156,11 @@ public class ItemForging {
 			player.getSkills().addXp(Skills.SMITHING, 1800);
 		});
 
-		private int item1, item2, productId;
-		private Function<Player, Boolean> hasRequirements;
-		private Consumer<Player> onCreate;
+		private final int item1;
+        private final int item2;
+        private final int productId;
+		private final Function<Player, Boolean> hasRequirements;
+		private final Consumer<Player> onCreate;
 
 		ForgeableItem(int item1, int item2, int productId, Function<Player, Boolean> hasRequirements, Consumer<Player> onCreate) {
 			this.item1 = item1;

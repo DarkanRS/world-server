@@ -29,7 +29,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class Shade extends NPC {
 
-	private int baseId;
+	private final int baseId;
 	private int attack;
 
 	public Shade(int id, Tile tile) {
@@ -41,7 +41,7 @@ public class Shade extends NPC {
 		attack = 0;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1240, 1241, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250 }, (npcId, tile) -> new Shade(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1240, 1241, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250 }, Shade::new);
 
 	@Override
 	public void onRespawn() {

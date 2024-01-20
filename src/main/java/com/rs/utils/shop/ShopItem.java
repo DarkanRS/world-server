@@ -19,13 +19,12 @@ package com.rs.utils.shop;
 import com.rs.lib.game.Item;
 
 public class ShopItem {
-	private Item item;
+	private final Item item;
 	private transient int ticks;
 	private int capStock;
 	private int customPrice;
-	private Integer restockTicks = -1;
 
-	public ShopItem(int id, int amount) {
+    public ShopItem(int id, int amount) {
 		item = new Item(id, amount);
 	}
 
@@ -42,7 +41,8 @@ public class ShopItem {
 	}
 
 	public int getRestockTicks() {
-		return restockTicks == null ? 50 : restockTicks;
+        Integer restockTicks = -1;
+        return restockTicks == null ? 50 : restockTicks;
 	}
 
 	public void setCap(int cap) {

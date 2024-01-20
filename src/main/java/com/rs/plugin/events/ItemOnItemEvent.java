@@ -26,11 +26,11 @@ import java.util.Map;
 
 public class ItemOnItemEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item1;
-	private Item item2;
+	private final Player player;
+	private final Item item1;
+	private final Item item2;
 
 	public ItemOnItemEvent(Player player, Item item1, Item item2) {
 		this.player = player;

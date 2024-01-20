@@ -27,8 +27,8 @@ import java.util.Map;
 public class MiniquestManager {
 	private transient Player player;
 
-	private Map<Miniquest, Integer> questStages;
-	private Map<Miniquest, GenericAttribMap> questAttribs;
+	private final Map<Miniquest, Integer> questStages;
+	private final Map<Miniquest, GenericAttribMap> questAttribs;
 
 	public MiniquestManager() {
 		questStages = new HashMap<>();
@@ -76,12 +76,8 @@ public class MiniquestManager {
 	}
 
 	public GenericAttribMap getAttribs(Miniquest quest) {
-		GenericAttribMap map = questAttribs.get(quest);
-		if (map == null) {
-			map = new GenericAttribMap();
-			questAttribs.put(quest, map);
-		}
-		return map;
+        GenericAttribMap map = questAttribs.computeIfAbsent(quest, k -> new GenericAttribMap());
+        return map;
 	}
 
 	public boolean completedAll() {

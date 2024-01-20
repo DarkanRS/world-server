@@ -152,12 +152,10 @@ public class BrimhavenDungeon {
 	public static ObjectClickHandler handleRedDragonJump = new ObjectClickHandler(false, new Object[] { 55342 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 34))
 			return;
-		e.getPlayer().walkToAndExecute(Tile.of(2681, 9540, 0), () -> {
-			e.getPlayer().forceMove(Tile.of(2681, 9537, 0), 14717, 0, 30, () -> {
-				e.getPlayer().setNextAnimation(new Animation(14718));
-				e.getPlayer().tele(Tile.of(2697, 9524, 0));
-			});
-		});
+		e.getPlayer().walkToAndExecute(Tile.of(2681, 9540, 0), () -> e.getPlayer().forceMove(Tile.of(2681, 9537, 0), 14717, 0, 30, () -> {
+            e.getPlayer().setNextAnimation(new Animation(14718));
+            e.getPlayer().tele(Tile.of(2697, 9524, 0));
+        }));
 	});
 
 	public static ObjectClickHandler handleRedDragonLogBalance = new ObjectClickHandler(new Object[] { 5088, 5090 }, e -> {

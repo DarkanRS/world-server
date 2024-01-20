@@ -49,9 +49,9 @@ public class Potions {
 	public static final int JUJU_VIAL = 19996;
 	public static final int BEER_GLASS = 1919;
 	public static final int EMPTY_KEG = 5769;
-	private static int EMPTY_CUP = 4244;
-	private static int BOWL = 1923;
-	private static int EMPTY_JUG = 1935;
+	private static final int EMPTY_CUP = 4244;
+	private static final int BOWL = 1923;
+	private static final int EMPTY_JUG = 1935;
 
 	public enum Potion {
 		CUP_OF_TEA(1980, new int[] { 712, 1978, 4242, 4243, 4245, 4246, 4838, 7730, 7731, 7733, 7734, 7736, 7737 }, p -> {
@@ -59,24 +59,12 @@ public class Potions {
 			p.getSkills().adjustStat(3, 0, Constants.ATTACK);
 			p.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
 		}),
-		CUP_OF_TEA_CLAY(7728, 7730, p -> {
-			p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION);
-		}),
-		CUP_OF_TEA_CLAY_MILK(7728, 7731, p -> {
-			p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION);
-		}),
-		CUP_OF_TEA_PORCELAIN(7732, 7733, p -> {
-			p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION);
-		}),
-		CUP_OF_TEA_PORCELAIN_MILK(7732, 7734, p -> {
-			p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION);
-		}),
-		CUP_OF_TEA_GOLD(7735, 7736, p -> {
-			p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION);
-		}),
-		CUP_OF_TEA_GOLD_MILK(7735, 7737, p -> {
-			p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION);
-		}),
+		CUP_OF_TEA_CLAY(7728, 7730, p -> p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION)),
+		CUP_OF_TEA_CLAY_MILK(7728, 7731, p -> p.getSkills().adjustStat(1, 0, Constants.CONSTRUCTION)),
+		CUP_OF_TEA_PORCELAIN(7732, 7733, p -> p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION)),
+		CUP_OF_TEA_PORCELAIN_MILK(7732, 7734, p -> p.getSkills().adjustStat(2, 0, Constants.CONSTRUCTION)),
+		CUP_OF_TEA_GOLD(7735, 7736, p -> p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION)),
+		CUP_OF_TEA_GOLD_MILK(7735, 7737, p -> p.getSkills().adjustStat(3, 0, Constants.CONSTRUCTION)),
 		NETTLE_TEA_CUP(EMPTY_CUP, 4245, p -> {
 			p.restoreRunEnergy(5);
 			p.heal(30);
@@ -240,9 +228,7 @@ public class Potions {
 			p.applyHit(new Hit(null, (int) (p.getHitpoints()*0.12), HitLook.TRUE_DAMAGE));
 		}),
 		ZAMORAK_BREW_FLASK(-1, new int[] { 23339, 23341, 23343, 23345, 23347, 23349 }),
-		ZAMORAK_MIX(VIAL, new int[] { 11521, 11523 }, p -> {
-			p.heal(30);
-		}),
+		ZAMORAK_MIX(VIAL, new int[] { 11521, 11523 }, p -> p.heal(30)),
 
 		ANTIFIRE(VIAL, new int[] { 2452, 2454, 2456, 2458 }, p -> p.addEffect(Effect.ANTIFIRE, Ticks.fromMinutes(6))),
 		ANTIFIRE_FLASK(-1, new int[] { 23363, 23365, 23367, 23369, 23371, 23373 }, p -> p.addEffect(Effect.ANTIFIRE, Ticks.fromMinutes(6))),
@@ -260,9 +246,7 @@ public class Potions {
 
 		SUPER_ENERGY(VIAL, new int[] { 3016, 3018, 3020, 3022 }, p -> p.restoreRunEnergy(40)),
 		SUPER_ENERGY_FLASK(-1, new int[] { 23387, 23389, 23391, 23393, 23395, 23397 }, p -> p.restoreRunEnergy(40)),
-		CW_SUPER_ENERGY_POTION(-1, new int[] { 18727, 18728, 18729, 18730 }, p -> {
-			p.restoreRunEnergy(40);
-		}),
+		CW_SUPER_ENERGY_POTION(-1, new int[] { 18727, 18728, 18729, 18730 }, p -> p.restoreRunEnergy(40)),
 		SUPER_ENERGY_MIX(VIAL, new int[] { 11481, 11483 }, p -> {
 			p.restoreRunEnergy(40);
 			p.heal(30);
@@ -539,7 +523,7 @@ public class Potions {
 
 		WEAK_REJUVENATION_POTION(17490, 17570, p -> {
 			p.getSkills().adjustStat(5, 0.10, false, Constants.SUMMONING);
-			p.getPrayer().restorePrayer(((int) (Math.floor(p.getSkills().getLevelForXp(Constants.PRAYER)) + 50)));
+			p.getPrayer().restorePrayer(((int) ((double) p.getSkills().getLevelForXp(Constants.PRAYER) + 50)));
 		}),
 		REJUVENATION_POTION(17490, 17594, p -> {
 			p.getSkills().adjustStat(7, 0.15, false, Constants.SUMMONING);
@@ -815,9 +799,7 @@ public class Potions {
 		OLIVE_OIL(VIAL, new int[] { 3422, 3424, 3426, 3428 }),
 		SACRED_OIL(VIAL, new int[] { 3430, 3432, 3434, 3436 }),
 
-		JUG_OF_BAD_WINE(EMPTY_JUG, 1991, p -> {
-			p.getSkills().lowerStat(Constants.ATTACK, 3);
-		}),
+		JUG_OF_BAD_WINE(EMPTY_JUG, 1991, p -> p.getSkills().lowerStat(Constants.ATTACK, 3)),
 		JUG_OF_WINE(EMPTY_JUG, 1993, p -> {
 			p.heal(110, 0);
 			p.getSkills().lowerStat(Constants.ATTACK, 2);
@@ -825,7 +807,7 @@ public class Potions {
 
 		;
 
-		public static Map<Integer, Potion> POTS = new HashMap<>();
+		public static final Map<Integer, Potion> POTS = new HashMap<>();
 
 		static {
 			for (Potion pot : Potion.values())
@@ -837,26 +819,26 @@ public class Potions {
 			return POTS.get(itemId);
 		}
 
-		private int emptyId;
-		private Consumer<Player> effect;
-		private int[] ids;
+		private final int emptyId;
+		private final Consumer<Player> effect;
+		private final int[] ids;
 		private boolean isOP;
 
-		private Potion(int emptyId, int[] ids, boolean isOP, Consumer<Player> effect) {
+		Potion(int emptyId, int[] ids, boolean isOP, Consumer<Player> effect) {
 			this.emptyId = emptyId;
 			this.ids = ids;
 			this.effect = effect;
 		}
 
-		private Potion(int emptyId, int[] ids, Consumer<Player> effect) {
+		Potion(int emptyId, int[] ids, Consumer<Player> effect) {
 			this(emptyId, ids, false, effect);
 		}
 
-		private Potion(int emptyId, int id, Consumer<Player> effect) {
+		Potion(int emptyId, int id, Consumer<Player> effect) {
 			this(emptyId, new int[] { id }, false, effect);
 		}
 
-		private Potion(int emptyId, int[] ids) {
+		Potion(int emptyId, int[] ids) {
 			this(emptyId, ids, null);
 		}
 
@@ -864,7 +846,7 @@ public class Potions {
 			return true;
 		}
 
-		private final void drink(Player player, int itemId, int slot) {
+		private void drink(Player player, int itemId, int slot) {
 			if (player.getInventory().getItem(slot) == null || player.getInventory().getItem(slot).getId() != itemId || !player.canPot() || !player.getControllerManager().canPot(this))
 				return;
 			if (effect == null) {

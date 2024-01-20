@@ -91,11 +91,19 @@ public enum BoxHunterType {
 
 	ZAMORAK_JADINKO(13165, "hunter_jadinko_zamorak", 81, 600, BoxTrapType.MARASAMAW_PLANT, 56839, 56828, 56818, new Animation(3293), new Animation(3293), 15, 130);
 
-	private int npcId, baitId, level, objectCatch, objectSuccess, objectFail, rate1, rate99;
-	private double xp;
-	private BoxTrapType hunter;
-	private Animation animSuccess, animFail;
-	private String dropTable;
+	private final int npcId;
+    private final int baitId;
+    private final int level;
+    private final int objectCatch;
+    private final int objectSuccess;
+    private final int objectFail;
+    private final int rate1;
+    private final int rate99;
+	private final double xp;
+	private final BoxTrapType hunter;
+	private final Animation animSuccess;
+    private final Animation animFail;
+	private final String dropTable;
 
 	public static final Map<Integer, BoxHunterType> ID_MAP = new HashMap<>();
 	public static final Map<Integer, BoxHunterType> OBJECTID_MAP = new HashMap<>();

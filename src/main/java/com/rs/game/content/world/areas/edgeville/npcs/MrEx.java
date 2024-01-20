@@ -26,7 +26,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class MrEx extends Conversation {
 
-	private static int MREX = 3709;
+	private static final int MREX = 3709;
 
 	public MrEx(Player player) {
 		super(player);
@@ -55,17 +55,13 @@ public class MrEx extends Conversation {
 		.addOption("Skull?", "Yes, skull me.", "No, nevermind.")
 		.addNPC(MREX, HeadE.CHEERFUL, "Are you sure?")
 		.addOption("Skull?", "Yes, skull me.", "No, I've changed my mind.")
-		.addSimple("You have been skulled.", () -> {
-			player.setWildernessSkull();
-		})
+		.addSimple("You have been skulled.", player::setWildernessSkull)
 		.addPlayer(HeadE.CHEERFUL, "Thank you!")
 		.addNPC(MREX, HeadE.CHEERFUL, "No problem.");
 
 		create();
 	}
 
-	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { MREX }, e -> {
-		e.getPlayer().startConversation(new MrEx(e.getPlayer()));
-	});
+	public static NPCClickHandler handleTalk = new NPCClickHandler(new Object[] { MREX }, e -> e.getPlayer().startConversation(new MrEx(e.getPlayer())));
 
 }

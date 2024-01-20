@@ -26,10 +26,10 @@ import java.util.Map;
 
 public class NPCInteractionDistanceEvent implements PluginEvent {
 
-	private static Map<Object, NPCInteractionDistanceHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, NPCInteractionDistanceHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private NPC npc;
+	private final Player player;
+	private final NPC npc;
 
 	public NPCInteractionDistanceEvent(Player player, NPC npc) {
 		this.player = player;

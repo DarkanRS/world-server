@@ -15,8 +15,8 @@ import com.rs.lib.game.SpotAnim;
 import com.rs.lib.util.Utils;
 
 public class SiphonAction extends PlayerAction {
-	private Creature creatures;
-	private NPC creature;
+	private final Creature creatures;
+	private final NPC creature;
 	private boolean started;
 	private int npcLife;
 

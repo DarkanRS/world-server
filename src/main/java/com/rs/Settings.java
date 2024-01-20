@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public final class Settings {
 
 	private static Settings SETTINGS;
-	private static Settings DEFAULTS = new Settings();
+	private static final Settings DEFAULTS = new Settings();
 
 	public static Settings getConfig() {
 		if (SETTINGS == null)
@@ -48,7 +48,7 @@ public final class Settings {
 	private String cachePath;
 	private boolean debug = false;
 	private boolean enableJFR = false;
-	private boolean allowHighMemUseOptimizations;
+	private final boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
 	private String mongoUser;

@@ -22,7 +22,7 @@ import com.rs.game.model.entity.player.Player;
 
 public class SpiderStatement implements Statement {
 
-	private String[] texts;
+	private final String[] texts;
 
 	public SpiderStatement(String... texts) {
 		this.texts = texts;
@@ -32,7 +32,7 @@ public class SpiderStatement implements Statement {
 	public void send(Player player) {
 		StringBuilder builder = new StringBuilder();
 		for (String text2 : texts)
-			builder.append(" " + text2);
+			builder.append(" ").append(text2);
 		String text = builder.toString();
 		player.getInterfaceManager().sendChatBoxInterface(1184);
 		player.getPackets().setIFText(1184, 17, NPCDefinitions.getDefs(8985, player.getVars()).getName());

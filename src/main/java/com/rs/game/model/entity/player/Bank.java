@@ -184,7 +184,7 @@ public class Bank {
 						return;
 					e.getPlayer().getBank().setLastX(amount);
 					e.getPlayer().getBank().refreshLastX();
-					e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().topOpen(11) ? false : true);
+					e.getPlayer().getBank().depositItem(e.getSlotId(), amount, !e.getPlayer().getInterfaceManager().topOpen(11));
 				});
 			else if (e.getPacket() == ClientPacket.IF_OP6)
 				e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);

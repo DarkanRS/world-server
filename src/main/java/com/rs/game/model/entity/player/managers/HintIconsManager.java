@@ -22,8 +22,8 @@ import com.rs.lib.game.HintIcon;
 
 public class HintIconsManager {
 
-	private Player player;
-	private HintIcon[] loadedIcons;
+	private final Player player;
+	private final HintIcon[] loadedIcons;
 
 	public HintIconsManager(Player p) {
 		player = p;

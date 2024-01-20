@@ -49,9 +49,7 @@ public class GertrudeD extends Conversation {
 			addPlayer(HeadE.CONFUSED, "The marketplace? Which one would that be? It would help to know what they get up to, as well.");
 			addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Really? Well, I generally let them do what they want, so I've no idea exactly what they would be doing. They are good lads, though. I'm sure they are just watching the passers-by in Varrock Marketplace.");
 			addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Oh, to be young and carefree again!");
-			addPlayer(HeadE.HAPPY_TALKING, "Alright then, I'll see what I can do. Two young lads in Varrock Marketplace; I can only hope that there's no school trip passing through when I arrive.", () -> {
-				player.getQuestManager().setStage(Quest.GERTRUDES_CAT, 1);
-			});
+			addPlayer(HeadE.HAPPY_TALKING, "Alright then, I'll see what I can do. Two young lads in Varrock Marketplace; I can only hope that there's no school trip passing through when I arrive.", () -> player.getQuestManager().setStage(Quest.GERTRUDES_CAT, 1));
 			break;
 		case 1:
 			addPlayer(HeadE.HAPPY_TALKING, "Hello Gertrude.");
@@ -91,17 +89,13 @@ public class GertrudeD extends Conversation {
 			addPlayer(HeadE.CHEERFUL, "You're going to give me a kitten? Thanks.");
 			addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "I would sell one to my cousin in West Ardougne. I hear there's a rat epidemic there but it's too far for me to travel, what with my boys and all.");
 			addNPC(GERTRUDE, HeadE.NO_EXPRESSION, "Oh, by the way, the kitten can live in your backpack but, to ensure it grows, you must take it out, feed it and stroke it often.");
-			addSimple("You've been given a cat!", () -> {
-				player.getQuestManager().completeQuest(Quest.GERTRUDES_CAT);
-			});
+			addSimple("You've been given a cat!", () -> player.getQuestManager().completeQuest(Quest.GERTRUDES_CAT));
 			break;
 		default:
 			if (player.containsItem(1555))
 				addNPC(GERTRUDE, HeadE.HAPPY_TALKING, "Take good care of that kitten!");
 			else
-				addNPC(GERTRUDE, HeadE.ANGRY, "You lost your kitten? It found it wandering around outside my door! Take care of it this time..", () -> {
-					player.getInventory().addItem(1555, 1);
-				});
+				addNPC(GERTRUDE, HeadE.ANGRY, "You lost your kitten? It found it wandering around outside my door! Take care of it this time..", () -> player.getInventory().addItem(1555, 1));
 			break;
 		}
 		create();

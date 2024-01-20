@@ -122,9 +122,7 @@ public class DwarfBrothersFishingContestD extends Conversation {
 			} else {
 				addPlayer(HeadE.HAPPY_TALKING, "I need another competition pass");
 				if(player.getInventory().hasFreeSlots())
-					addNPC(NPC, HeadE.CALM_TALK, "Hmmm. It's a good job they sent us spares. There you go. Try not to lose that one.", ()->{
-						player.getInventory().addItem(FISHING_PASS, 1);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "Hmmm. It's a good job they sent us spares. There you go. Try not to lose that one.", ()-> player.getInventory().addItem(FISHING_PASS, 1));
 				else
 					addNPC(NPC, HeadE.CALM_TALK, "You'll need inventory space first.");
 			}

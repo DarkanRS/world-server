@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class PlayerTransformAction extends CutsceneAction {
 
-	private int npcId;
+	private final int npcId;
 
 	public PlayerTransformAction(int npcId, int actionDelay) {
 		super(null, actionDelay);

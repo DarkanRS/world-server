@@ -120,7 +120,7 @@ public class SlidingTilesRoom extends PuzzleRoom {
 			if (set.isEmpty())
 				break;
 			Collections.shuffle(set);
-			int next = set.get(0);
+			int next = set.getFirst();
 			set.clear();
 			used[freeIndex] = true;
 			solveOrder[solveIndex++] = freeIndex;

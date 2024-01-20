@@ -31,26 +31,26 @@ public class ResourceImpD extends Conversation {
 
 	public static NPCClickHandler handleSnowImpTalk = new NPCClickHandler(new Object[] { 9372, 9373, 9374, 9375 }, e -> {
 		String noun = "";
-		int stage = 0;
-		switch(e.getNPC().getId()) {
-		case 9372:
-			noun = "wine";
-			stage = 5;
-			break;
-		case 9373:
-			noun = "yule logs";
-			stage = 9;
-			break;
-		case 9374:
-			noun = "turkeys";
-			stage = 7;
-			break;
-		case 9375:
-			noun = "taters";
-			stage = 3;
-			break;
-		}
-		e.getPlayer().startConversation(new ResourceImpD(e.getPlayer(), noun, stage));
+		int stage = switch (e.getNPC().getId()) {
+            case 9372 -> {
+                noun = "wine";
+                yield 5;
+            }
+            case 9373 -> {
+                noun = "yule logs";
+                yield 9;
+            }
+            case 9374 -> {
+                noun = "turkeys";
+                yield 7;
+            }
+            case 9375 -> {
+                noun = "taters";
+                yield 3;
+            }
+            default -> 0;
+        };
+        e.getPlayer().startConversation(new ResourceImpD(e.getPlayer(), noun, stage));
 	});
 
 	public ResourceImpD(Player player, String noun, int stage) {

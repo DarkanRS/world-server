@@ -16,7 +16,7 @@ public class WitchHavenPuzzleFamilyCrest {
 	private static boolean northNorthLeverUp = false;
 	private static boolean northLeverUp = false;
 	private static boolean southLeverUp = false;
-	private static int TICKS_UP = 400;
+	private static final int TICKS_UP = 400;
 
 	public static ObjectClickHandler handleNorthDoor = new ObjectClickHandler(new Object[] { 2431 }, e -> {
 		GameObject obj = e.getObject();

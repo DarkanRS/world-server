@@ -148,9 +148,7 @@ public class Runecrafting {
 		e.getPlayer().stopAll(false);
 	});
 	
-	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(new Object[] { AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA }, e -> {
-		e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
-	});
+	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(new Object[] { AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA }, e -> e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0));
 
 	public static void craftTalisman(Player player, RunecraftingTalisman talisman) {
 		player.sendOptionDialogue("What would you like to imbue?", ops -> {
@@ -268,7 +266,7 @@ public class Runecrafting {
 			List<Item> rune = chances.genDrop();
 			if (rune.isEmpty())
 				return ZMIRune.AIR;
-			return BY_ID.get(rune.get(0).getId());
+			return BY_ID.get(rune.getFirst().getId());
 		}
 
 		ZMIRune(double xp, int id, double[] chances) {

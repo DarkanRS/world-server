@@ -104,9 +104,7 @@ public class CalebFamilyCrestD extends Conversation {
 								@Override
 								public void create() {
 									option("Ok, I will get those", new Dialogue()
-											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get those", ()->{
-												player.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB("CALEB_ASKED", true);
-											})
+											.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get those", ()-> player.getQuestManager().getAttribs(Quest.FAMILY_CREST).setB("CALEB_ASKED", true))
 											.addNPC(NPC, HeadE.CALM_TALK, "You will? It would help me a lot!")
 											);
 									option("Why don't you just give me the crest?", new Dialogue()
@@ -123,9 +121,7 @@ public class CalebFamilyCrestD extends Conversation {
 			if(!player.getInventory().containsItem(CALEB_CREST, 1) && !player.getInventory().containsItem(FAMILY_CREST)) {
 				if(player.getInventory().hasFreeSlots()) {
 					addNPC(NPC, HeadE.CALM_TALK, "You lost this.");
-					addSimple("Caleb gives you back his crest...", () -> {
-						player.getInventory().addItem(CALEB_CREST, 1);
-					});
+					addSimple("Caleb gives you back his crest...", () -> player.getInventory().addItem(CALEB_CREST, 1));
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "I have my crest if you had room for it");
 					addPlayer(HeadE.HAPPY_TALKING, "Okay.");
@@ -141,9 +137,7 @@ public class CalebFamilyCrestD extends Conversation {
 			if(!player.getInventory().containsItem(CALEB_CREST, 1)) {
 				if(player.getInventory().hasFreeSlots()) {
 					addNPC(NPC, HeadE.CALM_TALK, "You lost this.");
-					addSimple("Caleb gives you back his crest...", () -> {
-						player.getInventory().addItem(CALEB_CREST, 1);
-					});
+					addSimple("Caleb gives you back his crest...", () -> player.getInventory().addItem(CALEB_CREST, 1));
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "I have my crest if you had room for it");
 					addPlayer(HeadE.HAPPY_TALKING, "Okay.");

@@ -194,9 +194,9 @@ public class FairyRings {
 
 		;
 
-		private String name;
-		private int logId;
-		private Tile tile;
+		private final String name;
+		private final int logId;
+		private final Tile tile;
 
 		Ring(int logId, String name, Tile tile) {
 			this.logId = logId;

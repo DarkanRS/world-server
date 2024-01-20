@@ -17,9 +17,9 @@
 package com.rs.game.content.items;
 
 public class Lamp {
-	private int slot;
-	private int id;
-	private int req;
+	private final int slot;
+	private final int id;
+	private final int req;
 	private int selectedSkill;
 	private double xp;
 

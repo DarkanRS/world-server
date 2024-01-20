@@ -65,9 +65,9 @@ public class Smelting extends PlayerAction {
 		ABYSSSALBANE(80, 50, new Item[]{new Item(21782)}, new Item(21786, 1), 12)
 		;
 
-		private static Map<Integer, SmeltingBar> bars = new HashMap<>();
-		private static Map<Integer, SmeltingBar> forOres = new HashMap<>();
-		private static Map<Integer, SmeltingBar> forBars = new HashMap<>();
+		private static final Map<Integer, SmeltingBar> bars = new HashMap<>();
+		private static final Map<Integer, SmeltingBar> forOres = new HashMap<>();
+		private static final Map<Integer, SmeltingBar> forBars = new HashMap<>();
 
 		public static SmeltingBar forId(int buttonId) {
 			return bars.get(buttonId);
@@ -115,11 +115,11 @@ public class Smelting extends PlayerAction {
 				}
 		}
 
-		private int levelRequired;
-		private double experience;
-		private Item[] itemsRequired;
-		private int buttonId;
-		private Item producedBar;
+		private final int levelRequired;
+		private final double experience;
+		private final Item[] itemsRequired;
+		private final int buttonId;
+		private final Item producedBar;
 
 		private SmeltingBar(int levelRequired, double experience, Item[] itemsRequired, Item producedBar, int buttonId) {
 			this.levelRequired = levelRequired;

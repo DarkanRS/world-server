@@ -222,11 +222,11 @@ public enum CraftablePotion {
 	STRONG_SURVIVALISTS_POTION(new Item(17628, 1), 99, 315.0, new Item[] { new Item(17552, 1), new Item(17536, 1) }),
 	NETTLE_WATER(new Item(4237, 1), 1, 1.0, new Item[] { new Item(1921, 1), new Item(4241, 1) });
 
-	private Item product;
-	private int req;
-	private double xp;
-	private Item primary;
-	private Item[] secondaries;
+	private final Item product;
+	private final int req;
+	private final double xp;
+	private final Item primary;
+	private final Item[] secondaries;
 
 	public static Map<Integer, CraftablePotion> MAP = new HashMap<>();
 
@@ -248,8 +248,7 @@ public enum CraftablePotion {
 		this.xp = xp;
 		primary = materials[0];
 		secondaries = new Item[materials.length-1];
-		for (int i = 1;i < materials.length;i++)
-			secondaries[i-1] = materials[i];
+        System.arraycopy(materials, 1, secondaries, 0, materials.length - 1);
 	}
 
 	public Item getProduct() {

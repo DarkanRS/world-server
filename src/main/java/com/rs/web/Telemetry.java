@@ -32,9 +32,9 @@ public class Telemetry implements Route {
 	private static int HOUR_COUNTER = 0;
 	private static int DAY_COUNTER = 0;
 
-	private static int SIZE_TICKS = 100;
-	private static int SIZE_MINUTES = 60;
-	private static int SIZE_HOURS = 24;
+	private static final int SIZE_TICKS = 100;
+	private static final int SIZE_MINUTES = 60;
+	private static final int SIZE_HOURS = 24;
 
 	public static Queue<Telemetry> TELEMETRY_TICKS = new LinkedList<>();
 	public static Queue<Telemetry> TELEMETRY_MINUTES = new LinkedList<>();
@@ -51,25 +51,15 @@ public class Telemetry implements Route {
 
 	@Override
 	public void build(RoutingHandler route) {
-		route.get("/telemetry/lastcommit", ex -> {
-			APIUtil.sendResponse(ex, StatusCodes.OK, Settings.COMMIT_HISTORY);
-		});
+		route.get("/telemetry/lastcommit", ex -> APIUtil.sendResponse(ex, StatusCodes.OK, Settings.COMMIT_HISTORY));
 
-		route.get("/telemetry/ticks", ex -> {
-			APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_TICKS);
-		});
+		route.get("/telemetry/ticks", ex -> APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_TICKS));
 
-		route.get("/telemetry/minutes", ex -> {
-			APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_MINUTES);
-		});
+		route.get("/telemetry/minutes", ex -> APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_MINUTES));
 
-		route.get("/telemetry/hours", ex -> {
-			APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_HOURS);
-		});
+		route.get("/telemetry/hours", ex -> APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_HOURS));
 
-		route.get("/telemetry/days", ex -> {
-			APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_DAYS);
-		});
+		route.get("/telemetry/days", ex -> APIUtil.sendResponse(ex, StatusCodes.OK, Telemetry.TELEMETRY_DAYS));
 	}
 
 	public Telemetry(long time, double memoryLoad, long tickMs, int playersOnline) {

@@ -35,12 +35,10 @@ public class PotteryCrafting  {
 	private static final int[] REQS = { 1, 4, 7, 8, 19, 25 };
 	private static final double[] XP = { 6.25, 11.5, 15, 18, 20, 20 };
 
-	public static ObjectClickHandler handleWheels = new ObjectClickHandler(new Object[] { "Potter's Wheel", "Potter's wheel", "Pottery Wheel" }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer())
-				.addNext(new MakeXStatement(new int[] { 1931, 20347 }, new String[] { "Normal Pottery", "Skilling Urns" }),
-						() -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2)),
-						() -> e.getPlayer().startConversation(new CreateUnfUrnD(e.getPlayer()))));
-	});
+	public static ObjectClickHandler handleWheels = new ObjectClickHandler(new Object[] { "Potter's Wheel", "Potter's wheel", "Pottery Wheel" }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer())
+            .addNext(new MakeXStatement(new int[] { 1931, 20347 }, new String[] { "Normal Pottery", "Skilling Urns" }),
+                    () -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), UNF_MATS, UNF_PRODS, XP, 896, REQS, Constants.CRAFTING, 2)),
+                    () -> e.getPlayer().startConversation(new CreateUnfUrnD(e.getPlayer())))));
 
 	public static ObjectClickHandler handleOvens = new ObjectClickHandler(new Object[] { "Pottery Oven", "Pottery oven" }, e -> {
 		if (e.getPlayer().containsAnyItems(1787, 20052, 1789, 1791, 5352, 4438)) //TODO move these to generic firing dialogue

@@ -34,11 +34,10 @@ import java.util.Set;
 
 public class Halloween2009Controller extends Controller {
 
-	private Set<Integer> path;
-	private Set<Integer> webbedUp;
-	private static int WEBS_TOTAL = 63;
+	private final Set<Integer> path;
+	private final Set<Integer> webbedUp;
 
-	public Halloween2009Controller() {
+    public Halloween2009Controller() {
 		path = Halloween2009.getRandomPath();
 		webbedUp = new HashSet<>();
 	}
@@ -140,7 +139,8 @@ public class Halloween2009Controller extends Controller {
 	public void web(int objectId) {
 		webbedUp.add(objectId);
 		Halloween2009.refreshWebbables(player, player.getEquipment().getWeaponId() == 15353);
-		int numLeft = WEBS_TOTAL-webbedUp.size();
+        int WEBS_TOTAL = 63;
+        int numLeft = WEBS_TOTAL -webbedUp.size();
 		if (numLeft > 0)
 			player.sendMessage("You web up the " + ObjectDefinitions.getDefs(objectId, player.getVars()).getName().toLowerCase() + ". Only <col=FF0000>" + numLeft + "</col> more to go!");
 		else {

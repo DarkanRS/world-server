@@ -39,9 +39,7 @@ public class DimintheisFamilyCrestD extends Conversation {
 							.addNPC(NPC, HeadE.CALM_TALK, "and was introduced as a way of reducing the bloodshed that was devastating the " +
 									"ranks of the ruling classes at that time.")
 							.addNPC(NPC, HeadE.CALM_TALK, "When you captured a rival family's clan, you also captured their lands and wealth.")
-							.addNext(()->{
-								player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
-							})
+							.addNext(()-> player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart()))
 
 							);
 					option("You're rich then? Can I have some money?", new Dialogue()
@@ -69,14 +67,10 @@ public class DimintheisFamilyCrestD extends Conversation {
 											.addNPC(NPC, HeadE.CALM_TALK, "and was introduced as a way of reducing the bloodshed that was devastating the " +
 													"ranks of the ruling classes at that time.")
 											.addNPC(NPC, HeadE.CALM_TALK, "When you captured a rival family's clan, you also captured their lands and wealth.")
-											.addNext(()->{
-												player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
-											})
+											.addNext(()-> player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart()))
 											);
 									option("So where is this crest?", new Dialogue()
-											.addNext(()->{
-												player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart());
-											})
+											.addNext(()-> player.startConversation(new DimintheisFamilyCrestD(player, QUEST_INQUIRY).getStart()))
 											);
 									option("I'm not interested in that adventure right now", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "I'm not interested in that adventure right now")
@@ -120,9 +114,7 @@ public class DimintheisFamilyCrestD extends Conversation {
 			}
 			if(player.getInventory().hasFreeSlots()) {
 				addNPC(NPC, HeadE.CALM_TALK, "I found the family gauntlets, please take them...");
-				addSimple("He hands you the gauntlets.", () -> {
-					player.getInventory().addItem(FAMILY_GAUNTLETS, 1);
-				});
+				addSimple("He hands you the gauntlets.", () -> player.getInventory().addItem(FAMILY_GAUNTLETS, 1));
 				addPlayer(HeadE.HAPPY_TALKING, "...");
 			} else {
 				addNPC(NPC, HeadE.CALM_TALK, "I found the family gauntlets, if you had room for them...");
@@ -147,9 +139,7 @@ public class DimintheisFamilyCrestD extends Conversation {
 					@Override
 					public void create() {
 						option("Yes", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will help you", () -> {
-									p.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_CALEB);
-								})
+								.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will help you", () -> p.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_CALEB))
 								.addNPC(NPC, HeadE.CALM_TALK, "I thank you greatly adventurer!")
 								.addNPC(NPC, HeadE.CALM_TALK, "If you find Caleb, or my other sons... please... let them know their father still loves them...")
 								);

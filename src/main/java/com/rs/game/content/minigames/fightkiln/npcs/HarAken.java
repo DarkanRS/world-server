@@ -34,9 +34,9 @@ public class HarAken extends NPC {
 	private long time;
 	private long spawnTentacleTime;
 	private boolean underLava;
-	private List<HarAkenTentacle> tentacles;
+	private final List<HarAkenTentacle> tentacles;
 
-	private FightKilnController controller;
+	private final FightKilnController controller;
 
 	public void resetTimer() {
 		underLava = !underLava;

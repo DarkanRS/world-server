@@ -20,9 +20,9 @@ import com.rs.game.model.entity.player.Player;
 
 public class Command {
 
-	private String usage;
-	private String description;
-	private CommandExecution execution;
+	private final String usage;
+	private final String description;
+	private final CommandExecution execution;
 
 	public Command(String usage, String description, CommandExecution execution) {
 		this.description = description;

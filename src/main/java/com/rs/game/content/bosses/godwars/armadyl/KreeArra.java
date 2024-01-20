@@ -28,7 +28,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class KreeArra extends NPC {
 
-	private GodWarMinion[] minions = new GodWarMinion[3];
+	private final GodWarMinion[] minions = new GodWarMinion[3];
 
 	public KreeArra(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);

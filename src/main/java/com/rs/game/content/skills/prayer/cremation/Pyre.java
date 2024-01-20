@@ -31,11 +31,11 @@ import com.rs.lib.game.Tile;
 
 public class Pyre extends OwnedObject {
 
-	private PyreLog log;
+	private final PyreLog log;
 	private Corpse corpse;
 	private int life;
 	private boolean lit;
-	private boolean shadePyre;
+	private final boolean shadePyre;
 
 	public Pyre(Player player, GameObject object, PyreLog log, boolean shadePyre) {
 		super(player, object);
@@ -80,9 +80,7 @@ public class Pyre extends OwnedObject {
 			player.getSkills().addXp(Constants.FIREMAKING, log.xp);
 			player.getSkills().addXp(Constants.PRAYER, corpse.xp);
 		});
-		WorldTasks.delay(3, () -> {
-			destroy();
-		});
+		WorldTasks.delay(3, this::destroy);
 		WorldTasks.delay(4, () -> {
 			player.incrementCount(ItemDefinitions.getDefs(corpse.itemIds[0]).name + " cremated");
 			player.unlock();

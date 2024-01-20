@@ -22,7 +22,7 @@ import com.rs.lib.game.Tile;
 
 public class AnimatedArmor extends OwnedNPC {
 
-	private transient Player player;
+	private final transient Player player;
 
 	public AnimatedArmor(Player player, int id, Tile tile) {
 		super(player, id, tile, false);

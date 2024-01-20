@@ -6,10 +6,10 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.model.entity.player.Player;
 
 public class RGhostD extends Conversation {
-	private int NPC = 457;
-	public RGhostD(Player player) {
+    public RGhostD(Player player) {
 		super(player);
-		if(player.getEquipment().getAmuletId() == 552) {
+        int NPC = 457;
+        if(player.getEquipment().getAmuletId() == 552) {
 			addNPC(NPC, HeadE.CALM_TALK, "Hello mortal.");
 			if(player.getInventory().containsItem(553, 1)) {
 				addPlayer(HeadE.HAPPY_TALKING, "I found this skull outside.");

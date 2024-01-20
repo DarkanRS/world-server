@@ -201,7 +201,7 @@ public class Fletching extends PlayerAction {
 
 		BLISTERWOODS(21600, 946, new int[] { 21580, 21581, 21582 }, new int[] { 70, 70, 70 }, new double[] { 100, 10, 100 }, new Animation(-1));
 
-		private static Map<Integer, Fletch> fletching = new HashMap<>();
+		private static final Map<Integer, Fletch> fletching = new HashMap<>();
 
 		public static Fletch forId(int id) {
 			return fletching.get(id);
@@ -212,12 +212,14 @@ public class Fletching extends PlayerAction {
 				fletching.put(fletch.id, fletch);
 		}
 
-		private int[] product, level;
-		private int id, selected;
-		private double[] xp;
-		private Animation anim;
+		private final int[] product;
+        private final int[] level;
+		private final int id;
+        private final int selected;
+		private final double[] xp;
+		private final Animation anim;
 
-		private Fletch(int id, int selected, int[] product, int level[], double[] xp, Animation anim) {
+		private Fletch(int id, int selected, int[] product, int[] level, double[] xp, Animation anim) {
 			this.id = id;
 			this.product = product;
 			this.selected = selected;
@@ -251,8 +253,8 @@ public class Fletching extends PlayerAction {
 		}
 	}
 
-	private Fletch fletch;
-	private int option;
+	private final Fletch fletch;
+	private final int option;
 	private int ticks;
 
 	public Fletching(Fletch fletch, int option, int ticks) {

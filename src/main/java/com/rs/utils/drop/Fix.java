@@ -29,8 +29,8 @@ import java.util.Map;
 
 public class Fix {
 
-	private static List<Double> INC = new ArrayList<>();
-	private static Map<Double, double[]> MAP = new HashMap<>();
+	private static final List<Double> INC = new ArrayList<>();
+	private static final Map<Double, double[]> MAP = new HashMap<>();
 
 	static {
 		for (double denom = 1.0;denom <= 2000.0;denom += 1.0)

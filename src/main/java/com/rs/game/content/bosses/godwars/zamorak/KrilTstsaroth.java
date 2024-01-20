@@ -26,7 +26,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class KrilTstsaroth extends NPC {
 
-	private GodWarMinion[] minions = new GodWarMinion[3];
+	private final GodWarMinion[] minions = new GodWarMinion[3];
 
 	public KrilTstsaroth(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);

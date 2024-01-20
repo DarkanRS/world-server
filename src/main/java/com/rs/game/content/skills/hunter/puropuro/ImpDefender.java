@@ -24,7 +24,7 @@ public class ImpDefender extends NPC {
     public ImpDefender(Tile tile) {
         super(6074, tile);
         setClipType(ClipType.NORMAL);
-        WorldTasks.schedule(0, Ticks.fromSeconds(5), () -> freeImplings());
+        WorldTasks.schedule(0, Ticks.fromSeconds(5), this::freeImplings);
     }
 
     public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 6074 }, (npcId, tile) -> new ImpDefender(tile));

@@ -143,9 +143,7 @@ public class MerlinsCrystal extends QuestOutline {
                             addNPC(562, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
                                     " to make black candles. VERY bad luck.");
                             addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
-                            addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
-                                e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_BLACK_CANDLE", true);
-                            });
+                            addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_BLACK_CANDLE", true));
                         }
                         create();
                     }
@@ -155,9 +153,7 @@ public class MerlinsCrystal extends QuestOutline {
                     {
                         addNPC(562, HeadE.CALM_TALK, "Hi, looking for candles?");
                         addPlayer(HeadE.HAPPY_TALKING, "Sure!");
-                        addNext(() -> {
-                            openShop(e.getPlayer());
-                        });
+                        addNext(() -> openShop(e.getPlayer()));
                         create();
                     }
                 });

@@ -55,18 +55,16 @@ public class PlayerModifiers {
 			target.getSession().getChannel().close();
 		});
 
-		Commands.add(Rights.MOD, "ban [player name]", "Bans a player for 2 days.", (p, args) -> {
-			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
-				if (target != null) {
-					target.getAccount().banDays(2);
-					p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-					LobbyCommunicator.updatePunishments(target);
-					if (target.hasStarted())
-						target.getSession().getChannel().close();
-				} else
-					p.sendMessage("Unable to find player.");
-			});
-		});
+		Commands.add(Rights.MOD, "ban [player name]", "Bans a player for 2 days.", (p, args) -> World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
+            if (target != null) {
+                target.getAccount().banDays(2);
+                p.sendMessage("You have banned " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
+                LobbyCommunicator.updatePunishments(target);
+                if (target.hasStarted())
+                    target.getSession().getChannel().close();
+            } else
+                p.sendMessage("Unable to find player.");
+        }));
 
 		Commands.add(Rights.MOD, "teleto", "Teleports the user to another player as long as they aren't in a controller or locked.", (p, args) -> {
 			if (p.isLocked() || p.getControllerManager().getController() != null) {
@@ -102,16 +100,14 @@ public class PlayerModifiers {
 			}
 		});
 
-		Commands.add(Rights.MOD, "mute [player name]", "Mutes a player for 2 days.", (p, args) -> {
-			World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
-				if (target != null) {
-					target.getAccount().muteDays(2);
-					p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
-					LobbyCommunicator.updatePunishments(target);
-				} else
-					p.sendMessage("Unable to find player.");
-			});
-		});
+		Commands.add(Rights.MOD, "mute [player name]", "Mutes a player for 2 days.", (p, args) -> World.forceGetPlayerByDisplay(Utils.concat(args), target -> {
+            if (target != null) {
+                target.getAccount().muteDays(2);
+                p.sendMessage("You have muted " + Utils.formatPlayerNameForDisplay(Utils.concat(args)) + " for 2 days.");
+                LobbyCommunicator.updatePunishments(target);
+            } else
+                p.sendMessage("Unable to find player.");
+        }));
 		
 		Commands.add(Rights.MOD, "actions [player_name ...]", "Displays the last recorded actions the players specified have done.", Recorder::showConcatenatedActions);
 		Commands.add(Rights.MOD, "watch [player_name ...]", "Continuously displays recorded actions for the players specified.", Recorder::watchPlayers);

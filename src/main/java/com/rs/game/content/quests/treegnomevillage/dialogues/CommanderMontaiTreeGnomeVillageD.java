@@ -38,9 +38,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 						);
 						option("Ok, I'll gather some wood.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Ok, I'll gather some wood.")
-								.addNPC(NPC, HeadE.CALM_TALK, "Please be as quick as you can, I don't know how much longer we can hold out.", ()->{
-									player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, GET_WOOD);
-								})
+								.addNPC(NPC, HeadE.CALM_TALK, "Please be as quick as you can, I don't know how much longer we can hold out.", ()-> player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, GET_WOOD))
 						);
 					}
 				});
@@ -76,9 +74,7 @@ public class CommanderMontaiTreeGnomeVillageD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "I understand, this isn't your fight.")
 						);
 						option("I'll try my best.", new Dialogue()
-								.addPlayer(HeadE.HAPPY_TALKING, "I'll try my best.", ()->{
-									player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, FIRE_BALLISTA);
-								})
+								.addPlayer(HeadE.HAPPY_TALKING, "I'll try my best.", ()-> player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, FIRE_BALLISTA))
 								.addNPC(NPC, HeadE.CALM_TALK, "Thank you, you're braver than most.")
 								.addNPC(NPC, HeadE.CALM_TALK, "I don't know how long I will be able to hold out. Once you have the coordinates come back and fire " +
 										"the ballista right into those monsters.")

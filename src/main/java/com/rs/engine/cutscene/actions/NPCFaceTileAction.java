@@ -25,7 +25,8 @@ import java.util.Map;
 
 public class NPCFaceTileAction extends CutsceneAction {
 
-	private int x, y;
+	private final int x;
+    private final int y;
 
 	public NPCFaceTileAction(String key, int x, int y, int actionDelay) {
 		super(key, actionDelay);

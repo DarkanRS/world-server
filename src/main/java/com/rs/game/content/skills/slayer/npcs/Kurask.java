@@ -34,9 +34,8 @@ public class Kurask extends NPC {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		if (hit.getSource() instanceof Player) {
-			Player player = (Player) hit.getSource();
-			RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
+		if (hit.getSource() instanceof Player player) {
+            RangedWeapon weapon = RangedWeapon.forId(player.getEquipment().getWeaponId());
 			AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 			if (!(player.getEquipment().getWeaponId() == 13290 || player.getEquipment().getWeaponId() == 4158) && !(weapon != null && weapon.getAmmos() != null && ammo != null && (ammo == AmmoType.BROAD_ARROW || ammo == AmmoType.BROAD_TIPPED_BOLTS)))
 				hit.setDamage(0);
@@ -44,5 +43,5 @@ public class Kurask extends NPC {
 		super.handlePreHit(hit);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1608, 1609 }, (npcId, tile) -> new Kurask(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 1608, 1609 }, Kurask::new);
 }

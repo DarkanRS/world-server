@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.quests;
+package com.rs.game.content.quests
 
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.startConversation

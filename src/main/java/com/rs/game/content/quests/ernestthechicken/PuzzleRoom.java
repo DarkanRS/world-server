@@ -136,52 +136,36 @@ public class PuzzleRoom {
 		}
 	});
 
-	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
-			if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
-				return;
-			if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
-				handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
-			else
-				handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
-		}, true));
-	});
+	public static ObjectClickHandler handleDoors = new ObjectClickHandler(false, new Object[] { DOOR1, DOOR2, DOOR3, DOOR4, DOOR5, DOOR6, DOOR7, DOOR8, DOOR9 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(e.getObject(), () -> {
+        if (!WorldUtil.isInRange(e.getPlayer().getTile(), e.getObject().getTile(), 2))
+            return;
+        if(e.getObject().getId() == DOOR1 || e.getObject().getId() == DOOR3 || e.getObject().getId() == DOOR8 || e.getObject().getId() == DOOR5)
+            handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
+        else
+            handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
+    }, true)));
 
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
-		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
+		int rotation = object.getRotation(open ? offset : -1 + offset);
 		Tile adjusted = object.getTile();
-		switch (rotation) {
-		case 0:
-			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
-			break;
-		case 1:
-			adjusted = adjusted.transform(0, open ? 1 : 0, 0);
-			break;
-		case 2:
-			adjusted = adjusted.transform(open ? 0 : 0, 1, 0);
-			break;
-		case 3:
-			adjusted = adjusted.transform(0, open ? 0 : 1, 0);
-			break;
-		}
+        adjusted = switch (rotation) {
+            case 0 -> adjusted.transform(open ? 0 : 1, 0, 0);
+            case 1 -> adjusted.transform(0, open ? 1 : 0, 0);
+            case 2 -> adjusted.transform(open ? 0 : 0, 1, 0);
+            case 3 -> adjusted.transform(0, open ? 0 : 1, 0);
+            default -> adjusted;
+        };
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
 		Tile toTile = object.getTile();
-		switch (object.getRotation()) {
-		case 0:
-			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
-			break;
-		case 1:
-			toTile = toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
-			break;
-		case 2:
-			toTile = toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
-			break;
-		case 3:
-			toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
-			break;
-		}
+        toTile = switch (object.getRotation()) {
+            case 0 -> toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
+            case 1 -> toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
+            case 2 -> toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
+            case 3 -> toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
+            default -> toTile;
+        };
 		World.spawnObjectTemporary(new GameObject(object, 83), 2, true);
 		World.spawnObjectTemporary(opp, 2, true);
 		player.addWalkSteps(toTile, 3, false);
@@ -190,39 +174,25 @@ public class PuzzleRoom {
 
 	private static void handlePuzzle2Door(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");
-		int rotation = object.getRotation(open ? 0 + offset : -1 + offset);
+		int rotation = object.getRotation(open ? offset : -1 + offset);
 		Tile adjusted = object.getTile();
-		switch (rotation) {
-		case 0:
-			adjusted = adjusted.transform(open ? 0 : 1, 0, 0);
-			break;
-		case 1:
-			adjusted = adjusted.transform(-1, open ? 0 : 0, 0);
-			break;
-		case 2:
-			adjusted = adjusted.transform(open ? 1 : 0, 0, 0);
-			break;
-		case 3:
-			adjusted = adjusted.transform(0, open ? 0 : 1, 0);
-			break;
-		}
+        adjusted = switch (rotation) {
+            case 0 -> adjusted.transform(open ? 0 : 1, 0, 0);
+            case 1 -> adjusted.transform(-1, open ? 0 : 0, 0);
+            case 2 -> adjusted.transform(open ? 1 : 0, 0, 0);
+            case 3 -> adjusted.transform(0, open ? 0 : 1, 0);
+            default -> adjusted;
+        };
 		Door opp = new Door(object.getId(), object.getType(), object.getRotation(open ? 3 : -1), adjusted, object);
 
 		Tile toTile = object.getTile();
-		switch (object.getRotation()) {
-		case 0:
-			toTile = toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
-			break;
-		case 1:
-			toTile = toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
-			break;
-		case 2:
-			toTile = toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
-			break;
-		case 3:
-			toTile = toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
-			break;
-		}
+        toTile = switch (object.getRotation()) {
+            case 0 -> toTile.transform(player.getX() < object.getX() ? 0 : -1, 0, 0);
+            case 1 -> toTile.transform(0, player.getY() > object.getY() ? 0 : 1, 0);
+            case 2 -> toTile.transform(player.getX() > object.getX() ? 0 : 1, 0, 0);
+            case 3 -> toTile.transform(0, player.getY() < object.getY() ? 0 : -1, 0);
+            default -> toTile;
+        };
 		World.spawnObjectTemporary(new GameObject(object, 83), 2, true);
 		World.spawnObjectTemporary(opp, 2, true);
 		player.addWalkSteps(toTile, 3, false);

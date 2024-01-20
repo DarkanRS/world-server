@@ -19,9 +19,7 @@ public class AlfonsoTheWaiterHeroesQuestD extends Conversation {
 		super(player);
 		Dialogue shop = new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "Welcome to the Shrimp and Parrot. Would you like to order, sir?")
-				.addNext(() -> {
-					ShopsHandler.openShop(player, "alfonso_waiter_shop");
-				});
+				.addNext(() -> ShopsHandler.openShop(player, "alfonso_waiter_shop"));
 		switch (player.getQuestManager().getStage(Quest.HEROES_QUEST)) {
 			case GET_ITEMS -> {
 				if (ShieldOfArrav.isPhoenixGang(player))
@@ -34,9 +32,7 @@ public class AlfonsoTheWaiterHeroesQuestD extends Conversation {
 				else
 					addNext(shop);
 			}
-			default -> {
-				addNext(shop);
-			}
+			default -> addNext(shop);
 		}
 	}
 }

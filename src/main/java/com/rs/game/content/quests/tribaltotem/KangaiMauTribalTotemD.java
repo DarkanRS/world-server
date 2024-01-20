@@ -46,9 +46,7 @@ public class KangaiMauTribalTotemD extends Conversation {
 									@Override
 									public void create() {
 										option("Yes", new Dialogue()
-												.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get it back", ()-> {
-													player.getQuestManager().setStage(Quest.TRIBAL_TOTEM, TALK_TO_WIZARD);
-												})
+												.addPlayer(HeadE.HAPPY_TALKING, "Ok, I will get it back", ()-> player.getQuestManager().setStage(Quest.TRIBAL_TOTEM, TALK_TO_WIZARD))
 												.addNPC(NPC, HeadE.CALM_TALK, "Best of luck with that adventurer.")
 												);
 										option("No", new Dialogue());

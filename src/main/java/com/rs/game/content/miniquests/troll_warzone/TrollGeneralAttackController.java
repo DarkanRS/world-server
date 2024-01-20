@@ -27,44 +27,42 @@ public class TrollGeneralAttackController extends InstancedController {
     @Override
     public void onBuildInstance() {
         player.lock();
-        getInstance().copyMapAllPlanes(272, 544).thenAccept(b -> {
-            player.playCutscene(cs -> {
-                cs.fadeIn(5);
-                cs.action(1, () -> getInstance().teleportLocal(player, 32, 12, 0));
-                cs.action(() -> {
-                    player.setForceNextMapLoadRefresh(true);
-                    player.loadMapRegions();
-                    cs.setEndTile(Tile.of(cs.getX(32), cs.getY(12), 0));
-                });
-                cs.npcCreate("ozan", 14983, 33, 28, 0, n -> {
-                    n.persistBeyondCutscene();
-                    n.setIgnoreNPCClipping(true);
-                    n.setRun(true);
-                    ozan = n;
-                });
-                cs.npcCreate("keymans", 14988, 34, 28, 0, n -> {
-                    n.persistBeyondCutscene();
-                    n.setIgnoreNPCClipping(true);
-                    n.setRun(true);
-                    keymans = n;
-                });
-                cs.npcCreate("brute", 14980, 27, 43, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.npcCreate("chucker", 14981, 29, 46, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.npcCreate("shaman", 14982, 31, 44, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.action(() -> player.getHintIconsManager().addHintIcon(cs.getNPC("ozan"), 0, -1, false));
-                cs.fadeOut(5);
-                cs.action(() -> player.unlock());
+        getInstance().copyMapAllPlanes(272, 544).thenAccept(b -> player.playCutscene(cs -> {
+            cs.fadeIn(5);
+            cs.action(1, () -> getInstance().teleportLocal(player, 32, 12, 0));
+            cs.action(() -> {
+                player.setForceNextMapLoadRefresh(true);
+                player.loadMapRegions();
+                cs.setEndTile(Tile.of(cs.getX(32), cs.getY(12), 0));
             });
-        });
+            cs.npcCreate("ozan", 14983, 33, 28, 0, n -> {
+                n.persistBeyondCutscene();
+                n.setIgnoreNPCClipping(true);
+                n.setRun(true);
+                ozan = n;
+            });
+            cs.npcCreate("keymans", 14988, 34, 28, 0, n -> {
+                n.persistBeyondCutscene();
+                n.setIgnoreNPCClipping(true);
+                n.setRun(true);
+                keymans = n;
+            });
+            cs.npcCreate("brute", 14980, 27, 43, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.npcCreate("chucker", 14981, 29, 46, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.npcCreate("shaman", 14982, 31, 44, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.action(() -> player.getHintIconsManager().addHintIcon(cs.getNPC("ozan"), 0, -1, false));
+            cs.fadeOut(5);
+            cs.action(() -> player.unlock());
+        }));
     }
 
     @Override

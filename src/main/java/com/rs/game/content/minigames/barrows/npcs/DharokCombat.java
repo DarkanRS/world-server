@@ -36,7 +36,7 @@ public class DharokCombat extends CombatScript {
 		npc.setNextAnimation(new Animation(defs.getAttackEmote()));
 		int damage = getMaxHit(npc, defs.getMaxHit(), AttackStyle.MELEE, target);
 		if (damage != 0) {
-			double perc = 1 - (npc.getHitpoints() / npc.getMaxHitpoints());
+			double perc = 1 - ((double) npc.getHitpoints() / npc.getMaxHitpoints());
 			damage += perc * 380;
 		}
 		delayHit(npc, 0, target, getMeleeHit(npc, damage));

@@ -26,10 +26,10 @@ import com.rs.lib.util.Logger;
 
 public class WorldDB extends DBConnection {
 
-	private static PlayerManager PLAYERS = new PlayerManager();
-	private static HighscoresManager HIGHSCORES = new HighscoresManager();
-	private static GEManager GE = new GEManager();
-	private static LogManager LOGS = new LogManager();
+	private static final PlayerManager PLAYERS = new PlayerManager();
+	private static final HighscoresManager HIGHSCORES = new HighscoresManager();
+	private static final GEManager GE = new GEManager();
+	private static final LogManager LOGS = new LogManager();
 
 	public WorldDB() {
 		super(Settings.getConfig().getMongoDb(), Settings.getConfig().getMongoDBName());

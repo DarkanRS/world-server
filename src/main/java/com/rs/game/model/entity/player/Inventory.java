@@ -51,11 +51,11 @@ import java.util.Set;
 public final class Inventory {
 
 	private long coins;
-	private ItemsContainer<Item> items;
+	private final ItemsContainer<Item> items;
 
 	private transient Player player;
 	private transient double inventoryWeight;
-	private transient Set<Integer> slotsToUpdate = new HashSet<>();
+	private final transient Set<Integer> slotsToUpdate = new HashSet<>();
 	private transient boolean updateAll = true;
 
 	public static final int INVENTORY_INTERFACE = 679;
@@ -413,10 +413,8 @@ public final class Inventory {
 			if (i != null)
 				if (!i.getDefinitions().isStackable())
 					allStack = false;
-		if (hasRoomFor(product) || (mats.length > 0 && !allStack))
-			return true;
-		return false;
-	}
+        return hasRoomFor(product) || (mats.length > 0 && !allStack);
+    }
 
 	public int getItemsContainerSize() {
 		return items.getSize();
@@ -463,10 +461,8 @@ public final class Inventory {
 	public boolean containsItem(int itemId, int amount, boolean checkToolbelt) {
 		if (PluginManager.getAmountPlayerHas(player, itemId) != -1)
 			return PluginManager.getAmountPlayerHas(player, itemId) >= amount;
-			if (items.contains(new Item(itemId, amount)) || (checkToolbelt && player.containsTool(itemId)))
-				return true;
-			return false;
-	}
+        return items.contains(new Item(itemId, amount)) || (checkToolbelt && player.containsTool(itemId));
+    }
 
 	public boolean missingItems(int... itemIds) {
 		for (int itemId : itemIds) {
@@ -649,10 +645,8 @@ public final class Inventory {
 	public boolean hasCoins(int num) {
 		if (coins >= num)
 			return true;
-		if (coins + getNumberOf(995) >= num)
-			return true;
-		return false;
-	}
+        return coins + getNumberOf(995) >= num;
+    }
 	
 	public long getCoins() {
 		long total = coins + getNumberOf(995);

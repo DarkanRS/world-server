@@ -26,13 +26,13 @@ import java.util.Map;
 
 public class NPCClickEvent implements PluginEvent {
 
-	private static Map<Object, Map<String, NPCClickHandler>> HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<String, NPCClickHandler>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private NPC npc;
-	private int opNum;
-	private String option;
-	private boolean atNPC;
+	private final Player player;
+	private final NPC npc;
+	private final int opNum;
+	private final String option;
+	private final boolean atNPC;
 
 	public NPCClickEvent(Player player, NPC npc, int opNum, boolean atNPC) {
 		this.player = player;

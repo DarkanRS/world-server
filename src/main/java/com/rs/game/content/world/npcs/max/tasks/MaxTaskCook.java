@@ -10,7 +10,7 @@ import com.rs.lib.util.Utils;
 
 public class MaxTaskCook implements Task {
 	
-	private static GameObject RANGE = new GameObject(114, ObjectType.SCENERY_INTERACT, 2, Tile.of(3212, 3215, 0));
+	private static final GameObject RANGE = new GameObject(114, ObjectType.SCENERY_INTERACT, 2, Tile.of(3212, 3215, 0));
 		
 	private boolean started = false;
 	private int itemsCooked = Utils.random(85, 150);
@@ -30,18 +30,16 @@ public class MaxTaskCook implements Task {
 			return 10;
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
-			max.setRouteEvent(new RouteEvent(RANGE, () -> {
-				max.repeatAction(3, count -> {
-					if (itemsCooked <= 0) {
-						max.nextTask();
-						return false;
-					}
-					max.faceObject(RANGE);
-					max.anim(897);
-					itemsCooked--;
-					return true;
-				});
-			}));
+			max.setRouteEvent(new RouteEvent(RANGE, () -> max.repeatAction(3, count -> {
+                if (itemsCooked <= 0) {
+                    max.nextTask();
+                    return false;
+                }
+                max.faceObject(RANGE);
+                max.anim(897);
+                itemsCooked--;
+                return true;
+            })));
 		}
 		return 5;
 	}

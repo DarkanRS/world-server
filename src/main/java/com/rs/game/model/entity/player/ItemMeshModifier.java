@@ -24,8 +24,8 @@ public class ItemMeshModifier {
 	private static final byte BODY_MODEL_FLAG = 0x1, HEAD_MODEL_FLAG = 0x2, COLOR_FLAG = 0x4, TEXTURE_FLAG = 0x8;
 	private static final byte EMPTY_VALUE = 0xF;
 
-	private ItemDefinitions defs;
-	private int slotFlag;
+	private final ItemDefinitions defs;
+	private final int slotFlag;
 	private int[] maleBody;
 	private int[] femaleBody;
 	private int[] maleHead;

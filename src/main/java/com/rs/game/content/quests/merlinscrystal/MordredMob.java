@@ -71,7 +71,7 @@ public class MordredMob extends NPC {
 		return true;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(247, (npcId, tile) -> new MordredMob(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(247, MordredMob::new);
 
 
 }

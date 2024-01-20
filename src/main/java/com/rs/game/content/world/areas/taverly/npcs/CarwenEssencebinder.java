@@ -21,9 +21,7 @@ public class CarwenEssencebinder extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("Can you teleport me to the Essence Mine?", () -> {
-                    RunecraftingAltar.handleEssTele(player, npc);
-                });
+                option("Can you teleport me to the Essence Mine?", () -> RunecraftingAltar.handleEssTele(player, npc));
                 option("What can you tell me about Runecrafting?", new Dialogue()
 
                         .addNPC(npcId, HeadE.HAPPY_TALKING,"When you cast a spell, you tap into the latent power of runes.")
