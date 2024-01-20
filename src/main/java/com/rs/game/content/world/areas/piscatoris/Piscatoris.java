@@ -48,6 +48,13 @@ public class Piscatoris {
 			GE.openCollection(e.getPlayer());
 	});
 
+	public static ObjectClickHandler handlePiscSummLadders = new ObjectClickHandler(new Object[] { 28742, 28743 }, e -> {
+		if (e.getObjectId() == 28742)
+			e.getPlayer().useLadder(Tile.of(2333, 10015, 0));
+		else
+			e.getPlayer().useLadder(Tile.of(2329, 3645, 0));
+	});
+
 	public static ObjectClickHandler handleColonyTunnels = new ObjectClickHandler(new Object[] { 14922 }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.SWAN_SONG, "to enter the Piscatoris Fishing Colony."))
 			return;
