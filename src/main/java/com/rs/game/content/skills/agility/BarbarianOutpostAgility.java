@@ -243,36 +243,26 @@ public class BarbarianOutpostAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 90))
 			return;
 		e.getPlayer().lock();
-		e.getPlayer().setNextAnimation(new Animation(11792));
-		final Tile toTile = Tile.of(2544, e.getPlayer().getY(), 0);
-		e.getPlayer().forceMove(Tile.of(2544, e.getPlayer().getY(), 0), 5, 5*30);
-		WorldTasks.schedule(new Task() {
-			int stage;
-
-			@Override
-			public void run() {
-				if (stage == 0) {
-					e.getPlayer().tele(Tile.of(2541, e.getPlayer().getY(), 1));
-					e.getPlayer().setNextAnimation(new Animation(11790));
-					stage = 1;
-				} else if (stage == 1)
-					stage = 2;
-				else if (stage == 2) {
-					e.getPlayer().setNextAnimation(new Animation(11791));
-					stage = 3;
-				} else if (stage == 3) {
-					e.getPlayer().setNextAnimation(new Animation(2588));
+		e.getPlayer().forceMove(Tile.of(2540, e.getPlayer().getY(), 2), 11792, 10, 30);
+		e.getPlayer().getTasks().scheduleTimer(tick -> {
+			switch(tick) {
+				case 0 -> e.getPlayer().forceMove(Tile.of(2542, e.getPlayer().getY(), 1), 11790, 0, 90);
+				case 3 -> e.getPlayer().forceMove(Tile.of(2543, e.getPlayer().getY(), 1), 11791, 0, 30);
+				case 4 -> {
+					e.getPlayer().anim(2588);
+					e.getPlayer().tele(Tile.of(2543, e.getPlayer().getY(), 0));
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
 					if (getStage(e.getPlayer()) == 1) {
 						e.getPlayer().incrementCount("Barbarian advanced laps");
 						removeStage(e.getPlayer());
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 615);
 					}
-					stop();
+					e.getPlayer().unlockNextTick();
+					return false;
 				}
 			}
-
-		}, 0, 0);
+			return true;
+		});
 	});
 
 	public static void removeStage(Player player) {

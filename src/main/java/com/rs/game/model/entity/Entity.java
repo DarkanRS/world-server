@@ -718,7 +718,11 @@ public abstract class Entity {
 			tileBehind = getBackfacingTile();
 			nextTile = null;
 			teleported = true;
-			if (player != null && player.getTemporaryMoveType() == null && !tile.withinDistance(lastTile, 14))
+
+			int deltaX = lastTile.getX() - this.getX();
+			int deltaY = lastTile.getY() - this.getY();
+
+			if (player != null && player.getTemporaryMoveType() == null && !(deltaX <= 14 && deltaX >= -14 && deltaY <= 14 && deltaY >= -14))
 				player.setTemporaryMoveType(MoveType.TELE);
 			ChunkManager.updateChunks(this);
 			if (needMapUpdate())
@@ -1204,7 +1208,11 @@ public abstract class Entity {
 		return finished;
 	}
 
-	protected void move(Tile tile) {
+	/**
+	 * This method will NOT teleport the player if the player is close to the destination tile.
+	 * @param tile
+	 */
+	public void move(Tile tile) {
 		this.nextTile = Tile.of(tile);
 	}
 
