@@ -62,13 +62,15 @@ public class BarbarianOutpostAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 35))
 			return;
 		e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
-		e.getPlayer().forceMove(Tile.of(2541, e.getObject().getY(), e.getObject().getPlane()), 9908, 20, 12*30, () -> {
-			e.getPlayer().setNextAnimation(new Animation(-1));
-			e.getPlayer().getSkills().addXp(Constants.AGILITY, 20.7);
-			e.getPlayer().sendMessage("... and make it safely to the other side.", true);
-			if (getStage(e.getPlayer()) == 0)
-				setStage(e.getPlayer(), 1);
-		});
+
+		e.getPlayer().walkToAndExecute(Tile.of(2551, 3546, 0), () ->
+				e.getPlayer().forceMove(Tile.of(2541, e.getObject().getY(), e.getObject().getPlane()), 9908, 20, 12*30, () -> {
+					e.getPlayer().setNextAnimation(new Animation(-1));
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 20.7);
+					e.getPlayer().sendMessage("... and make it safely to the other side.", true);
+					if (getStage(e.getPlayer()) == 0)
+						setStage(e.getPlayer(), 1);
+				}));
 	});
 
 	public static ObjectClickHandler handleClimbingNet = new ObjectClickHandler(new Object[] { 20211 }, e -> {
