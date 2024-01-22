@@ -369,7 +369,18 @@ class SoulWars {
     }
 
     private fun endGame() {
-        val winningTeam = if (redDeaths == blueDeaths) null else if (redDeaths > blueDeaths) blueTeam else redTeam
+        val winningTeam =
+            if (redDeaths == blueDeaths)
+                if (blueAvatar.hitpoints == redAvatar.hitpoints)
+                    null
+                else if (blueAvatar.hitpoints > redAvatar.hitpoints)
+                    blueTeam
+                else
+                    redTeam
+            else if (redDeaths > blueDeaths)
+                blueTeam
+            else
+                redTeam
         arrayOf(blueAvatar, redAvatar).forEach { avatar ->
             avatar.finish()
             avatar.cancelRespawnTask()
@@ -378,7 +389,7 @@ class SoulWars {
             team.forEach { player ->
                 player.tele(exitArea.randomTile)
                 player.controllerManager.forceStop()
-                val zeal = if (winningTeam == null) 2 else if (winningTeam == team) 3 else 1
+                val zeal = if (winningTeam == team) 3 else 1
                 player.soulWarsZeal += zeal
                 player.incrementCount("Soul Wars Zeal earned", zeal)
                 when (zeal) {
