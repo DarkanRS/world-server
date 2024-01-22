@@ -125,7 +125,7 @@ public class Christmas2019 {
 		if (!ACTIVE)
 			return;
 		if (e.getEntity() instanceof Player p) {
-			if (p.getChrist19Loc() == null) {
+			if (p.get(Christmas2019.STAGE_KEY+"loc") == null) {
 				p.getVars().setVarBit(6928, 1);
 				p.getVars().setVarBit(6929, 1);
 				p.getVars().setVarBit(6930, 1);
@@ -133,7 +133,7 @@ public class Christmas2019 {
 				return;
 			}
 			if (p.getPetManager().getNpcId() == Pets.SNOW_IMP.getBabyNpcId()) {
-				Location loc = p.getChrist19Loc();
+				Location loc = Location.values()[p.getI(Christmas2019.STAGE_KEY+"loc", 0)];
 				if (e.getChunkId() == loc.chunkId) {
 					if (p.getPet() != null)
 						p.getPet().setNextForceTalk(new ForceTalk("Der he is!"));

@@ -23,6 +23,7 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.*;
 import com.rs.cache.loaders.map.ClipFlag;
+import com.rs.engine.command.Command;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
@@ -291,6 +292,23 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.DEVELOPER, "tileman", "Set to tileman mode", (p, args) -> p.setTileMan(true));
+
+		Commands.add(Rights.DEVELOPER, "players", "Lists online players", (p, args) -> {
+			p.getPackets().setIFText(275, 1, "Online Players");
+			int componentId = 10;
+
+			for (Player player : World.getPlayers()) {
+				p.getPackets().setIFText(275, componentId++, "<shad=000000><col="+(switch(player.getAccount().getSocial().getStatus()) {
+					case 0 -> "00FF00";
+					case 1 -> "FFFF00";
+                    case 2 -> "FF0000";
+					default -> "FFFFFF";
+				})+">" + player.getDisplayName() + "</col></shad> logged in for " + Utils.ticksToTime((double) player.getTimePlayedThisSession()) + "");
+			}
+
+			p.getPackets().sendRunScript(1207, componentId - 10);
+			p.getInterfaceManager().sendInterface(275);
+		});
 
 		Commands.add(Rights.DEVELOPER, "names", "Sets NPCs names to something.", (p, args) -> {
 			String name = Utils.concat(args);
@@ -843,8 +861,8 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "hide", "Hides the player from other players.", (p, args) -> {
-			p.getAppearance().setHidden(!p.getAppearance().isHidden());
-			p.sendMessage("Hidden: " + p.getAppearance().isHidden());
+			p.setTrulyHidden(!p.isTrulyHidden());
+			p.sendMessage("Hidden: " + p.isTrulyHidden());
 		});
 
 		Commands.add(Rights.ADMIN, "setlevel [skillId level]", "Sets a skill to a specified level.", (p, args) -> {

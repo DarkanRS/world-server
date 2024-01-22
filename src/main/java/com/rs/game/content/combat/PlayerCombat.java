@@ -1459,6 +1459,8 @@ public class PlayerCombat extends PlayerAction {
 		if (player.getCombatDefinitions().getSpell() != null)
 			return 10;
 		if (isRanging(player)) {
+			if (player.getTempAttribs().getB("dfsActive"))
+				return 8;
 			int atkRange = ItemConfig.get(player.getEquipment().getWeaponId()).getAttackRange();
 			if (player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE)
 				atkRange += 2;

@@ -149,6 +149,7 @@ public class Player extends Entity {
 	public transient int chatType;
 
 	private long timePlayed = 0;
+	private transient long timePlayedThisSession = 0;
 	private long timeLoggedOut;
 
 	private transient HashMap<Integer, ReflectionAnalysis> reflectionAnalyses = new HashMap<>();
@@ -171,6 +172,8 @@ public class Player extends Entity {
 
 	private DungManager dungManager;
 
+	private boolean trulyHidden;
+
 	public transient long tolerance = 0;
 	public transient long idleTime = 0;
 	public transient long dyingTime = 0;
@@ -181,8 +184,6 @@ public class Player extends Entity {
 	private transient Set<Sound> sounds = new HashSet<>();
 
 	private Instance instancedArea;
-
-	private int hw07Stage;
 	public transient Runnable onPacketCutsceneFinish;
 
 	public void refreshChargeTimer() {
@@ -950,6 +951,7 @@ public class Player extends Entity {
 				finish(0);
 
 			timePlayed++;
+			timePlayedThisSession++;
 			timeLoggedOut = System.currentTimeMillis();
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
@@ -1143,10 +1145,8 @@ public class Player extends Entity {
 
 	@Override
 	public void setRun(boolean run) {
-		if (run != getRun()) {
-			super.setRun(run);
-			updateMovementType = true;
-		}
+		super.setRun(run);
+		updateMovementType = true;
 		sendRunButtonConfig();
 	}
 
@@ -2250,6 +2250,12 @@ public class Player extends Entity {
 			source.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 	}
 
+	public boolean withinDistance(Player other, int distance) {
+		if (other.trulyHidden && other != this)
+			return false;
+		return super.withinDistance(other.getTile(), distance);
+	}
+
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
 			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
@@ -2836,8 +2842,6 @@ public class Player extends Entity {
 	}
 
 	public MoveType getMovementType() {
-		if (getTemporaryMoveType() != null)
-			return getTemporaryMoveType();
 		return moveType;
 	}
 
@@ -3827,43 +3831,6 @@ public class Player extends Entity {
 		return phasmatysBrewery;
 	}
 
-	private int easter20Stage = 0;
-
-	public int getEaster20Stage() {
-		return easter20Stage;
-	}
-
-	public void setEaster20Stage(int easter20Stage) {
-		this.easter20Stage = easter20Stage;
-	}
-
-	private int christ19Stage = 0;
-	private Location christ19Loc = null;
-
-	public Location getChrist19Loc() {
-		return christ19Loc;
-	}
-
-	public void setChrist19Loc(Location christ19Loc) {
-		this.christ19Loc = christ19Loc;
-	}
-
-	public int getChrist19Stage() {
-		return christ19Stage;
-	}
-
-	public void setChrist19Stage(int christ19Stage) {
-		this.christ19Stage = christ19Stage;
-	}
-
-	public int getHw07Stage() {
-		return hw07Stage;
-	}
-
-	public void setHw07Stage(int hw07Stage) {
-		this.hw07Stage = hw07Stage;
-	}
-
 	public boolean isRunBlocked() {
 		return runBlocked;
 	}
@@ -3965,6 +3932,10 @@ public class Player extends Entity {
 		return timePlayed;
 	}
 
+	public long getTimePlayedThisSession() {
+		return timePlayedThisSession;
+	}
+
 	public Map<StorableItem, Item> getLeprechaunStorage() {
 		if (leprechaunStorage == null)
 			leprechaunStorage = new HashMap<>();
@@ -4050,6 +4021,14 @@ public class Player extends Entity {
 
 	public void setLsp(int lsp) {
 		this.lsp = lsp;
+	}
+
+	public boolean isTrulyHidden() {
+		return trulyHidden;
+	}
+
+	public void setTrulyHidden(boolean trulyHidden) {
+		this.trulyHidden = trulyHidden;
 	}
 
 	public void promptSetYellColor() {

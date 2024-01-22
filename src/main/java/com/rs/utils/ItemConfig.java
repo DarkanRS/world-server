@@ -6,7 +6,6 @@ import com.google.gson.reflect.TypeToken;
 import com.rs.Settings;
 import com.rs.cache.Cache;
 import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.game.content.combat.RangedWeapon;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.lib.file.JsonFileManager;
@@ -82,6 +81,8 @@ public class ItemConfig {
 					System.out.println("Missing attack animation for: " + i + " (" + weaponName + ")");
 			}
 		}
+
+//		JsonFileManager.saveJsonFile(CONFIG_CACHE, new File(PATH));
 	}
 
 	public ItemConfig() {
