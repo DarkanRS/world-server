@@ -1145,8 +1145,7 @@ public class Player extends Entity {
 
 	@Override
 	public void setRun(boolean run) {
-		if (run != getRun())
-			super.setRun(run);
+		super.setRun(run);
 		updateMovementType = true;
 		sendRunButtonConfig();
 	}
@@ -2843,8 +2842,6 @@ public class Player extends Entity {
 	}
 
 	public MoveType getMovementType() {
-		if (getTemporaryMoveType() != null)
-			return getTemporaryMoveType();
 		return moveType;
 	}
 
