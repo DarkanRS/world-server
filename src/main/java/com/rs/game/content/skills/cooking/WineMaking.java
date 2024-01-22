@@ -15,9 +15,9 @@ public class WineMaking extends PlayerAction {
 	private boolean rollBadWine(Player player) {
 		double level = player.getSkills().getLevel(Constants.COOKING);
 		double noFailLevel = 68.0D;
-//		if (level >= noFailLevel) {
-//			return true;
-//		}
+		if (level >= noFailLevel) {
+			return true;
+		}
 		double chance = Math.max(level / noFailLevel, 0.6D);
 		return chance < Math.random();
 	}
