@@ -105,7 +105,7 @@ public class FromTinyAcorns extends MiniquestOutline {
 		else {
 			if (!UristDistracted) {
 				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(UristID, HeadE.CALM_TALK, "Sorry, " + e.getPlayer().getPronoun("lad","miss") + ", I can't let you pick it up just yet. Still needs its oil and polish before I can call it a finished work, see.\n")
+						.addNPC(UristID, HeadE.CALM_TALK, "Sorry, " + e.getPlayer().getPronoun("lad","miss") + ", I can't let you pick it up just yet. Still needs its oil and polish before I can call it a finished work, see.")
 						.addPlayer(HeadE.SKEPTICAL, "It looks finished to me.")
 						.addNPC(UristID, HeadE.SHAKING_HEAD, "And it'd look finished until the works gummed up or the oil clouded the rubies. Can't let a piece this pricey be a rush job, can I?")
 				);
