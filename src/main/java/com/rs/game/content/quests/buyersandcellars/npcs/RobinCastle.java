@@ -2,7 +2,9 @@ package com.rs.game.content.quests.buyersandcellars.npcs;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
+import com.rs.game.content.miniquests.FromTinyAcorns.Robin;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
@@ -14,6 +16,10 @@ public class RobinCastle extends Dialogue {
     private static int npcid = 11280;
 
     public static NPCClickHandler RobinCastle = new NPCClickHandler(new Object[] { 7955, 11268, 11279, 11280 }, new String[] {"Talk-to"}, e -> {
+        if(e.getPlayer().isMiniquestStarted(Miniquest.FROM_TINY_ACORNS) && !e.getPlayer().isMiniquestComplete(Miniquest.FROM_TINY_ACORNS)) {
+            new Robin(e.getPlayer());
+            return;
+        }
         int questStage = e.getPlayer().getQuestStage(Quest.BUYERS_AND_CELLARS);
         switch (questStage) {
             case 0:
@@ -44,7 +50,7 @@ public class RobinCastle extends Dialogue {
                     stage8(e.getPlayer());
                 break;
             default:
-                break;
+                stage8(e.getPlayer());
         }
     });
 

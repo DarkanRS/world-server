@@ -20,6 +20,9 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.events.ObjectClickEvent;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 
 public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
@@ -27,13 +30,14 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 	private Tile[] tiles;
 	private ObjectType type;
 	private boolean checkDistance = true;
+	private Set<String> options;
 
 	public ObjectClickHandler(boolean checkDistance, Object[] namesOrIds, Tile[] tiles, Consumer<ObjectClickEvent> handler) {
 		super(namesOrIds, handler);
 		this.tiles = tiles;
 		this.checkDistance = checkDistance;
 	}
-	
+
 	public ObjectClickHandler(boolean checkDistance, Object[] namesOrIds, Consumer<ObjectClickEvent> handler) {
 		super(namesOrIds, handler);
 		this.checkDistance = checkDistance;
@@ -56,6 +60,11 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 		this(true, namesOrIds, null, handler);
 	}
 
+	public ObjectClickHandler(Object[] namesOrIds, String[] options, Consumer<ObjectClickEvent> handler) {
+		super(namesOrIds, handler);
+		this.options = new HashSet<>(Arrays.asList(options));
+	}
+
 	public ObjectType getType() {
 		return type;
 	}
@@ -66,5 +75,9 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 
 	public Tile[] getTiles() {
 		return tiles;
+	}
+
+	public boolean containsOption(String option) {
+		return (options == null || options.size() == 0) ? true : options.contains(option);
 	}
 }

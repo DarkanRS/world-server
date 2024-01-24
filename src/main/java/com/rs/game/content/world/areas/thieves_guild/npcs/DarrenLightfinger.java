@@ -31,6 +31,9 @@ public class DarrenLightfinger {
     });
 
     public static void stage3(Player player) {
+        int thievingLevel = player.getSkills().getLevelForXp(Skills.THIEVING);
+        int agilityLevel = player.getSkills().getLevelForXp(Skills.AGILITY);
+        int herbloreLevel = player.getSkills().getLevelForXp(Skills.HERBLORE);
         player.startConversation(new Dialogue()
                 .addNPC(npcid, HeadE.HAPPY_TALKING, "Greetings, my young recruit!")
                 .addOptions(ops -> {
@@ -42,17 +45,32 @@ public class DarrenLightfinger {
                             });
 
 
-                    ops.add("How's the guild coming along these days?")
-                            .addPlayer(HeadE.CALM_TALK, "How's the guild coming along these days?")
-                            .addNPC(npcid, HeadE.HAPPY_TALKING, "We're really only getting started at the moment. I've made a training dummy to practice on, but we'll need funds if we're to begin to command any respect. Anything else I can do for you?");
+                    ops.add("How's the guild coming along these days?", () -> {
+                        if (player.isMiniquestComplete(Miniquest.A_GUILD_OF_OUR_OWN)) {
+                            //AGuildOfOurOwnTXT
+                            return;
+                        }
+                        if (player.isMiniquestComplete(Miniquest.LOST_HER_MARBLES)) {
+                            //LostHerMarblesOptionsTXT
+                            return;
+                        }
+                        if (player.isMiniquestComplete(Miniquest.FROM_TINY_ACORNS)) {
+                            player.startConversation(new Dialogue()
+                                    .addPlayer(HeadE.CALM_TALK, "How's the guild coming along these days?")
+                                    .addNPC(npcid, HeadE.HAPPY_TALKING, "A coshing tutor has moved in and we've now opened a store. We'll need more funds if we're to continue with renovations. Anything else I can do for you? ")
+                            );
+                            return;
+                        } else {
+                            player.startConversation(new Dialogue()
+                                    .addPlayer(HeadE.CALM_TALK, "How's the guild coming along these days?")
+                                    .addNPC(npcid, HeadE.HAPPY_TALKING, "We're really only getting started at the moment. I've made a training dummy to practice on, but we'll need funds if we're to begin to command any respect. Anything else I can do for you?")
+                            );
+                        }
+                    });
 
 
-                    ops.add("I'd like to talk about the caper I'm doing for you.")
-                            .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you.")
+                    ops.add("I'd like to talk about capers.")
                             .addNext(() -> {
-                                int thievingLevel = player.getSkills().getLevelForXp(Skills.THIEVING);
-                                int agilityLevel = player.getSkills().getLevelForXp(Skills.AGILITY);
-                                int herbloreLevel = player.getSkills().getLevelForXp(Skills.HERBLORE);
                                 if (player.isQuestStarted(Quest.BUYERS_AND_CELLARS) && !player.isQuestComplete(Quest.BUYERS_AND_CELLARS)) {
                                     BuyersAndCellarsOptions(player);
                                     return;
@@ -127,9 +145,9 @@ public class DarrenLightfinger {
                     .addPlayer(HeadE.CALM_TALK, "I understand well.")
                     .addNPC(npcid, HeadE.HAPPY_TALKING, "That's why I've bought a very expensive toy dragon, which is quite nearly completed.")
                     .addPlayer(HeadE.CALM_TALK, "Wait, what?")
-                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Allow me to explain… There is a master craftsman recently arrived in Varrock, a dwarf by the name of Urist Loric.")
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Allow me to explain... There is a master craftsman recently arrived in Varrock, a dwarf by the name of Urist Loric.")
                     .addNPC(npcid, HeadE.HAPPY_TALKING, "He does clockwork and delicate crafts, and works extensively in precious stones.")
-                    .addNPC(npcid, HeadE.HAPPY_TALKING, "I have commissioned him to construct a red dragon – worth the entirety of our available monies – out of ruby.")
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "I have commissioned him to construct a red dragon - worth the entirety of our available monies - out of ruby.")
                     .addPlayer(HeadE.SKEPTICAL_HEAD_SHAKE, "This sounds more like madness than adventure at the moment.")
                     .addNPC(npcid, HeadE.HAPPY_TALKING, "I have no intention of buying it. What I need you to do, my dear " + player.getPronoun("fellow", "lady") + ", is steal the dragon from his stall in Varrock.")
                     .addNPC(npcid, HeadE.HAPPY_TALKING, "You can then be very surprised and dismayed at him and demand my money returned.")
@@ -149,6 +167,40 @@ public class DarrenLightfinger {
                     .addPlayer(HeadE.CALM_TALK, "Do you have any practical advice for how I should go about this?")
                     .addPlayer(HeadE.HAPPY_TALKING, "Practical? My word, no. Robin's your fellow if you want practical matters attended to; I mostly do strategy.")
             );
+            case 2 -> player.startConversation(new Dialogue()
+                    .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you. I've got the baby toy dragon but I don't initial investment back yet, I'm afraid.")
+                    .addPlayer(HeadE.CALM_TALK, "Excellent! Well, do hop to it, there's a good chap/lass. Time's a ticking!")
+            );
+            case 3 -> {
+                player.startConversation(new Dialogue()
+                        .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you.")
+                        .addNext(() -> {
+                            int dragonID = 18651;
+                            int noteID = 18652;
+                            if (!player.getInventory().containsItem(dragonID) && player.getBank().containsItem(dragonID, 1)) {
+                                player.playerDialogue(HeadE.SHAKING_HEAD, "I have the dragon! I'll just need a moment to visit the bank before I hand it over.");
+                                return;
+                            }
+                            if (!player.getInventory().containsItem(noteID) && player.getBank().containsItem(noteID, 1)) {
+                                player.playerDialogue(HeadE.SHAKING_HEAD, "I have the bankers note! I'll just need a moment to visit the bank before I hand it over.");
+                                return;
+                            }
+                            player.startConversation(new Dialogue()
+                                    .addNPC(npcid, HeadE.HAPPY_TALKING, "I knew you wouldn't let me down! Fairly simple caper, was it?")
+                                    .addPlayer(HeadE.CALM_TALK, "Just needed a little finesse, that's all.")
+                                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Ah, finesse! Very well done indeed. Some day I hope to show you myself in action; for now, however, I shall be rather busy paying the builders.")
+                                    .addNext(() -> {
+                                        player.fadeScreen(() -> {
+                                            player.getInventory().deleteItem(18651, 1);
+                                            player.getInventory().deleteItem(18652, 1);
+                                            player.tele(Tile.of(3223, 3269, 0));
+                                            player.getMiniquestManager().complete(Miniquest.FROM_TINY_ACORNS);
+                                        });
+                                    })
+                            );
+                        })
+                );
+            }
         }
     }
 }
