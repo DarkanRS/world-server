@@ -114,5 +114,4 @@ public class FromTinyAcorns extends MiniquestOutline {
 			e.getPlayer().npcDialogue(GuardID, HeadE.ANGRY, "Oi! Put that back, thief!");
 		}
 	});
-
 }
