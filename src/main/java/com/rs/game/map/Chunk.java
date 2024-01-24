@@ -3,6 +3,8 @@ package com.rs.game.map;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.pets.Pet;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -690,7 +692,7 @@ public class Chunk {
         getRemovedObjects().clear();
         for (int npcIndex : new IntOpenHashSet(npcs)) {
             NPC npc = World.getNPCs().get(npcIndex);
-            if (npc == null)
+            if (npc == null || npc instanceof Familiar || npc instanceof Pet)
                 continue;
             npc.finish();
         }

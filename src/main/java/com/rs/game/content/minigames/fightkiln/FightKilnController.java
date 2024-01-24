@@ -684,8 +684,6 @@ public class FightKilnController extends Controller {
 	public void unlockPlayer() {
 		stage = Stages.RUNNING;
 		player.unlock(); // unlocks player
-		if(player.getFamiliar() != null)
-			player.getFamiliar().sendMainConfigs();//Resets familiar configs for debug mode
 	}
 
 	public void removeScene() {
