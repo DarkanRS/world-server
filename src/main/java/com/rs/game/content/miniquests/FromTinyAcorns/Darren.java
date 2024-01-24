@@ -4,6 +4,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.game.Tile;
 
 public class Darren {
@@ -68,6 +69,7 @@ public class Darren {
                                         player.fadeScreen(() -> {
                                             player.getInventory().deleteItem(18651, 1);
                                             player.getInventory().deleteItem(18652, 1);
+                                            player.getSkills().addXp(Skills.THIEVING, 1000);
                                             player.tele(Tile.of(3223, 3269, 0));
                                             player.getMiniquestManager().complete(Miniquest.FROM_TINY_ACORNS);
                                         });

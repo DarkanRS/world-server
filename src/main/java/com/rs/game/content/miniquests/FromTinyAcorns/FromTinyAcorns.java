@@ -21,7 +21,7 @@ import java.util.List;
 		startText = "Speak to Darren Lightfinger in his cellar accessed through a trapdoor north of Lumbridge furnace.",
 		itemsText = "None",
 		combatText = "None",
-		rewardsText = "1,000 Thieving XP<br>Small pouch<br>Access to the advanced pickpocketing trainer and coshing volunteers in the Thieves' Guild",
+		rewardsText = "1,000 Thieving XP<br>Access to the advanced pickpocketing trainer and coshing volunteers in the Thieves' Guild",
 		completedStage = 5
 )
 @PluginEventHandler
