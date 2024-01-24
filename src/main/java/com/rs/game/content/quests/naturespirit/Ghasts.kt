@@ -3,12 +3,14 @@ package com.rs.game.content.quests.naturespirit
 import com.rs.game.World
 import com.rs.game.content.skills.cooking.Foods
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
 import com.rs.game.model.entity.pathing.ClipType
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Tile
+import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.npcCombat
@@ -85,13 +87,22 @@ fun mapGhasts() {
                 }
                 return@npcCombat npc.attackSpeed
             }
-            val foods = target.inventory.items.array().filter { it != null && Foods.isConsumable(it) }
-            if (foods.isNotEmpty()) {
-                npc.anim(npc.combatDefinitions.attackEmote)
-                val food = foods.random()
-                food.id = 2959
-                food.amount = 1
-                target.inventory.refresh()
+            if (Utils.random(10) < 3) {
+                val foods = target.inventory.items.array().filter { it != null && Foods.isConsumable(it) }
+                if (foods.isNotEmpty()) {
+                    npc.anim(npc.combatDefinitions.attackEmote)
+                    val food = foods.random()
+                    food.id = 2959
+                    food.amount = 1
+                    target.inventory.refresh()
+                    return@npcCombat 15
+                } else {
+                    npc.anim(npc.combatDefinitions.attackEmote)
+                    target.applyHit(Hit(npc, Utils.random(10, 30), Hit.HitLook.MELEE_DAMAGE))
+                    return@npcCombat 15
+                }
+            } else {
+                target.sendMessage("The ghast misses you.")
                 return@npcCombat 15
             }
         }

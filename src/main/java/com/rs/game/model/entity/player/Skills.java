@@ -1186,7 +1186,7 @@ public final class Skills {
 		if (realBoost < 0)
 			realLevel = getLevel(skill);
 		int maxBoost = (int) (realLevel + (baseMod + (realLevel * mul)));
-		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : (getLevel(skill) > realLevel ? getLevel(skill) : realLevel));
+		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : Math.max(getLevel(skill), realLevel));
 		markForRefresh(skill);
 	}
 	
