@@ -161,7 +161,7 @@ public class FightKilnController extends Controller {
 		if (player.getInventory().containsOneItem(23653, 23654, 23655, 23656, 23657, 23658))
 			return;
 		Familiar familiar = player.getFamiliar();
-		if (familiar != null && ((familiar != null && familiar.containsOneItem(23653, 23654, 23655, 23656, 23657, 23658)) || familiar.isFinished()))
+		if (familiar != null && (familiar.containsOneItem(23653, 23654, 23655, 23656, 23657, 23658) || familiar.isFinished()))
 			return;
 		if (!quickEnter)
 			player.startConversation(new Dialogue()
@@ -175,7 +175,7 @@ public class FightKilnController extends Controller {
 			player.getControllerManager().startController(new FightKilnController(1));
 	}
 
-	private static enum Stages {
+	private enum Stages {
 		LOADING, RUNNING, DESTROYING
 	}
 

@@ -36,13 +36,13 @@ public class NPCCombatDefinitions {
 	private final static String PATH = "data/npcs/combatdefs/";
 	public static HashMap<Object, NPCCombatDefinitions> COMBAT_DEFINITIONS = new HashMap<>();
 	public static NPCCombatDefinitions DEFAULT_DEF;
-	
-	private static final Map<Skill, Integer> DEFAULT_LEVELS = new HashMap<>();
+
+	private static Map<Skill, Integer> DEFAULT_LEVELS = new HashMap<>();
 
 	static {
 		for (Skill skill : Skill.values())
 			DEFAULT_LEVELS.put(skill, 0);
-		
+
 		NPCCombatDefinitions def = new NPCCombatDefinitions();
 		def.attackStyle = AttackStyle.MELEE;
 		def.agressivenessType = AggressiveType.PASSIVE;
@@ -52,7 +52,7 @@ public class NPCCombatDefinitions {
 	public enum AttackStyle {
 		MELEE, RANGE, MAGE
 	}
-	
+
 	public enum Skill {
 		ATTACK, STRENGTH, DEFENSE, RANGE, MAGE
 	}
@@ -64,11 +64,14 @@ public class NPCCombatDefinitions {
 	private transient boolean realStats = true;
 	private int[] ids;
 	private String[] names;
-	private final int attackAnim;
-    private final int defenceAnim;
-    private final int deathAnim;
-	private final int deathDelay;
-    private final int respawnDelay;
+	private int attackAnim;
+	private int attackSound = -1;
+	private int defenceAnim;
+	private int defendSound = -1;
+	private int deathAnim;
+	private int deathDelay;
+	private int deathSound = -1;
+	private int respawnDelay;
 	private int respawnAnim = -1;
 	private int hitpoints;
 	private int maxHit;
@@ -76,12 +79,15 @@ public class NPCCombatDefinitions {
 	private Bonus attackBonus;
 	private Map<Skill, Integer> combatLevels;
 	private Map<Bonus, Integer> bonuses;
-    private final int attackGfx;
-	private final int attackProjectile;
+	private int attackRange = -1; //10 by default for range
+	private int attackGfx;
+	private int attackProjectile;
 	private AggressiveType agressivenessType;
 	public int aggroDistance = -1; //4 for melee, 8 for range default
+	private int deAggroDistance = -1; //16 by default
+	private int maxDistFromSpawn = -1; //16 by default 64 for special/special2
 
-    public NPCCombatDefinitions() {
+	public NPCCombatDefinitions() {
 		hitpoints = 1;
 		attackAnim = -1;
 		deathAnim = -1;
@@ -91,7 +97,6 @@ public class NPCCombatDefinitions {
 		maxHit = 1;
 		attackGfx = -1;
 		attackProjectile = -1;
-		respawnAnim = -1;
 	}
 
 	public NPCCombatDefinitions(int... ids) {
@@ -123,7 +128,7 @@ public class NPCCombatDefinitions {
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static void init() {
+	public static final void init() {
 		loadPackedCombatDefinitions();
 	}
 
@@ -165,7 +170,7 @@ public class NPCCombatDefinitions {
 					loadFile(dir);
 				return;
 			}
-			NPCCombatDefinitions defs = JsonFileManager.loadJsonFile(f, NPCCombatDefinitions.class);
+			NPCCombatDefinitions defs = (NPCCombatDefinitions) JsonFileManager.loadJsonFile(f, NPCCombatDefinitions.class);
 			if (defs != null) {
 				if (defs.getIds() != null)
 					for (int id : defs.getIds())
@@ -177,6 +182,10 @@ public class NPCCombatDefinitions {
 		} catch(Throwable e) {
 			System.err.println("Error loading file: " + f.getPath());
 		}
+	}
+
+	public int getRespawnAnim() {
+		return respawnAnim;
 	}
 
 	public int getRespawnDelay() {
@@ -248,7 +257,7 @@ public class NPCCombatDefinitions {
 	public String[] getNames() {
 		return names;
 	}
-	
+
 	public int getLevel(Skill skill) {
 		return getLevels().get(skill) == null ? 1 : getLevels().get(skill);
 	}
@@ -328,7 +337,8 @@ public class NPCCombatDefinitions {
 			if (id == npcId)
 				return;
 		int[] newIds = new int[ids.length+1];
-        System.arraycopy(ids, 0, newIds, 0, ids.length);
+		for (int i = 0;i < ids.length;i++)
+			newIds[i] = ids[i];
 		newIds[ids.length] = npcId;
 		ids = newIds;
 	}
@@ -343,17 +353,13 @@ public class NPCCombatDefinitions {
 	}
 
 	public int getMaxDistFromSpawn() {
-        //16 by default 64 for special/special2
-        int maxDistFromSpawn = -1;
-        if (maxDistFromSpawn <= 0)
+		if (maxDistFromSpawn <= 0)
 			return 16;
 		return maxDistFromSpawn;
 	}
 
 	public int getDeAggroDistance() {
-        //16 by default
-        int deAggroDistance = -1;
-        if (deAggroDistance <= 0)
+		if (deAggroDistance <= 0)
 			return 16;
 		return deAggroDistance;
 	}
@@ -365,9 +371,7 @@ public class NPCCombatDefinitions {
 	}
 
 	public int getAttackRange() {
-        //10 by default for range
-        int attackRange = -1;
-        if (attackRange < 0)
+		if (attackRange < 0)
 			return getAttackStyle() == AttackStyle.MELEE ? 0 : getAttackStyle() == AttackStyle.RANGE ? 7 : 10;
 		return attackRange;
 	}
@@ -381,25 +385,18 @@ public class NPCCombatDefinitions {
 			return 1000;
 		if (bonuses.get(bonus) == null)
 			return 0;
-		return bonuses.get(bonus);
+		return (Integer) bonuses.get(bonus);
 	}
 
 	public int getAttackSound() {
-        int attackSound = -1;
-        return attackSound;
+		return attackSound;
 	}
 
 	public int getDefendSound() {
-        int defendSound = -1;
-        return defendSound;
+		return defendSound;
 	}
 
 	public int getDeathSound() {
-        int deathSound = -1;
-        return deathSound;
-	}
-
-	public int getRespawnAnim() {
-		return respawnAnim;
+		return deathSound;
 	}
 }
