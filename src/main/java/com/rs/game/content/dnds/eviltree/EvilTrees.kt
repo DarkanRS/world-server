@@ -1,21 +1,26 @@
 package com.rs.game.content.dnds.eviltree
 
+import com.google.common.collect.Iterators
 import com.rs.cache.loaders.ObjectType
 import com.rs.game.World
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
-import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.pathing.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
 import com.rs.game.model.`object`.GameObject
+import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Vec2
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onObjectClick
+import java.util.*
 import kotlin.math.ceil
-import kotlin.math.round
+
+private var currentTree: EvilTree? = null
+private var LOCATIONS: List<Location> = ArrayList(Location.entries.toTypedArray().asList())
+private var locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
 
 enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farmReq: Int, val farmXp: Double, val fmReq: Int, val fmXp: Double, val healthyObj: Int, val deg1Obj: Int, val deg2Obj: Int, val deadObj: Int) {
     NORMAL(TreeType.NORMAL,1, 15.0, 1, 20.0, 1, 20.0, 11434, 11435, 11436, 14839),
@@ -25,6 +30,34 @@ enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farm
     YEW(TreeType.YEW,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 14843),
     MAGIC(TreeType.MAGIC,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 14844),
     ELDER(TreeType.MAGIC,90, 162.5, 42, 730.0, 90, 260.5, 11922, 11923, 11924, 14845)
+}
+
+enum class Location(val tile: Tile, val desc: String) {
+    SEERS(Tile(2703, 3445, 0), "south of Seer's Village."),
+    RIMMINGTON(Tile(2982, 3204, 0), "east of Rimmington."),
+    FALADOR(Tile(2991, 3407, 0), "north of Falador."),
+    TOLNA_RIFT(Tile(3321, 3454, 0), "outside Tolna's Rift."),
+}
+
+@ServerStartupEvent
+fun schedule() {
+    LOCATIONS = LOCATIONS.shuffled()
+    locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
+    WorldTasks.scheduleNthHourly(2, ::spawnTree)
+}
+
+fun spawnTree() {
+    currentTree?.despawn()
+    val loc = nextLocation()
+    currentTree = EvilTree(Type.entries.random(), loc.tile)
+    World.sendWorldMessage("<col=FF0000><shad=000000>A an evil tree has begun to sprout near ${loc.desc}!", false)
+
+}
+
+private fun nextLocation(): Location {
+    if (!locIterator.hasNext()) locIterator =
+        Iterators.peekingIterator(LOCATIONS.iterator())
+    return locIterator.next()
 }
 
 class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameObject(11391, ObjectType.SCENERY_INTERACT, 0, centerTile) {
@@ -64,9 +97,7 @@ class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameO
             player.faceTile(this.coordFace)
             player.anim(3114)
             incProgress()
-            if (stage >= 5)
-                return@repeatAction false
-            return@repeatAction true
+            return@repeatAction stage < 5
         }
     }
 
