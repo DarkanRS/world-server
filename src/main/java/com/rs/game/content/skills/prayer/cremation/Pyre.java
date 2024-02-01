@@ -38,8 +38,7 @@ public class Pyre extends OwnedObject {
 	private final boolean shadePyre;
 
 	public Pyre(Player player, GameObject object, PyreLog log, boolean shadePyre) {
-		super(player, object);
-		id = shadePyre ? log.shadeNoCorpse : log.vyreNoCorpse;
+		super(player, new GameObject(object, shadePyre ? log.shadeNoCorpse : log.vyreNoCorpse));
 		life = 50;
 		this.log = log;
 		this.shadePyre = shadePyre;

@@ -19,6 +19,7 @@ package com.rs.engine.thread;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.InstanceBuilder;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
@@ -240,6 +241,7 @@ public final class WorldThread extends Thread {
 					content.append("Uptime: ").append(Utils.ticksToTime(WORLD_CYCLE - START_CYCLE)).append("\n");
 					content.append("Players loaded: ").append(Utils.formatNumber(World.getPlayers().size())).append("\n");
 					content.append("NPCs loaded: ").append(Utils.formatNumber(World.getNPCs().size())).append("\n");
+					content.append("Reserved dynamic regions: ").append(Utils.formatNumber(InstanceBuilder.getReservedRegionCount())).append("\n");
 					content.append("Active world task count: ").append(Utils.formatNumber(WorldTasks.getSize())).append("\n");
 					content.append("```\n");
 					content.append("__**Tick Time: ").append(time).append("ms (min: ").append(Utils.formatLong(LOWEST_TICK)).append("ms avg: ").append(Utils.formatLong(AVERAGE_TICK)).append("ms max: ").append(Utils.formatLong(HIGHEST_TICK)).append("ms)**__\n");

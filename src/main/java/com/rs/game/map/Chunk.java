@@ -341,10 +341,8 @@ public class Chunk {
             unflagForProcess(toRemove);
             WorldCollision.unclip(toRemove);
             addRemovedObject(baseObject);
-        } else {
-            Logger.info(Chunk.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObject);
+        } else
             return;
-        }
         if (replace && baseObject != null)
             addChunkUpdate(new AddObject(baseObject.getTile().getChunkLocalHash(), baseObject));
         else

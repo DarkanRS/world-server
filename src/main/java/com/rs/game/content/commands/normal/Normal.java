@@ -28,6 +28,7 @@ import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
+import com.rs.utils.drop.DropTable;
 
 @PluginEventHandler
 public class Normal {
@@ -52,16 +53,24 @@ public class Normal {
             p.getInterfaceManager().sendInterface(275);
         });
 
-        Commands.add(Rights.PLAYER, "drops [npcId numberKilled]", "Emulates a number of NPC kills and displays the collected loot.", (p, args) -> {
-            int npcId = Integer.valueOf(args[0]);
+        Commands.add(Rights.PLAYER, "drops [npcId/droptablename numberKilled]", "Emulates a number of NPC kills and displays the collected loot.", (p, args) -> {
+            int npcId = -1;
+            try {
+                npcId = Integer.valueOf(args[0]);
+            } catch(Throwable e) {
+
+            }
             int npcAmount = Integer.valueOf(args[1].replace("k", "000"));
-            if (npcId < 0 || npcId > Utils.getNPCDefinitionsSize())
+            if (npcId != -1 && (npcId < 0 || npcId > Utils.getNPCDefinitionsSize()))
                 return;
             if ((npcAmount < 0 || npcAmount > 50000) && !p.hasRights(Rights.DEVELOPER)) {
                 p.sendMessage("You can only see drops for up to 50000 NPCs.");
                 return;
             }
-            NPC.displayDropsFor(p, npcId, npcAmount);
+            if (npcId != -1)
+                NPC.displayDropsFor(p, npcId, npcAmount);
+            else
+                DropTable.displayDropsFor(p, args[0], npcAmount);
         });
 
         Commands.add(Rights.PLAYER, "buyoffers", "Displays all buy offers currently active in the Grand Exchange.", (p, args) -> WorldDB.getGE().getAllOffersOfType(false, offers -> {
