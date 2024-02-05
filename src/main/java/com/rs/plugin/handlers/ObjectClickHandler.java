@@ -80,4 +80,7 @@ public class ObjectClickHandler extends PluginHandler<ObjectClickEvent> {
 	public boolean containsOption(String option) {
 		return (options == null || options.size() == 0) ? true : options.contains(option);
 	}
+	public Set<String> getOptions() {
+		return options;
+	}
 }
