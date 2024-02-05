@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	implementation("rs.darkan:core:1.6.0")
+	implementation("rs.darkan:core:1.6.1")
 
 	implementation("org.jetbrains.kotlin:kotlin-stdlib:$ktVer")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-common:$ktVer")
