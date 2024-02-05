@@ -556,13 +556,12 @@ public class SpecialAttacks {
 
         //Korasi's sword
         addSpec(new int[] { 18786, 19780, 19784, 22401 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
-            player.setNextAnimation(new Animation(14788));
-            player.setNextSpotAnim(new SpotAnim(1729));
-            int damage = getMaxHit(player, target, false, 1.0);
+            player.sync(14788, 1729);
+            int damage = getMaxHit(player, target, false, 1.5);
             double multiplier = 0.5 + Math.random();
-            int maxHit = (int) (damage * 1.5);
-            damage *= multiplier;
-            delayNormalHit(target, new Hit(player, damage, HitLook.MAGIC_DAMAGE).setMaxHit(maxHit));
+            if (!player.canAttackMulti(target))
+                damage *= multiplier;
+            delayNormalHit(target, new Hit(player, damage, HitLook.MAGIC_DAMAGE).setMaxHit(damage));
             WorldTasks.schedule(0, () -> target.setNextSpotAnim(new SpotAnim(1730)));
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));

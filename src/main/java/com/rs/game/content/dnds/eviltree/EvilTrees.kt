@@ -5,6 +5,7 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.game.World
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
+import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.pathing.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
@@ -12,8 +13,10 @@ import com.rs.game.model.entity.player.actions.PlayerAction
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
+import com.rs.lib.net.ServerPacket
 import com.rs.lib.util.Vec2
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.kts.onLogin
 import com.rs.plugin.kts.onObjectClick
 import java.util.*
 import kotlin.math.ceil
@@ -22,21 +25,21 @@ private var currentTree: EvilTree? = null
 private var LOCATIONS: List<Location> = ArrayList(Location.entries.toTypedArray().asList())
 private var locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
 
-enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farmReq: Int, val farmXp: Double, val fmReq: Int, val fmXp: Double, val healthyObj: Int, val deg1Obj: Int, val deg2Obj: Int, val deadObj: Int) {
-    NORMAL(TreeType.NORMAL,1, 15.0, 1, 20.0, 1, 20.0, 11434, 11435, 11436, 14839),
-    OAK(TreeType.OAK,15, 32.4, 7, 45.0, 15, 30.0, 11437, 11438, 11439, 14840),
-    WILLOW(TreeType.WILLOW,30, 45.7, 15, 66.0, 30, 45.0, 11440, 11441, 11442, 14841),
-    MAPLE(TreeType.MAPLE,45, 55.8, 22, 121.5, 45, 67.5, 11443, 11444, 11915, 14842),
-    YEW(TreeType.YEW,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 14843),
-    MAGIC(TreeType.MAGIC,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 14844),
-    ELDER(TreeType.MAGIC,90, 162.5, 42, 730.0, 90, 260.5, 11922, 11923, 11924, 14845)
+enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farmReq: Int, val farmXp: Double, val fmReq: Int, val fmXp: Double, val healthyObj: Int, val deg1Obj: Int, val deg2Obj: Int, val dyingObj: Int, val deadObj: Int) {
+    NORMAL(TreeType.NORMAL,1, 15.0, 1, 20.0, 1, 20.0, 11434, 11435, 11436, 11925, 14846),
+    OAK(TreeType.OAK,15, 32.4, 7, 45.0, 15, 30.0, 11437, 11438, 11439, 11926, 14847),
+    WILLOW(TreeType.WILLOW,30, 45.7, 15, 66.0, 30, 45.0, 11440, 11441, 11442, 11927, 14848),
+    MAPLE(TreeType.MAPLE,45, 55.8, 22, 121.5, 45, 67.5, 11443, 11444, 11915, 11928, 14849),
+    YEW(TreeType.YEW,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 11929, 14883),
+    MAGIC(TreeType.MAGIC,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 12711, 14884),
+    ELDER(TreeType.MAGIC,90, 162.5, 42, 730.0, 90, 260.5, 11922, 11923, 11924, 12712, 14885)
 }
 
 enum class Location(val tile: Tile, val desc: String) {
-    SEERS(Tile(2703, 3445, 0), "south of Seer's Village."),
-    RIMMINGTON(Tile(2982, 3204, 0), "east of Rimmington."),
-    FALADOR(Tile(2991, 3407, 0), "north of Falador."),
-    TOLNA_RIFT(Tile(3321, 3454, 0), "outside Tolna's Rift."),
+    SEERS(Tile(2703, 3445, 0), "the south of Seer's Village."),
+    RIMMINGTON(Tile(2982, 3204, 0), "the east of Rimmington."),
+    FALADOR(Tile(2991, 3407, 0), "the north of Falador."),
+    TOLNA_RIFT(Tile(3321, 3454, 0), " Tolna's Rift."),
 }
 
 @ServerStartupEvent
@@ -50,6 +53,7 @@ fun spawnTree() {
     currentTree?.despawn()
     val loc = nextLocation()
     currentTree = EvilTree(Type.entries.random(), loc.tile)
+    currentTree!!.spawn()
     World.sendWorldMessage("<col=FF0000><shad=000000>A an evil tree has begun to sprout near ${loc.desc}!", false)
 
 }
@@ -58,6 +62,23 @@ private fun nextLocation(): Location {
     if (!locIterator.hasNext()) locIterator =
         Iterators.peekingIterator(LOCATIONS.iterator())
     return locIterator.next()
+}
+
+@ServerStartupEvent
+fun mapEvilTrees() {
+    onObjectClick(*(11391..11395).union(Type.entries.flatMap { listOf(it.healthyObj, it.deg1Obj, it.deg2Obj, it.deadObj) }).toTypedArray()) { (player, obj, option) ->
+        if (obj !is EvilTree) return@onObjectClick
+
+        when(option) {
+            "Nurture" -> obj.nurture(player)
+            "Chop" -> obj.chop(player)
+            "Light fire" -> obj.lightFire(player)
+            "Inspect" -> obj.inspect(player)
+            "Take-rewards" -> obj.takeRewards(player)
+        }
+    }
+
+    onLogin { (player) -> player.vars.setVarBit(1542, if (player.getDailyB("lootedEvilTree")) 0 else 1) }
 }
 
 class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameObject(11391, ObjectType.SCENERY_INTERACT, 0, centerTile) {
@@ -73,10 +94,12 @@ class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameO
         Direction.NORTHEAST to GameObject(14890, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 1, tile.transform(1, 1, 0)),
         Direction.SOUTHWEST to GameObject(15491, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 3, tile.transform(-1, -1, 0)),
     )
+    private var leprechaun: NPC? = null
 
     fun spawn() {
         World.spawnObject(this)
         fires.values.forEach { World.spawnObject(it) }
+        leprechaun = NPC(418, World.findClosestAdjacentFreeTile(centerTile, 5))
     }
 
     fun despawn() {
@@ -96,6 +119,7 @@ class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameO
         player.repeatAction(5) {
             player.faceTile(this.coordFace)
             player.anim(3114)
+            player.skills.addXp(Skills.FARMING, treeType.farmXp / 5.0)
             incProgress()
             return@repeatAction stage < 5
         }
@@ -199,11 +223,12 @@ class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameO
             val varbits = fires.values.map { it.definitions.varpBit }
             fires.values.forEach { World.removeObject(it) }
             World.getPlayersInChunkRange(tile.chunkId, 1)
-                .forEach { player -> varbits
-                    .forEach { varbit ->
+                .forEach { player ->
+                    varbits.forEach { varbit ->
                         player.vars.setVarBit(varbit, 0)
                     }
                 }
+            WorldTasks.schedule(7) { setId(treeType.deadObj) }
         }
         if (stage <= 4)
             setId(id + 1)
@@ -212,23 +237,8 @@ class EvilTree(private val treeType: Type, private val centerTile: Tile) : GameO
                 5 -> treeType.healthyObj
                 6 -> treeType.deg1Obj
                 7 -> treeType.deg2Obj
-                else -> treeType.deadObj
+                else -> treeType.dyingObj
             })
-    }
-}
-
-@ServerStartupEvent
-fun mapEvilTrees() {
-    onObjectClick(*(11391..11395).union(Type.entries.flatMap { listOf(it.healthyObj, it.deg1Obj, it.deg2Obj, it.deadObj) }).toTypedArray()) { (player, obj, option) ->
-        if (obj !is EvilTree) return@onObjectClick
-
-        when(option) {
-            "Nurture" -> obj.nurture(player)
-            "Chop" -> obj.chop(player)
-            "Light fire" -> obj.lightFire(player)
-            "Inspect" -> obj.inspect(player)
-            "Take-rewards" -> obj.takeRewards(player)
-        }
     }
 }
 

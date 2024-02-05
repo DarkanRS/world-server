@@ -159,6 +159,7 @@ public final class TormentedDemon extends NPC {
 		final NPC npc = this;
 		WorldTasks.schedule(getCombatDefinitions().getRespawnDelay(), () -> {
 			try {
+				switchPrayers(0);
 				setFinished(false);
 				World.addNPC(npc);
 				npc.setLastChunkId(0);
