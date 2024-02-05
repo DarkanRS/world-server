@@ -80,11 +80,34 @@ public class ObjectClickEvent implements PluginEvent {
 		return object.getTile().isAt(x, y, plane);
 	}
 
+	@Override
+	public List<PluginHandler<? extends PluginEvent>> getMethods() {
+		List<PluginHandler<? extends PluginEvent>> valids = new ArrayList<>();
+		Map<Integer, List<ObjectClickHandler>> methodMapping = METHODS.get(getObjectId());
+		if (methodMapping == null)
+			methodMapping = METHODS.get(getObject().getDefinitions(getPlayer()).getName());
+		if (methodMapping == null)
+			return null;
+		List<ObjectClickHandler> methods = methodMapping.get(getObject().getTile().getTileHash());
+		if (methods == null)
+			methods = methodMapping.get(-getObject().getType().id);
+		if (methods == null)
+			methods = methodMapping.get(0);
+		if (methods == null)
+			return null;
+		for (ObjectClickHandler method : methods) {
+			if (!isAtObject() && method.isCheckDistance())
+				continue;
+			valids.add(method);
+		}
+		return valids;
+	}
+
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		ObjectClickHandler handler = (ObjectClickHandler) method;
 		for (Object key : handler.keys()) {
-            Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
-            if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
+			Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
+			if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
 				List<ObjectClickHandler> methods = locMap.get(0);
 				if (methods == null)
 					methods = new ArrayList<>();
@@ -104,29 +127,9 @@ public class ObjectClickEvent implements PluginEvent {
 					methods.add(handler);
 					locMap.put(tile.getTileHash(), methods);
 				}
-			}
 		}
 	}
 
-	@Override
-	public List<PluginHandler<? extends PluginEvent>> getMethods() {
-		List<PluginHandler<? extends PluginEvent>> valids = new ArrayList<>();
-		Map<String, List<ObjectClickHandler>> optionMap = METHODS.get(getObjectId());
-		if (optionMap == null) {
-			optionMap = METHODS.get(getObject().getDefinitions(getPlayer()).getName());
-		}
-		if (optionMap != null) {
-			List<ObjectClickHandler> handlers = optionMap.getOrDefault(getOption(), optionMap.get("global"));
-			if (handlers != null) {
-				for (ObjectClickHandler handler : handlers) {
-					if (!isAtObject() && handler.isCheckDistance())
-						continue;
-					valids.add(handler);
-				}
-			}
-		}
-		return valids;
-	}
 	public Player component1() {
 		return player;
 	}
