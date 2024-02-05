@@ -117,7 +117,7 @@ public class LobbyCommunicator {
 		APIUtil.get(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 
-	public static <T> T getSync(Class<T> type, String endpoint) throws InterruptedException, ExecutionException, IOException {
+	public static <T> T getSync(Class<T> type, String endpoint) {
 		return APIUtil.getSync(type, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 
@@ -125,7 +125,7 @@ public class LobbyCommunicator {
 		APIUtil.post(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey(), cb);
 	}
 
-	public static <T> T postSync(Class<T> type, Object body, String endpoint) throws InterruptedException, ExecutionException, IOException {
+	public static <T> T postSync(Class<T> type, Object body, String endpoint) {
 		return APIUtil.postSync(type, body, "http://"+Settings.getConfig().getLobbyIp()+":4040/api/"+endpoint, Settings.getConfig().getLobbyApiKey());
 	}
 }

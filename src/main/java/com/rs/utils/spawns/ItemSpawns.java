@@ -63,7 +63,7 @@ public final class ItemSpawns {
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		Logger.info(ItemSpawns.class, "init", "Loading item spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles)
@@ -96,7 +96,7 @@ public final class ItemSpawns {
 		}
 	}
 
-	public static final void loadItemSpawns(int chunkId) {
+	public static void loadItemSpawns(int chunkId) {
 		List<ItemSpawn> spawns = ITEM_SPAWNS.get(chunkId);
 		if (spawns != null)
 			for (ItemSpawn spawn : spawns)

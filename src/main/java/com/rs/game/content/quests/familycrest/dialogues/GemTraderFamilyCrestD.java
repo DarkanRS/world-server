@@ -26,9 +26,7 @@ public class GemTraderFamilyCrestD extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "Came in here all la-di-dah, high and mighty, asking for jewellery made from 'perfect gold' - whatever that is - " +
 					"like 'normal' gold just isn't good enough for 'little lord fancy pants' there!");
 			addNPC(NPC, HeadE.CALM_TALK, "I told him to head to the desert 'cos I know there's gold out there, in them there sand dunes. And if it's " +
-					"not up to his lordship's high standards of 'gold perfection', then...", ()-> {
-						player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_AVAN);
-					});
+					"not up to his lordship's high standards of 'gold perfection', then...", ()-> player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_AVAN));
 			addNPC(NPC, HeadE.CALM_TALK, "Well, maybe we'll all get lucky and the scorpions will deal with him.");
 		}
 		default -> {
@@ -37,9 +35,7 @@ public class GemTraderFamilyCrestD extends Conversation {
 				@Override
 				public void create() {
 					option("Yes, please", new Dialogue()
-							.addNext(()->{
-								ShopsHandler.openShop(player, "gem_trader");
-							})
+							.addNext(()-> ShopsHandler.openShop(player, "gem_trader"))
 							);
 					option("No, thank you.", new Dialogue());
 				}

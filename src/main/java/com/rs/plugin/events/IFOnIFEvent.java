@@ -25,12 +25,18 @@ import java.util.Map;
 
 public class IFOnIFEvent implements PluginEvent {
 
-	private static Map<Object, Map<Object, InterfaceOnInterfaceHandler>> FROM_HANDLERS = new HashMap<>();
-	private static Map<Object, Map<Object, InterfaceOnInterfaceHandler>> TO_HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Object, InterfaceOnInterfaceHandler>> FROM_HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Object, InterfaceOnInterfaceHandler>> TO_HANDLERS = new HashMap<>();
 
-	private Player player;
-	private int fromInterfaceId, fromComponentId, fromSlotId, fromSlotId2;
-	private int toInterfaceId, toComponentId, toSlotId, toSlotId2;
+	private final Player player;
+	private final int fromInterfaceId;
+    private final int fromComponentId;
+    private final int fromSlotId;
+    private final int fromSlotId2;
+	private final int toInterfaceId;
+    private final int toComponentId;
+    private final int toSlotId;
+    private final int toSlotId2;
 
 	public IFOnIFEvent(Player player, int fromInterfaceId, int fromComponentId, int fromSlotId, int fromSlotId2, int toInterfaceId, int toComponentId, int toSlotId, int toSlotId2) {
 		this.player = player;

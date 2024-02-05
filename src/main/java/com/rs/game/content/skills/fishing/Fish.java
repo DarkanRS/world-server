@@ -62,22 +62,16 @@ public enum Fish {
     LEATHER_GLOVES(1059, 16, 1, 4, 4),
     OYSTER(407, 16, 10, 4, 4),
     CASKET(405, 16, 10, 2, 3),
-    LEAPING_TROUT(11328, 48, 50, 32, 192, (p) -> {
-        return p.getSkills().getLevel(Constants.AGILITY) >= 15 && p.getSkills().getLevel(Constants.STRENGTH) >= 15;
-    }, (p) -> {
+    LEAPING_TROUT(11328, 48, 50, 32, 192, (p) -> p.getSkills().getLevel(Constants.AGILITY) >= 15 && p.getSkills().getLevel(Constants.STRENGTH) >= 15, (p) -> {
         p.getSkills().addXp(Constants.AGILITY, 5);
         p.getSkills().addXp(Constants.STRENGTH, 5);
     }),
     LAVA_EEL(2148, 53, 60, 25, 80),
-    LEAPING_SALMON(11330, 58, 70, 16, 96, (p) -> {
-        return p.getSkills().getLevel(Constants.AGILITY) >= 30 && p.getSkills().getLevel(Constants.STRENGTH) >= 30;
-    }, (p) -> {
+    LEAPING_SALMON(11330, 58, 70, 16, 96, (p) -> p.getSkills().getLevel(Constants.AGILITY) >= 30 && p.getSkills().getLevel(Constants.STRENGTH) >= 30, (p) -> {
         p.getSkills().addXp(Constants.AGILITY, 6);
         p.getSkills().addXp(Constants.STRENGTH, 6);
     }),
-    LEAPING_STURGEON(11332, 70, 80, 8, 64, (p) -> {
-        return p.getSkills().getLevel(Constants.AGILITY) >= 45 && p.getSkills().getLevel(Constants.STRENGTH) >= 45;
-    }, (p) -> {
+    LEAPING_STURGEON(11332, 70, 80, 8, 64, (p) -> p.getSkills().getLevel(Constants.AGILITY) >= 45 && p.getSkills().getLevel(Constants.STRENGTH) >= 45, (p) -> {
         p.getSkills().addXp(Constants.AGILITY, 7);
         p.getSkills().addXp(Constants.STRENGTH, 7);
     }),

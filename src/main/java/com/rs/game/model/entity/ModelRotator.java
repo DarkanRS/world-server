@@ -5,8 +5,8 @@ import com.rs.lib.io.OutputStream;
 public class ModelRotator {
 	public static final ModelRotator RESET = new ModelRotator().addRotator(new Rotation().enableAll());
 	
-	private int[] targetData = new int[15];
-	private int[] slotHashes = new int[15];
+	private final int[] targetData = new int[15];
+	private final int[] slotHashes = new int[15];
 	private int curr = 0;
 	
 	public ModelRotator() {

@@ -67,14 +67,10 @@ public class KatrineShieldOfArravD extends Conversation {
 						.addNPC(KATRINE, HeadE.HAPPY_TALKING, "They're just various rogues and thieves.")
 						.addPlayer(HeadE.TALKING_ALOT, "They don't say a lot...")
 						.addNPC(KATRINE, HeadE.CALM_TALK, "Nope.")
-						.addNext(() -> {
-							p.startConversation(new KatrineShieldOfArravD(p, 1).getStart());
-						}));
+						.addNext(() -> p.startConversation(new KatrineShieldOfArravD(p, 1).getStart())));
 				option("Teach me to be a top class criminal!", new Dialogue()
 						.addNPC(KATRINE, HeadE.HAPPY_TALKING, "Teach yourself")
-						.addNext(() -> {
-							p.startConversation(new KatrineShieldOfArravD(p, 1).getStart());
-						}));
+						.addNext(() -> p.startConversation(new KatrineShieldOfArravD(p, 1).getStart())));
 				option("Farewell.");
 			}
 		});
@@ -133,15 +129,11 @@ public class KatrineShieldOfArravD extends Conversation {
 				option("What sort of business?", new Dialogue()
 						.addPlayer(HeadE.SKEPTICAL_THINKING, "What sort of business?")
 						.addNPC(KATRINE, HeadE.SECRETIVE, "A small, family business. We give financial advice to other companies.")
-						.addNext(() -> {
-							p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
-						}));
+						.addNext(() -> p.startConversation(new KatrineShieldOfArravD(p, 0).getStart())));
 				option("I'm looking for fame and riches.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "I'm looking for fame and riches.")
 						.addNPC(KATRINE, HeadE.FRUSTRATED, "And you expect to find it up the back streets of Varrock?")
-						.addNext(() -> {
-							p.startConversation(new KatrineShieldOfArravD(p, 0).getStart());
-						}));
+						.addNext(() -> p.startConversation(new KatrineShieldOfArravD(p, 0).getStart())));
 				option("Farewell.", new Dialogue().addNext(() -> {}));
 			}
 		});
@@ -183,38 +175,28 @@ public class KatrineShieldOfArravD extends Conversation {
 													.addPlayer(HeadE.HAPPY_TALKING, "No problem. I'll get you two phoenix crossbows.")
 													.addNPC(KATRINE, HeadE.HAPPY_TALKING, "Great! You'll find the Phoenix gang's weapon stash just next to a temple, due east of here.")
 													.addPlayer(HeadE.HAPPY_TALKING,"I'll get on it!")
-													.addNext(() -> {
-														ShieldOfArrav.setStage(player, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE);
-													}));
+													.addNext(() -> ShieldOfArrav.setStage(player, ShieldOfArrav.PROVING_LOYALTY_BLACK_ARM_STAGE)));
 											option("Sounds a little tricky. Got anything easier?", new Dialogue()
 													.addPlayer(HeadE.WORRIED, "Sounds a little tricky. Got anything easier?")
 													.addNPC(KATRINE, HeadE.LAUGH, "If you're not up to a little bit of danger I don't think you've got anything to offer our gang.")
-													.addNext(() -> {
-														player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
-													}));
+													.addNext(() -> player.startConversation(new KatrineShieldOfArravD(player, 0).getStart())));
 										}
 									}));
 							option("Well, people tell me I have an honest face.", new Dialogue()
 									.addNPC(KATRINE, HeadE.SKEPTICAL_HEAD_SHAKE, "How unusual. Someone honest wanting to join a gang of thieves. Excuse me if I remain " +
 											"unconvinced.")
-									.addNext(() -> {
-										player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
-									}));
+									.addNext(() -> player.startConversation(new KatrineShieldOfArravD(player, 0).getStart())));
 						}
 					}));
 			option("I want some hints for becoming a thief.", new Dialogue()
 					.addPlayer(HeadE.SECRETIVE, "I want some hints for becoming a thief.")
 					.addNPC(KATRINE, HeadE.WORRIED, "Well, I'm sorry luv, I'm not giving away any of my secrets. Not to people who ain't Black Arm members anyway.")
-					.addNext(() -> {
-						player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
-					}));
+					.addNext(() -> player.startConversation(new KatrineShieldOfArravD(player, 0).getStart())));
 			option("I'm looking for the door out of here.", new Dialogue()
 					.addPlayer(HeadE.SCARED, "I'm looking for the door out of here.")
 					.addSimple("*Katrine groans")
 					.addNPC(KATRINE, HeadE.VERY_FRUSTRATED, "Try... the one you just came in?")
-					.addNext(() -> {
-						player.startConversation(new KatrineShieldOfArravD(player, 0).getStart());
-					}));
+					.addNext(() -> player.startConversation(new KatrineShieldOfArravD(player, 0).getStart())));
 		}
 	};
 }

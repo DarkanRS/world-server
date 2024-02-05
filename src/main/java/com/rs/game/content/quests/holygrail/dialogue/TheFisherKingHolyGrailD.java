@@ -43,9 +43,7 @@ public class TheFisherKingHolyGrailD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "If you could find my son, that would be a great weight off my shoulders.")
 								.addPlayer(HeadE.HAPPY_TALKING, "Who is your son?")
 								.addNPC(NPC, HeadE.CALM_TALK, "He is known as Percival. I believe he is a knight of the round table.")
-								.addPlayer(HeadE.HAPPY_TALKING, "I shall go and see if I can find him.", ()->{
-									player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL);
-								})
+								.addPlayer(HeadE.HAPPY_TALKING, "I shall go and see if I can find him.", ()-> player.getQuestManager().setStage(Quest.HOLY_GRAIL, SPEAK_TO_PERCIVAL))
 						);
 					}
 				});

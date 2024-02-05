@@ -24,9 +24,12 @@ import java.util.Map;
 
 public class ConstructMapAction extends CutsceneAction {
 
-	private Tile returnTile;
-	private int baseChunkX, baseChunkY, widthChunks, heightChunks;
-	private boolean copyNpcs;
+	private final Tile returnTile;
+	private final int baseChunkX;
+    private final int baseChunkY;
+    private final int widthChunks;
+    private final int heightChunks;
+	private final boolean copyNpcs;
 
 	public ConstructMapAction(Tile returnTile, int baseChunkX, int baseChunkY, int widthChunks, int heightChunks, boolean copyNpcs) {
 		super(null, 1);

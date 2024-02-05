@@ -33,7 +33,7 @@ public class ChamiponsGuildmaster {
                                         "by gaining influence from quests are allowed in here."));
                         if(!e.getPlayer().isQuestComplete(Quest.DRAGON_SLAYER))
                             option("About Dragon Slayer", new Dialogue()
-                                    .addNext(()->{e.getPlayer().startConversation(new GuildMasterDragonSlayerD(e.getPlayer()).getStart());}));
+                                    .addNext(()-> e.getPlayer().startConversation(new GuildMasterDragonSlayerD(e.getPlayer()).getStart())));
                     }
                 });
                 create();

@@ -29,13 +29,9 @@ public class JeremyServilFightArenaD extends Conversation {
 				addNPC(NPC, HeadE.CHILD_CALM_TALK, "The guard always keeps hold of them.");
 				addPlayer(HeadE.HAPPY_TALKING, "Which guard?");
 				addNPC(NPC, HeadE.CHILD_ANGRY, "The bald, fat, lazy guard with a goatee. He's the one who usually locks up.");
-				addPlayer(HeadE.HAPPY_TALKING, "Right, I'll look for him. Don't lose heart - I'll be back.", ()->{
-					player.getQuestManager().setStage(Quest.FIGHT_ARENA, GET_JAIL_KEYS);
-				});
+				addPlayer(HeadE.HAPPY_TALKING, "Right, I'll look for him. Don't lose heart - I'll be back.", ()-> player.getQuestManager().setStage(Quest.FIGHT_ARENA, GET_JAIL_KEYS));
 			}
-			case GET_JAIL_KEYS -> {
-				addNPC(NPC, HeadE.CHILD_CRYING, "Hurry, I don't know what they are going to do with me next.");
-			}
+			case GET_JAIL_KEYS -> addNPC(NPC, HeadE.CHILD_CRYING, "Hurry, I don't know what they are going to do with me next.");
 			case RETURN_TO_LADY_SERVIL, QUEST_COMPLETE ->  {
 				addNPC(7533, HeadE.CHILD_AWE, "That was amazing " + this.player.getDisplayName() + "!");
 				addPlayer(HeadE.HAPPY_TALKING, "Yea that was a trip...");

@@ -29,13 +29,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ObjectClickEvent implements PluginEvent {
-	private static Map<Object, Map<String, List<ObjectClickHandler>>> METHODS = new HashMap<>();
-	private Player player;
-	private GameObject object;
-	private ClientPacket opNum;
-	private String option;
-	private boolean atObject;
-	private int objectId;
+
+	private static final Map<Object, Map<Integer, List<ObjectClickHandler>>> METHODS = new HashMap<>();
+
+	private final Player player;
+	private final GameObject object;
+	private final ClientPacket opNum;
+	private final String option;
+	private final boolean atObject;
+	private final int objectId;
 
 	public ObjectClickEvent(Player player, GameObject object, ClientPacket opNum, boolean atObject) {
 		this.player = player;
@@ -81,12 +83,26 @@ public class ObjectClickEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		ObjectClickHandler handler = (ObjectClickHandler) method;
 		for (Object key : handler.keys()) {
-			Map<String, List<ObjectClickHandler>> optionMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
-			if (handler.getOptions() == null || handler.getOptions().isEmpty()) {
-				optionMap.computeIfAbsent("global", k -> new ArrayList<>()).add(handler);
-			} else {
-				for (String option : handler.getOptions()) {
-					optionMap.computeIfAbsent(option, k -> new ArrayList<>()).add(handler);
+            Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
+            if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
+				List<ObjectClickHandler> methods = locMap.get(0);
+				if (methods == null)
+					methods = new ArrayList<>();
+				methods.add(handler);
+				locMap.put(0, methods);
+			} else if (handler.getType() != null) {
+				List<ObjectClickHandler> methods = locMap.get(-handler.getType().id);
+				if (methods == null)
+					methods = new ArrayList<>();
+				methods.add(handler);
+				locMap.put(-handler.getType().id, methods);
+			} else
+				for (Tile tile : handler.getTiles()) {
+					List<ObjectClickHandler> methods = locMap.get(tile.getTileHash());
+					if (methods == null)
+						methods = new ArrayList<>();
+					methods.add(handler);
+					locMap.put(tile.getTileHash(), methods);
 				}
 			}
 		}

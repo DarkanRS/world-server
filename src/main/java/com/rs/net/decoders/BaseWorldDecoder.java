@@ -33,7 +33,7 @@ public final class BaseWorldDecoder extends Decoder {
 	}
 
 	@Override
-	public final int decode(InputStream stream) {
+	public int decode(InputStream stream) {
 		session.setDecoder(null);
 		int packetId = stream.readUnsignedByte();
 		switch (packetId) {
@@ -41,15 +41,15 @@ public final class BaseWorldDecoder extends Decoder {
 			return decodeLogin(stream);
 		default:
 			Logger.debug(BaseWorldDecoder.class, "decode", "Connection type: " + packetId + " Remaining: " + stream.getRemaining());
-			String hex = "";
+			StringBuilder hex = new StringBuilder();
 			for (byte i : stream.getBuffer())
-				hex += String.format("%02X", i);
-			Logger.debug(BaseWorldDecoder.class, "decode", hex);
+				hex.append(String.format("%02X", i));
+			Logger.debug(BaseWorldDecoder.class, "decode", hex.toString());
 			return -1;
 		}
 	}
 
-	private final int decodeLogin(InputStream stream) {
+	private int decodeLogin(InputStream stream) {
 		if (stream.getRemaining() != 0) {
 			session.getChannel().close();
 			return -1;

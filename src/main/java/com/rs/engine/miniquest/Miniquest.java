@@ -56,21 +56,18 @@ public enum Miniquest {
 		}
 	}
 
-	private String name;
-	private Quest[] questPreReqs;
-	private Miniquest[] miniquestPreReqs;
-	private Map<Integer, Integer> skillReqs;
-	@SuppressWarnings("unused")
-	private Function<Player, Boolean> canStart;
-	private MiniquestOutline handler;
+	private final String name;
+	private final Quest[] questPreReqs;
+	private final Miniquest[] miniquestPreReqs;
+	private final Map<Integer, Integer> skillReqs;
+    private MiniquestOutline handler;
 
 	Miniquest(String name, Quest[] questPreReqs, Miniquest[] miniquestPreReqs, Map<Integer, Integer> skillReqs, Function<Player, Boolean> canStart) {
 		this.name = name;
 		this.questPreReqs = questPreReqs;
 		this.miniquestPreReqs = miniquestPreReqs;
 		this.skillReqs = skillReqs;
-		this.canStart = canStart;
-	}
+    }
 
 	public boolean isImplemented() {
 		return handler != null;

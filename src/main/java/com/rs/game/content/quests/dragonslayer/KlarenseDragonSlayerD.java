@@ -43,9 +43,7 @@ public class KlarenseDragonSlayerD extends Conversation {
 			} else {
 				addNPC(KLARENSE, HeadE.CALM_TALK, "So, are you interested in buying a ship? Now, I'll be straight with you: She's not quite seaworthy right now," +
 						" but give her a bit of work and she'll be the nippiest ship this side of Port Khazard.");
-				addNext(() -> {
-					p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, MAIN_OPTIONS).getStart());
-				});
+				addNext(() -> p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, MAIN_OPTIONS).getStart()));
 			}
 		}
 		case REPORT_TO_OZIACH -> {
@@ -69,18 +67,10 @@ public class KlarenseDragonSlayerD extends Conversation {
 	public KlarenseDragonSlayerD(Player p, int convoID) {
 		super(p);
 		switch(convoID) {
-		case WHEN_SEAWORTHY -> {
-			whenSeaworthy(p);
-		}
-		case WOULD_YOU_TAKE_ME -> {
-			wouldYouTakeMe(p);
-		}
-		case WHY_IS_SHE_DAMAGED -> {
-			whyIsSheDamaged(p);
-		}
-		case ID_LIKE_TO_BUY_HER -> {
-			idLikeToBuyHer(p);
-		}
+		case WHEN_SEAWORTHY -> whenSeaworthy(p);
+		case WOULD_YOU_TAKE_ME -> wouldYouTakeMe(p);
+		case WHY_IS_SHE_DAMAGED -> whyIsSheDamaged(p);
+		case ID_LIKE_TO_BUY_HER -> idLikeToBuyHer(p);
 		}
 	}
 
@@ -90,16 +80,16 @@ public class KlarenseDragonSlayerD extends Conversation {
 			public void create() {
 				if(previous!=WHEN_SEAWORTHY)
 					option("Do you know when she will be seaworthy?", new Dialogue()
-							.addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, WHEN_SEAWORTHY).getStart());}));
+							.addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, WHEN_SEAWORTHY).getStart())));
 				if(previous!=WOULD_YOU_TAKE_ME)
 					option("Would you take me to Crandor when she's ready?", new Dialogue()
-							.addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, WOULD_YOU_TAKE_ME).getStart());}));
+							.addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, WOULD_YOU_TAKE_ME).getStart())));
 				if(previous!=WHY_IS_SHE_DAMAGED)
 					option("Why is she damaged?", new Dialogue()
-							.addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, WHY_IS_SHE_DAMAGED).getStart());}));
+							.addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, WHY_IS_SHE_DAMAGED).getStart())));
 				if(previous!=ID_LIKE_TO_BUY_HER)
 					option("I'd like to buy her.", new Dialogue()
-							.addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, ID_LIKE_TO_BUY_HER).getStart());}));
+							.addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, ID_LIKE_TO_BUY_HER).getStart())));
 				option("Ah well, never mind", new Dialogue().addPlayer(HeadE.HAPPY_TALKING, "Ah well, never mind"));
 			}
 		});
@@ -109,7 +99,7 @@ public class KlarenseDragonSlayerD extends Conversation {
 	private void whenSeaworthy(Player p) {
 		addPlayer(HeadE.HAPPY_TALKING, "Do you know when she will be seaworthy?");
 		addNPC(KLARENSE, HeadE.CALM_TALK, "No, not really. Port Sarim's shipbuilders aren't very efficient so it could be quite a while");
-		addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WHEN_SEAWORTHY).getStart());});
+		addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WHEN_SEAWORTHY).getStart()));
 	}
 
 	private void wouldYouTakeMe(Player p) {
@@ -124,13 +114,13 @@ public class KlarenseDragonSlayerD extends Conversation {
 								"Ardougne without going past that accursed island. You can't get to close to it because of the reefs, but you can always see it.")
 						.addNPC(KLARENSE, HeadE.CALM_TALK, "Sometimes you can see a dark shape in the sky, circling the island. That's when you have to sail " +
 								"on as quick as you can and pray it's not hungry. Every year, more ships are lost to that dragon")
-						.addNext(()->{new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WOULD_YOU_TAKE_ME).getStart();}));
+						.addNext(()-> new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WOULD_YOU_TAKE_ME).getStart()));
 				option("No. I want to go to Crandor.", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "No. I want to go to Crandor.")
 						.addNPC(KLARENSE, HeadE.CALM_TALK, "Then you must be crazy. That island is surrounded by reefs that would rip this ship to shreds. " +
 								"Even if you found a map, you'd need an experienced captain to stand a chance of getting through and, even if I could get to it,")
 						.addNPC(KLARENSE, HeadE.CALM_TALK, "there's no way I'm going any closer to that dragon than I have to. They say it can destroy whole ships with one bite.")
-						.addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WOULD_YOU_TAKE_ME).getStart());}));
+						.addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WOULD_YOU_TAKE_ME).getStart())));
 			}
 		});
 
@@ -141,7 +131,7 @@ public class KlarenseDragonSlayerD extends Conversation {
 				"fishing ship – the last one of her kind, as far as I know. That kind of ship was always mightily manoeuvrable, but not too tough.");
 		addNPC(KLARENSE, HeadE.CALM_TALK, "She happened to be somewhere else when Crandor was destroyed, and she's had several owners since then. Not all of them " +
 				"looked after her too well, but once she's patched up, she'll be good as new!");
-		addNext(()->{p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WHY_IS_SHE_DAMAGED).getStart());});
+		addNext(()-> p.startConversation(new KlarenseDragonSlayerD(p, MAIN_OPTIONS, WHY_IS_SHE_DAMAGED).getStart()));
 	}
 	private void idLikeToBuyHer(Player p) {
 		addPlayer(HeadE.HAPPY_TALKING, "I'd like to buy her.");

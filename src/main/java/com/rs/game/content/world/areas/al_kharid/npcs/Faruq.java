@@ -31,9 +31,7 @@ public class Faruq extends Conversation {
             public void create() {
 
                 option("Yes, I'd like to see what you have.", new Dialogue()
-                        .addNext(() -> {
-                            ShopsHandler.openShop(player, "faruqs_tools_for_games");
-                        }));
+                        .addNext(() -> ShopsHandler.openShop(player, "faruqs_tools_for_games")));
                 option("Perhaps. Your stall has some odd-looking stuff; what are they for?", new Dialogue()
                         .addPlayer(HeadE.CALM_TALK, "Perhaps. Your stall has some odd-looking stuff; what are they for?")
                         .addNPC(npcId, HeadE.HAPPY_TALKING, "I sell them the tools to keep track of time, mark out places and routes, decide things randomly, even to hold great ballots of their group.")
@@ -41,16 +39,12 @@ public class Faruq extends Conversation {
                             @java.lang.Override
                             public void create() {
                                 option("Let me see, then.", new Dialogue()
-                                        .addNext(() -> {
-                                            ShopsHandler.openShop(player, "faruqs_tools_for_games");
-                                        }));
+                                        .addNext(() -> ShopsHandler.openShop(player, "faruqs_tools_for_games")));
                                 option("These tools, are they complicated?", new Dialogue()
                                         .addPlayer(HeadE.CALM_TALK, "These tools, are they complicated?")
                                         .addNPC(npcId, HeadE.CALM_TALK, "No, " + player.getDisplayName() +", they are not complicated.")
                                         .addNPC(npcId, HeadE.CALM_TALK, "I have a book that explains them, should you need.")
-                                        .addNext(() -> {
-                                            ShopsHandler.openShop(player, "faruqs_tools_for_games");
-                                        }));
+                                        .addNext(() -> ShopsHandler.openShop(player, "faruqs_tools_for_games")));
                                 option("I don't think this is for me.", new Dialogue()
                                         .addPlayer(HeadE.CALM_TALK, "I don't think this is for me.")
                                         .addNPC(npcId, HeadE.CALM_TALK, "That is a shame. I shall be here if you change your mind.")

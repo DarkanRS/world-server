@@ -39,9 +39,7 @@ public final class Dungeon {
 	private final int type, complexity, size;
 	private final Room[][] map;
 
-	@SuppressWarnings("unused")
-	private final DungeonManager manager;
-	private final RoomReference startRoom;
+    private final RoomReference startRoom;
 	private long seed;
 	private int creationCount;
 	private int critCount;
@@ -178,11 +176,11 @@ public final class Dungeon {
 
 	public static String formatName(String key) {
 		char[] arr = key.toUpperCase().toCharArray();
-		String name = "" + arr[0];
+		StringBuilder name = new StringBuilder("" + arr[0]);
 		for (int i = 0; i < arr.length - 1; i++)
 			if (arr[i] == ' ' && arr[i + 1] != 'K')
-				name += arr[i + 1];
-		return name;
+				name.append(arr[i + 1]);
+		return name.toString();
 	}
 
 	public static String padRight(String s, int n) {
@@ -190,8 +188,7 @@ public final class Dungeon {
 	}
 
 	public Dungeon(DungeonManager manager, int floorId, int complexity, int size) {
-		this.manager = manager;
-		type = DungeonUtils.getFloorType(floorId);
+        type = DungeonUtils.getFloorType(floorId);
 		this.complexity = complexity;
 		this.size = size;
 

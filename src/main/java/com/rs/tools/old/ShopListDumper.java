@@ -47,7 +47,7 @@ public class ShopListDumper {
 				System.out.println("Container: " + id);
 				StringBuilder sb = new StringBuilder(id+" 995 false - UNNAMED" + id + " - ");
 				for (int x = 0;x < def.ids.length;x++)
-					sb.append(""+def.ids[x] + " " + def.amounts[x] + " ");
+					sb.append("").append(def.ids[x]).append(" ").append(def.amounts[x]).append(" ");
 
 				writer.append(sb.toString());
 				writer.newLine();

@@ -41,13 +41,11 @@ public class KingRoaldPriestInPerilD extends Conversation {
 								.addPlayer(HeadE.CALM_TALK, "No, I don't think I know it...")
 								.addNPC(KING_ROALD, HeadE.CALM_TALK, "Hmm, how strange that you don't. Well anyway, it has been some days since last I heard from Drezel, the priest who lives there.")
 								.addNPC(KING_ROALD, HeadE.CALM_TALK, "Be a sport and go make sure that nothing untoward has happened to the silly old codger for me, would you?")
-								.addNext(() -> {
-									player.startConversation(new Dialogue()
-											.addQuestStart(Quest.PRIEST_IN_PERIL)
-											.addPlayer(HeadE.CALM_TALK, "Sure. I don't have anything better to do right now.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 1))
-											.addNPC(KING_ROALD, HeadE.CALM_TALK, "Many thanks adventurer! I would have sent one of my squires but they wanted payment for it!")
-									);
-								});
+								.addNext(() -> player.startConversation(new Dialogue()
+                                        .addQuestStart(Quest.PRIEST_IN_PERIL)
+                                        .addPlayer(HeadE.CALM_TALK, "Sure. I don't have anything better to do right now.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 1))
+                                        .addNPC(KING_ROALD, HeadE.CALM_TALK, "Many thanks adventurer! I would have sent one of my squires but they wanted payment for it!")
+                                ));
 						ops.add("Nothing.")
 								.addPlayer(HeadE.CALM_TALK, "Nothing");
 					}));

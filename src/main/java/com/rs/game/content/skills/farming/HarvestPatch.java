@@ -27,7 +27,7 @@ import com.rs.lib.util.Utils;
 
 public class HarvestPatch extends PlayerAction {
 
-	private FarmPatch patch;
+	private final FarmPatch patch;
 	private int tool = -1;
 	private Animation animation;
 

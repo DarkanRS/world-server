@@ -11,10 +11,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class GraveLog {
-	private String uuid;
-	private String player;
-	private Tile tile;
-	private List<Item> items;
+	private final String uuid;
+	private final String player;
+	private final Tile tile;
+	private final List<Item> items;
 
 	public GraveLog(String player, GraveStone grave) {
 		this.player = player;

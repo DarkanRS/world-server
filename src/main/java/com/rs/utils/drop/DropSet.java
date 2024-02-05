@@ -76,15 +76,15 @@ public class DropSet {
 
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		if (ids != null && ids.length > 0)
-			s += Arrays.toString(ids) + "\n";
+			s.append(Arrays.toString(ids)).append("\n");
 		if (names != null && names.length > 0)
-			s += Arrays.toString(names) + "\n";
+			s.append(Arrays.toString(names)).append("\n");
 		for (DropTable table : tables)
-			s += table.toString() + "\n";
-		s  += "[ ("+getDropList().getNothingFracString()+") - (-1(Nothing)\n";
-		return s;
+			s.append(table.toString()).append("\n");
+		s.append("[ (").append(getDropList().getNothingFracString()).append(") - (-1(Nothing)\n");
+		return s.toString();
 	}
 
 	public boolean isEmpty() {

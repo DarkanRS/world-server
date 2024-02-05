@@ -78,5 +78,5 @@ public class DoorSupport extends NPC {
 		Entity.addLOSOverrides(2440, 2443, 2446);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2440, 2443, 2446 }, (npcId, tile) -> new DoorSupport(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 2440, 2443, 2446 }, DoorSupport::new);
 }

@@ -25,9 +25,7 @@ public class MerlinHolyGrailD extends Conversation {
 						"speak about those experiences cryptically.");
 				addPlayer(HeadE.HAPPY_TALKING, "Where can I find Sir Galahad?");
 				addNPC(NPC, HeadE.CALM_TALK, "Galahad now lives a life of religious contemplation. He lives somewhere west of McGrubor's Wood I think. Though " +
-						"I recommend speaking to someone on the holy island first.",()->{
-					player.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_ENTRANA);
-				});
+						"I recommend speaking to someone on the holy island first.",()-> player.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_ENTRANA));
 			}
 			case SPEAK_TO_FISHER_KING -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes the quest for the Holy Grail?");
@@ -45,9 +43,7 @@ public class MerlinHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Yes!");
 				addNPC(NPC, HeadE.CALM_TALK, "You really need to give The Holy Grail to King Arthur!");
 			}
-			case QUEST_COMPLETE -> {
-				addNPC(NPC, HeadE.CALM_TALK, "I am amazed with you adventurer thank you for getting the Holy Grail back to Camelot!");
-			}
+			case QUEST_COMPLETE -> addNPC(NPC, HeadE.CALM_TALK, "I am amazed with you adventurer thank you for getting the Holy Grail back to Camelot!");
 		}
 	}
 }

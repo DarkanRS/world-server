@@ -24,9 +24,9 @@ import java.util.List;
 
 public class LoginEvent implements PluginEvent {
 
-	private static List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
+	private static final List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
 
-	private Player player;
+	private final Player player;
 
 	public LoginEvent(Player player) {
 		this.player = player;

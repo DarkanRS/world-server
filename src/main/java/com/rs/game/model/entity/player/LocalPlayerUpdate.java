@@ -22,8 +22,6 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.HitBar;
 import com.rs.lib.Constants;
-import com.rs.lib.game.SpotAnim;
-import com.rs.lib.game.Tile;
 import com.rs.lib.io.OutputStream;
 import com.rs.lib.util.Utils;
 
@@ -33,20 +31,20 @@ public final class LocalPlayerUpdate {
 
 	private static final int MAX_PLAYER_ADD = 15;
 
-	private Player player;
+	private final Player player;
 
-	private byte[] slotFlags;
+	private final byte[] slotFlags;
 
-	private Player[] localPlayers;
-	private int[] localPlayersIndexes;
+	private final Player[] localPlayers;
+	private final int[] localPlayersIndexes;
 	private int localPlayersIndexesCount;
 
-	private int[] outPlayersIndexes;
+	private final int[] outPlayersIndexes;
 	private int outPlayersIndexesCount;
 
-	private int[] regionHashes;
+	private final int[] regionHashes;
 
-	private byte[][] cachedAppearencesHashes;
+	private final byte[][] cachedAppearencesHashes;
 	private int totalRenderDataSentLength;
 
 	/**
@@ -91,11 +89,11 @@ public final class LocalPlayerUpdate {
 	}
 
 	private boolean needsRemove(Player p) {
-		return (p.hasFinished() || !player.withinDistance(p.getTile(), player.hasLargeSceneView() ? 126 : 14));
+		return (p.hasFinished() || !player.withinDistance(p, player.hasLargeSceneView() ? 126 : 14));
 	}
 
 	private boolean needsAdd(Player p) {
-		return p != null && !p.hasFinished() && player.withinDistance(p.getTile(), player.hasLargeSceneView() ? 126 : 14) && localAddedPlayers < MAX_PLAYER_ADD;
+		return p != null && !p.hasFinished() && player.withinDistance(p, player.hasLargeSceneView() ? 126 : 14) && localAddedPlayers < MAX_PLAYER_ADD;
 	}
 
 	private void updateRegionHash(OutputStream stream, int lastRegionHash, int currentRegionHash) {
@@ -145,7 +143,7 @@ public final class LocalPlayerUpdate {
 		localAddedPlayers = 0;
 		for (int i = 0; i < outPlayersIndexesCount; i++) {
 			int playerIndex = outPlayersIndexes[i];
-			if (nsn2 ? (0x1 & slotFlags[playerIndex]) == 0 : (0x1 & slotFlags[playerIndex]) != 0)
+			if (nsn2 == ((0x1 & slotFlags[playerIndex]) == 0))
 				continue;
 			if (skip > 0) {
 				skip--;
@@ -182,7 +180,7 @@ public final class LocalPlayerUpdate {
 					stream.writeBits(1, 0); // no update needed
 					for (int i2 = i + 1; i2 < outPlayersIndexesCount; i2++) {
 						int p2Index = outPlayersIndexes[i2];
-						if (nsn2 ? (0x1 & slotFlags[p2Index]) == 0 : (0x1 & slotFlags[p2Index]) != 0)
+						if (nsn2 == ((0x1 & slotFlags[p2Index]) == 0))
 							continue;
 						Player p2 = World.getPlayers().get(p2Index);
 						if (needsAdd(p2) || (p2 != null && p2.getRegionHash() != regionHashes[p2Index]))
@@ -202,7 +200,7 @@ public final class LocalPlayerUpdate {
 		int skip = 0;
 		for (int i = 0; i < localPlayersIndexesCount; i++) {
 			int playerIndex = localPlayersIndexes[i];
-			if (nsn0 ? (0x1 & slotFlags[playerIndex]) != 0 : (0x1 & slotFlags[playerIndex]) == 0)
+			if (nsn0 == ((0x1 & slotFlags[playerIndex]) != 0))
 				continue;
 			if (skip > 0) {
 				skip--;
@@ -285,7 +283,7 @@ public final class LocalPlayerUpdate {
 				stream.writeBits(1, 0); // no update needed
 				for (int i2 = i + 1; i2 < localPlayersIndexesCount; i2++) {
 					int p2Index = localPlayersIndexes[i2];
-					if (nsn0 ? (0x1 & slotFlags[p2Index]) != 0 : (0x1 & slotFlags[p2Index]) == 0)
+					if (nsn0 == ((0x1 & slotFlags[p2Index]) != 0))
 						continue;
 					Player p2 = localPlayers[p2Index];
 					if (needsRemove(p2) || p2.hasTeleported() || p2.getNextWalkDirection() != null || (p2.needMasksUpdate() || needAppearenceUpdate(p2.getIndex(), p2.getAppearance().getMD5AppeareanceDataHash())))
@@ -437,7 +435,7 @@ public final class LocalPlayerUpdate {
 	}
 
 	private void applyForceTalkMask(Player p, OutputStream data) {
-		data.writeString(p.getNextForceTalk().getText());
+		data.writeString(p.getNextForceTalk().text());
 	}
 
 	private void applyHitsMask(Player p, OutputStream data) {

@@ -42,13 +42,13 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		return GRAVESTONES.get(username);
 	}
 
-	private String username;
+	private final String username;
 	private int ticks;
-	private String inscription;
-	private List<GroundItem> floorItems;
-	private int graveStone;
+	private final String inscription;
+	private final List<GroundItem> floorItems;
+	private final int graveStone;
 	private boolean blessed;
-	private int hintIcon;
+	private final int hintIcon;
 
 	public GraveStone(Player player, Tile deathTile, Item[] items) {
 		super(getNPCId(player.getGraveStone()), deathTile);
@@ -194,62 +194,39 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 	}
 
 	public static int getMaximumTicks(int graveStone) {
-		switch (graveStone) {
-		case 0:
-			return 500;
-		case 1:
-		case 2:
-			return 600;
-		case 3:
-			return 800;
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-			return 1000;
-		case 12:
-			return 1200;
-		case 13:
-			return 1500;
-		}
-		return 500;
-	}
+        return switch (graveStone) {
+            case 0 -> 500;
+            case 1, 2 -> 600;
+            case 3 -> 800;
+            case 4, 5, 6, 7, 8, 9, 10, 11 -> 1000;
+            case 12 -> 1200;
+            case 13 -> 1500;
+            default -> 500;
+        };
+    }
 
 	private String getInscription(String username) {
 		username = Utils.formatPlayerNameForDisplay(username);
-		switch (graveStone) {
-		case 0:
-		case 1:
-			return "In memory of <i>" + username + "</i>,<br>who died here.";
-		case 2:
-		case 3:
-			return "In loving memory of our dear friend <i>" + username + "</i>,who <br>died in this place 69 minutes ago.";
-		case 4:
-		case 5:
-			return "In your travels, pause awhile to remember <i>" + username + "</i>,<br>who passed away at this spot.";
-		case 6:
-			return "<i>" + username + "</i>, <br>an enlightened servant of Saradomin,<br>perished in this place.";
-		case 7:
-			return "<i>" + username + "</i>, <br>a most bloodthirsty follower of Zamorak,<br>perished in this place.";
-		case 8:
-			return "<i>" + username + "</i>, <br>who walked with the Balance of Guthix,<br>perished in this place.";
-		case 9:
-			return "<i>" + username + "</i>, <br>a vicious warrior dedicated to Bandos,<br>perished in this place.";
-		case 10:
-			return "<i>" + username + "</i>, <br>a follower of the Law of Armadyl,<br>perished in this place.";
-		case 11:
-			return "<i>" + username + "</i>, <br>servant of the Unknown Power,<br>perished in this place.";
-		case 12:
-			return "Ye frail mortals who gaze upon this sight, forget not<br>the fate of <i>" + username + "</i>, once mighty, now surrendered to the inescapable grasp of destiny.<br><i>Requiescat in pace.</i>";
-		case 13:
-			return "Here lies <i>" + username + "</i>, friend of dwarves. Great in<br>life, glorious in death. His/Her name lives on in<br>song and story.";
-		}
-		return "Cabbage";
-	}
+        return switch (graveStone) {
+            case 0, 1 -> "In memory of <i>" + username + "</i>,<br>who died here.";
+            case 2, 3 ->
+                    "In loving memory of our dear friend <i>" + username + "</i>,who <br>died in this place 69 minutes ago.";
+            case 4, 5 ->
+                    "In your travels, pause awhile to remember <i>" + username + "</i>,<br>who passed away at this spot.";
+            case 6 -> "<i>" + username + "</i>, <br>an enlightened servant of Saradomin,<br>perished in this place.";
+            case 7 ->
+                    "<i>" + username + "</i>, <br>a most bloodthirsty follower of Zamorak,<br>perished in this place.";
+            case 8 -> "<i>" + username + "</i>, <br>who walked with the Balance of Guthix,<br>perished in this place.";
+            case 9 -> "<i>" + username + "</i>, <br>a vicious warrior dedicated to Bandos,<br>perished in this place.";
+            case 10 -> "<i>" + username + "</i>, <br>a follower of the Law of Armadyl,<br>perished in this place.";
+            case 11 -> "<i>" + username + "</i>, <br>servant of the Unknown Power,<br>perished in this place.";
+            case 12 ->
+                    "Ye frail mortals who gaze upon this sight, forget not<br>the fate of <i>" + username + "</i>, once mighty, now surrendered to the inescapable grasp of destiny.<br><i>Requiescat in pace.</i>";
+            case 13 ->
+                    "Here lies <i>" + username + "</i>, friend of dwarves. Great in<br>life, glorious in death. His/Her name lives on in<br>song and story.";
+            default -> "Cabbage";
+        };
+    }
 
 	/*
 	 * the final items after swaping slots return keptItems, dropedItems as we
@@ -278,7 +255,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 				continue;
 			keptItems.add(item);
 		}
-		return new Item[][] { keptItems.toArray(new Item[keptItems.size()]), droppedItems.toArray(new Item[droppedItems.size()]) };
+		return new Item[][] { keptItems.toArray(new Item[0]), droppedItems.toArray(new Item[0]) };
 	}
 
 	/*
@@ -311,22 +288,22 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 			keptAmount++;
 		if (droppedItems.size() < keptAmount)
 			keptAmount = droppedItems.size();
-		Collections.sort(droppedItems, (o1, o2) -> {
-			Item i1 = o1 >= 16 ? player.getInventory().getItem(o1 - 16) : player.getEquipment().getItem(o1 - 1);
-			Item i2 = o2 >= 16 ? player.getInventory().getItem(o2 - 16) : player.getEquipment().getItem(o2 - 1);
-			int price1 = i1 == null ? 0 : i1.getDefinitions().getValue();
-			int price2 = i2 == null ? 0 : i2.getDefinitions().getValue();
-			if (price1 > price2)
-				return -1;
-			if (price1 < price2)
-				return 1;
-			return 0;
-		});
+		droppedItems.sort((o1, o2) -> {
+            Item i1 = o1 >= 16 ? player.getInventory().getItem(o1 - 16) : player.getEquipment().getItem(o1 - 1);
+            Item i2 = o2 >= 16 ? player.getInventory().getItem(o2 - 16) : player.getEquipment().getItem(o2 - 1);
+            int price1 = i1 == null ? 0 : i1.getDefinitions().getValue();
+            int price2 = i2 == null ? 0 : i2.getDefinitions().getValue();
+            if (price1 > price2)
+                return -1;
+            if (price1 < price2)
+                return 1;
+            return 0;
+        });
 		Integer[] keptItems = new Integer[keptAmount];
 		for (int i = 0; i < keptAmount; i++)
-			keptItems[i] = droppedItems.remove(0);
-		return new Integer[][] { keptItems, droppedItems.toArray(new Integer[droppedItems.size()]), atWilderness ? new Integer[0] : protectedItems.toArray(new Integer[protectedItems.size()]),
-				atWilderness ? new Integer[0] : lostItems.toArray(new Integer[lostItems.size()]) };
+			keptItems[i] = droppedItems.removeFirst();
+		return new Integer[][] { keptItems, droppedItems.toArray(new Integer[0]), atWilderness ? new Integer[0] : protectedItems.toArray(new Integer[0]),
+				atWilderness ? new Integer[0] : lostItems.toArray(new Integer[0]) };
 
 	}
 

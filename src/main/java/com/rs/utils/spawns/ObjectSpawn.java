@@ -23,11 +23,11 @@ import com.rs.lib.game.Tile;
 
 public class ObjectSpawn {
 
-	private String comment;
-	private int objectId;
-	private int type;
-	private int rotation;
-	private Tile tile;
+	private final String comment;
+	private final int objectId;
+	private final int type;
+	private final int rotation;
+	private final Tile tile;
 
 	public ObjectSpawn(int objectId, int type, int rotation, Tile tile) {
 		this(objectId, type, rotation, tile, null);

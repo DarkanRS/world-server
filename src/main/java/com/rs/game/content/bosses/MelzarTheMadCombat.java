@@ -28,9 +28,9 @@ public class MelzarTheMadCombat extends CombatScript {
 		if(target instanceof Player) {
 			final NPCCombatDefinitions defs = npc.getCombatDefinitions();
 			switch(Utils.random(0, 4)) {
-			case 0 -> {npc.forceTalk("Let me drink my tea in peace.");}
-			case 1 -> {npc.forceTalk("Leave me alone I need to feed my pet rock.");}
-			case 2 -> {npc.forceTalk("By the power of custard!");}
+			case 0 -> npc.forceTalk("Let me drink my tea in peace.");
+			case 1 -> npc.forceTalk("Leave me alone I need to feed my pet rock.");
+			case 2 -> npc.forceTalk("By the power of custard!");
 			}
 
 			switch (Utils.random(0, 3)) {

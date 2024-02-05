@@ -32,9 +32,7 @@ public class SafeCracking extends PlayerAction {
             success = successful(player);
             player.faceObject(object);
             player.sendMessage("You attempt to crack the safe.");
-            WorldTasks.delay(0, () -> {
-                player.setNextAnimation(new Animation(animationIDCracking));
-            });
+            WorldTasks.delay(0, () -> player.setNextAnimation(new Animation(animationIDCracking)));
             setActionDelay(player, 4);
             player.lock();
             return true;

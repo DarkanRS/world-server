@@ -42,7 +42,7 @@ public final class ObjectSpawns {
 	private static final Map<Integer, List<ObjectSpawn>> OBJECT_SPAWNS = new HashMap<>();
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		Logger.info(ObjectSpawns.class, "init", "Loading map object spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {

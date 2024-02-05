@@ -134,8 +134,6 @@ public class TheivesGuild {
         }
     });
 
-    public static NPCClickHandler PickpocketingVolunteer = new NPCClickHandler(new Object[]{ 11282, 11284, 11286 }, new String[]{"Talk-to"}, e -> {
-        e.getPlayer().npcDialogue(e.getNPCId(), HeadE.SHAKING_HEAD, "Alright there! I'm here for you to practise the ol' dippetydoodah on. If you want to know more, talk to the trainer.");
-    });
+    public static NPCClickHandler PickpocketingVolunteer = new NPCClickHandler(new Object[]{ 11282, 11284, 11286 }, new String[]{"Talk-to"}, e -> e.getPlayer().npcDialogue(e.getNPCId(), HeadE.SHAKING_HEAD, "Alright there! I'm here for you to practise the ol' dippetydoodah on. If you want to know more, talk to the trainer."));
 
 }

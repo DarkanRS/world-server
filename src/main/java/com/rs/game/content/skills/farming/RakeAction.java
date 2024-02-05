@@ -23,7 +23,7 @@ import com.rs.lib.game.Animation;
 
 public class RakeAction extends PlayerAction {
 
-	private FarmPatch patch;
+	private final FarmPatch patch;
 
 	public RakeAction(FarmPatch patch) {
 		this.patch = patch;

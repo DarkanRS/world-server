@@ -81,7 +81,7 @@ public class ForgingInterface {
 			return CLICK_ID_MAP.get(componentId);
 		}
 		
-		private int componentId;
+		private final int componentId;
 		
 		Slot(int componentId) {
 			this.componentId = componentId;

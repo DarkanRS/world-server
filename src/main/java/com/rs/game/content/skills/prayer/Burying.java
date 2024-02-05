@@ -55,10 +55,10 @@ public class Burying {
 		ACCURSED_ASHES(20266, 12.5),
 		INFERNAL_ASHES(20268, 62.5);
 
-		private int id;
-		private double experience;
+		private final int id;
+		private final double experience;
 
-		private static Map<Integer, Bone> bones = new HashMap<>();
+		private static final Map<Integer, Bone> bones = new HashMap<>();
 
 		static {
 			for (Bone bone : Bone.values())

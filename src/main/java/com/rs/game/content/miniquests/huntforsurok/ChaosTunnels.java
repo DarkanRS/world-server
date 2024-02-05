@@ -129,29 +129,27 @@ public class ChaosTunnels {
                         });
             })));
 
-    public static NPCClickHandler mishkalDorn = new NPCClickHandler(new Object[] { 5839 }, e -> {
-        e.getPlayer().startConversation(new Dialogue()
-                .addNPC(5839, HeadE.CALM_TALK, "You are excused. And you are welcome.")
-                .addPlayer(HeadE.CONFUSED, "Excuse me...er...thanks.")
-                .addNPC(5839, HeadE.CALM_TALK, "We are the Order of the Dagon'hai.")
-                .addPlayer(HeadE.CONFUSED, "Who are you?")
-                .addNPC(5839, HeadE.CALM_TALK, "Through my magic, I can see a short way into the future.")
-                .addPlayer(HeadE.CONFUSED, "How do you seem to know what I'm going to say? ...Er...oh.")
-                .addNPC(5839, HeadE.CALM_TALK, "These are the Tunnels of Chaos.")
-                .addPlayer(HeadE.CONFUSED, "What is...uh...aha! I'm not going to ask that. So you got it wrong!")
-                .addNPC(5839, HeadE.CALM_TALK, "Indeed. You are very clever.")
-                .addPlayer(HeadE.CHEERFUL, "So I won!")
-                .addNPC(5839, HeadE.CALM_TALK, "Yes.")
-                .addPlayer(HeadE.CONFUSED, "So, what is this place?")
-                .addPlayer(HeadE.FRUSTRATED, "I mean...Argh! How do you do that?")
-                .addNPC(5839, HeadE.CALM_TALK, "I can tell that your mind is not suited to the paradoxicalities of precognition.")
-                .addPlayer(HeadE.CONFUSED, "Why what does what now?")
-                .addNPC(5839, HeadE.CALM_TALK, "You get confused very easily.")
-                .addPlayer(HeadE.CALM_TALK, "I knew that.")
-                .addNPC(5839, HeadE.CALM_TALK, "Of course you did. Speak to one of my order here. They will be able to explain in a manner more suited to your understanding.")
-                .addNPC(5839, HeadE.CALM_TALK, "You are welcome, " + e.getPlayer().getDisplayName() + ". There is a bed around here if you wish.")
-                .addPlayer(HeadE.CHEERFUL, "Thanks. My name's " + e.getPlayer().getDisplayName() + ", by the w...uh...okay, I think I need to lie down."));
-    });
+    public static NPCClickHandler mishkalDorn = new NPCClickHandler(new Object[] { 5839 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addNPC(5839, HeadE.CALM_TALK, "You are excused. And you are welcome.")
+            .addPlayer(HeadE.CONFUSED, "Excuse me...er...thanks.")
+            .addNPC(5839, HeadE.CALM_TALK, "We are the Order of the Dagon'hai.")
+            .addPlayer(HeadE.CONFUSED, "Who are you?")
+            .addNPC(5839, HeadE.CALM_TALK, "Through my magic, I can see a short way into the future.")
+            .addPlayer(HeadE.CONFUSED, "How do you seem to know what I'm going to say? ...Er...oh.")
+            .addNPC(5839, HeadE.CALM_TALK, "These are the Tunnels of Chaos.")
+            .addPlayer(HeadE.CONFUSED, "What is...uh...aha! I'm not going to ask that. So you got it wrong!")
+            .addNPC(5839, HeadE.CALM_TALK, "Indeed. You are very clever.")
+            .addPlayer(HeadE.CHEERFUL, "So I won!")
+            .addNPC(5839, HeadE.CALM_TALK, "Yes.")
+            .addPlayer(HeadE.CONFUSED, "So, what is this place?")
+            .addPlayer(HeadE.FRUSTRATED, "I mean...Argh! How do you do that?")
+            .addNPC(5839, HeadE.CALM_TALK, "I can tell that your mind is not suited to the paradoxicalities of precognition.")
+            .addPlayer(HeadE.CONFUSED, "Why what does what now?")
+            .addNPC(5839, HeadE.CALM_TALK, "You get confused very easily.")
+            .addPlayer(HeadE.CALM_TALK, "I knew that.")
+            .addNPC(5839, HeadE.CALM_TALK, "Of course you did. Speak to one of my order here. They will be able to explain in a manner more suited to your understanding.")
+            .addNPC(5839, HeadE.CALM_TALK, "You are welcome, " + e.getPlayer().getDisplayName() + ". There is a bed around here if you wish.")
+            .addPlayer(HeadE.CHEERFUL, "Thanks. My name's " + e.getPlayer().getDisplayName() + ", by the w...uh...okay, I think I need to lie down.")));
 
     public static ObjectClickHandler handleRifts = new ObjectClickHandler(new Object[] { 65203 }, e -> {
             if (e.getPlayer().inCombat(10000) || e.getPlayer().hasBeenHit(10000)) {
@@ -265,7 +263,7 @@ public class ChaosTunnels {
         TUNNELS_OF_CHAOS(Tile.of(3326, 5469, 0), Tile.of(3159, 5208, 0)),
         CHAOS_ALTAR(Tile.of(3152, 5233, 0), Tile.of(2282, 4837, 0)),
         BORK(Tile.of(3142, 5545, 0), Tile.of(3115, 5528, 0));
-        private static Map<Integer, PortalPair> MAPPING = new Int2ObjectOpenHashMap<>();
+        private static final Map<Integer, PortalPair> MAPPING = new Int2ObjectOpenHashMap<>();
 
         static {
             for (PortalPair p : PortalPair.values()) {
@@ -316,7 +314,7 @@ public class ChaosTunnels {
                     cs.npcFaceTile("surok", 10, 16);
                     cs.delay(1);
                     cs.npcAnim("surok", -1);
-                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant1"), 1010, 5, 15, 0, 0.8, 10, 10, proj -> {
+                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant1"), 1010, 5, 15, 0, 0.8, 10, proj -> {
                         cs.getNPC("firegiant1").applyHit(Hit.magic(cs.getNPC("surok"), cs.getNPC("firegiant1").getHitpoints()));
                         cs.getNPC("firegiant1").spotAnim(1011);
                     }));
@@ -327,7 +325,7 @@ public class ChaosTunnels {
                     cs.delay(1);
                     cs.npcTalk("surok", "Feel the power of Zamorak!");
                     cs.npcAnim("surok", -1);
-                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant2"), 1010, 5, 15, 0, 0.8, 10, 10, proj -> {
+                    cs.action(() -> World.sendProjectile(cs.getNPC("surok"), cs.getNPC("firegiant2"), 1010, 5, 15, 0, 0.8, 10, proj -> {
                         cs.getNPC("firegiant2").applyHit(Hit.magic(cs.getNPC("surok"), cs.getNPC("firegiant2").getHitpoints()));
                         cs.getNPC("firegiant2").spotAnim(1011);
                     }));
@@ -381,7 +379,7 @@ public class ChaosTunnels {
                         new OwnedNPC(player, 95, Tile.of(3188, 5493, 0), false).setTarget(player);
                     });
                     cs.fadeOut(5);
-                    cs.action(() -> player.resetReceivedHits());
+                    cs.action(player::resetReceivedHits);
                 });
             }
             if (this == BORK) {

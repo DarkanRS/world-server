@@ -21,8 +21,8 @@ import com.rs.lib.game.Tile;
 
 public class OwnedNPC extends NPC {
 
-	private Player owner;
-	private boolean hideFromOtherPlayers;
+	private final Player owner;
+	private final boolean hideFromOtherPlayers;
 	private boolean autoDespawnAtDistance = true;
 
 	public OwnedNPC(Player owner, int id, Tile tile, boolean hideFromOtherPlayers) {

@@ -18,7 +18,7 @@ package com.rs.game.model.entity;
 
 public class TimerBar extends HitBar {
 
-	private int timer;
+	private final int timer;
 
 	public TimerBar(int timer) {
 		this.timer = timer;

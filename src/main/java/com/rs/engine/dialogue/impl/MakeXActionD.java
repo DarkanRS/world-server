@@ -24,7 +24,7 @@ import java.util.List;
 
 public class MakeXActionD extends Dialogue {
 
-	private List<MakeXItem> options = new ArrayList<>();
+	private final List<MakeXItem> options = new ArrayList<>();
 
 	public MakeXActionD addOption(MakeXItem option) {
 		clearChildren();

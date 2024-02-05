@@ -35,14 +35,14 @@ import it.unimi.dsi.fastutil.objects.ObjectLists;
 import java.util.List;
 
 public class InstancedChunk extends Chunk {
-	private int fromChunkId;
-	private int fromChunkX;
-	private int fromChunkY;
-	private int fromPlane;
+	private final int fromChunkId;
+	private final int fromChunkX;
+	private final int fromChunkY;
+	private final int fromPlane;
 
 	private int rotation;
 
-	private List<NPC> npcSpawns = ObjectLists.synchronize(new ObjectArrayList<>());
+	private final List<NPC> npcSpawns = ObjectLists.synchronize(new ObjectArrayList<>());
 
 	public InstancedChunk(int fromChunkId, int toChunkId, int rotation) {
 		super(toChunkId);

@@ -24,11 +24,11 @@ public class Score {
 	 * Name of the player that this score belongs to. (stored here so if player goes
 	 * offline it's still possible to show name in highscores interface)
 	 */
-	private String name;
+	private final String name;
 	/**
 	 * Team of the player.
 	 */
-	private boolean team;
+	private final boolean team;
 	/**
 	 * Gathering score.
 	 */

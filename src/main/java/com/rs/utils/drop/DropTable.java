@@ -17,10 +17,18 @@
 package com.rs.utils.drop;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.item.ItemsContainer;
 import com.rs.lib.game.Item;
 import com.rs.lib.util.Utils;
+import com.rs.tools.old.CharmDrop;
 import com.rs.utils.DropSets;
+import com.rs.utils.EffigyDrop;
+import com.rs.utils.NPCClueDrops;
 
 import java.util.List;
 
@@ -100,7 +108,36 @@ public class DropTable {
 		rollTable = table.rollTable;
 	}
 
-	public double getNumerator() {
+    public static void displayDropsFor(Player player, String tableName, int amount) {
+		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
+		LowPriorityTaskExecutor.execute(() -> {
+			long start = System.currentTimeMillis();
+			ItemsContainer<Item> dropCollection = new ItemsContainer<>(Bank.MAX_BANK_SIZE, true);
+
+			double modifier = 1.0;
+			if (player.getEquipment().wearingRingOfWealth())
+				modifier -= 0.01;
+			for (int i = 0; i < amount; i++) {
+				List<Item> drops = DropSets.getDropSet(tableName).getDropList().genDrop(modifier);
+				for (Item item : drops)
+					dropCollection.add(item);
+			}
+			dropCollection.sortByItemId();
+			player.getTempAttribs().setB("viewingOtherBank", true);
+			player.getVars().setVarBit(8348, 0);
+			player.getVars().syncVarsToClient();
+			player.getInterfaceManager().sendInterface(762);
+			player.getPackets().sendRunScript(2319);
+			player.getPackets().setIFText(762, 47, amount + " " + tableName + " rolls");
+			player.getPackets().sendItems(95, dropCollection);
+			player.getPackets().setIFEvents(new IFEvents(762, 95, 0, 516).enableRightClickOptions(0,1,2,3,4,5,6,9).setDepth(2).enableDrag());
+			player.getVars().setVarBit(4893, 1);
+			player.getVars().syncVarsToClient();
+			player.sendMessage("<col=FF0000><shad=000000>Calculated drops in " + Utils.formatLong(System.currentTimeMillis() - start) + "ms");
+		});
+    }
+
+    public double getNumerator() {
 		return chance;
 	}
 
@@ -169,13 +206,13 @@ public class DropTable {
 
 	@Override
 	public String toString() {
-		String s = "[ (" + chance + "/" + outOf + ") - ";
+		StringBuilder s = new StringBuilder("[ (" + chance + "/" + outOf + ") - ");
 		if (rollTable != null)
 			return s + rollTable;
 		if (drops == null)
 			return s + "Nothing";
 		for (Drop d : drops)
-			s += "("+d.getId()+"("+ItemDefinitions.getDefs(d.getId()).name+"),"+d.getMin()+","+d.getMax()+") ]";
-		return s;
+			s.append("(").append(d.getId()).append("(").append(ItemDefinitions.getDefs(d.getId()).name).append("),").append(d.getMin()).append(",").append(d.getMax()).append(") ]");
+		return s.toString();
 	}
 }

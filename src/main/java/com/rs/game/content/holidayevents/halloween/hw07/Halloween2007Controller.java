@@ -32,7 +32,7 @@ import java.util.Set;
 
 public class Halloween2007Controller extends Controller {
 
-	private static int[] DEAD_END_WEBS = { 27955946, 28005096, 27661029, 27775726, 27726573, 27628265 };
+	private static final int[] DEAD_END_WEBS = { 27955946, 28005096, 27661029, 27775726, 27726573, 27628265 };
 
 	private int[] webPath;
 	private Set<Integer> returnedItems = new HashSet<>();
@@ -88,11 +88,11 @@ public class Halloween2007Controller extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.tele(player.getHw07Stage() < 10 ? Halloween2007.START_LOCATION : Tile.of(3211, 3424, 0));
+					player.tele(player.getI(Halloween2007.STAGE_KEY) < 10 ? Halloween2007.START_LOCATION : Tile.of(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
-					if (player.getHw07Stage() >= 10)
+					if (player.getI(Halloween2007.STAGE_KEY) >= 10)
 						player.getControllerManager().forceStop();
 					player.jingle(90);
 					stop();
@@ -153,7 +153,7 @@ public class Halloween2007Controller extends Controller {
 	}
 
 	public void refreshSkull() {
-		player.getVars().setVarBit(4086, player.getHw07Stage() >= 4 || player.getInventory().containsItem(Halloween2007.SERVANT_SKULL) ? 1 : 0);
+		player.getVars().setVarBit(4086, player.getI(Halloween2007.STAGE_KEY) >= 4 || player.getInventory().containsItem(Halloween2007.SERVANT_SKULL) ? 1 : 0);
 	}
 
 	public boolean checkWeb(int tileHash) {

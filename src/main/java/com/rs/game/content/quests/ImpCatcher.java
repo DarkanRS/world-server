@@ -98,9 +98,7 @@ public class ImpCatcher extends QuestOutline {
 				addNPC(WIZARD_MIZGOG, HeadE.FRUSTRATED, " The imps stole all sorts of things. Most of them were things I don't really care about like eggs, balls of wool, things like that... ");
 				addNPC(WIZARD_MIZGOG, HeadE.FRUSTRATED, "But they stole my magic beads! There was a red one, a yellow one, a black one, and a white one. The imps have spread out all over the kingdom by now. Could you get my beads back for me?");
 				addOption("Do you want to start a quest?", "Accept quest.", "Not right now.");
-				addNPC(WIZARD_MIZGOG, HeadE.CALM_TALK, "The imps will be all over the kingdom by now. You should kill any imps you find and collect any beads that they drop. I need a red one, a yellow one, a black one, and a white one.", () -> {
-					player.getQuestManager().setStage(Quest.IMP_CATCHER, 1);
-				});
+				addNPC(WIZARD_MIZGOG, HeadE.CALM_TALK, "The imps will be all over the kingdom by now. You should kill any imps you find and collect any beads that they drop. I need a red one, a yellow one, a black one, and a white one.", () -> player.getQuestManager().setStage(Quest.IMP_CATCHER, 1));
 				break;
 			case 1:
 				addNPC(WIZARD_MIZGOG, HeadE.SKEPTICAL, "How are you doing finding my beads?");

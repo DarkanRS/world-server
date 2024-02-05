@@ -88,9 +88,7 @@ public class HuntForSurok extends MiniquestOutline {
 			player.getVars().saveVarBit(4311, 1);
 	}
 
-	public static ObjectClickHandler handleStairsOutOfStatue = new ObjectClickHandler(new Object[] { 23074 }, e -> {
-		e.getPlayer().useStairs(Tile.of(3284, 3467, 0));
-	});
+	public static ObjectClickHandler handleStairsOutOfStatue = new ObjectClickHandler(new Object[] { 23074 }, e -> e.getPlayer().useStairs(Tile.of(3284, 3467, 0)));
 
 	public static ObjectClickHandler handleAnnasStatue = new ObjectClickHandler(new Object[] { 23096 }, e -> {
 		switch(e.getOption()) {

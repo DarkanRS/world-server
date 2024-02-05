@@ -42,5 +42,5 @@ public class KhazScorp extends NPC {
 				known && !ScorpionCatcher.caughtScorp(p, getId()) && super.withinDistance(p, distance) ;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { ScorpionCatcher.SCORP_1, ScorpionCatcher.SCORP_2, ScorpionCatcher.SCORP_3 }, (npcId, tile) -> new KhazScorp(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { ScorpionCatcher.SCORP_1, ScorpionCatcher.SCORP_2, ScorpionCatcher.SCORP_3 }, KhazScorp::new);
 }

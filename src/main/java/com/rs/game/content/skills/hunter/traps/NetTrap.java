@@ -40,15 +40,15 @@ public class NetTrap extends BoxStyleTrap {
 		WILDY(19671, 19673, 19670, 19668, 19669, 19666, 19667),
 		SQUIRRELS(28564, 28566, 28563, 28561, 28562, 28750, 28751);
 
-		private int base;
-		private int net;
-		private int setUp;
-		private int failing;
-		private int failed;
-		private int catching;
-		private int caught;
+		private final int base;
+		private final int net;
+		private final int setUp;
+		private final int failing;
+		private final int failed;
+		private final int catching;
+		private final int caught;
 
-		private static Map<Integer, TreeType> BY_BASE = new HashMap<>();
+		private static final Map<Integer, TreeType> BY_BASE = new HashMap<>();
 
 		static {
 			for (TreeType t : TreeType.values())
@@ -71,7 +71,7 @@ public class NetTrap extends BoxStyleTrap {
 	}
 
 	private OwnedObject tree;
-	private TreeType treeType;
+	private final TreeType treeType;
 
 	public NetTrap(Player player, Tile tile, GameObject tree) {
 		super(player, BoxTrapType.TREE_NET, tile, TreeType.fromBase(tree.getId()).net, tree.getRotation());

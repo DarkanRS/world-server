@@ -248,12 +248,7 @@ public class BigBufferedImage extends BufferedImage {
 		public void dispose() {
 			final MappedByteBuffer[] disposedBuffer = buffer;
 			buffer = null;
-			new Thread() {
-				@Override
-				public void run() {
-					disposeNow(disposedBuffer);
-				}
-			}.start();
+			new Thread(() -> disposeNow(disposedBuffer)).start();
 		}
 
 		private void disposeNow(final MappedByteBuffer[] disposedBuffer) {

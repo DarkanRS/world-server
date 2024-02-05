@@ -42,7 +42,7 @@ public class DumpItemConfigs {
 			writer.flush();
 			for (int id = 0; id < 7956; id++) {
 				if (Equipment.isTwoHandedWeapon(new Item(id, 1)))
-					writer.append(id + ", ");
+					writer.append(String.valueOf(id)).append(", ");
 				writer.flush();
 			}
 			writer.close();
@@ -99,14 +99,14 @@ public class DumpItemConfigs {
 				ItemDefinitions def = ItemDefinitions.getDefs(id);
 				if (def.isWearItem())
 					if (hasCombatRequirements(def)) {
-						writer.append(id + " ");
+						writer.append(String.valueOf(id)).append(" ");
 						for (int skillId : def.getWearingSkillRequiriments().keySet()) {
 							if (skillId < 0 && skillId > 6)
 								continue;
 							int level = def.getWearingSkillRequiriments().get(skillId);
 							if (level < 0 || level > 120)
 								continue;
-							writer.append(skillId + "-" + level + " ");
+							writer.append(String.valueOf(skillId)).append("-").append(String.valueOf(level)).append(" ");
 						}
 						writer.newLine();
 					}

@@ -26,7 +26,7 @@ import com.rs.lib.net.ClientPacket;
 
 public class CastleWarsWaitingController extends Controller {
 
-	private int team;
+	private final int team;
 
 	public CastleWarsWaitingController(int team) {
 		this.team = team;

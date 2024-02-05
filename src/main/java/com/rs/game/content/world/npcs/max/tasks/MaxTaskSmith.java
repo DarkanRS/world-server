@@ -10,8 +10,8 @@ import com.rs.lib.util.Utils;
 
 public class MaxTaskSmith implements Task {
 	
-	private static GameObject WEST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, Tile.of(3188, 3426, 0));
-	private static GameObject EAST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, Tile.of(3228, 3436, 0));
+	private static final GameObject WEST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, Tile.of(3188, 3426, 0));
+	private static final GameObject EAST = new GameObject(2783, ObjectType.SCENERY_INTERACT, 0, Tile.of(3228, 3436, 0));
 		
 	private boolean started = false;
 	private int itemsSmithed = Utils.random(85, 150);
@@ -32,18 +32,16 @@ public class MaxTaskSmith implements Task {
 		}
 		if (!max.getActionManager().hasSkillWorking() && !max.hasWalkSteps()) {
 			GameObject anvil = Utils.random(2) == 0 ? WEST : EAST;
-			max.setRouteEvent(new RouteEvent(anvil, () -> {
-				max.repeatAction(3, count -> {
-					if (itemsSmithed <= 0) {
-						max.nextTask();
-						return false;
-					}
-					max.faceObject(anvil);
-					max.anim(898);
-					itemsSmithed--;
-					return true;
-				});
-			}));
+			max.setRouteEvent(new RouteEvent(anvil, () -> max.repeatAction(3, count -> {
+                if (itemsSmithed <= 0) {
+                    max.nextTask();
+                    return false;
+                }
+                max.faceObject(anvil);
+                max.anim(898);
+                itemsSmithed--;
+                return true;
+            })));
 		}
 		return 5;
 	}

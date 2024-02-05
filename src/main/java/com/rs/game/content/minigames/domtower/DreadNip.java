@@ -25,7 +25,7 @@ public class DreadNip extends NPC {
 
 	public static final String[] DREADNIP_MESSAGES = { "Your dreadnip couldn't attack so it left.", "The dreadnip gave up as you were too far away.", "Your dreadnip served its purpose and fled." };
 
-	private Player owner;
+	private final Player owner;
 	private int ticks;
 
 	public DreadNip(Player owner, int id, Tile tile, int mapAreaNameHash, boolean canBeAttackFromOutOfArea) {

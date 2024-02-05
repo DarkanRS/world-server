@@ -22,8 +22,8 @@ package com.rs.game.model.entity.pathing;
  */
 public class FixedTileStrategy extends RouteStrategy {
 
-	private int x;
-	private int y;
+	private final int x;
+	private final int y;
 
 	public FixedTileStrategy(int x, int y) {
 		this.x = x;

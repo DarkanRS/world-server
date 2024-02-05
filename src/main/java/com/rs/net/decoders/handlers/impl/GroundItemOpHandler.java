@@ -114,8 +114,7 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 				BoxTrapType trap = BoxTrapType.forId(groundItem.getId());
 				if (trap != null) {
 					player.getActionManager().setAction(new BoxAction(trap, groundItem));
-					return;
-				}
+                }
 			}));
 			break;
 		case GROUND_ITEM_OP5:

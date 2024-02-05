@@ -51,7 +51,7 @@ public class PortSarim {
 			e.getPlayer().getMusicsManager().nextAmbientSong();
 	});
 
-	public static ItemOnNPCHandler handleThurgoItem = new ItemOnNPCHandler(new Object[]{604}, e -> {
+	public static ItemOnNPCHandler handleThurgoItem = new ItemOnNPCHandler(new Object[]{ 604 }, e -> {
 		if (e.getItem().getId() == 24303 || e.getItem().getId() == 24339)
 			e.getPlayer().sendOptionDialogue("Would you like Thurgo to " + (e.getItem().getId() == 24339 ? "repair" : "forge") + " your Royal Crossbow?", ops -> {
 				ops.add("Yes, please (Requires a stabilizer, frame, sight, and spring)", () -> {
@@ -69,37 +69,31 @@ public class PortSarim {
 			});
 	});
 
-	public static ItemAddedToInventoryHandler handlePortSarimApron = new ItemAddedToInventoryHandler(new Object[]{7957}, e -> e.getItem().setId(1005));
+	public static ItemAddedToInventoryHandler handlePortSarimApron = new ItemAddedToInventoryHandler(new Object[]{ 7957 }, e -> e.getItem().setId(1005));
 
-	public static NPCClickHandler Thurgo = new NPCClickHandler(new Object[]{604}, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						if (player.getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.FIND_DWARF)
-							option("About Knight's Sword.", new Dialogue()
-									.addNext(() -> {
-										e.getPlayer().startConversation(new ThurgoKnightsSwordD(e.getPlayer()).getStart());
-									}));
-						option("About that skill cape...", new Dialogue()
-								.addNext(() -> {
-									player.startConversation(new GenericSkillcapeOwnerD(player, 604, Skillcapes.Smithing));
-								})
-						);
-					}
-				});
-				create();
-			}
-		});
-	});
+	public static NPCClickHandler Thurgo = new NPCClickHandler(new Object[]{ 604 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    if (player.getQuestManager().getStage(Quest.KNIGHTS_SWORD) >= KnightsSword.FIND_DWARF)
+                        option("About Knight's Sword.", new Dialogue()
+                                .addNext(() -> e.getPlayer().startConversation(new ThurgoKnightsSwordD(e.getPlayer()).getStart())));
+                    option("About that skill cape...", new Dialogue()
+                            .addNext(() -> player.startConversation(new GenericSkillcapeOwnerD(player, 604, Skillcapes.Smithing)))
+                    );
+                }
+            });
+            create();
+        }
+    }));
 
-	public static NPCClickHandler GerrantFishingShop = new NPCClickHandler(new Object[]{558}, e -> {
+	public static NPCClickHandler GerrantFishingShop = new NPCClickHandler(new Object[]{ 558 }, e -> {
 		if (e.getOption().equalsIgnoreCase("Trade"))
 			ShopsHandler.openShop(e.getPlayer(), "gerrants_fishy_business");
 		if (e.getOption().equalsIgnoreCase("Talk-to"))
 			e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-				int NPC = e.getNPCId();
+				final int NPC = e.getNPCId();
 
 				{
 					addNPC(NPC, HeadE.CALM_TALK, "Welcome! You can buy fishing equipment at my store. We'll also buy anything you catch off you.");
@@ -119,18 +113,14 @@ public class PortSarim {
 										.addNPC(NPC, HeadE.CALM_TALK, "Sure!")
 										.addSimple("He looks around the shop...")
 										.addNPC(NPC, HeadE.CALM_TALK, "Got it!")
-										.addItem(1581, "He gives you some blamish snail oil...", () -> {
-											e.getPlayer().getInventory().addItem(1581, 1, true);
-										})
+										.addItem(1581, "He gives you some blamish snail oil...", () -> e.getPlayer().getInventory().addItem(1581, 1, true))
 										.addNPC(NPC, HeadE.CALM_TALK, "Don't forget to add this to unfinished Harralander")
 										.addPlayer(HeadE.HAPPY_TALKING, "So, where can I fish lava eels?")
 										.addNPC(NPC, HeadE.CALM_TALK, "Taverley dungeon or the lava maze in the Wilderness.")
 								);
 							option("Let's see what you've got then.", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "Let's see what you've got then.")
-									.addNext(() -> {
-										ShopsHandler.openShop(e.getPlayer(), "gerrants_fishy_business");
-									}));
+									.addNext(() -> ShopsHandler.openShop(e.getPlayer(), "gerrants_fishy_business")));
 							option("Sorry, I'm not interested.", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "Sorry, I'm not interested.")
 							);
@@ -141,23 +131,15 @@ public class PortSarim {
 			});
 	});
 
-	public static ObjectClickHandler handleEnterIceDungeon = new ObjectClickHandler(new Object[]{9472}, e -> {
-		e.getPlayer().tele(Tile.of(3007, 9550, 0));
-	});
+	public static ObjectClickHandler handleEnterIceDungeon = new ObjectClickHandler(new Object[]{ 9472 }, e -> e.getPlayer().tele(Tile.of(3007, 9550, 0)));
 
-	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{32015}, new Tile[]{Tile.of(3008, 9550, 0)}, e -> {
-		e.getPlayer().tele(Tile.of(3008, 3149, 0));
-	});
+	public static ObjectClickHandler handleExitIceDungeon = new ObjectClickHandler(new Object[]{ 32015 }, new Tile[]{Tile.of(3008, 9550, 0)}, e -> e.getPlayer().tele(Tile.of(3008, 3149, 0)));
 
-	public static ObjectClickHandler handleEnterWyvern = new ObjectClickHandler(new Object[]{33173}, e -> {
-		e.getPlayer().tele(Tile.of(3056, 9555, 0));
-	});
+	public static ObjectClickHandler handleEnterWyvern = new ObjectClickHandler(new Object[]{ 33173 }, e -> e.getPlayer().tele(Tile.of(3056, 9555, 0)));
 
-	public static ObjectClickHandler handleExitWyvern = new ObjectClickHandler(new Object[]{33174}, e -> {
-		e.getPlayer().tele(Tile.of(3056, 9562, 0));
-	});
+	public static ObjectClickHandler handleExitWyvern = new ObjectClickHandler(new Object[]{ 33174 }, e -> e.getPlayer().tele(Tile.of(3056, 9562, 0)));
 
-	public static ObjectClickHandler handleEnterLadyLumbridgeBoat = new ObjectClickHandler(new Object[]{2594, 2593}, e -> {
+	public static ObjectClickHandler handleEnterLadyLumbridgeBoat = new ObjectClickHandler(new Object[]{ 2594, 2593 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (p.getY() > obj.getY())
@@ -166,11 +148,11 @@ public class PortSarim {
 			e.getPlayer().tele(Tile.of(3047, 3207, 1));
 	});
 
-	public static ObjectClickHandler handleEnterLadyLumbridgeBoatUpperLadder = new ObjectClickHandler(new Object[]{2590}, e -> {
-		e.getPlayer().useStairs(828, Tile.of(e.getObject().getX() - 1, e.getObject().getY(), e.getObject().getPlane() - 1), 1, 2);
-	});
+	public static ObjectClickHandler handleEnterLadyLumbridgeBoatUpperLadder = new ObjectClickHandler(new Object[]{ 2590 }, e -> e.getPlayer().useStairs(828, Tile.of(e.getObject().getX() - 1, e.getObject().getY(), e.getObject().getPlane() - 1), 1, 2));
 
-	public static ObjectClickHandler handleLowerBoatLadder = new ObjectClickHandler(new Object[]{272}, e -> {
+	public static ObjectClickHandler handlePrisonTrapdoor = new ObjectClickHandler(new Object[]{ 40113 }, Tile.of(3013, 3179, 2), e -> e.getPlayer().useStairs(828, Tile.of(3013, 3180, 1)));
+
+	public static ObjectClickHandler handleLowerBoatLadder = new ObjectClickHandler(new Object[]{ 272 }, e -> {
 		Player p = e.getPlayer();
 		GameObject obj = e.getObject();
 		if (obj.getRotation() == 0)

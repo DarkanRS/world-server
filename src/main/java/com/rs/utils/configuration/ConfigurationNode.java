@@ -31,7 +31,7 @@ public class ConfigurationNode {
 	/**
 	 * A map of the children of this node
 	 */
-	private Map<String, Object> children = new HashMap<>();
+	private final Map<String, Object> children = new HashMap<>();
 
 	/**
 	 * Set a value

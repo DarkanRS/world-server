@@ -67,11 +67,12 @@ public class GemCutting extends PlayerAction {
 
 		DRAMEN_STAFF(771, 772, 2.0, 31, -1);
 
-		private double experience;
-		private int levelRequired;
-		private int uncut, cut;
+		private final double experience;
+		private final int levelRequired;
+		private final int uncut;
+        private final int cut;
 
-		private int emote;
+		private final int emote;
 
 		private Gem(int uncut, int cut, double experience, int levelRequired, int emote) {
 			this.uncut = uncut;
@@ -132,7 +133,7 @@ public class GemCutting extends PlayerAction {
 					.addNext(() -> player.getActionManager().setAction(new GemCutting(gem, MakeXStatement.getQuantity(player)))));
 	}
 
-	private Gem gem;
+	private final Gem gem;
 	private int quantity;
 
 	public GemCutting(Gem gem, int quantity) {

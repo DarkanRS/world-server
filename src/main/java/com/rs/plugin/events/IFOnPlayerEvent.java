@@ -25,12 +25,15 @@ import java.util.Map;
 
 public class IFOnPlayerEvent implements PluginEvent {
 
-	private static Map<Object, InterfaceOnPlayerHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, InterfaceOnPlayerHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Player target;
-	private int interfaceId, componentId, slotId, slotId2;
-	private boolean atPlayer;
+	private final Player player;
+	private final Player target;
+	private final int interfaceId;
+    private final int componentId;
+    private final int slotId;
+    private final int slotId2;
+	private final boolean atPlayer;
 
 	public IFOnPlayerEvent(Player player, Player target, int interfaceId, int componentId, int slotId, int slotId2, boolean atPlayer) {
 		this.player = player;

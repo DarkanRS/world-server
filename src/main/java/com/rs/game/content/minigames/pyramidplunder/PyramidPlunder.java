@@ -44,7 +44,7 @@ public class PyramidPlunder {
 		e.getPlayer().startConversation(new Dialogue().addOptions("Would you like to exit?", new Options() {
 			@Override
 			public void create() {
-				option("Yes", new Dialogue().addNext(() -> ctrl.exitMinigame()));
+				option("Yes", new Dialogue().addNext(ctrl::exitMinigame));
 				option("No", new Dialogue());
 			}
 		}));
@@ -79,35 +79,33 @@ public class PyramidPlunder {
 			} else
 				e.getPlayer().sendMessage("You need a snake charm flute for that!");
 		}
-		case "Search" -> {
-			WorldTasks.scheduleTimer(i -> {
-				switch(i) {
-					case 1 -> {
-						e.getPlayer().faceObject(e.getObject());
-						e.getPlayer().setNextAnimation(new Animation(4340));
-					}
-					case 3 -> {
-						if (rollUrnSuccess(e.getPlayer(), ctrl.getCurrentRoom(), varbitValue)) {
-							e.getPlayer().setNextAnimation(new Animation(4342));
-							e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom())* (varbitValue == 0 ? 3 : 2));
-							ctrl.updateObject(e.getObject(), 1);
-							loot(e.getPlayer(), "pp_urn", ctrl.getCurrentRoom());
-						} else {
-							e.getPlayer().setNextAnimation(new Animation(4341));
-							e.getPlayer().applyHit(new Hit(e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
-							e.getPlayer().getPoison().makePoisoned(30);
-							e.getPlayer().forceTalk("Ow!");
-						}
-					}
-					case 5 -> {
-						e.getPlayer().unlock();
-						e.getPlayer().processReceivedHits();
-						return false;
-					}
-				}
-				return true;
-			});
-		}
+		case "Search" -> WorldTasks.scheduleTimer(i -> {
+            switch(i) {
+                case 1 -> {
+                    e.getPlayer().faceObject(e.getObject());
+                    e.getPlayer().setNextAnimation(new Animation(4340));
+                }
+                case 3 -> {
+                    if (rollUrnSuccess(e.getPlayer(), ctrl.getCurrentRoom(), varbitValue)) {
+                        e.getPlayer().setNextAnimation(new Animation(4342));
+                        e.getPlayer().getSkills().addXp(Constants.THIEVING, getRoomBaseXP(ctrl.getCurrentRoom())* (varbitValue == 0 ? 3 : 2));
+                        ctrl.updateObject(e.getObject(), 1);
+                        loot(e.getPlayer(), "pp_urn", ctrl.getCurrentRoom());
+                    } else {
+                        e.getPlayer().setNextAnimation(new Animation(4341));
+                        e.getPlayer().applyHit(new Hit(e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) / 5, Hit.HitLook.TRUE_DAMAGE));
+                        e.getPlayer().getPoison().makePoisoned(30);
+                        e.getPlayer().forceTalk("Ow!");
+                    }
+                }
+                case 5 -> {
+                    e.getPlayer().unlock();
+                    e.getPlayer().processReceivedHits();
+                    return false;
+                }
+            }
+            return true;
+        });
 		}
 	});
 

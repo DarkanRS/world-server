@@ -41,28 +41,14 @@ public class CharmDrop {
 	final static Charset ENCODING = StandardCharsets.UTF_8;
 
 	public static int getCharmAmount(String npcName) {
-		switch(npcName) {
-		case "brutal green dragon":
-		case "iron dragon":
-		case "rock lobster":
-		case "skeletal wyvern":
-			return 2;
-		case "black dragon":
-		case "giant rock crab":
-		case "glacor":
-		case "steel dragon":
-		case "tormented demon":
-			return 3;
-		case "king black dragon":
-		case "mithril dragon":
-			return 4;
-		case "corporeal beast":
-			return 13;
-		case "nex":
-			return 20;
-		default:
-			return 1;
-		}
+        return switch (npcName) {
+            case "brutal green dragon", "iron dragon", "rock lobster", "skeletal wyvern" -> 2;
+            case "black dragon", "giant rock crab", "glacor", "steel dragon", "tormented demon" -> 3;
+            case "king black dragon", "mithril dragon" -> 4;
+            case "corporeal beast" -> 13;
+            case "nex" -> 20;
+            default -> 1;
+        };
 	}
 
 	public static int getCharmType(int[] chances) {

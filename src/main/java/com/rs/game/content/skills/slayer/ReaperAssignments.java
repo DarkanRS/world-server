@@ -54,14 +54,10 @@ public class ReaperAssignments  {
 				addOptions("What would you like to say?", new Options() {
 					@Override
 					public void create() {
-						option("I need an assignment.", () -> {
-							talkAboutAssignment(player);
-						});
+						option("I need an assignment.", () -> talkAboutAssignment(player));
 
 						option("I'd like another grim gem.", new Dialogue()
-								.addItem(24806, "You receive a grim gem.", () -> {
-									player.getInventory().addItem(24806, 1);
-								}));
+								.addItem(24806, "You receive a grim gem.", () -> player.getInventory().addItem(24806, 1)));
 
 						option("Are there any rewards for this?", new Dialogue()
 								.addNPC(15661, HeadE.CALM, "Not yet, mortal. I am still thinking about possible reward options. But I will still keep tally of your points regardless."));

@@ -1,0 +1,29 @@
+[
+  {
+    "comment": "Filliman Tarlock added by trent",
+    "npcId": 1050,
+    "tile": {
+      "x": 3440,
+      "y": 3336,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Filliman Tarlock added by trent",
+    "npcId": 1050,
+    "tile": {
+      "x": 2272,
+      "y": 5338,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Nature Spirit added by trent",
+    "npcId": 1051,
+    "tile": {
+      "x": 2272,
+      "y": 5338,
+      "plane": 0
+    }
+  }
+]

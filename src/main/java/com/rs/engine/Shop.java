@@ -47,7 +47,7 @@ public class Shop {
 	private boolean buyOnly;
 	private int currency;
 
-	private transient CopyOnWriteArrayList<Player> viewingPlayers;
+	private final transient CopyOnWriteArrayList<Player> viewingPlayers;
 
 	public Shop(String name, int money, ShopItem[] shopItems, boolean isGeneralStore, boolean buyOnly) {
 		viewingPlayers = new CopyOnWriteArrayList<>();

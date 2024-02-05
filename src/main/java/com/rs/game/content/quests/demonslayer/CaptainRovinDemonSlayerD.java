@@ -92,8 +92,7 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 																			.addPlayer(HeadE.HAPPY_TALKING, "I'm going to use the powerful sword Silverlight, which I believe you have one of " +
 																					"the keys for?")
 																			.addNPC(CAPTAIN_ROVIN, HeadE.SECRETIVE, "Yes, I do. But why should I give it to you?")
-																			.addNext(()-> {
-																				player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+																			.addNext(()-> player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart())));
 																}
 															}));
 												}
@@ -126,20 +125,17 @@ public class CaptainRovinDemonSlayerD extends Conversation {
 								.addPlayer(HeadE.SECRETIVE, "Gypsy Aris said I was destined to kill the demon.")
 								.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "A gypsy? Destiny? I don't believe in that stuff. I got where I am today by hard work, " +
 										"not by destiny! Why should I care what that mad old gypsy says?")
-								.addNext(()-> {
-									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+								.addNext(()-> player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart())));
 						option("Otherwise the demon will destroy the city!", new Dialogue()
 								.addPlayer(HeadE.AMAZED, "Otherwise the demon will destroy the city!")
 								.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, " You can't fool me! How do I know you haven't just made that story up to get my key?")
-								.addNext(()-> {
-									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+								.addNext(()-> player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart())));
 						option("Sir Prysin said you would give me the key.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Sir Prysin said you would give me the key.")
 								.addNPC(CAPTAIN_ROVIN, HeadE.SKEPTICAL_HEAD_SHAKE, "Oh, he did, did he? Well I don't report to Sir Prysin, I report directly to the king!")
 								.addNPC(CAPTAIN_ROVIN, HeadE.ANGRY, "I didn't work my way up through the ranks of the palace guards so I could take orders from an " +
 										"ill-bred moron who only has his job because his great- grandfather was a hero with a silly name!")
-								.addNext(()-> {
-									player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart());}));
+								.addNext(()-> player.startConversation(new CaptainRovinDemonSlayerD(player, 0).getStart())));
 						option("Why did he give you one of the keys then?", new Dialogue()
 								.addPlayer(HeadE.CALM_TALK, "Why did he give you one of the keys then?")
 								.addNPC(CAPTAIN_ROVIN, HeadE.HAPPY_TALKING, "Only because the king ordered him to! The king couldn't get Sir Prysin to part with his " +

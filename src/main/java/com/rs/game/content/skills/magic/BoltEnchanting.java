@@ -90,7 +90,7 @@ public class BoltEnchanting  {
 
 	static class BoltEnchantingAction extends PlayerAction {
 
-		private Bolt bolt;
+		private final Bolt bolt;
 		private int amount;
 
 		public BoltEnchantingAction(Bolt bolt, int amount) {

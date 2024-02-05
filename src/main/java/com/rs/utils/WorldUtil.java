@@ -93,9 +93,7 @@ public class WorldUtil {
 					stream.writeByte(count);
 				}
 			}
-			case TOSTRING_SHARED -> {
-				stream.writeInt(SoulWarsKt.getQuickchatVar(defs.configs[i][0]));
-			}
+			case TOSTRING_SHARED -> stream.writeInt(SoulWarsKt.getQuickchatVar(defs.configs[i][0]));
 			case COUNTDIALOG, ENUM_STRING_CLAN -> { /*TODO*/ }
 			default -> {}
 			}
@@ -123,7 +121,7 @@ public class WorldUtil {
 		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 
-	public static final int getAngleTo(Direction dir) {
+	public static int getAngleTo(Direction dir) {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
 

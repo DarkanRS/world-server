@@ -62,9 +62,7 @@ public class GypsyArisDemonSlayerD extends Conversation {
 									" south of this city.")
 							.addNPC(GYPSY_ARIS, HeadE.AMAZED, "Ye gods! Silverlight was the sword you were holding in my vision! You are the one destined to " +
 									"stop the demon this time.")
-							.addNext(() -> {
-								player.startConversation(new GypsyArisDemonSlayerD(player, 0).getStart());
-							}));
+							.addNext(() -> player.startConversation(new GypsyArisDemonSlayerD(player, 0).getStart())));
 					option("No.", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL, "No, I don't believe in that stuff")
 							.addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Ok suit yourself."));
@@ -115,16 +113,12 @@ public class GypsyArisDemonSlayerD extends Conversation {
 						.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "If you face Delrith while he is still weak from being summoned, and use the correct weapon, you will " +
 								"not find the task too arduous.")
 						.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "Do not fear. If you follow the path of the great hero Wally, then you are sure to defeat the demon.")
-						.addNext(() -> {
-							p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
-						}));
+						.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart())));
 				option("Okay, where is he? I'll kill him for you!", new Dialogue()
 						.addPlayer(HeadE.ANGRY, "Okay, where is he? I'll kill him for you!")
 						.addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Ah, the overconfidence of the young!")
 						.addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Delrith can't be harmed by ordinary weapons. You must face him using the same weapon that Wally used.")
-						.addNext(() -> {
-							p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
-						}));
+						.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart())));
 
 				if(p.getTempAttribs().getB("DemonSlayerCutscenePlayed")) {
 					option("What is the magical incantation?", new Dialogue()
@@ -133,38 +127,28 @@ public class GypsyArisDemonSlayerD extends Conversation {
 							.addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Alright, I think I've got it now, it goes Aber... Gabindo... Purchai... Camerinthum... and Carlem..." +
 									" Have you got that?")
 							.addPlayer(HeadE.HAPPY_TALKING, "I think so, yes.")
-							.addNext(() -> {
-								p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
-							}));
+							.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart())));
 					option("Where can I find Silverlight?", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL_THINKING, "Where can I find Silverlight?")
 							.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "Silverlight has been passed down through Wally's descendants. I believe it is currently in the" +
 									" care of one of the King's knights called Sir Prysin.")
 							.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "He shouldn't be too hard to find. He lives in the royal palace in this city. Tell him Gypsy " +
 									"Aris sent you.")
-							.addNext(() -> {
-								p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
-							}));
+							.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart())));
 					option("Okay, thanks. I'll do my best to stop the demon.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "Ok thanks. I'll do my best to stop the demon.")
 							.addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Good luck, and may Guthix be with you!")
-							.addNext(()->{
-								p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE);
-							}));
+							.addNext(()-> p.getQuestManager().setStage(Quest.DEMON_SLAYER, DemonSlayer.AFTER_GYPSY_ARIS_INTRO_STAGE)));
 				} else {
 					option("Wally doesn't sound like a very heroic name.", new Dialogue()
 							.addPlayer(HeadE.SKEPTICAL, "Wally doesn't sound a very heroic name.")
 							.addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Yes I know. Maybe that is why history doesn't remember him. However he was a very great hero.")
 							.addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "Who knows how much pain and suffering Delrith would have brought forth without Wally to stop him!")
 							.addNPC(GYPSY_ARIS, HeadE.CALM_TALK, "It looks like you are going to need to perform similar heroics.")
-							.addNext(() -> {
-								p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart());
-							}));
+							.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 0).getStart())));
 					option("So how did Wally kill Delrith?", new Dialogue()
 							.addPlayer(HeadE.AMAZED_MILD, "So how did Wally kill Delrith?")
-							.addNext(() -> {
-								p.playCutscene(new WallyVSDelrithCutscene());
-							}));
+							.addNext(() -> p.playCutscene(new WallyVSDelrithCutscene())));
 				}
 			}
 		});
@@ -186,18 +170,14 @@ public class GypsyArisDemonSlayerD extends Conversation {
 						.addNPC(GYPSY_ARIS, HeadE.HAPPY_TALKING, "Alright, I think I've got it now, it goes Aber... Gabindo... Purchai... Camerinthum... and Carlem..." +
 								" Have you got that?")
 						.addPlayer(HeadE.HAPPY_TALKING, "I think so, yes.")
-						.addNext(() -> {
-							p.startConversation(new GypsyArisDemonSlayerD(p, 2).getStart());
-						}));
+						.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 2).getStart())));
 				option("Where can I find the Silverlight?", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "Where can I find the Silverlight?")
 						.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "Silverlight has been passed down through Wally's descendants. I believe it is currently in the" +
 								" care of one of the King's knights called Sir Prysin.")
 						.addNPC(GYPSY_ARIS, HeadE.TALKING_ALOT, "He shouldn't be too hard to find. He lives in the royal palace in this city. Tell him Gypsy " +
 								"Aris sent you.")
-						.addNext(() -> {
-							p.startConversation(new GypsyArisDemonSlayerD(p, 2).getStart());
-						}));
+						.addNext(() -> p.startConversation(new GypsyArisDemonSlayerD(p, 2).getStart())));
 				option("Stop calling me that!", new Dialogue()
 						.addPlayer(HeadE.ANGRY, "Stop calling me that!")
 						.addNPC(GYPSY_ARIS, HeadE.WORRIED, "In the scheme of things you are very young.")

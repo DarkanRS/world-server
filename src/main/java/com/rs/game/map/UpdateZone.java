@@ -15,21 +15,19 @@ import java.util.List;
 import java.util.Set;
 
 public class UpdateZone {
-    private int baseChunkId;
-    private int baseChunkX;
-    private int baseChunkY;
-    private RegionSize size;
-    private Set<Integer> chunkIds = new IntOpenHashSet();
-    private Set<Integer> regionIds = new IntOpenHashSet();
+    private final int baseChunkId;
+    private final RegionSize size;
+    private final Set<Integer> chunkIds = new IntOpenHashSet();
+    private final Set<Integer> regionIds = new IntOpenHashSet();
     protected Set<Integer> playerWatchers = IntSets.synchronize(new IntOpenHashSet());
     protected Set<Integer> npcWatchers = IntSets.synchronize(new IntOpenHashSet());
-    private List<UpdateZonePartialEnclosed> chunkUpdates = new ObjectArrayList<>();
+    private final List<UpdateZonePartialEnclosed> chunkUpdates = new ObjectArrayList<>();
 
     public UpdateZone(int baseChunkId, RegionSize size) {
         int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
         this.baseChunkId = baseChunkId;
-        this.baseChunkX = coords[0];
-        this.baseChunkY = coords[1];
+        int baseChunkX = coords[0];
+        int baseChunkY = coords[1];
         this.size = size;
         for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
             for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {

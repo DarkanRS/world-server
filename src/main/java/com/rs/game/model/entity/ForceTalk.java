@@ -16,16 +16,7 @@
 //
 package com.rs.game.model.entity;
 
-public final class ForceTalk {
+public record ForceTalk(String text) {
 
-	private String text;
-
-	public ForceTalk(String text) {
-		this.text = text;
-	}
-
-	public String getText() {
-		return text;
-	}
 
 }

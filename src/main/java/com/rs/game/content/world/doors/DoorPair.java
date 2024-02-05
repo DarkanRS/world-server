@@ -35,10 +35,10 @@ public class DoorPair {
 	private static final String PATH = "./data/map/doorPairs.json";
 
 	private static DoorPair[] DOOR_PAIRS;
-	private static Map<Integer, Integer> PAIRING_MAP = new HashMap<>();
+	private static final Map<Integer, Integer> PAIRING_MAP = new HashMap<>();
 
-	private int closed;
-	private int open;
+	private final int closed;
+	private final int open;
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void loadPairs() {

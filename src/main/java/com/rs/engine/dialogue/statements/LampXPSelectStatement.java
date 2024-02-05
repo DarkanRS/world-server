@@ -7,7 +7,7 @@ import com.rs.game.model.entity.player.Player;
 
 public class LampXPSelectStatement implements Statement {
 	
-	private Lamp lamp;
+	private final Lamp lamp;
 	
 	public LampXPSelectStatement(Lamp lamp) {
 		this.lamp = lamp;
@@ -54,11 +54,11 @@ public class LampXPSelectStatement implements Statement {
     }
     
     private int getVarCValueForLamp(int id) {
-        switch (id) {
-            case 4447://Shield of Arrav
-                return 23713;
-        }
-        return id;
+        return switch (id) {
+            case 4447 ->//Shield of Arrav
+                    23713;
+            default -> id;
+        };
     }
 
 	@Override

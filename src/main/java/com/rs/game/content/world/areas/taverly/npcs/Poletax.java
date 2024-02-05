@@ -18,9 +18,7 @@ public class Poletax extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need herblore supplies", () -> {
-                    ShopsHandler.openShop(player, "poletaxs_herblore_shop");
-                });
+                option("I need herblore supplies", () -> ShopsHandler.openShop(player, "poletaxs_herblore_shop"));
                 option("Farewell");
             }
         });

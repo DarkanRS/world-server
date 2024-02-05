@@ -24,8 +24,8 @@ import java.util.Map;
 @SuppressWarnings("serial")
 public class AttackStyle {
 
-	private static Map<Integer, Map<Integer, AttackStyle>> ATTACK_STYLES = new HashMap<>();
-	private static Map<Integer, AttackStyle> UNARMED = new HashMap<>() {{
+	private static final Map<Integer, Map<Integer, AttackStyle>> ATTACK_STYLES = new HashMap<>();
+	private static final Map<Integer, AttackStyle> UNARMED = new HashMap<>() {{
 			put(0, new AttackStyle(0, "Punch", XPType.ACCURATE, AttackType.CRUSH));
 			put(1, new AttackStyle(1, "Kick", XPType.AGGRESSIVE, AttackType.CRUSH));
 			put(2, new AttackStyle(2, "Block", XPType.DEFENSIVE, AttackType.CRUSH));
@@ -181,10 +181,10 @@ public class AttackStyle {
 		}});
 	}
 
-	private int index;
-	private String name;
-	private AttackType attackType;
-	private XPType xpType;
+	private final int index;
+	private final String name;
+	private final AttackType attackType;
+	private final XPType xpType;
 
 	public AttackStyle(int index, String name, XPType xpType, AttackType attackType) {
 		this.index = index;

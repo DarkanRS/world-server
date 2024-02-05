@@ -18,8 +18,8 @@ package com.rs.game.content.world.doors;
 
 public class DoubleDoor {
 
-	private int first;
-	private int second;
+	private final int first;
+	private final int second;
 
 	public DoubleDoor(int first, int second) {
 		this.first = first;

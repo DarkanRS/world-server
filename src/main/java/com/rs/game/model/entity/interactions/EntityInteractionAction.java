@@ -6,7 +6,7 @@ import com.rs.game.model.entity.player.Player;
 
 public abstract class EntityInteractionAction<T extends Action> extends EntityInteraction {
 
-	private T action;
+	private final T action;
 	private boolean started = false;
 
 	public EntityInteractionAction(Entity target, T action, int distance) {

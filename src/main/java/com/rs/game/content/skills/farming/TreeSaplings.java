@@ -26,8 +26,10 @@ public class TreeSaplings {
 	public static boolean hasSaplingRequest(Player player, int itemUsed, int itemUsedWith) {
 		boolean hasSeed = false;
 		for (int seedId : SEEDS)
-			if (itemUsed == seedId || itemUsedWith == seedId)
-				hasSeed = true;
+            if (itemUsed == seedId || itemUsedWith == seedId) {
+                hasSeed = true;
+                break;
+            }
 		return hasSeed && (itemUsed == 5354 || itemUsedWith == 5354);
 	}
 

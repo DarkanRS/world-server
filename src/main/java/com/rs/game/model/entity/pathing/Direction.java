@@ -32,11 +32,11 @@ public enum Direction {
 	WEST(6, -1, 0),
 	NORTHWEST(7, -1, 1);
 
-	private int id;
-	private int dx;
-	private int dy;
+	private final int id;
+	private final int dx;
+	private final int dy;
 
-	private Direction(int id, int dx, int dy) {
+	Direction(int id, int dx, int dy) {
 		this.id = id;
 		this.dx = dx;
 		this.dy = dy;
@@ -67,26 +67,17 @@ public enum Direction {
 	}
 
 	public static Direction getById(int id) {
-		switch (id) {
-		case 0:
-			return NORTH;
-		case 1:
-			return NORTHEAST;
-		case 2:
-			return EAST;
-		case 3:
-			return SOUTHEAST;
-		case 4:
-			return SOUTH;
-		case 5:
-			return SOUTHWEST;
-		case 6:
-			return WEST;
-		case 7:
-			return NORTHWEST;
-		default:
-			return SOUTH;
-		}
+        return switch (id) {
+            case 0 -> NORTH;
+            case 1 -> NORTHEAST;
+            case 2 -> EAST;
+            case 3 -> SOUTHEAST;
+            case 4 -> SOUTH;
+            case 5 -> SOUTHWEST;
+            case 6 -> WEST;
+            case 7 -> NORTHWEST;
+            default -> SOUTH;
+        };
 	}
 
 	public static Direction rotateClockwise(Direction dir, int rotation) {
@@ -121,7 +112,7 @@ public enum Direction {
 			return null;
 	}
 
-	public static final int getAngleTo(Direction dir) {
+	public static int getAngleTo(Direction dir) {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
 

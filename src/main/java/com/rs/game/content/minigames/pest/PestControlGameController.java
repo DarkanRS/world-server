@@ -30,7 +30,7 @@ import com.rs.lib.util.Utils;
 
 public class PestControlGameController extends Controller {
 
-	private transient PestControl control;
+	private final transient PestControl control;
 	private double points;
 
 	@Override

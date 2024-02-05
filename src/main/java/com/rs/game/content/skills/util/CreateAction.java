@@ -24,14 +24,14 @@ import com.rs.lib.game.Item;
 
 public class CreateAction extends PlayerAction {
 
-	private int[] anims;
-	private Item[][] materials;
-	private Item[][] products;
-	private double[] xp;
-	private int[] reqs;
-	private int skill;
-	private int delay;
-	private int choice;
+	private final int[] anims;
+	private final Item[][] materials;
+	private final Item[][] products;
+	private final double[] xp;
+	private final int[] reqs;
+	private final int skill;
+	private final int delay;
+	private final int choice;
 	private int quantity = -1;
 
 	public CreateAction(Item[][] materials, Item[][] products, double[] xp, int[] anim, int[] reqs, int skill, int delay, int choice) {

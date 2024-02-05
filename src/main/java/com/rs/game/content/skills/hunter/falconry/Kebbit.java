@@ -28,8 +28,8 @@ public class Kebbit extends NPC {
 
 		public final int kebbitId, caughtId, level, xp, rate1, rate99, furId;
 
-		static Map<Integer, KebbitType> CATCH_MAP = new HashMap<>();
-		static Map<Integer, KebbitType> CAUGHT_MAP = new HashMap<>();
+		static final Map<Integer, KebbitType> CATCH_MAP = new HashMap<>();
+		static final Map<Integer, KebbitType> CAUGHT_MAP = new HashMap<>();
 
 		static {
 			for (KebbitType k : KebbitType.values()) {
@@ -57,7 +57,7 @@ public class Kebbit extends NPC {
 		}
 	}
 	
-	private KebbitType type;
+	private final KebbitType type;
 	private int catchTimer = -1;
 	private Player caughtBy;
 	private int hintIcon = -1;
@@ -112,7 +112,7 @@ public class Kebbit extends NPC {
 				returnPlayer.getHintIconsManager().removeHintIcon(hintIcon);
 			returnPlayer.lock();
 			returnPlayer.soundEffect(2633, true);
-			World.sendProjectile(this, caughtBy, 922, 24, 8, 0, 1.0, 15, 15, backProj -> {
+			World.sendProjectile(this, caughtBy, 922, 24, 8, 0, 1.0, 15, backProj -> {
 				unlock();
 				returnPlayer.unlock();
 				returnPlayer.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.BIRD_GLOVE));
@@ -123,7 +123,7 @@ public class Kebbit extends NPC {
 		caughtBy = null;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray(), (npcId, tile) -> new Kebbit(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(Arrays.stream(KebbitType.values()).map(k -> k.kebbitId).toArray(), Kebbit::new);
 
 	public void sendFalcon(Player player) {
 		if (player.getSkills().getLevel(Skills.HUNTER) < type.level) {
@@ -145,7 +145,7 @@ public class Kebbit extends NPC {
 		player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.EMPTY_GLOVE));
 		player.getAppearance().generateAppearanceData();
 		player.soundEffect(2634, true);
-		World.sendProjectile(player, this, 922, 24, 8, 0, 1.0, 15, 15, toProj -> {
+		World.sendProjectile(player, this, 922, 24, 8, 0, 1.0, 15, toProj -> {
 			if (Utils.skillSuccess(player.getSkills().getLevel(Skills.HUNTER), type.rate1, type.rate99)) {
 				hintIcon = player.getHintIconsManager().addHintIcon(this, 0, -1, false);
 				catchTimer = Ticks.fromSeconds(60);
@@ -156,7 +156,7 @@ public class Kebbit extends NPC {
 				return;
 			}
 			player.soundEffect(2633, true);
-			World.sendProjectile(this, player, 922, 24, 8, 0, 1.0, 15, 15, backProj -> {
+			World.sendProjectile(this, player, 922, 24, 8, 0, 1.0, 15, backProj -> {
 				unlock();
 				player.unlock();
 				player.getEquipment().setNoPluginTrigger(Equipment.WEAPON, new Item(FalconryController.BIRD_GLOVE));

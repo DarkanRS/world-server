@@ -21,10 +21,10 @@ import com.rs.lib.util.Utils;
 public class BodyGlow {
 
 	private int time;
-	private int redAdd;
-	private int greenAdd;
-	private int blueAdd;
-	private int scalar;
+	private final int redAdd;
+	private final int greenAdd;
+	private final int blueAdd;
+	private final int scalar;
 
 	public BodyGlow(int time, int color1, int color2, int color3, int color4) {
 		this.time = time;

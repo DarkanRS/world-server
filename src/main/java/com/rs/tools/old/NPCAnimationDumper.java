@@ -53,7 +53,7 @@ public class NPCAnimationDumper {
 				if (def.anIntArray5923 != null && def.anIntArray5923[0] == anim.anIntArray5923[0])
 					relatedDefs.add(def);
 			}
-			writer.append(id + " (" + npc.getName() + ") - " + Arrays.toString(relatedDefs.stream().map(def -> def.id + " (" + (def.getEmoteTime()/1000.0) + " secs)").toArray()));
+			writer.append(String.valueOf(id)).append(" (").append(npc.getName()).append(") - ").append(Arrays.toString(relatedDefs.stream().map(def -> def.id + " (" + (def.getEmoteTime() / 1000.0) + " secs)").toArray()));
 			writer.newLine();
 			writer.flush();
 		}

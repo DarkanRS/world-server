@@ -15,16 +15,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 public class TaskManager {
-    private List<TaskInformation> tasks = new ObjectArrayList<>();
-    private Map<String, TaskInformation> mappedTasks = new Object2ObjectOpenHashMap<>();
+    private final List<TaskInformation> tasks = new ObjectArrayList<>();
+    private final Map<String, TaskInformation> mappedTasks = new Object2ObjectOpenHashMap<>();
 
     public void processTasks() {
         synchronized(tasks) {
             try {
                 List<TaskInformation> toRemove = new ArrayList<>();
-                Iterator<TaskInformation> iter = tasks.iterator();
-                while (iter.hasNext()) {
-                    TaskInformation task = iter.next();
+                for (TaskInformation task : tasks) {
                     if (task == null)
                         continue;
                     try {

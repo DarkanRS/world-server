@@ -27,18 +27,16 @@ import com.rs.plugin.annotations.ServerStartupEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
-public class DrezelD extends Conversation {
+public class DrezelInJailD extends Conversation {
 	static final int Drezel = 1047;
 	@ServerStartupEvent
 	public static void addLoSOverride() {
 		Entity.addLOSOverride( Drezel );
 	}
 
-	public static NPCClickHandler HandleDrezel = new NPCClickHandler(new Object[] { Drezel }, new String[] { "Talk-to" }, e -> {
-			e.getPlayer().startConversation(new DrezelD(e.getPlayer()));
-	});
+	public static NPCClickHandler HandleDrezel = new NPCClickHandler(new Object[] { Drezel }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new DrezelInJailD(e.getPlayer())));
 
-	public DrezelD(Player player) {
+	public DrezelInJailD(Player player) {
 		super(player);
 		if (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 4) {
 			player.startConversation(new Dialogue()

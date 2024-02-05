@@ -44,9 +44,7 @@ public class AchievementSystemDialogue extends Conversation {
 									ops1.option("Claim", new Dialogue()
 											.addPlayer(HeadE.CONFUSED, "Could I claim an " + ItemDefinitions.getDefs(itemId).getName() + "?")
 											.addNPC(npcId, HeadE.CHEERFUL, "Of course, you've earned it!")
-											.addItem(itemId, "You've been handed a " + ItemDefinitions.getDefs(itemId).getName() + ".", () -> {
-												player.getInventory().addItem(itemId);
-											}));
+											.addItem(itemId, "You've been handed a " + ItemDefinitions.getDefs(itemId).getName() + ".", () -> player.getInventory().addItem(itemId)));
 								} else {
 									ops1.option("My requirements needed", () -> {
 										if (!reward.hasRequirements(player, itemId))
@@ -59,9 +57,7 @@ public class AchievementSystemDialogue extends Conversation {
 				}
 			});
 		} else {
-			start.addNPC(npcId, HeadE.SHAKING_HEAD, "Unfortunately not. The requirements for claiming the first tier will be listed in your chatbox.", () -> {
-				reward.hasRequirements(player, reward.getItemIds()[0]);
-			});
+			start.addNPC(npcId, HeadE.SHAKING_HEAD, "Unfortunately not. The requirements for claiming the first tier will be listed in your chatbox.", () -> reward.hasRequirements(player, reward.getItemIds()[0]));
 		}
 		create();
 	}

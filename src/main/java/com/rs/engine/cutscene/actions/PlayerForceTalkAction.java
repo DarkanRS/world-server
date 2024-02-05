@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class PlayerForceTalkAction extends CutsceneAction {
 
-	private String text;
+	private final String text;
 
 	public PlayerForceTalkAction(String text, int actionDelay) {
 		super(null, actionDelay);

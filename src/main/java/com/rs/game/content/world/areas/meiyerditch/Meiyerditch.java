@@ -42,17 +42,11 @@ public class Meiyerditch {
 			});
 	});
 
-	public static ObjectClickHandler handleRocks1 = new ObjectClickHandler(new Object[] { 17960, 17679 }, e -> {
-		e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 17960 ? 4 : -4, 0, e.getObjectId() == 17960 ? -1 : 1));
-	});
+	public static ObjectClickHandler handleRocks1 = new ObjectClickHandler(new Object[] { 17960, 17679 }, e -> e.getPlayer().useLadder(e.getPlayer().transform(e.getObjectId() == 17960 ? 4 : -4, 0, e.getObjectId() == 17960 ? -1 : 1)));
 
-	public static ObjectClickHandler handleFloorClimb = new ObjectClickHandler(new Object[] { 18122, 18124 }, e -> {
-		e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18122 ? -1 : 1, 0, e.getObjectId() == 18122 ? -1 : 1));
-	});
+	public static ObjectClickHandler handleFloorClimb = new ObjectClickHandler(new Object[] { 18122, 18124 }, e -> e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18122 ? -1 : 1, 0, e.getObjectId() == 18122 ? -1 : 1)));
 
-	public static ObjectClickHandler handleRubble = new ObjectClickHandler(new Object[] { 18037, 18038 }, e -> {
-		e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18037 ? 3 : -3, 0, 0));
-	});
+	public static ObjectClickHandler handleRubble = new ObjectClickHandler(new Object[] { 18037, 18038 }, e -> e.getPlayer().useLadder(e.getObject().getTile().transform(e.getObjectId() == 18037 ? 3 : -3, 0, 0)));
 
 	public static ObjectClickHandler handleMeiyerditchstairs = new ObjectClickHandler(new Object[] { 17976, 17978 }, e -> {
 		if (e.getObjectId() == 17976)

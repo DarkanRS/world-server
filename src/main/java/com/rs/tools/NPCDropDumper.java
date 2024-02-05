@@ -49,7 +49,7 @@ public class NPCDropDumper {
 		//			}
 	}
 
-	private static Map<String, Integer> CUSTOM_NAME_MAP = new HashMap<>();
+	private static final Map<String, Integer> CUSTOM_NAME_MAP = new HashMap<>();
 
 	static {
 		CUSTOM_NAME_MAP.put("Coins", 995);
@@ -149,8 +149,10 @@ public class NPCDropDumper {
 			String lastDesc = "";
 			String subName = "";
 			for (String line : page.getLines())
-				if (line.contains("DropLogProject"))
-					accurate = true;
+                if (line.contains("DropLogProject")) {
+                    accurate = true;
+                    break;
+                }
 			if (!accurate)
 				return false;
 			boolean skipping = false;

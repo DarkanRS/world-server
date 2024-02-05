@@ -104,7 +104,7 @@ public class CropCircles {
                 delay(4);
 
                 fadeIn(3);
-                action(() -> { player.tele(loc2); });
+                action(() -> player.tele(loc2));
                 delay(2);
                 camPos(loc2.getX()-3, loc2.getY()-3, 2500);
                 camLook(loc2.getX(), loc2.getY(), 0);
@@ -118,24 +118,22 @@ public class CropCircles {
             }
         };
         switch (e.getOption()) {
-            case "Talk-to" -> {
-                e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-                    {
-                        addPlayer(HeadE.CHEERFUL, "Hello there.");
-                        addNPC(e.getNPCId(), HeadE.CONFUSED, "Are they here? Are they there? Are they elsewhere?");
-                        addPlayer(HeadE.CHEERFUL, "Are what where?");
-                        addNPC(e.getNPCId(), HeadE.CONFUSED, "This gate's sisters...");
-                        addPlayer(HeadE.CHEERFUL, "I didn't know gates had relations.");
-                        addNPC(e.getNPCId(), HeadE.CONFUSED, "Oh yes. This one here: she is calm and boring. She stays here all the time. She doesn't like to move, but her sisters are fidgety and refuse to stay in the same place for more than half an hour.");
-                        addPlayer(HeadE.CHEERFUL, "So, where are the, errr, fidgety sisters at the moment?");
-                        addNPC(e.getNPCId(), HeadE.CONFUSED, "Oh well. I don't know what you humans call these places. Let me show you.");
-                        addNext(() -> {
-                            e.getPlayer().playCutscene(currentLocations);
-                        });
-                    }
-                });
-            }
-            case "Check-gates" -> { e.getPlayer().playCutscene(currentLocations); }
+            case "Talk-to" -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+                {
+                    addPlayer(HeadE.CHEERFUL, "Hello there.");
+                    addNPC(e.getNPCId(), HeadE.CONFUSED, "Are they here? Are they there? Are they elsewhere?");
+                    addPlayer(HeadE.CHEERFUL, "Are what where?");
+                    addNPC(e.getNPCId(), HeadE.CONFUSED, "This gate's sisters...");
+                    addPlayer(HeadE.CHEERFUL, "I didn't know gates had relations.");
+                    addNPC(e.getNPCId(), HeadE.CONFUSED, "Oh yes. This one here: she is calm and boring. She stays here all the time. She doesn't like to move, but her sisters are fidgety and refuse to stay in the same place for more than half an hour.");
+                    addPlayer(HeadE.CHEERFUL, "So, where are the, errr, fidgety sisters at the moment?");
+                    addNPC(e.getNPCId(), HeadE.CONFUSED, "Oh well. I don't know what you humans call these places. Let me show you.");
+                    addNext(() -> {
+                        e.getPlayer().playCutscene(currentLocations);
+                    });
+                }
+            });
+            case "Check-gates" -> e.getPlayer().playCutscene(currentLocations);
             default -> {}
         }
     });

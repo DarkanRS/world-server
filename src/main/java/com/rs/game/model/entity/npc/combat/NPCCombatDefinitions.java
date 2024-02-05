@@ -36,13 +36,13 @@ public class NPCCombatDefinitions {
 	private final static String PATH = "data/npcs/combatdefs/";
 	public static HashMap<Object, NPCCombatDefinitions> COMBAT_DEFINITIONS = new HashMap<>();
 	public static NPCCombatDefinitions DEFAULT_DEF;
-	
+
 	private static Map<Skill, Integer> DEFAULT_LEVELS = new HashMap<>();
 
 	static {
 		for (Skill skill : Skill.values())
 			DEFAULT_LEVELS.put(skill, 0);
-		
+
 		NPCCombatDefinitions def = new NPCCombatDefinitions();
 		def.attackStyle = AttackStyle.MELEE;
 		def.agressivenessType = AggressiveType.PASSIVE;
@@ -52,7 +52,7 @@ public class NPCCombatDefinitions {
 	public enum AttackStyle {
 		MELEE, RANGE, MAGE
 	}
-	
+
 	public enum Skill {
 		ATTACK, STRENGTH, DEFENSE, RANGE, MAGE
 	}
@@ -97,7 +97,6 @@ public class NPCCombatDefinitions {
 		maxHit = 1;
 		attackGfx = -1;
 		attackProjectile = -1;
-		respawnAnim = -1;
 	}
 
 	public NPCCombatDefinitions(int... ids) {
@@ -185,6 +184,10 @@ public class NPCCombatDefinitions {
 		}
 	}
 
+	public int getRespawnAnim() {
+		return respawnAnim;
+	}
+
 	public int getRespawnDelay() {
 		return respawnDelay;
 	}
@@ -254,7 +257,7 @@ public class NPCCombatDefinitions {
 	public String[] getNames() {
 		return names;
 	}
-	
+
 	public int getLevel(Skill skill) {
 		return getLevels().get(skill) == null ? 1 : getLevels().get(skill);
 	}
@@ -395,9 +398,5 @@ public class NPCCombatDefinitions {
 
 	public int getDeathSound() {
 		return deathSound;
-	}
-
-	public int getRespawnAnim() {
-		return respawnAnim;
 	}
 }

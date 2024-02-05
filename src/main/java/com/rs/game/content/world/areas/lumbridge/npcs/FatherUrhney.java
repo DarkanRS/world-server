@@ -70,9 +70,7 @@ public class FatherUrhney {
                     } else {
                         player.startConversation(new Dialogue()
                                 .addPlayer(HeadE.HAPPY_TALKING, "I've lost my amulet of ghostspeak.")
-                                .addNPC(NPC, HeadE.CALM_TALK, "Have another one then. But be more careful next time!", () -> {
-                                    player.getInventory().addItem(552, 1);
-                                })
+                                .addNPC(NPC, HeadE.CALM_TALK, "Have another one then. But be more careful next time!", () -> player.getInventory().addItem(552, 1))
                                 .addPlayer(HeadE.HAPPY_TALKING, "Thank you. I'll try.")
                         );
                     }

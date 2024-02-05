@@ -58,9 +58,7 @@ public class SpiderQueenD extends Conversation {
 			addNPC(8975, HeadE.SPIDER_CALM, "I take this as an insult! The bath spider will remain until the Grim Reaper's house is full of its proper cobwebs.");
 			addPlayer(HeadE.CONFUSED, "Shall I ask the Grim Reaper to put cobwebs in his house?");
 			addNPC(8975, HeadE.SPIDER_CALM, "Do not ask him! Tell him! It is an instruction from the Queen of Spiders herself, and the Grim Reaper will obey it!");
-			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.", () -> {
-				player.save(Halloween2009.STAGE_KEY, 5);
-			});
+			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.", () -> player.save(Halloween2009.STAGE_KEY, 5));
 			break;
 		case 5:
 			addNPC(8975, HeadE.SPIDER_CALM, "Go now! But first, speak to my herald. he will give you a companion to help you in this task.");

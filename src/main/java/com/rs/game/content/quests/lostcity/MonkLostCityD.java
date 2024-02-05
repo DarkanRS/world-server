@@ -24,9 +24,7 @@ public class MonkLostCityD extends Conversation {
 			addPlayer(HeadE.HAPPY_TALKING, "Thanks for the information!");
 			addNPC(MONK, HeadE.FRUSTRATED, "...You tricked me. I'm not talking to you anymore.");
 		}
-		case CHOP_DRAMEN_TREE, FIND_ZANARIS, QUEST_COMPLETE ->  {
-			addNPC(MONK, HeadE.FRUSTRATED, "I already told you. I'm not talking to you anymore.");
-		}
+		case CHOP_DRAMEN_TREE, FIND_ZANARIS, QUEST_COMPLETE -> addNPC(MONK, HeadE.FRUSTRATED, "I already told you. I'm not talking to you anymore.");
 		}
 	}
 

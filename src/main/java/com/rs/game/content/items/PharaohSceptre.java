@@ -20,7 +20,6 @@ public class PharaohSceptre {
     public static ItemClickHandler handlePharaohsSceptre = new ItemClickHandler(new Object[] { 9050, 9048, 9046, 9044 }, new String[] { "Teleport" }, e -> {
         if (e.getItem().getId() == PHARAOHS_SCEPTRE[0]){
             e.getPlayer().sendMessage("There are no charges remaining.");
-            return;
         }
         else {
             e.getPlayer().sendMessage("Teleporting");

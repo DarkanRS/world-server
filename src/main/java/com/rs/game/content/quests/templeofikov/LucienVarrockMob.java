@@ -14,7 +14,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 
 @PluginEventHandler
 public class LucienVarrockMob extends NPC {
-	private static int NPC = 8347;
+	private static final int NPC = 8347;
 	public LucienVarrockMob(int id, Tile tile) {
 		super(id, tile, false);
 	}
@@ -25,9 +25,7 @@ public class LucienVarrockMob extends NPC {
 		if(source instanceof Player p && p.getQuestManager().getStage(Quest.TEMPLE_OF_IKOV) == TempleOfIkov.HELP_LUCIEN) {
 			p.startConversation(new Dialogue().addNPC(NPC, HeadE.FRUSTRATED, "You have defeated me for now! I shall reappear in the North!", ()->{
 				TempleOfIkov.setIkovLucienSide(p, false);
-				WorldTasks.delay(3, () -> {
-					p.getQuestManager().completeQuest(Quest.TEMPLE_OF_IKOV);
-				});
+				WorldTasks.delay(3, () -> p.getQuestManager().completeQuest(Quest.TEMPLE_OF_IKOV));
 			}));
 		}
 	}
@@ -38,9 +36,7 @@ public class LucienVarrockMob extends NPC {
 			return true;
 		this.faceEntity(player);
 		player.faceEntity(this);
-		WorldTasks.delay(1, () -> {
-			this.setNextAnimation(new Animation(805));
-		});
+		WorldTasks.delay(1, () -> this.setNextAnimation(new Animation(805)));
 		player.startConversation(new Dialogue()
 				.addNPC(NPC, HeadE.CALM_TALK, "You don't want to attack me. I am your friend.")
 				.addSimple("You decide to not attack Lucien. He is your friend.")
@@ -48,7 +44,7 @@ public class LucienVarrockMob extends NPC {
 		return false;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8347, (npcId, tile) -> new LucienVarrockMob(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(8347, LucienVarrockMob::new);
 
 
 }

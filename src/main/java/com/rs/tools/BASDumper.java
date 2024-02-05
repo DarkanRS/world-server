@@ -91,7 +91,7 @@ public class BASDumper {
 				}
 			}
 
-			writer.append(i + ": " + name);
+			writer.append(String.valueOf(i)).append(": ").append(name);
 			writer.newLine();
 			writer.flush();
 		}

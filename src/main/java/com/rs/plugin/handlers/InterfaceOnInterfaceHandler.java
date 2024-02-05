@@ -24,9 +24,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class InterfaceOnInterfaceHandler extends PluginHandler<IFOnIFEvent> {
-	private boolean bidirectional;
-	private Object[] fromKeys;
-	private Object[] toKeys;
+	private final boolean bidirectional;
+	private final Object[] fromKeys;
+	private final Object[] toKeys;
 	public InterfaceOnInterfaceHandler(boolean bidirectional, int[] fromInterfaceIds, int[] fromComponentIds, int[] toInterfaceIds, int[] toComponentIds, Consumer<IFOnIFEvent> handler) {
 		super(new Object[] { "meme" }, handler);
 		this.bidirectional = bidirectional;

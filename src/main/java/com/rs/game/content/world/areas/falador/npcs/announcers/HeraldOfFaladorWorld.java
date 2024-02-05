@@ -34,5 +34,5 @@ public class HeraldOfFaladorWorld extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13939 }, (npcId, tile) -> new HeraldOfFaladorWorld(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 13939 }, HeraldOfFaladorWorld::new);
 }

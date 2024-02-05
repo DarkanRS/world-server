@@ -61,11 +61,9 @@ public class LadyServilFightArenaD extends Conversation {
 						"would certainly be dead.");
 				addNPC(NPC, HeadE.CALM_TALK, "I am truly grateful for your service. All I can offer in return is a small amount of material wealth. " +
 						"Please take these coins as a sign of my gratitude.");
-				addNext(()->{player.getQuestManager().completeQuest(Quest.FIGHT_ARENA);});
+				addNext(()-> player.getQuestManager().completeQuest(Quest.FIGHT_ARENA));
 			}
-			case QUEST_COMPLETE -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Thank you " + this.player.getDisplayName() + "! My family is alive and safe because of you.");
-			}
+			case QUEST_COMPLETE -> addNPC(NPC, HeadE.CALM_TALK, "Thank you " + this.player.getDisplayName() + "! My family is alive and safe because of you.");
 		}
 	}
 

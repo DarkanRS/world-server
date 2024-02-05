@@ -20,9 +20,9 @@ import com.rs.game.model.entity.player.Player;
 
 public class ItemStatement implements Statement {
 
-	private int itemId;
+	private final int itemId;
 	private int zoom = 500;
-	private String[] text;
+	private final String[] text;
 
 	public ItemStatement(int itemId, String... text) {
 		this.itemId =  itemId;
@@ -37,12 +37,12 @@ public class ItemStatement implements Statement {
 
 	@Override
 	public void send(Player player) {
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		for (String s : this.text)
-			text += s + "<br>";
+			text.append(s).append("<br>");
 		player.getInterfaceManager().sendChatBoxInterface(1189);
 		player.getPackets().sendRunScript(3449, itemId, zoom);
-		player.getPackets().setIFText(1189, 4, text);
+		player.getPackets().setIFText(1189, 4, text.toString());
 	}
 
 	@Override

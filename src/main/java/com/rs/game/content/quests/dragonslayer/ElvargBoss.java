@@ -54,7 +54,7 @@ public class ElvargBoss extends NPC {
 			elvarg.setCantInteract(true);
 			WorldTasks.schedule(new Task() {
 				int tick = 0;
-				int WALK_TO_TILE_TICK = 7;
+				final int WALK_TO_TILE_TICK = 7;
 				Tile animTile;
 				GameObject elvargObj = null;
 

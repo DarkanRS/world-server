@@ -134,7 +134,7 @@ public enum TaskMonster {
 	//111 GELATINOUS_ABOMINATIONS
 	GROTWORMS(112, 1, "grotworm");
 
-	private static HashMap<Integer, TaskMonster> MAP = new HashMap<>();
+	private static final HashMap<Integer, TaskMonster> MAP = new HashMap<>();
 
 	static {
 		for (TaskMonster creature : TaskMonster.values())
@@ -145,8 +145,9 @@ public enum TaskMonster {
 		return MAP.get(enumId);
 	}
 
-	private int enumId, level;
-	private String[] monsterNames;
+	private final int enumId;
+    private final int level;
+	private final String[] monsterNames;
 	private Quest questReq;
 
 	private TaskMonster(int enumId, int level, Quest questReq, String... monsterNames) {

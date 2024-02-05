@@ -22,13 +22,13 @@ import com.rs.game.model.object.GameObject.RouteType;
 
 public class ObjectStrategy extends RouteStrategy {
 
-	private int x;
-	private int y;
-	private int routeType;
-	private ObjectType type;
-	private int rotation;
-	private int sizeX;
-	private int sizeY;
+	private final int x;
+	private final int y;
+	private final int routeType;
+	private final ObjectType type;
+	private final int rotation;
+	private final int sizeX;
+	private final int sizeY;
 	private int accessBlockFlag;
 
 	public ObjectStrategy(GameObject object) {
@@ -46,18 +46,17 @@ public class ObjectStrategy extends RouteStrategy {
 
 	@Override
 	public boolean canExit(int currentX, int currentY, int sizeXY, int[][] clip, int clipBaseX, int clipBaseY) {
-		switch (routeType) {
-		case 0:
-			return RouteStrategy.checkWallInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, x - clipBaseX, y - clipBaseY, type, rotation);
-		case 1:
-			return RouteStrategy.checkWallDecorationInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, x - clipBaseX, y - clipBaseY, type, rotation);
-		case 2:
-			return RouteStrategy.checkFilledRectangularInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, sizeXY, x - clipBaseX, y - clipBaseY, sizeX, sizeY, accessBlockFlag);
-		case 3:
-			return currentX == x && currentY == y;
-		}
-		return false;
-	}
+        return switch (routeType) {
+            case 0 ->
+                    RouteStrategy.checkWallInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, x - clipBaseX, y - clipBaseY, type, rotation);
+            case 1 ->
+                    RouteStrategy.checkWallDecorationInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, x - clipBaseX, y - clipBaseY, type, rotation);
+            case 2 ->
+                    RouteStrategy.checkFilledRectangularInteract(clip, currentX - clipBaseX, currentY - clipBaseY, sizeXY, sizeXY, x - clipBaseX, y - clipBaseY, sizeX, sizeY, accessBlockFlag);
+            case 3 -> currentX == x && currentY == y;
+            default -> false;
+        };
+    }
 
 	@Override
 	public int getApproxDestinationX() {
@@ -82,26 +81,13 @@ public class ObjectStrategy extends RouteStrategy {
 	private int getType(GameObject object) {
 		if (object.getRouteType() == RouteType.WALK_ONTO)
 			return 3;
-		switch(object.getType()) {
-		case WALL_STRAIGHT:
-		case WALL_DIAGONAL_CORNER:
-		case WALL_WHOLE_CORNER:
-		case WALL_STRAIGHT_CORNER:
-		case WALL_INTERACT:
-			return 0;
-		case STRAIGHT_INSIDE_WALL_DEC:
-		case STRAIGHT_OUSIDE_WALL_DEC:
-		case DIAGONAL_OUTSIDE_WALL_DEC:
-		case DIAGONAL_INSIDE_WALL_DEC:
-		case DIAGONAL_INWALL_DEC:
-			return 1;
-		case SCENERY_INTERACT:
-		case GROUND_INTERACT:
-		case GROUND_DECORATION:
-			return 2;
-		default:
-			return 3;
-		}
+        return switch (object.getType()) {
+            case WALL_STRAIGHT, WALL_DIAGONAL_CORNER, WALL_WHOLE_CORNER, WALL_STRAIGHT_CORNER, WALL_INTERACT -> 0;
+            case STRAIGHT_INSIDE_WALL_DEC, STRAIGHT_OUSIDE_WALL_DEC, DIAGONAL_OUTSIDE_WALL_DEC, DIAGONAL_INSIDE_WALL_DEC, DIAGONAL_INWALL_DEC ->
+                    1;
+            case SCENERY_INTERACT, GROUND_INTERACT, GROUND_DECORATION -> 2;
+            default -> 3;
+        };
 	}
 
 	@Override

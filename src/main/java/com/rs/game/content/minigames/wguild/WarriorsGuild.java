@@ -516,7 +516,7 @@ public class WarriorsGuild extends Controller {
 			player.sendMessage("You take a deep breath and prepare yourself.");
 		else if (stage == 1)
 			player.sendMessage("You take a step and throw the shot as hard as you can.");
-		if ((player.getSkills().getLevel(Constants.STRENGTH) / 100) > Math.random()) {
+		if (((double) player.getSkills().getLevel(Constants.STRENGTH) / 100) > Math.random()) {
 			player.sendMessage("You fumble and drop the shot onto your toe. Ow!");
 			player.applyHit(new Hit(player, 10, HitLook.TRUE_DAMAGE));
 			player.unlock();

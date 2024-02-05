@@ -30,9 +30,7 @@ import java.util.stream.IntStream;
 @PluginEventHandler
 public class Dicing {
 	
-	public static ItemClickHandler handleRoll = new ItemClickHandler(new Object[] { IntStream.range(15086, 15100).toArray() }, new String[] { "Drop" }, e -> {
-		handleRoll(e.getPlayer(), e.getItem().getId(), true);
-	});
+	public static ItemClickHandler handleRoll = new ItemClickHandler(new Object[] { IntStream.range(15086, 15100).toArray() }, new String[] { "Drop" }, e -> handleRoll(e.getPlayer(), e.getItem().getId(), true));
 
 	public static void handleRoll(final Player player, int itemId, boolean friends) {
 		if (friends)
@@ -133,26 +131,18 @@ public class Dicing {
 	}
 
 	public static String diceText(int id) {
-		switch (id) {
-		case 15086:
-			return "a six-sided";
-		case 15088:
-			return "two six-sided";
-		case 15090:
-			return "an eight-sided";
-		case 15092:
-			return "a ten-sided";
-		case 15094:
-			return "a twelve-sided";
-		case 15096:
-			return "a a twenty-sided";
-		case 15098:
-			return "the percentile";
-		case 15100:
-			return "a four-sided";
-		}
-		return "";
-	}
+        return switch (id) {
+            case 15086 -> "a six-sided";
+            case 15088 -> "two six-sided";
+            case 15090 -> "an eight-sided";
+            case 15092 -> "a ten-sided";
+            case 15094 -> "a twelve-sided";
+            case 15096 -> "a a twenty-sided";
+            case 15098 -> "the percentile";
+            case 15100 -> "a four-sided";
+            default -> "";
+        };
+    }
 
 	public static int getGraphic(int id) {
 		return 0;

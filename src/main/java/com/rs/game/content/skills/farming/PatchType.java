@@ -21,16 +21,11 @@ public enum PatchType {
 		@Override
 		int getVarBitValue(FarmPatch patch) {
 			if (patch.location == PatchLocation.Burthorpe_potato_patch)
-				switch(patch.growthStage) {
-				case 0:
-					return 6;
-				case 1:
-				case 2:
-				case 3:
-					return 5;
-				default:
-					return 7;
-				}
+                return switch (patch.growthStage) {
+                    case 0 -> 6;
+                    case 1, 2, 3 -> 5;
+                    default -> 7;
+                };
 			int value = patch.seed.varBitPlanted + patch.growthStage;
 			if (patch.dead)
 				value |= 192;
@@ -356,7 +351,7 @@ public enum PatchType {
 		}
 	};
 
-	private int growthTicksPerStage;
+	private final int growthTicksPerStage;
 	abstract int getVarBitValue(FarmPatch patch);
 
 	private PatchType(int growthTicksPerStage) {

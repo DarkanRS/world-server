@@ -30,7 +30,7 @@ public class BonfireD extends Conversation {
 	public BonfireD(Player player, GameObject object, Log[] logs) {
 		super(player);
 		
-		Dialogue makeX = addNext(new MakeXStatement(MakeXType.SELECT, "Which logs do you want to add to the bonfire?", Arrays.stream(logs).mapToInt(log -> log.getLogId()).toArray(), -1));
+		Dialogue makeX = addNext(new MakeXStatement(MakeXType.SELECT, "Which logs do you want to add to the bonfire?", Arrays.stream(logs).mapToInt(Log::getLogId).toArray(), -1));
 		for (Log log : logs)
 			makeX.addNext(() -> player.getActionManager().setAction(new Bonfire(log, object)));
 	}

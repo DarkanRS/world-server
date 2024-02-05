@@ -185,9 +185,7 @@ public class NPCHandler {
 		player.stopAll(true);
 		if (PluginManager.handle(new NPCClickEvent(player, npc, 2, false)))
 			return;
-		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> {
-			PluginManager.handle(new NPCClickEvent(player, npc, 2, true));
-		}));
+		player.getInteractionManager().setInteraction(new StandardEntityInteraction(npc, 0, () -> PluginManager.handle(new NPCClickEvent(player, npc, 2, true))));
 	}
 
 	public static void handleOption3(final Player player, final NPC npc) {
@@ -256,8 +254,7 @@ public class NPCHandler {
 				FremennikShipmaster.sail(player, false);
 			else if (npc instanceof GraveStone grave) {
 				grave.repair(player, false);
-				return;
-			} else if (npc.getId() == 11267) {
+            } else if (npc.getId() == 11267) {
 				int[] noteableFish = { 377, 371, 359, 317, 345, 327 };
 				for (Item item : player.getInventory().getItems().array()) {
 					if (item == null)
@@ -320,8 +317,8 @@ public class NPCHandler {
 				PlayerLook.openThessaliasMakeOver(player);
 			else if (npc.getId() == 1526)
 				player.getInterfaceManager().sendInterface(60);
-			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true)))
-				return;
+			else if (PluginManager.handle(new NPCClickEvent(player, npc, 4, true))) {
+            }
 			else
 				player.sendMessage("Nothing interesting happens." + npc.getId());
 		}));
@@ -359,28 +356,27 @@ public class NPCHandler {
 	}
 
 	public static int getShopIdForNpc(int npcId) {
-		switch (npcId) {
-		case 1254: // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
-			return -1; // TODO get burgh de rott transforming npc spawns
-		case 1866: // Pollniveach General Store", Market Seller. (3359, 2983, 0)
-			return -1; // TODO
-		case 3166: // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
-			return -1; // TODO
-		case 2162: // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
-			return -1; // TODO
-		case 517: // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
-			return -1; // TODO implemented in Karamja.java
-		case 1433: // Solihib's food stall", Solihib. (2769, 2789, 0)
-			return -1; // TODO
-		case 1862: // Ali's Discount Wares", Ali. (3301, 3211, 0)
-			return -1; // TODO
-		case 1435: // Tutab's Magical Market", Tutab. (2757, 2770, 0)
-			return -1; // TODO
-		case 1980: // The Spice is Right", Embalmer. (3286, 2805, 0)
-			return -1; // TODO
+        return switch (npcId) {
+            case 1254 -> // Razmire's General Store", Razmire Keelgan. (3488, 3296, 0)
+                    -1; // TODO get burgh de rott transforming npc spawns
+            case 1866 -> // Pollniveach General Store", Market Seller. (3359, 2983, 0)
+                    -1; // TODO
+            case 3166 -> // Dodgy Mike's Second-hand Clothing", Mike. (3689, 2977, 0)
+                    -1; // TODO
+            case 2162 -> // Vermundi's Clothes Stall", Vermundia. (2887, 10189, 0)
+                    -1; // TODO
+            case 517 -> // Shilo Village Fishing Shop", Fernahei. (2871, 2968, 0)
+                    -1; // TODO implemented in Karamja.java
+            case 1433 -> // Solihib's food stall", Solihib. (2769, 2789, 0)
+                    -1; // TODO
+            case 1862 -> // Ali's Discount Wares", Ali. (3301, 3211, 0)
+                    -1; // TODO
+            case 1435 -> // Tutab's Magical Market", Tutab. (2757, 2770, 0)
+                    -1; // TODO
+            case 1980 -> // The Spice is Right", Embalmer. (3286, 2805, 0)
+                    -1; // TODO
 
-		default:
-			return -1;
-		}
+            default -> -1;
+        };
 	}
 }

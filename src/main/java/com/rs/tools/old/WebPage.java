@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class WebPage {
 
-	private URL url;
+	private final URL url;
 	private ArrayList<String> lines;
 	private String wholePage = "";
 

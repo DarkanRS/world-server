@@ -64,14 +64,10 @@ public class EntranaHighPriestHolyGrailD extends Conversation {
 				});
 				addNPC(217, HeadE.CALM_TALK, "Did you say the Grail? You are a Grail knight, yes? Well you'd better hurry. A Fisher King is in pain.");
 				addPlayer(HeadE.HAPPY_TALKING, "Well I would, but I don't know where I am going!");
-				addNPC(217, HeadE.CALM_TALK, " Go to where the six heads face, blow the whistle and away you go!", ()-> {
-					p.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_MCGRUBOR);
-				});
-				addNext(()->{p.startConversation(new CroneDialogue(p).getStart());});
+				addNPC(217, HeadE.CALM_TALK, " Go to where the six heads face, blow the whistle and away you go!", ()-> p.getQuestManager().setStage(Quest.HOLY_GRAIL, GO_TO_MCGRUBOR));
+				addNext(()-> p.startConversation(new CroneDialogue(p).getStart()));
 			}
-			default -> {
-				addNPC(NPC, HeadE.CALM_TALK, "Bless you " + p.getDisplayName() + "!");
-			}
+			default -> addNPC(NPC, HeadE.CALM_TALK, "Bless you " + p.getDisplayName() + "!");
 		}
 	}
 

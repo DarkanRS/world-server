@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class PlayerGraphicAction extends CutsceneAction {
 
-	private SpotAnim gfx;
+	private final SpotAnim gfx;
 
 	public PlayerGraphicAction(SpotAnim gfx, int actionDelay) {
 		super(null, actionDelay);

@@ -57,9 +57,7 @@ public class Ifaba extends Conversation {
 			public void create() {
 
 				option("I'd like to see what you have for sale.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "ifaba_general_store");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "ifaba_general_store")));
 
 				option("No thanks.", new Dialogue()
 						.addPlayer(HeadE.CONFUSED, "No thanks.")

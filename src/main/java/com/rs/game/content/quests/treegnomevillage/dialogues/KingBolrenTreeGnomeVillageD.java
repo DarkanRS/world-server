@@ -45,17 +45,13 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 									@Override
 									public void create() {
 										option("Yes", new Dialogue()
-												.addPlayer(HeadE.HAPPY_TALKING, "I would be glad to help.", ()->{
-													player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, TALK_TO_MONTAI_ABOUT_WOOD);
-												})
+												.addPlayer(HeadE.HAPPY_TALKING, "I would be glad to help.", ()-> player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, TALK_TO_MONTAI_ABOUT_WOOD))
 												.addNPC(NPC, HeadE.CALM_TALK, "Thank you. The battlefield is to the north of the maze. Commander Montai will inform you of their current situation.")
 												.addNPC(NPC, HeadE.CALM_TALK, "That is if he's still alive.")
 												.addNPC(NPC, HeadE.CALM_TALK, "My assistant shall guide you out. Good luck friend, try your best to return the orb")
 												.addSimple("You are guided out of the maze", ()->{
 													KingBolrenTreeGnomeVillageD.this.player.lock(3);
-													WorldTasks.delay(3, () -> {
-														KingBolrenTreeGnomeVillageD.this.player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "We're out of the maze now. Please hurry, we must have the orb if we are to survive."));
-													});
+													WorldTasks.delay(3, () -> KingBolrenTreeGnomeVillageD.this.player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "We're out of the maze now. Please hurry, we must have the orb if we are to survive.")));
 													KingBolrenTreeGnomeVillageD.this.player.fadeScreen(() -> {
 														KingBolrenTreeGnomeVillageD.this.player.sendMessage("Elkoy leads you through the maze...");
 														KingBolrenTreeGnomeVillageD.this.player.tele(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
@@ -109,9 +105,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 										KingBolrenTreeGnomeVillageD.this.player.lock(3);
 										KingBolrenTreeGnomeVillageD.this.player.getInventory().deleteItem(587, 1);
 										KingBolrenTreeGnomeVillageD.this.player.getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, KILL_WARLORD);
-										WorldTasks.delay(3, () -> {
-											KingBolrenTreeGnomeVillageD.this.player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "Here we are, " + (KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? "feel free to have a look around." : "off you go.")));
-										});
+										WorldTasks.delay(3, () -> KingBolrenTreeGnomeVillageD.this.player.startConversation(new Dialogue().addNPC(473, HeadE.HAPPY_TALKING, "Here we are, " + (KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? "feel free to have a look around." : "off you go."))));
 										KingBolrenTreeGnomeVillageD.this.player.fadeScreen(() -> {
 											KingBolrenTreeGnomeVillageD.this.player.sendMessage("Elkoy leads you through the maze...");
 											KingBolrenTreeGnomeVillageD.this.player.tele(KingBolrenTreeGnomeVillageD.this.player.getY() > 3177 ? Tile.of(2515, 3160, 0) : Tile.of(2502, 3193, 0));
@@ -138,9 +132,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 					addPlayer(HeadE.HAPPY_TALKING, "I have them here.");
 					addNPC(NPC, HeadE.CALM_TALK, "Hooray, you're amazing. I didn't think it was possible but you've saved us.");
 					addNPC(NPC, HeadE.CALM_TALK, "Once the orbs are replaced we will be safe once more.");
-					addNext(()->{
-						this.player.getQuestManager().completeQuest(Quest.TREE_GNOME_VILLAGE);
-					});
+					addNext(()-> this.player.getQuestManager().completeQuest(Quest.TREE_GNOME_VILLAGE));
 					/* We must begin the ceremony immediately.");
 					addPlayer(HeadE.HAPPY_TALKING, "What does the ceremony involve?");
 					addNPC(NPC, HeadE.CALM_TALK, "The spirit tree has looked over us for centuries. Now we must pay our respects.");
@@ -156,9 +148,7 @@ public class KingBolrenTreeGnomeVillageD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "Well hello, it's good to see you again.");
 				if(!this.player.getInventory().containsItem(589)) {
 					addPlayer(HeadE.HAPPY_TALKING, "I've lost my amulet.");
-					addNPC(NPC, HeadE.CALM_TALK, "Oh dear. Here, take another. We truly are indebted to you.", ()->{
-						this.player.getInventory().addItem(new Item(589, 1), true);
-					});
+					addNPC(NPC, HeadE.CALM_TALK, "Oh dear. Here, take another. We truly are indebted to you.", ()-> this.player.getInventory().addItem(new Item(589, 1), true));
 				}
 
 			}

@@ -59,7 +59,7 @@ public class GameArea {
 	 * empty 3 - rift 4 - wall 5 - fog 6 - large rock 7 - altar 8 - kiln 9 - rock 10
 	 * - tree 11 - pool 12 - swarm
 	 */
-	private int[][] flags;
+	private final int[][] flags;
 	/**
 	 * Contains base positions.
 	 */

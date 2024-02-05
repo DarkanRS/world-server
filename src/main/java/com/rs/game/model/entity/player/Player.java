@@ -127,6 +127,7 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -148,6 +149,7 @@ public class Player extends Entity {
 	public transient int chatType;
 
 	private long timePlayed = 0;
+	private transient long timePlayedThisSession = 0;
 	private long timeLoggedOut;
 
 	private transient HashMap<Integer, ReflectionAnalysis> reflectionAnalyses = new HashMap<>();
@@ -170,6 +172,8 @@ public class Player extends Entity {
 
 	private DungManager dungManager;
 
+	private boolean trulyHidden;
+
 	public transient long tolerance = 0;
 	public transient long idleTime = 0;
 	public transient long dyingTime = 0;
@@ -177,11 +181,9 @@ public class Player extends Entity {
 	public transient boolean disconnected = false;
 	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
-	private transient Set<Sound> sounds = new HashSet<Sound>();
+	private transient Set<Sound> sounds = new HashSet<>();
 
 	private Instance instancedArea;
-
-	private int hw07Stage;
 	public transient Runnable onPacketCutsceneFinish;
 
 	public void refreshChargeTimer() {
@@ -322,32 +324,30 @@ public class Player extends Entity {
 	private transient int uuid;
 	private String lastIP;
 	private ArrayList<String> ipAddresses;
-	@SuppressWarnings("unused")
-	private long creationDate;
-	private Appearance appearence;
-	private Inventory inventory;
-	private Equipment equipment;
-	private Skills skills;
-	private CombatDefinitions combatDefinitions;
-	private PrayerManager prayer;
-	private Bank bank;
+    private final Appearance appearence;
+	private final Inventory inventory;
+	private final Equipment equipment;
+	private final Skills skills;
+	private final CombatDefinitions combatDefinitions;
+	private final PrayerManager prayer;
+	private final Bank bank;
 	private int starter;
-	private ControllerManager controllerManager;
-	private MusicsManager musicsManager;
-	private EmotesManager emotesManager;
-	private DominionTower dominionTower;
+	private final ControllerManager controllerManager;
+	private final MusicsManager musicsManager;
+	private final EmotesManager emotesManager;
+	private final DominionTower dominionTower;
 	private Familiar summFamiliar;
-	private AuraManager auraManager;
+	private final AuraManager auraManager;
 	private PetManager petManager;
 	private BossTask bossTask;
-	private QuestManager questManager;
+	private final QuestManager questManager;
 	private MiniquestManager miniquestManager;
-	private TreasureTrailsManager treasureTrailsManager;
+	private final TreasureTrailsManager treasureTrailsManager;
 	private Map<Integer, Offer> geOffers = new HashMap<>();
 
 	public int reaperPoints;
 
-	private boolean wickedHoodTalismans[];
+	private boolean[] wickedHoodTalismans;
 	private boolean hasUsedOmniTalisman;
 	private boolean hasUsedElementalTalisman;
 
@@ -595,7 +595,7 @@ public class Player extends Entity {
 		herbicideSettings = new HashSet<>();
 		ipList = new HashSet<>();
 		machineMap = new HashMap<>();
-		creationDate = System.currentTimeMillis();
+        long creationDate = System.currentTimeMillis();
 		resetLodestones();
 	}
 
@@ -691,8 +691,7 @@ public class Player extends Entity {
 			machineMap.remove(new ArrayList<>(machineMap.keySet()).get(Utils.random(machineMap.keySet().size())));
 		if (machineInformation != null)
 			machineMap.put(machineInformation.hashCode(), machineInformation);
-		return;
-	}
+    }
 
 	public boolean[] getPrayerBook() {
 		return prayerBook;
@@ -845,6 +844,7 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
+		walkRequest = null;
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
@@ -951,6 +951,7 @@ public class Player extends Entity {
 				finish(0);
 
 			timePlayed++;
+			timePlayedThisSession++;
 			timeLoggedOut = System.currentTimeMillis();
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
@@ -1144,10 +1145,8 @@ public class Player extends Entity {
 
 	@Override
 	public void setRun(boolean run) {
-		if (run != getRun()) {
-			super.setRun(run);
-			updateMovementType = true;
-		}
+		super.setRun(run);
+		updateMovementType = true;
 		sendRunButtonConfig();
 	}
 
@@ -1315,10 +1314,8 @@ public class Player extends Entity {
 		if (getInventory().containsOneItem(itemIds) || getEquipment().containsOneItem(itemIds))
 			return true;
 		Familiar familiar = getFamiliar();
-		if (familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished())))
-			return true;
-		return false;
-	}
+        return familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished()));
+    }
 
 	public void processWeeklyTasks() {
 		if (Utils.getTodayDate() >= weeklyDate) {
@@ -1581,37 +1578,26 @@ public class Player extends Entity {
 	}
 
 	public String getPlayerOption(ClientPacket packet) {
-		switch(packet) {
-		case PLAYER_OP1:
-			return playerOptions[0];
-		case PLAYER_OP2:
-			return playerOptions[1];
-		case PLAYER_OP3:
-			return playerOptions[2];
-		case PLAYER_OP4:
-			return playerOptions[3];
-		case PLAYER_OP5:
-			return playerOptions[4];
-		case PLAYER_OP6:
-			return playerOptions[5];
-		case PLAYER_OP7:
-			return playerOptions[6];
-		case PLAYER_OP8:
-			return playerOptions[7];
-		case PLAYER_OP9:
-			return playerOptions[8];
-		case PLAYER_OP10:
-			return playerOptions[9];
-		default:
-			return "null";
-		}
+        return switch (packet) {
+            case PLAYER_OP1 -> playerOptions[0];
+            case PLAYER_OP2 -> playerOptions[1];
+            case PLAYER_OP3 -> playerOptions[2];
+            case PLAYER_OP4 -> playerOptions[3];
+            case PLAYER_OP5 -> playerOptions[4];
+            case PLAYER_OP6 -> playerOptions[5];
+            case PLAYER_OP7 -> playerOptions[6];
+            case PLAYER_OP8 -> playerOptions[7];
+            case PLAYER_OP9 -> playerOptions[8];
+            case PLAYER_OP10 -> playerOptions[9];
+            default -> "null";
+        };
 	}
 
 	@Override
 	public void checkMultiArea() {
 		if (!started)
 			return;
-		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(getTile());
+		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
 			setAtMultiArea(isAtMultiArea);
 			getPackets().sendVarc(616, 1);
@@ -2264,10 +2250,16 @@ public class Player extends Entity {
 			source.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 	}
 
+	public boolean withinDistance(Player other, int distance) {
+		if (other.trulyHidden && other != this)
+			return false;
+		return super.withinDistance(other.getTile(), distance);
+	}
+
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35, 15,
-				proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
+					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
 			if (isAtMultiArea()) {
@@ -2394,7 +2386,7 @@ public class Player extends Entity {
 			List<Item> foodItems = new ArrayList<>();
 			List<Item> trophyItems = new ArrayList<>();
 			for (Item item : droppedItems) {
-				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()) || item.getId() == 24444)
+				if (Foods.isConsumable(item) || Potions.Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
 					foodItems.add(item);
 				else
 					trophyItems.add(item);
@@ -2850,8 +2842,6 @@ public class Player extends Entity {
 	}
 
 	public MoveType getMovementType() {
-		if (getTemporaryMoveType() != null)
-			return getTemporaryMoveType();
 		return moveType;
 	}
 
@@ -3143,10 +3133,8 @@ public class Player extends Entity {
 	}
 
 	public void sendGodwarsKill(NPC npc) {
-		boolean dropKey = false;
-		if (Utils.getRandomInclusive(500) <= 10 && npc.getDefinitions().combatLevel <= 134)
-			dropKey = true;
-		if (npc.getId() >= 6247 && npc.getId() <= 6259) {
+		boolean dropKey = Utils.getRandomInclusive(500) <= 10 && npc.getDefinitions().combatLevel <= 134;
+        if (npc.getId() >= 6247 && npc.getId() <= 6259) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.SARADOMIN);
 			if (dropKey)
 				World.addGroundItem(new Item(20124, 1), Tile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
@@ -3172,8 +3160,7 @@ public class Player extends Entity {
 		}
 		if (npc.getId() >= 13447 && npc.getId() <= 13459) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.ZAROS);
-			return;
-		}
+        }
 	}
 
 	public void openBook(Book book) {
@@ -3218,10 +3205,10 @@ public class Player extends Entity {
 	}
 
 	public void sendMessage(String... mes) {
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		for (String str : mes)
-			text += str + "<br>";
-		getPackets().sendGameMessage(text);
+			text.append(str).append("<br>");
+		getPackets().sendGameMessage(text.toString());
 	}
 
 	public Date getDateJoined() {
@@ -3257,10 +3244,8 @@ public class Player extends Entity {
 	}
 
 	public boolean hasYellTitle() {
-		if (getYellTitle() == null || getYellTitle().isEmpty())
-			return false;
-		return true;
-	}
+        return getYellTitle() != null && !getYellTitle().isEmpty();
+    }
 
 	public String getYellTitle() {
 		return yellTitle;
@@ -3413,7 +3398,7 @@ public class Player extends Entity {
 		return wickedHoodTalismans;
 	}
 
-	public void setWickedHoodTalismans(boolean wickedHoodTalismans[]) {
+	public void setWickedHoodTalismans(boolean[] wickedHoodTalismans) {
 		this.wickedHoodTalismans = wickedHoodTalismans;
 	}
 
@@ -3758,10 +3743,8 @@ public class Player extends Entity {
 		Tools tool = Tools.forId(itemId);
 		if (tool == null)
 			return false;
-		if (tool.contains(getToolValue(tool), itemId))
-			return true;
-		return false;
-	}
+        return tool.contains(getToolValue(tool), itemId);
+    }
 
 	public int getToolValue(Tools tool) {
 		if ((toolbelt == null) || (toolbelt.get(tool) == null))
@@ -3786,10 +3769,8 @@ public class Player extends Entity {
 	}
 
 	public boolean isOnTask(TaskMonster monster) {
-		if (getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster)
-			return true;
-		return false;
-	}
+        return getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster;
+    }
 
 	public void addWalkSteps(Tile toTile, int maxSteps, boolean clip) {
 		addWalkSteps(toTile.getX(), toTile.getY(), maxSteps, clip);
@@ -3848,43 +3829,6 @@ public class Player extends Entity {
 			phasmatysBrewery = new Brewery(false);
 		phasmatysBrewery.setPlayer(this);
 		return phasmatysBrewery;
-	}
-
-	private int easter20Stage = 0;
-
-	public int getEaster20Stage() {
-		return easter20Stage;
-	}
-
-	public void setEaster20Stage(int easter20Stage) {
-		this.easter20Stage = easter20Stage;
-	}
-
-	private int christ19Stage = 0;
-	private Location christ19Loc = null;
-
-	public Location getChrist19Loc() {
-		return christ19Loc;
-	}
-
-	public void setChrist19Loc(Location christ19Loc) {
-		this.christ19Loc = christ19Loc;
-	}
-
-	public int getChrist19Stage() {
-		return christ19Stage;
-	}
-
-	public void setChrist19Stage(int christ19Stage) {
-		this.christ19Stage = christ19Stage;
-	}
-
-	public int getHw07Stage() {
-		return hw07Stage;
-	}
-
-	public void setHw07Stage(int hw07Stage) {
-		this.hw07Stage = hw07Stage;
 	}
 
 	public boolean isRunBlocked() {
@@ -3988,6 +3932,10 @@ public class Player extends Entity {
 		return timePlayed;
 	}
 
+	public long getTimePlayedThisSession() {
+		return timePlayedThisSession;
+	}
+
 	public Map<StorableItem, Item> getLeprechaunStorage() {
 		if (leprechaunStorage == null)
 			leprechaunStorage = new HashMap<>();
@@ -4073,6 +4021,14 @@ public class Player extends Entity {
 
 	public void setLsp(int lsp) {
 		this.lsp = lsp;
+	}
+
+	public boolean isTrulyHidden() {
+		return trulyHidden;
+	}
+
+	public void setTrulyHidden(boolean trulyHidden) {
+		this.trulyHidden = trulyHidden;
 	}
 
 	public void promptSetYellColor() {
@@ -4303,7 +4259,7 @@ public class Player extends Entity {
 	public void delayLock(int ticks, Runnable task) {
 		lock();
 		WorldTasks.delay(ticks, task);
-		WorldTasks.delay(ticks+1, () -> unlock());
+		WorldTasks.delay(ticks+1, this::unlock);
 	}
 
 	public void playPacketCutscene(int id, Runnable onFinish) {
@@ -4350,5 +4306,14 @@ public class Player extends Entity {
 	@Override
 	public String toString() {
 		return "["+getDisplayName() + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
+	}
+
+    @NotNull
+    public String genderTerm(@NotNull String male, @NotNull String female) {
+        return getAppearance().isMale() ? male : female;
+    }
+
+	public void completeQuest(@NotNull Quest quest) {
+		getQuestManager().completeQuest(quest);
 	}
 }

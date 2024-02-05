@@ -25,17 +25,13 @@ public class ApprenticeClara extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need Runecrafting supplies", () -> {
-                    ShopsHandler.openShop(player, "carwens_rune_shop");
-                });
+                option("I need Runecrafting supplies", () -> ShopsHandler.openShop(player, "carwens_rune_shop"));
                 option("What can you tell me about Runecrafting?", new Dialogue().addNPC(npcId,
                                 HeadE.HAPPY_TALKING,
                                 "There's so much to talk about! I'm just learning the ropes though. You'd be"
                                         + " better off talking to Mistress Carwen. As part of my duties I do help her by selling runes. Would you like to"
                                         + " take a look?")
-                        .addPlayer(HeadE.CALM, "I'll have a look.").addNext(() -> {
-                            ShopsHandler.openShop(player, "carwens_rune_shop");
-                        }));
+                        .addPlayer(HeadE.CALM, "I'll have a look.").addNext(() -> ShopsHandler.openShop(player, "carwens_rune_shop")));
                 option("Farewell");
             }
         });

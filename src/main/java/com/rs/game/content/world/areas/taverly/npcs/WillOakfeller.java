@@ -18,9 +18,7 @@ public class WillOakfeller extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need woodcutting supplies", () -> {
-                    ShopsHandler.openShop(player, "will_woodcut_shop");
-                });
+                option("I need woodcutting supplies", () -> ShopsHandler.openShop(player, "will_woodcut_shop"));
                 option("Farewell");
             }
         });

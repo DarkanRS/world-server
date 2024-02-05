@@ -64,7 +64,7 @@ public class BulwarkBeastCombat extends CombatScript {
 		switch (attackStyle) {
 			case 0 -> {
 				npc.sync(13004, 2397);
-				NPCCombatUtil.projectileBounce(npc, target, Set.of(target), 2398, 2399, 1.8, null, nextTarget ->
+				NPCCombatUtil.projectileBounce(npc, target, new HashSet<>(Set.of(target)), 2398, 2399, 1.8, null, nextTarget ->
 					delayHit(npc, 0, nextTarget, getMagicHit(npc, getMaxHit(npc, npc.getMaxHit(), NPCCombatDefinitions.AttackStyle.MAGE, nextTarget))));
 			}
 			case 1 -> {

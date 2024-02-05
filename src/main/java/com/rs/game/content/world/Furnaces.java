@@ -19,8 +19,6 @@ public class Furnaces {
         player.startConversation(new SmeltingD(player, furnace));
     }
 
-    public static ObjectClickHandler furnaceOps = new ObjectClickHandler(new Object[] { "Furnace", "Small furnace", "Clay forge", "Lava Furnace" }, e -> {
-        useFurnace(e.getPlayer(), e.getObject());
-    });
+    public static ObjectClickHandler furnaceOps = new ObjectClickHandler(new Object[] { "Furnace", "Small furnace", "Clay forge", "Lava Furnace" }, e -> useFurnace(e.getPlayer(), e.getObject()));
 
 }

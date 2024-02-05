@@ -54,13 +54,13 @@ public class ItemListDumper {
 		writer.flush();
 		for (int id = 0; id < Utils.getItemDefinitionsSize(); id++) {
 			ItemDefinitions def = ItemDefinitions.getDefs(id);
-			String values = "";
+			StringBuilder values = new StringBuilder();
 			if (def.getClientScriptData() != null)
 				for (Integer key : def.getClientScriptData().keySet()) {
-					CS2ParamDefs param = CS2ParamDefs.getParams(key.intValue());
-					values += "[" + key + " (" + param.type + "): " + Utils.CS2ValTranslate(param.type, def.getClientScriptData().get(key)) + "],";
+					CS2ParamDefs param = CS2ParamDefs.getParams(key);
+					values.append("[").append(key).append(" (").append(param.type).append("): ").append(Utils.CS2ValTranslate(param.type, def.getClientScriptData().get(key))).append("],");
 				}
-			writer.append(id + " - " + def.getName() + " - [" + values + "]");
+			writer.append(String.valueOf(id)).append(" - ").append(def.getName()).append(" - [").append(values.toString()).append("]");
 			writer.newLine();
 			writer.flush();
 		}

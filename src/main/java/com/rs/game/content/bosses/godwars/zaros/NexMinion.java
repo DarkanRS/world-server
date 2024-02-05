@@ -25,7 +25,7 @@ import com.rs.lib.game.Tile;
 
 public class NexMinion extends NPC {
 
-	private NexArena arena;
+	private final NexArena arena;
 
 	public NexMinion(NexArena arena, int id, Tile tile) {
 		super(id, tile, true);

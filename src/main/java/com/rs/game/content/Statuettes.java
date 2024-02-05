@@ -41,10 +41,10 @@ public enum Statuettes {
 	SEREN_STATUETTE(14877, 1000000),
 	ANCIENT_STATUETTE(14876, 5000000);
 
-	int itemId;
-	int value;
+	final int itemId;
+	final int value;
 
-	private Statuettes(int itemId, int value) {
+	Statuettes(int itemId, int value) {
 		this.itemId = itemId;
 		this.value = value;
 	}

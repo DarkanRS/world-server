@@ -396,7 +396,7 @@ public final class ItemsContainer<T extends Item> {
 		for (Item i : data)
 			if (i != null)
 				items.add(i);
-		return items.toArray(new Item[items.size()]);
+		return items.toArray(new Item[0]);
 	}
 
 }

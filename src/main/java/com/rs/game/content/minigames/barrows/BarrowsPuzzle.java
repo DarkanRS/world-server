@@ -27,8 +27,8 @@ public class BarrowsPuzzle {
 	private static final int SEQUENCE_CHILD_START = 6;
 	private static final int[] OPTIONS_COMPS = { 2, 3, 5 };
 
-	private BarrowsPuzzleType puzzle;
-	private int[] shuffledOptions;
+	private final BarrowsPuzzleType puzzle;
+	private final int[] shuffledOptions;
 
 	public BarrowsPuzzle() {
 		puzzle = BarrowsPuzzleType.values()[Utils.random(BarrowsPuzzleType.values().length)];

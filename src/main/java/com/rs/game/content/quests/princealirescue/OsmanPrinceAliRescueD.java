@@ -41,11 +41,9 @@ public class OsmanPrinceAliRescueD extends Conversation {
 				@Override
 				public void create() {
 					option("What is the first thing I must do?", new Dialogue()
-							.addNext(()->{
-								player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING));}));
+							.addNext(()-> player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING))));
 					option("What is the second thing you need?", new Dialogue()
-							.addNext(()->{
-								player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING));}));
+							.addNext(()-> player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING))));
 				}
 			});
 		}
@@ -107,9 +105,9 @@ public class OsmanPrinceAliRescueD extends Conversation {
 			@Override
 			public void create() {
 				option("Explain the first thing again.", new Dialogue()
-						.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING));}));
+						.addNext(()-> player.startConversation(new OsmanPrinceAliRescueD(player, FIRSTTHING))));
 				option("What is the second thing you need?", new Dialogue()
-						.addNext(()->{player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING));}));
+						.addNext(()-> player.startConversation(new OsmanPrinceAliRescueD(player, SECONDTHING))));
 				option("Okay, I better go find some things.", new Dialogue()
 						.addNPC(OSMAN, HeadE.TALKING_ALOT, "May good luck travel with you. Don't forget to find Leela. It can't be done without her help."));
 			}
@@ -120,8 +118,7 @@ public class OsmanPrinceAliRescueD extends Conversation {
 	private void secondthing() {
 		addNPC(OSMAN, HeadE.TALKING_ALOT, "We need the key, or we need a copy made. If you can get some soft clay then you can copy the key...");
 		addNPC(OSMAN, HeadE.TALKING_ALOT, "...If you can convince Lady Keli to show it to you for a moment. She is very boastful. It should not be too hard.");
-		addNPC(OSMAN, HeadE.TALKING_ALOT, "Bring the imprint to me, with a bar of bronze.", () -> {
-			player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.GEAR_CHECK);});
+		addNPC(OSMAN, HeadE.TALKING_ALOT, "Bring the imprint to me, with a bar of bronze.", () -> player.getQuestManager().setStage(Quest.PRINCE_ALI_RESCUE, PrinceAliRescue.GEAR_CHECK));
 		addPlayer(HeadE.HAPPY_TALKING, "Sounds like a mouthful, okay ill get on it!");
 		create();
 	}

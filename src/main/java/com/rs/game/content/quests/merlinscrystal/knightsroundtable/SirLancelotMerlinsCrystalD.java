@@ -50,9 +50,7 @@ public class SirLancelotMerlinsCrystalD extends Conversation {
 							.addPlayer(HeadE.HAPPY_TALKING, "Any ideas on how to get into Morgan Le Faye's stronghold?")
 							.addNPC(NPC, HeadE.CALM_TALK, "That stronghold is built in a strong defensive position. It's on a big rock out into the sea. ")
 							.addNPC(NPC, HeadE.CALM_TALK, "There are two ways in that I know of, the large heavy front doors, and the sea entrance, " +
-									"only penetrable by boat. They take all their deliveries by boat.", ()->{
-										player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, CONFRONT_KEEP_LA_FAYE);
-									})
+									"only penetrable by boat. They take all their deliveries by boat.", ()-> player.getQuestManager().setStage(Quest.MERLINS_CRYSTAL, CONFRONT_KEEP_LA_FAYE))
 							);
 				}
 			});

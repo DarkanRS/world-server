@@ -30,7 +30,7 @@ public class NPCSpawnsDumper {
 
 	private static int writtenCount;
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		BufferedWriter out = new BufferedWriter(new FileWriter("data/npcs/unpackedSpawnsList.txt", true));
 		//Cache.init();
 		MapXTEAs.loadKeys();
@@ -44,7 +44,7 @@ public class NPCSpawnsDumper {
 
 	}
 
-	public static final void dumpRegionNPCs(int regionId, BufferedWriter writer) throws IOException {
+	public static void dumpRegionNPCs(int regionId, BufferedWriter writer) throws IOException {
 		writer.flush();
 		int regionX = (regionId >> 8) * 64;
 		int regionY = (regionId & 0xff) * 64;
@@ -59,8 +59,8 @@ public class NPCSpawnsDumper {
 		while (stream.getRemaining() > 0) {
 			int hash = stream.readUnsignedShort();
 			int npcId = stream.readUnsignedShort();
-			int plane = hash >> 758085070;
-			int localX = (0x1f92 & hash) >> -585992921;
+			int plane = hash >> 14;
+			int localX = (0x1f92 & hash) >> 7;
 			int x = regionX + localX;
 			int localY = 0x3f & hash;
 			int y = regionY + localY;

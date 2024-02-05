@@ -38,6 +38,7 @@ public class WalkingHandler implements PacketHandler<Player, Walk> {
 			player.sendMessage("A magical force prevents you from moving.");
 			return;
 		}
+		player.stopAll();
 		player.walkRequest = packet;
 	}
 }

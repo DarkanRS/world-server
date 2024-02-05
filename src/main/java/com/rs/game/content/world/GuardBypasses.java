@@ -106,9 +106,7 @@ public class GuardBypasses {
 		}
 		e.getStep().setCheckClip(false);
 		e.getPlayer().setRunHidden(false);
-		WorldTasks.delay(3, () -> {
-			e.getPlayer().setRunHidden(true);
-		});
+		WorldTasks.delay(3, () -> e.getPlayer().setRunHidden(true));
 	});
 
 	public static PlayerStepHandler varrockNorthDoor = new PlayerStepHandler(new Tile[] { Tile.of(3245, 3501, 0), Tile.of(3245, 3502, 0) }, e -> {

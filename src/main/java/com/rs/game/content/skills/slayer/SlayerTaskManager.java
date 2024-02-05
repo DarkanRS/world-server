@@ -70,7 +70,7 @@ public class SlayerTaskManager {
 	}
 
 	public void sendKill(Player player, NPC n) {
-		player.getSkills().addXp(Constants.SLAYER, n.getCombatDefinitions().getHitpoints() / 10);
+		player.getSkills().addXp(Constants.SLAYER, (double) n.getCombatDefinitions().getHitpoints() / 10);
 		killsLeft--;
 		if (killsLeft % 10 == 0 && killsLeft != 0)
 			player.sendMessage("You're doing great, only " + killsLeft + " " + getTask().getMonster().getName() + " left to slay.");
@@ -142,7 +142,7 @@ public class SlayerTaskManager {
 
 	public void getTaskFrom(Player player, final Master master) {
 		if (player.hasSlayerTask()) {
-			if ((master == Master.Turael) && (player.getSlayer().getTask().getMaster().name().indexOf("Turael") == -1)) {
+			if ((master == Master.Turael) && (!player.getSlayer().getTask().getMaster().name().contains("Turael"))) {
 				player.sendOptionDialogue("You already have a task, would you like me to assign you something easier?", ops -> {
 					ops.add("Yes, please give me an easier task, " + master.name(), () -> {
 						player.consecutiveTasks = 0;

@@ -72,48 +72,28 @@ public class Revenant extends NPC {
 			List<Item> drops = genDrop(killer, getDefinitions().getName(), getDefinitions().combatLevel);
 			for (Item item : drops)
 				sendDrop(killer, item);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (Error e) {
+		} catch (Exception | Error e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	public int getSpawnAnimation() {
-		switch (getId()) {
-		case 13465:
-			return 7410;
-		case 13466:
-		case 13467:
-		case 13468:
-		case 13469:
-			return 7447;
-		case 13470:
-		case 13471:
-			return 7485;
-		case 13472:
-			return 7424;
-		case 13473:
-			return 7426;
-		case 13474:
-			return 7403;
-		case 13475:
-			return 7457;
-		case 13476:
-			return 7464;
-		case 13477:
-			return 7478;
-		case 13478:
-			return 7417;
-		case 13479:
-			return 7471;
-		case 13480:
-			return 7440;
-		case 13481:
-			return 3643;
-		default:
-			return -1;
-		}
+        return switch (getId()) {
+            case 13465 -> 7410;
+            case 13466, 13467, 13468, 13469 -> 7447;
+            case 13470, 13471 -> 7485;
+            case 13472 -> 7424;
+            case 13473 -> 7426;
+            case 13474 -> 7403;
+            case 13475 -> 7457;
+            case 13476 -> 7464;
+            case 13477 -> 7478;
+            case 13478 -> 7417;
+            case 13479 -> 7471;
+            case 13480 -> 7440;
+            case 13481 -> 3643;
+            default -> -1;
+        };
 	}
 
 	public static List<Item> genDrop(Player killer, String name, int combatLevel) {

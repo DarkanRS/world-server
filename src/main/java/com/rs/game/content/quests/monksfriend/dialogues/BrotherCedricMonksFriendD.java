@@ -62,9 +62,7 @@ public class BrotherCedricMonksFriendD extends Conversation {
 				addPlayer(HeadE.SKEPTICAL_THINKING, "Brother Omad needs the wine for the party.");
 				addNPC(NPC, HeadE.DRUNK, "Oh dear, oh dear, I knew I had to do something!");
 				addNPC(NPC, HeadE.DRUNK, "Hic up! Oh my head! I need a jug of water.");
-				addPlayer(HeadE.FRUSTRATED, "I'll see if I can get some.", () -> {
-					player.getQuestManager().getAttribs(Quest.MONKS_FRIEND).setB("cedric_needs_water", true);
-				});
+				addPlayer(HeadE.FRUSTRATED, "I'll see if I can get some.", () -> player.getQuestManager().getAttribs(Quest.MONKS_FRIEND).setB("cedric_needs_water", true));
 				addNPC(NPC, HeadE.DRUNK, "Thanks! *hic*");
 			}
 

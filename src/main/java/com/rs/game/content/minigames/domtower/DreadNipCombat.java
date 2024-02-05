@@ -28,7 +28,7 @@ import com.rs.lib.util.Utils;
 
 public class DreadNipCombat extends CombatScript {
 
-	private String[] DREADNIP_ATTACK_MESSAGE = { "Your dreadnip stunned its target!", "Your dreadnip poisened its target!" };
+	private final String[] DREADNIP_ATTACK_MESSAGE = { "Your dreadnip stunned its target!", "Your dreadnip poisened its target!" };
 
 	@Override
 	public Object[] getKeys() {

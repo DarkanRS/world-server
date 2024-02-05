@@ -164,7 +164,7 @@ public final class DungeonUtils {
 				possiblities.add(room);
 		}
 		//return new Room[] { new Room(DungeonConstants.BOSS_ROOMS[2][4], rotation) };
-		return possiblities.toArray(new Room[possiblities.size()]);
+		return possiblities.toArray(new Room[0]);
 	}
 
 	public static boolean theresDoorTo(RoomReference checkRoom, Room[][] map) {
@@ -193,7 +193,7 @@ public final class DungeonUtils {
 					possiblities.add(room);
 			}
 		}
-		return possiblities.toArray(new Room[possiblities.size()]);
+		return possiblities.toArray(new Room[0]);
 	}
 
 	public static Room[] selectPossibleRooms(HandledRoom[] handledRooms, int complexity, int floorType, boolean n, boolean e, boolean s, boolean w, int rotation) {
@@ -205,7 +205,7 @@ public final class DungeonUtils {
 			if (room.hasNorthDoor() == n && room.hasEastDoor() == e && room.hasSouthDoor() == s && room.hasWestDoor() == w)
 				possiblities.add(room);
 		}
-		return possiblities.toArray(new Room[possiblities.size()]);
+		return possiblities.toArray(new Room[0]);
 	}
 
 	public static boolean checkDungeonBounds(RoomReference reference, Room[][] map, Room room) {

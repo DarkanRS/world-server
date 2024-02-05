@@ -19,15 +19,15 @@ import java.util.Iterator;
 import java.util.Set;
 
 public class EntityListIterator<E extends Entity> implements Iterator<E> {
-	private Integer[] indicies;
-	private Object[] entities;
+	private final Integer[] indicies;
+	private final Object[] entities;
 	@SuppressWarnings("rawtypes")
-	private EntityList entityList;
+	private final EntityList entityList;
 	private int curIndex = 0;
 
 	public EntityListIterator(Object[] entities, Set<Integer> indicies, @SuppressWarnings("rawtypes") EntityList entityList) {
 		this.entities = entities;
-		this.indicies = indicies.toArray(new Integer[indicies.size()]);
+		this.indicies = indicies.toArray(new Integer[0]);
 		this.entityList = entityList;
 	}
 

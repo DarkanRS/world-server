@@ -20,7 +20,7 @@ import com.rs.game.model.entity.Entity;
 
 public class StandardEntityInteraction extends EntityInteraction {
 
-	private Runnable onReached;
+	private final Runnable onReached;
 
 	public StandardEntityInteraction(Entity target, int distance, Runnable onReached) {
 		super(target, distance);

@@ -33,12 +33,12 @@ public enum SetReward {
 	ARDOUGNE_CLOAK(Area.ARDOUGNE, new Difficulty[] { Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.ELITE }, new int[] { 15345, 15347, 15349, 19748 }),
 	MORYTANIA_LEGS(Area.MORYTANIA, new Difficulty[] { Difficulty.EASY, Difficulty.MEDIUM, Difficulty.HARD, Difficulty.ELITE }, new int[] { 24134, 24135, 24136, 24137 });
 
-	private Area area;
-	private Difficulty[] diffs;
-	private int[] itemIds;
+	private final Area area;
+	private final Difficulty[] diffs;
+	private final int[] itemIds;
 
-	private static Map<Integer, SetReward> REWARDS = new HashMap<>();
-	private static Map<Area, SetReward> AREAS = new HashMap<>();
+	private static final Map<Integer, SetReward> REWARDS = new HashMap<>();
+	private static final Map<Area, SetReward> AREAS = new HashMap<>();
 
 	static {
 		for (SetReward rew : SetReward.values()) {

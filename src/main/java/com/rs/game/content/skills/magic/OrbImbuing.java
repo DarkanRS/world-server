@@ -36,13 +36,13 @@ public class OrbImbuing {
 		FIRE(2153, 71, 63, 73, 569, 152, Rune.FIRE),
 		AIR(2152, 74, 66, 76, 573, 150, Rune.AIR);
 
-		private int objectId;
-		private int componentId;
-		private int req;
-		private int xp;
-		private int orbId;
-		private int gfx;
-		private Rune rune;
+		private final int objectId;
+		private final int componentId;
+		private final int req;
+		private final int xp;
+		private final int orbId;
+		private final int gfx;
+		private final Rune rune;
 
 		private Orbs(int objectId, int componentId, int req, int xp, int orbId, int gfx, Rune rune) {
 			this.objectId = objectId;
@@ -85,8 +85,8 @@ public class OrbImbuing {
 
 	static class OrbChargingAction extends PlayerAction {
 
-		private Orbs orb;
-		private Tile tile;
+		private final Orbs orb;
+		private final Tile tile;
 
 		public OrbChargingAction(Orbs orb, Tile tile) {
 			this.orb = orb;

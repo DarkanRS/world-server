@@ -42,7 +42,7 @@ public class GodwarsController extends Controller {
 	public static int BANDOS = 3;
 	public static int ZAMORAK = 4;
 
-	private int[] killcount = new int[5];
+	private final int[] killcount = new int[5];
 	private long lastPrayerRecharge;
 
 	@Override
@@ -66,22 +66,20 @@ public class GodwarsController extends Controller {
 		return false; // so doesnt remove script
 	}
 
-	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
-			if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
-				if (e.getPlayer().getY() < 5334) {
-					if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
-						e.getPlayer().useStairs(6999, Tile.of(2885, 5347, 2), 1, 1);
-						e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
-						e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
-					} else
-						e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
-				} else
-					e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
-				return;
-			}
-		}, true));
-	});
+	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
+        if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
+            if (e.getPlayer().getY() < 5334) {
+                if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
+                    e.getPlayer().useStairs(6999, Tile.of(2885, 5347, 2), 1, 1);
+                    e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
+                    e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
+                } else
+                    e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
+            } else
+                e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
+            return;
+        }
+    }, true)));
 
 	@Override
 	public boolean processObjectClick1(final GameObject object) {

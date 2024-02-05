@@ -36,15 +36,14 @@ import java.util.List;
 @PluginEventHandler
 public class EasterEggSpawning {
 
-	private static boolean ENABLED = false;
-
-	static int eggsCount = 0;
+    static int eggsCount = 0;
 	static int eggsPerChunk = 2;
 	static IntSet regionsToSpawn = IntSet.of(12850, 11828, 12084, 12853, 12597, 12342, 10806, 10547, 13105);
 
 	@ServerStartupEvent(Priority.POST_PROCESS)
 	public static void initSpawning() {
-		if (!ENABLED)
+        boolean ENABLED = false;
+        if (!ENABLED)
 			return;
 		ChunkManager.permanentlyPreloadRegions(regionsToSpawn);
 		WorldTasks.scheduleHalfHourly(() -> {

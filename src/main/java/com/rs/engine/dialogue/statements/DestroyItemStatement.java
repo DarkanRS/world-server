@@ -21,8 +21,8 @@ import com.rs.lib.game.Item;
 
 public class DestroyItemStatement implements Statement {
 	
-	private Item item;
-	private String message;
+	private final Item item;
+	private final String message;
 
 	public DestroyItemStatement(Item item, String message) {
 		this.item = item;

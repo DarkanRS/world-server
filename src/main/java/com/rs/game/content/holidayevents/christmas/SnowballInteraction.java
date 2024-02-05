@@ -50,7 +50,7 @@ public class SnowballInteraction extends PlayerEntityInteraction {
 			player.sendMessage("You pelt " + ((Player)target).getDisplayName() + " with a snowball.");
 		player.setNextAnimation(new Animation(7530));
 		player.resetWalkSteps();
-		WorldTasks.schedule(1, () -> World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, 0, p -> target.setNextSpotAnim(new SpotAnim(862))));
+		WorldTasks.schedule(1, () -> World.sendProjectile(player, target, 861, 6, 10, 0, 1, 20, p -> target.setNextSpotAnim(new SpotAnim(862))));
 	}
 
 	@Override

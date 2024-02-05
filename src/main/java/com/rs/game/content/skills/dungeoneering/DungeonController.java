@@ -668,6 +668,7 @@ public class DungeonController extends Controller {
 			player.lock(1);
 			player.sendMessage("You unlock the door.");
 			player.setNextAnimation(new Animation(13798));// unlock key
+			object.animate(13594);
 			dungeon.setKey(key, false);
 			room.setDoor(index, null);
 			World.removeObject(object);

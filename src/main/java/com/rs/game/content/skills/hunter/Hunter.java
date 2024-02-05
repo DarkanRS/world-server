@@ -61,22 +61,20 @@ public final class Hunter {
 		}
 	});
 
-	public static ItemClickHandler releaseLizards = new ItemClickHandler(new Object[] { 10149, 10146, 10147, 10148 }, new String[] { "Release" }, e -> {
-		e.getPlayer().startConversation(new Dialogue().addOptions("How many would you like to release?", new Options() {
-			@Override
-			public void create() {
-				if (e.getPlayer().getInventory().getAmountOf(e.getItem().getId()) > 1)
-					option("All", () -> {
-						e.getPlayer().getInventory().deleteItem(e.getItem().getId(), e.getPlayer().getInventory().getAmountOf(e.getItem().getId()));
-						e.getPlayer().sendMessage("You release the " + (e.getItem().getId() == 10149 ? "lizards" : "salamanders") + " and they dart away.");
-					});
-				option("One", () -> {
-					e.getPlayer().getInventory().deleteItem(e.getItem());
-					e.getPlayer().sendMessage("You release the " + (e.getItem().getId() == 10149 ? "lizard" : "salamander") + " and it darts away.");
-				});
-			}
-		}));
-	});
+	public static ItemClickHandler releaseLizards = new ItemClickHandler(new Object[] { 10149, 10146, 10147, 10148 }, new String[] { "Release" }, e -> e.getPlayer().startConversation(new Dialogue().addOptions("How many would you like to release?", new Options() {
+        @Override
+        public void create() {
+            if (e.getPlayer().getInventory().getAmountOf(e.getItem().getId()) > 1)
+                option("All", () -> {
+                    e.getPlayer().getInventory().deleteItem(e.getItem().getId(), e.getPlayer().getInventory().getAmountOf(e.getItem().getId()));
+                    e.getPlayer().sendMessage("You release the " + (e.getItem().getId() == 10149 ? "lizards" : "salamanders") + " and they dart away.");
+                });
+            option("One", () -> {
+                e.getPlayer().getInventory().deleteItem(e.getItem());
+                e.getPlayer().sendMessage("You release the " + (e.getItem().getId() == 10149 ? "lizard" : "salamander") + " and it darts away.");
+            });
+        }
+    })));
 
 	public static ItemOnItemHandler craftPotion = new ItemOnItemHandler(new int[] { 10027, 10028 }, e -> {
 		Item usedWith = e.getUsedWith(10027, 10028);
@@ -127,10 +125,9 @@ public final class Hunter {
 	});
 
 	public static ObjectClickHandler handleTrapCheck = new ObjectClickHandler(new Object[] { "Net trap", "Magic box", "Magic box failed", "Bird snare", "Box trap", "Shaking box", "Marasamaw plant", "Wilted marasamaw plant", "Shaking marasamaw plant" }, e -> {
-		if (!(e.getObject() instanceof BoxStyleTrap))
+		if (!(e.getObject() instanceof BoxStyleTrap trap))
 			return;
-		BoxStyleTrap trap = (BoxStyleTrap) e.getObject();
-		if (!trap.ownedBy(e.getPlayer())) {
+        if (!trap.ownedBy(e.getPlayer())) {
 			e.getPlayer().sendMessage("This isn't your trap.");
 			return;
 		}
@@ -142,12 +139,11 @@ public final class Hunter {
 	});
 
 	public static ItemOnObjectHandler handleBaitTraps = new ItemOnObjectHandler(new Object[] { "Boulder", "Deadfall", "Net trap", "Magic box", "Magic box failed", "Bird snare", "Box trap", "Shaking box", "Marasamaw plant", "Wilted marasamaw plant", "Shaking marasamaw plant" }, null, e -> {
-		if (!(e.getObject() instanceof BoxStyleTrap)) {
+		if (!(e.getObject() instanceof BoxStyleTrap trap)) {
 			e.getPlayer().sendMessage("This trap isn't baitable.");
 			return;
 		}
-		BoxStyleTrap trap = (BoxStyleTrap) e.getObject();
-		if (!trap.ownedBy(e.getPlayer())) {
+        if (!trap.ownedBy(e.getPlayer())) {
 			e.getPlayer().sendMessage("This isn't your trap.");
 			return;
 		}
@@ -158,10 +154,9 @@ public final class Hunter {
 		if (e.getOption().equals("Set-trap"))
 			e.getPlayer().getActionManager().setAction(new BoxAction(BoxTrapType.DEAD_FALL, e.getObject()));
 		else if (e.getOpNum() == ClientPacket.OBJECT_OP1) {
-			if (!(e.getObject() instanceof BoxStyleTrap))
+			if (!(e.getObject() instanceof BoxStyleTrap trap))
 				return;
-			BoxStyleTrap trap = (BoxStyleTrap) e.getObject();
-			if (!trap.ownedBy(e.getPlayer())) {
+            if (!trap.ownedBy(e.getPlayer())) {
 				e.getPlayer().sendMessage("This isn't your trap.");
 				return;
 			}

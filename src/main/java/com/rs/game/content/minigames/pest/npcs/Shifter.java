@@ -34,7 +34,7 @@ public class Shifter extends PestMonsters {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		Entity target = this.getPossibleTargets().get(0);
+		Entity target = this.getPossibleTargets().getFirst();
 		if (getCombat().process() && !this.withinDistance(target.getTile(), 10) || Utils.random(15) == 0)
 			teleportSpinner(target.getTile());
 	}

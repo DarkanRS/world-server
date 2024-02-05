@@ -162,19 +162,13 @@ public class FightCavesController extends Controller {
 	}
 
 	public Tile getSpawnTile() {
-		switch (Utils.random(5)) {
-		case 0:
-			return getTile(11, 16);
-		case 1:
-			return getTile(51, 25);
-		case 2:
-			return getTile(10, 50);
-		case 3:
-			return getTile(46, 49);
-		case 4:
-		default:
-			return getTile(32, 30);
-		}
+        return switch (Utils.random(5)) {
+            case 0 -> getTile(11, 16);
+            case 1 -> getTile(51, 25);
+            case 2 -> getTile(10, 50);
+            case 3 -> getTile(46, 49);
+            default -> getTile(32, 30);
+        };
 	}
 
 	@Override

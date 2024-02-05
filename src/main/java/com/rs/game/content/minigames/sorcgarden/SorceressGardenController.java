@@ -49,12 +49,13 @@ public class SorceressGardenController extends Controller {
 		AUTUMN(21731, 45, Tile.of(2913, 5462, 0), Tile.of(2913, 5463, 0), 229),
 		SUMMER(21687, 65, Tile.of(2910, 5481, 0), Tile.of(2910, 5480, 0), 230);
 
-		private int objectId;
-		private int levelReq;
-		private int musicId;
-		private Tile inside, outside;
+		private final int objectId;
+		private final int levelReq;
+		private final int musicId;
+		private final Tile inside;
+        private final Tile outside;
 
-		private static Map<Integer, Gate> Gates = new HashMap<>();
+		private static final Map<Integer, Gate> Gates = new HashMap<>();
 
 		private Gate(int objectId, int lvlReq, Tile inside, Tile outside, int musicId) {
 			this.objectId = objectId;

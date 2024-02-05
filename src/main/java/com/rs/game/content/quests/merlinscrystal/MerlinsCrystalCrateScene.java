@@ -32,7 +32,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 	private Instance instance;
 	private Tile locationBeforeCutscene;
 	private Tile insideCrate;
-	private Tile destination = Tile.of(2779, 3400, 0);
+	private final Tile destination = Tile.of(2779, 3400, 0);
 
 	@Override
 	public void start() {
@@ -82,7 +82,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 						player.startConversation(new Conversation(player) {
 							{
 								addSimple("You climb inside the crate and wait. And wait...");
-								addNext(()->{tick++;});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -96,7 +96,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 								addSimple("<col=0000FF>Oof. Wow, this is pretty heavy! I never knew candles weighed so much!</col>");
 								addSimple("<col=FF0000>Quit your whining, and stow it in the hold.</col>");
 								addSimple("You feel the crate being put down inside the ship. You wait... And wait...");
-								addNext(()->{tick++;});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -111,7 +111,7 @@ public class MerlinsCrystalCrateScene extends Controller {
 								addSimple("<col=0000FF>...stupid Arhein...making me...candles...never weigh THIS much...hurts...union about this!...</col>");
 								addSimple("<col=0000FF>...if...MY ship be different!...stupid Arhein...</col>");
 								addSimple("You feel the crate being put down.");
-								addNext(()->{tick++;});
+								addNext(()-> tick++);
 								create();
 							}
 						});
@@ -122,13 +122,13 @@ public class MerlinsCrystalCrateScene extends Controller {
 									@Override
 									public void create() {
 										option("Yes", new Dialogue()
-												.addNext(()->{tick++;}));
+												.addNext(()-> tick++));
 										option("No", new Dialogue()
-												.addNext(()->{tick = 22;}));
+												.addNext(()-> tick = 22));
 									}
 								});
 
-								addNext(()->{tick++;});
+								addNext(()-> tick++);
 								create();
 							}
 						});

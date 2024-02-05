@@ -110,12 +110,12 @@ public enum AmmoType {
 	CORAL_BOLTS(new int[] { 24304 }, 3172, 3171),
 	ROYAL_BOLTS(new int[] { 24336 }, 3173, 3170);
 
-	private int projAnim;
-	private int drawbackSpotAnim;
-	private int doubleDrawbackSpotAnim;
-	private int[] itemIds;
+	private final int projAnim;
+	private final int drawbackSpotAnim;
+	private final int doubleDrawbackSpotAnim;
+	private final int[] itemIds;
 
-	private static Map<Integer, AmmoType> MAP = new HashMap<>();
+	private static final Map<Integer, AmmoType> MAP = new HashMap<>();
 
 	static {
 		for (AmmoType t : AmmoType.values())

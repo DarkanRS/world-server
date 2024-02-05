@@ -25,9 +25,9 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class EncantationOptionsD  extends Conversation {
-	private DelrithBoss boss;
+	private final DelrithBoss boss;
 	private int chantCount;
-	private String[] chantOrder = {
+	private final String[] chantOrder = {
 			"Aber",
 			"Gabindo",
 			"Purchai",
@@ -40,8 +40,7 @@ public class EncantationOptionsD  extends Conversation {
 		this.boss = boss;
 		chantCount = 0;
 		addPlayer(HeadE.SKEPTICAL_THINKING, "Now what was that incantation again?");
-		addNext(()-> {
-			player.startConversation(new EncantationOptionsD(player, boss, chantCount, 0).getStart());});
+		addNext(()-> player.startConversation(new EncantationOptionsD(player, boss, chantCount, 0).getStart()));
 	}
 
 	public EncantationOptionsD(Player player, DelrithBoss boss, int chantCount, int convoID) {

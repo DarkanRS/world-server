@@ -10,7 +10,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 
 @PluginEventHandler
 public class RobinCastle extends Dialogue {
-    private static int npcid = 11280;
+    private static final int npcid = 11280;
 
     public static void stage8(Player player) {
         player.startConversation(new Dialogue()

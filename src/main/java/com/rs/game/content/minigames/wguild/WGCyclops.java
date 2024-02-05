@@ -43,5 +43,5 @@ public class WGCyclops extends NPC {
 				killer.sendMessage("Your time has expired and the cyclops will no longer drop defenders.");
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 4291, 4292, 6078, 6079, 6080, 6081 }, (npcId, tile) -> new WGCyclops(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 4291, 4292, 6078, 6079, 6080, 6081 }, WGCyclops::new);
 }

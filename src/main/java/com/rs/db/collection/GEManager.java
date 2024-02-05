@@ -50,9 +50,7 @@ public class GEManager extends DBItemManager {
 	}
 
 	public void get(String username, Consumer<List<Offer>> func) {
-		execute(() -> {
-			func.accept(getSync(username));
-		});
+		execute(() -> func.accept(getSync(username)));
 	}
 
 	public void save(Offer offer) {

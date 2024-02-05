@@ -46,7 +46,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class DuelArenaController extends Controller {
 
 	private transient Player target;
-	private boolean ifFriendly, isDueling;
+	private final boolean ifFriendly;
+    private boolean isDueling;
 
 	private final Item[] FUN_WEAPONS = { new Item(4566) };
 
@@ -58,9 +59,7 @@ public class DuelArenaController extends Controller {
 		ifFriendly = friendly;
 	}
 
-	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> {
-		e.getPlayer().sendMessage("I wouldn't want to fall in.");
-	});
+	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> e.getPlayer().sendMessage("I wouldn't want to fall in."));
 
 	@Override
 	public void start() {

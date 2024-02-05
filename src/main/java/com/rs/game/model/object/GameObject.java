@@ -177,6 +177,10 @@ public class GameObject extends WorldObject {
 		World.sendObjectAnimation(this, animation);
 	}
 
+	public void animate(int animation) {
+		World.sendObjectAnimation(this, new Animation(animation));
+	}
+
 	public RouteType getRouteType() {
 		return routeType;
 	}

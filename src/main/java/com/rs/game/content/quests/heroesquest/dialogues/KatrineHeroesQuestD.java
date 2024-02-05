@@ -27,9 +27,7 @@ public class KatrineHeroesQuestD extends Conversation {
 						addNext(katrineImpressed);
 					else {
 						addPlayer(HeadE.HAPPY_TALKING, "I have lost my master thief's armband...");
-						addNPC(NPC, HeadE.CALM_TALK, "Lucky I 'ave a spare ain't it? Don't lose it again.", () -> {
-							player.getInventory().addItem(1579, 1);
-						});
+						addNPC(NPC, HeadE.CALM_TALK, "Lucky I 'ave a spare ain't it? Don't lose it again.", () -> player.getInventory().addItem(1579, 1));
 					}
 					return;
 				}
@@ -54,9 +52,7 @@ public class KatrineHeroesQuestD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "We, of course, have gang members in a town like Brimhaven who may be able to help you. Visit our hideout in " +
 						"south-east Brimhaven. To get in you will need to tell them the secret password 'Four leaved clover'.");
 			}
-			case QUEST_COMPLETE -> {
-				addNext(katrineImpressed);
-			}
+			case QUEST_COMPLETE -> addNext(katrineImpressed);
 		}
 	}
 }

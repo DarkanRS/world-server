@@ -36,7 +36,7 @@ public class Enchanting {
 
 		RING(1637, 2550), NECKLACE(1656, 3853), AMULET(1694, 1727), BRACELET(11072, 11074);
 
-		private static Map<Integer, Sapphire> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Sapphire> sapJewelry = new HashMap<>();
 
 		public static Sapphire forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -47,8 +47,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Sapphire(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;
@@ -68,7 +68,7 @@ public class Enchanting {
 
 		RING(1639, 2552), NECKLACE(1658, 5521), AMULET(1696, 1729), BRACELET(11076, 11079);
 
-		private static Map<Integer, Emerald> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Emerald> sapJewelry = new HashMap<>();
 
 		public static Emerald forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -79,8 +79,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Emerald(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;
@@ -100,7 +100,7 @@ public class Enchanting {
 
 		RING(1641, 2568), NECKLACE(1660, 11194), AMULET(1698, 1725), BRACELET(11085, 11088);
 
-		private static Map<Integer, Ruby> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Ruby> sapJewelry = new HashMap<>();
 
 		public static Ruby forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -111,8 +111,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Ruby(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;
@@ -132,7 +132,7 @@ public class Enchanting {
 
 		RING(1643, 2570), NECKLACE(1662, 11090), AMULET(1700, 1731), BRACELET(11092, 11095);
 
-		private static Map<Integer, Diamond> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Diamond> sapJewelry = new HashMap<>();
 
 		public static Diamond forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -143,8 +143,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Diamond(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;
@@ -164,7 +164,7 @@ public class Enchanting {
 
 		RING(1645, 20659), NECKLACE(1664, 11105), AMULET(1702, 1712), BRACELET(11115, 11118);
 
-		private static Map<Integer, Dragonstone> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Dragonstone> sapJewelry = new HashMap<>();
 
 		public static Dragonstone forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -175,8 +175,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Dragonstone(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;
@@ -196,7 +196,7 @@ public class Enchanting {
 
 		RING(6575, 6583), NECKLACE(6577, 11128), AMULET(6581, 6585), BRACELET(11130, 11133);
 
-		private static Map<Integer, Onyx> sapJewelry = new HashMap<>();
+		private static final Map<Integer, Onyx> sapJewelry = new HashMap<>();
 
 		public static Onyx forId(int unenchanted) {
 			return sapJewelry.get(unenchanted);
@@ -207,8 +207,8 @@ public class Enchanting {
 				sapJewelry.put(ring.getUnenchanted(), ring);
 		}
 
-		private int unenchanted;
-		private int enchanted;
+		private final int unenchanted;
+		private final int enchanted;
 
 		private Onyx(int unenchanted, int enchanted) {
 			this.unenchanted = unenchanted;

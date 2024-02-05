@@ -47,9 +47,9 @@ public class CookingCombos {
 		UNCOOKED_MEAT_PIE(new Item(2319, 1), 20, new Item[] { new Item(2315, 1), new Item(2140, 1) }),
 		UNCOOKED_BERRY_PIE(new Item(2321, 1), 10, new Item[] { new Item(2315, 1), new Item(1951, 1) });
 
-		private Item[] product;
-		private int req;
-		private Item[] materials;
+		private final Item[] product;
+		private final int req;
+		private final Item[] materials;
 
 		private CookingCombo(Item product, int req, Item[] materials) {
 			this.product = new Item[] { product };

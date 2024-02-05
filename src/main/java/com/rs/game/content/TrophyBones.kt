@@ -1,4 +1,4 @@
-package com.rs.game.content;
+package com.rs.game.content
 
 import com.rs.game.content.items.LootInterface
 import com.rs.plugin.annotations.ServerStartupEvent

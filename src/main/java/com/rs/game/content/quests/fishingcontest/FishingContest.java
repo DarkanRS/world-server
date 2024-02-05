@@ -188,9 +188,7 @@ public class FishingContest extends QuestOutline {
 							{
 								addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
 								addPlayer(HeadE.HAPPY_TALKING, "Sure...");
-								addNext(() -> {
-									p.unlock();
-								});
+								addNext(p::unlock);
 								create();
 							}
 						});

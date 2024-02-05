@@ -8,11 +8,11 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class TradeLog {
-	private String uuid;
-	private String player1;
-	private List<Item> p1Items;
-	private String player2;
-	private List<Item> p2Items;
+	private final String uuid;
+	private final String player1;
+	private final List<Item> p1Items;
+	private final String player2;
+	private final List<Item> p2Items;
 
 	public TradeLog(Player p1, List<Item> p1Items, Player p2, List<Item> p2Items) {
 		this.player1 = p1.getUsername();

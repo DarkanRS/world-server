@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class NPCTransformAction extends CutsceneAction {
 
-	private int id;
+	private final int id;
 
 	public NPCTransformAction(String key, int id, int actionDelay) {
 		super(key, actionDelay);

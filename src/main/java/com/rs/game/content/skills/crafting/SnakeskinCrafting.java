@@ -25,11 +25,11 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 @PluginEventHandler
 public class SnakeskinCrafting  {
 
-	private static Item[][] materials = { { new Item(6287, 6), new Item(1734) }, { new Item(6287, 8), new Item(1734) }, { new Item(6287, 5), new Item(1734) }, { new Item(6287, 12), new Item(1734) }, { new Item(6287, 15), new Item(1734) } };
-	private static Item[][] products = { { new Item(6328) }, { new Item(6330) }, { new Item(6326) }, { new Item(6324) }, { new Item(6322) } };
-	private static int[] reqs = { 45, 47, 48, 51, 53 };
-	private static double[] xp = { 30, 35, 45, 50, 55 };
-	private static int[] anims = { -1, -1, -1, -1, -1 };
+	private static final Item[][] materials = { { new Item(6287, 6), new Item(1734) }, { new Item(6287, 8), new Item(1734) }, { new Item(6287, 5), new Item(1734) }, { new Item(6287, 12), new Item(1734) }, { new Item(6287, 15), new Item(1734) } };
+	private static final Item[][] products = { { new Item(6328) }, { new Item(6330) }, { new Item(6326) }, { new Item(6324) }, { new Item(6322) } };
+	private static final int[] reqs = { 45, 47, 48, 51, 53 };
+	private static final double[] xp = { 30, 35, 45, 50, 55 };
+	private static final int[] anims = { -1, -1, -1, -1, -1 };
 
 	public static ItemOnItemHandler craft = new ItemOnItemHandler(6287, 1733, e -> e.getPlayer().startConversation(new CreateActionD(e.getPlayer(), materials, products, xp, anims, reqs, Constants.CRAFTING, 2)));
 }

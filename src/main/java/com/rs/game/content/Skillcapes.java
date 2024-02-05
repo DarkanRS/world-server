@@ -54,7 +54,7 @@ public enum Skillcapes {
 	public final int untrimmed, trimmed, hood, master;
 	public final String verb;
 
-	private Skillcapes(int untrimmed, int trimmed, int hood, int master, String verb) {
+	Skillcapes(int untrimmed, int trimmed, int hood, int master, String verb) {
 		this.untrimmed = untrimmed;
 		this.trimmed = trimmed;
 		this.hood = hood;

@@ -38,7 +38,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @PluginEventHandler
 public class ShadesOfMortton {
 
-	private static Map<Integer, TempleWall> WALLS = new ConcurrentHashMap<>();
+	private static final Map<Integer, TempleWall> WALLS = new ConcurrentHashMap<>();
 	private static int REPAIR_STATE = 0;
 
 	public static int getRepairState() {
@@ -211,58 +211,56 @@ public class ShadesOfMortton {
 		}
 	});
 
-	public static ObjectClickHandler handleWallRepairs = new ObjectClickHandler(new Object[] { 4068, 4069, 4070, 4071, 4072, 4073, 4074, 4075, 4076, 4077, 4078, 4079, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4088, 4089 }, e -> {
-		e.getPlayer().getActionManager().setAction(new PlayerAction() {
+	public static ObjectClickHandler handleWallRepairs = new ObjectClickHandler(new Object[] { 4068, 4069, 4070, 4071, 4072, 4073, 4074, 4075, 4076, 4077, 4078, 4079, 4080, 4081, 4082, 4083, 4084, 4085, 4086, 4087, 4088, 4089 }, e -> e.getPlayer().getActionManager().setAction(new PlayerAction() {
 
-			@Override
-			public boolean start(Player player) {
-				player.getActionManager().setActionDelay(4);
-				return true;
-			}
+        @Override
+        public boolean start(Player player) {
+            player.getActionManager().setActionDelay(4);
+            return true;
+        }
 
-			@Override
-			public boolean process(Player player) {
-				boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
-				int anim = player.getInventory().containsItem(3678) ? inside ? 8861 : 8890 : inside ? 8865 : 8888;
-				if (getWall(e.getObject()).getRepairPerc() > 50)
-					anim = player.getInventory().containsItem(3678) ? 8950 : 8893;
-				player.setNextAnimation(new Animation(anim));
-				return true;
-			}
+        @Override
+        public boolean process(Player player) {
+            boolean inside = player.getX() >= 3505 && player.getX() <= 3507 && player.getY() >= 3315 && player.getY() <= 3317;
+            int anim = player.getInventory().containsItem(3678) ? inside ? 8861 : 8890 : inside ? 8865 : 8888;
+            if (getWall(e.getObject()).getRepairPerc() > 50)
+                anim = player.getInventory().containsItem(3678) ? 8950 : 8893;
+            player.setNextAnimation(new Animation(anim));
+            return true;
+        }
 
-			@Override
-			public int processWithDelay(Player player) {
-				player.faceTile(e.getObject().getTile());
-				if (player.getI("shadeResources", 0) <= 95 && player.getInventory().containsItem(8837) && player.getInventory().containsItem(3420) && player.getInventory().containsItem(1941, 5)) {
-					player.getInventory().deleteItem(8837, 1);
-					player.getInventory().deleteItem(3420, 1);
-					player.getInventory().deleteItem(1941, 5);
-					addResources(player, 5);
-				}
-				if (player.getI("shadeResources", 0) <= 0) {
-					player.sendMessage("You have run out of resources!");
-					return -1;
-				}
-				if (Utils.random(player.getInventory().containsItem(3678) ? 2 : 6) != 0) {
-					player.getSkills().addXp(Constants.CRAFTING, Utils.random(5, 9));
-					return 4;
-				}
-				TempleWall wall = WALLS.get(e.getObject().getTile().getTileHash());
-				if (wall == null)
-					wall = new TempleWall(e.getObject());
-				wall.increaseProgress();
-				removeResources(player, 1);
-				addSanctity(player, 5);
-				player.getSkills().addXp(Constants.CRAFTING, Utils.random(20, 35));
-				return 4;
-			}
+        @Override
+        public int processWithDelay(Player player) {
+            player.faceTile(e.getObject().getTile());
+            if (player.getI("shadeResources", 0) <= 95 && player.getInventory().containsItem(8837) && player.getInventory().containsItem(3420) && player.getInventory().containsItem(1941, 5)) {
+                player.getInventory().deleteItem(8837, 1);
+                player.getInventory().deleteItem(3420, 1);
+                player.getInventory().deleteItem(1941, 5);
+                addResources(player, 5);
+            }
+            if (player.getI("shadeResources", 0) <= 0) {
+                player.sendMessage("You have run out of resources!");
+                return -1;
+            }
+            if (Utils.random(player.getInventory().containsItem(3678) ? 2 : 6) != 0) {
+                player.getSkills().addXp(Constants.CRAFTING, Utils.random(5, 9));
+                return 4;
+            }
+            TempleWall wall = WALLS.get(e.getObject().getTile().getTileHash());
+            if (wall == null)
+                wall = new TempleWall(e.getObject());
+            wall.increaseProgress();
+            removeResources(player, 1);
+            addSanctity(player, 5);
+            player.getSkills().addXp(Constants.CRAFTING, Utils.random(20, 35));
+            return 4;
+        }
 
-			@Override
-			public void stop(Player player) {
-				player.setNextAnimation(new Animation(-1));
-			}
-		});
-	});
+        @Override
+        public void stop(Player player) {
+            player.setNextAnimation(new Animation(-1));
+        }
+    }));
 
 	public static ItemOnItemHandler handleNecromancerKits = new ItemOnItemHandler(new int[] { 21489 }, new int[] { 14497, 14499, 14501 }, e -> {
 		if (e.getPlayer().getSkills().getLevel(Constants.CRAFTING) < 85) {

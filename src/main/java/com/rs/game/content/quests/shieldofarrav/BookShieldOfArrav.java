@@ -71,17 +71,17 @@ public class BookShieldOfArrav {
 
 	public static int setParagraph(Player p, String text, int lineNum) {
 		String[] words = text.split(" ");
-		String line = "";
+		StringBuilder line = new StringBuilder();
 
 		for(int i = 0; i < words.length;) {
 			while ((line + words[i]).length() < 26) {
-				line = line + words[i++] + " ";
+				line.append(words[i++]).append(" ");
 				if(i >= words.length)
 					break;
 			}
 
-			p.getPackets().setIFText(BOOKINTERFACE, 69 + lineNum, line);
-			line = "";
+			p.getPackets().setIFText(BOOKINTERFACE, 69 + lineNum, line.toString());
+			line = new StringBuilder();
 			lineNum++;
 		}
 

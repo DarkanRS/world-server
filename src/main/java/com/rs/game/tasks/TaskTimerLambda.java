@@ -24,7 +24,7 @@ import java.util.function.Function;
 public class TaskTimerLambda extends Task {
 
 	int tick = 0;
-	private Function<Integer, Boolean> task;
+	private final Function<Integer, Boolean> task;
 	private String stack;
 
 	public TaskTimerLambda(Function<Integer, Boolean> task) {

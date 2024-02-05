@@ -63,9 +63,7 @@ public class OddensteinErnestChickenD extends Conversation {
 								.addNPC(ODDENSTEIN, HeadE.HAPPY_TALKING, "Oh, he isn't normally a chicken, or, at least, he wasn't until he helped me test my" +
 										" pouletmorph machine. ")
 								.addNPC(ODDENSTEIN, HeadE.TALKING_ALOT, "It was originally going to be called a transmutation machine, but after testing it, pouletmorph " +
-										"seems more appropriate.", () -> {
-											player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.KNOWS_ABOUT_CHICKEN);
-										})
+										"seems more appropriate.", () -> player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.KNOWS_ABOUT_CHICKEN))
 								.addOptions("Choose an option:", new Options() {
 									@Override
 									public void create() {
@@ -81,9 +79,7 @@ public class OddensteinErnestChickenD extends Conversation {
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "That would be a help. They'll be somewhere in the manor house or its grounds, " +
 														"the gremlins never get further than the entrance gate.")
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "I'm missing the pressure gauge and a rubber tube. They've also taken my oil " +
-														"can, which I'm going to need to get this thing started again.", () -> {
-															player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
-														}));
+														"can, which I'm going to need to get this thing started again.", () -> player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS)));
 										option("Change him back this instant", new Dialogue()
 												.addPlayer(HeadE.ANGRY, "Change him back this instant!")
 												.addNPC(ODDENSTEIN, HeadE.NERVOUS, "Umm... It's not so easy...")
@@ -92,9 +88,7 @@ public class OddensteinErnestChickenD extends Conversation {
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "That would be a help. They'll be somewhere in the manor house or its grounds, " +
 														"the gremlins never get further than the entrance gate.")
 												.addNPC(ODDENSTEIN, HeadE.CALM_TALK, "I'm missing the pressure gauge and a rubber tube. They've also taken my oil " +
-														"can, which I'm going to need to get this thing started again.", () -> {
-															player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS);
-														}));
+														"can, which I'm going to need to get this thing started again.", () -> player.getQuestManager().setStage(Quest.ERNEST_CHICKEN, ErnestTheChicken.NEEDS_PARTS)));
 									}
 								}));
 					option("What does this machine do?", new Dialogue()

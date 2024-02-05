@@ -230,13 +230,13 @@ public class ArtisansWorkshop  {
 		return highest;
 	}
 
-	private static ReqItem[] IRON = { ReqItem.IRON_INGOT_I, ReqItem.IRON_INGOT_II, ReqItem.IRON_INGOT_III, ReqItem.IRON_INGOT_IV };
-	private static ReqItem[] STEEL = { ReqItem.STEEL_INGOT_I, ReqItem.STEEL_INGOT_II, ReqItem.STEEL_INGOT_III, ReqItem.STEEL_INGOT_IV };
-	private static ReqItem[] MITHRIL = { ReqItem.MITHRIL_INGOT_I, ReqItem.MITHRIL_INGOT_II, ReqItem.MITHRIL_INGOT_III, ReqItem.MITHRIL_INGOT_IV };
-	private static ReqItem[] ADAMANT = { ReqItem.ADAMANT_INGOT_I, ReqItem.ADAMANT_INGOT_II, ReqItem.ADAMANT_INGOT_III, ReqItem.ADAMANT_INGOT_IV };
-	private static ReqItem[] RUNE = { ReqItem.RUNE_INGOT_I, ReqItem.RUNE_INGOT_II, ReqItem.RUNE_INGOT_III, ReqItem.RUNE_INGOT_IV };
+	private static final ReqItem[] IRON = { ReqItem.IRON_INGOT_I, ReqItem.IRON_INGOT_II, ReqItem.IRON_INGOT_III, ReqItem.IRON_INGOT_IV };
+	private static final ReqItem[] STEEL = { ReqItem.STEEL_INGOT_I, ReqItem.STEEL_INGOT_II, ReqItem.STEEL_INGOT_III, ReqItem.STEEL_INGOT_IV };
+	private static final ReqItem[] MITHRIL = { ReqItem.MITHRIL_INGOT_I, ReqItem.MITHRIL_INGOT_II, ReqItem.MITHRIL_INGOT_III, ReqItem.MITHRIL_INGOT_IV };
+	private static final ReqItem[] ADAMANT = { ReqItem.ADAMANT_INGOT_I, ReqItem.ADAMANT_INGOT_II, ReqItem.ADAMANT_INGOT_III, ReqItem.ADAMANT_INGOT_IV };
+	private static final ReqItem[] RUNE = { ReqItem.RUNE_INGOT_I, ReqItem.RUNE_INGOT_II, ReqItem.RUNE_INGOT_III, ReqItem.RUNE_INGOT_IV };
 
-	private static HashMap<String, ReqItem[]> BAR_SETS = new HashMap<>();
+	private static final HashMap<String, ReqItem[]> BAR_SETS = new HashMap<>();
 
 	static {
 		BAR_SETS.put("Iron", IRON);
@@ -271,7 +271,7 @@ public class ArtisansWorkshop  {
 						ops.add(opName, () -> openIngotCreation(e.getPlayer(), BAR_SETS.get(opName)));
 				});
 			} else if (options.size() == 1)
-				openIngotCreation(e.getPlayer(), BAR_SETS.get(options.get(0)));
+				openIngotCreation(e.getPlayer(), BAR_SETS.get(options.getFirst()));
 			else
 				e.getPlayer().sendMessage("You don't have any ore stored.");
 			break;

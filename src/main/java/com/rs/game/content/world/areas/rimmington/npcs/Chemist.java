@@ -61,7 +61,7 @@ public class Chemist extends Conversation {
                                     .addNPC(CHEMIST, HeadE.CALM_TALK, "Errm, yes. Here, have this one. It's only been used for sieving dead rats out of sewer water.")
                                     .addPlayer(HeadE.CALM_TALK, "Err, why? Actually, on second thoughts I don't want to know.")
                                     .addNPC(CHEMIST, HeadE.CALM_TALK, "Well, it should be ideally suited to your task.")
-                                    .addItem(6097, "The chemist gives you a sieve.", () -> { player.getInventory().addItemDrop(6097, 1); });
+                                    .addItem(6097, "The chemist gives you a sieve.", () -> player.getInventory().addItemDrop(6097, 1));
                             else
                                 ops2.add("Do you have a sieve I can use?")
                                     .addPlayer(HeadE.CALM_TALK, "Do you have a sieve I can use?")
@@ -74,7 +74,5 @@ public class Chemist extends Conversation {
         });
     }
 
-    public static NPCClickHandler handleChemist = new NPCClickHandler(new Object[] { CHEMIST }, e -> {
-        e.getPlayer().startConversation(new Chemist(e.getPlayer()));
-    });
+    public static NPCClickHandler handleChemist = new NPCClickHandler(new Object[] { CHEMIST }, e -> e.getPlayer().startConversation(new Chemist(e.getPlayer())));
 }

@@ -53,9 +53,7 @@ public class Cremation {
 		e.getPlayer().getVars().setVarBit(4583, 1); //shiny blood talisman
 	});
 
-	public static ObjectClickHandler handleColumbariumStairs = new ObjectClickHandler(new Object[] { 30621, 30534 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 30621 ? Tile.of(3422, 9965, 0) : Tile.of(3425, 9899, 0));
-	});
+	public static ObjectClickHandler handleColumbariumStairs = new ObjectClickHandler(new Object[] { 30621, 30534 }, e -> e.getPlayer().useStairs(e.getObjectId() == 30621 ? Tile.of(3422, 9965, 0) : Tile.of(3425, 9899, 0)));
 
 	public static ItemOnObjectHandler handlePyreLogSetup = new ItemOnObjectHandler(new Object[] { 4093, 30467 }, Arrays.stream(PyreLog.values()).map(log -> log.itemId).toArray(), e -> {
 		PyreLog log = PyreLog.forId(e.getItem().getId());
@@ -67,15 +65,14 @@ public class Cremation {
 	});
 
 	public static ItemOnObjectHandler handlePyreLogCorpse = new ItemOnObjectHandler(new Object[] { 4094, 4095, 4096, 4097, 4098, 9006, 9007, 21271, 29166, 29181, 30468, 30469, 30470, 30471, 30472, 30473, 30474, 30475, 30476, 30477 }, Arrays.stream(Corpse.values()).flatMap(corpse -> Arrays.stream(corpse.itemIds).boxed()).collect(Collectors.toList()).toArray(), e -> {
-		if (!(e.getObject() instanceof Pyre))
+		if (!(e.getObject() instanceof Pyre pyre))
 			return;
 		Corpse corpse = Corpse.forId(e.getItem().getId());
 		if (corpse == null) {
 			e.getPlayer().sendMessage("Nothing interesting happens.");
 			return;
 		}
-		Pyre pyre = (Pyre) e.getObject();
-		if (!pyre.ownedBy(e.getPlayer())) {
+        if (!pyre.ownedBy(e.getPlayer())) {
 			e.getPlayer().sendMessage("That's not your pyre!");
 			return;
 		}
@@ -88,10 +85,9 @@ public class Cremation {
 	});
 
 	public static ObjectClickHandler handleLightPyre = new ObjectClickHandler(new Object[] { 4100, 4101, 4102, 4103, 4104, 9008, 9009, 21272, 29167, 29182, 30478, 30479, 30480, 30481, 30482, 30483, 30484, 30485, 30486, 30487 }, e -> {
-		if (!(e.getObject() instanceof Pyre))
+		if (!(e.getObject() instanceof Pyre pyre))
 			return;
-		Pyre pyre = (Pyre) e.getObject();
-		if (!pyre.ownedBy(e.getPlayer())) {
+        if (!pyre.ownedBy(e.getPlayer())) {
 			e.getPlayer().sendMessage("That's not your pyre!");
 			return;
 		}

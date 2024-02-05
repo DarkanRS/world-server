@@ -35,7 +35,7 @@ public class LandscapeDataReplacer {
 
 	private static Store NEW;
 
-	public static final void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		//Cache.init();
 		NEW = new Store("C:/Users/John/Desktop/723 cache/");
 		MapXTEAs.loadKeys();

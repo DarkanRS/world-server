@@ -42,8 +42,8 @@ import com.rs.utils.WorldUtil;
 
 public class StealingCreationController extends Controller {
 
-	private transient StealingCreationGameController game;
-	private boolean team;
+	private final transient StealingCreationGameController game;
+	private final boolean team;
 
 	public StealingCreationController(StealingCreationGameController game, boolean team) {
 		this.game = game;
@@ -293,7 +293,7 @@ public class StealingCreationController extends Controller {
 			player.sendMessage("You pick " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pocket.");
 			player.getTempAttribs().setL("PICKPOCK_DELAY", System.currentTimeMillis());
 			int level = Utils.getRandomInclusive(thievingLevel);
-			double ratio = level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
+			double ratio = (double) level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
 			if (!(Math.round(ratio * thievingLevel) > target.getSkills().getLevel(Constants.THIEVING)))
 				player.sendMessage("You fail to pickpocket " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + ".");
 			else {
@@ -629,7 +629,9 @@ public class StealingCreationController extends Controller {
 
 		SWARM(10618, 14152, Constants.HUNTER);
 
-		private int baseAnimation, baseItem, skillRequested;
+		private final int baseAnimation;
+        private final int baseItem;
+        private final int skillRequested;
 
 		private CreationChunks(int baseAnimation, int baseItem, int skillRequested) {
 			this.baseAnimation = baseAnimation;

@@ -62,7 +62,7 @@ public class TeleportTabs {
 		BLOOD_ALTAR(13610, Tile.of(3559, 9778, 0)),
 		ASTRAL_ALTAR(13611, Tile.of(2150, 3862, 0));
 
-		private static Map<Integer, TeleTab> MAP = new HashMap<>();
+		private static final Map<Integer, TeleTab> MAP = new HashMap<>();
 
 		static {
 			for (TeleTab t : TeleTab.values())
@@ -73,8 +73,8 @@ public class TeleportTabs {
 			return MAP.get(itemId);
 		}
 
-		private int id;
-		private Tile teleToTile;
+		private final int id;
+		private final Tile teleToTile;
 
 		private TeleTab (int id, Tile tile) {
 			this.id = id;

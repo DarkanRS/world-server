@@ -33,9 +33,7 @@ public class SirTiffyCashien extends Conversation {
                     option("Can I buy some armour?", new Dialogue()
                             .addPlayer(HeadE.CALM_TALK, "Can I buy some armour?")
                             .addNPC(npcId, HeadE.HAPPY_TALKING,"Of course, dear " + player.getPronoun("boy", "gal") + ".")
-                            .addNext(() -> {
-                                ShopsHandler.openShop(player, "initiate_rank_armory");
-                            })
+                            .addNext(() -> ShopsHandler.openShop(player, "initiate_rank_armory"))
                     );
                     option("Goodbye.", new Dialogue()
                             .addPlayer(HeadE.CALM_TALK, "Well, see you around, Tiffy.")

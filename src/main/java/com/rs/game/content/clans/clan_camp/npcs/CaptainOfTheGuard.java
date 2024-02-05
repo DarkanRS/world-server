@@ -14,7 +14,7 @@ public class CaptainOfTheGuard extends Conversation {
 
     private boolean hasClan;
 
-    private String title = player.getAppearance().isMale() ? "sir" : "ma'am";
+    private final String title = player.getAppearance().isMale() ? "sir" : "ma'am";
 
     public static NPCClickHandler CaptainOfTheGuard = new NPCClickHandler(new Object[] { npcId }, e -> {
         String t = e.getPlayer().getAppearance().isMale() ? "sir" : "ma'am";
@@ -38,7 +38,6 @@ public class CaptainOfTheGuard extends Conversation {
                 e.getPlayer().startConversation(new Dialogue()
                         .addNPC(npcId, HeadE.HAPPY_TALKING, "You can only have one clan cloak, " + t + ". Those are the rules")
                 );
-                return;
             }
             else {
                 e.getPlayer().startConversation(new Dialogue()

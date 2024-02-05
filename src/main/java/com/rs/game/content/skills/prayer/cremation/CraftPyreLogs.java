@@ -27,7 +27,7 @@ public class CraftPyreLogs extends PlayerAction {
 
 	private static final int DOSE_4 = 3430, DOSE_3 = 3432, DOSE_2 = 3434, DOSE_1 = 3436;
 
-	private PyreLog log;
+	private final PyreLog log;
 	private int makeX;
 
 	public CraftPyreLogs(PyreLog log) {

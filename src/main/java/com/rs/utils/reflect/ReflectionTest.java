@@ -6,10 +6,10 @@ import java.util.function.Function;
 
 public class ReflectionTest {
 	
-	private String name;
-	private String description;
-	private ReflectionCheck check;
-	private Function<ReflectionCheck, Boolean> validation;
+	private final String name;
+	private final String description;
+	private final ReflectionCheck check;
+	private final Function<ReflectionCheck, Boolean> validation;
 	
 	public ReflectionTest(String name, String description, ReflectionCheck check, Function<ReflectionCheck, Boolean> validation) {
 		this.name = name;

@@ -67,20 +67,9 @@ public class QuestDefinitions {
 	public int graphicId;
 
 
-	/*
-	 * LITERAL JUNK NULL FOR EVERY QUEST
-	 */
-	private String[] varpRequirementNames;
-	private String[] varbitRequirementNames;
-	public int[] anIntArray2601;
-	private int[] varBitRequirements;
-	private int[] minVarBitValue;
-	private int[] maxVarBitValue;
-	private int[] maxVarpValue;
-	private int[] varpRequirements;
-	private int[] minVarpValue;
+    public int[] anIntArray2601;
 
-	public static final HashMap<Integer, QuestDefinitions> QUESTS = new HashMap<>();
+    public static final HashMap<Integer, QuestDefinitions> QUESTS = new HashMap<>();
 	private static final HashMap<String, QuestDefinitions> QUESTS_NAME = new HashMap<>();
 
 	public static void main(String[] args) throws IOException {
@@ -280,10 +269,13 @@ public class QuestDefinitions {
 				graphicId = buffer.readBigSmart();
 			else if (18 == opcode) {
 				int i_13_ = buffer.readUnsignedByte();
-				varpRequirements = new int[i_13_];
-				minVarpValue = new int[i_13_];
-				maxVarpValue = new int[i_13_];
-				varpRequirementNames = new String[i_13_];
+                int[] varpRequirements = new int[i_13_];
+                int[] minVarpValue = new int[i_13_];
+                int[] maxVarpValue = new int[i_13_];
+                /*
+                 * LITERAL JUNK NULL FOR EVERY QUEST
+                 */
+                String[] varpRequirementNames = new String[i_13_];
 				for (int i_14_ = 0; i_14_ < i_13_; i_14_++) {
 					varpRequirements[i_14_] = buffer.readInt();
 					minVarpValue[i_14_] = buffer.readInt();
@@ -292,10 +284,10 @@ public class QuestDefinitions {
 				}
 			} else if (19 == opcode) {
 				int i_15_ = buffer.readUnsignedByte();
-				varBitRequirements = new int[i_15_];
-				minVarBitValue = new int[i_15_];
-				maxVarBitValue = new int[i_15_];
-				varbitRequirementNames = new String[i_15_];
+                int[] varBitRequirements = new int[i_15_];
+                int[] minVarBitValue = new int[i_15_];
+                int[] maxVarBitValue = new int[i_15_];
+                String[] varbitRequirementNames = new String[i_15_];
 				for (int i_16_ = 0; i_16_ < i_15_; i_16_++) {
 					varBitRequirements[i_16_] = buffer.readInt();
 					minVarBitValue[i_16_] = buffer.readInt();
@@ -340,7 +332,7 @@ public class QuestDefinitions {
 				continue;
 			result.append("  ");
 			try {
-				result.append(field.getType().getCanonicalName() + " " + field.getName() + ": ");
+				result.append(field.getType().getCanonicalName()).append(" ").append(field.getName()).append(": ");
 				result.append(Utils.getFieldValue(this, field));
 			} catch (Throwable ex) {
 				Logger.handleNoRecord(QuestDefinitions.class, "toString", "Error getting field info:" + field, ex);

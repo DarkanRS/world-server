@@ -369,7 +369,18 @@ class SoulWars {
     }
 
     private fun endGame() {
-        val winningTeam = if (redDeaths == blueDeaths) null else if (redDeaths > blueDeaths) blueTeam else redTeam
+        val winningTeam =
+            if (redDeaths == blueDeaths)
+                if (blueAvatar.hitpoints == redAvatar.hitpoints)
+                    null
+                else if (blueAvatar.hitpoints > redAvatar.hitpoints)
+                    blueTeam
+                else
+                    redTeam
+            else if (redDeaths > blueDeaths)
+                blueTeam
+            else
+                redTeam
         arrayOf(blueAvatar, redAvatar).forEach { avatar ->
             avatar.finish()
             avatar.cancelRespawnTask()
@@ -378,7 +389,7 @@ class SoulWars {
             team.forEach { player ->
                 player.tele(exitArea.randomTile)
                 player.controllerManager.forceStop()
-                val zeal = if (winningTeam == null) 2 else if (winningTeam == team) 3 else 1
+                val zeal = if (winningTeam == team) 3 else 1
                 player.soulWarsZeal += zeal
                 player.incrementCount("Soul Wars Zeal earned", zeal)
                 when (zeal) {
@@ -486,7 +497,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
                         killer.removeDamage(player)
                         killer.increaseKillCount(player)
                     }
-                    val soulFrags = player.inventory.getItemById(SOUL_FRAGMENT);
+                    val soulFrags = player.inventory.getItemById(SOUL_FRAGMENT)
                     if (soulFrags != null) {
                         World.addGroundItem(soulFrags, Tile.of(player.tile))
                         player.inventory.deleteItem(soulFrags)
@@ -510,7 +521,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 
     override fun process() {
         if (player.inCombat())
-            activity = Utils.clampI(activity + 10, 0, 1000);
+            activity = Utils.clampI(activity + 10, 0, 1000)
         else
             activity -= 2
         player.vars.setVar(PLAYER_ACTIVITY_BAR_VAR, activity)
@@ -552,7 +563,7 @@ class SoulWarsGameController(val redTeam: Boolean, @Transient val game: SoulWars
 
     override fun canDepositItem(item: Item?): Boolean {
         player.sendMessage("You can't bank items here.")
-        return false;
+        return false
     }
 
     override fun processTeleport(tele: Teleport): Boolean { return false }

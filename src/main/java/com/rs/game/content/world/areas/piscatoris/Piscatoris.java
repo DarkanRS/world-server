@@ -35,9 +35,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Piscatoris {
 
-	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> {
-		Doors.handleDoubleDoors.getHandler().accept(e);
-	});
+	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> Doors.handleDoubleDoors.getHandler().accept(e));
 
 	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(new Object[] { 3824 }, e -> {
 		if (e.getOption().equalsIgnoreCase("Talk-to"))
@@ -48,6 +46,13 @@ public class Piscatoris {
 			e.getPlayer().getBank().open();
 		if (e.getOption().equalsIgnoreCase("Collect"))
 			GE.openCollection(e.getPlayer());
+	});
+
+	public static ObjectClickHandler handlePiscSummLadders = new ObjectClickHandler(new Object[] { 28742, 28743 }, e -> {
+		if (e.getObjectId() == 28742)
+			e.getPlayer().useLadder(Tile.of(2333, 10015, 0));
+		else
+			e.getPlayer().useLadder(Tile.of(2329, 3645, 0));
 	});
 
 	public static ObjectClickHandler handleColonyTunnels = new ObjectClickHandler(new Object[] { 14922 }, e -> {

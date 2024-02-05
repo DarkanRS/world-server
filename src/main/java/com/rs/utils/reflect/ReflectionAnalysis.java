@@ -9,8 +9,8 @@ import java.util.List;
 public class ReflectionAnalysis {
 	
 	private boolean built = false;
-	private ReflectionChecks checks;
-	private List<ReflectionTest> tests = new ArrayList<>();
+	private final ReflectionChecks checks;
+	private final List<ReflectionTest> tests = new ArrayList<>();
 	
 	public ReflectionAnalysis() {
 		this.checks = new ReflectionChecks();
@@ -24,7 +24,7 @@ public class ReflectionAnalysis {
 	}
 	
 	public ReflectionAnalysis build() {
-		this.checks.setReflectionChecks(tests.stream().map(test -> test.getCheck()).toArray(ReflectionCheck[]::new));
+		this.checks.setReflectionChecks(tests.stream().map(ReflectionTest::getCheck).toArray(ReflectionCheck[]::new));
 		built = true;
 		return this;
 	}

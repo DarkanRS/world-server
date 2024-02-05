@@ -20,15 +20,16 @@ import it.unimi.dsi.fastutil.ints.IntHeapPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntPriorityQueue;
 import it.unimi.dsi.fastutil.ints.IntSet;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.AbstractCollection;
 import java.util.Iterator;
 
 public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	public Object[] entities;
-	private IntSet usedIndices = new IntOpenHashSet();
-	private IntPriorityQueue freeIndices = new IntHeapPriorityQueue();
-	private IntSet toFreeUp = new IntOpenHashSet();
+	private final IntSet usedIndices = new IntOpenHashSet();
+	private final IntPriorityQueue freeIndices = new IntHeapPriorityQueue();
+	private final IntSet toFreeUp = new IntOpenHashSet();
 	private int freeCap = 1;
 	private final Object lock = new Object();
 
@@ -101,7 +102,7 @@ public class EntityList<T extends Entity> extends AbstractCollection<T> {
 	}
 
 	@Override
-	public Iterator<T> iterator() {
+	public @NotNull Iterator<T> iterator() {
 		synchronized (lock) {
 			return new EntityListIterator<>(entities, usedIndices, this);
 		}

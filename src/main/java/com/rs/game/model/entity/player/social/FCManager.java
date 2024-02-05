@@ -34,7 +34,7 @@ public class FCManager {
 	private static final int FC_SETUP_INTER = 1108;
 	private static final int FC_TAB = 1109;
 
-	private static Map<String, FCData> FRIEND_CHATS = new ConcurrentHashMap<>();
+	private static final Map<String, FCData> FRIEND_CHATS = new ConcurrentHashMap<>();
 
 	public static ButtonClickHandler handleInterface = new ButtonClickHandler(FC_SETUP_INTER, e -> {
 		switch (e.getComponentId()) {

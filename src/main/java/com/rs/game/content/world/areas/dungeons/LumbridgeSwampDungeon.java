@@ -41,13 +41,9 @@ public class LumbridgeSwampDungeon {
 			});
 	});
 
-	public static ObjectClickHandler enterJunaArea = new ObjectClickHandler(new Object[] { 32944 }, e -> {
-		e.getPlayer().tele(Tile.of(3219, 9532, 2));
-	});
+	public static ObjectClickHandler enterJunaArea = new ObjectClickHandler(new Object[] { 32944 }, e -> e.getPlayer().tele(Tile.of(3219, 9532, 2)));
 
-	public static ObjectClickHandler exitJunaArea = new ObjectClickHandler(new Object[] { 6658 }, e -> {
-		e.getPlayer().tele(Tile.of(3226, 9542, 0));
-	});
+	public static ObjectClickHandler exitJunaArea = new ObjectClickHandler(new Object[] { 6658 }, e -> e.getPlayer().tele(Tile.of(3226, 9542, 0)));
 
 	public static ObjectClickHandler handleSteppingStone1 = new ObjectClickHandler(false, new Object[] { 5948 }, e -> {
 		final boolean isRunning = e.getPlayer().getRun();

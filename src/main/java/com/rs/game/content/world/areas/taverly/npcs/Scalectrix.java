@@ -42,9 +42,7 @@ public class Scalectrix extends Conversation {
 								// TODO:
 								option("Look, I'll just go and take a look myself...", new Dialogue()
 										.addPlayer(HeadE.CALM_TALK, "Look, I'll just go and take a look myself. I am trained for this sort of thing, after all.")
-										.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "Be careful!", () -> {
-											p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.PIKKUPSTIX_HELP);
-										}));
+										.addNPC(SCALECTRIX, HeadE.AMAZED_MILD, "Be careful!", () -> p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.PIKKUPSTIX_HELP)));
 								option("All right. Wait here, I'll be right back.", new Dialogue()
 										.addPlayer(HeadE.CALM_TALK, "Alright. Wait here, I'll be right back.", () -> p.getQuestManager().setStage(Quest.WOLF_WHISTLE, WolfWhistle.PIKKUPSTIX_HELP)));
 							}
@@ -101,8 +99,6 @@ public class Scalectrix extends Conversation {
 
 	}
 
-	public static NPCClickHandler handleScalectrixDialogue = new NPCClickHandler(new Object[] { SCALECTRIX }, e -> {
-		e.getPlayer().startConversation(new Scalectrix(e.getPlayer()));
-	});
+	public static NPCClickHandler handleScalectrixDialogue = new NPCClickHandler(new Object[] { SCALECTRIX }, e -> e.getPlayer().startConversation(new Scalectrix(e.getPlayer())));
 
 }

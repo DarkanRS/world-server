@@ -213,17 +213,12 @@ public class Nomad extends NPC {
 
 	public Tile getCopySpot(int index) {
 		Tile throneTile = getThroneTile();
-		switch (index) {
-		case 0:
-			return throneTile;
-		case 1:
-			return throneTile.transform(-3, -3, 0);
-		case 2:
-			return throneTile.transform(3, -3, 0);
-		case 3:
-		default:
-			return throneTile.transform(0, -6, 0);
-		}
+        return switch (index) {
+            case 0 -> throneTile;
+            case 1 -> throneTile.transform(-3, -3, 0);
+            case 2 -> throneTile.transform(3, -3, 0);
+            default -> throneTile.transform(0, -6, 0);
+        };
 
 	}
 

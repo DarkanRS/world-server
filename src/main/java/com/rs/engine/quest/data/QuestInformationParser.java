@@ -92,8 +92,8 @@ public class QuestInformationParser {
 							numReqs++;
 					int[][] reqs = new int[numReqs][2];
 					for (int q = 0;q < reqs.length;q++) {
-						reqs[q][0] = (int) map.get(REQ_SKILL_START+(q*2));
-						reqs[q][1] = (int) map.get(REQ_LEVEL_START+(q*2));
+						reqs[q][0] = (int) map.get(REQ_SKILL_START+(q* 2L));
+						reqs[q][1] = (int) map.get(REQ_LEVEL_START+(q* 2L));
 						qi.addSkillReq(reqs[q][0], reqs[q][1]);
 						qi.addPreReqSkillReq(reqs[q][0], reqs[q][1]);
 					}

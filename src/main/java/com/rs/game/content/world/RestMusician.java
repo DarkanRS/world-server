@@ -25,44 +25,67 @@ import java.util.Map;
 
 public class RestMusician extends PlayerAction {
 
-	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
+	private static final int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
 	// First
 	// emote
 
 	};
 
-	private Map<Integer, Integer> musicListing = Map.ofEntries(
-			Map.entry(5439, 661),//lute
-			Map.entry(8705, 661),//lute
-			Map.entry(8698, 657),//violin
-			Map.entry(29, 661),//lute
-			Map.entry(8709, 660),//double flute
-			Map.entry(8715, 664),//drunk
-			Map.entry(8723, 659),//elven
-			Map.entry(8712, 665),//drum
-			Map.entry(8702, 661),//lute
-			Map.entry(8706, 657),//violin
-			Map.entry(8716, 662),//lyre
-			Map.entry(8703, 661), //lute
-			Map.entry(8704, 657),//violin
-			Map.entry(8717, 662),//lyre
-			Map.entry(8718, 662),//lyre
-			Map.entry(5442, 661),//lute
-			Map.entry(30, 661),//lute
-			Map.entry(8699, 657),//violin
-			Map.entry(3463, 661),//lute
-			Map.entry(8708, 660),//double flute
-			Map.entry(8707, 660),//double flute
-			Map.entry(8701, 657),//violin
-			Map.entry(8700, 657),//violin
-			Map.entry(8713, 656)//ghost
-	);
-
-	private int musicId;
+    private final int musicId;
 	private int index;
 
 	public RestMusician(int musicianId) {
-		musicId = musicListing.getOrDefault(musicianId, -1);
+        //lute
+        //lute
+        //violin
+        //lute
+        //double flute
+        //drunk
+        //elven
+        //drum
+        //lute
+        //violin
+        //lyre
+        //lute
+        //violin
+        //lyre
+        //lyre
+        //lute
+        //lute
+        //violin
+        //lute
+        //double flute
+        //double flute
+        //violin
+        //violin
+        //ghost
+        Map<Integer, Integer> musicListing = Map.ofEntries(
+                Map.entry(5439, 661),//lute
+                Map.entry(8705, 661),//lute
+                Map.entry(8698, 657),//violin
+                Map.entry(29, 661),//lute
+                Map.entry(8709, 660),//double flute
+                Map.entry(8715, 664),//drunk
+                Map.entry(8723, 659),//elven
+                Map.entry(8712, 665),//drum
+                Map.entry(8702, 661),//lute
+                Map.entry(8706, 657),//violin
+                Map.entry(8716, 662),//lyre
+                Map.entry(8703, 661), //lute
+                Map.entry(8704, 657),//violin
+                Map.entry(8717, 662),//lyre
+                Map.entry(8718, 662),//lyre
+                Map.entry(5442, 661),//lute
+                Map.entry(30, 661),//lute
+                Map.entry(8699, 657),//violin
+                Map.entry(3463, 661),//lute
+                Map.entry(8708, 660),//double flute
+                Map.entry(8707, 660),//double flute
+                Map.entry(8701, 657),//violin
+                Map.entry(8700, 657),//violin
+                Map.entry(8713, 656)//ghost
+        );
+        musicId = musicListing.getOrDefault(musicianId, -1);
 	}
 
 	@Override

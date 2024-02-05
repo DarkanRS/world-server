@@ -29,7 +29,7 @@ import java.util.Map;
 
 public class VerifyDrops {
 
-	private static Map<String, String> NAMES = new HashMap<>();
+	private static final Map<String, String> NAMES = new HashMap<>();
 	private static final int ITEM_TO_SEARCH_FOR = 14642;
 
 	public static void main(String[] args) throws IOException {

@@ -117,9 +117,7 @@ public class HeroesQuest extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -166,19 +164,17 @@ public class HeroesQuest extends QuestOutline {
 
 	public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}, e -> e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily...")));
 
-	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, new String[] { "Drink" }, e -> {
-		e.getPlayer().sendMessage("You know... I'd really rather not.");
-	});
+	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, new String[] { "Drink" }, e -> e.getPlayer().sendMessage("You know... I'd really rather not."));
 
 	@Override
 	public void complete(Player player) {
 		Object[][] xpAdded = {{Constants.ATTACK, 3075}, {Constants.DEFENSE, 3075}, {Constants.STRENGTH, 3075}, {Constants.HITPOINTS, 3075},
 				{Constants.RANGE, 2075}, {Constants.FISHING, 2725}, {Constants.COOKING, 2825}, {Constants.WOODCUTTING, 1575}, {Constants.FIREMAKING, 1575},
 				{Constants.SMITHING, 2257}, {Constants.MINING, 2575}, {Constants.HERBLORE, 1325}};
-		for (int i = 0; i < xpAdded.length; i++) {
-			player.sendMessage("You have gained " + xpAdded[i][1] + " in " + Skills.SKILL_NAME[(int) xpAdded[i][0]] + ".");
-			player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
-		}
+        for (Object[] objects : xpAdded) {
+            player.sendMessage("You have gained " + objects[1] + " in " + Skills.SKILL_NAME[(int) objects[0]] + ".");
+            player.getSkills().addXpQuest((int) objects[0], (int) objects[1]);
+        }
 		sendQuestCompleteInterface(player, 1377);
 	}
 

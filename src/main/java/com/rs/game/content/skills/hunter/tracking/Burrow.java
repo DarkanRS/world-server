@@ -19,19 +19,13 @@ package com.rs.game.content.skills.hunter.tracking;
 import com.rs.lib.game.Tile;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Burrow {
 
-	private int burrowId;
-	private Tile burrowTile;
-	private List<Trail> next;
-
-	public Burrow(int burrowId, Tile burrowTile, Trail... next) {
-		this.burrowId = burrowId;
-		this.burrowTile = burrowTile;
-		this.next = new ArrayList<>();
-		for (Trail t : next)
-			this.next.add(t);
+    public Burrow(int burrowId, Tile burrowTile, Trail... next) {
+        List<Trail> next1 = new ArrayList<>();
+        next1.addAll(Arrays.asList(next));
 	}
 }

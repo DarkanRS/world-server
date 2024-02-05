@@ -54,30 +54,22 @@ public class StaffPotato {
 			p.getAppearance().setHidden(!p.getAppearance().isHidden());
 			p.sendMessage("HIDDEN: " + p.getAppearance().isHidden());
 		}),
-		BANK_DROPS("Send drops directly to bank until logout", p -> {
-			p.getNSV().setB("sendingDropsToBank", true);
-		}),
+		BANK_DROPS("Send drops directly to bank until logout", p -> p.getNSV().setB("sendingDropsToBank", true)),
 		RESET_TASK("Reset slayer task", p -> {
 			p.getSlayer().removeTask();
 			p.updateSlayerTask();
 		}),
-		BANK("Bank", p -> {
-			p.getBank().open();
-		}),
-		MAGE_BOOK("Magic book", p -> {
-			p.startConversation(new Dialogue().addOptions(o2 -> {
-				o2.add("Modern", () -> p.getCombatDefinitions().setSpellbook(Spellbook.MODERN));
-				o2.add("Ancient", () -> p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT));
-				o2.add("Lunar", () -> p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR));
-				o2.add("Dungeoneering", () -> p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING));
-			}));
-		}),
-		PRAY_BOOK("Prayer book", p -> {
-			p.startConversation(new Dialogue().addOptions(o2 -> {
-			o2.add("Modern", () -> p.getPrayer().setPrayerBook(false));
-			o2.add("Ancient curses", () -> p.getPrayer().setPrayerBook(true));
-				}));
-		}),
+		BANK("Bank", p -> p.getBank().open()),
+		MAGE_BOOK("Magic book", p -> p.startConversation(new Dialogue().addOptions(o2 -> {
+            o2.add("Modern", () -> p.getCombatDefinitions().setSpellbook(Spellbook.MODERN));
+            o2.add("Ancient", () -> p.getCombatDefinitions().setSpellbook(Spellbook.ANCIENT));
+            o2.add("Lunar", () -> p.getCombatDefinitions().setSpellbook(Spellbook.LUNAR));
+            o2.add("Dungeoneering", () -> p.getCombatDefinitions().setSpellbook(Spellbook.DUNGEONEERING));
+        }))),
+		PRAY_BOOK("Prayer book", p -> p.startConversation(new Dialogue().addOptions(o2 -> {
+        o2.add("Modern", () -> p.getPrayer().setPrayerBook(false));
+        o2.add("Ancient curses", () -> p.getPrayer().setPrayerBook(true));
+            }))),
 		LOOT_BARROWS("Loot a barrows chest", p -> {
 			if (p.getControllerManager().isIn(BarrowsController.class))
 				p.getControllerManager().getController(BarrowsController.class).cheat();
@@ -107,12 +99,10 @@ public class StaffPotato {
 				p.addEffect(Effect.AGGRESSION_POTION, Ticks.fromHours(10));
 			p.sendMessage("Aggression potion: " + p.hasEffect(Effect.AGGRESSION_POTION));
 		}),
-		NO_RANDOMS("Stop randoms for session", p -> {
-			p.getNSV().setL("lastRandom", World.getServerTicks() + Ticks.fromHours(300));
-		});
+		NO_RANDOMS("Stop randoms for session", p -> p.getNSV().setL("lastRandom", World.getServerTicks() + Ticks.fromHours(300)));
 		
-		private String name;
-		private Consumer<Player> action;
+		private final String name;
+		private final Consumer<Player> action;
 		
 		Command(String name, Consumer<Player> action) {
 			this.name = name;
@@ -123,12 +113,10 @@ public class StaffPotato {
 	@SuppressWarnings("deprecation")
 	public static ItemClickHandler handle = new ItemClickHandler(new Object[] { 5733 }, new String[] { "Eat", "Heal", "CM-Tool", "Commands", "Drop" }, e -> {
 		switch(e.getOption()) {
-		case "Drop" -> {
-			e.getPlayer().sendOptionDialogue("Drop it? It will be destroyed.", ops -> {
-				ops.add("Yes, drop it.", () -> e.getPlayer().getInventory().deleteItem(e.getItem()));
-				ops.add("Nevermind.");
-			});
-		}
+		case "Drop" -> e.getPlayer().sendOptionDialogue("Drop it? It will be destroyed.", ops -> {
+            ops.add("Yes, drop it.", () -> e.getPlayer().getInventory().deleteItem(e.getItem()));
+            ops.add("Nevermind.");
+        });
 		case "Eat" -> {
 			if (!e.getPlayer().canEat())
 				return;
@@ -161,33 +149,29 @@ public class StaffPotato {
 			if (command != null)
 				command.action.accept(e.getPlayer());
 		}
-		case "Commands" -> {
-			e.getPlayer().startConversation(new Dialogue().addOptions(o1 -> {
-				for (Command command : Command.values())
-					o1.add(command.name, () -> {
-						command.action.accept(e.getPlayer());
-						e.getPlayer().getNSV().setO("lastPotatoCommand", command);
-					});
-			}));
-		}
-		case "CM-Tool" -> {
-			e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
-				SimpleImmutableEntry<Tile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
-				if (lastLoc != null)
-					op.add("Teleport to saved location.", () -> {
-						Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), () -> {
-							if (lastLoc.getValue() != null) {
-								e.getPlayer().getControllerManager().setController(lastLoc.getValue());
-								e.getPlayer().getControllerManager().sendInterfaces();
-							}
-						});
-					});
-				op.add("Save current location.", () -> {
-					e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<Tile, Controller>(Tile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
-					e.getPlayer().sendMessage("Location saved.");
-				});
-			});
-		}
+		case "Commands" -> e.getPlayer().startConversation(new Dialogue().addOptions(o1 -> {
+            for (Command command : Command.values())
+                o1.add(command.name, () -> {
+                    command.action.accept(e.getPlayer());
+                    e.getPlayer().getNSV().setO("lastPotatoCommand", command);
+                });
+        }));
+		case "CM-Tool" -> e.getPlayer().sendOptionDialogue("What would you like to do?", op -> {
+            SimpleImmutableEntry<Tile, Controller> lastLoc = e.getPlayer().getNSV().getO("savedPotatoLoc");
+            if (lastLoc != null)
+                op.add("Teleport to saved location.", () -> {
+                    Magic.sendNormalTeleportSpell(e.getPlayer(), lastLoc.getKey(), () -> {
+                        if (lastLoc.getValue() != null) {
+                            e.getPlayer().getControllerManager().setController(lastLoc.getValue());
+                            e.getPlayer().getControllerManager().sendInterfaces();
+                        }
+                    });
+                });
+            op.add("Save current location.", () -> {
+                e.getPlayer().getNSV().setO("savedPotatoLoc", new SimpleImmutableEntry<Tile, Controller>(Tile.of(e.getPlayer().getTile()), e.getPlayer().getControllerManager().getController()));
+                e.getPlayer().sendMessage("Location saved.");
+            });
+        });
 		}
 	});
 

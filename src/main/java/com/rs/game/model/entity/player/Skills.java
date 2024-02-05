@@ -82,8 +82,8 @@ public final class Skills {
 	public static final int[] SKILLING = { PRAYER, COOKING, WOODCUTTING, FLETCHING, FISHING, FIREMAKING, CRAFTING, SMITHING, MINING, HERBLORE, AGILITY, THIEVING, RUNECRAFTING, SLAYER, FARMING, HUNTER, CONSTRUCTION, DUNGEONEERING };
 	public static final int[] COMBAT = { ATTACK, DEFENSE, STRENGTH, RANGE, MAGIC };
 
-	private short level[];
-	private double xp[];
+	private short[] level;
+	private double[] xp;
 	private double[] xpTracks;
 	private boolean[] trackSkills;
 	private byte[] trackSkillsIds;
@@ -95,10 +95,10 @@ public final class Skills {
 
 	private transient int currentCounter;
 	private transient Player player;
-	private transient Set<Integer> markedForUpdate = IntSets.synchronize(new IntOpenHashSet());
+	private final transient Set<Integer> markedForUpdate = IntSets.synchronize(new IntOpenHashSet());
 	private transient double bonusXpDrop;
 	private transient int markedForLevelUp = -1;
-	private transient int[] lastCheckedLevels = new int[25];
+	private final transient int[] lastCheckedLevels = new int[25];
 
 	public void passLevels(Player p) {
 		level = p.getSkills().level;
@@ -163,174 +163,146 @@ public final class Skills {
 	}
 
 	public static int getTargetIdByComponentId(int componentId) {
-		switch (componentId) {
-		case 150: // Attack
-			return 0;
-		case 9: // Strength
-			return 1;
-		case 40: // Range
-			return 2;
-		case 71: // Magic
-			return 3;
-		case 22: // Defence
-			return 4;
-		case 145: // Constitution
-			return 5;
-		case 58: // Prayer
-			return 6;
-		case 15: // Agility
-			return 7;
-		case 28: // Herblore
-			return 8;
-		case 46: // Theiving
-			return 9;
-		case 64: // Crafting
-			return 10;
-		case 84: // Runecrafting
-			return 11;
-		case 140: // Mining
-			return 12;
-		case 135: // Smithing
-			return 13;
-		case 34: // Fishing
-			return 14;
-		case 52: // Cooking
-			return 15;
-		case 130: // Firemaking
-			return 16;
-		case 125: // Woodcutting
-			return 17;
-		case 77: // Fletching
-			return 18;
-		case 90: // Slayer
-			return 19;
-		case 96: // Farming
-			return 20;
-		case 102: // Construction
-			return 21;
-		case 108: // Hunter
-			return 22;
-		case 114: // Summoning
-			return 23;
-		case 120: // Dungeoneering
-			return 24;
-		default:
-			return -1;
-		}
+        return switch (componentId) {
+            case 150 -> // Attack
+                    0;
+            case 9 -> // Strength
+                    1;
+            case 40 -> // Range
+                    2;
+            case 71 -> // Magic
+                    3;
+            case 22 -> // Defence
+                    4;
+            case 145 -> // Constitution
+                    5;
+            case 58 -> // Prayer
+                    6;
+            case 15 -> // Agility
+                    7;
+            case 28 -> // Herblore
+                    8;
+            case 46 -> // Theiving
+                    9;
+            case 64 -> // Crafting
+                    10;
+            case 84 -> // Runecrafting
+                    11;
+            case 140 -> // Mining
+                    12;
+            case 135 -> // Smithing
+                    13;
+            case 34 -> // Fishing
+                    14;
+            case 52 -> // Cooking
+                    15;
+            case 130 -> // Firemaking
+                    16;
+            case 125 -> // Woodcutting
+                    17;
+            case 77 -> // Fletching
+                    18;
+            case 90 -> // Slayer
+                    19;
+            case 96 -> // Farming
+                    20;
+            case 102 -> // Construction
+                    21;
+            case 108 -> // Hunter
+                    22;
+            case 114 -> // Summoning
+                    23;
+            case 120 -> // Dungeoneering
+                    24;
+            default -> -1;
+        };
 	}
 
 	public static int getSkillIdByTargetId(int targetId) {
-		switch (targetId) {
-		case 0: // Attack
-			return Constants.ATTACK;
-		case 1: // Strength
-			return Constants.STRENGTH;
-		case 2: // Range
-			return Constants.RANGE;
-		case 3: // Magic
-			return Constants.MAGIC;
-		case 4: // Defence
-			return Constants.DEFENSE;
-		case 5: // Constitution
-			return Constants.HITPOINTS;
-		case 6: // Prayer
-			return Constants.PRAYER;
-		case 7: // Agility
-			return Constants.AGILITY;
-		case 8: // Herblore
-			return Constants.HERBLORE;
-		case 9: // Thieving
-			return Constants.THIEVING;
-		case 10: // Crafting
-			return Constants.CRAFTING;
-		case 11: // Runecrafting
-			return Constants.RUNECRAFTING;
-		case 12: // Mining
-			return Constants.MINING;
-		case 13: // Smithing
-			return Constants.SMITHING;
-		case 14: // Fishing
-			return Constants.FISHING;
-		case 15: // Cooking
-			return Constants.COOKING;
-		case 16: // Firemaking
-			return Constants.FIREMAKING;
-		case 17: // Woodcutting
-			return Constants.WOODCUTTING;
-		case 18: // Fletching
-			return Constants.FLETCHING;
-		case 19: // Slayer
-			return Constants.SLAYER;
-		case 20: // Farming
-			return Constants.FARMING;
-		case 21: // Construction
-			return Constants.CONSTRUCTION;
-		case 22: // Hunter
-			return Constants.HUNTER;
-		case 23: // Summoning
-			return Constants.SUMMONING;
-		case 24: // Dungeoneering
-			return Constants.DUNGEONEERING;
-		default:
-			return -1;
-		}
+        return switch (targetId) {
+            case 0 -> // Attack
+                    Constants.ATTACK;
+            case 1 -> // Strength
+                    Constants.STRENGTH;
+            case 2 -> // Range
+                    Constants.RANGE;
+            case 3 -> // Magic
+                    Constants.MAGIC;
+            case 4 -> // Defence
+                    Constants.DEFENSE;
+            case 5 -> // Constitution
+                    Constants.HITPOINTS;
+            case 6 -> // Prayer
+                    Constants.PRAYER;
+            case 7 -> // Agility
+                    Constants.AGILITY;
+            case 8 -> // Herblore
+                    Constants.HERBLORE;
+            case 9 -> // Thieving
+                    Constants.THIEVING;
+            case 10 -> // Crafting
+                    Constants.CRAFTING;
+            case 11 -> // Runecrafting
+                    Constants.RUNECRAFTING;
+            case 12 -> // Mining
+                    Constants.MINING;
+            case 13 -> // Smithing
+                    Constants.SMITHING;
+            case 14 -> // Fishing
+                    Constants.FISHING;
+            case 15 -> // Cooking
+                    Constants.COOKING;
+            case 16 -> // Firemaking
+                    Constants.FIREMAKING;
+            case 17 -> // Woodcutting
+                    Constants.WOODCUTTING;
+            case 18 -> // Fletching
+                    Constants.FLETCHING;
+            case 19 -> // Slayer
+                    Constants.SLAYER;
+            case 20 -> // Farming
+                    Constants.FARMING;
+            case 21 -> // Construction
+                    Constants.CONSTRUCTION;
+            case 22 -> // Hunter
+                    Constants.HUNTER;
+            case 23 -> // Summoning
+                    Constants.SUMMONING;
+            case 24 -> // Dungeoneering
+                    Constants.DUNGEONEERING;
+            default -> -1;
+        };
 	}
 
 	public static int getTargetIdBySkillId(int targetId) {
-		switch (targetId) {
-		case Constants.ATTACK:
-			return 1;
-		case Constants.STRENGTH:
-			return 2;
-		case Constants.RANGE:
-			return 3;
-		case Constants.MAGIC:
-			return 4;
-		case Constants.DEFENSE:
-			return 5;
-		case Constants.HITPOINTS:
-			return 6;
-		case Constants.PRAYER:
-			return 7;
-		case Constants.AGILITY:
-			return 8;
-		case Constants.HERBLORE:
-			return 9;
-		case Constants.THIEVING:
-			return 10;
-		case Constants.CRAFTING:
-			return 11;
-		case Constants.RUNECRAFTING:
-			return 12;
-		case Constants.MINING:
-			return 13;
-		case Constants.SMITHING:
-			return 14;
-		case Constants.FISHING:
-			return 15;
-		case Constants.COOKING:
-			return 16;
-		case Constants.FIREMAKING:
-			return 17;
-		case Constants.WOODCUTTING:
-			return 18;
-		case Constants.FLETCHING:
-			return 19;
-		case Constants.SLAYER:
-			return 20;
-		case Constants.FARMING:
-			return 21;
-		case Constants.CONSTRUCTION:
-			return 22;
-		case Constants.HUNTER:
-			return 23;
-		case Constants.SUMMONING:
-			return 24;
-		case Constants.DUNGEONEERING:
-			return 25;
-		default:
-			return -1;
-		}
+        return switch (targetId) {
+            case Constants.ATTACK -> 1;
+            case Constants.STRENGTH -> 2;
+            case Constants.RANGE -> 3;
+            case Constants.MAGIC -> 4;
+            case Constants.DEFENSE -> 5;
+            case Constants.HITPOINTS -> 6;
+            case Constants.PRAYER -> 7;
+            case Constants.AGILITY -> 8;
+            case Constants.HERBLORE -> 9;
+            case Constants.THIEVING -> 10;
+            case Constants.CRAFTING -> 11;
+            case Constants.RUNECRAFTING -> 12;
+            case Constants.MINING -> 13;
+            case Constants.SMITHING -> 14;
+            case Constants.FISHING -> 15;
+            case Constants.COOKING -> 16;
+            case Constants.FIREMAKING -> 17;
+            case Constants.WOODCUTTING -> 18;
+            case Constants.FLETCHING -> 19;
+            case Constants.SLAYER -> 20;
+            case Constants.FARMING -> 21;
+            case Constants.CONSTRUCTION -> 22;
+            case Constants.HUNTER -> 23;
+            case Constants.SUMMONING -> 24;
+            case Constants.DUNGEONEERING -> 25;
+            default -> -1;
+        };
 	}
 
 	public static ButtonClickHandler handleLevelupButtons = new ButtonClickHandler(741, e -> {
@@ -338,9 +310,7 @@ public final class Skills {
 			e.getPlayer().getInterfaceManager().sendInterface(499);
 	});
 
-	public static ButtonClickHandler handleGuideButtons = new ButtonClickHandler(499, e -> {
-		e.getPlayer().getVars().setVarBit(3289, e.getComponentId()-9);
-	});
+	public static ButtonClickHandler handleGuideButtons = new ButtonClickHandler(499, e -> e.getPlayer().getVars().setVarBit(3289, e.getComponentId()-9));
 
 	public static ButtonClickHandler handleSkillTabButtons = new ButtonClickHandler(320, e -> {
 		if (e.getPacket() == ClientPacket.IF_OP1) {
@@ -396,60 +366,35 @@ public final class Skills {
 	});
 
 	private static int getVarcIdFromTarget(int targetId) {
-		switch(targetId) {
-		case 0:
-			return 1469;
-		case 1:
-			return 1470;
-		case 4:
-			return 1471;
-		case 2:
-			return 1472;
-		case 6:
-			return 1473;
-		case 3:
-			return 1474;
-		case 5:
-			return 1475;
-		case 7:
-			return 1476;
-		case 8:
-			return 1477;
-		case 9:
-			return 1478;
-		case 10:
-			return 1479;
-		case 18:
-			return 1480;
-		case 12:
-			return 1481;
-		case 13:
-			return 1482;
-		case 14:
-			return 1483;
-		case 15:
-			return 1484;
-		case 16:
-			return 1485;
-		case 17:
-			return 1486;
-		case 11:
-			return 1487;
-		case 19:
-			return 1488;
-		case 20:
-			return 1489;
-		case 21:
-			return 1490;
-		case 22:
-			return 1491;
-		case 23:
-			return 1492;
-		case 24:
-			return 1493;
-		}
-		return -1;
-	}
+        return switch (targetId) {
+            case 0 -> 1469;
+            case 1 -> 1470;
+            case 4 -> 1471;
+            case 2 -> 1472;
+            case 6 -> 1473;
+            case 3 -> 1474;
+            case 5 -> 1475;
+            case 7 -> 1476;
+            case 8 -> 1477;
+            case 9 -> 1478;
+            case 10 -> 1479;
+            case 18 -> 1480;
+            case 12 -> 1481;
+            case 13 -> 1482;
+            case 14 -> 1483;
+            case 15 -> 1484;
+            case 16 -> 1485;
+            case 17 -> 1486;
+            case 11 -> 1487;
+            case 19 -> 1488;
+            case 20 -> 1489;
+            case 21 -> 1490;
+            case 22 -> 1491;
+            case 23 -> 1492;
+            case 24 -> 1493;
+            default -> -1;
+        };
+    }
 
 	@Deprecated
 	public static ButtonClickHandler handleSkillGuideButtons = new ButtonClickHandler(1218, e -> {
@@ -700,7 +645,7 @@ public final class Skills {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
 			if (lvl >= level)
 				return output;
-			output = (int) Math.floor(points / 4);
+			output = (int) ((double) points / 4);
 		}
 		return 0;
 	}
@@ -711,7 +656,7 @@ public final class Skills {
 		int output = 0;
 		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-			output = (int) Math.floor(points / 4);
+			output = (int) ((double) points / 4);
 			if ((output - 1) >= exp)
 				return lvl;
 		}
@@ -723,7 +668,7 @@ public final class Skills {
 		int output = 0;
 		for (int lvl = 1; lvl <= (skill == Constants.DUNGEONEERING ? 120 : 99); lvl++) {
 			points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-			output = (int) Math.floor(points / 4);
+			output = (int) ((double) points / 4);
 			if ((output - 1) >= Math.floor(xp))
 				return lvl;
 		}
@@ -773,7 +718,7 @@ public final class Skills {
 			player.getVars().setVar(2044, 0);
 		player.getVars().syncVarsToClient();
 		Set<Integer> toUpdate = new HashSet<>(markedForUpdate);
-		player.getPackets().updateStats(toUpdate.stream().mapToInt(e -> e.intValue()).toArray());
+		player.getPackets().updateStats(toUpdate.stream().mapToInt(e -> e).toArray());
 		if (markedForLevelUp != -1)
 			sendLevelUp(markedForLevelUp);
 		markedForUpdate.clear();
@@ -864,60 +809,34 @@ public final class Skills {
 	}
 
 	public int getCounterSkill(int skill) {
-		switch (skill) {
-		case Constants.ATTACK:
-			return 0;
-		case Constants.STRENGTH:
-			return 1;
-		case Constants.DEFENSE:
-			return 4;
-		case Constants.RANGE:
-			return 2;
-		case Constants.HITPOINTS:
-			return 5;
-		case Constants.PRAYER:
-			return 6;
-		case Constants.AGILITY:
-			return 7;
-		case Constants.HERBLORE:
-			return 8;
-		case Constants.THIEVING:
-			return 9;
-		case Constants.CRAFTING:
-			return 10;
-		case Constants.MINING:
-			return 12;
-		case Constants.SMITHING:
-			return 13;
-		case Constants.FISHING:
-			return 14;
-		case Constants.COOKING:
-			return 15;
-		case Constants.FIREMAKING:
-			return 16;
-		case Constants.WOODCUTTING:
-			return 17;
-		case Constants.SLAYER:
-			return 19;
-		case Constants.FARMING:
-			return 20;
-		case Constants.CONSTRUCTION:
-			return 21;
-		case Constants.HUNTER:
-			return 22;
-		case Constants.SUMMONING:
-			return 23;
-		case Constants.DUNGEONEERING:
-			return 24;
-		case Constants.MAGIC:
-			return 3;
-		case Constants.FLETCHING:
-			return 18;
-		case Constants.RUNECRAFTING:
-			return 11;
-		default:
-			return -1;
-		}
+        return switch (skill) {
+            case Constants.ATTACK -> 0;
+            case Constants.STRENGTH -> 1;
+            case Constants.DEFENSE -> 4;
+            case Constants.RANGE -> 2;
+            case Constants.HITPOINTS -> 5;
+            case Constants.PRAYER -> 6;
+            case Constants.AGILITY -> 7;
+            case Constants.HERBLORE -> 8;
+            case Constants.THIEVING -> 9;
+            case Constants.CRAFTING -> 10;
+            case Constants.MINING -> 12;
+            case Constants.SMITHING -> 13;
+            case Constants.FISHING -> 14;
+            case Constants.COOKING -> 15;
+            case Constants.FIREMAKING -> 16;
+            case Constants.WOODCUTTING -> 17;
+            case Constants.SLAYER -> 19;
+            case Constants.FARMING -> 20;
+            case Constants.CONSTRUCTION -> 21;
+            case Constants.HUNTER -> 22;
+            case Constants.SUMMONING -> 23;
+            case Constants.DUNGEONEERING -> 24;
+            case Constants.MAGIC -> 3;
+            case Constants.FLETCHING -> 18;
+            case Constants.RUNECRAFTING -> 11;
+            default -> -1;
+        };
 
 	}
 
@@ -1114,8 +1033,10 @@ public final class Skills {
 	private double processBrawlers(Item gloves, int charges, int skill, double xp, int... validSkills) {
 		boolean validSkill = false;
 		for (int valid : validSkills)
-			if (valid == skill)
-				validSkill = true;
+            if (valid == skill) {
+                validSkill = true;
+                break;
+            }
 		if (!validSkill)
 			return 0.0;
 		if (charges <= -1) {
@@ -1144,36 +1065,24 @@ public final class Skills {
 		if (gloves == null)
 			return 0.0;
 		int charges = gloves.getMetaDataI("brawlerCharges", -1);
-		switch(gloves.getId()) {
-		case 13845:
-			return processBrawlers(gloves, charges, skill, exp, Constants.ATTACK, Constants.STRENGTH, Constants.DEFENSE);
-		case 13846:
-			return processBrawlers(gloves, charges, skill, exp, Constants.RANGE);
-		case 13847:
-			return processBrawlers(gloves, charges, skill, exp, Constants.MAGIC);
-		case 13848:
-			return processBrawlers(gloves, charges, skill, exp, Constants.PRAYER);
-		case 13849:
-			return processBrawlers(gloves, charges, skill, exp, Constants.AGILITY);
-		case 13850:
-			return processBrawlers(gloves, charges, skill, exp, Constants.WOODCUTTING);
-		case 13851:
-			return processBrawlers(gloves, charges, skill, exp, Constants.FIREMAKING);
-		case 13852:
-			return processBrawlers(gloves, charges, skill, exp, Constants.MINING);
-		case 13853:
-			return processBrawlers(gloves, charges, skill, exp, Constants.HUNTER);
-		case 13854:
-			return processBrawlers(gloves, charges, skill, exp, Constants.THIEVING);
-		case 13855:
-			return processBrawlers(gloves, charges, skill, exp, Constants.SMITHING);
-		case 13856:
-			return processBrawlers(gloves, charges, skill, exp, Constants.FISHING);
-		case 13857:
-			return processBrawlers(gloves, charges, skill, exp, Constants.COOKING);
-		}
-		return 0.0;
-	}
+        return switch (gloves.getId()) {
+            case 13845 ->
+                    processBrawlers(gloves, charges, skill, exp, Constants.ATTACK, Constants.STRENGTH, Constants.DEFENSE);
+            case 13846 -> processBrawlers(gloves, charges, skill, exp, Constants.RANGE);
+            case 13847 -> processBrawlers(gloves, charges, skill, exp, Constants.MAGIC);
+            case 13848 -> processBrawlers(gloves, charges, skill, exp, Constants.PRAYER);
+            case 13849 -> processBrawlers(gloves, charges, skill, exp, Constants.AGILITY);
+            case 13850 -> processBrawlers(gloves, charges, skill, exp, Constants.WOODCUTTING);
+            case 13851 -> processBrawlers(gloves, charges, skill, exp, Constants.FIREMAKING);
+            case 13852 -> processBrawlers(gloves, charges, skill, exp, Constants.MINING);
+            case 13853 -> processBrawlers(gloves, charges, skill, exp, Constants.HUNTER);
+            case 13854 -> processBrawlers(gloves, charges, skill, exp, Constants.THIEVING);
+            case 13855 -> processBrawlers(gloves, charges, skill, exp, Constants.SMITHING);
+            case 13856 -> processBrawlers(gloves, charges, skill, exp, Constants.FISHING);
+            case 13857 -> processBrawlers(gloves, charges, skill, exp, Constants.COOKING);
+            default -> 0.0;
+        };
+    }
 
 	public void addSkillXpRefresh(int skill, double xp) {
 		this.xp[skill] += xp;
@@ -1233,10 +1142,8 @@ public final class Skills {
 	}
 
 	public boolean is120(int skillId) {
-		if (xp[skillId] >= 104273166)
-			return true;
-		return false;
-	}
+        return xp[skillId] >= 104273166;
+    }
 
 	public int[] getXpInt() {
 		int[] skills = new int[xp.length];
@@ -1263,24 +1170,36 @@ public final class Skills {
 			}
 	}
 
-	public void adjustStat(int baseMod, double mul, int... skills) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, int... skills) {
 		for (int i : skills)
-			adjustStat(baseMod, mul, true, i);
+			adjustStat(calcFromBase, baseMod, mul, true, i);
 	}
 
-	public void adjustStat(int baseMod, double mul, boolean boost, int... skills) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, boolean boost, int... skills) {
 		for (int i : skills)
-			adjustStat(baseMod, mul, boost, i);
+			adjustStat(calcFromBase, baseMod, mul, boost, i);
 	}
 
-	public void adjustStat(int baseMod, double mul, boolean boost, int skill) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, boolean boost, int skill) {
 		int realLevel = getLevelForXp(skill);
-		int realBoost = (int) (baseMod + (getLevel(skill) * mul));
+		int realBoost = (int) (baseMod + ((calcFromBase ? realLevel : getLevel(skill)) * mul));
 		if (realBoost < 0)
 			realLevel = getLevel(skill);
 		int maxBoost = (int) (realLevel + (baseMod + (realLevel * mul)));
-		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : (getLevel(skill) > realLevel ? getLevel(skill) : realLevel));
+		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : Math.max(getLevel(skill), realLevel));
 		markForRefresh(skill);
+	}
+
+	public void adjustStat(int baseMod, double mul, int... skills) {
+		adjustStat(false, baseMod, mul, skills);
+	}
+
+	public void adjustStat(int baseMod, double mul, boolean boost, int... skills) {
+		adjustStat(false, baseMod, mul, boost, skills);
+	}
+
+	public void adjustStat(int baseMod, double mul, boolean boost, int skill) {
+		adjustStat(false, baseMod, mul, boost, skill);
 	}
 	
 	public void lowerStat(int skill, double mul, double maxDrain) {

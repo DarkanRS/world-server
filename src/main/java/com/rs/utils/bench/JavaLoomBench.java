@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class JavaLoomBench {
-    private static ExecutorService service = Executors.newVirtualThreadPerTaskExecutor();
+    private static final ExecutorService service = Executors.newVirtualThreadPerTaskExecutor();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Cache.init("../cache/");

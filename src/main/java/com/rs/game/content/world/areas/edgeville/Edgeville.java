@@ -47,25 +47,15 @@ public class Edgeville  {
 			e.getPlayer().handleOneWayDoor(e.getObject());
 	});
 
-    public static ObjectClickHandler handleBlackKnightWall = new ObjectClickHandler(new Object[] { 2341 }, e -> {
-    	Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
-    });
+    public static ObjectClickHandler handleBlackKnightWall = new ObjectClickHandler(new Object[] { 2341 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
-	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(3082, 4229, 0), 0, 1);
-	});
+	public static ObjectClickHandler handleJailEntrance = new ObjectClickHandler(new Object[] { 29603 }, e -> e.getPlayer().useStairs(-1, Tile.of(3082, 4229, 0), 0, 1));
 
-	public static ObjectClickHandler handleJailExit = new ObjectClickHandler(new Object[] { 29602 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(3074, 3456, 0), 0, 1);
-	});
+	public static ObjectClickHandler handleJailExit = new ObjectClickHandler(new Object[] { 29602 }, e -> e.getPlayer().useStairs(-1, Tile.of(3074, 3456, 0), 0, 1));
 
-	public static ObjectClickHandler handlePosterEntrance = new ObjectClickHandler(new Object[] { 29735 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(3140, 4230, 2), 0, 1);
-	});
+	public static ObjectClickHandler handlePosterEntrance = new ObjectClickHandler(new Object[] { 29735 }, e -> e.getPlayer().useStairs(-1, Tile.of(3140, 4230, 2), 0, 1));
 
-	public static ObjectClickHandler handlePosterExit = new ObjectClickHandler(new Object[] { 29623 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(3077, 4235, 0), 0, 1);
-	});
+	public static ObjectClickHandler handlePosterExit = new ObjectClickHandler(new Object[] { 29623 }, e -> e.getPlayer().useStairs(-1, Tile.of(3077, 4235, 0), 0, 1));
 
 	public static ObjectClickHandler handleJailDoors = new ObjectClickHandler(new Object[] { 29624 }, e -> {
 		if (e.getObject().getRotation() == 0) {
@@ -91,7 +81,7 @@ public class Edgeville  {
 			p.useLadder(Tile.of(p.getX(), p.getY(), p.getPlane()+1));
 		else
 			p.startConversation(new Conversation(p) {
-				int NPC = 801;
+				final int NPC = 801;
 				{
 					addNPC(NPC, HeadE.FRUSTRATED, "Hey! You are not part of the monastary!");
 					addPlayer(HeadE.HAPPY_TALKING, "Oh.");
@@ -141,9 +131,7 @@ public class Edgeville  {
 																player.getInventory().addItem(11283, 1);
 															}) : new Dialogue().addNPC(747, HeadE.CALM_TALK, "Ye seem to be missing some stuff. Come see me when ye have an anti-dragon shield and my payment."))
 													));
-								option("Can I buy a rune platebody now, please?", new Dialogue().addPlayer(HeadE.CALM, "Can I buy a rune platebody now, please?").addNext(() -> {
-									ShopsHandler.openShop(player, "oziach");
-								}));
+								option("Can I buy a rune platebody now, please?", new Dialogue().addPlayer(HeadE.CALM, "Can I buy a rune platebody now, please?").addNext(() -> ShopsHandler.openShop(player, "oziach")));
 								if (!player.getInventory().containsItem(11286)) {
 									option("I'm not your friend.", new Dialogue().addPlayer(HeadE.CALM, "I'm not your friend.").addNPC(747, HeadE.FRUSTRATED, "I'm surprised if you're anyone's friend with those kind of manners."));
 									option("Yes, it's a very nice day.", new Dialogue().addPlayer(HeadE.CALM, "Yes, it's a very nice day.").addNPC(747, HeadE.HAPPY_TALKING, "Aye, may the gods walk by yer side. Now leave me alone."));
@@ -168,9 +156,7 @@ public class Edgeville  {
 						option("Can you heal me? I'm injured.", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Can you heal me? I'm injured.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Ok.")
-								.addSimple("Abbot Langley places his hands on your head. You feel a little better.", () ->{
-									p.heal(p.getMaxHitpoints());
-								})
+								.addSimple("Abbot Langley places his hands on your head. You feel a little better.", () -> p.heal(p.getMaxHitpoints()))
 								);
 						option("Isn't this place built a bit out of the way?", new Dialogue()
 								.addPlayer(HeadE.HAPPY_TALKING, "Isn't this place built a bit out of the way?")

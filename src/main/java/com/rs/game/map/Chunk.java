@@ -3,6 +3,8 @@ package com.rs.game.map;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
+import com.rs.game.content.pets.Pet;
+import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.WorldCollision;
@@ -37,16 +39,16 @@ public class Chunk {
     public static final int PLANE_INC = 0x400000;
     public static final int X_INC = 0x800;
 
-    private int id;
-    private int x;
-    private int y;
-    private int plane;
+    private final int id;
+    private final int x;
+    private final int y;
+    private final int plane;
 
-    private List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(new ObjectArrayList<>());
+    private final List<UpdateZonePacketEncoder> updates = ObjectLists.synchronize(new ObjectArrayList<>());
 
     protected Set<Integer> players = IntSets.synchronize(new IntOpenHashSet());
     protected Set<Integer> npcs = IntSets.synchronize(new IntOpenHashSet());
-    private Set<UpdateZone> updateZones = ObjectSets.synchronize(new ObjectOpenHashSet<>());
+    private final Set<UpdateZone> updateZones = ObjectSets.synchronize(new ObjectOpenHashSet<>());
 
     protected GameObject[][][] baseObjects = new GameObject[8][8][4];
     protected Map<Integer, GameObject> removedBaseObjects = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
@@ -186,32 +188,16 @@ public class Chunk {
     }
 
     public boolean addItemToOwnerMapping(GroundItem item) {
-        Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
-        if (tileMap == null) {
-            tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
-            groundItems.put(item.getVisibleToId(), tileMap);
-        }
-        List<GroundItem> items = tileMap.get(item.getTile().getTileHash());
-        if (items == null) {
-            items = ObjectLists.synchronize(new ObjectArrayList<>());
-            tileMap.put(item.getTile().getTileHash(), items);
-        }
+        Map<Integer, List<GroundItem>> tileMap = groundItems.computeIfAbsent(item.getVisibleToId(), k -> Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>()));
+        List<GroundItem> items = tileMap.computeIfAbsent(item.getTile().getTileHash(), k -> ObjectLists.synchronize(new ObjectArrayList<>()));
         items.add(item);
         return true;
     }
 
     public boolean addGroundItem(GroundItem item) {
         ChunkManager.markChunkActive(id);
-        Map<Integer, List<GroundItem>> tileMap = groundItems.get(item.getVisibleToId());
-        if (tileMap == null) {
-            tileMap = Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>());
-            groundItems.put(item.getVisibleToId(), tileMap);
-        }
-        List<GroundItem> items = tileMap.get(item.getTile().getTileHash());
-        if (items == null) {
-            items = ObjectLists.synchronize(new ObjectArrayList<>());
-            tileMap.put(item.getTile().getTileHash(), items);
-        }
+        Map<Integer, List<GroundItem>> tileMap = groundItems.computeIfAbsent(item.getVisibleToId(), k -> Int2ObjectMaps.synchronize(new Int2ObjectOpenHashMap<>()));
+        List<GroundItem> items = tileMap.computeIfAbsent(item.getTile().getTileHash(), k -> ObjectLists.synchronize(new ObjectArrayList<>()));
         GroundItem existing = getGroundItem(item.getId(), item.getTile(), item.getVisibleToId());
         if (item.getDefinitions().isStackable() && !item.containsMetaData() && existing != null) {
             int oldAmount = existing.getAmount();
@@ -355,10 +341,8 @@ public class Chunk {
             unflagForProcess(toRemove);
             WorldCollision.unclip(toRemove);
             addRemovedObject(baseObject);
-        } else {
-            Logger.info(Chunk.class, "removeObject", "Requested object to spawn is already spawned. (Shouldnt happen) " + baseObject);
+        } else
             return;
-        }
         if (replace && baseObject != null)
             addChunkUpdate(new AddObject(baseObject.getTile().getChunkLocalHash(), baseObject));
         else
@@ -706,7 +690,7 @@ public class Chunk {
         getRemovedObjects().clear();
         for (int npcIndex : new IntOpenHashSet(npcs)) {
             NPC npc = World.getNPCs().get(npcIndex);
-            if (npc == null)
+            if (npc == null || npc instanceof Familiar || npc instanceof Pet)
                 continue;
             npc.finish();
         }

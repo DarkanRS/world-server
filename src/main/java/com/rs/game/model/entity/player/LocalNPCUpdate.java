@@ -30,8 +30,8 @@ import java.util.LinkedList;
 
 public final class LocalNPCUpdate {
 
-	private Player player;
-	private LinkedList<NPC> localNPCs;
+	private final Player player;
+	private final LinkedList<NPC> localNPCs;
 
 	public void reset() {
 		localNPCs.clear();
@@ -245,11 +245,11 @@ public final class LocalNPCUpdate {
 	}
 
 	private void applyTransformationMask(NPC n, OutputStream data) {
-		data.writeBigSmart(n.getNextTransformation().getToNPCId());
+		data.writeBigSmart(n.getNextTransformation().toNPCId());
 	}
 
 	private void applyForceTalkMask(NPC n, OutputStream data) {
-		data.writeString(n.getNextForceTalk().getText());
+		data.writeString(n.getNextForceTalk().text());
 	}
 
 	private void applyForceMovementMask(NPC n, OutputStream data) {
@@ -270,7 +270,7 @@ public final class LocalNPCUpdate {
 
 	private void applyHitMask(NPC n, OutputStream data) {
 		data.writeByte128(n.getNextHits().size());
-		for (Hit hit : n.getNextHits().toArray(new Hit[n.getNextHits().size()])) {
+		for (Hit hit : n.getNextHits().toArray(new Hit[0])) {
 			boolean interactingWith = hit.interactingWith(player, n);
 			if (hit.missed() && !interactingWith) {
 				data.writeSmart(32766);

@@ -26,9 +26,9 @@ import com.rs.lib.game.Item;
 
 public class JewelryAction extends PlayerAction {
 
-	private Bling bling;
+	private final Bling bling;
 	private int numberToMake;
-	private boolean pyrefiend;
+	private final boolean pyrefiend;
 	
 	public JewelryAction(Bling bling, int number, boolean pyrefiend) {
 		this.bling = bling;

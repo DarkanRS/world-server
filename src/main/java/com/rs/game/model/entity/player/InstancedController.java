@@ -1,11 +1,12 @@
 package com.rs.game.model.entity.player;
 
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
 
 import java.util.function.Consumer;
 
 public abstract class InstancedController extends Controller {
-    private Instance instance;
+    private final Instance instance;
 
     public InstancedController(Instance instance) {
         this.instance = instance;
@@ -15,7 +16,8 @@ public abstract class InstancedController extends Controller {
         _buildInstance(() -> {  });
     }
 
-    public void magicTeleported(int type) {
+    @Override
+    public void onTeleported(TeleType type) {
         _destroyInstance();
         removeController();
     }

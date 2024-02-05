@@ -27,9 +27,9 @@ import com.rs.utils.WorldUtil;
 
 public class RouteEvent {
 
-	private Object object;
-	private Runnable event;
-	private boolean alternative;
+	private final Object object;
+	private final Runnable event;
+	private final boolean alternative;
 	private RouteStrategy[] last;
 
 	public RouteEvent(Object object, Runnable event) {

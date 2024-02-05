@@ -68,7 +68,7 @@ public class PriestInPeril extends QuestOutline {
 		private final int itemID;
 
 		private final int goldenID;
-		private String message;
+		private final String message;
 
 		Monuments(int monumentID, Tile tile, int itemID, int goldenID, String message){
 			this.monumentID = monumentID;
@@ -225,19 +225,20 @@ public class PriestInPeril extends QuestOutline {
 	});
 
 	public static ItemOnObjectHandler handleBucketOnWell = new ItemOnObjectHandler(new Object[] { 3485 }, new Object[] { 1925 }, e -> {
+		int stage = e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL);
 		if (!e.getPlayer().isQuestStarted(Quest.PRIEST_IN_PERIL)) {
 			e.getPlayer().sendMessage("This water is filthy, I best leave it alone.");
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 7 || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 8) {
+		if (stage == 6 || stage == 7 || stage == 8) {
 			e.getPlayer().getInventory().replace(1925, 2953);
 			e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
 			e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
+		if (stage >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
 			e.getPlayer().getInventory().replace(1925, 1929);
 
 	});
@@ -247,13 +248,9 @@ public class PriestInPeril extends QuestOutline {
 			World.addGroundItem(new Item(2944), e.getNPC().getTile(), player);
 	});
 
-	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2));
 
-	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2));
 
 	public static ObjectClickHandler HandleCoffin = new ObjectClickHandler( new Object[] { 30728 }, e -> {
 		if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 8)
@@ -272,25 +269,29 @@ public class PriestInPeril extends QuestOutline {
 				} else
 					new DrezelD(e.getPlayer());
 			}
-			case "Open" -> {
-				if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 6) {
-					handleGate(e.getPlayer(), e.getObject());
-					return;
-				}
-				if (e.getPlayer().getInventory().containsItem(2944)) {
-					e.getPlayer().sendMessage("This key doesn't fit.");
-					return;
-				}
-				if (e.getPlayer().getInventory().containsItem(2945)) {
-					e.getPlayer().startConversation(new Dialogue()
-							.addNPC(Drezel, HeadE.CALM_TALK, "Oh! Thank you! You have found the key!")
-					);
-					e.getPlayer().getInventory().deleteItem(2945, 1);
-					e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 7);
-					handleGate(e.getPlayer(), e.getObject());
-					return;
-				} else
-					new DrezelD(e.getPlayer());
+			else
+				new DrezelInJailD(e.getPlayer());
+		}
+		if(e.getOption().equalsIgnoreCase("Open")) {
+			if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 6) {
+				handleGate(e.getPlayer(), e.getObject());
+				return;
+			}
+			if (e.getPlayer().getInventory().containsItem(2944)) {
+				e.getPlayer().sendMessage("This key doesn't fit.");
+				return;
+			}
+			if (e.getPlayer().getInventory().containsItem(2945)) {
+				e.getPlayer().startConversation( new Dialogue()
+						.addNPC(Drezel, HeadE.CALM_TALK, "Oh! Thank you! You have found the key!")
+				);
+				e.getPlayer().getInventory().deleteItem(2945,1);
+				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 7);
+				handleGate(e.getPlayer(), e.getObject());
+				return;
+			}
+			else
+				new DrezelInJailD(e.getPlayer());
 
 			}
 		}
@@ -310,7 +311,7 @@ public class PriestInPeril extends QuestOutline {
 				e.getPlayer().sendMessage("You pour the blessed water over the coffin...");
 				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 9);
 				e.getPlayer().getInventory().replace(2954, 1925);
-				e.getPlayer().setNextAnimation(new Animation(2771));
+				e.getPlayer().anim(2771);
 			}
 		}
 	});

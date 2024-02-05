@@ -18,7 +18,7 @@ package com.rs.utils.drop;
 
 public class WeightedTable extends DropTable {
 
-	private transient int weight;
+	private final transient int weight;
 
 	public WeightedTable(int weight, Drop... drops) {
 		this.weight = weight;

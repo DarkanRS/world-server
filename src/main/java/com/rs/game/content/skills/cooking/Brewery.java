@@ -55,7 +55,7 @@ public class Brewery {
 	private boolean theStuff;
 	private boolean spoiled;
 	private boolean mature;
-	private boolean keldagrim;
+	private final boolean keldagrim;
 	private transient Player player;
 
 	public Brewery(boolean keldagrim) {

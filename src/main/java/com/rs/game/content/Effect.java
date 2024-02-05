@@ -299,27 +299,27 @@ public enum Effect {
 
 	SHOOTING_STAR_MINING_BUFF("star sprite's power", false);
 
-	private boolean removeOnDeath = true;
-	private String name;
+    private final String name;
 
-	private Effect(String name, boolean removeOnDeath) {
+	Effect(String name, boolean removeOnDeath) {
 		this.name = name;
 	}
 
-	private Effect(String name) {
+	Effect(String name) {
 		this(name, true);
 	}
 
-	private Effect(boolean removeOnDeath) {
+	Effect(boolean removeOnDeath) {
 		this(null, removeOnDeath);
 	}
 
-	private Effect() {
+	Effect() {
 		this(null, true);
 	}
 
 	public boolean isRemoveOnDeath() {
-		return removeOnDeath;
+        boolean removeOnDeath = true;
+        return removeOnDeath;
 	}
 
 	public void apply(Entity player) {

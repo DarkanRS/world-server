@@ -55,7 +55,7 @@ import com.rs.lib.util.Logger;
 
 public class HouseController extends Controller {
 
-	private transient House house;
+	private final transient House house;
 
 	public HouseController(House house) {
 		this.house = house;
@@ -569,17 +569,17 @@ public class HouseController extends Controller {
 				public void create() {
 
 					if (portal1 == null)
-						option("1: No portal frame", () -> { player.sendMessage("You must build a portal frame before you can redirect this."); });
+						option("1: No portal frame", () -> player.sendMessage("You must build a portal frame before you can redirect this."));
 					else
 						option("1: " + (ObjectDefinitions.getDefs(portal1.getId()).getName().contains("Portal frame") ? "Nowhere" : ObjectDefinitions.getDefs(portal1.getId()).getName()), p1d);
 
 					if (portal2 == null)
-						option("2: No portal frame", () -> { player.sendMessage("You must build a portal frame before you can redirect this."); });
+						option("2: No portal frame", () -> player.sendMessage("You must build a portal frame before you can redirect this."));
 					else
 						option("2: " + (ObjectDefinitions.getDefs(portal2.getId()).getName().contains("Portal frame") ? "Nowhere" : ObjectDefinitions.getDefs(portal2.getId()).getName()), p2d);
 
 					if (portal3 == null)
-						option("3: No portal frame", () -> { player.sendMessage("You must build a portal frame before you can redirect this."); });
+						option("3: No portal frame", () -> player.sendMessage("You must build a portal frame before you can redirect this."));
 					else
 						option("3: " + (ObjectDefinitions.getDefs(portal3.getId()).getName().contains("Portal frame") ? "Nowhere" : ObjectDefinitions.getDefs(portal3.getId()).getName()), p3d);
 

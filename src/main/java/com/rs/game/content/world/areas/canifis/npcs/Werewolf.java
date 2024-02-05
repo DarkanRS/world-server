@@ -30,7 +30,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class Werewolf extends NPC {
 
-	private int realId;
+	private final int realId;
 
 	public Werewolf(int id, Tile tile, boolean spawned) {
 		super(id, tile, spawned);

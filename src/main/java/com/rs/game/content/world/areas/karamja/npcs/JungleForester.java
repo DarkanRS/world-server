@@ -19,9 +19,7 @@ public class JungleForester {
 		int npcId = e.getNPC().getId();
 		player.startConversation(new Dialogue()
 				.addNPC(npcId, HeadE.CHEERFUL, "Hello, what are you after?")
-				.addOptions("What would you like to say?", (ops) -> {
-						ops.option("About the Achievement System...", new AchievementSystemDialogue(player, npcId, SetReward.KARAMJA_GLOVES).getStart());
-				}));
+				.addOptions("What would you like to say?", (ops) -> ops.option("About the Achievement System...", new AchievementSystemDialogue(player, npcId, SetReward.KARAMJA_GLOVES).getStart())));
 	});
 
 }

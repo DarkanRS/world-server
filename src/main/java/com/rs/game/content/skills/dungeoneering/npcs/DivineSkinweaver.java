@@ -83,7 +83,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 				for (Player p2 : getManager().getParty().getTeam()) {
 					if (!getManager().isAtBossRoom(p2.getTile()))
 						continue;
-					p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().getText());
+					p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().text());
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public final class DivineSkinweaver extends DungeonBoss {
 		for (Player p2 : getManager().getParty().getTeam()) {
 			if (!getManager().isAtBossRoom(p2.getTile()))
 				continue;
-			p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().getText());
+			p2.sendMessage("Divine skinweaver: <col=99CC66>" + getNextForceTalk().text());
 		}
 		getManager().openStairs(getReference());
 		drop();

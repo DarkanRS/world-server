@@ -30,17 +30,11 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class StrongholdOfSecurity {
 
-	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }, e -> {
-		Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, TeleType.ITEM, null);
-	});
+	public static ItemClickHandler handleSkullSceptreTele = new ItemClickHandler(new Object[] { 9013 }, new String[] { "Invoke" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 9601, -1, 1683, -1, 0, 0, Tile.of(3080, 3424, 0), 4, true, TeleType.ITEM, null));
 
-	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }, e -> {
-		e.getPlayer().tele(Tile.of(1859, 5243, 0));
-	});
+	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 16154 }, e -> e.getPlayer().tele(Tile.of(1859, 5243, 0)));
 
-	public static ObjectClickHandler handleExitLadders = new ObjectClickHandler(new Object[] { 16148, 16080, 16078, 16112, 16049, 16048 }, e -> {
-		e.getPlayer().ladder(Tile.of(3081, 3421, 0));
-	});
+	public static ObjectClickHandler handleExitLadders = new ObjectClickHandler(new Object[] { 16148, 16080, 16078, 16112, 16049, 16048 }, e -> e.getPlayer().ladder(Tile.of(3081, 3421, 0)));
 
 	public static ObjectClickHandler handleF1Shortcut = new ObjectClickHandler(new Object[] { 16150 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.FLAP))
@@ -49,9 +43,7 @@ public class StrongholdOfSecurity {
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
 
-	public static ObjectClickHandler handleF1DownLadder = new ObjectClickHandler(new Object[] { 16149 }, e -> {
-		e.getPlayer().tele(Tile.of(2042, 5245, 0));
-	});
+	public static ObjectClickHandler handleF1DownLadder = new ObjectClickHandler(new Object[] { 16149 }, e -> e.getPlayer().tele(Tile.of(2042, 5245, 0)));
 
 	public static ObjectClickHandler handleF2Shortcut = new ObjectClickHandler(new Object[] { 16082 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.SLAP_HEAD))
@@ -60,9 +52,7 @@ public class StrongholdOfSecurity {
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
 
-	public static ObjectClickHandler handleF2DownLadder = new ObjectClickHandler(new Object[] { 16081 }, e -> {
-		e.getPlayer().ladder(Tile.of(2123, 5252, 0));
-	});
+	public static ObjectClickHandler handleF2DownLadder = new ObjectClickHandler(new Object[] { 16081 }, e -> e.getPlayer().ladder(Tile.of(2123, 5252, 0)));
 
 	public static ObjectClickHandler handleF3Shortcut = new ObjectClickHandler(new Object[] { 16116 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.IDEA))
@@ -71,9 +61,7 @@ public class StrongholdOfSecurity {
 			e.getPlayer().sendMessage("The portal does not allow you to enter yet.");
 	});
 
-	public static ObjectClickHandler handleF3DownLadder = new ObjectClickHandler(new Object[] { 16115 }, e -> {
-		e.getPlayer().ladder(Tile.of(2358, 5215, 0));
-	});
+	public static ObjectClickHandler handleF3DownLadder = new ObjectClickHandler(new Object[] { 16115 }, e -> e.getPlayer().ladder(Tile.of(2358, 5215, 0)));
 
 	public static ObjectClickHandler handleF4Shortcut = new ObjectClickHandler(new Object[] { 16050 }, e -> {
 		if (e.getPlayer().getEmotesManager().unlockedEmote(Emote.STOMP))

@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
 
@@ -36,9 +37,7 @@ public final class SoulSummonAttack implements QueenAttack {
 
 	@Override
 	public int attack(QueenBlackDragon npc, Player victim) {
-		for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();)
-			if (it.next().isDead())
-				it.remove();
+        npc.getSouls().removeIf(Entity::isDead);
 		npc.getTempAttribs().setI("_last_soul_summon", npc.getTicks() + Utils.random(41, 100));
 		int count = npc.getPhase() - 1;
 		if (count == 3)

@@ -80,7 +80,7 @@ public class ReportsManager {
 		REAL_WORLD_OFFENSE(20, 21, 13),
 		ADVERTISING(11);
 
-		private static Map<Integer, Rule> MAPPING = new HashMap<>();
+		private static final Map<Integer, Rule> MAPPING = new HashMap<>();
 
 		static {
 			for (Rule rule : Rule.values()) {
@@ -93,7 +93,7 @@ public class ReportsManager {
 			return MAPPING.get(id);
 		}
 
-		private int[] ids;
+		private final int[] ids;
 
 		private Rule(int... ids) {
 			this.ids = ids;

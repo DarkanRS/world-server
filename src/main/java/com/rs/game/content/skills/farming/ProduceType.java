@@ -119,7 +119,7 @@ public enum ProduceType {
 	Spirit_tree(5375, 83, null, 8, 199.5, 19301.8, 12, PatchType.SPIRIT);
 
 
-	private static Map<Integer, ProduceType> MAP = new HashMap<>();
+	private static final Map<Integer, ProduceType> MAP = new HashMap<>();
 
 	static {
 		for (ProduceType product : ProduceType.values())
@@ -140,15 +140,16 @@ public enum ProduceType {
 		return false;
 	}
 
-	public int seedId;
-	public int level;
-	public Item productId;
-	public int varBitPlanted;
-	public PatchType type;
-	public int stages;
-	public double experience, plantingExperience;
+	public final int seedId;
+	public final int level;
+	public final Item productId;
+	public final int varBitPlanted;
+	public final PatchType type;
+	public final int stages;
+	public final double experience;
+    public final double plantingExperience;
 	public int rate1 = -1, rate99 = -1;
-	public Item protection;
+	public final Item protection;
 
 	private ProduceType(int seedId, int level, Item productId, int varBitPlanted, double plantingExperience, double experience, int stages, PatchType type, int rate1, int rate99, Item protection) {
 		this.seedId = seedId;
@@ -190,19 +191,12 @@ public enum ProduceType {
 	}
 
 	public ProduceType getFlowerProtection() {
-		switch(this) {
-		case Potato:
-		case Onion:
-		case Tomato:
-			return ProduceType.Marigold;
-		case Cabbage:
-			return ProduceType.Rosemary;
-		case Sweetcorn:
-			return ProduceType.Scarecrow;
-		case Watermelon:
-			return ProduceType.Nasturtium;
-		default:
-			return null;
-		}
+        return switch (this) {
+            case Potato, Onion, Tomato -> ProduceType.Marigold;
+            case Cabbage -> ProduceType.Rosemary;
+            case Sweetcorn -> ProduceType.Scarecrow;
+            case Watermelon -> ProduceType.Nasturtium;
+            default -> null;
+        };
 	}
 }

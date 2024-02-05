@@ -8,8 +8,8 @@ import java.util.List;
 
 public class MouseMove extends RecordedAction {
 	
-	private boolean icmp;
-	private List<MouseTrailStep> steps;
+	private final boolean icmp;
+	private final List<MouseTrailStep> steps;
 	private int x = 0, y = 0;
 	private boolean containsSoftwareClicks = false;
 

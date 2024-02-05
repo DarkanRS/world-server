@@ -1115,7 +1115,7 @@ public enum Achievement {
 	NO_NAME_TASK_PLACEHOLDER_4094(4094),
 	NO_PINNED_TASK_4095(4095);
 
-	private static Map<Integer, Achievement> MAP = new HashMap<>();
+	private static final Map<Integer, Achievement> MAP = new HashMap<>();
 
 	static {
 		for (Achievement a : Achievement.values())
@@ -1126,7 +1126,7 @@ public enum Achievement {
 		return MAP.get(id);
 	}
 
-	private int id;
+	private final int id;
 
 	private Achievement(int id) {
 		this.id = id;

@@ -53,11 +53,11 @@ public class LodestoneAction extends PlayerAction {
 		YANILLE(69841, Achievement.MAGICAL_MYSTERY_TOUR_1007, 52, 10912, Tile.of(2529, 3095, 0)),
 		SEERS_VILLAGE(69838, Achievement.FIND_ENLIGHTENMENT_1004, 49, 10909, Tile.of(2689, 3483, 0));
 
-		private int objectId;
-		private Achievement achievement;
-		private int component;
-		private int configId;
-		private Tile tile;
+		private final int objectId;
+		private final Achievement achievement;
+		private final int component;
+		private final int configId;
+		private final Tile tile;
 
 		public static Lodestone forComponent(int component) {
 			for (Lodestone stone : Lodestone.values())
@@ -118,7 +118,7 @@ public class LodestoneAction extends PlayerAction {
 	});
 
 	private int currentTime;
-	private Tile tile;
+	private final Tile tile;
 
 	public LodestoneAction(Tile tile) {
 		this.tile = tile;

@@ -70,9 +70,7 @@ public class Debug {
 		//
 		//		});
 
-		Commands.add(Rights.ADMIN, "shapemusic", "Starts showing music shape.", (p, args) -> {
-			musicMoveOn = !musicMoveOn;
-		});
+		Commands.add(Rights.ADMIN, "shapemusic", "Starts showing music shape.", (p, args) -> musicMoveOn = !musicMoveOn);
 
 		Commands.add(Rights.PLAYER, "coords,getpos,mypos,pos,loc", "Gets the coordinates for the tile.", (p, args) -> {
 			p.sendMessage("Coords: " + p.getX() + "," + p.getY() + "," + p.getPlane() + ", regionId: " + p.getRegionId() + ", chunkX: " + p.getChunkX() + ", chunkY: " + p.getChunkY());
@@ -96,25 +94,15 @@ public class Debug {
 
 		Commands.add(Rights.PLAYER, "cutscene2 [id]", "Starts crate scene.", (p, args) -> {
 			switch (Integer.valueOf(args[0])) {
-				case 0 -> {
-					p.playCutscene(new WallyVSDelrithCutscene());
-				}
-				case 1 -> {
-					p.getControllerManager().startController(new PlayerVSDelrithController());
-				}
-				case 2 -> {
-					p.getControllerManager().startController(new DragonSlayer_BoatScene());
-				}
-				case 3 -> {
-					p.getControllerManager().startController(new MerlinsCrystalCrateScene());
-				}
+				case 0 -> p.playCutscene(new WallyVSDelrithCutscene());
+				case 1 -> p.getControllerManager().startController(new PlayerVSDelrithController());
+				case 2 -> p.getControllerManager().startController(new DragonSlayer_BoatScene());
+				case 3 -> p.getControllerManager().startController(new MerlinsCrystalCrateScene());
 			}
 
 		});
 
-		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> {
-			p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getController().getClass().getName()));
-		});
+		Commands.add(Rights.PLAYER, "getcontroller", "Shows current controller", (p, args) -> p.sendMessage("Controller -> " + (p.getControllerManager().getController() == null ? "does not exist..." : p.getControllerManager().getController().getClass().getName())));
 
 		Commands.add(Rights.PLAYER, "fightkiln [wave]", "Starts Fight kiln at a wave", (p, args) -> {
 			if(args.length != 1) {
@@ -132,13 +120,9 @@ public class Debug {
 			p.getControllerManager().startController(new FightKilnController(Integer.valueOf(args[0]), true));
 		});
 
-		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> {
-			attemptSpawnRandom(p, true);
-		});
+		Commands.add(Rights.PLAYER, "random", "Forces a random event.", (p, args) -> attemptSpawnRandom(p, true));
 
-		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> {
-			p.incrementCount("Fight Caves clears");
-		});
+		Commands.add(Rights.PLAYER, "fightcaves", "Marks fight caves as having been completed.", (p, args) -> p.incrementCount("Fight Caves clears"));
 		
 		Commands.add(Rights.PLAYER, "showhitchance", "Toggles the display of your hit chance when attacking opponents.", (p, args) -> {
 			p.getNSV().setB("hitChance", !p.getNSV().getB("hitChance"));
@@ -279,9 +263,7 @@ public class Debug {
 			p.getSkills().init();
 		});
 		
-		Commands.add(Rights.PLAYER, "spec", "Restores special attack energy to full.", (p, args) -> {
-			p.getCombatDefinitions().resetSpecialAttack();
-		});
+		Commands.add(Rights.PLAYER, "spec", "Restores special attack energy to full.", (p, args) -> p.getCombatDefinitions().resetSpecialAttack());
 
 		Commands.add(Rights.PLAYER, "copy [player name]", "Copies the other player's levels, equipment, and inventory.", (p, args) -> {
 			Player target = World.getPlayerByDisplay(Utils.concat(args));
@@ -354,12 +336,10 @@ public class Debug {
 					i.setAmount(10500000);
 		});
 
-		Commands.add(Rights.PLAYER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> {
-			p.sendOptionDialogue("Clear bank?", ops -> {
-				ops.add("Yes", () -> p.getBank().clear());
-				ops.add("No");
-			});
-		});
+		Commands.add(Rights.PLAYER, "clearbank,emptybank", "Empties the players bank entirely.", (p, args) -> p.sendOptionDialogue("Clear bank?", ops -> {
+            ops.add("Yes", () -> p.getBank().clear());
+            ops.add("No");
+        }));
 
 		Commands.add(Rights.PLAYER, "god", "Toggles god mode for the player.", (p, args) -> {
 			boolean god = p.getNSV().getB("godMode");
@@ -372,9 +352,7 @@ public class Debug {
 			p.sendMessage("INFINITE RUNES: " + p.getNSV().getB("infRunes"));
 		});
 
-		Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> {
-			p.delete(args[0]);
-		});
+		Commands.add(Rights.PLAYER, "deletesave [string/ID]", "Deletes save attributes", (p, args) -> p.delete(args[0]));
 
 		Commands.add(Rights.PLAYER, "owner", "Makes you owner if your username is the owner.", (p, args) -> {
 			if (p.getUsername().equals(Settings.getConfig().getOwnerName())) {

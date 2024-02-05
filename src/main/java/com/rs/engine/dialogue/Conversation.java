@@ -30,7 +30,7 @@ public class Conversation {
 
 	public static String DEFAULT_OPTIONS_TITLE = "Choose an option";
 
-	private HashMap<String, Dialogue> markedStages;
+	private final HashMap<String, Dialogue> markedStages;
 	private Dialogue firstDialogue;
 	protected Player player;
 	protected Dialogue current;
@@ -261,8 +261,7 @@ public class Conversation {
 		String[] ops = new String[options.getOptions().keySet().size()];
 		options.getOptions().keySet().toArray(ops);
 		String[] baseOptions = new String[5];
-		for (int i = 0;i < 4;i++)
-			baseOptions[i] = ops[i];
+        System.arraycopy(ops, 0, baseOptions, 0, 4);
 		baseOptions[4] = "More options...";
 		Dialogue baseOption = new Dialogue(new OptionStatement(title, baseOptions));
 		Dialogue currPage = baseOption;
@@ -360,7 +359,10 @@ public class Conversation {
 		if (current instanceof StageSelectDialogue d) {
 			if (d.getFunc() != null)
 				d.getFunc().run();
-			current = d.getConversation().getStage(d.getStageName());
+			if (d.getConversation() != null)
+				current = d.getConversation().getStage(d.getStageName());
+			else
+				current = d.getDirectNextReference();
 		}
 		if (player.getInterfaceManager().containsChatBoxInter())
 			player.getInterfaceManager().closeChatBoxInterface();
@@ -383,7 +385,7 @@ public class Conversation {
 		Dialogue curr = current;
 		while(curr != null) {
 			visited.add(curr);
-			str.append(curr + "\n");
+			str.append(curr).append("\n");
 			curr = curr.getNext(0);
 			if (visited.contains(curr))
 				break;

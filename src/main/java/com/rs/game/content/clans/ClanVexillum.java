@@ -24,9 +24,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @PluginEventHandler
 public class ClanVexillum extends OwnedNPC {
 	
-	private static Map<String, ClanVexillum> CLAN_VEXES = new ConcurrentHashMap<>();
+	private static final Map<String, ClanVexillum> CLAN_VEXES = new ConcurrentHashMap<>();
 	
-	private Clan clan;
+	private final Clan clan;
 	private int hint = -1;
 	
 	/*

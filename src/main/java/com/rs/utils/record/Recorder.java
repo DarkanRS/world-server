@@ -11,8 +11,8 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.*;
 
 public class Recorder {	
-	private Player player;
-	private Deque<RecordedAction> actions = new ArrayDeque<>();
+	private final Player player;
+	private final Deque<RecordedAction> actions = new ArrayDeque<>();
 	private int sizeLimit = 100;
 	
 	public Recorder(Player player) {
@@ -50,7 +50,7 @@ public class Recorder {
 		}
 		player.getPackets().sendDevConsoleMessage("Past actions for:  " + Utils.concat(displayNames));
 		SimpleEntry<String, RecordedAction> prev = null;
-		long startTime = actions.get(0).getValue().getTimeLogged();
+		long startTime = actions.getFirst().getValue().getTimeLogged();
 		for (SimpleEntry<String, RecordedAction> action : actions) {
 			consoleLogAction(player, action, prev, startTime);
 			prev = action;
@@ -64,11 +64,11 @@ public class Recorder {
 			if (target == null || target.getRecorder() == null)
 				return null;
 			for (RecordedAction click : target.getRecorder().actions)
-				actions.add(new SimpleEntry<String, RecordedAction>(name, click));
+				actions.add(new SimpleEntry<>(name, click));
 		}
 		if (actions.isEmpty())
 			return null;
-		actions.sort((e1, e2) -> e1.getValue().compareTo(e2.getValue()));
+		actions.sort(Comparator.comparing(SimpleEntry::getValue));
 		return actions;
 	}
 
@@ -77,13 +77,13 @@ public class Recorder {
 		List<SimpleEntry<String, RecordedAction>> initialActions = getActionsFor(displayNames);
 		if (initialActions == null || initialActions.isEmpty())
 			return;
-		long startTime = initialActions.get(0).getValue().getTimeLogged();
+		long startTime = initialActions.getFirst().getValue().getTimeLogged();
 		player.getPackets().sendDevConsoleMessage("Starting watch for: " + Arrays.toString(displayNames));
 		WorldTasks.scheduleTimer(tick -> {
 			if (player == null || !player.isRunning() || player.hasFinished())
 				return false;
 			List<SimpleEntry<String, RecordedAction>> actions = getActionsFor(displayNames);
-			player.getNSV().setO("lastWatchActionLogged", initialActions.get(0));
+			player.getNSV().setO("lastWatchActionLogged", initialActions.getFirst());
 			if (actions == null || actions.isEmpty() || player.getNSV().getB("stopWatchActionLoop")) {
 				player.getPackets().sendDevConsoleMessage("Watching stopped. Player went offline.");
 				player.getNSV().removeB("stopWatchActionLoop");
@@ -121,8 +121,8 @@ public class Recorder {
 		minutes = minutes % 60;
 		StringBuilder string = new StringBuilder();
 		string.append(String.format("%02d", minutes));
-		string.append(":" + String.format("%02d", seconds));
-		string.append(":" + String.format("%04d", millis));
+		string.append(":").append(String.format("%02d", seconds));
+		string.append(":").append(String.format("%04d", millis));
 		return string.toString();
 	}
 }

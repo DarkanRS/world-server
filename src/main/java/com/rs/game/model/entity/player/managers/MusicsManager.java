@@ -43,9 +43,9 @@ public final class MusicsManager {
     private transient int playingMusic;
     private transient long playingMusicDelay;
     private transient boolean settedMusic;
-    private ArrayList<Integer> unlockedMusics;
-    private ArrayList<Integer> playList;
-    private Deque<Integer> lastTenSongs = new ArrayDeque<>();
+    private final ArrayList<Integer> unlockedMusics;
+    private final ArrayList<Integer> playList;
+    private final Deque<Integer> lastTenSongs = new ArrayDeque<>();
 
     private transient boolean playListOn;
     private transient int nextPlayListMusic;
@@ -331,8 +331,7 @@ public final class MusicsManager {
                 Music.getGenre(player) : player.getControllerManager().getController().getGenre();
         if (playingGenre == null) {
 			playingMusic = NULL_SOUND_TRACK;//don't play music.
-			return;
-		}
+        }
         else {
             //genre song ids int[] -> list<>
             List<Integer> genreSongs = Arrays.stream(playingGenre.getSongs()).boxed().collect(Collectors.toList());
@@ -485,8 +484,7 @@ public final class MusicsManager {
     public boolean isUnlocked(int musicId) {
         Song song = Music.getSong(musicId);
         if (song != null)
-            if (unlockedMusics.contains(musicId))
-                return true;
+            return unlockedMusics.contains(musicId);
         return false;
     }
 
