@@ -1446,10 +1446,8 @@ public abstract class Entity {
 			anim(animation);
 		lock();
 		resetWalkSteps();
-		if (startClientCycles == 0 && this instanceof Player player)
-			player.setTemporaryMoveType(MoveType.TELE);
-		if (startClientCycles >= 20)
-			getTasks().schedule(() -> tele(destination));
+		if (this instanceof Player player)
+			player.setTemporaryMoveType(MoveType.WALK);
 		move(destination);
 		setNextForceMovement(movement);
 		tasks.schedule(movement.getTickDuration(), () -> {

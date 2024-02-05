@@ -918,7 +918,7 @@ public class NPC extends Entity {
                     && canAggroPlayer(player)
                     && (!isNormallyPassive || player.hasEffect(Effect.AGGRESSION_POTION))
                     && (player.hasEffect(Effect.AGGRESSION_POTION) || !player.isDocile() || ignoreDocile)
-                    && !player.getAppearance().isHidden()
+                    && !player.getAppearance().isHidden() && !player.isTrulyHidden()
                     && WorldUtil.isInRange(getX(), getY(), getSize(), player.getX(), player.getY(), player.getSize(), getAggroDistance())
                     && (forceMultiAttacked || (isAtMultiArea() && player.isAtMultiArea()) || player.getAttackedBy() == this || (!player.inCombat() && player.getFindTargetDelay() <= System.currentTimeMillis()))
                     && lineOfSightTo(player, false)

@@ -67,15 +67,15 @@ public enum Hatchet {
 	 * 9: IvyCutDown
 	 * 10: ChopShakeHeadCraft
 	 */
-	public Animation animNormal() {
-		return new Animation(animations[5]);
+	public int animNormal() {
+		return animations[5];
 	}
 	
-	public Animation animIvy() {
-		return new Animation(animations[9]);
+	public int animIvy() {
+		return animations[9];
 	}
 
-	public Animation getAnim(TreeType type) {
+	public int getAnim(TreeType type) {
 		return switch(type) {
 		case IVY -> animIvy();
 		default -> animNormal();

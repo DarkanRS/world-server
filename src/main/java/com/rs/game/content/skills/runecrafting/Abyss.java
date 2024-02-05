@@ -126,7 +126,7 @@ public class Abyss {
 				if (ticks == 1)
 					player.faceObject(object);
 				else if (ticks == 2)
-					player.setNextAnimation(hatchet.animNormal());
+					player.anim(hatchet.animNormal());
 				else if (ticks == 3) {
 					if (!success(player, Constants.WOODCUTTING)) {
 						player.unlock();

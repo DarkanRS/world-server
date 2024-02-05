@@ -196,7 +196,7 @@ public class Woodcutting extends Action {
 
 	@Override
 	public boolean process(Entity entity) {
-		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim(type));
+		entity.anim(entity instanceof Familiar ? 7722 : hatchet.getAnim(type));
 		if (entity instanceof Familiar)
 			entity.spotAnim(1459);
 		return checkAll(entity) && checkTree();

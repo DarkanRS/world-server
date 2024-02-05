@@ -17,7 +17,10 @@ public class DismissD extends Conversation {
 			public void create() {
 				if(p.getFamiliar() != null) 
 					option("Yes.", new Dialogue()
-							.addNext(()-> p.getFamiliar().dismiss())
+							.addNext(()-> {
+								if (p.getFamiliar() != null)
+									p.getFamiliar().dismiss();
+							})
 					);
 				else if(p.getPet() != null)
 					option("Yes.", new Dialogue()

@@ -33,6 +33,8 @@ import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.dnds.eviltree.EvilTree;
+import com.rs.game.content.dnds.eviltree.Type;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.pets.Pet;
@@ -124,6 +126,8 @@ public class MiscTest {
 		});
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
+
+		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> new EvilTree(Type.NORMAL, p.getTile()).spawn());
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
 

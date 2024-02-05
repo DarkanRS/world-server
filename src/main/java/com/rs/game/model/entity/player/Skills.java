@@ -1170,24 +1170,36 @@ public final class Skills {
 			}
 	}
 
-	public void adjustStat(int baseMod, double mul, int... skills) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, int... skills) {
 		for (int i : skills)
-			adjustStat(baseMod, mul, true, i);
+			adjustStat(calcFromBase, baseMod, mul, true, i);
 	}
 
-	public void adjustStat(int baseMod, double mul, boolean boost, int... skills) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, boolean boost, int... skills) {
 		for (int i : skills)
-			adjustStat(baseMod, mul, boost, i);
+			adjustStat(calcFromBase, baseMod, mul, boost, i);
 	}
 
-	public void adjustStat(int baseMod, double mul, boolean boost, int skill) {
+	public void adjustStat(boolean calcFromBase, int baseMod, double mul, boolean boost, int skill) {
 		int realLevel = getLevelForXp(skill);
-		int realBoost = (int) (baseMod + (getLevel(skill) * mul));
+		int realBoost = (int) (baseMod + ((calcFromBase ? realLevel : getLevel(skill)) * mul));
 		if (realBoost < 0)
 			realLevel = getLevel(skill);
 		int maxBoost = (int) (realLevel + (baseMod + (realLevel * mul)));
-		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : (getLevel(skill) > realLevel ? getLevel(skill) : realLevel));
+		level[skill] = (short) Utils.clampI(level[skill] + realBoost, 0, boost ? maxBoost : Math.max(getLevel(skill), realLevel));
 		markForRefresh(skill);
+	}
+
+	public void adjustStat(int baseMod, double mul, int... skills) {
+		adjustStat(false, baseMod, mul, skills);
+	}
+
+	public void adjustStat(int baseMod, double mul, boolean boost, int... skills) {
+		adjustStat(false, baseMod, mul, boost, skills);
+	}
+
+	public void adjustStat(int baseMod, double mul, boolean boost, int skill) {
+		adjustStat(false, baseMod, mul, boost, skill);
 	}
 	
 	public void lowerStat(int skill, double mul, double maxDrain) {

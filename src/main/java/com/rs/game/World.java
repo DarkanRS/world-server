@@ -44,6 +44,7 @@ import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.net.packets.encoders.updatezone.AddObject;
+import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;

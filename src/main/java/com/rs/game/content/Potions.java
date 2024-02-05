@@ -169,19 +169,19 @@ public class Potions {
 		}),
 
 		SUPER_RESTORE(VIAL, new int[] { 3024, 3026, 3028, 3030 }, p -> {
-			p.getSkills().adjustStat(8, 0.25, false, Utils.range(0, Skills.SIZE-1));
+			p.getSkills().adjustStat(true, 8, 0.25, false, Utils.range(0, Skills.SIZE-1));
 			p.getPrayer().restorePrayer(((int) (p.getSkills().getLevelForXp(Constants.PRAYER) * 0.33 * 10)));
 		}),
 		SUPER_RESTORE_FLASK(-1, new int[] { 23399, 23401, 23403, 23405, 23407, 23409 }, p -> {
-			p.getSkills().adjustStat(8, 0.25, false, Utils.range(0, Skills.SIZE-1));
+			p.getSkills().adjustStat(true, 8, 0.25, false, Utils.range(0, Skills.SIZE-1));
 			p.getPrayer().restorePrayer(((int) (p.getSkills().getLevelForXp(Constants.PRAYER) * 0.33 * 10)));
 		}),
 		DOM_SUPER_RESTORE(-1, new int[] { 22379, 22380 }, p -> {
-			p.getSkills().adjustStat(8, 0.25, false, Utils.range(0, Skills.SIZE-1));
+			p.getSkills().adjustStat(true, 8, 0.25, false, Utils.range(0, Skills.SIZE-1));
 			p.getPrayer().restorePrayer(((int) (p.getSkills().getLevelForXp(Constants.PRAYER) * 0.33 * 10)));
 		}),
 		SUPER_RESTORE_MIX(VIAL, new int[] { 11493, 11495 }, p -> {
-			p.getSkills().adjustStat(8, 0.25, false, Utils.range(0, Skills.SIZE-1));
+			p.getSkills().adjustStat(true, 8, 0.25, false, Utils.range(0, Skills.SIZE-1));
 			p.getPrayer().restorePrayer(((int) (p.getSkills().getLevelForXp(Constants.PRAYER) * 0.33 * 10)));
 			p.heal(30);
 		}),
