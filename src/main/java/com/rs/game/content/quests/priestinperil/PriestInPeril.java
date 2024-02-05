@@ -225,19 +225,20 @@ public class PriestInPeril extends QuestOutline {
 	});
 
 	public static ItemOnObjectHandler handleBucketOnWell = new ItemOnObjectHandler(new Object[] { 3485 }, new Object[] { 1925 }, e -> {
+		int stage = e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL);
 		if (!e.getPlayer().isQuestStarted(Quest.PRIEST_IN_PERIL)) {
 			e.getPlayer().sendMessage("This water is filthy, I best leave it alone.");
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 7 || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 8) {
+		if (stage == 6 || stage == 7 || stage == 8) {
 			e.getPlayer().getInventory().replace(1925, 2953);
 			e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
 			e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
+		if (stage >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
 			e.getPlayer().getInventory().replace(1925, 1929);
 
 	});
@@ -306,7 +307,7 @@ public class PriestInPeril extends QuestOutline {
 				e.getPlayer().sendMessage("You pour the blessed water over the coffin...");
 				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 9);
 				e.getPlayer().getInventory().replace(2954, 1925);
-				e.getPlayer().setNextAnimation(new Animation(2771));
+				e.getPlayer().anim(2771);
 			}
 		}
 	});
