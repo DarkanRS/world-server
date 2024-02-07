@@ -33,16 +33,20 @@ enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farm
     OAK(TreeType.OAK,15, 32.4, 7, 45.0, 15, 30.0, 11437, 11438, 11439, 11926, 14847),
     WILLOW(TreeType.WILLOW,30, 45.7, 15, 66.0, 30, 45.0, 11440, 11441, 11442, 11927, 14848),
     MAPLE(TreeType.MAPLE,45, 55.8, 22, 121.5, 45, 67.5, 11443, 11444, 11915, 11928, 14849),
-    YEW(TreeType.YEW,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 11929, 14883),
-    MAGIC(TreeType.MAGIC,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 12711, 14884),
-    ELDER(TreeType.MAGIC,90, 162.5, 42, 730.0, 90, 260.5, 11922, 11923, 11924, 12712, 14885)
+    YEW(TreeType.MAPLE,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 11929, 14883),
+    MAGIC(TreeType.YEW,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 12711, 14884),
+    ELDER(TreeType.YEW,85, 162.5, 42, 730.0, 85, 260.5, 11922, 11923, 11924, 12712, 14885)
 }
 
 enum class Location(val tile: Tile, val desc: String) {
     SEERS(Tile(2703, 3445, 0), "the south of Seer's Village."),
     RIMMINGTON(Tile(2982, 3204, 0), "the east of Rimmington."),
     FALADOR(Tile(2991, 3407, 0), "the north of Falador."),
-    TOLNA_RIFT(Tile(3321, 3454, 0), " Tolna's Rift."),
+    TOLNA_RIFT(Tile(3321, 3454, 0), "Tolna's Rift."),
+    CATHERBY_WEST(Tile(2750, 3422, 0), "the west of Catherby."),
+    SEERS_BANK(Tile(2708, 3507, 0), "the Seers Village bank."),
+    LEGENDS_GUILD(Tile(2724, 3331, 0), "the Legends' Guild."),
+    MOBILISING_ARMIES(Tile(2470, 2838, 0), "Mobilising Armies."),
 }
 
 @ServerStartupEvent
@@ -128,7 +132,6 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         }
 
         override fun process(): Boolean {
-            //TODO whack players around
             return true
         }
 
@@ -141,8 +144,18 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     override fun process(): Boolean {
-        //TODO whack players around
-        //TODO spotanim 314 "What was that??"
+        if (World.getServerTicks() % 10 == 0L)
+            World.getPlayersInChunkRange(tile.chunkId, 4)
+                .filter { !it.tempAttribs.getB("notified$treeType") }
+                .forEach {
+                    World.sendSpotAnim(it.tile, 314)
+                    it.forceTalk("What was that??")
+                    it.tempAttribs.setB("notified$treeType", true)
+                }
+        if (World.getServerTicks() % 2 == 0L)
+            World.getPlayersInChunkRange(tile.chunkId, 1)
+                .filter { player -> player.withinDistance(centerTile, 2) && roots.values.any { player.withinDistance(it.tile, 1) } }
+                .forEach { knockAway(it) }
         return true
     }
 
@@ -150,7 +163,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         World.spawnObject(this)
         flagForProcess()
         fires.values.forEach { World.spawnObject(it) }
-        leprechaun = NPC(418, World.findClosestAdjacentFreeTile(centerTile, 5))
+        leprechaun = NPC(418, centerTile.transform(0, 3))
     }
 
     fun despawn() {
@@ -237,6 +250,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
             val hatchet = Hatchet.getBest(player)
 
             override fun start(player: Player): Boolean {
+                player.actionManager.actionDelay = 3
                 player.faceObject(this@EvilTree)
                 if (hatchet == null) {
                     player.sendMessage("You do not have a hatchet that you have the woodcutting level to use.")
