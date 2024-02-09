@@ -57,5 +57,7 @@ fi
 # Ensure world-server data and plugins directories are properly set up
 handle_world_server_dirs
 
+cd /darkan/world-server
+
 # Proceed with the original entrypoint command
 exec "$@"
