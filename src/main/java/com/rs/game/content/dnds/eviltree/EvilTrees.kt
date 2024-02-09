@@ -96,7 +96,8 @@ fun mapEvilTrees() {
         player.repeatAction(3) {
             player.anim(hatchet.getAnim(TreeType.NORMAL))
             player.faceObject(obj)
-            if (!obj.tree.treeType.wcType.rollSuccess(1.0, player.skills.getLevel(Skills.WOODCUTTING), hatchet)) return@repeatAction obj.exists()
+            if (!obj.tree.treeType.wcType.rollSuccess(1.0, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
+                return@repeatAction obj.exists()
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp)
             player.inventory.addItemDrop(14666, 1)
@@ -113,7 +114,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     private var stage = 0
     private var stageProgress = 0
     private var leprechaun: NPC? = null
-    private val roots: MutableMap<Direction, Root> = EnumMap(com.rs.game.model.entity.pathing.Direction::class.java)
+    private val roots: MutableMap<Direction, Root> = EnumMap(Direction::class.java)
     private val fires = mapOf(
         Direction.WEST to GameObject(14887, ObjectType.STRAIGHT_INSIDE_WALL_DEC, 2, tile.transform(-2, 0, 0)),
         Direction.NORTH to GameObject(15253, ObjectType.STRAIGHT_INSIDE_WALL_DEC, 3, tile.transform(0, 2, 0)),

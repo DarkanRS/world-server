@@ -124,15 +124,18 @@ public final class Settings {
 	public static void loadConfig() {
 		Logger.info(Settings.class, "loadConfig", "Loading config...");
 		try {
-			File configFile = new File("./worldConfig.json");
-			if (configFile.exists())
-				SETTINGS = JsonFileManager.loadJsonFile(new File("./worldConfig.json"), Settings.class);
+			File rootConfigFile = new File("./worldConfig.json");
+			File dataConfigFile = new File("./data/worldConfig.json");
+			if (rootConfigFile.exists())
+				SETTINGS = JsonFileManager.loadJsonFile(rootConfigFile, Settings.class);
+			else if (dataConfigFile.exists())
+				SETTINGS = JsonFileManager.loadJsonFile(dataConfigFile, Settings.class);
 			else
 				SETTINGS = new Settings();
 			for (Field f : SETTINGS.getClass().getDeclaredFields())
 				if (f.get(SETTINGS) == null)
 					f.set(SETTINGS, f.get(DEFAULTS));
-			JsonFileManager.saveJsonFile(SETTINGS, configFile);
+			JsonFileManager.saveJsonFile(SETTINGS, dataConfigFile);
 		} catch (JsonIOException | IOException | IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 			System.exit(5);

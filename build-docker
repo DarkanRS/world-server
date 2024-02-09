@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Extract version number from package.json
+VERSION=$(grep 'val darkanVersion: String = ' build.gradle.kts | cut -d '"' -f 2)
+
+# Check if version is extracted correctly
+if [ -z "$VERSION" ]; then
+    echo "Error: Unable to extract version from build.gradle.kts"
+    exit 1
+fi
+
+# Build, tag, and push the Docker image with the extracted version
+sudo docker build -t darkanrs/world-server:$VERSION .
+sudo docker tag darkanrs/world-server:$VERSION registry.gitlab.com/darkanrs/world-server/world-server:$VERSION
+sudo docker tag darkanrs/world-server:$VERSION registry.gitlab.com/darkanrs/world-server/world-server:latest
+sudo docker push registry.gitlab.com/darkanrs/world-server/world-server:$VERSION
+sudo docker push registry.gitlab.com/darkanrs/world-server/world-server:latest
