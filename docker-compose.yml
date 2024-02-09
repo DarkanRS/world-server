@@ -1,5 +1,8 @@
 version: '3.8'
 
+#NOTE: After running the docker compose once and not having the server start up,
+#go to the volume you are mapping "world-data" to, open worldConfig.json, and where you see
+#"mongoUrl": "localhost", change "localhost" to "mongodb", then start up the docker-compose again
 services:
   mongodb:
     image: mongo
