@@ -136,6 +136,8 @@ public final class Settings {
 				if (f.get(SETTINGS) == null)
 					f.set(SETTINGS, f.get(DEFAULTS));
 			JsonFileManager.saveJsonFile(SETTINGS, dataConfigFile);
+			if (rootConfigFile.exists())
+				rootConfigFile.delete();
 		} catch (JsonIOException | IOException | IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 			System.exit(5);
