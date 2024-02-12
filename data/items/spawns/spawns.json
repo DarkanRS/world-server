@@ -375,8 +375,8 @@
     "amount": 1,
     "respawnTicks": 200,
     "tile": {
-      "x": 988,
-      "y": 4576,
+      "x": 982,
+      "y": 4578,
       "plane": 0
     }
   },
@@ -386,8 +386,8 @@
     "amount": 1,
     "respawnTicks": 200,
     "tile": {
-      "x": 1002,
-      "y": 4576,
+      "x": 1007,
+      "y": 4572,
       "plane": 0
     }
   },
@@ -397,8 +397,8 @@
     "amount": 1,
     "respawnTicks": 200,
     "tile": {
-      "x": 999,
-      "y": 4579,
+      "x": 980,
+      "y": 4570,
       "plane": 0
     }
   },
@@ -408,7 +408,7 @@
     "amount": 1,
     "respawnTicks": 200,
     "tile": {
-      "x": 1005,
+      "x": 1007,
       "y": 4573,
       "plane": 0
     }
@@ -2157,7 +2157,7 @@
     "comment": "Grimy guam",
     "itemId": 199,
     "amount": 1,
-    "respawnTicks": 200,
+    "respawnTicks": 100,
     "tile": {
       "x": 3044,
       "y": 10313,

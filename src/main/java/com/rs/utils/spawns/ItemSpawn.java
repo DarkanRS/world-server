@@ -38,7 +38,7 @@ public class ItemSpawn {
 
 	@SuppressWarnings("deprecation")
 	public void spawn() {
-		World.addGroundItemForever(new Item(itemId, amount), tile, respawnTicks);
+		World.addGroundItemForever(new Item(itemId, amount), tile, getRespawnTicks());
 	}
 
 	public Tile getTile() {
@@ -55,5 +55,9 @@ public class ItemSpawn {
 
 	public String getComment() {
 		return comment;
+	}
+
+	public int getRespawnTicks() {
+		return respawnTicks <= 0 ? 25 : respawnTicks;
 	}
 }
