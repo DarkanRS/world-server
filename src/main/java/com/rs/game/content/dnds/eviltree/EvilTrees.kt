@@ -15,6 +15,7 @@ import com.rs.game.model.entity.player.actions.PlayerAction
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Tile
+import com.rs.lib.util.Utils
 import com.rs.lib.util.Vec2
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onLogin
@@ -126,7 +127,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         Direction.SOUTHWEST to GameObject(15491, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 3, tile.transform(-1, -1, 0)),
     )
 
-    class Root(val tree: EvilTree, val dir: Direction, private var life: Int = 10) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
+    class Root(val tree: EvilTree, val dir: Direction, private var life: Int = Utils.random(5, 15)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
         fun chopLife() {
             if (life-- <= 0)
                 kill()
@@ -157,6 +158,9 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
             World.getPlayersInChunkRange(tile.chunkId, 1)
                 .filter { player -> player.withinDistance(centerTile, 2) && roots.values.any { player.withinDistance(it.tile, 1) } }
                 .forEach { knockAway(it) }
+
+        if (World.getServerTicks() % 50 == 0L)
+            spawnRandomRoot()
         return true
     }
 
@@ -173,6 +177,10 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         unflagForProcess()
         fires.values.forEach { World.removeObject(it) }
         roots.values.forEach { it.kill() }
+    }
+
+    fun spawnRandomRoot() {
+        
     }
 
     fun spawnRoot(dir: Direction) {

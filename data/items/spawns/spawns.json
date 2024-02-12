@@ -395,7 +395,7 @@
     "comment": "Grimy ranarr",
     "itemId": 207,
     "amount": 1,
-    "respawnTicks": 200,
+    "respawnTicks": 300,
     "tile": {
       "x": 980,
       "y": 4570,
@@ -406,7 +406,7 @@
     "comment": "Grimy irit",
     "itemId": 209,
     "amount": 1,
-    "respawnTicks": 200,
+    "respawnTicks": 300,
     "tile": {
       "x": 1007,
       "y": 4573,
