@@ -973,8 +973,8 @@ public final class World {
 	}
 
 	@Deprecated
-	public static void addGroundItemForever(Item item, Tile tile) {
-		GroundItem groundItem = new GroundItem(item, tile, GroundItemType.FOREVER);
+	public static void addGroundItemForever(Item item, Tile tile, int respawnTicks) {
+		GroundItem groundItem = new GroundItem(item, tile, GroundItemType.FOREVER).setRespawnTicks(respawnTicks);
 		if (groundItem.getId() == -1)
 			return;
 		ChunkManager.getChunk(tile.getChunkId()).addGroundItem(groundItem);
@@ -1045,9 +1045,9 @@ public final class World {
 					WorldDB.getLogs().logPickup(player, groundItem);
 			}
 			if (groundItem.isRespawn())
-				WorldTasks.schedule(Ticks.fromSeconds(15), () -> { //TODO add variable respawn timers to various ground items
+				WorldTasks.schedule(groundItem.getRespawnTicks(), () -> {
 					try {
-						addGroundItemForever(groundItem, groundItem.getTile());
+						addGroundItemForever(groundItem, groundItem.getTile(), groundItem.getRespawnTicks());
 					} catch (Throwable e) {
 						Logger.handle(World.class, "removeGroundItem", e);
 					}

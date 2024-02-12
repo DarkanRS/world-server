@@ -583,10 +583,10 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> World.addGroundItem(new Item(Integer.parseInt(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane())));
 
-		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId respawnTicks]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.parseInt(args[0]), 1, Tile.of(p.getTile())))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.parseInt(args[0]), 1, Integer.parseInt(args[1]), Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 

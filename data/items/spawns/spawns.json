@@ -373,6 +373,7 @@
     "comment": "Grimy marrentill",
     "itemId": 201,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
       "x": 988,
       "y": 4576,
@@ -383,6 +384,7 @@
     "comment": "Grimy harralander",
     "itemId": 205,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
       "x": 1002,
       "y": 4576,
@@ -393,6 +395,7 @@
     "comment": "Grimy ranarr",
     "itemId": 207,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
       "x": 999,
       "y": 4579,
@@ -403,6 +406,7 @@
     "comment": "Grimy irit",
     "itemId": 209,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
       "x": 1005,
       "y": 4573,
@@ -2153,6 +2157,7 @@
     "comment": "Grimy guam",
     "itemId": 199,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
       "x": 3044,
       "y": 10313,

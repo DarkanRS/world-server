@@ -230,13 +230,13 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         player.vars.setVarBit(fire.definitions.varpBit, 1)
     }
 
-    fun getDirectionFromTree(player: Player): Direction {
+    private fun getDirectionFromTree(player: Player): Direction {
         val sub = player.getMiddleTileAsVector().sub(Vec2(centerTile))
         sub.norm()
         return Direction.forDelta(ceilNegs(sub.x).toInt(), ceilNegs(sub.y).toInt())
     }
 
-    fun knockAway(player: Player) {
+    private fun knockAway(player: Player) {
         player.stopAll()
         val moveDir = getDirectionFromTree(player)
         player.forceMove(player.transform(moveDir.dx, moveDir.dy), Direction.rotateClockwise(moveDir, 4), 10070, 0, 60)

@@ -26,17 +26,19 @@ public class ItemSpawn {
 	private final int itemId;
 	private final int amount;
 	private final Tile tile;
+	private final int respawnTicks;
 
-	public ItemSpawn(int itemId, int amount, Tile tile, String comment) {
+	public ItemSpawn(int itemId, int amount, Tile tile, int respawnTicks, String comment) {
 		this.itemId = itemId;
 		this.amount = amount;
 		this.tile = tile;
+		this.respawnTicks = respawnTicks;
 		this.comment = comment;
 	}
 
 	@SuppressWarnings("deprecation")
 	public void spawn() {
-		World.addGroundItemForever(new Item(itemId, amount), tile);
+		World.addGroundItemForever(new Item(itemId, amount), tile, respawnTicks);
 	}
 
 	public Tile getTile() {
