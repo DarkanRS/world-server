@@ -169,6 +169,18 @@ public class GameObject extends WorldObject {
 		return this;
 	}
 
+	public boolean exists() {
+		return ChunkManager.getChunk(getTile().getChunkId()).objectExists(new GameObject(this, id));
+	}
+
+	public void flagForProcess() {
+		ChunkManager.getChunk(getTile().getChunkId(), true).flagForProcess(this);
+	}
+
+	public void unflagForProcess() {
+		ChunkManager.getChunk(getTile().getChunkId(), true).unflagForProcess(this);
+	}
+
 	public ObjectDefinitions getDefinitions(Player player) {
 		return ObjectDefinitions.getDefs(id, player.getVars());
 	}

@@ -83,7 +83,6 @@ public class BuyersAndCellars extends QuestOutline {
     @Override
     public void complete(Player player) {
         player.getSkills().addXpQuest(Skills.THIEVING, 500);
-        player.getSkills().addXpQuest(Skills.DEFENSE, 2000);
         if(player.getInventory().hasFreeSlots())
             player.getInventory().addItem(18646, 3);
         else {
