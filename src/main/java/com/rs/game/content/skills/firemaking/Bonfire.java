@@ -157,7 +157,7 @@ public class Bonfire extends PlayerAction {
 		player.sendMessage("You add a log to the fire.", true);
 		if (count++ == 4 && !player.hasEffect(Effect.BONFIRE)) {
 			player.addEffect(Effect.BONFIRE, log.boostTime * 100L);
-			int percentage = (int) (getBonfireBoostMultiplier(player) * 100 - 100);
+			int percentage = (int) (getBonfireBoostMultiplier(player) * 100);
 			player.sendMessage("<col=00ff00>The bonfire's warmth increases your maximum health by " + percentage + "%. This will last " + log.boostTime + " minutes.");
 		}
 		return 5;
@@ -166,24 +166,24 @@ public class Bonfire extends PlayerAction {
 	public static double getBonfireBoostMultiplier(Player player) {
 		int fmLvl = player.getSkills().getLevel(Constants.FIREMAKING);
 		if (fmLvl >= 90)
-			return 1.1;
+			return 0.1;
 		if (fmLvl >= 80)
-			return 1.09;
+			return 0.09;
 		if (fmLvl >= 70)
-			return 1.08;
+			return 0.08;
 		if (fmLvl >= 60)
-			return 1.07;
+			return 0.07;
 		if (fmLvl >= 50)
-			return 1.06;
+			return 0.06;
 		if (fmLvl >= 40)
-			return 1.05;
+			return 0.05;
 		if (fmLvl >= 30)
-			return 1.04;
+			return 0.04;
 		if (fmLvl >= 20)
-			return 1.03;
+			return 0.03;
 		if (fmLvl >= 10)
-			return 1.02;
-		return 1.01;
+			return 0.02;
+		return 0.01;
 
 	}
 

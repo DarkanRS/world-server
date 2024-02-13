@@ -2,11 +2,13 @@ package com.rs.game.content.dnds.eviltree
 
 import com.google.common.collect.Iterators
 import com.rs.cache.loaders.ObjectType
+import com.rs.engine.dialogue.HeadE
+import com.rs.engine.dialogue.Options
+import com.rs.engine.dialogue.startConversation
 import com.rs.game.World
+import com.rs.game.content.Effect
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
-import com.rs.game.content.skills.woodcutting.Woodcutting
-import com.rs.game.map.ChunkManager
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.pathing.Direction
 import com.rs.game.model.entity.player.Player
@@ -14,16 +16,27 @@ import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
+import com.rs.lib.game.Item
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.lib.util.Vec2
 import com.rs.plugin.annotations.ServerStartupEvent
+import com.rs.plugin.events.InputIntegerEvent
+import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onLogin
+import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
+import com.rs.utils.Ticks
+import com.rs.utils.shop.ShopsHandler
 import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
+import java.util.function.Consumer
 import kotlin.math.ceil
+
+//const val NURTURES_PER_STAGE = 25
+//const val CHOPS_PER_STAGE = 250
+const val NURTURES_PER_STAGE = 1
+const val CHOPS_PER_STAGE = 2
+const val KINDLING = 14666
 
 private var currentTree: EvilTree? = null
 private var LOCATIONS: List<Location> = ArrayList(Location.entries.toTypedArray().asList())
@@ -101,14 +114,89 @@ fun mapEvilTrees() {
                 return@repeatAction obj.exists()
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp)
-            player.inventory.addItemDrop(14666, 1)
+            player.inventory.addItemDrop(KINDLING, 1)
             player.incrementCount("Evil tree kindling chopped")
             obj.chopLife()
             return@repeatAction obj.exists()
         }
     }
 
-    onLogin { (player) -> player.vars.setVarBit(1542, if (player.getDailyB("lootedEvilTree")) 0 else 1) }
+    onNpcClick(418, 419) { (player, npc) ->
+        player.startConversation {
+            options {
+                if (player.getDailyI("evilTreeChippings") >= 200) {
+                    op("Are there any more rewards I can claim with my extra kindling?") {
+                        player(HeadE.CONFUSED, "Are there any more rewards I can claim with my extra kindling?")
+                        options {
+                            op("[1000 kindling per hour] Buy more leprechaun banking magic time") {
+                                exec {
+                                    player.sendInputInteger("How much kindling would you like to spend?") { num: Int ->
+                                        player.sendOptionDialogue { conf: Options ->
+                                            val adjusted = if (num > player.inventory.getNumberOf(KINDLING)) player.inventory.getNumberOf(KINDLING) else num
+                                            conf.add("Spend ${Utils.formatNumber(adjusted)} kindling for ${Utils.ticksToTime((adjusted * 6).toDouble())}") {
+                                                if (player.inventory.containsItem(KINDLING, adjusted)) {
+                                                    player.inventory.deleteItem(KINDLING, adjusted)
+                                                    player.extendEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF, adjusted * 6L)
+                                                }
+                                            }
+                                            conf.add("Nevermind. That's too expensive.")
+                                        }
+                                    }
+                                }
+                            }
+                            op("Buy lumberjack outfit pieces (2000 kindling each)") {
+                                fun buyLumberjackItem(player: Player, itemId: Int) {
+                                    if (!player.inventory.containsItems(KINDLING, 2000)) return player.sendMessage("You don't have enough kindling to buy that.")
+                                    player.inventory.deleteItem(KINDLING, 2000)
+                                    player.inventory.addItemDrop(itemId, 1)
+                                }
+
+                                options {
+                                    op("Lumberjack hat") { exec { buyLumberjackItem(player, 10941) } }
+                                    op("Lumberjack top") { exec { buyLumberjackItem(player, 10939) } }
+                                    op("Lumberjack legs") { exec { buyLumberjackItem(player, 10940) } }
+                                    op("Lumberjack boots") { exec { buyLumberjackItem(player, 10933) } }
+                                }
+                            }
+                        }
+                    }
+                }
+                op("Hello, there.") {
+                    npc(npc, HeadE.CHEERFUL, if (npc.id == 418) "'Ello, 'ello, legs." else "Ain't you noticed the tree yet? Cut it down!")
+                    player(HeadE.CONFUSED, "Who are you?")
+                    npc(npc, HeadE.CONFUSED, "Me? Oo's askin'? I ain't nobody but a leprechaun, innit.")
+                    player(HeadE.CONFUSED, "You sound a bit different from other leprechauns...")
+                    npc(npc, HeadE.ANGRY, "That's bein' on account a' the fact I was raised by imps, innit. Luvverly chaps, imps. Right geezers.")
+                    npc(npc, HeadE.CHEERFUL, "Anyways, if ya gimme a 'and, ${player.genderTerm("lad", "lass")}, I can return a favour.")
+                    if (npc.id == 418) {
+                        npc(npc, HeadE.CHEERFUL, "I come across this wild root on me wanderin', so I reckoned I'd stick about and get you geezers wif long legs to help nurture it.")
+                        npc(npc, HeadE.CHEERFUL, "The wee thing's growin' fast, but ya'd speed up the process if ya gave it some encouragement.")
+                    } else {
+                        npc(npc, HeadE.CHEERFUL, "Anyways, I came across this 'ere root on me wanderin', so I got you geezers wif long legs to 'elp me out.")
+                        npc(npc, HeadE.WORRIED, "Now look what I gots on me 'ands. Please, lad!")
+                    }
+                }
+            }
+        }
+    }
+
+    instantiateNpc(418, 419) { id, tile ->
+        object : NPC(id, tile) {
+            override fun processNPC() {
+                super.processNPC()
+                if (tickCounter % 30 == 0L && id == 419)
+                    forceTalk(when(Utils.random(5)) {
+                        0 -> "It's getting weaker!"
+                        1 -> "Don't stop choppin'!"
+                        2 -> "It's on its last legs! I mean... roots!"
+                        3 -> "You can do it!"
+                        else -> "The end is nigh!"
+                    })
+            }
+        }
+    }
+
+    onLogin { (player) -> player.vars.setVarBit(1542, if (player.getDailyI("evilTreeChippings") >= 200) 0 else 1) }
 }
 
 class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, ObjectType.SCENERY_INTERACT, 0, centerTile) {
@@ -159,7 +247,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
                 .filter { player -> player.withinDistance(centerTile, 2) && roots.values.any { player.withinDistance(it.tile, 1) } }
                 .forEach { knockAway(it) }
 
-        if (World.getServerTicks() % 50 == 0L)
+        if (World.getServerTicks() % 50 == 0L && stage >= 5 && stage < 8)
             spawnRandomRoot()
         return true
     }
@@ -180,7 +268,9 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     fun spawnRandomRoot() {
-        
+        val freeDirections = Direction.entries.toTypedArray().filter { it !in roots.keys }
+        if (freeDirections.isNotEmpty())
+            spawnRoot(freeDirections[Utils.random(freeDirections.size)])
     }
 
     fun spawnRoot(dir: Direction) {
@@ -219,7 +309,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
             player.sendMessage("You need a firemaking level of ${treeType.fmReq} to burn this tree.")
             return
         }
-        if (!player.inventory.containsItem(14666)) {
+        if (!player.inventory.containsItem(KINDLING)) {
             player.sendMessage("You need some wood chippings to light on fire.")
             return
         }
@@ -234,7 +324,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         }
         player.anim(16700)
         player.skills.addXp(Skills.FIREMAKING, treeType.fmXp)
-        player.inventory.deleteItem(14666, 1)
+        player.inventory.deleteItem(KINDLING, 1)
         player.vars.setVarBit(fire.definitions.varpBit, 1)
     }
 
@@ -278,7 +368,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
                 if (!treeType.wcType.rollSuccess(1.0, player.skills.getLevel(Skills.WOODCUTTING), hatchet)) return 3
 
                 player.skills.addXp(Skills.WOODCUTTING, treeType.wcXp)
-                player.inventory.addItemDrop(14666, 1)
+                player.inventory.addItemDrop(KINDLING, 1)
                 player.incrementCount("Evil tree kindling chopped")
                 this@EvilTree.incProgress()
                 return 3
@@ -291,12 +381,50 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     fun takeRewards(player: Player) {
-        //TODO
-        despawn()
+        if (player.getDailyI("evilTreeChippings") >= 200) {
+            player.sendMessage("You have already looted all you can from evil trees today.")
+            return
+        }
+        if (player.inventory.containsItem(KINDLING, 1)) {
+            val toHandIn = minOf(player.inventory.getNumberOf(KINDLING), 200 - player.getDailyI("evilTreeChippings"))
+            if (toHandIn <= 0) return
+            player.inventory.deleteItem(KINDLING, toHandIn)
+            val coins = (when(treeType) {
+                Type.OAK -> 652.0
+                Type.WILLOW -> 2254.0
+                Type.MAPLE -> 2560.0
+                Type.YEW -> 4668.0
+                Type.MAGIC -> 9474.0
+                Type.ELDER -> 17388.0
+                else -> 370.0
+            } * (toHandIn.toDouble() / 200.0)).toInt()
+            val logs = when(treeType) {
+                Type.OAK -> Item(1522, (48.0 * (toHandIn.toDouble() / 200.0)).toInt())
+                Type.WILLOW -> Item(1520, (452.0 * (toHandIn.toDouble() / 200.0)).toInt())
+                Type.MAPLE -> Item(1518, (262.0 * (toHandIn.toDouble() / 200.0)).toInt())
+                Type.YEW -> Item(1516, (34.0 * (toHandIn.toDouble() / 200.0)).toInt())
+                Type.MAGIC -> Item(1514, (20.0 * (toHandIn.toDouble() / 200.0)).toInt())
+                Type.ELDER -> when(Utils.random(4)) {
+                    0 -> Item(1514, 36)
+                    1 -> Item(1516, 118)
+                    2 -> Item(8836, 204)
+                    else -> Item(6334, 750)
+                }
+                else -> Item(1512, (24.0 * (toHandIn.toDouble() / 200.0)).toInt())
+            }
+            player.extendEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF, (Ticks.fromMinutes(30).toDouble() * (toHandIn.toDouble() / 200.0)).toLong())
+            if (coins > 0)
+                player.inventory.addCoins(coins)
+            if (logs.amount > 0)
+                player.inventory.addItemDrop(logs)
+            player.setDailyI("evilTreeChippings", player.getDailyI("evilTreeChippings", 0) + toHandIn)
+            if (player.getDailyI("evilTreeChippings") >= 200)
+                player.vars.setVarBit(1542, 1)
+        }
     }
 
     private fun incProgress() {
-        val threshold = if (stage < 5) 2 else 5
+        val threshold = if (stage < 5) NURTURES_PER_STAGE else CHOPS_PER_STAGE
         if (++stageProgress >= threshold) {
             incStage()
             stageProgress = 0

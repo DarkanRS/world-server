@@ -239,17 +239,17 @@ public class Woodcutting extends Action {
 	}
 
 	public static double getLumberjackBonus(Player player) {
-		double xpBoost = 1.00;
+		double xpBoost = 0.0;
 		if (player.getEquipment().getChestId() == 10939)
-			xpBoost += 0.008;
+			xpBoost += 0.01;
 		if (player.getEquipment().getLegsId() == 10940)
-			xpBoost += 0.006;
+			xpBoost += 0.01;
 		if (player.getEquipment().getHatId() == 10941)
-			xpBoost += 0.004;
+			xpBoost += 0.01;
 		if (player.getEquipment().getBootsId() == 10933)
-			xpBoost += 0.002;
+			xpBoost += 0.01;
 		if (player.getEquipment().getChestId() == 10939 && player.getEquipment().getLegsId() == 10940 && player.getEquipment().getHatId() == 10941 && player.getEquipment().getBootsId() == 10933)
-			xpBoost += 0.005;
+			xpBoost += 0.01;
 		return xpBoost;
 	}
 
@@ -265,7 +265,10 @@ public class Woodcutting extends Action {
 					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
-			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
+			double bxp = type.getXp() * getLumberjackBonus(player);
+			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() + bxp);
+			if (bxp > 0.01)
+				player.getSkills().queueBonusXPDrop(bxp);
 			if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
 				int random = Utils.random(100);
 				if (random < 11)
@@ -277,10 +280,10 @@ public class Woodcutting extends Action {
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			if (type.getLogsId() != null) {
-				if (player.hasEffect(Effect.JUJU_WC_BANK)) {
+				if (player.hasEffect(Effect.JUJU_WC_BANK) || player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF)) {
 					for (int item : type.getLogsId())
 						player.getBank().addItem(new Item(item, 1), true);
-					player.setNextSpotAnim(new SpotAnim(2897));
+					player.spotAnim(player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF) ? 312 : 2897);
 				} else
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);
