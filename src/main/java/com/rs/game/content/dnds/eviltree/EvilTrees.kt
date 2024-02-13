@@ -32,10 +32,10 @@ import java.util.*
 import java.util.function.Consumer
 import kotlin.math.ceil
 
-//const val NURTURES_PER_STAGE = 25
-//const val CHOPS_PER_STAGE = 250
-const val NURTURES_PER_STAGE = 1
-const val CHOPS_PER_STAGE = 2
+const val NURTURES_PER_STAGE = 25
+const val CHOPS_PER_STAGE = 250
+//const val NURTURES_PER_STAGE = 1
+//const val CHOPS_PER_STAGE = 2
 const val KINDLING = 14666
 
 private var currentTree: EvilTree? = null
