@@ -126,13 +126,13 @@ fun mapEvilTrees() {
             player.anim(hatchet.getAnim(TreeType.NORMAL))
             player.faceObject(obj)
             if (!obj.tree.treeType.wcType.rollSuccess(player.auraManager.woodcuttingMul, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
-                return@repeatAction obj.life > 0
+                return@repeatAction obj.life >= 0
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp / 3)
             player.inventory.addItemDrop(KINDLING, 1)
             player.incrementCount("Evil tree kindling chopped")
             obj.chopLife()
-            return@repeatAction obj.life > 0
+            return@repeatAction obj.life >= 0
         }
     }
 
