@@ -57,7 +57,7 @@ public class Sanfew extends Conversation {
                     addPlayer(HeadE.CALM_TALK, "Yes, I have all four now!");
                     addNPC(SANFEW, HeadE.CALM_TALK, "Well hand 'em over then lad! Thank you so much adventurer! These meats will allow our potion to honour " +
                             "Guthix to be completed, and bring one step closer to reclaiming our stone circle! ");
-                    addNPC(SANFEW, HeadE.CALM_TALK, "Now go and talk to SANFEW and he will introduce you to the wonderful world of herblore and " +
+                    addNPC(SANFEW, HeadE.CALM_TALK, "Now go and talk to Kaqemeex and he will introduce you to the wonderful world of herblore and " +
                             "potion making!",  () -> {
                         player.getInventory().deleteItem(ENCHANTED_RAW_BEAR_MEAT, 1);
                         player.getInventory().deleteItem(ENCHANTED_RAW_CHICKEN, 1);
