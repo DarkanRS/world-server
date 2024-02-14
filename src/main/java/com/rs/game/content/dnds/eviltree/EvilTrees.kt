@@ -280,7 +280,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         WorldTasks.schedule(2) { root.setId(11428) }
         root.flagForProcess()
         World.getPlayersInChunkRange(tile.chunkId, 1)
-            .filter { it.withinDistance(centerTile, 2) && it.withinDistance(this.tile) }
+            .filter { it.withinDistance(centerTile, 2) && it.withinDistance(root.tile, 1) }
             .forEach { knockAway(it) }
     }
 
