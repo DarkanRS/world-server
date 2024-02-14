@@ -14,6 +14,7 @@ import com.rs.game.model.entity.pathing.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
+import com.rs.game.model.entity.player.managers.AuraManager
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Item
@@ -110,7 +111,7 @@ fun mapEvilTrees() {
         player.repeatAction(3) {
             player.anim(hatchet.getAnim(TreeType.NORMAL))
             player.faceObject(obj)
-            if (!obj.tree.treeType.wcType.rollSuccess(1.0, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
+            if (!obj.tree.treeType.wcType.rollSuccess(player.auraManager.woodcuttingMul, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
                 return@repeatAction obj.exists()
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp)
@@ -365,7 +366,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
             }
 
             override fun processWithDelay(player: Player): Int {
-                if (!treeType.wcType.rollSuccess(1.0, player.skills.getLevel(Skills.WOODCUTTING), hatchet)) return 3
+                if (!treeType.wcType.rollSuccess(player.auraManager.woodcuttingMul, player.skills.getLevel(Skills.WOODCUTTING), hatchet)) return 3
 
                 player.skills.addXp(Skills.WOODCUTTING, treeType.wcXp)
                 player.inventory.addItemDrop(KINDLING, 1)
