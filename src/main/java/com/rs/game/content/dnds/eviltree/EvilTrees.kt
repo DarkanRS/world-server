@@ -113,6 +113,10 @@ fun mapEvilTrees() {
         if (obj !is EvilTree.Root) return@onObjectClick
 
         player.faceObject(obj)
+        if (player.skills.getLevel(Skills.WOODCUTTING) < obj.tree.treeType.wcReq) {
+            player.sendMessage("You need a woodcutting level of ${obj.tree.treeType.wcReq} to chop this tree.")
+            return@onObjectClick
+        }
         val hatchet = Hatchet.getBest(player)
         if (hatchet == null) {
             player.sendMessage("You do not have a hatchet that you have the woodcutting level to use.")
