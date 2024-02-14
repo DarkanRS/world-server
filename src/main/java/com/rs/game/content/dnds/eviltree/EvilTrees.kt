@@ -228,7 +228,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
         Direction.SOUTHWEST to GameObject(15491, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 3, tile.transform(-1, -1, 0)),
     )
 
-    class Root(val tree: EvilTree, val dir: Direction, var life: Int = Utils.random(5, 15)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
+    class Root(val tree: EvilTree, val dir: Direction, var life: Int = Utils.random(3, 8)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
         fun chopLife() {
             if (life-- <= 0)
                 kill()
