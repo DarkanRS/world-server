@@ -113,9 +113,8 @@ public class Agility {
 	}
 
 	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
-		player.lock(2);
+		player.lock(4);
 		player.walkToAndExecute(startTile, () -> {
-			player.lock();
 			WorldTasks.schedule(0, () -> player.faceTile(endTile));
 			WorldTasks.schedule(1, () -> {
 				player.anim(742);
