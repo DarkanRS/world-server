@@ -9,12 +9,12 @@ import com.rs.game.World
 import com.rs.game.content.Effect
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
+import com.rs.game.content.transportation.SpiritTree
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.pathing.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
-import com.rs.game.model.entity.player.managers.AuraManager
 import com.rs.game.model.`object`.GameObject
 import com.rs.game.tasks.WorldTasks
 import com.rs.lib.game.Item
@@ -22,26 +22,30 @@ import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.lib.util.Vec2
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.InputIntegerEvent
 import com.rs.plugin.kts.instantiateNpc
 import com.rs.plugin.kts.onLogin
 import com.rs.plugin.kts.onNpcClick
 import com.rs.plugin.kts.onObjectClick
 import com.rs.utils.Ticks
-import com.rs.utils.shop.ShopsHandler
 import java.util.*
-import java.util.function.Consumer
 import kotlin.math.ceil
 
 const val NURTURES_PER_STAGE = 25
 const val CHOPS_PER_STAGE = 250
-//const val NURTURES_PER_STAGE = 1
-//const val CHOPS_PER_STAGE = 2
+
+const val STAGE_NEW = 0
+const val STAGE_NURTURED_LARGER = 3
+const val STAGE_LAST_NURTURE = 4
+const val STAGE_FULLY_GROWN = 5
+const val STAGE_CHOPPED_UP_1 = 6
+const val STAGE_CHOPPED_UP_2 = 7
+const val STAGE_DEAD = 8
+
 const val KINDLING = 14666
 
-private var currentTree: EvilTree? = null
-private var LOCATIONS: List<Location> = ArrayList(Location.entries.toTypedArray().asList())
-private var locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
+var currentTree: EvilTree? = null
+var LOCATIONS: List<Location> = ArrayList(Location.entries.toTypedArray().asList())
+var locIterator = Iterators.peekingIterator(LOCATIONS.iterator())
 
 enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farmReq: Int, val farmXp: Double, val fmReq: Int, val fmXp: Double, val healthyObj: Int, val deg1Obj: Int, val deg2Obj: Int, val dyingObj: Int, val deadObj: Int) {
     NORMAL(TreeType.NORMAL,1, 15.0, 1, 20.0, 1, 20.0, 11434, 11435, 11436, 11925, 14846),
@@ -54,14 +58,20 @@ enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farm
 }
 
 enum class Location(val tile: Tile, val desc: String) {
-    SEERS(Tile(2703, 3445, 0), "the south of Seer's Village."),
-    RIMMINGTON(Tile(2982, 3204, 0), "the east of Rimmington."),
-    FALADOR(Tile(2991, 3407, 0), "the north of Falador."),
-    TOLNA_RIFT(Tile(3321, 3454, 0), "Tolna's Rift."),
-    CATHERBY_WEST(Tile(2750, 3422, 0), "the west of Catherby."),
-    SEERS_BANK(Tile(2708, 3507, 0), "the Seers Village bank."),
-    LEGENDS_GUILD(Tile(2724, 3331, 0), "the Legends' Guild."),
-    MOBILISING_ARMIES(Tile(2470, 2838, 0), "Mobilising Armies."),
+    SEERS(Tile(2703, 3445, 0), "the south of Seer's Village"),
+    RIMMINGTON(Tile(2982, 3204, 0), "the east of Rimmington"),
+    FALADOR(Tile(2991, 3407, 0), "the north of Falador"),
+    TOLNA_RIFT(Tile(3321, 3454, 0), "Tolna's Rift"),
+    CATHERBY_WEST(Tile(2750, 3422, 0), "the west of Catherby"),
+    SEERS_BANK(Tile(2708, 3507, 0), "the Seers Village bank"),
+    LEGENDS_GUILD(Tile(2724, 3331, 0), "the Legends' Guild"),
+    MOBILISING_ARMIES(Tile(2470, 2838, 0), "Mobilising Armies"),
+    DRAYNOR(Tile(3098, 3228, 0), "Draynor Village"),
+    GNOME_STRONGHOLD(Tile(2404, 3433, 0), "the Gnome Stronghold"),
+    FALADOR_WEST(Tile(2925, 3378, 0), "the west of Falador"),
+    EDGEVILLE(Tile(3050, 3458, 0), "Edgeville"),
+    YANILLE_1(Tile(2604, 3119, 0), "Yanille"),
+    YANILLE_2(Tile(2521, 3104, 0), "Yanille"),
 }
 
 @ServerStartupEvent
@@ -74,7 +84,7 @@ fun schedule() {
 fun spawnTree() {
     currentTree?.despawn()
     val loc = nextLocation()
-    currentTree = EvilTree(Type.entries.random(), loc.tile)
+    currentTree = EvilTree(Type.entries.random(), loc, loc.tile)
     currentTree!!.spawn()
     //World.sendWorldMessage("<col=FF0000><shad=000000>A an evil tree has begun to sprout near ${loc.desc}!", false)
 }
@@ -129,19 +139,17 @@ fun mapEvilTrees() {
                     op("Are there any more rewards I can claim with my extra kindling?") {
                         player(HeadE.CONFUSED, "Are there any more rewards I can claim with my extra kindling?")
                         options {
-                            op("[1000 kindling per hour] Buy more leprechaun banking magic time") {
-                                exec {
-                                    player.sendInputInteger("How much kindling would you like to spend?") { num: Int ->
-                                        player.sendOptionDialogue { conf: Options ->
-                                            val adjusted = if (num > player.inventory.getNumberOf(KINDLING)) player.inventory.getNumberOf(KINDLING) else num
-                                            conf.add("Spend ${Utils.formatNumber(adjusted)} kindling for ${Utils.ticksToTime((adjusted * 6).toDouble())}") {
-                                                if (player.inventory.containsItem(KINDLING, adjusted)) {
-                                                    player.inventory.deleteItem(KINDLING, adjusted)
-                                                    player.extendEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF, adjusted * 6L)
-                                                }
+                            opExec("[1000 kindling per hour] Buy more leprechaun banking magic time") {
+                                player.sendInputInteger("How much kindling would you like to spend?") { num: Int ->
+                                    player.sendOptionDialogue { conf: Options ->
+                                        val adjusted = if (num > player.inventory.getNumberOf(KINDLING)) player.inventory.getNumberOf(KINDLING) else num
+                                        conf.add("Spend ${Utils.formatNumber(adjusted)} kindling for ${Utils.ticksToTime((adjusted * 6).toDouble())}") {
+                                            if (player.inventory.containsItem(KINDLING, adjusted)) {
+                                                player.inventory.deleteItem(KINDLING, adjusted)
+                                                player.extendEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF, adjusted * 6L)
                                             }
-                                            conf.add("Nevermind. That's too expensive.")
                                         }
+                                        conf.add("Nevermind. That's too expensive.")
                                     }
                                 }
                             }
@@ -200,8 +208,8 @@ fun mapEvilTrees() {
     onLogin { (player) -> player.vars.setVarBit(1542, if (player.getDailyI("evilTreeChippings") >= 200) 0 else 1) }
 }
 
-class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, ObjectType.SCENERY_INTERACT, 0, centerTile) {
-    private var stage = 0
+class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile) : GameObject(11391, ObjectType.SCENERY_INTERACT, 0, centerTile) {
+    private var stage = STAGE_NEW
     private var stageProgress = 0
     private var leprechaun: NPC? = null
     private val roots: MutableMap<Direction, Root> = EnumMap(Direction::class.java)
@@ -286,7 +294,10 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     fun inspect(player: Player) {
-        player.sendMessage("Whoah, it's an evil tree!")
+        fun stageDescText(): String {
+            when
+        }
+        player.simpleDialogue("It's an evil ${treeType.name.lowercase()} tree.<br>${stageDescText()}")
     }
 
     fun nurture(player: Player) {
@@ -425,7 +436,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     private fun incProgress() {
-        val threshold = if (stage < 5) NURTURES_PER_STAGE else CHOPS_PER_STAGE
+        val threshold = if (stage < STAGE_FULLY_GROWN) NURTURES_PER_STAGE else CHOPS_PER_STAGE
         if (++stageProgress >= threshold) {
             incStage()
             stageProgress = 0
@@ -433,9 +444,9 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
     }
 
     private fun incStage() {
-        if (stage >= 9)
+        if (stage >= STAGE_DEAD)
             return
-        if (++stage == 3) {
+        if (++stage == STAGE_NURTURED_LARGER) {
             World.removeObject(this)
             id += 1
             tile = tile.transform(-1, -1)
@@ -445,7 +456,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
                 .forEach { knockAway(it) }
             return
         }
-        if (stage == 8) {
+        if (stage == STAGE_DEAD) {
             leprechaun?.transformIntoNPC(418)
             val varbits = fires.values.map { it.definitions.varpBit }
             fires.values.forEach { World.removeObject(it) }
@@ -458,21 +469,37 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
                 }
             WorldTasks.schedule(10) { setId(treeType.deadObj) }
         }
-        if (stage == 5) {
+        if (stage == STAGE_FULLY_GROWN) {
             leprechaun?.transformIntoNPC(419)
             Direction.entries.forEach { spawnRoot(it) }
         }
-        if (stage <= 4)
+        if (stage <= STAGE_LAST_NURTURE)
             setId(id + 1)
         else
             setId(when(stage) {
-                5 -> treeType.healthyObj
-                6 -> treeType.deg1Obj
-                7 -> treeType.deg2Obj
+                STAGE_FULLY_GROWN -> treeType.healthyObj
+                STAGE_CHOPPED_UP_1 -> treeType.deg1Obj
+                STAGE_CHOPPED_UP_2 -> treeType.deg2Obj
                 else -> treeType.dyingObj
             })
     }
 }
 
 
-
+fun handleEvilTreeOps(player: Player, ops: Options, evilTreeHead: Int) {
+    ops.add("Are there any Evil Trees you can help me find?") {
+        player.startConversation {
+            player(HeadE.CONFUSED, "Are there any Evil Trees you can help me find?")
+            if (currentTree == null) {
+                npc(evilTreeHead, HeadE.CALM_TALK, "The taint of the evil tree is not currently on the land. There won't be another for a little while.")
+                return@startConversation
+            }
+            npc(evilTreeHead, HeadE.CALM_TALK, "An evil tree is currently growing near " + currentTree!!.location.desc + "! The taint of the next I sense near " + (if (!locIterator.hasNext()) LOCATIONS.first() else locIterator.peek()).desc + ".")
+            npc(evilTreeHead, HeadE.CONFUSED, "Would you like me to teleport you directly there?")
+            options {
+                opExec("Yes, please.") { SpiritTree.sendTeleport(player, World.findClosestAdjacentFreeTile(currentTree!!.location.tile, 5)) }
+                op("Nevermind.")
+            }
+        }
+    }
+}
