@@ -50,7 +50,7 @@ enum class Type(val wcType: TreeType, val wcReq: Int, val wcXp: Double, val farm
     MAPLE(TreeType.WILLOW,45, 55.8, 22, 121.5, 45, 67.5, 11443, 11444, 11915, 11928, 14849),
     YEW(TreeType.WILLOW,60, 87.5, 30, 172.5, 60, 101.25, 11916, 11917, 11918, 11929, 14883),
     MAGIC(TreeType.TEAK,75, 125.0, 37, 311.5, 75, 151.75, 11919, 11920, 11921, 12711, 14884),
-    ELDER(TreeType.TEAK,85, 162.5, 42, 730.0, 85, 260.5, 11922, 11923, 11924, 12712, 14885)
+    ELDER(TreeType.MAPLE,85, 162.5, 42, 730.0, 85, 260.5, 11922, 11923, 11924, 12712, 14885)
 }
 
 enum class Location(val tile: Tile, val desc: String) {
@@ -112,13 +112,13 @@ fun mapEvilTrees() {
             player.anim(hatchet.getAnim(TreeType.NORMAL))
             player.faceObject(obj)
             if (!obj.tree.treeType.wcType.rollSuccess(player.auraManager.woodcuttingMul, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
-                return@repeatAction obj.exists()
+                return@repeatAction obj.life > 0
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp)
             player.inventory.addItemDrop(KINDLING, 1)
             player.incrementCount("Evil tree kindling chopped")
             obj.chopLife()
-            return@repeatAction obj.exists()
+            return@repeatAction obj.life > 0
         }
     }
 
@@ -216,7 +216,7 @@ class EvilTree(val treeType: Type, val centerTile: Tile) : GameObject(11391, Obj
         Direction.SOUTHWEST to GameObject(15491, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 3, tile.transform(-1, -1, 0)),
     )
 
-    class Root(val tree: EvilTree, val dir: Direction, private var life: Int = Utils.random(5, 15)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
+    class Root(val tree: EvilTree, val dir: Direction, var life: Int = Utils.random(5, 15)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
         fun chopLife() {
             if (life-- <= 0)
                 kill()
