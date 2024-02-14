@@ -216,7 +216,7 @@ public final class DominionTower {
 		player.tele(Tile.of(getBaseX() + 25, getBaseY() + 32, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 26, getBaseY() + 32, 0));
 		final int index = getNextBossIndex();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int count;
 
@@ -296,7 +296,7 @@ public final class DominionTower {
 		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(player.getX() + 1, player.getY(), 0));
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int count;
 
 			@Override
@@ -351,7 +351,7 @@ public final class DominionTower {
 		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 36, getBaseY() + 31, 0));
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int count;
 

@@ -80,7 +80,7 @@ public class NomadCombat extends CombatScript {
 				player.npcDialogue(nomad.getId(), HeadE.ANGRY, "Let's make things interesting!");
 				player.voiceEffect(8039, false);
 				final Tile middle = Tile.of(player.getTile());
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					int count;
 
 					@Override
@@ -136,7 +136,7 @@ public class NomadCombat extends CombatScript {
 				Tile throne = nomad.getThroneTile();
 				if (nomad.getX() != throne.getX() || nomad.getY() != throne.getY())
 					nomad.sendTeleport(nomad.getThroneTile());
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					private boolean secondLoop;
 
@@ -173,7 +173,7 @@ public class NomadCombat extends CombatScript {
 				nomad.sendTeleport(nomad.getThroneTile());
 				Magic.sendObjectTeleportSpell(player, false, throne.transform(1, -3, 0));
 				player.lock();
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private boolean secondLoop;
 
 					@Override

@@ -91,7 +91,7 @@ public class GnomeAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 85))
 			return;
 		e.getPlayer().lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {
@@ -121,7 +121,7 @@ public class GnomeAgility {
 		e.getPlayer().lock();
 		e.getPlayer().addWalkSteps(2474, 3429, -1, false);
 		e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -175,7 +175,7 @@ public class GnomeAgility {
 		e.getPlayer().setRunHidden(false);
 		e.getPlayer().lock();
 		e.getPlayer().addWalkSteps(2483, 3420, -1, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -228,7 +228,7 @@ public class GnomeAgility {
 		e.getPlayer().lock(8);
 		e.getPlayer().addWalkSteps(e.getObject().getX(), e.getObject().getY() == 3431 ? 3437 : 3430, -1, false);
 		e.getPlayer().sendMessage("You pulled yourself through the pipes.", true);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 
 			@Override

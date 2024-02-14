@@ -54,7 +54,7 @@ public class ShopsHandler {
 	
 	@ServerStartupEvent
 	public static void addRestoreShopItemsTask() {
-		WorldTasks.schedule(0, 0, () -> {
+		WorldTasks.scheduleLooping(0, 0, () -> {
 			try {
 				ShopsHandler.restoreShops();
 			} catch (Throwable e) {

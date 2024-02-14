@@ -23,7 +23,6 @@ import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
 import com.rs.cache.loaders.*;
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.engine.command.Command;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
@@ -33,8 +32,7 @@ import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dnds.eviltree.EvilTree;
-import com.rs.game.content.dnds.eviltree.Type;
+import com.rs.game.content.dnds.eviltree.EvilTreesKt;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.pets.Pet;
@@ -47,7 +45,6 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
@@ -127,7 +124,7 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
 
-		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> new EvilTree(Type.NORMAL, p.getTile()).spawn());
+		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> EvilTreesKt.spawnTree());
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
 
@@ -927,7 +924,7 @@ public class MiscTest {
 
 			int tickDelay = Integer.parseInt(args[2]);
 
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				int voiceID = 0;
 
@@ -1189,7 +1186,7 @@ public class MiscTest {
 			final int start = args.length > 2 ? Integer.parseInt(args[2]) : 10;
 			final int end = args.length > 3 ? Integer.parseInt(args[3]) : 20000;
 			p.getTempAttribs().setI("loopAnim", start);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int anim = p.getTempAttribs().getI("loopAnim");
 
 				@Override

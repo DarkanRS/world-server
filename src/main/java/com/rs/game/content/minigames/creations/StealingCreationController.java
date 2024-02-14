@@ -689,7 +689,7 @@ public class StealingCreationController extends Controller {
 				otherPlayer.lock(3);
 			}
 			player.lock(2);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				private int step = 0;
 
 				@Override
@@ -753,7 +753,7 @@ public class StealingCreationController extends Controller {
 					return false;
 				}
 				player.lock(2);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private int step = 0;
 
 					@Override
@@ -789,7 +789,7 @@ public class StealingCreationController extends Controller {
 			player.unlock();
 		final Player p = player;
 		final GameObject o = object;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private int step = 0;
 
 			@Override
@@ -819,7 +819,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

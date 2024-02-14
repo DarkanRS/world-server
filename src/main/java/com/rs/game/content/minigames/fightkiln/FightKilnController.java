@@ -275,7 +275,7 @@ public class FightKilnController extends Controller {
 				tokHaarHok.setFaceAngle(Utils.getAngleTo(0, 1));
 				// 1delay because player cant walk while teleing :p,
 				// + possible issues avoid
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					int count = 0;
 					boolean run;
 
@@ -378,7 +378,7 @@ public class FightKilnController extends Controller {
 				teleportPlayerToMiddle();
 				player.getPackets().setBlockMinimapState(2);
 				player.getVars().setVar(1241, 1);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					int count = 0;
 
@@ -759,7 +759,7 @@ public class FightKilnController extends Controller {
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

@@ -63,7 +63,7 @@ public class DragonSlayer_BoatScene extends Controller {
 			captainNed = World.spawnNPC(CAPTAIN_NED, instance.getLocalTile(18, 13, 1), -1, false, true);
 			cabinboyJenkins = World.spawnNPC(CABIN_BOY_JENKINS, instance.getLocalTile(15, 14, 1), -1, false, true);
 
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;
 				final int PAUSE_FOR_NED1 = 14;
 				final int PAUSE_FOR_PLAYER1 = 15;
@@ -223,7 +223,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						player.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -248,7 +248,7 @@ public class DragonSlayer_BoatScene extends Controller {
 							}
 						});
 						Tile tile = Tile.of(instance.getLocalX(16), instance.getLocalY(12), 1);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -267,7 +267,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					}
 					if(tick == 31) {
 						Tile tile = Tile.of(instance.getLocalX(15), instance.getLocalY(12), 1);
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -288,7 +288,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						player.getInterfaceManager().setFadingInterface(546);
 						Tile tile = Tile.of(instance.getLocalX(13), instance.getLocalY(12), 1);
 						int fireHeight = 500;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()-3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -316,7 +316,7 @@ public class DragonSlayer_BoatScene extends Controller {
 						captainNed.faceTile(tile);
 						cabinboyJenkins.faceTile(tile);
 						int fireHeight = 500;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -336,7 +336,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 35) {
 						Tile tile = Tile.of(instance.getLocalX(15), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -357,7 +357,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 36) {
 						Tile tile = Tile.of(instance.getLocalX(16), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -378,7 +378,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 37) {
 						Tile tile = Tile.of(instance.getLocalX(17), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -399,7 +399,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 38) {
 						Tile tile = Tile.of(instance.getLocalX(18), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -421,7 +421,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 39) {
 						Tile tile = Tile.of(instance.getLocalX(19), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override
@@ -442,7 +442,7 @@ public class DragonSlayer_BoatScene extends Controller {
 					if(tick == 40) {
 						Tile tile = Tile.of(instance.getLocalX(41), instance.getLocalY(14), 1);
 						int fireHeight = 0;
-						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.schedule(new Task() {
+						World.sendProjectile(Tile.of(tile.getX(), tile.getY()+3, tile.getPlane()), tile, 1155, 99, 0, 0, 0.5, 0, proj -> WorldTasks.scheduleLooping(new Task() {
                             int tick;
 
                             @Override

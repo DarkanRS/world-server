@@ -679,7 +679,7 @@ public final class ObjectHandler {
 				player.lock(8);
 				player.addWalkSteps(x == 3150 ? 3155 : 3149, 9906, -1, false);
 				player.sendMessage("You pulled yourself through the pipes.", true);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					boolean secondloop;
 
 					@Override
@@ -790,7 +790,7 @@ public final class ObjectHandler {
 				player.lock();
 				if (player.getX() != object.getX() || player.getY() != object.getY())
 					player.addWalkSteps(object.getX(), object.getY(), -1, false);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					private int count;
 
@@ -817,9 +817,9 @@ public final class ObjectHandler {
 
 				}, 1, 0);
 			} else if (id == 65367)
-				WildernessAgility.GateWalk2(player, object);
+				WildernessAgility.gateWalkOut(player, object);
 			else if (id == 65365)
-				WildernessAgility.GateWalk(player, object);
+				WildernessAgility.gateWalkIn(player, object);
 			else if (id == 65734)
 				WildernessAgility.climbCliff(player, object);
 			else if (id == 65362)

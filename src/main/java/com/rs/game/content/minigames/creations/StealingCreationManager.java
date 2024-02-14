@@ -32,7 +32,7 @@ public class StealingCreationManager {
 	public synchronized static void createGame(int size, List<Player> blueTeam, List<Player> redTeam) {
 		running.add(new StealingCreationGameController(size, blueTeam, redTeam));
 		if (watcher == null)
-			WorldTasks.schedule(watcher = new Task() {
+			WorldTasks.scheduleLooping(watcher = new Task() {
 				@Override
 				public void run() {
 					try {

@@ -87,7 +87,7 @@ public final class FightPits {
 								spawns.add(new FightPitsNPC(2739, Tile.of(GAME_TELEPORTS[Utils.random(GAME_TELEPORTS.length)], 3)));
 						else if (minutes == 10)
 							// alot hits appears on players
-							WorldTasks.schedule(new Task() {
+							WorldTasks.scheduleLooping(new Task() {
 
 								@Override
 								public void run() {
@@ -249,7 +249,7 @@ public final class FightPits {
 			startedGame = false;
 		}
 		gameTask = new GameTask();
-		WorldTasks.schedule(gameTask, end ? Ticks.fromSeconds(60) : Ticks.fromSeconds(10), Ticks.fromSeconds(60));
+		WorldTasks.scheduleLooping(gameTask, end ? Ticks.fromSeconds(60) : Ticks.fromSeconds(10), Ticks.fromSeconds(60));
 
 	}
 

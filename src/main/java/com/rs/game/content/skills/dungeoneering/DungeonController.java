@@ -280,7 +280,7 @@ public class DungeonController extends Controller {
 			player.getInventory().deleteItem(DungeonConstants.GATESTONE, 1);
 			player.sendMessage("Your gatestone drops to the floor as you die.");
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

@@ -168,7 +168,7 @@ public class FishingContest extends QuestOutline {
 			p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
 			p.sendMessage("You place the garlic in the pipe.");
 			p.lock(8);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				NPC stranger;
 

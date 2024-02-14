@@ -104,7 +104,7 @@ public class TreeGnomeVillage extends QuestOutline {
 	public static ObjectClickHandler handleWallBallistaHit = new ObjectClickHandler(new Object[] { 12762 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1) {
 			Player p = e.getPlayer();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;
 				boolean isPlayerNorth = true;
 				@Override

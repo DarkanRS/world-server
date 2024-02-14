@@ -465,7 +465,7 @@ public class RunespanController extends Controller {
 		player.lock();
 		player.addWalkSteps(object.getX(), object.getY(), 1, false);
 		World.sendSpotAnim(object.getTile(), new SpotAnim(getPlatformSpotAnim(plataform.runes.length)));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int stage;
 
@@ -629,7 +629,7 @@ public class RunespanController extends Controller {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
 				final Tile dest = Tile.of(4367, 6033, 1);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private int stage;
 
 					@Override
@@ -651,7 +651,7 @@ public class RunespanController extends Controller {
 				player.addWalkSteps(object.getX(), object.getY(), 0, false);
 				player.lock();
 				final Tile dest = Tile.of(4367, 6062, 1);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private int stage;
 
 					@Override

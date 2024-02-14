@@ -187,7 +187,7 @@ public class Varrock {
 	public static ObjectClickHandler handleGrandExchangeShortcut = new ObjectClickHandler(new Object[] { 9311, 9312 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 21))
 			return;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override

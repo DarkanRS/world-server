@@ -70,7 +70,7 @@ public final class FireWallAttack implements QueenAttack {
 						public void run() {
 							for (int j = 0; j < 2; j++) {
 								final boolean second = j == 1;
-								WorldTasks.schedule(new Task() {
+								WorldTasks.scheduleLooping(new Task() {
 									int y = 37 + (second ? 1 : 0);
 									@Override
 									public void run() {

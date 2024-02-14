@@ -56,7 +56,7 @@ public class BrimhavenDungeon {
 		e.getPlayer().lock();
 		e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 30, false);
 		if (e.getObject().getId() == 5110)
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int ticks = 0;
 
 				@Override
@@ -102,7 +102,7 @@ public class BrimhavenDungeon {
 				}
 			}, 0, 0);
 		else
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int ticks = 0;
 
 				@Override

@@ -140,7 +140,7 @@ public class CropCircles {
 
     @ServerStartupEvent
     public static void initCropCircles() {
-        WorldTasks.schedule(0, Ticks.fromMinutes(30), () -> {
+        WorldTasks.scheduleLooping(0, Ticks.fromMinutes(30), () -> {
             int random = Utils.random(0, CropCircle.values().length);
             int random2 = Utils.random(0, CropCircle.values().length);
             while (random2 == random)

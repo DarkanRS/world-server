@@ -46,7 +46,6 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.content.interfacehandlers.TransformationRing;
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
@@ -2210,7 +2209,7 @@ public class Player extends Entity {
 		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

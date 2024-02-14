@@ -47,7 +47,7 @@ public class IcePrison implements NexAttack {
 				final GameObject object = new GameObject(57263, ObjectType.SCENERY_INTERACT, 0, tile);
 				if (!tile.matches(base) && World.floorAndWallsFree(tile, (object.getDefinitions().getSizeX() + object.getDefinitions().getSizeY()) / 2))
 					World.spawnObject(object);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					boolean remove = false;
 

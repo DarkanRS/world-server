@@ -209,7 +209,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		p.lock();
 		p.getInventory().removeItems(new Item(1965, 1));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			final int WITCH_DIALOGUE1 = 10;
 			final int KNIGHT_CAPTAIN_DIALOGUE1 = 12;

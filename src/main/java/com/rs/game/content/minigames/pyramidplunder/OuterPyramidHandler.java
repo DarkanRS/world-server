@@ -24,7 +24,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	static int MUMMY_ROOM = 0;
 	@ServerStartupEvent
 	public static void init() {
-		WorldTasks.schedule(0, 600, () -> MUMMY_ROOM = Utils.randomInclusive(0, 3));
+		WorldTasks.scheduleLooping(0, 600, () -> MUMMY_ROOM = Utils.randomInclusive(0, 3));
 	}
 
 	public static ObjectClickHandler handleOuterPyramidDoors = new ObjectClickHandler(new Object[] { 16543, 16544, 16545, 16546 }, e -> {
@@ -42,7 +42,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void enterMummyRoom(Player p, Tile tile) {
 		p.lock(5);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {
@@ -74,7 +74,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void exitMummyRoom(Player p, Tile tile, int dir) {
 		p.lock(4);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {

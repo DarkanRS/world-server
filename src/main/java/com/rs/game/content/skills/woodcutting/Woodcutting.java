@@ -210,7 +210,8 @@ public class Woodcutting extends Action {
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
 			giveLog(entity);
-			if (!type.isPersistent() || (Utils.random(8) == 0)) {
+			int fellChance = entity instanceof Player player && player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF) ? 16 : 8;
+			if (!type.isPersistent() || (Utils.random(fellChance) == 0)) {
 				if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
 					player.sendMessage("Your resourceful aura prevents the tree from being felled.");
 					return 3;

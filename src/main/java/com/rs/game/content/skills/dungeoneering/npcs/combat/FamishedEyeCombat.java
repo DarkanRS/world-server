@@ -52,7 +52,7 @@ public class FamishedEyeCombat extends CombatScript {
 		}
 
 		npc.setNextAnimation(new Animation(14916));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private List<Tile> tiles;
 			private Tile targetTile;

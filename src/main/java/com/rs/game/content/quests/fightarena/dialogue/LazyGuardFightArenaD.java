@@ -50,7 +50,7 @@ public class LazyGuardFightArenaD extends Conversation {
 						player.getInventory().deleteItem(77, 1);
 						player.faceTile(Tile.of(2617, 3144, 0));
 						player.getVars().setVarBit(5627, 1);
-						WorldTasks.schedule(new Task() {
+						WorldTasks.scheduleLooping(new Task() {
 							int tick;
 							@Override
 							public void run() {

@@ -52,7 +52,7 @@ public class LumbridgeSwampDungeon {
 		e.getPlayer().lock();
 		e.getPlayer().setRun(true);
 		e.getPlayer().addWalkSteps(isWest ? 3208 : 3204, 9572);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -77,7 +77,7 @@ public class LumbridgeSwampDungeon {
 		e.getPlayer().lock();
 		e.getPlayer().setRun(true);
 		e.getPlayer().addWalkSteps(3221, isSouth ? 9556 : 9553);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override

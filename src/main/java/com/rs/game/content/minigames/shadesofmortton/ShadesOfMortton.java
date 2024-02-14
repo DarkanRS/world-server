@@ -70,7 +70,7 @@ public class ShadesOfMortton {
 
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasks.schedule(Ticks.fromSeconds(30), Ticks.fromSeconds(30), () -> {
+		WorldTasks.scheduleLooping(Ticks.fromSeconds(30), Ticks.fromSeconds(30), () -> {
 			updateRepairState();
 			for (Player player : World.getPlayersInChunkRange(Tile.of(3497, 3298, 0).getChunkId(), 4)) {
 				if (!player.hasStarted() || player.hasFinished())

@@ -68,7 +68,7 @@ public class Trollheim {
 		int liftAnimation = isReturning ? 3624 :3725;
 		int squeezeAnimation = isReturning ? 3465 : 3466;
 		Tile destination = Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isReturning ? -4 : 4), 0);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 
 			@Override

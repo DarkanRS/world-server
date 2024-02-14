@@ -88,7 +88,7 @@ public class LuminscentIcefiend extends DungeonBoss {
 		specialEnabled = false;
 
 		final NPC icefiend = this;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int count = 0;
 

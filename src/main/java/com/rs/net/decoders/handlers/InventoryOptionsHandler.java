@@ -315,7 +315,7 @@ public class InventoryOptionsHandler {
 			final int flowerId = flower;
 			World.spawnObjectTemporary(flowerObject, Ticks.fromSeconds(45));
 			player.lock();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int step;
 
 				@Override

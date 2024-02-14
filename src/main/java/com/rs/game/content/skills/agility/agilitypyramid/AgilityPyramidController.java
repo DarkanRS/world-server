@@ -166,23 +166,14 @@ public class AgilityPyramidController extends Controller {
 	private void grabTop(GameObject object) {
 		player.setNextFaceTile(player.transform(1, 0, 0));
 		player.lock();
-		WorldTasks.schedule(new Task() {
-			int ticks;
-			@Override
-			public void run() {
-				if (ticks == 0)
-					player.setNextAnimation(new Animation(3063));
-				else if (ticks >= 2) {
-					player.getInventory().addItemDrop(6970, 1);
-					grabbedTop = true;
-					updateTop();
-					player.startConversation(new Conversation(player, new Dialogue(new ItemStatement(6970, "You find a pyramid top!"))));
-					player.unlock();
-					stop();
-				}
-				ticks++;
-			}
-		}, 0, 1);
+		player.getTasks().schedule(0, () -> player.anim(3063));
+		player.getTasks().schedule(2, () -> {
+			player.getInventory().addItemDrop(6970, 1);
+			grabbedTop = true;
+			updateTop();
+			player.startConversation(new Conversation(player, new Dialogue(new ItemStatement(6970, "You find a pyramid top!"))));
+			player.unlock();
+		});
 	}
 
 	//3056 fail
@@ -228,7 +219,7 @@ public class AgilityPyramidController extends Controller {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks;
 			@Override
 			public void run() {
@@ -264,7 +255,7 @@ public class AgilityPyramidController extends Controller {
 			player.setRunHidden(false);
 			player.lock();
 			player.addWalkSteps(player.transform(-4, 0, 0), -1, false);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				boolean secondloop;
 				@Override
 				public void run() {
@@ -296,7 +287,7 @@ public class AgilityPyramidController extends Controller {
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 			@Override
 			public void run() {

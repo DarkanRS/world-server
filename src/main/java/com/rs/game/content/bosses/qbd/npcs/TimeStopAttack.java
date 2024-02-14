@@ -24,8 +24,6 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Utils;
 
-import java.util.Iterator;
-
 /**
  * Handles the Queen Black Dragon's time stop attack.
  *
@@ -50,7 +48,7 @@ public final class TimeStopAttack implements QueenAttack {
 		soul.setNextSpotAnim(TorturedSoul.TELEPORT_GRAPHIC);
 		soul.setNextAnimation(TorturedSoul.TELEPORT_ANIMATION);
 		soul.setLocked(true);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = -1;
 
 			@Override
