@@ -46,7 +46,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 
@@ -79,7 +79,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 

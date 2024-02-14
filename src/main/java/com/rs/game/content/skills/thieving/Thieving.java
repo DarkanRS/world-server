@@ -161,7 +161,7 @@ public class Thieving {
 
 				player.setNextAnimation(new Animation(881));
 				player.lock(2);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					@Override
 					public void run() {
 						if (!ChunkManager.getChunk(object.getTile().getChunkId()).objectExists(object)) {

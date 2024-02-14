@@ -41,7 +41,7 @@ public class WitchSentry extends NPC {
     public WitchSentry(Tile tile) {
         super(WITCH, tile, true);
         setRandomWalk(false);
-        WorldTasks.schedule(new Task() {
+        WorldTasks.scheduleLooping(new Task() {
             int tick = 10;
             Player player;
 

@@ -386,7 +386,7 @@ public class Potions {
 
 		OVERLOAD(VIAL, new int[] { 15332, 15333, 15334, 15335 }, true, p -> {
 			p.addEffect(Effect.OVERLOAD, 500);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int count = 4;
 
 				@Override
@@ -415,7 +415,7 @@ public class Potions {
 		},
 		OVERLOAD_FLASK(-1, new int[] { 23531, 23532, 23533, 23534, 23535, 23536 }, true, p -> {
 			p.addEffect(Effect.OVERLOAD, 500);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int count = 4;
 
 				@Override

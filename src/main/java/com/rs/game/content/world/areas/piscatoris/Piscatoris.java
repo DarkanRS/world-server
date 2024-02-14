@@ -60,7 +60,7 @@ public class Piscatoris {
 			return;
 		final boolean isNorth = e.getPlayer().getY() > 3653;
 		final Tile tile = isNorth ? Tile.of(2344, 3650, 0) : Tile.of(2344, 3655, 0);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override

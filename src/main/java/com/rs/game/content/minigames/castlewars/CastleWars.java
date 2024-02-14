@@ -134,7 +134,7 @@ public final class CastleWars {
 
 	public static void createPlayingGame() {
 		playingGame = new PlayingGame();
-		WorldTasks.schedule(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+		WorldTasks.scheduleLooping(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		refreshAllPlayersTime();
 	}
 

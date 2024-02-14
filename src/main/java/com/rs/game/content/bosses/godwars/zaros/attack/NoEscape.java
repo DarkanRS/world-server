@@ -47,7 +47,7 @@ public class NoEscape implements NexAttack {
 		final int idx = Utils.random(NO_ESCAPE_TELEPORTS.length);
 		final Tile dir = NO_ESCAPE_TELEPORTS[idx];
 		final Tile center = Tile.of(2924, 5202, 0);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private int count;
 
 			@Override

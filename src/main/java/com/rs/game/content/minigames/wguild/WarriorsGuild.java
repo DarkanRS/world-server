@@ -58,7 +58,7 @@ public class WarriorsGuild extends Controller {
 
 	public static void init() {
 		if (timer == null)
-			WorldTasks.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
+			WorldTasks.scheduleLooping(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
 	}
 
 	public static class WarriorTimer extends Task {
@@ -283,7 +283,7 @@ public class WarriorsGuild extends Controller {
 			player.setNextAnimation(new Animation(827));
 			player.lock();
 			final int finalIndex = realIndex;
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int ticks;
 
 				@Override
@@ -522,7 +522,7 @@ public class WarriorsGuild extends Controller {
 			player.unlock();
 			return;
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int ticks;
 

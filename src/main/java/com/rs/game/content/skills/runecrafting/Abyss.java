@@ -17,7 +17,6 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.content.skills.woodcutting.Hatchet;
 import com.rs.game.model.entity.ForceTalk;
@@ -117,7 +116,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -149,7 +148,7 @@ public class Abyss {
 
 	public static void clearEyes(final Player player, final GameObject object, final Tile tile) {
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -181,7 +180,7 @@ public class Abyss {
 
 	public static void clearGap(final Player player, final GameObject object, final Tile tile, final boolean quick) {
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -216,7 +215,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override

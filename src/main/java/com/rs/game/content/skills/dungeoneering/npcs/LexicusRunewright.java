@@ -68,7 +68,7 @@ public class LexicusRunewright extends DungeonBoss {
 		setCantInteract(true);
 		setNextAnimation(new Animation(13499));
 		setNextSpotAnim(new SpotAnim(1576));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int cycles = 0;
 

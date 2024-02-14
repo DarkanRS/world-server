@@ -146,12 +146,12 @@ public final class InstanceBuilder {
 	private static void destroyMap(int chunkX, int chunkY, int width, int height) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
-		int regionsDistanceX = 1;
+		int regionsDistanceX = 2;
 		while (width > 8) {
 			regionsDistanceX += 1;
 			width -= 8;
 		}
-		int regionsDistanceY = 1;
+		int regionsDistanceY = 2;
 		while (height > 8) {
 			regionsDistanceY += 1;
 			height -= 8;

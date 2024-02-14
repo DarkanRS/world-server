@@ -233,7 +233,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
 		Player p = e.getPlayer();
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean goingEast = true;
 

@@ -51,7 +51,7 @@ public class ShadowTraps implements NexAttack {
 				World.spawnObjectTemporary(new GameObject(57261, ObjectType.SCENERY_INTERACT, 0, t.getX(), t.getY(), 0), 4);
 			}
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private boolean firstCall;
 
 			@Override

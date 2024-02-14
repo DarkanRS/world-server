@@ -218,7 +218,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("You dare hide from me? BURN!"));
 		setNextAnimation(new Animation(14996));
 		final NPC boss = this;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private int ticks;
 			private List<Entity> possibleTargets;
 

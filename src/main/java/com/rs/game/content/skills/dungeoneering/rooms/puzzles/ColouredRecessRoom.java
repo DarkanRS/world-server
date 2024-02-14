@@ -127,7 +127,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				}
 
 			player.lock(2);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 
 				private boolean moved;
 

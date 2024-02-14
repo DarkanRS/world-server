@@ -58,7 +58,7 @@ public class Muncher07D extends Conversation {
 		op.addPlayer(HeadE.LAUGH, "Hehe. This'll make him think twice!")
 		.addNext(() -> {
 			player.lock();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {

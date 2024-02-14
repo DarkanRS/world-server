@@ -248,7 +248,7 @@ public class TravelMethods {
 		else {
 			player.lock();
 			if(getComponentForMap(ship, returning) == 54 || getComponentForMap(ship, returning) == 46)
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					int tick;
 					@Override
 					public void run() {
@@ -274,7 +274,7 @@ public class TravelMethods {
 					}
 				}, 0, 1);
 			else
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					int tick;
 					@Override
 					public void run() {

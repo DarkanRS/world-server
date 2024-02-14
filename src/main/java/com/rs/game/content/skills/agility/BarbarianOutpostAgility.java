@@ -88,7 +88,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().sendMessage("You put your foot on the ledge and try to edge across...", true);
 		e.getPlayer().lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 
 			@Override
@@ -162,7 +162,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(e.getObject().getTile(), () -> {
 			e.getPlayer().lock();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {

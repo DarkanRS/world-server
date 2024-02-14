@@ -70,7 +70,7 @@ public class FightArenaFightCutsceneController extends Controller {
 		instance.copyMapAllPlanes(320, 391).thenAccept(e -> {
 			spawn = instance.getLocalTile(57, 39);
 
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				NPC jeremy;
 				NPC ogre;
@@ -271,7 +271,7 @@ public class FightArenaFightCutsceneController extends Controller {
 
 	public boolean processObjectClick1(GameObject object) {
 		if(object.getId() == 82 && canLeave) {
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				@Override
 				public void run() {

@@ -161,7 +161,7 @@ public class LeprecaunLostCityD extends Conversation {
 				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 				addSimple("The leprechaun falls down", () -> {
 					NPC lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						private int tick;
 						@Override
 						public void run() {

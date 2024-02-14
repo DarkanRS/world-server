@@ -295,9 +295,13 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
 
     fun inspect(player: Player) {
         fun stageDescText(): String {
-            when
+            return when(stage) {
+                0, 1, 2, 3, 4 -> "It is currently ${Utils.formatDouble((stageProgress.toDouble() / NURTURES_PER_STAGE.toDouble()) * 100.0)}% to the next stage."
+                5, 6, 7 -> "It is currently ${Utils.formatDouble((stageProgress.toDouble() / CHOPS_PER_STAGE.toDouble()) * 100.0)}% to the next stage."
+                else -> "It's dead."
+            }
         }
-        player.simpleDialogue("It's an evil ${treeType.name.lowercase()} tree.<br>${stageDescText()}")
+        player.simpleDialogue("It's an evil ${treeType.name.lowercase()} tree${if(stage >= STAGE_FULLY_GROWN) "" else " sapling"}.<br>${stageDescText()}")
     }
 
     fun nurture(player: Player) {

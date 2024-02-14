@@ -488,7 +488,7 @@ public class FishingTrawler {
 			instance.lobby.remove(e.getPlayer());
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().tele(Tile.of(2674, 3170, 0));
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				private boolean tick;
 				private boolean run;
 				@Override
@@ -515,7 +515,7 @@ public class FishingTrawler {
 			boolean run = e.getPlayer().getRun();
 			e.getPlayer().setRunHidden(false);
 			e.getPlayer().addWalkSteps(toTile, 20, false);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				private boolean tick;
 				@Override
 				public void run() {
@@ -546,7 +546,7 @@ public class FishingTrawler {
 	@ServerStartupEvent
 	public static void init() {
 		instance = new FishingTrawler();
-		WorldTasks.schedule(1, 0, () -> instance.tick());
+		WorldTasks.scheduleLooping(1, 0, () -> instance.tick());
 	}
 
 	public static FishingTrawler getInstance() {

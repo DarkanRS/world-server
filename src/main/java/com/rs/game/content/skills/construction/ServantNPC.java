@@ -108,7 +108,7 @@ public class ServantNPC extends NPC {
 		setCantInteract(true);
 		house.incrementPaymentStage();
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int count = 0, totalCount = 0, index = 0;
 

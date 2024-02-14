@@ -226,7 +226,7 @@ public class Impling extends NPC {
             new Impling(Impling.rollLowTierOverworldImp(), tile, false);
         }
 
-        WorldTasks.schedule(Ticks.fromMinutes(2), Ticks.fromMinutes(30), () -> {
+        WorldTasks.scheduleLooping(Ticks.fromMinutes(2), Ticks.fromMinutes(30), () -> {
             for (Tile tile : DYNAMIC_OVERWORLD_ALL_IMPLING_SPAWNS) {
                 for (int i = 0; i < 3; i++) {
                     int npcId = rollTier();

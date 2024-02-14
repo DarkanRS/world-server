@@ -53,7 +53,7 @@ public class DelrithBoss extends NPC {
 		setNextAnimation(new Animation(STUNNED));
 		removeTarget();
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			final int finalTick = Ticks.fromSeconds(12);
 			boolean conversating = false;
@@ -82,7 +82,7 @@ public class DelrithBoss extends NPC {
 		if (!p.getControllerManager().isIn(PlayerVSDelrithController.class) || p.isLocked())
 			return;
 		p.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {

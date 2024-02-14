@@ -148,7 +148,7 @@ public class NexArena {
 		if (getPlayersCount() >= 1)
 			if (nex == null) {
 				nex = new Nex(this, Tile.of(2924, 5202, 0));
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private int count = 0;
 
 					@Override

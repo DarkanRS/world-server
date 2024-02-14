@@ -60,8 +60,8 @@ public final class BrimhavenAgilityController extends Controller {
 	}
 
 	private static void startGame() {
-		WorldTasks.schedule(currentGame = new PlayingGame(), 0, Ticks.fromMinutes(1));
-		WorldTasks.schedule(bladesManager = new BladesManager(), 9, 9);
+		WorldTasks.scheduleLooping(currentGame = new PlayingGame(), 0, Ticks.fromMinutes(1));
+		WorldTasks.scheduleLooping(bladesManager = new BladesManager(), 9, 9);
 	}
 
 	private static void cancelGame() {

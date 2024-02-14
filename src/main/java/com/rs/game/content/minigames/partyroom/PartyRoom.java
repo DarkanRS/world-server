@@ -61,7 +61,7 @@ public class PartyRoom {
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		WorldTasks.schedule(2, 2, () -> {
+		WorldTasks.scheduleLooping(2, 2, () -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -131,7 +131,7 @@ public class PartyRoom {
 			npcs[i] = new NPC(660, Tile.of(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

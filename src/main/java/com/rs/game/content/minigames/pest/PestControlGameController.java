@@ -119,7 +119,7 @@ public class PestControlGameController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

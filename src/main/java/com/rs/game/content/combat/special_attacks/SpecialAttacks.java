@@ -296,7 +296,7 @@ public class SpecialAttacks {
             delayHit(target, p.getTaskDelay(), hit);
             if (hit.getDamage() > 0) {
                 final Entity finalTarget = target;
-                WorldTasks.schedule(new Task() {
+                WorldTasks.scheduleLooping(new Task() {
                     int damage = hit.getDamage();
 
                     @Override

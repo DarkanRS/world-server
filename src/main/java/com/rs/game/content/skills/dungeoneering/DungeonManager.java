@@ -1307,12 +1307,11 @@ public class DungeonManager {
 	}
 
 	public void setRewardsTimer() {
-		WorldTasks.schedule(rewardsTimer = new RewardsTimer(), 1, 9);
+		WorldTasks.scheduleLooping(rewardsTimer = new RewardsTimer(), 1, 9);
 	}
 
 	public void setDestroyTimer() {
-		//cant be already instanced before anyway, afterall only isntances hwen party is 0 and remvoes if party not 0
-		WorldTasks.schedule(destroyTimer = new DestroyTimer(), 1, 9);
+		WorldTasks.scheduleLooping(destroyTimer = new DestroyTimer(), 1, 9);
 	}
 
 	public void setMark(Entity target, boolean mark) {

@@ -165,7 +165,7 @@ fun mapSoulwars() {
         }
     }
 
-    WorldTasks.schedule(1, 0) {
+    WorldTasks.scheduleLooping(1, 0) {
         processSoulwars()
     }
 }

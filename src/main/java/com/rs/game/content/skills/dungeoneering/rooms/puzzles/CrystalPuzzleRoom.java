@@ -79,7 +79,7 @@ public class CrystalPuzzleRoom extends PuzzleRoom {
 			} else
 				World.spawnObject(new GameObject(LODESTONE_INACTIVE[color][type], ObjectType.SCENERY_INTERACT, 0, manager.getTile(reference, POS_BASE_LODESTONE[0] + color, POS_BASE_LODESTONE[1] + color)));
 		task = new TileTask();
-		WorldTasks.schedule(task, 0, 0);
+		WorldTasks.scheduleLooping(task, 0, 0);
 	}
 
 	@Override

@@ -356,7 +356,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("canFight", false);
 		player.setCanPvp(true);
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int count = 3;
 
 			@Override
@@ -436,7 +436,7 @@ public class DuelArenaController extends Controller {
 	public boolean sendDeath() {
 		endDuel(target, player);
 		player.lock(7);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

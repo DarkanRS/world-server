@@ -216,7 +216,7 @@ public class ErnestTheChicken extends QuestOutline {
 			return;
 		}
 		p.getInventory().deleteItem(POISONED_FISH_FOOD, 1);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {

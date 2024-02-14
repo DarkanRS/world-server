@@ -82,7 +82,7 @@ public class CountDraynorBoss extends OwnedNPC {
 		setLocked(true);
 		faceEntity(source);
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			final int finalTick = Ticks.fromSeconds(12);
 
@@ -115,7 +115,7 @@ public class CountDraynorBoss extends OwnedNPC {
             player.sendMessage("This is not your vampyre to kill!");
             return;
         }
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 
 			@Override
@@ -185,7 +185,7 @@ public class CountDraynorBoss extends OwnedNPC {
 			}
 		}, Ticks.fromMinutes(3));
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 
 			@Override

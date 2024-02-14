@@ -83,7 +83,7 @@ public class ShadowForgerIhlakhizanCombat extends CombatScript {
 				for (Entity t : npc.getPossibleTargets()) {
 					t.applyHit(new Hit(npc, Utils.random((int) (t.getMaxHitpoints() * 0.74)) + 1, HitLook.TRUE_DAMAGE));
 					if (t instanceof Player player) {
-						WorldTasks.schedule(new Task() {
+						WorldTasks.scheduleLooping(new Task() {
 							private int ticks;
 							private Tile tile;
 

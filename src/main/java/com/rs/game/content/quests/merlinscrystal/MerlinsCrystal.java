@@ -205,7 +205,7 @@ public class MerlinsCrystal extends QuestOutline {
 	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(Tile.of(2780, 3515, 0), e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
 			return;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {
