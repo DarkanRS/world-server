@@ -382,7 +382,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
             override fun process(player: Player): Boolean {
                 player.faceObject(this@EvilTree)
                 player.anim(hatchet.getAnim(TreeType.NORMAL))
-                return !this@EvilTree.removed
+                return !this@EvilTree.removed && this@EvilTree.stage < STAGE_DEAD
             }
 
             override fun processWithDelay(player: Player): Int {
