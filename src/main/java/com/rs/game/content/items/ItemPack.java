@@ -33,7 +33,7 @@ public enum ItemPack {
 	SACK(15367, new Item(5419, 50)),
 	EYE_OF_NEWT(15364, new Item(222, 50)),
 	BIRD_MEAT(15365, new Item(9979, 50)),
-	JUJU_VIAL(20047, new Item(19997, 50)),
+	JUJU_VIAL(20047, new Item(19995, 50)),
 	VIAL(15362, new Item(230, 50));
 
 	private static final Map<Integer, ItemPack> MAP = new HashMap<>();
