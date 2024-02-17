@@ -155,7 +155,7 @@ fun mapEvilTrees() {
                             }
                             op("Buy lumberjack outfit pieces (2000 kindling each)") {
                                 fun buyLumberjackItem(player: Player, itemId: Int) {
-                                    if (!player.inventory.containsItems(KINDLING, 2000)) return player.sendMessage("You don't have enough kindling to buy that.")
+                                    if (!player.inventory.containsItem(KINDLING, 2000)) return player.sendMessage("You don't have enough kindling to buy that.")
                                     player.inventory.deleteItem(KINDLING, 2000)
                                     player.inventory.addItemDrop(itemId, 1)
                                 }
