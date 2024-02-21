@@ -113,10 +113,6 @@ fun mapEvilTrees() {
         if (obj !is EvilTree.Root) return@onObjectClick
 
         player.faceObject(obj)
-        if (player.skills.getLevel(Skills.WOODCUTTING) < obj.tree.treeType.wcReq) {
-            player.sendMessage("You need a woodcutting level of ${obj.tree.treeType.wcReq} to chop this tree.")
-            return@onObjectClick
-        }
         val hatchet = Hatchet.getBest(player)
         if (hatchet == null) {
             player.sendMessage("You do not have a hatchet that you have the woodcutting level to use.")
@@ -126,13 +122,13 @@ fun mapEvilTrees() {
             player.anim(hatchet.getAnim(TreeType.NORMAL))
             player.faceObject(obj)
             if (!obj.tree.treeType.wcType.rollSuccess(player.auraManager.woodcuttingMul, player.skills.getLevel(Skills.WOODCUTTING), hatchet))
-                return@repeatAction obj.life > 0
+                return@repeatAction !obj.killed
 
             player.skills.addXp(Skills.WOODCUTTING, obj.tree.treeType.wcXp / 3)
             player.inventory.addItemDrop(KINDLING, 1)
             player.incrementCount("Evil tree kindling chopped")
             obj.chopLife()
-            return@repeatAction obj.life > 0
+            return@repeatAction !obj.killed
         }
     }
 
@@ -159,7 +155,7 @@ fun mapEvilTrees() {
                             }
                             op("Buy lumberjack outfit pieces (2000 kindling each)") {
                                 fun buyLumberjackItem(player: Player, itemId: Int) {
-                                    if (!player.inventory.containsItems(KINDLING, 2000)) return player.sendMessage("You don't have enough kindling to buy that.")
+                                    if (!player.inventory.containsItem(KINDLING, 2000)) return player.sendMessage("You don't have enough kindling to buy that.")
                                     player.inventory.deleteItem(KINDLING, 2000)
                                     player.inventory.addItemDrop(itemId, 1)
                                 }
@@ -217,6 +213,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
     private var stageProgress = 0
     private var leprechaun: NPC? = null
     private val roots: MutableMap<Direction, Root> = EnumMap(Direction::class.java)
+    private var removed = false
     private val fires = mapOf(
         Direction.WEST to GameObject(14887, ObjectType.STRAIGHT_INSIDE_WALL_DEC, 2, tile.transform(-2, 0, 0)),
         Direction.NORTH to GameObject(15253, ObjectType.STRAIGHT_INSIDE_WALL_DEC, 3, tile.transform(0, 2, 0)),
@@ -228,18 +225,20 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
         Direction.SOUTHWEST to GameObject(15491, ObjectType.DIAGONAL_INSIDE_WALL_DEC, 3, tile.transform(-1, -1, 0)),
     )
 
-    class Root(val tree: EvilTree, val dir: Direction, var life: Int = Utils.random(5, 15)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
+    class Root(val tree: EvilTree, val dir: Direction, var life: Int = Utils.random(3, 8)) : GameObject(11427, ObjectType.SCENERY_INTERACT, 0, tree.centerTile.transform(dir.dx*2, dir.dy*2)) {
+        var killed = false
+
         fun chopLife() {
             if (life-- <= 0)
                 kill()
         }
 
         override fun process(): Boolean {
-            return true
+            return !killed
         }
 
         fun kill() {
-            unflagForProcess()
+            killed = true
             World.removeObject(this)
             World.sendSpotAnim(this.tile, 315)
             tree.roots.remove(dir)
@@ -247,6 +246,8 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
     }
 
     override fun process(): Boolean {
+        if (removed)
+            return false
         if (World.getServerTicks() % 10 == 0L)
             World.getPlayersInChunkRange(tile.chunkId, 4)
                 .filter { !it.tempAttribs.getB("notified$treeType") }
@@ -275,7 +276,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
     fun despawn() {
         leprechaun?.finish()
         World.removeObject(this)
-        unflagForProcess()
+        removed = true
         fires.values.forEach { World.removeObject(it) }
         roots.values.forEach { it.kill() }
     }
@@ -318,7 +319,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
             player.anim(3114)
             player.skills.addXp(Skills.FARMING, treeType.farmXp / 5.0)
             incProgress()
-            return@repeatAction stage < 5
+            return@repeatAction !removed && stage < 5
         }
     }
 
@@ -381,7 +382,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
             override fun process(player: Player): Boolean {
                 player.faceObject(this@EvilTree)
                 player.anim(hatchet.getAnim(TreeType.NORMAL))
-                return this@EvilTree.getDefinitions(player).containsOption("Chop")
+                return !this@EvilTree.removed && this@EvilTree.stage < STAGE_DEAD
             }
 
             override fun processWithDelay(player: Player): Int {
@@ -401,6 +402,10 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
     }
 
     fun takeRewards(player: Player) {
+        if (player.skills.getLevel(Skills.WOODCUTTING) < treeType.wcReq) {
+            player.sendMessage("You need a woodcutting level of ${treeType.wcReq} to claim rewards from this tree.")
+            return
+        }
         if (player.getDailyI("evilTreeChippings") >= 200) {
             player.sendMessage("You have already looted all you can from evil trees today.")
             return
