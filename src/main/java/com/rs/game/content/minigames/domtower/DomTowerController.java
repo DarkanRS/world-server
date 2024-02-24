@@ -38,7 +38,7 @@ public class DomTowerController extends Controller {
 		return mode;
 	}
 
-	private NPC[] bosses;
+	private transient NPC[] bosses;
 	private int onArena;
 
 	@Override
