@@ -22,6 +22,7 @@ import com.rs.game.World;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.tasks.TaskManager;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
@@ -35,9 +36,10 @@ public class GameObject extends WorldObject {
 	}
 
 	protected RouteType routeType = RouteType.NORMAL;
-	private ObjectMeshModifier meshModifier;
+	private transient ObjectMeshModifier meshModifier;
+	private transient TaskManager tasks;
 
-	private transient int originalId = -1;
+	private transient int originalId;
 	private transient int idChangeTicks = -1;
 	private final int hashCode;
 
@@ -125,6 +127,13 @@ public class GameObject extends WorldObject {
 
 	public boolean process() {
 		boolean continueProcessing = false;
+		if (tasks != null) {
+			if (tasks.getSize() > 0) {
+				tasks.processTasks();
+				continueProcessing = true;
+			} else
+				tasks = null;
+		}
 		if (idChangeTicks == -2)
 			return true;
 		if (idChangeTicks > -1) {
@@ -134,6 +143,14 @@ public class GameObject extends WorldObject {
 				continueProcessing = true;
 		}
 		return continueProcessing;
+	}
+
+	public TaskManager getTasks() {
+		if (tasks == null) {
+			tasks = new TaskManager();
+			flagForProcess();
+		}
+		return tasks;
 	}
 
 	public GameObject setId(int id) {
