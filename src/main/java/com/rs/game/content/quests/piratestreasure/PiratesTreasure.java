@@ -53,7 +53,6 @@ public class PiratesTreasure extends QuestOutline {
 	protected final static int CUSTOMS_OFFICER = 380;
 
 	//Objects
-	protected final static int BANANA_TREE_PLANT = 2073;
 	protected final static int BLUE_MOON_INN_CHEST = 2079;
 
 	@Override
@@ -147,9 +146,14 @@ public class PiratesTreasure extends QuestOutline {
 		e.getPlayer().getQuestManager().getAttribs(Quest.PIRATES_TREASURE).setB("TREASURE_LOC_KNOWN", true);
 	});
 
-	public static ObjectClickHandler bananaTreePlantation = new ObjectClickHandler(new Object[] { BANANA_TREE_PLANT }, e -> {
-		e.getPlayer().setNextAnimation(new Animation(2280));
+	public static ObjectClickHandler bananaTreePlantation = new ObjectClickHandler(new Object[] { 2073, 2074, 2075, 2076, 2077, 2078 }, e -> {
+		if (e.getObjectId() == 2078) {
+			e.getPlayer().sendMessage("There are no bananas left on the tree.");
+			return;
+		}
+		e.getPlayer().anim(2280);
 		e.getPlayer().getInventory().addItem(BANANA, 1);
+		e.getObject().setIdTemporary(e.getObjectId()+1, Ticks.fromSeconds(30));
 	});
 
 	@Override

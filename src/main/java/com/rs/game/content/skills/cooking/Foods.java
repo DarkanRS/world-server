@@ -249,7 +249,6 @@ public class Foods {
         JANGERBERRIES(247, 20),
         JUBBLY(7568, 150),
         JUJU_GUMBO(19949, 320, p -> p.addEffect(Effect.BARON_SHARK, Ticks.fromSeconds(12))),
-        KARAMBWANI(3144, 30),
         KARAMBWANJI(3151, 30),
         KEBAB(1971, 0, KEBAB_EFFECT),
         KING_WORM(2162, 20),

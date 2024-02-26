@@ -157,10 +157,17 @@ public final class DominionTower {
 		}
 	}
 
-	private static final Boss[] BOSSES = { new Boss("Elvarg", "Grrrr", 14548), new Boss("Delrith", "Grrrr", -1, false, new Item(2402, 1), NORMAL_ARENA, 14578), new Boss("Evil Chicken", "Bwak bwak bwak", 3375),
-			new Boss("The Black Knight Titan", "Kill kill kill!", 14436), new Boss("Bouncer", "Grrr", 14483),
+	private static final Boss[] BOSSES = {
+			new Boss("Elvarg", "Grrrr", 14548),
+			new Boss("Delrith", "Grrrr", -1, false, new Item(2402, 1), NORMAL_ARENA, 14578),
+			new Boss("Evil Chicken", "Bwak bwak bwak", 3375),
+			new Boss("The Black Knight Titan", "Kill kill kill!", 14436),
+			new Boss("Bouncer", "Grrr", 14483),
 			// custom bosses
-			new Boss("Jad", "Roarrrrrrrrrrrrrrrrrrrrrrrrrr", 2745), new Boss("Kalphite Queen", null, 1158), new Boss("King Black Dragon", "Grrrr", 50), new Boss("Nomad", "You don't stand a chance!", 7985, true, null, NOMAD_ARENA, 8528) };
+			new Boss("Jad", "Roarrrrrrrrrrrrrrrrrrrrrrrrrr", 2745),
+			new Boss("Kalphite Queen", null, 1158),
+			new Boss("King Black Dragon", "Grrrr", 50),
+			new Boss("Nomad", "You don't stand a chance!", 7985, true, null, NOMAD_ARENA, 8528) };
 
 	private void startEnduranceMode() {
 		if (progress == 256) {
