@@ -54,7 +54,7 @@ public class Bork extends NPC {
 
 	@Override
 	public void sendDeath(Entity source) {
-		for(NPC npc : World.getNPCsInChunkRange(source.getChunkId(), 3))
+		for(NPC npc : World.getNPCsInChunkRange(source.getChunkId(), 2))
 			if(npc.getId() == 7135)
 				npc.sendDeath(source);
 		resetWalkSteps();
@@ -64,7 +64,7 @@ public class Bork extends NPC {
 			player.getInterfaceManager().sendForegroundInterfaceOverGameWindow(693);
 			WorldTasks.schedule(8, () -> {
 				player.getInterfaceManager().closeInterfacesOverGameWindow();
-				setNextAnimation(new Animation(getCombatDefinitions().getDeathEmote()));
+				anim(getCombatDefinitions().getDeathEmote());
 				WorldTasks.schedule(4, () -> {
 					drop();
 					reset();
