@@ -43,30 +43,35 @@ public class GameObject extends WorldObject {
 
 	public GameObject(int id, ObjectType type, int rotation, Tile tile) {
 		super(id, type, rotation, tile);
+		this.originalId = id;
 		this.routeType = World.getRouteType(id);
 		this.hashCode = genHashCode();
 	}
 
 	public GameObject(int id, int rotation, int x, int y, int plane) {
 		super(id, rotation, x, y, plane);
+		this.originalId = id;
 		this.routeType = World.getRouteType(id);
 		this.hashCode = genHashCode();
 	}
 
 	public GameObject(int id, ObjectType type, int rotation, int x, int y, int plane) {
 		super(id, type, rotation, x, y, plane);
+		this.originalId = id;
 		this.routeType = World.getRouteType(id);
 		this.hashCode = genHashCode();
 	}
 
 	public GameObject(WorldObject object) {
 		super(object);
+		this.originalId = id;
 		this.routeType = World.getRouteType(id);
 		this.hashCode = genHashCode();
 	}
 
 	public GameObject(GameObject object) {
 		super(object);
+		this.originalId = id;
 		routeType = object.getRouteType();
 		this.hashCode = genHashCode();
 	}
@@ -74,6 +79,7 @@ public class GameObject extends WorldObject {
 	public GameObject(WorldObject object, int newId) {
 		super(object);
 		this.id = newId;
+		this.originalId = newId;
 		this.routeType = World.getRouteType(newId);
 		this.hashCode = genHashCode();
 	}
@@ -81,13 +87,14 @@ public class GameObject extends WorldObject {
 	public GameObject(GameObject object, int newId) {
 		super(object);
 		this.id = newId;
+		this.originalId = newId;
 		this.routeType = object.getRouteType();
 		this.hashCode = genHashCode();
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		if ((other == null) || !(other instanceof GameObject obj))
+		if (!(other instanceof GameObject obj))
 			return false;
 		return obj.hashCode() == hashCode();
 	}
@@ -156,11 +163,9 @@ public class GameObject extends WorldObject {
 	public void setIdTemporary(int id, int ticks) {
 		if (this.id == id)
 			return;
-		final int original = this.id;
 		Chunk chunk = ChunkManager.getChunk(getTile().getChunkId(), true);
 		chunk.flagForProcess(this);
 		setId(id);
-		originalId = original;
 		idChangeTicks = ticks;
 	}
 
