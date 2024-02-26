@@ -398,7 +398,7 @@ public abstract class Entity {
 	}
 
 	public void processReceivedHits() {
-		if (lockDelay > World.getServerTicks())
+		if (lockDelay > tickCounter)
 			return;
 		if (this instanceof Player p)
 			if (p.getEmotesManager().isAnimating())
@@ -2109,7 +2109,7 @@ public abstract class Entity {
 	}
 
 	public boolean isLocked() {
-		return lockDelay >= World.getServerTicks();
+		return lockDelay >= tickCounter;
 	}
 
 	/**
@@ -2122,7 +2122,7 @@ public abstract class Entity {
 	}
 
 	public void lock(int ticks) {
-		lockDelay = World.getServerTicks() + ticks;
+		lockDelay = tickCounter + ticks;
 	}
 
 	public void unlock() {
