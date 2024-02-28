@@ -109,7 +109,7 @@ public class Genie extends OwnedNPC {
 				return;
 			}
 			e.getPlayer().startConversation(new Conversation(e.getPlayer())
-					.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your with!")
+					.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your wish!")
 					.addOptions(new Options() {
 						@Override
 						public void create() {
