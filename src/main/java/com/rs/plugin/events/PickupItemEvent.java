@@ -29,12 +29,12 @@ import java.util.Map;
 
 public class PickupItemEvent implements PluginEvent {
 
-	private static Map<Object, Map<Integer, List<PickupItemHandler>>> HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Integer, List<PickupItemHandler>>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private GroundItem item;
+	private final Player player;
+	private final GroundItem item;
 	private boolean cancelPickup;
-	private boolean telegrabbed;
+	private final boolean telegrabbed;
 
 	public PickupItemEvent(Player player, GroundItem item, boolean telegrabbed) {
 		this.player = player;
@@ -69,20 +69,15 @@ public class PickupItemEvent implements PluginEvent {
 			methods = methodMapping.get(0);
 		if (methods == null)
 			return null;
-		for (PickupItemHandler method : methods)
-			valids.add(method);
+        valids.addAll(methods);
 		return valids;
 	}
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		PickupItemHandler handler = (PickupItemHandler) method;
 		for (Object key : handler.keys()) {
-			Map<Integer, List<PickupItemHandler>> locMap = HANDLERS.get(key);
-			if (locMap == null) {
-				locMap = new HashMap<>();
-				HANDLERS.put(key, locMap);
-			}
-			if (handler.getTiles() == null || handler.getTiles().length <= 0) {
+            Map<Integer, List<PickupItemHandler>> locMap = HANDLERS.computeIfAbsent(key, k -> new HashMap<>());
+            if (handler.getTiles() == null || handler.getTiles().length <= 0) {
 				List<PickupItemHandler> methods = locMap.get(0);
 				if (methods == null)
 					methods = new ArrayList<>();

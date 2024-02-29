@@ -86,7 +86,7 @@ public class Varrock {
 							option("I could be, yes.", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "I could be, yes.")
 									.addNPC(NPC, HeadE.CALM_TALK, "Let me show you my inventory then...")
-									.addNext(()->{ShopsHandler.openShop(e.getPlayer(), "helmet_shop");})
+									.addNext(()-> ShopsHandler.openShop(e.getPlayer(), "helmet_shop"))
 							);
 							option("No, I'll pass on that.", new Dialogue()
 									.addPlayer(HeadE.HAPPY_TALKING, "No, I'll pass on that.")
@@ -112,13 +112,9 @@ public class Varrock {
 			ShopsHandler.openShop(e.getPlayer(), "helmet_shop");
 	});
 
-	public static ObjectClickHandler varrockCenterStairs = new ObjectClickHandler(new Object[] { 24367 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(e.getObject().getX(), 3476, 1), 1, 2);
-	});
+	public static ObjectClickHandler varrockCenterStairs = new ObjectClickHandler(new Object[] { 24367 }, e -> e.getPlayer().useStairs(-1, Tile.of(e.getObject().getX(), 3476, 1), 1, 2));
 
-	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }, e -> {
-		e.getPlayer().useStairs(-1, Tile.of(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2);
-	});
+	public static ObjectClickHandler blueMoonStairs = new ObjectClickHandler(new Object[] { 37117 }, e -> e.getPlayer().useStairs(-1, Tile.of(e.getObject().getX()-2, e.getPlayer().getY(), 0), 1, 2));
 
 	public static ObjectClickHandler handleVariousStaircases = new ObjectClickHandler(new Object[] { 24356 }, e -> {
 		Player p = e.getPlayer();
@@ -180,9 +176,7 @@ public class Varrock {
 				p.useStairs(833, Tile.of(3237, 9858, 0), 1, 2);
 	});
 
-	public static ObjectClickHandler handleKeldagrimTrapdoor = new ObjectClickHandler(new Object[] { 28094 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2911, 10176, 0));
-	});
+	public static ObjectClickHandler handleKeldagrimTrapdoor = new ObjectClickHandler(new Object[] { 28094 }, e -> e.getPlayer().tele(Tile.of(2911, 10176, 0)));
 
 	public static ObjectClickHandler handleRiverLumSteppingStones = new ObjectClickHandler(new Object[] { 9315 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 31))
@@ -193,7 +187,7 @@ public class Varrock {
 	public static ObjectClickHandler handleGrandExchangeShortcut = new ObjectClickHandler(new Object[] { 9311, 9312 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 21))
 			return;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -208,9 +202,9 @@ public class Varrock {
 					e.getPlayer().setNextAnimation(new Animation(2590));
 				} else if (ticks == 5) {
 					e.getPlayer().setNextAnimation(new Animation(2591));
-					e.getPlayer().setNextTile(tile);
+					e.getPlayer().tele(tile);
 				} else if (ticks == 6) {
-					e.getPlayer().setNextTile(Tile.of(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
+					e.getPlayer().tele(Tile.of(tile.getX() + (withinGE ? -1 : 1), tile.getY(), tile.getPlane()));
 					e.getPlayer().unlock();
 					stop();
 				}
@@ -233,10 +227,10 @@ public class Varrock {
 		if (!e.isAtObject())
 			return;
 		switch (e.getObject().getRotation()) {
-		case 0 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -2 : 2, 0), 839);
-		case 1 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -2 : 2, 0, 0), 839);
-		case 2 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -2 : 2, 0), 839);
-		case 3 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -2 : 2, 0, 0), 839);
+		case 0 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -3 : 3, 0), 839);
+		case 1 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -3 : 3, 0, 0), 839);
+		case 2 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(0, e.getPlayer().getY() >= e.getObject().getY() ? -3 : 3, 0), 839);
+		case 3 -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() >= e.getObject().getX() ? -3 : 3, 0, 0), 839);
 		}
 	});
 

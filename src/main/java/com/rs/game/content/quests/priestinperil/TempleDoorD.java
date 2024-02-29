@@ -56,9 +56,7 @@ public class TempleDoorD extends Conversation {
                                             .addPlayer(HeadE.CALM_TALK, "Sure. I'm a helpful person!")
                                             .addNPC(MONK, HeadE.CALM_TALK, "HAHAHAHA! Really? Thanks buddy! You see that mausoleum out there? There's a horrible big dog underneath it that I'd like you to kill for me! It's been really bugging me! Barking all the time and stuff!", "* Drezel *")
                                             .addNPC(MONK, HeadE.CALM_TALK, "Please kill it for me buddy!", "* Drezel *")
-                                            .addPlayer(HeadE.CALM_TALK, "Okey-dokey, one dead dog coming up.", () -> {
-                                                player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 2);
-                                                    });
+                                            .addPlayer(HeadE.CALM_TALK, "Okey-dokey, one dead dog coming up.", () -> player.getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 2));
                                     ops2.add("Nope. Something about all this is very suspicious...")
                                             .addPlayer(HeadE.CALM_TALK, "Nope. Something about all this is very suspicious...")
                                             .addNPC(MONK, HeadE.CALM_TALK, "Get lost then! I have important things to do, as sure as my name is Dibzil.", "* Dibzil *")

@@ -27,44 +27,42 @@ public class TrollGeneralAttackController extends InstancedController {
     @Override
     public void onBuildInstance() {
         player.lock();
-        getInstance().copyMapAllPlanes(272, 544).thenAccept(b -> {
-            player.playCutscene(cs -> {
-                cs.fadeIn(5);
-                cs.action(1, () -> getInstance().teleportLocal(player, 32, 12, 0));
-                cs.action(() -> {
-                    player.setForceNextMapLoadRefresh(true);
-                    player.loadMapRegions();
-                    cs.setEndTile(Tile.of(cs.getX(32), cs.getY(12), 0));
-                });
-                cs.npcCreate("ozan", 14983, 33, 28, 0, n -> {
-                    n.persistBeyondCutscene();
-                    n.setIgnoreNPCClipping(true);
-                    n.setRun(true);
-                    ozan = n;
-                });
-                cs.npcCreate("keymans", 14988, 34, 28, 0, n -> {
-                    n.persistBeyondCutscene();
-                    n.setIgnoreNPCClipping(true);
-                    n.setRun(true);
-                    keymans = n;
-                });
-                cs.npcCreate("brute", 14980, 27, 43, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.npcCreate("chucker", 14981, 29, 46, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.npcCreate("shaman", 14982, 31, 44, 0, n -> {
-                    n.setRandomWalk(true);
-                    n.persistBeyondCutscene();
-                });
-                cs.action(() -> player.getHintIconsManager().addHintIcon(cs.getNPC("ozan"), 0, -1, false));
-                cs.fadeOut(5);
-                cs.action(() -> player.unlock());
+        getInstance().copyMapAllPlanes(272, 544).thenAccept(b -> player.playCutscene(cs -> {
+            cs.fadeIn(5);
+            cs.action(1, () -> getInstance().teleportLocal(player, 32, 12, 0));
+            cs.action(() -> {
+                player.setForceNextMapLoadRefresh(true);
+                player.loadMapRegions();
+                cs.setEndTile(Tile.of(cs.getX(32), cs.getY(12), 0));
             });
-        });
+            cs.npcCreate("ozan", 14983, 33, 28, 0, n -> {
+                n.persistBeyondCutscene();
+                n.setIgnoreNPCClipping(true);
+                n.setRun(true);
+                ozan = n;
+            });
+            cs.npcCreate("keymans", 14988, 34, 28, 0, n -> {
+                n.persistBeyondCutscene();
+                n.setIgnoreNPCClipping(true);
+                n.setRun(true);
+                keymans = n;
+            });
+            cs.npcCreate("brute", 14980, 27, 43, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.npcCreate("chucker", 14981, 29, 46, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.npcCreate("shaman", 14982, 31, 44, 0, n -> {
+                n.setRandomWalk(true);
+                n.persistBeyondCutscene();
+            });
+            cs.action(() -> player.getHintIconsManager().addHintIcon(cs.getNPC("ozan"), 0, -1, false));
+            cs.fadeOut(5);
+            cs.action(() -> player.unlock());
+        }));
     }
 
     @Override
@@ -112,8 +110,8 @@ public class TrollGeneralAttackController extends InstancedController {
                                 cs.npcCreate("babyTroll", 14846, 28, 48, 0);
                                 cs.action(() -> {
                                     player.getHintIconsManager().removeUnsavedHintIcon();
-                                    ozan.setNextTile(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(51), 0));
-                                    player.setNextTile(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(48), 0));
+                                    ozan.tele(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(51), 0));
+                                    player.tele(Tile.of(getInstance().getLocalX(36), getInstance().getLocalY(48), 0));
                                 });
                                 cs.camPos(36, 51, 1000);
                                 cs.camLook(31, 51, 0);
@@ -126,7 +124,7 @@ public class TrollGeneralAttackController extends InstancedController {
                                     ozan.addWalkSteps(getInstance().getLocalX(33), getInstance().getLocalY(51));
                                 });
                                 cs.action(1, () -> ozan.faceTile(Tile.of(getInstance().getLocalX(20), getInstance().getLocalY(51), 0)));
-                                cs.action(() -> ozan.setNextTile(Tile.of(getInstance().getLocalX(31), getInstance().getLocalY(51), 0)));
+                                cs.action(() -> ozan.tele(Tile.of(getInstance().getLocalX(31), getInstance().getLocalY(51), 0)));
                                 cs.npcDestroy("babyTroll");
                                 cs.action(() -> {
                                     ozan.transformIntoNPC(14987);
@@ -200,13 +198,13 @@ public class TrollGeneralAttackController extends InstancedController {
             if (stage == 5) {
                 player.getHintIconsManager().removeUnsavedHintIcon();
                 player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 2);
-                player.setNextTile(OUTSIDE);
+                player.tele(OUTSIDE);
                 player.getControllerManager().forceStop();
                 return false;
             }
             player.sendOptionDialogue("Would you like to leave the tutorial area?", ops -> {
                 ops.add("Yes, please.", () -> {
-                    player.setNextTile(OUTSIDE);
+                    player.tele(OUTSIDE);
                     player.getControllerManager().forceStop();
                 });
                 ops.add("No, I'm not done here yet.");
@@ -227,9 +225,9 @@ public class TrollGeneralAttackController extends InstancedController {
                 cs.action(() -> {
                     ozan.stopAll();
                     keymans.stopAll();
-                    player.setNextTile(Tile.of(getInstance().getLocalX(34), getInstance().getLocalY(50), 0));
-                    ozan.setNextTile(Tile.of(getInstance().getLocalX(33), getInstance().getLocalY(51), 0));
-                    keymans.setNextTile(Tile.of(getInstance().getLocalX(35), getInstance().getLocalY(49), 0));
+                    player.tele(Tile.of(getInstance().getLocalX(34), getInstance().getLocalY(50), 0));
+                    ozan.tele(Tile.of(getInstance().getLocalX(33), getInstance().getLocalY(51), 0));
+                    keymans.tele(Tile.of(getInstance().getLocalX(35), getInstance().getLocalY(49), 0));
                 });
                 cs.camPos(33, 45, 2000, 0, 5);
                 cs.camLook(trollGeneral.getXInRegion(), trollGeneral.getYInRegion(), 10, 0, 5);

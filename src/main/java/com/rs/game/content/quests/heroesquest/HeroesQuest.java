@@ -21,18 +21,19 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.HEROES_QUEST)
+@QuestHandler(
+		quest = Quest.HEROES_QUEST,
+		startText = "Speak with Achietties at the entrance to the Heroes' Guild in Burthorpe.",
+		itemsText = "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>Fishing rod (and possibly bait), harralander potion (unf).<br>Ice gloves.",
+		combatText = "You will need to defeat a level 77 enemy.",
+		rewardsText = "Total of 29,232 XP over twelve skills<br>Access to the Heroes' Guild",
+		completedStage = 2
+)
 @PluginEventHandler
 public class HeroesQuest extends QuestOutline {
 	public final static int NOT_STARTED = 0;
 	public final static int GET_ITEMS = 1;
 	public final static int QUEST_COMPLETE = 2;
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -116,9 +117,7 @@ public class HeroesQuest extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -165,51 +164,18 @@ public class HeroesQuest extends QuestOutline {
 
 	public static ItemOnItemHandler handlePromptHarllander = new ItemOnItemHandler(new int[]{1581}, new int[]{307}, e -> e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.CALM_TALK, "I'll need to add unfinished Harralander to the slime before I make it oily...")));
 
-	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, e -> {
-		Player p = e.getPlayer();
-		if (e.getOption().equalsIgnoreCase("drop")) {
-			p.getInventory().removeItems(e.getItem());
-			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
-			return;
-		}
-		p.sendMessage("You know... I'd really rather not.");
-	});
+	public static ItemClickHandler handleClickBlamishOil = new ItemClickHandler(new Object[] { 1582 }, new String[] { "Drink" }, e -> e.getPlayer().sendMessage("You know... I'd really rather not."));
 
 	@Override
 	public void complete(Player player) {
 		Object[][] xpAdded = {{Constants.ATTACK, 3075}, {Constants.DEFENSE, 3075}, {Constants.STRENGTH, 3075}, {Constants.HITPOINTS, 3075},
 				{Constants.RANGE, 2075}, {Constants.FISHING, 2725}, {Constants.COOKING, 2825}, {Constants.WOODCUTTING, 1575}, {Constants.FIREMAKING, 1575},
 				{Constants.SMITHING, 2257}, {Constants.MINING, 2575}, {Constants.HERBLORE, 1325}};
-		for (int i = 0; i < xpAdded.length; i++) {
-			player.sendMessage("You have gained " + xpAdded[i][1] + " in " + Skills.SKILL_NAME[(int) xpAdded[i][0]] + ".");
-			player.getSkills().addXpQuest((int) xpAdded[i][0], (int) xpAdded[i][1]);
-		}
+        for (Object[] objects : xpAdded) {
+            player.sendMessage("You have gained " + objects[1] + " in " + Skills.SKILL_NAME[(int) objects[0]] + ".");
+            player.getSkills().addXpQuest((int) objects[0], (int) objects[1]);
+        }
 		sendQuestCompleteInterface(player, 1377);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Achiettes at the entrance to the Heroes' Guild in Burthorpe.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "If you are in the Black Arm Gang, you will need a black full helm, black platebody and black platelegs. You will either need a player partner in the Phoenix Gang or a lockpick.<br>" +
-				"If you are in the Phoenix Gang, you will need a Ranged or Magic weapon and a player partner in the Black Arm Gang. Otherwise, you will need a lockpick and either 1,000 coins or a ring of Charos.<br>" +
-				"Fishing rod (and possibly bait), harralander potion (unf).<br>" +
-				"Ice gloves.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 77 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Total of 29,232 XP over twelve skills<br>"+
-				"Access to the Heroes' Guild";
 	}
 
 }

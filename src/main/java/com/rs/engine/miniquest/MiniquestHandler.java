@@ -24,5 +24,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface MiniquestHandler {
-	Miniquest value();
+	Miniquest miniquest();
+	String startText();
+	String itemsText();
+	String combatText();
+	String rewardsText();
+	int completedStage();
 }

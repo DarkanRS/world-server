@@ -22,21 +22,23 @@ import com.rs.lib.game.Tile;
 
 public class ItemSpawn {
 
-	private String comment;
-	private int itemId;
-	private int amount;
-	private Tile tile;
+	private final String comment;
+	private final int itemId;
+	private final int amount;
+	private final Tile tile;
+	private final int respawnTicks;
 
-	public ItemSpawn(int itemId, int amount, Tile tile, String comment) {
+	public ItemSpawn(int itemId, int amount, Tile tile, int respawnTicks, String comment) {
 		this.itemId = itemId;
 		this.amount = amount;
 		this.tile = tile;
+		this.respawnTicks = respawnTicks;
 		this.comment = comment;
 	}
 
 	@SuppressWarnings("deprecation")
 	public void spawn() {
-		World.addGroundItemForever(new Item(itemId, amount), tile);
+		World.addGroundItemForever(new Item(itemId, amount), tile, getRespawnTicks());
 	}
 
 	public Tile getTile() {
@@ -53,5 +55,9 @@ public class ItemSpawn {
 
 	public String getComment() {
 		return comment;
+	}
+
+	public int getRespawnTicks() {
+		return respawnTicks <= 0 ? 25 : respawnTicks;
 	}
 }

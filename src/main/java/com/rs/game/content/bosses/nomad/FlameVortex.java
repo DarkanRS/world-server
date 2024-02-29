@@ -60,7 +60,7 @@ public class FlameVortex extends NPC {
 	public void explode(final Player target, final int damage) {
 		explodeTime = -1;
 		final NPC npc = this;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private boolean secondLoop;
 

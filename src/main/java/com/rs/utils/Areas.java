@@ -34,11 +34,10 @@ import java.util.stream.Collectors;
 public class Areas {
 
 	private final static String PATH = "data/areas/";
-	private static HashMap<String, Set<Integer>> AREAS = new HashMap<>();
+	private static final HashMap<String, Set<Integer>> AREAS = new HashMap<>();
 
-	@SuppressWarnings("unchecked")
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		Logger.info(Areas.class, "init", "Loading areas...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles) {

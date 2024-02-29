@@ -37,22 +37,16 @@ public class Cow extends NPC {
     @Override
     public void processNPC() {
         if (Utils.random(100) == 0)
-            setNextForceTalk(new ForceTalk("Moo"));
+            forceTalk("Moo");
         super.processNPC();
     }
 
-    public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler(new Object[] { "Cow" }, e -> {
-    	 e.getPlayer().sendMessage("The cow doesn't want that.");
-    });
+    public static ItemOnNPCHandler itemOnCow = new ItemOnNPCHandler(new Object[] { "Cow" }, e -> e.getPlayer().sendMessage("The cow doesn't want that."));
 
-    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Cow" }, (npcId, tile) -> new Cow(npcId, tile));
+    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Cow" }, Cow::new);
     
-    public static NPCDeathHandler count = new NPCDeathHandler(new Object[] { "Cow" }, e -> {
-    	World.getData().getAttribs().incI("cowTrackerKills");
-    });
+    public static NPCDeathHandler count = new NPCDeathHandler(new Object[] { "Cow" }, e -> World.getData().getAttribs().incI("cowTrackerKills"));
     
-    public static ObjectClickHandler signpost = new ObjectClickHandler(new Object[] { 31297 }, e -> {
-    	e.getPlayer().sendMessage("So far, "+World.getData().getAttribs().getI("cowTrackerKills")+" cows have been killed by adventurers.");
-    });
+    public static ObjectClickHandler signpost = new ObjectClickHandler(new Object[] { 31297 }, e -> e.getPlayer().sendMessage("So far, " + World.getData().getAttribs().getI("cowTrackerKills") + " cows have been killed by adventurers."));
 
 }

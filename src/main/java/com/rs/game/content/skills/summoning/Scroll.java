@@ -21,15 +21,18 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.minigames.creations.StealingCreationController;
-import com.rs.game.content.skills.crafting.Jewelry;
+import com.rs.game.content.skills.cooking.Foods;
+import com.rs.game.content.skills.crafting.JewelryCraftingKt;
 import com.rs.game.content.skills.dungeoneering.FamiliarSpecs;
 import com.rs.game.content.skills.farming.FarmPatch;
 import com.rs.game.content.skills.farming.PatchLocation;
 import com.rs.game.content.skills.farming.PatchType;
 import com.rs.game.content.skills.farming.ProduceType;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.content.skills.summoning.combat.impl.BarkerToad;
@@ -151,7 +154,7 @@ public enum Scroll {
 			familiar.freeze(3);
 			familiar.sync(8040, 1440);
 			delayHit(familiar, 2, target, getMeleeHit(familiar, getMaxHit(familiar, 90, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextTile(target.getNearestTeleTile(familiar));
+				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(8041, 1442);
 			});
 			return true;
@@ -227,7 +230,7 @@ public enum Scroll {
 			owner.lock();
 			owner.sync(7660, 1316);
 			familiar.sync(7775, 1461);
-			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, 0, proj -> {
+			World.sendProjectile(familiar, object, 1462, 34, 16, 30, 1.0, 16, proj -> {
 				World.sendSpotAnim(object.getTile(), new SpotAnim(1460));
 				owner.unlock();
 				boolean superCompost = Utils.random(10) == 0;
@@ -285,7 +288,7 @@ public enum Scroll {
 		@Override
 		public boolean object(Player owner, Familiar familiar, GameObject object) {
 			TreeType type = TreeType.forObject(owner, object);
-			if (type == null || !object.getDefinitions().containsOption(0, "Chop down")) {
+			if (type == null || (!object.getDefinitions().containsOption(0, "Chop down") && !object.getDefinitions().containsOption(0, "Cut down"))) {
 				owner.sendMessage("You can't chop that down.");
 				return false;
 			}
@@ -303,15 +306,16 @@ public enum Scroll {
 	CALL_TO_ARMS(12443, ScrollTarget.CLICK, "Teleports the player to the landers at Pest Control.", 0.7, 3) {
 		@Override
 		public boolean use(Player player, Familiar familiar) {
-			if (!Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, 1, null))
-				return false;
-			familiar.sync(switch(familiar.getPouch()) {
-			default -> 8097;
-			case VOID_SPINNER -> 8181;
-			case VOID_TORCHER -> 8243;
-			case VOID_SHIFTER -> 8139;
-			}, 1506);
-			return true;
+			Magic.sendTeleportSpell(player, -1, -1, 1503, 1502, 0, 0.0, Tile.of(2662, 2654, 0), 1, true, TeleType.MAGIC, () -> {
+				familiar.decrementScroll();
+				familiar.sync(switch(familiar.getPouch()) {
+					default -> 8097;
+					case VOID_SPINNER -> 8181;
+					case VOID_TORCHER -> 8243;
+					case VOID_SHIFTER -> 8139;
+				}, 1506);
+			}, null);
+			return false;
 		}
 	},
 	BRONZE_BULL(12461, ScrollTarget.COMBAT, "Fires a magic based attack at the opponent hitting for up to 80 damage.", 3.6, 6) {
@@ -331,7 +335,7 @@ public enum Scroll {
 			}
 			familiar.sync(7903, 1382);
 			player.spotAnim(1300);
-			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
+			int runEnergy = (int) (player.getRunEnergy() + (Math.round((float) player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
 			return true;
 		}
@@ -402,11 +406,11 @@ public enum Scroll {
 	IMMENSE_HEAT(12829, ScrollTarget.ITEM, "Allows the player to craft a single peice of jewelry without a furnace.", 2.3, 6) {
 		@Override
 		public boolean item(Player owner, Familiar familiar, Item item) {
-			if (item.getId() != Jewelry.GOLD_BAR) {
+			if (item.getId() != JewelryCraftingKt.GOLD_BAR) {
 				owner.sendMessage("This must be cast on a gold bar.");
 				return false;
 			}
-			Jewelry.openJewelryInterface(owner, true);
+			JewelryCraftingKt.openInterface(owner, true);
 			return false;
 		}
 	},
@@ -441,7 +445,7 @@ public enum Scroll {
 			familiar.sync(8229, 1521);
 			player.spotAnim(1300);
 			player.getSkills().adjustStat(2, 0.0, Constants.AGILITY);
-			int runEnergy = (int) (player.getRunEnergy() + (Math.round(player.getSkills().getLevel(Constants.AGILITY) / 2)));
+			int runEnergy = (int) (player.getRunEnergy() + (Math.round((float) player.getSkills().getLevel(Constants.AGILITY) / 2)));
 			player.setRunEnergy(runEnergy > 100 ? 100 : runEnergy);
 			return true;
 		}
@@ -504,7 +508,7 @@ public enum Scroll {
 				return false;
 			familiar.freeze(2);
 			delayHit(familiar, 0, target, getMeleeHit(familiar, getMaxHit(familiar, 224, AttackStyle.MELEE, target)), () -> {
-				familiar.setNextTile(target.getNearestTeleTile(familiar));
+				familiar.tele(target.getNearestTeleTile(familiar));
 				familiar.sync(7914, 1366);
 			});
 			return true;
@@ -568,7 +572,8 @@ public enum Scroll {
 			PENGUIN(12483, 12117),
 			VULTURE(11965, 12121);
 			
-			private int id, toId;
+			private final int id;
+            private final int toId;
 			
 			Egg(int id, int toId) {
 				this.id = id;
@@ -651,7 +656,8 @@ public enum Scroll {
 			CAVEFISH(15264, 22),
 			ROCKTAIL(15270, 23);
 			
-			int id, heal;
+			final int id;
+            final int heal;
 			
 			Fish(int id, int heal) {
 				this.id = id;
@@ -709,9 +715,15 @@ public enum Scroll {
 		@Override
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7998, 1346);
-			World.sendProjectile(familiar, target, 1347, 34, 16, 30, 1.5, 16, 0, proj -> target.spotAnim(1348));
-			if (target instanceof Player) {
-				//TODO should eat player food but let's be real who is gonna pk with this right now
+			World.sendProjectile(familiar, target, 1347, 34, 16, 30, 1.5, 16, proj -> target.spotAnim(1348));
+			if (target instanceof Player player) {
+				var foods = Arrays.stream(player.getInventory().getItems().array()).filter(it -> it != null && Foods.isConsumable(it)).toList();
+				if (!foods.isEmpty()) {
+					var food = foods.get(Utils.random(foods.size()));
+					food.setId(2959);
+					food.setAmount(1);
+					player.getInventory().refresh();
+				}
 			}
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -952,9 +964,14 @@ public enum Scroll {
 				owner.sendMessage("Your bank is full!");
 				return false;
 			}
+			if (MinigameUtilKt.isMinigameSupply(item.getId())) {
+				owner.sendMessage("You can't bank that like this.");
+				return false;
+			}
+			if (!owner.getBank().depositItem(item.getSlot(), 1, true))
+				return false;
 			familiar.spotAnim(1358);
 			owner.incrementCount("Items banked with yak");
-			owner.getBank().depositItem(item.getSlot(), 1, true);
 			owner.sendMessage("Your pack yak has sent an item to your bank.", true);
 			return true;
 		}
@@ -1237,12 +1254,11 @@ public enum Scroll {
 	CLAY_DEPOSIT(14421, ScrollTarget.CLICK, "Sends all held clay back to the base.", 0.0, 12) {
 		@Override
 		public boolean use(Player owner, Familiar familiar) { 
-			if (owner.getControllerManager().getController() == null || !(owner.getControllerManager().getController() instanceof StealingCreationController)) {
+			if (owner.getControllerManager().getController() == null || !(owner.getControllerManager().getController() instanceof StealingCreationController sc)) {
 				familiar.dismiss();
 				return false;
 			}
-			StealingCreationController sc = (StealingCreationController) owner.getControllerManager().getController();
-			Score score = sc.getGame().getScore(owner);
+            Score score = sc.getGame().getScore(owner);
 			if (score == null)
 				return false;
 			for (Item item : familiar.getInventory().array()) {
@@ -1254,19 +1270,19 @@ public enum Scroll {
 		}
 	};
 	
-	private static Map<Integer, Scroll> MAP = new HashMap<>();
+	private static final Map<Integer, Scroll> MAP = new HashMap<>();
 	
 	static {
 		for (Scroll s : Scroll.values())
 			MAP.put(s.id, s);
 	}
 	
-	private ScrollTarget target;
-	private String name;
-	private String description;
-	private int id;
-	private double xp;
-	private int pointCost;
+	private final ScrollTarget target;
+	private final String name;
+	private final String description;
+	private final int id;
+	private final double xp;
+	private final int pointCost;
 	private List<Pouch> fromPouches;
 
 	private Scroll(int scrollId, ScrollTarget target, String description, double xp, int pointCost) {

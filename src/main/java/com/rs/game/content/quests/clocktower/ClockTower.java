@@ -27,17 +27,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@QuestHandler(Quest.CLOCK_TOWER)
+@QuestHandler(
+		quest = Quest.CLOCK_TOWER,
+		startText = "Speak to Brother Kojo in the Clock Tower south of Ardougne.",
+		itemsText = "Bucket of water or ice gloves",
+		combatText = "None.",
+		rewardsText = "500 coins",
+		completedStage = ClockTower.QUEST_COMPLETE
+)
 @PluginEventHandler
 public class ClockTower extends QuestOutline {
 	public final static int NOT_STARTED = 0;
 	public final static int REPAIR_CLOCK_TOWER = 1;
 	public final static int QUEST_COMPLETE = 2;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -68,9 +70,7 @@ public class ClockTower extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -87,25 +87,5 @@ public class ClockTower extends QuestOutline {
 		player.sendMessage("Congratulations! You have completed: 'Clock Tower'.");
 		player.getInventory().addCoins(500);
 		sendQuestCompleteInterface(player, 6964);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Brother Kojo in the Clock Tower south of Ardougne.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bucket of water or ice gloves";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "500 coins";
 	}
 }

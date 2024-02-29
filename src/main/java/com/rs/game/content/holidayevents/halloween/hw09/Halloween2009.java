@@ -39,10 +39,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.spawns.ObjectSpawn;
 import com.rs.utils.spawns.ObjectSpawns;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @PluginEventHandler
 public class Halloween2009 {
@@ -54,9 +51,9 @@ public class Halloween2009 {
 
 	public static Tile START_LOCATION = Tile.of(3808, 5135, 0);
 
-	private static HashMap<Integer, Set<Integer>> WEBS = new HashMap<>();
+	private static final HashMap<Integer, Set<Integer>> WEBS = new HashMap<>();
 
-	private static Integer[][] PATHS = {
+	private static final Integer[][] PATHS = {
 			{ 46711, 46710, 46706, 46712 },
 			{ 46711, 46708, 46705, 46698, 46692, 46695, 46715 },
 			{ 46711, 46709, 46707, 46701, 46700, 46696, 46717 },
@@ -73,42 +70,42 @@ public class Halloween2009 {
 		WEBS.put(46711, new HashSet<>(Arrays.asList(46708, 46709, 46710)));
 		WEBS.put(46710, new HashSet<>(Arrays.asList(46711, 46705, 46706, 46707)));
 		WEBS.put(46706, new HashSet<>(Arrays.asList(46710, 46703, 46712, 46704)));
-		WEBS.put(46712, new HashSet<>(Arrays.asList(46706)));
+		WEBS.put(46712, new HashSet<>(List.of(46706)));
 		//Southeast line
 		WEBS.put(46709, new HashSet<>(Arrays.asList(46702, 46707, 46711)));
 		WEBS.put(46707, new HashSet<>(Arrays.asList(46701, 46704, 46709, 46710)));
 		WEBS.put(46704, new HashSet<>(Arrays.asList(46700, 46706, 46707, 46719)));
-		WEBS.put(46719, new HashSet<>(Arrays.asList(46704)));
+		WEBS.put(46719, new HashSet<>(List.of(46704)));
 		//East line
 		WEBS.put(46702, new HashSet<>(Arrays.asList(46701, 46709, 46691)));
 		WEBS.put(46701, new HashSet<>(Arrays.asList(46702, 46707, 46700, 46694)));
 		WEBS.put(46700, new HashSet<>(Arrays.asList(46701, 46704, 46718, 46696)));
-		WEBS.put(46718, new HashSet<>(Arrays.asList(46700)));
+		WEBS.put(46718, new HashSet<>(List.of(46700)));
 		//Northeast line
 		WEBS.put(46691, new HashSet<>(Arrays.asList(46702, 46694, 46688)));
 		WEBS.put(46694, new HashSet<>(Arrays.asList(46691, 46701, 46696, 46689)));
 		WEBS.put(46696, new HashSet<>(Arrays.asList(46694, 46700, 46717, 46693)));
-		WEBS.put(46717, new HashSet<>(Arrays.asList(46696)));
+		WEBS.put(46717, new HashSet<>(List.of(46696)));
 		//North line
 		WEBS.put(46688, new HashSet<>(Arrays.asList(46691, 46689, 46690)));
 		WEBS.put(46689, new HashSet<>(Arrays.asList(46688, 46694, 46693, 46692)));
 		WEBS.put(46693, new HashSet<>(Arrays.asList(46689, 46696, 46716, 46695)));
-		WEBS.put(46716, new HashSet<>(Arrays.asList(46693)));
+		WEBS.put(46716, new HashSet<>(List.of(46693)));
 		//Northwest line
 		WEBS.put(46690, new HashSet<>(Arrays.asList(46688, 46692, 46697)));
 		WEBS.put(46692, new HashSet<>(Arrays.asList(46689, 46695, 46698, 46690)));
 		WEBS.put(46695, new HashSet<>(Arrays.asList(46693, 46715, 46699, 46692)));
-		WEBS.put(46715, new HashSet<>(Arrays.asList(46695)));
+		WEBS.put(46715, new HashSet<>(List.of(46695)));
 		//West line
 		WEBS.put(46697, new HashSet<>(Arrays.asList(46690, 46698, 46708)));
 		WEBS.put(46698, new HashSet<>(Arrays.asList(46697, 46692, 46699, 46705)));
 		WEBS.put(46699, new HashSet<>(Arrays.asList(46698, 46695, 46714, 46703)));
-		WEBS.put(46714, new HashSet<>(Arrays.asList(46699)));
+		WEBS.put(46714, new HashSet<>(List.of(46699)));
 		//Southwest airline
 		WEBS.put(46708, new HashSet<>(Arrays.asList(46697, 46705, 46711)));
 		WEBS.put(46705, new HashSet<>(Arrays.asList(46708, 46698, 46703, 46710)));
 		WEBS.put(46703, new HashSet<>(Arrays.asList(46705, 46699, 46713, 46706)));
-		WEBS.put(46713, new HashSet<>(Arrays.asList(46703)));
+		WEBS.put(46713, new HashSet<>(List.of(46703)));
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
@@ -160,7 +157,7 @@ public class Halloween2009 {
 		boolean needStart = !e.getPlayer().matches(from);
 		if (needStart)
 			e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean started;
 			int failTimer = 3;
 
@@ -174,7 +171,7 @@ public class Halloween2009 {
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(767));
 						e.getPlayer().unlock();
-						e.getPlayer().setNextTile(WEB_RESET_LOC);
+						e.getPlayer().tele(WEB_RESET_LOC);
 					});
 					stop();
 				}
@@ -200,9 +197,7 @@ public class Halloween2009 {
 		e.getPlayer().getControllerManager().startController(new Halloween2009Controller());
 	});
 
-	public static ObjectClickHandler handleGrimStairs = new ObjectClickHandler(new Object[] { 27866, 27870 }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(e.getObjectId() == 27866 ? -5 : 5, 0, e.getObjectId() == 27866 ? 1 : -1));
-	});
+	public static ObjectClickHandler handleGrimStairs = new ObjectClickHandler(new Object[] { 27866, 27870 }, e -> e.getPlayer().useStairs(e.getPlayer().transform(e.getObjectId() == 27866 ? -5 : 5, 0, e.getObjectId() == 27866 ? 1 : -1)));
 
 	public static ObjectClickHandler spiderPortal = new ObjectClickHandler(new Object[] { 46932 }, e -> {
 		if (e.getPlayer().getI(Halloween2009.STAGE_KEY) >= 6) {
@@ -211,7 +206,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
+						e.getPlayer().tele(Tile.of(3936, 5125, 2));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -219,7 +214,7 @@ public class Halloween2009 {
 					e.getPlayer().setNextAnimation(new Animation(12776));
 					WorldTasks.delay(1, () -> {
 						e.getPlayer().setNextAnimation(new Animation(12777));
-						e.getPlayer().setNextTile(Tile.of(3744, 5287, 0));
+						e.getPlayer().tele(Tile.of(3744, 5287, 0));
 						e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 					});
 				});
@@ -228,7 +223,7 @@ public class Halloween2009 {
 			e.getPlayer().setNextAnimation(new Animation(12776));
 			WorldTasks.delay(1, () -> {
 				e.getPlayer().setNextAnimation(new Animation(12777));
-				e.getPlayer().setNextTile(Tile.of(3936, 5125, 2));
+				e.getPlayer().tele(Tile.of(3936, 5125, 2));
 				e.getPlayer().getPackets().sendRunScript(2582, 837, 0, 0); //turn off scenery shadows so people can see the floor...
 			});
 		}
@@ -238,7 +233,7 @@ public class Halloween2009 {
 		e.getPlayer().setNextAnimation(new Animation(12776));
 		WorldTasks.delay(1, () -> {
 			e.getPlayer().setNextAnimation(new Animation(12777));
-			e.getPlayer().setNextTile(Tile.of(3805, 5149, 0));
+			e.getPlayer().tele(Tile.of(3805, 5149, 0));
 		});
 	});
 

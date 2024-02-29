@@ -20,7 +20,6 @@ import java.io.*;
 
 public class XteaMaker {
 
-	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
 			BufferedReader stream = new BufferedReader(new InputStreamReader(new FileInputStream("xtea650.txt")));
@@ -47,8 +46,6 @@ public class XteaMaker {
 					writer.flush();
 				}
 			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

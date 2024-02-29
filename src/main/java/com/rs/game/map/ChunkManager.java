@@ -36,7 +36,7 @@ public final class ChunkManager {
     public static void loadAllMapData() {
         Logger.info(WorldCollision.class, "loadAllMapData", Runtime.getRuntime().maxMemory()/(1024*1024)+"mb heap space available. For better performance, allocate at least 1024mb or 3072mb");
         boolean preloadCollision = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 1024*1024*1024; //1024mb HEAP
-        boolean preloadObjects = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072*1024*1024; //3072mb HEAP
+        boolean preloadObjects = Settings.getConfig().isAllowHighMemUseOptimizations() && Runtime.getRuntime().maxMemory() != Integer.MAX_VALUE && Runtime.getRuntime().maxMemory() > 3072L *1024*1024; //3072mb HEAP
 
         if (preloadCollision) {
             for (int regionId = 0; regionId < 0xFFFF; regionId++) {
@@ -63,7 +63,7 @@ public final class ChunkManager {
         }
     }
 
-    public static final void updateChunks(Entity entity) {
+    public static void updateChunks(Entity entity) {
         if (entity instanceof NPC)
             WorldCollision.clipNPC((NPC) entity);
         if (entity.hasFinished()) {
@@ -84,7 +84,7 @@ public final class ChunkManager {
 
             if (entity instanceof Player player) {
                 if(Settings.getConfig().isDebug() && player.hasStarted() && Music.getGenre(player) == null && !(getChunk(player.getChunkId()) instanceof InstancedChunk))
-                    player.sendMessage(chunkId + " has no music genre!");
+                    player.sendMessage(chunkId + " has no music genre!", true);
                 if (entity.getLastChunkId() > 0)
                     getChunk(entity.getLastChunkId()).removePlayerIndex(entity.getIndex());
                 Chunk chunk = getChunk(chunkId);
@@ -92,7 +92,7 @@ public final class ChunkManager {
 
                 //Unlock all region music at once.
                 int[] musicIds = chunk.getMusicIds();
-                if (player.hasStarted() && musicIds != null && musicIds.length > 0)
+                if (player.hasStarted() && musicIds != null)
                     for (int musicId : musicIds)
                         if (!player.getMusicsManager().hasMusic(musicId))
                             player.getMusicsManager().unlockMusic(musicId);
@@ -200,7 +200,7 @@ public final class ChunkManager {
         }
     }
 
-    public static final Chunk getChunk(int id, boolean load) {
+    public static Chunk getChunk(int id, boolean load) {
         synchronized (CHUNKS) {
             Chunk chunk = CHUNKS.get(id);
             if (CHUNKS.get(id) != null) {
@@ -216,28 +216,28 @@ public final class ChunkManager {
         }
     }
 
-    public static final Chunk getChunk(int id) {
+    public static Chunk getChunk(int id) {
         return getChunk(id, false);
     }
 
-    public static final Chunk putChunk(int id, Chunk chunk) {
+    public static Chunk putChunk(int id, Chunk chunk) {
         synchronized (CHUNKS) {
             return CHUNKS.put(id, chunk);
         }
     }
 
-    public static final Chunk removeChunk(int id) {
+    public static Chunk removeChunk(int id) {
         synchronized (CHUNKS) {
             return CHUNKS.remove(id);
         }
     }
 
-    public static final UpdateZone removeUpdateZone(int baseChunkId, RegionSize size) {
+    public static UpdateZone removeUpdateZone(int baseChunkId, RegionSize size) {
         synchronized (UPDATE_ZONES) {
             UpdateZone zone = UPDATE_ZONES.remove(UpdateZone.getId(baseChunkId, size));
             if (zone == null)
                 return null;
-            Logger.debug(ChunkManager.class, "removeUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone removed");
+            //Logger.debug(ChunkManager.class, "removeUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone removed");
             for (int chunkId : zone.getChunkIds())
                 ChunkManager.getChunk(chunkId).removeUpdateZone(zone);
             for (int regionId : zone.getRegionIds()) {
@@ -254,14 +254,14 @@ public final class ChunkManager {
         }
     }
 
-    public static final UpdateZone getUpdateZone(int baseChunkId, RegionSize size) {
+    public static UpdateZone getUpdateZone(int baseChunkId, RegionSize size) {
         synchronized (UPDATE_ZONES) {
             int id = UpdateZone.getId(baseChunkId, size);
             UpdateZone zone = UPDATE_ZONES.get(id);
             if (zone == null) {
                 zone = new UpdateZone(baseChunkId, size);
                 UPDATE_ZONES.put(id, zone);
-                Logger.debug(ChunkManager.class, "getUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone added");
+                //Logger.debug(ChunkManager.class, "getUpdateZone", UpdateZone.getId(baseChunkId, size) + " update zone added");
                 for (int regionId : zone.getRegionIds()) {
                     List<UpdateZone> zones = UPDATE_ZONES_REGION.get(regionId);
                     if (zones == null) {
@@ -280,7 +280,7 @@ public final class ChunkManager {
     public static void markRegionUnloadable(int regionId) {
         if (!PERMANENTLY_LOADED_REGIONS.contains(regionId)) {
             UNLOADABLE_REGIONS.add(regionId);
-            Logger.debug(ChunkManager.class, "markRegionUnloadable", regionId + " UNLOADABLE");
+            //Logger.debug(ChunkManager.class, "markRegionUnloadable", regionId + " UNLOADABLE");
         }
     }
 
@@ -357,7 +357,7 @@ public final class ChunkManager {
                 }
                 for (int chunkId : chunksToDestroy) {
                     Chunk chunk = getChunk(chunkId);
-                    if (chunk != null)
+                    if (chunk == null)
                         continue;
                     chunk.clearCollisionData();
                     chunk.destroy();

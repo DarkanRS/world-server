@@ -31,7 +31,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 @PluginEventHandler
 public class GrimReaper2007D extends Conversation {
 
-	private static int[] HWEEN_MASKS = { 1053, 1055, 1057 };
+	private static final int[] HWEEN_MASKS = { 1053, 1055, 1057 };
 
 	public static NPCClickHandler handleGrimTalk = new NPCClickHandler(new Object[] { 6390 }, e -> {
 		e.getNPC().resetDirection();
@@ -41,8 +41,8 @@ public class GrimReaper2007D extends Conversation {
 	public GrimReaper2007D(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2007.STAGE_KEY)) {
-		case -1:
+		switch(player.getI(Halloween2007.STAGE_KEY, 0)) {
+		case 0:
 			addPlayer(HeadE.SCARED, "Erm... Excuse me... Could I ask...");
 			addNPC(8867, HeadE.CALM_TALK, "Speak, mortal.");
 			addPlayer(HeadE.SCARED, "Well, sir, lord, erm, your highness...");
@@ -58,9 +58,7 @@ public class GrimReaper2007D extends Conversation {
 			addOption("Select an Option", "I'll help out, no problem.", "That doesn't really appeal, I'm off.");
 			addPlayer(HeadE.CALM_TALK, "I'll help out, no problem.");
 			addNPC(8867, HeadE.CALM_TALK, "Proceeding as instructed is the best way to survive here, human. I can always see you and can speak with you whenever I wish, as this is my domain. Go to the garden for further instructions.");
-			addPlayer(HeadE.CALM_TALK, "Always watched. To the garden. Thank you. Much appreciated.", () -> {
-				player.save(Halloween2007.STAGE_KEY, 1);
-			});
+			addPlayer(HeadE.CALM_TALK, "Always watched. To the garden. Thank you. Much appreciated.", () -> player.save(Halloween2007.STAGE_KEY, 1));
 			break;
 		case 1:
 		case 2:
@@ -139,9 +137,7 @@ public class GrimReaper2007D extends Conversation {
 				player.getEmotesManager().unlockEmote(Emote.LIVING_BORROWED_TIME);
 				player.fakeHit(new Hit(player.getHitpoints(), HitLook.TRUE_DAMAGE));
 				player.sendDeath(null);
-				player.fadeScreen(() -> {
-					player.startConversation(new Dialogue().addPlayer(HeadE.CONFUSED, "Well. That was an experience I will never forget."));
-				});
+				player.fadeScreen(() -> player.startConversation(new Dialogue().addPlayer(HeadE.CONFUSED, "Well. That was an experience I will never forget.")));
 			});
 			break;
 		}

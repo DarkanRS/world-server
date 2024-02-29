@@ -18,8 +18,8 @@ package com.rs.engine.book;
 
 public class BookPage {
 
-	private String[] left;
-	private String[] right;
+	private final String[] left;
+	private final String[] right;
 
 	public BookPage(String[] left, String[] right) {
 		if (left.length > 15 || right.length > 15)

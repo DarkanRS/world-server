@@ -2,7 +2,7 @@ package com.rs.game.content.world.areas.thieves_guild.npcs;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.skills.thieving.HankyPoints;
+import com.rs.game.content.skills.thieving.thievesGuild.HankyPoints;
 import com.rs.game.model.entity.player.Player;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.NPCClickHandler;

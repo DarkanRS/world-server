@@ -91,7 +91,7 @@ public class WarpedGulegaCombat extends CombatScript {
 			}
 			case 0 -> {
 				npc.setNextAnimation(new Animation(15004));
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					Tile center;
 					int cycles;

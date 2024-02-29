@@ -109,6 +109,18 @@ public class Runecrafting {
 					case 5510 -> fillPouch(e.getPlayer(), 1);
 					case 5512 -> fillPouch(e.getPlayer(), 2);
 					case 5514 -> fillPouch(e.getPlayer(), 3);
+					case 24204 -> {
+						if (e.getPlayer().getInventory().containsItem(24205, 1) || e.getPlayer().getBank().containsItem(24205, 1)) {
+							e.getPlayer().sendMessage("You already have a massive pouch.");
+							return;
+						}
+						if (!e.getPlayer().getInventory().hasFreeSlots()) {
+							e.getPlayer().sendMessage("Not enough space in your inventory.");
+							return;
+						}
+						e.getPlayer().getInventory().deleteItem(24204, 1);
+						e.getPlayer().getInventory().addItem(24205, 1);
+					}
 					case 24205 -> fillPouch(e.getPlayer(), 4);
 				}
 			}
@@ -118,6 +130,7 @@ public class Runecrafting {
 					case 5510 -> emptyPouch(e.getPlayer(), 1);
 					case 5512 -> emptyPouch(e.getPlayer(), 2);
 					case 5514 -> emptyPouch(e.getPlayer(), 3);
+					case 24204 -> e.getPlayer().sendMessage("This pouch contains no essence in it.");
 					case 24205 -> emptyPouch(e.getPlayer(), 4);
 				}
 			}
@@ -127,6 +140,7 @@ public class Runecrafting {
 					case 5510 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[1] + (e.getPlayer().getPouchesType()[1] ? " pure" : " rune") + " essence in it.", false);
 					case 5512 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[2] + (e.getPlayer().getPouchesType()[2] ? " pure" : " rune") + " essence in it.", false);
 					case 5514 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[3] + (e.getPlayer().getPouchesType()[3] ? " pure" : " rune") + " essence in it.", false);
+					case 24204 -> e.getPlayer().sendMessage("An empty pouch.");
 					case 24205 -> e.getPlayer().sendMessage("This pouch has " + e.getPlayer().getPouches()[4] + (e.getPlayer().getPouchesType()[4] ? " pure" : " rune") + " essence in it.", false);
 				}
 			}
@@ -134,9 +148,7 @@ public class Runecrafting {
 		e.getPlayer().stopAll(false);
 	});
 	
-	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(new Object[] { AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA }, e -> {
-		e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0);
-	});
+	public static ItemEquipHandler shouldShowEnterOption = new ItemEquipHandler(new Object[] { AIR_TIARA, WATER_TIARA, BODY_TIARA, EARTH_TIARA, FIRE_TIARA, COSMIC_TIARA, NATURE_TIARA, CHAOS_TIARA, LAW_TIARA, DEATH_TIARA, BLOOD_TIARA, SOUL_TIARA, ASTRAL_TIARA, OMNI_TIARA }, e -> e.getPlayer().getVars().setVar(491, e.equip() ? 1 : 0));
 
 	public static void craftTalisman(Player player, RunecraftingTalisman talisman) {
 		player.sendOptionDialogue("What would you like to imbue?", ops -> {
@@ -254,7 +266,7 @@ public class Runecrafting {
 			List<Item> rune = chances.genDrop();
 			if (rune.isEmpty())
 				return ZMIRune.AIR;
-			return BY_ID.get(rune.get(0).getId());
+			return BY_ID.get(rune.getFirst().getId());
 		}
 
 		ZMIRune(double xp, int id, double[] chances) {
@@ -520,6 +532,7 @@ public class Runecrafting {
 				case 5510 -> 1;
 				case 5512 -> 2;
 				case 5514 -> 3;
+				case 24205 -> 4;
 				default -> -1;
 			};
 
@@ -594,8 +607,8 @@ public class Runecrafting {
 	public static ObjectClickHandler handleZmiLadders = new ObjectClickHandler(new Object[] { 26849, 26850 }, e -> {
 		e.getPlayer().setNextAnimation(new Animation(828));
 		switch (e.getObjectId()) {
-			case 26849 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(3271, 4861, 0)));
-			case 26850 -> WorldTasks.delay(1, () -> e.getPlayer().setNextTile(Tile.of(2452, 3232, 0)));
+			case 26849 -> WorldTasks.delay(1, () -> e.getPlayer().tele(Tile.of(3271, 4861, 0)));
+			case 26850 -> WorldTasks.delay(1, () -> e.getPlayer().tele(Tile.of(2452, 3232, 0)));
 		}
 	});
 }

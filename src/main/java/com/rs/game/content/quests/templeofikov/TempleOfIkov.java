@@ -28,17 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@QuestHandler(Quest.TEMPLE_OF_IKOV)
+@QuestHandler(
+		quest = Quest.TEMPLE_OF_IKOV,
+		startText = "Speak to Lucien in the Flying Horse Inn, in the north-west of East Ardougne.",
+		itemsText = "Light source, 20 limpwurt roots.",
+		combatText = "Be able to defeat a level 77 foe.",
+		rewardsText = "10,500 Ranged XP<br>8,000 Fletching XP<brBoots of lightness<br>Access to the Temple of Ikov",
+		completedStage = 2
+)
 @PluginEventHandler
 public class TempleOfIkov extends QuestOutline {
 	public final static int NOT_STARTED = 0;
 	public final static int HELP_LUCIEN = 1;
 	public final static int QUEST_COMPLETE = 2;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -71,9 +73,7 @@ public class TempleOfIkov extends QuestOutline {
 			lines.add("");
 			lines.add("QUEST COMPLETE!");
 		}
-		default -> {
-			lines.add("Invalid quest stage. Report this to an administrator.");
-		}
+		default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -98,26 +98,4 @@ public class TempleOfIkov extends QuestOutline {
 		sendQuestCompleteInterface(player, 855);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Lucien in the Flying Horse Inn, Ardougne.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Light source, 20 limpwurt roots.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Be able to defeat a level 77 foe.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "10,500 Ranged XP<br>" +
-				"8,000 Fletching XP<br"+
-				"Boots of lightness<br>" +
-				"Access to the Temple of Ikov";
-	}
 }

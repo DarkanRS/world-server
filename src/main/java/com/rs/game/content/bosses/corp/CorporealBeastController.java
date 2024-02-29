@@ -17,6 +17,7 @@
 package com.rs.game.content.bosses.corp;
 
 import com.rs.Settings;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -32,7 +33,7 @@ public class CorporealBeastController extends Controller {
 	public static ButtonClickHandler handleEnterWarning = new ButtonClickHandler(650, e -> {
 		if (e.getComponentId() == 15) {
 			e.getPlayer().stopAll();
-			e.getPlayer().setNextTile(Tile.of(2974, 4384, e.getPlayer().getPlane()));
+			e.getPlayer().tele(Tile.of(2974, 4384, e.getPlayer().getPlane()));
 			e.getPlayer().getControllerManager().startController(new CorporealBeastController());
 		} else if (e.getComponentId() == 16)
 			e.getPlayer().closeInterfaces();
@@ -48,20 +49,20 @@ public class CorporealBeastController extends Controller {
 		if (object.getId() == 37929 || object.getId() == 38811) {
 			removeController();
 			player.stopAll();
-			player.setNextTile(Tile.of(2970, 4384, player.getPlane()));
+			player.tele(Tile.of(2970, 4384, player.getPlane()));
 			return false;
 		}
 		return true;
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -73,7 +74,7 @@ public class CorporealBeastController extends Controller {
 				else if (loop == 3) {
 					player.sendPVEItemsOnDeath(null, false);
 					player.reset();
-					player.setNextTile(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
+					player.tele(Tile.of(Settings.getConfig().getPlayerRespawnTile()));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					removeController();

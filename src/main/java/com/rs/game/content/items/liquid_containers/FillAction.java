@@ -16,7 +16,8 @@
 //
 package com.rs.game.content.items.liquid_containers;
 
-import com.rs.game.content.world.unorganized_dialogue.FillingD;
+import com.rs.engine.dialogue.Dialogue;
+import com.rs.engine.dialogue.statements.MakeXStatement;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
@@ -32,13 +33,18 @@ import java.util.Map;
 public class FillAction extends PlayerAction {
 
 	private int amount;
-	private Animation FILLING = new Animation(883);
-	private Filler fill;
+	private final Animation FILLING = new Animation(883);
+	private final Filler fill;
 
 	public static ItemOnObjectHandler handleFilling = new ItemOnObjectHandler(new Object[] { "Waterpump", "Water pump", "Fountain", "Sink", "Well", "Pump" }, Arrays.stream(Filler.values()).map(filler -> filler.getEmptyItem().getId()).toArray(), e -> {
+		Player player = e.getPlayer();
 		Filler fill = FillAction.isFillable(e.getItem());
 		if (fill != null)
-			e.getPlayer().startConversation(new FillingD(e.getPlayer(), fill));
+			player.startConversation(new Dialogue()
+					.addNext(new MakeXStatement(
+							new int[] { fill.getFilledItem().getId() },
+							player.getInventory().getAmountOf(fill.getEmptyItem().getId())))
+					.addNext(() -> player.getActionManager().setAction(new FillAction(MakeXStatement.getQuantity(player), fill))));
 	});
 
 	public enum Filler {
@@ -78,10 +84,10 @@ public class FillAction extends PlayerAction {
 			}
 		}
 
-		private Item empty;
-		private Item filled;
+		private final Item empty;
+		private final Item filled;
 
-		private Filler(Item empty, Item filled) {
+		Filler(Item empty, Item filled) {
 			this.empty = empty;
 			this.filled = filled;
 		}
@@ -112,10 +118,8 @@ public class FillAction extends PlayerAction {
 
 	@Override
 	public boolean process(Player player) {
-		if (!player.getInventory().containsItem(fill.getEmptyItem().getId(), 1))
-			return false;
-		return true;
-	}
+        return player.getInventory().containsItem(fill.getEmptyItem().getId(), 1);
+    }
 
 	@Override
 	public int processWithDelay(Player player) {

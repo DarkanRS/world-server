@@ -17,10 +17,10 @@
 package com.rs.game.content.skills.runecrafting;
 
 import com.rs.game.World;
-import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.mining.Pickaxe;
 import com.rs.game.content.skills.woodcutting.Hatchet;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -100,7 +100,7 @@ public class Abyss {
 			} else if (ticks >= 5 && ticks <= 7)
 				demolish(7158 + (ticks - 5), object);
 			else if (ticks == 9) {
-				player.setNextTile(Tile.of(object.getX(), object.getY() + 13, 0));
+				player.tele(Tile.of(object.getX(), object.getY() + 13, 0));
 				player.resetReceivedHits();
 				player.unlock();
 				return false;
@@ -116,7 +116,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -125,7 +125,7 @@ public class Abyss {
 				if (ticks == 1)
 					player.faceObject(object);
 				else if (ticks == 2)
-					player.setNextAnimation(hatchet.animNormal());
+					player.anim(hatchet.animNormal());
 				else if (ticks == 3) {
 					if (!success(player, Constants.WOODCUTTING)) {
 						player.unlock();
@@ -136,7 +136,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7161 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -148,7 +148,7 @@ public class Abyss {
 
 	public static void clearEyes(final Player player, final GameObject object, final Tile tile) {
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -168,7 +168,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7168 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -180,7 +180,7 @@ public class Abyss {
 
 	public static void clearGap(final Player player, final GameObject object, final Tile tile, final boolean quick) {
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -199,7 +199,7 @@ public class Abyss {
 							return;
 						}
 				} else if (ticks == 4) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -215,7 +215,7 @@ public class Abyss {
 			return;
 		}
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -235,7 +235,7 @@ public class Abyss {
 				} else if (ticks >= 4 && ticks <= 6)
 					demolish(7165 + (ticks - 4), object);
 				else if (ticks == 7) {
-					player.setNextTile(tile);
+					player.tele(tile);
 					player.unlock();
 					stop();
 					return;
@@ -262,16 +262,13 @@ public class Abyss {
 		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
 		npc.setNextSpotAnim(new SpotAnim(343));
 		player.setNextSpotAnim(new SpotAnim(342));
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
-				player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
-				Magic.teleControllersCheck(player, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
-				player.getPrayer().drainPrayer(player.getPrayer().getPoints());
-				player.setWildernessSkull();
-			}
-		}, 2);
+		WorldTasks.schedule(2, () -> {
+			int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
+			player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
+			Teleport.checkDestinationControllers(player, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0));
+			player.getPrayer().drainPrayer(player.getPrayer().getPoints());
+			player.setWildernessSkull();
+		});
 	}
 }
 

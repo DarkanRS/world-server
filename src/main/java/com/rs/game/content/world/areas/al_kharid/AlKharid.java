@@ -41,9 +41,7 @@ public class AlKharid {
 		}
 		e.getStep().setCheckClip(false);
 		e.getPlayer().setRunHidden(false);
-		WorldTasks.delay(3, () -> {
-			e.getPlayer().setRunHidden(true);
-		});
+		WorldTasks.delay(3, () -> e.getPlayer().setRunHidden(true));
 	});
 
 	public static ObjectClickHandler clickShantayPass = new ObjectClickHandler(new Object[] { 12774 }, e -> e.getPlayer().sendMessage("Walk on through with a pass!"));
@@ -56,9 +54,7 @@ public class AlKharid {
 			e.getPlayer().sendMessage("You need 10 gold to pass through this gate.");
 	});
 
-	public static ObjectClickHandler handleStrykewyrmStile = new ObjectClickHandler(new Object[] { 48208 }, e -> {
-		AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0));
-	});
+	public static ObjectClickHandler handleStrykewyrmStile = new ObjectClickHandler(new Object[] { 48208 }, e -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 3 : -3, 0, 0)));
 
 	public static ObjectClickHandler handleMiningSiteShortcut = new ObjectClickHandler(new Object[] { 9331, 9332 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 38)) {
@@ -77,8 +73,8 @@ public class AlKharid {
 	//brimhaven
 	public static ObjectClickHandler handlebrimhavenstairs = new ObjectClickHandler(new Object[] { 45, 46 }, e -> {
 		if (e.getObjectId() == 45)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? -4 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? -0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? -4 : e.getObject().getRotation() == 0 ? 4 : 0, 1));
 		else if (e.getObjectId() == 46)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? 4 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 2 ? 0 : e.getObject().getRotation() == 0 ? -0 : 0, e.getObject().getRotation() == 2 ? 4 : e.getObject().getRotation() == 0 ? -4 : 0, -1));
 	});
 }

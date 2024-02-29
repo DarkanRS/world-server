@@ -45,14 +45,10 @@ public class FaladorGeneralStoreShopkeeper extends Conversation {
 			public void create() {
 
 				option("Yes, please. What are you selling?", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "falador_general_store");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "falador_general_store")));
 				option("How should I use your shop?", new Dialogue()
 						.addNPC(npcId, HeadE.HAPPY_TALKING, "I'm glad you ask! You can buy as many of the items stocked as you wish. You can also sell most items to the shop.")
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "falador_general_store");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "falador_general_store")));
 				option("I think I'll give it a miss.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "I think I'll give it a miss.")
 						.addNPC(npcId, HeadE.HAPPY_TALKING, "Okay, come back soon.")

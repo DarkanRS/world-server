@@ -39,7 +39,14 @@ import com.rs.utils.Ticks;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.SHIELD_OF_ARRAV)
+@QuestHandler(
+        quest = Quest.SHIELD_OF_ARRAV,
+        startText = "Talk to Reldo in the Varrock palace library.",
+        itemsText = "20 coins.",
+        combatText = "You will need to defeat a level 1 enemy.",
+        rewardsText = "1,200 coins",
+        completedStage = 27
+)
 @PluginEventHandler
 public class ShieldOfArrav extends QuestOutline {
     //---Stages---
@@ -69,10 +76,6 @@ public class ShieldOfArrav extends QuestOutline {
     final public static int SPOKE_TO_KING_STAGE = 25;
     final public static int HAS_CERTIFICATE_STAGE = 26;
     final static int QUEST_COMPLETE_STAGE = 27;
-    @Override
-    public int getCompletedStage() {
-        return QUEST_COMPLETE_STAGE;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -235,46 +238,22 @@ public class ShieldOfArrav extends QuestOutline {
     public static void saveStageToPlayerSave(Player p, int questStage) {
         GenericAttribMap questAttr = p.getQuestManager().getAttribs(Quest.SHIELD_OF_ARRAV);
         switch (questStage) {
-            case NOT_STARTED_STAGE -> {
-                questAttr.setB("NOT_STARTED", true);
-            }
+            case NOT_STARTED_STAGE -> questAttr.setB("NOT_STARTED", true);
             case FIND_BOOK_STAGE -> {
                 p.delete("claimedArravLamp");
                 questAttr.setB("FIND_BOOK", true);
             }
-            case BOOK_IS_READ_STAGE -> {
-                questAttr.setB("BOOK_IS_READ", true);
-            }
-            case TALK_TO_BARAEK_STAGE -> {
-                questAttr.setB("TALK_TO_BARAEK", true);
-            }
-            case AFTER_BRIBE_BARAEK_STAGE -> {
-                questAttr.setB("AFTER_BRIBE_BARAEK", true);
-            }
-            case PROVING_LOYALTY_PHOENIX_STAGE -> {
-                questAttr.setB("PROVING_LOYALTY_PHOENIX", true);
-            }
-            case AFTER_BRIBE_CHARLIE_STAGE -> {
-                questAttr.setB("AFTER_BRIBE_CHARLIE", true);
-            }
-            case PROVING_LOYALTY_BLACK_ARM_STAGE -> {
-                questAttr.setB("PROVING_LOYALTY_BLACK_ARM", true);
-            }
-            case JOINED_PHOENIX_STAGE -> {
-                questAttr.setB("JOINED_PHOENIX", true);
-            }
-            case JOINED_BLACK_ARM_STAGE -> {
-                questAttr.setB("JOINED_BLACK_ARM", true);
-            }
-            case HAS_SHIELD_STAGE -> {
-                questAttr.setB("HAS_SHIELD", true);
-            }
-            case SPOKE_TO_KING_STAGE -> {
-                questAttr.setB("SPOKE_TO_KING", true);
-            }
-            case HAS_CERTIFICATE_STAGE -> {
-                questAttr.setB("HAS_CERTIFICATE", true);
-            }
+            case BOOK_IS_READ_STAGE -> questAttr.setB("BOOK_IS_READ", true);
+            case TALK_TO_BARAEK_STAGE -> questAttr.setB("TALK_TO_BARAEK", true);
+            case AFTER_BRIBE_BARAEK_STAGE -> questAttr.setB("AFTER_BRIBE_BARAEK", true);
+            case PROVING_LOYALTY_PHOENIX_STAGE -> questAttr.setB("PROVING_LOYALTY_PHOENIX", true);
+            case AFTER_BRIBE_CHARLIE_STAGE -> questAttr.setB("AFTER_BRIBE_CHARLIE", true);
+            case PROVING_LOYALTY_BLACK_ARM_STAGE -> questAttr.setB("PROVING_LOYALTY_BLACK_ARM", true);
+            case JOINED_PHOENIX_STAGE -> questAttr.setB("JOINED_PHOENIX", true);
+            case JOINED_BLACK_ARM_STAGE -> questAttr.setB("JOINED_BLACK_ARM", true);
+            case HAS_SHIELD_STAGE -> questAttr.setB("HAS_SHIELD", true);
+            case SPOKE_TO_KING_STAGE -> questAttr.setB("SPOKE_TO_KING", true);
+            case HAS_CERTIFICATE_STAGE -> questAttr.setB("HAS_CERTIFICATE", true);
         }
     }
 
@@ -357,26 +336,6 @@ public class ShieldOfArrav extends QuestOutline {
         sendQuestCompleteInterface(player, 11164);
     }
 
-    @Override
-    public String getStartLocationDescription() {
-        return "Talk to Reldo in the Varrock palace library.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "20 coins.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "You will need to defeat a level 1 enemy.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "1,200 coins";
-    }
-
     public static ObjectClickHandler handleBookShelfClick = new ObjectClickHandler(new Object[]{2402, 6916, 15542, 15543, 15544, 23091, 23092, 23102, 24281, 24282, 31207, 35763}, e -> {
     	 Player p = e.getPlayer();
          if (e.getObject().getId() == 2402)
@@ -393,9 +352,7 @@ public class ShieldOfArrav extends QuestOutline {
          }
     });
 
-	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { 757 }, new String[] { "Read" }, e -> {
-		BookShieldOfArrav.openBook(e.getPlayer());
-	});
+	public static ItemClickHandler handleClickOnArravBook = new ItemClickHandler(new Object[] { 757 }, new String[] { "Read" }, e -> BookShieldOfArrav.openBook(e.getPlayer()));
 
 	public static ItemClickHandler handleClickOnIntelReport = new ItemClickHandler(new Object[] { 761 }, new String[] { "Read" }, e -> e.getPlayer().sendMessage("It seems to have intel on the Phoenix gang"));
 
@@ -536,19 +493,17 @@ public class ShieldOfArrav extends QuestOutline {
 			}
 	});
 
-    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(new Object[] { 643 }, new String[] { "Talk-to" }, e -> {
-    	e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-            {
-                addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I would die before I let anyone take a weapon from here...");
-                addPlayer(HeadE.NERVOUS, "Is that so?");
-                addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Yes it is.");
-                addPlayer(HeadE.NERVOUS, "...");
-                addNPC(e.getNPCId(), HeadE.NERVOUS, " . ");
-                addPlayer(HeadE.NERVOUS, " . ");
-                create();
-            }
-        });
-    });
+    public static NPCClickHandler handleWeaponsMaster = new NPCClickHandler(new Object[] { 643 }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+{
+addNPC(e.getNPCId(), HeadE.FRUSTRATED, "I would die before I let anyone take a weapon from here...");
+addPlayer(HeadE.NERVOUS, "Is that so?");
+addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Yes it is.");
+addPlayer(HeadE.NERVOUS, "...");
+addNPC(e.getNPCId(), HeadE.NERVOUS, " . ");
+addPlayer(HeadE.NERVOUS, " . ");
+create();
+}
+}));
     
     public static ItemOnPlayerHandler giveCerts = new ItemOnPlayerHandler(new Object[] { 759, 11173, 11174 }, e -> {
 		if (e.getItem().getAmount() >= 1) {

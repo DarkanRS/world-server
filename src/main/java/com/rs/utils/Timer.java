@@ -5,8 +5,8 @@ import com.rs.lib.util.Utils;
 import java.util.concurrent.TimeUnit;
 
 public class Timer {
-    private long time = 0l;
-    private long timeMs = 0l;
+    private long time = 0L;
+    private long timeMs = 0L;
     public Timer() {
 
     }

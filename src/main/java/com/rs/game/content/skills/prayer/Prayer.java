@@ -48,8 +48,8 @@ public enum Prayer {
 	CHIVALRY			(false, 3826, 25, 5967, 5996, 60, 10d/3),
 	RAPID_RENEWAL		(false, -1/*TODO*/, 26, 7768, 7770, 65, 5d/2),
 	PIETY				(false, 3825, 27, 5968, 5997, 70, 4),
-	RIGOUR				(false, -1/*TODO*/, 28, 7381, 7382, 74, 3),
-	AUGURY				(false, -1/*TODO*/, 29, 7769, 7771, 77, 10d/3),
+	RIGOUR				(false, 2685, 28, 7381, 7382, 74, 3),
+	AUGURY				(false, 2670, 29, 7769, 7771, 77, 10d/3),
 
 	PROTECT_ITEM_C		(true, 11000, 0, 6820, 6862, 50, 1d/3),
 	SAP_WARRIOR			(true, 2675, 1, 6821, 6863, 50, 5d/2),
@@ -72,8 +72,8 @@ public enum Prayer {
 	SOUL_SPLIT			(true, 2675, 18, 6838, 6880, 92, 3),
 	TURMOIL				(true, 11000, 19, 6839, 6881, 95, 3);
 
-	private static Map<Integer, Prayer> NORMALS = new HashMap<>();
-	private static Map<Integer, Prayer> CURSES = new HashMap<>();
+	private static final Map<Integer, Prayer> NORMALS = new HashMap<>();
+	private static final Map<Integer, Prayer> CURSES = new HashMap<>();
 
 	static {
 		for (Prayer p : Prayer.values())
@@ -89,10 +89,13 @@ public enum Prayer {
 		return NORMALS.get(slotId);
 	}
 
-	private boolean curse;
-	private int activateSound;
-	private int slotId, req, varBit, qpVarBit;
-	private double drain;
+	private final boolean curse;
+	private final int activateSound;
+	private final int slotId;
+    private final int req;
+    private final int varBit;
+    private final int qpVarBit;
+	private final double drain;
 
 	private Prayer(boolean curse, int activateSound, int slotId, int varBit, int qpVarBit, int req, double drain) {
 		this.curse = curse;

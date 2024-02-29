@@ -37,20 +37,14 @@ public class Wilderness {
 			e.getPlayer().sendMessage("You attempt to open the chest without disarming the traps.");
 			e.getPlayer().applyHit(new Hit((int) (e.getPlayer().getSkills().getLevel(Skills.HITPOINTS) + 20), Hit.HitLook.TRUE_DAMAGE));
 		}
-		case OBJECT_OP2 -> {
-			Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 32, 14, 7.5, DropSets.getDropSet("magic_axe_hut_chest"));
-		}
+		case OBJECT_OP2 -> Thieving.checkTrapsChest(e.getPlayer(), e.getObject(), 2574, 32, 14, 7.5, DropSets.getDropSet("magic_axe_hut_chest"));
 		default -> e.getPlayer();
 		}
 	});
 
-	public static ObjectClickHandler handleKBDEnterLadder = new ObjectClickHandler(new Object[] { 1765 }, new Tile[] { Tile.of(3017, 3849, 0) }, e -> {
-		e.getPlayer().useStairs(828, Tile.of(3069, 10255, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleKBDEnterLadder = new ObjectClickHandler(new Object[] { 1765 }, new Tile[] { Tile.of(3017, 3849, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3069, 10255, 0), 1, 2));
 
-	public static ObjectClickHandler handleKBDExitLadder = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] { Tile.of(3069, 10256, 0) }, e -> {
-		e.getPlayer().useStairs(828, Tile.of(3017, 3848, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleKBDExitLadder = new ObjectClickHandler(new Object[] { 32015 }, new Tile[] { Tile.of(3069, 10256, 0) }, e -> e.getPlayer().useStairs(828, Tile.of(3017, 3848, 0), 1, 2));
 
 	public static ObjectClickHandler handleKBDEnterLever = new ObjectClickHandler(new Object[] { 1816 }, new Tile[] { Tile.of(3067, 10252, 0) }, e -> {
 		e.getPlayer().stopAll();
@@ -64,7 +58,7 @@ public class Wilderness {
 	});
 
 	public static ObjectClickHandler handleFireGiantDungeonExit = new ObjectClickHandler(new Object[] { 32048 }, new Tile[] { Tile.of(3043, 10328, 0) }, e -> {
-		e.getPlayer().setNextTile(e.getPlayer().transform(3, -6400, 0));
+		e.getPlayer().tele(e.getPlayer().transform(3, -6400, 0));
 		e.getPlayer().getControllerManager().startController(new WildernessController());
 	});
 
@@ -88,7 +82,7 @@ public class Wilderness {
 		if(obj.getId() == 26327)
 			e.getPlayer().forceMove(Tile.of(2943, 3767, 0), 2049, 25, 60);
 		if(obj.getId() == 26328) {
-			p.setNextTile(Tile.of(2943, 3767, 0));
+			p.tele(Tile.of(2943, 3767, 0));
 			e.getPlayer().forceMove(Tile.of(2950, 3767, 0), 2050, 25, 60);
 		}
 

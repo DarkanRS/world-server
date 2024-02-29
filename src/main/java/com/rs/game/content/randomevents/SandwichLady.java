@@ -19,6 +19,8 @@ package com.rs.game.content.randomevents;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -68,9 +70,7 @@ public class SandwichLady extends OwnedNPC {
 			owner.setNextAnimation(new Animation(836));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				Tile tile = RandomEvents.getRandomTile();
-				owner.getControllerManager().processMagicTeleport(tile);
-				owner.setNextTile(tile);
+				Magic.sendNormalTeleportSpell(owner, RandomEvents.getRandomTile());
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});
@@ -83,7 +83,7 @@ public class SandwichLady extends OwnedNPC {
 			forceTalk(randomQuote(getOwner()));
 	}
 	
-	private static final String randomQuote(Player player) {
+	private static String randomQuote(Player player) {
 		return switch(Utils.randomInclusive(0, 8)) {
 		case 0 -> "All types of sandwiches, " + player.getDisplayName() + ".";
 		case 1 -> "Come on " + player.getDisplayName() + ", I made these specifically!!";
@@ -93,9 +93,8 @@ public class SandwichLady extends OwnedNPC {
 	}
 
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 8629 }, e -> {
-		if (e.getNPC() instanceof SandwichLady) {
-			SandwichLady npc = (SandwichLady) e.getNPC();
-			if (npc.ticks >= DURATION)
+		if (e.getNPC() instanceof SandwichLady npc) {
+            if (npc.ticks >= DURATION)
 				return;
 			if (npc.getOwner() != e.getPlayer()) {
 				e.getPlayer().startConversation(new Conversation(new Dialogue()

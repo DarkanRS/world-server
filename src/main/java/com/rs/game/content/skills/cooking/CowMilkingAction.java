@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.skills.cooking;
 
-import com.rs.game.content.world.unorganized_dialogue.GrilleGoatsDialogue;
+import com.rs.game.content.world.areas.lumbridge.npcs.GrilleGoatsDialogue;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.actions.PlayerAction;
 import com.rs.lib.game.Animation;
@@ -47,7 +47,7 @@ public class CowMilkingAction extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		player.setNextAnimation(new Animation(2305));
-		player.soundEffect(372);
+		player.soundEffect(372, true);
 		player.getInventory().deleteItem(new Item(EMPTY_BUCKET, 1));
 		player.getInventory().addItem(new Item(1927));
 		player.sendMessage("You milk the cow.");

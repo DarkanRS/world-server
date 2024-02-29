@@ -26,9 +26,7 @@ public class Tracker2TreeGnomeVillageD extends Conversation {
 				addNPC(NPC, HeadE.CALM_TALK, "But I didn't crack. I told them nothing. They can't break me!");
 				addPlayer(HeadE.HAPPY_TALKING, "I'm sorry little man.");
 				addNPC(NPC, HeadE.CALM_TALK, "Don't be. I have the position of the stronghold!");
-				addPlayer(HeadE.HAPPY_TALKING, "Well done.", ()->{
-					player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker2found", true);
-				});
+				addPlayer(HeadE.HAPPY_TALKING, "Well done.", ()-> player.getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).setB("tracker2found", true));
 				addNPC(NPC, HeadE.CALM_TALK, "Now leave before they find you and all is lost.");
 				addPlayer(HeadE.HAPPY_TALKING, "Hang in there.");
 				addNPC(NPC, HeadE.CALM_TALK, "Go!");

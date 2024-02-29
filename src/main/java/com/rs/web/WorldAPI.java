@@ -37,111 +37,96 @@ public class WorldAPI extends WebAPI {
 	public WorldAPI() {
 		super("api", Settings.getConfig().getWorldInfo().port()+1);
 
-		routes.post("/players", ex -> {
-			ex.dispatch(() -> {
-				APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size());
-			});
-		});
+		routes.get("/players", ex ->
+				ex.dispatch(() -> APIUtil.sendResponse(ex, StatusCodes.OK, World.getPlayers().size())));
 		
-		routes.post("/logout", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, Account.class, account -> {
-					Player player = World.getPlayerByUsername(account.getUsername());
-					if (player == null || player.getSession() == null) {
-						APIUtil.sendResponse(ex, StatusCodes.OK, true);
-						return;
-					}
-					player.forceLogout();
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/logout", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, Account.class, account -> {
+                Player player = World.getPlayerByUsername(account.getUsername());
+                if (player == null || player.getSession() == null) {
+                    APIUtil.sendResponse(ex, StatusCodes.OK, true);
+                    return;
+                }
+                player.forceLogout();
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 		
-		routes.post("/updateclan", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, Clan.class, clan -> {
-					ClansManager.syncClanFromLobby(clan);
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/updateclan", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, Clan.class, clan -> {
+                ClansManager.syncClanFromLobby(clan);
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 
-		routes.post("/updatesocial", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, Account.class, account -> {
-					Player player = World.getPlayerByUsername(account.getUsername());
-					if (player == null || player.getSession() == null) {
-						APIUtil.sendResponse(ex, StatusCodes.OK, true);
-						return;
-					}
-					player.getAccount().setSocial(account.getSocial());
-					player.getClan();
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/updatesocial", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, Account.class, account -> {
+                Player player = World.getPlayerByUsername(account.getUsername());
+                if (player == null || player.getSession() == null) {
+                    APIUtil.sendResponse(ex, StatusCodes.OK, true);
+                    return;
+                }
+                player.getAccount().setSocial(account.getSocial());
+                player.getClan();
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 
-		routes.post("/updatefc", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, FCData.class, fc -> {
-					FCManager.updateFCData(fc);
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/updatefc", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, FCData.class, fc -> {
+                FCManager.updateFCData(fc);
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 
-		routes.post("/sendpacket", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, PacketEncoderDto.class, request -> {
-					Player player = World.getPlayerByUsername(request.username());
-					if (player == null || player.getSession() == null) {
-						APIUtil.sendResponse(ex, StatusCodes.OK, true);
-						return;
-					}
-					player.getSession().writeToQueue(request.encoders());
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/sendpacket", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, PacketEncoderDto.class, request -> {
+                Player player = World.getPlayerByUsername(request.username());
+                if (player == null || player.getSession() == null) {
+                    APIUtil.sendResponse(ex, StatusCodes.OK, true);
+                    return;
+                }
+                player.getSession().writeToQueue(request.encoders());
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 
-		routes.post("/forwardpackets", ex -> {
-			ex.dispatch(() -> {
-				if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
-					APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
-					return;
-				}
-				APIUtil.readJSON(ex, PacketDto.class, packet -> {
-					Player player = World.getPlayerByUsername(packet.username());
-					if (player == null) {
-						APIUtil.sendResponse(ex, StatusCodes.OK, true);
-						return;
-					}
-					for (Packet p : packet.packets())
-						player.getSession().queuePacket(p);
-					APIUtil.sendResponse(ex, StatusCodes.OK, true);
-				});
-			});
-		});
+		routes.post("/forwardpackets", ex -> ex.dispatch(() -> {
+            if (!APIUtil.authenticate(ex, Settings.getConfig().getLobbyApiKey())) {
+                APIUtil.sendResponse(ex, StatusCodes.UNAUTHORIZED, new ErrorResponse("Invalid authorization key."));
+                return;
+            }
+            APIUtil.readJSON(ex, PacketDto.class, packet -> {
+                Player player = World.getPlayerByUsername(packet.username());
+                if (player == null) {
+                    APIUtil.sendResponse(ex, StatusCodes.OK, true);
+                    return;
+                }
+                for (Packet p : packet.packets())
+                    player.getSession().queuePacket(p);
+                APIUtil.sendResponse(ex, StatusCodes.OK, true);
+            });
+        }));
 
 		addRoute(new Telemetry());
 	}

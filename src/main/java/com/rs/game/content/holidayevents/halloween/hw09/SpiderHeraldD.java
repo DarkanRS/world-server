@@ -35,7 +35,7 @@ public class SpiderHeraldD extends Conversation {
 	public SpiderHeraldD(Player player) {
 		super(player);
 
-		switch(player.getI(Halloween2009.STAGE_KEY)) {
+		switch(player.getI(Halloween2009.STAGE_KEY, 0)) {
 		case 3:
 			addNPC(8976, HeadE.SPIDER_CALM, "Who goes there? Four-limbed intruder! Come no further! State your business!");
 			addOptions(new Options() {
@@ -47,9 +47,7 @@ public class SpiderHeraldD extends Conversation {
 							.addNPC(8976, HeadE.SPIDER_CALM, "Tell me, then, have you some patron on whose business you come hither?")
 							.addPlayer(HeadE.CALM_TALK, "Death has sent me; the Grim Reaper.")
 							.addNPC(8976, HeadE.SPIDER_EXCLAIM, "The Grim Reaper! I implore you, grant your pardon for my rudeness! I was told the Queen expected the Dread Lord to send an agent.")
-							.addNPC(8976, HeadE.SPIDER_CALM, "Do not let my words detain you. You should ascend the ladder.", () -> {
-								player.save(Halloween2009.STAGE_KEY, 4);
-							}));
+							.addNPC(8976, HeadE.SPIDER_CALM, "Do not let my words detain you. You should ascend the ladder.", () -> player.save(Halloween2009.STAGE_KEY, 4)));
 					option("Wretched spiders! I will crush you!", new Dialogue()
 							.addPlayer(HeadE.ANGRY, "Wretched spiders! I will crush you!")
 							.addNPC(8976, HeadE.SPIDER_CALM, "What an introduction. I don't think you would stand the slightest chance against us, human."));

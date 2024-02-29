@@ -18,9 +18,7 @@ public class MartinSteelweaver extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need smithing supplies", () -> {
-                    ShopsHandler.openShop(player, "martin_smithing_shop");
-                });
+                option("I need smithing supplies", () -> ShopsHandler.openShop(player, "martin_smithing_shop"));
                 option("Farewell");
             }
         });

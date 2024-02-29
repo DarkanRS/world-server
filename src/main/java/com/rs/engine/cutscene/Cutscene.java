@@ -42,8 +42,8 @@ import java.util.function.Consumer;
 public abstract class Cutscene {
 	private Player player;
 	private int currIndex;
-	private Map<String, Object> objects = new HashMap<>();
-	private List<CutsceneAction> actions = new ArrayList<>();
+	private final Map<String, Object> objects = new HashMap<>();
+	private final List<CutsceneAction> actions = new ArrayList<>();
 	private int delay;
 	private boolean hideMap;
 	private boolean dialoguePaused;
@@ -55,7 +55,7 @@ public abstract class Cutscene {
 
 	public final void stopCutscene() {
 		if (player.getX() != endTile.getX() || player.getY() != endTile.getY() || player.getPlane() != endTile.getPlane())
-			player.setNextTile(endTile);
+			player.tele(endTile);
 		if (hideMap)
 			player.getPackets().setBlockMinimapState(0);
 		restoreDefaultAspectRatio();
@@ -259,7 +259,7 @@ public abstract class Cutscene {
 	
 	public void dialogue(Dialogue dialogue, boolean pause) {
 		if (pause)
-			dialogue.addNext(() -> { dialoguePaused = false; });
+			dialogue.addNext(() -> dialoguePaused = false);
 		actions.add(new DialogueAction(dialogue, pause ? 1 : -1, pause));
 	}
 	
@@ -384,7 +384,7 @@ public abstract class Cutscene {
 	}
 
 	public void npcSpotAnim(String key, int anim, int delay) {
-		npcSpotAnim(key, anim, delay);
+		actions.add(new NPCSpotAnimAction(key, new SpotAnim(anim), delay));
 	}
 	
 	public void npcAnim(String key, Animation anim, int delay) {
@@ -539,7 +539,7 @@ public abstract class Cutscene {
 	}
 	
 	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope, Consumer<WorldProjectile> task) {
-		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, slope, task));
+		action(delay, () -> World.sendProjectile(Tile.of(getX(from.getX()), getY(from.getY()), from.getPlane()), Tile.of(getX(to.getX()), getY(to.getY()), to.getPlane()), graphicId, startHeight, endHeight, startTime, speed, angle, task));
 	}
 	
 	public void projectile(int delay, Tile from, Tile to, int graphicId, int startHeight, int endHeight, int startTime, double speed, int angle, int slope) {
@@ -597,7 +597,7 @@ public abstract class Cutscene {
 	public void returnPlayerFromInstance() {
 		action(() -> {
 			if (instance != null)
-				player.setNextTile(getInstance().getReturnTo());
+				player.tele(getInstance().getReturnTo());
 		});
 	}
 }

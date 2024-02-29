@@ -25,10 +25,10 @@ import java.util.Map;
 
 public class ItemAddedToInventoryEvent implements PluginEvent {
 
-    private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+    private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-    private Player player;
-    private Item item;
+    private final Player player;
+    private final Item item;
 
     public ItemAddedToInventoryEvent(Player player, Item item) {
         this.player = player;
@@ -63,5 +63,13 @@ public class ItemAddedToInventoryEvent implements PluginEvent {
             if (old != null)
                 System.err.println("ERROR: Duplicate ItemAddedToInventory methods for key: " + key + ":");
         }
+    }
+
+    public Player component1() {
+        return player;
+    }
+
+    public Item component2() {
+        return item;
     }
 }

@@ -20,7 +20,14 @@ import com.rs.plugin.handlers.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.HOLY_GRAIL)
+@QuestHandler(
+		quest = Quest.HOLY_GRAIL,
+		startText = "Speak to King Arthur in Camelot.",
+		itemsText = "Excalibur.",
+		combatText = "You will need to defeat a level 28 enemy.",
+		rewardsText = "15,300 Defence XP<br>11,000 Prayer XP<br>Access to the Fisher Realm<br>Ability to use the King Arthur picture in your player-owned house",
+		completedStage = 7
+)
 @PluginEventHandler
 public class HolyGrail extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -31,11 +38,6 @@ public class HolyGrail extends QuestOutline {
 	public final static int SPEAK_TO_PERCIVAL = 5;
 	public final static int GIVE_AURTHUR_HOLY_GRAIL = 6;
 	public final static int QUEST_COMPLETE = 7;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -103,9 +105,7 @@ public class HolyGrail extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -148,23 +148,17 @@ public class HolyGrail extends QuestOutline {
 		}
 	});
 
-	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(new Object[] { 16 }, e -> {
-		if(e.getOption().equalsIgnoreCase("Blow")) {
-			if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
-				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2757, 3475, 0));
-			}
-			if (e.getPlayer().getTile().withinDistance(Tile.of(2742, 3236, 0), 2)) {
-				if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
-					Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2678, 4713, 0));
-					return;
-				}
-				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2803, 4713, 0));
-			}
+	public static ItemClickHandler handleMagicWhisle = new ItemClickHandler(new Object[] { 16 }, new String[] { "Blow" }, e -> {
+		if (e.getPlayer().getRegionId() == 11081 || e.getPlayer().getRegionId() == 10569) {
+			Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2757, 3475, 0));
+			return;
 		}
-		if(e.getOption().equalsIgnoreCase("drop")) {
-			e.getPlayer().getInventory().deleteItem(e.getSlotId(), e.getItem());
-			World.addGroundItem(e.getItem(), Tile.of(e.getPlayer().getTile()), e.getPlayer());
-			e.getPlayer().soundEffect(2739);
+		if (e.getPlayer().getTile().withinDistance(Tile.of(2742, 3236, 0), 2)) {
+			if(e.getPlayer().getQuestManager().getStage(Quest.HOLY_GRAIL) >= GIVE_AURTHUR_HOLY_GRAIL) {
+				Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2678, 4713, 0));
+				return;
+			}
+			Magic.sendNormalTeleportSpell(e.getPlayer(), Tile.of(2803, 4713, 0));
 		}
 	});
 
@@ -173,7 +167,7 @@ public class HolyGrail extends QuestOutline {
 			e.getPlayer().startConversation(new Dialogue()
 					.addSimple("Ting-a-ling!")
 					.addNPC(210, HeadE.CALM_TALK, "Come in, it is cold out!")
-					.addNext(() -> e.getPlayer().setNextTile(Tile.of(2762, 4692, 0))));
+					.addNext(() -> e.getPlayer().tele(Tile.of(2762, 4692, 0))));
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addSimple("Ting-a-ling!"));
@@ -218,6 +212,10 @@ public class HolyGrail extends QuestOutline {
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addSimple("You hear muffled noises from the sack. You open the sack."));
+		if (World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 0).stream().anyMatch(n -> n.getId() == 211 && n instanceof OwnedNPC percival && percival.getOwner() == e.getPlayer())) {
+			e.getPlayer().sendMessage("Sir percival is already freed.");
+			return;
+		}
 		OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, Tile.of(2961, 3504, 0), true);
 		percival.faceEntity(e.getPlayer());
 		percival.setRandomWalk(false);
@@ -228,28 +226,5 @@ public class HolyGrail extends QuestOutline {
 		player.getSkills().addXpQuest(Skills.PRAYER, 11_000);
 		player.getSkills().addXpQuest(Skills.DEFENSE, 15_300);
 		sendQuestCompleteInterface(player, 19);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Arthur in Camelot Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Excalibur.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 28 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "15,300 Defence XP<br>"+
-				"11,000 Prayer XP<br>"+
-				"Access to the Fisher Realm<br>" +
-				"Ability to use the King Arthur picture in your player-owned house";
 	}
 }

@@ -98,9 +98,9 @@ public class Bork extends NPC {
 			drops.add(new Item(12160, 7 * (diaryReward ? 2 : 1) + (row ? 3 : 0)));
 			drops.add(new Item(12163, 5 * (diaryReward ? 2 : 1)));
 			drops.add(new Item(995, Utils.random(2, 20000) * (diaryReward ? 2 : 1)));
-			drops.add(new Item(1623, 1 * (diaryReward ? 2 : 1)));
-			drops.add(new Item(1621, 1 * (diaryReward ? 2 : 1) + (row ? 2 : 0)));
-			drops.add(new Item(1619, 1 * (diaryReward ? 2 : 1) + (row ? 1 : 0)));
+			drops.add(new Item(1623, (diaryReward ? 2 : 1)));
+			drops.add(new Item(1621, (diaryReward ? 2 : 1) + (row ? 2 : 0)));
+			drops.add(new Item(1619, (diaryReward ? 2 : 1) + (row ? 1 : 0)));
 			if (Utils.random(64) == 0)
 				sendDrop(killer, new Item(18778, 1));
 			if (Utils.random(32) == 0)

@@ -26,11 +26,7 @@ import com.rs.lib.game.Tile;
 
 public class WildernessAgility {
 
-	/*
-	 * Author Bandoswhips
-	 */
-
-	public static void GateWalk(final Player player, final GameObject object) {
+	public static void gateWalkIn(final Player player, final GameObject object) {
 		if (!Agility.hasLevel(player, 52))
 			return;
 		if (player.getY() != object.getY()) {
@@ -47,9 +43,7 @@ public class WildernessAgility {
 			GateWalkEnd(player, object);
 	}
 
-	public static void GateWalk2(final Player player, final GameObject object) {
-		if (!Agility.hasLevel(player, 52))
-			return;
+	public static void gateWalkOut(final Player player, final GameObject object) {
 		if (player.getY() != object.getY()) {
 			player.addWalkSteps(2998, 3931, 0, false);
 			player.lock(2);
@@ -83,7 +77,7 @@ public class WildernessAgility {
 		player.lock(7);
 		player.addWalkSteps(objectX, objectY == 3938 ? 3950 : 3937, -1, false);
 		player.sendMessage("You pulled yourself through the pipes.", true);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -92,7 +86,7 @@ public class WildernessAgility {
 					secondloop = true;
 					player.getAppearance().setBAS(295);
 				} else {
-					player.setNextTile(toTile);
+					player.tele(toTile);
 					player.getAppearance().setBAS(-1);
 					setWildernessStage(player, 0);
 					player.setRunHidden(running);
@@ -123,7 +117,7 @@ public class WildernessAgility {
 		if (player.getY() != object.getY())
 			return;
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int x;
 
 			@Override
@@ -150,7 +144,7 @@ public class WildernessAgility {
 		player.lock();
 		player.addWalkSteps(2994, 3945, -1, false);
 		player.sendMessage("You walk carefully across the log...", true);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 
 			@Override
@@ -182,7 +176,7 @@ public class WildernessAgility {
 		WorldTasks.schedule(new Task() {
 			@Override
 			public void run() {
-				player.setNextTile(toTile);
+				player.tele(toTile);
 				player.setNextAnimation(new Animation(-1));
 				player.getAppearance().setBAS(-1);
 				stop();

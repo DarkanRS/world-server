@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -25,7 +26,7 @@ import com.rs.plugin.annotations.PluginEventHandler;
 @PluginEventHandler
 public class PuroPuroController extends Controller {
 
-	private Tile entranceTile;
+	private final Tile entranceTile;
 
 	public PuroPuroController(Tile tile) {
 		this.entranceTile = tile;
@@ -44,7 +45,7 @@ public class PuroPuroController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 
@@ -64,7 +65,7 @@ public class PuroPuroController extends Controller {
 		switch (object.getId()) {
 			case 25014:
 				player.getControllerManager().forceStop();
-				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile, 9, false, Magic.OBJECT_TELEPORT, null);
+				Magic.sendTeleportSpell(player, 6601, -1, 1118, -1, 0, 0, entranceTile, 9, false, TeleType.OBJECT, null);
 				return true;
 		}
 		return true;

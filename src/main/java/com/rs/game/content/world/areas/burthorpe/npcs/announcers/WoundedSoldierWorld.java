@@ -34,5 +34,5 @@ public class WoundedSoldierWorld extends NPC {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 15019,15021,15022,15023,15024,15025,15026,15027,15028,15029,15030,15031,15033 }, (npcId, tile) -> new WoundedSoldierWorld(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 15019,15021,15022,15023,15024,15025,15026,15027,15028,15029,15030,15031,15033 }, WoundedSoldierWorld::new);
 }

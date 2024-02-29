@@ -16,15 +16,16 @@
 //
 package com.rs.game.content.bosses.godwars;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.NexArena;
+import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.world.unorganized_dialogue.NexEntrance;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
-import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
@@ -41,7 +42,7 @@ public class GodwarsController extends Controller {
 	public static int BANDOS = 3;
 	public static int ZAMORAK = 4;
 
-	private int[] killcount = new int[5];
+	private final int[] killcount = new int[5];
 	private long lastPrayerRecharge;
 
 	@Override
@@ -65,22 +66,20 @@ public class GodwarsController extends Controller {
 		return false; // so doesnt remove script
 	}
 
-	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
-			if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
-				if (e.getPlayer().getY() < 5334) {
-					if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
-						e.getPlayer().useStairs(6999, Tile.of(2885, 5347, 2), 1, 1);
-						e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
-						e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
-					} else
-						e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
-				} else
-					e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
-				return;
-			}
-		}, true));
-	});
+	public static ObjectClickHandler handleZamorakEnter = new ObjectClickHandler(false, new Object[] { 26439 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
+        if (e.getPlayer().withinDistance(e.getObject().getTile(), 3)) {
+            if (e.getPlayer().getY() < 5334) {
+                if (e.getPlayer().getSkills().getLevel(Constants.HITPOINTS) >= 70) {
+                    e.getPlayer().useStairs(6999, Tile.of(2885, 5347, 2), 1, 1);
+                    e.getPlayer().getPrayer().drainPrayer(e.getPlayer().getPrayer().getPoints());
+                    e.getPlayer().sendMessage("You jump over the broken bridge. You feel the power of Zamorak take sap away at your prayer points.");
+                } else
+                    e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
+            } else
+                e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
+            return;
+        }
+    }, true)));
 
 	@Override
 	public boolean processObjectClick1(final GameObject object) {
@@ -121,7 +120,7 @@ public class GodwarsController extends Controller {
 
 		if (object.getId() == 26427 && player.getX() >= 2908) {
 			if (killcount[SARADOMIN] >= 40) {
-				player.setNextTile(Tile.of(2907, 5265, 0));
+				player.tele(Tile.of(2907, 5265, 0));
 				killcount[SARADOMIN] -= 40;
 				updateKillcount();
 			} else
@@ -134,7 +133,7 @@ public class GodwarsController extends Controller {
 				boolean withinArmadyl = player.getY() < 5276;
 				final Tile tile = Tile.of(2871, withinArmadyl ? 5279 : 5269, 2);
 				player.lock();
-				WorldTasks.scheduleTimer(tick -> {
+				player.getTasks().scheduleTimer(tick -> {
 					switch(tick) {
 					case 1 -> {
 						player.setNextFaceTile(tile);
@@ -142,10 +141,10 @@ public class GodwarsController extends Controller {
 					}
 					case 3 -> player.setNextAnimation(new Animation(16635));
 					case 4 -> {
-						player.getAppearance().transformIntoNPC(266);
+						player.getAppearance().setHidden(true);
 						World.sendProjectile(Tile.of(player.getTile()), tile, 605, 18, 18, 20, 0.6, 30, 0).getTaskDelay();
 						player.forceMove(tile, 0, 180, false, () -> {
-							player.getAppearance().transformIntoNPC(-1);
+							player.getAppearance().setHidden(false);
 							player.setNextAnimation(new Animation(16672));
 							player.unlock();
 							player.resetReceivedHits();
@@ -163,7 +162,7 @@ public class GodwarsController extends Controller {
 
 		if (object.getId() == 26426 && player.getY() <= 5295) {
 			if (killcount[ARMADYL] >= 40) {
-				player.setNextTile(Tile.of(2839, 5296, 2));
+				player.tele(Tile.of(2839, 5296, 2));
 				killcount[ARMADYL] -= 40;
 				updateKillcount();
 			} else
@@ -173,7 +172,7 @@ public class GodwarsController extends Controller {
 
 		if (object.getId() == 26428 && player.getY() >= 5332) {
 			if (killcount[ZAMORAK] >= 40) {
-				player.setNextTile(Tile.of(2925, 5331, 2));
+				player.tele(Tile.of(2925, 5331, 2));
 				killcount[ZAMORAK] -= 40;
 				updateKillcount();
 			} else
@@ -183,7 +182,7 @@ public class GodwarsController extends Controller {
 
 		if (object.getId() == 26425 && player.getX() <= 2863) {
 			if (killcount[BANDOS] >= 40) {
-				player.setNextTile(Tile.of(2864, 5354, 2));
+				player.tele(Tile.of(2864, 5354, 2));
 				killcount[BANDOS] -= 40;
 				updateKillcount();
 			} else
@@ -237,9 +236,9 @@ public class GodwarsController extends Controller {
 
 		if (object.getId() == 57234) {
 			if (player.getX() == 2859)
-				player.setNextTile(Tile.of(player.getX() + 3, player.getY(), player.getPlane()));
+				player.tele(Tile.of(player.getX() + 3, player.getY(), player.getPlane()));
 			else if (player.getX() == 2862)
-				player.setNextTile(Tile.of(player.getX() - 3, player.getY(), player.getPlane()));
+				player.tele(Tile.of(player.getX() - 3, player.getY(), player.getPlane()));
 			return false;
 		}
 
@@ -247,14 +246,20 @@ public class GodwarsController extends Controller {
 			if (killcount[ZAROS] >= 40 || player.getEquipment().wearingFullCeremonial()) {
 				if (player.getEquipment().wearingFullCeremonial())
 					player.sendMessage("The door somehow recognizes your relevance to the area and allows you to pass through.");
-				player.setNextTile(Tile.of(2900, 5204, 0));
+				player.tele(Tile.of(2900, 5204, 0));
 			} else
 				player.sendMessage("This door is locked by the power of Zaros. You will need to kill at least 40 of his followers before the door will open.");
 			return false;
 		}
 
 		if (object.getId() == 57225) {
-			player.startConversation(new NexEntrance(NexArena.getGlobalInstance(), player));
+			final NexArena globalInstance = NexArena.getGlobalInstance();
+			player.startConversation(new Dialogue().addSimple("The room beyond this point is a prison! There is no way out other than death or teleport. Only those who endure dangerous encounters should proceed.")
+					.addOption("There are currently " + globalInstance.getPlayersCount() + " people fighting.<br>Do you wish to join them?", "Climb down.", "Stay here.")
+					.addNext(() -> {
+						player.tele(Tile.of(2911, 5204, 0));
+						player.getControllerManager().startController(new NexController(globalInstance));
+					}));
 			return false;
 		}
 		return true;
@@ -287,7 +292,7 @@ public class GodwarsController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		remove();
 		removeController();
 	}

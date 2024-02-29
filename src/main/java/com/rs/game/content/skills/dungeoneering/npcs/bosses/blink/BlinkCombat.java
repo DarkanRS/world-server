@@ -83,7 +83,7 @@ public class BlinkCombat extends CombatScript {
 				boss.setNextFaceEntity(null);
 				boss.setNextFaceTile(beginningTile);// Faces the direction it throws into
 				World.sendProjectile(boss, beginningTile, 2853, 18, 18, 50, 50, 0, 0);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					private List<Tile> knifeTargets;
 					private int cycles;

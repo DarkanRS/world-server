@@ -26,20 +26,18 @@ public class AttackNPCHandler {
 		e.getPlayer().getInteractionManager().setInteraction(new PlayerCombatInteraction(e.getPlayer(), e.getNPC()));
 	});
 
-	public static NPCClickHandler combatDummy = new NPCClickHandler(true, new Object[]{7891}, new String[]{"Attack"}, e -> {
-		e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), 0, () -> {
-			if (!e.getPlayer().getControllerManager().canAttack(e.getNPC()))
-				return;
-			e.getNPC().resetWalkSteps();
-			e.getPlayer().faceEntity(e.getNPC());
-			if (e.getPlayer().getSkills().getLevelForXp(Constants.ATTACK) < 5) {
-				if (e.getPlayer().getActionManager().getActionDelay() < 1) {
-					e.getPlayer().getActionManager().setActionDelay(4);
-					e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
-					e.getPlayer().getSkills().addXp(Constants.ATTACK, 15);
-				}
-			} else
-				e.getPlayer().sendMessage("You have nothing more you can learn from this.");
-		}));
-	});
+	public static NPCClickHandler combatDummy = new NPCClickHandler(true, new Object[]{7891}, new String[]{"Attack"}, e -> e.getPlayer().getInteractionManager().setInteraction(new StandardEntityInteraction(e.getNPC(), 0, () -> {
+        if (!e.getPlayer().getControllerManager().canAttack(e.getNPC()))
+            return;
+        e.getNPC().resetWalkSteps();
+        e.getPlayer().faceEntity(e.getNPC());
+        if (e.getPlayer().getSkills().getLevelForXp(Constants.ATTACK) < 5) {
+            if (e.getPlayer().getActionManager().getActionDelay() < 1) {
+                e.getPlayer().getActionManager().setActionDelay(4);
+                e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
+                e.getPlayer().getSkills().addXp(Constants.ATTACK, 15);
+            }
+        } else
+            e.getPlayer().sendMessage("You have nothing more you can learn from this.");
+    })));
 }

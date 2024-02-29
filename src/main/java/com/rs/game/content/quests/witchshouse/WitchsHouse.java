@@ -27,7 +27,14 @@ import java.util.List;
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
-@QuestHandler(Quest.WITCHS_HOUSE)
+@QuestHandler(
+		quest = Quest.WITCHS_HOUSE,
+		startText = "Talk to Harvey, the crying boy west of Falador.",
+		itemsText = "Cheese or cheese wheel, leather gloves, some combat equipment and food.",
+		combatText = "You will need to defeat a shapeshifting enemy with forms up to level 49.",
+		rewardsText = "6,325 Constitution XP",
+		completedStage = 2
+)
 @PluginEventHandler
 public class WitchsHouse extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -49,11 +56,6 @@ public class WitchsHouse extends QuestOutline {
 	protected final static int EXPERIMENT2 = 898;
 	protected final static int EXPERIMENT3 = 899;
 	protected final static int EXPERIMENT4 = 900;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -242,7 +244,7 @@ public class WitchsHouse extends QuestOutline {
 					create();
 				}
 			});
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				NPC mouse;
 				@Override
@@ -288,9 +290,7 @@ public class WitchsHouse extends QuestOutline {
         else
             p.startConversation(new Conversation(e.getPlayer()) {
                 {
-                    addSimple("As your bare hands touch the gate you feel a shock", () -> {
-                        p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE));
-                    });
+                    addSimple("As your bare hands touch the gate you feel a shock", () -> p.applyHit(new Hit(76, Hit.HitLook.TRUE_DAMAGE)));
                     addPlayer(HeadE.SCARED, "I will need some gloves to stop the electric current...");
                     create();
                 }
@@ -327,26 +327,6 @@ public class WitchsHouse extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.HITPOINTS, 6325);
 		sendQuestCompleteInterface(player, BALL);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Harvey, the crying boy west of Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Cheese or cheese wheel, leather gloves, some combat equipment and food.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a shapeshifting enemy with forms up to level 49.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "6,325 Constitution XP";
 	}
 
 }

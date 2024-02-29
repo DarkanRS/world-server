@@ -24,11 +24,11 @@ import java.util.Map;
 
 public class PosCameraAction extends CutsceneAction {
 
-	private int moveLocalX;
-	private int moveLocalY;
-	private int moveZ;
-	private int speed;
-	private int speed2;
+	private final int moveLocalX;
+	private final int moveLocalY;
+	private final int moveZ;
+	private final int speed;
+	private final int speed2;
 
 	public PosCameraAction(int moveLocalX, int moveLocalY, int moveZ, int speed, int speed2, int actionDelay) {
 		super(null, actionDelay);

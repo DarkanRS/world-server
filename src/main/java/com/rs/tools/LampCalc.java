@@ -26,7 +26,8 @@ public class LampCalc {
 		MEDIUM(3, 2500),
 		LARGE(8, 6400);
 
-		private int mul, price;
+		private final int mul;
+        private final int price;
 
 		private Lamp(int mul, int price) {
 			this.mul = mul;
@@ -36,7 +37,7 @@ public class LampCalc {
 		public int getXp(int level) {
 			if (level >= 99)
 				level = 98;
-			return (int) Math.floor(LAMP_XP_VALUES[level - 1] * mul / 4);
+			return (int) ((double) (LAMP_XP_VALUES[level - 1] * mul) / 4);
 		}
 	}
 

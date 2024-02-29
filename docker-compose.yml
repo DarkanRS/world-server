@@ -1,0 +1,31 @@
+version: '3.8'
+
+#NOTE: After running the docker compose once and not having the server start up,
+#go to the volume you are mapping "world-data" to, open worldConfig.json, and where you see
+#"mongoUrl": "localhost", change "localhost" to "mongodb", then start up the docker-compose again
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb_data:/data/db
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: no auth
+#      MONGO_INITDB_ROOT_PASSWORD: no auth
+
+  darkan-world-server:
+    image: registry.gitlab.com/darkanrs/world-server/world-server:latest
+    container_name: darkan-world-server
+    ports:
+      - "43595:43595"
+      - "43596:43596"
+    volumes:
+      - ./world-data:/darkan/world-server/data
+      - ./plugins:/darkan/world-server/plugins
+      - ./cache:/darkan/cache
+    depends_on:
+      - mongodb
+#    environment:
+#      DARKAN_JAVA_VM_ARGS: -Xms1024 -Xmx4096

@@ -52,22 +52,20 @@ public class Summoning {
 		return EnumDefinitions.getEnum(1279).getValues().containsKey((long) npcId);
 	}
 	
-	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134, e -> {
-		e.getPlayer().repeatAction(2, count -> {
-			if (!e.getPlayer().getInventory().containsItem(946, 1)) {
-				e.getPlayer().sendMessage("You need a knife to cut the turnip.");
-				return false;
-			}
-			if (!e.getPlayer().getInventory().containsItem(12134))
-				return false;
-			e.getPlayer().getInventory().deleteItem(12134, 1);
-			e.getPlayer().getInventory().addItem(12153, 1);
-			e.getPlayer().anim(6702);
-			return true;
-		});
-	});
+	public static ItemOnItemHandler handleCarveTurnip = new ItemOnItemHandler(946, 12134, e -> e.getPlayer().repeatAction(2, count -> {
+        if (!e.getPlayer().getInventory().containsItem(946, 1)) {
+            e.getPlayer().sendMessage("You need a knife to cut the turnip.");
+            return false;
+        }
+        if (!e.getPlayer().getInventory().containsItem(12134))
+            return false;
+        e.getPlayer().getInventory().deleteItem(12134, 1);
+        e.getPlayer().getInventory().addItem(12153, 1);
+        e.getPlayer().anim(6702);
+        return true;
+    }));
 
-	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(p -> p.getId()).toArray(), new String[] { "Summon" }, e -> {
+	public static ItemClickHandler handleSummonOps = new ItemClickHandler(Arrays.stream(Pouch.values()).map(Pouch::getId).toArray(), new String[] { "Summon" }, e -> {
 		Pouch pouches = Pouch.forId(e.getItem().getId());
 		if (pouches != null) {
 			if (e.getPlayer().getSkills().getLevelForXp(Constants.SUMMONING) >= pouches.getLevel())
@@ -194,8 +192,8 @@ public class Summoning {
 			player.sendMessage("You do not have the pouch required to create this scroll.");
 			return;
 		}
-		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < scroll.fromPouches().get(0).getLevel()) {
-			player.sendMessage("You need a summoning level of " + scroll.fromPouches().get(0).getLevel() + " to create " + amount + " " + ItemDefinitions.getDefs(scroll.getId()).getName().toLowerCase() + "s.");
+		if (player.getSkills().getLevelForXp(Constants.SUMMONING) < scroll.fromPouches().getFirst().getLevel()) {
+			player.sendMessage("You need a summoning level of " + scroll.fromPouches().getFirst().getLevel() + " to create " + amount + " " + ItemDefinitions.getDefs(scroll.getId()).getName().toLowerCase() + "s.");
 			return;
 		}
 		boolean hasReqs = false;
@@ -248,12 +246,12 @@ public class Summoning {
 	}
 
 	public static String getMaterialListString(Pouch pouch) {
-		String list = "";
+		StringBuilder list = new StringBuilder();
 		if (pouch == null)
 			return "nothing";
 		Item[] items = pouch.getMaterialList().get();
 		for (int i = 0;i < items.length;i++)
-			list += items[i].getAmount() + " " + items[i].getDefinitions().name.toLowerCase() + ((i == items.length - 1) ? "" : ", ");
-		return list;
+			list.append(items[i].getAmount()).append(" ").append(items[i].getDefinitions().name.toLowerCase()).append((i == items.length - 1) ? "" : ", ");
+		return list.toString();
 	}
 }

@@ -17,16 +17,19 @@
 package com.rs.engine.quest;
 
 import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.interfaces.IComponentDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.engine.quest.data.QuestInformation;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.util.GenericAttribMap;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ButtonClickHandler;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +53,8 @@ public class QuestManager {
     private int sort;
     private boolean filter;
     private boolean hideDone;
-    private Map<Integer, Integer> questStages;
-    private Map<Integer, GenericAttribMap> questAttribs;
+    private final Map<Integer, Integer> questStages;
+    private final Map<Integer, GenericAttribMap> questAttribs;
 
     public QuestManager() {
         questStages = new HashMap<>();
@@ -65,19 +68,22 @@ public class QuestManager {
                 return;
             }
             QuestInformation info = quest.getDefs().getExtraInfo();
-            ArrayList<String> lines = new ArrayList<>();
-            if (player.getQuestManager().getStage(quest) > 0)
-                for (int i = 0; i < player.getQuestManager().getStage(quest); i++)
-                    for (String line : quest.getHandler().getJournalLines(player, i))
-                        lines.add("<str>" + line);
-            lines.addAll(quest.getHandler().getJournalLines(player, player.getQuestManager().getStage(quest)));
-
-
+            ArrayList<String> journalLines = new ArrayList<>();
+            if (player.getQuestManager().getStage(quest) > 0) {
+                for (int i = 0; i < player.getQuestManager().getStage(quest); i++) {
+                    for (String line : quest.getHandler().getJournalLines(player, i)) {
+                        for (String subLine : Utils.splitTextIntoLines(line, IComponentDefinitions.getInterfaceComponent(275, 10).fontId, 380))
+                            journalLines.add("<str>" + subLine);
+                    }
+                }
+            }
+            for (String line : quest.getHandler().getJournalLines(player, player.getQuestManager().getStage(quest)))
+                journalLines.addAll(Arrays.asList(Utils.splitTextIntoLines(line, IComponentDefinitions.getInterfaceComponent(275, 10).fontId, 380)));
             player.getInterfaceManager().sendInterface(275);
-            player.getPackets().sendRunScriptReverse(1207, lines.size());
+            player.getPackets().sendRunScriptReverse(1207, journalLines.size());
             player.getPackets().setIFText(275, 1, info.getName());
             for (int i = 10; i < 289; i++)
-                player.getPackets().setIFText(275, i, ((i - 10) >= lines.size() ? " " : lines.get(i - 10)));
+                player.getPackets().setIFText(275, i, ((i - 10) >= journalLines.size() ? " " : journalLines.get(i - 10)));
         }
     }
 
@@ -125,11 +131,7 @@ public class QuestManager {
     }
 
     public GenericAttribMap getAttribs(Quest quest) {
-        GenericAttribMap map = questAttribs.get(quest.getId());
-        if (map == null) {
-            map = new GenericAttribMap();
-            questAttribs.put(quest.getId(), map);
-        }
+        GenericAttribMap map = questAttribs.computeIfAbsent(quest.getId(), k -> new GenericAttribMap());
         return map;
     }
 

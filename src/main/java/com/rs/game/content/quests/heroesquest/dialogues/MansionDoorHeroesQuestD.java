@@ -34,20 +34,16 @@ public class MansionDoorHeroesQuestD extends Conversation {
 				}
 				if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("black_arm_trick") && isWearingBlackArmour())
 					if (player.getInventory().containsItem(1584, 1))
-						addNext(intro.addNext(() -> {
-							player.startConversation(reportDuty
-									.addSimple("You show the ID papers...", () -> {
-										player.getInventory().removeItems(new Item(1584, 1));
-										player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_black_arm", true);
-									})
-									.addNPC(NPC, HeadE.CALM_TALK, "You'd better come in then."));
-						}));
+						addNext(intro.addNext(() -> player.startConversation(reportDuty
+                                .addSimple("You show the ID papers...", () -> {
+                                    player.getInventory().removeItems(new Item(1584, 1));
+                                    player.getQuestManager().getAttribs(Quest.HEROES_QUEST).setB("mansion_open_black_arm", true);
+                                })
+                                .addNPC(NPC, HeadE.CALM_TALK, "You'd better come in then."))));
 					else
-						addNext(intro.addNext(() -> {
-									player.startConversation(reportDuty
-											.addPlayer(HeadE.SECRETIVE, "Uh... Yeah. About that...I must have left them in my other suit of armour.")
-									);
-								})
+						addNext(intro.addNext(() -> player.startConversation(reportDuty
+                                .addPlayer(HeadE.SECRETIVE, "Uh... Yeah. About that...I must have left them in my other suit of armour.")
+                        ))
 						);
 				else if (player.getQuestManager().getAttribs(Quest.HEROES_QUEST).getB("phoenix_trick"))
 					if (player.getInventory().hasCoins(1000))
@@ -65,9 +61,7 @@ public class MansionDoorHeroesQuestD extends Conversation {
 					else
 						addPlayer(HeadE.HAPPY_TALKING, "I'll need some money to bribe him...");
 			}
-			default -> {
-				addNext(intro.addPlayer(HeadE.CALM_TALK, "Nowhere special."));
-			}
+			default -> addNext(intro.addPlayer(HeadE.CALM_TALK, "Nowhere special."));
 		}
 	}
 

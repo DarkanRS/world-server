@@ -2,7 +2,7 @@ package com.rs.game.content.world.areas.thieves_guild.npcs;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.game.content.skills.thieving.HankyPoints;
+import com.rs.game.content.skills.thieving.thievesGuild.HankyPoints;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.util.Utils;
@@ -67,27 +67,5 @@ public class AdvPickpocketingTrainer {
                                 .addPlayer(HeadE.HAPPY_TALKING, "Yes, that was blunt enough. Thank you.");
                     }));
         }
-    });
-
-    public static NPCClickHandler TrainerLure = new NPCClickHandler(new Object[]{11296}, new String[]{"Lure"}, e -> {
-        Player player = e.getPlayer();
-        NPC npc = e.getNPC();
-        player.startConversation(new Dialogue()
-                .addPlayer(HeadE.AMAZED_MILD, Lure[Utils.random(6)])
-                .addNPC(npc.getId(), HeadE.SCARED, "Wha?")
-                .addNext(() -> {
-                    //TODO Lure
-                }));
-    });
-
-    public static NPCClickHandler TrainerCosh = new NPCClickHandler(new Object[]{11296}, new String[]{"Knock-out"}, e -> {
-        Player player = e.getPlayer();
-        NPC npc = e.getNPC();
-        if (player.getEquipment().getWeaponId() != 18644) {
-            player.playerDialogue(HeadE.SKEPTICAL_THINKING, "I'll need a training cosh to practise my technique with.");
-            return;
-        }
-        //TODO blackjacking
-        player.sendMessage("Blackjacking has not been added yet");
     });
 }

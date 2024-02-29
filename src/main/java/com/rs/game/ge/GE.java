@@ -53,11 +53,11 @@ public class GE {
 	private static final int VAR_MEDIAN_PRICE = 1114;
 
 	public enum GrandExchangeType {
-		BUYING, SELLING, ABORTED;
-	}
+		BUYING, SELLING, ABORTED
+    }
 	public enum OfferType {
-		BUY, SELL;
-	}
+		BUY, SELL
+    }
 
 	public static ButtonClickHandler mainInterface = new ButtonClickHandler(105, e -> {
 		if (e.getPlayer().isIronMan()) {
@@ -189,6 +189,7 @@ public class GE {
 			item.setAmount(player.getInventory().getFreeSlots());
 		if (item.getAmount() <= 0 || !player.getInventory().hasRoomFor(item)) {
 			player.sendMessage("Not enough space in your inventory.");
+			player.soundEffect(2277, false);
 			return;
 		}
 		player.getTempAttribs().setB("geLocked", true);
@@ -263,6 +264,7 @@ public class GE {
 	public static void selectItem(Player player, int itemId, int amount) {
 		if (!ItemDefinitions.getDefs(itemId).canExchange()) {
 			player.sendMessage("That item can't be exchanged.");
+			player.soundEffect(2277, false);
 			return;
 		}
 		player.getVars().setVar(VAR_ITEM, itemId);
@@ -270,9 +272,7 @@ public class GE {
 		player.getVars().setVar(VAR_FOR_PRICE_TEXT, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
 		player.getVars().setVar(VAR_MEDIAN_PRICE, ItemDefinitions.getDefs(itemId).getHighAlchPrice());
 		player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(itemId).getExamine(new Item(itemId)));
-		WorldDB.getGE().getBestOffer(itemId, player.getVars().getVar(VAR_IS_SELLING) == 1, offer -> {
-			player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(itemId).getExamine(new Item(itemId)) + "<br>" + "Best offer: " + (offer == null ? "None" : Utils.formatNumber(offer.getPrice())));
-		});
+		WorldDB.getGE().getBestOffer(itemId, player.getVars().getVar(VAR_IS_SELLING) == 1, offer -> player.getPackets().setIFText(OFFER_SELECTION, 143, ItemConfig.get(itemId).getExamine(new Item(itemId)) + "<br>" + "Best offer: " + (offer == null ? "None" : Utils.formatNumber(offer.getPrice()))));
 	}
 
 	public static void confirmOffer(Player player) {
@@ -396,11 +396,11 @@ public class GE {
 				if (diff)
 					if (player.getTempAttribs().getL("GENotificationTime") == 0) {
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.soundEffect(4042);
+						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
-					} else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000*60*1) { //1 minute
+					} else if ((System.currentTimeMillis() - player.getTempAttribs().getL("GENotificationTime")) > 1000 * 60) { //1 minute
 						player.getTempAttribs().setL("GENotificationTime", System.currentTimeMillis());
-						player.soundEffect(4042);
+						player.soundEffect(4042, false);
 						player.sendMessage("One or more of your grand exchange offers has been updated.");
 					}
 			});
@@ -449,22 +449,16 @@ public class GE {
 	}
 
 	public static int getComponentForBox(int box) {
-		switch (box) {
-		case 0:
-			return 523;
-		case 1:
-			return 524;
-		case 2:
-			return 525;
-		case 3:
-			return 526;
-		case 4:
-			return 527;
-		case 5:
-			return 528;
-		}
-		return -1;
-	}
+        return switch (box) {
+            case 0 -> 523;
+            case 1 -> 524;
+            case 2 -> 525;
+            case 3 -> 526;
+            case 4 -> 527;
+            case 5 -> 528;
+            default -> -1;
+        };
+    }
 
 	public static NPCInteractionDistanceHandler clerkDistance = new NPCInteractionDistanceHandler(new Object[] { "Grand Exchange clerk" }, (player, npc) -> 1);
 

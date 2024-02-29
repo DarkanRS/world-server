@@ -24,7 +24,7 @@ public class EntityHitBar extends HitBar {
 		this.entity = entity;
 	}
 
-	private Entity entity;
+	private final Entity entity;
 
 	@Override
 	public int getPercentage() {
@@ -32,7 +32,7 @@ public class EntityHitBar extends HitBar {
 		int maxHp = entity.getMaxHitpoints();
 		if (hp > maxHp)
 			hp = maxHp;
-		return maxHp == 0 ? 0 : (hp * 255 / maxHp);
+		return maxHp == 0 ? 0 : (int) ((long)hp * 255 / maxHp);
 	}
 
 	@Override

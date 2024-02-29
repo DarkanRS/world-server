@@ -75,15 +75,15 @@ public class GameFrame {
 		if (e.getComponentId() == 5)
 			e.getPlayer().getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
 		else if (e.getComponentId() == 41)
-			e.getPlayer().setPrivateChatSetup(e.getPlayer().getPrivateChatSetup() == 0 ? 1 : 0);
+			e.getPlayer().getVars().saveVar(287, e.getPlayer().getVars().getVar(287) == 0 ? 1 : 0);
 		else if (e.getComponentId() >= 17 && e.getComponentId() <= 36)
-			e.getPlayer().setClanChatSetup(e.getComponentId() - 17);
+			e.getPlayer().getVars().saveVarBit(3612, e.getComponentId() - 17);
 		else if (e.getComponentId() >= 97 && e.getComponentId() <= 116)
-			e.getPlayer().setGuestChatSetup(e.getComponentId() - 97);
+			e.getPlayer().getVars().saveVarBit(9191, e.getComponentId() - 97);
 		else if (e.getComponentId() >= 49 && e.getComponentId() <= 66)
-			e.getPlayer().setPrivateChatSetup(e.getComponentId() - 48);
+			e.getPlayer().getVars().saveVar(287, e.getComponentId() - 48);
 		else if (e.getComponentId() >= 72 && e.getComponentId() <= 91)
-			e.getPlayer().setFriendChatSetup(e.getComponentId() - 72);
+			e.getPlayer().getVars().saveVarBit(9188, e.getComponentId() - 72);
 	});
 
 	public static ButtonClickHandler handleSettingsTab = new ButtonClickHandler(261, e -> {

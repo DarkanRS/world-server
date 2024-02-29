@@ -20,6 +20,8 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
@@ -73,9 +75,7 @@ public class Genie extends OwnedNPC {
 			owner.setNextAnimation(new Animation(836));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				Tile tile = RandomEvents.getRandomTile();
-				owner.getControllerManager().processMagicTeleport(tile);
-				owner.setNextTile(tile);
+				Magic.sendNormalTeleportSpell(owner, RandomEvents.getRandomTile());
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});
@@ -87,9 +87,8 @@ public class Genie extends OwnedNPC {
 	}
 
 	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }, e -> {
-		if (e.getNPC() instanceof Genie) {
-			Genie npc = (Genie) e.getNPC();
-			if (npc.ticks >= 149)
+		if (e.getNPC() instanceof Genie npc) {
+            if (npc.ticks >= 149)
 				return;
 			if (npc.getOwner() != e.getPlayer()) {
 				e.getPlayer().startConversation(new Conversation(new Dialogue()

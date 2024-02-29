@@ -34,7 +34,7 @@ import java.util.List;
 public class AgilityPyramidBlock extends NPC {
 
 	private int timer;
-	private Tile dangerTile;
+	private final Tile dangerTile;
 
 	public AgilityPyramidBlock(int id, Tile tile) {
 		super(id, tile);
@@ -79,6 +79,6 @@ public class AgilityPyramidBlock extends NPC {
 		return players;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3124, 2125 }, (npcId, tile) -> new AgilityPyramidBlock(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3124, 2125 }, AgilityPyramidBlock::new);
 
 }

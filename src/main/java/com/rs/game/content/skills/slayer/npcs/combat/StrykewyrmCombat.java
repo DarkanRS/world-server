@@ -87,7 +87,7 @@ public class StrykewyrmCombat extends CombatScript {
 			npc.setNextAnimation(new Animation(12796));
 			npc.setCantInteract(true);
 			npc.getCombat().removeTarget();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 
 				int count;
 

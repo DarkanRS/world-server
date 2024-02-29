@@ -30,14 +30,14 @@ import java.util.Map;
 
 public class ItemOnObjectEvent implements PluginEvent {
 
-	private static Map<Object, Map<Object, Map<Integer, List<ItemOnObjectHandler>>>> OBJECT_HANDLERS = new HashMap<>();
-	private static Map<Object, Map<Integer, List<ItemOnObjectHandler>>> ITEM_HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Object, Map<Integer, List<ItemOnObjectHandler>>>> OBJECT_HANDLERS = new HashMap<>();
+	private static final Map<Object, Map<Integer, List<ItemOnObjectHandler>>> ITEM_HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item;
-	private GameObject object;
-	private boolean atObject;
-	private int objectId;
+	private final Player player;
+	private final Item item;
+	private final GameObject object;
+	private final boolean atObject;
+	private final int objectId;
 
 	public ItemOnObjectEvent(Player player, Item item, GameObject object, boolean atObject) {
 		this.player = player;

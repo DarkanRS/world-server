@@ -32,50 +32,26 @@ public class PollnivneachSlayerDungeon {
 			e.getPlayer().forceMove(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2), 10584, 0, 30);
 	});
 
-	public static ObjectClickHandler handleDownStairsNE = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3374, 9426, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(-52, -5061));
-	});
+	public static ObjectClickHandler handleDownStairsNE = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3374, 9426, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(-52, -5061)));
 
-	public static ObjectClickHandler handleUpStairsNE = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3317, 4364, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(52, 5061));
-	});
+	public static ObjectClickHandler handleUpStairsNE = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3317, 4364, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(52, 5061)));
 
-	public static ObjectClickHandler handleDownStairsSE = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3377, 9367, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(-54, -5028));
-	});
+	public static ObjectClickHandler handleDownStairsSE = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3377, 9367, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(-54, -5028)));
 
-	public static ObjectClickHandler handleUpStairsSE = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3318, 4339, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(54, 5028));
-	});
+	public static ObjectClickHandler handleUpStairsSE = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3318, 4339, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(54, 5028)));
 
-	public static ObjectClickHandler handleDownStairsSW = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3338, 9368, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(-72, -5029));
-	});
+	public static ObjectClickHandler handleDownStairsSW = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3338, 9368, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(-72, -5029)));
 
-	public static ObjectClickHandler handleUpStairsSW = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3271, 4339, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(72, 5029));
-	});
+	public static ObjectClickHandler handleUpStairsSW = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3271, 4339, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(72, 5029)));
 
-	public static ObjectClickHandler handleDownStairsNW = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3340, 9426, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(-68, -5059));
-	});
+	public static ObjectClickHandler handleDownStairsNW = new ObjectClickHandler(new Object[] { 31412 }, new Tile[] { Tile.of(3340, 9426, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(-68, -5059)));
 
-	public static ObjectClickHandler handleUpStairsNW = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3277, 4367, 0) }, e -> {
-		e.getPlayer().useStairs(e.getPlayer().transform(68, 5059));
-	});
+	public static ObjectClickHandler handleUpStairsNW = new ObjectClickHandler(new Object[] { 31417 }, new Tile[] { Tile.of(3277, 4367, 0) }, e -> e.getPlayer().useStairs(e.getPlayer().transform(68, 5059)));
 
-	public static ObjectClickHandler handlepulsingmarkingkurask = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3295, 4407, 0), e -> {
-		e.getPlayer().setNextTile(Tile.of(2700, 9999, 0));
-	});
+	public static ObjectClickHandler handlepulsingmarkingkurask = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3295, 4407, 0), e -> e.getPlayer().tele(Tile.of(2700, 9999, 0)));
 
-	public static ObjectClickHandler handlepulsingmarkingcavecrawler = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3325, 4391, 0), e -> {
-		e.getPlayer().setNextTile(Tile.of(2789, 9997, 0));
-	});
+	public static ObjectClickHandler handlepulsingmarkingcavecrawler = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3325, 4391, 0), e -> e.getPlayer().tele(Tile.of(2789, 9997, 0)));
 
-	public static ObjectClickHandler handlepulsingmarkingbasilisk = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3294, 4293, 0), e -> {
-		e.getPlayer().setNextTile(Tile.of(2743, 10009, 0));
-	});
-	public static ObjectClickHandler handlepulsingmarkingturoth = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3288, 4293, 0), e -> {
-		e.getPlayer().setNextTile(Tile.of(2723, 10005, 0));
-	});
+	public static ObjectClickHandler handlepulsingmarkingbasilisk = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3294, 4293, 0), e -> e.getPlayer().tele(Tile.of(2743, 10009, 0)));
+	public static ObjectClickHandler handlepulsingmarkingturoth = new ObjectClickHandler(new Object[] { 31363 }, Tile.of(3288, 4293, 0), e -> e.getPlayer().tele(Tile.of(2723, 10005, 0)));
 }

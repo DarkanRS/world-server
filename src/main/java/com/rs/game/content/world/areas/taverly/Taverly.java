@@ -121,9 +121,7 @@ public class Taverly {
 		}
 	});
 
-	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> {
-		Doors.handleDoor(e.getPlayer(), e.getObject(), -1);
-	});
+	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
 	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new Tile[] { Tile.of(2946, 3474, 0), Tile.of(2946, 3473, 0) }, e -> {
 		if (!e.isTelegrabbed()) {
@@ -141,8 +139,8 @@ public class Taverly {
 	//Nora T. Hagg House
 	public static ObjectClickHandler handlenorathaggstairs = new ObjectClickHandler(new Object[] { 24672, 24673 }, e -> {
 		if (e.getObjectId() == 24672)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 1 ? -0 : 0,  1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? -0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? 4 : e.getObject().getRotation() == 1 ? -0 : 0,  1));
 		else if (e.getObjectId() == 24673)
-			e.getPlayer().setNextTile(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
+			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
 	});
 }

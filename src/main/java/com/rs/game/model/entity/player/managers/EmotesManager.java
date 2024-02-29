@@ -38,7 +38,7 @@ import java.util.HashMap;
 @PluginEventHandler
 public final class EmotesManager {
 
-	private ArrayList<Emote> unlocked;
+	private final ArrayList<Emote> unlocked;
 	private transient Player player;
 	private transient long nextEmoteEnd;
 
@@ -161,7 +161,7 @@ public final class EmotesManager {
 		MEXICAN_WAVE(115, 11387, "Mexican Wave", new Animation(17163)),
 		SPORTSMAN(116, 11388, "Sportsman", new Animation(17166));
 
-		private static HashMap<Integer, Emote> MAP = new HashMap<>();
+		private static final HashMap<Integer, Emote> MAP = new HashMap<>();
 
 		static {
 			for (Emote emote : Emote.values())
@@ -172,47 +172,47 @@ public final class EmotesManager {
 			return MAP.get(slotId);
 		}
 
-		private int slotId;
-		private int mapId;
-		private String name;
-		private int varpbit;
-		private int value;
-		private Animation animation;
-		private SpotAnim spotAnim;
+		private final int slotId;
+		private final int mapId;
+		private final String name;
+		private final int varpbit;
+		private final int value;
+		private final Animation animation;
+		private final SpotAnim spotAnim;
 
-		private Emote(int slotId, int mapId, String name) {
+		Emote(int slotId, int mapId, String name) {
 			this(slotId, mapId, name, -1, -1, null, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, Animation animation) {
+		Emote(int slotId, int mapId, String name, Animation animation) {
 			this(slotId, mapId, name, -1, -1, animation, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, Animation animation, SpotAnim spotAnim) {
+		Emote(int slotId, int mapId, String name, Animation animation, SpotAnim spotAnim) {
 			this(slotId, mapId, name, -1, -1, animation, spotAnim);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit) {
+		Emote(int slotId, int mapId, String name, int varpbit) {
 			this(slotId, mapId, name, varpbit, 1, null, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit, Animation animation) {
+		Emote(int slotId, int mapId, String name, int varpbit, Animation animation) {
 			this(slotId, mapId, name, varpbit, 1, animation, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit, Animation animation, SpotAnim spotAnim) {
+		Emote(int slotId, int mapId, String name, int varpbit, Animation animation, SpotAnim spotAnim) {
 			this(slotId, mapId, name, varpbit, 1, animation, spotAnim);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit, int value) {
+		Emote(int slotId, int mapId, String name, int varpbit, int value) {
 			this(slotId, mapId, name, varpbit, value, null, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation) {
+		Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation) {
 			this(slotId, mapId, name, varpbit, value, animation, null);
 		}
 
-		private Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation, SpotAnim spotAnim) {
+		Emote(int slotId, int mapId, String name, int varpbit, int value, Animation animation, SpotAnim spotAnim) {
 			this.slotId = slotId;
 			this.mapId = mapId;
 			this.name = name;
@@ -286,6 +286,8 @@ public final class EmotesManager {
 			}
 			if (emote.animation != null) {
 				player.setNextAnimation(emote.animation);
+				if(emote == Emote.AIR_GUITAR)
+					player.jingle(302);
 				if (emote.spotAnim != null)
 					player.setNextSpotAnim(emote.spotAnim);
 			} else if (emote == Emote.TASKMASTER) {
@@ -490,7 +492,7 @@ public final class EmotesManager {
 					player.setNextAnimation(new Animation(13190));
 					player.setNextSpotAnim(new SpotAnim(2442));
 					player.lock();
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						int step;
 
 						@Override
@@ -526,7 +528,7 @@ public final class EmotesManager {
 						break;
 					player.setNextFaceTile(Tile.of(player.getX(), player.getY() - 1, player.getPlane()));
 					player.lock();
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						int step;
 
 						@Override
@@ -593,7 +595,7 @@ public final class EmotesManager {
 					}
 					nextEmoteEnd = World.getServerTicks() + 25;
 					final Tile npcTile = spawnTile;
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						private int step;
 						private NPC npc;
 
@@ -649,7 +651,7 @@ public final class EmotesManager {
 						return;
 					}
 					nextEmoteEnd = World.getServerTicks() + 20;
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						private int step;
 						@Override
 						public void run() {
@@ -679,7 +681,7 @@ public final class EmotesManager {
 				}
 				return;
 			} else if (emote == Emote.GIVE_THANKS)
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					@Override
 					public void run() {
 						if (step == 0) {
@@ -699,8 +701,8 @@ public final class EmotesManager {
 					private int step;
 				}, 0, 1);
 			else if (emote == Emote.SEAL_OF_APPROVAL)
-				WorldTasks.schedule(new Task() {
-					int random = (int) (Math.random() * (2 + 1));
+				WorldTasks.scheduleLooping(new Task() {
+					final int random = (int) (Math.random() * (2 + 1));
 					@Override
 					public void run() {
 						if (step == 0) {

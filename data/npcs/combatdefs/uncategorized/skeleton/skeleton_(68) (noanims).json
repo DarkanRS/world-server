@@ -2,15 +2,15 @@
   "ids": [
     4384
   ],
-  "attackAnim": -1,
-  "attackSound": -1,
-  "defenceAnim": -1,
-  "defendSound": -1,
-  "deathAnim": -1,
+  "attackAnim": 5485,
+  "attackSound": 776,
+  "defenceAnim": 5489,
+  "defendSound": 774,
+  "deathAnim": 5491,
   "deathDelay": 6,
-  "deathSound": -1,
+  "deathSound": 777,
   "respawnDelay": 39,
-  "hitpoints": 180,
+  "hitpoints": 700,
   "maxHit": 20,
   "attackStyle": "MELEE",
   "combatLevels": {

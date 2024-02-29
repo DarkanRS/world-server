@@ -59,8 +59,11 @@ public class Bonfire extends PlayerAction {
 		BLISTERWOOD(21600, 3113, 76, 378, 60),
 		CURSED_MAGIC(13567, 3116, 82, 378, 60);
 
-		private int logId, gfxId, level, boostTime;
-		private double xp;
+		private final int logId;
+        private final int gfxId;
+        private final int level;
+        private final int boostTime;
+		private final double xp;
 
 		private Log(int logId, int gfxId, int level, double xp, int boostTime) {
 			this.logId = logId;
@@ -76,8 +79,8 @@ public class Bonfire extends PlayerAction {
 
 	}
 
-	private Log log;
-	private GameObject object;
+	private final Log log;
+	private final GameObject object;
 	private int count;
 
 	public Bonfire(Log log, GameObject object) {
@@ -109,7 +112,7 @@ public class Bonfire extends PlayerAction {
 		for (Log log : Log.values())
 			if (player.getInventory().containsItem(log.logId, 1))
 				possiblities.add(log);
-		Log[] logs = possiblities.toArray(new Log[possiblities.size()]);
+		Log[] logs = possiblities.toArray(new Log[0]);
 		if (logs.length == 0)
 			player.sendMessage("You do not have any logs to add to this fire.");
 		else if (logs.length == 1)
@@ -153,8 +156,8 @@ public class Bonfire extends PlayerAction {
 		player.setNextSpotAnim(new SpotAnim(log.gfxId));
 		player.sendMessage("You add a log to the fire.", true);
 		if (count++ == 4 && !player.hasEffect(Effect.BONFIRE)) {
-			player.addEffect(Effect.BONFIRE, log.boostTime * 100);
-			int percentage = (int) (getBonfireBoostMultiplier(player) * 100 - 100);
+			player.addEffect(Effect.BONFIRE, log.boostTime * 100L);
+			int percentage = (int) (getBonfireBoostMultiplier(player) * 100);
 			player.sendMessage("<col=00ff00>The bonfire's warmth increases your maximum health by " + percentage + "%. This will last " + log.boostTime + " minutes.");
 		}
 		return 5;
@@ -163,24 +166,24 @@ public class Bonfire extends PlayerAction {
 	public static double getBonfireBoostMultiplier(Player player) {
 		int fmLvl = player.getSkills().getLevel(Constants.FIREMAKING);
 		if (fmLvl >= 90)
-			return 1.1;
+			return 0.1;
 		if (fmLvl >= 80)
-			return 1.09;
+			return 0.09;
 		if (fmLvl >= 70)
-			return 1.08;
+			return 0.08;
 		if (fmLvl >= 60)
-			return 1.07;
+			return 0.07;
 		if (fmLvl >= 50)
-			return 1.06;
+			return 0.06;
 		if (fmLvl >= 40)
-			return 1.05;
+			return 0.05;
 		if (fmLvl >= 30)
-			return 1.04;
+			return 0.04;
 		if (fmLvl >= 20)
-			return 1.03;
+			return 0.03;
 		if (fmLvl >= 10)
-			return 1.02;
-		return 1.01;
+			return 0.02;
+		return 0.01;
 
 	}
 

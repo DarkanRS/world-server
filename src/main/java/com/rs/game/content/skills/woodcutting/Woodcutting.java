@@ -26,6 +26,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -195,7 +196,7 @@ public class Woodcutting extends Action {
 
 	@Override
 	public boolean process(Entity entity) {
-		entity.setNextAnimation(entity instanceof Familiar ? new Animation(7722) : hatchet.getAnim(type));
+		entity.anim(entity instanceof Familiar ? 7722 : hatchet.getAnim(type));
 		if (entity instanceof Familiar)
 			entity.spotAnim(1459);
 		return checkAll(entity) && checkTree();
@@ -209,7 +210,12 @@ public class Woodcutting extends Action {
 		entity.faceObject(treeObj);
 		if (type.rollSuccess(entity instanceof Player player ? player.getAuraManager().getWoodcuttingMul() : 1.0, level, hatchet)) {
 			giveLog(entity);
-			if (!type.isPersistent() || (Utils.random(8) == 0)) {
+			int fellChance = entity instanceof Player player && player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF) ? 16 : 8;
+			if (!type.isPersistent() || (Utils.random(fellChance) == 0)) {
+				if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+					player.sendMessage("Your resourceful aura prevents the tree from being felled.");
+					return 3;
+				}
 				fellTree();
 				entity.setNextAnimation(new Animation(-1));
 				return -1;
@@ -234,17 +240,17 @@ public class Woodcutting extends Action {
 	}
 
 	public static double getLumberjackBonus(Player player) {
-		double xpBoost = 1.00;
+		double xpBoost = 0.0;
 		if (player.getEquipment().getChestId() == 10939)
-			xpBoost += 0.008;
+			xpBoost += 0.01;
 		if (player.getEquipment().getLegsId() == 10940)
-			xpBoost += 0.006;
+			xpBoost += 0.01;
 		if (player.getEquipment().getHatId() == 10941)
-			xpBoost += 0.004;
+			xpBoost += 0.01;
 		if (player.getEquipment().getBootsId() == 10933)
-			xpBoost += 0.002;
+			xpBoost += 0.01;
 		if (player.getEquipment().getChestId() == 10939 && player.getEquipment().getLegsId() == 10940 && player.getEquipment().getHatId() == 10941 && player.getEquipment().getBootsId() == 10933)
-			xpBoost += 0.005;
+			xpBoost += 0.01;
 		return xpBoost;
 	}
 
@@ -260,7 +266,10 @@ public class Woodcutting extends Action {
 					World.addGroundItem(rew, Tile.of(player.getTile()), player, true, 30);
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
-			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() * getLumberjackBonus(player));
+			double bxp = type.getXp() * getLumberjackBonus(player);
+			player.getSkills().addXp(Constants.WOODCUTTING, type.getXp() + bxp);
+			if (bxp > 0.01)
+				player.getSkills().queueBonusXPDrop(bxp);
 			if (player.hasEffect(Effect.JUJU_WOODCUTTING)) {
 				int random = Utils.random(100);
 				if (random < 11)
@@ -272,10 +281,10 @@ public class Woodcutting extends Action {
 				player.sendMessage("<col=FF0000>A bird's nest falls out of the tree!");
 			}
 			if (type.getLogsId() != null) {
-				if (player.hasEffect(Effect.JUJU_WC_BANK)) {
+				if (player.hasEffect(Effect.JUJU_WC_BANK) || player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF)) {
 					for (int item : type.getLogsId())
 						player.getBank().addItem(new Item(item, 1), true);
-					player.setNextSpotAnim(new SpotAnim(2897));
+					player.spotAnim(player.hasEffect(Effect.EVIL_TREE_WOODCUTTING_BUFF) ? 312 : 2897);
 				} else
 					for (int item : type.getLogsId())
 						player.getInventory().addItemDrop(item, 1);

@@ -22,39 +22,37 @@ public class AvanFamilyCrestD extends Conversation {
 			addNPC(NPC, HeadE.CALM_TALK, "What? Can't you see I'm busy?");
 			addPlayer(HeadE.HAPPY_TALKING, "Well, sooooorry...");
 		}
-		case TALK_TO_AVAN -> {
-			addOptions("Choose an option:", new Options() {
-				@Override
-				public void create() {
-					option("Why are you lurking around a scorpion pit?", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "Why are you lurking around a scorpion pit?")
-							.addNPC(NPC, HeadE.CALM_TALK, "It's a good place to find gold...")
-							);
-					option("I'm looking for a man... his name is Avan Fitzharmon.", new Dialogue()
-							.addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a man... his name is Avan Fitzharmon.")
-							.addNPC(NPC, HeadE.CALM_TALK, "Then you have found him. My name is Avan Fitzharmon.")
-							.addPlayer(HeadE.HAPPY_TALKING, "You have a part of your family crest. I am on a quest to retrieve all of the fragmented " +
-									"pieces and restore the crest.")
-							.addNPC(NPC, HeadE.CALM_TALK, "Ha! I suppose one of my worthless brothers has sent you on this quest then?")
-							.addPlayer(HeadE.HAPPY_TALKING, "No, it was your father who has asked me to do this for him.")
-							.addNPC(NPC, HeadE.CALM_TALK, "My... my father wishes this? Then that is a different matter. I will let you have my crest shard, " +
-									"adventurer, but you must first do something for me.")
-							.addNPC(NPC, HeadE.CALM_TALK, "There is a certain lady I am trying to impress. As a man of noble birth, I can not give her just any gold trinket to show my devotion.")
-							.addNPC(NPC, HeadE.CALM_TALK, "What I intend to give her, is a golden ring, embedded with the finest precious red stone available, and a necklace to match this ring")
-							.addNPC(NPC, HeadE.CALM_TALK, "The problem however for me, is that not just any old gold will be suitable. I seek only the purest, the most high quality of gold - what I seek, if you will, is perfect gold.")
-							.addNPC(NPC, HeadE.CALM_TALK, "None of the gold around here is even remotely suitable in terms of quality. I have searched far and wide for the perfect gold I desire")
-							.addNPC(NPC, HeadE.CALM_TALK, "but have had no success so in finding it I am afraid. If you can find me my perfect gold, make a ring and necklace from it,")
-							.addNPC(NPC, HeadE.CALM_TALK, "and add rubies to them, I will gladly hand over my fragment of the family crest to you.")
-							.addPlayer(HeadE.HAPPY_TALKING, "Can you give me any help on finding this 'perfect gold'?")
-							.addNPC(NPC, HeadE.CALM_TALK, "I thought I had found a solid lead on its whereabouts when I heard of a dwarf who is an expert on gold who goes by the name of 'Boot'.")
-							.addNPC(NPC, HeadE.CALM_TALK, "Unfortunately he has apparently returned to this home, somewhere in the mountains, and I have no idea how to find him.")
-							.addPlayer(HeadE.HAPPY_TALKING, "Well, I'll see what I can do", ()->{
-								player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_BOOT);
-							})
-							);
-				}
-			});
-		}
+		case TALK_TO_AVAN -> addOptions("Choose an option:", new Options() {
+            @Override
+            public void create() {
+                option("Why are you lurking around a scorpion pit?", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "Why are you lurking around a scorpion pit?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "It's a good place to find gold...")
+                        );
+                option("I'm looking for a man... his name is Avan Fitzharmon.", new Dialogue()
+                        .addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a man... his name is Avan Fitzharmon.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Then you have found him. My name is Avan Fitzharmon.")
+                        .addPlayer(HeadE.HAPPY_TALKING, "You have a part of your family crest. I am on a quest to retrieve all of the fragmented " +
+                                "pieces and restore the crest.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Ha! I suppose one of my worthless brothers has sent you on this quest then?")
+                        .addPlayer(HeadE.HAPPY_TALKING, "No, it was your father who has asked me to do this for him.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "My... my father wishes this? Then that is a different matter. I will let you have my crest shard, " +
+                                "adventurer, but you must first do something for me.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "There is a certain lady I am trying to impress. As a man of noble birth, I can not give her just any gold trinket to show my devotion.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "What I intend to give her, is a golden ring, embedded with the finest precious red stone available, and a necklace to match this ring")
+                        .addNPC(NPC, HeadE.CALM_TALK, "The problem however for me, is that not just any old gold will be suitable. I seek only the purest, the most high quality of gold - what I seek, if you will, is perfect gold.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "None of the gold around here is even remotely suitable in terms of quality. I have searched far and wide for the perfect gold I desire")
+                        .addNPC(NPC, HeadE.CALM_TALK, "but have had no success so in finding it I am afraid. If you can find me my perfect gold, make a ring and necklace from it,")
+                        .addNPC(NPC, HeadE.CALM_TALK, "and add rubies to them, I will gladly hand over my fragment of the family crest to you.")
+                        .addPlayer(HeadE.HAPPY_TALKING, "Can you give me any help on finding this 'perfect gold'?")
+                        .addNPC(NPC, HeadE.CALM_TALK, "I thought I had found a solid lead on its whereabouts when I heard of a dwarf who is an expert on gold who goes by the name of 'Boot'.")
+                        .addNPC(NPC, HeadE.CALM_TALK, "Unfortunately he has apparently returned to this home, somewhere in the mountains, and I have no idea how to find him.")
+                        .addPlayer(HeadE.HAPPY_TALKING, "Well, I'll see what I can do", ()->{
+                            player.getQuestManager().setStage(Quest.FAMILY_CREST, TALK_TO_BOOT);
+                        })
+                        );
+            }
+        });
 		case TALK_TO_BOOT -> {
 			addNPC(NPC, HeadE.CALM_TALK, "So how are you doing getting me my perfect gold jewelry?");
 			addPlayer(HeadE.HAPPY_TALKING, "I'm still after that 'perfect gold'.");
@@ -88,9 +86,7 @@ public class AvanFamilyCrestD extends Conversation {
 			if(!player.getInventory().containsItem(AVAN_CREST, 1) && !player.getInventory().containsItem(FAMILY_CREST)) {
 				if(player.getInventory().hasFreeSlots()) {
 					addNPC(NPC, HeadE.CALM_TALK, "You lost this.");
-					addSimple("Avan gives you back his crest...", () -> {
-						player.getInventory().addItem(AVAN_CREST, 1);
-					});
+					addSimple("Avan gives you back his crest...", () -> player.getInventory().addItem(AVAN_CREST, 1));
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "I have my crest if you had room for it");
 					addPlayer(HeadE.HAPPY_TALKING, "Okay.");

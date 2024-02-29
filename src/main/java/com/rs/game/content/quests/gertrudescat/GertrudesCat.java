@@ -36,18 +36,16 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.GERTRUDES_CAT)
+@QuestHandler(
+		quest = Quest.GERTRUDES_CAT,
+		startText = "Speak to Gertrude in her house west of Varrock.",
+		itemsText = "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.",
+		combatText = "None.",
+		rewardsText = "1,525 Cooking XP<br>Chocolate cake<br>Bowl of stew<br>Kitten(!)<br>Ability to raise cats",
+		completedStage = 9
+)
 @PluginEventHandler
 public class GertrudesCat extends QuestOutline {
-
-	/**
-	 * Defines the completed stage of the quest. Number should always be the final stage.
-	 */
-	@Override
-	public int getCompletedStage() {
-		return 9;
-	}
-
 	/**
 	 * Defines the journal lines that get displayed when the player opens their quest book
 	 * based on the stage the player is on.
@@ -124,30 +122,6 @@ public class GertrudesCat extends QuestOutline {
 		sendQuestCompleteInterface(player, 1555);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Gertrude in her house west of Varrock.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bucket of milk, raw sardine, doogle leaves (can be obtained from behind Gertrude's house), 100 coins.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,525 Cooking XP<br>" +
-				"Chocolate cake<br>" +
-				"Bowl of stew<br>" +
-				"Kitten(!)<br>" +
-				"Ability to raise cats";
-	}
-
 	/**
 	 * Updates whether Fluffs is visible to the player or not. In this case:
 	 * var 180 = 2 = Fluffs is only visible at the Lumber Yard
@@ -174,7 +148,7 @@ public class GertrudesCat extends QuestOutline {
 	 * NPC id 759 is spawned at the Lumber Yard upstairs.
 	 * NPC id 7744 is spawned in Gertrude's home.
 	 *
-	 * @param Player to update Fluffs for.
+	 * @param com.rs.game.model.entity.player.Player to update Fluffs for.
 	 */
 	public static void updateFluffs(Player player) {
 		if (player.getQuestManager().getStage(Quest.GERTRUDES_CAT) >= 2 && player.getQuestManager().getStage(Quest.GERTRUDES_CAT) < 8)
@@ -219,9 +193,7 @@ public class GertrudesCat extends QuestOutline {
 			if (e.getPlayer().containsItem(13236))
 				return;
 			e.getPlayer().startConversation(new Conversation(new Dialogue()
-					.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> {
-						e.getPlayer().getInventory().addItem(13236, 1);
-					})));
+					.addItem(13236, "You find three little kittens! You carefully place them in your backpack. This explains why Fluffs is so agitated.", () -> e.getPlayer().getInventory().addItem(13236, 1))));
 		}
 	});
 
@@ -246,13 +218,11 @@ public class GertrudesCat extends QuestOutline {
 	 * Handles the creation of doogle sardines.
 	 * @param The event to handle.
 	 */
-	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573, e -> {
-		e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
-			e.getPlayer().getInventory().deleteItem(327, 1);
-			e.getPlayer().getInventory().deleteItem(1573, 1);
-			e.getPlayer().getInventory().addItem(1552, 1);
-		})));
-	});
+	public static ItemOnItemHandler handleDoogleSardineCreation = new ItemOnItemHandler(327, 1573, e -> e.getPlayer().startConversation(new Conversation(new Dialogue().addSimple("You rub the doogle leaves over the sardine.", () -> {
+        e.getPlayer().getInventory().deleteItem(327, 1);
+        e.getPlayer().getInventory().deleteItem(1573, 1);
+        e.getPlayer().getInventory().addItem(1552, 1);
+    }))));
 
 	/**
 	 * Handles the various items you must use on Fluffs at the Lumber Yard to get her to trust you.

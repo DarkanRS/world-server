@@ -36,9 +36,9 @@ public class PortPhasmatys {
 			return;
 		e.getPlayer().sendOptionDialogue(ops -> {
 			if (e.getPlayer().getRegionId() == 14638)
-				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().setNextTile(Tile.of(3713, 3497, 1)));
+				ops.add("Travel to Port Phasmatys.", () -> e.getPlayer().tele(Tile.of(3713, 3497, 1)));
 			else
-				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().setNextTile(Tile.of(3682, 2949, 1)));
+				ops.add("Travel to Mos' Le Harmless.", () -> e.getPlayer().tele(Tile.of(3682, 2949, 1)));
 			ops.add("Nevermind.");
 		});
 	});
@@ -49,39 +49,37 @@ public class PortPhasmatys {
 		Ectofuntus.sendEctophialTeleport(e.getPlayer(), Tile.of(3659, 3523, 0));
 	});
 
-	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				if (e.getPlayer().getEquipment().getAmuletId() != 552) {
-					addNPC(1683, HeadE.CALM_TALK, "Woooowoooooo woooooo!");
-					addSimple("You cannot understand a word the ghost is saying.");
-				} else
-					addOptions("What would you like to say?", new Options() {
-						@Override
-						public void create() {
-							if (!player.containsAnyItems(4251))
-								if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
-									option("Can I have another ectophial?", new Dialogue()
-											.addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
-											.addNPC(1683, HeadE.CALM_TALK, "Of course you can, you have helped us more than we could ever have hoped.")
-											.addItem(4251, "Velorina gives you a vial of bright green ectoplasm.", () -> {
-												if (!player.getInventory().hasFreeSlots()) {
-													player.sendMessage("You don't have enough inventory space.");
-													return;
-												}
-												player.getInventory().addItem(4251);
-											}));
+	public static NPCClickHandler handleVelorina = new NPCClickHandler(new Object[] { 1683 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            if (e.getPlayer().getEquipment().getAmuletId() != 552) {
+                addNPC(1683, HeadE.CALM_TALK, "Woooowoooooo woooooo!");
+                addSimple("You cannot understand a word the ghost is saying.");
+            } else
+                addOptions("What would you like to say?", new Options() {
+                    @Override
+                    public void create() {
+                        if (!player.containsAnyItems(4251))
+                            if (player.isQuestComplete(Quest.GHOSTS_AHOY, "to obtain an ectophial."))
+                                option("Can I have another ectophial?", new Dialogue()
+                                        .addPlayer(HeadE.CONFUSED, "Can I have an ectophial?" + (player.getBool("recTokkulZo") ? " I've lost mine." : ""))
+                                        .addNPC(1683, HeadE.CALM_TALK, "Of course you can, you have helped us more than we could ever have hoped.")
+                                        .addItem(4251, "Velorina gives you a vial of bright green ectoplasm.", () -> {
+                                            if (!player.getInventory().hasFreeSlots()) {
+                                                player.sendMessage("You don't have enough inventory space.");
+                                                return;
+                                            }
+                                            player.getInventory().addItem(4251);
+                                        }));
 
-							option("I thought you were going to pass over to the next world.", new Dialogue()
-									.addPlayer(HeadE.CONFUSED, "I thought you were going to pass over to the next world.")
-									.addNPC(1683, HeadE.CALM_TALK, "All in good time, " + player.getDisplayName() + ". We stand forever in your debt, and will certainly"
-											+ "put in a good word for you when we pass over."));
-						}
-					});
-				create();
-			}
-		});
-	});
+                        option("I thought you were going to pass over to the next world.", new Dialogue()
+                                .addPlayer(HeadE.CONFUSED, "I thought you were going to pass over to the next world.")
+                                .addNPC(1683, HeadE.CALM_TALK, "All in good time, " + player.getDisplayName() + ". We stand forever in your debt, and will certainly"
+                                        + "put in a good word for you when we pass over."));
+                    }
+                });
+            create();
+        }
+    }));
 	
 	public static ObjectClickHandler barTrapdoor = new ObjectClickHandler(new Object[] { 7433, 7434 }, e -> {
 		switch(e.getObjectId()) {

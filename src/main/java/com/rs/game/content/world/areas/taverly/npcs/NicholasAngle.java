@@ -19,9 +19,7 @@ public class NicholasAngle extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need fishing bait", () -> {
-                    ShopsHandler.openShop(player, "nicholas_fishing_shop");
-                });
+                option("I need fishing bait", () -> ShopsHandler.openShop(player, "nicholas_fishing_shop"));
                 option("Tell me more about fishing", new Dialogue().addNPC(npcId,
                         HeadE.HAPPY_TALKING,
                         "Fishing is more than a method of gathering food. It's more than a profession. "

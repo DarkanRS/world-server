@@ -16,9 +16,10 @@
 //
 package com.rs.game.content.transportation;
 
+import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.world.HeroesGuild;
-import com.rs.game.content.world.unorganized_dialogue.Transportation;
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.content.world.areas.burthorpe.HeroesGuild;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -48,7 +49,6 @@ public class ItemTeleports {
 			"miscellania"
 	};
 	private static final String[][] TELEPORT_NAMES = {
-
 			{ "Al Kharid Duel Arena", "Castle Wars Arena", "Mobilizing Armies Command Centre", "Fist Of Guthix", "Nowhere" },
 			{ "Burthorpe Games Room", "Barbarian Outpost", "Gamers' Grotto", "Corporeal Beast", "Nowhere" },
 			{ "Edgeville", "Karamja", "Draynor Village", "Al Kharid", "Nowhere" },
@@ -88,11 +88,26 @@ public class ItemTeleports {
 	private static final int[] LOWEST_AMOUNT = { 2566, 3867, 1706, 10362, 11113, 11126, 11190, 2572, 13288, 19480, 19475, 19479, 19476, 19478, 19477 };
 	public static final int EMOTE = 9603, GFX = 1684, SCROLL_EMOTE = 14293, SCROLL_GFX = 94;
 
+	private static Dialogue getTransportationDialogue(Player player, Item item, int itemId, String... locations) {
+		return new Dialogue().addOptions("Where would you like to teleport to?", (ops) -> {
+			for (int i = 0; i < locations.length; i++) {
+				final int index = i;
+				ops.add(locations[i], () -> {
+					if (item != null) {
+						ItemTeleports.sendTeleport(player, item, index);
+						return;
+					}
+					ItemTeleports.sendTeleport(player, player.getInventory().getItems().lookup(itemId), index, false, locations.length);
+				});
+			}
+		});
+	}
+
 	public static boolean transportationDialogue(Player player, Item item) {
 		int index = getIndex(item);
 		if (!checkAll(player, item, index, 0, 1))
 			return false;
-		player.startConversation(new Transportation(player, null, item.getId(), TELEPORT_NAMES[index]));
+		player.startConversation(getTransportationDialogue(player, null, item.getId(), TELEPORT_NAMES[index]));
 		return true;
 	}
 
@@ -100,7 +115,7 @@ public class ItemTeleports {
 		int index = getIndex(new Item(itemId, 1));
 		if (index == -1)
 			return false;
-		player.startConversation(new Transportation(player, new Item(itemId, 1), itemId, TELEPORT_NAMES[index]));
+		player.startConversation(getTransportationDialogue(player, new Item(itemId, 1), itemId, TELEPORT_NAMES[index]));
 		return true;
 	}
 
@@ -133,7 +148,7 @@ public class ItemTeleports {
 			player.sendMessage("Error handling teleport option. Report this to administrators.");
 			return;
 		}
-		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, TeleType.ITEM, null);
 	}
 
 	public static void sendTeleport(Player player, Item item, int optionIndex, boolean equipmentTeleport) {
@@ -146,7 +161,7 @@ public class ItemTeleports {
 			return;
 		if (HeroesGuild.isGloryOrROW(item.getId()))
 			player.getTempAttribs().setB("glory", true);
-		if (Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, Magic.ITEM_TELEPORT, null)) {
+		Magic.sendTeleportSpell(player, getFirstEmote(index), -2, getFirstGFX(index), -1, 0, 0, COORDINATES[index][optionIndex], 4, true, TeleType.ITEM, () -> {
 			int newItemId = item.getId() + ((isNegative(index) ? -1 : 1) * (isIncremented(index) ? 2 : 1)), slot = equipmentTeleport ? Equipment.getItemSlot(item.getId()) : player.getInventory().getItems().getThisItemSlot(item);
 			if (item.getId() == LOWEST_AMOUNT[index] && destroyOnEmpty(index)) {
 				if (equipmentTeleport)
@@ -163,7 +178,7 @@ public class ItemTeleports {
 				else
 					player.getInventory().refresh(slot);
 			}
-		}
+		});
 	}
 
 	private static boolean isScrollTeleport(int index) {

@@ -30,10 +30,10 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class OwnedObject extends GameObject {
 
-	private static Map<Integer, OwnedObject> OBJECTS = new ConcurrentHashMap<>();
-	private static Map<String, Map<Integer, OwnedObject>> OWNER_MAP = new ConcurrentHashMap<>();
+	private static final Map<Integer, OwnedObject> OBJECTS = new ConcurrentHashMap<>();
+	private static final Map<String, Map<Integer, OwnedObject>> OWNER_MAP = new ConcurrentHashMap<>();
 
-	private String owner;
+	private final String owner;
 	private boolean destroyed;
 
 	public OwnedObject(Player player, GameObject object) {
@@ -71,14 +71,12 @@ public class OwnedObject extends GameObject {
 
 	public static void processAll() {
 		try {
-			Iterator<Integer> it = OBJECTS.keySet().iterator();
-			while (it.hasNext()) {
-				Integer key = it.next();
-				OwnedObject o = OBJECTS.get(key);
-				if (o == null || o.destroyed)
-					continue;
-				o.tick(World.getPlayerByUsername(o.owner));
-			}
+            for (Integer key : OBJECTS.keySet()) {
+                OwnedObject o = OBJECTS.get(key);
+                if (o == null || o.destroyed)
+                    continue;
+                o.tick(World.getPlayerByUsername(o.owner));
+            }
 		} catch(Throwable e) {
 			Logger.handle(OwnedObject.class, "process", e);
 		}

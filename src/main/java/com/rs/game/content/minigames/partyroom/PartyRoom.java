@@ -56,12 +56,12 @@ public class PartyRoom {
 	public static int timer = -1;
 
 	private static final int[] BALLOON_IDS = { 115, 116, 117, 118, 119, 120, 121, 122 };
-	private static String[] SONG = { "We're the knights of the party room", "We dance round and round like a loon", "Quite often we like to sing", "Unfortunately we make a din", "We're the knights of the party room",
+	private static final String[] SONG = { "We're the knights of the party room", "We dance round and round like a loon", "Quite often we like to sing", "Unfortunately we make a din", "We're the knights of the party room",
 			"Do you like our helmet plumes?", "Everyone's happy now we can move", "Like a party animal in the groove" };
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		WorldTasks.schedule(2, 2, () -> {
+		WorldTasks.scheduleLooping(2, 2, () -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -131,7 +131,7 @@ public class PartyRoom {
 			npcs[i] = new NPC(660, Tile.of(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -170,15 +170,11 @@ public class PartyRoom {
 		return item;
 	}
 
-	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }, e -> {
-		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> {
-			e.getPlayer().sendOptionDialogue(ops -> {
-				ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
-				ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
-				ops.add("No action.");
-			});
-		}));
-	});
+	public static ObjectClickHandler handleLever = new ObjectClickHandler(false, new Object[] { 26194 }, e -> e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(e.getObject().getTile()), () -> e.getPlayer().sendOptionDialogue(ops -> {
+ops.add("Balloon Bonanza (1000 coins).", () -> purchase(e.getPlayer(), true));
+ops.add("Nightly Dance (500 coins).", () -> purchase(e.getPlayer(), false));
+ops.add("No action.");
+}))));
 	
 	public static ObjectClickHandler handleBalloons = new ObjectClickHandler(new Object[] { 115, 116, 117, 118, 119, 120, 121, 122 }, e -> {
 		if (e.getObject() instanceof Balloon balloon) {
@@ -352,7 +348,7 @@ public class PartyRoom {
 		long total = 0;
 		for (Item item : World.getData().getPartyRoomDrop().array())
 			if (item != null)
-				total += item.getDefinitions().getValue() * item.getAmount();
+				total += (long) item.getDefinitions().getValue() * item.getAmount();
 		return total;
 	}
 

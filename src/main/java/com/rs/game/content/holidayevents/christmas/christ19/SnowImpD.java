@@ -39,7 +39,7 @@ public class SnowImpD extends Conversation {
 	public SnowImpD(Player player) {
 		super(player);
 
-		switch(player.getI(Christmas2019.STAGE_KEY)) {
+		switch(player.getI(Christmas2019.STAGE_KEY, 0)) {
 		case 1:
 			addPlayer(HeadE.CALM_TALK, "Hey, you're Rasmus right?");
 			addNPC(IMP_HEAD, HeadE.CHEERFUL, "Yep, dats me. Heard ya need help findin summa dem rogue imps.");
@@ -51,7 +51,7 @@ public class SnowImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da potatoes! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
 				player.save(Christmas2019.STAGE_KEY, 2);
-				player.setChrist19Loc(Imp.POTATOES.randomLoc());
+				player.save(Christmas2019.STAGE_KEY+"loc", Imp.POTATOES.randomLoc().ordinal());
 			});
 			break;
 		case 3:
@@ -61,7 +61,7 @@ public class SnowImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da wine! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
 				player.save(Christmas2019.STAGE_KEY, 4);
-				player.setChrist19Loc(Imp.WINE.randomLoc());
+				player.save(Christmas2019.STAGE_KEY+"loc", Imp.WINE.randomLoc().ordinal());
 			});
 			break;
 		case 5:
@@ -71,7 +71,7 @@ public class SnowImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da turkeys! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
 				player.save(Christmas2019.STAGE_KEY, 6);
-				player.setChrist19Loc(Imp.TURKEY.randomLoc());
+				player.save(Christmas2019.STAGE_KEY+"loc", Imp.TURKEY.randomLoc().ordinal());
 			});
 			break;
 		case 7:
@@ -81,14 +81,14 @@ public class SnowImpD extends Conversation {
 			addNPC(IMP_HEAD, HeadE.LAUGH, "I've located da yule logs! Start walkin' and I'll let ya know if ya getting closer!");
 			addPlayer(HeadE.CHEERFUL, "Alright, thanks!", () -> {
 				player.save(Christmas2019.STAGE_KEY, 8);
-				player.setChrist19Loc(Imp.YULE_LOG.randomLoc());
+				player.save(Christmas2019.STAGE_KEY+"loc", Imp.YULE_LOG.randomLoc().ordinal());
 			});
 			break;
 		case 2:
 		case 4:
 		case 6:
 		case 8:
-			Location loc = player.getChrist19Loc();
+			Location loc = Location.values()[player.getI(Christmas2019.STAGE_KEY+"loc", 0)];
 			addPlayer(HeadE.CONFUSED, "Any hints as to where to go?");
 			addNPC(IMP_HEAD, HeadE.CHEERFUL, loc.getHint());
 			addPlayer(HeadE.CHEERFUL, "Thanks!");

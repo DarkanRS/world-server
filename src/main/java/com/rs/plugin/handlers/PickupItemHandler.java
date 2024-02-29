@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 
 public class PickupItemHandler extends PluginHandler<PickupItemEvent> {
 
-	private Tile[] tiles;
+	private final Tile[] tiles;
 
 	public PickupItemHandler(Object[] namesOrIds, Tile[] tiles, Consumer<PickupItemEvent> handler) {
 		super(namesOrIds, handler);

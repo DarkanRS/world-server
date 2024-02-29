@@ -28,17 +28,14 @@ public class DungeoneeringRunecrafting extends PlayerAction {
 
 	private final int runeId;
 	private final int levelRequirement;
-	@SuppressWarnings("unused")
-	private final double experience;
-	private final int[] multipliers;
+    private final int[] multipliers;
 	private int cycles;
 
 	public DungeoneeringRunecrafting(int cycles, int runeId, int levelRequirement, double experience, int... multipliers) {
 		this.cycles = cycles;
 		this.runeId = runeId;
 		this.levelRequirement = levelRequirement;
-		this.experience = experience;
-		this.multipliers = multipliers;
+        this.multipliers = multipliers;
 	}
 
 	@Override

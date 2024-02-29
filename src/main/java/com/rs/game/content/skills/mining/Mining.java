@@ -25,6 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
@@ -116,7 +117,7 @@ public class Mining extends Action {
 
 	public static LoginHandler updateSandstone = new LoginHandler(e -> e.getPlayer().getVars().setVarBit(10133, e.getPlayer().getDailyI("redSandstoneMined")));
 
-	private RockType type;
+	private final RockType type;
 	private Pickaxe pick;
 	private int rockId;
 	private GameObject rockObj;
@@ -170,7 +171,7 @@ public class Mining extends Action {
 	public int processWithDelay(Entity entity) {
 		int level = entity instanceof Player player ? player.getSkills().getLevel(Constants.MINING) + player.getInvisibleSkillBoost(Constants.MINING) : 99;
 		boolean success = false;
-		if (type.getOres().size() == 1 && !type.getOres().get(0).checkRequirements(entity instanceof Player player ? player : null))
+		if (type.getOres().size() == 1 && !type.getOres().getFirst().checkRequirements(entity instanceof Player player ? player : null))
 			return -1;
 		for (Ore ore : type.getOres()) {
 			if (ore.checkRequirements(entity instanceof Player player ? player : null) && ore.rollSuccess(entity instanceof Player player ? player : null, level)) {
@@ -190,15 +191,20 @@ public class Mining extends Action {
 		}
 		if (rockObj != null && rockObj instanceof Star star && success)
 			star.minedThisTick = true;
-		if (success && depleteOre()) {
+
+		if (success && depleteOre(entity)) {
 			entity.setNextAnimation(new Animation(-1));
 			return -1;
 		}
 		return ((pick == Pickaxe.DRAGON || pick == Pickaxe.DRAGON_G) && Utils.random(2) == 0) ? pick.getTicks() - 2 : pick.getTicks() - 1;
 	}
 
-	public boolean depleteOre() {
+	public boolean depleteOre(Entity entity) {
 		if (type.depletes()) {
+			if (entity instanceof Player player && player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+				player.sendMessage("Your resourceful aura prevents the rock from being depleted.");
+				return false;
+			}
 			if (rockObj != null)
 				rockObj.setIdTemporary(DepletedOres.get(rockObj.getId()), type.getRespawnTime());
 			if (rockNPC != null) {
@@ -230,11 +236,13 @@ public class Mining extends Action {
 		if (entity instanceof Player player) {
 			if (player.getSkills().getLevel(Constants.MINING) < type.getLevel()) {
 				player.sendMessage("You need a mining level of " + type.getLevel() + " to mine here.");
+				player.soundEffect(2661, false);
 				return false;
 			}
 			if (!player.getInventory().hasFreeSlots()) {
 				player.setNextAnimation(new Animation(-1));
 				player.sendMessage("You don't have enough inventory space.");
+				player.soundEffect(2277, false);
 				return false;
 			}
 		}

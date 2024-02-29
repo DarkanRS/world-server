@@ -32,7 +32,14 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.IMP_CATCHER)
+@QuestHandler(
+		quest = Quest.IMP_CATCHER,
+		startText = "Talk to Wizard Mizgog on the 2nd floor of the Wizards' Tower, south of Draynor Village.",
+		itemsText = "None.",
+		combatText = "Must kill many imps",
+		rewardsText = "875 Magic XP<br>An amulet of accuracy<br>Access to Mizgog's amulet shop",
+		completedStage = 2
+)
 @PluginEventHandler
 public class ImpCatcher extends QuestOutline {
 
@@ -41,11 +48,6 @@ public class ImpCatcher extends QuestOutline {
 	private final static int YELLOW_BEAD = 1472;
 	private final static int BLACK_BEAD = 1474;
 	private final static int WHITE_BEAD = 1476;
-
-	@Override
-	public int getCompletedStage() {
-		return 2;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -83,28 +85,6 @@ public class ImpCatcher extends QuestOutline {
 		sendQuestCompleteInterface(player, 1891);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Wizard Mizgog on the first floor of the Wizards' Tower, south of Draynor.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Must kill many imps";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "875 Magic XP<br>"+
-				"An amulet of accuracy<br>" +
-				"Access to Mizgog's amulet shop";
-	}
-
 	static class MizgogD extends Conversation {
 		public MizgogD(Player player) {
 			super(player);
@@ -118,9 +98,7 @@ public class ImpCatcher extends QuestOutline {
 				addNPC(WIZARD_MIZGOG, HeadE.FRUSTRATED, " The imps stole all sorts of things. Most of them were things I don't really care about like eggs, balls of wool, things like that... ");
 				addNPC(WIZARD_MIZGOG, HeadE.FRUSTRATED, "But they stole my magic beads! There was a red one, a yellow one, a black one, and a white one. The imps have spread out all over the kingdom by now. Could you get my beads back for me?");
 				addOption("Do you want to start a quest?", "Accept quest.", "Not right now.");
-				addNPC(WIZARD_MIZGOG, HeadE.CALM_TALK, "The imps will be all over the kingdom by now. You should kill any imps you find and collect any beads that they drop. I need a red one, a yellow one, a black one, and a white one.", () -> {
-					player.getQuestManager().setStage(Quest.IMP_CATCHER, 1);
-				});
+				addNPC(WIZARD_MIZGOG, HeadE.CALM_TALK, "The imps will be all over the kingdom by now. You should kill any imps you find and collect any beads that they drop. I need a red one, a yellow one, a black one, and a white one.", () -> player.getQuestManager().setStage(Quest.IMP_CATCHER, 1));
 				break;
 			case 1:
 				addNPC(WIZARD_MIZGOG, HeadE.SKEPTICAL, "How are you doing finding my beads?");

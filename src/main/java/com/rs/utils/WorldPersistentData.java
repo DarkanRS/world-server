@@ -19,13 +19,13 @@ public class WorldPersistentData {
 	private static WorldPersistentData ATTRIBUTES;
 	
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static void loadStorage() throws ClassNotFoundException {
+	public static void loadStorage() {
 		File dataFile = new File(DATA_PATH);
 		if (!dataFile.exists())
 			ATTRIBUTES = new WorldPersistentData();
 		else
 			try {
-				ATTRIBUTES = (WorldPersistentData) JsonFileManager.loadJsonFile(dataFile, WorldPersistentData.class);
+				ATTRIBUTES = JsonFileManager.loadJsonFile(dataFile, WorldPersistentData.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 				ATTRIBUTES = new WorldPersistentData();
@@ -43,7 +43,7 @@ public class WorldPersistentData {
 		}
 	}
 	
-	private GenericAttribMap counters;
+	private final GenericAttribMap counters;
 	private ItemsContainer<Item> partyRoomStorage;
 	private ItemsContainer<Item> partyRoomDrop;
 	

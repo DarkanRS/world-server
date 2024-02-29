@@ -34,10 +34,10 @@ import com.rs.lib.game.Tile;
 
 public class BoxAction extends PlayerAction {
 
-	private BoxTrapType type;
+	private final BoxTrapType type;
 	private BoxStyleTrap trap;
-	private GroundItem groundItem;
-	private GameObject obj;
+	private final GroundItem groundItem;
+	private final GameObject obj;
 	private Tile tile;
 
 	public BoxAction(BoxTrapType type, GroundItem groundItem, GameObject obj) {
@@ -140,6 +140,6 @@ public class BoxAction extends PlayerAction {
 	}
 
 	public int getTrapAmount(Player player) {
-		return 1 + (int) Math.floor(player.getSkills().getLevel(Constants.HUNTER) / 20);
+		return 1 + (int) ((double) player.getSkills().getLevel(Constants.HUNTER) / 20);
 	}
 }

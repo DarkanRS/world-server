@@ -45,9 +45,7 @@ public class Wayne extends Conversation {
 			public void create() {
 
 				option("Yes, please.", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "waynes_chains");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "waynes_chains")));
 				option("No, thank you.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "No, thank you.")
 						.addNPC(npcId, HeadE.HAPPY_TALKING, "Okay, come back soon.")

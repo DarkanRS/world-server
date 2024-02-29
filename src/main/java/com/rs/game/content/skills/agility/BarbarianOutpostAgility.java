@@ -47,10 +47,12 @@ public class BarbarianOutpostAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 35))
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2551, 3554, 0), () -> {
+			e.getPlayer().lock();
+			e.getPlayer().resetWalkSteps();
 			World.sendObjectAnimation(e.getObject(), new Animation(497));
-			e.getPlayer().forceMove(Tile.of(e.getObject().getX(), 3549, e.getObject().getPlane()), 751, 20, 90, () -> {
-				e.getPlayer().sendMessage("You skilfully swing across.", true);
-				e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
+			e.getPlayer().forceMove(Tile.of(2551, 3549, 0), 751, 20, 75, () -> {
+				e.getPlayer().sendMessage("You skillfully swing across.", true);
+				e.getPlayer().getSkills().addXp(Constants.AGILITY, 28);
 				setStage(e.getPlayer(), 0);
 			});
 		}));
@@ -60,20 +62,22 @@ public class BarbarianOutpostAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 35))
 			return;
 		e.getPlayer().sendMessage("You walk carefully across the slippery log...", true);
-		e.getPlayer().forceMove(Tile.of(2541, e.getObject().getY(), e.getObject().getPlane()), 9908, 20, 12*30, () -> {
-			e.getPlayer().setNextAnimation(new Animation(-1));
-			e.getPlayer().getSkills().addXp(Constants.AGILITY, 13);
-			e.getPlayer().sendMessage("... and make it safely to the other side.", true);
-			if (getStage(e.getPlayer()) == 0)
-				setStage(e.getPlayer(), 1);
-		});
+
+		e.getPlayer().walkToAndExecute(Tile.of(2551, 3546, 0), () ->
+				e.getPlayer().forceMove(Tile.of(2541, e.getObject().getY(), e.getObject().getPlane()), 9908, 20, 12*30, () -> {
+					e.getPlayer().setNextAnimation(new Animation(-1));
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 20.7);
+					e.getPlayer().sendMessage("... and make it safely to the other side.", true);
+					if (getStage(e.getPlayer()) == 0)
+						setStage(e.getPlayer(), 1);
+				}));
 	});
 
 	public static ObjectClickHandler handleClimbingNet = new ObjectClickHandler(new Object[] { 20211 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 35))
 			return;
 		e.getPlayer().sendMessage("You climb the netting...", true);
-		e.getPlayer().getSkills().addXp(Constants.AGILITY, 8.2);
+		e.getPlayer().getSkills().addXp(Constants.AGILITY, 10.2);
 		e.getPlayer().useStairs(828, Tile.of(e.getObject().getX() - 1, e.getPlayer().getY(), 1), 1, 2);
 		if (getStage(e.getPlayer()) == 1)
 			setStage(e.getPlayer(), 2);
@@ -84,7 +88,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().sendMessage("You put your foot on the ledge and try to edge across...", true);
 		e.getPlayer().lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 
 			@Override
@@ -102,8 +106,8 @@ public class BarbarianOutpostAgility {
 					e.getPlayer().getAppearance().setBAS(-1);
 					e.getPlayer().unlock();
 					e.getPlayer().addWalkSteps(2532, 3546);
-					e.getPlayer().getSkills().addXp(Constants.AGILITY, 22);
-					e.getPlayer().sendMessage("You skilfully edge across the gap.", true);
+					e.getPlayer().getSkills().addXp(Constants.AGILITY, 26.0);
+					e.getPlayer().sendMessage("You skillfully edge across the gap.", true);
 					if (getStage(e.getPlayer()) == 2)
 						setStage(e.getPlayer(), 3);
 					stop();
@@ -120,16 +124,17 @@ public class BarbarianOutpostAgility {
 			e.getPlayer().sendMessage("You cannot climb that from this side.");
 			return;
 		}
+		e.getPlayer().lock();
 		e.getPlayer().sendMessage("You climb the low wall...", true);
-		e.getPlayer().forceMove(Tile.of(e.getObject().getX() + 1, e.getObject().getY(), e.getObject().getPlane()), 4853, 10, 60, () -> {
-			e.getPlayer().getSkills().addXp(Constants.AGILITY, 13.7);
+		e.getPlayer().forceMove(Tile.of(e.getObject().getX()+1, e.getObject().getY(), e.getObject().getPlane()), 4853, 30, 60, () -> {
+			e.getPlayer().getSkills().addXp(Constants.AGILITY, 16.2);
 			int stage = getStage(e.getPlayer());
 			if (stage == 3)
 				setStage(e.getPlayer(), 4);
 			else if (stage == 4) {
 				e.getPlayer().incrementCount("Barbarian normal laps");
 				removeStage(e.getPlayer());
-				e.getPlayer().getSkills().addXp(Constants.AGILITY, 46.2);
+				e.getPlayer().getSkills().addXp(Constants.AGILITY, 56.7);
 			}
 		});
 	});
@@ -144,7 +149,7 @@ public class BarbarianOutpostAgility {
 			else if (tick == 1)
 				e.getPlayer().setNextAnimation(new Animation(10492));
 			else if (tick == 7) {
-				e.getPlayer().setNextTile(e.getPlayer().transform(0, 0, 2));
+				e.getPlayer().tele(e.getPlayer().transform(0, 0, 2));
 				e.getPlayer().forceMove(Tile.of(2538, 3545, 2), 10493, 10, 30, () -> e.getPlayer().getSkills().addXp(Constants.AGILITY, 15));
 				return false;
 			}
@@ -157,7 +162,7 @@ public class BarbarianOutpostAgility {
 			return;
 		e.getPlayer().setRouteEvent(new RouteEvent(e.getObject().getTile(), () -> {
 			e.getPlayer().lock();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int stage = 0;
 				@Override
 				public void run() {
@@ -166,7 +171,7 @@ public class BarbarianOutpostAgility {
 					else if (stage == 1)
 						e.getPlayer().setNextAnimation(new Animation(10023));
 					else if (stage == 3) {
-						e.getPlayer().setNextTile(Tile.of(2536, 3546, 3));
+						e.getPlayer().tele(Tile.of(2536, 3546, 3));
 						e.getPlayer().setNextAnimation(new Animation(11794));
 					} else if (stage == 4) {
 						e.getPlayer().unlock();
@@ -184,26 +189,21 @@ public class BarbarianOutpostAgility {
 			return;
 
 		e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2533, 3547, 3), () -> {
-			Tile toTile = Tile.of(2532, 3553, 3);
-
 			e.getPlayer().lock();
-			WorldTasks.schedule(new Task() {
-				int stage = 0;
-				@Override
-				public void run() {
-					if (stage == 0)
-						e.getPlayer().faceTile(Tile.of(2531, 3554, 3));
-					else if (stage == 1) {
+			e.getPlayer().getTasks().scheduleTimer(tick -> {
+				switch(tick) {
+					case 0 -> e.getPlayer().faceTile(Tile.of(2531, 3554, 3));
+					case 1 -> {
 						World.sendObjectAnimation(e.getObject(), new Animation(11819));
 						e.getPlayer().forceMove(Tile.of(2532, 3553, 3), 4189, 15, 90, () -> {
 							e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
 							World.sendObjectAnimation(World.getObject(Tile.of(2531, 3554, 3), ObjectType.SCENERY_INTERACT), new Animation(7527));
 						});
-						stop();
+						return false;
 					}
-					stage++;
 				}
-			}, 0, 0);
+				return true;
+			});
 		}));
 	});
 
@@ -230,7 +230,7 @@ public class BarbarianOutpostAgility {
 			public void run() {
 				e.getPlayer().unlockNextTick();
 				e.getPlayer().getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_MAGIC, Sub.TAB_EMOTES, Sub.TAB_EQUIPMENT, Sub.TAB_PRAYER);
-				e.getPlayer().setNextTile(Tile.of(2538, 3553, 2));
+				e.getPlayer().tele(Tile.of(2538, 3553, 2));
 				e.getPlayer().setNextAnimation(new Animation(2588));
 				e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
 				stop();
@@ -243,36 +243,26 @@ public class BarbarianOutpostAgility {
 		if (!Agility.hasLevel(e.getPlayer(), 90))
 			return;
 		e.getPlayer().lock();
-		e.getPlayer().setNextAnimation(new Animation(11792));
-		final Tile toTile = Tile.of(2544, e.getPlayer().getY(), 0);
-		e.getPlayer().forceMove(Tile.of(2544, e.getPlayer().getY(), 0), 5, 5*30);
-		WorldTasks.schedule(new Task() {
-			int stage;
-
-			@Override
-			public void run() {
-				if (stage == 0) {
-					e.getPlayer().setNextTile(Tile.of(2541, e.getPlayer().getY(), 1));
-					e.getPlayer().setNextAnimation(new Animation(11790));
-					stage = 1;
-				} else if (stage == 1)
-					stage = 2;
-				else if (stage == 2) {
-					e.getPlayer().setNextAnimation(new Animation(11791));
-					stage = 3;
-				} else if (stage == 3) {
-					e.getPlayer().setNextAnimation(new Animation(2588));
+		e.getPlayer().forceMove(Tile.of(2540, e.getPlayer().getY(), 2), 11792, 10, 30);
+		e.getPlayer().getTasks().scheduleTimer(tick -> {
+			switch(tick) {
+				case 0 -> e.getPlayer().forceMove(Tile.of(2542, e.getPlayer().getY(), 1), 11790, 0, 90);
+				case 3 -> e.getPlayer().forceMove(Tile.of(2543, e.getPlayer().getY(), 1), 11791, 0, 30);
+				case 4 -> {
+					e.getPlayer().anim(2588);
+					e.getPlayer().tele(Tile.of(2543, e.getPlayer().getY(), 0));
 					e.getPlayer().getSkills().addXp(Constants.AGILITY, 15);
 					if (getStage(e.getPlayer()) == 1) {
 						e.getPlayer().incrementCount("Barbarian advanced laps");
 						removeStage(e.getPlayer());
 						e.getPlayer().getSkills().addXp(Constants.AGILITY, 615);
 					}
-					stop();
+					e.getPlayer().unlockNextTick();
+					return false;
 				}
 			}
-
-		}, 0, 0);
+			return true;
+		});
 	});
 
 	public static void removeStage(Player player) {

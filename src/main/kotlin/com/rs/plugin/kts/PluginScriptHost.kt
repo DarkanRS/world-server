@@ -15,7 +15,7 @@ import kotlin.system.exitProcess
 class PluginScriptHost {
     companion object {
         fun loadAndExecuteScripts(): Int {
-            var scriptCount = 0;
+            var scriptCount = 0
             Files.walk(Paths.get("./plugins/"))
                 .filter { Files.isRegularFile(it) && it.toString().endsWith(".plugin.kts") }
                 .forEach { path ->

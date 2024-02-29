@@ -26,13 +26,13 @@ import java.util.Map;
 
 public class ItemClickEvent implements PluginEvent {
 
-	private static Map<Object, ItemClickHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, ItemClickHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item;
-	private String option;
-	private boolean isEquipped;
-	private int slotId;
+	private final Player player;
+	private final Item item;
+	private final String option;
+	private final boolean isEquipped;
+	private final int slotId;
 
 	public ItemClickEvent(Player player, Item item, int slotId, String option) {
 		this(player, item, slotId, option, false);
@@ -84,5 +84,21 @@ public class ItemClickEvent implements PluginEvent {
 			if (old != null)
 				System.err.println("ERROR: Duplicate ItemClick methods for key: " + key);
 		}
+	}
+
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
+
+	public String component3() {
+		return option;
+	}
+
+	public boolean component4() {
+		return isEquipped;
 	}
 }

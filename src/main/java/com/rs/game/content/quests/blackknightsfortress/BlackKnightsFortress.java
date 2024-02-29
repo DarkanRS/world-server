@@ -28,7 +28,14 @@ import java.util.*;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.BLACK_KNIGHTS_FORTRESS)
+@QuestHandler(
+		quest = Quest.BLACK_KNIGHTS_FORTRESS,
+		startText = "Speak to Sir Amik Varze on the 3rd floor of the White Knights' Castle's western tower in Falador.",
+		itemsText = "Cabbage<br>Iron chainbody<br>Bronze med helm",
+		combatText = "Ability to evade level 33 Black Knights",
+		rewardsText = "2,500 coins",
+		completedStage = 4
+)
 @PluginEventHandler
 public class BlackKnightsFortress extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -57,11 +64,6 @@ public class BlackKnightsFortress extends QuestOutline {
 
 	// Black knight fortress chunks
 	protected final static Set<Integer> FORTRESS_CHUNKS = new HashSet<>(Arrays.asList(6180280, 6163896, 6196656, 6196664));
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -113,26 +115,6 @@ public class BlackKnightsFortress extends QuestOutline {
 	}
 
 	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Sir Amik Varze, located on the 3rd floor in the western tower of the<br>White Knights' Castle in Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Cabbage<br>Iron chainbody<br>Bronze med helm";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Ability to evade level 33 Black Knights";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "2,500 coins";
-	}
-
-	@Override
 	public void complete(Player player) {
 		player.getInventory().addCoins(2500);
 		sendQuestCompleteInterface(player, 9591);
@@ -163,9 +145,7 @@ public class BlackKnightsFortress extends QuestOutline {
 						@Override
 						public void create() {
 							option("Okay, I won't", new Dialogue().addPlayer(HeadE.SCARED, "Okay, I won't."));
-							option("I don't care: i'm going in anyway", new Dialogue().addPlayer(HeadE.LAUGH, "I am going in anyway").addNext(() -> {
-								handleDoor(p, e.getObject());
-							}));
+							option("I don't care: i'm going in anyway", new Dialogue().addPlayer(HeadE.LAUGH, "I am going in anyway").addNext(() -> handleDoor(p, e.getObject())));
 						}
 					});
 					addPlayer(HeadE.SKEPTICAL_THINKING, "I don't know...");
@@ -229,7 +209,7 @@ public class BlackKnightsFortress extends QuestOutline {
 		Tile tileBeforeCutscene = Tile.of(p.getX(), p.getY(), p.getPlane());
 		p.lock();
 		p.getInventory().removeItems(new Item(1965, 1));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			final int WITCH_DIALOGUE1 = 10;
 			final int KNIGHT_CAPTAIN_DIALOGUE1 = 12;
@@ -246,7 +226,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.getInterfaceManager().setFadingInterface(115);
 
 				if (tick == 6) {
-					p.setNextTile(cauldron.getTile());
+					p.tele(cauldron.getTile());
 					p.getAppearance().transformIntoNPC(264);
 				}
 
@@ -257,9 +237,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.startConversation(new Conversation(p) {
 						{
 							addNPC(611, HeadE.ANGRY, "Where has Greldo got to with that magic cabbage!");
-							addNext(() -> {
-								tick++;
-							});
+							addNext(() -> tick++);
 							create();
 						}
 					});
@@ -280,9 +258,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					});
 
 				if (tick == 14)
-					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, 0, proj -> {
-						World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX));
-					});
+					World.sendProjectile(Tile.of(3030, 3507, 0), cauldron, CABBAGE_PROJECTILE, 150, 0, 0, 0.1, 0, proj -> World.sendSpotAnim(Tile.of(p.getX(), p.getY(), p.getPlane()), new SpotAnim(CAULDRON_EXPLOSION_GFX)));
 
 				if (tick == POTION_RUINED) {
 					p.getVars().setVarBit(CAULDRON_STATUS_VAR, 1);
@@ -291,9 +267,7 @@ public class BlackKnightsFortress extends QuestOutline {
 							addNPC(611, HeadE.AMAZED_MILD, "My potion!");
 							addNPC(610, HeadE.SCARED, "Oh boy, this doesn't look good!");
 							addNPC(4607, HeadE.CAT_CALM_TALK, "Meow!");
-							addNext(() -> {
-								tick++;
-							});
+							addNext(() -> tick++);
 							for (NPC npc : World.getNPCsInChunkRange(e.getPlayer().getRegionId(), 2))
 								if (npc.getId() == 611)
 									npc.setNextAnimation(new Animation(CRY));
@@ -306,7 +280,7 @@ public class BlackKnightsFortress extends QuestOutline {
 					p.getInterfaceManager().setFadingInterface(115);
 
 				if (tick == 25) {
-					p.setNextTile(tileBeforeCutscene);
+					p.tele(tileBeforeCutscene);
 					p.getAppearance().transformIntoNPC(-1);
 				}
 

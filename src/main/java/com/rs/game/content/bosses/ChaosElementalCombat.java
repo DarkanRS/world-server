@@ -47,10 +47,10 @@ public class ChaosElementalCombat extends CombatScript {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					for (int i = 6;i > 0;i++) {
+					for (int i = 0;i < 6;i++) {
 						Direction dir = Direction.random();
 						if (World.floorFree(target.getPlane(), target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getSize())) {
-							target.setNextTile(Tile.of(target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getPlane()));
+							target.tele(Tile.of(target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getPlane()));
 							break;
 						}
 					}

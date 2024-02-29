@@ -40,7 +40,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Fishing extends PlayerAction {
 
-    private static Map<Integer, FishingSpot[]> FISHING_SPOTS = new HashMap<>();
+    private static final Map<Integer, FishingSpot[]> FISHING_SPOTS = new HashMap<>();
 
     static {
         FISHING_SPOTS.put(1174, new FishingSpot[]{FishingSpot.KARAMBWANJI});
@@ -106,6 +106,7 @@ public class Fishing extends PlayerAction {
     public boolean start(Player player) {
         if (!checkAll(player))
             return false;
+        player.setNextFaceTile(npc.getTile());
         player.sendMessage("You attempt to capture a fish...", true);
         setActionDelay(player, 4);
         return true;

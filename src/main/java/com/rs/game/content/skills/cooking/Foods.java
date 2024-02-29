@@ -77,6 +77,7 @@ public class Foods {
         player.getInventory().refresh();
         if (food.effect != null)
             food.effect.accept(player);
+        player.soundEffect(2393,false);
         return true;
     }
 
@@ -248,7 +249,6 @@ public class Foods {
         JANGERBERRIES(247, 20),
         JUBBLY(7568, 150),
         JUJU_GUMBO(19949, 320, p -> p.addEffect(Effect.BARON_SHARK, Ticks.fromSeconds(12))),
-        KARAMBWANI(3144, 30),
         KARAMBWANJI(3151, 30),
         KEBAB(1971, 0, KEBAB_EFFECT),
         KING_WORM(2162, 20),
@@ -389,10 +389,6 @@ public class Foods {
         TANGLED_TOAD_LEGS(2187, 150),
         TCHIKI_MONKEY_NUTS(7573, 2),
         TCHIKI_NUT_PASTE(7575, 2),
-        TEA(new int[] { 1978 }, 1980, 20, player -> {
-            player.setNextForceTalk(new ForceTalk("Aaah, nothing like a nice cuppa tea!"));
-            player.removeEffect(Effect.AGGRESSION_POTION);
-        }),
         TEA_FLASK(10859, 20),
         TENTH_ANNIVERSARY_CAKE(20111, 20),
         THIN_SNAIL_MEAT(3369, 30),
@@ -438,7 +434,7 @@ public class Foods {
         YULE_LOGS(15430, 20),
         ZAMORAK_FRUIT(21388, 200);
 
-        private static Map<Integer, Food> foods = new HashMap<>();
+        private static final Map<Integer, Food> foods = new HashMap<>();
 
         static {
             for (final Food food : Food.values())
@@ -501,7 +497,7 @@ public class Foods {
         }
     }
 
-    private static Consumer<Player> KEBAB_EFFECT = player -> {
+    private static final Consumer<Player> KEBAB_EFFECT = player -> {
         int roll = Utils.random(100);
         if (roll >= 95) {
             player.sendMessage("Wow, that was an amazing kebab! You feel really invigorated.");

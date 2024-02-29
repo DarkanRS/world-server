@@ -36,14 +36,14 @@ public enum JadinkoType {
 	GUTHIX(13156, 8452, 2, true, HabitatFeature.Tall_grass, ProduceType.Green_blossom, ProduceType.Lergberry, ProduceType.Torstol),
 	ZAMORAK(13156, 8452, 3, true, HabitatFeature.Dark_pit, ProduceType.Red_blossom, ProduceType.Kalferberry, ProduceType.Torstol);
 
-	private int npcId;
-	private int varbit;
-	private int varbitValue;
-	private boolean juju;
-	private HabitatFeature feature;
-	private ProduceType blossom;
-	private ProduceType bush;
-	private ProduceType tree;
+	private final int npcId;
+	private final int varbit;
+	private final int varbitValue;
+	private final boolean juju;
+	private final HabitatFeature feature;
+	private final ProduceType blossom;
+	private final ProduceType bush;
+	private final ProduceType tree;
 
 	private JadinkoType(int npcId, int varbit, int varbitValue, boolean juju, HabitatFeature feature, ProduceType blossom, ProduceType bush, ProduceType tree) {
 		this.npcId = npcId;

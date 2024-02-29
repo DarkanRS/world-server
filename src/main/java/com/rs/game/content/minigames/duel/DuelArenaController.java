@@ -22,8 +22,10 @@ import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.skills.cooking.Foods.Food;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
@@ -44,7 +46,8 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 public class DuelArenaController extends Controller {
 
 	private transient Player target;
-	private boolean ifFriendly, isDueling;
+	private final boolean ifFriendly;
+    private boolean isDueling;
 
 	private final Item[] FUN_WEAPONS = { new Item(4566) };
 
@@ -56,9 +59,7 @@ public class DuelArenaController extends Controller {
 		ifFriendly = friendly;
 	}
 
-	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> {
-		e.getPlayer().sendMessage("I wouldn't want to fall in.");
-	});
+	public static ObjectClickHandler handleWallLeans = new ObjectClickHandler(new Object[] { 3077, 3079, 3082, 3083, 19418, 19422, 27693, 27694, 27695, 27697, 37718, 37719, 37720, 37721, 37722, 37723 }, e -> e.getPlayer().sendMessage("I wouldn't want to fall in."));
 
 	@Override
 	public void start() {
@@ -324,7 +325,7 @@ public class DuelArenaController extends Controller {
 				break;
 			teleTile = tile;
 		}
-		player.setNextTile(teleTile);
+		player.tele(teleTile);
 	}
 
 	private void removeEquipment() {
@@ -344,8 +345,8 @@ public class DuelArenaController extends Controller {
 		if (started) {
 			Tile[] teleports = getPossibleTiles();
 			int random = Utils.getRandomInclusive(1);
-			player.setNextTile(random == 0 ? teleports[0] : teleports[1]);
-			target.setNextTile(random == 0 ? teleports[1] : teleports[0]);
+			player.tele(random == 0 ? teleports[0] : teleports[1]);
+			target.tele(random == 0 ? teleports[1] : teleports[0]);
 		}
 		player.stopAll();
 		player.lock(2); // fixes mass click steps
@@ -355,7 +356,7 @@ public class DuelArenaController extends Controller {
 		player.getTempAttribs().setB("canFight", false);
 		player.setCanPvp(true);
 		player.getHintIconsManager().addHintIcon(target, 1, -1, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int count = 3;
 
 			@Override
@@ -408,20 +409,17 @@ public class DuelArenaController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT) {
+			player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.simpleDialogue("A magical force prevents you from teleporting from the arena.");
-		return false;
-	}
-
-	@Override
-	public void magicTeleported(int type) {
-		if (type != -1)
+	public void onTeleported(TeleType type) {
+		if (type != TeleType.BYPASS_HOOKS)
 			return;
 	}
 
@@ -438,7 +436,7 @@ public class DuelArenaController extends Controller {
 	public boolean sendDeath() {
 		endDuel(target, player);
 		player.lock(7);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

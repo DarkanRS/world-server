@@ -25,10 +25,10 @@ import com.rs.lib.game.Tile;
 
 public class SitChair extends PlayerAction {
 
-	private Tile originalTile;
-	private Tile chairTile;
+	private final Tile originalTile;
+	private final Tile chairTile;
 	private boolean tped;
-	private int animation;
+	private final int animation;
 
 	public SitChair(Player player, GameObject object) {
 		animation = HouseConstants.getSitAnimation(object.getId());
@@ -70,7 +70,7 @@ public class SitChair extends PlayerAction {
 	@Override
 	public int processWithDelay(Player player) {
 		if (!tped) {
-			player.setNextTile(chairTile);
+			player.tele(chairTile);
 			tped = true;
 		}
 		player.setNextAnimation(new Animation(animation));
@@ -80,7 +80,7 @@ public class SitChair extends PlayerAction {
 	@Override
 	public void stop(final Player player) {
 		player.lock(1);
-		player.setNextTile(originalTile);
+		player.tele(originalTile);
 		player.setNextAnimation(new Animation(-1));
 	}
 }

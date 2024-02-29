@@ -39,19 +39,15 @@ public class Trollheim {
 		e.getPlayer().getVars().setVarBit(10762, 3); //1 = mineable, 2 = being mined, 3 = mined
 	});
 
-	public static ObjectClickHandler handleTrollweissCaveEnter = new ObjectClickHandler(new Object[] { 5012 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2799, 10134, 0));
-	});
+	public static ObjectClickHandler handleTrollweissCaveEnter = new ObjectClickHandler(new Object[] { 5012 }, e -> e.getPlayer().tele(Tile.of(2799, 10134, 0)));
 
-	public static ObjectClickHandler handleTrollweissCaveExit = new ObjectClickHandler(new Object[] { 5013 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2796, 3719, 0));
-	});
+	public static ObjectClickHandler handleTrollweissCaveExit = new ObjectClickHandler(new Object[] { 5013 }, e -> e.getPlayer().tele(Tile.of(2796, 3719, 0)));
 
 	public static ObjectClickHandler handleTrollheimCaveExits = new ObjectClickHandler(new Object[] { 3758 }, e -> {
 		if (e.objectAt(2906, 10036))
-			e.getPlayer().setNextTile(Tile.of(2922, 3658, 0));
+			e.getPlayer().tele(Tile.of(2922, 3658, 0));
 		else if (e.objectAt(2906, 10017))
-			e.getPlayer().setNextTile(Tile.of(2911, 3636, 0));
+			e.getPlayer().tele(Tile.of(2911, 3636, 0));
 	});
 
 	public static ObjectClickHandler handleGodwarsEntrance = new ObjectClickHandler(new Object[] { 26342 }, e -> {
@@ -72,7 +68,7 @@ public class Trollheim {
 		int liftAnimation = isReturning ? 3624 :3725;
 		int squeezeAnimation = isReturning ? 3465 : 3466;
 		Tile destination = Tile.of(e.getPlayer().getX(), e.getPlayer().getY() + (isReturning ? -4 : 4), 0);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 
 			@Override
@@ -91,19 +87,19 @@ public class Trollheim {
 						World.sendObjectAnimation(e.getObject(), new Animation(318));
 				} else if (stage == 6) {
 					if (!lift) {
-						e.getPlayer().setNextTile(destination);
+						e.getPlayer().tele(destination);
 						e.getPlayer().unlock();
 						stop();
 					}
 				} else if (stage == 8) {
 					if (lift && isReturning) {
-						e.getPlayer().setNextTile(destination);
+						e.getPlayer().tele(destination);
 						e.getPlayer().unlock();
 						stop();
 					}
 				} else if (stage == 11)
 					if (lift && !isReturning) {
-						e.getPlayer().setNextTile(destination);
+						e.getPlayer().tele(destination);
 						e.getPlayer().unlock();
 						stop();
 					}
@@ -114,45 +110,45 @@ public class Trollheim {
 
 	public static ObjectClickHandler handleTrollheimCaveEntrances = new ObjectClickHandler(new Object[] { 34395 }, e -> {
 		if (e.getObject().getTile().isAt(2920, 3654))
-			e.getPlayer().setNextTile(Tile.of(2907, 10035, 0));
+			e.getPlayer().tele(Tile.of(2907, 10035, 0));
 		else if (e.getObject().getTile().isAt(2910, 3637))
-			e.getPlayer().setNextTile(Tile.of(2907, 10019, 0));
+			e.getPlayer().tele(Tile.of(2907, 10019, 0));
 		else if (e.getObject().getTile().isAt(2857, 3578))
-			e.getPlayer().setNextTile(Tile.of(2269, 4752, 0));
+			e.getPlayer().tele(Tile.of(2269, 4752, 0));
 		else if (e.getObject().getTile().isAt(2885, 3673))
-			e.getPlayer().setNextTile(Tile.of(2893, 10074, 2));
+			e.getPlayer().tele(Tile.of(2893, 10074, 2));
 		else if (e.getObject().getTile().isAt(2847, 3688))
-			e.getPlayer().setNextTile(Tile.of(2837, 10090, 2));
+			e.getPlayer().tele(Tile.of(2837, 10090, 2));
 		else if (e.getObject().getTile().isAt(2885, 3673))
-			e.getPlayer().setNextTile(Tile.of(2893, 10074, 2));
+			e.getPlayer().tele(Tile.of(2893, 10074, 2));
 		else if (e.getObject().getTile().isAt(2796, 3614))
-			e.getPlayer().setNextTile(Tile.of(2808, 10002, 0));
+			e.getPlayer().tele(Tile.of(2808, 10002, 0));
 		else
 			e.getPlayer().sendMessage("Unhandled TrollheimMisc.handleTrollheimCaveEntrances()");
 	});
 
 	public static ObjectClickHandler handleOtherCaveEntrances = new ObjectClickHandler(new Object[] { 32738, 18834, 18833, 4500, 3774 }, e -> {
 		if (e.getObject().getId() == 32738)
-			e.getPlayer().setNextTile(Tile.of(2889, 3675, 0));
+			e.getPlayer().tele(Tile.of(2889, 3675, 0));
 		else if (e.getObject().getId() == 18834)
 			e.getPlayer().ladder(Tile.of(2812, 3669, 0));
 		else if (e.getObject().getId() == 18833)
 			e.getPlayer().ladder(Tile.of(2831, 10076, 2));
 		else if (e.getObject().getId() == 4500)
-			e.getPlayer().setNextTile(Tile.of(2795, 3615, 0));
+			e.getPlayer().tele(Tile.of(2795, 3615, 0));
 		else if (e.getObject().getId() == 3774)
-			e.getPlayer().setNextTile(Tile.of(2848, 3687, 0));
+			e.getPlayer().tele(Tile.of(2848, 3687, 0));
 	});
 
 	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 67674, 67570 }, e -> {
 		if (e.getObject().getId() == 67568)
-			e.getPlayer().setNextTile(Tile.of(2858, 3577, 0));
+			e.getPlayer().tele(Tile.of(2858, 3577, 0));
 		else if (e.getObject().getId() == 67567)
-			e.getPlayer().setNextTile(Tile.of(2267, 4758, 0));
+			e.getPlayer().tele(Tile.of(2267, 4758, 0));
 		else if (e.getObject().getId() == 67562)
-			e.getPlayer().setNextTile(Tile.of(3405, 4284, 2));
+			e.getPlayer().tele(Tile.of(3405, 4284, 2));
 		else if (e.getObject().getId() == 67572)
-			e.getPlayer().setNextTile(Tile.of(2858, 3577, 0));
+			e.getPlayer().tele(Tile.of(2858, 3577, 0));
 		else if (e.getObject().getId() == 67674) {
 			if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
 				Agility.handleObstacle(e.getPlayer(), 3382, 3, e.getPlayer().transform(-3, 0, -1), 1);
@@ -216,7 +212,7 @@ public class Trollheim {
 				WorldTasks.schedule(new Task() {
 					@Override
 					public void run() {
-						p.setNextTile(destinationTile);
+						p.tele(destinationTile);
 						p.unlock();
 					}
 				}, 8);

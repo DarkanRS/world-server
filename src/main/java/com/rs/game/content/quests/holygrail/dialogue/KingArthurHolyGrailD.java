@@ -32,16 +32,14 @@ public class KingArthurHolyGrailD extends Conversation {
 								.addNPC(NPC, HeadE.CALM_TALK, "None of my knights ever did return with it last time. Now we have the opportunity to give it another go, maybe this time we will have more luck!")
 								.addPlayer(HeadE.HAPPY_TALKING, "I'd enjoy trying that.")
 								.addNPC(NPC, HeadE.CALM_TALK, "Go speak to Merlin. He may be able to give a better clue as to where it is now you have freed him from that crystal. " +
-									"He has set up his workshop in the room next to the library.", () -> {
-									player.getQuestManager().setStage(Quest.HOLY_GRAIL, TALK_TO_MERLIN);
-								})
+									"He has set up his workshop in the room next to the library.", () -> player.getQuestManager().setStage(Quest.HOLY_GRAIL, TALK_TO_MERLIN))
 							);
 							option("No.", new Dialogue());
 						}
 					});
 					return;
 				}
-				addNext(()->{player.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL);});
+				addNext(()-> player.getQuestManager().showQuestDetailInterface(Quest.HOLY_GRAIL));
 			}
 			case TALK_TO_MERLIN, GO_TO_ENTRANA -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");
@@ -65,9 +63,7 @@ public class KingArthurHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "Any idea which way that would be?");
 				addNPC(NPC, HeadE.CALM_TALK, "Not exactly. We discovered some magic golden feathers that are said to point the way to the boots... ");
 				addNPC(NPC, HeadE.CALM_TALK, "They certainly point somewhere. Just blowing on them gently will supposedly show the way to go.");
-				addSimple("King Arthur gives you a feather.", ()->{
-					player.getInventory().addItem(new Item(18, 1), true);
-				});
+				addSimple("King Arthur gives you a feather.", ()-> player.getInventory().addItem(new Item(18, 1), true));
 			}
 			case GIVE_AURTHUR_HOLY_GRAIL -> {
 				addNPC(NPC, HeadE.CALM_TALK, "How goes thy quest?");
@@ -84,10 +80,8 @@ public class KingArthurHolyGrailD extends Conversation {
 				addPlayer(HeadE.HAPPY_TALKING, "I believe it is somewhere in the Fisher Realm");
 				addNPC(NPC, HeadE.CALM_TALK, "Okay, carry on then.");
 			}
-			case QUEST_COMPLETE -> {
-				addNPC(NPC, HeadE.HAPPY_TALKING, "Thank you for retrieving the Grail! You shall long be remembered as one of the greatest heroes amongst" +
-						" the Knights of the Round Table!");
-			}
+			case QUEST_COMPLETE -> addNPC(NPC, HeadE.HAPPY_TALKING, "Thank you for retrieving the Grail! You shall long be remembered as one of the greatest heroes amongst" +
+                    " the Knights of the Round Table!");
 		}
 	}
 }

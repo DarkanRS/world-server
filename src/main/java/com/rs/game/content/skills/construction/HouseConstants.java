@@ -413,12 +413,12 @@ public class HouseConstants {
 		MAHOGANYARMOURCASE(9828, 18780,  82, 420, new Item(8782, 3)),
 		//Magic wardrobe
 		OAKMAGICWARDROBE(9829, 18784, 42, 240, new Item(8778, 4)),
-		CARVEDOAKMAGICWARDROBE(9830, 18785, 51, 360, new Item(8778, 6)),
-		TEAKMAGICWARDROBE(9831, 18786, 60, 360, new Item(8780, 4)),
-		CARVEDTEAKMAGICWARDROBE(9832, 18787, 69, 540, new Item(8780, 6)),
-		MAHOGANYMAGICWARDROBE(9833, 18787, 78, 560, new Item(8782, 4)),
-		GILDEDMAGICWARDROBE(9834, 18789, 87, 860, new Item(8784, 1), new Item(8782, 4)),
-		MARBLEMAGICWARDROBE(9835, 18790, 96, 500, new Item(8786, 1)),
+		CARVEDOAKMAGICWARDROBE(9830, 18786, 51, 360, new Item(8778, 6)),
+		TEAKMAGICWARDROBE(9831, 18788, 60, 360, new Item(8780, 4)),
+		CARVEDTEAKMAGICWARDROBE(9832, 18790, 69, 540, new Item(8780, 6)),
+		MAHOGANYMAGICWARDROBE(9833, 18792, 78, 560, new Item(8782, 4)),
+		GILDEDMAGICWARDROBE(9834, 18794, 87, 860, new Item(8784, 1), new Item(8782, 4)),
+		MARBLEMAGICWARDROBE(9835, 18796, 96, 500, new Item(8786, 1)),
 		//Cape rack
 		OAKCAPERACK(9817, 18766, 54, 240, new Item(8778, 4)),
 		TEAKCAPERACK(9818, 18767, 63, 360, new Item(8780, 4)),
@@ -935,17 +935,14 @@ public class HouseConstants {
 		private int level;
 		private final int chunkX, chunkY;
 		private final boolean showRoof;
-		@SuppressWarnings("unused")
-		// might be useful on future
-		private final int[] doorDirs;
 
-		Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
+        Room(int price, int level, int chunkX, int chunkY, boolean showRoof, int... doorDirs) {
 			this.price = price;
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
 			this.showRoof = showRoof;
-			this.doorDirs = doorDirs;
-		}
+            // might be useful on future
+        }
 
 		public int getChunkX() {
 			return chunkX;
@@ -978,14 +975,11 @@ public class HouseConstants {
 
 		private final int chunkX;
 		private final int chunkY;
-		@SuppressWarnings("unused")
-		private final int[] dirs;
 
-		Roof(int chunkX, int chunkY, int... dirs) {
+        Roof(int chunkX, int chunkY, int... dirs) {
 			this.chunkX = chunkX;
 			this.chunkY = chunkY;
-			this.dirs = dirs;
-		}
+        }
 
 		public int getChunkX() {
 			return chunkX;

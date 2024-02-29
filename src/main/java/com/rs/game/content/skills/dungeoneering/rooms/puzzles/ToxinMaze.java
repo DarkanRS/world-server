@@ -67,7 +67,7 @@ public class ToxinMaze extends PuzzleRoom {
 			player.lock(1);
 			player.setNextAnimation(new Animation(832));
 			toxinTask = new ToxinTask();
-			WorldTasks.schedule(toxinTask, 0, TICK_SPEED);
+			WorldTasks.scheduleLooping(toxinTask, 0, TICK_SPEED);
 			setComplete(); //doors are unlocked instantly
 			return false;
 		}
@@ -122,6 +122,10 @@ public class ToxinMaze extends PuzzleRoom {
 
 		@Override
 		public void run() {
+			if (manager == null || manager.isDestroyed()) {
+				stop();
+				return;
+			}
 			if (toxinTask == null) {
 				if (ticks > 0) {
 					//Maze finished before timer ran out

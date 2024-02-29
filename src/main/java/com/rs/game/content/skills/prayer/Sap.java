@@ -25,9 +25,11 @@ public enum Sap {
 	MAGE(Prayer.SAP_MAGE, 2220, 2221, 2222),
 	SPIRIT(Prayer.SAP_SPIRIT, 2223, 2224, 2225);
 
-	private Prayer prayer;
+	private final Prayer prayer;
 
-	private int spotAnimStart, projAnim, spotAnimHit;
+	private final int spotAnimStart;
+    private final int projAnim;
+    private final int spotAnimHit;
 
 	private Sap(Prayer prayer, int spotAnimStart, int projAnim, int spotAnimHit) {
 		this.prayer = prayer;

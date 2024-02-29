@@ -25,6 +25,7 @@ import com.rs.engine.dialogue.statements.PlayerStatement;
 import com.rs.game.World;
 import com.rs.game.content.minigames.pyramidplunder.SimonTempleton;
 import com.rs.game.content.skills.agility.Agility;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -51,9 +52,9 @@ public class AgilityPyramidController extends Controller {
 		D(1554, Tile.of(3048, 4699, 2), 3),
 		E(1555, Tile.of(3044, 4699, 3), 2);
 
-		private int configId;
-		private Tile tile;
-		private int rotation;
+		private final int configId;
+		private final Tile tile;
+		private final int rotation;
 
 		private RollingBlock(int configId, Tile tile, int rotation) {
 			this.configId = configId;
@@ -128,7 +129,7 @@ public class AgilityPyramidController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 	}
 
@@ -152,7 +153,7 @@ public class AgilityPyramidController extends Controller {
 
 	public void finishCourse() {
 		if (grabbedTop) {
-			player.setNextTile(Tile.of(3364, 2830, 0));
+			player.tele(Tile.of(3364, 2830, 0));
 			//player.getSkills().addXp(Constants.AGILITY, 300+(player.getSkills().getLevelForXp(Constants.AGILITY)*8)); //osrs rates?
 			player.getSkills().addXp(Constants.AGILITY, 500);
 			grabbedTop = false;
@@ -165,23 +166,14 @@ public class AgilityPyramidController extends Controller {
 	private void grabTop(GameObject object) {
 		player.setNextFaceTile(player.transform(1, 0, 0));
 		player.lock();
-		WorldTasks.schedule(new Task() {
-			int ticks;
-			@Override
-			public void run() {
-				if (ticks == 0)
-					player.setNextAnimation(new Animation(3063));
-				else if (ticks >= 2) {
-					player.getInventory().addItemDrop(6970, 1);
-					grabbedTop = true;
-					updateTop();
-					player.startConversation(new Conversation(player, new Dialogue(new ItemStatement(6970, "You find a pyramid top!"))));
-					player.unlock();
-					stop();
-				}
-				ticks++;
-			}
-		}, 0, 1);
+		player.getTasks().schedule(0, () -> player.anim(3063));
+		player.getTasks().schedule(2, () -> {
+			player.getInventory().addItemDrop(6970, 1);
+			grabbedTop = true;
+			updateTop();
+			player.startConversation(new Conversation(player, new Dialogue(new ItemStatement(6970, "You find a pyramid top!"))));
+			player.unlock();
+		});
 	}
 
 	//3056 fail
@@ -227,7 +219,7 @@ public class AgilityPyramidController extends Controller {
 		final boolean running = player.getRun();
 		player.setRunHidden(false);
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks;
 			@Override
 			public void run() {
@@ -241,7 +233,7 @@ public class AgilityPyramidController extends Controller {
 					player.resetWalkSteps();
 				} else if (ticks >= 4) {
 					if (fail) {
-						player.setNextTile(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
+						player.tele(World.findClosestAdjacentFreeTile(player.transform(0, 0, -1), 2));
 						player.applyHit(new Hit(null, 100, HitLook.TRUE_DAMAGE));
 					} else {
 						player.setNextAnimation(new Animation(endAnim));
@@ -263,7 +255,7 @@ public class AgilityPyramidController extends Controller {
 			player.setRunHidden(false);
 			player.lock();
 			player.addWalkSteps(player.transform(-4, 0, 0), -1, false);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				boolean secondloop;
 				@Override
 				public void run() {
@@ -295,7 +287,7 @@ public class AgilityPyramidController extends Controller {
 		player.setRunHidden(false);
 		player.lock();
 		player.addWalkSteps(toTile.getX(), toTile.getY(), -1, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean secondloop;
 			@Override
 			public void run() {
@@ -346,24 +338,25 @@ public class AgilityPyramidController extends Controller {
 		byte[] dir = Utils.getDirection(player.getFaceAngle());
 		if (dir[0] != 0 && dir[1] != 0 || failed) {
 			int x = 0, y = 0, z = -1;
-			switch(block.rotation) {
-			case 0:
-				x = 0;
-				y = -2;
-				break;
-			case 1:
-				x = -2;
-				y = 0;
-				break;
-			case 2:
-				x = 0;
-				y = 2;
-				break;
-			case 3:
-				x = 2;
-				y = 0;
-				break;
-			}
+            y = switch (block.rotation) {
+                case 0 -> {
+                    x = 0;
+                    yield -2;
+                }
+                case 1 -> {
+                    x = -2;
+                    yield 0;
+                }
+                case 2 -> {
+                    x = 0;
+                    yield 2;
+                }
+                case 3 -> {
+                    x = 2;
+                    yield 0;
+                }
+                default -> y;
+            };
 			if (block == RollingBlock.D) {
 				x = 322;
 				y = -1856;

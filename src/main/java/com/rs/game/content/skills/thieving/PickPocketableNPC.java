@@ -195,13 +195,14 @@ public enum PickPocketableNPC {
 				NPCS.put(id, data);
 	}
 
-	private int rate1, rate99;
-	private short[] npcIds;
-	private byte[] thievingLevels;
-	private byte[] agilityLevels;
-	private double experience;
-	private byte stunTime;
-	private byte stunDamage;
+	private final int rate1;
+    private final int rate99;
+	private final short[] npcIds;
+	private final byte[] thievingLevels;
+	private final byte[] agilityLevels;
+	private final double experience;
+	private final byte stunTime;
+	private final byte stunDamage;
 	private String table;
 	private DropSet loot;
 	private Animation stunAnimation = null;
@@ -281,14 +282,9 @@ public enum PickPocketableNPC {
 	}
 
 	public static boolean hasArdyCloak(Player player) {
-		switch(player.getEquipment().getCapeId()) {
-		case 15349:
-		case 19748:
-		case 9777:
-		case 9778:
-			return true;
-		default:
-			return false;
-		}
+        return switch (player.getEquipment().getCapeId()) {
+            case 15349, 19748, 9777, 9778 -> true;
+            default -> false;
+        };
 	}
 }

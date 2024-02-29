@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MapImageDumper {
 
-	private static int[][] TILE_SHAPES = {
+	private static final int[][] TILE_SHAPES = {
 			{
 				1, 1, 1, 1,
 				1, 1, 1, 1,
@@ -113,7 +113,7 @@ public class MapImageDumper {
 			}
 	};
 
-	private static int[][] TILE_ROTATIONS = {
+	private static final int[][] TILE_ROTATIONS = {
 			{
 				0, 1, 2, 3,
 				4, 5, 6, 7,

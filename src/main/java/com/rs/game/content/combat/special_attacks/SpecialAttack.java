@@ -13,9 +13,9 @@ public class SpecialAttack {
     }
 
     private boolean instant = false;
-    private int energyCost;
+    private final int energyCost;
     private Type type;
-    private BiFunction<Player, Entity, Integer> execute;
+    private final BiFunction<Player, Entity, Integer> execute;
 
     public SpecialAttack(Type type, int energyCost, BiFunction<Player, Entity, Integer> execute) {
         this.type = type;

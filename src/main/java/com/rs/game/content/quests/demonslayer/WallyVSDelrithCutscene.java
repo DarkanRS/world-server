@@ -17,7 +17,7 @@ public class WallyVSDelrithCutscene extends Cutscene {
 		hideMinimap();
 		delay(4);
 		dynamicRegion(player.getTile(), 401, 419, 4, 4);
-		action(()-> player.getAppearance().transformIntoNPC(266));
+		action(()-> player.getAppearance().setHidden(true));
 		playerMove(19, 17, 0, Entity.MoveType.TELE);
 		camShake(1, 0, 10, 5, 10);
 		camPos(19, 17, 1300);
@@ -60,13 +60,13 @@ public class WallyVSDelrithCutscene extends Cutscene {
 				, true);
 		fadeIn(0);
 		delay(4);
-		action(()->{player.getAppearance().transformIntoNPC(-1);});
-		action(()->{player.setNextTile(getEndTile());});
+		action(()-> player.getAppearance().setHidden(false));
+		action(()-> player.tele(getEndTile()));
 		camShakeReset();
 		delay(1);
 		fadeOut(0);
 		music(125);
-		action(()->{player.getTempAttribs().setB("DemonSlayerCutscenePlayed", true);});
+		action(()-> player.getTempAttribs().setB("DemonSlayerCutscenePlayed", true));
 		dialogue(new GypsyArisDemonSlayerD(player, 1).getStart(), false);
 	}
 }

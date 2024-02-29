@@ -30,14 +30,14 @@ import java.util.Map;
 
 public class ObjectClickEvent implements PluginEvent {
 
-	private static Map<Object, Map<Integer, List<ObjectClickHandler>>> METHODS = new HashMap<>();
+	private static final Map<Object, Map<Integer, List<ObjectClickHandler>>> METHODS = new HashMap<>();
 
-	private Player player;
-	private GameObject object;
-	private ClientPacket opNum;
-	private String option;
-	private boolean atObject;
-	private int objectId;
+	private final Player player;
+	private final GameObject object;
+	private final ClientPacket opNum;
+	private final String option;
+	private final boolean atObject;
+	private final int objectId;
 
 	public ObjectClickEvent(Player player, GameObject object, ClientPacket opNum, boolean atObject) {
 		this.player = player;
@@ -106,12 +106,8 @@ public class ObjectClickEvent implements PluginEvent {
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		ObjectClickHandler handler = (ObjectClickHandler) method;
 		for (Object key : handler.keys()) {
-			Map<Integer, List<ObjectClickHandler>> locMap = METHODS.get(key);
-			if (locMap == null) {
-				locMap = new HashMap<>();
-				METHODS.put(key, locMap);
-			}
-			if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
+            Map<Integer, List<ObjectClickHandler>> locMap = METHODS.computeIfAbsent(key, k -> new HashMap<>());
+            if (handler.getType() == null && (handler.getTiles() == null || handler.getTiles().length <= 0)) {
 				List<ObjectClickHandler> methods = locMap.get(0);
 				if (methods == null)
 					methods = new ArrayList<>();
@@ -134,4 +130,15 @@ public class ObjectClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public GameObject component2() {
+		return object;
+	}
+
+	public String component3() {
+		return option;
+	}
 }

@@ -29,9 +29,7 @@ public class ThurgoKnightsSwordD extends Conversation {
 				addNPC(THURGO, HeadE.CALM_TALK, "A knight's sword eh? Well, I'd need to know exactly how it looked before I could make a new one.");
 				addNPC(THURGO, HeadE.CALM_TALK, "All the Faladian knights used to have swords with unique designs according to their position. Could you" +
 						" bring me a picture or something?");
-				addPlayer(HeadE.HAPPY_TALKING, "I'll go and ask his squire and see if I can find one.", ()->{
-					player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, GET_PICTURE);
-				});
+				addPlayer(HeadE.HAPPY_TALKING, "I'll go and ask his squire and see if I can find one.", ()-> player.getQuestManager().setStage(Quest.KNIGHTS_SWORD, GET_PICTURE));
 				return;
 			}
 			if(!player.getInventory().containsItem(REDBERRY_PIE)){
@@ -49,13 +47,13 @@ public class ThurgoKnightsSwordD extends Conversation {
 									@Override
 									public void create() {
 										option("Would you like a redberry pie?", new Dialogue()
-												.addNext(()->{player.startConversation(new ThurgoKnightsSwordD(player, WANT_PIE).getStart());}));
+												.addNext(()-> player.startConversation(new ThurgoKnightsSwordD(player, WANT_PIE).getStart())));
 										option("I'll come back another time.", new Dialogue()
 												.addPlayer(HeadE.HAPPY_TALKING, "I'll come back another time."));
 									}
 								}));
 						option("Would you like a redberry pie?", new Dialogue()
-								.addNext(()->{player.startConversation(new ThurgoKnightsSwordD(player, WANT_PIE).getStart());}));
+								.addNext(()-> player.startConversation(new ThurgoKnightsSwordD(player, WANT_PIE).getStart())));
 					}
 				});
 		}

@@ -27,6 +27,7 @@ import com.rs.game.content.skills.cooking.Cooking;
 import com.rs.game.content.skills.fishing.Fish;
 import com.rs.game.content.skills.fishing.Fishing;
 import com.rs.game.content.skills.fishing.FishingSpot;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.mining.Mining;
 import com.rs.game.content.skills.mining.RockType;
 import com.rs.game.content.skills.smithing.Smelting;
@@ -36,6 +37,7 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Hit;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Inventory;
@@ -89,19 +91,13 @@ public final class TutorialIslandController extends Controller {
 				Settings.getConfig().getServerName() + " Guide in this room. He is indicated by a flashing",
 				"yellow arrow above his head. If you can't see him, use your",
 				"keyboard's arrow keys to rotate the view."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().removeSubs(Sub.ALL_GAME_TABS);
-		}, ctrl -> {
-			ctrl.hintNPC(RUNESCAPE_GUIDE);
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().removeSubs(Sub.ALL_GAME_TABS), ctrl -> ctrl.hintNPC(RUNESCAPE_GUIDE)),
 
 		OPEN_SETTINGS(new String[] {
 				"Player controls",
 				"Please click on the flashing spanner icon found at the bottom",
 				"right of your screen. This will display your player controls."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SETTINGS), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_SETTINGS);
 		}),
@@ -143,18 +139,14 @@ public final class TutorialIslandController extends Controller {
 				"the view by pressing the arrow keys."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintNPC(SURVIVAL_EXPERT);
-		}),
+		}, ctrl -> ctrl.hintNPC(SURVIVAL_EXPERT)),
 
 		OPEN_INVENTORY(new String[] {
 				"Viewing the items that you were given.",
 				"Click on the flashing backpack icon to the right hand side of",
 				"the main window to view your inventory. Your inventory is a list",
 				"of everything you have in your backpack."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_INVENTORY);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_INVENTORY), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_INVENTORY);
 		}),
@@ -181,20 +173,14 @@ public final class TutorialIslandController extends Controller {
 				"Then click on the logs in your inventory to light them."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.removeHint();
-		}),
+		}, TutorialIslandController::removeHint),
 
 		OPEN_SKILLS(new String[] {
 				"",
 				"You gained some experience.",
 				"Click on the flashing bar graph icon near the inventory button",
 				"to see your skill stats."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SKILLS);
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_SKILLS);
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_SKILLS), ctrl -> ctrl.player.getInterfaceManager().flashTab(Sub.TAB_SKILLS)),
 
 		TALK_TO_SURVIVAL_EXPERT_2(new String[] {
 				"Your skill stats.",
@@ -230,9 +216,7 @@ public final class TutorialIslandController extends Controller {
 				"another."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.removeHint();
-		}),
+		}, TutorialIslandController::removeHint),
 
 		COOK_SHRIMP(new String[] {
 				"Burning your shrimp.",
@@ -254,9 +238,7 @@ public final class TutorialIslandController extends Controller {
 				"Remember, you can move the camera with the arrow keys."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintLocation(3089, 3092, 120);
-		}),
+		}, ctrl -> ctrl.hintLocation(3089, 3092, 120)),
 
 		ENTER_CHEF_HOUSE(new String[] {
 				"Find your next instructor.",
@@ -290,9 +272,7 @@ public final class TutorialIslandController extends Controller {
 				"select use, then left click on the pot of flour."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.removeHint();
-		}),
+		}, TutorialIslandController::removeHint),
 
 		COOK_DOUGH(new String[] {
 				"Cooking dough.",
@@ -301,9 +281,7 @@ public final class TutorialIslandController extends Controller {
 				"dough, talk to Lev - he will give you more ingredients."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintLocation(3075, 3081, 125);
-		}),
+		}, ctrl -> ctrl.hintLocation(3075, 3081, 125)),
 
 		OPEN_MUSIC(new String[] {
 				"Cooking dough",
@@ -312,9 +290,7 @@ public final class TutorialIslandController extends Controller {
 				"and even kebabs. Now you've got the hang of cooking, let's",
 				"move on. Click on the flashing icon in the bottom right to see",
 				"the jukebox."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MUSIC);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MUSIC), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_MUSIC);
 		}),
@@ -339,9 +315,7 @@ public final class TutorialIslandController extends Controller {
 				"Now, how about showing some feelings? You will see a flashing",
 				"icon in the shape of a person. Click on that to access your",
 				"emotes."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EMOTES);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EMOTES), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_EMOTES);
 		}),
@@ -356,9 +330,7 @@ public final class TutorialIslandController extends Controller {
 				"these"
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTabOff();
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().flashTabOff()),
 
 		RUN(new String[] {
 				"Running.",
@@ -366,9 +338,7 @@ public final class TutorialIslandController extends Controller {
 				"Why not try running there? You can run by clicking",
 				"on the boot icon next to your minimap or by holding",
 				"down your control key while clicking your destination."
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.ORB_RUN);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.ORB_RUN), ctrl -> {
 			ctrl.player.getInterfaceManager().flashTab(Sub.ORB_RUN);
 			ctrl.getPlayer().setRun(false);
 		}),
@@ -406,9 +376,7 @@ public final class TutorialIslandController extends Controller {
 				"",
 				"Click on the flashing icon next to your inventory.",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_QUEST);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_QUEST), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_QUEST);
 		}),
@@ -564,9 +532,7 @@ public final class TutorialIslandController extends Controller {
 				"to select the dagger to continue."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.removeHint();
-		}),
+		}, TutorialIslandController::removeHint),
 
 		LEAVE_MINING_AREA(new String[] {
 				"You've finished in this area.",
@@ -576,9 +542,7 @@ public final class TutorialIslandController extends Controller {
 				""
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintLocation(3094, 9502, 125);
-		}),
+		}, ctrl -> ctrl.hintLocation(3094, 9502, 125)),
 
 		TALK_TO_COMBAT_INSTRUCTOR(new String[] {
 				"Combat.",
@@ -599,9 +563,7 @@ public final class TutorialIslandController extends Controller {
 				"You now have access to a new interface. Click on the flashing",
 				"icon of a man, the one to the right of your backpack icon.",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EQUIPMENT);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_EQUIPMENT), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_EQUIPMENT);
 		}),
@@ -614,9 +576,7 @@ public final class TutorialIslandController extends Controller {
 				""
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTabOff();
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().flashTabOff()),
 
 		WIELD_DAGGER(new String[] {
 				"Worn interface",
@@ -639,9 +599,7 @@ public final class TutorialIslandController extends Controller {
 				"Instructor to continue."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintNPC(COMBAT_INSTRUCTOR);
-		}),
+		}, ctrl -> ctrl.hintNPC(COMBAT_INSTRUCTOR)),
 
 		EQUIP_SWORD_AND_SHIELD(new String[] {
 				"Unequipping items.",
@@ -652,9 +610,7 @@ public final class TutorialIslandController extends Controller {
 				"the top left of the screen."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.removeHint();
-		}),
+		}, TutorialIslandController::removeHint),
 
 		OPEN_COMBAT_TAB(new String[] {
 				"Combat interface.",
@@ -662,11 +618,7 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing crossed swords icon to see the combat",
 				"interface.",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_COMBAT);
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_COMBAT);
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_COMBAT), ctrl -> ctrl.player.getInterfaceManager().flashTab(Sub.TAB_COMBAT)),
 
 		ENTER_RAT_CAGE(new String[] {
 				"This is your combat interface.",
@@ -818,9 +770,7 @@ public final class TutorialIslandController extends Controller {
 				"Click on the flashing icon to open the Prayer menu.",
 				"",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_PRAYER);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_PRAYER), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_PRAYER);
 		}),
@@ -844,9 +794,7 @@ public final class TutorialIslandController extends Controller {
 				"You should now see another new icon. Click on the flashing",
 				"smiling face to open your friends list.",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_FRIENDS);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_FRIENDS), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_FRIENDS);
 		}),
@@ -859,9 +807,7 @@ public final class TutorialIslandController extends Controller {
 				""
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().flashTabOff();
-		}),
+		}, ctrl -> ctrl.player.getInterfaceManager().flashTabOff()),
 
 		TALK_TO_BROTHER_BRACE_3(new String[] {
 				"This is your ignore list.",
@@ -871,9 +817,7 @@ public final class TutorialIslandController extends Controller {
 				"Brother Brace and he will tell you more."
 		}, ctrl -> {
 
-		}, ctrl -> {
-			ctrl.hintNPC(BROTHER_BRACE);
-		}),
+		}, ctrl -> ctrl.hintNPC(BROTHER_BRACE)),
 
 		LEAVE_CHURCH_AREA(new String[] {
 				"",
@@ -907,9 +851,7 @@ public final class TutorialIslandController extends Controller {
 				"Open up the Magic menu by clicking on the flashing icon next",
 				"to the Prayer button you just learned about.",
 				""
-		}, ctrl -> {
-			ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MAGIC);
-		}, ctrl -> {
+		}, ctrl -> ctrl.player.getInterfaceManager().sendSubDefault(Sub.TAB_MAGIC), ctrl -> {
 			ctrl.removeHint();
 			ctrl.player.getInterfaceManager().flashTab(Sub.TAB_MAGIC);
 		}),
@@ -955,9 +897,9 @@ public final class TutorialIslandController extends Controller {
 			ctrl.hintNPC(MAGIC_INSTRUCTOR);
 		});
 
-		private String[] textBody;
-		private Consumer<TutorialIslandController> setupInterfaces;
-		private Consumer<TutorialIslandController> onStart;
+		private final String[] textBody;
+		private final Consumer<TutorialIslandController> setupInterfaces;
+		private final Consumer<TutorialIslandController> onStart;
 
 		Stage(String[] textBody, Consumer<TutorialIslandController> setupInterfaces, Consumer<TutorialIslandController> onStart) {
 			this.textBody = textBody;
@@ -1211,14 +1153,14 @@ public final class TutorialIslandController extends Controller {
 
 	@Override
 	public boolean gainXP(int skillId, double exp) {
+		if (skillId == Skills.HITPOINTS || player.getSkills().getLevelForXp(skillId) >= 3)
+			return false;
 		double currXp = player.getSkills().getXp(skillId);
 		int levelPost = Skills.getLevelForXp(skillId, (long) (currXp + exp));
 		if (levelPost > 3) {
 			player.getSkills().set(skillId, 3);
 			return false;
 		}
-		if (player.getSkills().getLevelForXp(skillId) >= 3)
-			return false;
 		return true;
 	}
 
@@ -1296,7 +1238,7 @@ public final class TutorialIslandController extends Controller {
 	@Override
 	public void start() {
 		if (getStage() == Stage.TALK_TO_GUIDE)
-			player.setNextTile(Tile.of(3094, 3107, 0));
+			player.tele(Tile.of(3094, 3107, 0));
 		sendInterfaces();
 	}
 
@@ -1373,13 +1315,10 @@ public final class TutorialIslandController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT)
+			return false;
+		return true;
 	}
 
 	public void removeHint() {
@@ -1419,9 +1358,7 @@ public final class TutorialIslandController extends Controller {
 		if (!temp)
 			prevText = text;
 		else
-			player.setCloseInterfacesEvent(() -> {
-				sendText(prevText);
-			});
+			player.setCloseInterfacesEvent(() -> sendText(prevText));
 	}
 
 }

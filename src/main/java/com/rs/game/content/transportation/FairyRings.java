@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.dungeons.ancientcavern.AncientCavern;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
@@ -193,9 +194,9 @@ public class FairyRings {
 
 		;
 
-		private String name;
-		private int logId;
-		private Tile tile;
+		private final String name;
+		private final int logId;
+		private final Tile tile;
 
 		Ring(int logId, String name, Tile tile) {
 			this.logId = logId;
@@ -330,7 +331,7 @@ public class FairyRings {
 	}
 
 	public static void sendTeleport(final Player player, final Tile tile) {
-		Magic.sendTeleportSpell(player, FIRST_ANIMATION, SECOND_ANIMATION, FIRST_GRAPHICS, SECOND_GRAPHICS, 0, 0, tile, 2, false, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, FIRST_ANIMATION, SECOND_ANIMATION, FIRST_GRAPHICS, SECOND_GRAPHICS, 0, 0, tile, 2, false, TeleType.OBJECT, null);
 	}
 
 	public static void handleDialButtons(final Player player, int componentId) {

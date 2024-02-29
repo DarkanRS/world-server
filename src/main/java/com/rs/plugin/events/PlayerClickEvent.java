@@ -25,12 +25,12 @@ import java.util.Map;
 
 public class PlayerClickEvent implements PluginEvent {
 
-	private static Map<Object, PlayerClickHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, PlayerClickHandler> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Player otherPlayer;
-	private String option;
-	private boolean atPlayer;
+	private final Player player;
+	private final Player otherPlayer;
+	private final String option;
+	private final boolean atPlayer;
 
 	public PlayerClickEvent(Player player, Player otherPlayer, String option, boolean atPlayer) {
 		this.player = player;
@@ -71,4 +71,15 @@ public class PlayerClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Player component2() {
+		return otherPlayer;
+	}
+
+	public String component3() {
+		return option;
+	}
 }

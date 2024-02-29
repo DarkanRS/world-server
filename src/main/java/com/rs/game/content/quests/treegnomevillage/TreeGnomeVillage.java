@@ -25,7 +25,14 @@ import com.rs.plugin.handlers.PlayerStepHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.TREE_GNOME_VILLAGE)
+@QuestHandler(
+		quest = Quest.TREE_GNOME_VILLAGE,
+		startText = "Talk to King Bolren at the centre of the Tree Gnome Village maze.",
+		itemsText = "6 normal logs.",
+		combatText = "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.",
+		rewardsText = "11,450 Attack XP<br>Access to spirit tree teleportation<br>Gnome amulet of protection",
+		completedStage = 7
+)
 @PluginEventHandler
 public class TreeGnomeVillage extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -36,11 +43,6 @@ public class TreeGnomeVillage extends QuestOutline {
 	public final static int ORB1 = 5;
 	public final static int KILL_WARLORD = 6;
 	public final static int QUEST_COMPLETE = 7;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -92,21 +94,17 @@ public class TreeGnomeVillage extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
 
-	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }, e -> {
-		Doors.handleDoor(e.getPlayer(), e.getObject());
-	});
+	public static ObjectClickHandler handleDoorTracker2 = new ObjectClickHandler(new Object[] { 40362, 40361 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject()));
 
 	public static ObjectClickHandler handleWallBallistaHit = new ObjectClickHandler(new Object[] { 12762 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == ORB1) {
 			Player p = e.getPlayer();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;
 				boolean isPlayerNorth = true;
 				@Override
@@ -126,9 +124,9 @@ public class TreeGnomeVillage extends QuestOutline {
 							stop();
 					} else if (tick >= 1) {
 						if (isPlayerNorth)
-							p.setNextTile(Tile.of(2509, 3252, 0));
+							p.tele(Tile.of(2509, 3252, 0));
 						if (!isPlayerNorth) {
-							p.setNextTile(Tile.of(2509, 3254, 0));
+							p.tele(Tile.of(2509, 3254, 0));
 							for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 1))
 								if(npc.getId() == 478 && npc.getPlane() == 0) {//Khazard Commander
 									npc.forceTalk("Hey, what are you doing in here?");
@@ -190,9 +188,7 @@ public class TreeGnomeVillage extends QuestOutline {
 	public static ObjectClickHandler handleBallista = new ObjectClickHandler(new Object[] { 69527 }, e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.TREE_GNOME_VILLAGE) == FIRE_BALLISTA && has3TrackerCoordinates(e.getPlayer())) {
 			Dialogue rightCoordinate = new Dialogue().addSimple("The huge spear flies through the air and screams down directly into the Khazard stronghold. " +
-					"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()->{
-				e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1);
-			});
+					"A deafening crash echoes over the battlefield as the front entrance is reduced to rubble.", ()-> e.getPlayer().getQuestManager().setStage(Quest.TREE_GNOME_VILLAGE, ORB1));
 			Dialogue wrongCoordinate = new Dialogue().addSimple("The huge spear completely misses the Khazard stronghold!");
 			int coordinate = e.getPlayer().getQuestManager().getAttribs(Quest.TREE_GNOME_VILLAGE).getI("tracker3coordinate");
 			e.getPlayer().startConversation(new Dialogue()
@@ -234,27 +230,4 @@ public class TreeGnomeVillage extends QuestOutline {
 		player.getInventory().addItem(new Item(589, 1), true);
 		sendQuestCompleteInterface(player, 589);
 	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Bolren in the Tree Gnome Village.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "6 normal logs.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 53 enemy and might need to defeat two level 49 enemies.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "11,450 Attack XP<br>"+
-				"Access to spirit tree teleportation<br>" +
-				"Gnome amulet of protection";
-	}
-
 }

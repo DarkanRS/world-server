@@ -94,7 +94,7 @@ public class BoxHunterNPC extends NPC {
 
 	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(
 			Stream.concat(
-					Arrays.stream(JadinkoType.values()).map(i -> i.getNpcId()).filter(i -> i != -1).distinct(), 
+					Arrays.stream(JadinkoType.values()).map(JadinkoType::getNpcId).filter(i -> i != -1).distinct(),
 					BoxHunterType.ID_MAP.keySet().stream())
 			.toArray(), (npcId, tile) -> new BoxHunterNPC(npcId, tile, false));
 

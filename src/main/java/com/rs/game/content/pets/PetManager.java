@@ -90,12 +90,8 @@ public final class PetManager {
 		if (!hasRequirements(pets))
 			return true;
 		int baseItemId = pets.getBabyItemId();
-		PetDetails details = petDetails.get(baseItemId);
-		if (details == null) {
-			details = new PetDetails(pets.getGrowthRate() == 0.0 ? 100.0 : 0.0);
-			petDetails.put(baseItemId, details);
-		}
-		int id = pets.getItemId(details.getStage());
+        PetDetails details = petDetails.computeIfAbsent(baseItemId, k -> new PetDetails(pets.getGrowthRate() == 0.0 ? 100.0 : 0.0));
+        int id = pets.getItemId(details.getStage());
 		if (itemId != id) {
 			player.sendMessage("This is not the right pet, grow the pet correctly.");
 			return true;
@@ -129,10 +125,9 @@ public final class PetManager {
 	 * @return {@code True} if so.
 	 */
 	private boolean hasRequirements(Pets pet) {
-		switch (pet) {
-		default:
-			return true;
-		}
+        return switch (pet) {
+            default -> true;
+        };
 	}
 
 	/**

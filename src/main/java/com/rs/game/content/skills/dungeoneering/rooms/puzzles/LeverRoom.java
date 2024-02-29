@@ -76,7 +76,7 @@ public class LeverRoom extends PuzzleRoom {
 		//1 - 14.4 seconds
 		maxTicks = (6 - difficulty) + ((size == 1 ? 23 : 20) / difficulty);
 		resetTask = new ResetTask();
-		WorldTasks.schedule(resetTask, 0, 0);
+		WorldTasks.scheduleLooping(resetTask, 0, 0);
 	}
 
 	private void resetTask() {
@@ -89,7 +89,10 @@ public class LeverRoom extends PuzzleRoom {
 
 		@Override
 		public void run() {
-
+			if (manager == null || manager.isDestroyed()) {
+				stop();
+				return;
+			}
 			if (leverCount == 5) {
 				setComplete();
 				resetTask();
@@ -98,7 +101,7 @@ public class LeverRoom extends PuzzleRoom {
 			}
 
 			leverTicks++;
-			if (leverTicks == maxTicks) {
+			if (leverTicks >= maxTicks) {
 				resetTask();
 				if (leverCount != 5) {
 					leverCount = 0;

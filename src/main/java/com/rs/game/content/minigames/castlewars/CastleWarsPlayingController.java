@@ -17,9 +17,11 @@
 package com.rs.game.content.minigames.castlewars;
 
 import com.rs.game.World;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Controller;
@@ -38,7 +40,7 @@ import java.util.List;
 
 public class CastleWarsPlayingController extends Controller {
 
-	private int team;
+	private final int team;
 
 	public CastleWarsPlayingController(int team) {
 		this.team = team;
@@ -190,7 +192,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -211,7 +213,7 @@ public class CastleWarsPlayingController extends Controller {
 					}
 
 					player.reset();
-					player.setNextTile(Tile.of(team == CastleWars.ZAMORAK ? CastleWars.ZAMO_BASE : CastleWars.SARA_BASE, 1));
+					player.tele(Tile.of(team == CastleWars.ZAMORAK ? CastleWars.ZAMO_BASE : CastleWars.SARA_BASE, 1));
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
 					player.jingle(90);
@@ -230,19 +232,7 @@ public class CastleWarsPlayingController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
@@ -425,7 +415,7 @@ public class CastleWarsPlayingController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 		leave();
 	}

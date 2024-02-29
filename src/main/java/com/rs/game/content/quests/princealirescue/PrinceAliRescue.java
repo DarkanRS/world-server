@@ -36,7 +36,14 @@ import java.util.List;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.PRINCE_ALI_RESCUE)
+@QuestHandler(
+		quest = Quest.PRINCE_ALI_RESCUE,
+		startText = "Speak to Hassan in the palace at Al Kharid.",
+		itemsText = "Soft clay<br>3 balls of wool<br>Yellow dye or 2 onions and 5 coins<br>Redberries<br>Ashes<br>Bucket of water or jug of water (obtainable during quest)<br>Pot of flour<br>Bronze bar<br>Pink skirt<br>3 beers<br>Rope (can be bought during the quest at Ned for 18 coins or 4 balls of wool)<br>At least 100 coins",
+		combatText = "The ability to get past aggressive combat level 26 jail guards.",
+		rewardsText = "700 coins<br>Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>(Members) Access to the Sorceress's Garden Thieving minigame.",
+		completedStage = 5
+)
 @PluginEventHandler
 public class PrinceAliRescue extends QuestOutline {
 
@@ -83,10 +90,6 @@ public class PrinceAliRescue extends QuestOutline {
 
 	//Places
 	public final static int JAIL_REGION_ID = 12338; //Update to new logic
-	@Override
-	public int getCompletedStage() {
-		return 5;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -223,39 +226,4 @@ public class PrinceAliRescue extends QuestOutline {
 		player.getInventory().addCoins(700);
 		sendQuestCompleteInterface(player, 6964);
 	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Speak to Hassan in the palace at Al Kharid.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Soft clay<br>" +
-				"3 balls of wool<br>" +
-				"Yellow dye or 2 onions and 5 coins<br>" +
-				"Redberries<br>" +
-				"Ashes<br>" +
-				"Bucket of water or jug of water (obtainable during quest)<br>" +
-				"Pot of flour<br>" +
-				"Bronze bar<br>" +
-				"Pink skirt<br>" +
-				"3 beers<br>" +
-				"Rope (can be bought during the quest at Ned for 18 coins or 4 balls of wool)<br>" +
-				"At least 100 coins";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "The ability to get past aggressive combat level 26 jail guards.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "700 coins<br>" +
-				"Free passage through the Lumbridge -> Al Kharid toll gate from now on<br>" +
-				"(Members) Access to the Sorceress's Garden Thieving minigame.";
-	}
-
-
 }

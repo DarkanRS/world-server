@@ -11,7 +11,7 @@ import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class RobinCastle extends Dialogue {
-    private static int npcid = 11280;
+    private static final int npcid = 11280;
 
     public static NPCClickHandler RobinCastle = new NPCClickHandler(new Object[] { 7955, 11268, 11279, 11280 }, new String[] {"Talk-to"}, e -> {
         int questStage = e.getPlayer().getQuestStage(Quest.BUYERS_AND_CELLARS);

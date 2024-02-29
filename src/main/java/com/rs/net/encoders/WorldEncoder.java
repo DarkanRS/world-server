@@ -43,6 +43,7 @@ import com.rs.lib.net.packets.encoders.social.MessageGame.MessageType;
 import com.rs.lib.net.packets.encoders.updatezone.*;
 import com.rs.lib.net.packets.encoders.vars.*;
 import com.rs.lib.net.packets.encoders.zonespecific.SpotAnimSpecific;
+import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
 import com.rs.lib.util.Utils;
@@ -57,7 +58,7 @@ import java.util.Set;
 
 public class WorldEncoder extends Encoder {
 
-	private Player player;
+	private final Player player;
 
 	public WorldEncoder(Player player, Session session) {
 		super(session);
@@ -368,13 +369,18 @@ public class WorldEncoder extends Encoder {
 		int mapHash = player.getMapSize().size >> 4;
 		int[] realRegionIds = new int[4 * mapHash * mapHash];
 		int realRegionIdsCount = 0;
+//		Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", "[Start DynamicRegion]");
+//		Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", player.getMapSize() + ", ("+player.getChunkX() + ", " + player.getChunkY() + ")");
 		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC) {
 			for (int chunkX = (player.getChunkX() - mapHash) * Chunk.X_INC; chunkX <= ((player.getChunkX() + mapHash)) * Chunk.X_INC; chunkX += Chunk.X_INC) {
 				for (int chunkY = (player.getChunkY() - mapHash); chunkY <= ((player.getChunkY() + mapHash)); chunkY++) {
 					Chunk chunk = ChunkManager.getChunk(chunkX + chunkY + plane);
-					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0)
+					if (chunk.getRenderChunkX() == 0 || chunk.getRenderChunkY() == 0) {
+//						Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", "Empty block: " + chunk.getX() + ", " + chunk.getY());
 						stream.writeBits(1, 0);
-					else {
+					} else {
+//						Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", "Dynamic block: " + chunk.getX() + ", " + chunk.getY());
+//						Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", "[" + chunk.getRenderChunkX() + ", " + chunk.getRenderChunkY() + ", " + chunk.getRenderPlane() + "] rot: " + chunk.getRotation());
 						stream.writeBits(1, 1);
 						stream.writeBits(26, (chunk.getRotation() << 1) | (chunk.getRenderPlane() << 24) | (chunk.getRenderChunkX() << 14) | (chunk.getRenderChunkY() << 3));
 						boolean found = false;
@@ -391,6 +397,9 @@ public class WorldEncoder extends Encoder {
 			}
 		}
 		stream.finishBitAccess();
+//		Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", Arrays.toString(realRegionIds));
+//		Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", realRegionIds.length + " - " + realRegionIdsCount);
+//		Logger.debug(WorldEncoder.class, "sendDynamicMapRegion", "[End DynamicRegion]");
 		session.writeToQueue(new DynamicMapRegion(lswp, player.getMapSize(), player.getChunkX(), player.getChunkY(), player.isForceNextMapLoadRefresh(), stream.toByteArray(), realRegionIds));
 	}
 

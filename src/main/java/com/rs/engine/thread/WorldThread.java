@@ -19,6 +19,7 @@ package com.rs.engine.thread;
 import com.rs.Settings;
 import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.map.instance.InstanceBuilder;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.OwnedObject;
@@ -53,8 +54,10 @@ public final class WorldThread extends Thread {
 
 	public static long START_CYCLE;
 	public static volatile long WORLD_CYCLE;
-	public static long LOWEST_TICK = 50000;
-	public static long HIGHEST_TICK = 0;
+	private static long LOWEST_TICK = 50000;
+	private static long TICKS;
+    private static long TOTAL_TIME = 0;
+	private static long HIGHEST_TICK = 0;
 
 	protected WorldThread() {
 		setPriority(Thread.MAX_PRIORITY);
@@ -223,24 +226,37 @@ public final class WorldThread extends Thread {
 					HIGHEST_TICK = time;
 				if (time < LOWEST_TICK)
 					LOWEST_TICK = time;
-				if (time > 300l && Settings.getConfig().getStaffWebhookUrl() != null) {
+				TICKS++;
+				TOTAL_TIME += time;
+                long AVERAGE_TICK = TOTAL_TIME / TICKS;
+
+				if (time > 300L && Settings.getConfig().getStaffWebhookUrl() != null) {
 					if (Settings.getConfig().isEnableJFR())
 						tickRecording.stop();
 					StringBuilder content = new StringBuilder();
-					content.append("Tick concern - " + time + "ms - " + Settings.getConfig().getServerName() + " - Players online: " + World.getPlayers().size() + " - Uptime: " + Utils.ticksToTime(WORLD_CYCLE - START_CYCLE));
+					content.append("__**Tick concern**__\n");
+					content.append("__**World Data**__\n");
 					content.append("```\n");
-					content.append("Chunk: " + timerChunk.getFormattedTime() + "\n");
-					content.append("Task: " + timerTask.getFormattedTime() + "\n");
-					content.append("Update zone: " + timerUpdateZones.getFormattedTime() + "\n");
-					content.append("Player proc: " + timerPlayerProc.getFormattedTime() + "\n");
-					content.append("NPC proc: " + timerNpcProc.getFormattedTime() + "\n");
-					content.append("Player move: " + timerPlayerMove.getFormattedTime() + "\n");
-					content.append("NPC move: " + timerNpcMove.getFormattedTime() + "\n");
-					content.append("Entity update: " + timerEntityUpdate.getFormattedTime() + "\n");
-					content.append("Flush: " + timerFlushPackets.getFormattedTime() + "\n");
-					content.append("Lowest/Highest tick time: " + LOWEST_TICK + "/"+HIGHEST_TICK);
+					content.append("World: ").append(Settings.getConfig().getServerName()).append("(").append(Settings.getConfig().getWorldInfo().number()).append("@").append(Settings.getConfig().getLobbyIp()).append(")\n");
+					content.append("Uptime: ").append(Utils.ticksToTime(WORLD_CYCLE - START_CYCLE)).append("\n");
+					content.append("Players loaded: ").append(Utils.formatNumber(World.getPlayers().size())).append("\n");
+					content.append("NPCs loaded: ").append(Utils.formatNumber(World.getNPCs().size())).append("\n");
+					content.append("Reserved dynamic regions: ").append(Utils.formatNumber(InstanceBuilder.getReservedRegionCount())).append("\n");
+					content.append("Active world task count: ").append(Utils.formatNumber(WorldTasks.getSize())).append("\n");
 					content.append("```\n");
-					content.append("JVM Stats:\n");
+					content.append("__**Tick Time: ").append(time).append("ms (min: ").append(Utils.formatLong(LOWEST_TICK)).append("ms avg: ").append(Utils.formatLong(AVERAGE_TICK)).append("ms max: ").append(Utils.formatLong(HIGHEST_TICK)).append("ms)**__\n");
+					content.append("```\n");
+					content.append("Chunk: ").append(timerChunk.getFormattedTime()).append("\n");
+					content.append("Task: ").append(timerTask.getFormattedTime()).append("\n");
+					content.append("Update zone: ").append(timerUpdateZones.getFormattedTime()).append("\n");
+					content.append("Player proc: ").append(timerPlayerProc.getFormattedTime()).append("\n");
+					content.append("NPC proc: ").append(timerNpcProc.getFormattedTime()).append("\n");
+					content.append("Player move: ").append(timerPlayerMove.getFormattedTime()).append("\n");
+					content.append("NPC move: ").append(timerNpcMove.getFormattedTime()).append("\n");
+					content.append("Entity update: ").append(timerEntityUpdate.getFormattedTime()).append("\n");
+					content.append("Flush: ").append(timerFlushPackets.getFormattedTime()).append("\n");
+					content.append("```\n");
+					content.append("__**JVM Stats:**__\n");
 					content.append("```\n");
 					/**
 					 * Memory and CPU usage stats
@@ -255,7 +271,7 @@ public final class WorldThread extends Thread {
 
 					long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
 					double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
-					content.append("Total JVM memory usage: " + Utils.formatLong(jvmTotalUsed) + "mb/" + Utils.formatLong(jvmMaxMemory) + "mb (" + Utils.formatDouble(jvmMemUsedPerc) + "%)\n");
+					content.append("Total JVM memory usage: ").append(Utils.formatLong(jvmTotalUsed)).append("mb/").append(Utils.formatLong(jvmMaxMemory)).append("mb (").append(Utils.formatDouble(jvmMemUsedPerc)).append("%)\n");
 					content.append("```\n");
 					MultipartBody.Builder builder = new MultipartBody.Builder()
 							.setType(MultipartBody.FORM)
@@ -263,7 +279,8 @@ public final class WorldThread extends Thread {
 
 					if (Settings.getConfig().isEnableJFR()) {
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
-						try (InputStream is = tickRecording.getStream(null, null)) {
+                        assert tickRecording != null;
+                        try (InputStream is = tickRecording.getStream(null, null)) {
 							byte[] buffer = new byte[1024];
 							int len;
 							while ((len = is.read(buffer)) > -1) {

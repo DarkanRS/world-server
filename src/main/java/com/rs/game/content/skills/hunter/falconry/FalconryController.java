@@ -17,6 +17,7 @@
 package com.rs.game.content.skills.hunter.falconry;
 
 import com.rs.game.content.skills.hunter.falconry.Kebbit.KebbitType;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.interactions.StandardEntityInteraction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
@@ -90,7 +91,7 @@ public class FalconryController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 
@@ -109,7 +110,7 @@ public class FalconryController extends Controller {
 					e.getPlayer().getControllerManager().forceStop();
 					e.getPlayer().lock(2);
 					e.getPlayer().setNextAnimation(new Animation(1560));
-					WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+					WorldTasks.schedule(() -> e.getPlayer().tele(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 				});
 				ops.add("No");
 			});
@@ -117,7 +118,7 @@ public class FalconryController extends Controller {
 		}
 		e.getPlayer().lock(2);
 		e.getPlayer().setNextAnimation(new Animation(1560));
-		WorldTasks.schedule(() -> e.getPlayer().setNextTile(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
+		WorldTasks.schedule(() -> e.getPlayer().tele(e.getPlayer().transform(0, e.getPlayer().getY() > e.getObject().getY() ? -2 : 2)));
 	});
 
 	public static void beginFalconry(Player player) {

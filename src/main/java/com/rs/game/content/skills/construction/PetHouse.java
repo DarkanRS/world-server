@@ -33,7 +33,7 @@ public class PetHouse {
 	private static final int INV_INTERFACE_ID = 878;
 
 	private transient Player player;
-	private ItemsContainer<Item> pets;
+	private final ItemsContainer<Item> pets;
 
 	public PetHouse() {
 		pets = new ItemsContainer<>(72, false);

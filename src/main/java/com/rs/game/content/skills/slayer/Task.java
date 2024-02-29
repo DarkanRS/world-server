@@ -248,10 +248,10 @@ public enum Task {
 	WARPED_TORTOISES_K(Master.Kuradal, TaskMonster.WARPED_TORTOISES, 8, 150, 240),
 	WATERFIENDS_K(Master.Kuradal, TaskMonster.WATERFIENDS, 9, 170, 250);
 
-	private Master master;
-	private TaskMonster creature;
-	private int[] minMax;
-	private int weighting;
+	private final Master master;
+	private final TaskMonster creature;
+	private final int[] minMax;
+	private final int weighting;
 
 	private Task(Master master, TaskMonster creature, int weighting, int min, int max) {
 		this.master = master;

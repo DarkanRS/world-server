@@ -27,9 +27,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 			if (player.getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).getB("KNOWS_BEGGAR")) {
 				if (player.getInventory().containsItem(BREAD, 1)) {
 					addNPC(NPC, HeadE.CALM_TALK, "Do you have the bread now?");
-					addNext(() -> {
-						player.startConversation(new BeggarMerlinsCrystalD(player, true).getStart());
-					});
+					addNext(() -> player.startConversation(new BeggarMerlinsCrystalD(player, true).getStart()));
 				} else {
 					addNPC(NPC, HeadE.CALM_TALK, "Have you got any bread for me yet?");
 					addPlayer(HeadE.HAPPY_TALKING, "No, not yet.");
@@ -37,9 +35,7 @@ public class BeggarMerlinsCrystalD extends Conversation {
 			} else {
 				addNPC(NPC, HeadE.CALM_TALK, "Please... my family and I are starving... Could you find it in your heart to spare me a simple loaf of bread?");
 				if(player.getInventory().containsItem(BREAD, 1))
-					addNext(() -> {
-						player.startConversation(new BeggarMerlinsCrystalD(player, true).getStart());
-					});
+					addNext(() -> player.startConversation(new BeggarMerlinsCrystalD(player, true).getStart()));
 				else
 					addPlayer(HeadE.HAPPY_TALKING, "... except I don't have any bread on me at the moment...");
 			}

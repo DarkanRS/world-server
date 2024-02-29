@@ -47,7 +47,7 @@ public class Skippy extends Conversation {
 		addNext(new NPCStatement(npc.getId(), HeadE.CHEERFUL, "If all else fails, visit the " + Settings.getConfig().getServerName() + " Discord for a whole", "chestload of information on quests, skills and minigames", "as well as a very good community."));
 		addNext(new Dialogue(new SimpleStatement("Welcome to Burthorpe!", "To further learn about Gielinor, simply talk to Major Nigel Corothers.", "He can be found by looking for the sword icon on your mini map. If you find", "you are lost at any time, use the home teleport spell to go to common destinations."), () -> {
 			World.sendWorldMessage("<img=5><col=FF0000>" + player.getDisplayName() + " has just joined "+Settings.getConfig().getServerName()+"!</col>", false);
-			player.setNextTile(Tile.of(Settings.getConfig().getPlayerStartTile()));
+			player.tele(Tile.of(Settings.getConfig().getPlayerStartTile()));
 			player.getControllerManager().forceStop();
 			player.getInterfaceManager().flashTabOff();
 			player.getInterfaceManager().sendSubDefaults(Sub.ALL_GAME_TABS);

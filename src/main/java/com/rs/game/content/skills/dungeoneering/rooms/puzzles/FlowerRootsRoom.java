@@ -120,8 +120,8 @@ public class FlowerRootsRoom extends PuzzleRoom {
 			}
 		colorTask = new ChangeColorTask();
 		objectTask = new ChangeObjectTask();
-		WorldTasks.schedule(colorTask, 0, 6);
-		WorldTasks.schedule(objectTask, 4, 6); //color animation is 3 ticks
+		WorldTasks.scheduleLooping(colorTask, 0, 6);
+		WorldTasks.scheduleLooping(objectTask, 4, 6); //color animation is 3 ticks
 	}
 
 	@Override
@@ -224,8 +224,10 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		@Override
 		public void run() {
 			synchronized (manager) {
-				if (manager.isDestroyed())
+				if (manager == null || manager.isDestroyed()) {
+					stop();
 					return;
+				}
 				for (int x = 0; x < 16; x++)
 					for (int y = 0; y < 16; y++) {
 						Plant p = plants[x][y];
@@ -249,7 +251,7 @@ public class FlowerRootsRoom extends PuzzleRoom {
 		@Override
 		public void run() {
 			synchronized (manager) {
-				if (manager.isDestroyed()) {
+				if (manager == null || manager.isDestroyed()) {
 					stop();
 					return;
 				}

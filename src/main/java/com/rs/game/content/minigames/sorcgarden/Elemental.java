@@ -75,7 +75,7 @@ public class Elemental extends NPC {
 					player.lock();
 					player.sendMessage("You've been spotted by an elemental and teleported out of its garden.");
 					FadingScreen.fade(player, () -> {
-						player.setNextTile(SorceressGardenController.inAutumnGarden(player.getTile()) ? Tile.of(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player.getTile()) ? Tile.of(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player.getTile()) ? Tile.of(2910, 5476, 0) : Tile.of(2906, 5470, 0))));
+						player.tele(SorceressGardenController.inAutumnGarden(player.getTile()) ? Tile.of(2913, 5467, 0) : (SorceressGardenController.inSpringGarden(player.getTile()) ? Tile.of(2916, 5473, 0) : (SorceressGardenController.inSummerGarden(player.getTile()) ? Tile.of(2910, 5476, 0) : Tile.of(2906, 5470, 0))));
 						player.lock(1);
 						beingTeleported = false;
 					});

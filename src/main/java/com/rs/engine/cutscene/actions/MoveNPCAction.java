@@ -26,8 +26,10 @@ import java.util.Map;
 
 public class MoveNPCAction extends CutsceneAction {
 
-	private int x, y, plane;
-	private MoveType movementType;
+	private final int x;
+    private final int y;
+    private final int plane;
+	private final MoveType movementType;
 
 	public MoveNPCAction(String key, int x, int y, boolean run, int actionDelay) {
 		this(key, x, y, 0, run ? MoveType.RUN : MoveType.WALK, actionDelay);
@@ -46,7 +48,7 @@ public class MoveNPCAction extends CutsceneAction {
 		NPC npc = (NPC) objects.get(getObjectKey());
 		Cutscene scene = (Cutscene) objects.get("cutscene");
 		if (movementType == MoveType.TELE) {
-			npc.setNextTile(Tile.of(scene.getX(x), scene.getY(y), plane));
+			npc.tele(Tile.of(scene.getX(x), scene.getY(y), plane));
 			return;
 		}
 		npc.setRun(movementType == MoveType.RUN);

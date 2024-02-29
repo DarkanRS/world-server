@@ -46,7 +46,6 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.content.interfacehandlers.TransformationRing;
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
@@ -127,6 +126,7 @@ import com.rs.utils.record.Recorder;
 import com.rs.utils.reflect.ReflectionAnalysis;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSets;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -148,6 +148,7 @@ public class Player extends Entity {
 	public transient int chatType;
 
 	private long timePlayed = 0;
+	private transient long timePlayedThisSession = 0;
 	private long timeLoggedOut;
 
 	private transient HashMap<Integer, ReflectionAnalysis> reflectionAnalyses = new HashMap<>();
@@ -170,6 +171,8 @@ public class Player extends Entity {
 
 	private DungManager dungManager;
 
+	private boolean trulyHidden;
+
 	public transient long tolerance = 0;
 	public transient long idleTime = 0;
 	public transient long dyingTime = 0;
@@ -177,11 +180,9 @@ public class Player extends Entity {
 	public transient boolean disconnected = false;
 	private transient int pvpCombatLevelThreshhold = -1;
 	private transient String[] playerOptions = new String[10];
-	private transient Set<Sound> sounds = new HashSet<Sound>();
+	private transient Set<Sound> sounds = new HashSet<>();
 
 	private Instance instancedArea;
-
-	private int hw07Stage;
 	public transient Runnable onPacketCutsceneFinish;
 
 	public void refreshChargeTimer() {
@@ -242,6 +243,7 @@ public class Player extends Entity {
 	private boolean ironMan;
 
 	private int jadinkoFavor;
+	public int soulWarsZeal;
 
 	private long lastLoggedIn = 0;
 
@@ -286,8 +288,8 @@ public class Player extends Entity {
 	private transient LocalPlayerUpdate localPlayerUpdate;
 	private transient LocalNPCUpdate localNPCUpdate;
 
-	private MoveType tempMoveType;
-	private boolean updateMovementType;
+	private transient MoveType tempMoveType = moveType;
+	public transient boolean updateMovementType = true;
 
 	// player stages
 	private transient boolean started;
@@ -321,32 +323,30 @@ public class Player extends Entity {
 	private transient int uuid;
 	private String lastIP;
 	private ArrayList<String> ipAddresses;
-	@SuppressWarnings("unused")
-	private long creationDate;
-	private Appearance appearence;
-	private Inventory inventory;
-	private Equipment equipment;
-	private Skills skills;
-	private CombatDefinitions combatDefinitions;
-	private PrayerManager prayer;
-	private Bank bank;
+    private final Appearance appearence;
+	private final Inventory inventory;
+	private final Equipment equipment;
+	private final Skills skills;
+	private final CombatDefinitions combatDefinitions;
+	private final PrayerManager prayer;
+	private final Bank bank;
 	private int starter;
-	private ControllerManager controllerManager;
-	private MusicsManager musicsManager;
-	private EmotesManager emotesManager;
-	private DominionTower dominionTower;
+	private final ControllerManager controllerManager;
+	private final MusicsManager musicsManager;
+	private final EmotesManager emotesManager;
+	private final DominionTower dominionTower;
 	private Familiar summFamiliar;
-	private AuraManager auraManager;
+	private final AuraManager auraManager;
 	private PetManager petManager;
 	private BossTask bossTask;
-	private QuestManager questManager;
+	private final QuestManager questManager;
 	private MiniquestManager miniquestManager;
-	private TreasureTrailsManager treasureTrailsManager;
+	private final TreasureTrailsManager treasureTrailsManager;
 	private Map<Integer, Offer> geOffers = new HashMap<>();
 
 	public int reaperPoints;
 
-	private boolean wickedHoodTalismans[];
+	private boolean[] wickedHoodTalismans;
 	private boolean hasUsedOmniTalisman;
 	private boolean hasUsedElementalTalisman;
 
@@ -376,8 +376,6 @@ public class Player extends Entity {
 	private double runEnergy;
 	private boolean allowChatEffects;
 	private boolean mouseButtons;
-	private int privateChatSetup;
-	private int friendChatSetup;
 	public int totalDonated;
 	private int skullId;
 	private boolean forceNextMapLoadRefresh;
@@ -596,7 +594,7 @@ public class Player extends Entity {
 		herbicideSettings = new HashSet<>();
 		ipList = new HashSet<>();
 		machineMap = new HashMap<>();
-		creationDate = System.currentTimeMillis();
+        long creationDate = System.currentTimeMillis();
 		resetLodestones();
 	}
 
@@ -692,8 +690,7 @@ public class Player extends Entity {
 			machineMap.remove(new ArrayList<>(machineMap.keySet()).get(Utils.random(machineMap.keySet().size())));
 		if (machineInformation != null)
 			machineMap.put(machineInformation.hashCode(), machineInformation);
-		return;
-	}
+    }
 
 	public boolean[] getPrayerBook() {
 		return prayerBook;
@@ -815,9 +812,8 @@ public class Player extends Entity {
 	}
 
 	public void initNewChunks() {
-		for (int chunkId : getMapChunksNeedInit()) {
+		for (int chunkId : getMapChunksNeedInit())
 			ChunkManager.getChunk(chunkId).init(this);
-		}
 	}
 
 	// now that we inited we can start showing game
@@ -847,6 +843,7 @@ public class Player extends Entity {
 	public void stopAll(boolean stopWalk, boolean stopInterfaces, boolean stopActions) {
 		TransformationRing.triggerDeactivation(this);
 		setRouteEvent(null);
+		walkRequest = null;
 		if (stopInterfaces)
 			closeInterfaces();
 		if (stopWalk)
@@ -953,6 +950,7 @@ public class Player extends Entity {
 				finish(0);
 
 			timePlayed++;
+			timePlayedThisSession++;
 			timeLoggedOut = System.currentTimeMillis();
 
 			if (getTickCounter() % FarmPatch.FARMING_TICK == 0)
@@ -1146,10 +1144,8 @@ public class Player extends Entity {
 
 	@Override
 	public void setRun(boolean run) {
-		if (run != getRun()) {
-			super.setRun(run);
-			updateMovementType = true;
-		}
+		super.setRun(run);
+		updateMovementType = true;
 		sendRunButtonConfig();
 	}
 
@@ -1199,8 +1195,6 @@ public class Player extends Entity {
 		getPackets().sendRunEnergy(runEnergy);
 		refreshAllowChatEffects();
 		refreshMouseButtons();
-		refreshPrivateChatSetup();
-		refreshOtherChatsSetup();
 		sendRunButtonConfig();
 		if (!hasRights(Rights.ADMIN)) {
 			removeDungItems();
@@ -1289,11 +1283,16 @@ public class Player extends Entity {
 				getControllerManager().startController(new TutorialIslandController());
 			else
 				setStarter(1);
-			if (!getUsername().startsWith("cli_bot")) {
-				PlayerLook.openCharacterCustomizing(this);
-				startConversation(new GamemodeSelection(this));
-			} else
-				setChosenAccountType(true);
+			PlayerLook.openCharacterCustomizing(this);
+			startConversation(new GamemodeSelection(this));
+		}
+		if (getUsername().startsWith("cli_bot")) {
+			if (getControllerManager().isIn(TutorialIslandController.class)) {
+				tele(Settings.getConfig().getPlayerStartTile());
+				getControllerManager().forceStop();
+			}
+			setChosenAccountType(true);
+			setStarter(1);
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
 		PluginManager.handle(new LoginEvent(this));
@@ -1319,10 +1318,8 @@ public class Player extends Entity {
 		if (getInventory().containsOneItem(itemIds) || getEquipment().containsOneItem(itemIds))
 			return true;
 		Familiar familiar = getFamiliar();
-		if (familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished())))
-			return true;
-		return false;
-	}
+        return familiar != null && ((familiar.getInventory() != null && familiar.containsOneItem(itemIds) || familiar.isFinished()));
+    }
 
 	public void processWeeklyTasks() {
 		if (Utils.getTodayDate() >= weeklyDate) {
@@ -1365,6 +1362,11 @@ public class Player extends Entity {
 			return;
 		if (stone == Lodestone.BANDIT_CAMP || stone == Lodestone.LUNAR_ISLE) {
 			sendMessage("This lodestone doesn't respond.");
+			return;
+		}
+		if (object == null) {
+			lodestones[stone.ordinal()] = true;
+			refreshLodestoneNetwork();
 			return;
 		}
 		final Tile tile = object.getTile();
@@ -1580,37 +1582,26 @@ public class Player extends Entity {
 	}
 
 	public String getPlayerOption(ClientPacket packet) {
-		switch(packet) {
-		case PLAYER_OP1:
-			return playerOptions[0];
-		case PLAYER_OP2:
-			return playerOptions[1];
-		case PLAYER_OP3:
-			return playerOptions[2];
-		case PLAYER_OP4:
-			return playerOptions[3];
-		case PLAYER_OP5:
-			return playerOptions[4];
-		case PLAYER_OP6:
-			return playerOptions[5];
-		case PLAYER_OP7:
-			return playerOptions[6];
-		case PLAYER_OP8:
-			return playerOptions[7];
-		case PLAYER_OP9:
-			return playerOptions[8];
-		case PLAYER_OP10:
-			return playerOptions[9];
-		default:
-			return "null";
-		}
+        return switch (packet) {
+            case PLAYER_OP1 -> playerOptions[0];
+            case PLAYER_OP2 -> playerOptions[1];
+            case PLAYER_OP3 -> playerOptions[2];
+            case PLAYER_OP4 -> playerOptions[3];
+            case PLAYER_OP5 -> playerOptions[4];
+            case PLAYER_OP6 -> playerOptions[5];
+            case PLAYER_OP7 -> playerOptions[6];
+            case PLAYER_OP8 -> playerOptions[7];
+            case PLAYER_OP9 -> playerOptions[8];
+            case PLAYER_OP10 -> playerOptions[9];
+            default -> "null";
+        };
 	}
 
 	@Override
 	public void checkMultiArea() {
 		if (!started)
 			return;
-		boolean isAtMultiArea = isForceMultiArea() ? true : World.isMultiArea(getTile());
+		boolean isAtMultiArea = isForceMultiArea() || World.isMultiArea(getTile());
 		if (isAtMultiArea && !isAtMultiArea()) {
 			setAtMultiArea(isAtMultiArea);
 			getPackets().sendVarc(616, 1);
@@ -1737,6 +1728,8 @@ public class Player extends Entity {
 		if (getPrayer().active(Prayer.RAPID_RENEWAL))
 			toRegen += 4;
 		if (getEquipment().getGlovesId() == 11133)
+			toRegen *= 2;
+		if (getAuraManager().isActivated(AuraManager.Aura.REGENERATION))
 			toRegen *= 2;
 		if ((getHitpoints() + toRegen) > getMaxHitpoints())
 			toRegen = getMaxHitpoints() - getHitpoints();
@@ -2034,7 +2027,7 @@ public class Player extends Entity {
 			return;
 
 		if (hasEffect(Effect.STAFF_OF_LIGHT_SPEC) && hit.getLook() == HitLook.MELEE_DAMAGE) {
-			hit.setDamage((int) (hit.getDamage() * 0.5));
+			hit.soakDamage(0.5);
 			spotAnim(2320);
 		}
 		if (prayer.hasPrayersOn() && hit.getDamage() != 0)
@@ -2074,34 +2067,30 @@ public class Player extends Entity {
 						setNextAnimation(new Animation(12573));
 					}
 				}
-		if (hit.getDamage() >= 200)
-			if (hit.getLook() == HitLook.MELEE_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_MELEE) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
-			} else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_RANGE) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
-			} else if (hit.getLook() == HitLook.MAGIC_DAMAGE) {
-				int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(Bonus.ABSORB_MAGIC) / 100;
-				if (reducedDamage > 0) {
-					hit.setDamage(hit.getDamage() - reducedDamage);
-					hit.setSoaking(new Hit(source, reducedDamage, HitLook.ABSORB_DAMAGE));
-				}
+		if (hit.getDamage() >= 200) {
+			Bonus bonus = switch(hit.getLook()) {
+				case MELEE_DAMAGE -> Bonus.ABSORB_MELEE;
+				case RANGE_DAMAGE -> Bonus.ABSORB_RANGE;
+				default -> Bonus.ABSORB_MAGIC;
+			};
+			int reducedDamage = hit.getDamage() * combatDefinitions.getBonus(bonus) / 100;
+			if (reducedDamage > 0) {
+				hit.setDamage(hit.getDamage() - reducedDamage);
+				hit.addSoaking(reducedDamage);
 			}
+		}
+		if (hit.getDamage() > 0 && auraManager.isActivated(AuraManager.Aura.AEGIS) && Utils.skillSuccess(skills.getLevel(Skills.DEFENSE), 15, 128)) {
+			hit.soakDamage(0.10);
+			spotAnim(2180);
+		}
 		int shieldId = equipment.getShieldId();
 		if (shieldId == 13742) {
 			if (Utils.getRandomInclusive(100) <= 70)
-				hit.setDamage((int) (hit.getDamage() * 0.75));
+				hit.soakDamage(0.25);
 		} else if (shieldId == 13740) { // divine
 			int drain = (int) (Math.ceil(hit.getDamage() * 0.3) / 2);
 			if (prayer.getPoints() >= drain) {
-				hit.setDamage((int) (hit.getDamage() * 0.70));
+				hit.soakDamage(0.3);
 				prayer.drainPrayer(drain);
 			}
 		}
@@ -2158,7 +2147,7 @@ public class Player extends Entity {
 
 	@Override
 	public void handlePostHit(Hit hit) {
-
+		super.handlePostHit(hit);
 	}
 
 	public void safeDeath(Tile respawnTile) {
@@ -2186,7 +2175,7 @@ public class Player extends Entity {
 				case 1 -> sendMessage(message);
 				case 3 -> {
 					reset();
-					setNextTile(respawnTile);
+					tele(respawnTile);
 					setNextAnimation(new Animation(-1));
 					if (onFall != null)
 						onFall.accept(this);
@@ -2200,6 +2189,7 @@ public class Player extends Entity {
 			return true;
 		});
 	}
+
 	@Override
 	public void sendDeath(final Entity source) {
 		clearPendingTasks();
@@ -2224,7 +2214,7 @@ public class Player extends Entity {
 		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -2236,7 +2226,7 @@ public class Player extends Entity {
 				else if (loop == 2) {
 					reset();
 					if (source instanceof Player opp && opp.hasRights(Rights.ADMIN))
-						setNextTile(Settings.getConfig().getPlayerRespawnTile());
+						tele(Settings.getConfig().getPlayerRespawnTile());
 					else
 						controllerManager.startController(new DeathOfficeController(deathTile, hasSkull()));
 				} else if (loop == 3) {
@@ -2264,10 +2254,16 @@ public class Player extends Entity {
 			source.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
 	}
 
+	public boolean withinDistance(Player other, int distance) {
+		if (other.trulyHidden && other != this)
+			return false;
+		return super.withinDistance(other.getTile(), distance);
+	}
+
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35, 15,
-				proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
+			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
+					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
 			if (isAtMultiArea()) {
@@ -2294,6 +2290,8 @@ public class Player extends Entity {
 			return;
 		auraManager.removeAura();
 		Item[][] items = GraveStone.getItemsKeptOnDeath(this, slots);
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(this);
 		inventory.reset();
 		equipment.reset();
 		appearence.generateAppearanceData();
@@ -2357,6 +2355,8 @@ public class Player extends Entity {
 			containedItems.remove(lastItem);
 			lastItem = new Item(1, 1);
 		}
+		if (summFamiliar != null)
+			summFamiliar.sendDeath(killer);
 		inventory.reset();
 		equipment.reset();
 		WorldDB.getPlayers().save(this);
@@ -2390,7 +2390,7 @@ public class Player extends Entity {
 			List<Item> foodItems = new ArrayList<>();
 			List<Item> trophyItems = new ArrayList<>();
 			for (Item item : droppedItems) {
-				if (Foods.isConsumable(item) || Potions.Potion.POTS.keySet().contains(item.getId()) || item.getId() == 24444)
+				if (Foods.isConsumable(item) || Potions.Potion.POTS.containsKey(item.getId()) || item.getId() == 24444)
 					foodItems.add(item);
 				else
 					trophyItems.add(item);
@@ -2515,7 +2515,7 @@ public class Player extends Entity {
 		if (emoteId != -1)
 			setNextAnimation(new Animation(emoteId));
 		if (useDelay == 0)
-			setNextTile(dest);
+			tele(dest);
 		else {
 			WorldTasks.schedule(new Task() {
 				@Override
@@ -2524,7 +2524,7 @@ public class Player extends Entity {
 						return;
 					if (resetAnimation)
 						setNextAnimation(new Animation(-1));
-					setNextTile(dest);
+					tele(dest);
 					if (message != null)
 						sendMessage(message);
 				}
@@ -2558,38 +2558,12 @@ public class Player extends Entity {
 		getVars().setVar(170, mouseButtons ? 0 : 1);
 	}
 
-	public void refreshPrivateChatSetup() {
-		getVars().setVar(287, privateChatSetup);
-	}
-
-	public void refreshOtherChatsSetup() {
-		int value = friendChatSetup << 6;
-		getVars().setVar(1438, value);
-	}
-
-	public void setPrivateChatSetup(int privateChatSetup) {
-		this.privateChatSetup = privateChatSetup;
-	}
-
-	public void setFriendChatSetup(int friendChatSetup) {
-		this.friendChatSetup = friendChatSetup;
-	}
-
-	public void setClanChatSetup(int clanChatSetup) {
-	}
-
-	public void setGuestChatSetup(int guestChatSetup) {
-	}
-
-	public int getPrivateChatSetup() {
-		return privateChatSetup;
-	}
-
 	public boolean isForceNextMapLoadRefresh() {
 		return forceNextMapLoadRefresh;
 	}
 
 	public void setForceNextMapLoadRefresh(boolean forceNextMapLoadRefresh) {
+		this.getMapChunkIds().clear();
 		this.forceNextMapLoadRefresh = forceNextMapLoadRefresh;
 		setForceUpdateEntityRegion(true);
 	}
@@ -2872,9 +2846,7 @@ public class Player extends Entity {
 	}
 
 	public MoveType getMovementType() {
-		if (getTemporaryMoveType() != null)
-			return getTemporaryMoveType();
-		return getRun() ? MoveType.RUN : MoveType.WALK;
+		return moveType;
 	}
 
 	public void setDisableEquip(boolean equip) {
@@ -3047,12 +3019,7 @@ public class Player extends Entity {
 
 	public void ladder(final Tile toTile) {
 		setNextAnimation(new Animation(828));
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				setNextTile(toTile);
-			}
-		}, 1);
+		getTasks().schedule(1, () -> tele(toTile));
 	}
 
 	public void giveStarter() {
@@ -3170,10 +3137,8 @@ public class Player extends Entity {
 	}
 
 	public void sendGodwarsKill(NPC npc) {
-		boolean dropKey = false;
-		if (Utils.getRandomInclusive(500) <= 10 && npc.getDefinitions().combatLevel <= 134)
-			dropKey = true;
-		if (npc.getId() >= 6247 && npc.getId() <= 6259) {
+		boolean dropKey = Utils.getRandomInclusive(500) <= 10 && npc.getDefinitions().combatLevel <= 134;
+        if (npc.getId() >= 6247 && npc.getId() <= 6259) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.SARADOMIN);
 			if (dropKey)
 				World.addGroundItem(new Item(20124, 1), Tile.of(npc.getCoordFaceX(npc.getSize()), npc.getCoordFaceY(npc.getSize()), npc.getPlane()), this, false, 60);
@@ -3199,8 +3164,7 @@ public class Player extends Entity {
 		}
 		if (npc.getId() >= 13447 && npc.getId() <= 13459) {
 			((GodwarsController) getControllerManager().getController()).sendKill(GodwarsController.ZAROS);
-			return;
-		}
+        }
 	}
 
 	public void openBook(Book book) {
@@ -3221,9 +3185,9 @@ public class Player extends Entity {
 	public void useLadder(int anim, final Tile tile) {
 		lock();
 		setNextAnimation(new Animation(anim));
-		WorldTasks.scheduleTimer(tick -> {
+		getTasks().scheduleTimer(tick -> {
 			if (tick == 1)
-				setNextTile(tile);
+				tele(tile);
 			if (tick == 2) {
 				unlock();
 				return false;
@@ -3245,10 +3209,10 @@ public class Player extends Entity {
 	}
 
 	public void sendMessage(String... mes) {
-		String text = "";
+		StringBuilder text = new StringBuilder();
 		for (String str : mes)
-			text += str + "<br>";
-		getPackets().sendGameMessage(text);
+			text.append(str).append("<br>");
+		getPackets().sendGameMessage(text.toString());
 	}
 
 	public Date getDateJoined() {
@@ -3284,10 +3248,8 @@ public class Player extends Entity {
 	}
 
 	public boolean hasYellTitle() {
-		if (getYellTitle() == null || getYellTitle().isEmpty())
-			return false;
-		return true;
-	}
+        return getYellTitle() != null && !getYellTitle().isEmpty();
+    }
 
 	public String getYellTitle() {
 		return yellTitle;
@@ -3440,7 +3402,7 @@ public class Player extends Entity {
 		return wickedHoodTalismans;
 	}
 
-	public void setWickedHoodTalismans(boolean wickedHoodTalismans[]) {
+	public void setWickedHoodTalismans(boolean[] wickedHoodTalismans) {
 		this.wickedHoodTalismans = wickedHoodTalismans;
 	}
 
@@ -3785,10 +3747,8 @@ public class Player extends Entity {
 		Tools tool = Tools.forId(itemId);
 		if (tool == null)
 			return false;
-		if (tool.contains(getToolValue(tool), itemId))
-			return true;
-		return false;
-	}
+        return tool.contains(getToolValue(tool), itemId);
+    }
 
 	public int getToolValue(Tools tool) {
 		if ((toolbelt == null) || (toolbelt.get(tool) == null))
@@ -3813,10 +3773,8 @@ public class Player extends Entity {
 	}
 
 	public boolean isOnTask(TaskMonster monster) {
-		if (getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster)
-			return true;
-		return false;
-	}
+        return getSlayer().getTask() != null && getSlayer().getTask().getMonster() == monster;
+    }
 
 	public void addWalkSteps(Tile toTile, int maxSteps, boolean clip) {
 		addWalkSteps(toTile.getX(), toTile.getY(), maxSteps, clip);
@@ -3827,14 +3785,10 @@ public class Player extends Entity {
 		setRunHidden(false);
 		lock(5);
 		addWalkSteps(tile.getX(), tile.getY(), 3, false);
-		WorldTasks.schedule(new Task() {
-			@Override
-			public void run() {
-				setRunHidden(running);
-				unlock();
-				stop();
-			}
-		}, 3);
+		getTasks().schedule(3, () -> {
+			setRunHidden(running);
+			unlock();
+		});
 	}
 
 	public int[] getWarriorPoints() {
@@ -3853,7 +3807,7 @@ public class Player extends Entity {
 			if (controller == null || !(controller instanceof WarriorsGuild guild))
 				return;
 			guild.inCyclopse = false;
-			setNextTile(WarriorsGuild.CYCLOPS_LOBBY);
+			tele(WarriorsGuild.CYCLOPS_LOBBY);
 			warriorPoints[index] = 0;
 		} else if (warriorPoints[index] > 65535)
 			warriorPoints[index] = 65535;
@@ -3879,43 +3833,6 @@ public class Player extends Entity {
 			phasmatysBrewery = new Brewery(false);
 		phasmatysBrewery.setPlayer(this);
 		return phasmatysBrewery;
-	}
-
-	private int easter20Stage = 0;
-
-	public int getEaster20Stage() {
-		return easter20Stage;
-	}
-
-	public void setEaster20Stage(int easter20Stage) {
-		this.easter20Stage = easter20Stage;
-	}
-
-	private int christ19Stage = 0;
-	private Location christ19Loc = null;
-
-	public Location getChrist19Loc() {
-		return christ19Loc;
-	}
-
-	public void setChrist19Loc(Location christ19Loc) {
-		this.christ19Loc = christ19Loc;
-	}
-
-	public int getChrist19Stage() {
-		return christ19Stage;
-	}
-
-	public void setChrist19Stage(int christ19Stage) {
-		this.christ19Stage = christ19Stage;
-	}
-
-	public int getHw07Stage() {
-		return hw07Stage;
-	}
-
-	public void setHw07Stage(int hw07Stage) {
-		this.hw07Stage = hw07Stage;
 	}
 
 	public boolean isRunBlocked() {
@@ -4019,6 +3936,10 @@ public class Player extends Entity {
 		return timePlayed;
 	}
 
+	public long getTimePlayedThisSession() {
+		return timePlayedThisSession;
+	}
+
 	public Map<StorableItem, Item> getLeprechaunStorage() {
 		if (leprechaunStorage == null)
 			leprechaunStorage = new HashMap<>();
@@ -4104,6 +4025,14 @@ public class Player extends Entity {
 
 	public void setLsp(int lsp) {
 		this.lsp = lsp;
+	}
+
+	public boolean isTrulyHidden() {
+		return trulyHidden;
+	}
+
+	public void setTrulyHidden(boolean trulyHidden) {
+		this.trulyHidden = trulyHidden;
 	}
 
 	public void promptSetYellColor() {
@@ -4252,51 +4181,35 @@ public class Player extends Entity {
 		getAppearance().generateAppearanceData();
 	}
 
-	public Sound playSound(Sound sound) {
+	public Sound addSound(Sound sound) {
 		if (sound.getId() == -1)
 			return null;
 		sounds.add(sound);
 		return sound;
 	}
 
-	private Sound playSound(int soundId, int delay, SoundType type) {
-		return playSound(new Sound(soundId, delay, type));
+	private Sound addSound(int soundId, int delay, SoundType type) {
+		return addSound(new Sound(soundId, delay, type));
 	}
 
 	public void jingle(int jingleId, int delay) {
-		playSound(jingleId, delay, SoundType.JINGLE);
+		addSound(jingleId, delay, SoundType.JINGLE);
 	}
 
 	public void jingle(int jingleId) {
-		playSound(jingleId, 0, SoundType.JINGLE);
+		addSound(jingleId, 0, SoundType.JINGLE);
 	}
 
 	public void musicTrack(int trackId, int delay, int volume) {
-		playSound(trackId, delay, SoundType.MUSIC).volume(volume);
+		addSound(trackId, delay, SoundType.MUSIC).volume(volume);
 	}
 
 	public void musicTrack(int trackId, int delay) {
-		playSound(trackId, delay, SoundType.MUSIC);
+		addSound(trackId, delay, SoundType.MUSIC);
 	}
 
 	public void musicTrack(int trackId) {
 		musicTrack(trackId, 100);
-	}
-
-	public void soundEffect(int soundId, int delay) {
-		playSound(soundId, delay, SoundType.EFFECT);
-	}
-
-	public void soundEffect(int soundId) {
-		soundEffect(soundId, 0);
-	}
-
-	public void voiceEffect(int voiceId, int delay) {
-		playSound(voiceId, delay, SoundType.VOICE);
-	}
-
-	public void voiceEffect(int voiceId) {
-		voiceEffect(voiceId, 0);
 	}
 
 	public Map<Integer, MachineInformation> getMachineMap() {
@@ -4315,7 +4228,7 @@ public class Player extends Entity {
 				setForceNextMapLoadRefresh(true);
 				return;
 			}
-			setNextTile(instancedArea.getReturnTo());
+			tele(instancedArea.getReturnTo());
 			instancedArea = null;
 		}
 	}
@@ -4350,7 +4263,7 @@ public class Player extends Entity {
 	public void delayLock(int ticks, Runnable task) {
 		lock();
 		WorldTasks.delay(ticks, task);
-		WorldTasks.delay(ticks+1, () -> unlock());
+		WorldTasks.delay(ticks+1, this::unlock);
 	}
 
 	public void playPacketCutscene(int id, Runnable onFinish) {
@@ -4392,5 +4305,19 @@ public class Player extends Entity {
     }
 	public void setMiniquestStage(Miniquest quest, int stage) {
 		getMiniquestManager().setStage(quest, stage);
+	}
+
+	@Override
+	public String toString() {
+		return "["+getDisplayName() + " @ (" + getX() + "," + getY() + "," + getPlane()+")]";
+	}
+
+    @NotNull
+    public String genderTerm(@NotNull String male, @NotNull String female) {
+        return getAppearance().isMale() ? male : female;
+    }
+
+	public void completeQuest(@NotNull Quest quest) {
+		getQuestManager().completeQuest(quest);
 	}
 }

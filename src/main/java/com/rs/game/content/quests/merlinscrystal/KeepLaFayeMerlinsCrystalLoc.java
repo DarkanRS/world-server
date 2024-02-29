@@ -42,7 +42,7 @@ public class KeepLaFayeMerlinsCrystalLoc {
 						@Override
 						public void create() {
 							option("Yes", new Dialogue()
-									.addNext(()->{e.getPlayer().getControllerManager().startController(new MerlinsCrystalCrateScene());}));
+									.addNext(()-> e.getPlayer().getControllerManager().startController(new MerlinsCrystalCrateScene())));
 							option("No", new Dialogue());
 						}
 					});

@@ -11,7 +11,7 @@ public class Kethsi {
     //sync 11705 1340 (get stone of jas buff)
 
     public static ObjectClickHandler handleGlacorCavePassBarrier = new ObjectClickHandler(new Object[] { 61584 }, e ->
-            e.getPlayer().setNextTile(e.getPlayer().transform(e.getPlayer().getX() == 4206 ? -1 : 1, 0, 0)));
+            e.getPlayer().tele(e.getPlayer().transform(e.getPlayer().getX() == 4206 ? -1 : 1, 0, 0)));
 
     public static ObjectClickHandler statueArmRubble = new ObjectClickHandler(new Object[] { 6655 }, e -> {
        if (e.getPlayer().getVars().getVarBit(9833) == 1 || e.getPlayer().getInventory().containsItem(21797)) {
@@ -37,16 +37,10 @@ public class Kethsi {
        e.getPlayer().useLadder(e.getPlayer().transform(e.getObject().getRotation() == 1 ? (up ? 2 : -2) : e.getObject().getRotation() == 3 ? (up ? -2 : 2) : 0, e.getObject().getRotation() == 2 ? (up ? -2 : 2) : e.getObject().getRotation() == 0 ? (up ? 2 : -2) : 0, up ? 1 : -1));
     });
 
-    public static ObjectClickHandler jumpGap = new ObjectClickHandler(new Object[] { 10372, 10390 }, e -> {
-        e.getPlayer().walkToAndExecute(e.getObject().getTile(), () -> e.getPlayer().forceMove(e.getPlayer().transform(e.getObjectId() == 10372 ? -3 : 3, 0, 0), 11729, 20, 60));
-    });
+    public static ObjectClickHandler jumpGap = new ObjectClickHandler(new Object[] { 10372, 10390 }, e -> e.getPlayer().walkToAndExecute(e.getObject().getTile(), () -> e.getPlayer().forceMove(e.getPlayer().transform(e.getObjectId() == 10372 ? -3 : 3, 0, 0), 11729, 20, 60)));
 
-    public static ObjectClickHandler crossSpire = new ObjectClickHandler(new Object[] { 10456 }, e -> {
-        Agility.walkToAgility(e.getPlayer(), 155, e.getPlayer().getY() < 5709 ? Direction.NORTH : Direction.SOUTH, 6, 6);
-    });
+    public static ObjectClickHandler crossSpire = new ObjectClickHandler(new Object[] { 10456 }, e -> Agility.walkToAgility(e.getPlayer(), 155, e.getPlayer().getY() < 5709 ? Direction.NORTH : Direction.SOUTH, 6, 6));
 
-    public static ObjectClickHandler ramps = new ObjectClickHandler(new Object[] { 6751, 6752 }, e -> {
-        e.getPlayer().useStairs(e.getPlayer().transform(0, e.getObjectId() == 6751 ? -5 : 5, e.getObjectId() == 6751 ? 1 : -1));
-    });
+    public static ObjectClickHandler ramps = new ObjectClickHandler(new Object[] { 6751, 6752 }, e -> e.getPlayer().useStairs(e.getPlayer().transform(0, e.getObjectId() == 6751 ? -5 : 5, e.getObjectId() == 6751 ? 1 : -1)));
 
 }

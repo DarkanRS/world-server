@@ -161,7 +161,7 @@ public class BoatCutscene extends Cutscene {
 		
 		fadeInBG(3);
 		action(() -> player.getInterfaceManager().sendBackgroundInterfaceOverGameWindow(516));
-		action(1, () -> player.setNextTile(getEndTile()));
+		action(1, () -> player.tele(getEndTile()));
 		playerFaceDir(Direction.NORTH);
 		camShakeReset();
 		camPosReset();

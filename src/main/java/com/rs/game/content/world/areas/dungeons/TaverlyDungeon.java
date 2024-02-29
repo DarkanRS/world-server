@@ -28,9 +28,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 @PluginEventHandler
 public class TaverlyDungeon {
 
-	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 11901 ? Tile.of(4498, 5680, 0) : Tile.of(2915, 9673, 0));
-	});
+	public static ObjectClickHandler handleVSBSecretLocation = new ObjectClickHandler(new Object[] { 11901, 11902 }, e -> e.getPlayer().useStairs(e.getObjectId() == 11901 ? Tile.of(4498, 5680, 0) : Tile.of(2915, 9673, 0)));
 
 	public static ObjectClickHandler handlePipeSqueeze = new ObjectClickHandler(new Object[] { 9293 }, e -> {
 		if (e.getPlayer().getSkills().getLevel(Constants.AGILITY) < 70) {
@@ -51,7 +49,7 @@ public class TaverlyDungeon {
 		e.getPlayer().setRun(true);
 		e.getPlayer().addWalkSteps(isSouth ? 2881 : 2877, isSouth ? 9814 : 9812);
 		e.getPlayer().lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -72,8 +70,6 @@ public class TaverlyDungeon {
 		}, 0, 0);
 	});
 
-	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }, e -> {
-		e.getPlayer().setNextTile(e.getObjectId() == 66991 ? Tile.of(2885, 9795, 0) : Tile.of(2885, 3395, 0));
-	});
+	public static ObjectClickHandler handleEntrance = new ObjectClickHandler(new Object[] { 66991, 66992 }, e -> e.getPlayer().tele(e.getObjectId() == 66991 ? Tile.of(2885, 9795, 0) : Tile.of(2885, 3395, 0)));
 
 }

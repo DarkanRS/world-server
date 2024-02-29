@@ -20,6 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
+import com.rs.engine.quest.Quest;
 import com.rs.game.content.PlayerLook;
 import com.rs.game.content.achievements.AchievementDef;
 import com.rs.game.content.achievements.AchievementDef.Area;
@@ -27,6 +28,7 @@ import com.rs.game.content.achievements.AchievementDef.Difficulty;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
 import com.rs.game.content.achievements.SetReward;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
@@ -40,19 +42,17 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Rellekka {
 
-	public static NPCClickHandler handleCouncilWorkman = new NPCClickHandler(new Object[] { 1287 }, e -> {
-		e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
-			{
-				addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
-				addOptions("What would you like to say?", new Options() {
-					@Override
-					public void create() {
-						option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
-					}
-				});
-			}
-		});
-	});
+	public static NPCClickHandler handleCouncilWorkman = new NPCClickHandler(new Object[] { 1287 }, e -> e.getPlayer().startConversation(new Conversation(e.getPlayer()) {
+        {
+            addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?");
+            addOptions("What would you like to say?", new Options() {
+                @Override
+                public void create() {
+                    option("About the Achievement System...", new AchievementSystemDialogue(player, e.getNPCId(), SetReward.FREMENNIK_BOOTS).getStart());
+                }
+            });
+        }
+    }));
 
 	public static NPCClickHandler handleYrsa = new NPCClickHandler(new Object[] { 1301 }, e -> {
 		switch(e.getOpNum()) {
@@ -87,6 +87,7 @@ public class Rellekka {
 		}
 		Item branch = e.getUsedWith(3694);
 		if (branch != null) {
+			e.getPlayer().getInventory().deleteItem(3694, 1);
 			branch.setId(3689);
 			e.getPlayer().getInventory().refresh(branch.getSlot());
 		}
@@ -95,14 +96,15 @@ public class Rellekka {
 	public static ItemOnItemHandler handleCutLyre = new ItemOnItemHandler(946, new int[] { 3692 }, e -> {
 		Item branch = e.getUsedWith(946);
 		if (branch != null) {
-			e.getPlayer().getInventory().deleteItem(3692, 1);
 			branch.setId(3688);
 			e.getPlayer().getInventory().refresh(branch.getSlot());
-			e.getPlayer().setNextAnimation(new Animation(6702));
+			e.getPlayer().anim(6702);
 		}
 	});
 
 	public static void rechargeLyre(Player player) {
+		if (!player.isQuestComplete(Quest.FREMENNIK_TRIALS, "to charge a lyre."))
+			return;
 		if (!player.getInventory().containsItem(383, 1)) {
 			player.sendMessage("The Fossegrimen is unresponsive.");
 			return;
@@ -131,69 +133,53 @@ public class Rellekka {
 
 	private static final int[] LYRE_IDS = { 3690, 3691, 6125, 6126, 6127, 14590, 14591 };
 
-	private static final int getLowerLyreId(int curr) {
+	private static int getLowerLyreId(int curr) {
 		for (int i = 0;i < LYRE_IDS.length;i++)
 			if (LYRE_IDS[i] == curr)
 				return LYRE_IDS[i-1];
 		return 3690;
 	}
 
-	private static final void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
-		if (Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, Magic.MAGIC_TELEPORT, null)) {
-			if (reduceDaily)
+	private static void lyreTele(Player player, Tile loc, Item lyre, boolean reduceDaily) {
+		Magic.sendTeleportSpell(player, 9600, -1, 1682, -1, 0, 0, loc, 5, true, TeleType.ITEM, () -> {
+			if (reduceDaily) {
 				player.setDailyB("freeLyreTele", true);
+				return;
+			}
 			if (lyre != null) {
 				lyre.setId(getLowerLyreId(lyre.getId()));
 				player.getInventory().refresh();
 			}
-		}
+		});
 	}
 	
 	public static Dialogue getLyreTeleOptions(Player player, Item item, boolean reduceDaily) {
-		if (player.getDailyB("freeLyreTele"))
+		if (reduceDaily && player.getDailyB("freeLyreTele"))
 			return new Dialogue().addNext(() -> player.sendMessage("You've already used your free teleport today."));
-		
-		return new Dialogue().addOptions("Where would you like to teleport?", new Options() {
-			@Override
-			public void create() {
-				option("Rellekka", () -> Rellekka.lyreTele(player, Tile.of(2643, 3676, 0), item, reduceDaily));
-				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
-					option("Waterbirth Island", () -> Rellekka.lyreTele(player, Tile.of(2547, 3757, 0), item, reduceDaily));
-				if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
-					option("Jatizso", () -> Rellekka.lyreTele(player, Tile.of(2407, 3803, 0), item, reduceDaily));
-					option("Neitiznot", () -> Rellekka.lyreTele(player, Tile.of(2336, 3803, 0), item, reduceDaily));
-				}
+		return new Dialogue().addOptions("Where would you like to teleport?", ops -> {
+			ops.add("Rellekka", () -> Rellekka.lyreTele(player, Tile.of(2643, 3676, 0), item, reduceDaily));
+			if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.HARD, false))
+				ops.add("Waterbirth Island", () -> Rellekka.lyreTele(player, Tile.of(2547, 3757, 0), item, reduceDaily));
+			if (AchievementDef.meetsRequirements(player, Area.FREMENNIK, Difficulty.ELITE, false)) {
+				ops.add("Jatizso", () -> Rellekka.lyreTele(player, Tile.of(2407, 3803, 0), item, reduceDaily));
+				ops.add("Neitiznot", () -> Rellekka.lyreTele(player, Tile.of(2336, 3803, 0), item, reduceDaily));
 			}
 		});
 	}
 
-	public static ItemClickHandler handleEnchantedLyre = new ItemClickHandler(new Object[] { 3690 }, new String[] { "Play" }, e -> {
-		e.getPlayer().sendMessage("The lyre is unresponsive. I should contact the Fossegrimen.");
-	});
+	public static ItemClickHandler handleEnchantedLyre = new ItemClickHandler(new Object[] { 3690 }, new String[] { "Play" }, e -> e.getPlayer().sendMessage("The lyre is unresponsive. I should contact the Fossegrimen."));
 
-	public static ItemClickHandler handleEnchantedLyreTeleports = new ItemClickHandler(new Object[] { 3691, 6125, 6126, 6127, 14590, 14591 }, new String[] { "Play" }, e -> {
-		e.getPlayer().startConversation(getLyreTeleOptions(e.getPlayer(), e.getItem(), false));
-	});
+	public static ItemClickHandler handleEnchantedLyreTeleports = new ItemClickHandler(new Object[] { 3691, 6125, 6126, 6127, 14590, 14591 }, new String[] { "Play" }, e -> e.getPlayer().startConversation(getLyreTeleOptions(e.getPlayer(), e.getItem(), false)));
 
-	public static ObjectClickHandler handleLighthouseDoor = new ObjectClickHandler(new Object[] { 4577 }, e -> {
-		e.getPlayer().handleOneWayDoor(e.getObject(), e.getObject().getId()+1);
-	});
+	public static ObjectClickHandler handleLighthouseDoor = new ObjectClickHandler(new Object[] { 4577 }, e -> e.getPlayer().handleOneWayDoor(e.getObject(), e.getObject().getId()+1));
 
-	public static ObjectClickHandler handleMountainCampWall = new ObjectClickHandler(new Object[] { 5847 }, e -> {
-		AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0));
-	});
+	public static ObjectClickHandler handleMountainCampWall = new ObjectClickHandler(new Object[] { 5847 }, e -> AgilityShortcuts.climbOver(e.getPlayer(), e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 2 : -2, 0, 0)));
 
-	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2773, 10162, 0));
-	});
+	public static ObjectClickHandler handleKeldagrimEntrance = new ObjectClickHandler(new Object[] { 5008 }, e -> e.getPlayer().tele(Tile.of(2773, 10162, 0)));
 
-	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(2730, 3713, 0));
-	});
+	public static ObjectClickHandler handleKeldagrimExit = new ObjectClickHandler(new Object[] { 5014 }, e -> e.getPlayer().tele(Tile.of(2730, 3713, 0)));
 
-	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }, e -> {
-		e.getPlayer().startConversation(new Dialogue().addNPC(1270, HeadE.T_ANGRY, "Hey human! You not go in my house! It where me keep all my stuff!"));
-	});
+	public static ObjectClickHandler handleLallisCave = new ObjectClickHandler(new Object[] { 4147 }, e -> e.getPlayer().startConversation(new Dialogue().addNPC(1270, HeadE.T_ANGRY, "Hey human! You not go in my house! It where me keep all my stuff!")));
 
 	public static NPCClickHandler handleLallisConversation = new NPCClickHandler(new Object[] { 1270 }, e -> {
 		//			e.getPlayer().startConversation(new Dialogue()
@@ -205,8 +191,6 @@ public class Rellekka {
 				.addNPC(1270, HeadE.T_ANGRY, "Bah! Puny humans always try steal Lallis' golden apples! You go away now!")
 				.addPlayer(HeadE.CONFUSED, "Oh no, I'm not here for golden apples, I was just wondering if I could have some golden fleece from the sheep over there.")
 				.addNPC(1270, HeadE.T_CONFUSED, "Mmmm.. Here den, take some and leave Lalli alone!")
-				.addItem(3693, "The troll hands you some golden fleece.", () -> {
-					e.getPlayer().getInventory().addItem(3693, 1);
-				}));
+				.addItem(3693, "The troll hands you some golden fleece.", () -> e.getPlayer().getInventory().addItem(3693, 1)));
 	});
 }

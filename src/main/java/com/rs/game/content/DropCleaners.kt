@@ -7,9 +7,7 @@ import com.rs.game.content.skills.summoning.Pouch
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
 import com.rs.lib.game.Item
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.handlers.NPCDropHandler
 import com.rs.plugin.kts.onNpcDrop
 import java.util.*
 
@@ -40,8 +38,10 @@ fun mapDrops() {
     }
 
     onNpcDrop(null, arrayOf(995)) { e ->
-        e.player.inventory.addCoins(e.item.amount)
-        e.deleteItem()
+        if (e.player.equipment.containsOneItem(25351) || e.player.inventory.containsItem(25351, 1)) {
+            e.player.inventory.addCoins(e.item.amount)
+            e.deleteItem()
+        }
     }
 }
 

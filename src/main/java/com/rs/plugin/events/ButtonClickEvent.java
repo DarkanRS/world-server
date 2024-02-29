@@ -25,11 +25,14 @@ import java.util.Map;
 
 public class ButtonClickEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private int interfaceId, componentId, slotId, slotId2;
-	private ClientPacket packet;
+	private final Player player;
+	private final int interfaceId;
+    private final int componentId;
+    private final int slotId;
+    private final int slotId2;
+	private final ClientPacket packet;
 
 	public ButtonClickEvent(Player player, int interfaceId, int componentId, int slotId, int slotId2, ClientPacket packet) {
 		this.player = player;
@@ -77,4 +80,27 @@ public class ButtonClickEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public int component2() {
+		return interfaceId;
+	}
+
+	public int component3() {
+		return componentId;
+	}
+
+	public int component4() {
+		return slotId;
+	}
+
+	public int component5() {
+		return slotId2;
+	}
+
+	public ClientPacket component6() {
+		return packet;
+	}
 }

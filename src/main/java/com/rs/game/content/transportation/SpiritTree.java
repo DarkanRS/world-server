@@ -18,7 +18,10 @@ package com.rs.game.content.transportation;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
+import com.rs.engine.quest.Quest;
+import com.rs.game.content.dnds.eviltree.EvilTreesKt;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -39,12 +42,18 @@ public class SpiritTree {
 	};
 	
 	public static ObjectClickHandler handleTrees = new ObjectClickHandler(new Object[] { "Spirit Tree", "Spirit tree", 26723 }, e -> {
+		if (!e.getPlayer().isQuestComplete(Quest.TREE_GNOME_VILLAGE)) {
+			e.getPlayer().simpleDialogue("The tree doesn't feel like talking.");
+			return;
+		}
 		String op = e.getOption().toLowerCase();
 		if (op.contains("talk")) {
+			int evilTreeHead = (e.getObjectId() == 68973 && e.getObjectId() == 68974) ? 3637 : 3636;
 			e.getPlayer().startConversation(new Dialogue()
-					.addNPC((e.getObjectId() == 68973 && e.getObjectId() == 68974) ? 3637 : 3636, HeadE.CALM_TALK, "If you are a friend of the gnome people, you are a friend of mine. Do you wish to travel?")
+					.addNPC(evilTreeHead, HeadE.CALM_TALK, "If you are a friend of the gnome people, you are a friend of mine. Do you wish to travel?")
 					.addOptions(ops -> {
 						ops.add("Yes, please.", () -> SpiritTree.openInterface(e.getPlayer()));
+						EvilTreesKt.handleEvilTreeOps(e.getPlayer(), ops, evilTreeHead);
 						ops.add("No, thanks.");
 					}));
 		} else if (op.contains("travel") || op.contains("teleport")) {
@@ -66,9 +75,9 @@ public class SpiritTree {
 
 	public static ButtonClickHandler handleButtons = new ButtonClickHandler(864, e -> handleSpiritTree(e.getPlayer(), e.getSlotId()));
 
-	private static void sendTeleport(Player player, Tile tile) {
+	public static void sendTeleport(Player player, Tile tile) {
 		player.sendMessage("You place your hands on the dry tough bark of the spirit tree, and feel a surge of energy run through your veins.");
-		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, Magic.OBJECT_TELEPORT, null);
+		Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, tile, 4, true, TeleType.OBJECT, null);
 	}
 
 	public static void handleSpiritTree(Player player, int slot) {

@@ -29,16 +29,18 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.RESTLESS_GHOST)
+@QuestHandler(
+		quest = Quest.RESTLESS_GHOST,
+		startText = "Speak to Father Aereck in the Lumbridge Church, east of Lumbridge Castle.",
+		itemsText = "Armour to survive a level 7 skeleton warlock attack.",
+		combatText = "Facing a level 7 skeleton warlock.",
+		rewardsText = "125 Prayer XP<br>Five ancient bones that each give 200 Prayer XP",
+		completedStage = 4
+)
 @PluginEventHandler
 public class RestlessGhost extends QuestOutline {
 
 	public static int SKULL_CONF = 2130;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -84,27 +86,6 @@ public class RestlessGhost extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.PRAYER, 1125);
 		sendQuestCompleteInterface(player, 553);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Father Aereck in the church east of Lumbridge Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Armour to survive a level 7 skeleton warlock attack.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Facing a level 7 skeleton warlock.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "125 Prayer XP<br>" +
-				"Five ancient bones that each give 200 Prayer XP";
 	}
 
 	private static boolean hasSkull(Player player) {

@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class CutsceneCodeAction extends CutsceneAction {
 
-	private Runnable runnable;
+	private final Runnable runnable;
 
 	public CutsceneCodeAction(Runnable runnable, int actionDelay) {
 		super(null, actionDelay);

@@ -189,13 +189,13 @@ public class ItemConstants {
 		CRYSTAL_SHIELD_NEW(4224, 4225, 4226, Ticks.fromHours(1), -1),
 		CRYSTAL_SHIELD_FULL(4225, 4225, 4226, Ticks.fromHours(1), -1), //not certain how, but edge case to cover if someone got a fresh "full" shield without meta data instead of a new bow.
 		CRYSTAL_SHIELD_NINE(4226, 4226, 4227, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_EIGHT(4227, 4227, 4217, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SEVEN(4228, 4228, 4218, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_SIX(4229, 4229, 4219, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FIVE(4230, 4230, 4220, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_FOUR(4231, 4231, 4221, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_THREE(4232, 4232, 4222, Ticks.fromHours(1), -1),
-		CRYSTAL_SHIELD_TWO(4233, 4233, 4223, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_EIGHT(4227, 4227, 4228, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_SEVEN(4228, 4228, 4229, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_SIX(4229, 4229, 4230, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_FIVE(4230, 4230, 4231, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_FOUR(4231, 4231, 4232, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_THREE(4232, 4232, 4233, Ticks.fromHours(1), -1),
+		CRYSTAL_SHIELD_TWO(4233, 4233, 4234, Ticks.fromHours(1), -1),
 		CRYSTAL_SHIELD_ONE(4234, 4234, 4207, Ticks.fromHours(1), -1),
 
 		ROYAL_CROSSBOW(24338, 24338, 24339, Ticks.fromHours(10), -1),
@@ -217,15 +217,15 @@ public class ItemConstants {
 		VIRTUS_BOOTS(24986, 24987, 24988, Ticks.fromHours(10), 100000),
 		ZARYTE_BOW(20171, 20173, 20174, Ticks.fromHours(10), 2000000);
 
-		private int itemId;
-		private int degradedId;
-		private int brokenId;
-		private int defaultCharges;
-		private int cost;
+		private final int itemId;
+		private final int degradedId;
+		private final int brokenId;
+		private final int defaultCharges;
+		private final int cost;
 
-		private static Map<Integer, ItemDegrade> BROKEN = new HashMap<>();
-		private static Map<Integer, ItemDegrade> DEGRADE = new HashMap<>();
-		private static Map<Integer, ItemDegrade> REPAIRED = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> BROKEN = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> DEGRADE = new HashMap<>();
+		private static final Map<Integer, ItemDegrade> REPAIRED = new HashMap<>();
 
 		static {
 			for (ItemDegrade item : ItemDegrade.values()) {
@@ -262,7 +262,7 @@ public class ItemConstants {
 			return REPAIRED.get(itemId);
 		}
 
-		private ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
+		ItemDegrade(int itemId, int degradedId, int brokenId, int defaultCharges, int repairCost) {
 			this.itemId = itemId;
 			this.degradedId = degradedId;
 			this.brokenId = brokenId;
@@ -391,16 +391,12 @@ public class ItemConstants {
 		if (itemId < 15750)
 			return false;
 		//General dung items, dung pouches, dung only kinship rings
-		if ((itemId >= 15750 && itemId <= 18329) || (itemId >= 18511 && itemId <= 18570) || (itemId >= 18817 && itemId <= 18829))
-			return true;
-		return false;
-	}
+        return (itemId >= 15750 && itemId <= 18329) || (itemId >= 18511 && itemId <= 18570) || (itemId >= 18817 && itemId <= 18829);
+    }
 
 	public static boolean isHouseOnlyItem(int itemId) {
-		if (itemId >= 7671 && itemId <= 7755)
-			return true;
-		return false;
-	}
+        return itemId >= 7671 && itemId <= 7755;
+    }
 
 	public static boolean isTradeable(Item item) {
 		if (item.getMetaData() != null)

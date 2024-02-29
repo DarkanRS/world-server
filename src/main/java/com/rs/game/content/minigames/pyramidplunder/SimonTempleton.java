@@ -63,9 +63,7 @@ public class SimonTempleton extends Conversation {
 	}
 
 
-	public static NPCClickHandler SimonTempletonD = new NPCClickHandler(new Object[]{ npcId }, new String[] { "Talk-to" }, e -> {
-		e.getPlayer().startConversation(new SimonTempleton(e.getPlayer()));
-	});
+	public static NPCClickHandler SimonTempletonD = new NPCClickHandler(new Object[]{ npcId }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new SimonTempleton(e.getPlayer())));
 
 	public SimonTempleton(Player player) {
 		super(player);

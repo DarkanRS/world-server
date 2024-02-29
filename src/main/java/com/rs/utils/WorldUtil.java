@@ -16,12 +16,16 @@
 //
 package com.rs.utils;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.rs.cache.loaders.QCMesDefinitions;
 import com.rs.game.World;
+import com.rs.game.content.minigames.soulwars.SoulWarsKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.social.FCManager;
+import com.rs.game.model.item.ItemsContainer;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
 import com.rs.lib.io.OutputStream;
@@ -32,7 +36,8 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.util.Arrays;
-import java.util.function.Supplier;
+import java.util.List;
+import java.util.Map;
 
 public class WorldUtil {
 
@@ -42,6 +47,8 @@ public class WorldUtil {
 			return null;
 
 		OutputStream stream = new OutputStream();
+		System.out.println(Arrays.toString(defs.types));
+		System.out.println(defs);
 
 		for (int i = 0;i < defs.types.length;i++)
 			switch(defs.types[i]) {
@@ -86,7 +93,8 @@ public class WorldUtil {
 					stream.writeByte(count);
 				}
 			}
-			case COUNTDIALOG, ENUM_STRING_CLAN, TOSTRING_SHARED -> { /*TODO*/ }
+			case TOSTRING_SHARED -> stream.writeInt(SoulWarsKt.getQuickchatVar(defs.configs[i][0]));
+			case COUNTDIALOG, ENUM_STRING_CLAN -> { /*TODO*/ }
 			default -> {}
 			}
 
@@ -113,7 +121,7 @@ public class WorldUtil {
 		return Direction.forDelta(delta.getX(), delta.getY());
 	}
 
-	public static final int getAngleTo(Direction dir) {
+	public static int getAngleTo(Direction dir) {
 		return ((int) (Math.atan2(-dir.getDx(), -dir.getDy()) * 2607.5945876176133)) & 0x3fff;
 	}
 
@@ -180,5 +188,25 @@ public class WorldUtil {
 		long jvmMaxMemory = (heapMemoryUsage.getMax() + nonHeapMemoryUsage.getMax()) / 1048576L; // in MB
 		double jvmMemUsedPerc = ((double) jvmTotalUsed / jvmMaxMemory) * 100.0;
 		return jvmMemUsedPerc;
+	}
+
+	public static ItemsContainer<Item> gsonTreeMapToItemContainer(Object metadata) {
+		if (metadata == null)
+			return null;
+		ItemsContainer<Item> container = null;
+		if (metadata instanceof List<?> list) {
+			container = new ItemsContainer<>(list.size(), false);
+			for (Object itemObj : list) {
+				if (itemObj instanceof Item item)
+					container.add(item);
+				else if (itemObj instanceof LinkedTreeMap<?,?> item) {
+					if (item.get("metadata") != null)
+						container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue(), (Map<String, Object>) item.get("metadata")));
+					else
+						container.add(new Item(((Double) item.get("id")).intValue(), ((Double) item.get("amount")).intValue()));
+				}
+			}
+		}
+		return container.isEmpty() ? null : container;
 	}
 }

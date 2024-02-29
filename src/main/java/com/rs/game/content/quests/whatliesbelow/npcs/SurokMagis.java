@@ -255,7 +255,7 @@ public class SurokMagis extends Conversation {
             case 7 -> {
                 addPlayer(HeadE.ANGRY, "Surok!! Your plans have been uncovered! You are hereby under arrest on the authority of the Varrock Palace Secret Guard!");
                 if (!player.getInventory().containsItem(11014) && !player.getEquipment().containsOneItem(11014)) {
-                    addNPC(ID, HeadE.ANGRY, "You fool! You are no match for my power! You don't have the means to stop me! Get out of my sight!", () -> player.setNextTile(Tile.of(3214, 3378, 0)));
+                    addNPC(ID, HeadE.ANGRY, "You fool! You are no match for my power! You don't have the means to stop me! Get out of my sight!", () -> player.tele(Tile.of(3214, 3378, 0)));
                     create();
                     return;
                 }

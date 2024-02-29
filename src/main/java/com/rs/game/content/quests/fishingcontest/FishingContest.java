@@ -41,7 +41,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.FISHING_CONTEST)
+@QuestHandler(
+		quest = Quest.FISHING_CONTEST,
+		startText = "Talk to Vestri or Austri, near the White Wolf Mountain.",
+		itemsText = "5 coins, garlic.",
+		combatText = "None.",
+		rewardsText = "2,437 Fishing XP<br>Access to the White Wolf Mountain shortcut",
+		completedStage = 4
+)
 @PluginEventHandler
 public class FishingContest extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -53,10 +60,6 @@ public class FishingContest extends QuestOutline {
 	public static final int FISHING_PASS = 27;
 
 	public static final String PIPE_HAS_GARLIC = "HAS_GARLIC";
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -165,7 +168,7 @@ public class FishingContest extends QuestOutline {
 			p.getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB(PIPE_HAS_GARLIC, true);
 			p.sendMessage("You place the garlic in the pipe.");
 			p.lock(8);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				NPC stranger;
 
@@ -185,9 +188,7 @@ public class FishingContest extends QuestOutline {
 							{
 								addNPC(3677, HeadE.FRUSTRATED, "Can I take the spot by the willow tree?");
 								addPlayer(HeadE.HAPPY_TALKING, "Sure...");
-								addNext(() -> {
-									p.unlock();
-								});
+								addNext(p::unlock);
 								create();
 							}
 						});
@@ -207,26 +208,5 @@ public class FishingContest extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Constants.FISHING, 2437);
 		sendQuestCompleteInterface(player, FISHING_TROPHY);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Vestri or Austri near White Wolf Mountain.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "5 coins, garlic.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "2,437 Fishing XP<br>" +
-				"Access to the White Wolf Mountain shortcut";
 	}
 }

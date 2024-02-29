@@ -45,7 +45,7 @@ public final class CastleWars {
 	private static final List<Player>[] waiting = new List[2];
 	@SuppressWarnings("unchecked")
 	private static final List<Player>[] playing = new List[2];
-	private static int[] seasonWins = new int[2];
+	private static final int[] seasonWins = new int[2];
 	public static final Tile LOBBY = Tile.of(2442, 3090, 0), SARA_WAITING = Tile.of(2381, 9489, 0), ZAMO_WAITING = Tile.of(2421, 9523, 0), SARA_BASE = Tile.of(2426, 3076, 1), ZAMO_BASE = Tile.of(2373, 3131, 1);
 
 	private static PlayingGame playingGame;
@@ -56,9 +56,9 @@ public final class CastleWars {
 
 	public static void init() {
 		for (int i = 0; i < waiting.length; i++)
-			waiting[i] = Collections.synchronizedList(new LinkedList<Player>());
+			waiting[i] = Collections.synchronizedList(new LinkedList<>());
 		for (int i = 0; i < playing.length; i++)
-			playing[i] = Collections.synchronizedList(new LinkedList<Player>());
+			playing[i] = Collections.synchronizedList(new LinkedList<>());
 	}
 
 	public static void viewScoreBoard(Player player) {
@@ -105,7 +105,7 @@ public final class CastleWars {
 		setCape(player, new Item(team == ZAMORAK ? 4042 : 4041));
 		setHood(player, new Item(team == ZAMORAK ? 4515 : 4513));
 		player.getControllerManager().startController(new CastleWarsWaitingController(team));
-		player.setNextTile(Tile.of(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
+		player.tele(Tile.of(team == ZAMORAK ? ZAMO_WAITING : SARA_WAITING, 1));
 		player.getMusicsManager().playSongAndUnlock(318); // 5 players to start a game
 		if (playingGame == null && waiting[team].size() >= 5)
 			createPlayingGame();
@@ -134,7 +134,7 @@ public final class CastleWars {
 
 	public static void createPlayingGame() {
 		playingGame = new PlayingGame();
-		WorldTasks.schedule(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+		WorldTasks.scheduleLooping(playingGame, Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		refreshAllPlayersTime();
 	}
 
@@ -159,7 +159,7 @@ public final class CastleWars {
 			@Override
 			public void run() {
 				for (int i = 0; i < playing.length; i++)
-					for (Player player : playing[i].toArray(new Player[playing[i].size()])) {
+					for (Player player : playing[i].toArray(new Player[0])) {
 						forceRemovePlayingPlayer(player);
 						if (winner != -1)
 							if (winner == -2) {
@@ -184,7 +184,7 @@ public final class CastleWars {
 		waiting[team].remove(player);
 		setCape(player, null);
 		setHood(player, null);
-		player.setNextTile(Tile.of(LOBBY, 2));
+		player.tele(Tile.of(LOBBY, 2));
 		if (playingGame != null && waiting[team].size() == 0 && playing[team].size() == 0)
 			destroyPlayingGame(); // cancels if 0 players playing/waiting on any
 		// of the tea
@@ -196,7 +196,7 @@ public final class CastleWars {
 
 	public static void startGame() {
 		for (int i = 0; i < waiting.length; i++)
-			for (Player player : waiting[i].toArray(new Player[waiting[i].size()]))
+			for (Player player : waiting[i].toArray(new Player[0]))
 				joinPlayingGame(player, i);
 	}
 
@@ -222,7 +222,7 @@ public final class CastleWars {
 
 		player.getHintIconsManager().removeUnsavedHintIcon();
 		player.getMusicsManager().reset();
-		player.setNextTile(Tile.of(LOBBY, 2));
+		player.tele(Tile.of(LOBBY, 2));
 		if (playingGame != null && waiting[team].size() == 0 && playing[team].size() == 0)
 			destroyPlayingGame(); // cancels if 0 players playing/waiting on any
 		// of the tea
@@ -236,7 +236,7 @@ public final class CastleWars {
 		playing[team].add(player);
 		player.setCanPvp(true);
 		player.getControllerManager().startController(new CastleWarsPlayingController(team));
-		player.setNextTile(Tile.of(team == ZAMORAK ? ZAMO_BASE : SARA_BASE, 1));
+		player.tele(Tile.of(team == ZAMORAK ? ZAMO_BASE : SARA_BASE, 1));
 	}
 
 	public static void endGame(int winner) {

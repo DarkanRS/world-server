@@ -58,8 +58,8 @@ public class SlayerHelmet  {
 		}
 	});
 
-	public static ItemOnItemHandler craftNormal = new ItemOnItemHandler(SLAYER_HELMET_PARTS, SLAYER_HELMET_PARTS, e -> craft(e));
-	public static ItemOnItemHandler craftFull = new ItemOnItemHandler(SLAYER_HELMET, FULL_SLAYER_HELMET_PARTS, e -> craft(e));
+	public static ItemOnItemHandler craftNormal = new ItemOnItemHandler(SLAYER_HELMET_PARTS, SLAYER_HELMET_PARTS, SlayerHelmet::craft);
+	public static ItemOnItemHandler craftFull = new ItemOnItemHandler(SLAYER_HELMET, FULL_SLAYER_HELMET_PARTS, SlayerHelmet::craft);
 
 	public static boolean craft(ItemOnItemEvent e) {
 

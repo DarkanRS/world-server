@@ -35,5 +35,5 @@ public class RGhost extends NPC {
 		return tile.getQuestManager().getStage(Quest.RESTLESS_GHOST) == 3 && super.withinDistance(tile, distance);
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(457, (npcId, tile) -> new RGhost(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(457, RGhost::new);
 }

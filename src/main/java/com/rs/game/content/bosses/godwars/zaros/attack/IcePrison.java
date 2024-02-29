@@ -36,7 +36,7 @@ public class IcePrison implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Die now, in a prison of ice!"));
-		nex.voiceEffect(3308);
+		nex.voiceEffect(target, 3308, true);
 		nex.setNextAnimation(new Animation(6987));
 		World.sendProjectile(nex, target, 362, 20, 20, 20, 0.45, 10, 0);
 		final Tile base = Tile.of(target.getX(), target.getY(), target.getPlane());
@@ -47,7 +47,7 @@ public class IcePrison implements NexAttack {
 				final GameObject object = new GameObject(57263, ObjectType.SCENERY_INTERACT, 0, tile);
 				if (!tile.matches(base) && World.floorAndWallsFree(tile, (object.getDefinitions().getSizeX() + object.getDefinitions().getSizeY()) / 2))
 					World.spawnObject(object);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					boolean remove = false;
 

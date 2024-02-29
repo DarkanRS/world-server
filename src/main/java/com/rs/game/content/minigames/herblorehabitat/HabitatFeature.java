@@ -18,6 +18,7 @@ package com.rs.game.content.minigames.herblorehabitat;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.lib.Constants;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
@@ -40,7 +41,7 @@ public enum HabitatFeature {
 	Standing_stones(5, 70, 73),
 	Dark_pit(6, 80, 74);
 
-	private static Map<Integer, HabitatFeature> BUTTON_MAP = new HashMap<>();
+	private static final Map<Integer, HabitatFeature> BUTTON_MAP = new HashMap<>();
 
 	static {
 		for (HabitatFeature h : HabitatFeature.values())
@@ -61,11 +62,11 @@ public enum HabitatFeature {
 		this.button = button;
 	}
 
-	public static LoginHandler updateFeature = new LoginHandler(e -> e.getPlayer().setHabitatFeature(e.getPlayer().getHabitatFeature()));
+	public static final LoginHandler updateFeature = new LoginHandler(e -> e.getPlayer().setHabitatFeature(e.getPlayer().getHabitatFeature()));
 
-	public static ObjectClickHandler handleFeatureBuild = new ObjectClickHandler(new Object[] { 56803 }, e -> e.getPlayer().getInterfaceManager().sendInterface(459));
+	public static final ObjectClickHandler handleFeatureBuild = new ObjectClickHandler(new Object[] { 56803 }, e -> e.getPlayer().getInterfaceManager().sendInterface(459));
 
-	public static ButtonClickHandler handleFeature = new ButtonClickHandler(459, e -> {
+	public static final ButtonClickHandler handleFeature = new ButtonClickHandler(459, e -> {
 		if (e.getComponentId() >= 68 && e.getComponentId() <= 75) {
 			HabitatFeature toBuild = HabitatFeature.forButton(e.getComponentId());
 			if (toBuild == null)
@@ -82,5 +83,5 @@ public enum HabitatFeature {
 		}
 	});
 
-	public static ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null));
+	public static final ItemClickHandler handleWitchdoctorTele = new ItemClickHandler(new Object[] { 20046 }, new String[] { "Teleport" }, e -> Magic.sendTeleportSpell(e.getPlayer(), 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, TeleType.ITEM, null));
 }

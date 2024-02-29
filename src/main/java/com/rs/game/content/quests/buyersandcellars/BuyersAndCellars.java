@@ -10,14 +10,16 @@ import com.rs.plugin.annotations.PluginEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.BUYERS_AND_CELLARS)
+@QuestHandler(
+        quest = Quest.BUYERS_AND_CELLARS,
+        startText = "Speak to Darren Lightfinger in his cellar, accessed through a trapdoor next to a small house just north of the Lumbridge furnace.",
+        itemsText = "Logs.",
+        combatText = "None.",
+        rewardsText = "500 Thieving XP<br>Access to the Thieves' guild<br>3 Thieves' Guild pamphlets<br>Ability to collect Hanky Points<br>",
+        completedStage = 9
+)
 @PluginEventHandler
 public class BuyersAndCellars extends QuestOutline {
-
-    @Override
-    public int getCompletedStage() {
-        return 9;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -81,7 +83,6 @@ public class BuyersAndCellars extends QuestOutline {
     @Override
     public void complete(Player player) {
         player.getSkills().addXpQuest(Skills.THIEVING, 500);
-        player.getSkills().addXpQuest(Skills.DEFENSE, 2000);
         if(player.getInventory().hasFreeSlots())
             player.getInventory().addItem(18646, 3);
         else {
@@ -110,29 +111,4 @@ public class BuyersAndCellars extends QuestOutline {
             }
         }
     }
-
-
-    @Override
-    public String getStartLocationDescription() {
-        return "Speak to Darren Lightfinger in his cellar, accessed through a trapdoor next to a small house just north of the Lumbridge furnace.";
-    }
-
-    @Override
-    public String getRequiredItemsString() {
-        return "Logs.";
-    }
-
-    @Override
-    public String getCombatInformationString() {
-        return "None.";
-    }
-
-    @Override
-    public String getRewardsString() {
-        return "500 Thieving XP<br>"+
-                "Access to the Thieves' guild<br>"+
-                "3 Thieves' Guild pamphlets<br>" +
-                "Ability to collect Hanky Points<br>";
-    }
-
 }

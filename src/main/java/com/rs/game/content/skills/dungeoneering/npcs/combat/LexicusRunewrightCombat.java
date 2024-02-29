@@ -103,7 +103,7 @@ public class LexicusRunewrightCombat extends CombatScript {
 			}
 
 		npc.setNextForceTalk(new ForceTalk("Book barrage!"));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int cycle = 0;
 			private final LinkedList<Tile> targets = new LinkedList<>();

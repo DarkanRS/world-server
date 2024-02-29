@@ -32,7 +32,7 @@ public final class LowPriorityTaskExecutor {
 
 	private static ScheduledExecutorService WORLD_EXECUTOR;
 	private static ScheduledExecutorService LOW_PRIORITY_EXECUTOR;
-	private static List<Future<?>> PENDING_FUTURES = new ObjectArrayList<>();
+	private static final List<Future<?>> PENDING_FUTURES = new ObjectArrayList<>();
 
 	public static void initExecutors() {
 		Logger.info(LowPriorityTaskExecutor.class, "startThreads", "Initializing world threads...");

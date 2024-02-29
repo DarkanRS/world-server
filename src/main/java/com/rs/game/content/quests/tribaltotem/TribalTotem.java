@@ -42,7 +42,14 @@ import java.util.List;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.TRIBAL_TOTEM)
+@QuestHandler(
+		quest = Quest.TRIBAL_TOTEM,
+		startText = "Speak to Kangai Mau in Brimhaven.",
+		itemsText = "None.",
+		combatText = "None.",
+		rewardsText = "1,775 Thieving XP<br>5 swordfish",
+		completedStage = 4
+)
 @PluginEventHandler
 public class TribalTotem extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -53,11 +60,6 @@ public class TribalTotem extends QuestOutline {
 
 	//Item
 	public static final int TOTEM = 1857;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -119,27 +121,6 @@ public class TribalTotem extends QuestOutline {
 		sendQuestCompleteInterface(player, TOTEM);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Kangai Mau in Brimhaven.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,775 Thieving XP<br>"+
-				"5 swordfish";
-	}
-
 	public static ObjectClickHandler handleFrontDoorMansion = new ObjectClickHandler(new Object[] { 2706 }, e -> {
 		Player p = e.getPlayer();
 		p.sendMessage("It is securely locked...");
@@ -169,7 +150,7 @@ public class TribalTotem extends QuestOutline {
 			else {
 				p.applyHit(new Hit(25, Hit.HitLook.TRUE_DAMAGE));
 				p.sendMessage("You activate the trap stairs!");
-				p.setNextTile(Tile.of(2638, 9721, 0));
+				p.tele(Tile.of(2638, 9721, 0));
 			}
 		if(e.getOption().equalsIgnoreCase("investigate"))
 			if(p.getQuestManager().getAttribs(Quest.TRIBAL_TOTEM).getB("DISARMED_STAIRS"))
@@ -286,9 +267,7 @@ public class TribalTotem extends QuestOutline {
 					{
 						addSimple("The address label says this crate is headed to Handlemort's mansion.");
 						if(p.getInventory().hasFreeSlots())
-							addSimple("You take off the label.", ()->{
-								p.getInventory().addItem(1858, 1);
-							});
+							addSimple("You take off the label.", ()-> p.getInventory().addItem(1858, 1));
 						else
 							addSimple("You need to make room for the label...");
 						create();

@@ -29,11 +29,11 @@ public class CannonBallSmelting  {
 	public static int AMMO_MOULD = 4;
 	public static int STEEL_BAR = 2353;
 
-	private static Item[][] mats = { { new Item(2353) } };
-	private static Item[][] prods = { { new Item(2, 4) } };
-	private static int[] reqs = { 35 };
-	private static double[] xp = { 25.6 };
-	private static int[] anims = { 3243 }; //827, 899
+	private static final Item[][] mats = { { new Item(2353) } };
+	private static final Item[][] prods = { { new Item(2, 4) } };
+	private static final int[] reqs = { 35 };
+	private static final double[] xp = { 25.6 };
+	private static final int[] anims = { 3243 }; //827, 899
 
 	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, new Object[] { STEEL_BAR, AMMO_MOULD }, e -> {
 		if (!e.getPlayer().getInventory().containsItem(AMMO_MOULD)) {

@@ -34,7 +34,7 @@ import com.rs.utils.Ticks;
 @PluginEventHandler
 public class DelrithBoss extends NPC {
 	Player p;
-	private static int DELRITH_ID = 879;
+	private static final int DELRITH_ID = 879;
 
 	//Delrith animations
 	static final int STUNNED = 4619;
@@ -45,7 +45,7 @@ public class DelrithBoss extends NPC {
 
 	public DelrithBoss(Tile tile) {
 		super(DELRITH_ID, tile, true);
-		p = World.getPlayersInChunkRange(getChunkId(), 2).get(0);
+		p = World.getPlayersInChunkRange(getChunkId(), 2).getFirst();
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class DelrithBoss extends NPC {
 		setNextAnimation(new Animation(STUNNED));
 		removeTarget();
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
-			int finalTick = Ticks.fromSeconds(12);
+			final int finalTick = Ticks.fromSeconds(12);
 			boolean conversating = false;
 			@Override
 			public void run() {
@@ -82,7 +82,7 @@ public class DelrithBoss extends NPC {
 		if (!p.getControllerManager().isIn(PlayerVSDelrithController.class) || p.isLocked())
 			return;
 		p.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {
@@ -93,11 +93,12 @@ public class DelrithBoss extends NPC {
 				if(tick == 3) {
 					p.lock();
 					p.playCutscene(cs -> {
+                        cs.setEndTile(Tile.of(3228, 3368, 0));
 						cs.fadeIn(5);
 						cs.hideMinimap(false);
 						cs.action(() -> {
 							p.getControllerManager().forceStop();
-							p.setNextTile(Tile.of(3228, 3368, 0));
+							p.tele(Tile.of(3228, 3368, 0));
 						});
 						cs.delay(1);
 						cs.fadeOut(5);
@@ -116,9 +117,8 @@ public class DelrithBoss extends NPC {
 
 	@Override
 	public void handlePreHit(Hit hit) {
-		if (hit.getSource() instanceof Player) {
-			Player source = (Player) hit.getSource();
-			if (source.getEquipment().getWeaponId() != -1)
+		if (hit.getSource() instanceof Player source) {
+            if (source.getEquipment().getWeaponId() != -1)
 				if (ItemDefinitions.getDefs(source.getEquipment().getWeaponId()).getName().contains("Silverlight") ||
 						ItemDefinitions.getDefs(source.getEquipment().getWeaponId()).getName().contains("Darklight"))
 					super.handlePreHit(hit);

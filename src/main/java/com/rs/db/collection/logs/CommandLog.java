@@ -4,9 +4,9 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class CommandLog {
-	private String uuid;
-	private String player;
-	private String command;
+	private final String uuid;
+	private final String player;
+	private final String command;
 
 	public CommandLog(String player, String command) {
 		this.player = player;

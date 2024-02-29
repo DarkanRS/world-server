@@ -373,9 +373,10 @@
     "comment": "Grimy marrentill",
     "itemId": 201,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
-      "x": 988,
-      "y": 4576,
+      "x": 982,
+      "y": 4578,
       "plane": 0
     }
   },
@@ -383,9 +384,10 @@
     "comment": "Grimy harralander",
     "itemId": 205,
     "amount": 1,
+    "respawnTicks": 200,
     "tile": {
-      "x": 1002,
-      "y": 4576,
+      "x": 1007,
+      "y": 4572,
       "plane": 0
     }
   },
@@ -393,9 +395,10 @@
     "comment": "Grimy ranarr",
     "itemId": 207,
     "amount": 1,
+    "respawnTicks": 300,
     "tile": {
-      "x": 999,
-      "y": 4579,
+      "x": 980,
+      "y": 4570,
       "plane": 0
     }
   },
@@ -403,8 +406,9 @@
     "comment": "Grimy irit",
     "itemId": 209,
     "amount": 1,
+    "respawnTicks": 300,
     "tile": {
-      "x": 1005,
+      "x": 1007,
       "y": 4573,
       "plane": 0
     }
@@ -2153,6 +2157,7 @@
     "comment": "Grimy guam",
     "itemId": 199,
     "amount": 1,
+    "respawnTicks": 100,
     "tile": {
       "x": 3044,
       "y": 10313,
@@ -4886,16 +4891,6 @@
     "tile": {
       "x": 3443,
       "y": 3254,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Wolfbane",
-    "itemId": 2952,
-    "amount": 1,
-    "tile": {
-      "x": 3439,
-      "y": 9896,
       "plane": 0
     }
   },

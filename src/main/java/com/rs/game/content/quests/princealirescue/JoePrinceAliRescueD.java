@@ -74,17 +74,14 @@ public class JoePrinceAliRescueD extends Conversation {
 											.addPlayer(HeadE.CALM_TALK, "I was just wondering what you do to relax.")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "You never relax with these people, but it's a good career for a young man and some " +
 													"of the shouting I rather like.")
-											.addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> {
-												player.getTempAttribs().setB("JoeTheGuardTalksALot", true);})
-											.addNext(()->{
-												player.startConversation(new JoePrinceAliRescueD(player));}));
+											.addNPC(JOE, HeadE.AMAZED, "RESISTANCE IS USELESS!", () -> player.getTempAttribs().setB("JoeTheGuardTalksALot", true))
+											.addNext(()-> player.startConversation(new JoePrinceAliRescueD(player))));
 									option("What did you want to be when you were a boy?", new Dialogue()
 											.addPlayer(HeadE.TALKING_ALOT, "What did you want to be when you were a boy?")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "Well, I loved to sit by the lake, with my toes in the water and shoot the fish with my bow and arrow.")
 											.addPlayer(HeadE.TALKING_ALOT, "That was a strange hobby for a little boy.")
 											.addNPC(JOE, HeadE.TALKING_ALOT, "It kept us from goblin hunting, which was what most boys did. What are you here for?")
-											.addNext(()->{
-												player.startConversation(new JoePrinceAliRescueD(player));}));
+											.addNext(()-> player.startConversation(new JoePrinceAliRescueD(player))));
 								}
 							}));
 					if(player.getTempAttribs().getB("JoeTheGuardTalksALot")) {
@@ -94,24 +91,21 @@ public class JoePrinceAliRescueD extends Conversation {
 										" same bar and drink ourselves stupid.")
 								.addNPC(JOE, HeadE.TALKING_ALOT, "It's what I enjoy these days, that fade into unconciousness. I can't resist the sight of a " +
 										"really cold beer.")
-								.addNext(()->{
-									player.startConversation(new JoePrinceAliRescueD(player));}));
+								.addNext(()-> player.startConversation(new JoePrinceAliRescueD(player))));
 						option("Would you be interested in making a little more money?", new Dialogue()
 								.addPlayer(HeadE.SECRETIVE, "Would you be interested in making a little more money?")
 								.addNPC(JOE, HeadE.ANGRY, "WHAT?! Are you trying to bribe me? I may not be a great guard, but I am loyal. How DARE you " +
 										"try to bribe me!")
 								.addPlayer(HeadE.SHAKING_HEAD, "No, no, you got the wrong idea, totally. I just wondered if you wanted some part-time bodyguard work.")
 								.addNPC(JOE, HeadE.CALM_TALK, "Oh. Sorry. No, I don't need money. As long as you were not offering me a bribe.")
-								.addNext(()->{
-									player.startConversation(new JoePrinceAliRescueD(player));}));
+								.addNext(()-> player.startConversation(new JoePrinceAliRescueD(player))));
 					}
 					option("What did you want to be when you were a boy?", new Dialogue()
 							.addPlayer(HeadE.TALKING_ALOT, "What did you want to be when you were a boy?")
 							.addNPC(JOE, HeadE.TALKING_ALOT, "Well, I loved to sit by the lake, with my toes in the water and shoot the fish with my bow and arrow.")
 							.addPlayer(HeadE.TALKING_ALOT, "That was a strange hobby for a little boy.")
 							.addNPC(JOE, HeadE.TALKING_ALOT, "It kept us from goblin hunting, which was what most boys did. What are you here for?")
-							.addNext(()->{
-								player.startConversation(new JoePrinceAliRescueD(player));}));
+							.addNext(()-> player.startConversation(new JoePrinceAliRescueD(player))));
 					option("I had better leave, I don't want trouble.", new Dialogue()
 							.addNPC(JOE, HeadE.HAPPY_TALKING, "Thanks, I appreciate that. Talking on duty can be punishable by having your mouth stitched up. These are " +
 									"tough people, no mistake."));

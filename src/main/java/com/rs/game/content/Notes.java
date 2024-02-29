@@ -27,7 +27,7 @@ import java.util.List;
 @PluginEventHandler
 public final class Notes {
 
-	private List<Note> notes;
+	private final List<Note> notes;
 	private transient Player player;
 
 	public Notes() {

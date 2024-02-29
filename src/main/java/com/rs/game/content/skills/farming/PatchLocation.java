@@ -108,9 +108,9 @@ public enum PatchLocation {
 			MAP.put(information.objectId, information);
 	}
 
-	public int objectId;
-	public int varBit;
-	public PatchType type;
+	public final int objectId;
+	public final int varBit;
+	public final PatchType type;
 
 	private PatchLocation(int objectId, PatchType type) {
 		this.objectId = objectId;

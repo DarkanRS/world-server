@@ -18,6 +18,7 @@ package com.rs.game.content.skills.mining;
 
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.player.Player;
+import com.rs.game.model.entity.player.managers.AuraManager;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.SpotAnim;
@@ -102,6 +103,10 @@ public enum Ore {
 
 		@Override
 		public void onGiveOre(Player player) {
+			if (player.getAuraManager().isActivated(AuraManager.Aura.RESOURCEFUL) && Utils.random(10) == 0) {
+				player.sendMessage("Your resourceful aura prevents the sandstone from being depleted.");
+				return;
+			}
 			player.incDailyI("redSandstoneMined");
 			player.getVars().setVarBit(10133, player.getDailyI("redSandstoneMined"));
 		}
@@ -117,10 +122,12 @@ public enum Ore {
 	STARDUST_9(13727, 90, 210, 15, 20, 1),
 	;
 
-	private int id, level;
-	private int rate1, rate99;
-	private double xp;
-	private int rollGem;
+	private final int id;
+    private final int level;
+	private final int rate1;
+    private final int rate99;
+	private final double xp;
+	private final int rollGem;
 
 	private Ore(int id, int level, double xp, int rate1, int rate99, int rollGem) {
 		this.id = id;

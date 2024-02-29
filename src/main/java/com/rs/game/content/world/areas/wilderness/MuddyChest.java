@@ -38,23 +38,21 @@ public class MuddyChest {
 			new DropTable(5, 100, 989, 1));
 
 	public static ObjectClickHandler openChest = new ObjectClickHandler(new Object[] { 170 }, e -> {
-		if (e.getPlayer().containsItem(991)) {
+		if (e.getPlayer().getInventory().containsItem(991)) {
+			e.getPlayer().lock();
 			e.getPlayer().getInventory().deleteItem(991, 1);
 			Item[] loot = DropTable.calculateDrops(e.getPlayer(), REWARDS);
 			e.getPlayer().setNextAnimation(new Animation(536));
-			e.getPlayer().lock(2);
 			e.getPlayer().sendMessage("You unlock the chest with your key.");
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					GameObject openedChest = new GameObject(e.getObject().getId() + 1, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
-					World.spawnObjectTemporary(openedChest, 1);
-					e.getPlayer().incrementCount("Muddy chests opened");
-					e.getPlayer().sendMessage("You find some treasure in the chest!");
-					for (Item item : loot)
-						e.getPlayer().getInventory().addItem(item.getId(), item.getAmount(), true);
-				}
-			}, 0);
+			e.getPlayer().getTasks().schedule(1, () -> {
+				GameObject openedChest = new GameObject(e.getObject().getId() + 1, e.getObject().getType(), e.getObject().getRotation(), e.getObject().getX(), e.getObject().getY(), e.getObject().getPlane());
+				World.spawnObjectTemporary(openedChest, 1);
+				e.getPlayer().incrementCount("Muddy chests opened");
+				e.getPlayer().sendMessage("You find some treasure in the chest!");
+				for (Item item : loot)
+					e.getPlayer().getInventory().addItem(item.getId(), item.getAmount(), true);
+				e.getPlayer().unlock();
+			});
 		} else
 			e.getPlayer().sendMessage("The chest is locked.");
 	});

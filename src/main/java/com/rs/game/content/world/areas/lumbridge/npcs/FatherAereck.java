@@ -34,14 +34,12 @@ public class FatherAereck extends Conversation {
 					option("I'm looking for a quest.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I'm looking for a quest.")
 							.addNPC(npcId, HeadE.CALM_TALK, "Well that's convenient. I seem to be having a bit of a<br>ghost problem. Could you go speak to " +
-									"speak to<br>Father Urhney down in the swamp about how to<br>exorcise the spirit?", () -> {
-								player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1);
-							})
+									"speak to<br>Father Urhney down in the swamp about how to<br>exorcise the spirit?", () -> player.getQuestManager().setStage(Quest.RESTLESS_GHOST, 1))
 					);
 				option("Can I have a different gravestone?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Can I have a different gravestone?")
 						.addNPC(npcId, HeadE.CALM_TALK, "Of course you can. Have a look at this selection of gravestones.")
-						.addNext(()->{GraveStoneSelection.openSelectionInterface(player);})
+						.addNext(()-> GraveStoneSelection.openSelectionInterface(player))
 				);
 				option("Can you restore my prayer?", new Dialogue()
 						.addPlayer(HeadE.HAPPY_TALKING, "Can you restore my prayer?")

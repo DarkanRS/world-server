@@ -217,7 +217,7 @@ public class Smithing extends PlayerAction {
 		ABYSSALBANE_BOLTS(Slot.CROSSBOW_BOLTS, new Item(21858, 50), 80, 62.5, new Item(21786, 1)),
 		;
 		
-		private static Map<Integer, Map<Slot, Smithable>> BAR_MAP = new HashMap<>();
+		private static final Map<Integer, Map<Slot, Smithable>> BAR_MAP = new HashMap<>();
 		
 		static {
 			for (Smithable s : Smithable.values()) {
@@ -230,10 +230,11 @@ public class Smithing extends PlayerAction {
 			}
 		}
 
-		public Slot slot;
-		public Item product, bar;
-		public int level;
-		public double xp;
+		public final Slot slot;
+		public final Item product;
+        public final Item bar;
+		public final int level;
+		public final double xp;
 		
 		public static int getHighestBar(Player player) {
 			int highest = -1;
@@ -272,8 +273,8 @@ public class Smithing extends PlayerAction {
 	}
 
 	public static final int HAMMER = 2347, DUNG_HAMMER = 17883;
-	private GameObject anvil;
-	private Smithable item;
+	private final GameObject anvil;
+	private final Smithable item;
 	private int ticks;
 
 	public Smithing(int ticks, Smithable item, GameObject anvil) {

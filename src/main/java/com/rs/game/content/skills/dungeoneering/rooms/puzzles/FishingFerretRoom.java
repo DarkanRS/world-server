@@ -71,7 +71,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 					return;
 				}
 				if (!vileFishes.isEmpty()) {
-					GroundItem item = vileFishes.get(0);//Goes in chronological order
+					GroundItem item = vileFishes.getFirst();//Goes in chronological order
 					if (item == null)
 						return;
 					Tile tile = item.getTile();
@@ -90,7 +90,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 						@Override
 						public void run() {
 							resetWalkSteps();
-							setNextTile(getRespawnTile());
+							tele(getRespawnTile());
 							setNextAnimation(new Animation(-1));
 							removeAllVileFish();
 						}
@@ -102,7 +102,7 @@ public class FishingFerretRoom extends PuzzleRoom {
 	}
 
 	private void removeVileFish() {
-		World.removeGroundItem(vileFishes.remove(0));
+		World.removeGroundItem(vileFishes.removeFirst());
 	}
 
 	public void removeAllVileFish() {

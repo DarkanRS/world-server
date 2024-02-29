@@ -22,18 +22,16 @@ import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
 
 public class ForceMovement {
-	private Tile start;
-	private Tile[] path;
-	private int startClientCycles;
-	private int speedClientCycles;
-	private int direction;
+	private final Tile start;
+	private final Tile[] path;
+	private final int startClientCycles;
+	private final int speedClientCycles;
+	private final int direction;
 
 	public ForceMovement(Tile start, Tile[] path, int startClientCycles, int speedClientCycles, int direction) {
 		this.start = start;
 		this.path = path;
 		this.startClientCycles = startClientCycles;
-		if (path.length < 2)
-			this.path = new Tile[] { start, path[0] };
 		this.speedClientCycles = speedClientCycles;
 		this.direction = direction;
 	}
@@ -55,23 +53,23 @@ public class ForceMovement {
 	}
 
 	public int getDiffX1() {
-		return path[0].getX() - start.getX();
+		return start.getX() - path[0].getX();
 	}
 
 	public int getDiffX2() {
 		if (path.length <= 1)
 			return 0;
-		return path[1].getX() - start.getX();
+		return start.getX() - path[1].getX();
 	}
 
 	public int getDiffY1() {
-		return path[0].getY() - start.getY();
+		return start.getY() - path[0].getY();
 	}
 
 	public int getDiffY2() {
 		if (path.length <= 1)
 			return 0;
-		return path[1].getY() - start.getY();
+		return start.getY() - path[1].getY();
 	}
 
 	public Tile getStart() {

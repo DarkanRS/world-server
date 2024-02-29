@@ -65,7 +65,7 @@ public class EnchantedHeadwear {
 		ANTLERS                  (12204, 12204, 12206, 10, 40),
 		LIZARD_SKULL             (12207, 12207, 12209, 30, 65);
 		
-		private static Map<Integer, Headwear> MAP = new HashMap<>();
+		private static final Map<Integer, Headwear> MAP = new HashMap<>();
 		
 		static {
 			for (Headwear h : Headwear.values()) {
@@ -75,11 +75,11 @@ public class EnchantedHeadwear {
 			}
 		}
 
-		int baseId;
-		int enchantedId;
-		int chargedId;
-		int summReq;
-		int scrollLimit;
+		final int baseId;
+		final int enchantedId;
+		final int chargedId;
+		final int summReq;
+		final int scrollLimit;
 
 		Headwear(int id, int enchantedId, int chargedId, int summoningLevel, int scrolls) {
 			this.baseId = id;
@@ -149,7 +149,7 @@ public class EnchantedHeadwear {
 //		}
 //	});
 	
-	public static ItemOnItemHandler chargeUncharged = new ItemOnItemHandler(Arrays.stream(Headwear.values()).mapToInt(h -> h.enchantedId).toArray(), Arrays.stream(Scroll.values()).mapToInt(s -> s.getId()).toArray(), e -> {
+	public static ItemOnItemHandler chargeUncharged = new ItemOnItemHandler(Arrays.stream(Headwear.values()).mapToInt(h -> h.enchantedId).toArray(), Arrays.stream(Scroll.values()).mapToInt(Scroll::getId).toArray(), e -> {
 		Headwear wear = Headwear.forId(e.getItem1().getId());
 		if (wear == null)
 			wear = Headwear.forId(e.getItem2().getId());

@@ -83,18 +83,14 @@ public class TreasureTrailsManager {
 	}
 
 	private int generateClueSize(int level) {
-		switch (level) {
-		case EASY:
-			return 1 + Utils.random(3);
-		case MEDIUM:
-			return 2 + Utils.random(3);
-		case HARD:
-			return 3 + Utils.random(4);
-		case ELITE:
-			return 3 + Utils.random(3);
-		}
-		return 1;
-	}
+        return switch (level) {
+            case EASY -> 1 + Utils.random(3);
+            case MEDIUM -> 2 + Utils.random(3);
+            case HARD -> 3 + Utils.random(4);
+            case ELITE -> 3 + Utils.random(3);
+            default -> 1;
+        };
+    }
 
 	private ClueDetails generateClueDetails(int dificulty) {
 		while (true) {
@@ -370,9 +366,7 @@ public class TreasureTrailsManager {
 			int puzzle_id = currentClue.dificulty == ELITE ? PUZZLES[3] : PUZZLES[Utils.random(PUZZLES.length - 1)];
 			player.startConversation(new Dialogue()
 					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "I have a puzzle for you!")
-					.addItem(puzzle_id, npc.getName() + " has given you a puzzle box!", ()->{
-						player.getInventory().addItem(puzzle_id, 1);
-					})
+					.addItem(puzzle_id, npc.getName() + " has given you a puzzle box!", ()-> player.getInventory().addItem(puzzle_id, 1))
 			);
 			return true;
 		}
@@ -384,9 +378,7 @@ public class TreasureTrailsManager {
 		}
 		if ((currentClue.details.type != ANAGRAM) || (currentClue.dificulty < HARD)) {
 			player.startConversation(new Dialogue()
-					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Congratulations! You have come to right place.", ()->{
-						setNextClue(SOURCE_NPC, false);
-					})
+					.addNPC(currentClue.details.getId(), HeadE.CALM_TALK, "Congratulations! You have come to right place.", ()-> setNextClue(SOURCE_NPC, false))
 			);
 			return true;
 		}
@@ -412,7 +404,7 @@ public class TreasureTrailsManager {
 			for (int index = 0; index < PUZZLE_SIZE - 1; index++)
 				pieces.add(new Item(base + index, 1));
 			pieces.add(new Item(-1, 1));
-			player.getPackets().sendItems(207, pieces.toArray(new Item[pieces.size()]));
+			player.getPackets().sendItems(207, pieces.toArray(new Item[0]));
 
 			pieces.clear();
 			int[] mix = createMix();
@@ -423,7 +415,7 @@ public class TreasureTrailsManager {
 					pieces.add(new Item(-1, 1));
 		}
 		player.getPackets().setIFRightClickOps(363, 4, 0, 25, 0);
-		player.getPackets().sendItems(140, pieces.toArray(new Item[pieces.size()]));
+		player.getPackets().sendItems(140, pieces.toArray(new Item[0]));
 		player.getInterfaceManager().sendInterface(363);
 	}
 
@@ -438,7 +430,7 @@ public class TreasureTrailsManager {
 				pieces.set(index, emptyPeice);
 			}
 		}
-		player.getPackets().sendItems(140, pieces.toArray(new Item[pieces.size()]));
+		player.getPackets().sendItems(140, pieces.toArray(new Item[0]));
 	}
 
 	private int getBasePiece(int requestedId) {
@@ -1273,9 +1265,11 @@ public class TreasureTrailsManager {
 
 		;
 
-		public int level, type, idType;
-		public int[] ids;
-		public Object[] parameters;
+		public final int level;
+        public final int type;
+        public final int idType;
+		public final int[] ids;
+		public final Object[] parameters;
 
 		private ClueDetails(int level, int type, int idType, int[] ids, Object... parameters) {
 			this.level = level;
@@ -1309,7 +1303,7 @@ public class TreasureTrailsManager {
 
 		private ClueDetails details;
 		private int count;
-		private int dificulty;
+		private final int dificulty;
 
 		public Clue(ClueDetails details, int count, int dificulty) {
 			this.details = details;

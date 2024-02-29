@@ -19,7 +19,14 @@ import java.util.List;
 
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 
-@QuestHandler(Quest.FIGHT_ARENA)
+@QuestHandler(
+		quest = Quest.FIGHT_ARENA,
+		startText = "Talk to Lady Servil, just north-west of the fight arena, which is south of Ardougne.",
+		itemsText = "Combat gear.",
+		combatText = "Be able to defeat level 50, 64 and 77 foes.",
+		rewardsText = "12,175 Attack XP<br>2,175 Thieving XP<br>1,000 coins",
+		completedStage = 4
+)
 @PluginEventHandler
 public class FightArena extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -27,12 +34,6 @@ public class FightArena extends QuestOutline {
 	public final static int GET_JAIL_KEYS = 2;
 	public final static int RETURN_TO_LADY_SERVIL = 3;
 	public final static int QUEST_COMPLETE = 4;
-
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -73,9 +74,7 @@ public class FightArena extends QuestOutline {
 				lines.add("");
 				lines.add("QUEST COMPLETE!");
 			}
-			default -> {
-				lines.add("Invalid quest stage. Report this to an administrator.");
-			}
+			default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -87,7 +86,7 @@ public class FightArena extends QuestOutline {
 					.addNPC(265, HeadE.CHILD_UNSURE, "Wow! Please set me free so we can find my dad. I overheard a guard talking. I think " +
 							"they've taken him to the arena.")
 					.addPlayer(HeadE.HAPPY_TALKING, "Okay, we'd better hurry.")
-					.addNext(()->{e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController());})
+					.addNext(()-> e.getPlayer().getControllerManager().startController(new FightArenaFightCutsceneController()))
 			);
 		}
 	});
@@ -128,7 +127,7 @@ public class FightArena extends QuestOutline {
 			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
 				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
 						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
+						.addNext(()-> handleDoor(e.getPlayer(), e.getObject()))
 				);
 				return;
 			}
@@ -144,7 +143,7 @@ public class FightArena extends QuestOutline {
 			if(e.getPlayer().getEquipment().getHatId() == 74 && e.getPlayer().getEquipment().getChestId() == 75) {
 				e.getPlayer().startConversation(new Dialogue().addPlayer(HeadE.FRUSTRATED, "This door appears to be locked.")
 						.addNPC(253, HeadE.CALM_TALK, "Nice observation, guard. You could have asked to be let in like any normal person.")
-						.addNext(()->{handleDoor(e.getPlayer(), e.getObject());})
+						.addNext(()-> handleDoor(e.getPlayer(), e.getObject()))
 				);
 				return;
 			}
@@ -160,28 +159,6 @@ public class FightArena extends QuestOutline {
 		player.getSkills().addXpQuest(Constants.ATTACK, 12_175);
 		player.getSkills().addXpQuest(Constants.THIEVING, 2_175);
 		sendQuestCompleteInterface(player, 75);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Lady Servil, just north-west of the fight arena.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Combat gear.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "Be able to defeat level 50, 64 and 77 foes.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "12,175 Attack XP<br>" +
-				"2,175 Thieving XP<br>" +
-				"1,000 coins";
 	}
 
 }

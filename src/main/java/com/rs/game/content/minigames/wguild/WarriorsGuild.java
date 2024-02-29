@@ -26,6 +26,7 @@ import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.AttackType;
 import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.XPType;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.content.world.unorganized_dialogue.ShotputD;
@@ -57,7 +58,7 @@ public class WarriorsGuild extends Controller {
 
 	public static void init() {
 		if (timer == null)
-			WorldTasks.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
+			WorldTasks.scheduleLooping(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
 	}
 
 	public static class WarriorTimer extends Task {
@@ -282,7 +283,7 @@ public class WarriorsGuild extends Controller {
 			player.setNextAnimation(new Animation(827));
 			player.lock();
 			final int finalIndex = realIndex;
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int ticks;
 
 				@Override
@@ -495,7 +496,7 @@ public class WarriorsGuild extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int teleType) {
+	public void onTeleported(TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 
@@ -515,13 +516,13 @@ public class WarriorsGuild extends Controller {
 			player.sendMessage("You take a deep breath and prepare yourself.");
 		else if (stage == 1)
 			player.sendMessage("You take a step and throw the shot as hard as you can.");
-		if ((player.getSkills().getLevel(Constants.STRENGTH) / 100) > Math.random()) {
+		if (((double) player.getSkills().getLevel(Constants.STRENGTH) / 100) > Math.random()) {
 			player.sendMessage("You fumble and drop the shot onto your toe. Ow!");
 			player.applyHit(new Hit(player, 10, HitLook.TRUE_DAMAGE));
 			player.unlock();
 			return;
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int ticks;
 

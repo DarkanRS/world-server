@@ -75,7 +75,7 @@ public class AuraManager {
 		AEGIS						(22889, Millis.fromMinutes(30), Millis.fromHours(5)),
 		REGENERATION				(22893, Millis.fromHours(1), Millis.fromHours(3)),
 		DARK_MAGIC					(22891, Millis.fromHours(1), Millis.fromHours(3)),
-		BERSERKER					(22897, Millis.fromMinutes(30), Millis.fromHours(5)),
+		BERSERKER					(22897, Millis.fromMinutes(10), Millis.fromHours(5)),
 		ANCESTOR_SPIRITS			(22895, Millis.fromMinutes(30), Millis.fromHours(5)),
 		GREENFINGERS				(22883, Millis.fromMinutes(20), Millis.fromHours(1)),
 		GREATER_GREENFINGERS		(22885, Millis.fromMinutes(20), Millis.fromHours(1)),
@@ -119,7 +119,7 @@ public class AuraManager {
 		SUPREME_TRACKER				(23872, Millis.fromHours(1), Millis.fromHours(3)),
 		SUPREME_GREENFINGERS		(23878, Millis.fromMinutes(20), Millis.fromHours(1));
 
-		private static Map<Integer, Aura> ITEMID_MAP = new HashMap<>();
+		private static final Map<Integer, Aura> ITEMID_MAP = new HashMap<>();
 
 		static {
 			for (Aura a : Aura.values())
@@ -130,11 +130,11 @@ public class AuraManager {
 			return ITEMID_MAP.get(itemId);
 		}
 
-		public int itemId;
-		private long duration;
-		private long cooldown;
+		public final int itemId;
+		private final long duration;
+		private final long cooldown;
 
-		private Aura(int itemId, long duration, long cooldown) {
+		Aura(int itemId, long duration, long cooldown) {
 			this.itemId = itemId;
 			this.duration = duration;
 			this.cooldown = cooldown;
@@ -396,189 +396,124 @@ public class AuraManager {
 		Aura aura = Aura.forId(player.getEquipment().getAuraId());
 		if (aura == null)
 			return -1;
-		switch (aura) {
-		case CORRUPTION:
-			return 16449;
-		case SALVATION:
-			return 16465;
-		case HARMONY:
-			return 68605;
-		case GREATER_CORRUPTION:
-			return 16464;
-		case GREATER_SALVATION:
-			return 16524;
-		case GREATER_HARMONY:
-			return 68610;
-		case MASTER_CORRUPTION:
-			return 16429;
-		case MASTER_SALVATION:
-			return 16450;
-		case MASTER_HARMONY:
-			return 68607;
-		case SUPREME_CORRUPTION:
-			return 68615;
-		case SUPREME_SALVATION:
-			return 68611;
-		case SUPREME_HARMONY:
-			return 68613;
-		default:
-			return -1;
-		}
+        return switch (aura) {
+            case CORRUPTION -> 16449;
+            case SALVATION -> 16465;
+            case HARMONY -> 68605;
+            case GREATER_CORRUPTION -> 16464;
+            case GREATER_SALVATION -> 16524;
+            case GREATER_HARMONY -> 68610;
+            case MASTER_CORRUPTION -> 16429;
+            case MASTER_SALVATION -> 16450;
+            case MASTER_HARMONY -> 68607;
+            case SUPREME_CORRUPTION -> 68615;
+            case SUPREME_SALVATION -> 68611;
+            case SUPREME_HARMONY -> 68613;
+            default -> -1;
+        };
 	}
 
 	public static boolean isWingedAura(Aura aura) {
-		switch (aura) {
-		case CORRUPTION:
-		case SALVATION:
-		case HARMONY:
-		case GREATER_CORRUPTION:
-		case GREATER_SALVATION:
-		case GREATER_HARMONY:
-		case MASTER_CORRUPTION:
-		case MASTER_SALVATION:
-		case MASTER_HARMONY:
-		case SUPREME_CORRUPTION:
-		case SUPREME_SALVATION:
-		case SUPREME_HARMONY:
-			return true;
-		default:
-			return false;
-		}
+        return switch (aura) {
+            case CORRUPTION, SALVATION, HARMONY, GREATER_CORRUPTION, GREATER_SALVATION, GREATER_HARMONY, MASTER_CORRUPTION, MASTER_SALVATION, MASTER_HARMONY, SUPREME_CORRUPTION, SUPREME_SALVATION, SUPREME_HARMONY ->
+                    true;
+            default -> false;
+        };
 	}
 
 	public double getThievingMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case FIVE_FINGER_DISCOUNT:
-			return 1.03;
-		case GREATER_FIVE_FINGER_DISCOUNT:
-			return 1.05;
-		case MASTER_FIVE_FINGER_DISCOUNT:
-			return 1.07;
-		case SUPREME_FIVE_FINGER_DISCOUNT:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case FIVE_FINGER_DISCOUNT -> 1.03;
+            case GREATER_FIVE_FINGER_DISCOUNT -> 1.05;
+            case MASTER_FIVE_FINGER_DISCOUNT -> 1.07;
+            case SUPREME_FIVE_FINGER_DISCOUNT -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getFishingMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case CALL_OF_THE_SEA:
-			return 1.03;
-		case GREATER_CALL_OF_THE_SEA:
-			return 1.05;
-		case MASTER_CALL_OF_THE_SEA:
-			return 1.07;
-		case SUPREME_CALL_OF_THE_SEA:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case CALL_OF_THE_SEA -> 1.03;
+            case GREATER_CALL_OF_THE_SEA -> 1.05;
+            case MASTER_CALL_OF_THE_SEA -> 1.07;
+            case SUPREME_CALL_OF_THE_SEA -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getWoodcuttingMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case LUMBERJACK:
-			return 1.03;
-		case GREATER_LUMBERJACK:
-			return 1.05;
-		case MASTER_LUMBERJACK:
-			return 1.07;
-		case SUPREME_LUMBERJACK:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case LUMBERJACK -> 1.03;
+            case GREATER_LUMBERJACK -> 1.05;
+            case MASTER_LUMBERJACK -> 1.07;
+            case SUPREME_LUMBERJACK -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getMiningMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case QUARRYMASTER:
-			return 1.03;
-		case GREATER_QUARRYMASTER:
-			return 1.05;
-		case MASTER_QUARRYMASTER:
-			return 1.07;
-		case SUPREME_QUARRYMASTER:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case QUARRYMASTER -> 1.03;
+            case GREATER_QUARRYMASTER -> 1.05;
+            case MASTER_QUARRYMASTER -> 1.07;
+            case SUPREME_QUARRYMASTER -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getHuntingMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-			case TRACKER:
-				return 1.03;
-			case GREATER_TRACKER:
-				return 1.05;
-			case MASTER_TRACKER:
-				return 1.07;
-			case SUPREME_TRACKER:
-				return 1.1;
-			default:
-				return 1.0;
-		}
+        return switch (currAura) {
+            case TRACKER -> 1.03;
+            case GREATER_TRACKER -> 1.05;
+            case MASTER_TRACKER -> 1.07;
+            case SUPREME_TRACKER -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getRangeAcc() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case SHARPSHOOTER:
-			return 1.03;
-		case GREATER_SHARPSHOOTER:
-			return 1.05;
-		case MASTER_SHARPSHOOTER:
-			return 1.07;
-		case SUPREME_SHARPSHOOTER:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case SHARPSHOOTER -> 1.03;
+            case GREATER_SHARPSHOOTER -> 1.05;
+            case MASTER_SHARPSHOOTER -> 1.07;
+            case SUPREME_SHARPSHOOTER -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getMagicAcc() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case RUNIC_ACCURACY:
-			return 1.03;
-		case GREATER_RUNIC_ACCURACY:
-			return 1.05;
-		case MASTER_RUNIC_ACCURACY:
-			return 1.07;
-		case SUPREME_RUNIC_ACCURACY:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case RUNIC_ACCURACY -> 1.03;
+            case GREATER_RUNIC_ACCURACY -> 1.05;
+            case MASTER_RUNIC_ACCURACY -> 1.07;
+            case SUPREME_RUNIC_ACCURACY -> 1.1;
+            default -> 1.0;
+        };
 	}
 
 	public double getPrayerResMul() {
 		if (currAura == null)
 			return 1.0;
-		switch(currAura) {
-		case REVERENCE:
-			return 1.03;
-		case GREATER_REVERENCE:
-			return 1.05;
-		case MASTER_REVERENCE:
-			return 1.07;
-		case SUPREME_REVERENCE:
-			return 1.1;
-		default:
-			return 1.0;
-		}
+        return switch (currAura) {
+            case REVERENCE -> 1.03;
+            case GREATER_REVERENCE -> 1.05;
+            case MASTER_REVERENCE -> 1.07;
+            case SUPREME_REVERENCE -> 1.1;
+            default -> 1.0;
+        };
 	}
 }

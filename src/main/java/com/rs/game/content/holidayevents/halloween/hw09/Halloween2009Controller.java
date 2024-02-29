@@ -18,6 +18,8 @@ package com.rs.game.content.holidayevents.halloween.hw09;
 
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.engine.dialogue.Dialogue;
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -32,25 +34,24 @@ import java.util.Set;
 
 public class Halloween2009Controller extends Controller {
 
-	private Set<Integer> path;
-	private Set<Integer> webbedUp;
-	private static int WEBS_TOTAL = 63;
+	private final Set<Integer> path;
+	private final Set<Integer> webbedUp;
 
-	public Halloween2009Controller() {
+    public Halloween2009Controller() {
 		path = Halloween2009.getRandomPath();
 		webbedUp = new HashSet<>();
 	}
 
 	@Override
 	public void start() {
-		player.setNextTile(Halloween2009.START_LOCATION);
+		player.tele(Halloween2009.START_LOCATION);
 	}
 
 	@Override
 	public boolean sendDeath() {
 		player.lock(7);
 		player.stopAll();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -60,7 +61,7 @@ public class Halloween2009Controller extends Controller {
 				else if (loop == 1)
 					player.sendMessage("Oh dear, you have died.");
 				else if (loop == 3) {
-					player.setNextTile(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : Tile.of(3211, 3424, 0));
+					player.tele(player.getI(Halloween2009.STAGE_KEY) < 10 ? Halloween2009.START_LOCATION : Tile.of(3211, 3424, 0));
 					player.reset();
 					player.setNextAnimation(new Animation(-1));
 				} else if (loop == 4) {
@@ -109,7 +110,7 @@ public class Halloween2009Controller extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 
 	}
 
@@ -119,19 +120,7 @@ public class Halloween2009Controller extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
@@ -150,7 +139,8 @@ public class Halloween2009Controller extends Controller {
 	public void web(int objectId) {
 		webbedUp.add(objectId);
 		Halloween2009.refreshWebbables(player, player.getEquipment().getWeaponId() == 15353);
-		int numLeft = WEBS_TOTAL-webbedUp.size();
+        int WEBS_TOTAL = 63;
+        int numLeft = WEBS_TOTAL -webbedUp.size();
 		if (numLeft > 0)
 			player.sendMessage("You web up the " + ObjectDefinitions.getDefs(objectId, player.getVars()).getName().toLowerCase() + ". Only <col=FF0000>" + numLeft + "</col> more to go!");
 		else {

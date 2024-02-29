@@ -25,10 +25,10 @@ import java.util.Map;
 
 public class DropItemEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item;
+	private final Player player;
+	private final Item item;
 	private boolean cancelDrop = false;
 
 	public DropItemEvent(Player player, Item item) {
@@ -70,4 +70,11 @@ public class DropItemEvent implements PluginEvent {
 		this.cancelDrop = true;
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
 }

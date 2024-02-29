@@ -123,7 +123,7 @@ public final class TorturedSoul extends NPC {
 	 */
 	public void specialAttack(Tile teleport) {
 		super.getCombat().addCombatDelay(10);
-		super.setNextTile(teleport);
+		super.tele(teleport);
 		super.setNextSpotAnim(TELEPORT_GRAPHIC);
 		super.setNextAnimation(TELEPORT_ANIMATION);
 		super.getCombat().reset();
@@ -151,7 +151,7 @@ public final class TorturedSoul extends NPC {
 				setNextSpotAnim(SPECIAL_ATT_GFX_);
 				setNextAnimation(SPECIAL_ATT_ANIM_);
 				getCombat().setTarget(victim);
-				getTasks().schedule(new Task() {
+				getTasks().scheduleLooping(new Task() {
 					int x = currentX, y = currentY;
 
 					@Override

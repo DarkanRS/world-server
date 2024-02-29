@@ -85,7 +85,7 @@ public class StealingCreationLobby {
 		} else if (!blueTeam.contains(player))
 			blueTeam.add(player);
 		if (hasRequiredPlayers() && lobbyTask == null)// saves performance
-			WorldTasks.schedule(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
+			WorldTasks.scheduleLooping(lobbyTask = new LobbyTimer(), Ticks.fromMinutes(1), Ticks.fromMinutes(1));
 		player.getControllerManager().startController(new StealingCreationLobbyController());
 		updateInterfaces();
 		return true;

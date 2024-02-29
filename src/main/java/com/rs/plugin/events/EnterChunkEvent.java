@@ -26,10 +26,10 @@ import java.util.List;
 
 public class EnterChunkEvent implements PluginEvent {
 
-	private static List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
+	private static final List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
 
-	private Entity entity;
-	private int chunkId;
+	private final Entity entity;
+	private final int chunkId;
 
 	public EnterChunkEvent(Entity entity, int chunkId) {
 		this.entity = entity;
@@ -63,5 +63,13 @@ public class EnterChunkEvent implements PluginEvent {
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		HANDLERS.add(method);
+	}
+
+	public Entity component1() {
+		return entity;
+	}
+
+	public int component2() {
+		return chunkId;
 	}
 }

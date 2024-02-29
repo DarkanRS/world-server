@@ -19,7 +19,6 @@ package com.rs.game.content.minigames.domtower;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.game.World;
-import com.rs.game.content.world.unorganized_dialogue.StrangeFace;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -72,14 +71,14 @@ public final class DominionTower {
 	}
 
 	public void growFace() {
-		player.voiceEffect(7913);
+		player.voiceEffect(7913, false);
 		player.simpleDialogue("The face on the wall groans and scowls at you. Perhaps you should", "talk to it first.");
 	}
 
 	public void openModes() {
 		if (!hasRequiriments()) {
 			player.startConversation(new Dialogue().addSimple("You don't have the requirements to play this content, but you can spectate some of the matches" +
-					" taking place if you would like.", () -> {player.getDominionTower().openSpectate();}));
+					" taking place if you would like.", () -> player.getDominionTower().openSpectate()));
 			return;
 		}
 		if (!talkedWithFace) {
@@ -127,13 +126,13 @@ public final class DominionTower {
 
 	public static final class Boss {
 
-		private String name;
-		private String text;
-		private int[] ids;
-		private boolean forceMulti;
-		private Item item;
-		private int voice;
-		private int[] arena;
+		private final String name;
+		private final String text;
+		private final int[] ids;
+		private final boolean forceMulti;
+		private final Item item;
+		private final int voice;
+		private final int[] arena;
 
 		public Boss(String name, String text, int... ids) {
 			this(name, text, -1, false, null, NORMAL_ARENA, ids);
@@ -158,10 +157,17 @@ public final class DominionTower {
 		}
 	}
 
-	private static final Boss[] BOSSES = { new Boss("Elvarg", "Grrrr", 14548), new Boss("Delrith", "Grrrr", -1, false, new Item(2402, 1), NORMAL_ARENA, 14578), new Boss("Evil Chicken", "Bwak bwak bwak", 3375),
-			new Boss("The Black Knight Titan", "Kill kill kill!", 14436), new Boss("Bouncer", "Grrr", 14483),
+	private static final Boss[] BOSSES = {
+			new Boss("Elvarg", "Grrrr", 14548),
+			new Boss("Delrith", "Grrrr", -1, false, new Item(2402, 1), NORMAL_ARENA, 14578),
+			new Boss("Evil Chicken", "Bwak bwak bwak", 3375),
+			new Boss("The Black Knight Titan", "Kill kill kill!", 14436),
+			new Boss("Bouncer", "Grrr", 14483),
 			// custom bosses
-			new Boss("Jad", "Roarrrrrrrrrrrrrrrrrrrrrrrrrr", 2745), new Boss("Kalphite Queen", null, 1158), new Boss("King Black Dragon", "Grrrr", 50), new Boss("Nomad", "You don't stand a chance!", 7985, true, null, NOMAD_ARENA, 8528) };
+			new Boss("Jad", "Roarrrrrrrrrrrrrrrrrrrrrrrrrr", 2745),
+			new Boss("Kalphite Queen", null, 1158),
+			new Boss("King Black Dragon", "Grrrr", 50),
+			new Boss("Nomad", "You don't stand a chance!", 7985, true, null, NOMAD_ARENA, 8528) };
 
 	private void startEnduranceMode() {
 		if (progress == 256) {
@@ -189,21 +195,17 @@ public final class DominionTower {
 		player.setNextFaceTile(Tile.of(getBaseX() + 11, getBaseY() + 29, 0));
 		player.getControllerManager().startController(new DomTowerController(mode));
 		player.unlock();
-		player.setNextTile(Tile.of(getBaseX() + 10, getBaseY() + 29, 2));
+		player.tele(Tile.of(getBaseX() + 10, getBaseY() + 29, 2));
 		player.getMusicsManager().playSongAndUnlock(MUSICS[Utils.getRandomInclusive(MUSICS.length - 1)]);
 	}
 
 	public String getStartFightText(int message) {
-		switch (message) {
-		case 0:
-			return "Kick my ass!";
-		case 1:
-			return "Please don't hit my face";
-		case 2:
-			return "Argh!";
-		default:
-			return "Bring it on!";
-		}
+        return switch (message) {
+            case 0 -> "Kick my ass!";
+            case 1 -> "Please don't hit my face";
+            case 2 -> "Argh!";
+            default -> "Bring it on!";
+        };
 	}
 
 	public int getNextBossIndex() {
@@ -218,10 +220,10 @@ public final class DominionTower {
 			boss.setNextFaceTile(Tile.of(boss.getX() - 1, boss.getY(), 0));
 		}
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 25, getBaseY() + 32, 2));
+		player.tele(Tile.of(getBaseX() + 25, getBaseY() + 32, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 26, getBaseY() + 32, 0));
 		final int index = getNextBossIndex();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int count;
 
@@ -250,7 +252,7 @@ public final class DominionTower {
 					if (BOSSES[index].text != null)
 						bosses[0].setNextForceTalk(new ForceTalk(BOSSES[index].text));
 					if (BOSSES[index].voice != -1)
-						player.voiceEffect(BOSSES[index].voice);
+						player.voiceEffect(BOSSES[index].voice, false);
 				} else if (count == 6) {
 					player.getControllerManager().sendInterfaces();
 					player.getInterfaceManager().sendInterface(1172);
@@ -260,7 +262,7 @@ public final class DominionTower {
 					player.getPackets().setIFHidden(1172, 10, true);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 36), 0);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 32), player.getSceneY(getBaseY() + 16), 5000);
-					player.voiceEffect(7882);
+					player.voiceEffect(7882, false);
 				} else if (count == 8) {
 					if (nextBossIndex != -1 && BOSSES[index].item != null)
 						World.addGroundItem(BOSSES[index].item, Tile.of(getBaseX() + 26, getBaseY() + 33, 2));
@@ -292,16 +294,16 @@ public final class DominionTower {
 	public void loss(final int mode) {
 		/*
 		 * if(mapBaseCoords == null) { //died on logout
-		 * player.setNextTile(Tile.of(3744, 6425, 0));
+		 * player.tele(Tile.of(3744, 6425, 0));
 		 * player.getControllerManager().removeControllerWithoutCheck(); return; }
 		 */
 		removeItem();
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(player.getX() + 1, player.getY(), 0));
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int count;
 
 			@Override
@@ -317,7 +319,7 @@ public final class DominionTower {
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
-					player.voiceEffect(7874);
+					player.voiceEffect(7874, false);
 				} else if (count == 4) {
 					player.setForceMultiArea(false);
 					player.reset();
@@ -353,10 +355,10 @@ public final class DominionTower {
 		}
 		nextBossIndex = -1;
 		player.lock();
-		player.setNextTile(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
+		player.tele(Tile.of(getBaseX() + 35, getBaseY() + 31, 2));
 		player.setNextFaceTile(Tile.of(getBaseX() + 36, getBaseY() + 31, 0));
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private int count;
 
@@ -372,7 +374,7 @@ public final class DominionTower {
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 37), 2500);
 					player.getPackets().sendCameraLook(player.getSceneX(getBaseX() + 35), player.getSceneY(getBaseY() + 28), 800);
 					player.getPackets().sendCameraPos(player.getSceneX(getBaseX() + 42), player.getSceneY(getBaseY() + 37), 2500, 6, 6);
-					player.voiceEffect(7897);
+					player.voiceEffect(7897, false);
 				} else if (count == 4) {
 					player.reset();
 					player.closeInterfaces();
@@ -400,7 +402,7 @@ public final class DominionTower {
 		else {
 			player.getControllerManager().removeControllerWithoutCheck();
 			player.lock();
-			player.setNextTile(tile);
+			player.tele(tile);
 			if (mode == ENDURANCE)
 				progress = 0;
 		}
@@ -483,7 +485,7 @@ public final class DominionTower {
 			player.startConversation(new StrangeFace(player));
 		else {
 			if (!fromDialogue)
-				player.voiceEffect(7893);
+				player.voiceEffect(7893, false);
 			player.getInterfaceManager().sendInterface(1160);
 		}
 	}
@@ -493,7 +495,7 @@ public final class DominionTower {
 			talkToFace();
 			return;
 		}
-		player.voiceEffect(7893);
+		player.voiceEffect(7893, false);
 		player.getInterfaceManager().sendInterface(1156);
 	}
 

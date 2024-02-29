@@ -46,11 +46,13 @@ public enum Master {
 			SLAYER_MASTERS.put(master.npcId, master);
 	}
 
-	public int npcId;
-	public int requiredCombatLevel;
-	public int reqSlayerLevel;
-	public int masterID;
-	private int points, points10, points50;
+	public final int npcId;
+	public final int requiredCombatLevel;
+	public final int reqSlayerLevel;
+	public final int masterID;
+	private final int points;
+    private final int points10;
+    private final int points50;
 
 	private Master(int npcId, int requiredCombatLevel, int requiredSlayerLevel, int slayerMasterID, int points, int points10, int points50) {
 		this.npcId = npcId;

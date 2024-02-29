@@ -9,13 +9,13 @@ import kotlinx.coroutines.runBlocking
 fun main() {
     for (i in 0..50)
         runCoroutineTest()
-    println("JVM heated up. Starting...");
+    println("JVM heated up. Starting...")
 
-    var results: MutableList<Double> = mutableListOf();
+    var results: MutableList<Double> = mutableListOf()
     for (i in 0..50) {
         var start = System.nanoTime()
         runCoroutineTest()
-        results.add((System.nanoTime() - start) / 1000000.0);
+        results.add((System.nanoTime() - start) / 1000000.0)
     }
 
     println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.")
@@ -23,7 +23,7 @@ fun main() {
 }
 
 fun runCoroutineTest() {
-    Cache.init("../cache/");
+    Cache.init("../cache/")
     runBlocking {
         (0 until 1000).map { _ ->
             launch {

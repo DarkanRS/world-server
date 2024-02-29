@@ -42,7 +42,14 @@ import java.util.List;
 import static com.rs.game.content.world.doors.Doors.handleDoor;
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 
-@QuestHandler(Quest.ERNEST_CHICKEN)
+@QuestHandler(
+		quest = Quest.ERNEST_CHICKEN,
+		startText = "Talk to Veronica, south of Draynor Manor gates.",
+		itemsText = "None.",
+		combatText = "None, but watch out for those trees in the manor grounds.",
+		rewardsText = "3,000 coins<br>10 eggs<br>300 feathers",
+		completedStage = 5
+)
 @PluginEventHandler
 public class ErnestTheChicken extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -60,11 +67,6 @@ public class ErnestTheChicken extends QuestOutline {
 	private final static int GRIMY_KEY = 275;
 	private final static int RUBBER_TUBE = 276;
 	private final static int SPADE = 952;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -117,28 +119,6 @@ public class ErnestTheChicken extends QuestOutline {
 		player.getInventory().addItem(new Item(1945, 10), true);
 		player.getInventory().addItem(new Item(314, 300), true);
 		sendQuestCompleteInterface(player, 314);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Veronica outside Draynor Manor.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "None.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None, but watch out for those trees in the manor grounds.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "3,000 coins<br>" +
-				"10 eggs<br>" +
-				"300 feathers";
 	}
 
 	public static ObjectClickHandler handleManorFrontDoor = new ObjectClickHandler(new Object[] { 47424, 47421 }, e -> {
@@ -212,9 +192,7 @@ public class ErnestTheChicken extends QuestOutline {
 		if(p.getTempAttribs().getB("FountainFishDead"))
 			p.startConversation(new Conversation(p) {
 				{
-					addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> {
-						p.getInventory().addItem(PRESSURE_GAUGE, 1);
-					});
+					addPlayer(HeadE.CALM_TALK, "There seems to be a preassure gauge in here...", () -> p.getInventory().addItem(PRESSURE_GAUGE, 1));
 					addPlayer(HeadE.CALM_TALK, "... and a lot of dead fish.");
 					create();
 				}
@@ -238,7 +216,7 @@ public class ErnestTheChicken extends QuestOutline {
 			return;
 		}
 		p.getInventory().deleteItem(POISONED_FISH_FOOD, 1);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick = 0;
 			@Override
 			public void run() {

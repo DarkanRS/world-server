@@ -16,14 +16,15 @@
 //
 package com.rs.game.content.minigames.pest;
 
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
-import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 
 public final class PestControlLobbyController extends Controller {
 
-	private int landerId;
+	private final int landerId;
 
 	public PestControlLobbyController(int landerId) {
 		this.landerId = landerId;
@@ -45,19 +46,14 @@ public final class PestControlLobbyController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int teleType) {
+	public void onTeleported(TeleType teleType) {
 		player.getControllerManager().forceStop();
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.getControllerManager().forceStop();
-		return true;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.getControllerManager().forceStop();
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT)
+			player.getControllerManager().forceStop();
 		return true;
 	}
 
@@ -83,13 +79,12 @@ public final class PestControlLobbyController extends Controller {
 
 	@Override
 	public boolean processObjectClick1(GameObject object) {
-		switch (object.getId()) {
-		case 14314:
-		case 25629:
-		case 25630:
-			player.startConversation(new LanderD(player));
-			return true;
-		}
-		return true;
-	}
+        return switch (object.getId()) {
+            case 14314, 25629, 25630 -> {
+                player.startConversation(new LanderD(player));
+                yield true;
+            }
+            default -> true;
+        };
+    }
 }

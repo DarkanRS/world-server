@@ -40,9 +40,7 @@ public class Agility {
 			addPlayer(HeadE.CONFUSED, "Can I get any rewards?");
 			if (player.getCounterValue("Barbarian advanced laps") >= 250) {
 				addNPC(607, HeadE.HAPPY_TALKING, "As promised, I'll give you an item you may find useful: an Agile top. You'll find yourself lighter than usual while wearing it.");
-				addNPC(607, HeadE.HAPPY_TALKING, "We barbarians are tough folks, as you know, so it'll even keep you safe if you get drawn into combat.", () -> {
-					player.getInventory().addItem(14936, 1);
-				});
+				addNPC(607, HeadE.HAPPY_TALKING, "We barbarians are tough folks, as you know, so it'll even keep you safe if you get drawn into combat.", () -> player.getInventory().addItem(14936, 1));
 			} else
 				addNPC(607, HeadE.HAPPY_TALKING, "Of course! Once you've completed 250 laps of the advanced course, I have something in mind. You've completed " + player.getCounterValue("Barbarian advanced laps") + " laps so far.");
 
@@ -60,9 +58,7 @@ public class Agility {
 			if (player.getCounterValue("Gnome advanced laps") >= 250) {
 				addNPC(162, HeadE.HAPPY_TALKING, "Well, it looks like you've completed our challenge!");
 				addNPC(162, HeadE.HAPPY_TALKING, "Take this as a reward: an Agile leg. You'll find yourself much lighter than usual while wearing them.");
-				addNPC(162, HeadE.HAPPY_TALKING, "They are made from the toughest material we gnomes could find, so it might even protect you in combat.", () -> {
-					player.getInventory().addItem(14938, 1);
-				});
+				addNPC(162, HeadE.HAPPY_TALKING, "They are made from the toughest material we gnomes could find, so it might even protect you in combat.", () -> player.getInventory().addItem(14938, 1));
 				addNPC(162, HeadE.HAPPY_TALKING, "There you go. Enjoy!");
 			} else
 				addNPC(162, HeadE.HAPPY_TALKING, "Well, you've still got work to do. Your lap count is  " + player.getCounterValue("Gnome advanced laps") + ". It's 250 successful laps for the reward!");
@@ -98,7 +94,7 @@ public class Agility {
 		WorldTasks.schedule(1, () -> player.setNextAnimation(new Animation(animationId)));
 		WorldTasks.schedule(delay+1, () -> {
 			player.unlockNextTick();
-			player.setNextTile(toTile);
+			player.tele(toTile);
 			player.setNextAnimation(new Animation(-1));
 			player.getSkills().addXp(Constants.AGILITY, xp);
 		});
@@ -117,9 +113,8 @@ public class Agility {
 	}
 
 	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
-		player.lock(2);
+		player.lock(5);
 		player.walkToAndExecute(startTile, () -> {
-			player.lock();
 			WorldTasks.schedule(0, () -> player.faceTile(endTile));
 			WorldTasks.schedule(1, () -> {
 				player.anim(742);

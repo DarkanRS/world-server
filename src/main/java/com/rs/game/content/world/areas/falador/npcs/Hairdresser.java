@@ -29,9 +29,7 @@ public class Hairdresser extends Conversation {
             public void create() {
 
                 option("Yes, please.", new Dialogue()
-                        .addNext(() -> {
-                            PlayerLook.openHairdresserSalon(player);
-                        }));
+                        .addNext(() -> PlayerLook.openHairdresserSalon(player)));
                 option("No, thank you.", new Dialogue()
                         .addPlayer(HeadE.CALM_TALK, "No, thank you.")
                         .addNPC(npcId, HeadE.HAPPY_TALKING, "Very well. Come back if you change your mind.")

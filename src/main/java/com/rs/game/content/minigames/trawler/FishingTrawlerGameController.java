@@ -1,5 +1,6 @@
 package com.rs.game.content.minigames.trawler;
 
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.object.GameObject;
@@ -20,19 +21,7 @@ public class FishingTrawlerGameController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		sendMessage();
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
-		sendMessage();
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		sendMessage();
 		return false;
 	}
@@ -44,7 +33,7 @@ public class FishingTrawlerGameController extends Controller {
 	@Override
 	public boolean login() {
 		FishingTrawler.getInstance().removeGamePlayer(player);
-		player.setNextTile(FishingTrawler.SHORE.getRandomTile());
+		player.tele(FishingTrawler.SHORE.getRandomTile());
 		return true;
 	}
 

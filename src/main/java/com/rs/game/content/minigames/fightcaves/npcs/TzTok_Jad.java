@@ -28,7 +28,7 @@ import com.rs.lib.game.Tile;
 public class TzTok_Jad extends FightCavesNPC {
 
 	private boolean spawnedMinions;
-	private FightCavesController controller;
+	private final FightCavesController controller;
 
 	public TzTok_Jad(int id, Tile tile, FightCavesController controller) {
 		super(id, tile);

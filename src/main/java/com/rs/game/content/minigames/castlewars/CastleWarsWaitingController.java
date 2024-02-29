@@ -16,6 +16,8 @@
 //
 package com.rs.game.content.minigames.castlewars;
 
+import com.rs.game.content.skills.magic.TeleType;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.object.GameObject;
@@ -24,7 +26,7 @@ import com.rs.lib.net.ClientPacket;
 
 public class CastleWarsWaitingController extends Controller {
 
-	private int team;
+	private final int team;
 
 	public CastleWarsWaitingController(int team) {
 		this.team = team;
@@ -80,19 +82,7 @@ public class CastleWarsWaitingController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		player.simpleDialogue("You can't leave just like that!");
 		return false;
 	}
@@ -109,7 +99,7 @@ public class CastleWarsWaitingController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 		leave();
 	}

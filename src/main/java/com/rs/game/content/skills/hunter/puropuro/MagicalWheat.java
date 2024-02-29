@@ -80,7 +80,7 @@ public class MagicalWheat {
         final int HAS_WHEAT = 25021;
         final int GROWING_WHEAT = 25022;
         final int WILTING_WHEAT = 25023;
-        WorldTasks.schedule(0, 25, () -> {
+        WorldTasks.scheduleLooping(0, 25, () -> {
             for (MagicWheat wheat : MagicWheat.values()) {
                 if (Utils.random(0, 4) != 0)
                     continue;
@@ -158,14 +158,12 @@ public class MagicalWheat {
                 case 2 -> e.getPlayer().sendMessage("You push through the wheat.");
                 case 4 -> e.getPlayer().sendMessage("You push through the wheat. It's hard work, though.");
             }
-            WorldTasks.schedule(0, () -> {
-                e.getPlayer().forceMove(finalTile, (6573 + speed / 2), 0, finalSpeed * 30, () -> {
-                    if (e.getPlayer().getO("ppStrengthEnabled") == null)
-                        e.getPlayer().save("ppStrengthEnabled", true);
-                    if (e.getPlayer().getBool("ppStrengthEnabled"))
-                        e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4 - speed);
-                });
-            });
+            WorldTasks.schedule(0, () -> e.getPlayer().forceMove(finalTile, (6573 + speed / 2), 0, finalSpeed * 30, () -> {
+                if (e.getPlayer().getO("ppStrengthEnabled") == null)
+                    e.getPlayer().save("ppStrengthEnabled", true);
+                if (e.getPlayer().getBool("ppStrengthEnabled"))
+                    e.getPlayer().getSkills().addXp(Skills.STRENGTH, 4 - speed);
+            }));
         }
     });
 }

@@ -23,7 +23,7 @@ import java.util.Map;
 
 public final class Hit {
 
-	public static enum HitLook {
+	public enum HitLook {
 		MISSED(8),
 		TRUE_DAMAGE(3),
 		MELEE_DAMAGE(0),
@@ -32,13 +32,13 @@ public final class Hit {
 		REFLECTED_DAMAGE(4),
 		ABSORB_DAMAGE(5),
 		POISON_DAMAGE(6),
-		DESEASE_DAMAGE(7),
+		DISEASE_DAMAGE(7),
 		HEALED_DAMAGE(9),
 		CANNON_DAMAGE(13);
 
-		private int mark;
+		private final int mark;
 
-		private HitLook(int mark) {
+		HitLook(int mark) {
 			this.mark = mark;
 		}
 
@@ -54,8 +54,8 @@ public final class Hit {
 	private int damage;
 	private boolean critical;
 	private Hit soaking;
-	private int delay;
-	private Map<String, Object> data = new HashMap<>();
+	private final int delay;
+	private final Map<String, Object> data = new HashMap<>();
 
 	public void setCriticalMark() {
 		critical = true;
@@ -142,8 +142,23 @@ public final class Hit {
 		return soaking;
 	}
 
-	public void setSoaking(Hit soaking) {
+	private void setSoaking(Hit soaking) {
 		this.soaking = soaking;
+	}
+
+	public void addSoaking(int damage) {
+		if (soaking == null)
+			setSoaking(new Hit(source, damage, HitLook.ABSORB_DAMAGE));
+		else
+			soaking.damage += damage;
+	}
+
+	public void soakDamage(double reductionPerc) {
+		int reduction = (int) ((double) this.damage * reductionPerc);
+		if (reduction <= 0)
+			return;
+		this.damage -= reduction;
+		addSoaking(reduction);
 	}
 
 	public int getDelay() {

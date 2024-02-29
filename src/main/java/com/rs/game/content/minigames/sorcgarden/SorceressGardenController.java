@@ -20,6 +20,7 @@ import com.rs.game.content.minigames.sorcgarden.SqirkFruitSqueeze.SqirkFruit;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.herblore.HerbCleaning.Herbs;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.transportation.FadingScreen;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
@@ -48,12 +49,13 @@ public class SorceressGardenController extends Controller {
 		AUTUMN(21731, 45, Tile.of(2913, 5462, 0), Tile.of(2913, 5463, 0), 229),
 		SUMMER(21687, 65, Tile.of(2910, 5481, 0), Tile.of(2910, 5480, 0), 230);
 
-		private int objectId;
-		private int levelReq;
-		private int musicId;
-		private Tile inside, outside;
+		private final int objectId;
+		private final int levelReq;
+		private final int musicId;
+		private final Tile inside;
+        private final Tile outside;
 
-		private static Map<Integer, Gate> Gates = new HashMap<>();
+		private static final Map<Integer, Gate> Gates = new HashMap<>();
 
 		private Gate(int objectId, int lvlReq, Tile inside, Tile outside, int musicId) {
 			this.objectId = objectId;
@@ -110,7 +112,7 @@ public class SorceressGardenController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		removeController();
 
 	}
@@ -127,17 +129,9 @@ public class SorceressGardenController extends Controller {
 		}
 		boolean teleport;
 		if (!broomstick)
-			teleport = Magic.sendNormalTeleportSpell(player, 0, 0, MIDDLE);
+			Magic.sendNormalTeleportSpell(player, 0, 0, MIDDLE, () -> player.getControllerManager().startController(new SorceressGardenController()));
 		else
-			teleport = Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, Magic.MAGIC_TELEPORT, null);
-		if (teleport)
-			WorldTasks.schedule(new Task() {
-
-				@Override
-				public void run() {
-					player.getControllerManager().startController(new SorceressGardenController());
-				}
-			}, 4);
+			Magic.sendTeleportSpell(player, 10538, 10537, -1, -1, 0, 0, MIDDLE, 4, true, TeleType.MAGIC, () -> player.getControllerManager().startController(new SorceressGardenController()));
 	}
 
 	@Override
@@ -222,7 +216,7 @@ public class SorceressGardenController extends Controller {
 		player.lock();
 		player.sendMessage("An elemental force enamating from the garden teleports you away.");
 		FadingScreen.fade(player, () -> {
-			player.setNextTile(Tile.of(2913, 5467, 0));
+			player.tele(Tile.of(2913, 5467, 0));
 			player.lock(3);
 		});
 	}

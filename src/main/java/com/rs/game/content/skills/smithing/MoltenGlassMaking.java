@@ -31,11 +31,11 @@ public class MoltenGlassMaking {
 	public static int BUCKET_OF_SAND = 1783;
 	public static int MOLTEN_GLASS = 1775;
 
-	private static Item[][] materials = { { new Item(SODA_ASH), new Item(BUCKET_OF_SAND) } };
-	private static Item[][] products = { { new Item(MOLTEN_GLASS), new Item(Ectofuntus.EMPTY_BUCKET) } };
-	private static int[] reqs = { 1 };
-	private static double[] xp = { 20 };
-	private static int[] anims = { 3243 };
+	private static final Item[][] materials = { { new Item(SODA_ASH), new Item(BUCKET_OF_SAND) } };
+	private static final Item[][] products = { { new Item(MOLTEN_GLASS), new Item(Ectofuntus.EMPTY_BUCKET) } };
+	private static final int[] reqs = { 1 };
+	private static final double[] xp = { 20 };
+	private static final int[] anims = { 3243 };
 
 	public static ItemOnObjectHandler handleCreate = new ItemOnObjectHandler(new Object[] { "Furnace" }, new Object[] { SODA_ASH, BUCKET_OF_SAND }, e -> openDialogue(e.getPlayer()));
 

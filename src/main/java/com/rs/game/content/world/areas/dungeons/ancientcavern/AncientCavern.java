@@ -44,42 +44,32 @@ public class AncientCavern {
 	
 	public static ObjectClickHandler handleRoughSteps = new ObjectClickHandler(new Object[] { 25337, 39468 }, e -> {
 		switch(e.getObjectId()) {
-		case 25337 -> e.getPlayer().setNextTile(Tile.of(1744, 5321, 1));
-		case 39468 -> e.getPlayer().setNextTile(Tile.of(1745, 5325, 0));
+		case 25337 -> e.getPlayer().tele(Tile.of(1744, 5321, 1));
+		case 39468 -> e.getPlayer().tele(Tile.of(1745, 5325, 0));
 		}
 	});
 
-	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }, e -> {
-		e.getPlayer().useStairs(e.getObjectId() == 25341 ? Tile.of(1823, 5273, 0) : Tile.of(1759, 5342, 1));
-	});
+	public static ObjectClickHandler handleMithrilDoor = new ObjectClickHandler(new Object[] { 25341, 40208 }, e -> e.getPlayer().useStairs(e.getObjectId() == 25341 ? Tile.of(1823, 5273, 0) : Tile.of(1759, 5342, 1)));
 
-	public static ObjectClickHandler handleDownStepsEntrance = new ObjectClickHandler(new Object[] { 25338 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1772, 5366, 0));
-	});
+	public static ObjectClickHandler handleDownStepsEntrance = new ObjectClickHandler(new Object[] { 25338 }, e -> e.getPlayer().tele(Tile.of(1772, 5366, 0)));
 
-	public static ObjectClickHandler handleUpStepsEntrance = new ObjectClickHandler(new Object[] { 25336 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1768, 5366, 1));
-	});
+	public static ObjectClickHandler handleUpStepsEntrance = new ObjectClickHandler(new Object[] { 25336 }, e -> e.getPlayer().tele(Tile.of(1768, 5366, 1)));
 
-	public static ObjectClickHandler handleDownStepsMithDrags = new ObjectClickHandler(new Object[] { 25340 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1778, 5346, 0));
-	});
+	public static ObjectClickHandler handleDownStepsMithDrags = new ObjectClickHandler(new Object[] { 25340 }, e -> e.getPlayer().tele(Tile.of(1778, 5346, 0)));
 
-	public static ObjectClickHandler handleUpStepsMithDrags = new ObjectClickHandler(new Object[] { 25339 }, e -> {
-		e.getPlayer().setNextTile(Tile.of(1778, 5343, 1));
-	});
+	public static ObjectClickHandler handleUpStepsMithDrags = new ObjectClickHandler(new Object[] { 25339 }, e -> e.getPlayer().tele(Tile.of(1778, 5343, 1)));
 
 //	public static ObjectClickHandler handleDownStepsKuradal = new ObjectClickHandler(new Object[] { 39468 }) {
 //		@Override
 //		public void handle(ObjectClickEvent e) {
-//			e.getPlayer().setNextTile(Tile.of(1744, 5325, 0));
+//			e.getPlayer().tele(Tile.of(1744, 5325, 0));
 //		}
 //	};
 
 //	public static ObjectClickHandler handleUpStepsKuradal = new ObjectClickHandler(new Object[] { 25337 }) {
 //		@Override
 //		public void handle(ObjectClickEvent e) {
-//			e.getPlayer().setNextTile(e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS) ? Tile.of(1774, 5321, 1) : Tile.of(1694, 5296, 1));
+//			e.getPlayer().tele(e.getPlayer().isQuestComplete(Quest.WHILE_GUTHIX_SLEEPS) ? Tile.of(1774, 5321, 1) : Tile.of(1694, 5296, 1));
 //		}
 //	};
 
@@ -90,7 +80,7 @@ public class AncientCavern {
 			e.getPlayer().setFaceAngle(WorldUtil.getAngleTo(Direction.SOUTH));
 			e.getPlayer().forceMove(Tile.of(2512, 3508, 0), 6723, 30, 7*30, () -> {
 				e.getPlayer().anim(-1);
-				e.getPlayer().setNextTile(Tile.of(1764, 5365, 1));
+				e.getPlayer().tele(Tile.of(1764, 5365, 1));
 				e.getPlayer().setRunHidden(true);
 			});
 		});

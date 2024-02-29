@@ -46,14 +46,14 @@ public class Music {
 	 * playlist music.
 	 * Chunks are secondary and do not change the current music but whatever plays next.
 	 */
-	private static Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
-	private static Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
+	private static final Map<Integer, Song> MUSICS = new HashMap<>();//Full music listing
+	private static final Map<Integer, int[]> MUSICS_REGION = new HashMap<>();//hints & unlocks
 
-	private static Map<Integer, Genre> GENRE_CHUNKS = new HashMap<>();//Genre per chunk
-	private static Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region
-	private static List<Genre> genres = new ArrayList<>();
+	private static final Map<Integer, Genre> GENRE_CHUNKS = new HashMap<>();//Genre per chunk
+	private static final Map<Integer, Genre> GENRE_REGION = new HashMap<>();//Genre per region
+	private static final List<Genre> genres = new ArrayList<>();
 	private static Genre[] parentGenres;
-	private static ArrayList<Integer> allowAmbientMusic = new ArrayList<>();
+	private static final ArrayList<Integer> allowAmbientMusic = new ArrayList<>();
 
 	@ServerStartupEvent(Priority.FILE_IO)
 	public static void init() {
@@ -67,8 +67,7 @@ public class Music {
 					else {
 						int[] musicIds = MUSICS_REGION.get(regionId);
 						int[] newMusicIds = new int[musicIds.length+1];
-						for (int i = 0;i < musicIds.length;i++)
-							newMusicIds[i] = musicIds[i];
+                        System.arraycopy(musicIds, 0, newMusicIds, 0, musicIds.length);
 						newMusicIds[musicIds.length] = s.getId();
 						MUSICS_REGION.put(regionId, newMusicIds);
 					}

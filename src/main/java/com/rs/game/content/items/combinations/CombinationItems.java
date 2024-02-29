@@ -53,8 +53,8 @@ public class CombinationItems {
         SKULL_SCEPTRE_SKULL_SCEPTRE(9012, 9009, 9013),
         CRYSTAL_KEY(985, 987, 989);
 
-        private static Map<Integer, Combineable> BY_PRODUCT = new HashMap<>();
-        private static Map<Integer, Combineable> BY_COMPONENT = new HashMap<>();
+        private static final Map<Integer, Combineable> BY_PRODUCT = new HashMap<>();
+        private static final Map<Integer, Combineable> BY_COMPONENT = new HashMap<>();
 
         static {
             for (Combineable c : Combineable.values()) {
@@ -63,7 +63,9 @@ public class CombinationItems {
             }
         }
 
-        private int item1, item2, resultId;
+        private final int item1;
+        private final int item2;
+        private final int resultId;
 
         Combineable(int item1, int item2, int resultId) {
             this.item1 = item1;
@@ -83,7 +85,7 @@ public class CombinationItems {
         e.getPlayer().getInventory().addItem(combineable.resultId, 1);
     });
 
-    public static ItemClickHandler split = new ItemClickHandler(Combineable.BY_PRODUCT.keySet().stream().filter(prod -> ItemDefinitions.getDefs(prod.intValue()).containsOption("Split") || ItemDefinitions.getDefs(prod.intValue()).containsOption("Dismantle")).toArray(), new String[] { "Split", "Dismantle" }, e -> {
+    public static ItemClickHandler split = new ItemClickHandler(Combineable.BY_PRODUCT.keySet().stream().filter(prod -> ItemDefinitions.getDefs(prod).containsOption("Split") || ItemDefinitions.getDefs(prod).containsOption("Dismantle")).toArray(), new String[] { "Split", "Dismantle" }, e -> {
         Combineable combineable = Combineable.BY_PRODUCT.get(e.getItem().getId());
         if (combineable == null)
             return;

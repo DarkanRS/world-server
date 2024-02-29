@@ -24,11 +24,11 @@ import java.util.Map;
 
 public class LookCameraAction extends CutsceneAction {
 
-	private int viewLocalX;
-	private int viewLocalY;
-	private int viewZ;
-	private int speedToExactDestination;
-	private int speedOnRoutePath;
+	private final int viewLocalX;
+	private final int viewLocalY;
+	private final int viewZ;
+	private final int speedToExactDestination;
+	private final int speedOnRoutePath;
 
 	public LookCameraAction(int viewLocalX, int viewLocalY, int viewZ, int speedToExactDestination, int speedOnRoutePath, int actionDelay) {
 		super(null, actionDelay);

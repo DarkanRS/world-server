@@ -17,6 +17,8 @@
 package com.rs.game.content.holidayevents.christmas;
 
 import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.game.World;
+import com.rs.game.model.entity.npc.NPC;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -34,8 +36,7 @@ import com.rs.utils.spawns.ObjectSpawns;
 @PluginEventHandler
 public class LandOfSnow {
 
-	private static int TRADEABLE_REWARD = 1050;
-	private static boolean ACTIVE = true;
+    private static final boolean ACTIVE = false;
 
 	@ServerStartupEvent
 	public static void initObjects() {
@@ -44,7 +45,7 @@ public class LandOfSnow {
 		Tile center = Tile.of(3212, 3428, 3);
 		for (int x = -10; x < 10; x++)
 			for (int y = -10; y < 10; y++)
-				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 3, y * 3, 0)));
+				ObjectSpawns.add(new ObjectSpawn(3701, 10, 1, center.transform(x * 5, y * 5, 0)));
 
 		ObjectSpawns.add(new ObjectSpawn(12258, 10, 0, Tile.of(3210, 3425, 0), "Cupboard to Christmas event."));
 
@@ -52,6 +53,7 @@ public class LandOfSnow {
 		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2650, 5666, 0), "Bonfire"));
 		ObjectSpawns.add(new ObjectSpawn(4483, 10, 0, Tile.of(2662, 5667, 0), "Bank chest"));
 		ObjectSpawns.add(new ObjectSpawn(70761, 10, 0, Tile.of(2660, 5666, 0), "Bonfire"));
+		ObjectSpawns.add(new ObjectSpawn(24887, 10, 0, Tile.of(2665, 5661, 0), "Furnace"));
 
 		ObjectSpawns.add(new ObjectSpawn(21273, 10, 0, Tile.of(2645, 5671, 0), "Arctic pine bottom"));
 		ObjectSpawns.add(new ObjectSpawn(47759, 10, 0, Tile.of(2644, 5671, 0), "Arctic pine presents"));
@@ -67,6 +69,27 @@ public class LandOfSnow {
 		ObjectSpawns.add(new ObjectSpawn(46485, 10, 0, Tile.of(2665, 5670, 0), "Ice fishing"));
 		NPCSpawns.add(new NPCSpawn(334, Tile.of(2665, 5670, 0), "Fishing spot"));
 		NPCSpawns.add(new NPCSpawn(328, Tile.of(2665, 5670, 0), "Fishing spot"));
+
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2666, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2667, 5644, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2664, 5645, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2665, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2670, 5646, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2672, 5647, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2673, 5649, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5650, 0), "Carnivorous chinchompa"));
+		NPCSpawns.add(new NPCSpawn(5080, Tile.of(2671, 5645, 0), "Carnivorous chinchompa"));
+
+		ObjectSpawns.add(new ObjectSpawn(67036, 10, 0, Tile.of(2672, 5679, 0), "Summoning obelisk"));
+
+		NPC n = World.spawnNPC(14256, Tile.of(2658, 5671, 0), -1, true, false);
+		n.setLoadsUpdateZones();
+		n.setPermName("Yule-cien");
+		n.setHitpoints(Integer.MAX_VALUE / 2);
+		n.getCombatDefinitions().setHitpoints(Integer.MAX_VALUE / 2);
+		n.setCapDamage(750);
+		n.setForceMultiArea(true);
+		n.setForceMultiAttacked(true);
 	}
 
 	public static XPGainHandler handleXPGain = new XPGainHandler(e -> {
@@ -79,9 +102,10 @@ public class LandOfSnow {
 			}
 			double chance = e.getXp() / 75000.0;
 			if (Math.random() < chance) {
-				e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
+                int TRADEABLE_REWARD = 1050;
+                e.getPlayer().sendMessage("<shad=000000><col=ff0000>You found a "+ItemDefinitions.getDefs(TRADEABLE_REWARD).name+" while skilling!");
 				if (e.getPlayer().getInventory().hasFreeSlots())
-					e.getPlayer().getInventory().addItem(TRADEABLE_REWARD, 1);
+					e.getPlayer().getInventory().addItemDrop(TRADEABLE_REWARD, 1);
 				else {
 					e.getPlayer().sendMessage("<shad=000000><col=ff0000>as you did not have room in your inventory, it has been added to your bank.");
 					e.getPlayer().getBank().addItem(new Item(TRADEABLE_REWARD, 1), true);
@@ -91,11 +115,7 @@ public class LandOfSnow {
 			e.getPlayer().setBonusXpRate(0);
 	});
 
-	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> {
-		e.getPlayer().fadeScreen(() -> {
-			e.getPlayer().setNextTile(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0));
-		});
-	});
+	public static ObjectClickHandler handleCupboard = new ObjectClickHandler(new Object[] { 12258, 47766 }, e -> e.getPlayer().fadeScreen(() -> e.getPlayer().tele(e.getObjectId() == 12258 ? Tile.of(2646, 5659, 0) : Tile.of(3211, 3424, 0))));
 
 	public static ObjectClickHandler handleSnowCollect = new ObjectClickHandler(new Object[] { 28296 }, e -> {
 		if (!ACTIVE)

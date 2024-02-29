@@ -29,7 +29,7 @@ public class Max extends NPC {
 	private int sleepTicks;
 	private int right = -1, left = -1;
 	
-	private int rank;
+	private final int rank;
 	private String displayName;
 	private int cbLevel;
 
@@ -130,7 +130,7 @@ public class Max extends NPC {
 
 	public void nextTask() {
 		getActionManager().forceStop();
-		task = getNextPossibleTasks().get(0);
+		task = getNextPossibleTasks().getFirst();
 	}
 
 	private List<Task> getNextPossibleTasks() {
@@ -156,9 +156,7 @@ public class Max extends NPC {
 		}
 	});
 
-	public static NPCClickHandler clickDistance = new NPCClickHandler(false, new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Follow" }, e -> {
-		e.getPlayer().getActionManager().setAction(new EntityFollow(e.getNPC()));
-	});
+	public static NPCClickHandler clickDistance = new NPCClickHandler(false, new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, new String[] { "Follow" }, e -> e.getPlayer().getActionManager().setAction(new EntityFollow(e.getNPC())));
 	
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, (npcId, tile) -> new Max(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { NORM, PESTLE, FLETCH, SMITH, ADZE }, Max::new);
 }

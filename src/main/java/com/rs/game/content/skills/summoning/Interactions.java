@@ -1340,9 +1340,7 @@ public class Interactions {
 								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "You will do as I assssk...")
 								.addPlayer(HeadE.HAPPY_TALKING, "Your will is my command...")
 								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I'm bored, do ssssomething to entertain me...")
-								.addPlayer(HeadE.HAPPY_TALKING, "I'll dance for you!", ()->{
-									player.setNextAnimation(new Animation(866));
-								}),
+								.addPlayer(HeadE.HAPPY_TALKING, "I'll dance for you!", ()-> player.setNextAnimation(new Animation(866))),
 						new Dialogue()
 								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "I am king of the world!")
 								.addPlayer(HeadE.HAPPY_TALKING, "You know, I think there is a law against snakes being the king.")
@@ -1943,12 +1941,9 @@ public class Interactions {
 								.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Snuggle whicker (Man, you're totally, like, uncosmic, " + player.getDisplayName() + ".)")
 				);
 			}
-			case WOLPERTINGER -> {
-				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
-			}
-			case PACK_YAK -> {
-				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Barroobaroooo baaaaaaaaarooo!");
-			}
+			case WOLPERTINGER -> new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Rawr!");
+			case PACK_YAK ->
+                    new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Barroobaroooo baaaaaaaaarooo!");
 			case FIRE_TITAN -> {
 				if(!canTalk)
 					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrr....");
@@ -2058,12 +2053,9 @@ public class Interactions {
 						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Did you know a snail can sleep up to three years?")
 						.addPlayer(HeadE.HAPPY_TALKING, "I wish I could do that. Ah...sleep.");
 			}
-			case ABYSSAL_TITAN -> {
-				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Scruunt, scraaan.....");
-			}
-			case IRON_TITAN, STEEL_TITAN -> {
-				yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrrr...");
-			}
+			case ABYSSAL_TITAN ->
+                    new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Scruunt, scraaan.....");
+			case IRON_TITAN, STEEL_TITAN -> new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Brrrrrr...");
 			case MEERKATS -> {
 				if(!canTalk)
 					yield new Dialogue().addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter Chatter");
@@ -2075,9 +2067,7 @@ public class Interactions {
 						.addNPC(familiar.getId(), HeadE.CAT_CALM_TALK2, "Chatter chatter chatter! (Let's dig out those boxes!)")
 						.addPlayer(HeadE.HAPPY_TALKING, "That's the spirit!");
 			}
-			case GHAST -> {
-				yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Woooooo woooo!");
-			}
+			case GHAST -> new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Woooooo woooo!");
 			case BLOODRAGER_1, BLOODRAGER_2, BLOODRAGER_3, BLOODRAGER_4, BLOODRAGER_5, BLOODRAGER_6, BLOODRAGER_7, BLOODRAGER_8, BLOODRAGER_9, BLOODRAGER_10 ->{
 				if(!canTalk)
 					yield new Dialogue().addNPC(familiar.getId(), HeadE.FRUSTRATED, "Yahadahalyonih dahdikad, bebehsha.");

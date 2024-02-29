@@ -62,7 +62,7 @@ public class WerewolfAgility {
 		}
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Agility Trainer", "Agility Boss" }, (npcId, tile) -> new WolfAgilityTrainer(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { "Agility Trainer", "Agility Boss" }, WolfAgilityTrainer::new);
 	public static NPCClickHandler handleAgilityTrainer = new NPCClickHandler(new Object[]{1664}, e -> {
 		if(e.getPlayer().getInventory().containsItem(4179)) {
 			int stickCount = e.getPlayer().getInventory().getAmountOf(4179);
@@ -76,7 +76,7 @@ public class WerewolfAgility {
 		Tile endTile = Tile.of(3528, 9873, 0);
 		e.getPlayer().walkToAndExecute(Tile.of(3528, 9910, 0), () -> {
 			e.getPlayer().lock();
-			WorldTasks.scheduleTimer(1, 0, ticks -> {
+			e.getPlayer().getTasks().scheduleTimer(1, 0, ticks -> {
 				switch(ticks) {
 					default -> { return true; }
 					case 0 -> {
@@ -85,8 +85,8 @@ public class WerewolfAgility {
 						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(1, (npc -> npc.getId() == 1663 && npc.withinDistance(e.getPlayer().getTile(), 4)));
 						if(npcs.size() >= 1) {
 							switch(Utils.random(3)) {
-								case 0 -> npcs.get(0).forceTalk("Now a true test of teeth...");
-								case 1 -> npcs.get(0).forceTalk("Don't let the spikes or the blood put you off...");
+								case 0 -> npcs.getFirst().forceTalk("Now a true test of teeth...");
+								case 1 -> npcs.getFirst().forceTalk("Don't let the spikes or the blood put you off...");
 							}
 						}
 						return true;
@@ -105,8 +105,8 @@ public class WerewolfAgility {
 						List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(10, (npc -> npc.getId() == 1664));
 						if(npcs.size() >= 1)
 							switch(Utils.random(3)) {
-								case 0 -> npcs.get(0).forceTalk("Remember - no stick, no agility bonus!");
-								case 1 -> npcs.get(0).forceTalk("Don't forget to give me the stick when you're done.");
+								case 0 -> npcs.getFirst().forceTalk("Remember - no stick, no agility bonus!");
+								case 1 -> npcs.getFirst().forceTalk("Don't forget to give me the stick when you're done.");
 							}
 						return false;
 					}
@@ -132,19 +132,20 @@ public class WerewolfAgility {
 		return () -> {
 			if(e.getObject().getTile().isAt(3538, 9875))
 				yellFetch(e);
-			e.getPlayer().lock();
-			WorldTasks.schedule(0, () -> e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 35, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 10)));
+			e.getPlayer().getSkills().addXp(Skills.AGILITY, 10);
+			e.getPlayer().forceMove(e.getObject().getTile(), 741, 0, 25);
+			e.getPlayer().lock(0);
 		};
 	}
 
 	private static void yellFetch(ObjectClickEvent e) {
 		List<NPC> npcs = e.getPlayer().queryNearbyNPCsByTileRange(8, (npc -> npc.getId() == 1661));
 		if (npcs.size() >= 1) {
-			npcs.get(0).faceNorth();
-			npcs.get(0).forceTalk("FETCH!!!!!");
+			npcs.getFirst().faceNorth();
+			npcs.getFirst().forceTalk("FETCH!!!!!");
 			WorldTasks.schedule(2, () -> {
-				npcs.get(0).setNextAnimation(new Animation(6547));
-				World.sendProjectile(npcs.get(0), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, 50, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
+				npcs.getFirst().setNextAnimation(new Animation(6547));
+				World.sendProjectile(npcs.getFirst(), Tile.of(3540, 9911, 0), 1158, 35, 0, 20, 0.6, 20, p -> World.addGroundItem(new Item(4179), Tile.of(3540, 9911, 0), e.getPlayer()));
 			});
 		}
 	}
@@ -152,11 +153,9 @@ public class WerewolfAgility {
 	public static ObjectClickHandler handleHurdles = new ObjectClickHandler(new Object[] { 5134, 5133, 5135 }, e -> {
 		if(e.getPlayer().getTile().getY() > e.getObject().getY())
 			return;
-		Tile endTile = Tile.of(e.getObject().getX()+(e.getObjectId() == 5134 ? 0 : 1), e.getObject().getY() + 1, 0);
-		e.getPlayer().lock();
-		WorldTasks.schedule(0, () -> {
-			e.getPlayer().forceMove(endTile, 1603, 0, 45, () -> e.getPlayer().getSkills().addXp(Skills.AGILITY, 20));
-		});
+		e.getPlayer().getSkills().addXp(Skills.AGILITY, 20);
+		e.getPlayer().forceMove(Tile.of(e.getObject().getX()+(e.getObjectId() == 5134 ? 0 : 1), e.getObject().getY() + 1, 0), 1603, 0, 45);
+		e.getPlayer().lock(1);
 	});
 
 	public static ObjectClickHandler handleObstaclePipes = new ObjectClickHandler(new Object[] { 5152 }, e -> {

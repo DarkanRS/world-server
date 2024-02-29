@@ -31,9 +31,7 @@ public class IkovDungeon {
 			e.getNPC().sendDrop(p, new Item(87));
 	});
 	
-	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, Tile.of(2637, 9808, 0), e -> {
-		e.getPlayer().useLadder(Tile.of(2637, 3409, 0));	
-	});
+	public static ObjectClickHandler handleIkovEmergencyExitLadder = new ObjectClickHandler(new Object[] { 32015 }, Tile.of(2637, 9808, 0), e -> e.getPlayer().useLadder(Tile.of(2637, 3409, 0)));
 
 	public static ItemOnObjectHandler leverIceDoor = new ItemOnObjectHandler(false, new Object[] { 86 }, new Object[] { 83 }, e -> {
 		e.getPlayer().getInventory().removeItems(new Item(83, 1));
@@ -99,9 +97,7 @@ public class IkovDungeon {
 	public static NPCClickHandler handleGaurdianTalk = new NPCClickHandler(new Object[]{274, 275}, new String[]{"Talk-to"}, e -> {
 		if(e.getPlayer().getEquipment().getAmuletId() == 86) {//Lucien amulet
 			e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), HeadE.FRUSTRATED, "Thou art a foul agent of Lucien! Such an agent must die!"));
-			WorldTasks.delay(3, () -> {
-				e.getNPC().setTarget(e.getPlayer());
-			});
+			WorldTasks.delay(3, () -> e.getNPC().setTarget(e.getPlayer()));
 			return;
 		}
 		e.getPlayer().startConversation(new GaurdianArmadylTempleOfIkov(e.getPlayer(), e.getNPC()).getStart());
@@ -180,7 +176,7 @@ public class IkovDungeon {
 			}
 			if(i == 4  && p.getWeight() > 0) {
 				p.sendMessage("Good thing the lava was shallow!");
-				p.setNextTile(Tile.of(2648, 9826, 0));
+				p.tele(Tile.of(2648, 9826, 0));
 				p.setRunHidden(true);
 				p.getTempAttribs().removeB("CrossingIkovBridge");
 				return false;

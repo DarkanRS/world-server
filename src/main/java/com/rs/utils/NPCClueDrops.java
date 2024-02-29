@@ -30,10 +30,10 @@ import java.util.Map;
 
 public class NPCClueDrops {
 
-	private static Map<String, ClueDrop> EASY = new HashMap<>();
-	private static Map<String, ClueDrop> MEDIUM = new HashMap<>();
-	private static Map<String, ClueDrop> HARD = new HashMap<>();
-	private static Map<String, ClueDrop> ELITE = new HashMap<>();
+	private static final Map<String, ClueDrop> EASY = new HashMap<>();
+	private static final Map<String, ClueDrop> MEDIUM = new HashMap<>();
+	private static final Map<String, ClueDrop> HARD = new HashMap<>();
+	private static final Map<String, ClueDrop> ELITE = new HashMap<>();
 
 	static {
 		EASY.put("banshee", new ClueDrop(128));

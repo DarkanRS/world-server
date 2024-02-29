@@ -35,7 +35,14 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.GOBLIN_DIPLOMACY)
+@QuestHandler(
+		quest = Quest.GOBLIN_DIPLOMACY,
+		startText = "Go to Goblin Village and talk to General Bentnoze or General Wartface.",
+		itemsText = "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).",
+		combatText = "None.",
+		rewardsText = "200 Crafting XP<br>A gold bar",
+		completedStage = 4
+)
 @PluginEventHandler
 public class GoblinDiplomacy extends QuestOutline {
 
@@ -48,11 +55,6 @@ public class GoblinDiplomacy extends QuestOutline {
 	static final int YELLOW_DYE = 1765;
 	static final int BLUE_DYE = 1767;
 	static final int ORANGE_DYE = 1769;
-
-	@Override
-	public int getCompletedStage() {
-		return 4;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -117,27 +119,6 @@ public class GoblinDiplomacy extends QuestOutline {
 		sendQuestCompleteInterface(player, 288);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to General Bentnoze or General Wartface in the Goblin Village, north of Falador.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Blue dye (or 2 woad leaves and 5 coins), red dye (or 3 redberries and 5 coins), and yellow dye (or 2 onions and 5 coins).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "None.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "200 Crafting XP<br>"+
-				"A gold bar";
-	}
-
 	static class GeneralsD extends Conversation {
 
 		public GeneralsD(Player player, int npcId) {
@@ -148,9 +129,7 @@ public class GoblinDiplomacy extends QuestOutline {
 				public void create() {
 					option("Why are you arguing about the color of your armor?", new Dialogue().addPlayer(HeadE.CALM_TALK, "Why are you arguing about the color of your armor?").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "We decide to celebrate goblin new century").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "By changing the color of our armor").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Light blue get boring after a bit").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "And we want change").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Problem is they want different changed to us"));
 					option("Wouldn't you prefer peace?", new Dialogue().addPlayer(HeadE.CALM_TALK, "Wouldn't you prefer peace?").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Yeah peace is good as long as it's peace wearing green armor").addNPC(BENTNOZE, HeadE.CHILD_CALM_TALK, "But green too much like skin!").addNPC(BENTNOZE, HeadE.CHILD_CALM_TALK, "Nearly make you look naked!"));
-					option("Do you want me to pick enter an armor color for you?", new Dialogue().addPlayer(HeadE.CALM_TALK, "Do you want me to pick an armor color for you?").addPlayer(HeadE.CALM_TALK, "Different to either green or red").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Hmm me dunno what that'd look like").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "You'd have to bring me some, so us could decide").addNPC(BENTNOZE, HeadE.CHILD_CALM_TALK, "Yep bring us orange armor").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Yep orange might be good", () -> {
-						player.getQuestManager().setStage(Quest.GOBLIN_DIPLOMACY, 1);
-					}));
+					option("Do you want me to pick enter an armor color for you?", new Dialogue().addPlayer(HeadE.CALM_TALK, "Do you want me to pick an armor color for you?").addPlayer(HeadE.CALM_TALK, "Different to either green or red").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Hmm me dunno what that'd look like").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "You'd have to bring me some, so us could decide").addNPC(BENTNOZE, HeadE.CHILD_CALM_TALK, "Yep bring us orange armor").addNPC(WARTFACE, HeadE.CHILD_CALM_TALK, "Yep orange might be good", () -> player.getQuestManager().setStage(Quest.GOBLIN_DIPLOMACY, 1)));
 				}
 			};
 

@@ -39,7 +39,7 @@ public class ShadowTraps implements NexAttack {
 	@Override
 	public int attack(Nex nex, Entity target) {
 		nex.setNextForceTalk(new ForceTalk("Fear the Shadow!"));
-		nex.voiceEffect(3314);
+		nex.voiceEffect(target, 3314, true);
 		nex.setNextAnimation(new Animation(6984));
 		nex.setNextSpotAnim(new SpotAnim(1215));
 		List<Entity> possibleTargets = nex.getPossibleTargets();
@@ -51,7 +51,7 @@ public class ShadowTraps implements NexAttack {
 				World.spawnObjectTemporary(new GameObject(57261, ObjectType.SCENERY_INTERACT, 0, t.getX(), t.getY(), 0), 4);
 			}
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private boolean firstCall;
 
 			@Override

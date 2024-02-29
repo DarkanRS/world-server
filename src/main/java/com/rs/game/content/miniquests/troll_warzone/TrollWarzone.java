@@ -15,18 +15,20 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@MiniquestHandler(Miniquest.TROLL_WARZONE)
+@MiniquestHandler(
+        miniquest = Miniquest.TROLL_WARZONE,
+        startText = "Speak to Major Nigel Corothers just outside the Warrior's Guild in Burthorpe.",
+        itemsText = "None",
+        combatText = "Must be able to defeat a level 12 Troll General.",
+        rewardsText = "A baby troll!<br>110 Cooking XP<br>110 Mining XP<br>110 Woodcutting XP<br>Some teleport tablets<br>Some combat potions",
+        completedStage = 6
+)
 @PluginEventHandler
 public class TrollWarzone extends MiniquestOutline {
     //9 - troll general comes down from the mountain
     //10 - ambushing trolls with archers
     //11 - intro to burthorpe tutorial
     //12 - player shoots cannon to close off the troll invasion
-
-    @Override
-    public int getCompletedStage() {
-        return 6;
-    }
 
     @Override
     public List<String> getJournalLines(Player player, int stage) {
@@ -60,7 +62,7 @@ public class TrollWarzone extends MiniquestOutline {
         player.getInventory().addItemDrop(114, 5);
         player.getInventory().addItemDrop(2433, 5);
         player.getInventory().addItemDrop(2435, 5);
-        getQuest().sendQuestCompleteInterface(player, 23030, "A baby troll!", "110 Cooking XP", "110 Mining XP", "110 Woodcutting XP", "Some teleport tablets", "Some combat potions");
+        sendQuestCompleteInterface(player, 23030);
     }
 
     @Override
@@ -95,15 +97,13 @@ public class TrollWarzone extends MiniquestOutline {
         switch(player.getMiniquestManager().getStage(Miniquest.TROLL_WARZONE)) {
             case 0 -> dialogue.addNPC(npc, HeadE.FRUSTRATED, "The trolls are overrunning us! Major Nigel has been trying to find recruits.");
             case 1 -> dialogue.addNPC(npc, HeadE.FRUSTRATED, "Get back in the cave over there to help Ozan and Keymans!");
-            case 2 -> {
-                dialogue.addNPC(npc, HeadE.CALM_TALK, "Ozan tells me that you defeated one of the troll generals.")
-                        .addNPC(npc, HeadE.CALM_TALK, "The trolls are getting into that cave through a back entrance high on Death Plateau. If we try to collapse this end, we could collapse the whole castle with it!")
-                        .addNPC(npc, HeadE.CALM_TALK, "Death Plateau itself is too dangerous to assault. I need you to get to the top of the castle and direct cannon fire onto that back entrance!")
-                        .addOptions(ops -> {
-                            ops.add("I'll do it right away!", () -> player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 3));
-                            ops.add("I want to kill more trolls!");
-                        });
-            }
+            case 2 -> dialogue.addNPC(npc, HeadE.CALM_TALK, "Ozan tells me that you defeated one of the troll generals.")
+                    .addNPC(npc, HeadE.CALM_TALK, "The trolls are getting into that cave through a back entrance high on Death Plateau. If we try to collapse this end, we could collapse the whole castle with it!")
+                    .addNPC(npc, HeadE.CALM_TALK, "Death Plateau itself is too dangerous to assault. I need you to get to the top of the castle and direct cannon fire onto that back entrance!")
+                    .addOptions(ops -> {
+                        ops.add("I'll do it right away!", () -> player.getMiniquestManager().setStage(Miniquest.TROLL_WARZONE, 3));
+                        ops.add("I want to kill more trolls!");
+                    });
             case 3 -> dialogue.addNPC(npc, HeadE.CALM_TALK, "What are you waiting for? Get up on top of the castle and fire a cannon into that cavern back entrance!");
             default -> dialogue.addNPC(npc, HeadE.CALM_TALK, "Excellent work bringing down the cavern entrance. You should go check in with Corothers.");
         }

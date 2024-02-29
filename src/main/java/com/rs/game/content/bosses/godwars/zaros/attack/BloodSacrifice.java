@@ -32,12 +32,11 @@ public class BloodSacrifice implements NexAttack {
 
 	@Override
 	public int attack(Nex nex, Entity target) {
-		if (!(target instanceof Player))
+		if (!(target instanceof Player player))
 			return 0;
 		nex.setNextForceTalk(new ForceTalk("I demand a blood sacrifice!"));
-		nex.voiceEffect(3293);
-		final Player player = (Player) target;
-		player.getAppearance().setGlowRed(true);
+		nex.voiceEffect(3293, true);
+        player.getAppearance().setGlowRed(true);
 		player.sendMessage("Nex has marked you as a sacrifice, RUN!");
 		WorldTasks.schedule(new Task() {
 			@Override
@@ -47,7 +46,7 @@ public class BloodSacrifice implements NexAttack {
 					player.sendMessage("You didn't make it far enough in time - Nex fires a punishing attack!");
 					nex.setNextAnimation(new Animation(6987));
 					for (final Entity t : nex.getPossibleTargets())
-						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, 0, p -> {
+						World.sendProjectile(nex, t, 374, 41, 16, 41, 35, 16, p -> {
 							nex.heal(t.getHitpoints());
 							t.applyHit(new Hit(nex, (int) (t.getHitpoints() * 0.1), HitLook.TRUE_DAMAGE));
 						});

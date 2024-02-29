@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons;
 
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.slayer.Slayer;
 import com.rs.game.content.world.LightSource;
 import com.rs.game.model.entity.Hit;
@@ -31,7 +32,8 @@ public class UndergroundDungeonController extends Controller {
 	private transient int ticks;
 	private transient boolean initial;
 
-	private boolean hasStench, requiresLightSource;
+	private final boolean hasStench;
+    private final boolean requiresLightSource;
 
 	public UndergroundDungeonController(boolean hasStench, boolean requiresLightSource) {
 		this.hasStench = hasStench;
@@ -164,7 +166,7 @@ public class UndergroundDungeonController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 

@@ -24,13 +24,13 @@ import com.rs.lib.game.Item;
 
 public class CreateActionD extends Conversation {
 
-	private int[] anims;
-	private Item[][] materials;
-	private Item[][] products;
+	private final int[] anims;
+	private final Item[][] materials;
+	private final Item[][] products;
 	private int[] reqs;
-	private double[] xp;
-	private int skill;
-	private int delay;
+	private final double[] xp;
+	private final int skill;
+	private final int delay;
 
 	public CreateActionD(Player player, Item[][] materials, Item[][] products, int delay) {
 		super(player);

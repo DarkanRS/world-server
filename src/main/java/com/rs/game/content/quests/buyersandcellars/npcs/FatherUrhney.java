@@ -27,9 +27,7 @@ public class FatherUrhney {
         }
         if(fireIsLit(e.getPlayer()) && e.getPlayer().getQuestStage(Quest.BUYERS_AND_CELLARS) == 7){
             e.getPlayer().faceEntity(e.getNPC());
-            WorldTasks.delay(0, () -> {
-                e.getPlayer().setNextAnimation(new Animation(881));
-            });
+            WorldTasks.delay(0, () -> e.getPlayer().setNextAnimation(new Animation(881)));
             e.getPlayer().getInventory().addItem(18647);
             e.getPlayer().sendMessage("You take advantage of Urhney's panic to lift a complex-looking key from his pocket.");
             e.getPlayer().setQuestStage(Quest.BUYERS_AND_CELLARS, 7);

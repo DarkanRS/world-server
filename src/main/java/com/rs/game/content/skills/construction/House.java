@@ -97,27 +97,25 @@ public class House {
 		return players.contains(player);
 	}
 
-	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(loc -> loc.getObjectId()).toArray(), e -> {
-		e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
-			ops.add("Go to your house.", () -> {
-				e.getPlayer().getHouse().setBuildMode(false);
-				e.getPlayer().getHouse().enterMyHouse();
-			});
-			ops.add("Go to your house (building mode).", () -> {
-				e.getPlayer().getHouse().kickGuests();
-				e.getPlayer().getHouse().setBuildMode(true);
-				e.getPlayer().getHouse().enterMyHouse();
-			});
-			ops.add("Go to a friend's house.", () -> {
-				if (e.getPlayer().isIronMan()) {
-					e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
-					return;
-				}
-				e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
-			});
-			ops.add("Nevermind.");
-		}));
-	});
+	public static ObjectClickHandler handleHousePortals = new ObjectClickHandler(Arrays.stream(POHLocation.values()).map(POHLocation::getObjectId).toArray(), e -> e.getPlayer().startConversation(new Dialogue().addOptions(ops -> {
+        ops.add("Go to your house.", () -> {
+            e.getPlayer().getHouse().setBuildMode(false);
+            e.getPlayer().getHouse().enterMyHouse();
+        });
+        ops.add("Go to your house (building mode).", () -> {
+            e.getPlayer().getHouse().kickGuests();
+            e.getPlayer().getHouse().setBuildMode(true);
+            e.getPlayer().getHouse().enterMyHouse();
+        });
+        ops.add("Go to a friend's house.", () -> {
+            if (e.getPlayer().isIronMan()) {
+                e.getPlayer().sendMessage("You cannot enter another player's house as an ironman.");
+                return;
+            }
+            e.getPlayer().sendInputName("Enter name of the person who's house you'd like to join:", name -> House.enterHouse(e.getPlayer(), name));
+        });
+        ops.add("Nevermind.");
+    })));
 
 	public static ButtonClickHandler handleHouseOptions = new ButtonClickHandler(398, e -> {
 		if (e.getComponentId() == 19)
@@ -340,7 +338,7 @@ public class House {
 			WorldTasks.schedule(new Task() {
 				@Override
 				public void run() {
-					p.setNextTile(Tile.of(p.getX(), p.getY(), 0));
+					p.tele(Tile.of(p.getX(), p.getY(), 0));
 					p.setNextAnimation(new Animation(3640));
 				}
 			}, 5);
@@ -952,10 +950,11 @@ public class House {
 	/*
 	 * 0 - logout, 1 kicked/tele outside outside, 2 tele somewhere else
 	 */
-	public void leaveHouse(Player player, int type) {
+	public void leaveHouse(Player player, int type, boolean controllerRemoved) {
 		player.setCanPvp(false);
 		player.removeHouseOnlyItems();
-		player.getControllerManager().removeControllerWithoutCheck();
+		if (!controllerRemoved)
+			player.getControllerManager().removeControllerWithoutCheck();
 		if (type == LOGGED_OUT)
 			player.setTile(location.getTile());
 		else if (type == KICKED)
@@ -973,6 +972,10 @@ public class House {
 		player.getTempAttribs().setB("inBoxingArena", false);
 		player.setCanPvp(false);
 		player.setForceMultiArea(false);
+	}
+
+	public void leaveHouse(Player player, int type) {
+		leaveHouse(player, type, false);
 	}
 
 	private void removeServant() {
@@ -1006,7 +1009,7 @@ public class House {
 			player.sendMessage("The house has no servant.");
 		else {
 			servantInstance.setFollowing(true);
-			servantInstance.setNextTile(World.getFreeTile(player.getTile(), 1));
+			servantInstance.tele(World.getFreeTile(player.getTile(), 1));
 			servantInstance.setNextAnimation(new Animation(858));
 			player.startConversation(new ServantHouseD(player, servantInstance, true));
 		}
@@ -1557,7 +1560,7 @@ public class House {
 	public static class ObjectReference {
 
 		private int slot;
-		private Builds build;
+		private final Builds build;
 
 		public ObjectReference(Builds build, int slot) {
 			this.build = build;
@@ -1631,9 +1634,12 @@ public class House {
 			return -1;
 		}
 
-		private HouseConstants.Room room;
-		private byte x, y, plane, rotation;
-		private List<ObjectReference> objects;
+		private final HouseConstants.Room room;
+		private final byte x;
+        private final byte y;
+        private final byte plane;
+        private byte rotation;
+		private final List<ObjectReference> objects;
 
 		public int getLadderTrapSlot() {
 			for (ObjectReference object : objects)

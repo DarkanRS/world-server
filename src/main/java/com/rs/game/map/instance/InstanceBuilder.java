@@ -40,10 +40,13 @@ public final class InstanceBuilder {
 		synchronized(RESERVED_REGIONS) {
 			for (int regionX = fromRegionX; regionX < fromRegionX + width; regionX++)
 				for (int regionY = fromRegionY; regionY < fromRegionY + height; regionY++)
-					if (remove)
+					if (remove) {
+						Logger.info(InstanceBuilder.class, "reserveRegions", "Freeing region: " + regionX + ", " + regionY);
 						RESERVED_REGIONS.remove(MapUtils.encode(Structure.REGION, regionX, regionY));
-					else
+					} else {
+						Logger.info(InstanceBuilder.class, "reserveRegions", "Reserving region: " + regionX + ", " + regionY);
 						RESERVED_REGIONS.add(MapUtils.encode(Structure.REGION, regionX, regionY));
+					}
 
 		}
 	}
@@ -99,18 +102,18 @@ public final class InstanceBuilder {
 	}
 
 	private static int findEmptyBaseChunkId(int widthChunks, int heightChunks) {
-		int regionsDistanceX = 1;
+		int regionsDistanceX = 2;
 		while (widthChunks > 8) {
 			regionsDistanceX += 1;
 			widthChunks -= 8;
 		}
-		int regionsDistanceY = 1;
+		int regionsDistanceY = 2;
 		while (heightChunks > 8) {
 			regionsDistanceY += 1;
 			heightChunks -= 8;
 		}
-		for (int regionX = 1; regionX <= MAX_REGION_X - regionsDistanceX; regionX++)
-			skip: for (int regionY = 1; regionY <= MAX_REGION_Y - regionsDistanceY; regionY++) {
+		for (int regionX = 2; regionX <= MAX_REGION_X - regionsDistanceX; regionX++)
+			skip: for (int regionY = 2; regionY <= MAX_REGION_Y - regionsDistanceY; regionY++) {
 				for (int checkRegionX = regionX - 1; checkRegionX <= regionX + regionsDistanceX; checkRegionX++)
 					for (int checkRegionY = regionY - 1; checkRegionY <= regionY + regionsDistanceY; checkRegionY++) {
 						int regionId = MapUtils.encode(Structure.REGION, checkRegionX, checkRegionY);
@@ -124,7 +127,7 @@ public final class InstanceBuilder {
 		return -1;
 	}
 
-	static final void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
+	static void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
 		if (ref.getChunkBase() == null) {
 			future.complete(true);
 			return;
@@ -140,24 +143,24 @@ public final class InstanceBuilder {
 		}, 8);
 	}
 
-	private static final void destroyMap(int chunkX, int chunkY, int width, int height) {
+	private static void destroyMap(int chunkX, int chunkY, int width, int height) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
-		int regionsDistanceX = 1;
+		int regionsDistanceX = 2;
 		while (width > 8) {
 			regionsDistanceX += 1;
 			width -= 8;
 		}
-		int regionsDistanceY = 1;
+		int regionsDistanceY = 2;
 		while (height > 8) {
 			regionsDistanceY += 1;
 			height -= 8;
 		}
-
-		for (int z = 0;z < 4;z++)
-			for (int x = chunkX; x < chunkX + width; x++)
-				for (int y = chunkY; y < chunkY + height; y++)
-					destroyChunk(MapUtils.encode(Structure.CHUNK, x, y, z));
+		int baseChunk = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);
+		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC)
+			for (int x = 0; x <= width * Chunk.X_INC; x += Chunk.X_INC)
+				for (int y = 0; y <= height; y++)
+					destroyChunk(baseChunk + x + y + plane);
 		reserveRegions(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
 	}
 
@@ -195,7 +198,7 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final List<InstancedChunk> copyChunkRect(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int width, int height, int rotation, int... planes) {
+	private static List<InstancedChunk> copyChunkRect(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int width, int height, int rotation, int... planes) {
 		List<InstancedChunk> chunks = new ObjectArrayList<>();
 		int[][] offsets = getOffsets(width, height, rotation);
 		for (int plane : planes) {
@@ -226,7 +229,7 @@ public final class InstanceBuilder {
 		return offsets;
 	}
 
-	private static final List<InstancedChunk> copy2x2ChunkSquare(int fromChunkBaseX, int fromChunkBaseY, int toChunkBaseX, int toChunkBaseY, int rotation, int... planes) {
+	private static List<InstancedChunk> copy2x2ChunkSquare(int fromChunkBaseX, int fromChunkBaseY, int toChunkBaseX, int toChunkBaseY, int rotation, int... planes) {
 		return copyChunkRect(fromChunkBaseX, fromChunkBaseY, toChunkBaseX, toChunkBaseY, 2, 2, rotation, planes);
 	}
 
@@ -248,7 +251,7 @@ public final class InstanceBuilder {
 		chunk.loadMap(false);
 	}
 
-	private static final List<InstancedChunk> repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
+	private static List<InstancedChunk> repeatMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int fromChunkX, int fromChunkY, int fromPlane, int rotation, int... toPlanes) {
 		List<InstancedChunk> chunks = new ObjectArrayList<>();
 		for (int plane : toPlanes) {
 			for (int xOffset = 0; xOffset < widthChunks; xOffset++) {
@@ -275,7 +278,7 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void cutMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int... toPlanes) {
+	private static void cutMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int... toPlanes) {
 		List<InstancedChunk> chunks = repeatMap(toChunkX, toChunkY, widthChunks, heightChunks, 0, 0, 0, 0, toPlanes);
 		for (InstancedChunk chunk : chunks) {
 			chunk.clearCollisionData();
@@ -295,7 +298,7 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, boolean copyNpcs) {
+	private static void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, boolean copyNpcs) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;
@@ -303,14 +306,14 @@ public final class InstanceBuilder {
 	}
 
 	@SuppressWarnings("unused")
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions, boolean copyNpcs) {
+	private static void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int widthRegions, int heightRegions, boolean copyNpcs) {
 		int[] planes = new int[4];
 		for (int plane = 1; plane < 4; plane++)
 			planes[plane] = plane;
 		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, widthRegions, heightRegions, planes, planes, copyNpcs);
 	}
 
-	private static final void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
+	private static void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
 		copyMap(fromRegionX, fromRegionY, toRegionX, toRegionY, size, size, fromPlanes, toPlanes, copyNpcs);
 	}
 
@@ -326,7 +329,7 @@ public final class InstanceBuilder {
 		});
 	}
 
-	private static final void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
+	private static void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {
 		if (fromPlanes.length != toPlanes.length)
 			throw new RuntimeException("PLANES LENGTH ISNT SAME OF THE NEW PLANES ORDER!");
 		for (int planeIdx = 0; planeIdx < fromPlanes.length; planeIdx++) {
@@ -339,5 +342,9 @@ public final class InstanceBuilder {
 					instance.loadMap(copyNpcs);
 				}
 		}
+	}
+
+	public static int getReservedRegionCount() {
+		return RESERVED_REGIONS.size();
 	}
 }

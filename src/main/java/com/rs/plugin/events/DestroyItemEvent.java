@@ -25,10 +25,10 @@ import java.util.Map;
 
 public class DestroyItemEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item;
+	private final Player player;
+	private final Item item;
 
 	public DestroyItemEvent(Player player, Item item) {
 		this.player = player;
@@ -61,4 +61,11 @@ public class DestroyItemEvent implements PluginEvent {
 		}
 	}
 
+	public Player component1() {
+		return player;
+	}
+
+	public Item component2() {
+		return item;
+	}
 }

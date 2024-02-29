@@ -41,7 +41,7 @@ public class Silver {
 		SILVER_BOLTS(21, 50, 9434, new Item(9382, 10), 66),
 		TIARA(23, 52.5, 5523, new Item(5525), 44);
 
-		private static Map<Integer, SilverItems> rings = new HashMap<>();
+		private static final Map<Integer, SilverItems> rings = new HashMap<>();
 
 		public static SilverItems forId(int buttonId) {
 			return rings.get(buttonId);
@@ -52,11 +52,11 @@ public class Silver {
 				rings.put(ring.getButtonId(), ring);
 		}
 
-		private int levelRequired;
-		private double experience;
-		private int mould;
-		private int buttonId;
-		private Item product;
+		private final int levelRequired;
+		private final double experience;
+		private final int mould;
+		private final int buttonId;
+		private final Item product;
 
 		private SilverItems(int levelRequired, double experience, int itemsRequired, Item producedBar, int buttonId) {
 			this.levelRequired = levelRequired;
@@ -115,18 +115,13 @@ public class Silver {
 	});
 
 	public static int getNumberToMake(ClientPacket packetId) {
-		switch (packetId) {
-		case IF_OP1:
-			return 1;
-		case IF_OP2:
-			return 5;
-		case IF_OP3:
-			return 28;
-		case IF_OP4:
-			return -5;
-		default:
-			return 1;
-		}
+        return switch (packetId) {
+            case IF_OP1 -> 1;
+            case IF_OP2 -> 5;
+            case IF_OP3 -> 28;
+            case IF_OP4 -> -5;
+            default -> 1;
+        };
 	}
 
 }

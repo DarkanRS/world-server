@@ -18,9 +18,7 @@ public class TobiasBronzearms extends Conversation {
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need mining supplies", () -> {
-                    ShopsHandler.openShop(player, "tobias_mining_shop");
-                });
+                option("I need mining supplies", () -> ShopsHandler.openShop(player, "tobias_mining_shop"));
                 option("Farewell");
             }
         });

@@ -19,8 +19,10 @@ package com.rs.game.content.minigames.creations;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.AttackStyle;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -40,8 +42,8 @@ import com.rs.utils.WorldUtil;
 
 public class StealingCreationController extends Controller {
 
-	private transient StealingCreationGameController game;
-	private boolean team;
+	private final transient StealingCreationGameController game;
+	private final boolean team;
 
 	public StealingCreationController(StealingCreationGameController game, boolean team) {
 		this.game = game;
@@ -231,9 +233,12 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile tile) {
-		player.simpleDialogue("You can't leave just like that!");
-		return false;
+	public boolean processTeleport(Teleport tele) {
+		if (tele.type() != TeleType.OBJECT) {
+			player.simpleDialogue("You can't leave just like that!");
+			return false;
+		}
+		return true;
 	}
 
 	@Override
@@ -250,7 +255,7 @@ public class StealingCreationController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		player.getControllerManager().forceStop();
 	}
 
@@ -288,7 +293,7 @@ public class StealingCreationController extends Controller {
 			player.sendMessage("You pick " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + "'s pocket.");
 			player.getTempAttribs().setL("PICKPOCK_DELAY", System.currentTimeMillis());
 			int level = Utils.getRandomInclusive(thievingLevel);
-			double ratio = level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
+			double ratio = (double) level / (Utils.random(target.getSkills().getLevel(Constants.THIEVING)) + 6);
 			if (!(Math.round(ratio * thievingLevel) > target.getSkills().getLevel(Constants.THIEVING)))
 				player.sendMessage("You fail to pickpocket " + Utils.formatPlayerNameForDisplay(target.getDisplayName()) + ".");
 			else {
@@ -412,7 +417,7 @@ public class StealingCreationController extends Controller {
 						} else
 							player.getPrayer().restorePrayer((int) (Math.floor(player.getSkills().getLevelForXp(Constants.PRAYER) * .5 + (superPotion ? 250 : 200))));
 						player.setNextAnimation(new Animation(829));
-						player.soundEffect(4580);
+						player.soundEffect(4580, false);
 					}
 					return false;
 				}
@@ -624,7 +629,9 @@ public class StealingCreationController extends Controller {
 
 		SWARM(10618, 14152, Constants.HUNTER);
 
-		private int baseAnimation, baseItem, skillRequested;
+		private final int baseAnimation;
+        private final int baseItem;
+        private final int skillRequested;
 
 		private CreationChunks(int baseAnimation, int baseItem, int skillRequested) {
 			this.baseAnimation = baseAnimation;
@@ -682,7 +689,7 @@ public class StealingCreationController extends Controller {
 				otherPlayer.lock(3);
 			}
 			player.lock(2);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				private int step = 0;
 
 				@Override
@@ -746,7 +753,7 @@ public class StealingCreationController extends Controller {
 					return false;
 				}
 				player.lock(2);
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 					private int step = 0;
 
 					@Override
@@ -782,7 +789,7 @@ public class StealingCreationController extends Controller {
 			player.unlock();
 		final Player p = player;
 		final GameObject o = object;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private int step = 0;
 
 			@Override
@@ -798,7 +805,7 @@ public class StealingCreationController extends Controller {
 				if (step == 0) {
 					Tile faceTile = Helper.getFaceTile(o, p);
 					p.sendMessage("You pass through the barrier.");
-					p.setNextTile(faceTile);
+					p.tele(faceTile);
 					p.forceMove(faceTile, 10584, 5, 30);
 					p.setNextSpotAnim(new SpotAnim(red ? 1871 : 1870));
 					step++;
@@ -812,7 +819,7 @@ public class StealingCreationController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -836,7 +843,7 @@ public class StealingCreationController extends Controller {
 					}
 					player.getEquipment().deleteSlot(Equipment.CAPE);
 					player.sendPVEItemsOnDeath(killer, true);
-					player.setNextTile(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
+					player.tele(Helper.getNearestRespawnPoint(player, game.getArea(), getTeam()));
 					player.stopAll();
 					player.reset();
 					if (score != null) {

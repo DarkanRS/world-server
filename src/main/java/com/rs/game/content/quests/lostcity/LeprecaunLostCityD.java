@@ -45,11 +45,11 @@ public class LeprecaunLostCityD extends Conversation {
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Ah, yer stupid elephant! The city isn't IN the shed! The doorway to the shed is a portal to " +
 									"Zanaris, so it is.")
 							.addPlayer(HeadE.HAPPY_TALKING, "So, I just walk into the shed and end up in Zanaris?")
-							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart());})
+							.addNext(()-> p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart()))
 							);
 					option("I've been in that shed and I didn't see a city.", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "I've been in that shed and I didn't see a city.")
-							.addNext(()->{p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart());})
+							.addNext(()-> p.startConversation(new LeprecaunLostCityD(p, leprechaun, FORGETTINGTOSAY).getStart()))
 							);
 				}
 			});
@@ -74,7 +74,7 @@ public class LeprecaunLostCityD extends Conversation {
 					option("No thanks, I'll get there on my own", new Dialogue()
 							.addPlayer(HeadE.HAPPY_TALKING, "No thanks, I'll get there on my own")
 							.addNPC(LEPRACAUN, HeadE.CALM_TALK, "Fine, have it yer way. I'm off!")
-							.addNext(()-> leprechaun.finish()));
+							.addNext(leprechaun::finish));
 				}
 			});
 		}
@@ -161,7 +161,7 @@ public class LeprecaunLostCityD extends Conversation {
 				addNPC(LEPRACAUN, HeadE.AMAZED, "AAAAAAAAAAAAAAHHHH!!!!");
 				addSimple("The leprechaun falls down", () -> {
 					NPC lepracaun = World.spawnNPC(LEPRACAUN, Tile.of(obj.getX(), obj.getY()-1, obj.getPlane()), -1, false, true);
-					WorldTasks.schedule(new Task() {
+					WorldTasks.scheduleLooping(new Task() {
 						private int tick;
 						@Override
 						public void run() {

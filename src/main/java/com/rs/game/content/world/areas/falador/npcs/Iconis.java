@@ -42,10 +42,8 @@ public class Iconis extends Conversation {
 		}
 	});
 
-	public static ObjectClickHandler PhotoBooth = new ObjectClickHandler(new Object[] { 46396 }, e -> {
-		e.getPlayer().startConversation(new Dialogue()
-				.addNPC(npcId, HeadE.SHAKING_HEAD, "Sorry, the imp is a little busy. There's a lot of demand, you see."));
-	});
+	public static ObjectClickHandler PhotoBooth = new ObjectClickHandler(new Object[] { 46396 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addNPC(npcId, HeadE.SHAKING_HEAD, "Sorry, the imp is a little busy. There's a lot of demand, you see.")));
 
 	public Iconis(Player player) {
 		super(player);

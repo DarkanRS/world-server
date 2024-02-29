@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class NPCAnimationAction extends CutsceneAction {
 
-	private Animation anim;
+	private final Animation anim;
 
 	public NPCAnimationAction(String key, Animation anim, int actionDelay) {
 		super(key, actionDelay);

@@ -35,9 +35,7 @@ import com.rs.utils.shop.ShopsHandler;
 @PluginEventHandler
 public class Piscatoris {
 
-	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> {
-		Doors.handleDoubleDoors.getHandler().accept(e);
-	});
+	public static ObjectClickHandler handleColonyDoors = new ObjectClickHandler(new Object[] { 14929, 14931 }, e -> Doors.handleDoubleDoors.getHandler().accept(e));
 
 	public static NPCClickHandler handleArnoldPiscatorisBanker = new NPCClickHandler(new Object[] { 3824 }, e -> {
 		if (e.getOption().equalsIgnoreCase("Talk-to"))
@@ -50,12 +48,19 @@ public class Piscatoris {
 			GE.openCollection(e.getPlayer());
 	});
 
+	public static ObjectClickHandler handlePiscSummLadders = new ObjectClickHandler(new Object[] { 28742, 28743 }, e -> {
+		if (e.getObjectId() == 28742)
+			e.getPlayer().useLadder(Tile.of(2333, 10015, 0));
+		else
+			e.getPlayer().useLadder(Tile.of(2329, 3645, 0));
+	});
+
 	public static ObjectClickHandler handleColonyTunnels = new ObjectClickHandler(new Object[] { 14922 }, e -> {
 		if (!e.getPlayer().isQuestComplete(Quest.SWAN_SONG, "to enter the Piscatoris Fishing Colony."))
 			return;
 		final boolean isNorth = e.getPlayer().getY() > 3653;
 		final Tile tile = isNorth ? Tile.of(2344, 3650, 0) : Tile.of(2344, 3655, 0);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 
 			@Override
@@ -67,7 +72,7 @@ public class Piscatoris {
 				} else if (ticks == 5)
 					e.getPlayer().setNextAnimation(new Animation(2591));
 				else if (ticks == 6) {
-					e.getPlayer().setNextTile(Tile.of(tile.getX(), tile.getY(), tile.getPlane()));
+					e.getPlayer().tele(Tile.of(tile.getX(), tile.getY(), tile.getPlane()));
 					e.getPlayer().unlock();
 					stop();
 				}

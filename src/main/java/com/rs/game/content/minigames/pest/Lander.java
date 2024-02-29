@@ -31,9 +31,9 @@ public class Lander {
 	private static final int AUTO_GAME = Settings.getConfig().isDebug() ? 2 : 15;
 	private static final int TIME = 30;
 
-	private List<Player> lobby = Collections.synchronizedList(new LinkedList<Player>());
+	private final List<Player> lobby = Collections.synchronizedList(new LinkedList<>());
 	private LobbyTimer timer;
-	private LanderRequirement landerRequirement;
+	private final LanderRequirement landerRequirement;
 
 	public Lander(LanderRequirement landerRequirement) {
 		this.landerRequirement = landerRequirement;
@@ -64,8 +64,7 @@ public class Lander {
 	}
 
 	private void passPlayersToGame() {
-		final List<Player> playerList = new LinkedList<>();
-		playerList.addAll(Collections.synchronizedList(lobby));
+        final List<Player> playerList = new LinkedList<>(Collections.synchronizedList(lobby));
 		lobby.clear();
 		if (playerList.size() > AUTO_GAME)
 			for (int index = AUTO_GAME; index < playerList.size(); index++) {
@@ -83,7 +82,7 @@ public class Lander {
 
 	public void enterLander(Player player) {
 		if (lobby.size() == 0)
-			WorldTasks.schedule(timer = new LobbyTimer(), 2, 2);
+			WorldTasks.scheduleLooping(timer = new LobbyTimer(), 2, 2);
 		player.getControllerManager().startController(new PestControlLobbyController(landerRequirement.getId()));
 		add(player);
 		player.useStairs(-1, landerRequirement.getTile(), 1, 2, "You board the lander.");
@@ -121,7 +120,7 @@ public class Lander {
 
 		VETERAN(2, 100, Tile.of(2635, 2653, 0), Tile.of(2638, 2653, 0));
 
-		private static Map<Integer, LanderRequirement> landers = new HashMap<>();
+		private static final Map<Integer, LanderRequirement> landers = new HashMap<>();
 
 		public static LanderRequirement forId(int id) {
 			return landers.get(id);
@@ -132,9 +131,12 @@ public class Lander {
 				landers.put(lander.getId(), lander);
 		}
 
-		int id, requirement, reward;
+		final int id;
+        final int requirement;
+        int reward;
 		int[] pests;
-		Tile tile, exit;
+		final Tile tile;
+        final Tile exit;
 
 		private LanderRequirement(int id, int requirement, Tile tile, Tile exit) {
 			this.id = id;

@@ -38,8 +38,10 @@ public class TanningD extends Conversation {
 		BLACK(1747, 2509, 20, 45),
 		ROYAL(24372, 24374, 20, 45);
 		
-		private int kharidPrice, canifisPrice;
-		private int raw, tanned;
+		private final int kharidPrice;
+        private final int canifisPrice;
+		private final int raw;
+        private final int tanned;
 		
 		private Leather(int raw, int tanned, int kharidPrice, int canifisPrice) {
 			this.raw = raw;

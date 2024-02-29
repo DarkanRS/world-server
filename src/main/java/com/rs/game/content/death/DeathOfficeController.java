@@ -19,7 +19,9 @@ package com.rs.game.content.death;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.InterfaceManager;
@@ -85,7 +87,7 @@ public class DeathOfficeController extends InstancedController {
 		CAMELOT(Tile.of(2758, 3486, 0)),
 		SOUL_WARS(Tile.of(1891, 3177, 0));
 		
-		private Tile tile;
+		private final Tile tile;
 		
 		Hub(Tile tile) {
 			this.tile = tile;
@@ -139,8 +141,8 @@ public class DeathOfficeController extends InstancedController {
 	private Hub defaultHub;
 	private Hub currentHub;
 	private List<Hub> optionalHubs;
-	private Tile deathTile;
-	private boolean hadSkull;
+	private final Tile deathTile;
+	private final boolean hadSkull;
 
 	public DeathOfficeController(Tile deathTile, boolean hadSkull) {
 		super(Instance.of(deathTile, 2, 2).persist().setEntranceOffset(new int[] { 10, 6, 0 }));
@@ -204,13 +206,13 @@ public class DeathOfficeController extends InstancedController {
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		return false;
-	}
+	public boolean processTeleport(Teleport tele) {
+        return tele.type() == TeleType.OBJECT;
+    }
 
 	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		return false;
+	public void onTeleported(TeleType type) {
+		removeController();
 	}
 
 	@Override

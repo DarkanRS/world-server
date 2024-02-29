@@ -16,6 +16,7 @@
 //
 package com.rs.game.content.bosses.qbd.npcs;
 
+import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -41,15 +42,11 @@ public final class SoulSiphonAttack implements QueenAttack {
 
 	@Override
 	public int attack(final QueenBlackDragon npc, Player victim) {
-		for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();) {
-			TorturedSoul soul = it.next();
-			if (soul.isDead())
-				it.remove();
-		}
+        npc.getSouls().removeIf(Entity::isDead);
 		if (npc.getSouls().isEmpty())
 			return 1;
 		victim.sendMessage("<col=9900CC>The Queen Black Dragon starts to siphon the energy of her mages.</col>");
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			@Override
 			public void run() {
 				for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();) {

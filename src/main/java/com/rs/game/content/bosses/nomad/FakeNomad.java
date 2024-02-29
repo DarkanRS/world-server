@@ -22,7 +22,7 @@ import com.rs.lib.game.Tile;
 
 public class FakeNomad extends NPC {
 
-	private Nomad nomad;
+	private final Nomad nomad;
 
 	public FakeNomad(Tile tile, Nomad nomad) {
 		super(8529, tile, true);

@@ -24,9 +24,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 	static int MUMMY_ROOM = 0;
 	@ServerStartupEvent
 	public static void init() {
-		WorldTasks.schedule(0, 600, () -> {
-			MUMMY_ROOM = Utils.randomInclusive(0, 3);
-		});
+		WorldTasks.scheduleLooping(0, 600, () -> MUMMY_ROOM = Utils.randomInclusive(0, 3));
 	}
 
 	public static ObjectClickHandler handleOuterPyramidDoors = new ObjectClickHandler(new Object[] { 16543, 16544, 16545, 16546 }, e -> {
@@ -44,7 +42,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void enterMummyRoom(Player p, Tile tile) {
 		p.lock(5);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {
@@ -52,7 +50,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					p.getInterfaceManager().setFadingInterface(115);
 				if(tick == 2) {
 					p.faceNorth();
-					p.setNextTile(Tile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
+					p.tele(Tile.of(tile.getX(), tile.getY() - 8, tile.getPlane()));
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
@@ -76,7 +74,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 
 	private static void exitMummyRoom(Player p, Tile tile, int dir) {
 		p.lock(4);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {
@@ -91,7 +89,7 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 						p.faceSouth();
 					if(dir ==3)
 						p.faceWest();
-					p.setNextTile(tile);
+					p.tele(tile);
 				}
 				if(tick == 3)
 					p.getInterfaceManager().setFadingInterface(170);
@@ -116,6 +114,6 @@ public class OuterPyramidHandler {//OuterPyramidHandler plunder is all in one re
 					return;
 		for(NPC npc : World.getNPCsInChunkRange(p.getChunkId(), 2))//else finish
 			if(npc.getId() == 4476)
-				npc.setNextTile(MUMMY_LOCATIONS[MUMMY_ROOM]);
+				npc.tele(MUMMY_LOCATIONS[MUMMY_ROOM]);
 	}
 }

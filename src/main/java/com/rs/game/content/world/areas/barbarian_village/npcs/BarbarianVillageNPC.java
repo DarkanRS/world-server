@@ -194,33 +194,28 @@ public class BarbarianVillageNPC {
 
     });
 
-    public static NPCClickHandler HandleLitara = new NPCClickHandler(new Object[]{ LITARA }, new String[] { "Talk-to" }, e -> {
-                e.getPlayer().startConversation(new Dialogue()
-                        .addNPC(LITARA, HeadE.SKEPTICAL, "Hello there. You look lost - are you okay?")
-                        .addOptions(ops -> {
-                            ops.add("I'm looking for a stronghold, or something.")
-                                    .addPlayer(HeadE.CALM_TALK, "I'm looking for a stronghold, or something.")
-                                    .addNPC(LITARA, HeadE.CALM_TALK, "Ahh, the Stronghold of Security. It's down there.")
-                                    .addPlayer(HeadE.NERVOUS, "Looks kind of...deep and dark.")
-                                    .addNPC(LITARA, HeadE.SKEPTICAL_THINKING, "Yeah, tell that to my brother. He still hasn't come back.")
-                                    .addPlayer(HeadE.CONFUSED, "Your brother?")
-                                    .addNPC(LITARA, HeadE.SAD_MILD, "He's a explorer too. When the miner fell down that hole he'd made and came back babbling about treasure, my brother went to explore. No one has seen him since.")
-                                    .addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Oh, that's not good.")
-                                    .addNPC(LITARA, HeadE.SKEPTICAL_THINKING, "Lots of people have been down there, but none of them have seen him. Let me know if you do, will you?\n")
-                                    .addPlayer(HeadE.HAPPY_TALKING, "I'll certainly keep my eyes open.");
+    public static NPCClickHandler HandleLitara = new NPCClickHandler(new Object[]{ LITARA }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addNPC(LITARA, HeadE.SKEPTICAL, "Hello there. You look lost - are you okay?")
+            .addOptions(ops -> {
+                ops.add("I'm looking for a stronghold, or something.")
+                        .addPlayer(HeadE.CALM_TALK, "I'm looking for a stronghold, or something.")
+                        .addNPC(LITARA, HeadE.CALM_TALK, "Ahh, the Stronghold of Security. It's down there.")
+                        .addPlayer(HeadE.NERVOUS, "Looks kind of...deep and dark.")
+                        .addNPC(LITARA, HeadE.SKEPTICAL_THINKING, "Yeah, tell that to my brother. He still hasn't come back.")
+                        .addPlayer(HeadE.CONFUSED, "Your brother?")
+                        .addNPC(LITARA, HeadE.SAD_MILD, "He's a explorer too. When the miner fell down that hole he'd made and came back babbling about treasure, my brother went to explore. No one has seen him since.")
+                        .addPlayer(HeadE.SAD_MILD_LOOK_DOWN, "Oh, that's not good.")
+                        .addNPC(LITARA, HeadE.SKEPTICAL_THINKING, "Lots of people have been down there, but none of them have seen him. Let me know if you do, will you?\n")
+                        .addPlayer(HeadE.HAPPY_TALKING, "I'll certainly keep my eyes open.");
 
-                            ops.add("I'm fine, just passing through.")
-                                    .addPlayer(HeadE.CALM_TALK, "I'm fine, just passing through.");
-                        })
-                );
+                ops.add("I'm fine, just passing through.")
+                        .addPlayer(HeadE.CALM_TALK, "I'm fine, just passing through.");
+            })
+    ));
 
-    });
-
-    public static NPCClickHandler HandleTassie= new NPCClickHandler(new Object[]{ TASSIE_SLIPCAST }, new String[] { "Talk-to" }, e -> {
-         e.getPlayer().startConversation(new Dialogue()
-                    .addNPC(TASSIE_SLIPCAST, HeadE.HAPPY_TALKING, "Please feel free to use the pottery wheel, I won't be using it all the time. Put your pots in the kiln when you've made one.")
-                    .addNPC(TASSIE_SLIPCAST, HeadE.CALM_TALK, "And make sure you tidy up after yourself!")
-            );
-    });
+    public static NPCClickHandler HandleTassie= new NPCClickHandler(new Object[]{ TASSIE_SLIPCAST }, new String[] { "Talk-to" }, e -> e.getPlayer().startConversation(new Dialogue()
+               .addNPC(TASSIE_SLIPCAST, HeadE.HAPPY_TALKING, "Please feel free to use the pottery wheel, I won't be using it all the time. Put your pots in the kiln when you've made one.")
+               .addNPC(TASSIE_SLIPCAST, HeadE.CALM_TALK, "And make sure you tidy up after yourself!")
+       ));
 
 }

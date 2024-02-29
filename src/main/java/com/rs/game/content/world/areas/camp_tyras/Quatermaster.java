@@ -45,9 +45,7 @@ public class Quatermaster extends Conversation {
 			public void create() {
 
 				option("Yes please. What are you selling?", new Dialogue()
-						.addNext(() -> {
-							ShopsHandler.openShop(player, "quartermasters_stores");
-						}));
+						.addNext(() -> ShopsHandler.openShop(player, "quartermasters_stores")));
 				option("No, thank you.", new Dialogue()
 						.addPlayer(HeadE.CALM_TALK, "No, thank you.")
 						.addNPC(npcId, HeadE.HAPPY_TALKING, "Okay, come back soon.")

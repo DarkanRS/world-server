@@ -22,9 +22,10 @@ import com.rs.lib.game.Item;
 
 public class DuelRules {
 
-	private Player player, target;
+	private final Player player;
+    private final Player target;
 	public boolean[] duelRules = new boolean[26];
-	private ItemsContainer<Item> stake;
+	private final ItemsContainer<Item> stake;
 
 	public DuelRules(Player player, Player target) {
 		this.player = player;

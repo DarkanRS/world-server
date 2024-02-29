@@ -23,7 +23,7 @@ import com.rs.lib.util.Utils;
 
 public class Rest extends PlayerAction {
 
-	private static int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
+	private static final int[][] REST_DEFS = { { 5713, 1549, 5748 }, { 11786, 1550, 11788 }, { 5713, 1551, 2921 } // TODO
 	// First
 	// emote
 
@@ -37,7 +37,7 @@ public class Rest extends PlayerAction {
 			return false;
 		index = Utils.random(REST_DEFS.length);
 		player.setResting(true);
-		player.setNextAnimation(new Animation(REST_DEFS[index][0]));
+		player.anim(REST_DEFS[index][0]);
 		player.getAppearance().setBAS(REST_DEFS[index][1]);
 		return true;
 	}
@@ -63,7 +63,7 @@ public class Rest extends PlayerAction {
 	@Override
 	public void stop(Player player) {
 		player.setResting(false);
-		player.setNextAnimation(new Animation(REST_DEFS[index][2]));
+		player.anim(REST_DEFS[index][2]);
 		player.getEmotesManager().setNextEmoteEnd();
 		player.getAppearance().setBAS(-1);
 	}

@@ -29,17 +29,34 @@ import com.rs.lib.game.Item;
 import com.rs.lib.net.ClientPacket;
 import com.rs.lib.net.ServerPacket;
 import com.rs.lib.util.Utils;
+import com.rs.plugin.PluginManager;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.ItemAddedToBankEvent;
+import com.rs.plugin.events.PluginEvent;
 import com.rs.plugin.handlers.ButtonClickHandler;
+import com.rs.plugin.handlers.ItemAddedToBankHandler;
 import com.rs.utils.ItemConfig;
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @PluginEventHandler
 public class Bank {
+	public static Set<Integer> BLOCKED_BANK_ITEMS = new IntOpenHashSet(List.of(2528, 4447, 6543, 6796, 7498, 10586, 10889, 11137, 11139, 11141, 11157, 11185, 11186, 11187, 11188, 11189, 11679, 11753, 11754, 11755, 12627, 12628, 13227, 13439, 13446, 13447, 13448, 13463, 14574, 14575, 14576, 14580, 14581, 14582, 14633, 14634, 14635, 14711, 14740, 15346, 15348, 15350, 15351, 15389, 15390, 18782, 18783, 18808, 19750, 19751, 19752, 19755, 19756, 19758, 19759, 19761, 19764, 19765, 19767, 19768, 19775, 21770, 21771, 21772, 23085, 23086, 23087, 23088, 23089, 23090, 23645, 23648, 24138, 24139, 24140, 24141, 24142, 24143, 24151, 24300, 24503, 24504, 24506, 25070, 25119, 25131, 25131, 25132, 25133, 20935, 20936, 20960));
+
+	static {
+		for (int id : Utils.range(23713, 23771))
+			BLOCKED_BANK_ITEMS.add(id);
+		for (int id : Utils.range(23773, 23817))
+			BLOCKED_BANK_ITEMS.add(id);
+	}
+
+	public static ItemAddedToBankHandler blockXpItems = new ItemAddedToBankHandler(BLOCKED_BANK_ITEMS.toArray(), e -> {
+		e.getPlayer().sendMessage("A magical force prevents you from banking this item.");
+		e.cancel();
+	});
 
 	private static final long PIN_VALIDITY_TIME = 6 * 60 * 60 * 1000; //6 hours
 
@@ -114,6 +131,7 @@ public class Bank {
 			e.getPlayer().setCloseInterfacesEvent(() -> {
 				e.getPlayer().getBank().open();
 				e.getPlayer().abortDialogue();
+				e.getPlayer().getPackets().sendRunScript(571);
 			});
 		} else if (e.getComponentId() >= 46 && e.getComponentId() <= 64) {
 			int tabId = 9 - ((e.getComponentId() - 46) / 2);
@@ -167,7 +185,7 @@ public class Bank {
 						return;
 					e.getPlayer().getBank().setLastX(amount);
 					e.getPlayer().getBank().refreshLastX();
-					e.getPlayer().getBank().depositItem(e.getSlotId(), amount, e.getPlayer().getInterfaceManager().topOpen(11) ? false : true);
+					e.getPlayer().getBank().depositItem(e.getSlotId(), amount, !e.getPlayer().getInterfaceManager().topOpen(11));
 				});
 			else if (e.getPacket() == ClientPacket.IF_OP6)
 				e.getPlayer().getBank().depositItem(e.getSlotId(), Integer.MAX_VALUE, true);
@@ -207,6 +225,21 @@ public class Bank {
 		this.player = player;
 		if (bankTabs == null || bankTabs.length == 0)
 			bankTabs = new Item[1][0];
+	}
+
+	public boolean sortCurrentTab() {
+		if (currentTab < 0 || currentTab >= bankTabs.length)
+			return false;
+		Item[] tab = bankTabs[currentTab];
+		Arrays.sort(tab, (o1, o2) -> {
+			int o1Id = o1 == null ? Integer.MAX_VALUE : o1.getId();
+			int o2Id = o2 == null ? Integer.MAX_VALUE : o2.getId();
+			return o1Id - o2Id;
+		});
+		refreshItems();
+		refreshTabs();
+		refreshViewingTab();
+		return true;
 	}
 
 	@SuppressWarnings("null")
@@ -418,6 +451,7 @@ public class Bank {
 		sendBoxInterItems();
 		player.getPackets().setIFText(11, 13, "Bank Of " + Settings.getConfig().getServerName() + " - Deposit Box");
 		player.setCloseInterfacesEvent(() -> {
+			player.getPackets().sendRunScript(571);
 			player.abortDialogue();
 			player.getInterfaceManager().sendSubDefaults(Sub.TAB_INVENTORY, Sub.TAB_EQUIPMENT);
 			player.getInterfaceManager().openTab(Sub.TAB_INVENTORY);
@@ -587,6 +621,7 @@ public class Bank {
 		sendItems();
 		refreshItems();
 		player.setCloseInterfacesEvent(() -> {
+			player.getPackets().sendRunScript(571);
 			player.abortDialogue();
 			Familiar.sendLeftClickOption(player);
 		});
@@ -604,6 +639,7 @@ public class Bank {
 		player.getPackets().sendItems(94, other.getEquipment().getItemsCopy());
 		player.getTempAttribs().setB("viewingOtherBank", true);
 		player.setCloseInterfacesEvent(() -> {
+			player.getPackets().sendRunScript(571);
 			player.abortDialogue();
 			player.getInventory().refresh();
 			player.getEquipment().refresh();
@@ -696,12 +732,12 @@ public class Bank {
 			player.sendMessage("<col=FF0000>It looks like it will last another " + Utils.ticksToTime(item.getMetaDataI("combatCharges")));
 	}
 
-	public void depositItem(int invSlot, int quantity, boolean refresh) {
+	public boolean depositItem(int invSlot, int quantity, boolean refresh) {
 		if (player.getTempAttribs().getB("viewingOtherBank") || quantity < 1 || invSlot < 0 || invSlot > 27)
-			return;
+			return false;
 		Item item = player.getInventory().getItem(invSlot);
 		if (item == null)
-			return;
+			return false;
 		if (item.getMetaData() != null)
 			quantity = 1;
 		int amt = player.getInventory().getItems().getNumberOf(item);
@@ -721,10 +757,13 @@ public class Bank {
 			}
 		} else if (!hasBankSpace()) {
 			player.sendMessage("Not enough space in your bank.");
-			return;
+			return false;
 		}
-		if (addItem(item, refresh))
+		if (addItem(item, refresh)) {
 			player.getInventory().deleteItem(invSlot, new Item(originalId, item.getAmount(), item.getMetaData()));
+			return true;
+		}
+		return false;
 	}
 
 	//	public void addItem(Item item, boolean refresh) {
@@ -739,6 +778,10 @@ public class Bank {
 		if (item == null || item.getId() == -1)
 			return false;
 		if (!player.getControllerManager().canDepositItem(item))
+			return false;
+		var event = new ItemAddedToBankEvent(player, item);
+		PluginManager.handle(event);
+		if (event.isCancelled())
 			return false;
 		int[] slotInfo = getItemSlot(item.getId());
 		if (slotInfo == null || item.getMetaData() != null || bankTabs[slotInfo[0]][slotInfo[1]].getMetaData() != null) {

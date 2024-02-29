@@ -206,7 +206,7 @@ public class FishingTrawler {
 		running = true;
 		for(final Player player : lobby) {
 			FadingScreen.fade(player, 2, () -> {
-				player.setNextTile(NO_WATER_SHIP.getRandomTile());
+				player.tele(NO_WATER_SHIP.getRandomTile());
 				player.getInterfaceManager().sendOverlay(15);
 				player.getInterfaceManager().sendInterface(368);
 				game.forEach(this::refreshInterface);
@@ -232,7 +232,7 @@ public class FishingTrawler {
 			World.removeObject(leak);
 		for (final Player player : game) {
 			player.getInterfaceManager().removeOverlay();
-			player.setNextTile(END_TILE);
+			player.tele(END_TILE);
 			player.getControllerManager().forceStop();
 			player.sendMessage("Murphy turns the boat towards shore.");
 			ItemsContainer<Item> items = Rewards.generateRewards(player.getSkills().getLevel(Skills.FISHING), fishCaught);
@@ -260,7 +260,7 @@ public class FishingTrawler {
 
 	public void crash(Player player) {
 		player.getInterfaceManager().removeOverlay();
-		player.setNextTile(CRASHED_SHIP.getRandomTile());
+		player.tele(CRASHED_SHIP.getRandomTile());
 		player.getControllerManager().forceStop();
 		player.getControllerManager().startController(new FishingTrawlerCrashedController());
 		Equipment.remove(player, Equipment.WEAPON);
@@ -306,7 +306,7 @@ public class FishingTrawler {
 
 	public void switchToWaterShip() {
 		waterShip = true;
-		game.forEach(player -> player.setNextTile(player.transform(128, 0)));
+		game.forEach(player -> player.tele(player.transform(128, 0)));
 		List<Tile> tiles = new ArrayList<>();
 		for(GameObject leak : leaks) {
 			tiles.add(Tile.of(leak.getTile()).transform(128, 0));
@@ -436,7 +436,7 @@ public class FishingTrawler {
 		FadingScreen.fade(e.getPlayer(), 2, () -> {
 			e.getPlayer().sendMessage("You make it to the shore tired and weary.");
 			e.getPlayer().applyHit(new Hit(20, Hit.HitLook.TRUE_DAMAGE));
-			e.getPlayer().setNextTile(SHORE.getRandomTile());
+			e.getPlayer().tele(SHORE.getRandomTile());
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().getAppearance().setBAS(-1);
 			e.getPlayer().endConversation();
@@ -487,8 +487,8 @@ public class FishingTrawler {
 			e.getPlayer().lock();
 			instance.lobby.remove(e.getPlayer());
 			e.getPlayer().getControllerManager().forceStop();
-			e.getPlayer().setNextTile(Tile.of(2674, 3170, 0));
-			WorldTasks.schedule(new Task() {
+			e.getPlayer().tele(Tile.of(2674, 3170, 0));
+			WorldTasks.scheduleLooping(new Task() {
 				private boolean tick;
 				private boolean run;
 				@Override
@@ -515,14 +515,14 @@ public class FishingTrawler {
 			boolean run = e.getPlayer().getRun();
 			e.getPlayer().setRunHidden(false);
 			e.getPlayer().addWalkSteps(toTile, 20, false);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				private boolean tick;
 				@Override
 				public void run() {
 					if(!tick) {
 						instance.lobby.add(e.getPlayer());
 						e.getPlayer().getControllerManager().startController(new FishingTrawlerLobbyController());
-						e.getPlayer().setNextTile(Tile.of(2673, 3170, 1));
+						e.getPlayer().tele(Tile.of(2673, 3170, 1));
 						e.getPlayer().setRunHidden(run);
 						e.getPlayer().unlock();
 						if(!instance.running) {
@@ -546,7 +546,7 @@ public class FishingTrawler {
 	@ServerStartupEvent
 	public static void init() {
 		instance = new FishingTrawler();
-		WorldTasks.schedule(1, 0, () -> instance.tick());
+		WorldTasks.scheduleLooping(1, 0, () -> instance.tick());
 	}
 
 	public static FishingTrawler getInstance() {

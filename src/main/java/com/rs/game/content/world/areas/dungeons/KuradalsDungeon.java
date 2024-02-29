@@ -46,7 +46,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 
@@ -79,7 +79,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 
@@ -98,9 +98,9 @@ public class KuradalsDungeon {
 						return;
 				} else if (ticks >= 1) {
 					if (isPlayerNorth)
-						p.setNextTile(Tile.of(1633, 5292, 0));
+						p.tele(Tile.of(1633, 5292, 0));
 					if (!isPlayerNorth)
-						p.setNextTile(Tile.of(1633, 5294, 0));
+						p.tele(Tile.of(1633, 5294, 0));
 					stop();
 				}
 				ticks++;

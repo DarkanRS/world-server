@@ -21,7 +21,14 @@ import com.rs.utils.shop.ShopsHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.MERLINS_CRYSTAL)
+@QuestHandler(
+		quest = Quest.MERLINS_CRYSTAL,
+		startText = "Talk to King Arthur in Camelot.",
+		itemsText = "Bread, a bucket, insect repellent, bat bones.",
+		combatText = "You will need to defeat a level 23 knight. You might anger a level 70 demon.",
+		rewardsText = "Excalibur",
+		completedStage = 8
+)
 @PluginEventHandler
 public class MerlinsCrystal extends QuestOutline {
 	public static final int NOT_STARTED = 0;
@@ -38,11 +45,6 @@ public class MerlinsCrystal extends QuestOutline {
 	protected static final int EXCALIBUR = 35;
 
 	protected Tile crate = Tile.of(2778, 9839, 0);
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -141,9 +143,7 @@ public class MerlinsCrystal extends QuestOutline {
                             addNPC(562, HeadE.CALM_TALK, "BLACK candles??? Hmmm. In the candle making trade, we have a tradition that it's very bad luck" +
                                     " to make black candles. VERY bad luck.");
                             addPlayer(HeadE.HAPPY_TALKING, "I will pay good money for one...");
-                            addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> {
-                                e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_BLACK_CANDLE", true);
-                            });
+                            addNPC(562, HeadE.CALM_TALK, "I still dunno...Tell you what: I'll supply you with a black candle... IF you can bring me a bucket FULL of wax.", () -> e.getPlayer().getQuestManager().getAttribs(Quest.MERLINS_CRYSTAL).setB("KNOWS_ABOUT_BLACK_CANDLE", true));
                         }
                         create();
                     }
@@ -153,9 +153,7 @@ public class MerlinsCrystal extends QuestOutline {
                     {
                         addNPC(562, HeadE.CALM_TALK, "Hi, looking for candles?");
                         addPlayer(HeadE.HAPPY_TALKING, "Sure!");
-                        addNext(() -> {
-                            openShop(e.getPlayer());
-                        });
+                        addNext(() -> openShop(e.getPlayer()));
                         create();
                     }
                 });
@@ -207,7 +205,7 @@ public class MerlinsCrystal extends QuestOutline {
 	public static PlayerStepHandler handleRitualSpot = new PlayerStepHandler(Tile.of(2780, 3515, 0), e -> {
 		if(e.getPlayer().getQuestManager().getStage(Quest.MERLINS_CRYSTAL) != PERFORM_RITUAL)
 			return;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int tick;
 			@Override
 			public void run() {
@@ -238,23 +236,4 @@ public class MerlinsCrystal extends QuestOutline {
 		sendQuestCompleteInterface(player, EXCALIBUR);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Arthur in Camelot Castle.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Bread, a bucket, insect repellent, bat bones.";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 23 knight. You might anger a level 70 demon.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "Excalibur";
-	}
 }

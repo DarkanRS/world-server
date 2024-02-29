@@ -21,8 +21,8 @@ import com.rs.game.model.entity.player.Player;
 import java.util.Map;
 
 public abstract class CutsceneAction {
-	private String objectKey;
-	private int delay;
+	private final String objectKey;
+	private final int delay;
 	
 	public CutsceneAction(String objectKey, int delay) {
 		this.objectKey = objectKey;

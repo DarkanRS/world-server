@@ -60,7 +60,7 @@ public final class BeastiaryInfo {
 		String[] areas;
 	}
 
-	private static Map<Integer, BestiaryInfo> beasts = new HashMap<>();
+	private static final Map<Integer, BestiaryInfo> beasts = new HashMap<>();
 
 	private static void loadBeastData() throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(new File("./beasts.txt")));
@@ -81,24 +81,21 @@ public final class BeastiaryInfo {
 	private static void createData() {
 		try {
 			loadBeastData();
-			BufferedWriter writer = new BufferedWriter(new FileWriter(new File("backupAnimations.txt")));
-			try {
-				for (int npcId = 0; npcId < Utils.getNPCDefinitionsSize(); npcId++) {
-					NPCDefinitions def = NPCDefinitions.getDefs(npcId);
-					BestiaryInfo line = beasts.remove(npcId);
-					if (line == null || !def.getName().equals(line.name) || (line.animations.attack == 0 && line.animations.death == 0))
-						continue;
-					writer.write("//" + def.getName() + " (" + def.combatLevel + ")");
-					writer.newLine();
-					writer.write(npcId + " - " + (line.animations.attack > Utils.getAnimationDefinitionsSize() ? -1 : line.animations.attack) + " " + (line.animations.death > Utils.getAnimationDefinitionsSize() ? -1 : line.animations.death));
-					writer.newLine();
-					writer.flush();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				writer.close();
-			}
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(new File("backupAnimations.txt")))) {
+                for (int npcId = 0; npcId < Utils.getNPCDefinitionsSize(); npcId++) {
+                    NPCDefinitions def = NPCDefinitions.getDefs(npcId);
+                    BestiaryInfo line = beasts.remove(npcId);
+                    if (line == null || !def.getName().equals(line.name) || (line.animations.attack == 0 && line.animations.death == 0))
+                        continue;
+                    writer.write("//" + def.getName() + " (" + def.combatLevel + ")");
+                    writer.newLine();
+                    writer.write(npcId + " - " + (line.animations.attack > Utils.getAnimationDefinitionsSize() ? -1 : line.animations.attack) + " " + (line.animations.death > Utils.getAnimationDefinitionsSize() ? -1 : line.animations.death));
+                    writer.newLine();
+                    writer.flush();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

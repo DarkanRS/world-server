@@ -22,8 +22,8 @@ import com.rs.lib.game.Tile;
 
 public class NexCutScene extends Cutscene {
 	
-	private Tile dir;
-	private int selected;
+	private final Tile dir;
+	private final int selected;
 
 	public NexCutScene(Tile dir, int selected) {
 		this.dir = dir;

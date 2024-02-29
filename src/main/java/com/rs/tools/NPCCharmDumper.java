@@ -30,8 +30,8 @@ import java.util.*;
 
 public class NPCCharmDumper {
 
-	private static Set<String> DUMPED = new HashSet<>();
-	private static Map<String, String> MAP = new HashMap<>();
+	private static final Set<String> DUMPED = new HashSet<>();
+	private static final Map<String, String> MAP = new HashMap<>();
 
 	public static void main(String[] args) {
 		try {

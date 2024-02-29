@@ -32,7 +32,7 @@ import com.rs.plugin.handlers.NPCInstanceHandler;
 @PluginEventHandler
 public class Strykewyrm extends NPC {
 
-	private int stompId;
+	private final int stompId;
 
 	public Strykewyrm(int id, Tile tile) {
 		super(id, tile, false);
@@ -65,10 +65,9 @@ public class Strykewyrm extends NPC {
 	@Override
 	public void handlePreHit(Hit hit) {
 		if (getId() == 9462 || getId() == 9463)
-			if (hit.getSource() instanceof Player) {
-				Player player = (Player) hit.getSource();
+			if (hit.getSource() instanceof Player player) {
 
-				switch (getId()) {
+                switch (getId()) {
 				case 9462:
 				case 9463:
 					if (!player.isOnTask(TaskMonster.ICE_STRYKEWYRMS)) {
@@ -178,5 +177,5 @@ public class Strykewyrm extends NPC {
 			handleStomping(e.getPlayer(), s);
 	});
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 9462, 9463, 9464, 9465, 9466, 9467 }, (npcId, tile) -> new Strykewyrm(npcId, tile));
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 9462, 9463, 9464, 9465, 9466, 9467 }, Strykewyrm::new);
 }

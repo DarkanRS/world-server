@@ -27,7 +27,14 @@ import com.rs.plugin.handlers.NPCInteractionDistanceHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-@QuestHandler(Quest.VAMPYRE_SLAYER)
+@QuestHandler(
+		quest = Quest.VAMPYRE_SLAYER,
+		startText = "Talk to Morgan in Draynor Village.",
+		itemsText = "Beer (or 2 coins to purchase a pint).",
+		combatText = "You will need to defeat a level 28 enemy.",
+		rewardsText = "4,825 Attack XP",
+		completedStage = 5
+)
 @PluginEventHandler
 public class VampireSlayer extends QuestOutline {
 	static final int NOT_STARTED = 0;
@@ -38,11 +45,6 @@ public class VampireSlayer extends QuestOutline {
 	static final int QUEST_COMPLETE = 5;
 
 	static final int STAKE = 1549;
-
-	@Override
-	public int getCompletedStage() {
-		return 5;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -99,26 +101,6 @@ public class VampireSlayer extends QuestOutline {
 	public void complete(Player player) {
 		player.getSkills().addXpQuest(Skills.ATTACK, 4825);
 		sendQuestCompleteInterface(player, STAKE);
-	}
-
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Morgan in Draynor Village.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Beer (or 2 coins to purchase a pint).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 28 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "4,825 Attack XP";
 	}
 
 	public static NPCInteractionDistanceHandler bartenderBlueMoonDistance = new NPCInteractionDistanceHandler(733, (player, npc) -> 5);

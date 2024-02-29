@@ -34,8 +34,8 @@ public class EasterBunnyD extends Conversation {
 	public EasterBunnyD(Player player) {
 		super(player);
 
-		switch(player.getI(Easter2021.STAGE_KEY)) {
-		case -1:
+		switch(player.getI(Easter2021.STAGE_KEY, 0)) {
+		case 0:
 			addPlayer(HeadE.CHEERFUL, "Hello!");
 			addNPC(EASTER_BUNNY, HeadE.CAT_SAD, "...");
 			addPlayer(HeadE.CONFUSED, "Hello?");
@@ -54,9 +54,7 @@ public class EasterBunnyD extends Conversation {
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Now you've agreed to help, you'll need to get through the warrens to the Egg Plant, to speak to that lazy son of mine. For that you need to be bunny-sized!");
 			addPlayer(HeadE.CONFUSED, "How do I do that?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "You simply go down the rabbit hole. My magic will sort the transformation, though you may feel a little itchy for a couple of weeks afterwards. I'll meet you down there!");
-			addPlayer(HeadE.CHEERFUL, "Off I go then!", () -> {
-				player.save(Easter2021.STAGE_KEY, 1);
-			});
+			addPlayer(HeadE.CHEERFUL, "Off I go then!", () -> player.save(Easter2021.STAGE_KEY, 1));
 			break;
 		case 1:
 			if (player.getY() > 5000) {
@@ -64,9 +62,7 @@ public class EasterBunnyD extends Conversation {
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Yeah, 'tis the life of a bunny! Glad you made it down safely.");
 				addPlayer(HeadE.CHEERFUL, "What should I be fixing up first?");
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Well the first problem to deal with is the Easter Bird.. He hasn't been laying eggs due to being so hungry and thirsty. There's some food and water to the east of him. You'll have to figure out which food he likes.");
-				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that!", () -> {
-					player.save(Easter2021.STAGE_KEY, 2);
-				});
+				addPlayer(HeadE.CHEERFUL, "Alright, I'll get right on that!", () -> player.save(Easter2021.STAGE_KEY, 2));
 			} else
 				addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Speak to me down in my hole. I'll meet you down there!");
 			break;
@@ -79,9 +75,7 @@ public class EasterBunnyD extends Conversation {
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Great work! He should get back to laying the easter eggs again pretty quickly now.");
 			addPlayer(HeadE.CHEERFUL, "Awesome. What should I work on next?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "The incubator seems to be broken. I am not sure where the peices even went. My son probably had something to do with it. You should head over to his room to the west ask him about where they are.");
-			addPlayer(HeadE.CHEERFUL, "Alright, thanks. I'll get going.", () -> {
-				player.save(Easter2021.STAGE_KEY, 4);
-			});
+			addPlayer(HeadE.CHEERFUL, "Alright, thanks. I'll get going.", () -> player.save(Easter2021.STAGE_KEY, 4));
 			break;
 		case 4:
 		case 5:
@@ -97,9 +91,7 @@ public class EasterBunnyD extends Conversation {
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Not quite, I need some workers to operate the machines if my son is not going to contribute anything to the season.");
 			addPlayer(HeadE.CHEERFUL, "Where do you think I can find some workers?");
 			addNPC(EASTER_BUNNY, HeadE.CAT_CHEERFUL, "Squirrels! One of my great old friends Charlie lives a little north of Falador and he certainly has some motivated and cheerful workers who'd love to help!");
-			addPlayer(HeadE.SKEPTICAL_THINKING, "Squirrels? If you say so. I'll head up to Falador and see if I can find Charlie then.", () -> {
-				player.save(Easter2021.STAGE_KEY, 7);
-			});
+			addPlayer(HeadE.SKEPTICAL_THINKING, "Squirrels? If you say so. I'll head up to Falador and see if I can find Charlie then.", () -> player.save(Easter2021.STAGE_KEY, 7));
 			break;
 		case 7:
 			addPlayer(HeadE.CHEERFUL, "What am I supposed to be doing again?");

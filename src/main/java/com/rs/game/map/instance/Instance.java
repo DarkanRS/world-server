@@ -18,15 +18,15 @@ public class Instance {
     private static final Map<UUID, Instance> INSTANCES = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 
     private final UUID id = UUID.randomUUID();
-    private Tile returnTo;
+    private final Tile returnTo;
     private int[] entranceOffset;
     private boolean persistent;
     private transient int[] chunkBase;
-    private transient IntSet chunkIds = new IntOpenHashSet();
-    private int width;
-    private int height;
+    private final transient IntSet chunkIds = new IntOpenHashSet();
+    private final int width;
+    private final int height;
 
-    private boolean copyNpcs;
+    private final boolean copyNpcs;
 
     private transient volatile boolean destroyed;
 
@@ -261,20 +261,20 @@ public class Instance {
 
     public void teleportLocal(Player player, int localX, int localY, int plane) {
         player.setInstancedArea(this);
-        player.setNextTile(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
+        player.tele(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
     }
 
     public void teleportLocal(NPC npc, int localX, int localY, int plane) {
-        npc.setNextTile(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
+        npc.tele(Tile.of(getBaseX() + localX, getBaseY() + localY, plane));
     }
 
     public void teleportChunkLocal(Player player, int chunkXOffset, int chunkYOffset, int xOffset, int yOffset, int plane) {
         player.setInstancedArea(this);
-        player.setNextTile(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
+        player.tele(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
     }
 
     public void teleportChunkLocal(NPC npc, int chunkXOffset, int chunkYOffset, int xOffset, int yOffset, int plane) {
-        npc.setNextTile(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
+        npc.tele(Tile.of(getLocalX(chunkXOffset, xOffset), getLocalY(chunkYOffset, yOffset), plane));
     }
 
     public void teleportTo(Player player) {

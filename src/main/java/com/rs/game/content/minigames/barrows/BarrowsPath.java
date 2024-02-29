@@ -51,7 +51,7 @@ public class BarrowsPath {
 			{"SOUTHEAST", "SOUTHEDGE", 483},
 			{"SOUTHWEST", "SOUTHEAST", 484}};
 
-	private static java.util.Random random = new java.util.Random(System.currentTimeMillis());
+	private static final java.util.Random random = new java.util.Random(System.currentTimeMillis());
 
 	public static void init() {
 		BarrowsRoom topleft = new BarrowsRoom(RoomType.CORNER, "NORTHWEST");
@@ -165,16 +165,16 @@ public class BarrowsPath {
 			p.getVars().setVarBit((465+i),(i == spawn ? 1 : 0));
 		switch (spawn) {
 		case 0:
-			p.setNextTile(Tile.of(3535, 9712, 0));
+			p.tele(Tile.of(3535, 9712, 0));
 			break;
 		case 1:
-			p.setNextTile(Tile.of(3567, 9712, 0));
+			p.tele(Tile.of(3567, 9712, 0));
 			break;
 		case 2:
-			p.setNextTile(Tile.of(3535, 9678, 0));
+			p.tele(Tile.of(3535, 9678, 0));
 			break;
 		case 3:
-			p.setNextTile(Tile.of(3569, 9678, 0));
+			p.tele(Tile.of(3569, 9678, 0));
 			break;
 		}
 	}

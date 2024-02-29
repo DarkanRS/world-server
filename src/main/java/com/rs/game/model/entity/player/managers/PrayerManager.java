@@ -258,9 +258,9 @@ public class PrayerManager {
 			if (isOverhead(prayer))
 				player.getAppearance().generateAppearanceData();
 			if (prayer.getActivateSound() != -1)
-				player.soundEffect(prayer.getActivateSound());
+				player.soundEffect(prayer.getActivateSound(), false);
 			else
-				player.soundEffect(2662);
+				player.soundEffect(2662, false);
 		}
 		refresh();
 		return true;
@@ -313,7 +313,7 @@ public class PrayerManager {
 		active.remove(prayer);
 		if (isOverhead(prayer))
 			player.getAppearance().generateAppearanceData();
-		player.soundEffect(2663);
+		player.soundEffect(2663, false);
 		if (active.isEmpty())
 			setQuickPrayersOn(false);
 		refresh();
@@ -381,7 +381,7 @@ public class PrayerManager {
 			drainPrayer(drain);
 			if (!checkPrayer()) {
 				closeAllPrayers();
-				player.soundEffect(2673);
+				player.soundEffect(2673, false);
 			}
 		}
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
@@ -409,7 +409,7 @@ public class PrayerManager {
 				sap.activate(player, target);
 				player.setNextAnimation(new Animation(12569));
 				player.setNextSpotAnim(new SpotAnim(sap.getSpotAnimStart()));
-				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
+				World.sendProjectile(player, target, sap.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(sap.getSpotAnimHit()));
 				});
@@ -418,7 +418,7 @@ public class PrayerManager {
 			if (active(leech.getPrayer()) && Utils.random(7) == 0) {
 				leech.activate(player, target);
 				player.setNextAnimation(new Animation(12575));
-				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, 0, p -> {
+				World.sendProjectile(player, target, leech.getProjAnim(), 35, 35, 20, 0.6, 0, p -> {
 					if (target != null)
 						target.setNextSpotAnim(new SpotAnim(leech.getSpotAnimHit()));
 				});
@@ -481,7 +481,7 @@ public class PrayerManager {
 
 	public boolean checkPrayer() {
 		if (points <= 0) {
-			player.soundEffect(2672);
+			player.soundEffect(2672, false);
 			player.sendMessage("Please recharge your prayer at the Lumbridge Church.");
 			return false;
 		}
@@ -749,24 +749,11 @@ public class PrayerManager {
 	}
 
 	public static boolean isOverhead(Prayer p) {
-		switch(p) {
-		case PROTECT_MAGIC:
-		case PROTECT_SUMMONING:
-		case PROTECT_RANGE:
-		case PROTECT_MELEE:
-		case RETRIBUTION:
-		case REDEMPTION:
-		case SMITE:
-		case DEFLECT_MELEE:
-		case DEFLECT_SUMMONING:
-		case DEFLECT_MAGIC:
-		case DEFLECT_RANGE:
-		case WRATH:
-		case SOUL_SPLIT:
-			return true;
-		default:
-			return false;
-		}
+        return switch (p) {
+            case PROTECT_MAGIC, PROTECT_SUMMONING, PROTECT_RANGE, PROTECT_MELEE, RETRIBUTION, REDEMPTION, SMITE, DEFLECT_MELEE, DEFLECT_SUMMONING, DEFLECT_MAGIC, DEFLECT_RANGE, WRATH, SOUL_SPLIT ->
+                    true;
+            default -> false;
+        };
 	}
 
 	public boolean isProtectingItem() {

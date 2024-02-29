@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public final class Settings {
 
 	private static Settings SETTINGS;
-	private static Settings DEFAULTS = new Settings();
+	private static final Settings DEFAULTS = new Settings();
 
 	public static Settings getConfig() {
 		if (SETTINGS == null)
@@ -48,7 +48,7 @@ public final class Settings {
 	private String cachePath;
 	private boolean debug = false;
 	private boolean enableJFR = false;
-	private boolean allowHighMemUseOptimizations;
+	private final boolean allowHighMemUseOptimizations;
 	private String mongoUrl;
 	private int mongoPort;
 	private String mongoUser;
@@ -79,7 +79,7 @@ public final class Settings {
 		mongoPass = "";
 		mongoDbName = "darkan-server";
 		lobbyApiKey = "TEST_API_KEY";
-		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, true, true);
+		worldInfo = new WorldInfo(3, "127.0.0.1", 43595, "My Test World", 1, false, true, true, false, false);
 		loginMessage = "";
 		playerStartTile = Tile.of(2889, 3528, 0);
 		playerRespawnTile = Tile.of(2887, 3535, 0);
@@ -124,15 +124,20 @@ public final class Settings {
 	public static void loadConfig() {
 		Logger.info(Settings.class, "loadConfig", "Loading config...");
 		try {
-			File configFile = new File("./worldConfig.json");
-			if (configFile.exists())
-				SETTINGS = JsonFileManager.loadJsonFile(new File("./worldConfig.json"), Settings.class);
+			File rootConfigFile = new File("./worldConfig.json");
+			File dataConfigFile = new File("./data/worldConfig.json");
+			if (rootConfigFile.exists())
+				SETTINGS = JsonFileManager.loadJsonFile(rootConfigFile, Settings.class);
+			else if (dataConfigFile.exists())
+				SETTINGS = JsonFileManager.loadJsonFile(dataConfigFile, Settings.class);
 			else
 				SETTINGS = new Settings();
 			for (Field f : SETTINGS.getClass().getDeclaredFields())
 				if (f.get(SETTINGS) == null)
 					f.set(SETTINGS, f.get(DEFAULTS));
-			JsonFileManager.saveJsonFile(SETTINGS, configFile);
+			JsonFileManager.saveJsonFile(SETTINGS, dataConfigFile);
+			if (rootConfigFile.exists())
+				rootConfigFile.delete();
 		} catch (JsonIOException | IOException | IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();
 			System.exit(5);
@@ -163,6 +168,10 @@ public final class Settings {
 		}
 		Globals.DEBUG = getConfig().debug;
 		Logger.info(Settings.class, "loadConfig", "Loaded lobby IP: " + getConfig().lobbyIp);
+	}
+
+	public static void saveConfig() throws IOException {
+		JsonFileManager.saveJsonFile(SETTINGS, new File("./worldConfig.json"));
 	}
 
 	public String getServerName() {

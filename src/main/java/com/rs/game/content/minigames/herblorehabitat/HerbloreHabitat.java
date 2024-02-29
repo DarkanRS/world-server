@@ -29,7 +29,7 @@ public class HerbloreHabitat {
 
 	@ServerStartupEvent
 	public static void initUpdateTask() {
-		WorldTasks.schedule(25, 25, () -> {
+		WorldTasks.scheduleLooping(25, 25, () -> {
 			for (Player player : World.getPlayersInChunkRange(Tile.of(2959, 2915, 0).getChunkId(), 5)) {
 				if (player.hasStarted() && !player.hasFinished()) {
 					JadinkoType.updateGroup(player, JadinkoType.COMMON);

@@ -53,7 +53,7 @@ public class ApeAtollAgility {
 		player.lock(3);
 		WorldTasks.schedule(1, () -> {
 			player.setNextAnimation(new Animation(1381));
-			player.setNextTile(Tile.of(player.getX(), player.getY(), 0));
+			player.tele(Tile.of(player.getX(), player.getY(), 0));
 			player.getSkills().addXp(Constants.AGILITY, 36);
 		});
 	}
@@ -81,7 +81,7 @@ public class ApeAtollAgility {
 		player.lock(3);
 		WorldTasks.schedule(1, () -> {
 			player.setNextAnimation(new Animation(1382));
-			player.setNextTile(Tile.of(2752, 2742, 2));
+			player.tele(Tile.of(2752, 2742, 2));
 			player.getSkills().addXp(Constants.AGILITY, 25);
 		});
 	}
@@ -96,7 +96,7 @@ public class ApeAtollAgility {
 		player.lock(4);
 		player.getAppearance().setBAS(744);
 		player.forceMove(Tile.of(2747, 2741, 2), 10, 4*30, () -> {
-			player.setNextTile(Tile.of(2747, 2741, 0));
+			player.tele(Tile.of(2747, 2741, 0));
 			player.getSkills().addXp(Constants.AGILITY, 35);
 			player.getAppearance().setBAS(-1);
 		});
@@ -119,7 +119,7 @@ public class ApeAtollAgility {
 			@Override
 			public void run() {
 				player.setNextAnimation(new Animation(1381));
-				player.setNextTile(toTile);
+				player.tele(toTile);
 				WorldTasks.schedule(new Task() {
 
 					@Override
@@ -130,12 +130,12 @@ public class ApeAtollAgility {
 							player.getAppearance().setBAS(741);
 							player.forceMove(WaterTile, 10, 90, () -> {
 								player.getAppearance().setBAS(-1);
-								player.setNextTile(Land);
+								player.tele(Land);
 							});
 							stop();
 						} else {
 							player.setNextAnimation(new Animation(1381));
-							player.setNextTile(toTile2);
+							player.tele(toTile2);
 							player.getSkills().addXp(Constants.AGILITY, 15);
 							stop();
 						}

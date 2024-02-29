@@ -56,7 +56,7 @@ public class EggHunt {
         FREMENNIK_CAMP_DAEMONHEIM(new EventEasterEgg(Easter2022.RUBBLE,ObjectType.SCENERY_INTERACT,0,3463,3677,0), "south of the Fremennik Camp on the Daemonheim Peninsula."),
         MUDSKIPPER_POINT(new EventEasterEgg(Easter2022.RUBBLE,ObjectType.SCENERY_INTERACT,0,2996,3118,0), "in the centre of Mudskipper Point.");
     	
-        private EventEasterEgg egg;
+        private final EventEasterEgg egg;
 
         private Spawns(EventEasterEgg egg, String hint) {
             this.egg = egg;
@@ -76,8 +76,8 @@ public class EggHunt {
         }
     }
 
-	private static int[] varbits = new int[] { 10954, 11014, 11015, 11016, 11017 };
-	private static List<Integer> eggs = new ArrayList<Integer>();
+	private static final int[] varbits = new int[] { 10954, 11014, 11015, 11016, 11017 };
+	private static final List<Integer> eggs = new ArrayList<>();
 	private static int hunt = 0;
 	private static int chocatriceScore = 0;
 	private static int evilChickenScore = 0;
@@ -114,7 +114,7 @@ public class EggHunt {
     	active = true;
     	hunt++;
     	while (eggs.size() > 0)
-    		eggs.remove(0);
+    		eggs.removeFirst();
         while (eggs.size() < 5) {
         	Spawns spawn = Spawns.values()[Utils.random(EggHunt.Spawns.values().length)];
             if (!eggs.contains(spawn.ordinal())) {
@@ -163,11 +163,11 @@ public class EggHunt {
     }
     
     public static String getHint() {
-    	return Spawns.values()[eggs.get(0)].getEgg().getHint();
+    	return Spawns.values()[eggs.getFirst()].getEgg().getHint();
     }
     
     public static int getTime() {
-    	return (int)Math.ceil(timer/100);
+    	return (int) ((double) timer / 100);
     }
     
     public static String getTimeString() {

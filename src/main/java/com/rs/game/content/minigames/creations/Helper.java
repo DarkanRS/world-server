@@ -517,7 +517,7 @@ public class Helper {
 			return;
 		}
 		player.getInterfaceManager().sendInterface(813);
-		player.getPackets().sendRunScriptReverse(KILN_SCRIPT_BASE + 0); // + tabID
+		player.getPackets().sendRunScriptReverse(KILN_SCRIPT_BASE); // + tabID
 		int quality = 0;
 		qualityLoop: for (int i = 4; i >= 0; i--)
 			if (player.getInventory().containsOneItem(SACRED_CLAY[i])) {

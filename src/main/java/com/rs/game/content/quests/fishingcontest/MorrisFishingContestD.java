@@ -36,12 +36,8 @@ public class MorrisFishingContestD extends Conversation {
 					addNPC(NPC, HeadE.CALM_TALK, "Competition pass please.");
 					if(e.getPlayer().getInventory().containsItem(FISHING_PASS, 1)) {
 						addItem(FISHING_PASS, "You show Morris your pass");
-						addNPC(NPC, HeadE.CALM_TALK, "Move on through. Talk to Bonzo to enter the competition", ()->{
-							e.getPlayer().getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB("MORRIS_SAW_TICKET", true);
-						});
-						addNext(()->{
-							handleGate(e.getPlayer(), obj);
-						});
+						addNPC(NPC, HeadE.CALM_TALK, "Move on through. Talk to Bonzo to enter the competition", ()-> e.getPlayer().getQuestManager().getAttribs(Quest.FISHING_CONTEST).setB("MORRIS_SAW_TICKET", true));
+						addNext(()-> handleGate(e.getPlayer(), obj));
 					} else {
 						addPlayer(HeadE.SAD, "I don't have one...");
 						addNPC(NPC, HeadE.CALM_TALK, "...");

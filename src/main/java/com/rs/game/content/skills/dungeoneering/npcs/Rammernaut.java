@@ -25,6 +25,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -79,7 +80,7 @@ public class Rammernaut extends DungeonBoss {
 						tile = Tile.of(entity.getTile());
 				}
 				entity.faceEntity(this);
-				entity.forceMove(tile, 10070, 5, 60);
+                entity.forceMove(tile, Direction.getDirectionTo(entity, getTile()), 10070, 5, 60);
 			});
 		}
 	}

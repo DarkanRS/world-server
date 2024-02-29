@@ -2,8 +2,9 @@ package com.rs.game.content.minigames.crucible;
 
 import com.rs.game.content.Effect;
 import com.rs.game.content.Potions;
-import com.rs.game.content.minigames.MinigameUtil;
+import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.model.entity.Entity;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -69,7 +70,7 @@ public class CrucibleController extends Controller {
                     player.getInventory().init();
                 }
                 player.reset();
-                player.setNextTile(getRespawnTile());
+                player.tele(getRespawnTile());
                 player.setNextAnimation(new Animation(-1));
                 if (dangerous) {
                     Potions.checkOverloads(player);
@@ -87,7 +88,7 @@ public class CrucibleController extends Controller {
 
     @Override
     public boolean canDepositItem(Item item) {
-        if (MinigameUtil.isMinigameSupply(item.getId())) {
+        if (MinigameUtilKt.isMinigameSupply(item.getId())) {
             player.getInventory().deleteItem(item);
             return false;
         }
@@ -95,31 +96,19 @@ public class CrucibleController extends Controller {
     }
 
     @Override
-    public boolean processMagicTeleport(Tile toTile) {
-        player.sendMessage("A mysterious force prevents you from teleporting.");
-        return false;
-    }
-
-    @Override
-    public boolean processItemTeleport(Tile toTile) {
-        player.sendMessage("A mysterious force prevents you from teleporting.");
-        return false;
-    }
-
-    @Override
-    public boolean processObjectTeleport(Tile toTile) {
+    public boolean processTeleport(Teleport tele) {
         player.sendMessage("A mysterious force prevents you from teleporting.");
         return false;
     }
 
     @Override
     public void forceClose() {
-        MinigameUtil.checkAndDeleteFoodAndPotions(player);
+        MinigameUtilKt.checkAndDeleteFoodAndPotions(player);
         remove(false);
     }
 
     private void remove(boolean needRemove) {
-        MinigameUtil.checkAndDeleteFoodAndPotions(player);
+        MinigameUtilKt.checkAndDeleteFoodAndPotions(player);
         if (needRemove)
             removeController();
         if (wasInArea)
@@ -142,7 +131,7 @@ public class CrucibleController extends Controller {
                 player.sendOptionDialogue("What would you like to do?", ops -> {
                     ops.add("I'd like to open my bank please.", () -> player.getBank().open());
                     if (!dangerous)
-                        ops.add("Kit me out with some food and potions please.", () -> MinigameUtil.giveFoodAndPotions(player));
+                        ops.add("Kit me out with some food and potions please.", () -> MinigameUtilKt.giveFoodAndPotions(player));
                     ops.add("Nevermind.");
                 });
                 return false;

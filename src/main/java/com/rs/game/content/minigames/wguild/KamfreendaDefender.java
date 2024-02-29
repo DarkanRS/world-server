@@ -21,16 +21,16 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.model.entity.player.Player;
 
 public class KamfreendaDefender extends Conversation {
-	private int NPC = 4289;
-	public KamfreendaDefender(Player player) {
+    public KamfreendaDefender(Player player) {
 		super(player);
-		if (WarriorsGuild.getBestDefender(player) == 8844)
+        int NPC = 4289;
+        if (WarriorsGuild.getBestDefender(player) == 8844)
 			addNPC(NPC, HeadE.CALM_TALK, "It seems that you do not have a defender.");
 		if (WarriorsGuild.getBestDefender(player) != 8844)
 			addNPC(NPC, HeadE.CALM_TALK, "Ah, I see that you have one of the defenders already! Well done.");
 		addNPC(NPC, HeadE.CALM_TALK, "I'll release some cyclopses that might drop the next defender for you. Have fun in there.");
 		addNPC(NPC, HeadE.CALM_TALK, "Oh, and be careful; the cyclopses will occasionally summon a cyclossus. They are rather mean and can only be hurt with a rune or dragon defender.");
-		addNext(()->{player.getInterfaceManager().sendInterface(1058);});
+		addNext(()-> player.getInterfaceManager().sendInterface(1058));
 		create();
 	}
 

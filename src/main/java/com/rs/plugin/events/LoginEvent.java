@@ -24,9 +24,9 @@ import java.util.List;
 
 public class LoginEvent implements PluginEvent {
 
-	private static List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
+	private static final List<PluginHandler<? extends PluginEvent>> HANDLERS = new ArrayList<>();
 
-	private Player player;
+	private final Player player;
 
 	public LoginEvent(Player player) {
 		this.player = player;
@@ -43,5 +43,9 @@ public class LoginEvent implements PluginEvent {
 
 	public static void registerMethod(Class<?> eventType, PluginHandler<? extends PluginEvent> method) {
 		HANDLERS.add(method);
+	}
+
+	public Player component1() {
+		return player;
 	}
 }

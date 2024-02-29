@@ -335,13 +335,13 @@ public enum ReqItem {
 
 	;
 
-	private Item product;
-	private int skill;
-	private int req;
-	private double xp;
-	private int tool;
-	private Item[] materials;
-	private Category category;
+	private final Item product;
+	private final int skill;
+	private final int req;
+	private final double xp;
+	private final int tool;
+	private final Item[] materials;
+	private final Category category;
 
 	private ReqItem(Category category, Item product, int skill, int req, double xp, int tool, Item[] materials) {
 		this.product = product;
@@ -381,7 +381,7 @@ public enum ReqItem {
 		return materials;
 	}
 
-	private static Map<Integer, ReqItem> items = new HashMap<>();
+	private static final Map<Integer, ReqItem> items = new HashMap<>();
 
 	static {
 		for (ReqItem item : ReqItem.values())
@@ -408,7 +408,7 @@ public enum ReqItem {
 				if (mat.getId() == material)
 					products.add(req);
 		}
-		return products.toArray(new ReqItem[products.size()]);
+		return products.toArray(new ReqItem[0]);
 	}
 
 	public static ReqItem[] getProducts(Category category) {
@@ -418,7 +418,7 @@ public enum ReqItem {
 				continue;
 			products.add(req);
 		}
-		return products.toArray(new ReqItem[products.size()]);
+		return products.toArray(new ReqItem[0]);
 	}
 
 	public Category getCategory() {

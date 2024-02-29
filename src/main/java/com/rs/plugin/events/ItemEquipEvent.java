@@ -25,11 +25,11 @@ import java.util.Map;
 
 public class ItemEquipEvent implements PluginEvent {
 
-	private static Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
+	private static final Map<Object, PluginHandler<? extends PluginEvent>> HANDLERS = new HashMap<>();
 
-	private Player player;
-	private Item item;
-	private boolean equipping;
+	private final Player player;
+	private final Item item;
+	private final boolean equipping;
 	private boolean cancelled = false;
 
 	public ItemEquipEvent(Player player, Item item, boolean equipping) {

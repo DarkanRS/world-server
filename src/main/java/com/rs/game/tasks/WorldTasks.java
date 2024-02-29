@@ -16,15 +16,6 @@
 //
 package com.rs.game.tasks;
 
-import com.rs.lib.util.Logger;
-import com.rs.utils.Ticks;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-
-import java.time.Duration;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.function.Function;
 
 public class WorldTasks {
@@ -35,8 +26,13 @@ public class WorldTasks {
 		TASKS.processTasks();
 	}
 
-	public static TaskInformation schedule(Task task, int startDelay, int loopDelay) {
-		return TASKS.schedule(task, startDelay, loopDelay);
+	/**
+	 * Please use scheduleTimer for this sparingly and be absurdly careful to end the loops
+	 * when they are supposed to end.
+	 */
+	@Deprecated
+	public static TaskInformation scheduleLooping(Task task, int startDelay, int loopDelay) {
+		return TASKS.scheduleLooping(task, startDelay, loopDelay);
 	}
 
 	public static TaskInformation schedule(Task task, int delayCount) {
@@ -47,8 +43,13 @@ public class WorldTasks {
 		return TASKS.schedule(task);
 	}
 
-	public static TaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-		return TASKS.schedule(startDelay, loopDelay, task);
+	/**
+	 * Please use scheduleTimer for this sparingly and be absurdly careful to end the loops
+	 * when they are supposed to end.
+	 */
+	@Deprecated
+	public static TaskInformation scheduleLooping(int startDelay, int loopDelay, Runnable task) {
+		return TASKS.scheduleLooping(startDelay, loopDelay, task);
 	}
 
 	public static TaskInformation scheduleHalfHourly(Runnable task) {
@@ -98,6 +99,10 @@ public class WorldTasks {
 				task.run();
 			}
 		}, ticks);
+	}
+
+	public static int getSize() {
+		return TASKS.getSize();
 	}
 
 }

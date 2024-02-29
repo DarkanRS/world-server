@@ -19,7 +19,7 @@ package com.rs.net.decoders.handlers;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.game.World;
-import com.rs.game.content.Lamps;
+import com.rs.game.content.items.Lamps;
 import com.rs.game.content.minigames.fightkiln.FightKilnController;
 import com.rs.game.content.minigames.sorcgarden.SorceressGardenController;
 import com.rs.game.content.skills.cooking.CookingCombos;
@@ -39,6 +39,7 @@ import com.rs.game.content.skills.herblore.CoconutCracking;
 import com.rs.game.content.skills.herblore.HerbCleaning;
 import com.rs.game.content.skills.magic.Lunars;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.prayer.Burying.Bone;
 import com.rs.game.content.skills.prayer.PrayerBooks;
 import com.rs.game.content.skills.runecrafting.Runecrafting;
@@ -314,7 +315,7 @@ public class InventoryOptionsHandler {
 			final int flowerId = flower;
 			World.spawnObjectTemporary(flowerObject, Ticks.fromSeconds(45));
 			player.lock();
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int step;
 
 				@Override
@@ -395,7 +396,7 @@ public class InventoryOptionsHandler {
 		if (ItemTeleports.transportationDialogue(player, item))
 			return;
 		if (itemId == 19967) {
-			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, Magic.ITEM_TELEPORT, null))
+			if (Magic.sendTeleportSpell(player, 7082, 7084, 1229, 1229, 1, 0, Tile.of(2952, 2933, 0), 4, true, TeleType.ITEM, null))
 				player.getInventory().deleteItem(19967, 1);
 			return;
 		}
@@ -414,8 +415,8 @@ public class InventoryOptionsHandler {
 	}
 	
 	public static void handleItemOption2(final Player player, final int slotId, final int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId))
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating() || PluginManager.handle(new ItemClickEvent(player, item, slotId, item.getDefinitions().getInventoryOption(1))) || Firemaking.isFiremaking(player, itemId)) {
+        }
 	}
 
 	public static void handleItemOption3(Player player, int slotId, int itemId, Item item) {
@@ -431,13 +432,13 @@ public class InventoryOptionsHandler {
 	}
 
 	public static void handleItemOption4(Player player, int slotId, int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating())
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating()) {
+        }
 	}
 
 	public static void handleItemOption5(Player player, int slotId, int itemId, Item item) {
-		if (player.isLocked() || player.getEmotesManager().isAnimating())
-			return;
+		if (player.isLocked() || player.getEmotesManager().isAnimating()) {
+        }
 	}
 
 	public static void handleItemOption6(Player player, int slotId, int itemId, Item item) {
@@ -487,7 +488,7 @@ public class InventoryOptionsHandler {
 			return;
 		player.getInventory().deleteItem(slotId, item);
 		World.addGroundItem(item, Tile.of(player.getTile()), player);
-		player.soundEffect(ItemConfig.get(item.getId()).getDropSound());
+		player.soundEffect(ItemConfig.get(item.getId()).getDropSound(), false);
 	}
 
 	public static void handleItemOption8(Player player, int slotId, int itemId, Item item) {

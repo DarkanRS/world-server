@@ -42,8 +42,7 @@ public class FightPitsNPC extends NPC {
 	@Override
 	public List<Entity> getPossibleTargets() {
 		ArrayList<Entity> possibleTarget = new ArrayList<>();
-		for (Player player : FightPits.arena)
-			possibleTarget.add(player);
+        possibleTarget.addAll(FightPits.arena);
 		return possibleTarget;
 	}
 

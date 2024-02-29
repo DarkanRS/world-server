@@ -31,16 +31,16 @@ public class SheepShearing {
 	public static ItemOnNPCHandler handleShearsOnSheep = new ItemOnNPCHandler(new Object[] { 5157, 1765, 43, 5160, 5161, 5156 }, e -> {
 		final int npcId = e.getNPC().getId();
 		if (Utils.getRandomInclusive(2) == 0) {
-			e.getNPC().setNextForceTalk(new ForceTalk("Baa!"));
-			e.getNPC().soundEffect(756);
+			e.getNPC().forceTalk("Baa!");
+			e.getNPC().soundEffect(e.getPlayer(), 756, true);
 			e.getNPC().addWalkSteps(npcId, npcId, 4, true);
 			e.getNPC().setRun(true);
 			e.getPlayer().sendMessage("The sheep runs away from you.");
 		} else if (e.getPlayer().getInventory().containsItem(1735, 1)) {
-			e.getPlayer().soundEffect(761);
+			e.getPlayer().soundEffect(761, true);
 			e.getPlayer().getInventory().addItem(1737, 1);
 			e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
-			e.getPlayer().setNextAnimation(new Animation(893));
+			e.getPlayer().anim(893);
 			e.getNPC().transformIntoNPC(5149);
 			WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 		} else
@@ -50,16 +50,16 @@ public class SheepShearing {
 	public static NPCClickHandler handleShearOption = new NPCClickHandler(new Object[] { 5157, 1765, 43, 5160, 5161, 5156 }, e -> {
 		final int npcId = e.getNPC().getId();
 		if (Utils.getRandomInclusive(2) == 0) {
-			e.getNPC().setNextForceTalk(new ForceTalk("Baa!"));
-			e.getNPC().soundEffect(756);
+			e.getNPC().forceTalk("Baa!");
+			e.getNPC().soundEffect(e.getPlayer(), 756, true);
 			e.getNPC().addWalkSteps(npcId, npcId, 4, true);
 			e.getNPC().setRun(true);
 			e.getPlayer().sendMessage("The sheep runs away from you.");
 		} else if (e.getPlayer().getInventory().containsItem(1735, 1)) {
-			e.getPlayer().soundEffect(761);
+			e.getPlayer().soundEffect(761, true);
 			e.getPlayer().getInventory().addItem(1737, 1);
 			e.getPlayer().sendMessage("You shear the sheep of it's fleece.");
-			e.getPlayer().setNextAnimation(new Animation(893));
+			e.getPlayer().anim(893);
 			e.getNPC().transformIntoNPC(5149);
 			WorldTasks.delay(Ticks.fromSeconds(10), () -> e.getNPC().transformIntoNPC(npcId));
 		} else

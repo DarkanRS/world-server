@@ -48,7 +48,7 @@ public class LeatherCraftingD extends Conversation {
 			{ 32, 32 }
 	};
 
-	private int[][] LEVELS = {
+	private final int[][] LEVELS = {
 			{ 1, 7, 9, 11, 14, 18, 38 },
 			{ 28 },
 			{ 57, 60, 63 },
@@ -100,84 +100,82 @@ public class LeatherCraftingD extends Conversation {
 		
 		for (int i = 0; i < ids.length; i++) {
 			final int componentIndex = i;
-			makeX.addNext(() -> {
-				player.getActionManager().setAction(new PlayerAction() {
+			makeX.addNext(() -> player.getActionManager().setAction(new PlayerAction() {
 
-					int ticks;
+                int ticks;
 
-					@Override
-					public boolean start(final Player player) {
-						if (!checkAll(player))
-							return false;
-						int leatherAmount = player.getInventory().getAmountOf(BASE_LEATHER[index]);
-						int requestedAmount = MakeXStatement.getQuantity(player);
-						if (requestedAmount > leatherAmount)
-							requestedAmount = leatherAmount;
-						setTicks(requestedAmount);
-						return true;
-					}
+                @Override
+                public boolean start(final Player player) {
+                    if (!checkAll(player))
+                        return false;
+                    int leatherAmount = player.getInventory().getAmountOf(BASE_LEATHER[index]);
+                    int requestedAmount = MakeXStatement.getQuantity(player);
+                    if (requestedAmount > leatherAmount)
+                        requestedAmount = leatherAmount;
+                    setTicks(requestedAmount);
+                    return true;
+                }
 
-					public void setTicks(int ticks) {
-						this.ticks = ticks;
-						player.getInventory().deleteItem(1734, 1);
-					}
+                public void setTicks(int ticks) {
+                    this.ticks = ticks;
+                    player.getInventory().deleteItem(1734, 1);
+                }
 
-					public boolean checkAll(Player player) {
-						final int levelReq = LEVELS[index][componentIndex];
-						if (player.getSkills().getLevel(Constants.CRAFTING) < levelReq) {
-							player.sendMessage("You need a Crafting level of " + levelReq + " to craft this hide.");
-							return false;
-						}
-						if (player.getInventory().getItems().getNumberOf(BASE_LEATHER[index]) < POTENTIAL_PRODUCTS[index][componentIndex].getAmount()) {
-							player.sendMessage("You don't have enough hides in your inventory.");
-							return false;
-						}
-						if (!player.getInventory().containsOneItem(1734)) {
-							player.sendMessage("You need a thread in order to bind the tanned hides together.");
-							return false;
-						}
-						if (!player.getInventory().containsItem(1733, 1)) {
-							player.sendMessage("You need a needle in order to bind the tanned hides together.");
-							return false;
-						}
-						Item[] extraItems = REQUIRED_BASE_ITEMS[index];
-						if (extraItems != null) {
-							Item item = extraItems[componentIndex];
-							if (!player.getInventory().containsItem(item.getId(), item.getAmount())) {
-								player.sendMessage("You need a " + item.getName().toLowerCase() + ".");
-								return false;
-							}
-						}
-						return true;
-					}
+                public boolean checkAll(Player player) {
+                    final int levelReq = LEVELS[index][componentIndex];
+                    if (player.getSkills().getLevel(Constants.CRAFTING) < levelReq) {
+                        player.sendMessage("You need a Crafting level of " + levelReq + " to craft this hide.");
+                        return false;
+                    }
+                    if (player.getInventory().getItems().getNumberOf(BASE_LEATHER[index]) < POTENTIAL_PRODUCTS[index][componentIndex].getAmount()) {
+                        player.sendMessage("You don't have enough hides in your inventory.");
+                        return false;
+                    }
+                    if (!player.getInventory().containsOneItem(1734)) {
+                        player.sendMessage("You need a thread in order to bind the tanned hides together.");
+                        return false;
+                    }
+                    if (!player.getInventory().containsItem(1733, 1)) {
+                        player.sendMessage("You need a needle in order to bind the tanned hides together.");
+                        return false;
+                    }
+                    Item[] extraItems = REQUIRED_BASE_ITEMS[index];
+                    if (extraItems != null) {
+                        Item item = extraItems[componentIndex];
+                        if (!player.getInventory().containsItem(item.getId(), item.getAmount())) {
+                            player.sendMessage("You need a " + item.getName().toLowerCase() + ".");
+                            return false;
+                        }
+                    }
+                    return true;
+                }
 
-					@Override
-					public boolean process(Player player) {
-						return checkAll(player) && ticks > 0;
-					}
+                @Override
+                public boolean process(Player player) {
+                    return checkAll(player) && ticks > 0;
+                }
 
-					@Override
-					public int processWithDelay(Player player) {
-						ticks--;
-						if (ticks % 4 == 0)
-							player.getInventory().deleteItem(1734, 1);
-						Item item = POTENTIAL_PRODUCTS[index][componentIndex];
-						player.getInventory().deleteItem(new Item(BASE_LEATHER[index], item.getAmount()));
-						player.getInventory().addItem(item.getId(), 1);
-						player.getSkills().addXp(Constants.CRAFTING, EXPERIENCE[index][componentIndex]);
-						Item[] extraItems = REQUIRED_BASE_ITEMS[index];
-						if (extraItems != null)
-							player.getInventory().deleteItem(extraItems[componentIndex]);
-						player.setNextAnimation(new Animation(1249));
-						return 3;
-					}
+                @Override
+                public int processWithDelay(Player player) {
+                    ticks--;
+                    if (ticks % 4 == 0)
+                        player.getInventory().deleteItem(1734, 1);
+                    Item item = POTENTIAL_PRODUCTS[index][componentIndex];
+                    player.getInventory().deleteItem(new Item(BASE_LEATHER[index], item.getAmount()));
+                    player.getInventory().addItem(item.getId(), 1);
+                    player.getSkills().addXp(Constants.CRAFTING, EXPERIENCE[index][componentIndex]);
+                    Item[] extraItems = REQUIRED_BASE_ITEMS[index];
+                    if (extraItems != null)
+                        player.getInventory().deleteItem(extraItems[componentIndex]);
+                    player.setNextAnimation(new Animation(1249));
+                    return 3;
+                }
 
-					@Override
-					public void stop(Player player) {
-						setActionDelay(player, 3);
-					}
-				});
-			});
+                @Override
+                public void stop(Player player) {
+                    setActionDelay(player, 3);
+                }
+            }));
 		}
 		
 		create();

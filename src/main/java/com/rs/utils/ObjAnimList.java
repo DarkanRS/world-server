@@ -31,8 +31,8 @@ import java.util.Set;
 
 public class ObjAnimList {
 
-	private static Set<Integer> USED = new HashSet<>();
-	private static List<Integer> OBJECT_ANIMS = new ArrayList<>();
+	private static final Set<Integer> USED = new HashSet<>();
+	private static final List<Integer> OBJECT_ANIMS = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
 		//Cache.init();

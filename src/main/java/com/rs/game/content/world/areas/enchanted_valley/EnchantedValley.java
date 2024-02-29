@@ -21,15 +21,11 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 
 @PluginEventHandler
 public class EnchantedValley {
-    public static NPCClickHandler centaurs = new NPCClickHandler(new Object[] { 4438, 4439 }, e -> {
-        e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), e.getNPCId() == 4438 ? HeadE.CALM_TALK : HeadE.CHUCKLE, e.getNPCId() == 4438 ? "Hello, human, welcome to our valley." : "What a funny creature you are! Why, you only have 2 legs!"));
-    });
+    public static NPCClickHandler centaurs = new NPCClickHandler(new Object[] { 4438, 4439 }, e -> e.getPlayer().startConversation(new Dialogue().addNPC(e.getNPCId(), e.getNPCId() == 4438 ? HeadE.CALM_TALK : HeadE.CHUCKLE, e.getNPCId() == 4438 ? "Hello, human, welcome to our valley." : "What a funny creature you are! Why, you only have 2 legs!")));
 
-    public static NPCClickHandler woodDryad = new NPCClickHandler(new Object[] { 4441 }, e -> {
-        e.getPlayer().startConversation(new Dialogue()
-                .addPlayer(HeadE.CONFUSED, "Hi, why do you have twigs growing out of you?")
-                .addNPC(e.getNPCId(), HeadE.CHUCKLE, "Heehee, what a strange question; that's because I'm a dryad."));
-    });
+    public static NPCClickHandler woodDryad = new NPCClickHandler(new Object[] { 4441 }, e -> e.getPlayer().startConversation(new Dialogue()
+            .addPlayer(HeadE.CONFUSED, "Hi, why do you have twigs growing out of you?")
+            .addNPC(e.getNPCId(), HeadE.CHUCKLE, "Heehee, what a strange question; that's because I'm a dryad.")));
 
     public static ObjectClickHandler treeCut = new ObjectClickHandler(new Object[] { 16265 }, e -> {
         if (e.getPlayer().inCombat()) {
@@ -57,7 +53,7 @@ public class EnchantedValley {
         }
         e.getPlayer().getActionManager().setAction(new Mining(RockType.CLAY, e.getObject()) {
             @Override
-            public boolean depleteOre() {
+            public boolean depleteOre(Entity entity) {
                 NPC rockGolem = new OwnedNPC(e.getPlayer(), 8648, e.getPlayer().getNearestTeleTile(1), false);
                 rockGolem.forceTalk("Raarrrgghh! Flee human!");
                 rockGolem.setTarget(e.getPlayer());

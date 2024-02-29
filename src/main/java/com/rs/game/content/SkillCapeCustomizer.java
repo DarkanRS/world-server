@@ -64,8 +64,7 @@ public class SkillCapeCustomizer {
 		switch(e.getComponentId()) {
 		case 58 -> {
 			int[] orig = Arrays.copyOf(ItemDefinitions.getDefs(20767).originalModelColors, 4);
-			for (int i = 0;i < orig.length;i++)
-				colors[i] = orig[i];
+            System.arraycopy(orig, 0, colors, 0, orig.length);
 			for (int i = 0; i < 4; i++)
 				e.getPlayer().getVars().setVarBit(9254 + i, colors[i]);
 		}

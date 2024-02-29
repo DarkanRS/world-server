@@ -22,8 +22,10 @@ import com.rs.game.content.minigames.fightcaves.npcs.FightCavesNPC;
 import com.rs.game.content.minigames.fightcaves.npcs.TzKekCaves;
 import com.rs.game.content.minigames.fightcaves.npcs.TzTok_Jad;
 import com.rs.game.content.pets.Pets;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.skills.summoning.Summoning;
 import com.rs.game.map.instance.Instance;
+import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -129,7 +131,7 @@ public class FightCavesController extends Controller {
 		region = Instance.of(OUTSIDE, 8, 8);
 		region.copyMapAllPlanes(552, 640).thenAccept(e -> {
 			selectedMusic = MUSICS[Utils.random(MUSICS.length)];
-			player.setNextTile(!login ? getTile(46, 61) : getTile(32, 32));
+			player.tele(!login ? getTile(46, 61) : getTile(32, 32));
 			stage = Stages.RUNNING;
 			WorldTasks.delay(1, () -> {
 				if (!login) {
@@ -160,19 +162,13 @@ public class FightCavesController extends Controller {
 	}
 
 	public Tile getSpawnTile() {
-		switch (Utils.random(5)) {
-		case 0:
-			return getTile(11, 16);
-		case 1:
-			return getTile(51, 25);
-		case 2:
-			return getTile(10, 50);
-		case 3:
-			return getTile(46, 49);
-		case 4:
-		default:
-			return getTile(32, 30);
-		}
+        return switch (Utils.random(5)) {
+            case 0 -> getTile(11, 16);
+            case 1 -> getTile(51, 25);
+            case 2 -> getTile(10, 50);
+            case 3 -> getTile(46, 49);
+            default -> getTile(32, 30);
+        };
 	}
 
 	@Override
@@ -263,24 +259,12 @@ public class FightCavesController extends Controller {
 	}
 
 	@Override
-	public void magicTeleported(int type) {
+	public void onTeleported(TeleType type) {
 		exitCave(2);
 	}
 
 	@Override
-	public boolean processMagicTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processItemTeleport(Tile toTile) {
-		player.sendMessage("A mysterious force prevents you from teleporting.");
-		return false;
-	}
-
-	@Override
-	public boolean processObjectTeleport(Tile toTile) {
+	public boolean processTeleport(Teleport tele) {
 		player.sendMessage("A mysterious force prevents you from teleporting.");
 		return false;
 	}
@@ -297,7 +281,7 @@ public class FightCavesController extends Controller {
 			player.setForceMultiArea(false);
 			player.getInterfaceManager().removeOverlay();
 			if (type == 1 || type == 4) {
-				player.setNextTile(outside);
+				player.tele(outside);
 				if (type == 4) {
 					player.incrementCount("Fight Caves clears");
 					player.refreshFightKilnEntrance();

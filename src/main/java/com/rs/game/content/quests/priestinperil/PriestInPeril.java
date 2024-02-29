@@ -21,13 +21,16 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestHandler;
 import com.rs.engine.quest.QuestOutline;
+import com.rs.game.World;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
+import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
+import com.rs.plugin.handlers.NPCDeathHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.utils.ItemConfig;
 
@@ -38,7 +41,14 @@ import java.util.List;
 import static com.rs.game.content.world.doors.Doors.handleDoubleDoor;
 import static com.rs.game.content.world.doors.Doors.handleGate;
 
-@QuestHandler(Quest.PRIEST_IN_PERIL)
+@QuestHandler(
+		quest = Quest.PRIEST_IN_PERIL,
+		startText = "Speak to King Roald in the Varrock Palace.",
+		itemsText = "50 unnoted rune essence or pure essence and a Bucket.",
+		combatText = "You will need to defeat a level 30 enemy.",
+		rewardsText = "1,406 Prayer XP<br>The Wolfbane Dagger<br>Access to Morytania.",
+		completedStage = 11
+)
 @PluginEventHandler
 public class PriestInPeril extends QuestOutline {
 
@@ -58,7 +68,7 @@ public class PriestInPeril extends QuestOutline {
 		private final int itemID;
 
 		private final int goldenID;
-		private String message;
+		private final String message;
 
 		Monuments(int monumentID, Tile tile, int itemID, int goldenID, String message){
 			this.monumentID = monumentID;
@@ -79,11 +89,6 @@ public class PriestInPeril extends QuestOutline {
 	}
 
 	private static final int Drezel = 1047;
-
-	@Override
-	public int getCompletedStage() {
-		return 11;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -159,37 +164,13 @@ public class PriestInPeril extends QuestOutline {
 		sendQuestCompleteInterface(player, 2952);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to King Roald in the Varrock Palace.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return
-				"50 unnoted rune essence or pure essence"+
-						"Bucket";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 30 enemy.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "1,406 Prayer XP<br>"+
-				"The Wolfbane Dagger<br>"+
-				"Access to Morytania.";
-	}
-
 	public static ObjectClickHandler handleTempleDoor = new ObjectClickHandler(new Object[] { 30707, 30708 }, e -> {
 		if(e.getOption().equalsIgnoreCase("open"))
 			if(e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 4){
 				handleDoubleDoor(e.getPlayer(), e.getObject());
 				return;
 			}
-		else {
+			else {
 				e.getPlayer().simpleDialogue("The door is securely locked.");
 				return;
 			}
@@ -244,30 +225,32 @@ public class PriestInPeril extends QuestOutline {
 	});
 
 	public static ItemOnObjectHandler handleBucketOnWell = new ItemOnObjectHandler(new Object[] { 3485 }, new Object[] { 1925 }, e -> {
+		int stage = e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL);
 		if (!e.getPlayer().isQuestStarted(Quest.PRIEST_IN_PERIL)) {
 			e.getPlayer().sendMessage("This water is filthy, I best leave it alone.");
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 7 || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 8) {
-				e.getPlayer().getInventory().replace(1925, 2953);
-				e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
-				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
+		if (stage == 6 || stage == 7 || stage == 8) {
+			e.getPlayer().getInventory().replace(1925, 2953);
+			e.getPlayer().sendMessage("This water doesn't look particularly holy to me... I think I'd better check with Drezel first.");
+			e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 8);
 			return;
 		}
 
-		if (e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
-				e.getPlayer().getInventory().replace(1925, 1929);
+		if (stage >= 9 || e.getPlayer().isQuestComplete(Quest.PRIEST_IN_PERIL))
+			e.getPlayer().getInventory().replace(1925, 1929);
 
 	});
 
-	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2);
+	public static NPCDeathHandler handleMonkKeys = new NPCDeathHandler(new Object[] {1044, 1045, 1046}, e -> {
+		if (e.getKiller() instanceof Player player && (player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 4 || player.getQuestManager().getStage(Quest.PRIEST_IN_PERIL) == 5))
+			World.addGroundItem(new Item(2944), e.getNPC().getTile(), player);
 	});
 
-	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> {
-		e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2);
-	});
+	public static ObjectClickHandler handleNorthStair = new ObjectClickHandler(new Object[] { 30725 }, Tile.of(3415, 3491, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3491, 0), 1, 2));
+
+	public static ObjectClickHandler handleSouthStair = new ObjectClickHandler(new Object[] { 30723 }, Tile.of(3415, 3486, 1), e -> e.getPlayer().useStairs(827, Tile.of(3414, 3486, 0), 1, 2));
 
 	public static ObjectClickHandler HandleCoffin = new ObjectClickHandler( new Object[] { 30728 }, e -> {
 		if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 8)
@@ -284,7 +267,7 @@ public class PriestInPeril extends QuestOutline {
 				return;
 			}
 			else
-				new DrezelD(e.getPlayer());
+				new DrezelInJailD(e.getPlayer());
 		}
 		if(e.getOption().equalsIgnoreCase("Open")) {
 			if (e.getPlayer().getQuestManager().isComplete(Quest.PRIEST_IN_PERIL) || e.getPlayer().getQuestManager().getStage(Quest.PRIEST_IN_PERIL) >= 6) {
@@ -305,7 +288,7 @@ public class PriestInPeril extends QuestOutline {
 				return;
 			}
 			else
-				new DrezelD(e.getPlayer());
+				new DrezelInJailD(e.getPlayer());
 
 		}
 	});
@@ -323,8 +306,8 @@ public class PriestInPeril extends QuestOutline {
 			if (e.getItem().getId() == 2954) {
 				e.getPlayer().sendMessage("You pour the blessed water over the coffin...");
 				e.getPlayer().getQuestManager().setStage(Quest.PRIEST_IN_PERIL, 9);
-				e.getPlayer().getInventory().deleteItem(2954, 1);
-				e.getPlayer().setNextAnimation(new Animation(2771));
+				e.getPlayer().getInventory().replace(2954, 1925);
+				e.getPlayer().anim(2771);
 			}
 		}
 	});

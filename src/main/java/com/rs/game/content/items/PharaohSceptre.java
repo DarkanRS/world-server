@@ -2,6 +2,7 @@ package com.rs.game.content.items;
 
 import com.rs.game.content.minigames.pyramidplunder.PPArtefact;
 import com.rs.game.content.skills.magic.Magic;
+import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
 import com.rs.lib.game.Tile;
@@ -19,21 +20,20 @@ public class PharaohSceptre {
     public static ItemClickHandler handlePharaohsSceptre = new ItemClickHandler(new Object[] { 9050, 9048, 9046, 9044 }, new String[] { "Teleport" }, e -> {
         if (e.getItem().getId() == PHARAOHS_SCEPTRE[0]){
             e.getPlayer().sendMessage("There are no charges remaining.");
-            return;
         }
         else {
             e.getPlayer().sendMessage("Teleporting");
             e.getPlayer().sendOptionDialogue("Where would you like to go?", ops -> {
                 ops.add("Jalsavrah", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALSAVRAH, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALSAVRAH, 3, true, TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Jaleustrophos", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALEUSTROPHOS, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALEUSTROPHOS, 3, true, TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Jaldraocht", () -> {
-                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALDRAOCHT, 3, true, Magic.MAGIC_TELEPORT, null);
+                    Magic.sendTeleportSpell(e.getPlayer(), 12441, 12442, 2172, 2173, 0, 0, JALDRAOCHT, 3, true, TeleType.ITEM, null);
                     removeCharge(e.getItem(), e.getPlayer());
                 });
                 ops.add("Nowhere.");

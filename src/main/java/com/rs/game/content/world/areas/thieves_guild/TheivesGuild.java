@@ -4,8 +4,8 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
-import com.rs.game.content.skills.thieving.PickPocketDummy;
-import com.rs.game.content.skills.thieving.PickPocketDummyMK2;
+import com.rs.game.content.skills.thieving.thievesGuild.PickPocketDummy;
+import com.rs.game.content.skills.thieving.thievesGuild.PickPocketDummyMK2;
 import com.rs.game.ge.GE;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Skills;
@@ -134,8 +134,6 @@ public class TheivesGuild {
         }
     });
 
-    public static NPCClickHandler PickpocketingVolunteer = new NPCClickHandler(new Object[]{ 11282, 11284, 11286 }, new String[]{"Talk-to"}, e -> {
-        e.getPlayer().npcDialogue(e.getNPCId(), HeadE.SHAKING_HEAD, "Alright there! I'm here for you to practise the ol' dippetydoodah on. If you want to know more, talk to the trainer.");
-    });
+    public static NPCClickHandler PickpocketingVolunteer = new NPCClickHandler(new Object[]{ 11282, 11284, 11286 }, new String[]{"Talk-to"}, e -> e.getPlayer().npcDialogue(e.getNPCId(), HeadE.SHAKING_HEAD, "Alright there! I'm here for you to practise the ol' dippetydoodah on. If you want to know more, talk to the trainer."));
 
 }

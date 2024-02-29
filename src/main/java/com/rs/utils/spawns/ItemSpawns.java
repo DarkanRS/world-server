@@ -48,11 +48,11 @@ public final class ItemSpawns {
 	private static final Map<Integer, List<ItemSpawn>> ITEM_SPAWNS = new HashMap<>();
 
 	@SuppressWarnings("deprecation")
-	public static boolean addSpawn(String username, int id, int amount, Tile tile) {
+	public static boolean addSpawn(String username, int id, int amount, int respawnTicks, Tile tile) {
 		synchronized (lock) {
 			File file = new File("data/items/addedSpawns.json");
-			ADDED_SPAWNS.add(new ItemSpawn(id, amount, tile, ""+ItemDefinitions.getDefs(id).getName()+" added by " + username));
-			World.addGroundItemForever(new Item(id, amount), tile);
+			ADDED_SPAWNS.add(new ItemSpawn(id, amount, tile, respawnTicks, ""+ItemDefinitions.getDefs(id).getName()+" added by " + username));
+			World.addGroundItemForever(new Item(id, amount), tile, respawnTicks);
 			try {
 				JsonFileManager.saveJsonFile(ADDED_SPAWNS, file);
 			} catch (IOException e) {
@@ -63,7 +63,7 @@ public final class ItemSpawns {
 	}
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() throws JsonIOException, IOException {
+	public static void init() throws JsonIOException, IOException {
 		Logger.info(ItemSpawns.class, "init", "Loading item spawns...");
 		File[] spawnFiles = new File(PATH).listFiles();
 		for (File f : spawnFiles)
@@ -79,7 +79,7 @@ public final class ItemSpawns {
 				load(f);
 			return;
 		}
-		ItemSpawn[] spawns = (ItemSpawn[]) JsonFileManager.loadJsonFile(file, ItemSpawn[].class);
+		ItemSpawn[] spawns = JsonFileManager.loadJsonFile(file, ItemSpawn[].class);
 		if (spawns != null)
 			for(ItemSpawn spawn : spawns)
 				add(spawn);
@@ -96,7 +96,7 @@ public final class ItemSpawns {
 		}
 	}
 
-	public static final void loadItemSpawns(int chunkId) {
+	public static void loadItemSpawns(int chunkId) {
 		List<ItemSpawn> spawns = ITEM_SPAWNS.get(chunkId);
 		if (spawns != null)
 			for (ItemSpawn spawn : spawns)

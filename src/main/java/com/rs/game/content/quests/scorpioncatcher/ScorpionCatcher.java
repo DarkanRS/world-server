@@ -32,7 +32,14 @@ import java.util.List;
  * scorp in a chunk If you lose the cage you keep the seer prophecy. You can
  * talk to any Seer in Seer's village to get a prophecy.
  */
-@QuestHandler(Quest.SCORPION_CATCHER)
+@QuestHandler(
+		quest = Quest.SCORPION_CATCHER,
+		startText = "Talk to Thormac on the top floor of the Sorcerer's Tower south of Seers' Village, near the Ranging Guild.",
+		itemsText = "Dusty key (or 70 Agility).",
+		combatText = "You will need to defeat a level 39 jailer.",
+		rewardsText = "6,625 Strength XP<br>Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins",
+		completedStage = 2
+)
 @PluginEventHandler
 public class ScorpionCatcher extends QuestOutline {
 	public final static int NOT_STARTED = 0;
@@ -47,11 +54,6 @@ public class ScorpionCatcher extends QuestOutline {
 	public final static int CAUGHT_CAGE_1 = 457;
 	public final static int CAUGHT_CAGE_2 = 458;
 	public final static int CAUGHT_CAGE_3 = 459;
-
-	@Override
-	public int getCompletedStage() {
-		return QUEST_COMPLETE;
-	}
 
 	@Override
 	public List<String> getJournalLines(Player player, int stage) {
@@ -98,9 +100,7 @@ public class ScorpionCatcher extends QuestOutline {
 			lines.add("");
 			lines.add("QUEST COMPLETE!");
 		}
-		default -> {
-			lines.add("Invalid quest stage. Report this to an administrator.");
-		}
+		default -> lines.add("Invalid quest stage. Report this to an administrator.");
 		}
 		return lines;
 	}
@@ -153,24 +153,4 @@ public class ScorpionCatcher extends QuestOutline {
 		sendQuestCompleteInterface(player, 456);
 	}
 
-	@Override
-	public String getStartLocationDescription() {
-		return "Talk to Thormac on the top floor of his tower south of the Seers' Village.";
-	}
-
-	@Override
-	public String getRequiredItemsString() {
-		return "Dusty key (or 70 Agility).";
-	}
-
-	@Override
-	public String getCombatInformationString() {
-		return "You will need to defeat a level 39 jailer.";
-	}
-
-	@Override
-	public String getRewardsString() {
-		return "6,625 Strength XP<br>"+
-				"Thormac will upgrade elemental battlestaves to mystic battlestaves for 40,000 coins";
-	}
 }

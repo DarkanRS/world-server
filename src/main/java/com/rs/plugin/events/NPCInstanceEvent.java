@@ -26,11 +26,11 @@ import java.util.Map;
 
 public class NPCInstanceEvent implements PluginEvent {
 
-	private static Map<Object, NPCInstanceHandler> HANDLERS = new HashMap<>();
+	private static final Map<Object, NPCInstanceHandler> HANDLERS = new HashMap<>();
 
-	private int npcId;
-	private Tile tile;
-	private boolean spawned;
+	private final int npcId;
+	private final Tile tile;
+	private final boolean spawned;
 
 	public NPCInstanceEvent(int npcId, Tile tile, boolean spawned) {
 		this.npcId = npcId;

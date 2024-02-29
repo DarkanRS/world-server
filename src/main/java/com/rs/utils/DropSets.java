@@ -42,7 +42,7 @@ public class DropSets {
 	final static Charset ENCODING = StandardCharsets.UTF_8;
 
 	@ServerStartupEvent(Priority.FILE_IO)
-	public static final void init() {
+	public static void init() {
 		loadPackedNPCDrops();
 	}
 

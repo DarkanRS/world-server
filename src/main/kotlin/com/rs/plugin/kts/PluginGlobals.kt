@@ -3,6 +3,7 @@ package com.rs.plugin.kts
 import com.rs.cache.loaders.ObjectType
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.npc.NPC
+import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
 import com.rs.plugin.events.*
@@ -20,7 +21,7 @@ fun overrideNpcLOS(vararg npcNamesOrIds: Any) {
 }
 
 fun overrideNpcLOS(func: TriFunction<Entity, Any, Boolean, Boolean>) {
-    Entity.addLOSOverride(func);
+    Entity.addLOSOverride(func)
 }
 
 fun onNpcClick(vararg npcNamesOrIds: Any, checkDistance: Boolean = true, options: Array<String>? = null, eventHandler: (NPCClickEvent) -> Unit) {
@@ -85,6 +86,11 @@ fun onItemAddedToInventory(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedT
     ItemAddedToInventoryEvent.registerMethod(ItemAddedToInventoryEvent::class.java, ItemAddedToInventoryHandler(itemNamesOrIds) { eventHandler(it) })
 }
 
+fun onItemAddedToBank(vararg itemNamesOrIds: Any, eventHandler: (ItemAddedToBankEvent) -> Unit) {
+    itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
+    ItemAddedToBankEvent.registerMethod(ItemAddedToBankEvent::class.java, ItemAddedToBankHandler(itemNamesOrIds) { eventHandler(it) })
+}
+
 fun onItemClick(vararg itemNamesOrIds: Any, options: Array<String>? = null, eventHandler: (ItemClickEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     ItemClickEvent.registerMethod(ItemClickEvent::class.java, ItemClickHandler(itemNamesOrIds, options) { eventHandler(it) })
@@ -118,7 +124,7 @@ fun onItemOnNpc(vararg npcNamesOrIds: Any, checkDistance: Boolean = true, eventH
     ItemOnNPCEvent.registerMethod(IFOnNPCEvent::class.java, ItemOnNPCHandler(checkDistance, npcNamesOrIds) { eventHandler(it) })
 }
 
-fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>, tiles: Array<Tile>?, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
+fun onItemOnObject(objectNamesOrIds: Array<Any>, itemNamesOrIds: Array<Any>? = null, tiles: Array<Tile>? = null, checkDistance: Boolean = true, eventHandler: (ItemOnObjectEvent) -> Unit) {
     objectNamesOrIds.forEach { require(it is String || it is Int) { "objectNamesOrIds must contain only String or Int types" } }
     ItemOnObjectEvent.registerMethod(ItemOnObjectEvent::class.java, ItemOnObjectHandler(checkDistance, objectNamesOrIds, itemNamesOrIds, tiles) { eventHandler(it) })
 }
@@ -149,7 +155,7 @@ fun getInteractionDistance(vararg npcNamesOrIds: Any, calc: (Player, NPC) -> Int
     NPCInteractionDistanceEvent.registerMethod(NPCInteractionDistanceEvent::class.java, NPCInteractionDistanceHandler(npcNamesOrIds) { player, npc -> calc(player, npc) })
 }
 
-fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>?, eventHandler: (PickupItemEvent) -> Unit) {
+fun onPickupItem(vararg itemNamesOrIds: Any, tiles: Array<Tile>? = null, eventHandler: (PickupItemEvent) -> Unit) {
     itemNamesOrIds.forEach { require(it is String || it is Int) { "itemNamesOrIds must contain only String or Int types" } }
     PickupItemEvent.registerMethod(PickupItemEvent::class.java, PickupItemHandler(itemNamesOrIds, tiles) { eventHandler(it) })
 }
@@ -160,4 +166,9 @@ fun onPlayerStep(vararg tiles: Tile, eventHandler: (PlayerStepEvent) -> Unit) {
 
 fun onXpDrop(eventHandler: (XPGainEvent) -> Unit) {
     XPGainEvent.registerMethod(XPGainEvent::class.java, XPGainHandler { eventHandler(it) })
+}
+
+fun npcCombat(vararg npcNamesOrIds: Any, script: (NPC, Entity) -> Int) {
+    npcNamesOrIds.forEach { require(it is String || it is Int) { "npcNamesOrIds must contain only String or Int types" } }
+    CombatScriptsHandler.addCombatScript(npcNamesOrIds) { player, npc -> script(player, npc) }
 }
