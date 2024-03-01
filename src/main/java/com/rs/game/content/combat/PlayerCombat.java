@@ -726,37 +726,30 @@ public class PlayerCombat extends PlayerAction {
 			int randomSeed = 25;
 
 			if (target instanceof NPC n)
-				randomSeed -= (n.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3;
+				randomSeed -= (int) ((n.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3);
 			if (Utils.random(randomSeed) == 0) {
 				player.setNextAnimation(new Animation(14417));
 				final AttackStyle attack = attackStyle;
-				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, true), new MultiAttack() {
-					private boolean nextTarget;
+				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, false), next -> {
+                    next.freeze(Ticks.fromSeconds(10), true);
+                    next.spotAnim(181, 0, 96);
+                    final Entity t = next;
+                    t.getTasks().schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
+                    if (next instanceof Player p) {
+                        for (int i = 0; i < 7; i++)
+                            if (i != 3 && i != 5)
+                                p.getSkills().drainLevel(i, 7);
+                        p.sendMessage("Your stats have been drained!");
+                    } else if (next instanceof NPC n)
+                        n.lowerDefense(0.05, 0.0);
+                    return true;
 
-					@Override
-					public boolean attack(Entity next) {
-						next.freeze(Ticks.fromSeconds(10), true);
-						next.setNextSpotAnim(new SpotAnim(181, 0, 96));
-						final Entity t = next;
-						t.getTasks().schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
-						if (next instanceof Player p) {
-							for (int i = 0; i < 7; i++)
-								if (i != 3 && i != 5)
-									p.getSkills().drainLevel(i, 7);
-							p.sendMessage("Your stats have been drained!");
-						} else if (next instanceof NPC n)
-							n.lowerDefense(0.05, 0.0);
-						if (!nextTarget)
-							nextTarget = true;
-						return nextTarget;
-
-					}
-				});
+                });
 				return combatDelay;
 			}
 		}
 		delayNormalHit(target, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, false));
-		player.setNextAnimation(new Animation(getWeaponAttackEmote(weaponId, attackStyle)));
+		player.anim(getWeaponAttackEmote(weaponId, attackStyle));
 		player.soundEffect(target, soundId, true);
 		return combatDelay;
 	}
