@@ -728,7 +728,7 @@ public class PlayerCombat extends PlayerAction {
 			if (target instanceof NPC n)
 				randomSeed -= (int) ((n.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3);
 			if (Utils.random(randomSeed) == 0) {
-				player.setNextAnimation(new Animation(14417));
+				player.anim(14417);
 				final AttackStyle attack = attackStyle;
 				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, false), next -> {
                     next.freeze(Ticks.fromSeconds(10), true);
