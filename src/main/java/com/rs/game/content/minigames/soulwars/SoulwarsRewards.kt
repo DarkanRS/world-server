@@ -177,10 +177,10 @@ fun buyXp(player: Player, skillId: Int, packet: ClientPacket) {
 
 fun getXpPerZeal(level: Int, skillId: Int): Int {
     return when(skillId) {
-        Skills.ATTACK, Skills.STRENGTH, Skills.DEFENSE, Skills.HITPOINTS -> min(1, floor((level*level) / 600.0).toInt() * 525)
-        Skills.RANGE, Skills.MAGIC -> min(1, floor((level*level) / 600.0).toInt() * 480)
-        Skills.PRAYER -> min(1, floor((level*level) / 600.0).toInt() * 270)
-        Skills.SLAYER -> min(1, floor((level*level) / 349.0).toInt() * 45)
+        Skills.ATTACK, Skills.STRENGTH, Skills.DEFENSE, Skills.HITPOINTS -> floor(min(1.0, (level*level) / 600.0)).toInt() * 525
+        Skills.RANGE, Skills.MAGIC -> floor(min(1.0, (level*level) / 600.0)).toInt() * 480
+        Skills.PRAYER -> floor(min(1.0, (level*level) / 600.0)).toInt() * 270
+        Skills.SLAYER -> floor(min(1.0, (level*level) / 349.0)).toInt() * 45
         else -> 1
     }
 }
