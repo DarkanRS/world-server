@@ -98,6 +98,7 @@ fun instantiateAndCombat() {
 			npc.forceTalk("Come to my aid, brothers!")
 			npc.tempAttribs.setB("spawnedOrks", true)
 			target.lock()
+			npc.isCantInteract = true
 			target.playCutscene { cs ->
 				cs.action(2) { target.interfaceManager.sendForegroundInterfaceOverGameWindow(691) }
 				cs.delay(6)
@@ -114,7 +115,7 @@ fun instantiateAndCombat() {
 				}
 			}
 			npc.apply {
-				isCantInteract = true
+				isCantInteract = false
 				forceTalk("Destroy the intruder, my Legions!")
 			}
 			return@npcCombat 0
