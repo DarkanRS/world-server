@@ -3,7 +3,6 @@ package com.rs.game.content.world.areas.seers_village
 import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
 import com.rs.engine.dialogue.Options
-import com.rs.engine.dialogue.startConversation
 import com.rs.game.content.achievements.AchievementDef
 import com.rs.game.content.achievements.AchievementSystemDialogue
 import com.rs.game.content.achievements.SetReward
