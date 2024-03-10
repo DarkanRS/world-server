@@ -160,6 +160,8 @@ public class Player extends Entity {
 
 	private int placedCannon;
 
+	private int coalTruckInventory;
+
 	private Set<Integer> diangoReclaim = new HashSet<>();
 
 	private boolean slayerHelmCreation;
@@ -3865,6 +3867,14 @@ public class Player extends Entity {
 
 	public void setPlacedCannon(int placedCannon) {
 		this.placedCannon = placedCannon;
+	}
+
+	public int getCoalTruckInventory() {
+		return coalTruckInventory;
+	}
+
+	public void setCoalTruckInventory(int coalTruckInventory) {
+		this.coalTruckInventory = coalTruckInventory;
 	}
 
 	public HabitatFeature getHabitatFeature() {
