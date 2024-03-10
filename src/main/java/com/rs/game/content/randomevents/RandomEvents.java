@@ -38,7 +38,7 @@ public class RandomEvents {
 		RANDOM_TILES.add(Tile.of(3211, 9622, 0)); // Lumbridge castle basement
 		RANDOM_TILES.add(Tile.of(2636, 3373, 0)); // North of Ardougne
 		RANDOM_TILES.add(Tile.of(2995, 3341, 3)); // White Knights' Castle
-		RANDOM_TILES.add(Tile.of(2845, 3164, 3)); // Karamja Volcano
+		RANDOM_TILES.add(Tile.of(2845, 3164, 0)); // Karamja Volcano
 		RANDOM_TILES.add(Tile.of(3110, 3161, 2)); // Wizard's Tower
 		RANDOM_TILES.add(Tile.of(3199, 3217, 2)); // Behind Lumbridge Castle
 		RANDOM_TILES.add(Tile.of(3256, 3485, 1)); // 1st floor of Varrock Church
