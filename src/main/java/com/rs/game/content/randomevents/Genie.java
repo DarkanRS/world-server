@@ -19,25 +19,31 @@ package com.rs.game.content.randomevents;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
 import com.rs.game.content.skills.magic.Magic;
-import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.npc.OwnedNPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
+import com.rs.plugin.events.NPCClickEvent;
 import com.rs.plugin.handlers.NPCClickHandler;
 
 @PluginEventHandler
 public class Genie extends OwnedNPC {
 
-	private int ticks = 0;
-	private boolean claimed = false;
+	private int tickCounter = 0;
+	private boolean isClaimed = false;
+	private static final int
+			GENIE_ID = 3022,
+	WAVE_ANIM_ID = 863,
+	PUFF_SMOKE_ANIM_ID = 1605,
+	GENIE_HIT_ANIM_ID = 3045,
+	PLAYER_DIE_ANIM_ID = 836,
+	XP_LAMP_ITEM_ID = 2528;
 
 	public Genie(Player owner, Tile tile) {
-		super(owner, 3022, tile, false);
+		super(owner, GENIE_ID, tile, false);
 		setRun(true);
 		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
@@ -46,91 +52,141 @@ public class Genie extends OwnedNPC {
 	@Override
 	public void processNPC() {
 		super.processNPC();
-		if (getOwner().isDead() || !withinDistance(getOwner(), 16)) {
+		if (isOwnerDeadOrOutOfRange()) {
 			finish();
 			return;
 		}
 		entityFollow(getOwner(), false, 0);
-		if (!claimed && (getOwner().getInterfaceManager().containsChatBoxInter() || getOwner().getInterfaceManager().containsScreenInter()))
+		if (!isClaimed && (getOwner().getInterfaceManager().containsChatBoxInter() || getOwner().getInterfaceManager().containsScreenInter()))
 			return;
-		ticks++;
-		if (ticks == 1) {
-			setNextSpotAnim(new SpotAnim(1605));
-			forceTalk("Hello " + getOwner().getDisplayName() + "!");
-			setNextFaceEntity(getOwner());
-		} else if (ticks == 30)
-			forceTalk("A wish for " + getOwner().getDisplayName() + ".");
-		else if (ticks == 60)
-			forceTalk("I came from the desert you know...");
-		else if (ticks == 90)
-			forceTalk("Not just anyone gets a wish");
-		else if (ticks == 120)
-			forceTalk("Young " + (getOwner().getAppearance().isMale() ? "sir" : "madam") + " these things are quite rare.");
-		else if (ticks == 149)
+		tickCounter++;
+		handleGenieActions();
+	}
+
+	private boolean isOwnerDeadOrOutOfRange() {
+		return getOwner().isDead() || !withinDistance(getOwner(), 16);
+	}
+
+	private void handleGenieActions() {
+		switch (tickCounter) {
+			case 1:
+			startGenieIntroduction();
+			break;
+			case 30:
+			case 60:
+			case 90:
+			case 120:
+			case 150:
+			continueGenieDialogue();
+			break;
+			case 189:
 			forceTalk("So rude!");
-		else if (ticks == 150) {
-			setNextAnimation(new Animation(3045));
-			final Player owner = getOwner();
+			break;
+			case 190:
+			handlePlayerIgnore();
+			break;
+			case 194:
+			if (isClaimed) setNextAnimation(new Animation(WAVE_ANIM_ID));
+			break;
+			case 196:
+			spotAnim(PUFF_SMOKE_ANIM_ID);
+			getOwner().setNextAnimation(new Animation(-1));
+			break;
+			case 197:
+			finish();
+			break;
+		}
+	}
+
+	private void startGenieIntroduction() {
+		setNextSpotAnim(new SpotAnim(PUFF_SMOKE_ANIM_ID));
+		setNextAnimation(new Animation(WAVE_ANIM_ID));
+		forceTalk("Hello, Master " + getOwner().getDisplayName() + "!");
+		setNextFaceEntity(getOwner());
+	}
+
+	private void continueGenieDialogue() {
+		setNextAnimation(new Animation(WAVE_ANIM_ID));
+		forceTalk(getGenieDialogue());
+	}
+
+	private String getGenieDialogue() {
+		String[] dialogues = {"A wish for ", "I came from the desert, you know, ", "Not just anyone gets a wish, ", "Young " + (getOwner().getAppearance().isMale() ? "Sir" : "Madam") + ", these things are quite rare!", "Last chance, "};
+		int index = tickCounter / 30 - 1;
+		if (index < dialogues.length - 2) {
+			return dialogues[index] + getOwner().getDisplayName() + ".";
+		} else if (index == dialogues.length - 2) {
+			return dialogues[index];
+		} else {
+			return dialogues[index] + getOwner().getDisplayName() + ".";
+		}
+	}
+
+
+
+	private void handlePlayerIgnore() {
+		final Player owner = getOwner();
+		if (!owner.inCombat()) {
+			setNextAnimation(new Animation(GENIE_HIT_ANIM_ID));
 			owner.lock();
-			owner.setNextAnimation(new Animation(836));
+			owner.setNextAnimation(new Animation(PLAYER_DIE_ANIM_ID));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				Magic.sendNormalTeleportSpell(owner, RandomEvents.getRandomTile());
+				spotAnim(PUFF_SMOKE_ANIM_ID);
+				owner.tele(RandomEvents.getRandomTile());
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});
-		} else if (ticks == 153) {
-			setNextSpotAnim(new SpotAnim(1605));
-			getOwner().setNextAnimation(new Animation(-1));
-		} else if (ticks == 155)
-			finish();
+		}
 	}
 
-	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[] { 3022 }, e -> {
+	public static NPCClickHandler handleTalkTo = new NPCClickHandler(new Object[]{GENIE_ID}, e -> {
 		if (e.getNPC() instanceof Genie npc) {
-            if (npc.ticks >= 149)
+			if (npc.tickCounter >= 189)
 				return;
 			if (npc.getOwner() != e.getPlayer()) {
 				e.getPlayer().startConversation(new Conversation(new Dialogue()
-						.addNPC(3022, HeadE.CALM_TALK, "This wish is for " + npc.getOwner().getDisplayName() + ", not you!")));
+					.addNPC(GENIE_ID, HeadE.CALM_TALK, "This wish is for " + npc.getOwner().getDisplayName() + ", not you!")));
 				return;
 			}
-			if (e.getPlayer().inCombat()) {
-				if(e.getPlayer().getInventory().hasFreeSlots()) {
-					e.getPlayer().sendMessage("The genie gives you a lamp!");
-					e.getPlayer().getInventory().addItem(2528, 1);
-					npc.forceTalk("Hope that satisfies you!");
-					npc.claimed = true;
-				} else {
-					e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-					npc.claimed = true;
-				}
-				npc.ticks = 152;
-				return;
-			}
-			e.getPlayer().startConversation(new Conversation(e.getPlayer())
-					.addNPC(3022, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your wish!")
-					.addOptions(new Options() {
-						@Override
-						public void create() {
-							option("Take the lamp", () -> {
-								if(e.getPlayer().getInventory().hasFreeSlots()) {
-									e.getPlayer().sendMessage("The genie gives you a lamp!");
-									e.getPlayer().getInventory().addItem(2528, 1);
-									npc.forceTalk("I hope you're happy with your wish.");
-									npc.claimed = true;
-								} else {
-									e.getPlayer().sendMessage("Your inventory is too full for a lamp!");
-									npc.claimed = true;
-								}
-								npc.ticks = 152;
-							});
-							option("Don't take it", () -> {
-								npc.claimed = true;
-								npc.ticks = 152;
-							});
-						}
-					}));
+			handleGenieInteraction(e, npc);
 		}
 	});
+
+	private static void handleGenieInteraction(NPCClickEvent e, Genie npc) {
+		if (e.getPlayer().inCombat()) {
+			handleCombatInteraction(e, npc);
+		} else {
+			handleNormalInteraction(e, npc);
+		}
+	}
+
+	private static void handleCombatInteraction(NPCClickEvent e, Genie npc) {
+		Player player = e.getPlayer();
+		player.sendMessage("The genie gives you a lamp!");
+		player.getInventory().addItemDrop(XP_LAMP_ITEM_ID, 1);
+		if (!player.getInventory().hasFreeSlots()) {
+			player.sendMessage("The lamp has been placed on the ground.");
+		}
+		npc.forceTalk("Hope that satisfies you!");
+		npc.isClaimed = true;
+		npc.tickCounter = 191;
+	}
+
+	private static void handleNormalInteraction(NPCClickEvent e, Genie npc) {
+		Conversation conversation = new Conversation(new Dialogue());
+
+		if (!npc.isClaimed) {
+			conversation.addNPC(GENIE_ID, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your wish!");
+			e.getPlayer().getInventory().addItemDrop(XP_LAMP_ITEM_ID, 1);
+			if (!e.getPlayer().getInventory().hasFreeSlots()) {
+				e.getPlayer().sendMessage("The lamp has been placed on the ground.");
+			}
+			npc.isClaimed = true;
+			npc.tickCounter = 191;
+		}
+
+		e.getPlayer().startConversation(conversation);
+	}
+
 }
