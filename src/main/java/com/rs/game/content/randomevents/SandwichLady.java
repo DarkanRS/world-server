@@ -127,6 +127,8 @@ public class SandwichLady extends OwnedNPC {
 					.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a " + ((SandwichLady) e.getNPC()).selectedSandwich.description.toLowerCase((Locale.getDefault())) + " on me.")
 					.addNext(() -> {
 						e.getPlayer().getTempAttribs().setO("sandwichLady", e.getNPC());
+
+						e.getPlayer().getPackets().setIFText(297, 48, "Have a " + ((SandwichLady) e.getNPC()).selectedSandwich.description.toLowerCase((Locale.getDefault())) + " for free!");
 						e.getPlayer().getInterfaceManager().sendInterface(297);
 					}));
 		}

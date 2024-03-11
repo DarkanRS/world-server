@@ -29,11 +29,19 @@ public class RandomEvents {
 
 	private static final List<Tile> RANDOM_TILES = new ArrayList<>();
 	static {
-		RANDOM_TILES.add(Tile.of(3208, 3219, 3));
-		RANDOM_TILES.add(Tile.of(2707, 3472, 1));
-		RANDOM_TILES.add(Tile.of(2995, 3341, 3));
-		RANDOM_TILES.add(Tile.of(3217, 3475, 1));
-		RANDOM_TILES.add(Tile.of(3083, 3415, 0));
+		RANDOM_TILES.add(Tile.of(2966, 3393, 0)); // North entrance of Falador
+		RANDOM_TILES.add(Tile.of(3007, 3322, 0)); // South entrance of Falador
+		RANDOM_TILES.add(Tile.of(3011, 3465, 0)); // Ice Mountain
+		RANDOM_TILES.add(Tile.of(3253, 3421, 1)); // Varrock East Bank
+		RANDOM_TILES.add(Tile.of(3295, 3279, 0)); // Near the Al Kharid Mine
+		RANDOM_TILES.add(Tile.of(3214, 3246, 0)); // Near the Lumbridge general store
+		RANDOM_TILES.add(Tile.of(3211, 9622, 0)); // Lumbridge castle basement
+		RANDOM_TILES.add(Tile.of(2636, 3373, 0)); // North of Ardougne
+		RANDOM_TILES.add(Tile.of(2995, 3341, 3)); // White Knights' Castle
+		RANDOM_TILES.add(Tile.of(2845, 3164, 0)); // Karamja Volcano
+		RANDOM_TILES.add(Tile.of(3110, 3161, 2)); // Wizard's Tower
+		RANDOM_TILES.add(Tile.of(3199, 3217, 2)); // Behind Lumbridge Castle
+		RANDOM_TILES.add(Tile.of(3256, 3485, 1)); // 1st floor of Varrock Church
 	}
 
 	public static Tile getRandomTile() {
