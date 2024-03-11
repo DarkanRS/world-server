@@ -51,10 +51,6 @@ import static com.rs.game.content.world.doors.Doors.handleDoor;
 @PluginEventHandler
 public class SeersVillage {
 
-	public static NPCClickHandler handleStankers = new NPCClickHandler(new Object[] { 383 }, e -> e.getPlayer().startConversation(new Dialogue()
-            .addNPC(e.getNPCId(), HeadE.CHEERFUL, "Hello, what can I do for you?")
-            .addOptions("What would you like to say?", ops -> ops.add("About the Achievement System...", new AchievementSystemDialogue(e.getPlayer(), e.getNPCId(), SetReward.SEERS_HEADBAND).getStart()))));
-	
 	public static ObjectClickHandler beehives = new ObjectClickHandler(new Object[] { 68 }, e -> {
 		if (e.getPlayer().getInventory().containsItem(28)) {
 			if (e.getPlayer().getInventory().containsItem(1925)) {
