@@ -23,6 +23,7 @@ import com.rs.game.content.skills.cooking.Cooking.Cookables;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
+import com.rs.lib.util.Utils;
 import com.rs.plugin.handlers.ItemOnItemHandler;
 
 public class CookingD extends Conversation {
@@ -33,17 +34,17 @@ public class CookingD extends Conversation {
 		create();
 	}
 
-	private void generateConversation(Player player, Cookables cookable, GameObject gameObject)
-	{
+	private void generateConversation(Player player, Cookables cookable, GameObject gameObject) {
 		String objectName = gameObject.getDefinitions(player).getName().toLowerCase();
 		boolean isGameObjectFire = objectName.contains("fire");
 		if (cookable == null) {
-			if (isGameObjectFire)
+			if (isGameObjectFire) {
 				addSimple("You can't cook that on a fire.");
-			else if (objectName.contains("range"))
+			} else if (objectName.contains("range")) {
 				addSimple("You can't cook that on a range.");
-			else
+			} else {
 				addSimple("You can't cook that.");
+			}
 			return;
 		}
 		if (cookable.isFireOnly() && !isGameObjectFire) {
@@ -55,17 +56,10 @@ public class CookingD extends Conversation {
 			return;
 		}
 		if (player.getSkills().getLevel(Constants.COOKING) < cookable.getLevel()) {
-			addSimple("You need a cooking level of " + cookable.getLevel() + " to cook this food.");
+			addSimple("You need a Cooking level of " + cookable.getLevel() + " to cook a " + cookable.getProductItem().getName().toLowerCase() + ".");
 			return;
 		}
-
-		addNext(new MakeXStatement(
-				MakeXType.COOK,
-				player.getInventory().getAmountOf(cookable.getRawItem().getId()),
-				"Choose how many you wish to cook,<br>then click on the item to begin.",
-				new int[] { cookable.getProductItem().getId() },
-				null));
+		addNext(new MakeXStatement(MakeXType.COOK, player.getInventory().getAmountOf(cookable.getRawItem().getId()), "Choose how many you wish to cook,<br>then click on the item to begin.", new int[] { cookable.getProductItem().getId() }, null));
 		addNext(() -> player.getActionManager().setAction(new Cooking(player, gameObject, cookable, MakeXStatement.getQuantity(player))));
 	}
-
 }
