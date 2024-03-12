@@ -23,6 +23,7 @@ import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Item;
+import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.handlers.ItemOnObjectHandler;
 
@@ -33,8 +34,7 @@ import java.util.Map;
 @PluginEventHandler
 public class Cooking extends PlayerAction {
 
-	public static ItemOnObjectHandler foodOnCookingObj = new ItemOnObjectHandler(new Object[] { "Fire", "Range", "Campfire", "Oven", "Cooking range", "Sulphur pit", "Stove", "Clay oven", "Clay Oven", "Fireplace" }, Arrays.stream(Cookables.values()).map(item -> item.raw.getId()).toArray(), e ->
-			e.getPlayer().startConversation(new CookingD(e.getPlayer(), Cookables.forId(e.getItem().getId()), e.getObject())));
+	public static ItemOnObjectHandler foodOnCookingObj = new ItemOnObjectHandler(new Object[] { "Fire", "Range", "Campfire", "Oven", "Cooking range", "Sulphur pit", "Stove", "Clay oven", "Clay Oven", "Fireplace" }, Arrays.stream(Cookables.values()).map(item -> item.raw.getId()).toArray(), e -> e.getPlayer().startConversation(new CookingD(e.getPlayer(), Cookables.forId(e.getItem().getId()), e.getObject())));
 
 	public enum Cookables {
 		SODA_ASH_1(401, 1781, 1781, 1, 0, 1),
@@ -119,8 +119,9 @@ public class Cooking extends PlayerAction {
 		}
 
 		static {
-			for (Cookables ingredient : Cookables.values())
+			for (Cookables ingredient : Cookables.values()) {
 				ingredients.put(ingredient.getRawItem().getId(), ingredient);
+			}
 		}
 
 		private final Item raw;
@@ -132,8 +133,7 @@ public class Cooking extends PlayerAction {
 		private final boolean spitRoast;
 		private final boolean fireOnly;
 
-		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp, boolean spitRoast, boolean fireOnly)
-		{
+		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp, boolean spitRoast, boolean fireOnly) {
 			this.raw = raw;
 			this.lvl = lvl;
 			this.burningLvl = burningLvl;
@@ -144,8 +144,7 @@ public class Cooking extends PlayerAction {
 			this.fireOnly = fireOnly;
 		}
 
-		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp)
-		{
+		Cookables(Item raw, Item burnt, Item product, int lvl, int burningLvl, double exp) {
 			this(raw, burnt, product, lvl, burningLvl, exp, false, false);
 		}
 
@@ -190,77 +189,71 @@ public class Cooking extends PlayerAction {
 		}
 	}
 
-	private final Animation animation;
 	private final String productName;
-
 	private final GameObject gameObject;
 	private final Cookables cookable;
-	private int amount;
+	private int quantity;
 
-	public Cooking(Player player, GameObject gameObject, Cookables cookable, int amount) {
+	public Cooking(Player player, GameObject gameObject, Cookables cookable, int quantity) {
 		this.gameObject = gameObject;
-		this.amount = amount;
+		this.quantity = quantity;
 		this.cookable = cookable;
-		if (gameObject.getDefinitions(player).getName().equals("Fire")) {
-			this.animation = new Animation(897);
-		} else {
-			this.animation = new Animation(897);
-		}
 		this.productName = cookable.getProductItem().getName().toLowerCase();
-	}
-
-	private boolean rollIsBurnt(Cookables cook, Player player) {
-		int level = player.getSkills().getLevel(Constants.COOKING);
-		int burnLevel = cook.getBurningLvl();
-		if (player.getEquipment().getGlovesId() == 775)
-			burnLevel -= 6;
-		if (level >= burnLevel)
-			return false;
-
-		double chance = ((double) level / (double) burnLevel);
-		if (chance < 0.7)
-			chance = 0.7;
-		return chance < Math.random();
 	}
 
 	@Override
 	public boolean start(Player player) {
-		player.sendMessage("You attempt to cook the " + productName + ".", true);
 		player.faceObject(gameObject);
 		return true;
 	}
 
 	@Override
 	public boolean process(Player player) {
-		if (!ChunkManager.getChunk(gameObject.getTile().getChunkId()).objectExists(gameObject))
+		if (!ChunkManager.getChunk(gameObject.getTile().getChunkId()).objectExists(gameObject)) {
 			return false;
+		}
 		return player.getInventory().containsItem(cookable.getRawItem().getId(), 1);
 	}
 
 	@Override
 	public int processWithDelay(Player player) {
-		amount--;
-		player.setNextAnimation(animation);
+		quantity--;
+		player.setNextAnimation(new Animation(gameObject.getDefinitions(player).getName().equals("Fire") ? 897 : 896));
 		if (rollIsBurnt(cookable, player)) {
 			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
 			player.getInventory().addItem(cookable.getBurntItem().getId(), cookable.getBurntItem().getAmount());
-			player.sendMessage("Oops! You accidentally burnt the " + productName + ".", true);
+			player.sendMessage("You accidentally burn the " + productName.toLowerCase() + ".", true);
 		} else {
 			player.getInventory().deleteItem(cookable.getRawItem().getId(), 1);
 			player.getInventory().addItem(cookable.getProductItem().getId(), cookable.getProductItem().getAmount());
 			player.getSkills().addXp(Constants.COOKING, cookable.getXp());
-			player.sendMessage("You successfully cook the " + productName + ".", true);
+			player.sendMessage("You successfully cook " + (cookable == Cookables.RAW_SHRIMP || cookable == Cookables.RAW_ANCHOVIES ? "some" : "a") + " " + productName.toLowerCase() + ".", true);
 		}
-		if (amount > 0) {
-			player.sendMessage("You attempt to cook the " + productName + ".", true);
+		player.getPackets().sendSound(new Sound(2577, 0, Sound.SoundType.EFFECT));
+		if (quantity > 0) {
 			return 3;
 		}
 		return -1;
+	}
+
+	private boolean rollIsBurnt(Cookables cook, Player player) {
+		int level = player.getSkills().getLevel(Constants.COOKING);
+		int burnLevel = cook.getBurningLvl();
+		if (player.getEquipment().getGlovesId() == 775) {
+			burnLevel -= 6;
+		}
+		if (level >= burnLevel) {
+			return false;
+		}
+		double chance = ((double) level / (double) burnLevel);
+		if (chance < 0.7) {
+			chance = 0.7;
+		}
+		return chance < Math.random();
 	}
 
 	@Override
 	public void stop(Player player) {
 		setActionDelay(player, 3);
 	}
-
 }
