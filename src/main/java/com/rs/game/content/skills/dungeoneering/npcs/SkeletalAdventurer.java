@@ -52,7 +52,7 @@ public final class SkeletalAdventurer extends DungeonBoss {
 			return;
 		super.processNPC();
 		if (Utils.random(15) == 0)
-			setNextNPCTransformation(npcId + Utils.random(3));
+			transformIntoNPC(npcId + Utils.random(3));
 	}
 
 	@Override

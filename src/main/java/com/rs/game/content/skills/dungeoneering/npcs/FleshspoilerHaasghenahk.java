@@ -100,7 +100,7 @@ public class FleshspoilerHaasghenahk extends DungeonBoss {
 			WorldTasks.scheduleTimer(5, (ticks) -> {
 				setNextAnimation(new Animation(-1));
 				addFleshCreatures();
-				setNextNPCTransformation(getId() - 30);
+				transformIntoNPC(getId() - 30);
 				setHitpoints(getMaxHitpoints());
 				setLureDelay(Integer.MAX_VALUE);
 				setCantFollowUnderCombat(true);

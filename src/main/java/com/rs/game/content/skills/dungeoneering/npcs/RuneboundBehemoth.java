@@ -85,7 +85,7 @@ public class RuneboundBehemoth extends DungeonBoss {
 	}
 
 	private void sendNPCTransformation() {
-		setNextNPCTransformation(getNPCId());
+		transformIntoNPC(getNPCId());
 	}
 
 	public int getNPCId() {
