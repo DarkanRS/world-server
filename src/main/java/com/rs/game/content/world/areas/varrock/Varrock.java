@@ -128,22 +128,9 @@ public class Varrock {
 
 	public static ObjectClickHandler handleChaosAltar = new ObjectClickHandler(new Object[] { 61 }, e -> {
 		Player p = e.getPlayer();
-		if(e.getOption().equalsIgnoreCase("Pray-at")) {
-			final int maxPrayer = p.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-			if (p.getPrayer().getPoints() < maxPrayer) {
-				p.lock(5);
-				p.sendMessage("You pray to the gods...", true);
-				p.setNextAnimation(new Animation(645));
-				WorldTasks.schedule(new Task() {
-					@Override
-					public void run() {
-						p.getPrayer().restorePrayer(maxPrayer);
-						p.sendMessage("...and recharged your prayer.", true);
-					}
-				}, 2);
-			} else
-				p.sendMessage("You already have full prayer.");
-		} else if(e.getOption().equalsIgnoreCase("Check"))
+		if(e.getOption().equalsIgnoreCase("Pray-at"))
+			p.getPrayer().worshipAltar();
+		else if(e.getOption().equalsIgnoreCase("Check"))
 			p.startConversation(new Conversation(p) {
 				{
 					addSimple("You find a small inscription at the bottom of the altar. It reads: 'Snarthon Candtrick Termanto'.");
