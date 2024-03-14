@@ -789,4 +789,23 @@ public class PrayerManager {
 	public boolean hasPrayersOn() {
 		return !active.isEmpty();
 	}
+
+	public void worshipAltar(double multiplier) {
+		double maxPray = player.getSkills().getLevelForXp(Constants.PRAYER) * 10.0;
+		maxPray = (int) (maxPray * multiplier);
+		if (points < maxPray) {
+			player.lock(5);
+			player.sendMessage("You pray to the gods...", true);
+			player.anim(645);
+			double finalMaxPray = maxPray;
+			player.getTasks().schedule(2, () -> {
+				restorePrayer(finalMaxPray);
+				player.sendMessage("...and recharged your prayer.", true);
+			});
+		}
+	}
+
+	public void worshipAltar() {
+		worshipAltar(1.0);
+	}
 }
