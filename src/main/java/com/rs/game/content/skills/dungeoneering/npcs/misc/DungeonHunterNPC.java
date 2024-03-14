@@ -82,7 +82,6 @@ public class DungeonHunterNPC extends DungeonNPC {
 					else if (ticks == 20) {
 						setCantInteract(false);
 						getManager().removeMastyxTrap(trap);
-
 						return false;
 					}
 					return true;
