@@ -19,6 +19,9 @@ package com.rs.game.content.world.areas.trollheim;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.GodwarsController;
 import com.rs.game.content.skills.agility.Agility;
+import com.rs.game.content.world.doors.Doors;
+import com.rs.game.map.ChunkManager;
+import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
@@ -89,19 +92,19 @@ public class Trollheim {
 				} else if (stage == 6) {
 					if (!lift) {
 						e.getPlayer().tele(destination);
-						e.getPlayer().unlock();
+						e.getPlayer().unlockNextTick();
 						stop();
 					}
 				} else if (stage == 8) {
 					if (lift && isReturning) {
 						e.getPlayer().tele(destination);
-						e.getPlayer().unlock();
+						e.getPlayer().unlockNextTick();
 						stop();
 					}
 				} else if (stage == 11)
 					if (lift && !isReturning) {
 						e.getPlayer().tele(destination);
-						e.getPlayer().unlock();
+						e.getPlayer().unlockNextTick();
 						stop();
 					}
 				stage++;
@@ -169,9 +172,10 @@ public class Trollheim {
 	});
 
 
-	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 67674, 67676, 67678, 67679, 67752, 67570 }, e -> {
+	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67569, 67567, 67562, 67572, 67674, 67676, 67678, 67679, 67752, 67570 }, e -> {
 		switch(e.getObjectId()) {
 			case 67568 -> e.getPlayer().tele(Tile.of(2858, 3577, 0));
+			case 67569 -> e.getPlayer().tele(Tile.of(2854, 3617, 0));
 			case 67572 -> e.getPlayer().tele(Tile.of(3435, 4240, 2));
 			case 67567 -> e.getPlayer().tele(Tile.of(2267, 4758, 0));
 			case 67562 -> e.getPlayer().tele(Tile.of(3405, 4284, 2));
@@ -184,7 +188,7 @@ public class Trollheim {
 					e.getPlayer().getTasks().schedule(7, () -> {
 						e.getPlayer().anim(-1);
 						e.getPlayer().tele(e.getPlayer().transform(deltaX, deltaY));
-						e.getPlayer().unlock();
+						e.getPlayer().unlockNextTick();
 					});
 				});
 			}
@@ -196,22 +200,23 @@ public class Trollheim {
 				e.getPlayer().getTasks().schedule(5, () -> {
 					e.getPlayer().anim(-1);
 					e.getPlayer().tele(e.getPlayer().transform(0, e.getObject().getTile().isAt(3434, 4275) ? 2 : -2));
-					e.getPlayer().unlock();
+					e.getPlayer().unlockNextTick();
 				});
 			}
-            case 67674 -> {
-				if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
-					Agility.handleObstacle(e.getPlayer(), 16016, 3, e.getPlayer().transform(-3, 0, -1), 1);
-				else
-					Agility.handleObstacle(e.getPlayer(), 16016, 3, e.getPlayer().transform(0, -3, -1), 1);
-			}
-			case 67570 -> {
-				if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
-					Agility.handleObstacle(e.getPlayer(), 16031, 3, e.getPlayer().transform(3, 0, 1), 1);
-				else
-					Agility.handleObstacle(e.getPlayer(), 16031, 3, e.getPlayer().transform(0, 3, 1), 1);
+			case 67674, 67570 -> {
+				boolean horizontal = e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2;
+				int dx = horizontal ? (e.getObject().getId() == 67674 ? -4 : 4) : 0;
+				int dy = !horizontal ? (e.getObject().getId() == 67674 ? -4 : 4) : 0;
+				int dz = e.getObject().getId() == 67674 ? -1 : 1;
+				climbCliff(e.getPlayer(), e.getPlayer().getTile(), e.getPlayer().transform(dx, dy, dz), e.getObject().getId() == 67570);
 			}
 		}
+	});
+
+	public static ObjectClickHandler handleDadArena = new ObjectClickHandler(new Object[] { 34836, 34839 }, e -> {
+		if (!ChunkManager.getChunk(e.getObject().getTile().getChunkId()).getBaseObjects().contains(e.getObject()))
+			return;
+		Doors.handleDoubleDoor(e.getPlayer(), e.getObject());
 	});
 
 	public static ObjectClickHandler handleCliffClimbs = new ObjectClickHandler(new Object[] { 35391, 3748, 34877, 34889, 9306, 9305, 3803, 9304, 9303 }, e -> {
@@ -242,35 +247,29 @@ public class Trollheim {
 				Agility.handleObstacle(e.getPlayer(), e.getPlayer().getY() < e.getObject().getY() ? 3381 : 3382, 3, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 4 : -4, 0), 1);
 	});
 
-	public static ObjectClickHandler handleWildernessCliff = new ObjectClickHandler(false, new Object[] { 34878 }, e -> {
-		if (!Agility.hasLevel(e.getPlayer(), 64)) {
-			e.getPlayer().sendMessage("You need 64 agility");
-			return;
-		}
-		Player p = e.getPlayer();
-		WorldObject obj = e.getObject();
-
-		p.setRouteEvent(new RouteEvent(Tile.of(2950, 3681, 0), () -> {
-			if(obj.getTile().matches(Tile.of(2951, 3681, 0)) && p.getX() < obj.getX()) {
-				Tile destinationTile = Tile.of(2954, 3682, 0);
-				p.faceTile(destinationTile);
-				WorldTasks.schedule(new Task() {
-					@Override
-					public void run() {
-						p.setNextAnimation(new Animation(3382));
-					}
-				}, 1);
-
-				p.lock();
-				WorldTasks.schedule(new Task() {
-					@Override
-					public void run() {
-						p.tele(destinationTile);
-						p.unlock();
-					}
-				}, 8);
-			}
-		}));
+	public static ObjectClickHandler handleWildernessCliff = new ObjectClickHandler(new Object[] { 34878 }, e -> {
+		if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
+			Agility.handleObstacle(e.getPlayer(), e.getPlayer().getX() < e.getObject().getX() ? 3381 : 3382, 3, e.getPlayer().transform(e.getPlayer().getX() < e.getObject().getX() ? 4 : -4, 0, 0), 1);
+		else
+			Agility.handleObstacle(e.getPlayer(), e.getPlayer().getY() < e.getObject().getY() ? 3381 : 3382, 3, e.getPlayer().transform(0, e.getPlayer().getY() < e.getObject().getY() ? 4 : -4, 0), 1);
 	});
 
+	public static void climbCliff(Player player, Tile start, Tile end, boolean up) {
+		player.walkToAndExecute(start, () -> {
+			player.lock();
+			if (!up)
+				player.addWalkSteps(end.x(), end.y(), 1, false);
+			player.getTasks().schedule(1, () -> {
+				player.faceTile(end);
+				player.getTasks().schedule(1, () -> {
+					player.anim(up ? 16031 : 16016);
+					player.getTasks().schedule(up ? 5 : 2, () -> {
+						player.anim(-1);
+						player.tele(end);
+						player.unlockNextTick();
+					});
+				});
+			});
+		});
+	}
 }
