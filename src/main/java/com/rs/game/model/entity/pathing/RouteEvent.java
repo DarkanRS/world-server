@@ -16,7 +16,9 @@
 //
 package com.rs.game.model.entity.pathing;
 
+import com.rs.game.World;
 import com.rs.game.content.Effect;
+import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -108,11 +110,11 @@ public class RouteEvent {
 
 	private boolean simpleCheck(Entity entity) {
 		if (object instanceof Entity e)
-			return entity.getPlane() == e.getPlane();
+			return entity.getPlane() == e.getPlane() && !e.hasFinished();
 		if (object instanceof GameObject e)
-			return entity.getPlane() == e.getPlane();
+			return entity.getPlane() == e.getPlane() && World.getObject(e.getTile(), e.getType()) != null;
 		else if (object instanceof GroundItem e)
-			return entity.getPlane() == e.getTile().getPlane();
+			return entity.getPlane() == e.getTile().getPlane() && ChunkManager.getChunk(e.getTile().getChunkId()).itemExists(e);
 		else if (object instanceof Tile e)
 			return entity.getPlane() == e.getPlane();
 		else
