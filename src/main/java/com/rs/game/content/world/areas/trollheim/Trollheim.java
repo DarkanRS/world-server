@@ -24,6 +24,7 @@ import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
+import com.rs.lib.Constants;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
@@ -140,25 +141,77 @@ public class Trollheim {
 			e.getPlayer().tele(Tile.of(2848, 3687, 0));
 	});
 
-	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 67674, 67570 }, e -> {
-		if (e.getObject().getId() == 67568)
-			e.getPlayer().tele(Tile.of(2858, 3577, 0));
-		else if (e.getObject().getId() == 67567)
-			e.getPlayer().tele(Tile.of(2267, 4758, 0));
-		else if (e.getObject().getId() == 67562)
-			e.getPlayer().tele(Tile.of(3405, 4284, 2));
-		else if (e.getObject().getId() == 67572)
-			e.getPlayer().tele(Tile.of(2858, 3577, 0));
-		else if (e.getObject().getId() == 67674) {
-			if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
-				Agility.handleObstacle(e.getPlayer(), 3382, 3, e.getPlayer().transform(-3, 0, -1), 1);
-			else
-				Agility.handleObstacle(e.getPlayer(), 3382, 3, e.getPlayer().transform(0, -3, -1), 1);
-		} else if (e.getObject().getId() == 67570)
-			if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
-				Agility.handleObstacle(e.getPlayer(), 3381, 3, e.getPlayer().transform(3, 0, 1), 1);
-			else
-				Agility.handleObstacle(e.getPlayer(), 3381, 3, e.getPlayer().transform(0, 3, 1), 1);
+	public static ObjectClickHandler sabbotNoDists = new ObjectClickHandler(false, new Object[] { 67752, 67679 }, e -> {
+		if (e.getObjectId() == 67752) {
+			e.getPlayer().setRouteEvent(new RouteEvent(e.getPlayer().getX() > e.getObject().getX() ? Tile.of(3434, 4261, 1) : Tile.of(3430, 4261, 1), () -> {
+				e.getPlayer().lock();
+				e.getPlayer().resetWalkSteps();
+				World.sendObjectAnimation(e.getObject(), new Animation(497));
+				e.getPlayer().forceMove(e.getPlayer().getX() < e.getObject().getX() ? Tile.of(3434, 4261, 1) : Tile.of(3430, 4261, 1), 751, 20, 75);
+			}));
+		} else {
+			boolean goWest = e.getPlayer().getX() > 3419;
+			e.getPlayer().setRouteEvent(new RouteEvent(goWest ? Tile.of(3423, 4260, 1) : Tile.of(3415, 4260, 1), () -> {
+				e.getPlayer().lock();
+				e.getPlayer().faceObject(e.getObject());
+				for (int i = 0;i < 4;i++) {
+					e.getPlayer().getTasks().schedule((i * 4) + 1, () -> {
+						e.getPlayer().anim(13495);
+						e.getPlayer().getTasks().schedule(3, () -> {
+							e.getPlayer().anim(-1);
+							e.getPlayer().tele(e.getPlayer().transform(goWest ? -2 : 2, 0));
+						});
+					});
+				}
+				e.getPlayer().getTasks().schedule(17, () -> e.getPlayer().unlock());
+			}));
+		}
+	});
+
+
+	public static ObjectClickHandler handleSabbottCaveShortcuts = new ObjectClickHandler(new Object[] { 67568, 67567, 67562, 67572, 67674, 67676, 67678, 67679, 67752, 67570 }, e -> {
+		switch(e.getObjectId()) {
+			case 67568 -> e.getPlayer().tele(Tile.of(2858, 3577, 0));
+			case 67572 -> e.getPlayer().tele(Tile.of(3435, 4240, 2));
+			case 67567 -> e.getPlayer().tele(Tile.of(2267, 4758, 0));
+			case 67562 -> e.getPlayer().tele(Tile.of(3405, 4284, 2));
+			case 67676 -> { //squeeze gaps
+				int deltaX = e.getObject().getTile().isAt(3421, 4280) ? e.getPlayer().getX() > e.getObject().getX() ? -2 : 2 : 0;
+				int deltaY = e.getObject().getTile().isAt(3421, 4280) ? 0 : e.getPlayer().getY() > e.getObject().getY() ? -2 : 2;
+				e.getPlayer().lock();
+				e.getPlayer().getTasks().schedule(1, () -> {
+					e.getPlayer().anim(16025);
+					e.getPlayer().getTasks().schedule(7, () -> {
+						e.getPlayer().anim(-1);
+						e.getPlayer().tele(e.getPlayer().transform(deltaX, deltaY));
+						e.getPlayer().unlock();
+					});
+				});
+			}
+			case 67678 -> {
+				e.getPlayer().lock();
+				e.getPlayer().addWalkSteps(e.getObject().getTile(), 2, false);
+				e.getPlayer().getTasks().schedule(1, () -> e.getPlayer().faceTile(e.getPlayer().transform(0, e.getObject().getTile().isAt(3434, 4275) ? 2 : -2)));
+				e.getPlayer().getTasks().schedule(2, () -> e.getPlayer().anim(13495));
+				e.getPlayer().getTasks().schedule(5, () -> {
+					e.getPlayer().anim(-1);
+					e.getPlayer().tele(e.getPlayer().transform(0, e.getObject().getTile().isAt(3434, 4275) ? 2 : -2));
+					e.getPlayer().unlock();
+				});
+			}
+            case 67674 -> {
+				if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
+					Agility.handleObstacle(e.getPlayer(), 16016, 3, e.getPlayer().transform(-3, 0, -1), 1);
+				else
+					Agility.handleObstacle(e.getPlayer(), 16016, 3, e.getPlayer().transform(0, -3, -1), 1);
+			}
+			case 67570 -> {
+				if (e.getObject().getRotation() == 0 || e.getObject().getRotation() == 2)
+					Agility.handleObstacle(e.getPlayer(), 16031, 3, e.getPlayer().transform(3, 0, 1), 1);
+				else
+					Agility.handleObstacle(e.getPlayer(), 16031, 3, e.getPlayer().transform(0, 3, 1), 1);
+			}
+		}
 	});
 
 	public static ObjectClickHandler handleCliffClimbs = new ObjectClickHandler(new Object[] { 35391, 3748, 34877, 34889, 9306, 9305, 3803, 9304, 9303 }, e -> {

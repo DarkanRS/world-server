@@ -1176,6 +1176,10 @@ public abstract class Entity {
 		move(tile);
 	}
 
+	public void tele(int x, int y, int plane) {
+		tele(Tile.of(x, y, plane));
+	}
+
 	public SpotAnim getNextSpotAnim1() {
 		return nextSpotAnim1;
 	}
