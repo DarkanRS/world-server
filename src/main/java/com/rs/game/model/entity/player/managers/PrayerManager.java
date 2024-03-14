@@ -794,11 +794,12 @@ public class PrayerManager {
 		double maxPray = player.getSkills().getLevelForXp(Constants.PRAYER) * 10.0;
 		maxPray = (int) (maxPray * multiplier);
 		if (points < maxPray) {
-			player.lock(5);
+			player.lock();
 			player.sendMessage("You pray to the gods...", true);
 			player.anim(645);
 			double finalMaxPray = maxPray;
 			player.getTasks().schedule(2, () -> {
+				player.unlock();
 				restorePrayer(finalMaxPray);
 				player.sendMessage("...and recharged your prayer.", true);
 			});

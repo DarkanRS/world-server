@@ -3183,17 +3183,9 @@ public class Player extends Entity {
 	}
 
 	public void useLadder(int anim, final Tile tile) {
-		lock();
-		setNextAnimation(new Animation(anim));
-		getTasks().scheduleTimer(tick -> {
-			if (tick == 1)
-				tele(tile);
-			if (tick == 2) {
-				unlock();
-				return false;
-			}
-			return true;
-		});
+		lock(2);
+		anim(anim);
+		getTasks().schedule(1, () -> tele(tile));
 	}
 
 	public void sendMessage(String mes, boolean canBeFiltered) {
