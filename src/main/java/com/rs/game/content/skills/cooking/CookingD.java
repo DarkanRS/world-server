@@ -27,6 +27,8 @@ import com.rs.plugin.handlers.ItemOnItemHandler;
 
 public class CookingD extends Conversation {
 
+	// Test.
+
 	public CookingD(Player player, Cookables cookable, GameObject gameObject) {
 		super(player);
 		generateConversation(player, cookable, gameObject);
