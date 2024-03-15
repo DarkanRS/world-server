@@ -29,7 +29,7 @@ class ScheduledTask(val mapping: String? = null) : Continuation<Unit> {
         onStop?.invoke(this)
     }
 
-    fun waiting(): Boolean = waitCondition != null
+    fun isWaiting(): Boolean = waitCondition != null
 
     suspend fun wait(ticks: Int): Unit = suspendCoroutine {
         waitCondition = WaitCondition(TickWait(ticks), it)

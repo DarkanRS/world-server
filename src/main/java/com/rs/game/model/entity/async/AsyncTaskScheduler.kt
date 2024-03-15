@@ -2,7 +2,6 @@ package com.rs.game.model.entity.async
 
 import com.rs.engine.thread.LowPriorityTaskExecutor
 import com.rs.game.model.entity.Entity
-import com.rs.game.model.entity.player.Player
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.asCoroutineDispatcher
@@ -15,8 +14,10 @@ class AsyncTaskScheduler {
     private val namedTasks: MutableMap<String, ScheduledTask> = Object2ObjectOpenHashMap()
 
     fun tick() {
-        while(true) {
-            val task = tasks.peekFirst() ?: break
+        val currentTasks = tasks.toList()
+        for (task in currentTasks) {
+            if (!tasks.contains(task)) continue
+
             if (!task.started) {
                 task.started = true
                 task.coroutine.resume(Unit)
@@ -24,11 +25,8 @@ class AsyncTaskScheduler {
 
             task.tick()
 
-            if (!task.waiting()) {
+            if (!task.isWaiting())
                 tasks.remove(task)
-                continue
-            }
-            break
         }
     }
 
