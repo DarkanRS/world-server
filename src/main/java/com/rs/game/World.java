@@ -1063,6 +1063,10 @@ public final class World {
 		ChunkManager.getChunk(object.getTile().getChunkId()).addObjectAnim(object, animation);
 	}
 
+	public static void sendObjectAnimation(GameObject object, int animation) {
+		sendObjectAnimation(object, new Animation(animation));
+	}
+
 	public static void sendSpotAnim(Tile tile, SpotAnim anim) {
 		ChunkManager.getChunk(tile.getChunkId()).addSpotAnim(tile, anim);
 	}

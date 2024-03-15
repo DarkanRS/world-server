@@ -24,8 +24,7 @@ import com.rs.game.map.ChunkManager
 import com.rs.game.model.entity.pathing.RouteEvent
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.game.model.entity.schedule
-import com.rs.lib.game.Animation
+import com.rs.game.model.entity.async.schedule
 import com.rs.lib.game.Tile
 import com.rs.lib.net.ClientPacket
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -66,37 +65,31 @@ fun mapTrollheim() {
         e.player.lock()
 
         e.player.schedule {
-            +{ e.player.faceTile(destination) }
+            e.player.faceTile(destination)
             wait(1)
-            +{ e.player.anim(if (lift) liftAnimation else squeezeAnimation) }
+            e.player.anim(if (lift) liftAnimation else squeezeAnimation)
             wait(2)
-            +{ if (lift && isReturning) World.sendObjectAnimation(e.getObject(), Animation(318)) }
+            if (lift && isReturning) World.sendObjectAnimation(e.getObject(), 318)
             wait(1)
-            +{ if (lift && !isReturning) World.sendObjectAnimation(e.getObject(), Animation(318)) }
+            if (lift && !isReturning) World.sendObjectAnimation(e.getObject(), 318)
             wait(2)
             if (!lift) {
-                +{
-                    e.player.anim(-1)
-                    e.player.tele(destination)
-                    e.player.unlockNextTick()
-                }
+                e.player.anim(-1)
+                e.player.tele(destination)
+                e.player.unlockNextTick()
                 return@schedule
             }
             wait(2)
             if (isReturning) {
-                +{
-                    e.player.anim(-1)
-                    e.player.tele(destination)
-                    e.player.unlockNextTick()
-                }
-                return@schedule
-            }
-            wait(3)
-            +{
                 e.player.anim(-1)
                 e.player.tele(destination)
                 e.player.unlockNextTick()
+                return@schedule
             }
+            wait(3)
+            e.player.anim(-1)
+            e.player.tele(destination)
+            e.player.unlockNextTick()
         }
     }
 
@@ -112,11 +105,13 @@ fun mapTrollheim() {
     }
 
     onObjectClick(32738, 18834, 18833, 4500, 3774) { e ->
-        if (e.getObject().id == 32738) e.player.tele(Tile.of(2889, 3675, 0))
-        else if (e.getObject().id == 18834) e.player.ladder(Tile.of(2812, 3669, 0))
-        else if (e.getObject().id == 18833) e.player.ladder(Tile.of(2831, 10076, 2))
-        else if (e.getObject().id == 4500) e.player.tele(Tile.of(2795, 3615, 0))
-        else if (e.getObject().id == 3774) e.player.tele(Tile.of(2848, 3687, 0))
+        when (e.getObject().id) {
+            32738 -> e.player.tele(Tile.of(2889, 3675, 0))
+            18834 -> e.player.ladder(Tile.of(2812, 3669, 0))
+            18833 -> e.player.ladder(Tile.of(2831, 10076, 2))
+            4500 -> e.player.tele(Tile.of(2795, 3615, 0))
+            3774 -> e.player.tele(Tile.of(2848, 3687, 0))
+        }
     }
 
     onObjectClick(67752, 67679) { e ->
@@ -124,7 +119,7 @@ fun mapTrollheim() {
             e.player.setRouteEvent(RouteEvent(if (e.player.x > e.getObject().x) Tile.of(3434, 4261, 1) else Tile.of(3430, 4261, 1)) {
                     e.player.lock()
                     e.player.resetWalkSteps()
-                    World.sendObjectAnimation(e.getObject(), Animation(497))
+                    World.sendObjectAnimation(e.getObject(), 497)
                     e.player.forceMove(if (e.player.x < e.getObject().x) Tile.of(3434, 4261, 1) else Tile.of(3430, 4261, 1), 751, 20, 75)
                 })
         } else {
@@ -197,7 +192,7 @@ fun mapTrollheim() {
         Doors.handleDoubleDoor(e.player, e.getObject())
     }
 
-    onObjectClick(35391, 3748, 34877, 34889, 9306, 9305, 3803, 9304, 9303) { e ->
+    onObjectClick(35391, 3748, 34877, 34889, 34878, 9306, 9305, 3803, 9304, 9303) { e ->
         if (e.getObject().id == 35391) {
             if (e.getObject().rotation == 3 || e.getObject().rotation == 1)
                 Agility.handleObstacle(e.player, 3303, 1, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
@@ -208,7 +203,7 @@ fun mapTrollheim() {
                 Agility.handleObstacle(e.player, 3377, 2, e.player.transform(if (e.player.x < e.getObject().x) 2 else -2, 0, 0), 1.0)
             else
                 Agility.handleObstacle(e.player, 3377, 2, e.player.transform(0, if (e.player.y < e.getObject().y) 2 else -2, 0), 1.0)
-        } else if (e.getObject().id == 34877 || e.getObject().id == 34889) {
+        } else if (e.getObject().id == 34877 || e.getObject().id == 34889 || e.objectId == 34878 || e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) {
             if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
                 Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
             else
@@ -218,17 +213,7 @@ fun mapTrollheim() {
                 Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3382 else 3381, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
             else
                 Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3382 else 3381, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
-        } else if (e.getObject().id == 3803 || e.getObject().id == 9304 || e.getObject().id == 9303) if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-            Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-        else
-            Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
-    }
-
-    onObjectClick(34878) { e ->
-        if (e.getObject().rotation == 0 || e.getObject().rotation == 2)
-            Agility.handleObstacle(e.player, if (e.player.x < e.getObject().x) 3381 else 3382, 3, e.player.transform(if (e.player.x < e.getObject().x) 4 else -4, 0, 0), 1.0)
-        else
-            Agility.handleObstacle(e.player, if (e.player.y < e.getObject().y) 3381 else 3382, 3, e.player.transform(0, if (e.player.y < e.getObject().y) 4 else -4, 0), 1.0)
+        }
     }
 }
 

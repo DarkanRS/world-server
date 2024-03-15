@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.kalphitequeen
 
 import com.rs.game.World.sendProjectile
 import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScript.*
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler.getDefaultCombat
@@ -42,28 +43,26 @@ class KalphiteQueen(id: Int, tile: Tile, spawned: Boolean) : NPC(id, tile, spawn
         resetWalkSteps()
         combat.removeTarget()
         anim(-1)
-        WorldTasks.scheduleTimer { loop: Int ->
-            if (loop == 0) anim(combatDefinitions.deathEmote)
-            else if (loop >= combatDefinitions.deathDelay) {
-                if (id == 1158) {
-                    isCantInteract = true
-                    transformIntoNPC(1160)
-                    sync(6270, 1055)
-                    tasks.schedule("kqDeath") {
-                        reset()
-                        isCantInteract = false
-                    }
-                } else {
-                    drop()
+        isCantInteract = true
+
+        schedule {
+            anim(combatDefinitions.deathEmote)
+            wait(combatDefinitions.deathDelay)
+            if (id == 1158) {
+                transformIntoNPC(1160)
+                sync(6270, 1055)
+                schedule {
                     reset()
-                    setLocation(respawnTile)
-                    finish()
-                    if (!isSpawned) setRespawnTask()
-                    transformIntoNPC(1158)
+                    isCantInteract = false
                 }
-                return@scheduleTimer false
+            } else {
+                drop()
+                reset()
+                setLocation(respawnTile)
+                finish()
+                if (!isSpawned) setRespawnTask()
+                transformIntoNPC(1158)
             }
-            return@scheduleTimer true
         }
     }
 }

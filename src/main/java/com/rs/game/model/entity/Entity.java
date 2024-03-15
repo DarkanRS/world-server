@@ -33,6 +33,7 @@ import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.actions.EntityFollow;
+import com.rs.game.model.entity.async.AsyncTaskScheduler;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -150,6 +151,8 @@ public abstract class Entity {
 	protected MoveType moveType = MoveType.WALK;
 	private final Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
+
+	private transient AsyncTaskScheduler asyncTasks = new AsyncTaskScheduler();
 	private transient TaskManager tasks = new TaskManager();
 
 	// creates Entity and saved classes
@@ -317,6 +320,7 @@ public abstract class Entity {
 		nextHitBars = new ArrayList<>();
 		actionManager = new ActionManager(this);
 		tasks = new TaskManager();
+		asyncTasks = new AsyncTaskScheduler();
 		interactionManager = new InteractionManager(this);
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
@@ -380,7 +384,7 @@ public abstract class Entity {
 		resetCombat();
 		walkSteps.clear();
 		poison.reset();
-		tasks = new TaskManager();
+		clearPendingTasks();
 		resetReceivedDamage();
 		clearEffects();
 		if (attributes)
@@ -2144,9 +2148,16 @@ public abstract class Entity {
 	public void processTasks() {
 		if (tasks != null)
 			tasks.processTasks();
+		if (asyncTasks != null)
+			asyncTasks.tick();
 	}
 
 	public void clearPendingTasks() {
 		tasks = new TaskManager();
+		asyncTasks.stopAll();
+	}
+
+	public AsyncTaskScheduler getAsyncTasks() {
+		return asyncTasks;
 	}
 }

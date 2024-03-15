@@ -1,0 +1,72 @@
+package com.rs.game.model.entity.async
+
+import com.rs.engine.thread.LowPriorityTaskExecutor
+import com.rs.game.model.entity.Entity
+import com.rs.game.model.entity.player.Player
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.asCoroutineDispatcher
+import java.util.*
+import kotlin.coroutines.createCoroutine
+import kotlin.coroutines.resume
+
+class AsyncTaskScheduler {
+    private val tasks = LinkedList<ScheduledTask>()
+    private val namedTasks: MutableMap<String, ScheduledTask> = Object2ObjectOpenHashMap()
+
+    fun tick() {
+        while(true) {
+            val task = tasks.peekFirst() ?: break
+            if (!task.started) {
+                task.started = true
+                task.coroutine.resume(Unit)
+            }
+
+            task.tick()
+
+            if (!task.waiting()) {
+                tasks.remove(task)
+                continue
+            }
+            break
+        }
+    }
+
+    fun schedule(name: String? = null, block: suspend ScheduledTask.(CoroutineScope) -> Unit) {
+        val task = ScheduledTask(name)
+        if (namedTasks[name] != null)
+            cancel(name)
+        if (name != null)
+            namedTasks[name] = task
+        val suspendBlock = suspend { block(task, CoroutineScope(LowPriorityTaskExecutor.getWorldExecutor().asCoroutineDispatcher())) }
+        task.coroutine = suspendBlock.createCoroutine(completion = task)
+        tasks.add(task)
+    }
+
+    fun cancel(name: String?) {
+        val task = namedTasks[name];
+        if (task != null) {
+            task.stop()
+            tasks.remove(task)
+            namedTasks.remove(name)
+        }
+    }
+
+    fun stopAll() {
+        tasks.forEach { it.stop() }
+        tasks.clear()
+        namedTasks.clear()
+    }
+}
+
+fun Entity.schedule(mapping: String, task: suspend ScheduledTask.(CoroutineScope) -> Unit) {
+    this.asyncTasks.schedule(mapping, task)
+}
+
+fun Entity.schedule(task: suspend ScheduledTask.(CoroutineScope) -> Unit) {
+    this.asyncTasks.schedule(null, task)
+}
+
+fun Entity.cancel(mapping: String) {
+    this.asyncTasks.cancel(mapping)
+}
