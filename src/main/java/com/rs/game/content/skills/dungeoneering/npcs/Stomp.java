@@ -243,7 +243,7 @@ public final class Stomp extends DungeonBoss {
 				drop();
 				reset();
 				setCantInteract(true);
-				setNextNPCTransformation(9781);
+				transformIntoNPC(9781);
 				return false;
 			}
 			return true;

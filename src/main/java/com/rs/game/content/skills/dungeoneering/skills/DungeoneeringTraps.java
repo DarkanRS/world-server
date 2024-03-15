@@ -45,7 +45,7 @@ public class DungeoneeringTraps {
 		player.lock(2);
 		player.setNextAnimation(new Animation(827));
 		WorldTasks.scheduleTimer(2, (ticks) -> {
-			manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player.getTile(), -1, false));
+			manager.addMastyxTrap(new MastyxTrap(player.getDisplayName(), 11076 + index, player.getTile()));
 			player.getInventory().deleteItem(new Item(ITEM_TRAPS[index], 1));
 			player.sendMessage("You lay the trap onto the floor.");
 			return false;

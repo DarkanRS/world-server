@@ -88,11 +88,11 @@ public class Santa2020D extends Conversation {
 			int answer = player.getTempAttribs().getI("santaRandNum");
 			if (result > answer)
 				player.startConversation(new Dialogue()
-						.addNPC(SANTA, player.getDisplayName().equalsIgnoreCase("jiren") ? HeadE.DRUNK : HeadE.CHEERFUL, player.getDisplayName().equalsIgnoreCase("jiren") ? "Dat shit's higha dan Snoop Dogg hoe." : "That's too high! Try again.")
+						.addNPC(SANTA, HeadE.CHEERFUL, "That's too high! Try again.")
 						.addNext(() -> guessNumber(player)));
 			else if (result < answer)
 				player.startConversation(new Dialogue()
-						.addNPC(SANTA, player.getDisplayName().equalsIgnoreCase("jiren") ? HeadE.DRUNK : HeadE.CHEERFUL, player.getDisplayName().equalsIgnoreCase("jiren") ? "Shawty too low low low low low low low low low low low low low." : "That's too low! Try again.")
+						.addNPC(SANTA, HeadE.CHEERFUL, "That's too low! Try again.")
 						.addNext(() -> guessNumber(player)));
 			else {
 				player.save(Christmas2020.STAGE_KEY, 2);

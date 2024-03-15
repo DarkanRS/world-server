@@ -57,13 +57,13 @@ public class DoorSupport extends NPC {
 
 	@Override
 	public void sendDeath(Entity killer) {
-		setNextNPCTransformation(getId() + 1);
+		transformIntoNPC(getId() + 1);
 		final GameObject door = World.getObjectWithId(getTile(), 8967);
 		if (door != null)
 			World.removeObject(door);
 		WorldTasks.schedule(Ticks.fromSeconds(60), () -> {
 			try {
-				setNextNPCTransformation(getId() - 1);
+				transformIntoNPC(getId() - 1);
 				reset();
 				if (door != null)
 					World.spawnObject(door);

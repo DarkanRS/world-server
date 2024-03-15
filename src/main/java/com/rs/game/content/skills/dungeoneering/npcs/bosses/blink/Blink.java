@@ -162,11 +162,11 @@ public class Blink extends DungeonBoss {
 			} else if (rushCount == 15 || rushCount == 5) {
 				if (rushCount == 15)
 					rushCount = 5;
-				setNextNPCTransformation(1957);
+				transformIntoNPC(1957);
 			} else if (rushCount == 8)
 				tele(getNextPath());
 			else if (rushCount == 9) {
-				setNextNPCTransformation(12865);
+				transformIntoNPC(12865);
 				toPath = getManager().getTile(getReference(), selectedPath[inversedPath ? 2 : 0], selectedPath[inversedPath ? 3 : 1]);
 				addWalkSteps(toPath.getX(), toPath.getY(), 1, false);
 			} else if (rushCount == 10) {

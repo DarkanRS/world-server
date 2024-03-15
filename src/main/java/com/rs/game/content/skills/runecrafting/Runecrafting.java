@@ -53,7 +53,7 @@ public class Runecrafting {
 	public static final int BINDING_NECKLACE = 5521;
 
 	public enum RCRune {
-		AIR(1, 5.0, 556, false, 11, 2, 22, 3, 34, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
+		AIR(1, 5.0, 556, false, 11, 2, 22, 3, 33, 4, 44, 5, 55, 6, 66, 7, 77, 8, 88, 9, 99, 10),
 		MIND(1, 5.5, 558, false, 14, 2, 28, 3, 42, 4, 56, 5, 70, 6, 84, 7, 98, 8),
 		WATER(5, 6.0, 555, false, 19, 2, 38, 3, 57, 4, 76, 5, 95, 6),
 		EARTH(9, 6.5, 557, false, 26, 2, 52, 3, 78, 4),

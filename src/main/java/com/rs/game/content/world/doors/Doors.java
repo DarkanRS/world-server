@@ -71,7 +71,7 @@ public class Doors {
 
 	public static boolean isTempMove(ObjectDefinitions defs) {
         return switch (defs.id) {
-            case 39, 2267, 2559, 3437, 45856, 45857, 45858, 45859, 24815 -> true;
+            case 39, 2267, 2559, 3437, 34836, 34839, 45856, 45857, 45858, 45859, 24815 -> true;
             default -> !((defs.containsOption("Open") || defs.containsOption("Close")) && defs.interactable != 0);
         };
     }

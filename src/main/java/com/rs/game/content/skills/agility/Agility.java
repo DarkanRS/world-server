@@ -115,12 +115,12 @@ public class Agility {
 	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
 		player.lock(5);
 		player.walkToAndExecute(startTile, () -> {
-			WorldTasks.schedule(0, () -> player.faceTile(endTile));
-			WorldTasks.schedule(1, () -> {
+			player.getTasks().schedule(0, () -> player.faceTile(endTile));
+			player.getTasks().schedule(1, () -> {
 				player.anim(742);
 				player.setBas(2405);
 			});
-			WorldTasks.schedule(2, () -> walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, 743));
+			player.getTasks().schedule(2, () -> walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, 743));
 		});
 	}
 

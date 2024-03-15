@@ -59,10 +59,10 @@ public class DungeonHunterNPC extends DungeonNPC {
 			if (failed)
 				WorldTasks.scheduleTimer((ticks) -> {
 					if (ticks == 5)
-						setNextAnimation(new Animation(13264));
+						anim(13264);
 					else if (ticks == 8) {
-						trap.setNextNPCTransformation(1957);
-						trap.setNextSpotAnim(new SpotAnim(2561 + trap_tier));
+						trap.transformIntoNPC(1957);
+						trap.spotAnim(2561 + trap_tier);
 					} else if (ticks == 16) {
 						getManager().removeMastyxTrap(trap);
 						setCantInteract(false);
@@ -73,12 +73,12 @@ public class DungeonHunterNPC extends DungeonNPC {
 			else
 				WorldTasks.scheduleTimer((ticks) -> {
 					if (ticks == 9) {
-						trap.setNextNPCTransformation(1957);
-						trap.setNextSpotAnim(new SpotAnim(2551 + trap_tier));
+						trap.transformIntoNPC(1957);
+						trap.spotAnim(2551 + trap_tier);
 					} else if (ticks == 13)
-						setNextAnimation(new Animation(13260));
+						anim(13260);
 					else if (ticks == 18)
-						setNextNPCTransformation(getId() + 10);
+						transformIntoNPC(getId() + 10);
 					else if (ticks == 20) {
 						setCantInteract(false);
 						getManager().removeMastyxTrap(trap);

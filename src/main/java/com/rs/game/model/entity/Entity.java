@@ -33,6 +33,7 @@ import com.rs.game.map.instance.InstancedChunk;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.actions.Action;
 import com.rs.game.model.entity.actions.EntityFollow;
+import com.rs.game.model.entity.async.AsyncTaskScheduler;
 import com.rs.game.model.entity.interactions.InteractionManager;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
@@ -150,6 +151,8 @@ public abstract class Entity {
 	protected MoveType moveType = MoveType.WALK;
 	private final Poison poison;
 	private Map<Effect, Long> effects = new HashMap<>();
+
+	private transient AsyncTaskScheduler asyncTasks = new AsyncTaskScheduler();
 	private transient TaskManager tasks = new TaskManager();
 
 	// creates Entity and saved classes
@@ -317,6 +320,7 @@ public abstract class Entity {
 		nextHitBars = new ArrayList<>();
 		actionManager = new ActionManager(this);
 		tasks = new TaskManager();
+		asyncTasks = new AsyncTaskScheduler();
 		interactionManager = new InteractionManager(this);
 		nextWalkDirection = nextRunDirection = null;
 		lastFaceEntity = -1;
@@ -380,7 +384,7 @@ public abstract class Entity {
 		resetCombat();
 		walkSteps.clear();
 		poison.reset();
-		tasks = new TaskManager();
+		clearPendingTasks();
 		resetReceivedDamage();
 		clearEffects();
 		if (attributes)
@@ -398,7 +402,7 @@ public abstract class Entity {
 	}
 
 	public void processReceivedHits() {
-		if (lockDelay > World.getServerTicks())
+		if (lockDelay > tickCounter)
 			return;
 		if (this instanceof Player p)
 			if (p.getEmotesManager().isAnimating())
@@ -1174,6 +1178,10 @@ public abstract class Entity {
 		if (this instanceof Player player)
 			player.setTemporaryMoveType(MoveType.TELE);
 		move(tile);
+	}
+
+	public void tele(int x, int y, int plane) {
+		tele(Tile.of(x, y, plane));
 	}
 
 	public SpotAnim getNextSpotAnim1() {
@@ -2109,7 +2117,7 @@ public abstract class Entity {
 	}
 
 	public boolean isLocked() {
-		return lockDelay >= World.getServerTicks();
+		return lockDelay >= tickCounter;
 	}
 
 	/**
@@ -2122,7 +2130,7 @@ public abstract class Entity {
 	}
 
 	public void lock(int ticks) {
-		lockDelay = World.getServerTicks() + ticks;
+		lockDelay = tickCounter + ticks;
 	}
 
 	public void unlock() {
@@ -2140,9 +2148,16 @@ public abstract class Entity {
 	public void processTasks() {
 		if (tasks != null)
 			tasks.processTasks();
+		if (asyncTasks != null)
+			asyncTasks.tick();
 	}
 
 	public void clearPendingTasks() {
 		tasks = new TaskManager();
+		asyncTasks.stopAll();
+	}
+
+	public AsyncTaskScheduler getAsyncTasks() {
+		return asyncTasks;
 	}
 }

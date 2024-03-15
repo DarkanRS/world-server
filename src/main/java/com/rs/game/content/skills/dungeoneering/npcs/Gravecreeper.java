@@ -143,7 +143,7 @@ public class Gravecreeper extends DungeonBoss {
 					@Override
 					public void run() {
 						// finish();
-						setNextNPCTransformation(1957);
+						transformIntoNPC(1957);
 						if (specialDelay == -1)
 							specialDelay = -2;
 						WorldTasks.schedule(new Task() {
@@ -152,7 +152,7 @@ public class Gravecreeper extends DungeonBoss {
 								if (getManager().isDestroyed())
 									return;
 								tele(getManager().getTile(getReference(), 3 + Utils.random(4) * 3, 3 + Utils.random(4) * 3));
-								setNextNPCTransformation(originalId);
+								transformIntoNPC(originalId);
 								setNextAnimation(new Animation(14506));
 								WorldTasks.schedule(new Task() {
 									@Override

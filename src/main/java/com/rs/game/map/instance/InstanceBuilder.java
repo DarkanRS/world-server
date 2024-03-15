@@ -127,22 +127,6 @@ public final class InstanceBuilder {
 		return -1;
 	}
 
-	static void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
-		if (ref.getChunkBase() == null) {
-			future.complete(true);
-			return;
-		}
-		LowPriorityTaskExecutor.schedule(() -> {
-			try {
-				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "destroyMap", e);
-				future.completeExceptionally(e);
-			}
-		}, 8);
-	}
-
 	private static void destroyMap(int chunkX, int chunkY, int width, int height) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
@@ -162,6 +146,22 @@ public final class InstanceBuilder {
 				for (int y = 0; y <= height; y++)
 					destroyChunk(baseChunk + x + y + plane);
 		reserveRegions(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
+	}
+
+	static void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
+		if (ref.getChunkBase() == null) {
+			future.complete(true);
+			return;
+		}
+		LowPriorityTaskExecutor.schedule(() -> {
+			try {
+				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
+				future.complete(true);
+			} catch (Throwable e) {
+				Logger.handle(InstanceBuilder.class, "destroyMap", e);
+				future.completeExceptionally(e);
+			}
+		}, 8);
 	}
 
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, CompletableFuture<Boolean> future) {

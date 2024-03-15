@@ -32,6 +32,8 @@ import com.rs.plugin.handlers.ButtonClickHandler;
 import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.Ticks;
 
+import java.util.*;
+
 @PluginEventHandler
 public class SandwichLady extends OwnedNPC {
 
@@ -39,11 +41,24 @@ public class SandwichLady extends OwnedNPC {
 	private int ticks = 0;
 	private boolean claimed = false;
 
+
+	private List<SandwichOption> sandwichOptions = new ArrayList<>();
+	private SandwichOption selectedSandwich;
+
 	public SandwichLady(Player owner, Tile tile) {
 		super(owner, 8629, tile, false);
 		setRun(true);
 		setNextFaceEntity(owner);
 		setAutoDespawnAtDistance(false);
+
+		sandwichOptions.add(new SandwichOption(10, "Baguette", 6961));
+		sandwichOptions.add(new SandwichOption(12, "Triangle sandwich", 6962));
+		sandwichOptions.add(new SandwichOption(14, "Square sandwich", 6965));
+		sandwichOptions.add(new SandwichOption(16, "Roll", 6963));
+		sandwichOptions.add(new SandwichOption(18, "Meat pie", 2327));
+		sandwichOptions.add(new SandwichOption(20, "Doughnut", 14665));
+		sandwichOptions.add(new SandwichOption(22, "Chocolate bar", 1973));
+		selectedSandwich = sandwichOptions.get(Utils.random(sandwichOptions.size()));
 	}
 
 	@Override
@@ -70,7 +85,7 @@ public class SandwichLady extends OwnedNPC {
 			owner.setNextAnimation(new Animation(836));
 			owner.stopAll();
 			owner.fadeScreen(() -> {
-				Magic.sendNormalTeleportSpell(owner, RandomEvents.getRandomTile());
+				owner.move(RandomEvents.getRandomTile());
 				owner.setNextAnimation(new Animation(-1));
 				owner.unlock();
 			});
@@ -82,7 +97,7 @@ public class SandwichLady extends OwnedNPC {
 		else if (ticks % 30 == 0)
 			forceTalk(randomQuote(getOwner()));
 	}
-	
+
 	private static String randomQuote(Player player) {
 		return switch(Utils.randomInclusive(0, 8)) {
 		case 0 -> "All types of sandwiches, " + player.getDisplayName() + ".";
@@ -102,16 +117,18 @@ public class SandwichLady extends OwnedNPC {
 				return;
 			}
 			if (e.getPlayer().inCombat()) {
-				e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
-				e.getPlayer().getInventory().addItemDrop(1973, 1);
+				e.getPlayer().sendMessage("The sandwich lady gives you a " + ((SandwichLady) e.getNPC()).selectedSandwich.description.toLowerCase((Locale.getDefault())) +"!");
+				e.getPlayer().getInventory().addItemDrop(((SandwichLady) e.getNPC()).selectedSandwich.itemId, 1);
 				npc.forceTalk("Hope that fills you up!");
 				npc.ticks = DURATION+4;
 				return;
 			}
 			e.getPlayer().startConversation(new Conversation(e.getPlayer())
-					.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a chocolate bar on me.")
+					.addNPC(8629, HeadE.HAPPY_TALKING, "You look hungry to me. I tell you what - have a " + ((SandwichLady) e.getNPC()).selectedSandwich.description.toLowerCase((Locale.getDefault())) + " on me.")
 					.addNext(() -> {
 						e.getPlayer().getTempAttribs().setO("sandwichLady", e.getNPC());
+
+						e.getPlayer().getPackets().setIFText(297, 48, "Have a " + ((SandwichLady) e.getNPC()).selectedSandwich.description.toLowerCase((Locale.getDefault())) + " for free!");
 						e.getPlayer().getInterfaceManager().sendInterface(297);
 					}));
 		}
@@ -122,20 +139,33 @@ public class SandwichLady extends OwnedNPC {
 			SandwichLady lady = e.getPlayer().getTempAttribs().getO("sandwichLady");
 			e.getPlayer().closeInterfaces();
 			if (lady == null) {
-				e.getPlayer().sendMessage("An error has ocurred.");
+				e.getPlayer().sendMessage("An error has occurred.");
 				return;
 			}
-			if (e.getComponentId() == 22) {
-				e.getPlayer().sendMessage("The sandwich lady gives you a chocolate bar!");
-				e.getPlayer().getInventory().addItemDrop(1973, 1);
+			if (e.getComponentId() == lady.selectedSandwich.componentId) {
+				e.getPlayer().sendMessage("The sandwich lady gives you a " + lady.selectedSandwich.description.toLowerCase(Locale.getDefault()) + "!");
+				e.getPlayer().getInventory().addItemDrop(lady.selectedSandwich.itemId, 1);
 				lady.forceTalk("Hope that fills you up!");
-				lady.ticks = DURATION+4;
+				lady.ticks = DURATION + 4;
 			} else {
 				e.getPlayer().sendMessage("The sandwich lady knocks you out and you wake up somewhere.. different.");
 				lady.forceTalk("Hey, I didn't say you could have that!");
-				lady.ticks = DURATION-1;
+				lady.ticks = DURATION - 1;
 			}
 			lady.claimed = true;
 		}
 	});
+
+	class SandwichOption {
+		int componentId;
+		String description;
+		int itemId;
+
+		SandwichOption(int componentId, String description, int itemId) {
+			this.componentId = componentId;
+			this.description = description;
+			this.itemId = itemId;
+		}
+	}
+
 }

@@ -236,22 +236,9 @@ public final class ObjectHandler {
 						player.useStairs(3303, Tile.of((isTravelingWest ? -2 : 2) + player.getX(), player.getY(), 0), 2, 3, null, true);
 					}
 				});
-			} else if (id == 65371) { // Chaos altar (armored zombie)
-				final int maxPrayer1 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-				if (player.getPrayer().getPoints() < maxPrayer1) {
-					player.lock(5);
-					player.sendMessage("You pray to the gods...", true);
-					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new Task() {
-						@Override
-						public void run() {
-							player.getPrayer().restorePrayer(maxPrayer1);
-							player.sendMessage("...and recharged your prayer.", true);
-						}
-					}, 2);
-				} else
-					player.sendMessage("You already have full prayer.");
-            } else if (id == 65715) // Armored zombie trapdoor
+			} else if (id == 65371) // Chaos altar (armored zombie)
+				player.getPrayer().worshipAltar();
+            else if (id == 65715) // Armored zombie trapdoor
 				player.tele(Tile.of(3241, 9991, 0));
 			else if (id == 12328) // Jadinko lair
 				player.tele(Tile.of(3011, 9276, 0));
@@ -979,23 +966,9 @@ public final class ObjectHandler {
 				player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 			else if (id == 19691)
 				player.useStairs(-1, player.transform(0, -4, -1), 0, 1);
-			else if (id == 61336) {
-				final int maxPrayer2 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-				if (player.getPrayer().getPoints() < maxPrayer2) {
-					player.lock(5);
-					player.sendMessage("You pray to the gods...", true);
-					player.setNextAnimation(new Animation(645));
-					WorldTasks.schedule(new Task() {
-						@Override
-						public void run() {
-							player.getPrayer().restorePrayer(maxPrayer2);
-							player.sendMessage("...and recharged your prayer.", true);
-						}
-					}, 2);
-				} else
-					player.sendMessage("You already have full prayer.");
-
-			} else if (id == 2878 || id == 2879) {
+			else if (id == 61336)
+				player.getPrayer().worshipAltar();
+			else if (id == 2878 || id == 2879) {
 				player.simpleDialogue("You step into the pool of sparkling water. You feel the energy rush through your veins.");
 				player.forceMove(id == 2879 ? Tile.of(2509, 4687, 0) : Tile.of(2542, 4720, 0), 13842, 0, 60, () -> {
 					player.setNextAnimation(new Animation(-1));
@@ -1266,20 +1239,7 @@ public final class ObjectHandler {
 					case "chaos altar":
 					case "altar of guthix":
 						if (objectDef.containsOption(0, "Pray") || objectDef.containsOption(0, "Pray-at") || objectDef.containsOption(0, "Recharge")) {
-							final int maxPrayer3 = player.getSkills().getLevelForXp(Constants.PRAYER) * 10;
-							if (player.getPrayer().getPoints() < maxPrayer3) {
-								player.lock(5);
-								player.sendMessage("You pray to the gods...", true);
-								player.setNextAnimation(new Animation(645));
-								WorldTasks.schedule(new Task() {
-									@Override
-									public void run() {
-										player.getPrayer().restorePrayer(maxPrayer3);
-										player.sendMessage("...and recharged your prayer.", true);
-									}
-								}, 2);
-							} else
-								player.sendMessage("You already have full prayer.");
+							player.getPrayer().worshipAltar();
 							if (id == 6552) {
 								player.startConversation(new Dialogue().addOptions("Change spellbooks?", ops -> {
 									ops.add("Yes, replace my spellbook.", () -> {
