@@ -61,8 +61,8 @@ public class GrandpaJackFishingContestD extends Conversation {
 											);
 									option("That's less competition for me then.", new Dialogue()
 											.addPlayer(HeadE.HAPPY_TALKING, "That's less competition for me then.")
-											.addNPC(NPC, HeadE.CALM_TALK, "Why you young whippersnapper! If I was twenty years younger I’d show you" +
-													" something that’s for sure!")
+											.addNPC(NPC, HeadE.CALM_TALK, "Why you young whippersnapper! If I was twenty years younger I'd show you" +
+													" something that's for sure!")
 											);
 								}
 							})

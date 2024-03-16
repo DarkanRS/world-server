@@ -1,4 +1,4 @@
-package com.rs.game.content.world.areas.taverly.npcs;
+package com.rs.game.content.world.areas.taverley.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
