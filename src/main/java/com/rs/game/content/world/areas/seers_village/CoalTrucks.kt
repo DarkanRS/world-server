@@ -1,11 +1,8 @@
 package com.rs.game.content.world.areas.seers_village
 
-import com.rs.engine.dialogue.Dialogue
-import com.rs.engine.dialogue.HeadE
-import com.rs.engine.dialogue.Options
 import com.rs.game.content.achievements.AchievementDef
-import com.rs.game.content.achievements.AchievementSystemDialogue
 import com.rs.game.content.achievements.SetReward
+import com.rs.game.content.world.areas.seers_village.npcs.StankersD
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Item
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -29,22 +26,7 @@ val MAX_COAL_STORAGE_MAP = mapOf(
 fun handleCoalTrucks() {
     onNpcClick(STANKERS_ID, options = arrayOf("Talk-to")) { e ->
         e.player.apply {
-            e.player.startConversation(
-                Dialogue()
-                    .addNPC(e.npcId, HeadE.CHEERFUL, "Hello, what can I do for you?")
-                    .addOptions(
-                        "What would you like to say?"
-                    ) { ops: Options ->
-                        ops.add(
-                            "About the Achievement System...",
-                            AchievementSystemDialogue(
-                                e.player,
-                                e.npcId,
-                                SetReward.SEERS_HEADBAND
-                            ).start
-                        )
-                    }
-            )
+            e.player.startConversation(StankersD(this, e.npc))
         }
     }
 
