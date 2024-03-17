@@ -1,4 +1,4 @@
-package com.rs.game.content.transportation
+package com.rs.game.content.transportation.canoes
 
 import com.rs.engine.dialogue.Conversation
 import com.rs.engine.dialogue.Dialogue

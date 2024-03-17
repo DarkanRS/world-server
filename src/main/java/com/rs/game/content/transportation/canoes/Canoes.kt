@@ -1,4 +1,4 @@
-package com.rs.game.content.transportation
+package com.rs.game.content.transportation.canoes
 
 import com.rs.cache.loaders.ObjectType
 import com.rs.game.World
@@ -152,10 +152,30 @@ enum class Canoes(
     val canoeFloating: CanoeStationObjects,
     val canoeSinking: CanoeStationObjects
 ) {
-    LOG(12, 30.0, 1, 60, 70, CanoeStationObjects.TREE_SHAPED_LOG, CanoeStationObjects.CANOE_PUSHING_LOG, CanoeStationObjects.CANOE_FLOATING_LOG,CanoeStationObjects.CANOE_SINKING_LOG),
-    DUGOUT(27, 60.0, 2, 35, 65, CanoeStationObjects.TREE_SHAPED_DUGOUT, CanoeStationObjects.CANOE_PUSHING_DUGOUT, CanoeStationObjects.CANOE_FLOATING_DUGOUT, CanoeStationObjects.CANOE_SINKING_DUGOUT),
-    STABLE_DUGOUT(42, 90.0, 3, 10, 55, CanoeStationObjects.TREE_SHAPED_STABLE_DUGOUT, CanoeStationObjects.CANOE_PUSHING_STABLE_DUGOUT, CanoeStationObjects.CANOE_FLOATING_STABLE_DUGOUT, CanoeStationObjects.CANOE_SINKING_STABLE_DUGOUT),
-    WAKA(57, 150.0, 4, 6, 35, CanoeStationObjects.TREE_SHAPED_WAKA, CanoeStationObjects.CANOE_PUSHING_WAKA, CanoeStationObjects.CANOE_FLOATING_WAKA, CanoeStationObjects.CANOE_SINKING_WAKA);
+    LOG(12, 30.0, 1, 60, 70,
+        CanoeStationObjects.TREE_SHAPED_LOG,
+        CanoeStationObjects.CANOE_PUSHING_LOG,
+        CanoeStationObjects.CANOE_FLOATING_LOG,
+        CanoeStationObjects.CANOE_SINKING_LOG
+    ),
+    DUGOUT(27, 60.0, 2, 35, 65,
+        CanoeStationObjects.TREE_SHAPED_DUGOUT,
+        CanoeStationObjects.CANOE_PUSHING_DUGOUT,
+        CanoeStationObjects.CANOE_FLOATING_DUGOUT,
+        CanoeStationObjects.CANOE_SINKING_DUGOUT
+    ),
+    STABLE_DUGOUT(42, 90.0, 3, 10, 55,
+        CanoeStationObjects.TREE_SHAPED_STABLE_DUGOUT,
+        CanoeStationObjects.CANOE_PUSHING_STABLE_DUGOUT,
+        CanoeStationObjects.CANOE_FLOATING_STABLE_DUGOUT,
+        CanoeStationObjects.CANOE_SINKING_STABLE_DUGOUT
+    ),
+    WAKA(57, 150.0, 4, 6, 35,
+        CanoeStationObjects.TREE_SHAPED_WAKA,
+        CanoeStationObjects.CANOE_PUSHING_WAKA,
+        CanoeStationObjects.CANOE_FLOATING_WAKA,
+        CanoeStationObjects.CANOE_SINKING_WAKA
+    );
 
     companion object {
         val indexMap = entries.associateBy { it.ordinal }
