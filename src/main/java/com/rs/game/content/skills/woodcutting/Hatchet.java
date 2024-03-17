@@ -70,9 +70,13 @@ public enum Hatchet {
 	public int animNormal() {
 		return animations[5];
 	}
-	
+
 	public int animIvy() {
 		return animations[9];
+	}
+
+	public int animCanoe() {
+		return animations[1];
 	}
 
 	public int getAnim(TreeType type) {
