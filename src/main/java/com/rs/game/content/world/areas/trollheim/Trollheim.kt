@@ -114,29 +114,29 @@ fun mapTrollheim() {
         }
     }
 
-    onObjectClick(67752, 67679) { e ->
+    onObjectClick(67752, 67679, checkDistance = false) { e ->
         if (e.objectId == 67752) {
             e.player.setRouteEvent(RouteEvent(if (e.player.x > e.getObject().x) Tile.of(3434, 4261, 1) else Tile.of(3430, 4261, 1)) {
-                    e.player.lock()
-                    e.player.resetWalkSteps()
-                    World.sendObjectAnimation(e.getObject(), 497)
-                    e.player.forceMove(if (e.player.x < e.getObject().x) Tile.of(3434, 4261, 1) else Tile.of(3430, 4261, 1), 751, 20, 75)
-                })
+                e.player.lock()
+                e.player.resetWalkSteps()
+                World.sendObjectAnimation(e.getObject(), 497)
+                e.player.forceMove(if (e.player.x < e.getObject().x) Tile.of(3434, 4261, 1) else Tile.of(3430, 4261, 1), 751, 20, 75)
+            })
         } else {
             val goWest = e.player.x > 3419
             e.player.setRouteEvent(RouteEvent(if (goWest) Tile.of(3423, 4260, 1) else Tile.of(3415, 4260, 1)) {
                 e.player.lock()
                 e.player.faceObject(e.getObject())
-                for (i in 0..3) {
-                    e.player.tasks.schedule((i * 4) + 1) {
+                e.player.schedule {
+                    for (i in 0..3) {
                         e.player.anim(13495)
-                        e.player.tasks.schedule(3) {
-                            e.player.anim(-1)
-                            e.player.tele(e.player.transform(if (goWest) -2 else 2, 0))
-                        }
+                        wait(3)
+                        e.player.anim(-1)
+                        e.player.tele(e.player.transform(if (goWest) -2 else 2, 0))
+                        wait(3)
                     }
+                    e.player.unlock()
                 }
-                e.player.tasks.schedule(17) { e.player.unlock() }
             })
         }
     }
@@ -153,24 +153,25 @@ fun mapTrollheim() {
                 val deltaX = if (e.getObject().tile.isAt(3421, 4280)) if (e.player.x > e.getObject().x) -2 else 2 else 0
                 val deltaY = if (e.getObject().tile.isAt(3421, 4280)) 0 else if (e.player.y > e.getObject().y) -2 else 2
                 e.player.lock()
-                e.player.tasks.schedule(1) {
+                e.player.schedule {
+                    wait(1)
                     e.player.anim(16025)
-                    e.player.tasks.schedule(7) {
-                        e.player.anim(-1)
-                        e.player.tele(e.player.transform(deltaX, deltaY))
-                        e.player.unlockNextTick()
-                    }
+                    wait(7)
+                    e.player.anim(-1)
+                    e.player.tele(e.player.transform(deltaX, deltaY))
+                    e.player.unlockNextTick()
                 }
             }
 
             67678 -> {
                 e.player.lock()
                 e.player.addWalkSteps(e.getObject().tile, 2, false)
-                e.player.tasks.schedule(1) {
+                e.player.schedule {
+                    wait(1)
                     e.player.faceTile(e.player.transform(0, if (e.getObject().tile.isAt(3434, 4275)) 2 else -2))
-                }
-                e.player.tasks.schedule(2) { e.player.anim(13495) }
-                e.player.tasks.schedule(5) {
+                    wait(1)
+                    e.player.anim(13495)
+                    wait(3)
                     e.player.anim(-1)
                     e.player.tele(e.player.transform(0, if (e.getObject().tile.isAt(3434, 4275)) 2 else -2))
                     e.player.unlockNextTick()
@@ -221,16 +222,15 @@ fun climbCliff(player: Player, start: Tile, end: Tile, up: Boolean) {
     player.walkToAndExecute(start) {
         player.lock()
         if (!up) player.addWalkSteps(end.x().toInt(), end.y().toInt(), 1, false)
-        player.tasks.schedule(1) {
+        player.schedule {
+            wait(1)
             player.faceTile(end)
-            player.tasks.schedule(1) {
-                player.anim(if (up) 16031 else 16016)
-                player.tasks.schedule(if (up) 5 else 2, Runnable {
-                    player.anim(-1)
-                    player.tele(end)
-                    player.unlockNextTick()
-                })
-            }
+            wait(1)
+            player.anim(if (up) 16031 else 16016)
+            wait(if (up) 5 else 2)
+            player.anim(-1)
+            player.tele(end)
+            player.unlockNextTick()
         }
     }
 }

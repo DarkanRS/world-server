@@ -36,8 +36,9 @@ class AsyncTaskScheduler {
             cancel(name)
         if (name != null)
             namedTasks[name] = task
-        val suspendBlock = suspend { block(task, CoroutineScope(LowPriorityTaskExecutor.getWorldExecutor().asCoroutineDispatcher())) }
-        task.coroutine = suspendBlock.createCoroutine(completion = task)
+        task.coroutine = suspend {
+            block(task, CoroutineScope(LowPriorityTaskExecutor.getWorldExecutor().asCoroutineDispatcher()))
+        }.createCoroutine(completion = task)
         tasks.add(task)
     }
 

@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.Furnaces;
+import com.rs.game.content.world.FurnacesKt;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.pathing.Direction;
 import com.rs.game.model.entity.pathing.RouteEvent;
@@ -43,7 +43,7 @@ public class Karamja  {
 		if (!e.getOption().equals("Smelt"))
 			return;
 
-		Furnaces.useFurnace(player, e.getObject());
+		FurnacesKt.use(player, e.getObject());
 	});
 
 	public static ObjectClickHandler handleShiloFurnaceDoor = new ObjectClickHandler(new Object[] { 2266, 2267 }, e -> {
