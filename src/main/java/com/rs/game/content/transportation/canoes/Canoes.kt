@@ -74,6 +74,7 @@ enum class CanoeStations(
     val stationRegion: Int,
     val stationVarbit: Int,
     val playerChopLocation: Tile,
+    val playerFacingLocation: Tile,
     val playerFloatLocation: Tile,
     val canoeSinkLocation: Tile,
     val playerDestination: Tile,
@@ -84,6 +85,7 @@ enum class CanoeStations(
         12850,
         1839,
         Tile(3232, 3254, 0),
+        Tile(3233, 3254, 0),
         Tile(3233, 3252, 0),
         Tile(3235, 3253, 0),
         Tile(3232, 3252, 0),
@@ -94,6 +96,7 @@ enum class CanoeStations(
         12852,
         1840,
         Tile(3204, 3343, 0),
+        Tile(3204, 3342, 0),
         Tile(3202, 3343, 0),
         Tile(3200, 3340, 0),
         Tile(3202, 3343, 0),
@@ -104,6 +107,7 @@ enum class CanoeStations(
         12341,
         1841,
         Tile(3112, 3409, 0),
+        Tile(3111, 3409, 0),
         Tile(3112, 3411, 0),
         Tile(3109, 3410, 0),
         Tile(3112, 3411, 0),
@@ -114,6 +118,7 @@ enum class CanoeStations(
         12342,
         1842,
         Tile(3132, 3508, 0),
+        Tile(3131, 3508, 0),
         Tile(3132, 3510, 0),
         Tile(3129, 3509, 0),
         Tile(3132, 3510, 0),
@@ -123,6 +128,7 @@ enum class CanoeStations(
     WILDERNESS(
         12603,
         0,
+        Tile(0, 0, 0),
         Tile(0, 0, 0),
         Tile(0, 0, 0),
         Tile(3143, 3795, 0),
@@ -183,38 +189,6 @@ enum class Canoes(
 }
 
 @ServerStartupEvent
-/*fun handleCanoes() {
-    onObjectClick("Canoe station") { (player, obj, option) ->
-        if (player.vars.getVarBit(1841) == 0) {
-            player.vars.setVarBit(1841, 1)
-        } else if (player.vars.getVarBit(1841) == 1) {
-            player.vars.setVarBit(1841, 2)
-        } else if (player.vars.getVarBit(1841) == 2) {
-            player.vars.setVarBit(1841, 3)
-        } else if (player.vars.getVarBit(1841) == 3) {
-            player.vars.setVarBit(1841, 4)
-        } else if (player.vars.getVarBit(1841) == 4) {
-            player.vars.setVarBit(1841, 5)
-        } else if (player.vars.getVarBit(1841) == 5) {
-            player.vars.setVarBit(1841, 6)
-        } else if (player.vars.getVarBit(1841) == 6) {
-            player.vars.setVarBit(1841, 7)
-        } else if (player.vars.getVarBit(1841) == 7) {
-            player.vars.setVarBit(1841, 8)
-        } else if (player.vars.getVarBit(1841) == 8) {
-            player.vars.setVarBit(1841, 10)
-        } else if (player.vars.getVarBit(1841) == 10) {
-            player.vars.setVarBit(1841, 11)
-        } else if (player.vars.getVarBit(1841) == 11) {
-            player.vars.setVarBit(1841, 12)
-        } else if (player.vars.getVarBit(1841) == 12) {
-            player.vars.setVarBit(1841, 13)
-        } else if (player.vars.getVarBit(1841) == 13) {
-            player.vars.setVarBit(1841, 14)
-        } else if (player.vars.getVarBit(1841) == 14) {
-            player.vars.setVarBit(1841, 0)
-    }
-}}*/
 fun handleCanoes() {
     onObjectClick("Canoe station") { (player, obj, option) ->
         when (option) {
@@ -249,6 +223,7 @@ private fun handleChopDown(player: Player, obj: GameObject) {
             return@RouteEvent
         }
         player.lock()
+        player.faceTile(canoeStation.playerFacingLocation)
         player.schedule {
             player.anim(hatchet.animNormal())
             wait(3)
