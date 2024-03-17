@@ -75686,156 +75686,6 @@
     "npcId": 2759
   },
   {
-    "comment": "Grand Exchange clerk",
-    "npcId": 1419,
-    "tile": {
-      "x": 3147,
-      "y": 3479,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "tile": {
-      "x": 3147,
-      "y": 3505,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "tile": {
-      "x": 3179,
-      "y": 3505,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "dir": "EAST",
-    "tile": {
-      "x": 3182,
-      "y": 3504,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "dir": "EAST",
-    "tile": {
-      "x": 3150,
-      "y": 3505,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "tile": {
-      "x": 3179,
-      "y": 3478,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2241,
-    "dir": "EAST",
-    "tile": {
-      "x": 3182,
-      "y": 3479,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Grand Exchange clerk",
-    "npcId": 2593,
-    "tile": {
-      "x": 3150,
-      "y": 3478,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 2718,
-    "tile": {
-      "x": 3149,
-      "y": 3506,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3293,
-    "tile": {
-      "x": 3148,
-      "y": 3477,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3416,
-    "tile": {
-      "x": 3149,
-      "y": 3480,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3418,
-    "tile": {
-      "x": 3148,
-      "y": 3503,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3418,
-    "dir": "SOUTH",
-    "tile": {
-      "x": 3180,
-      "y": 3477,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3418,
-    "dir": "NORTH",
-    "tile": {
-      "x": 3180,
-      "y": 3480,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3418,
-    "tile": {
-      "x": 3180,
-      "y": 3503,
-      "plane": 0
-    }
-  },
-  {
-    "comment": "Banker",
-    "npcId": 3418,
-    "dir": "NORTH",
-    "tile": {
-      "x": 3181,
-      "y": 3506,
-      "plane": 0
-    }
-  },
-  {
     "dir": "NORTH",
     "tile": {
       "plane": 0,
@@ -78756,15 +78606,6 @@
     },
     "comment": "Blurberry",
     "npcId": 848
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3148,
-      "y": 3498
-    },
-    "comment": "Bob Barter (herbs)",
-    "npcId": 6524
   },
   {
     "tile": {
@@ -90006,15 +89847,6 @@
     },
     "comment": "Fancy-dress shop owner",
     "npcId": 554
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3181,
-      "y": 3501
-    },
-    "comment": "Farid Morrisane (ores)",
-    "npcId": 6523
   },
   {
     "tile": {
@@ -105666,15 +105498,6 @@
     },
     "comment": "Hobgoblin",
     "npcId": 13100
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3148,
-      "y": 3483
-    },
-    "comment": "Hofuthand (armour and weapons)",
-    "npcId": 6527
   },
   {
     "tile": {
@@ -127195,15 +127018,6 @@
     },
     "comment": "Registrar",
     "npcId": 11272
-  },
-  {
-    "tile": {
-      "plane": 0,
-      "x": 3175,
-      "y": 3477
-    },
-    "comment": "Relobo Blinyo (logs)",
-    "npcId": 6526
   },
   {
     "tile": {

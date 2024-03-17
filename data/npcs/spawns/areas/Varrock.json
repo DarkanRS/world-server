@@ -1,11 +1,211 @@
 [
   {
+  "comment": "Grand Exchange clerk",
+  "npcId": 1419,
+  "dir": "WEST",
+  "tile": {
+  "x": 3147,
+  "y": 3479,
+  "plane": 0
+}
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2241,
+    "dir": "WEST",
+    "tile": {
+      "x": 3147,
+      "y": 3505,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 1419,
+    "dir": "WEST",
+    "tile": {
+      "x": 3179,
+      "y": 3505,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2593,
+    "dir": "EAST",
+    "tile": {
+      "x": 3182,
+      "y": 3504,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2240,
+    "dir": "EAST",
+    "tile": {
+      "x": 3150,
+      "y": 3504,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2240,
+    "dir": "WEST",
+    "tile": {
+      "x": 3179,
+      "y": 3479,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2241,
+    "dir": "EAST",
+    "tile": {
+      "x": 3182,
+      "y": 3478,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Grand Exchange clerk",
+    "npcId": 2593,
+    "dir": "EAST",
+    "tile": {
+      "x": 3150,
+      "y": 3478,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 2718,
+    "dir": "NORTH",
+    "tile": {
+      "x": 3149,
+      "y": 3506,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3293,
+    "dir": "SOUTH",
+    "tile": {
+      "x": 3148,
+      "y": 3477,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3416,
+    "dir": "NORTH",
+    "tile": {
+      "x": 3149,
+      "y": 3480,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3418,
+    "dir": "SOUTH",
+    "tile": {
+      "x": 3148,
+      "y": 3503,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3418,
+    "dir": "SOUTH",
+    "tile": {
+      "x": 3180,
+      "y": 3477,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 2718,
+    "dir": "NORTH",
+    "tile": {
+      "x": 3181,
+      "y": 3480,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3293,
+    "dir": "SOUTH",
+    "tile": {
+      "x": 3180,
+      "y": 3503,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Banker",
+    "npcId": 3416,
+    "dir": "NORTH",
+    "tile": {
+      "x": 3181,
+      "y": 3506,
+      "plane": 0
+    }
+  },
+  {
+    "comment": "Farid Morrisane (ores)",
+    "npcId": 6523,
+    "dir": "SOUTH",
+    "tile": {
+      "plane": 0,
+      "x": 3175,
+      "y": 3502
+    }
+  },
+  {
+    "comment": "Bob Barter (herbs)",
+    "npcId": 6524,
+    "dir": "SOUTH",
+    "tile": {
+      "plane": 0,
+      "x": 3155,
+      "y": 3502
+    }
+  },
+  {
+    "comment": "Relobo Blinyo (logs)",
+    "npcId": 6526,
+    "dir": "SOUTH",
+    "tile": {
+      "plane": 0,
+      "x": 3175,
+      "y": 3482
+    }
+  },
+  {
+    "comment": "Hofuthand (armour and weapons)",
+    "npcId": 6527,
+    "dir": "SOUTH",
+    "tile": {
+      "plane": 0,
+      "x": 3165,
+      "y": 3482
+    }
+  },
+  {
+    "comment": "Urist Loric",
+    "npcId": 11270,
     "tile": {
       "plane": 0,
       "x": 3222,
       "y": 3424
-    },
-    "comment": "Urist Loric",
-    "npcId": 11270
+    }
   }
 ]
