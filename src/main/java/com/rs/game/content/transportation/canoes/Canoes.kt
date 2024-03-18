@@ -234,7 +234,6 @@ private fun handleChopDown(player: Player, obj: GameObject) {
             obj.refresh()
             player.vars.setVarBit(canoeStation.stationVarbit, CanoeStationObjects.TREE_FALLEN.varbitValue)
             player.unlock()
-            return@schedule
         }
     })
 }
@@ -269,7 +268,6 @@ private fun handleFloatCanoe(player: Player, obj: GameObject) {
             player.anim(-1)
             player.vars.setVarBit(canoeStation.stationVarbit, canoe.canoeFloating.varbitValue)
             player.unlock()
-            return@schedule
         }
     })
 }
