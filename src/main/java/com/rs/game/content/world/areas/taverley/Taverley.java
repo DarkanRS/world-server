@@ -14,7 +14,7 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.world.areas.taverly;
+package com.rs.game.content.world.areas.taverley;
 
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.quest.Quest;
@@ -33,7 +33,7 @@ import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PickupItemHandler;
 
 @PluginEventHandler
-public class Taverly {
+public class Taverley {
 
 	public static ObjectClickHandler handleTaverleyHouseStaircase = new ObjectClickHandler(new Object[] { 66637, 66638 }, e -> {
 		Player p = e.getPlayer();
@@ -121,7 +121,7 @@ public class Taverly {
 		}
 	});
 
-	public static ObjectClickHandler handleTaverlyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
+	public static ObjectClickHandler handleTaverleyDungeonOddWall = new ObjectClickHandler(new Object[] { 2117 }, e -> Doors.handleDoor(e.getPlayer(), e.getObject(), -1));
 
 	public static PickupItemHandler zammyWines = new PickupItemHandler(new Object[] { 245 }, new Tile[] { Tile.of(2946, 3474, 0), Tile.of(2946, 3473, 0) }, e -> {
 		if (!e.isTelegrabbed()) {
