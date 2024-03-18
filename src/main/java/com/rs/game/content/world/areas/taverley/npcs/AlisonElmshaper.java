@@ -1,4 +1,4 @@
-package com.rs.game.content.world.areas.taverly.npcs;
+package com.rs.game.content.world.areas.taverley.npcs;
 
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
@@ -9,28 +9,27 @@ import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
-public class WillOakfeller extends Conversation {
-    private static final int npcId = 14885;
+public class AlisonElmshaper extends Conversation {
+    private static final int npcId = 14858;
 
-    public WillOakfeller(Player player) {
+    public AlisonElmshaper(Player player) {
         super(player);
-        addNPC(npcId, HeadE.HAPPY_TALKING, "Want to do some woodcutting, mate?");
+        addNPC(npcId, HeadE.CALM_TALK, "Oh, hello. Need something?");
         addOptions(new Options() {
             @Override
             public void create() {
-                option("I need woodcutting supplies", () -> ShopsHandler.openShop(player, "will_woodcut_shop"));
+                option("I need fletching supplies", () -> ShopsHandler.openShop(player, "alison_fletch_shop"));
                 option("Farewell");
             }
         });
         create();
     }
 
-
-    public static NPCClickHandler WillOakfellerHandler = new NPCClickHandler(new Object[] { npcId }, e -> {
+    public static NPCClickHandler AlisonElmshaperHandler = new NPCClickHandler(new Object[] { npcId }, e -> {
         if (e.getOption().equalsIgnoreCase("talk-to"))
-            e.getPlayer().startConversation(new WillOakfeller(e.getPlayer()));
+            e.getPlayer().startConversation(new AlisonElmshaper(e.getPlayer()));
         if (e.getOption().equalsIgnoreCase("trade"))
-            ShopsHandler.openShop(e.getPlayer(), "will_woodcut_shop");
+            ShopsHandler.openShop(e.getPlayer(), "alison_fletch_shop");
     });
 
 }

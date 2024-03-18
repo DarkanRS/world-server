@@ -952,16 +952,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(1850, 4385, 1), 0, 1);
 			else if (id == 10224 && x == 1850 && y == 4385)
 				player.useStairs(-1, Tile.of(1850, 4387, 2), 0, 1);
-				// White Wolf Mountain cut
-			else if (id == 56 && x == 2876 && y == 9880)
-				player.useStairs(-1, Tile.of(2879, 3465, 0), 0, 1);
-			else if (id == 66990 && x == 2876 && y == 3462)
-				player.useStairs(-1, Tile.of(2875, 9880, 0), 0, 1);
-			else if (id == 54 && x == 2820 && y == 9883)
-				player.useStairs(-1, Tile.of(2820, 3486, 0), 0, 1);
-			else if (id == 55 && x == 2820 && y == 3484)
-				player.useStairs(-1, Tile.of(2821, 9882, 0), 0, 1);
-				// sabbot lair
+			// sabbot lair
 			else if (id == 19690)
 				player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 			else if (id == 19691)
