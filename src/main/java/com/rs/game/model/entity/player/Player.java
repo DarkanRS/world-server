@@ -2131,6 +2131,7 @@ public class Player extends Entity {
 			if (getPrayer().active(Prayer.SOUL_SPLIT)) {
 				if (hit.getDamage() == 0)
 					return;
+				soundEffect(8113, true);
 				switch(hit.getLook()) {
 				case MELEE_DAMAGE:
 				case RANGE_DAMAGE:

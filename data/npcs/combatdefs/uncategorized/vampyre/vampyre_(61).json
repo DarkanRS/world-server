@@ -1,25 +1,24 @@
 {
-  "names": [
-    "Death spawn"
+  "ids": [
+    1223
   ],
-  "attackAnim": 1540,
+  "attackAnim": 6016,
   "attackSound": 879,
-  "defenceAnim": 1542,
+  "defenceAnim": 6063,
   "defendSound": 884,
-  "deathAnim": 1541,
-  "deathDelay": 6,
+  "deathAnim": 6031,
+  "deathDelay": 4,
   "deathSound": 882,
   "respawnDelay": 59,
-  "hitpoints": 600,
-  "maxHit": 50,
+  "hitpoints": 400,
+  "maxHit": 70,
   "attackStyle": "MELEE",
-  "attackBonus": "SLASH_ATT",
   "combatLevels": {
-    "ATTACK": 67,
-    "RANGE": 1,
-    "STRENGTH": 7,
-    "DEFENSE": 30,
-    "MAGE": 1
+    "ATTACK": 55,
+    "RANGE": 0,
+    "STRENGTH": 60,
+    "DEFENSE": 55,
+    "MAGE": 0
   },
   "attackRange": -1,
   "attackGfx": -1,

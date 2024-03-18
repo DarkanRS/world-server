@@ -1,24 +1,24 @@
 {
-  "ids": [
-    4343
+  "names": [
+    "Jackal"
   ],
-  "attackAnim": 275,
-  "attackSound": 797,
-  "defenceAnim": 276,
-  "defendSound": 800,
-  "deathAnim": 278,
+  "attackAnim": 6568,
+  "attackSound": 544,
+  "defenceAnim": 6566,
+  "defendSound": 546,
+  "deathAnim": 6567,
   "deathDelay": 6,
-  "deathSound": 798,
-  "respawnDelay": 39,
-  "hitpoints": 60,
-  "maxHit": 10,
+  "deathSound": 545,
+  "respawnDelay": 59,
+  "hitpoints": 270,
+  "maxHit": 80,
   "attackStyle": "MELEE",
   "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 4,
+    "ATTACK": 17,
     "RANGE": 1,
-    "STRENGTH": 5,
-    "DEFENSE": 3,
+    "STRENGTH": 18,
+    "DEFENSE": 15,
     "MAGE": 1
   },
   "attackRange": -1,

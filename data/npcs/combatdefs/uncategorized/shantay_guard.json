@@ -1,23 +1,24 @@
 {
   "names": [
-    "Crawling hand"
+    "Shantay Guard"
   ],
-  "attackAnim": 9125,
-  "attackSound": 337,
-  "defenceAnim": 9127,
-  "defendSound": 379,
-  "deathAnim": 9126,
+  "attackAnim": 390,
+  "attackSound": 2548,
+  "defenceAnim": 388,
+  "defendSound": 513,
+  "deathAnim": 836,
   "deathDelay": 6,
-  "deathSound": 378,
+  "deathSound": 512,
   "respawnDelay": 59,
-  "hitpoints": 1,
-  "maxHit": 1,
+  "hitpoints": 320,
+  "maxHit": 30,
   "attackStyle": "MELEE",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 0,
+    "ATTACK": 17,
     "RANGE": 0,
-    "STRENGTH": 0,
-    "DEFENSE": 0,
+    "STRENGTH": 16,
+    "DEFENSE": 16,
     "MAGE": 0
   },
   "attackRange": -1,

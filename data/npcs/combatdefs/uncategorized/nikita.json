@@ -1,24 +1,24 @@
 {
   "names": [
-    "Nechryael"
+    "Nikita"
   ],
-  "attackAnim": 9487,
-  "attackSound": 645,
-  "defenceAnim": 9489,
-  "defendSound": 647,
-  "deathAnim": 9488,
+  "attackAnim": 422,
+  "attackSound": 489,
+  "defenceAnim": 425,
+  "defendSound": 491,
+  "deathAnim": 836,
   "deathDelay": 6,
-  "deathSound": 646,
+  "deathSound": 490,
   "respawnDelay": 59,
-  "hitpoints": 1050,
-  "maxHit": 119,
+  "hitpoints": 600,
+  "maxHit": 20,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 97,
+    "ATTACK": 10,
     "RANGE": 1,
-    "STRENGTH": 97,
-    "DEFENSE": 105,
+    "STRENGTH": 10,
+    "DEFENSE": 10,
     "MAGE": 1
   },
   "attackRange": -1,

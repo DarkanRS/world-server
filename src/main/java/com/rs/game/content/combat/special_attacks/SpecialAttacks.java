@@ -556,14 +556,15 @@ public class SpecialAttacks {
 
         //Korasi's sword
         addSpec(new int[] { 18786, 19780, 19784, 22401 }, new SpecialAttack(Type.MELEE, 60, (player, target) -> {
-            player.sync(14788, 1729);
-            double damage = getMaxHit(player, target, false, 1.5);
-            double multiplier = Math.random();
-            if (!target.isAtMultiArea() && !player.isAtMultiArea() && !target.isForceMultiArea() && !player.isForceMultiArea())
-                multiplier += 0.5;
+            player.setNextAnimation(new Animation(14788));
+            player.setNextSpotAnim(new SpotAnim(1729));
+            int damage = getMaxHit(player, target, false, 1.0);
+            double multiplier = 0.5 + Math.random();
+            int maxHit = (int) (damage * 1.5);
             damage *= multiplier;
-            delayNormalHit(target, new Hit(player, (int) damage, HitLook.MAGIC_DAMAGE).setMaxHit((int) damage));
-            WorldTasks.schedule(0, () -> target.spotAnim(1730));
+            delayNormalHit(target, new Hit(player, damage, HitLook.MAGIC_DAMAGE).setMaxHit(maxHit));
+            WorldTasks.schedule(0, () -> target.setNextSpotAnim(new SpotAnim(1730)));
+            player.soundEffect(target,3853, true);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
@@ -646,9 +647,9 @@ public class SpecialAttacks {
                 else
                     delayNormalHit(target, hits[i]);
             player.soundEffect(target, 7464, true);
-            player.soundEffect(target, 7465, true);
-            player.soundEffect(target, 7466, true);
-            player.soundEffect(target, 7467, true);
+            player.soundEffect(target, 7465, 25, true);
+            player.soundEffect(target, 7466, 35, true);
+            player.soundEffect(target, 7467, 50, true);
             return getMeleeCombatDelay(player, player.getEquipment().getWeaponId());
         }));
 
