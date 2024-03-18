@@ -1,24 +1,23 @@
 {
-  "ids": [
-    4343
+  "names": [
+    "Lizard"
   ],
-  "attackAnim": 275,
-  "attackSound": 797,
-  "defenceAnim": 276,
-  "defendSound": 800,
-  "deathAnim": 278,
+  "attackAnim": 7588,
+  "attackSound": 605,
+  "defenceAnim": 7590,
+  "defendSound": 607,
+  "deathAnim": 7589,
   "deathDelay": 6,
-  "deathSound": 798,
+  "deathSound": 606,
   "respawnDelay": 39,
-  "hitpoints": 60,
-  "maxHit": 10,
+  "hitpoints": 400,
+  "maxHit": 50,
   "attackStyle": "MELEE",
-  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 4,
+    "ATTACK": 38,
     "RANGE": 1,
-    "STRENGTH": 5,
-    "DEFENSE": 3,
+    "STRENGTH": 36,
+    "DEFENSE": 35,
     "MAGE": 1
   },
   "attackRange": -1,

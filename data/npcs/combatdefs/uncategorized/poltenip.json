@@ -1,24 +1,24 @@
 {
   "names": [
-    "Nechryael"
+    "Poltenip"
   ],
-  "attackAnim": 9487,
-  "attackSound": 645,
-  "defenceAnim": 9489,
-  "defendSound": 647,
-  "deathAnim": 9488,
+  "attackAnim": 386,
+  "attackSound": 2549,
+  "defenceAnim": 388,
+  "defendSound": 518,
+  "deathAnim": 836,
   "deathDelay": 6,
-  "deathSound": 646,
+  "deathSound": 512,
   "respawnDelay": 59,
-  "hitpoints": 1050,
-  "maxHit": 119,
+  "hitpoints": 220,
+  "maxHit": 30,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
+  "attackBonus": "STAB_ATT",
   "combatLevels": {
-    "ATTACK": 97,
+    "ATTACK": 19,
     "RANGE": 1,
-    "STRENGTH": 97,
-    "DEFENSE": 105,
+    "STRENGTH": 18,
+    "DEFENSE": 14,
     "MAGE": 1
   },
   "attackRange": -1,

@@ -1,24 +1,23 @@
 {
   "names": [
-    "Nechryael"
+    "Small Lizard"
   ],
-  "attackAnim": 9487,
-  "attackSound": 645,
-  "defenceAnim": 9489,
-  "defendSound": 647,
-  "deathAnim": 9488,
+  "attackAnim": 2776,
+  "attackSound": 605,
+  "defenceAnim": 2777,
+  "defendSound": 607,
+  "deathAnim": 2778,
   "deathDelay": 6,
-  "deathSound": 646,
+  "deathSound": 606,
   "respawnDelay": 59,
-  "hitpoints": 1050,
-  "maxHit": 119,
+  "hitpoints": 150,
+  "maxHit": 40,
   "attackStyle": "MELEE",
-  "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 97,
+    "ATTACK": 10,
     "RANGE": 1,
-    "STRENGTH": 97,
-    "DEFENSE": 105,
+    "STRENGTH": 10,
+    "DEFENSE": 10,
     "MAGE": 1
   },
   "attackRange": -1,

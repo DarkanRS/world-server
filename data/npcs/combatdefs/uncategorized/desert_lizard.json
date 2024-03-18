@@ -1,24 +1,24 @@
 {
   "names": [
-    "Nechryael"
+    "Desert Lizard"
   ],
-  "attackAnim": 9487,
-  "attackSound": 645,
-  "defenceAnim": 9489,
-  "defendSound": 647,
-  "deathAnim": 9488,
+  "attackAnim": 2776,
+  "attackSound": 605,
+  "defenceAnim": 2777,
+  "defendSound": 607,
+  "deathAnim": 2778,
   "deathDelay": 6,
-  "deathSound": 646,
+  "deathSound": 606,
   "respawnDelay": 59,
-  "hitpoints": 1050,
-  "maxHit": 119,
+  "hitpoints": 250,
+  "maxHit": 40,
   "attackStyle": "MELEE",
   "attackBonus": "CRUSH_ATT",
   "combatLevels": {
-    "ATTACK": 97,
+    "ATTACK": 20,
     "RANGE": 1,
-    "STRENGTH": 97,
-    "DEFENSE": 105,
+    "STRENGTH": 22,
+    "DEFENSE": 20,
     "MAGE": 1
   },
   "attackRange": -1,
