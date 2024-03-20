@@ -144,7 +144,7 @@ public class Varrock {
 			e.getPlayer().sendMessage("There is nothing more you can learn from hitting a dummy.");
 			return;
 		}
-		XPType type = e.getPlayer().getCombatDefinitions().getAttackStyle().getXpType();
+		XPType type = e.getPlayer().getCombatDefinitions().getAttackStyle().xpType;
 		if (type != XPType.ACCURATE && type != XPType.AGGRESSIVE && type != XPType.CONTROLLED && type != XPType.DEFENSIVE) {
 			e.getPlayer().sendMessage("You can't hit a dummy with that attack style.");
 			return;

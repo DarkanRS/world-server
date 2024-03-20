@@ -46,19 +46,19 @@ public class ChronozonBoss extends NPC {
 	public void handlePreHit(final Hit hit) {
 		if(hit.getSource() instanceof Player p) {
             if(!hit.missed() && hit.getData("combatSpell") != null)
-				if(!hitFire && hit.getData("combatSpell", CombatSpell.class).isFireBlast()) {
+				if(!hitFire && hit.getData("combatSpell", CombatSpell.class) == CombatSpell.FIRE_BLAST) {
 					p.sendMessage("Chronozon weakens...");
 					hitFire = true;
 				}
-				else if(!hitWater && hit.getData("combatSpell", CombatSpell.class).isWaterBlast()) {
+				else if(!hitWater && hit.getData("combatSpell", CombatSpell.class) == CombatSpell.WATER_BLAST) {
 					p.sendMessage("Chronozon weakens...");
 					hitWater = true;
 				}
-				else if(!hitAir && hit.getData("combatSpell", CombatSpell.class).isAirBlast()) {
+				else if(!hitAir && hit.getData("combatSpell", CombatSpell.class) == CombatSpell.WIND_BLAST) {
 					p.sendMessage("Chronozon weakens...");
 					hitAir = true;
 				}
-				else if(!hitEarth && hit.getData("combatSpell", CombatSpell.class).isEarthBlast()) {
+				else if(!hitEarth && hit.getData("combatSpell", CombatSpell.class) == CombatSpell.EARTH_BLAST) {
 					p.sendMessage("Chronozon weakens...");
 					hitEarth = true;
 				}

@@ -33,10 +33,10 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import static com.rs.game.content.combat.PlayerCombat.*;
+import static com.rs.game.content.combat.special_attacks.SpecsKt.addSpec;
 
 @PluginEventHandler
 public class SpecialAttacks {
-    private static final Map<Integer, SpecialAttack> SPECIAL_ATTACKS = new HashMap<>();
 
     @ServerStartupEvent
     public static void loadSpecs() {
@@ -121,7 +121,7 @@ public class SpecialAttacks {
          */
         //Mindspike
         addSpec(new int[] { 23044, 23045, 23046, 23047 }, new SpecialAttack(Type.MAGIC, 75, (player, target) -> {
-            delayMagicHit(target, CombatSpell.WIND_RUSH.cast(player, target), Hit.magic(player, 50).setMaxHit(50), () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
+            delayMagicHit(target, CombatSpell.WIND_RUSH.cast(player, target), Hit.magic(player, 50).setMaxHit(50), () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.hitSpotAnim), null, null);
             return 3;
         }));
 
@@ -132,7 +132,7 @@ public class SpecialAttacks {
             for (Direction dir : Direction.values())
                 World.sendProjectile(Tile.of(target.getX() + (dir.getDx()*7), target.getY() + (dir.getDy()*7), target.getPlane()), target, 3188, 15, 15, 15, 0.6, 0, 0);
             Hit hit = calculateMagicHit(player, target, 500, true);
-            delayMagicHit(target, p.getTaskDelay(), hit, () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.getHitSpotAnim()), null, null);
+            delayMagicHit(target, p.getTaskDelay(), hit, () -> target.setNextSpotAnim(CombatSpell.WIND_RUSH.hitSpotAnim), null, null);
             return 7;
         }));
 
@@ -365,7 +365,7 @@ public class SpecialAttacks {
                     World.sendSpotAnim(tile, new SpotAnim(478));
                     for (Entity entity : getMultiAttackTargets(player, Tile.of(target.getTile()), 1, 9)) {
                         Hit hit = calculateHit(player, entity, 0, getMaxHit(player, target, 21371, attackStyle, false, 0.33), 21371, attackStyle, false, true, 1.25);
-                        addXp(player, entity, attackStyle.getXpType(), hit);
+                        addXp(player, entity, attackStyle.xpType, hit);
                         if (hit.getDamage() > 0 && Utils.getRandomInclusive(8) == 0)
                             target.getPoison().makePoisoned(48);
                         entity.applyHit(hit);
@@ -821,57 +821,5 @@ public class SpecialAttacks {
             delayNormalHit(target, calculateHit(player, target, false, true, 1.5, 1.5));
             return 5;
         }));
-    }
-
-    public static void addSpec(int[] itemIds, SpecialAttack spec) {
-        for (int itemId : itemIds)
-            SPECIAL_ATTACKS.put(itemId, spec);
-    }
-
-    public static void addSpec(int itemId, SpecialAttack spec) {
-        SPECIAL_ATTACKS.put(itemId, spec);
-    }
-
-    public static SpecialAttack getSpec(int itemId) {
-        return SPECIAL_ATTACKS.get(itemId);
-    }
-
-    public static void handleClick(Player player) {
-        SpecialAttack spec = getSpec(player.getEquipment().getWeaponId());
-        if (spec == null) {
-            player.sendMessage("This weapon has no special attack implemented yet.");
-            return;
-        }
-        if (spec.isInstant()) {
-            int specAmt = spec.getEnergyCost();
-            if (player.getCombatDefinitions().hasRingOfVigour())
-                specAmt *= 0.9;
-            if (player.getCombatDefinitions().getSpecialAttackPercentage() < specAmt) {
-                player.sendMessage("You don't have enough power left.");
-                player.getCombatDefinitions().drainSpec(0);
-                return;
-            }
-            spec.getExecute().apply(player, null);
-            return;
-        }
-        player.getCombatDefinitions().switchUsingSpecialAttack();
-    }
-
-    public static int execute(Type type, Player player, Entity target) {
-        SpecialAttack spec = getSpec(player.getEquipment().getWeaponId());
-        int cost = spec.getEnergyCost();
-        if (spec == null || spec.getType() != type) {
-            player.getCombatDefinitions().drainSpec(0);
-            return 3;
-        }
-        if (player.getCombatDefinitions().hasRingOfVigour())
-            cost *= 0.9;
-        if (player.getCombatDefinitions().getSpecialAttackPercentage() < cost) {
-            player.sendMessage("You don't have enough power left.");
-            player.getCombatDefinitions().drainSpec(0);
-            return 3;
-        }
-        player.getCombatDefinitions().drainSpec(cost);
-        return spec.getExecute().apply(player, target);
     }
 }

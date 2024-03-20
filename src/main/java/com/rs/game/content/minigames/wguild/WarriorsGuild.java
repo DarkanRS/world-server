@@ -360,19 +360,19 @@ public class WarriorsGuild extends Controller {
 	private boolean isProperHit(GameObject object) {
 		AttackStyle style = player.getCombatDefinitions().getAttackStyle();
 		if (object.getId() == 15624)
-			return style.getXpType() == XPType.ACCURATE;
+			return style.xpType == XPType.ACCURATE;
 		if (object.getId() == 15625)
-			return style.getAttackType() == AttackType.SLASH;
+			return style.attackType == AttackType.SLASH;
 		if (object.getId() == 15626)
-			return style.getXpType() == XPType.AGGRESSIVE;
+			return style.xpType == XPType.AGGRESSIVE;
 		else if (object.getId() == 15627)
-			return style.getXpType() == XPType.CONTROLLED;
+			return style.xpType == XPType.CONTROLLED;
 		else if (object.getId() == 15628)
-			return style.getAttackType() == AttackType.CRUSH;
+			return style.attackType == AttackType.CRUSH;
 		else if (object.getId() == 15629)
-			return style.getAttackType() == AttackType.STAB;
+			return style.attackType == AttackType.STAB;
 		else if (object.getId() == 15630)
-			return style.getXpType() == XPType.DEFENSIVE;
+			return style.xpType == XPType.DEFENSIVE;
 		return false;
 	}
 

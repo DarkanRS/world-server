@@ -1975,6 +1975,11 @@ public abstract class Entity {
 		spotAnim(spotAnim);
 	}
 
+	public void sync(Animation anim, SpotAnim spotAnim) {
+		setNextAnimation(anim);
+		setNextSpotAnim(spotAnim);
+	}
+
 	public InteractionManager getInteractionManager() {
 		return interactionManager;
 	}

@@ -23,7 +23,7 @@ import com.rs.engine.thread.LowPriorityTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
-import com.rs.game.content.combat.PolyporeStaff;
+import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
@@ -1165,7 +1165,7 @@ public class NPC extends Entity {
 
 	public boolean canBeAttackedBy(Player player) {
 		if (getId() == 879 || getId() == 14578)
-			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaff.isWielding(player)) {
+			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaffKt.isWielding(player)) {
 				player.sendMessage("I'd better wield Silverlight first.");
 				return false;
 			}

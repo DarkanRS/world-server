@@ -23,6 +23,7 @@ import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
 import com.rs.game.content.combat.special_attacks.SpecialAttacks;
+import com.rs.game.content.combat.special_attacks.SpecsKt;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -156,21 +157,19 @@ public class PlayerCombat extends PlayerAction {
 				player.sendMessage("Your shield was unable to be activated.");
 				return 3;
 			}
-			player.setNextSpotAnim(new SpotAnim(1165));
-			player.setNextAnimation(new Animation(6696));
+			player.sync(6696, 1165);
 			WorldProjectile p = World.sendProjectile(player, target, 1166, 32, 32, 50, 2, 15, 0);
-			delayMagicHit(target, p.getTaskDelay(), new Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), () -> target.setNextSpotAnim(new SpotAnim(1167, 0, 96)), null, null);
+			delayMagicHit(target, p.getTaskDelay(), new Hit(player, Utils.random(100, 250), HitLook.TRUE_DAMAGE), () -> target.spotAnim(1167, 0, 96), null, null);
 			player.getTempAttribs().setB("dfsActive", false);
 			player.getTempAttribs().setL("dfsCd", World.getServerTicks() + 200);
 			shield.addMetaData("dfsCharges", shield.getMetaDataI("dfsCharges") - 1);
 			player.getCombatDefinitions().refreshBonuses();
 			return 3;
 		}
-		if (spell == null && PolyporeStaff.isWielding(player)) {
+		if (spell == null && PolyporeStaffKt.isWielding(player)) {
 			player.setNextFaceEntity(target);
-			player.setNextSpotAnim(new SpotAnim(2034));
-			player.setNextAnimation(new Animation(15448));
-			PolyporeStaff.drainCharge(player);
+			player.sync(15448, 2034);
+			PolyporeStaffKt.drainCharge(player);
 			WorldProjectile p = World.sendProjectile(player, target, 2035, 60, 32, 50, 2, 0, 0);
 			Hit hit = calculateMagicHit(player, target, (5 * player.getSkills().getLevel(Constants.MAGIC)) - 180, false);
 			delayMagicHit(target, p.getTaskDelay(), hit, () -> {
@@ -185,7 +184,7 @@ public class PlayerCombat extends PlayerAction {
 		}
 		if (spell != null) {
 			if (player.getCombatDefinitions().isUsingSpecialAttack())
-				return SpecialAttacks.execute(Type.MAGIC, player, target);
+				return SpecsKt.execute(Type.MAGIC, player, target);
 
 			boolean manualCast = player.getCombatDefinitions().hasManualCastQueued();
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
@@ -214,9 +213,9 @@ public class PlayerCombat extends PlayerAction {
 
 	public static int getRangeCombatDelay(int weaponId, AttackStyle attackStyle) {
 		int delay = ItemConfig.get(weaponId).getAttackDelay();
-		if (attackStyle.getAttackType() == AttackType.RAPID)
+		if (attackStyle.attackType == AttackType.RAPID)
 			delay--;
-		else if (attackStyle.getAttackType() == AttackType.LONG_RANGE)
+		else if (attackStyle.attackType == AttackType.LONG_RANGE)
 			delay++;
 		return delay - 1;
 	}
@@ -304,15 +303,15 @@ public class PlayerCombat extends PlayerAction {
 		}
 		int delay = spell.cast(player, target);
 		int baseDamage = spell.getBaseDamage(player);
-		player.getSkills().addXp(Constants.MAGIC, spell.getSplashXp());
+		player.getSkills().addXp(Constants.MAGIC, spell.splashXp);
 		if (baseDamage < 0) {
 			Hit hit = calculateMagicHit(player, target, 1000);
 			if (hit.getDamage() > 0)
 				spell.onHit(player, target, null);
 			target.getTasks().schedule(delay, () -> {
 				if (hit.getDamage() > 0) {
-					if (spell.getHitSpotAnim() != null) {
-						target.setNextSpotAnim(spell.getHitSpotAnim());
+					if (spell.hitSpotAnim != null) {
+						target.setNextSpotAnim(spell.hitSpotAnim);
 						if (spell.landSound != -1)
 							player.soundEffect(target, spell.landSound, true);
 					}
@@ -363,13 +362,13 @@ public class PlayerCombat extends PlayerAction {
 						if (sparkle)
 							target.setNextSpotAnim(new SpotAnim(1677, 0, 96));
 						else
-							target.setNextSpotAnim(spell.getHitSpotAnim());
+							target.setNextSpotAnim(spell.hitSpotAnim);
 						if (spell.landSound != -1)
 							player.soundEffect(target, spell.landSound, true);
 						break;
 					default:
-						if (spell.getHitSpotAnim() != null)
-							target.setNextSpotAnim(spell.getHitSpotAnim());
+						if (spell.hitSpotAnim != null)
+							target.setNextSpotAnim(spell.hitSpotAnim);
 						if (spell.landSound != -1)
 							player.soundEffect(target, spell.landSound, true);
 						break;
@@ -407,13 +406,13 @@ public class PlayerCombat extends PlayerAction {
 		final int weaponId = player.getEquipment().getWeaponId();
 		final AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
 		ItemConfig weaponConfig = ItemConfig.get(weaponId);
-		int soundId = weaponConfig.getAttackSound(attackStyle.getIndex());
+		int soundId = weaponConfig.getAttackSound(attackStyle.index);
 		RangedWeapon weapon = RangedWeapon.forId(weaponId);
 		AmmoType ammo = AmmoType.forId(player.getEquipment().getAmmoId());
 		int combatDelay = getRangeCombatDelay(weaponId, attackStyle);
 
 		if (player.getCombatDefinitions().isUsingSpecialAttack())
-			return SpecialAttacks.execute(Type.RANGE, player, target);
+			return SpecsKt.execute(Type.RANGE, player, target);
 		WorldProjectile p = weapon.getProjectile(player, target, combatDelay);
 		switch (weapon) {
 			case DEATHTOUCHED_DART -> {
@@ -451,7 +450,7 @@ public class PlayerCombat extends PlayerAction {
 				dropAmmo(player, target, Equipment.WEAPON, 1);
 			}
 			case SWAMP_LIZARD, ORANGE_SALAMANDER, RED_SALAMANDER, BLACK_SALAMANDER -> {
-				Hit hit = switch(attackStyle.getName()) {
+				Hit hit = switch(attackStyle.name) {
 					//TODO use proper combat style combat formula for each damage
 					case "Flare" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.RANGE_DAMAGE);
 					case "Blaze" -> calculateHit(player, target, weaponId, attackStyle, true).setLook(HitLook.MAGIC_DAMAGE);
@@ -459,7 +458,7 @@ public class PlayerCombat extends PlayerAction {
 				};
 				delayHit(target, p.getTaskDelay(), weaponId, attackStyle, hit);
 				dropAmmo(player, target, Equipment.AMMO, 1);
-				if (attackStyle.getName().equals("Flare"))
+				if (attackStyle.name.equals("Flare"))
 					combatDelay = 3;
 			}
 			case CROSSBOW, BRONZE_CROSSBOW, BLURITE_CROSSBOW, IRON_CROSSBOW, STEEL_CROSSBOW, BLACK_CROSSBOW, MITH_CROSSBOW, ADAMANT_CROSSBOW, RUNE_CROSSBOW, ARMADYL_CROSSBOW, CHAOTIC_CROSSBOW, ZANIKS_CROSSBOW -> {
@@ -615,7 +614,7 @@ public class PlayerCombat extends PlayerAction {
 				}
 			}
 		}
-		player.anim(weaponConfig.getAttackAnim(attackStyle.getIndex()));
+		player.anim(weaponConfig.getAttackAnim(attackStyle.index));
 		SpotAnim attackSpotAnim = weapon.getAttackSpotAnim(player, ammo);
 		if (attackSpotAnim != null)
 			player.setNextSpotAnim(attackSpotAnim);
@@ -712,7 +711,7 @@ public class PlayerCombat extends PlayerAction {
 		AttackStyle attackStyle = player.getCombatDefinitions().getAttackStyle();
 		ItemConfig weaponConfig = ItemConfig.get(weaponId);
 		int combatDelay = getMeleeCombatDelay(player, weaponId);
-		int soundId = weaponConfig.getAttackSound(attackStyle.getIndex());
+		int soundId = weaponConfig.getAttackSound(attackStyle.index);
 		if (weaponId == -1) {
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
 			if (gloves != null && gloves.getDefinitions().getName().contains("Goliath gloves"))
@@ -720,7 +719,7 @@ public class PlayerCombat extends PlayerAction {
 		}
 
 		if (player.getCombatDefinitions().isUsingSpecialAttack())
-			return SpecialAttacks.execute(Type.MELEE, player, target);
+			return SpecsKt.execute(Type.MELEE, player, target);
 
 		if (weaponId == -2) {
 			int randomSeed = 25;
@@ -787,7 +786,7 @@ public class PlayerCombat extends PlayerAction {
 		double def;
 		if (target instanceof Player p2) {
 			double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
-			defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
+			defLvl += p2.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().xpType == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().xpType == XPType.CONTROLLED ? 1 : 0;
 			defLvl += 8;
 			defLvl *= 0.3;
 			double magLvl = Math.floor(p2.getSkills().getLevel(Constants.MAGIC) * p2.getPrayer().getMageMultiplier());
@@ -878,7 +877,7 @@ public class PlayerCombat extends PlayerAction {
 		boolean veracsProc = false;
 		if (calcDefense) {
 			double atkLvl = Math.floor(player.getSkills().getLevel(ranging ? Constants.RANGE : Constants.ATTACK) * (ranging ? player.getPrayer().getRangeMultiplier() : player.getPrayer().getAttackMultiplier()));
-			atkLvl += attackStyle.getAttackType() == AttackType.ACCURATE || attackStyle.getXpType() == XPType.ACCURATE ? 3 : attackStyle.getXpType() == XPType.CONTROLLED ? 1 : 0;
+			atkLvl += attackStyle.attackType == AttackType.ACCURATE || attackStyle.xpType == XPType.ACCURATE ? 3 : attackStyle.xpType == XPType.CONTROLLED ? 1 : 0;
 			atkLvl += 8;
 			if (fullVoidEquipped(player, ranging ? (new int[]{11664, 11675}) : (new int[]{11665, 11676})))
 				atkLvl *= 1.1;
@@ -892,7 +891,7 @@ public class PlayerCombat extends PlayerAction {
 			double atk = Math.floor(atkLvl * (atkBonus + 64));
 			atk *= accuracyModifier;
 
-			if (!ranging && attackStyle.getXpType() == XPType.ACCURATE && player.getDungManager().getActivePerk() == KinshipPerk.TACTICIAN && player.getControllerManager().isIn(DungeonController.class))
+			if (!ranging && attackStyle.xpType == XPType.ACCURATE && player.getDungManager().getActivePerk() == KinshipPerk.TACTICIAN && player.getControllerManager().isIn(DungeonController.class))
 				atk = Math.floor(atk * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.TACTICIAN) * 0.01));
 
 			if (player.hasSlayerTask())
@@ -924,7 +923,7 @@ public class PlayerCombat extends PlayerAction {
 			double def;
 			if (target instanceof Player p2) {
 				double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
-				defLvl += p2.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
+				defLvl += p2.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().xpType == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().xpType == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
 				double defBonus = p2.getCombatDefinitions().getDefenseBonusForStyle(player.getCombatDefinitions().getAttackStyle());
 
@@ -985,7 +984,7 @@ public class PlayerCombat extends PlayerAction {
 					}
 				}
 				double defLvl = n.getDefenseLevel();
-				double defBonus = player.getCombatDefinitions().getAttackStyle().getAttackType().getDefenseBonus(n);
+				double defBonus = player.getCombatDefinitions().getAttackStyle().attackType.getDefenseBonus(n);
 				defLvl += 8;
 				def = Math.floor(defLvl * (defBonus + 64));
 			}
@@ -1030,11 +1029,11 @@ public class PlayerCombat extends PlayerAction {
 				return 60;
 			}
 			double lvl = Math.floor(player.getSkills().getLevel(Constants.RANGE) * player.getPrayer().getRangeMultiplier());
-			lvl += attackStyle.getAttackType() == AttackType.ACCURATE ? 3 : 0;
+			lvl += attackStyle.attackType == AttackType.ACCURATE ? 3 : 0;
 			lvl += 8;
 			if (fullVoidEquipped(player, 11664, 11675))
 				lvl = Math.floor(lvl * 1.1);
-			if (attackStyle.getAttackType() == AttackType.RAPID && player.getDungManager().getActivePerk() == KinshipPerk.DESPERADO && player.getControllerManager().isIn(DungeonController.class))
+			if (attackStyle.attackType == AttackType.RAPID && player.getDungManager().getActivePerk() == KinshipPerk.DESPERADO && player.getControllerManager().isIn(DungeonController.class))
 				lvl = Math.floor(lvl * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.DESPERADO) * 0.01));
 			double str = player.getCombatDefinitions().getBonus(Bonus.RANGE_STR);
 			double baseDamage = 5 + lvl * (str + 64) / 64;
@@ -1044,11 +1043,11 @@ public class PlayerCombat extends PlayerAction {
 			return maxHit;
 		}
 		double lvl = Math.floor(player.getSkills().getLevel(Constants.STRENGTH) * player.getPrayer().getStrengthMultiplier());
-		lvl += attackStyle.getXpType() == XPType.AGGRESSIVE ? 3 : attackStyle.getXpType() == XPType.CONTROLLED ? 1 : 0;
+		lvl += attackStyle.xpType == XPType.AGGRESSIVE ? 3 : attackStyle.xpType == XPType.CONTROLLED ? 1 : 0;
 		lvl += 8;
 		if (fullVoidEquipped(player, 11665, 11676))
 			lvl = Math.floor(lvl * 1.1);
-		if (attackStyle.getXpType() == XPType.AGGRESSIVE && player.getDungManager().getActivePerk() == KinshipPerk.BERSERKER && player.getControllerManager().isIn(DungeonController.class))
+		if (attackStyle.xpType == XPType.AGGRESSIVE && player.getDungManager().getActivePerk() == KinshipPerk.BERSERKER && player.getControllerManager().isIn(DungeonController.class))
 			lvl = Math.floor(lvl * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.BERSERKER) * 0.01));
 		double str = player.getCombatDefinitions().getBonus(Bonus.MELEE_STR);
 		if (weaponId == -2)
@@ -1245,7 +1244,7 @@ public class PlayerCombat extends PlayerAction {
 				hitSucc.run();
 		} else if (hitFail != null)
 			hitFail.run();
-		addXp(player, target, attackStyle == null ? null : attackStyle.getXpType(), hit);
+		addXp(player, target, attackStyle == null ? null : attackStyle.xpType, hit);
 		checkPoison(player, target, weaponId, hit);
 	}
 
@@ -1336,7 +1335,7 @@ public class PlayerCombat extends PlayerAction {
 			case MAGIC_DAMAGE:
 				combatXp = (damage / 5.0);
 				if (combatXp > 0) {
-					if (player.getCombatDefinitions().isDefensiveCasting() || (PolyporeStaff.isWielding(player) && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.POLYPORE_LONGRANGE)) {
+					if (player.getCombatDefinitions().isDefensiveCasting() || (PolyporeStaffKt.isWielding(player) && player.getCombatDefinitions().getAttackStyle().attackType == AttackType.POLYPORE_LONGRANGE)) {
 						double defenceXp = (damage / 7.5);
 						if (defenceXp > 0.0) {
 							combatXp -= defenceXp;
@@ -1389,10 +1388,10 @@ public class PlayerCombat extends PlayerAction {
 
 	public static int getWeaponAttackEmote(int weaponId, AttackStyle attackStyle) {
 		if (weaponId == -1)
-			return attackStyle.getIndex() == 1 ? 423 : 422;
+			return attackStyle.index == 1 ? 423 : 422;
 		if (weaponId == -2)
-			return attackStyle.getIndex() == 1 ? 14307 : 14393;
-		return ItemConfig.get(weaponId).getAttackAnim(attackStyle.getIndex());
+			return attackStyle.index == 1 ? 14307 : 14393;
+		return ItemConfig.get(weaponId).getAttackAnim(attackStyle.index);
     }
 
 	public static int getMeleeCombatDelay(Player player, int weaponId) {
@@ -1437,7 +1436,7 @@ public class PlayerCombat extends PlayerAction {
 
 	public static boolean isRanging(Player player) {
 		int weaponId = player.getEquipment().getWeaponId();
-		if (player.getTempAttribs().getB("dfsActive") || (player.getCombatDefinitions().getSpell() == null && PolyporeStaff.isWielding(player)))
+		if (player.getTempAttribs().getB("dfsActive") || (player.getCombatDefinitions().getSpell() == null && PolyporeStaffKt.isWielding(player)))
 			return true;
 		if (weaponId == -1 && player.getCombatDefinitions().getSpell() == null)
 			return false;
@@ -1455,7 +1454,7 @@ public class PlayerCombat extends PlayerAction {
 			if (player.getTempAttribs().getB("dfsActive"))
 				return 8;
 			int atkRange = ItemConfig.get(player.getEquipment().getWeaponId()).getAttackRange();
-			if (player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE)
+			if (player.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE)
 				atkRange += 2;
 			return Utils.clampI(atkRange, 0, 10);
 		}
@@ -1510,13 +1509,6 @@ public class PlayerCombat extends PlayerAction {
 				return weaponConfig.getDefendAnim();
 		}
 		return 424;
-	}
-
-	public static int getSlayerLevelForNPC(int id) {
-        return switch (id) {
-            case 9463 -> 93;
-            default -> 0;
-        };
 	}
 
 	public static int getAntifireLevel(Entity target, boolean prayerWorks) {
