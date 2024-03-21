@@ -79,6 +79,6 @@ public class AgilityPyramidBlock extends NPC {
 		return players;
 	}
 
-	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3124, 2125 }, AgilityPyramidBlock::new);
+	public static NPCInstanceHandler toFunc = new NPCInstanceHandler(new Object[] { 3124, 3125 }, AgilityPyramidBlock::new);
 
 }
