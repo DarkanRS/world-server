@@ -3725,7 +3725,7 @@ public class Player extends Entity {
 		Tools tool = Tools.forId(itemId);
 		if (tool == null)
 			return false;
-		if (toolbelt.get(tool) != null && toolbelt.get(tool) <= tool.getValue(itemId)) {
+		if (toolbelt.get(tool) != null && toolbelt.get(tool) >= tool.getValue(itemId)) {
 			sendMessage("You already have this tool on your belt.");
 			return false;
 		}
