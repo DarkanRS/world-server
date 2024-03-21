@@ -17,13 +17,17 @@
 package com.rs.engine.thread;
 
 import com.rs.Settings;
+import com.rs.game.map.instance.InstanceBuilder;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.thread.CatchExceptionRunnable;
 import com.rs.lib.util.Logger;
+import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class AsyncTaskExecutor {
 	public static volatile boolean SHUTDOWN;
@@ -49,6 +53,36 @@ public final class AsyncTaskExecutor {
 			for (Future<?> f : finished)
 				PENDING_FUTURES.remove(f);
 		}
+	}
+
+	public static void executeWorldThreadSafe(String methodName, CompletableFuture<Boolean> future, int timeoutSeconds, ThrowableRunnable operation) {
+		AtomicBoolean completed = new AtomicBoolean(false);
+		final int maxTicks = Ticks.fromSeconds(timeoutSeconds);
+		AsyncTaskExecutor.execute(() -> {
+			try {
+				operation.run();
+			} catch (Throwable e) {
+				Logger.handle(AsyncTaskExecutor.class, "executeWorldThreadSafe:" + methodName, e);
+			} finally {
+				completed.set(true);
+			}
+		});
+		WorldTasks.scheduleTimer(0, 0, tick -> {
+			if (completed.get()) {
+				future.complete(true);
+				return false;
+			}
+			if (tick >= maxTicks) {
+				future.completeExceptionally(new TimeoutException("Operation timed out."));
+				return false;
+			}
+			return true;
+		});
+	}
+
+	@FunctionalInterface
+	public interface ThrowableRunnable {
+		void run() throws Throwable;
 	}
 
 	public static void schedule(Runnable command, int delay) {

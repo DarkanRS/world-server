@@ -679,8 +679,8 @@ public class MiscTest {
 			if (ChunkManager.getChunk(p.getChunkId()) instanceof InstancedChunk c)
 				p.sendMessage(c.getOriginalBaseX() + ", " + c.getOriginalBaseY() + " - " + c.getRotation());
 
-//			p.setForceNextMapLoadRefresh(true);
-//			p.loadMapRegions();
+			p.setForceNextMapLoadRefresh(true);
+			p.loadMapRegions();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> ShopsHandler.reloadShops());

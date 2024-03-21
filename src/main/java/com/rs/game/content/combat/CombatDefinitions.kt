@@ -314,19 +314,19 @@ class CombatDefinitions {
     }
 
     fun setAttackStyle(style: Int) {
-        var style = style
+        var finalStyle = style
         val styles = AttackStyle.getStyles(
             player!!.equipment.weaponId
         )
-        if (style < 0) style = 0
-        for (i in style downTo 0) {
+        if (finalStyle < 0) finalStyle = 0
+        for (i in finalStyle downTo 0) {
             if (styles[i] != null) {
-                style = i
+                finalStyle = i
                 break
             }
         }
-        if (style != attackStyle.toInt()) {
-            attackStyle = style.toByte()
+        if (finalStyle != attackStyle.toInt()) {
+            attackStyle = finalStyle.toByte()
             if (autoCast != null) resetSpells(true)
             else refreshAttackStyle()
         } else if (autoCast != null) resetSpells(true)
@@ -346,12 +346,12 @@ class CombatDefinitions {
     }
 
     fun drainSpec(amount: Int) {
-        var amount = amount
+        var finalAmount = amount
         isUsingSpecialAttack = false
         refreshUsingSpecialAttack()
-        if (player!!.nsv.getB("infSpecialAttack")) amount = 0
-        if (amount > 0) {
-            specialAttackPercentage = (specialAttackPercentage - amount).toByte()
+        if (player!!.nsv.getB("infSpecialAttack")) finalAmount = 0
+        if (finalAmount > 0) {
+            specialAttackPercentage = (specialAttackPercentage - finalAmount).toByte()
             refreshSpecialAttackPercentage()
         }
     }
