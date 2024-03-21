@@ -19,6 +19,7 @@ package com.rs.game.model.entity.npc.combat;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.zaros.Nex;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.summoning.Familiar;
 import com.rs.game.content.skills.summoning.Summoning.ScrollTarget;
 import com.rs.game.model.entity.Entity;
@@ -90,7 +91,7 @@ public final class NPCCombat {
 	}
 
 	void doDefenceEmote(Entity target) {
-		target.setNextAnimationNoPriority(new Animation(PlayerCombat.getDefenceEmote(target)));
+		target.setNextAnimationNoPriority(new Animation(PlayerCombatKt.getDefenceEmote(target)));
 	}
 
 	public Entity getTarget() {

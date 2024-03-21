@@ -16,7 +16,7 @@
 //
 package com.rs.game.map.instance;
 
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
 import com.rs.lib.util.Logger;
@@ -73,7 +73,7 @@ public final class InstanceBuilder {
 	}
 
 	public static void findEmptyChunkBound(Instance ref, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				ref.setChunkBase(findEmptyChunkBound(ref.getWidth(), ref.getHeight()));
 				for (int plane = 0;plane < 4;plane++) {
@@ -153,7 +153,7 @@ public final class InstanceBuilder {
 			future.complete(true);
 			return;
 		}
-		LowPriorityTaskExecutor.schedule(() -> {
+		AsyncTaskExecutor.schedule(() -> {
 			try {
 				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
 				future.complete(true);
@@ -165,7 +165,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				InstancedChunk chunk = createAndReserveChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
 				chunk.clearCollisionData();
@@ -183,7 +183,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copy2x2ChunkSquare(Instance ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				List<InstancedChunk> chunks = copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
 				for (InstancedChunk chunk : chunks)
@@ -234,7 +234,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
 				future.complete(true);
@@ -267,7 +267,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearMap(Instance ref, int localChunkX, int localChunkY, int width, int height, int[] planes, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
 				future.complete(true);
@@ -287,7 +287,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size, ref.isCopyNpcs());
 				future.complete(true);
@@ -318,7 +318,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, boolean copyNpcs, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes, copyNpcs);
 				future.complete(true);

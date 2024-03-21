@@ -22,10 +22,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.game.World;
-import com.rs.game.content.combat.AttackStyle;
-import com.rs.game.content.combat.AttackType;
-import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.combat.XPType;
+import com.rs.game.content.combat.*;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
@@ -335,7 +332,7 @@ public class WarriorsGuild extends Controller {
 	}
 
 	private void submitDummyHit(final GameObject object) {
-		player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+		player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 		WorldTasks.schedule(new Task() {
 
 			@Override

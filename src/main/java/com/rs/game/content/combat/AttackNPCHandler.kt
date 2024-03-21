@@ -33,7 +33,7 @@ fun mapNpcAttackOptions() {
             if (e.player.skills.getLevelForXp(Constants.ATTACK) < 5) {
                 if (e.player.actionManager.actionDelay < 1) {
                     e.player.actionManager.actionDelay = 4
-                    e.player.anim(PlayerCombat.getWeaponAttackEmote(e.player.equipment.weaponId, e.player.combatDefinitions.getAttackStyle()))
+                    e.player.anim(getWeaponAttackEmote(e.player.equipment.weaponId, e.player.combatDefinitions.getAttackStyle()))
                     e.player.skills.addXp(Constants.ATTACK, 15.0)
                 }
             } else e.player.sendMessage("You have nothing more you can learn from this.")

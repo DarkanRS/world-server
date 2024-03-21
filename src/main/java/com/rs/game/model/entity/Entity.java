@@ -24,6 +24,7 @@ import com.rs.cache.loaders.map.RegionSize;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -355,7 +356,7 @@ public abstract class Entity {
 			hit.getSource().handlePreHitOut(this, hit);
 		if (hit.getSource() instanceof Familiar f) {
 			hit.setSource(f.getOwner());
-			PlayerCombat.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
+			PlayerCombatKt.addXpFamiliar(f.getOwner(), this, f.getPouch().getXpType(), hit);
 		}
 		if (delay < 0) {
 			handlePostHit(hit);

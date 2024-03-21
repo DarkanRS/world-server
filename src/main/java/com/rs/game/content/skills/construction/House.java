@@ -921,30 +921,26 @@ public class House {
 		player.getControllerManager().startController(new HouseController(this));
 		if (loaded) {
 			teleportPlayer(player);
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					player.lock(1);
-					player.getInterfaceManager().setDefaultTopInterface();
-				}
-			}, 4);
+			player.getTasks().schedule(4, () -> {
+				player.lock(1);
+				player.getInterfaceManager().setDefaultTopInterface();
+				teleportServant();
+			});
 		} else {
 			createHouse();
 		}
-		teleportServant();
 		return true;
 	}
 
 	public static void leaveHouse(Player player) {
-		Controller controller = player.getControllerManager().getController();
-		if (controller == null || !(controller instanceof HouseController)) {
+		HouseController controller = player.getControllerManager().getController(HouseController.class);
+		if (controller == null) {
 			player.sendMessage("You're not in a house.");
 			return;
 		}
 		player.setCanPvp(false);
 		player.removeHouseOnlyItems();
-		player.lock(2);
-		((HouseController) controller).getHouse().leaveHouse(player, KICKED);
+		controller.getHouse().leaveHouse(player, KICKED);
 	}
 
 	/*
@@ -963,8 +959,6 @@ public class House {
 			players.remove(player);
 		if (players == null || players.size() == 0)
 			destroyHouse();
-		if (type != LOGGED_OUT)
-			player.lock(2);
 		if (player.getAppearance().getRenderEmote() != -1)
 			player.getAppearance().setBAS(-1);
 		if (isOwner(player) && servantInstance != null)
@@ -1375,12 +1369,14 @@ public class House {
 							}
 					}
 			}
-			refreshServant();
 			teleportPlayer(player);
 			player.setForceNextMapLoadRefresh(true);
-			player.loadMapRegions();
 			player.lock(1);
-			WorldTasks.schedule(3, () -> player.getInterfaceManager().setDefaultTopInterface());
+			player.getTasks().schedule(3, () -> {
+				player.loadMapRegions();
+				player.getInterfaceManager().setDefaultTopInterface();
+				refreshServant();
+			});
 			if (!buildMode)
 				if (getMenagerie() != null)
 					for (Item item : petHouse.getPets().array())

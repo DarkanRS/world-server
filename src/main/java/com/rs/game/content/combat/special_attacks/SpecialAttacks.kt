@@ -48,7 +48,6 @@ fun mapSpecials() {
             if (interaction is PlayerCombatInteraction) interaction.action.target else player.tempAttribs.getO("last_target")
         }
 
-        if (target == null) return@SpecialAttack
         if (target.isInvalidMeleeTarget(player)) return@SpecialAttack
 
         player.resetWalkSteps()
@@ -315,7 +314,7 @@ fun mapSpecials() {
                 wait(5)
             }
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Abyssal whip
@@ -326,7 +325,7 @@ fun mapSpecials() {
             target.runEnergy = if (target.runEnergy > 25.0) target.runEnergy - 25.0 else 0.0
         delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.0))
         player.soundEffect(target, 2713, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.getWeaponId())
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.getWeaponId())
     })
 
     //Saradomin sword
@@ -335,7 +334,7 @@ fun mapSpecials() {
         delayNormalHit(target, Hit(player, 50 + Utils.getRandomInclusive(100), HitLook.MELEE_DAMAGE).setMaxHit(150))
         delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.1))
         player.soundEffect(target, 3853, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon spear/Zamorakian spear
@@ -364,7 +363,7 @@ fun mapSpecials() {
             target.freeze(Ticks.fromSeconds(3), false)
             player.soundEffect(target, 2544, true)
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.getWeaponId());
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.getWeaponId());
     })
 
 
@@ -372,7 +371,7 @@ fun mapSpecials() {
     addSpec(intArrayOf(23042), SpecialAttack(SpecialAttack.Type.MELEE, 75) { player, target ->
         player.sync(16067, 2109)
         delayNormalHit(target, Hit(player, 50, HitLook.MELEE_DAMAGE).setMaxHit(50))
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
 
@@ -383,7 +382,7 @@ fun mapSpecials() {
         player.heal(hit.damage / 2)
         player.prayer.restorePrayer(hit.damage.toDouble() / 4)
         delayNormalHit(target, hit)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
 
@@ -399,7 +398,7 @@ fun mapSpecials() {
             amountLeft = target.lowerStat(skill, amountLeft, 0.0)
             if (amountLeft <= 0) break
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
 
@@ -411,14 +410,14 @@ fun mapSpecials() {
         if (target is Player)
             target.prayer.drainPrayer(hit.damage.toDouble())
         player.soundEffect(target, 3592, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Armadyl godsword
     addSpec(intArrayOf(11694, 13450, 23679), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(11989, 2113)
         delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.25))
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Vesta's longsword
@@ -433,7 +432,7 @@ fun mapSpecials() {
         player.anim(10502)
         delayNormalHit(target, calculateHit(player, target, false, true, 2.0, 1.20))
         player.soundEffect(target, 2529, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Statius' warhammer
@@ -444,7 +443,7 @@ fun mapSpecials() {
         if (hit.damage != 0)
             target.lowerStat(Skills.DEFENSE, 0.30, 0.0)
         player.soundEffect(target, 2520, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Vesta's spear
@@ -452,24 +451,24 @@ fun mapSpecials() {
         val attackStyle = player.combatDefinitions.getAttackStyle()
         player.sync(10499, 1835)
         player.addEffect(Effect.MELEE_IMMUNE, Ticks.fromSeconds(5).toLong())
-        attackTarget(target, getMultiAttackTargets(player, target, 1, 20)) { next ->
+        attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
             delayHit(next, 1, 13905, attackStyle, calculateHit(player, next, 13905, attackStyle, false, true, 1.0, 1.15))
             return@attackTarget true
         }
         player.soundEffect(target, 2529, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon 2h sword
     addSpec(intArrayOf(7158, 13430, 23696), SpecialAttack(SpecialAttack.Type.MELEE, 60) { player, target ->
         val attackStyle = player.combatDefinitions.getAttackStyle()
         player.sync(7078, 1225)
-        attackTarget(target, getMultiAttackTargets(player, target, 1, 20)) { next ->
+        attackTarget(getMultiAttackTargets(player, target, 1, 20)) { next ->
             delayHit(next, 1, 7158, attackStyle, calculateHit(player, next, 7158, attackStyle, false, true, 1.0, 1.2))
             return@attackTarget true
         }
         player.soundEffect(target, 2530, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Korasi's sword
@@ -482,7 +481,7 @@ fun mapSpecials() {
         delayNormalHit(target, Hit(player, damage.toInt(), HitLook.MAGIC_DAMAGE).setMaxHit(damage.toInt()))
         WorldTasks.schedule(0) { target.spotAnim(1730) }
         player.soundEffect(target, 3853, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Zamorak godsword
@@ -494,7 +493,7 @@ fun mapSpecials() {
             target.freeze(Ticks.fromSeconds(18), false)
         }
         delayNormalHit(target, hit)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     fun clawSpec(player: Player, target: Entity, multipliers: DoubleArray) {
@@ -532,14 +531,14 @@ fun mapSpecials() {
     addSpec(intArrayOf(3101, 13764), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.anim(10961)
         clawSpec(player, target, doubleArrayOf(0.75, 0.75, 0.75, 1.25))
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon claws
     addSpec(intArrayOf(14484, 14486, 23695), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
         player.sync(10961, 1950)
         clawSpec(player, target, doubleArrayOf(1.0, 1.0, 1.0, 1.5))
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Barrelchest anchor
@@ -549,7 +548,7 @@ fun mapSpecials() {
         delayNormalHit(target, hit)
         target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
         player.soundEffect(target, 3481, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon longsword
@@ -557,7 +556,7 @@ fun mapSpecials() {
         player.sync(12033, 2117)
         delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.25))
         player.soundEffect(target, 2529, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon halberd
@@ -570,7 +569,7 @@ fun mapSpecials() {
         delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.1))
         if (target.size > 1) delayHit(target, 1, calculateHit(player, target, false, true, 1.0, 1.1))
         player.soundEffect(target, 2533, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon scimitar
@@ -581,7 +580,7 @@ fun mapSpecials() {
             target.setProtectionPrayBlock(10)
         delayNormalHit(target, hit)
         player.soundEffect(target, 2540, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon daggers
@@ -591,7 +590,7 @@ fun mapSpecials() {
         delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15))
         delayNormalHit(target, calculateHit(player, target, false, true, 1.15, 1.15))
         player.soundEffect(target, 2537, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon mace
@@ -599,7 +598,7 @@ fun mapSpecials() {
         player.sync(1060, 251)
         delayNormalHit(target, calculateHit(player, target, false, true, 1.25, 1.5))
         player.soundEffect(target, 2541, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Rod of Ivandis, Ivandis flail
@@ -608,13 +607,13 @@ fun mapSpecials() {
         player.sync(1060, 251)
         delayNormalHit(target, calculateHit(player, target, false, true, 1.0, 1.0))
         player.soundEffect(target, 2541, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Penance trident
-    addSpec(intArrayOf(15438, 15485), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, target ->
+    addSpec(intArrayOf(15438, 15485), SpecialAttack(SpecialAttack.Type.MELEE, 50) { player, _ ->
         player.anim(12804)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dwarven army axe
@@ -624,7 +623,7 @@ fun mapSpecials() {
         delayHit(target, 0, Hit.melee(player, if (target is NPC) 20 else 10))
         delayHit(target, 0, Hit.melee(player, if (target is NPC) 40 else 25))
         delayHit(target, 0, Hit.melee(player, if (target is NPC) 30 else 20))
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Darklight
@@ -638,7 +637,7 @@ fun mapSpecials() {
             target.lowerStat(Skills.DEFENSE, 0.05, 0.0)
             player.soundEffect(target, 225, true)
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon hatchet
@@ -651,7 +650,7 @@ fun mapSpecials() {
             target.lowerStat(Skills.MAGIC, hit.damage / 10, 0.0)
         }
         player.soundEffect(target, 2531, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Dragon pickaxe
@@ -664,7 +663,7 @@ fun mapSpecials() {
             target.lowerStat(Skills.MAGIC, 0.05, 0.0)
             target.lowerStat(Skills.RANGE, 0.05, 0.0)
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Bone dagger
@@ -675,7 +674,7 @@ fun mapSpecials() {
         if (hit.damage > 0)
             target.lowerStat(Skills.DEFENSE, hit.damage / 10, 0.0)
         player.soundEffect(target, 1084, true)
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Brine sabre, Brackish blade
@@ -689,7 +688,7 @@ fun mapSpecials() {
             player.skills.adjustStat(hit.damage / 40, 0.0, true, Skills.STRENGTH)
             player.skills.adjustStat(hit.damage / 40, 0.0, true, Skills.DEFENSE)
         }
-        return@SpecialAttack getMeleeCombatDelay(player, player.equipment.weaponId)
+        return@SpecialAttack getMeleeCombatDelay(player.equipment.weaponId)
     })
 
     //Annihilation (16964 3193) obtaining

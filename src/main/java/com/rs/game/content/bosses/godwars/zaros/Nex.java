@@ -19,6 +19,7 @@ package com.rs.game.content.bosses.godwars.zaros;
 import com.rs.game.World;
 import com.rs.game.content.bosses.godwars.zaros.attack.NexAttack;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
@@ -78,7 +79,7 @@ public final class Nex extends NPC {
 			e.getPlayer().sendMessage("You can't move!");
 			return;
 		}
-		e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
+		e.getPlayer().setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
 		e.getPlayer().lock(2);
 		World.removeObject(e.getObject());
 	});

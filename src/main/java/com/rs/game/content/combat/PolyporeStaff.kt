@@ -16,23 +16,14 @@
 //
 package com.rs.game.content.combat
 
-import com.rs.engine.dialogue.Conversation
 import com.rs.engine.dialogue.startConversation
 import com.rs.game.content.skills.magic.Rune
 import com.rs.game.model.entity.player.Equipment
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.Constants
-import com.rs.lib.game.Animation
-import com.rs.lib.game.SpotAnim
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
-import com.rs.plugin.events.ItemClickEvent
-import com.rs.plugin.events.ItemOnItemEvent
-import com.rs.plugin.handlers.ItemClickHandler
-import com.rs.plugin.handlers.ItemOnItemHandler
 import com.rs.plugin.kts.onItemClick
 import com.rs.plugin.kts.onItemOnItem
-import java.util.function.Consumer
 
 @ServerStartupEvent
 fun mapPolypore() {
@@ -145,7 +136,7 @@ private fun getMaxCharges(player: Player, currCharges: Int): Int {
     return max
 }
 
-fun isWielding(player: Player): Boolean {
+fun usingPolypore(player: Player): Boolean {
     val weaponId = player.equipment.weaponId
     return weaponId == 22494 || weaponId == 22496 || weaponId == 22497
 }

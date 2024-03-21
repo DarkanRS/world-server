@@ -19,7 +19,7 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
@@ -659,7 +659,7 @@ public class NPC extends Entity {
 
 	public static void displayDropsFor(Player player, int npcId, int npcAmount) {
 		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			long start = System.currentTimeMillis();
 			ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
 			if (dropCollection == null) {
@@ -1167,7 +1167,7 @@ public class NPC extends Entity {
 
 	public boolean canBeAttackedBy(Player player) {
 		if (getId() == 879 || getId() == 14578)
-			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaffKt.isWielding(player)) {
+			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaffKt.usingPolypore(player)) {
 				player.sendMessage("I'd better wield Silverlight first.");
 				return false;
 			}

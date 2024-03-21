@@ -17,6 +17,7 @@
 package com.rs.game.content.bosses.qbd.npcs;
 
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
@@ -79,7 +80,7 @@ public final class FireWallAttack implements QueenAttack {
 										if (!((wallId == 3158 && victim.getX() == npc.getBase().getX() + 28) || (wallId == 3159 && victim.getX() == npc.getBase().getX() + 37) || (wallId == 3160 && victim.getX() == npc.getBase().getX() + 32)))
 											if (victim.getY() == npc.getBase().getY() + y) {
 												int hit;
-												int protection = PlayerCombat.getAntifireLevel(victim, true);
+												int protection = PlayerCombatKt.getAntifireLevel(victim, true);
 												if (protection == 1)
 													hit = Utils.random(350, 360);
 												else if (protection == 2)

@@ -19,6 +19,7 @@ package com.rs.game.content.bosses.kingblackdrag;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -56,7 +57,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
 			npc.soundEffect(3750, true);
-			int protection = PlayerCombat.getAntifireLevel(player, true);
+			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = Utils.getRandomInclusive(150);
 			if (protection == 2)
@@ -69,7 +70,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
 			npc.soundEffect(587, true);
-			int protection = PlayerCombat.getAntifireLevel(player, true);
+			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
 			if (protection == 2)
@@ -83,7 +84,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
 			npc.soundEffect(586, true);
-			int protection = PlayerCombat.getAntifireLevel(player, true);
+			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
 			if (protection == 2)
@@ -97,7 +98,7 @@ public class KingBlackDragonCombat extends CombatScript {
 			int damage = Utils.getRandomInclusive(650);
 			final Player player = target instanceof Player p ? p : null;
 			npc.soundEffect(584, true);
-			int protection = PlayerCombat.getAntifireLevel(player, true);
+			int protection = PlayerCombatKt.getAntifireLevel(player, true);
 			if (protection == 1)
 				damage = getMaxHit(npc, 164, AttackStyle.MAGE, target);
 			if (protection == 2)

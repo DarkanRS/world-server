@@ -17,6 +17,7 @@
 package com.rs.game.content.bosses.qbd.npcs;
 
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.player.Player;
@@ -40,14 +41,14 @@ public final class FireBreathAttack implements QueenAttack {
 			public void run() {
 				super.stop();
 				int hit = 0;
-				int protection = PlayerCombat.getAntifireLevel(victim, true);
+				int protection = PlayerCombatKt.getAntifireLevel(victim, true);
 				if (protection == 1)
 					hit = Utils.random(350, 400);
 				else if (protection == 2)
 					hit = Utils.random(150, 200);
 				else
 					hit = Utils.random(400, 710);
-				victim.setNextAnimation(new Animation(PlayerCombat.getDefenceEmote(victim)));
+				victim.setNextAnimation(new Animation(PlayerCombatKt.getDefenceEmote(victim)));
 				victim.applyHit(new Hit(npc, hit, HitLook.TRUE_DAMAGE));
 			}
 		}, 1);

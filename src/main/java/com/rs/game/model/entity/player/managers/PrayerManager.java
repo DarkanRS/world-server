@@ -470,9 +470,9 @@ public class PrayerManager {
 		if ((player.getTickCounter() % 10) == 0 && active(Prayer.TURMOIL, Prayer.SAP_MAGE, Prayer.SAP_RANGE, Prayer.SAP_SPIRIT, Prayer.SAP_WARRIOR, Prayer.LEECH_ATTACK, Prayer.LEECH_DEFENSE, Prayer.LEECH_STRENGTH, Prayer.LEECH_MAGIC, Prayer.LEECH_RANGE, Prayer.LEECH_SPECIAL, Prayer.LEECH_ENERGY))
 			if (player.getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat)
 				if (active(Prayer.TURMOIL))
-					processTurmoil(combat.getAction().getTarget());
+					processTurmoil(combat.getAction().target);
 				else
-					processLeeches(combat.getAction().getTarget());
+					processLeeches(combat.getAction().target);
 	}
 
 	private void processTurmoil(Entity target) {
