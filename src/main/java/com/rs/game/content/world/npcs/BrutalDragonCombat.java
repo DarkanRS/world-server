@@ -18,6 +18,7 @@ package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
@@ -47,7 +48,7 @@ public class BrutalDragonCombat extends CombatScript {
 				delayHit(npc, 0, target, getMeleeHit(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(500);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(50);
 				else if (protection == 2)
@@ -60,7 +61,7 @@ public class BrutalDragonCombat extends CombatScript {
 		case 1: // Dragon breath
 			if (npc.withinDistance(target.getTile(), 3)) {
 				damage = Utils.getRandomInclusive(650);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(300);
 				else if (protection == 2)
@@ -70,7 +71,7 @@ public class BrutalDragonCombat extends CombatScript {
 				delayHit(npc, 1, target, getRegularHit(npc, damage));
 			} else {
 				damage = Utils.getRandomInclusive(650);
-				int protection = PlayerCombat.getAntifireLevel(target, true);
+				int protection = PlayerCombatKt.getAntifireLevel(target, true);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(40);
 				else if (protection == 2)

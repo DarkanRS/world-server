@@ -20,7 +20,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.skills.dungeoneering.DungeonConstants.GuardianMonster;
@@ -55,6 +55,7 @@ import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Item;
+import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.Utils;
@@ -723,10 +724,11 @@ public class DungeonManager {
 			for (Tile t : tiles) {
 				coords = translate(t.getX(), t.getY(), rotation, size, size, 0);
 				tile = instance.getLocalTile((reference.getBaseX()) + coords[0], (reference.getBaseY()) + coords[1]);
-				if (World.floorAndWallsFree(tile, size))
+				if (World.floorAndWallsFree(tile, size)) {
 					return spawnNPC(id, rotation, tile, reference, type);
+				}
 			}
-			return spawnNPC(GuardianMonster.FORGOTTEN_WARRIOR.getNPCIds()[0], rotation, tile, reference, type);
+			return spawnNPC(reference, GuardianMonster.FORGOTTEN_WARRIOR.getNPCIds()[0], x, y, true, type);
 		}
 		return spawnNPC(id, rotation, tile, reference, type);
 	}
@@ -1445,7 +1447,7 @@ public class DungeonManager {
 	public void load() {
 		party.lockParty();
 		visibleMap = new VisibleRoom[DungeonConstants.DUNGEON_RATIO[party.getSize()][0]][DungeonConstants.DUNGEON_RATIO[party.getSize()][1]];
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				clearKeyList();
 				dungeon = new Dungeon(DungeonManager.this, party.getFloor(), party.getComplexity(), party.getSize());

@@ -23,7 +23,7 @@ public final class StartRoom extends HandledRoom {
 	public StartRoom(int chunkX, int chunkY, int... doorsDirections) {
 		super(chunkX, chunkY, (RoomEvent) (dungeon, reference) -> {
 			dungeon.telePartyToRoom(reference);
-			dungeon.spawnNPC(reference, DungeonConstants.SMUGGLER, 8, 8); // smoother
+			dungeon.spawnNPC(reference, DungeonConstants.SMUGGLER, 8, 8).setRandomWalk(false); // smoother
 			dungeon.setTableItems(reference);
 			dungeon.linkPartyToDungeon();
 

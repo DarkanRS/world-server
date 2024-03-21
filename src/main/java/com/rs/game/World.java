@@ -22,7 +22,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.db.WorldDB;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
@@ -44,7 +44,6 @@ import com.rs.lib.game.GroundItem.GroundItemType;
 import com.rs.lib.net.packets.encoders.Sound;
 import com.rs.lib.net.packets.encoders.Sound.SoundType;
 import com.rs.lib.net.packets.encoders.updatezone.AddObject;
-import com.rs.lib.net.packets.encoders.updatezone.RemoveObject;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
@@ -77,7 +76,7 @@ public final class World {
 
 	@ServerStartupEvent
 	public static void addSaveFilesTask() {
-		LowPriorityTaskExecutor.schedule(Launcher::saveFilesAsync, 0, Ticks.fromSeconds(30));
+		AsyncTaskExecutor.schedule(Launcher::saveFilesAsync, 0, Ticks.fromSeconds(30));
 	}
 
 	public static void addPlayer(Player player) {

@@ -40,14 +40,12 @@ import okhttp3.RequestBody;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.management.GarbageCollectorMXBean;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public final class WorldThread extends Thread {
@@ -67,7 +65,7 @@ public final class WorldThread extends Thread {
 
 	public static void init() {
 		WORLD_CYCLE = START_CYCLE = System.currentTimeMillis() / 600L;
-		LowPriorityTaskExecutor.getWorldExecutor().execute(new WorldThread());
+		AsyncTaskExecutor.getWorldThreadExecutor().execute(new WorldThread());
 	}
 
 	public static Set<String> NAMES = new HashSet<>();

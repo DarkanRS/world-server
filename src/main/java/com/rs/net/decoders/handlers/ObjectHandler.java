@@ -28,6 +28,7 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.items.Spade;
 import com.rs.game.content.minigames.creations.StealingCreationLobbyController;
 import com.rs.game.content.minigames.domtower.DTPreview;
@@ -952,16 +953,7 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(1850, 4385, 1), 0, 1);
 			else if (id == 10224 && x == 1850 && y == 4385)
 				player.useStairs(-1, Tile.of(1850, 4387, 2), 0, 1);
-				// White Wolf Mountain cut
-			else if (id == 56 && x == 2876 && y == 9880)
-				player.useStairs(-1, Tile.of(2879, 3465, 0), 0, 1);
-			else if (id == 66990 && x == 2876 && y == 3462)
-				player.useStairs(-1, Tile.of(2875, 9880, 0), 0, 1);
-			else if (id == 54 && x == 2820 && y == 9883)
-				player.useStairs(-1, Tile.of(2820, 3486, 0), 0, 1);
-			else if (id == 55 && x == 2820 && y == 3484)
-				player.useStairs(-1, Tile.of(2821, 9882, 0), 0, 1);
-				// sabbot lair
+			// sabbot lair
 			else if (id == 19690)
 				player.useStairs(-1, player.transform(0, 4, 1), 0, 1);
 			else if (id == 19691)
@@ -1213,7 +1205,7 @@ public final class ObjectHandler {
 						break;
 					case "web":
 						if (objectDef.containsOption(0, "Slash")) {
-							player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+							player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 							slashWeb(player, object);
 						}
 						break;
@@ -1537,7 +1529,7 @@ public final class ObjectHandler {
 			else if (object.getId() == 28352 || object.getId() == 28550)
 				Incubator.useEgg(player, itemId);
 			else if (object.getId() == 733 || object.getId() == 64729) {
-				player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+				player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 				slashWeb(player, object);
 			} else if (object.getId() == 48803 && itemId == 954) {
 				if (player.isKalphiteLairSetted())

@@ -941,7 +941,7 @@ public class Player extends Entity {
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN) && !getNSV().getB("idleLogImmune")) {
 				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
-					if (!(combat.getAction().getTarget() instanceof Player))
+					if (!(combat.getAction().target instanceof Player))
 						idleLog();
 				} else
 					logout(true);
@@ -2131,6 +2131,7 @@ public class Player extends Entity {
 			if (getPrayer().active(Prayer.SOUL_SPLIT)) {
 				if (hit.getDamage() == 0)
 					return;
+				soundEffect(8113, true);
 				switch(hit.getLook()) {
 				case MELEE_DAMAGE:
 				case RANGE_DAMAGE:

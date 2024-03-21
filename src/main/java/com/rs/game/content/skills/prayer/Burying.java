@@ -127,7 +127,7 @@ public class Burying {
 		if (itemDef.getName().toLowerCase().contains("dragon") || itemDef.getName().toLowerCase().contains("ourg"))
 			switch (player.getEquipment().getAmuletId()) {
 			case 19888:
-				prayerGain = 300;
+				prayerGain = 30;
 				break;
 			case 19887:
 			case 19886:
@@ -136,11 +136,11 @@ public class Burying {
 			default:
 				break;
 			}
-		else if (itemDef.getName().toLowerCase().contains("big"))
+		else if (itemDef.getName().toLowerCase().contains("big") || itemDef.getName().toLowerCase().contains("baby dragon"))
 			switch (player.getEquipment().getAmuletId()) {
 			case 19888:
 			case 19887:
-				prayerGain = 200;
+				prayerGain = 20;
 				break;
 			case 19886:
 				prayerGain = 10;
@@ -153,7 +153,7 @@ public class Burying {
 			case 19888:
 			case 19887:
 			case 19886:
-				prayerGain = 100;
+				prayerGain = 10;
 				break;
 			default:
 				break;

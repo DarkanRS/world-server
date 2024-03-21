@@ -1,6 +1,6 @@
 package com.rs.game.model.entity.async
 
-import com.rs.engine.thread.LowPriorityTaskExecutor
+import com.rs.engine.thread.AsyncTaskExecutor
 import com.rs.game.model.entity.Entity
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import kotlinx.coroutines.CoroutineScope
@@ -36,8 +36,9 @@ class AsyncTaskScheduler {
             cancel(name)
         if (name != null)
             namedTasks[name] = task
-        val suspendBlock = suspend { block(task, CoroutineScope(LowPriorityTaskExecutor.getWorldExecutor().asCoroutineDispatcher())) }
-        task.coroutine = suspendBlock.createCoroutine(completion = task)
+        task.coroutine = suspend {
+            block(task, CoroutineScope(AsyncTaskExecutor.getWorldThreadExecutor().asCoroutineDispatcher()))
+        }.createCoroutine(completion = task)
         tasks.add(task)
     }
 

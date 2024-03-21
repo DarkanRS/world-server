@@ -23,7 +23,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.db.WorldDB;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
@@ -44,7 +44,6 @@ import com.rs.utils.WorldPersistentData;
 import com.rs.utils.WorldUtil;
 import com.rs.utils.json.ControllerAdapter;
 import com.rs.web.WorldAPI;
-import jdk.jfr.FlightRecorder;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -83,7 +82,7 @@ public final class Launcher {
 
 		GameDecoder.loadPacketDecoders();
 
-		LowPriorityTaskExecutor.initExecutors();
+		AsyncTaskExecutor.initExecutors();
 		PluginManager.loadPlugins();
 		PluginManager.executeStartupHooks();
 
@@ -133,7 +132,7 @@ public final class Launcher {
 	}
 
 	private static void addCleanMemoryTask() {
-		LowPriorityTaskExecutor.schedule(() -> {
+		AsyncTaskExecutor.schedule(() -> {
 			try {
 				cleanMemory(WorldUtil.getMemUsedPerc() > Settings.HIGH_MEM_USE_THRESHOLD);
 			} catch (Throwable e) {
@@ -184,7 +183,7 @@ public final class Launcher {
 
 	public static void closeServices() {
 		ServerChannelHandler.shutdown();
-		LowPriorityTaskExecutor.shutdown();
+		AsyncTaskExecutor.shutdown();
 	}
 
 	private Launcher() {
@@ -196,7 +195,7 @@ public final class Launcher {
 	}
 
 	public static void executeCommand(Player player, String cmd) {
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			try {
 				String line;
 				ProcessBuilder builder = new ProcessBuilder(cmd.split(" "));

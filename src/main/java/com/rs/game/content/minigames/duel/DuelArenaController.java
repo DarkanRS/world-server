@@ -21,6 +21,7 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.content.Potions.Potion;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.cooking.Foods.Food;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
@@ -475,7 +476,7 @@ public class DuelArenaController extends Controller {
 	@Override
 	public boolean keepCombating(Entity victim) {
 		DuelRules rules = player.getLastDuelRules();
-		boolean isRanging = PlayerCombat.isRanging(player);
+		boolean isRanging = PlayerCombatKt.isRanging(player);
 		if (!player.getTempAttribs().getB("canFight")) {
 			player.sendMessage("The duel hasn't started yet.", true);
 			return false;

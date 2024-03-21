@@ -206,7 +206,7 @@ public class DungeonController extends Controller {
 		if (hit.getLook() == HitLook.MELEE_DAMAGE)
 			meleeDamage += hit.getDamage();
 		else if (hit.getLook() == HitLook.RANGE_DAMAGE) {
-			if (player.getDungManager().getActivePerk() == KinshipPerk.KEEN_EYE && player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.ACCURATE) {
+			if (player.getDungManager().getActivePerk() == KinshipPerk.KEEN_EYE && player.getCombatDefinitions().getAttackStyle().attackType == AttackType.ACCURATE) {
 				int procChance = (int) (40 + (player.getDungManager().getKinshipTier(KinshipPerk.KEEN_EYE) * 6.5));
 				if (Utils.random(100) < procChance)
 					if (target instanceof NPC npc)

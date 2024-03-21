@@ -19,11 +19,11 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.bosses.godwars.GodwarsController;
-import com.rs.game.content.combat.PolyporeStaff;
+import com.rs.game.content.combat.PolyporeStaffKt;
 import com.rs.game.content.minigames.treasuretrails.TreasureTrailsManager;
 import com.rs.game.content.skills.hunter.BoxHunterType;
 import com.rs.game.content.skills.slayer.SlayerMonsters;
@@ -659,7 +659,7 @@ public class NPC extends Entity {
 
 	public static void displayDropsFor(Player player, int npcId, int npcAmount) {
 		player.sendMessage("<col=FF0000><shad=000000>Calculating drops...");
-		LowPriorityTaskExecutor.execute(() -> {
+		AsyncTaskExecutor.execute(() -> {
 			long start = System.currentTimeMillis();
 			ItemsContainer<Item> dropCollection = getDropsFor(npcId, npcAmount, player.getEquipment().wearingRingOfWealth());
 			if (dropCollection == null) {
@@ -699,44 +699,44 @@ public class NPC extends Entity {
 		return maxHit;
 	}
 
-	public void lowerDefense(double multiplier, double maxDrain) {
-		lowerStat(Skill.DEFENSE, multiplier, maxDrain);
+	public int lowerDefense(double multiplier, double maxDrain) {
+		return lowerStat(Skill.DEFENSE, multiplier, maxDrain);
 	}
 
-	public void lowerDefense(int drain, double maxDrain) {
-		lowerStat(Skill.DEFENSE, drain, maxDrain);
+	public int lowerDefense(int drain, double maxDrain) {
+		return lowerStat(Skill.DEFENSE, drain, maxDrain);
 	}
 
-	public void lowerAttack(double multiplier, double maxDrain) {
-		lowerStat(Skill.ATTACK, multiplier, maxDrain);
+	public int lowerAttack(double multiplier, double maxDrain) {
+		return lowerStat(Skill.ATTACK, multiplier, maxDrain);
 	}
 
-	public void lowerAttack(int drain, double maxDrain) {
-		lowerStat(Skill.ATTACK, drain, maxDrain);
+	public int lowerAttack(int drain, double maxDrain) {
+		return lowerStat(Skill.ATTACK, drain, maxDrain);
 	}
 
-	public void lowerStrength(double multiplier, double maxDrain) {
-		lowerStat(Skill.STRENGTH, multiplier, maxDrain);
+	public int lowerStrength(double multiplier, double maxDrain) {
+		return lowerStat(Skill.STRENGTH, multiplier, maxDrain);
 	}
 
-	public void lowerStrength(int drain, double maxDrain) {
-		lowerStat(Skill.STRENGTH, drain, maxDrain);
+	public int lowerStrength(int drain, double maxDrain) {
+		return lowerStat(Skill.STRENGTH, drain, maxDrain);
 	}
 
-	public void lowerMagic(double multiplier, double maxDrain) {
-		lowerStat(Skill.MAGE, multiplier, maxDrain);
+	public int lowerMagic(double multiplier, double maxDrain) {
+		return lowerStat(Skill.MAGE, multiplier, maxDrain);
 	}
 
-	public void lowerMagic(int drain, double maxDrain) {
-		lowerStat(Skill.MAGE, drain, maxDrain);
+	public int lowerMagic(int drain, double maxDrain) {
+		return lowerStat(Skill.MAGE, drain, maxDrain);
 	}
 	
-	public void lowerRange(double multiplier, double maxDrain) {
-		lowerStat(Skill.RANGE, multiplier, maxDrain);
+	public int lowerRange(double multiplier, double maxDrain) {
+		return lowerStat(Skill.RANGE, multiplier, maxDrain);
 	}
 
-	public void lowerRange(int drain, double maxDrain) {
-		lowerStat(Skill.RANGE, drain, maxDrain);
+	public int lowerRange(int drain, double maxDrain) {
+		return lowerStat(Skill.RANGE, drain, maxDrain);
 	}
 	
 	public int getStat(Skill skill) {
@@ -756,14 +756,16 @@ public class NPC extends Entity {
 		combatLevels.put(skill, level);
 	}
 
-	public void lowerStat(Skill stat, double multiplier, double maxDrain) {
+	public int lowerStat(Skill stat, double multiplier, double maxDrain) {
 		if (combatLevels != null)
 			setStat(stat, Utils.clampI((int) (getStat(stat) - (getStat(stat) * multiplier)), (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+		return getStat(stat);
 	}
 
-	public void lowerStat(Skill stat, int levelDrain, double maxDrain) {
+	public int lowerStat(Skill stat, int levelDrain, double maxDrain) {
 		if (combatLevels != null)
 			setStat(stat, Utils.clampI(getStat(stat) - levelDrain, (int) ((double) getCombatDefinitions().getLevels().get(stat) * maxDrain), getStat(stat)));
+		return getStat(stat);
 	}
 
 	public int getBonus(Bonus bonus) {
@@ -1165,7 +1167,7 @@ public class NPC extends Entity {
 
 	public boolean canBeAttackedBy(Player player) {
 		if (getId() == 879 || getId() == 14578)
-			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaff.isWielding(player)) {
+			if (player.getEquipment().getWeaponId() != 2402 && player.getCombatDefinitions().getSpell() != null && !PolyporeStaffKt.usingPolypore(player)) {
 				player.sendMessage("I'd better wield Silverlight first.");
 				return false;
 			}
