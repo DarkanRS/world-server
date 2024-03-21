@@ -146,9 +146,7 @@ enum class AmmoType(
     }
 
     companion object {
-        private val MAP: Map<Int, AmmoType> = entries
-            .flatMap { entry -> entry.itemIds.map { itemId -> itemId to entry } }
-            .toMap()
+        private val MAP: Map<Int, AmmoType> = entries.flatMap { entry -> entry.itemIds.map { itemId -> itemId to entry } }.toMap()
 
         @JvmStatic
         fun forId(itemId: Int): AmmoType? = MAP[itemId]

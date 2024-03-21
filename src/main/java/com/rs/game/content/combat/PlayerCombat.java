@@ -22,8 +22,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.special_attacks.SpecialAttack.Type;
-import com.rs.game.content.combat.special_attacks.SpecialAttacks;
-import com.rs.game.content.combat.special_attacks.SpecsKt;
+import com.rs.game.content.combat.special_attacks.SpecialAttacksKt;
 import com.rs.game.content.skills.dungeoneering.DungeonController;
 import com.rs.game.content.skills.dungeoneering.KinshipPerk;
 import com.rs.game.content.skills.summoning.Familiar;
@@ -61,37 +60,37 @@ public class PlayerCombat extends PlayerAction {
 	private final Entity target;
 
 	public static ItemClickHandler handleDFS = new ItemClickHandler(new Object[]{"Dragonfire shield"}, new String[]{"Inspect", "Activate", "Empty"}, e -> {
-        switch (e.getOption()) {
-            case "Inspect" -> {
-                if (e.getItem().getId() == 11284)
-                    e.getPlayer().sendMessage("The shield is empty and unresponsive.");
-                else
-                    e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
-            }
-            case "Activate" -> {
-                if (e.getItem().getMetaDataI("dfsCharges") > 0) {
-                    if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
-                        e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
-                        e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
-                    } else
-                        e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
-                } else
-                    e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
-            }
-            case "Empty" -> {
-                if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
-                    e.getPlayer().sendMessage("The shield is already empty.");
-                else
-                    e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
-                        ops.add("Yes, I understand the shield will lose all its stats.", () -> {
-                            e.getItem().deleteMetaData();
-                            e.getItem().setId(11284);
-                            e.getPlayer().getInventory().refresh();
-                        });
-                        ops.add("No, I want to keep them.");
-                    });
-            }
-        }
+		switch (e.getOption()) {
+			case "Inspect" -> {
+				if (e.getItem().getId() == 11284)
+					e.getPlayer().sendMessage("The shield is empty and unresponsive.");
+				else
+					e.getPlayer().sendMessage("The shield contains " + e.getItem().getMetaDataI("dfsCharges") + " charges.");
+			}
+			case "Activate" -> {
+				if (e.getItem().getMetaDataI("dfsCharges") > 0) {
+					if (World.getServerTicks() > e.getPlayer().getTempAttribs().getL("dfsCd")) {
+						e.getPlayer().getTempAttribs().setB("dfsActive", !e.getPlayer().getTempAttribs().getB("dfsActive"));
+						e.getPlayer().sendMessage("You have " + (e.getPlayer().getTempAttribs().getB("dfsActive") ? "activated" : "deactivated") + " the shield.");
+					} else
+						e.getPlayer().sendMessage("The dragonfire shield is still pretty hot from its last activation.");
+				} else
+					e.getPlayer().sendMessage("The shield is empty and unable to be activated.");
+			}
+			case "Empty" -> {
+				if (e.getItem().getId() == 11284 || e.getItem().getMetaDataI("dfsCharges") < 0)
+					e.getPlayer().sendMessage("The shield is already empty.");
+				else
+					e.getPlayer().sendOptionDialogue("Are you sure you would like to empty the " + e.getItem().getMetaDataI("dfsCharges") + " charges?", ops -> {
+						ops.add("Yes, I understand the shield will lose all its stats.", () -> {
+							e.getItem().deleteMetaData();
+							e.getItem().setId(11284);
+							e.getPlayer().getInventory().refresh();
+						});
+						ops.add("No, I want to keep them.");
+					});
+			}
+		}
 	});
 
 	public PlayerCombat(Entity target) {
@@ -184,7 +183,7 @@ public class PlayerCombat extends PlayerAction {
 		}
 		if (spell != null) {
 			if (player.getCombatDefinitions().isUsingSpecialAttack())
-				return SpecsKt.execute(Type.MAGIC, player, target);
+				return SpecialAttacksKt.execute(Type.MAGIC, player, target);
 
 			boolean manualCast = player.getCombatDefinitions().hasManualCastQueued();
 			Item gloves = player.getEquipment().getItem(Equipment.HANDS);
@@ -254,8 +253,6 @@ public class PlayerCombat extends PlayerAction {
 
 	public static Entity[] getMultiAttackTargets(Player player, Entity target, int maxDistance, int maxAmtTargets, boolean includeOriginalTarget) {
 		List<Entity> possibleTargets = new ArrayList<>();
-		if (includeOriginalTarget)
-			possibleTargets.add(target);
 		if (!target.isAtMultiArea())
 			return possibleTargets.toArray(new Entity[0]);
 		for (Player p2 : target.queryNearbyPlayersByTileRange(maxDistance, p2 -> p2 != player && !p2.isDead() && p2.isCanPvp() && p2.isAtMultiArea() && p2.withinDistance(target.getTile(), maxDistance) && player.getControllerManager().canHit(p2))) {
@@ -270,6 +267,8 @@ public class PlayerCombat extends PlayerAction {
 					break;
 			}
 		}
+		if (!includeOriginalTarget)
+			possibleTargets.remove(target);
 		return possibleTargets.toArray(new Entity[0]);
 	}
 
@@ -412,7 +411,7 @@ public class PlayerCombat extends PlayerAction {
 		int combatDelay = getRangeCombatDelay(weaponId, attackStyle);
 
 		if (player.getCombatDefinitions().isUsingSpecialAttack())
-			return SpecsKt.execute(Type.RANGE, player, target);
+			return SpecialAttacksKt.execute(Type.RANGE, player, target);
 		WorldProjectile p = weapon.getProjectile(player, target, combatDelay);
 		switch (weapon) {
 			case DEATHTOUCHED_DART -> {
@@ -719,35 +718,30 @@ public class PlayerCombat extends PlayerAction {
 		}
 
 		if (player.getCombatDefinitions().isUsingSpecialAttack())
-			return SpecsKt.execute(Type.MELEE, player, target);
+			return SpecialAttacksKt.execute(Type.MELEE, player, target);
 
-		if (weaponId == -2) {
-			int randomSeed = 25;
+		Hit hit = calculateHit(player, target, weaponId, attackStyle, false);
 
-			if (target instanceof NPC n)
-				randomSeed -= (int) ((n.getBonus(Bonus.CRUSH_DEF) / 100) * 1.3);
-			if (Utils.random(randomSeed) == 0) {
+		if (weaponId == -2 && hit.getDamage() <= 0) {
+			if (Utils.random(10) == 0) {
 				player.anim(14417);
 				final AttackStyle attack = attackStyle;
-				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, false), next -> {
-                    next.freeze(Ticks.fromSeconds(10), true);
-                    next.spotAnim(181, 0, 96);
-                    final Entity t = next;
-                    t.getTasks().schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
-                    if (next instanceof Player p) {
-                        for (int i = 0; i < 7; i++)
-                            if (i != 3 && i != 5)
-                                p.getSkills().drainLevel(i, 7);
-                        p.sendMessage("Your stats have been drained!");
-                    } else if (next instanceof NPC n)
-                        n.lowerDefense(0.05, 0.0);
-                    return true;
+				attackTarget(target, getMultiAttackTargets(player, target, 6, Integer.MAX_VALUE, true), next -> {
+					next.freeze(Ticks.fromSeconds(10), true);
+					next.spotAnim(181, 0, 96);
+					final Entity t = next;
+					t.getTasks().schedule(1, () -> t.applyHit(calculateHit(player, next, -2, attack, false, false, 1.0, 1.0).setLook(HitLook.TRUE_DAMAGE)));
+					for (int skill : Skills.COMBAT)
+						next.lowerStat(skill, 7, 0.0);
+					if (next instanceof Player)
+						((Player)next).sendMessage("Your stats have been drained!");
+					return true;
 
-                });
+				});
 				return combatDelay;
 			}
 		}
-		delayNormalHit(target, weaponId, attackStyle, calculateHit(player, target, weaponId, attackStyle, false));
+		delayNormalHit(target, weaponId, attackStyle, hit);
 		player.anim(getWeaponAttackEmote(weaponId, attackStyle));
 		player.soundEffect(target, soundId, true);
 		return combatDelay;
@@ -761,8 +755,8 @@ public class PlayerCombat extends PlayerAction {
 		Hit hit = getMagicMaxHit(player, target, baseDamage, applyMageLevelBoost);
 		hit.setDamage(Utils.random(1, hit.getDamage()));
 		if (hit.getDamage() > 0)
-			if (target instanceof NPC n)
-				if (n.getId() == 9463 && hasFireCape(player))
+			if (target instanceof NPC)
+				if (((NPC) target).getId() == 9463 && hasFireCape(player))
 					hit.setDamage(hit.getDamage() + 40);
 		return hit;
 	}
@@ -779,12 +773,13 @@ public class PlayerCombat extends PlayerAction {
 		int maxHit = spellBaseDamage;
 
 		if (player.hasSlayerTask())
-			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
+			if (target instanceof NPC && player.getSlayer().isOnTaskAgainst((NPC) target))
 				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet())
 					atk *= 1.15;
 
 		double def;
-		if (target instanceof Player p2) {
+		if (target instanceof Player) {
+			Player p2 = (Player) target;
 			double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
 			defLvl += p2.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().xpType == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().xpType == XPType.CONTROLLED ? 1 : 0;
 			defLvl += 8;
@@ -832,14 +827,14 @@ public class PlayerCombat extends PlayerAction {
 				target.lowerStat(Skills.ATTACK, 0.1, 0.9);
 				target.lowerStat(Skills.STRENGTH, 0.1, 0.9);
 				target.lowerStat(Skills.DEFENSE, 0.1, 0.9);
-				if (target instanceof Player p)
-					p.sendMessage("Your melee skills have been drained.");
+				if (target instanceof Player)
+					((Player) target).sendMessage("Your melee skills have been drained.");
 				player.sendMessage("Your spell weakened your enemy.");
 				player.sendMessage("Your magic surged with extra power.");
 			}
 		}
 		if (player.hasSlayerTask())
-			if (target instanceof NPC n && player.getSlayer().isOnTaskAgainst(n))
+			if (target instanceof NPC && player.getSlayer().isOnTaskAgainst((NPC) target))
 				if (player.getEquipment().wearingHexcrest() || player.getEquipment().wearingSlayerHelmet())
 					maxHit *= 1.15;
 		int finalMaxHit = (int) (double) maxHit;
@@ -895,8 +890,8 @@ public class PlayerCombat extends PlayerAction {
 				atk = Math.floor(atk * 1.1 + (player.getDungManager().getKinshipTier(KinshipPerk.TACTICIAN) * 0.01));
 
 			if (player.hasSlayerTask())
-				if (target instanceof NPC n)
-					if (player.getSlayer().isOnTaskAgainst(n))
+				if (target instanceof NPC)
+					if (player.getSlayer().isOnTaskAgainst((NPC) target))
 						if (ranging) {
 							if (player.getEquipment().wearingFocusSight() || player.getEquipment().wearingSlayerHelmet()) {
 								atk *= (7.0 / 6.0);
@@ -907,7 +902,7 @@ public class PlayerCombat extends PlayerAction {
 								atk *= (7.0 / 6.0);
 								maxHit *= (7.0 / 6.0);
 							}
-							if (player.getEquipment().getSalveAmulet() != -1 && n.getDefinitions().isUndead())
+							if (player.getEquipment().getSalveAmulet() != -1 && ((NPC) target).getDefinitions().isUndead())
 								switch (player.getEquipment().getSalveAmulet()) {
 									case 0:
 										atk *= 1.15;
@@ -921,7 +916,8 @@ public class PlayerCombat extends PlayerAction {
 						}
 
 			double def;
-			if (target instanceof Player p2) {
+			if (target instanceof Player) {
+				Player p2 = (Player) target;
 				double defLvl = Math.floor(p2.getSkills().getLevel(Constants.DEFENSE) * p2.getPrayer().getDefenceMultiplier());
 				defLvl += p2.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE || p2.getCombatDefinitions().getAttackStyle().xpType == XPType.DEFENSIVE ? 3 : p2.getCombatDefinitions().getAttackStyle().xpType == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
@@ -1001,8 +997,8 @@ public class PlayerCombat extends PlayerAction {
 		int finalHit = Utils.random(minHit, maxHit);
 		if (veracsProc)
 			finalHit += 1.0;
-		if (target instanceof NPC n)
-			if (n.getId() == 9463 && hasFireCape(player))
+		if (target instanceof NPC)
+			if (((NPC) target).getId() == 9463 && hasFireCape(player))
 				finalHit += 40;
 		if (player.getAuraManager().isActivated(Aura.EQUILIBRIUM)) {
 			int perc25MaxHit = (int) (maxHit * 0.25);
@@ -1076,8 +1072,8 @@ public class PlayerCombat extends PlayerAction {
 			case 10582:
 			case 10583:
 			case 10584:
-				if (target != null && target instanceof NPC n)
-					if (n.getName().startsWith("Kalphite"))
+				if (target != null && target instanceof NPC)
+					if (((NPC) target).getName().startsWith("Kalphite"))
 						if (Utils.random(51) == 0)
 							baseDamage *= 3.0;
 						else
@@ -1085,13 +1081,13 @@ public class PlayerCombat extends PlayerAction {
 				break;
 			case 15403:
 			case 22405:
-				if (target != null && target instanceof NPC n)
-					if (n.getName().equals("Dagannoth") || n.getName().equals("Wallasalki") || n.getName().equals("Dagannoth Supreme"))
+				if (target != null && target instanceof NPC)
+					if (((NPC) target).getName().equals("Dagannoth") || ((NPC) target).getName().equals("Wallasalki") || ((NPC) target).getName().equals("Dagannoth Supreme"))
 						baseDamage *= 2.75;
 				break;
 			case 6746:
-				if (target != null && target instanceof NPC n)
-					if (n.getName().toLowerCase().contains("demon"))
+				if (target != null && target instanceof NPC)
+					if (((NPC) target).getName().toLowerCase().contains("demon"))
 						baseDamage *= 1.6;
 				break;
 			default:
@@ -1123,17 +1119,6 @@ public class PlayerCombat extends PlayerAction {
 		return ItemDefinitions.getDefs(helmId).getName().contains("Vanguard") && ItemDefinitions.getDefs(chestId).getName().contains("Vanguard") && ItemDefinitions.getDefs(legsId).getName().contains("Vanguard")
 				&& ItemDefinitions.getDefs(weaponId).getName().contains("Vanguard") && ItemDefinitions.getDefs(bootsId).getName().contains("Vanguard")
 				&& ItemDefinitions.getDefs(glovesId).getName().contains("Vanguard");
-	}
-
-	public static boolean usingGoliathGloves(Player player) {
-		String name = player.getEquipment().getItem(Equipment.SHIELD) != null ? player.getEquipment().getItem(Equipment.SHIELD).getDefinitions().getName().toLowerCase() : "";
-		if (player.getEquipment().getItem((Equipment.HANDS)) != null)
-			if (player.getEquipment().getItem(Equipment.HANDS).getDefinitions().getName().toLowerCase().contains("goliath") && player.getEquipment().getWeaponId() == -1) {
-				if (name.contains("defender") && name.contains("dragonfire shield"))
-					return true;
-				return true;
-			}
-		return false;
 	}
 
 	public static boolean fullVeracsEquipped(Player player) {
@@ -1392,7 +1377,7 @@ public class PlayerCombat extends PlayerAction {
 		if (weaponId == -2)
 			return attackStyle.index == 1 ? 14307 : 14393;
 		return ItemConfig.get(weaponId).getAttackAnim(attackStyle.index);
-    }
+	}
 
 	public static int getMeleeCombatDelay(Player player, int weaponId) {
 		if (weaponId != -1)
@@ -1515,7 +1500,7 @@ public class PlayerCombat extends PlayerAction {
 		if (!(target instanceof Player p2))
 			return 0;
 		int protection = 0;
-        if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
+		if (p2.hasEffect(Effect.SUPER_ANTIFIRE)) {
 			p2.sendMessage("Your potion heavily protects you from the dragon's fire.", true);
 			protection = 2;
 			chargeDragonfireShield(target);

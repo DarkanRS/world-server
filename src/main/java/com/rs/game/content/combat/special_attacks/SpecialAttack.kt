@@ -3,15 +3,16 @@ package com.rs.game.content.combat.special_attacks
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.player.Player
 import java.util.function.BiFunction
+import java.util.function.Consumer
 
-class SpecialAttack(val isInstant: Boolean = false, val energyCost: Int, val type: Type? = null, val execute: BiFunction<Player, Entity?, Int>) {
+class SpecialAttack(val energyCost: Int, val type: Type? = null, val execute: BiFunction<Player, Entity, Int>? = null, val instant: Consumer<Player>? = null) {
     enum class Type {
         MELEE,
         RANGE,
         MAGIC
     }
 
-    constructor(type: Type?, energyCost: Int, execute: BiFunction<Player, Entity?, Int>) : this(false, energyCost, type, execute)
+    constructor(type: Type?, energyCost: Int, execute: BiFunction<Player, Entity, Int>) : this(energyCost, type, execute)
 
-    constructor(instant: Boolean, energyCost: Int, execute: BiFunction<Player, Entity?, Int>) : this(instant, energyCost, null, execute)
+    constructor(energyCost: Int, instant: Consumer<Player>) : this(energyCost, null, null, instant)
 }

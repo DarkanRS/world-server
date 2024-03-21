@@ -22,7 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.combat.special_attacks.SpecialAttacks;
+import com.rs.game.content.combat.special_attacks.SpecialAttacksKt;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.transportation.ItemTeleports;
@@ -533,7 +533,7 @@ public final class Equipment {
 
 	public static ButtonClickHandler handle = new ButtonClickHandler(884, e -> {
 		if (e.getComponentId() == 4)
-			SpecialAttacks.handleClick(e.getPlayer());
+			SpecialAttacksKt.handleClick(e.getPlayer());
 		else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
 			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
 		else if (e.getComponentId() == 11)

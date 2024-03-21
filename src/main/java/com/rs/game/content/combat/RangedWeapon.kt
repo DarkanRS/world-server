@@ -719,13 +719,13 @@ enum class RangedWeapon {
 
     fun getProjectile(player: Player, target: Entity?, attackSpeed: Int): WorldProjectile {
         val speed = 8.0 / (attackSpeed.toDouble())
-        return when (this) {
-            SLING -> World.sendProjectile(player, target, projAnim, 20, 30, speed)
+        when (this) {
+            SLING -> return World.sendProjectile(player, target, projAnim, 20, 30, speed)
             else -> {
-                if (isThrown) World.sendProjectile(player, target, projAnim, 20, 5 + (attackSpeed * 5), speed)
-                if (ammos == null) World.sendProjectile(player, target, projAnim, 20, 35, speed)
+                if (isThrown) return World.sendProjectile(player, target, projAnim, 20, 5 + (attackSpeed * 5), speed)
+                if (ammos == null) return World.sendProjectile(player, target, projAnim, 20, 35, speed)
                 val ammo = AmmoType.forId(player.equipment.ammoId)!!
-                World.sendProjectile(player, target, ammo.getProjAnim(player.equipment.ammoId), 20, 40, speed)
+                return World.sendProjectile(player, target, ammo.getProjAnim(player.equipment.ammoId), 20, 40, speed)
             }
         }
     }

@@ -412,14 +412,4 @@ class CombatDefinitions {
 
     val attackStyleId: Int
         get() = attackStyle.toInt()
-
-    companion object {
-        fun getMeleeDefenceBonus(attackType: Bonus?): Bonus {
-            return when (attackType) {
-                Bonus.STAB_ATT -> Bonus.STAB_DEF
-                Bonus.SLASH_ATT -> Bonus.SLASH_DEF
-                else -> Bonus.CRUSH_DEF
-            }
-        }
-    }
 }
