@@ -35,9 +35,6 @@ public enum BoxTrapType {
     private final int baseLevel;
 	private final Animation pickUpAnimation;
 
-	private static final OrderedEnum<Integer, BoxTrapType> _TRAPS_BY_ITEM
-			= new OrderedEnum<>(values(), value -> value.itemId);
-
 	private static final Map<Integer, BoxTrapType> TRAPS_BY_ITEM = new HashMap<>();
 
 	static {
