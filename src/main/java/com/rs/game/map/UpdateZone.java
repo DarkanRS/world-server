@@ -24,10 +24,7 @@ public class UpdateZone {
     private final List<UpdateZonePartialEnclosed> chunkUpdates = new ObjectArrayList<>();
 
     public UpdateZone(int baseChunkId, RegionSize size) {
-        int[] coords = MapUtils.decode(Structure.CHUNK, baseChunkId);
         this.baseChunkId = baseChunkId;
-        int baseChunkX = coords[0];
-        int baseChunkY = coords[1];
         this.size = size;
         for (int planeOff = 0;planeOff < 4 * Chunk.PLANE_INC;planeOff += Chunk.PLANE_INC) {
             for (int chunkXOff = 0; chunkXOff <= (size.size / 8) * Chunk.X_INC; chunkXOff += Chunk.X_INC) {

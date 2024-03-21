@@ -21,6 +21,7 @@ import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.minigames.MinigameUtilKt;
 import com.rs.game.content.minigames.creations.Score;
 import com.rs.game.content.minigames.creations.StealingCreationController;
@@ -184,7 +185,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7871, 1396);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1392, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1390)));
-			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 4, 5, false))
+			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 4, 5, false))
 				delayHit(familiar, World.sendProjectile(familiar, next, 1392, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1390)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -206,7 +207,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(8517, 1349);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1350, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, target)));
-			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 4, 5, false))
+			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 4, 5, false))
 				delayHit(familiar, World.sendProjectile(familiar, next, 1350, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 90, AttackStyle.MAGE, next)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -249,7 +250,7 @@ public enum Scroll {
 			familiar.freeze(3);
 			familiar.setLocked(true);
 			familiar.sync(7758, 1364);
-			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, familiar.getTile(), 1, 9)) {
+			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, familiar.getTile(), 1, 9)) {
 				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
 				delayHit(familiar, 1, next, getRangeHit(familiar, getMaxHit(familiar, 60, AttackStyle.RANGE, next)));
 				delayHit(familiar, 2, next, getRangeHit(familiar, getMaxHit(familiar, 120, AttackStyle.RANGE, next)));
@@ -548,7 +549,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.sync(7820, 1375);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1376, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1377)));
-			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 7, 6, false))
+			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 7, 6, false))
 				delayHit(familiar, World.sendProjectile(familiar, next, 1376, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 80, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1377)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}
@@ -804,7 +805,7 @@ public enum Scroll {
 		public int attack(Player owner, Familiar familiar, Entity target) {
 			familiar.anim(7858);
 			delayHit(familiar, World.sendProjectile(familiar, target, 1362, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), target, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, target)), () -> target.setNextSpotAnim(new SpotAnim(1363)));
-			for (Entity next : PlayerCombat.getMultiAttackTargets(owner, target, 1, 9, false))
+			for (Entity next : PlayerCombatKt.getMultiAttackTargets(owner, target, 1, 9, false))
 				delayHit(familiar, World.sendProjectile(familiar, next, 1362, 34, 16, 30, 1.5, 16, 0).getTaskDelay(), next, getMagicHit(familiar, getMaxHit(familiar, 100, AttackStyle.MAGE, next)), () -> next.setNextSpotAnim(new SpotAnim(1363)));
 			return Familiar.DEFAULT_ATTACK_SPEED;
 		}

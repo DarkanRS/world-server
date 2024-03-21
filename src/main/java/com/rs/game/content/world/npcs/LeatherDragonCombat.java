@@ -17,6 +17,7 @@
 package com.rs.game.content.world.npcs;
 
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -51,7 +52,7 @@ public class LeatherDragonCombat extends CombatScript {
 				fireBreathAnimID = 13155;
 			npc.setNextAnimation(new Animation(fireBreathAnimID));
 			npc.setNextSpotAnim(new SpotAnim(1, 0, 100));
-			int protection = PlayerCombat.getAntifireLevel(target, true);
+			int protection = PlayerCombatKt.getAntifireLevel(target, true);
 			if (protection == 1)
 				damage = Utils.getRandomInclusive(50);
 			else if (protection == 2)

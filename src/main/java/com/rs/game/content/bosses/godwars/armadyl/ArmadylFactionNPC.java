@@ -18,6 +18,7 @@ package com.rs.game.content.bosses.godwars.armadyl;
 
 import com.rs.game.content.bosses.godwars.zaros.ZarosFactionNPC;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Item;
@@ -36,7 +37,7 @@ public class ArmadylFactionNPC extends NPC {
 
 	@Override
 	public boolean canBeAttackedBy(Player player) {
-		if (!PlayerCombat.isRanging(player)) {
+		if (!PlayerCombatKt.isRanging(player)) {
 			player.sendMessage("The aviansie is flying too high for you to attack using melee.");
 			return false;
 		}

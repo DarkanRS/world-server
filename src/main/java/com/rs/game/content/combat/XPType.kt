@@ -14,15 +14,15 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.content.combat;
+package com.rs.game.content.combat
 
-public enum XPType {
-	ACCURATE,
-	AGGRESSIVE,
-	DEFENSIVE,
-	CONTROLLED,
-	RANGED,
-	RANGED_DEFENSIVE,
-	MAGIC, 
-	PRAYER
+enum class XPType {
+    ACCURATE,
+    AGGRESSIVE,
+    DEFENSIVE,
+    CONTROLLED,
+    RANGED,
+    RANGED_DEFENSIVE,
+    MAGIC,
+    PRAYER
 }

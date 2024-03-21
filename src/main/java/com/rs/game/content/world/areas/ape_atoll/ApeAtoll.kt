@@ -55,7 +55,7 @@ fun mapApeAtoll() {
 		player.tele(player.transform(deltaX, deltaY, deltaZ))
 	}
 
-	onObjectClick(4859) { (player, obj) ->
+	onObjectClick(4859) { (player) ->
 		player.prayer.worshipAltar()
 	}
 }

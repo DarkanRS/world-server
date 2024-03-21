@@ -1202,23 +1202,24 @@ public final class Skills {
 		adjustStat(false, baseMod, mul, boost, skill);
 	}
 	
-	public void lowerStat(int skill, double mul, double maxDrain) {
-		lowerStat(0, mul, maxDrain, skill);
+	public int lowerStat(int skill, double mul, double maxDrain) {
+		return lowerStat(0, mul, maxDrain, skill);
 	}
 	
-	public void lowerStat(int skill, int amt, double maxDrain) {
-		lowerStat(amt, 0.0, maxDrain, skill);
+	public int lowerStat(int skill, int amt, double maxDrain) {
+		return lowerStat(amt, 0.0, maxDrain, skill);
 	}
 	
 	public void lowerStat(int skill, int amt) {
 		lowerStat(amt, 0.0, 0.0, skill);
 	}
 	
-	public void lowerStat(int baseMod, double mul, double maxDrain, int skill) {
+	public int lowerStat(int baseMod, double mul, double maxDrain, int skill) {
 		int realLevel = getLevelForXp(skill);
 		int realDrain = (int) (baseMod + (getLevel(skill) * mul));
 		level[skill] = (short) Utils.clampI(level[skill] - realDrain, (int) ((double) realLevel * maxDrain), getLevel(skill));
 		markForRefresh(skill);
+		return level[skill];
 	}
 
 	public static int[] allExcept(int... exclude) {

@@ -23,6 +23,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.combat.XPType;
 import com.rs.game.content.quests.scorpioncatcher.ScorpionCatcher;
 import com.rs.game.content.skills.agility.Agility;
@@ -144,12 +145,12 @@ public class Varrock {
 			e.getPlayer().sendMessage("There is nothing more you can learn from hitting a dummy.");
 			return;
 		}
-		XPType type = e.getPlayer().getCombatDefinitions().getAttackStyle().getXpType();
+		XPType type = e.getPlayer().getCombatDefinitions().getAttackStyle().xpType;
 		if (type != XPType.ACCURATE && type != XPType.AGGRESSIVE && type != XPType.CONTROLLED && type != XPType.DEFENSIVE) {
 			e.getPlayer().sendMessage("You can't hit a dummy with that attack style.");
 			return;
 		}
-		e.getPlayer().setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
+		e.getPlayer().setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(e.getPlayer().getEquipment().getWeaponId(), e.getPlayer().getCombatDefinitions().getAttackStyle())));
 		e.getPlayer().lock(3);
 		World.sendObjectAnimation(e.getObject(), new Animation(6482));
 		e.getPlayer().getSkills().addXp(Constants.ATTACK, 5);
