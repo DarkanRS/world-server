@@ -27,7 +27,7 @@ fun runCoroutineTest() {
     runBlocking {
         (0 until 1000).map { _ ->
             launch {
-                RouteFinder.find(2888, 3452, 0, 1, FixedTileStrategy(2917, 3524), true)
+                //RouteFinder.find(2888, 3452, 0, 1, FixedTileStrategy(2917, 3524), true)
             }
         }.forEach { it.join() }
     }

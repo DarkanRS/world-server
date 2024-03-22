@@ -22,7 +22,7 @@ import com.rs.game.content.bosses.godwars.zaros.NexArena;
 import com.rs.game.content.bosses.godwars.zaros.NexController;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.magic.TeleType;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
@@ -77,9 +77,8 @@ public class GodwarsController extends Controller {
                     e.getPlayer().sendMessage("You need a Constitution level of 70 to enter this area.");
             } else
                 e.getPlayer().useStairs(6999, Tile.of(2885, 5330, 2), 1, 1);
-            return;
         }
-    }, true)));
+    })));
 
 	@Override
 	public boolean processObjectClick1(final GameObject object) {

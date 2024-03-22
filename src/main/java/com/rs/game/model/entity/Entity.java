@@ -22,6 +22,7 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.engine.pathfinder.PathFinderKt;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombatKt;
@@ -215,20 +216,6 @@ public abstract class Entity {
 	}
 
 	public void walkToAndExecute(Tile startTile, Runnable event) {
-		Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(startTile.getX(), startTile.getY()), true);
-		int last = -1;
-		if (route.getStepCount() == -1)
-			return;
-		for (int i = route.getStepCount() - 1; i >= 0; i--)
-			if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-				break;
-		if (this instanceof Player player) {
-			if (last != -1) {
-				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
-				player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
-			} else
-				player.getSession().writeToQueue(new MinimapFlag());
-		}
 		setRouteEvent(new RouteEvent(startTile, event));
 	}
 
@@ -1008,7 +995,7 @@ public abstract class Entity {
 	public void processEntity() {
 		tickCounter++;
 		if (walkRequest != null) {
-			PathFinderKt.walkRoute(this, PathFinderKt.routeEntityWalkRequest(this, walkRequest));
+			PathFinderKt.walkRoute(this, PathFinderKt.routeEntityWalkRequest(this, walkRequest), true);
 			walkRequest = null;
 		}
 		RouteEvent prevEvent = routeEvent;
@@ -1698,6 +1685,7 @@ public abstract class Entity {
 	}
 
 	public void setRouteEvent(RouteEvent routeEvent) {
+		this.resetWalkSteps();
 		this.routeEvent = routeEvent;
 	}
 

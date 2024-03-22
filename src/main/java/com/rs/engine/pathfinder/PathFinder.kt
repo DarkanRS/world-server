@@ -8,6 +8,7 @@ import com.rs.engine.pathfinder.flag.CollisionFlag
 import com.rs.engine.pathfinder.flag.DirectionFlag
 import com.rs.engine.pathfinder.reach.DefaultReachStrategy
 import com.rs.engine.pathfinder.reach.ReachStrategy
+import com.rs.game.World
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.pathing.WorldCollision
 import com.rs.game.model.entity.player.Player
@@ -1524,8 +1525,8 @@ fun routeEntityToObject(entity: Entity, obj: GameObject): Route {
             obj.x, obj.y,
             entity.plane,
             srcSize = entity.size,
-            destWidth = obj.definitions.sizeX,
-            destHeight = obj.definitions.sizeY,
+            destWidth = if (obj.rotation == 0 || obj.rotation == 2) obj.definitions.getSizeX() else obj.definitions.getSizeY(),
+            destHeight = if (obj.rotation == 0 || obj.rotation == 2) obj.definitions.getSizeY() else obj.definitions.getSizeX(),
             objRot = obj.rotation,
             objShape = obj.type.id,
             accessBitMask = if (obj.rotation != 0) ((obj.definitions.accessBlockFlag shl obj.rotation) and 0xF) + (obj.definitions.accessBlockFlag shr (4 - obj.rotation)) else obj.definitions.accessBlockFlag
@@ -1534,21 +1535,40 @@ fun routeEntityToObject(entity: Entity, obj: GameObject): Route {
 
 fun routeEntityToEntity(entity: Entity, target: Entity): Route {
     return PathFinder(flags = WorldCollision.getAllFlags())
-        .findPath(entity.x, entity.y, destX, destY, entity.plane, srcSize = entity.size)
+        .findPath(
+            entity.x, entity.y,
+            target.x, target.y,
+            entity.plane,
+            srcSize = entity.size,
+            destWidth = target.size,
+            destHeight = target.size
+        )
+}
+
+fun routeEntityToTile(entity: Entity, tile: Tile): Route {
+    return PathFinder(flags = WorldCollision.getAllFlags())
+        .findPath(entity.x, entity.y, tile.x, tile.y, entity.plane, srcSize = entity.size)
 }
 
 fun routeEntityWalkRequest(entity: Entity, request: Walk): Route {
-    return PathFinder(flags = WorldCollision.getAllFlags())
+    return PathFinder(flags = WorldCollision.getAllFlags(), useRouteBlockerFlags = true)
         .findPath(entity.x, entity.y, request.x, request.y, entity.plane, srcSize = entity.size)
 }
 
-fun walkRoute(entity: Entity, route: Route) {
-    if (!route.success) return
+fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
+    if (!route.success) return false
     if (entity is Player) entity.stopAll()
+    entity.resetWalkSteps()
     entity.setNextFaceEntity(null)
+    addSteps(entity, route, forceSteps)
+    return true
+}
+
+fun addSteps(entity: Entity, route: Route, forceSteps: Boolean) {
     var lastStep: RouteCoordinates? = null
     for (coord in route.coords) {
-        if (!entity.addWalkSteps(coord.x, coord.y)) break
+        World.sendSpotAnim(Tile.of(coord.x, coord.y, entity.plane), 2000)
+        if (!entity.addWalkSteps(coord.x, coord.y, 25, true, forceSteps)) break
         lastStep = coord
     }
     if (lastStep != null && entity is Player) {

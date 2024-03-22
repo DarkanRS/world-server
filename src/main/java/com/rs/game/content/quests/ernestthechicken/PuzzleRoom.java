@@ -18,7 +18,7 @@ package com.rs.game.content.quests.ernestthechicken;
 
 import com.rs.game.World;
 import com.rs.game.content.world.doors.Doors.Door;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
@@ -143,7 +143,7 @@ public class PuzzleRoom {
             handlePuzzle2Door(e.getPlayer(), e.getObject(), 2);
         else
             handlePuzzleDoor(e.getPlayer(), e.getObject(), 2);
-    }, true)));
+    })));
 
 	private static void handlePuzzleDoor(Player player, GameObject object, int offset) {
 		boolean open = object.getDefinitions(player).containsOption("Open");

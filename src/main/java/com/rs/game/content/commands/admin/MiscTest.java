@@ -29,6 +29,9 @@ import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.pathfinder.PathFinderKt;
+import com.rs.engine.pathfinder.Route;
+import com.rs.engine.pathfinder.RouteCoordinates;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
@@ -831,8 +834,15 @@ public class MiscTest {
 			int y = Integer.parseInt(args[1]);
 			int modelId = Integer.parseInt(args[2]);
 			//47868
-			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
+			Route route = PathFinderKt.routeEntityToTile(p, Tile.of(x, y, p.getPlane()));
+			int[] bufferX = new int[route.size()];
+			int[] bufferY = new int[route.size()];
+			int i = 0;
+			for (RouteCoordinates tile : route.getCoords()) {
+				bufferX[i] = tile.getX();
+				bufferY[i++] = tile.getY();
+			}
+			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, bufferX, bufferY, i));
 		});
 
 		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombatKt.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(p), 1.0)));

@@ -19,6 +19,8 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
+import com.rs.engine.pathfinder.PathFinderKt;
+import com.rs.engine.pathfinder.Route;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
@@ -279,14 +281,12 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(forceWalk.getX(), forceWalk.getY()), true);
-						for (int i = route.getStepCount() - 1; i >= 0; i--)
-							if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-								break;
-					}
-					if (!hasWalkSteps()) { // failing finding route
-						tele(Tile.of(forceWalk));
-						forceWalk = null; // so ofc reached forcewalk place
+						Route route = PathFinderKt.routeEntityToTile(this, forceWalk);
+						if (route.getFailed()) {
+							tele(Tile.of(forceWalk));
+							forceWalk = null;
+						} else
+							PathFinderKt.walkRoute(this, route, true);
 					}
 				} else
 					// walked till forcewalk place

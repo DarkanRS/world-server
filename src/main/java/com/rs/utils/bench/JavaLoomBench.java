@@ -35,7 +35,7 @@ public class JavaLoomBench {
     private static void test() {
         CompletableFuture[] futures = new CompletableFuture[1000];
         for (int i = 0;i < futures.length;i++) {
-            futures[i] = CompletableFuture.runAsync(() -> RouteFinder.find(2888, 3452, 0, 1, new FixedTileStrategy(2917, 3524), true), service);
+            //futures[i] = CompletableFuture.runAsync(() -> RouteFinder.find(2888, 3452, 0, 1, new FixedTileStrategy(2917, 3524), true), service);
         }
         CompletableFuture.allOf(futures).join();
         for (CompletableFuture f : futures)

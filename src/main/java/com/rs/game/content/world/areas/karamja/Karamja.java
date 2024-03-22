@@ -24,7 +24,7 @@ import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.FurnacesKt;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
