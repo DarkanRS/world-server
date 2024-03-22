@@ -21,9 +21,9 @@ import com.rs.cache.loaders.NPCDefinitions.MovementType;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
+import com.rs.engine.pathfinder.PathFinderKt;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
-import com.rs.game.content.combat.PlayerCombat;
 import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.skills.prayer.Prayer;
@@ -45,7 +45,6 @@ import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.entity.player.actions.ActionManager;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
-import com.rs.game.tasks.TaskInformation;
 import com.rs.game.tasks.TaskManager;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.Constants;
@@ -1009,21 +1008,7 @@ public abstract class Entity {
 	public void processEntity() {
 		tickCounter++;
 		if (walkRequest != null) {
-			Route route = RouteFinder.find(getX(), getY(), getPlane(), getSize(), new FixedTileStrategy(walkRequest.getX(), walkRequest.getY()), true);
-			int last = -1;
-			if (route.getStepCount() == -1)
-				return;
-			if (this instanceof Player player)
-				player.stopAll();
-			setNextFaceEntity(null);
-			for (int i = route.getStepCount() - 1; i >= 0; i--)
-				if (!addWalkSteps(route.getBufferX()[i], route.getBufferY()[i], 25, true, true))
-					break;
-			if (last != -1) {
-				Tile tile = Tile.of(route.getBufferX()[last], route.getBufferY()[last], getPlane());
-				if (this instanceof Player player)
-					player.getSession().writeToQueue(new MinimapFlag(tile.getXInScene(getSceneBaseChunkId()), tile.getYInScene(getSceneBaseChunkId())));
-			}
+			PathFinderKt.walkRoute(this, PathFinderKt.routeEntityWalkRequest(this, walkRequest));
 			walkRequest = null;
 		}
 		RouteEvent prevEvent = routeEvent;

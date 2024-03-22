@@ -6,6 +6,7 @@ import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Tile;
+import com.rs.lib.util.MapUtils;
 
 import static com.rs.cache.loaders.map.ClipFlag.*;
 
@@ -13,6 +14,10 @@ public class WorldCollision {
     private static final int CHUNK_SIZE = 2048; //2048 chunk size = max capacity 16384x16384 tiles
     private static final int[][] CLIP_FLAGS = new int[CHUNK_SIZE * CHUNK_SIZE * 4][];
     private static final Object LOCK = new Object();
+
+    public static int[][] getAllFlags() {
+        return CLIP_FLAGS;
+    }
 
     public static void clipNPC(NPC npc) {
         if (!npc.blocksOtherNpcs())
@@ -280,6 +285,15 @@ public class WorldCollision {
             if (CLIP_FLAGS[chunkId] == null)
                 return -1;
             return CLIP_FLAGS[chunkId][tile.getXInChunk() | tile.getYInChunk() << 3];
+        }
+    }
+
+    public static int getFlags(int x, int y, int plane) {
+        synchronized (LOCK) {
+            int chunkId = MapUtils.encode(MapUtils.Structure.CHUNK, x >> 3, y >> 3, plane);
+            if (CLIP_FLAGS[chunkId] == null)
+                return -1;
+            return CLIP_FLAGS[chunkId][(x & 7) | (y & 7) << 3];
         }
     }
 
