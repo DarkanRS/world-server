@@ -7,7 +7,7 @@ import com.rs.game.World;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Item;
@@ -216,7 +216,7 @@ public class TrollGeneralAttackController extends InstancedController {
 
     @Override
     public boolean canMove(Direction dir) {
-        if (stage == 0 && player.getTile().getXInRegion() >= 32 && player.getTile().getXInRegion() <= 35 && player.getTile().getYInRegion() >= 27 && dir.getDy() > 0)
+        if (stage == 0 && player.getTile().getXInRegion() >= 32 && player.getTile().getXInRegion() <= 35 && player.getTile().getYInRegion() >= 27 && dir.dy > 0)
             return false;
         if (stage == 1 && player.getTile().getYInRegion() >= 49) {
             player.stopAll();

@@ -14,11 +14,11 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.model.entity.pathing;
+package com.rs.engine.pathfinder
 
-public enum ClipType {
-	NORMAL,
-	FLYING,
-	WATER,
-	NOCLIP
+enum class ClipType {
+    NORMAL,
+    FLYING,
+    WATER,
+    NOCLIP
 }

@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.GroundItem;
 import com.rs.lib.game.Item;

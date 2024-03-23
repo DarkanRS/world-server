@@ -19,7 +19,7 @@ package com.rs.game.content.skills.slayer.npcs;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.lib.game.SpotAnim;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -50,7 +50,7 @@ public class AbyssalDemon extends NPC {
 			Direction dir = Direction.values()[Utils.random(Direction.values().length)];
 			if (World.checkWalkStep(entity.getPlane(), entity.getX(), entity.getY(), dir, entitySize)) {
 				entity.setNextSpotAnim(new SpotAnim(409));
-				entity.tele(entity.transform(dir.getDx(), dir.getDy(), 0));
+				entity.tele(entity.transform(dir.dx, dir.dy, 0));
 				break;
 			}
 		}

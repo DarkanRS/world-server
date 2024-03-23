@@ -1,8 +1,6 @@
 package com.rs.utils.bench;
 
 import com.rs.cache.Cache;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
-import com.rs.game.model.entity.pathing.RouteFinder;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class JavaLoomBench {
             results.add((System.nanoTime() - start) / 1000000.0);
         }
         service.shutdown();
-        System.out.println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.");
+        //System.out.println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.");
         System.out.println("Java loom virtual thread executor: "+results.stream().mapToDouble(a -> a).average().getAsDouble()+" ms");
     }
 

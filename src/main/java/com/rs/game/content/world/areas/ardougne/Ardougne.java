@@ -20,7 +20,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
-import com.rs.engine.pathfinder.PathFinderKt;
+import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.AchievementSystemDialogue;
@@ -32,9 +32,7 @@ import com.rs.game.content.skills.thieving.Thieving;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.content.world.doors.Doors;
 import com.rs.game.ge.GE;
-import com.rs.game.model.entity.pathing.FixedTileStrategy;
 import com.rs.engine.pathfinder.RouteEvent;
-import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.Constants;
@@ -337,7 +335,7 @@ public class Ardougne  {
 			e.getPlayer().sendMessage("You require 40 Ranged to enter the Ranging Guild.");
 			return;
 		}
-		if (PathFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0)).getSuccess())
+		if (RouteFinderKt.routeEntityToTile(e.getPlayer(), Tile.of(2659, 3437, 0), 25).getSuccess())
 			e.getPlayer().setRouteEvent(new RouteEvent(Tile.of(2659, 3437, 0), () -> {
 				Doors.handleDoor(e.getPlayer(), e.getObject());
 				e.getPlayer().addWalkSteps(Tile.of(2657, 3439, 0), 5, false);

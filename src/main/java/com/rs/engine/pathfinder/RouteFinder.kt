@@ -8,11 +8,10 @@ import com.rs.engine.pathfinder.flag.CollisionFlag
 import com.rs.engine.pathfinder.flag.DirectionFlag
 import com.rs.engine.pathfinder.reach.DefaultReachStrategy
 import com.rs.engine.pathfinder.reach.ReachStrategy
-import com.rs.game.World
 import com.rs.game.model.entity.Entity
-import com.rs.game.model.entity.pathing.WorldCollision
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.`object`.GameObject
+import com.rs.lib.game.GroundItem
 import com.rs.lib.game.Tile
 import com.rs.lib.net.packets.decoders.Walk
 import com.rs.lib.net.packets.encoders.MinimapFlag
@@ -1518,8 +1517,8 @@ internal inline fun getIndexInZone(x: Int, y: Int): Int {
     return (x and 0x7) or ((y and 0x7) shl 3)
 }
 
-fun routeEntityToObject(entity: Entity, obj: GameObject): Route {
-    return PathFinder(flags = WorldCollision.getAllFlags())
+fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
+    return PathFinder(flags = WorldCollision.allFlags)
         .findPath(
             entity.x, entity.y,
             obj.x, obj.y,
@@ -1529,30 +1528,42 @@ fun routeEntityToObject(entity: Entity, obj: GameObject): Route {
             destHeight = if (obj.rotation == 0 || obj.rotation == 2) obj.definitions.getSizeY() else obj.definitions.getSizeX(),
             objRot = obj.rotation,
             objShape = obj.type.id,
-            accessBitMask = if (obj.rotation != 0) ((obj.definitions.accessBlockFlag shl obj.rotation) and 0xF) + (obj.definitions.accessBlockFlag shr (4 - obj.rotation)) else obj.definitions.accessBlockFlag
+            accessBitMask = if (obj.rotation != 0) ((obj.definitions.accessBlockFlag shl obj.rotation) and 0xF) + (obj.definitions.accessBlockFlag shr (4 - obj.rotation)) else obj.definitions.accessBlockFlag,
+            maxTurns = maxTurns
         )
 }
 
-fun routeEntityToEntity(entity: Entity, target: Entity): Route {
-    return PathFinder(flags = WorldCollision.getAllFlags())
+fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
+    return PathFinder(flags = WorldCollision.allFlags)
         .findPath(
             entity.x, entity.y,
             target.x, target.y,
             entity.plane,
             srcSize = entity.size,
             destWidth = target.size,
-            destHeight = target.size
+            destHeight = target.size,
+            maxTurns = maxTurns
         )
 }
 
-fun routeEntityToTile(entity: Entity, tile: Tile): Route {
-    return PathFinder(flags = WorldCollision.getAllFlags())
-        .findPath(entity.x, entity.y, tile.x, tile.y, entity.plane, srcSize = entity.size)
+fun routeEntityToTile(entity: Entity, tile: Tile, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
+    return PathFinder(flags = WorldCollision.allFlags)
+        .findPath(entity.x, entity.y, tile.x, tile.y, entity.plane, srcSize = entity.size, maxTurns = maxTurns)
 }
 
-fun routeEntityWalkRequest(entity: Entity, request: Walk): Route {
-    return PathFinder(flags = WorldCollision.getAllFlags(), useRouteBlockerFlags = true)
-        .findPath(entity.x, entity.y, request.x, request.y, entity.plane, srcSize = entity.size)
+fun routeEntityWalkRequest(entity: Entity, request: Walk, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
+    return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
+        .findPath(entity.x, entity.y, request.x, request.y, entity.plane, srcSize = entity.size, maxTurns = maxTurns)
+}
+
+fun routeEntityTo(entity: Entity, target: Any, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
+    return when(target) {
+        is Entity -> routeEntityToEntity(entity, target, maxTurns)
+        is GameObject -> routeEntityToObject(entity, target, maxTurns)
+        is GroundItem -> routeEntityToTile(entity, target.tile, maxTurns)
+        is Tile -> routeEntityToTile(entity, target, maxTurns)
+        else -> throw IllegalStateException("Unexpected value: $target")
+    }
 }
 
 fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
@@ -1564,11 +1575,10 @@ fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
     return true
 }
 
-fun addSteps(entity: Entity, route: Route, forceSteps: Boolean) {
+fun addSteps(entity: Entity, route: Route, forceSteps: Boolean, maxSteps: Int = -1) {
     var lastStep: RouteCoordinates? = null
     for (coord in route.coords) {
-        World.sendSpotAnim(Tile.of(coord.x, coord.y, entity.plane), 2000)
-        if (!entity.addWalkSteps(coord.x, coord.y, 25, true, forceSteps)) break
+        if (!entity.addWalkSteps(coord.x, coord.y, maxSteps, true, forceSteps)) break
         lastStep = coord
     }
     if (lastStep != null && entity is Player) {

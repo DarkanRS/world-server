@@ -6,7 +6,7 @@ import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.Hit
 import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.npc.combat.CombatScriptsHandler
-import com.rs.game.model.entity.pathing.ClipType
+import com.rs.engine.pathfinder.ClipType
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.lib.game.Tile

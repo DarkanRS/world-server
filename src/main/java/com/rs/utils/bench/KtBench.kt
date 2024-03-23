@@ -1,8 +1,6 @@
 package com.rs.utils.bench
 
 import com.rs.cache.Cache
-import com.rs.game.model.entity.pathing.FixedTileStrategy
-import com.rs.game.model.entity.pathing.RouteFinder
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -18,7 +16,7 @@ fun main() {
         results.add((System.nanoTime() - start) / 1000000.0)
     }
 
-    println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.")
+    //println("Calculated " + RouteFinder.COUNT + " routes across Burthorpe.")
     println("Kotlin coroutines: "+results.average()+" ms")
 }
 

@@ -19,8 +19,7 @@ package com.rs.game.model.entity.npc;
 import com.rs.cache.loaders.Bonus;
 import com.rs.cache.loaders.NPCDefinitions;
 import com.rs.cache.loaders.interfaces.IFEvents;
-import com.rs.engine.pathfinder.PathFinderKt;
-import com.rs.engine.pathfinder.Route;
+import com.rs.engine.pathfinder.*;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
@@ -41,7 +40,6 @@ import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AggressiveType;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.Skill;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Bank;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.managers.AuraManager;
@@ -281,12 +279,12 @@ public class NPC extends Entity {
 			if (!hasEffect(Effect.FREEZE))
 				if (getX() != forceWalk.getX() || getY() != forceWalk.getY()) {
 					if (!hasWalkSteps()) {
-						Route route = PathFinderKt.routeEntityToTile(this, forceWalk);
+						Route route = RouteFinderKt.routeEntityToTile(this, forceWalk, 25);
 						if (route.getFailed()) {
 							tele(Tile.of(forceWalk));
 							forceWalk = null;
 						} else
-							PathFinderKt.walkRoute(this, route, true);
+							RouteFinderKt.walkRoute(this, route, true);
 					}
 				} else
 					// walked till forcewalk place

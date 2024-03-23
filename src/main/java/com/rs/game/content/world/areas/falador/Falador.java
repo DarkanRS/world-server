@@ -16,35 +16,23 @@
 //
 package com.rs.game.content.world.areas.falador;
 
-import com.rs.engine.dialogue.Conversation;
-import com.rs.engine.dialogue.Dialogue;
-import com.rs.engine.dialogue.HeadE;
-import com.rs.engine.dialogue.Options;
-import com.rs.engine.quest.Quest;
-import com.rs.game.content.achievements.AchievementSystemDialogue;
-import com.rs.game.content.achievements.SetReward;
-import com.rs.game.content.quests.knightssword.SquireKnightsSwordD;
-import com.rs.game.content.quests.piratestreasure.RedbeardFrankPiratesTreasureD;
 import com.rs.game.content.skills.agility.Agility;
 import com.rs.game.content.world.AgilityShortcuts;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.game.WorldObject;
-import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
 import com.rs.plugin.annotations.ServerStartupEvent;
-import com.rs.plugin.handlers.NPCClickHandler;
 import com.rs.plugin.handlers.ObjectClickHandler;
 import com.rs.plugin.handlers.PlayerStepHandler;
-import com.rs.utils.shop.ShopsHandler;
 
 @PluginEventHandler
 public class Falador {
 
 	public static PlayerStepHandler musicArtisansWorkshop = new PlayerStepHandler(new Tile[] { Tile.of(3035, 3339, 0), Tile.of(3035, 3338, 0), Tile.of(3034, 3339, 0), Tile.of(3034, 3338, 0) }, e -> {
-		if(e.getTile().getX() == 3035 && e.getStep().getDir() == Direction.EAST) {
+		if(e.getTile().getX() == 3035 && e.getStep().dir == Direction.EAST) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(582, true);
 			return;
 		}
@@ -53,11 +41,11 @@ public class Falador {
 	});
 
 	public static PlayerStepHandler musicRisingSunInn = new PlayerStepHandler(new Tile[] { Tile.of(2956, 3378, 0), Tile.of(2956, 3379, 0), Tile.of(2961, 3372, 0), Tile.of(2962, 3372, 0) }, e -> {
-		if(e.getTile().getY() == 3378 && e.getStep().getDir() == Direction.SOUTH) {
+		if(e.getTile().getY() == 3378 && e.getStep().dir == Direction.SOUTH) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(718, true);
 			return;
 		}
-		if(e.getTile().getX() == 2961 && e.getStep().getDir() == Direction.WEST) {
+		if(e.getTile().getX() == 2961 && e.getStep().dir == Direction.WEST) {
 			e.getPlayer().getMusicsManager().playSpecificAmbientSong(718, true);
 			return;
 		}

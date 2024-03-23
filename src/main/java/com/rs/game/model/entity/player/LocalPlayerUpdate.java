@@ -247,13 +247,13 @@ public final class LocalPlayerUpdate {
 					stream.writeBits(30, (yOffset & 0x3fff) + ((xOffset & 0x3fff) << 14) + ((planeOffset & 0x3) << 28));
 				}
 			} else if (p.getNextWalkDirection() != null) {
-				int dx = p.getNextWalkDirection().getDx();
-				int dy = p.getNextWalkDirection().getDy();
+				int dx = p.getNextWalkDirection().dx;
+				int dy = p.getNextWalkDirection().dy;
 				boolean running;
 				int opcode;
 				if (p.getNextRunDirection() != null) {
-					dx += p.getNextRunDirection().getDx();
-					dy += p.getNextRunDirection().getDy();
+					dx += p.getNextRunDirection().dx;
+					dy += p.getNextRunDirection().dy;
 					opcode = Utils.getPlayerRunningDirection(dx, dy);
 					if (opcode == -1) {
 						running = false;

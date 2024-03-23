@@ -17,7 +17,7 @@
 package com.rs.game.content.minigames.creations;
 
 import com.rs.game.World;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

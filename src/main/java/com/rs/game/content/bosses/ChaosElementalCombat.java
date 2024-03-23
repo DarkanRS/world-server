@@ -22,7 +22,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions.AttackStyle;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
@@ -49,8 +49,8 @@ public class ChaosElementalCombat extends CombatScript {
 				public void run() {
 					for (int i = 0;i < 6;i++) {
 						Direction dir = Direction.random();
-						if (World.floorFree(target.getPlane(), target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getSize())) {
-							target.tele(Tile.of(target.getX() + dir.getDx()*i, target.getY() + dir.getDy()*i, target.getPlane()));
+						if (World.floorFree(target.getPlane(), target.getX() + dir.dx *i, target.getY() + dir.dy *i, target.getSize())) {
+							target.tele(Tile.of(target.getX() + dir.dx *i, target.getY() + dir.dy *i, target.getPlane()));
 							break;
 						}
 					}

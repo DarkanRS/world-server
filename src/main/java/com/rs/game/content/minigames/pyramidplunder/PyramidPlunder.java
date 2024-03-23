@@ -7,7 +7,7 @@ import com.rs.game.World;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.OwnedNPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.model.object.GameObject;
@@ -445,7 +445,7 @@ public class PyramidPlunder {
 	public static PlayerStepHandler handleRightHandSpearTraps = new PlayerStepHandler(rightHandSpearTraps, e -> {
 		if(e.getPlayer().isLocked())
 			return;
-		Direction rightHandTrap = Direction.rotateClockwise(e.getStep().getDir(), 2);//90 degree turn
+		Direction rightHandTrap = Direction.rotateClockwise(e.getStep().dir, 2);//90 degree turn
 		activateTrap(e, rightHandTrap);
 		hitPlayer(e);
 	});
@@ -453,7 +453,7 @@ public class PyramidPlunder {
 	public static PlayerStepHandler handleLeftHandSpearTraps = new PlayerStepHandler(leftHandSpearTraps, e -> {
 		if(e.getPlayer().isLocked())
 			return;
-		Direction leftHandTrap = Direction.rotateClockwise(e.getStep().getDir(), 6);//270 degree turn
+		Direction leftHandTrap = Direction.rotateClockwise(e.getStep().dir, 6);//270 degree turn
 		activateTrap(e, leftHandTrap);
 		hitPlayer(e);
 	});
@@ -462,7 +462,7 @@ public class PyramidPlunder {
 		Tile trapTile = e.getTile();
 		for(GameObject obj : ChunkManager.getChunk(trapTile.getChunkId()).getBaseObjects())
 			if(obj.getId() == 16517) {
-				if(trapTile.matches(obj.getTile()) || (obj.getX() - trapDir.getDx() == trapTile.getX() && obj.getY() - trapDir.getDy() == trapTile.getY())) {
+				if(trapTile.matches(obj.getTile()) || (obj.getX() - trapDir.dx == trapTile.getX() && obj.getY() - trapDir.dy == trapTile.getY())) {
 					obj.animate(new Animation(463));
 					break;
 				}
@@ -473,9 +473,9 @@ public class PyramidPlunder {
 		Player p = e.getPlayer();
 		p.applyHit(new Hit(30, Hit.HitLook.POISON_DAMAGE));
 		p.getPoison().makePoisoned(20);
-		Direction oppositeDir = Direction.rotateClockwise(e.getStep().getDir(), 4);//180 degree turn
-		int dX = oppositeDir.getDx();
-		int dY = oppositeDir.getDy();
+		Direction oppositeDir = Direction.rotateClockwise(e.getStep().dir, 4);//180 degree turn
+		int dX = oppositeDir.dx;
+		int dY = oppositeDir.dy;
 		p.forceMove(Tile.of(e.getTile().getX() + dX, e.getTile().getY() + dY, e.getTile().getPlane()), 1832, 25, 45, () -> p.forceTalk("Ouch!"));
 	}
 

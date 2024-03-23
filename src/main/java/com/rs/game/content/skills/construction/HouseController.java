@@ -39,7 +39,7 @@ import com.rs.game.content.skills.magic.RuneSet;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.transportation.ItemTeleports;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

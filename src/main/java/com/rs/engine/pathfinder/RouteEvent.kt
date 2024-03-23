@@ -39,7 +39,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
             return true
         }
         if (!entity.hasWalkSteps()) {
-            val route = routeToTarget(entity)
+            val route = routeEntityTo(entity, target)
             if (route.failed) {
                 if (player != null) {
                     player.sendMessage("You can't reach that.")
@@ -55,7 +55,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
                 addSteps(entity, route, true) //TODO reset walk steps on the start of a new route event
             return false
         }
-        val route = routeToTarget(entity)
+        val route = routeEntityTo(entity, target)
         if (route.failed) {
             if (player != null) {
                 player.sendMessage("You can't reach that.")
@@ -80,15 +80,5 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
             is Tile -> entity.plane == target.plane
             else -> throw RuntimeException("$target is not instanceof any reachable entity.")
         }
-    }
-
-    private fun routeToTarget(entity: Entity): Route {
-        return when(target) {
-            is Entity -> routeEntityToEntity(entity, target)
-            is GameObject -> routeEntityToObject(entity, target)
-            is GroundItem -> routeEntityToTile(entity, target.tile)
-            is Tile -> routeEntityToTile(entity, target)
-            else -> throw IllegalStateException("Unexpected value: $target")
-        };
     }
 }

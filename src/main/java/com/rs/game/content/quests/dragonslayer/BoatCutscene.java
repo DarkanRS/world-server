@@ -22,7 +22,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity.MoveType;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

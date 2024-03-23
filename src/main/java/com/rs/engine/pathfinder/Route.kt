@@ -46,7 +46,7 @@ public data class JavaRouteCoordinates(public val x: Int, public val y: Int) {
     public companion object {
 
         @JvmStatic
-        public fun of(coords: RouteCoordinates): JavaRouteCoordinates {
+        fun of(coords: RouteCoordinates): JavaRouteCoordinates {
             return JavaRouteCoordinates(coords.x, coords.y)
         }
 

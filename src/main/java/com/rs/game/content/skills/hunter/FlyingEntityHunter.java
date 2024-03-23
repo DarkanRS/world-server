@@ -21,7 +21,7 @@ import com.rs.game.content.Effect;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.DumbRouteFinder;
+import com.rs.engine.pathfinder.DumbRouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.lib.Constants;

@@ -16,12 +16,10 @@
 //
 package com.rs.game.model.entity.actions;
 
-import com.rs.engine.pathfinder.PathFinderKt;
+import com.rs.engine.pathfinder.RouteFinderKt;
 import com.rs.engine.pathfinder.Route;
 import com.rs.game.content.Effect;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.EntityStrategy;
-import com.rs.game.model.entity.pathing.RouteFinder;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.utils.WorldUtil;
@@ -61,10 +59,10 @@ public class EntityFollow extends Action {
 		if (lastFaceEntity == player.getClientIndex() && target.getActionManager().getAction() instanceof EntityFollow)
 			player.addWalkSteps(toTile.getX(), toTile.getY());
 		else if (!player.lineOfSightTo(target, true) || !WorldUtil.isInRange(player.getX(), player.getY(), size, target.getX(), target.getY(), target.getSize(), 0)) {
-			Route route = PathFinderKt.routeEntityToEntity(player, target);
+			Route route = RouteFinderKt.routeEntityToEntity(player, target, player.getRun() ? 2 : 1);
 			if (!route.getSuccess())
 				return false;
-			PathFinderKt.walkRoute(player, route, true);
+			RouteFinderKt.walkRoute(player, route, true);
 			return true;
 		}
 		return true;

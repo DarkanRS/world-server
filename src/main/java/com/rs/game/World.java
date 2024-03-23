@@ -32,9 +32,9 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.EntityList;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.ClipType;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.WorldCollision;
+import com.rs.engine.pathfinder.ClipType;
+import com.rs.engine.pathfinder.Direction;
+import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -359,7 +359,7 @@ public final class World {
 	}
 
 	public static boolean checkWalkStep(Tile tile, Direction dir, int size) {
-		return checkWalkStep(tile.getPlane(), tile.getX(), tile.getY(), dir.getDx(), dir.getDy(), size);
+		return checkWalkStep(tile.getPlane(), tile.getX(), tile.getY(), dir.dx, dir.dy, size);
 	}
 
 	public static boolean checkWalkStep(int plane, int x, int y, Direction dir, int size) {
@@ -367,7 +367,7 @@ public final class World {
 	}
 
 	public static boolean checkWalkStep(int plane, int x, int y, Direction dir, int size, ClipType type) {
-		return checkWalkStep(plane, x, y, dir.getDx(), dir.getDy(), size, type);
+		return checkWalkStep(plane, x, y, dir.dx, dir.dy, size, type);
 	}
 
 	public static boolean checkWalkStep(int plane, int x, int y, int xOffset, int yOffset, int size) {
@@ -1295,7 +1295,7 @@ public final class World {
 		while(!unchecked.isEmpty()) {
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
 			if (World.checkWalkStep(tile, curr, 1))
-				return tile.transform(curr.getDx(), curr.getDy());
+				return tile.transform(curr.dx, curr.dy);
 			unchecked.remove(curr);
 		}
 		return null;
@@ -1320,11 +1320,11 @@ public final class World {
 		while(!unchecked.isEmpty()) {
 			boolean failed = false;
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
-			Direction offset = Direction.forDelta(curr.getDx() != 0 ? 0 : curr.getDy(), curr.getDy() != 0 ? 0 : curr.getDx());
+			Direction offset = Direction.forDelta(curr.dx != 0 ? 0 : curr.dy, curr.dy != 0 ? 0 : curr.dx);
 			Tile startTile = tile.transform(0, 0);
 			for (int i = 0;i <= size;i++) {
 				for (int row = 0; row < size; row++) {
-					Tile from = startTile.transform(offset.getDx() * row, offset.getDy() * row).transform(curr.getDx() * i, curr.getDy() * i);
+					Tile from = startTile.transform(offset.dx * row, offset.dy * row).transform(curr.dx * i, curr.dy * i);
 //					if (Settings.getConfig().isDebug()) {
 //						World.sendSpotAnim(null, new SpotAnim(switch (curr) {
 //							case NORTH -> 2000;
@@ -1340,8 +1340,8 @@ public final class World {
 				}
 			}
 			if (!failed) {
-				finalTile = startTile.transform(curr.getDx(), curr.getDy());
-				if (curr.getDx() < 0 || curr.getDy() < 0)
+				finalTile = startTile.transform(curr.dx, curr.dy);
+				if (curr.dx < 0 || curr.dy < 0)
 					finalTile = finalTile.transform(-size+1, -size+1);
 //				if (Settings.getConfig().isDebug())
 //					World.sendSpotAnim(null, new SpotAnim(2679), finalTile);

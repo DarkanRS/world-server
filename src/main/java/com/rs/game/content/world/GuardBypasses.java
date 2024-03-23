@@ -21,7 +21,7 @@ import com.rs.game.World;
 import com.rs.game.content.skills.dungeoneering.DamonheimController;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.content.world.doors.DoorPair;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -123,10 +123,10 @@ public class GuardBypasses {
 	public static PlayerStepHandler daemonheimWildyEntrance = new PlayerStepHandler(new Tile[] { Tile.of(3384, 3615, 0), Tile.of(3385, 3615, 0) }, e -> {
 		e.getStep().setCheckClip(false);
 		e.getPlayer().setRunHidden(false);
-		if (e.getStep().getX() <= 3384 && e.getStep().getDir() == Direction.WEST) {
+		if (e.getStep().x <= 3384 && e.getStep().dir == Direction.WEST) {
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().getControllerManager().startController(new WildernessController());
-		} else if (e.getStep().getX() > 3384 && e.getStep().getDir() == Direction.EAST) {
+		} else if (e.getStep().x > 3384 && e.getStep().dir == Direction.EAST) {
 			e.getPlayer().getControllerManager().forceStop();
 			e.getPlayer().getControllerManager().startController(new DamonheimController());
 		}

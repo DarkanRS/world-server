@@ -24,7 +24,7 @@ import com.rs.game.map.instance.Instance;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity.MoveType;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.lib.game.Animation;
@@ -563,7 +563,7 @@ public abstract class Cutscene {
 	}
 
 	public void playerFaceDir(Direction dir, int delay) {
-		action(delay, () -> player.setNextFaceTile(player.transform(dir.getDx(), dir.getDy())));
+		action(delay, () -> player.setNextFaceTile(player.transform(dir.dx, dir.dy)));
 	}
 	
 	public void playerFaceDir(Direction dir) {
@@ -571,7 +571,7 @@ public abstract class Cutscene {
 	}
 
 	public void npcFaceDir(String key, Direction dir, int delay) {
-		action(delay, () -> getNPC(key).setNextFaceTile(getNPC(key).transform(dir.getDx(), dir.getDy())));
+		action(delay, () -> getNPC(key).setNextFaceTile(getNPC(key).transform(dir.dx, dir.dy)));
 	}
 	
 	public void npcFaceDir(String key, Direction dir) {
