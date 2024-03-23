@@ -1519,7 +1519,7 @@ internal inline fun getIndexInZone(x: Int, y: Int): Int {
 }
 
 fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
-    return PathFinder(flags = WorldCollision.allFlags)
+    return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(
             entity.x, entity.y,
             obj.x, obj.y,
@@ -1536,7 +1536,7 @@ fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT
 }
 
 fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
-    return PathFinder(flags = WorldCollision.allFlags)
+    return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(
             entity.x, entity.y,
             target.x, target.y,
@@ -1551,7 +1551,7 @@ fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_
 }
 
 fun routeEntityToTile(entity: Entity, tile: Tile, maxTurns: Int = DEFAULT_MAX_TURNS): Route {
-    return PathFinder(flags = WorldCollision.allFlags)
+    return PathFinder(flags = WorldCollision.allFlags, useRouteBlockerFlags = true)
         .findPath(entity.x, entity.y, tile.x, tile.y, entity.plane, collision = entity.collisionStrategy, srcSize = entity.size, maxTurns = maxTurns)
 }
 

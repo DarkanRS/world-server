@@ -52,7 +52,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
                 event.run()
                 return true
             } else
-                addSteps(entity, route, true) //TODO reset walk steps on the start of a new route event
+                addSteps(entity, route, true)
             return false
         }
         val route = routeEntityTo(entity, target)
