@@ -63,6 +63,7 @@ public class EntityFollow extends Action {
 			if (!route.getSuccess())
 				return false;
 			RouteFinderKt.walkRoute(entity, route, true);
+			entity.setNextFaceEntity(target);
 			return true;
 		}
 		return true;
