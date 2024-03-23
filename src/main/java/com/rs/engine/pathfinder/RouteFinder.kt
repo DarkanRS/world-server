@@ -8,9 +8,11 @@ import com.rs.engine.pathfinder.flag.CollisionFlag
 import com.rs.engine.pathfinder.flag.DirectionFlag
 import com.rs.engine.pathfinder.reach.DefaultReachStrategy
 import com.rs.engine.pathfinder.reach.ReachStrategy
+import com.rs.game.World
 import com.rs.game.model.entity.Entity
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.`object`.GameObject
+import com.rs.game.model.`object`.GameObject.RouteType
 import com.rs.lib.game.GroundItem
 import com.rs.lib.game.Tile
 import com.rs.lib.net.packets.decoders.Walk
@@ -1527,7 +1529,7 @@ fun routeEntityToObject(entity: Entity, obj: GameObject, maxTurns: Int = DEFAULT
             destWidth = if (obj.rotation == 0 || obj.rotation == 2) obj.definitions.getSizeX() else obj.definitions.getSizeY(),
             destHeight = if (obj.rotation == 0 || obj.rotation == 2) obj.definitions.getSizeY() else obj.definitions.getSizeX(),
             objRot = obj.rotation,
-            objShape = obj.type.id,
+            objShape = if (obj.routeType == RouteType.WALK_ONTO) -1 else obj.type.id,
             accessBitMask = if (obj.rotation != 0) ((obj.definitions.accessBlockFlag shl obj.rotation) and 0xF) + (obj.definitions.accessBlockFlag shr (4 - obj.rotation)) else obj.definitions.accessBlockFlag,
             maxTurns = maxTurns
         )
@@ -1539,6 +1541,7 @@ fun routeEntityToEntity(entity: Entity, target: Entity, maxTurns: Int = DEFAULT_
             entity.x, entity.y,
             target.x, target.y,
             entity.plane,
+            objShape = -2,
             srcSize = entity.size,
             destWidth = target.size,
             destHeight = target.size,
@@ -1570,7 +1573,6 @@ fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
     if (!route.success) return false
     if (entity is Player) entity.stopAll()
     entity.resetWalkSteps()
-    entity.setNextFaceEntity(null)
     addSteps(entity, route, forceSteps)
     return true
 }
@@ -1578,6 +1580,7 @@ fun walkRoute(entity: Entity, route: Route, forceSteps: Boolean): Boolean {
 fun addSteps(entity: Entity, route: Route, forceSteps: Boolean, maxSteps: Int = -1) {
     var lastStep: RouteCoordinates? = null
     for (coord in route.coords) {
+        World.sendSpotAnim(Tile.of(coord.x, coord.y, entity.plane), 2000)
         if (!entity.addWalkSteps(coord.x, coord.y, maxSteps, true, forceSteps)) break
         lastStep = coord
     }
