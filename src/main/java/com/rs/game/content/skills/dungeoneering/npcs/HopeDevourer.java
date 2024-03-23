@@ -23,7 +23,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.Constants;
 import com.rs.lib.game.Tile;
@@ -58,8 +58,8 @@ public class HopeDevourer extends DungeonBoss {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		int nextX = dir.getDx() + getX();
-		int nextY = dir.getDy() + getY();
+		int nextX = dir.dx + getX();
+		int nextY = dir.dy + getY();
 		int size = getSize(); // I always do this instead of calling at loop cuz it grabs npcdef from hashmap every call
 		for (Player player : getManager().getParty().getTeam())
 			if (WorldUtil.collides(player.getX(), player.getY(), player.getSize(), nextX, nextY, size))

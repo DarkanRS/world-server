@@ -25,7 +25,7 @@ import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.hunter.BoxAction;
 import com.rs.game.content.skills.hunter.BoxTrapType;
 import com.rs.game.map.ChunkManager;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;

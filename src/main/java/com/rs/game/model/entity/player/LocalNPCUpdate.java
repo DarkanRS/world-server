@@ -75,16 +75,16 @@ public final class LocalNPCUpdate {
 					if (n.getDefinitions().movementType == MovementType.HALF_WALK) {
 						stream.writeBits(2, 2);
 						stream.writeBits(1, 0);
-						stream.writeBits(3, n.getNextWalkDirection().getId());
+						stream.writeBits(3, n.getNextWalkDirection().id);
 					} else {
 						stream.writeBits(2, 1);
-						stream.writeBits(3, n.getNextWalkDirection().getId());
+						stream.writeBits(3, n.getNextWalkDirection().id);
 					}
 				} else {
 					stream.writeBits(2, 2);
 					stream.writeBits(1, 1);
-					stream.writeBits(3, n.getNextWalkDirection().getId());
-					stream.writeBits(3, n.getNextRunDirection().getId());
+					stream.writeBits(3, n.getNextWalkDirection().id);
+					stream.writeBits(3, n.getNextRunDirection().id);
 				}
 				stream.writeBits(1, needUpdate ? 1 : 0);
 			} else if (needUpdate)

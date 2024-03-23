@@ -24,7 +24,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -131,8 +131,8 @@ public class Blink extends DungeonBoss {
 	public boolean canMove(Direction dir) {
 		if (!hasActivePillar() || rushCount < 11)
 			return true;
-		int nextX = dir.getDx() + getX();
-		int nextY = dir.getDy() + getY();
+		int nextX = dir.dx + getX();
+		int nextY = dir.dy + getY();
 		if (nextX == activePillar.getX() && nextY == activePillar.getY()) {
 			stopRushAttack();
 			return false;

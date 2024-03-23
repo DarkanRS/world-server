@@ -16,7 +16,7 @@
 //
 package com.rs.plugin.events;
 
-import com.rs.game.model.entity.pathing.WalkStep;
+import com.rs.engine.pathfinder.WalkStep;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.handlers.PlayerStepHandler;

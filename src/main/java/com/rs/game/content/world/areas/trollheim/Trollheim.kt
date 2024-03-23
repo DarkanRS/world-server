@@ -21,7 +21,7 @@ import com.rs.game.content.bosses.godwars.GodwarsController
 import com.rs.game.content.skills.agility.Agility
 import com.rs.game.content.world.doors.Doors
 import com.rs.game.map.ChunkManager
-import com.rs.game.model.entity.pathing.RouteEvent
+import com.rs.engine.pathfinder.RouteEvent
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.async.schedule

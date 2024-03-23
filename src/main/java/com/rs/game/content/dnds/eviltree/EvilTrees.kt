@@ -11,7 +11,7 @@ import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.content.skills.woodcutting.TreeType
 import com.rs.game.content.transportation.SpiritTree
 import com.rs.game.model.entity.npc.NPC
-import com.rs.game.model.entity.pathing.Direction
+import com.rs.engine.pathfinder.Direction
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.actions.PlayerAction
@@ -352,7 +352,7 @@ class EvilTree(val treeType: Type, val location: Location, val centerTile: Tile)
     private fun getDirectionFromTree(player: Player): Direction {
         val sub = player.getMiddleTileAsVector().sub(Vec2(centerTile))
         sub.norm()
-        return Direction.forDelta(ceilNegs(sub.x).toInt(), ceilNegs(sub.y).toInt())
+        return Direction.forDelta(ceilNegs(sub.x).toInt(), ceilNegs(sub.y).toInt()) ?: Direction.WEST
     }
 
     private fun knockAway(player: Player) {

@@ -14,44 +14,18 @@
 //  Copyright (C) 2021 Trenton Kress
 //  This file is part of project: Darkan
 //
-package com.rs.game.model.entity.pathing;
+package com.rs.engine.pathfinder
 
-public class WalkStep {
+class WalkStep(@JvmField val dir: Direction, @JvmField val x: Int, @JvmField val y: Int, private var clip: Boolean) {
+    fun checkClip(): Boolean {
+        return clip
+    }
 
-	private final Direction dir;
-	private final int x;
-    private final int y;
-	private boolean clip;
+    fun setCheckClip(clip: Boolean) {
+        this.clip = clip
+    }
 
-	public WalkStep(Direction dir, int x, int y, boolean clip) {
-		this.dir = dir;
-		this.x = x;
-		this.y = y;
-		this.clip = clip;
-	}
-
-	public boolean checkClip() {
-		return clip;
-	}
-
-	public void setCheckClip(boolean clip) {
-		this.clip = clip;
-	}
-
-	public Direction getDir() {
-		return dir;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public String toString() {
-		return "[" + x + ", " + y + ", " + dir + ", " + clip + "]";
-	}
+    override fun toString(): String {
+        return "[$x, $y, $dir, $clip]"
+    }
 }

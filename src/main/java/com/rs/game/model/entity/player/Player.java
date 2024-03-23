@@ -32,6 +32,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.miniquest.MiniquestManager;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.World;
@@ -86,7 +87,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.managers.*;
 import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -2245,7 +2245,7 @@ public class Player extends Entity {
 	public void retribution(Entity source) {
 		setNextSpotAnim(new SpotAnim(437));
 		for (Direction dir : Direction.values())
-			World.sendSpotAnim(Tile.of(getX() - dir.getDx(), getY() - dir.getDy(), getPlane()), new SpotAnim(438, 20, 10, dir.getId()));
+			World.sendSpotAnim(Tile.of(getX() - dir.dx, getY() - dir.dy, getPlane()), new SpotAnim(438, 20, 10, dir.id));
 		if (isAtMultiArea()) {
 			for (Player player : queryNearbyPlayersByTileRange(1, player -> !player.isDead() && player.isCanPvp() && player.withinDistance(getTile(), 1) || getControllerManager().canHit(player)))
 				player.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
@@ -2263,7 +2263,7 @@ public class Player extends Entity {
 
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
+			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
 					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
@@ -3586,7 +3586,7 @@ public class Player extends Entity {
 				tilesUnlocked = new HashSet<>();
 				tilesAvailable = 50;
 			}
-			int tileHash = getTile().transform(dir.getDx(), dir.getDy()).getTileHash();
+			int tileHash = getTile().transform(dir.dx, dir.dy).getTileHash();
 			if (!tilesUnlocked.contains(tileHash)) {
 				if (tilesAvailable <= 0)
 					return false;

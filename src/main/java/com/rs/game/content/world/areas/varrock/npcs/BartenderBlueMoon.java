@@ -4,7 +4,7 @@ import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.Options;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;
@@ -78,6 +78,6 @@ public class BartenderBlueMoon {
                 }
             });
 
-        }, false));
+        }));
     });
 }

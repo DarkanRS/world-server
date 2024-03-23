@@ -4,7 +4,7 @@ import com.rs.cache.loaders.ObjectType
 import com.rs.game.World
 import com.rs.game.content.skills.woodcutting.Hatchet
 import com.rs.game.model.entity.async.schedule
-import com.rs.game.model.entity.pathing.RouteEvent
+import com.rs.engine.pathfinder.RouteEvent
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub.ALL_GAME_TABS

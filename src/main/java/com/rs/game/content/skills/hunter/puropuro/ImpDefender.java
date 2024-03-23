@@ -5,7 +5,7 @@ import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.ClipType;
+import com.rs.engine.pathfinder.ClipType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;

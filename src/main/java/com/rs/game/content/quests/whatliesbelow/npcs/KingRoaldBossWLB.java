@@ -1,11 +1,9 @@
 package com.rs.game.content.quests.whatliesbelow.npcs;
 
-import com.rs.game.content.bosses.tormenteddemon.TormentedDemon;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 import com.rs.plugin.annotations.PluginEventHandler;
