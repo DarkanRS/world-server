@@ -1,11 +1,11 @@
 package com.rs.game.content.skills.hunter.puropuro;
 
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.World;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.ClipType;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Animation;
@@ -23,7 +23,7 @@ public class ImpDefender extends NPC {
 
     public ImpDefender(Tile tile) {
         super(6074, tile);
-        setClipType(ClipType.NORMAL);
+        setCollisionStrategyType(CollisionStrategyType.NORMAL);
         WorldTasks.scheduleLooping(0, Ticks.fromSeconds(5), this::freeImplings);
     }
 

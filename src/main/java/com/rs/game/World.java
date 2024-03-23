@@ -22,6 +22,9 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.db.WorldDB;
+import com.rs.engine.pathfinder.StepValidator;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
+import com.rs.engine.pathfinder.reach.DefaultReachStrategy;
 import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.engine.thread.WorldThread;
 import com.rs.game.content.ItemConstants;
@@ -32,7 +35,6 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.EntityList;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.ClipType;
 import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
@@ -279,38 +281,12 @@ public final class World {
 		return true;
 	}
 
-	public static boolean checkWalkStep(Tile from, Tile to) {
-		if (from.matches(to))
-			return true;
-		return checkWalkStep(from, to, 1);
-	}
-
 	public static boolean checkMeleeStep(Object from, int fromSize, Object to, int toSize) {
 		Tile fromTile = WorldUtil.targetToTile(from);
 		Tile toTile = WorldUtil.targetToTile(to);
 		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-		Tile closestFrom = fromTile;
-		Tile closestTo = toTile;
-		double shortest = 1000.0;
-		for (int x1 = 0; x1 < fromSize; x1++)
-			for (int y1 = 0; y1 < fromSize; y1++)
-				for (int x2 = 0; x2 < toSize; x2++)
-					for (int y2 = 0; y2 < toSize; y2++) {
-						double dist = Utils.getDistance(fromTile.transform(x1, y1), toTile.transform(x2, y2));
-						if (dist < shortest) {
-							closestFrom = fromTile.transform(x1, y1);
-							closestTo = toTile.transform(x2, y2);
-							shortest = dist;
-						}
-					}
-		fromTile = closestFrom;
-		toTile = closestTo;
-		if (to == null || from == null)
-			return false;
-		if (fromTile.matches(toTile))
-			return true;
-		return checkWalkStep(fromTile, toTile, 1);
+		return DefaultReachStrategy.INSTANCE.reached(WorldCollision.INSTANCE.getAllFlags(), fromTile.x(), fromTile.y(), fromTile.plane(), toTile.x(), toTile.y(), toSize, toSize, fromSize, 0, -2, 0);
 	}
 
 	public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
@@ -347,279 +323,6 @@ public final class World {
             return diffY <= distance;
 		}
 		return true;
-	}
-
-	public static boolean checkWalkStep(Tile from, Tile to, int size) {
-		return checkWalkStep(from, to, size, ClipType.NORMAL);
-	}
-
-	public static boolean checkWalkStep(Tile from, Tile to, int size, ClipType type) {
-		Direction dir = Direction.forDelta(to.getX() - from.getX(), to.getY() - from.getY());
-		return checkWalkStep(from.getPlane(), from.getX(), from.getY(), dir, size, type);
-	}
-
-	public static boolean checkWalkStep(Tile tile, Direction dir, int size) {
-		return checkWalkStep(tile.getPlane(), tile.getX(), tile.getY(), dir.dx, dir.dy, size);
-	}
-
-	public static boolean checkWalkStep(int plane, int x, int y, Direction dir, int size) {
-		return checkWalkStep(plane, x, y, dir, size, ClipType.NORMAL);
-	}
-
-	public static boolean checkWalkStep(int plane, int x, int y, Direction dir, int size, ClipType type) {
-		return checkWalkStep(plane, x, y, dir.dx, dir.dy, size, type);
-	}
-
-	public static boolean checkWalkStep(int plane, int x, int y, int xOffset, int yOffset, int size) {
-		return checkWalkStep(plane, x, y, xOffset, yOffset, size, ClipType.NORMAL);
-	}
-
-	public static boolean checkWalkStep(int plane, int x, int y, int xOffset, int yOffset, int size, ClipType type) {
-        return switch (type) {
-            case FLYING -> {
-                if (size == 1) {
-                    int flags = getClipFlags(plane, x + xOffset, y + yOffset);
-                    if (xOffset == -1 && yOffset == 0)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_E);
-                    if (xOffset == 1 && yOffset == 0)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_W);
-                    if (xOffset == 0 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_N);
-                    if (xOffset == 0 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_S);
-                    if (xOffset == -1 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
-                    if (xOffset == 1 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N);
-                    if (xOffset == -1 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_E) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
-                    if (xOffset == 1 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.BP_FULL, ClipFlag.BP_W) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.BP_FULL, ClipFlag.BP_S);
-                } else if (xOffset == -1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
-                            ClipFlag.flagged(getClipFlags(plane, x - 1, -1 + (y + size)), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW) ||
-                            ClipFlag.flagged(getClipFlags(plane, x + size, y - (-size + 1)), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE) ||
-                            ClipFlag.flagged(getClipFlags(plane, x + size - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE) ||
-                            ClipFlag.flagged(getClipFlags(plane, x + (size - 1), y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_NE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + (-1 + sizeOffset)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
-                                ClipFlag.flagged(getClipFlags(plane, sizeOffset - 1 + x, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_W, ClipFlag.BP_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, sizeOffset + (-1 + y)), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW) ||
-                                ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_NE))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_NE, ClipFlag.BP_SE) ||
-                                ClipFlag.flagged(getClipFlags(plane, -1 + (x + sizeOffset), y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y + size), ClipFlag.BP_FULL, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.BP_FULL, ClipFlag.BP_E, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_SE, ClipFlag.BP_SW) ||
-                                ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.BP_FULL, ClipFlag.BP_N, ClipFlag.BP_S, ClipFlag.BP_W, ClipFlag.BP_NW, ClipFlag.BP_SW))
-                            yield false;
-                }
-                yield true;
-            }
-            case WATER -> {
-                if (size == 1) {
-                    int flags = getClipFlags(plane, x + xOffset, y + yOffset);
-                    if (xOffset == -1 && yOffset == 0)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E);
-                    if (xOffset == 1 && yOffset == 0)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W);
-                    if (xOffset == 0 && yOffset == -1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == 0 && yOffset == 1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                    if (xOffset == -1 && yOffset == -1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == 1 && yOffset == -1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == -1 && yOffset == 1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                    if (xOffset == 1 && yOffset == 1)
-                        yield ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR) && !ClipFlag.flagged(flags, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) &&
-                                !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                } else if (xOffset == -1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE)
-                            || ClipFlag.flagged(getClipFlags(plane, x - 1, -1 + (y + size)), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW)
-                            || ClipFlag.flagged(getClipFlags(plane, x + size, y - (-size + 1)), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE)
-                            || ClipFlag.flagged(getClipFlags(plane, x + size - 1, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE)
-                            || ClipFlag.flagged(getClipFlags(plane, x + (size - 1), y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + (-1 + sizeOffset)), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE)
-                                || ClipFlag.flagged(getClipFlags(plane, sizeOffset - 1 + x, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, sizeOffset + (-1 + y)), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW)
-                                || ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE)
-                                || ClipFlag.flagged(getClipFlags(plane, -1 + (x + sizeOffset), y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW)
-                                || ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW))
-                            yield false;
-                }
-                yield true;
-            }
-            case NOCLIP -> true;
-            default -> {
-                if (size == 1) {
-                    int flags = getClipFlags(plane, x + xOffset, y + yOffset);
-                    if (xOffset == -1 && yOffset == 0)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E);
-                    if (xOffset == 1 && yOffset == 0)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W);
-                    if (xOffset == 0 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == 0 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                    if (xOffset == -1 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) && !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) && !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == 1 && yOffset == -1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW) && !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) && !ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N);
-                    if (xOffset == -1 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE) && !ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E) && !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                    if (xOffset == 1 && yOffset == 1)
-                        yield !ClipFlag.flagged(flags, ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW) && !ClipFlag.flagged(getClipFlags(plane, x + 1, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_W) && !ClipFlag.flagged(getClipFlags(plane, x, y + 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S);
-                } else if (xOffset == -1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) || ClipFlag.flagged(getClipFlags(plane, x - 1, -1 + (y + size)), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 0) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW) || ClipFlag.flagged(getClipFlags(plane, x + size, y - (-size + 1)), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE) || ClipFlag.flagged(getClipFlags(plane, x + size - 1, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == 0 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x, y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE) || ClipFlag.flagged(getClipFlags(plane, x + (size - 1), y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size - 1; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_NE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + (-1 + sizeOffset)), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE) || ClipFlag.flagged(getClipFlags(plane, sizeOffset - 1 + x, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == -1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_W, ClipFlag.BW_NW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + size, sizeOffset + (-1 + y)), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW) || ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y - 1), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_NE))
-                            yield false;
-                } else if (xOffset == -1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_SE))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x - 1, y + sizeOffset), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_NE, ClipFlag.BW_SE) || ClipFlag.flagged(getClipFlags(plane, -1 + (x + sizeOffset), y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW))
-                            yield false;
-                } else if (xOffset == 1 && yOffset == 1) {
-                    if (ClipFlag.flagged(getClipFlags(plane, x + size, y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SW))
-                        yield false;
-                    for (int sizeOffset = 1; sizeOffset < size; sizeOffset++)
-                        if (ClipFlag.flagged(getClipFlags(plane, x + sizeOffset, y + size), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_E, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_SE, ClipFlag.BW_SW) || ClipFlag.flagged(getClipFlags(plane, x + size, y + sizeOffset), ClipFlag.PFBW_FLOOR, ClipFlag.PFBW_GROUND_DECO, ClipFlag.BW_FULL, ClipFlag.BW_N, ClipFlag.BW_S, ClipFlag.BW_W, ClipFlag.BW_NW, ClipFlag.BW_SW))
-                            yield false;
-                }
-                yield true;
-            }
-        };
 	}
 
 	public static boolean containsPlayer(String username) {
@@ -951,7 +654,7 @@ public final class World {
 		return type != null ? type : GameObject.RouteType.NORMAL;
 	}
 
-    public enum DropMethod {
+	public enum DropMethod {
 		NORMAL, TURN_UNTRADEABLES_TO_COINS
 	}
 
@@ -1287,6 +990,7 @@ public final class World {
 	 * Please someone refactor this. This is beyond disgusting and definitely can be done better.
 	 */
 	public static Tile findAdjacentFreeTile(Tile tile, Direction... blacklistedDirections) {
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		List<Direction> unchecked = new ArrayList<>(Arrays.asList(Direction.values()));
 		if (blacklistedDirections != null) {
 			for (Direction dir : blacklistedDirections)
@@ -1294,11 +998,23 @@ public final class World {
 		}
 		while(!unchecked.isEmpty()) {
 			Direction curr = unchecked.get(Utils.random(unchecked.size()));
-			if (World.checkWalkStep(tile, curr, 1))
+			if (step.canTravel(tile.plane(), tile.x(), tile.y(), curr.dx, curr.dy, 1, 0, CollisionStrategyType.NORMAL.getStrategy()))
 				return tile.transform(curr.dx, curr.dy);
 			unchecked.remove(curr);
 		}
 		return null;
+	}
+
+	public static boolean checkWalkStep(Tile tile, Direction dir, int size) {
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
+		return step.canTravel(tile.plane(), tile.x(), tile.y(), dir.dx, dir.dy, size, 0, CollisionStrategyType.NORMAL.getStrategy());
+	}
+
+	public static boolean checkWalkStep(Tile tile, Tile toTile, int size) {
+		Direction dir = Direction.forDelta(toTile.x() - tile.x(), toTile.y() - tile.y());
+		if (dir == null) return false;
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
+		return step.canTravel(tile.plane(), tile.x(), tile.y(), dir.dx, dir.dy, size, 0, CollisionStrategyType.NORMAL.getStrategy());
 	}
 
 	public static Tile findAdjacentFreeTile(Tile tile) {
@@ -1315,6 +1031,7 @@ public final class World {
 	public static Tile findAdjacentFreeSpace(Tile tile, int size) {
 		if (size == 1)
 			return findAdjacentFreeTile(tile);
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		List<Direction> unchecked = new ArrayList<>(List.of(Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST));
 		Tile finalTile = null;
 		while(!unchecked.isEmpty()) {
@@ -1333,7 +1050,7 @@ public final class World {
 //							default -> 1999;
 //						}), from);
 //					}
-					if (!checkWalkStep(from, curr, 1) || (size > 1 && row < (size-1) && !checkWalkStep(from, offset, 1))) {
+					if (!step.canTravel(tile.plane(), tile.x(), tile.y(), curr.dx, curr.dy, 1, 0, CollisionStrategyType.NORMAL.getStrategy()) || (size > 1 && row < (size-1) && !step.canTravel(tile.plane(), tile.x(), tile.y(), offset.dx, offset.dy, 1, 0, CollisionStrategyType.NORMAL.getStrategy()))) {
 						failed = true;
 						break;
 					}

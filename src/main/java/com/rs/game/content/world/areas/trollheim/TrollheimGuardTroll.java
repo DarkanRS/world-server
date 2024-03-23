@@ -36,7 +36,7 @@ public class TrollheimGuardTroll extends NPC {
 	public void processNPC() {
 		super.processNPC();
 		if (Utils.getDistance(this.getTile(), getRespawnTile()) > 2)
-			DumbRouteFinder.addDumbPathfinderSteps(this, getRespawnTile(), 5, getClipType());
+			DumbRouteFinder.addDumbPathfinderSteps(this, getRespawnTile(), 5, getCollisionStrategy());
 	}
 
 	//    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1130, 1131, 1132, 1133, 1134) {

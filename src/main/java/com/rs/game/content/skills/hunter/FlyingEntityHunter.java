@@ -219,7 +219,7 @@ public class FlyingEntityHunter {
 			e.getNPC().resetWalkSteps();
 			Tile fleeTo = e.getNPC().getRespawnTile();
 			fleeTo.transform(Utils.random(-10, 10), Utils.random(-10, 10));
-			DumbRouteFinder.addDumbPathfinderSteps(e.getNPC(), fleeTo, 10, e.getNPC().getClipType());
+			DumbRouteFinder.addDumbPathfinderSteps(e.getNPC(), fleeTo, 10, e.getNPC().getCollisionStrategy());
 		}
 		if (e.getNPC() instanceof Impling && Utils.random(10) == 0)
 			e.getNPC().setNextForceTalk(new ForceTalk("Tee hee, you missed me!"));

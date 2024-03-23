@@ -22,6 +22,8 @@ import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.animations.AnimationDefinitions;
 import com.rs.cache.loaders.map.RegionSize;
 import com.rs.engine.pathfinder.*;
+import com.rs.engine.pathfinder.collision.CollisionStrategy;
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.World;
 import com.rs.game.content.Effect;
 import com.rs.game.content.combat.PlayerCombatKt;
@@ -110,7 +112,7 @@ public abstract class Entity {
 	protected transient RouteEvent routeEvent;
 	private transient ActionManager actionManager;
 	private transient InteractionManager interactionManager;
-	private transient ClipType clipType = ClipType.NORMAL;
+	private transient CollisionStrategy collisionStrategy = CollisionStrategyType.NORMAL.getStrategy();
 	private transient long lockDelay; // used for doors and stuff like that
 
 	private transient BodyGlow nextBodyGlow;
@@ -601,7 +603,7 @@ public abstract class Entity {
 			RouteFinderKt.addSteps(this, route,true, maxStepsCount);
 			return true;
 		}
-		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getClipType());
+		return DumbRouteFinder.addDumbPathfinderSteps(this, target, getCollisionStrategy());
 	}
 
 	public Player getMostDamageReceivedSourcePlayer() {
@@ -734,13 +736,14 @@ public abstract class Entity {
 				if (npc.switchWalkStep())
 					return;
 
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		for (int stepCount = 0; stepCount < (moveType == MoveType.RUN ? 2 : 1); stepCount++) {
 			WalkStep nextStep = getNextWalkStep();
 			if (nextStep == null)
 				break;
 			if (player != null)
 				PluginManager.handle(new PlayerStepEvent(player, nextStep, Tile.of(getX() + nextStep.dir.dx, getY() + nextStep.dir.dy, getPlane())));
-			if ((nextStep.checkClip() && !World.checkWalkStep(getPlane(), getX(), getY(), nextStep.dir, getSize(), getClipType())) || (nextStep.checkClip() && npc != null && !npc.checkNPCCollision(nextStep.dir)) || !canMove(nextStep.dir)) {
+			if ((nextStep.checkClip() && !step.canTravel(getPlane(), getX(), getY(), nextStep.dir.dx, nextStep.dir.dy, getSize(), 0, getCollisionStrategy())) || (nextStep.checkClip() && npc != null && !npc.checkNPCCollision(nextStep.dir)) || !canMove(nextStep.dir)) {
 				resetWalkSteps();
 				break;
 			}
@@ -919,9 +922,10 @@ public abstract class Entity {
 	public boolean addWalkStep(int nextX, int nextY, int lastX, int lastY, boolean check, boolean force) {
 		//World.sendSpotAnim(Tile.of(nextX, nextY, getPlane()), new SpotAnim(2000));
 		Direction dir = Direction.forDelta(nextX - lastX, nextY - lastY);
+		StepValidator step = new StepValidator(WorldCollision.INSTANCE.getAllFlags());
 		if (dir == null)
 			return false;
-		if (!force && check && !World.checkWalkStep(getPlane(), lastX, lastY, dir, getSize(), getClipType()) || (check && this instanceof NPC n && !n.checkNPCCollision(dir)))// double
+		if (!force && check && !step.canTravel(getPlane(), lastX, lastY, dir.dx, dir.dy, getSize(), 0, getCollisionStrategy()) || (check && this instanceof NPC n && !n.checkNPCCollision(dir)))// double
 			return false;
 		if (this instanceof Player player)
 			if (!player.getControllerManager().checkWalkStep(lastX, lastY, nextX, nextY))
@@ -1707,14 +1711,20 @@ public abstract class Entity {
 		this.forceUpdateEntityRegion = forceUpdateEntityRegion;
 	}
 
-	public ClipType getClipType() {
-		if (clipType == null)
-			clipType = ClipType.NORMAL;
-		return clipType;
+	public CollisionStrategy getCollisionStrategy() {
+		if (collisionStrategy == null)
+			collisionStrategy = CollisionStrategyType.NORMAL.getStrategy();
+		return collisionStrategy;
 	}
 
-	public void setClipType(ClipType clipType) {
-		this.clipType = clipType;
+	public Entity setCollisionStrategy(CollisionStrategy strategy) {
+		this.collisionStrategy = strategy;
+		return this;
+	}
+
+	public Entity setCollisionStrategyType(CollisionStrategyType type) {
+		setCollisionStrategy(type == null ? CollisionStrategyType.NORMAL.getStrategy() : type.getStrategy());
+		return this;
 	}
 
 	public Tile getNearestTeleTile(Entity toMove) {

@@ -1,11 +1,11 @@
 package com.rs.game.content.skills.hunter;
 
+import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.game.content.skills.hunter.FlyingEntityHunter.FlyingEntities;
 import com.rs.game.content.skills.hunter.puropuro.ImpDefender;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.ClipType;
 import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -28,7 +28,7 @@ public class Impling extends NPC {
         if (!puropuro)
             finishAfterTicks(Ticks.fromMinutes(30));
         setRandomWalk(true);
-        setClipType(ClipType.FLYING);
+        setCollisionStrategyType(CollisionStrategyType.FLY);
         addLOSOverrides(id);
     }
 

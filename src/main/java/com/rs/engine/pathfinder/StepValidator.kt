@@ -1,7 +1,7 @@
 package com.rs.engine.pathfinder
 
-import com.rs.engine.pathfinder.collision.CollisionStrategies
 import com.rs.engine.pathfinder.collision.CollisionStrategy
+import com.rs.engine.pathfinder.collision.CollisionStrategyType
 import com.rs.engine.pathfinder.flag.CollisionFlag.BLOCK_EAST
 import com.rs.engine.pathfinder.flag.CollisionFlag.BLOCK_NORTH
 import com.rs.engine.pathfinder.flag.CollisionFlag.BLOCK_NORTH_AND_SOUTH_EAST
@@ -28,7 +28,7 @@ public class StepValidator(private val flags: Array<IntArray?>) {
         offsetY: Int,
         size: Int = 1,
         extraFlag: Int,
-        collision: CollisionStrategy = CollisionStrategies.Normal,
+        collision: CollisionStrategy = CollisionStrategyType.NORMAL.strategy,
     ): Boolean {
         val blocked = when {
             offsetX == 0 && offsetY == -1 -> isBlockedSouth(flags, level, x, y, size, extraFlag, collision)
