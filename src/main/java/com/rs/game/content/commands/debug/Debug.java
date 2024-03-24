@@ -19,6 +19,7 @@ package com.rs.game.content.commands.debug;
 import com.rs.Settings;
 import com.rs.cache.loaders.ItemDefinitions;
 import com.rs.engine.command.Commands;
+import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
@@ -143,6 +144,16 @@ public class Debug {
 					int stage = Integer.parseInt(args[1]);
 					p.getQuestManager().setStage(quest, stage);
 					p.sendMessage("Set " + quest.name() + " to stage " + stage);
+					return;
+				}
+		});
+
+		Commands.add(Rights.PLAYER, "setmqstage [miniquestName, stage]", "Resets the specified miniquest.", (p, args) -> {
+			for (Miniquest miniquest : Miniquest.values())
+				if (miniquest.name().toLowerCase().contains(args[0]) && miniquest.isImplemented()) {
+					int stage = Integer.parseInt(args[1]);
+					p.getMiniquestManager().setStage(miniquest, stage);
+					p.sendMessage("Set " + miniquest.name() + " to stage " + stage);
 					return;
 				}
 		});
