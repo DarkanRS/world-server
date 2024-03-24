@@ -5,7 +5,6 @@ import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
-import com.rs.lib.game.SpotAnim
 import com.rs.lib.game.Tile
 import com.rs.lib.util.Utils
 import com.rs.plugin.annotations.ServerStartupEvent
@@ -64,7 +63,7 @@ fun handleSandwichLady() {
 				lady.forceTalk("Hope that fills you up!")
 				lady.ticks = SandwichLady.DURATION + 4
 			} else {
-				e.player.sendMessage("The sandwich lady knocks you out and you wake up somewhere.. different.")
+				e.player.sendMessage("The sandwich lady knocks you out and you wake up somewhere... different.")
 				lady.forceTalk("Hey, I didn't say you could have that!")
 				lady.ticks = SandwichLady.DURATION - 1
 			}
