@@ -27,7 +27,7 @@ import com.rs.lib.game.Tile
 import com.rs.lib.net.packets.encoders.MinimapFlag
 import com.rs.utils.WorldUtil
 
-class RouteEvent(private val target: Any, private val event: Runnable) {
+class RouteEvent(private val target: Any, private val event: Runnable, private val allowAlternate: Boolean = false) {
     fun processEvent(entity: Entity): Boolean {
         var player: Player? = null
         if (entity is Player) player = entity
@@ -40,7 +40,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
         }
         if (!entity.hasWalkSteps()) {
             val route = routeEntityTo(entity, target)
-            if (route.failed) {
+            if (route.failed || (route.alternative && !allowAlternate)) {
                 if (player != null) {
                     player.sendMessage("You can't reach that.")
                     player.session.writeToQueue(MinimapFlag())
@@ -56,7 +56,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
             return false
         }
         val route = routeEntityTo(entity, target)
-        if (route.failed) {
+        if (route.failed || (route.alternative && !allowAlternate)) {
             if (player != null) {
                 player.sendMessage("You can't reach that.")
                 player.session.writeToQueue(MinimapFlag())
