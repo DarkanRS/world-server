@@ -1,14 +1,14 @@
 package com.rs.game.content.miniquests.abyss
 
-import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
+import com.rs.engine.dialogue.startConversation
 import com.rs.engine.miniquest.Miniquest
 import com.rs.engine.miniquest.MiniquestHandler
 import com.rs.engine.miniquest.MiniquestOutline
 import com.rs.game.content.skills.runecrafting.Abyss
+import com.rs.game.model.entity.npc.NPC
 import com.rs.game.model.entity.player.Player
 import com.rs.game.model.entity.player.Skills
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onItemClick
 import com.rs.plugin.kts.onNpcClick
@@ -17,37 +17,14 @@ import com.rs.utils.shop.ShopsHandler
 @ServerStartupEvent
 fun mapEnterTheAbyss() {
     onNpcClick(2257) { (player, npc, option) ->
-        val miniquestStage = player.miniquestManager.getStage(Miniquest.ENTER_THE_ABYSS)
-        val dialogue = Dialogue()
-
         when (option) {
-            "Talk-to" -> {
-                when (miniquestStage) {
-                    EnterTheAbyss.NOT_STARTED -> {
-                        dialogue.apply {
-                            addPlayer(HeadE.CONFUSED, "Hello there, what are you doing here?")
-                            addNPC(npc, HeadE.SECRETIVE, "I am researching an interesting phenomenon I call the 'Abyss' and selling runes.")
-                            addPlayer(HeadE.CONFUSED, "Where do you get your runes?")
-                            addNPC(npc, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!") {
-                                player.miniquestManager.setStage(Miniquest.ENTER_THE_ABYSS, EnterTheAbyss.MEET_IN_VARROCK)
-                            }
-                        }
-                    }
-                    EnterTheAbyss.MEET_IN_VARROCK, EnterTheAbyss.SCRYING_ORB, EnterTheAbyss.COMPLETED_SCRYING_ORB  -> {
-                        dialogue.addNPC(npc, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!")
-                    }
-                    EnterTheAbyss.COMPLETED -> {
-                        dialogue.addNPC(npc, HeadE.FRUSTRATED, "This is no place to talk! If you need help getting out of my sight I can send you to the Abyss?")
-                    }
-                }
-                player.startConversation(dialogue)
-            }
+            "Talk-to" -> mapMageDialogue(player, npc)
             "Trade" -> ShopsHandler.openShop(player, "zamorak_mage_shop")
             "Teleport" -> Abyss.teleport(player, npc)
         }
     }
-    onNpcClick(2260) { e ->
-        e.player.startConversation(ZamorakMageD(e.player))
+    onNpcClick(2260) { (player, npc) ->
+        ZamorakMageD(player, npc)
     }
     onItemClick(5520, options = arrayOf("Read")) { e ->
         if (e.player.miniquestManager.getStage(Miniquest.ENTER_THE_ABYSS) == EnterTheAbyss.COMPLETED)
@@ -66,7 +43,6 @@ fun mapEnterTheAbyss() {
     completedStage = EnterTheAbyss.COMPLETED
 )
 
-@PluginEventHandler
 class EnterTheAbyss : MiniquestOutline() {
     override fun getJournalLines(player: Player, stage: Int): List<String> {
         val lines = ArrayList<String>()
@@ -123,5 +99,27 @@ class EnterTheAbyss : MiniquestOutline() {
         const val SCRYING_ORB: Int = 2
         const val COMPLETED_SCRYING_ORB: Int = 3
         const val COMPLETED: Int = 4
+    }
+}
+
+fun mapMageDialogue(player: Player, npc: NPC) {
+    val miniquestStage = player.miniquestManager.getStage(Miniquest.ENTER_THE_ABYSS)
+    player.startConversation {
+        when (miniquestStage) {
+            EnterTheAbyss.NOT_STARTED -> {
+                player(HeadE.CONFUSED, "Hello there, what are you doing here?")
+                npc(npc, HeadE.SECRETIVE, "I am researching an interesting phenomenon I call the 'Abyss' and selling runes.")
+                player(HeadE.CONFUSED, "Where do you get your runes?")
+                npc(npc, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!") {
+                    player.miniquestManager.setStage(Miniquest.ENTER_THE_ABYSS, EnterTheAbyss.MEET_IN_VARROCK)
+                }
+            }
+            EnterTheAbyss.MEET_IN_VARROCK, EnterTheAbyss.SCRYING_ORB, EnterTheAbyss.COMPLETED_SCRYING_ORB  -> {
+                npc(npc, HeadE.FRUSTRATED, "This is no place to talk! Meet me at the Varrock Chaos Temple!")
+            }
+            EnterTheAbyss.COMPLETED -> {
+                npc(npc, HeadE.FRUSTRATED, "This is no place to talk! If you need help getting out of my sight I can send you to the Abyss?")
+            }
+        }
     }
 }
