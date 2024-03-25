@@ -38,14 +38,14 @@ public class Darren {
             case 1 -> player.startConversation(new Dialogue()
                     .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you.")
                     .addPlayer(HeadE.CALM_TALK, "I've not got the baby toy dragon and initial investment back yet, I'm afraid.")
-                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Well, do hop to it, there's a good chap/lass. Time's a ticking!")
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Well, do hop to it, there's a good " + player.getPronoun("chap","lass") + ". Time's a ticking!")
                     .addPlayer(HeadE.CALM_TALK, "Do you have any practical advice for how I should go about this?")
                     .addNPC(npcid, HeadE.HAPPY_TALKING, "Practical? My word, no. Robin's your fellow if you want practical matters attended to; I mostly do strategy.")
             );
             case 2 -> player.startConversation(new Dialogue()
                     .addPlayer(HeadE.CALM_TALK, "I'd like to talk about the caper I'm doing for you.")
                     .addPlayer(HeadE.CALM_TALK, "I've got the baby toy dragon but I don't initial investment back yet, I'm afraid.")
-                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Excellent! Well, do hop to it, there's a good chap/lass. Time's a ticking!")
+                    .addNPC(npcid, HeadE.HAPPY_TALKING, "Excellent! Well, do hop to it, there's a good " + player.getPronoun("chap","lass") + ". Time's a ticking!")
             );
             case 3 -> {
                 player.startConversation(new Dialogue()

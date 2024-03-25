@@ -90,28 +90,29 @@ public class FromTinyAcorns extends MiniquestOutline {
 		e.getPlayer().getInventory().refresh();
 	});
 
-	public static ObjectClickHandler handleStall = new ObjectClickHandler(new Object[] { 51656 }, new String[] { "Steal-from" }, e -> {
-		boolean UristDistracted = e.getPlayer().getMiniquestManager().getAttribs(Miniquest.FROM_TINY_ACORNS).getB("UristDistracted");
-		boolean GuardDistracted = e.getPlayer().getMiniquestManager().getAttribs(Miniquest.FROM_TINY_ACORNS).getB("GuardDistracted");
-		int UristID = 11270;
-		int GuardID = 11269;
-		if(e.getPlayer().getInventory().containsItem(18651)) {
-			e.getPlayer().sendMessage("You've stolen the Toy Baby Dragon already.");
-			return;
-		}
-		if(UristDistracted && GuardDistracted) {
-			e.getPlayer().getActionManager().setAction(new stealFromStall(e.getObject()));
-		}
-		else {
-			if (!UristDistracted) {
-				e.getPlayer().startConversation(new Dialogue()
-						.addNPC(UristID, HeadE.CALM_TALK, "Sorry, " + e.getPlayer().getPronoun("lad","miss") + ", I can't let you pick it up just yet. Still needs its oil and polish before I can call it a finished work, see.")
-						.addPlayer(HeadE.SKEPTICAL, "It looks finished to me.")
-						.addNPC(UristID, HeadE.SHAKING_HEAD, "And it'd look finished until the works gummed up or the oil clouded the rubies. Can't let a piece this pricey be a rush job, can I?")
-				);
+	public static ObjectClickHandler handleStall = new ObjectClickHandler(new Object[] { 51656 }, e -> {
+		if(e.getOption().equalsIgnoreCase("Steal-from")) {
+			boolean UristDistracted = e.getPlayer().getMiniquestManager().getAttribs(Miniquest.FROM_TINY_ACORNS).getB("UristDistracted");
+			boolean GuardDistracted = e.getPlayer().getMiniquestManager().getAttribs(Miniquest.FROM_TINY_ACORNS).getB("GuardDistracted");
+			int UristID = 11270;
+			int GuardID = 11269;
+			if (e.getPlayer().getInventory().containsItem(18651)) {
+				e.getPlayer().sendMessage("You've stolen the Toy Baby Dragon already.");
 				return;
 			}
-			e.getPlayer().npcDialogue(GuardID, HeadE.ANGRY, "Oi! Put that back, thief!");
+			if (UristDistracted && GuardDistracted) {
+				e.getPlayer().getActionManager().setAction(new stealFromStall(e.getObject()));
+			} else {
+				if (!UristDistracted) {
+					e.getPlayer().startConversation(new Dialogue()
+							.addNPC(UristID, HeadE.CALM_TALK, "Sorry, " + e.getPlayer().getPronoun("lad", "miss") + ", I can't let you pick it up just yet. Still needs its oil and polish before I can call it a finished work, see.")
+							.addPlayer(HeadE.SKEPTICAL, "It looks finished to me.")
+							.addNPC(UristID, HeadE.SHAKING_HEAD, "And it'd look finished until the works gummed up or the oil clouded the rubies. Can't let a piece this pricey be a rush job, can I?")
+					);
+					return;
+				}
+				e.getPlayer().npcDialogue(GuardID, HeadE.ANGRY, "Oi! Put that back, thief!");
+			}
 		}
 	});
 }
