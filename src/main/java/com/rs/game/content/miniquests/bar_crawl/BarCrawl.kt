@@ -11,7 +11,6 @@ import com.rs.game.content.miniquests.bar_crawl.BarCrawl.Companion.BARCRAWL_CARD
 import com.rs.game.content.miniquests.bar_crawl.BarCrawl.Companion.displayBarcrawlInterface
 import com.rs.game.content.world.doors.Doors
 import com.rs.game.model.entity.player.Player
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.kts.onItemClick
 import com.rs.plugin.kts.onLogin
@@ -21,7 +20,7 @@ import com.rs.plugin.kts.onObjectClick
 @ServerStartupEvent
 fun mapBarCrawl() {
     onNpcClick(BARBARIAN_GUARD_ID) { (player, _, _) ->
-        player.startConversation(BarbarianGuardD(player))
+        BarbarianGuardD(player)
     }
     onItemClick(BARCRAWL_CARD_ID, options = arrayOf("Read")) { e ->
         if (allBarsVisited(e.player)) {
@@ -62,7 +61,6 @@ fun mapBarCrawl() {
     completedStage = BarCrawl.COMPLETED
 )
 
-@PluginEventHandler
 class BarCrawl : MiniquestOutline() {
 
     companion object {
