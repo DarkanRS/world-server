@@ -47,7 +47,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
                 }
                 return true
             }
-            if (route.coords.size <= 0) {
+            if (!route.alternative && route.coords.size <= 0) {
                 player?.session?.writeToQueue(MinimapFlag())
                 event.run()
                 return true
@@ -63,7 +63,7 @@ class RouteEvent(private val target: Any, private val event: Runnable) {
             }
             return true
         }
-        if (route.coords.size <= 0) {
+        if (!route.alternative && route.coords.size <= 0) {
             player?.session?.writeToQueue(MinimapFlag())
             event.run()
             return true
