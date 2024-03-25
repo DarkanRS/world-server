@@ -1,13 +1,11 @@
 package com.rs.game.content.randomevents
 
-import com.rs.engine.dialogue.Conversation
-import com.rs.engine.dialogue.Dialogue
 import com.rs.engine.dialogue.HeadE
+import com.rs.engine.dialogue.startConversation
 import com.rs.game.content.randomevents.Genie.Companion.XP_LAMP_ITEM_ID
 import com.rs.game.model.entity.async.schedule
 import com.rs.game.model.entity.player.Player
 import com.rs.lib.game.Tile
-import com.rs.plugin.annotations.PluginEventHandler
 import com.rs.plugin.annotations.ServerStartupEvent
 import com.rs.plugin.events.NPCClickEvent
 import com.rs.plugin.kts.onNpcClick
@@ -19,10 +17,7 @@ fun handleGenieRandomEvent() {
         val npc = event.npc as? Genie ?: return@onNpcClick
         if (npc.ticks >= Genie.DURATION) return@onNpcClick
         if (npc.owner != event.player) {
-            event.player.startConversation(Conversation(Dialogue()
-                .addNPC(npc, HeadE.CALM_TALK, "This wish is for ${npc.owner.displayName}, not you!")
-            )
-            )
+            event.player.startConversation { npc(npc, HeadE.CALM_TALK, "This wish is for ${npc.owner.displayName}, not you!") }
             return@onNpcClick
         }
         handleGenieInteraction(event, npc)
@@ -54,24 +49,21 @@ private fun handleCombatInteraction(e: NPCClickEvent, npc: Genie) {
 }
 
 fun handleNormalInteraction(e: NPCClickEvent, npc: Genie) {
-    val conversation = Conversation(Dialogue())
     if (!npc.claimed) {
-        conversation.addNPC(Genie.NPC_ID, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your wish!")
-            .addNext {
+        e.player.startConversation {
+            npc(Genie.NPC_ID, HeadE.HAPPY_TALKING, "Ah, so you are there master. I'm so glad you summoned me. Please take this lamp and make your wish!")
+            exec {
                 e.player.inventory.addItemDrop(XP_LAMP_ITEM_ID, 1)
-                if (!e.player.inventory.hasFreeSlots()) {
-                    e.player.sendMessage("The lamp has been placed on the ground.")
-                }
+                if (!e.player.inventory.hasFreeSlots()) e.player.sendMessage("The lamp has been placed on the ground.")
                 npc.claimed = true
                 npc.tickCounter = 193
             }
+        }
     } else {
         e.player.sendMessage("Too late!")
     }
-    e.player.startConversation(conversation)
 }
 
-@PluginEventHandler
 class Genie(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DURATION, null, false) {
 
     companion object {
@@ -142,5 +134,4 @@ class Genie(owner: Player, tile: Tile) : RandomEventNPC(owner, NPC_ID, tile, DUR
             }
         }
     }
-
 }
