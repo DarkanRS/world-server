@@ -27,48 +27,37 @@ import com.rs.lib.game.Tile
 import com.rs.lib.net.packets.encoders.MinimapFlag
 import com.rs.utils.WorldUtil
 
-class RouteEvent(private val target: Any, private val event: Runnable, private val allowAlternate: Boolean = false) {
+class RouteEvent(private val target: Any, private val onReachedEvent: Runnable, private val onNearestEvent: (() -> Boolean)?) {
+    constructor(target: Any, event: Runnable): this(target, event, null) //F-U java
+
+    //TODO add optimized boolean for stationary targets that doesn't recalculate the path to check status each time
     fun processEvent(entity: Entity): Boolean {
-        var player: Player? = null
-        if (entity is Player) player = entity
         if (!simpleCheck(entity)) {
-            if (player != null) {
-                player.sendMessage("You can't reach that.")
-                player.session.writeToQueue(MinimapFlag())
-            }
+            cantReachThat(entity as? Player)
             return true
         }
-        if (!entity.hasWalkSteps()) {
-            val route = routeEntityTo(entity, target)
-            if (route.failed || (route.alternative && !allowAlternate)) {
-                if (player != null) {
-                    player.sendMessage("You can't reach that.")
-                    player.session.writeToQueue(MinimapFlag())
-                }
-                return true
-            }
-            if (!route.alternative && route.coords.size <= 0) {
-                player?.session?.writeToQueue(MinimapFlag())
-                event.run()
-                return true
-            } else
-                addSteps(entity, route, true)
-            return false
-        }
+
         val route = routeEntityTo(entity, target)
-        if (route.failed || (route.alternative && !allowAlternate)) {
-            if (player != null) {
-                player.sendMessage("You can't reach that.")
-                player.session.writeToQueue(MinimapFlag())
+        if (route.failed || route.size <= 0) {
+            if (route.failed) cantReachThat(entity as? Player)
+            if (route.size <= 0) {
+                (entity as? Player)?.session?.writeToQueue(MinimapFlag())
+                if (route.alternative) {
+                    return onNearestEvent?.invoke() ?: run {
+                        cantReachThat(entity as? Player)
+                        return true
+                    }
+                }
+                onReachedEvent.run()
             }
             return true
         }
-        if (!route.alternative && route.coords.size <= 0) {
-            player?.session?.writeToQueue(MinimapFlag())
-            event.run()
-            return true
-        }
-        if (entity.hasEffect(Effect.FREEZE) || (target is Entity && target.hasWalkSteps() && WorldUtil.collides(entity, target))) return false
+
+        if (entity.hasEffect(Effect.FREEZE) || (target is Entity && target.hasWalkSteps() && WorldUtil.collides(entity, target)))
+            return false
+
+        entity.resetWalkSteps()
+        addSteps(entity, route, true)
         return false
     }
 
@@ -79,6 +68,13 @@ class RouteEvent(private val target: Any, private val event: Runnable, private v
             is GroundItem -> entity.plane == target.tile.plane && ChunkManager.getChunk(target.tile.chunkId).itemExists(target)
             is Tile -> entity.plane == target.plane
             else -> throw RuntimeException("$target is not instanceof any reachable entity.")
+        }
+    }
+
+    val cantReachThat = { player: Player? ->
+        player?.let {
+            it.sendMessage("You can't reach that.")
+            it.session.writeToQueue(MinimapFlag())
         }
     }
 }
