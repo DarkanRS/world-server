@@ -23,7 +23,7 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.Teleport;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.Inventory;
@@ -53,7 +53,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		Tile toTile = Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), player.getPlane());
+		Tile toTile = Tile.of(player.getX() + dir.dx, player.getY() + dir.dy, player.getPlane());
 		return !CastleWars.isBarricadeAt(toTile);
 	}
 
@@ -192,7 +192,7 @@ public class CastleWarsPlayingController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

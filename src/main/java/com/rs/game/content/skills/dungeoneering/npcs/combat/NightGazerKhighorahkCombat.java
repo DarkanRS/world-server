@@ -81,7 +81,7 @@ public class NightGazerKhighorahkCombat extends CombatScript {
 					gazer.setUsedSpecial(true);
 				}
 			if (success) {
-				WorldTasks.schedule(new Task() {
+				WorldTasks.scheduleLooping(new Task() {
 
 					private int ticks;
 					private final List<Tile> tiles = new LinkedList<>();

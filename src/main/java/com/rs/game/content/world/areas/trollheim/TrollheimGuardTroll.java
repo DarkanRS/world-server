@@ -1,7 +1,7 @@
 package com.rs.game.content.world.areas.trollheim;
 
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.DumbRouteFinder;
+import com.rs.engine.pathfinder.DumbRouteFinder;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
@@ -36,7 +36,7 @@ public class TrollheimGuardTroll extends NPC {
 	public void processNPC() {
 		super.processNPC();
 		if (Utils.getDistance(this.getTile(), getRespawnTile()) > 2)
-			DumbRouteFinder.addDumbPathfinderSteps(this, getRespawnTile(), 5, getClipType());
+			DumbRouteFinder.addDumbPathfinderSteps(this, getRespawnTile(), 5, getCollisionStrategy());
 	}
 
 	//    public static NPCInstanceHandler toFunc = new NPCInstanceHandler(1130, 1131, 1132, 1133, 1134) {

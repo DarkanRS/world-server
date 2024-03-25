@@ -36,6 +36,7 @@ public class WildernessObelisk {
 	public static void activateObelisk(int id, final Player player) {
 		final int index = id - 65616;
 		final Tile center = OBELISK_CENTER_TILES[index];
+		player.soundEffect(204, true);
 		if (IS_ACTIVE[index]) {
 			player.sendMessage("The obelisk is already active.");
 			return;

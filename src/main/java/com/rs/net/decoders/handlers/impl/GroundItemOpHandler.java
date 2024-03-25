@@ -25,7 +25,7 @@ import com.rs.game.content.skills.firemaking.Firemaking.Fire;
 import com.rs.game.content.skills.hunter.BoxAction;
 import com.rs.game.content.skills.hunter.BoxTrapType;
 import com.rs.game.map.ChunkManager;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.GroundItem;
@@ -71,32 +71,41 @@ public class GroundItemOpHandler implements PacketHandler<Player, GroundItemOp> 
 			break;
 		case GROUND_ITEM_OP3:
 			player.setRouteEvent(new RouteEvent(item, () -> {
-				final GroundItem item1 = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
-				if (item1 == null || !player.getControllerManager().canTakeItem(item1))
+				final GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
+				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem)) {
+					player.sendMessage("Too late. It's gone!");
 					return;
-				if (TreasureTrailsManager.isScroll(item1.getId()))
+				}
+				if (TreasureTrailsManager.isScroll(groundItem.getId()))
 					if (player.getTreasureTrailsManager().hasClueScrollItem()) {
 						player.sendMessage("You should finish the clue you are currently doing first.");
 						return;
 					}
-				if (!World.checkWalkStep(player.getTile(), item1.getTile())) {
-					player.setNextAnimation(new Animation(833));
-					player.setNextFaceTile(item1.getTile());
-					player.lock(1);
-					PickupItemEvent e1 = new PickupItemEvent(player, item1, false);
-					PluginManager.handle(e1);
-					if (!e1.isCancelPickup()) {
-						player.soundEffect(2582, false);
-						World.removeGroundItem(player, item1, true);
-					}
-				} else {
-					PickupItemEvent e2 = new PickupItemEvent(player, item1, false);
-					PluginManager.handle(e2);
-					if (!e2.isCancelPickup()) {
-						player.soundEffect(2582, false);
-						World.removeGroundItem(player, item1, true);
-					}
+				PickupItemEvent e2 = new PickupItemEvent(player, groundItem, false);
+				PluginManager.handle(e2);
+				if (!e2.isCancelPickup()) {
+					player.soundEffect(2582, false);
+					World.removeGroundItem(player, groundItem, true);
 				}
+			}, () -> {
+				final GroundItem groundItem = ChunkManager.getChunk(tile.getChunkId()).getGroundItem(packet.getObjectId(), tile, player);
+				if (groundItem == null || !player.getControllerManager().canTakeItem(groundItem)) {
+					player.sendMessage("Too late. It's gone!");
+					return true;
+				}
+				if (!player.lineOfSightTo(groundItem.getTile(), false)) {
+					player.sendMessage("You can't reach that.");
+					return true;
+				}
+				player.anim(833);
+				player.faceTile(groundItem.getTile());
+				PickupItemEvent e1 = new PickupItemEvent(player, groundItem, false);
+				PluginManager.handle(e1);
+				if (!e1.isCancelPickup()) {
+					player.soundEffect(2582, false);
+					World.removeGroundItem(player, groundItem, true);
+				}
+				return true;
 			}));
 			break;
 		case GROUND_ITEM_OP4:

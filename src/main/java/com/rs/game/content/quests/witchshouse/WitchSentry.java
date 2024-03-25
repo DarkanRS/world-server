@@ -41,7 +41,7 @@ public class WitchSentry extends NPC {
     public WitchSentry(Tile tile) {
         super(WITCH, tile, true);
         setRandomWalk(false);
-        WorldTasks.schedule(new Task() {
+        WorldTasks.scheduleLooping(new Task() {
             int tick = 10;
             Player player;
 
@@ -94,11 +94,11 @@ public class WitchSentry extends NPC {
     public boolean lineOfSightTo(Object target, boolean melee) {
         Tile tile = WorldUtil.targetToTile(target);
         if (World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile)) {
-            Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().getDx());
-            if (getDirection().getDx() == 1) {
+            Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().dx);
+            if (getDirection().dx == 1) {
                 if (tile.getX() > getX() && checkByConeSightX(tile))
                     return true;
-            } else if (getDirection().getDx() == -1 && checkByConeSightX(tile))
+            } else if (getDirection().dx == -1 && checkByConeSightX(tile))
                 if (tile.getX() < getX())
                     return true;
         }

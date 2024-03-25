@@ -906,6 +906,7 @@ public class House {
 	}
 
 	public boolean joinHouse(final Player player) {
+		player.lock();
 		if (!isOwner(player)) { // not owner
 			if (!isOwnerInside() || !loaded) {
 				player.sendMessage("That player is offline, or has privacy mode enabled.");
@@ -921,30 +922,26 @@ public class House {
 		player.getControllerManager().startController(new HouseController(this));
 		if (loaded) {
 			teleportPlayer(player);
-			WorldTasks.schedule(new Task() {
-				@Override
-				public void run() {
-					player.lock(1);
-					player.getInterfaceManager().setDefaultTopInterface();
-				}
-			}, 4);
+			player.getTasks().schedule(4, () -> {
+				player.unlock();
+				player.getInterfaceManager().setDefaultTopInterface();
+				teleportServant();
+			});
 		} else {
 			createHouse();
 		}
-		teleportServant();
 		return true;
 	}
 
 	public static void leaveHouse(Player player) {
-		Controller controller = player.getControllerManager().getController();
-		if (controller == null || !(controller instanceof HouseController)) {
+		HouseController controller = player.getControllerManager().getController(HouseController.class);
+		if (controller == null) {
 			player.sendMessage("You're not in a house.");
 			return;
 		}
 		player.setCanPvp(false);
 		player.removeHouseOnlyItems();
-		player.lock(2);
-		((HouseController) controller).getHouse().leaveHouse(player, KICKED);
+		controller.getHouse().leaveHouse(player, KICKED);
 	}
 
 	/*
@@ -963,8 +960,6 @@ public class House {
 			players.remove(player);
 		if (players == null || players.size() == 0)
 			destroyHouse();
-		if (type != LOGGED_OUT)
-			player.lock(2);
 		if (player.getAppearance().getRenderEmote() != -1)
 			player.getAppearance().setBAS(-1);
 		if (isOwner(player) && servantInstance != null)
@@ -1305,7 +1300,6 @@ public class House {
 			instance.destroy();
 		instance = Instance.of(getLocation().getTile(), 8, 8);
 		instance.requestChunkBound().thenAccept(e -> {
-			// builds data
 			List<CompletableFuture<Boolean>> regionBuilding = new ObjectArrayList<>();
 			for (int plane = 0; plane < data.length; plane++) {
 				for (int x = 0; x < data[plane].length; x++) {
@@ -1323,74 +1317,77 @@ public class House {
 					}
 				}
 			}
-			regionBuilding.forEach(CompletableFuture::join);
-			for (int chunkId : this.instance.getChunkIds()) {
-				Chunk chunk = ChunkManager.getChunk(chunkId, true);
-				for (GameObject object : chunk.getSpawnedObjects())
-					chunk.removeObject(object);
-			}
-			for (int chunkId : this.instance.getChunkIds()) {
-				Chunk chunk = ChunkManager.getChunk(chunkId, true);
-				for (GameObject object : chunk.getRemovedObjects().values())
-					chunk.removeObject(object);
-			}
-			for (RoomReference reference : roomsR) {
-				for (int x = 0; x < 8; x++)
-					for (int y = 0; y < 8; y++) {
-						GameObject[] objects = ChunkManager.getChunk(instance.getChunkId(reference.x, reference.y, reference.plane)).getBaseObjects(x, y);
-						if (objects != null)
-							skip: for (GameObject object : objects) {
-								if (object == null)
-									continue;
-								if (object.getDefinitions().containsOption(4, "Build") || (reference.room == Room.MENAGERIE && object.getDefinitions().getName().contains("space"))) {
-									if (isDoor(object)) {
-										if (!buildMode && object.getPlane() == 2 && getRoom(((object.getX() / 8) - instance.getBaseChunkX()) + DOOR_DIR_X[object.getRotation()], ((object.getY() / 8) - instance.getBaseChunkY()) + DOOR_DIR_Y[object.getRotation()], object.getPlane()) == null) {
-											GameObject objectR = new GameObject(object);
-											objectR.setId(HouseConstants.WALL_IDS[look]);
-											World.spawnObject(objectR);
-											continue;
-										}
-									} else
-										for (ObjectReference o : reference.objects) {
-											int slot = o.build.getIdSlot(object.getId());
-											if (slot != -1) {
+			//Must async wait on these to complete or this task in itself will block the task queue from processing
+			CompletableFuture.allOf(regionBuilding.toArray(new CompletableFuture[0])).thenRun(() -> {
+				for (int chunkId : this.instance.getChunkIds()) {
+					Chunk chunk = ChunkManager.getChunk(chunkId, true);
+					for (GameObject object : chunk.getSpawnedObjects())
+						chunk.removeObject(object);
+				}
+				for (int chunkId : this.instance.getChunkIds()) {
+					Chunk chunk = ChunkManager.getChunk(chunkId, true);
+					for (GameObject object : chunk.getRemovedObjects().values())
+						chunk.removeObject(object);
+				}
+				for (RoomReference reference : roomsR) {
+					for (int x = 0; x < 8; x++)
+						for (int y = 0; y < 8; y++) {
+							GameObject[] objects = ChunkManager.getChunk(instance.getChunkId(reference.x, reference.y, reference.plane)).getBaseObjects(x, y);
+							if (objects != null)
+								skip: for (GameObject object : objects) {
+									if (object == null)
+										continue;
+									if (object.getDefinitions().containsOption(4, "Build") || (reference.room == Room.MENAGERIE && object.getDefinitions().getName().contains("space"))) {
+										if (isDoor(object)) {
+											if (!buildMode && object.getPlane() == 2 && getRoom(((object.getX() / 8) - instance.getBaseChunkX()) + DOOR_DIR_X[object.getRotation()], ((object.getY() / 8) - instance.getBaseChunkY()) + DOOR_DIR_Y[object.getRotation()], object.getPlane()) == null) {
 												GameObject objectR = new GameObject(object);
-												if (o.getId(slot) == -1)
-													World.spawnObject(new GameObject(-1, object.getType(), object.getRotation(), object.getTile()));
-												else if (!spawnNpcs(slot, o, object)) {
-													objectR.setId(o.getId(slot));
-													World.spawnObject(objectR);
-												}
-												continue skip;
+												objectR.setId(HouseConstants.WALL_IDS[look]);
+												World.spawnObject(objectR);
+												continue;
 											}
-										}
-									if (!buildMode)
+										} else
+											for (ObjectReference o : reference.objects) {
+												int slot = o.build.getIdSlot(object.getId());
+												if (slot != -1) {
+													GameObject objectR = new GameObject(object);
+													if (o.getId(slot) == -1)
+														World.spawnObject(new GameObject(-1, object.getType(), object.getRotation(), object.getTile()));
+													else if (!spawnNpcs(slot, o, object)) {
+														objectR.setId(o.getId(slot));
+														World.spawnObject(objectR);
+													}
+													continue skip;
+												}
+											}
+										if (!buildMode)
+											World.removeObject(object);
+									} else if (object.getId() == HouseConstants.WINDOW_SPACE_ID) {
+										object = new GameObject(object);
+										object.setId(HouseConstants.WINDOW_IDS[look]);
+										World.spawnObject(object);
+									} else if (isDoorSpace(object))
 										World.removeObject(object);
-								} else if (object.getId() == HouseConstants.WINDOW_SPACE_ID) {
-									object = new GameObject(object);
-									object.setId(HouseConstants.WINDOW_IDS[look]);
-									World.spawnObject(object);
-								} else if (isDoorSpace(object))
-									World.removeObject(object);
-							}
-					}
-			}
-			refreshServant();
-			teleportPlayer(player);
-			player.setForceNextMapLoadRefresh(true);
-			player.loadMapRegions();
-			player.lock(1);
-			WorldTasks.schedule(3, () -> player.getInterfaceManager().setDefaultTopInterface());
-			if (!buildMode)
-				if (getMenagerie() != null)
-					for (Item item : petHouse.getPets().array())
-						if (item != null)
-							addPet(item, false);
-			if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
-				player.getTempAttribs().removeO("CRef");
-				teleportPlayer(player, toRoom);
-			}
-			loaded = true;
+								}
+						}
+				}
+				if (!buildMode)
+					if (getMenagerie() != null)
+						for (Item item : petHouse.getPets().array())
+							if (item != null)
+								addPet(item, false);
+				teleportPlayer(player);
+				player.setForceNextMapLoadRefresh(true);
+				player.getTasks().schedule(1, () -> {
+					player.getInterfaceManager().setDefaultTopInterface();
+					refreshServant();
+				});
+				if (player.getTempAttribs().getO("CRef") != null && player.getTempAttribs().getO("CRef") instanceof RoomReference toRoom) {
+					player.getTempAttribs().removeO("CRef");
+					teleportPlayer(player, toRoom);
+				}
+				player.lock(1);
+				loaded = true;
+			});
 		});
 	}
 

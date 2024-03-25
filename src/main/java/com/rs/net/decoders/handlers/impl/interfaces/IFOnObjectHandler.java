@@ -18,7 +18,7 @@ package com.rs.net.decoders.handlers.impl.interfaces;
 
 import com.rs.game.World;
 import com.rs.game.content.skills.magic.Lunars;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Inventory;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;

@@ -19,14 +19,14 @@ package com.rs.game.content;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
-import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.content.world.areas.wilderness.WildernessController;
 import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
@@ -258,7 +258,7 @@ public class DwarfMultiCannon extends OwnedObject {
 				continue;
 
 			if (npc.withinDistance(cannonTile, 10) && getDirectionTo(npc) == spinRot) {
-				Hit hit = PlayerCombat.calculateHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(owner), true, 1.0);
+				Hit hit = PlayerCombatKt.calculateHit(owner, npc, 0, 300, owner.getEquipment().getWeaponId(), owner.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(owner), true, 1.0);
 				WorldProjectile proj = World.sendProjectile(Tile.of(getX() + 1, getY() + 1, getPlane()), npc, 53, 38, 38, 30, 1, 0, 0);
 				WorldTasks.schedule(proj.getTaskDelay(), () -> npc.applyHit(new Hit(owner, hit.getDamage(), HitLook.CANNON_DAMAGE)));
 				owner.getSkills().addXp(Constants.RANGE, (double) hit.getDamage() / 5);

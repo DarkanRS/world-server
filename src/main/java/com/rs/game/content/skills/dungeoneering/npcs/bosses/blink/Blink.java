@@ -24,7 +24,7 @@ import com.rs.game.content.skills.dungeoneering.npcs.bosses.DungeonBoss;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -131,8 +131,8 @@ public class Blink extends DungeonBoss {
 	public boolean canMove(Direction dir) {
 		if (!hasActivePillar() || rushCount < 11)
 			return true;
-		int nextX = dir.getDx() + getX();
-		int nextY = dir.getDy() + getY();
+		int nextX = dir.dx + getX();
+		int nextY = dir.dy + getY();
 		if (nextX == activePillar.getX() && nextY == activePillar.getY()) {
 			stopRushAttack();
 			return false;
@@ -162,11 +162,11 @@ public class Blink extends DungeonBoss {
 			} else if (rushCount == 15 || rushCount == 5) {
 				if (rushCount == 15)
 					rushCount = 5;
-				setNextNPCTransformation(1957);
+				transformIntoNPC(1957);
 			} else if (rushCount == 8)
 				tele(getNextPath());
 			else if (rushCount == 9) {
-				setNextNPCTransformation(12865);
+				transformIntoNPC(12865);
 				toPath = getManager().getTile(getReference(), selectedPath[inversedPath ? 2 : 0], selectedPath[inversedPath ? 3 : 1]);
 				addWalkSteps(toPath.getX(), toPath.getY(), 1, false);
 			} else if (rushCount == 10) {

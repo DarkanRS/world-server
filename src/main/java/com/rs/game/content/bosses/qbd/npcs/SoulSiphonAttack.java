@@ -46,7 +46,7 @@ public final class SoulSiphonAttack implements QueenAttack {
 		if (npc.getSouls().isEmpty())
 			return 1;
 		victim.sendMessage("<col=9900CC>The Queen Black Dragon starts to siphon the energy of her mages.</col>");
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			@Override
 			public void run() {
 				for (Iterator<TorturedSoul> it = npc.getSouls().iterator(); it.hasNext();) {

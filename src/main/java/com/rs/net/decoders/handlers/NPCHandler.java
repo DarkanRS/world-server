@@ -64,6 +64,7 @@ public class NPCHandler {
 					" Mage Def: " + npc.getDefinitions().getMagicDef());
 			if (npc.getDefinitions().transformTo != null)
 				player.sendMessage(npc.getDefinitions().getConfigInfoString());
+			player.sendMessage("Spawn tile [" + npc.getRespawnTile().getX() + ", " + npc.getRespawnTile().getY() + ", " + npc.getRespawnTile().getPlane() + "]]. ");
 		}
 		player.getPackets().sendNPCMessage(0, 0xFFFFFF, npc, NPCExamines.getExamine(npc, player) + " ("+npc.getId()+")");
 		if (npc.getDefinitions().hasAttackOption() || npc.getDefinitions().hasOption("Investigate"))

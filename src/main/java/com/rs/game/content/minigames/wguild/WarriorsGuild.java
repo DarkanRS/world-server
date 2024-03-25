@@ -22,10 +22,7 @@ import com.rs.engine.dialogue.Dialogue;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.dialogue.statements.NPCStatement;
 import com.rs.game.World;
-import com.rs.game.content.combat.AttackStyle;
-import com.rs.game.content.combat.AttackType;
-import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.combat.XPType;
+import com.rs.game.content.combat.*;
 import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.content.world.areas.burthorpe.npcs.Shanomi;
 import com.rs.game.content.world.doors.Doors;
@@ -58,7 +55,7 @@ public class WarriorsGuild extends Controller {
 
 	public static void init() {
 		if (timer == null)
-			WorldTasks.schedule(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
+			WorldTasks.scheduleLooping(WarriorsGuild.timer = new WarriorTimer(), 1, 1);
 	}
 
 	public static class WarriorTimer extends Task {
@@ -283,7 +280,7 @@ public class WarriorsGuild extends Controller {
 			player.setNextAnimation(new Animation(827));
 			player.lock();
 			final int finalIndex = realIndex;
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int ticks;
 
 				@Override
@@ -335,7 +332,7 @@ public class WarriorsGuild extends Controller {
 	}
 
 	private void submitDummyHit(final GameObject object) {
-		player.setNextAnimation(new Animation(PlayerCombat.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
+		player.setNextAnimation(new Animation(PlayerCombatKt.getWeaponAttackEmote(player.getEquipment().getWeaponId(), player.getCombatDefinitions().getAttackStyle())));
 		WorldTasks.schedule(new Task() {
 
 			@Override
@@ -360,19 +357,19 @@ public class WarriorsGuild extends Controller {
 	private boolean isProperHit(GameObject object) {
 		AttackStyle style = player.getCombatDefinitions().getAttackStyle();
 		if (object.getId() == 15624)
-			return style.getXpType() == XPType.ACCURATE;
+			return style.xpType == XPType.ACCURATE;
 		if (object.getId() == 15625)
-			return style.getAttackType() == AttackType.SLASH;
+			return style.attackType == AttackType.SLASH;
 		if (object.getId() == 15626)
-			return style.getXpType() == XPType.AGGRESSIVE;
+			return style.xpType == XPType.AGGRESSIVE;
 		else if (object.getId() == 15627)
-			return style.getXpType() == XPType.CONTROLLED;
+			return style.xpType == XPType.CONTROLLED;
 		else if (object.getId() == 15628)
-			return style.getAttackType() == AttackType.CRUSH;
+			return style.attackType == AttackType.CRUSH;
 		else if (object.getId() == 15629)
-			return style.getAttackType() == AttackType.STAB;
+			return style.attackType == AttackType.STAB;
 		else if (object.getId() == 15630)
-			return style.getXpType() == XPType.DEFENSIVE;
+			return style.xpType == XPType.DEFENSIVE;
 		return false;
 	}
 
@@ -522,7 +519,7 @@ public class WarriorsGuild extends Controller {
 			player.unlock();
 			return;
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			int ticks;
 

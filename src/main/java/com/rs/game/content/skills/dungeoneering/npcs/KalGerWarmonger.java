@@ -202,7 +202,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		} else if (typeTicks == 13)
 			setNextAnimation(new Animation(14923 + (type - 1)));
 		else if (typeTicks == 14) {
-			setNextNPCTransformation(getId() + 17);
+			transformIntoNPC(getId() + 17);
 			World.removeObject(nextWeapon);
 		} else if (typeTicks == 17) {
 			if (type == 6)
@@ -218,7 +218,7 @@ public class KalGerWarmonger extends DungeonBoss {
 		setNextForceTalk(new ForceTalk("You dare hide from me? BURN!"));
 		setNextAnimation(new Animation(14996));
 		final NPC boss = this;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			private int ticks;
 			private List<Entity> possibleTargets;
 

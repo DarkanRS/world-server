@@ -127,7 +127,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 				}
 
 			player.lock(2);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 
 				private boolean moved;
 
@@ -153,7 +153,7 @@ public class ColouredRecessRoom extends PuzzleRoom {
 			used[color] = true;
 			player.getInventory().deleteItem(item);
 			player.setNextAnimation(new Animation(832));
-			setNextNPCTransformation(getId() + color + 1);
+			transformIntoNPC(getId() + color + 1);
 			checkComplete();
 			return false;
 		}

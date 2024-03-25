@@ -80,7 +80,7 @@ public class MagicalWheat {
         final int HAS_WHEAT = 25021;
         final int GROWING_WHEAT = 25022;
         final int WILTING_WHEAT = 25023;
-        WorldTasks.schedule(0, 25, () -> {
+        WorldTasks.scheduleLooping(0, 25, () -> {
             for (MagicWheat wheat : MagicWheat.values()) {
                 if (Utils.random(0, 4) != 0)
                     continue;

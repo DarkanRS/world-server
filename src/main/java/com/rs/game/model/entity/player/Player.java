@@ -32,6 +32,7 @@ import com.rs.engine.dialogue.Options;
 import com.rs.engine.dialogue.statements.SimpleStatement;
 import com.rs.engine.miniquest.Miniquest;
 import com.rs.engine.miniquest.MiniquestManager;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.engine.quest.Quest;
 import com.rs.engine.quest.QuestManager;
 import com.rs.game.World;
@@ -46,7 +47,6 @@ import com.rs.game.content.clans.ClansManager;
 import com.rs.game.content.combat.CombatDefinitions;
 import com.rs.game.content.death.DeathOfficeController;
 import com.rs.game.content.death.GraveStone;
-import com.rs.game.content.holidayevents.christmas.christ19.Christmas2019.Location;
 import com.rs.game.content.interfacehandlers.TransformationRing;
 import com.rs.game.content.minigames.domtower.DominionTower;
 import com.rs.game.content.minigames.duel.DuelRules;
@@ -87,7 +87,6 @@ import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.interactions.PlayerCombatInteraction;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.managers.*;
 import com.rs.game.model.entity.player.managers.InterfaceManager.ScreenMode;
 import com.rs.game.model.entity.player.managers.InterfaceManager.Sub;
@@ -942,7 +941,7 @@ public class Player extends Entity {
 			super.processEntity();
 			if (hasStarted() && isIdle() && !hasRights(Rights.ADMIN) && !getNSV().getB("idleLogImmune")) {
 				if (getInteractionManager().getInteraction() instanceof PlayerCombatInteraction combat) {
-					if (!(combat.getAction().getTarget() instanceof Player))
+					if (!(combat.getAction().target instanceof Player))
 						idleLog();
 				} else
 					logout(true);
@@ -1284,11 +1283,16 @@ public class Player extends Entity {
 				getControllerManager().startController(new TutorialIslandController());
 			else
 				setStarter(1);
-			if (!getUsername().startsWith("cli_bot")) {
-				PlayerLook.openCharacterCustomizing(this);
-				startConversation(new GamemodeSelection(this));
-			} else
-				setChosenAccountType(true);
+			PlayerLook.openCharacterCustomizing(this);
+			startConversation(new GamemodeSelection(this));
+		}
+		if (getUsername().startsWith("cli_bot")) {
+			if (getControllerManager().isIn(TutorialIslandController.class)) {
+				tele(Settings.getConfig().getPlayerStartTile());
+				getControllerManager().forceStop();
+			}
+			setChosenAccountType(true);
+			setStarter(1);
 		}
 		//getPackets().write(new UpdateRichPresence("state", "Logged in as " + getDisplayName()));
 		PluginManager.handle(new LoginEvent(this));
@@ -2127,6 +2131,7 @@ public class Player extends Entity {
 			if (getPrayer().active(Prayer.SOUL_SPLIT)) {
 				if (hit.getDamage() == 0)
 					return;
+				soundEffect(8113, true);
 				switch(hit.getLook()) {
 				case MELEE_DAMAGE:
 				case RANGE_DAMAGE:
@@ -2210,7 +2215,7 @@ public class Player extends Entity {
 		if (isHasNearbyInstancedChunks())
 			lastTile = getRandomGraveyardTile();
 		final Tile deathTile = lastTile;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override
@@ -2240,7 +2245,7 @@ public class Player extends Entity {
 	public void retribution(Entity source) {
 		setNextSpotAnim(new SpotAnim(437));
 		for (Direction dir : Direction.values())
-			World.sendSpotAnim(Tile.of(getX() - dir.getDx(), getY() - dir.getDy(), getPlane()), new SpotAnim(438, 20, 10, dir.getId()));
+			World.sendSpotAnim(Tile.of(getX() - dir.dx, getY() - dir.dy, getPlane()), new SpotAnim(438, 20, 10, dir.id));
 		if (isAtMultiArea()) {
 			for (Player player : queryNearbyPlayersByTileRange(1, player -> !player.isDead() && player.isCanPvp() && player.withinDistance(getTile(), 1) || getControllerManager().canHit(player)))
 				player.applyHit(new Hit(this, Utils.getRandomInclusive((int) (skills.getLevelForXp(Constants.PRAYER) * 2.5)), HitLook.TRUE_DAMAGE));
@@ -2258,7 +2263,7 @@ public class Player extends Entity {
 
 	public void wrath(Entity source) {
 		for (Direction dir : Direction.values())
-			World.sendProjectile(this, Tile.of(getX() + (dir.getDx()*2), getY() + (dir.getDy()*2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
+			World.sendProjectile(this, Tile.of(getX() + (dir.dx *2), getY() + (dir.dy *2), getPlane()), 2261, 0, 0, 15, 0.4, 35,
 					proj -> World.sendSpotAnim(proj.getToTile(), new SpotAnim(2260)));
 		setNextSpotAnim(new SpotAnim(2259));
 		WorldTasks.schedule(() -> {
@@ -3179,17 +3184,9 @@ public class Player extends Entity {
 	}
 
 	public void useLadder(int anim, final Tile tile) {
-		lock();
-		setNextAnimation(new Animation(anim));
-		getTasks().scheduleTimer(tick -> {
-			if (tick == 1)
-				tele(tile);
-			if (tick == 2) {
-				unlock();
-				return false;
-			}
-			return true;
-		});
+		lock(2);
+		anim(anim);
+		getTasks().schedule(1, () -> tele(tile));
 	}
 
 	public void sendMessage(String mes, boolean canBeFiltered) {
@@ -3589,7 +3586,7 @@ public class Player extends Entity {
 				tilesUnlocked = new HashSet<>();
 				tilesAvailable = 50;
 			}
-			int tileHash = getTile().transform(dir.getDx(), dir.getDy()).getTileHash();
+			int tileHash = getTile().transform(dir.dx, dir.dy).getTileHash();
 			if (!tilesUnlocked.contains(tileHash)) {
 				if (tilesAvailable <= 0)
 					return false;
@@ -3728,7 +3725,7 @@ public class Player extends Entity {
 		Tools tool = Tools.forId(itemId);
 		if (tool == null)
 			return false;
-		if (toolbelt.get(tool) != null && toolbelt.get(tool) <= tool.getValue(itemId)) {
+		if (toolbelt.get(tool) != null && toolbelt.get(tool) >= tool.getValue(itemId)) {
 			sendMessage("You already have this tool on your belt.");
 			return false;
 		}

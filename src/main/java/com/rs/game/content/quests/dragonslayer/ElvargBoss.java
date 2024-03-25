@@ -5,7 +5,7 @@ import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -52,7 +52,7 @@ public class ElvargBoss extends NPC {
 			ElvargBoss elvarg = this;
 			removeTarget();
 			elvarg.setCantInteract(true);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick = 0;
 				final int WALK_TO_TILE_TICK = 7;
 				Tile animTile;
@@ -74,7 +74,7 @@ public class ElvargBoss extends NPC {
 						elvarg.setCantInteract(false);
 						elvarg.setRespawnTask(200);
 
-						elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+						elvargObj = new GameObject(ELVARG_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).id /2, 2854, 9638, 0);
 						World.spawnObject(elvargObj);
 					}
 
@@ -91,7 +91,7 @@ public class ElvargBoss extends NPC {
 
 					if(tick == 11) {
 						World.removeObject(elvargObj);
-						elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).getId()/2, 2854, 9638, 0);
+						elvargObj = new GameObject(ELVARG_HEADLESS_OBJ, ObjectDefinitions.getDefs(ELVARG_HEADLESS_OBJ).types[0], Direction.rotateClockwise(Direction.WEST, 4).id /2, 2854, 9638, 0);
 						World.spawnObjectTemporary(elvargObj, 150);
 						if(p.getQuestManager().getStage(Quest.DRAGON_SLAYER) == PREPARE_FOR_CRANDOR) {
 							p.getInventory().addItem(new Item(ELVARG_HEAD, 1), true);

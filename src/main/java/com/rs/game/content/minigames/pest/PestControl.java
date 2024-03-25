@@ -88,7 +88,7 @@ public class PestControl {
 				player.getControllerManager().startController(new PestControlGameController(this));
 			}
 
-			WorldTasks.schedule(new PestGameTimer(), 2, 2);
+			WorldTasks.scheduleLooping(new PestGameTimer(), 2, 2);
 		});
 		return this;
 	}

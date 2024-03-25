@@ -169,7 +169,7 @@ public class Halloween2007 {
 			e.getPlayer().getControllerManager().startController(new Halloween2007Controller());
 		Halloween2007Controller ctrl = (Halloween2007Controller) e.getPlayer().getControllerManager().getController();
 		e.getPlayer().lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 			@Override
 			public void run() {
@@ -548,7 +548,7 @@ public class Halloween2007 {
 					.addNPC(6389, HeadE.CAT_CALM_TALK2, "Who said you could come in here? See the Grim Reaper if you don't know where to go.")
 					.addPlayer(HeadE.NERVOUS, "Oops."));
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 			@Override
 			public void run() {
@@ -593,7 +593,7 @@ public class Halloween2007 {
 	public static void passWeb(Player player, GameObject object) {
 		Tile toTile = object.getRotation() % 2 != 0 ? player.transform(player.getX() >= object.getX() ? -2 : 2, 0, 0) : player.transform(0, player.getY() >= object.getY() ? -2 : 2, 0);
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 			@Override
 			public void run() {
@@ -611,7 +611,7 @@ public class Halloween2007 {
 
 	public static void failWeb(Player player, GameObject object) {
 		player.lock();
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int stage = 0;
 			@Override
 			public void run() {

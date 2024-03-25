@@ -21,7 +21,7 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.model.entity.Entity;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.lib.game.Tile;
 import com.rs.utils.music.Genre;

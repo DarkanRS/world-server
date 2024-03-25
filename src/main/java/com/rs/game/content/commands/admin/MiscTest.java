@@ -21,20 +21,22 @@ import com.rs.Settings;
 import com.rs.cache.ArchiveType;
 import com.rs.cache.Cache;
 import com.rs.cache.IndexType;
-import com.rs.cache.loaders.*;
+import com.rs.cache.loaders.ItemDefinitions;
+import com.rs.cache.loaders.NPCDefinitions;
+import com.rs.cache.loaders.ObjectDefinitions;
+import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
-import com.rs.engine.command.Command;
 import com.rs.engine.command.Commands;
 import com.rs.engine.cutscene.ExampleCutscene;
 import com.rs.engine.miniquest.Miniquest;
+import com.rs.engine.pathfinder.*;
 import com.rs.engine.quest.Quest;
 import com.rs.game.World;
 import com.rs.game.content.achievements.Achievement;
 import com.rs.game.content.bosses.qbd.QueenBlackDragonController;
 import com.rs.game.content.combat.CombatDefinitions.Spellbook;
-import com.rs.game.content.combat.PlayerCombat;
-import com.rs.game.content.dnds.eviltree.EvilTree;
-import com.rs.game.content.dnds.eviltree.Type;
+import com.rs.game.content.combat.PlayerCombatKt;
+import com.rs.game.content.dnds.eviltree.EvilTreesKt;
 import com.rs.game.content.dnds.shootingstar.ShootingStars;
 import com.rs.game.content.minigames.barrows.BarrowsController;
 import com.rs.game.content.pets.Pet;
@@ -47,14 +49,12 @@ import com.rs.game.content.world.doors.Doors;
 import com.rs.game.map.ChunkManager;
 import com.rs.game.map.instance.Instance;
 import com.rs.game.map.instance.InstancedChunk;
-import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Hit.HitLook;
 import com.rs.game.model.entity.ModelRotator;
 import com.rs.game.model.entity.Rotation;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.NPCCombatDefinitions;
-import com.rs.game.model.entity.pathing.*;
 import com.rs.game.model.entity.player.Equipment;
 import com.rs.game.model.entity.player.InstancedController;
 import com.rs.game.model.entity.player.Player;
@@ -127,7 +127,7 @@ public class MiscTest {
 
 		Commands.add(Rights.ADMIN, "shootingstar", "spawn a shooting star", (p, args) -> ShootingStars.spawnStar());
 
-		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> new EvilTree(Type.NORMAL, p.getTile()).spawn());
+		Commands.add(Rights.ADMIN, "eviltree", "spawn an evil tree", (p, args) -> EvilTreesKt.spawnTree());
 
 		Commands.add(Rights.DEVELOPER, "dumpdrops [npcId]", "exports a drop dump file for the specified NPC", (p, args) -> NPCDropDumper.dumpNPC(args[0]));
 
@@ -410,7 +410,7 @@ public class MiscTest {
 			if (dir == null)
 				return;
 			NPC npc = World.spawnNPC(1, player.getTile(), true, false, null);
-			npc.addWalkSteps(player.getTile().getX() + (dir.getDx() * 20), player.getTile().getY() + (dir.getDy() * 20));
+			npc.addWalkSteps(player.getTile().getX() + (dir.dx * 20), player.getTile().getY() + (dir.dy * 20));
 		});
 
 		Commands.add(Rights.DEVELOPER, "headicon", "Set custom headicon.", (player, args) -> {
@@ -583,10 +583,10 @@ public class MiscTest {
 
 		Commands.add(Rights.DEVELOPER, "dropitem", "Spawns an item on the floor until it is picked up.", (p, args) -> World.addGroundItem(new Item(Integer.parseInt(args[0]), 1), Tile.of(p.getX(), p.getY(), p.getPlane())));
 
-		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
+		Commands.add(Rights.DEVELOPER, "addgrounditem,addgitem [itemId respawnTicks]", "Spawns a ground item permanently with specified ID.", (p, args) -> {
 			if (!Settings.getConfig().isDebug())
 				return;
-			if (ItemSpawns.addSpawn(p.getUsername(), Integer.parseInt(args[0]), 1, Tile.of(p.getTile())))
+			if (ItemSpawns.addSpawn(p.getUsername(), Integer.parseInt(args[0]), 1, Integer.parseInt(args[1]), Tile.of(p.getTile())))
 				p.sendMessage("Added spawn.");
 		});
 
@@ -678,8 +678,8 @@ public class MiscTest {
 			if (ChunkManager.getChunk(p.getChunkId()) instanceof InstancedChunk c)
 				p.sendMessage(c.getOriginalBaseX() + ", " + c.getOriginalBaseY() + " - " + c.getRotation());
 
-//			p.setForceNextMapLoadRefresh(true);
-//			p.loadMapRegions();
+			p.setForceNextMapLoadRefresh(true);
+			p.loadMapRegions();
 		});
 
 		Commands.add(Rights.DEVELOPER, "reloadshops", "Reloads the shop data file.", (p, args) -> ShopsHandler.reloadShops());
@@ -830,11 +830,18 @@ public class MiscTest {
 			int y = Integer.parseInt(args[1]);
 			int modelId = Integer.parseInt(args[2]);
 			//47868
-			Route route = RouteFinder.find(p.getX(), p.getY(), p.getPlane(), 1, new FixedTileStrategy(x, y), true);
-			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, route.getBufferX(), route.getBufferY(), route.getStepCount()));
+			Route route = RouteFinderKt.routeEntityToTile(p, Tile.of(x, y, p.getPlane()), 25);
+			int[] bufferX = new int[route.size()];
+			int[] bufferY = new int[route.size()];
+			int i = 0;
+			for (RouteCoordinates tile : route.getCoords()) {
+				bufferX[i] = tile.getPacked() & 0xFFFF;
+				bufferY[i++] = (tile.getPacked() >> 16) & 0xFFFF;
+			}
+			p.getSession().writeToQueue(new HintTrail(Tile.of(p.getTile()), modelId, bufferX, bufferY, i));
 		});
 
-		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombat.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombat.isRanging(p), 1.0)));
+		Commands.add(Rights.ADMIN, "maxhit", "Displays the player's max hit.", (p, args) -> p.sendMessage("Max hit: " + PlayerCombatKt.getMaxHit(p, null, p.getEquipment().getWeaponId(), p.getCombatDefinitions().getAttackStyle(), PlayerCombatKt.isRanging(p), 1.0)));
 
 		Commands.add(Rights.DEVELOPER, "searchobj,so [objectId index]", "Searches the entire gameworld for an object matching the ID and teleports you to it.", (p, args) -> {
 			List<GameObject> objs = MapSearcher.getObjectsById(Integer.parseInt(args[0]));
@@ -927,7 +934,7 @@ public class MiscTest {
 
 			int tickDelay = Integer.parseInt(args[2]);
 
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				int voiceID = 0;
 
@@ -1189,7 +1196,7 @@ public class MiscTest {
 			final int start = args.length > 2 ? Integer.parseInt(args[2]) : 10;
 			final int end = args.length > 3 ? Integer.parseInt(args[3]) : 20000;
 			p.getTempAttribs().setI("loopAnim", start);
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int anim = p.getTempAttribs().getI("loopAnim");
 
 				@Override

@@ -18,13 +18,6 @@ package com.rs.tools;
 
 import com.google.gson.GsonBuilder;
 import com.rs.Settings;
-import com.rs.cache.Cache;
-import com.rs.cache.Store;
-import com.rs.cache.loaders.ItemDefinitions;
-import com.rs.cache.loaders.NPCDefinitions;
-import com.rs.cache.loaders.ObjectDefinitions;
-import com.rs.game.content.combat.special_attacks.SpecialAttacks;
-import com.rs.game.content.skills.thieving.PickPocketableNPC;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.lib.file.JsonFileManager;
 import com.rs.lib.json.DateAdapter;
@@ -33,13 +26,10 @@ import com.rs.lib.net.packets.PacketEncoder;
 import com.rs.lib.util.PacketAdapter;
 import com.rs.lib.util.PacketEncoderAdapter;
 import com.rs.lib.util.RecordTypeAdapterFactory;
-import com.rs.lib.util.Utils;
 import com.rs.utils.json.ControllerAdapter;
-import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.Set;
 
 public class Test {
 

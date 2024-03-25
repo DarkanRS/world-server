@@ -1,0 +1,13 @@
+[
+  {
+    "comment": "Super antipoison (1) added by trent",
+    "itemId": 185,
+    "amount": 1,
+    "tile": {
+      "x": 2467,
+      "y": 3176,
+      "plane": 0
+    },
+    "respawnTicks": 100
+  }
+]

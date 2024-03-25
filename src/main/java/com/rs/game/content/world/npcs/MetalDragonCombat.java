@@ -18,6 +18,7 @@ package com.rs.game.content.world.npcs;
 
 import com.rs.game.World;
 import com.rs.game.content.combat.PlayerCombat;
+import com.rs.game.content.combat.PlayerCombatKt;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.npc.NPC;
 import com.rs.game.model.entity.npc.combat.CombatScript;
@@ -45,7 +46,7 @@ public class MetalDragonCombat extends CombatScript {
 			int damage = 100 + Utils.getRandomInclusive(500);
 			final Player player = target instanceof Player p ? p : null;
 			if (player != null) {
-				int protection = PlayerCombat.getAntifireLevel(target, false);
+				int protection = PlayerCombatKt.getAntifireLevel(target, false);
 				if (protection == 1)
 					damage = Utils.getRandomInclusive(50);
 				else if (protection == 2)

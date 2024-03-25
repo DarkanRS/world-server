@@ -82,7 +82,7 @@ public class Lander {
 
 	public void enterLander(Player player) {
 		if (lobby.size() == 0)
-			WorldTasks.schedule(timer = new LobbyTimer(), 2, 2);
+			WorldTasks.scheduleLooping(timer = new LobbyTimer(), 2, 2);
 		player.getControllerManager().startController(new PestControlLobbyController(landerRequirement.getId()));
 		add(player);
 		player.useStairs(-1, landerRequirement.getTile(), 1, 2, "You board the lander.");

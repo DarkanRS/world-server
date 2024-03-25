@@ -16,7 +16,7 @@
 //
 package com.rs.game.content.world.areas.dungeons.ancientcavern;
 
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.lib.game.Animation;
 import com.rs.lib.game.Tile;
 import com.rs.plugin.annotations.PluginEventHandler;

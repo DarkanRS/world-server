@@ -244,7 +244,7 @@ public class WitchsHouse extends QuestOutline {
 					create();
 				}
 			});
-			WorldTasks.schedule(new Task() {
+			WorldTasks.scheduleLooping(new Task() {
 				int tick;
 				NPC mouse;
 				@Override

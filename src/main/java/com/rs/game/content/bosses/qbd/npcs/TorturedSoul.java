@@ -151,7 +151,7 @@ public final class TorturedSoul extends NPC {
 				setNextSpotAnim(SPECIAL_ATT_GFX_);
 				setNextAnimation(SPECIAL_ATT_ANIM_);
 				getCombat().setTarget(victim);
-				getTasks().schedule(new Task() {
+				getTasks().scheduleLooping(new Task() {
 					int x = currentX, y = currentY;
 
 					@Override

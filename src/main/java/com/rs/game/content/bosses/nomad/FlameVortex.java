@@ -50,8 +50,8 @@ public class FlameVortex extends NPC {
 			return;
 		Player target = getTargetToCheck();
 		if (target != null
-				&& ((target.getX() == getX() && target.getY() == getY()) || (target.getNextRunDirection() != null && target.getX() - target.getNextRunDirection().getDx() == getX() && target.getY()
-				- target.getNextRunDirection().getDy() == getY())))
+				&& ((target.getX() == getX() && target.getY() == getY()) || (target.getNextRunDirection() != null && target.getX() - target.getNextRunDirection().dx == getX() && target.getY()
+				- target.getNextRunDirection().dy == getY())))
 			explode(target, 400);
 		else if (explodeTime < System.currentTimeMillis())
 			explode(target != null && withinDistance(target, 1) ? target : null, Utils.random(400, 701));
@@ -60,7 +60,7 @@ public class FlameVortex extends NPC {
 	public void explode(final Player target, final int damage) {
 		explodeTime = -1;
 		final NPC npc = this;
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 
 			private boolean secondLoop;
 

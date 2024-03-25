@@ -18,7 +18,7 @@ package com.rs.game.content.world.areas.dungeons;
 
 import com.rs.game.content.skills.slayer.TaskMonster;
 import com.rs.game.content.world.areas.dungeons.ancientcavern.KuradalDungeonController;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.entity.player.Skills;
 import com.rs.game.tasks.Task;
@@ -46,7 +46,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 
@@ -79,7 +79,7 @@ public class KuradalsDungeon {
 			return;
 		}
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean isPlayerNorth = true;
 

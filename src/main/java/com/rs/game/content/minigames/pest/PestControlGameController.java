@@ -20,7 +20,7 @@ import com.rs.game.content.skills.magic.TeleType;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.Hit;
 import com.rs.game.model.entity.Teleport;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Controller;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -95,7 +95,7 @@ public class PestControlGameController extends Controller {
 
 	@Override
 	public boolean canMove(Direction dir) {
-		Tile toTile = Tile.of(player.getX() + dir.getDx(), player.getY() + dir.getDy(), player.getPlane());
+		Tile toTile = Tile.of(player.getX() + dir.dx, player.getY() + dir.dy, player.getPlane());
 		return !control.isBrawlerAt(toTile);
 	}
 
@@ -119,7 +119,7 @@ public class PestControlGameController extends Controller {
 
 	@Override
 	public boolean sendDeath() {
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

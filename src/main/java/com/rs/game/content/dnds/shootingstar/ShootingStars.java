@@ -222,7 +222,7 @@ public class ShootingStars {
                                        rewards.add("[1000 dust per hour] Buy more star sprite mining buff time", () ->
                                                e.getPlayer().sendInputInteger("How much dust would you like to spend?", num ->
                                                        e.getPlayer().sendOptionDialogue(conf -> {
-                                                           final int adjusted = num > e.getPlayer().getInventory().getNumberOf(13727) ? e.getPlayer().getInventory().getNumberOf(13727) : num;
+                                                           final int adjusted = Math.min(num, e.getPlayer().getInventory().getNumberOf(13727));
                                                            conf.add("Spend " + Utils.formatNumber(adjusted) + " stardust for " + Utils.ticksToTime(adjusted*6), () -> {
                                                                if (e.getPlayer().getInventory().containsItem(13727, adjusted)) {
                                                                    e.getPlayer().getInventory().deleteItem(13727, adjusted);

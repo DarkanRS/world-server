@@ -19,7 +19,7 @@ package com.rs.game.content.skills.agility;
 import com.rs.engine.dialogue.Conversation;
 import com.rs.engine.dialogue.HeadE;
 import com.rs.game.World;
-import com.rs.game.model.entity.pathing.Direction;
+import com.rs.engine.pathfinder.Direction;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.WorldTasks;
@@ -113,15 +113,14 @@ public class Agility {
 	}
 
 	public static void crossMonkeybars(final Player player, Tile startTile, final Tile endTile, final double xp) {
-		player.lock(2);
+		player.lock(5);
 		player.walkToAndExecute(startTile, () -> {
-			player.lock();
-			WorldTasks.schedule(0, () -> player.faceTile(endTile));
-			WorldTasks.schedule(1, () -> {
+			player.getTasks().schedule(0, () -> player.faceTile(endTile));
+			player.getTasks().schedule(1, () -> {
 				player.anim(742);
 				player.setBas(2405);
 			});
-			WorldTasks.schedule(2, () -> walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, 743));
+			player.getTasks().schedule(2, () -> walkToAgility(player, 2405, Direction.forDelta(endTile.getX()-startTile.getX(), endTile.getY()-startTile.getY()), Utils.getDistanceI(startTile, endTile), Utils.getDistanceI(startTile, endTile), xp, 743));
 		});
 	}
 
@@ -145,7 +144,7 @@ public class Agility {
 		player.setRunHidden(false);
 		WorldTasks.schedule(1, () -> {
 			player.setBas(renderEmote);
-			player.addWalkSteps(player.transform(direction.getDx()*distance, direction.getDy()*distance), distance,false);
+			player.addWalkSteps(player.transform(direction.dx *distance, direction.dy *distance), distance,false);
 		});
 		WorldTasks.schedule(delay+1, () -> {
 			if (xp > 0)

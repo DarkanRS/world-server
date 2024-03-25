@@ -35,7 +35,7 @@ public class EmbraceDarkness implements NexAttack {
 		nex.voiceEffect(target, 3322, true);
 		nex.setNextAnimation(new Animation(6355));
 		nex.setNextSpotAnim(new SpotAnim(1217));
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			@Override
 			public void run() {
 				if (nex.getPhase() != Phase.SHADOW || nex.hasFinished()) {

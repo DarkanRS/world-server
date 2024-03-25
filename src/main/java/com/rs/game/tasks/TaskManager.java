@@ -2,14 +2,12 @@ package com.rs.game.tasks;
 
 import com.rs.lib.util.Logger;
 import com.rs.utils.Ticks;
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -55,7 +53,7 @@ public class TaskManager {
         }
     }
 
-    public TaskInformation schedule(String mapping, Task task, int startDelay, int loopDelay) {
+    public TaskInformation scheduleLooping(String mapping, Task task, int startDelay, int loopDelay) {
         synchronized(tasks) {
             if (task == null || startDelay < 0 || loopDelay < 0)
                 return null;
@@ -63,8 +61,8 @@ public class TaskManager {
         }
     }
 
-    public TaskInformation schedule(Task task, int startDelay, int loopDelay) {
-        return schedule(null, task, startDelay, loopDelay);
+    public TaskInformation scheduleLooping(Task task, int startDelay, int loopDelay) {
+        return scheduleLooping(null, task, startDelay, loopDelay);
     }
 
     public TaskInformation schedule(String mapping, Task task, int delayCount) {
@@ -91,7 +89,7 @@ public class TaskManager {
         return schedule(null, task);
     }
 
-    public TaskInformation schedule(String mapping, int startDelay, int loopDelay, Runnable task) {
+    public TaskInformation scheduleLooping(String mapping, int startDelay, int loopDelay, Runnable task) {
         synchronized(tasks) {
             if (task == null || startDelay < 0 || loopDelay < 0)
                 return null;
@@ -99,8 +97,8 @@ public class TaskManager {
         }
     }
 
-    public TaskInformation schedule(int startDelay, int loopDelay, Runnable task) {
-        return schedule(null, startDelay, loopDelay, task);
+    public TaskInformation scheduleLooping(int startDelay, int loopDelay, Runnable task) {
+        return scheduleLooping(null, startDelay, loopDelay, task);
     }
 
     public TaskInformation scheduleHalfHourly(Runnable task) {
@@ -111,7 +109,7 @@ public class TaskManager {
         else
             nextHalfHour = now.plusHours(1).withMinute(0).withSecond(0).withNano(0);
         int delay = (int) (Duration.between(now, nextHalfHour).toMillis() / 600L);
-        return schedule(delay, Ticks.fromMinutes(30), task);
+        return scheduleLooping(delay, Ticks.fromMinutes(30), task);
     }
 
     public TaskInformation scheduleNthHourly(int hour, Runnable task) {
@@ -120,7 +118,7 @@ public class TaskManager {
         int hoursUntilNextMark = hour - (currentHour % hour);
         ZonedDateTime nextThreeHourMark = now.plusHours(hoursUntilNextMark).withMinute(0).withSecond(0).withNano(0);
         int delay = (int) (Duration.between(now, nextThreeHourMark).toMillis() / 600L);
-        return schedule(delay, Ticks.fromHours(hour), task);
+        return scheduleLooping(delay, Ticks.fromHours(hour), task);
     }
 
     public TaskInformation scheduleHourly(Runnable task) {

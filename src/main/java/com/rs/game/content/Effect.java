@@ -190,35 +190,15 @@ public enum Effect {
 			}
 		}
 	},
-	BANDOSPOOL("Bandos pool") {
+	OOG_BANDOS_POOL("Bandos pool") {
 
 	},
-	SULPHUR("Sulphur spring") {
-		@Override
-		public void apply(Entity entity) {
-			if (entity instanceof Player player) {
-				int realLevel = player.getSkills().getLevelForXp(Constants.PRAYER);
-				player.getSkills().set(Constants.PRAYER, (int) Math.floor(realLevel * 0.1) + realLevel);
-				player.getPrayer().restorePrayer(((player.getSkills().getLevel(Constants.PRAYER))));
-			}
-		}
 
-		@Override
-		public void expire(Entity entity) {
-			if (entity instanceof Player player) {
-				int actualLevel = player.getSkills().getLevel(Constants.PRAYER);
-				int realLevel = player.getSkills().getLevelForXp(Constants.PRAYER);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.PRAYER, realLevel);
-			}
-		}
-	},
-	SALTWATER("Salt-Water Spring") {
+	OOG_SALTWATER_POOL("saltwater spring") {
 		@Override
 		public void apply(Entity entity) {
-			if (entity instanceof Player player) {
+			if (entity instanceof Player player)
 				player.restoreRunEnergy(player.getSkills().getLevel(Skills.AGILITY));
-			}
 		}
 		@Override
 		public void tick(Entity entity, long tick) {
@@ -226,78 +206,26 @@ public enum Effect {
 				player.restoreRunEnergy(player.getSkills().getLevel(Skills.AGILITY));
 		}
 	},
-	THERMAL("Thermal bath") {
+	OOG_THERMAL_POOL("thermal bath") {
 		@Override
 		public void apply(Entity entity) {
 			if (entity instanceof Player player) {
-				player.getSkills().adjustStat(Skills.HITPOINTS,player.getSkills().getLevelForXp(Skills.HITPOINTS*3), Skills.HITPOINTS);
-				player.heal(1000);
 				player.refreshHitPoints();
-				player.addEffect(Effect.ANTIPOISON, Ticks.fromHours(1));
-			}
-		}
-
-		@Override
-		public void tick(Entity entity, long tick) {
-			if (tick % Ticks.fromSeconds(3) == 0 && entity instanceof Player player){
-				player.restoreRunEnergy(player.getSkills().getLevel(Skills.AGILITY));
+				player.addEffect(Effect.ANTIPOISON, Ticks.fromMinutes(15));
 			}
 		}
 
 		@Override
 		public void expire(Entity entity) {
-			if (entity instanceof Player player) {
-				int actualLevel = player.getSkills().getLevel(Constants.HITPOINTS);
-				int realLevel = player.getSkills().getLevelForXp(Constants.HITPOINTS);
-				if (actualLevel > realLevel) {
-					player.getSkills().set(Skills.HITPOINTS,realLevel);
-					player.refreshHitPoints();
-				}
-				player.removeEffect(Effect.ANTIPOISON);
-			}
+			if (entity instanceof Player player)
+				player.refreshHitPoints();
 		}
 	},
 
-	MUD("Mud bath") {
-		@Override
-		public void apply(Entity entity) {
-			if (entity instanceof Player player) {
-				player.getTempAttribs().setI("mudChances", 10);
-				int realLevel = player.getSkills().getLevelForXp(Constants.HUNTER);
-				player.getSkills().set(Constants.HUNTER, (int) Math.floor(realLevel * 0.1) + realLevel);
-			}
-		}
+	FARMERS_AFFINITY("farmer's affinity"),
 
-		@Override
-		public void tick(Entity entity, long tick) {
-			if (tick % Ticks.fromMinutes(1) == 0 && entity instanceof Player player) {
-				if (player.getTempAttribs().getI("mudChances") > 0) {
-					int actualLevel = player.getSkills().getLevel(Constants.HUNTER);
-					int realLevel = player.getSkills().getLevelForXp(Constants.HUNTER);
-					if (actualLevel > realLevel + 1)
-						player.getSkills().set(Constants.HUNTER, actualLevel - 1);
-					player.getTempAttribs().decI("mudChances");
-				}
-				else
-					expire(player);
-			}
-		}
-
-		@Override
-		public void expire(Entity entity) {
-			if (entity instanceof Player player) {
-				int actualLevel = player.getSkills().getLevel(Constants.HUNTER);
-				int realLevel = player.getSkills().getLevelForXp(Constants.HUNTER);
-				if (actualLevel > realLevel)
-					player.getSkills().set(Constants.HUNTER, realLevel);
-			}
-		}
-	},
-
-
-	FARMERS_AFFINITY("Farmer's affinity"),
-
-	SHOOTING_STAR_MINING_BUFF("star sprite's power", false);
+	SHOOTING_STAR_MINING_BUFF("star sprite's power", false),
+	EVIL_TREE_WOODCUTTING_BUFF("evil tree magic", false);
 
     private final String name;
 

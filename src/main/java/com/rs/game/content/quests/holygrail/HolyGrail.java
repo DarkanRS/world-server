@@ -212,6 +212,10 @@ public class HolyGrail extends QuestOutline {
 			return;
 		}
 		e.getPlayer().startConversation(new Dialogue().addSimple("You hear muffled noises from the sack. You open the sack."));
+		if (World.getNPCsInChunkRange(e.getPlayer().getChunkId(), 0).stream().anyMatch(n -> n.getId() == 211 && n instanceof OwnedNPC percival && percival.getOwner() == e.getPlayer())) {
+			e.getPlayer().sendMessage("Sir percival is already freed.");
+			return;
+		}
 		OwnedNPC percival = new OwnedNPC(e.getPlayer(), 211, Tile.of(2961, 3504, 0), true);
 		percival.faceEntity(e.getPlayer());
 		percival.setRandomWalk(false);

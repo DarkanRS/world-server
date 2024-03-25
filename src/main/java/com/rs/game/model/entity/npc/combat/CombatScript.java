@@ -174,7 +174,7 @@ public abstract class CombatScript {
 			}
 			case MAGIC_ATT -> {
 				double defLvl = Math.floor(player.getSkills().getLevel(Constants.DEFENSE) * player.getPrayer().getDefenceMultiplier());
-				defLvl += player.getCombatDefinitions().getAttackStyle().getAttackType() == AttackType.LONG_RANGE || player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.DEFENSIVE ? 3 : player.getCombatDefinitions().getAttackStyle().getXpType() == XPType.CONTROLLED ? 1 : 0;
+				defLvl += player.getCombatDefinitions().getAttackStyle().attackType == AttackType.LONG_RANGE || player.getCombatDefinitions().getAttackStyle().xpType == XPType.DEFENSIVE ? 3 : player.getCombatDefinitions().getAttackStyle().xpType == XPType.CONTROLLED ? 1 : 0;
 				defLvl += 8;
 				defLvl *= 0.3;
 				double magLvl = Math.floor(player.getSkills().getLevel(Constants.MAGIC) * player.getPrayer().getMageMultiplier());

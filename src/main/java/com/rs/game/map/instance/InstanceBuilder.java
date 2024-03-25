@@ -16,18 +16,22 @@
 //
 package com.rs.game.map.instance;
 
-import com.rs.engine.thread.LowPriorityTaskExecutor;
+import com.rs.engine.thread.AsyncTaskExecutor;
 import com.rs.game.map.Chunk;
 import com.rs.game.map.ChunkManager;
+import com.rs.game.tasks.WorldTasks;
 import com.rs.lib.util.Logger;
 import com.rs.lib.util.MapUtils;
 import com.rs.lib.util.MapUtils.Structure;
+import com.rs.utils.Ticks;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class InstanceBuilder {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
@@ -47,7 +51,7 @@ public final class InstanceBuilder {
 						Logger.info(InstanceBuilder.class, "reserveRegions", "Reserving region: " + regionX + ", " + regionY);
 						RESERVED_REGIONS.add(MapUtils.encode(Structure.REGION, regionX, regionY));
 					}
-
+			Logger.info(InstanceBuilder.class, "reserveRegions", "Reserved regions: " + RESERVED_REGIONS.size());
 		}
 	}
 
@@ -73,20 +77,14 @@ public final class InstanceBuilder {
 	}
 
 	public static void findEmptyChunkBound(Instance ref, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				ref.setChunkBase(findEmptyChunkBound(ref.getWidth(), ref.getHeight()));
-				for (int plane = 0;plane < 4;plane++) {
-					for (int x = ref.getChunkBase()[0]; x < ref.getWidth(); x++) {
-						for (int y = ref.getChunkBase()[1];y < ref.getHeight();y++) {
-							ref.getChunkIds().add(MapUtils.encode(Structure.CHUNK, x, y, plane));
-						}
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.findEmptyChunkBound", future, 30, () -> {
+			ref.setChunkBase(findEmptyChunkBound(ref.getWidth(), ref.getHeight()));
+			for (int plane = 0;plane < 4;plane++) {
+				for (int x = ref.getChunkBase()[0]; x < ref.getWidth(); x++) {
+					for (int y = ref.getChunkBase()[1];y < ref.getHeight();y++) {
+						ref.getChunkIds().add(MapUtils.encode(Structure.CHUNK, x, y, plane));
 					}
 				}
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "findEmptyChunkBound", e);
-				future.completeExceptionally(e);
 			}
 		});
 	}
@@ -127,54 +125,40 @@ public final class InstanceBuilder {
 		return -1;
 	}
 
-	static void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
-		if (ref.getChunkBase() == null) {
-			future.complete(true);
-			return;
-		}
-		LowPriorityTaskExecutor.schedule(() -> {
-			try {
-				destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight());
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "destroyMap", e);
-				future.completeExceptionally(e);
-			}
-		}, 8);
-	}
-
 	private static void destroyMap(int chunkX, int chunkY, int width, int height) {
 		int fromRegionX = chunkX / 8;
 		int fromRegionY = chunkY / 8;
-		int regionsDistanceX = 1;
+		int regionsDistanceX = 2;
 		while (width > 8) {
 			regionsDistanceX += 1;
 			width -= 8;
 		}
-		int regionsDistanceY = 1;
+		int regionsDistanceY = 2;
 		while (height > 8) {
 			regionsDistanceY += 1;
 			height -= 8;
 		}
 		int baseChunk = MapUtils.encode(Structure.CHUNK, chunkX, chunkY, 0);
 		for (int plane = 0; plane < 4 * Chunk.PLANE_INC; plane += Chunk.PLANE_INC)
-			for (int x = chunkX * Chunk.X_INC; x <= (chunkX + width) * Chunk.X_INC; x += Chunk.X_INC)
-				for (int y = chunkY; y <= chunkY + height; y++)
+			for (int x = 0; x <= width * Chunk.X_INC; x += Chunk.X_INC)
+				for (int y = 0; y <= height; y++)
 					destroyChunk(baseChunk + x + y + plane);
 		reserveRegions(fromRegionX, fromRegionY, regionsDistanceX, regionsDistanceY, true);
 	}
 
+	static void destroyMap(Instance ref, CompletableFuture<Boolean> future) {
+		if (ref.getChunkBase() == null) {
+			future.complete(true);
+			return;
+		}
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.destroyMap", future, 30, () -> destroyMap(ref.getBaseChunkX(), ref.getBaseChunkY(), ref.getWidth(), ref.getHeight()));
+	}
+
 	static void copyChunk(Instance ref, int localChunkX, int localChunkY, int plane, int fromChunkX, int fromChunkY, int fromPlane, int rotation, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				InstancedChunk chunk = createAndReserveChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane, rotation);
-				chunk.clearCollisionData();
-				chunk.loadMap(ref.isCopyNpcs());
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "copyChunk", e);
-				future.completeExceptionally(e);
-			}
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.copyChunk", future, 30, () -> {
+			InstancedChunk chunk = createAndReserveChunk(fromChunkX, fromChunkY, fromPlane, ref.getBaseChunkX() + localChunkX, ref.getBaseChunkY() + localChunkY, plane, rotation);
+			chunk.clearCollisionData();
+			chunk.loadMap(ref.isCopyNpcs());
 		});
 	}
 
@@ -183,17 +167,11 @@ public final class InstanceBuilder {
 	}
 
 	static void copy2x2ChunkSquare(Instance ref, int chunkX, int chunkY, int fromChunkX, int fromChunkY, int rotation, int[] planes, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				List<InstancedChunk> chunks = copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX()+chunkX, ref.getBaseChunkY()+chunkY, rotation, planes);
-				for (InstancedChunk chunk : chunks)
-					chunk.clearCollisionData();
-				for (InstancedChunk chunk : chunks)
-					chunk.loadMap(ref.isCopyNpcs());
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "copy2x2ChunkSquare", e);
-				future.completeExceptionally(e);
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.copy2x2ChunkSquare", future, 30, () -> {
+			List<InstancedChunk> chunks = copy2x2ChunkSquare(fromChunkX, fromChunkY, ref.getBaseChunkX() + chunkX, ref.getBaseChunkY() + chunkY, rotation, planes);
+			for (InstancedChunk chunk : chunks) {
+				chunk.clearCollisionData();
+				chunk.loadMap(ref.isCopyNpcs());
 			}
 		});
 	}
@@ -234,15 +212,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearChunk(Instance ref, int localChunkX, int localChunkY, int plane, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane);
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "clearChunk", e);
-				future.completeExceptionally(e);
-			}
-		});
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.clearChunk", future, 30, () -> cutChunk(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, plane));
 	}
 
 	private static void cutChunk(int toChunkX, int toChunkY, int toPlane) {
@@ -267,15 +237,7 @@ public final class InstanceBuilder {
 	}
 
 	static void clearMap(Instance ref, int localChunkX, int localChunkY, int width, int height, int[] planes, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes);
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "clearMap", e);
-				future.completeExceptionally(e);
-			}
-		});
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.clearMap", future, 30, () -> cutMap(ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, planes));
 	}
 
 	private static void cutMap(int toChunkX, int toChunkY, int widthChunks, int heightChunks, int... toPlanes) {
@@ -287,15 +249,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int fromChunkX, int fromChunkY, int size, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size, ref.isCopyNpcs());
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "copyMap", e);
-				future.completeExceptionally(e);
-			}
-		});
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.copyMap", future, 30, () -> copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, size, ref.isCopyNpcs()));
 	}
 
 	private static void copyMap(int fromRegionX, int fromRegionY, int toRegionX, int toRegionY, int size, boolean copyNpcs) {
@@ -318,15 +272,7 @@ public final class InstanceBuilder {
 	}
 
 	static void copyMap(Instance ref, int localChunkX, int localChunkY, int[] planes, int fromChunkX, int fromChunkY, int[] fromPlanes, int width, int height, boolean copyNpcs, CompletableFuture<Boolean> future) {
-		LowPriorityTaskExecutor.execute(() -> {
-			try {
-				copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes, copyNpcs);
-				future.complete(true);
-			} catch (Throwable e) {
-				Logger.handle(InstanceBuilder.class, "copyMap", e);
-				future.completeExceptionally(e);
-			}
-		});
+		AsyncTaskExecutor.executeWorldThreadSafe("InstanceBuilder.copyMap", future, 30, () -> copyMap(fromChunkX, fromChunkY, ref.getBaseChunkX()+localChunkX, ref.getBaseChunkY()+localChunkY, width, height, fromPlanes, planes, copyNpcs));
 	}
 
 	private static void copyMap(int fromChunkX, int fromChunkY, int toChunkX, int toChunkY, int width, int height, int[] fromPlanes, int[] toPlanes, boolean copyNpcs) {

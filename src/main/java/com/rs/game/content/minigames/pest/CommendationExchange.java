@@ -71,6 +71,7 @@ public class CommendationExchange {
 					if (e.getPlayer().getPestPoints() >= 100) {
 						e.getPlayer().setPestPoints(e.getPlayer().getPestPoints()-100);
 						e.getItem().setId(e.getItem().getId() == 10611 ? 19785 : 19786);
+						e.getPlayer().getInventory().refresh(e.getItem().getSlot());
 					}
 				});
 				ops.add("Nevermind.");

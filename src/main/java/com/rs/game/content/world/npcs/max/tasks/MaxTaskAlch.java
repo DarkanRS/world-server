@@ -2,7 +2,7 @@ package com.rs.game.content.world.npcs.max.tasks;
 
 import com.rs.game.content.skills.magic.Magic;
 import com.rs.game.content.world.npcs.max.Max;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.lib.game.Tile;
 import com.rs.lib.util.Utils;
 

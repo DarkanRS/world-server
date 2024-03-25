@@ -21,10 +21,10 @@ import com.rs.engine.dialogue.HeadE;
 import com.rs.engine.quest.Quest;
 import com.rs.game.content.quests.dragonslayer.DragonSlayer;
 import com.rs.game.content.skills.agility.Agility;
-import com.rs.game.content.world.Furnaces;
+import com.rs.game.content.world.FurnacesKt;
 import com.rs.game.content.world.doors.Doors;
-import com.rs.game.model.entity.pathing.Direction;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.Direction;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.tasks.Task;
 import com.rs.game.tasks.WorldTasks;
@@ -43,7 +43,7 @@ public class Karamja  {
 		if (!e.getOption().equals("Smelt"))
 			return;
 
-		Furnaces.useFurnace(player, e.getObject());
+		FurnacesKt.use(player, e.getObject());
 	});
 
 	public static ObjectClickHandler handleShiloFurnaceDoor = new ObjectClickHandler(new Object[] { 2266, 2267 }, e -> {
@@ -233,7 +233,7 @@ public class Karamja  {
 	public static ObjectClickHandler handleElvargEntrance = new ObjectClickHandler(new Object[] { 25161 }, e -> {
 		Player p = e.getPlayer();
 
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int ticks = 0;
 			boolean goingEast = true;
 

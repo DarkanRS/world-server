@@ -22,7 +22,7 @@ import com.rs.game.World;
 import com.rs.game.content.ItemConstants;
 import com.rs.game.model.entity.ForceTalk;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.game.model.entity.pathing.RouteEvent;
+import com.rs.engine.pathfinder.RouteEvent;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.item.ItemsContainer;
 import com.rs.game.model.object.GameObject;
@@ -61,7 +61,7 @@ public class PartyRoom {
 	
 	@ServerStartupEvent
 	public static void scheduleTimers() {
-		WorldTasks.schedule(2, 2, () -> {
+		WorldTasks.scheduleLooping(2, 2, () -> {
 			try {
 				if (PartyRoom.isDropping && PartyRoom.timer > 0) {
 					if (PartyRoom.getTimeLeft() % 5 == 0)
@@ -131,7 +131,7 @@ public class PartyRoom {
 			npcs[i] = new NPC(660, Tile.of(3043 + i, 3378, 0));
 			npcs[i].setFaceAngle(0);
 		}
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			int loop;
 
 			@Override

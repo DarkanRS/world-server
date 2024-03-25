@@ -36,7 +36,7 @@ public class RockCrab extends NPC {
 	@Override
 	public void setTarget(Entity entity) {
 		if (realId == getId()) {
-			setNextNPCTransformation(realId - 1);
+			transformIntoNPC(realId - 1);
 			setHitpoints(getMaxHitpoints());
 		}
 		super.setTarget(entity);

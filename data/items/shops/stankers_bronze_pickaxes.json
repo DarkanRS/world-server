@@ -1,0 +1,23 @@
+{
+  "name": "Stankers' Bronze Pickaxes",
+  "generalStore": true,
+  "buyOnly": false,
+  "currency": 995,
+  "items": [
+    {
+      "item": {
+        "id": 1265,
+        "amount": 5
+      }
+    },
+    {
+      "item": {
+        "id": 197,
+        "amount": 30
+      }
+    }
+  ],
+  "npcIds": [
+    383
+  ]
+}

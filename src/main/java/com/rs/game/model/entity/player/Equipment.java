@@ -22,7 +22,7 @@ import com.rs.cache.loaders.interfaces.IFEvents;
 import com.rs.cache.loaders.interfaces.IFEvents.UseFlag;
 import com.rs.game.content.Effect;
 import com.rs.game.content.ItemConstants;
-import com.rs.game.content.combat.special_attacks.SpecialAttacks;
+import com.rs.game.content.combat.special_attacks.SpecialAttacksKt;
 import com.rs.game.content.interfacehandlers.ItemsKeptOnDeath;
 import com.rs.game.content.skills.firemaking.Bonfire;
 import com.rs.game.content.transportation.ItemTeleports;
@@ -185,14 +185,13 @@ public final class Equipment {
 				case 24974, 24975, 24977, 24978, 24980, 24981, 24983, 24984, 24986, 24987, 24989, 24990, 25058, 25060, 25062, 25064, 25066, 25068 -> hpIncrease += 25;
 			}
 		}
-		if (player.hasEffect(Effect.BONFIRE)) {
-			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10 + (int) hpIncrease;
-			hpIncrease += (maxhp * Bonfire.getBonfireBoostMultiplier(player)) - maxhp;
-		}
-		if (player.getHpBoostMultiplier() != 0) {
-			int maxhp = player.getSkills().getLevel(Constants.HITPOINTS) * 10;
-			hpIncrease += maxhp * player.getHpBoostMultiplier();
-		}
+		int maxHp = player.getSkills().getLevel(Constants.HITPOINTS) * 10;
+		if (player.hasEffect(Effect.BONFIRE))
+			hpIncrease += (maxHp + (int) hpIncrease) * Bonfire.getBonfireBoostMultiplier(player);
+		if (player.hasEffect(Effect.OOG_THERMAL_POOL))
+			hpIncrease += (maxHp + (int) hpIncrease) * 0.03;
+		if (player.getHpBoostMultiplier() != 0)
+			hpIncrease += maxHp * player.getHpBoostMultiplier();
 		if (hpIncrease != equipmentHpIncrease) {
 			equipmentHpIncrease = (int) hpIncrease;
 			if (!init)
@@ -534,7 +533,7 @@ public final class Equipment {
 
 	public static ButtonClickHandler handle = new ButtonClickHandler(884, e -> {
 		if (e.getComponentId() == 4)
-			SpecialAttacks.handleClick(e.getPlayer());
+			SpecialAttacksKt.handleClick(e.getPlayer());
 		else if (e.getComponentId() >= 7 && e.getComponentId() <= 10)
 			e.getPlayer().getCombatDefinitions().setAttackStyle(e.getComponentId() - 7);
 		else if (e.getComponentId() == 11)

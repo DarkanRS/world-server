@@ -157,7 +157,7 @@ public class Halloween2009 {
 		boolean needStart = !e.getPlayer().matches(from);
 		if (needStart)
 			e.getPlayer().addWalkSteps(curr.getCoordFace(), 2, false);
-		WorldTasks.schedule(new Task() {
+		WorldTasks.scheduleLooping(new Task() {
 			boolean started;
 			int failTimer = 3;
 
