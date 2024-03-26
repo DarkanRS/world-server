@@ -243,8 +243,8 @@ public class PlayerModifiers {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[1])) {
 					player.getQuestManager().setStage(quest, 0);
-					p.sendMessage("Resetted quest: " + quest.name() + " for " + player.getUsername());
-					player.sendMessage("Resetted quest: " + quest.name());
+					p.sendMessage("Reset quest: " + quest.name() + " for " + player.getUsername());
+					player.sendMessage("Reset quest: " + quest.name());
 					return;
 				}
 		});

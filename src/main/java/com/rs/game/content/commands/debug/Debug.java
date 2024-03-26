@@ -162,7 +162,7 @@ public class Debug {
 			for (Quest quest : Quest.values())
 				if (quest.name().toLowerCase().contains(args[0]) && quest.isImplemented()) {
 					p.getQuestManager().resetQuest(quest);
-					p.sendMessage("Resetted quest: " + quest.name());
+					p.sendMessage("Reset quest: " + quest.name());
 					return;
 				}
 		});
@@ -171,7 +171,7 @@ public class Debug {
 			for (Miniquest miniquest : Miniquest.values())
 				if (miniquest.name().toLowerCase().contains(args[0]) && miniquest.isImplemented()) {
 					p.getMiniquestManager().reset(miniquest);
-					p.sendMessage("Resetted quest: " + miniquest.name());
+					p.sendMessage("Reset quest: " + miniquest.name());
 					return;
 				}
 		});
