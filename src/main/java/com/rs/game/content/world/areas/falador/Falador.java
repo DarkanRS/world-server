@@ -53,12 +53,6 @@ public class Falador {
 			e.getPlayer().getMusicsManager().nextAmbientSong();
 	});
 
-	@ServerStartupEvent
-	public static void addLoSOverrides() {
-		Entity.addLOSOverrides(2290);
-	}
-
-
 	public static ObjectClickHandler handleUnderwallTunnelShortcut = new ObjectClickHandler(new Object[] { 9309, 9310 }, e -> {
 		if (!Agility.hasLevel(e.getPlayer(), 26))
 			return;

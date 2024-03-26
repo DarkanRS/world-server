@@ -239,7 +239,8 @@ public class Morytania  {
 		else if (e.getObjectId() == 5207)
 			e.getPlayer().tele(e.getPlayer().transform(e.getObject().getRotation() == 0 ? 0 : e.getObject().getRotation() == 1 ? -0 : 0, e.getObject().getRotation() == 0 ? -4 : e.getObject().getRotation() == 1 ? -0 : 0, -1));
 	});
-	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e -> e.getPlayer().tele(Tile.of(3577, 9927, 0)));
+	public static ObjectClickHandler experimentcavegraveentrance = new ObjectClickHandler(new Object[] { 5167 }, e ->
+			e.getPlayer().useLadder(e.getPlayer().transform(0, 6400)));
 
 	//TakenTemple
 	public static ObjectClickHandler handleTemplespiralstairsup = new ObjectClickHandler(new Object[] { 30722 }, e -> e.getPlayer().tele(Tile.of(3415, 3485, 1)));

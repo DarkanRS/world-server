@@ -1,4 +1,4 @@
-package com.rs.game.content
+package com.rs.game.content.utils
 
 import com.rs.game.content.achievements.AchievementDef
 import com.rs.game.content.achievements.SetReward

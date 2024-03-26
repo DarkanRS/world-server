@@ -13,18 +13,22 @@ annotation class DialogueDsl
 @DialogueDsl
 open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMapOf()) {
     private var dialogue = Dialogue()
+    private var pendingLabel: String? = null
     val start = dialogue
 
     fun player(expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addPlayer(expression, text, extraFunctionality)
+        applyPendingLabel()
     }
 
     fun npc(id: Int, expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addNPC(id, expression, text, extraFunctionality)
+        applyPendingLabel()
     }
 
     fun item(itemId: Int, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addItem(itemId, text, extraFunctionality)
+        applyPendingLabel()
     }
 
     fun simple(vararg text: String, extraFunctionality: Runnable? = null) {
@@ -33,77 +37,92 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
         } else {
             dialogue.addSimple(*text)
         }
+        applyPendingLabel()
     }
 
     fun exec(extraFunctionality: Runnable) {
         dialogue = dialogue.addNext(extraFunctionality)
+        applyPendingLabel()
     }
 
     fun addItemToInv(player: Player, item: Item, text: String) {
         dialogue = dialogue.addItemToInv(player, item, text)
+        applyPendingLabel()
     }
 
     fun questStart(quest: Quest) {
         dialogue = dialogue.addQuestStart(quest)
+        applyPendingLabel()
     }
 
     fun options(title: String? = null, setup: OptionsBuilder.() -> Unit) {
         dialogue = dialogue.addOptions(title) { options ->
             OptionsBuilder(stages).apply(setup).applyToOptions(options)
         }
+        applyPendingLabel()
     }
 
     fun makeX(itemId: Int, maxAmt: Int = 60) {
         dialogue = dialogue.addMakeX(itemId, maxAmt)
+        applyPendingLabel()
     }
 
     fun makeX(itemIds: IntArray, maxAmt: Int = 60) {
         dialogue = dialogue.addMakeX(itemIds, maxAmt)
+        applyPendingLabel()
     }
 
     fun label(stageName: String) {
-        stages[stageName] = dialogue
+        pendingLabel = stageName
     }
 
     fun goto(stageName: String, conversation: Conversation? = null) {
         dialogue = if (conversation != null)
             dialogue.addGotoStage(stageName, conversation)
         else
-            dialogue.addGotoStage(stages[stageName])
+            dialogue.addGotoStage(stageName, stages)
     }
 
     fun statementWithOptions(statement: Statement, vararg options: DialogueBuilder.() -> Unit) {
         val optionDialogues = options.map { DialogueBuilder(stages).apply(it).build() }
         dialogue = dialogue.addStatementWithOptions(statement, *optionDialogues.toTypedArray())
+        applyPendingLabel()
     }
 
     fun statementWithActions(statement: Statement, vararg events: Runnable) {
         dialogue = dialogue.addStatementWithActions(statement, *events)
+        applyPendingLabel()
     }
 
     fun item(itemId: Int, text: String) {
         dialogue = dialogue.addItem(itemId, text)
+        applyPendingLabel()
     }
 
     fun simple(text: String) {
         dialogue = dialogue.addSimple(text)
+        applyPendingLabel()
     }
 
     fun npc(npc: NPC, expression: HeadE, text: String, extraFunctionality: Runnable? = null) {
         dialogue = dialogue.addNPC(npc, expression, text, extraFunctionality)
+        applyPendingLabel()
     }
 
     fun makeX(itemId: Int) {
         dialogue = dialogue.addMakeX(itemId)
+        applyPendingLabel()
     }
 
     fun makeX(itemIds: IntArray) {
         dialogue = dialogue.addMakeX(itemIds)
+        applyPendingLabel()
     }
 
     fun nextIf(condition: BooleanSupplier, dialogueSetup: DialogueBuilder.() -> Unit) {
         val nextDialogue = DialogueBuilder(stages).apply(dialogueSetup).build()
         dialogue = dialogue.addNextIf(condition, nextDialogue)
+        applyPendingLabel()
     }
 
     fun stop() {
@@ -116,6 +135,13 @@ open class DialogueBuilder(val stages: MutableMap<String, Dialogue> = mutableMap
 
     fun voiceEffect(voiceId: Int) {
         dialogue = dialogue.voiceEffect(voiceId)
+    }
+
+    private fun applyPendingLabel() {
+        if (pendingLabel != null) {
+            stages[pendingLabel!!] = dialogue
+            pendingLabel = null
+        }
     }
 
     internal open fun build(): Dialogue = start

@@ -79,7 +79,7 @@ public class ChocatriceD extends Conversation {
                     }
                 });
             }
-            addNext(new StageSelectDialogue("huntOps", this));
+            addNext(new StageSelectDialogue("huntOps", this.getStages()));
         }
 
         player.getNSV().setB("talkedWithChocatrice", true);

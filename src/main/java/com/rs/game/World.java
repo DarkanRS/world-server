@@ -22,7 +22,7 @@ import com.rs.cache.loaders.ObjectDefinitions;
 import com.rs.cache.loaders.ObjectType;
 import com.rs.cache.loaders.map.ClipFlag;
 import com.rs.db.WorldDB;
-import com.rs.engine.pathfinder.StepValidator;
+import com.rs.engine.pathfinder.*;
 import com.rs.engine.pathfinder.collision.CollisionStrategyType;
 import com.rs.engine.pathfinder.reach.DefaultReachStrategy;
 import com.rs.engine.thread.AsyncTaskExecutor;
@@ -35,8 +35,6 @@ import com.rs.game.model.WorldProjectile;
 import com.rs.game.model.entity.Entity;
 import com.rs.game.model.entity.EntityList;
 import com.rs.game.model.entity.npc.NPC;
-import com.rs.engine.pathfinder.Direction;
-import com.rs.engine.pathfinder.WorldCollision;
 import com.rs.game.model.entity.player.Player;
 import com.rs.game.model.object.GameObject;
 import com.rs.game.tasks.Task;
@@ -188,97 +186,10 @@ public final class World {
 		return WorldCollision.getFlags(tile);
 	}
 
-	public static boolean hasLineOfSight(Tile t1, Tile t2) {
-		if (t1.getPlane() != t2.getPlane())
+	public static boolean hasLineOfSight(Tile src, int srcSize, Tile dst, int dstSize) {
+		if (src.getPlane() != dst.getPlane())
 			return false;
-		int plane = t1.getPlane();
-
-		int x1 = t1.getX();
-		int x2 = t2.getX();
-		int y1 = t1.getY();
-		int y2 = t2.getY();
-
-		int dx = x2 - x1;
-		int dxAbs = Math.abs(dx);
-		int dy = y2 - y1;
-		int dyAbs = Math.abs(dy);
-
-		if (dxAbs > dyAbs) {
-			int xTile = x1;
-			int y = (y1 << 16) + 0x8000;
-			int slope = (int) ((double) (dy << 16) / dxAbs); //Runescript no floating point values rofl
-
-			int xInc;
-			int xMask;
-			if (dx > 0) {
-				xInc = 1;
-				xMask = ClipFlag.or(ClipFlag.BP_W, ClipFlag.BP_FULL);
-			} else {
-				xInc = -1;
-				xMask = ClipFlag.or(ClipFlag.BP_E, ClipFlag.BP_FULL);
-			}
-			int yMask;
-			if (dy < 0) {
-				y -= 1;
-				yMask = ClipFlag.or(ClipFlag.BP_N, ClipFlag.BP_FULL);
-			} else
-				yMask = ClipFlag.or(ClipFlag.BP_S, ClipFlag.BP_FULL);
-
-			while (xTile != x2) {
-				xTile += xInc;
-				int yTile = y >>> 16;
-				if ((getClipFlags(plane, xTile, yTile) & xMask) != 0)
-					return false;
-				y += slope;
-				int newYTile = y >>> 16;
-				if (newYTile != yTile && (getClipFlags(plane, xTile, newYTile) & yMask) != 0)
-					return false;
-			}
-		} else {
-			int yTile = y1;
-			int x = (x1 << 16) + 0x8000;
-			int slope = (int) ((double) (dx << 16) / dyAbs);
-
-			int yInc;
-			int yMask;
-			if (dy > 0) {
-				yInc = 1;
-				yMask = ClipFlag.or(ClipFlag.BP_S, ClipFlag.BP_FULL);
-			} else {
-				yInc = -1;
-				yMask = ClipFlag.or(ClipFlag.BP_N, ClipFlag.BP_FULL);
-			}
-
-			int xMask;
-			if (dx < 0) {
-				x -= 1;
-				xMask = ClipFlag.or(ClipFlag.BP_E, ClipFlag.BP_FULL);
-			} else
-				xMask = ClipFlag.or(ClipFlag.BP_W, ClipFlag.BP_FULL);
-			if (dxAbs == dyAbs) {
-				//Runetek 5 diagonal check
-				int xInc = (dx > 0 ? 1 : -1);
-				int xTile = x1;
-				while (yTile != y2) {
-					if (((getClipFlags(plane, xTile + xInc, yTile) & xMask) != 0 || (getClipFlags(plane, xTile + xInc, yTile + yInc) & yMask) != 0) &&
-						((getClipFlags(plane, xTile, yTile + yInc) & yMask) != 0 || (getClipFlags(plane, xTile + xInc, yTile + yInc) & xMask) != 0))
-						return false;
-					xTile += xInc;
-					yTile += yInc;
-				}
-			} else
-				while (yTile != y2) {
-					yTile += yInc;
-					int xTile = x >>> 16;
-					if ((getClipFlags(plane, xTile, yTile) & yMask) != 0)
-						return false;
-					x += slope;
-					int newXTile = x >>> 16;
-					if (newXTile != xTile && (getClipFlags(plane, newXTile, yTile) & xMask) != 0)
-						return false;
-				}
-		}
-		return true;
+		return new LineValidator(RouteFinderKt.DEFAULT_SEARCH_MAP_SIZE, WorldCollision.INSTANCE.getAllFlags()).hasLineOfSight(src.x(), src.y(), src.plane(), dst.x(), dst.y(), srcSize, dstSize, dstSize);
 	}
 
 	public static boolean checkMeleeStep(Object from, int fromSize, Object to, int toSize) {
@@ -286,43 +197,7 @@ public final class World {
 		Tile toTile = WorldUtil.targetToTile(to);
 		if (fromTile.getPlane() != toTile.getPlane())
 			return false;
-		return DefaultReachStrategy.INSTANCE.reached(WorldCollision.INSTANCE.getAllFlags(), fromTile.x(), fromTile.y(), fromTile.plane(), toTile.x(), toTile.y(), toSize, toSize, fromSize, 0, -2, 0);
-	}
-
-	public static boolean inRange(int absX, int absY, int size, int targetX, int targetY, int targetSize, int distance) {
-		if(absX < targetX) {
-			/**
-			 * West of target
-			 */
-			int closestX = absX + (size - 1);
-			int diffX = targetX - closestX;
-			if(diffX > distance)
-				return false;
-		} else if(absX > targetX) {
-			/**
-			 * East of target
-			 */
-			int closestTargetX = targetX + (targetSize - 1);
-			int diffX = absX - closestTargetX;
-			if(diffX > distance)
-				return false;
-		}
-		if(absY < targetY) {
-			/**
-			 * South of target
-			 */
-			int closestY = absY + (size - 1);
-			int diffY = targetY - closestY;
-            return diffY <= distance;
-		} else if(absY > targetY) {
-			/**
-			 * North of target
-			 */
-			int closestTargetY = targetY + (targetSize - 1);
-			int diffY = absY - closestTargetY;
-            return diffY <= distance;
-		}
-		return true;
+		return DefaultReachStrategy.INSTANCE.reached(WorldCollision.INSTANCE.getAllFlags(), fromTile.x(), fromTile.y(), fromTile.plane(), toTile.x(), toTile.y(), toSize, toSize, fromSize, 0, 22, 0);
 	}
 
 	public static boolean containsPlayer(String username) {

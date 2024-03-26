@@ -54,7 +54,7 @@ public class GraveStone extends NPC {// 652 - gravestone selection interface
 		super(getNPCId(player.getGraveStone()), deathTile);
 		graveStone = player.getGraveStone();
 		setFaceAngle(Utils.getAngleTo(0, -1));
-		setNextAnimation(new Animation(graveStone == 1 ? 7396 : 7394));
+		anim(graveStone == 1 ? 7396 : 7394);
 		username = player.getUsername();
 		ticks = getMaximumTicks(graveStone);
 		inscription = getInscription(player.getDisplayName());

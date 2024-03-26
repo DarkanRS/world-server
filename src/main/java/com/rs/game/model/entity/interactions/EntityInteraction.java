@@ -124,10 +124,8 @@ public abstract class EntityInteraction extends Interaction {
 				}
 		}
 		if (!isWithinDistance(entity, target, false)) {
-			if (!entity.hasWalkSteps()) {
-				entity.resetWalkSteps();
-				entity.calcFollow(target, entity.getRun() ? 2 : 1, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
-			}
+			entity.resetWalkSteps();
+			entity.calcFollow(target, entity.getRun() ? 2 : 1, !(entity instanceof NPC n) || n.isIntelligentRouteFinder());
 		} else {
 			entity.resetWalkSteps();
 			if (distance == 0 && target.getRun() == entity.getRun())

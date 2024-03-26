@@ -36,16 +36,24 @@ object RandomEvents {
 
 	@JvmStatic
 	fun attemptSpawnRandom(player: Player, force: Boolean) {
-		if ((!force && (World.getServerTicks() - player.nsv.getL("lastRandom") < 3000)) || (player.controllerManager.controller != null && player.controllerManager.controller !is DamonheimController))
+		if ((!force && (World.getServerTicks() - player.nsv.getL("lastRandom") < 3000)) ||
+			(player.controllerManager.controller != null && player.controllerManager.controller !is DamonheimController)) {
 			return
+		}
+
 		val spawnTile = player.getNearestTeleTile(1)
 		player.nsv.setL("lastRandom", World.getServerTicks())
 		val random = Utils.random(0, 100)
+
+		val genieChance = 5
+		val drunkenDwarfChance = 45
+		val sandwichLadyChance = 50
+
 		when {
-			random < 5 -> Genie(player, spawnTile) // 5% chance
-			random < 50 -> DrunkenDwarf(player, spawnTile) // 45% chance
-			else -> SandwichLady(player, spawnTile) // 45% chance
+			random < genieChance -> Genie(player, spawnTile)
+			random < genieChance + drunkenDwarfChance -> DrunkenDwarf(player, spawnTile)
+			random < genieChance + drunkenDwarfChance + sandwichLadyChance -> SandwichLady(player, spawnTile)
 		}
-		//TODO add more than this rofl.
 	}
+
 }

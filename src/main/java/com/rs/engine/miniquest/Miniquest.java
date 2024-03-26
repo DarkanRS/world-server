@@ -36,6 +36,7 @@ public enum Miniquest {
 	FROM_TINY_ACORNS("From Tiny Acorns", new Quest[] { Quest.BUYERS_AND_CELLARS }, null, Map.of(Skills.THIEVING, 24), null),
 	LOST_HER_MARBLES("Lost Her Marbles", null, new Miniquest[] { Miniquest.FROM_TINY_ACORNS }, Map.of(Skills.THIEVING, 41), null),
 	A_GUILD_OF_OUR_OWN("A Guild of Our Own", null, new Miniquest[] { Miniquest.LOST_HER_MARBLES }, Map.of(Skills.THIEVING, 62, Skills.HERBLORE, 46, Skills.AGILITY, 40), null),
+	BAR_CRAWL("Alfred Grimhand's Barcrawl", null, null, null, null)
 	;
 
 	static {

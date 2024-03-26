@@ -93,7 +93,8 @@ public class WitchSentry extends NPC {
     @Override
     public boolean lineOfSightTo(Object target, boolean melee) {
         Tile tile = WorldUtil.targetToTile(target);
-        if (World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile)) {
+        int targSize = target instanceof Entity ? ((Entity) target).getSize() : 1;
+        if (World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize)) {
             Logger.debug(WitchSentry.class, "lineOfSightTo", "dX:" + getDirection().dx);
             if (getDirection().dx == 1) {
                 if (tile.getX() > getX() && checkByConeSightX(tile))

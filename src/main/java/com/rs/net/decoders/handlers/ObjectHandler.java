@@ -686,10 +686,8 @@ public final class ObjectHandler {
 				player.useStairs(-1, Tile.of(2402, 3419, 0), 0, 1);
 			else if (id == 17209)
 				player.useStairs(-1, Tile.of(2408, 9812, 0), 0, 1);
-			else if (id == 1754 && x == 2594 && y == 3085)
-				player.useStairs(827, Tile.of(2594, 9486, 0));
-			else if (id == 1757 && x == 2594 && y == 9485)
-				player.useStairs(828, Tile.of(2594, 3086, 0));
+			else if (id == 1754)
+				player.useLadder(player.transform(0, 6400));
 			else if (id == 2811 || id == 2812) {
 				player.useStairs(id == 2812 ? 827 : -1, id == 2812 ? Tile.of(2501, 2989, 0) : Tile.of(2574, 3029, 0));
 				WorldTasks.schedule(() -> player.playerDialogue(HeadE.AMAZED, "Wow! That tunnel went a long way."));

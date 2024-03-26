@@ -843,30 +843,13 @@ public abstract class Entity {
 		if (target instanceof NPC npc) {
 			if (LOS_NPC_OVERRIDES.contains(npc.getId()) || LOS_NPC_OVERRIDES.contains(npc.getName()))
 				return true;
-			switch(npc.getId()) {
-				case 233: //Fishing contest player spot
-				case 234: //Fishing contest big carp spot
-				case 9712: //dung tutor
-				case 9710: //frem banker
-				case 706: //wizard mizgog
-				case 14860: //Head Farmer Jones
-				case 14864: //Ayleth Beaststalker
-				case 14858: //Alison Elmshaper
-				case 14883: //Marcus Everburn
-				case 2290:
-					return true;
-			}
-			switch(npc.getName()) {
-				case "Fremennik shipmaster":
-					return true;
-			}
 		}
 		for (TriFunction<Entity, Object, Boolean, Boolean> func : LOS_FUNCTION_OVERRIDES)
 			if (func.apply(this, target, melee))
 				return true;
 		if (melee && !(target instanceof Entity e && e.ignoreWallsWhenMeleeing()))
-			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
-		return World.hasLineOfSight(getMiddleTile(), target instanceof Entity e ? e.getMiddleTile() : tile);
+			return World.checkMeleeStep(this, this.getSize(), target, targSize) && World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
+		return World.hasLineOfSight(getMiddleTile(), getSize(), target instanceof Entity e ? e.getMiddleTile() : tile, targSize);
 	}
 
 	public boolean addWalkSteps(final int destX, final int destY, int maxStepsCount) {
@@ -1935,6 +1918,10 @@ public abstract class Entity {
 
 	public void anim(int anim) {
 		setNextAnimation(new Animation(anim));
+	}
+
+	public void anim(Animation anim) {
+		setNextAnimation(anim);
 	}
 
 	public void spotAnim(int spotAnim, int speed, int height) {

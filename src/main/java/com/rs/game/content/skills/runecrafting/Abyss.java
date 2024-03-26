@@ -259,9 +259,12 @@ public class Abyss {
 
 	public static void teleport(final Player player, NPC npc) {
 		player.lock(2);
-		npc.setNextForceTalk(new ForceTalk("Veniens! Sallkar! Rinnesset!"));
-		npc.setNextSpotAnim(new SpotAnim(343));
-		player.setNextSpotAnim(new SpotAnim(342));
+		npc.resetWalkSteps();
+		npc.faceEntity(player);
+		npc.forceTalk("Veniens! Sallkar! Rinnesset!");
+		npc.anim(722);
+		npc.spotAnim(343);
+		player.spotAnim(342);
 		WorldTasks.schedule(2, () -> {
 			int index = Utils.random(ABYSS_TELEPORT_OUTER.length);
 			player.useStairs(-1, Tile.of(ABYSS_TELEPORT_OUTER[index][0], ABYSS_TELEPORT_OUTER[index][1], 0), 0, 1);
