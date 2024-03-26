@@ -42,7 +42,7 @@ class StankersD(player: Player, npc: NPC) : Conversation(player) {
                         }
                     }
                 }
-                op("About the Achievement System...") { AchievementSystemD(player, npc.id, SetReward.SEERS_HEADBAND) }
+                op("About the Achievement System...") { exec { AchievementSystemD(player, npc.id, SetReward.SEERS_HEADBAND) } }
             }
         }
     }
