@@ -2278,7 +2278,7 @@ public class Player extends Entity {
 	}
 
 	public Tile getRandomGraveyardTile() {
-		return Tile.of(Tile.of(2745, 3474, 0), 4);
+		return Tile.of(Tile.of(2900, 3537, 0), 4);
 	}
 
 	public void sendPVEItemsOnDeath(Player killer, boolean dropItems) {
